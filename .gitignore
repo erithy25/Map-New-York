@@ -1,0 +1,19 @@
+# data (manifest-tracked, not committed)
+data/raw/
+data/processed/
+blender_out/
+*.part
+# python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+# build
+core/build/
+unreal/NYCSim/Binaries/
+unreal/NYCSim/Intermediate/
+unreal/NYCSim/DerivedDataCache/
+unreal/NYCSim/Saved/
+unreal/NYCSim/.vs/
+# render scratch
+docs/verification/**/*.exr
