@@ -69,7 +69,7 @@ SOURCES: dict[str, Source] = {s.id: s for s in [
     _csv("barnes_dance", "8kuj-2n3u", "Exclusive pedestrian phase (Barnes Dance) intersections", "roads", "signals"),
     _csv("signal_retiming", "d8dp-wfee", "25 MPH signal retiming corridors (signalized intersections)", "roads", "signals"),
     _geo("bike_routes", "mzxg-pwib", "NYC bike routes (protected/standard/sharrow/greenway)", "roads"),
-    _geo("bus_lanes", "ycrg-ses3", "Bus lanes on local streets", "roads"),
+    Source("bus_lanes", f"{SOCRATA_NYC}/resource/ycrg-ses3.geojson?$limit=50000", "geojson", NYC_OPEN_DATA_LICENSE, NYC_ATTR, "Bus lanes on local streets (SODA GeoJSON; the geospatial export endpoint returns an empty collection for this dataset)", "file", tags=("roads", "ycrg-ses3")),
     _geo("truck_routes", "jjja-shxy", "Truck routes (local/through)", "roads"),
     _geo("ped_plazas", "k5k6-6jex", "DOT pedestrian plazas polygons", "roads"),
     _csv("traffic_volume_auto", "7ym2-wayt", "Automated Traffic Volume Counts (ATR) 15-min counts by segment", "traffic"),
