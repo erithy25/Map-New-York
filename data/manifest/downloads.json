@@ -1,0 +1,313 @@
+{
+ "entries": {
+  "barnes_dance": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 120715,
+   "downloaded_at": "2026-09-05T19:01:32Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "Exclusive pedestrian phase (Barnes Dance) intersections",
+   "path": "data/raw/nyc_opendata/barnes_dance.csv",
+   "sha256": "7de140622196ca11548631b04ebe832984d1e598da10635b64641d8e420bd6b2",
+   "source_id": "barnes_dance",
+   "url": "https://data.cityofnewyork.us/api/views/8kuj-2n3u/rows.csv?accessType=DOWNLOAD"
+  },
+  "bike_routes": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 20659317,
+   "downloaded_at": "2026-09-05T19:01:41Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "NYC bike routes (protected/standard/sharrow/greenway)",
+   "path": "data/raw/nyc_opendata/bike_routes.geojson",
+   "sha256": "97fd991e612d4986934f958fcb57a736b33a13679248a9e0753e79dc19f710fd",
+   "source_id": "bike_routes",
+   "url": "https://data.cityofnewyork.us/api/geospatial/mzxg-pwib?method=export&format=GeoJSON"
+  },
+  "borough_boundaries": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 3167594,
+   "downloaded_at": "2026-09-05T19:15:01Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "Borough boundaries (land)",
+   "path": "data/raw/nyc_opendata/borough_boundaries.geojson",
+   "sha256": "3c7cd4002cb34b8b818af903338c0292d5a1b1ca61bc7a5d365bad66220d050a",
+   "source_id": "borough_boundaries",
+   "url": "https://data.cityofnewyork.us/api/geospatial/gthc-hcne?method=export&format=GeoJSON"
+  },
+  "building_elevation_subgrade": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 315274313,
+   "downloaded_at": "2026-09-05T18:59:53Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "Building Elevation and Subgrade: first-floor elevation, stoop, subgrade presence",
+   "path": "data/raw/nyc_opendata/building_elevation_subgrade.csv",
+   "sha256": "c72ef8d85fac90c02ad1941d799faf71bca8bb27f7f697d1a2a4302c298999da",
+   "source_id": "building_elevation_subgrade",
+   "url": "https://data.cityofnewyork.us/api/views/bsin-59hv/rows.csv?accessType=DOWNLOAD"
+  },
+  "building_footprints": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 855800541,
+   "downloaded_at": "2026-09-05T18:44:52Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "NYC Building Footprints (OTI): 1,083,026 polygons, BIN, BBL, LiDAR roof height (ft), ground elevation (ft), construction year",
+   "path": "data/raw/nyc_opendata/building_footprints.geojson",
+   "sha256": "35266691faa7409700ef130b03f34327fa434631adfafef7a4e2c18ae1194b76",
+   "source_id": "building_footprints",
+   "url": "https://data.cityofnewyork.us/api/geospatial/5zhs-2jue?method=export&format=GeoJSON"
+  },
+  "bus_lanes": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 3451772,
+   "downloaded_at": "2026-09-05T19:11:27Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "Bus lanes on local streets (SODA GeoJSON; the geospatial export endpoint returns an empty collection for this dataset)",
+   "path": "data/raw/roads/bus_lanes.geojson",
+   "sha256": "e09e001191c53799936884f4e8311873a03bf9ff4f38e1f0b86af4ba465b6ef5",
+   "source_id": "bus_lanes",
+   "url": "https://data.cityofnewyork.us/resource/ycrg-ses3.geojson?$limit=50000"
+  },
+  "centerline": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 196853134,
+   "downloaded_at": "2026-09-05T18:45:43Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "NYC Street Centerline (CSCL): 122,269 segments with lanes, width, traffic direction, posted speed, level codes",
+   "path": "data/raw/nyc_opendata/centerline.geojson",
+   "sha256": "c975c5ec42af68812e67289ef0d3ae8a4297da7142cd185621a465ba6b78a0e5",
+   "source_id": "centerline",
+   "url": "https://data.cityofnewyork.us/api/geospatial/inkn-q76z?method=export&format=GeoJSON"
+  },
+  "dcwp_licenses": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 16990186,
+   "downloaded_at": "2026-09-05T19:00:25Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "DCWP Issued Licenses: business names with addresses and coordinates",
+   "path": "data/raw/nyc_opendata/dcwp_licenses.csv",
+   "sha256": "4fbad8e0bba5825838d9a1645d9a103628c5da833ea8f1a910346ad4c52d9aa2",
+   "source_id": "dcwp_licenses",
+   "url": "https://data.cityofnewyork.us/api/views/w7w3-xahh/rows.csv?accessType=DOWNLOAD"
+  },
+  "dob_sidewalk_sheds": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 16721900,
+   "downloaded_at": "2026-09-05T19:00:14Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "DOB NOW approved permits for sidewalk sheds (scaffolding)",
+   "path": "data/raw/nyc_opendata/dob_sidewalk_sheds.csv",
+   "sha256": "258e32143f7c6a7ed202dd4306615da3a07209e46bba27449bcf6b60eb0db24d",
+   "source_id": "dob_sidewalk_sheds",
+   "url": "https://data.cityofnewyork.us/resource/rbx6-tga4.csv?$select=job_filing_number,work_type,permit_status,issued_date,expired_date,bin,house_no,street_name,borough,block,lot&$where=work_type%3D%27Sidewalk%20Shed%27&$limit=500000"
+  },
+  "dohmh_restaurants": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 144526247,
+   "downloaded_at": "2026-09-05T19:00:55Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "DOHMH restaurant inspections: restaurant names, addresses, BIN/BBL, coordinates",
+   "path": "data/raw/nyc_opendata/dohmh_restaurants.csv",
+   "sha256": "64a090c06a9c0b5fb2968541d846cfed136dfddaad952789cb163cb978a3aea8",
+   "source_id": "dohmh_restaurants",
+   "url": "https://data.cityofnewyork.us/api/views/43nn-pn8j/rows.csv?accessType=DOWNLOAD"
+  },
+  "doitt_3d_citygml": {
+   "attribution": "NYC OTI 3-D Building Model (2014 LiDAR), CityGML LOD2, EPSG:2263",
+   "bytes": 916369666,
+   "downloaded_at": "2026-09-05T18:42:47Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "NYC 3-D Building Model, CityGML LOD2 roofs/walls for every building existing in 2014, keyed by BIN",
+   "path": "data/raw/doitt_3d/DA_WISE_GML.zip",
+   "sha256": "5df2790e32b9f95fa8d8ed09b726bd37c3b378f246fdef9d481d20622b5d3365",
+   "source_id": "doitt_3d_citygml",
+   "url": "https://s-media.nyc.gov/agencies/oti/DA_WISE_GML.zip"
+  },
+  "dot_signs": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 95499667,
+   "downloaded_at": "2026-09-05T19:01:19Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "DOT Parking Regulation Locations and Signs: 440,540 current signs with MUTCD code, text, arrow, facing, State Plane x/y",
+   "path": "data/raw/nyc_opendata/dot_signs.csv",
+   "sha256": "138b0b685bc213d2fc150ec14e19c3b636685d0c4ed4743bd7e2768670a0c887",
+   "source_id": "dot_signs",
+   "url": "https://data.cityofnewyork.us/api/views/nfid-uabd/rows.csv?accessType=DOWNLOAD"
+  },
+  "lion": {
+   "attribution": "NYC Department of City Planning",
+   "bytes": 45981902,
+   "downloaded_at": "2026-09-05T18:45:29Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "LION single-line street base map (file geodatabase) with nodes, node levels, segment types",
+   "path": "data/raw/lion/nyclion.zip",
+   "sha256": "14a2514303f0c53419cdc370bfd851db41dec038450b88b19d0897a35dad0660",
+   "source_id": "lion",
+   "url": "https://data.cityofnewyork.us/download/2v4z-66xt/application%2Fzip"
+  },
+  "lpc_building_db": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 29434734,
+   "downloaded_at": "2026-09-05T19:00:03Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "LPC Individual Landmark and Historic District Building Database (BIN, BBL, style, material, architect, date)",
+   "path": "data/raw/nyc_opendata/lpc_building_db.csv",
+   "sha256": "6069adffcd006cb9ddff1eded40748511558e5e4e969b63652b7437539743cc4",
+   "source_id": "lpc_building_db",
+   "url": "https://data.cityofnewyork.us/api/views/gpmc-yuvp/rows.csv?accessType=DOWNLOAD"
+  },
+  "lpc_historic_districts": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 847072,
+   "downloaded_at": "2026-09-05T19:00:04Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "LPC Historic Districts polygons",
+   "path": "data/raw/nyc_opendata/lpc_historic_districts.geojson",
+   "sha256": "db59269e65e263753f5ebf0ed1c6fce1143700203c01a00087176264cd238a82",
+   "source_id": "lpc_historic_districts",
+   "url": "https://data.cityofnewyork.us/api/geospatial/skyk-mpzq?method=export&format=GeoJSON"
+  },
+  "lpc_individual_landmarks": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 2026548,
+   "downloaded_at": "2026-09-05T18:59:55Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "LPC Individual Landmark Sites (polygons)",
+   "path": "data/raw/nyc_opendata/lpc_individual_landmarks.geojson",
+   "sha256": "abf074a25f73208acbffeffa5c7f7f140e2e57352e17f4d10bcd2abb74da0af9",
+   "source_id": "lpc_individual_landmarks",
+   "url": "https://data.cityofnewyork.us/api/geospatial/buis-pvji?method=export&format=GeoJSON"
+  },
+  "nta_2020": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 4589227,
+   "downloaded_at": "2026-09-05T19:14:59Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "2020 Neighborhood Tabulation Areas",
+   "path": "data/raw/nyc_opendata/nta_2020.geojson",
+   "sha256": "2fe410297b44465403601400d32103ca0ac9dbef73aa9f9edf24d57f655e34ee",
+   "source_id": "nta_2020",
+   "url": "https://data.cityofnewyork.us/api/geospatial/9nt8-h7nd?method=export&format=GeoJSON"
+  },
+  "ped_plazas": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 656360,
+   "downloaded_at": "2026-09-05T19:02:23Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "DOT pedestrian plazas polygons",
+   "path": "data/raw/nyc_opendata/ped_plazas.geojson",
+   "sha256": "62e0c2d0c6f102301901ad63b0b994b5dfc9fca24477d3876d8084aa108fa4e7",
+   "source_id": "ped_plazas",
+   "url": "https://data.cityofnewyork.us/api/geospatial/k5k6-6jex?method=export&format=GeoJSON"
+  },
+  "plan_roadbed": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 564482538,
+   "downloaded_at": "2026-09-05T19:15:46Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "Planimetric roadbed polygons",
+   "path": "data/raw/nyc_opendata/plan_roadbed.geojson",
+   "sha256": "abade8a2e858fe6764060bb00226cd50e80e0b0f8d81c40b11a7497ea72fca3c",
+   "source_id": "plan_roadbed",
+   "url": "https://data.cityofnewyork.us/api/geospatial/i36f-5ih7?method=export&format=GeoJSON"
+  },
+  "pluto": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 334512482,
+   "downloaded_at": "2026-09-05T18:57:38Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "MapPLUTO tax lot attributes: numfloors, yearbuilt, bldgclass, landuse, lot/bldg area, landmark, histdist, address",
+   "path": "data/raw/nyc_opendata/pluto.csv",
+   "sha256": "48c0dbc9345cc293af75d9ab037e94c8a779935135166d239a5f2c60e941b49f",
+   "source_id": "pluto",
+   "url": "https://data.cityofnewyork.us/api/views/64uk-42ks/rows.csv?accessType=DOWNLOAD"
+  },
+  "signal_retiming": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 1492645,
+   "downloaded_at": "2026-09-05T19:01:34Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "25 MPH signal retiming corridors (signalized intersections)",
+   "path": "data/raw/nyc_opendata/signal_retiming.csv",
+   "sha256": "6ee304c0359781b8dcfe75856cf1e0ff30790f19adad154cf787268cb43863d6",
+   "source_id": "signal_retiming",
+   "url": "https://data.cityofnewyork.us/api/views/d8dp-wfee/rows.csv?accessType=DOWNLOAD"
+  },
+  "street_construction_permits": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 2640429988,
+   "downloaded_at": "2026-09-05T19:12:13Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "Street construction permits 2022-present (steel plates, cuts)",
+   "path": "data/raw/nyc_opendata/street_construction_permits.csv",
+   "sha256": "e191a1801bf7de438306fb5e3212620b3408ab9464f098017d1397aeaf6f6e2d",
+   "source_id": "street_construction_permits",
+   "url": "https://data.cityofnewyork.us/api/views/tqtj-sjs8/rows.csv?accessType=DOWNLOAD"
+  },
+  "taxi_zones": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 3885973,
+   "downloaded_at": "2026-09-05T19:03:23Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "TLC taxi zones polygons",
+   "path": "data/raw/nyc_opendata/taxi_zones.geojson",
+   "sha256": "09a79ae21f0069c6b3023cdd82c189ef3c31ff63850a1d583818dbb088fcafef",
+   "source_id": "taxi_zones",
+   "url": "https://data.cityofnewyork.us/api/geospatial/8meu-9t5y?method=export&format=GeoJSON"
+  },
+  "traffic_volume_auto": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 234460769,
+   "downloaded_at": "2026-09-05T19:03:21Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "Automated Traffic Volume Counts (ATR) 15-min counts by segment",
+   "path": "data/raw/nyc_opendata/traffic_volume_auto.csv",
+   "sha256": "53c0998d3b3c8ebf88aad75cdc69e4f601933f3daeb5538bd74962eabe706485",
+   "source_id": "traffic_volume_auto",
+   "url": "https://data.cityofnewyork.us/api/views/7ym2-wayt/rows.csv?accessType=DOWNLOAD"
+  },
+  "truck_routes": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 21253990,
+   "downloaded_at": "2026-09-05T19:02:21Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "Truck routes (local/through)",
+   "path": "data/raw/nyc_opendata/truck_routes.geojson",
+   "sha256": "9bfd0f3e24279a40d3e3ab257c1e5976e246c89738bf0421503a6e21a3dac311",
+   "source_id": "truck_routes",
+   "url": "https://data.cityofnewyork.us/api/geospatial/jjja-shxy?method=export&format=GeoJSON"
+  },
+  "usgs_3dep_13_n41w074": {
+   "attribution": "U.S. Geological Survey, 3D Elevation Program",
+   "bytes": 165682872,
+   "downloaded_at": "2026-09-05T19:16:34Z",
+   "license": "USGS public domain",
+   "notes": "1/3 arc-second DEM n41w074 (fallback base under 1/9\" gaps, NJ shoreline)",
+   "path": "data/raw/usgs/usgs_3dep_13_n41w074.tif",
+   "sha256": "7846b74ac6b16c452edbd99bfcb6c8e965d046b1fc433d5a2bfe3add4c61705d",
+   "source_id": "usgs_3dep_13_n41w074",
+   "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w074/USGS_13_n41w074_20260820.tif"
+  },
+  "vzv_lpi_signals": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 1091459,
+   "downloaded_at": "2026-09-05T19:01:31Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "Leading Pedestrian Interval signalized intersections",
+   "path": "data/raw/nyc_opendata/vzv_lpi_signals.csv",
+   "sha256": "678ece92d0c594b0ddd5ab614e23a45533af34e4dcfa70343f9ce83d498fad18",
+   "source_id": "vzv_lpi_signals",
+   "url": "https://data.cityofnewyork.us/api/views/xc4v-ntf4/rows.csv?accessType=DOWNLOAD"
+  },
+  "vzv_speed_limits": {
+   "attribution": "City of New York, NYC Open Data",
+   "bytes": 21828821,
+   "downloaded_at": "2026-09-05T19:01:30Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "Vision Zero View posted speed limits by street segment",
+   "path": "data/raw/nyc_opendata/vzv_speed_limits.csv",
+   "sha256": "093739d9577cf2b86578d61222b352caedffc863d184c18b2f3b656498e7cb4c",
+   "source_id": "vzv_speed_limits",
+   "url": "https://data.cityofnewyork.us/api/views/5mad-ntua/rows.csv?accessType=DOWNLOAD"
+  }
+ },
+ "schema_version": 1
+}

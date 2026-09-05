@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" prefix="og: https://ogp.me/ns#">
+  <head>
+    <script>
+      // todo delete before the next release! done to simulate that user's accepted the cookie banner
+      const foundCookie = document.cookie.split('; ').find(row => row.startsWith('cookie-agreed='));
+      if (!foundCookie) {
+        const nextDate = Date.now() + 1000 * 60 * 60 * 24 * 10; // 10 days from now
+        console.log(`setting cookie-agreed=2; expires=${nextDate}; path=/`);
+        document.cookie = `cookie-agreed=2; expires=${new Date(nextDate)}; path=/`;
+      } else {
+        console.log(`cookie-agreed already set: ${foundCookie}`);
+      }
+    </script>
+        <link rel="preconnect" href="https://googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+    <link rel="dns-prefetch" href="https://cdn.checkout.ventrata.com" />
+    <link rel="dns-prefetch" href="https://www.gstatic.com" />
+    <link rel="dns-prefetch" href="https://cdn.refersion.com" />
+    <link rel="dns-prefetch" href="https://www.recaptcha.net" />
+        <link rel="preload" href="/themes/custom/esb_theme/fonts/ProximaNova-Bold.woff" as="font" type="font/woff" crossorigin />
+    <link rel="preload" href="/themes/custom/esb_theme/fonts/ProximaNova-Semibold.woff" as="font" type="font/woff" crossorigin />
+    <link rel="preload" href="/themes/custom/esb_theme/fonts/ProximaNova-Light.woff" as="font" type="font/woff" crossorigin />
+        <meta charset="utf-8" />
+<meta name="description" content="The Empire State Building maintains a tradition of changing the color of the lights to recognize important occasions and holidays." />
+
+<!-- be_ixf, sdk, gho-->
+<meta name="be:sdk" content="php_sdk_1.5.12" />
+<meta name="be:timer" content="71ms" />
+<meta name="be:orig_url" content="https%3A%2F%2Fwww.esbnyc.com%2Fabout%2Ftower-lights" />
+<meta name="be:norm_url" content="https%3A%2F%2Fwww.esbnyc.com%2Fabout%2Ftower-lights" />
+<meta name="be:capsule_url" content="https%3A%2F%2Fixfd-api.bc0a.com%2Fapi%2Fixf%2F1.0.0%2Fget_capsule%2Ff00000000179470%2F1259826197" />
+<meta name="be:api_dt" content="-04:00y_2026;-04:00m_08;-04:00d_14;-04:00h_05;-04:00mh_40;p_epoch:1786700454230" />
+<meta name="be:mod_dt" content="-04:00y_2026;-04:00m_08;-04:00d_14;-04:00h_05;-04:00mh_40;p_epoch:1786700454230" />
+<meta name="be:diag" content="ldrpSPM9PfTs1LMRdcM1qcDKaDd+1NM+B0GTogd3SHfLHLVs1zpUya4sJNlYH92M4HP9felaXVkfBMzna0UUFrcKIqxGVqox+XqBvctal5OUFkOVOOZGDR7aiHcmul88m1DnCatUWC2CmpWA4B5k/a8nPYhfzaY5oSZrYa2gLgGDQEqPYLp7HaiP6Tl+eNwxJBYscqN4+kEffAZhO8jsotfQ6oYYuhzfJIMbRFvYV6/leaNQGl8Y+GUC+H7sZ0pt7QdiwAdt8sEnlruLLrwfFO3aqzbq4Fl9EImM1WTzvhk8bgqk0RoE52Onw7IaiLQHpvPBTA8JfbLIzoLCyEJvNO+uk1AhMLo3dZ9SNZFgCBWToM2wXctm6VKbFifihsxQjMg4GNtYe2481YlJIZsq8eIVZbbNG3mtJ7gbL2TF4aU+SZUXhV3ch0yhCqa8dgDqQdtYiH8TdGwpbzpkFb1KJGXkrsIxpzRj+tHMjVlClUD+y2LStgmYyRdOXBLkl56ecWC83d5PaYGNvZkJJXo4V70ketVROeDYvFfN1u9cQUAQspvZaXDskTLdS4OQhEwjAoiAo+tEpt5lRJisPk0EOMGp9cgg1YJyUK0x1BQta4CiWiYPSo3h+d+TBMpSfA2hUPF9ZdA6zlmhGU/yE86gHKILAemx0nnP7tQcYJym589wfKv2yU/XaU3/aPzgO+7/kSN/SD49ilyHl5eXz3auj3nj1PkJIOyIAQngKe+WT6vr38s8qTGtKoNQ48GRP8aPbyWuDsIQ57qCRjhvKGG2JBpsZUvYvsJDWA/MvT5Rr8y24Z3Rr6swkI9JXn/Ssp8MmN1uf3GxLHcMWdVw5ahw6KqI39b/c6zBaxBW3OxWyIYNsFJMSv0OO5Cpfl3PJWFurdBV831YeyIE51T8wAFyR0HhAdMcbs0SfrL3NYaRml1WFBQ9bsI4e/YTMu/vLSG+X4coaZxV7dCZLS8zkrNEnMObcVimVOnvfJ1FYRF1aa7L0JRmnMCJzPYmytTTSkdvqyn/ofsk177RcQBa9Jn1Y2Q/Fd2v0aNYlLbs0jXhoHx+/Ys55PLRU9/zcpElT1u0DJQlD5FHwbif+2Sqnk4TPUqWsj70pyXYRiLusL8PxeX6ts4DJ0QIPxhcCUyR0hgeB5f9t+lc7lNtFU+tjHzhdL1a3emWOfyPoC8keBhqp0WIvtt98DV3SnDARQqZvBOLsHgpZBYAvW4vL2Kk+Txk5XM120+ca1I+1rKbBqpELtEqmV6bsw3S22+gvgr8LOLJzOOfeDmhzZjYwdTBLfvEyITlQjCfzc+2N16mZa8Od7uwP081/L7PGHiiWOlD9MtXamjt3mnWkhcTjn6AFLmmC7pC/jHbhU5D45h6YMCXYEgque2j1P48/zg5AvAONkxMfX/x2xpL88evQJ3csv6RHaL1hiIpGHernciwr8KfbYdkVMKOobLtibr3huScjpvr0eo8HPYZpjFZ2M7PdtDm2+yZKFUInTqNJ53CC6TF775czpVV3jFGuHsQVHFJu8Hb0ynNUuaZJtWo+ohWm04u0arTdNxkbmwBnc8sOXm7u4mmICnbKVJI5vK8eeskK/LW3ArlkV0gafmon3NNAxh2Pzs5NFZPX58N3C4q61suc+yoefboCLBtxClKpQuAhJg+YuvD7SXhVY0YMPHBu3Fcazly3E3ptrmVEZSeI0gfPvA7Z7+JJcVqWTz8DZ+P1gTUETE5joas5Y5UzQqDg1r3l+7UrR5FAT2horktC51aPGUSSA858+gwMVZnBpmYNH7YhNe1rBaVAYIJ0mW+t05i5Gu7jA7yFDP1AaEBJhTQ8k/JHTJQ0PzWlgA95ulQxZOn+JXzdbihfE/fw2eToN+sjUkSH6NQ6180yrrucGOb8J28T8clKQ56vaNoYBX3PKvDuuHbBAJOnmr5TeIJjXFrJUwpx0imwceEMbc35RwyPf5RsrrTV4xHgSXQ0beQ6KCozfYOpPsndundWKVR+9EwlaCwenFcMTvJniqtinJj1xYf/IX3fz1FIBH7wkDpSPKYiRMIMHZzqNbifOLJzqRxmU3NdPCksfqDfIRWj6xQ3aVhRhfAxTa8bAvcYvsVuE3+1Pro8rS05Xcr6IoC6FzdXejsxrVJJ72FnReUXK7KtMdXzt7E17llM/BjgvhK/WtOOOmWDNc1E8+ilr/Q3c+gABTvpx5bPqNHToG4RQN/4ydGjQ5FXbrC98gscGuVkozmSuELWV6PyjA4yBSt0hLepFNsRdHVlTX3qMlbJXizMr5Ec7Mxi7ZyI7nNSUPBARNcQgA5jzqXdLyby/qsSyD2OT9AVolwjxpPw66yuG00AEY=" />
+<meta name="be:messages" content="false" />
+
+<meta name="abstract" content="org" />
+<link rel="canonical" href="https://www.esbnyc.com/about/tower-lights" />
+<meta property="og:image" content="https://www.esbnyc.com/sites/default/files/2019-11/Screen%20Shot%202019-11-12%20at%2015.56.59.png" />
+<meta property="og:image:url" content="https://www.esbnyc.com/sites/default/files/2023-05/esb-logo-black.jpeg" />
+<meta property="og:image:secure_url" content="https://www.esbnyc.com/sites/default/files/2023-05/esb-logo-black.jpeg" />
+<meta name="Generator" content="Drupal 10 (https://www.drupal.org)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style @media="@media" (min-width:="(min-width:" 1025px)="1025px)" 768px)="768px)" and="and" (max-width:="(max-width:" 1024px)="1024px)" {="{" .banner-container=".banner-container" .banner--image:not(.is-video)=".banner--image:not(.is-video)" .banner--content=".banner--content" .banner-actions=".banner-actions" a:before="a:before" width:="width:" calc(100%="calc(100%" -="-" 0.375rem)="0.375rem)" !important;="!important;" height:="height:" }="}"></style>
+<script>
+    // -----------------------------------------------------------------
+    // Consent bootstrap (runs before OneTrust + GTM)
+    // Responsibilities:
+    //  - Provide Consent Mode defaults per region (EU/Quebec = OPT_OUT,
+    //    everyone else = OPT_IN full granted)
+    //  - Restore user's saved choice across page loads
+    //  - Keep GA functional flags in sync
+    //  - Expose saved consents for Ventrata
+    //
+    // NOTE:
+    //  We DO NOT mark the user as "has chosen" just by giving them OPT_IN
+    //  defaults. The "chosen" flag is only set after an explicit click.
+    // -----------------------------------------------------------------
+
+    // Stubs first
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
+
+    // Optional shared cookie domain for staging/multisite
+    window.__CM_COOKIE_DOMAIN__ = '.esbnyc.com';
+
+    (function(){
+        // ---------- tiny storage helpers ----------
+        function readCookie(n){
+            var m = document.cookie.match(new RegExp('(?:^|;\\s*)'+n+'=([^;]+)'));
+            return m ? decodeURIComponent(m[1]) : '';
+        }
+
+        function writeCookie(n, v, maxAge){
+            try{
+                var c = n + '=' + encodeURIComponent(v) + ';path=/;SameSite=Lax';
+                var dom = window.__CM_COOKIE_DOMAIN__ || '';
+                if (dom) c += ';domain='+dom;
+                if (typeof maxAge !== 'number') maxAge = 60*60*24*365; // 1 year
+                c += ';max-age=' + maxAge;
+                document.cookie = c;
+            }catch(e){}
+        }
+
+        function readSavedPreset(){
+            // We try sessionStorage first (fresh nav),
+            // then cookie (cross-tab), then localStorage (fallback).
+            try{
+                var s = sessionStorage.getItem('cm_preset_v1'); if (s) return JSON.parse(s);
+                var c = readCookie('cm_preset_v1');             if (c) return JSON.parse(c);
+                var l = localStorage.getItem('cm_preset_v1');    if (l) return JSON.parse(l);
+            }catch(e){}
+            return null;
+        }
+
+        function userHasChosen(){
+            // User explicitly interacted with banner / pref center
+            try{
+                return readCookie('cm_user_chosen_v1') === '1'
+                    || localStorage.getItem('cm_user_chosen_v1') === '1'
+                    || sessionStorage.getItem('cm_user_chosen_v1') === '1';
+            }catch(e){ return false; }
+        }
+
+        // expose for other tags that mark user after click
+        window.__cm_mark_user_chosen__ = function(){
+            try{
+                localStorage.setItem('cm_user_chosen_v1','1');
+                sessionStorage.setItem('cm_user_chosen_v1','1');
+            }catch(e){}
+            writeCookie('cm_user_chosen_v1','1', 60*60*24*365);
+        };
+
+        // ---------- Ventrata consent helper ----------
+        function applyVentrataConsentsFromPreset(preset){
+            if (!preset) return;
+
+            // Map stored preset (granted/denied) to boolean flags
+            var consents = {
+                analytics_storage:       preset.analytics_storage === 'granted',
+                ad_storage:              preset.ad_storage === 'granted',
+                security_storage:        preset.security_storage === 'granted',
+                personalization_storage: preset.personalization_storage === 'granted',
+                functionality_storage:   preset.functionality_storage === 'granted'
+            };
+
+            // Store globally so Ventrata loader can reuse it
+            try {
+                window.__ventrataConsents = consents;
+            } catch(e) {}
+
+            // If Ventrata is already present, push consents immediately
+            try{
+                if (window.Ventrata && typeof window.Ventrata.updateConsents === 'function') {
+                    window.Ventrata.updateConsents(consents);
+                }
+            }catch(e){}
+        }
+
+        // ---------- 1) Global default (OPT_IN baseline = all granted) ----------
+        // This is what we want in US / ROW.
+        gtag('consent','default',{
+            security_storage:       'granted',
+            functionality_storage:  'granted',
+            analytics_storage:      'granted',
+            ad_storage:             'granted',
+            ad_user_data:           'granted',
+            ad_personalization:     'granted',
+            personalization_storage:'granted'
+        });
+
+        // ---------- 2) Regional override for strict regions (EU, UK, CH, NO, IS, LI, Quebec) ----------
+        // These are OPT_OUT regions: deny everything except strictly-necessary.
+        // DO NOT CHANGE: these defaults are correct.
+        gtag('consent','default',{
+            security_storage:       'granted',
+            functionality_storage:  'granted',
+            analytics_storage:      'denied',  // Performance / Analytics
+            ad_storage:             'denied',  // Targeting / Advertising (3 keys)
+            ad_user_data:           'denied',
+            ad_personalization:     'denied',
+            personalization_storage:'denied',  // Functional
+            region: [
+                'AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH','CA-QC'
+            ],
+            wait_for_update: 800
+        });
+
+        // ---------- 3) GA helper flags controlled by Functional consent ----------
+        // We'll correct these later if user / region says otherwise.
+        gtag('set','url_passthrough', true);
+        gtag('set','ads_data_redaction', false);
+
+        // ---------- 4) Restore user's explicit saved choice ASAP ----------
+        // If user has already chosen, we override ALL defaults right now.
+        (function restoreUserChoiceEarly(){
+            var saved = readSavedPreset();
+            if (!saved || !userHasChosen()) return;
+
+            var keys = [
+                'ad_storage','ad_user_data','ad_personalization',
+                'analytics_storage','personalization_storage',
+                'functionality_storage','security_storage'
+            ];
+            var next = {
+                wait_for_update: (
+                    typeof saved.wait_for_update === 'number'
+                        ? saved.wait_for_update
+                        : 700
+                )
+            };
+
+            var i, k;
+            for (i=0;i<keys.length;i++){
+                k = keys[i];
+                if (saved[k]==='granted' || saved[k]==='denied') {
+                    next[k] = saved[k];
+                }
+            }
+
+            // strictly necessary ALWAYS granted
+            next.security_storage      = 'granted';
+            next.functionality_storage = 'granted';
+
+            // Apply stored consent to GA
+            gtag('consent','update', next);
+
+            // Functional category drives these GA flags
+            var functionalOn = (saved.personalization_storage === 'granted');
+            gtag('set','url_passthrough', functionalOn);
+            gtag('set','ads_data_redaction', !functionalOn);
+
+            // Initialize Ventrata with stored consents
+            applyVentrataConsentsFromPreset(next);
+        })();
+    })();
+</script>
+<script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js" type="text/javascript" charset="UTF-8" data-domain-script="01972153-2e75-797d-8ab7-97607d2e6e2c"></script>
+<script>
+    // OneTrust will call this after it injects banner / pref center DOM.
+    function OptanonWrapper(){
+        window.dataLayer.push({event:'OptanonWrapper'});
+    }
+</script>
+<script>
+    (function(w,d,s,l,i){
+        w[l]=w[l]||[];
+        w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+        var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),
+            dl=l!='dataLayer'?'&l='+l:'';
+        j.async=true;
+        j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+        f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-N8FWLJ');
+</script>
+<script>
+window.dataLayer = window.dataLayer || [];
+
+(function() {
+  const firstOpenInTab = !sessionStorage.getItem('session_started');
+
+  if (firstOpenInTab) {
+    sessionStorage.setItem('session_started', 'yes');
+    return;
+  }
+
+  window.dataLayer.push({
+    event: 'regular_visit'
+  });
+})();
+</script>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.city-pass.node--view-mode-feat-on-3 a').forEach(function(element) {
+            var href = element.getAttribute('href');
+            if (href.includes('citypassdetails-buy')) {
+                var new_href = href.replace('citypassdetails-buy', 'tickets-top');
+                element.setAttribute('href', new_href);
+            }
+        });
+        document.querySelectorAll('.city-pass.node--view-mode-featured a').forEach(function(element) {
+            var href = element.getAttribute('href');
+            if (href.includes('citypassdetails-buy')) {
+                var new_href = href.replace('citypassdetails-buy', 'tickets-passes');
+                element.setAttribute('href', new_href);
+            }
+        });
+    });
+</script>
+<script></script>
+<script>var INSTAPAGE_AJAXURL = 'https://www.esbnyc.com/index.php?action=instapage_ajax_call';</script>
+<script type="application/ld+json">{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "Organization",
+            "name": "Empire State Building",
+            "url": "https://www.esbnyc.com/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://www.esbnyc.com/sites/default/files/ESB_OBS_Logo_White_H.png"
+            }
+        }
+    ]
+}</script>
+<script>window.a2a_config=window.a2a_config||{};a2a_config.callbacks=[];a2a_config.overlays=[];a2a_config.templates={};</script>
+
+    <title>Tower Lights: New York Lights Today | Empire State Building</title>
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_EqllmoQv4izA9zNQ1172rA7tfj4iPVMSmJQZNrsjUoY.css?delta=0&amp;language=en&amp;theme=esb_theme&amp;include=eJxVj9FqQyEQRH_IXCE_FFadXIXVFUcD9uub0qZN387MgYGRlKZJ215-4LgPa9NFFXL7IMSLK0g5wVdulp7OBp40qmj5gAPDbWZU-FMtiF4i-VZWOVu5l3jp1ld_E4QizqtT2bbmLRVGe2Bsbw3R1HUZcg7pmT6N1UWPv-ZYra-ghRnJMcvAzIX-lxw3J-r3l6_5FRCztAb1_-MnEj5pPw" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_xXT-gBsQJt070STus3Z7-W2tmjWfvDYxBlWrnF5wMwc.css?delta=1&amp;language=en&amp;theme=esb_theme&amp;include=eJxVj9FqQyEQRH_IXCE_FFadXIXVFUcD9uub0qZN387MgYGRlKZJ215-4LgPa9NFFXL7IMSLK0g5wVdulp7OBp40qmj5gAPDbWZU-FMtiF4i-VZWOVu5l3jp1ld_E4QizqtT2bbmLRVGe2Bsbw3R1HUZcg7pmT6N1UWPv-ZYra-ghRnJMcvAzIX-lxw3J-r3l6_5FRCztAb1_-MnEj5pPw" />
+
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/themes/custom/esb_theme/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/themes/custom/esb_theme/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/themes/custom/esb_theme/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/themes/custom/esb_theme/favicons/site.webmanifest">
+    <link rel="mask-icon" href="/themes/custom/esb_theme/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/themes/custom/esb_theme/favicons/favicon.ico">
+    <link rel="alternate" hreflang="en" href="https://www.esbnyc.com/about/tower-lights" />
+    <link rel="alternate" hreflang="zh-hans" href="https://www.esbnyc.com/zh-CN/about/tower-lights" />
+    <link rel="alternate" hreflang="zh-hant" href="https://www.esbnyc.com/zh-TW/about/tower-lights" />
+    <link rel="alternate" hreflang="fr" href="https://www.esbnyc.com/fr/about/tower-lights" />
+    <link rel="alternate" hreflang="de" href="https://www.esbnyc.com/de/about/tower-lights" />
+    <link rel="alternate" hreflang="it" href="https://www.esbnyc.com/it/about/tower-lights" />
+    <link rel="alternate" hreflang="ja" href="https://www.esbnyc.com/ja/about/tower-lights" />
+    <link rel="alternate" hreflang="ko" href="https://www.esbnyc.com/ko/about/tower-lights" />
+    <link rel="alternate" hreflang="pt-br" href="https://www.esbnyc.com/pt/about/tower-lights" />
+    <link rel="alternate" hreflang="es" href="https://www.esbnyc.com/es/about/tower-lights" />
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/themes/custom/esb_theme/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#000000">
+  
+                                <script>!function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="5JA69-JRHFZ-D78B8-CPSCJ-RG6P7",function(){function e(){if(!i){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,o.parentNode.appendChild(e),i=!0}}function t(e){i=!0;var n,t,a,r,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(o.parentNode,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",r=(a.frameElement||a).style,r.width=0,r.height=0,r.border=0,r.display="none",o.parentNode.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void(0);",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("<bo"+"dy onload='document._boomrl();'>");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=12,window.BOOMR.url=n+"5JA69-JRHFZ-D78B8-CPSCJ-RG6P7";var o=document.currentScript||document.getElementsByTagName("script")[0],i=!1,r=document.createElement("link");if(r.relList&&"function"==typeof r.relList.supports&&r.relList.supports("preload")&&"as"in r)window.BOOMR.snippetMethod="p",r.href=window.BOOMR.url,r.rel="preload",r.as="script",r.addEventListener("load",e),r.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!i)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),o.parentNode.appendChild(r);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="ubhwvblimfk3i2u4naeq-f-3b67694ea-clientnsv4-s.akamaihd.net",o="false"=="true"?2:1,i={"ak.v":"41","ak.cp":"1764440","ak.ai":parseInt("1142614",10),"ak.ol":"0","ak.cr":9,"ak.ipv":4,"ak.proto":"h2","ak.rid":"8d39607","ak.r":40557,"ak.a2":n,"ak.m":"b","ak.n":"ff","ak.cport":4096,"ak.gh":"104.97.84.174","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"","ak.t":"1788635145","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==uwOaEGyhp52BHsYtpzeCjnE/qm+Jp0qyIiwBFN6XAofydwFMeRHTfNxKp4yTmHTcAvCsWGPWkW2F3UQ9EndrbmqWccLu9/yNrJ9zCCCIzsZpqmM3alVG2MR5U4seUCTyPhta1lmYgXNMg5BRD86/DH33V/TmVew7rnbp2R5EaxiZFZDUHtnu5hFlS8H+1Ir+do96p+npdlKqSotpH4XP8Xz6wHnzSB+0ZUEeK/S19Yp98h+mxDui0Ms79NtajvpJfJIhfKU2rBYmDHd6dwbMe2MhB5CU4Z/DLBw0VDEqbvoLQpcCKONgHGbu8YDYK/gsflm3eNtGWZj7r3G70/HHcbDu3QZDzdEngEZdVh6/fdE1ZxTeFdQeH1PBn5sOQs+Wnxw+um1LcrDIH4QjQy+qplGLg2x1FOl0/hzgJn5TNq8=","ak.pv":"20","ak.dpoabenc":"","ak.tf":o};if(""!==t)i["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))i["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var e=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+  <body class="tower_lights_page path-about-tower-lights checkout-ventrata has-navbar-fixed-top">
+    <a href="#main-content" class="visually-hidden focusable">
+      Skip to main content
+    </a>
+    
+      <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+    
+
+
+<div class="app-container">
+    <header class="global-header__container level navbar is-fixed-top" id="global-header">
+        <div id="header__left-block" class="global-header__left-block level-left">
+              <div class="region region-left-header">
+    <div id="block-esb-theme-gtranslate">
+  
+    
+      
+<div class="gtranslate_wrapper"></div><script>window.gtranslateSettings = {"switcher_horizontal_position":"inline","switcher_vertical_position":"inline","horizontal_position":"inline","vertical_position":"inline","float_switcher_open_direction":"top","switcher_open_direction":"bottom","default_language":"en","native_language_names":1,"detect_browser_language":0,"add_new_line":1,"select_language_label":"Select Language","flag_size":24,"flag_style":"2d","globe_size":60,"alt_flags":{"en":"usa"},"wrapper_selector":".gtranslate_wrapper","url_structure":"sub_directory","custom_domains":null,"languages":["en","zh-CN","zh-TW","nl","fr","de","it","ja","ko","pt","es"],"custom_css":""};</script><script>(function(){var js = document.createElement('script');js.setAttribute('src', 'https://cdn.gtranslate.net/widgets/latest/dwf.js');js.setAttribute('data-gt-orig-url', '/about/tower-lights');js.setAttribute('data-gt-orig-domain', 'www.esbnyc.com');document.body.appendChild(js);})();</script>
+  </div>
+<nav role="navigation" aria-labelledby="block-esb-theme-main-menu" id="block-esb-theme-main-menu" class="block block-menu navigation menu--main">
+  
+        
+                <ul class="menu menu--main">
+                    <li class="menu-item menu-item--expanded menu-item--active-trail">
+        <a href="/about" class="nav-links" target="_self" data-drupal-link-system-path="node/13">About</a>
+        <span class="mobile-arrow"></span>
+                                  <ul class="menu">
+                    <li class="menu-item">
+        <a href="/about/history" data-drupal-link-system-path="node/45">History</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="https://www.esbnyc.com/blog">Blog</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/about/architecture-design" data-drupal-link-system-path="node/5">Architecture &amp; Design</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item menu-item--active-trail">
+        <a href="/about/tower-lights" data-drupal-link-system-path="node/44" class="is-active" aria-current="page">Tower Lights</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/about/facts-figures" data-drupal-link-system-path="node/34">Facts &amp; Figures</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/about/celebrities-at-esb" data-drupal-link-system-path="node/9">Celebrities at ESB</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/about/sustainability" data-drupal-link-system-path="node/12">Sustainability</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/2026-esb-run-up" title="Run-Up" data-drupal-link-system-path="node/76">2026 Run-Up</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/about/live-cam" data-drupal-link-system-path="node/36">Live Cam</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/brand-partnerships-form" data-drupal-link-system-path="node/1646">Brand Partnerships Form</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/influencer_application" data-drupal-link-system-path="webform/influencer_application">Influencers</a>
+        <span class="mobile-arrow"></span>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item menu-item--expanded">
+        <a href="/visit" class="nav-links" data-drupal-link-system-path="node/14">Visit</a>
+        <span class="mobile-arrow"></span>
+                                  <ul class="menu">
+                    <li class="menu-item">
+        <a href="/visit/hours-of-operation" data-drupal-link-system-path="node/1091">Hours of Operation</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="https://www.esbnyc.com/page/95-years-empire-state-building">95th Anniversary</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="https://www.esbnyc.com/page/gift-tickets-esb">Gift Tickets to ESB</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/manage-booking">Manage My Booking</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/visit/shops-restaurants" data-drupal-link-system-path="node/11">Shops &amp; Restaurants</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/visit/observatories-exhibits" data-drupal-link-system-path="node/6">Observatories &amp; Exhibits</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/ticket-info-offers" data-drupal-link-system-path="node/15">Ticket Info &amp; Offers</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/visit/birthday-celebrations-esb" data-drupal-link-system-path="node/2861">Birthday Celebrations at ESB</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/visit/map-and-directions" data-drupal-link-system-path="node/26">Map &amp; Directions</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/visit/when-visit" data-drupal-link-system-path="node/16">When To Visit</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/about/education-center" data-drupal-link-system-path="node/35">Education Center</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/visit/accessibility" data-drupal-link-system-path="node/17">Accessibility</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/visit/esb-reviews" data-drupal-link-system-path="node/661">Customer Reviews</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/safety" data-drupal-link-system-path="node/156">Safety</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="https://ambassador.esbnyc.com/" target="_blank">Ambassador Program</a>
+        <span class="mobile-arrow"></span>
+              </li>
+        </ul>
+  
+              </li>
+        </ul>
+  
+
+
+  </nav>
+
+  </div>
+
+        </div>
+        <div class="esb_logo level-item is-centered">
+              <div class="region region-middle-header">
+    <div id="block-esb-theme-branding">
+  
+    
+        <a href="/" title="Home" rel="home" class="site-logo">
+      <img width="178" height="54" loading="lazy" src="/sites/default/files/ESB%2095%20Logo%20-%20Layered%20Gold%20Border%203%20%281%29.png" alt="Empire State Building logo" />
+    </a>
+      </div>
+
+  </div>
+
+        </div>
+        <div class="global-header__right-block level-right">
+           <!-- <div id="shopping-cart-container" class="level-item">
+            </div> -->
+            <div class="global-header__responsive-block level-item">
+                <div class="responsive-nav-menu">
+                    <button class="hamburger" type="button" aria-label="mobile menu button">
+                        <span class="hamburger-box">
+                            <span class="hamburger-inner"></span>
+                        </span>
+                    </button>
+                      <div class="region region-responsive-header">
+    <div class="btn-div">
+  <div id="block-buyticketsbutton-3">
+    
+        
+          
+  <div>
+                <div class="field_link"><a href="/buy-tickets">Buy Tickets</a></div>
+          </div>
+
+
+      </div>
+</div>
+<div id="block-searchform">
+  
+    
+      
+            <div class="clearfix text-formatted body"><div class="search-block-form"><form action="/search" method="get" accept-charset="UTF-8" data-ph-blur="Search" data-ph-focus="Type Your Search"><div class="js-form-item form-item js-form-type-search form-type-search js-form-item-keys form-item-keys form-no-label"><label class="visually-hidden" for="menu-search-mobile">Search</label> <input class="form-search" id="menu-search-mobile" title="Enter the terms you wish to search for." type="search" name="terms" value size="15" maxlength="128" placeholder="Search"></div><div class="form-actions js-form-wrapper form-wrapper"><input class="button js-form-submit form-submit" data-drupal-selector="edit-submit" type="submit" value=""></div></form></div></div>
+      
+
+  </div>
+<nav role="navigation" aria-labelledby="block-mainnavigation" id="block-mainnavigation" class="block block-menu navigation menu--main">
+  
+        
+                <ul class="menu menu--main">
+                    <li class="menu-item menu-item--expanded menu-item--active-trail">
+        <a href="/about" class="nav-links" target="_self" data-drupal-link-system-path="node/13">About</a>
+        <span class="mobile-arrow"></span>
+                                  <ul class="menu">
+                    <li class="menu-item">
+        <a href="/about/history" data-drupal-link-system-path="node/45">History</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="https://www.esbnyc.com/blog">Blog</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/about/architecture-design" data-drupal-link-system-path="node/5">Architecture &amp; Design</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item menu-item--active-trail">
+        <a href="/about/tower-lights" data-drupal-link-system-path="node/44" class="is-active" aria-current="page">Tower Lights</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/about/facts-figures" data-drupal-link-system-path="node/34">Facts &amp; Figures</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/about/celebrities-at-esb" data-drupal-link-system-path="node/9">Celebrities at ESB</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/about/sustainability" data-drupal-link-system-path="node/12">Sustainability</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/2026-esb-run-up" title="Run-Up" data-drupal-link-system-path="node/76">2026 Run-Up</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/about/live-cam" data-drupal-link-system-path="node/36">Live Cam</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/brand-partnerships-form" data-drupal-link-system-path="node/1646">Brand Partnerships Form</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/influencer_application" data-drupal-link-system-path="webform/influencer_application">Influencers</a>
+        <span class="mobile-arrow"></span>
+              </li>
+        </ul>
+  
+              </li>
+                <li class="menu-item menu-item--expanded">
+        <a href="/visit" class="nav-links" data-drupal-link-system-path="node/14">Visit</a>
+        <span class="mobile-arrow"></span>
+                                  <ul class="menu">
+                    <li class="menu-item">
+        <a href="/visit/hours-of-operation" data-drupal-link-system-path="node/1091">Hours of Operation</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="https://www.esbnyc.com/page/95-years-empire-state-building">95th Anniversary</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="https://www.esbnyc.com/page/gift-tickets-esb">Gift Tickets to ESB</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/manage-booking">Manage My Booking</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/visit/shops-restaurants" data-drupal-link-system-path="node/11">Shops &amp; Restaurants</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/visit/observatories-exhibits" data-drupal-link-system-path="node/6">Observatories &amp; Exhibits</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/ticket-info-offers" data-drupal-link-system-path="node/15">Ticket Info &amp; Offers</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/visit/birthday-celebrations-esb" data-drupal-link-system-path="node/2861">Birthday Celebrations at ESB</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/visit/map-and-directions" data-drupal-link-system-path="node/26">Map &amp; Directions</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/visit/when-visit" data-drupal-link-system-path="node/16">When To Visit</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/about/education-center" data-drupal-link-system-path="node/35">Education Center</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/visit/accessibility" data-drupal-link-system-path="node/17">Accessibility</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/visit/esb-reviews" data-drupal-link-system-path="node/661">Customer Reviews</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="/safety" data-drupal-link-system-path="node/156">Safety</a>
+        <span class="mobile-arrow"></span>
+              </li>
+                <li class="menu-item">
+        <a href="https://ambassador.esbnyc.com/" target="_blank">Ambassador Program</a>
+        <span class="mobile-arrow"></span>
+              </li>
+        </ul>
+  
+              </li>
+        </ul>
+  
+
+
+  </nav>
+
+  </div>
+
+                </div>
+            </div>
+                  <div class="region level-item region-right-header">
+    <div class="right-header-wrapper">
+    <div class="search-block-form" role="search" id="block-esb-theme-search">
+  <form action="/search" method="get" accept-charset="UTF-8" data-ph-blur="Search" data-ph-focus="Type Your Search">
+    <div class="js-form-item form-item js-form-type-search form-type-search js-form-item-keys form-item-keys form-no-label">
+      <label for="menu-search-desktop" class="visually-hidden">Search</label>
+      <input id="menu-search-desktop" title="Enter the terms you wish to search for." type="search" name="terms" value="" size="15" maxlength="128" class="form-search" placeholder="Search">
+    </div>
+    <div class="form-actions js-form-wrapper form-wrapper">
+      <input data-drupal-selector="edit-csrf-token" type="hidden" name="csrf_token" value="97f33193a3931c37a8642c8680788842bcf0247aee030e42a4aed19c34cd83fe">
+      <input data-drupal-selector="edit-submit" type="submit" value="" class="button js-form-submit form-submit">
+    </div>
+  </form>
+</div>
+<div class="btn-div">
+  <div id="block-buyticketsbutton">
+    
+        
+          
+  <div>
+                <div class="field_link"><a href="/buy-tickets">Buy Tickets</a></div>
+          </div>
+
+
+      </div>
+</div>
+
+    </div>
+  </div>
+
+        </div>
+    </header>
+    
+    <main role="main" class="section">
+        <a id="main-content" tabindex="-1" aria-label="Main Content"></a>
+                <div class="header-banner-wrapper">
+              <div class="region region-header-banner">
+    <div id="block-headerbanner-2">
+  
+    
+        <div class="banner-container no-mobile no-image">
+      <div class='banner--image no-image'>
+      <div class="banner--content">
+      <div>
+                  <h1 id="node_id-44"><span>Tower Lights Today</span></h1>
+                                                              </div>
+    </div>
+    <a class="scroll-down" href="#" aria-label="Scroll to next section"></a>
+  </div>
+</div>
+
+  <div class="banner-container no-desktop no-tablet no-image">
+      <div class='banner--image no-image'>
+      <div class="banner--content">
+      <div>
+                  <h1><span>Tower Lights Today</span></h1>
+                                                              </div>
+    </div>
+    <a class="scroll-down" href="#" aria-label="Scroll to next section"></a>
+  </div>
+</div>
+
+  </div>
+
+  </div>
+
+            
+        </div>
+                <section class="bg-lazy--obs">
+              <div class="region region-top-content">
+    <div id="block-esb-theme-breadcrumbs">
+  
+    
+      <nav class="breadcrumb" role="navigation" aria-labelledby="system-breadcrumb">
+    <span id="system-breadcrumb" class="visually-hidden">Breadcrumb</span>
+    <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About the Empire State Building</a></li>
+          <li>Tower Lights Today</li>
+        </ol>
+</nav>
+  </div>
+<div data-drupal-messages-fallback class="hidden"></div>
+<div id="block-towerlights3days">
+  
+    
+      <div class="three-days-lights-wrapper">
+  <div class="background-image-wrapper" style="background-image:url(/sites/default/files/a1rVV00000p1lynYAA-1776181140.jpg)"></div>
+  <div class="days-wrapper">
+    <div><div class="not-today">
+      <img src="https://www.esbnyc.com/sites/default/files/styles/260x370/public/2020-01/thumbnail5M2VW4ZF.jpg?itok=hKRJ0L8d" alt="Tomorrow Red, White, and Blue color"/>
+      <div class="info">
+        <h2>Yesterday's Color</h2>
+        <h3>SIGNATURE WHITE</h3>
+        
+      </div>
+    </div></div>
+    <div class="today"><div class="is-today">
+      <div class="info">
+        <h2>Today, September 05, 2026</h2>
+        <h3>Red, White, and Blue COLOR</h3>
+        
+  <div class="clearfix text-formatted">
+                <div class="field_description"><p>In Honor of Labor Day</p>
+</div>
+          </div>
+
+        <div class="share">
+          <h4>Share</h4>
+          <div class="sharethis-wrapper">
+      <span st_url="https://www.esbnyc.com/about/tower-lights" st_title="Tower Lights Today" class="st_facebook_custom" displayText="facebook"></span>
+
+      <span st_url="https://www.esbnyc.com/about/tower-lights" st_title="Tower Lights Today" class="st_twitter_custom" displayText="twitter"></span>
+
+      <span st_url="https://www.esbnyc.com/about/tower-lights" st_title="Tower Lights Today" class="st_pinterest_custom" displayText="pinterest"></span>
+
+  </div>
+
+        </div>
+      </div>
+    </div></div>
+    <div><div class="not-today">
+      <img src="https://www.esbnyc.com/sites/default/files/styles/260x370/public/a1rVV00000p1m3dYAA-1776181140.jpg?itok=bHNJ-Dt5" alt="Tomorrow Red, White, and Blue color"/>
+      <div class="info">
+        <h2>Tomorrow</h2>
+        <h3>Red, White, and Blue</h3>
+        
+  <div class="clearfix text-formatted">
+                <div class="field_description"><p>In Honor of Labor Day</p>
+</div>
+          </div>
+
+      </div>
+    </div></div>
+  </div>
+  </div>
+
+  </div>
+<div class="btn-div">
+  <div id="block-viewfullcalendar">
+    
+        
+          
+  <div>
+                <div class="field_link"><a href="/about/tower-lights/calendar">View Full Calendar</a></div>
+          </div>
+
+
+      </div>
+</div>
+
+  </div>
+
+                <div id="block-esb-theme-content">
+  
+    
+      
+<article class="node node--type-tower-lights-page node--view-mode-full">
+
+  
+
+  
+  <div class="node__content">
+      <div class="field_sections">
+              <div class="paragraph paragraph--type--big-box paragraph--view-mode--default">
+        
+            <div class="clearfix text-formatted field_description"><p class="text-align-center">The Empire State Building’s tower lights are the LED lighting system atop the skyscraper that changes color nightly to mark holidays, causes, and organizations, making them one of the most recognized New York City lights on the skyline. Installed in 2012, the system can display more than 16 million colors and has illuminated the tower since 1976. Text CONNECT to 27416 to see tonight’s color.&nbsp;</p><p class="text-align-center">Visit our <a href="https://www.youtube.com/user/esbnyc">Youtube Channel</a>&nbsp;to view some of our previous shows or click the link below to find out how you can become a lighting partner.</p><p class="text-align-center">&nbsp;</p><p class="text-align-center"><a class="btn" href="/tower-lighting-request">TOWER LIGHTING PARTNER APPLICATION</a>&nbsp;</p><h4 class="text-align-center">Text Us to Learn About Tonight's Lights!</h4><p class="text-align-center">Ever wanted to learn the reason why the Empire State Building is lit up a specific color at night? Now you can get real-time alerts about the colors and the cause behind them! Text CONNECT to 27416 to get regular updates and learn more insider information at ESB!</p></div>
+      
+    </div>
+
+                <div class="paragraph paragraph--type--featured-lights paragraph--view-mode--default">
+            
+
+  <a name="Our Lights in Action"></a>
+  <div class="field_simple_title"><h2>Our Lights in Action</h2>
+</div>
+
+
+
+
+
+
+
+      <div class="masonry-view"><div class="view-content is-isotope">
+      <div class="grid-sizer"></div>
+              <div class="isotope-item"><article class="media media--type-lightshow-pic media--view-mode-on-3-cols">
+  
+      
+            <div class="field_media_image_1">  <a href="/sites/default/files/2019-11/Screen%20Shot%202019-11-12%20at%2015.56.59.png"><img loading="lazy" src="/sites/default/files/styles/on_3_cols_free_height/public/2019-11/Screen%20Shot%202019-11-12%20at%2015.56.59.png?itok=_f14KmpV" width="450" height="469" alt="Green Lights" class="image-style-on-3-cols-free-height" />
+
+</a>
+</div>
+      
+  <div>
+                <div class="name">Green Lights</div>
+          </div>
+
+            <div class="clearfix text-formatted field_description"><p><strong>Green Lights</strong></p>
+</div>
+      
+
+  </article>
+</div>
+              <div class="isotope-item"><article class="media media--type-lightshow-video media--view-mode-on-3-cols">
+  
+      
+    <a href="https://www.youtube.com/watch?v=91N0rD5f0e8" class="video-link">
+      <div class="btn-play"></div>
+      <img loading="lazy" src="/sites/default/files/styles/on_3_cols_free_height/public/oembed_thumbnails/43GeKkrbQyqdSiOs5uZwJbD0FdhRirAQHkkq_WlbJgE.jpg?itok=WBdJxRK3" alt="2018 ESB Holiday Light Show x OneRepublic"/>
+    </a>
+
+          
+  <div>
+                <div class="name">2018 ESB Holiday Light Show x OneRepublic</div>
+          </div>
+
+    
+    
+            <div class="clearfix text-formatted field_description"><p><strong>2018 ESB Holiday Light Show x OneRepublic</strong></p>
+</div>
+      
+
+  </article>
+</div>
+              <div class="isotope-item"><article class="media media--type-lightshow-pic media--view-mode-on-3-cols">
+  
+      
+            <div class="field_media_image_1">  <a href="/sites/default/files/2019-11/Screen%20Shot%202019-11-12%20at%2015.57.10.png"><img loading="lazy" src="/sites/default/files/styles/on_3_cols_free_height/public/2019-11/Screen%20Shot%202019-11-12%20at%2015.57.10.png?itok=hkMlfndc" width="450" height="466" alt="RED ESB" class="image-style-on-3-cols-free-height" />
+
+</a>
+</div>
+      
+  <div>
+                <div class="name">red-esb.png</div>
+          </div>
+
+
+  </article>
+</div>
+              <div class="isotope-item"><article class="media media--type-lightshow-video media--view-mode-on-3-cols">
+  
+      
+    <a href="https://vimeo.com/135537038" class="video-link">
+      <div class="btn-play"></div>
+      <img loading="lazy" src="/sites/default/files/styles/on_3_cols_free_height/public/oembed_thumbnails/WeQROaqZ2m9VhmzJIobuBbFHvag6q6N8rmD__Np2g5U.jpg?itok=QQA2k7yy" alt="Projecting Change: Empire State Building"/>
+    </a>
+
+          
+  <div>
+                <div class="name">Projecting Change: Empire State Building</div>
+          </div>
+
+    
+    
+            <div class="clearfix text-formatted field_description"><p>On Saturday, August 1st, 2015, Oceanic Preservation Society and Obscura took to the sky with a first-of-its-kind live video projection that illuminated the Empire State Building with beautiful, inspiring imagery of endangered species as never seen before. The towering images, more than 350 feet tall and 186 feet wide, and covering 33 floors of the iconic building drew attention to the creatures’ plight against mass extinction. Sia and J. Ralph produced and released a song, “One Candle”, specifically for the event. The show was captured, edited, and prominently featured as the uplifting ending of the documentary Racing Extinction by Academy Award-winning filmmaker Louie Psyhoyos (The Cover).</p>
+</div>
+      
+
+  </article>
+</div>
+              <div class="isotope-item"><article class="media media--type-lightshow-video media--view-mode-on-3-cols">
+  
+      
+    <a href="https://www.youtube.com/watch?v=sqSYSKpvr7c" class="video-link">
+      <div class="btn-play"></div>
+      <img loading="lazy" src="/sites/default/files/styles/on_3_cols_free_height/public/oembed_thumbnails/gSodw_NLPg7Gg6_ABGi_lO5h7b6biarwgspidGqbcd8.jpg?itok=yaSDwh65" alt="Phantom of the Opera 30th Anniversary Music-to-Light Show"/>
+    </a>
+
+          
+  <div>
+                <div class="name">Phantom of the Opera 30th Anniversary Music-to-Light Show</div>
+          </div>
+
+    
+    
+
+  </article>
+</div>
+              <div class="isotope-item"><article class="media media--type-lightshow-pic media--view-mode-on-3-cols">
+  
+      
+            <div class="field_media_image_1">  <a href="/sites/default/files/2019-11/ESBLT-1.jpg"><img loading="lazy" src="/sites/default/files/styles/on_3_cols_free_height/public/2019-11/ESBLT-1.jpg?itok=E1w--fwf" width="450" height="337" alt="ESB Lights" class="image-style-on-3-cols-free-height" />
+
+</a>
+</div>
+      
+  <div>
+                <div class="name">ESBLT-1.jpg</div>
+          </div>
+
+
+  </article>
+</div>
+              <div class="isotope-item"><article class="media media--type-lightshow-pic media--view-mode-on-3-cols">
+  
+      
+            <div class="field_media_image_1">  <a href="/sites/default/files/2019-11/ESBLT2.jpg"><img loading="lazy" src="/sites/default/files/styles/on_3_cols_free_height/public/2019-11/ESBLT2.jpg?itok=HUYnRdBQ" width="450" height="276" alt="Lighting effect" class="image-style-on-3-cols-free-height" />
+
+</a>
+</div>
+      
+  <div>
+                <div class="name">ESBLT2.jpg</div>
+          </div>
+
+
+  </article>
+</div>
+              <div class="isotope-item"><article class="media media--type-lightshow-video media--view-mode-on-3-cols">
+  
+      
+    <a href="https://www.youtube.com/watch?v=yKrQb8SlBjQ" class="video-link">
+      <div class="btn-play"></div>
+      <img loading="lazy" src="/sites/default/files/styles/on_3_cols_free_height/public/oembed_thumbnails/YRi_uLuM5rLQGYwWJfoIz0Dc5ExAzXfBLdjwo3Wts9U.jpg?itok=GPi7Nv8O" alt="Empire State Building – Robin Hood – Shawn Mendes - Music-to-Light Show"/>
+    </a>
+
+          
+  <div>
+                <div class="name">Empire State Building – Robin Hood – Shawn Mendes - Music-to-Light Show</div>
+          </div>
+
+    
+    
+
+  </article>
+</div>
+              <div class="isotope-item"><article class="media media--type-lightshow-video media--view-mode-on-3-cols">
+  
+      
+    <a href="https://www.youtube.com/watch?v=qBXlIik4sfQ" class="video-link">
+      <div class="btn-play"></div>
+      <img loading="lazy" src="/sites/default/files/styles/on_3_cols_free_height/public/oembed_thumbnails/l8bAiJYEZ-jaTVlr7TXByhevzxuade1cBva-81LHbIY.jpg?itok=fTi6ZDjT" alt="Empire State Building Light Show - Meet the Mets"/>
+    </a>
+
+          
+  <div>
+                <div class="name">Empire State Building Light Show - Meet the Mets</div>
+          </div>
+
+    
+    
+
+  </article>
+</div>
+              <div class="isotope-item"><article class="media media--type-lightshow-video media--view-mode-on-3-cols">
+  
+      
+    <a href="https://www.youtube.com/watch?v=X6DzO34DVYY" class="video-link">
+      <div class="btn-play"></div>
+      <img loading="lazy" src="/sites/default/files/styles/on_3_cols_free_height/public/oembed_thumbnails/-jtvZyfy7YPTgKsXBvepnA3DjWxThS8s_d7VFuMknJk.jpg?itok=bc20xwZD" alt="Empire State Building 2015 Holiday Light Show"/>
+    </a>
+
+          
+  <div>
+                <div class="name">Empire State Building 2015 Holiday Light Show</div>
+          </div>
+
+    
+    
+
+  </article>
+</div>
+              <div class="isotope-item"><article class="media media--type-lightshow-pic media--view-mode-on-3-cols">
+  
+      
+            <div class="field_media_image_1">  <a href="/sites/default/files/2019-11/ESBLT5.jpg"><img loading="lazy" src="/sites/default/files/styles/on_3_cols_free_height/public/2019-11/ESBLT5.jpg?itok=CoB8b63Q" width="450" height="282" alt="Lighting 2" class="image-style-on-3-cols-free-height" />
+
+</a>
+</div>
+      
+  <div>
+                <div class="name">Lighting 2</div>
+          </div>
+
+
+  </article>
+</div>
+              <div class="isotope-item"><article class="media media--type-lightshow-pic media--view-mode-on-3-cols">
+  
+      
+            <div class="field_media_image_1">  <a href="/sites/default/files/2019-11/ESBLT4.jpg"><img loading="lazy" src="/sites/default/files/styles/on_3_cols_free_height/public/2019-11/ESBLT4.jpg?itok=Il-0kBt7" width="450" height="570" alt="Hindu Goddess" class="image-style-on-3-cols-free-height" />
+
+</a>
+</div>
+      
+  <div>
+                <div class="name">Hindu Goddess</div>
+          </div>
+
+
+  </article>
+</div>
+              <div class="isotope-item"><article class="media media--type-lightshow-pic media--view-mode-on-3-cols">
+  
+      
+            <div class="field_media_image_1">  <a href="/sites/default/files/2019-11/ESBLT3.jpg"><img loading="lazy" src="/sites/default/files/styles/on_3_cols_free_height/public/2019-11/ESBLT3.jpg?itok=0bJHGsow" width="450" height="450" alt="Lighting 2" class="image-style-on-3-cols-free-height" />
+
+</a>
+</div>
+      
+  <div>
+                <div class="name">Lighting 2</div>
+          </div>
+
+
+  </article>
+</div>
+          </div></div>
+  
+
+
+
+      </div>
+
+                <div class="paragraph paragraph--type--quick-cta paragraph--view-mode--default">
+            
+            <div class="field_block">
+            <div id="node_id-13" class="field_title"><h2>Visit The Heart of NYC</h2>
+</div>
+      
+            <div class="clearfix text-formatted body"><p>It’s New York’s can’t-miss experience. Book your ticket to the top today.</p></div>
+      
+            <div class="field_link"><a href="/buy-tickets">Buy Tickets</a></div>
+      
+</div>
+      
+
+      </div>
+
+      </div>
+
+
+  </div>
+
+</article>
+
+  </div>
+
+
+            
+        </section>
+
+    </main>
+
+    <footer class="global-footer footer" role="contentinfo">
+        <div class="main-footer-wrapper bg-lazy--obs">
+            <div class="main-footer-container">
+                  <div class="region region-top-footer">
+    <div id="block-stayconnected" class="quick-cta-block">
+  
+  
+      
+            <div id="node_id-19" class="field_title"><h2>Stay Connected</h2>
+</div>
+      
+            <div class="clearfix text-formatted body"><p>Get the latest news, updates, and offers from the Empire State Building!</p>
+</div>
+      
+            <div class="field_link"><a href="/stay-connected">Sign Up</a></div>
+      
+
+  </div>
+<div class="btn-div">
+  <div id="block-buyticketsbutton-4">
+    
+        
+          
+  <div>
+                <div class="field_link"><a href="/buy-tickets">Buy Tickets</a></div>
+          </div>
+
+
+      </div>
+</div>
+
+  </div>
+
+                <div class="bottom-footer-container">
+                    
+      <div class='col-2-dsl footer-left-nav-wrapper col-2 col-4-dsm col-12-t col-12-m'>
+        <nav role="navigation" aria-labelledby="block-esb-theme-footer" id="block-esb-theme-footer" class="block block-menu navigation menu--footer">
+  
+        
+              <ul class="menu">
+                    <li class="menu-item">
+        <a href="/about" class="footer-nav-links" data-drupal-link-system-path="node/13">About</a>
+              </li>
+                <li class="menu-item">
+        <a href="/visit" class="footer-nav-links" data-drupal-link-system-path="node/14">Visit</a>
+              </li>
+                <li class="menu-item">
+        <a href="/news" class="footer-nav-links" data-drupal-link-system-path="node/25">News &amp; Press</a>
+              </li>
+                <li class="menu-item">
+        <a href="/visit/hours-of-operation" data-drupal-link-system-path="node/1091">Hours of Operation</a>
+              </li>
+                <li class="menu-item">
+        <a href="/visit/manage-booking" data-drupal-link-system-path="node/1371">Manage My Booking</a>
+              </li>
+                <li class="menu-item">
+        <a href="/safety" data-drupal-link-system-path="node/156">Safety</a>
+              </li>
+                <li class="menu-item">
+        <a href="https://esb-one.vercel.app/" target="_blank">Ambassador Program</a>
+              </li>
+        </ul>
+  
+
+
+  </nav>
+
+      </div>
+
+      <div class="no-desktop col-12">
+                
+
+<div class="is-12 social-links">
+  
+      
+        <span class="addtoany_list">
+          <a href="https://www.facebook.com/empirestatebuilding" class="a2a_s_facebook" target="_blank">FB</a>
+          <a href="https://x.com/empirestatebldg" class="a2a_s_twitter" target="_blank">TW</a>
+          <a href="https://www.youtube.com/@theempirestatebldg" class="a2a_s_youtube" target="_blank">YT</a>
+          <a href="https://www.instagram.com/empirestatebldg/" class="a2a_s_instagram" target="_blank">IG</a>
+          <a href="https://www.tiktok.com/@empirestatebldg?lang=en" class="a2a_s_tiktok" target="_blank" title="TikTok">TT</a>
+          <a href="https://www.snapchat.com/@empirestatebldg" target="_blank" class="a2a_s_snapchat">Snapchat</a>
+          <a href="https://www.pinterest.com/empirestatebldg/" class="a2a_s_pinterest" target="_blank">PT</a>
+          <a href="https://www.weibo.com/empirestatebuilding?is_hot=1" class="a2a_s_weibo" target="_blank" title="Weibo">WB</a>
+        </span>
+  
+
+
+  </div>
+      </div>
+
+      <div class="col-3-dsl col-3 col-5-dsm col-4-t col-4-m footer-left-social-wrapper no-tablet no-mobile">
+                    
+
+<div class="is-12 social-links">
+  
+      
+        <span class="addtoany_list">
+          <a href="https://www.facebook.com/empirestatebuilding" class="a2a_s_facebook" target="_blank">FB</a>
+          <a href="https://x.com/empirestatebldg" class="a2a_s_twitter" target="_blank">TW</a>
+          <a href="https://www.youtube.com/@theempirestatebldg" class="a2a_s_youtube" target="_blank">YT</a>
+          <a href="https://www.instagram.com/empirestatebldg/" class="a2a_s_instagram" target="_blank">IG</a>
+          <a href="https://www.tiktok.com/@empirestatebldg?lang=en" class="a2a_s_tiktok" target="_blank" title="TikTok">TT</a>
+          <a href="https://www.snapchat.com/@empirestatebldg" target="_blank" class="a2a_s_snapchat">Snapchat</a>
+          <a href="https://www.pinterest.com/empirestatebldg/" class="a2a_s_pinterest" target="_blank">PT</a>
+          <a href="https://www.weibo.com/empirestatebuilding?is_hot=1" class="a2a_s_weibo" target="_blank" title="Weibo">WB</a>
+        </span>
+  
+
+
+  </div>
+          <div id="block-tripadvisor-2" class="badge-block tripadvisor-badge column">
+  
+      
+
+            <div class="clearfix text-formatted body"><p><a href="/about/live-cam">LIVE VIEWS OF NYC</a></p>
+</div>
+      
+  </div>
+          <div id="block-esbhours-2">
+  
+    
+        <div class="layout layout--onecol">
+    <div  class="layout__region layout__region--content">
+      
+            <div class="field_hours">  <div class="layout layout--onecol">
+    <div  class="layout__region layout__region--content">
+      
+            <div class="clearfix text-formatted description"><p><a href="/visit/hours-of-operation">Open Today<br><span class="notranslate" translate="no">9 A.M. –  12 A.M.</span></a></p></div>
+      
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+  </div>
+      </div>
+
+                      <div class="region col-2 col-4-dsm col-4-t col-4-m region-middle-footer col-1-dsl">
+    <div class="col-12 middle-footer-building-container no-mobile no-tablet">
+      <div id="block-footerbuilding" class="badge-block esb-small-building">
+  
+      
+            <div class="field_image">
+            <div class="media-image">  <img loading="lazy" src="/sites/default/files/2019-07/building.png" width="65" height="207" alt="Empire State Building" />
+
+</div>
+          </div>
+      
+
+            <div class="clearfix text-formatted body"><p>World's Most<br>
+Famous Building</p>
+</div>
+      
+  </div>
+
+    </div>
+  </div>
+  <div class="region col-12 middle-footer-buttons-container no-desktop region-middle-footer">
+    <div class="col-12 middle-footer-buttons-container">
+              <div class='esb-theme-buyticketsbutton-2-container'>
+          <div class="btn-div">
+  <div id="block-esb-theme-buyticketsbutton-2">
+    
+        
+          
+  <div>
+                <div class="field_link"><a href="/buy-tickets">Buy Tickets</a></div>
+          </div>
+
+
+      </div>
+</div>
+
+        </div>
+                    <div class='esb-theme-contactus-container'>
+          <div class="btn-div">
+  <div id="block-esb-theme-contactus-2">
+    
+        
+          
+  <div>
+                <div class="field_link"><a href="/contact-us">Contact US</a></div>
+          </div>
+
+
+      </div>
+</div>
+
+        </div>
+                    <div class='esb-theme-sales-container'>
+          <div class="btn-div">
+  <div id="block-esb-theme-groupsales-2">
+    
+        
+          
+  <div>
+                <div class="field_link"><a href="/group-sales">Group Sales</a></div>
+          </div>
+
+
+      </div>
+</div>
+
+        </div>
+                    <div class='esb-theme-faq-container'>
+          <div class="btn-div">
+  <div id="block-esb-theme-faq-2">
+    
+        
+          
+  <div>
+                <div class="field_link"><a href="/faq">FAQ</a></div>
+          </div>
+
+
+      </div>
+</div>
+
+        </div>
+                  <div class='esb-theme-esb_theme_satisfilink col-12 no-tablet no-desktop'>
+        <div id="block-esb-theme-satisfilink-2">
+  
+    
+        <div class="layout layout--onecol">
+    <div  class="layout__region layout__region--content">
+      
+            <div class="clearfix text-formatted body"><div class="satisfi-container"><a onclick="SatisfiApp.Global.chatPopupOpen();"><img src="/sites/default/files/2025-01/message.png"> <span>Chat With Us</span></a></div></div>
+      
+    </div>
+  </div>
+
+  </div>
+
+      </div>
+          </div>  
+  </div>
+
+                    
+  <div class="region region-right-footer col-5 col-4-dsm no-mobile no-tablet col-6-dsl">
+    <div class='footer-buttons-container col-12'>
+      <div class="footer-buttons-left-container col-4 col-12-dssb col-3-dsl">
+        <div class='wfgt-logo-container'>
+          <div id="block-esb-theme-worldfederationofgreattowerslogo">
+  
+    
+      
+            <div class="clearfix text-formatted body"><p><a href="https://www.great-towers.com/" target="_blank"><img loading="lazy" width="300" height="520" src="/sites/default/files/2025-03/world-fede.webp" alt="world federation of great towers logo"><a/></p>
+</div>
+      
+
+  </div>
+
+        </div>
+        <div class='trip-advisor-logo-container'>
+          <div id="block-tripadvisorlogo">
+  
+    
+      
+            <div class="clearfix text-formatted body"><p><a href="https://www.esbnyc.com/blog/five-things-guests-love-about-empire-state-building-observatory-tripadvisors-1-attraction"><img loading="lazy" width="250" height="499" src="/sites/default/files/2026-07/Frame%201.png" alt="trip advisor"></a></p></div>
+      
+
+  </div>
+
+        </div>
+      </div>
+      <div class="footer-buttons-right-container col-8 col-12-dssb col-9-dsl">
+        <div class="footer-buttons-right-container-1 footer-framed-buttons">
+          <div class='buyticketsbutton-2-container'>
+            <div class="btn-div">
+  <div id="block-buyticketsbutton-2">
+    
+        
+          
+  <div>
+                <div class="field_link"><a href="/buy-tickets">Buy Tickets</a></div>
+          </div>
+
+
+      </div>
+</div>
+
+          </div>
+          <div class='contactus-container'>
+            <div class="btn-div">
+  <div id="block-contactus">
+    
+        
+          
+  <div>
+                <div class="field_link"><a href="/contact-us">Contact US</a></div>
+          </div>
+
+
+      </div>
+</div>
+
+          </div>
+        </div>
+        <div class="footer-buttons-right-container-2">
+          <div class="footer-framed-buttons">
+            <div class='sales-container'>
+              <div class="btn-div">
+  <div id="block-groupsales">
+    
+        
+          
+  <div>
+                <div class="field_link"><a href="/group-sales">Group Sales</a></div>
+          </div>
+
+
+      </div>
+</div>
+
+            </div>
+            <div class='faq-container'>
+              <div class="btn-div">
+  <div id="block-faq">
+    
+        
+          
+  <div>
+                <div class="field_link"><a href="/faq">FAQ</a></div>
+          </div>
+
+
+      </div>
+</div>
+
+            </div>
+          </div>
+                      <div class='esb_theme-satisfilink-container'>
+              <div id="block-esb-theme-satisfilink">
+  
+    
+        <div class="layout layout--onecol">
+    <div  class="layout__region layout__region--content">
+      
+            <div class="clearfix text-formatted body"><div class="satisfi-container"><a onclick="SatisfiApp.Global.chatPopupOpen();"><img src="/sites/default/files/2025-01/message.png"> <span>Chat With Us</span></a></div></div>
+      
+    </div>
+  </div>
+
+  </div>
+
+            </div>
+                  </div>
+      </div>
+    </div>
+  </div>
+  <div class="region region-right-footer no-desktop col-12">
+    <div class="col-12 footer-buttons-container">
+      <div class="footer-buttons-container-1 col-12 col-md-4">
+                  <div class='esb-theme-tripadvisor-2-container'>
+            <div id="block-esb-theme-tripadvisor-2" class="badge-block tripadvisor-badge column">
+  
+      
+
+            <div class="clearfix text-formatted body"><p><a href="/about/live-cam">LIVE VIEWS OF NYC</a></p>
+</div>
+      
+  </div>
+
+          </div>
+                          <div class='esb-theme-esbhours-2-container'>
+            <div id="block-esb-theme-esbhours-2">
+  
+    
+        <div class="layout layout--onecol">
+    <div  class="layout__region layout__region--content">
+      
+            <div class="field_hours">  <div class="layout layout--onecol">
+    <div  class="layout__region layout__region--content">
+      
+            <div class="clearfix text-formatted description"><p><a href="/visit/hours-of-operation">Open Today<br><span class="notranslate" translate="no">9 A.M. –  12 A.M.</span></a></p></div>
+      
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+  </div>
+
+          </div>
+                            <div class='esb_theme-satisfilink-container no-mobile'>
+              <div id="block-esb-theme-satisfilink">
+  
+    
+        <div class="layout layout--onecol">
+    <div  class="layout__region layout__region--content">
+      
+            <div class="clearfix text-formatted body"><div class="satisfi-container"><a onclick="SatisfiApp.Global.chatPopupOpen();"><img src="/sites/default/files/2025-01/message.png"> <span>Chat With Us</span></a></div></div>
+      
+    </div>
+  </div>
+
+  </div>
+
+            </div>
+                </div>
+      <div class="footer-buttons-container-2 col-12 col-md-4 no-mobile no-desktop">
+                  <div class='esb-theme-footerbuilding-2-container'>
+            <div id="block-esb-theme-footerbuilding-2" class="badge-block esb-small-building">
+  
+      
+            <div class="field_image">
+            <div class="media-image">  <img loading="lazy" src="/sites/default/files/2019-07/building.png" width="65" height="207" alt="Empire State Building" />
+
+</div>
+          </div>
+      
+
+            <div class="clearfix text-formatted body"><p>World's Most<br>
+Famous Building</p>
+</div>
+      
+  </div>
+
+          </div>
+              </div>
+      <div class="footer-buttons-container-3 col-12 col-md-4">
+        <div class='wfgt-logo-container'>
+          <div id="block-esb-theme-worldfederationofgreattowerslogo">
+  
+    
+      
+            <div class="clearfix text-formatted body"><p><a href="https://www.great-towers.com/" target="_blank"><img loading="lazy" width="300" height="520" src="/sites/default/files/2025-03/world-fede.webp" alt="world federation of great towers logo"><a/></p>
+</div>
+      
+
+  </div>
+
+        </div>
+                  <div class='esb-theme-footerbuilding-2-container no-tablet no-desktop'>
+            <div id="block-esb-theme-footerbuilding-2" class="badge-block esb-small-building">
+  
+      
+            <div class="field_image">
+            <div class="media-image">  <img loading="lazy" src="/sites/default/files/2019-07/building.png" width="65" height="207" alt="Empire State Building" />
+
+</div>
+          </div>
+      
+
+            <div class="clearfix text-formatted body"><p>World's Most<br>
+Famous Building</p>
+</div>
+      
+  </div>
+
+          </div>
+                <div class='trip-advisor-logo-container'>
+          <div id="block-tripadvisorlogo">
+  
+    
+      
+            <div class="clearfix text-formatted body"><p><a href="https://www.esbnyc.com/blog/five-things-guests-love-about-empire-state-building-observatory-tripadvisors-1-attraction"><img loading="lazy" width="250" height="499" src="/sites/default/files/2026-07/Frame%201.png" alt="trip advisor"></a></p></div>
+      
+
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="sub-footer-wrapper is-multiline is-inline-flex">
+            <div class="sitemap-container col-8 col-12-t col-12-m">
+                  <div class="region region-bottom-footer">
+    <div id="block-brightedgefoundationcontentblock">
+  
+    
+      <div class="link-block-main-container">
+  <div class="be-ix-link-block"></div>
+</div>
+
+  </div>
+<nav role="navigation" aria-labelledby="block-footersecondarymenu" id="block-footersecondarymenu" class="block block-menu navigation menu--footer-secondary-menu">
+  
+        
+              <ul class="menu">
+                    <li class="menu-item">
+        <a href="https://www.great-towers.com/" class="footer-secondary-nav-links" target="_blank">Great Towers</a>
+              </li>
+                <li class="menu-item">
+        <a href="/ticket-policies" class="footer-secondary-nav-links" data-drupal-link-system-path="node/66">Ticket Policies</a>
+              </li>
+                <li class="menu-item">
+        <a href="/privacy-policy" class="footer-secondary-nav-links" data-drupal-link-system-path="node/67">Privacy Policy</a>
+              </li>
+                <li class="menu-item">
+        <a href="/terms-conditions" class="footer-secondary-nav-links" data-drupal-link-system-path="node/68">Terms &amp; Conditions</a>
+              </li>
+                <li class="menu-item">
+        <a href="/web-accessibility" class="footer-secondary-nav-links" data-drupal-link-system-path="node/69">Web Accessibility</a>
+              </li>
+                <li class="menu-item">
+        <span class="ot-sdk-show-settings">Cookie Settings</span>
+              </li>
+                <li class="menu-item">
+        <a href="/sitemap" class="footer-secondary-nav-links" data-drupal-link-system-path="sitemap">Sitemap</a>
+              </li>
+        </ul>
+  
+
+
+  </nav>
+
+  </div>
+
+            </div>
+            <div class="copy-container col-4 col-12-t col-12-m">
+                ©2026 Empire State Building. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+</div>
+
+  </div>
+
+    
+    <script type="application/json" data-drupal-selector="drupal-settings-json">{"path":{"baseUrl":"\/","pathPrefix":"","currentPath":"node\/44","currentPathIsAdmin":false,"isFront":false,"currentLanguage":"en"},"pluralDelimiter":"\u0003","suppressDeprecationErrors":true,"ajaxPageState":{"libraries":"eJyNkFFOxDAMRC_UNkdaOYm3CevYke0A5fRkBQtF8MHfzJuRbRlydgE-AnyK7arCviQCsyNEMHzohmawoz08S56ZKE6lDai-4YIWL16wYdhJItCazH7DpzOr7T6UBDLmMzZx6eeJs8f1WtPapY9-ChzNV6pxIThk-CVXS_KMegRhTEJLB4VdoRcLWUcH2r7JNriPSNXKXG8FFL1UC1_qL9ZruqHiq6MyUBzuwv8vvszqYY7t47v3k0fEVIAZKfy071Szo88","theme":"esb_theme","theme_token":null},"ajaxTrustedUrl":[],"clientside_validation_jquery":{"validate_all_ajax_forms":2,"force_validate_on_blur":false,"messages":{"required":"This field is required.","remote":"Please fix this field.","email":"Please enter a valid email address.","url":"Please enter a valid URL.","date":"Please enter a valid date.","dateISO":"Please enter a valid date (ISO).","number":"Please enter a valid number.","digits":"Please enter only digits.","equalTo":"Please enter the same value again.","maxlength":"Please enter no more than {0} characters.","minlength":"Please enter at least {0} characters.","rangelength":"Please enter a value between {0} and {1} characters long.","range":"Please enter a value between {0} and {1}.","max":"Please enter a value less than or equal to {0}.","min":"Please enter a value greater than or equal to {0}.","step":"Please enter a multiple of {0}."}},"lang_info":{"curr":"en","langs":{"en":{"code":"en","flag":"https:\/\/www.esbnyc.com\/sites\/default\/files\/styles\/flag\/public\/flags\/Us.png?itok=3MnJXkjZ"}}},"masonry":{".masonry-view .is-isotope":{"gutter_width":20,"resizable":true,"fit_width":true,"animated":true,"animation_duration":200}},"sharethis":{"publisher":"dr-324945db-ed0a-916-79c9-2f45cb4e8c1d","version":"5x","doNotCopy":true,"hashAddressBar":false,"doNotHash":true},"user":{"uid":0,"permissionsHash":"a97b550c22976409be661e7ffacdfee47ee538e79de42c9a5de5ab3980795bfb"}}</script>
+<script src="/sites/default/files/js/js_YoYmhRQ3FHx_77W3UAfnwABgZ0Ae-rAmOZSoplj77UU.js?scope=footer&amp;delta=0&amp;language=en&amp;theme=esb_theme&amp;include=eJyNylEOwiAQhOELUTmSWWBaULpL2CXa2-uDaTDxwbd_vgylZEJ8ePrEZe3C5qDhahk7_FYlUF1uOlnZaYNWoYQ0s4pJwyTvH5e1xKVJG81ppg7LRf1Zv6yVeEfH09CZahhmwv8fH-oOGTYCYiZmVP89X4ZUYQs"></script>
+<script src="https://static.addtoany.com/menu/page.js" defer></script>
+<script src="/sites/default/files/js/js_Kxg41KtI5wtPQ_O1s6gyOai1e2FoWkNMYdMAI6fZm3E.js?scope=footer&amp;delta=2&amp;language=en&amp;theme=esb_theme&amp;include=eJyNylEOwiAQhOELUTmSWWBaULpL2CXa2-uDaTDxwbd_vgylZEJ8ePrEZe3C5qDhahk7_FYlUF1uOlnZaYNWoYQ0s4pJwyTvH5e1xKVJG81ppg7LRf1Zv6yVeEfH09CZahhmwv8fH-oOGTYCYiZmVP89X4ZUYQs" defer="defer"></script>
+<script src="/libraries/select2/dist/js/select2.min.js?tk48np" defer="defer"></script>
+<script src="/themes/custom/esb_theme/js/app.js?tk48np" defer="defer"></script>
+<script src="/libraries/imagesloaded/imagesloaded.pkgd.min.js?v=10.5.4" defer="defer"></script>
+<script src="/libraries/isotope-layout/dist/isotope.pkgd.min.js?v=3.0.5" defer="defer"></script>
+<script src="/libraries/magnific-popup/dist/jquery.magnific-popup.min.js?tk48np" defer="defer"></script>
+<script src="/sites/default/files/js/js_9prmJUpMRKv1VPzDkxOfM_8cMopcbIODKK0tz5OyAqM.js?scope=footer&amp;delta=8&amp;language=en&amp;theme=esb_theme&amp;include=eJyNylEOwiAQhOELUTmSWWBaULpL2CXa2-uDaTDxwbd_vgylZEJ8ePrEZe3C5qDhahk7_FYlUF1uOlnZaYNWoYQ0s4pJwyTvH5e1xKVJG81ppg7LRf1Zv6yVeEfH09CZahhmwv8fH-oOGTYCYiZmVP89X4ZUYQs" defer="defer"></script>
+<script src="https://ws.sharethis.com/button/buttons.js"></script>
+<script src="/sites/default/files/js/js_I4xZWjwqNM65QmVvY-ZMOVDXTeinxZd_FjB3Hyd0INU.js?scope=footer&amp;delta=10&amp;language=en&amp;theme=esb_theme&amp;include=eJyNylEOwiAQhOELUTmSWWBaULpL2CXa2-uDaTDxwbd_vgylZEJ8ePrEZe3C5qDhahk7_FYlUF1uOlnZaYNWoYQ0s4pJwyTvH5e1xKVJG81ppg7LRf1Zv6yVeEfH09CZahhmwv8fH-oOGTYCYiZmVP89X4ZUYQs" defer="defer"></script>
+
+  </body>
+</html>

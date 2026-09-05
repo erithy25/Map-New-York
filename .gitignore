@@ -17,3 +17,16 @@ unreal/NYCSim/Saved/
 unreal/NYCSim/.vs/
 # render scratch
 docs/verification/**/*.exr
+# third-party downloads kept out of git (recorded with licence JSON next to them)
+assets/**/downloads/
+assets/textures/**/*.jpg
+assets/textures/**/*.png
+assets/textures/**/*.zip
+assets/textures/**/*.exr
+assets/audio/**/*.mp3
+assets/audio/**/*.ogg
+assets/audio/**/*.wav
+assets/audio/**/*.flac
+# agent scratch
+/hang_repro.py
+core/build*/

@@ -1,0 +1,121 @@
+{
+  "count": 1,
+  "units": null,
+  "stations": [
+    {
+      "project": "New York/New Jersey Harbor PORTS",
+      "deployed": "2023-04-04 00:00:00",
+      "retrieved": "",
+      "timezone_offset": "-5",
+      "observedst": true,
+      "project_type": "PORTS",
+      "noaachart": 12327,
+      "deployments": {
+        "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n03020/deployments.json"
+      },
+      "bins": {
+        "nbr_of_bins": 9,
+        "max_pics_bin": 9,
+        "units": "meters",
+        "bin_size": 1.0,
+        "center_bin_1_dist": 1.88,
+        "real_time_bin": 9,
+        "bins": [
+          {
+            "num": 1,
+            "depth": 9.94,
+            "distance": null,
+            "qc_flag": 1,
+            "ping_int": null,
+            "is_pics": false
+          },
+          {
+            "num": 2,
+            "depth": 8.93,
+            "distance": null,
+            "qc_flag": 1,
+            "ping_int": null,
+            "is_pics": true
+          },
+          {
+            "num": 3,
+            "depth": 7.92,
+            "distance": null,
+            "qc_flag": 1,
+            "ping_int": null,
+            "is_pics": false
+          },
+          {
+            "num": 4,
+            "depth": 6.92,
+            "distance": null,
+            "qc_flag": 1,
+            "ping_int": null,
+            "is_pics": false
+          },
+          {
+            "num": 5,
+            "depth": 5.94,
+            "distance": null,
+            "qc_flag": 1,
+            "ping_int": null,
+            "is_pics": false
+          },
+          {
+            "num": 6,
+            "depth": 4.94,
+            "distance": null,
+            "qc_flag": 1,
+            "ping_int": null,
+            "is_pics": false
+          },
+          {
+            "num": 7,
+            "depth": 3.93,
+            "distance": null,
+            "qc_flag": 1,
+            "ping_int": null,
+            "is_pics": true
+          },
+          {
+            "num": 8,
+            "depth": 2.93,
+            "distance": null,
+            "qc_flag": 1,
+            "ping_int": null,
+            "is_pics": false
+          },
+          {
+            "num": 9,
+            "depth": 1.92,
+            "distance": null,
+            "qc_flag": 1,
+            "ping_int": null,
+            "is_pics": true
+          }
+        ],
+        "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n03020/bins.json"
+      },
+      "harmonicConstituents": {
+        "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n03020/harcon.json"
+      },
+      "height_from_bottom": 0.9,
+      "center_bin_1_dist": 1.88,
+      "id": "n03020",
+      "name": "The Narrows",
+      "lat": 40.60639953613281,
+      "lng": -74.03800201416016,
+      "affiliations": "",
+      "portscode": "ny",
+      "products": {
+        "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n03020/products.json"
+      },
+      "disclaimers": null,
+      "notices": null,
+      "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n03020.json",
+      "expand": "deployments,bins,harcon",
+      "tideType": ""
+    }
+  ],
+  "self": null
+}

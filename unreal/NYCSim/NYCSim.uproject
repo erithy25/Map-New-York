@@ -1,0 +1,52 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "5.4",
+	"Category": "Simulation",
+	"Description": "NYCSim: 1:1 free-roam drivable New York City. World, streaming, terrain, water, sky/time, weather, vehicles, traffic, pedestrians.",
+	"Modules": [
+		{
+			"Name": "NYCSimCore",
+			"Type": "Runtime",
+			"LoadingPhase": "PreDefault"
+		},
+		{
+			"Name": "NYCSimRuntime",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine",
+				"CoreUObject",
+				"NYCSimCore"
+			]
+		},
+		{
+			"Name": "NYCSimEditor",
+			"Type": "Editor",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine",
+				"UnrealEd",
+				"NYCSimRuntime"
+			]
+		}
+	],
+	"Plugins": [
+		{ "Name": "ChaosVehiclesPlugin", "Enabled": true },
+		{ "Name": "Niagara", "Enabled": true },
+		{ "Name": "Metasound", "Enabled": true },
+		{ "Name": "EnhancedInput", "Enabled": true },
+		{ "Name": "PythonScriptPlugin", "Enabled": true },
+		{ "Name": "EditorScriptingUtilities", "Enabled": true },
+		{ "Name": "Interchange", "Enabled": true },
+		{ "Name": "InterchangeEditor", "Enabled": true },
+		{ "Name": "GLTFImporter", "Enabled": true },
+		{ "Name": "WorldPartitionHLODUtilities", "Enabled": true },
+		{ "Name": "ModelingToolsEditorMode", "Enabled": false },
+		{ "Name": "Water", "Enabled": false },
+		{ "Name": "SunPosition", "Enabled": false }
+	],
+	"TargetPlatforms": [
+		"Windows",
+		"Linux"
+	]
+}
