@@ -60,7 +60,7 @@ def build():
     hy = (y0 + y1) / 2 - ys.CF * 0.50 * math.sin(a)
     field = field_polygon(hx, hy, axis)
 
-    objs.append(C.plinth(f"{ID}_base", P, 0.0, 8.0, C.M.concrete, material_top=C.M.pavement))
+    objs += cc.base_and_wall(f"{ID}_base", P, 8.0, C.M.concrete, recess=1.4, material_top=C.M.pavement)
     def bowl_ring(d):
         """The bowl at offset ``d`` from the field, clipped to the real footprint so nothing overhangs the wall."""
         return C._clean_polygon(C.offset_polygon(field, d).intersection(C.offset_polygon(P, -2.0)).buffer(0))
@@ -113,7 +113,7 @@ def build():
         for k in range(narch):
             q0 = p0 + t * (k * mod + 1.1)
             q1 = p0 + t * ((k + 1) * mod - 1.1)
-            C.arched_opening(b, q0, q1, n, 1.2, 9.0, None, 1.2, C.M.brick_red, C.M.glass_dark)
+            C.arched_opening(b, q0, q1, n, 1.7, 9.2, None, 1.2, C.M.brick_red, C.M.glass_dark)
             b.box_from_to(p0 + t * (k * mod - 0.8), p0 + t * (k * mod + 0.8), n, 1.2, 0.0, 20.0, C.M.brick_red)
         b.box_from_to(p0, p1, n, 1.0, 0.0, 1.2, C.M.granite_grey)
         b.box_from_to(p0, p1, n, 1.3, 20.0, 21.6, C.M.limestone)
@@ -126,7 +126,7 @@ def build():
         u = -ROTUNDA_D / 2 + aw * (k + 0.5)
         q0 = mid + t * (u - aw / 2 + 0.6)
         q1 = mid + t * (u + aw / 2 - 0.6)
-        C.arched_opening(b, q0, q1, n, 0.6, ROTUNDA_H - aw / 2 - 2.0, aw / 2 - 0.6, 2.6, C.M.brick_red,
+        C.arched_opening(b, q0, q1, n, 1.7, ROTUNDA_H - aw / 2 - 2.0, aw / 2 - 0.6, 2.6, C.M.brick_red,
                          C.M.glass_dark)
     b.box_from_to(mid - t * (ROTUNDA_D / 2 + 1.5), mid + t * (ROTUNDA_D / 2 + 1.5), n, 3.0, ROTUNDA_H - 2.0,
                   ROTUNDA_H, C.M.limestone)

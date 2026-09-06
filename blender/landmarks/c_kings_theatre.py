@@ -54,7 +54,7 @@ def build():
     front = C._clean_polygon(P.intersection(C.rect_xy(x1 - 22.0, y0 - 1, x1 + 1, y1 + 1)).buffer(0))
     rest = C._clean_polygon(P.difference(front.buffer(0.05)).buffer(0))
 
-    objs.append(C.plinth(f"{ID}_ground", P, 0.0, 5.4, C.M.cast_iron, material_top=C.M.roof_dark))
+    objs += cc.base_and_wall(f"{ID}_ground", P, 5.4, C.M.cast_iron, recess=0.5, material_top=C.M.roof_dark)
     objs.append(C.prism(f"{ID}_auditorium", rest, 5.4, AUDITORIUM_TOP, C.M.brick_red, material_top=C.M.roof_dark,
                         role="mass"))
     fly = C._clean_polygon(rest.intersection(C.rect_xy(x0 - 1, y0 - 1, x0 + 26.0, y1 + 1)).buffer(0))
@@ -70,7 +70,7 @@ def build():
     for k in range(4):
         a = mid + t * (-L / 2 + L * k / 4 + 0.7)
         c = mid + t * (-L / 2 + L * (k + 1) / 4 - 0.7)
-        C.window_punch(b, a, c, n, 0.5, 4.4, 0.4, C.M.cast_iron, C.M.glass_clear, sill=0.0)
+        C.window_punch(b, a, c, n, 1.7, 4.6, 0.4, C.M.cast_iron, C.M.glass_clear, sill=0.0)
     # the giant arched central window with paired pilasters
     C.arched_opening(b, mid - t * (ARCH_W / 2), mid + t * (ARCH_W / 2), n, 6.0, ARCH_H + 6.0 - ARCH_W / 2,
                      ARCH_W / 2, 1.2, C.M.terracotta_cream, C.M.glass_dark)

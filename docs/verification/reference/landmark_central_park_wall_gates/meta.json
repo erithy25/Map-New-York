@@ -1,0 +1,41 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_central_park_wall_gates",
+ "name": "Central Park perimeter wall and gates",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.764406,
+  "lon": -73.972798,
+  "azimuth_deg": 280.0,
+  "note": "Grand Army Plaza at Fifth Avenue and 60th Street, about 60 m east of Scholars' Gate, looking west at the schist perimeter wall and gate piers",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7645,
+  "lon": -73.9735,
+  "name": "Central Park perimeter wall and gates"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Central Park\" perimeter wall Manhattan schist",
+  "\"Scholars' Gate\" Central Park entrance"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T13:00:04Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 35,
+ "candidates_eligible": 0,
+ "rejections": {
+  "keywords": 29,
+  "too_small": 4,
+  "not_photo": 1,
+  "excluded": 1
+ },
+ "exhausted": true,
+ "status": "no_suitable_photo",
+ "photos": []
+}

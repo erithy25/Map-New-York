@@ -330,6 +330,7 @@ class Mesh:
         bmesh.ops.remove_doubles(self.bm, verts=self.bm.verts, dist=1e-5)
         me = bpy.data.meshes.new(name)
         self.bm.to_mesh(me)
+        me.validate(verbose=False, clean_customdata=False)   # the exporter refuses to trust an unvalidated mesh
         me.update()
         for m in self.mats:
             me.materials.append(material(m))
@@ -562,6 +563,10 @@ def make_lod1(ob: bpy.types.Object, pid: str, lod_mesh: Mesh | None = None) -> b
             new_me = bpy.data.meshes.new_from_object(lod.evaluated_get(dg))
             lod.evaluated_get(dg).to_mesh_clear()
             lod.modifiers.clear()
+            # collapse decimation leaves duplicate and zero-area faces; without this the glTF exporter warns
+            # "Mesh <name> is not valid, and may be exported wrongly"
+            new_me.validate(verbose=False, clean_customdata=False)
+            new_me.update()
             lod.data = new_me
             for mm in me.materials:
                 if mm.name not in [x.name for x in new_me.materials]:

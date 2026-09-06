@@ -26,7 +26,7 @@ facade_classes.json}`).
 | `blender/kit/facade/build_kit.py` | driver — `python3 blender/kit/facade/build_kit.py [--only PREFIX] [--slice I/N] [--dry-run]` |
 | `blender/kit/facade/render_sheets.py` | Cycles contact sheets and the assembled tenement test |
 | `blender/kit/facade/render_all.sh` | runs every verification render, one Blender process at a time |
-| `tests/test_kit_facade.py` | 973 acceptance tests against the exported artefacts |
+| `tests/test_kit_facade.py` | 1 134 acceptance tests against the exported artefacts |
 
 ### Coverage against the brief
 
@@ -142,21 +142,22 @@ therefore `lod1 ≤ max(2, ceil(0.25 · lod0))`, which is binding for every piec
 ### 4.1 Build
 
 ```
-$ nice -n 12 python3 blender/kit/facade/build_kit.py
-138 pieces in 16 s
-  triangles LOD0 total 49 283
+$ nice -n 15 python3 blender/kit/facade/build_kit.py
+138 pieces in 14 s
+  triangles LOD0 total 49283 (as exported (glb))
   over budget : []
   LOD1 > 25 % : []
   size dev>5 %: []
 ```
 
-BUILD_RSS_LINE
+Wall time 17.5 s, peak RSS 608 MiB for the whole run (the 46 catalogue materials and their embedded 1 K maps
+stay resident); 140.1 MB of glb written; the glTF exporter emits no warnings.
 
 ### 4.2 Tests
 
 ```
 $ python3 -m pytest tests/test_kit_facade.py -q
-973 passed in 15.15s
+1134 passed in 14.45s
 ```
 
 The suite opens every glb with `pygltflib` and checks, per piece: the file exists and loads; meshes `<id>` and
@@ -164,7 +165,10 @@ The suite opens every glb with `pygltflib` and checks, per piece: the file exist
 budget for its category; the POSITION accessor bounds converted back to Blender Z-up agree with the catalog and
 sit within ±5 % of `nominal_size_m` on all three axes; the origin lies on the datum its anchor names; every glTF
 image is embedded (no external URI) with a jpeg/png mime type and any piece listing texture assets has a material
-with a base-colour texture; and every referenced texture asset has a CC0 `LICENSE.json` on disk. Kit-wide it
+with a base-colour texture; every `KHR_texture_transform` the file emits equals 1 / `physical_size_m` of one of
+that piece's own materials (so the UVs really are metres) and a material whose tile is not 1 m actually carries
+one; clear glazing survives as `KHR_materials_transmission` with `alphaMode: BLEND`; and every referenced texture
+asset has a CC0 `LICENSE.json` on disk. Kit-wide it
 checks the ≥ 120 piece count, id/file agreement both ways, valid categories and anchors, the `nycsim` extras
 round-trip, the written `facade_params.json` contract, and that the kit covers every `WINDOW_TYPES` entry, every
 storefront bay width × gate state, every interior kind and the pieces the brief names individually.
@@ -228,7 +232,10 @@ The renders were inspected and the following were corrected before this report:
    triangle counts back out of the finished glb (stdlib GLB/JSON parse, `kitlib.glb_mesh_triangles`), and
    `evaluated_tris` ignores zero-area polygons; the catalog and the artefact now agree by construction, which the
    tests assert.
-9. **Decimation fell back to a single bounding quad too eagerly.** `make_lod1` now retries with a tightening
+9. **94 LOD1 meshes exported with "Mesh … is not valid, and may be exported wrongly".** Collapse decimation
+   leaves duplicate and zero-area faces; `Mesh.to_object` and `make_lod1` now call `mesh.validate()` before
+   export. The exporter is silent and the LOD0 triangle total is unchanged.
+10. **Decimation fell back to a single bounding quad too eagerly.** `make_lod1` now retries with a tightening
    ratio and rejects a decimated result that has collapsed below four triangles, so the flat-quad proxy is a last
    resort rather than the common case.
 

@@ -1,0 +1,207 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_fort_jay",
+ "name": "Fort Jay (Governors Island)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.690009,
+  "lon": -74.016008,
+  "azimuth_deg": 0.0,
+  "note": "the parade ground south of the fort, about 150 m from the sally port, looking north at the Fort Jay gate and its sculpted trophy",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.691358,
+  "lon": -74.016008,
+  "name": "Fort Jay (Governors Island)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Fort Jay\" Governors Island",
+  "\"Fort Jay\" sally port trophy"
+ ],
+ "geosearch_radius_m": 350,
+ "fetched_at": "2026-09-06T13:01:27Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 79,
+ "candidates_eligible": 26,
+ "rejections": {
+  "too_old": 2,
+  "excluded": 6,
+  "not_photo": 3,
+  "too_small": 15,
+  "licence": 1,
+  "keywords": 26
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Lower Manhattan skyline and Governors Island from Rockaway Ferry, New York Harbor - 20200904.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Lower_Manhattan_skyline_and_Governors_Island_from_Rockaway_Ferry,_New_York_Harbor_-_20200904.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Lower_Manhattan_skyline_and_Governors_Island_from_Rockaway_Ferry%2C_New_York_Harbor_-_20200904.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Lower_Manhattan_skyline_and_Governors_Island_from_Rockaway_Ferry%2C_New_York_Harbor_-_20200904.jpg/1920px-Lower_Manhattan_skyline_and_Governors_Island_from_Rockaway_Ferry%2C_New_York_Harbor_-_20200904.jpg",
+   "author": "Andre Carrotflower",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2020-09-04 15:24:53",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": {
+    "lat": 40.686236,
+    "lon": -74.012939
+   },
+   "original_width": 3813,
+   "original_height": 2288,
+   "width": 1920,
+   "height": 1152,
+   "bytes": 580457,
+   "sha256": "8b333940866d7b32c87e30baa189a07b231d2f2693f896ffb8f474be7536320d",
+   "mean_luminance": 107.6,
+   "description": "View of the Lower Manhattan skyline (right background) and Governors Island (left and center, foreground) as seen from the Rockaway Ferry as it traverses New York Harbor's Buttermilk Channel, September 2020. Prominently visible on Governors Island is Building #12, constructed in 1931 as officers' quarters for the 16th Infantry Regiment, which was stationed at the adjacent Fort Jay from 1922 through 1941.",
+   "categories": [
+    "September 2020 in New York City",
+    "Governors Island National Monument",
+    "Views from ferries in New York Harbor",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Clouds and blue sky in New York City",
+    "Governors Island in 2020",
+    "Lower Manhattan skylines from Upper New York Bay",
+    "Building 12 (Governors Island)",
+    "Photos taken by Andre Carrotflower in 2020",
+    "Photos taken by Andre Carrotflower in New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Fort Jay\" Governors Island",
+   "score": 9.75,
+   "estimated_viewpoint": {
+    "lat": 40.686236,
+    "lon": -74.012939,
+    "azimuth_deg": 335.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.68624, -74.01294) is 626 m from Fort Jay (Governors Island) (40.69136, -74.01601) and 493 m from the standard viewpoint; the azimuth 336 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Lower Manhattan skyline and Governors Island from Rockaway Ferry, New York Harbor - 20200904.jpg\" by Andre Carrotflower, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Lower_Manhattan_skyline_and_Governors_Island_from_Rockaway_Ferry,_New_York_Harbor_-_20200904.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Governors Island - New York City (4889328533).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Governors_Island_-_New_York_City_(4889328533).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/48/Governors_Island_-_New_York_City_%284889328533%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Governors_Island_-_New_York_City_%284889328533%29.jpg/1920px-Governors_Island_-_New_York_City_%284889328533%29.jpg",
+   "author": "Doug Kerr from Albany, NY, United States",
+   "credit": "Governors Island - New York City",
+   "license": {
+    "short_name": "CC BY-SA 2.0",
+    "url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "template": "cc-by-sa-2.0"
+   },
+   "date_taken": "2010-06-20 14:33",
+   "date_source": "DateTimeOriginal",
+   "year": 2010,
+   "camera_gps": {
+    "lat": 40.688415,
+    "lon": -74.016716
+   },
+   "original_width": 2048,
+   "original_height": 1536,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 348545,
+   "sha256": "b8e73e48b7ca0e25ee9752266b567ae34c515d8017aad1d9cc5d53363075acb3",
+   "mean_luminance": 126.5,
+   "description": "Governors Island - New York City",
+   "categories": [
+    "Fort Jay",
+    "New York City photographs taken on 2010-06-20",
+    "Flickr images reviewed by FlickreviewR",
+    "Files with coordinates missing SDC location of creation",
+    "Governors Island in 2010",
+    "June 2010 in Manhattan, New York City",
+    "Photographs by Doug Kerr in New York City",
+    "Flickr files uploaded by Epicgenius"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Fort Jay\" Governors Island",
+   "score": 6.0,
+   "estimated_viewpoint": {
+    "lat": 40.688415,
+    "lon": -74.016716,
+    "azimuth_deg": 10.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.68841, -74.01672) is 333 m from Fort Jay (Governors Island) (40.69136, -74.01601) and 187 m from the standard viewpoint; the azimuth 10 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Governors Island - New York City (4889328533).jpg\" by Doug Kerr from Albany, NY, United States, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Governors_Island_-_New_York_City_(4889328533).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:GovernorsIsland2(1).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:GovernorsIsland2(1).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/7c/GovernorsIsland2%281%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/GovernorsIsland2%281%29.jpg/1920px-GovernorsIsland2%281%29.jpg",
+   "author": "Gian204060",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2020-08-30 14:15:17",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": null,
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 759312,
+   "sha256": "a91bf71e0a917714bf696dcad8e30558d66c1e3229c473dc6c240364d9c1c37a",
+   "mean_luminance": 108.0,
+   "description": "Governor's Island-Summer of 2020 This is an image of a place or building that is listed on the National Register of Historic Places in the United States of America . Its reference number is 85002435 ( Wikidata ).",
+   "categories": [
+    "Images from Wiki Loves Monuments 2020 in the United States",
+    "Fort Jay Parade Ground",
+    "Images from Wiki Loves Monuments 2020 in New York",
+    "Self-published work",
+    "National Register of Historic Places with known IDs",
+    "Uploaded via Campaign:wlm-us",
+    "Manhattan skylines from Governors Island",
+    "Images from Wiki Loves Monuments 2020",
+    "Wiki Loves Monuments 2020 in the United States unreviewed",
+    "Clouds and blue sky in New York City",
+    "Governors Island in 2020",
+    "August 2020 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Fort Jay\" Governors Island",
+   "score": 4.25,
+   "estimated_viewpoint": {
+    "lat": 40.690009,
+    "lon": -74.016008,
+    "azimuth_deg": 0.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (the parade ground south of the fort, about 150 m from the sally port, looking north at the Fort Jay gate and its sculpted trophy) and the azimuth 0 deg is the bearing from there to Fort Jay (Governors Island) (40.69136, -74.01601)."
+   },
+   "attribution": "\"GovernorsIsland2(1).jpg\" by Gian204060, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:GovernorsIsland2(1).jpg"
+  }
+ ]
+}

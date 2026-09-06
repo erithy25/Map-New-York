@@ -50,7 +50,7 @@ def build():
     coords = C.ring_coords(P)
     objs: list = []
 
-    objs.append(C.plinth(f"{ID}_base", P, 0.0, BASE_TOP, C.M.limestone, material_top=C.M.roof_dark))
+    objs += cc.base_and_wall(f"{ID}_base", P, BASE_TOP, C.M.limestone, recess=0.9, material_top=C.M.roof_dark)
     b = C.MeshBuilder()
     for p0, p1, L, t, n in C.edges_of(coords):          # the banking hall's giant arched windows
         if L < 10.0:
@@ -60,7 +60,7 @@ def build():
         for k in range(nbay):
             a = p0 + t * (k * mod + 1.6)
             c = p0 + t * ((k + 1) * mod - 1.6)
-            C.arched_opening(b, a, c, n, 4.0, 16.0, None, 0.9, C.M.limestone, C.M.glass_dark)
+            C.arched_opening(b, a, c, n, 4.0, 16.0, None, 0.85, C.M.limestone, C.M.glass_dark)
         b.box_from_to(p0, p1, n, 0.5, BASE_TOP - 1.6, BASE_TOP, C.M.terracotta_cream)
     objs.append(b.build(f"{ID}_banking_hall"))
 

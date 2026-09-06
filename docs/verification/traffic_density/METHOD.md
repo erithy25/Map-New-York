@@ -297,8 +297,8 @@ Two views are written per entry:
   band's hours). The two views are consistent by construction.
 
 The taxi group's internal split is not assumed at all: it is measured from the May 2025 TLC records
-per region and band (Manhattan CBD midday: 23 % yellow, 0.06 % green, 77 % high-volume FHV; Staten
-Island midday: 0.5 % / 0.03 % / 99.5 %).
+per region and band (Manhattan CBD midday: 24.0 % yellow, 0.07 % green, 76.0 % high-volume FHV; Staten
+Island midday: 0.48 % / 0.03 % / 99.5 %).
 
 ## 10. Outputs and the runtime binary (`build.py`, `runtime_export.py`)
 
@@ -322,3 +322,11 @@ the roads stage — this stage only lays out the records) in the exact layout
 to 5 m and dropping parts under 2,000 m² — `pointInNta` ray-casts closed rings and would not honour
 holes anyway. The file is read back and compared against the dataframe by
 `runtime_export.verify_density_nycb` on every build.
+
+## 11. Determinism
+
+Two consecutive builds produce a **byte-identical `density.nycb`** (sha256 `5d1b6cf2…`), so the
+model output is reproducible at float32 precision. The Parquet files differ by a few bytes between
+runs because polars' multi-threaded group-bys sum the TLC corridor kilometres in a different order,
+which moves float64 values in the last couple of ULPs; nothing in the contract or in any test
+depends on that.

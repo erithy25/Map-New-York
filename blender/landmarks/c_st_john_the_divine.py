@@ -54,7 +54,7 @@ def build():
     cy = (y0 + y1) / 2
     objs: list = []
 
-    objs.append(C.plinth(f"{ID}_base", P, 0.0, AISLE_TOP, C.M.granite_grey, material_top=C.M.slate))
+    objs += cc.base_and_wall(f"{ID}_base", P, AISLE_TOP, C.M.granite_grey, recess=1.2, material_top=C.M.slate)
     # the nave: a tall clerestory box down the middle, with a pitched slate roof to the ridge
     nave = C.rect_xy(x0 + 2.0, cy - 14.5, x0 + 96.0, cy + 14.5)
     objs.append(C.prism(f"{ID}_nave", nave, AISLE_TOP, NAVE_RIDGE - 10.0, C.M.limestone, material_top=C.M.slate,

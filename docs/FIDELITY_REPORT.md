@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-06 12:59 UTC from commit `49d10e26327a` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-06 13:03 UTC from commit `55caa0f4e2b7` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -106,11 +106,11 @@ Water: hydrography polygons 2,235 · shoreline lines 413 · structures 2,536 · 
 | kit | 138 | 140.1 MB |
 | props | 122 | 79.2 MB |
 | vehicles | 63 | 68.7 MB |
-| character | 1 | 15.1 MB |
-| landmarks | 75 | 748.6 MB |
+| character | 2 | 30.8 MB |
+| landmarks | 79 | 796.0 MB |
 | tiles | 34 | 213.2 MB |
 
-Catalog entries describing those assets: 357.
+Catalog entries describing those assets: 361.
 
 ## 6. Simulation code and runtime data
 
@@ -140,11 +140,11 @@ Authored asset licences (textures, fonts, mocap, audio): `docs/ASSET_LICENSES.md
 
 ## 8. Verification status
 
-Reference photographs collected for side-by-side comparison: 284 photos across 95 subjects, each with author and licence metadata.
+Reference photographs collected for side-by-side comparison: 301 photos across 102 subjects, each with author and licence metadata.
 
-Stage reports present: citygml, core, furniture, kit, live, props, unreal_world.
+Stage reports present: citygml, core, furniture, kit, live, props, traffic_density, unreal_world.
 
-Stage reports still missing: buildings, buildings_mesh, facade, landmarks, reference, roads, terrain, traffic, traffic_density, unreal_gameplay, vehicles, character.
+Stage reports still missing: buildings, buildings_mesh, facade, landmarks, reference, roads, terrain, traffic, unreal_gameplay, vehicles, character.
 
 What is verified in this environment versus on a workstation is defined in `docs/ARCHITECTURE.md` §14. In short: geodesy, tiling, streaming logic, routing, traffic rules, signal phasing, astronomy, time zone handling, weather parsing, data coverage and asset geometry are verified here by tests and Cycles renders. Unreal Engine compilation, cooking, frame rate, vehicle feel and audio are not — no Unreal editor or GPU exists in this environment, and no claim is made that they were tested.
 

@@ -46,7 +46,7 @@ def build():
     coords = C.ring_coords(P)
     objs: list = []
 
-    objs.append(C.plinth(f"{ID}_base", P, 0.0, BASE_TOP, C.M.brownstone, material_top=C.M.roof_dark))
+    objs += cc.base_and_wall(f"{ID}_base", P, BASE_TOP, C.M.brownstone, recess=0.7, material_top=C.M.roof_dark)
     fl = [BASE_TOP + (CORNICE - 2.6 - BASE_TOP) * k / 5 for k in range(6)]
     fen = C.Fenestration(bay_w=3.5, window_frac=0.5, recess=0.5, spandrel_h=0.95, spandrel_proud=0.14,
                          pier="brick_red", spandrel="terracotta_cream", glass="glass_dark", floor_z=fl, window_h=2.6)
@@ -60,7 +60,7 @@ def build():
         for k in range(nbay):                     # giant round-arched ground-floor openings
             a = p0 + t * (k * mod + 1.2)
             c = p0 + t * ((k + 1) * mod - 1.2)
-            C.arched_opening(b, a, c, n, 0.9, 3.6, None, 0.65, C.M.brownstone, C.M.glass_dark)
+            C.arched_opening(b, a, c, n, 1.7, 3.9, None, 0.65, C.M.brownstone, C.M.glass_dark)
         # arcaded top storey: a round arch over every second bay
         for k in range(0, nbay, 1):
             a = p0 + t * (k * mod + 0.8)

@@ -246,7 +246,7 @@ def walk_strip(out: Path, action: str = "walk", count: int = 8) -> Path:
         frame = start + round((end - start) * i / count)
         set_pose(armature, action, frame)
         tiles.append(render(chenv.VERIFY_DIR / f"_strip_{action}_{i}.png", location=cam, target=centre,
-                            fov_deg=34.0, size=(260, 540), samples=32))
+                            fov_deg=46.0, size=(260, 540), samples=32))
     result = stitch(tiles, out, gap=4)
     for tile in tiles:
         tile.unlink(missing_ok=True)

@@ -55,7 +55,7 @@ def build():
     objs: list = []
     tx0, ty0, tx1, ty1 = Pt.bounds
 
-    objs.append(C.plinth(f"{ID}_tower_base", Pt, 0.0, AISLE_TOP, C.M.limestone, material_top=C.M.slate))
+    objs += cc.base_and_wall(f"{ID}_tower_base", Pt, AISLE_TOP, C.M.limestone, recess=1.0, material_top=C.M.slate)
     objs.append(C.plinth(f"{ID}_parish_base", Pp, 0.0, 6.0, C.M.limestone, material_top=C.M.slate))
     fen_p = C.Fenestration(floor_h=(PARISH_TOP - 6.0) / 9, bay_w=3.2, window_frac=0.5, recess=0.45, spandrel_h=0.9,
                            spandrel_proud=0.12, pier="limestone", spandrel="limestone", glass="glass_dark",

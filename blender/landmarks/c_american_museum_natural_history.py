@@ -57,8 +57,8 @@ def build():
     Pn = g.poly(B_NORTH)
     objs: list = []
 
-    objs.append(C.plinth(f"{ID}_main_base", Pm, 0.0, BASE_TOP, C.M.granite_pink, material_top=C.M.roof_grey))
-    objs.append(C.plinth(f"{ID}_north_base", Pn, 0.0, BASE_TOP, C.M.granite_pink, material_top=C.M.roof_grey))
+    objs += cc.base_and_wall(f"{ID}_main_base", Pm, BASE_TOP, C.M.granite_pink, recess=0.75, material_top=C.M.roof_grey)
+    objs += cc.base_and_wall(f"{ID}_north_base", Pn, BASE_TOP, C.M.granite_pink, recess=0.75, material_top=C.M.roof_grey)
     fen = C.Fenestration(bay_w=4.2, window_frac=0.55, recess=0.55, spandrel_h=1.0, spandrel_proud=0.14,
                          pier="granite_pink", spandrel="granite_pink", glass="glass_dark",
                          floor_z=[BASE_TOP + (RANGE_CORNICE - 2.0 - BASE_TOP) * k / 4 for k in range(5)],
@@ -81,7 +81,7 @@ def build():
             for k in range(nbay):
                 a = p0 + t * (k * mod + 1.3)
                 c = p0 + t * ((k + 1) * mod - 1.3)
-                C.arched_opening(b, a, c, n, 1.4, 4.4, None, 0.6, C.M.granite_pink, C.M.glass_dark)
+                C.arched_opening(b, a, c, n, 1.7, 4.6, None, 0.6, C.M.granite_pink, C.M.glass_dark)
     objs.append(b.build(f"{ID}_arcade"))
     # corner turrets on the 1892 range
     b = C.MeshBuilder()

@@ -49,7 +49,7 @@ def build():
     body = P if court.is_empty else P.difference(court)
     body = C._orient(body.buffer(0), 1.0)
 
-    objs.append(C.plinth(f"{ID}_base", P, 0.0, BASE_TOP, C.M.brownstone, material_top=C.M.roof_dark))
+    objs += cc.base_and_wall(f"{ID}_base", P, BASE_TOP, C.M.brownstone, recess=0.65, material_top=C.M.roof_dark)
     fl = [BASE_TOP + (CORNICE - BASE_TOP) * k / 7 for k in range(8)]
     fen = C.Fenestration(bay_w=3.05, window_frac=0.52, recess=0.45, spandrel_h=0.9, spandrel_proud=0.12,
                          pier="brick_buff", spandrel="terracotta_cream", glass="glass_dark", floor_z=fl,
@@ -66,13 +66,13 @@ def build():
         for k in range(nbay):
             a = p0 + t * (k * mod + 0.9)
             c = p0 + t * ((k + 1) * mod - 0.9)
-            C.arched_opening(b, a, c, n, 1.1, 4.0, None, 0.55, C.M.brownstone, C.M.glass_dark)
+            C.arched_opening(b, a, c, n, 1.7, 4.4, None, 0.55, C.M.brownstone, C.M.glass_dark)
             C.window_punch(b, a, c, n, 6.6, 9.8, 0.5, C.M.brownstone, C.M.glass_dark)
         for z in (BASE_TOP, 17.0, 24.0, 31.0):        # terracotta string courses
             b.box_from_to(p0, p1, n, 0.35, z - 0.45, z, C.M.terracotta_cream)
     e0, e1, L, t, n = C.edge_facing(coords, -90.0)     # the 72nd Street front
     mid = (e0 + e1) / 2
-    C.arched_opening(b, mid - t * 2.75, mid + t * 2.75, n, 0.0, 5.8, 2.8, 3.0, C.M.brownstone, C.M.cast_iron)
+    C.arched_opening(b, mid - t * 2.75, mid + t * 2.75, n, 1.7, 5.8, 2.8, 3.0, C.M.brownstone, C.M.cast_iron)
     objs.append(b.build(f"{ID}_base_detail"))
     objs.append(C.cornice(f"{ID}_cornice", P, CORNICE - 1.6,
                           [(0.4, 0.0), (1.5, 0.9), (1.5, 1.6), (0.5, 2.2)], C.M.terracotta_cream))

@@ -70,7 +70,7 @@ def build():
     field = field_polygon(hx, hy, axis)
 
     # ---- the concourse base on the real footprint (IoU volume) ---------------------------------------------------
-    objs.append(C.plinth(f"{ID}_base", P, 0.0, 9.0, C.M.concrete, material_top=C.M.pavement))
+    objs += cc.base_and_wall(f"{ID}_base", P, 9.0, C.M.concrete, recess=1.5, material_top=C.M.pavement)
 
     # ---- the seating bowl: three decks lofted from the field edge outwards and upwards ----------------------------
     bowl_in = C.offset_polygon(field, 7.0)
@@ -129,7 +129,7 @@ def build():
         for k in range(narch):
             q0 = p0 + t * (k * mod + (mod - 5.5) / 2)
             q1 = p0 + t * ((k + 1) * mod - (mod - 5.5) / 2)
-            C.arched_opening(b, q0, q1, n, 1.5, 12.0 - 2.75, 2.75, 1.4, C.M.limestone, C.M.glass_dark)
+            C.arched_opening(b, q0, q1, n, 1.7, 12.0 - 2.75, 2.75, 1.4, C.M.limestone, C.M.glass_dark)
             b.box_from_to(p0 + t * (k * mod - 0.9), p0 + t * (k * mod + 0.9), n, 1.4, 0.0, 24.0, C.M.limestone)
         b.box_from_to(p0, p1, n, 1.1, 14.5, 17.0, C.M.limestone)          # the name band
         b.box_from_to(p0, p1, n, 1.4, 24.0, 26.5, C.M.limestone)          # the cornice over the arcade

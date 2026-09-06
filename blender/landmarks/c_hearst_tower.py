@@ -60,7 +60,7 @@ def build():
     objs: list = []
 
     # ---- 1928 cast-stone base (IoU volume) --------------------------------------------------------------------
-    objs.append(C.plinth(f"{ID}_base", P, 0.0, BASE_TOP - 2.2, C.M.limestone, material_top=C.M.roof_dark))
+    objs += cc.base_and_wall(f"{ID}_base", P, BASE_TOP - 2.2, C.M.limestone, recess=0.75, material_top=C.M.roof_dark)
     b = C.MeshBuilder()
     coords = C.ring_coords(P)
     for p0, p1, L, t, n in C.edges_of(coords):
@@ -83,7 +83,7 @@ def build():
             a = p0 + t * (k * mod + 1.35); c = p0 + t * ((k + 1) * mod - 1.35)
             if float(((c - a) ** 2).sum()) ** 0.5 < 1.2:
                 continue
-            C.window_punch(b, a, c, n, 0.6, 7.4, 0.9, C.M.limestone, C.M.glass_clear, sill=0.0)
+            C.window_punch(b, a, c, n, 1.7, 7.4, 0.9, C.M.limestone, C.M.glass_clear, sill=0.0)
             C.punched_wall(b, a, c, n, 7.4, BASE_TOP - 4.0, [7.4 + i * 5.3 for i in range(1, 6)], C.M.limestone,
                            C.M.glass_dark, bays=2, window_w=1.9, window_h=3.1, sill_h=0.9, depth=0.6)
     objs.append(b.build(f"{ID}_base_order"))

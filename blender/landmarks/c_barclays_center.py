@@ -125,11 +125,12 @@ def build():
                cap_top=False, cap_bottom=False)
     b.prism(C.ring_coords(court), -9.0, -8.9, C.M.wood_dark)
     objs.append(C.tag(b.build(f"{ID}_bowl"), "mass"))
-    return objs, g
+    oculus_az = (90.0 - math.degrees(math.atan2(out[1], out[0]))) % 360.0
+    return objs, g, oculus_az
 
 
 def main():
-    objs, g = build()
+    objs, g, oculus_az = build()
     entry = cc.finish(objs, ID, g.frame, real_footprint=g.real_local,
                       fidelity_statement=(
                           "Exact: real OTI footprint on the Atlantic/Flatbush wedge; 42.1 m high; three "
@@ -145,7 +146,7 @@ def main():
                                   "oculus_opening_m": OCULUS_D, "court_m": list(COURT), "capacity": CAPACITY})
     cc.render(ID, [
         {"view": "atlantic_flatbush", "azimuth_deg": 45, "elevation_deg": "street", "fov_deg": 55, "look_up_deg": 11},
-        {"view": "aerial", "azimuth_deg": 45, "elevation_deg": 30},
+        {"view": "aerial", "azimuth_deg": oculus_az, "elevation_deg": 30},
     ])
     return entry
 

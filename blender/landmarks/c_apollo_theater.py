@@ -49,7 +49,7 @@ def build():
     front = C._clean_polygon(P.intersection(C.rect_xy(x0 - 1, y1 - 26.0, x1 + 1, y1 + 1)).buffer(0))
     rear = C._clean_polygon(P.difference(front.buffer(0.05)).buffer(0))
 
-    objs.append(C.plinth(f"{ID}_ground", P, 0.0, 5.6, C.M.cast_iron, material_top=C.M.roof_dark))
+    objs += cc.base_and_wall(f"{ID}_ground", P, 5.6, C.M.cast_iron, recess=0.5, material_top=C.M.roof_dark)
     objs.append(C.prism(f"{ID}_stagehouse", rear, 5.6, 17.5, C.M.brick_buff, material_top=C.M.roof_dark,
                         role="mass"))
     objs.append(C.prism(f"{ID}_flytower", C.offset_polygon(front, -3.0), 5.6, 18.6, C.M.brick_buff,
@@ -67,7 +67,7 @@ def build():
     for k in range(nbay):
         a = e0 + t * (L * k / nbay + 0.6)
         c = e0 + t * (L * (k + 1) / nbay - 0.6)
-        C.window_punch(b, a, c, n, 0.4, 4.6, 0.45, C.M.cast_iron, C.M.glass_clear, sill=0.0)
+        C.window_punch(b, a, c, n, 1.7, 4.8, 0.45, C.M.cast_iron, C.M.glass_clear, sill=0.0)
     # giant order: four fluted Corinthian pilasters from 5.6 m to the entablature
     for k in range(4):
         u = L * (k + 0.5) / 4

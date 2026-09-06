@@ -48,7 +48,7 @@ def build():
     coords = C.ring_coords(P)
     objs: list = []
 
-    objs.append(C.plinth(f"{ID}_base", P, 0.0, BASE_TOP, C.M.limestone, material_top=C.M.roof_dark))
+    objs += cc.base_and_wall(f"{ID}_base", P, BASE_TOP, C.M.limestone, recess=0.8, material_top=C.M.roof_dark)
     fl = [BASE_TOP + (CORNICE - 1.4 - BASE_TOP) * k / 3 for k in range(4)]
     fen = C.Fenestration(bay_w=3.4, window_frac=0.36, recess=0.55, spandrel_h=0.7, spandrel_proud=0.1,
                          pier="limestone", spandrel="limestone", glass="glass_dark", floor_z=fl, window_h=4.2)
@@ -104,11 +104,12 @@ def build():
     objs.append(C.prism(f"{ID}_entrance_bay", bay, CORNICE, PARAPET, C.M.limestone, material_top=C.M.roof_grey,
                         role="mass"))
     objs.append(b.build(f"{ID}_entrance"))
-    return objs, g
+    entrance_az = (90.0 - math.degrees(math.atan2(out[1], out[0]))) % 360.0
+    return objs, g, entrance_az
 
 
 def main():
-    objs, g = build()
+    objs, g, entrance_az = build()
     entry = cc.finish(objs, ID, g.frame, real_footprint=g.real_local,
                       fidelity_statement=(
                           "Exact: real OTI footprint on the Grand Army Plaza wedge; the 29.3 m entrance-bay parapet "
@@ -121,8 +122,8 @@ def main():
                       dimensions={"parapet_m": PARAPET, "wing_cornice_m": CORNICE, "entrance_h_m": ENTRY_H,
                                   "entrance_w_m": ENTRY_W, "entrance_splay_m": ENTRY_SPLAY, "storeys": 4})
     cc.render(ID, [
-        {"view": "grand_army_plaza", "azimuth_deg": 315, "elevation_deg": "street", "distance": 145, "fov_deg": 52, "look_up_deg": 15},
-        {"view": "aerial", "azimuth_deg": 330, "elevation_deg": 30},
+        {"view": "grand_army_plaza", "azimuth_deg": entrance_az, "elevation_deg": "street", "distance": 120, "fov_deg": 55, "look_up_deg": 16},
+        {"view": "aerial", "azimuth_deg": entrance_az, "elevation_deg": 30},
     ])
     return entry
 

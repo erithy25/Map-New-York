@@ -59,7 +59,7 @@ def build():
     front = C._clean_polygon(P.intersection(C.rect_xy(x0 - 1, y0 - 1, -55.0, y1 + 1)).buffer(0))
     rear = C._clean_polygon(P.difference(front.buffer(0.05)).buffer(0))
 
-    objs.append(C.plinth(f"{ID}_base", P, 0.0, BASE_TOP, C.M.limestone, material_top=C.M.roof_grey))
+    objs += cc.base_and_wall(f"{ID}_base", P, BASE_TOP, C.M.limestone, recess=0.8, material_top=C.M.roof_grey)
     # the later (Roche Dinkeloo) wings and the galleries behind the Fifth Avenue front
     objs.append(C.prism(f"{ID}_rear", rear, BASE_TOP, REAR_TOP, C.M.limestone, material_top=C.M.roof_grey,
                         role="mass"))
@@ -81,7 +81,7 @@ def build():
     objs.append(b.build(f"{ID}_glass_wings"))
 
     # ---- the McKim wings: cornice at 33 m with a paired-column Ionic colonnade -----------------------------------
-    objs.append(C.prism(f"{ID}_wings", front, BASE_TOP, WING_CORNICE - 2.5, C.M.limestone,
+    objs.append(C.prism(f"{ID}_wings", front, BASE_TOP, WING_CORNICE - 2.5, C.M.limestone, inset=0.8,
                         material_top=C.M.roof_grey, role="mass"))
     coords = C.ring_coords(front)
     b = C.MeshBuilder()
@@ -106,14 +106,14 @@ def build():
     p0, p1, L, t, n = C.edge_facing(coords, 180.0)      # the projecting Fifth Avenue bay
     mid = (p0 + p1) / 2
     pav = C.rect((mid[0] + n[0] * -14.0), (mid[1] + n[1] * -14.0), 46.0, 34.0, angle_deg=0.0)
-    pav = C.rect_xy(mid[0], mid[1] - 27.0, mid[0] + 34.0, mid[1] + 27.0)
+    pav = C.rect_xy(mid[0] + 3.6, mid[1] - 27.0, mid[0] + 34.0, mid[1] + 27.0)   # set back so the arch reveals read
     objs.append(C.prism(f"{ID}_pavilion", pav, BASE_TOP, PAVILION_TOP - 4.0, C.M.limestone,
                         material_top=C.M.roof_grey, role="mass"))
     b = C.MeshBuilder()
     for k in (-1, 0, 1):                                # the three giant arches
         a = mid + t * (k * (ARCH_W + 6.5) - ARCH_W / 2)
         c = mid + t * (k * (ARCH_W + 6.5) + ARCH_W / 2)
-        C.arched_opening(b, a, c, n, BASE_TOP - 4.0, ARCH_CROWN - ARCH_W / 2, ARCH_W / 2, 3.4, C.M.limestone,
+        C.arched_opening(b, a, c, n, 1.7, ARCH_CROWN - ARCH_W / 2, ARCH_W / 2, 3.4, C.M.limestone,
                          C.M.glass_dark)
         for du in (-(ARCH_W / 2 + 2.4), (ARCH_W / 2 + 2.4)):     # the paired Corinthian columns between the arches
             for dd in (-1.1, 1.1):

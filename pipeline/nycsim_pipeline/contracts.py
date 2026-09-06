@@ -15,14 +15,28 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 
 # family -> predicate on pa.DataType
+def _is_string(t) -> bool:
+    """Arrow has three string encodings; a contract that says "str" means any of them."""
+    return (pa.types.is_string(t) or pa.types.is_large_string(t)
+            or (pa.types.is_dictionary(t) and pa.types.is_string(t.value_type)))
+
+
+def _is_list(t) -> bool:
+    return pa.types.is_list(t) or pa.types.is_large_list(t) or pa.types.is_fixed_size_list(t)
+
+
+def _is_binary(t) -> bool:
+    return pa.types.is_binary(t) or pa.types.is_large_binary(t) or pa.types.is_fixed_size_binary(t)
+
+
 _FAMILY = {
     "int": pa.types.is_integer,
     "float": pa.types.is_floating,
-    "str": pa.types.is_string,
+    "str": _is_string,
     "bool": pa.types.is_boolean,
-    "list": pa.types.is_list,
-    "bin": pa.types.is_binary,
-    "geom": lambda t: pa.types.is_binary(t) or pa.types.is_large_binary(t),
+    "list": _is_list,
+    "bin": _is_binary,
+    "geom": _is_binary,
     "any": lambda t: True,
 }
 

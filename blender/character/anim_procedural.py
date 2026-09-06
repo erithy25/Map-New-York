@@ -252,6 +252,34 @@ def with_relaxed_hands(rig: Rig, base: dict[str, Matrix], sign: float) -> dict[s
     return out
 
 
+def level_head(rig: Rig, body: BodyRef, base: dict[str, Matrix], fraction: float = 0.8
+               ) -> dict[str, Matrix]:
+    """Take most of the walk's head-down pitch out of a standing posture.
+
+    A gait cycle's mean head pose looks 10-15 degrees at the pavement, which is right for walking and wrong
+    for standing.  The residual pitch is measured against the rest pose and cancelled across neck_01,
+    neck_02 and head in a 25/30/45 split - the same distribution the look clips use.
+    """
+    out = {k: v.copy() for k, v in base.items()}
+    world = rig.evaluate(out)
+    rest = rig.rest_world()
+    delta = world["head"].to_quaternion() @ rest["head"].to_quaternion().inverted()
+    axis, angle = delta.to_axis_angle()
+    pitch = angle * axis.dot(body.right)
+    if abs(pitch) < math.radians(1.0):
+        return out
+    for name, share in (("neck_01", 0.25), ("neck_02", 0.30), ("head", 0.45)):
+        if name not in rig.rest:
+            continue
+        world = rig.evaluate(out)
+        correction = Quaternion(body.right, -pitch * fraction * share).to_matrix().to_4x4()
+        base_rot = rig.base_matrix(name, world).to_3x3().to_4x4()
+        out[name] = base_rot.inverted() @ correction @ base_rot @ out.get(name, Matrix.Identity(4))
+    log.info("levelled the idle head: removed %.1f of %.1f deg of pitch", math.degrees(pitch * fraction),
+             math.degrees(pitch))
+    return out
+
+
 def planted_feet(body: BodyRef, *, stance: float = 0.0, toe_out_deg: float = 7.0) -> dict[str, dict]:
     """Both feet flat on the ground under the hips - what makes a standing clip stand.
 
@@ -296,7 +324,7 @@ class ProceduralClips:
         self.walk = walk_frames or []
         self.fps = fps
         self.curl_sign = finger_curl_sign(rig)
-        self.standing = with_relaxed_hands(rig, standing, self.curl_sign)
+        self.standing = level_head(rig, body, with_relaxed_hands(rig, standing, self.curl_sign))
 
     # ------------------------------------------------------------------ standing
     def idle(self) -> Clip:

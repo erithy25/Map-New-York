@@ -45,7 +45,7 @@ def build():
     objs: list = []
     coords = C.ring_coords(P)
 
-    objs.append(C.plinth(f"{ID}_base", P, 0.0, BASE_TOP, C.M.marble_white, material_top=C.M.roof_dark))
+    objs += cc.base_and_wall(f"{ID}_base", P, BASE_TOP, C.M.marble_white, recess=0.7, material_top=C.M.roof_dark)
     fl = [BASE_TOP + (CORNICE - BASE_TOP) * k / 13 for k in range(14)]
     fen = C.Fenestration(bay_w=3.2, window_frac=0.48, recess=0.42, spandrel_h=0.85, spandrel_proud=0.12,
                          pier="white_brick", spandrel="white_brick", glass="glass_dark", floor_z=fl, window_h=2.3)
@@ -60,7 +60,7 @@ def build():
         for k in range(nbay):                       # marble base: arched ground floor, square 2nd/3rd floor windows
             a = p0 + t * (k * mod + 1.0)
             c = p0 + t * ((k + 1) * mod - 1.0)
-            C.arched_opening(b, a, c, n, 1.2, 5.2, None, 0.6, C.M.marble_white, C.M.glass_dark)
+            C.arched_opening(b, a, c, n, 1.7, 5.4, None, 0.6, C.M.marble_white, C.M.glass_dark)
             C.window_punch(b, a, c, n, 8.6, 11.4, 0.5, C.M.marble_white, C.M.glass_dark)
             C.window_punch(b, a, c, n, 12.2, 14.4, 0.5, C.M.marble_white, C.M.glass_dark)
         for z in (BASE_TOP, 27.0, 40.0):            # marble band courses in the brick shaft

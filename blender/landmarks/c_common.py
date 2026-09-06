@@ -323,6 +323,29 @@ def texture_status() -> dict[str, str]:
     return dict(C.texture_status())
 
 
+# ------------------------------------------------------------------------------------------------- ground floor
+def base_and_wall(name: str, poly, z_top: float, material, *, recess: float = 0.6, plinth_h: float = 1.6,
+                  material_top=None, role: str = "base") -> list[bpy.types.Object]:
+    """The ground-floor volume of a masonry building, built so that recessed openings actually read.
+
+    ``common.arched_opening`` / ``window_punch`` draw a *reveal* set back from the wall line; if the wall behind is a
+    solid prism flush with the footprint, that reveal is inside solid geometry and the elevation renders blank. This
+    builds instead:
+
+    * a flush plinth on the real footprint from ``z0`` to ``plinth_h`` (1.6 m) — the base course, and the volume the
+      IoU check slices at 1.5 m, so the footprint agreement is unaffected;
+    * the wall core above it, inset by ``recess``, so every opening drawn on the footprint line between ``plinth_h``
+      and ``z_top`` is a real recess against a wall that is genuinely behind it.
+
+    Openings on such a wall must therefore start at or above ``plinth_h``."""
+    objs = [C.tag(C.prism(f"{name}_plinth", poly, 0.0, plinth_h, material), role)]
+    inner = C.offset_polygon(poly, -recess)
+    if inner.is_empty:
+        inner = poly
+    objs.append(C.tag(C.prism(f"{name}_core", inner, 0.0, z_top, material, material_top=material_top), "mass"))
+    return objs
+
+
 # ----------------------------------------------------------------------------------------------------- curtain wall
 def band_ring(b: C.MeshBuilder, ring: Sequence[Sequence[float]], z0: float, z1: float, proud: float, material) -> None:
     """A protruding horizontal band around ``ring`` between z0 and z1 as four lofted rings (in-out-out-in).
