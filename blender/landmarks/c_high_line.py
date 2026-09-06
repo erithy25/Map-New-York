@@ -15,7 +15,8 @@ Dimensions used (source in brackets)
 ------------------------------------
 * Length [Friends of the High Line]: **1.45 mi = 2.33 km** from Gansevoort Street to West 34th Street; the OSM
   polygon's perimeter of 5,397 m is consistent with a 2.33 km ribbon 9-18 m wide.
-* Deck height [Friends of the High Line; NYC Parks]: the deck is **30 ft = 9.14 m** above the street.
+* Deck height [Friends of the High Line; NYC Parks]: the deck is **30 ft = 9.14 m** above the street; the
+  model's highest point is the top of the 1.07 m railing on it, 10.21 m, which is the height the registry records.
 * Width [Friends of the High Line]: 30-60 ft = 9.1-18.3 m; the model takes the real width from the polygon.
 * Structure [New York Central drawings; FHL]: riveted steel **plate-girder fascia 1.83 m deep** carried on paired
   steel columns at roughly **9.1 m (30 ft) centres** under both edges, on concrete pedestals; the girders'
@@ -150,7 +151,7 @@ def main():
                           f"c_chelsea_market)."),
                       dimensions={"deck_z_m": DECK_Z, "girder_depth_m": GIRDER_D, "column_spacing_m": COLUMN_SPACING,
                                   "columns": ncol, "railing_h_m": RAIL_H, "plank_length_m": PLANK_L,
-                                  "measured_length_m": round(deck_len, 1), "published_length_m": LENGTH_PUBLISHED,
+                                  "measured_length_m": round(deck_len, 1), "published_length_m": LENGTH_PUBLISHED, "railing_top_m": round(DECK_Z + RAIL_H, 2),
                                   "osm_relation": OSM_RELATION,
                                   "outline_area_m2": round(real_local.area, 1)})
     cc.render(ID, [

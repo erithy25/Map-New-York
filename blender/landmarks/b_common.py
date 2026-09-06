@@ -724,7 +724,20 @@ def _record_processed(artifact_id: str, path: Path, sources: list[str], extra: d
         lock = manifest.MANIFEST / ".processed.lock"
         lock.parent.mkdir(parents=True, exist_ok=True)
         with open(lock, "w") as lf:
-            fcntl.flock(lf, fcntl.LOCK_EX)
+            # non-blocking with a bounded retry: other agents write the same shared manifest and a stuck holder
+            # must never wedge a landmark build
+            deadline = time.time() + 30.0
+            got = False
+            while time.time() < deadline:
+                try:
+                    fcntl.flock(lf, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                    got = True
+                    break
+                except BlockingIOError:
+                    time.sleep(0.4)
+            if not got:
+                log.warning("manifest lock busy for 30 s; skipping record_processed(%s)", artifact_id)
+                return
             try:
                 manifest.record_processed(artifact_id, path, stage="landmarks_b", sources=sources, rows=None, schema="glb", extra=extra)
             finally:
@@ -783,7 +796,7 @@ def finish(objects: Sequence[bpy.types.Object], landmark_id: str, bins: Sequence
     return rec
 
 
-def render_check(landmark_id: str, view: str, camera_location, camera_target, *, fov_deg: float = 50.0, size=(1280, 720), samples: int = 64,
+def render_check(landmark_id: str, view: str, camera_location, camera_target, *, fov_deg: float = 50.0, size=(960, 540), samples: int = 64,
                  sun_azimuth_deg: float = 220.0, sun_elevation_deg: float = 35.0, sun_strength: float = 2.0, exposure: float = -1.6,
                  max_bounces: int = 6, context_planes: Sequence[Sequence] = ()) -> Path:
     """Cycles CPU verification render into docs/verification/landmarks/<id>/<view>.png.

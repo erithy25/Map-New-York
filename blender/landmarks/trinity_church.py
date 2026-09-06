@@ -38,6 +38,7 @@ AISLE_H = 12.5
 NAVE_WALL_H = 20.5
 NAVE_RIDGE_M = 27.5
 TOWER_W = 7.6
+NAVE_W = 24.1            # published inside nave width, 79 ft
 
 
 def build():
@@ -68,7 +69,10 @@ def build():
     objs.append(b.build(f"{ID}_aisle_detail"))
 
     # ---- the nave: clerestory walls and the slate gable roof ---------------------------------------------------
-    nave = C.offset_polygon(P, -7.2)
+    # The nave is a rectangle on the frame's long axis at the published inside width (24.1 m), clipped to the
+    # footprint: a gable raised over the irregular footprint offset would read as a tent, not a church roof.
+    nave = C.rect_xy(minx + 1.5, (miny + maxy) / 2 - NAVE_W / 2, maxx - 1.5, (miny + maxy) / 2 + NAVE_W / 2)
+    nave = nave.intersection(C.offset_polygon(P, -4.5))
     if nave.geom_type != "Polygon":
         nave = max(nave.geoms, key=lambda g: g.area)
     objs.append(C.prism(f"{ID}_nave", nave, AISLE_H, NAVE_WALL_H, stone, role="mass"))
@@ -78,11 +82,9 @@ def build():
         C.arched_opening(b, q - t * (BAY * 0.22), q + t * (BAY * 0.22), n, AISLE_H + 1.6, NAVE_WALL_H - 2.2, None,
                          0.55, stone, glass, pointed=True, n=6)
     # the frame's +x axis is the footprint's long axis, so the ridge runs along it
-    C.gable_roof(b, ncoords, NAVE_WALL_H, NAVE_RIDGE_M - NAVE_WALL_H, slate, ridge_dir_deg=0.0, overhang=0.4)
-    # lean-to aisle roofs: outer wall head up to the foot of the clerestory (offset_ring keeps the vertex count)
-    inner = C.offset_ring(coords, -7.2)
-    b.loft([[(x, y, AISLE_H) for x, y in coords], [(x, y, AISLE_H + 2.4) for x, y in inner]], slate,
-           cap_top=False, cap_bottom=False)
+    C.gable_roof(b, ncoords, NAVE_WALL_H, NAVE_RIDGE_M - NAVE_WALL_H, slate, ridge_dir_deg=0.0, overhang=0.5)
+    # the aisle roofs are the flat slate deck on top of the plinth; a coping course finishes their parapet
+    C.wall_ring(b, P, AISLE_H, AISLE_H + 0.55, 0.8, stone)
     objs.append(b.build(f"{ID}_nave_detail"))
 
     # ---- the Broadway tower and the octagonal broach spire -----------------------------------------------------
@@ -142,7 +144,7 @@ def main():
                          "published_nave_m": [50.6, 24.1]})
     C.render_check(ID, [
         {"view": "street", "azimuth_deg": 95, "elevation_deg": "street", "distance": 146, "target_z": 43, "fov_deg": 62},
-        {"view": "aerial", "azimuth_deg": 120, "elevation_deg": 22, "distance": 235, "fov_deg": 45, "target_z": 45},
+        {"view": "aerial", "azimuth_deg": 120, "elevation_deg": 22, "distance": 158, "fov_deg": 46, "target_z": 42},
     ])
 
 

@@ -1,6 +1,6 @@
 # Throgs Neck Bridge
 
-Script: `blender/landmarks/b_throgs_neck.py` · agent B · generated 2026-09-06 11:59 UTC
+Script: `blender/landmarks/b_throgs_neck.py` · agent B · generated 2026-09-06 13:15 UTC
 
 ## Placement
 
@@ -35,3 +35,4 @@ interchanges, the fender systems around the islands, and the 2010s deck replacem
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_throgs_neck.glb` — 50,392 triangles, 2.33 MB, bounds min ['-58.4', '-801.7', '-9.0'] max ['58.4', '801.7', '108.7']
+* `blender_out/landmarks/b_throgs_neck_lod1.glb` — 10,608 triangles, 0.35 MB, bounds min ['-58.4', '-801.7', '-9.0'] max ['58.4', '801.7', '108.7']

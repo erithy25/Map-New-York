@@ -710,7 +710,7 @@ def gradient_png(path: Path, size: int = 128) -> Path:
     ys, xs = np.mgrid[0:size, 0:size].astype(np.float32) / (size - 1)
     v = 1.0 - ys                      # row 0 is the top of the image (= v 1 in Blender after flip) -> bright
     side = 1.0 - np.abs(xs - 0.5) * 2.0
-    a = np.clip(v ** 1.6 * np.clip(side * 1.8, 0, 1) ** 0.8, 0, 1) * 0.55
+    a = np.clip(v ** 1.9 * np.clip(side * 1.7, 0, 1) ** 1.1, 0, 1) * 0.20
     rgb = np.stack([np.full_like(a, 1.0), np.full_like(a, 0.93), np.full_like(a, 0.78), a], axis=-1)
     Image.fromarray((rgb * 255).astype(np.uint8), "RGBA").save(path)
     return path
@@ -718,7 +718,7 @@ def gradient_png(path: Path, size: int = 128) -> Path:
 
 def mat_light_cone() -> bpy.types.Material:
     png = gradient_png(TEX_OUT / "light_cone_gradient.png")
-    m = mat_image("LIGHT_CONE", png, alpha_blend=True, emission_strength=3.0, roughness=1.0, specular=0.0)
+    m = mat_image("LIGHT_CONE", png, alpha_blend=True, emission_strength=1.1, roughness=1.0, specular=0.0)
     m.use_backface_culling = False
     m["nycsim_night_only"] = True
     return m

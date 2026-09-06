@@ -122,11 +122,12 @@ def nova_lfs() -> FleetSpec:
         front_glass=(8.90, 1.80, 2.66), rear_glass=(-1.95, 1.90, 2.55),
         side_glass_spans=((6.90, 1.75, int(R.GLASS_FL)), (1.20, -1.95, int(R.GLASS_RL))),
         kerb_side_doors_only=True,
-        waivers={"Door_FL": "Nova LFS has passenger doors on the kerb (right) side only",
+        waivers={"Trunk": "a transit bus has no boot lid or tailgate; the engine bay is reached through a hinged rear cap that is part of Body",
+                 "Door_FL": "Nova LFS has passenger doors on the kerb (right) side only",
                  "Door_RL": "Nova LFS has passenger doors on the kerb (right) side only",
                  "Window_RL": "no left-side door glazing; the saloon glass is Window_RR/Window_FR",
                  "Window_FL": "no left-side door glazing; the saloon glass is Window_RR/Window_FR"},
-        interior="none", z_floor=0.40, mirror_x=9.10, mirror_arm=0.26, mirror_size=(0.24, 0.42, 0.10),
+        interior="cab", cab=(8.50, 1.00, 8.98, 1.52, 0.72, 68.0), z_floor=0.40, mirror_x=9.10, mirror_arm=0.26, mirror_size=(0.24, 0.42, 0.10),
         wiper_len=0.90, wiper_blade=1.05, plate_front=False,
         extras=extras, extra_slots=("SIGN_FRONT", "SIGN_SIDE", "SIGN_REAR"),
         lod_budgets=(40_000, 6_000),
@@ -192,10 +193,11 @@ def xd60() -> FleetSpec:
         front_glass=(15.50, 1.80, 2.66), rear_glass=(-1.85, 1.90, 2.55),
         side_glass_spans=((13.50, 8.40, int(R.GLASS_FL)), (7.80, -1.90, int(R.GLASS_RL))),
         kerb_side_doors_only=True,
-        waivers={"Door_FL": "XD60 has passenger doors on the kerb (right) side only",
+        waivers={"Trunk": "an articulated bus has no boot lid or tailgate",
+                 "Door_FL": "XD60 has passenger doors on the kerb (right) side only",
                  "Door_RL": "XD60 has passenger doors on the kerb (right) side only",
                  "Window_FL": "no left-side door glazing", "Window_RL": "no left-side door glazing"},
-        interior="none", z_floor=0.40, mirror_x=15.70, mirror_arm=0.26, mirror_size=(0.24, 0.42, 0.10),
+        interior="cab", cab=(15.10, 1.00, 15.58, 1.52, 0.72, 68.0), z_floor=0.40, mirror_x=15.70, mirror_arm=0.26, mirror_size=(0.24, 0.42, 0.10),
         wiper_len=0.90, wiper_blade=1.05, plate_front=False,
         extras=extras, extra_slots=("SIGN_FRONT", "SIGN_SIDE", "SIGN_REAR"),
         lod_budgets=(40_000, 6_000),
@@ -243,12 +245,13 @@ def mci_coach() -> FleetSpec:
         arch_r_f=0.660, arch_r_r=0.660, wheel_style="truck", tyre_text="315/80 R22.5",
         x_axle_rear_extra=(1.45,), n_stations=130, detail="mid", dual_rear=True,
         front_glass=(10.40, 2.20, 3.06), rear_glass=(-1.90, 2.30, 3.00),
-        side_glass_spans=((8.20, -1.90, int(R.GLASS_RL)),),
+        side_glass_spans=((10.15, 9.15, int(R.GLASS_FL)), (8.20, -1.90, int(R.GLASS_RL))),
         kerb_side_doors_only=True,
-        waivers={"Door_FL": "coach entrance door is on the kerb (right) side only",
+        waivers={"Trunk": "a coach has luggage-bay doors (LuggageBays), not a boot lid",
+                 "Door_FL": "coach entrance door is on the kerb (right) side only",
                  "Door_RL": "coach has a single entrance door", "Door_RR": "coach has a single entrance door",
                  "Window_FL": "no left-side door glazing", "Window_RL": "saloon glazing is Window_RR"},
-        interior="none", z_floor=1.30, mirror_x=10.60, mirror_arm=0.28, mirror_size=(0.24, 0.44, 0.10),
+        interior="cab", cab=(10.10, 1.86, 10.58, 2.36, 0.72, 66.0), z_floor=1.30, mirror_x=10.60, mirror_arm=0.28, mirror_size=(0.24, 0.44, 0.10),
         wiper_len=0.95, wiper_blade=1.15, plate_front=False,
         extras=extras, extra_slots=("SIGN_FRONT", "SIGN_REAR"),
         lod_budgets=(40_000, 6_000),
@@ -284,9 +287,9 @@ def seagrave_engine() -> FleetSpec:
             for bx in (1.90, 0.75, -0.45, -1.70):
                 parts.append(g.box_bm((1.00, 0.055, 1.10), (bx, s * 1.292, 1.50)))
         v.add(g.to_object("BodyCompartments", g.merge_bm(parts), [steel], smooth=False))
-        hose = [g.box_bm((3.10, 1.70, 0.55), (-0.60, 0, 2.62))]
+        hose = [g.box_bm((3.10, 1.70, 0.55), (-0.60, 0, 2.70))]
         for k in range(10):
-            hose.append(g.cylinder_bm(0.055, 1.60, axis="Y", center=(-2.00 + k * 0.30, 0, 2.92), segments=10))
+            hose.append(g.cylinder_bm(0.055, 1.60, axis="Y", center=(-2.00 + k * 0.30, 0, 3.03), segments=10))
         v.add(g.to_object("HoseBed", g.merge_bm(hose), [alu], smooth=False))
         v.add(g.to_object("Ladder", P.ladder_rungs(-2.10, 2.60, 1.20, 2.66, 2.66, 14),
                           [lib.brushed_metal()], smooth=False))
@@ -312,7 +315,7 @@ def seagrave_engine() -> FleetSpec:
         n_stations=110, detail="mid", dual_rear=True,
         front_glass=(5.75, 2.05, 2.74), rear_glass=None,
         side_glass_spans=((5.30, 4.35, int(R.GLASS_FL)),),
-        interior="none", z_floor=0.95, mirror_x=5.55, mirror_arm=0.30, mirror_size=(0.24, 0.44, 0.10),
+        interior="cab", cab=(5.15, 1.42, 5.52, 1.92, 0.60, 55.0), z_floor=0.95, mirror_x=5.55, mirror_arm=0.30, mirror_size=(0.24, 0.44, 0.10),
         wiper_len=0.80, wiper_blade=0.95, plate_front=False,
         extras=extras,
         extra_slots=("LIGHT_EMERGENCY_R", "LIGHT_EMERGENCY_B", "LIGHT_EMERGENCY_W"),
@@ -350,16 +353,16 @@ def seagrave_tower() -> FleetSpec:
         # turntable, boom (stowed) and the platform: a 75 ft (22.9 m) telescopic boom is stowed over the body
         parts = [g.cylinder_bm(0.85, 0.40, axis="Z", center=(1.40, 0, 2.72), segments=28)]
         boom = []
-        for k, (ln, w, h, z) in enumerate(((8.6, 0.72, 0.62, 3.05), (7.4, 0.60, 0.52, 3.06), (6.4, 0.50, 0.44, 3.07))):
+        for k, (ln, w, h, z) in enumerate(((8.6, 0.72, 0.62, 2.98), (7.4, 0.60, 0.52, 2.99), (6.4, 0.50, 0.44, 3.00))):
             boom.append(g.box_bm((ln, w, h), (1.40 - ln / 2 + k * 0.35, 0, z)))
         v.add(g.to_object("AerialBoom", g.merge_bm(boom), [lib.steel_painted((0.72, 0.73, 0.74), "BOOM_STEEL")],
                           smooth=False))
-        parts.append(g.box_bm((1.10, 1.90, 1.05), (-3.10, 0, 3.30)))          # the bucket, stowed at the tail
+        parts.append(g.box_bm((1.10, 1.90, 0.95), (-3.10, 0, 2.82)))          # the bucket, stowed at the tail
         v.add(g.to_object("Turntable", g.merge_bm(parts), [alu], smooth=False))
         outr = []
         for s in (1, -1):
-            outr.append(g.box_bm((0.55, 0.90, 0.34), (2.60, s * 1.05, 0.72)))
-            outr.append(g.box_bm((0.55, 0.90, 0.34), (0.20, s * 1.05, 0.72)))
+            outr.append(g.box_bm((0.55, 0.70, 0.34), (2.60, s * 0.90, 0.72)))
+            outr.append(g.box_bm((0.55, 0.70, 0.34), (0.20, s * 0.90, 0.72)))
         v.add(g.to_object("Outriggers", g.merge_bm(outr), [alu], smooth=False))
         dec = TX.wordmark("fdny_ladder", "LADDER 4", w=1024, h=256, fg=(240, 205, 110))
         for s, tag in ((1, "L"), (-1, "R")):
@@ -378,7 +381,7 @@ def seagrave_tower() -> FleetSpec:
         x_axle_rear_extra=(1.55,), n_stations=120, detail="mid", dual_rear=True,
         front_glass=(7.45, 2.05, 2.56), rear_glass=None,
         side_glass_spans=((7.00, 6.05, int(R.GLASS_FL)),),
-        interior="none", z_floor=0.95, mirror_x=7.25, mirror_arm=0.30, mirror_size=(0.24, 0.44, 0.10),
+        interior="cab", cab=(6.85, 1.42, 7.22, 1.92, 0.60, 55.0), z_floor=0.95, mirror_x=7.25, mirror_arm=0.30, mirror_size=(0.24, 0.44, 0.10),
         wiper_len=0.80, wiper_blade=0.95, plate_front=False,
         extras=extras, extra_slots=("LIGHT_EMERGENCY_R", "LIGHT_EMERGENCY_B", "LIGHT_EMERGENCY_W"),
         waivers={"Door_RL": "one cab door per side", "Door_RR": "one cab door per side",
@@ -404,13 +407,13 @@ def ambulance() -> FleetSpec:
                    track_front_mm=1920, track_rear_mm=1750, wheel_diameter_mm=810.3, tyre_width_mm=225,
                    front_overhang_mm=1120, rear_overhang_mm=1800, rim_diameter_in=19.5, tyre_spec="225/70R19.5",
                    ground_clearance_mm=230)
-    tbl = F.box_table(d, z_under=0.360, z_rocker=0.430, z_belt=1.680, z_top=2.780,
+    tbl = F.box_table(d, z_under=0.360, z_rocker=0.430, z_belt=1.680, z_top=2.870,
                       y_rocker=1.130, y_max=1.220, y_belt=1.210, y_top=1.080, crown=0.055,
                       x_cowl=3.55, nose_len=0.40, tail_len=0.22, nose_z_top=1.900, nose_z_belt=1.320,
-                      tail_z_top=2.740, nose_y=0.80, tail_y=0.94, y_top_front=0.930)
+                      tail_z_top=2.830, nose_y=0.80, tail_y=0.94, y_top_front=0.930)
 
     def extras(v, lib, bp):
-        v.add(P.light_bar(lib, x=3.15, z=2.780, w=1.70, h=0.120, d=0.32, modules=8))
+        v.add(P.light_bar(lib, x=3.15, z=2.870, w=1.70, h=0.120, d=0.32, modules=8))
         # Star of Life + FDNY EMS lettering (generated)
         dec = TX.wordmark("ems_side", "AMBULANCE", w=1024, h=200, fg=(20, 40, 120))
         for s, tag in ((1, "L"), (-1, "R")):
@@ -435,7 +438,7 @@ def ambulance() -> FleetSpec:
         n_stations=100, detail="mid", dual_rear=True, x_rear_door=-1.55,
         front_glass=(3.35, 1.75, 2.10), rear_glass=(-1.60, 1.90, 2.30),
         side_glass_spans=((3.28, 2.38, int(R.GLASS_FL)), (1.00, 0.20, int(R.GLASS_RL))),
-        interior="none", z_floor=0.90, mirror_x=3.42, mirror_arm=0.24, mirror_size=(0.22, 0.40, 0.10),
+        interior="cab", cab=(3.05, 1.28, 3.42, 1.70, 0.52, 45.0), z_floor=0.90, mirror_x=3.42, mirror_arm=0.24, mirror_size=(0.22, 0.40, 0.10),
         wiper_len=0.62, wiper_blade=0.68, plate_front=True,
         extras=extras, extra_slots=("LIGHT_EMERGENCY_R", "LIGHT_EMERGENCY_B", "LIGHT_EMERGENCY_W"),
         waivers={"Door_RL": "module has no left-side door", "Window_RL": "no left-side module glazing"},
@@ -457,10 +460,10 @@ def isuzu_npr() -> FleetSpec:
                    track_front_mm=1655, track_rear_mm=1650, wheel_diameter_mm=771.9, tyre_width_mm=215,
                    front_overhang_mm=1130, rear_overhang_mm=2300, rim_diameter_in=16.0, tyre_spec="215/85R16",
                    ground_clearance_mm=210)
-    tbl = F.box_table(d, z_under=0.360, z_rocker=0.420, z_belt=1.800, z_top=3.080,
+    tbl = F.box_table(d, z_under=0.360, z_rocker=0.420, z_belt=1.800, z_top=3.180,
                       y_rocker=0.980, y_max=1.065, y_belt=1.055, y_top=0.960, crown=0.045,
-                      x_cowl=3.90, nose_len=0.30, tail_len=0.14, nose_z_top=2.300, nose_z_belt=1.300,
-                      tail_z_top=3.060, nose_y=0.86, tail_y=0.97, y_top_front=0.860)
+                      x_cowl=3.90, nose_len=0.30, tail_len=0.14, nose_z_top=2.360, nose_z_belt=1.300,
+                      tail_z_top=3.160, nose_y=0.86, tail_y=0.97, y_top_front=0.860)
 
     def extras(v, lib, bp):
         v.add(g.to_object("Liftgate", g.merge_bm([g.box_bm((0.10, 1.90, 1.20), (-2.36, 0, 1.10)),
@@ -482,7 +485,7 @@ def isuzu_npr() -> FleetSpec:
         n_stations=96, detail="mid", dual_rear=True, x_rear_door=-2.10,
         front_glass=(3.68, 1.86, 2.26), rear_glass=None,
         side_glass_spans=((3.60, 2.64, int(R.GLASS_FL)),),
-        interior="none", z_floor=1.00, mirror_x=3.78, mirror_arm=0.24, mirror_size=(0.22, 0.42, 0.10),
+        interior="cab", cab=(3.35, 1.42, 3.76, 1.86, 0.50, 55.0), z_floor=1.00, mirror_x=3.78, mirror_arm=0.24, mirror_size=(0.22, 0.42, 0.10),
         wiper_len=0.60, wiper_blade=0.70, plate_front=True,
         extras=extras,
         waivers={"Door_RL": "cab-over cab has one door per side", "Door_RR": "cab-over cab has one door per side",
@@ -505,16 +508,16 @@ def mack_lr() -> FleetSpec:
                    track_front_mm=2080, track_rear_mm=1860, wheel_diameter_mm=1075.5, tyre_width_mm=315,
                    front_overhang_mm=1600, rear_overhang_mm=3340, rim_diameter_in=22.5, tyre_spec="315/80R22.5",
                    ground_clearance_mm=260)
-    tbl = F.box_table(d, z_under=0.430, z_rocker=0.560, z_belt=1.950, z_top=3.320,
+    tbl = F.box_table(d, z_under=0.430, z_rocker=0.560, z_belt=1.950, z_top=3.420,
                       y_rocker=1.210, y_max=1.2955, y_belt=1.280, y_top=1.170, crown=0.040,
                       x_cowl=6.10, nose_len=0.30, tail_len=0.24, nose_z_top=2.680, nose_z_belt=1.450,
-                      tail_z_top=3.280, nose_y=0.88, tail_y=0.96, y_top_front=1.100)
+                      tail_z_top=3.380, nose_y=0.88, tail_y=0.96, y_top_front=1.100)
 
     def extras(v, lib, bp):
         alu = lib.steel_painted((0.62, 0.63, 0.65), "REFUSE_STEEL")
-        parts = [g.box_bm((1.55, 2.45, 1.85), (-2.70, 0, 1.55)),          # the hopper at the tail
-                 g.box_bm((0.30, 2.35, 1.10), (-3.42, 0, 1.10)),          # the tailgate packer panel
-                 g.box_bm((0.90, 1.60, 0.20), (-3.60, 0, 0.70))]          # the loading sill
+        parts = [g.box_bm((1.45, 2.45, 1.85), (-2.42, 0, 1.55)),          # the hopper at the tail
+                 g.box_bm((0.28, 2.35, 1.10), (-3.19, 0, 1.10)),          # the tailgate packer panel
+                 g.box_bm((0.60, 1.60, 0.20), (-3.32, 0, 0.70))]          # the loading sill
         for k in range(6):
             parts.append(g.box_bm((0.05, 2.50, 0.10), (3.60 - k * 1.10, 0, 2.60)))
         v.add(g.to_object("RefuseBody", g.merge_bm(parts), [alu], smooth=False))
@@ -535,7 +538,7 @@ def mack_lr() -> FleetSpec:
         n_stations=105, detail="mid", dual_rear=True,
         front_glass=(5.95, 1.95, 2.62), rear_glass=None,
         side_glass_spans=((5.82, 4.85, int(R.GLASS_FL)),),
-        interior="none", z_floor=1.05, mirror_x=6.02, mirror_arm=0.30, mirror_size=(0.24, 0.44, 0.10),
+        interior="cab", cab=(5.55, 1.48, 5.96, 1.96, 0.58, 58.0), z_floor=1.05, mirror_x=6.02, mirror_arm=0.30, mirror_size=(0.24, 0.44, 0.10),
         wiper_len=0.78, wiper_blade=0.92, plate_front=True,
         extras=extras, extra_slots=("LIGHT_EMERGENCY_W",),
         waivers={"Door_RL": "cab-over cab has one door per side", "Door_RR": "cab-over cab has one door per side",
@@ -674,10 +677,10 @@ def step_van() -> FleetSpec:
                    track_front_mm=1900, track_rear_mm=1740, wheel_diameter_mm=810.3, tyre_width_mm=225,
                    front_overhang_mm=1200, rear_overhang_mm=2280, rim_diameter_in=19.5, tyre_spec="225/70R19.5",
                    ground_clearance_mm=230)
-    tbl = F.box_table(d, z_under=0.340, z_rocker=0.400, z_belt=1.620, z_top=2.960,
+    tbl = F.box_table(d, z_under=0.340, z_rocker=0.400, z_belt=1.620, z_top=3.020,
                       y_rocker=1.130, y_max=1.220, y_belt=1.205, y_top=1.060, crown=0.055,
                       x_cowl=4.35, nose_len=0.34, tail_len=0.16, nose_z_top=2.500, nose_z_belt=1.350,
-                      tail_z_top=2.920, nose_y=0.84, tail_y=0.96, y_top_front=1.050)
+                      tail_z_top=2.980, nose_y=0.84, tail_y=0.96, y_top_front=1.050)
 
     def extras(v, lib, bp):
         dec = TX.wordmark("stepvan", "PARCEL SERVICE", w=1024, h=180, fg=(70, 45, 20))
@@ -686,7 +689,7 @@ def step_van() -> FleetSpec:
             c = [(2.00, y, 1.80), (-1.40, y, 1.80), (-1.40, y, 2.20), (2.00, y, 2.20)]
             v.add(g.to_object(f"Decal_Step_{tag}", g.quad_uv01_bm(c if s > 0 else list(reversed(c))),
                               [lib.decal("DECAL_STEPVAN", dec)], smooth=False))
-        v.add(g.to_object("StepWell", g.merge_bm([g.box_bm((0.70, 0.14, 0.60), (3.30, 1.20, 0.62))]),
+        v.add(g.to_object("StepWell", g.merge_bm([g.box_bm((0.70, 0.12, 0.60), (3.30, 1.15, 0.62))]),
                           [lib.diamond_plate()], smooth=False))
 
     return FleetSpec(
@@ -698,7 +701,7 @@ def step_van() -> FleetSpec:
         n_stations=96, detail="mid", dual_rear=True, x_rear_door=-2.10,
         front_glass=(4.14, 1.66, 2.44), rear_glass=None,
         side_glass_spans=((4.08, 3.12, int(R.GLASS_FL)),),
-        interior="none", z_floor=0.72, mirror_x=4.26, mirror_arm=0.26, mirror_size=(0.22, 0.42, 0.10),
+        interior="cab", cab=(3.85, 1.06, 4.24, 1.56, 0.52, 55.0), z_floor=0.72, mirror_x=4.26, mirror_arm=0.26, mirror_size=(0.22, 0.42, 0.10),
         wiper_len=0.70, wiper_blade=0.85, plate_front=True,
         extras=extras,
         waivers={"Door_RL": "walk-in van has one cab door per side",
@@ -786,7 +789,8 @@ def coned_truck() -> FleetSpec:
         parts.append(g.box_bm((3.00, 2.30, 0.06), (-0.20, 0, 1.93)))
         v.add(g.to_object("UtilityBody", g.merge_bm(parts), [steel], smooth=False))
         boom = [g.cylinder_bm(0.28, 0.45, axis="Z", center=(1.05, 0, 2.10), segments=20),
-                g.box_bm((2.60, 0.36, 0.34), (-0.30, 0, 2.42)),
+                g.box_bm((0.34, 0.34, 0.60), (1.05, 0, 2.58)),
+                g.box_bm((2.60, 0.36, 0.34), (-0.30, 0, 2.55)),
                 g.box_bm((0.80, 0.62, 0.70), (-1.70, 0, 2.55))]
         v.add(g.to_object("Boom", g.merge_bm(boom), [lib.steel_painted((0.85, 0.72, 0.20), "BOOM_YELLOW")],
                           smooth=False))
@@ -880,13 +884,14 @@ def school_bus() -> FleetSpec:
         arch_r_f=0.630, arch_r_r=0.630, wheel_style="truck", tyre_text="275/80 R22.5",
         n_stations=115, detail="mid", dual_rear=True,
         front_glass=(6.90, 1.94, 2.72), rear_glass=(-2.70, 2.00, 2.60),
-        side_glass_spans=((5.60, -2.70, int(R.GLASS_RL)),),
+        side_glass_spans=((6.90, 6.10, int(R.GLASS_FL)), (5.60, -2.70, int(R.GLASS_RL))),
         kerb_side_doors_only=True,
-        waivers={"Door_FL": "school bus service door is on the kerb (right) side only",
+        waivers={"Trunk": "a Type C school bus has an emergency rear door in the body, not an opening boot lid",
+                 "Door_FL": "school bus service door is on the kerb (right) side only",
                  "Door_RL": "school bus has a single service door",
                  "Door_RR": "school bus has a single service door",
                  "Window_FL": "no left-side door glazing", "Window_RL": "saloon glazing is Window_RR"},
-        interior="none", z_floor=1.00, mirror_x=7.20, mirror_arm=0.34, mirror_size=(0.22, 0.42, 0.10),
+        interior="cab", cab=(6.75, 1.44, 7.16, 1.94, 0.62, 62.0), z_floor=1.00, mirror_x=7.20, mirror_arm=0.34, mirror_size=(0.22, 0.42, 0.10),
         wiper_len=0.80, wiper_blade=0.95, plate_front=True,
         extras=extras, extra_slots=("LIGHT_EMERGENCY_R", "LIGHT_EMERGENCY_A"),
         lod_budgets=(40_000, 6_000),

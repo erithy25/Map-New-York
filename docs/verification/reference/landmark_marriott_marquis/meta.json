@@ -1,0 +1,202 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_marriott_marquis",
+ "name": "New York Marriott Marquis",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.759879,
+  "lon": -73.985502,
+  "azimuth_deg": 200.0,
+  "note": "Broadway at West 47th Street, about 150 m north-north-east of the hotel, looking south-south-west at the Marriott Marquis front",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.758611,
+  "lon": -73.986111,
+  "name": "New York Marriott Marquis"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Marriott Marquis\" Times Square hotel exterior",
+  "\"New York Marriott Marquis\" Broadway"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T13:17:28Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 69,
+ "candidates_eligible": 26,
+ "rejections": {
+  "keywords": 34,
+  "night_for_day_item": 1,
+  "too_old": 5,
+  "too_small": 3
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:W 44 St Jun 2025 17.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:W_44_St_Jun_2025_17.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/W_44_St_Jun_2025_17.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/W_44_St_Jun_2025_17.jpg/1920px-W_44_St_Jun_2025_17.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2025-06-25 18:57:32",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.757817,
+    "lon": -73.987317
+   },
+   "original_width": 3060,
+   "original_height": 4080,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1428011,
+   "sha256": "ae9113568cf3e1e7392475531c377ca1b0e0a7a96a936bb9f8fff8c9655ab069",
+   "mean_luminance": 122.9,
+   "description": "The Shubert Theatre (left) and New York Marriott Marquis (right) in Manhattan, New York, seen in June 2025",
+   "categories": [
+    "New York Marriott Marquis",
+    "Shubert Theatre (Broadway)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Theaters in the United States photographed in 2025",
+    "June 2025 in Times Square",
+    "New York City photographs taken on 2025-06-25",
+    "Photographs by Epicgenius"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"New York Marriott Marquis\" Broadway",
+   "score": 12.2,
+   "estimated_viewpoint": {
+    "lat": 40.757817,
+    "lon": -73.987317,
+    "azimuth_deg": 49.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75782, -73.98732) is 135 m from New York Marriott Marquis (40.75861, -73.98611) and 276 m from the standard viewpoint; the azimuth 49 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"W 44 St Jun 2025 17.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:W_44_St_Jun_2025_17.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:W 46th St Duffy Square 11 - Marriott Marquis.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:W_46th_St_Duffy_Square_11_-_Marriott_Marquis.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/19/W_46th_St_Duffy_Square_11_-_Marriott_Marquis.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/W_46th_St_Duffy_Square_11_-_Marriott_Marquis.jpg/1920px-W_46th_St_Duffy_Square_11_-_Marriott_Marquis.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018-03-08 14:28:40",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.758834,
+    "lon": -73.98502
+   },
+   "original_width": 3648,
+   "original_height": 5472,
+   "width": 1920,
+   "height": 2880,
+   "bytes": 844656,
+   "sha256": "ca6b0b433808de6d31957b77f3877f3c07e3ac22944bb4b7c65ccd7f3eb7ce46",
+   "mean_luminance": 137.1,
+   "description": "The New York Marriott Marquis at Broadway and 46th Street in Duffy Square, Times Square, Manhattan.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "New York Marriott Marquis",
+    "Duffy Square",
+    "7th Avenue (Manhattan)",
+    "De minimis",
+    "Self-published work",
+    "Hotels in the United States photographed in 2018",
+    "Views of Manhattan, New York City from below",
+    "Files with coordinates missing SDC location of creation",
+    "2018 Manhattan photographs by Tdorante10",
+    "March 2018 in Times Square",
+    "Advertisements in Times Square",
+    "Google advertising",
+    "Photographs by Tdorante10 taken on 2018-03-08"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"New York Marriott Marquis\" Broadway",
+   "score": 11.45,
+   "estimated_viewpoint": {
+    "lat": 40.758834,
+    "lon": -73.98502,
+    "azimuth_deg": 254.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75883, -73.98502) is 95 m from New York Marriott Marquis (40.75861, -73.98611) and 123 m from the standard viewpoint; the azimuth 255 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"W 46th St Duffy Square 11 - Marriott Marquis.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:W_46th_St_Duffy_Square_11_-_Marriott_Marquis.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Donald J. Trump at Marriott Marquis NYC September 7th 2016 05.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Donald_J._Trump_at_Marriott_Marquis_NYC_September_7th_2016_05.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/f0/Donald_J._Trump_at_Marriott_Marquis_NYC_September_7th_2016_05.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Donald_J._Trump_at_Marriott_Marquis_NYC_September_7th_2016_05.jpg/1920px-Donald_J._Trump_at_Marriott_Marquis_NYC_September_7th_2016_05.jpg",
+   "author": "Michael Vadon",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2016-09-07 18:33:11",
+   "date_source": "DateTimeOriginal",
+   "year": 2016,
+   "camera_gps": null,
+   "original_width": 8688,
+   "original_height": 5792,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 289405,
+   "sha256": "f3f6cb00360d32a6187eaa04c53d7ea4591d61f670b37117d9e5d4d4aaf78001",
+   "mean_luminance": 55.9,
+   "description": "Donald John Trump (born June 14, 1946) is an American businessman, television personality, author, politician, and the Republican Party nominee for President of the United States in the 2016 election. He is chairman of The Trump Organization, which is the principal holding company for his real estate ventures and other business interests. Born and raised in New York City, Trump received a bachelor's degree in economics from the Wharton School of the University of Pennsylvania in 1968. While attending college, Trump worked in his father Fred Trump's real estate and construction firm. He was giv",
+   "categories": [
+    "Conservative Party of New York",
+    "Self-published work",
+    "Photographs by Michael Vadon",
+    "Donald Trump in September 2016",
+    "Donald Trump presidential campaign in New York (state), 2016",
+    "Events at the New York Marriott Marquis"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"New York Marriott Marquis\" Broadway",
+   "score": 8.65,
+   "estimated_viewpoint": {
+    "lat": 40.759879,
+    "lon": -73.985502,
+    "azimuth_deg": 200.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Broadway at West 47th Street, about 150 m north-north-east of the hotel, looking south-south-west at the Marriott Marquis front) and the azimuth 200 deg is the bearing from there to New York Marriott Marquis (40.75861, -73.98611)."
+   },
+   "attribution": "\"Donald J. Trump at Marriott Marquis NYC September 7th 2016 05.jpg\" by Michael Vadon, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Donald_J._Trump_at_Marriott_Marquis_NYC_September_7th_2016_05.jpg"
+  }
+ ]
+}

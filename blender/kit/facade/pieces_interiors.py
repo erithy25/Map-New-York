@@ -184,7 +184,7 @@ def _bar():
             if x > X1 - 1.10:
                 break
             m.cylinder((x, DEPTH - 0.26, z + 0.03), (x, DEPTH - 0.26, z + 0.29), 0.036,
-                       ("paint_green", "paint_maroon", "paint_yellow")[(i + k) % 3], segments=6)
+                       ("paint_bottle_green", "paint_maroon", "paint_yellow")[(i + k) % 3], segments=6)
     m.box((X1 - 0.80, 0.30, 0.0), (X1 - 0.10, DEPTH - 0.50, 1.05), "interior_wood_floor")            # service end
     for k in range(2):
         m.cylinder((-0.60 + k * 1.40, bar_y - 0.35, 2.30), (-0.60 + k * 1.40, bar_y - 0.35, 3.30), 0.010, P.BLACK, segments=4)

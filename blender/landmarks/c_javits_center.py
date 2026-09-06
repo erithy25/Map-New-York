@@ -69,15 +69,19 @@ def build():
     # ---- the space frame: the 90 ft grid with its diagonals, on the walls and over the roof ----------------------
     b = C.MeshBuilder()
 
+    # the visible frame is drawn on the 90 ft grid subdivided into three (9.14 m), which is the coarsest spacing at
+    # which the space frame still reads as a triangulated mesh rather than a few big Xs
+    SUB = GRID / 3.0
+
     def frame_edges(poly, z0, z1):
         ring = C.ring_coords(poly)
         for p0, p1, L, t, n in C.edges_of(ring):
-            ncol = max(1, int(round(L / GRID)))
+            ncol = max(1, int(round(L / SUB)))
             for k in range(ncol + 1):
                 q = p0 + t * min(L, k * (L / ncol))
                 b.box((q[0] + n[0] * 0.6, q[1] + n[1] * 0.6, (z0 + z1) / 2), (0.45, 0.9, z1 - z0), C.M.steel_dark,
                       rot_deg=math.degrees(math.atan2(t[1], t[0])))
-            nrow = max(1, int(round((z1 - z0) / GRID)))
+            nrow = max(1, int(round((z1 - z0) / SUB)))
             for j in range(nrow + 1):
                 z = z0 + (z1 - z0) * j / nrow
                 b.box_from_to(p0, p1, n, 1.0, z - 0.22, z + 0.22, C.M.steel_dark)
@@ -87,19 +91,22 @@ def build():
                     qb = p0 + t * (L * (k + 1) / ncol) + n * 0.75
                     za = z0 + (z1 - z0) * j / nrow
                     zb = z0 + (z1 - z0) * (j + 1) / nrow
-                    b.hull([(qa[0] - 0.16, qa[1] - 0.16, za), (qa[0] + 0.16, qa[1] + 0.16, za),
-                            (qa[0] - 0.16, qa[1] + 0.16, za), (qa[0] + 0.16, qa[1] - 0.16, za),
-                            (qb[0] - 0.16, qb[1] - 0.16, zb), (qb[0] + 0.16, qb[1] + 0.16, zb),
-                            (qb[0] - 0.16, qb[1] + 0.16, zb), (qb[0] + 0.16, qb[1] - 0.16, zb)], C.M.steel_nirosta)
+                    qc = p0 + t * (L * k / ncol) + n * 0.75
+                    for (ra, rz), (rb, rzb) in (((qa, za), (qb, zb)), ((qc, zb), (qb, za))):
+                        b.hull([(ra[0] - 0.14, ra[1] - 0.14, rz), (ra[0] + 0.14, ra[1] + 0.14, rz),
+                                (ra[0] - 0.14, ra[1] + 0.14, rz), (ra[0] + 0.14, ra[1] - 0.14, rz),
+                                (rb[0] - 0.14, rb[1] - 0.14, rzb), (rb[0] + 0.14, rb[1] + 0.14, rzb),
+                                (rb[0] - 0.14, rb[1] + 0.14, rzb), (rb[0] + 0.14, rb[1] - 0.14, rzb)],
+                               C.M.steel_nirosta)
 
     frame_edges(Pm, 6.0, HALL_ROOF)
     frame_edges(cp, 6.0, CRYSTAL_H)
     # the roof space frame over the halls: the 90 ft grid of top chords
-    for i in range(int((mx1 - mx0) // GRID) + 1):
-        x = mx0 + GRID * i
+    for i in range(int((mx1 - mx0) // SUB) + 1):
+        x = mx0 + SUB * i
         b.box((x, (my0 + my1) / 2, HALL_ROOF + 1.1), (0.5, my1 - my0, 1.4), C.M.steel_dark)
-    for j in range(int((my1 - my0) // GRID) + 1):
-        y = my0 + GRID * j
+    for j in range(int((my1 - my0) // SUB) + 1):
+        y = my0 + SUB * j
         b.box(((mx0 + mx1) / 2, y, HALL_ROOF + 2.4), (mx1 - mx0, 0.5, 1.4), C.M.steel_dark)
     objs.append(b.build(f"{ID}_space_frame"))
     # the tallest roof element: the mechanical penthouse over the halls
@@ -116,8 +123,8 @@ def main():
                           "space frame's chords and diagonals on the walls and over the roof; the Crystal Palace "
                           "rising in three tiers to 150 ft = 45.7 m; the 27.4 m hall roof; the 53.6 m high point "
                           "(OTI LiDAR); the 2021 expansion at 40.0 m with its green roof. Simplified and stated: "
-                          "the space frame is built at the 90 ft grid with one diagonal per bay rather than the "
-                          "real 5 ft = 1.524 m module — the actual ~76,000 members would be far beyond the "
+                          "the space frame is built on the 90 ft grid subdivided into three (9.14 m) with crossed "
+                          "diagonals per sub-bay rather than the real 5 ft = 1.524 m module — the actual ~76,000 members would be far beyond the "
                           "triangle budget. Inferred (stated): the Crystal Palace's position at the 11th Avenue "
                           "corner and the tier heights. Not modelled: interiors, truck docks, green-roof planting, "
                           "the rooftop solar array."),

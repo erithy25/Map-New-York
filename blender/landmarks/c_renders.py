@@ -12,8 +12,8 @@ The four viewpoints are the ones the brief names:
 * ``top_of_the_rock_south`` — from the 30 Rockefeller Plaza observation deck (259 m above the street) looking
   south; ``empire_state.glb`` (agent A) is imported into this scene when it exists, because it is the subject.
 
-Camera positions are given in each landmark's own local frame (reconstructed from the catalog's ``origin_tm`` and
-``heading_deg``) or directly in NYC_TM, so they stay correct if a model is rebuilt.
+Camera positions are given in NYC_TM, anchored where possible to a catalog ``origin_tm`` (which is a measured
+footprint centroid), so they stay correct if a model is rebuilt.
 
 Run: ``python3 blender/landmarks/c_renders.py [view ...]``  (default: all four).
 """
@@ -48,15 +48,6 @@ def catalog(landmark_id: str) -> dict:
     if not p.exists():
         raise FileNotFoundError(p)
     return json.loads(p.read_text())
-
-
-def local_to_tm(landmark_id: str, x: float, y: float, z: float = 0.0) -> tuple[float, float, float]:
-    """A point in a landmark's local build frame -> NYC_TM (using the catalog's origin and heading)."""
-    e = catalog(landmark_id)
-    ox, oy, oz = e["origin_tm"]
-    ang = math.radians((90.0 - float(e["heading_deg"])) % 360.0)
-    c, s = math.cos(ang), math.sin(ang)
-    return (ox + c * x - s * y, oy + s * x + c * y, oz + z)
 
 
 def import_glb(path: Path, origin_tm, scene_origin) -> list[bpy.types.Object]:
@@ -118,20 +109,26 @@ def render(name: str, eye_tm, target_tm, scene_origin, *, fov: float = 55.0, sun
 
 # ------------------------------------------------------------------------------------------------------- views
 def view_times_square():
-    """Father Duffy Square, eye level, looking south down the bowtie past One Times Square."""
-    eye = local_to_tm("c_times_square", 132.0, 374.0, 6.0)          # the top of the TKTS red steps
-    target = local_to_tm("c_times_square", 176.0, 20.0, 55.0)       # One Times Square's screen wall
-    origin = (round(eye[0]), round(eye[1]), round(eye[2] - 6.0))
+    """Father Duffy Square, eye level, looking south down the bowtie past One Times Square.
+
+    Father Duffy Square is NYC_TM (-2952, 6576) — the north point of the bowtie, measured from the TKTS steps'
+    own footprint (BIN 1085637). The camera stands on the top of the red steps, 6 m above the pavement, and looks
+    at One Times Square, whose catalog origin is the aiming point."""
+    e = catalog("c_times_square")
+    gz = e["origin_tm"][2]
+    eye = (-2952.0, 6576.0, gz + 6.0)
+    target = (e["origin_tm"][0], e["origin_tm"][1], gz + 55.0)
+    origin = (round(eye[0]), round(eye[1]), round(gz))
     scene_from(["c_times_square"], origin)
-    ground(origin, eye[2] - 6.0)
+    ground(origin, gz)
     return render("times_square_from_duffy_square", eye, target, origin, fov=62.0, sun_az=170.0, sun_el=52.0,
                   exposure=-0.35)
 
 
 def view_billionaires_row():
     """The Sheep Meadow lawn in Central Park, looking south at the West 57th Street towers."""
-    eye = (-2056.0, 7979.0, 28.0)                                   # Sheep Meadow, NYC_TM; ground ~26 m NAVD88
-    target = local_to_tm("c_billionaires_row", -60.0, 20.0, 230.0)
+    eye = (-2056.0, 7979.0, 27.7)                                   # Sheep Meadow, NYC_TM; ground ~26 m NAVD88
+    target = (-2400.0, 7220.0, 230.0)                               # the middle of the West 57th Street row
     origin = (round(eye[0]), round(eye[1]), 26)
     scene_from(["c_billionaires_row", "c_the_plaza", "c_carnegie_hall", "c_hearst_tower"], origin)
     ground(origin, 26.0)
@@ -140,11 +137,16 @@ def view_billionaires_row():
 
 def view_guggenheim():
     """The Fifth Avenue sidewalk opposite the rotunda, looking east."""
-    eye = local_to_tm("c_guggenheim", -47.0, -12.0, 1.7)
-    target = local_to_tm("c_guggenheim", -6.0, -14.0, 17.0)
-    origin = (round(eye[0]), round(eye[1]), round(eye[2] - 1.7))
+    # the rotunda's catalog origin is its own centroid; Fifth Avenue is 47 m to its west (local -x, which is
+    # world (-0.875, +0.483) for the Manhattan grid angle used by every C script)
+    e = catalog("c_guggenheim")
+    ox, oy, gz = e["origin_tm"]
+    wx, wy = -0.875, 0.483
+    eye = (ox + 47.0 * wx, oy + 47.0 * wy, gz + 1.7)
+    target = (ox + 4.0 * wx, oy + 4.0 * wy, gz + 16.0)
+    origin = (round(eye[0]), round(eye[1]), round(gz))
     scene_from(["c_guggenheim", "c_metropolitan_museum"], origin)
-    ground(origin, eye[2] - 1.7)
+    ground(origin, gz)
     return render("guggenheim_from_fifth_avenue", eye, target, origin, fov=64.0, sun_az=250.0, sun_el=45.0)
 
 
@@ -154,9 +156,9 @@ def view_top_of_the_rock():
     eye = (-2478.0, 6591.0, deck_ground + 259.0)
     target = (-2900.0, 5500.0, 180.0)
     origin = (round(eye[0]), round(eye[1]), 15)
-    ids = ["c_times_square", "c_billionaires_row", "c_hudson_yards", "c_metlife_building", "c_citigroup_center",
-           "c_seagram_building", "c_lever_house", "c_lipstick_building", "c_hearst_tower", "c_javits_center",
-           "c_moynihan_train_hall", "c_chelsea_market", "c_high_line", "c_pier_57", "c_little_island"]
+    # only what is actually in shot looking south from the deck (and small enough to keep the scene under ~3 GB)
+    ids = ["c_times_square", "c_hudson_yards", "c_metlife_building", "c_javits_center", "c_moynihan_train_hall",
+           "c_chelsea_market", "c_high_line"]
     scene_from(ids, origin)
     esb = OUT / "empire_state.glb"
     if esb.exists():

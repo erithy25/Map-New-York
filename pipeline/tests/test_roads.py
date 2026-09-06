@@ -442,7 +442,7 @@ def test_terrain_sampler_reads_the_contract_png(tmp_path):
     n = 501
     # ramp from 0 m in the north row to 5 m in the south row
     vals = np.tile((np.arange(n) * 4).astype(np.uint16)[:, None], (1, n))
-    Image.fromarray(vals, mode="I;16").save(d / "terrain.png")
+    Image.frombytes("I;16", (n, n), vals.tobytes()).save(d / "terrain.png")
     (d / "terrain.json").write_text(json.dumps({"schema_version": 1, "tile": tile.name, "x0": tile.x0, "y0": tile.y0,
                                                 "z_min_m": -1.0, "z_scale_m": 0.0025, "samples": n, "spacing_m": 2.0}))
     s = TerrainSampler(tmp_path)
@@ -490,7 +490,7 @@ def _tiny_roads_dir(tmp_path: Path) -> Path:
     tiles.mkdir(parents=True)
     n = 501
     vals = np.tile((np.arange(n) * 8).astype(np.uint16)[:, None], (1, n))
-    Image.fromarray(vals, mode="I;16").save(tiles / "terrain.png")
+    Image.frombytes("I;16", (n, n), vals.tobytes()).save(tiles / "terrain.png")
     (tiles / "terrain.json").write_text(json.dumps({"schema_version": 1, "tile": "t_0_0", "x0": 0.0, "y0": 0.0,
                                                     "z_min_m": 2.0, "z_scale_m": 0.0025, "samples": n, "spacing_m": 2.0}))
     return d

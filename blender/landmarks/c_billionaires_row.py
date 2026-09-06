@@ -97,7 +97,9 @@ def build():
                 continue
             C.punched_wall(b, p0, p1, n, z0, z1, [z0 + (z1 - z0) * 0.06], C.M.concrete, C.M.glass_dark,
                            bays=6, window_w=WIN, window_h=WIN, sill_h=(z1 - z0 - WIN) * 0.55, depth=0.75)
-    objs.append(C.tag(b.build(f"{ID}_432_tube"), "mass"))
+    # the punched tube is LOD0 detail; the inner core carries the LOD1 massing, so the 6x6 window grid does
+    # not have to be decimated into it
+    objs.append(C.tag(b.build(f"{ID}_432_tube"), "detail"))
     objs.append(C.prism(f"{ID}_432_core", C.offset_polygon(tube, -0.8), 12.0, H432, C.M.concrete,
                         material_top=C.M.roof_dark, role="mass"))
 

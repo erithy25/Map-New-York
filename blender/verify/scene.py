@@ -597,27 +597,40 @@ assert KIT_RECORD.itemsize == 40, KIT_RECORD.itemsize
 
 
 def load_kit_map() -> tuple[dict[int, dict], str]:
-    """kit_id -> {glb, name, category}.  Returns an empty map plus a reason when unresolvable."""
-    if KIT_MAP_JSON.exists():
+    """kit_id -> {glb, catalog_id, category} from the facade stage's numeric registry.
+
+    Both ``kit_catalog_map.json`` and ``kit_ids.json`` are read (they carry the same list under
+    ``pieces`` in schema 2 and under ``map`` in schema 1); the first one that resolves wins.
+    Returns an empty map plus the reason when neither does.
+    """
+    reasons = []
+    for path in (KIT_MAP_JSON, KIT_IDS_JSON):
+        if not path.exists():
+            reasons.append(f"{path.name} absent")
+            continue
         try:
-            d = json.loads(KIT_MAP_JSON.read_text())
+            d = json.loads(path.read_text())
         except Exception as exc:
-            return {}, f"{KIT_MAP_JSON.name} unreadable: {exc}"
-        m = {int(e["kit_id"]): e for e in d.get("map", []) if e.get("glb")}
+            reasons.append(f"{path.name} unreadable: {exc}")
+            continue
+        entries = d.get("pieces") or d.get("map") or []
+        m = {int(e["kit_id"]): e for e in entries if isinstance(e, dict) and e.get("glb")}
         if m:
             return m, ""
-        return {}, f"{KIT_MAP_JSON.name} has no resolved entries"
-    if KIT_IDS_JSON.exists():
-        try:
-            d = json.loads(KIT_IDS_JSON.read_text())
-        except Exception as exc:
-            return {}, f"{KIT_IDS_JSON.name} unreadable: {exc}"
-        m = {int(e["kit_id"]): e for e in d.get("pieces", []) if e.get("glb")}
-        if m:
-            return m, ""
-        return {}, ("kit_ids.json carries no glb path per piece (the facade stage is still "
-                    "regenerating the registry)")
-    return {}, "no kit id registry on disk"
+        reasons.append(f"{path.name} has no entry carrying a glb path")
+    return {}, "; ".join(reasons) or "no kit id registry on disk"
+
+
+def _tile_kit_header(tile: str) -> dict[int, dict]:
+    """kit_id -> entry from a tile's ``kit_placements.json``; schema 2 carries the glb path."""
+    p = TILES_DATA / tile / "kit_placements.json"
+    if not p.exists():
+        return {}
+    try:
+        d = json.loads(p.read_text())
+    except Exception:
+        return {}
+    return {int(e["kit_id"]): e for e in d.get("kit_id_counts", []) if isinstance(e, dict)}
 
 
 def add_kit(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
@@ -625,28 +638,42 @@ def add_kit(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
             col: bpy.types.Collection | None = None) -> dict:
     """Instance facade kit placements inside ``radius_m``, nearest first, under a triangle cap."""
     kit_map, why = load_kit_map()
-    if not kit_map:
-        return {"placed": 0, "reason": why}
     recs = []
     tiles_read, tiles_missing = [], []
+    stale, header_only = {}, {}
     for tx, ty in tiles_in_radius(cx, cy, radius_m):
-        p = TILES_DATA / tile_name(tx, ty) / "kit_placements.bin"
+        tname = tile_name(tx, ty)
+        p = TILES_DATA / tname / "kit_placements.bin"
         if not p.exists():
-            tiles_missing.append(tile_name(tx, ty))
+            tiles_missing.append(tname)
             continue
         try:
             a = np.fromfile(p, dtype=KIT_RECORD)
         except Exception as exc:
-            LOG.warning("kit tile %s unreadable: %s", tile_name(tx, ty), exc)
-            tiles_missing.append(tile_name(tx, ty))
+            LOG.warning("kit tile %s unreadable: %s", tname, exc)
+            tiles_missing.append(tname)
             continue
+        # The registry is regenerated independently of the placements, so a numeric id can be
+        # left pointing at a different piece.  The tile header records the id -> piece mapping
+        # the placements were written with; any id where the two disagree is dropped rather
+        # than drawn as the wrong piece.
+        for kid, e in _tile_kit_header(tname).items():
+            reg = kit_map.get(kid)
+            if e.get("glb") and (reg is None or reg.get("glb") == e.get("glb")):
+                header_only[kid] = e
+            elif reg is not None and e.get("glb") and reg.get("glb") != e.get("glb"):
+                stale[kid] = f"header {e.get('catalog_id')} vs registry {reg.get('catalog_id')}"
         sel = (np.hypot(a["x"].astype(np.float64) - cx, a["y"].astype(np.float64) - cy) <= radius_m)
         if sel.any():
             recs.append(a[sel])
-        tiles_read.append(tile_name(tx, ty))
+        tiles_read.append(tname)
+    if header_only:
+        kit_map = {**kit_map, **header_only}
+    if not kit_map:
+        return {"placed": 0, "reason": why, "tiles_missing": sorted(tiles_missing)}
     if not recs:
         return {"placed": 0, "reason": "no kit_placements.bin in range",
-                "tiles_missing": tiles_missing}
+                "tiles_missing": sorted(tiles_missing)}
     a = np.concatenate(recs)
     d = np.hypot(a["x"].astype(np.float64) - cx, a["y"].astype(np.float64) - cy)
     order = np.argsort(d)
@@ -683,6 +710,7 @@ def add_kit(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
     return {"records_in_range": int(a.size), "placed": placed, "triangles": tris, "capped": capped,
             "per_category": dict(sorted(per_cat.items(), key=lambda kv: -kv[1])),
             "unresolved_ids": {str(k): v for k, v in sorted(unresolved.items())},
+            "stale_registry_ids": {str(k): v for k, v in sorted(stale.items())},
             "tiles_read": sorted(tiles_read), "tiles_missing": sorted(tiles_missing),
             "radius_m": radius_m}
 

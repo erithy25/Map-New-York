@@ -41,6 +41,7 @@ AISLE_H = 14.5
 CLERESTORY_H = 28.0
 NAVE_RIDGE_M = 41.0
 ROSE_D = 7.9
+NAVE_W = 33.0            # nave and aisles under one roof (the 53 m transept width is only at the crossing)
 
 
 def build():
@@ -69,15 +70,20 @@ def build():
     for q, t, n, s in C.ring_stations(coords, BAY):
         b.box_from_to(q - t * 0.8, q + t * 0.8, n, 1.5, 0.0, AISLE_H - 3.0, marble, top=True)
         b.box_from_to(q - t * 0.65, q + t * 0.65, n, 1.05, AISLE_H - 3.0, AISLE_H, marble, top=True)
-        b.lathe([(0.75, 0.0), (0.75, 1.4), (0.0, 6.5)], 4, marble,
-                origin=(float(q[0] + n[0] * 0.5), float(q[1] + n[1] * 0.5), AISLE_H), smooth=False, phase_deg=45)
+        if int(s / BAY) % 2 == 0:                   # a pinnacle on every second buttress
+            b.lathe([(0.8, 0.0), (0.8, 1.6), (0.0, 4.6)], 4, marble,
+                    origin=(float(q[0] + n[0] * 0.5), float(q[1] + n[1] * 0.5), AISLE_H), smooth=False, phase_deg=45)
     for q, t, n, s in C.ring_stations(coords, BAY, offset=BAY / 2):
         C.arched_opening(b, q - t * (BAY * 0.26), q + t * (BAY * 0.26), n, 3.2, 8.6, None, 0.9, marble, glass,
                          pointed=True, n=10)
     objs.append(b.build(f"{ID}_aisle_detail"))
 
     # ---- nave: clerestory and the slate gable roof ---------------------------------------------------------------
-    nave = C.offset_polygon(body, -9.5)
+    # The nave is a rectangle on the frame's long axis at the published nave-and-aisle width, clipped to the
+    # footprint: a gable raised over the irregular footprint offset would read as a tent, not a cathedral roof.
+    bx0, by0, bx1, by1 = body.bounds
+    nave = C.rect_xy(bx0 + 2.0, (by0 + by1) / 2 - NAVE_W / 2, bx1 - 2.0, (by0 + by1) / 2 + NAVE_W / 2)
+    nave = nave.intersection(C.offset_polygon(body, -6.0))
     if nave.geom_type != "Polygon":
         nave = max(nave.geoms, key=lambda g: g.area)
     objs.append(C.prism(f"{ID}_nave", nave, AISLE_H, CLERESTORY_H, marble, role="mass"))
@@ -86,10 +92,9 @@ def build():
     for q, t, n, s in C.ring_stations(ncoords, BAY, offset=BAY / 2):
         C.arched_opening(b, q - t * (BAY * 0.24), q + t * (BAY * 0.24), n, AISLE_H + 2.4, CLERESTORY_H - 2.6, None,
                          0.6, marble, glass, pointed=True, n=8)
-    C.gable_roof(b, ncoords, CLERESTORY_H, NAVE_RIDGE_M - CLERESTORY_H, slate, ridge_dir_deg=0.0, overhang=0.6)
-    inner = C.offset_ring(coords, -9.5)
-    b.loft([[(x, y, AISLE_H) for x, y in coords], [(x, y, AISLE_H + 3.2) for x, y in inner]], slate,
-           cap_top=False, cap_bottom=False)
+    C.gable_roof(b, ncoords, CLERESTORY_H, NAVE_RIDGE_M - CLERESTORY_H, slate, ridge_dir_deg=0.0, overhang=0.7)
+    # the aisle roofs are the flat slate deck on top of the plinth, finished with a parapet coping
+    C.wall_ring(b, body, AISLE_H, AISLE_H + 0.7, 1.0, marble)
     # flying buttresses: a raking strut from each aisle pinnacle to the clerestory wall
     for q, t, n, s in C.ring_stations(ncoords, BAY):
         o = q + n * 9.0
@@ -106,10 +111,16 @@ def build():
     runs = sorted(C.wall_runs(coords, east, tol_deg=50.0), key=lambda r: -r[1])
     pts, Lf = runs[0]
     tw = 12.5
-    # tower centres a tower-width in from each end of the front
-    for f in (tw / 2 + 1.0, Lf - tw / 2 - 1.0):
-        q, t, n = C.polyline_at(pts, f)
-        tx, ty = float(q[0] - n[0] * (tw / 2 - 1.2)), float(q[1] - n[1] * (tw / 2 - 1.2))
+    # The Fifth Avenue front is broken by its three portals, so its longest *run* is only a fragment of the elevation.
+    # Place the two towers from the footprint's own extent instead: front face, one tower width in from each corner.
+    ux, uy = math.cos(math.radians(east)), math.sin(math.radians(east))
+    vx, vy = -uy, ux
+    us = [x * ux + y * uy for x, y in coords]
+    vs = [x * vx + y * vy for x, y in coords]
+    u_front = max(us) - (tw / 2 + 1.2)
+    for v_t in (min(vs) + tw / 2 + 1.5, max(vs) - tw / 2 - 1.5):
+        tx = ux * u_front + vx * v_t
+        ty = uy * u_front + vy * v_t
         tower = C.rect(tx, ty, tw, tw, angle_deg=east)
         tring = C.ring_coords(tower)
         b.prism(tring, 0.0, TOWER_PARAPET_M, marble, cap_top=False, cap_bottom=False)
@@ -149,8 +160,14 @@ def build():
         q0 = rc + mt * (ROSE_D / 2 * 0.95 * math.cos(a0))
         b.box((float(q0[0] + mn[0] * 0.25), float(q0[1] + mn[1] * 0.25), z0 + ROSE_D / 2 * 0.95 * math.sin(a0)),
               (0.22, 0.3, 0.22), marble)
-    b.lathe([(ROSE_D / 2 + 0.5, 0.0), (ROSE_D / 2 + 0.5, 0.45), (ROSE_D / 2, 0.45)], 24, marble,
-            origin=(float(rc[0]), float(rc[1]), 24.0), smooth=True, cap=False, scale_xy=(1.0, 1.0))
+    for i in range(seg):                                       # the vertical stone ring around the rose
+        a0 = 2 * math.pi * i / seg
+        a1 = 2 * math.pi * (i + 1) / seg
+        r_in, r_out = ROSE_D / 2, ROSE_D / 2 + 0.55
+        pa = [(float(rc[0] + mt[0] * (r * math.cos(a)) - mn[0] * 0.15),
+               float(rc[1] + mt[1] * (r * math.cos(a)) - mn[1] * 0.15),
+               24.0 + r * math.sin(a)) for r, a in ((r_in, a0), (r_out, a0), (r_out, a1), (r_in, a1))]
+        b.face([b.vert(*q) for q in pa], marble)
     C.pediment(b, mid - mt * 13.0, mid + mt * 13.0, mn, 34.0, 9.0, 1.6, marble, tympanum=marble, cornice_t=0.5)
     objs.append(b.build(f"{ID}_front"))
     return objs, fr, fps, P
@@ -176,7 +193,7 @@ def main():
                          "tower_plan_m": 12.5})
     C.render_check(ID, [
         {"view": "street", "azimuth_deg": 100, "elevation_deg": "street", "distance": 172, "target_z": 51, "fov_deg": 62},
-        {"view": "aerial", "azimuth_deg": 125, "elevation_deg": 24, "distance": 320, "fov_deg": 46, "target_z": 50},
+        {"view": "aerial", "azimuth_deg": 125, "elevation_deg": 24, "distance": 250, "fov_deg": 48, "target_z": 46},
     ])
 
 

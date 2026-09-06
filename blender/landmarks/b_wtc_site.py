@@ -218,7 +218,7 @@ def build(lod: int = 0):
                 continue
             if abs(i * OAK_GRID) > 155 or abs(j * OAK_GRID) > 62:
                 continue
-            if len(trees) >= 220:
+            if len(trees) >= (220 if lod == 0 else 70):
                 continue
             trees.append(bc.simple_tree(f"oak{k}", (p.x, p.y, GRND), 11.0 if lod == 0 else 9.0, 3.4, 0.24))
             k += 1
@@ -230,7 +230,7 @@ def build(lod: int = 0):
         "oculus_length_m": OCULUS_L, "oculus_width_m": OCULUS_W, "oculus_apex_m": OCULUS_APEX,
         "oculus_canopy_tip_m": OCULUS_TIP, "oculus_skylight_m": SKYLIGHT_L, "oculus_ribs": 2 * N_RIBS_PER_SIDE,
         "pool_side_m": POOL_SIDE, "pool_fall_m": POOL_FALL, "memorial_names": N_NAMES,
-        "memorial_parapets": N_PARAPETS, "plaza_oaks_modelled": len(trees), "plaza_oaks_published": "400+",
+        "memorial_parapets": N_PARAPETS, "plaza_oaks_modelled": len(trees), "plaza_oaks_published": "400+", "plaza_oaks_lod1": 70,
         "material_slots": {"MEMORIAL_NAMES": "bronze memorial parapet with the 2,983 incised names (engine texture)"},
         "height_source": "CTBUH/PANYNJ/Calatrava: 3 WTC 1,079 ft, 4 WTC 977 ft, 7 WTC 741.7 ft, Oculus 350 x 115 ft "
                          "and 96 ft to the apex / 168 ft to the canopy tips, 330 ft skylight; 9/11 Memorial: two "

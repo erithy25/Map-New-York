@@ -279,8 +279,13 @@ def tube_interior_profile(spec: TubeSpec) -> dict[str, list[tuple[float, float]]
 def build_tube(name: str, path: Sequence[Vector], spec: TubeSpec, lod: int = 0) -> list:
     """One drivable tube: lining, roadway, lane markings, catwalks and handrails, luminaires every ``light_every``
     metres, recessed emergency-exit niches, and the outer shell for ``portal_shell_m`` at each end."""
-    pts = resample(path, spec.station)
+    # LOD1 keeps the same section but samples the centreline four times more coarsely and thins the luminaire rows,
+    # which is where a 2.5 km tube's triangles are
+    pts = resample(path, spec.station if lod == 0 else spec.station * 4.0)
     prof = tube_interior_profile(spec)
+    if lod > 0:
+        prof = {k: (v if len(v) <= 2 else [v[0], v[len(v) // 2], v[-1]]) for k, v in prof.items()}
+        prof["shell"] = arc_profile(spec.axis_dz, spec.diameter / 2 + 0.55, -180.0, 180.0, 10)
     r = spec.diameter / 2
     out: list = []
     # ---- lining ---------------------------------------------------------------------------------------------------
@@ -346,13 +351,14 @@ def build_tube(name: str, path: Sequence[Vector], spec: TubeSpec, lod: int = 0) 
         return p0 + d * (s - acc[j]), n0, d
 
     lights = []
-    s = spec.light_every / 2
+    light_pitch = spec.light_every if lod == 0 else spec.light_every * 5.0
+    s = light_pitch / 2
     while s < total:
         p, n0, d = at(s)
         for side in (-1, 1):
             c = p + n0 * (side * (spec.ceiling_half - 0.18)) + Vector((0, 0, spec.ceiling_h - 0.14))
             lights.append(bc.box_between(f"{name}_lamp", c - d * 0.7, c + d * 0.7, 0.26, 0.12, "light_cool"))
-        s += spec.light_every
+        s += light_pitch
     if lights:
         out.append(bc.join(lights, f"{name}_luminaires"))
     if lod == 0:
@@ -375,7 +381,7 @@ def build_tube(name: str, path: Sequence[Vector], spec: TubeSpec, lod: int = 0) 
             out.append(bc.join(niches, f"{name}_emergency_exits"))
     # ---- outer shell at the portals --------------------------------------------------------------------------------
     if spec.portal_shell_m > 0:
-        n_end = max(int(spec.portal_shell_m / spec.station), 2)
+        n_end = max(int(spec.portal_shell_m / (spec.station if lod == 0 else spec.station * 4.0)), 2)
         for tag, seg in (("a", pts[:n_end + 1]), ("b", pts[-n_end - 1:])):
             out.append(ribbon(f"{name}_shell_{tag}", seg, prof["shell"], "concrete_dark", smooth=(lod == 0)))
     return out

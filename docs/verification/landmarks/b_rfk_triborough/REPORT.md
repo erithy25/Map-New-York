@@ -1,6 +1,6 @@
 # Robert F. Kennedy (Triborough) Bridge
 
-Script: `blender/landmarks/b_rfk_triborough.py` · agent B · generated 2026-09-06 12:04 UTC
+Script: `blender/landmarks/b_rfk_triborough.py` · agent B · generated 2026-09-06 13:15 UTC
 
 ## Placement
 
@@ -37,3 +37,4 @@ and the island parkland, and the pedestrian walkway ramps.
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_rfk_triborough.glb` — 80,454 triangles, 3.69 MB, bounds min ['-674.1', '-587.5', '-12.0'] max ['467.7', '3563.4', '99.2']
+* `blender_out/landmarks/b_rfk_triborough_lod1.glb` — 37,378 triangles, 1.54 MB, bounds min ['-674.1', '-587.5', '-12.0'] max ['467.7', '3563.4', '99.2']

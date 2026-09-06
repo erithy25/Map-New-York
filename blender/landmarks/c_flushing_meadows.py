@@ -123,7 +123,10 @@ def build():
 
 def main():
     objs, g = build()
-    entry = cc.finish(objs, ID, g.frame, real_footprint=g.real_local,
+    entry = cc.finish(objs, ID, g.frame, real_footprint=g.real_local, iou_z=0.5,
+                      plan_polygon_note=("model section at z = 0.5 m: the Tent of Tomorrow's terrazzo floor and the "
+                                         "tower and Theaterama plinths are at grade, so the standard 1.5 m slice would "
+                                         "sit above them"),
                       fidelity_statement=(
                           "Exact: four real OTI footprints; the Tent of Tomorrow's 16 concrete columns at "
                           "100 ft = 30.5 m on the measured 106.7 x 76.2 m ellipse with its ring beam and radial "

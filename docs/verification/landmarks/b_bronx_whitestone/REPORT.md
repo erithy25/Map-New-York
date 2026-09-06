@@ -1,6 +1,6 @@
 # Bronx-Whitestone Bridge
 
-Script: `blender/landmarks/b_bronx_whitestone.py` · agent B · generated 2026-09-06 11:59 UTC
+Script: `blender/landmarks/b_bronx_whitestone.py` · agent B · generated 2026-09-06 13:15 UTC
 
 ## Placement
 
@@ -36,3 +36,4 @@ interchanges, the 1939 World's Fair-era lamp standards (replaced), and the aerod
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_bronx_whitestone.glb` — 44,680 triangles, 1.98 MB, bounds min ['-390.6', '-781.3', '-14.0'] max ['390.6', '781.3', '118.1']
+* `blender_out/landmarks/b_bronx_whitestone_lod1.glb` — 10,288 triangles, 0.32 MB, bounds min ['-390.6', '-781.3', '-14.0'] max ['390.6', '781.3', '118.1']

@@ -49,6 +49,8 @@ bool PedSim::configure(const SidewalkGraph& w, const traffic::SignalTable* sig, 
                   std::max(1.0f, cfg_.force.cutoff_m), static_cast<uint32_t>(cap));
   sig_hash_.configure(minx - 20.f, miny - 20.f, maxx + 20.f, maxy + 20.f,
                       std::max(10.f, cfg_.uniqueness_radius_m), static_cast<uint32_t>(cap));
+  road_hash_.configure(minx - 20.f, miny - 20.f, maxx + 20.f, maxy + 20.f, 4.f, static_cast<uint32_t>(cap));
+  road_ids_.reserve(cap);
 
   // Sidewalk area per NTA and the spawn CDF over walkable edges.
   uint16_t max_nta = 0;
@@ -454,6 +456,8 @@ void PedSim::updateAgent(uint32_t i) {
 void PedSim::integrate(uint32_t i) {
   Pedestrian& p = peds_[i];
   const float dt = cfg_.dt;
+  p.prev_x = p.x;
+  p.prev_y = p.y;
   p.vx += fx_[i] * dt;
   p.vy += fy_[i] * dt;
   const float vmax = p.desired_speed * cfg_.max_speed_factor + 0.5f;
@@ -485,6 +489,21 @@ void PedSim::integrate(uint32_t i) {
   p.x = q.x;
   p.y = q.y;
   p.z = q.z;
+  // Hard non-penetration: the corridor clamp covers the straight run of a
+  // sidewalk, this covers the corners, where the corridors of two edges meet at
+  // an angle and a step could otherwise cut through the building line.
+  if (crossesWall(p.prev_x, p.prev_y, p.x, p.y)) {
+    p.x = p.prev_x;
+    p.y = p.prev_y;
+    p.vx = 0.f;
+    p.vy = 0.f;
+    float bs = 0.f, blat = 0.f;
+    walk_->projectOnEdge(p.edge, p.x, p.y, bs, blat);
+    p.s = clampf(bs, 0.f, walk_->edge(p.edge).length_m);
+    p.lateral = clampf(blat, -half, half);
+  }
+  p.prev_x = p.x;
+  p.prev_y = p.y;
   p.flags = static_cast<uint8_t>(walk_->edge(p.edge).kind == WalkEdgeKind::Crosswalk
                                      ? (p.flags | kPedOnRoad)
                                      : (p.flags & ~(kPedOnRoad | kPedJaywalking)));
@@ -589,12 +608,37 @@ bool PedSim::advanceEdge(Pedestrian& p) {
 void PedSim::rebuildHashes() {
   hash_.begin();
   sig_hash_.begin();
+  road_hash_.begin();
   for (uint32_t i = 0; i < peds_.size(); ++i) {
     hash_.insert(i, peds_[i].x, peds_[i].y);
     sig_hash_.insert(i, peds_[i].x, peds_[i].y);
+    if ((peds_[i].flags & kPedOnRoad) != 0) road_hash_.insert(i, peds_[i].x, peds_[i].y);
   }
   hash_.end();
   sig_hash_.end();
+  road_hash_.end();
+}
+
+// True when the movement a→b passes through a wall segment.  Only the walls in
+// the cells the movement touches are tested.
+bool PedSim::crossesWall(float x0, float y0, float x1, float y1) const {
+  if (walk_->wallCount() == 0) return false;
+  uint32_t buf[12];
+  const float mx = (x0 + x1) * 0.5f, my = (y0 + y1) * 0.5f;
+  const float half = 0.5f * std::sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)) + 0.6f;
+  const uint32_t n = walk_->wallsNear(mx, my, half, buf, 12);
+  const float rx = x1 - x0, ry = y1 - y0;
+  for (uint32_t k = 0; k < n; ++k) {
+    const Wall& w = walk_->wall(buf[k]);
+    const float sx = w.x2 - w.x1, sy = w.y2 - w.y1;
+    const float denom = rx * sy - ry * sx;
+    if (std::fabs(denom) < 1e-9f) continue;
+    const float ax = w.x1 - x0, ay = w.y1 - y0;
+    const float t = (ax * sy - ay * sx) / denom;
+    const float u = (ax * ry - ay * rx) / denom;
+    if (t > 0.f && t < 1.f && u > 0.f && u < 1.f) return true;
+  }
+  return false;
 }
 
 void PedSim::step() {
@@ -689,6 +733,8 @@ uint32_t PedSim::spawn(uint32_t edge, float s, bool ignore_player_ring) {
   p.pref_lateral = p.rng.uniform(0.15f, std::max(0.2f, edgeWidthHalf(edge) - 0.2f));
   p.vx = e.dirx * static_cast<float>(p.dir) * p.desired_speed * 0.5f;
   p.vy = e.diry * static_cast<float>(p.dir) * p.desired_speed * 0.5f;
+  p.prev_x = p.x;
+  p.prev_y = p.y;
 
   peds_.push_back(p);
   const uint32_t idx = static_cast<uint32_t>(peds_.size() - 1);
@@ -824,7 +870,7 @@ uint64_t PedSim::trajectoryHash() const {
 uint32_t PedSim::roadPedsProbe(const void* ctx, float x, float y, float r) {
   const PedSim* self = static_cast<const PedSim*>(ctx);
   uint32_t n = 0;
-  self->hash_.query(x, y, r, [&](uint32_t i) {
+  self->road_hash_.query(x, y, r, [&](uint32_t i) {
     if (i >= self->peds_.size()) return;
     const Pedestrian& p = self->peds_[i];
     if ((p.flags & kPedOnRoad) == 0) return;

@@ -552,8 +552,17 @@ bool SidewalkGraph::buildFromRoadGraph(const routing::RoadGraph& g, const traffi
       if (c0.walk_node == c1.walk_node) continue;
       const float sw = std::max(p.min_sidewalk_width_m, p.sidewalk_width_m);
       if (c0.segment != c1.segment) {
-        if (edgeBetween(c0.walk_node, c1.walk_node) == kInvalidIndex)
-          addEdge(c0.walk_node, c1.walk_node, sw, WalkEdgeKind::Sidewalk);
+        // A corner link is short, and a short edge with a full-width corridor
+        // is a wide disc the lateral clamp barely constrains — which is how a
+        // pedestrian ends up on the building side of the corner.  Width it by
+        // its own length instead.
+        if (edgeBetween(c0.walk_node, c1.walk_node) == kInvalidIndex) {
+          const float dx = nodes_[c1.walk_node].pos.x - nodes_[c0.walk_node].pos.x;
+          const float dy = nodes_[c1.walk_node].pos.y - nodes_[c0.walk_node].pos.y;
+          const float link = std::sqrt(dx * dx + dy * dy);
+          addEdge(c0.walk_node, c1.walk_node, clampf(link, p.min_sidewalk_width_m, sw),
+                  WalkEdgeKind::Sidewalk);
+        }
       } else if (p.crosswalks) {
         const uint32_t e = addEdge(c0.walk_node, c1.walk_node, p.crosswalk_width_m, WalkEdgeKind::Crosswalk);
         if (e == kInvalidIndex) continue;

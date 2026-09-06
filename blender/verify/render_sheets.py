@@ -1,0 +1,580 @@
+"""Render each reference viewpoint and compose the photograph-vs-simulation comparison sheets.
+
+For every slug under ``docs/verification/reference/`` this script
+
+1. reads the licensed reference photographs and their metadata (viewpoint, azimuth, author,
+   licence, date the photograph was taken);
+2. assembles the world around that viewpoint with :mod:`scene`;
+3. places the camera with :mod:`camera`;
+4. puts the Sun where it actually was at the moment the reference photograph was taken -- the
+   real date and local time run through ``services/nycsim_live/astronomy.py`` (the same SPA
+   implementation the live services use) -- falling back to 09:30 local on the photograph's date
+   (or on the summer solstice when only a year is recorded);
+5. renders 1280 px wide with Cycles on the CPU to
+   ``docs/verification/comparison/<slug>/render.png``;
+6. composes ``docs/verification/comparison/<slug>/sheet.png``: reference left, render right,
+   caption strip underneath naming the subject, the viewpoint, the photograph's author and
+   licence, and the render's camera parameters and scene contents.
+
+Usage::
+
+    python3 blender/verify/render_sheets.py --slugs promenade_lower_manhattan
+    python3 blender/verify/render_sheets.py --group viewpoint --samples 64
+    python3 blender/verify/render_sheets.py --compose-only --slugs top_of_the_rock_south
+"""
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import logging
+import math
+import os
+import sys
+import time
+from pathlib import Path
+from typing import Iterable, Sequence
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+HERE = Path(__file__).resolve().parent
+for p in (str(HERE), str(REPO_ROOT / "blender" / "common"), str(REPO_ROOT / "pipeline"),
+          str(REPO_ROOT / "services"), str(REPO_ROOT)):
+    if p not in sys.path:
+        sys.path.insert(0, p)
+
+LOG = logging.getLogger("nycsim.verify.render")
+
+REFERENCE_DIR = REPO_ROOT / "docs" / "verification" / "reference"
+COMPARISON_DIR = REPO_ROOT / "docs" / "verification" / "comparison"
+FONT_DIR = REPO_ROOT / "assets" / "fonts" / "Overpass"
+
+NY_TZ = "America/New_York"
+RENDER_WIDTH = 1280
+DEFAULT_SAMPLES = 64
+
+#: Slug -> (scene radius m, prop radius m, kit radius m).  A skyline view needs kilometres of
+#: world and no facade detail; a street view needs the opposite.
+RADIUS_OVERRIDES: dict[str, tuple[float, float, float]] = {
+    "promenade_lower_manhattan": (5000.0, 0.0, 0.0),
+    "staten_island_ferry_lower_manhattan": (5500.0, 0.0, 0.0),
+    "top_of_the_rock_south": (4500.0, 0.0, 0.0),
+    "times_square_duffy_south_day": (800.0, 250.0, 130.0),
+    "times_square_duffy_south_night": (800.0, 250.0, 130.0),
+    "fifth_ave_42nd_north": (700.0, 250.0, 140.0),
+    "fifth_ave_42nd_south": (700.0, 250.0, 140.0),
+    "dumbo_washington_st_manhattan_bridge": (900.0, 250.0, 140.0),
+    "bethesda_terrace_fountain": (700.0, 300.0, 120.0),
+}
+
+#: The seven viewpoints the project brief mandates, mapped to the reference slugs that cover them.
+MANDATED_VIEWPOINTS: dict[str, list[str]] = {
+    "Brooklyn Heights Promenade": ["promenade_lower_manhattan"],
+    "Top of the Rock": ["top_of_the_rock_south"],
+    "Times Square from Duffy Square": ["times_square_duffy_south_day", "times_square_duffy_south_night"],
+    "Fifth Avenue at 42nd Street": ["fifth_ave_42nd_north", "fifth_ave_42nd_south"],
+    "Bethesda Terrace": ["bethesda_terrace_fountain"],
+    "Staten Island Ferry deck": ["staten_island_ferry_lower_manhattan"],
+    "Washington Street, DUMBO": ["dumbo_washington_st_manhattan_bridge"],
+}
+
+DRIVE_THROUGH_AREAS: dict[str, list[str]] = {
+    "Midtown Manhattan": ["drive_midtown_sixth_ave_45th"],
+    "Lower Manhattan": ["drive_lower_manhattan_broadway_wall_st", "drive_lower_manhattan_stone_st"],
+    "Brooklyn brownstones": ["drive_brooklyn_park_slope_7th_ave", "drive_brooklyn_bed_stuy_stuyvesant_ave"],
+    "Queens residential": ["drive_queens_jackson_heights", "drive_queens_forest_hills", "drive_queens_bayside"],
+    "The Bronx": ["drive_bronx_grand_concourse", "drive_bronx_arthur_ave"],
+}
+
+
+# --------------------------------------------------------------------------- reference metadata
+
+
+def list_slugs() -> list[str]:
+    out = []
+    for d in sorted(REFERENCE_DIR.iterdir()):
+        if d.is_dir() and (d / "meta.json").exists():
+            out.append(d.name)
+    return out
+
+
+def load_meta(slug: str) -> dict:
+    return json.loads((REFERENCE_DIR / slug / "meta.json").read_text())
+
+
+def pick_reference_photo(meta: dict) -> dict | None:
+    """The photograph that gives the fairest comparison for this item.
+
+    Preference order: the file exists on disk; the Sun at the moment it was taken agrees with
+    whether the item is a day or a night view (a daylight item photographed after sunset would
+    force a black render); a full date *and* time is recorded, so the Sun can be placed from the
+    real instant instead of an assumption; then the estimated-viewpoint confidence and the
+    azimuth error against the item's canonical viewpoint.
+    """
+    slug = meta["slug"]
+    vp = meta["viewpoint"]
+    az = float(vp["azimuth_deg"])
+    night = bool(meta.get("night"))
+    best, best_key = None, None
+    for p in meta.get("photos", []):
+        f = REFERENCE_DIR / slug / p["file"]
+        if not f.exists():
+            continue
+        ev = p.get("estimated_viewpoint") or {}
+        pa = ev.get("azimuth_deg", az)
+        err = abs((float(pa) - az + 180.0) % 360.0 - 180.0)
+        has_time = bool(p.get("date_taken") and len(str(p["date_taken"])) >= 16)
+        conf = {"high": 0, "medium": 1, "low": 2}.get(ev.get("confidence", "low"), 2)
+        when, _ = photo_instant(p)
+        elev = sun_for(vp["lat"], vp["lon"], when)["elevation_deg"]
+        if night:
+            lit_ok = 0 if elev <= -6.0 else (1 if elev < 0.0 else 2)
+        else:
+            lit_ok = 0 if elev >= 12.0 else (1 if elev > 3.0 else 2)
+        key = (lit_ok, 0 if has_time else 1, conf, err)
+        if best_key is None or key < best_key:
+            best, best_key = p, key
+    return best
+
+
+def photo_instant(photo: dict) -> tuple[dt.datetime, str]:
+    """Local New York datetime for a photo, plus a note on where it came from."""
+    from zoneinfo import ZoneInfo
+    tz = ZoneInfo(NY_TZ)
+    raw = str(photo.get("date_taken") or "").strip()
+    for fmt, note in (("%Y-%m-%d %H:%M:%S", "EXIF DateTimeOriginal"),
+                      ("%Y-%m-%d %H:%M", "EXIF DateTimeOriginal (minutes)"),
+                      ("%Y-%m-%dT%H:%M:%S", "EXIF DateTimeOriginal")):
+        try:
+            return dt.datetime.strptime(raw, fmt).replace(tzinfo=tz), note
+        except ValueError:
+            pass
+    try:
+        d = dt.datetime.strptime(raw, "%Y-%m-%d").date()
+        return dt.datetime.combine(d, dt.time(9, 30), tzinfo=tz), "photograph date, mid-morning 09:30 assumed"
+    except ValueError:
+        pass
+    year = photo.get("year")
+    if isinstance(year, int):
+        return dt.datetime(year, 6, 21, 9, 30, tzinfo=tz), "photograph year only; 21 June 09:30 assumed"
+    return dt.datetime(2024, 6, 21, 9, 30, tzinfo=tz), "no date recorded; 21 June 2024 09:30 assumed"
+
+
+def sun_for(lat: float, lon: float, when_local: dt.datetime, elevation_m: float = 20.0) -> dict:
+    from nycsim_live import astronomy
+    obs = astronomy.Observer(lat, lon, elevation_m)
+    pos = astronomy.solar_position(when_local.astimezone(dt.timezone.utc), obs)
+    return {"azimuth_deg": pos.azimuth, "elevation_deg": pos.elevation,
+            "utc": pos.utc.isoformat().replace("+00:00", "Z"),
+            "local": when_local.isoformat()}
+
+
+# --------------------------------------------------------------------------- rendering
+
+
+def setup_world_and_sun(sun_azimuth_deg: float, sun_elevation_deg: float, *, night: bool) -> dict:
+    """Nishita sky at the real Sun position plus a matching directional light.
+
+    Below the horizon the sky node is clamped to civil twilight and the directional light is
+    removed; nothing artificial is added to stand in for street lighting, so a night frame shows
+    exactly how much emissive content the world currently has (which is the point of the check).
+    """
+    import bpy
+    sc = bpy.context.scene
+    world = bpy.data.worlds.get("World") or bpy.data.worlds.new("World")
+    sc.world = world
+    world.use_nodes = True
+    nt = world.node_tree
+    bg = nt.nodes.get("Background")
+    if bg is None:
+        bg = nt.nodes.new("ShaderNodeBackground")
+        out = nt.nodes.get("World Output") or nt.nodes.new("ShaderNodeOutputWorld")
+        nt.links.new(bg.outputs["Background"], out.inputs["Surface"])
+    sky = nt.nodes.new("ShaderNodeTexSky")
+    sky.sky_type = "NISHITA"
+    sky_elev = max(sun_elevation_deg, -4.0)
+    sky.sun_elevation = math.radians(sky_elev)
+    sky.sun_rotation = math.radians(sun_azimuth_deg)
+    sky.sun_intensity = 0.0
+    sky.altitude = 0.0
+    nt.links.new(sky.outputs["Color"], bg.inputs["Color"])
+    bg.inputs["Strength"].default_value = 0.35 if night else 1.0
+
+    lamp = None
+    if sun_elevation_deg > 0.5:
+        # Direct normal irradiance falls off with air mass; 1361 W/m2 at the top of the
+        # atmosphere, Kasten-Young air mass, 0.7 atmospheric transmittance per air mass.
+        e = math.radians(sun_elevation_deg)
+        am = 1.0 / (math.sin(e) + 0.50572 * (sun_elevation_deg + 6.07995) ** -1.6364)
+        irradiance = 1361.0 * (0.7 ** (am ** 0.678))
+        light = bpy.data.lights.new("verify_sun", "SUN")
+        light.energy = max(0.5, irradiance / 200.0)
+        light.angle = math.radians(0.53)
+        lamp = bpy.data.objects.new("verify_sun", light)
+        bpy.context.scene.collection.objects.link(lamp)
+        lamp.rotation_euler = (math.radians(90.0 - sun_elevation_deg), 0.0,
+                               math.radians(-sun_azimuth_deg))
+        strength = light.energy
+    else:
+        strength = 0.0
+    return {"sky_elevation_deg": round(sky_elev, 3), "sky_azimuth_deg": round(sun_azimuth_deg, 3),
+            "sun_lamp": lamp is not None, "sun_strength_w": round(strength, 2),
+            "background_strength": bg.inputs["Strength"].default_value}
+
+
+def configure_cycles(samples: int, threads: int | None) -> None:
+    import bpy
+    sc = bpy.context.scene
+    sc.render.engine = "CYCLES"
+    sc.cycles.device = "CPU"
+    sc.cycles.samples = samples
+    sc.cycles.use_denoising = True
+    sc.cycles.use_adaptive_sampling = True
+    sc.cycles.adaptive_threshold = 0.01
+    sc.cycles.max_bounces = 4
+    sc.cycles.diffuse_bounces = 2
+    sc.cycles.glossy_bounces = 2
+    sc.cycles.transmission_bounces = 2
+    sc.cycles.transparent_max_bounces = 4
+    sc.cycles.volume_bounces = 0
+    sc.cycles.caustics_reflective = False
+    sc.cycles.caustics_refractive = False
+    sc.render.film_transparent = False
+    sc.render.image_settings.file_format = "PNG"
+    sc.render.image_settings.color_mode = "RGB"
+    sc.view_settings.view_transform = "Filmic" if "Filmic" in [v.name for v in bpy.types.ColorManagedViewSettings.bl_rna.properties["view_transform"].enum_items] else "Standard"
+    if threads:
+        sc.render.threads_mode = "FIXED"
+        sc.render.threads = threads
+
+
+def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | None = None,
+                   width: int = RENDER_WIDTH, dry_run: bool = False) -> dict:
+    """Build, aim, light and render one subject.  Returns the record written to render.json."""
+    import bpy
+    import scene as vscene
+    import camera as vcam
+    from nycsim_pipeline.crs import lonlat_to_tm
+
+    meta = load_meta(slug)
+    vp = meta["viewpoint"]
+    photo = pick_reference_photo(meta)
+    outdir = COMPARISON_DIR / slug
+    outdir.mkdir(parents=True, exist_ok=True)
+
+    x, y = (float(v) for v in lonlat_to_tm(vp["lon"], vp["lat"]))
+    subject = meta.get("subject") or {}
+    subj_dist = None
+    if subject.get("lat") is not None and subject.get("lon") is not None:
+        sx, sy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
+        subj_dist = math.hypot(sx - x, sy - y)
+    if slug in RADIUS_OVERRIDES:
+        radius, prop_r, kit_r = RADIUS_OVERRIDES[slug]
+    else:
+        radius = max(500.0, min(3000.0, (subj_dist or 200.0) * 1.6 + 400.0))
+        prop_r = 0.0 if radius > 1500.0 else 250.0
+        kit_r = 0.0 if radius > 1500.0 else 120.0
+
+    if photo is None:
+        return {"slug": slug, "status": "no_reference_photo",
+                "reason": "meta.json lists no photograph that exists on disk"}
+
+    when, when_note = photo_instant(photo)
+    sun = sun_for(vp["lat"], vp["lon"], when)
+
+    # Match the render aspect to the reference photograph so the two halves compare like for like.
+    pw, ph = int(photo.get("width") or 1600), int(photo.get("height") or 1067)
+    aspect = pw / ph if ph else 1.5
+    height = max(360, int(round(width / aspect / 2) * 2))
+
+    record = {
+        "slug": slug, "name": meta.get("name"), "group": meta.get("group"),
+        "night": bool(meta.get("night")), "interior": bool(meta.get("interior")),
+        "viewpoint": {"lat": vp["lat"], "lon": vp["lon"], "azimuth_deg": vp["azimuth_deg"],
+                      "note": vp.get("note")},
+        "subject": {"name": subject.get("name"), "distance_m": None if subj_dist is None else round(subj_dist, 1)},
+        "reference_photo": {
+            "file": photo["file"], "author": photo.get("author"),
+            "licence": (photo.get("license") or {}).get("short_name"),
+            "licence_url": (photo.get("license") or {}).get("url"),
+            "page_url": photo.get("page_url"), "title": photo.get("title"),
+            "date_taken": photo.get("date_taken"), "width": pw, "height": ph,
+            "estimated_azimuth_deg": (photo.get("estimated_viewpoint") or {}).get("azimuth_deg"),
+            "confidence": (photo.get("estimated_viewpoint") or {}).get("confidence"),
+        },
+        "sun": {**sun, "time_source": when_note},
+        "scene_request": {"radius_m": radius, "prop_radius_m": prop_r, "kit_radius_m": kit_r},
+        "samples": samples,
+    }
+    if dry_run:
+        record["status"] = "dry_run"
+        return record
+
+    t0 = time.time()
+    rep, sampler = vscene.build_scene(
+        x, y, radius, prop_radius_m=prop_r, kit_radius_m=kit_r,
+        with_props=prop_r > 0, with_kit=kit_r > 0,
+        terrain_max_side=420 if radius <= 1500 else 500,
+        lod0_radius_m=1200.0)
+    placement = vcam.place_camera(slug=slug, lat=vp["lat"], lon=vp["lon"],
+                                 azimuth_deg=float(vp["azimuth_deg"]), sampler=sampler,
+                                 resolution=(width, height))
+    light = setup_world_and_sun(sun["azimuth_deg"], sun["elevation_deg"], night=bool(meta.get("night")))
+    configure_cycles(samples, threads)
+
+    render_path = outdir / "render.png"
+    bpy.context.scene.render.filepath = str(render_path)
+    t1 = time.time()
+    bpy.ops.render.render(write_still=True)
+    t2 = time.time()
+
+    record.update({
+        "status": "rendered",
+        "camera": placement.as_dict(),
+        "camera_caption": placement.caption(),
+        "lens_reason": vcam.focal_for(slug)[1],
+        "lighting": light,
+        "scene": rep.as_dict(),
+        "render_png": str(render_path.relative_to(REPO_ROOT)),
+        "seconds": {"scene": round(t1 - t0, 1), "render": round(t2 - t1, 1), "total": round(t2 - t0, 1)},
+        "rendered_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
+    })
+    (outdir / "render.json").write_text(json.dumps(record, indent=1, sort_keys=True))
+    LOG.info("%s rendered in %.0f s (scene %.0f s, %d triangles)", slug, t2 - t0, t1 - t0, rep.triangles)
+    return record
+
+
+# --------------------------------------------------------------------------- sheet composition
+
+
+def _font(size: int, bold: bool = False):
+    from PIL import ImageFont
+    name = "overpass-semibold.otf" if bold else "overpass-regular.otf"
+    p = FONT_DIR / name
+    if p.exists():
+        try:
+            return ImageFont.truetype(str(p), size)
+        except Exception:
+            pass
+    return ImageFont.load_default()
+
+
+def _wrap(draw, text: str, font, max_w: int) -> list[str]:
+    words, lines, cur = text.split(), [], ""
+    for w in words:
+        t = f"{cur} {w}".strip()
+        if draw.textlength(t, font=font) <= max_w or not cur:
+            cur = t
+        else:
+            lines.append(cur)
+            cur = w
+    if cur:
+        lines.append(cur)
+    return lines
+
+
+def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
+    """Reference photograph left, render right, caption strip below."""
+    from PIL import Image, ImageDraw
+    outdir = COMPARISON_DIR / slug
+    rec_path = outdir / "render.json"
+    if record is None:
+        if not rec_path.exists():
+            LOG.warning("%s: no render.json, nothing to compose", slug)
+            return None
+        record = json.loads(rec_path.read_text())
+    render_png = outdir / "render.png"
+    if not render_png.exists():
+        LOG.warning("%s: no render.png, nothing to compose", slug)
+        return None
+    ref_png = REFERENCE_DIR / slug / record["reference_photo"]["file"]
+    if not ref_png.exists():
+        LOG.warning("%s: reference photo %s missing", slug, ref_png)
+        return None
+
+    panel_w = RENDER_WIDTH
+    ref = Image.open(ref_png).convert("RGB")
+    ren = Image.open(render_png).convert("RGB")
+    ref_h = int(round(ref.height * panel_w / ref.width))
+    ren_h = int(round(ren.height * panel_w / ren.width))
+    panel_h = max(ref_h, ren_h)
+    ref = ref.resize((panel_w, ref_h), Image.LANCZOS)
+    ren = ren.resize((panel_w, ren_h), Image.LANCZOS)
+
+    gap, margin, label_h = 16, 24, 34
+    sheet_w = margin * 2 + panel_w * 2 + gap
+    header_h = 56
+
+    f_title = _font(26, bold=True)
+    f_label = _font(19, bold=True)
+    f_body = _font(16)
+    f_small = _font(14)
+
+    scene = record.get("scene", {})
+    cam = record.get("camera", {})
+    ph = record.get("reference_photo", {})
+    b = scene.get("buildings", {})
+    lm = scene.get("landmarks", {})
+    pr = scene.get("props", {})
+    kt = scene.get("kit", {})
+
+    caption_lines: list[tuple[str, object]] = []
+    caption_lines.append((f"Viewpoint: {record['viewpoint'].get('note') or '-'} "
+                          f"({record['viewpoint']['lat']:.5f}, {record['viewpoint']['lon']:.5f}, "
+                          f"azimuth {record['viewpoint']['azimuth_deg']:.1f} deg)", f_body))
+    subj = record.get("subject", {})
+    if subj.get("name"):
+        caption_lines.append((f"Subject: {subj['name']}"
+                              + (f", {subj['distance_m']:.0f} m from the camera" if subj.get("distance_m") else ""), f_body))
+    caption_lines.append((f"Photograph: {ph.get('title') or ph.get('file')} - {ph.get('author')}, "
+                          f"{ph.get('licence')} ({ph.get('licence_url')}), taken {ph.get('date_taken')}; "
+                          f"via Wikimedia Commons {ph.get('page_url')}", f_small))
+    caption_lines.append((f"Render: {record.get('camera_caption', '')}", f_small))
+    caption_lines.append((f"Lens: {record.get('lens_reason','')}", f_small))
+    caption_lines.append((f"Eye height: {cam.get('eye_height_m')} m above "
+                          f"{'sea level' if cam.get('eye_datum') == 'sea' else 'the terrain surface'} - "
+                          f"{cam.get('eye_source','')}", f_small))
+    sun = record.get("sun", {})
+    caption_lines.append((f"Sun: azimuth {sun.get('azimuth_deg', 0):.1f} deg, elevation "
+                          f"{sun.get('elevation_deg', 0):.1f} deg at {sun.get('local','')} "
+                          f"({sun.get('time_source','')}); Cycles CPU, {record.get('samples')} samples, denoised", f_small))
+    caption_lines.append((
+        f"In frame: {b.get('tiles_imported', 0)}/{b.get('tiles_wanted', 0)} building tiles "
+        f"({b.get('triangles', 0):,} tris), {lm.get('placed', 0)} landmarks, "
+        f"{pr.get('placed', 0)} props, {kt.get('placed', 0)} kit pieces; "
+        f"{scene.get('triangles', 0):,} triangles total", f_small))
+    gaps = []
+    if b.get("tiles_missing"):
+        miss = b["missing"][:8]
+        gaps.append(f"building shells not built for {b['tiles_missing']} tile(s): " + ", ".join(miss)
+                    + (" ..." if b["tiles_missing"] > len(miss) else ""))
+    if pr.get("capped"):
+        gaps.append(f"props capped by {pr['capped']}")
+    if kt.get("capped"):
+        gaps.append(f"kit capped by {kt['capped']} ({kt.get('records_in_range',0):,} in range)")
+    if kt.get("reason"):
+        gaps.append(f"kit not placed: {kt['reason']}")
+    if pr.get("reason"):
+        gaps.append(f"props not placed: {pr['reason']}")
+    if not scene.get("terrain", {}).get("built", True):
+        gaps.append("terrain not built: " + str(scene["terrain"].get("reason")))
+    if gaps:
+        caption_lines.append(("Gaps: " + "; ".join(gaps), f_small))
+
+    tmp = Image.new("RGB", (10, 10))
+    d0 = ImageDraw.Draw(tmp)
+    max_w = sheet_w - margin * 2
+    wrapped: list[tuple[str, object]] = []
+    for text, font in caption_lines:
+        for ln in _wrap(d0, text, font, max_w):
+            wrapped.append((ln, font))
+    line_h = 22
+    caption_h = 16 + line_h * len(wrapped) + 12
+    sheet_h = header_h + label_h + panel_h + caption_h + margin
+
+    sheet = Image.new("RGB", (sheet_w, sheet_h), (250, 249, 246))
+    d = ImageDraw.Draw(sheet)
+    d.rectangle([0, 0, sheet_w, header_h], fill=(24, 26, 30))
+    d.text((margin, 15), f"{record.get('name') or slug}", font=f_title, fill=(245, 245, 245))
+    d.text((sheet_w - margin - d.textlength(slug, font=f_small), 22), slug, font=f_small, fill=(160, 165, 175))
+
+    y0 = header_h + label_h
+    d.text((margin, header_h + 8), "REFERENCE PHOTOGRAPH", font=f_label, fill=(40, 44, 52))
+    d.text((margin + panel_w + gap, header_h + 8), "NYCSIM RENDER", font=f_label, fill=(40, 44, 52))
+    sheet.paste(ref, (margin, y0))
+    sheet.paste(ren, (margin + panel_w + gap, y0))
+    d.rectangle([margin - 1, y0 - 1, margin + panel_w, y0 + ref_h], outline=(200, 200, 200))
+    d.rectangle([margin + panel_w + gap - 1, y0 - 1, margin + panel_w * 2 + gap, y0 + ren_h],
+                outline=(200, 200, 200))
+
+    ty = y0 + panel_h + 14
+    d.line([margin, ty - 6, sheet_w - margin, ty - 6], fill=(210, 210, 210))
+    for text, font in wrapped:
+        d.text((margin, ty), text, font=font, fill=(35, 38, 44))
+        ty += line_h
+
+    out = outdir / "sheet.png"
+    sheet.save(out)
+    LOG.info("%s sheet written (%dx%d)", slug, sheet_w, sheet_h)
+    return out
+
+
+# --------------------------------------------------------------------------- CLI
+
+
+def resolve_slugs(args) -> list[str]:
+    known = list_slugs()
+    if args.slugs:
+        want = [s.strip() for s in args.slugs.split(",") if s.strip()]
+        bad = [s for s in want if s not in known]
+        if bad:
+            raise SystemExit(f"unknown slug(s): {', '.join(bad)}")
+        return want
+    if args.mandated:
+        return [s for v in MANDATED_VIEWPOINTS.values() for s in v if s in known]
+    if args.drive:
+        return [s for v in DRIVE_THROUGH_AREAS.values() for s in v if s in known]
+    if args.group:
+        return [s for s in known if load_meta(s).get("group") == args.group]
+    return known
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--slugs", default=None, help="comma-separated reference slugs")
+    ap.add_argument("--group", default=None, choices=["viewpoint", "drive_through", "landmark"])
+    ap.add_argument("--mandated", action="store_true", help="the seven brief-mandated viewpoints")
+    ap.add_argument("--drive", action="store_true", help="the five drive-through areas")
+    ap.add_argument("--samples", type=int, default=DEFAULT_SAMPLES)
+    ap.add_argument("--width", type=int, default=RENDER_WIDTH)
+    ap.add_argument("--threads", type=int, default=None)
+    ap.add_argument("--limit", type=int, default=None)
+    ap.add_argument("--skip-existing", action="store_true", help="skip slugs that already have a render.png")
+    ap.add_argument("--compose-only", action="store_true", help="rebuild sheets from existing renders")
+    ap.add_argument("--dry-run", action="store_true", help="print the plan without rendering")
+    a = ap.parse_args(argv)
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s",
+                        datefmt="%H:%M:%S")
+    slugs = resolve_slugs(a)
+    if a.limit:
+        slugs = slugs[:a.limit]
+    LOG.info("%d subject(s): %s", len(slugs), ", ".join(slugs))
+
+    done, failed = [], []
+    for slug in slugs:
+        outdir = COMPARISON_DIR / slug
+        if a.compose_only:
+            if compose_sheet(slug) is not None:
+                done.append(slug)
+            else:
+                failed.append(slug)
+            continue
+        if a.skip_existing and (outdir / "render.png").exists() and (outdir / "sheet.png").exists():
+            LOG.info("%s already rendered, skipping", slug)
+            done.append(slug)
+            continue
+        try:
+            rec = render_subject(slug, samples=a.samples, threads=a.threads, width=a.width,
+                                 dry_run=a.dry_run)
+        except Exception as exc:
+            LOG.exception("%s failed", slug)
+            outdir.mkdir(parents=True, exist_ok=True)
+            (outdir / "render_error.txt").write_text(f"{type(exc).__name__}: {exc}\n")
+            failed.append(slug)
+            continue
+        if a.dry_run:
+            print(json.dumps(rec, indent=1, sort_keys=True))
+            done.append(slug)
+            continue
+        if rec.get("status") != "rendered":
+            failed.append(slug)
+            (outdir / "render_error.txt").write_text(json.dumps(rec, indent=1))
+            continue
+        compose_sheet(slug, rec)
+        done.append(slug)
+    LOG.info("done: %d, failed: %d%s", len(done), len(failed),
+             (" (" + ", ".join(failed) + ")") if failed else "")
+    return 0 if not failed else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,6 +1,6 @@
 # Hugh L. Carey Tunnel
 
-Script: `blender/landmarks/b_hugh_carey_portals.py` · agent B · generated 2026-09-06 12:31 UTC
+Script: `blender/landmarks/b_hugh_carey_portals.py` · agent B · generated 2026-09-06 13:17 UTC
 
 ## Placement
 
@@ -37,3 +37,4 @@ individual tile courses.
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_hugh_carey_portals.glb` — 43,880 triangles, 2.04 MB, bounds min ['-461.1', '-1337.3', '-29.3'] max ['430.4', '1335.3', '41.2']
+* `blender_out/landmarks/b_hugh_carey_portals_lod1.glb` — 32,888 triangles, 1.86 MB, bounds min ['-461.1', '-1337.3', '-29.3'] max ['430.4', '1335.3', '41.2']

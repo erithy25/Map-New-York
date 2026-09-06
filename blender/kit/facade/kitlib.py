@@ -50,9 +50,13 @@ KIT_TEX_RES = 1024  # embedded texture resolution (px) — 1 mm/px at 1 m tiling
 V3 = Vector
 
 # --------------------------------------------------------------------------- registry
+# Triangle caps per category. These are ceilings, not targets: every piece is instanced thousands of times across the
+# city, so geometry spent once here buys a shadow line everywhere. Windows, trim, string courses and cornices were
+# raised after the first verification pass showed flat-reading sashes, box lintels and unarticulated cornices at
+# street distance (see docs/verification/kit/REPORT.md, "second pass").
 BUDGETS: dict[str, int] = {
-    "window": 400, "window_accessory": 400, "door_entry": 3000, "cornice": 1200, "string_course": 200, "quoin": 300, "pilaster": 600,
-    "trim": 200, "storefront": 6000, "storefront_interior": 6000, "fire_escape": 3000, "parapet": 200, "bulkhead": 800, "water_tower": 4000,
+    "window": 900, "window_accessory": 500, "door_entry": 3000, "cornice": 2500, "string_course": 600, "quoin": 500, "pilaster": 900,
+    "trim": 400, "storefront": 6000, "storefront_interior": 6000, "fire_escape": 3000, "parapet": 300, "bulkhead": 800, "water_tower": 4000,
     "hvac": 1200, "antenna": 900, "billboard": 2500, "scaffold": 3000, "fence": 800, "vegetation": 1500,
 }
 

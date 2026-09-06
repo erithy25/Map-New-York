@@ -1,0 +1,210 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_220_central_park_south",
+ "name": "220 Central Park South",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.765173,
+  "lon": -73.981245,
+  "azimuth_deg": 10.0,
+  "note": "Central Park South at Seventh Avenue, about 200 m south of the tower, looking north at 220 Central Park South",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.766944,
+  "lon": -73.980833,
+  "name": "220 Central Park South"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2019,
+ "wanted": 3,
+ "queries": [
+  "\"220 Central Park South\" tower",
+  "\"220 Central Park South\" Robert A. M. Stern"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T13:08:22Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 43,
+ "candidates_eligible": 26,
+ "rejections": {
+  "keywords": 1,
+  "excluded": 11,
+  "night_for_day_item": 1,
+  "indoor": 1,
+  "too_old": 2,
+  "too_small": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Columbus Circle area Oct 2020 48.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Columbus_Circle_area_Oct_2020_48.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/ed/Columbus_Circle_area_Oct_2020_48.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Columbus_Circle_area_Oct_2020_48.jpg/1920px-Columbus_Circle_area_Oct_2020_48.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2020-10-24 15:11:46",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": {
+    "lat": 40.767216,
+    "lon": -73.981778
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 648943,
+   "sha256": "9c882e41814d2e10ba78eb4ba3ebdc6be0f69c6e8d6692e7db236c4f3ffd281c",
+   "mean_luminance": 112.5,
+   "description": "5 Columbus Circle in Manhattan, New York City, seen in October 2020",
+   "categories": [
+    "220 Central Park South",
+    "5 Columbus Circle",
+    "Central Park Tower",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2020-10-24",
+    "October 2020 in Manhattan, New York City",
+    "Photographs by Epicgenius",
+    "1780 Broadway"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"220 Central Park South\" tower",
+   "score": 9.75,
+   "estimated_viewpoint": {
+    "lat": 40.767216,
+    "lon": -73.981778,
+    "azimuth_deg": 110.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76722, -73.98178) is 85 m from 220 Central Park South (40.76694, -73.98083) and 232 m from the standard viewpoint; the azimuth 111 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Columbus Circle area Oct 2020 48.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Columbus_Circle_area_Oct_2020_48.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Central Park Tower 2020-03 jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Central_Park_Tower_2020-03_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/00/Central_Park_Tower_2020-03_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Central_Park_Tower_2020-03_jeh.jpg/1920px-Central_Park_Tower_2020-03_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2020-03-15 17:14:27",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": {
+    "lat": 40.7607,
+    "lon": -73.9843
+   },
+   "original_width": 2485,
+   "original_height": 4417,
+   "width": 1920,
+   "height": 3413,
+   "bytes": 943149,
+   "sha256": "96ca9b141b2f1489c1d8abc308384531d2eacb2dd0fca7d85b8bfb77e6d60fda",
+   "mean_luminance": 110.1,
+   "description": "Looking north up Broadway on a sunny afternoon",
+   "categories": [
+    "220 Central Park South",
+    "Central Park Tower",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "March 2020 in Manhattan, New York City",
+    "March 2020 photos by Jim.henderson",
+    "2020 Manhattan photos by Jim.henderson"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"220 Central Park South\" tower",
+   "score": 9.75,
+   "estimated_viewpoint": {
+    "lat": 40.7607,
+    "lon": -73.9843,
+    "azimuth_deg": 22.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76070, -73.98430) is 753 m from 220 Central Park South (40.76694, -73.98083) and 560 m from the standard viewpoint; the azimuth 23 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Central Park Tower 2020-03 jeh.jpg\" by Jim.henderson, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Central_Park_Tower_2020-03_jeh.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:111 W57 & One57 & CP Tower fr Col Cir jeh (rotated).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:111_W57_%26_One57_%26_CP_Tower_fr_Col_Cir_jeh_(rotated).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/41/111_W57_%26_One57_%26_CP_Tower_fr_Col_Cir_jeh_%28rotated%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/111_W57_%26_One57_%26_CP_Tower_fr_Col_Cir_jeh_%28rotated%29.jpg/1920px-111_W57_%26_One57_%26_CP_Tower_fr_Col_Cir_jeh_%28rotated%29.jpg",
+   "author": "User:Jim.henderson",
+   "credit": "File:111_W57_&_One57_&_CP_Tower_fr_Col_Cir_jeh.jpg",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2020-01-05 15:25:38",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": {
+    "lat": 40.76872,
+    "lon": -73.981677
+   },
+   "original_width": 2448,
+   "original_height": 3173,
+   "width": 1920,
+   "height": 2489,
+   "bytes": 1114285,
+   "sha256": "51283c9f297d29b34205c7ee615d786e886f44f8cded681d23f8f8e890732312",
+   "mean_luminance": 129.4,
+   "description": "Looking southeast across Columbus Circle",
+   "categories": [
+    "220 Central Park South",
+    "One57",
+    "240 Central Park South",
+    "Central Park Tower",
+    "111 West 57th Street",
+    "New York City photographs taken on 2020-01-05",
+    "Hotels in the United States photographed in 2020",
+    "Files with coordinates missing SDC location of creation",
+    "Midtown Manhattan in 2020",
+    "Apartment buildings in the United States photographed in 2020",
+    "January 2020 in Manhattan, New York City",
+    "Central Park photos by Jim.henderson",
+    "2020 Manhattan photos by Jim.henderson",
+    "January 2020 photos by Jim.henderson",
+    "Columbus Circle in 2020"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"220 Central Park South\" tower",
+   "score": 9.75,
+   "estimated_viewpoint": {
+    "lat": 40.76872,
+    "lon": -73.981677,
+    "azimuth_deg": 160.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76872, -73.98168) is 210 m from 220 Central Park South (40.76694, -73.98083) and 396 m from the standard viewpoint; the azimuth 160 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"111 W57 & One57 & CP Tower fr Col Cir jeh (rotated).jpg\" by User:Jim.henderson, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:111_W57_%26_One57_%26_CP_Tower_fr_Col_Cir_jeh_(rotated).jpg"
+  }
+ ]
+}

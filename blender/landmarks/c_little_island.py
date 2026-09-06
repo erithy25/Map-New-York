@@ -111,30 +111,40 @@ def build():
         head = HEAD_MIN + (HEAD_MAX - HEAD_MIN) * f
         sides = 6 if k % 3 else 5
         b.lathe([(head * 0.16, -3.0), (head * 0.16, z * 0.35), (head * 0.30, z * 0.72),
-                 (head / 2, z - 1.1), (head / 2, z)], sides, C.M.concrete,
+                 (head / 2, z - 1.9), (head / 2, z - 1.65)], sides, C.M.concrete,
                 origin=(px, py, 0.0), smooth=False, phase_deg=(k * 37) % 60)
     objs.append(C.tag(b.build(f"{ID}_pots"), "pots"))
 
-    # ---- the deck surface -------------------------------------------------------------------------------------
+    # ---- the deck surface: a Delaunay mesh over the real outline, with z from the height field ----------------
+    from scipy.spatial import Delaunay  # noqa: E402  (already a dependency of common.MeshBuilder.hull)
     b = C.MeshBuilder()
     ring = C.ring_coords(P)
-    nsub = 26
-    grid = []
-    for i in range(nsub + 1):
-        row = []
-        for jj in range(nsub + 1):
-            px = x0 + (x1 - x0) * i / nsub
-            py = y0 + (y1 - y0) * jj / nsub
-            row.append((px, py, deck_z(px, py)))
-        grid.append(row)
-    for i in range(nsub):
-        for jj in range(nsub):
-            quad = [grid[i][jj], grid[i + 1][jj], grid[i + 1][jj + 1], grid[i][jj + 1]]
-            cxq = sum(q[0] for q in quad) / 4
-            cyq = sum(q[1] for q in quad) / 4
-            if not P.contains(Point(cxq, cyq)):
-                continue
-            b.quad(quad[0], quad[1], quad[2], quad[3], C.M.grass)
+    pts: list[tuple[float, float]] = []
+    for k in range(len(ring)):                      # densify the outline so the boundary triangles stay small
+        a0 = np.array(ring[k]); a1 = np.array(ring[(k + 1) % len(ring)])
+        L = float(np.linalg.norm(a1 - a0))
+        n = max(1, int(L // 5.0))
+        for i in range(n):
+            q = a0 + (a1 - a0) * (i / n)
+            pts.append((float(q[0]), float(q[1])))
+    step_g = 6.0
+    yy = y0
+    while yy <= y1:
+        xx = x0
+        while xx <= x1:
+            if P.contains(Point(xx, yy).buffer(1.5)):
+                pts.append((xx, yy))
+            xx += step_g
+        yy += step_g
+    arr = np.asarray(pts, dtype=np.float64)
+    tri = Delaunay(arr)
+    for ia, ib, ic in tri.simplices:
+        a = arr[ia]; bb = arr[ib]; c2 = arr[ic]
+        cen = ((a[0] + bb[0] + c2[0]) / 3.0, (a[1] + bb[1] + c2[1]) / 3.0)
+        if not P.contains(Point(cen)):
+            continue
+        b.tri((a[0], a[1], deck_z(a[0], a[1])), (bb[0], bb[1], deck_z(bb[0], bb[1])),
+              (c2[0], c2[1], deck_z(c2[0], c2[1])), C.M.grass)
     for p0, p1, L, t, n in C.edges_of(ring):                       # the deck edge fascia and railing
         za = deck_z(p0[0], p0[1])
         zb = deck_z(p1[0], p1[1])

@@ -132,6 +132,11 @@ class ClassTable:
     has_loading_dock: np.ndarray      # bool
     has_garage: np.ndarray            # bool
     has_ivy: np.ndarray               # bool
+    has_string_course: np.ndarray     # bool
+    has_quoins: np.ndarray            # bool
+    has_pilasters: np.ndarray         # bool
+    has_canopy: np.ndarray            # bool
+    has_columns: np.ndarray           # bool
     roof_shape: np.ndarray            # int8 roof_type enum implied by the class
     ids: list[str]
     storefront_kinds: list[list[int]]
@@ -155,7 +160,7 @@ def class_table() -> ClassTable:
         "has_cornice", "has_fire_escape", "has_stoop", "has_storefront", "has_water_tower", "has_rooftop_hvac",
         "has_bulkhead", "has_cell_antennas", "has_balconies", "has_roll_gate", "has_awning", "has_ac_units",
         "has_through_wall_ac", "has_areaway", "has_setbacks", "has_billboard", "has_loading_dock", "has_garage",
-        "has_ivy")}
+        "has_ivy", "has_string_course", "has_quoins", "has_pilasters", "has_canopy", "has_columns")}
     ids = [""] * n
     sf_kinds: list[list[int]] = [[] for _ in range(n)]
     feature_flag = {
@@ -165,6 +170,8 @@ def class_table() -> ClassTable:
         "awning": "has_awning", "ac_units": "has_ac_units", "through_wall_ac": "has_through_wall_ac",
         "areaway_railing": "has_areaway", "setbacks": "has_setbacks", "billboard": "has_billboard",
         "loading_dock": "has_loading_dock", "garage": "has_garage", "ivy": "has_ivy",
+        "string_course": "has_string_course", "quoins": "has_quoins", "pilasters": "has_pilasters",
+        "canopy": "has_canopy", "columns": "has_columns",
     }
     for c in classes:
         i = int(c["facade_class"])

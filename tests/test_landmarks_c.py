@@ -166,6 +166,19 @@ def test_footprint_iou_above_0_9(lid):
     assert iou >= 0.90, f"{lid}: footprint IoU {iou} < 0.90"
 
 
+ELEVATED = ("c_high_line", "c_little_island", "c_pier_17_seaport", "c_flushing_meadows")
+
+
+@pytest.mark.parametrize("lid", ELEVATED)
+def test_elevated_landmarks_say_how_their_iou_was_measured(lid):
+    """A deck 9 m in the air cannot be checked by the standard 1.5 m section, so those four must say what they did."""
+    _, cat = _exported(lid)
+    e = json.loads(cat.read_text())
+    method = e.get("footprint_iou_method")
+    assert method, f"{lid}: no footprint_iou_method recorded although it does not use the standard 1.5 m section"
+    assert len(method) > 40, f"{lid}: footprint_iou_method is too terse to be an explanation"
+
+
 @pytest.mark.parametrize("lid", IDS)
 def test_triangle_budget_and_lod1(lid):
     _, cat = _exported(lid)

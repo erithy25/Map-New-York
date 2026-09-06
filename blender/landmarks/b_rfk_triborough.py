@@ -121,15 +121,17 @@ def _viaduct(objs: list, name: str, frame, p0_tm, p1_tm, z0: float, z1: float, w
     if L < 20.0:
         return
     axis = bl.Axis(Vector((x0, y0, 0.0)), d)
-    ap = bl.ApproachSpec(0.0, L, z0, z1, "girder", pier_spacing=40.0, width=width, material="concrete", ground_z=GROUND)
+    ap = bl.ApproachSpec(0.0, L, z0, z1, "girder", pier_spacing=40.0 if lod == 0 else 120.0, width=width,
+                         material="concrete", ground_z=GROUND)
     objs += bl.build_approach(name, axis, ap, lod)
     z_fn = (lambda s: z0 + (z1 - z0) * s / L)
-    ss = bl.samples(0.0, L, 12.0)
+    ss = bl.samples(0.0, L, 12.0 if lod == 0 else 60.0)
     objs.append(bl.sweep(f"{name}_deck", axis, ss, bl.rect_section(width, 0.7, 0.0, 0.0), z_fn, "concrete_dark"))
     objs.append(bl.sweep(f"{name}_road", axis, ss, bl.rect_section(width - 1.6, 0.08, 0.0, 0.08), z_fn, "asphalt"))
-    for side in (-1, 1):
-        objs.append(bl.sweep(f"{name}_parapet{side}", axis, ss,
-                             bl.rect_section(0.45, 1.1, side * (width / 2 - 0.25), 1.1), z_fn, "concrete"))
+    if lod == 0:
+        for side in (-1, 1):
+            objs.append(bl.sweep(f"{name}_parapet{side}", axis, ss,
+                                 bl.rect_section(0.45, 1.1, side * (width / 2 - 0.25), 1.1), z_fn, "concrete"))
 
 
 def build(lod: int = 0):

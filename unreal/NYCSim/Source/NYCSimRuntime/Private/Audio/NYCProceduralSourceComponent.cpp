@@ -73,6 +73,23 @@ void UNYCProceduralSourceComponent::TriggerWiperSweep(float Dryness01)
 	WiperTrigger.fetch_add(1, std::memory_order_relaxed);
 }
 
+void UNYCProceduralSourceComponent::SetHornPressed(bool bPressed)
+{
+	ParamHornPressed.store(bPressed ? 1 : 0, std::memory_order_relaxed);
+}
+
+void UNYCProceduralSourceComponent::SetAmbience(float Intensity01, float Variation01)
+{
+	ParamIntensity.store(Clamp01(Intensity01), std::memory_order_relaxed);
+	ParamVariation.store(Clamp01(Variation01), std::memory_order_relaxed);
+}
+
+void UNYCProceduralSourceComponent::TriggerTrainPass(float Strength01)
+{
+	ParamPassStrength.store(Clamp01(Strength01), std::memory_order_relaxed);
+	PassTrigger.fetch_add(1, std::memory_order_relaxed);
+}
+
 void UNYCProceduralSourceComponent::SetSourceGain(float Gain)
 {
 	ParamGain.store(FMath::Clamp(Gain, 0.f, 2.f), std::memory_order_relaxed);
@@ -250,6 +267,113 @@ float UNYCProceduralSourceComponent::GenerateWiper()
 	return (Hum + Friction * 0.35f + Squeak) * ArcGain * WiperEnvelope * 0.35f;
 }
 
+float UNYCProceduralSourceComponent::GenerateHorn()
+{
+	// A US dual-tone horn is two reeds a minor third apart. E4 (329.6 Hz) and G4 (392.0 Hz) is the interval most
+	// production horns use; the beating between them is what makes it sound like a car and not like a sine.
+	const bool bPressed = ParamHornPressed.load(std::memory_order_relaxed) != 0;
+	// 25 ms to full pressure, 60 ms to release: the reeds have mass.
+	const float Target = bPressed ? 1.f : 0.f;
+	const float Tau = bPressed ? 0.025f : 0.060f;
+	HornEnvelope += (Target - HornEnvelope) * FMath::Min(1.f, InvRate / Tau);
+	if (HornEnvelope < 0.0005f)
+	{
+		return 0.f;
+	}
+
+	HornPhaseA += 329.63f * InvRate;
+	HornPhaseB += 392.00f * InvRate;
+	if (HornPhaseA >= 1.f)
+	{
+		HornPhaseA -= FMath::FloorToFloat(HornPhaseA);
+	}
+	if (HornPhaseB >= 1.f)
+	{
+		HornPhaseB -= FMath::FloorToFloat(HornPhaseB);
+	}
+
+	// Each reed is rich in odd harmonics; six terms is enough to read as brass rather than as a sine.
+	float Sample = 0.f;
+	for (int32 H = 1; H <= 6; ++H)
+	{
+		const float Amplitude = 1.f / static_cast<float>(H * H);
+		Sample += Amplitude * FMath::Sin(kTwoPi * HornPhaseA * static_cast<float>(H));
+		Sample += Amplitude * FMath::Sin(kTwoPi * HornPhaseB * static_cast<float>(H));
+	}
+	return Sample * 0.16f * HornEnvelope;
+}
+
+float UNYCProceduralSourceComponent::GenerateSteam()
+{
+	// A sidewalk steam vent is a subsonic jet: broadband noise with the low end rolled off by the aperture and a
+	// slow amplitude wander as the plume breathes. Con Edison runs about 105 miles of steam main under Manhattan,
+	// and what you hear at a vent is the pressure release, not the boiler.
+	const float Intensity = ParamIntensity.load(std::memory_order_relaxed);
+	if (Intensity < 0.002f)
+	{
+		return 0.f;
+	}
+	const float Variation = ParamVariation.load(std::memory_order_relaxed);
+
+	const float N = Noise();
+	// Band pass by subtraction: everything above 700 Hz, then band-limited again at 6 kHz.
+	const float Low = LowPass(FilterA, N, 700.f, static_cast<float>(Rate));
+	const float Hiss = LowPass(FilterB, N - Low, 6000.f, static_cast<float>(Rate));
+
+	// The plume wanders on a ~1 s time constant; Variation decides how much.
+	AmbWander = LowPass(WindLp, Noise(), 1.f, static_cast<float>(Rate));
+	const float Envelope = 1.f + FMath::Clamp(AmbWander * 6.f, -0.8f, 0.8f) * Variation;
+
+	return Hiss * Intensity * Envelope * 0.42f;
+}
+
+float UNYCProceduralSourceComponent::GenerateRumble()
+{
+	// A subway grate: a constant low hum of ventilation, plus the swell of a train passing beneath. An R160 on
+	// the express track takes roughly eight seconds to pass a grate at 30 mph, and what reaches the street is
+	// almost entirely below 200 Hz because the concrete is a low-pass filter.
+	const float Intensity = ParamIntensity.load(std::memory_order_relaxed);
+	const float Variation = ParamVariation.load(std::memory_order_relaxed);
+	if (PassTrigger.exchange(0, std::memory_order_relaxed) > 0)
+	{
+		PassPhase = 0.f;
+		PassStrength = ParamPassStrength.load(std::memory_order_relaxed);
+	}
+
+	// Ventilation bed.
+	float Sample = LowPass(RumbleLp, Noise(), 120.f, static_cast<float>(Rate)) * Intensity * 0.9f;
+
+	if (PassPhase >= 0.f)
+	{
+		PassPhase += InvRate / 8.f;
+		if (PassPhase >= 1.f)
+		{
+			PassPhase = -1.f;
+		}
+		else
+		{
+			// Raised cosine swell: quiet, loud in the middle of the pass, quiet again.
+			const float Swell = 0.5f - 0.5f * FMath::Cos(kTwoPi * PassPhase);
+			// Rolling stock: a 34 Hz drone from the trucks with rail joints beating against it.
+			RumblePhase += 34.f * InvRate;
+			if (RumblePhase >= 1.f)
+			{
+				RumblePhase -= FMath::FloorToFloat(RumblePhase);
+			}
+			const float Drone = FMath::Sin(kTwoPi * RumblePhase) * 0.5f + FMath::Sin(kTwoPi * RumblePhase * 2.f) * 0.2f;
+			const float Wheels = LowPass(FilterA, Noise(), 260.f + 340.f * Swell, static_cast<float>(Rate));
+			Sample += (Drone * 0.55f + Wheels * 0.45f) * Swell * PassStrength;
+		}
+	}
+
+	// The grate itself rattles a little when the pass is strong.
+	if (Variation > 0.01f)
+	{
+		Sample += LowPass(FilterB, Noise(), 1800.f, static_cast<float>(Rate)) * Variation * 0.06f * Intensity;
+	}
+	return Sample * 0.5f;
+}
+
 int32 UNYCProceduralSourceComponent::OnGenerateAudio(float* OutAudio, int32 NumSamples)
 {
 	const float Gain = ParamGain.load(std::memory_order_relaxed);
@@ -263,6 +387,9 @@ int32 UNYCProceduralSourceComponent::OnGenerateAudio(float* OutAudio, int32 NumS
 		case ENYCSourceKind::Wind: Sample = GenerateWind(); break;
 		case ENYCSourceKind::Rain: Sample = GenerateRain(); break;
 		case ENYCSourceKind::Wiper: Sample = GenerateWiper(); break;
+		case ENYCSourceKind::Horn: Sample = GenerateHorn(); break;
+		case ENYCSourceKind::Steam: Sample = GenerateSteam(); break;
+		case ENYCSourceKind::Rumble: Sample = GenerateRumble(); break;
 		default: break;
 		}
 		OutAudio[i] = FMath::Clamp(Sample * Gain, -1.f, 1.f);

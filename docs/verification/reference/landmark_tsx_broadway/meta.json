@@ -1,0 +1,99 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_tsx_broadway",
+ "name": "TSX Broadway",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.757901,
+  "lon": -73.985051,
+  "azimuth_deg": 20.0,
+  "note": "Duffy Square about 130 m south-south-west of the building, looking north-north-east at the TSX Broadway screen and stage",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.759,
+  "lon": -73.984523,
+  "name": "TSX Broadway"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2022,
+ "wanted": 3,
+ "queries": [
+  "\"TSX Broadway\" building",
+  "\"TSX Broadway\" Times Square stage Palace Theatre"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T13:14:18Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 80,
+ "candidates_eligible": 1,
+ "rejections": {
+  "keywords": 68,
+  "not_photo": 4,
+  "too_old": 1,
+  "indoor": 2,
+  "too_small": 1,
+  "excluded": 3
+ },
+ "exhausted": true,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:TSX Broadway construction - Palace Theatre raised.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:TSX_Broadway_construction_-_Palace_Theatre_raised.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/55/TSX_Broadway_construction_-_Palace_Theatre_raised.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/TSX_Broadway_construction_-_Palace_Theatre_raised.jpg/1920px-TSX_Broadway_construction_-_Palace_Theatre_raised.jpg",
+   "author": "Z22",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-05-17 17:18:33",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.758983,
+    "lon": -73.984214
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 877969,
+   "sha256": "03554e48b507ded694ea258aacb1e715454b9fb2bf160d3995923d27166da068",
+   "mean_luminance": 124.4,
+   "description": "TSX Broadway construction in May 2022 after the Palace Theatre was raised to its final height 30 feet off the ground.",
+   "categories": [
+    "Palace Theatre (Broadway)",
+    "TSX Broadway",
+    "New York City photographs taken on 2022-05-17",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Construction in Manhattan, New York City",
+    "May 2022 in Times Square",
+    "Komatsu excavators",
+    "Construction vehicles in Manhattan, New York City",
+    "Excavators in New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"TSX Broadway\" building",
+   "score": 12.05,
+   "estimated_viewpoint": {
+    "lat": 40.758983,
+    "lon": -73.984214,
+    "azimuth_deg": 274.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75898, -73.98421) is 26 m from TSX Broadway (40.75900, -73.98452) and 139 m from the standard viewpoint; the azimuth 274 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"TSX Broadway construction - Palace Theatre raised.jpg\" by Z22, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:TSX_Broadway_construction_-_Palace_Theatre_raised.jpg"
+  }
+ ]
+}

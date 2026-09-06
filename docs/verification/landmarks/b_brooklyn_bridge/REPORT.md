@@ -1,6 +1,6 @@
 # Brooklyn Bridge
 
-Script: `blender/landmarks/b_brooklyn_bridge.py` · agent B · generated 2026-09-06 11:54 UTC
+Script: `blender/landmarks/b_brooklyn_bridge.py` · agent B · generated 2026-09-06 13:13 UTC
 
 ## Placement
 
@@ -54,8 +54,4 @@ roadway (only the four trusses that show above the deck are built).
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_brooklyn_bridge.glb` — 120,912 triangles, 5.67 MB, bounds min ['-703.3', '-603.6', '-13.0'] max ['577.8', '734.8', '85.0']
-
-## Verification renders (Cycles CPU, 64 spp)
-
-![dumbo_washington_street](dumbo_washington_street.png)
-![brooklyn_bridge_park](brooklyn_bridge_park.png)
+* `blender_out/landmarks/b_brooklyn_bridge_lod1.glb` — 33,496 triangles, 1.40 MB, bounds min ['-703.3', '-603.6', '-13.0'] max ['577.8', '734.8', '85.0']

@@ -588,10 +588,16 @@ def pass_emit(only_tiles: set[str] | None, limit_groups: int | None, out_dir: Pa
         raise FileNotFoundError(f"{attrs_path} missing: run the `rules` pass first")
     attrs = pl.read_parquet(attrs_path)
     edges_dir = out_dir / "edges"
-    if not edges_dir.exists() or not any(edges_dir.glob("*.parquet")):
-        # the edge cache is a derived intermediate the emit pass deletes when it finishes a full run; rebuild it
-        # rather than writing empty placement files
-        log.warning("%s holds no edge runs; rebuilding it with the geom pass", edges_dir)
+    _tiles_for_groups = (attrs["tile"].unique().to_list() if only_tiles is None
+                         else [t2 for t2 in attrs["tile"].unique().to_list() if t2 in only_tiles])
+    _needed = list(tile_groups(_tiles_for_groups))
+    if limit_groups:
+        _needed = _needed[:limit_groups]
+    if any(not (edges_dir / f"{g}.parquet").exists() for g in _needed):
+        # the edge cache is a derived intermediate the emit pass deletes when it finishes a full run, and a subset
+        # run leaves it partial; rebuild exactly what this run needs rather than writing empty placement files
+        log.warning("%s does not cover all %d tile blocks of this run; rebuilding it with the geom pass",
+                    edges_dir, len(_needed))
         pass_geom(only_tiles, limit_groups, out_dir)
     groups = tile_groups(attrs["tile"].unique().to_list() if only_tiles is None
                          else [t2 for t2 in attrs["tile"].unique().to_list() if t2 in only_tiles])
@@ -684,6 +690,50 @@ def pass_emit(only_tiles: set[str] | None, limit_groups: int | None, out_dir: Pa
     return tot
 
 
+def regenerate_tile_placements(tile: str, tiles_root: Path = TILES_ROOT, out_dir: Path = FACADE_DIR) -> np.ndarray:
+    """Recompute one tile's placements from scratch, without the edge cache.
+
+    Used by the tests to prove the output is reproducible from the inputs alone, and by anyone who needs to re-derive
+    a single tile.  The tile is processed together with its eight neighbours so the party-wall test sees the same
+    footprints the full run saw.
+    """
+    attrs = pl.read_parquet(out_dir / "facade_attrs.parquet").filter(pl.col("tile") == tile).sort("row")
+    if attrs.height == 0:
+        raise KeyError(f"{tile} is not in facade_attrs.parquet")
+    want = neighbour_tiles([tile])
+    cols = ["tile", "bin", "footprint", "primary_facade_heading"]
+    tbl = pq.read_table(BASE, columns=cols, filters=[("tile", "in", sorted(want))])
+    tiles = np.asarray(tbl["tile"].to_pylist())
+    emit_mask = tiles == tile
+    order = np.concatenate([np.nonzero(emit_mask)[0], np.nonzero(~emit_mask)[0]])
+    wkb = np.asarray(tbl["footprint"].to_pylist(), dtype=object)[order]
+    heading = tbl["primary_facade_heading"].to_numpy(zero_copy_only=False).astype(np.float64)[order]
+    n_emit = int(emit_mask.sum())
+    geoms_all = shapely.from_wkb(wkb)
+    valid = shapely.is_valid(geoms_all)
+    if not valid.all():
+        geoms_all = np.where(valid, geoms_all, shapely.make_valid(geoms_all))
+    tree = shapely.STRtree(geoms_all)
+    tree_index = np.concatenate([np.arange(n_emit, dtype=np.int64), np.full(len(geoms_all) - n_emit, -1, dtype=np.int64)])
+    geoms = geoms_all[:n_emit]
+    road_tree, road_ids = _load_roads()
+    rt, rid = None, None
+    if road_tree is not None:
+        xmin, ymin, xmax, ymax = shapely.total_bounds(geoms)
+        box = shapely.box(xmin - EG.STREET_NEAR_M, ymin - EG.STREET_NEAR_M,
+                          xmax + EG.STREET_NEAR_M, ymax + EG.STREET_NEAR_M)
+        sel = road_tree.query(box, predicate="intersects")
+        if len(sel):
+            rt = shapely.STRtree(road_tree.geometries.take(sel))
+            rid = road_ids[sel]
+    runs = EG.compute_runs(geoms, heading[:n_emit], tree, tree_index, rt, rid)
+    base_tbl = pq.read_table(tiles_root / tile / "buildings.parquet")
+    e = pl.DataFrame({"row": runs.bidx.astype(np.int32), "x0": runs.x0, "y0": runs.y0, "x1": runs.x1, "y1": runs.y1,
+                      "length": runs.length.astype(np.float32), "nx": runs.nx.astype(np.float32),
+                      "ny": runs.ny.astype(np.float32), "is_party": runs.is_party, "is_street": runs.is_street})
+    return _placements_for_tile(base_tbl, attrs, e)
+
+
 def _count_by_row(rec: np.ndarray, bins: np.ndarray) -> np.ndarray:
     out = np.zeros(len(bins), dtype=np.int32)
     if len(rec) == 0:
@@ -732,6 +782,7 @@ def _placements_for_tile(base_tbl: pa.Table, a: pl.DataFrame, e: pl.DataFrame) -
         "water_tower_kind": a["water_tower_kind"].to_numpy().astype(np.int64),
         "rooftop_units": a["rooftop_units"].to_numpy().astype(np.int32),
         "storefront_kind_primary": a["storefront_kind_primary"].to_numpy().astype(np.int64),
+        "roof_type": a["roof_type"].to_numpy().astype(np.int64),
     }
     runs = {
         "bidx": e["row"].to_numpy().astype(np.int64),

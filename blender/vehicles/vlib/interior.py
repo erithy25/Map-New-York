@@ -10,8 +10,10 @@ extents in the vehicle frame, seat rows, wheel position, detail level) and gets 
     Interior_DoorCard_FL/FR/RL/RR, Interior_Belts, Interior_Mirror, Interior_Visor_L/R
 
 ``detail='full'`` is the player-car interior (seams, piping, vents, switch pods, sun visors, grab handles);
-``detail='mid'`` is the AI-fleet interior (same objects, coarser sections, no piping); ``detail='bench'`` adds
-transit bench rows instead of individual seats.
+``detail='mid'`` is the AI-fleet interior (same objects, coarser sections, no piping); ``detail='cab'`` is the
+**driver station only** — dash with the gauge and screen slots, steering wheel and column, driver's seat,
+shifter and pedals — which is what a bus, a coach, a fire truck or a box truck actually has behind the
+windscreen (their saloon or body is furnished separately by the vehicle's ``extras`` hook).
 """
 from __future__ import annotations
 
@@ -416,10 +418,12 @@ def build_interior(sp: InteriorSpec, lib: M.Library, *, seam_texture=None, three
     for spot in sp.seats:
         out[spot.name] = build_seat(spot, lib, detail=sp.detail, seam_texture=seam_texture,
                                     headrest=True)
-    if sp.console:
-        out["Interior_Console"] = build_console(sp, lib)
     out["Shifter"] = build_shifter(sp, lib)
     out["Pedals"] = build_pedals(sp, lib, three=three_pedals)
+    if sp.detail == "cab":
+        return out
+    if sp.console:
+        out["Interior_Console"] = build_console(sp, lib)
     out["Interior_Carpet"] = build_carpet(sp, lib)
     x_header = sp.x_roof_front if sp.x_roof_front is not None else sp.x_cowl - 0.08
     if sp.headliner:

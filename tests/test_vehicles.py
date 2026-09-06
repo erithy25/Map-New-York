@@ -173,6 +173,8 @@ def _entries() -> list[dict]:
         return []
     out = []
     for p in sorted(CATALOG.glob("*.json")):
+        if p.name.startswith("_"):          # _build_summary.json is a run log, not a vehicle
+            continue
         out.append(json.loads(p.read_text()))
     return out
 

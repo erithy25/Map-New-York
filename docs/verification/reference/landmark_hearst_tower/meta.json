@@ -1,0 +1,203 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_hearst_tower",
+ "name": "Hearst Tower",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.765332,
+  "lon": -73.984209,
+  "azimuth_deg": 20.0,
+  "note": "Eighth Avenue at West 56th Street, about 150 m south-south-west of the tower, looking north-north-east at the diagrid above the Art Deco base",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7666,
+  "lon": -73.9836,
+  "name": "Hearst Tower"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Hearst Tower\" New York diagrid",
+  "\"Hearst Tower\" 300 West 57th Street"
+ ],
+ "geosearch_radius_m": 350,
+ "fetched_at": "2026-09-06T13:19:24Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 97,
+ "candidates_eligible": 39,
+ "rejections": {
+  "indoor": 2,
+  "keywords": 47,
+  "too_small": 3,
+  "too_old": 5,
+  "excluded": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:W 57th St Nov 2020 163.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:W_57th_St_Nov_2020_163.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/f4/W_57th_St_Nov_2020_163.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/W_57th_St_Nov_2020_163.jpg/1920px-W_57th_St_Nov_2020_163.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2020-11-22 13:13:56",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": {
+    "lat": 40.766554,
+    "lon": -73.98408
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 478184,
+   "sha256": "2965f64ed25fa0bbb8363a69d66324d86ca27091330ce03ff20492fa589702ff",
+   "mean_luminance": 116.2,
+   "description": "The Hearst Magazine Building, at the base of the Hearst Tower, at 8th Avenue and 57th Street in Manhattan, New York, seen in November 2020",
+   "categories": [
+    "New York City photographs taken on 2020-11-22",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Midtown Manhattan in 2020",
+    "November 2020 in Manhattan, New York City",
+    "Photographs by Epicgenius",
+    "Hearst Magazine Building"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.75,
+   "estimated_viewpoint": {
+    "lat": 40.766554,
+    "lon": -73.98408,
+    "azimuth_deg": 82.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76655, -73.98408) is 41 m from Hearst Tower (40.76660, -73.98360) and 136 m from the standard viewpoint; the azimuth 83 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"W 57th St Nov 2020 163.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:W_57th_St_Nov_2020_163.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Hearst Tower (Manhattan) May 2023.JPG",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Hearst_Tower_(Manhattan)_May_2023.JPG",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/62/Hearst_Tower_%28Manhattan%29_May_2023.JPG",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Hearst_Tower_%28Manhattan%29_May_2023.JPG/1280px-Hearst_Tower_%28Manhattan%29_May_2023.JPG",
+   "author": "Benoît Prieur",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2023-05-20 15:45:06",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.766125,
+    "lon": -73.983361
+   },
+   "original_width": 1475,
+   "original_height": 3214,
+   "width": 1280,
+   "height": 2789,
+   "bytes": 643093,
+   "sha256": "1e8f96073bdd606cba062506a96d6f937c3b12c8a6fa70c1da8d36108d698af7",
+   "mean_luminance": 168.8,
+   "description": "Hearst Tower (Manhattan) May 2023.",
+   "categories": [
+    "CC-Zero",
+    "Hearst Tower (Manhattan)",
+    "Images of New York by Benoît Prieur",
+    "Photographs by Benoît Prieur",
+    "New York City photographs taken on 2023-05-20",
+    "Self-published work",
+    "2023 images by Benoît Prieur",
+    "Files with coordinates missing SDC location of creation",
+    "Rain in Manhattan, New York City",
+    "Midtown Manhattan in 2023",
+    "Towers in the United States photographed in 2023",
+    "May 2023 in Manhattan, New York City",
+    "Uploaded with PyCommonist"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.2,
+   "estimated_viewpoint": {
+    "lat": 40.766125,
+    "lon": -73.983361,
+    "azimuth_deg": 339.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76613, -73.98336) is 57 m from Hearst Tower (40.76660, -73.98360) and 113 m from the standard viewpoint; the azimuth 339 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Hearst Tower (Manhattan) May 2023.JPG\" by Benoît Prieur, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Hearst_Tower_(Manhattan)_May_2023.JPG"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Hearstowernyc.JPG",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Hearstowernyc.JPG",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Hearstowernyc.JPG",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Hearstowernyc.JPG/960px-Hearstowernyc.JPG",
+   "author": "User:Alsandro",
+   "credit": "Own work",
+   "license": {
+    "short_name": "Public domain",
+    "url": "https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain",
+    "template": "pd"
+   },
+   "date_taken": "2015-09-07",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.765556,
+    "lon": -73.983611
+   },
+   "original_width": 1015,
+   "original_height": 1728,
+   "width": 960,
+   "height": 1634,
+   "bytes": 367071,
+   "sha256": "603bbeb6aad9ceda24319361c28a06bd218120ba127eb975d860a8167bea6511",
+   "mean_luminance": 107.8,
+   "description": "Hearst Tower, New York",
+   "categories": [
+    "Hearst Tower (Manhattan)",
+    "Self-published work",
+    "PD-self",
+    "FoP-United States",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "valued",
+   "restrictions": "",
+   "provenance": "search:\"Hearst Tower\" 300 West 57th Street",
+   "score": 14.0,
+   "estimated_viewpoint": {
+    "lat": 40.765556,
+    "lon": -73.983611,
+    "azimuth_deg": 0.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76556, -73.98361) is 116 m from Hearst Tower (40.76660, -73.98360) and 56 m from the standard viewpoint; the azimuth 0 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Hearstowernyc.JPG\" by User:Alsandro, Public domain (https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Hearstowernyc.JPG"
+  }
+ ]
+}

@@ -137,11 +137,14 @@ def build():
     p0g, p1g, Lg, tg, ng = C.edge_facing(ring, 0.0)
     b.box_from_to(p0g, p1g, ng, 0.5, 6.0, 12.0, C.M.glass_clear)
     objs.append(C.tag(b.build(f"{ID}_st_george"), "mass"))
-    return objs, g
+    return objs, g, {
+        "manhattan": [o for o in objs if o is not None and ("whitehall" in o.name or "bmb" in o.name)],
+        "st_george": [o for o in objs if o is not None and "st_george" in o.name],
+    }
 
 
 def main():
-    objs, g = build()
+    objs, g, groups = build()
     entry = cc.finish(objs, ID, g.frame, real_footprint=g.real_local,
                       fidelity_statement=(
                           "Exact: three real OTI footprints; Whitehall Terminal's 75 ft = 22.9 m north glass wall "
@@ -157,10 +160,15 @@ def main():
                       dimensions={"whitehall_top_m": WHITEHALL_TOP, "whitehall_glass_wall_m": WHITEHALL_GLASS,
                                   "battery_maritime_top_m": BMB_TOP, "st_george_top_m": ST_GEORGE_TOP,
                                   "slip_length_m": SLIP_L, "slip_deck_z_m": SLIP_Z})
-    cc.render(ID, [
-        {"view": "harbour", "azimuth_deg": 180, "elevation_deg": "street", "fov_deg": 45, "look_up_deg": 6},
-        {"view": "aerial", "azimuth_deg": 200, "elevation_deg": 34},
-    ])
+    # the two ends of the route are 6 km apart, so each is framed on its own objects
+    cc.render(ID, [{"view": "whitehall_harbour", "azimuth_deg": 180, "elevation_deg": "street", "fov_deg": 52,
+                    "look_up_deg": 9},
+                   {"view": "whitehall_aerial", "azimuth_deg": 200, "elevation_deg": 32}],
+              objects=groups["manhattan"])
+    cc.render(ID, [{"view": "st_george_harbour", "azimuth_deg": 20, "elevation_deg": "street", "fov_deg": 52,
+                    "look_up_deg": 9},
+                   {"view": "st_george_aerial", "azimuth_deg": 40, "elevation_deg": 32}],
+              objects=groups["st_george"])
     return entry
 
 

@@ -1,0 +1,204 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_lipstick_building",
+ "name": "Lipstick Building (885 Third Avenue)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.756679,
+  "lon": -73.969417,
+  "azimuth_deg": 20.0,
+  "note": "Third Avenue at East 52nd Street, about 130 m south-south-west of the tower, looking north-north-east at the elliptical setbacks",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.757778,
+  "lon": -73.968889,
+  "name": "Lipstick Building (885 Third Avenue)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Lipstick Building\" Third Avenue",
+  "\"885 Third Avenue\" elliptical tower"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T13:21:16Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 39,
+ "candidates_eligible": 7,
+ "rejections": {
+  "too_old": 1,
+  "too_small": 1,
+  "keywords": 17,
+  "indoor": 12,
+  "not_photo": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:52nd St 3rd Av td 03 - Lipstick Building.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:52nd_St_3rd_Av_td_03_-_Lipstick_Building.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/52nd_St_3rd_Av_td_03_-_Lipstick_Building.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/52nd_St_3rd_Av_td_03_-_Lipstick_Building.jpg/1920px-52nd_St_3rd_Av_td_03_-_Lipstick_Building.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.75719,
+    "lon": -73.969964
+   },
+   "original_width": 3648,
+   "original_height": 5472,
+   "width": 1920,
+   "height": 2880,
+   "bytes": 1312908,
+   "sha256": "8aaacfff47e0e9c6af8de6a9f1e9245d7676d32e335ada50fd7beca11312fc76",
+   "mean_luminance": 117.6,
+   "description": "Looking north at the Lipstick Building (885 Third Avenue), from 3rd Avenue and 52nd Street in East Midtown Manhattan.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "Lipstick Building",
+    "3rd Avenue (Manhattan)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2018-04-23",
+    "2018 Manhattan photographs by Tdorante10",
+    "Midtown Manhattan in 2018",
+    "Trucks in Manhattan, New York City",
+    "April 2018 in Manhattan, New York City",
+    "Photographs by Tdorante10 taken on 2018-04-23",
+    "W. B. Mason"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.45,
+   "estimated_viewpoint": {
+    "lat": 40.75719,
+    "lon": -73.969964,
+    "azimuth_deg": 54.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75719, -73.96996) is 112 m from Lipstick Building (885 Third Avenue) (40.75778, -73.96889) and 73 m from the standard viewpoint; the azimuth 54 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"52nd St 3rd Av td 03 - Lipstick Building.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:52nd_St_3rd_Av_td_03_-_Lipstick_Building.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Lipstick Building (51923067068).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Lipstick_Building_(51923067068).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Lipstick_Building_%2851923067068%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Lipstick_Building_%2851923067068%29.jpg/1920px-Lipstick_Building_%2851923067068%29.jpg",
+   "author": "ajay_suresh",
+   "credit": "Lipstick Building",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2022",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.757194,
+    "lon": -73.969789
+   },
+   "original_width": 2370,
+   "original_height": 4213,
+   "width": 1920,
+   "height": 3413,
+   "bytes": 2181685,
+   "sha256": "fb5d8407a3b931498b2e5a89ccef37af4a9f1d61e552ccd87c58485be6059002",
+   "mean_luminance": 163.3,
+   "description": "Lipstick Building",
+   "categories": [
+    "Lipstick Building",
+    "New York City photographs taken on 2022-03-06",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Midtown Manhattan in 2022",
+    "March 2022 in Manhattan, New York City",
+    "2022 New York City photographs by ajay suresh"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.757194,
+    "lon": -73.969789,
+    "azimuth_deg": 49.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75719, -73.96979) is 100 m from Lipstick Building (885 Third Avenue) (40.75778, -73.96889) and 65 m from the standard viewpoint; the azimuth 49 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Lipstick Building (51923067068).jpg\" by ajay_suresh, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Lipstick_Building_(51923067068).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Lipstick Building.JPG",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Lipstick_Building.JPG",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/91/Lipstick_Building.JPG",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Lipstick_Building.JPG/1920px-Lipstick_Building.JPG",
+   "author": "Marlith",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2011-12-29 04:37:00",
+   "date_source": "DateTime(file)",
+   "year": 2011,
+   "camera_gps": {
+    "lat": 40.7575,
+    "lon": -73.969722
+   },
+   "original_width": 2592,
+   "original_height": 1944,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 689805,
+   "sha256": "350ac29be2e6e93f28d2f2b6e1b2cb458a96ff095833ceb3afeb197d4f93b85b",
+   "mean_luminance": 103.1,
+   "description": "The lipstick building in New York",
+   "categories": [
+    "GFDL",
+    "Taken with Canon Digital IXUS 70",
+    "Lipstick Building",
+    "License migration redundant",
+    "CC-BY-SA-4.0,3.0,2.5,2.0,1.0",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 9.0,
+   "estimated_viewpoint": {
+    "lat": 40.7575,
+    "lon": -73.969722,
+    "azimuth_deg": 66.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75750, -73.96972) is 77 m from Lipstick Building (885 Third Avenue) (40.75778, -73.96889) and 95 m from the standard viewpoint; the azimuth 66 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Lipstick Building.JPG\" by Marlith, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Lipstick_Building.JPG"
+  }
+ ]
+}

@@ -14,14 +14,14 @@ facade_classes.json}`).
 | file | role |
 |---|---|
 | `blender/kit/facade/kitlib.py` | geometry accumulator (metre UVs, named material slots), PBR materials from `textures.py`, LOD1 generation, glb export, catalog entries, triangle accounting |
-| `blender/kit/facade/pieces_common.py` | shared sub-builders (masonry reveals, lintels, sills, segmental arches, sashes, railings, ladders, stairs, gratings, brackets, dentils) and the generated textures (interior cards, ivy sheet, sign strips) |
+| `blender/kit/facade/pieces_common.py` | shared sub-builders (masonry reveals, lintels, sills, segmental arches, sashes, railings, ladders, stairs, gratings, brackets, dentils) and the two generated textures (interior cards, ivy leaf sheet) |
 | `blender/kit/facade/pieces_windows.py` | 18 windows — one per `facade_params.WINDOW_TYPES` entry |
 | `blender/kit/facade/pieces_accessories.py` | 15 window accessories |
 | `blender/kit/facade/pieces_entries.py` | 13 stoops, doors, canopies, gates, hatches |
-| `blender/kit/facade/pieces_trim.py` | 23 cornices, string courses, quoins, pilasters and loose trim |
+| `blender/kit/facade/pieces_trim.py` | 24 cornices, string courses, quoins, pilasters and loose trim |
 | `blender/kit/facade/pieces_storefront.py` | 19 storefront bays, roll gates, scissor grilles, awnings, projecting sign |
 | `blender/kit/facade/pieces_interiors.py` | 11 storefront interior shells (2.50 m deep) |
-| `blender/kit/facade/pieces_roof.py` | 24 fire escapes, parapets, bulkheads, water towers, HVAC, antennas, billboards |
+| `blender/kit/facade/pieces_roof.py` | 29 fire escapes, parapets, bulkheads, water towers, HVAC, antennas, billboards |
 | `blender/kit/facade/pieces_street.py` | 9 sidewalk sheds, pipe scaffold, fences, ivy, roof weeds |
 | `blender/kit/facade/build_kit.py` | driver — `python3 blender/kit/facade/build_kit.py [--only PREFIX] [--slice I/N] [--dry-run]` |
 | `blender/kit/facade/render_sheets.py` | Cycles contact sheets and the assembled tenement test |
@@ -42,7 +42,7 @@ facade_classes.json}`).
   railing, areaway railing on its own, apartment lobby canopy, residential double doors, single panelled door,
   glazed lobby entrance, loft roll gate, sectional garage door, Gothic church portal, hollow-metal service door,
   sidewalk cellar hatch, Italianate brownstone door surround.
-* **Trim (23)** — three pressed-metal cornice profiles + a single console bracket + a mitred return end, brick
+* **Trim (24)** — three pressed-metal cornice profiles + a single console bracket + a mitred return end, brick
   corbel cornice, limestone modillion cornice; four string courses; three quoin stacks; four pilasters; water
   table, loose lintel, loose sill, keystone, datestone, brick corner return.
 * **Storefronts (19 + 11 interiors)** — bays at 3.6 / 4.8 / 6.0 m with bulkhead, plate glass, recessed entrance,
@@ -53,7 +53,7 @@ facade_classes.json}`).
   the enum requires (generic retail, lobby, vacant).
 * **Fire escapes (6)** — per-storey party-balcony unit (standard and wide), top balcony without a stair, L-shaped
   corner return, stowed drop ladder, gooseneck roof hook.
-* **Roof (16)** — brick parapet wall, three parapet copings, cast-stone balustrade; brick / metal stair bulkheads
+* **Roof (23)** — brick parapet wall, three parapet copings, cast-stone balustrade; brick / metal stair bulkheads
   and an elevator machine room; 10 000 and 20 000 gal cedar water towers; packaged RTUs (small and large),
   condenser bank, mushroom exhaust fan, cooling tower, vent-pipe cluster, brick chimney; cell sector array, whip
   mast, roof satellite dish, TV Yagi; 14.63 × 4.88 m rooftop bulletin and a 12.19 × 6.10 m wall bulletin.
@@ -108,8 +108,8 @@ facade_classes.json}`).
 | `antenna` | 4 | 978 | 306 | - / 900 | 21 % | 4.6 |
 | `billboard` | 2 | 1,904 | 1,528 | - / 2500 | 18 % | 2.6 |
 | `bulkhead` | 3 | 420 | 260 | - / 900 | 18 % | 9.1 |
-| `cornice` | 7 | 1,206 | 304 | - / 400/1000/1400 | 17 % | 2.0 |
-| `door_entry` | 13 | 5,138 | 1,720 | - / 400/500/900/1200/1400/1600/1800/2000/2200/2600/3000 | 17 % | 13.6 |
+| `cornice` | 7 | 1,890 | 394 | - / 600/1000/1400/2200/2500/2800 | 20 % | 2.0 |
+| `door_entry` | 13 | 5,250 | 1,720 | - / 400/500/900/1200/1400/1600/1800/2000/2200/2600/3000 | 17 % | 13.6 |
 | `fence` | 3 | 1,201 | 561 | - / 800 | 19 % | 2.9 |
 | `fire_escape` | 6 | 4,198 | 1,260 | 3 000 / 3000 | 9 % | 2.9 |
 | `hvac` | 7 | 2,072 | 516 | - / 1200 | 20 % | 10.5 |
@@ -118,18 +118,20 @@ facade_classes.json}`).
 | `quoin` | 3 | 288 | 144 | - / 400/500 | 4 % | 1.0 |
 | `scaffold` | 3 | 1,752 | 1,092 | - / 3000 | 22 % | 4.0 |
 | `storefront` | 19 | 9,600 | 1,676 | 6 000 / 800/6000 | 10 % | 24.5 |
-| `storefront_interior` | 11 | 9,831 | 1,642 | - / 6000 | 20 % | 16.3 |
-| `string_course` | 4 | 300 | 144 | - / 200/400/500 | 17 % | 1.5 |
-| `trim` | 6 | 139 | 48 | - / 200/300 | 14 % | 3.4 |
+| `storefront_interior` | 11 | 9,831 | 1,642 | - / 6000 | 20 % | 16.2 |
+| `string_course` | 4 | 452 | 144 | - / 400/500/600 | 18 % | 1.5 |
+| `trim` | 6 | 191 | 48 | - / 300/400 | 16 % | 3.4 |
 | `vegetation` | 3 | 824 | 440 | - / 1500 | 23 % | 0.2 |
 | `water_tower` | 2 | 2,372 | 1,234 | 4 000 / 4000 | 18 % | 4.1 |
-| `window` | 18 | 3,398 | 318 | 400 / 250/400/500/550/700/900/1000 | 5 % | 25.6 |
-| `window_accessory` | 15 | 2,236 | 312 | - / 8/400 | 18 % | 7.4 |
-| **total** | **138** | **49,283** | | | **15 %** | **140.1** |
+| `window` | 18 | 3,856 | 346 | 400 / 500/900/1100/1200/1600 | 4 % | 25.7 |
+| `window_accessory` | 15 | 2,236 | 312 | - / 8/500 | 18 % | 7.4 |
+| **total** | **138** | **50,741** | | | **15 %** | **140.2** |
 
-`budget` is the per-piece cap recorded in the catalog; the brief's caps (window ≤ 400, storefront bay ≤ 6 000,
-fire escape ≤ 3 000, water tower ≤ 4 000) are all met with margin — the largest window is 318 triangles, the
-largest storefront piece 1 676, the largest fire escape 1 260, the largest water tower 1 234.
+`budget` is the per-piece ceiling recorded in the catalog. The **brief's** caps are the binding ones and
+`tests/test_kit_facade.py::test_triangle_budget` enforces both: every piece must be inside its own catalog budget
+*and* inside the brief's cap for its category (window ≤ 400, storefront ≤ 6 000, fire escape ≤ 3 000, water tower
+≤ 4 000). All are met with margin — the largest window is 346 triangles, the largest storefront piece
+1,676, the largest fire escape 1,260, the largest water tower 1,234.
 
 LOD1 is capped at 25 % of LOD0. Where collapse decimation cannot reach that (a mesh of separate closed bars —
 fire escapes, scissor grilles, storefront bays — cannot go below four triangles per box), an explicit low-poly
@@ -143,15 +145,15 @@ therefore `lod1 ≤ max(2, ceil(0.25 · lod0))`, which is binding for every piec
 
 ```
 $ nice -n 15 python3 blender/kit/facade/build_kit.py
-138 pieces in 14 s
-  triangles LOD0 total 49283 (as exported (glb))
+138 pieces in 20 s
+  triangles LOD0 total 50741 (as exported (glb))
   over budget : []
   LOD1 > 25 % : []
   size dev>5 %: []
 ```
 
-Wall time 17.5 s, peak RSS 608 MiB for the whole run (the 46 catalogue materials and their embedded 1 K maps
-stay resident); 140.1 MB of glb written; the glTF exporter emits no warnings.
+Wall time ≈ 20 s on a contended box, peak RSS 608 MiB for the whole run (the 46 catalogue materials and their
+embedded 1 K maps stay resident); 140.2 MB of glb written; the glTF exporter emits no warnings.
 
 ### 4.2 Tests
 
@@ -175,7 +177,8 @@ storefront bay width × gate state, every interior kind and the pieces the brief
 
 ### 4.3 Renders
 
-Cycles CPU, 64 samples, adaptive sampling at 0.03, bounces limited to 4 (2 diffuse / 2 glossy / 4 transmission),
+Cycles CPU, 64 samples, adaptive sampling at 0.03, bounces limited to 6 (2 diffuse / 2 glossy / 6 transmission /
+24 transparent),
 `nice -n 10`, one Blender process at a time:
 
 | file | contents | resolution | render |
@@ -235,9 +238,16 @@ The renders were inspected and the following were corrected before this report:
 9. **94 LOD1 meshes exported with "Mesh … is not valid, and may be exported wrongly".** Collapse decimation
    leaves duplicate and zero-area faces; `Mesh.to_object` and `make_lod1` now call `mesh.validate()` before
    export. The exporter is silent and the LOD0 triangle total is unchanged.
-10. **Decimation fell back to a single bounding quad too eagerly.** `make_lod1` now retries with a tightening
-   ratio and rejects a decimated result that has collapsed below four triangles, so the flat-quad proxy is a last
-   resort rather than the common case.
+10. **The glass was salted with black speckle.** Kit glazing is alpha-blended *and* transmissive, and the panes
+    stack (outer sash, inner sash, interior card), so the render's `transparent_max_bounces = 4` terminated rays
+    before they reached the interior card and returned black. Raised to 24 (transparent bounces cost no BSDF
+    evaluation), with `max_bounces`/`transmission_bounces` at 6.
+11. **Decimation fell back to a single bounding quad too eagerly.** `make_lod1` now retries with a tightening
+    ratio and rejects a decimated result that has collapsed below four triangles, so the flat-quad proxy is a
+    last resort rather than the common case.
+12. **The interior shell stuck out past the building.** In the first tenement assembly the 3.6 m bay sat against
+    the party wall, so the 4.80 m shell behind it overhung the facade by half a metre. The test now centres the
+    bay where the shell fits, and every shell entry states its width and that it may be scaled in X.
 
 ### 4.5 DATA_CONTRACTS §13 compliance, and one foundation defect to fix
 
@@ -274,17 +284,19 @@ cedar water tanks (10 000 / 20 000 US gal); 14.63 × 4.88 m (48 × 16 ft) roofto
 
 * The pieces are *typologies*, not surveys of named buildings. Each is the standard New York detail for its era
   and class, not a measured drawing of one address. Nothing in the kit is presented as a specific building.
-* Ornament is modelled at kit-piece resolution: cornice brackets are swept S-curve profiles rather than
-  cast foliate scrolls, the Ionic pilaster capital is a simplified volute, and terracotta rosettes are stepped
-  blocks. At the triangle budgets the brief sets (a window is 400 triangles) that is the achievable fidelity;
-  finer ornament belongs in normal maps, which the kit does not bake.
+* Ornament is modelled as swept mouldings and stamped members — a cornice is a real member chain (frieze, dentil
+  course, bed mould, consoles, corona with a splayed soffit, cyma crown, capping fillet) but the consoles are
+  swept S-scrolls rather than cast foliate scrolls, the Ionic pilaster capital is a simplified volute, and
+  terracotta rosettes are stepped blocks. At the triangle budgets the brief sets (a window is 400 triangles) that
+  is the achievable fidelity; finer ornament belongs in normal maps, which the kit does not bake.
 * Storefront sign bands are a plain painted panel with no lettering. The fascia geometry and its metre UVs are
   there for the signage/props agent to map real signs onto; inventing shop names here would be fabricated data.
 * The interior shells are lit by emissive ceiling planes and flat-coloured stock, not by real fixtures; they are
   built to read correctly through 6 mm of glass from the sidewalk, which is all they are for.
-* Only 30 of the 46 catalogued materials are used by kit pieces. The other 16 (asphalt, tar roof, brown/orange
-  brick, rubble, siding variants, the Poly Haven stone walls) are in the shared catalog for the props, vehicle
-  and landmark agents.
+* 34 of the 46 catalogued materials are used by kit pieces (30 distinct CC0 texture sets);
+  the remaining 12 — `asphalt`, `brown_brick`, `brownstone_ashlar`, `concrete_sidewalk`, `granite_rusticated`, `limestone_ashlar`, `red_brick_orange`, `stone_rubble`, `tan_brick_yellow`, `tar_gravel_roof`, `tar_roof`, `wood_clapboard` — stay in the shared
+  catalog for the props, vehicle, landmark and terrain agents. The kit adds 20 flat / emissive /
+  generated materials of its own on top (`chrome`, `fluoro_white`, `foliage_green`, `foliage_green_dry`, `interior_lit`, `interior_unlit`, …).
 * The kit's own `billboard` budget was raised from 1 500 to 2 500 triangles: a 48 × 16 ft bulletin with a real
   lattice back-frame, catwalk and floodlights does not fit in 1 500. The brief fixes no budget for billboards.
 * `blender/common/texture_catalog.json` was edited (two green tints) and `blender/common/textures.py` was not.
@@ -337,7 +349,7 @@ Fonts: `assets/fonts/Overpass` (SIL Open Font License 1.1) is used for the conta
 
 ```sh
 python3 blender/common/textures.py --fetch-all          # CC0 sources + LICENSE.json (already on disk)
-python3 blender/kit/facade/build_kit.py                 # 138 glb + catalog, ~16 s
+python3 blender/kit/facade/build_kit.py                 # 138 glb + catalog, ~20 s
 python3 -m pytest tests/test_kit_facade.py -q           # 973 assertions
 sh blender/kit/facade/render_all.sh 64 800              # every verification render, sequentially
 ```
@@ -346,21 +358,21 @@ sh blender/kit/facade/render_all.sh 64 800              # every verification ren
 
 | id | category | LOD0 | LOD1 | budget | size W x D x H (m) | anchor | materials |
 |---|---|---:|---:|---:|---|---|---|
-| `acc_ac_bracket` | window_accessory | 72 | 12 | 400 | 0.51 x 0.40 x 0.35 | wall_sill_centre | steel_galvanized |
-| `acc_ac_window_large` | window_accessory | 276 | 49 | 400 | 0.67 x 0.66 x 0.80 | wall_sill_centre | aluminum_anodized, painted_metal_black, steel_galvanized |
-| `acc_ac_window_medium` | window_accessory | 276 | 49 | 400 | 0.57 x 0.55 x 0.77 | wall_sill_centre | aluminum_anodized, painted_metal_black, steel_galvanized |
-| `acc_ac_window_small` | window_accessory | 276 | 49 | 400 | 0.48 x 0.42 x 0.73 | wall_sill_centre | aluminum_anodized, painted_metal_black, steel_galvanized |
-| `acc_blinds_half` | window_accessory | 312 | 59 | 400 | 0.89 x 0.04 x 0.73 | wall_head_centre | aluminum_anodized, paint_cream |
-| `acc_curtains_closed` | window_accessory | 56 | 12 | 400 | 0.96 x 0.04 x 1.54 | wall_bottom_centre | aluminum_anodized, paint_cream |
-| `acc_curtains_open` | window_accessory | 28 | 5 | 400 | 0.96 x 0.04 x 1.54 | wall_bottom_centre | aluminum_anodized, paint_cream |
-| `acc_flower_box` | window_accessory | 148 | 32 | 400 | 1.00 x 0.37 x 0.59 | wall_sill_centre | painted_wood_white, soil, painted_metal_black, paint_red, foliage_green |
+| `acc_ac_bracket` | window_accessory | 72 | 12 | 500 | 0.51 x 0.40 x 0.35 | wall_sill_centre | steel_galvanized |
+| `acc_ac_window_large` | window_accessory | 276 | 49 | 500 | 0.67 x 0.66 x 0.80 | wall_sill_centre | aluminum_anodized, painted_metal_black, steel_galvanized |
+| `acc_ac_window_medium` | window_accessory | 276 | 49 | 500 | 0.57 x 0.55 x 0.77 | wall_sill_centre | aluminum_anodized, painted_metal_black, steel_galvanized |
+| `acc_ac_window_small` | window_accessory | 276 | 49 | 500 | 0.48 x 0.42 x 0.73 | wall_sill_centre | aluminum_anodized, painted_metal_black, steel_galvanized |
+| `acc_blinds_half` | window_accessory | 312 | 59 | 500 | 0.89 x 0.04 x 0.73 | wall_head_centre | aluminum_anodized, paint_cream |
+| `acc_curtains_closed` | window_accessory | 56 | 12 | 500 | 0.96 x 0.04 x 1.54 | wall_bottom_centre | aluminum_anodized, paint_cream |
+| `acc_curtains_open` | window_accessory | 28 | 5 | 500 | 0.96 x 0.04 x 1.54 | wall_bottom_centre | aluminum_anodized, paint_cream |
+| `acc_flower_box` | window_accessory | 148 | 32 | 500 | 1.00 x 0.37 x 0.59 | wall_sill_centre | painted_wood_white, soil, painted_metal_black, paint_red, foliage_green |
 | `acc_interior_card_lit` | window_accessory | 4 | 2 | 8 | 1.30 x 0.01 x 2.00 | wall_bottom_centre | interior_lit, paint_black |
 | `acc_interior_card_unlit` | window_accessory | 4 | 2 | 8 | 1.30 x 0.01 x 2.00 | wall_bottom_centre | interior_unlit, paint_black |
-| `acc_roller_shade` | window_accessory | 56 | 10 | 400 | 0.92 x 0.06 x 1.00 | wall_head_centre | paint_cream |
-| `acc_satellite_dish` | window_accessory | 172 | 39 | 400 | 0.46 x 0.59 x 0.85 | wall_bottom_centre | aluminum_anodized, painted_metal_black |
-| `acc_through_wall_ac_unit` | window_accessory | 120 | 19 | 400 | 0.65 x 0.31 x 0.42 | wall_bottom_centre | aluminum_anodized, painted_metal_black |
-| `acc_window_guard_child` | window_accessory | 156 | 4 | 400 | 1.03 x 0.08 x 0.66 | wall_bottom_centre | painted_metal_black |
-| `acc_window_guard_security` | window_accessory | 280 | 50 | 400 | 1.01 x 0.04 x 1.76 | wall_bottom_centre | painted_metal_black |
+| `acc_roller_shade` | window_accessory | 56 | 10 | 500 | 0.92 x 0.06 x 1.00 | wall_head_centre | paint_cream |
+| `acc_satellite_dish` | window_accessory | 172 | 39 | 500 | 0.46 x 0.59 x 0.85 | wall_bottom_centre | aluminum_anodized, painted_metal_black |
+| `acc_through_wall_ac_unit` | window_accessory | 120 | 19 | 500 | 0.65 x 0.31 x 0.42 | wall_bottom_centre | aluminum_anodized, painted_metal_black |
+| `acc_window_guard_child` | window_accessory | 156 | 4 | 500 | 1.03 x 0.08 x 0.66 | wall_bottom_centre | painted_metal_black |
+| `acc_window_guard_security` | window_accessory | 280 | 50 | 500 | 1.01 x 0.04 x 1.76 | wall_bottom_centre | painted_metal_black |
 | `antenna_cell_panel_array` | antenna | 306 | 64 | 900 | 1.92 x 2.17 x 3.85 | ground_bottom_centre | steel_galvanized, metal_panel, paint_grey, concrete |
 | `antenna_satellite_dish_roof` | antenna | 302 | 71 | 900 | 1.24 x 1.17 x 1.61 | ground_bottom_centre | metal_panel, steel_galvanized, concrete |
 | `antenna_tv_yagi` | antenna | 208 | 36 | 900 | 0.90 x 1.10 x 2.81 | ground_bottom_centre | steel_galvanized |
@@ -372,16 +384,16 @@ sh blender/kit/facade/render_all.sh 64 800              # every verification ren
 | `bulkhead_stair_metal` | bulkhead | 68 | 11 | 900 | 2.30 x 2.75 x 2.44 | ground_bottom_centre | corrugated_metal, steel_galvanized, roof_membrane, paint_grey, painted_metal_black |
 | `construction_fence_chainlink` | fence | 508 | 90 | 800 | 3.31 x 0.60 x 1.86 | ground_bottom_centre | steel_galvanized, plywood_green, concrete |
 | `construction_fence_plywood` | fence | 132 | 22 | 800 | 2.44 x 0.14 x 2.48 | ground_bottom_centre | plywood_green, interior_wood_floor, glass_clear, paint_grey, paint_white |
-| `cornice_bracket` | cornice | 56 | 10 | 400 | 0.15 x 0.40 x 0.60 | wall_bottom_centre | metal_panel |
+| `cornice_bracket` | cornice | 84 | 18 | 600 | 0.15 x 0.40 x 0.60 | wall_bottom_centre | metal_panel |
 | `cornice_brick_corbel` | cornice | 204 | 37 | 1400 | 1.01 x 0.34 x 0.54 | wall_bottom_centre | red_brick, precast |
-| `cornice_pressed_metal_a` | cornice | 208 | 39 | 1400 | 1.00 x 0.54 x 0.92 | wall_bottom_centre | metal_panel |
-| `cornice_pressed_metal_b` | cornice | 304 | 61 | 1400 | 1.00 x 0.66 x 1.15 | wall_bottom_centre | metal_panel |
-| `cornice_pressed_metal_c` | cornice | 252 | 48 | 1400 | 1.00 x 0.44 x 0.62 | wall_bottom_centre | metal_panel |
-| `cornice_return_end` | cornice | 86 | 4 | 1000 | 0.86 x 0.54 x 0.92 | wall_corner_bottom | metal_panel |
-| `cornice_stone` | cornice | 96 | 4 | 1400 | 1.00 x 0.50 x 0.78 | wall_bottom_centre | limestone |
+| `cornice_pressed_metal_a` | cornice | 302 | 59 | 2500 | 1.00 x 0.55 x 0.88 | wall_bottom_centre | metal_panel |
+| `cornice_pressed_metal_b` | cornice | 362 | 71 | 2800 | 1.00 x 0.69 x 1.19 | wall_bottom_centre | metal_panel |
+| `cornice_pressed_metal_c` | cornice | 394 | 80 | 2200 | 1.00 x 0.44 x 0.62 | wall_bottom_centre | metal_panel |
+| `cornice_return_end` | cornice | 228 | 46 | 1000 | 0.86 x 0.55 x 0.90 | wall_corner_bottom | metal_panel |
+| `cornice_stone` | cornice | 316 | 64 | 1400 | 1.00 x 0.50 x 0.78 | wall_bottom_centre | limestone |
 | `entry_apartment_lobby_glass` | door_entry | 278 | 4 | 1600 | 2.54 x 0.57 x 3.05 | wall_bottom_centre | granite, aluminum_anodized, glass_clear, chrome, interior_lit |
 | `entry_areaway_railing` | door_entry | 372 | 61 | 900 | 3.20 x 0.15 x 1.05 | wall_bottom_centre | cast_iron |
-| `entry_brownstone_door_surround` | door_entry | 188 | 35 | 1800 | 2.32 x 0.76 x 3.58 | wall_bottom_centre | brownstone |
+| `entry_brownstone_door_surround` | door_entry | 244 | 47 | 1800 | 2.32 x 0.76 x 3.58 | wall_bottom_centre | brownstone |
 | `entry_cellar_hatch` | door_entry | 104 | 24 | 400 | 1.52 x 1.22 x 0.12 | ground_bottom_centre | steel_galvanized, painted_metal_black |
 | `entry_church_doors` | door_entry | 530 | 104 | 2600 | 2.84 x 0.97 x 4.40 | wall_bottom_centre | limestone, paint_darkgreen, interior_wood_floor, painted_metal_black, granite |
 | `entry_door_single_panel` | door_entry | 196 | 38 | 900 | 1.17 x 0.39 x 2.57 | wall_bottom_centre | red_brick, paint_maroon, chrome, glass_clear, precast |
@@ -390,8 +402,8 @@ sh blender/kit/facade/render_all.sh 64 800              # every verification ren
 | `entry_lobby_canopy` | door_entry | 200 | 45 | 2000 | 2.50 x 3.70 x 3.20 | wall_bottom_centre | canvas_striped, paint_white, aluminum_anodized, fluoro_white |
 | `entry_loft_roll_gate` | door_entry | 308 | 50 | 1400 | 2.25 x 0.35 x 3.35 | wall_bottom_centre | red_brick, corrugated_metal, steel_galvanized, painted_metal_black |
 | `entry_service_door_steel` | door_entry | 168 | 31 | 500 | 0.96 x 0.29 x 2.18 | wall_bottom_centre | red_brick, paint_grey, steel_galvanized, chrome |
-| `entry_stoop_brownstone_10` | door_entry | 1720 | 309 | 3000 | 4.03 x 4.68 x 4.79 | wall_bottom_centre | brownstone, cast_iron, paint_darkgreen, glass_clear, interior_unlit, chrome |
-| `entry_stoop_tenement_4` | door_entry | 634 | 113 | 2200 | 1.52 x 2.14 x 3.15 | wall_bottom_centre | granite, painted_metal_black, red_brick, paint_darkgreen, glass_clear, interior_unlit, chrome, limestone |
+| `entry_stoop_brownstone_10` | door_entry | 1720 | 308 | 3000 | 4.03 x 4.68 x 4.79 | wall_bottom_centre | brownstone, cast_iron, paint_darkgreen, glass_clear, interior_unlit, chrome |
+| `entry_stoop_tenement_4` | door_entry | 690 | 122 | 2200 | 1.52 x 2.14 x 3.15 | wall_bottom_centre | granite, painted_metal_black, red_brick, paint_darkgreen, glass_clear, interior_unlit, chrome, limestone |
 | `fence_iron_areaway` | fence | 561 | 113 | 800 | 2.49 x 0.05 x 1.20 | ground_bottom_centre | cast_iron |
 | `fire_escape_balcony_top` | fire_escape | 576 | 40 | 3000 | 2.23 x 0.99 x 1.57 | wall_platform_centre | painted_metal_black |
 | `fire_escape_corner_return` | fire_escape | 646 | 118 | 3000 | 1.56 x 1.56 x 1.53 | wall_corner_platform | painted_metal_black |
@@ -443,7 +455,7 @@ sh blender/kit/facade/render_all.sh 64 800              # every verification ren
 | `storefront_grille_48` | storefront | 1328 | 62 | 6000 | 4.83 x 0.06 x 2.94 | wall_bay_frame | steel_galvanized, painted_metal_black |
 | `storefront_grille_60` | storefront | 1676 | 72 | 6000 | 6.03 x 0.06 x 2.94 | wall_bay_frame | steel_galvanized, painted_metal_black |
 | `storefront_interior_bank` | storefront_interior | 434 | 96 | 6000 | 4.80 x 2.50 x 3.40 | wall_bottom_centre | terrazzo, limestone, paint_white, fluoro_white, interior_wood_floor, granite, glass_clear, metal_panel, paint_black, chrome, painted_metal_black, paint_blue |
-| `storefront_interior_bar` | storefront_interior | 1322 | 309 | 6000 | 4.80 x 2.50 x 3.40 | wall_bottom_centre | interior_wood_floor, dark_brick, paint_black, lamp_warm, metal_panel, steel_galvanized, paint_maroon, paint_green, paint_yellow, painted_metal_black |
+| `storefront_interior_bar` | storefront_interior | 1322 | 309 | 6000 | 4.80 x 2.50 x 3.40 | wall_bottom_centre | interior_wood_floor, dark_brick, paint_black, lamp_warm, metal_panel, steel_galvanized, paint_maroon, paint_bottle_green, paint_yellow, painted_metal_black |
 | `storefront_interior_bodega` | storefront_interior | 1024 | 177 | 6000 | 4.80 x 2.50 x 3.40 | wall_bottom_centre | checker_tile, interior_tile, paint_white, fluoro_white, metal_panel, paint_red, paint_blue, paint_yellow, paint_cream, glass_clear, interior_wood_floor |
 | `storefront_interior_deli` | storefront_interior | 396 | 72 | 6000 | 4.80 x 2.50 x 3.40 | wall_bottom_centre | checker_tile, subway_tile, paint_white, fluoro_white, metal_panel, glass_clear, paint_red, paint_cream, paint_yellow |
 | `storefront_interior_generic_retail` | storefront_interior | 1090 | 193 | 6000 | 4.80 x 2.50 x 3.40 | wall_bottom_centre | interior_wood_floor, paint_white, fluoro_white, metal_panel, paint_red, paint_blue, paint_yellow, paint_cream, paint_black |
@@ -454,33 +466,33 @@ sh blender/kit/facade/render_all.sh 64 800              # every verification ren
 | `storefront_interior_restaurant` | storefront_interior | 616 | 121 | 6000 | 4.80 x 2.50 x 3.40 | wall_bottom_centre | interior_wood_floor, paint_maroon, paint_white, lamp_warm, steel_galvanized, granite, metal_panel, paint_black, painted_metal_black |
 | `storefront_interior_vacant` | storefront_interior | 394 | 72 | 6000 | 4.80 x 2.50 x 3.40 | wall_bottom_centre | concrete, stucco, fluoro_white, plywood_green, metal_panel, interior_wood_floor, paint_grey |
 | `storefront_sign_projecting` | storefront | 124 | 24 | 800 | 0.11 x 1.16 x 0.95 | wall_bottom_centre | paint_darkgreen, metal_panel, painted_metal_black, fluoro_white |
-| `string_course_brick_soldier` | string_course | 12 | 2 | 200 | 1.00 x 0.13 x 0.19 | wall_bottom_centre | red_brick |
+| `string_course_brick_soldier` | string_course | 136 | 24 | 600 | 1.00 x 0.13 x 0.26 | wall_bottom_centre | red_brick |
 | `string_course_dentil` | string_course | 144 | 27 | 400 | 1.00 x 0.29 x 0.24 | wall_bottom_centre | terracotta |
-| `string_course_stone_belt` | string_course | 24 | 2 | 200 | 1.00 x 0.18 x 0.25 | wall_bottom_centre | limestone |
+| `string_course_stone_belt` | string_course | 52 | 12 | 400 | 1.00 x 0.18 x 0.25 | wall_bottom_centre | limestone |
 | `string_course_terracotta_band` | string_course | 120 | 20 | 500 | 1.00 x 0.16 x 0.36 | wall_bottom_centre | terracotta |
 | `trim_corner_bead_brick` | trim | 37 | 5 | 300 | 0.34 x 0.34 x 3.05 | wall_corner_bottom | red_brick, granite, precast |
 | `trim_datestone_plaque` | trim | 48 | 7 | 300 | 0.72 x 0.16 x 0.48 | wall_bottom_centre | limestone |
-| `trim_keystone` | trim | 12 | 2 | 200 | 0.26 x 0.19 x 0.44 | wall_bottom_centre | limestone |
-| `trim_lintel_stone` | trim | 12 | 2 | 200 | 1.18 x 0.14 x 0.15 | wall_bottom_centre | limestone |
-| `trim_sill_cast_stone` | trim | 12 | 2 | 200 | 1.10 x 0.17 x 0.10 | wall_bottom_centre | precast |
+| `trim_keystone` | trim | 36 | 6 | 400 | 0.29 x 0.21 x 0.44 | wall_bottom_centre | limestone |
+| `trim_lintel_stone` | trim | 20 | 4 | 400 | 1.18 x 0.14 x 0.15 | wall_bottom_centre | limestone |
+| `trim_sill_cast_stone` | trim | 32 | 6 | 400 | 1.10 x 0.17 x 0.10 | wall_bottom_centre | precast |
 | `trim_water_table` | trim | 18 | 2 | 300 | 1.00 x 0.22 x 0.42 | wall_bottom_centre | granite |
 | `water_tower_large` | water_tower | 1234 | 229 | 4000 | 4.45 x 4.60 x 13.08 | ground_bottom_centre | cedar_wood, steel_galvanized, rust |
 | `water_tower_small` | water_tower | 1138 | 209 | 4000 | 3.53 x 3.68 x 10.40 | ground_bottom_centre | cedar_wood, steel_galvanized, rust |
-| `win_aluminum_slider` | window | 174 | 4 | 400 | 1.31 x 0.32 x 1.48 | wall_bottom_centre | white_glazed_brick, aluminum_anodized, glass_clear, interior_unlit, precast |
-| `win_arched_tenement` | window | 246 | 4 | 400 | 1.13 x 0.34 x 2.36 | wall_bottom_centre | red_brick, painted_wood_white, glass_clear, interior_unlit, granite |
-| `win_bay_window` | window | 124 | 29 | 900 | 2.49 x 0.68 x 2.62 | wall_bottom_centre | brownstone, glass_clear, interior_unlit, painted_wood_white, metal_panel |
-| `win_casement_pair` | window | 234 | 4 | 400 | 1.21 x 0.34 x 1.70 | wall_bottom_centre | tan_brick, painted_metal_black, glass_clear, interior_unlit, precast |
-| `win_chicago_tripartite` | window | 318 | 4 | 550 | 2.60 x 0.34 x 2.49 | wall_bottom_centre | red_brick, painted_wood_white, glass_clear, interior_unlit, precast |
-| `win_curtain_wall_module` | window | 134 | 22 | 500 | 1.50 x 0.29 x 3.90 | wall_bottom_centre | aluminum_anodized, glass_curtain, metal_panel, concrete, interior_unlit |
-| `win_dormer` | window | 268 | 4 | 700 | 1.64 x 1.09 x 2.25 | wall_bottom_centre | painted_wood_white, metal_panel, glass_clear, interior_unlit |
-| `win_double_hung_1_1` | window | 174 | 4 | 400 | 0.99 x 0.29 x 1.75 | wall_bottom_centre | red_brick, painted_wood_white, glass_clear, interior_unlit, precast |
-| `win_double_hung_1_1_soldier` | window | 186 | 4 | 400 | 1.06 x 0.32 x 1.99 | wall_bottom_centre | red_brick, painted_wood_white, glass_clear, interior_unlit, precast |
-| `win_double_hung_1_1_stone` | window | 186 | 4 | 400 | 1.18 x 0.34 x 1.95 | wall_bottom_centre | red_brick, painted_wood_white, glass_clear, interior_unlit, limestone |
-| `win_double_hung_2_2` | window | 210 | 4 | 400 | 1.18 x 0.34 x 2.05 | wall_bottom_centre | brownstone, painted_wood_white, glass_clear, interior_unlit |
-| `win_double_hung_6_6` | window | 258 | 4 | 400 | 1.01 x 0.34 x 1.89 | wall_bottom_centre | red_brick, painted_wood_white, glass_clear, interior_unlit, brownstone |
-| `win_gothic_arched` | window | 160 | 32 | 1000 | 1.35 x 0.27 x 3.67 | wall_bottom_centre | limestone, glass_curtain, painted_metal_black |
-| `win_picture_window` | window | 202 | 4 | 400 | 1.92 x 0.33 x 1.46 | wall_bottom_centre | vinyl_siding, painted_wood_white, glass_clear, interior_unlit, aluminum_anodized |
-| `win_punched_office` | window | 102 | 4 | 400 | 1.62 x 0.33 x 2.29 | wall_bottom_centre | precast, aluminum_anodized, glass_curtain, interior_unlit |
-| `win_ribbon_strip` | window | 126 | 4 | 400 | 3.10 x 0.33 x 1.60 | wall_bottom_centre | concrete, aluminum_anodized, glass_curtain, interior_unlit, precast |
-| `win_steel_industrial_4x5` | window | 170 | 4 | 400 | 1.62 x 0.32 x 2.44 | wall_bottom_centre | red_brick, painted_metal_black, glass_clear, interior_unlit, steel_galvanized, precast |
-| `win_through_wall_ac_sleeve` | window | 126 | 22 | 250 | 0.81 x 0.34 x 0.59 | wall_bottom_centre | tan_brick, steel_galvanized, aluminum_anodized, precast |
+| `win_aluminum_slider` | window | 174 | 4 | 900 | 1.31 x 0.36 x 1.48 | wall_bottom_centre | white_glazed_brick, aluminum_anodized, glass_clear, interior_unlit, precast |
+| `win_arched_tenement` | window | 292 | 4 | 900 | 1.13 x 0.38 x 2.36 | wall_bottom_centre | red_brick, painted_wood_white, glass_clear, interior_unlit, granite |
+| `win_bay_window` | window | 124 | 29 | 1600 | 2.49 x 0.68 x 2.62 | wall_bottom_centre | brownstone, glass_clear, interior_unlit, painted_wood_white, metal_panel |
+| `win_casement_pair` | window | 254 | 4 | 900 | 1.21 x 0.38 x 1.70 | wall_bottom_centre | tan_brick, painted_metal_black, glass_clear, interior_unlit, precast |
+| `win_chicago_tripartite` | window | 346 | 4 | 1100 | 2.60 x 0.38 x 2.49 | wall_bottom_centre | red_brick, painted_wood_white, glass_clear, interior_unlit, precast |
+| `win_curtain_wall_module` | window | 134 | 22 | 900 | 1.50 x 0.29 x 3.90 | wall_bottom_centre | aluminum_anodized, glass_curtain, metal_panel, concrete, interior_unlit |
+| `win_dormer` | window | 294 | 4 | 1200 | 1.64 x 1.09 x 2.25 | wall_bottom_centre | painted_wood_white, metal_panel, glass_clear, interior_unlit |
+| `win_double_hung_1_1` | window | 200 | 4 | 900 | 0.99 x 0.33 x 1.75 | wall_bottom_centre | red_brick, painted_wood_white, glass_clear, interior_unlit, precast |
+| `win_double_hung_1_1_soldier` | window | 344 | 4 | 900 | 1.06 x 0.36 x 1.99 | wall_bottom_centre | red_brick, painted_wood_white, glass_clear, interior_unlit, precast |
+| `win_double_hung_1_1_stone` | window | 240 | 4 | 900 | 1.18 x 0.38 x 1.95 | wall_bottom_centre | red_brick, painted_wood_white, glass_clear, interior_unlit, limestone |
+| `win_double_hung_2_2` | window | 264 | 4 | 900 | 1.18 x 0.38 x 2.05 | wall_bottom_centre | brownstone, painted_wood_white, glass_clear, interior_unlit |
+| `win_double_hung_6_6` | window | 304 | 4 | 900 | 1.01 x 0.38 x 1.89 | wall_bottom_centre | red_brick, painted_wood_white, glass_clear, interior_unlit, brownstone |
+| `win_gothic_arched` | window | 160 | 32 | 1600 | 1.35 x 0.31 x 3.67 | wall_bottom_centre | limestone, glass_curtain, painted_metal_black |
+| `win_picture_window` | window | 202 | 4 | 900 | 1.92 x 0.36 x 1.46 | wall_bottom_centre | vinyl_siding, painted_wood_white, glass_clear, interior_unlit, aluminum_anodized |
+| `win_punched_office` | window | 102 | 4 | 900 | 1.62 x 0.36 x 2.29 | wall_bottom_centre | precast, aluminum_anodized, glass_curtain, interior_unlit |
+| `win_ribbon_strip` | window | 126 | 4 | 900 | 3.10 x 0.37 x 1.60 | wall_bottom_centre | concrete, aluminum_anodized, glass_curtain, interior_unlit, precast |
+| `win_steel_industrial_4x5` | window | 170 | 4 | 900 | 1.62 x 0.35 x 2.44 | wall_bottom_centre | red_brick, painted_metal_black, glass_clear, interior_unlit, steel_galvanized, precast |
+| `win_through_wall_ac_sleeve` | window | 126 | 22 | 500 | 0.81 x 0.34 x 0.59 | wall_bottom_centre | tan_brick, steel_galvanized, aluminum_anodized, precast |

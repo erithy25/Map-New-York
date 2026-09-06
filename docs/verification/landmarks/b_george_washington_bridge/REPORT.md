@@ -1,6 +1,6 @@
 # George Washington Bridge
 
-Script: `blender/landmarks/b_george_washington_bridge.py` · agent B · generated 2026-09-06 11:58 UTC
+Script: `blender/landmarks/b_george_washington_bridge.py` · agent B · generated 2026-09-06 13:14 UTC
 
 ## Placement
 
@@ -37,3 +37,4 @@ approach and its bus station, the Palisades Interstate Parkway interchange, and 
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_george_washington_bridge.glb` — 94,736 triangles, 4.03 MB, bounds min ['-873.4', '-244.8', '-16.0'] max ['885.2', '241.8', '187.8']
+* `blender_out/landmarks/b_george_washington_bridge_lod1.glb` — 26,032 triangles, 0.83 MB, bounds min ['-873.4', '-244.8', '-16.0'] max ['885.2', '241.8', '187.8']

@@ -1,6 +1,6 @@
 # Holland Tunnel
 
-Script: `blender/landmarks/b_holland_tunnel_portals.py` · agent B · generated 2026-09-06 12:35 UTC
+Script: `blender/landmarks/b_holland_tunnel_portals.py` · agent B · generated 2026-09-06 13:16 UTC
 
 ## Placement
 
@@ -39,7 +39,4 @@ and their ramp networks, and the cast-iron lining segment bolts.
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_holland_tunnel_portals.glb` — 40,892 triangles, 1.87 MB, bounds min ['-1260.7', '-439.3', '-27.6'] max ['1281.9', '396.1', '42.9']
-
-## Verification renders (Cycles CPU, 64 spp)
-
-![tube_interior](tube_interior.png)
+* `blender_out/landmarks/b_holland_tunnel_portals_lod1.glb` — 30,496 triangles, 1.62 MB, bounds min ['-1260.7', '-439.3', '-27.6'] max ['1281.9', '396.1', '42.9']

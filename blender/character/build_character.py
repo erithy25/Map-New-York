@@ -85,16 +85,18 @@ IDLE_SOURCE = {"subject": "07", "trial": "07_01"}
 
 # --------------------------------------------------------------------------------------------- build steps
 def build_body(spec: mh_build.HumanSpec, outfit: tuple[str, ...], *, watch: bool = True) -> mh_build.BuiltHuman:
-    """MPFB body -> ARKit blendshapes -> helper strip -> eye split -> UE5 rig -> materials -> clothing."""
-    built = mh_build.build_human(spec, subdiv=0, load_clothes=False)
+    """MPFB body -> ARKit blendshapes -> helper strip -> eye split -> UE5 rig -> clothing -> materials."""
+    built = mh_build.build_human(spec, subdiv=0, load_clothes=bool(spec.clothes))
     mh_build.bake_and_load_face_units(built)
     mh_build.strip_helper_geometry(built)
     mh_build.split_eyes(built)
+    # The rig is converted *before* the procedural wardrobe is cut, so the garments' body regions and the
+    # weights they inherit are already in UE5 bone names.
+    rig_ue5.convert_to_ue5(built.armature, built.meshes())
     if outfit:
         wardrobe.dress(built, outfit, name_prefix=f"{spec.name}.")
     if watch:
         wardrobe.build_watch(built, side="l", name_prefix=f"{spec.name}.")
-    rig_ue5.convert_to_ue5(built.armature, built.meshes())
     mh_build.setup_skin(built)
     mh_build.setup_eye_materials(built)
     problems = rig_ue5.verify_skeleton(built.armature)

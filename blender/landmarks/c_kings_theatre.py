@@ -62,6 +62,27 @@ def build():
                         role="mass"))
     objs.append(C.prism(f"{ID}_front_block", front, 5.4, FACADE_CORNICE - 1.6, C.M.terracotta_cream,
                         material_top=C.M.roof_dark, role="mass"))
+    # the side and rear elevations are blank brick articulated by pilaster strips with a corbelled cap and a single
+    # high row of small windows to the balcony lobbies [LP-2213]
+    b = C.MeshBuilder()
+    for p0, p1, L, t, n in C.edges_of(C.ring_coords(rest)):
+        if L < 8.0:
+            continue
+        nstrip = max(2, int(round(L / 6.0)))
+        for k in range(nstrip + 1):
+            q0 = p0 + t * (min(L, k * (L / nstrip)) - 0.55)
+            q1 = q0 + t * 1.1
+            b.box_from_to(q0, q1, n, 0.42, 0.0, AUDITORIUM_TOP - 1.4, C.M.brick_red)
+            b.box_from_to(q0 - t * 0.2, q1 + t * 0.2, n, 0.6, AUDITORIUM_TOP - 1.4, AUDITORIUM_TOP - 0.6,
+                          C.M.brick_red)
+        for k in range(nstrip):
+            a = p0 + t * (k * (L / nstrip) + 1.4)
+            c = p0 + t * ((k + 1) * (L / nstrip) - 1.4)
+            if float(((c - a) ** 2).sum()) ** 0.5 < 1.4:
+                continue
+            C.window_punch(b, a, c, n, 12.6, 15.2, 0.42, C.M.brick_red, C.M.glass_dark)
+        b.box_from_to(p0, p1, n, 0.34, AUDITORIUM_TOP - 0.6, AUDITORIUM_TOP, C.M.brick_red)
+    objs.append(b.build(f"{ID}_side_elevations"))
 
     b = C.MeshBuilder()
     p0, p1, L, t, n = C.edge_facing(C.ring_coords(front), 0.0)

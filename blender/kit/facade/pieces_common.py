@@ -21,7 +21,8 @@ SASH_RAIL_BOTTOM = 0.075       # 3 in bottom rail
 MEETING_RAIL = 0.040
 MUNTIN_W = 0.022               # 7/8 in true divided-light muntin
 CASING = 0.060                 # blind stop / brickmould
-REVEAL = 0.115                 # sash set back 4 1/2 in from the brick face
+REVEAL = 0.155                 # sash set back 6 in from the brick face (NYC masonry opening: the frame sits behind
+                               # the outer wythe, giving the reveal that shades every opening at a raking sun)
 GLASS_T = 0.006
 STONE_LINTEL_H = 0.150         # 6 in stone lintel
 STONE_LINTEL_EAR = 0.115       # bears 4 1/2 in each side
@@ -50,6 +51,7 @@ def reg_flats() -> None:
     K.flat("paint_cream", (0.82, 0.78, 0.70), 0.55)
     K.flat("paint_darkgreen", (0.055, 0.13, 0.085), 0.45)
     K.flat("paint_maroon", (0.20, 0.045, 0.045), 0.45)
+    K.flat("paint_bottle_green", (0.018, 0.075, 0.028), 0.22)
     K.flat("paint_navy", (0.035, 0.055, 0.13), 0.45)
     K.flat("paint_red", (0.42, 0.05, 0.05), 0.5)
     K.flat("paint_blue", (0.05, 0.13, 0.35), 0.5)
@@ -150,35 +152,151 @@ def reg_generated_materials() -> None:
     K.generated_material("ivy_leaf", image=ivy_image(), roughness=0.75, alpha_from_image=True, uv_scale_m=0.55)
 
 
+# --------------------------------------------------------------------------- classical moulding profiles
+# A profile is a list of (y, z) points in the wall's cross-section: −y is towards the street, +z up.  ``sweep`` turns
+# one into a solid run along X.  These are the real mouldings of New York masonry and sheet-metal trim; using them
+# instead of plain boxes is what puts a shadow line on every lintel, sill, band and cornice.
+def curve(p0: Sequence[float], p1: Sequence[float], kind: str = "line", n: int = 4) -> list[tuple[float, float]]:
+    """Points of one moulding member from p0 to p1 (p0 excluded, p1 included).
+
+    ``kind``: ``line`` | ``ovolo`` (quarter round, convex) | ``cavetto`` (quarter hollow) | ``cyma_recta``
+    (hollow over round) | ``cyma_reversa`` (round over hollow) | ``bead`` (half round)."""
+    (y0, z0), (y1, z1) = tuple(p0), tuple(p1)
+    if kind == "line" or n < 2:
+        return [(y1, z1)]
+    out: list[tuple[float, float]] = []
+    if kind == "ovolo":                      # centre at (y0, z1): bulges towards the street/top
+        for i in range(1, n + 1):
+            t = (i / n) * math.pi / 2
+            out.append((y0 + (y1 - y0) * math.sin(t), z1 + (z0 - z1) * math.cos(t)))
+    elif kind == "cavetto":                  # centre at (y1, z0): hollow
+        for i in range(1, n + 1):
+            t = (i / n) * math.pi / 2
+            out.append((y1 + (y0 - y1) * math.cos(t), z0 + (z1 - z0) * math.sin(t)))
+    elif kind in ("cyma_recta", "cyma_reversa"):
+        ym, zm = (y0 + y1) / 2, (z0 + z1) / 2
+        a, b = ("cavetto", "ovolo") if kind == "cyma_recta" else ("ovolo", "cavetto")
+        h = max(2, n // 2)
+        out += curve((y0, z0), (ym, zm), a, h)
+        out += curve((ym, zm), (y1, z1), b, h)
+    elif kind == "bead":                     # half round bulging towards the street
+        r = abs(z1 - z0) / 2
+        zc = (z0 + z1) / 2
+        for i in range(1, n + 1):
+            t = -math.pi / 2 + math.pi * i / n
+            out.append((y0 - r * math.cos(t), zc + r * math.sin(t)))
+    else:
+        raise ValueError(f"unknown moulding kind {kind!r}")
+    return out
+
+
+def profile(start: Sequence[float], members: Sequence[tuple]) -> list[tuple[float, float]]:
+    """Chain moulding members into one profile. ``members`` = ((y, z), kind, n) triples, each continuing from the last."""
+    pts = [tuple(start)]
+    for mem in members:
+        p1 = mem[0]
+        kind = mem[1] if len(mem) > 1 else "line"
+        n = mem[2] if len(mem) > 2 else 4
+        pts += curve(pts[-1], p1, kind, n)
+    return pts
+
+
+def sweep(m: K.Mesh, prof: Sequence[Sequence[float]], x0: float, x1: float, mat: str, *, caps: bool = True,
+          smooth: bool = False) -> None:
+    """Sweep a closed (y, z) profile from x0 to x1 with end caps. Duplicate first/last points are dropped."""
+    pts = [tuple(p) for p in prof]
+    while len(pts) > 2 and math.dist(pts[0], pts[-1]) < 1e-6:
+        pts.pop()
+    m.extrude_profile(pts, x0, x1, mat, closed=True, caps=caps, flip=True, smooth=smooth)
+
+
 # --------------------------------------------------------------------------- masonry opening parts
 def reveal(m: K.Mesh, x0: float, x1: float, z0: float, z1: float, depth: float, mat: str, *, head: bool = True,
-           sill: bool = True) -> None:
-    """Jamb / head / sill liner of a masonry opening: faces from the wall plane (y = 0) inwards to y = depth,
-    normals pointing into the opening."""
-    m.face([(x0, 0, z0), (x0, depth, z0), (x0, depth, z1), (x0, 0, z1)], mat)           # left jamb -> +X
-    m.face([(x1, depth, z0), (x1, 0, z0), (x1, 0, z1), (x1, depth, z1)], mat)           # right jamb -> -X
+           sill: bool = True, y0: float = 0.004) -> None:
+    """Jamb / head / sill liner of a masonry opening: faces from just inside the wall plane to y = depth, normals
+    pointing into the opening.
+
+    ``y0`` holds the liner 4 mm behind the brick face so it never lands coplanar with an opening liner the building
+    shell may already carry (coplanar faces flicker and, lit from the wrong side, wash the head out).  The shell is
+    expected to cut a plain hole; this piece owns the reveal."""
+    m.face([(x0, y0, z0), (x0, depth, z0), (x0, depth, z1), (x0, y0, z1)], mat)         # left jamb -> +X
+    m.face([(x1, depth, z0), (x1, y0, z0), (x1, y0, z1), (x1, depth, z1)], mat)         # right jamb -> -X
     if head:
-        m.face([(x0, 0, z1), (x0, depth, z1), (x1, depth, z1), (x1, 0, z1)], mat, flip=True)
+        m.face([(x0, y0, z1), (x0, depth, z1), (x1, depth, z1), (x1, y0, z1)], mat, flip=True)
     if sill:
-        m.face([(x0, 0, z0), (x1, 0, z0), (x1, depth, z0), (x0, depth, z0)], mat, flip=True)
+        m.face([(x0, y0, z0), (x1, y0, z0), (x1, depth, z0), (x0, depth, z0)], mat, flip=True)
 
 
 def stone_lintel(m: K.Mesh, x0: float, x1: float, z: float, mat: str = "limestone", *, h: float = STONE_LINTEL_H,
                  ear: float = STONE_LINTEL_EAR, proj: float = STONE_PROJ, depth: float = WYTHE) -> None:
-    """Projecting stone lintel bearing ``ear`` each side of the opening, sitting with its underside at z."""
-    m.box((x0 - ear, -proj, z), (x1 + ear, depth, z + h), mat)
+    """Projecting stone lintel bearing ``ear`` each side of the opening, underside at z.
+
+    Cut cross-section: chamfered lower arris, a plain face, a fillet under the top edge and a washed top that sheds
+    water back to nothing at the wall — the standard New York cut-stone lintel."""
+    ch = min(0.016, h * 0.12)                       # chamfer on the bottom arris
+    wash = min(0.026, h * 0.20)
+    prof = profile((depth, z), [
+        ((-proj + ch, z),),                         # soffit
+        ((-proj, z + ch),),                         # chamfer
+        ((-proj, z + h - wash - 0.012),),           # face
+        ((-proj + 0.008, z + h - wash),),           # fillet under the top edge
+        ((depth, z + h),),                          # wash back to the wall
+    ])
+    sweep(m, prof, x0 - ear, x1 + ear, mat)
 
 
 def keyed_lintel(m: K.Mesh, x0: float, x1: float, z: float, mat: str = "limestone") -> None:
     """Stone lintel with a raised keystone (Renaissance-revival apartment houses)."""
     stone_lintel(m, x0, x1, z, mat)
-    cx = (x0 + x1) / 2
-    m.box((cx - 0.115, -STONE_PROJ - 0.025, z - 0.045), (cx + 0.115, WYTHE, z + STONE_LINTEL_H + 0.075), mat)
+    keystone(m, (x0 + x1) / 2, z - 0.045, STONE_LINTEL_H + 0.120, mat, half_top=0.115, half_bot=0.082,
+             proj=STONE_PROJ + 0.025)
 
 
-def soldier_lintel(m: K.Mesh, x0: float, x1: float, z: float, mat: str = "red_brick") -> None:
-    """Brick soldier course (bricks on end) over the opening: 2 cm proud of the wall face."""
-    m.box((x0 - 0.02, -0.020, z), (x1 + 0.02, WYTHE, z + BRICK_LEN), mat)
+def keystone(m: K.Mesh, cx: float, z0: float, h: float, mat: str = "limestone", *, half_top: float = 0.130,
+             half_bot: float = 0.090, proj: float = 0.090, depth: float = WYTHE) -> None:
+    """Tapered keystone with a chamfered arris, a sunk centre panel and a small cap — swept as two stacked frusta so
+    it catches light on three planes instead of reading as one slab."""
+    zt = z0 + h
+    cap_h = min(0.055, h * 0.14)
+    ztop = zt - cap_h
+    ch = 0.014
+
+    def frustum(za: float, zb: float, ha: float, hb: float, ya: float, yb: float) -> None:
+        """Trapezoidal block from za to zb, half-width ha->hb, projecting ya->yb."""
+        pts_b = [(cx - ha + ch, ya, za), (cx + ha - ch, ya, za), (cx + ha, ya + 0.0, za + ch)]
+        # front face (splayed), two side faces, and the returns to the wall
+        m.face([(cx - ha, ya, za), (cx + ha, ya, za), (cx + hb, yb, zb), (cx - hb, yb, zb)], mat)      # street face
+        m.face([(cx - ha, ya, za), (cx - hb, yb, zb), (cx - hb, depth, zb), (cx - ha, depth, za)], mat)  # -X side
+        m.face([(cx + ha, depth, za), (cx + hb, depth, zb), (cx + hb, yb, zb), (cx + ha, yb, za)], mat)  # +X side
+        del pts_b
+
+    frustum(z0, ztop, half_bot, half_top, -proj * 0.72, -proj)
+    # cap moulding: a small projecting block with a washed top
+    m.box((cx - half_top - 0.014, -proj - 0.014, ztop), (cx + half_top + 0.014, depth, zt - 0.012), mat)
+    m.face([(cx - half_top - 0.014, -proj - 0.014, zt - 0.012), (cx + half_top + 0.014, -proj - 0.014, zt - 0.012),
+            (cx + half_top + 0.014, depth, zt), (cx - half_top - 0.014, depth, zt)], mat)               # wash
+    # sunk centre panel (reads as carving at 10 m)
+    m.box((cx - half_bot * 0.52, -proj - 0.010, z0 + h * 0.24), (cx + half_bot * 0.52, -proj + 0.004, ztop - 0.030), mat)
+    m.face([(cx - half_bot, -proj, z0 + h * 0.10), (cx + half_bot, -proj, z0 + h * 0.10),
+            (cx + half_bot, depth, z0 + h * 0.10), (cx - half_bot, depth, z0 + h * 0.10)], mat, flip=True)  # soffit
+    m.face([(cx - half_top, depth, ztop), (cx + half_top, depth, ztop), (cx + half_top, -proj, ztop),
+            (cx - half_top, -proj, ztop)], mat)
+
+
+def soldier_lintel(m: K.Mesh, x0: float, x1: float, z: float, mat: str = "red_brick", *, proj: float = 0.022) -> None:
+    """Brick soldier course (bricks on end) over the opening, modelled brick by brick so the course reads as masonry:
+    each brick is 92 mm wide with a 10 mm raked joint and a millimetre or two of set-out variation."""
+    a, b = x0 - 0.02, x1 + 0.02
+    pitch = 0.1022                                   # 92 mm brick + 10 mm head joint
+    n = max(2, int(round((b - a) / pitch)))
+    w = (b - a) / n - 0.010
+    rnd = _lcg(int(abs(x0) * 977) + 17)
+    # mortar bed first, its face raked 8 mm behind the bricks so every head joint reads as a shadow line, not a void
+    m.box((a, -proj + 0.008, z), (b, WYTHE, z + BRICK_LEN), mat)
+    for k in range(n):
+        cx = a + (b - a) * (k + 0.5) / n
+        p = proj + (rnd() - 0.5) * 0.006             # laid by hand: a couple of millimetres of variation
+        m.box((cx - w / 2, -p, z + 0.005), (cx + w / 2, WYTHE, z + BRICK_LEN - 0.005), mat, faces="yxXzZ")
 
 
 def segmental_arch(m: K.Mesh, x0: float, x1: float, z: float, rise: float, mat: str, *, thickness: float = BRICK_LEN,
@@ -206,16 +324,22 @@ def segmental_arch(m: K.Mesh, x0: float, x1: float, z: float, rise: float, mat: 
 
 
 def stone_sill(m: K.Mesh, x0: float, x1: float, z: float, mat: str = "limestone", *, h: float = SILL_H,
-               ear: float = SILL_EAR, proj: float = SILL_PROJ, depth: float = WYTHE) -> None:
-    """Projecting stone sill with a wash (top slopes down towards the street)."""
+               ear: float = SILL_EAR, proj: float = SILL_PROJ, depth: float = WYTHE, drip: bool = True) -> None:
+    """Projecting stone sill: washed top, chamfered nose and — on the underside — the throated drip groove that keeps
+    rain off the brick below.  The groove is 12 x 10 mm, set 25 mm back from the nose (NYC cut-stone practice); it is
+    the detail that puts a dark line under every sill on a sunlit facade."""
     a, b = x0 - ear, x1 + ear
-    zt_out, zt_in = z + h - SILL_SLOPE, z + h
-    m.face([(a, -proj, z), (b, -proj, z), (b, -proj, zt_out), (a, -proj, zt_out)], mat)                     # front
-    m.face([(a, -proj, zt_out), (b, -proj, zt_out), (b, depth, zt_in), (a, depth, zt_in)], mat)             # wash
-    m.face([(a, depth, zt_in), (b, depth, zt_in), (b, depth, z), (a, depth, z)], mat)                       # back
-    m.face([(a, -proj, z), (a, -proj, zt_out), (a, depth, zt_in), (a, depth, z)], mat)                      # -X end
-    m.face([(b, depth, z), (b, depth, zt_in), (b, -proj, zt_out), (b, -proj, z)], mat)                      # +X end
-    m.face([(a, -proj, z), (a, depth, z), (b, depth, z), (b, -proj, z)], mat)                               # soffit
+    ch = 0.012
+    members = [((-proj + 0.025, z),)]
+    if drip:
+        members += [((-proj + 0.025, z + 0.010),), ((-proj + 0.013, z + 0.010),), ((-proj + 0.013, z),)]   # throat
+    members += [
+        ((-proj + ch, z),),                                      # nose soffit
+        ((-proj, z + ch),),                                      # chamfered nose
+        ((-proj, z + h - SILL_SLOPE - 0.008),),                  # front face
+        ((depth, z + h),),                                       # wash
+    ]
+    sweep(m, profile((depth, z), members), a, b, mat)
 
 
 # --------------------------------------------------------------------------- sashes and glazing
@@ -243,14 +367,23 @@ def interior_card(m: K.Mesh, x0: float, x1: float, z0: float, z1: float, y: floa
 
 def double_hung(m: K.Mesh, x0: float, x1: float, z0: float, z1: float, *, lights_x: int = 1, lights_z: int = 1,
                 frame_mat: str = SASH_WHITE, reveal_depth: float = REVEAL, lit: bool | None = None) -> None:
-    """Complete double-hung window inside an opening x0..x1 / z0..z1: outer frame, upper and lower sash with the
-    lower sash outboard, meeting rail overlap, and an interior card."""
+    """Complete double-hung window inside an opening x0..x1 / z0..z1: blind-stop frame, upper and lower sash with the
+    lower sash outboard, a parting bead between them, the meeting-rail overlap and an interior card.
+
+    The whole assembly sits ``reveal_depth`` (155 mm) behind the wall face, so the masonry jamb shades it."""
     m.frame(x0, x1, z0, z1, reveal_depth - 0.012, reveal_depth + 0.070, CASING * 0.75, frame_mat)
     fx0, fx1 = x0 + CASING * 0.75, x1 - CASING * 0.75
     fz0, fz1 = z0 + CASING * 0.75, z1 - CASING * 0.75
     mid = (fz0 + fz1) / 2
     sash(m, fx0, fx1, mid - MEETING_RAIL / 2, fz1, reveal_depth + 0.030, lights_x=lights_x, lights_z=lights_z, frame_mat=frame_mat)
     sash(m, fx0, fx1, fz0, mid + MEETING_RAIL / 2, reveal_depth - 0.010, lights_x=lights_x, lights_z=lights_z, frame_mat=frame_mat)
+    # parting bead in each jamb, separating the two sash runs (13 mm proud of the frame)
+    for x in (fx0, fx1):
+        sx = 1.0 if x == fx0 else -1.0
+        m.box((x, reveal_depth + 0.022, fz0), (x + sx * 0.013, reveal_depth + 0.035, fz1), frame_mat)
+    # wooden sub-sill inside the opening, sloped to the street
+    m.face([(fx0, reveal_depth - 0.012, fz0), (fx1, reveal_depth - 0.012, fz0),
+            (fx1, reveal_depth + 0.070, fz0 + 0.016), (fx0, reveal_depth + 0.070, fz0 + 0.016)], frame_mat)
     if lit is not None:
         interior_card(m, fx0, fx1, fz0, fz1, reveal_depth + 0.155, lit)
 
@@ -351,14 +484,74 @@ def _stringer(m: K.Mesh, x: float, a, b, mat: str) -> None:
 
 
 def corbel_bracket(m: K.Mesh, x: float, y_face: float, z0: float, z1: float, proj: float, mat: str, *,
-                   width: float = 0.090, scroll: int = 5) -> None:
-    """Scrolled cornice bracket (pressed metal / wood): an S-curve profile swept ``width`` across."""
+                   width: float = 0.090, scroll: int = 5, side_panel: bool = True) -> None:
+    """Scrolled console bracket (pressed metal / wood): an S-curve front edge swept ``width`` across, with a shoulder
+    fillet under the top so it reads as *carrying* the corona rather than as a fin stuck on the frieze."""
     prof = [(y_face, z0)]
     for i in range(scroll + 1):
         t = i / scroll
-        prof.append((y_face - proj * math.sin(t * math.pi / 2) ** 1.4, z0 + (z1 - z0) * t))
+        prof.append((y_face - proj * math.sin(t * math.pi / 2) ** 1.4, z0 + (z1 - z0 - 0.030) * t))
+    prof.append((y_face - proj, z1))                     # shoulder: square up under the corona soffit
     prof.append((y_face, z1))
     m.extrude_profile(prof, x - width / 2, x + width / 2, mat, closed=True, caps=True, flip=True)
+    if side_panel:                                       # sunk side panel: a bracket is a box, not a plate
+        for sx in (-1.0, 1.0):
+            xs = x + sx * (width / 2 + 0.006)
+            m.box((min(xs, x + sx * width / 2), y_face - proj * 0.55, z0 + (z1 - z0) * 0.30),
+                  (max(xs, x + sx * width / 2), y_face - proj * 0.18, z1 - 0.030), mat)
+
+
+def pressed_metal_cornice(m: K.Mesh, x0: float, x1: float, mat: str, *, frieze_h: float, frieze_proj: float,
+                          dentil_h: float, dentil_proj: float, dentil_pitch: float, bed_h: float, bed_proj: float,
+                          corona_soffit: float, corona_proj: float, corona_h: float, crown_h: float,
+                          crown_back: float, cap_h: float, bracket_pitch: float, bracket_width: float,
+                          depth: float = WYTHE, panels: bool = False, dentils_on: bool = True) -> float:
+    """A complete New York pressed-metal cornice run: frieze, dentil course, bed mould, scrolled consoles carrying the
+    corona, corona fascia, cyma-recta crown and a capping fillet.  Returns the total height.
+
+    Every member is real geometry with its own shadow line; the consoles project to ``corona_proj`` less a hair, so
+    from the street they read under the corona the way they do on every 1880s tenement.  Heights are measured from
+    the top of the frieze board, which sits on the wall at z = 0."""
+    run = x1 - x0
+    z_dentil = frieze_h
+    z_bed = z_dentil + (dentil_h if dentils_on else 0.0)
+    z_corona = z_bed + bed_h
+    z_fascia = z_corona + corona_h
+    z_crown = z_fascia + crown_h
+    top = z_crown + cap_h
+
+    m.box((x0, -frieze_proj, 0.0), (x1, depth, frieze_h), mat)                                  # frieze board
+    if panels:                                                                                   # sunk frieze panels
+        n = max(1, int(round(run / 0.34)))
+        for k in range(n):
+            cx = x0 + run * (k + 0.5) / n
+            m.box((cx - 0.130, -frieze_proj - 0.020, 0.055), (cx + 0.130, -frieze_proj, frieze_h - 0.055), mat)
+    if dentils_on:
+        m.box((x0, -frieze_proj, z_dentil), (x1, depth, z_bed), mat)                             # dentil band backing
+        dentils(m, x0, x1, z_dentil + 0.006, z_bed - 0.006, -frieze_proj, dentil_proj - frieze_proj, mat,
+                pitch=dentil_pitch)
+
+    listel = 0.022                                                    # fillet separating corona from crown
+    prof = profile((depth, z_bed), [
+        ((-dentil_proj, z_bed),),                                     # under the bed mould
+        ((-bed_proj, z_corona), "cyma_reversa", 4),                   # bed mould
+        ((-corona_proj, z_corona + corona_soffit),),                  # corona soffit, splayed out
+        ((-corona_proj, z_fascia - listel),),                         # corona fascia
+        ((-corona_proj + 0.024, z_fascia - listel),),                 # listel: a crisp step, not a blend
+        ((-corona_proj + 0.024, z_fascia),),
+        ((-crown_back, z_crown - 0.014), "cyma_recta", 6),            # crown moulding
+        ((-crown_back, z_crown),),                                    # vertical fillet at the crown top
+        ((-crown_back + 0.026, top),),                                # capping wash
+        ((depth, top),),                                              # back to the wall
+    ])
+    sweep(m, prof, x0, x1, mat)
+
+    nb_ = max(1, int(round(run / bracket_pitch)))
+    for k in range(nb_):
+        cx = x0 + run * (k + 0.5) / nb_
+        corbel_bracket(m, cx, -frieze_proj, 0.040, z_corona + corona_soffit, corona_proj - 0.045, mat,
+                       width=bracket_width, scroll=6)
+    return top
 
 
 def dentils(m: K.Mesh, x0: float, x1: float, z0: float, z1: float, y_face: float, proj: float, mat: str,

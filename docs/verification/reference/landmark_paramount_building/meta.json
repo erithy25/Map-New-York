@@ -1,0 +1,191 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_paramount_building",
+ "name": "Paramount Building (1501 Broadway)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.758234,
+  "lon": -73.985617,
+  "azimuth_deg": 210.0,
+  "note": "Broadway at West 44th Street, about 130 m north-north-east of the building, looking south-south-west at the setback clock tower and globe",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.757222,
+  "lon": -73.986389,
+  "name": "Paramount Building (1501 Broadway)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Paramount Building\" Times Square 1501 Broadway",
+  "\"Paramount Building\" clock tower New York"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T13:15:10Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 130,
+ "candidates_eligible": 46,
+ "rejections": {
+  "keywords": 75,
+  "too_small": 2,
+  "not_photo": 3,
+  "night_for_day_item": 3,
+  "too_old": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:1501 Broadway, NYC.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:1501_Broadway,_NYC.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/67/1501_Broadway%2C_NYC.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/1501_Broadway%2C_NYC.jpg/1920px-1501_Broadway%2C_NYC.jpg",
+   "author": "JJonahJackalope",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.756481,
+    "lon": -73.986374
+   },
+   "original_width": 2252,
+   "original_height": 3751,
+   "width": 1920,
+   "height": 3198,
+   "bytes": 1939248,
+   "sha256": "5fedf48083b9b669c1e2f8cd0f511a2220d81a336b41550fee6fcb545a996e26",
+   "mean_luminance": 112.1,
+   "description": "1501 Broadway in New York City",
+   "categories": [
+    "1501 Broadway",
+    "Self-published work",
+    "Uploaded with Mobile/Android",
+    "Files with coordinates missing SDC location of creation",
+    "Office buildings in the United States photographed in 2024",
+    "2024 in Times Square",
+    "New York City photographs taken on 2024-08-18",
+    "August 2024 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Paramount Building\" Times Square 1501 Broadway",
+   "score": 12.2,
+   "estimated_viewpoint": {
+    "lat": 40.756481,
+    "lon": -73.986374,
+    "azimuth_deg": 359.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75648, -73.98637) is 82 m from Paramount Building (1501 Broadway) (40.75722, -73.98639) and 205 m from the standard viewpoint; the azimuth 359 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"1501 Broadway, NYC.jpg\" by JJonahJackalope, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:1501_Broadway,_NYC.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Paramount Building Times Square.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Paramount_Building_Times_Square.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Paramount_Building_Times_Square.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Paramount_Building_Times_Square.jpg/1920px-Paramount_Building_Times_Square.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-08-25 12:41:13",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.756656,
+    "lon": -73.986442
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 849677,
+   "sha256": "58f15d89775e0d2271304f07f0bb71777c68ca1ddeaa2c14fb92e1ab85e1dd31",
+   "mean_luminance": 136.0,
+   "description": "The Paramount Building in Times Square",
+   "categories": [
+    "1501 Broadway",
+    "New York City photographs taken on 2021-08-25",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "August 2021 in Times Square"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Paramount Building\" Times Square 1501 Broadway",
+   "score": 11.9,
+   "estimated_viewpoint": {
+    "lat": 40.756656,
+    "lon": -73.986442,
+    "azimuth_deg": 4.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75666, -73.98644) is 63 m from Paramount Building (1501 Broadway) (40.75722, -73.98639) and 189 m from the standard viewpoint; the azimuth 4 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Paramount Building Times Square.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Paramount_Building_Times_Square.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Paramount Building Ornate Archway and Marquee Sign - 1501 Broadway, NYC.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Paramount_Building_Ornate_Archway_and_Marquee_Sign_-_1501_Broadway,_NYC.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/14/Paramount_Building_Ornate_Archway_and_Marquee_Sign_-_1501_Broadway%2C_NYC.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Paramount_Building_Ornate_Archway_and_Marquee_Sign_-_1501_Broadway%2C_NYC.jpg/1920px-Paramount_Building_Ornate_Archway_and_Marquee_Sign_-_1501_Broadway%2C_NYC.jpg",
+   "author": "Anthony Quintano",
+   "credit": "https://www.flickr.com/photos/quintanomedia/54396078954/",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2025-03-17 13:15:16",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": null,
+   "original_width": 9413,
+   "original_height": 6275,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 611687,
+   "sha256": "25cfd6f1ce64e6d8ffce19f80619bb8a8d9a9462057d1c1b75a1a8b35230434a",
+   "mean_luminance": 119.5,
+   "description": "Caption",
+   "categories": [
+    "1501 Broadway",
+    "Flickr images reviewed by FlickreviewR 2",
+    "March 2025 in Times Square"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Paramount Building\" Times Square 1501 Broadway",
+   "score": 9.7,
+   "estimated_viewpoint": {
+    "lat": 40.758234,
+    "lon": -73.985617,
+    "azimuth_deg": 210.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Broadway at West 44th Street, about 130 m north-north-east of the building, looking south-south-west at the setback clock tower and globe) and the azimuth 210 deg is the bearing from there to Paramount Building (1501 Broadway) (40.75722, -73.98639)."
+   },
+   "attribution": "\"Paramount Building Ornate Archway and Marquee Sign - 1501 Broadway, NYC.jpg\" by Anthony Quintano, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Paramount_Building_Ornate_Archway_and_Marquee_Sign_-_1501_Broadway,_NYC.jpg"
+  }
+ ]
+}

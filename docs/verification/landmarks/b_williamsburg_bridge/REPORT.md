@@ -1,6 +1,6 @@
 # Williamsburg Bridge
 
-Script: `blender/landmarks/b_williamsburg_bridge.py` · agent B · generated 2026-09-06 11:58 UTC
+Script: `blender/landmarks/b_williamsburg_bridge.py` · agent B · generated 2026-09-06 13:13 UTC
 
 ## Placement
 
@@ -36,3 +36,4 @@ individual truss gusset plates.
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_williamsburg_bridge.glb` — 84,236 triangles, 3.78 MB, bounds min ['-988.3', '-410.7', '-9.0'] max ['988.3', '410.7', '107.3']
+* `blender_out/landmarks/b_williamsburg_bridge_lod1.glb` — 26,364 triangles, 1.01 MB, bounds min ['-988.3', '-410.7', '-9.0'] max ['988.3', '410.7', '105.8']

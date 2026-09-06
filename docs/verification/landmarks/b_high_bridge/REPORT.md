@@ -1,6 +1,6 @@
 # High Bridge
 
-Script: `blender/landmarks/b_high_bridge.py` · agent B · generated 2026-09-06 12:07 UTC
+Script: `blender/landmarks/b_high_bridge.py` · agent B · generated 2026-09-06 13:15 UTC
 
 ## Placement
 
@@ -26,3 +26,4 @@ the stairs and ramps at either end.
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_high_bridge.glb` — 15,112 triangles, 0.76 MB, bounds min ['-219.9', '-32.4', '-1.0'] max ['219.9', '32.4', '47.8']
+* `blender_out/landmarks/b_high_bridge_lod1.glb` — 4,420 triangles, 0.19 MB, bounds min ['-219.9', '-32.4', '-1.0'] max ['219.9', '32.4', '43.8']

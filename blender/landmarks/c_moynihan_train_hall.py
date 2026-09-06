@@ -52,15 +52,19 @@ def build():
     x0, y0, x1, y1 = P.bounds
     objs: list = []
 
+    # the train hall occupies the old mail-sorting courtyard, so it is a real void in the block above the base
+    hcx, hcy = (x0 + x1) / 2, (y0 + y1) / 2
+    hall = C.rect(hcx, hcy, HALL_W, HALL_D)
+    P_body = C._orient(P.difference(hall), 1.0)
     objs.append(C.plinth(f"{ID}_base", P, 0.0, BASE_TOP, C.M.granite_pink, material_top=C.M.roof_dark))
     fen = C.Fenestration(bay_w=COLUMN_MODULE, window_frac=0.45, recess=0.6, spandrel_h=1.1, spandrel_proud=0.14,
                          pier="granite_pink", spandrel="granite_pink", glass="glass_dark",
                          floor_z=[BASE_TOP, BASE_TOP + 7.0, BASE_TOP + 12.0, CORNICE - 2.4], window_h=4.6)
-    objs += C.tower_tier(f"{ID}_body", P, BASE_TOP, CORNICE - 2.4, fen, roof_material="roof_grey", parapet_h=0.0)
+    objs += C.tower_tier(f"{ID}_body", P_body, BASE_TOP, CORNICE - 2.4, fen, roof_material="roof_grey", parapet_h=0.0)
     objs.append(C.cornice(f"{ID}_cornice", P, CORNICE - 2.4,
                           [(0.7, 0.0), (2.1, 1.4), (2.1, 2.0), (0.8, 2.4)], C.M.granite_pink))
-    objs.append(C.prism(f"{ID}_attic", C.offset_polygon(P, -1.2), CORNICE, ATTIC, C.M.granite_pink,
-                        material_top=C.M.roof_grey, role="mass"))
+    objs.append(C.prism(f"{ID}_attic", C._orient(C.offset_polygon(P, -1.2).difference(hall), 1.0), CORNICE,
+                        ATTIC, C.M.granite_pink, material_top=C.M.roof_grey, role="mass"))
 
     # ---- the Eighth Avenue colonnade and steps -------------------------------------------------------------------
     b = C.MeshBuilder()
@@ -84,17 +88,15 @@ def build():
     objs.append(b.build(f"{ID}_colonnade"))
 
     # ---- SOM's four glazed vaults over the train hall -------------------------------------------------------------
-    hcx, hcy = (x0 + x1) / 2, (y0 + y1) / 2
     b = C.MeshBuilder()
-    hall = C.rect(hcx, hcy, HALL_W, HALL_D)
-    b.prism(C.ring_coords(hall), CORNICE, CORNICE + 0.6, C.M.steel_nirosta, cap_top=False)
+    b.prism(C.ring_coords(hall), 0.0, CORNICE + 0.6, C.M.granite_pink, cap_top=False, cap_bottom=False)
     for q in range(4):
         cxq = hcx - HALL_W / 2 + HALL_W * (q + 0.5) / 4
         w = HALL_W / 4
         prof = []
         for j in range(11):
             u = j / 10.0
-            zz = CORNICE + 0.6 + (SKYLIGHT_Z - (CORNICE + 0.6 - BASE_TOP) - 2.0) * math.sin(math.pi * u) * 0.55
+            zz = SKYLIGHT_Z - 8.4 + 8.4 * math.sin(math.pi * u)     # the skylight crown lands on SKYLIGHT_Z
             prof.append((cxq - w / 2 + w * u, zz))
         for j in range(10):
             (xa, za), (xb, zb) = prof[j], prof[j + 1]

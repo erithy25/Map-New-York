@@ -15,71 +15,52 @@ HALF = RUN / 2
 
 
 # --------------------------------------------------------------------------- pressed-metal cornices
-def _metal_cornice(m: K.Mesh, profile, mat: str, bracket_pitch: float, bracket_proj: float, bracket_h: float,
-                   *, dentil: bool = False, frieze_z: float = 0.0) -> None:
-    """Sheet-metal cornice run of 1 m: swept crown profile, brackets and an optional dentil course."""
-    m.extrude_profile(profile, -HALF, HALF, mat, closed=True, caps=True, flip=True)
-    n = max(1, int(round(RUN / bracket_pitch)))
-    for k in range(n):
-        cx = -HALF + RUN * (k + 0.5) / n
-        P.corbel_bracket(m, cx, 0.0, frieze_z, frieze_z + bracket_h, bracket_proj, mat, width=0.085)
-    if dentil:
-        P.dentils(m, -HALF, HALF, frieze_z + bracket_h + 0.02, frieze_z + bracket_h + 0.11, -0.055, 0.075, mat, pitch=0.105)
-
-
+# Member sizes come from the standard galvanised-iron cornice catalogues the New York sheet-metal shops worked from
+# (Kittredge, Bakewell & Mullins, 1880-1910): a frieze board, a dentil course, a bed mould, scrolled consoles carrying
+# the corona, a corona with a splayed soffit, a cyma-recta crown and a capping fillet.
 @K.register("cornice_pressed_metal_a", "cornice", nominal_size=(1.0, 0.542, 0.92),
-            description="Pressed galvanised-iron tenement cornice, profile A: 0.46 m projection, cyma crown over a dentil course "
-                        "and scrolled brackets at 0.50 m (1880-1900 Old Law tenement).",
-            features=["cornice"], budget=1400)
+            description="Pressed galvanised-iron tenement cornice, profile A: 0.44 m corona over a dentil course, cyma-recta "
+                        "crown and scrolled consoles at 0.50 m carrying the corona (1880-1900 Old Law tenement).",
+            features=["cornice"], budget=2500)
 def _cornice_a():
     m = K.Mesh()
-    prof = [(0.0, 0.30), (-0.10, 0.34), (-0.20, 0.46), (-0.34, 0.56), (-0.44, 0.70), (-0.40, 0.82),
-            (-0.28, 0.90), (0.0, 0.92), (0.0, 0.30)]
-    _metal_cornice(m, prof, "metal_panel", 0.50, 0.16, 0.30, dentil=False, frieze_z=0.0)
-    m.box((-HALF, -0.055, 0.0), (HALF, P.WYTHE, 0.30), "metal_panel")                    # frieze board
-    P.dentils(m, -HALF, HALF, 0.30, 0.39, -0.055, 0.075, "metal_panel", pitch=0.105)
-    m.box((-HALF, -0.075, 0.39), (HALF, P.WYTHE, 0.44), "metal_panel")                   # bed mould
+    P.pressed_metal_cornice(m, -HALF, HALF, "metal_panel", frieze_h=0.300, frieze_proj=0.055,
+                            dentil_h=0.090, dentil_proj=0.145, dentil_pitch=0.105, bed_h=0.070, bed_proj=0.240,
+                            corona_soffit=0.040, corona_proj=0.440, corona_h=0.220, crown_h=0.200, crown_back=0.150,
+                            cap_h=0.040, bracket_pitch=0.500, bracket_width=0.085)
     return m
 
 
 @K.register("cornice_pressed_metal_b", "cornice", nominal_size=(1.0, 0.662, 1.15),
-            description="Pressed-metal cornice, profile B: deep 0.56 m modillion cornice with a panelled frieze and paired "
-                        "console brackets at 0.62 m (1890-1910 New Law tenement / flats).",
-            features=["cornice"], budget=1400)
+            description="Pressed-metal cornice, profile B: deep 0.56 m modillion cornice with a panelled frieze, a dentil course "
+                        "and paired console brackets at 0.50 m (1890-1910 New Law tenement / flats).",
+            features=["cornice"], budget=2800)
 def _cornice_b():
     m = K.Mesh()
-    prof = [(0.0, 0.46), (-0.14, 0.50), (-0.30, 0.62), (-0.46, 0.76), (-0.56, 0.94), (-0.50, 1.08),
-            (-0.30, 1.14), (0.0, 1.15), (0.0, 0.46)]
-    m.extrude_profile(prof, -HALF, HALF, "metal_panel", closed=True, caps=True, flip=True)
-    m.box((-HALF, -0.075, 0.0), (HALF, P.WYTHE, 0.46), "metal_panel")                    # panelled frieze
-    for k in range(3):
-        cx = -HALF + RUN * (k + 0.5) / 3
-        m.box((cx - 0.135, -0.095, 0.06), (cx + 0.135, -0.075, 0.40), "metal_panel")     # sunk frieze panel
-    for k in (0, 1):
-        for d in (-0.055, 0.055):
-            P.corbel_bracket(m, -HALF + RUN * (k + 0.5) / 2 + d, 0.0, 0.46, 0.80, 0.22, "metal_panel", width=0.075)
-    P.dentils(m, -HALF, HALF, 0.46, 0.55, -0.075, 0.085, "metal_panel", pitch=0.09)
+    P.pressed_metal_cornice(m, -HALF, HALF, "metal_panel", frieze_h=0.460, frieze_proj=0.075,
+                            dentil_h=0.090, dentil_proj=0.175, dentil_pitch=0.090, bed_h=0.090, bed_proj=0.300,
+                            corona_soffit=0.055, corona_proj=0.560, corona_h=0.250, crown_h=0.220, crown_back=0.200,
+                            cap_h=0.040, bracket_pitch=0.500, bracket_width=0.075, panels=True)
     return m
 
 
 @K.register("cornice_pressed_metal_c", "cornice", nominal_size=(1.0, 0.442, 0.62),
-            description="Pressed-metal cornice, profile C: shallow 0.34 m ogee crown with a bead-and-reel band and small brackets "
-                        "at 0.33 m (narrow rowhouse / rear cornice).",
-            features=["cornice"], budget=1400)
+            description="Pressed-metal cornice, profile C: shallow 0.34 m ogee crown with a small dentil band and brackets at "
+                        "0.33 m (narrow rowhouse / rear cornice).",
+            features=["cornice"], budget=2200)
 def _cornice_c():
     m = K.Mesh()
-    prof = [(0.0, 0.20), (-0.09, 0.24), (-0.20, 0.34), (-0.34, 0.46), (-0.28, 0.56), (-0.12, 0.61),
-            (0.0, 0.62), (0.0, 0.20)]
-    _metal_cornice(m, prof, "metal_panel", 0.333, 0.11, 0.20, frieze_z=0.0)
-    m.box((-HALF, -0.045, 0.0), (HALF, P.WYTHE, 0.20), "metal_panel")
-    P.dentils(m, -HALF, HALF, 0.20, 0.26, -0.045, 0.055, "metal_panel", pitch=0.083)
+    P.pressed_metal_cornice(m, -HALF, HALF, "metal_panel", frieze_h=0.200, frieze_proj=0.045,
+                            dentil_h=0.062, dentil_proj=0.100, dentil_pitch=0.083, bed_h=0.048, bed_proj=0.170,
+                            corona_soffit=0.030, corona_proj=0.340, corona_h=0.150, crown_h=0.120, crown_back=0.120,
+                            cap_h=0.040, bracket_pitch=0.333, bracket_width=0.065)
     return m
 
 
 @K.register("cornice_bracket", "cornice", nominal_size=(0.15, 0.402, 0.6),
-            description="Single scrolled pressed-metal console bracket, 0.60 m high with a 0.28 m scroll, for spacing under any "
-                        "cornice or hood.",
-            features=["cornice"], budget=400)
+            description="Single scrolled pressed-metal console bracket, 0.60 m high with a 0.28 m scroll and sunk side panels, "
+                        "for spacing under any cornice or hood.",
+            features=["cornice"], budget=600)
 def _cornice_bracket():
     m = K.Mesh()
     P.corbel_bracket(m, 0.0, 0.0, 0.0, 0.60, 0.28, "metal_panel", width=0.115, scroll=7)
@@ -116,14 +97,31 @@ def _cornice_corbel():
             features=["cornice"], budget=1400)
 def _cornice_stone():
     m = K.Mesh()
-    m.box((-HALF, -0.075, 0.0), (HALF, P.WYTHE, 0.10), "limestone")                        # architrave
-    m.box((-HALF, -0.055, 0.10), (HALF, P.WYTHE, 0.32), "limestone")                       # frieze
-    m.box((-HALF, -0.135, 0.32), (HALF, P.WYTHE, 0.40), "limestone")                       # bed mould
-    for k in range(3):                                                                     # modillions
+    # architrave: three fasciae separated by fillets, as cut in Indiana limestone
+    arch = P.profile((P.WYTHE, 0.0), [
+        ((-0.055, 0.0),), ((-0.055, 0.040),), ((-0.068, 0.048),), ((-0.068, 0.088),),
+        ((-0.080, 0.096),), ((-0.080, 0.130),), ((-0.100, 0.150), "cyma_reversa", 3), ((P.WYTHE, 0.150),),
+    ])
+    P.sweep(m, arch, -HALF, HALF, "limestone")
+    m.box((-HALF, -0.055, 0.150), (HALF, P.WYTHE, 0.330), "limestone")                     # plain frieze
+    # bed mould: ovolo with an egg-and-dart read (alternating blocks) between two fillets
+    bed = P.profile((P.WYTHE, 0.330), [
+        ((-0.055, 0.330),), ((-0.150, 0.410), "ovolo", 4), ((-0.165, 0.425),), ((P.WYTHE, 0.425),),
+    ])
+    P.sweep(m, bed, -HALF, HALF, "limestone")
+    n = 9
+    for k in range(n):                                                                     # egg-and-dart blocks
+        cx = -HALF + RUN * (k + 0.5) / n
+        w = 0.040 if k % 2 == 0 else 0.018
+        m.box((cx - w / 2, -0.185, 0.345), (cx + w / 2, -0.150, 0.405), "limestone")
+    for k in range(3):                                                                     # modillions under the corona
         cx = -HALF + RUN * (k + 0.5) / 3
-        m.box((cx - 0.070, -0.330, 0.40), (cx + 0.070, -0.135, 0.50), "limestone")
-    prof = [(-0.135, 0.40), (-0.395, 0.50), (-0.395, 0.62), (-0.30, 0.72), (-0.16, 0.78), (0.0, 0.78), (0.0, 0.40)]
-    m.extrude_profile(prof, -HALF, HALF, "limestone", closed=True, caps=True, flip=True)
+        P.corbel_bracket(m, cx, -0.165, 0.425, 0.520, 0.215, "limestone", width=0.140, scroll=5, side_panel=False)
+    corona = P.profile((P.WYTHE, 0.425), [
+        ((-0.165, 0.425),), ((-0.395, 0.500),), ((-0.395, 0.620),),
+        ((-0.160, 0.740), "cyma_recta", 6), ((-0.120, 0.780),), ((P.WYTHE, 0.780),),
+    ])
+    P.sweep(m, corona, -HALF, HALF, "limestone")
     return m
 
 
@@ -132,37 +130,52 @@ def _cornice_stone():
                         "return panel (used at party walls and building corners).",
             features=["cornice"], budget=1000)
 def _cornice_return():
+    """End return for profile A: the run stops 0.21 m short and the whole profile is mitred round the corner, so the
+    cornice closes against a party wall instead of showing an open sheet-metal section."""
     m = K.Mesh()
-    prof = [(0.0, 0.30), (-0.10, 0.34), (-0.20, 0.46), (-0.34, 0.56), (-0.44, 0.70), (-0.40, 0.82),
-            (-0.28, 0.90), (0.0, 0.92), (0.0, 0.30)]
-    m.extrude_profile(prof, -0.21, 0.21, "metal_panel", closed=True, caps=True, flip=True)
-    m.box((-0.21, -0.055, 0.0), (0.21, P.WYTHE, 0.30), "metal_panel")
-    P.corbel_bracket(m, 0.0, 0.0, 0.0, 0.30, 0.16, "metal_panel", width=0.085)
-    # mitred return: the same profile swept in Y at the +X end
+    P.pressed_metal_cornice(m, -0.21, 0.21, "metal_panel", frieze_h=0.300, frieze_proj=0.055,
+                            dentil_h=0.090, dentil_proj=0.145, dentil_pitch=0.105, bed_h=0.070, bed_proj=0.240,
+                            corona_soffit=0.040, corona_proj=0.440, corona_h=0.220, crown_h=0.200, crown_back=0.150,
+                            cap_h=0.040, bracket_pitch=0.420, bracket_width=0.085)
+    prof = P.profile((P.WYTHE, 0.370), [
+        ((-0.145, 0.370),), ((-0.240, 0.440), "cyma_reversa", 4), ((-0.440, 0.480),), ((-0.440, 0.720),),
+        ((-0.140, 0.860), "cyma_recta", 6), ((-0.110, 0.900),), ((P.WYTHE, 0.900),),
+    ])
+    # mitre: sweep the same section round the corner by projecting each profile point onto the 45 deg mitre plane
     for i in range(len(prof) - 1):
         (ya, za), (yb, zb) = prof[i], prof[i + 1]
         m.face([(0.21, ya, za), (0.21 - ya, ya, za), (0.21 - yb, yb, zb), (0.21, yb, zb)], "metal_panel", flip=True)
-    m.box((0.21, -0.055, 0.0), (0.21 + 0.055, P.WYTHE, 0.30), "metal_panel")
+    m.box((0.21, -0.055, 0.0), (0.21 + 0.055, P.WYTHE, 0.370), "metal_panel")               # return frieze cheek
     return m
 
 
 # --------------------------------------------------------------------------- string courses
-@K.register("string_course_brick_soldier", "string_course", nominal_size=(1.0, 0.127, 0.194),
-            description="Brick soldier-course string course, 1 m run, projecting 25 mm from the wall face.",
-            features=["string_course"])
+@K.register("string_course_brick_soldier", "string_course", nominal_size=(1.0, 0.132, 0.262),
+            description="Brick soldier-course string course, 1 m run: individual bricks on end projecting 30 mm with raked head "
+                        "joints, over a corbelled stretcher course — laid brick by brick so the band reads as masonry.",
+            features=["string_course"], budget=600)
 def _sc_soldier():
     m = K.Mesh()
-    m.box((-HALF, -0.025, 0.0), (HALF, P.WYTHE, P.BRICK_LEN), "red_brick")
+    m.box((-HALF, -0.015, 0.0), (HALF, P.WYTHE, P.BRICK_COURSE), "red_brick")               # corbelled bed course
+    P.soldier_lintel(m, -HALF + 0.02, HALF - 0.02, P.BRICK_COURSE, "red_brick", proj=0.030)
     return m
 
 
 @K.register("string_course_stone_belt", "string_course", nominal_size=(1.0, 0.177, 0.25),
-            description="Limestone belt course, 1 m run, 0.25 m deep with a 65 mm projection and a drip on the underside.",
-            features=["string_course"])
+            description="Limestone belt course, 1 m run, 0.25 m deep: cyma-reversa top moulding, plain face, chamfered nose and a "
+                        "throated drip on the underside (65 mm projection).",
+            features=["string_course"], budget=400)
 def _sc_belt():
     m = K.Mesh()
-    m.box((-HALF, -0.065, 0.0), (HALF, P.WYTHE, 0.250), "limestone")
-    m.box((-HALF, -0.075, 0.205), (HALF, -0.055, 0.250), "limestone")            # projecting cap fillet
+    prof = P.profile((P.WYTHE, 0.0), [
+        ((-0.040, 0.0),),                       # soffit
+        ((-0.040, 0.010),), ((-0.052, 0.010),), ((-0.052, 0.0),),      # drip throat
+        ((-0.053, 0.0),), ((-0.065, 0.012),),                          # chamfered nose
+        ((-0.065, 0.185),),                                            # face
+        ((-0.075, 0.205),), ((-0.075, 0.222),),                        # projecting cap fillet
+        ((P.WYTHE, 0.250), "cyma_reversa", 4),                         # cyma back to the wall
+    ])
+    P.sweep(m, prof, -HALF, HALF, "limestone")
     return m
 
 
@@ -316,8 +329,9 @@ def _water_table():
 
 
 @K.register("trim_lintel_stone", "trim", nominal_size=(1.18, 0.142, 0.15),
-            description="Loose limestone lintel, 1.18 m long x 150 mm deep, 40 mm projection — drops over any 0.95 m opening.",
-            features=["lintels"], budget=200)
+            description="Loose limestone lintel, 1.18 m long x 150 mm deep, 40 mm projection with a chamfered lower arris, a "
+                        "fillet under the top edge and a washed top — drops over any 0.95 m opening.",
+            features=["lintels"], budget=400)
 def _lintel():
     m = K.Mesh()
     P.stone_lintel(m, -0.475, 0.475, 0.0, "limestone")
@@ -325,28 +339,22 @@ def _lintel():
 
 
 @K.register("trim_sill_cast_stone", "trim", nominal_size=(1.1, 0.167, 0.1),
-            description="Loose cast-stone sill, 1.10 m long with a 20 mm wash and 65 mm projection — drops under any 0.95 m opening.",
-            features=["sills"], budget=200)
+            description="Loose cast-stone sill, 1.10 m long: 20 mm wash, chamfered nose, 65 mm projection and a 12 x 10 mm "
+                        "throated drip groove on the underside — drops under any 0.95 m opening.",
+            features=["sills"], budget=400)
 def _sill():
     m = K.Mesh()
     P.stone_sill(m, -0.475, 0.475, 0.0, "precast")
     return m
 
 
-@K.register("trim_keystone", "trim", nominal_size=(0.26, 0.192, 0.44),
-            description="Limestone keystone, 0.23 m wide at the head and 0.44 m tall, projecting 90 mm — for arched and "
-                        "flat-arched openings.",
-            features=["lintels"], budget=200)
+@K.register("trim_keystone", "trim", nominal_size=(0.288, 0.206, 0.44),
+            description="Limestone keystone, 0.26 m wide at the head and 0.44 m tall, projecting 90 mm: splayed faces, a sunk "
+                        "centre panel and a washed cap moulding — for arched and flat-arched openings.",
+            features=["lintels"], budget=400)
 def _keystone():
     m = K.Mesh()
-    top, bot = 0.130, 0.090
-    zt, zb = 0.440, 0.0
-    for (ya, yb) in ((-0.090, -0.060), (-0.060, P.WYTHE)):
-        m.face([(-bot, ya, zb), (bot, ya, zb), (top, ya, zt), (-top, ya, zt)], "limestone", flip=(ya < -0.06))
-    m.face([(-bot, -0.090, zb), (-top, -0.090, zt), (-top, P.WYTHE, zt), (-bot, P.WYTHE, zb)], "limestone")
-    m.face([(bot, P.WYTHE, zb), (top, P.WYTHE, zt), (top, -0.090, zt), (bot, -0.090, zb)], "limestone")
-    m.face([(-top, -0.090, zt), (top, -0.090, zt), (top, P.WYTHE, zt), (-top, P.WYTHE, zt)], "limestone")
-    m.face([(-bot, P.WYTHE, zb), (bot, P.WYTHE, zb), (bot, -0.090, zb), (-bot, -0.090, zb)], "limestone")
+    P.keystone(m, 0.0, 0.0, 0.440, "limestone")
     return m
 
 

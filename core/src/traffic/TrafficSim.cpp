@@ -947,23 +947,51 @@ float TrafficSim::emergencyConstraint(Vehicle& v) {
   return limit;
 }
 
+// Where a vehicle must yield to people already in the roadway.  The crossings
+// a vehicle traverses are: the one across its own approach (at its stop line —
+// people there are crossing against the signal), the ones inside the junction,
+// and, for a turn, the crossing on the street it turns into, which is exactly
+// where the New York turning conflict happens: that crossing has WALK while the
+// turning driver has green, and the driver is the one who must give way
+// (NY VTL §1151, NYC Traffic Rules §4-04).
 float TrafficSim::pedestrianConstraint(const Vehicle& v, uint32_t junction_lane, float dist_to_line) const {
   if (!ped_probe_.valid()) return kBigDistance;
+  const float band = cfg_.stop_line_setback_m - 2.5f;  // centre of the crosswalk band
   float best = kBigDistance;
-  if (junction_lane != kInvalidIndex && dist_to_line < 35.f) {
+  if (junction_lane != kInvalidIndex && dist_to_line < 40.f) {
     const Lane& jl = graph_->lane(junction_lane);
-    const routing::LanePose entry = graph_->poseAt(junction_lane, std::min(1.5f, jl.length_m * 0.25f));
-    if (ped_probe_.roadPeds(entry.pos.x, entry.pos.y, 3.5f) > 0) best = std::min(best, dist_to_line);
-    if (jl.turn != TurnType::Straight) {
-      const routing::LanePose exit = graph_->poseAt(junction_lane, std::max(0.f, jl.length_m - 1.5f));
-      if (ped_probe_.roadPeds(exit.pos.x, exit.pos.y, 3.5f) > 0)
-        best = std::min(best, dist_to_line + jl.length_m * 0.5f);
+    const Lane& from = graph_->lane(jl.from_lane);
+    // 1. our own stop-line crossing
+    const routing::LanePose ours = graph_->poseAt(jl.from_lane, std::max(0.f, from.length_m - band));
+    if (ped_probe_.roadPeds(ours.pos.x, ours.pos.y, 3.5f) > 0) best = std::min(best, dist_to_line);
+    // 2. the crossing on the receiving street
+    if (jl.to_lane != kInvalidIndex && jl.to_lane < graph_->laneCount()) {
+      const Lane& to = graph_->lane(jl.to_lane);
+      const routing::LanePose recv = graph_->poseAt(jl.to_lane, std::min(band, to.length_m * 0.4f));
+      if (ped_probe_.roadPeds(recv.pos.x, recv.pos.y, 4.0f) > 0) best = std::min(best, dist_to_line);
     }
+    // 3. anybody inside the box itself
+    const routing::LanePose mid = graph_->poseAt(junction_lane, jl.length_m * 0.5f);
+    if (ped_probe_.roadPeds(mid.pos.x, mid.pos.y, 3.5f) > 0) best = std::min(best, dist_to_line);
   }
-  // Mid-block jaywalkers: sampled at 5 Hz, staggered by agent id.
-  if ((step_ix_ + v.id) % 4u == 0u && v.speed > 1.f) {
+  const Lane& cur = graph_->lane(v.lane);
+  if (cur.is_junction != 0) {
+    // Already committed: keep looking ahead along the connector and into the
+    // receiving lane, every step — there are few vehicles inside a junction.
+    const float look = std::min(cur.length_m, v.s + 3.f + v.speed * 1.2f);
+    const routing::LanePose ahead = graph_->poseAt(v.lane, look);
+    if (ped_probe_.roadPeds(ahead.pos.x, ahead.pos.y, 3.0f) > 0)
+      best = std::min(best, std::max(0.f, look - v.s - v.length_m * 0.5f));
+    if (cur.to_lane != kInvalidIndex && cur.to_lane < graph_->laneCount()) {
+      const Lane& to = graph_->lane(cur.to_lane);
+      const routing::LanePose recv = graph_->poseAt(cur.to_lane, std::min(band, to.length_m * 0.4f));
+      if (ped_probe_.roadPeds(recv.pos.x, recv.pos.y, 4.0f) > 0)
+        best = std::min(best, std::max(0.f, cur.length_m - v.s + band - v.length_m * 0.5f));
+    }
+  } else if ((step_ix_ + v.id) % 4u == 0u && v.speed > 1.f) {
+    // Mid-block jaywalkers: sampled at 5 Hz, staggered by agent id.
     const float look = std::min(20.f, 4.f + v.speed * 1.6f);
-    const routing::LanePose ahead = graph_->poseAt(v.lane, std::min(v.s + look, graph_->lane(v.lane).length_m));
+    const routing::LanePose ahead = graph_->poseAt(v.lane, std::min(v.s + look, cur.length_m));
     if (ped_probe_.roadPeds(ahead.pos.x, ahead.pos.y, 2.5f) > 0) best = std::min(best, look - 2.f);
   }
   return best;
@@ -1263,13 +1291,8 @@ void TrafficSim::decide(uint32_t i) {
           may_enter = false;
         }
       }
-      if (may_enter && dist_to_line < 35.f) {
-        const float pd = pedestrianConstraint(v, jl, dist_to_line);
-        if (pd < kBigDistance) {
-          stop_dist = std::min(stop_dist, pd);
-          if (pd <= dist_to_line + 0.01f) may_enter = false;
-        }
-      }
+      if (may_enter && dist_to_line < 40.f && pedestrianConstraint(v, jl, dist_to_line) <= dist_to_line + 0.01f)
+        may_enter = false;  // somebody is in a crossing we would drive over
       if (may_enter) lockJunction(v, jl);
       if (!may_enter) stop_dist = std::min(stop_dist, dist_to_line);
     }
@@ -1279,13 +1302,14 @@ void TrafficSim::decide(uint32_t i) {
       v.state = signalized ? DriveState::StoppedAtLine : DriveState::WaitingRow;
     else if (v.state != DriveState::Driving)
       v.state = DriveState::Driving;
-  } else {
-    if (v.state != DriveState::Driving) v.state = DriveState::Driving;
-    // Pedestrians crossing mid-block still stop us.
-    stop_dist = std::min(stop_dist, pedestrianConstraint(v, kInvalidIndex, kBigDistance));
+  } else if (v.state != DriveState::Driving) {
+    v.state = DriveState::Driving;
   }
 
-  // 2b. deadlock breaker: a vehicle stuck inside the intersection creeps out.
+  // 2b. pedestrians in front of us (crossings, the box, jaywalkers)
+  stop_dist = std::min(stop_dist, pedestrianConstraint(v, jl, dist_to_line));
+
+  // 2c. deadlock breaker: a vehicle stuck inside the intersection creeps out.
   if (l.is_junction != 0) {
     lockJunction(v, v.lane);  // hold the crossing until we are out of it
     v.junction_time += cfg_.dt;

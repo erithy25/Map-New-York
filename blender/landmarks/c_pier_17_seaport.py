@@ -84,7 +84,9 @@ def build():
 
 def main():
     objs, g = build()
-    entry = cc.finish(objs, ID, g.frame, real_footprint=g.real_local,
+    entry = cc.finish(objs, ID, g.frame, real_footprint=g.real_local, iou_z=0.6,
+                      plan_polygon_note=("model section at z = 0.6 m: the pier deck is 1.2 m above the apron, so the "
+                                         "standard 1.5 m slice would sit above the base volume"),
                       fidelity_statement=(
                           "Exact: real OTI footprint on the pier deck; 20.7 m (OTI LiDAR) over four levels; the "
                           "9.1 m expressed steel bay grid with full-height glazing between the columns; the 2.4 m "

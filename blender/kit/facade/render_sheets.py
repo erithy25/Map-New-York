@@ -84,12 +84,34 @@ def _ground(x0: float, x1: float, y0: float, y1: float, mat: str = "concrete_sid
     m.to_object("ground")
 
 
+def _cycles_budget() -> None:
+    """Bounce limits and adaptive sampling for the verification renders — these are kit elevations, not beauty
+    shots, and the box shares four vCPUs with five other agents. Set before ``nb.quick_render``, which only
+    overrides device / samples / denoising."""
+    c = bpy.context.scene.cycles
+    c.use_adaptive_sampling = True
+    c.adaptive_threshold = 0.03
+    c.max_bounces = 6
+    c.diffuse_bounces = 2
+    c.glossy_bounces = 2
+    c.transmission_bounces = 6
+    # kit glazing is alpha-blended *and* transmissive and the panes stack (outer sash, inner sash, interior card),
+    # so a low transparent limit terminates rays early and salts the glass with black samples
+    c.transparent_max_bounces = 24
+    c.volume_bounces = 0
+    c.caustics_reflective = False
+    c.caustics_refractive = False
+
+
 def _render(path: Path, *, centre, half_w: float, half_h: float, samples: int, res_x: int,
             sun_az: float = 205.0, sun_el: float = 42.0) -> None:
     """Near-orthographic Cycles still: the camera is pulled back 240 m with a matching narrow FOV."""
+    _cycles_budget()
     dist = 240.0
-    fov = 2.0 * math.degrees(math.atan(half_w / dist))
     res_y = max(360, int(res_x * half_h / half_w))
+    # Blender's AUTO sensor fit applies camera.angle to the LARGER image dimension, so the FOV must be derived
+    # from the matching half-extent or the frame crops.
+    fov = 2.0 * math.degrees(math.atan((half_h if res_y > res_x else half_w) / dist))
     K.nb.quick_render(path, camera_location=(centre[0], centre[1] - dist, centre[2]), camera_target=centre,
                       fov_deg=fov, size=(res_x, res_y), samples=samples, sun_azimuth_deg=sun_az,
                       sun_elevation_deg=sun_el, sun_strength=3.2)
@@ -114,7 +136,10 @@ def sheet(group: str, *, samples: int, res_x: int, only: set[str] | None = None)
         lo0, hi0 = m.bounds()
         # turn free-standing pieces, and any wall piece that projects far enough that a flat elevation would hide
         # what it does (stoops, canopies, cornices, dormers, air conditioners)
-        if piece.anchor.startswith("ground") or (hi0.y - lo0.y) > 0.45 * (hi0.x - lo0.x):
+        # interior shells are boxes open towards the street and must be looked straight into
+        turn = piece.category != "storefront_interior" and (
+            piece.anchor.startswith("ground") or (hi0.y - lo0.y) > 0.45 * (hi0.x - lo0.x))
+        if turn:
             turned = K.Mesh()
             turned.merge(m, rot_z_deg=28.0)
             m.free()
@@ -264,6 +289,7 @@ def tenement(*, samples: int, res_x: int) -> Path:
     _place("hvac_rooftop_unit_small", (-2.60, 2.10, ROOF))
 
     path = OUT / "tenement_test.png"
+    _cycles_budget()
     K.nb.quick_render(path, camera_location=(-10.5, -29.0, 8.0), camera_target=(0.0, 1.5, 11.2),
                       # portrait frame: fov_deg is the VERTICAL field of view (Blender AUTO sensor fit)
                       fov_deg=50.0, size=(res_x, int(res_x * 1.62)), samples=samples,
@@ -278,7 +304,7 @@ def main(argv=None) -> int:
     ap.add_argument("--tenement", action="store_true")
     ap.add_argument("--list", action="store_true")
     ap.add_argument("--samples", type=int, default=64)
-    ap.add_argument("--res", type=int, default=1500)
+    ap.add_argument("--res", type=int, default=800)
     a = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
     if a.list:

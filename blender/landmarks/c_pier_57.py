@@ -91,11 +91,11 @@ def build():
         q = (x0 + (x1 - x0) * (0.1 + 0.1 * k), (y0 + y1) / 2 + (12.0 if k % 2 else -12.0))
         b.box((q[0], q[1], TOP - 0.9), (6.0, 5.0, 1.8), C.M.steel_dark)
     objs.append(C.tag(b.build(f"{ID}_rooftop_park"), "park"))
-    return objs, g
+    return objs, g, (x1 - x0)
 
 
 def main():
-    objs, g = build()
+    objs, g, length_m = build()
     entry = cc.finish(objs, ID, g.frame, real_footprint=g.real_local,
                       fidelity_statement=(
                           "Exact: real OTI footprint (260.7 m long, within 1.6 m of the published 850 ft); 19.3 m "
@@ -107,7 +107,7 @@ def main():
                           "fit-out, the marine piles, the park planting."),
                       dimensions={"top_m": TOP, "deck_m": DECK, "levels": LEVELS, "bay_m": BAY,
                                   "caisson_lengths_m": list(CAISSONS), "rooftop_park_m2": 9700,
-                                  "length_m": round(x1 - x0, 1)})
+                                  "length_m": round(length_m, 1)})
     cc.render(ID, [
         {"view": "hudson", "azimuth_deg": 270, "elevation_deg": "street", "fov_deg": 52, "look_up_deg": 7},
         {"view": "aerial", "azimuth_deg": 250, "elevation_deg": 30},

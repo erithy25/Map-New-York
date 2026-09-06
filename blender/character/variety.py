@@ -17,7 +17,7 @@
  7   ``bag``                index into :data:`BAGS`, 255 = none
  8   ``hat``                index into :data:`HATS`, 255 = none
  9   ``glasses``            index into :data:`GLASSES`, 255 = none
-10   ``height_scale``       0-255 mapped linearly onto [0.90, 1.10] of the preset's height
+10   ``height_scale``       0-255 mapped linearly onto [0.97, 1.03] of the preset's height
 11   ``walk_style``         index into :data:`WALK_STYLES` - which locomotion clip set and playback rate
 ===  =====================  =======================================================================
 
@@ -37,53 +37,55 @@ NONE = 255
 #: proportions and the three ethnic components).  The distribution follows the 2020 Census ACS profile of
 #: New York City: 30.9 % White non-Hispanic, 28.7 % Hispanic, 20.2 % Black, 15.6 % Asian.
 BODY_PRESETS: tuple[dict, ...] = (
-    {"id": "m_young_slim", "gender": 0.92, "age": 0.36, "muscle": 0.45, "weight": 0.38, "height": 0.58,
+    # MakeHuman's `age` macro is 1 year at 0.0, 25 years at 0.5 and 90 years at 1.0, so an adult never has
+    # age below ~0.42; `height` 0.4-0.8 spans roughly 1.55-1.95 m once gender and age are applied.
+    {"id": "m_young_slim", "gender": 0.92, "age": 0.44, "muscle": 0.45, "weight": 0.38, "height": 0.62,
      "proportions": 0.6, "african": 0.10, "asian": 0.10, "caucasian": 0.80},
-    {"id": "m_young_athletic", "gender": 0.95, "age": 0.38, "muscle": 0.76, "weight": 0.52, "height": 0.66,
+    {"id": "m_young_athletic", "gender": 0.95, "age": 0.46, "muscle": 0.76, "weight": 0.52, "height": 0.70,
      "proportions": 0.7, "african": 0.75, "asian": 0.05, "caucasian": 0.20},
-    {"id": "m_young_heavy", "gender": 0.90, "age": 0.42, "muscle": 0.45, "weight": 0.78, "height": 0.55,
+    {"id": "m_young_heavy", "gender": 0.90, "age": 0.48, "muscle": 0.45, "weight": 0.78, "height": 0.58,
      "proportions": 0.5, "african": 0.20, "asian": 0.15, "caucasian": 0.65},
-    {"id": "m_young_asian", "gender": 0.90, "age": 0.34, "muscle": 0.50, "weight": 0.42, "height": 0.48,
+    {"id": "m_young_asian", "gender": 0.90, "age": 0.43, "muscle": 0.50, "weight": 0.42, "height": 0.52,
      "proportions": 0.6, "african": 0.02, "asian": 0.93, "caucasian": 0.05},
-    {"id": "m_mid_average", "gender": 0.90, "age": 0.55, "muscle": 0.52, "weight": 0.56, "height": 0.55,
+    {"id": "m_mid_average", "gender": 0.90, "age": 0.58, "muscle": 0.52, "weight": 0.56, "height": 0.60,
      "proportions": 0.5, "african": 0.12, "asian": 0.12, "caucasian": 0.76},
-    {"id": "m_mid_stocky", "gender": 0.93, "age": 0.58, "muscle": 0.66, "weight": 0.70, "height": 0.44,
+    {"id": "m_mid_stocky", "gender": 0.93, "age": 0.62, "muscle": 0.66, "weight": 0.70, "height": 0.50,
      "proportions": 0.45, "african": 0.30, "asian": 0.10, "caucasian": 0.60},
-    {"id": "m_mid_hispanic", "gender": 0.90, "age": 0.52, "muscle": 0.55, "weight": 0.58, "height": 0.46,
+    {"id": "m_mid_hispanic", "gender": 0.90, "age": 0.56, "muscle": 0.55, "weight": 0.58, "height": 0.52,
      "proportions": 0.55, "african": 0.25, "asian": 0.20, "caucasian": 0.55},
-    {"id": "m_mid_tall", "gender": 0.94, "age": 0.50, "muscle": 0.60, "weight": 0.48, "height": 0.82,
+    {"id": "m_mid_tall", "gender": 0.94, "age": 0.54, "muscle": 0.60, "weight": 0.48, "height": 0.80,
      "proportions": 0.7, "african": 0.15, "asian": 0.05, "caucasian": 0.80},
-    {"id": "m_old_lean", "gender": 0.88, "age": 0.80, "muscle": 0.36, "weight": 0.42, "height": 0.46,
+    {"id": "m_old_lean", "gender": 0.88, "age": 0.80, "muscle": 0.36, "weight": 0.42, "height": 0.52,
      "proportions": 0.4, "african": 0.10, "asian": 0.15, "caucasian": 0.75},
-    {"id": "m_old_heavy", "gender": 0.88, "age": 0.84, "muscle": 0.40, "weight": 0.74, "height": 0.42,
+    {"id": "m_old_heavy", "gender": 0.88, "age": 0.84, "muscle": 0.40, "weight": 0.74, "height": 0.48,
      "proportions": 0.4, "african": 0.55, "asian": 0.10, "caucasian": 0.35},
-    {"id": "m_old_asian", "gender": 0.88, "age": 0.82, "muscle": 0.38, "weight": 0.45, "height": 0.36,
+    {"id": "m_old_asian", "gender": 0.88, "age": 0.82, "muscle": 0.38, "weight": 0.45, "height": 0.44,
      "proportions": 0.45, "african": 0.02, "asian": 0.92, "caucasian": 0.06},
-    {"id": "m_teen", "gender": 0.85, "age": 0.26, "muscle": 0.40, "weight": 0.38, "height": 0.50,
+    {"id": "m_teen", "gender": 0.85, "age": 0.34, "muscle": 0.40, "weight": 0.38, "height": 0.55,
      "proportions": 0.6, "african": 0.35, "asian": 0.20, "caucasian": 0.45},
-    {"id": "f_young_slim", "gender": 0.08, "age": 0.34, "muscle": 0.36, "weight": 0.36, "height": 0.46,
+    {"id": "f_young_slim", "gender": 0.08, "age": 0.44, "muscle": 0.36, "weight": 0.36, "height": 0.55,
      "proportions": 0.65, "african": 0.10, "asian": 0.12, "caucasian": 0.78},
-    {"id": "f_young_athletic", "gender": 0.05, "age": 0.36, "muscle": 0.68, "weight": 0.46, "height": 0.54,
+    {"id": "f_young_athletic", "gender": 0.05, "age": 0.45, "muscle": 0.68, "weight": 0.46, "height": 0.60,
      "proportions": 0.7, "african": 0.70, "asian": 0.05, "caucasian": 0.25},
-    {"id": "f_young_curvy", "gender": 0.05, "age": 0.40, "muscle": 0.42, "weight": 0.68, "height": 0.44,
+    {"id": "f_young_curvy", "gender": 0.05, "age": 0.48, "muscle": 0.42, "weight": 0.68, "height": 0.52,
      "proportions": 0.6, "african": 0.30, "asian": 0.15, "caucasian": 0.55},
-    {"id": "f_young_asian", "gender": 0.06, "age": 0.32, "muscle": 0.40, "weight": 0.34, "height": 0.34,
+    {"id": "f_young_asian", "gender": 0.06, "age": 0.43, "muscle": 0.40, "weight": 0.34, "height": 0.45,
      "proportions": 0.6, "african": 0.02, "asian": 0.93, "caucasian": 0.05},
-    {"id": "f_mid_average", "gender": 0.08, "age": 0.55, "muscle": 0.44, "weight": 0.55, "height": 0.45,
+    {"id": "f_mid_average", "gender": 0.08, "age": 0.58, "muscle": 0.44, "weight": 0.55, "height": 0.53,
      "proportions": 0.5, "african": 0.15, "asian": 0.15, "caucasian": 0.70},
-    {"id": "f_mid_hispanic", "gender": 0.08, "age": 0.52, "muscle": 0.46, "weight": 0.62, "height": 0.38,
+    {"id": "f_mid_hispanic", "gender": 0.08, "age": 0.56, "muscle": 0.46, "weight": 0.62, "height": 0.48,
      "proportions": 0.5, "african": 0.28, "asian": 0.20, "caucasian": 0.52},
-    {"id": "f_mid_tall", "gender": 0.10, "age": 0.48, "muscle": 0.50, "weight": 0.44, "height": 0.70,
+    {"id": "f_mid_tall", "gender": 0.10, "age": 0.54, "muscle": 0.50, "weight": 0.44, "height": 0.72,
      "proportions": 0.7, "african": 0.20, "asian": 0.05, "caucasian": 0.75},
-    {"id": "f_old_lean", "gender": 0.10, "age": 0.82, "muscle": 0.32, "weight": 0.42, "height": 0.34,
+    {"id": "f_old_lean", "gender": 0.10, "age": 0.82, "muscle": 0.32, "weight": 0.42, "height": 0.45,
      "proportions": 0.4, "african": 0.12, "asian": 0.15, "caucasian": 0.73},
-    {"id": "f_old_heavy", "gender": 0.10, "age": 0.85, "muscle": 0.34, "weight": 0.72, "height": 0.30,
+    {"id": "f_old_heavy", "gender": 0.10, "age": 0.85, "muscle": 0.34, "weight": 0.72, "height": 0.42,
      "proportions": 0.4, "african": 0.50, "asian": 0.12, "caucasian": 0.38},
-    {"id": "f_teen", "gender": 0.12, "age": 0.26, "muscle": 0.36, "weight": 0.36, "height": 0.40,
+    {"id": "f_teen", "gender": 0.12, "age": 0.33, "muscle": 0.36, "weight": 0.36, "height": 0.50,
      "proportions": 0.65, "african": 0.30, "asian": 0.25, "caucasian": 0.45},
-    {"id": "child_boy", "gender": 0.80, "age": 0.14, "muscle": 0.40, "weight": 0.45, "height": 0.35,
+    {"id": "child_boy", "gender": 0.80, "age": 0.17, "muscle": 0.40, "weight": 0.45, "height": 0.40,
      "proportions": 0.5, "african": 0.30, "asian": 0.20, "caucasian": 0.50},
-    {"id": "child_girl", "gender": 0.20, "age": 0.13, "muscle": 0.38, "weight": 0.44, "height": 0.32,
+    {"id": "child_girl", "gender": 0.20, "age": 0.16, "muscle": 0.38, "weight": 0.44, "height": 0.38,
      "proportions": 0.5, "african": 0.25, "asian": 0.25, "caucasian": 0.50},
 )
 
@@ -131,7 +133,9 @@ TABLE_SIZES: dict[str, int] = {
     "walk_style": len(WALK_STYLES),
 }
 
-HEIGHT_SCALE_RANGE = (0.90, 1.10)
+#: Within-preset stature variation. Kept narrow (+/-3 %): the presets' own `height` macro
+#: already spans the population, and compounding the two produced 1.3 m adults.
+HEIGHT_SCALE_RANGE = (0.97, 1.03)
 
 
 @dataclass

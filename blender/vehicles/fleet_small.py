@@ -176,7 +176,7 @@ def citibike() -> dict:
     fork = g.merge_bm([g.tube_bm([(1.20 * 0.86, s * 0.045, 0.930), (1.20, s * 0.045, R)], 0.017, segments=8)
                        for s in (1, -1)])
     g.set_material_bm(fork, 0)
-    bar = g.set_material_bm(handlebar(lib, x=1.03, z=1.045, width=0.60, rise=0.03,
+    bar = g.set_material_bm(handlebar(lib, x=1.03, z=1.073, width=0.658, rise=0.03,
                                       stem_from=(1.20 * 0.86, 0.0, 0.945)), 2)
     sad = g.set_material_bm(saddle(0.34, 0.930), 3)
     post = g.set_material_bm(g.tube_bm([(0.36, 0, 0.780), (0.345, 0, 0.925)], 0.014, segments=8), 2)
@@ -192,9 +192,9 @@ def citibike() -> dict:
                              (1.01, 0.17, 0.985)], 0.006, segments=5, material_index=1))
     fenders = []
     for cx, sgn in ((0.0, 1), (1.20, 1)):
-        arc = [(cx + R * 1.05 * math.cos(a), 0.0, R * 1.05 * math.sin(a))
-               for a in [math.radians(t) for t in range(20, 161, 14)]]
-        fenders.append(g.ribbon_bm(arc, 0.075, up=(0, 1, 0), material_index=0))
+        arc = [(cx + R * 1.03 * math.cos(a), 0.0, R * 1.03 * math.sin(a))
+               for a in [math.radians(t) for t in range(30, 151, 12)]]
+        fenders.append(g.ribbon_bm(arc, 0.075, up=(0, 0, 1), material_index=0))
     body = g.to_object("Body", g.merge_bm([frame, fork, bar, sad, post, dt, *basket, *fenders]), mats,
                        smooth=True, sharp_angle_deg=42.0)
     v.add(body)
@@ -248,7 +248,7 @@ def arrow_ebike() -> dict:
     battery = g.set_material_bm(g.rounded_box_bm((0.42, 0.09, 0.13), 0.020, segments=2,
                                                  center=(0.75, 0, 0.470)), 1)
     motor = g.set_material_bm(g.cylinder_bm(0.095, 0.115, axis="Y", center=(0.0, 0, R), segments=22), 2)
-    bar = g.set_material_bm(handlebar(lib, x=1.02, z=1.020, width=0.62, rise=0.02,
+    bar = g.set_material_bm(handlebar(lib, x=1.02, z=1.020, width=0.658, rise=0.02,
                                       stem_from=(1.19 * 0.86, 0.0, 0.935)), 2)
     sad = g.set_material_bm(saddle(0.33, 0.915), 3)
     post = g.set_material_bm(g.tube_bm([(0.352, 0, 0.770), (0.335, 0, 0.910)], 0.015, segments=8), 2)
@@ -259,9 +259,9 @@ def arrow_ebike() -> dict:
                               0.008, segments=6, material_index=2))
     rack.append(g.box_bm((0.34, 0.30, 0.012), (-0.02, 0, 0.726), material_index=2))
     # insulated delivery bag (0.40 x 0.36 x 0.40 m, the common 60-litre cube)
-    bag = g.rounded_box_bm((0.40, 0.36, 0.40), 0.030, segments=2, center=(-0.02, 0, 0.935), material_index=4)
-    flap = g.box_bm((0.36, 0.32, 0.012), (-0.02, 0, 1.140), material_index=4)
-    strap = g.box_bm((0.42, 0.05, 0.012), (-0.02, 0.10, 1.140), material_index=1)
+    bag = g.rounded_box_bm((0.40, 0.36, 0.38), 0.030, segments=2, center=(-0.02, 0, 0.900), material_index=4)
+    flap = g.box_bm((0.36, 0.32, 0.012), (-0.02, 0, 1.092), material_index=4)
+    strap = g.box_bm((0.42, 0.05, 0.012), (-0.02, 0.10, 1.092), material_index=1)
     body = g.to_object("Body", g.merge_bm([frame, fork, battery, motor, bar, sad, post, dt, *rack, bag, flap, strap]),
                        mats, smooth=True, sharp_angle_deg=42.0)
     v.add(body)
@@ -309,14 +309,14 @@ def moped() -> dict:
         g.set_material_bm(g.rounded_box_bm((0.16, 0.68, 0.62), 0.10, segments=3, center=(1.16, 0, 0.700)), 0),
         g.set_material_bm(g.rounded_box_bm((0.52, 0.42, 0.09), 0.04, segments=2, center=(0.82, 0, 0.400)), 0),
         g.set_material_bm(g.rounded_box_bm((0.72, 0.66, 0.42), 0.14, segments=3, center=(0.30, 0, 0.640)), 0),
-        g.set_material_bm(g.sphere_bm((0.22, 0.28, 0.20), center=(-0.12, 0, 0.660), segments=20, rings=10), 0),
+        g.set_material_bm(g.sphere_bm((0.20, 0.28, 0.20), center=(-0.07, 0, 0.660), segments=20, rings=10), 0),
         g.set_material_bm(g.cylinder_bm(0.115, 0.34, axis="Y", center=(0.10, 0, R + 0.02), segments=20), 1),
         g.set_material_bm(g.tube_bm([(1.14, 0, 0.980), (1.30, 0, R + 0.10), (1.34, 0, R)], 0.022, segments=8), 2),
         g.set_material_bm(saddle(0.42, 0.845, length=0.62, width=0.34), 3),
-        g.set_material_bm(handlebar(lib, x=1.10, z=1.055, width=0.68, rise=0.01,
+        g.set_material_bm(handlebar(lib, x=1.10, z=1.095, width=0.733, rise=0.01,
                                     stem_from=(1.14, 0.0, 0.985)), 2),
-        g.set_material_bm(g.rounded_box_bm((0.14, 0.30, 0.14), 0.04, segments=2, center=(1.16, 0, 1.020)), 0),
-        g.set_material_bm(g.cylinder_bm(0.030, 0.42, axis="X", center=(-0.30, 0.16, 0.42), segments=12), 2),
+        g.set_material_bm(g.rounded_box_bm((0.14, 0.30, 0.14), 0.04, segments=2, center=(1.16, 0, 1.068)), 0),
+        g.set_material_bm(g.cylinder_bm(0.030, 0.34, axis="X", center=(-0.10, 0.16, 0.42), segments=12), 2),
     ]
     body = g.to_object("Body", g.merge_bm(parts), mats, smooth=True, sharp_angle_deg=40.0)
     v.add(body)
@@ -326,7 +326,7 @@ def moped() -> dict:
         w.location = (x, 0.0, R)
         v.add(w)
     for s, tag in ((1, "L"), (-1, "R")):
-        v.add(P.mirror(s, lib, x=1.09, y=s * 0.16, z=1.150, w=0.115, h=0.075, d=0.05, repeater=False, arm=0.10))
+        v.add(P.mirror(s, lib, x=1.09, y=s * 0.16, z=1.190, w=0.115, h=0.075, d=0.05, repeater=False, arm=0.10))
     v.add(lamp_slot("LIGHT_HEAD_L", lib.light_white("LIGHT_HEAD_L"), (1.238, 0.0, 0.860), 0.075))
     v.add(lamp_slot("LIGHT_TAIL_L", lib.light_red("LIGHT_TAIL_L"), (-0.255, 0.0, 0.720), 0.045, depth=0.04))
     v.add(P.lamp_panel("LIGHT_BRAKE_L", lib.light_red("LIGHT_BRAKE_L"),
@@ -389,7 +389,7 @@ def pedicab() -> dict:
         parts.append(g.set_material_bm(g.tube_bm([(0.40, 0, 0.480), (0.05, s * 0.50, R)], 0.022, segments=8), 0))
     parts.append(g.set_material_bm(g.rounded_box_bm((0.86, 1.08, 0.10), 0.05, segments=2,
                                                     center=(-0.10, 0, 0.640)), 0))
-    parts.append(g.set_material_bm(g.rounded_box_bm((0.90, 1.12, 0.62), 0.10, segments=3,
+    parts.append(g.set_material_bm(g.rounded_box_bm((0.90, 1.24, 0.62), 0.10, segments=3,
                                                     center=(-0.30, 0, 0.860)), 0))
     parts.append(g.set_material_bm(g.rounded_box_bm((0.62, 1.00, 0.14), 0.05, segments=2,
                                                     center=(0.02, 0, 0.760)), 3))
@@ -397,11 +397,11 @@ def pedicab() -> dict:
                                                     center=(-0.28, 0, 1.020)), 3))
     # canopy: four posts and a curved roof
     for sx, sy in ((0.30, 1), (0.30, -1), (-0.52, 1), (-0.52, -1)):
-        parts.append(g.set_material_bm(g.tube_bm([(sx, sy * 0.54, 0.700), (sx, sy * 0.56, 1.560)], 0.014,
+        parts.append(g.set_material_bm(g.tube_bm([(sx, sy * 0.58, 0.700), (sx, sy * 0.61, 1.640)], 0.014,
                                                  segments=6), 2))
-    roof_pts = [(0.36, 0.0, 1.640), (0.0, 0.0, 1.700), (-0.58, 0.0, 1.660)]
-    parts.append(g.set_material_bm(g.ribbon_bm(roof_pts, 1.16, up=(0, 1, 0), material_index=4), 4))
-    parts.append(g.set_material_bm(g.box_bm((0.98, 1.16, 0.030), (-0.10, 0, 1.665)), 4))
+    roof_pts = [(0.36, 0.0, 1.690), (0.0, 0.0, 1.745), (-0.58, 0.0, 1.705)]
+    parts.append(g.set_material_bm(g.ribbon_bm(roof_pts, 1.16, up=(0, 0, 1), material_index=4), 4))
+    parts.append(g.set_material_bm(g.box_bm((0.98, 1.24, 0.026), (-0.10, 0, 1.712)), 4))
     body = g.to_object("Body", g.merge_bm(parts), mats, smooth=True, sharp_angle_deg=42.0)
     v.add(body)
     w = spoked_wheel("Wheel_F", radius=R, tyre=0.050, lib=lib, spokes=32)
@@ -438,7 +438,7 @@ def horse_carriage() -> dict:
     or animated in this glb.
     """
     d = Dimensions(length_mm=3600, width_mm=1650, height_mm=2200, wheelbase_mm=1900,
-                   track_front_mm=1300, track_rear_mm=1420, wheel_diameter_mm=1200, tyre_width_mm=60,
+                   track_front_mm=1360, track_rear_mm=1500, wheel_diameter_mm=1200, tyre_width_mm=60,
                    front_overhang_mm=800, rear_overhang_mm=900, rim_diameter_in=44.0, tyre_spec="steel tyre",
                    ground_clearance_mm=380)
     nb.reset_scene()
@@ -464,10 +464,10 @@ def horse_carriage() -> dict:
     parts = []
     # chassis: two side rails, a footboard, the body tub and two facing bench seats
     for s in (1, -1):
-        parts.append(g.set_material_bm(g.box_bm((3.00, 0.07, 0.09), (0.90, s * 0.62, 0.86)), IDX_WOOD))
+        parts.append(g.set_material_bm(g.box_bm((3.35, 0.07, 0.09), (0.90, s * 0.62, 0.86)), IDX_WOOD))
     parts.append(g.set_material_bm(g.rounded_box_bm((1.90, 1.30, 0.52), 0.10, segments=3,
                                                     center=(0.60, 0, 1.16)), IDX_LAC))
-    parts.append(g.set_material_bm(g.box_bm((0.70, 1.20, 0.06), (1.90, 0, 1.00)), IDX_WOOD))
+    parts.append(g.set_material_bm(g.box_bm((0.95, 1.20, 0.06), (2.10, 0, 1.00)), IDX_WOOD))
     for bx, back in ((0.05, -1), (1.15, 1)):
         parts.append(g.set_material_bm(g.rounded_box_bm((0.52, 1.16, 0.14), 0.05, segments=2,
                                                         center=(bx, 0, 1.40)), IDX_LEATHER))
@@ -475,19 +475,19 @@ def horse_carriage() -> dict:
                                                         center=(bx + back * 0.30, 0, 1.66)), IDX_LEATHER))
     # driver's box
     parts.append(g.set_material_bm(g.rounded_box_bm((0.55, 1.10, 0.14), 0.05, segments=2,
-                                                    center=(2.05, 0, 1.52)), IDX_LEATHER))
-    parts.append(g.set_material_bm(g.box_bm((0.10, 1.10, 0.42), (1.80, 0, 1.78)), IDX_LEATHER))
+                                                    center=(2.20, 0, 1.52)), IDX_LEATHER))
+    parts.append(g.set_material_bm(g.box_bm((0.10, 1.10, 0.42), (1.92, 0, 1.78)), IDX_LEATHER))
     # folding hood over the rear bench
     for a in range(5):
         t = a / 4
-        parts.append(g.set_material_bm(g.torus_bm(0.72, 0.020, axis="Y", center=(-0.10 + t * 0.55, 0, 1.52),
+        parts.append(g.set_material_bm(g.torus_bm(0.62, 0.020, axis="Y", center=(-0.10 + t * 0.55, 0, 1.56),
                                                   segments=26, ring_segments=6,
                                                   arc=(math.radians(5), math.radians(175))), IDX_METAL))
-    parts.append(g.set_material_bm(g.ribbon_bm([(0.45, 0, 2.19), (0.05, 0, 2.17), (-0.42, 0, 1.95)], 1.24,
-                                               up=(0, 1, 0)), IDX_HOOD))
+    parts.append(g.set_material_bm(g.ribbon_bm([(0.45, 0, 2.17), (0.05, 0, 2.19), (-0.42, 0, 1.95)], 1.24,
+                                               up=(0, 0, 1)), IDX_HOOD))
     # lamps on the dash rail
     for s in (1, -1):
-        parts.append(g.set_material_bm(g.box_bm((0.10, 0.10, 0.22), (2.28, s * 0.56, 1.72)), IDX_BRASS))
+        parts.append(g.set_material_bm(g.box_bm((0.12, 0.12, 0.26), (2.62, s * 0.60, 1.74)), IDX_BRASS))
     body = g.to_object("Body", g.merge_bm(parts), mats, smooth=True, sharp_angle_deg=42.0)
     v.add(body)
     # the shafts and the horse stand ahead of the published carriage envelope, so they are separate objects
@@ -502,8 +502,8 @@ def horse_carriage() -> dict:
         w = carriage_wheel(f"Wheel_{tag}", radius=rr, lib=lib, spokes=14)
         w.location = (x, y, rr)
         v.add(w)
-    v.add(lamp_slot("LIGHT_HEAD_L", lib.light_white("LIGHT_HEAD_L"), (2.34, 0.56, 1.72), 0.036))
-    v.add(lamp_slot("LIGHT_HEAD_R", lib.light_white("LIGHT_HEAD_R"), (2.34, -0.56, 1.72), 0.036))
+    v.add(lamp_slot("LIGHT_HEAD_L", lib.light_white("LIGHT_HEAD_L"), (2.68, 0.60, 1.74), 0.036))
+    v.add(lamp_slot("LIGHT_HEAD_R", lib.light_white("LIGHT_HEAD_R"), (2.68, -0.60, 1.74), 0.036))
     v.add(lamp_slot("LIGHT_TAIL_L", lib.light_red("LIGHT_TAIL_L"), (-0.898, 0.42, 1.10), 0.032))
     v.add(lamp_slot("LIGHT_TAIL_R", lib.light_red("LIGHT_TAIL_R"), (-0.898, -0.42, 1.10), 0.032))
     v.add(small_plate(lib, "Plate_R", "HDC 88", (-0.902, 0.0, 0.90), (-1, 0, 0), w=0.16, h=0.10))

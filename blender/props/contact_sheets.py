@@ -130,7 +130,9 @@ def layout(ids: list[str], pad: float, lift: float = 0.0, night: bool = False) -
     top = 0.0
     for pid in ids:
         objs = import_prop(pid, keep_light_cones=night)
-        lo, hi = world_bounds(objs)
+        solid = [o for o in objs if o.type != "MESH"
+                 or not any(m and m.name.split(".")[0] == "LIGHT_CONE" for m in o.data.materials)]
+        lo, hi = world_bounds(solid)          # the caption is the prop's physical size, never its light pool
         w = max(hi.x - lo.x, 0.05)
         cx = (hi.x + lo.x) / 2.0
         x = cursor + pad * 0.5 + w / 2.0

@@ -200,8 +200,8 @@ def build():
     # ---- The Shed: fixed building + the movable shell on its rails ------------------------------------------------
     sx0, sy0, sx1, sy1 = P_shed.bounds
     fixed = C._clean_polygon(P_shed.intersection(C.rect_xy(sx0 - 1, sy0 - 1, sx0 + 42.0, sy1 + 1)).buffer(0))
-    objs.append(C.plinth(f"{ID}_shed_base", P_shed, 0.0, 1.2, C.M.pavement, material_top=C.M.pavement))
-    objs += cc.curtain(f"{ID}_shed_fixed", fixed, 1.2, 33.5, floor_h=4.2, module=3.4, glass="glass_clear",
+    objs.append(C.plinth(f"{ID}_shed_base", P_shed, 0.0, 2.0, C.M.pavement, material_top=C.M.pavement))
+    objs += cc.curtain(f"{ID}_shed_fixed", fixed, 2.0, 33.5, floor_h=4.2, module=3.4, glass="glass_clear",
                        mullion="steel_dark", spandrel_h=0.8, proud=0.16, role="mass")
     # rails (two, running east-west across the plaza) and the deployed shell
     b = C.MeshBuilder()
@@ -212,19 +212,19 @@ def build():
     shell_x0 = sx0 + 42.0
     shell_x1 = min(sx1, shell_x0 + 43.0)
     sy_a, sy_b = sy0 + 2.0, sy1 - 2.0
-    ztop = 1.2 + SHELL_H
+    ztop = 2.0 + SHELL_H
     # the shell is a rectangular ETFE-clad crate with an exposed steel diagrid, not a vault: 6 portal frames across
     # its 43 m length, each a box portal with a 2.2 m cambered roof [DS+R sections]
     nframe = 6
     for k in range(nframe):
         xx = shell_x0 + (shell_x1 - shell_x0) * k / (nframe - 1)
-        for (ya, za), (yb, zb) in (((sy_a, 1.2), (sy_a, ztop)), ((sy_b, 1.2), (sy_b, ztop)),
+        for (ya, za), (yb, zb) in (((sy_a, 2.0), (sy_a, ztop)), ((sy_b, 2.0), (sy_b, ztop)),
                                    ((sy_a, ztop), ((sy_a + sy_b) / 2, ztop + 2.2)),
                                    (((sy_a + sy_b) / 2, ztop + 2.2), (sy_b, ztop))):
             b.hull([(xx - 0.55, ya, za), (xx + 0.55, ya, za), (xx - 0.55, yb, zb), (xx + 0.55, yb, zb),
                     (xx - 0.55, ya, za + 1.1), (xx + 0.55, ya, za + 1.1),
                     (xx - 0.55, yb, zb + 1.1), (xx + 0.55, yb, zb + 1.1)], C.M.steel_dark)
-    for zz in (1.2, 12.0, 24.0, ztop):                       # longitudinal ties
+    for zz in (2.0, 12.0, 24.0, ztop):                       # longitudinal ties
         for yy in (sy_a, sy_b):
             b.box(((shell_x0 + shell_x1) / 2, yy, zz + 0.4), (shell_x1 - shell_x0, 0.7, 0.8), C.M.steel_dark)
     # ETFE cushion cladding: the two long walls, the two ends and the cambered roof
@@ -233,13 +233,13 @@ def build():
             xa = shell_x0 + (shell_x1 - shell_x0) * k / (nframe - 1)
             xb = shell_x0 + (shell_x1 - shell_x0) * (k + 1) / (nframe - 1)
             for j in range(4):
-                za = 1.2 + (ztop - 1.2) * j / 4
-                zb = 1.2 + (ztop - 1.2) * (j + 1) / 4
+                za = 2.0 + (ztop - 2.0) * j / 4
+                zb = 2.0 + (ztop - 2.0) * (j + 1) / 4
                 b.quad((xa, yy, za), (xb, yy, za), (xb, yy, zb), (xa, yy, zb), C.M.glass_clear)
     for xx in (shell_x0, shell_x1):
         for j in range(4):
-            za = 1.2 + (ztop - 1.2) * j / 4
-            zb = 1.2 + (ztop - 1.2) * (j + 1) / 4
+            za = 2.0 + (ztop - 2.0) * j / 4
+            zb = 2.0 + (ztop - 2.0) * (j + 1) / 4
             b.quad((xx, sy_a, za), (xx, sy_b, za), (xx, sy_b, zb), (xx, sy_a, zb), C.M.glass_clear)
     for k in range(nframe - 1):
         xa = shell_x0 + (shell_x1 - shell_x0) * k / (nframe - 1)

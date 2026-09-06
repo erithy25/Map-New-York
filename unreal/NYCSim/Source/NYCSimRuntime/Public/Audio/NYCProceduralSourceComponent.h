@@ -9,7 +9,17 @@
 // The parameter contract (the same names a MetaSound source must declare):
 //   Engine   RPM, Load, Throttle, ElectricMix   Tyre   Speed, Roughness, Slip, Wetness
 //   Wind     Speed, WindowOpen                  Rain   RainRate, WiperWet
-//   Wiper    SweepPhase, Dryness
+//   Wiper    SweepPhase, Dryness                Horn   Pressed
+//   Steam    Intensity, Variation               Rumble Intensity, Variation, PassStrength (+ Pass trigger)
+//
+// Steam and Rumble are the two street ambiences that carry no sampled asset: a Con Edison sidewalk vent is a
+// steam jet, which is band-limited noise, and a subway grate is low-frequency rolling stock through concrete.
+// Both are voiced by ANYCAmbienceEmitter. The zones that need a recording instead of a synthesiser (park birds,
+// crowd babble, construction, waterfront) stay silent until such a recording is licensed - see the stage report.
+//
+// The horn is procedural for a reason: no CC0 / CC-BY car-horn recording could be licensed from the sources
+// reachable here (see the stage report), and inventing provenance for one is not an option. A US dual-tone horn
+// is two reeds a minor third apart around 400-500 Hz, which is exactly what GenerateHorn() produces.
 //
 // Every parameter is written from the game thread and read on the audio render thread, so each is a relaxed
 // std::atomic<float>; no locks and no allocation in OnGenerateAudio.
@@ -29,7 +39,10 @@ enum class ENYCSourceKind : uint8
 	Tyre,
 	Wind,
 	Rain,
-	Wiper
+	Wiper,
+	Horn,
+	Steam,
+	Rumble
 };
 
 UCLASS(ClassGroup = (NYCSim), meta = (BlueprintSpawnableComponent))
@@ -72,6 +85,19 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "NYCSim|Audio")
 	void TriggerWiperSweep(float Dryness01);
 
+	/** Dual-tone city horn: two reeds (E4 and G4) with the real attack and release. */
+	UFUNCTION(BlueprintCallable, Category = "NYCSim|Audio")
+	void SetHornPressed(bool bPressed);
+
+	// ---- ambience (Steam, Rumble) --------------------------------------------------------------------------
+	/** `Intensity01` is the zone's strength, `Variation01` how much the source wanders around it. */
+	UFUNCTION(BlueprintCallable, Category = "NYCSim|Audio")
+	void SetAmbience(float Intensity01, float Variation01);
+
+	/** Rumble only: a train passing under the grate. The swell lasts about eight seconds. */
+	UFUNCTION(BlueprintCallable, Category = "NYCSim|Audio")
+	void TriggerTrainPass(float Strength01);
+
 	/** Master gain for this source, 0..2. */
 	UFUNCTION(BlueprintCallable, Category = "NYCSim|Audio")
 	void SetSourceGain(float Gain);
@@ -82,6 +108,9 @@ private:
 	float GenerateWind();
 	float GenerateRain();
 	float GenerateWiper();
+	float GenerateHorn();
+	float GenerateSteam();
+	float GenerateRumble();
 
 	/** White noise from a deterministic 32-bit LCG; no allocation, no libc rand. */
 	float Noise();
@@ -109,6 +138,23 @@ private:
 	float WindLp = 0.f;
 	float WindLp2 = 0.f;
 	float RainDropEnvelope = 0.f;
+
+	// Horn.
+	float HornPhaseA = 0.f;
+	float HornPhaseB = 0.f;
+	float HornEnvelope = 0.f;
+	std::atomic<int32> ParamHornPressed{0};
+
+	// Ambience (steam vent, subway grate).
+	float AmbWander = 0.f;
+	float PassPhase = -1.f;
+	float PassStrength = 0.f;
+	float RumbleLp = 0.f;
+	float RumblePhase = 0.f;
+	std::atomic<int32> PassTrigger{0};
+	std::atomic<float> ParamIntensity{0.f};
+	std::atomic<float> ParamVariation{0.f};
+	std::atomic<float> ParamPassStrength{0.f};
 
 	// Wiper.
 	float WiperEnvelope = 0.f;

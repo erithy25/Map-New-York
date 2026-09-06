@@ -1,0 +1,209 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_four_times_square",
+ "name": "4 Times Square (Conde Nast Building)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.757379,
+  "lon": -73.985224,
+  "azimuth_deg": 200.0,
+  "note": "Broadway at West 44th Street, about 150 m north-north-east of the tower, looking south-south-west at 4 Times Square",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.756111,
+  "lon": -73.985833,
+  "name": "4 Times Square (Conde Nast Building)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"4 Times Square\" building",
+  "\"Conde Nast Building\" Times Square tower"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T13:14:07Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 90,
+ "candidates_eligible": 35,
+ "rejections": {
+  "too_old": 3,
+  "night_for_day_item": 9,
+  "not_photo": 6,
+  "indoor": 3,
+  "keywords": 26,
+  "too_small": 6,
+  "excluded": 2
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:4 Times Square (the Condé Nast Building) & 1 Bryant Park (Bank of America Tower).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:4_Times_Square_(the_Cond%C3%A9_Nast_Building)_%26_1_Bryant_Park_(Bank_of_America_Tower).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e1/4_Times_Square_%28the_Cond%C3%A9_Nast_Building%29_%26_1_Bryant_Park_%28Bank_of_America_Tower%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/4_Times_Square_%28the_Cond%C3%A9_Nast_Building%29_%26_1_Bryant_Park_%28Bank_of_America_Tower%29.jpg/1920px-4_Times_Square_%28the_Cond%C3%A9_Nast_Building%29_%26_1_Bryant_Park_%28Bank_of_America_Tower%29.jpg",
+   "author": "Paul Lowry",
+   "credit": "https://www.flickr.com/photos/10039026@N03/55266961485/",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2026-05-12 16:32:07",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.755524,
+    "lon": -73.986984
+   },
+   "original_width": 2608,
+   "original_height": 3923,
+   "width": 1920,
+   "height": 2888,
+   "bytes": 1931272,
+   "sha256": "f3775d3b6889ccd3b59ffca10440a0f610fa046a5c5f15c04047c266874d61c7",
+   "mean_luminance": 92.6,
+   "description": "As seen through a window of 7 Times Square",
+   "categories": [
+    "4 Times Square",
+    "Bank of America Tower (Manhattan)",
+    "Creative Commons Attribution 4.0 missing SDC copyright license",
+    "Creative Commons Attribution missing SDC copyright status",
+    "Flickr images missing SDC copyright status",
+    "Flickr images missing SDC creator",
+    "Flickr images missing SDC source of file",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Midtown Manhattan in 2026",
+    "May 2026 in Manhattan, New York City",
+    "United States photographs taken on 2026-05-12",
+    "Flickr images missing SDC published in",
+    "Office buildings in New York City photographed in 2026"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"4 Times Square\" building",
+   "score": 11.2,
+   "estimated_viewpoint": {
+    "lat": 40.755524,
+    "lon": -73.986984,
+    "azimuth_deg": 56.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75552, -73.98698) is 117 m from 4 Times Square (Conde Nast Building) (40.75611, -73.98583) and 254 m from the standard viewpoint; the azimuth 56 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"4 Times Square (the Condé Nast Building) & 1 Bryant Park (Bank of America Tower).jpg\" by Paul Lowry, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:4_Times_Square_(the_Cond%C3%A9_Nast_Building)_%26_1_Bryant_Park_(Bank_of_America_Tower).jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Condé Nast Building Times Square.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Cond%C3%A9_Nast_Building_Times_Square.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/54/Cond%C3%A9_Nast_Building_Times_Square.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Cond%C3%A9_Nast_Building_Times_Square.jpg/1920px-Cond%C3%A9_Nast_Building_Times_Square.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-08-25 12:34:41",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.756419,
+    "lon": -73.986564
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 716218,
+   "sha256": "a227b46593eb7148ade39c73c5a7824f163cdf28d2bd0c5af00554f88c6044f5",
+   "mean_luminance": 105.7,
+   "description": "The Condé Nast Building in Times Square",
+   "categories": [
+    "4 Times Square",
+    "New York City photographs taken on 2021-08-25",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "August 2021 in Times Square",
+    "August 2021 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"4 Times Square\" building",
+   "score": 10.9,
+   "estimated_viewpoint": {
+    "lat": 40.756419,
+    "lon": -73.986564,
+    "azimuth_deg": 119.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75642, -73.98656) is 70 m from 4 Times Square (Conde Nast Building) (40.75611, -73.98583) and 155 m from the standard viewpoint; the azimuth 119 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Condé Nast Building Times Square.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Cond%C3%A9_Nast_Building_Times_Square.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:NYC - West 42nd Street – Broadway - The Conde Nast Building - panoramio.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:NYC_-_West_42nd_Street_%E2%80%93_Broadway_-_The_Conde_Nast_Building_-_panoramio.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/8e/NYC_-_West_42nd_Street_%E2%80%93_Broadway_-_The_Conde_Nast_Building_-_panoramio.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/NYC_-_West_42nd_Street_%E2%80%93_Broadway_-_The_Conde_Nast_Building_-_panoramio.jpg/1920px-NYC_-_West_42nd_Street_%E2%80%93_Broadway_-_The_Conde_Nast_Building_-_panoramio.jpg",
+   "author": "giggel",
+   "credit": "https://web.archive.org/web/20161102144350/http://www.panoramio.com/photo/127405744",
+   "license": {
+    "short_name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0",
+    "template": "cc-by-3.0"
+   },
+   "date_taken": "2015",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.755825,
+    "lon": -73.986433
+   },
+   "original_width": 3000,
+   "original_height": 4000,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1526588,
+   "sha256": "861ab01adfa7ed99fc3e22b36af86563dc1cde6b20f2fb6df59bf526f4dc8708",
+   "mean_luminance": 102.6,
+   "description": "NYC - West 42nd Street – Broadway - The Conde Nast Building",
+   "categories": [
+    "4 Times Square",
+    "Panoramio files uploaded by Panoramio upload bot",
+    "New York City photographs taken on 2015-10-30",
+    "Panoramio images reviewed by trusted users",
+    "Photos from Panoramio",
+    "Views of Manhattan, New York City from below",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2015-10-30",
+    "Photos from Panoramio ID 1368505"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"4 Times Square\" building",
+   "score": 10.0,
+   "estimated_viewpoint": {
+    "lat": 40.755825,
+    "lon": -73.986433,
+    "azimuth_deg": 57.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75583, -73.98643) is 60 m from 4 Times Square (Conde Nast Building) (40.75611, -73.98583) and 201 m from the standard viewpoint; the azimuth 58 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"NYC - West 42nd Street – Broadway - The Conde Nast Building - panoramio.jpg\" by giggel, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:NYC_-_West_42nd_Street_%E2%80%93_Broadway_-_The_Conde_Nast_Building_-_panoramio.jpg"
+  }
+ ]
+}

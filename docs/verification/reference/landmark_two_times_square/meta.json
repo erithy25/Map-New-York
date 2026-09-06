@@ -1,0 +1,156 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_two_times_square",
+ "name": "Two Times Square (714 Seventh Avenue)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.758601,
+  "lon": -73.985328,
+  "azimuth_deg": 20.0,
+  "note": "Duffy Square about 130 m south-south-west of the building, looking north-north-east at the wedge of Two Times Square and its signage",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7597,
+  "lon": -73.9848,
+  "name": "Two Times Square (714 Seventh Avenue)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2012,
+ "wanted": 3,
+ "queries": [
+  "\"Two Times Square\" building",
+  "\"2 Times Square\" Seventh Avenue signage"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T13:12:03Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 37,
+ "candidates_eligible": 2,
+ "rejections": {
+  "too_old": 4,
+  "too_small": 2,
+  "night_for_day_item": 3,
+  "keywords": 26
+ },
+ "exhausted": true,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Times Square - panoramio (14).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Times_Square_-_panoramio_(14).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/6d/Times_Square_-_panoramio_%2814%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Times_Square_-_panoramio_%2814%29.jpg/1920px-Times_Square_-_panoramio_%2814%29.jpg",
+   "author": "TomasEE",
+   "credit": "https://web.archive.org/web/20161021131404/http://www.panoramio.com/photo/69846839",
+   "license": {
+    "short_name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0",
+    "template": "cc-by-3.0"
+   },
+   "date_taken": "2012",
+   "date_source": "DateTimeOriginal",
+   "year": 2012,
+   "camera_gps": {
+    "lat": 40.758692,
+    "lon": -73.985089
+   },
+   "original_width": 5188,
+   "original_height": 3454,
+   "width": 1920,
+   "height": 1278,
+   "bytes": 806114,
+   "sha256": "c8acf9216f25443b2f028c4aa93daee17a9fc250bc66bc4d543bcb02dc30369f",
+   "mean_luminance": 90.3,
+   "description": "Times Square",
+   "categories": [
+    "M7 (New York City bus)",
+    "Panoramio files uploaded by Panoramio upload bot",
+    "Panoramio images reviewed by trusted users",
+    "Photos from Panoramio",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2012-03-15",
+    "Nova Bus RTS-06 of MTA New York City Transit",
+    "Two Times Square",
+    "Ornamental plants in New York City",
+    "March 2012 in Times Square",
+    "Toyota Prius (XW30) taxis",
+    "Buses in Times Square, Manhattan",
+    "Toyota Prius taxis in New York City",
+    "Photos from Panoramio ID 3773936"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 9.0,
+   "estimated_viewpoint": {
+    "lat": 40.758692,
+    "lon": -73.985089,
+    "azimuth_deg": 12.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75869, -73.98509) is 115 m from Two Times Square (714 Seventh Avenue) (40.75970, -73.98480) and 23 m from the standard viewpoint; the azimuth 12 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Times Square - panoramio (14).jpg\" by TomasEE, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Times_Square_-_panoramio_(14).jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Brazilian Day 2018 New York 06.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Brazilian_Day_2018_New_York_06.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Brazilian_Day_2018_New_York_06.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Brazilian_Day_2018_New_York_06.jpg/1920px-Brazilian_Day_2018_New_York_06.jpg",
+   "author": "Ellywa",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": null,
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 471142,
+   "sha256": "4fbf1ef817fa03d032c29565a5369e1e1369d0efef204e27e695d6ef75fe9c13",
+   "mean_luminance": 103.9,
+   "description": "Brazilian Day 2018 New York street sign Little Brazil 46th street at 5ft Avenue",
+   "categories": [
+    "I. Miller Building",
+    "Little Brazil, Manhattan",
+    "46th Street (Manhattan)",
+    "Coca-Cola sign (Two Times Square)",
+    "New York City photographs taken on 2018-09-02",
+    "Self-published work",
+    "Images with extracted images",
+    "September 2018 in Times Square",
+    "Street signs in Manhattan, New York City",
+    "Views of New York City from south",
+    "Pedestrian signals in Manhattan, New York City",
+    "McDonald's (1560 Broadway)",
+    "Brazilian Day New York"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Two Times Square\" building",
+   "score": 6.95,
+   "estimated_viewpoint": {
+    "lat": 40.758601,
+    "lon": -73.985328,
+    "azimuth_deg": 20.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Duffy Square about 130 m south-south-west of the building, looking north-north-east at the wedge of Two Times Square and its signage) and the azimuth 20 deg is the bearing from there to Two Times Square (714 Seventh Avenue) (40.75970, -73.98480)."
+   },
+   "attribution": "\"Brazilian Day 2018 New York 06.jpg\" by Ellywa, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Brazilian_Day_2018_New_York_06.jpg"
+  }
+ ]
+}

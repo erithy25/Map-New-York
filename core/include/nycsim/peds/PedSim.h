@@ -116,6 +116,7 @@ struct Pedestrian {
   float s = 0.f;        // metres along the edge from node a
   float lateral = 0.f;  // signed offset from the centreline (+left of a→b)
   float pref_lateral = 0.f;
+  float prev_x = 0.f, prev_y = 0.f;  // last step's position (wall constraint)
   int8_t dir = 1;  // +1 towards b, −1 towards a
   PedActivity activity = PedActivity::Walk;
   uint8_t flags = 0;
@@ -202,6 +203,7 @@ class PedSim {
   const uint32_t* pathOf(uint32_t id) const { return path_pool_.data() + static_cast<size_t>(id) * kPathCap; }
   bool advanceEdge(Pedestrian& p);
   void reprojectOntoEdge(Pedestrian& p);
+  bool crossesWall(float x0, float y0, float x1, float y1) const;
   float edgeWidthHalf(uint32_t edge) const;
 
   static uint32_t roadPedsProbe(const void* ctx, float x, float y, float r);
@@ -223,8 +225,10 @@ class PedSim {
   std::vector<uint32_t> spawn_edges_;
   std::vector<float> spawn_cdf_;
 
-  SpatialHash hash_;      // neighbours, cell ≈ the repulsion cutoff
-  SpatialHash sig_hash_;  // 60 m cells for the uniqueness rule
+  SpatialHash hash_;       // neighbours, cell ≈ the repulsion cutoff
+  SpatialHash sig_hash_;   // 60 m cells for the uniqueness rule
+  SpatialHash road_hash_;  // only the agents on the roadway — drivers query this
+  std::vector<uint32_t> road_ids_;
   std::vector<float> fx_, fy_;
 
   Rng rng_;

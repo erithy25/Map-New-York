@@ -261,8 +261,11 @@ def build_placements(b: dict[str, np.ndarray], runs: dict[str, np.ndarray], geom
         acc.add(np.uint32(kit_id("fire_escape", "fire_escape_drop_ladder")), b["bin"][fe][rep][low], fx[rep][low],
                 fy[rep][low], z[low], r_yaw[run][rep][low], np.float32(1.0), vs[low], np.uint32(0))
         top = f == (nfl[rep] - 1)
-        acc.add(np.uint32(kit_id("fire_escape", "fire_escape_roof_ladder")), b["bin"][fe][rep][top], fx[rep][top],
+        acc.add(np.uint32(kit_id("fire_escape", "fire_escape_balcony_top")), b["bin"][fe][rep][top], fx[rep][top],
                 fy[rep][top], z[top], r_yaw[run][rep][top], np.float32(1.0), vs[top], np.uint32(0))
+        acc.add(np.uint32(kit_id("fire_escape", "fire_escape_roof_ladder")), b["bin"][fe][rep][top], fx[rep][top],
+                fy[rep][top], (z[top] + fh[fe][rep][top]), r_yaw[run][rep][top], np.float32(1.0), vs[top],
+                np.uint32(0))
 
     # ---- cornice / parapet at the roofline -------------------------------------------------------------------------------
     from .kit_ids import CORNICE_STYLES
@@ -291,6 +294,61 @@ def build_placements(b: dict[str, np.ndarray], runs: dict[str, np.ndarray], geom
         acc.add(kid, b["bin"][pb], px, py, rz[pb], r_yaw[seg], (seg_len / PARAPET_NOMINAL_W_M).astype(np.float32),
                 _seed_mix(seed[pb], seg, t.astype(np.int64), salt=SALT_VARIANT + 3), np.uint32(0))
 
+    # ---- string courses, quoins, pilasters and columns on the street facade -------------------------------------------
+    street_runs = r_idx[r_free & (r_len >= 3.0) & (r_street | (r_idx == prim[r_b]))]
+    if len(street_runs):
+        sb2 = r_b[street_runs]
+        # a string course marks the top of the ground floor; it runs the length of the facade in bounded segments
+        sc = street_runs[CLASS.has_string_course[fc[sb2]]]
+        if len(sc):
+            seg, t, seg_len = _split_run(sc, r_len[sc], 2.0)
+            cb = r_b[seg]
+            mat = b["material_primary"][cb]
+            piece = np.where(np.isin(mat, [E.TERRACOTTA]), 2,
+                             np.where(np.isin(mat, [E.RED_BRICK, E.BROWN_BRICK, E.TAN_BRICK, E.WHITE_GLAZED_BRICK]), 1, 0))
+            kid = np.asarray([kit_id("string_course", n) for n in
+                              ("string_course_stone", "string_course_brick", "belt_course_terracotta")],
+                             dtype=np.uint32)[piece]
+            acc.add(kid, b["bin"][cb], r_x0[seg] + r_ux[seg] * t, r_y0[seg] + r_uy[seg] * t,
+                    (gz[cb] + gfh[cb]), r_yaw[seg], (seg_len / 2.0).astype(np.float32),
+                    _seed_mix(seed[cb], seg, t.astype(np.int64), salt=SALT_VARIANT + 8), np.uint32(0))
+        # quoins and pilasters stand at both ends of the facade, full height
+        for feat, cat, roles, salt in (
+                (CLASS.has_quoins, "quoin", ("quoin_limestone", "quoin_brownstone", "quoin_brick"), 9),
+                (CLASS.has_pilasters, "pilaster", ("pilaster_stone", "pilaster_brick", "pilaster_cast_iron"), 10),
+                (CLASS.has_columns, "pilaster", ("column_stone", "column_stone", "column_stone"), 11)):
+            sel = street_runs[feat[fc[r_b[street_runs]]]]
+            if not len(sel):
+                continue
+            end = np.repeat(sel, 2)
+            side = np.tile(np.array([0.35, -0.35]), len(sel))
+            t = np.where(side > 0, side, r_len[end] + side)
+            mat = b["material_primary"][r_b[end]]
+            piece = np.where(np.isin(mat, [E.CAST_IRON]), 2,
+                             np.where(np.isin(mat, [E.RED_BRICK, E.BROWN_BRICK, E.TAN_BRICK]), 1, 0))
+            kid = np.asarray([kit_id(cat, n) for n in roles], dtype=np.uint32)[piece]
+            eb = r_b[end]
+            acc.add(kid, b["bin"][eb], r_x0[end] + r_ux[end] * t, r_y0[end] + r_uy[end] * t, gz[eb], r_yaw[end],
+                    np.float32(1.0), _seed_mix(seed[eb], end, (side > 0).astype(np.int64), salt=SALT_VARIANT + salt),
+                    np.uint32(0))
+        # an entrance canopy over the door of the classes that really have one
+        can = street_runs[CLASS.has_canopy[fc[r_b[street_runs]]] & (r_idx[street_runs] == prim[r_b[street_runs]])]
+        if len(can):
+            cb = r_b[can]
+            t = r_len[can] * 0.5
+            acc.add(np.uint32(kit_id("door_entry", "canopy_entry")), b["bin"][cb],
+                    r_x0[can] + r_ux[can] * t, r_y0[can] + r_uy[can] * t, gz[cb], r_yaw[can], np.float32(1.0),
+                    _seed_mix(seed[cb], can, salt=SALT_VARIANT + 12), np.uint32(FLAG_LIT))
+        # ivy on the free facade of the classes whose typology carries it
+        ivy = street_runs[CLASS.has_ivy[fc[r_b[street_runs]]]]
+        if len(ivy):
+            ib = r_b[ivy]
+            t = r_len[ivy] * 0.5
+            acc.add(np.uint32(kit_id("vegetation", "ivy_panel")), b["bin"][ib],
+                    r_x0[ivy] + r_ux[ivy] * t, r_y0[ivy] + r_uy[ivy] * t, gz[ib], r_yaw[ivy],
+                    np.minimum(r_len[ivy] / 2.0, MAX_RUN_SCALE).astype(np.float32),
+                    _seed_mix(seed[ib], ivy, salt=SALT_VARIANT + 13), np.uint32(0))
+
     # ---- sidewalk sheds (real active DOB permits) ------------------------------------------------------------------------
     shed_runs = r_idx[r_free & (r_len >= 3.0) & b["has_scaffold"][r_b] & (r_street | (r_idx == prim[r_b]))]
     if len(shed_runs):
@@ -312,6 +370,21 @@ def build_placements(b: dict[str, np.ndarray], runs: dict[str, np.ndarray], geom
 
     # ---- roof: water tower, bulkheads, HVAC, antennas -----------------------------------------------------------------
     _roof_equipment(acc, b, geoms, fc, floors, rz, seed, nb)
+
+    # a brick chimney on the pitched-roof house stock (roof_type 1 gable, 2 hip, 3 mansard)
+    chim = np.nonzero(np.isin(b["roof_type"], [1, 2, 3]) & (b["footprint_area"] >= 35.0))[0]
+    if len(chim):
+        anchor = shapely.get_coordinates(shapely.point_on_surface(geoms[chim]))
+        off = 0.22 * np.sqrt(np.maximum(b["footprint_area"][chim], 1.0))
+        ang = E.rand_unit(seed[chim], 640) * 2.0 * np.pi
+        px = anchor[:, 0] + np.cos(ang) * off
+        py = anchor[:, 1] + np.sin(ang) * off
+        inside = shapely.contains_xy(geoms[chim], px, py)
+        px = np.where(inside, px, anchor[:, 0])
+        py = np.where(inside, py, anchor[:, 1])
+        acc.add(np.uint32(kit_id("hvac", "chimney_brick")), b["bin"][chim], px, py, rz[chim],
+                (E.rand_unit(seed[chim], 641) * 360.0 - 180.0).astype(np.float32), np.float32(1.0),
+                _seed_mix(seed[chim], chim, salt=SALT_VARIANT + 14), np.uint32(0))
 
     rec = acc.result()
     return _cap_per_building(rec)
@@ -564,7 +637,13 @@ def write_tile(rec: np.ndarray, tile: str, out_dir: Path, extra: dict | None = N
     tmp.replace(bin_path)
 
     kid, cnt = (np.unique(rec["kit_id"], return_counts=True) if len(rec) else (np.zeros(0, dtype=np.uint32), np.zeros(0, dtype=np.int64)))
-    from .kit_ids import piece_info
+    from .kit_ids import piece_info, registry
+    # bounds check at the source: a placement may only name a piece the kit has actually exported
+    registered = {p["kit_id"] for p in registry()["pieces"]}
+    unknown = sorted({int(k) for k in kid} - registered)
+    if unknown:
+        raise ValueError(f"{tile}: placements name kit ids absent from the catalog-derived registry: {unknown} "
+                         f"(the kit exports no piece for them)")
     header = {
         "schema_version": 1,
         "schema": PLACEMENTS_SCHEMA,

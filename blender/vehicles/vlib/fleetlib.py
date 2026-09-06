@@ -76,7 +76,9 @@ class FleetSpec:
     side_glass_spans: Sequence[tuple[float, float, int]] = ()
     kerb_side_doors_only: bool = False
     # interior
-    interior: str = "mid"                        # mid | bench | none
+    interior: str = "mid"                        # mid | cab | none
+    #: driver station for ``interior="cab"``: (seat_x, seat_z, wheel_x, wheel_z, y_driver, column_deg)
+    cab: tuple[float, float, float, float, float, float] | None = None
     seat_rows: Sequence[tuple[float, float]] = ()   # (x, z) of each row's H-point
     z_floor: float = 0.35
     y_cabin: float | None = None
@@ -369,7 +371,22 @@ def build(sp: FleetSpec, lib: M.Library | None = None, *, reset: bool = True) ->
     t.mark("trim")
 
     # ---- interior
-    if sp.interior != "none":
+    if sp.interior == "cab":
+        sx_, sz_, wx_, wz_, ydrv_, col_ = sp.cab
+        isp = I.InteriorSpec(
+            x_dash=wx_ + 0.22, x_cowl=sp.x_cowl, x_rear=sx_ - 0.60, z_floor=sp.z_floor,
+            z_roof=bp.z_top(sp.x_cowl) - 0.10,
+            # the cab dash spans the cabin, never wider than the body at the cowl
+            y_cabin=min(bp.y_belt(sp.x_cowl) - 0.06, max(0.60, ydrv_ * 1.9)),
+            z_belt=sz_ + 0.30, detail="cab", shifter=sp.shifter, column_deg=col_,
+            seats=[I.SeatSpot(x=sx_, y=ydrv_, z=sz_, name="Seat_FL", width=0.52)],
+            wheel_center=(wx_, ydrv_, wz_), wheel_radius=0.235,
+            gauge_images=(TX.gauge_speedo("gauge_speedo_80mph", max_mph=80),
+                          TX.gauge_tach("gauge_tach_3000rpm", max_rpm=3000, redline_rpm=2400),
+                          TX.screen_home("screen_center_8in")),
+        )
+        v.add_all(I.build_interior(isp, lib))
+    elif sp.interior != "none":
         y_cab = sp.y_cabin if sp.y_cabin is not None else bp.y_belt(sp.door_cuts[0] - 0.4) - 0.09
         z_roof_in = sp.z_roof_inner if sp.z_roof_inner is not None else bp.z_top(sp.x_roof_front - 0.3) - 0.075
         sx = sp.steering_x if sp.steering_x is not None else sp.x_cowl - 0.44

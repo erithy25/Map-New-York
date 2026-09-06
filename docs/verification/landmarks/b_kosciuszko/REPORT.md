@@ -1,6 +1,6 @@
 # Kosciuszko Bridge
 
-Script: `blender/landmarks/b_kosciuszko.py` · agent B · generated 2026-09-06 12:08 UTC
+Script: `blender/landmarks/b_kosciuszko.py` · agent B · generated 2026-09-06 13:16 UTC
 
 ## Placement
 
@@ -28,3 +28,4 @@ overlook, the BQE interchange ramps at Meeker Avenue and the Long Island Express
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_kosciuszko.glb` — 33,560 triangles, 1.63 MB, bounds min ['-332.2', '-362.5', '-3.4'] max ['284.3', '311.7', '122.0']
+* `blender_out/landmarks/b_kosciuszko_lod1.glb` — 6,404 triangles, 0.25 MB, bounds min ['-332.2', '-362.5', '-3.4'] max ['284.3', '311.7', '122.0']

@@ -1,6 +1,6 @@
 # Statue of Liberty
 
-Script: `blender/landmarks/b_statue_of_liberty.py` · agent B · generated 2026-09-06 12:50 UTC
+Script: `blender/landmarks/b_statue_of_liberty.py` · agent B · generated 2026-09-06 13:17 UTC
 
 ## Placement
 
@@ -38,3 +38,4 @@ emissive gold material is used), and the island's landscaping and buildings (a s
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_statue_of_liberty.glb` — 20,068 triangles, 0.47 MB, bounds min ['-45.3', '-58.6', '-2.0'] max ['51.7', '38.3', '97.4']
+* `blender_out/landmarks/b_statue_of_liberty_lod1.glb` — 1,696 triangles, 0.08 MB, bounds min ['-45.3', '-58.6', '-2.0'] max ['51.7', '38.3', '97.4']

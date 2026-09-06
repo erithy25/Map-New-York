@@ -89,6 +89,11 @@ def spec_from_vector(vector: variety.VarietyVector, name: str) -> mh_build.Human
     else:
         hair_asset = hair
     female = preset["gender"] < 0.5
+    accessories: list[str] = []
+    if resolved["glasses"]:
+        accessories.append(resolved["glasses"])
+    if resolved["hat"] == "fedora01":
+        accessories.append("fedora01")
     return mh_build.HumanSpec(
         name=name,
         gender=preset["gender"], age=preset["age"], muscle=preset["muscle"], weight=preset["weight"],
@@ -100,6 +105,7 @@ def spec_from_vector(vector: variety.VarietyVector, name: str) -> mh_build.Human
         hair=hair_asset,
         eyebrows=mh_build.EYEBROW_ASSETS[vector.body_preset % len(mh_build.EYEBROW_ASSETS)],
         eyelashes=mh_build.EYELASH_ASSETS[vector.skin_tone % len(mh_build.EYELASH_ASSETS)],
+        clothes=tuple(accessories),
     )
 
 
@@ -118,10 +124,12 @@ def build_npc(vector: variety.VarietyVector, index: int) -> NpcBuild:
     resolved = vector.resolve()
     name = f"npc_{index:02d}_{resolved['body_preset']}"
     spec = spec_from_vector(vector, name)
-    built = mh_build.build_human(spec, subdiv=0, load_clothes=False)
+    built = mh_build.build_human(spec, subdiv=0, load_clothes=bool(spec.clothes))
     mh_build.bake_and_load_face_units(built)
     mh_build.strip_helper_geometry(built)
     mh_build.split_eyes(built)
+    # UE5 rig first: everything below is cut from the body and inherits its (already normalised) weights.
+    rig_ue5.convert_to_ue5(built.armature, built.meshes())
 
     wardrobe.dress(built, outfit_from_vector(vector), name_prefix=f"{name}.")
     if resolved["hair"] in ("buzzcut", "topknot"):
@@ -130,8 +138,6 @@ def build_npc(vector: variety.VarietyVector, index: int) -> NpcBuild:
         wardrobe.build_hat(built, resolved["hat"], name_prefix=f"{name}.")
     if resolved["bag"]:
         wardrobe.build_bag(built, resolved["bag"], name_prefix=f"{name}.")
-
-    rig_ue5.convert_to_ue5(built.armature, built.meshes())
     mh_build.setup_skin(built)
     mh_build.setup_eye_materials(built)
     problems = rig_ue5.verify_skeleton(built.armature)

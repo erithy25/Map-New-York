@@ -56,14 +56,14 @@ def _local(frame, p):
     return Vector((x, y, 0.0))
 
 
-def _rope(pts, sag_frac, z_at):
+def _rope(pts, sag_frac, z_at, step: float = 12.0):
     """Catenary polyline through consecutive tower sheaves (one list of 3-D points per span, joined)."""
     out = []
     for i in range(len(pts) - 1):
         a, b = pts[i], pts[i + 1]
         span = (b - a).length
         sag = max(span * sag_frac, 0.4)
-        prof = bc.catenary_points(0.0, z_at[i], span, z_at[i + 1], sag, n=max(int(span / 12), 6))
+        prof = bc.catenary_points(0.0, z_at[i], span, z_at[i + 1], sag, n=max(int(span / step), 4))
         d = (b - a).normalized()
         for k, (s, z) in enumerate(prof):
             if i > 0 and k == 0:
@@ -107,9 +107,9 @@ def build(lod: int = 0):
             d = (P[min(i + 1, 4)] - P[max(i - 1, 0)]).normalized()
             n = Vector((-d.y, d.x, 0.0))
             pts.append(p + n * (side * ROPE_GAUGE / 2))
-        rope = _rope(pts, 0.012, z_sheave)
+        rope = _rope(pts, 0.012, z_sheave, 12.0 if lod == 0 else 60.0)
         objs.append(bc.tube_along(f"track_rope{side}", rope, 0.032, "steel_silver", 6 if lod == 0 else 4, cap=False))
-    haul = _rope(P, 0.016, [z - 1.6 for z in z_sheave])
+    haul = _rope(P, 0.016, [z - 1.6 for z in z_sheave], 12.0 if lod == 0 else 60.0)
     objs.append(bc.tube_along("haul_rope", haul, 0.022, "steel_silver", 5 if lod == 0 else 4, cap=False))
 
     # ---- terminals ------------------------------------------------------------------------------------------------
@@ -124,15 +124,17 @@ def build(lod: int = 0):
     for i, (dx, dy) in enumerate(((-11.0, -6.0), (11.0, -6.0), (-11.0, 6.0), (11.0, 6.0))):
         objs.append(bc.box(f"mn_col{i}", (1.2, 1.2, TERMINAL_MN_DZ), (mn.x + dx, mn.y + dy, GROUND), "concrete"))
     objs.append(bc.box("mn_house", (18.0, 12.0, 9.0), (mn.x, mn.y, GROUND + TERMINAL_MN_DZ), "steel_gray"))
-    objs.append(bc.box("mn_glazing", (16.0, 10.0, 4.0), (mn.x, mn.y, GROUND + TERMINAL_MN_DZ + 2.0), "glass_clear"))
+    if lod == 0:
+        objs.append(bc.box("mn_glazing", (16.0, 10.0, 4.0), (mn.x, mn.y, GROUND + TERMINAL_MN_DZ + 2.0), "glass_clear"))
     ri = P[4]
     objs.append(bc.box("ri_platform", (24.0, 14.0, 1.0), (ri.x, ri.y, GROUND - 1.0), "concrete"))
     objs.append(bc.box("ri_house", (18.0, 12.0, 10.0), (ri.x, ri.y, GROUND), "steel_gray"))
-    objs.append(bc.box("ri_glazing", (16.0, 10.0, 4.5), (ri.x, ri.y, GROUND + 2.0), "glass_clear"))
+    if lod == 0:
+        objs.append(bc.box("ri_glazing", (16.0, 10.0, 4.5), (ri.x, ri.y, GROUND + 2.0), "glass_clear"))
     _ = a0
 
     # ---- the two cabins -------------------------------------------------------------------------------------------
-    rope_ref = _rope(P, 0.016, [z - 1.6 for z in z_sheave])
+    rope_ref = _rope(P, 0.016, [z - 1.6 for z in z_sheave], 12.0)
     for k, frac in ((0, 0.42), (1, 0.72)):
         idx = int(frac * (len(rope_ref) - 1))
         c = rope_ref[idx]
@@ -141,10 +143,10 @@ def build(lod: int = 0):
         ang = math.degrees(math.atan2(d.y, d.x))
         body = bc.box(f"cabin{k}_body", (CABIN_L, CABIN_W, CABIN_H), (0, 0, -CABIN_H - 2.2), "cabin_red", anchor="bottom")
         glass = bc.box(f"cabin{k}_glass", (CABIN_L - 0.5, CABIN_W + 0.06, CABIN_H - 1.4), (0, 0, -CABIN_H - 1.5),
-                       "glass_clear", anchor="bottom")
+                       "glass_clear", anchor="bottom") if lod == 0 else None
         hang = bc.box(f"cabin{k}_hanger", (0.5, 0.5, 2.2), (0, 0, -2.2), "steel_gray", anchor="bottom")
         bogie = bc.box(f"cabin{k}_bogie", (2.6, ROPE_GAUGE + 0.6, 0.6), (0, 0, -0.3), "steel_black", anchor="center")
-        for ob in (body, glass, hang, bogie):
+        for ob in [o for o in (body, glass, hang, bogie) if o is not None]:
             bc.transform(ob, bc.rot_z(90.0 - ang))
             bc.transform(ob, bc.Matrix.Translation(c))
             objs.append(ob)

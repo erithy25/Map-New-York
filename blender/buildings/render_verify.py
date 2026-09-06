@@ -67,17 +67,17 @@ VIEWS: dict[str, dict] = {
     },
     "park_slope_block": {
         "tiles": ["t_-3_-4", "t_-3_-3", "t_-2_-4"],
-        "cam": (-2477.3, -3042.3), "cam_agl": 1.7, "cam_open": 45.0,   # Carroll St at Seventh Ave
-        "target": (-2646.5, -3153.3), "target_agl": 9.0, "target_open": 45.0,  # towards Eighth Ave
-        "fov": 58.0, "sun_az": 210.0, "sun_el": 36.0, "size": (1600, 900),
-        "title": "Park Slope brownstone block, Carroll Street between Seventh and Eighth Avenue",
+        "cam": (-2400.0, -2960.0), "cam_agl": 26.0,    # above Carroll St near Seventh Avenue
+        "target": (-2646.5, -3153.3), "target_agl": 6.0,   # towards Eighth Avenue
+        "fov": 52.0, "sun_az": 210.0, "sun_el": 36.0, "size": (1600, 900),
+        "title": "Park Slope brownstone rows, Carroll Street towards Eighth Avenue (low oblique)",
     },
     "queens_houses": {
         "tiles": ["t_14_6"],
-        "cam": (14945.2, 6800.0), "cam_agl": 1.7, "cam_open": 50.0,   # Bayside, 216th Street
-        "target": (14640.0, 6960.0), "target_agl": 6.0, "target_open": 50.0,
-        "fov": 58.0, "sun_az": 200.0, "sun_el": 42.0, "size": (1600, 900),
-        "title": "Bayside one- and two-family houses: inferred gable roofs (t_14_6)",
+        "cam": (14960.0, 6620.0), "cam_agl": 48.0,     # low oblique over the Bayside blocks
+        "target": (14600.0, 6900.0), "target_agl": 4.0,
+        "fov": 52.0, "sun_az": 200.0, "sun_el": 44.0, "size": (1600, 900),
+        "title": "Bayside one- and two-family houses: gable, hip and shed roofs (t_14_6)",
     },
     "skyline_brooklyn": {
         "merged": {"level": 2, "cells": [(-2, 0), (-2, 1), (-1, 0), (-1, 1), (-2, -1), (-1, -1)]},

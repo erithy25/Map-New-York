@@ -1,0 +1,205 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_one_times_square",
+ "name": "One Times Square",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.757942,
+  "lon": -73.985757,
+  "azimuth_deg": 200.0,
+  "note": "the Times Square bowtie at West 45th Street, about 180 m north-north-east of the building, looking south-south-west at One Times Square",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.756421,
+  "lon": -73.986488,
+  "name": "One Times Square"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2014,
+ "wanted": 3,
+ "queries": [
+  "\"One Times Square\" building",
+  "\"One Times Square\" ball drop building Times Tower"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T13:11:17Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 80,
+ "candidates_eligible": 8,
+ "rejections": {
+  "too_old": 13,
+  "not_photo": 11,
+  "excluded": 14,
+  "night_for_day_item": 3,
+  "licence": 1,
+  "too_small": 2,
+  "keywords": 28
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Refurbishing Times Tower 2024 jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Refurbishing_Times_Tower_2024_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/ff/Refurbishing_Times_Tower_2024_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Refurbishing_Times_Tower_2024_jeh.jpg/1920px-Refurbishing_Times_Tower_2024_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.755,
+    "lon": -73.9865
+   },
+   "original_width": 3000,
+   "original_height": 4000,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1538279,
+   "sha256": "64a3679e7426453d8a71c178a5caafd665369a467e1af7ff81dd22a92d5e253b",
+   "mean_luminance": 116.7,
+   "description": "times Tower stripped",
+   "categories": [
+    "One Times Square",
+    "Construction sites in New York (state)",
+    "Self-published work",
+    "Uploaded with Mobile/Android",
+    "Files with coordinates missing SDC location of creation",
+    "Construction in Manhattan, New York City",
+    "2024 in Times Square",
+    "New York City photographs taken on 2024-04-04",
+    "Towers in the United States photographed in 2024",
+    "April 2024 in Manhattan, New York City",
+    "2024 Manhattan photos by Jim.henderson",
+    "April 2024 photos by Jim.henderson"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"One Times Square\" building",
+   "score": 11.2,
+   "estimated_viewpoint": {
+    "lat": 40.755,
+    "lon": -73.9865,
+    "azimuth_deg": 0.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75500, -73.98650) is 158 m from One Times Square (40.75642, -73.98649) and 333 m from the standard viewpoint; the azimuth 0 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Refurbishing Times Tower 2024 jeh.jpg\" by Jim.henderson, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Refurbishing_Times_Tower_2024_jeh.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Paramount Building via One Times Square.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Paramount_Building_via_One_Times_Square.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Paramount_Building_via_One_Times_Square.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Paramount_Building_via_One_Times_Square.jpg/1920px-Paramount_Building_via_One_Times_Square.jpg",
+   "author": "Scu ba",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2024-06-27 15:26:26",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.756008,
+    "lon": -73.986589
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1300058,
+   "sha256": "f46a7f4db951b0286521d1d70dd99393724d45766bcd6701ea9482ceb73c1ef7",
+   "mean_luminance": 94.6,
+   "description": "Paramount Building as seen from the top of One Times Square",
+   "categories": [
+    "CC-Zero",
+    "1501 Broadway",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Photographs by Scu ba"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"One Times Square\" building",
+   "score": 10.2,
+   "estimated_viewpoint": {
+    "lat": 40.756008,
+    "lon": -73.986589,
+    "azimuth_deg": 10.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75601, -73.98659) is 47 m from One Times Square (40.75642, -73.98649) and 226 m from the standard viewpoint; the azimuth 10 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Paramount Building via One Times Square.jpg\" by Scu ba, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Paramount_Building_via_One_Times_Square.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Times square 2018.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Times_square_2018.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/68/Times_square_2018.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Times_square_2018.jpg/1920px-Times_square_2018.jpg",
+   "author": "Pedu0303",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.7574,
+    "lon": -73.985839
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1286125,
+   "sha256": "d9b28ba757253a747749e1571c7c37258f95d6b9490b6c7976838003a6bc882b",
+   "mean_luminance": 125.4,
+   "description": "times square",
+   "categories": [
+    "CC-Zero",
+    "One Times Square",
+    "Self-published work",
+    "New York City photographs taken on 2018-01-16",
+    "Files with coordinates missing SDC location of creation",
+    "January 2018 in Times Square",
+    "Towers in the United States photographed in 2018",
+    "Buildings in New York City photographed in 2018"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"One Times Square\" building",
+   "score": 9.45,
+   "estimated_viewpoint": {
+    "lat": 40.7574,
+    "lon": -73.985839,
+    "azimuth_deg": 206.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75740, -73.98584) is 122 m from One Times Square (40.75642, -73.98649) and 61 m from the standard viewpoint; the azimuth 207 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Times square 2018.jpg\" by Pedu0303, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Times_square_2018.jpg"
+  }
+ ]
+}

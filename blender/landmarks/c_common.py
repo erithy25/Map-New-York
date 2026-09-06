@@ -15,9 +15,14 @@ This module adds only what is specific to lane C and does **not** duplicate any 
   the C scripts read ``candidate_footprints.parquet`` (BIN-keyed, 2,705 rows) and fall back to a pyarrow row-filtered
   read of ``footprints_raw.parquet`` — never a whole-file geopandas load.  ``common.finish`` is therefore always
   called with an explicit ``real_footprint=``.
-* :func:`use_textures` — attaches CC0 PBR maps from ``blender/common/textures.py`` to palette materials.  Maps are
-  cached down to 1024 px in ``blender_out/landmarks/_tex1k`` so the glbs stay small; UVs are in metres and one tile
-  covers the asset's measured ``physical_size_m``.
+* :func:`materials` — names the palette materials a script uses in one place and reports where each one's PBR maps
+  came from.  Texture resolution itself is agent A's: ``common.mat`` looks the name up in ``common.TEXTURE_NAMES``,
+  asks ``blender/common/textures.py`` for the CC0 set, tiles it in metres over the box-projected UVs that
+  ``MeshBuilder.build`` writes, and tints the colour map back to the documented ``PALETTE`` albedo.
+* :func:`curtain` / :func:`band_ring` — an economical modern curtain wall (glass volume, a protruding spandrel band
+  at every floor line, vertical mullions on a module) for the towers whose facades would otherwise cost >100k
+  triangles as modelled openings, and :func:`base_and_wall` — a ground-floor volume built so that recessed openings
+  are not buried inside a flush solid.
 * :func:`screen` — Times Square video slots: emissive materials named ``TSQ_SCREEN_<n>`` on quads with 0..1 UVs, one
   UV island per screen, so the engine can bind a video texture per slot.
 * :func:`finish` / :func:`render` — thin wrappers that fill in the lane-C defaults and the registry metadata.
@@ -53,7 +58,6 @@ CANDIDATES = C.CANDIDATES_PARQUET
 RAW = C.FOOTPRINTS_RAW_PARQUET
 OUT = C.OUT_DIR
 VERIFY = C.VERIFY_DIR
-TEX_CACHE = OUT / "_tex1k"
 BUDGET = C.TRI_BUDGET_LOD0                 # 250 000 (brief)
 BUDGET_LARGE = 400_000                     # Vessel, Guggenheim, High Line (brief)
 AGENT = "C"
@@ -207,8 +211,8 @@ SCRIPTS: dict[str, dict] = {
     "c_bronx_county_courthouse": dict(name="Bronx County Courthouse (Mario Merola Building)", bins=[2002869], height_m=58.5,
                                       lp_number="LP-1027",
                                       height_source="Joseph H. Freedlander & Max Hausle 1934: 9 storeys of Mohegan granite on a full-block base, limestone friezes; LiDAR 58.5 m"),
-    "c_high_line": dict(name="The High Line", bins=[], height_m=9.1,
-                        height_source="Friends of the High Line: 1.45 mi (2.33 km) Gansevoort St to W 34th St; deck ~30 ft (9.1 m) above the street; 30-60 ft (9-18 m) wide viaduct built 1929-34 for the West Side Improvement"),
+    "c_high_line": dict(name="The High Line", bins=[], height_m=10.21,
+                        height_source="Friends of the High Line: 1.45 mi (2.33 km) Gansevoort St to W 34th St; deck 30 ft (9.14 m) above the street, 30-60 ft (9-18 m) wide, built 1929-34 for the West Side Improvement. The model's highest point is the top of the code-required 42 in (1.07 m) railing on that deck: 9.14 + 1.07 = 10.21 m"),
     "c_little_island": dict(name="Little Island (Pier 55)", bins=[], height_m=18.9,
                             height_source="Heatherwick Studio / MNLA 2021: 2.4 acres on 132 precast 'tulip' pots on 267 piles; deck 15-62 ft (4.6-18.9 m) above the Hudson"),
     "c_pier_57": dict(name="Pier 57", bins=[1012253], height_m=19.3,
