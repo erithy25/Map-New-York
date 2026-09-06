@@ -490,6 +490,40 @@ def test_the_shell_run_covered_every_tile_that_has_a_table(tile_files):
     assert not stale, f"{len(stale)} New Jersey shells survive without a table: {stale[:10]}"
 
 
+def test_the_verification_scene_loads_the_new_jersey_shells():
+    """The shells only matter if the renderer picks them up, so load one New Jersey tile through
+    ``blender/verify/scene.py`` and check the objects arrive."""
+    pytest.importorskip("bpy")
+    sys.path.insert(0, str(REPO_ROOT / "blender" / "verify"))
+    import bpy
+    import scene as vscene
+
+    tile = None
+    for cand in SHELL_TILES:
+        if (BLENDER_OUT / "tiles" / cand / "tile_buildings_nj.glb").exists():
+            tile = cand
+            break
+    if tile is None:
+        pytest.skip("no New Jersey shell has been built yet")
+    t = Tile.parse(tile)
+    cx, cy = t.x0 + 500.0, t.y0 + 500.0
+    for coll in (bpy.data.objects, bpy.data.meshes, bpy.data.materials):
+        for item in list(coll):
+            coll.remove(item, do_unlink=True)
+    rep = vscene.add_buildings(cx, cy, 400.0, lod0_radius_m=2000.0)
+    assert tile in rep["imported"], rep
+    assert tile in rep.get("new_jersey", []), "the scene report does not record the New Jersey file"
+    names = [ob.name for ob in bpy.data.objects if ob.type == "MESH"]
+    nj_objects = [n for n in names if f"{tile}_nj_" in n]
+    assert nj_objects, f"no New Jersey objects in the scene, got {names[:5]}"
+    assert rep["triangles"] > 0
+    zs = [(ob.matrix_world @ v.co).z for ob in bpy.data.objects if ob.type == "MESH"
+          for v in ob.data.vertices]
+    tab = pq.read_table(TILES_DIR / tile / nj.TILE_FILENAME, columns=["ground_z", "roof_z"])
+    assert min(zs) >= float(tab["ground_z"].to_numpy().min()) - 0.05
+    assert max(zs) <= float(tab["roof_z"].to_numpy().max()) + 0.05
+
+
 # --------------------------------------------------------------------------- manifest
 def test_the_shell_index_matches_the_meshes_on_disk(tile_files):
     """``shells_index.json`` is the only audit trail for the meshes (blender_out is git-ignored),
