@@ -156,7 +156,12 @@ def reg_generated_materials() -> None:
     """Register the image-backed generated materials once per session."""
     K.generated_material("interior_lit", image=interior_card_image(True), roughness=0.9,
                          emission=(1, 1, 1), emission_strength=1.6, uv_scale_m=2.0)
-    K.generated_material("interior_unlit", image=interior_card_image(False), roughness=0.9, uv_scale_m=2.0)
+    # The unlit card carries a little emission of its own. The room box behind the glass is sealed, so a purely
+    # diffuse card is lit only by what leaks through the pane: in Cycles that is near-black noise the denoiser
+    # turns into a maze across every window, and in UE it would be a black hole. A low emissive term is the
+    # standard interior-card treatment and matches what a dim room actually looks like from a sunlit street.
+    K.generated_material("interior_unlit", image=interior_card_image(False), roughness=0.9,
+                         emission=(1, 1, 1), emission_strength=0.45, uv_scale_m=2.0)
     K.generated_material("ivy_leaf", image=ivy_image(), roughness=0.75, alpha_from_image=True, uv_scale_m=0.55)
 
 

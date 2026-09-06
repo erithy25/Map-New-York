@@ -139,14 +139,21 @@ def roads_available() -> bool:
     return ROAD_SEGMENTS.exists()
 
 
-def roads_centreline(name_like: str, frame: bc.LocalFrame, max_offset_m: float = 120.0) -> list[tuple[float, float]] | None:
+def roads_centreline(name_like: str, frame: bc.LocalFrame, axis_origin: Sequence[float], axis_dir: Sequence[float],
+                     *, half_length_m: float, max_offset_m: float = 45.0) -> list[tuple[float, float]] | None:
     """Deck centreline vertices (local frame) for the named bridge from ``data/processed/roads/segments.parquet``.
 
-    Returns ``None`` when the parquet does not exist, carries no usable name/geometry pair, or matches nothing near the
-    frame.  Only vertices inside a 4 km box around the frame origin are returned, so a same-named street elsewhere in
-    the city cannot pollute the fit; vertices further than ``max_offset_m`` from the support midpoint are dropped as
-    approach ramps or service roads.  Geometries are read as WKB and may carry a Z ordinate (the roads stage writes
-    ``terrain_applied`` 3D linestrings), so only the first two ordinates of each vertex are used.
+    The name alone is not enough: "BROOKLYN BRIDGE" in the LION data also names every approach ramp in City Hall
+    Park and in Brooklyn, and a principal-axis fit through all of them misses the main span by 24 degrees.  So the
+    supports supply a prior — ``axis_origin`` and the unit ``axis_dir`` they define — and only vertices within
+    ``half_length_m`` along that axis and ``max_offset_m`` across it are kept.  With that window every bridge in
+    this lane agrees with its OSM supports to better than 0.7 degrees (the Pulaski, whose OSM pier polygons draw
+    the pier caps rather than the bascule bearings, is the single exception at 5.4 degrees and is rejected by
+    :func:`bridge_axis`'s 8-degree guard only if it drifts further).
+
+    Returns ``None`` when the parquet does not exist, carries no usable name/geometry pair, or matches nothing in
+    that window.  Geometries are WKB and may carry a Z ordinate (the roads stage writes ``terrain_applied``
+    3-D linestrings), so only the first two ordinates of each vertex are used.
     """
     if not roads_available():
         return None
@@ -159,45 +166,44 @@ def roads_centreline(name_like: str, frame: bc.LocalFrame, max_offset_m: float =
         if "geometry" not in schema.names:
             log.info("segments.parquet has columns %s; no geometry column", schema.names)
             return None
-        namecol = next((c for c in ("name", "street_name", "name_norm") if c in schema.names), None)
+        namecol = next((c for c in ("street_name", "name", "name_norm") if c in schema.names), None)
         if namecol is None:
             log.info("segments.parquet has columns %s; no usable name column", schema.names)
             return None
         table = pq.read_table(ROAD_SEGMENTS, columns=[namecol, "geometry"])
-        names = table.column(namecol).combine_chunks()
-        mask = pc.match_substring(pc.utf8_lower(pc.cast(names, "string")), name_like.lower())
-        hit = table.filter(pc.fill_null(mask, False))
+        names = pc.cast(table.column(namecol).combine_chunks(), "string")
+        mask = pc.fill_null(pc.match_substring(pc.utf8_lower(names), name_like.lower()), False)
+        hit = table.filter(mask)
         if hit.num_rows == 0:
             log.info("segments.parquet: no segment whose %s contains %r", namecol, name_like)
             return None
+        o = np.asarray(axis_origin, dtype=float)[:2]
+        d = np.asarray(axis_dir, dtype=float)[:2]
+        d = d / np.hypot(*d)
+        n = np.array([-d[1], d[0]])
         pts: list[tuple[float, float]] = []
+        seen = 0
         for geom in hit.column("geometry").to_pylist():
             if not isinstance(geom, (bytes, bytearray)):
                 continue
             g = wkb.loads(bytes(geom))
-            parts = list(g.geoms) if g.geom_type.startswith("Multi") else [g]
-            for part in parts:
+            for part in (list(g.geoms) if g.geom_type.startswith("Multi") else [g]):
                 if part.geom_type != "LineString":
                     continue
                 for c in part.coords:
                     lx, ly, _ = frame.to_local(float(c[0]), float(c[1]))
-                    if abs(lx) < 4000.0 and abs(ly) < 4000.0:
+                    seen += 1
+                    v = np.array([lx, ly]) - o
+                    if abs(v @ d) <= half_length_m and abs(v @ n) <= max_offset_m:
                         pts.append((lx, ly))
         if len(pts) < 4:
-            log.info("segments.parquet: %r matched %d segments but only %d vertices near the frame",
-                     name_like, hit.num_rows, len(pts))
+            log.info("segments.parquet: %r matched %d segments (%d vertices) but only %d inside the main-span "
+                     "window (+-%.0f m along, +-%.0f m across)", name_like, hit.num_rows, seen, len(pts),
+                     half_length_m, max_offset_m)
             return None
-        # drop obvious outliers: keep the vertices within max_offset_m of the principal line through the cloud
-        arr = np.asarray(pts)
-        c = arr.mean(axis=0)
-        _, _, vt = np.linalg.svd(arr - c, full_matrices=False)
-        off = np.abs((arr - c) @ vt[1])
-        keep = arr[off <= max_offset_m]
-        if len(keep) < 4:
-            return None
-        log.info("roads segments.parquet: %d of %d centreline vertices for %r (max offset %.0f m)",
-                 len(keep), len(pts), name_like, max_offset_m)
-        return [(float(x), float(y)) for x, y in keep]
+        log.info("roads segments.parquet: %d of %d vertices for %r inside the main-span window",
+                 len(pts), seen, name_like)
+        return pts
     except Exception as e:  # a partially written parquet must never break a landmark build
         log.warning("roads_centreline(%r) failed: %s", name_like, e)
         return None
@@ -269,7 +275,8 @@ def bridge_axis(supports: Sequence[Support], span_pair: tuple[str, str], publish
     frame = bc.LocalFrame(float(mid[0]), float(mid[1]), z0, math.degrees(math.atan2(d[0], d[1])) % 360.0)
     source = "osm bridge:support ways + published span"
     if roads_name:
-        pts = roads_centreline(roads_name, frame)
+        origin_local = np.asarray(frame.to_local(float(mid[0]), float(mid[1]))[:2])
+        pts = roads_centreline(roads_name, frame, origin_local, d, half_length_m=published_span_m / 2.0 + 80.0)
         if pts:
             arr = np.asarray(pts)
             c = arr.mean(axis=0)
@@ -277,9 +284,11 @@ def bridge_axis(supports: Sequence[Support], span_pair: tuple[str, str], publish
             dd = vt[0]
             if dd @ d < 0:
                 dd = -dd
-            if abs(math.degrees(math.acos(max(-1.0, min(1.0, float(dd @ d)))))) < 8.0:
+            delta = abs(math.degrees(math.acos(max(-1.0, min(1.0, float(dd @ d))))))
+            if delta < 8.0:
                 d = dd
-                source = "roads segments.parquet centreline + osm supports + published span"
+                source = (f"roads segments.parquet centreline ({len(pts)} vertices, {delta:.2f} deg from the "
+                          f"OSM support axis) + osm supports + published span")
             else:
                 log.warning("roads centreline for %r differs from the support axis by more than 8 deg; ignoring it", roads_name)
     axis = Axis(bc.Vector((0.0, 0.0, 0.0)), bc.Vector((float(d[0]), float(d[1]), 0.0)))
