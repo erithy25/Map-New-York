@@ -505,8 +505,12 @@ void PedSim::integrate(uint32_t i) {
   // an angle and a step could otherwise cut through the building line.  Only
   // evaluated where it can matter — an agent well inside its corridor and on
   // the same edge as last step cannot have crossed anything.
-  const bool near_boundary = std::fabs(p.lateral) > half - 0.9f || p.edge != edge_at_entry;
-  if (near_boundary && crossesWall(p.prev_x, p.prev_y, p.x, p.y)) {
+  // Evaluated for every agent, every step.  Gating it on "near the corridor
+  // boundary" was measured to let 262 crossings through in a one-minute run:
+  // they happen at corners, where an agent in the middle of a short corner link
+  // is still outside the neighbouring sidewalk's building line.
+  (void)edge_at_entry;
+  if (crossesWall(p.prev_x, p.prev_y, p.x, p.y)) {
     p.x = p.prev_x;
     p.y = p.prev_y;
     p.vx = 0.f;
