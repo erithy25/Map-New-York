@@ -1,27 +1,28 @@
 {
- "azimuth_reason": "249.4 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 31.1 deg, 141.7 deg away",
+ "azimuth_reason": "31.1 deg as recorded; it agrees with the bearing from the camera position used to Empire State Building (31.2 deg) to 0.1 deg",
  "camera": {
-  "azimuth_deg": 249.4,
+  "azimuth_deg": 31.1,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
-  "focal_mm": 35.0,
+  "focal_mm": 18.0,
   "ground_detail": {
-   "chosen_m": 12.11,
-   "max_m": 14.04,
-   "median_m": 13.38,
-   "min_m": 10.9,
+   "chosen_m": 13.7,
+   "max_m": 14.19,
+   "median_m": 13.83,
+   "min_m": 13.65,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 13.65,
    "radius_m": 12.0,
    "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
-  "hfov_deg": 54.432,
+  "hfov_deg": 90.0,
   "lat": 40.746,
   "lon": -73.9876,
-  "long_side_fov_deg": 54.432,
+  "long_side_fov_deg": 90.0,
   "pitch_deg": 0.0,
   "portrait": false,
   "resolution": [
@@ -30,20 +31,40 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_empire_state_building",
-  "terrain_z_m": 12.113,
-  "x": -3175.596,
-  "y": 5108.914,
-  "z": 13.713
+  "terrain_z_m": 13.703,
+  "x": -3253.613,
+  "y": 5154.576,
+  "z": 15.303
  },
- "camera_caption": "camera 40.74600, -73.98760 (NYC_TM -3176, 5109) z 13.7 m NAVD88 | azimuth 249.4deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.74600, -73.98760 (NYC_TM -3254, 5155) z 15.3 m NAVD88 | azimuth 31.1deg pitch +0.0deg | 18 mm on 36 mm (90.0deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.746,
+  "lon": -73.9876,
+  "offset_from_recorded_m": 357.0,
+  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 357 m away, past the 250 m at which it could still be the same view, so it was rejected as mis-tagged"
+ },
  "clearance": {
-  "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "direction": "onto the nearest roadbed",
+  "min_view_m": 80.0,
+  "moved": true,
+  "nearest_obstruction_m": 20.0,
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 51 m ahead, less than the 80 m this frame needs to show its subject; the camera was moved 90 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 96 m from there",
+  "offset_m": 90.4,
+  "reason": "boxed in: the view azimuth is closed off 51 m ahead, less than the 80 m this frame needs to show its subject",
+  "rule": "pavement snap with a clear view",
+  "view_m": 96.0
  },
+ "frame": {
+  "mean": 0.2627,
+  "reason": null,
+  "sd": 0.1357,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
- "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lens_reason": "widened from 35 mm to 18 mm (74 deg vertical) so that a level axis contains the subject: the empire_state model's published 443 m height stands 443 m above the lens at 317 m, 54 deg above the horizon; held at the 18 mm floor, so the top of the subject is still cut off -- past that point the distortion would stop the two frames being comparable",
  "lighting": {
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 912.7,
@@ -77,9 +98,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_empire_state_building/render.png",
- "rendered_at": "2026-09-06T16:57:57Z",
+ "rendered_at": "2026-09-06T22:25:13Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -92,6 +113,9 @@
     "t_-5_4",
     "t_-5_5"
    ],
+   "landmark_bins_suppressed": 23,
+   "landmark_faces_suppressed": 2436,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-3_4": {
@@ -102,75 +126,77 @@
     "t_-3_5": {
      "lod": 0,
      "objects": 16,
-     "triangles": 49098
+     "triangles": 48780
     },
     "t_-4_4": {
      "lod": 0,
      "objects": 19,
-     "triangles": 61542
+     "triangles": 61210
     },
     "t_-4_5": {
      "lod": 0,
      "objects": 19,
-     "triangles": 45694
+     "triangles": 44562
     },
     "t_-4_6": {
      "lod": 1,
      "objects": 17,
-     "triangles": 28552
+     "triangles": 28118
     },
     "t_-5_4": {
      "lod": 1,
      "objects": 17,
-     "triangles": 34668
+     "triangles": 34656
     },
     "t_-5_5": {
      "lod": 1,
      "objects": 16,
-     "triangles": 12900
+     "triangles": 12692
     }
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 7,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 7,
    "triangle_budget": 3510000,
-   "triangles": 295876
+   "triangles": 293440
   },
   "centre_tm": [
    -3175.6,
    5108.91
   ],
   "kit": {
-   "capped": "triangle budget 2667068",
+   "capped": "triangle budget 2753094",
    "per_category": {
-    "bulkhead": 56,
-    "cornice": 52,
-    "door_entry": 67,
+    "bulkhead": 57,
+    "cornice": 55,
+    "door_entry": 68,
     "fire_escape": 105,
-    "hvac": 19,
+    "hvac": 21,
     "parapet": 18,
     "pilaster": 65,
     "quoin": 20,
-    "scaffold": 123,
-    "storefront": 208,
-    "storefront_interior": 46,
-    "string_course": 49,
+    "scaffold": 125,
+    "storefront": 217,
+    "storefront_interior": 48,
+    "string_course": 52,
     "vegetation": 1,
-    "water_tower": 20,
-    "window": 9806,
+    "water_tower": 21,
+    "window": 10290,
     "window_accessory": 181
    },
-   "placed": 10836,
+   "placed": 11344,
    "radius_m": 120.0,
    "records_in_range": 14550,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
     "t_-4_4",
     "t_-4_5"
    ],
-   "triangles": 2667203,
+   "triangles": 2753175,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -245,6 +271,7 @@
   },
   "props": {
    "capped": null,
+   "impostor_cards_dropped": 13,
    "leaf_off": false,
    "per_kind": {
     "bench": 6,
@@ -277,7 +304,7 @@
     "t_-4_5"
    ],
    "tree_species_substituted": 10,
-   "triangles": 863578,
+   "triangles": 863188,
    "unmapped_kinds": {
     "artwork": 1,
     "cooling_tower": 139,
@@ -290,18 +317,22 @@
    }
   },
   "radius_m": 906.6320560377108,
-  "seconds": 37.79,
+  "seconds": 49.17,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 6.044,
-   "triangles": 180000,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 221,
+   "spacing_m": 2.0,
+   "triangles": 96800,
    "water_quads": 0,
-   "z_max_m": 25.68,
-   "z_min_m": -1.4
+   "z_max_m": 24.97,
+   "z_min_m": -0.94
   },
-  "triangles": 4500135
+  "triangles": 4500081
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -309,9 +340,9 @@
   "radius_m": 906.6320560377108
  },
  "seconds": {
-  "render": 115.1,
-  "scene": 39.0,
-  "total": 154.1
+  "render": 187.3,
+  "scene": 65.9,
+  "total": 253.1
  },
  "slug": "landmark_empire_state_building",
  "status": "rendered",

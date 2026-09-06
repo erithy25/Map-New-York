@@ -12,6 +12,7 @@ import argparse
 import json
 import logging
 import math
+import re
 import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -752,22 +753,31 @@ def build_report() -> str:
     A()
 
     # ---- gaps
-    A("## 9. Known gaps against the brief")
+    A("## 9. Every deviation from the brief, with its reason")
     A()
-    A("| # | Gap | Why | What would close it |")
-    A("|---|---|---|---|")
-    A("| 1 | Facade appearance is inferred from real attributes, not matched to photographs of each building | No lawful, "
-      "feasible per-building street-level imagery source for 1.08 M buildings in this environment (ADR-004) | Licensed "
-      "street-level imagery plus a vision model to classify material, window pattern and storefront per facade |")
-    A("| 2 | Unreal side is authored but never compiled or run | No Unreal editor, no GPU, no Epic download in this "
-      "environment (ADR-001) | One workstation pass following `unreal/README.md` |")
-    A("| 3 | Terrain is LiDAR-derived at 2 m rather than the 1 ft city DEM | The 1 ft DEM is a 26.6 GB download against a "
-      "~30 GB disk allowance (ADR-005) | Re-run the same terrain stage against `NYC_DEM_1ft_Float`, no code change |")
-    A("| 4 | Vehicle and character models are built from published dimensions, not manufacturer CAD or scans | No lawful "
-      "source for either (ADR-009, ADR-010) | Licensed CAD, or photogrammetry |")
-    A()
-    A("Anything else that fell short is stated in the stage reports under `docs/verification/`, and each of those "
-      "reports is written by the agent that did the work and reviewed by the orchestrator.")
+    dev = DOCS / "DEVIATIONS.md"
+    if dev.exists():
+        # Brief section 12 asks this report to state every deviation with its reason. Deciding what counts as
+        # a deviation is a judgement over twenty stage reports, not a query, so the list is authored in
+        # docs/DEVIATIONS.md and included here verbatim. Its own title and preamble are dropped: this is
+        # section 9 of this report, not a document inside it.
+        lines = dev.read_text().splitlines()
+        try:
+            first_rule = next(i for i, l in enumerate(lines) if l.strip() == "---")
+            body = lines[first_rule + 1:]
+        except StopIteration:
+            body = lines[1:]
+        # Demote its headings by one level so they nest under this section.
+        for line in body:
+            A(("#" + line) if line.startswith("## ") else line)
+        A()
+        n = sum(1 for line in body if re.match(r"^\| [A-Z]\d+ ", line))
+        A(f"That is **{n} deviations**, each with the stage report it is drawn from. "
+          f"The source document is `docs/DEVIATIONS.md`.")
+    else:
+        A("**`docs/DEVIATIONS.md` is missing**, so this section could not be built. The brief requires every "
+          "deviation to be stated with its reason; an absent list is not the same as an empty one, and this "
+          "report will not imply that there are no deviations.")
     A()
     return "\n".join(out) + "\n"
 

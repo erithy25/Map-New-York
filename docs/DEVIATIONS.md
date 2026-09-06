@@ -1,192 +1,19 @@
-# Fidelity Report
+# Every deviation from the brief, with its reason
 
-Generated 2026-09-06 22:24 UTC from commit `b3825c374b37` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Brief §12 requires the fidelity report to state **every deviation with its reason**. This file is that
+list. It is included verbatim as §9 of `docs/FIDELITY_REPORT.md`, and it is authored rather than
+generated, because deciding what counts as a deviation is a judgement and not a query.
 
-Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
+Each entry names the subsystem, what the brief asked for, what was built instead, why, and what would
+close it. Every entry is drawn from the stage report cited beside it, where it is stated at length.
+Nothing here is softened: where a number is embarrassing it is given as measured.
 
-## 1. Buildings
+The four **structural** deviations come first, because they constrain everything else. The rest are
+grouped by subsystem.
 
-Total buildings modelled: **1,083,026** (source of truth: NYC Open Data Building Footprints, `data/processed/buildings/buildings_base.parquet`).
+---
 
-### 1.1 By borough
-
-| Borough | Buildings | Median height (m) | Max height (m) | Height real | Floors real | Roof real | Material real |
-|---|---|---|---|---|---|---|---|
-| Manhattan | 45,194 | 17.75 | 472.44 | 99.83 % | 84.77 % | 96.58 % | 32.63 % |
-| Bronx | 104,278 | 8.43 | 137.16 | 99.82 % | 76.68 % | 95.93 % | 0.94 % |
-| Brooklyn | 330,154 | 8.37 | 315.47 | 99.93 % | 77.88 % | 97.06 % | 4.64 % |
-| Queens | 460,939 | 7.42 | 242.01 | 99.97 % | 66.42 % | 94.50 % | 0.95 % |
-| Staten Island | 142,461 | 7.89 | 64.61 | 99.94 % | 79.63 % | 93.86 % | 0.28 % |
-
-### 1.2 Attribute provenance across the whole city
-
-| Bit | Flag | Meaning | Counted from | Buildings | Share |
-|---|---|---|---|---|---|
-| 0 | `FOOTPRINT_REAL` | footprint from the NYC OTI photogrammetric dataset | `buildings/buildings_base.parquet` | 1,083,026 | 100.00 % |
-| 1 | `HEIGHT_REAL` | roof height from the LiDAR-derived `height_roof` field | `buildings/buildings_base.parquet` | 1,082,290 | 99.93 % |
-| 2 | `ROOF_REAL` | roof geometry from the CityGML LOD2 model | `facade/facade_attrs.parquet` | 1,033,416 | 95.42 % |
-| 3 | `FLOORS_REAL` | floor count from PLUTO | `buildings/buildings_base.parquet` | 794,995 | 73.40 % |
-| 4 | `YEAR_REAL` | year built from PLUTO / footprint dataset | `buildings/buildings_base.parquet` | 1,075,197 | 99.28 % |
-| 5 | `MATERIAL_REAL` | facade material from an OSM tag or an LPC designation report | `facade/facade_attrs.parquet` | 35,818 | 3.31 % |
-| 6 | `SIGNAGE_REAL` | at least one real business name attached to the ground floor | `buildings/buildings_base.parquet` | 30,381 | 2.81 % |
-| 7 | `LANDMARK_MODEL` | replaced by a hand-scripted landmark model | `blender_out/landmarks/catalog` | 121 | 0.01 % |
-| 8 | `SCAFFOLD_REAL` | sidewalk shed from an active DOB permit | `buildings/buildings_base.parquet` | 6,396 | 0.59 % |
-| 9 | `GROUND_REAL` | ground elevation from the LiDAR-derived field | `buildings/buildings_base.parquet` | 1,082,833 | 99.98 % |
-| 10 | `FACADE_INFERRED` | facade appearance inferred by the rule set (ADR-004) | `facade/facade_attrs.parquet` | 1,047,208 | 96.69 % |
-| 13 | `ROOF_INFERRED` | roof shape derived from building class and footprint (ADR-013) | `facade/facade_attrs.parquet` | 567,800 | 52.43 % |
-| 11 | `HEIGHT_INFERRED` | height derived from floor count or neighbours | `buildings/buildings_base.parquet` | 736 | 0.07 % |
-| 12 | `FLOORS_INFERRED` | floor count derived from height | `buildings/buildings_base.parquet` | 288,031 | 26.60 % |
-
-Each bit is counted from the table of the stage that sets it. DATA_CONTRACTS §5.1 gives bits 2, 5, 10 and 13 to the facade stage, which writes its own table and does not write back into the base table, and bit 7 to the landmark scripts, whose catalog is the authority on which models exist. A bit whose owning artefact is missing reads **not produced**, never zero — a zero here would claim that nothing is inferred, which is the one thing this report must not get wrong.
-* 121 BINs are named by the landmark catalog; 121 of them exist in the buildings table
-
-Buildings whose footprint **and** height are both from measurement: 99.93 %.
-
-Per-tile files with the complete §5 schema: 25 of 25 sampled (920 tiles hold buildings).
-
-### 1.3 Roof geometry (CityGML LOD2)
-
-Delivery areas parsed: **20 of 20**; buildings with parsed LOD2 geometry: **1,083,281**.
-
-Roof-type distribution: flat 1,083,377, complex 27, hip 12, mansard 8, dome 5, gable 4, barrel 2, shed 2.
-
-## 2. Road network
-
-Source of truth: NYC Street Centerline (CSCL) and LION, per ADR-006.
-
-- Segments: **122,235**
-- Total centreline length: **12,997.29 km**
-- Nodes: 79,291 · lanes: 381,971 · junction lanes: 469,754
-- Signalised intersections: 19,814 · signs: 633,287
-- Named bridges and tunnels resolved: 53
-- Posted speed from data (not inferred): 82.6 % of segments
-- Lane count from data (not inferred): 92.9 % of segments
-
-| Road class | Centreline km |
-|---|---|
-| street | 10,360 |
-| highway | 653 |
-| path | 651 |
-| ramp | 372 |
-| alley | 309 |
-| ferry route | 307 |
-| bridge | 203 |
-| driveway | 94 |
-| boardwalk | 21 |
-| tunnel | 15 |
-| step street | 8 |
-| U-turn | 5 |
-| non-physical | 0 |
-
-**External cross-check.** New York City's published mapped street mileage is about 6,000 centreline miles, roughly 9,650 km. This build carries **10,360 km** classified as street, about +7 % against that figure — the difference is the service roads, marginal streets and private roads that CSCL carries and the published mileage excludes. The drivable network (street, highway, bridge, tunnel, ramp, alley) totals 11,912 km; ferry routes are listed above for completeness but are not road.
-
-| Borough | Centreline km |
-|---|---|
-| Queens | 4,680.2 |
-| Brooklyn | 3,111.4 |
-| Staten Island | 1,908.3 |
-| Bronx | 1,861.5 |
-| Manhattan | 1,435.9 |
-
-## 3. Terrain, water and coastline
-
-- Tiles with a written heightmap: **2,916**
-- USGS 3DEP products ingested: not produced (kinds not recorded), 0.00 GB
-- Elevation range across written tiles: -5.18 m to 210.28 m (NAVD88)
-- Vertical accuracy **0.384 m RMS**, measured against 1,458,592 independent survey and LiDAR ground points (0.291 m against planimetric spot elevations, 0.411 m against building ground grades), median bias −0.037 m after rejecting 0.52 % outliers. The plan assumed 0.15 m; this is the measured figure.
-- Land coverage is 100.000 % in every borough, with 99.97 % or better taken from the 3DEP 1 m product (ADR-017). Tile seams match to 2.8 × 10⁻¹⁴ m across 5,724 adjacent pairs.
-
-Water: hydrography polygons 2,235 · shoreline lines 413 · structures 2,536 · water tiles 2,916.
-
-## 4. Street environment, transit and traffic model
-
-- Tiles with props: 1,576 · total props placed: 1,724,589
-- Bus routes 345 · bus stops 13,364 · subway entrances 2,120 · rail structures 8,341 · ferry routes 6
-- Traffic density cells: 18,864
-
-## 5. Authored assets (Blender)
-
-| Group | glTF files | Size |
-|---|---|---|
-| kit | 138 | 140.3 MB |
-| props | 122 | 79.2 MB |
-| vehicles | 93 | 100.2 MB |
-| character | 25 | 512.8 MB |
-| landmarks | 127 | 920.5 MB |
-| tiles | 1,010 | 4,624.0 MB |
-
-Catalog entries describing those assets: 386.
-
-## 6. Simulation code and runtime data
-
-- `core/`: 52 headers, 37 sources, 19 test files; registered ctest cases: 11
-- Runtime binaries: `density.nycb` 0.9 MB, `roadgraph.nycb` 104.2 MB, `signals.nycb` 1.7 MB, `transit.nycb` 2.4 MB
-
-### 6.1 Unreal project
-
-- 112 C++ files, 27,909 lines, 3 editor automation scripts, checklists: `COMPILE_CHECKLIST.md`, `COMPILE_CHECKLIST_GAMEPLAY.md`
-
-The project cannot be compiled in this environment (ADR-001), so it is verified by static analysis that the orchestrator re-ran rather than took on trust:
-
-| Check | Exit | Result |
-|---|---|---|
-| `check_gameplay_sources.py` | 0 | files checked: 72 (64 Unreal, 8 adapter), reflected public headers: 29, plain structs holding UObject pointers: 2 |
-| `check_math.py` | 0 | ALL CHECKS PASSED |
-| `check_sources.py` | 0 | ALL 523 CHECKS PASSED |
-| `check_terrain_data.py` | 0 | ALL CHECKS PASSED |
-
-These confirm the reflection macros, module dependencies, include resolution, garbage-collection ownership, declaration-to-definition pairing, console command documentation and the landscape and water mathematics. They do **not** confirm that the project compiles, cooks or runs — that needs a workstation pass following `unreal/README.md`, and no claim is made here that it was done.
-
-## 7. Data sources and licences
-
-146 downloaded sources, 14.8 GB, with SHA-256 recorded in `data/manifest/downloads.json`. Full table: `docs/DATA_SOURCES.md`.
-
-| Licence | Sources |
-|---|---|
-| NYC Open Data Terms of Use (public domain-equivalent; attribution requested) | 67 |
-| USGS public domain | 34 |
-| CMU Graphics Lab Motion Capture Database: "free for all uses"; "may be copied, modified, or redistributed without permission"; created with funding from NSF EIA-0196217 | 14 |
-| CC0-1.0 | 13 |
-| MTA Developer Data Terms | 9 |
-| NYC TLC Trip Record Data — public data released by the NYC Taxi & Limousine Commission (no licence restrictions stated; attribution requested) | 3 |
-| Citi Bike Data License Agreement | 1 |
-| NYC Ferry / Hornblower public GTFS feed (published for consumption by transit applications) | 1 |
-| CC0-1.0 (MakeHuman community functional pack; pack json carries per-target licence) | 1 |
-| GPL-3.0-or-later (add-on code); bundled base mesh/targets CC0 | 1 |
-| ODbL 1.0 | 1 |
-| Public domain (US Government work: FEMA / ORNL USA Structures) | 1 |
-
-Authored asset licences (textures, fonts, mocap, audio): `docs/ASSET_LICENSES.md`.
-
-## 8. Verification status
-
-Reference photographs collected for side-by-side comparison: 519 photos across 172 subjects, each with author and licence metadata.
-
-### 8.1 World coherence
-
-| Layer | Tiles |
-|---|---|
-| terrain heightmaps | 2,916 |
-| tiles with buildings | 920 |
-| tiles with a shell mesh | 920 |
-| tiles with kit placements | 920 |
-| tiles with props | 1,576 |
-| tiles with pavement | 972 |
-
-Checked by `tests/test_world_integration.py::test_the_world_has_no_orphan_or_missing_content_layers`: every tile holding buildings also holds a shell mesh and kit placements, every shell mesh has building data behind it, and every content tile has terrain beneath it. Zero exceptions in any direction.
-
-Stage reports present: buildings, buildings_mesh, character, citygml, comparison, core, facade, furniture, kit, landmarks, live, performance, props, reference, roads, terrain, traffic, traffic_density, unreal_gameplay, unreal_world, vehicles.
-
-Lanes that split their work wrote more than one: `landmarks` (REPORT_B.md, REPORT_C.md).
-
-Per-subject reports underneath those: comparison 27, facade 1, landmarks 34, reference 2, traffic_density 2.
-
-What is verified in this environment versus on a workstation is defined in `docs/ARCHITECTURE.md` §14. In short: geodesy, tiling, streaming logic, routing, traffic rules, signal phasing, astronomy, time zone handling, weather parsing, data coverage and asset geometry are verified here by tests and Cycles renders. Unreal Engine compilation, cooking, frame rate, vehicle feel and audio are not — no Unreal editor or GPU exists in this environment, and no claim is made that they were tested.
-
-## 9. Every deviation from the brief, with its reason
-
-
-### A. Structural — these four constrain the whole build
+## A. Structural — these four constrain the whole build
 
 | # | Deviation | Reason | What would close it |
 |---|---|---|---|
@@ -197,7 +24,7 @@ What is verified in this environment versus on a workstation is defined in `docs
 
 ---
 
-### B. Buildings and facades — `docs/verification/{buildings,citygml,facade,buildings_mesh}/REPORT.md`
+## B. Buildings and facades — `docs/verification/{buildings,citygml,facade,buildings_mesh}/REPORT.md`
 
 | # | Deviation | Reason | What would close it |
 |---|---|---|---|
@@ -214,7 +41,7 @@ What is verified in this environment versus on a workstation is defined in `docs
 
 ---
 
-### C. Roads, signals and signs — `docs/verification/roads/REPORT.md`
+## C. Roads, signals and signs — `docs/verification/roads/REPORT.md`
 
 | # | Deviation | Reason | What would close it |
 |---|---|---|---|
@@ -228,7 +55,7 @@ What is verified in this environment versus on a workstation is defined in `docs
 
 ---
 
-### D. Street furniture, transit and traffic data — `docs/verification/{furniture,props,traffic_density}/REPORT.md`
+## D. Street furniture, transit and traffic data — `docs/verification/{furniture,props,traffic_density}/REPORT.md`
 
 | # | Deviation | Reason | What would close it |
 |---|---|---|---|
@@ -243,7 +70,7 @@ What is verified in this environment versus on a workstation is defined in `docs
 
 ---
 
-### E. Vehicles and character — `docs/verification/{vehicles,character}/REPORT.md`
+## E. Vehicles and character — `docs/verification/{vehicles,character}/REPORT.md`
 
 | # | Deviation | Reason | What would close it |
 |---|---|---|---|
@@ -258,7 +85,7 @@ What is verified in this environment versus on a workstation is defined in `docs
 
 ---
 
-### F. Traffic, pedestrians and performance — `docs/verification/{traffic,performance}/REPORT.md`
+## F. Traffic, pedestrians and performance — `docs/verification/{traffic,performance}/REPORT.md`
 
 | # | Deviation | Reason | What would close it |
 |---|---|---|---|
@@ -270,7 +97,7 @@ What is verified in this environment versus on a workstation is defined in `docs
 
 ---
 
-### G. Time, weather and audio — `docs/verification/{live,unreal_gameplay}/REPORT.md`
+## G. Time, weather and audio — `docs/verification/{live,unreal_gameplay}/REPORT.md`
 
 | # | Deviation | Reason | What would close it |
 |---|---|---|---|
@@ -283,7 +110,7 @@ What is verified in this environment versus on a workstation is defined in `docs
 
 ---
 
-### H. Unreal world assembly — `docs/verification/unreal_world/REPORT.md`
+## H. Unreal world assembly — `docs/verification/unreal_world/REPORT.md`
 
 | # | Deviation | Reason | What would close it |
 |---|---|---|---|
@@ -295,7 +122,7 @@ What is verified in this environment versus on a workstation is defined in `docs
 
 ---
 
-### I. Landmarks and verification — `docs/verification/{landmarks,reference,comparison}/REPORT*.md`
+## I. Landmarks and verification — `docs/verification/{landmarks,reference,comparison}/REPORT*.md`
 
 | # | Deviation | Reason | What would close it |
 |---|---|---|---|
@@ -310,7 +137,7 @@ What is verified in this environment versus on a workstation is defined in `docs
 
 ---
 
-### What is *not* on this list
+## What is *not* on this list
 
 Two things, stated so their absence is not mistaken for an oversight:
 
@@ -326,6 +153,3 @@ Two things, stated so their absence is not mistaken for an oversight:
   at assets that did not exist, a 1,003 km² stretch of New Jersey highland modelled as sea, a packed C++
   struct that made the road graph unreadable to the router, and a character whose garments all carried
   the wrong vertex weights.
-
-That is **61 deviations**, each with the stage report it is drawn from. The source document is `docs/DEVIATIONS.md`.
-
