@@ -1,27 +1,28 @@
 {
- "azimuth_reason": "290.1 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 288.3 deg, 1.8 deg away",
+ "azimuth_reason": "290.1 deg, the bearing from this photograph's own GPS position to the Vessel; heading and position both come from the photograph.  The item's recorded azimuth is 288.3 deg, 1.8 deg away, and belongs to its nominal viewpoint",
  "camera": {
-  "azimuth_deg": 290.1,
+  "azimuth_deg": 290.06897794524184,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
-  "focal_mm": 35.0,
+  "focal_mm": 18.0,
   "ground_detail": {
-   "chosen_m": 2.94,
-   "max_m": 3.37,
-   "median_m": 2.94,
-   "min_m": 2.76,
+   "chosen_m": 2.76,
+   "max_m": 3.01,
+   "median_m": 2.76,
+   "min_m": 2.73,
    "mode": "local",
    "percentile": null,
+   "point_m": 2.76,
    "radius_m": 5.0,
    "samples": 16
   },
   "ground_mode": "local",
   "ground_source": "no surface named in the note; heightmap median within 5 m",
-  "hfov_deg": 54.432,
-  "lat": 40.7535,
-  "lon": -74.001,
-  "long_side_fov_deg": 54.432,
+  "hfov_deg": 90.0,
+  "lat": 40.753569,
+  "lon": -74.001367,
+  "long_side_fov_deg": 90.0,
   "pitch_deg": 0.0,
   "portrait": false,
   "resolution": [
@@ -30,22 +31,40 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_hudson_yards_vessel",
-  "terrain_z_m": 2.939,
-  "x": -4357.552,
-  "y": 5960.911,
-  "z": 4.539
+  "terrain_z_m": 2.76,
+  "x": -4364.249,
+  "y": 5965.912,
+  "z": 4.36
  },
- "camera_caption": "camera 40.75350, -74.00100 (NYC_TM -4358, 5961) z 4.5 m NAVD88 | azimuth 290.1deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.75357, -74.00137 (NYC_TM -4364, 5966) z 4.4 m NAVD88 | azimuth 290.1deg pitch +0.0deg | 18 mm on 36 mm (90.0deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.753569,
+  "lon": -74.001367,
+  "offset_from_recorded_m": 31.9,
+  "source": "this photograph's own EXIF camera GPS (40.75357, -74.00137), 32 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
  "clearance": {
-  "direction": "along the view azimuth",
+  "direction": "onto the nearest roadbed",
+  "min_view_m": 37.4,
   "moved": true,
-  "note": "the recorded viewpoint is inside t_-5_5_glass_curtain (a ray straight up from the eye point hits its roof); the camera was moved 54 m along the view azimuth -- the nearest point in open air -- keeping the same eye height above the heightmap",
-  "offset_m": 54.0,
-  "reason": "inside t_-5_5_glass_curtain (a ray straight up from the eye point hits its roof)"
+  "nearest_obstruction_m": 20.0,
+  "note": "the recorded viewpoint is inside lm_c_hudson_yards.44 (a ray straight up from the eye point hits its roof); the camera was moved 30 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there",
+  "offset_m": 29.5,
+  "reason": "inside lm_c_hudson_yards.44 (a ray straight up from the eye point hits its roof)",
+  "rule": "pavement snap with a clear view",
+  "view_m": 60.0
  },
+ "frame": {
+  "mean": 0.2781,
+  "reason": null,
+  "sd": 0.1902,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
- "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal); widened to the 18 mm floor because the c_hudson_yards model's published 387 m height tops out 385 m above the lens only 75 m away and no normal lens contains it",
  "lighting": {
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 919.2,
@@ -56,7 +75,7 @@
    "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.0,
-  "sky_azimuth_deg": 183.365,
+  "sky_azimuth_deg": 183.364,
   "sky_elevation_deg": 60.208,
   "sun_lamp": true,
   "sun_strength_blender": 1.702,
@@ -64,7 +83,7 @@
  },
  "name": "Hudson Yards and the Vessel",
  "night": false,
- "pitch_reason": "level optical axis (the Vessel is 107 m away and would need +61 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "pitch_reason": "level optical axis (the Vessel is 75 m away and would need +69 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
  "reference_photo": {
   "author": "Kidfly182",
   "confidence": "high",
@@ -79,9 +98,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_hudson_yards_vessel/render.png",
- "rendered_at": "2026-09-06T17:41:10Z",
+ "rendered_at": "2026-09-06T22:45:15Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -91,97 +110,101 @@
     "t_-5_5",
     "t_-5_6"
    ],
+   "landmark_bins_suppressed": 21,
+   "landmark_faces_suppressed": 3626,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-4_5": {
      "lod": 0,
      "objects": 19,
-     "triangles": 45694
+     "triangles": 44562
     },
     "t_-4_6": {
      "lod": 0,
      "objects": 17,
-     "triangles": 66858
+     "triangles": 65152
     },
     "t_-5_5": {
      "lod": 0,
      "objects": 16,
-     "triangles": 31960
+     "triangles": 31456
     },
     "t_-5_6": {
      "lod": 0,
      "objects": 10,
-     "triangles": 5718
+     "triangles": 5434
     }
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 4,
    "triangle_budget": 3510000,
-   "triangles": 150230
+   "triangles": 146604
   },
   "centre_tm": [
-   -4306.84,
-   5942.35
+   -4337.83,
+   5950.03
   ],
   "kit": {
    "capped": null,
    "per_category": {
-    "bulkhead": 6,
-    "cornice": 2,
-    "door_entry": 4,
-    "hvac": 14,
-    "parapet": 14,
-    "string_course": 1,
-    "window": 5096,
-    "window_accessory": 174
+    "bulkhead": 2,
+    "cornice": 1,
+    "door_entry": 3,
+    "hvac": 1,
+    "parapet": 5,
+    "window": 51,
+    "window_accessory": 34
    },
-   "placed": 5311,
+   "placed": 97,
    "radius_m": 120.0,
-   "records_in_range": 5311,
+   "records_in_range": 7065,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 6968,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_5",
     "t_-5_6"
    ],
-   "triangles": 851430,
+   "triangles": 16472,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 8.3,
+     "distance_m": 39.2,
      "id": "c_hudson_yards",
      "lod": 0,
      "name": "Hudson Yards (Eastern Yard)",
      "triangles": 103450
     },
     {
-     "distance_m": 482.6,
-     "id": "c_moynihan_train_hall",
-     "lod": 0,
-     "name": "Moynihan Train Hall (James A. Farley Building)",
-     "triangles": 29086
-    },
-    {
-     "distance_m": 493.8,
+     "distance_m": 479.1,
      "id": "c_javits_center",
      "lod": 0,
      "name": "Jacob K. Javits Convention Center",
      "triangles": 12732
     },
     {
-     "distance_m": 694.4,
+     "distance_m": 513.7,
+     "id": "c_moynihan_train_hall",
+     "lod": 0,
+     "name": "Moynihan Train Hall (James A. Farley Building)",
+     "triangles": 29086
+    },
+    {
+     "distance_m": 686.2,
      "id": "c_high_line",
      "lod": 0,
      "name": "The High Line",
      "triangles": 27316
     },
     {
-     "distance_m": 1191.5,
+     "distance_m": 1166.4,
      "id": "b_lincoln_tunnel_portals",
      "lod": 0,
      "name": "Lincoln Tunnel",
@@ -196,16 +219,16 @@
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 279,
-    "curb": 787,
-    "median": 79,
-    "parking_lot": 37,
+    "crosswalk": 246,
+    "curb": 674,
+    "median": 59,
+    "parking_lot": 32,
     "plaza": 5,
-    "roadbed": 283,
-    "sidewalk": 151
+    "roadbed": 241,
+    "sidewalk": 135
    },
-   "placed": 1621,
-   "radius_m": 570.6766204763362,
+   "placed": 1392,
+   "radius_m": 519.8019304391506,
    "tiles_missing": [],
    "tiles_read": [
     "t_-4_5",
@@ -213,84 +236,90 @@
     "t_-5_5",
     "t_-5_6"
    ],
-   "triangles": 85194,
-   "vertices": 88288
+   "triangles": 72464,
+   "vertices": 75116
   },
   "props": {
    "capped": null,
+   "impostor_cards_dropped": 8,
    "leaf_off": false,
    "per_kind": {
-    "bench": 163,
+    "bench": 164,
     "bike_rack": 12,
     "bus_shelter": 2,
-    "bus_stop_sign": 5,
+    "bus_stop_sign": 6,
     "citibike_dock": 4,
-    "hydrant": 55,
+    "hydrant": 57,
     "linknyc": 1,
-    "manhole": 82,
+    "manhole": 78,
     "newsstand": 1,
     "rtpi_sign": 1,
     "steam_vent": 4,
-    "street_lamp": 143,
+    "street_lamp": 135,
     "subway_entrance": 2,
     "subway_vent_grate": 3,
     "tree": 28,
-    "waste_basket": 27
+    "waste_basket": 24
    },
-   "placed": 533,
+   "placed": 522,
    "radius_m": 250.0,
-   "rows_in_range": 679,
+   "rows_in_range": 680,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_5",
     "t_-5_6"
    ],
-   "tree_species_substituted": 11,
-   "triangles": 940268,
+   "tree_species_substituted": 10,
+   "triangles": 909080,
    "unmapped_kinds": {
     "artwork": 4,
-    "cooling_tower": 69,
-    "curb_ramp": 57,
+    "cooling_tower": 73,
+    "curb_ramp": 62,
     "drinking_fountain": 6,
-    "misc_structure": 7,
+    "memorial": 1,
+    "misc_structure": 9,
     "parks_building": 1,
     "parks_comfort_station": 1,
     "vending_machine": 1
    }
   },
-  "radius_m": 570.6766204763362,
-  "seconds": 18.65,
+  "radius_m": 519.8019304391506,
+  "seconds": 15.55,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 3.805,
-   "triangles": 180000,
-   "water_quads": 4667,
-   "z_max_m": 16.0,
-   "z_min_m": -1.9
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 201,
+   "spacing_m": 2.0,
+   "triangles": 80000,
+   "water_quads": 974,
+   "z_max_m": 16.03,
+   "z_min_m": -1.98
   },
-  "triangles": 2436786
+  "triangles": 1454284
  },
  "scene_request": {
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
-  "radius_m": 570.6766204763362
+  "radius_m": 519.8019304391506
  },
  "seconds": {
-  "render": 114.7,
-  "scene": 20.3,
-  "total": 135.0
+  "render": 141.0,
+  "scene": 15.9,
+  "total": 156.9
  },
  "slug": "landmark_hudson_yards_vessel",
  "status": "rendered",
  "subject": {
-  "distance_m": 106.7,
+  "distance_m": 74.9,
   "name": "the Vessel"
  },
  "sun": {
-  "azimuth_deg": 183.364638127718,
-  "elevation_deg": 60.20815175209127,
+  "azimuth_deg": 183.36390688247852,
+  "elevation_deg": 60.208099204183675,
   "local": "2022-04-18T13:02:07-04:00",
   "time_source": "EXIF DateTimeOriginal",
   "utc": "2022-04-18T17:02:07Z"

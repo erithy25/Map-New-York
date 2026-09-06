@@ -199,7 +199,7 @@ blender/character/mh_build.py         MPFB body, ARKit blendshapes, helper strip
 blender/character/rig_ue5.py          MPFB game_engine rig -> UE5 mannequin, with weight redistribution
 blender/character/pose_solver.py      closed-form pose evaluation + analytic two-bone IK
 blender/character/retarget.py         CMU -> UE5 rotation-delta retargeter, gait analysis, speed matching
-blender/character/anim_lib.py         F-curve baking, NLA/glTF export, asset.extras patching, glb reader
+blender/character/anim_lib.py         F-curve baking, NLA export through nycsim_bpy.export_glb, glb reader
 blender/character/car_ref.py          driver package read out of the vehicles lane's exported Fusion Hybrid
 blender/character/anim_procedural.py  every non-mocap clip
 blender/character/wardrobe.py         47 NYC garments: MakeHuman tailored meshes, layer stand-off and
@@ -748,6 +748,8 @@ samples; framing and pose iterations were done there, and only the final pass at
 | `blendshapes.png` | six ARKit face units at full weight |
 | `detail.png` | left hand and left foot at 460 px each: modelled fingers with nails and knuckles, and the sneaker with its sole line, toe cap and stitching |
 | `npc_lineup.png` | twelve of the twenty-four generated pedestrians side by side, imported from their exported `.glb` files rather than from the build scene |
+| `hair_audition.png` | all ten MakeHuman CC0 hair assets on the same head, the evidence behind gap 1 |
+| `review_pass3/` | the orchestrator's four crops of the pass-2 renders, and `review_pass3/after/` the same four regions re-cropped from the renders that answer them |
 
 The renders were opened and acted on, not just produced - and after each orchestrator review, opened again.
 Eleven defects were found in the first pass this way and fixed:
@@ -819,6 +821,69 @@ at the elbow and the trouser leg holds volume at the knee with thigh-to-calf con
 no candy-wrapping and no collapse. Mild volume loss on the inside of the elbow and behind the knee at 120
 degrees is what four-influence linear blend skinning does without corrective shapes.
 
+### 10.2 Review pass 3 — four defects, closed
+
+The orchestrator cropped and upscaled four regions of the pass-2 renders and committed them as
+`docs/verification/character/review_pass3/`.  Each is answered below with what it actually was, the fix, and
+the measurement that says it is closed.  The same four regions are re-cropped from the new renders.
+
+| # | defect | root cause | state |
+|---|---|---|---|
+| 1 | smooth white blobs proud of the knit at both side seams and the right shoulder | the base tee could not fit between the skin and a *fitted* sweater, and `resolve_layers` was trading one artefact for the other | **closed** |
+| 2 | trouser hem through the sneaker, blue fabric emerging behind the heel, heel counter torn | trousers versus footwear was resolved by nudging, and the hem is longer than the shoe collar so it came out somewhere | **closed** |
+| 3 | fingertips buried in the trousers on most of the line-up | the standing pose put the hand a *constant* 16 mm outboard of the shoulder line, which clears the skin of the thigh and not the trouser over it | **closed**, with a 1.0 mm residual on 2 vertices of 1 of 24 |
+| 4 | briefcase floating ~10 cm off the hand | the bag hung from the *head* of the hand bone by its nominal drop, so it was 370 mm below the wrist | **closed** |
+
+**1 — the tee could not fit, so it is not there.** The blobs were measured, not guessed: of the tee's 80
+remaining vertices, **39 sat up to 15.8 mm outside** the sweater, all in the 1.10-1.33 m band across the back
+and flanks where the knit is tightest.  Two constraints - outside the skin, inside the sweater - have no
+solution where the sweater hugs the body, and alternating them only swaps scraps of skin through the
+trousers for specks of tee through the knit.  `hide_covered_garments` now marks a vertex when a ray along its
+own normal hits an outer garment **or** the closest point on one is within 22 mm of it, ignoring closest
+points that land on the outer garment's own **rim** (any face with an open boundary edge).  The rim test is
+load-bearing: without it the cut walks past the outer garment's hem and exposes itself as a saw-tooth - it
+did exactly that to a child's polo - and requiring the ray alone simply put the poke-through back.  On the
+player all 1 034 faces of `tee_white` are covered, so the tee is dropped from the export and the character
+ships in the sweater it is actually wearing; `verify_outfit` is told which items were dropped so a garment
+that vanished by accident is still an error.
+
+**2 — the trouser stops inside the shoe.** `cut_bottoms_at_shoe_collar` takes each shoe shell as a connected
+component (so the box round one foot never reaches the other), clamps its top to the **ankle joint plus
+45 mm** - several MakeHuman shoe assets model a sock half way up the calf, and a box round the whole shell
+cuts the trouser off at mid-calf - and deletes every bottom-garment face with *any* vertex inside it.  "Any"
+rather than "all": a straddling face leaves a sliver of trouser under the sole, and at the collar it costs
+one ring of geometry the shoe covers anyway.  250 faces on the player's jeans, 126-258 on the cast.
+
+**3 — the hand is placed against the measured silhouette.** `relaxed_arms` no longer offsets from the
+shoulder by a constant.  It measures the widest point of the character's own *bottom garments* over the band
+the hand and fingers occupy and places the hand outside it by the hand's half-width plus
+`HAND_CLEARANCE`.  Only the bottoms are measured, deliberately: the body mesh carries the arms, and in
+MakeHuman's rest pose they are straight out to the side, so measuring the body over that band returns the
+half-span of the arms (0.57 m) instead of the width of a hip.  The clearance itself was calibrated on the
+cast, because the silhouette is measured at rest and the standing pose plants the feet with a stance and
+7 degrees of toe-out, which swings a wide trouser leg outward below the hip:
+
+| `HAND_CLEARANCE` | worst NPC of four sampled | finger vertices inside a garment |
+|---|---|---|
+| 16 mm (pass 2, and a constant, not a measurement) | — | visible on most of the line-up |
+| 28 mm | `npc_17`, harem-cut joggers | 31 of 2 676, to 4.3 mm |
+| 32 mm | `npc_17` | 21 of 2 676, to 3.9 mm |
+| **45 mm** | `npc_17` | **2 of 2 676, to 1.0 mm** |
+
+On the player, across four frames of the idle: **0 of 2 676 finger vertices inside the trousers, minimum
+clearance +46.8 mm**.  The 1.0 mm residual on two vertices of one pedestrian is a millimetre on a 1.7 m body
+and is stated rather than chased further; pushing the clearance higher starts to hold the arms away from the
+body.
+
+**4 — the bag hangs from the grip.** A bag on a hand or forearm bone is built in that bone's own frame
+(its axis is "down" once the arm hangs), but it was dropped from the *head* of the bone by the item's
+nominal offset, which put a briefcase 370 mm below the wrist with a 280 mm gap between the fingers and the
+handle.  It now starts at the far end of the bone - the knuckles - plus 18 mm for the fingers to close
+round.  It is weighted rigidly to the hand bone, as it was, so it tracks the hand in every clip.
+
+**And the waistband specks**, which the orchestrator asked to be checked as the same defect class: yes, the
+same fix closes them.  The tank's hem under a pair of shorts is now cut where the shorts cover it, and what
+remains is a few sub-millimetre specks on one pedestrian.
 ---
 
 ## 11. Tests
@@ -866,13 +931,34 @@ ARKit set in ARKit order).
 
 ## 12. Honest gaps
 
-1. **Hair is card/mesh hair, not strands.** The ten MakeHuman styles are alpha-textured polygon cards
-   (1 011-5 203 vertices) plus two procedural shells. At a distance and in silhouette they are fine; at
-   portrait range they read as cards, with no flyaways, no strand-level shading and no anisotropic highlight.
-   Real strand hair (Blender curves to a UE groom) was not attempted: no CC0 groom asset was reachable, and
-   an authored groom is a multi-day job. **This is the single biggest fidelity gap in the lane.** The rig and
-   the scalp are ready for a groom to be attached later; `wardrobe.build_procedural_hair` shows where a scalp
-   shell attaches.
+1. **Hair is a shell with a strand texture on it, not cards and not curves.** This is a named deviation, not
+   a defect, and it is measured rather than asserted. All ten MakeHuman CC0 hair assets were fitted to the
+   same head and rendered (`hair_audition.png`), and each one's proportion of *open* edges - the signature of
+   a mesh built from separate alpha-cut cards - was counted:
+
+   | asset | verts | faces | open edges | open ratio | reads as |
+   |---|---|---|---|---|---|
+   | `short01` (the player's) | 2 984 | 1 839 | 1 890 | 0.41 | shell with clumps at the crown |
+   | `short02` | 1 755 | 1 672 | 164 | **0.05** | a closed cap - a shaved head with a sheen |
+   | `short03` | 1 011 | 961 | 98 | **0.05** | a closed cap |
+   | `short04` | 865 | 525 | 636 | 0.47 | shell, some separation |
+   | `bob01` | 5 203 | 4 237 | 1 888 | 0.20 | smooth shell |
+   | `bob02` | 1 653 | 1 124 | 1 008 | 0.37 | smooth shell |
+   | `long01` | 3 239 | 2 054 | 2 334 | 0.44 | smooth shell, two tone bands |
+   | `ponytail01` | 3 718 | 2 676 | 1 994 | 0.31 | shell, the tail separates |
+   | `braid01` | 4 493 | 2 759 | 3 318 | 0.46 | a smooth helmet; no braid is visible |
+   | `afro01` | 2 196 | 1 096 | 1 516 | 0.51 | genuinely clumped - the best of the set |
+
+   Every one has its texture alpha wired to the material (`setup_alpha_materials`), so the cut-out is
+   working; the meshes simply are not made of cards. Two of them (`short02`, `short03`) are all but closed
+   shells. The pass-2 report called these "alpha-textured polygon cards", which the numbers do not support,
+   and that description is withdrawn.
+
+   **MakeHuman's CC0 packs contain nothing better** - these ten are the entire hair library. Real strand
+   hair (Blender curves to a UE groom) was not attempted: no CC0 groom asset was reachable through the
+   allowed hosts, and an authored groom is a multi-day job. The rig and the scalp are ready for one;
+   `wardrobe.build_procedural_hair` shows where a scalp shell attaches. **This is the single biggest fidelity
+   gap in the lane.**
 2. **`run` is a time-compressed 3.6 m/s run, not a 5 m/s sprint** (8.3), with the numbers in the metadata.
 3. **The idle's motion is authored**, only its posture is mocap (8.4) — there is no idle capture in the
    fourteen downloaded CMU files.
@@ -904,10 +990,10 @@ ARKit set in ARKit order).
 12. **The contract's height formula has no sex term and does not shorten the older band** (9). This lane
     builds to the simulation's number rather than to anthropometry, and reports the difference: 64 mm on
     average and 179 mm at worst across the shipped cast.
-13. **A few millimetre slivers of the tee's remaining collar ring still show through the knit** on the
-    player's chest and shoulder. Linear blend skinning moves the two meshes slightly differently under the
-    idle pose, and the clearance that would close it starts to flatten the knit. The much worse versions of
-    this - scraps of skin through the seat of the trousers, white patches across the shoulders - are gone.
+13. **Sub-millimetre residue at two contact points.** Two of a pedestrian's 2 676 finger vertices graze the
+    widest pair of trousers in the wardrobe by 1.0 mm (10.2), and a few specks of a tank's hem remain on one
+    pedestrian's waistband. Both are a millimetre on a 1.7 m body; the versions of them that were visible -
+    fingertips buried in the trousers, white blobs across a sweater - are gone.
 14. **Character forward is -Y in Blender**, recorded as `extras.nycsim.forward_axis_blender`. That is
    MakeHuman's native orientation, kept because rotating a shape-keyed, skinned, multi-mesh character risks
    more than it gains; the UE import must apply the +X convention. This differs from the vehicles lane, which

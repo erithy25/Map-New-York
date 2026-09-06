@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-06 22:33 UTC from commit `c23a45dbe54e` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-06 23:12 UTC from commit `7b501a41c9fe` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -112,9 +112,9 @@ Water: hydrography polygons 2,235 · shoreline lines 413 · structures 2,536 · 
 | kit | 138 | 140.3 MB |
 | props | 122 | 79.2 MB |
 | vehicles | 93 | 100.2 MB |
-| character | 11 | 221.4 MB |
+| character | 25 | 512.3 MB |
 | landmarks | 127 | 920.5 MB |
-| tiles | 1,010 | 4,624.0 MB |
+| tiles | 1,496 | 5,523.1 MB |
 
 Catalog entries describing those assets: 386.
 
@@ -180,7 +180,7 @@ Stage reports present: buildings, buildings_mesh, character, citygml, comparison
 
 Lanes that split their work wrote more than one: `landmarks` (REPORT_B.md, REPORT_C.md).
 
-Per-subject reports underneath those: comparison 29, facade 1, landmarks 34, reference 2, traffic_density 2.
+Per-subject reports underneath those: comparison 39, facade 1, landmarks 34, reference 2, traffic_density 2.
 
 What is verified in this environment versus on a workstation is defined in `docs/ARCHITECTURE.md` §14. In short: geodesy, tiling, streaming logic, routing, traffic rules, signal phasing, astronomy, time zone handling, weather parsing, data coverage and asset geometry are verified here by tests and Cycles renders. Unreal Engine compilation, cooking, frame rate, vehicle feel and audio are not — no Unreal editor or GPU exists in this environment, and no claim is made that they were tested.
 
@@ -263,7 +263,7 @@ the individual assessments, because together they are the honest answer to "is i
 |---|---|---|---|
 | E1 | **Vehicles are dimensionally exact but not photoreal.** Surfaces are lofted from station tables, so panel creases, shut lines, grille meshes and badge relief are approximate; `fusion_exterior.png` reads as *a* mid-size sedan of the right size, not as a recognisable 2019 Fusion. **No PBR texture maps at all** — materials are analytic, with no albedo, normal, ORM, dirt or wear layers. | No licensed CAD or scan data (ADR-009). Worst dimensional deviation is 1.85 %, most are 0.00 %. | Reference-photo modelling or scan data; an authored texture set. |
 | E2 | **The player car's greenhouse is packaged too far forward.** The windscreen header sits 0.35 m ahead of the driver's eye where a real Fusion has ≈0.75 m; the interior render needed an 80° lens to get the A-pillars in shot. | A blueprint error in the fore-and-aft split between bonnet, screen and roof. Overall height, length and H-point are right. | Re-cut the `X_ROOF_F`/`X_COWL` stations, which moves every panel on the flagship model. |
-| E3 | **Hair is alpha-textured polygon cards, not strands.** At portrait range it reads as cards: no flyaways, no strand shading, no anisotropic highlight. The lane calls this its single biggest fidelity gap. | No CC0 groom asset was reachable and an authored groom is a multi-day job. The rig and scalp are ready for one. | A groom asset. |
+| E3 | **Hair is a solid shell, not cards and not strands.** At portrait range it reads as a helmet: no flyaways, no strand shading, no anisotropic highlight, and no card silhouette either. Measured open-edge ratios across all ten MakeHuman CC0 hair assets: `short02` and `short03` are 0.05, which is a closed cap; `braid01` is 0.46 and still renders as a smooth helmet with no visible braid; only `afro01` (0.51) genuinely clumps. Alpha is wired on all ten — the meshes simply are not card-built. The lane calls this its single biggest fidelity gap and it is right. | Those ten assets are the entire MakeHuman CC0 hair library, so there is nothing better to switch to. No CC0 groom asset was reachable and an authored groom is a multi-day job. The rig and scalp are ready for one. | A groom asset, or authored hair cards. |
 | E4 | **MakeHuman's CC0 packs contain exactly one casual jacket and no boots.** `jacket_field`, `jacket_denim`, `jacket_leather`, three puffers and two coats are all `male_casualsuit05` in eight fabrics, so a "long" coat is hip-length and a puffer has no quilting; a city that wears work boots is shod in trainers and loafers. | The asset library. Both alternatives were built and rejected on the render: cut from the tee it comes out a beige t-shirt, cut from the skin a painted-on bodysuit. | Licensed or authored garments. |
 | E5 | **Carried items are bevelled boxes** — a backpack, tote, shoulder bag, courier's box and briefcase are each one box with no straps, handles or soft shape. **Garments have no zips, buttons, plackets or cloth simulation.** | Authoring cost. They read at street distance and are wrong close up. | Authored props and a cloth setup. |
 | E6 | **No facial rig beyond blendshapes, no LODs, no cloth or hair physics**, and subsurface skin is authored for Cycles but invisible in glTF, which has no SSS. | Runtime-side work. Jaw motion is morphs only; the eyes are separate objects the runtime rotates. | An engine pass. |

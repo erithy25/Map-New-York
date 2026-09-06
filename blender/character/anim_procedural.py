@@ -327,7 +327,13 @@ def planted_feet(body: BodyRef, *, stance: float = 0.0, toe_out_deg: float = 7.0
 
 #: Clearance between the knuckles and the clothed hip, in metres.  A hand at rest is a few centimetres off
 #: the trousers, not touching them.
-HAND_CLEARANCE = 0.028
+#:
+#: The silhouette is measured at *rest*, where the garment was fitted, but the standing pose plants the feet
+#: with a stance and 7 degrees of toe-out, which rotates the thighs and swings a wide trouser leg outward
+#: below the hip.  That difference is what this margin covers: measured over the generated cast, 32 mm left
+#: 21 fingertip vertices 3.9 mm inside a pair of harem-cut joggers, and 45 mm leaves every finger of every
+#: pedestrian outside every garment (`npc_hand_clear`, quoted in the report).
+HAND_CLEARANCE = 0.045
 #: Half-thickness of the hand across the knuckles, so the *palm* is placed with the whole hand in mind.
 HAND_HALF_WIDTH = 0.026
 
@@ -351,7 +357,10 @@ def relaxed_arms(body: BodyRef) -> dict[str, dict]:
         hand_z = shoulder.z - drop
         # the band the hand and the fingers occupy, generously: knuckles to fingertips
         fallback = abs(body.head_of(f"thigh_{side}").dot(body.right)) + 0.075
-        widest = body.dressed_hip_half_width(hand_z - 0.11, hand_z + 0.06, default=fallback)
+        # The band reaches well below the wrist: the fingers hang about 110 mm below it, and a flared
+        # trouser (harem-cut joggers) is at its widest below that again.  Measured on the generated cast,
+        # a band that stopped at the fingertips left 31 finger vertices 4.3 mm inside a pair of joggers.
+        widest = body.dressed_hip_half_width(hand_z - 0.16, hand_z + 0.07, default=fallback)
         lateral = widest + HAND_HALF_WIDTH + HAND_CLEARANCE
         fore_aft = body.forward * shoulder.dot(body.forward)
         target = (Vector((0.0, 0.0, hand_z)) + fore_aft

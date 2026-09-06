@@ -1,27 +1,28 @@
 {
- "azimuth_reason": "210.6 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 10.0 deg, 159.4 deg away",
+ "azimuth_reason": "10.0 deg as recorded; it agrees with the bearing from the camera position used to MetLife Building (200 Park Avenue) (10.0 deg) to 0.0 deg",
  "camera": {
-  "azimuth_deg": 210.6,
+  "azimuth_deg": 10.0,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
-  "focal_mm": 35.0,
+  "focal_mm": 18.0,
   "ground_detail": {
-   "chosen_m": 15.92,
-   "max_m": 18.37,
-   "median_m": 16.9,
-   "min_m": 15.49,
+   "chosen_m": 12.82,
+   "max_m": 13.41,
+   "median_m": 13.08,
+   "min_m": 12.7,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 13.02,
    "radius_m": 12.0,
    "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
-  "hfov_deg": 54.432,
+  "hfov_deg": 90.0,
   "lat": 40.750676,
   "lon": -73.977285,
-  "long_side_fov_deg": 54.432,
+  "long_side_fov_deg": 90.0,
   "pitch_deg": 0.0,
   "portrait": false,
   "resolution": [
@@ -30,22 +31,40 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_metlife_building",
-  "terrain_z_m": 15.925,
-  "x": -2299.167,
-  "y": 5636.465,
-  "z": 17.525
+  "terrain_z_m": 12.82,
+  "x": -2228.834,
+  "y": 5640.138,
+  "z": 14.42
  },
- "camera_caption": "camera 40.75068, -73.97728 (NYC_TM -2299, 5636) z 17.5 m NAVD88 | azimuth 210.6deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.75068, -73.97728 (NYC_TM -2229, 5640) z 14.4 m NAVD88 | azimuth 10.0deg pitch +0.0deg | 18 mm on 36 mm (90.0deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.750676,
+  "lon": -73.977285,
+  "offset_from_recorded_m": 912.3,
+  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 912 m away, past the 250 m at which it could still be the same view, so it was rejected as mis-tagged"
+ },
  "clearance": {
-  "direction": "backwards",
+  "direction": "onto the nearest sidewalk",
+  "min_view_m": 80.0,
   "moved": true,
-  "note": "the recorded viewpoint is inside t_-3_5_glass_curtain (a ray straight up from the eye point hits its roof); the camera was moved 10 m backwards -- the nearest point in open air -- keeping the same eye height above the heightmap",
-  "offset_m": 10.0,
-  "reason": "inside t_-3_5_glass_curtain (a ray straight up from the eye point hits its roof)"
+  "nearest_obstruction_m": 20.0,
+  "note": "the recorded viewpoint is inside t_-3_5_glass_curtain (a ray straight up from the eye point hits its roof); the camera was moved 75 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 96 m from there",
+  "offset_m": 74.9,
+  "reason": "inside t_-3_5_glass_curtain (a ray straight up from the eye point hits its roof)",
+  "rule": "pavement snap with a clear view",
+  "view_m": 96.0
  },
+ "frame": {
+  "mean": 0.2219,
+  "reason": null,
+  "sd": 0.1188,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
- "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lens_reason": "widened from 35 mm to 18 mm (74 deg vertical) so that a level axis contains the subject: the c_metlife_building model's published 246 m height stands 245 m above the lens at 300 m, 39 deg above the horizon; held at the 18 mm floor, so the top of the subject is still cut off -- past that point the distortion would stop the two frames being comparable",
  "lighting": {
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 660.9,
@@ -79,9 +98,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_metlife_building/render.png",
- "rendered_at": "2026-09-06T18:08:48Z",
+ "rendered_at": "2026-09-06T22:56:59Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -95,6 +114,9 @@
     "t_-4_5",
     "t_-4_6"
    ],
+   "landmark_bins_suppressed": 39,
+   "landmark_faces_suppressed": 3144,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-2_4": {
@@ -105,12 +127,12 @@
     "t_-2_5": {
      "lod": 0,
      "objects": 14,
-     "triangles": 17092
+     "triangles": 16728
     },
     "t_-2_6": {
      "lod": 0,
      "objects": 18,
-     "triangles": 53944
+     "triangles": 53068
     },
     "t_-3_4": {
      "lod": 0,
@@ -120,63 +142,65 @@
     "t_-3_5": {
      "lod": 0,
      "objects": 16,
-     "triangles": 49098
+     "triangles": 48780
     },
     "t_-3_6": {
      "lod": 0,
      "objects": 17,
-     "triangles": 30874
+     "triangles": 29970
     },
     "t_-4_5": {
      "lod": 1,
      "objects": 19,
-     "triangles": 20038
+     "triangles": 19790
     },
     "t_-4_6": {
      "lod": 1,
      "objects": 17,
-     "triangles": 28552
+     "triangles": 28118
     }
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 8,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 8,
    "triangle_budget": 3510000,
-   "triangles": 264016
+   "triangles": 260872
   },
   "centre_tm": [
    -2304.26,
    5627.86
   ],
   "kit": {
-   "capped": "triangle budget 1967520",
+   "capped": "triangle budget 2024482",
    "per_category": {
     "bulkhead": 13,
     "cornice": 13,
     "door_entry": 16,
     "fire_escape": 11,
-    "hvac": 9,
+    "hvac": 10,
     "parapet": 17,
     "pilaster": 16,
     "quoin": 2,
-    "scaffold": 55,
+    "scaffold": 56,
     "storefront": 86,
     "storefront_interior": 12,
     "string_course": 13,
-    "water_tower": 5,
-    "window": 8993,
-    "window_accessory": 56
+    "water_tower": 6,
+    "window": 9256,
+    "window_accessory": 61
    },
-   "placed": 9317,
+   "placed": 9588,
    "radius_m": 120.0,
    "records_in_range": 19491,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_5"
    ],
-   "triangles": 1967576,
+   "triangles": 2024528,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -293,7 +317,8 @@
    "vertices": 278047
   },
   "props": {
-   "capped": "triangle budget 1059492",
+   "capped": "triangle budget 1090325",
+   "impostor_cards_dropped": 17,
    "leaf_off": false,
    "per_kind": {
     "bench": 6,
@@ -304,45 +329,49 @@
     "hydrant": 41,
     "linknyc": 8,
     "mailbox": 3,
-    "manhole": 70,
+    "manhole": 72,
     "newsstand": 1,
-    "steam_vent": 6,
-    "street_lamp": 79,
+    "steam_vent": 7,
+    "street_lamp": 82,
     "subway_entrance": 14,
-    "subway_vent_grate": 15,
-    "tree": 115,
+    "subway_vent_grate": 16,
+    "tree": 119,
     "waste_basket": 24
    },
-   "placed": 401,
+   "placed": 412,
    "radius_m": 250.0,
    "rows_in_range": 849,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_5"
    ],
-   "tree_species_substituted": 18,
-   "triangles": 1059600,
+   "tree_species_substituted": 20,
+   "triangles": 1090734,
    "unmapped_kinds": {
-    "cooling_tower": 68,
-    "curb_ramp": 47,
+    "cooling_tower": 70,
+    "curb_ramp": 49,
     "drinking_fountain": 4,
     "misc_structure": 3,
     "vending_machine": 2
    }
   },
   "radius_m": 879.4202708432679,
-  "seconds": 51.02,
+  "seconds": 76.48,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 5.863,
-   "triangles": 180000,
-   "water_quads": 4461,
-   "z_max_m": 25.69,
-   "z_min_m": -4.28
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 219,
+   "spacing_m": 2.0,
+   "triangles": 95048,
+   "water_quads": 112,
+   "z_max_m": 25.5,
+   "z_min_m": -2.6
   },
-  "triangles": 4500056
+  "triangles": 4500046
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -350,9 +379,9 @@
   "radius_m": 879.4202708432679
  },
  "seconds": {
-  "render": 59.0,
-  "scene": 52.6,
-  "total": 111.6
+  "render": 170.9,
+  "scene": 97.0,
+  "total": 267.8
  },
  "slug": "landmark_metlife_building",
  "status": "rendered",
