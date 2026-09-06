@@ -24,7 +24,7 @@ def _op(name: str):
 
 
 # --------------------------------------------------------------------------- 1  plain 1/1
-@K.register("win_double_hung_1_1", "window", nominal_size=(0.95, 0.29, 1.70),
+@K.register("win_double_hung_1_1", "window", nominal_size=(0.99, 0.29, 1.755),
             description="One-over-one double-hung sash in a plain brick opening (post-1930 tenement replacement sash).",
             features=["sills"], variants=["lit", "unlit"])
 def _win_1_1():
@@ -37,7 +37,7 @@ def _win_1_1():
 
 
 # --------------------------------------------------------------------------- 2  1/1 with stone lintel + sill
-@K.register("win_double_hung_1_1_stone", "window", nominal_size=(1.18, 0.34, 1.95),
+@K.register("win_double_hung_1_1_stone", "window", nominal_size=(1.18, 0.335, 1.95),
             description="One-over-one with a projecting limestone lintel and washed stone sill (brownstone / limestone-trimmed brick).",
             features=["lintels", "sills"], variants=["limestone", "brownstone"])
 def _win_1_1_stone():
@@ -51,7 +51,7 @@ def _win_1_1_stone():
 
 
 # --------------------------------------------------------------------------- 3  1/1 with brick soldier lintel
-@K.register("win_double_hung_1_1_soldier", "window", nominal_size=(1.10, 0.29, 1.99),
+@K.register("win_double_hung_1_1_soldier", "window", nominal_size=(1.06, 0.32, 1.994),
             description="One-over-one with a brick soldier-course lintel and cast-stone sill (New Law tenement, 1901-1929).",
             features=["lintels", "sills"])
 def _win_1_1_soldier():
@@ -65,7 +65,7 @@ def _win_1_1_soldier():
 
 
 # --------------------------------------------------------------------------- 4  2/2
-@K.register("win_double_hung_2_2", "window", nominal_size=(1.18, 0.34, 2.05),
+@K.register("win_double_hung_2_2", "window", nominal_size=(1.18, 0.335, 2.05),
             description="Two-over-two double-hung with a vertical muntin per sash and brownstone lintel/sill (Italianate rowhouse 1860-1890).",
             features=["lintels", "sills"])
 def _win_2_2():
@@ -79,7 +79,7 @@ def _win_2_2():
 
 
 # --------------------------------------------------------------------------- 5  6/6
-@K.register("win_double_hung_6_6", "window", nominal_size=(1.13, 0.34, 1.85),
+@K.register("win_double_hung_6_6", "window", nominal_size=(1.01, 0.335, 1.894),
             description="Six-over-six true-divided-light double-hung with a splayed brick flat arch (Federal / Greek Revival rowhouse).",
             features=["lintels", "sills"])
 def _win_6_6():
@@ -93,7 +93,7 @@ def _win_6_6():
 
 
 # --------------------------------------------------------------------------- 6  casement pair
-@K.register("win_casement_pair", "window", nominal_size=(1.33, 0.34, 1.85),
+@K.register("win_casement_pair", "window", nominal_size=(1.21, 0.335, 1.7),
             description="Pair of side-hinged steel casements with a three-light grid each and a cast-stone sill (prewar apartment 1920-1940).",
             features=["sills"])
 def _win_casement():
@@ -112,7 +112,7 @@ def _win_casement():
 
 
 # --------------------------------------------------------------------------- 7  steel industrial
-@K.register("win_steel_industrial_4x5", "window", nominal_size=(1.66, 0.30, 2.44),
+@K.register("win_steel_industrial_4x5", "window", nominal_size=(1.62, 0.315, 2.44),
             description="Steel-sash industrial window, 4 x 5 lights with a centre-pivot vent, in a loft opening with a steel lintel angle.",
             features=["lintels"])
 def _win_steel():
@@ -137,7 +137,7 @@ def _win_steel():
 
 
 # --------------------------------------------------------------------------- 8  punched office
-@K.register("win_punched_office", "window", nominal_size=(1.68, 0.32, 2.42),
+@K.register("win_punched_office", "window", nominal_size=(1.62, 0.325, 2.29),
             description="Aluminium punched office window, fixed light over a hopper vent, in a precast surround (1960-1990 office / hospital).",
             features=["sills"])
 def _win_punched():
@@ -158,7 +158,7 @@ def _win_punched():
 
 
 # --------------------------------------------------------------------------- 9  curtain-wall module
-@K.register("win_curtain_wall_module", "window", nominal_size=(1.50, 0.26, 3.90), anchor="wall_bottom_centre",
+@K.register("win_curtain_wall_module", "window", nominal_size=(1.5, 0.29, 3.9), anchor="wall_bottom_centre",
             description="Unitised curtain-wall module 1.5 m wide x 3.9 m floor-to-floor: vision glass, shadow-box spandrel, "
                         "snap-on mullion covers and a slab-edge anchor.",
             features=["curtain_wall"], budget=500)
@@ -184,7 +184,7 @@ def _win_curtain():
 
 
 # --------------------------------------------------------------------------- 10  bay window
-@K.register("win_bay_window", "window", nominal_size=(2.40, 0.77, 2.63),
+@K.register("win_bay_window", "window", nominal_size=(2.488, 0.68, 2.62),
             description="Three-sided projecting bay, 2.40 m wide x 0.62 m deep, with three 1/1 sashes, a panelled brownstone apron, "
                         "moulded sill and head bands and a lead-clad roof (Brooklyn / Queens rowhouse).",
             features=["bay_windows"], budget=900)
@@ -262,7 +262,7 @@ def _win_bay():
 
 
 # --------------------------------------------------------------------------- 11  arched tenement
-@K.register("win_arched_tenement", "window", nominal_size=(1.10, 0.29, 2.29),
+@K.register("win_arched_tenement", "window", nominal_size=(1.133, 0.335, 2.361),
             description="Segmental-arched brick-headed opening with a 1/1 sash and a bluestone sill (Old Law tenement, pre-1901).",
             features=["arched_windows", "sills"])
 def _win_arched():
@@ -276,7 +276,7 @@ def _win_arched():
 
 
 # --------------------------------------------------------------------------- 12  dormer
-@K.register("win_dormer", "window", nominal_size=(1.46, 1.42, 1.98), anchor="wall_bottom_centre",
+@K.register("win_dormer", "window", nominal_size=(1.64, 1.09, 2.03), anchor="wall_bottom_centre",
             description="Gable dormer with a 6/6 sash, clapboard cheeks and a slate-pitched roof; sits on a 30 deg mansard/roof plane.",
             features=["dormers"], budget=700)
 def _win_dormer():
@@ -299,7 +299,7 @@ def _win_dormer():
 
 
 # --------------------------------------------------------------------------- 13  aluminium slider
-@K.register("win_aluminum_slider", "window", nominal_size=(1.31, 0.29, 1.55),
+@K.register("win_aluminum_slider", "window", nominal_size=(1.31, 0.32, 1.475),
             description="Post-war aluminium horizontal slider with a fixed and a sliding light, in a white-glazed-brick opening (NYCHA / 1960s infill).",
             features=["sills"])
 def _win_slider():
@@ -320,7 +320,7 @@ def _win_slider():
 
 
 # --------------------------------------------------------------------------- 14  picture window
-@K.register("win_picture_window", "window", nominal_size=(2.02, 0.29, 1.61),
+@K.register("win_picture_window", "window", nominal_size=(1.92, 0.325, 1.46),
             description="1950s picture window: a wide fixed centre light with narrow double-hung flankers and an aluminium sill "
                         "(Queens / Staten Island detached house).",
             features=["sills"])
@@ -343,7 +343,7 @@ def _win_picture():
 
 
 # --------------------------------------------------------------------------- 15  gothic arched (church)
-@K.register("win_gothic_arched", "window", nominal_size=(1.35, 0.33, 3.67),
+@K.register("win_gothic_arched", "window", nominal_size=(1.35, 0.27, 3.665),
             description="Pointed-arch traceried church window: equilateral two-centred limestone arch with a hood mould, Y-tracery "
                         "mullions, saddle bars and leaded glass.",
             features=["arched_windows"], budget=1000)
@@ -384,7 +384,7 @@ def _win_gothic():
 
 
 # --------------------------------------------------------------------------- 16  ribbon strip
-@K.register("win_ribbon_strip", "window", nominal_size=(3.00, 0.28, 1.62),
+@K.register("win_ribbon_strip", "window", nominal_size=(3.1, 0.33, 1.6),
             description="Continuous horizontal ribbon window band, 3 m long, aluminium frame with four fixed lights and hopper vents "
                         "(1960s school / garage / modern infill).",
             features=[])
@@ -409,7 +409,7 @@ def _win_ribbon():
 
 
 # --------------------------------------------------------------------------- 17  Chicago tripartite
-@K.register("win_chicago_tripartite", "window", nominal_size=(2.63, 0.34, 2.55),
+@K.register("win_chicago_tripartite", "window", nominal_size=(2.6, 0.335, 2.49),
             description="Chicago window: a wide fixed centre light between narrow 1/1 double-hung flankers, cast-stone lintel and sill "
                         "(1895-1915 loft / early office).",
             features=["lintels", "sills"], budget=550)
@@ -436,7 +436,7 @@ def _win_chicago():
 
 
 # --------------------------------------------------------------------------- 18  through-wall AC sleeve
-@K.register("win_through_wall_ac_sleeve", "window", nominal_size=(0.80, 0.29, 0.56),
+@K.register("win_through_wall_ac_sleeve", "window", nominal_size=(0.81, 0.335, 0.59),
             description="Through-wall air-conditioner sleeve opening ('Fedders special'): steel sleeve, aluminium grille and cast-stone lintel.",
             features=["through_wall_ac"], budget=250)
 def _win_ac_sleeve():

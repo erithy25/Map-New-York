@@ -356,7 +356,8 @@ def parse_nws_observation(doc: dict, now_unix: float) -> WeatherObservation:
         raw = w.get("rawString") or ""
         if raw:
             try:
-                g = _metar.parse_metar(f"XXXX 000000Z {raw}").weather
+                # a synthetic but *valid* time group: parse_metar rejects day 00, and the time is unused here
+                g = _metar.parse_metar(f"XXXX 010000Z {raw}").weather
                 groups.extend(g)
             except _metar.MetarParseError:
                 pass

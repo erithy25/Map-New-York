@@ -27,7 +27,7 @@ def _metal_cornice(m: K.Mesh, profile, mat: str, bracket_pitch: float, bracket_p
         P.dentils(m, -HALF, HALF, frieze_z + bracket_h + 0.02, frieze_z + bracket_h + 0.11, -0.055, 0.075, mat, pitch=0.105)
 
 
-@K.register("cornice_pressed_metal_a", "cornice", nominal_size=(1.00, 0.52, 0.92),
+@K.register("cornice_pressed_metal_a", "cornice", nominal_size=(1.0, 0.542, 0.92),
             description="Pressed galvanised-iron tenement cornice, profile A: 0.46 m projection, cyma crown over a dentil course "
                         "and scrolled brackets at 0.50 m (1880-1900 Old Law tenement).",
             features=["cornice"], budget=1400)
@@ -42,7 +42,7 @@ def _cornice_a():
     return m
 
 
-@K.register("cornice_pressed_metal_b", "cornice", nominal_size=(1.00, 0.62, 1.15),
+@K.register("cornice_pressed_metal_b", "cornice", nominal_size=(1.0, 0.662, 1.15),
             description="Pressed-metal cornice, profile B: deep 0.56 m modillion cornice with a panelled frieze and paired "
                         "console brackets at 0.62 m (1890-1910 New Law tenement / flats).",
             features=["cornice"], budget=1400)
@@ -62,7 +62,7 @@ def _cornice_b():
     return m
 
 
-@K.register("cornice_pressed_metal_c", "cornice", nominal_size=(1.00, 0.40, 0.62),
+@K.register("cornice_pressed_metal_c", "cornice", nominal_size=(1.0, 0.442, 0.62),
             description="Pressed-metal cornice, profile C: shallow 0.34 m ogee crown with a bead-and-reel band and small brackets "
                         "at 0.33 m (narrow rowhouse / rear cornice).",
             features=["cornice"], budget=1400)
@@ -76,7 +76,7 @@ def _cornice_c():
     return m
 
 
-@K.register("cornice_bracket", "cornice", nominal_size=(0.14, 0.34, 0.60),
+@K.register("cornice_bracket", "cornice", nominal_size=(0.15, 0.402, 0.6),
             description="Single scrolled pressed-metal console bracket, 0.60 m high with a 0.28 m scroll, for spacing under any "
                         "cornice or hood.",
             features=["cornice"], budget=400)
@@ -88,7 +88,7 @@ def _cornice_bracket():
     return m
 
 
-@K.register("cornice_brick_corbel", "cornice", nominal_size=(1.00, 0.35, 0.61),
+@K.register("cornice_brick_corbel", "cornice", nominal_size=(1.005, 0.342, 0.539),
             description="Corbelled brick cornice: three stepped courses plus a saw-tooth (dogtooth) course, 0.24 m total "
                         "projection, over a soldier band (1900-1930 brick tenement / warehouse).",
             features=["cornice"], budget=1400)
@@ -110,7 +110,7 @@ def _cornice_corbel():
     return m
 
 
-@K.register("cornice_stone", "cornice", nominal_size=(1.00, 0.50, 0.78),
+@K.register("cornice_stone", "cornice", nominal_size=(1.0, 0.497, 0.78),
             description="Limestone modillion cornice: architrave, plain frieze, egg-and-dart bed mould, modillions at 0.33 m and "
                         "a cyma crown (bank / institutional / apartment house).",
             features=["cornice"], budget=1400)
@@ -127,7 +127,7 @@ def _cornice_stone():
     return m
 
 
-@K.register("cornice_return_end", "cornice", nominal_size=(0.42, 0.52, 0.92),
+@K.register("cornice_return_end", "cornice", nominal_size=(0.86, 0.542, 0.92),
             description="End return for the pressed-metal cornice profile A: the crown mitred round the corner and closed with a "
                         "return panel (used at party walls and building corners).",
             features=["cornice"], budget=1000)
@@ -147,7 +147,7 @@ def _cornice_return():
 
 
 # --------------------------------------------------------------------------- string courses
-@K.register("string_course_brick_soldier", "string_course", nominal_size=(1.00, 0.13, 0.19),
+@K.register("string_course_brick_soldier", "string_course", nominal_size=(1.0, 0.127, 0.194),
             description="Brick soldier-course string course, 1 m run, projecting 25 mm from the wall face.",
             features=["string_course"])
 def _sc_soldier():
@@ -156,7 +156,7 @@ def _sc_soldier():
     return m
 
 
-@K.register("string_course_stone_belt", "string_course", nominal_size=(1.00, 0.17, 0.25),
+@K.register("string_course_stone_belt", "string_course", nominal_size=(1.0, 0.177, 0.25),
             description="Limestone belt course, 1 m run, 0.25 m deep with a 65 mm projection and a drip on the underside.",
             features=["string_course"])
 def _sc_belt():
@@ -166,7 +166,7 @@ def _sc_belt():
     return m
 
 
-@K.register("string_course_dentil", "string_course", nominal_size=(1.00, 0.20, 0.24),
+@K.register("string_course_dentil", "string_course", nominal_size=(1.0, 0.292, 0.24),
             description="Dentilled string course: a 90 mm dentil band between two fillets, 1 m run (terracotta / limestone).",
             features=["string_course"], budget=400)
 def _sc_dentil():
@@ -177,7 +177,7 @@ def _sc_dentil():
     return m
 
 
-@K.register("string_course_terracotta_band", "string_course", nominal_size=(1.00, 0.15, 0.36),
+@K.register("string_course_terracotta_band", "string_course", nominal_size=(1.0, 0.164, 0.36),
             description="Ornamented terracotta band course, 1 m run with a repeating rosette panel every 0.25 m.",
             features=["string_course"], budget=500)
 def _sc_terracotta():
@@ -204,7 +204,7 @@ def _quoin(m: K.Mesh, mat: str, big: float, small: float, proj: float, courses: 
         z += h
 
 
-@K.register("quoin_limestone", "quoin", nominal_size=(0.60, 0.19, 1.38),
+@K.register("quoin_limestone", "quoin", nominal_size=(0.6, 0.187, 1.35),
             description="Limestone quoin stack: six courses of alternating 0.60 / 0.40 m blocks, 225 mm high, projecting 85 mm "
                         "(Renaissance-revival apartment house corner).",
             features=["quoins"], budget=400)
@@ -214,7 +214,7 @@ def _quoin_lime():
     return m
 
 
-@K.register("quoin_brownstone", "quoin", nominal_size=(0.53, 0.19, 1.38),
+@K.register("quoin_brownstone", "quoin", nominal_size=(0.53, 0.187, 1.35),
             description="Brownstone quoin stack: six courses of alternating 0.53 / 0.36 m blocks with a tooled margin.",
             features=["quoins"], budget=400)
 def _quoin_brown():
@@ -223,7 +223,7 @@ def _quoin_brown():
     return m
 
 
-@K.register("quoin_brick_rusticated", "quoin", nominal_size=(0.58, 0.21, 1.44),
+@K.register("quoin_brick_rusticated", "quoin", nominal_size=(0.575, 0.22, 1.44),
             description="Rusticated cast-stone quoin stack: six chamfered blocks, 240 mm courses, 0.10 m projection "
                         "(1920s apartment / bank corner).",
             features=["quoins", "rustication"], budget=500)
@@ -234,7 +234,7 @@ def _quoin_rust():
 
 
 # --------------------------------------------------------------------------- pilasters
-@K.register("pilaster_cast_iron", "pilaster", nominal_size=(0.36, 0.30, 3.90),
+@K.register("pilaster_cast_iron", "pilaster", nominal_size=(0.36, 0.317, 3.9),
             description="Cast-iron storefront pilaster: fluted shaft with a moulded plinth, astragal and foliate capital, "
                         "3.90 m tall (SoHo / Tribeca cast-iron front).",
             features=["pilasters", "columns"], budget=900)
@@ -255,7 +255,7 @@ def _pil_iron():
     return m
 
 
-@K.register("pilaster_brick", "pilaster", nominal_size=(0.44, 0.21, 3.05),
+@K.register("pilaster_brick", "pilaster", nominal_size=(0.49, 0.227, 3.05),
             description="Brick pilaster strip, one storey (3.05 m) tall, 0.44 m wide with a 0.10 m projection and a cast-stone cap.",
             features=["pilasters"], budget=400)
 def _pil_brick():
@@ -265,7 +265,7 @@ def _pil_brick():
     return m
 
 
-@K.register("pilaster_stone_fluted", "pilaster", nominal_size=(0.52, 0.23, 4.20),
+@K.register("pilaster_stone_fluted", "pilaster", nominal_size=(0.55, 0.272, 4.2),
             description="Fluted limestone pilaster, 4.20 m tall: moulded base, seven flutes and a simplified Ionic capital "
                         "(bank / institutional front).",
             features=["pilasters", "columns"], budget=900)
@@ -286,7 +286,7 @@ def _pil_stone():
     return m
 
 
-@K.register("pilaster_storefront_column", "pilaster", nominal_size=(0.24, 0.24, 4.20), anchor="ground_bottom_centre",
+@K.register("pilaster_storefront_column", "pilaster", nominal_size=(0.24, 0.24, 4.2), anchor="ground_bottom_centre",
             description="Free-standing cast-iron storefront column, 0.20 m diameter and 4.20 m tall, with base, astragals and "
                         "capital (between storefront bays).",
             features=["columns"], budget=900)
@@ -301,7 +301,7 @@ def _pil_column():
 
 
 # --------------------------------------------------------------------------- misc trim
-@K.register("trim_water_table", "trim", nominal_size=(1.00, 0.22, 0.42),
+@K.register("trim_water_table", "trim", nominal_size=(1.0, 0.217, 0.42),
             description="Granite water table: the projecting base course between the sidewalk and the brick, 1 m run, "
                         "0.42 m high with a sloped wash.",
             features=[], budget=300)
@@ -315,7 +315,7 @@ def _water_table():
     return m
 
 
-@K.register("trim_lintel_stone", "trim", nominal_size=(1.18, 0.14, 0.15),
+@K.register("trim_lintel_stone", "trim", nominal_size=(1.18, 0.142, 0.15),
             description="Loose limestone lintel, 1.18 m long x 150 mm deep, 40 mm projection — drops over any 0.95 m opening.",
             features=["lintels"], budget=200)
 def _lintel():
@@ -324,7 +324,7 @@ def _lintel():
     return m
 
 
-@K.register("trim_sill_cast_stone", "trim", nominal_size=(1.10, 0.17, 0.10),
+@K.register("trim_sill_cast_stone", "trim", nominal_size=(1.1, 0.167, 0.1),
             description="Loose cast-stone sill, 1.10 m long with a 20 mm wash and 65 mm projection — drops under any 0.95 m opening.",
             features=["sills"], budget=200)
 def _sill():
@@ -333,7 +333,7 @@ def _sill():
     return m
 
 
-@K.register("trim_keystone", "trim", nominal_size=(0.26, 0.19, 0.44),
+@K.register("trim_keystone", "trim", nominal_size=(0.26, 0.192, 0.44),
             description="Limestone keystone, 0.23 m wide at the head and 0.44 m tall, projecting 90 mm — for arched and "
                         "flat-arched openings.",
             features=["lintels"], budget=200)
@@ -350,7 +350,7 @@ def _keystone():
     return m
 
 
-@K.register("trim_datestone_plaque", "trim", nominal_size=(0.72, 0.14, 0.48),
+@K.register("trim_datestone_plaque", "trim", nominal_size=(0.72, 0.162, 0.48),
             description="Carved limestone datestone / name plaque, 0.66 x 0.42 m with a moulded surround and a sunk field "
                         "(tenement builder's plaque).",
             features=[], budget=300)

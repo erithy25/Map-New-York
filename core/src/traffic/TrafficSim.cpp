@@ -115,6 +115,7 @@ bool TrafficSim::configure(const routing::RoadGraph& g, const SignalTable& sig, 
   conflicts_.clear();
   conflict_first_.assign(lanes, 0u);
   conflict_count_.assign(lanes, 0u);
+  jl_lock_.assign(lanes, JunctionLock{});
   if (cfg_.build_junction_conflicts) buildJunctionConflicts();
 
   // NTA lane-kilometres (travel and bus lanes only — the density contract is
@@ -214,12 +215,15 @@ void TrafficSim::buildJunctionConflicts() {
         const Lane& A = g.lane(la);
         const Lane& B = g.lane(lb);
         float sa = -1.f, sb = -1.f;
+        ConflictKind kind = ConflictKind::Cross;
         if (A.from_lane == B.from_lane) {
           sa = 0.f;
           sb = 0.f;  // diverging from the same approach lane
+          kind = ConflictKind::SameOrigin;
         } else if (A.to_lane == B.to_lane) {
           sa = A.length_m;
           sb = B.length_m;  // merging into the same receiving lane
+          kind = ConflictKind::Merge;
         } else {
           uint32_t na = 0, nb = 0;
           const Vec3* va = g.laneVertices(la, na);
@@ -237,8 +241,8 @@ void TrafficSim::buildJunctionConflicts() {
           }
         }
         if (sa < 0.f || sb < 0.f) continue;
-        tmp[la].push_back(Conflict{lb, sa, sb});
-        tmp[lb].push_back(Conflict{la, sb, sa});
+        tmp[la].push_back(Conflict{lb, sa, sb, kind});
+        tmp[lb].push_back(Conflict{la, sb, sa, kind});
       }
     }
   }
@@ -581,6 +585,7 @@ bool TrafficSim::advanceLane(Vehicle& v) {
       v.junction_time = 0.f;
       releaseClaim(v);
     }
+    if (was_junction) releaseJunction(v);
   }
   return true;
 }
@@ -639,6 +644,15 @@ bool TrafficSim::junctionClear(const Vehicle& v, uint32_t junction_lane) const {
   const uint32_t first = conflict_first_[junction_lane], count = conflict_count_[junction_lane];
   for (uint32_t k = 0; k < count; ++k) {
     const Conflict& c = conflicts_[first + k];
+    // A crossing movement claimed by somebody else this step is off limits:
+    // without this, two vehicles deciding in the same step would both find the
+    // intersection empty and enter it together.
+    if (c.kind == ConflictKind::Cross && c.other < jl_lock_.size()) {
+      const JunctionLock& lk = jl_lock_[c.other];
+      if (lk.owner != kInvalidIndex && lk.owner != v.id && lk.expiry > time_s_ &&
+          indexOfId(lk.owner) != kInvalidIndex)
+        return false;
+    }
     if (c.other >= lane_stamp_.size() || lane_stamp_[c.other] != stamp_) continue;
     const uint32_t f = lane_first_[c.other], n = lane_num_[c.other];
     for (uint32_t j = 0; j < n; ++j) {
@@ -649,6 +663,21 @@ bool TrafficSim::junctionClear(const Vehicle& v, uint32_t junction_lane) const {
     }
   }
   return true;
+}
+
+void TrafficSim::lockJunction(const Vehicle& v, uint32_t junction_lane) {
+  if (junction_lane >= jl_lock_.size()) return;
+  JunctionLock& lk = jl_lock_[junction_lane];
+  if (lk.owner != kInvalidIndex && lk.owner != v.id && lk.expiry > time_s_ &&
+      indexOfId(lk.owner) != kInvalidIndex)
+    return;  // somebody else holds it (junctionClear already refused us)
+  lk.owner = v.id;
+  lk.expiry = time_s_ + 1.0;
+}
+
+void TrafficSim::releaseJunction(const Vehicle& v) {
+  const uint32_t lane = v.lane;
+  if (lane < jl_lock_.size() && jl_lock_[lane].owner == v.id) jl_lock_[lane] = JunctionLock{};
 }
 
 // Space on the receiving lane for the whole vehicle (the "don't block the box"
@@ -1134,6 +1163,7 @@ void TrafficSim::decide(uint32_t i) {
           if (pd <= dist_to_line + 0.01f) may_enter = false;
         }
       }
+      if (may_enter) lockJunction(v, jl);
       if (!may_enter) stop_dist = std::min(stop_dist, dist_to_line);
     }
     gate_open = may_enter;
@@ -1150,6 +1180,7 @@ void TrafficSim::decide(uint32_t i) {
 
   // 2b. deadlock breaker: a vehicle stuck inside the intersection creeps out.
   if (l.is_junction != 0) {
+    lockJunction(v, v.lane);  // hold the crossing until we are out of it
     v.junction_time += cfg_.dt;
     if (v.junction_time > cfg_.box_stuck_release_s) stop_dist = kBigDistance;
   }

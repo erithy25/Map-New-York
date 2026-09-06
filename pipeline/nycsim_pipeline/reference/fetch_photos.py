@@ -104,6 +104,7 @@ class Item:
     interior: bool = False
     representative: bool = False  # generic subject: viewpoint is a representative block only
     exclude: tuple[str, ...] = ()
+    allow: tuple[str, ...] = ()  # INDOOR_WORDS this item is allowed to match (e.g. a rail viaduct street)
     min_year: int = 2010
     gps_subject_max_m: float = 2500.0  # camera GPS farther than this from the subject is distrusted
     min_luma: float | None = None
@@ -176,6 +177,17 @@ NOT_PHOTO_WORDS = ["map", "painting", "drawing", "engraving", "lithograph", "pos
                    "sepia", "photochrom", "lego", "miniature", "screenshot", "video game", "cartoon", "clip art",
                    "coat of arms", "flag of", "infrared", "hdr composite", "collage", "montage", "cgi", "artist's impression"]
 AERIAL_WORDS = ["aerial", "from above", "helicopter", "drone", "from the air", "bird's-eye", "birds-eye"]
+# Rejected for every item that is not explicitly an interior: transit interiors and building
+# insides look nothing like the outdoor view a render is compared against, and they share
+# categories ("Times Square", "Grand Central") with the views we do want.
+INDOOR_WORDS = ["interior", "inside", "subway entrance", "subway station", "subway platform", "station platform",
+                "platform", "turnstile", "mezzanine", "token booth", "escalator", "waiting room", "concourse",
+                "bmt", "irt", "ind", "staircase", "stairwell", "lobby", "hallway", "corridor", "elevator"]
+# Not rejected outright (a street scene has people in it) but scored down: the subject of these
+# files is a person, not the place.
+PEOPLE_WORDS = ["tourist", "tourists", "selfie", "portrait", "cosplay", "costumed", "busker", "street performer",
+                "naked cowboy", "wedding", "proposal", "protest", "rally", "demonstration", "parade", "marathon",
+                "santacon", "halloween parade"]
 
 ONE_WTC = (40.71274, -74.01339)
 EMPIRE_STATE = (40.74844, -73.98566)
@@ -1458,6 +1470,10 @@ def evaluate(item: Item, c: Candidate, min_width: int = MIN_USABLE_WIDTH) -> tup
     for w in item.exclude:
         if has_term(hay, w):
             return None, f"excluded:{w}"
+    if not item.interior:
+        for w in INDOOR_WORDS:
+            if has_term(hay, w) and w not in item.allow:
+                return None, f"indoor:{w}"
     for group in item.keywords:
         if not any(has_term(hay, k) for k in group):
             return None, "keywords"
@@ -1494,6 +1510,8 @@ def evaluate(item: Item, c: Candidate, min_width: int = MIN_USABLE_WIDTH) -> tup
         score -= 3.0
     if any(has_term(hay, w) for w in AERIAL_WORDS):
         score -= 4.0
+    if any(has_term(hay, w) for w in PEOPLE_WORDS):
+        score -= 3.0
     aspect = c.width / max(c.height, 1)
     if aspect > 3.0 or has_term(hay, "panorama") or has_term(hay, "panoramic"):
         score -= 2.0

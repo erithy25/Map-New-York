@@ -1,0 +1,251 @@
+{
+ "schema_version": 1,
+ "slug": "times_square_duffy_south_night",
+ "name": "Times Square centre: Duffy Square looking south, night",
+ "group": "viewpoint",
+ "viewpoint": {
+  "lat": 40.7592,
+  "lon": -73.9847,
+  "azimuth_deg": 203.2,
+  "note": "top of the TKTS red steps at Duffy Square (47th Street), looking down the bowtie toward One Times Square",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7562,
+  "lon": -73.9864,
+  "name": "One Times Square"
+ },
+ "night": true,
+ "interior": false,
+ "min_year": 2016,
+ "wanted": 4,
+ "queries": [
+  "\"Times Square\" night Duffy Square",
+  "\"Times Square\" night TKTS red steps"
+ ],
+ "geosearch_radius_m": 120,
+ "fetched_at": "2026-09-06T11:42:19Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query list=search / list=geosearch / prop=imageinfo)",
+ "candidates_seen": 82,
+ "candidates_eligible": 7,
+ "rejections": {
+  "keywords": 40,
+  "too_old": 31,
+  "too_small": 1,
+  "excluded": 2,
+  "not_photo": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Times Square, New York in August 2023.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Times_Square,_New_York_in_August_2023.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/aa/Times_Square%2C_New_York_in_August_2023.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Times_Square%2C_New_York_in_August_2023.jpg/1920px-Times_Square%2C_New_York_in_August_2023.jpg",
+   "author": "Fabio Achilli",
+   "credit": "https://www.flickr.com/photos/travelourplanet/53289595451/",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2023",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.759231,
+    "lon": -73.984733
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1476723,
+   "sha256": "4f913fa3930e20833fc4d833f352cf8f36f465aafd250405d60fb29de64944cc",
+   "mean_luminance": 80.7,
+   "description": "Times Square, New York in August 2023",
+   "categories": [
+    "Times Square at night in the 2020s",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "United States photographs taken on 2023-08-25",
+    "August 2023 in Times Square",
+    "Photographs by Fabio Achilli"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 17.2,
+   "estimated_viewpoint": {
+    "lat": 40.759231,
+    "lon": -73.984733,
+    "azimuth_deg": 202.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75923, -73.98473) is 365 m from One Times Square (40.75620, -73.98640) and 4 m from the standard viewpoint; the azimuth 203 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Times Square, New York in August 2023.jpg\" by Fabio Achilli, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Times_Square,_New_York_in_August_2023.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Times Square, New York 02.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Times_Square,_New_York_02.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/9e/Times_Square%2C_New_York_02.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Times_Square%2C_New_York_02.jpg/1920px-Times_Square%2C_New_York_02.jpg",
+   "author": "Edward Charles Kendall",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2016-08-03 21:00:36",
+   "date_source": "DateTimeOriginal",
+   "year": 2016,
+   "camera_gps": {
+    "lat": 40.759086,
+    "lon": -73.984856
+   },
+   "original_width": 2448,
+   "original_height": 3264,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 981349,
+   "sha256": "7159652038f87df761a3a27bd185ef3183acb26685464db4b2674bf53f3b0eef",
+   "mean_luminance": 65.2,
+   "description": "Times Square, New York at night",
+   "categories": [
+    "Self-published work",
+    "Times Square at night in the 2010s",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 16.15,
+   "estimated_viewpoint": {
+    "lat": 40.759086,
+    "lon": -73.984856,
+    "azimuth_deg": 202.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75909, -73.98486) is 346 m from One Times Square (40.75620, -73.98640) and 18 m from the standard viewpoint; the azimuth 202 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Times Square, New York 02.jpg\" by Edward Charles Kendall, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Times_Square,_New_York_02.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:31716-JA 070918 CPS (51875410676).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:31716-JA_070918_CPS_(51875410676).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d7/31716-JA_070918_CPS_%2851875410676%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/31716-JA_070918_CPS_%2851875410676%29.jpg/1920px-31716-JA_070918_CPS_%2851875410676%29.jpg",
+   "author": "Chris Sampson",
+   "credit": "31716-JA 070918 CPS",
+   "license": {
+    "short_name": "CC BY-SA 2.0",
+    "url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "template": "cc-by-sa-2.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.759011,
+    "lon": -73.984473
+   },
+   "original_width": 6000,
+   "original_height": 4000,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 563396,
+   "sha256": "6e3a964e391f335e10a79782a052ed22020509e56832de0859a28bbb6265d0ea",
+   "mean_luminance": 79.8,
+   "description": "Verizon FIOS",
+   "categories": [
+    "SpongeBob SquarePants",
+    "Duffy Square",
+    "George M. Cohan by Georg Lober",
+    "Verizon",
+    "FiOS",
+    "New York City photographs taken on 2018-09-07",
+    "GMC Savana (2003)",
+    "Times Square at night in the 2010s",
+    "Files with coordinates missing SDC location of creation",
+    "Statues in the United States photographed in 2018",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Traffic cones in New York City",
+    "September 2018 in Times Square",
+    "Trucks in Manhattan, New York City",
+    "McDonald's (1560 Broadway)",
+    "Jersey Boys advertisements"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Times Square\" night Duffy Square",
+   "score": 13.45,
+   "estimated_viewpoint": {
+    "lat": 40.759011,
+    "lon": -73.984473,
+    "azimuth_deg": 207.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75901, -73.98447) is 352 m from One Times Square (40.75620, -73.98640) and 28 m from the standard viewpoint; the azimuth 207 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"31716-JA 070918 CPS (51875410676).jpg\" by Chris Sampson, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:31716-JA_070918_CPS_(51875410676).jpg"
+  },
+  {
+   "n": 4,
+   "file": "4.jpg",
+   "title": "File:Times Square, New York 01.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Times_Square,_New_York_01.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/3b/Times_Square%2C_New_York_01.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Times_Square%2C_New_York_01.jpg/1920px-Times_Square%2C_New_York_01.jpg",
+   "author": "Edward Charles Kendall",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2016-08-03 21:00:36",
+   "date_source": "DateTimeOriginal",
+   "year": 2016,
+   "camera_gps": {
+    "lat": 40.759086,
+    "lon": -73.984856
+   },
+   "original_width": 2448,
+   "original_height": 3264,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1037307,
+   "sha256": "b2d03c47e46fd86fb86b75163f70283dc936455e78fbbee0e9a873888fe329fe",
+   "mean_luminance": 68.9,
+   "description": "Times Square, New York at night",
+   "categories": [
+    "Self-published work",
+    "Times Square at night in the 2010s",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 16.15,
+   "estimated_viewpoint": {
+    "lat": 40.759086,
+    "lon": -73.984856,
+    "azimuth_deg": 202.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75909, -73.98486) is 346 m from One Times Square (40.75620, -73.98640) and 18 m from the standard viewpoint; the azimuth 202 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Times Square, New York 01.jpg\" by Edward Charles Kendall, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Times_Square,_New_York_01.jpg"
+  }
+ ]
+}

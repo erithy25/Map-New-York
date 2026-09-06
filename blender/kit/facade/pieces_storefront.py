@@ -273,7 +273,7 @@ for _w in fp.STOREFRONT_BAY_WIDTHS_M:
 
 
 # --------------------------------------------------------------------------- projecting sign
-@K.register("storefront_sign_projecting", "storefront", nominal_size=(0.20, 1.16, 0.95),
+@K.register("storefront_sign_projecting", "storefront", nominal_size=(0.11, 1.157, 0.95),
             description="Double-faced projecting shop sign on a wrought-iron bracket: 0.90 x 0.60 m panel, 1.05 m from the wall, "
                         "with a strip light over it.",
             features=["storefront"], budget=800)

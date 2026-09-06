@@ -80,7 +80,7 @@ def _fe_lod(width: float, *, stair: bool = True) -> K.Mesh:
     return m
 
 
-@K.register("fire_escape_floor_unit", "fire_escape", nominal_size=(2.20, 0.95, 3.92),
+@K.register("fire_escape_floor_unit", "fire_escape", nominal_size=(2.23, 1.007, 3.901),
             description="One storey of standard NYC party-balcony fire escape: 2.20 x 0.95 m perforated platform, 0.86 m railings, "
                         "wall brackets and a 45 deg stair with nine flat-bar treads down to the storey below.",
             features=["fire_escape"], budget=3000, lod1=lambda: _fe_lod(PLAT_W))
@@ -88,21 +88,21 @@ def _fe_floor():
     return _fe_unit(PLAT_W)
 
 
-@K.register("fire_escape_floor_unit_wide", "fire_escape", nominal_size=(3.05, 0.95, 3.92),
+@K.register("fire_escape_floor_unit_wide", "fire_escape", nominal_size=(3.08, 1.007, 3.901),
             description="Wide (3.05 m) fire-escape storey unit for three-window bays, otherwise identical to the standard unit.",
             features=["fire_escape"], budget=3000, lod1=lambda: _fe_lod(3.050))
 def _fe_wide():
     return _fe_unit(3.050)
 
 
-@K.register("fire_escape_balcony_top", "fire_escape", nominal_size=(2.20, 0.95, 1.00),
+@K.register("fire_escape_balcony_top", "fire_escape", nominal_size=(2.23, 0.995, 1.57),
             description="Top-storey fire-escape balcony with no descending stair (the run starts at the storey below).",
             features=["fire_escape"], budget=3000, lod1=lambda: _fe_lod(PLAT_W, stair=False))
 def _fe_top():
     return _fe_unit(PLAT_W, stair=False)
 
 
-@K.register("fire_escape_corner_return", "fire_escape", nominal_size=(1.60, 1.60, 1.00), anchor="wall_corner_bottom",
+@K.register("fire_escape_corner_return", "fire_escape", nominal_size=(1.56, 1.56, 1.533), anchor="wall_corner_bottom",
             description="Fire-escape corner return: an L-shaped platform wrapping an outside building corner, with railings on "
                         "both open sides and brackets on both walls.",
             features=["fire_escape"], budget=3000)
@@ -124,7 +124,7 @@ def _fe_corner():
     return m
 
 
-@K.register("fire_escape_drop_ladder", "fire_escape", nominal_size=(0.55, 0.30, 3.35),
+@K.register("fire_escape_drop_ladder", "fire_escape", nominal_size=(0.57, 0.12, 3.3),
             description="Counterweighted drop ladder in its stowed position: 0.406 m wide, 3.05 m long with 305 mm rungs, guides "
                         "and the release catch at the lowest balcony.",
             features=["fire_escape"], budget=3000)
@@ -139,7 +139,7 @@ def _fe_drop():
     return m
 
 
-@K.register("fire_escape_top_hook", "fire_escape", nominal_size=(0.62, 1.10, 2.35),
+@K.register("fire_escape_top_hook", "fire_escape", nominal_size=(0.48, 1.078, 2.16),
             description="Gooseneck roof ladder: the fire escape's top run hooked over the parapet, with two curved stringers and "
                         "eight rungs (MDL requirement above the top balcony).",
             features=["fire_escape"], budget=3000)
@@ -169,7 +169,7 @@ def _fe_hook():
 
 
 # --------------------------------------------------------------------------- parapets
-@K.register("parapet_wall_brick", "parapet", anchor="ground_bottom_centre", nominal_size=(1.00, 0.34, 1.07),
+@K.register("parapet_wall_brick", "parapet", anchor="ground_bottom_centre", nominal_size=(1.0, 0.39, 1.07),
             description="Brick parapet wall, 1 m run x 0.34 m thick x 1.07 m (42 in) high with a cast-stone coping — the standard "
                         "NYC roof-edge parapet.",
             features=["parapet"], budget=300)
@@ -180,7 +180,7 @@ def _parapet_brick():
     return m
 
 
-@K.register("parapet_cap_stone", "parapet", anchor="ground_bottom_centre", nominal_size=(1.00, 0.42, 0.12),
+@K.register("parapet_cap_stone", "parapet", anchor="ground_bottom_centre", nominal_size=(1.0, 0.42, 0.118),
             description="Limestone parapet coping, 1 m run x 0.42 m wide with a 12 mm drip on both edges.",
             features=["parapet"], budget=300)
 def _parapet_cap_stone():
@@ -190,7 +190,7 @@ def _parapet_cap_stone():
     return m
 
 
-@K.register("parapet_cap_terracotta", "parapet", anchor="ground_bottom_centre", nominal_size=(1.00, 0.40, 0.19),
+@K.register("parapet_cap_terracotta", "parapet", anchor="ground_bottom_centre", nominal_size=(1.0, 0.4, 0.19),
             description="Glazed terracotta parapet coping with a rounded top, 1 m run x 0.40 m wide (1920s apartment houses).",
             features=["parapet"], budget=300)
 def _parapet_cap_tc():
@@ -200,7 +200,7 @@ def _parapet_cap_tc():
     return m
 
 
-@K.register("parapet_cap_metal_coping", "parapet", anchor="ground_bottom_centre", nominal_size=(1.00, 0.40, 0.14),
+@K.register("parapet_cap_metal_coping", "parapet", anchor="ground_bottom_centre", nominal_size=(1.0, 0.4, 0.135),
             description="Aluminium snap-on parapet coping with cleats and drip edges, 1 m run x 0.40 m wide (modern re-roofing).",
             features=["parapet"], budget=300)
 def _parapet_cap_metal():
@@ -210,7 +210,7 @@ def _parapet_cap_metal():
     return m
 
 
-@K.register("parapet_balustrade", "parapet", anchor="ground_bottom_centre", nominal_size=(1.00, 0.30, 0.98),
+@K.register("parapet_balustrade", "parapet", anchor="ground_bottom_centre", nominal_size=(1.007, 0.32, 0.98),
             description="Cast-stone roof balustrade, 1 m run: moulded base rail, seven turned balusters and a moulded cap "
                         "(Beaux-Arts apartment house / bank).",
             features=["parapet"], budget=900)
@@ -227,7 +227,7 @@ def _parapet_balustrade():
 
 
 # --------------------------------------------------------------------------- bulkheads
-@K.register("bulkhead_stair_brick", "bulkhead", anchor="ground_bottom_centre", nominal_size=(2.90, 3.50, 2.85),
+@K.register("bulkhead_stair_brick", "bulkhead", anchor="ground_bottom_centre", nominal_size=(2.9, 3.5, 2.71),
             description="Brick roof stair bulkhead, 2.75 x 3.35 m x 2.60 m with a steel door, a sloped membrane roof and a "
                         "cast-stone coping.",
             features=["bulkhead"], budget=900)
@@ -244,7 +244,7 @@ def _bulkhead_brick():
     return m
 
 
-@K.register("bulkhead_stair_metal", "bulkhead", anchor="ground_bottom_centre", nominal_size=(2.30, 2.75, 2.55),
+@K.register("bulkhead_stair_metal", "bulkhead", anchor="ground_bottom_centre", nominal_size=(2.3, 2.75, 2.44),
             description="Corrugated-metal roof stair bulkhead, 2.15 x 2.60 m x 2.35 m with a hinged hatch panel and a "
                         "galvanised drip edge (later addition on tenement roofs).",
             features=["bulkhead"], budget=900)
@@ -260,7 +260,7 @@ def _bulkhead_metal():
     return m
 
 
-@K.register("bulkhead_elevator_machine", "bulkhead", anchor="ground_bottom_centre", nominal_size=(3.70, 4.30, 4.10),
+@K.register("bulkhead_elevator_machine", "bulkhead", anchor="ground_bottom_centre", nominal_size=(3.7, 4.3, 4.02),
             description="Elevator machine-room bulkhead, 3.55 x 4.15 m x 3.90 m: brick walls, louvred vents, a service door and "
                         "a coped parapet.",
             features=["bulkhead"], budget=900)
@@ -319,7 +319,7 @@ def _water_tower(tank_d: float, staves: float, frame_h: float, legs: int = 4) ->
     return m
 
 
-@K.register("water_tower_small", "water_tower", anchor="ground_bottom_centre", nominal_size=(3.85, 3.85, 10.65),
+@K.register("water_tower_small", "water_tower", anchor="ground_bottom_centre", nominal_size=(3.53, 3.676, 10.398),
             description="10 000 US gallon cedar water tank (3.35 m diameter x 3.66 m staves) on a 5.5 m steel dunnage frame, with "
                         "four hoops, a conical roof, finial vent, access ladder and riser (Rosenwach type).",
             features=["water_tower"], budget=4000)
@@ -327,7 +327,7 @@ def _wt_small():
     return _water_tower(3.350, 3.660, 5.500)
 
 
-@K.register("water_tower_large", "water_tower", anchor="ground_bottom_centre", nominal_size=(4.90, 4.90, 13.65),
+@K.register("water_tower_large", "water_tower", anchor="ground_bottom_centre", nominal_size=(4.45, 4.596, 13.076),
             description="20 000 US gallon cedar water tank (4.27 m diameter x 4.88 m staves) on a 6.7 m steel dunnage frame — the "
                         "tall tank seen on 1920s loft and apartment roofs.",
             features=["water_tower"], budget=4000)
@@ -336,7 +336,7 @@ def _wt_large():
 
 
 # --------------------------------------------------------------------------- rooftop HVAC
-@K.register("hvac_rooftop_unit_small", "hvac", anchor="ground_bottom_centre", nominal_size=(1.35, 1.05, 1.15),
+@K.register("hvac_rooftop_unit_small", "hvac", anchor="ground_bottom_centre", nominal_size=(1.33, 1.03, 1.118),
             description="Packaged rooftop air-conditioning unit, 1.22 x 0.92 x 0.85 m on a 0.25 m timber curb, with a condenser "
                         "fan grille, side louvres and a service panel.",
             features=["rooftop_hvac"], budget=1200)
@@ -358,7 +358,7 @@ def _rtu_small():
     return m
 
 
-@K.register("hvac_rooftop_unit_large", "hvac", anchor="ground_bottom_centre", nominal_size=(3.15, 1.95, 1.85),
+@K.register("hvac_rooftop_unit_large", "hvac", anchor="ground_bottom_centre", nominal_size=(3.33, 2.79, 1.838),
             description="Large packaged rooftop unit, 3.05 x 1.83 x 1.50 m on a 0.30 m curb, with twin condenser fans, an economiser "
                         "hood, a disconnect switch and a supply/return duct drop.",
             features=["rooftop_hvac"], budget=1200)
@@ -379,7 +379,7 @@ def _rtu_large():
     return m
 
 
-@K.register("hvac_condenser_bank", "hvac", anchor="ground_bottom_centre", nominal_size=(2.60, 1.00, 1.35),
+@K.register("hvac_condenser_bank", "hvac", anchor="ground_bottom_centre", nominal_size=(2.6, 0.93, 1.25),
             description="Bank of three split-system condensers, 0.80 x 0.32 m each, on a galvanised dunnage rack 0.35 m above "
                         "the roof deck.",
             features=["rooftop_hvac"], budget=1200)
@@ -399,7 +399,7 @@ def _cond_bank():
     return m
 
 
-@K.register("hvac_exhaust_fan", "hvac", anchor="ground_bottom_centre", nominal_size=(0.92, 0.92, 0.86),
+@K.register("hvac_exhaust_fan", "hvac", anchor="ground_bottom_centre", nominal_size=(0.92, 0.897, 0.86),
             description="Mushroom (upblast) roof exhaust fan, 0.86 m diameter hood on a 0.30 m curb — kitchen and toilet exhausts.",
             features=["rooftop_hvac"], budget=1200)
 def _exhaust_fan():
@@ -415,7 +415,7 @@ def _exhaust_fan():
     return m
 
 
-@K.register("hvac_cooling_tower", "hvac", anchor="ground_bottom_centre", nominal_size=(3.10, 2.20, 3.20),
+@K.register("hvac_cooling_tower", "hvac", anchor="ground_bottom_centre", nominal_size=(3.05, 2.327, 3.22),
             description="Induced-draught cooling tower, 3.05 x 2.13 x 2.90 m on a steel dunnage frame: louvred air inlets, fan "
                         "cowl and a sump connection.",
             features=["rooftop_hvac"], budget=1200)
@@ -439,7 +439,7 @@ def _cooling_tower():
     return m
 
 
-@K.register("hvac_vent_pipe_cluster", "hvac", anchor="ground_bottom_centre", nominal_size=(1.05, 0.75, 1.70),
+@K.register("hvac_vent_pipe_cluster", "hvac", anchor="ground_bottom_centre", nominal_size=(1.14, 0.745, 1.521),
             description="Cluster of five cast-iron soil vent pipes and a gooseneck vent through the roof membrane, with lead "
                         "flashings — the commonest object on a NYC roof.",
             features=["rooftop_hvac"], budget=1200)
@@ -456,7 +456,7 @@ def _vent_cluster():
     return m
 
 
-@K.register("hvac_chimney_brick", "hvac", anchor="ground_bottom_centre", nominal_size=(1.05, 0.80, 2.65),
+@K.register("hvac_chimney_brick", "hvac", anchor="ground_bottom_centre", nominal_size=(1.2, 1.141, 2.765),
             description="Brick boiler chimney above the roof: 0.90 x 0.65 m shaft, corbelled cap and two clay flue liners.",
             features=["rooftop_hvac"], budget=1200)
 def _chimney():
@@ -472,7 +472,7 @@ def _chimney():
 
 
 # --------------------------------------------------------------------------- antennas
-@K.register("antenna_cell_panel_array", "antenna", anchor="ground_bottom_centre", nominal_size=(2.30, 2.30, 4.30),
+@K.register("antenna_cell_panel_array", "antenna", anchor="ground_bottom_centre", nominal_size=(1.919, 2.169, 3.85),
             description="Cellular sector array: three pairs of 1.30 m panel antennas on a 2.1 m triangular head frame above a "
                         "4 m monopole, with remote radio units and cable trays.",
             features=["cell_antennas"], budget=900)
@@ -498,7 +498,7 @@ def _cell_array():
     return m
 
 
-@K.register("antenna_whip_mast", "antenna", anchor="ground_bottom_centre", nominal_size=(0.95, 0.95, 6.10),
+@K.register("antenna_whip_mast", "antenna", anchor="ground_bottom_centre", nominal_size=(0.785, 0.889, 6.1),
             description="Guyed whip antenna mast: 6 m galvanised pole with three guy wires, an aviation obstruction light and a "
                         "roof-mounted base plate.",
             features=["cell_antennas"], budget=900)
@@ -517,7 +517,7 @@ def _whip():
     return m
 
 
-@K.register("antenna_satellite_dish_roof", "antenna", anchor="ground_bottom_centre", nominal_size=(1.25, 1.35, 1.55),
+@K.register("antenna_satellite_dish_roof", "antenna", anchor="ground_bottom_centre", nominal_size=(1.24, 1.17, 1.61),
             description="1.2 m roof satellite dish on a non-penetrating ballasted frame with concrete blocks and a feed arm.",
             features=["cell_antennas"], budget=900)
 def _roof_dish():
@@ -552,7 +552,7 @@ def _roof_dish():
     return m
 
 
-@K.register("antenna_tv_yagi", "antenna", anchor="ground_bottom_centre", nominal_size=(1.85, 0.24, 3.30),
+@K.register("antenna_tv_yagi", "antenna", anchor="ground_bottom_centre", nominal_size=(0.9, 1.1, 2.812),
             description="Roof TV aerial: a Yagi array of eleven elements on a 2.6 m mast with a chimney-strap bracket "
                         "(the classic tenement rooftop silhouette).",
             features=["cell_antennas"], budget=900)
@@ -572,7 +572,7 @@ def _yagi():
 
 
 # --------------------------------------------------------------------------- billboards
-@K.register("billboard_rooftop", "billboard", anchor="ground_bottom_centre", nominal_size=(15.10, 1.90, 8.20),
+@K.register("billboard_rooftop", "billboard", anchor="ground_bottom_centre", nominal_size=(14.95, 1.65, 8.62),
             description="Rooftop bulletin billboard: a 14.63 x 4.88 m (48 x 16 ft) vinyl face on a galvanised lattice frame, with "
                         "a service catwalk, ladder and eight top-mounted floodlights.",
             features=["billboard"], budget=2500)
@@ -612,7 +612,7 @@ def _billboard_roof():
     return m
 
 
-@K.register("billboard_wall_mounted", "billboard", nominal_size=(12.30, 0.65, 6.20),
+@K.register("billboard_wall_mounted", "billboard", nominal_size=(12.39, 1.13, 6.75),
             description="Wall-mounted bulletin: a 12.19 x 6.10 m (40 x 20 ft) face on standoff steel, with six gooseneck lights "
                         "(blank party wall advertising).",
             features=["billboard"], budget=2500)

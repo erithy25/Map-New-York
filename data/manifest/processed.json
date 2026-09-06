@@ -6206,6 +6206,26 @@
    "tris_lod0": 31044,
    "tris_lod1": 104
   },
+  "landmark_glb:c_lipstick_building": {
+   "artifact_id": "landmark_glb:c_lipstick_building",
+   "bins": [
+    1038549
+   ],
+   "bytes": 11085248,
+   "footprint_iou": 1.0,
+   "git_commit": "36597370ed89",
+   "path": "blender_out/landmarks/c_lipstick_building.glb",
+   "produced_at": "2026-09-06T11:41:51Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "15a9cea445844aa3a4d949f6578a2c50f7f4e2d1e25cbc8378febcef02311b6b",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 26780,
+   "tris_lod1": 1120
+  },
   "landmark_glb:c_seagram_building": {
    "artifact_id": "landmark_glb:c_seagram_building",
    "bins": [

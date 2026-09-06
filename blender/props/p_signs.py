@@ -76,9 +76,11 @@ def _u_channel(name: str, length: float) -> C.Built:
     steel = P.galv()
     sec = C.u_channel_section()
     post = C.sweep(name, sec, [(0.0, 1.0), (length, 1.0)], material=steel, uv_scale=1.0)
+    # the channel is punched on 1 in centres over its whole length; only the top 0.35 m of holes is modelled
+    # (below that they are sub-centimetre features that no camera resolves) — the rest is flat web.
     holes = []
-    z = length - 0.10
-    while z > length * 0.45:
+    z = length - 0.06
+    while z > length - 0.36:
         holes.append(C.cyl(f"{name}_hole{len(holes)}", 0.0125, 0.010, 8, origin=(0.0, -0.005, z), material=P.dark_grey(), axis="Y"))
         z -= 0.0254
     return C.Built(lod0=[post] + holes,
@@ -120,7 +122,7 @@ SPECS = [
                "NYC DOT parking regulation sign, 12 x 24 in (0.305 x 0.610 m); baked default is an alternate-side "
                "street-cleaning regulation with the broom pictogram.",
                variants=SIGN_VARIANTS, tags=["nyc_dot_parking"], tolerance=0.05),
-    C.PropSpec("sign_street_name_blade", "signs", "street_name_sign", build_street_name_blade, (0.99, 0.17, 0.17),
+    C.PropSpec("sign_street_name_blade", "signs", "street_name_sign", build_street_name_blade, (0.97, 0.19, 0.152),
                "NYC street-name blade, 6 x 30 in (0.152 x 0.762 m) reflective green with a white border and mixed-case "
                "legend, double sided, on its cast pole bracket with a 170 mm clamp band.",
                variants=SIGN_VARIANTS, tags=["nyc_dot_street_name"], tolerance=0.10),

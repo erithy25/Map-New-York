@@ -64,7 +64,7 @@ def _cheek_wall(m: K.Mesh, x: float, w: float, n: int, rise: float, run: float, 
 
 
 # --------------------------------------------------------------------------- 1  tenement stoop, 4 risers
-@K.register("entry_stoop_tenement_4", "door_entry", nominal_size=(1.83, 2.19, 3.05),
+@K.register("entry_stoop_tenement_4", "door_entry", nominal_size=(1.52, 2.143, 3.152),
             description="Tenement entrance: 4-riser bluestone stoop (178 mm rise, 305 mm tread) with iron handrails, a recessed "
                         "doorway with transom and a moulded stone hood.",
             features=["stoop"], budget=2200)
@@ -91,7 +91,7 @@ def _stoop_tenement():
 
 
 # --------------------------------------------------------------------------- 2  brownstone stoop, 10 risers
-@K.register("entry_stoop_brownstone_10", "door_entry", nominal_size=(2.60, 4.40, 4.60),
+@K.register("entry_stoop_brownstone_10", "door_entry", nominal_size=(4.03, 4.678, 4.786),
             description="Brownstone high stoop: 10 risers (190 mm rise, 279 mm tread), cheek walls with newel blocks, cast-iron "
                         "railings, an areaway rail across the front and a round-arched double doorway.",
             features=["stoop", "areaway_railing"], budget=3000)
@@ -147,7 +147,7 @@ def _stoop_brownstone():
 
 
 # --------------------------------------------------------------------------- 3  areaway railing
-@K.register("entry_areaway_railing", "door_entry", nominal_size=(3.05, 0.09, 1.05),
+@K.register("entry_areaway_railing", "door_entry", nominal_size=(3.2, 0.15, 1.05),
             description="Cast-iron areaway railing, 3.05 m run, 0.92 m high with 14 mm square pickets at 135 mm and a cast newel "
                         "at each end (brownstone / rowhouse front yard).",
             features=["areaway_railing"], budget=900)
@@ -161,7 +161,7 @@ def _areaway_rail():
 
 
 # --------------------------------------------------------------------------- 4  lobby canopy
-@K.register("entry_lobby_canopy", "door_entry", nominal_size=(2.44, 3.66, 3.20), anchor="wall_bottom_centre",
+@K.register("entry_lobby_canopy", "door_entry", nominal_size=(2.5, 3.7, 3.2), anchor="wall_bottom_centre",
             description="Apartment-house lobby canopy: 2.44 x 3.66 m aluminium-framed canvas marquee on two sidewalk posts with "
                         "a valance and recessed downlights.",
             features=["canopy"], budget=2000)
@@ -191,7 +191,7 @@ def _lobby_canopy():
 
 
 # --------------------------------------------------------------------------- 5  double doors
-@K.register("entry_double_doors", "door_entry", nominal_size=(1.98, 0.42, 3.05),
+@K.register("entry_double_doors", "door_entry", nominal_size=(2.01, 0.395, 3.05),
             description="Residential double entrance doors, 1.83 m opening: panelled leaves with glazed upper lights, a fixed "
                         "transom and a moulded wood surround.",
             features=[], budget=1600)
@@ -209,7 +209,7 @@ def _double_doors():
 
 
 # --------------------------------------------------------------------------- 6  single panel door
-@K.register("entry_door_single_panel", "door_entry", nominal_size=(1.12, 0.42, 2.55),
+@K.register("entry_door_single_panel", "door_entry", nominal_size=(1.17, 0.385, 2.57),
             description="Single 3 ft x 7 ft panelled entrance door in a masonry opening with a fixed transom light.",
             features=[], budget=900)
 def _single_door():
@@ -225,7 +225,7 @@ def _single_door():
 
 
 # --------------------------------------------------------------------------- 7  glass lobby entrance
-@K.register("entry_apartment_lobby_glass", "door_entry", nominal_size=(2.44, 0.44, 3.05),
+@K.register("entry_apartment_lobby_glass", "door_entry", nominal_size=(2.54, 0.575, 3.05),
             description="Post-war apartment-house lobby entrance: aluminium-framed glass doors, sidelights, a transom and a "
                         "polished granite base.",
             features=[], budget=1600)
@@ -257,7 +257,7 @@ def _lobby_glass():
 
 
 # --------------------------------------------------------------------------- 8  loft roll gate (entrance)
-@K.register("entry_loft_roll_gate", "door_entry", nominal_size=(2.13, 0.36, 3.35),
+@K.register("entry_loft_roll_gate", "door_entry", nominal_size=(2.25, 0.35, 3.35),
             description="Loft-building freight entrance with a corrugated roll-down gate, steel guides and a hood box "
                         "(SoHo / Long Island City).",
             features=["roll_gate"], budget=1400)
@@ -278,7 +278,7 @@ def _loft_roll_gate():
 
 
 # --------------------------------------------------------------------------- 9  garage door
-@K.register("entry_garage_door", "door_entry", nominal_size=(2.90, 0.32, 2.28),
+@K.register("entry_garage_door", "door_entry", nominal_size=(2.9, 0.3, 2.28),
             description="Sectional overhead garage door, 2.74 x 2.13 m, four panel courses with a row of lights and a painted "
                         "steel surround (rowhouse garage / small commercial).",
             features=["garage"], budget=1200)
@@ -306,7 +306,7 @@ def _garage_door():
 
 
 # --------------------------------------------------------------------------- 10  church doors
-@K.register("entry_church_doors", "door_entry", nominal_size=(2.72, 0.55, 4.30),
+@K.register("entry_church_doors", "door_entry", nominal_size=(2.84, 0.97, 4.399),
             description="Gothic church portal: pointed limestone arch with a moulded surround, twin oak plank doors with strap "
                         "hinges and a stone step.",
             features=[], budget=2600)
@@ -353,7 +353,7 @@ def _church_doors():
 
 
 # --------------------------------------------------------------------------- 11  steel service door
-@K.register("entry_service_door_steel", "door_entry", nominal_size=(1.06, 0.30, 2.34),
+@K.register("entry_service_door_steel", "door_entry", nominal_size=(0.965, 0.29, 2.18),
             description="Hollow-metal service / cellar door: flush painted steel leaf, kick plate, louvre and a steel angle frame.",
             features=[], budget=500)
 def _service_door():
@@ -374,7 +374,7 @@ def _service_door():
 
 
 # --------------------------------------------------------------------------- 12  sidewalk cellar hatch
-@K.register("entry_cellar_hatch", "door_entry", anchor="ground_bottom_centre", nominal_size=(1.52, 1.22, 0.24),
+@K.register("entry_cellar_hatch", "door_entry", anchor="ground_bottom_centre", nominal_size=(1.52, 1.22, 0.115),
             description="Sidewalk cellar hatch: two diamond-plate steel leaves in a frame, flush with the pavement, with a hasp "
                         "and lift handles (bodega delivery hatch).",
             features=[], budget=400)
@@ -391,7 +391,7 @@ def _cellar_hatch():
 
 
 # --------------------------------------------------------------------------- 13  brownstone door surround
-@K.register("entry_brownstone_door_surround", "door_entry", nominal_size=(2.60, 0.32, 3.60),
+@K.register("entry_brownstone_door_surround", "door_entry", nominal_size=(2.32, 0.76, 3.58),
             description="Italianate brownstone doorway enframement: moulded pilasters, scrolled console brackets and a projecting "
                         "pediment hood over a 1.52 m opening.",
             features=[], budget=1800)

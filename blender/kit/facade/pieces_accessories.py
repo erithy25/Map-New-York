@@ -48,7 +48,7 @@ def _ac_bracket(m: K.Mesh, w: float, out: float) -> None:
         m.box((x - 0.030, 0.0, -0.360), (x + 0.030, 0.030, -0.300), P.GALV)                      # wall plate
 
 
-@K.register("acc_ac_window_small", "window_accessory", anchor="wall_sill_centre", nominal_size=(0.47, 0.42, 0.42),
+@K.register("acc_ac_window_small", "window_accessory", anchor="wall_sill_centre", nominal_size=(0.478, 0.42, 0.727),
             description="5 000 BTU through-the-window air conditioner (0.47 x 0.40 x 0.355 m) with its steel support bracket.",
             features=["ac_units"])
 def _acc_ac_small():
@@ -57,7 +57,7 @@ def _acc_ac_small():
     return m
 
 
-@K.register("acc_ac_window_medium", "window_accessory", anchor="wall_sill_centre", nominal_size=(0.56, 0.55, 0.44),
+@K.register("acc_ac_window_medium", "window_accessory", anchor="wall_sill_centre", nominal_size=(0.568, 0.545, 0.772),
             description="8 000 BTU through-the-window air conditioner (0.56 x 0.525 x 0.40 m) with its steel support bracket.",
             features=["ac_units"])
 def _acc_ac_medium():
@@ -66,7 +66,7 @@ def _acc_ac_medium():
     return m
 
 
-@K.register("acc_ac_window_large", "window_accessory", anchor="wall_sill_centre", nominal_size=(0.66, 0.66, 0.47),
+@K.register("acc_ac_window_large", "window_accessory", anchor="wall_sill_centre", nominal_size=(0.668, 0.66, 0.802),
             description="18 000-24 000 BTU through-the-window air conditioner (0.66 x 0.64 x 0.43 m) with its steel support bracket.",
             features=["ac_units"])
 def _acc_ac_large():
@@ -75,7 +75,7 @@ def _acc_ac_large():
     return m
 
 
-@K.register("acc_ac_bracket", "window_accessory", anchor="wall_sill_centre", nominal_size=(0.58, 0.50, 0.40),
+@K.register("acc_ac_bracket", "window_accessory", anchor="wall_sill_centre", nominal_size=(0.51, 0.405, 0.348),
             description="Galvanised window-AC support bracket on its own (two angle arms, diagonal struts and wall plates).",
             features=["ac_units"])
 def _acc_ac_bracket():
@@ -84,7 +84,7 @@ def _acc_ac_bracket():
     return m
 
 
-@K.register("acc_through_wall_ac_unit", "window_accessory", nominal_size=(0.63, 0.30, 0.40),
+@K.register("acc_through_wall_ac_unit", "window_accessory", nominal_size=(0.654, 0.314, 0.417),
             description="Outdoor half of a through-wall 'Fedders' AC in its sleeve: stamped aluminium grille and drip lip.",
             features=["through_wall_ac"])
 def _acc_thru_ac():
@@ -98,7 +98,7 @@ def _acc_thru_ac():
     return m
 
 
-@K.register("acc_window_guard_child", "window_accessory", nominal_size=(1.03, 0.11, 0.70),
+@K.register("acc_window_guard_child", "window_accessory", nominal_size=(1.03, 0.079, 0.66),
             description="HPD-mandated child window guard: 0.66 m high steel frame with horizontal bars at 4.5 in and jamb brackets.",
             features=[])
 def _acc_guard_child():
@@ -116,7 +116,7 @@ def _acc_guard_child():
     return m
 
 
-@K.register("acc_window_guard_security", "window_accessory", nominal_size=(1.05, 0.13, 1.78),
+@K.register("acc_window_guard_security", "window_accessory", nominal_size=(1.01, 0.044, 1.76),
             description="Full-height welded security grille over a 0.95 x 1.70 m opening: 12 mm square bars on 150 mm centres "
                         "with a hinged egress leaf.",
             features=[])
@@ -133,7 +133,7 @@ def _acc_guard_security():
     return m
 
 
-@K.register("acc_flower_box", "window_accessory", anchor="wall_sill_centre", nominal_size=(0.92, 0.30, 0.42),
+@K.register("acc_flower_box", "window_accessory", anchor="wall_sill_centre", nominal_size=(1.003, 0.373, 0.594),
             description="Painted-wood window flower box on brackets with soil and planting (geranium / ivy mass).",
             features=[])
 def _acc_flower_box():
@@ -175,7 +175,7 @@ def _curtain(m: K.Mesh, w: float, h: float, y: float, mat: str, folds: int, amp:
             m.face([(xa, ya, 0.0), (xa, ya, h), (xb, yb, h), (xb, yb, 0.0)], mat, uvs=[(0, 0), (0, h), (0.3, h), (0.3, 0)])
 
 
-@K.register("acc_curtains_open", "window_accessory", nominal_size=(0.92, 0.09, 1.55),
+@K.register("acc_curtains_open", "window_accessory", nominal_size=(0.96, 0.044, 1.539),
             description="Pair of gathered curtains drawn open to the jambs, hanging behind the sash on a rod.",
             features=[])
 def _acc_curtains_open():
@@ -184,7 +184,7 @@ def _acc_curtains_open():
     return m
 
 
-@K.register("acc_curtains_closed", "window_accessory", nominal_size=(0.92, 0.09, 1.55),
+@K.register("acc_curtains_closed", "window_accessory", nominal_size=(0.96, 0.04, 1.539),
             description="Curtains drawn closed across the whole opening (blocks the interior card).",
             features=[])
 def _acc_curtains_closed():
@@ -193,7 +193,7 @@ def _acc_curtains_closed():
     return m
 
 
-@K.register("acc_blinds_half", "window_accessory", anchor="wall_head_centre", nominal_size=(0.89, 0.05, 0.75),
+@K.register("acc_blinds_half", "window_accessory", anchor="wall_head_centre", nominal_size=(0.89, 0.045, 0.731),
             description="Venetian blind at half drop, hung from the window head: 25 mm aluminium slats, head rail, bottom rail and cords.",
             features=[])
 def _acc_blinds_half():
@@ -212,7 +212,7 @@ def _acc_blinds_half():
     return m
 
 
-@K.register("acc_roller_shade", "window_accessory", anchor="wall_head_centre", nominal_size=(0.92, 0.06, 1.01),
+@K.register("acc_roller_shade", "window_accessory", anchor="wall_head_centre", nominal_size=(0.92, 0.056, 1.003),
             description="Spring roller shade pulled two-thirds down, hung from the window head, with roller, hem bar and ring pull.",
             features=[])
 def _acc_roller_shade():
@@ -226,7 +226,7 @@ def _acc_roller_shade():
     return m
 
 
-@K.register("acc_interior_card_lit", "window_accessory", nominal_size=(1.30, 0.02, 2.00),
+@K.register("acc_interior_card_lit", "window_accessory", nominal_size=(1.3, 0.01, 2.0),
             description="Lit interior card (emissive room image) for use behind any window opening up to 1.3 x 2.0 m.",
             features=[], budget=8)
 def _acc_card_lit():
@@ -236,7 +236,7 @@ def _acc_card_lit():
     return m
 
 
-@K.register("acc_interior_card_unlit", "window_accessory", nominal_size=(1.30, 0.02, 2.00),
+@K.register("acc_interior_card_unlit", "window_accessory", nominal_size=(1.3, 0.01, 2.0),
             description="Unlit interior card (dark room image) for use behind any window opening up to 1.3 x 2.0 m.",
             features=[], budget=8)
 def _acc_card_unlit():
@@ -246,7 +246,7 @@ def _acc_card_unlit():
     return m
 
 
-@K.register("acc_satellite_dish", "window_accessory", nominal_size=(0.48, 0.42, 0.86),
+@K.register("acc_satellite_dish", "window_accessory", nominal_size=(0.46, 0.595, 0.85),
             description="0.46 m Ku-band satellite dish on a J-mount lag-bolted to the jamb or fire-escape rail; "
                         "offset-fed dish facing the street.",
             features=[])

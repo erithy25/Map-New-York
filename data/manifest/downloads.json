@@ -462,6 +462,28 @@
    "source_id": "gtfs_bus_staten_island",
    "url": "http://web.mta.info/developers/data/nyct/bus/google_transit_staten_island.zip"
   },
+  "gtfs_ferry_nyc": {
+   "attribution": "NYC Ferry (NYCEDC / Hornblower), Connexionz feed",
+   "bytes": 55103,
+   "downloaded_at": "2026-09-06T11:42:00Z",
+   "license": "NYC Ferry / Hornblower public GTFS feed (published for consumption by transit applications)",
+   "notes": "NYC Ferry GTFS: Astoria, East River, Governors Island, Rockaway, Rockaway-Soundview, South Brooklyn and St. George routes with landings and schedules",
+   "path": "data/raw/gtfs/gtfs_ferry_nyc.zip",
+   "sha256": "0578734f9b724755131ba7b9b1ec5443da42a92569f200eecea01f951f9a2d55",
+   "source_id": "gtfs_ferry_nyc",
+   "url": "https://nycferry.connexionz.net/rtt/public/utility/gtfs.aspx"
+  },
+  "gtfs_ferry_staten_island": {
+   "attribution": "New York City Department of Transportation, NYC Open Data",
+   "bytes": 9095,
+   "downloaded_at": "2026-09-06T11:41:59Z",
+   "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
+   "notes": "Staten Island Ferry GTFS (dataset b57i-ri22; the nyc.gov mirror returns HTTP 403 from this network)",
+   "path": "data/raw/gtfs/gtfs_ferry_staten_island.zip",
+   "sha256": "f08509a68e210f123705e2f2551b5b1a249eca3acef286598a63fdba56f63436",
+   "source_id": "gtfs_ferry_staten_island",
+   "url": "https://data.cityofnewyork.us/api/views/b57i-ri22/files/7afb9c83-b214-4da7-8242-c178132e6d0f?download=true&filename=siferry-gtfs.zip"
+  },
   "gtfs_lirr": {
    "attribution": "Metropolitan Transportation Authority",
    "bytes": 2069059,

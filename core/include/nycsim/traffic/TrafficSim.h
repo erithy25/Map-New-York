@@ -299,10 +299,23 @@ class TrafficSim {
     float gap = 1e9f;                         // bumper to bumper [m]
     float speed = 0.f;
   };
+  // How two junction lanes of one intersection interact.
+  enum class ConflictKind : uint8_t {
+    Cross = 0,       // their paths cross: mutually exclusive
+    SameOrigin = 1,  // they diverge from the same approach lane
+    Merge = 2        // they converge into the same receiving lane
+  };
   struct Conflict {
     uint32_t other;   // conflicting junction lane
     float s_self;     // metres along this lane at the crossing point
     float s_other;
+    ConflictKind kind;
+  };
+  // Mutual-exclusion lock on a crossing movement, refreshed every step by its
+  // owner and expiring on its own if the owner vanishes.
+  struct JunctionLock {
+    uint32_t owner = routing::kInvalidIndex;
+    double expiry = 0.0;
   };
   struct NodeClaim {
     uint32_t agent = 0xFFFFFFFFu;
@@ -326,6 +339,8 @@ class TrafficSim {
   float laneOccupancyAhead(uint32_t lane, float from_s, float span_m) const;
   bool exitSpaceAvailable(const Vehicle& v, uint32_t junction_lane) const;
   bool junctionClear(const Vehicle& v, uint32_t junction_lane) const;
+  void lockJunction(const Vehicle& v, uint32_t junction_lane);
+  void releaseJunction(const Vehicle& v);
   bool gapAccepted(const Vehicle& v, uint32_t junction_lane, float critical_gap_s) const;
   float criticalGap(const routing::Lane& jl, bool major) const;
   bool stopSignPriority(Vehicle& v, uint32_t node, uint32_t junction_lane);
@@ -384,6 +399,7 @@ class TrafficSim {
   std::vector<uint32_t> ev_list_;  // indices of vehicles running a siren
   std::vector<Conflict> conflicts_;
   std::vector<uint32_t> conflict_first_, conflict_count_;
+  std::vector<JunctionLock> jl_lock_;
   std::vector<NodeClaim> claims_;  // kClaimsPerNode per node
   std::vector<float> nta_lane_km_;
   std::vector<uint32_t> spawn_lanes_;

@@ -223,6 +223,8 @@ def parse_metar(text: str, reference_time: _dt.datetime | None = None) -> MetarR
         else:
             rep.corrected = True
         i += 1
+    if rep.day is None and not rep.nil:
+        raise MetarParseError(f"missing observation time group in {raw!r}")
     seen_temp = False
     while i < len(toks):
         tok = toks[i]
