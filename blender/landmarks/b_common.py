@@ -190,16 +190,16 @@ def frame_from_lonlat(lon: float, lat: float, z0: float = 0.0, heading_deg: floa
 # every material below records the real-world reference it approximates.
 MATERIALS: dict[str, dict] = {
     # masonry
-    "granite_gray": dict(base_color=(0.52, 0.50, 0.47, 1), roughness=0.85, ref="Maine/Rockland granite, Brooklyn Bridge towers"),
+    "granite_gray": dict(base_color=(0.44, 0.42, 0.39, 1), roughness=0.85, ref="Maine/Rockland granite, Brooklyn Bridge towers"),
     "granite_dark": dict(base_color=(0.36, 0.35, 0.33, 1), roughness=0.85, ref="Stony Creek/quarry-faced granite, Grant's Tomb base, forts"),
     "granite_pink": dict(base_color=(0.62, 0.52, 0.47, 1), roughness=0.8, ref="Stony Creek pink granite, Statue of Liberty pedestal"),
-    "limestone": dict(base_color=(0.78, 0.74, 0.65, 1), roughness=0.8, ref="Indiana limestone"),
+    "limestone": dict(base_color=(0.70, 0.66, 0.57, 1), roughness=0.8, ref="Indiana limestone"),
     "marble_white": dict(base_color=(0.86, 0.85, 0.80, 1), roughness=0.55, ref="Tuckahoe marble, Washington Square Arch"),
     "brownstone": dict(base_color=(0.42, 0.27, 0.19, 1), roughness=0.9, ref="Central Park perimeter wall brownstone"),
     "schist": dict(base_color=(0.45, 0.43, 0.38, 1), roughness=0.95, ref="Manhattan schist (Belvedere Castle, park walls)"),
     "sandstone_red": dict(base_color=(0.55, 0.30, 0.22, 1), roughness=0.9, ref="New Brunswick sandstone, Bethesda Terrace"),
     "brick_red": dict(base_color=(0.48, 0.22, 0.16, 1), roughness=0.9, ref="Red brick (Ellis Island, Castle Williams interior)"),
-    "concrete": dict(base_color=(0.60, 0.59, 0.56, 1), roughness=0.9, ref="Cast concrete piers/anchorages"),
+    "concrete": dict(base_color=(0.55, 0.54, 0.51, 1), roughness=0.9, ref="Cast concrete piers/anchorages"),
     "concrete_dark": dict(base_color=(0.42, 0.42, 0.41, 1), roughness=0.95, ref="Weathered concrete"),
     # metals
     "steel_gray": dict(base_color=(0.55, 0.56, 0.58, 1), roughness=0.55, metallic=0.6, ref="Aluminium-gray painted steel (Williamsburg, GWB, Verrazzano)"),
@@ -590,8 +590,8 @@ def truss_girder(name: str, p0, p1, depth: float, width: float, panel: float, ma
     p0, p1 = Vector(p0), Vector(p1)
     d = p1 - p0
     L = d.length
-    if L < panel:
-        raise ValueError(f"truss_girder({name}): length {L:.1f} shorter than panel {panel}")
+    if L < 1.0:
+        raise ValueError(f"truss_girder({name}): length {L:.2f} m is degenerate")
     ax = d.normalized()
     side = ax.cross(Vector((0, 0, 1))).normalized()
     up = Vector((0, 0, 1))
@@ -855,8 +855,11 @@ def cli_args(argv: Sequence[str] | None = None) -> dict:
     ap.add_argument("--no-render", action="store_true")
     ap.add_argument("--lod0-only", action="store_true")
     ap.add_argument("--samples", type=int, default=64)
+    ap.add_argument("--views", default="", help="comma-separated subset of verification views to render")
     a, _ = ap.parse_known_args(argv if argv is not None else sys.argv[1:])
-    return vars(a)
+    d = vars(a)
+    d["views"] = [v for v in d["views"].split(",") if v]
+    return d
 
 
 # ----------------------------------------------------------------------------------------------- OSM alignments

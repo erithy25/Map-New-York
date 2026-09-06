@@ -16,7 +16,7 @@ bool hostIsLittleEndian() {
 
 namespace {
 
-constexpr uint64_t kAlign = 16;
+constexpr uint64_t kAlign = kNycbAlign;
 
 uint64_t alignUp(uint64_t v, uint64_t a) { return (v + a - 1) / a * a; }
 
@@ -179,7 +179,9 @@ NycbWriter::NycbWriter() { strtab_.push_back(0); }  // offset 0 == ""
 
 Result<void> NycbWriter::addSection(std::string_view name, ByteSpan data, uint32_t elementSize,
                                     uint32_t elementCount) {
-  if (name.empty() || name.size() > 16) return fail(ErrorCode::InvalidArgument, "NYCB: section name must be 1..16 bytes");
+  if (name.empty() || name.size() > kNycbMaxSectionNameBytes) {
+    return fail(ErrorCode::InvalidArgument, "NYCB: section name must be 1..15 ASCII bytes");
+  }
   if (name.find('\0') != std::string_view::npos) return fail(ErrorCode::InvalidArgument, "NYCB: section name contains NUL");
   if (elementSize > 0 && static_cast<uint64_t>(elementSize) * elementCount != data.size()) {
     return fail(ErrorCode::InvalidArgument, "NYCB: data size != element_size * element_count");

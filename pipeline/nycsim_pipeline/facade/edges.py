@@ -28,7 +28,7 @@ ANGLE_TOL_DEG = 8.0
 MIN_RUN_M = 1.2            # a run shorter than this cannot carry a kit piece
 PROBE_OFFSET_M = 0.35      # outward probe distance for the party-wall test
 NEAR_M = 0.5               # neighbour distance that makes a run a party wall
-STREET_NEAR_M = 26.0       # centreline distance that makes a run street-facing (half a 100 ft street + setback)
+STREET_NEAR_M = 20.0       # centreline distance that makes a run street-facing (half a 100 ft ROW + a front yard)
 HEADING_TOL_DEG = 55.0     # tolerance around primary_facade_heading when no road geometry exists
 CORNER_MIN_M = 4.0         # a corner needs two free runs at least this long
 CORNER_ANGLE_LO, CORNER_ANGLE_HI = 60.0, 120.0
@@ -208,21 +208,28 @@ def building_summary(runs: EdgeRuns, n_buildings: int) -> dict[str, np.ndarray]:
     primary_len = np.where(primary >= 0, runs.length[np.maximum(primary, 0)], 0.0).astype(np.float32)
     primary_seg = np.where(primary >= 0, runs.street_segment_id[np.maximum(primary, 0)], -1).astype(np.int64)
 
-    # corner: two free runs >= CORNER_MIN_M whose outward normals differ by 60..120 deg
+    # corner: two *street-facing* free runs >= CORNER_MIN_M whose outward normals differ by 60..120 deg and, when
+    # road geometry is available, whose nearest centrelines are two different streets — the real definition of a
+    # corner lot, and the reason a corner bodega exists.
     is_corner = np.zeros(n_buildings, dtype=bool)
-    big = np.nonzero(free & (runs.length >= CORNER_MIN_M))[0]
+    big = np.nonzero(free & runs.is_street & (runs.length >= CORNER_MIN_M))[0]
     if len(big):
         bb = b[big]
         order = np.argsort(bb, kind="stable")
         big, bb = big[order], bb[order]
         starts = np.flatnonzero(np.concatenate([[True], bb[1:] != bb[:-1]]))
         ends = np.append(starts[1:], len(bb))
+        have_segments = bool((runs.street_segment_id >= 0).any())
         for s, e in zip(starts, ends):
             if e - s < 2:
                 continue
             h = runs.heading[big[s:e]]
             d = np.abs((h[:, None] - h[None, :] + 180.0) % 360.0 - 180.0)
-            if np.any((d >= CORNER_ANGLE_LO) & (d <= CORNER_ANGLE_HI)):
+            ok = (d >= CORNER_ANGLE_LO) & (d <= CORNER_ANGLE_HI)
+            if have_segments:
+                sid = runs.street_segment_id[big[s:e]]
+                ok &= sid[:, None] != sid[None, :]
+            if np.any(ok):
                 is_corner[bb[s]] = True
     return {
         "attached": attached, "n_free_runs": n_free, "free_perimeter_m": free_per,

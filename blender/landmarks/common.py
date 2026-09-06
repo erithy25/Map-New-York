@@ -332,6 +332,24 @@ class LocalFrame:
             out[:, 2] = a[:, 2] + self.origin[2]
         return out[0] if one else out
 
+    def local_angle(self, compass_deg: float) -> float:
+        """Local-frame direction (math degrees from the local +x axis) of a real-world compass heading.
+        ``fr.local_angle(90)`` is "east" — use it to find the street front a landmark actually faces."""
+        return ((90.0 - float(compass_deg)) - self.angle_deg + 180.0) % 360.0 - 180.0
+
+    def local_cardinal(self, compass_deg: float) -> float:
+        """The local axis direction (one of 0 / 90 / 180 / -90 math degrees) nearest to a real-world compass heading.
+        Footprint frames are aligned to the building's own long axis, which is rarely exactly on the street grid, so this
+        is what you want when asking "which side of this building faces the avenue"."""
+        la = self.local_angle(compass_deg)
+        return min((0.0, 90.0, 180.0, -90.0), key=lambda a: abs((la - a + 180.0) % 360.0 - 180.0))
+
+    def to_export(self, x: float, y: float, z: float = 0.0) -> tuple[float, float, float]:
+        """Local-frame point -> the axes ``finish`` exports in (NYC_TM-parallel, origin still at the model origin).
+        Use it to aim ``render_check``'s ``eye``/``target`` at something you positioned in the local frame."""
+        c, s = math.cos(math.radians(self.angle_deg)), math.sin(math.radians(self.angle_deg))
+        return (c * x - s * y, s * x + c * y, z)
+
     def _map_polygon(self, poly, fn):
         if isinstance(poly, MultiPolygon):
             return MultiPolygon([self._map_polygon(p, fn) for p in poly.geoms])
@@ -455,6 +473,89 @@ def edges_of(coords: Sequence[tuple[float, float]]):
 
 def longest_edge(coords: Sequence[tuple[float, float]]):
     return max(edges_of(coords), key=lambda e: e[2])
+
+
+def wall_runs(coords: Sequence[tuple[float, float]], direction_deg: float, tol_deg: float = 50.0,
+              min_len: float = 0.0) -> list[tuple[list[tuple[float, float]], float]]:
+    """Maximal chains of *consecutive* ring edges whose outward normal is within ``tol_deg`` of ``direction_deg``.
+
+    A real footprint states a straight street wall as a run of many short edges, so per-edge tests (``edge_facing``) find
+    only a fragment of it; this returns each whole wall as ``(polyline points, total length)`` in ring order. Use it to
+    lay bays, oriels, colonnades or entrances out along a facade rather than along one arbitrary edge."""
+    d = np.array([math.cos(math.radians(direction_deg)), math.sin(math.radians(direction_deg))])
+    edges = list(edges_of(coords))
+    if not edges:
+        return []
+    ok = [float(np.dot(e[4], d)) > math.cos(math.radians(tol_deg)) for e in edges]
+    n = len(edges)
+    if all(ok):
+        pts = [tuple(map(float, e[0])) for e in edges] + [tuple(map(float, edges[-1][1]))]
+        return [(pts, sum(e[2] for e in edges))]
+    runs: list[tuple[list[tuple[float, float]], float]] = []
+    start = next((i for i in range(n) if ok[i] and not ok[i - 1]), None)
+    if start is None:
+        return []
+    i = start
+    for _ in range(n):
+        if ok[i]:
+            pts = [tuple(map(float, edges[i][0]))]
+            L = 0.0
+            j = i
+            while ok[j]:
+                pts.append(tuple(map(float, edges[j][1])))
+                L += edges[j][2]
+                j = (j + 1) % n
+                if j == i:
+                    break
+            if L >= min_len:
+                runs.append((pts, L))
+            i = j
+        else:
+            i = (i + 1) % n
+        if i == start:
+            break
+    return runs
+
+
+def polyline_at(pts: Sequence[tuple[float, float]], s: float):
+    """(point, unit tangent, outward normal) at arc length ``s`` along a polyline given in CCW ring order."""
+    P = [np.asarray(p, dtype=np.float64) for p in pts]
+    acc = 0.0
+    for i in range(len(P) - 1):
+        d = P[i + 1] - P[i]
+        L = float(np.linalg.norm(d))
+        if L < 1e-9:
+            continue
+        if acc + L >= s or i == len(P) - 2:
+            t = d / L
+            return P[i] + t * max(0.0, min(L, s - acc)), t, np.array([t[1], -t[0]])
+        acc += L
+    t = np.array([1.0, 0.0])
+    return P[0], t, np.array([t[1], -t[0]])
+
+
+def ring_perimeter(coords: Sequence[tuple[float, float]]) -> float:
+    return float(sum(e[2] for e in edges_of(coords)))
+
+
+def ring_stations(coords: Sequence[tuple[float, float]], spacing: float, *, offset: float = 0.0):
+    """Yield ``(point, tangent, outward_normal, s)`` at equal arc-length stations right round a closed ring.
+
+    Real footprints break a straight wall into many short segments and round the corners into 0.2 m chords, so laying
+    bays out per *edge* gives a nonsense rhythm. This walks the perimeter instead: use it for buttresses, bay divisions,
+    lamp posts, balusters — anything whose real spacing is measured along the wall."""
+    ring = list(coords) + [coords[0]]
+    per = polyline_length(ring)
+    n = max(1, int(round(per / max(spacing, 1e-3))))
+    step = per / n
+    for i in range(n):
+        s = (offset + i * step) % per
+        p, t, nn = polyline_at(ring, s)
+        yield p, t, nn, s
+
+
+def polyline_length(pts: Sequence[tuple[float, float]]) -> float:
+    return float(sum(math.dist(pts[i], pts[i + 1]) for i in range(len(pts) - 1)))
 
 
 def edge_facing(coords: Sequence[tuple[float, float]], direction_deg: float, min_len: float = 3.0):

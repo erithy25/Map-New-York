@@ -38,7 +38,6 @@ INSET_M = 3.0
 
 def build():
     C.reset()
-    cc.use_textures([("granite_pink", "granite"), ("steel_chrome", "metal_panel")])
     g = cc.Group(ID, angle_deg=cc.GRID_ANGLE)
     P = g.poly(BIN)
     objs: list = []

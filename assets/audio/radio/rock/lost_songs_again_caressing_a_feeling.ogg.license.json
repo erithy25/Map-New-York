@@ -1,0 +1,28 @@
+{
+ "artist": "Deadman & Digi Hartatak",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 3598970,
+ "duration_s": 235.29,
+ "file": "rock/lost_songs_again_caressing_a_feeling.ogg",
+ "gain_db": -4.3,
+ "licence": "CC-BY-3.0-US",
+ "licence_url": "http://creativecommons.org/licenses/by/3.0/us/",
+ "loudness_lufs": -9.7,
+ "original_filename": "caressing_a_feeling.mp3",
+ "recorded_at": "2026-09-06T12:15:36Z",
+ "schema_version": 1,
+ "sha256": "75393043ed7672354d5443eaddcebe3c4085bd4c2e16c42da73bb73594504eeb",
+ "source_page": "https://archive.org/details/lost_songs_again",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/lost_songs_again/caressing_a_feeling.mp3",
+ "title": "caressing_a_feeling",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

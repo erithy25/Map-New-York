@@ -190,6 +190,7 @@ struct Vehicle {
 
   uint32_t claim_node = routing::kInvalidIndex;  // stop-sign claim
   float claim_time = 0.f;
+  uint8_t exit_now = 0;  // dead end reached: recycle as soon as the ring allows
 
   uint16_t bus_route = 0xFFFFu;
   uint16_t bus_stop_ix = 0xFFFFu;   // stop currently being served
@@ -213,7 +214,7 @@ struct TrafficStats {
   uint32_t vehicles = 0;
   uint32_t spawned = 0, despawned = 0, spawn_failures = 0;
   uint32_t stopped_at_red = 0, in_junction = 0, double_parked = 0, dwelling = 0;
-  uint32_t lane_changes = 0, honks = 0, reroutes = 0, red_light_entries = 0;
+  uint32_t lane_changes = 0, honks = 0, reroutes = 0, route_calls = 0, red_light_entries = 0;
   uint32_t box_blocks = 0, emergency_yields = 0;
   float mean_speed_mps = 0.f;
   float target_vehicles = 0.f;
@@ -326,9 +327,13 @@ class TrafficSim {
   };
 
   void rebuildIndex();
+  void buildOrder();
   void rebuildSpawnWeights();
   void decide(uint32_t i);
   void integrate(uint32_t i);
+  void resolveOverlaps();
+  bool laneSlotClaimed(uint32_t lane, float s, float half_len) const;
+  void claimLaneSlot(uint32_t lane, float s, float half_len);
   void updateSpawnDespawn();
   void publishStats();
 
@@ -359,6 +364,7 @@ class TrafficSim {
   void assignBusRoute(Vehicle& v);
   bool advanceBusToNextStop(Vehicle& v);
   uint32_t sampleSpawnLane(Rng& rng) const;
+  uint32_t preferredLaneFor(uint32_t lane, VehicleClass c) const;
   VehicleClass sampleClass(Rng& rng, uint16_t nta) const;
   bool laneFreeAt(uint32_t lane, float s, float len) const;
   void buildJunctionConflicts();
@@ -400,6 +406,14 @@ class TrafficSim {
   std::vector<Conflict> conflicts_;
   std::vector<uint32_t> conflict_first_, conflict_count_;
   std::vector<JunctionLock> jl_lock_;
+  // Lane-change slot reservations, valid for one step: two agents converging on
+  // the same gap from opposite lanes must not both take it.
+  struct LcClaim {
+    float s, half;
+    uint32_t next;
+  };
+  std::vector<LcClaim> lc_claims_;
+  std::vector<uint32_t> lc_head_, lc_stamp_;
   std::vector<NodeClaim> claims_;  // kClaimsPerNode per node
   std::vector<float> nta_lane_km_;
   std::vector<uint32_t> spawn_lanes_;
@@ -422,6 +436,9 @@ class TrafficSim {
   uint8_t dow_ = 0;
   uint8_t spawn_hour_ = 0xFF;
   float spawn_credit_ = 0.f;
+  float retire_credit_ = 0.f;
+  uint32_t retire_cursor_ = 0;
+  uint32_t goal_cursor_ = 0;
   uint32_t next_id_ = 0;
   uint32_t routes_this_step_ = 0;
   TrafficStats stats_;

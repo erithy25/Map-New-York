@@ -112,7 +112,7 @@ REQUIRED_SLUGS = [
     "landmark_holland_tunnel_portal", "landmark_lincoln_tunnel_portal",
     "street_tenement_fire_escapes_les", "street_soho_cast_iron", "street_nycha_tower_campus", "street_queens_vinyl_siding",
     "street_staten_island_ranch_houses", "street_elevated_roosevelt_ave_7", "street_elevated_broadway_bushwick_j",
-    "street_midtown_avenue_rush_hour", "street_times_square_wet_night", "street_brooklyn_snow", "street_nyc_street_signs_signals",
+    "street_midtown_avenue_rush_hour", "street_times_square_wet_night", "street_brooklyn_snow", "street_nyc_street_name_signs", "street_nyc_traffic_signals",
     "street_fire_hydrant", "street_linknyc_kiosk", "street_newsstand", "street_sidewalk_shed",
     "vehicle_yellow_cab", "vehicle_mta_bus", "vehicle_nypd_car", "vehicle_fdny_engine",
 ]
@@ -163,6 +163,13 @@ def _page(title: str, *, lic="CC BY-SA 4.0", tpl="cc-by-sa-4.0", w=3000, h=2000,
                                                        "url": f"https://upload.wikimedia.org/wikipedia/commons/a/ab/{name}",
                                                        "descriptionurl": f"https://commons.wikimedia.org/wiki/{title.replace(' ', '_')}",
                                                        "extmetadata": ext}]}
+
+
+def _candidate(title: str, *, cats: list[str] | None = None, **kw) -> fp.Candidate:
+    """A parsed Commons candidate from a synthetic file page (categories given as a list)."""
+    c = fp.parse_candidate(_page(title, cats="|".join(cats or []), **kw), "search")
+    assert c is not None
+    return c
 
 
 def test_evaluate_rules():
@@ -237,16 +244,13 @@ class FakeClient:
 
     def api(self, **params):
         self.requests_made += 1
-        if params.get("list") == "search":
-            return {"query": {"search": [{"title": t} for t in self.pages]}}
-        if params.get("list") == "geosearch":
-            return {"query": {"geosearch": [{"title": t} for t in list(self.pages)[:1]]}}
-        if params.get("prop") == "imageinfo":
-            titles = params["titles"].split("|")
-            return {"query": {"pages": [self.pages[t] for t in titles if t in self.pages]}}
+        if params.get("generator") == "search":
+            return {"query": {"pages": [dict(p, index=i + 1) for i, p in enumerate(self.pages.values())]}}
+        if params.get("generator") == "geosearch":
+            return {"query": {"pages": [dict(p, index=1) for p in list(self.pages.values())[:1]]}}
         raise AssertionError(params)
 
-    def get_bytes(self, url):
+    def get_bytes(self, url, max_wait_s: float = 90.0):
         self.requests_made += 1
         self.urls.append(url)
         return self.images.get(url)
@@ -261,18 +265,20 @@ def test_process_item_end_to_end(tmp_path: Path):
         _page("File:Skyline from Brooklyn Heights Promenade nc.jpg", lic="CC BY-NC 2.0", tpl="cc-by-nc-2.0"),
         _page("File:Skyline from Brooklyn Heights Promenade 3.jpg", w=2500, h=1600, artist="D", date="2020-06-01 12:00:00"),
     ]
-    big = "https://upload.wikimedia.org/wikipedia/commons/a/ab/Skyline_from_Brooklyn_Heights_Promenade_1.jpg"
+    base = "https://upload.wikimedia.org/wikipedia/commons/a/ab/Skyline_from_Brooklyn_Heights_Promenade_"
     images = {
-        fp.thumb_url(big, 2000): _jpeg_bytes(2000, 1300, 140),
-        "https://upload.wikimedia.org/wikipedia/commons/a/ab/Skyline_from_Brooklyn_Heights_Promenade_2.jpg": _jpeg_bytes(1800, 1200, 120),
+        # 4000 px original -> the largest standard bucket at or below --max-width
+        fp.thumb_url(base + "1.jpg", 1920): _jpeg_bytes(1920, 1248, 140),
+        # 1800 px original -> the largest bucket below it (originals are never downloaded)
+        fp.thumb_url(base + "2.jpg", 1280): _jpeg_bytes(1280, 853, 120),
         # the 'dark' file is a night shot mislabelled as day -> rejected by the luminance check
-        fp.thumb_url("https://upload.wikimedia.org/wikipedia/commons/a/ab/Skyline_from_Brooklyn_Heights_Promenade_dark.jpg", 2000): _jpeg_bytes(2000, 1333, 20),
-        # thumbnail for '3' is missing (404) -> falls back to the original, which is then resized locally
-        "https://upload.wikimedia.org/wikipedia/commons/a/ab/Skyline_from_Brooklyn_Heights_Promenade_3.jpg": _jpeg_bytes(2500, 1600, 130),
+        fp.thumb_url(base + "dark.jpg", 1920): _jpeg_bytes(1920, 1280, 20),
+        # no rendition exists for '3' at any usable width -> falls back to the original, resized locally
+        base + "3.jpg": _jpeg_bytes(2500, 1600, 130),
     }
     client = FakeClient(pages, images)
     used: set[str] = set()
-    meta = fp.process_item(client, item, tmp_path, 2000, False, used)  # type: ignore[arg-type]
+    meta = fp.process_item(client, item, tmp_path, fp.DEFAULT_MAX_WIDTH, False, used)  # type: ignore[arg-type]
     assert meta["status"] == "ok"
     files = sorted(p.name for p in (tmp_path / item.slug).glob("*.jpg"))
     assert files == ["1.jpg", "2.jpg", "3.jpg"]
@@ -284,7 +290,7 @@ def test_process_item_end_to_end(tmp_path: Path):
         f = tmp_path / item.slug / p["file"]
         assert f.stat().st_size == p["bytes"]
         with Image.open(f) as im:
-            assert im.width <= 2000 and im.width == p["width"]
+            assert im.width <= fp.DEFAULT_MAX_WIDTH and im.width == p["width"]
         assert p["license"]["short_name"] == "CC BY-SA 4.0" and p["license"]["url"].startswith("https://creativecommons.org/")
         assert p["author"] and p["page_url"].startswith("https://commons.wikimedia.org/wiki/File:")
         assert p["estimated_viewpoint"]["explanation"]
@@ -292,10 +298,11 @@ def test_process_item_end_to_end(tmp_path: Path):
     first = meta["photos"][0]
     assert first["title"].endswith("1.jpg") and first["estimated_viewpoint"]["confidence"] == "high"
     third = next(p for p in meta["photos"] if p["title"].endswith(" 3.jpg"))
-    assert third["original_width"] == 2500 and third["width"] == 2000  # resized locally after the 404 fallback
+    # no rendition available, so the original was fetched and scaled down locally
+    assert third["original_width"] == 2500 and third["width"] == fp.DEFAULT_MAX_WIDTH
     # re-run skips (idempotent)
     n_before = client.requests_made
-    meta2 = fp.process_item(client, item, tmp_path, 2000, False, set())  # type: ignore[arg-type]
+    meta2 = fp.process_item(client, item, tmp_path, fp.DEFAULT_MAX_WIDTH, False, set())  # type: ignore[arg-type]
     assert client.requests_made == n_before and meta2["photos"] == meta["photos"]
     assert fp.item_complete(tmp_path / item.slug, item)
     # a missing file invalidates completeness
@@ -315,6 +322,77 @@ def test_process_item_records_no_photo_when_nothing_qualifies(tmp_path: Path):
     item = fp.BY_SLUG["street_fire_hydrant"]
     pages = [_page("File:Fire hydrant in Paris.jpg", w=3000, h=2000)]  # fails NYC keyword group
     client = FakeClient(pages, {})
-    meta = fp.process_item(client, item, tmp_path, 2000, False, set())  # type: ignore[arg-type]
+    meta = fp.process_item(client, item, tmp_path, fp.DEFAULT_MAX_WIDTH, False, set())  # type: ignore[arg-type]
     assert meta["status"] == "no_suitable_photo" and meta["photos"] == [] and meta["rejections"] == {"keywords": 1}
     assert not fp.item_complete(tmp_path / item.slug, item)  # a re-run will retry it
+
+
+def test_thumb_widths_are_standard_buckets_and_never_the_original():
+    # upload.wikimedia.org renders only the standard widths and rate-limits originals, so the
+    # list must be buckets only, descending, strictly below the original width.
+    assert fp.thumb_widths(1920, 3264, 900) == [1920, 1280, 960]
+    assert fp.thumb_widths(1920, 1500, 900) == [1280, 960]
+    assert fp.thumb_widths(1920, 1174, 900) == [960]
+    assert fp.thumb_widths(1920, 960, 900) == []      # nothing usable below a 960 px original
+    assert fp.thumb_widths(1280, 3264, 900) == [1280, 960]
+    for original in (901, 1000, 1921, 4000, 12000):
+        got = fp.thumb_widths(1920, original, 900)
+        assert got == sorted(got, reverse=True)
+        assert all(w in fp.THUMB_BUCKETS and 900 <= w <= 1920 and w < original for w in got)
+
+
+def test_indoor_photos_are_rejected_for_exterior_items():
+    item = fp.BY_SLUG["times_square_duffy_south_day"]
+    inside = _candidate("File:Duffy Square entrance NB BMT sta closed 2024.jpg",
+                        cats=["Duffy Square", "New York City Subway entrances in Manhattan"])
+    assert fp.evaluate(item, inside)[1].startswith("indoor:")
+    outside = _candidate("File:View of Times Square, May 2023.JPG", cats=["Duffy Square", "TKTS Booth"])
+    assert fp.evaluate(item, outside)[0] is not None
+    # an item that is an interior, and one allowed to show station structures, keep theirs
+    concourse = _candidate("File:Grand Central Terminal main concourse 2019.jpg", cats=["Grand Central Terminal interior"])
+    assert fp.evaluate(fp.BY_SLUG["landmark_grand_central_concourse"], concourse)[0] is not None
+    el = _candidate("File:Roosevelt Avenue IRT Flushing Line elevated 2019.jpg",
+                    cats=["Roosevelt Avenue", "IRT Flushing Line", "Elevated railways in Queens"])
+    assert fp.evaluate(fp.BY_SLUG["street_elevated_roosevelt_ave_7"], el)[0] is not None
+
+
+def test_people_subjects_score_below_place_subjects():
+    item = fp.BY_SLUG["times_square_duffy_south_day"]
+    place = _candidate("File:Times Square from Duffy Square 2019.jpg", cats=["Duffy Square"])
+    person = _candidate("File:Tourist in Times Square 2019.jpg", cats=["Duffy Square", "Tourists in Manhattan"])
+    assert fp.evaluate(item, place)[0] > fp.evaluate(item, person)[0]
+
+
+def test_revalidate_drops_items_failing_the_current_rules(tmp_path: Path):
+    item = fp.BY_SLUG["landmark_charging_bull"]
+    d = tmp_path / item.slug
+    d.mkdir(parents=True)
+    (d / "1.jpg").write_bytes(_jpeg_bytes(1000, 800, 120))
+    (d / "2.jpg").write_bytes(_jpeg_bytes(1000, 800, 120))
+    meta = {
+        "schema_version": fp.SCHEMA_VERSION, "slug": item.slug, "name": item.name, "group": item.group,
+        "viewpoint": {"lat": item.viewpoint[0], "lon": item.viewpoint[1], "azimuth_deg": 217.0, "note": item.viewpoint_note,
+                      "representative": False},
+        "wanted": item.want, "photos": [
+            {"n": 1, "file": "1.jpg", "title": "File:Charging Bull Bowling Green 2019.jpg", "description": "",
+             "categories": ["Charging Bull"], "license": {"short_name": "CC BY-SA 4.0", "template": "cc-by-sa-4.0"}},
+            {"n": 2, "file": "2.jpg", "title": "File:Charging Bull lobby interior.jpg", "description": "",
+             "categories": ["Charging Bull"], "license": {"short_name": "CC BY-SA 4.0", "template": "cc-by-sa-4.0"}},
+        ],
+    }
+    fp.write_json(d / "meta.json", meta)
+    assert fp.revalidate(tmp_path, [item]) == [item.slug]
+    assert not (d / "meta.json").exists() and not list(d.glob("*.jpg"))
+    # a clean item survives
+    d2 = tmp_path / "landmark_flatiron_building"
+    item2 = fp.BY_SLUG["landmark_flatiron_building"]
+    d2.mkdir(parents=True)
+    (d2 / "1.jpg").write_bytes(_jpeg_bytes(1000, 800, 120))
+    fp.write_json(d2 / "meta.json", {
+        "schema_version": fp.SCHEMA_VERSION, "slug": item2.slug, "name": item2.name, "group": item2.group,
+        "wanted": item2.want, "photos": [
+            {"n": 1, "file": "1.jpg", "title": "File:Flatiron Building 2021.jpg", "description": "",
+             "categories": ["Flatiron Building"], "license": {"short_name": "CC BY-SA 4.0", "template": "cc-by-sa-4.0"}},
+        ]})
+    assert fp.revalidate(tmp_path, [item2]) == []
+    assert (d2 / "meta.json").exists()

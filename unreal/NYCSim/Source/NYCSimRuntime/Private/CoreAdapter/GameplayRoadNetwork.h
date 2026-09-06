@@ -97,7 +97,15 @@ public:
 	/// a reader backed by FFileHelper so packaged builds read through the engine's platform file layer.
 	bool load(const std::string& runtimeDir, std::string& error, FileReader reader = nullptr, void* context = nullptr);
 
+	/// Builds nycsim::traffic::SyntheticGrid's Manhattan-like network instead of loading files. Used by the debug
+	/// map (and by the traffic subsystem as a fallback) so the world is drivable with traffic, signals and
+	/// pedestrians before the roads stage has produced runtime/roadgraph.nycb. `originX/originY` place the grid's
+	/// south-west corner in NYC_TM metres.
+	bool buildSyntheticGrid(int avenues, int streets, float originX, float originY, std::string& error);
+
 	bool loaded() const { return loaded_; }
+	/// True when the network came from buildSyntheticGrid() rather than from runtime/*.nycb.
+	bool isSynthetic() const { return synthetic_; }
 	const RoadNetworkStats& stats() const { return stats_; }
 	/// Non-fatal notes accumulated by load() (missing optional files, unbound signal nodes, ...).
 	const std::vector<std::string>& notes() const { return notes_; }
@@ -162,6 +170,7 @@ private:
 	RoadNetworkStats stats_;
 	std::vector<std::string> notes_;
 	bool loaded_ = false;
+	bool synthetic_ = false;
 };
 
 }  // namespace nycsim_gameplay

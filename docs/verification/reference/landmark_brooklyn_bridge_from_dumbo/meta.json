@@ -1,0 +1,203 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_brooklyn_bridge_from_dumbo",
+ "name": "Brooklyn Bridge seen from DUMBO / Brooklyn Bridge Park",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.704,
+  "lon": -73.992,
+  "azimuth_deg": 288.3,
+  "note": "Pebble Beach at Main Street Park (Brooklyn Bridge Park), water's edge, looking west at the Brooklyn tower",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7048,
+  "lon": -73.9952,
+  "name": "Brooklyn Bridge Brooklyn tower"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Brooklyn Bridge\" from Brooklyn Bridge Park",
+  "\"Brooklyn Bridge\" DUMBO Pebble Beach Main Street"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T12:12:12Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 100,
+ "candidates_eligible": 54,
+ "rejections": {
+  "too_old": 6,
+  "excluded": 19,
+  "night_for_day_item": 7,
+  "too_small": 3,
+  "keywords": 7,
+  "indoor": 1,
+  "not_jpeg": 1,
+  "not_photo": 2
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Brooklyn-side tower of the Brooklyn Bridge from Brooklyn Bridge Park, New York City.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Brooklyn-side_tower_of_the_Brooklyn_Bridge_from_Brooklyn_Bridge_Park,_New_York_City.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b7/Brooklyn-side_tower_of_the_Brooklyn_Bridge_from_Brooklyn_Bridge_Park%2C_New_York_City.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Brooklyn-side_tower_of_the_Brooklyn_Bridge_from_Brooklyn_Bridge_Park%2C_New_York_City.jpg/1920px-Brooklyn-side_tower_of_the_Brooklyn_Bridge_from_Brooklyn_Bridge_Park%2C_New_York_City.jpg",
+   "author": "Christian David",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026-04-17 13:02:21",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.704405,
+    "lon": -73.992686
+   },
+   "original_width": 7728,
+   "original_height": 5152,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 788876,
+   "sha256": "a466b2935c9c31a1e0ffb691001e6fcdd58eaf3ba05fb038f1ea064d03d21d7c",
+   "mean_luminance": 99.5,
+   "description": "The Brooklyn-side tower of the Brooklyn Bridge seen from Brooklyn Bridge Park, New York City, USA.",
+   "categories": [
+    "Brooklyn Bridge Park",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Brooklyn Bridge towers",
+    "Taken with Fujifilm X-T5",
+    "Taken with Fujinon XF18mm f1.4 R LM WR",
+    "Images of the United States by Christian David"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.7,
+   "estimated_viewpoint": {
+    "lat": 40.704405,
+    "lon": -73.992686,
+    "azimuth_deg": 281.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70441, -73.99269) is 216 m from Brooklyn Bridge Brooklyn tower (40.70480, -73.99520) and 73 m from the standard viewpoint; the azimuth 282 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Brooklyn-side tower of the Brooklyn Bridge from Brooklyn Bridge Park, New York City.jpg\" by Christian David, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Brooklyn-side_tower_of_the_Brooklyn_Bridge_from_Brooklyn_Bridge_Park,_New_York_City.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Brooklyn Bridge, view from Brooklyn Bridge Park, New York City, 20231002 0851 1561.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Brooklyn_Bridge,_view_from_Brooklyn_Bridge_Park,_New_York_City,_20231002_0851_1561.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d8/Brooklyn_Bridge%2C_view_from_Brooklyn_Bridge_Park%2C_New_York_City%2C_20231002_0851_1561.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Brooklyn_Bridge%2C_view_from_Brooklyn_Bridge_Park%2C_New_York_City%2C_20231002_0851_1561.jpg/1920px-Brooklyn_Bridge%2C_view_from_Brooklyn_Bridge_Park%2C_New_York_City%2C_20231002_0851_1561.jpg",
+   "author": "Jakub Hałun",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2023-10-02 08:51:41",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.704677,
+    "lon": -73.992472
+   },
+   "original_width": 4924,
+   "original_height": 2896,
+   "width": 1920,
+   "height": 1129,
+   "bytes": 630418,
+   "sha256": "f44dd55dc710b228c54a554d73df2c2c6a187cdcee118cd95ae40d05ccbc24ad",
+   "mean_luminance": 116.1,
+   "description": "Brooklyn Bridge and Lower Manhattan seen from Brooklyn Bridge Park",
+   "categories": [
+    "New York City photographs taken on 2023-10-01",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Brooklyn Bridge Park in 2023",
+    "Brooklyn Bridge in 2023",
+    "Lower Manhattan skylines in 2023",
+    "October 2023 in Manhattan, New York City",
+    "Lower Manhattan skylines from Brooklyn Bridge Park",
+    "Views of the Brooklyn Bridge from Brooklyn Bridge Park"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.7,
+   "estimated_viewpoint": {
+    "lat": 40.704677,
+    "lon": -73.992472,
+    "azimuth_deg": 273.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70468, -73.99247) is 230 m from Brooklyn Bridge Brooklyn tower (40.70480, -73.99520) and 85 m from the standard viewpoint; the azimuth 273 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Brooklyn Bridge, view from Brooklyn Bridge Park, New York City, 20231002 0851 1561.jpg\" by Jakub Hałun, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Brooklyn_Bridge,_view_from_Brooklyn_Bridge_Park,_New_York_City,_20231002_0851_1561.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Brooklyn Bridge March 2023 009.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Brooklyn_Bridge_March_2023_009.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/71/Brooklyn_Bridge_March_2023_009.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Brooklyn_Bridge_March_2023_009.jpg/1920px-Brooklyn_Bridge_March_2023_009.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-03-07 13:20:26",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.703803,
+    "lon": -73.992081
+   },
+   "original_width": 2048,
+   "original_height": 1536,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 491760,
+   "sha256": "1124ee97d5deba07fb0d63e849979cd80cb184ed51d72d4055aeeb1289406faf",
+   "mean_luminance": 88.4,
+   "description": "Brooklyn Bridge in March 2023",
+   "categories": [
+    "New York City photographs taken on 2023-03-07",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Brooklyn Bridge in 2023",
+    "March 2023 in Brooklyn, New York City",
+    "Views of the Brooklyn Bridge from Brooklyn"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.703803,
+    "lon": -73.992081,
+    "azimuth_deg": 292.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70380, -73.99208) is 285 m from Brooklyn Bridge Brooklyn tower (40.70480, -73.99520) and 23 m from the standard viewpoint; the azimuth 293 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Brooklyn Bridge March 2023 009.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Brooklyn_Bridge_March_2023_009.jpg"
+  }
+ ]
+}

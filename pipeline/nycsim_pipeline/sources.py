@@ -130,6 +130,17 @@ SOURCES: dict[str, Source] = {s.id: s for s in [
     Source("gtfs_subway", "http://web.mta.info/developers/data/nyct/subway/google_transit.zip", "zip", "MTA Developer Data Terms", "Metropolitan Transportation Authority", "NYCT subway GTFS (routes, stops, schedules)", tags=("transit",)),
     Source("gtfs_lirr", "http://web.mta.info/developers/data/lirr/google_transit.zip", "zip", "MTA Developer Data Terms", "Metropolitan Transportation Authority", "LIRR GTFS", tags=("transit",)),
     Source("gtfs_mnr", "http://web.mta.info/developers/data/mnr/google_transit.zip", "zip", "MTA Developer Data Terms", "Metropolitan Transportation Authority", "Metro-North GTFS (Park Avenue viaduct trains)", tags=("transit",)),
+    Source("gtfs_ferry_staten_island",
+           "https://data.cityofnewyork.us/api/views/b57i-ri22/files/7afb9c83-b214-4da7-8242-c178132e6d0f?download=true&filename=siferry-gtfs.zip",
+           "zip", NYC_OPEN_DATA_LICENSE, "New York City Department of Transportation, NYC Open Data",
+           "Staten Island Ferry GTFS (dataset b57i-ri22; the nyc.gov mirror returns HTTP 403 from this network)",
+           filename="gtfs_ferry_staten_island.zip", tags=("transit", "b57i-ri22")),
+    Source("gtfs_ferry_nyc", "https://nycferry.connexionz.net/rtt/public/utility/gtfs.aspx", "zip",
+           "NYC Ferry / Hornblower public GTFS feed (published for consumption by transit applications)",
+           "NYC Ferry (NYCEDC / Hornblower), Connexionz feed",
+           "NYC Ferry GTFS: Astoria, East River, Governors Island, Rockaway, Rockaway-Soundview, South Brooklyn "
+           "and St. George routes with landings and schedules",
+           filename="gtfs_ferry_nyc.zip", tags=("transit",)),
     Source("citibike_gbfs_stations", "https://gbfs.citibikenyc.com/gbfs/2.3/en/station_information.json", "json", "Citi Bike Data License Agreement", "Lyft Bikes and Scooters, LLC", "Citi Bike station information (GBFS)", tags=("furniture", "transit")),
 ]}
 

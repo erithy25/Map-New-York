@@ -1,0 +1,209 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_empire_state_building",
+ "name": "Empire State Building",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.746,
+  "lon": -73.9876,
+  "azimuth_deg": 31.1,
+  "note": "Fifth Avenue at 30th Street, east sidewalk, looking uptown at the full height of the tower",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.74844,
+  "lon": -73.98566,
+  "name": "Empire State Building"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Empire State Building\" from Fifth Avenue street",
+  "\"Empire State Building\" 34th Street exterior"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T12:07:22Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 124,
+ "candidates_eligible": 38,
+ "rejections": {
+  "excluded": 41,
+  "night_for_day_item": 6,
+  "too_small": 5,
+  "not_photo": 9,
+  "indoor": 2,
+  "too_old": 3,
+  "keywords": 20
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Empire State Building August 2021 007.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Empire_State_Building_August_2021_007.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/21/Empire_State_Building_August_2021_007.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Empire_State_Building_August_2021_007.jpg/1920px-Empire_State_Building_August_2021_007.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-08-19 11:47:25",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.748597,
+    "lon": -73.985108
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 619234,
+   "sha256": "5bfdab778599ab95474dca97bbf523ea927c103d9efe967d6c30d07df17b6c85",
+   "mean_luminance": 112.4,
+   "description": "Empire State Building seen from 34th Street",
+   "categories": [
+    "Exterior of the Empire State Building",
+    "New York City photographs taken on 2021-08-19",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Empire State Building in 2021",
+    "August 2021 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Empire State Building\" 34th Street exterior",
+   "score": 9.9,
+   "estimated_viewpoint": {
+    "lat": 40.748597,
+    "lon": -73.985108,
+    "azimuth_deg": 249.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74860, -73.98511) is 50 m from Empire State Building (40.74844, -73.98566) and 357 m from the standard viewpoint; the azimuth 249 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Empire State Building August 2021 007.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Empire_State_Building_August_2021_007.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:32nd St 5th Av 03 - 320 Fifth Avenue.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:32nd_St_5th_Av_03_-_320_Fifth_Avenue.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/24/32nd_St_5th_Av_03_-_320_Fifth_Avenue.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/32nd_St_5th_Av_03_-_320_Fifth_Avenue.jpg/1920px-32nd_St_5th_Av_03_-_320_Fifth_Avenue.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.746827,
+    "lon": -73.985586
+   },
+   "original_width": 3648,
+   "original_height": 5472,
+   "width": 1920,
+   "height": 2880,
+   "bytes": 935473,
+   "sha256": "6b4ce67a6e1b5f82429c949df22ad9690eb2e7fcdd499665976ec0579774da20",
+   "mean_luminance": 125.2,
+   "description": "Looking at the Empire State Building over 320 Fifth Avenue, at the northwest corner of 5th Avenue and 32nd Street in Midtown Manhattan.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "Self-published work",
+    "Views of Manhattan, New York City from below",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2018-03-15",
+    "Empire State Building in 2018",
+    "2018 Manhattan photographs by Tdorante10",
+    "Remote views of the Empire State Building",
+    "Reed & Barton Building (320 Fifth Avenue)",
+    "Midtown Manhattan skylines in 2018",
+    "March 2018 in Manhattan, New York City",
+    "Photographs by Tdorante10 taken on 2018-03-15"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Empire State Building\" from Fifth Avenue street",
+   "score": 9.45,
+   "estimated_viewpoint": {
+    "lat": 40.746827,
+    "lon": -73.985586,
+    "azimuth_deg": 358.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74683, -73.98559) is 179 m from Empire State Building (40.74844, -73.98566) and 193 m from the standard viewpoint; the azimuth 358 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"32nd St 5th Av 03 - 320 Fifth Avenue.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:32nd_St_5th_Av_03_-_320_Fifth_Avenue.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Fifth Ave.at East 34th St. - New York, NY, USA - August 19, 2015 - panoramio (1).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Fifth_Ave.at_East_34th_St._-_New_York,_NY,_USA_-_August_19,_2015_-_panoramio_(1).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/71/Fifth_Ave.at_East_34th_St._-_New_York%2C_NY%2C_USA_-_August_19%2C_2015_-_panoramio_%281%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Fifth_Ave.at_East_34th_St._-_New_York%2C_NY%2C_USA_-_August_19%2C_2015_-_panoramio_%281%29.jpg/1920px-Fifth_Ave.at_East_34th_St._-_New_York%2C_NY%2C_USA_-_August_19%2C_2015_-_panoramio_%281%29.jpg",
+   "author": "Giorgio Galeotti",
+   "credit": "https://web.archive.org/web/20161101152609/http://www.panoramio.com/photo/129806311",
+   "license": {
+    "short_name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0",
+    "template": "cc-by-3.0"
+   },
+   "date_taken": "2015",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.748445,
+    "lon": -73.984584
+   },
+   "original_width": 4703,
+   "original_height": 7054,
+   "width": 1920,
+   "height": 2880,
+   "bytes": 1580168,
+   "sha256": "66c8b93dd56b2e4eeec2475ef7d383cc869b95aaa7f1d42772fc30f6e51f4063",
+   "mean_luminance": 118.1,
+   "description": "Fifth Ave.at East 34th St. - New York, NY, USA - August 19, 2015",
+   "categories": [
+    "Exterior of the Empire State Building",
+    "Panoramio files uploaded by Panoramio upload bot",
+    "New York City photographs taken on 2015-08-19",
+    "Panoramio images reviewed by trusted users",
+    "Photos from Panoramio",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2015-08-19",
+    "Empire State Building in 2015",
+    "August 2015 in Manhattan, New York City",
+    "Empire State Building from immediately beside it",
+    "Photos from Panoramio ID 4208745"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Empire State Building\" 34th Street exterior",
+   "score": 9.0,
+   "estimated_viewpoint": {
+    "lat": 40.748445,
+    "lon": -73.984584,
+    "azimuth_deg": 269.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74844, -73.98458) is 91 m from Empire State Building (40.74844, -73.98566) and 372 m from the standard viewpoint; the azimuth 270 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Fifth Ave.at East 34th St. - New York, NY, USA - August 19, 2015 - panoramio (1).jpg\" by Giorgio Galeotti, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Fifth_Ave.at_East_34th_St._-_New_York,_NY,_USA_-_August_19,_2015_-_panoramio_(1).jpg"
+  }
+ ]
+}

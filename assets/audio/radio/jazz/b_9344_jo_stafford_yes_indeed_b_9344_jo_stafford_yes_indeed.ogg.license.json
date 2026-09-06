@@ -1,0 +1,28 @@
+{
+ "artist": "Jo STAFFORD - vocals, Sy OLIVER - vocals, Tommy DORSEY and his Orchestra",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 2972702,
+ "duration_s": 214.52,
+ "file": "jazz/b_9344_jo_stafford_yes_indeed_b_9344_jo_stafford_yes_indeed.ogg",
+ "gain_db": -1.5,
+ "licence": "Public Domain",
+ "licence_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+ "loudness_lufs": -12.5,
+ "original_filename": "B.9344 Jo Stafford - Yes indeed.mp3",
+ "recorded_at": "2026-09-06T12:11:24Z",
+ "schema_version": 1,
+ "sha256": "51375d4021556338a79a383457dd09889e9ee8865f9b9b630c2723dabef58884",
+ "source_page": "https://archive.org/details/b.-9344-jo-stafford-yes-indeed",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/b.-9344-jo-stafford-yes-indeed/B.9344%20Jo%20Stafford%20-%20Yes%20indeed.mp3",
+ "title": "Yes Indeed !",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

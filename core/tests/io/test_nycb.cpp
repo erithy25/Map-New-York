@@ -1,5 +1,7 @@
 #include <doctest/doctest.h>
 
+#include "nycb_expected.h"
+
 #include <cstring>
 #include <string>
 #include <vector>
@@ -50,17 +52,27 @@ std::vector<uint8_t> buildSample(std::vector<uint32_t>* nameOffsets = nullptr) {
   return *r;
 }
 
+/// Opens one of the exporter-written fixtures in core/tests/data/runtime/.
+NycbReader openFixture(const char* name) {
+  const std::string path = std::string(NYCSIM_TEST_DATA_DIR) + "/runtime/" + name;
+  auto r = NycbReader::fromFile(path.c_str());
+  REQUIRE_MESSAGE(r.ok(), "cannot open " << path << ": " << (r.ok() ? "" : r.error().message));
+  return std::move(*r);
+}
+
 }  // namespace
 
 TEST_SUITE("io") {
-  TEST_CASE("record layouts match DATA_CONTRACTS §15 (packed sizes)") {
-    CHECK(sizeof(NycbHeader) == 20);
+  TEST_CASE("record layouts match the exporter's naturally aligned sizes (DATA_CONTRACTS §15)") {
+    // These are the sizes pipeline/nycsim_pipeline/runtime/nycb.py emits (numpy dtypes built with
+    // align=True), recorded in data/processed/runtime/nycb_layout.json by the roads stage.
+    CHECK(sizeof(NycbHeader) == 24);
     CHECK(sizeof(NycbIndexEntry) == 40);
     CHECK(sizeof(RoadNode) == 24);
     CHECK(sizeof(RoadSegment) == 48);
-    CHECK(sizeof(Lane) == 44);
+    CHECK(sizeof(Lane) == 48);
     CHECK(sizeof(JunctionLane) == 48);
-    CHECK(sizeof(SignalController) == 28);
+    CHECK(sizeof(SignalController) == 32);
     CHECK(sizeof(SignalPhase) == 28);
     CHECK(sizeof(TileRecord) == 28);
     CHECK(sizeof(BusRoute) == 68);
@@ -74,29 +86,39 @@ TEST_SUITE("io") {
   TEST_CASE("writer produces the contract byte layout") {
     std::vector<uint32_t> offs;
     const auto bytes = buildSample(&offs);
-    REQUIRE(bytes.size() > 20);
+    REQUIRE(bytes.size() > 24);
     CHECK(std::memcmp(bytes.data(), "NYCB", 4) == 0);
     uint32_t version, count;
     uint64_t indexOffset;
     std::memcpy(&version, bytes.data() + 4, 4);
     std::memcpy(&count, bytes.data() + 8, 4);
-    std::memcpy(&indexOffset, bytes.data() + 12, 8);
+    // 4 bytes of padding sit between section_count and index_offset (natural alignment), so the
+    // 64-bit offset is at byte 16, exactly where runtime/nycb.py's HEADER_DTYPE puts it.
+    std::memcpy(&indexOffset, bytes.data() + 16, 8);
     CHECK(version == 1);
     CHECK(count == 5);  // nodes, segments, lanes, blob, strtab
+    CHECK(indexOffset % 8 == 0);
     CHECK(indexOffset + count * 40 == bytes.size());
-    // First index entry: name "nodes", offset 32 (header padded to 16), size 72, es 24, ec 3.
+    // First index entry: name "nodes", offset 24 (immediately after the header), size 72.
     NycbIndexEntry e;
     std::memcpy(&e, bytes.data() + indexOffset, sizeof e);
     CHECK(std::string(e.name, 5) == "nodes");
     CHECK(e.name[5] == '\0');
-    CHECK(e.offset == 32);
+    CHECK(e.offset == 24);
     CHECK(e.size == 72);
     CHECK(e.elementSize == 24);
     CHECK(e.elementCount == 3);
-    CHECK(e.offset % 16 == 0);
+    CHECK(e.offset % 8 == 0);
     // Little-endian int64 id 1000 at the start of the nodes section.
-    CHECK(bytes[32] == 0xE8);
-    CHECK(bytes[33] == 0x03);
+    CHECK(bytes[24] == 0xE8);
+    CHECK(bytes[25] == 0x03);
+    // Every section starts on an 8-byte boundary.
+    for (uint32_t i = 0; i < count; ++i) {
+      NycbIndexEntry ei;
+      std::memcpy(&ei, bytes.data() + indexOffset + i * sizeof(NycbIndexEntry), sizeof ei);
+      CHECK(ei.offset % 8 == 0);
+      CHECK(ei.offset + ei.size <= indexOffset);
+    }
     CHECK(offs[0] == 1);  // first interned string follows the "" at offset 0
     CHECK(offs[1] == 1 + 9);
   }
@@ -171,13 +193,13 @@ TEST_SUITE("io") {
     {
       auto b = good;
       uint64_t bogus = b.size() + 100;
-      std::memcpy(b.data() + 12, &bogus, 8);
+      std::memcpy(b.data() + 16, &bogus, 8);
       CHECK(load(b).error().code == ErrorCode::Truncated);
     }
     {
       auto b = good;
       uint64_t indexOffset;
-      std::memcpy(&indexOffset, b.data() + 12, 8);
+      std::memcpy(&indexOffset, b.data() + 16, 8);
       // Section 0 size beyond EOF.
       uint64_t huge = 1ull << 40;
       std::memcpy(b.data() + indexOffset + 24, &huge, 8);
@@ -186,7 +208,7 @@ TEST_SUITE("io") {
     {
       auto b = good;
       uint64_t indexOffset;
-      std::memcpy(&indexOffset, b.data() + 12, 8);
+      std::memcpy(&indexOffset, b.data() + 16, 8);
       uint32_t es = 23;  // 23 * 3 != 72
       std::memcpy(b.data() + indexOffset + 32, &es, 4);
       CHECK(load(b).error().code == ErrorCode::FormatError);
@@ -194,7 +216,7 @@ TEST_SUITE("io") {
     {
       auto b = good;
       uint64_t indexOffset;
-      std::memcpy(&indexOffset, b.data() + 12, 8);
+      std::memcpy(&indexOffset, b.data() + 16, 8);
       // Duplicate name: rename section 1 to "nodes".
       std::memcpy(b.data() + indexOffset + 40, "nodes\0\0\0\0\0\0\0\0\0\0\0", 16);
       CHECK(load(b).error().code == ErrorCode::FormatError);
@@ -202,7 +224,7 @@ TEST_SUITE("io") {
     {
       auto b = good;
       uint64_t indexOffset;
-      std::memcpy(&indexOffset, b.data() + 12, 8);
+      std::memcpy(&indexOffset, b.data() + 16, 8);
       // Empty name.
       std::memset(b.data() + indexOffset, 0, 16);
       CHECK(load(b).error().code == ErrorCode::FormatError);
@@ -211,7 +233,7 @@ TEST_SUITE("io") {
       // strtab without trailing NUL.
       auto b = good;
       uint64_t indexOffset;
-      std::memcpy(&indexOffset, b.data() + 12, 8);
+      std::memcpy(&indexOffset, b.data() + 16, 8);
       NycbIndexEntry e;
       std::memcpy(&e, b.data() + indexOffset + 4 * 40, sizeof e);
       REQUIRE(std::string(e.name) == "strtab");
@@ -231,7 +253,10 @@ TEST_SUITE("io") {
     CHECK(w.addSection("a", ByteSpan(d, 4), 0, 1).error().code == ErrorCode::InvalidArgument);
     CHECK(w.addSection("a", ByteSpan(d, 4), 4, 1).ok());
     CHECK(w.addSection("a", ByteSpan(d, 4), 4, 1).error().code == ErrorCode::InvalidArgument);
-    CHECK(w.addSection("sixteen_chars_ok", ByteSpan(d, 4), 2, 2).ok());
+    // The exporter's limit is 15 ASCII bytes so the 16-byte index field is always terminated.
+    CHECK(w.addSection("sixteen_chars_ok", ByteSpan(d, 4), 2, 2).error().code ==
+          ErrorCode::InvalidArgument);
+    CHECK(w.addSection("fifteen_chars_o", ByteSpan(d, 4), 2, 2).ok());
     CHECK(w.addString("dup") == w.addString("dup"));
     CHECK(w.addString("") == 0);
     // Manual strtab plus interned strings is rejected.
@@ -301,5 +326,306 @@ TEST_SUITE("io") {
     auto rd = NycbReader::fromBuffer(std::move(*bytes));
     REQUIRE(rd.ok());
     CHECK(tiling::readTileCatalog(*rd).error().code == ErrorCode::NotFound);
+  }
+}
+
+// ---------------------------------------------------------------------------------------------
+// Interoperability with the producer: pipeline/nycsim_pipeline/runtime/nycb.py.
+//
+// core/tests/data/runtime/*.nycb are written by that exporter itself
+// (docs/verification/core/gen_nycb_fixture.py), one file per DATA_CONTRACTS §15 container, and are
+// read back here with the C++ reader. If the roads stage has produced the real
+// data/processed/runtime/*.nycb, those are checked too — section counts against the parquet row
+// counts, and every index into another section for being in range.
+// ---------------------------------------------------------------------------------------------
+
+TEST_SUITE("io") {
+  TEST_CASE("record sizes equal the exporter's numpy dtype itemsizes") {
+    struct Named {
+      const char* name;
+      uint32_t bytes;
+    };
+    const Named ours[] = {
+        {"header", static_cast<uint32_t>(sizeof(NycbHeader))},
+        {"index_entry", static_cast<uint32_t>(sizeof(NycbIndexEntry))},
+        {"nodes", static_cast<uint32_t>(sizeof(RoadNode))},
+        {"segments", static_cast<uint32_t>(sizeof(RoadSegment))},
+        {"vertices", static_cast<uint32_t>(sizeof(Vertex3))},
+        {"lanes", static_cast<uint32_t>(sizeof(Lane))},
+        {"lane_links", static_cast<uint32_t>(sizeof(LaneLink))},
+        {"junction_lanes", static_cast<uint32_t>(sizeof(JunctionLane))},
+        {"controllers", static_cast<uint32_t>(sizeof(SignalController))},
+        {"phases", static_cast<uint32_t>(sizeof(SignalPhase))},
+        {"tiles", static_cast<uint32_t>(sizeof(TileRecord))},
+        {"bus_routes", static_cast<uint32_t>(sizeof(BusRoute))},
+        {"bus_stops", static_cast<uint32_t>(sizeof(BusStop))},
+        {"cells", static_cast<uint32_t>(sizeof(DensityCell))},
+        {"nta_polys", static_cast<uint32_t>(sizeof(NtaPoly))},
+        {"pois", static_cast<uint32_t>(sizeof(Poi))},
+    };
+    int matched = 0;
+    for (const Named& o : ours) {
+      for (int i = 0; i < nycsim_test_nycb::kRecordSizeN; ++i) {
+        if (std::string(nycsim_test_nycb::kRecordSizes[i].name) != o.name) continue;
+        INFO("record ", o.name);
+        CHECK(o.bytes == nycsim_test_nycb::kRecordSizes[i].bytes);
+        ++matched;
+      }
+    }
+    CHECK(matched == 16);
+  }
+
+  TEST_CASE("files written by the Python exporter are read field-for-field") {
+    // roadgraph.nycb
+    NycbReader rg = openFixture("roadgraph.nycb");
+    CHECK(rg.version() == 1);
+    const auto nodes = rg.view<RoadNode>("nodes");
+    REQUIRE(nodes.ok());
+    REQUIRE(nodes.value().size() == 3);
+    CHECK(nodes.value()[0].id == 1000);
+    CHECK(nodes.value()[0].x == doctest::Approx(-3011.9766f).epsilon(1e-4));
+    CHECK(nodes.value()[0].y == doctest::Approx(5379.805f).epsilon(1e-4));
+    CHECK(nodes.value()[0].z == doctest::Approx(10.25f));
+    CHECK(nodes.value()[0].control == 1);
+    CHECK(nodes.value()[0].signalSource == 1);
+    CHECK(nodes.value()[1].id == 2000);
+    CHECK(nodes.value()[2].control == 2);
+
+    const auto segs = rg.view<RoadSegment>("segments");
+    REQUIRE(segs.ok());
+    REQUIRE(segs.value().size() == 2);
+    CHECK(segs.value()[0].id == 50);
+    CHECK(segs.value()[0].fromNode == 1000);
+    CHECK(segs.value()[0].toNode == 2000);
+    CHECK(segs.value()[0].firstVertex == 0);
+    CHECK(segs.value()[0].vertexCount == 2);
+    CHECK(segs.value()[0].rwType == 1);
+    CHECK(segs.value()[0].trafficDir == 0);
+    CHECK(segs.value()[0].travelLanes == 2);
+    CHECK(segs.value()[0].parkLanes == 1);
+    CHECK(segs.value()[0].widthM == doctest::Approx(12.8f));
+    CHECK(segs.value()[0].speedMph == 25);
+    CHECK(segs.value()[0].bikeLane == 2);
+    CHECK(segs.value()[0].surface == 0);
+    CHECK(segs.value()[0].borough == 1);
+    CHECK(segs.value()[1].rwType == 3);
+    CHECK(segs.value()[1].widthM == doctest::Approx(24.4f));
+    // Strings resolve through the strtab exactly as the exporter interned them.
+    for (int i = 0; i < nycsim_test_nycb::kStringOffsetN; ++i) {
+      const auto& so = nycsim_test_nycb::kStringOffsets[i];
+      const auto s = rg.string(so.offset);
+      REQUIRE(s.ok());
+      CHECK(s.value() == so.text);
+    }
+    CHECK(rg.string(0).value().empty());
+    CHECK(rg.string(segs.value()[0].nameStr).value() == "BROADWAY");
+    CHECK(rg.string(segs.value()[1].nameStr).value() == "BROOKLYN BRIDGE");
+
+    const auto lanes = rg.view<Lane>("lanes");
+    REQUIRE(lanes.ok());
+    REQUIRE(lanes.value().size() == 2);
+    CHECK(lanes.value()[0].id == 900);
+    CHECK(lanes.value()[0].segmentId == 50);
+    CHECK(lanes.value()[0].indexFromCenter == 1);
+    CHECK(lanes.value()[0].direction == 1);
+    CHECK(lanes.value()[0].kind == 0);
+    CHECK(lanes.value()[0].widthM == doctest::Approx(3.2f));
+    CHECK(lanes.value()[0].speedMps == doctest::Approx(11.176f));
+    CHECK(lanes.value()[1].indexFromCenter == -2);
+    CHECK(lanes.value()[1].direction == -1);
+    CHECK(lanes.value()[1].kind == 3);
+    CHECK(lanes.value()[1].speedMps == doctest::Approx(20.1168f));
+
+    const auto junc = rg.view<JunctionLane>("junction_lanes");
+    REQUIRE(junc.ok());
+    REQUIRE(junc.value().size() == 1);
+    CHECK(junc.value()[0].id == 7000);
+    CHECK(junc.value()[0].fromLane == 900);
+    CHECK(junc.value()[0].toLane == 901);
+    CHECK(junc.value()[0].turn == 1);
+    CHECK(junc.value()[0].signalGroup == 2);
+    CHECK(junc.value()[0].firstVertex == 1);
+    CHECK(junc.value()[0].vertexCount == 3);
+    CHECK(junc.value()[0].yieldCount == 1);
+
+    const auto vtx = rg.view<Vertex3>("vertices");
+    REQUIRE(vtx.ok());
+    CHECK(vtx.value().size() == 5);
+    CHECK(vtx.value()[4].x == doctest::Approx(300.0f));
+    CHECK(rg.view<LaneLink>("lane_links").value().size() == 2);
+    CHECK(rg.view<LaneLink>("lane_links").value()[0].laneId == 901);
+    CHECK(rg.view<YieldLink>("yield_links").value()[0].laneId == 901);
+
+    // signals.nycb
+    NycbReader sg = openFixture("signals.nycb");
+    const auto ctrl = sg.view<SignalController>("controllers");
+    REQUIRE(ctrl.ok());
+    REQUIRE(ctrl.value().size() == 2);
+    CHECK(ctrl.value()[0].nodeId == 1000);
+    CHECK(ctrl.value()[0].controllerId == 11);
+    CHECK(ctrl.value()[0].cycleS == doctest::Approx(90.0f));
+    CHECK(ctrl.value()[0].offsetS == doctest::Approx(0.0f));
+    CHECK(ctrl.value()[0].firstPhase == 0);
+    CHECK(ctrl.value()[0].phaseCount == 2);
+    CHECK(ctrl.value()[1].cycleS == doctest::Approx(60.0f));
+    CHECK(ctrl.value()[1].offsetS == doctest::Approx(12.5f));
+    const auto ph = sg.view<SignalPhase>("phases");
+    REQUIRE(ph.ok());
+    REQUIRE(ph.value().size() == 3);
+    CHECK(ph.value()[0].greenS == doctest::Approx(45.0f));
+    CHECK(ph.value()[0].lpiS == doctest::Approx(7.0f));
+    CHECK(ph.value()[1].group == 1);
+    CHECK(ph.value()[2].greenS == doctest::Approx(30.0f));
+
+    // tiles.nycb
+    NycbReader tl = openFixture("tiles.nycb");
+    const auto tiles = tl.view<TileRecord>("tiles");
+    REQUIRE(tiles.ok());
+    REQUIRE(tiles.value().size() == 2);
+    CHECK(tiles.value()[0].tx == -3);
+    CHECK(tiles.value()[0].ty == 5);
+    CHECK(tiles.value()[0].zMax == doctest::Approx(40.0f));
+    CHECK(tiles.value()[0].nBuildings == 412);
+    CHECK(tiles.value()[0].nProps == 180);
+    CHECK(tiles.value()[0].flags == 5);
+    CHECK(tiles.value()[0].boroughMask == 1);
+    CHECK(tiles.value()[1].ty == -7);
+    CHECK(tiles.value()[1].zMin == doctest::Approx(-2.1f));
+
+    // transit.nycb
+    NycbReader tr = openFixture("transit.nycb");
+    const auto routes = tr.view<BusRoute>("bus_routes");
+    REQUIRE(routes.ok());
+    REQUIRE(routes.value().size() == 1);
+    CHECK(tr.string(routes.value()[0].nameStr).value() == "M15-SBS");
+    CHECK(routes.value()[0].stopCount == 2);
+    for (int i = 0; i < 24; ++i) CHECK(routes.value()[0].headwayMin[i] == i);
+    const auto stops = tr.view<BusStop>("bus_stops");
+    REQUIRE(stops.ok());
+    REQUIRE(stops.value().size() == 2);
+    CHECK(stops.value()[0].id == 400001);
+    CHECK(tr.string(stops.value()[0].nameStr).value() == "1 AV/E 14 ST");
+    CHECK(tr.string(stops.value()[1].nameStr).value() == "1 AV/E 23 ST");
+    CHECK(tr.view<RouteStop>("route_stops").value()[1].stopId == 400002);
+
+    // density.nycb
+    NycbReader dn = openFixture("density.nycb");
+    const auto cells = dn.view<DensityCell>("cells");
+    REQUIRE(cells.ok());
+    REQUIRE(cells.value().size() == 2);
+    CHECK(dn.string(cells.value()[0].ntaStr).value() == "MN17");
+    CHECK(cells.value()[0].hour == 8);
+    CHECK(cells.value()[0].dow == 0);
+    CHECK(cells.value()[0].vehPerKmLane == doctest::Approx(55.0f));
+    CHECK(cells.value()[0].pedPerM2 == doctest::Approx(0.35f));
+    CHECK(cells.value()[0].bikeShare == doctest::Approx(0.05f));
+    CHECK(cells.value()[1].hour == 20);
+    CHECK(dn.view<NtaPoly>("nta_polys").value()[0].vertexCount == 4);
+
+    // pois.nycb
+    NycbReader po = openFixture("pois.nycb");
+    const auto pois = po.view<Poi>("pois");
+    REQUIRE(pois.ok());
+    REQUIRE(pois.value().size() == 2);
+    CHECK(po.string(pois.value()[0].addrStr).value() == "350 5 AVENUE");
+    CHECK(po.string(pois.value()[1].addrStr).value() == "1 CENTRE STREET");
+
+    // Every section count matches what the exporter reported.
+    for (int i = 0; i < nycsim_test_nycb::kFixtureCountN; ++i) {
+      const auto& c = nycsim_test_nycb::kFixtureCounts[i];
+      INFO(c.file, " / ", c.section);
+      NycbReader r = openFixture(c.file);
+      const NycbSection* s = r.find(c.section);
+      REQUIRE(s != nullptr);
+      CHECK(s->elementCount == c.count);
+      CHECK(s->offset % kNycbAlign == 0);
+      CHECK(static_cast<uint64_t>(s->elementSize) * s->elementCount == s->size);
+    }
+  }
+
+  TEST_CASE("the real exporter output loads and its section counts match the parquet row counts") {
+    if (nycsim_test_nycb::kRealCountN == 0) {
+      MESSAGE("data/processed/runtime/*.nycb absent when the fixtures were generated - skipped");
+      return;
+    }
+    std::string lastFile;
+    NycbReader reader;
+    bool haveReader = false;
+    int checked = 0;
+    for (int i = 0; i < nycsim_test_nycb::kRealCountN; ++i) {
+      const auto& c = nycsim_test_nycb::kRealCounts[i];
+      if (lastFile != c.file) {
+        const std::string path = std::string(NYCSIM_REPO_ROOT) + "/data/processed/runtime/" + c.file;
+        auto r = NycbReader::fromFile(path.c_str());
+        if (!r) {
+          MESSAGE("skipping " << path << ": " << r.error().message);
+          haveReader = false;
+          lastFile = c.file;
+          continue;
+        }
+        reader = std::move(*r);
+        haveReader = true;
+        lastFile = c.file;
+        CHECK(reader.version() == 1);
+      }
+      if (!haveReader) continue;
+      INFO(c.file, " / ", c.section);
+      const NycbSection* s = reader.find(c.section);
+      REQUIRE(s != nullptr);
+      CHECK(s->elementCount == c.count);
+      CHECK(s->elementSize == c.element_size);
+      CHECK(s->offset % kNycbAlign == 0);
+      CHECK(static_cast<uint64_t>(s->elementSize) * s->elementCount == s->size);
+      if (c.parquet_rows >= 0) {
+        // The exporter must emit exactly one record per parquet row.
+        CHECK(static_cast<int64_t>(s->elementCount) == c.parquet_rows);
+      }
+      ++checked;
+    }
+    CHECK(checked > 0);
+
+    // Cross-section integrity of the real road graph: every index is in range.
+    const std::string path = std::string(NYCSIM_REPO_ROOT) + "/data/processed/runtime/roadgraph.nycb";
+    auto rg = NycbReader::fromFile(path.c_str());
+    if (!rg) {
+      MESSAGE("real roadgraph.nycb not readable - integrity check skipped");
+      return;
+    }
+    const auto segs = rg->view<RoadSegment>("segments");
+    const auto lanes = rg->view<Lane>("lanes");
+    const auto vtx = rg->view<Vertex3>("vertices");
+    const auto links = rg->view<LaneLink>("lane_links");
+    const auto junc = rg->view<JunctionLane>("junction_lanes");
+    const auto yields = rg->view<YieldLink>("yield_links");
+    REQUIRE(segs.ok());
+    REQUIRE(lanes.ok());
+    REQUIRE(vtx.ok());
+    REQUIRE(links.ok());
+    REQUIRE(junc.ok());
+    REQUIRE(yields.ok());
+    const uint64_t nv = vtx.value().size();
+    uint64_t badSeg = 0, badLane = 0, badJunc = 0, badString = 0, degenerate = 0;
+    for (const RoadSegment& s : segs.value()) {
+      if (static_cast<uint64_t>(s.firstVertex) + s.vertexCount > nv) ++badSeg;
+      if (s.vertexCount < 2) ++degenerate;
+      if (!rg->string(s.nameStr).ok()) ++badString;
+    }
+    for (const Lane& l : lanes.value()) {
+      if (static_cast<uint64_t>(l.firstVertex) + l.vertexCount > nv) ++badLane;
+      if (static_cast<uint64_t>(l.firstSucc) + l.succCount > links.value().size()) ++badLane;
+      if (l.vertexCount < 2) ++degenerate;
+    }
+    for (const JunctionLane& j : junc.value()) {
+      if (static_cast<uint64_t>(j.firstVertex) + j.vertexCount > nv) ++badJunc;
+      if (static_cast<uint64_t>(j.firstYield) + j.yieldCount > yields.value().size()) ++badJunc;
+    }
+    CHECK(badSeg == 0);
+    CHECK(badLane == 0);
+    CHECK(badJunc == 0);
+    CHECK(badString == 0);
+    CHECK(degenerate == 0);
+    MESSAGE("real roadgraph.nycb: " << segs.value().size() << " segments, " << lanes.value().size()
+                                    << " lanes, " << nv << " vertices, " << rg->sizeBytes()
+                                    << " bytes");
   }
 }

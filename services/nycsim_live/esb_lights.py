@@ -314,8 +314,14 @@ def parse_calendar_page(html_text: str, source_url: str = CALENDAR_URL) -> dict[
 
 
 def _make(date: _dt.date, color_text: str, reason: str, hours: str | None, url: str) -> ESBLighting:
+    """Build a lighting record. Colour names are kept verbatim as published; only names in
+    :data:`COLOR_RGB` (or whose last word is) get an RGB triple, and the rest are listed in
+    ``unknown_colors`` rather than guessed. If *nothing* resolved, signature white is used so the tower is
+    still lit with a real ESB colour — the published names stay in ``colors`` and ``unknown_colors``."""
     names = split_color_names(color_text) or [SIGNATURE_WHITE_NAME]
     rgb, unknown = colors_to_rgb(names)
+    if not rgb:
+        rgb = [list(SIGNATURE_WHITE_RGB)]
     return ESBLighting(date=date.isoformat(), colors=names, reason=reason.strip(), source_url=url, rgb=rgb, unknown_colors=unknown, hours=(hours or DEFAULT_HOURS).strip())
 
 

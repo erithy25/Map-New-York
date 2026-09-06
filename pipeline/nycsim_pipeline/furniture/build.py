@@ -74,7 +74,7 @@ def tree_props(tc: T.TreeCensus) -> dict:
     return cols
 
 
-def collect(tiles_root: Path, use_rules: bool, segments_path: Path) -> tuple[dict, dict]:
+def collect(use_rules: bool, segments_path: Path) -> tuple[dict, dict]:
     """Load every source into one column dict. Returns (columns, per-source report)."""
     report: dict = {"sources": [], "rules": {}}
     parts: list[dict] = []
@@ -108,7 +108,7 @@ def collect(tiles_root: Path, use_rules: bool, segments_path: Path) -> tuple[dic
 
     ent = load_subway_entrances()
     parts.append(D.load_subway_entrance_props(ent))
-    report["sources"].append({"source_id": "subway_entrances", "rows": int(ent.height)})
+    report["sources"].append({"source_id": "subway_entrances", "rows": int(len(ent))})
 
     if BUS_STOPS.exists():
         cols = D.load_bus_stop_signs(BUS_STOPS)
@@ -170,7 +170,8 @@ def finalise(cols: dict, ground: GroundModel) -> tuple[pa.Table, dict]:
 
     schema = arrow_schema()
     table = pa.table({f.name: pa.array(cols[f.name], type=f.type) for f in schema}, schema=schema)
-    table = table.take(pa.array(np.lexsort((cols["prop_id"], np.asarray(cols["tile"], dtype=object)))))
+    # group the rows of each tile into one contiguous run, ordered by prop_id inside the tile
+    table = table.take(pa.array(np.lexsort((cols["prop_id"], ty, tx))))
     stats = {
         "rows": table.num_rows,
         "z_from_spot_elevation": int((z_src == 3).sum()),
@@ -215,7 +216,7 @@ def main(argv: list[str] | None = None) -> int:
     out.mkdir(parents=True, exist_ok=True)
     tiles_root = Path(a.tiles_root)
 
-    cols, report = collect(tiles_root, not a.no_rules, Path(a.segments))
+    cols, report = collect(not a.no_rules, Path(a.segments))
     log.info("collected %d prop rows", len(cols["x"]))
     t = time.perf_counter()
     keep, dedupe_report = dd.dedupe(cols, KIND_NAME_BY_ID)

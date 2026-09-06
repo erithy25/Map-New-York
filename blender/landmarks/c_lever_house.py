@@ -43,7 +43,6 @@ SLAB_W, SLAB_D = 53.3, 16.2
 
 def build():
     C.reset()
-    cc.use_textures([("granite_dark", "granite"), ("aluminium", "metal_panel")])
     g = cc.Group(ID, angle_deg=cc.GRID_ANGLE)
     P = g.poly(BIN)
     objs: list = []

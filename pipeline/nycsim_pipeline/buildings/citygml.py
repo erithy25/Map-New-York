@@ -150,8 +150,12 @@ SCHEMA = pa.schema([
     ("tri_xyz", pa.binary()), ("tri_type", pa.binary()), ("flags", pa.uint16()),
 ], metadata={"nycsim.schema": SCHEMA_ID, "nycsim.citygml": json.dumps(SCHEMA_DOC)})
 
-INDEX_COLUMNS = ["bin", "bin_ok", "da", "doitt_id", "roof_type", "n_roof_levels", "z_ground_min", "z_roof_max",
-                 "z_roof_main", "footprint_area_m2", "tri_count", "cx", "cy", "tx", "ty", "flags"]
+# The index carries the per-BIN roof signal the buildings/facade/Blender stages need without opening the
+# triangle blobs: the measured roof levels (real setbacks, bulkheads, penthouses - see ADR-013) and enough
+# to tell measured massing from measured *shape* (roof_slope_deg > 0 means real sloped geometry).
+INDEX_COLUMNS = ["bin", "bin_ok", "da", "doitt_id", "roof_type", "n_roof_levels", "roof_level_z", "roof_level_area",
+                 "roof_slope_deg", "n_roof", "z_ground_min", "z_roof_max", "z_roof_main", "footprint_area_m2",
+                 "roof_area_m2", "tri_count", "cx", "cy", "tx", "ty", "flags"]
 
 # numpy.fromstring() only *warns* about trailing unparsable data; make that an exception so malformed
 # posLists take the slow, counting code path instead of being silently truncated.

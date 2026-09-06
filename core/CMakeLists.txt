@@ -92,7 +92,10 @@ if(NYCSIM_BUILD_TESTS)
   target_compile_options(nycsim_core_tests PRIVATE ${NYCSIM_WARNINGS})
   target_include_directories(nycsim_core_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/tests)
   target_compile_definitions(nycsim_core_tests PRIVATE
-    NYCSIM_TEST_DATA_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/data")
+    NYCSIM_TEST_DATA_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/data"
+    # Repository root, so the io suite can read the real exporter output under
+    # data/processed/runtime/ when the roads stage has produced it (it skips when absent).
+    NYCSIM_REPO_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/..")
 
   function(nycsim_add_test_suite suite)
     target_sources(nycsim_core_tests PRIVATE ${ARGN})
@@ -122,7 +125,8 @@ if(NYCSIM_BUILD_LANES)
     endif()
   endforeach()
 endif()
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/traffic_standalone/CMakeLists.txt")
+# The standalone benchmark links the lane sources, so it only builds when the lanes do.
+if(NYCSIM_BUILD_LANES AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/traffic_standalone/CMakeLists.txt")
   add_subdirectory(traffic_standalone)
 endif()
 

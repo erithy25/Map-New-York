@@ -1,0 +1,204 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_flatiron_building",
+ "name": "Flatiron Building",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7425,
+  "lon": -73.9887,
+  "azimuth_deg": 206.3,
+  "note": "Fifth Avenue at 24th Street (Worth Monument traffic island), looking downtown at the prow",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.74106,
+  "lon": -73.98964,
+  "name": "Flatiron Building"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Flatiron Building\" Fifth Avenue Broadway",
+  "\"Flatiron Building\" Madison Square 23rd Street"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T12:14:07Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 109,
+ "candidates_eligible": 58,
+ "rejections": {
+  "too_small": 13,
+  "too_old": 14,
+  "excluded": 4,
+  "not_photo": 2,
+  "indoor": 3,
+  "licence": 1,
+  "keywords": 14
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Flatiron Building, Fifth Avenue, Manhattan, New York.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Flatiron_Building,_Fifth_Avenue,_Manhattan,_New_York.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/df/Flatiron_Building%2C_Fifth_Avenue%2C_Manhattan%2C_New_York.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Flatiron_Building%2C_Fifth_Avenue%2C_Manhattan%2C_New_York.jpg/1920px-Flatiron_Building%2C_Fifth_Avenue%2C_Manhattan%2C_New_York.jpg",
+   "author": "Christian David",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026-04-17 17:39:37",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.7423,
+    "lon": -73.989094
+   },
+   "original_width": 4075,
+   "original_height": 6112,
+   "width": 1920,
+   "height": 2880,
+   "bytes": 1082651,
+   "sha256": "9d0485c5df21940dfd9939d2a7c9b619481c834a0df3127ac1ecc84cb15db87e",
+   "mean_luminance": 142.9,
+   "description": "The Flatiron Building (Daniel Burnham, 1902) at the junction of Fifth Avenue and Broadway in late-day light; the Fifth Avenue clock at right.",
+   "categories": [
+    "Flatiron Building (New York City)",
+    "5th Avenue (Manhattan)",
+    "Self-published work",
+    "Broadway (Manhattan)",
+    "Files with coordinates missing SDC location of creation",
+    "April 2026 in Manhattan, New York City",
+    "Images of the United States by Christian David"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.7,
+   "estimated_viewpoint": {
+    "lat": 40.7423,
+    "lon": -73.989094,
+    "azimuth_deg": 198.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74230, -73.98909) is 145 m from Flatiron Building (40.74106, -73.98964) and 40 m from the standard viewpoint; the azimuth 198 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Flatiron Building, Fifth Avenue, Manhattan, New York.jpg\" by Christian David, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Flatiron_Building,_Fifth_Avenue,_Manhattan,_New_York.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Flatiron District td 59 - General Worth Square.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Flatiron_District_td_59_-_General_Worth_Square.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Flatiron_District_td_59_-_General_Worth_Square.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Flatiron_District_td_59_-_General_Worth_Square.jpg/1920px-Flatiron_District_td_59_-_General_Worth_Square.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.742297,
+    "lon": -73.989215
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 651429,
+   "sha256": "4347999c8a1299d7388a2aef1d43dddc42aeade57640269c68a0891fde674a3a",
+   "mean_luminance": 127.5,
+   "description": "Looking north at General Worth Square from 24th Street and Broadway / Fifth Avenue in the Flatiron District, Manhattan. The building in the foreground in 202 Fifth Avenue; the tall building in the background is 212 Fifth Avenue.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "24th Street (Manhattan)",
+    "General William Jenkins Worth Monument",
+    "Self-published work",
+    "2018 in Flatiron District, Manhattan",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2018-03-15",
+    "2018 Manhattan photographs by Tdorante10",
+    "March 2018 in Manhattan, New York City",
+    "Views of New York City from south",
+    "202 Fifth Avenue",
+    "Citi Bike stations",
+    "Photographs by Tdorante10 taken on 2018-03-15"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.45,
+   "estimated_viewpoint": {
+    "lat": 40.742297,
+    "lon": -73.989215,
+    "azimuth_deg": 194.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74230, -73.98922) is 142 m from Flatiron Building (40.74106, -73.98964) and 49 m from the standard viewpoint; the azimuth 195 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Flatiron District td 59 - General Worth Square.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Flatiron_District_td_59_-_General_Worth_Square.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Broadway Flatiron.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Broadway_Flatiron.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/49/Broadway_Flatiron.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Broadway_Flatiron.jpg/1920px-Broadway_Flatiron.jpg",
+   "author": "-jkb-",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 3.0",
+    "url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "template": "cc-by-sa-3.0"
+   },
+   "date_taken": "2017-04-18 19:26:40",
+   "date_source": "DateTimeOriginal",
+   "year": 2017,
+   "camera_gps": {
+    "lat": 40.74226,
+    "lon": -73.988931
+   },
+   "original_width": 3888,
+   "original_height": 5184,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1498097,
+   "sha256": "3a0d85e94520bd586a01b6a48660aef145f4bf15253c906accf90aed975b1489",
+   "mean_luminance": 114.3,
+   "description": "Das Flatiron Builing, Broadway 5 Av 24 St , NYC",
+   "categories": [
+    "GFDL-1.2",
+    "Flatiron Building (New York City)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.3,
+   "estimated_viewpoint": {
+    "lat": 40.74226,
+    "lon": -73.988931,
+    "azimuth_deg": 204.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74226, -73.98893) is 146 m from Flatiron Building (40.74106, -73.98964) and 33 m from the standard viewpoint; the azimuth 204 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Broadway Flatiron.jpg\" by -jkb-, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Broadway_Flatiron.jpg"
+  }
+ ]
+}

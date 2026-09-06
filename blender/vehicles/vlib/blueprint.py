@@ -169,10 +169,19 @@ MIRROR_REMAP: dict[int, int] = {
 GLASS_REGIONS = (R.GLASS_WS, R.GLASS_BACK, R.GLASS_FL, R.GLASS_RL, R.GLASS_FR, R.GLASS_RR, R.GLASS_QL, R.GLASS_QR)
 
 
+# --------------------------------------------------------------------------- helpers for blueprint authors
+def curve(*pts: tuple[float, float]) -> g.PolyCurve:
+    return g.PolyCurve(list(pts))
+
+
+def const(v: float) -> g.PolyCurve:
+    return g.PolyCurve([(-100.0, v), (100.0, v)])
+
+
 # --------------------------------------------------------------------------- section bands
 #: number of spline samples allocated to each of the eight anchor segments, at three detail levels.
 SEG_SAMPLES = {
-    "high": (3, 5, 7, 7, 6, 6, 6, 4),
+    "high": (3, 6, 9, 9, 8, 8, 8, 5),
     "mid": (2, 3, 4, 4, 4, 4, 4, 3),
     "low": (1, 2, 2, 2, 2, 2, 2, 2),
 }
@@ -246,6 +255,17 @@ class Blueprint:
     glass_gap: float = 0.055       # x gap between daylight openings (B-pillar half width)
     pillar_a: float = 0.075        # x thickness of the A-pillar at the belt
     pillar_c: float = 0.16         # x thickness of the C-pillar
+    #: vans/box bodies: everything at or behind this x on the side/greenhouse/top bands is the rear cargo
+    #: door leaf, exported as ``Trunk`` (the contract's rear opening panel).
+    x_rear_door: float | None = None
+    #: flat-front vehicles (buses, cab-over trucks, vans): ``(x_from, z0, z1)`` marks the windscreen aperture
+    #: on the front face, which no car-style ``z_top`` rake can describe.
+    front_glass: tuple[float, float, float] | None = None
+    #: ``(x_to, z0, z1)`` rear window aperture on a flat rear face.
+    rear_glass: tuple[float, float, float] | None = None
+    #: explicit side-glass spans ``(x_front, x_rear, region_id)`` for bodies whose glazing is not defined by
+    #: door cuts (buses, box vans, coaches).
+    side_glass_spans: Sequence[tuple[float, float, int]] = ()
     has_quarter_glass: bool = False
     x_quarter: tuple[float, float] = (0.0, 0.0)
     n_stations: int = 116
@@ -308,7 +328,14 @@ class Blueprint:
         ]
 
     def section(self, x: float, samples: Sequence[int]) -> list[tuple[float, float]]:
-        return spline_through(self.anchors(x), samples)
+        """Sampled section, clamped to the published envelope.  A Catmull-Rom spline overshoots between control
+        points; without the clamp the shoulder bulges ~20 mm past ``y_max`` and the crown past ``z_top``, which
+        would put the exported body over the published width and height."""
+        ymax = self.y_max(x)
+        ztop = self.z_top(x)
+        zbot = min(self.z_under(x), self.z_sill(x)) - 1e-6
+        pts = spline_through(self.anchors(x), samples)
+        return [(min(max(p[0], 0.0), ymax), min(max(p[1], zbot), ztop)) for p in pts]
 
     # ------------------------------------------------------------------ region classification
     def _door_span(self, k: int) -> tuple[float, float]:
@@ -320,6 +347,21 @@ class Blueprint:
         d = self.dims
         if band == "floor":
             return int(R.WELL) if self.archness(x) > 0.5 else int(R.UNDERBODY)
+        yb = self.y_belt(x)
+        if self.front_glass and x >= self.front_glass[0] and self.front_glass[1] <= z <= self.front_glass[2] \
+                and abs(y) <= yb * 0.96:
+            return int(R.GLASS_WS)
+        if self.rear_glass and x <= self.rear_glass[0] and self.rear_glass[1] <= z <= self.rear_glass[2] \
+                and abs(y) <= yb * 0.96:
+            return int(R.GLASS_BACK)
+        if self.x_rear_door is not None and x <= self.x_rear_door:
+            return int(R.TRUNK)
+        if self.side_glass_spans and band in ("green", "side"):
+            for xa, xb, reg in self.side_glass_spans:
+                if xb <= x <= xa and band == "green":
+                    return int(reg)
+            if band == "green":
+                return int(R.PILLAR)
         if band == "top":
             if x >= self.x_hood_rear:
                 return int(R.BUMPER_F) if x >= self.x_bumper_f else int(R.HOOD)
@@ -340,11 +382,11 @@ class Blueprint:
                     self.x_door_cuts[0] <= x <= self.x_door_cuts[-1]:
                 return int(R.SILL)
             k = self._door_of(x)
+            # a sliding side door is still the rear-side door as far as the engine binding is concerned;
+            # ``sliding_doors`` only records the mechanism in the catalog (``door_kind``).
             if k == 0:
-                return int(R.DOOR_SL) if self.sliding_doors and self.doors_per_side == 2 else int(R.DOOR_FL)
-            if k == 1:
-                return int(R.DOOR_SL) if self.sliding_doors else int(R.DOOR_RL)
-            if k == 2:
+                return int(R.DOOR_FL)
+            if k >= 1:
                 return int(R.DOOR_RL)
             return int(R.BODY)
         # greenhouse
@@ -386,7 +428,7 @@ class Blueprint:
         """Stations, densified where the top line moves fastest (windshield, backlight, arches)."""
         n = n or self.n_stations
         d = self.dims
-        x0, x1 = d.x_rear + 0.012, d.x_front - 0.012
+        x0, x1 = d.x_rear + CAP_INSET, d.x_front - CAP_INSET
         base = np.linspace(x0, x1, max(24, n))
         feats = [self.x_cowl, self.x_roof_front, self.x_roof_rear, self.x_deck, self.x_hood_rear,
                  self.x_bumper_f, self.x_bumper_r, *self.x_door_cuts]
@@ -398,6 +440,38 @@ class Blueprint:
         return xs
 
 
+#: column order of a blueprint table row
+TABLE_COLUMNS = ("x", "z_under", "z_rocker", "z_belt", "z_top", "y_rocker", "y_max", "y_belt", "y_top", "crown")
+
+
+def from_table(name: str, dims: Dimensions, rows: Sequence[Sequence[float]], **kw) -> Blueprint:
+    """Build a :class:`Blueprint` from a numeric table, one row per longitudinal control station::
+
+        (x, z_under, z_rocker, z_belt, z_top, y_rocker, y_max, y_belt, y_top, crown)     all in metres
+
+    This is the form every fleet vehicle is authored in: the table *is* the blueprint, readable next to a side
+    elevation.  The first and last rows must be the published rear and front extremes.
+    """
+    arr = [tuple(float(c) for c in r) for r in rows]
+    for r in arr:
+        if len(r) != len(TABLE_COLUMNS):
+            raise ValueError(f"{name}: table row needs {len(TABLE_COLUMNS)} numbers {TABLE_COLUMNS}, got {len(r)}")
+    xs = [r[0] for r in arr]
+    if abs(xs[0] - dims.x_rear) > 1e-6 or abs(xs[-1] - dims.x_front) > 1e-6:
+        raise ValueError(f"{name}: table spans {xs[0]:.3f}..{xs[-1]:.3f} but the published body spans "
+                         f"{dims.x_rear:.3f}..{dims.x_front:.3f}")
+    if max(r[6] for r in arr) > dims.half_width + 1e-9:
+        raise ValueError(f"{name}: y_max exceeds half the published width ({dims.half_width:.3f} m)")
+    if max(r[4] for r in arr) > dims.height + 1e-9:
+        raise ValueError(f"{name}: z_top exceeds the published height ({dims.height:.3f} m)")
+    cols = {c: g.PolyCurve([(r[0], r[i]) for r in arr]) for i, c in enumerate(TABLE_COLUMNS) if i}
+    kw.setdefault("shoulder_t", const(0.58))
+    kw.setdefault("tumble", const(0.5))
+    return Blueprint(name=name, dims=dims, z_under=cols["z_under"], z_rocker=cols["z_rocker"],
+                     z_belt=cols["z_belt"], z_top=cols["z_top"], y_rocker=cols["y_rocker"], y_max=cols["y_max"],
+                     y_belt=cols["y_belt"], y_top=cols["y_top"], crown=cols["crown"], **kw)
+
+
 # --------------------------------------------------------------------------- shell
 @dataclass
 class Shell:
@@ -407,7 +481,12 @@ class Shell:
     n_ring: int
 
 
-def build_shell(bp: Blueprint, *, detail: str = "high", cap_scales: Sequence[float] = (0.42, 0.80),
+#: how far inboard of the published extremes the last full station sits; the end caps then step back
+#: out to exactly ``x_rear`` / ``x_front`` so the lofted body is exactly the published length.
+CAP_INSET = 0.030
+
+
+def build_shell(bp: Blueprint, *, detail: str = "high", cap_scales: Sequence[float] = (0.80, 0.42),
                 materials: Sequence = ()) -> Shell:
     """Loft the closed body shell of ``bp`` and tag every quad with its :class:`R` region."""
     samples = SEG_SAMPLES[detail]
@@ -424,8 +503,8 @@ def build_shell(bp: Blueprint, *, detail: str = "high", cap_scales: Sequence[flo
         return [(p[0] * s, zc + (p[1] - zc) * zs_) for p in sec]
 
     xs_l = list(map(float, xs))
-    for k, s in enumerate(cap_scales):
-        dx = 0.012 * (len(cap_scales) - k)
+    dx = CAP_INSET / max(1, len(cap_scales))
+    for s in cap_scales:                       # outward, largest scale first
         sections.insert(0, shrink(sections[0], s))
         xs_l.insert(0, xs_l[0] - dx)
         sections.append(shrink(sections[-1], s))
@@ -448,17 +527,17 @@ def build_shell(bp: Blueprint, *, detail: str = "high", cap_scales: Sequence[flo
 
     bm, _rows = g.loft(stations, tag=tag)
     g.mirror_y(bm, remap=MIRROR_REMAP)
-    g.fill_holes(bm, material_index=int(R.UNDERBODY))
+    before = {f for f in bm.faces}
+    g.fill_holes(bm)
+    # the two end caps close the nose and the tail: they are bumper skin, never underbody (tagging them
+    # UNDERBODY put the whole front and rear faces into the Undertray object)
+    xmid = 0.5 * (xs_l[0] + xs_l[-1])
+    for f in bm.faces:
+        if f not in before:
+            f.material_index = int(R.BUMPER_F) if f.calc_center_median().x > xmid else int(R.BUMPER_R)
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     ob = g.to_object(f"{bp.name}_shell", bm, list(materials), smooth=True, sharp_angle_deg=34.0)
     log.info("%s shell: %d stations x %d ring points -> %d tris", bp.name, len(xs_l), n_half * 2 - 2, g.tri_count(ob))
     return Shell(object=ob, xs=xs, bands=bands, n_ring=n_half)
 
 
-# --------------------------------------------------------------------------- helpers for blueprint authors
-def curve(*pts: tuple[float, float]) -> g.PolyCurve:
-    return g.PolyCurve(list(pts))
-
-
-def const(v: float) -> g.PolyCurve:
-    return g.PolyCurve([(-100.0, v), (100.0, v)])

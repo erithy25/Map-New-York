@@ -26,7 +26,8 @@ class Kind:
 
 KINDS: tuple[Kind, ...] = (
     Kind(0, "tree", "vegetation", "Street tree from the 2015 Street Tree Census (alive only); species, DBH real; height estimated (allometry.py)",
-         ("street_trees_2015",), (0.0, 0.0, 0.0), "per-instance: dbh_cm measured, height_m estimated (height_source=1)",
+         ("street_trees_2015",), (0.0, 0.0, 0.0), "per-instance: dbh_cm is the measured trunk diameter (0 = the census recorded none, "
+         "in which case the height uses the 5 cm sapling default); height_m estimated by allometry (height_source=1)",
          "health: 0 Good, 1 Fair, 2 Poor, 3 unknown", "spc_common"),
     Kind(1, "hydrant", "utility", "DEP fire hydrant", ("hydrants",), (0.30, 0.30, 0.75),
          "nominal: NYC DEP hydrant ~0.75 m above grade (typical; DEP does not publish a single standard)", "", "unitid"),

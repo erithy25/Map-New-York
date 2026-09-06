@@ -724,9 +724,14 @@ def build_approach(name: str, axis: Axis, ap: ApproachSpec, lod: int = 0, ds: De
 
 
 def build_cantilever_truss(name: str, axis: Axis, piers_s: Sequence[float], deck_z: Callable[[float], float], depth_pier: float, depth_mid: float,
-                           width: float, material: str, lod: int = 0, panel: float = 9.0, pier_spec: dict | None = None, z_water: float = -3.0) -> list:
+                           width: float, material: str, lod: int = 0, panel: float = 9.0, pier_spec: dict | None = None, z_water: float = -3.0,
+                           top_frac: float = 0.55, bot_frac: float = 0.45) -> list:
     """Cantilever truss (Queensboro type): trusses deepen over the piers (depth_pier, extending *above* the deck as the
-    towers) and taper to depth_mid at mid-span / anchor ends. Piers: masonry, from z_water to the deck."""
+    towers) and taper to depth_mid at mid-span / anchor ends. Piers: masonry, from z_water to the deck.
+
+    ``top_frac``/``bot_frac`` split the local depth above and below the reference line ``deck_z``: (0.55, 0.45) gives a
+    truss centred on the deck, (1.0, 0.0) a level bottom chord at deck_z with the top chord rising over the piers —
+    the Queensboro arrangement, where the lower roadway rides the bottom chord for the whole length."""
     out = []
     s_start, s_end = piers_s[0], piers_s[-1]
     ss = samples(s_start, s_end, panel)
@@ -746,8 +751,8 @@ def build_cantilever_truss(name: str, axis: Axis, piers_s: Sequence[float], deck
     for side in (-1, 1):
         tt = side * width / 2
         parts = []
-        top_pts = [axis.p(s, tt, deck_z(s) + depth_at(s) * 0.55) for s in ss]
-        bot_pts = [axis.p(s, tt, deck_z(s) - depth_at(s) * 0.45) for s in ss]
+        top_pts = [axis.p(s, tt, deck_z(s) + depth_at(s) * top_frac) for s in ss]
+        bot_pts = [axis.p(s, tt, deck_z(s) - depth_at(s) * bot_frac) for s in ss]
         for i in range(len(ss) - 1):
             parts.append(bc.box_between(f"{name}_tc", top_pts[i], top_pts[i + 1], 0.9, 0.9, material))
             parts.append(bc.box_between(f"{name}_bc", bot_pts[i], bot_pts[i + 1], 0.9, 0.9, material))
@@ -765,14 +770,14 @@ def build_cantilever_truss(name: str, axis: Axis, piers_s: Sequence[float], deck
     lat = []
     for i in range(0, len(ss), 2):
         s = ss[i]
-        lat.append(bc.box_between(f"{name}_lat", axis.p(s, -width / 2, deck_z(s) + depth_at(s) * 0.55), axis.p(s, width / 2, deck_z(s) + depth_at(s) * 0.55), 0.5, 0.5, material))
+        lat.append(bc.box_between(f"{name}_lat", axis.p(s, -width / 2, deck_z(s) + depth_at(s) * top_frac), axis.p(s, width / 2, deck_z(s) + depth_at(s) * top_frac), 0.5, 0.5, material))
     if lat:
         out.append(bc.join(lat, f"{name}_lateral"))
     ps = pier_spec or {}
     for i, s in enumerate(piers_s):
         pw = ps.get("width", width + 6)
         pd = ps.get("depth", 12.0)
-        z_top = deck_z(s) - depth_at(s) * 0.45 - 0.5
+        z_top = deck_z(s) - depth_at(s) * bot_frac - 0.5
         pier = bc.box(f"{name}_pier{i}", (pd, pw, z_top - z_water), (0, 0, z_water), ps.get("material", "granite_dark"))
         bc.transform(pier, axis.matrix(s))
         out.append(pier)
@@ -789,8 +794,10 @@ def build_steel_arch(name: str, axis: Axis, s0: float, s1: float, z_deck: float,
     z_spring = z_deck - (rise * 0.25 if through else rise)
 
     def arch_z(s, off=0.0):
+        """Parabolic rib: the two chords stay ``off`` apart even at the springings (a real arch has finite rib depth
+        at its skewbacks, and a zero-depth end would make degenerate web members)."""
         u = (s - sm) / (L / 2)
-        return z_spring + (rise + off) * (1 - u * u)
+        return z_spring + rise * (1 - u * u) + off
 
     ss = samples(s0, s1, L / n)
     for side in (-1, 1):
@@ -805,6 +812,9 @@ def build_steel_arch(name: str, axis: Axis, s0: float, s1: float, z_deck: float,
                 parts.append(bc.box_between(f"{name}_w", pts_lo[i], pts_hi[i], 0.6, 0.6, material))
                 parts.append(bc.box_between(f"{name}_wd", pts_lo[i], pts_hi[i + 1], 0.45, 0.45, material))
         parts.append(bc.box_between(f"{name}_w", pts_lo[-1], pts_hi[-1], 0.6, 0.6, material))
+        # skewback blocks where the ribs meet the abutment
+        for end in (0, -1):
+            parts.append(bc.box_between(f"{name}_skew", pts_lo[end], pts_hi[end], 2.2, 2.2, material))
         out.append(bc.join(parts, f"{name}_rib{side}"))
     # bracing between ribs (top)
     br = []

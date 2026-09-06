@@ -11,10 +11,12 @@ Three objects are placed by rule against the **real** road geometry of ``roads/s
                         OSM ``highway=street_lamp`` node, so the rule only fills gaps.
 ``manhole`` (23)        Every ``MANHOLE_SPACING_M`` along the roadbed centreline of streets and alleys.
                         Suppressed within ``MANHOLE_COVER_M`` of a real OSM ``man_made=manhole`` node.
-``steam_vent`` (33)     Con Edison's steam distribution system serves Manhattan from the Battery to 96th Street
-                        (Con Edison, *Steam Long Range Plan*); a vent stack is placed every
-                        ``STEAM_SPACING_M`` of street inside that area. No public dataset of vent locations
-                        exists, so every one of these is inferred and flagged.
+``steam_vent`` (33)     Con Edison's steam distribution system serves Manhattan from the Battery to 96th Street;
+                        a vent stack is placed every ``STEAM_SPACING_M`` along the *wide* streets inside that
+                        area (>= ``MIN_LAMP_WIDTH_M``, the avenues and major cross streets the mains follow).
+                        Con Edison publishes no dataset of vent locations — the visible orange-and-white stacks
+                        are temporary equipment over steam manholes — so every one of these is inferred, is
+                        flagged ``source = 1``, and its count is a modelling choice, not a measurement.
 ======================  =========================================================================================
 
 Everything here is deterministic: offsets along a segment are derived from a hash of ``segment_id`` only, so a
@@ -201,7 +203,7 @@ def manholes_and_steam(seg: dict, existing_manhole_xy: np.ndarray) -> tuple[dict
         mx.append(p[:, 0])
         my.append(p[:, 1])
         mh.append(head)
-        if seg["borough"][i] == STEAM_BOROUGH:
+        if seg["borough"][i] == STEAM_BOROUGH and seg["width_m"][i] >= MIN_LAMP_WIDTH_M:
             q, qh = _densify(line, STEAM_SPACING_M, STEAM_SPACING_M * r[i])
             if len(q):
                 inside = q[:, 1] <= y_limit
@@ -252,8 +254,9 @@ def build_rule_props(existing: dict, segments_path: Path = SEGMENTS) -> tuple[li
              "spec": f"every {MANHOLE_SPACING_M:.0f} m on the centreline of rw_type {LIT_RW_TYPES}, suppressed "
                      f"within {MANHOLE_COVER_M} m of an OSM manhole"},
             {"rule": "rule:steam_vent_400m_manhattan_below_96", "kind": "steam_vent", "count": int(len(steam["x"])),
-             "spec": f"every {STEAM_SPACING_M:.0f} m of street in Manhattan south of 96th Street "
-                     f"(y <= {steam_north_limit_y():.1f} m NYC_TM), the Con Edison steam district"},
+             "spec": f"every {STEAM_SPACING_M:.0f} m along streets at least {MIN_LAMP_WIDTH_M} m wide in Manhattan "
+                     f"south of 96th Street (y <= {steam_north_limit_y():.1f} m NYC_TM), the Con Edison steam "
+                     f"district; no dataset of vent locations exists, so the count is a modelling choice"},
         ],
     }
     return parts, report

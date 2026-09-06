@@ -1,0 +1,209 @@
+{
+ "schema_version": 1,
+ "slug": "drive_brooklyn_bed_stuy_stuyvesant_ave",
+ "name": "Brooklyn brownstone block: Bed-Stuy, Stuyvesant Avenue",
+ "group": "drive_through",
+ "viewpoint": {
+  "lat": 40.6817,
+  "lon": -73.933,
+  "azimuth_deg": 13.0,
+  "note": "Stuyvesant Avenue at Decatur Street, Stuyvesant Heights, roadway centre, looking north",
+  "representative": false
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Stuyvesant Avenue\" Brooklyn",
+  "\"Bedford-Stuyvesant\" brownstones street",
+  "\"Stuyvesant Heights\" brownstones"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T11:58:08Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query list=search / list=geosearch / prop=imageinfo)",
+ "candidates_seen": 24,
+ "candidates_eligible": 13,
+ "rejections": {
+  "not_photo": 1,
+  "excluded": 4,
+  "too_old": 1,
+  "too_small": 2,
+  "keywords": 3
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Utica Avenue Southbound IND Fulton Street Line Platform, January 2026.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Utica_Avenue_Southbound_IND_Fulton_Street_Line_Platform,_January_2026.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/0c/Utica_Avenue_Southbound_IND_Fulton_Street_Line_Platform%2C_January_2026.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Utica_Avenue_Southbound_IND_Fulton_Street_Line_Platform%2C_January_2026.jpg/1920px-Utica_Avenue_Southbound_IND_Fulton_Street_Line_Platform%2C_January_2026.jpg",
+   "author": "IliketrainsR211T",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2026-01-01 15:44:03",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.679519,
+    "lon": -73.932014
+   },
+   "original_width": 5689,
+   "original_height": 4266,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 666512,
+   "sha256": "6ac45b1c18d8bb63fa51755e14005bf49f28c3024868f064245dd26b1c107048",
+   "mean_luminance": 94.9,
+   "description": "A southbound R211A A train departing Utica Avenue station on the IND Fulton Street Line in January 2026, en route to Far Rockaway - Mott Avenue",
+   "categories": [
+    "Utica Avenue (IND Fulton Street Line)",
+    "A (New York City Subway service)",
+    "R211 (New York City Subway car)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2026 in Bedford-Stuyvesant, Brooklyn",
+    "New York City photographs taken on 2026-01-01",
+    "January 2026 in Brooklyn, New York City",
+    "Railway photographs taken on 2026-01-01",
+    "New York City Subway in January 2026"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.2,
+   "estimated_viewpoint": {
+    "lat": 40.679519,
+    "lon": -73.932014,
+    "azimuth_deg": 13.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.67952, -73.93201), 256 m from the reference position (Stuyvesant Avenue at Decatur Street, Stuyvesant Heights, roadway centre, looking north); this item is a view along a street rather than at a point subject, so the azimuth 13 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Utica Avenue Southbound IND Fulton Street Line Platform, January 2026.jpg\" by IliketrainsR211T, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Utica_Avenue_Southbound_IND_Fulton_Street_Line_Platform,_January_2026.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Utica Avenue Station September 2022 003.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Utica_Avenue_Station_September_2022_003.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Utica_Avenue_Station_September_2022_003.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Utica_Avenue_Station_September_2022_003.jpg/1920px-Utica_Avenue_Station_September_2022_003.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-09-27 14:38:22",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.679511,
+    "lon": -73.932044
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 562593,
+   "sha256": "2b2e7b13823a5800149920ea679c2eee6a499a80ff8e2254885e25be2450bc86",
+   "mean_luminance": 96.9,
+   "description": "Utica Avenue Station in September 2022",
+   "categories": [
+    "Utica Avenue (IND Fulton Street Line)",
+    "New York City photographs taken on 2022-09-27",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2022 in Bedford-Stuyvesant, Brooklyn",
+    "Railway photographs taken on 2022-09-27",
+    "September 2022 in Brooklyn, New York City",
+    "New York City Subway in September 2022"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.05,
+   "estimated_viewpoint": {
+    "lat": 40.679511,
+    "lon": -73.932044,
+    "azimuth_deg": 13.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.67951, -73.93204), 256 m from the reference position (Stuyvesant Avenue at Decatur Street, Stuyvesant Heights, roadway centre, looking north); this item is a view along a street rather than at a point subject, so the azimuth 13 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Utica Avenue Station September 2022 003.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Utica_Avenue_Station_September_2022_003.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Decatur Stuyvesant Heights HD 2.JPG",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Decatur_Stuyvesant_Heights_HD_2.JPG",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Decatur_Stuyvesant_Heights_HD_2.JPG",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Decatur_Stuyvesant_Heights_HD_2.JPG/1920px-Decatur_Stuyvesant_Heights_HD_2.JPG",
+   "author": "Smallbones",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 3.0",
+    "url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "template": "cc-by-sa-3.0"
+   },
+   "date_taken": "2013",
+   "date_source": "DateTimeOriginal",
+   "year": 2013,
+   "camera_gps": {
+    "lat": 40.6815,
+    "lon": -73.932306
+   },
+   "original_width": 4320,
+   "original_height": 3240,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 840830,
+   "sha256": "5bc96202c40c1ec9480db83f6df3ac5d09d4b1c002470514b470366089430f2b",
+   "mean_luminance": 102.6,
+   "description": "Decatur Street in Stuyvesant Heights Historic District Listed by the NRHP on December 4, 1975. The district is roughly bounded by Macon, Tompkins, Decatur, Lewis, Chauncey, and Stuyvesant • Boundary increase (listed November 15, 1996, refnum 96001355): Roughly, Decatur St. from Tompkins to Lewis Aves. in Bedford-Stuyvesant, Brooklyn, New York. This is one of the nicest historic districts I've seen, and very large as well.",
+   "categories": [
+    "Taken with Nikon Coolpix S4100",
+    "Stuyvesant Heights Historic District",
+    "New York City photographs taken on 2013-09-07",
+    "Self-published work",
+    "National Register of Historic Places with known IDs",
+    "Apartment buildings in Brooklyn, New York City",
+    "Images from Wiki Loves Monuments 2013",
+    "Images from Wiki Loves Monuments 2013 in the United States",
+    "WLM 2013 United States unreviewed",
+    "Row houses in Brooklyn, New York City",
+    "Uploaded via Campaign:wlm-us",
+    "United States photographs taken on 2013-09-07",
+    "2013 in Bedford-Stuyvesant, Brooklyn",
+    "September 2013 in Brooklyn, New York City",
+    "Images from Wikipedia Takes Brooklyn",
+    "Decatur Street (Brooklyn)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 10.0,
+   "estimated_viewpoint": {
+    "lat": 40.6815,
+    "lon": -73.932306,
+    "azimuth_deg": 13.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.68150, -73.93231), 63 m from the reference position (Stuyvesant Avenue at Decatur Street, Stuyvesant Heights, roadway centre, looking north); this item is a view along a street rather than at a point subject, so the azimuth 13 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Decatur Stuyvesant Heights HD 2.JPG\" by Smallbones, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Decatur_Stuyvesant_Heights_HD_2.JPG"
+  }
+ ]
+}

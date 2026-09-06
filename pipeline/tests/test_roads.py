@@ -114,11 +114,15 @@ def test_offset_polyline_miters_a_corner_without_blowing_up():
 
 def test_bezier_connector_leaves_and_arrives_on_the_given_headings():
     p0, p3 = np.array([0.0, 0.0, 0.0]), np.array([30.0, 30.0, 3.0])
-    g = G.bezier_connector(p0, 0.0, p3, 90.0, n=9)
+    g = G.bezier_connector(p0, 0.0, p3, 90.0, n=501)
     assert np.allclose(g[0], p0) and np.allclose(g[-1], p3)
-    assert G.heading_math(*(g[1, :2] - g[0, :2])) == pytest.approx(0.0, abs=1.0)
-    assert G.heading_math(*(g[-1, :2] - g[-2, :2])) == pytest.approx(90.0, abs=1.0)
+    # the first/last chord of a finely sampled curve approaches the requested tangent
+    assert G.heading_math(*(g[1, :2] - g[0, :2])) == pytest.approx(0.0, abs=0.5)
+    assert G.heading_math(*(g[-1, :2] - g[-2, :2])) == pytest.approx(90.0, abs=0.5)
     assert g[0, 2] == pytest.approx(0.0) and g[-1, 2] == pytest.approx(3.0)
+    # a straight connector between aligned headings stays straight
+    straight = G.bezier_connector(np.array([0.0, 0.0, 0.0]), 0.0, np.array([20.0, 0.0, 0.0]), 0.0, n=5)
+    assert np.allclose(straight[:, 1], 0.0)
 
 
 def test_heading_conventions_round_trip():
@@ -424,10 +428,12 @@ def test_terrain_sampler_reads_the_contract_png(tmp_path):
                                                 "z_min_m": -1.0, "z_scale_m": 0.0025, "samples": n, "spacing_m": 2.0}))
     s = TerrainSampler(tmp_path)
     assert tile.name in s.available
-    z, ok = s.sample(np.array([tile.x0 + 500.0, tile.x0 + 10.0]), np.array([tile.y0 + 1000.0, tile.y0]))
+    z, ok = s.sample(np.array([tile.x0 + 500.0, tile.x0 + 10.0, tile.x0 + 500.0]),
+                     np.array([tile.y0 + 999.0, tile.y0, tile.y0 + 500.0]))
     assert ok.all()
-    assert z[0] == pytest.approx(-1.0, abs=1e-6)                       # north edge, row 0, value 0
-    assert z[1] == pytest.approx(-1.0 + 500 * 4 * 0.0025, abs=1e-3)    # south edge, row 500
+    assert z[0] == pytest.approx(-1.0 + 0.5 * 4 * 0.0025, abs=1e-4)     # half a sample below the north edge
+    assert z[1] == pytest.approx(-1.0 + 500 * 4 * 0.0025, abs=1e-3)     # south edge, row 500 (boundary fallback)
+    assert z[2] == pytest.approx(-1.0 + 250 * 4 * 0.0025, abs=1e-3)     # middle of the tile
     z2, ok2 = s.sample(np.array([tile.x0 + 5000.0]), np.array([tile.y0]))
     assert not ok2.any()
 

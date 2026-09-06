@@ -296,6 +296,7 @@ def roof_evidence(bins: list[int], *, da: int, zip_path: Path | None = None, cen
 
 
 def sloped_roof_buildings(out_dir: Path, *, base: Path | None = None, min_slope_deg: float = 0.01,
+                          report_thresholds: tuple[float, ...] = (0.01, 1.0, 2.0, 5.0),
                           out_json: Path | None = None) -> dict[str, Any]:
     """Every parsed building that has *any* sloped roof face, named from ``buildings_base.parquet``.
 
@@ -328,6 +329,9 @@ def sloped_roof_buildings(out_dir: Path, *, base: Path | None = None, min_slope_
         "buildings_with_sloped_roof": int(len(d)),
         "fraction": float(len(d) / max(total, 1)),
         "roof_type_hist": {ROOF_NAMES[int(k)]: int(v) for k, v in d.roof_type.value_counts().sort_index().items()},
+        "buildings_by_slope_threshold_deg": {str(t): int((d.roof_slope_deg > t).sum()) for t in report_thresholds},
+        "fraction_by_slope_threshold_deg": {str(t): float((d.roof_slope_deg > t).sum() / max(total, 1))
+                                            for t in report_thresholds},
         "buildings": json.loads(d.to_json(orient="records")),
     }
     if out_json is not None:

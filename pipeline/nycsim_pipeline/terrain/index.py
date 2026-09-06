@@ -5,7 +5,7 @@ has_terrain, has_water, has_land, z_min, z_max`` — and creates the file. The c
 (``n_buildings, n_road_segments, n_props, n_trees``) belong to the buildings / roads / furniture stages:
 this writer creates them as 0 and **never overwrites a non-zero value another stage has already put
 there**. Agents run concurrently, so the read-modify-write is serialised with ``fcntl.flock`` on
-``index.parquet.lock``.
+``tiles/index.lock``.
 
 ``borough_codes`` uses the contract enumeration 1 MN, 2 BX, 3 BK, 4 QN, 5 SI, 6 NJ, 0 water plus one
 documented extension, **7 = New York State land outside the five boroughs** (the Nassau County and lower
@@ -40,7 +40,7 @@ from ..tiling import Tile, scope_tiles
 log = logging.getLogger("nycsim.terrain.index")
 
 INDEX_PARQUET = PROCESSED / "tiles" / "index.parquet"
-LOCK_PATH = PROCESSED / "tiles" / "index.parquet.lock"
+LOCK_PATH = PROCESSED / "tiles" / "index.lock"
 BOROUGH_LAND = RAW / "nyc_opendata" / "borough_boundaries.geojson"
 BOROUGH_WATER = RAW / "nyc_opendata" / "borough_boundaries_water.geojson"
 SCHEMA = "tiles.index/1"

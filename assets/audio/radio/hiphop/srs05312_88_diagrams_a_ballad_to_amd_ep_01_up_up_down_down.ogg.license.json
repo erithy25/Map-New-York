@@ -1,0 +1,28 @@
+{
+ "artist": "88 Diagrams",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 5549806,
+ "duration_s": 336.05,
+ "file": "hiphop/srs05312_88_diagrams_a_ballad_to_amd_ep_01_up_up_down_down.ogg",
+ "gain_db": -3.8,
+ "licence": "CC-BY-4.0",
+ "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+ "loudness_lufs": -10.2,
+ "original_filename": "88 Diagrams - A Ballad to AMD EP - 01 Up Up Down Down.mp3",
+ "recorded_at": "2026-09-06T12:13:18Z",
+ "schema_version": 1,
+ "sha256": "96cdb993c6b5c2707094105f11e2ff099f5f77458fc4a343b49f0478e27c3f1a",
+ "source_page": "https://archive.org/details/SRS05312",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/SRS05312/88%20Diagrams%20-%20A%20Ballad%20to%20AMD%20EP%20-%2001%20Up%20Up%20Down%20Down.mp3",
+ "title": "Up Up Down Down",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

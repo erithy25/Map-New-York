@@ -190,15 +190,22 @@ def build_human(spec: HumanSpec, *, subdiv: int = 0, load_clothes: bool = True) 
     if armature is None or armature.type != "ARMATURE":
         raise RuntimeError(f"MPFB did not create an armature for rig {spec.rig!r}")
 
+    # MPFB parents assets either to the basemesh or to the armature depending on the asset type, so collect
+    # them by walking the whole armature family and asking MPFB what each object is.
+    family = [o for o in bpy.data.objects
+              if o.type == "MESH" and o is not basemesh
+              and (o.parent is armature or o.parent is basemesh
+                   or any(m.type == "ARMATURE" and m.object is armature for m in o.modifiers))]
     bodyparts: dict[str, bpy.types.Object] = {}
     clothes: dict[str, bpy.types.Object] = {}
-    for child in ObjectService.get_list_of_children(basemesh):
-        kind = ObjectService.get_object_type(child)
-        key = str(kind).lower()
+    for child in family:
+        key = str(ObjectService.get_object_type(child)).lower()
         if key in ("eyes", "eyebrows", "eyelashes", "teeth", "tongue", "hair", "proxymeshes"):
             bodyparts[key] = child
         elif key == "clothes":
             clothes[child.name] = child
+        else:
+            log.warning("unclassified mesh in character family: %s (mpfb type %r)", child.name, key)
     log.info("built %s: %d body verts, %d bodyparts, %d clothes", spec.name, len(basemesh.data.vertices),
              len(bodyparts), len(clothes))
     return BuiltHuman(spec=spec, basemesh=basemesh, armature=armature, bodyparts=bodyparts, clothes=clothes)

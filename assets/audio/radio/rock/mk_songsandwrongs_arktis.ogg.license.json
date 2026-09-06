@@ -1,0 +1,28 @@
+{
+ "artist": "Mathias Klingner",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 4624728,
+ "duration_s": 282.0,
+ "file": "rock/mk_songsandwrongs_arktis.ogg",
+ "gain_db": -7.2,
+ "licence": "CC-BY-3.0",
+ "licence_url": "http://creativecommons.org/licenses/by/3.0/",
+ "loudness_lufs": -6.8,
+ "original_filename": "Arktis.mp3",
+ "recorded_at": "2026-09-06T12:16:12Z",
+ "schema_version": 1,
+ "sha256": "8518f6f80487b0131d8dd0d05d8dea2f0b771c8af2e5c86f53d0723decb520b3",
+ "source_page": "https://archive.org/details/MK-SongsAndWrongs",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/MK-SongsAndWrongs/Arktis.mp3",
+ "title": "Arktis",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

@@ -156,6 +156,10 @@ def save(doc: dict, path: Path = COVERAGE_PATH) -> Path:
     with open(tmp, "w") as f:
         json.dump(doc, f, indent=1, sort_keys=True)
     os.replace(tmp, path)
+    from .. import manifest
+    manifest.record_processed("terrain_coverage", path, stage="terrain", sources=["usgs_3dep", "borough_boundaries", "plan_hydrography"],
+                              rows=doc["totals"]["tiles"], schema=SCHEMA,
+                              extra={"boroughs": doc["boroughs"], "void_px_land": doc["totals"]["void_px_land"]})
     return path
 
 

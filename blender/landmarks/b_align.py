@@ -331,6 +331,8 @@ def run_landmark(landmark_id: str, title: str, build_fn, *, bins: Sequence[int] 
     shots: list[Path] = []
     if not args["no_render"]:
         for r in renders:
+            if args["views"] and r["view"] not in args["views"]:
+                continue
             shots.append(bc.render_check(landmark_id, r["view"], r["cam"], r["target"], fov_deg=r.get("fov_deg", 50.0),
                                          size=r.get("size", (1280, 720)), samples=args["samples"],
                                          sun_azimuth_deg=r.get("sun_azimuth_deg", 220.0),
@@ -341,3 +343,41 @@ def run_landmark(landmark_id: str, title: str, build_fn, *, bins: Sequence[int] 
     if sections:
         bc.write_report(landmark_id, title, sections, lods, shots)
     return lods
+
+
+def axis_in_frame(frame: bc.LocalFrame, supports: Sequence[Support], span_pair: tuple[str, str],
+                  published_span_m: float, tol_m: float = 8.0) -> SpanFit:
+    """Place a second (or third) structure inside an existing landmark frame — the RFK Bridge's three crossings, a
+    tunnel's two portals, a tramway's tower line.  Same contract as :func:`bridge_axis` but the frame is given, so all
+    the parts of a multi-structure landmark share one origin and one glb."""
+    by_name = {sp.name: sp for sp in supports}
+    for n in span_pair:
+        if n not in by_name:
+            raise KeyError(f"axis_in_frame: span support {n!r} not in {list(by_name)}")
+    for sp in supports:
+        sp.resolve(tol_m)
+    a = np.asarray(by_name[span_pair[0]].resolved)
+    b = np.asarray(by_name[span_pair[1]].resolved)
+    measured = float(np.hypot(*(b - a)))
+    if measured < 1.0:
+        raise ValueError(f"axis_in_frame: span supports {span_pair} coincide")
+    d = (b - a) / measured
+    mid = 0.5 * (a + b)
+    ox, oy, _ = frame.to_local(float(mid[0]), float(mid[1]))
+    axis = Axis(bc.Vector((ox, oy, 0.0)), bc.Vector((float(d[0]), float(d[1]), 0.0)))
+    s: dict[str, float] = {}
+    t: dict[str, float] = {}
+    for sp in supports:
+        lx, ly, _ = frame.to_local(sp.resolved[0], sp.resolved[1])
+        ss, tt = axis.st(lx, ly)
+        s[sp.name] = ss
+        t[sp.name] = tt
+    half = published_span_m / 2.0
+    s[span_pair[0]], s[span_pair[1]] = -half, +half
+    t[span_pair[0]] = t[span_pair[1]] = 0.0
+    fit = SpanFit(frame, axis, s, t, by_name, measured, published_span_m,
+                  math.degrees(math.atan2(d[0], d[1])) % 360.0, "osm bridge:support ways + published span")
+    fit.span_pair = span_pair
+    log.info("%s (in frame): measured %.2f m, published %.2f m (%+.2f %%), heading %.2f deg", span_pair, measured,
+             published_span_m, fit.span_error_pct, fit.heading_deg)
+    return fit

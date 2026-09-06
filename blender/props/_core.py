@@ -565,6 +565,40 @@ def bezier_points(ctrl: Sequence[Sequence[float]], n: int = 16) -> list[tuple[fl
     return pts
 
 
+def extrude_grate(name: str, ring_xy: Sequence[Sequence[float]], holes: Sequence[Sequence[Sequence[float]]],
+                  z0: float, z1: float, *, material=None, uv_scale: float = 1.0) -> bpy.types.Object:
+    """Flat plate pierced by holes (tree grates, vault covers, grilles): outer ring plus hole rings, walls and both
+    caps, all with box-projected metre UVs."""
+    bm, uv = _new_bm()
+    rings = [list(ring_xy)] + [list(h) for h in holes]
+    v0: list[bmesh.types.BMVert] = []
+    v1: list[bmesh.types.BMVert] = []
+    spans = []
+    for r in rings:
+        start = len(v0)
+        for x, y in r:
+            v0.append(bm.verts.new((x, y, z0)))
+            v1.append(bm.verts.new((x, y, z1)))
+        spans.append((start, len(r)))
+    for gi, (start, n) in enumerate(spans):
+        for i in range(n):
+            a, b = start + i, start + (i + 1) % n
+            if gi == 0:
+                bm.faces.new((v0[a], v0[b], v1[b], v1[a]))
+            else:
+                bm.faces.new((v0[b], v0[a], v1[a], v1[b]))
+    tris = nb.triangulate_2d(rings[0], rings[1:])
+    for a, b, c in tris:
+        try:
+            bm.faces.new((v1[a], v1[b], v1[c]))
+            bm.faces.new((v0[c], v0[b], v0[a]))
+        except ValueError:
+            continue
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    cube_project_uv(bm, uv, scale=uv_scale)
+    return bm_object(name, bm, [material] if material else ())
+
+
 def regular_polygon(n: int, radius: float, rotation: float = 0.0) -> list[tuple[float, float]]:
     return [(radius * math.cos(rotation + TAU * k / n), radius * math.sin(rotation + TAU * k / n)) for k in range(n)]
 
@@ -960,7 +994,7 @@ def build_and_export(spec: PropSpec, *, out_dir: Path = PROPS_OUT, catalog_dir: 
         "nominal_size_m": list(spec.nominal),
         "anchor": {"origin": "ground_contact", "up_blender": "+Z", "facing_blender": "+Y", "up_gltf": "+Y", "facing_gltf": "-Z"},
         "polycount": {"lod0_tris": n0, "lod1_tris": n1}, "lod1": True, "lod1_kind": built.lod1_kind,
-        "variants": list(spec.variants), "variant_of": spec.variant_of, "tags": list(spec.tags),
+        "variants": list(spec.variants), "variant_of": spec.variant_of, "tags": list(spec.tags), "tolerance": spec.tolerance,
         "materials": mats, "sign_face": "SIGN_FACE" in mats, "emissive": any(m in ("LAMP_EMISSIVE", "SCREEN_EMISSIVE") or m.startswith("LED_") for m in mats),
         "light_cone": "LIGHT_CONE" in mats, "notes": spec.notes, "textures": [texture_license(a) for a in tex_assets],
         "glb_bytes": glb.stat().st_size, "build_seconds": round(time.time() - t0, 2), "generator": "blender/props/build_props.py",

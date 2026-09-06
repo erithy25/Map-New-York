@@ -4,6 +4,11 @@ Sources, in provenance priority: DOT LPI points (1) > DOT Barnes-Dance/exclusive
 ``highway=traffic_signals`` (0) > DOT 25-mph retiming corridors (3) > inferred (4). Every source that hits a
 node is kept in the extension bitmask ``signal_sources_mask`` so overlaps can be audited.
 
+The retiming list names a corridor, not its individual signals, so on its own it would flag every intersection
+the corridor passes. A retiming-only node is therefore kept only where the crossing street is a real through
+street (its name is on at least two legs and it carries at least two travel lanes); the minor side streets the
+corridor also passes are dropped. Nodes that another source already flagged are unaffected.
+
 Inference (ADR-007, refined): a node is inferred signalised only when it is unsignalised in every source,
 no OSM stop/yield sign is snapped to it, at least two distinct streets meet, and at least two of them
 carry >= 2 travel lanes *per direction* (one-way: travel_lanes >= 2; two-way: travel_lanes >= 4). This is the
@@ -27,6 +32,10 @@ import numpy as np
 import pandas as pd
 import shapely
 
+from scipy.sparse import coo_matrix
+from scipy.sparse.csgraph import connected_components
+from scipy.spatial import cKDTree
+
 from ..crs import NYC_TM, lonlat_to_tm
 from . import schema as S
 from .geom import PointSnapper, angle_diff, end_heading, fit_line_pca, heading_math
@@ -47,6 +56,7 @@ MIN_GREEN_S = 10.0
 CYCLE_CBD_S, CYCLE_STD_S = 90.0, 60.0
 CYCLE_ESCALATION = (90.0, 120.0)
 PROGRESSION_MPS = 25 * 0.44704
+CLUSTER_RADIUS_M = 40.0
 ESB_LONLAT = (-73.9857, 40.7484)
 
 
@@ -278,23 +288,45 @@ def build(seg: gpd.GeoDataFrame, nodes: pd.DataFrame, inputs, osm_nodes: pd.Data
         on = rt["OnStreet"].map(normalize).to_numpy()
         pts = shapely.points(nd.loc[is_intersection, ["x", "y"]].to_numpy())
         tree = shapely.STRtree(pts)
-        inter_ids = nid[is_intersection]
         inter_pos = np.flatnonzero(is_intersection)
-        hits = 0
-        cand_total = 0
+        corridor_of: dict[int, str] = {}
         for gi, geom in enumerate(g.values):
             if geom is None or geom.is_empty:
                 continue
             idx = tree.query(geom.buffer(RETIMING_BUFFER_M), predicate="intersects")
-            cand_total += len(idx)
             want = on[gi]; want_core = core_tokens(want)
             for k in idx:
-                p = inter_pos[k]
+                p = int(inter_pos[k])
                 nn = names_norm[p]
                 if any(v == want or core_tokens(v) == want_core for v in nn):
                     mask[p] |= S.SIGBIT_RETIMING
-                    hits += 1
-        st["retiming_corridors"] = int(len(rt)); st["retiming_nodes"] = int((mask & S.SIGBIT_RETIMING > 0).sum())
+                    corridor_of.setdefault(p, want)
+        on_corridor = int((mask & S.SIGBIT_RETIMING > 0).sum())
+        # A retiming project names the corridor, not which of its intersections carry a signal: an arterial is
+        # retimed end to end but only its through crossings are signalised. Keep the bit where the crossing is a
+        # real through street (the cross name appears on >= 2 legs and carries >= 2 travel lanes); drop it at the
+        # minor side streets and driveways the corridor also passes. Nodes another source already flagged keep
+        # their signal regardless.
+        dropped = 0
+        for p in np.flatnonzero(mask & S.SIGBIT_RETIMING > 0):
+            L = legs.get(int(nid[p]), [])
+            corridor = corridor_of.get(int(p), "")
+            cross = [l for l in L if l.name_norm and l.name_norm != corridor]
+            cross_names = {l.name_norm for l in cross}
+            keep = False
+            for cn in cross_names:
+                legs_cn = [l for l in cross if l.name_norm == cn]
+                lanes_cn = max((l.lanes_in + l.lanes_out) for l in legs_cn)
+                if len(legs_cn) >= 2 and lanes_cn >= 2:
+                    keep = True
+                    break
+            if not keep:
+                mask[p] &= ~S.SIGBIT_RETIMING
+                dropped += 1
+        st["retiming_corridors"] = int(len(rt))
+        st["retiming_nodes_on_corridor"] = on_corridor
+        st["retiming_nodes_dropped_not_a_through_crossing"] = dropped
+        st["retiming_nodes"] = int((mask & S.SIGBIT_RETIMING > 0).sum())
 
     # ---- OSM stop / yield signs (needed before inference) ----
     stop_approaches: dict[int, set[int]] = {}
@@ -442,8 +474,20 @@ def build(seg: gpd.GeoDataFrame, nodes: pd.DataFrame, inputs, osm_nodes: pd.Data
     nd["lpi"] = lpi_flag
     nd["cbd"] = cbd
     nd["borough"] = boro
+    # One real intersection can be several nodes (divided roadways, service roads, medians): report both the node
+    # count and the number of distinct intersection clusters (single-link at CLUSTER_RADIUS_M) so the figure can be
+    # compared with DOT's published count of signalised intersections.
+    n_clusters = 0
+    if int(is_sig.sum()):
+        sig_xy = nd.loc[is_sig, ["x", "y"]].to_numpy()
+        tree_s = cKDTree(sig_xy)
+        pairs = np.asarray(list(tree_s.query_pairs(CLUSTER_RADIUS_M)), dtype=np.int64).reshape(-1, 2)
+        m = len(sig_xy)
+        adj = coo_matrix((np.ones(len(pairs), dtype=np.int8), (pairs[:, 0], pairs[:, 1])), shape=(m, m))
+        n_clusters = int(connected_components(adj, directed=False)[0])
     st.update({
         "signalized_nodes": int(is_sig.sum()),
+        "signalized_intersection_clusters": n_clusters,
         "signalized_by_source": {S.SIG_SOURCE_NAMES[int(k)]: int(v) for k, v in zip(*np.unique(signal_source[is_sig], return_counts=True))},
         "signalized_source_mask_counts": {int(k): int(v) for k, v in zip(*np.unique(mask[is_sig], return_counts=True))},
         "stop_nodes": int(has_stop.sum()), "all_way_stop_nodes": int(has_allway.sum()), "yield_nodes": int(has_yield.sum()),

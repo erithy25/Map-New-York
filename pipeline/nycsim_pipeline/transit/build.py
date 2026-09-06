@@ -98,9 +98,16 @@ def read_feed(feed: G.Feed, scratch: Path) -> FeedResult:
         trips = trips.with_columns(pl.lit("0").alias("direction_id"))
     if "shape_id" not in trips.columns:
         trips = trips.with_columns(pl.lit("").alias("shape_id"))
-    trips = trips.with_columns([pl.col("direction_id").fill_null("0").str.strip_chars(),
+    trips = trips.with_columns([pl.col("direction_id").fill_null("").str.strip_chars(),
                                 pl.col("shape_id").fill_null("").str.strip_chars()])
     trips = trips.filter(pl.col("service_id").is_in(list(services)))
+    # GTFS direction_id is optional. The Staten Island Ferry feed leaves it empty and separates the two
+    # directions by shape_id instead, so fall back to shape_id when the whole feed has no direction_id.
+    if trips.height and (trips["direction_id"] == "").all():
+        log.info("%s: direction_id is empty in this feed — using shape_id as the direction key", feed.feed_id)
+        trips = trips.with_columns(pl.col("shape_id").alias("direction_id"))
+    trips = trips.with_columns(pl.when(pl.col("direction_id") == "").then(pl.lit("0"))
+                               .otherwise(pl.col("direction_id")).alias("direction_id"))
     res = FeedResult(feed, day, services)
     res.trips = trips
     log.info("%s: service day %s, %d services, %d weekday trips", feed.feed_id, day, len(services), trips.height)
@@ -172,9 +179,15 @@ def _lines_to_tm(shape_ids: list[str], shapes: dict[str, np.ndarray]):
 def route_table(results: list[FeedResult], route_types: tuple[int, ...], borough_of: dict[str, int],
                 agency_of: dict[str, str]) -> tuple[pa.Table, dict[str, list[str]], dict[str, np.ndarray]]:
     """Merge routes of the given ``route_type`` across feeds into one row per route_id."""
-    all_hours = pl.concat([r.route_hours for r in results if r.route_hours.height], how="vertical") \
-        if any(r.route_hours.height for r in results) else pl.DataFrame({"route_id": [], "direction_id": [], "hour": []})
-    headways = headway_table(all_hours)
+    frames = []
+    for r in results:
+        if r.route_hours.height:
+            frames.append(r.route_hours.with_columns(
+                (pl.lit((r.feed.agency or "") + ":") + pl.col("route_id")).alias("route_uid")))
+    all_hours = pl.concat(frames, how="vertical") if frames else \
+        pl.DataFrame({"route_id": [], "direction_id": [], "hour": [], "route_uid": []},
+                     schema={"route_id": pl.String, "direction_id": pl.String, "hour": pl.Int64, "route_uid": pl.String})
+    headways = headway_table(all_hours.select([pl.col("route_uid").alias("route_id"), "direction_id", "hour"]))
 
     merged: dict[str, dict] = {}
     shapes: dict[str, np.ndarray] = {}
@@ -183,13 +196,16 @@ def route_table(results: list[FeedResult], route_types: tuple[int, ...], borough
         rt = res.routes
         if rt.height == 0:
             continue
+        agency = res.feed.agency or agency_of.get("", "")
         keep = rt.filter(pl.col("route_type").cast(pl.Int32, strict=False).is_in(list(route_types)))
         for row in keep.iter_rows(named=True):
             rid = row["route_id"]
-            m = merged.setdefault(rid, {"route_id": rid, "short_name": row.get("route_short_name", ""),
+            uid = f"{agency}:{rid}"          # LIRR route "1" and subway route "1" are different routes
+            m = merged.setdefault(uid, {"route_uid": uid, "route_id": rid, "agency": agency,
+                                        "short_name": row.get("route_short_name", ""),
                                         "long_name": row.get("route_long_name", ""),
                                         "route_type": int(row["route_type"]), "color": row.get("route_color", ""),
-                                        "feeds": []})
+                                        "borough": res.feed.borough, "feeds": []})
             if not m["short_name"]:
                 m["short_name"] = row.get("route_short_name", "")
             if not m["long_name"]:
@@ -199,38 +215,41 @@ def route_table(results: list[FeedResult], route_types: tuple[int, ...], borough
                 key = f"{res.feed.feed_id}:{sid}"
                 if key not in shapes and sid in res.shapes:
                     shapes[key] = res.shapes[sid]
-                    route_shape_ids[rid].append(key)
+                    route_shape_ids[uid].append(key)
 
-    rows = sorted(merged.values(), key=lambda r: (r["route_type"], r["route_id"]))
+    rows = sorted(merged.values(), key=lambda r: (r["route_type"], r["agency"], r["route_id"]))
     geoms = []
     for r in rows:
-        g = _lines_to_tm(route_shape_ids.get(r["route_id"], []), shapes)
+        g = _lines_to_tm(route_shape_ids.get(r["route_uid"], []), shapes)
         geoms.append(g)
     keep = [i for i, g in enumerate(geoms) if g is not None]
     if len(keep) != len(rows):
-        dropped = [rows[i]["route_id"] for i in range(len(rows)) if i not in set(keep)]
+        dropped = [rows[i]["route_uid"] for i in range(len(rows)) if i not in set(keep)]
         log.warning("%d routes have no usable shape and are dropped: %s", len(rows) - len(keep), dropped[:20])
     rows = [rows[i] for i in keep]
     geoms = [geoms[i] for i in keep]
 
     wkb = [shapely.to_wkb(g) for g in geoms]
     bbox = shapely.total_bounds(np.asarray(geoms, dtype=object)) if geoms else (np.nan,) * 4
+    trips_by_uid = dict(all_hours.group_by("route_uid").len().iter_rows()) if all_hours.height else {}
+    longest = [max((float(shapely.length(p)) for p in shapely.get_parts(g)), default=0.0) for g in geoms]
     table = pa.table({
         "route_id": pa.array([r["route_id"] for r in rows]),
+        "route_uid": pa.array([r["route_uid"] for r in rows]),
         "short_name": pa.array([r["short_name"] or r["route_id"] for r in rows]),
         "long_name": pa.array([r["long_name"] for r in rows]),
-        "borough": pa.array([np.int8(borough_of.get(r["route_id"], 0)) for r in rows], type=pa.int8()),
-        "agency": pa.array([agency_of.get(r["route_id"], "") for r in rows]),
+        "borough": pa.array([np.int8(borough_of.get(r["route_id"], r["borough"])) for r in rows], type=pa.int8()),
+        "agency": pa.array([r["agency"] or agency_of.get(r["route_id"], "") for r in rows]),
         "route_type": pa.array([np.int8(r["route_type"]) for r in rows], type=pa.int8()),
         "color": pa.array([r["color"] for r in rows]),
         "feeds": pa.array([sorted(set(r["feeds"])) for r in rows], type=pa.list_(pa.string())),
         "geometry": pa.array(wkb, type=pa.binary()),
-        "shape_count": pa.array([len(route_shape_ids.get(r["route_id"], [])) for r in rows], type=pa.int32()),
-        "length_m": pa.array([float(shapely.length(g)) for g in geoms], type=pa.float32()),
-        "headway_min": pa.array([[np.int16(v) for v in headways.get(r["route_id"], [0] * 24)] for r in rows],
+        "shape_count": pa.array([len(route_shape_ids.get(r["route_uid"], [])) for r in rows], type=pa.int32()),
+        "length_m": pa.array(np.asarray(longest, dtype=np.float32), type=pa.float32()),
+        "total_shape_length_m": pa.array([np.float32(shapely.length(g)) for g in geoms], type=pa.float32()),
+        "headway_min": pa.array([[np.int16(v) for v in headways.get(r["route_uid"], [0] * 24)] for r in rows],
                                 type=pa.list_(pa.int16())),
-        "trips_weekday": pa.array([int(all_hours.filter(pl.col("route_id") == r["route_id"]).height) for r in rows],
-                                  type=pa.int32()),
+        "trips_weekday": pa.array([int(trips_by_uid.get(r["route_uid"], 0)) for r in rows], type=pa.int32()),
     })
     table = table.replace_schema_metadata({b"geo": json.dumps(geo_meta(bbox)).encode()})
     return table, {r["route_id"]: route_shape_ids.get(r["route_id"], []) for r in rows}, shapes
@@ -341,7 +360,8 @@ def build_ferries(ground: GroundModel, scratch: Path, download_feeds: bool = Tru
     results: list[FeedResult] = []
     licences = []
     for fid, p in paths.items():
-        feed = G.Feed(fid, Path(p))
+        label = "NYC DOT — Staten Island Ferry" if "staten" in fid else "NYC Ferry (NYCEDC/Hornblower)"
+        feed = G.Feed(fid, Path(p), label, 0)
         results.append(read_feed(feed, scratch))
         licences.append({**feed.license_note(), "license": ferry_mod.FERRY_SOURCES[fid].license,
                          "attribution": ferry_mod.FERRY_SOURCES[fid].attribution, "url": ferry_mod.FERRY_SOURCES[fid].url})

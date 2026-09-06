@@ -1,0 +1,194 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_st_patricks_cathedral",
+ "name": "St. Patrick's Cathedral",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.759,
+  "lon": -73.9779,
+  "azimuth_deg": 111.2,
+  "note": "Rockefeller Plaza at Fifth Avenue (by the Atlas statue), looking east at the west front",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7585,
+  "lon": -73.9762,
+  "name": "St. Patrick's Cathedral"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"St. Patrick's Cathedral\" Fifth Avenue exterior",
+  "\"Saint Patrick's Cathedral\" Manhattan facade"
+ ],
+ "geosearch_radius_m": 200,
+ "fetched_at": "2026-09-06T12:15:34Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 72,
+ "candidates_eligible": 18,
+ "rejections": {
+  "excluded": 10,
+  "keywords": 34,
+  "too_small": 5,
+  "licence": 1,
+  "too_old": 2,
+  "not_photo": 2
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:St Patrick’s Cathedral August 2021 001.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:St_Patrick%E2%80%99s_Cathedral_August_2021_001.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/9d/St_Patrick%E2%80%99s_Cathedral_August_2021_001.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/St_Patrick%E2%80%99s_Cathedral_August_2021_001.jpg/1920px-St_Patrick%E2%80%99s_Cathedral_August_2021_001.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-08-21 12:42:57",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.758811,
+    "lon": -73.977586
+   },
+   "original_width": 2448,
+   "original_height": 3264,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1214927,
+   "sha256": "602e9a59cea13f9d09dc047432a8f3bac8d5e078dd89ec24499ff3e67387f9d9",
+   "mean_luminance": 96.4,
+   "description": "Exterior of St Patrick’s Cathedral",
+   "categories": [
+    "5th Avenue (Manhattan)",
+    "50th Street (Manhattan)",
+    "New York City photographs taken on 2021-08-21",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Midtown Manhattan in 2021",
+    "August 2021 in Manhattan, New York City",
+    "Exterior of St. Patrick's Cathedral (Manhattan)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.9,
+   "estimated_viewpoint": {
+    "lat": 40.758811,
+    "lon": -73.977586,
+    "azimuth_deg": 106.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75881, -73.97759) is 122 m from St. Patrick's Cathedral (40.75850, -73.97620) and 34 m from the standard viewpoint; the azimuth 107 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"St Patrick’s Cathedral August 2021 001.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:St_Patrick%E2%80%99s_Cathedral_August_2021_001.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Spires of St Patricks Cathedral Rising Above Fifth Avenue 2019-09-30 18-19.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Spires_of_St_Patricks_Cathedral_Rising_Above_Fifth_Avenue_2019-09-30_18-19.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/86/Spires_of_St_Patricks_Cathedral_Rising_Above_Fifth_Avenue_2019-09-30_18-19.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Spires_of_St_Patricks_Cathedral_Rising_Above_Fifth_Avenue_2019-09-30_18-19.jpg/1920px-Spires_of_St_Patricks_Cathedral_Rising_Above_Fifth_Avenue_2019-09-30_18-19.jpg",
+   "author": "Axel Tschentscher",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2019-09-30 18:19:42",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.75881,
+    "lon": -73.976819
+   },
+   "original_width": 2811,
+   "original_height": 4216,
+   "width": 1920,
+   "height": 2880,
+   "bytes": 1515753,
+   "sha256": "6d4242f72a0177ff47bacc8d80de6e40b392c7a386029a340c0ade5fb9c97844",
+   "mean_luminance": 118.2,
+   "description": "Spires of St. Patricks Cathedral rising above Fifth Avenue",
+   "categories": [
+    "5th Avenue (Manhattan)",
+    "Files with coordinates missing SDC location of creation",
+    "Exterior of St. Patrick's Cathedral (Manhattan)",
+    "Images by User:Axel Tschentscher"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "search:\"St. Patrick's Cathedral\" Fifth Avenue exterior",
+   "score": 13.1,
+   "estimated_viewpoint": {
+    "lat": 40.75881,
+    "lon": -73.976819,
+    "azimuth_deg": 123.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75881, -73.97682) is 63 m from St. Patrick's Cathedral (40.75850, -73.97620) and 93 m from the standard viewpoint; the azimuth 123 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Spires of St Patricks Cathedral Rising Above Fifth Avenue 2019-09-30 18-19.jpg\" by Axel Tschentscher, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Spires_of_St_Patricks_Cathedral_Rising_Above_Fifth_Avenue_2019-09-30_18-19.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Exterior of St. Patrick's Cathedral (Manhattan) 25-10-2018.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Exterior_of_St._Patrick%27s_Cathedral_(Manhattan)_25-10-2018.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/58/Exterior_of_St._Patrick%27s_Cathedral_%28Manhattan%29_25-10-2018.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Exterior_of_St._Patrick%27s_Cathedral_%28Manhattan%29_25-10-2018.jpg/1920px-Exterior_of_St._Patrick%27s_Cathedral_%28Manhattan%29_25-10-2018.jpg",
+   "author": "Sebring12Hrs",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018-10-25 11:10:01",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.7587,
+    "lon": -73.9766
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 1040735,
+   "sha256": "7785bc3d6ae1b823468407e10a1c14b69c173fc2bb7ae191d64f33514dacf909",
+   "mean_luminance": 103.4,
+   "description": "Façade of St. Patrick's Cathedral in New York City (Manhattan).",
+   "categories": [
+    "Self-published work",
+    "National Register of Historic Places with known IDs",
+    "Exterior of St. Patrick's Cathedral (Manhattan)"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "search:\"Saint Patrick's Cathedral\" Manhattan facade",
+   "score": 12.95,
+   "estimated_viewpoint": {
+    "lat": 40.7587,
+    "lon": -73.9766,
+    "azimuth_deg": 123.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75870, -73.97660) is 40 m from St. Patrick's Cathedral (40.75850, -73.97620) and 114 m from the standard viewpoint; the azimuth 123 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Exterior of St. Patrick's Cathedral (Manhattan) 25-10-2018.jpg\" by Sebring12Hrs, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Exterior_of_St._Patrick%27s_Cathedral_(Manhattan)_25-10-2018.jpg"
+  }
+ ]
+}

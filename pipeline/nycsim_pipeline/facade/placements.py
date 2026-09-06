@@ -50,7 +50,7 @@ PLACEMENTS_SCHEMA = "kit_placements/1"
 # --- placement policy constants (all real dimensions or stated shares) -------------------------------------------------
 MIN_WINDOW_RUN_M = 2.2        # a facade run shorter than this carries no window
 MIN_GROUND_RUN_M = 2.6        # a run shorter than this carries no ground-floor treatment
-MAX_BAYS_PER_RUN = 40
+MAX_BAYS_PER_RUN = 32
 MAX_WINDOW_FLOORS = 110
 SILL_ABOVE_FLOOR_M = 0.85     # residential sill height above the finished floor
 SILL_OFFICE_M = 0.75
@@ -201,7 +201,10 @@ def build_placements(b: dict[str, np.ndarray], runs: dict[str, np.ndarray], geom
         vseed = _seed_mix(seed[wb], bay_run[w_bay], f, salt=SALT_VARIANT)
         lit_p = np.where(residential[wb], LIT_SHARE_RESIDENTIAL, np.where(office_like[wb], LIT_SHARE_OFFICE, 0.15))
         lit = (E.rand_unit(vseed, SALT_WINDOW_LIT) < lit_p)
-        kid = np.asarray([KIT_ID[("window", n)] for n in E.WINDOW_TYPE_NAMES], dtype=np.uint32)[wt[wb]]
+        # ``through_wall_ac_sleeve`` names the sleeve opening, not a window: the 2000s infill type really has a
+        # normal one-over-one sash with the sleeve punched underneath, so place both.
+        wt_place = np.where(wt[wb] == _THROUGH_WALL, E.WINDOW_TYPE_INDEX["double_hung_1_1"], wt[wb])
+        kid = np.asarray([KIT_ID[("window", n)] for n in E.WINDOW_TYPE_NAMES], dtype=np.uint32)[wt_place]
         wscale = np.where(curtain, np.minimum(step[w_bay] / np.maximum(bay_w[wb], 0.5), 2.0), 1.0)
         acc.add(kid, b["bin"][wb], wx, wy, wz, wyaw, wscale.astype(np.float32), vseed,
                 np.where(lit, FLAG_LIT, 0).astype(np.uint32))
@@ -340,10 +343,13 @@ def _ground_floor(acc: Accum, b, nb, r_b, r_len, r_x0, r_y0, r_ux, r_uy, r_yaw, 
         pick = np.argmin(np.abs(step[:, None] - sf_bay_w[None, :]), axis=1)
         acc.add(sf_bay_kids[pick], b["bin"][sb], sx, sy, gz[sb], r_yaw[rep], (step / sf_bay_w[pick]).astype(np.float32),
                 vs, np.uint32(FLAG_LIT))
-        # sign band above the glass
-        acc.add(np.uint32(kit_id("storefront", "sign_band")), b["bin"][sb], sx, sy,
-                (gz[sb] + np.minimum(gfh[sb], 4.5) - 0.85), r_yaw[rep], (step / 3.6).astype(np.float32), vs,
-                np.uint32(FLAG_LIT))
+        # sign band above the glass: one per shopfront run, stretched across its bays
+        band = k == 0
+        acc.add(np.uint32(kit_id("storefront", "sign_band")), b["bin"][sb][band],
+                r_x0[rep][band] + r_ux[rep][band] * (r_len[rep][band] * 0.5),
+                r_y0[rep][band] + r_uy[rep][band] * (r_len[rep][band] * 0.5),
+                (gz[sb][band] + np.minimum(gfh[sb][band], 4.5) - 0.85), r_yaw[rep][band],
+                (r_len[rep][band] / 3.6).astype(np.float32), vs[band], np.uint32(FLAG_LIT))
         # roll-down gate on a share of the bays (the runtime lowers them at night: FLAG_ANIMATED)
         gate = (E.rand_unit(vs, SALT_GATE) < ROLL_GATE_SHARE) & CLASS.has_roll_gate[fc[sb]]
         if gate.any():
@@ -559,9 +565,11 @@ def write_tile(rec: np.ndarray, tile: str, out_dir: Path, extra: dict | None = N
             {"name": "flags", "type": "uint32", "bits": {"0": "lit at night", "1": "animated", "2": "interior-visible"}},
         ],
         "sorted_by": ["bin", "kit_id"],
-        "kit_ids": [{"kit_id": int(k), "category": KIT_PIECE[int(k)][0] if int(k) in KIT_PIECE else "unknown",
-                     "name": KIT_PIECE[int(k)][1] if int(k) in KIT_PIECE else "unknown", "count": int(c)}
-                    for k, c in zip(kid, cnt)],
+        # ``kit_ids`` is the plain id list the cross-stage catalog check reads; the breakdown sits next to it.
+        "kit_ids": [int(k) for k in kid],
+        "kit_id_counts": [{"kit_id": int(k), "category": KIT_PIECE[int(k)][0] if int(k) in KIT_PIECE else "unknown",
+                           "name": KIT_PIECE[int(k)][1] if int(k) in KIT_PIECE else "unknown", "count": int(c)}
+                          for k, c in zip(kid, cnt)],
         "buildings": int(len(np.unique(rec["bin"]))) if len(rec) else 0,
     }
     if extra:

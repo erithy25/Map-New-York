@@ -95,11 +95,13 @@ struct Powertrain {
   double batteryPeakPowerW = 35000.0;  ///< PUBLISHED
   double drivelineEfficiency = 0.92;   ///< DERIVED eCVT + final drive mechanical efficiency
   /// CALIBRATED: the tractive-force ceiling of the eCVT below its corner speed. There is no
-  /// published transaxle ratio for the HF35; this single value is fixed so the longitudinal model
-  /// reproduces the published measured 0-60 mph time (see LongitudinalSim.h). 6.00 kN at the
-  /// rolling radius is 1,906 N.m of wheel torque and 0.363 g of acceleration - comfortably inside
-  /// the tyre's traction limit, so the launch is torque-limited, as it is in the real car.
-  double maxWheelForceN = 6000.0;
+  /// published transaxle ratio for the HF35, so this single value is fixed by bisection so that the
+  /// longitudinal model reproduces the published measured 0-60 mph time of 8.50 s at the SAE test
+  /// mass (curb + 80 kg driver). 6.424 kN at the 0.3176 m rolling radius is 2,040 N.m of wheel
+  /// torque and 0.350 g - comfortably inside the tyre's traction limit on dry or wet asphalt, so
+  /// the launch is torque-limited, as it is in the real car. It is the only calibrated constant in
+  /// this header.
+  double maxWheelForceN = 6424.0;
   double topSpeedMps = 51.4;           ///< PUBLISHED 115 mph electronically limited
   double evOnlyTopSpeedMps = 38.6;     ///< PUBLISHED 85 mph EV mode ceiling
   double fuelTankL = 53.0;             ///< PUBLISHED 14.0 US gal

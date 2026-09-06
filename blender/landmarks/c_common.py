@@ -70,13 +70,13 @@ SCRIPTS: dict[str, dict] = {
     "c_hudson_yards": dict(
         name="Hudson Yards (Eastern Yard)", height_m=387.1,
         height_source="30 Hudson Yards, KPF/CTBUH: 1,270 ft = 387.1 m architectural (tallest of the group)",
-        bins=[1088961, 1091590, 1089412, 1089411, 1090274, 1090391],
+        bins=[1088961, 1089323, 1091590, 1089412, 1089411, 1090274, 1090391],
         parts=[
             dict(id="30_hudson_yards", name="30 Hudson Yards", bins=[1088961], height_m=387.1,
                  height_source="KPF / CTBUH: 1,270 ft (387.1 m) architectural; Edge observation deck 1,131 ft (345 m), cantilever 65 ft (20 m)"),
             dict(id="35_hudson_yards", name="35 Hudson Yards", bins=[1091590], height_m=308.0,
                  height_source="SOM / CTBUH: 1,009 ft (308.0 m), 72 floors"),
-            dict(id="10_hudson_yards", name="10 Hudson Yards", bins=[1088961], height_m=272.8,
+            dict(id="10_hudson_yards", name="10 Hudson Yards", bins=[1089323], height_m=272.8,
                  height_source="KPF / CTBUH: 895 ft (272.8 m), 52 floors"),
             dict(id="55_hudson_yards", name="55 Hudson Yards", bins=[1089412], height_m=237.4,
                  height_source="KPF + Kohn Pedersen Fox / CTBUH: 780 ft (237.4 m), 51 floors (LiDAR 24.4 m = 2015 flight, pre-construction)"),
@@ -307,102 +307,77 @@ def frame_at(x: float, y: float, ground_z: float = 0.0, angle_deg: float = 0.0) 
 
 
 # ------------------------------------------------------------------------------------------------------- materials
-_TEX_ON = os.environ.get("NYCSIM_LANDMARK_TEXTURES", "1") != "0"
-_TEX_STATUS: dict[str, str] = {}
+def materials(names: Sequence[str]) -> dict[str, str]:
+    """Instantiate the palette materials this script uses and report where each one's PBR maps came from.
 
-
-def _cache_1k(src: str, dst: Path) -> str:
-    """1024 px JPEG copy of a texture map (keeps the glbs small). Returns the cached path."""
-    if dst.exists() and dst.stat().st_size > 0:
-        return str(dst)
-    from PIL import Image
-    dst.parent.mkdir(parents=True, exist_ok=True)
-    with Image.open(src) as im:
-        im = im.convert("RGB")
-        if max(im.size) > 1024:
-            im = im.resize((1024, max(1, int(round(im.height * 1024 / im.width)))), Image.LANCZOS)
-        tmp = dst.with_suffix(".tmp.jpg")
-        im.save(tmp, "JPEG", quality=84, optimize=True)
-        os.replace(tmp, dst)
-    return str(dst)
-
-
-def _mean_linear(path: str) -> tuple[float, float, float]:
-    """Mean linear-space RGB of a colour map (used to keep the palette albedo after a texture is attached)."""
-    from PIL import Image
-    with Image.open(path) as im:
-        im = im.convert("RGB").resize((64, 64), Image.BOX)
-        px = list(im.getdata())
-    n = len(px)
-    out = []
-    for c in range(3):
-        s = 0.0
-        for p in px:
-            v = p[c] / 255.0
-            s += v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4
-        out.append(max(1e-3, s / n))
-    return tuple(out)  # type: ignore[return-value]
-
-
-def _tint_to_albedo(material: bpy.types.Material, albedo, color_map: str) -> tuple[float, float, float, float]:
-    """Insert ``texture x factor`` before Base Color so the material keeps the documented albedo of ``PALETTE``.
-
-    The factor is albedo / mean(texture), clamped to [0, 1] — exactly the glTF ``baseColorFactor`` x
-    ``baseColorTexture`` product, so the tint survives the export."""
-    mean = _mean_linear(color_map)
-    fac = tuple(min(1.0, albedo[i] / mean[i]) for i in range(3)) + (1.0,)
-    nt = material.node_tree
-    bsdf = nt.nodes.get("Principled BSDF")
-    link = next((l for l in nt.links if l.to_node is bsdf and l.to_socket.name == "Base Color"), None)
-    if link is None:
-        return fac
-    src = link.from_socket
-    nt.links.remove(link)
-    mix = nt.nodes.new("ShaderNodeMixRGB")
-    mix.blend_type = "MULTIPLY"
-    mix.inputs["Fac"].default_value = 1.0
-    nt.links.new(src, mix.inputs["Color1"])
-    mix.inputs["Color2"].default_value = fac
-    nt.links.new(mix.outputs["Color"], bsdf.inputs["Base Color"])
-    return fac
-
-
-def use_textures(pairs: Sequence[tuple[str, str]], *, maps: Sequence[str] = ("color", "normal", "roughness")) -> dict[str, str]:
-    """Attach CC0 PBR maps to palette materials: ``pairs`` = [(palette_name, textures.py material name), ...].
-
-    Creates a Blender material named exactly ``palette_name`` *before* anything calls ``common.mat``, so every builder
-    picks up the textured version. UVs are metres; ``uv_scale_m`` is the asset's measured ``physical_size_m``. The
-    documented albedo of ``common.PALETTE`` is preserved as a multiply factor on the colour map (see
-    :func:`_tint_to_albedo`), so a red-granite or bronze material does not turn into the grey of the CC0 scan.
-    Returns {palette_name: status}."""
-    status: dict[str, str] = {}
-    if not _TEX_ON:
-        return {p: "disabled" for p, _ in pairs}
-    import textures as T
-    for pal, tex in pairs:
-        if pal in bpy.data.materials:
-            status[pal] = "already"
-            continue
-        try:
-            meta = T.get_texture_meta(tex)
-            got = T.get_texture_set(tex, "2K")
-            use = {k: _cache_1k(v, TEX_CACHE / f"{meta['asset_id']}_{k}_1k.jpg") for k, v in got.items() if k in maps}
-            if "color" not in use:
-                raise RuntimeError("no colour map")
-            rgb, rough, metal, emis, estr, _note = C.PALETTE[pal]
-            m = nb.pbr_material(pal, base_color=C._srgb(*rgb), roughness=rough, metallic=metal, textures=use,
-                                uv_scale_m=float(meta.get("physical_size_m") or 2.0))
-            fac = _tint_to_albedo(m, C._srgb(*rgb)[:3], use["color"])
-            status[pal] = f"{meta['asset_id']} ({meta.get('provider', 'ambientcg')}, CC0), albedo factor {[round(v, 3) for v in fac[:3]]}"
-        except Exception as e:
-            status[pal] = f"fallback flat colour: {type(e).__name__}: {str(e)[:90]}"
-            log.info("texture for %s unavailable (%s) — using the documented Principled albedo", pal, status[pal])
-        _TEX_STATUS[pal] = status[pal]
-    return status
+    Texture resolution is agent A's: ``common.mat`` looks the name up in ``common.TEXTURE_NAMES`` and asks
+    ``blender/common/textures.py`` for the CC0 set, tiling it in metres over the box-projected UVs that
+    ``MeshBuilder.build`` writes, and tinting the colour map back to the documented ``PALETTE`` albedo. This wrapper
+    exists so each C script names its materials in one place and the catalog records the outcome."""
+    for n in names:
+        C.mat(n)
+    return {n: C.texture_status().get(n, "flat Principled albedo (no texture set mapped)") for n in names}
 
 
 def texture_status() -> dict[str, str]:
-    return dict(_TEX_STATUS)
+    return dict(C.texture_status())
+
+
+# ----------------------------------------------------------------------------------------------------- curtain wall
+def band_ring(b: C.MeshBuilder, ring: Sequence[Sequence[float]], z0: float, z1: float, proud: float, material) -> None:
+    """A protruding horizontal band around ``ring`` between z0 and z1 as four lofted rings (in-out-out-in).
+
+    12 triangles per ring vertex per band, which is what keeps a 90-storey curtain wall inside the triangle budget."""
+    outer = C.offset_ring(ring, proud)
+    b.loft([[(x, y, z0) for x, y in ring], [(x, y, z0) for x, y in outer],
+            [(x, y, z1) for x, y in outer], [(x, y, z1) for x, y in ring]],
+           material, cap_top=False, cap_bottom=False)
+
+
+def curtain(name: str, poly, z0: float, z1: float, *, floor_h: float, module: float = 3.0, glass: str = "glass_blue",
+            mullion: str = "aluminium", spandrel: str | None = None, spandrel_h: float = 0.95, proud: float = 0.18,
+            mullion_w: float = 0.20, mullion_d: float = 0.28, recess: float = 0.06, roof_material: str = "roof_dark",
+            role: str = "mass", parapet_h: float = 0.0, first_floor_h: float | None = None,
+            edges: Sequence[int] | None = None) -> list[bpy.types.Object]:
+    """A modern glass curtain wall: a glass volume, a protruding spandrel band at every floor line and vertical
+    mullions on a ``module`` grid.
+
+    This is the economical counterpart of ``common.tower_tier``/``Fenestration`` (which models every window opening as
+    solid geometry and costs ~20 triangles per window). At 90 storeys and a 220 m perimeter that would be >100k
+    triangles for one tower; this builds the same read — floor lines, mullion rhythm, recessed glass — for ~3k."""
+    objs: list[bpy.types.Object] = []
+    core = C.prism(f"{name}_mass", poly, z0, z1, C.mat(glass), inset=recess,
+                   material_top=C.mat(roof_material), role=role)
+    objs.append(core)
+    ring = C.ring_coords(poly)
+    sp = C.mat(spandrel or mullion)
+    mu = C.mat(mullion)
+    b = C.MeshBuilder()
+    z = z0 if first_floor_h is None else z0 + first_floor_h - floor_h
+    n = 0
+    while z + floor_h <= z1 + 1e-6:
+        zf = z + floor_h
+        band_ring(b, ring, zf - spandrel_h, zf, proud, sp)
+        z = zf
+        n += 1
+    band_ring(b, ring, z0, z0 + min(0.7, spandrel_h), proud, sp)
+    sel = set(edges) if edges is not None else None
+    for i, (p0, p1, L, t, nrm) in enumerate(C.edges_of(ring)):
+        if sel is not None and i not in sel:
+            continue
+        k = max(1, int(round(L / module)))
+        for j in range(k + 1):
+            q0 = p0 + t * (min(L, j * (L / k)) - mullion_w / 2)
+            q1 = q0 + t * mullion_w
+            b.box_from_to(q0, q1, nrm, mullion_d, z0, z1, mu, top=False, bottom=False)
+    objs.append(b.build(f"{name}_skin"))
+    if parapet_h > 0:
+        inner = C.offset_polygon(poly, -0.35)
+        pb = C.MeshBuilder()
+        pb.prism(ring, z1, z1 + parapet_h, mu, holes=[C.ring_coords(inner)] if not inner.is_empty else [],
+                 cap_bottom=False)
+        objs.append(pb.build(f"{name}_parapet"))
+    return objs
 
 
 _SCREENS: dict[int, bpy.types.Material] = {}

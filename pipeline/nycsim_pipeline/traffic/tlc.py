@@ -9,10 +9,13 @@ Inputs (May 2025, the reference month — see ``sources_extra``):
 Two products, both keyed by ``(location_id, hour, dow)`` where ``dow`` is 0 weekday / 1 Saturday /
 2 Sunday and ``hour`` is the pickup hour (local time, as recorded by TLC):
 
-``vkm``    revenue vehicle-km attributed to the zone.  A trip's distance is split half to the
-           pick-up zone and half to the drop-off zone (a trip's kilometres are spread over the
-           corridor between them; with 260 zones covering the whole city the half/half split is the
-           unbiased first-order allocation and is stated as an approximation in METHOD.md).
+``vkm``    revenue vehicle-km attributed to the zone.  A trip's kilometres are spread along the
+           **corridor** between its pick-up and drop-off zones — the straight line between the two
+           zone centroids, cut by the NTA boundaries it crosses, so a Greenpoint-to-Midtown trip
+           leaves most of its distance in Williamsburg, on the bridge and in Manhattan instead of
+           crediting it all to Greenpoint.  Trips that start and end in the same zone are spread
+           over that zone's own NTAs by area.  (Splitting half to each endpoint instead put 72 % of
+           Greenpoint's midnight traffic down as for-hire; the corridor allocation removes that.)
            Non-revenue (deadhead / cruising) kilometres are added by ``shares`` using the published
            occupancy ratios, because the trip records only contain occupied trips.
 ``speed``  distance-weighted mean journey speed (km/h) over *short* trips (<= 3 km) that start in the
@@ -113,14 +116,8 @@ def aggregate(dir_: Path = TLC_DIR, *, services: tuple[str, ...] = ("yellow", "g
         dc = _day_counts(lf)
         for k, v in dc.items():
             day_counts[k] = max(day_counts.get(k, 0), v)
-        pu = (lf.group_by(["pu", "hour", "dow"])
-              .agg((pl.col("km").sum() * 0.5).alias("vkm"), (pl.len() * 0.5).alias("trips"))
-              .rename({"pu": "location_id"}))
-        do = (lf.group_by(["do", "hour", "dow"])
-              .agg((pl.col("km").sum() * 0.5).alias("vkm"), (pl.len() * 0.5).alias("trips"))
-              .rename({"do": "location_id"}))
-        v = (pl.concat([pu, do]).group_by(["location_id", "hour", "dow"])
-             .agg(pl.col("vkm").sum(), pl.col("trips").sum())
+        v = (lf.group_by(["pu", "do", "hour", "dow"])
+             .agg(pl.col("km").sum().alias("vkm"), pl.len().alias("trips"))
              .with_columns(pl.lit(svc).alias("service")).collect(engine="streaming"))
         n_used[svc] = int(round(float(v["trips"].sum())))
         vkm_parts.append(v)
@@ -152,24 +149,127 @@ def aggregate(dir_: Path = TLC_DIR, *, services: tuple[str, ...] = ("yellow", "g
     return TlcAggregate(vkm, spd, day_counts, n_read, n_used)
 
 
-def zone_to_nta(vkm: pl.DataFrame, weights: dict[int, list[tuple[int, float]]], n_nta: int,
-                *, services: tuple[str, ...] = ("yellow", "green", "fhvhv")) -> dict[str, np.ndarray]:
-    """Spread zone-level vehicle-km over NTAs by area weights → ``{service: (n_nta, 24, 3)}`` km/day."""
+def corridor_weights(zones, nta, pairs: list[tuple[int, int]],
+                     zone_area_weights: dict[int, list[tuple[int, float]]]) -> dict[tuple[int, int], list[tuple[int, float]]]:
+    """For each (pick-up zone, drop-off zone) pair: the share of the trip corridor inside each NTA.
+
+    The corridor is the straight line between the two zone centroids, cut by the NTA polygons.  For
+    an intra-zone pair (or a pair whose line misses every NTA) the zone's own area weights are used.
+    """
+    import shapely
+    from shapely.strtree import STRtree
+
+    cent = {int(l): shapely.centroid(g) for l, g in zip(zones.location_ids, zones.geoms)}
+    lines: list = []
+    keys: list[tuple[int, int]] = []
+    out: dict[tuple[int, int], list[tuple[int, float]]] = {}
+    for pu, do in pairs:
+        if pu == do or pu not in cent or do not in cent:
+            w = zone_area_weights.get(pu) or zone_area_weights.get(do)
+            if w:
+                out[(pu, do)] = w
+            continue
+        a, b = cent[pu], cent[do]
+        lines.append(shapely.linestrings([[shapely.get_x(a), shapely.get_y(a)],
+                                          [shapely.get_x(b), shapely.get_y(b)]]))
+        keys.append((pu, do))
+    if lines:
+        arr = np.array(lines, dtype=object)
+        total = shapely.length(arr)
+        tree = STRtree(nta.geoms)
+        li, gi = tree.query(arr, predicate="intersects")
+        seg_len = shapely.length(shapely.intersection(arr[li], nta.geoms[gi]))
+        acc: dict[int, list[tuple[int, float]]] = {}
+        for i, g, L in zip(li.tolist(), gi.tolist(), seg_len.tolist()):
+            if L > 0:
+                acc.setdefault(i, []).append((g, L))
+        for i, lst in acc.items():
+            tot = sum(L for _, L in lst)
+            if tot <= 0:
+                continue
+            out[keys[i]] = [(g, L / tot) for g, L in lst]
+        for i, k in enumerate(keys):
+            if k not in out:
+                w = zone_area_weights.get(k[0]) or zone_area_weights.get(k[1])
+                if w:
+                    out[k] = w
+        del acc
+    log.info("TLC corridors: %d zone pairs, %d resolved to NTA shares (mean %.1f NTAs per corridor)",
+             len(pairs), len(out), float(np.mean([len(v) for v in out.values()])) if out else 0.0)
+    return out
+
+
+def zone_to_nta(vkm: pl.DataFrame, weights: dict[tuple[int, int], list[tuple[int, float]]], n_nta: int,
+                nta_traffic: np.ndarray, *, services: tuple[str, ...] = ("yellow", "green", "fhvhv"),
+                chunk: int = 400_000) -> dict[str, np.ndarray]:
+    """Spread pair-level vehicle-km over the NTAs each corridor crosses → ``{service: (n_nta, 24, 3)}`` km/day.
+
+    Within a corridor the kilometres are split not by bare length but by *length x that NTA's own
+    traffic*: a for-hire trip drives where the traffic drives, so the straight line crossing a
+    cemetery or a park hands its kilometres to the neighbouring streets instead of to the cemetery.
+    The consequence is that every NTA on a corridor sees the same for-hire *fraction* of its traffic
+    from that corridor, which is the behaviour the share is supposed to have.
+    """
+    if nta_traffic.shape != (n_nta,):
+        raise ValueError(f"nta_traffic shape {nta_traffic.shape} != {(n_nta,)}")
+    t = np.maximum(np.asarray(nta_traffic, dtype=np.float64), 1e-6)
+    pairs = sorted(weights)
+    pair_index = {p: i for i, p in enumerate(pairs)}
+    counts = np.zeros(len(pairs), dtype=np.int64)
+    flat_nta: list[int] = []
+    flat_w: list[float] = []
+    for i, p in enumerate(pairs):
+        lst = weights[p]
+        ws = np.array([f for _, f in lst]) * t[[g for g, _ in lst]]
+        tot = ws.sum()
+        if tot <= 0:
+            ws = np.array([f for _, f in lst])
+            tot = ws.sum()
+        counts[i] = len(lst)
+        flat_nta.extend(g for g, _ in lst)
+        flat_w.extend((ws / tot).tolist())
+    offsets = np.concatenate([[0], np.cumsum(counts)])
+    fn = np.asarray(flat_nta, dtype=np.int64)
+    fw = np.asarray(flat_w, dtype=np.float64)
+
     out = {s: np.zeros((n_nta, 24, 3)) for s in services}
     lost = 0.0
-    for row in vkm.iter_rows(named=True):
-        w = weights.get(int(row["location_id"]))
-        if not w:
-            lost += float(row["vkm_per_day"])
-            continue
-        arr = out[row["service"]]
-        h, d, v = int(row["hour"]), int(row["dow"]), float(row["vkm_per_day"])
-        for gi, frac in w:
-            arr[gi, h, d] += v * frac
+    lut = pl.DataFrame({"pu": [p[0] for p in pairs], "do": [p[1] for p in pairs],
+                        "pair": np.arange(len(pairs), dtype=np.int64)},
+                       schema_overrides={"pu": vkm.schema["pu"], "do": vkm.schema["do"]})
+    for svc in services:
+        sub = vkm.filter(pl.col("service") == svc).join(lut, on=["pu", "do"], how="left")
+        miss = sub.filter(pl.col("pair").is_null())
+        if miss.height:
+            lost += float(miss["vkm_per_day"].sum())
+        sub = sub.filter(pl.col("pair").is_not_null())
+        pi = sub["pair"].to_numpy()
+        hh = sub["hour"].to_numpy().astype(np.int64)
+        dd = sub["dow"].to_numpy().astype(np.int64)
+        vv = sub["vkm_per_day"].to_numpy()
+        arr = out[svc]
+        for start in range(0, len(pi), chunk):
+            sl = slice(start, start + chunk)
+            c = counts[pi[sl]]
+            rep = np.repeat(np.arange(len(c)), c)
+            pos = np.arange(c.sum()) - np.repeat(np.concatenate([[0], np.cumsum(c)[:-1]]), c)
+            k = offsets[pi[sl]][rep] + pos
+            np.add.at(arr, (fn[k], hh[sl][rep], dd[sl][rep]), vv[sl][rep] * fw[k])
     total = sum(float(a.sum()) for a in out.values())
-    log.info("TLC → NTA: %.0f veh-km/day placed, %.0f (%.1f %%) in zones with no NTA overlap (EWR, Governors Island)",
-             total, lost, 100 * lost / max(total + lost, 1.0))
+    log.info("TLC → NTA: %.0f veh-km/day placed, %.0f (%.1f %%) on corridors with no NTA overlap "
+             "(EWR, Governors Island)", total, lost, 100 * lost / max(total + lost, 1.0))
     return out
+
+
+def pair_list(vkm: pl.DataFrame) -> list[tuple[int, int]]:
+    u = vkm.select(["pu", "do"]).unique()
+    return [(int(a), int(b)) for a, b in zip(u["pu"].to_list(), u["do"].to_list())]
+
+
+def trips_by_zone_hour(vkm: pl.DataFrame) -> pl.DataFrame:
+    """Pick-ups per zone, hour and day type (the pedestrian model's activity shape)."""
+    return (vkm.group_by(["pu", "hour", "dow"]).agg(pl.col("trips_per_day").sum())
+            .rename({"pu": "location_id"}))
 
 
 def zone_speed_to_nta(speed: pl.DataFrame, weights: dict[int, list[tuple[int, float]]], n_nta: int) -> tuple[np.ndarray, np.ndarray]:

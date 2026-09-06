@@ -1,7 +1,10 @@
 #include "World/NYCWorldSubsystem.h"
 #include "World/NYCSimWorldSettings.h"
+#include "World/NYCWaterActor.h"
 #include "CoreAdapter/NYCGeo.h"
 #include "NYCSimRuntime.h"
+
+#include "EngineUtils.h"
 
 #include "Dom/JsonObject.h"
 #include "Engine/World.h"
@@ -43,6 +46,42 @@ void UNYCWorldSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 			TEXT("Prints CRS, tile count, tile extent and the camera's NYC_TM / WGS84 position."),
 			FConsoleCommandWithWorldArgsAndOutputDeviceDelegate::CreateUObject(this, &UNYCWorldSubsystem::PrintWorldInfo));
 	}
+}
+
+void UNYCWorldSubsystem::OnWorldBeginPlay(UWorld& InWorld)
+{
+	Super::OnWorldBeginPlay(InWorld);
+	EnsureWaterActor(InWorld);
+}
+
+void UNYCWorldSubsystem::EnsureWaterActor(UWorld& InWorld)
+{
+	for (TActorIterator<ANYCWaterActor> It(&InWorld); It; ++It)
+	{
+		WaterActor = *It;
+		return;
+	}
+	if (!UNYCSimWorldSettings::Get().bSpawnWaterActor)
+	{
+		return;
+	}
+	if (InWorld.WorldType != EWorldType::Game && InWorld.WorldType != EWorldType::PIE)
+	{
+		return;
+	}
+	FActorSpawnParameters Spawn;
+	Spawn.ObjectFlags = RF_Transient;
+	Spawn.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	WaterActor = InWorld.SpawnActor<ANYCWaterActor>(ANYCWaterActor::StaticClass(), FTransform::Identity, Spawn);
+	if (!WaterActor)
+	{
+		UE_LOG(LogNYCSim, Warning, TEXT("World: could not spawn ANYCWaterActor"));
+	}
+}
+
+AActor* UNYCWorldSubsystem::GetWaterActor() const
+{
+	return WaterActor;
 }
 
 void UNYCWorldSubsystem::Deinitialize()

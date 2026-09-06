@@ -1,0 +1,28 @@
+{
+ "artist": "brainhall Art Production",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 6382928,
+ "duration_s": 475.47,
+ "file": "rock/bug_feat_joana_aderi_a77_202402_02_zwei.ogg",
+ "gain_db": 5.6,
+ "licence": "CC-BY-4.0",
+ "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+ "loudness_lufs": -19.6,
+ "original_filename": "02 zwei. _ _ _ ..mp3",
+ "recorded_at": "2026-09-06T12:15:21Z",
+ "schema_version": 1,
+ "sha256": "6d1d12c9f7bce2836dcc9c04d82720df693764b644d76a11fee68fa1e36f7c36",
+ "source_page": "https://archive.org/details/bug-feat.-joana-aderi-a77-_202402",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/bug-feat.-joana-aderi-a77-_202402/02%20zwei.%20_%20_%20_%20..mp3",
+ "title": "BUG (feat. Joana Aderi) > A77 -+/& ( )",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

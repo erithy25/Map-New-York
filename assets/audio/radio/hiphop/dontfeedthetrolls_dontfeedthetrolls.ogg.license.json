@@ -1,0 +1,28 @@
+{
+ "artist": "Digi Hartatak",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 3453728,
+ "duration_s": 237.04,
+ "file": "hiphop/dontfeedthetrolls_dontfeedthetrolls.ogg",
+ "gain_db": 0.7,
+ "licence": "CC-BY-3.0",
+ "licence_url": "http://creativecommons.org/licenses/by/3.0/",
+ "loudness_lufs": -14.7,
+ "original_filename": "dontfeedthetrolls.mp3",
+ "recorded_at": "2026-09-06T12:14:31Z",
+ "schema_version": 1,
+ "sha256": "0e1e5bcc4a1e33c33fa6eb745fb98f512c9a85483d99993e872f6b8d4e960915",
+ "source_page": "https://archive.org/details/dontfeedthetrolls",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/dontfeedthetrolls/dontfeedthetrolls.mp3",
+ "title": "dontfeedthetrolls",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

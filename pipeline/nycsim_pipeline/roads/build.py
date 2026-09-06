@@ -77,8 +77,10 @@ ROUTE_CHECKS = [
      "note": "Fordham Rd & Grand Concourse (Bronx) -> Hylan Blvd & Richmond Ave (Staten Island)"},
     {"id": "manhattan_to_brooklyn", "from": ("5 AVE", "E 42 ST", 1), "to": ("FLATBUSH AVE", "ATLANTIC AVE", 3),
      "must_use": None, "note": "Midtown -> Barclays Center (crosses the East River)"},
-    {"id": "queens_to_manhattan", "from": ("QUEENS BLVD", "82 ST", 4), "to": ("BROADWAY", "W 72 ST", 1),
-     "must_use": None, "note": "Jackson Heights -> Upper West Side"},
+    {"id": "queens_to_manhattan", "from": ("QUEENS BLVD", "WOODHAVEN BLVD", 4), "to": ("BROADWAY", "W 72 ST", 1),
+     "must_use": None, "note": "Queens Blvd & Woodhaven Blvd (Rego Park) -> Broadway & W 72nd St (Upper West Side)"},
+    {"id": "bronx_to_queens", "from": ("E FORDHAM RD", "GRAND CONC", 2), "to": ("NORTHERN BLVD", "JUNCTION BLVD", 4),
+     "must_use": None, "note": "Fordham -> Corona (crosses the Harlem and East Rivers or the Bronx-Whitestone)"},
 ]
 
 

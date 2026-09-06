@@ -242,15 +242,19 @@ def revolve_bm(profile: Sequence[tuple[float, float]], *, axis: str = "Y", segme
         cum.append(cum[-1] + (pts[i] - pts[i - 1]).length)
     total = cum[-1] or 1.0
     vparam = [c / total for c in cum]
-    verts = [bm.verts.new(p) for p in pts]
-    edges = [bm.edges.new((verts[i], verts[i + 1])) for i in range(len(verts) - 1)]
-    if close:
-        edges.append(bm.edges.new((verts[-1], verts[0])))
-    seg_of_edge = {e: k for k, e in enumerate(edges)}
-    # tag the profile edges so spun faces inherit their segment index via a temporary int layer
+    # the segment tag layer must exist before any edge is created: adding a custom-data layer
+    # reallocates the edge customdata block and invalidates BMEdge references taken before it.
     lay = bm.edges.layers.int.new("seg")
-    for e, k in seg_of_edge.items():
-        e[lay] = k + 1
+    verts = [bm.verts.new(p) for p in pts]
+    edges = []
+    for i in range(len(verts) - 1):
+        e = bm.edges.new((verts[i], verts[i + 1]))
+        e[lay] = i + 1
+        edges.append(e)
+    if close:
+        e = bm.edges.new((verts[-1], verts[0]))
+        e[lay] = len(edges) + 1
+        edges.append(e)
     bmesh.ops.spin(bm, geom=verts + edges, cent=(0, 0, 0), axis=ax, dvec=(0, 0, 0), angle=TWO_PI, steps=segments,
                    use_merge=True, use_normal_flip=False, use_duplicate=False)
     bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=1e-6)
@@ -834,6 +838,15 @@ def convex_hull_bm(points: np.ndarray | Sequence[Vec3], *, simplify_deg: float =
     bmesh.ops.triangulate(bm, faces=bm.faces[:])
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     return bm
+
+
+def sync() -> None:
+    """Flush pending object-transform edits into ``matrix_world``.
+
+    ``ob.location = ...`` only writes the *local* transform; ``matrix_world`` keeps its stale value until the
+    view layer is evaluated.  Every consumer of world positions (bounds, damage weights, convex hulls) must call
+    this first or it silently measures wheels sitting at z = 0."""
+    bpy.context.view_layer.update()
 
 
 def mesh_points(ob: bpy.types.Object, world: bool = True) -> np.ndarray:

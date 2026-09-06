@@ -61,9 +61,13 @@ SNOW_FULL_COVER_CM: Final = 2.0  # depth at which pavement/roof texture is compl
 SNOW_MELT_CM_PER_H_PER_C: Final = 0.06  # identical to weather.SnowModel.MELT_CM_PER_H_PER_C
 SNOW_MELT_ABOVE_C: Final = 1.0  # melting starts above +1 °C (pavement heat store), per the same model
 SNOW_RAIN_MELT_CM_PER_MM: Final = 0.02  # rain-on-snow, identical to weather.SnowModel
-ROAD_CLEAR_TRAFFIC_PER_H: Final = 0.15  # fraction of road cover removed per hour by traffic alone
-ROAD_CLEAR_PLOW_PER_H: Final = 1.20  # additional fraction per hour once plows are out
-ROAD_CLEAR_SALT_PER_H: Final = 0.40  # additional fraction per hour once spreaders are out
+# Carriageway clearing, as a fraction of full cover removed per hour. Traffic alone keeps a lane usable but
+# never bare; with plows and spreaders both out the three terms sum to 1.0/h, i.e. a fully covered
+# carriageway is bare one hour into a full response — DSNY's stated clearance target for arterials. The same
+# rate is applied to every street class (a stated simplification: the model has no per-street plow routing).
+ROAD_CLEAR_TRAFFIC_PER_H: Final = 0.15
+ROAD_CLEAR_PLOW_PER_H: Final = 0.60
+ROAD_CLEAR_SALT_PER_H: Final = 0.25
 # DSNY operational thresholds (NYC Snow Plan): spreaders pre-treat at/below freezing whenever frozen
 # precipitation falls; plows are dispatched once accumulation reaches 2 inches.
 PLOW_THRESHOLD_CM: Final = 5.08  # 2.00 in

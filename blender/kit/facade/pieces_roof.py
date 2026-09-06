@@ -80,7 +80,7 @@ def _fe_lod(width: float, *, stair: bool = True) -> K.Mesh:
     return m
 
 
-@K.register("fire_escape_floor_unit", "fire_escape", nominal_size=(2.23, 1.007, 3.901),
+@K.register("fire_escape_floor_unit", "fire_escape", anchor="wall_platform_centre", nominal_size=(2.23, 1.007, 3.901),
             description="One storey of standard NYC party-balcony fire escape: 2.20 x 0.95 m perforated platform, 0.86 m railings, "
                         "wall brackets and a 45 deg stair with nine flat-bar treads down to the storey below.",
             features=["fire_escape"], budget=3000, lod1=lambda: _fe_lod(PLAT_W))
@@ -88,21 +88,21 @@ def _fe_floor():
     return _fe_unit(PLAT_W)
 
 
-@K.register("fire_escape_floor_unit_wide", "fire_escape", nominal_size=(3.08, 1.007, 3.901),
+@K.register("fire_escape_floor_unit_wide", "fire_escape", anchor="wall_platform_centre", nominal_size=(3.08, 1.007, 3.901),
             description="Wide (3.05 m) fire-escape storey unit for three-window bays, otherwise identical to the standard unit.",
             features=["fire_escape"], budget=3000, lod1=lambda: _fe_lod(3.050))
 def _fe_wide():
     return _fe_unit(3.050)
 
 
-@K.register("fire_escape_balcony_top", "fire_escape", nominal_size=(2.23, 0.995, 1.57),
+@K.register("fire_escape_balcony_top", "fire_escape", anchor="wall_platform_centre", nominal_size=(2.23, 0.995, 1.57),
             description="Top-storey fire-escape balcony with no descending stair (the run starts at the storey below).",
             features=["fire_escape"], budget=3000, lod1=lambda: _fe_lod(PLAT_W, stair=False))
 def _fe_top():
     return _fe_unit(PLAT_W, stair=False)
 
 
-@K.register("fire_escape_corner_return", "fire_escape", nominal_size=(1.56, 1.56, 1.533), anchor="wall_corner_bottom",
+@K.register("fire_escape_corner_return", "fire_escape", nominal_size=(1.56, 1.56, 1.533), anchor="wall_corner_platform",
             description="Fire-escape corner return: an L-shaped platform wrapping an outside building corner, with railings on "
                         "both open sides and brackets on both walls.",
             features=["fire_escape"], budget=3000)
@@ -124,7 +124,7 @@ def _fe_corner():
     return m
 
 
-@K.register("fire_escape_drop_ladder", "fire_escape", nominal_size=(0.57, 0.12, 3.3),
+@K.register("fire_escape_drop_ladder", "fire_escape", anchor="wall_platform_centre", nominal_size=(0.57, 0.12, 3.3),
             description="Counterweighted drop ladder in its stowed position: 0.406 m wide, 3.05 m long with 305 mm rungs, guides "
                         "and the release catch at the lowest balcony.",
             features=["fire_escape"], budget=3000)

@@ -62,7 +62,8 @@ RAW_ELEV = RAW / "nyc_opendata" / "plan_elevation_points.geojson"
 RAW_OSM = RAW / "osm" / "NewYork.osm.pbf"
 
 CONNECT_DIST_M = 25.0      # polygons closer than this are one hydraulic system (bridges split them)
-TIDAL_MAX_ABS_Z = 1.0      # a connected body whose DEM surface sits within +-1 m of NAVD88 zero is tidal
+TIDAL_MAX_Z_M = 3.0        # a connected body whose DEM p10 sits below this is at the tidal datum, not perched
+SURVEYED_PERCHED_Z_M = 1.0  # ... unless a surveyed water-elevation point puts its pool at least this high
 FLAT_RANGE_M = 0.75        # p90-p10 of the DEM inside a body below this -> one constant level
 OSM_INSET_M = 10.0         # OSM water is cut this far inside the NYC boundary so the two sources overlap
 MIN_OSM_AREA_M2 = 100.0
@@ -434,10 +435,27 @@ def finalize_levels(stack) -> dict:
     surveyed_n = pd.Series(np.ones(pi.size)).groupby(hi).size() if pi.size else pd.Series(dtype=int)
     kind = hydro["kind"].values
     open_w = hydro["is_open_water"].values
-    tidal = connected & open_w & ((np.abs(med) <= TIDAL_MAX_ABS_Z) | np.isin(kind, ["ocean", "bay"]) | ~np.isfinite(med))
+    # The DEM *over* water is a LiDAR water return - in the 2013 1 m product it is a nominal surface near
+    # -1.6 m - so it cannot decide the tidal datum. Connectivity does: open water that reaches the harbour
+    # within CONNECT_DIST_M is tidal (Hudson, East River, Harlem River, Newtown Creek, Gowanus Canal,
+    # Kill Van Kull, Arthur Kill, Jamaica Bay and every inlet off them). The DEM only vetoes a body it
+    # shows perched well above the datum - a park pond a few metres up, 20 m from the bay.
+    surveyed_z = np.full(n, np.nan)
+    if len(surveyed):
+        surveyed_z[np.asarray(surveyed.index, dtype=int)] = surveyed.values
+    perched = np.isfinite(surveyed_z) & (surveyed_z >= SURVEYED_PERCHED_Z_M)
+    tidal = connected & open_w & (~np.isfinite(p10) | (p10 < TIDAL_MAX_Z_M)) & ~perched
+    # A polygon that carries the name of a tidal body *is* that body. The planimetric database splits the
+    # East River into 60 pieces and the Harlem River into 17, and a bridge pier or a pier deck can leave
+    # one of them more than CONNECT_DIST_M from its neighbours; the name closes that gap.
+    names = hydro["name"].values.astype(object)
+    tidal_names = {n for n, t in zip(names, tidal) if n and t}
+    inherit = np.array([bool(n) and n in tidal_names for n in names]) & open_w & ~perched & ~tidal
+    tidal = tidal | inherit
     mode = np.where(tidal, "tidal", "constant").astype(object)
     level = np.where(tidal, 0.0, np.nan)
     src = np.where(tidal, "tidal_datum", "").astype(object)
+    src[inherit] = "tidal_datum_by_name"
     for i in range(n):
         if tidal[i]:
             continue
@@ -464,6 +482,8 @@ def finalize_levels(stack) -> dict:
                      ["plan_hydrography", "plan_hydro_structures", "plan_shoreline", "borough_boundaries_water", "osm_newyork_pbf", "plan_elevation_points", "usgs_3dep"],
                      extra={"levels_finalized": True})
     stats = {"tidal": int(tidal.sum()), "tidal_area_km2": float(hydro.loc[tidal, "area_m2"].sum() / 1e6),
+             "connected_to_harbour": int(connected.sum()), "perched_by_survey": int(perched.sum()),
+             "tidal_by_name": int(inherit.sum()),
              "level_modes": pd.Series(mode).value_counts().to_dict(), "level_sources": pd.Series(src).value_counts().to_dict(),
              "water_elev_points_used": int(pi.size), "bodies_with_surveyed_level": int(len(surveyed)),
              "tidal_dem_median_m": float(np.nanmedian(med[tidal])) if tidal.any() else float("nan"),

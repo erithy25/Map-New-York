@@ -1,0 +1,120 @@
+{
+ "real": {
+  "roadgraph": {
+   "element_size": {
+    "junction_lanes": 48,
+    "lane_links": 8,
+    "lanes": 48,
+    "nodes": 24,
+    "segments": 48,
+    "strtab": 1,
+    "vertices": 12,
+    "yield_links": 8
+   },
+   "parquet_rows": {
+    "junction_lanes": 466279,
+    "lanes": 384703,
+    "nodes": 79291,
+    "segments": 122235
+   },
+   "sections": {
+    "junction_lanes": 466279,
+    "lane_links": 466279,
+    "lanes": 384703,
+    "nodes": 79291,
+    "segments": 122235,
+    "strtab": 148757,
+    "vertices": 3901850,
+    "yield_links": 551241
+   }
+  },
+  "signals": {
+   "element_size": {
+    "controllers": 32,
+    "phases": 28
+   },
+   "parquet_rows": {
+    "controllers": 23839
+   },
+   "sections": {
+    "controllers": 23839,
+    "phases": 46981
+   }
+  },
+  "transit": {
+   "element_size": {
+    "bus_routes": 68,
+    "bus_stops": 24,
+    "route_stops": 8,
+    "strtab": 1,
+    "vertices": 12
+   },
+   "parquet_rows": {},
+   "sections": {
+    "bus_routes": 345,
+    "bus_stops": 13364,
+    "route_stops": 21963,
+    "strtab": 205860,
+    "vertices": 137060
+   }
+  }
+ },
+ "sections": {
+  "density.nycb": {
+   "cells": 2,
+   "nta_polys": 1,
+   "strtab": 11,
+   "vertices": 4
+  },
+  "pois.nycb": {
+   "pois": 2,
+   "strtab": 30
+  },
+  "roadgraph.nycb": {
+   "junction_lanes": 1,
+   "lane_links": 2,
+   "lanes": 2,
+   "nodes": 3,
+   "segments": 2,
+   "strtab": 26,
+   "vertices": 5,
+   "yield_links": 1
+  },
+  "signals.nycb": {
+   "controllers": 2,
+   "phases": 3
+  },
+  "tiles.nycb": {
+   "tiles": 2
+  },
+  "transit.nycb": {
+   "bus_routes": 1,
+   "bus_stops": 2,
+   "route_stops": 2,
+   "strtab": 35,
+   "vertices": 3
+  }
+ },
+ "sizeof": {
+  "bus_routes": 68,
+  "bus_stops": 24,
+  "cells": 32,
+  "controllers": 32,
+  "header": 24,
+  "index_entry": 40,
+  "junction_lanes": 48,
+  "lane_links": 8,
+  "lanes": 48,
+  "nodes": 24,
+  "nta_polys": 12,
+  "phases": 28,
+  "pois": 12,
+  "segments": 48,
+  "tiles": 28,
+  "vertices": 12
+ },
+ "strings": {
+  "BROADWAY": 1,
+  "BROOKLYN BRIDGE": 10
+ }
+}

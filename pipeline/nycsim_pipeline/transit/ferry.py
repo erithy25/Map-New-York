@@ -27,7 +27,7 @@ from pathlib import Path
 import numpy as np
 
 from ..download import download
-from ..sources import Source
+from ..sources import SOURCES, Source
 
 log = logging.getLogger("nycsim.transit.ferry")
 
@@ -35,21 +35,9 @@ SI_FERRY_BLOB = ("https://data.cityofnewyork.us/api/views/b57i-ri22/files/"
                  "7afb9c83-b214-4da7-8242-c178132e6d0f?download=true&filename=siferry-gtfs.zip")
 NYC_FERRY_URL = "https://nycferry.connexionz.net/rtt/public/utility/gtfs.aspx"
 
-FERRY_SOURCES: dict[str, Source] = {
-    "gtfs_ferry_staten_island": Source(
-        "gtfs_ferry_staten_island", SI_FERRY_BLOB, "zip",
-        "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
-        "New York City Department of Transportation, NYC Open Data",
-        "Staten Island Ferry GTFS (dataset b57i-ri22; the nyc.gov mirror returns HTTP 403 from this network)",
-        filename="gtfs_ferry_staten_island.zip", tags=("transit", "b57i-ri22")),
-    "gtfs_ferry_nyc": Source(
-        "gtfs_ferry_nyc", NYC_FERRY_URL, "zip",
-        "NYC Ferry / Hornblower public GTFS feed (published for consumption by transit applications)",
-        "NYC Ferry (NYCEDC / Hornblower), Connexionz feed",
-        "NYC Ferry GTFS: Astoria, East River, Governors Island, Rockaway, Rockaway-Soundview, South Brooklyn "
-        "and St. George routes with landings and schedules",
-        filename="gtfs_ferry_nyc.zip", tags=("transit",)),
-}
+# The two ferry feeds live in the foundation registry (pipeline/nycsim_pipeline/sources.py) so that
+# `python -m nycsim_pipeline.download --tag transit` fetches them like every other source.
+FERRY_SOURCES: dict[str, Source] = {k: SOURCES[k] for k in ("gtfs_ferry_staten_island", "gtfs_ferry_nyc")}
 
 
 def fetch_feeds(force: bool = False) -> dict[str, Path]:

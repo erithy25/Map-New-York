@@ -320,10 +320,10 @@ def _infer_frame(**over):
 def test_infer_pitched_accepts_a_detached_queens_house():
     d = J.infer_pitched(_infer_frame())
     assert bool(d.is_pitched.iloc[0])
-    # 30 deg over a 7 m span -> rise 2.02 m, split evenly around the LiDAR plane
+    # ADR-013: z_roof_max stays the ridge, the eave drops one full rise (30 deg over a 7 m span)
     assert d.roof_pitch_deg.iloc[0] == pytest.approx(30.0, abs=0.01)
-    assert d.roof_ridge_dz_m.iloc[0] == pytest.approx(0.5 * 3.5 * math.tan(math.radians(30.0)), rel=1e-3)
-    assert d.roof_eave_dz_m.iloc[0] == pytest.approx(-d.roof_ridge_dz_m.iloc[0])
+    assert d.roof_ridge_dz_m.iloc[0] == 0.0
+    assert d.roof_eave_dz_m.iloc[0] == pytest.approx(-3.5 * math.tan(math.radians(30.0)), rel=1e-3)
     assert d.roof_ridge_deg.iloc[0] == pytest.approx(45.0)
 
 
@@ -338,15 +338,15 @@ def test_infer_pitched_accepts_a_detached_queens_house():
 def test_infer_pitched_rejects(over):
     d = J.infer_pitched(_infer_frame(**over))
     assert not bool(d.is_pitched.iloc[0])
-    assert d.roof_pitch_deg.iloc[0] == 0.0 and d.roof_ridge_dz_m.iloc[0] == 0.0
+    assert d.roof_pitch_deg.iloc[0] == 0.0 and d.roof_eave_dz_m.iloc[0] == 0.0
 
 
 def test_infer_pitched_clamps_the_rise():
     wide = J.infer_pitched(_infer_frame(rect_w=13.0, bldg_frontage=7.0, lot_frontage=15.0))
-    assert wide.roof_ridge_dz_m.iloc[0] == pytest.approx(0.5 * J.RISE_MAX_M)
+    assert wide.roof_eave_dz_m.iloc[0] == pytest.approx(-J.RISE_MAX_M)
     assert wide.roof_pitch_deg.iloc[0] < J.PITCH_DEG          # clamped: shallower than nominal
     narrow = J.infer_pitched(_infer_frame(rect_w=2.5))
-    assert narrow.roof_ridge_dz_m.iloc[0] == pytest.approx(0.5 * J.RISE_MIN_M)
+    assert narrow.roof_eave_dz_m.iloc[0] == pytest.approx(-J.RISE_MIN_M)
     assert narrow.roof_pitch_deg.iloc[0] > J.PITCH_DEG
 
 
@@ -364,6 +364,10 @@ def test_roof_attrs_schema_matches_the_contract():
     required = {"bin", "roof_type", "n_roof_levels", "z_roof_max", "roof_mesh_ref", "citygml_match",
                 "dz_vs_footprint_m"}
     assert required <= names
+    # ADR-013: the measured roof signal is first class
+    assert {"roof_shape_measured", "roof_level_z", "roof_level_area", "roof_slope_deg"} <= names
+    assert J.SCHEMA.field("roof_level_z").type.equals(pa.list_(pa.float32()))
+    assert J.SCHEMA.field("roof_shape_measured").type.equals(pa.bool_())
     assert J.SCHEMA.field("roof_type").type.equals(pa.int8())
     assert J.SCHEMA.field("bin").type.equals(pa.int64())
     assert J.SCHEMA.field("citygml_match").type.equals(pa.bool_())
@@ -393,12 +397,21 @@ def test_real_index_bin_match_rate(real_index):
 
 
 def test_real_index_roof_height_agrees_with_footprints(real_index):
+    """CityGML z_roof_max vs the footprint layer's ground_z + height.
+
+    Both come from the same 2014 LiDAR, so the median difference is exactly 0. 5.4 % of buildings differ
+    by more than 1 m and 99 % of those have a footprint record edited after 2014 (the published
+    ``heightroof`` was revised after the flight) - a data-vintage difference, not a parser error. The
+    bound is therefore 0.93, not 0.99.
+    """
     _skip_unless(FOOTPRINTS)
     fp = pq.read_table(FOOTPRINTS, columns=["bin", "ground_z", "height"]).to_pandas().drop_duplicates("bin")
     m = real_index[real_index.bin_ok].merge(fp, on="bin")
     dz = (m.z_roof_max - (m.ground_z + m.height)).abs()
     assert float(dz.median()) < 0.10, f"median |dz_roof| {dz.median():.3f} m"
-    assert float((dz <= 1.0).mean()) > 0.95
+    assert float((dz <= 0.5).mean()) > 0.88
+    assert float((dz <= 1.0).mean()) > 0.93
+    assert float((dz <= 5.0).mean()) > 0.98
 
 
 def test_real_index_is_one_row_per_bin(real_index):
@@ -473,8 +486,13 @@ def test_real_roof_attrs_contract():
     pitched = d[d.roof_type_source == J.SRC_INFERRED]
     if len(pitched):
         assert (pitched.roof_pitch_deg > 0).all() and pitched.roof_ridge_deg.notna().all()
-        assert (pitched.roof_ridge_dz_m > 0).all()
-        assert np.allclose(pitched.roof_eave_dz_m, -pitched.roof_ridge_dz_m, atol=1e-5)
+        assert (pitched.roof_ridge_dz_m == 0).all()            # ADR-013: z_roof_max is the ridge
+        assert (pitched.roof_eave_dz_m <= -J.RISE_MIN_M + 1e-5).all()
+        assert (pitched.roof_eave_dz_m >= -J.RISE_MAX_M - 1e-5).all()
+    # ADR-013: the source carries no measured roof shape outside the hand-modelled landmarks
+    assert d.roof_shape_measured.sum() < len(d) * 1e-4
+    assert not d.loc[~d.citygml_match, "roof_shape_measured"].any()
+    assert (d.loc[~d.citygml_match, "n_roof_levels"] == 0).all()
     flat_default = d[d.roof_type_source == J.SRC_DEFAULT]
     assert (flat_default.roof_type == R.ROOF_FLAT).all()
     assert (flat_default.roof_pitch_deg == 0).all()
@@ -486,7 +504,9 @@ def _fake_roof_attrs(tmp_path: Path, rows: list[dict]) -> Path:
     import pyarrow as pa_
     full = []
     for r in rows:
-        d = {"bin": 0, "roof_type": 0, "n_roof_levels": 0, "z_roof_max": float("nan"), "roof_mesh_ref": "",
+        d = {"bin": 0, "roof_type": 0, "roof_shape_measured": False, "n_roof_levels": 0, "roof_level_z": [],
+             "roof_level_area": [], "roof_slope_deg": float("nan"),
+             "z_roof_max": float("nan"), "roof_mesh_ref": "",
              "citygml_match": False, "dz_vs_footprint_m": float("nan"), "roof_type_source": J.SRC_DEFAULT,
              "roof_inferred": True, "roof_type_conf": 0.0, "roof_pitch_deg": 0.0, "roof_ridge_deg": float("nan"),
              "roof_eave_dz_m": 0.0, "roof_ridge_dz_m": 0.0, "z_ground_min": float("nan"), "tri_count": 0,

@@ -2,6 +2,8 @@
 
 #include <cmath>
 #include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <string>
 
 namespace nycsim {
@@ -46,6 +48,19 @@ constexpr WmoEntry kWmoTable[] = {
     {96, PrecipType::Sleet, metar::Intensity::Moderate, true, 0},
     {99, PrecipType::Sleet, metar::Intensity::Heavy, true, 0},
 };
+
+/// Shortest decimal string that round-trips to the same double (what Python's repr()/str() emits).
+/// The station id must be byte-identical to the Python reference's f"open-meteo:{lat},{lon}".
+std::string shortestDouble(double v) {
+  char buf[40];
+  for (int prec = 1; prec <= 17; ++prec) {
+    const int n = std::snprintf(buf, sizeof buf, "%.*g", prec, v);
+    if (n <= 0 || static_cast<size_t>(n) >= sizeof buf) continue;
+    if (std::strtod(buf, nullptr) == v) return std::string(buf, static_cast<size_t>(n));
+  }
+  const int n = std::snprintf(buf, sizeof buf, "%.17g", v);
+  return n > 0 ? std::string(buf, static_cast<size_t>(n)) : std::string();
+}
 
 double numberOr(const json::Value* parent, const char* key, double fallback) {
   if (!parent) return fallback;
@@ -102,11 +117,9 @@ Result<WeatherState> parseOpenMeteo(const json::Value& doc, double nowUnix) {
   s.source = Source::OpenMeteo;
   s.observedAtUnix = tObs;
   {
-    char buf[96];
     const double lat = numberOr(&doc, "latitude", kCentralParkLat);
     const double lon = numberOr(&doc, "longitude", kCentralParkLon);
-    const int n = std::snprintf(buf, sizeof buf, "open-meteo:%g,%g", lat, lon);
-    if (n > 0) s.station.assign(buf, static_cast<size_t>(n));
+    s.station = "open-meteo:" + shortestDouble(lat) + "," + shortestDouble(lon);
   }
   s.tempC = numberOr(cur, "temperature_2m", WeatherState::kNaN());
   s.rh = hasNumber(cur, "relative_humidity_2m") ? numberOr(cur, "relative_humidity_2m", 0.0)

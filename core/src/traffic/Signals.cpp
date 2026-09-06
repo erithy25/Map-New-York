@@ -154,7 +154,17 @@ uint32_t SignalTable::addDefaultPlans(const routing::RoadGraph& g, const Default
       if (!seen && ng < kMaxCachedGroups) groups[ng++] = gidx;
     }
     if (ng == 0) continue;
-    std::sort(groups, groups + ng);
+    // Insertion sort: ng is at most kMaxCachedGroups (8), and std::sort's
+    // threshold path makes -Warray-bounds fire on such a small fixed array.
+    for (uint32_t a = 1; a < ng; ++a) {
+      const int32_t key = groups[a];
+      uint32_t b = a;
+      while (b > 0 && groups[b - 1] > key) {
+        groups[b] = groups[b - 1];
+        --b;
+      }
+      groups[b] = key;
+    }
     const float split = p.cycle_s / static_cast<float>(ng);
     for (uint32_t q = 0; q < ng; ++q) {
       SignalPhase ph;

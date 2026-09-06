@@ -26,6 +26,12 @@ MAT_SRC_OSM_COLOUR = 1
 MAT_SRC_LPC = 2
 MAT_SRC_RULE = 3
 
+RED_BRICK_ID = E.RED_BRICK
+CONCRETE_ID = E.CONCRETE
+VINYL_SIDING_ID = E.VINYL_SIDING
+WOOD_CLAPBOARD_ID = E.WOOD_CLAPBOARD
+METAL_PANEL_ID = E.METAL_PANEL
+
 # --- frontage source codes (§5.3 extension column ``frontage_source``) --------------------------------------------------
 FRONT_SRC_GEOMETRY = 0     # length of the primary (street-facing, non party-wall) footprint run
 FRONT_SRC_PLUTO = 1        # MapPLUTO ``bldgfront``
@@ -186,15 +192,32 @@ CLASS = class_table()
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+#: An accessory garage (OTI feature code 5110) is not a concrete parking deck: it is a small outbuilding whose
+#: material follows its lot. MapPLUTO says so directly — class B2 is a *frame* two-family, B1 a *brick* one — and the
+#: pre-1946 outbuilding stock is masonry. These are the only three materials NYC backyard garages are built of.
+def garage_material(bldg_class: np.ndarray, nta: np.ndarray, year: np.ndarray, frame_belt: tuple[str, ...]
+                    ) -> tuple[np.ndarray, np.ndarray]:
+    """``(primary, secondary)`` for an accessory garage, from its lot's real class, era and neighbourhood."""
+    cls = np.asarray(bldg_class)
+    letter = np.asarray([c[:1] if c else "" for c in cls])
+    frame_lot = (cls == "B2") | ((np.isin(nta, list(frame_belt))) & np.isin(letter, ["A", "B", "C"]))
+    prewar = (year > 0) & (year <= 1945)
+    prim = np.where(frame_lot, np.int8(VINYL_SIDING_ID), np.where(prewar, np.int8(RED_BRICK_ID), np.int8(CONCRETE_ID)))
+    sec = np.where(frame_lot, np.int8(WOOD_CLAPBOARD_ID), np.where(prewar, np.int8(CONCRETE_ID), np.int8(METAL_PANEL_ID)))
+    return prim.astype(np.int8), sec.astype(np.int8)
+
+
 def resolve_material(fc: np.ndarray, osm_material: np.ndarray, osm_colour_material: np.ndarray,
-                     lpc_material: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+                     lpc_material: np.ndarray, base_primary: np.ndarray | None = None,
+                     base_secondary: np.ndarray | None = None) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """Material precedence per ADR-004.
 
-    All inputs are int8 arrays with −1 meaning "no evidence".  Returns
+    All inputs are int8 arrays with −1 meaning "no evidence"; ``base_primary``/``base_secondary`` override the class
+    default before the real-evidence sources are applied (used for accessory garages).  Returns
     ``(material_primary, material_secondary, material_source, material_real)``.
     """
-    prim = CLASS.material_primary[fc].astype(np.int8)
-    sec = CLASS.material_secondary[fc].astype(np.int8)
+    prim = (CLASS.material_primary[fc] if base_primary is None else base_primary).astype(np.int8)
+    sec = (CLASS.material_secondary[fc] if base_secondary is None else base_secondary).astype(np.int8)
     src = np.full(len(fc), MAT_SRC_RULE, dtype=np.int8)
 
     take = lpc_material >= 0
@@ -211,7 +234,8 @@ def resolve_material(fc: np.ndarray, osm_material: np.ndarray, osm_colour_materi
 
     # a trim material equal to the wall material reads as no trim: fall back to the class default, then to limestone
     same = sec == prim
-    sec = np.where(same, CLASS.material_secondary[fc].astype(np.int8), sec).astype(np.int8)
+    sec = np.where(same, (CLASS.material_secondary[fc] if base_secondary is None else base_secondary).astype(np.int8),
+                   sec).astype(np.int8)
     still = sec == prim
     fallback = np.where(np.isin(prim, [E.RED_BRICK, E.BROWN_BRICK, E.TAN_BRICK, E.WHITE_GLAZED_BRICK]),
                         np.int8(E.LIMESTONE), np.int8(E.CONCRETE))

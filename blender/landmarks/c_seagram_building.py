@@ -43,7 +43,6 @@ BUSTLE_FLOORS = 10
 
 def build():
     C.reset()
-    cc.use_textures([("granite_pink", "granite"), ("granite_dark", "granite"), ("bronze", "metal_panel")])
     g = cc.Group(ID, angle_deg=cc.GRID_ANGLE)     # +x east (Park Avenue is west), +y north
     P = g.poly(BIN)
     minx, miny, maxx, maxy = P.bounds

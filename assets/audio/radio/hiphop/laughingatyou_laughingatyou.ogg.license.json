@@ -1,0 +1,28 @@
+{
+ "artist": "Digi Hartatak",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 3619005,
+ "duration_s": 257.88,
+ "file": "hiphop/laughingatyou_laughingatyou.ogg",
+ "gain_db": 2.4,
+ "licence": "CC-BY-3.0",
+ "licence_url": "http://creativecommons.org/licenses/by/3.0/",
+ "loudness_lufs": -16.4,
+ "original_filename": "laughingatyou.mp3",
+ "recorded_at": "2026-09-06T12:12:26Z",
+ "schema_version": 1,
+ "sha256": "d7695e261bbe9d8196606fbdc42e2f6ccd0a04eae3830e902daf966925a8e83a",
+ "source_page": "https://archive.org/details/laughingatyou",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/laughingatyou/laughingatyou.mp3",
+ "title": "laughingatyou",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

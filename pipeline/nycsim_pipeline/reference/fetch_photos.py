@@ -8,10 +8,10 @@ For every item in ``CATALOGUE`` (the mandated verification viewpoints, five driv
 every landmark in docs/LANDMARKS scope and a set of generic streetscape/vehicle references) the
 script
 
-1. collects candidate files with the Commons search API (``list=search``, relevance and
-   newest-first) and, where the item has a fixed photographer position, the geosearch API
-   (``list=geosearch`` on namespace 6, which indexes the *camera* position of a file);
-2. fetches ``prop=imageinfo`` (url, size, mime, extmetadata) in batches of 50;
+1. collects candidate files with the Commons search API (``generator=search``, relevance, plus a
+   newest-first pass for a thin query) and, where the item has a fixed photographer position, the
+   geosearch API (``generator=geosearch`` on namespace 6, which indexes the *camera* position);
+2. takes ``prop=imageinfo`` (url, size, mime, extmetadata) from those same generator responses;
 3. keeps only JPEGs under CC0 / CC BY / CC BY-SA / public domain, rejects non-photographs
    (maps, drawings, postcards, renders), rejects night shots for daylight items (and vice
    versa), rejects anything older than the item's ``min_year`` and prefers >= 2015;
@@ -64,7 +64,8 @@ DEFAULT_MAX_WIDTH = 1920
 THUMB_BUCKETS = (250, 500, 960, 1280, 1920)
 MIN_USABLE_WIDTH = 900  # a reference photo narrower than this is not worth keeping
 MAX_DOWNLOAD_BYTES = 80 << 20
-MAX_INFO_TITLES = 100  # imageinfo lookups per item (2 batches of 50)
+MAX_SEEDS = 130  # candidate file pages considered per item
+THIN_RESULT_N = 12  # a query returning fewer new files earns a second, newest-first pass
 SCHEMA_VERSION = 1
 OUT_ROOT = VERIFICATION / "reference"
 
@@ -181,8 +182,12 @@ AERIAL_WORDS = ["aerial", "from above", "helicopter", "drone", "from the air", "
 # insides look nothing like the outdoor view a render is compared against, and they share
 # categories ("Times Square", "Grand Central") with the views we do want.
 INDOOR_WORDS = ["interior", "inside", "subway entrance", "subway station", "subway platform", "station platform",
-                "railway platform", "turnstile", "mezzanine", "token booth", "escalator", "waiting room", "concourse",
-                "bmt", "irt", "staircase", "stairwell", "lobby", "hallway", "corridor", "elevator"]
+                "railway platform", "subway stairs", "turnstile", "mezzanine", "token booth", "escalator",
+                "waiting room", "lobby", "hallway", "corridor"]
+# Deliberately absent: "concourse" (the Grand Concourse is a Bronx boulevard), "BMT"/"IRT" (subway
+# divisions appear in the categories of bridge and street photographs), "staircase" and "elevator"
+# (outdoor stairs, and the Domino Sugar grain elevators). Items that must reject those name them
+# in their own ``exclude``.
 # Not rejected outright (a street scene has people in it) but scored down: the subject of these
 # files is a person, not the place.
 PEOPLE_WORDS = ["tourist", "tourists", "selfie", "portrait", "cosplay", "costumed", "busker", "street performer",
@@ -1243,29 +1248,34 @@ _TAG_RE = re.compile(r"<[^>]+>")
 _WS_RE = re.compile(r"\s+")
 
 
-def strip_html(s: Any) -> str:
-    """Plain text from an extmetadata value.
+def flatten_value(v: Any) -> str:
+    """One Commons extmetadata value as a single string, HTML markup left intact.
 
-    Commons returns most values as strings, but multilingual fields can still arrive as a
-    ``{"en": "...", "fr": "..."}`` map (or a list of such) even with ``multilang=0``, so
-    normalise anything that is not a string before stripping tags.
+    Most values are plain strings, but multilingual fields can still arrive as a
+    ``{"en": "...", "fr": "..."}`` map (or a list of those) even with ``multilang=0``.
     """
-    if s is None or s == "":
+    if v is None or v == "":
         return ""
-    if isinstance(s, dict):
+    if isinstance(v, dict):
         for key in ("en", "value", "_"):
-            if s.get(key):
-                return strip_html(s[key])
-        for v in s.values():
-            if v:
-                return strip_html(v)
+            if v.get(key):
+                return flatten_value(v[key])
+        for x in v.values():
+            if x:
+                return flatten_value(x)
         return ""
-    if isinstance(s, (list, tuple)):
-        parts = [strip_html(v) for v in s]
+    if isinstance(v, (list, tuple)):
+        parts = [flatten_value(x) for x in v]
         return " | ".join(p for p in parts if p)
-    if not isinstance(s, str):
-        s = str(s)
-    return _WS_RE.sub(" ", html.unescape(_TAG_RE.sub(" ", s))).strip()
+    return v if isinstance(v, str) else str(v)
+
+
+def strip_html(s: Any) -> str:
+    """Plain text from an extmetadata value: flattened, tags removed, entities decoded."""
+    t = flatten_value(s)
+    if not t:
+        return ""
+    return _WS_RE.sub(" ", html.unescape(_TAG_RE.sub(" ", t))).strip()
 
 
 def haversine_m(a: tuple[float, float], b: tuple[float, float]) -> float:
@@ -1317,10 +1327,26 @@ _DATE_YM_RE = re.compile(r"\b(\d{4})-(\d{2})\b")
 _YEAR_RE = re.compile(r"\b(1[89]\d{2}|20\d{2})\b")
 
 
-def parse_date(raw: str | None) -> tuple[str | None, int | None]:
-    """Return (ISO-ish date string, year) from a Commons date field (may contain HTML, EXIF colons,
-    'circa 1900', month names). Unparseable -> (None, None)."""
-    t = strip_html(raw)
+_TIME_ATTR_RE = re.compile(r'datetime="([^"]+)"')
+
+
+def parse_date(raw: Any) -> tuple[str | None, int | None]:
+    """Return (ISO-ish date string, year) from a Commons date field.
+
+    Commons wraps most dates as ``<time class="dtstart" datetime="2016-06-07">7 June 2016</time>``;
+    the machine-readable attribute is used when present, otherwise the visible text (which may be
+    an EXIF ``2019:05:03 14:22:10`` stamp, "circa 1900", or a month name). Unparseable -> (None, None).
+    """
+    text = flatten_value(raw)
+    m = _TIME_ATTR_RE.search(text)
+    if m:
+        got = _parse_date_text(m.group(1))
+        if got[0] is not None:
+            return got
+    return _parse_date_text(strip_html(text))
+
+
+def _parse_date_text(t: str) -> tuple[str | None, int | None]:
     if not t:
         return None, None
     m = _DATE_FULL_RE.search(t)
@@ -1430,10 +1456,10 @@ def parse_candidate(page: dict[str, Any], provenance: str, geo_hit: bool = False
         return None
     ii = infos[0]
     ext = {k: (v.get("value") if isinstance(v, dict) else v) for k, v in (ii.get("extmetadata") or {}).items()}
-    date_taken, year = parse_date(strip_html(ext.get("DateTimeOriginal")))
+    date_taken, year = parse_date(ext.get("DateTimeOriginal"))
     date_source = "DateTimeOriginal"
     if date_taken is None:
-        date_taken, year = parse_date(strip_html(ext.get("DateTime")))
+        date_taken, year = parse_date(ext.get("DateTime"))
         date_source = "DateTime(file)" if date_taken else "none"
     gps = None
     lat_s, lon_s = strip_html(ext.get("GPSLatitude")), strip_html(ext.get("GPSLongitude"))
@@ -1707,71 +1733,81 @@ class Client:
 # Search / imageinfo
 # ----------------------------------------------------------------------------------------------
 
-def search_titles(client: Client, query: str, sort: str = "relevance", limit: int = 50) -> list[str]:
-    doc = client.api(action="query", list="search", srsearch=f"{query} filemime:image/jpeg", srnamespace=6, srlimit=limit,
-                     srsort=sort, srinfo="", srprop="")
-    return [h["title"] for h in doc.get("query", {}).get("search", []) if h.get("title", "").startswith("File:")]
+# imageinfo is asked for in the same request as the search, using a generator: the Commons API
+# rate-limits by request count, and one generator call replaces a search plus an imageinfo batch.
+IMAGEINFO_PARAMS: dict[str, Any] = {
+    "prop": "imageinfo", "iiprop": "url|size|mime|extmetadata", "iiextmetadatafilter": "|".join(EXTMETA_FIELDS),
+    "iiextmetadatalanguage": "en", "iiextmetadatamultilang": 0,
+}
 
 
-def geosearch_titles(client: Client, lat: float, lon: float, radius_m: int, limit: int = 100) -> list[str]:
-    doc = client.api(action="query", list="geosearch", gscoord=f"{lat}|{lon}", gsradius=min(max(radius_m, 10), 10000),
-                     gsnamespace=6, gslimit=min(limit, 500), gsprimary="primary")
-    return [h["title"] for h in doc.get("query", {}).get("geosearch", []) if h.get("title", "").startswith("File:")]
+def _file_pages(doc: dict[str, Any]) -> list[dict[str, Any]]:
+    """File pages from a generator response, in the generator's own ranking order."""
+    pages = [p for p in doc.get("query", {}).get("pages", []) if str(p.get("title", "")).startswith("File:")]
+    return sorted(pages, key=lambda p: p.get("index", 10_000))
 
 
-def fetch_imageinfo(client: Client, titles: list[str]) -> dict[str, dict[str, Any]]:
-    out: dict[str, dict[str, Any]] = {}
-    for i in range(0, len(titles), 50):
-        chunk = titles[i:i + 50]
-        doc = client.api(action="query", prop="imageinfo", titles="|".join(chunk), iiprop="url|size|mime|extmetadata",
-                         iiextmetadatafilter="|".join(EXTMETA_FIELDS), iiextmetadatalanguage="en", iiextmetadatamultilang=0)
-        q = doc.get("query", {})
-        norm = {n["from"]: n["to"] for n in q.get("normalized", [])}
-        rev = {v: k for k, v in norm.items()}
-        for p in q.get("pages", []):
-            t = p.get("title", "")
-            out[t] = p
-            if t in rev:
-                out[rev[t]] = p
-    return out
+def search_pages(client: Client, query: str, sort: str = "relevance", limit: int = 50) -> list[dict[str, Any]]:
+    """File pages (with imageinfo) for one full-text search over namespace 6."""
+    doc = client.api(action="query", generator="search", gsrsearch=f"{query} filemime:image/jpeg", gsrnamespace=6,
+                     gsrlimit=limit, gsrsort=sort, **IMAGEINFO_PARAMS)
+    return _file_pages(doc)
 
 
-def gather_candidates(client: Client, item: Item) -> list[tuple[str, str, bool]]:
-    """Ordered, de-duplicated (title, provenance, geo_hit) seeds: geosearch hits whose title matches a
-    keyword first, then relevance results, then newest-first results, then remaining geosearch hits."""
+def geosearch_pages(client: Client, lat: float, lon: float, radius_m: int, limit: int = 100) -> list[dict[str, Any]]:
+    """File pages (with imageinfo) whose *camera* coordinate lies within ``radius_m`` of the point."""
+    doc = client.api(action="query", generator="geosearch", ggscoord=f"{lat}|{lon}",
+                     ggsradius=min(max(radius_m, 10), 10000), ggsnamespace=6, ggslimit=min(limit, 500),
+                     ggsprimary="primary", **IMAGEINFO_PARAMS)
+    return _file_pages(doc)
+
+
+def gather_candidates(client: Client, item: Item) -> list[tuple[dict[str, Any], str, bool]]:
+    """Ordered, de-duplicated (page, provenance, geo_hit) seeds.
+
+    Geosearch hits whose title already matches a keyword come first (the camera stood at the
+    viewpoint), then the relevance results of each query, then the remaining geosearch hits. A
+    newest-first pass is added only for a query that came back thin, because every extra request
+    costs a slice of the API rate limit.
+    """
     seen: set[str] = set()
-    ordered: list[tuple[str, str, bool]] = []
-    geo: list[str] = []
+    ordered: list[tuple[dict[str, Any], str, bool]] = []
+    geo_pages: list[dict[str, Any]] = []
     if item.geosearch_radius_m > 0:
         try:
-            geo = geosearch_titles(client, item.viewpoint[0], item.viewpoint[1], item.geosearch_radius_m)
+            geo_pages = geosearch_pages(client, item.viewpoint[0], item.viewpoint[1], item.geosearch_radius_m)
         except CommonsError as e:
             log.warning("%s: geosearch failed: %s", item.slug, e)
     kw_terms = [k for group in item.keywords for k in group]
-    geo_matched = [t for t in geo if any(has_term(t.lower(), k) for k in kw_terms)]
-    geo_rest = [t for t in geo if t not in geo_matched]
+    geo_matched = [p for p in geo_pages if any(has_term(str(p["title"]).lower(), k) for k in kw_terms)]
+    matched_titles = {p["title"] for p in geo_matched}
+    geo_rest = [p for p in geo_pages if p["title"] not in matched_titles]
 
-    def add(titles: list[str], prov: str, is_geo: bool) -> None:
-        for t in titles:
-            if t not in seen:
+    def add(pages: list[dict[str, Any]], prov: str, is_geo: bool) -> int:
+        added = 0
+        for p in pages:
+            t = str(p.get("title", ""))
+            if t and t not in seen:
                 seen.add(t)
-                ordered.append((t, prov, is_geo))
+                ordered.append((p, prov, is_geo))
+                added += 1
+        return added
 
     add(geo_matched, "geosearch", True)
     for q in item.queries:
         try:
-            add(search_titles(client, q, "relevance", 50), f"search:{q}", False)
+            n = add(search_pages(client, q, "relevance", 50), f"search:{q}", False)
         except CommonsError as e:
             log.warning("%s: search failed for %r: %s", item.slug, q, e)
-    for q in item.queries:
-        try:
-            add(search_titles(client, q, "create_timestamp_desc", 25), f"search_recent:{q}", False)
-        except CommonsError as e:
-            log.warning("%s: recent search failed for %r: %s", item.slug, q, e)
+            continue
+        if n < THIN_RESULT_N:
+            try:
+                add(search_pages(client, q, "create_timestamp_desc", 25), f"search_recent:{q}", False)
+            except CommonsError as e:
+                log.warning("%s: recent search failed for %r: %s", item.slug, q, e)
     add(geo_rest[:30], "geosearch", True)
-    # a geosearch hit that also came from text search keeps geo_hit=True
-    geo_set = set(geo)
-    return [(t, p, g or (t in geo_set)) for t, p, g in ordered]
+    geo_titles = {p["title"] for p in geo_pages}
+    return [(p, prov, g or (p.get("title") in geo_titles)) for p, prov, g in ordered]
 
 
 # ----------------------------------------------------------------------------------------------
@@ -1888,14 +1924,10 @@ def process_item(client: Client, item: Item, out_root: Path, max_width: int, for
     if (d / "meta.json").exists():
         (d / "meta.json").unlink()
 
-    seeds = gather_candidates(client, item)
-    infos = fetch_imageinfo(client, [t for t, _, _ in seeds][:MAX_INFO_TITLES])
+    seeds = gather_candidates(client, item)[:MAX_SEEDS]
     rejects: dict[str, int] = {}
     cands: list[Candidate] = []
-    for title, prov, geo in seeds:
-        page = infos.get(title)
-        if page is None:
-            continue
+    for page, prov, geo in seeds:
         c = parse_candidate(page, prov, geo)
         if c is None:
             continue
@@ -1906,7 +1938,7 @@ def process_item(client: Client, item: Item, out_root: Path, max_width: int, for
             continue
         c.score = sc
         cands.append(c)
-    log.info("%-45s %d seeds, %d info, %d eligible, rejects=%s", item.slug, len(seeds), len(infos), len(cands), rejects)
+    log.info("%-45s %d seeds, %d eligible, rejects=%s", item.slug, len(seeds), len(cands), rejects)
 
     photos: list[dict[str, Any]] = []
     chosen_authors: list[str] = []
@@ -1970,7 +2002,7 @@ def process_item(client: Client, item: Item, out_root: Path, max_width: int, for
         "night": item.night, "interior": item.interior, "min_year": item.min_year, "wanted": item.want,
         "queries": list(item.queries), "geosearch_radius_m": item.geosearch_radius_m,
         "fetched_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "max_width": max_width,
-        "source": "Wikimedia Commons API (action=query list=search / list=geosearch / prop=imageinfo)",
+        "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
         "candidates_seen": len(seeds), "candidates_eligible": len(cands), "rejections": rejects,
         "exhausted": exhausted, "status": "ok" if photos else "no_suitable_photo",
         "photos": photos,

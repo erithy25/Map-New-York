@@ -136,6 +136,41 @@
    ],
    "stage": "buildings"
   },
+  "buildings_roof_attrs": {
+   "artifact_id": "buildings_roof_attrs",
+   "bytes": 42323704,
+   "citygml_match": 1033416,
+   "citygml_match_rate": 0.9542019693153194,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/buildings/roof_attrs.parquet",
+   "produced_at": "2026-09-06T12:09:14Z",
+   "roof_type_hist": {
+    "barrel": 8,
+    "complex": 28,
+    "dome": 8,
+    "flat": 564975,
+    "gable": 517809,
+    "hip": 159,
+    "mansard": 17,
+    "sawtooth": 0,
+    "shed": 12
+   },
+   "roof_type_source_hist": {
+    "citygml": 55,
+    "default": 561358,
+    "inferred": 517566,
+    "osm": 4037
+   },
+   "rows": 1083016,
+   "schema": "buildings_roof_attrs_v1",
+   "sha256": "83d88db4034314af32c1bd5a615ce482721c37788a71af57d1d488b6a846a3b9",
+   "sources": [
+    "doitt_3d_citygml",
+    "osm",
+    "mappluto"
+   ],
+   "stage": "citygml"
+  },
   "buildings_tiles": {
    "artifact_id": "buildings_tiles",
    "bytes": 106374,
@@ -5683,6 +5718,66 @@
    "stage": "buildings",
    "tile_root": "data/processed/tiles"
   },
+  "citygml_da1": {
+   "artifact_id": "citygml_da1",
+   "buildings_parsed": 19408,
+   "bytes": 8762480,
+   "counters": {
+    "building_placeholder_bin": 723,
+    "buildings_with_tri_dropped": 92,
+    "collinear_points_removed": 19832,
+    "dup_points_removed": 203124,
+    "polygon_degenerate": 1,
+    "roof_face_horizontal": 28023,
+    "roof_flipped_up": 274,
+    "roof_type_flat": 19408,
+    "tri_dropped_f32_degenerate": 108,
+    "wall_ground_inward": 46,
+    "wall_ground_outward": 140784
+   },
+   "da": 1,
+   "elapsed_s": 294.55,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/buildings/citygml/da1.parquet",
+   "produced_at": "2026-09-06T12:07:12Z",
+   "rows": 19408,
+   "schema": "citygml_solids_v1",
+   "sha256": "c8ca1aa62c7115a2f584354f5b3b26fd842f471715b52f3a761bed20f1c8abb7",
+   "sources": [
+    "doitt_3d_citygml"
+   ],
+   "stage": "citygml"
+  },
+  "citygml_da10": {
+   "artifact_id": "citygml_da10",
+   "buildings_parsed": 49847,
+   "bytes": 22374345,
+   "counters": {
+    "building_placeholder_bin": 1478,
+    "buildings_with_tri_dropped": 237,
+    "collinear_points_removed": 269078,
+    "dup_points_removed": 562981,
+    "polygons_with_holes": 1,
+    "roof_face_horizontal": 67197,
+    "roof_flipped_up": 1300,
+    "roof_type_flat": 49847,
+    "tri_dropped_f32_degenerate": 284,
+    "wall_ground_inward": 264,
+    "wall_ground_outward": 409295
+   },
+   "da": 10,
+   "elapsed_s": 424.41,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/buildings/citygml/da10.parquet",
+   "produced_at": "2026-09-06T11:45:29Z",
+   "rows": 49847,
+   "schema": "citygml_solids_v1",
+   "sha256": "6eab91ea08139b4b710e953a0ea0b643020ba02285d4d5f3d65c400647519501",
+   "sources": [
+    "doitt_3d_citygml"
+   ],
+   "stage": "citygml"
+  },
   "citygml_da11": {
    "artifact_id": "citygml_da11",
    "buildings_parsed": 59675,
@@ -5788,6 +5883,39 @@
    "rows": 23773,
    "schema": "citygml_solids_v1",
    "sha256": "b6abf724ba83f61b1a434cf87edfe5f49dec196003f4f028e866d092a1d2c858",
+   "sources": [
+    "doitt_3d_citygml"
+   ],
+   "stage": "citygml"
+  },
+  "citygml_da14": {
+   "artifact_id": "citygml_da14",
+   "buildings_parsed": 37521,
+   "bytes": 20244444,
+   "counters": {
+    "building_placeholder_bin": 1035,
+    "buildings_with_tri_dropped": 451,
+    "collinear_points_removed": 276158,
+    "dup_points_removed": 523502,
+    "duplicate_bin_rows_merged": 4,
+    "polygon_non_planar": 13,
+    "roof_face_horizontal": 54314,
+    "roof_face_sloped": 18,
+    "roof_flipped_up": 1477,
+    "roof_type_complex": 1,
+    "roof_type_flat": 37520,
+    "tri_dropped_f32_degenerate": 623,
+    "wall_ground_inward": 464,
+    "wall_ground_outward": 391449
+   },
+   "da": 14,
+   "elapsed_s": 775.5,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/buildings/citygml/da14.parquet",
+   "produced_at": "2026-09-06T11:57:06Z",
+   "rows": 37517,
+   "schema": "citygml_solids_v1",
+   "sha256": "9d360365d30c4365c6990d5d9f8123dae2b154a8774835b5a866a6384980e789",
    "sources": [
     "doitt_3d_citygml"
    ],
@@ -5961,6 +6089,36 @@
    ],
    "stage": "citygml"
   },
+  "citygml_da2": {
+   "artifact_id": "citygml_da2",
+   "buildings_parsed": 23348,
+   "bytes": 9091801,
+   "counters": {
+    "building_placeholder_bin": 1544,
+    "buildings_with_tri_dropped": 81,
+    "collinear_points_removed": 20717,
+    "dup_points_removed": 207796,
+    "polygon_degenerate": 2,
+    "roof_face_horizontal": 31780,
+    "roof_flipped_up": 194,
+    "roof_type_flat": 23348,
+    "tri_dropped_f32_degenerate": 96,
+    "wall_ground_inward": 55,
+    "wall_ground_outward": 140601
+   },
+   "da": 2,
+   "elapsed_s": 478.25,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/buildings/citygml/da2.parquet",
+   "produced_at": "2026-09-06T12:05:06Z",
+   "rows": 23348,
+   "schema": "citygml_solids_v1",
+   "sha256": "2cc4b4a339f9da24616274b5c074b730699044152d5be0dbe5de764308133088",
+   "sources": [
+    "doitt_3d_citygml"
+   ],
+   "stage": "citygml"
+  },
   "citygml_da20": {
    "artifact_id": "citygml_da20",
    "buildings_parsed": 106165,
@@ -5986,6 +6144,40 @@
    "rows": 106165,
    "schema": "citygml_solids_v1",
    "sha256": "8737f99f0b7970d680b77caa32d7d4829b71edd3b1508de605d2ff7980b322a5",
+   "sources": [
+    "doitt_3d_citygml"
+   ],
+   "stage": "citygml"
+  },
+  "citygml_da3": {
+   "artifact_id": "citygml_da3",
+   "buildings_parsed": 20918,
+   "bytes": 8795783,
+   "counters": {
+    "building_placeholder_bin": 1185,
+    "buildings_with_tri_dropped": 160,
+    "collinear_points_removed": 53475,
+    "dup_points_removed": 208344,
+    "duplicate_bin_rows_merged": 2,
+    "polygon_degenerate": 4,
+    "polygon_non_planar": 34,
+    "roof_face_horizontal": 27463,
+    "roof_face_sloped": 27,
+    "roof_flipped_up": 75,
+    "roof_type_complex": 1,
+    "roof_type_flat": 20917,
+    "tri_dropped_f32_degenerate": 178,
+    "wall_ground_inward": 87,
+    "wall_ground_outward": 151223
+   },
+   "da": 3,
+   "elapsed_s": 395.52,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/buildings/citygml/da3.parquet",
+   "produced_at": "2026-09-06T12:02:15Z",
+   "rows": 20916,
+   "schema": "citygml_solids_v1",
+   "sha256": "47bcb750ff73450ff3164d0b4400f47a98845f2a1ca7b719761dbd894b807189",
    "sources": [
     "doitt_3d_citygml"
    ],
@@ -6017,6 +6209,40 @@
    "rows": 16665,
    "schema": "citygml_solids_v1",
    "sha256": "acd7adc2da3fea8d0cda7544d052640f8f0b5b0253fa036676ec73a0c638e6af",
+   "sources": [
+    "doitt_3d_citygml"
+   ],
+   "stage": "citygml"
+  },
+  "citygml_da5": {
+   "artifact_id": "citygml_da5",
+   "buildings_parsed": 34082,
+   "bytes": 15425319,
+   "counters": {
+    "building_no_ground": 2,
+    "building_no_roof": 2,
+    "building_placeholder_bin": 1813,
+    "buildings_with_tri_dropped": 192,
+    "collinear_points_removed": 112941,
+    "dup_points_removed": 374052,
+    "duplicate_bin_rows_merged": 18,
+    "ground_flipped_down": 5,
+    "polygon_degenerate": 46,
+    "roof_face_horizontal": 48828,
+    "roof_flipped_up": 718,
+    "roof_type_flat": 34082,
+    "tri_dropped_f32_degenerate": 202,
+    "wall_ground_inward": 1192,
+    "wall_ground_outward": 269539
+   },
+   "da": 5,
+   "elapsed_s": 606.24,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/buildings/citygml/da5.parquet",
+   "produced_at": "2026-09-06T11:55:37Z",
+   "rows": 34064,
+   "schema": "citygml_solids_v1",
+   "sha256": "3abdf9b42b36d51c0053f4b8d4128021168855c633b7a0509d03a5963539a0dc",
    "sources": [
     "doitt_3d_citygml"
    ],
@@ -6149,17 +6375,230 @@
    ],
    "stage": "citygml"
   },
+  "citygml_index": {
+   "artifact_id": "citygml_index",
+   "bytes": 65597134,
+   "cross_da_duplicates_dropped": 26,
+   "das": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+   ],
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/buildings/citygml/index.parquet",
+   "produced_at": "2026-09-06T12:07:54Z",
+   "roof_type_hist": {
+    "barrel": 2,
+    "complex": 28,
+    "dome": 5,
+    "flat": 1083195,
+    "gable": 4,
+    "hip": 12,
+    "mansard": 8,
+    "sawtooth": 0,
+    "shed": 1
+   },
+   "rows": 1083255,
+   "schema": "citygml_index_v1",
+   "sha256": "983c653a0871100be1e0830b80bf025e80d40620518808e6cd8866d851381712",
+   "sources": [
+    "doitt_3d_citygml"
+   ],
+   "stage": "citygml"
+  },
+  "facade_attrs": {
+   "artifact_id": "facade_attrs",
+   "bytes": 58231365,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/facade/facade_attrs.parquet",
+   "produced_at": "2026-09-06T12:12:45Z",
+   "rows": 1083026,
+   "schema": "facade_attrs/1",
+   "sha256": "0e461d8f429ebfc2d3d180111097ecd0f56693cd2b0928199f272961dec75264",
+   "sources": [
+    "building_footprints",
+    "pluto",
+    "lpc_building_db",
+    "osm_newyork_pbf",
+    "building_elevation_subgrade"
+   ],
+   "stage": "facade"
+  },
+  "facade_geom_attrs": {
+   "artifact_id": "facade_geom_attrs",
+   "bytes": 47047679,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/facade/geom_attrs.parquet",
+   "produced_at": "2026-09-06T12:12:44Z",
+   "rows": 1083026,
+   "schema": "facade_geom/1",
+   "sha256": "fe9cd704a0dd2ac895a09f1511391cfabd3e3720f71c25fdd094e9fc5941b27e",
+   "sources": [
+    "building_footprints",
+    "pluto",
+    "lpc_building_db",
+    "osm_newyork_pbf",
+    "building_elevation_subgrade"
+   ],
+   "stage": "facade"
+  },
+  "facade_kit_ids": {
+   "artifact_id": "facade_kit_ids",
+   "bytes": 17297,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/facade/kit_ids.json",
+   "produced_at": "2026-09-06T12:12:45Z",
+   "rows": null,
+   "schema": "kit_ids/1",
+   "sha256": "a4cea8137e261b8b8404a6e1b42f295975a16fa644a8703c0ac03d75a7cb64ee",
+   "sources": [
+    "building_footprints",
+    "pluto",
+    "lpc_building_db",
+    "osm_newyork_pbf",
+    "building_elevation_subgrade"
+   ],
+   "stage": "facade"
+  },
+  "furniture_build_summary": {
+   "artifact_id": "furniture_build_summary",
+   "bytes": 40999,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/furniture/build_summary.json",
+   "produced_at": "2026-09-06T12:06:14Z",
+   "rows": null,
+   "schema": "furniture_build_summary/1",
+   "sha256": "8289d83b834979c6b1acadb21a17903637e8e4e92cfcbf1e92da8676180ea3f5",
+   "sources": [
+    "hydrants",
+    "bus_stop_shelters",
+    "linknyc",
+    "newsstands",
+    "bike_shelters",
+    "pedestrian_ramps",
+    "rtpi_signs",
+    "citibike_gbfs_stations",
+    "parks_structures",
+    "plan_railroad_structure",
+    "plan_misc_structures",
+    "plan_swimming_pools",
+    "plan_cooling_towers",
+    "osm_newyork_pbf",
+    "subway_entrances",
+    "gtfs_bus",
+    "street_trees_2015",
+    "plan_elevation_points"
+   ],
+   "stage": "furniture"
+  },
+  "furniture_props_catalog": {
+   "artifact_id": "furniture_props_catalog",
+   "bytes": 19261,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/furniture/props_catalog.json",
+   "produced_at": "2026-09-06T12:06:14Z",
+   "rows": 1724589,
+   "schema": "props_catalog/1",
+   "sha256": "92060a8ff9be4521f2a708549067fb871cfcf5ae625ae29ea56730b9648568a8",
+   "sources": [
+    "hydrants",
+    "bus_stop_shelters",
+    "linknyc",
+    "newsstands",
+    "bike_shelters",
+    "pedestrian_ramps",
+    "rtpi_signs",
+    "citibike_gbfs_stations",
+    "parks_structures",
+    "plan_railroad_structure",
+    "plan_misc_structures",
+    "plan_swimming_pools",
+    "plan_cooling_towers",
+    "osm_newyork_pbf",
+    "subway_entrances",
+    "gtfs_bus",
+    "street_trees_2015",
+    "plan_elevation_points"
+   ],
+   "stage": "furniture"
+  },
+  "furniture_tiles": {
+   "artifact_id": "furniture_tiles",
+   "bytes": 28021,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/furniture/tiles_index.json",
+   "produced_at": "2026-09-06T12:06:14Z",
+   "rows": 1724589,
+   "schema": "furniture_tiles_index/1",
+   "sha256": "3e52f6a61d01e96cdc9aa1aeab5056ca85dd79e2c88e663639a3d09949ee97cc",
+   "sources": [
+    "hydrants",
+    "bus_stop_shelters",
+    "linknyc",
+    "newsstands",
+    "bike_shelters",
+    "pedestrian_ramps",
+    "rtpi_signs",
+    "citibike_gbfs_stations",
+    "parks_structures",
+    "plan_railroad_structure",
+    "plan_misc_structures",
+    "plan_swimming_pools",
+    "plan_cooling_towers",
+    "osm_newyork_pbf",
+    "subway_entrances",
+    "gtfs_bus",
+    "street_trees_2015",
+    "plan_elevation_points"
+   ],
+   "stage": "furniture"
+  },
+  "landmark_b_bronx_whitestone_lod0": {
+   "artifact_id": "landmark_b_bronx_whitestone_lod0",
+   "bytes": 1977220,
+   "git_commit": "e9c4094042a0",
+   "landmark_id": "b_bronx_whitestone",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_bronx_whitestone.glb",
+   "produced_at": "2026-09-06T11:59:38Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "34ef15b914fc36ee4dbed1009cd98440fd8236c4f7c1cb10bf17cd7f5a1c7d7b",
+   "sources": [
+    "osm_bbbike",
+    "published_bronx_whitestone"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 44680
+  },
   "landmark_b_brooklyn_bridge_lod0": {
    "artifact_id": "landmark_b_brooklyn_bridge_lod0",
    "bytes": 5672688,
-   "git_commit": "2c2a6f1d0a54",
+   "git_commit": "e9c4094042a0",
    "landmark_id": "b_brooklyn_bridge",
    "lod": 0,
    "path": "blender_out/landmarks/b_brooklyn_bridge.glb",
-   "produced_at": "2026-09-06T11:39:30Z",
+   "produced_at": "2026-09-06T11:45:25Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "43ea96a2344006232511a7256fd4b88307b98f7cd8e584c172f7c84f02bdf814",
+   "sha256": "1476f6dc4378ab84c1f055977a7a6ee6a39c7a42249d66f8fc9600b257df2995",
    "sources": [
     "osm_bbbike",
     "published_brooklyn_bridge"
@@ -6185,6 +6624,168 @@
    "stage": "landmarks_b",
    "triangles": 33496
   },
+  "landmark_b_george_washington_bridge_lod0": {
+   "artifact_id": "landmark_b_george_washington_bridge_lod0",
+   "bytes": 4033116,
+   "git_commit": "e9c4094042a0",
+   "landmark_id": "b_george_washington_bridge",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_george_washington_bridge.glb",
+   "produced_at": "2026-09-06T11:58:58Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "188d87e1639be7b69fcf54683d69623d67da3995a6097947d933dfbe513941d0",
+   "sources": [
+    "osm_bbbike",
+    "published_gwb"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 94736
+  },
+  "landmark_b_hell_gate_lod0": {
+   "artifact_id": "landmark_b_hell_gate_lod0",
+   "bytes": 1087680,
+   "git_commit": "e9c4094042a0",
+   "landmark_id": "b_hell_gate",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_hell_gate.glb",
+   "produced_at": "2026-09-06T12:02:18Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "aabb3c804ddb05364704560883971b7c5cd409565b215ccf14168b93ea312c77",
+   "sources": [
+    "osm_bbbike",
+    "published_hell_gate"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 23788
+  },
+  "landmark_b_high_bridge_lod0": {
+   "artifact_id": "landmark_b_high_bridge_lod0",
+   "bytes": 759728,
+   "git_commit": "e9c4094042a0",
+   "landmark_id": "b_high_bridge",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_high_bridge.glb",
+   "produced_at": "2026-09-06T12:07:02Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "31f858fb8a117ca62bb23efb63b7e816189d6b5cdc174d0be18c6acbaa8606c9",
+   "sources": [
+    "osm_bbbike",
+    "published_high_bridge"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 15112
+  },
+  "landmark_b_kosciuszko_lod0": {
+   "artifact_id": "landmark_b_kosciuszko_lod0",
+   "bytes": 1628916,
+   "git_commit": "e9c4094042a0",
+   "landmark_id": "b_kosciuszko",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_kosciuszko.glb",
+   "produced_at": "2026-09-06T12:08:41Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "dee4b799ef0686fb79bd1dfb0871b6e3ea3ebb76f1e2a10909b8ae4baaf202f9",
+   "sources": [
+    "osm_bbbike",
+    "published_kosciuszko"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 33560
+  },
+  "landmark_b_manhattan_bridge_lod0": {
+   "artifact_id": "landmark_b_manhattan_bridge_lod0",
+   "bytes": 3340080,
+   "git_commit": "e9c4094042a0",
+   "landmark_id": "b_manhattan_bridge",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_manhattan_bridge.glb",
+   "produced_at": "2026-09-06T11:58:25Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "334b76c0b701ac3a33fca3aee050dbe26dd02176f3975592d382cc9d50a4bc77",
+   "sources": [
+    "osm_bbbike",
+    "published_manhattan_bridge"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 80700
+  },
+  "landmark_b_pulaski_lod0": {
+   "artifact_id": "landmark_b_pulaski_lod0",
+   "bytes": 691848,
+   "git_commit": "e9c4094042a0",
+   "landmark_id": "b_pulaski",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_pulaski.glb",
+   "produced_at": "2026-09-06T12:08:35Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "186474998faae59117039ac7c0af90eaf1e48ae23e36829bd2523ba70adcb344",
+   "sources": [
+    "osm_bbbike",
+    "published_pulaski"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 14592
+  },
+  "landmark_b_queensboro_bridge_lod0": {
+   "artifact_id": "landmark_b_queensboro_bridge_lod0",
+   "bytes": 2941292,
+   "git_commit": "e9c4094042a0",
+   "landmark_id": "b_queensboro_bridge",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_queensboro_bridge.glb",
+   "produced_at": "2026-09-06T11:59:51Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "c8545c0fc022909070df0de2d83836a97f3b008e618ef58257542709b4287110",
+   "sources": [
+    "osm_bbbike",
+    "published_queensboro"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 59736
+  },
+  "landmark_b_rfk_triborough_lod0": {
+   "artifact_id": "landmark_b_rfk_triborough_lod0",
+   "bytes": 3693468,
+   "git_commit": "e9c4094042a0",
+   "landmark_id": "b_rfk_triborough",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_rfk_triborough.glb",
+   "produced_at": "2026-09-06T12:04:59Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "1a8313f3bf45c8b022b2bec6f2ab17c333061eaa37f550793a91eb7da392442d",
+   "sources": [
+    "osm_bbbike",
+    "published_rfk"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 80454
+  },
+  "landmark_b_roosevelt_island_tram_lod0": {
+   "artifact_id": "landmark_b_roosevelt_island_tram_lod0",
+   "bytes": 233884,
+   "git_commit": "e9c4094042a0",
+   "landmark_id": "b_roosevelt_island_tram",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_roosevelt_island_tram.glb",
+   "produced_at": "2026-09-06T12:10:08Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "a11347fb21525c000cc699d7fe30cbb559634ded6902ab64de6071d5e777e0d6",
+   "sources": [
+    "osm_bbbike",
+    "published_ri_tram"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 5836
+  },
   "landmark_b_smoke_test_lod0": {
    "artifact_id": "landmark_b_smoke_test_lod0",
    "bytes": 148460,
@@ -6202,6 +6803,60 @@
    ],
    "stage": "landmarks_b",
    "triangles": 2920
+  },
+  "landmark_b_throgs_neck_lod0": {
+   "artifact_id": "landmark_b_throgs_neck_lod0",
+   "bytes": 2328064,
+   "git_commit": "e9c4094042a0",
+   "landmark_id": "b_throgs_neck",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_throgs_neck.glb",
+   "produced_at": "2026-09-06T11:59:29Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "1f9ca807f0b54f263efc103fd7008978da1e1b7e0af687dd6a8fd95d4f28f31f",
+   "sources": [
+    "osm_bbbike",
+    "published_throgs_neck"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 50392
+  },
+  "landmark_b_verrazzano_narrows_lod0": {
+   "artifact_id": "landmark_b_verrazzano_narrows_lod0",
+   "bytes": 4868728,
+   "git_commit": "e9c4094042a0",
+   "landmark_id": "b_verrazzano_narrows",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_verrazzano_narrows.glb",
+   "produced_at": "2026-09-06T11:59:18Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "a02df4a264328658a78e4c12f5e2ca319c1e8ac2cec54ef01fe43cfc5ba93d33",
+   "sources": [
+    "osm_bbbike",
+    "published_verrazzano"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 117032
+  },
+  "landmark_b_williamsburg_bridge_lod0": {
+   "artifact_id": "landmark_b_williamsburg_bridge_lod0",
+   "bytes": 3776060,
+   "git_commit": "e9c4094042a0",
+   "landmark_id": "b_williamsburg_bridge",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_williamsburg_bridge.glb",
+   "produced_at": "2026-09-06T11:58:38Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "10a4a20bfdccf2d556a419fe483552bfd766183e5bfd6af4b6811203442b8020",
+   "sources": [
+    "osm_bbbike",
+    "published_williamsburg_bridge"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 84236
   },
   "landmark_footprints": {
    "artifact_id": "landmark_footprints",
@@ -6225,6 +6880,133 @@
     "nta_2020"
    ],
    "stage": "buildings"
+  },
+  "landmark_glb:30_rockefeller_plaza": {
+   "artifact_id": "landmark_glb:30_rockefeller_plaza",
+   "bins": [
+    1076262
+   ],
+   "bytes": 24397952,
+   "footprint_iou": 1.0,
+   "git_commit": "e9c4094042a0",
+   "path": "blender_out/landmarks/30_rockefeller_plaza.glb",
+   "produced_at": "2026-09-06T11:53:08Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "5d10efaee9f9ed48277d23a9c89dde6832c0bf9dd936c9cbd869bb26a9872724",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 102530,
+   "tris_lod1": 192
+  },
+  "landmark_glb:40_wall_street": {
+   "artifact_id": "landmark_glb:40_wall_street",
+   "bins": [
+    1001018
+   ],
+   "bytes": 18657768,
+   "footprint_iou": 1.0,
+   "git_commit": "e9c4094042a0",
+   "path": "blender_out/landmarks/40_wall_street.glb",
+   "produced_at": "2026-09-06T12:02:58Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "fd7d69a2c01cb269cbf9219e720802a043584b2c8afc62a1395cf69c35dd3057",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 43167,
+   "tris_lod1": 104
+  },
+  "landmark_glb:c_citigroup_center": {
+   "artifact_id": "landmark_glb:c_citigroup_center",
+   "bins": [
+    1036474
+   ],
+   "bytes": 20131312,
+   "footprint_iou": 1.0,
+   "git_commit": "e9c4094042a0",
+   "path": "blender_out/landmarks/c_citigroup_center.glb",
+   "produced_at": "2026-09-06T11:47:24Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "e86345e4c4cdefdf94f1aafa757e01214f23e863ab95d889a51d26ce2f9e9ac4",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 76574,
+   "tris_lod1": 288
+  },
+  "landmark_glb:c_guggenheim": {
+   "artifact_id": "landmark_glb:c_guggenheim",
+   "bins": [
+    1046946,
+    1046964
+   ],
+   "bytes": 7074796,
+   "footprint_iou": 1.0,
+   "git_commit": "e9c4094042a0",
+   "path": "blender_out/landmarks/c_guggenheim.glb",
+   "produced_at": "2026-09-06T12:15:02Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "fda9bff02a81f36f1039cd9dbd27e5f56af056d58244ac64371760244edc581d",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 9352,
+   "tris_lod1": 308
+  },
+  "landmark_glb:c_hearst_tower": {
+   "artifact_id": "landmark_glb:c_hearst_tower",
+   "bins": [
+    1025451
+   ],
+   "bytes": 9193000,
+   "footprint_iou": 1.0,
+   "git_commit": "e9c4094042a0",
+   "path": "blender_out/landmarks/c_hearst_tower.glb",
+   "produced_at": "2026-09-06T11:52:44Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "746388b81ec2704c382c59eb47bb0a89857fa0a264df7d6ae10ae69535f0a15b",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 13790,
+   "tris_lod1": 204
+  },
+  "landmark_glb:c_hudson_yards": {
+   "artifact_id": "landmark_glb:c_hudson_yards",
+   "bins": [
+    1088961,
+    1089323,
+    1091590,
+    1089412,
+    1089411,
+    1090274,
+    1090391
+   ],
+   "bytes": 21381496,
+   "footprint_iou": 0.9212,
+   "git_commit": "e9c4094042a0",
+   "path": "blender_out/landmarks/c_hudson_yards.glb",
+   "produced_at": "2026-09-06T12:09:06Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "35ffa36a34a1bf7935ee1c0e16262f2b1e533452ccef595841ab59f65308d82e",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 103450,
+   "tris_lod1": 1026
   },
   "landmark_glb:c_lever_house": {
    "artifact_id": "landmark_glb:c_lever_house",
@@ -6266,6 +7048,26 @@
    "tris_lod0": 26780,
    "tris_lod1": 1120
   },
+  "landmark_glb:c_metlife_building": {
+   "artifact_id": "landmark_glb:c_metlife_building",
+   "bins": [
+    1085630
+   ],
+   "bytes": 19423316,
+   "footprint_iou": 1.0,
+   "git_commit": "e9c4094042a0",
+   "path": "blender_out/landmarks/c_metlife_building.glb",
+   "produced_at": "2026-09-06T11:49:30Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "8e002e0c480034bc606211f52e3b220280da6940a13f2da360eae4957dfdedce",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 105284,
+   "tris_lod1": 188
+  },
   "landmark_glb:c_seagram_building": {
    "artifact_id": "landmark_glb:c_seagram_building",
    "bins": [
@@ -6306,6 +7108,26 @@
    "tris_lod0": 57851,
    "tris_lod1": 132
   },
+  "landmark_glb:city_hall": {
+   "artifact_id": "landmark_glb:city_hall",
+   "bins": [
+    1079147
+   ],
+   "bytes": 16990660,
+   "footprint_iou": 1.0,
+   "git_commit": "e9c4094042a0",
+   "path": "blender_out/landmarks/city_hall.glb",
+   "produced_at": "2026-09-06T12:14:43Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "72fcd96d5cbcc246ab173fa484f9ff4e28c11c5ced3df2707aff8546b0b0fc93",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 44823,
+   "tris_lod1": 120
+  },
   "landmark_glb:empire_state": {
    "artifact_id": "landmark_glb:empire_state",
    "bins": [
@@ -6325,6 +7147,166 @@
    "stage": "landmarks",
    "tris_lod0": 107298,
    "tris_lod1": 372
+  },
+  "landmark_glb:equitable_building": {
+   "artifact_id": "landmark_glb:equitable_building",
+   "bins": [
+    1001026
+   ],
+   "bytes": 20448832,
+   "footprint_iou": 1.0,
+   "git_commit": "e9c4094042a0",
+   "path": "blender_out/landmarks/equitable_building.glb",
+   "produced_at": "2026-09-06T12:03:19Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "69cf3ef164a7e6915f6c778df968174174ad82f4521d13bbcbcea5f39b498af1",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 86321,
+   "tris_lod1": 288
+  },
+  "landmark_glb:flatiron": {
+   "artifact_id": "landmark_glb:flatiron",
+   "bins": [
+    1016278
+   ],
+   "bytes": 19320672,
+   "footprint_iou": 1.0,
+   "git_commit": "e9c4094042a0",
+   "path": "blender_out/landmarks/flatiron.glb",
+   "produced_at": "2026-09-06T11:47:38Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "0e808526bed487b6465639cd780de02da28f41f022104af86694c1a816cae136",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 38233,
+   "tris_lod1": 644
+  },
+  "landmark_glb:grand_central_terminal": {
+   "artifact_id": "landmark_glb:grand_central_terminal",
+   "bins": [
+    1035381
+   ],
+   "bytes": 12995608,
+   "footprint_iou": 1.0,
+   "git_commit": "e9c4094042a0",
+   "path": "blender_out/landmarks/grand_central_terminal.glb",
+   "produced_at": "2026-09-06T12:11:17Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "e247aa8bc209ba8ef9e8d841a5c39f3cf94c99f45de1eb7192b082e5f6047aea",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 29560,
+   "tris_lod1": 76
+  },
+  "landmark_glb:madison_square_garden": {
+   "artifact_id": "landmark_glb:madison_square_garden",
+   "bins": [
+    1082908
+   ],
+   "bytes": 8612352,
+   "footprint_iou": 1.0,
+   "git_commit": "e9c4094042a0",
+   "path": "blender_out/landmarks/madison_square_garden.glb",
+   "produced_at": "2026-09-06T12:15:57Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "0b05521a5322f7359dacc99c2e48a8347dcd895b0b91733dd1369ff2a06e7a12",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 7884,
+   "tris_lod1": 748
+  },
+  "landmark_glb:municipal_building": {
+   "artifact_id": "landmark_glb:municipal_building",
+   "bins": [
+    1001394
+   ],
+   "bytes": 26225832,
+   "footprint_iou": 1.0,
+   "git_commit": "e9c4094042a0",
+   "path": "blender_out/landmarks/municipal_building.glb",
+   "produced_at": "2026-09-06T12:14:32Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "a25a49dede1722b2cb11936198467b1188fd62b86a0666d9fb682927e42c1fc5",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 97825,
+   "tris_lod1": 252
+  },
+  "landmark_glb:new_york_public_library": {
+   "artifact_id": "landmark_glb:new_york_public_library",
+   "bins": [
+    1034194
+   ],
+   "bytes": 19435152,
+   "footprint_iou": 1.0,
+   "git_commit": "e9c4094042a0",
+   "path": "blender_out/landmarks/new_york_public_library.glb",
+   "produced_at": "2026-09-06T12:14:21Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "22a9dd541274a878df8dad7199fcda3f13e5d6c24f5cacb98953af7224b1171c",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 51785,
+   "tris_lod1": 228
+  },
+  "landmark_glb:one_vanderbilt": {
+   "artifact_id": "landmark_glb:one_vanderbilt",
+   "bins": [
+    1090825
+   ],
+   "bytes": 14599144,
+   "footprint_iou": 1.0,
+   "git_commit": "e9c4094042a0",
+   "path": "blender_out/landmarks/one_vanderbilt.glb",
+   "produced_at": "2026-09-06T11:58:16Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "4e424151bd5dccbebd8cf2c08452b18470ec361c49010d16db6bf4ea95ba14ac",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 74350,
+   "tris_lod1": 80
+  },
+  "landmark_glb:one_wall_street": {
+   "artifact_id": "landmark_glb:one_wall_street",
+   "bins": [
+    1000815
+   ],
+   "bytes": 16987792,
+   "footprint_iou": 1.0,
+   "git_commit": "e9c4094042a0",
+   "path": "blender_out/landmarks/one_wall_street.glb",
+   "produced_at": "2026-09-06T12:03:09Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "4234d884780c8535ef6df0cc508db2f8de0d3fa775afcbe0fd9d7b16e1545688",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 42412,
+   "tris_lod1": 364
   },
   "landmark_glb:smoke_test": {
    "artifact_id": "landmark_glb:smoke_test",
@@ -6346,15 +7328,77 @@
    "tris_lod0": 53987,
    "tris_lod1": 272
   },
+  "landmark_glb:st_patricks_cathedral": {
+   "artifact_id": "landmark_glb:st_patricks_cathedral",
+   "bins": [
+    1081150,
+    1081149,
+    1082595
+   ],
+   "bytes": 4134012,
+   "footprint_iou": 1.0,
+   "git_commit": "e9c4094042a0",
+   "path": "blender_out/landmarks/st_patricks_cathedral.glb",
+   "produced_at": "2026-09-06T12:09:37Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "325aab876826f706861cf17cdd20c00fb796275c797d55fedfbc089e081dd1b4",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 6259,
+   "tris_lod1": 204
+  },
+  "landmark_glb:trinity_church": {
+   "artifact_id": "landmark_glb:trinity_church",
+   "bins": [
+    1001028
+   ],
+   "bytes": 3048240,
+   "footprint_iou": 1.0,
+   "git_commit": "e9c4094042a0",
+   "path": "blender_out/landmarks/trinity_church.glb",
+   "produced_at": "2026-09-06T12:09:24Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "cc8324661b82c6a8df845d272a3ca6f6ce6b93ff29bde7c9b41f68614dcdd5ba",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 3984,
+   "tris_lod1": 144
+  },
+  "landmark_glb:woolworth": {
+   "artifact_id": "landmark_glb:woolworth",
+   "bins": [
+    1087167
+   ],
+   "bytes": 17458524,
+   "footprint_iou": 1.0,
+   "git_commit": "e9c4094042a0",
+   "path": "blender_out/landmarks/woolworth.glb",
+   "produced_at": "2026-09-06T12:03:30Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "c35c9e3d83b16470e0fd32fd73c4d24c3efe8ae41864859f10aa722b913a851c",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 47871,
+   "tris_lod1": 120
+  },
   "live/esb_lights": {
    "artifact_id": "live/esb_lights",
    "bytes": 405,
-   "git_commit": "1ed58d0d4c6b",
+   "git_commit": "e9c4094042a0",
    "path": "data/processed/live/esb_lights.json",
-   "produced_at": "2026-09-06T11:24:43Z",
+   "produced_at": "2026-09-06T12:03:24Z",
    "rows": 1,
    "schema": "live/esb_lights/1",
-   "sha256": "7a8cf1d8fb4a24747293670fddf61b33be89525ee500a646e05cc344b4162f19",
+   "sha256": "bd1c4eb2a90b97d182067807e4747821213b78d1bc9ad90733eb48600fd53e47",
    "sources": [
     "esbnyc.com"
    ],
@@ -6362,13 +7406,13 @@
   },
   "live/tides": {
    "artifact_id": "live/tides",
-   "bytes": 2202,
-   "git_commit": "1ed58d0d4c6b",
+   "bytes": 2205,
+   "git_commit": "e9c4094042a0",
    "path": "data/processed/live/tides.json",
-   "produced_at": "2026-09-06T11:24:43Z",
+   "produced_at": "2026-09-06T12:03:24Z",
    "rows": 1,
    "schema": "live/tides/1",
-   "sha256": "e2278eac6336e3de9a623db502c13d74ff7a4d12becded851d85459999f3c836",
+   "sha256": "06fce193f26687cb61031a21095f3cda8ac520c8914c8d7eb3f34c808ec5ec72",
    "sources": [
     "api.tidesandcurrents.noaa.gov"
    ],
@@ -6376,13 +7420,13 @@
   },
   "live/weather": {
    "artifact_id": "live/weather",
-   "bytes": 813,
-   "git_commit": "1ed58d0d4c6b",
+   "bytes": 812,
+   "git_commit": "e9c4094042a0",
    "path": "data/processed/live/weather.json",
-   "produced_at": "2026-09-06T11:24:43Z",
+   "produced_at": "2026-09-06T12:03:23Z",
    "rows": 1,
    "schema": "live/weather/1",
-   "sha256": "d61f3b91aaf29f12392c96fdc07bce1db57c39554b01da4e848cda6547df2231",
+   "sha256": "c1f28343bd48acd6bf54110c2801e4642c1a46843d487f2f7baa6bccd49a7be0",
    "sources": [
     "api.weather.gov",
     "api.open-meteo.com",
@@ -6547,6 +7591,434 @@
     "osm_newyork_pbf"
    ],
    "stage": "osm"
+  },
+  "roads_bridges_tunnels": {
+   "artifact_id": "roads_bridges_tunnels",
+   "bytes": 173166,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/roads/bridges_tunnels.json",
+   "produced_at": "2026-09-06T11:52:43Z",
+   "rows": 53,
+   "schema": "roads.bridges/1",
+   "sha256": "0ebdbd9698e62e7959947ae6ff14c8671ebd11a65ce1db911742fe05bc1939fd",
+   "sources": [
+    "centerline",
+    "lion",
+    "osm_newyork_pbf",
+    "dot_signs",
+    "vzv_speed_limits",
+    "vzv_lpi_signals",
+    "barnes_dance",
+    "signal_retiming",
+    "bike_routes",
+    "bus_lanes",
+    "truck_routes",
+    "ped_plazas",
+    "street_construction_permits",
+    "plan_roadbed",
+    "plan_curb",
+    "plan_sidewalk",
+    "plan_median",
+    "plan_pavement_edge",
+    "plan_transport_structures",
+    "plan_parking_lot",
+    "plan_public_plazas"
+   ],
+   "stage": "roads"
+  },
+  "roads_build_summary": {
+   "artifact_id": "roads_build_summary",
+   "bytes": 21212,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/roads/build_summary.json",
+   "produced_at": "2026-09-06T11:52:43Z",
+   "rows": null,
+   "schema": "roads.build_summary/1",
+   "sha256": "ae547f51f021d1ef51c43c84cd46c1c281ba22131f4c7bd18af8053c195028f8",
+   "sources": [
+    "centerline",
+    "lion",
+    "osm_newyork_pbf",
+    "dot_signs",
+    "vzv_speed_limits",
+    "vzv_lpi_signals",
+    "barnes_dance",
+    "signal_retiming",
+    "bike_routes",
+    "bus_lanes",
+    "truck_routes",
+    "ped_plazas",
+    "street_construction_permits",
+    "plan_roadbed",
+    "plan_curb",
+    "plan_sidewalk",
+    "plan_median",
+    "plan_pavement_edge",
+    "plan_transport_structures",
+    "plan_parking_lot",
+    "plan_public_plazas"
+   ],
+   "stage": "roads"
+  },
+  "roads_connectivity": {
+   "artifact_id": "roads_connectivity",
+   "bytes": 19380,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/roads/connectivity.json",
+   "produced_at": "2026-09-06T11:52:43Z",
+   "rows": null,
+   "schema": "roads.connectivity/1",
+   "sha256": "7e197bdbf04715cb7c8a213d393635881e1f16628de6c3fced6eb308ac94b47c",
+   "sources": [
+    "centerline",
+    "lion",
+    "osm_newyork_pbf",
+    "dot_signs",
+    "vzv_speed_limits",
+    "vzv_lpi_signals",
+    "barnes_dance",
+    "signal_retiming",
+    "bike_routes",
+    "bus_lanes",
+    "truck_routes",
+    "ped_plazas",
+    "street_construction_permits",
+    "plan_roadbed",
+    "plan_curb",
+    "plan_sidewalk",
+    "plan_median",
+    "plan_pavement_edge",
+    "plan_transport_structures",
+    "plan_parking_lot",
+    "plan_public_plazas"
+   ],
+   "stage": "roads"
+  },
+  "roads_junction_lanes": {
+   "artifact_id": "roads_junction_lanes",
+   "bytes": 43979259,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/roads/junction_lanes.parquet",
+   "produced_at": "2026-09-06T11:52:42Z",
+   "rows": 466279,
+   "schema": "roads.junction_lanes.v1",
+   "sha256": "708da6bd8840cda84e0779f107dff11a517aaa61de958498bf7c68c948291c7f",
+   "sources": [
+    "centerline",
+    "lion",
+    "osm_newyork_pbf",
+    "dot_signs",
+    "vzv_speed_limits",
+    "vzv_lpi_signals",
+    "barnes_dance",
+    "signal_retiming",
+    "bike_routes",
+    "bus_lanes",
+    "truck_routes",
+    "ped_plazas",
+    "street_construction_permits",
+    "plan_roadbed",
+    "plan_curb",
+    "plan_sidewalk",
+    "plan_median",
+    "plan_pavement_edge",
+    "plan_transport_structures",
+    "plan_parking_lot",
+    "plan_public_plazas"
+   ],
+   "stage": "roads"
+  },
+  "roads_lanes": {
+   "artifact_id": "roads_lanes",
+   "bytes": 28399820,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/roads/lanes.parquet",
+   "produced_at": "2026-09-06T11:52:42Z",
+   "rows": 384703,
+   "schema": "roads.lanes.v1",
+   "sha256": "af8597fa55870f3a2058c9134a12997f048167f19a280b9821ee69f7f2f1de22",
+   "sources": [
+    "centerline",
+    "lion",
+    "osm_newyork_pbf",
+    "dot_signs",
+    "vzv_speed_limits",
+    "vzv_lpi_signals",
+    "barnes_dance",
+    "signal_retiming",
+    "bike_routes",
+    "bus_lanes",
+    "truck_routes",
+    "ped_plazas",
+    "street_construction_permits",
+    "plan_roadbed",
+    "plan_curb",
+    "plan_sidewalk",
+    "plan_median",
+    "plan_pavement_edge",
+    "plan_transport_structures",
+    "plan_parking_lot",
+    "plan_public_plazas"
+   ],
+   "stage": "roads"
+  },
+  "roads_nodes": {
+   "artifact_id": "roads_nodes",
+   "bytes": 3749552,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/roads/nodes.parquet",
+   "produced_at": "2026-09-06T11:52:42Z",
+   "rows": 79291,
+   "schema": "roads.nodes.v1",
+   "sha256": "3c19bf391e7d51b26732b85180173488c09b7dd0a517b5540751071a08564a41",
+   "sources": [
+    "centerline",
+    "lion",
+    "osm_newyork_pbf",
+    "dot_signs",
+    "vzv_speed_limits",
+    "vzv_lpi_signals",
+    "barnes_dance",
+    "signal_retiming",
+    "bike_routes",
+    "bus_lanes",
+    "truck_routes",
+    "ped_plazas",
+    "street_construction_permits",
+    "plan_roadbed",
+    "plan_curb",
+    "plan_sidewalk",
+    "plan_median",
+    "plan_pavement_edge",
+    "plan_transport_structures",
+    "plan_parking_lot",
+    "plan_public_plazas"
+   ],
+   "stage": "roads"
+  },
+  "roads_segments": {
+   "artifact_id": "roads_segments",
+   "bytes": 10016278,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/roads/segments.parquet",
+   "produced_at": "2026-09-06T11:52:42Z",
+   "rows": 122235,
+   "schema": "roads.segments.v1",
+   "sha256": "689ac8801eabb9452f07dfa1dc42fe1cd1405250036dc015a7b63a6b987c54f0",
+   "sources": [
+    "centerline",
+    "lion",
+    "osm_newyork_pbf",
+    "dot_signs",
+    "vzv_speed_limits",
+    "vzv_lpi_signals",
+    "barnes_dance",
+    "signal_retiming",
+    "bike_routes",
+    "bus_lanes",
+    "truck_routes",
+    "ped_plazas",
+    "street_construction_permits",
+    "plan_roadbed",
+    "plan_curb",
+    "plan_sidewalk",
+    "plan_median",
+    "plan_pavement_edge",
+    "plan_transport_structures",
+    "plan_parking_lot",
+    "plan_public_plazas"
+   ],
+   "stage": "roads"
+  },
+  "roads_signals": {
+   "artifact_id": "roads_signals",
+   "bytes": 609415,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/roads/signals.parquet",
+   "produced_at": "2026-09-06T11:52:42Z",
+   "rows": 23839,
+   "schema": "roads.signals.v1",
+   "sha256": "792c82652297ab13643732e38660bd41b35c3a23916c2892bff08393a32dc018",
+   "sources": [
+    "centerline",
+    "lion",
+    "osm_newyork_pbf",
+    "dot_signs",
+    "vzv_speed_limits",
+    "vzv_lpi_signals",
+    "barnes_dance",
+    "signal_retiming",
+    "bike_routes",
+    "bus_lanes",
+    "truck_routes",
+    "ped_plazas",
+    "street_construction_permits",
+    "plan_roadbed",
+    "plan_curb",
+    "plan_sidewalk",
+    "plan_median",
+    "plan_pavement_edge",
+    "plan_transport_structures",
+    "plan_parking_lot",
+    "plan_public_plazas"
+   ],
+   "stage": "roads"
+  },
+  "roads_signs": {
+   "artifact_id": "roads_signs",
+   "bytes": 26885492,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/roads/signs.parquet",
+   "produced_at": "2026-09-06T11:52:43Z",
+   "rows": 631472,
+   "schema": "roads.signs.v1",
+   "sha256": "561184abee7351a8383267c40a9d0c5b38fe172750a93954dfe6b53c79087ea4",
+   "sources": [
+    "centerline",
+    "lion",
+    "osm_newyork_pbf",
+    "dot_signs",
+    "vzv_speed_limits",
+    "vzv_lpi_signals",
+    "barnes_dance",
+    "signal_retiming",
+    "bike_routes",
+    "bus_lanes",
+    "truck_routes",
+    "ped_plazas",
+    "street_construction_permits",
+    "plan_roadbed",
+    "plan_curb",
+    "plan_sidewalk",
+    "plan_median",
+    "plan_pavement_edge",
+    "plan_transport_structures",
+    "plan_parking_lot",
+    "plan_public_plazas"
+   ],
+   "stage": "roads"
+  },
+  "runtime_density_nycb": {
+   "artifact_id": "runtime_density_nycb",
+   "bytes": 862296,
+   "cell_element_size": 32,
+   "cells": 18864,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/runtime/density.nycb",
+   "produced_at": "2026-09-06T12:09:45Z",
+   "rings": 334,
+   "rows": 18864,
+   "schema": "runtime/density.nycb@1",
+   "sections": [
+    "cells",
+    "nta_polys",
+    "strtab",
+    "vertices"
+   ],
+   "sha256": "d318967d4831b1ce48a5845321a0b510c30e256a76e379302fe6ae114fcf6026",
+   "sources": [
+    "traffic_density"
+   ],
+   "stage": "traffic",
+   "vertices": 21051,
+   "written": true
+  },
+  "runtime_roadgraph": {
+   "artifact_id": "runtime_roadgraph",
+   "bytes": 103728864,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/runtime/roadgraph.nycb",
+   "produced_at": "2026-09-06T11:52:44Z",
+   "rows": null,
+   "schema": "nycb/1",
+   "sha256": "3af3f5ecd58cd7012093116799db763b5d25b98c0f093447018d7c6566418b35",
+   "sources": [
+    "centerline",
+    "lion",
+    "osm_newyork_pbf",
+    "dot_signs",
+    "vzv_speed_limits",
+    "vzv_lpi_signals",
+    "barnes_dance",
+    "signal_retiming",
+    "bike_routes",
+    "bus_lanes",
+    "truck_routes",
+    "ped_plazas",
+    "street_construction_permits",
+    "plan_roadbed",
+    "plan_curb",
+    "plan_sidewalk",
+    "plan_median",
+    "plan_pavement_edge",
+    "plan_transport_structures",
+    "plan_parking_lot",
+    "plan_public_plazas"
+   ],
+   "stage": "roads"
+  },
+  "runtime_signals": {
+   "artifact_id": "runtime_signals",
+   "bytes": 2078424,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/runtime/signals.nycb",
+   "produced_at": "2026-09-06T11:52:44Z",
+   "rows": null,
+   "schema": "nycb/1",
+   "sha256": "ece450d0a5f255c57d680e2947658d748dbf8941036b1e37b19b032edee95714",
+   "sources": [
+    "centerline",
+    "lion",
+    "osm_newyork_pbf",
+    "dot_signs",
+    "vzv_speed_limits",
+    "vzv_lpi_signals",
+    "barnes_dance",
+    "signal_retiming",
+    "bike_routes",
+    "bus_lanes",
+    "truck_routes",
+    "ped_plazas",
+    "street_construction_permits",
+    "plan_roadbed",
+    "plan_curb",
+    "plan_sidewalk",
+    "plan_median",
+    "plan_pavement_edge",
+    "plan_transport_structures",
+    "plan_parking_lot",
+    "plan_public_plazas"
+   ],
+   "stage": "roads"
+  },
+  "runtime_transit_nycb": {
+   "artifact_id": "runtime_transit_nycb",
+   "bytes": 2370712,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/runtime/transit.nycb",
+   "produced_at": "2026-09-06T12:00:26Z",
+   "rows": null,
+   "schema": "nycb/1",
+   "sha256": "f8e8d3d3d70ad9eeb8dffc3ce8ea90867234e7beb0e04f30f4baa38f9a34d4d0",
+   "sources": [
+    "gtfs_bus_bronx",
+    "gtfs_bus_brooklyn",
+    "gtfs_bus_company",
+    "gtfs_bus_manhattan",
+    "gtfs_bus_queens",
+    "gtfs_bus_staten_island",
+    "gtfs_subway",
+    "gtfs_lirr",
+    "gtfs_mnr",
+    "subway_entrances",
+    "plan_railroad_line",
+    "plan_elevation_points",
+    "osm_newyork_pbf",
+    "bus_stop_shelters",
+    "gtfs_ferry_staten_island",
+    "gtfs_ferry_nyc"
+   ],
+   "stage": "transit"
   },
   "terrain_ground_points": {
    "artifact_id": "terrain_ground_points",
@@ -8671,15 +10143,393 @@
    "z_max": 33.454280853271484,
    "z_min": -1.6230292320251465
   },
+  "terrain_tiles": {
+   "artifact_id": "terrain_tiles",
+   "bytes": 2334,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/terrain/tile_summary.json",
+   "png_bytes": 27893744,
+   "produced_at": "2026-09-06T12:10:57Z",
+   "rows": 750,
+   "samples_per_tile": 251001,
+   "schema": "terrain.tile/1",
+   "sha256": "be7f77ba49b7a57ab1c11fb2cab6fddf700dd9c9e67f0c73b0e3c8780c6f9fb2",
+   "sources": [
+    "usgs_3dep",
+    "plan_elevation_points",
+    "building_footprints",
+    "plan_hydrography",
+    "plan_hydro_structures",
+    "plan_shoreline"
+   ],
+   "spacing_m": 2.0,
+   "stage": "terrain",
+   "tiles_written": 750
+  },
+  "traffic_density": {
+   "artifact_id": "traffic_density",
+   "bytes": 1107702,
+   "day_types": 3,
+   "git_commit": "e9c4094042a0",
+   "hours": 24,
+   "ntas": 262,
+   "path": "data/processed/traffic/density.parquet",
+   "produced_at": "2026-09-06T12:09:45Z",
+   "rows": 18864,
+   "schema": "traffic/density@1",
+   "sha256": "2d1376d8993c3c0bc1c2722bbf1bced249b51b34c93386b74ecde81933776f9e",
+   "sources": [
+    "traffic_volume_auto",
+    "dot_vehicle_class_counts",
+    "dot_ped_counts_biannual",
+    "dot_bike_ped_hourly",
+    "dot_bike_ped_sensors",
+    "centerline",
+    "pluto",
+    "nta_2020",
+    "taxi_zones",
+    "subway_entrances",
+    "plan_sidewalk",
+    "plan_public_plazas",
+    "ped_plazas",
+    "dsny_frequencies",
+    "tlc_yellow_2025_05",
+    "tlc_green_2025_05",
+    "tlc_fhvhv_2025_05"
+   ],
+   "stage": "traffic"
+  },
+  "traffic_density_detail": {
+   "artifact_id": "traffic_density_detail",
+   "bytes": 2762731,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/traffic/density_detail.parquet",
+   "produced_at": "2026-09-06T12:09:45Z",
+   "rows": 18864,
+   "schema": "traffic/density_detail@1",
+   "sha256": "eeba7da18ad1a6f6c10a2d9489311d31687f52761ab3892378924728885ab367",
+   "sources": [
+    "traffic_volume_auto",
+    "dot_vehicle_class_counts",
+    "dot_ped_counts_biannual",
+    "dot_bike_ped_hourly",
+    "dot_bike_ped_sensors",
+    "centerline",
+    "pluto",
+    "nta_2020",
+    "taxi_zones",
+    "subway_entrances",
+    "plan_sidewalk",
+    "plan_public_plazas",
+    "ped_plazas",
+    "dsny_frequencies",
+    "tlc_yellow_2025_05",
+    "tlc_green_2025_05",
+    "tlc_fhvhv_2025_05"
+   ],
+   "stage": "traffic"
+  },
+  "traffic_fleet_mix": {
+   "artifact_id": "traffic_fleet_mix",
+   "bytes": 44140,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/traffic/fleet_mix.json",
+   "produced_at": "2026-09-06T12:09:45Z",
+   "rows": 30,
+   "schema": "traffic/fleet_mix@1",
+   "sha256": "9074b6560f256c3166efc5eedd7e280cd5c7bbdb056e4426bcd8bc20885d154e",
+   "sources": [
+    "traffic_volume_auto",
+    "dot_vehicle_class_counts",
+    "dot_ped_counts_biannual",
+    "dot_bike_ped_hourly",
+    "dot_bike_ped_sensors",
+    "centerline",
+    "pluto",
+    "nta_2020",
+    "taxi_zones",
+    "subway_entrances",
+    "plan_sidewalk",
+    "plan_public_plazas",
+    "ped_plazas",
+    "dsny_frequencies",
+    "tlc_yellow_2025_05",
+    "tlc_green_2025_05",
+    "tlc_fhvhv_2025_05"
+   ],
+   "stage": "traffic"
+  },
+  "transit_build_summary": {
+   "artifact_id": "transit_build_summary",
+   "bytes": 8124,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/transit/build_summary.json",
+   "produced_at": "2026-09-06T12:00:26Z",
+   "rows": null,
+   "schema": "transit_build_summary/1",
+   "sha256": "9de6f3dca46d3e9266065a7ea94b64f77e7274a6df1944ab51e5cfac778a1f6b",
+   "sources": [
+    "gtfs_bus_bronx",
+    "gtfs_bus_brooklyn",
+    "gtfs_bus_company",
+    "gtfs_bus_manhattan",
+    "gtfs_bus_queens",
+    "gtfs_bus_staten_island",
+    "gtfs_subway",
+    "gtfs_lirr",
+    "gtfs_mnr",
+    "subway_entrances",
+    "plan_railroad_line",
+    "plan_elevation_points",
+    "osm_newyork_pbf",
+    "bus_stop_shelters",
+    "gtfs_ferry_staten_island",
+    "gtfs_ferry_nyc"
+   ],
+   "stage": "transit"
+  },
+  "transit_bus_routes": {
+   "artifact_id": "transit_bus_routes",
+   "bytes": 5465979,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/transit/bus_routes.parquet",
+   "produced_at": "2026-09-06T12:00:25Z",
+   "rows": 345,
+   "schema": "transit_bus_routes/1",
+   "sha256": "3bbe1c2123a079be15f9ade033d6794ff7203a0170ca54a19b457539f3c5e602",
+   "sources": [
+    "gtfs_bus_bronx",
+    "gtfs_bus_brooklyn",
+    "gtfs_bus_company",
+    "gtfs_bus_manhattan",
+    "gtfs_bus_queens",
+    "gtfs_bus_staten_island",
+    "gtfs_subway",
+    "gtfs_lirr",
+    "gtfs_mnr",
+    "subway_entrances",
+    "plan_railroad_line",
+    "plan_elevation_points",
+    "osm_newyork_pbf",
+    "bus_stop_shelters",
+    "gtfs_ferry_staten_island",
+    "gtfs_ferry_nyc"
+   ],
+   "stage": "transit"
+  },
+  "transit_bus_stops": {
+   "artifact_id": "transit_bus_stops",
+   "bytes": 584692,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/transit/bus_stops.parquet",
+   "produced_at": "2026-09-06T12:00:26Z",
+   "rows": 13364,
+   "schema": "transit_bus_stops/1",
+   "sha256": "23ed70e4af4e1872752ffbf4d1a682b07af6c1a28e4b524ef63f6e93c4d14fda",
+   "sources": [
+    "gtfs_bus_bronx",
+    "gtfs_bus_brooklyn",
+    "gtfs_bus_company",
+    "gtfs_bus_manhattan",
+    "gtfs_bus_queens",
+    "gtfs_bus_staten_island",
+    "gtfs_subway",
+    "gtfs_lirr",
+    "gtfs_mnr",
+    "subway_entrances",
+    "plan_railroad_line",
+    "plan_elevation_points",
+    "osm_newyork_pbf",
+    "bus_stop_shelters",
+    "gtfs_ferry_staten_island",
+    "gtfs_ferry_nyc"
+   ],
+   "stage": "transit"
+  },
+  "transit_ferry_routes": {
+   "artifact_id": "transit_ferry_routes",
+   "bytes": 18509,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/transit/ferry_routes.parquet",
+   "produced_at": "2026-09-06T12:00:26Z",
+   "rows": 6,
+   "schema": "transit_ferry_routes/1",
+   "sha256": "b00eb25635401e99007e9d60424233eafed5155436bcf74836748b5271b389ad",
+   "sources": [
+    "gtfs_bus_bronx",
+    "gtfs_bus_brooklyn",
+    "gtfs_bus_company",
+    "gtfs_bus_manhattan",
+    "gtfs_bus_queens",
+    "gtfs_bus_staten_island",
+    "gtfs_subway",
+    "gtfs_lirr",
+    "gtfs_mnr",
+    "subway_entrances",
+    "plan_railroad_line",
+    "plan_elevation_points",
+    "osm_newyork_pbf",
+    "bus_stop_shelters",
+    "gtfs_ferry_staten_island",
+    "gtfs_ferry_nyc"
+   ],
+   "stage": "transit"
+  },
+  "transit_ferry_terminals": {
+   "artifact_id": "transit_ferry_terminals",
+   "bytes": 4225,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/transit/ferry_terminals.parquet",
+   "produced_at": "2026-09-06T12:00:26Z",
+   "rows": 27,
+   "schema": "transit_ferry_terminals/1",
+   "sha256": "3ad54672f964f1a4805c7ab338cf296fe087d6ca17c7ee2684a064ea46f95d61",
+   "sources": [
+    "gtfs_bus_bronx",
+    "gtfs_bus_brooklyn",
+    "gtfs_bus_company",
+    "gtfs_bus_manhattan",
+    "gtfs_bus_queens",
+    "gtfs_bus_staten_island",
+    "gtfs_subway",
+    "gtfs_lirr",
+    "gtfs_mnr",
+    "subway_entrances",
+    "plan_railroad_line",
+    "plan_elevation_points",
+    "osm_newyork_pbf",
+    "bus_stop_shelters",
+    "gtfs_ferry_staten_island",
+    "gtfs_ferry_nyc"
+   ],
+   "stage": "transit"
+  },
+  "transit_rail_routes": {
+   "artifact_id": "transit_rail_routes",
+   "bytes": 4367883,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/transit/rail_routes.parquet",
+   "produced_at": "2026-09-06T12:00:26Z",
+   "rows": 47,
+   "schema": "transit_rail_routes/1",
+   "sha256": "9d7638ca91074cd16fe43e02173dba421009e380ea2a4b2458f7c3844c8e2621",
+   "sources": [
+    "gtfs_bus_bronx",
+    "gtfs_bus_brooklyn",
+    "gtfs_bus_company",
+    "gtfs_bus_manhattan",
+    "gtfs_bus_queens",
+    "gtfs_bus_staten_island",
+    "gtfs_subway",
+    "gtfs_lirr",
+    "gtfs_mnr",
+    "subway_entrances",
+    "plan_railroad_line",
+    "plan_elevation_points",
+    "osm_newyork_pbf",
+    "bus_stop_shelters",
+    "gtfs_ferry_staten_island",
+    "gtfs_ferry_nyc"
+   ],
+   "stage": "transit"
+  },
+  "transit_rail_stops": {
+   "artifact_id": "transit_rail_stops",
+   "bytes": 40051,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/transit/rail_stops.parquet",
+   "produced_at": "2026-09-06T12:00:26Z",
+   "rows": 1166,
+   "schema": "transit_rail_stops/1",
+   "sha256": "42a21bf410f144f0b7de4530d76287f9a6a4323ed886990d68a8e0e7a4ac62e0",
+   "sources": [
+    "gtfs_bus_bronx",
+    "gtfs_bus_brooklyn",
+    "gtfs_bus_company",
+    "gtfs_bus_manhattan",
+    "gtfs_bus_queens",
+    "gtfs_bus_staten_island",
+    "gtfs_subway",
+    "gtfs_lirr",
+    "gtfs_mnr",
+    "subway_entrances",
+    "plan_railroad_line",
+    "plan_elevation_points",
+    "osm_newyork_pbf",
+    "bus_stop_shelters",
+    "gtfs_ferry_staten_island",
+    "gtfs_ferry_nyc"
+   ],
+   "stage": "transit"
+  },
+  "transit_rail_structures": {
+   "artifact_id": "transit_rail_structures",
+   "bytes": 2987329,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/transit/rail_structures.parquet",
+   "produced_at": "2026-09-06T12:00:26Z",
+   "rows": 8341,
+   "schema": "transit_rail_structures/1",
+   "sha256": "d7b4ad4e95805a03ec668d32ca8f7ac9e91b162b795492e93b8368717d87e14b",
+   "sources": [
+    "gtfs_bus_bronx",
+    "gtfs_bus_brooklyn",
+    "gtfs_bus_company",
+    "gtfs_bus_manhattan",
+    "gtfs_bus_queens",
+    "gtfs_bus_staten_island",
+    "gtfs_subway",
+    "gtfs_lirr",
+    "gtfs_mnr",
+    "subway_entrances",
+    "plan_railroad_line",
+    "plan_elevation_points",
+    "osm_newyork_pbf",
+    "bus_stop_shelters",
+    "gtfs_ferry_staten_island",
+    "gtfs_ferry_nyc"
+   ],
+   "stage": "transit"
+  },
+  "transit_subway_entrances": {
+   "artifact_id": "transit_subway_entrances",
+   "bytes": 92168,
+   "git_commit": "e9c4094042a0",
+   "path": "data/processed/transit/subway_entrances.parquet",
+   "produced_at": "2026-09-06T12:00:26Z",
+   "rows": 2120,
+   "schema": "transit_subway_entrances/1",
+   "sha256": "1821d48d95a158f8840acbcbc7483fe6dd47c0caa448ca9600157ef303ce869f",
+   "sources": [
+    "gtfs_bus_bronx",
+    "gtfs_bus_brooklyn",
+    "gtfs_bus_company",
+    "gtfs_bus_manhattan",
+    "gtfs_bus_queens",
+    "gtfs_bus_staten_island",
+    "gtfs_subway",
+    "gtfs_lirr",
+    "gtfs_mnr",
+    "subway_entrances",
+    "plan_railroad_line",
+    "plan_elevation_points",
+    "osm_newyork_pbf",
+    "bus_stop_shelters",
+    "gtfs_ferry_staten_island",
+    "gtfs_ferry_nyc"
+   ],
+   "stage": "transit"
+  },
   "water_hydrography": {
    "artifact_id": "water_hydrography",
-   "bytes": 18294968,
-   "git_commit": "2c2a6f1d0a54",
+   "bytes": 18294812,
+   "git_commit": "e9c4094042a0",
+   "levels_finalized": true,
    "path": "data/processed/water/hydrography.parquet",
-   "produced_at": "2026-09-06T11:39:40Z",
+   "produced_at": "2026-09-06T12:04:48Z",
    "rows": 2271,
    "schema": "water.hydrography/1",
-   "sha256": "f9ac3f01444c08720fcdb9f58966b115a7ed63b7b1fd3cdaf24ef736177c5672",
+   "sha256": "032a0ab72bf4230e4572a691e4b71abea740921f117d1903663fdb2918dd34a0",
    "sources": [
     "plan_hydrography",
     "plan_hydro_structures",
@@ -8694,9 +10544,9 @@
   "water_shoreline": {
    "artifact_id": "water_shoreline",
    "bytes": 5902606,
-   "git_commit": "2c2a6f1d0a54",
+   "git_commit": "e9c4094042a0",
    "path": "data/processed/water/shoreline.parquet",
-   "produced_at": "2026-09-06T11:39:40Z",
+   "produced_at": "2026-09-06T12:04:48Z",
    "rows": 413,
    "schema": "water.shoreline/1",
    "sha256": "bb3821b24fb8c896b5adc2ed30fdce1f2d4ddca84dc9c261ac4820e433f334d5",

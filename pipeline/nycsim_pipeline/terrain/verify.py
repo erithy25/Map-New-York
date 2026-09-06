@@ -10,6 +10,11 @@ Four independent checks plus two rendered products:
    the per-tile JSON accounting adds up to 251,001 samples.
 3. ``check_seams`` — for every pair of adjacent tiles the shared edge row/column must agree within 1 mm.
 4. ``check_water`` — samples inside tidal water decode to 0.000 m.
+5. ``check_extremes`` — the city-wide minimum and maximum elevation, each with the tile and the lon/lat it
+   occurs at, the ten lowest and ten highest tiles, and the sub-datum accounting (how many samples the
+   3DEP surface put below the tidal datum, how many were kept because a survey point corroborates them and
+   how many were repaired). A metres-deep artefact anywhere in the world shows up in this table without
+   anyone having to hunt for it.
 
 Products: ``hillshade_city.png`` (whole scope, 20 m) and ``hillshade_manhattan.png`` (4 m), plus
 ``verification.json`` with every number quoted in REPORT.md.
@@ -41,6 +46,11 @@ log = logging.getLogger("nycsim.terrain.verify")
 OUT_DIR = VERIFICATION / "terrain"
 TILES_DIR = PROCESSED / "tiles"
 SEAM_TOL_M = 0.001
+# Plausibility envelope for the whole city, metres NAVD88. Low: the deepest surveyed ground in NYC is the
+# Battery Underpass at -4.03 m (planimetric spot elevation), so anything below -6 m is an artefact.
+# High: Todt Hill, 124.9 m published; anything above 135 m would be a building or a blunder.
+EXTREME_LOW_M = -6.0
+EXTREME_HIGH_M = 135.0
 
 # Published elevations of real places, metres above NAVD88/MSL.
 # (name, lon, lat, expected_low, expected_high, probe radius m, source of the published figure)
@@ -159,6 +169,66 @@ def check_seams(sample_tiles: list[str] | None = None) -> dict:
             "seconds": round(time.time() - t0, 1)}
 
 
+def check_extremes(top: int = 10) -> dict:
+    """City-wide minimum and maximum elevation with the tile (and lon/lat) each occurs in.
+
+    Also totals the per-tile ``sub_datum`` accounting written by ``tiles.build_tile``, so that the number
+    of samples the source put below the tidal datum — and what happened to each of them — is visible in
+    one place.
+    """
+    from ..crs import tm_to_lonlat
+    t0 = time.time()
+    lo = {"z_m": math.inf, "tile": "", "x": 0.0, "y": 0.0}
+    hi = {"z_m": -math.inf, "tile": "", "x": 0.0, "y": 0.0}
+    per_tile: list[tuple[str, float, float]] = []
+    sub = {"px_below_floor": 0, "px_kept_surveyed": 0, "px_to_water": 0, "px_filled_idw": 0,
+           "px_filled_survey": 0, "px_filled_datum": 0}
+    tiles_with_sub = 0
+    deepest_before = {"z_m": math.inf, "tile": ""}
+    below = {"-1m": 0, "-2m": 0, "-5m": 0}
+    for n in _tile_names():
+        r = load_tile(n)
+        if r is None:
+            continue
+        z, doc = r
+        zmin, zmax = float(z.min()), float(z.max())
+        per_tile.append((n, zmin, zmax))
+        below["-1m"] += int((z < -1.0).sum())
+        below["-2m"] += int((z < -2.0).sum())
+        below["-5m"] += int((z < -5.0).sum())
+        if zmin < lo["z_m"]:
+            i = int(np.argmin(z))
+            row, col = divmod(i, z.shape[1])
+            t = Tile.parse(n)
+            lo = {"z_m": zmin, "tile": n, "x": t.x0 + SPACING_M * col, "y": t.y0 + TILE_SIZE_M - SPACING_M * row}
+        if zmax > hi["z_m"]:
+            i = int(np.argmax(z))
+            row, col = divmod(i, z.shape[1])
+            t = Tile.parse(n)
+            hi = {"z_m": zmax, "tile": n, "x": t.x0 + SPACING_M * col, "y": t.y0 + TILE_SIZE_M - SPACING_M * row}
+        sd = doc.get("sub_datum")
+        if sd:
+            for k in sub:
+                sub[k] += int(sd.get(k, 0))
+            if sd.get("px_below_floor", 0):
+                tiles_with_sub += 1
+            if float(sd.get("z_min_before_m", 0.0)) < deepest_before["z_m"]:
+                deepest_before = {"z_m": float(sd["z_min_before_m"]), "tile": n}
+    for p in (lo, hi):
+        if p["tile"]:
+            lon, lat = tm_to_lonlat(p["x"], p["y"])
+            p["lon"], p["lat"] = round(float(lon), 5), round(float(lat), 5)
+            p["z_m"] = round(p["z_m"], 3)
+    per_tile.sort(key=lambda r: r[1])
+    lowest = [{"tile": n, "z_min_m": round(a, 3)} for n, a, _ in per_tile[:top]]
+    highest = [{"tile": n, "z_max_m": round(b, 3)} for n, _, b in sorted(per_tile, key=lambda r: -r[2])[:top]]
+    return {"tiles": len(per_tile), "min": lo, "max": hi, "lowest_tiles": lowest, "highest_tiles": highest,
+            "samples_below": below, "sub_datum": sub, "tiles_with_sub_datum": tiles_with_sub,
+            "deepest_source_value": deepest_before, "envelope_m": [EXTREME_LOW_M, EXTREME_HIGH_M],
+            "pass": bool(lo["tile"] and EXTREME_LOW_M <= lo["z_m"] and hi["z_m"] <= EXTREME_HIGH_M),
+            "seconds": round(time.time() - t0, 1)}
+
+
 def check_known_elevations(sampler: ZSampler) -> dict:
     rows = []
     for name, lon, lat, lo, hi, radius, note in KNOWN_POINTS:
@@ -255,14 +325,14 @@ def mosaic(x0: float, y0: float, x1: float, y1: float, stride: int) -> tuple[np.
 
 
 def hillshade(z: np.ndarray, cell: float, azimuth_deg: float = 315.0, altitude_deg: float = 45.0, zf: float = 1.0) -> np.ndarray:
-    zz = np.nan_to_num(z, nan=0.0).astype(np.float64) * zf
+    zz = np.nan_to_num(z, nan=0.0).astype(np.float32) * np.float32(zf)
     dy, dx = np.gradient(zz, cell, cell)
     slope = np.arctan(np.hypot(dx, dy))
     aspect = np.arctan2(-dx, dy)   # rows increase southward: dy already points south
     az = math.radians(360.0 - azimuth_deg + 90.0)
     alt = math.radians(altitude_deg)
     shade = (np.sin(alt) * np.cos(slope) + np.cos(alt) * np.sin(slope) * np.cos(az - aspect))
-    return np.clip(shade, 0.0, 1.0)
+    return np.clip(shade, 0.0, 1.0).astype(np.float32)
 
 
 def tint(z: np.ndarray, shade: np.ndarray) -> np.ndarray:
@@ -271,7 +341,7 @@ def tint(z: np.ndarray, shade: np.ndarray) -> np.ndarray:
     stops = np.array([-30.0, 0.0, 0.001, 5.0, 20.0, 50.0, 90.0, 130.0])
     cols = np.array([[8, 30, 60], [20, 70, 120], [60, 110, 70], [110, 150, 90],
                      [170, 175, 120], [200, 175, 130], [225, 215, 195], [255, 255, 255]], dtype=np.float64)
-    rgb = np.empty(zz.shape + (3,), dtype=np.float64)
+    rgb = np.empty(zz.shape + (3,), dtype=np.float32)
     for c in range(3):
         rgb[..., c] = np.interp(zz, stops, cols[:, c])
     rgb *= (0.35 + 0.65 * shade)[..., None]
@@ -304,6 +374,7 @@ def run(skip_hillshade: bool = False) -> dict:
     sampler = ZSampler(missing="nan", cache_tiles=48)
     doc = {"generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
     doc["no_void"] = check_no_void()
+    doc["extremes"] = check_extremes()
     doc["seams"] = check_seams()
     doc["known_elevations"] = check_known_elevations(sampler)
     doc["borough_extremes"] = borough_extremes()
@@ -332,8 +403,14 @@ def main(argv: list[str] | None = None) -> int:
     for r in doc["known_elevations"]["points"]:
         print(f"  {'OK ' if r['pass'] else 'FAIL'} {r['name']:36s} probe {r['probe_z_m']:8.2f} m  range over {r['radius_m']:5.0f} m "
               f"[{r['z_min_r']:7.2f}, {r['z_max_r']:7.2f}]  published {r['expected_m']}")
+    e = doc["extremes"]
+    print(f"  city minimum {e['min']['z_m']:8.3f} m in {e['min']['tile']:10s} ({e['min'].get('lon')}, {e['min'].get('lat')})")
+    print(f"  city maximum {e['max']['z_m']:8.3f} m in {e['max']['tile']:10s} ({e['max'].get('lon')}, {e['max'].get('lat')})")
+    print(f"  sub-datum samples: {e['sub_datum']['px_below_floor']} below the land floor, "
+          f"{e['sub_datum']['px_kept_surveyed']} kept (survey-corroborated), "
+          f"{e['sub_datum']['px_to_water'] + e['sub_datum']['px_filled_idw'] + e['sub_datum']['px_filled_survey'] + e['sub_datum']['px_filled_datum']} repaired")
     ok = (doc["no_void"]["n_missing"] == 0 and not doc["no_void"]["non_finite"] and doc["seams"]["n_violations"] == 0
-          and doc["known_elevations"]["passed"] == doc["known_elevations"]["total"])
+          and doc["known_elevations"]["passed"] == doc["known_elevations"]["total"] and doc["extremes"]["pass"])
     return 0 if ok else 1
 
 

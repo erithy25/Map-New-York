@@ -76,6 +76,7 @@ def hinge_panel(ob: bpy.types.Object, hinge_x: float, hinge_z: float) -> None:
 def add_damage_regions(ob: bpy.types.Object, dims: Dimensions, *, z_belt: float, soft: float = 0.45) -> dict[str, float]:
     """Write ``_DMG_*`` float attributes and matching vertex groups. Weights are smooth ramps so a deformation
     driven by them does not tear at the region boundary. Returns the mean weight per region (for the report)."""
+    g.sync()
     me = ob.data
     n = len(me.vertices)
     if n == 0:
@@ -121,6 +122,7 @@ def ucx_proxies(name_stem: str, sources: Sequence[bpy.types.Object], dims: Dimen
                 slices: int = 5, cabin: bool = True, lib: M.Library | None = None) -> list[bpy.types.Object]:
     """Convex ``UCX_<stem>_NN`` proxies: X-slabs of the lower body plus one hull for the greenhouse.
     Slabs of a convex-hull-per-slab decomposition are convex by construction."""
+    g.sync()
     pts = np.concatenate([g.mesh_points(o) for o in sources if o.type == "MESH" and len(o.data.vertices)])
     if len(pts) == 0:
         return []
@@ -216,6 +218,8 @@ def _decimate_copy(objects: Sequence[bpy.types.Object], ratio: float, merge_name
         copies.append(c)
     if merge_name is not None:
         merged = g.join(copies, merge_name, smooth=True, sharp_angle_deg=40.0)
+        merged.data.validate(verbose=False, clean_customdata=False)
+        merged.data.update()
         copies = [merged]
     for c in copies:
         if ratio < 0.999 and len(c.data.polygons) > 24:
@@ -292,15 +296,24 @@ class Vehicle:
             self.add(o)
 
     # ------------------------------------------------------------------ checks
+    #: reduced node lists for vehicles that physically have no cabin.  Each waived contract name is listed
+    #: explicitly in the catalog entry with a reason — nothing is faked to satisfy the list.
+    OPEN_PROFILES = {
+        "open": ("Body", "Wheel_FL", "Wheel_FR", "Wheel_RL", "Wheel_RR"),
+        "two_wheel": ("Body", "Wheel_F", "Wheel_R"),
+        "trike": ("Body", "Wheel_F", "Wheel_RL", "Wheel_RR"),
+    }
+
     def required_nodes(self) -> tuple[str, ...]:
-        if self.contract_profile == "open":
-            base = ("Body", "Wheel_FL", "Wheel_FR", "Wheel_RL", "Wheel_RR")
+        base = self.OPEN_PROFILES.get(self.contract_profile)
+        if base is not None:
             return tuple(n for n in base if n not in self.contract_waivers)
         return tuple(n for n in CONTRACT_FULL if n not in self.contract_waivers)
 
     def required_materials(self) -> tuple[str, ...]:
-        if self.contract_profile == "open":
-            return tuple(s for s in ("LIGHT_HEAD_L", "LIGHT_TAIL_L") if s not in self.contract_waivers)
+        if self.contract_profile in self.OPEN_PROFILES:
+            return tuple(s for s in ("LIGHT_HEAD_L", "LIGHT_TAIL_L")
+                         if s not in self.contract_waivers) + self.extra_slots
         return tuple(s for s in MATERIAL_SLOTS_FULL if s not in self.contract_waivers) + self.extra_slots
 
     def missing(self) -> list[str]:
@@ -320,15 +333,27 @@ class Vehicle:
         have = self.material_names()
         return [s for s in self.required_materials() if s not in have]
 
+    #: parts that manufacturers exclude from the published length/width/height envelope
+    ENVELOPE_EXCLUDE = ("UCX_", "Mirror_", "Antenna", "TAXI_ROOF", "LightBar", "SIGN_", "Ladder", "Pole",
+                        "RoofRack", "Exhaust_Stack", "Mast", "PushBumper", "Bullbar")
+
     def measured(self) -> dict:
-        meshes = [o for o in self.objects.values() if o.type == "MESH" and not o.name.startswith("UCX_")]
-        lo, hi = g.bounds(meshes)
+        g.sync()
+        meshes = [o for o in self.objects.values() if o.type == "MESH"]
+        env_meshes = [o for o in meshes if not o.name.startswith(self.ENVELOPE_EXCLUDE)]
+        lo, hi = g.bounds(env_meshes)
+        alo, ahi = g.bounds([o for o in meshes if not o.name.startswith("UCX_")])
         return {"length_m": float(hi.x - lo.x), "width_m": float(hi.y - lo.y), "height_m": float(hi.z - lo.z),
-                "min": [float(v) for v in lo], "max": [float(v) for v in hi]}
+                "min": [float(v) for v in lo], "max": [float(v) for v in hi],
+                "width_over_mirrors_m": float(ahi.y - alo.y),
+                "height_over_roof_equipment_m": float(ahi.z - alo.z),
+                "envelope_excludes": [o.name for o in meshes if o.name.startswith(self.ENVELOPE_EXCLUDE)
+                                      and not o.name.startswith("UCX_")]}
 
     def wheel_pivots(self) -> dict[str, list[float]]:
+        g.sync()
         out = {}
-        for tag in ("FL", "FR", "RL", "RR"):
+        for tag in ("FL", "FR", "RL", "RR", "F", "R"):
             ob = self.objects.get(f"Wheel_{tag}")
             if ob is not None:
                 out[f"Wheel_{tag}"] = [float(v) for v in ob.matrix_world.translation]
@@ -340,6 +365,7 @@ def finalise(v: Vehicle, *, lod_budgets: tuple[int, int] = (60_000, 8_000),
              strict: bool = True) -> dict:
     """Validate the contract, export ``<id>.glb`` + LODs, write the catalog entry, return it."""
     env.ensure_dirs()
+    g.sync()
     missing = v.missing()
     miss_mat = v.missing_materials()
     if missing and strict:

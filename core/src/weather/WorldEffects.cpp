@@ -61,7 +61,7 @@ WorldEffects worldEffectsStep(const WeatherState& s, WorldEffectsState& state, d
   // Fog and high humidity leave a damp sheen but never a wet road.
   if ((s.obscuration & (kObscFG | kObscBR)) != 0) wetTarget = std::fmax(wetTarget, 0.25);
   double puddleTarget = ramp(liquid, cfg.puddleOnsetMmph, cfg.puddleFullMmph);
-  if (tempC < -1.0) puddleTarget = 0.0;  // it is freezing: no standing water
+  if (tempC <= 0.0) puddleTarget = 0.0;  // at or below freezing there is no standing liquid water
 
   if (!state.initialised || dtS <= 0.0) {
     state.wetness = wetTarget;

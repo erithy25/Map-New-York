@@ -3,8 +3,18 @@ triangle counting, export and catalog entries.  Everything the piece modules nee
 
 Conventions (docs/DATA_CONTRACTS.md §13 + kit brief):
 * Blender Z-up metres.  Wall plane is the XZ plane at y = 0.  **+Y points into the building**; the street side is −Y.
-* Wall pieces: origin at the bottom-centre of the piece on the wall plane (``anchor = "wall_bottom_centre"``).
-* Free-standing roof / street pieces: origin at the bottom-centre of the footprint (``anchor = "ground_bottom_centre"``).
+* Every piece's origin lies on the wall plane (or on the roof/pavement for free-standing pieces); ``Piece.anchor``
+  names the datum the origin sits on, and the facade assembler places that datum:
+    ``wall_bottom_centre``   bottom-centre of the masonry opening / base of the piece (sills and aprons may hang
+                             a little below z = 0);
+    ``wall_sill_centre``     the sill line — AC units, flower boxes (their brackets hang below);
+    ``wall_head_centre``     the head line — blinds and roller shades hang below;
+    ``wall_platform_centre`` the fire-escape platform deck (the stair descends to −3.05 m);
+    ``wall_corner_bottom``   the building's outside corner at the base of the piece (quoins, corner returns);
+    ``wall_corner_platform`` the outside corner at platform level (fire-escape corner return);
+    ``wall_bay_frame``       the same origin as the storefront bay it belongs to (pavement level, bay centre);
+    ``ground_bottom_centre`` bottom-centre of the footprint on the roof deck or pavement;
+    ``ground_corner_bottom`` the outside corner of the footprint at pavement level (shed corner bay).
 * UVs are in metres (u along the surface, v up); materials tile every ``physical_size_m`` through a Mapping node, which the
   glTF exporter writes as ``KHR_texture_transform``.
 """
@@ -267,6 +277,7 @@ class Mesh:
         """Append another Mesh (its material slots are re-mapped by name)."""
         M = Matrix.Translation(Vector(offset)) @ Matrix.Rotation(math.radians(rot_z_deg), 4, "Z") @ Matrix.Diagonal((*scale, 1.0))
         other.bm.verts.ensure_lookup_table()
+        other.bm.verts.index_update()   # freshly created BMVerts carry index -1 until this is called
         remap = {}
         for f in other.bm.faces:
             vs = []
@@ -287,6 +298,7 @@ class Mesh:
     def mirror_x(self, other: "Mesh"):
         """Append a copy of ``other`` mirrored in X (winding fixed)."""
         other.bm.verts.ensure_lookup_table()
+        other.bm.verts.index_update()
         remap = {}
         for f in other.bm.faces:
             vs = []
@@ -508,9 +520,11 @@ def emissive(name: str, rgb: Sequence[float], strength: float, roughness: float 
 
 # --------------------------------------------------------------------------- LOD, export, catalog
 def evaluated_tris(ob: bpy.types.Object) -> int:
+    """Triangles the glTF exporter will write: n-gons fan-triangulated, zero-area polygons dropped (collapse
+    decimation leaves some, and the exporter discards them)."""
     dg = bpy.context.evaluated_depsgraph_get()
     me = ob.evaluated_get(dg).to_mesh()
-    n = sum(len(p.vertices) - 2 for p in me.polygons)
+    n = sum(len(p.vertices) - 2 for p in me.polygons if p.area > 1e-9)
     ob.evaluated_get(dg).to_mesh_clear()
     return n
 
@@ -543,7 +557,7 @@ def make_lod1(ob: bpy.types.Object, pid: str, lod_mesh: Mesh | None = None) -> b
         mod.use_collapse_triangulate = True
         bpy.context.view_layer.update()
         n = evaluated_tris(lod)
-        if 2 <= n <= target:
+        if min(4, target) <= n <= target:
             dg = bpy.context.evaluated_depsgraph_get()
             new_me = bpy.data.meshes.new_from_object(lod.evaluated_get(dg))
             lod.evaluated_get(dg).to_mesh_clear()
@@ -580,6 +594,39 @@ def _dominant_material(ob: bpy.types.Object) -> str:
     return name[4:] if name.startswith("kit_") else name
 
 
+def glb_mesh_triangles(path: str | Path) -> dict[str, int]:
+    """Triangles per mesh name in a binary glTF, read from the JSON chunk with the standard library only.
+    The exporter drops degenerate faces and merges coincident ones, so this — not the Blender mesh — is what
+    the catalog must report."""
+    import struct
+    data = Path(path).read_bytes()
+    magic, _ver, _length = struct.unpack_from("<III", data, 0)
+    if magic != 0x46546C67:
+        raise ValueError(f"not a GLB: {path}")
+    off = 12
+    doc = None
+    while off < len(data):
+        clen, ctype = struct.unpack_from("<II", data, off)
+        chunk = data[off + 8:off + 8 + clen]
+        if ctype == 0x4E4F534A:  # 'JSON'
+            doc = json.loads(chunk.decode("utf-8"))
+            break
+        off += 8 + clen + ((4 - clen % 4) % 4)
+    if doc is None:
+        raise ValueError(f"no JSON chunk in {path}")
+    acc = doc.get("accessors", [])
+    out: dict[str, int] = {}
+    for mesh in doc.get("meshes", []):
+        n = 0
+        for prim in mesh.get("primitives", []):
+            if prim.get("mode", 4) != 4:
+                raise ValueError(f"{path}: mesh {mesh.get('name')} primitive mode {prim.get('mode')} is not TRIANGLES")
+            idx = prim.get("indices")
+            n += (acc[idx]["count"] if idx is not None else acc[prim["attributes"]["POSITION"]]["count"]) // 3
+        out[mesh.get("name", "")] = n
+    return out
+
+
 def build_piece(piece: Piece, *, export: bool = True) -> dict:
     """Build LOD0 + LOD1 objects for a piece, export the glb, write the catalog entry. Returns the catalog entry."""
     t0 = time.time()
@@ -611,6 +658,14 @@ def build_piece(piece: Piece, *, export: bool = True) -> dict:
         nb.export_glb(path, objects=[ob, lod], extras={"kit_id": piece.id, "category": piece.category, "bounds": entry["bounds"],
                                                        "anchor": entry["anchor"], "nominal_size_m": entry["nominal_size_m"]})
         entry["glb_bytes"] = path.stat().st_size
+        counts = glb_mesh_triangles(path)
+        if piece.id not in counts or f"{piece.id}_LOD1" not in counts:
+            raise RuntimeError(f"{piece.id}: exported glb is missing the {piece.id} / {piece.id}_LOD1 meshes: {sorted(counts)}")
+        entry["polycount"]["lod0_triangles"] = counts[piece.id]
+        entry["polycount"]["lod1_triangles"] = counts[f"{piece.id}_LOD1"]
+        entry["polycount"]["within_budget"] = counts[piece.id] <= piece.budget
+        entry["polycount"]["lod1_ratio"] = round(counts[f"{piece.id}_LOD1"] / max(counts[piece.id], 1), 3)
+        tris, tris1 = counts[piece.id], counts[f"{piece.id}_LOD1"]
         nb.write_catalog_entry(CATALOG_DIR, entry)
     entry["build_seconds"] = round(time.time() - t0, 2)
     if tris > piece.budget:

@@ -307,21 +307,25 @@ def main() -> None:
     fit = ba.bridge_axis(SUPPORTS, ("tower_bk", "tower_mn"), MAIN_SPAN)
     fr = fit.frame
     # canonical viewpoints
-    dumbo = fr.from_lonlat(-73.98946, 40.70320, 3.0)                     # Washington Street at Front Street, DUMBO
+    dumbo = fr.from_lonlat(-73.98946, 40.70320, GROUND_BK + 1.7)                     # Washington Street at Front Street, DUMBO
     dumbo_t = fit.axis.p(S_TOWER_BK, 0.0, 55.0)
-    park = fr.from_lonlat(-73.99560, 40.70120, 3.5)                      # Brooklyn Bridge Park, Pier 1 lawn
-    park_t = fit.axis.p(0.0, 0.0, 55.0)
+    park = fr.from_lonlat(-73.99560, 40.70120, 7.0)                      # Brooklyn Bridge Park, Pier 1 lawn
+    park_t = fit.axis.p(60.0, 0.0, 48.0)
     prom = fit.axis.p(S_TOWER_BK - 150.0, 0.0, deck_z(S_TOWER_BK - 150.0) + PROMENADE_DZ + 1.6)
     prom_t = fit.axis.p(S_TOWER_BK + 40.0, 0.0, deck_z(S_TOWER_BK) + PROMENADE_DZ + 6.0)
     water = fit.axis.p(0.0, -430.0, 12.0)
     water_t = fit.axis.p(0.0, 0.0, 50.0)
-    ctx = (("water_dark", 0.35, 1400.0),)
+    land_bk = fit.axis.p(-800.0, 0.0)
+    land_mn = fit.axis.p(900.0, 0.0)
+    ctx = (("water_dark", 0.35, 1600.0, (0.0, 0.0)),
+           ("sidewalk", GROUND_BK, 480.0, (land_bk.x, land_bk.y)),
+           ("sidewalk", GROUND_MN, 560.0, (land_mn.x, land_mn.y)))
     ba.run_landmark(
         ID, TITLE, build, bins=(), budget_lod0=900_000, budget_lod1=120_000,
         renders=[
             dict(view="dumbo_washington_street", cam=dumbo, target=dumbo_t, fov_deg=55.0, context=ctx,
                  sun_azimuth_deg=250.0, sun_elevation_deg=28.0),
-            dict(view="brooklyn_bridge_park", cam=park, target=park_t, fov_deg=48.0, context=ctx,
+            dict(view="brooklyn_bridge_park", cam=park, target=park_t, fov_deg=58.0, context=ctx,
                  sun_azimuth_deg=200.0, sun_elevation_deg=32.0),
             dict(view="promenade", cam=prom, target=prom_t, fov_deg=62.0, context=ctx,
                  sun_azimuth_deg=300.0, sun_elevation_deg=40.0),

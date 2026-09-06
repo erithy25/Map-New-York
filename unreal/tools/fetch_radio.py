@@ -121,26 +121,59 @@ class StationSpec:
     commons_categories: list[str] = field(default_factory=list)
     commons_depth: int = 0
     ia_items: list[tuple[str, int]] = field(default_factory=list)  # (identifier, max chapters)
+    # Internet Archive advanced-search queries for music: (query, max items examined). Every item's
+    # ``licenseurl`` is checked before a byte is downloaded; only CC0 / Public Domain / CC BY pass.
+    ia_queries: list[tuple[str, int]] = field(default_factory=list)
     target_mb: float = 30.0
     max_tracks: int = 12
 
 
 # The dial is fictional: names and frequencies do not correspond to any licensed New York broadcaster.
+#
+# Every music station draws first from the Internet Archive, whose per-item ``licenseurl`` is machine-checkable and
+# whose download host answers in ~1 s from this environment. Wikimedia Commons is kept as a second source but
+# upload.wikimedia.org throttles datacenter clients to roughly one original per ten minutes (HTTP 429 with
+# Retry-After 600, honoured, never worked around), so it only tops a station up when the Archive came up short.
+#
+# Internet Archive query notes:
+#   * ``collection:(78rpm)`` is the Great 78 Project — commercial 78 rpm sides digitised by the Internet Archive,
+#     George Blood LP. Items carry ``licenseurl`` = CC0 1.0 or the Public Domain Mark; only those pass.
+#   * ``collection:(netlabels)`` is the Netlabels collection of freely licensed contemporary releases; the query
+#     restricts it to plain CC BY (2.0/2.5/3.0/4.0), so no share-alike, non-commercial or no-derivatives item is
+#     ever downloaded.
+_IA_PD = "licenseurl:(*publicdomain* OR *zero\\/1.0*)"
+_IA_BY = ("licenseurl:(*licenses\\/by\\/2.0* OR *licenses\\/by\\/2.5* OR *licenses\\/by\\/3.0* OR "
+          "*licenses\\/by\\/4.0*)")
+
 STATIONS: list[StationSpec] = [
-    StationSpec("jazz", "Hudson Jazz", 89.3, "music", "jazz / ragtime",
-                ["Jazz music from Free Music Archive", "Jazz music from Incompetech", "Audio files of music by Fats Waller",
-                 "Audio files of ragtime music", "Audio files of jazz music"], 1, target_mb=34, max_tracks=12),
+    StationSpec("jazz", "Hudson Jazz", 89.3, "music", "jazz / ragtime / swing",
+                commons_categories=["Audio files of ragtime music", "Audio files of music by Fats Waller"],
+                commons_depth=1,
+                ia_queries=[(f"collection:(78rpm) AND mediatype:(audio) AND {_IA_PD} AND "
+                             "(subject:(jazz) OR subject:(ragtime) OR subject:(swing))", 90)],
+                target_mb=34, max_tracks=12),
     StationSpec("hiphop", "Boogie Down FM", 97.1, "music", "hip hop",
-                ["Hip hop music from Free Music Archive"], 1, target_mb=34, max_tracks=12),
-    StationSpec("rock", "Bowery Rock", 102.7, "music", "rock",
-                ["Rock music from Free Music Archive"], 1, target_mb=34, max_tracks=12),
+                ia_queries=[(f"collection:(netlabels) AND mediatype:(audio) AND {_IA_BY} AND "
+                             '(subject:("hip hop") OR subject:(hiphop) OR subject:(rap) OR subject:(turntablism))', 70)],
+                target_mb=30, max_tracks=10),
+    StationSpec("rock", "Bowery Rock", 102.7, "music", "rock / punk",
+                ia_queries=[(f"collection:(netlabels) AND mediatype:(audio) AND {_IA_BY} AND "
+                             "(subject:(rock) OR subject:(punk) OR subject:(indie) OR subject:(garage))", 70)],
+                target_mb=30, max_tracks=10),
     StationSpec("electronic", "Pulse Brooklyn", 105.9, "music", "electronic",
-                ["Audio files of electronic music", "Audio files of electronic music by genre"], 1, target_mb=34, max_tracks=12),
-    StationSpec("classical", "Lincoln Center Classical", 91.5, "music", "classical",
-                ["Musopen", "Audio files of classical music by composer", "Audio files of classical music by period"], 1,
-                target_mb=34, max_tracks=10),
-    StationSpec("folk", "Bleecker Street Folk", 93.7, "music", "folk / country",
-                ["Audio files of folk music", "Audio files of country music", "Audio files of blues"], 1, target_mb=30, max_tracks=10),
+                ia_queries=[(f"collection:(netlabels) AND mediatype:(audio) AND {_IA_BY} AND "
+                             "(subject:(electronic) OR subject:(techno) OR subject:(house) OR subject:(ambient) OR "
+                             "subject:(idm) OR subject:(dub))", 90)],
+                target_mb=34, max_tracks=12),
+    StationSpec("classical", "Lincoln Center Classical", 91.5, "music", "classical / opera",
+                ia_queries=[(f"collection:(78rpm) AND mediatype:(audio) AND {_IA_PD} AND "
+                             "(subject:(classical) OR subject:(orchestra) OR subject:(opera) OR subject:(symphony))", 70)],
+                target_mb=30, max_tracks=10),
+    StationSpec("folk", "Bleecker Street Folk", 93.7, "music", "folk / country / blues",
+                ia_queries=[(f"collection:(78rpm) AND mediatype:(audio) AND {_IA_PD} AND "
+                             '(subject:(blues) OR subject:(country) OR subject:(folk) OR subject:("old-time") OR '
+                             "subject:(gospel))", 70)],
+                target_mb=30, max_tracks=10),
     StationSpec("talk", "Gotham Readings", 820.0, "talk", "public-domain readings set in New York",
                 ia_items=[("four_million_librivox", 3), ("bartleby_scrivener_1107_librivox", 2),
                           ("how_the_other_half_lives_1102_librivox", 1), ("washington_square_librivox", 1),
@@ -405,6 +438,28 @@ def normalise_licence(short: str) -> str | None:
     return None
 
 
+def licence_from_url(url: str) -> str | None:
+    """Map an Internet Archive ``licenseurl`` to one of the accepted licences, or None to reject the item.
+
+    Accepted: CC0 1.0, the Public Domain Mark, the legacy ``licenses/publicdomain`` URL, and CC BY 2.0/2.5/3.0/4.0
+    (including jurisdiction ports such as ``by/3.0/us``). Anything carrying sa / nc / nd is rejected outright.
+    """
+    u = (url or "").strip().lower()
+    if not u:
+        return None
+    if "/sa/" in u or "-sa/" in u or "/nc" in u or "-nc" in u or "/nd/" in u or "-nd/" in u:
+        return None
+    if "publicdomain/zero" in u or "/zero/1.0" in u:
+        return "CC0-1.0"
+    if "publicdomain/mark" in u or "licenses/publicdomain" in u or "publicdomain" in u:
+        return "Public Domain"
+    m = re.search(r"/licenses/by/(\d(?:\.\d)?)(?:/([a-z]{2}))?", u)
+    if m:
+        port = f"-{m.group(2).upper()}" if m.group(2) else ""
+        return f"CC-BY-{m.group(1)}{port}"
+    return None
+
+
 def write_license_record(media_path: Path, track: Track) -> Path:
     rec = {"schema_version": SCHEMA_VERSION, "file": media_path.name, **asdict(track), "recorded_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
     p = media_path.with_name(media_path.name + ".license.json")
@@ -562,6 +617,161 @@ class Fetcher:
         track.sha256 = sha256_of(media)
         write_license_record(media, track)
         return track
+
+    # ---- Internet Archive music station
+    def ia_search(self, query: str, rows: int) -> list[dict]:
+        """Deterministic advanced-search over the Internet Archive; returns the raw docs (identifier + metadata)."""
+        params = {"q": query, "fl[]": ["identifier", "title", "creator", "licenseurl", "year"],
+                  "rows": str(max(1, min(rows, 200))), "page": "1", "sort[]": "identifier asc", "output": "json"}
+        try:
+            doc = self.http.json(IA_SEARCH, params=params)
+        except FetchError as e:
+            self.problems.append(f"[ia] search failed for {query[:60]!r}: {e}")
+            return []
+        docs = ((doc.get("response") or {}).get("docs")) or []
+        return [d for d in docs if d.get("identifier")]
+
+    @staticmethod
+    def _ia_duration(raw: Any) -> float:
+        if raw is None:
+            return 0.0
+        text = str(raw)
+        try:
+            if ":" in text:
+                return sum(float(x) * 60 ** i for i, x in enumerate(reversed(text.split(":"))))
+            return float(text)
+        except (TypeError, ValueError):
+            return 0.0
+
+    def fetch_ia_music_station(self, spec: StationSpec) -> list[Track]:
+        """One music track per Archive item, licence-checked from the item's ``licenseurl`` before downloading."""
+        st_dir = RADIO_ROOT / spec.id
+        st_dir.mkdir(parents=True, exist_ok=True)
+        tracks: list[Track] = []
+        for media in sorted(st_dir.glob("*.ogg")):
+            t = self.existing(media)
+            if t:
+                tracks.append(t)
+                self.total_bytes += t.bytes
+        if tracks:
+            log.info("[%s] reusing %d already-fetched tracks", spec.id, len(tracks))
+        if len(tracks) >= spec.max_tracks:
+            return tracks
+        have = {t.source_url for t in tracks}
+        station_bytes = sum(t.bytes for t in tracks)
+
+        candidates: list[dict] = []
+        for query, rows in spec.ia_queries:
+            found = self.ia_search(query, rows)
+            log.info("[%s] archive.org query -> %d items", spec.id, len(found))
+            candidates += found
+        # De-duplicate by identifier, then shuffle deterministically with the run seed.
+        seen: set[str] = set()
+        unique = []
+        for d in candidates:
+            ident = d["identifier"]
+            if ident in seen:
+                continue
+            seen.add(ident)
+            unique.append(d)
+        self.rng.shuffle(unique)
+
+        preferred = {"VBR MP3": 0, "128Kbps MP3": 1, "Ogg Vorbis": 2, "64Kbps MP3": 3, "32Kbps MP3": 4}
+        for doc in unique:
+            if len(tracks) >= spec.max_tracks or station_bytes >= spec.target_mb * 1024 * 1024:
+                break
+            if self.budget_left() <= MUSIC_MAX_BYTES:
+                self.problems.append(f"[{spec.id}] stopped: global size budget reached")
+                break
+            ident = doc["identifier"]
+            lic = licence_from_url(doc.get("licenseurl") or "")
+            if lic is None:
+                self.problems.append(f"[{spec.id}] {ident}: licenceurl {doc.get('licenseurl')!r} not accepted")
+                continue
+            try:
+                meta = self.http.json(IA_META + ident)
+            except FetchError as e:
+                self.problems.append(f"[{spec.id}] {ident}: metadata unavailable ({e})")
+                continue
+            md = meta.get("metadata") or {}
+            # The search index can lag the item; re-check the licence on the item itself and take the stricter answer.
+            item_lic = licence_from_url(md.get("licenseurl") or doc.get("licenseurl") or "")
+            if item_lic is None:
+                self.problems.append(f"[{spec.id}] {ident}: item licenceurl {md.get('licenseurl')!r} not accepted")
+                continue
+            lic = item_lic
+            lic_url = md.get("licenseurl") or doc.get("licenseurl") or ""
+
+            best = None
+            best_pref = 99
+            for f in meta.get("files", []):
+                fmt = f.get("format")
+                if fmt not in preferred:
+                    continue
+                dur = self._ia_duration(f.get("length"))
+                size = int(f.get("size") or 0)
+                if not (MUSIC_MIN_S <= dur <= MUSIC_MAX_S):
+                    continue
+                if size <= 0 or size > MUSIC_MAX_BYTES:
+                    continue
+                if preferred[fmt] < best_pref:
+                    best = f
+                    best_pref = preferred[fmt]
+            if best is None:
+                self.problems.append(f"[{spec.id}] {ident}: no audio file of {MUSIC_MIN_S:.0f}-{MUSIC_MAX_S:.0f}s "
+                                     f"within {MUSIC_MAX_BYTES // (1024 * 1024)} MB")
+                continue
+
+            url = IA_DOWNLOAD + ident + "/" + quote(best["name"])
+            if url in have:
+                continue
+            duration = self._ia_duration(best.get("length"))
+            title = best.get("title") or md.get("title") or Path(best["name"]).stem.replace("_", " ")
+            artist = best.get("artist") or md.get("creator") or "unknown"
+            if isinstance(artist, list):
+                artist = ", ".join(str(a) for a in artist)
+            if isinstance(title, list):
+                title = ", ".join(str(t) for t in title)
+            stem = safe_stem(f"{ident}_{Path(best['name']).stem}")
+            media = st_dir / f"{stem}.ogg"
+            if self.dry_run:
+                log.info("[%s] would fetch %s / %s (%s, %.0fs)", spec.id, ident, title, lic, duration)
+                tracks.append(Track(file=f"{spec.id}/{media.name}", title=str(title), artist=str(artist), licence=lic,
+                                    licence_url=lic_url, source_url=url,
+                                    source_page=f"https://archive.org/details/{ident}", duration_s=duration, bytes=0,
+                                    sha256="", loudness_lufs=None, gain_db=0.0, original_filename=best["name"],
+                                    transcode=None, source_site="archive.org"))
+                continue
+
+            suffix = ".ogg" if best.get("format") == "Ogg Vorbis" else ".mp3"
+            raw = self.tmp / f"{spec.id}_{stem}{suffix}"
+            try:
+                prefixes = (b"OggS",) if suffix == ".ogg" else (b"ID3", b"\xff\xfb", b"\xff\xf3", b"\xff\xf2")
+                self.http.download(url, raw, max_bytes=MUSIC_MAX_BYTES, expect_prefixes=prefixes)
+                assert self.ff is not None
+                transcode = self.ff.to_ogg(raw, media, mono=False, quality=4.0, sample_rate=44100, max_seconds=None)
+                raw.unlink(missing_ok=True)
+                track = Track(file=f"{spec.id}/{media.name}", title=str(title), artist=str(artist), licence=lic,
+                              licence_url=lic_url, source_url=url,
+                              source_page=f"https://archive.org/details/{ident}", duration_s=duration, bytes=0,
+                              sha256="", loudness_lufs=None, gain_db=0.0, original_filename=best["name"],
+                              transcode=transcode, source_site="archive.org",
+                              attribution_note=("Great 78 Project / Internet Archive" if "78rpm" in str(doc)
+                                                else "Internet Archive Netlabels"))
+                track = self._finish_track(media, track, LOUDNESS_TARGET_MUSIC_LUFS)
+                tracks.append(track)
+                have.add(url)
+                station_bytes += track.bytes
+                self.total_bytes += track.bytes
+                log.info("[%s] + %s — %s (%s, %.0fs, %.1f MB)", spec.id, track.title, track.artist, lic,
+                         track.duration_s, track.bytes / 1e6)
+            except (FetchError, subprocess.TimeoutExpired, OSError) as e:
+                self.problems.append(f"[{spec.id}] {ident}: {e}")
+                log.warning("[%s] skip %s: %s", spec.id, ident, e)
+                for path in (raw, media):
+                    if path.exists():
+                        path.unlink()
+        return tracks
 
     # ---- Commons music station
     def fetch_commons_station(self, spec: StationSpec) -> list[Track]:
@@ -967,12 +1177,25 @@ class Fetcher:
         for spec in STATIONS:
             if self.only and spec.id not in self.only:
                 continue
+            tracks = []
             try:
-                tracks = self.fetch_ia_station(spec) if spec.ia_items else self.fetch_commons_station(spec)
+                if spec.ia_items:
+                    tracks = self.fetch_ia_station(spec)
+                elif spec.ia_queries:
+                    tracks = self.fetch_ia_music_station(spec)
+                else:
+                    tracks = self.fetch_commons_station(spec)
             except Exception as e:  # noqa: BLE001 — one station must never abort the others
                 log.exception("[%s] station failed: %s", spec.id, e)
                 self.problems.append(f"[{spec.id}] station aborted: {e}")
-                tracks = []
+            # Commons is only used to top a station up: upload.wikimedia.org throttles to ~1 original / 10 min.
+            if len(tracks) < MIN_TRACKS and spec.commons_categories:
+                log.info("[%s] only %d tracks from the Archive; topping up from Commons", spec.id, len(tracks))
+                try:
+                    tracks = self.fetch_commons_station(spec)
+                except Exception as e:  # noqa: BLE001
+                    log.exception("[%s] Commons top-up failed: %s", spec.id, e)
+                    self.problems.append(f"[{spec.id}] Commons top-up aborted: {e}")
             stations.append((spec, tracks))
             log.info("[%s] %d tracks, running total %.1f MB", spec.id, len(tracks), self.total_bytes / 1e6)
         sfx: list[Track] = []

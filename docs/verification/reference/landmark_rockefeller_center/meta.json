@@ -1,0 +1,199 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_rockefeller_center",
+ "name": "Rockefeller Center (30 Rockefeller Plaza)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7588,
+  "lon": -73.9776,
+  "azimuth_deg": 296.9,
+  "note": "Fifth Avenue at the Channel Gardens (between 49th and 50th Streets), looking west up the axis to 30 Rockefeller Plaza",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7593,
+  "lon": -73.9789,
+  "name": "30 Rockefeller Plaza"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Rockefeller Center\" 30 Rockefeller Plaza from Fifth Avenue Channel Gardens",
+  "\"30 Rockefeller Plaza\" Comcast Building exterior"
+ ],
+ "geosearch_radius_m": 200,
+ "fetched_at": "2026-09-06T12:15:19Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 62,
+ "candidates_eligible": 25,
+ "rejections": {
+  "too_old": 6,
+  "night_for_day_item": 1,
+  "not_photo": 5,
+  "excluded": 3,
+  "too_small": 4,
+  "keywords": 18
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Rockefeller Center British Empire Building Gold-Leaf-Figures 2021-05-13 17-37.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Rockefeller_Center_British_Empire_Building_Gold-Leaf-Figures_2021-05-13_17-37.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/57/Rockefeller_Center_British_Empire_Building_Gold-Leaf-Figures_2021-05-13_17-37.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Rockefeller_Center_British_Empire_Building_Gold-Leaf-Figures_2021-05-13_17-37.jpg/1920px-Rockefeller_Center_British_Empire_Building_Gold-Leaf-Figures_2021-05-13_17-37.jpg",
+   "author": "Axel Tschentscher",
+   "credit": "Own work",
+   "license": {
+    "short_name": "Public domain",
+    "url": "https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain",
+    "template": "pd"
+   },
+   "date_taken": "2021-05-13 17:37:41",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.75846,
+    "lon": -73.9775
+   },
+   "original_width": 2523,
+   "original_height": 3822,
+   "width": 1920,
+   "height": 2909,
+   "bytes": 1137419,
+   "sha256": "ebdca033eee1b91c8fbcc10fa93f5c3003c725eaa656dcb51780b48b46525582",
+   "mean_luminance": 125.8,
+   "description": "Three panels with three gold leaf figures each, set above the triple-paneled doorway to the British Empire Building that is part of Rockefeller Center , New York City. The panels were created by the artist Carl Paul Jennewein . The figures represent the major industries and the products traded within the empire: salt, coal, tobacco, wheat, fish, wool, cotton, and sugar. The radial sun symbolizes the global empire on which \"the sun never sets\".",
+   "categories": [
+    "British Empire Building",
+    "Carl Paul Jennewein",
+    "PD US architecture",
+    "Files with coordinates missing SDC location of creation",
+    "Rockefeller Center in 2021",
+    "May 2021 in Manhattan, New York City",
+    "Images by User:Axel Tschentscher"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.4,
+   "estimated_viewpoint": {
+    "lat": 40.75846,
+    "lon": -73.9775,
+    "azimuth_deg": 308.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75846, -73.97750) is 150 m from 30 Rockefeller Plaza (40.75930, -73.97890) and 39 m from the standard viewpoint; the azimuth 308 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Rockefeller Center British Empire Building Gold-Leaf-Figures 2021-05-13 17-37.jpg\" by Axel Tschentscher, Public domain (https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Rockefeller_Center_British_Empire_Building_Gold-Leaf-Figures_2021-05-13_17-37.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:30 Rockefeller Plaza May 2022 015.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:30_Rockefeller_Plaza_May_2022_015.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/f6/30_Rockefeller_Plaza_May_2022_015.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/30_Rockefeller_Plaza_May_2022_015.jpg/1920px-30_Rockefeller_Plaza_May_2022_015.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-05-10 12:15:09",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.758481,
+    "lon": -73.977744
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 652498,
+   "sha256": "40693e676b99d8f6daf12e76cc95454a17f77dedb95387a42268d072f29599e7",
+   "mean_luminance": 133.1,
+   "description": "30 Rockefeller Plaza in May 2022",
+   "categories": [
+    "Exterior of 30 Rockefeller Plaza",
+    "New York City photographs taken on 2022-05-10",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Rockefeller Center in 2022",
+    "May 2022 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.758481,
+    "lon": -73.977744,
+    "azimuth_deg": 313.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75848, -73.97774) is 133 m from 30 Rockefeller Plaza (40.75930, -73.97890) and 37 m from the standard viewpoint; the azimuth 313 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"30 Rockefeller Plaza May 2022 015.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:30_Rockefeller_Plaza_May_2022_015.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:30 Rockefeller Plaza, November 2021.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:30_Rockefeller_Plaza,_November_2021.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/36/30_Rockefeller_Plaza%2C_November_2021.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/30_Rockefeller_Plaza%2C_November_2021.jpg/1920px-30_Rockefeller_Plaza%2C_November_2021.jpg",
+   "author": "10sefirot",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-10-31 17:34:08",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.758689,
+    "lon": -73.977325
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 883364,
+   "sha256": "18cff8cd0e5e982641f81f650748e23c8eae87db32625b92fc41949f0ebcc3e2",
+   "mean_luminance": 98.3,
+   "description": "30 Rockefeller Plaza, November 2021",
+   "categories": [
+    "New York City steam system",
+    "Exterior of 30 Rockefeller Plaza",
+    "New York City photographs taken on 2021-10-31",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Rockefeller Center in 2021",
+    "Golden hour in New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.9,
+   "estimated_viewpoint": {
+    "lat": 40.758689,
+    "lon": -73.977325,
+    "azimuth_deg": 297.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75869, -73.97732) is 149 m from 30 Rockefeller Plaza (40.75930, -73.97890) and 26 m from the standard viewpoint; the azimuth 297 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"30 Rockefeller Plaza, November 2021.jpg\" by 10sefirot, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:30_Rockefeller_Plaza,_November_2021.jpg"
+  }
+ ]
+}

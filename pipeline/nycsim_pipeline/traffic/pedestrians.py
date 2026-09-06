@@ -121,7 +121,7 @@ def load_ped_count_sites(nta: NtaTable, path: Path = PED_COUNTS_PATH) -> pl.Data
     df = pl.read_csv(path, infer_schema_length=0)
     season_cols: dict[str, list[str]] = {p: [] for p in PERIODS}
     for c in df.columns:
-        m = re.match(r"^([A-Za-z]+)(\d{2})_([AaPpMm]{2})$", c)
+        m = re.match(r"^([A-Za-z]+)(\d{2})_([A-Za-z]{2})$", c)
         if not m:
             continue
         per = m.group(3).upper()

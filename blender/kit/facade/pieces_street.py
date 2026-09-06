@@ -58,7 +58,7 @@ def _shed_module():
     return m
 
 
-@K.register("sidewalk_shed_corner", "scaffold", anchor="ground_bottom_centre", nominal_size=(4.33, 4.33, 3.81),
+@K.register("sidewalk_shed_corner", "scaffold", anchor="ground_corner_bottom", nominal_size=(4.33, 4.33, 3.81),
             description="Sidewalk-shed corner bay: the deck turned 90 deg round a building corner with parapets on both street "
                         "edges and a corner post cluster.",
             features=["sidewalk_shed"], budget=3000)
@@ -199,9 +199,9 @@ def _ivy(w: float, h: float, n: int, depth: float) -> K.Mesh:
         m.face([(cx - r * ca, cy, cz - r * sa), (cx + r * ca, cy, cz - r * sa),
                 (cx + r * ca, cy, cz + r * sa), (cx - r * ca, cy, cz + r * sa)], "ivy_leaf",
                uvs=[(0, 0), (0.5, 0), (0.5, 0.5), (0, 0.5)])
-    for k in range(7):                                                            # woody stems
-        x = -w / 2 + w * (k + 0.5) / 7
-        m.box((x - 0.010, -0.030, 0.0), (x + 0.010, -0.014, h), "soil")
+    for k in range(5):                                                            # woody stems, ragged heights
+        x = -w / 2 + w * (k + 0.5) / 5 + (rnd() - 0.5) * 0.10
+        m.box((x - 0.008, -0.026, 0.0), (x + 0.008, -0.014, h * (0.55 + 0.45 * rnd())), "soil")
     return m
 
 

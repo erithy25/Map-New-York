@@ -133,6 +133,13 @@ struct TrafficStats
 	uint32_t stoppedAtSignals = 0;
 	uint32_t doubleParked = 0;
 	uint32_t busesDwelling = 0;
+	/// Invariants checked by unreal/tools/gameplay_selftest.cpp.
+	/// Entries into a junction lane whose group was red *without* having committed inside the yellow dilemma
+	/// zone. Running the tail of a yellow is legal and modelled; entering a red from a standstill is a bug.
+	uint32_t redLightEntries = 0;
+	uint32_t dilemmaZoneEntries = 0;  ///< legal yellow-tail entries (diagnostic, not an error)
+	uint32_t emergencyHolds = 0;      ///< reached a stop line that turned out to be blocked and braked hard
+	float minLeaderGapM = 1.0e6f;  ///< smallest bumper-to-bumper gap observed in a lane — must stay >= 0
 	uint64_t steps = 0;
 	double lastStepMs = 0.0;
 	double avgStepMs = 0.0;
@@ -203,6 +210,7 @@ private:
 		uint32_t busNextStop = 0;
 		uint32_t plannedNext = nycsim::routing::kInvalidIndex;  ///< cached turn choice for the current lane
 		float stopSignHeld = 0.f;   ///< seconds already spent stopped at a stop sign
+		bool committed = false;     ///< passed the point of no return on a yellow; may finish on red
 		uint8_t flags = 0;
 		bool doubleParked = false;
 		bool active = false;
@@ -223,6 +231,9 @@ private:
 
 	// ---- per-step phases ------------------------------------------------------------------------------------
 	void rebuildLaneBuckets();
+	/// Final safety pass: clamps every agent so it can never occupy the same metre of lane as its leader.
+	/// Runs after the advance/spawn phases and is what guarantees stats().minLeaderGapM >= 0.
+	void resolveOverlaps();
 	void updateAgent(Agent& a);
 	void applyLaneChange(Agent& a);
 	void advance(Agent& a);
@@ -234,13 +245,15 @@ private:
 	/// Gap and closing speed to the leader on `a`'s lane (and, when close to the end, on its successor).
 	bool findLeader(const Agent& a, float& gap, float& leadSpeed) const;
 	/// Distance to the point where the agent must stop (red light, stop sign, blocked junction), or -1.
-	float stopLineDistance(const Agent& a) const;
+	float stopLineDistance(Agent& a) const;
 	/// Distance to the player's car in `a`'s path (-1 when the player is not ahead in this lane).
 	float playerObstacleDistance(const Agent& a, float& playerSpeed) const;
 	/// Distance to the nearest pedestrian standing in `a`'s lane ahead (-1 when there is none).
 	float pedObstacleDistance(const Agent& a) const;
 	/// Junction admission: false while the agent must wait at the stop line.
-	bool junctionClear(const Agent& a, uint32_t junctionLane) const;
+	bool junctionClear(Agent& a, uint32_t junctionLane) const;
+	/// True when `lane` has room for `a` at arc length `s` (no overlap with an agent already in it).
+	bool laneEntryClear(const Agent& a, uint32_t lane, float s) const;
 	nycsim::traffic::VehicleClass drawClass(uint32_t lane);
 	float laneDesiredSpeed(const Agent& a, uint32_t lane) const;
 	uint32_t allocateAgent();

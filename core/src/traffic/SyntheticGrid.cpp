@@ -67,6 +67,20 @@ bool SyntheticGrid::build(const SyntheticGridSpec& spec, RoadGraph& g, SignalTab
   const float av_speed = spec.avenue_speed_mph * mph, st_speed = spec.street_speed_mph * mph;
   char name[64];
 
+  // Kerb-to-kerb widths.  Segments stop half a crossing-street width short of
+  // each node, so the intersection itself is an empty box that the junction
+  // lanes cross: without this the connectors would be zero length, vehicles
+  // would queue on the node centre and crossing movements could not conflict.
+  auto avenueWidth = [&](int i) {
+    const int dirs = avenueTwoWay(spec, i) ? 2 : 1;
+    return fi(dirs) * (fi(spec.avenue_travel_lanes) * spec.lane_width_m +
+                       (spec.parking_lanes ? spec.parking_width_m : 0.f) +
+                       (avenueHasBikeLane(spec, i) ? spec.bike_width_m : 0.f));
+  };
+  const float street_width_m =
+      fi(spec.street_travel_lanes) * spec.lane_width_m + (spec.parking_lanes ? spec.parking_width_m : 0.f) + 3.f;
+  const float street_setback = std::min(street_width_m * 0.5f, spec.street_spacing_m * 0.35f);
+
   // ---- nodes
   for (int j = 0; j < spec.streets; ++j) {
     for (int i = 0; i < spec.avenues; ++i) {
@@ -113,8 +127,10 @@ bool SyntheticGrid::build(const SyntheticGridSpec& spec, RoadGraph& g, SignalTab
     for (int j = 0; j + 1 < spec.streets; ++j) {
       const SegmentId seg = avenueSegmentId(i, j);
       const NodeId a = nodeId(i, j), b = nodeId(i, j + 1);
-      Vec3 pts[2] = {{spec.origin_x + fi(i) * spec.avenue_spacing_m, spec.origin_y + fi(j) * spec.street_spacing_m, 0.f},
-                     {spec.origin_x + fi(i) * spec.avenue_spacing_m, spec.origin_y + fi(j + 1) * spec.street_spacing_m, 0.f}};
+      Vec3 pts[2] = {{spec.origin_x + fi(i) * spec.avenue_spacing_m,
+                      spec.origin_y + fi(j) * spec.street_spacing_m + street_setback, 0.f},
+                     {spec.origin_x + fi(i) * spec.avenue_spacing_m,
+                      spec.origin_y + fi(j + 1) * spec.street_spacing_m - street_setback, 0.f}};
       SegmentAttrs at;
       at.rw_type = RwType::Street;
       at.traffic_dir = two_way ? TrafficDir::TwoWay : (north ? TrafficDir::Forward : TrafficDir::Backward);
@@ -139,8 +155,12 @@ bool SyntheticGrid::build(const SyntheticGridSpec& spec, RoadGraph& g, SignalTab
     for (int i = 0; i + 1 < spec.avenues; ++i) {
       const SegmentId seg = streetSegmentId(i, j);
       const NodeId a = nodeId(i, j), b = nodeId(i + 1, j);
-      Vec3 pts[2] = {{spec.origin_x + fi(i) * spec.avenue_spacing_m, spec.origin_y + fi(j) * spec.street_spacing_m, 0.f},
-                     {spec.origin_x + fi(i + 1) * spec.avenue_spacing_m, spec.origin_y + fi(j) * spec.street_spacing_m, 0.f}};
+      const float set_a = std::min(avenueWidth(i) * 0.5f, spec.avenue_spacing_m * 0.35f);
+      const float set_b = std::min(avenueWidth(i + 1) * 0.5f, spec.avenue_spacing_m * 0.35f);
+      Vec3 pts[2] = {{spec.origin_x + fi(i) * spec.avenue_spacing_m + set_a,
+                      spec.origin_y + fi(j) * spec.street_spacing_m, 0.f},
+                     {spec.origin_x + fi(i + 1) * spec.avenue_spacing_m - set_b,
+                      spec.origin_y + fi(j) * spec.street_spacing_m, 0.f}};
       SegmentAttrs at;
       at.rw_type = RwType::Street;
       at.traffic_dir = east ? TrafficDir::Forward : TrafficDir::Backward;
@@ -169,12 +189,6 @@ bool SyntheticGrid::build(const SyntheticGridSpec& spec, RoadGraph& g, SignalTab
   LaneId next_jl = 1000000000LL;
   std::vector<uint32_t> node_jl_begin(node_count + 1, 0);
 
-  auto maxIndexOfKinds = [&](const LaneRec& a, bool with_bike) {
-    int mx = -1;
-    for (const LaneRec& r : recs)
-      if (r.seg == a.seg && r.dir == a.dir && (r.kind == LaneKind::Travel || (with_bike && r.kind == LaneKind::Bike))) mx = std::max(mx, r.index);
-    return mx;
-  };
   auto findLane = [&](SegmentId seg, int dir, LaneKind kind, int index) -> int {
     for (uint32_t r = 0; r < recs.size(); ++r)
       if (recs[r].seg == seg && recs[r].dir == dir && recs[r].kind == kind && recs[r].index == index) return static_cast<int>(r);
@@ -225,11 +239,15 @@ bool SyntheticGrid::build(const SyntheticGridSpec& spec, RoadGraph& g, SignalTab
             break;
           }
           case TurnType::Right: {
-            if (a.index != maxIndexOfKinds(a, true)) break;  // only the rightmost travel/bike lane turns right
+            // The kerb-side *travel* lane turns right; a bike lane sits further
+            // right still and turns right into the receiving bike lane.  (Using
+            // the bike lane as "the rightmost lane" would leave the motor lanes
+            // with no right turn at all on an avenue that has one.)
             if (a.kind == LaneKind::Bike) {
               const int bl = bikeLane(b.seg, b.dir);
               target = bl >= 0 ? bl : findLane(b.seg, b.dir, LaneKind::Travel, maxTravelIndex(b.seg, b.dir));
             } else {
+              if (a.index != maxTravelIndex(a.seg, a.dir)) break;
               target = findLane(b.seg, b.dir, LaneKind::Travel, maxTravelIndex(b.seg, b.dir));
             }
             break;
@@ -291,8 +309,7 @@ bool SyntheticGrid::build(const SyntheticGridSpec& spec, RoadGraph& g, SignalTab
   for (uint32_t li = 0; li < g.laneCount(); ++li) g.setLaneNta(li, 0);
 
   // ---- signals
-  const float street_width =
-      fi(spec.street_travel_lanes) * spec.lane_width_m + (spec.parking_lanes ? spec.parking_width_m : 0.f) + 3.f;
+  const float street_width = street_width_m;
   for (size_t ns = 0; ns < node_count; ++ns) {
     const int gi = static_cast<int>(ns % zi(spec.avenues)), gj = static_cast<int>(ns / zi(spec.avenues));
     if (streetStopControlled(spec, gj)) continue;
@@ -306,10 +323,8 @@ bool SyntheticGrid::build(const SyntheticGridSpec& spec, RoadGraph& g, SignalTab
     const float split = spec.cycle_s / static_cast<float>(ng);
     SignalPhase ph[2];
     int n = 0;
-    const bool two_way = avenueTwoWay(spec, gi), bike = avenueHasBikeLane(spec, gi);
-    const float avenue_width =
-        (two_way ? 2.f : 1.f) * (fi(spec.avenue_travel_lanes) * spec.lane_width_m +
-                                 (spec.parking_lanes ? spec.parking_width_m : 0.f) + (bike ? spec.bike_width_m : 0.f));
+    const bool two_way = avenueTwoWay(spec, gi);
+    const float avenue_width = avenueWidth(gi);
     for (int grp = 0; grp < 2; ++grp) {
       if ((grp == 0 && !has0) || (grp == 1 && !has1)) continue;
       SignalPhase p;

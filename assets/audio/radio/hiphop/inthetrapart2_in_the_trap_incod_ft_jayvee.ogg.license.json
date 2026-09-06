@@ -1,0 +1,28 @@
+{
+ "artist": "Thirty5",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 3304209,
+ "duration_s": 220.85,
+ "file": "hiphop/inthetrapart2_in_the_trap_incod_ft_jayvee.ogg",
+ "gain_db": -2.1,
+ "licence": "CC-BY-3.0",
+ "licence_url": "http://creativecommons.org/licenses/by/3.0/",
+ "loudness_lufs": -11.9,
+ "original_filename": "In The Trap - Incod Ft JayVee.mp3",
+ "recorded_at": "2026-09-06T12:14:20Z",
+ "schema_version": 1,
+ "sha256": "000bf5f8a668b5d53ea9f702727505d41066a5e0e3dbc6257b6b0d8f61d685b7",
+ "source_page": "https://archive.org/details/Inthetrapart2",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/Inthetrapart2/In%20The%20Trap%20-%20Incod%20Ft%20JayVee.mp3",
+ "title": "In The Trap - Incod ft JayVee",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

@@ -168,12 +168,81 @@ def load_index(path: Path = CACHE) -> PointIndex:
     return PointIndex(x, y, z, kind, cells)
 
 
+AUDIT_PATH = PROCESSED / "terrain" / "point_audit.json"
+
+
+def audit_against_dem() -> dict:
+    """Compare every survey point with the composed 3DEP surface at its nearest lattice sample.
+
+    This is the stage's accuracy statement *and* the global outlier count: unlike the per-tile numbers in
+    ``terrain.json`` (which count a point once per tile whose padded window contains it), every point is
+    counted exactly once here. dz = z_point - z_dem, metres.
+    """
+    import numpy as np
+
+    from ..tiling import Tile, scope_tiles
+    from .compose import DemStack
+    from .grid import NODATA, SAMPLES, SPACING_M, tile_transform
+    from .ingest import INDEX_PATH
+    idx = load_index()
+    t0 = time.time()
+    out = {"n": 0, "no_dem": 0, "by_kind": {}, "dz": []}
+    dz_all: list[np.ndarray] = []
+    kind_all: list[np.ndarray] = []
+    with DemStack(INDEX_PATH) as stack:
+        for t in scope_tiles():
+            sel = idx.query_bbox(t.x0, t.y0, t.x0 + 1000.0 - 1e-9, t.y0 + 1000.0 - 1e-9)
+            if sel.size == 0:
+                continue
+            tr = tile_transform(t)
+            z, _ = stack.read(tr, SAMPLES, SAMPLES)
+            col = np.clip(np.rint((idx.x[sel] - t.x0) / SPACING_M).astype(int), 0, SAMPLES - 1)
+            row = np.clip(np.rint(((t.y0 + 1000.0) - idx.y[sel]) / SPACING_M).astype(int), 0, SAMPLES - 1)
+            zd = z[row, col]
+            ok = zd != NODATA
+            out["no_dem"] += int((~ok).sum())
+            dz_all.append(idx.z[sel][ok].astype(np.float64) - zd[ok].astype(np.float64))
+            kind_all.append(idx.kind[sel][ok])
+    dz = np.concatenate(dz_all) if dz_all else np.zeros(0)
+    kd = np.concatenate(kind_all) if kind_all else np.zeros(0, dtype=np.uint8)
+    out["n"] = int(dz.size)
+    for k, label in KIND_NAME.items():
+        m = kd == k
+        if not m.any():
+            continue
+        d = dz[m]
+        out["by_kind"][label] = {
+            "n": int(d.size), "mean_m": float(d.mean()), "median_m": float(np.median(d)),
+            "rms_m": float(np.sqrt((d ** 2).mean())), "p05_m": float(np.percentile(d, 5)),
+            "p95_m": float(np.percentile(d, 95)), "max_abs_m": float(np.abs(d).max()),
+            "rejected_ge_3m": int((np.abs(d) >= 3.0).sum()),
+            "rejected_pct": round(100.0 * float((np.abs(d) >= 3.0).mean()), 4),
+            "rms_after_reject_m": float(np.sqrt((d[np.abs(d) < 3.0] ** 2).mean())),
+        }
+    keep = np.abs(dz) < 3.0
+    out["all"] = {"n": int(dz.size), "mean_m": float(dz.mean()), "median_m": float(np.median(dz)),
+                  "rms_m": float(np.sqrt((dz ** 2).mean())), "rejected_ge_3m": int((~keep).sum()),
+                  "rejected_pct": round(100.0 * float((~keep).mean()), 4),
+                  "rms_after_reject_m": float(np.sqrt((dz[keep] ** 2).mean())),
+                  "p05_m": float(np.percentile(dz, 5)), "p95_m": float(np.percentile(dz, 95))}
+    out.pop("dz")
+    out["seconds"] = round(time.time() - t0, 1)
+    AUDIT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with open(AUDIT_PATH, "w") as f:
+        json.dump(out, f, indent=1)
+    log.info("point audit: %s", out["all"])
+    return out
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--force", action="store_true")
+    ap.add_argument("--audit", action="store_true", help="compare every point with the composed DEM and write point_audit.json")
     a = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     print(json.dumps(build_cache(a.force), indent=1))
+    if a.audit:
+        print(json.dumps(audit_against_dem(), indent=1))
     return 0
 
 

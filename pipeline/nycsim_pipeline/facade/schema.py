@@ -25,6 +25,10 @@ stage's own tests keep passing; the facade stage adds its own ``nycsim.facade.*`
 | awning_real | bool | `awning_text` is a real business name (else generic wording for the kind) |
 | osm_iou | float32 | intersection-over-union of the matched OSM building (0 when unmatched) |
 | n_placements | int32 | kit placement records written for this building in `kit_placements.bin` |
+| roof_source | int8 | 0 CityGML, 1 OSM `roof:shape`, 2 facade rule (ADR-013), 3 default flat |
+| roof_pitch_deg | float32 | roof pitch, 0 when flat |
+| roof_ridge_heading | float32 | compass heading of the ridge line, folded to [0, 180); 0 when flat |
+| roof_eave_z | float32 | eave elevation, m NAVD88; equals `roof_z` when flat (the ridge stays at the measured `roof_z`) |
 """
 from __future__ import annotations
 
@@ -70,6 +74,10 @@ EXTENSION: list[tuple[str, pa.DataType]] = [
     ("awning_real", pa.bool_()),
     ("osm_iou", pa.float32()),
     ("n_placements", pa.int32()),
+    ("roof_source", pa.int8()),
+    ("roof_pitch_deg", pa.float32()),
+    ("roof_ridge_heading", pa.float32()),
+    ("roof_eave_z", pa.float32()),
 ]
 
 #: Columns of the buildings stage this stage overwrites in place (never dropped).
@@ -85,9 +93,10 @@ ATTRS_COLUMNS: list[tuple[str, pa.DataType]] = [
     ("osm_id", pa.int64()),
     ("fidelity", pa.uint16()),
 ]
-#: Join key of every facade intermediate. ``bin`` is *almost* unique (8 rows share the three borough-placeholder
-#: BINs 2000000/3000000/4000000), so the exact key is the row's position inside its tile file — both the buildings
-#: stage and this stage sort by ``(tile, bin, part_index)``, so the position is stable.
+#: Join key of every facade intermediate. ``bin`` is *almost* unique: 8 rows share the three borough filler BINs
+#: 2000000/3000000/4000000 that the OTI footprint file uses where no real BIN was assigned. The exact key is
+#: therefore the row's position inside its tile file — both the buildings stage and this stage sort by
+#: ``(tile, bin, part_index)``, so the position is stable.
 JOIN_KEY: list[str] = ["tile", "row"]
 
 
@@ -108,6 +117,9 @@ GEOM_COLUMNS: list[tuple[str, pa.DataType]] = [
     ("street_frontage_m", pa.float32()),
     ("is_corner", pa.bool_()),
     ("street_segment_id", pa.int64()),
+    ("mrr_short_m", pa.float32()),
+    ("mrr_long_m", pa.float32()),
+    ("mrr_heading", pa.float32()),
 ]
 
 

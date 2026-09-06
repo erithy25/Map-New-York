@@ -399,10 +399,11 @@ def parse_nws_observation(doc: dict, now_unix: float) -> WeatherObservation:
 class NWSProvider:
     name = "nws"
 
-    def __init__(self, stations: Sequence[str] = NWS_STATIONS, gridpoint_url: str = NWS_GRIDPOINT_URL, fetch: Callable[..., net.Response] = net.get, use_forecast_blend: bool = True):
+    def __init__(self, stations: Sequence[str] = NWS_STATIONS, gridpoint_url: str = NWS_GRIDPOINT_URL, fetch: Callable[..., net.Response] = net.get, use_forecast_blend: bool = True, timeout_s: float = net.DEFAULT_TIMEOUT_S):
         self.stations = tuple(stations)
         self.gridpoint_url = gridpoint_url
         self._fetch = fetch
+        self.timeout_s = timeout_s
         self.use_forecast_blend = use_forecast_blend
         self._blend: NWSForecastBlend | None = None
         self._blend_fetched: float = 0.0
@@ -412,7 +413,7 @@ class NWSProvider:
             return None
         if self._blend is None or now_unix - self._blend_fetched > NWS_GRIDPOINT_TTL_S:
             try:
-                self._blend = NWSForecastBlend(self._fetch(self.gridpoint_url, accept="application/geo+json").json())
+                self._blend = NWSForecastBlend(self._fetch(self.gridpoint_url, accept="application/geo+json", timeout_s=self.timeout_s).json())
                 self._blend_fetched = now_unix
             except (net.HttpError, KeyError, ValueError) as e:
                 log.warning("NWS gridpoint forecast unavailable: %s", e)
@@ -424,7 +425,7 @@ class NWSProvider:
         errors = []
         for st in self.stations:
             try:
-                doc = self._fetch(NWS_OBS_URL.format(station=st), accept="application/geo+json").json()
+                doc = self._fetch(NWS_OBS_URL.format(station=st), accept="application/geo+json", timeout_s=self.timeout_s).json()
                 obs = parse_nws_observation(doc, now_unix)
             except (net.HttpError, ProviderError, KeyError, ValueError) as e:
                 errors.append(f"{st}: {e}")
@@ -518,16 +519,23 @@ def parse_open_meteo(doc: dict, now_unix: float) -> WeatherObservation:
     return obs
 
 
+# api.open-meteo.com is reached through a shared egress proxy that can take ~10 s to open a cold TLS
+# session (measured 0.3-30 s on this host, see docs/verification/live/REPORT.md); the NWS and METAR hosts
+# answer in well under a second, so only this provider gets the longer budget.
+OPEN_METEO_TIMEOUT_S: Final = 25.0
+
+
 class OpenMeteoProvider:
     name = "open_meteo"
 
-    def __init__(self, url: str = OPEN_METEO_URL, fetch: Callable[..., net.Response] = net.get):
+    def __init__(self, url: str = OPEN_METEO_URL, fetch: Callable[..., net.Response] = net.get, timeout_s: float = OPEN_METEO_TIMEOUT_S):
         self.url = url
         self._fetch = fetch
+        self.timeout_s = timeout_s
 
     def fetch(self, now_unix: float) -> WeatherObservation:
         try:
-            return parse_open_meteo(self._fetch(self.url).json(), now_unix)
+            return parse_open_meteo(self._fetch(self.url, timeout_s=self.timeout_s).json(), now_unix)
         except (net.HttpError, KeyError, ValueError) as e:
             raise ProviderError(str(e)) from e
 
@@ -570,17 +578,18 @@ def observation_from_metar(rep: _metar.MetarReport, now_unix: float, obs_time_un
 class METARProvider:
     name = "metar"
 
-    def __init__(self, stations: Sequence[str] = METAR_STATIONS, awc_url: str = METAR_AWC_URL, tgftp_url: str = METAR_TGFTP_URL, fetch: Callable[..., net.Response] = net.get):
+    def __init__(self, stations: Sequence[str] = METAR_STATIONS, awc_url: str = METAR_AWC_URL, tgftp_url: str = METAR_TGFTP_URL, fetch: Callable[..., net.Response] = net.get, timeout_s: float = net.DEFAULT_TIMEOUT_S):
         self.stations = tuple(stations)
         self.awc_url = awc_url
         self.tgftp_url = tgftp_url
         self._fetch = fetch
+        self.timeout_s = timeout_s
 
     def fetch(self, now_unix: float) -> WeatherObservation:
         errors: list[str] = []
         now_dt = _dt.datetime.fromtimestamp(now_unix, tz=_dt.timezone.utc)
         try:
-            rows = self._fetch(self.awc_url).json()
+            rows = self._fetch(self.awc_url, timeout_s=self.timeout_s).json()
             if not isinstance(rows, list):
                 raise ProviderError("AWC METAR response is not a list")
             by_id = {r.get("icaoId"): r for r in rows if isinstance(r, dict)}
@@ -598,7 +607,7 @@ class METARProvider:
             errors.append(f"awc: {e}")
         for st in self.stations:
             try:
-                txt = self._fetch(self.tgftp_url.format(station=st)).text
+                txt = self._fetch(self.tgftp_url.format(station=st), timeout_s=self.timeout_s).text
                 rep = _metar.parse_metar(txt, now_dt)
                 return observation_from_metar(rep, now_unix)
             except (net.HttpError, _metar.MetarParseError, ProviderError, ValueError) as e:
@@ -689,8 +698,15 @@ class SnowModel:
 class WeatherService:
     """Ordered providers, per-provider circuit breaker, stale fallback, JSON snapshot on every poll."""
 
-    def __init__(self, providers: Iterable | None = None, out_path: Path = WEATHER_JSON, poll_interval_s: float = POLL_INTERVAL_S, clock: Callable[[], float] = time.time, snow_model: SnowModel | None = None, breaker_factory: Callable[[str], CircuitBreaker] = CircuitBreaker):
+    def __init__(self, providers: Iterable | None = None, out_path: Path = WEATHER_JSON, poll_interval_s: float = POLL_INTERVAL_S, clock: Callable[[], float] = time.time, snow_model: SnowModel | None = None, breaker_factory: Callable[[str], CircuitBreaker] = CircuitBreaker, prefer_freshest_age_s: float | None = None):
         self.providers = list(providers) if providers is not None else [NWSProvider(), OpenMeteoProvider(), METARProvider()]
+        # ADR-011 is strict provider order: the first provider that answers wins, and that is the default
+        # (``prefer_freshest_age_s = None``). Optionally, when the answer that arrived is *older* than this
+        # many seconds, the remaining closed-breaker providers are queried too and the newest observation
+        # wins. Measured motivation: api.weather.gov served KNYC's 10:51Z observation until at least 12:01Z
+        # while aviationweather.gov already had KNYC's 11:51Z METAR (docs/verification/live/REPORT.md).
+        # Enabling it needs an ADR amendment, so it is off unless the operator asks for it.
+        self.prefer_freshest_age_s = prefer_freshest_age_s
         self.breakers = {p.name: breaker_factory(p.name) for p in self.providers}
         self.out_path = out_path
         self.poll_interval_s = poll_interval_s
@@ -722,7 +738,7 @@ class WeatherService:
                 log.debug("breaker %s open, skipping", p.name)
                 continue
             try:
-                obs = p.fetch(now)
+                candidate = p.fetch(now)
             except ProviderError as e:
                 b.record_failure(now, str(e))
                 log.warning("provider %s failed (%d consecutive): %s", p.name, b.consecutive_failures, e)
@@ -732,7 +748,13 @@ class WeatherService:
                 log.exception("provider %s raised", p.name)
                 continue
             b.record_success(now)
-            break
+            if obs is None or (candidate.observed_unix() or 0.0) > (obs.observed_unix() or 0.0):
+                obs = candidate
+            if self.prefer_freshest_age_s is None:
+                break
+            t_best = obs.observed_unix()
+            if t_best is not None and now - t_best <= self.prefer_freshest_age_s:
+                break
         if obs is not None:
             obs.fetched_at = iso_utc(now)
             t_obs = obs.observed_unix()

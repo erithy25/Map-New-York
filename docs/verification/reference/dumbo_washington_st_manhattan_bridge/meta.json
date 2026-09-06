@@ -1,0 +1,249 @@
+{
+ "schema_version": 1,
+ "slug": "dumbo_washington_st_manhattan_bridge",
+ "name": "Washington Street in DUMBO with the Manhattan Bridge",
+ "group": "viewpoint",
+ "viewpoint": {
+  "lat": 40.703,
+  "lon": -73.9892,
+  "azimuth_deg": 345.8,
+  "note": "Washington Street between Front and Water Streets, DUMBO, centred on the roadway",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7045,
+  "lon": -73.9897,
+  "name": "Manhattan Bridge Brooklyn tower"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 4,
+ "queries": [
+  "\"Washington Street\" DUMBO \"Manhattan Bridge\"",
+  "DUMBO Manhattan Bridge Washington Street Empire State Building framed"
+ ],
+ "geosearch_radius_m": 120,
+ "fetched_at": "2026-09-06T11:51:17Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query list=search / list=geosearch / prop=imageinfo)",
+ "candidates_seen": 111,
+ "candidates_eligible": 63,
+ "rejections": {
+  "keywords": 28,
+  "too_old": 3,
+  "not_photo": 1,
+  "night_for_day_item": 1,
+  "too_small": 3,
+  "excluded": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Empire State Building through the Manhattan Bridge arch, Dumbo, Brooklyn, New York.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Empire_State_Building_through_the_Manhattan_Bridge_arch,_Dumbo,_Brooklyn,_New_York.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/51/Empire_State_Building_through_the_Manhattan_Bridge_arch%2C_Dumbo%2C_Brooklyn%2C_New_York.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Empire_State_Building_through_the_Manhattan_Bridge_arch%2C_Dumbo%2C_Brooklyn%2C_New_York.jpg/1920px-Empire_State_Building_through_the_Manhattan_Bridge_arch%2C_Dumbo%2C_Brooklyn%2C_New_York.jpg",
+   "author": "Christian David",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026-04-17 06:35:32",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.7033,
+    "lon": -73.989579
+   },
+   "original_width": 5152,
+   "original_height": 7728,
+   "width": 1920,
+   "height": 2880,
+   "bytes": 1217975,
+   "sha256": "1e5b4c768397ea26f24ab07f651022445b03ff3d357c9fd7a00659f7d84d5067",
+   "mean_luminance": 98.3,
+   "description": "The Empire State Building framed within the pointed riveted-steel arch of the Manhattan Bridge tower.",
+   "categories": [
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Manhattan Bridge and the Empire State Building from Washington Street, Brooklyn",
+    "April 2026 in Brooklyn, New York City",
+    "Images of the United States by Christian David"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 16.7,
+   "estimated_viewpoint": {
+    "lat": 40.7033,
+    "lon": -73.989579,
+    "azimuth_deg": 355.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70330, -73.98958) is 134 m from Manhattan Bridge Brooklyn tower (40.70450, -73.98970) and 46 m from the standard viewpoint; the azimuth 356 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Empire State Building through the Manhattan Bridge arch, Dumbo, Brooklyn, New York.jpg\" by Christian David, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Empire_State_Building_through_the_Manhattan_Bridge_arch,_Dumbo,_Brooklyn,_New_York.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Manhatten Bridge - taken from Washington Street.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Manhatten_Bridge_-_taken_from_Washington_Street.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Manhatten_Bridge_-_taken_from_Washington_Street.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Manhatten_Bridge_-_taken_from_Washington_Street.jpg/1920px-Manhatten_Bridge_-_taken_from_Washington_Street.jpg",
+   "author": "David Kernan",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024-11-23 14:17:56",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.703061,
+    "lon": -73.989602
+   },
+   "original_width": 3033,
+   "original_height": 5392,
+   "width": 1920,
+   "height": 3413,
+   "bytes": 1825230,
+   "sha256": "01831b271de9462123f4d41b483866154e8e1c92485cf9d04a37110b38f922db",
+   "mean_luminance": 138.7,
+   "description": "Manhatten Bridge - taken from Washington Street in the DUMBO District.",
+   "categories": [
+    "Images with annotations",
+    "Self-published work",
+    "Manhattan Bridge in 2024",
+    "Manhattan Bridge and the Empire State Building from Washington Street, Brooklyn"
+   ],
+   "assessments": "quality|valued",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 16.7,
+   "estimated_viewpoint": {
+    "lat": 40.703061,
+    "lon": -73.989602,
+    "azimuth_deg": 357.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70306, -73.98960) is 160 m from Manhattan Bridge Brooklyn tower (40.70450, -73.98970) and 35 m from the standard viewpoint; the azimuth 357 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Manhatten Bridge - taken from Washington Street.jpg\" by David Kernan, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Manhatten_Bridge_-_taken_from_Washington_Street.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Manhattan Bridge from snowy DUMBO.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Manhattan_Bridge_from_snowy_DUMBO.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Manhattan_Bridge_from_snowy_DUMBO.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Manhattan_Bridge_from_snowy_DUMBO.jpg/1920px-Manhattan_Bridge_from_snowy_DUMBO.jpg",
+   "author": "DigiVol",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2025-01-07 17:41:08",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.703504,
+    "lon": -73.98957
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1442035,
+   "sha256": "3d1f059ed569847b74382d9e18f518a37869c57185d1313ea56a0f03b259e714",
+   "mean_luminance": 109.1,
+   "description": "Manhattan Bridge from snowy DUMBO, NYC, USA",
+   "categories": [
+    "CC-Zero",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2025 in Dumbo, Brooklyn",
+    "Manhattan Bridge in 2025",
+    "January 2025 in Brooklyn, New York City",
+    "Manhattan Bridge and the Empire State Building from Washington Street, Brooklyn"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 15.2,
+   "estimated_viewpoint": {
+    "lat": 40.703504,
+    "lon": -73.98957,
+    "azimuth_deg": 354.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70350, -73.98957) is 111 m from Manhattan Bridge Brooklyn tower (40.70450, -73.98970) and 64 m from the standard viewpoint; the azimuth 354 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Manhattan Bridge from snowy DUMBO.jpg\" by DigiVol, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Manhattan_Bridge_from_snowy_DUMBO.jpg"
+  },
+  {
+   "n": 4,
+   "file": "4.jpg",
+   "title": "File:The ManhattanBridgeviaWashingtonStreet(Red Bricks).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:The_ManhattanBridgeviaWashingtonStreet(Red_Bricks).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/41/The_ManhattanBridgeviaWashingtonStreet%28Red_Bricks%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/The_ManhattanBridgeviaWashingtonStreet%28Red_Bricks%29.jpg/1920px-The_ManhattanBridgeviaWashingtonStreet%28Red_Bricks%29.jpg",
+   "author": "Jabari2000",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2024-02-23 09:14:34",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.703128,
+    "lon": -73.989617
+   },
+   "original_width": 4284,
+   "original_height": 5712,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1698606,
+   "sha256": "bf4413f952f41a6495c6fe7d90ce22c9dea15437d51916f69d5493d8d7143e97",
+   "mean_luminance": 120.2,
+   "description": "The Manhattan Bridge via Washington Street in the winter.",
+   "categories": [
+    "CC-Zero",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Bridges in the United States photographed in 2024",
+    "2024 in Dumbo, Brooklyn",
+    "Manhattan Bridge in 2024",
+    "United States photographs taken on 2024-02-23",
+    "February 2024 in Brooklyn, New York City",
+    "Manhattan Bridge and the Empire State Building from Washington Street, Brooklyn"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Washington Street\" DUMBO \"Manhattan Bridge\"",
+   "score": 15.2,
+   "estimated_viewpoint": {
+    "lat": 40.703128,
+    "lon": -73.989617,
+    "azimuth_deg": 357.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70313, -73.98962) is 153 m from Manhattan Bridge Brooklyn tower (40.70450, -73.98970) and 38 m from the standard viewpoint; the azimuth 357 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"The ManhattanBridgeviaWashingtonStreet(Red Bricks).jpg\" by Jabari2000, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:The_ManhattanBridgeviaWashingtonStreet(Red_Bricks).jpg"
+  }
+ ]
+}

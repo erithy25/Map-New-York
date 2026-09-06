@@ -146,12 +146,43 @@ def test_nws_quality_control_rejects_bad_values():
 
 
 def test_nws_present_weather_is_decoded():
-    doc = load_json("nws_obs_KDAB.json")  # thunderstorm + fog sample
-    t = W.parse_iso8601(doc["properties"]["timestamp"])
-    o = W.parse_nws_observation(doc, t + 60)
+    """The recorded presentWeather blocks: -RA at KDAB, BR at KDLH, RA at KLCH, nothing at the NYC stations."""
+    rain = load_json("nws_obs_KDAB.json")
+    o = W.parse_nws_observation(rain, W.parse_iso8601(rain["properties"]["timestamp"]) + 60)
+    assert o.precip_type == "rain" and o.precip_rate_mmph > 0.0 and o.thunder is False
+    mist = load_json("nws_obs_KDLH.json")
+    o2 = W.parse_nws_observation(mist, W.parse_iso8601(mist["properties"]["timestamp"]) + 60)
+    assert o2.obscuration == ["BR"] and o2.precip_type == "none"
+    dry = load_json("nws_obs_KNYC.json")
+    o3 = W.parse_nws_observation(dry, W.parse_iso8601(dry["properties"]["timestamp"]) + 60)
+    assert o3.precip_type == "none" and o3.obscuration == [] and o3.thunder is False
+
+
+def test_nws_thunderstorm_and_fog_are_decoded_from_present_weather():
+    """A synthetic presentWeather block in the exact api.weather.gov shape (thunderstorms + freezing fog)."""
+    doc = load_json("nws_obs_KNYC.json")
+    doc = json.loads(json.dumps(doc))
+    doc["properties"]["presentWeather"] = [
+        {"intensity": "heavy", "modifier": None, "weather": "rain", "rawString": "+TSRA"},
+        {"intensity": None, "modifier": None, "weather": "thunderstorms", "rawString": "TS"},
+        {"intensity": None, "modifier": None, "weather": "freezing_fog", "rawString": "FZFG"},
+    ]
+    o = W.parse_nws_observation(doc, W.parse_iso8601(doc["properties"]["timestamp"]) + 60)
     assert o.thunder is True
     assert o.precip_type == "rain"
     assert "FG" in o.obscuration
+    assert o.precip_rate_basis == "class" and o.precip_rate_mmph == pytest.approx(10.0 * M.THUNDERSTORM_RATE_FACTOR)
+
+
+def test_nws_measured_precipitation_without_a_present_weather_group():
+    doc = json.loads(json.dumps(load_json("nws_obs_KNYC.json")))
+    doc["properties"]["presentWeather"] = []
+    doc["properties"]["precipitationLastHour"] = {"value": 2.5, "qualityControl": "V"}
+    o = W.parse_nws_observation(doc, W.parse_iso8601(doc["properties"]["timestamp"]) + 60)
+    assert o.precip_type == "rain" and o.precip_rate_basis == "measured" and o.precip_rate_mmph == pytest.approx(2.5)
+    doc["properties"]["temperature"] = {"value": -4.0, "qualityControl": "V"}
+    o2 = W.parse_nws_observation(doc, W.parse_iso8601(doc["properties"]["timestamp"]) + 60)
+    assert o2.precip_type == "snow"
 
 
 def test_iso_duration_parsing():
@@ -517,3 +548,43 @@ def test_to_json_dict_rounds_and_keeps_nulls():
     d = o.to_json_dict()
     assert d["temp_c"] == 1.235 and d["rh"] is None
     assert d["obscuration"] == [] and d["provider_status"] == {}
+
+
+# --------------------------------------------------------------------------- optional freshness preference
+def test_strict_provider_order_is_the_default(tmp_path):
+    """ADR-011: the first provider that answers wins, even with a much older observation."""
+    nws = load_text("nws_obs_KNYC.json")
+    t_nws = W.parse_iso8601(json.loads(nws)["properties"]["timestamp"])
+    om = json.loads(load_text("openmeteo_current.json"))
+    om["current"]["time"] = W.iso_utc(t_nws + 3600)  # an hour fresher
+    routes = {"stations/KNYC": nws, "open-meteo": json.dumps(om)}
+    fetch = FakeFetch(routes)
+    svc = W.WeatherService(providers=[W.NWSProvider(fetch=fetch, use_forecast_blend=False), W.OpenMeteoProvider(fetch=fetch)],
+                           out_path=tmp_path / "w.json", clock=lambda: t_nws + 4200, snow_model=W.SnowModel(tmp_path / "s.json"))
+    o = svc.poll()
+    assert o.source == "nws" and o.observed_at == W.iso_utc(t_nws)
+    assert not any("open-meteo" in c for c in fetch.calls)
+
+
+def test_prefer_freshest_queries_the_rest_only_when_the_leader_is_old(tmp_path):
+    nws = load_text("nws_obs_KNYC.json")
+    t_nws = W.parse_iso8601(json.loads(nws)["properties"]["timestamp"])
+    om = json.loads(load_text("openmeteo_current.json"))
+    om["current"]["time"] = W.iso_utc(t_nws + 3600)
+    routes = {"stations/KNYC": nws, "open-meteo": json.dumps(om)}
+
+    def build(now, threshold):
+        f = FakeFetch(routes)
+        return f, W.WeatherService(providers=[W.NWSProvider(fetch=f, use_forecast_blend=False), W.OpenMeteoProvider(fetch=f)],
+                                   out_path=tmp_path / "w.json", clock=lambda: now, snow_model=W.SnowModel(tmp_path / "s.json"),
+                                   prefer_freshest_age_s=threshold)
+
+    f1, svc1 = build(t_nws + 4200, 2700.0)  # leader 70 min old -> keep looking, the fresher one wins
+    o1 = svc1.poll()
+    assert o1.source == "open_meteo" and o1.observed_at == W.iso_utc(t_nws + 3600)
+    assert any("open-meteo" in c for c in f1.calls)
+
+    f2, svc2 = build(t_nws + 600, 2700.0)  # leader 10 min old -> nobody else is queried
+    o2 = svc2.poll()
+    assert o2.source == "nws"
+    assert not any("open-meteo" in c for c in f2.calls)

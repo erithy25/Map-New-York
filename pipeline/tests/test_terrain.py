@@ -140,6 +140,79 @@ def test_densify_rejects_outliers_beyond_three_metres():
     assert np.all(out == 10.0)
 
 
+# --------------------------------------------------------------------------- sub-datum repair
+def _flat_window(n=64, z0=4.0):
+    tr = tile_transform(Tile(0, 0), 0)
+    z = np.full((n, n), z0)
+    valid = np.ones((n, n), dtype=bool)
+    water = np.zeros((n, n), dtype=bool)
+    water_z = np.full((n, n), np.nan, dtype=np.float32)
+    deck = np.zeros((n, n), dtype=bool)
+    return tr, z, valid, water, water_z, deck
+
+
+def test_sub_datum_pit_beside_open_water_becomes_the_water_surface():
+    """A pier slip: the 1 m DEM drops to the harbour bed a few metres from a water polygon."""
+    tr, z, valid, water, water_z, deck = _flat_window()
+    water[:, 40:] = True                       # open water to the east
+    water_z[:, 40:] = 0.0
+    z[30:33, 36:39] = -19.0                    # slip between the piers, 8-2 m from the water edge
+    pts = _PointsStub(np.zeros(0), np.zeros(0), np.zeros(0, np.float32), np.zeros(0, np.uint8))
+    out, st = ttiles.repair_sub_datum(z, valid, water, deck, water_z, np.zeros_like(valid), pts, tr)
+    assert st["px_below_floor"] == 9 and st["px_to_water"] == 9 and st["px_filled_idw"] == 0
+    assert np.allclose(out[30:33, 36:39], 0.0)
+    assert out.min() >= ttiles.LAND_FLOOR_M
+
+
+def test_sub_datum_pit_inland_is_closed_from_its_rim():
+    """A tunnel mouth / construction pit far from water is interpolated from the sound samples around it."""
+    tr, z, valid, water, water_z, deck = _flat_window(z0=6.0)
+    z[20:24, 20:24] = -25.0
+    pts = _PointsStub(np.zeros(0), np.zeros(0), np.zeros(0, np.float32), np.zeros(0, np.uint8))
+    out, st = ttiles.repair_sub_datum(z, valid, water, deck, water_z, np.zeros_like(valid), pts, tr)
+    assert st["px_below_floor"] == 16 and st["px_to_water"] == 0
+    assert st["px_filled_idw"] == 16
+    assert np.allclose(out[20:24, 20:24], 6.0, atol=1e-6)     # rim is flat at 6 m
+    assert out.min() >= ttiles.LAND_FLOOR_M
+
+
+def test_sub_datum_kept_where_a_survey_point_corroborates_it():
+    """The Battery Underpass really is below the datum: a survey point inside the pit protects it."""
+    tr, z, valid, water, water_z, deck = _flat_window()
+    z[30:33, 30:33] = -4.0
+    low = np.zeros_like(valid)
+    low[29:34, 29:34] = True                   # low_survey_mask around a -4 m spot elevation
+    pts = _PointsStub(np.zeros(0), np.zeros(0), np.zeros(0, np.float32), np.zeros(0, np.uint8))
+    out, st = ttiles.repair_sub_datum(z, valid, water, deck, water_z, low, pts, tr)
+    assert st["px_kept_surveyed"] == 9 and st["px_to_water"] == 0 and st["px_filled_idw"] == 0
+    assert np.allclose(out[30:33, 30:33], -4.0)
+
+
+def test_low_survey_mask_covers_only_the_radius_of_a_sub_floor_point():
+    tr = tile_transform(Tile(0, 0), 0)
+    x0c, y0c = tr.c + SPACING_M / 2, tr.f - SPACING_M / 2
+    pts = _PointsStub(np.array([x0c + 10 * SPACING_M, x0c + 40 * SPACING_M]),
+                      np.array([y0c - 10 * SPACING_M, y0c - 40 * SPACING_M]),
+                      np.array([-3.5, 12.0], dtype=np.float32), np.array([0, 0], dtype=np.uint8))
+    n = 64
+    bounds = (x0c - 1, y0c - n * SPACING_M, x0c + n * SPACING_M, y0c + 1)
+    m = ttiles.low_survey_mask(pts, tr, (n, n), bounds)
+    assert m[10, 10] and m[10, 17]                       # 0 m and 14 m from the -3.5 m point
+    assert not m[10, 19]                                 # 18 m away: outside the fill radius
+    assert not m[40, 40]                                 # the +12 m point never protects anything
+
+
+def test_survey_fill_uses_the_nearest_points_and_ignores_the_window():
+    tr = tile_transform(Tile(0, 0), 0)
+    x0c, y0c = tr.c + SPACING_M / 2, tr.f - SPACING_M / 2
+    pts = _PointsStub(np.array([x0c, x0c + 200.0]), np.array([y0c, y0c]),
+                      np.array([5.0, 90.0], dtype=np.float32), np.array([0, 0], dtype=np.uint8))
+    v = ttiles.survey_fill(pts, np.array([x0c + 4.0]), np.array([y0c]))
+    assert v[0] == pytest.approx(5.0, abs=0.5)          # dominated by the point 4 m away
+    far = ttiles.survey_fill(pts, np.array([x0c + 5000.0]), np.array([y0c]))
+    assert not np.isfinite(far[0])                       # nothing within 240 m -> caller uses the datum
+
+
 class _PointsStub:
     """Minimal stand-in for points.PointIndex."""
 
@@ -337,3 +410,36 @@ def test_known_manhattan_tile_is_manhattan():
     x, y = lonlat_to_tm(-74.1502, 40.5795)   # Todt Hill, Staten Island
     tile = Tile(math.floor(x / TILE_SIZE_M), math.floor(y / TILE_SIZE_M))
     assert 5 in codes[tile.name]
+
+
+@pytest.mark.skipif(not (TILES_DIR / "t_0_0" / "terrain.json").exists(), reason="terrain tiles not built")
+def test_no_published_tile_falls_below_the_deepest_surveyed_ground():
+    """City-wide extremes guard: after the sub-datum repair nothing may sit below -6 m (the deepest
+    surveyed ground in NYC is the Battery Underpass at -4.03 m) or above 135 m (Todt Hill is 124.9 m)."""
+    from nycsim_pipeline.terrain.verify import EXTREME_HIGH_M, EXTREME_LOW_M
+    lows, highs = [], []
+    for d in sorted(TILES_DIR.glob("t_*/terrain.json")):
+        doc = json.loads(d.read_text())
+        lows.append((doc["z_min_m"], doc["tile"]))
+        highs.append((doc["z_max_m"], doc["tile"]))
+    assert lows, "no tiles built"
+    lo, hi = min(lows), max(highs)
+    assert lo[0] >= EXTREME_LOW_M, f"tile {lo[1]} reaches {lo[0]:.2f} m"
+    assert hi[0] <= EXTREME_HIGH_M, f"tile {hi[1]} reaches {hi[0]:.2f} m"
+
+
+@pytest.mark.skipif(not (TILES_DIR / "t_-11_-8" / "terrain.json").exists(), reason="terrain tiles not built")
+def test_known_sub_datum_artefacts_are_repaired_and_accounted():
+    """The four deepest source artefacts (Stapleton pier slip, Hudson Line portal, Sunnyside Yard portal,
+    Brooklyn Navy Yard dry docks) must be closed, and each tile must say what it did."""
+    for name, source_floor in (("t_-11_-8", -21.0), ("t_-5_6", -26.0), ("t_1_5", -19.0), ("t_-2_0", -12.0)):
+        f = TILES_DIR / name / "terrain.json"
+        if not f.exists():
+            pytest.skip(f"{name} not built")
+        doc = json.loads(f.read_text())
+        sd = doc["sub_datum"]
+        assert sd["z_min_before_m"] <= source_floor, f"{name} source minimum changed"
+        assert doc["z_min_m"] >= ttiles.LAND_FLOOR_M - 1e-6, f"{name} still holds a sub-datum pit"
+        repaired = sd["px_to_water"] + sd["px_filled_idw"] + sd["px_filled_survey"] + sd["px_filled_datum"]
+        assert repaired == sd["px_below_floor"] - sd["px_kept_surveyed"] > 0
+        assert "sub_datum_repair" in doc["sources"]

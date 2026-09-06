@@ -150,7 +150,7 @@ def _reg_gate(width: float, state: str) -> None:
     key = f"{width:.1f}".replace(".", "")
     label = {"closed": "fully closed", "half": "half raised (1.75 m)", "open": "rolled up in the hood"}[state]
 
-    @K.register(f"storefront_gate_{key}_{state}", "storefront",
+    @K.register(f"storefront_gate_{key}_{state}", "storefront", anchor="wall_bay_frame",
                 nominal_size=(width + 0.06, 0.453 if state == "open" else 0.355, 3.806 if state == "open" else 3.80),
                 description=f"Corrugated roll-down security gate for the {width:.1f} m storefront bay, {label}: steel guide "
                             f"channels, slat curtain, bottom bar with lock hasps and the coil hood.",
@@ -216,7 +216,7 @@ def _grille_lod(width: float) -> K.Mesh:
 def _reg_grille(width: float) -> None:
     key = f"{width:.1f}".replace(".", "")
 
-    @K.register(f"storefront_grille_{key}", "storefront", nominal_size=(width + 0.028, 0.06, 2.94),
+    @K.register(f"storefront_grille_{key}", "storefront", anchor="wall_bay_frame", nominal_size=(width + 0.028, 0.06, 2.94),
                 description=f"Folding scissor security grille for the {width:.1f} m storefront bay: pantograph lattice of 24 mm "
                             f"flat bar between head and floor tracks (drawn closed).",
                 features=["roll_gate"], budget=6000, extra={"bay_width_m": width},
@@ -260,7 +260,7 @@ def _awning(width: float) -> K.Mesh:
 def _reg_awning(width: float) -> None:
     key = f"{width:.1f}".replace(".", "")
 
-    @K.register(f"storefront_awning_{key}", "storefront", nominal_size=(width + 0.04, 1.28, 0.965),
+    @K.register(f"storefront_awning_{key}", "storefront", anchor="wall_bay_frame", nominal_size=(width + 0.04, 1.28, 0.965),
                 description=f"Fixed canvas box awning for the {width:.1f} m storefront bay: 1.22 m projection, aluminium tube "
                             f"frame, sloped cover and a 0.30 m scalloped valance. Shares the bay's sidewalk-level frame.",
                 features=["awning"], budget=6000, extra={"bay_width_m": width, "projection_m": 1.22})

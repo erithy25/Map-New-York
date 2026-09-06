@@ -7,6 +7,7 @@
 #include <fstream>
 
 #include "nycsim/routing/NycbLite.h"
+#include "nycsim/traffic/SyntheticGrid.h"
 
 namespace nycsim_gameplay
 {
@@ -142,6 +143,7 @@ bool RoadNetwork::load(const std::string& runtimeDir, std::string& error, FileRe
 	reader_ = reader;
 	readerContext_ = context;
 	loaded_ = false;
+	synthetic_ = false;
 	notes_.clear();
 	entries_.clear();
 	order_.clear();
@@ -295,6 +297,53 @@ bool RoadNetwork::load(const std::string& runtimeDir, std::string& error, FileRe
 	const auto t1 = std::chrono::steady_clock::now();
 	stats_.loadSeconds = std::chrono::duration<double>(t1 - t0).count();
 	loaded_ = true;
+	return true;
+}
+
+bool RoadNetwork::buildSyntheticGrid(int avenues, int streets, float originX, float originY, std::string& error)
+{
+	const auto t0 = std::chrono::steady_clock::now();
+	loaded_ = false;
+	synthetic_ = false;
+	notes_.clear();
+	entries_.clear();
+	order_.clear();
+	gridStart_.clear();
+	gridItems_.clear();
+	stats_ = RoadNetworkStats();
+	graph_.clear();
+	signals_.clear();
+	density_.clear();
+	error.clear();
+
+	traffic::SyntheticGridSpec spec;
+	spec.avenues = avenues > 1 ? avenues : 2;
+	spec.streets = streets > 1 ? streets : 2;
+	spec.origin_x = originX;
+	spec.origin_y = originY;
+	if (!traffic::SyntheticGrid::build(spec, graph_, signals_, &error))
+	{
+		if (error.empty())
+		{
+			error = "synthetic grid build failed";
+		}
+		return false;
+	}
+
+	stats_.nodes = static_cast<uint32_t>(graph_.nodeCount());
+	stats_.segments = static_cast<uint32_t>(graph_.segmentCount());
+	stats_.roadLanes = static_cast<uint32_t>(graph_.roadLaneCount());
+	stats_.junctionLanes = static_cast<uint32_t>(graph_.junctionLaneCount());
+	stats_.signalPlans = static_cast<uint32_t>(signals_.planCount());
+	graph_.bounds(stats_.minX, stats_.minY, stats_.maxX, stats_.maxY);
+
+	buildStreetIndex();
+	finishIndex();
+
+	notes_.push_back("synthetic Manhattan-like grid (nycsim::traffic::SyntheticGrid); no real street data loaded");
+	stats_.loadSeconds = std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
+	loaded_ = true;
+	synthetic_ = true;
 	return true;
 }
 

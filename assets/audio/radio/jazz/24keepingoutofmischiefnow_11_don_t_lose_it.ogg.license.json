@@ -1,0 +1,28 @@
+{
+ "artist": "Bud Spaight's Harmony Kings",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 1598776,
+ "duration_s": 172.02,
+ "file": "jazz/24keepingoutofmischiefnow_11_don_t_lose_it.ogg",
+ "gain_db": 2.6,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+ "loudness_lufs": -16.6,
+ "original_filename": "11 Don't Lose It.mp3",
+ "recorded_at": "2026-09-06T12:10:47Z",
+ "schema_version": 1,
+ "sha256": "d2cbf5a4a447809e67eef73d5cd0bdb556cd816f0f4fe9dae5770921fd41cf70",
+ "source_page": "https://archive.org/details/24KeepingOutOfMischiefNow",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/24KeepingOutOfMischiefNow/11%20Don%27t%20Lose%20It.mp3",
+ "title": "Don't Lose It",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

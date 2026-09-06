@@ -41,6 +41,8 @@ import json
 import logging
 import math
 import os
+import struct
+import struct
 import subprocess
 import sys
 import time
@@ -64,6 +66,9 @@ SCHEMA_VERSION = 1
 ATTR_NAMES = ("_bin", "_facade_class", "_floors", "_floor_height", "_ground_floor_height",
               "_is_storefront", "_lit_seed_hi", "_lit_seed_lo")
 ATTR_MIN = ("_bin",)
+# A closed box costs 12 triangles, so on small houses the "detailed" LOD1 cannot be much cheaper
+# than LOD0.  When it saves less than this fraction, LOD1 ships the LOD2 massing instead.
+LOD1_MAX_RATIO = 0.60
 # Per-LOD attribute sets.  LOD0 (0-600 m) carries everything the facade kit and shader need; LOD1
 # (600-2,500 m) keeps only what the window-grid shader still resolves; LOD2 (2.5-12 km) keeps only
 # what the lit-window shader needs.  Measured saving on t_-4_5: 517 KiB of 4,695 KiB.
@@ -121,13 +126,24 @@ class Bucket:
 def accumulate(specs, lods, attrs_by_lod) -> tuple[dict[tuple[int, int], Bucket], dict[str, int]]:
     """Build every LOD of every building and sort the triangles into (lod, material) buckets."""
     buckets: dict[tuple[int, int], Bucket] = {}
-    stats = {"fallback_flat_cap": 0, "fallback_massing": 0, "open_shells": 0, "buildings": 0}
+    stats = {"fallback_flat_cap": 0, "fallback_massing": 0, "open_shells": 0, "buildings": 0,
+             "lod1_massing": 0}
     for spec in specs:
         rows = {lod: np.array([spec.attrs.get(a[1:], 0.0) for a in attrs_by_lod[lod]], dtype=np.float32)
                 for lod in lods}
         stats["buildings"] += 1
+        n_lod0 = 0
         for lod in lods:
             buf = sg.build_shell(spec, lod)
+            if lod == 0:
+                n_lod0 = len(buf.tris)
+            elif lod == 1 and n_lod0 and len(buf.tris) > LOD1_MAX_RATIO * n_lod0:
+                # the detailed LOD1 saved too little on this building (it is already near the
+                # 12-triangle floor of a closed box): ship the LOD2 massing at LOD1 instead.
+                alt = sg.build_shell(spec, 2)
+                if len(alt.tris) < len(buf.tris):
+                    buf = alt
+                    stats["lod1_massing"] += 1
             if buf.fallback == "flat_cap":
                 stats["fallback_flat_cap"] += 1
             elif buf.fallback == "massing":
@@ -226,7 +242,43 @@ def export_glb(path: Path, objects, extras: dict, *, export_normals: bool = Fals
         export_cameras=False, export_lights=False)
     if not path.exists() or path.stat().st_size < 100:
         raise RuntimeError(f"glTF export produced nothing: {path}")
+    stamp_asset_extras(path, meta)
     return path
+
+
+def stamp_asset_extras(path: Path, meta: dict) -> None:
+    """Put the NYCSim metadata on ``asset.extras.nycsim`` as DATA_CONTRACTS §13 requires.
+
+    Blender's exporter can only attach scene custom properties to the *scene* node's extras, and it
+    JSON-encodes them as a string; §13 asks for a real object on ``asset.extras``.  pygltflib drops
+    ``asset.extras`` when it re-saves, so the GLB JSON chunk is rewritten here directly: 12-byte
+    header, JSON chunk (space padded to 4 bytes), binary chunk copied through untouched.
+    """
+    raw = path.read_bytes()
+    if raw[:4] != b"glTF":
+        raise RuntimeError(f"not a GLB: {path}")
+    total = struct.unpack_from("<I", raw, 8)[0]
+    if total != len(raw):
+        raise RuntimeError(f"GLB length field {total} != file size {len(raw)}: {path}")
+    off = 12
+    chunks: list[tuple[int, bytes]] = []
+    while off + 8 <= len(raw):
+        clen, ctype = struct.unpack_from("<II", raw, off)
+        chunks.append((ctype, raw[off + 8: off + 8 + clen]))
+        off += 8 + clen
+    if not chunks or chunks[0][0] != 0x4E4F534A:
+        raise RuntimeError(f"first GLB chunk is not JSON: {path}")
+    doc = json.loads(chunks[0][1].decode("utf-8"))
+    doc.setdefault("asset", {}).setdefault("extras", {})["nycsim"] = meta
+    js = json.dumps(doc, separators=(",", ":")).encode("utf-8")
+    js += b" " * ((4 - len(js) % 4) % 4)
+    body = bytearray(struct.pack("<II", len(js), 0x4E4F534A) + js)
+    for ctype, data in chunks[1:]:
+        pad = b"\x00" if ctype == 0x004E4942 else b" "
+        data = data + pad * ((4 - len(data) % 4) % 4)
+        body += struct.pack("<II", len(data), ctype) + data
+    out = b"glTF" + struct.pack("<II", 2, 12 + len(body)) + bytes(body)
+    path.write_bytes(out)
 
 
 # --------------------------------------------------------------------------- per-tile driver
@@ -288,7 +340,11 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, lods=(0, 1, 2), attrs_mo
                 "_BIN": "float32, exact (BIN < 2^24)",
                 "_LIT_SEED": "lit_seed = _LIT_SEED_HI * 65536 + _LIT_SEED_LO (uint32 does not fit float32)",
                 "_FACADE_CLASS": "0 = not classified yet; use the material fallback",
-                "uv": "metres; u = arc length along the facade from the primary-facade edge, v = height above ground_z",
+                "uv": ("metres. U = arc length along the facade from the primary-facade edge. "
+                       "glTF stores V with a top-left origin, so height above ground_z = 1 - V "
+                       "(Blender authored v = height; the exporter writes 1 - v). "
+                       "Horizontal faces (bottom slab, parapet coping) carry planar XY metre UVs "
+                       "instead; branch on the face normal."),
             },
             "ridge_mode": ridge_mode,
         })
@@ -310,6 +366,7 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, lods=(0, 1, 2), attrs_mo
                       "dropped_empty_footprint": load.dropped,
                       "fallback_flat_cap": stats["fallback_flat_cap"],
                       "fallback_massing": stats["fallback_massing"],
+                      "lod1_uses_massing": stats["lod1_massing"],
                       "open_shells_lod0": stats["open_shells"]},
         "triangles": {f"lod{lod}": int(lod_tris[lod]) for lod in sorted(lods)},
         "vertices": {f"lod{lod}": int(lod_verts[lod]) for lod in sorted(lods)},
@@ -406,7 +463,7 @@ def run_parallel(tiles: list[str], args) -> int:
     n = max(1, min(args.workers, 2))          # resource etiquette: 4 vCPU shared, never more than 2
     chunks: list[list[str]] = [tiles[i::n] for i in range(n)]
     procs = []
-    logdir = Path(args.out).parent / "_logs"
+    logdir = Path(args.out) / "_logs"
     logdir.mkdir(parents=True, exist_ok=True)
     for i, chunk in enumerate(chunks):
         if not chunk:

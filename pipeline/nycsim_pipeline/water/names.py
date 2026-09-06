@@ -35,10 +35,12 @@ from ..crs import NYC_TM, SCOPE_XMAX, SCOPE_XMIN, SCOPE_YMAX, SCOPE_YMIN
 log = logging.getLogger("nycsim.water.names")
 
 LABEL_RES_M = 100.0        # resolution of the nearest-named-body label raster
-MAX_NEAREST_M = 12_000.0   # a sea cell farther than this from any named body stays unnamed
+MAX_NEAREST_M = 5_000.0    # a sea cell farther than this from any named body stays unnamed
 MIN_PIECE_M2 = 1.0         # a split piece below this is a sliver of the polygonisation, not a water body
 OSM_NAME_MIN_FRAC = 0.5    # overlap fraction required before an OSM name is adopted
-MIN_LABEL_BODY_M2 = 100_000.0  # only bodies >= 10 ha take part in naming the open sea
+MIN_LABEL_BODY_M2 = 1_000_000.0  # only bodies >= 1 km2 (after dissolving by name) may name the open sea
+LABEL_KINDS = ("ocean", "bay", "river", "canal")  # a lake or a basin never names open sea
+CLIP_STEP_M = 4_000.0      # boolean ops on the sea polygon run on 4 km clips, never on the whole thing
 
 
 def _osm_names(hydro: gpd.GeoDataFrame, osm_areas: gpd.GeoDataFrame) -> tuple[np.ndarray, np.ndarray]:
@@ -75,6 +77,39 @@ def _osm_names(hydro: gpd.GeoDataFrame, osm_areas: gpd.GeoDataFrame) -> tuple[np
     return names, adopted
 
 
+def canonical_names(hydro: gpd.GeoDataFrame) -> np.ndarray:
+    """One spelling per water body: the planimetric spelling wins over OSM's for the same name."""
+    names = hydro["name"].values.astype(object)
+    src = hydro["name_source"].values.astype(object)
+    preferred: dict[str, str] = {}
+    for i, n in enumerate(names):
+        if not n:
+            continue
+        k = n.upper()
+        if k not in preferred or src[i] == "planimetric":
+            preferred[k] = n
+    return np.array([preferred.get(n.upper(), n) if n else "" for n in names], dtype=object)
+
+
+def _label_bodies(hydro: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
+    """Named open-water bodies dissolved by name — the candidates that may name a piece of open sea.
+
+    Dissolving matters: the planimetric database splits the East River into 60 polygons, none of which
+    would clear the area threshold on its own.
+    """
+    sel = hydro[(hydro["name"].values != "") & hydro["is_open_water"].values
+                & np.isin(hydro["kind"].values, LABEL_KINDS)]
+    if sel.empty:
+        return gpd.GeoDataFrame({"name": [], "kind": [], "geometry": []}, geometry="geometry", crs=NYC_TM)
+    rows = []
+    for name, grp in sel.groupby("name", sort=True):
+        g = shapely.union_all(grp.geometry.values)
+        if g.area < MIN_LABEL_BODY_M2:
+            continue
+        rows.append({"name": name, "kind": grp["kind"].mode().iloc[0], "geometry": g})
+    return gpd.GeoDataFrame(rows, geometry="geometry", crs=NYC_TM)
+
+
 def _label_raster(named: gpd.GeoDataFrame) -> tuple[np.ndarray, Affine]:
     """Nearest-named-body label id per ``LABEL_RES_M`` cell over the scope (0 = farther than MAX_NEAREST_M)."""
     w = int(np.ceil((SCOPE_XMAX - SCOPE_XMIN) / LABEL_RES_M))
@@ -92,12 +127,35 @@ def _label_raster(named: gpd.GeoDataFrame) -> tuple[np.ndarray, Affine]:
     return lab.reshape(h, w), tr
 
 
+def _polygons_only(g):
+    """Keep only the polygonal parts of a geometry (clipping can emit lines/points)."""
+    if g is None or g.is_empty:
+        return g
+    if g.geom_type in ("Polygon", "MultiPolygon"):
+        return g
+    parts = [p for p in getattr(g, "geoms", [g]) if p.geom_type in ("Polygon", "MultiPolygon")]
+    return shapely.union_all(parts) if parts else shapely.Polygon()
+
+
+def _clip_cells(bounds: tuple[float, float, float, float], step: float):
+    """Lattice-aligned clipping rectangles covering ``bounds`` — keeps every boolean op small."""
+    x0 = np.floor(bounds[0] / step) * step
+    y0 = np.floor(bounds[1] / step) * step
+    for yy in np.arange(y0, bounds[3] + step, step):
+        for xx in np.arange(x0, bounds[2] + step, step):
+            yield float(xx), float(yy), float(xx + step), float(yy + step)
+
+
 def _split_sea(hydro: gpd.GeoDataFrame, named: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     """Split the unnamed coastline-derived sea into nearest-named-body regions and name the pieces.
 
     Only the OSM sea faces (``source == 'osm'`` with no OSM id, i.e. produced by polygonising the
     coastline) are split. Named bodies, every planimetric polygon and every identified OSM water area are
     left exactly as they are — an unnamed pond in a park must never inherit the name of the harbour.
+
+    The sea polygon has ~10^5 vertices and spans the whole scope, so it is clipped into ``CLIP_STEP_M``
+    squares before any boolean operation: every intersection then runs on a small piece, and the pieces of
+    one name are unioned back together at the end. Same result, bounded cost.
     """
     unnamed = hydro.index[(hydro["name"].values == "") & hydro["is_open_water"].values
                           & (hydro["source"].values == "osm") & (hydro["osm_id"].values == 0)]
@@ -107,7 +165,9 @@ def _split_sea(hydro: gpd.GeoDataFrame, named: gpd.GeoDataFrame) -> gpd.GeoDataF
     regions: dict[int, list] = {}
     for geom, val in shapes(lab, mask=lab > 0, transform=tr, connectivity=4):
         regions.setdefault(int(val), []).append(shapely.geometry.shape(geom))
-    region_geom = {k: shapely.union_all(v) for k, v in regions.items()}
+    labels = sorted(regions)
+    region_geom = [shapely.union_all(regions[k]) for k in labels]
+    region_tree = shapely.STRtree(region_geom)
     name_of = {i + 1: str(named["name"].values[i]) for i in range(len(named))}
     kind_of = {i + 1: str(named["kind"].values[i]) for i in range(len(named))}
     rows: list[dict] = []
@@ -116,29 +176,35 @@ def _split_sea(hydro: gpd.GeoDataFrame, named: gpd.GeoDataFrame) -> gpd.GeoDataF
         g = hydro.geometry.values[i]
         base = hydro.iloc[i].to_dict()
         keep[i] = False
-        produced = []
-        for lid, rg in region_geom.items():
-            if not g.intersects(rg):
+        by_label: dict[int, list] = {}
+        rest_parts: list = []
+        for x0, y0, x1, y1 in _clip_cells(g.bounds, CLIP_STEP_M):
+            sub = _polygons_only(shapely.make_valid(shapely.clip_by_rect(g, x0, y0, x1, y1)))
+            if sub.is_empty:
                 continue
-            piece = g.intersection(rg)
-            piece = shapely.union_all([p for p in getattr(piece, "geoms", [piece]) if p.geom_type in ("Polygon", "MultiPolygon")])
-            if piece.is_empty or piece.area < MIN_PIECE_M2:
-                continue
+            covered = []
+            for j in region_tree.query(sub, predicate="intersects"):
+                piece = _polygons_only(shapely.intersection(sub, region_geom[j]))
+                if piece.is_empty or piece.area < MIN_PIECE_M2:
+                    continue
+                by_label.setdefault(int(j), []).append(piece)
+                covered.append(piece)
+            rest = _polygons_only(shapely.difference(sub, shapely.union_all(covered))) if covered else sub
+            if not rest.is_empty and rest.area >= MIN_PIECE_M2:
+                rest_parts.append(rest)
+        for j, parts in sorted(by_label.items()):
+            lid = labels[j]
             r = dict(base)
-            r["geometry"] = piece
+            r["geometry"] = shapely.union_all(parts)
             r["name"] = name_of[lid]
             r["kind"] = base["kind"] if base["kind"] in ("ocean", "canal", "basin") else kind_of[lid]
             r["name_source"] = "nearest_named_body"
-            produced.append(r)
-        covered = shapely.union_all([r["geometry"] for r in produced]) if produced else None
-        rest = g.difference(covered) if covered is not None else g
-        rest = shapely.union_all([p for p in getattr(rest, "geoms", [rest]) if p.geom_type in ("Polygon", "MultiPolygon")]) if not rest.is_empty else rest
-        if not rest.is_empty and rest.area >= MIN_PIECE_M2:  # unreachable ocean corner: stays unnamed
+            rows.append(r)
+        if rest_parts:
             r = dict(base)
-            r["geometry"] = rest
+            r["geometry"] = shapely.union_all(rest_parts)
             r["name_source"] = "unnamed"
-            produced.append(r)
-        rows.extend(produced)
+            rows.append(r)
     out = pd.concat([hydro[keep], gpd.GeoDataFrame(rows, geometry="geometry", crs=NYC_TM)], ignore_index=True)
     out = gpd.GeoDataFrame(out, geometry="geometry", crs=NYC_TM)
     a0, a1 = float(hydro.geometry.area.sum()), float(out.geometry.area.sum())
@@ -160,9 +226,9 @@ def assign_names(hydro: gpd.GeoDataFrame, osm_areas: gpd.GeoDataFrame | None, os
         hydro["name"] = names
         hydro.loc[adopted, "name_source"] = "osm"
         stats["osm_name_transfers"] = int(adopted.sum())
-    # only substantial bodies may claim a piece of the open sea (a 2 ha park pond must not name a harbour)
-    named = hydro[(hydro["name"].values != "") & hydro["is_open_water"].values
-                  & (hydro.geometry.area.values >= MIN_LABEL_BODY_M2)][["name", "kind", "geometry"]].reset_index(drop=True)
+    hydro["name"] = canonical_names(hydro)
+    named = _label_bodies(hydro)
+    stats["label_bodies"] = len(named)
     before = len(hydro)
     hydro = _split_sea(hydro, named)
     stats["sea_pieces_created"] = len(hydro) - before

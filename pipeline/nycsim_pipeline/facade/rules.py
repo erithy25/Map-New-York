@@ -626,6 +626,11 @@ def build_rules() -> list[Rule]:
         "The postwar detached/semi-detached two-family: PLUTO class B2 is by definition *frame*; vinyl or aluminium "
         "siding over the frame, a low-pitched roof, a picture window and an attached garage.",
         lambda: isin("B2", "B3", "B9", "A2", "A5", "A1", "A9", "A0") & yr_between(1945, 1979))
+    add("brick_house_postwar", 28,
+        "class in B1,A5 attached and year >= 1946 and borough in QN,BX,BK,SI",
+        "MapPLUTO class B1 is by definition a *brick* two-family: the post-war outer-borough B1 stock is the same "
+        "brick box as the interwar type, so it must never fall through to a sided-frame class.",
+        lambda: (isin("B1") | (isin("A5") & attached())) & yr_ge(1946) & boro(QN, BX, BK, SI))
     add("si_qn_single_family_siding", 30,
         "class in A*,B* and year >= 1960 and borough in SI,QN,BX",
         "The post-1960 Staten Island / eastern Queens single family: vinyl siding with a brick veneer water table, "
@@ -639,7 +644,7 @@ def build_rules() -> list[Rule]:
         "class in A*,B* and year <= 1925 and detached",
         "Detached pre-1925 frame houses across Brooklyn, Queens and Staten Island: clapboard/shingle (now vinyl) with "
         "a wood cornice and a porch.",
-        lambda: (isin(*ONE_FAM) | isin(*TWO_FAM)) & yr_le(1925) & detached())
+        lambda: (isin(*ONE_FAM) | isin(*TWO_FAM)) & (~isin("B1")) & yr_le(1925) & detached())
     add("house_brick_prewar", 34,
         "class in A*,B*",
         "Remaining one- and two-family houses: the interwar brick type.",

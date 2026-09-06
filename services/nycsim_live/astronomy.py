@@ -832,9 +832,9 @@ def moon_position(utc: _dt.datetime, observer: Observer = CENTRAL_PARK, delta_t_
 # Manhattan street grid (Commissioners' Plan of 1811), *derived from the data*, not assumed: the true
 # bearings of every LION centreline segment named "WEST/EAST n STREET" with 14 <= n <= 96 (the regular part
 # of the grid), reprojected EPSG:2263 -> WGS84 and measured as geodesic forward azimuths west-end to
-# east-end, give a length-weighted median of 118.9955° and mean of 118.9997° over 1 812 segments /
-# 292.9 km (quartiles 118.938°–119.069°, 5–95 % 118.702°–119.297°). Per street: 14th 118.957°,
-# 23rd 119.013°, 34th 118.965°, 42nd 118.986°, 57th 118.956°, 79th 119.014°. The grid is therefore rotated
+# east-end, give a length-weighted median of 118.9955° and mean of 118.9997° over 1812 segments /
+# 292.9 km (quartiles 118.9383°–119.0692°, 5–95 % 118.7018°–119.2997°). Per street: 14th 118.9658°,
+# 23rd 119.0129°, 34th 118.9657°, 42nd 118.9875°, 57th 118.9746°, 79th 119.0141°. The grid is therefore rotated
 # 29.00° east of true north and a sunset aligned with the cross-streets has compass azimuth 299.00°.
 # Reproduce with ``python -m nycsim_live.grid_azimuth``.
 MANHATTAN_GRID_ROTATION_DEG: Final = 29.0

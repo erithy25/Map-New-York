@@ -39,7 +39,7 @@
    "asset_id": "Bricks059",
    "physical_size_m": 1.08,
    "size_rule": "brick_course",
-   "notes": "cleaner orange-red face brick; 1920s\u201350s apartments, schools",
+   "notes": "cleaner orange-red face brick; 1920s–50s apartments, schools",
    "physical_size_source": "measured:brick_course"
   },
   "brown_brick": {
@@ -47,7 +47,7 @@
    "asset_id": "Bricks054",
    "physical_size_m": 1.08,
    "size_rule": "brick_course",
-   "notes": "medium brown face brick; 1960s\u201380s apartment / office",
+   "notes": "medium brown face brick; 1960s–80s apartment / office",
    "physical_size_source": "measured:brick_course"
   },
   "dark_brick": {
@@ -80,7 +80,7 @@
    "physical_size_m": 1.08,
    "size_rule": "brick_course",
    "roughness_scale": 0.55,
-   "notes": "white glazed brick, grey mortar; 1955\u201375 UES apartment towers",
+   "notes": "white glazed brick, grey mortar; 1955–75 UES apartment towers",
    "physical_size_source": "measured:brick_course"
   },
   "brownstone": {
@@ -277,12 +277,12 @@
    "asset_id": "Metal055A",
    "physical_size_m": 1.0,
    "color_override": [
-    0.075,
-    0.16,
-    0.1
+    0.03,
+    0.078,
+    0.046
    ],
    "roughness_override": 0.5,
-   "notes": "hunter-green painted steel (fire escapes, lamp posts, sidewalk shed frames); roughness/normal from scuffed steel map"
+   "notes": "hunter-green painted steel (fire escapes, lamp posts, sidewalk-shed frames); colour is linear sRGB #2C4B38, roughness/normal from the scuffed-steel map"
   },
   "painted_metal_black": {
    "provider": "ambientcg",
@@ -317,12 +317,12 @@
    "asset_id": "PaintedWood002",
    "physical_size_m": 1.0,
    "tint": [
-    0.3,
-    0.55,
-    0.32
+    0.05,
+    0.22,
+    0.1
    ],
    "roughness_override": 0.7,
-   "notes": "weathered green painted plywood; NYC sidewalk-shed parapet and construction fence (hunter green via tint)"
+   "notes": "weathered green painted plywood; NYC sidewalk-shed parapet and construction fence. tint takes the painted-wood map down to hunter green (sRGB ~ #26523A) while keeping the plank grain."
   },
   "steel_galvanized": {
    "provider": "ambientcg",

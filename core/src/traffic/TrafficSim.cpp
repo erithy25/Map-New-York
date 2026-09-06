@@ -112,6 +112,10 @@ bool TrafficSim::configure(const routing::RoadGraph& g, const SignalTable& sig, 
 
   claims_.assign(g.nodeCount() * kClaimsPerNode, NodeClaim{});
 
+  lc_claims_.clear();
+  lc_claims_.reserve(cap);
+  lc_head_.assign(lanes, kInvalidIndex);
+  lc_stamp_.assign(lanes, 0u);
   conflicts_.clear();
   conflict_first_.assign(lanes, 0u);
   conflict_count_.assign(lanes, 0u);
@@ -258,7 +262,10 @@ void TrafficSim::buildJunctionConflicts() {
 }
 
 // ------------------------------------------------------------------ indexing
-void TrafficSim::rebuildIndex() {
+// Sorts the agents by (lane, s) and rebuilds the per-lane ranges.  Called at
+// the top of the step and again after the lane transitions, so the non-overlap
+// pass sees the positions the agents actually ended up in.
+void TrafficSim::buildOrder() {
   ++stamp_;
   order_keys_.clear();
   for (uint32_t i = 0; i < veh_.size(); ++i) order_keys_.push_back(packKey(veh_[i].lane, veh_[i].s, i));
@@ -278,7 +285,11 @@ void TrafficSim::rebuildIndex() {
   }
   if (run_lane != kInvalidIndex && run_lane < lane_num_.size())
     lane_num_[run_lane] = static_cast<uint32_t>(order_keys_.size()) - run_start;
+}
 
+void TrafficSim::rebuildIndex() {
+  buildOrder();
+  lc_claims_.clear();
   hash_.begin();
   ev_list_.clear();
   for (uint32_t i = 0; i < veh_.size(); ++i) {
@@ -286,6 +297,25 @@ void TrafficSim::rebuildIndex() {
     if ((veh_[i].flags & kVehSiren) != 0) ev_list_.push_back(i);
   }
   hash_.end();
+}
+
+bool TrafficSim::laneSlotClaimed(uint32_t lane, float s, float half_len) const {
+  if (lane >= lc_stamp_.size() || lc_stamp_[lane] != stamp_) return false;
+  for (uint32_t k = lc_head_[lane]; k != kInvalidIndex; k = lc_claims_[k].next) {
+    const LcClaim& c = lc_claims_[k];
+    if (std::fabs(c.s - s) < c.half + half_len + cfg_.lc_gap_rear_m) return true;
+  }
+  return false;
+}
+
+void TrafficSim::claimLaneSlot(uint32_t lane, float s, float half_len) {
+  if (lane >= lc_stamp_.size()) return;
+  if (lc_stamp_[lane] != stamp_) {
+    lc_stamp_[lane] = stamp_;
+    lc_head_[lane] = kInvalidIndex;
+  }
+  lc_claims_.push_back(LcClaim{s, half_len, lc_head_[lane]});
+  lc_head_[lane] = static_cast<uint32_t>(lc_claims_.size() - 1);
 }
 
 TrafficSim::Neighbour TrafficSim::leaderInLane(uint32_t lane, float s, float half_len, uint32_t skip) const {
@@ -460,7 +490,7 @@ bool TrafficSim::routeAgent(Vehicle& v, uint32_t to_lane, float to_s, uint32_t a
   v.dest_lane = to_lane;
   v.dest_s = to_s;
   v.flags |= kVehHasRoute;
-  ++stats_.reroutes;
+  ++stats_.route_calls;
   return true;
 }
 
@@ -571,8 +601,12 @@ bool TrafficSim::advanceLane(Vehicle& v) {
     if (v.path_pos + 1 >= v.path_len) {
       extendPath(v);
       if (v.path_pos + 1 >= v.path_len) {
+        // Dead end (the edge of the network, or a closure): hold at the end of
+        // the lane and recycle as soon as the player ring allows it, otherwise
+        // the agent would stand there for ever and block the lane.
         v.s = len;
         v.speed = 0.f;
+        v.exit_now = 1;
         return true;
       }
     }
@@ -775,14 +809,15 @@ float TrafficSim::signalStopDistance(const Vehicle& v, uint32_t junction_lane, f
     if (dist_to_line < d_stop) return kBigDistance;  // dilemma zone: proceed
     return dist_to_line;
   }
-  // Red.
-  if (cfg_.no_right_on_red || jl.turn != TurnType::Right) {
-    const bool law_abiding = (v.flags & kVehLawAbiding) != 0;
-    if (!law_abiding && dist_to_line < v.speed * cfg_.red_run_window_s && v.speed > 3.f) {
-      entered_on_red = true;
-      return kBigDistance;
-    }
-    return dist_to_line;
+  // Red.  New York has no right turn on red anywhere in the five boroughs
+  // (NYC Traffic Rules §4-03(a)(2)) unless a sign permits it, and no such sign
+  // exists in the data, so this is an absolute rule — not even the drivers who
+  // will run a late red take it.
+  if (cfg_.no_right_on_red && jl.turn == TurnType::Right) return dist_to_line;
+  const bool law_abiding = (v.flags & kVehLawAbiding) != 0;
+  if (!law_abiding && dist_to_line < v.speed * cfg_.red_run_window_s && v.speed > 3.f) {
+    entered_on_red = true;
+    return kBigDistance;
   }
   return dist_to_line;
 }
@@ -904,7 +939,16 @@ void TrafficSim::considerLaneChange(uint32_t i, float a_current) {
   float best_adv = 0.f;
   uint8_t chosen_dir = 0;
   for (int side = 0; side < 2; ++side) {
-    const uint32_t target = side == 0 ? l.left : l.right;
+    uint32_t target = side == 0 ? l.left : l.right;
+    // A parking-protected bike lane sits behind the parked cars: a cyclist
+    // crosses the parking lane at a gap to reach it (nobody else may).
+    if (cp.is_bike && target != kInvalidIndex && target < graph_->laneCount() &&
+        graph_->lane(target).kind == LaneKind::Parking) {
+      const uint32_t beyond = side == 0 ? graph_->lane(target).left : graph_->lane(target).right;
+      if (beyond != kInvalidIndex && beyond < graph_->laneCount() &&
+          graph_->lane(beyond).kind == LaneKind::Bike)
+        target = beyond;
+    }
     if (target == kInvalidIndex || target >= graph_->laneCount()) continue;
     if (!graph_->laneAllows(target, cp.lane_kinds)) continue;
     const Lane& tl = graph_->lane(target);
@@ -963,6 +1007,7 @@ void TrafficSim::considerLaneChange(uint32_t i, float a_current) {
 
     const MobilResult r = mobilEvaluate(in);
     if (!r.accept) continue;
+    if (laneSlotClaimed(target, v.s, v.length_m * 0.5f)) continue;
     const float adv = r.advantage + bias;
     if (chosen == kInvalidIndex || adv > best_adv) {
       chosen = target;
@@ -979,6 +1024,7 @@ void TrafficSim::considerLaneChange(uint32_t i, float a_current) {
   if (chosen == kInvalidIndex) return;
 
   new_lane_[i] = chosen;
+  claimLaneSlot(chosen, v.s, v.length_m * 0.5f);
   v.lc_dir = chosen_dir;
   v.lc_cooldown = cfg_.lane_change_cooldown_s;
   ++stats_.lane_changes;
@@ -1317,6 +1363,33 @@ void TrafficSim::integrate(uint32_t i) {
   if (v.state == DriveState::Driving) v.state_timer += dt;
 }
 
+// Hard non-overlap constraint along each lane, applied after integration in the
+// step-start order (vehicles do not overtake inside a lane, so that order still
+// holds).  IDM is collision-free in exact arithmetic; this makes it so at a
+// 50 ms step as well, and absorbs the one case IDM cannot see — two agents
+// changing into the same gap from opposite sides in the same step.
+void TrafficSim::resolveOverlaps() {
+  uint32_t k = 0;
+  while (k < order_keys_.size()) {
+    const uint32_t lane = static_cast<uint32_t>(order_keys_[k] >> 40);
+    uint32_t end = k;
+    while (end < order_keys_.size() && static_cast<uint32_t>(order_keys_[end] >> 40) == lane) ++end;
+    // Walk from the front of the lane backwards.
+    for (uint32_t j = end; j > k + 1; --j) {
+      Vehicle& lead = veh_[keyIndex(order_keys_[j - 1])];
+      Vehicle& foll = veh_[keyIndex(order_keys_[j - 2])];
+      if (lead.lane != lane || foll.lane != lane) continue;  // changed lane this step
+      const float limit = lead.s - lead.length_m * 0.5f - foll.length_m * 0.5f - 0.05f;
+      if (foll.s > limit) {
+        foll.s = limit;
+        if (foll.speed > lead.speed) foll.speed = lead.speed;
+      }
+      if (foll.s < 0.f) foll.s = 0.f;
+    }
+    k = end;
+  }
+}
+
 void TrafficSim::updatePose(Vehicle& v) {
   const routing::LanePose pose = graph_->poseAt(v.lane, v.s, v.lateral);
   v.pos = pose.pos;
@@ -1332,6 +1405,25 @@ bool TrafficSim::laneFreeAt(uint32_t lane, float s, float len) const {
     if (std::fabs(o.s - s) < (o.length_m + len) * 0.5f + cfg_.spawn_headway_m) return false;
   }
   return true;
+}
+
+// Cyclists belong in the bike lane and buses in the bus lane when the segment
+// has one; the OD sampler only ever picks travel lanes.
+uint32_t TrafficSim::preferredLaneFor(uint32_t lane, VehicleClass c) const {
+  const VehicleClassParams& cp = classParams(c);
+  if (!cp.is_bike && !cp.is_bus) return lane;
+  const uint32_t seg = graph_->lane(lane).segment;
+  if (seg == kInvalidIndex) return lane;
+  const int8_t dir = graph_->lane(lane).direction;
+  uint32_t n = 0;
+  const uint32_t* lanes = graph_->segmentLanes(seg, n);
+  const LaneKind want = cp.is_bike ? LaneKind::Bike : LaneKind::Bus;
+  for (uint32_t k = 0; k < n; ++k) {
+    const Lane& cand = graph_->lane(lanes[k]);
+    if (cand.direction != dir || cand.kind != want || cand.disabled != 0) continue;
+    return lanes[k];
+  }
+  return lane;
 }
 
 uint32_t TrafficSim::sampleSpawnLane(Rng& rng) const {
@@ -1468,6 +1560,7 @@ void TrafficSim::updateSpawnDespawn() {
     if ((v.flags & kVehHasRoute) != 0 && v.bus_route == 0xFFFFu && v.lane == v.dest_lane &&
         v.s >= v.dest_s - 0.5f)
       remove = true;
+    if (v.exit_now != 0) remove = true;
     if (!remove && player_.valid && cfg_.use_player_ring) {
       const float dx = v.pos.x - player_.x, dy = v.pos.y - player_.y;
       if (dx * dx + dy * dy > cfg_.despawn_m * cfg_.despawn_m) remove = true;
@@ -1478,6 +1571,7 @@ void TrafficSim::updateSpawnDespawn() {
       v.flags &= static_cast<uint8_t>(~kVehHasRoute);
       v.dest_lane = kInvalidIndex;
       extendPath(v);
+      if (v.path_pos + 1 < v.path_len) v.exit_now = 0;
     }
     ++i;
   }
@@ -1491,6 +1585,25 @@ void TrafficSim::updateSpawnDespawn() {
   }
   stats_.target_vehicles = target;
   if (density_ == nullptr) return;
+
+  // Above target (the table dropped, or the hour changed): retire agents at the
+  // same rate the spawner uses, always outside the player's protected region.
+  if (fz(veh_.size()) > target + 1.f) {
+    retire_credit_ += cfg_.spawn_rate_per_s * cfg_.dt;
+    while (retire_credit_ >= 1.f && fz(veh_.size()) > target) {
+      retire_credit_ -= 1.f;
+      bool done = false;
+      for (uint32_t k = 0; k < veh_.size() && !done; ++k) {
+        retire_cursor_ = (retire_cursor_ + 1u) % static_cast<uint32_t>(veh_.size());
+        const Vehicle& v = veh_[retire_cursor_];
+        if (v.state != DriveState::Driving) continue;  // never mid-manoeuvre
+        done = despawn(v.id);
+      }
+      if (!done) break;
+    }
+  } else {
+    retire_credit_ = 0.f;
+  }
 
   spawn_credit_ += cfg_.spawn_rate_per_s * cfg_.dt;
   while (spawn_credit_ >= 1.f) {
@@ -1509,8 +1622,9 @@ void TrafficSim::updateSpawnDespawn() {
         if (dx * dx + dy * dy > cfg_.spawn_outer_m * cfg_.spawn_outer_m) continue;
       }
       const VehicleClass c = sampleClass(rng_, l.nta);
-      if (!graph_->laneAllows(lane, classParams(c).lane_kinds)) continue;
-      if (!laneFreeAt(lane, s, classParams(c).length_m)) continue;
+      const uint32_t use_lane = preferredLaneFor(lane, c);
+      if (!graph_->laneAllows(use_lane, classParams(c).lane_kinds)) continue;
+      if (!laneFreeAt(use_lane, s, classParams(c).length_m)) continue;
       uint32_t dest = kInvalidIndex;
       float dest_s = 0.f;
       if (router_ != nullptr && router_->attached() && routes_this_step_ < cfg_.max_routes_per_step) {
@@ -1520,7 +1634,7 @@ void TrafficSim::updateSpawnDespawn() {
           ++routes_this_step_;
         }
       }
-      done = spawn(c, lane, s, dest, dest_s) != kInvalidIndex;
+      done = spawn(c, use_lane, s, dest, dest_s) != kInvalidIndex;
     }
     if (!done) ++stats_.spawn_failures;
   }
@@ -1546,15 +1660,16 @@ uint32_t TrafficSim::prefill(uint32_t max_spawns) {
     const routing::LanePose pose = graph_->poseAt(lane, s);
     if (inProtectedRegion(pose.pos.x, pose.pos.y)) continue;
     const VehicleClass c = sampleClass(rng_, l.nta);
-    if (!graph_->laneAllows(lane, classParams(c).lane_kinds)) continue;
-    if (!laneFreeAt(lane, s, classParams(c).length_m)) continue;
+    const uint32_t use_lane = preferredLaneFor(lane, c);
+    if (!graph_->laneAllows(use_lane, classParams(c).lane_kinds)) continue;
+    if (!laneFreeAt(use_lane, s, classParams(c).length_m)) continue;
     uint32_t dest = kInvalidIndex;
     float dest_s = 0.f;
     if (router_ != nullptr && router_->attached()) {
       dest = sampleSpawnLane(rng_);
       if (dest != kInvalidIndex) dest_s = graph_->lane(dest).length_m * 0.5f;
     }
-    if (spawn(c, lane, s, dest, dest_s) != kInvalidIndex) {
+    if (spawn(c, use_lane, s, dest, dest_s) != kInvalidIndex) {
       ++made;
       rebuildIndex();
     }
@@ -1579,6 +1694,7 @@ void TrafficSim::step() {
   const uint32_t n = static_cast<uint32_t>(veh_.size());
   for (uint32_t i = 0; i < n; ++i) decide(i);
   for (uint32_t i = 0; i < n; ++i) integrate(i);
+  resolveOverlaps();
   for (uint32_t i = 0; i < n; ++i) {
     Vehicle& v = veh_[i];
     if (!advanceLane(v)) {
@@ -1586,8 +1702,12 @@ void TrafficSim::step() {
       v.s = std::min(v.s, graph_->lane(v.lane).length_m);
       v.speed = 0.f;
     }
-    updatePose(v);
   }
+  // Lane changes and junction entries move agents between lanes; re-sort and
+  // apply the non-overlap constraint again on the lanes they ended up in.
+  buildOrder();
+  resolveOverlaps();
+  for (uint32_t i = 0; i < n; ++i) updatePose(veh_[i]);
 
   // Deferred routing (budgeted so the step time stays bounded).
   while (!pending_routes_.empty() && routes_this_step_ < cfg_.max_routes_per_step) {
@@ -1601,8 +1721,28 @@ void TrafficSim::step() {
     if (router_ != nullptr && router_->attached()) {
       // Avoid the movement we are currently stuck behind.
       const uint32_t jl = nextJunction(v);
-      routeAgent(v, v.dest_lane, v.dest_s, jl);
+      if (routeAgent(v, v.dest_lane, v.dest_s, jl)) ++stats_.reroutes;
     }
+  }
+
+  // Spare routing budget goes to agents that are still wandering because the
+  // budget was exhausted when they spawned: every agent ends up
+  // destination-driven within a few seconds.
+  while (routes_this_step_ < cfg_.max_routes_per_step && !veh_.empty() && router_ != nullptr &&
+         router_->attached()) {
+    bool assigned = false;
+    for (uint32_t k = 0; k < veh_.size(); ++k) {
+      goal_cursor_ = (goal_cursor_ + 1u) % static_cast<uint32_t>(veh_.size());
+      Vehicle& v = veh_[goal_cursor_];
+      if ((v.flags & kVehHasRoute) != 0 || v.bus_route != 0xFFFFu) continue;
+      const uint32_t dest = sampleSpawnLane(rng_);
+      if (dest == kInvalidIndex || dest == v.lane) break;
+      ++routes_this_step_;
+      routeAgent(v, dest, graph_->lane(dest).length_m * 0.5f);
+      assigned = true;
+      break;
+    }
+    if (!assigned) break;
   }
 
   updateSpawnDespawn();

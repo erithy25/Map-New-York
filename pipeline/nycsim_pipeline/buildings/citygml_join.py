@@ -35,25 +35,29 @@ NYC footprint (reproduce with ``citygml_validate.roof_inference_calibration``; r
     and short side of the minimum rotated rectangle <= 14 m   (a span a domestic roof can cover)
     and floors <= 3 and footprint area <= 400 m^2
 
-Measured on that sample: precision 0.830, recall 0.305, accuracy 0.922 (conservative on purpose — a false
-pitched roof is more visible than a missed one). Gable vs hip is **not** decidable from the available
+Measured on that sample: precision 0.805, recall 0.456, accuracy 0.932 (conservative on purpose — a false
+pitched roof is more visible than a missed one; Queens precision 1.00, Brooklyn 0.79). Gable vs hip is **not** decidable from the available
 attributes: on the 347 buildings OSM tags ``gabled`` or ``hipped``, the best footprint-aspect threshold
 scores 0.617 accuracy against a 0.637 majority-class baseline, i.e. worse than always saying gable. Every
 inferred pitched roof is therefore reported as ``gable`` with its ridge along the long axis of the
 minimum rotated rectangle, and that limitation is stated in the report.
 
-Geometry of an inferred roof: the LiDAR-derived flat plane at ``z_roof_max`` is the best-fit plane of the
-real roof surface, i.e. approximately the mean of eave and ridge. The inferred roof therefore keeps that
-mean: eave at ``z_roof_max + roof_eave_dz_m`` (negative), ridge at ``z_roof_max + roof_ridge_dz_m``
-(positive), pitch ``roof_pitch_deg`` (30° nominal, the common 7:12 NYC domestic pitch), rise clamped to
-[0.9, 3.0] m with the pitch recomputed when the clamp bites.
+Geometry of an inferred roof (ADR-013): the measured ``z_roof_max`` is kept as the **ridge** height so the
+building's overall height stays exactly the published LiDAR height. The eave sits ``roof_eave_dz_m``
+(negative, one full rise) below it and ``roof_ridge_dz_m`` is 0. Nominal pitch 30° (7:12, the common NYC
+domestic pitch), rise clamped to [0.9, 3.0] m with the pitch recomputed when the clamp bites.
 
 Output schema ``buildings_roof_attrs_v1`` (one row per BIN in ``buildings_base.parquet``)
 ----------------------------------------------------------------------------------------
 Required by DATA_CONTRACTS §5 / the buildings stage:
   bin int64, roof_type int8 (0..8 §5 enum), n_roof_levels int16, z_roof_max float32 (m NAVD88),
   roof_mesh_ref string, citygml_match bool, dz_vs_footprint_m float32
-Appended (documented extension, see DATA_CONTRACTS §5.3 note in the report):
+Measured roof signal, first-class per ADR-013 (this is what the source really gives — real setbacks,
+bulkheads and penthouses):
+  roof_shape_measured bool (True only where a roof face is genuinely sloped: essentially nowhere),
+  n_roof_levels int16, roof_level_z list<float32> (m NAVD88, ascending),
+  roof_level_area list<float32> (horizontal m^2 per level), roof_slope_deg float32
+Inference provenance and geometry (documented extension, DATA_CONTRACTS §5.3):
   roof_type_source int8, roof_inferred bool, roof_type_conf float32, roof_pitch_deg float32,
   roof_ridge_deg float32 (compass heading of the ridge line, NaN when not pitched),
   roof_eave_dz_m float32, roof_ridge_dz_m float32, z_ground_min float32, tri_count int32,
@@ -95,16 +99,20 @@ SRC_CITYGML, SRC_OSM, SRC_INFERRED, SRC_DEFAULT = 0, 1, 2, 3
 SOURCE_NAMES = ("citygml", "osm", "inferred", "default")
 
 # --- inference parameters (calibrated, see module docstring) ---------------------------------------
+# ADR-013 names the classes that really have pitched roofs in NYC. The detachedness test below is what
+# separates a gabled Queens house from a flat-roofed Brooklyn row house inside these classes.
 PITCHED_CLASSES = frozenset({
     "A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9",   # one-family dwellings
-    "B1", "B2", "B3", "B9",                                        # two-family dwellings
+    "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9",          # two-family dwellings
+    "C0",                                                          # three-family walk-up (often a converted house)
+    "S0", "S1", "S2", "S9",                                        # one/two-family houses with a store
     "R1", "R3",                                                    # condominium one-family houses
 })
 FRONT_RATIO_MAX = 0.80        # bldg_frontage / lot_frontage below this = a side yard exists = detached
 MAX_SPAN_M = 14.0             # short side of the minimum rotated rectangle a domestic roof can span
 MAX_FLOORS = 3
 MAX_FOOTPRINT_M2 = 400.0
-INFER_PRECISION = 0.830       # measured against the OSM roof:shape sample (n = 4038 matched BINs)
+INFER_PRECISION = 0.805       # measured against the OSM roof:shape sample (see roof_inference_calibration.json)
 OSM_CONF = 1.0
 PITCH_DEG = 30.0              # 7:12, the common NYC one/two-family pitch
 RISE_MIN_M = 0.9
@@ -128,13 +136,17 @@ OSM_ROOF_SHAPE_TO_TYPE = {
 
 BASE_COLUMNS = ["bin", "bldg_class", "borough", "floors", "height", "ground_z", "footprint_area",
                 "lot_frontage", "bldg_frontage", "tx", "ty", "footprint", "centroid_x", "centroid_y"]
-INDEX_COLUMNS = ["bin", "bin_ok", "da", "roof_type", "n_roof_levels", "z_ground_min", "z_roof_max",
-                 "tri_count", "flags", "tx", "ty"]
+INDEX_COLUMNS = ["bin", "bin_ok", "da", "roof_type", "n_roof_levels", "roof_level_z", "roof_level_area",
+                 "roof_slope_deg", "z_ground_min", "z_roof_max", "tri_count", "flags", "tx", "ty"]
 
 SCHEMA = pa.schema([
     ("bin", pa.int64()),
     ("roof_type", pa.int8()),
+    ("roof_shape_measured", pa.bool_()),
     ("n_roof_levels", pa.int16()),
+    ("roof_level_z", pa.list_(pa.float32())),
+    ("roof_level_area", pa.list_(pa.float32())),
+    ("roof_slope_deg", pa.float32()),
     ("z_roof_max", pa.float32()),
     ("roof_mesh_ref", pa.string()),
     ("citygml_match", pa.bool_()),
@@ -305,12 +317,14 @@ def infer_pitched(df: pd.DataFrame) -> pd.DataFrame:
     pitch = np.where(is_pitched, pitch, 0.0)
     # ridge runs along the long axis of the minimum rotated rectangle
     ridge = np.where(is_pitched, df.rect_heading.to_numpy(), np.nan)
+    # ADR-013: the measured z_roof_max is kept as the ridge height, so the building's overall height stays
+    # exactly the published LiDAR height; the eave is dropped a full rise below it.
     return df.assign(is_pitched=is_pitched,
                      front_ratio=front_ratio,
                      roof_pitch_deg=pitch.astype(np.float32),
                      roof_ridge_deg=ridge.astype(np.float32),
-                     roof_eave_dz_m=(-0.5 * rise).astype(np.float32),
-                     roof_ridge_dz_m=(0.5 * rise).astype(np.float32))
+                     roof_eave_dz_m=(-rise).astype(np.float32),
+                     roof_ridge_dz_m=np.zeros_like(rise, dtype=np.float32))
 
 
 # --------------------------------------------------------------------------- main build
@@ -348,6 +362,10 @@ def build_roof_attrs(*, index_path: Path = INDEX_PATH, base_path: Path = BASE_PA
     has_osm = osm_col.notna().to_numpy()
 
     cg_type = df.roof_type.fillna(ROOF_FLAT).to_numpy().astype(np.int8)
+    cg_slope = df.roof_slope_deg.fillna(0.0).to_numpy(dtype=np.float64)
+    # ADR-013: the source carries measured roof *shape* only where a roof face is actually sloped.
+    # Everywhere else the building is a stack of horizontal plates and the shape must come from typology.
+    shape_measured = match & (cg_slope > 0.0)
     cg_nonflat = match & (cg_type != ROOF_FLAT)
 
     roof_type = np.full(len(df), ROOF_FLAT, dtype=np.int8)
@@ -387,10 +405,18 @@ def build_roof_attrs(*, index_path: Path = INDEX_PATH, base_path: Path = BASE_PA
     fp_roof = (df.ground_z.to_numpy(dtype=np.float64) + df.height.to_numpy(dtype=np.float64))
     dz = np.where(match, z_roof_max - fp_roof, np.nan)
 
+    lvl_z = pa.array([list(v) if isinstance(v, (list, np.ndarray)) else [] for v in df.roof_level_z],
+                     type=pa.list_(pa.float32()))
+    lvl_a = pa.array([list(v) if isinstance(v, (list, np.ndarray)) else [] for v in df.roof_level_area],
+                     type=pa.list_(pa.float32()))
     table = pa.Table.from_pydict({
         "bin": df.bin.to_numpy().astype(np.int64),
         "roof_type": roof_type,
+        "roof_shape_measured": shape_measured,
         "n_roof_levels": df.n_roof_levels.fillna(0).to_numpy().astype(np.int16),
+        "roof_level_z": lvl_z,
+        "roof_level_area": lvl_a,
+        "roof_slope_deg": np.where(match, cg_slope, np.nan).astype(np.float32),
         "z_roof_max": np.where(match, z_roof_max, np.nan).astype(np.float32),
         "roof_mesh_ref": pa.array(mesh_ref, type=pa.string()),
         "citygml_match": match,
@@ -417,11 +443,15 @@ def build_roof_attrs(*, index_path: Path = INDEX_PATH, base_path: Path = BASE_PA
         "rows_dropped_placeholder_or_duplicate_bin": int(n_dropped_keys),
         "citygml_index_rows": int(len(idx)),
         "citygml_match": int(match.sum()),
+        "roof_shape_measured": int(shape_measured.sum()),
+        "roof_shape_measured_frac": float(shape_measured.mean()),
         "citygml_tile_differs_from_footprint_tile": n_tile_disagree,
         "citygml_match_rate": float(match.mean()),
         "roof_type_hist": {ROOF_NAMES[i]: int((roof_type == i).sum()) for i in range(len(ROOF_NAMES))},
         "roof_type_source_hist": {SOURCE_NAMES[i]: int((source == i).sum()) for i in range(len(SOURCE_NAMES))},
         "roof_inferred_rows": int((source >= SRC_INFERRED).sum()),
+        "roof_levels_ge_2": int((df.n_roof_levels.fillna(0).to_numpy() >= 2).sum()),
+        "roof_levels_max": int(df.n_roof_levels.fillna(0).to_numpy().max()),
         "pitched_rows": int((roof_type != ROOF_FLAT).sum()),
         "pitched_frac": float((roof_type != ROOF_FLAT).mean()),
         "dz_vs_footprint_m": {

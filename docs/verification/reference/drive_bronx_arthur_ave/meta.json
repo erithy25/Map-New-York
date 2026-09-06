@@ -1,0 +1,193 @@
+{
+ "schema_version": 1,
+ "slug": "drive_bronx_arthur_ave",
+ "name": "Bronx drive-through: Arthur Avenue (Belmont)",
+ "group": "drive_through",
+ "viewpoint": {
+  "lat": 40.8551,
+  "lon": -73.8878,
+  "azimuth_deg": 190.0,
+  "note": "Arthur Avenue at East 187th Street, roadway centre, looking south",
+  "representative": false
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Arthur Avenue\" Bronx",
+  "\"Arthur Avenue\" Belmont Little Italy Bronx street"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T12:06:36Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 80,
+ "candidates_eligible": 68,
+ "rejections": {
+  "excluded": 4,
+  "too_old": 2,
+  "too_small": 3,
+  "keywords": 3
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Arthur Avenue 09 - M&G Restaurant.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Arthur_Avenue_09_-_M%26G_Restaurant.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Arthur_Avenue_09_-_M%26G_Restaurant.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Arthur_Avenue_09_-_M%26G_Restaurant.jpg/1920px-Arthur_Avenue_09_-_M%26G_Restaurant.jpg",
+   "author": "Joe Mabel",
+   "credit": "Photo by Joe Mabel",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.85524,
+    "lon": -73.88776
+   },
+   "original_width": 6000,
+   "original_height": 4000,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 822660,
+   "sha256": "069161126c929be58a42e89b61bc167512a814fdc66575d3e41fa14b3e77be6a",
+   "mean_luminance": 100.4,
+   "description": "M&G Restaurant, 2390 Arthur Avenue, Bronx, New York.",
+   "categories": [
+    "Taken with Nikon D5200",
+    "Arthur Avenue (Bronx, New York)",
+    "Self-published work",
+    "Taken on missing SDC inception",
+    "Media with estimated locations",
+    "Files with coordinates missing SDC location of creation",
+    "Traffic cones in New York City",
+    "Restaurants in the Bronx, New York City",
+    "New York City photographs taken on 2026-05-31",
+    "Enclosed restaurant entrances in New York City",
+    "May 2026 in the Bronx, New York City",
+    "Restaurants in New York City photographed in 2026"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.85524,
+    "lon": -73.88776,
+    "azimuth_deg": 190.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.85524, -73.88776), 16 m from the reference position (Arthur Avenue at East 187th Street, roadway centre, looking south); this item is a view along a street rather than at a point subject, so the azimuth 190 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Arthur Avenue 09 - M&G Restaurant.jpg\" by Joe Mabel, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Arthur_Avenue_09_-_M%26G_Restaurant.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:NYC Parks D’Auria-Murphy Triangle IMG 0677 HLG.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:NYC_Parks_D%E2%80%99Auria-Murphy_Triangle_IMG_0677_HLG.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/12/NYC_Parks_D%E2%80%99Auria-Murphy_Triangle_IMG_0677_HLG.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/NYC_Parks_D%E2%80%99Auria-Murphy_Triangle_IMG_0677_HLG.jpg/1920px-NYC_Parks_D%E2%80%99Auria-Murphy_Triangle_IMG_0677_HLG.jpg",
+   "author": "Hugo L. González",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2019-06-15 15:04:31",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.853253,
+    "lon": -73.889153
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 1082193,
+   "sha256": "0871d854a9d5ee882d60dd31b5b6617c2d71e46e39d61489b8af70aee61a8431",
+   "mean_luminance": 84.1,
+   "description": "NYC Parks D’Auria-Murphy Triangle in Belmont, The Bronx",
+   "categories": [
+    "D’Auria-Murphy Triangle",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "NYC Parks signs in the Bronx"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.6,
+   "estimated_viewpoint": {
+    "lat": 40.853253,
+    "lon": -73.889153,
+    "azimuth_deg": 190.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.85325, -73.88915), 235 m from the reference position (Arthur Avenue at East 187th Street, roadway centre, looking south); this item is a view along a street rather than at a point subject, so the azimuth 190 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"NYC Parks D’Auria-Murphy Triangle IMG 0677 HLG.jpg\" by Hugo L. González, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:NYC_Parks_D%E2%80%99Auria-Murphy_Triangle_IMG_0677_HLG.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Apartamentos em Belmont.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Apartamentos_em_Belmont.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c6/Apartamentos_em_Belmont.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Apartamentos_em_Belmont.jpg/1920px-Apartamentos_em_Belmont.jpg",
+   "author": "Point00000",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2017-01-26",
+   "date_source": "DateTimeOriginal",
+   "year": 2017,
+   "camera_gps": {
+    "lat": 40.857261,
+    "lon": -73.888542
+   },
+   "original_width": 2448,
+   "original_height": 3264,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1193263,
+   "sha256": "07f184b7cacff0f81438a3c4276aa412587d6c4376bdb43a6a4c92ac642363e4",
+   "mean_luminance": 125.3,
+   "description": "Apartamentos em Belmont",
+   "categories": [
+    "Belmont, Bronx",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Apartment buildings in the Bronx"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.3,
+   "estimated_viewpoint": {
+    "lat": 40.857261,
+    "lon": -73.888542,
+    "azimuth_deg": 190.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.85726, -73.88854), 248 m from the reference position (Arthur Avenue at East 187th Street, roadway centre, looking south); this item is a view along a street rather than at a point subject, so the azimuth 190 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Apartamentos em Belmont.jpg\" by Point00000, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Apartamentos_em_Belmont.jpg"
+  }
+ ]
+}

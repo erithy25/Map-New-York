@@ -127,7 +127,7 @@ def _cornice_stone():
     return m
 
 
-@K.register("cornice_return_end", "cornice", nominal_size=(0.86, 0.542, 0.92),
+@K.register("cornice_return_end", "cornice", anchor="wall_corner_bottom", nominal_size=(0.86, 0.542, 0.92),
             description="End return for the pressed-metal cornice profile A: the crown mitred round the corner and closed with a "
                         "return panel (used at party walls and building corners).",
             features=["cornice"], budget=1000)
@@ -204,7 +204,7 @@ def _quoin(m: K.Mesh, mat: str, big: float, small: float, proj: float, courses: 
         z += h
 
 
-@K.register("quoin_limestone", "quoin", nominal_size=(0.6, 0.187, 1.35),
+@K.register("quoin_limestone", "quoin", anchor="wall_corner_bottom", nominal_size=(0.6, 0.187, 1.35),
             description="Limestone quoin stack: six courses of alternating 0.60 / 0.40 m blocks, 225 mm high, projecting 85 mm "
                         "(Renaissance-revival apartment house corner).",
             features=["quoins"], budget=400)
@@ -214,7 +214,7 @@ def _quoin_lime():
     return m
 
 
-@K.register("quoin_brownstone", "quoin", nominal_size=(0.53, 0.187, 1.35),
+@K.register("quoin_brownstone", "quoin", anchor="wall_corner_bottom", nominal_size=(0.53, 0.187, 1.35),
             description="Brownstone quoin stack: six courses of alternating 0.53 / 0.36 m blocks with a tooled margin.",
             features=["quoins"], budget=400)
 def _quoin_brown():
@@ -223,7 +223,7 @@ def _quoin_brown():
     return m
 
 
-@K.register("quoin_brick_rusticated", "quoin", nominal_size=(0.575, 0.22, 1.44),
+@K.register("quoin_brick_rusticated", "quoin", anchor="wall_corner_bottom", nominal_size=(0.575, 0.22, 1.44),
             description="Rusticated cast-stone quoin stack: six chamfered blocks, 240 mm courses, 0.10 m projection "
                         "(1920s apartment / bank corner).",
             features=["quoins", "rustication"], budget=500)
@@ -363,7 +363,7 @@ def _datestone():
     return m
 
 
-@K.register("trim_corner_bead_brick", "trim", nominal_size=(0.34, 0.34, 3.05),
+@K.register("trim_corner_bead_brick", "trim", anchor="wall_corner_bottom", nominal_size=(0.34, 0.34, 3.05),
             description="Brick outside-corner return, one storey tall: two 0.155 m wythes mitred round a 90 deg corner with a "
                         "chamfered arris, a granite base block and a cast-stone band at the top, for wrapping the kit round a "
                         "building corner.",

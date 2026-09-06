@@ -155,13 +155,15 @@ Array of `{id, name, bins[], lp_number, script, footprint_source, height_m, heig
 
 ## 13. Blender exports — `blender_out/`
 `kit/{kit_id}.glb` (Y-up, metres, origin at ground contact / wall contact point, `extras.nycsim = {kit_id, category, bounds}`), `landmarks/{id}.glb` (tile-local origin recorded in extras), `vehicles/{id}.glb` (origin at ground under rear-axle centre, +X forward in Blender before export), `character/{id}.glb` (rig + animations as glTF animations), `tiles/{tile}/tile_buildings.glb`, `tiles/{tile}/roofs.glb`.
+Level-of-detail meshes may be shipped either as extra meshes named `<id>_LOD1` inside the parent file or as sibling files `<id>_LOD1.glb`, `<id>_LOD2.glb`; both forms are covered by the parent's single catalog entry, which lists the LODs it owns. Importers resolve a sibling by stripping the `_LOD<n>` suffix, matched case-insensitively (`_LOD1` is the canonical spelling; `_lod1` is accepted).
+
 Each `.glb` carries `asset.extras.nycsim = {"generator_script": ..., "git_commit": ..., "schema_version": 1}`.
 
 ## 14. UE import manifest — `unreal_manifest.json`
 Lists every glb/png/parquet with target content path `Game/NYCSim/...`, import settings id and dependency order. Consumed by `unreal/NYCSim/Content/Python/import_world.py`.
 
 ## 15. Runtime binaries for `core/` (consumed by C++ without Arrow)
-Container format `NYCB`: little-endian; header `{char magic[4]="NYCB"; uint32 version=1; uint32 section_count; uint64 index_offset}`; index = array of `{char name[16]; uint64 offset; uint64 size; uint32 element_size; uint32 element_count}`. Strings are stored in a per-file string table section `"strtab"` (uint32 offsets into a NUL-separated blob). Produced by `pipeline/nycsim_pipeline/runtime/export.py`, read by `core/io/NycbReader.h`. Floats are float32 unless noted; coordinates are NYC_TM metres.
+Container format `NYCB`: little-endian, **naturally aligned C structs** (not packed). Header is 24 bytes: `{char magic[4]="NYCB"; uint32 version=1; uint32 section_count; /* 4 bytes padding */ uint64 index_offset}` — `index_offset` sits at byte 16 because a `uint64` aligns to 8. Sections start on 8-byte boundaries. The authoritative field-by-field layout is emitted next to the data as `data/processed/runtime/nycb_layout.json`; a reader must agree with that file, and the C++ side maps these structs directly. index = array of `{char name[16]; uint64 offset; uint64 size; uint32 element_size; uint32 element_count}`. Strings are stored in a per-file string table section `"strtab"` (uint32 offsets into a NUL-separated blob). Produced by `pipeline/nycsim_pipeline/runtime/export.py`, read by `core/io/NycbReader.h`. Floats are float32 unless noted; coordinates are NYC_TM metres.
 
 * `runtime/roadgraph.nycb`: sections `nodes` {int64 id; float x,y,z; uint8 control; uint8 signal_source; uint16 pad}, `segments` {int64 id; int64 from_node,to_node; uint32 first_vertex,vertex_count; uint8 rw_type,traffic_dir,travel_lanes,park_lanes; float width_m; uint8 speed_mph,bike_lane,surface,borough; uint32 name_str}, `vertices` {float x,y,z}, `lanes` {int64 id; int64 segment_id; int8 index_from_center,direction,kind,pad; float width_m,speed_mps; uint32 first_vertex,vertex_count; uint32 first_succ,succ_count}, `lane_links` {int64 lane_id}, `junction_lanes` {int64 id; int64 from_lane,to_lane; uint8 turn; uint8 pad[3]; int32 signal_group; uint32 first_vertex,vertex_count; uint32 first_yield,yield_count}, `yield_links` {int64 lane_id}, `strtab`.
 * `runtime/signals.nycb`: `controllers` {int64 node_id; int32 controller_id; float cycle_s,offset_s; uint32 first_phase,phase_count}, `phases` {int32 group; float green_s,yellow_s,allred_s,ped_walk_s,ped_flash_s,lpi_s}.
@@ -224,18 +226,22 @@ applies it with one call: `df = citygml_join.attach_roof_columns(df)`.*
 |---|---|---|
 | bin | int64 | join key, unique |
 | roof_type | int8 | §5 enum, resolved by the `roof_type_source` precedence below |
-| n_roof_levels | int16 | distinct horizontal roof levels in the LOD2 solid (0 when no CityGML match) |
+| roof_shape_measured | bool | the source really carries sloped roof geometry for this BIN. **False almost everywhere** (ADR-013): the model is a stack of horizontal plates, so the shape must come from typology. The facade and Blender shell stages read this to decide when to generate a gable/hip |
+| n_roof_levels | int16 | distinct horizontal roof levels in the LOD2 solid — the genuinely measured signal (real setbacks, bulkheads, penthouses); 0 when no CityGML match |
+| roof_level_z | list&lt;float32&gt; | height of each level, m NAVD88, ascending |
+| roof_level_area | list&lt;float32&gt; | horizontal area of each level, m² |
+| roof_slope_deg | float32 | area-weighted mean slope of the sloped roof faces (0 where the roof is all plates); NaN when no match |
 | z_roof_max | float32 | highest CityGML roof vertex, m NAVD88; NaN when no match |
 | roof_mesh_ref | string | `t_{tx}_{ty}/roofs.glb#bin_{bin}` when a LOD2 solid exists, else `""` (tile = the footprint tile from `buildings_base`) |
 | citygml_match | bool | a CityGML LOD2 solid exists for this BIN — **this is the `ROOF_REAL` bit** |
 | dz_vs_footprint_m | float32 | `z_roof_max − (ground_z + height)`; NaN when no match |
 | roof_type_source | int8 | 0 citygml, 1 osm `roof:shape`, 2 inferred (PLUTO class + footprint/lot shape), 3 default flat |
 | roof_inferred | bool | `roof_type_source >= 2` |
-| roof_type_conf | float32 | measured precision of the source (1.0 real, 0.83 inferred, 0.0 default) |
+| roof_type_conf | float32 | measured precision of the source (1.0 real, 0.805 inferred, 0.0 default) |
 | roof_pitch_deg | float32 | inferred pitch, 0 when not an inferred pitched roof |
 | roof_ridge_deg | float32 | compass heading of the ridge line (0 = north), NaN when not pitched |
-| roof_eave_dz_m | float32 | eave offset from `z_roof_max` (≤ 0); the inferred roof is symmetric about the LiDAR plane |
-| roof_ridge_dz_m | float32 | ridge offset from `z_roof_max` (≥ 0) |
+| roof_eave_dz_m | float32 | eave offset from `z_roof_max`, one full rise below it (≤ 0) |
+| roof_ridge_dz_m | float32 | ridge offset from `z_roof_max`; always 0 — ADR-013 keeps the measured height as the ridge so overall building height stays real |
 | z_ground_min | float32 | lowest CityGML ground vertex, m NAVD88; NaN when no match |
 | tri_count | int32 | triangles in the LOD2 solid |
 | citygml_da | int8 | delivery area the solid came from, 0 when no match |
@@ -244,3 +250,54 @@ applies it with one call: `df = citygml_join.attach_roof_columns(df)`.*
 The LOD2 solids themselves stay in `buildings/citygml/da{n}.parquet` (schema `citygml_solids_v1`: per-BIN
 `tri_xyz` float32 blob + `tri_type`), with `buildings/citygml/index.parquet` (`citygml_index_v1`) as the
 city-wide per-BIN index. A later Blender stage turns the solids into `tiles/{tile}/roofs.glb`.
+
+---
+
+## 12.1 Live snapshot extension — APPENDED by the live-services stage
+
+*The keys of §12 are unchanged and remain the contract every consumer may rely on. The live services add
+the fields below to the same documents (a superset, so a §12 reader is unaffected) plus two new documents.
+Angles: `*_dir_deg` is mathematical (0 = east, counter-clockwise), `*_heading` is compass (0 = north,
+clockwise). Times are ISO-8601 UTC with a trailing `Z`. Produced by `services/nycsim_live`, mirrored by
+`core/weather` and `core/astro`; the exact formulas are in `docs/LIVE_ALGORITHMS.md`.*
+
+`live/weather.json` additional keys:
+
+| key | type | meaning |
+|---|---|---|
+| wind_from_heading | float, nullable | compass heading the wind blows **from**; null when calm or variable |
+| wind_to_heading | float, nullable | compass heading of the air motion (= `wind_from_heading` + 180°) |
+| snow_depth_source | "observed" \| "model" \| "none" | 4/sss group from a station, the snow-depth model, or no snow |
+| snowfall_rate_cmph | float, nullable | fresh-snow accumulation rate |
+| precip_rate_basis | "measured" \| "class" \| "trace" \| "model" \| "none" | provenance of `precip_rate_mmph` |
+| obscuration | list of METAR codes | e.g. `["FG"]`, `["BR"]`, `["HZ"]`; empty when the air is clear |
+| interpolated | bool | the NWS gridpoint forecast trend was applied between hourly observations |
+| raw_text | string, nullable | the provider's own report (METAR string, NWS `textDescription`, `WMO <code>`) |
+| provider_status | object | per provider: `"closed"`, `"half_open"` or `"open(<seconds>s)"` |
+
+`live/esb_lights.json` additional keys: `schema_version`, `rgb` (list of `[r,g,b]`, one per resolved colour
+name), `unknown_colors` (published names with no RGB mapping — never guessed), `hours` (as published, e.g.
+`"sunset to 02:00"`), `fallback` (bool, signature white substituted), `fetched_at`.
+
+`live/tides.json` additional keys: `schema_version`, `current_station`, `current_heading`, `current_phase`
+(`flood` | `ebb` | `slack`), `water_level_datum` (`"NAVD88"`), `water_level_mllw_m`,
+`water_level_observed_at`, `water_level_quality` (`p`/`v`), `navd88_minus_mllw_m`, `currents` (per station:
+`id, name, water_body, lat, lon, speed_mps, heading, dir_deg, phase, velocity_cms, flood_heading,
+ebb_heading, depth_m`), `next_tides` (`utc, kind(H|L), level_mllw_m, level_m`), `fetched_at`, `stale`,
+`errors`.
+
+`live/world_state.json` (new — derived render/behaviour parameters, `WorldMapper` → `core/weather`):
+`{schema_version, updated_at_unix, source, observation_age_s, wetness(0..1), wetness_target, tau_used_s,
+drying(bool), puddle_level(0..1), puddle_depth_mm, road_ice(bool), snow_depth_cm, snow_cover(0..1),
+snow_cover_road(0..1), snow_melting(bool), plow_active(bool), salt_active(bool), fog_density(0..1),
+haze_density(0..1), extinction_per_m, visibility_m, cloud_cover, wind_speed_mps, wind_gust_mps,
+wind_from_heading, wind_to_heading, wind_vector_enu[3] (m/s, x=east y=north z=up),
+wind_vector_ue[3] (m/s in UE axes: x=east, y=−north, z=up), umbrella_probability(0..1),
+window_condensation(0..1), window_condensation_interior, window_condensation_exterior,
+window_condensation_double, missing[] (observation fields that were null)}`.
+
+`live/snow_state.json` (new — persistence for the snow-depth model):
+`{schema_version, depth_cm, last_update_unix, source}`.
+
+`live/overlay.txt` (new — the exact monospace text block the in-game debug overlay draws; produced by
+`nycsim_live.debug_overlay`, 62-column headers, one field per line, `—` for every null).

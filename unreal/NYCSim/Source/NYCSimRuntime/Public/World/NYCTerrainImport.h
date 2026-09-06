@@ -126,12 +126,12 @@ public:
 	 * Creates one ALandscape for a tile in World (in OverrideLevel when given, else the world's current level).
 	 * Editor builds only; in a runtime build it fails with an explanatory error.
 	 */
-	UFUNCTION(BlueprintCallable, Category = "NYCSim|Terrain", meta = (WorldContext = "World"))
+	UFUNCTION(BlueprintCallable, Category = "NYCSim|Terrain")
 	static FNYCTerrainImportResult ImportTileLandscape(UWorld* World, const FString& TileName, const FString& ProcessedTilesDir,
 		UMaterialInterface* LandscapeMaterial, ULevel* OverrideLevel);
 
 	/** Imports every tile named in Tiles (tile names, e.g. "t_-3_7"). Returns one result per tile. */
-	UFUNCTION(BlueprintCallable, Category = "NYCSim|Terrain", meta = (WorldContext = "World"))
+	UFUNCTION(BlueprintCallable, Category = "NYCSim|Terrain")
 	static TArray<FNYCTerrainImportResult> ImportTiles(UWorld* World, const TArray<FString>& Tiles,
 		const FString& ProcessedTilesDir, UMaterialInterface* LandscapeMaterial);
 

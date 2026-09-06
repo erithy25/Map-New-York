@@ -15,7 +15,8 @@ Two real sources are combined:
 and overpass, in feet) give the deck elevation, and the ground model (spot elevations + LiDAR building grades,
 :mod:`..furniture.elevation`) gives the ground under it. ``deck_height_m = deck_z − ground_z``. Structures with no
 bridge elevation point within :data:`DECK_SEARCH_M` fall back to the **median measured deck height of the same
-structure class** (never to a guessed constant) and are flagged ``deck_height_source = 1``.
+structure class** (never to a guessed constant) and are flagged ``deck_height_source = 1``. Open-cut track is
+below grade, so a deck height is not defined for it: those rows carry ``deck_height_source = 2`` and a NaN height.
 """
 from __future__ import annotations
 
@@ -43,6 +44,22 @@ FEAT_CLASS: dict[str, str] = {
     "2440": "open_cut", "2450": "fence", "2465": "abandoned",
 }
 STRUCTURE_CLASSES = ("elevated", "viaduct", "embankment", "open_cut")
+# Classes whose deck is above grade, so that a nearby Bridge Elevation point is the elevation of *this* deck.
+# ``open_cut`` is excluded on purpose: the track runs below grade there and the bridge elevation points around an
+# open cut belong to the road bridges crossing over it, so a "deck height" measured from them would be wrong.
+DECK_CLASSES = ("elevated", "viaduct", "embankment")
+DECK_SOURCE_MEASURED = 0
+DECK_SOURCE_CLASS_MEDIAN = 1
+DECK_SOURCE_NOT_APPLICABLE = 2
+
+# Plausibility band per class, metres above the ground beneath. A "measured" deck height outside its band means
+# the bridge elevation points inside DECK_SEARCH_M belong to a different structure (a road bridge over or under the
+# track), so the measurement is rejected and the class median is used instead. Upper bounds are set from the real
+# extremes of the network: Smith-9th St on the Culver Viaduct is the highest rapid-transit station in the world at
+# about 27.5 m, and the Hell Gate approach viaducts are higher still.
+DECK_HEIGHT_BOUNDS_M: dict[str, tuple[float, float]] = {
+    "elevated": (1.0, 40.0), "viaduct": (1.0, 60.0), "embankment": (0.5, 25.0),
+}
 
 DECK_SEARCH_M = 25.0      # radius around a structure in which a bridge elevation point is taken as its deck
 GROUND_STEP_M = 20.0      # spacing of the ground samples taken along a structure
@@ -119,7 +136,7 @@ def deck_heights(lines: np.ndarray, cls: np.ndarray, ground: GroundModel,
             continue
         gz, _src = ground.sample(pts[:, 0], pts[:, 1])
         ground_z[i] = float(np.median(gz))
-        if tree is None:
+        if tree is None or cls[i] not in DECK_CLASSES:
             continue
         hits = tree.query_ball_point(pts, DECK_SEARCH_M)
         found = sorted({j for h in hits for j in h})
@@ -127,9 +144,20 @@ def deck_heights(lines: np.ndarray, cls: np.ndarray, ground: GroundModel,
             deck_z[i] = float(np.median(bridge_pts.z[np.asarray(found)]))
             n_pts[i] = len(found)
     height = deck_z - ground_z
-    source = np.where(np.isfinite(height), 0, 1).astype(np.int8)
+    rejected = 0
+    for c, (lo, hi) in DECK_HEIGHT_BOUNDS_M.items():
+        m = (cls == c) & np.isfinite(height) & ((height < lo) | (height > hi))
+        rejected += int(m.sum())
+        height[m] = np.nan
+        deck_z[m] = np.nan
+        n_pts[m] = 0
+    if rejected:
+        log.info("deck height: %d measurements rejected as implausible for their class (bridge elevation points "
+                 "belonging to a crossing road structure)", rejected)
+    source = np.where(np.isfinite(height), DECK_SOURCE_MEASURED, DECK_SOURCE_CLASS_MEDIAN).astype(np.int8)
+    source[~np.isin(cls, np.asarray(DECK_CLASSES, dtype=object))] = DECK_SOURCE_NOT_APPLICABLE
     # class fallback: the median of the heights actually measured for the same structure class
-    for c in STRUCTURE_CLASSES:
+    for c in DECK_CLASSES:
         m = (cls == c)
         measured = m & np.isfinite(height)
         if not m.any():
@@ -138,10 +166,14 @@ def deck_heights(lines: np.ndarray, cls: np.ndarray, ground: GroundModel,
             med = float(np.median(height[measured]))
             height[m & ~np.isfinite(height)] = med
             log.info("deck height %-10s: %d measured (median %.2f m), %d filled from the class median",
-                     c, int(measured.sum()), med, int((m & (source == 1)).sum()))
+                     c, int(measured.sum()), med, int((m & (source == DECK_SOURCE_CLASS_MEDIAN)).sum()))
         else:
             log.warning("deck height %-10s: no bridge elevation point within %.0f m of any of the %d structures — "
                         "height left NaN", c, DECK_SEARCH_M, int(m.sum()))
+    na = source == DECK_SOURCE_NOT_APPLICABLE
+    height[na] = np.nan
+    deck_z[na] = np.nan
+    log.info("deck height: %d structures are open cut (track below grade) — deck height not applicable", int(na.sum()))
     return deck_z, ground_z, height, source, n_pts
 
 

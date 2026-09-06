@@ -49,6 +49,7 @@ public:
 	// UWorldSubsystem
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+	virtual void OnWorldBeginPlay(UWorld& InWorld) override;
 	virtual void Deinitialize() override;
 
 	/** True once crs.json validated and tiles.nycb parsed. Conversions work regardless (they are pure core math). */
@@ -106,9 +107,17 @@ public:
 	/** Re-reads crs.json and tiles.nycb (used by the import commandlet after copying new runtime data). */
 	bool Reload();
 
+	/** The water actor this subsystem spawned (or the one already present in the level). */
+	UFUNCTION(BlueprintPure, Category = "NYCSim|World")
+	AActor* GetWaterActor() const;
+
 private:
+	void EnsureWaterActor(UWorld& InWorld);
 	bool LoadCrs(const FString& Path, FString& OutError);
 	void PrintWorldInfo(const TArray<FString>& Args, UWorld* InWorld, FOutputDevice& Ar);
+
+	UPROPERTY(Transient)
+	TObjectPtr<AActor> WaterActor;
 
 	FNYCNycbFile TilesFile;
 	FNYCTilesTable Tiles;

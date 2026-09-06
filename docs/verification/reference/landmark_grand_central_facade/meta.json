@@ -1,0 +1,194 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_grand_central_facade",
+ "name": "Grand Central Terminal facade",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7514,
+  "lon": -73.9779,
+  "azimuth_deg": 30.5,
+  "note": "Pershing Square plaza on Park Avenue at East 41st Street, looking north at the 42nd Street facade",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7523,
+  "lon": -73.9772,
+  "name": "Grand Central Terminal 42nd Street facade"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Grand Central Terminal\" facade 42nd Street",
+  "\"Grand Central Terminal\" exterior Park Avenue Viaduct clock"
+ ],
+ "geosearch_radius_m": 200,
+ "fetched_at": "2026-09-06T12:14:27Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 62,
+ "candidates_eligible": 19,
+ "rejections": {
+  "too_small": 7,
+  "excluded": 9,
+  "too_old": 11,
+  "keywords": 15,
+  "licence": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Grand Central Terminal December 2022 004.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Grand_Central_Terminal_December_2022_004.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/6d/Grand_Central_Terminal_December_2022_004.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Grand_Central_Terminal_December_2022_004.jpg/1920px-Grand_Central_Terminal_December_2022_004.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-12-12 11:51:16",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.752117,
+    "lon": -73.977783
+   },
+   "original_width": 2048,
+   "original_height": 1536,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 603294,
+   "sha256": "20ac6f1137c845dccd3332eaf5379604d413076512c3416308caf729a8966de1",
+   "mean_luminance": 122.1,
+   "description": "Grand Central Terminal in December 2022",
+   "categories": [
+    "Exterior of Grand Central Terminal",
+    "New York City photographs taken on 2022-12-12",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "December 2022 in Manhattan, New York City",
+    "Grand Central Terminal in 2022"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.752117,
+    "lon": -73.977783,
+    "azimuth_deg": 67.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75212, -73.97778) is 53 m from Grand Central Terminal 42nd Street facade (40.75230, -73.97720) and 80 m from the standard viewpoint; the azimuth 67 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Grand Central Terminal December 2022 004.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Grand_Central_Terminal_December_2022_004.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Grand Central Taxis Waiting (31825337478).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Grand_Central_Taxis_Waiting_(31825337478).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/aa/Grand_Central_Taxis_Waiting_%2831825337478%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Grand_Central_Taxis_Waiting_%2831825337478%29.jpg/1920px-Grand_Central_Taxis_Waiting_%2831825337478%29.jpg",
+   "author": "Nan Palmero from San Antonio, TX, USA",
+   "credit": "Grand Central Taxis Waiting",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2018-10-22 22:09",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.751397,
+    "lon": -73.978181
+   },
+   "original_width": 7952,
+   "original_height": 5304,
+   "width": 1920,
+   "height": 1281,
+   "bytes": 826397,
+   "sha256": "d4efd01144a8fed2bb7708711751fde172249a75c6bd798333126b7a60e482ff",
+   "mean_luminance": 71.3,
+   "description": "Grand Central Taxis Waiting",
+   "categories": [
+    "New York City photographs taken on 2018-10-22",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "October 2018 in Manhattan, New York City",
+    "Grand Central Terminal in 2018"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.45,
+   "estimated_viewpoint": {
+    "lat": 40.751397,
+    "lon": -73.978181,
+    "azimuth_deg": 39.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75140, -73.97818) is 130 m from Grand Central Terminal 42nd Street facade (40.75230, -73.97720) and 24 m from the standard viewpoint; the azimuth 39 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Grand Central Taxis Waiting (31825337478).jpg\" by Nan Palmero from San Antonio, TX, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Grand_Central_Taxis_Waiting_(31825337478).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Grand Central (New York, New York) (46346955132).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Grand_Central_(New_York,_New_York)_(46346955132).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/70/Grand_Central_%28New_York%2C_New_York%29_%2846346955132%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Grand_Central_%28New_York%2C_New_York%29_%2846346955132%29.jpg/1920px-Grand_Central_%28New_York%2C_New_York%29_%2846346955132%29.jpg",
+   "author": "JJBers from Willimantic, Connecticut, USA",
+   "credit": "Grand Central (New York, New York)",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2018-08-21 19:38",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.751952,
+    "lon": -73.977306
+   },
+   "original_width": 3840,
+   "original_height": 2160,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 525205,
+   "sha256": "9ff2f280fddd36e28b48129847caecf8e03f709a2538bf40b155428ee3a37c97",
+   "mean_luminance": 134.8,
+   "description": "Grand Central (New York, New York)",
+   "categories": [
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "New York City photographs taken on 2018-08-21",
+    "Files uploaded by SeichanGant",
+    "August 2018 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.45,
+   "estimated_viewpoint": {
+    "lat": 40.751952,
+    "lon": -73.977306,
+    "azimuth_deg": 13.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75195, -73.97731) is 40 m from Grand Central Terminal 42nd Street facade (40.75230, -73.97720) and 79 m from the standard viewpoint; the azimuth 13 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Grand Central (New York, New York) (46346955132).jpg\" by JJBers from Willimantic, Connecticut, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Grand_Central_(New_York,_New_York)_(46346955132).jpg"
+  }
+ ]
+}

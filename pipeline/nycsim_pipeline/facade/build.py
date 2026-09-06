@@ -39,6 +39,7 @@ from . import edges as EG
 from . import enums as E
 from . import osm_match
 from . import placements as P
+from . import roofs as RF
 from . import rules as R
 from . import schema as FS
 from .kit_ids import write_registry
@@ -65,7 +66,7 @@ ATTR_COLS = ["tile", "bin", "borough", "bldg_class", "year_built", "floors", "he
              "lot_frontage", "bldg_frontage", "nta", "hist_district", "landmark_id", "lpc_style", "lpc_material",
              "has_storefront", "storefront_names", "storefront_kinds", "feature_code", "n_bldgs_on_lot",
              "is_primary_on_lot", "first_floor_offset", "lit_seed", "fidelity", "centroid_x", "centroid_y",
-             "floor_height", "ground_floor_height"]
+             "floor_height", "ground_floor_height", "ground_z", "roof_z"]
 
 
 def _rss_mb() -> float:
@@ -206,6 +207,7 @@ def pass_geom(only_tiles: set[str] | None, limit_groups: int | None, out_dir: Pa
         for k, v in runs.stats.items():
             stats[k] = stats.get(k, 0) + v
         summ = EG.building_summary(runs, len(emit_idx))
+        mrr_short, mrr_long, mrr_head = RF.mrr_axes(geoms)
 
         edge_tbl = pa.Table.from_arrays([
             pa.array(tiles[emit_idx][runs.bidx]), pa.array(rows[emit_idx][runs.bidx], type=pa.int32()),
@@ -223,6 +225,7 @@ def pass_geom(only_tiles: set[str] | None, limit_groups: int | None, out_dir: Pa
             "free_perimeter_m": summ["free_perimeter_m"], "primary_run_len_m": summ["primary_run_len_m"],
             "street_frontage_m": summ["street_frontage_m"], "is_corner": summ["is_corner"],
             "street_segment_id": summ["street_segment_id"],
+            "mrr_short_m": mrr_short, "mrr_long_m": mrr_long, "mrr_heading": mrr_head,
         }))
         n_done += len(emit_idx)
         if (gi + 1) % 10 == 0 or gi + 1 == len(groups):
@@ -256,11 +259,19 @@ def pass_rules(out_dir: Path, limit_groups: int | None = None) -> dict:
     tbl = pq.read_table(BASE, columns=ATTR_COLS)
     df = pl.from_arrow(tbl)
     del tbl
-    df = df.with_columns(pl.Series("row", row_within_tile(df["tile"].to_numpy()), dtype=pl.Int32))
+    df = df.with_columns([pl.Series("row", row_within_tile(df["tile"].to_numpy()), dtype=pl.Int32),
+                          pl.Series("base_row", np.arange(df.height, dtype=np.int64), dtype=pl.Int64)])
     g = pl.read_parquet(geom_path)
+    gt = set(g["tile"].unique().to_list())
+    if len(gt) < df["tile"].n_unique():
+        # development run: the geom pass covered only part of the city, so classify exactly that part
+        df = df.filter(pl.col("tile").is_in(sorted(gt)))
+        log.info("subset run: %d tiles / %d buildings (geom_attrs covers %d tiles)", df["tile"].n_unique(),
+                 df.height, len(gt))
     df = df.join(g, on=["tile", "row"], how="left", suffix="_g")
     for c, fill in (("attached", 0), ("n_free_runs", 0), ("free_perimeter_m", 0.0), ("primary_run_len_m", 0.0),
-                    ("street_frontage_m", 0.0), ("street_segment_id", -1)):
+                    ("street_frontage_m", 0.0), ("street_segment_id", -1), ("mrr_short_m", 0.0),
+                    ("mrr_long_m", 0.0), ("mrr_heading", 0.0)):
         df = df.with_columns(pl.col(c).fill_null(fill))
     df = df.with_columns(pl.col("is_corner").fill_null(False))
     t.lap(f"load attributes + geometry summary ({df.height:,} rows)")
@@ -307,8 +318,17 @@ def pass_rules(out_dir: Path, limit_groups: int | None = None) -> dict:
     has_sf = df["has_storefront"].to_numpy().astype(bool)
     ffo = df["first_floor_offset"].to_numpy().astype(np.float64)
 
+    base_prim = D.CLASS.material_primary[fc].astype(np.int8)
+    base_sec = D.CLASS.material_secondary[fc].astype(np.int8)
+    gar = feature_code == 5110
+    if gar.any():
+        gp, gs = D.garage_material(np.asarray(df["bldg_class"].to_list(), dtype=object)[gar],
+                                   np.asarray(df["nta"].to_list(), dtype=object)[gar], year[gar], R.FRAME_BELT_NTA)
+        base_prim[gar] = gp
+        base_sec[gar] = gs
     prim, sec, msrc, mreal = D.resolve_material(fc, df["osm_material"].to_numpy().astype(np.int8),
-                                                df["osm_colour_material"].to_numpy().astype(np.int8), lpc_enum)
+                                                df["osm_colour_material"].to_numpy().astype(np.int8), lpc_enum,
+                                                base_prim, base_sec)
     front, fsrc = D.resolve_frontage(df["primary_run_len_m"].to_numpy().astype(np.float64),
                                      df["bldg_frontage"].to_numpy().astype(np.float64),
                                      df["lot_frontage"].to_numpy().astype(np.float64), area)
@@ -324,14 +344,33 @@ def pass_rules(out_dir: Path, limit_groups: int | None = None) -> dict:
     sf_kind = D.storefront_kind_for_placement(fc, kinds, seed, df["is_corner"].to_numpy().astype(bool))
     t.lap("derive facade attributes")
 
-    # ---- roof (CityGML stage, ADR-013 / DATA_CONTRACTS §5.3) ------------------------------------------------------------
+    # ---- roof: measured massing from CityGML, shape from the ADR-013 rule -------------------------------------------
     roof_type = np.zeros(n, dtype=np.int8)
     roof_ref = np.array([""] * n, dtype=object)
     roof_real = np.zeros(n, dtype=bool)
+    roof_src = np.full(n, RF.ROOF_SRC_DEFAULT_FLAT, dtype=np.int8)
     roof_state = "absent"
     if ROOF_ATTRS.exists():
-        roof_type, roof_ref, roof_real, roof_state = _apply_roof_attrs(df["bin"].to_numpy())
-    log.info("roof attributes: %s (ROOF_REAL on %d rows)", roof_state, int(roof_real.sum()))
+        roof_type, roof_ref, roof_real, roof_src, roof_state = _apply_roof_attrs(df["bin"].to_numpy())
+    gz_arr = df["ground_z"].to_numpy().astype(np.float64)
+    rz_arr = df["roof_z"].to_numpy().astype(np.float64)
+    r_type, r_pitch, r_ridge, r_eave, r_applied = RF.infer(
+        np.asarray(df["bldg_class"].to_list(), dtype=object), feature_code, year, floors, area,
+        df["attached"].to_numpy().astype(np.int32), df["mrr_short_m"].to_numpy().astype(np.float64),
+        df["mrr_long_m"].to_numpy().astype(np.float64), df["mrr_heading"].to_numpy().astype(np.float64),
+        df["lpc_style"].to_list(), gz_arr, rz_arr, D.CLASS.roof_shape[fc],
+        np.asarray([E.load_classes()[i - 1].get("roof") == "pitched_tile" if 1 <= i <= len(E.load_classes()) else False
+                    for i in range(D.CLASS.n)], dtype=bool)[fc])
+    # a real source (CityGML mesh or an OSM roof:shape tag) always wins over the rule
+    real_src = np.isin(roof_src, [RF.ROOF_SRC_CITYGML, RF.ROOF_SRC_OSM])
+    use_rule = r_applied & ~real_src
+    roof_type = np.where(use_rule, r_type, roof_type).astype(np.int8)
+    roof_src = np.where(use_rule, RF.ROOF_SRC_FACADE_RULE, roof_src).astype(np.int8)
+    roof_pitch = np.where(use_rule, r_pitch, 0.0).astype(np.float32)
+    roof_ridge = np.where(use_rule, r_ridge, 0.0).astype(np.float32)
+    roof_eave = np.where(use_rule, r_eave, rz_arr).astype(np.float32)
+    log.info("roof: %s; shape inferred by rule on %d buildings, ROOF_REAL on %d", roof_state,
+             int(use_rule.sum()), int(roof_real.sum()))
 
     # ---- fidelity --------------------------------------------------------------------------------------------------------
     fid = df["fidelity"].to_numpy().astype(np.uint32)
@@ -339,6 +378,8 @@ def pass_rules(out_dir: Path, limit_groups: int | None = None) -> dict:
     fid |= np.where(mreal, FIDELITY_MATERIAL_REAL, 0).astype(np.uint32)
     fid |= np.where(mreal, 0, FIDELITY_FACADE_INFERRED).astype(np.uint32)   # §5.1: bit 10 set whenever bit 5 is clear
     fid |= np.where(roof_real, FIDELITY_ROOF_REAL, 0).astype(np.uint32)
+    fid &= np.uint32(~RF.FIDELITY_ROOF_INFERRED)
+    fid |= np.where(use_rule, RF.FIDELITY_ROOF_INFERRED, 0).astype(np.uint32)
     fid = fid.astype(np.uint16)
 
     attrs = pl.DataFrame({
@@ -364,6 +405,9 @@ def pass_rules(out_dir: Path, limit_groups: int | None = None) -> dict:
         "storefront_kind_primary": pl.Series(sf_kind, dtype=pl.Int8),
         "awning_real": pl.Series(awn_real, dtype=pl.Boolean), "osm_iou": df["osm_iou"].cast(pl.Float32),
         "n_placements": pl.Series(np.zeros(n, dtype=np.int32), dtype=pl.Int32),
+        "roof_source": pl.Series(roof_src, dtype=pl.Int8), "roof_pitch_deg": pl.Series(roof_pitch, dtype=pl.Float32),
+        "roof_ridge_heading": pl.Series(roof_ridge, dtype=pl.Float32),
+        "roof_eave_z": pl.Series(roof_eave, dtype=pl.Float32),
         "osm_id": df["osm_id"].cast(pl.Int64), "fidelity": pl.Series(fid, dtype=pl.UInt16),
     }).select([c for c, _ in FS.ATTRS_COLUMNS]).sort(["tile", "row"])
 
@@ -400,8 +444,9 @@ def _osm_matches(df: pl.DataFrame, limit_groups: int | None) -> pl.DataFrame:
     bins = df["bin"].to_numpy()
     cx = df["centroid_x"].to_numpy()
     cy = df["centroid_y"].to_numpy()
-    wkb = pq.read_table(BASE, columns=["footprint"])["footprint"].to_pylist()
-    wkb = np.asarray(wkb, dtype=object)
+    base_row = df["base_row"].to_numpy()
+    # ``df`` may be a subset of buildings_base (development run), so index the footprint column by its base row
+    wkb = np.asarray(pq.read_table(BASE, columns=["footprint"])["footprint"].to_pylist(), dtype=object)[base_row]
     groups = tile_groups(list(np.unique(tiles)))
     if limit_groups:
         groups = dict(list(groups.items())[:limit_groups])
@@ -437,22 +482,36 @@ def _osm_matches(df: pl.DataFrame, limit_groups: int | None) -> pl.DataFrame:
     return pl.concat(parts, how="vertical").unique(subset=["tile", "row"], keep="first")
 
 
-def _apply_roof_attrs(bins: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray, str]:
-    """Join ``buildings/roof_attrs.parquet`` (DATA_CONTRACTS §5.3, ADR-013)."""
+def _apply_roof_attrs(bins: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, str]:
+    """Join ``buildings/roof_attrs.parquet`` (DATA_CONTRACTS §5.3, ADR-013).
+
+    Returns ``(roof_type, roof_mesh_ref, roof_real, roof_source, state)``.  ``roof_source`` follows the §5.3
+    ``roof_type_source`` codes; rows the CityGML stage marked inferred or default are handed back as "default flat"
+    so the facade rule (which owns the house stock's roof shape, ADR-013) can claim them.
+    """
+    n = len(bins)
     cols = pq.ParquetFile(ROOF_ATTRS).schema_arrow.names
-    need = [c for c in ("bin", "roof_type", "roof_mesh_ref", "citygml_match") if c in cols]
+    need = [c for c in ("bin", "roof_type", "roof_mesh_ref", "citygml_match", "roof_type_source") if c in cols]
     if "bin" not in need or "roof_type" not in need:
-        return (np.zeros(len(bins), np.int8), np.array([""] * len(bins), dtype=object),
-                np.zeros(len(bins), bool), "present but missing bin/roof_type columns: ignored")
-    ra = pl.read_parquet(ROOF_ATTRS, columns=need)
-    left = pl.DataFrame({"bin": bins.astype(np.int64), "_i": np.arange(len(bins), dtype=np.int64)})
-    j = left.join(ra, on="bin", how="left")
+        return (np.zeros(n, np.int8), np.array([""] * n, dtype=object), np.zeros(n, bool),
+                np.full(n, RF.ROOF_SRC_DEFAULT_FLAT, np.int8),
+                "present but missing bin/roof_type columns: ignored")
+    ra = pl.read_parquet(ROOF_ATTRS, columns=need).unique(subset=["bin"], keep="first")
+    left = pl.DataFrame({"bin": bins.astype(np.int64), "_i": np.arange(n, dtype=np.int64)})
+    j = left.join(ra, on="bin", how="left").sort("_i")
     rt = j["roof_type"].fill_null(0).cast(pl.Int8).to_numpy().astype(np.int8)
-    ref = np.asarray(j["roof_mesh_ref"].fill_null("").to_list(), dtype=object) if "roof_mesh_ref" in need \
-        else np.array([""] * len(bins), dtype=object)
-    real = j["citygml_match"].fill_null(False).to_numpy().astype(bool) if "citygml_match" in need \
-        else np.zeros(len(bins), bool)
-    return rt, ref, real, f"joined {int(real.sum()):,} CityGML matches from {ROOF_ATTRS.name}"
+    ref = (np.asarray(j["roof_mesh_ref"].fill_null("").to_list(), dtype=object) if "roof_mesh_ref" in need
+           else np.array([""] * n, dtype=object))
+    real = (j["citygml_match"].fill_null(False).to_numpy().astype(bool) if "citygml_match" in need
+            else np.zeros(n, bool))
+    src = (j["roof_type_source"].fill_null(RF.ROOF_SRC_DEFAULT_FLAT).cast(pl.Int8).to_numpy().astype(np.int8)
+           if "roof_type_source" in need else np.where(real, RF.ROOF_SRC_CITYGML, RF.ROOF_SRC_DEFAULT_FLAT).astype(np.int8))
+    # sources 2 (the CityGML stage's own inference) and 3 (default flat) are handed back as "default flat": ADR-013
+    # gives the house stock's roof *shape* to the facade rule, so only the two real sources are carried through.
+    real = np.isin(src, [RF.ROOF_SRC_CITYGML, RF.ROOF_SRC_OSM])
+    rt = np.where(real, rt, 0).astype(np.int8)
+    src = np.where(real, src, RF.ROOF_SRC_DEFAULT_FLAT).astype(np.int8)
+    return rt, ref, real, src, f"joined {int(real.sum()):,} CityGML matches from {ROOF_ATTRS.name}"
 
 
 def _rules_summary(df: pl.DataFrame, attrs: pl.DataFrame, hits: dict[str, int], mreal: np.ndarray,
@@ -503,6 +562,11 @@ def _rules_summary(df: pl.DataFrame, attrs: pl.DataFrame, hits: dict[str, int], 
         "attached_buildings": int((attrs["attached"] > 0).sum()),
         "roof_attrs": roof_state,
         "roof_real": int((attrs["fidelity"].cast(pl.UInt32) & FIDELITY_ROOF_REAL != 0).sum()),
+        "roof_inferred": int((attrs["fidelity"].cast(pl.UInt32) & RF.FIDELITY_ROOF_INFERRED != 0).sum()),
+        "roof_type_distribution": {str(k): int(v) for k, v in
+                                   attrs.group_by("roof_type").len().sort("roof_type").iter_rows()},
+        "roof_source_counts": {str(k): int(v) for k, v in
+                               attrs.group_by("roof_source").len().sort("roof_source").iter_rows()},
     }
 
 
@@ -548,6 +612,7 @@ def pass_emit(only_tiles: set[str] | None, limit_groups: int | None, out_dir: Pa
                 continue
             base_tbl = pq.read_table(bpath)
             a = a.sort("row")
+            base_cols = [n for n in base_tbl.schema.names if n not in set(FS.ADDED_NAMES)]
             if base_tbl.num_rows != a.height:
                 raise RuntimeError(f"{tile}: tile has {base_tbl.num_rows} rows, facade_attrs has {a.height}")
             if not np.array_equal(base_tbl["bin"].to_numpy(), a["bin"].to_numpy()):
@@ -560,7 +625,7 @@ def pass_emit(only_tiles: set[str] | None, limit_groups: int | None, out_dir: Pa
             n_by_bin = _count_by_row(rec, base_tbl["bin"].to_numpy())
             a = a.with_columns(pl.Series("n_placements", n_by_bin, dtype=pl.Int32))
             hdr = P.write_tile(rec, tile, tdir, extra={"rules_version": R.RULES_VERSION})
-            for k in hdr["kit_ids"]:
+            for k in hdr["kit_id_counts"]:
                 kit_counts[k["kit_id"]] = kit_counts.get(k["kit_id"], 0) + k["count"]
 
             out_tbl = _extend_table(base_tbl, a)
@@ -573,11 +638,11 @@ def pass_emit(only_tiles: set[str] | None, limit_groups: int | None, out_dir: Pa
             tot["placements"] += int(len(rec))
             tot["bytes"] += hdr["bytes"]
             ti += 1
-            if ti % validate_every == 1:
-                probs = validate_parquet("buildings", bpath)
-                tot["validated"] += 1
-                if probs:
-                    tot["problems"].append({"tile": tile, "problems": probs})
+            # schema conformance on every tile; the (much slower) null check on a sample
+            probs = validate_parquet("buildings", bpath, check_nulls=(ti % validate_every == 1))
+            tot["validated"] += 1
+            if probs:
+                tot["problems"].append({"tile": tile, "problems": probs})
         if (gi + 1) % 10 == 0 or gi + 1 == len(groups):
             log.info("emit %d/%d groups, %d tiles, %s placements, %.1f MB, rss %.0f MB",
                      gi + 1, len(groups), tot["tiles"], f"{tot['placements']:,}", tot["bytes"] / 1e6, _rss_mb())
@@ -656,10 +721,16 @@ def _placements_for_tile(base_tbl: pa.Table, a: pl.DataFrame, e: pl.DataFrame) -
 
 
 def _extend_table(base_tbl: pa.Table, a: pl.DataFrame) -> pa.Table:
-    """Append the facade columns to the buildings table, overwriting ``osm_id`` and ``fidelity`` in place."""
-    arrays = list(base_tbl.columns)
-    fields = list(base_tbl.schema)
-    names = base_tbl.schema.names
+    """Append the facade columns to the buildings table, overwriting ``osm_id`` and ``fidelity`` in place.
+
+    Idempotent: a tile already carrying facade columns from an earlier run keeps only its buildings-stage columns,
+    which are then re-extended, so re-running the pass never duplicates a column.
+    """
+    added = set(FS.ADDED_NAMES)
+    keep = [i for i, n in enumerate(base_tbl.schema.names) if n not in added]
+    arrays = [base_tbl.column(i) for i in keep]
+    fields = [base_tbl.schema.field(i) for i in keep]
+    names = [f.name for f in fields]
     for col in FS.OVERWRITTEN:
         i = names.index(col)
         arrays[i] = a[col].to_arrow().cast(fields[i].type)

@@ -162,7 +162,7 @@ Frame budget 16.6 ms at 1440p on RTX 4070-class: Nanite for shells and kit, Lume
 | UE compile, cook, frame rate, physics feel, audio | **workstation only** | steps in `unreal/README.md`; not claimed as verified here |
 
 ## 15. Build order and gating (Section 13 of the brief)
-terrain & coastline → roads → buildings → furniture/vegetation → vehicle → character → traffic → pedestrians → time/weather → audio → performance → tests → fidelity report. Each stage ends with its verification artefacts committed under `docs/verification/<stage>/` before the next begins.
+terrain & coastline → roads → buildings → **transit → furniture/vegetation** → vehicle → character → traffic → pedestrians → time/weather → audio → performance → tests → fidelity report. (Transit runs before furniture: the furniture stage reads `transit/bus_stops.parquet` to place bus-stop signs and shelters.) Each stage ends with its verification artefacts committed under `docs/verification/<stage>/` before the next begins.
 
 ## 16. Sub-agent organisation
 Work is fanned out to specialised agents (data-ingest, Blender kit, Blender landmarks, Blender vehicles, Blender character, core C++, UE C++, UE Python automation, verification). Agents communicate only through the repository: `DATA_CONTRACTS.md` schemas, `data/manifest/*.json`, and stage reports in `docs/verification/`. An orchestrator (this session) reviews every report, re-runs any failed agent with the failure attached, and never accepts a report that claims fidelity it cannot show.

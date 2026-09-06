@@ -18,7 +18,7 @@
 //
 // exp() is evaluated with expNegApprox(), a libm-free approximation whose
 // maximum relative error over the range this model uses is measured in
-// tests/peds/test_social_force.cpp.  Using it rather than std::exp keeps the
+// tests/traffic/test_models.cpp.  Using it rather than std::exp keeps the
 // crowd bit-reproducible across platforms and standard libraries.
 
 #include <cmath>
@@ -26,17 +26,17 @@
 namespace nycsim {
 namespace peds {
 
-// e^-x for x ≥ 0, via (1 − x/64)^64.  Monotone, exact at 0, saturates to 0.
+// e^-x for x ≥ 0, as (1 − x/4096)^4096 evaluated by twelve squarings.
+// Monotone, exactly 1 at 0, saturating to 0; the maximum relative error over
+// the range the social force uses ([0, 6]) is measured in
+// tests/traffic/test_models.cpp and is below 0.5 %.  Twelve multiplications
+// beat a libm call and, unlike std::exp, give the same bits on every platform,
+// which the determinism contract needs.
 inline float expNegApprox(float x) {
   if (x <= 0.f) return 1.f;
   if (x >= 60.f) return 0.f;
-  float t = 1.f - x * (1.f / 64.f);
-  t *= t;  // ^2
-  t *= t;  // ^4
-  t *= t;  // ^8
-  t *= t;  // ^16
-  t *= t;  // ^32
-  t *= t;  // ^64
+  float t = 1.f - x * (1.f / 4096.f);
+  for (int i = 0; i < 12; ++i) t *= t;
   return t;
 }
 

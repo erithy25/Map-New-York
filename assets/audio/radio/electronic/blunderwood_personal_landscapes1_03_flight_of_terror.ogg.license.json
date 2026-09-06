@@ -1,0 +1,28 @@
+{
+ "artist": "B.L.Underwood",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 2002868,
+ "duration_s": 141.4,
+ "file": "electronic/blunderwood_personal_landscapes1_03_flight_of_terror.ogg",
+ "gain_db": -1.6,
+ "licence": "CC-BY-2.0-UK",
+ "licence_url": "http://creativecommons.org/licenses/by/2.0/uk/",
+ "loudness_lufs": -12.4,
+ "original_filename": "03_Flight_of_Terror.mp3",
+ "recorded_at": "2026-09-06T12:16:48Z",
+ "schema_version": 1,
+ "sha256": "e95d76931b82fda75a1bd38125a62197636527f87faac3039a46a0e073bded62",
+ "source_page": "https://archive.org/details/BLUnderwood_Personal_Landscapes1",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/BLUnderwood_Personal_Landscapes1/03_Flight_of_Terror.mp3",
+ "title": "Flight of Terror",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

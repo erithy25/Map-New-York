@@ -54,6 +54,7 @@ MIN_HOURS_FOR_PROFILE = 18
 SHRINK_SITES = 1.0              # pseudo-sites of regression evidence blended into an observed NTA effect
 DENSITY_FLOOR = 0.02            # veh/km/lane — an NTA with roads is never perfectly empty
 SEGMENT_CHUNK = 20000
+MAX_PROFILE = 4.0               # no hour carries more than 4x the weekday daily mean flow
 
 # Stage-2 features, chosen by forward selection on the leave-one-out R² over the candidate list in
 # :func:`nta_feature_matrix` (see docs/verification/traffic_density/METHOD.md §5).
@@ -165,10 +166,15 @@ class SiteModel:
     dir_doubled: int
 
 
-def _weighted_profile(qn: np.ndarray, w: np.ndarray) -> np.ndarray:
-    ww = np.where(np.isfinite(qn), w[:, None, None], 0.0)
-    num = np.nansum(np.where(np.isfinite(qn), qn, 0.0) * ww, axis=0)
-    den = ww.sum(axis=0)
+def _weighted_profile(q: np.ndarray, level: np.ndarray, w: np.ndarray) -> np.ndarray:
+    """Pooled profile: total observed flow at (hour, day type) / total weekday level of the same sites.
+
+    Dividing the sums rather than averaging per-site ratios keeps one quiet site (level well under
+    1 veh/h/lane) from dominating an hour it happens to be the only observer of.
+    """
+    obs = np.isfinite(q)
+    num = (np.where(obs, q, 0.0) * w[:, None, None]).sum(axis=0)
+    den = (obs * (w * level)[:, None, None]).sum(axis=0)
     with np.errstate(invalid="ignore", divide="ignore"):
         return np.where(den > 0, num / den, np.nan)
 
@@ -206,29 +212,28 @@ def build_site_model(cd: CountData, ms: MatchedSites, clusters: np.ndarray) -> S
     level = np.full(n, np.nan)
     if enough.any():
         level[enough] = np.nanmean(wd[enough], axis=1)
-    with np.errstate(invalid="ignore", divide="ignore"):
-        qn = q / level[:, None, None]
     cls = sites["road_class"].to_numpy()
     site_cluster = clusters[sites["nta_idx"].to_numpy()]
     w = np.sqrt(np.maximum(nd[:, :, 0].sum(axis=1), 1.0))
     valid = np.isfinite(level) & (level > 0)
+    lvl = np.where(valid, level, 0.0)
 
     profiles: dict[str, np.ndarray] = {}
     profile_n: dict[str, int] = {}
     sel_all = valid & (cls >= 2)
-    p_all = _weighted_profile(qn[sel_all], w[sel_all])
+    p_all = _weighted_profile(q[sel_all], lvl[sel_all], w[sel_all])
     p_all = np.where(np.isfinite(p_all), p_all, 1.0)
     profiles["all"], profile_n["all"] = p_all, int(sel_all.sum())
     sel_h = valid & (cls <= 1)
     profile_n["highway"] = int(sel_h.sum())
-    profiles["highway"] = _fill_profile(_weighted_profile(qn[sel_h], w[sel_h]), p_all) \
+    profiles["highway"] = _fill_profile(_weighted_profile(q[sel_h], lvl[sel_h], w[sel_h]), p_all) \
         if sel_h.sum() >= MIN_SITES_FOR_PROFILE else p_all
     for c in CLUSTERS:
         profile_n[c] = int((valid & (cls >= 2) & (site_cluster == c)).sum())
     for c in CLUSTERS:
         sel = valid & (cls >= 2) & (site_cluster == c)
         if sel.sum() >= MIN_SITES_FOR_PROFILE:
-            profiles[c] = _fill_profile(_weighted_profile(qn[sel], w[sel]), p_all)
+            profiles[c] = _fill_profile(_weighted_profile(q[sel], lvl[sel], w[sel]), p_all)
             continue
         fb = CLUSTER_FALLBACK[c]
         while fb is not None and fb != "all" and profile_n.get(fb, 0) < MIN_SITES_FOR_PROFILE:
@@ -237,13 +242,16 @@ def build_site_model(cd: CountData, ms: MatchedSites, clusters: np.ndarray) -> S
             profiles[c] = p_all
         else:
             selfb = valid & (cls >= 2) & (site_cluster == fb)
-            profiles[c] = _fill_profile(_weighted_profile(qn[selfb], w[selfb]), p_all)
+            profiles[c] = _fill_profile(_weighted_profile(q[selfb], lvl[selfb], w[selfb]), p_all)
         log.info("profile for cluster %s pooled from %s (%d own sites)", c, fb or "all", int(sel.sum()))
     for k, p in profiles.items():
         m = float(np.nanmean(p[:, 0]))
-        profiles[k] = p / m if m > 0 else p
+        p = p / m if m > 0 else p
+        profiles[k] = np.clip(p, 0.0, MAX_PROFILE)
         if not np.isfinite(profiles[k]).all():
             raise ValueError(f"profile {k} still has non-finite entries")
+    log.info("profile peaks (weekday/sat/sun, multiples of the weekday daily mean): %s",
+             {k: [round(float(v[:, d].max()), 2) for d in range(3)] for k, v in profiles.items()})
 
     sites = sites.with_columns(pl.Series("level", level), pl.Series("n_hours_wd", n_hours_wd.astype(np.int32)),
                                pl.Series("cluster", site_cluster.tolist()))

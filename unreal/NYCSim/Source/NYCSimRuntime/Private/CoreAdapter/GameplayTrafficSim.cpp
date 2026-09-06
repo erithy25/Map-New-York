@@ -54,18 +54,6 @@ IdmParams idmFor(const VehicleClassParams& p, float desiredSpeed, float wetness,
 	return idm;
 }
 
-float angleBetween(float ax, float ay, float bx, float by)
-{
-	const float la = std::sqrt(ax * ax + ay * ay);
-	const float lb = std::sqrt(bx * bx + by * by);
-	if (la < 1e-6f || lb < 1e-6f)
-	{
-		return 0.f;
-	}
-	const float c = std::clamp((ax * bx + ay * by) / (la * lb), -1.f, 1.f);
-	return std::acos(c);
-}
-
 }  // namespace
 
 TrafficSim::TrafficSim() = default;
@@ -134,6 +122,7 @@ bool TrafficSim::init(const RoadNetwork& network, const TrafficConfig& config, s
 	laneBucketStart_.assign(g.laneCount() + 1, 0u);
 	laneAgents_.clear();
 	laneAgents_.reserve(config_.maxVehicles);
+	rebuildLaneBuckets();
 	return true;
 }
 
@@ -296,6 +285,38 @@ void TrafficSim::rebuildLaneBuckets()
 	stats_.vehicles = static_cast<uint32_t>(activeOrder_.size());
 }
 
+void TrafficSim::resolveOverlaps()
+{
+	const auto& g = network_->graph();
+	const size_t laneCount = g.laneCount();
+	for (size_t l = 0; l < laneCount; ++l)
+	{
+		const uint32_t b = laneBucketStart_[l];
+		const uint32_t e = laneBucketStart_[l + 1];
+		for (uint32_t k = b; k + 1 < e; ++k)
+		{
+			Agent& lower = agents_[laneAgents_[k]];
+			Agent& upper = agents_[laneAgents_[k + 1]];
+			const float halfSum = (classParams(lower.cls).length_m + classParams(upper.cls).length_m) * 0.5f;
+			const float minSeparation = halfSum + 0.05f;
+			if (upper.s - lower.s < minSeparation)
+			{
+				// The follower is `lower` only when the lane is traversed in increasing s, which it always is.
+				// Push the *following* vehicle back to the contact point and kill its closing speed: a rear-end
+				// contact is resolved as a hard stop, never as interpenetration.
+				lower.s = std::min(lower.s, upper.s - minSeparation);
+				if (lower.s < 0.f)
+				{
+					lower.s = 0.f;
+				}
+				lower.v = std::min(lower.v, upper.v);
+				lower.accel = std::min(lower.accel, -classParams(lower.cls).max_decel);
+			}
+			stats_.minLeaderGapM = std::min(stats_.minLeaderGapM, (upper.s - lower.s) - halfSum);
+		}
+	}
+}
+
 bool TrafficSim::findLeader(const Agent& a, float& gap, float& leadSpeed) const
 {
 	const auto& g = network_->graph();
@@ -434,7 +455,33 @@ float TrafficSim::pedObstacleDistance(const Agent& a) const
 	return best;
 }
 
-bool TrafficSim::junctionClear(const Agent& a, uint32_t junctionLane) const
+bool TrafficSim::laneEntryClear(const Agent& a, uint32_t lane, float s) const
+{
+	const auto& g = network_->graph();
+	if (lane >= g.laneCount())
+	{
+		return false;
+	}
+	// Scans the live agent array rather than the per-lane buckets on purpose: the buckets are built at the start
+	// of the step, so an agent that already moved into `lane` earlier in this same step (or was spawned into it)
+	// is not in them yet. Missing those was the cause of the overlaps the self-test found on 2026-09-06.
+	const float halfSelf = params(a).length_m * 0.5f;
+	for (const Agent& o : agents_)
+	{
+		if (!o.active || o.lane != lane || o.id == a.id)
+		{
+			continue;
+		}
+		const float clearance = halfSelf + classParams(o.cls).length_m * 0.5f + 0.35f;
+		if (std::fabs(o.s - s) < clearance)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+bool TrafficSim::junctionClear(Agent& a, uint32_t junctionLane) const
 {
 	const auto& g = network_->graph();
 	if (junctionLane >= g.laneCount())
@@ -452,16 +499,22 @@ bool TrafficSim::junctionClear(const Agent& a, uint32_t junctionLane) const
 	const float toEnd = g.lane(a.lane).length_m - a.s;
 	if (signal == VehSignal::Red)
 	{
-		return false;
+		// A driver already inside the dilemma zone when the light changed cannot stop in time and clears.
+		if (!a.committed)
+		{
+			return false;
+		}
 	}
 	if (signal == VehSignal::Yellow)
 	{
-		// Decision zone: stop when it can be done comfortably, otherwise clear the intersection.
+		// Dilemma zone (ITE): stop when it can still be done comfortably, otherwise commit and clear the
+		// intersection — which is what makes a legal entry on the tail of the yellow possible.
 		const float needed = nycsim::traffic::stoppingDistance(a.v, params(a).comfort_decel, 1.0f);
 		if (needed < toEnd)
 		{
 			return false;
 		}
+		a.committed = true;
 	}
 
 	// 2. Stop / all-way stop control at the node.
@@ -528,7 +581,7 @@ bool TrafficSim::junctionClear(const Agent& a, uint32_t junctionLane) const
 	return true;
 }
 
-float TrafficSim::stopLineDistance(const Agent& a) const
+float TrafficSim::stopLineDistance(Agent& a) const
 {
 	const auto& g = network_->graph();
 	const Lane& lane = g.lane(a.lane);
@@ -673,6 +726,8 @@ void TrafficSim::applyLaneChange(Agent& a)
 										: nycsim::traffic::idmFreeAccel(idm, a.v);
 
 	const uint32_t candidates[2] = {lane.left, lane.right};
+	float candidateS[2] = {0.f, 0.f};
+	uint32_t bestSide = 0;
 	constexpr float kThreshold = 0.25f;  // m/s² advantage required
 	constexpr float kSafeBraking = 4.0f; // m/s² the new follower may be forced to
 	float bestGain = kThreshold;
@@ -690,12 +745,24 @@ void TrafficSim::applyLaneChange(Agent& a)
 			continue;
 		}
 		const Lane& tl = g.lane(target);
-		if (tl.direction != lane.direction || a.s > tl.length_m - 3.f)
+		if (tl.direction != lane.direction)
+		{
+			continue;
+		}
+		// Evaluate the gaps at the arc length the agent would actually land on, not at its current lane's s:
+		// parallel lanes are offset polylines and their arc lengths do not have to agree.
+		const LanePose here = g.poseAt(a.lane, a.s, a.lateral);
+		float targetS = 0.f, targetLateral = 0.f, targetDist = 0.f;
+		if (!g.projectOnLane(target, here.pos.x, here.pos.y, targetS, targetLateral, targetDist, 12.f))
+		{
+			continue;
+		}
+		if (targetS > tl.length_m - 3.f || targetS < 1.f)
 		{
 			continue;
 		}
 
-		// Neighbours in the target lane at the same s.
+		// Neighbours in the target lane at that arc length.
 		float newGap = kBigDistance, newLeadV = 0.f;
 		float backGap = kBigDistance, backV = 0.f;
 		const uint32_t b = laneBucketStart_[target];
@@ -704,7 +771,7 @@ void TrafficSim::applyLaneChange(Agent& a)
 		{
 			const Agent& o = agents_[laneAgents_[k]];
 			const float halfOther = classParams(o.cls).length_m * 0.5f;
-			const float d = o.s - a.s;
+			const float d = o.s - targetS;
 			if (d >= 0.f)
 			{
 				newGap = std::min(newGap, d - p.length_m * 0.5f - halfOther);
@@ -718,6 +785,7 @@ void TrafficSim::applyLaneChange(Agent& a)
 		{
 			continue;
 		}
+		candidateS[side] = targetS;
 
 		const float ownAccelNew = nycsim::traffic::idmAccel(idm, a.v, newGap, a.v - newLeadV);
 		// Safety criterion for the follower we would cut in front of.
@@ -744,24 +812,21 @@ void TrafficSim::applyLaneChange(Agent& a)
 		{
 			bestGain = gain;
 			bestLane = target;
+			bestSide = static_cast<uint32_t>(side);
 		}
 	}
 
-	if (bestLane != kInvalidIndex)
+	if (bestLane != kInvalidIndex && laneEntryClear(a, bestLane, candidateS[bestSide]))
 	{
-		float s = a.s, lateral = 0.f, dist = 0.f;
-		const LanePose here = g.poseAt(a.lane, a.s, a.lateral);
-		if (g.projectOnLane(bestLane, here.pos.x, here.pos.y, s, lateral, dist, 12.f))
-		{
-			a.lane = bestLane;
-			a.s = s;
-			a.lateral = 0.f;
-			a.lateralTarget = 0.f;
-			a.plannedNext = kInvalidIndex;
-			a.sinceLaneChange = 0.f;
-			a.desiredSpeed = laneDesiredSpeed(a, bestLane);
-			++stats_.laneChanges;
-		}
+		a.lane = bestLane;
+		a.s = candidateS[bestSide];
+		a.lateral = 0.f;
+		a.lateralTarget = 0.f;
+		a.plannedNext = kInvalidIndex;
+		a.committed = false;
+		a.sinceLaneChange = 0.f;
+		a.desiredSpeed = laneDesiredSpeed(a, bestLane);
+		++stats_.laneChanges;
 	}
 }
 
@@ -1008,10 +1073,36 @@ void TrafficSim::advance(Agent& a)
 				return;
 			}
 		}
+		// Two reasons to stay put at the stop line rather than enter: the movement is not admitted right now
+		// (the light went red or the conflicting traffic arrived after the last decision, e.g. because a lane
+		// change re-planned the turn), or the lane being entered is already occupied at that arc length. Both
+		// are resolved by braking hard at the line, which is what produces real queue spillback.
+		const bool admitted = g.lane(next).is_junction == 0 || junctionClear(a, next);
+		if (!admitted || !laneEntryClear(a, next, overshoot))
+		{
+			a.s = std::max(0.f, g.lane(a.lane).length_m - 0.05f);
+			a.v = std::max(0.f, a.v - params(a).max_decel * dt);
+			a.accel = -params(a).max_decel;
+			a.plannedNext = next;
+			++stats_.emergencyHolds;
+			return;
+		}
+		if (g.lane(next).is_junction != 0 && network_->junctionSignal(next, simTime_) == VehSignal::Red)
+		{
+			if (a.committed)
+			{
+				++stats_.dilemmaZoneEntries;
+			}
+			else
+			{
+				++stats_.redLightEntries;
+			}
+		}
 		a.lane = next;
 		a.s = overshoot;
 		a.plannedNext = kInvalidIndex;
 		a.stopSignHeld = 0.f;
+		a.committed = false;
 		a.desiredSpeed = laneDesiredSpeed(a, a.lane);
 
 		// Bus: arrive at the next stop of its route.
@@ -1048,7 +1139,24 @@ void TrafficSim::advance(Agent& a)
 			{
 				const float perMetre = params(a).double_park_rate_per_km / 1000.f;
 				const float travelled = a.v * dt;
-				if (travelled > 0.f && a.rng.chance(perMetre * travelled) && !observerProtects(before.pos.x, before.pos.y))
+				bool followerTooClose = false;
+				for (const Agent& o : agents_)
+				{
+					if (!o.active || o.lane != a.lane || o.id == a.id || o.s >= a.s)
+					{
+						continue;
+					}
+					const float gap = (a.s - o.s) - (params(a).length_m + classParams(o.cls).length_m) * 0.5f;
+					const float needed = nycsim::traffic::stoppingDistance(o.v, classParams(o.cls).comfort_decel, 1.0f) +
+										 classParams(o.cls).min_gap_s0;
+					if (gap < needed)
+					{
+						followerTooClose = true;
+						break;
+					}
+				}
+				if (!followerTooClose && travelled > 0.f && a.rng.chance(perMetre * travelled) &&
+					!observerProtects(before.pos.x, before.pos.y))
 				{
 					a.doubleParked = true;
 					a.dwellTimer = a.rng.uniform(25.f, 150.f);
@@ -1155,13 +1263,15 @@ void TrafficSim::spawnPhase()
 			continue;
 		}
 
-		// Free space check on the lane.
+		// Free space check on the lane: a spawning vehicle needs its own standing gap plus 3 m of margin, and
+		// the check must see agents spawned or moved earlier in this same step (hence the live-array scan).
 		bool blocked = false;
-		const uint32_t b = laneBucketStart_[lane];
-		const uint32_t e = laneBucketStart_[lane + 1];
-		for (uint32_t k = b; k < e; ++k)
+		for (const Agent& o : agents_)
 		{
-			const Agent& o = agents_[laneAgents_[k]];
+			if (!o.active || o.lane != lane)
+			{
+				continue;
+			}
 			const float clearance = (p.length_m + classParams(o.cls).length_m) * 0.5f + p.min_gap_s0 + 3.f;
 			if (std::fabs(o.s - s) < clearance)
 			{
@@ -1365,12 +1475,8 @@ void TrafficSim::step()
 	}
 	const auto t0 = std::chrono::steady_clock::now();
 
-	rebuildLaneBuckets();
-
-	// Deterministic order: ascending agent id.
-	std::sort(activeOrder_.begin(), activeOrder_.end(),
-			  [this](uint32_t a, uint32_t b) { return agents_[a].id < agents_[b].id; });
-
+	// Buckets are rebuilt at the *end* of the previous step (and once by init()), so every phase below sees a
+	// consistent snapshot of who is where.
 	for (const uint32_t i : activeOrder_)
 	{
 		updateAgent(agents_[i]);
@@ -1386,6 +1492,12 @@ void TrafficSim::step()
 
 	despawnPhase();
 	spawnPhase();
+
+	rebuildLaneBuckets();
+	resolveOverlaps();
+	// Deterministic order for the next step's phases: ascending agent id.
+	std::sort(activeOrder_.begin(), activeOrder_.end(),
+			  [this](uint32_t a, uint32_t b) { return agents_[a].id < agents_[b].id; });
 
 	simTime_ += config_.stepSeconds;
 	++stats_.steps;

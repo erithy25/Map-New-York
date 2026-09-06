@@ -22,13 +22,18 @@ from typing import Any, Final, Sequence
 
 from . import astronomy, timesync
 from .paths import OVERLAY_TXT, write_json_atomic  # noqa: F401 - OVERLAY_TXT is the documented sink
+from .weather import MAX_OBSERVATION_AGE_S as _weather_max_age
 from .weather import WeatherObservation
 from .worldmapping import WorldState
 
 WIDTH: Final = 62
 LABEL_W: Final = 22
 NONE_TEXT: Final = "—"
-STALE_LIMIT_S: Final = 3600.0  # older than this and the header shouts STALE even for a live provider
+# An observation older than this is marked STALE even when a provider answered. It is exactly
+# ``weather.MAX_OBSERVATION_AGE_S``: past that age a provider's own observation is rejected, so anything a
+# provider still delivers is by definition current. A smaller limit would flag KNYC every hour, because a
+# station reporting hourly at :51 legitimately serves a 59-minute-old observation.
+STALE_LIMIT_S: Final = _weather_max_age
 _COMPASS: Final = ("N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW")
 
 

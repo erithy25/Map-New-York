@@ -58,8 +58,8 @@ def reg_flats() -> None:
     K.flat("paint_black", (0.035, 0.035, 0.035), 0.5)
     K.flat("paint_grey", (0.32, 0.33, 0.34), 0.55)
     K.flat("rubber_black", (0.02, 0.02, 0.022), 0.85)
-    K.flat("foliage_green", (0.075, 0.22, 0.06), 0.72)
-    K.flat("foliage_green_dry", (0.20, 0.24, 0.09), 0.8)
+    K.flat("foliage_green", (0.035, 0.105, 0.032), 0.72)
+    K.flat("foliage_green_dry", (0.105, 0.115, 0.040), 0.8)
     K.flat("soil", (0.06, 0.045, 0.035), 0.9)
     K.flat("chrome", (0.62, 0.63, 0.65), 0.18, metallic=1.0)
     K.emissive("lamp_warm", (1.0, 0.82, 0.55), 6.0)
@@ -162,13 +162,18 @@ def ivy_image() -> str:
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
     rnd = _lcg(12345)
-    for _ in range(520):
+    for _ in range(560):
         cx, cy = rnd() * W, rnd() * H
         r = 12 + rnd() * 20
-        g = 60 + int(rnd() * 90)
-        col = (int(g * 0.35), g, int(g * 0.30), 255)
-        d.polygon([(cx, cy - r), (cx + r * 0.75, cy - r * 0.2), (cx + r * 0.35, cy + r * 0.9),
-                   (cx - r * 0.35, cy + r * 0.9), (cx - r * 0.75, cy - r * 0.2)], fill=col)
+        g = 44 + int(rnd() * 62)                       # Boston ivy: deep, slightly blue-green, not grass green
+        col = (int(g * 0.55), g, int(g * 0.46), 255)
+        pts = [(cx, cy - r), (cx + r * 0.75, cy - r * 0.2), (cx + r * 0.35, cy + r * 0.9),
+               (cx - r * 0.35, cy + r * 0.9), (cx - r * 0.75, cy - r * 0.2)]
+        d.polygon(pts, fill=col)
+        vein = (int(g * 0.40), int(g * 0.72), int(g * 0.34), 255)
+        d.line([(cx, cy + r * 0.85), (cx, cy - r * 0.85)], fill=vein, width=2)
+        d.line([(cx, cy + r * 0.2), (cx + r * 0.62, cy - r * 0.15)], fill=vein, width=1)
+        d.line([(cx, cy + r * 0.2), (cx - r * 0.62, cy - r * 0.15)], fill=vein, width=1)
     img.save(p)
     return str(p)
 

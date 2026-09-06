@@ -52,8 +52,25 @@ def apply_weights(obj: bpy.types.Object, weights: dict[str, dict[int, float]], *
                 group.add([idx], float(w), "REPLACE")
 
 
-def normalise_weights(weights: dict[str, dict[int, float]], n_verts: int) -> dict[str, dict[int, float]]:
-    """Scale every vertex's weights so they sum to 1. Vertices with no weight are left empty (reported)."""
+def normalise_weights(weights: dict[str, dict[int, float]], n_verts: int, *,
+                      max_influences: int = 4) -> dict[str, dict[int, float]]:
+    """Keep each vertex's ``max_influences`` strongest weights and scale them to sum to exactly 1.
+
+    glTF (and UE's default skinning) carries four influences per vertex; culling in Blender rather than in
+    the exporter means the authored weights and the exported weights are the same numbers, which is what
+    ``tests/test_character.py`` checks.
+    """
+    if max_influences > 0:
+        per_vertex: dict[int, list[tuple[float, str]]] = {}
+        for name, data in weights.items():
+            for idx, w in data.items():
+                per_vertex.setdefault(idx, []).append((w, name))
+        for idx, entries in per_vertex.items():
+            if len(entries) <= max_influences:
+                continue
+            entries.sort(reverse=True)
+            for _w, name in entries[max_influences:]:
+                weights[name].pop(idx, None)
     totals = [0.0] * n_verts
     for data in weights.values():
         for idx, w in data.items():

@@ -1,0 +1,199 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_chrysler_building",
+ "name": "Chrysler Building",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.75,
+  "lon": -73.9767,
+  "azimuth_deg": 29.6,
+  "note": "Lexington Avenue at East 40th Street, west sidewalk, looking uptown at the crown",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7516,
+  "lon": -73.9755,
+  "name": "Chrysler Building"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Chrysler Building\" Lexington Avenue",
+  "\"Chrysler Building\" exterior street level 42nd Street"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T12:08:18Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 87,
+ "candidates_eligible": 19,
+ "rejections": {
+  "too_old": 15,
+  "night_for_day_item": 4,
+  "too_small": 7,
+  "keywords": 19,
+  "excluded": 12,
+  "not_photo": 11
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Chrysler Building October 2022 001.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Chrysler_Building_October_2022_001.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/60/Chrysler_Building_October_2022_001.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Chrysler_Building_October_2022_001.jpg/1920px-Chrysler_Building_October_2022_001.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-10-08 14:36:16",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.750969,
+    "lon": -73.9757
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 608279,
+   "sha256": "fc3a84f3824c9217d466dbf7695652a7d037602b3a0ca1bbde3c47bbe3fee148",
+   "mean_luminance": 83.0,
+   "description": "The Chrysler Building in October 2022",
+   "categories": [
+    "Exterior of the Chrysler Building",
+    "New York City photographs taken on 2022-10-08",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Office buildings in the United States photographed in 2022",
+    "Midtown Manhattan in 2022",
+    "Chrysler Building in 2022",
+    "October 2022 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.750969,
+    "lon": -73.9757,
+    "azimuth_deg": 13.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75097, -73.97570) is 72 m from Chrysler Building (40.75160, -73.97550) and 137 m from the standard viewpoint; the azimuth 14 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Chrysler Building October 2022 001.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Chrysler_Building_October_2022_001.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Chrysler Building - New York, NY, USA - August 18, 2015 05.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Chrysler_Building_-_New_York,_NY,_USA_-_August_18,_2015_05.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/69/Chrysler_Building_-_New_York%2C_NY%2C_USA_-_August_18%2C_2015_05.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Chrysler_Building_-_New_York%2C_NY%2C_USA_-_August_18%2C_2015_05.jpg/1920px-Chrysler_Building_-_New_York%2C_NY%2C_USA_-_August_18%2C_2015_05.jpg",
+   "author": "Giorgio Galeotti",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2015-08-18 21:09:30",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.750664,
+    "lon": -73.977394
+   },
+   "original_width": 6766,
+   "original_height": 4511,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 804430,
+   "sha256": "3b2a013e5a661a6034e4c7bb7b4f39ba7b5fde97a97a39e014c061e216b02539",
+   "mean_luminance": 95.3,
+   "description": "Chrysler Building - New York, NY, USA",
+   "categories": [
+    "Exterior of the Chrysler Building",
+    "With trademark",
+    "New York City photographs taken on 2015-08-18",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Chrysler Building in 2015"
+   ],
+   "assessments": "",
+   "restrictions": "trademarked",
+   "provenance": "geosearch",
+   "score": 12.0,
+   "estimated_viewpoint": {
+    "lat": 40.750664,
+    "lon": -73.977394,
+    "azimuth_deg": 56.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75066, -73.97739) is 190 m from Chrysler Building (40.75160, -73.97550) and 94 m from the standard viewpoint; the azimuth 57 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Chrysler Building - New York, NY, USA - August 18, 2015 05.jpg\" by Giorgio Galeotti, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Chrysler_Building_-_New_York,_NY,_USA_-_August_18,_2015_05.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:405 Lexington Avenue New York.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:405_Lexington_Avenue_New_York.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b5/405_Lexington_Avenue_New_York.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/405_Lexington_Avenue_New_York.jpg/1920px-405_Lexington_Avenue_New_York.jpg",
+   "author": "CVB",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2025-01-02 11:56:29",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.752303,
+    "lon": -73.976369
+   },
+   "original_width": 3464,
+   "original_height": 4618,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1305283,
+   "sha256": "4be006c9c127aee72283be51bae1752e4c6a582950f11cfce322ffcdf33119f6",
+   "mean_luminance": 106.1,
+   "description": "Entrée du Chrysler Building, 405 Lexington Avenue, New York.",
+   "categories": [
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Chrysler Building in 2025",
+    "New York City photographs taken on 2025-01-02",
+    "January 2025 in Manhattan, New York City",
+    "Entrances to the Chrysler Building"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Chrysler Building\" Lexington Avenue",
+   "score": 10.2,
+   "estimated_viewpoint": {
+    "lat": 40.752303,
+    "lon": -73.976369,
+    "azimuth_deg": 136.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75230, -73.97637) is 107 m from Chrysler Building (40.75160, -73.97550) and 258 m from the standard viewpoint; the azimuth 137 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"405 Lexington Avenue New York.jpg\" by CVB, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:405_Lexington_Avenue_New_York.jpg"
+  }
+ ]
+}

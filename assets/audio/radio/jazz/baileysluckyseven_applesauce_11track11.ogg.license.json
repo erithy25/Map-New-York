@@ -1,0 +1,28 @@
+{
+ "artist": "Bailey's Lucky Seven",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 2516223,
+ "duration_s": 184.04,
+ "file": "jazz/baileysluckyseven_applesauce_11track11.ogg",
+ "gain_db": 7.1,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/licenses/publicdomain/",
+ "loudness_lufs": -21.1,
+ "original_filename": "11Track11.mp3",
+ "recorded_at": "2026-09-06T12:10:10Z",
+ "schema_version": 1,
+ "sha256": "341e64403af49f77c802f2e9e2d36484bef333bf467723a4943ca7b262ad525f",
+ "source_page": "https://archive.org/details/BaileysLuckySeven-AppleSauce",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/BaileysLuckySeven-AppleSauce/11Track11.mp3",
+ "title": "11 Track 11",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

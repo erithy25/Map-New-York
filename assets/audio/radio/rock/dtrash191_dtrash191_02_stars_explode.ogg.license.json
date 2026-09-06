@@ -1,0 +1,28 @@
+{
+ "artist": "No Brigade",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 2471006,
+ "duration_s": 165.04,
+ "file": "rock/dtrash191_dtrash191_02_stars_explode.ogg",
+ "gain_db": -8.4,
+ "licence": "CC-BY-3.0",
+ "licence_url": "http://creativecommons.org/licenses/by/3.0/",
+ "loudness_lufs": -5.6,
+ "original_filename": "dtrash191_02_stars_explode.mp3",
+ "recorded_at": "2026-09-06T12:16:36Z",
+ "schema_version": 1,
+ "sha256": "dd876c6477b9f4565b553e917d7d1bf12a4f695e5a61b1342bbe66ab0a2155ec",
+ "source_page": "https://archive.org/details/dtrash191",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/dtrash191/dtrash191_02_stars_explode.mp3",
+ "title": "Stars Explode",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

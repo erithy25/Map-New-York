@@ -56,8 +56,10 @@ def wheel(name: str, dims: Dimensions, lib: M.Library, *, style: str = "alloy10"
         a0 = TAU * k / nb
         if k % 2:
             continue
+        # the block's outer face sits exactly on the rolling radius: anything beyond it would make the tyre
+        # larger than the published size and push the vehicle's measured height over the published value
         b = g.box_bm((R * 0.012, W * 0.62, R * 0.012), (0, 0, 0), material_index=0)
-        g.transform_bm(b, Matrix.Rotation(a0, 4, "Y") @ Matrix.Translation(Vector((R * 1.001, 0, 0))))
+        g.transform_bm(b, Matrix.Rotation(a0, 4, "Y") @ Matrix.Translation(Vector((R * 0.994, 0, 0))))
         parts.append(b)
 
     # --- rim barrel
@@ -239,7 +241,7 @@ def taillamp_unit(side: int, lib: M.Library, *, x: float, y: float, z: float, w:
     }
     if reverse:
         out[f"_rev_{tag}"] = band(-h * 0.44, -h * 0.10, w * 0.10, w * 0.42, f"LIGHT_REVERSE_{tag}",
-                                  lib.light_white("LIGHT_REVERSE"))
+                                  lib.light_white(f"LIGHT_REVERSE_{tag}"))
     return out
 
 
@@ -288,10 +290,13 @@ def wiper(side: int, lib: M.Library, *, pivot: Sequence[float], length: float, b
     spindle = g.cylinder_bm(0.014, 0.05, axis="Z", center=(0, 0, -0.012), segments=12, material_index=0)
     bx = length * 0.80
     by = s * length * 0.16
+    # the blade box is built along +Y (tangential); rotating it by the arm's polar angle keeps it
+    # perpendicular to the arm, which is how a wiper blade sits.
+    swing = math.degrees(math.atan2(by, bx))
     blade_bm = g.box_bm((0.012, blade, 0.020), (bx, by, 0.016), material_index=0)
-    g.rotate_bm(blade_bm, "Z", math.degrees(math.atan2(by, bx)) - 90.0 * s, center=(bx, by, 0.016))
+    g.rotate_bm(blade_bm, "Z", swing, center=(bx, by, 0.016))
     rub = g.box_bm((0.006, blade * 0.98, 0.011), (bx, by, 0.003), material_index=1)
-    g.rotate_bm(rub, "Z", math.degrees(math.atan2(by, bx)) - 90.0 * s, center=(bx, by, 0.003))
+    g.rotate_bm(rub, "Z", swing, center=(bx, by, 0.003))
     bm = g.merge_bm([arm, spindle, blade_bm, rub])
     g.rotate_bm(bm, "Z", math.degrees(a))
     ob = g.to_object(f"Wiper_{tag}", bm, mats, smooth=True, sharp_angle_deg=40.0)
@@ -300,9 +305,11 @@ def wiper(side: int, lib: M.Library, *, pivot: Sequence[float], length: float, b
 
 
 def door_handle(lib: M.Library, x: float, y: float, z: float, *, length: float = 0.155, chrome: bool = False) -> bmesh.types.BMesh:
+    # ``y`` is the door skin surface; the grab bar protrudes 20 mm, which is what keeps a slab-sided van
+    # inside its published width (published width excludes mirrors but includes door handles).
     s = 1 if y > 0 else -1
-    bar = g.rounded_box_bm((length, 0.030, 0.030), 0.012, center=(x, y + s * 0.012, z), material_index=0)
-    rec = g.box_bm((length + 0.03, 0.020, 0.048), (x, y - s * 0.006, z), material_index=0)
+    bar = g.rounded_box_bm((length, 0.024, 0.028), 0.010, center=(x, y + s * 0.008, z), material_index=0)
+    rec = g.box_bm((length + 0.03, 0.020, 0.048), (x, y - s * 0.008, z), material_index=0)
     return g.merge_bm([bar, rec])
 
 
@@ -399,6 +406,18 @@ def grille(lib: M.Library, *, x: float, z0: float, z1: float, y_half: float, bar
         parts.append(g.box_bm((0.03, y_half * 2 * (1.0 - 0.04 * abs(t - 0.5)), (z1 - z0) / bars * 0.55),
                               (x - rake * t, 0, z), material_index=mats_idx))
     parts.append(g.box_bm((0.05, y_half * 2 * 1.02, z1 - z0), (x - rake * 0.5 - 0.05, 0, (z0 + z1) / 2), material_index=mats_idx))
+    return g.merge_bm(parts)
+
+
+def grille_surround(x: float, z0: float, z1: float, y_half: float, *, bar: float = 0.022,
+                    material_index: int = 0) -> bmesh.types.BMesh:
+    """Rectangular chrome frame around a grille aperture (a torus surround wraps far outside the nose)."""
+    zc, h = 0.5 * (z0 + z1), (z1 - z0)
+    parts = [g.box_bm((0.030, y_half * 2 + 2 * bar, bar), (x, 0, z1 + bar / 2), material_index=material_index),
+             g.box_bm((0.030, y_half * 2 + 2 * bar, bar), (x, 0, z0 - bar / 2), material_index=material_index)]
+    for s in (1, -1):
+        parts.append(g.box_bm((0.030, bar, h + 2 * bar), (x, s * (y_half + bar / 2), zc),
+                              material_index=material_index))
     return g.merge_bm(parts)
 
 
