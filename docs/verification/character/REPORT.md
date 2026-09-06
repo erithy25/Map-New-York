@@ -749,7 +749,7 @@ samples; framing and pose iterations were done there, and only the final pass at
 | `detail.png` | left hand and left foot at 460 px each: modelled fingers with nails and knuckles, and the sneaker with its sole line, toe cap and stitching |
 | `npc_lineup.png` | twelve of the twenty-four generated pedestrians side by side, imported from their exported `.glb` files rather than from the build scene |
 | `hair_audition.png` | all ten MakeHuman CC0 hair assets on the same head, the evidence behind gap 1 |
-| `review_pass3/` | the orchestrator's four crops of the pass-2 renders, and `review_pass3/after/` the same four regions re-cropped from the renders that answer them |
+| `review_pass3/` | the orchestrator's crops of the pass-2 renders, and `review_pass3/after/` the same regions re-cropped from the renders that answer them |
 
 The renders were opened and acted on, not just produced - and after each orchestrator review, opened again.
 Eleven defects were found in the first pass this way and fixed:
@@ -821,7 +821,7 @@ at the elbow and the trouser leg holds volume at the knee with thigh-to-calf con
 no candy-wrapping and no collapse. Mild volume loss on the inside of the elbow and behind the knee at 120
 degrees is what four-influence linear blend skinning does without corrective shapes.
 
-### 10.2 Review pass 3 — four defects, closed
+### 10.2 Review pass 3 — four defects
 
 The orchestrator cropped and upscaled four regions of the pass-2 renders and committed them as
 `docs/verification/character/review_pass3/`.  Each is answered below with what it actually was, the fix, and
@@ -830,7 +830,7 @@ the measurement that says it is closed.  The same four regions are re-cropped fr
 | # | defect | root cause | state |
 |---|---|---|---|
 | 1 | smooth white blobs proud of the knit at both side seams and the right shoulder | the base tee could not fit between the skin and a *fitted* sweater, and `resolve_layers` was trading one artefact for the other | **closed** |
-| 2 | trouser hem through the sneaker, blue fabric emerging behind the heel, heel counter torn | trousers versus footwear was resolved by nudging, and the hem is longer than the shoe collar so it came out somewhere | **closed** |
+| 2 | trouser hem through the sneaker, blue fabric emerging behind the heel, heel counter torn | trousers versus footwear was resolved by nudging, and the hem sits *inside* the shoe collar so it came out somewhere | **closed on the second attempt** - the first cut the trouser and left it an open tube (10.2.1) |
 | 3 | fingertips buried in the trousers on most of the line-up | the standing pose put the hand a *constant* 16 mm outboard of the shoulder line, which clears the skin of the thigh and not the trouser over it | **closed**, with a 1.0 mm residual on 2 vertices of 1 of 24 |
 | 4 | briefcase floating ~10 cm off the hand | the bag hung from the *head* of the hand bone by its nominal drop, so it was 370 mm below the wrist | **closed** |
 
@@ -884,6 +884,43 @@ round.  It is weighted rigidly to the hand bone, as it was, so it tracks the han
 **And the waistband specks**, which the orchestrator asked to be checked as the same defect class: yes, the
 same fix closes them.  The tank's hem under a pair of shorts is now cut where the shorts cover it, and what
 remains is a few sub-millimetre specks on one pedestrian.
+
+#### 10.2.1 The ankle, and the three orders that do not work
+
+The first answer to defect 2 cut the trouser where the shoe covered it.  That removed the poke-through and
+replaced it with something worse: the leg ended in a hard rectangular two-step cut and you could see straight
+down inside it, at the trouser's own backfaces and the shoe's collar in shadow.  The orchestrator's reading -
+that the direction was inverted, not the tuning - is what sent this in the right direction, and three further
+orders were built and measured before one held.  The numbers that decide it, on the player:
+
+```
+shoe  (sneakers_black)  z [-0.017, 0.218]   <- the asset models a sock half way up the calf
+jeans (jeans_indigo)    z [ 0.068, 1.074]   <- the hem is at 0.068, the shoe's collar at ~0.115
+```
+
+**The trouser hem is below the shoe's collar.**  It is not a hem resting on a shoe, it is a hem inside one,
+and that is what makes "let the trouser drape over the shoe" impossible to reach by moving vertices:
+
+* *push the hem out along the shoe's face normals* - drives it down through the sole and out underneath,
+  which is where the fabric on the ground came from;
+* *push it out horizontally instead* - cannot move it past a collar whose rim faces point upward, and
+  measured on the finished player it left 61 of 1 019 trouser vertices inside the shoe, the deepest by 37 mm;
+* *cut the shoe rather than the trouser* (the orchestrator's first suggestion, and the one I expected to
+  work) - the shaft above the hem does come away cleanly, 118 faces of it, but the hem is still inside what
+  remains of the collar, and the generic covered-face rule applied to a shoe eats its whole upper because the
+  proximity term cannot tell "under the trouser" from "beside it" on a rigid object.
+
+So the trouser is cut, which is what the geometry supports, and the cut is **capped**: every boundary loop
+the cut opens below the collar is filled with faces (`bmesh.ops.holes_fill`), so the leg ends in a closed hem
+and not in a pipe.  144 faces cut and 2 cap faces added on the player, 136-240 cut and 1-2 capped across the
+cast.  The box that defines the cut is each shoe shell's own bounding box - taken per connected component, so
+the box round one foot never reaches the other - with its top clamped to the ankle joint plus 45 mm, because
+a box round the whole shell would cut the trouser off at mid-calf where the sock ends.  A face goes when
+*any* of its vertices is inside, since a straddling face leaves a sliver of trouser under the sole.
+
+The acceptance test was the render, not the vertex count: `review_pass3/after/notch_after.png` is the same
+crop as the orchestrator's `notch_after.png`.  The hem is closed, the heel counter is whole, and there is
+nothing to see down.
 ---
 
 ## 11. Tests
@@ -994,6 +1031,11 @@ ARKit set in ARKit order).
     widest pair of trousers in the wardrobe by 1.0 mm (10.2), and a few specks of a tank's hem remain on one
     pedestrian's waistband. Both are a millimetre on a 1.7 m body; the versions of them that were visible -
     fingertips buried in the trousers, white blobs across a sweater - are gone.
+14. **A trouser leg is shorter than its source asset by the depth of the shoe** (10.2.1). The part inside the
+    shoe is cut away and the opening capped, so the exported leg ends at the shoe collar rather than at the
+    ankle. That is invisible on a dressed character and would matter only if a consumer wanted to swap the
+    footwear at runtime, which this pipeline does not do: shoes are chosen by the variety vector at build
+    time.
 14. **Character forward is -Y in Blender**, recorded as `extras.nycsim.forward_axis_blender`. That is
    MakeHuman's native orientation, kept because rotating a shape-keyed, skinned, multi-mesh character risks
    more than it gains; the UE import must apply the +X convention. This differs from the vehicles lane, which

@@ -1,27 +1,28 @@
 {
- "azimuth_reason": "51.8 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 75.0 deg, 23.2 deg away",
+ "azimuth_reason": "52.0 deg, the bearing from this photograph's own GPS position to One Wall Street (Irving Trust Building); heading and position both come from the photograph.  The item's recorded azimuth is 75.0 deg, 23.0 deg away, and belongs to its nominal viewpoint",
  "camera": {
-  "azimuth_deg": 51.8,
+  "azimuth_deg": 51.96682814671583,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
-  "focal_mm": 35.0,
+  "focal_mm": 18.0,
   "ground_detail": {
-   "chosen_m": 10.08,
-   "max_m": 10.58,
-   "median_m": 10.26,
-   "min_m": 9.97,
+   "chosen_m": 9.71,
+   "max_m": 10.27,
+   "median_m": 9.91,
+   "min_m": 9.61,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 9.89,
    "radius_m": 12.0,
    "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
-  "hfov_deg": 42.163,
-  "lat": 40.707082,
-  "lon": -74.012355,
-  "long_side_fov_deg": 54.432,
+  "hfov_deg": 73.709,
+  "lat": 40.706791,
+  "lon": -74.01239,
+  "long_side_fov_deg": 90.0,
   "pitch_deg": 0.0,
   "portrait": true,
   "resolution": [
@@ -30,20 +31,40 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_one_wall_street",
-  "terrain_z_m": 10.079,
-  "x": -5269.406,
-  "y": 788.313,
-  "z": 11.679
+  "terrain_z_m": 9.711,
+  "x": -5282.552,
+  "y": 764.171,
+  "z": 11.311
  },
- "camera_caption": "camera 40.70708, -74.01235 (NYC_TM -5269, 788) z 11.7 m NAVD88 | azimuth 51.8deg pitch +0.0deg | 35 mm on 36 mm (42.2deg horizontal, 54.4deg vertical, portrait) | 904x1206",
+ "camera_caption": "camera 40.70679, -74.01239 (NYC_TM -5283, 764) z 11.3 m NAVD88 | azimuth 52.0deg pitch +0.0deg | 18 mm on 36 mm (73.7deg horizontal, 90.0deg vertical, portrait) | 904x1206",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.706791,
+  "lon": -74.01239,
+  "offset_from_recorded_m": 32.5,
+  "source": "this photograph's own EXIF camera GPS (40.70679, -74.01239), 32 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
  "clearance": {
-  "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "direction": "onto the nearest sidewalk",
+  "min_view_m": 38.8,
+  "moved": true,
+  "nearest_obstruction_m": 20.0,
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 25 m ahead, less than the 39 m this frame needs to show its subject; the camera was moved 13 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there",
+  "offset_m": 12.9,
+  "reason": "boxed in: the view azimuth is closed off 25 m ahead, less than the 39 m this frame needs to show its subject",
+  "rule": "pavement snap with a clear view",
+  "view_m": 60.0
  },
+ "frame": {
+  "mean": 0.2221,
+  "reason": null,
+  "sd": 0.1827,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
- "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lens_reason": "widened from 35 mm to 18 mm (90 deg vertical) so that a level axis contains the subject: the one_wall_street model's published 199 m height stands 196 m above the lens at 78 m, 68 deg above the horizon; held at the 18 mm floor, so the top of the subject is still cut off -- past that point the distortion would stop the two frames being comparable",
  "lighting": {
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 649.3,
@@ -62,7 +83,7 @@
  },
  "name": "One Wall Street (Irving Trust Building)",
  "night": false,
- "pitch_reason": "level optical axis (One Wall Street (Irving Trust Building) is 60 m away and would need +58 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "pitch_reason": "level optical axis (One Wall Street (Irving Trust Building) is 78 m away and would need +51 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
  "reference_photo": {
   "author": "Emperor of Emperors",
   "confidence": "high",
@@ -77,9 +98,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_one_wall_street/render.png",
- "rendered_at": "2026-09-06T17:54:51Z",
+ "rendered_at": "2026-09-06T23:35:59Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -89,155 +110,167 @@
     "t_-6_0",
     "t_-6_1"
    ],
+   "landmark_bins_suppressed": 19,
+   "landmark_faces_suppressed": 2992,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-5_0": {
      "lod": 0,
      "objects": 18,
-     "triangles": 11932
+     "triangles": 11872
     },
     "t_-5_1": {
      "lod": 0,
      "objects": 18,
-     "triangles": 42918
+     "triangles": 42654
     },
     "t_-6_0": {
      "lod": 0,
      "objects": 16,
-     "triangles": 14912
+     "triangles": 12796
     },
     "t_-6_1": {
      "lod": 0,
      "objects": 18,
-     "triangles": 15588
+     "triangles": 15036
     }
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 4,
    "triangle_budget": 3510000,
-   "triangles": 85350
+   "triangles": 82358
   },
   "centre_tm": [
-   -5269.41,
-   788.31
+   -5272.39,
+   756.0
   ],
   "kit": {
-   "capped": "triangle budget 2664800",
+   "capped": "triangle budget 2683916",
    "per_category": {
-    "antenna": 4,
-    "bulkhead": 12,
+    "antenna": 7,
+    "bulkhead": 17,
     "cornice": 26,
-    "door_entry": 21,
-    "hvac": 14,
-    "parapet": 14,
-    "pilaster": 27,
-    "quoin": 6,
-    "scaffold": 68,
-    "storefront": 147,
-    "storefront_interior": 23,
+    "door_entry": 27,
+    "hvac": 26,
+    "parapet": 23,
+    "pilaster": 38,
+    "quoin": 3,
+    "scaffold": 103,
+    "storefront": 180,
+    "storefront_interior": 28,
     "string_course": 26,
-    "water_tower": 5,
-    "window": 10111,
-    "window_accessory": 786
+    "water_tower": 8,
+    "window": 10066,
+    "window_accessory": 1029
    },
-   "placed": 11290,
+   "placed": 11607,
    "radius_m": 120.0,
-   "records_in_range": 19752,
+   "records_in_range": 19305,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 1393,
    "tiles_missing": [],
    "tiles_read": [
     "t_-6_0"
    ],
-   "triangles": 2664874,
+   "triangles": 2684478,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 48.0,
+     "distance_m": 64.3,
      "id": "one_wall_street",
      "lod": 0,
      "name": "One Wall Street (Irving Trust Building)",
      "triangles": 42712
     },
     {
-     "distance_m": 97.6,
+     "distance_m": 104.0,
      "id": "nyse",
      "lod": 0,
      "name": "New York Stock Exchange",
      "triangles": 26049
     },
     {
-     "distance_m": 106.3,
+     "distance_m": 138.7,
      "id": "trinity_church",
      "lod": 0,
      "name": "Trinity Church",
      "triangles": 3984
     },
     {
-     "distance_m": 180.5,
-     "id": "federal_hall",
-     "lod": 0,
-     "name": "Federal Hall National Memorial",
-     "triangles": 9070
-    },
-    {
-     "distance_m": 196.2,
+     "distance_m": 166.7,
      "id": "charging_bull",
      "lod": 0,
      "name": "Charging Bull",
      "triangles": 818
     },
     {
-     "distance_m": 201.1,
+     "distance_m": 191.1,
+     "id": "federal_hall",
+     "lod": 0,
+     "name": "Federal Hall National Memorial",
+     "triangles": 9070
+    },
+    {
+     "distance_m": 225.1,
      "id": "equitable_building",
      "lod": 0,
      "name": "Equitable Building",
      "triangles": 86321
     },
     {
-     "distance_m": 221.5,
+     "distance_m": 225.9,
      "id": "40_wall_street",
      "lod": 0,
      "name": "40 Wall Street (Trump Building)",
      "triangles": 43167
     },
     {
-     "distance_m": 501.4,
+     "distance_m": 533.1,
      "id": "b_wtc_site",
      "lod": 0,
      "name": "World Trade Center site",
      "triangles": 136174
     },
     {
-     "distance_m": 1511.8,
+     "distance_m": 639.7,
+     "id": "c_whitehall_and_st_george_ferry_terminals",
+     "lod": 0,
+     "name": "Whitehall, Battery Maritime and St. George ferry terminals",
+     "triangles": 77605
+    },
+    {
+     "distance_m": 1480.0,
      "id": "b_hugh_carey_portals",
      "lod": 0,
      "name": "Hugh L. Carey Tunnel",
      "triangles": 43880
     }
    ],
-   "placed": 9,
+   "placed": 10,
    "skipped": 0,
    "skipped_detail": [],
-   "triangles": 392175
+   "triangles": 469780
   },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 387,
-    "curb": 748,
-    "median": 49,
+    "crosswalk": 402,
+    "curb": 790,
+    "median": 51,
     "parking_lot": 2,
-    "plaza": 44,
-    "roadbed": 299,
-    "sidewalk": 157
+    "plaza": 48,
+    "roadbed": 313,
+    "sidewalk": 165
    },
-   "placed": 1686,
-   "radius_m": 500.0,
+   "placed": 1771,
+   "radius_m": 524.1806056436594,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_0",
@@ -245,83 +278,88 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "triangles": 130443,
-   "vertices": 133559
+   "triangles": 135902,
+   "vertices": 139180
   },
   "props": {
    "capped": null,
+   "impostor_cards_dropped": 9,
    "leaf_off": true,
    "per_kind": {
-    "bench": 80,
-    "bike_rack": 28,
+    "bench": 93,
+    "bike_rack": 30,
     "bus_shelter": 1,
-    "bus_stop_sign": 15,
+    "bus_stop_sign": 14,
     "citibike_dock": 2,
-    "flagpole": 5,
-    "hydrant": 72,
+    "flagpole": 3,
+    "hydrant": 70,
     "mailbox": 1,
-    "manhole": 119,
+    "manhole": 118,
     "newsstand": 5,
     "steam_vent": 3,
-    "street_lamp": 143,
+    "street_lamp": 139,
     "subway_emergency_exit": 1,
-    "subway_entrance": 34,
-    "subway_vent_grate": 85,
+    "subway_entrance": 33,
+    "subway_vent_grate": 81,
     "tree": 24,
-    "waste_basket": 31
+    "waste_basket": 33
    },
-   "placed": 649,
+   "placed": 651,
    "radius_m": 250.0,
-   "rows_in_range": 891,
+   "rows_in_range": 873,
    "tiles_missing": [],
    "tiles_read": [
     "t_-6_0",
     "t_-6_1"
    ],
    "tree_species_substituted": 0,
-   "triangles": 1047232,
+   "triangles": 1048044,
    "unmapped_kinds": {
-    "artwork": 5,
-    "cooling_tower": 103,
-    "curb_ramp": 122,
+    "artwork": 4,
+    "cooling_tower": 97,
+    "curb_ramp": 109,
     "drinking_fountain": 3,
     "memorial": 8,
     "misc_structure": 1
    }
   },
-  "radius_m": 500.0,
-  "seconds": 36.82,
+  "radius_m": 524.1806056436594,
+  "seconds": 58.87,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 3.333,
-   "triangles": 180000,
-   "water_quads": 2365,
-   "z_max_m": 12.1,
-   "z_min_m": -5.1
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 201,
+   "spacing_m": 2.0,
+   "triangles": 80000,
+   "water_quads": 169,
+   "z_max_m": 12.14,
+   "z_min_m": -4.68
   },
-  "triangles": 4500074
+  "triangles": 4500562
  },
  "scene_request": {
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
-  "radius_m": 500.0
+  "radius_m": 524.1806056436594
  },
  "seconds": {
-  "render": 124.3,
-  "scene": 38.0,
-  "total": 162.3
+  "render": 133.8,
+  "scene": 68.3,
+  "total": 202.1
  },
  "slug": "landmark_one_wall_street",
  "status": "rendered",
  "subject": {
-  "distance_m": 60.2,
+  "distance_m": 77.6,
   "name": "One Wall Street (Irving Trust Building)"
  },
  "sun": {
-  "azimuth_deg": 239.60819640505497,
-  "elevation_deg": 19.77509805407791,
+  "azimuth_deg": 239.60825879673976,
+  "elevation_deg": 19.77526774989368,
   "local": "2026-02-27T15:49:02-05:00",
   "time_source": "EXIF DateTimeOriginal",
   "utc": "2026-02-27T20:49:02Z"

@@ -1,27 +1,28 @@
 {
- "azimuth_reason": "333.2 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 337.3 deg, 4.1 deg away",
+ "azimuth_reason": "333.1 deg, the bearing from this photograph's own GPS position to One World Trade Center; heading and position both come from the photograph.  The item's recorded azimuth is 337.3 deg, 4.2 deg away, and belongs to its nominal viewpoint",
  "camera": {
-  "azimuth_deg": 333.2,
+  "azimuth_deg": 333.1248287998358,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
-  "focal_mm": 35.0,
+  "focal_mm": 18.0,
   "ground_detail": {
-   "chosen_m": 6.22,
-   "max_m": 6.97,
-   "median_m": 6.56,
-   "min_m": 6.05,
+   "chosen_m": 5.61,
+   "max_m": 9.22,
+   "median_m": 7.31,
+   "min_m": 4.27,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 6.41,
    "radius_m": 12.0,
    "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
-  "hfov_deg": 40.449,
-  "lat": 40.7104,
-  "lon": -74.0121,
-  "long_side_fov_deg": 54.432,
+  "hfov_deg": 71.233,
+  "lat": 40.710111,
+  "lon": -74.011636,
+  "long_side_fov_deg": 90.0,
   "pitch_deg": 0.0,
   "portrait": true,
   "resolution": [
@@ -30,25 +31,43 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_one_world_trade_center",
-  "terrain_z_m": 6.224,
-  "x": -5219.034,
-  "y": 1171.184,
-  "z": 7.824
+  "terrain_z_m": 5.609,
+  "x": -5193.041,
+  "y": 1094.308,
+  "z": 7.209
  },
- "camera_caption": "camera 40.71040, -74.01210 (NYC_TM -5219, 1171) z 7.8 m NAVD88 | azimuth 333.2deg pitch +0.0deg | 35 mm on 36 mm (40.4deg horizontal, 54.4deg vertical, portrait) | 884x1234",
+ "camera_caption": "camera 40.71011, -74.01164 (NYC_TM -5193, 1094) z 7.2 m NAVD88 | azimuth 333.1deg pitch +0.0deg | 18 mm on 36 mm (71.2deg horizontal, 90.0deg vertical, portrait) | 884x1234",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.710111,
+  "lon": -74.011636,
+  "offset_from_recorded_m": 50.7,
+  "source": "this photograph's own EXIF camera GPS (40.71011, -74.01164), 51 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
  "clearance": {
-  "direction": "to the right",
+  "direction": "backwards",
+  "min_view_m": 80.0,
   "moved": true,
-  "note": "the recorded viewpoint is inside lm_b_wtc_site.232 (a ray straight up from the eye point hits its roof); the camera was moved 32 m to the right -- the nearest point in open air -- keeping the same eye height above the heightmap",
-  "offset_m": 32.0,
-  "reason": "inside lm_b_wtc_site.232 (a ray straight up from the eye point hits its roof)"
+  "nearest_obstruction_m": 16.7,
+  "note": "the recorded viewpoint is under verify_terrain (0.0 m of ground or paving directly overhead, so the eye point is beneath the walking surface); the camera was moved 34 m backwards -- the nearest point in open air -- keeping the same eye height above the heightmap.  The view azimuth is clear for 96 m from there",
+  "offset_m": 34.0,
+  "reason": "under verify_terrain (0.0 m of ground or paving directly overhead, so the eye point is beneath the walking surface)",
+  "rule": "radial search with a clear view",
+  "view_m": 96.0
  },
+ "frame": {
+  "mean": 0.3221,
+  "reason": null,
+  "sd": 0.1427,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
- "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lens_reason": "widened from 35 mm to 18 mm (90 deg vertical) so that a level axis contains the subject: the b_one_world_trade_center model's published 541 m height stands 533 m above the lens at 327 m, 58 deg above the horizon; held at the 18 mm floor, so the top of the subject is still cut off -- past that point the distortion would stop the two frames being comparable",
  "lighting": {
   "background_strength": 0.25,
-  "direct_normal_irradiance_w_m2": 625.1,
+  "direct_normal_irradiance_w_m2": 625.0,
   "emissive": {
    "cones_hidden": 2,
    "lamps_switched_off": 5,
@@ -57,14 +76,14 @@
   },
   "exposure_stops": 1.25,
   "sky_azimuth_deg": 257.393,
-  "sky_elevation_deg": 18.285,
+  "sky_elevation_deg": 18.284,
   "sun_lamp": true,
-  "sun_strength_blender": 1.158,
+  "sun_strength_blender": 1.157,
   "view_transform": "Filmic"
  },
  "name": "One World Trade Center",
  "night": false,
- "pitch_reason": "level optical axis (the subject is 282 m away; anything that far is photographed with a level camera)",
+ "pitch_reason": "level optical axis (the subject is 327 m away; anything that far is photographed with a level camera)",
  "reference_photo": {
   "author": "Opencooper",
   "confidence": "high",
@@ -79,19 +98,23 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_one_world_trade_center/render.png",
- "rendered_at": "2026-09-06T17:03:03Z",
+ "rendered_at": "2026-09-06T23:39:47Z",
  "resolution_note": "884x1234; the reference photograph is 1920x2682 (0.72:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
     "t_-5_0",
     "t_-5_1",
+    "t_-5_2",
     "t_-6_0",
     "t_-6_1",
     "t_-6_2"
    ],
+   "landmark_bins_suppressed": 19,
+   "landmark_faces_suppressed": 2992,
+   "lod_substituted": [],
    "missing": [
     "t_-7_0",
     "t_-7_1"
@@ -100,22 +123,27 @@
     "t_-5_0": {
      "lod": 0,
      "objects": 18,
-     "triangles": 11932
+     "triangles": 11872
     },
     "t_-5_1": {
      "lod": 0,
      "objects": 18,
-     "triangles": 42918
+     "triangles": 42654
+    },
+    "t_-5_2": {
+     "lod": 1,
+     "objects": 18,
+     "triangles": 23308
     },
     "t_-6_0": {
      "lod": 0,
      "objects": 16,
-     "triangles": 14912
+     "triangles": 12796
     },
     "t_-6_1": {
      "lod": 0,
      "objects": 18,
-     "triangles": 15588
+     "triangles": 15036
     },
     "t_-6_2": {
      "lod": 1,
@@ -124,167 +152,183 @@
     }
    },
    "tiles_dropped_for_budget": 0,
-   "tiles_imported": 5,
+   "tiles_imported": 6,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 2,
-   "tiles_wanted": 7,
+   "tiles_wanted": 8,
    "triangle_budget": 3510000,
-   "triangles": 89034
+   "triangles": 109350
   },
   "centre_tm": [
-   -5247.6,
-   1156.76
+   -5208.41,
+   1124.64
   ],
   "kit": {
    "capped": null,
    "per_category": {
-    "bulkhead": 11,
-    "cornice": 18,
-    "door_entry": 29,
-    "fence": 1,
+    "antenna": 2,
+    "bulkhead": 13,
+    "cornice": 21,
+    "door_entry": 26,
     "fire_escape": 15,
-    "hvac": 5,
-    "parapet": 21,
-    "pilaster": 1,
-    "quoin": 19,
-    "scaffold": 9,
-    "storefront": 80,
-    "storefront_interior": 16,
-    "string_course": 21,
+    "hvac": 14,
+    "parapet": 13,
+    "pilaster": 8,
+    "quoin": 21,
+    "scaffold": 17,
+    "storefront": 98,
+    "storefront_interior": 19,
+    "string_course": 23,
     "water_tower": 4,
-    "window": 7036,
-    "window_accessory": 20
+    "window": 4622,
+    "window_accessory": 14
    },
-   "placed": 7306,
+   "placed": 4930,
    "radius_m": 120.0,
-   "records_in_range": 7306,
+   "records_in_range": 7430,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 2500,
    "tiles_missing": [],
    "tiles_read": [
     "t_-6_1"
    ],
-   "triangles": 1246591,
+   "triangles": 890650,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 156.9,
+     "distance_m": 206.2,
      "id": "b_wtc_site",
      "lod": 0,
      "name": "World Trade Center site",
      "triangles": 136174
     },
     {
-     "distance_m": 263.0,
-     "id": "trinity_church",
-     "lod": 0,
-     "name": "Trinity Church",
-     "triangles": 3984
-    },
-    {
-     "distance_m": 275.3,
+     "distance_m": 229.0,
      "id": "equitable_building",
      "lod": 0,
      "name": "Equitable Building",
      "triangles": 86321
     },
     {
-     "distance_m": 303.6,
-     "id": "b_one_world_trade_center",
+     "distance_m": 235.9,
+     "id": "trinity_church",
      "lod": 0,
-     "name": "One World Trade Center",
-     "triangles": 6044
+     "name": "Trinity Church",
+     "triangles": 3984
     },
     {
-     "distance_m": 361.7,
+     "distance_m": 328.9,
      "id": "one_wall_street",
      "lod": 0,
      "name": "One Wall Street (Irving Trust Building)",
      "triangles": 42712
     },
     {
-     "distance_m": 375.0,
+     "distance_m": 330.2,
      "id": "federal_hall",
      "lod": 0,
      "name": "Federal Hall National Memorial",
      "triangles": 9070
     },
     {
-     "distance_m": 381.3,
+     "distance_m": 343.6,
      "id": "nyse",
      "lod": 0,
      "name": "New York Stock Exchange",
      "triangles": 26049
     },
     {
-     "distance_m": 392.2,
-     "id": "woolworth",
+     "distance_m": 347.1,
+     "id": "b_one_world_trade_center",
      "lod": 0,
-     "name": "Woolworth Building",
-     "triangles": 47871
+     "name": "One World Trade Center",
+     "triangles": 6044
     },
     {
-     "distance_m": 424.6,
+     "distance_m": 378.3,
      "id": "40_wall_street",
      "lod": 0,
      "name": "40 Wall Street (Trump Building)",
      "triangles": 43167
     },
     {
-     "distance_m": 553.6,
+     "distance_m": 382.0,
+     "id": "woolworth",
+     "lod": 0,
+     "name": "Woolworth Building",
+     "triangles": 47871
+    },
+    {
+     "distance_m": 532.1,
      "id": "charging_bull",
      "lod": 0,
      "name": "Charging Bull",
      "triangles": 818
     },
     {
-     "distance_m": 578.9,
+     "distance_m": 560.3,
      "id": "city_hall",
      "lod": 0,
      "name": "New York City Hall",
      "triangles": 44823
     },
     {
-     "distance_m": 770.0,
+     "distance_m": 746.7,
      "id": "municipal_building",
      "lod": 0,
      "name": "Manhattan Municipal Building",
      "triangles": 97825
     },
     {
-     "distance_m": 1430.7,
+     "distance_m": 991.4,
+     "id": "c_pier_17_seaport",
+     "lod": 0,
+     "name": "Pier 17, South Street Seaport",
+     "triangles": 1350
+    },
+    {
+     "distance_m": 1013.1,
+     "id": "c_whitehall_and_st_george_ferry_terminals",
+     "lod": 0,
+     "name": "Whitehall, Battery Maritime and St. George ferry terminals",
+     "triangles": 77605
+    },
+    {
+     "distance_m": 1382.5,
      "id": "b_brooklyn_bridge",
      "lod": 0,
      "name": "Brooklyn Bridge",
      "triangles": 121824
     },
     {
-     "distance_m": 1876.7,
+     "distance_m": 1842.0,
      "id": "b_hugh_carey_portals",
      "lod": 0,
      "name": "Hugh L. Carey Tunnel",
      "triangles": 43880
     }
    ],
-   "placed": 14,
+   "placed": 16,
    "skipped": 0,
    "skipped_detail": [],
-   "triangles": 710562
+   "triangles": 789517
   },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 790,
-    "curb": 1500,
-    "median": 118,
-    "parking_lot": 15,
-    "plaza": 96,
-    "roadbed": 603,
-    "sidewalk": 313
+    "crosswalk": 879,
+    "curb": 1624,
+    "median": 129,
+    "parking_lot": 16,
+    "plaza": 101,
+    "roadbed": 676,
+    "sidewalk": 331
    },
-   "placed": 3435,
-   "radius_m": 850.86521276853,
+   "placed": 3756,
+   "radius_m": 900.0,
    "tiles_missing": [
     "t_-7_0",
     "t_-7_1"
@@ -292,85 +336,93 @@
    "tiles_read": [
     "t_-5_0",
     "t_-5_1",
+    "t_-5_2",
     "t_-6_0",
     "t_-6_1",
     "t_-6_2"
    ],
-   "triangles": 239736,
-   "vertices": 246190
+   "triangles": 254295,
+   "vertices": 261373
   },
   "props": {
    "capped": null,
+   "impostor_cards_dropped": 6,
    "leaf_off": false,
    "per_kind": {
-    "bench": 103,
-    "bike_rack": 13,
+    "bench": 106,
+    "bike_rack": 14,
     "bus_shelter": 1,
-    "bus_stop_sign": 15,
-    "citibike_dock": 4,
-    "flagpole": 12,
-    "hydrant": 68,
-    "manhole": 98,
+    "bus_stop_sign": 14,
+    "citibike_dock": 3,
+    "flagpole": 15,
+    "hydrant": 71,
+    "mailbox": 1,
+    "manhole": 93,
     "newsstand": 2,
     "steam_vent": 1,
-    "street_lamp": 195,
+    "street_lamp": 182,
     "subway_emergency_exit": 1,
-    "subway_entrance": 27,
-    "subway_vent_grate": 32,
-    "tree": 23,
-    "waste_basket": 13
+    "subway_entrance": 32,
+    "subway_vent_grate": 41,
+    "tree": 21,
+    "waste_basket": 15
    },
-   "placed": 608,
+   "placed": 613,
    "radius_m": 250.0,
-   "rows_in_range": 814,
+   "rows_in_range": 834,
    "tiles_missing": [],
    "tiles_read": [
+    "t_-5_0",
     "t_-5_1",
     "t_-6_0",
     "t_-6_1"
    ],
    "tree_species_substituted": 0,
-   "triangles": 1063844,
+   "triangles": 1036450,
    "unmapped_kinds": {
     "artwork": 6,
-    "cooling_tower": 67,
-    "curb_ramp": 125,
-    "memorial": 8
+    "cooling_tower": 84,
+    "curb_ramp": 122,
+    "memorial": 9
    }
   },
-  "radius_m": 850.86521276853,
-  "seconds": 66.48,
+  "radius_m": 923.863137362343,
+  "seconds": 62.65,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 5.672,
-   "triangles": 180000,
-   "water_quads": 21038,
-   "z_max_m": 14.41,
-   "z_min_m": -4.24
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 221,
+   "spacing_m": 2.0,
+   "triangles": 96800,
+   "water_quads": 2148,
+   "z_max_m": 14.36,
+   "z_min_m": -2.65
   },
-  "triangles": 3529767
+  "triangles": 3177062
  },
  "scene_request": {
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
-  "radius_m": 850.86521276853
+  "radius_m": 923.863137362343
  },
  "seconds": {
-  "render": 129.9,
-  "scene": 68.6,
-  "total": 198.5
+  "render": 136.7,
+  "scene": 89.7,
+  "total": 226.4
  },
  "slug": "landmark_one_world_trade_center",
  "status": "rendered",
  "subject": {
-  "distance_m": 281.8,
+  "distance_m": 327.4,
   "name": "One World Trade Center"
  },
  "sun": {
-  "azimuth_deg": 257.39254438274554,
-  "elevation_deg": 18.284625524875185,
+  "azimuth_deg": 257.3929652453151,
+  "elevation_deg": 18.284346144369362,
   "local": "2017-09-15T17:23:28-04:00",
   "time_source": "EXIF DateTimeOriginal",
   "utc": "2017-09-15T21:23:28Z"
