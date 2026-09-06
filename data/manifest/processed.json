@@ -7030,14 +7030,14 @@
   "landmark_b_holland_tunnel_portals_lod0": {
    "artifact_id": "landmark_b_holland_tunnel_portals_lod0",
    "bytes": 1866652,
-   "git_commit": "38976a48e050",
+   "git_commit": "03b56063c0c1",
    "landmark_id": "b_holland_tunnel_portals",
    "lod": 0,
    "path": "blender_out/landmarks/b_holland_tunnel_portals.glb",
-   "produced_at": "2026-09-06T13:16:36Z",
+   "produced_at": "2026-09-06T13:22:28Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "1853b81b40de31f5a4bd4e82231e0ec3603c63e036b68e7a243b2928a549bb9d",
+   "sha256": "4b680de72bdc2f326c9d6d7ec7ac4ac0d764941ebb1b6628eb53ee5f2ee315c2",
    "sources": [
     "osm_bbbike",
     "published_holland_tunnel"
@@ -7047,21 +7047,21 @@
   },
   "landmark_b_holland_tunnel_portals_lod1": {
    "artifact_id": "landmark_b_holland_tunnel_portals_lod1",
-   "bytes": 1623844,
-   "git_commit": "38976a48e050",
+   "bytes": 422204,
+   "git_commit": "03b56063c0c1",
    "landmark_id": "b_holland_tunnel_portals",
    "lod": 1,
    "path": "blender_out/landmarks/b_holland_tunnel_portals_lod1.glb",
-   "produced_at": "2026-09-06T13:16:31Z",
+   "produced_at": "2026-09-06T13:22:29Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "2b622148f2224253b6a3dc9a86efeadd3c2dd4842ea78a643ac5f8f469e0f98e",
+   "sha256": "5ec2e50592750f3954232a37ea8f95237d7d51d25bee355a50cd2c8aeb3e9491",
    "sources": [
     "osm_bbbike",
     "published_holland_tunnel"
    ],
    "stage": "landmarks_b",
-   "triangles": 30496
+   "triangles": 6654
   },
   "landmark_b_hugh_carey_portals_lod0": {
    "artifact_id": "landmark_b_hugh_carey_portals_lod0",
@@ -7818,6 +7818,26 @@
    "stage": "landmarks",
    "tris_lod0": 7029,
    "tris_lod1": 72
+  },
+  "landmark_glb:c_barclays_center": {
+   "artifact_id": "landmark_glb:c_barclays_center",
+   "bins": [
+    3398156
+   ],
+   "bytes": 9996936,
+   "footprint_iou": 1.0,
+   "git_commit": "03b56063c0c1",
+   "path": "blender_out/landmarks/c_barclays_center.glb",
+   "produced_at": "2026-09-06T13:22:26Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "566e4e581c7685c5fe37a07522da543c43e38dcf432566d309861d491a77c6ec",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 7058,
+   "tris_lod1": 212
   },
   "landmark_glb:c_billionaires_row": {
    "artifact_id": "landmark_glb:c_billionaires_row",

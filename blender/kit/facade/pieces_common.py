@@ -26,7 +26,7 @@ REVEAL = 0.155                 # sash set back 6 in from the brick face (NYC mas
 GLASS_T = 0.006
 STONE_LINTEL_H = 0.150         # 6 in stone lintel
 STONE_LINTEL_EAR = 0.115       # bears 4 1/2 in each side
-STONE_PROJ = 0.040             # face projection of trim stone
+STONE_PROJ = 0.050             # face projection of trim stone (2 in: enough to throw a shadow at a raking sun)
 SILL_H = 0.100                 # 4 in stone sill
 SILL_PROJ = 0.065
 SILL_EAR = 0.075
@@ -233,7 +233,7 @@ def stone_lintel(m: K.Mesh, x0: float, x1: float, z: float, mat: str = "limeston
 
     Cut cross-section: chamfered lower arris, a plain face, a fillet under the top edge and a washed top that sheds
     water back to nothing at the wall — the standard New York cut-stone lintel."""
-    ch = min(0.016, h * 0.12)                       # chamfer on the bottom arris
+    ch = min(0.022, h * 0.16)                       # chamfer on the bottom arris
     wash = min(0.026, h * 0.20)
     prof = profile((depth, z), [
         ((-proj + ch, z),),                         # soffit
@@ -283,20 +283,23 @@ def keystone(m: K.Mesh, cx: float, z0: float, h: float, mat: str = "limestone", 
             (cx - half_top, -proj, ztop)], mat)
 
 
-def soldier_lintel(m: K.Mesh, x0: float, x1: float, z: float, mat: str = "red_brick", *, proj: float = 0.022) -> None:
+def soldier_lintel(m: K.Mesh, x0: float, x1: float, z: float, mat: str = "red_brick", *, proj: float = 0.032) -> None:
     """Brick soldier course (bricks on end) over the opening, modelled brick by brick so the course reads as masonry:
-    each brick is 92 mm wide with a 10 mm raked joint and a millimetre or two of set-out variation."""
+    each brick is 92 mm wide with a 12 mm raked head joint and a millimetre or two of set-out variation.
+
+    The brick faces carry a 90 deg-rotated UV so the brick texture itself runs vertically — bricks on end have to look
+    like bricks on end, or the course reads as a plain band whatever its relief."""
     a, b = x0 - 0.02, x1 + 0.02
     pitch = 0.1022                                   # 92 mm brick + 10 mm head joint
     n = max(2, int(round((b - a) / pitch)))
-    w = (b - a) / n - 0.010
+    w = (b - a) / n - 0.012                          # 12 mm raked head joint
     rnd = _lcg(int(abs(x0) * 977) + 17)
-    # mortar bed first, its face raked 8 mm behind the bricks so every head joint reads as a shadow line, not a void
-    m.box((a, -proj + 0.008, z), (b, WYTHE, z + BRICK_LEN), mat)
+    # mortar bed first, its face raked 14 mm behind the brick faces so every joint reads as a shadow line, not a void
+    m.box((a, -proj + 0.014, z), (b, WYTHE, z + BRICK_LEN), mat)
     for k in range(n):
         cx = a + (b - a) * (k + 0.5) / n
         p = proj + (rnd() - 0.5) * 0.006             # laid by hand: a couple of millimetres of variation
-        m.box((cx - w / 2, -p, z + 0.005), (cx + w / 2, WYTHE, z + BRICK_LEN - 0.005), mat, faces="yxXzZ")
+        m.box((cx - w / 2, -p, z + 0.006), (cx + w / 2, WYTHE, z + BRICK_LEN - 0.006), mat, faces="yxXzZ", uv_rot=1)
 
 
 def segmental_arch(m: K.Mesh, x0: float, x1: float, z: float, rise: float, mat: str, *, thickness: float = BRICK_LEN,

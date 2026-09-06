@@ -328,7 +328,7 @@ def _water_table():
     return m
 
 
-@K.register("trim_lintel_stone", "trim", nominal_size=(1.18, 0.142, 0.15),
+@K.register("trim_lintel_stone", "trim", nominal_size=(1.18, 0.152, 0.15),
             description="Loose limestone lintel, 1.18 m long x 150 mm deep, 40 mm projection with a chamfered lower arris, a "
                         "fillet under the top edge and a washed top — drops over any 0.95 m opening.",
             features=["lintels"], budget=400)

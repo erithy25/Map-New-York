@@ -1,0 +1,206 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_seagram_building",
+ "name": "Seagram Building (375 Park Avenue)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.758242,
+  "lon": -73.973561,
+  "azimuth_deg": 70.0,
+  "note": "Park Avenue west sidewalk at East 52nd Street, about 120 m west-south-west of the tower, looking east-north-east across the Seagram plaza",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.758611,
+  "lon": -73.972222,
+  "name": "Seagram Building (375 Park Avenue)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Seagram Building\" Park Avenue plaza",
+  "\"375 Park Avenue\" Mies van der Rohe"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T13:22:09Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 68,
+ "candidates_eligible": 31,
+ "rejections": {
+  "too_small": 14,
+  "too_old": 5,
+  "keywords": 16,
+  "not_photo": 2
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Seagram Building Nov 2025 24.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Seagram_Building_Nov_2025_24.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/84/Seagram_Building_Nov_2025_24.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Seagram_Building_Nov_2025_24.jpg/1920px-Seagram_Building_Nov_2025_24.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2025-11-05 08:44:40",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.758179,
+    "lon": -73.972885
+   },
+   "original_width": 4080,
+   "original_height": 3060,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 716113,
+   "sha256": "9105f378e90b8f51c2cebe54a7b6e36ebccf7009b8775c4cc1ccba6a1c3f083f",
+   "mean_luminance": 126.1,
+   "description": "Seagram Building in Manhattan, New York, seen in November 2025",
+   "categories": [
+    "Seagram Building",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Midtown Manhattan in 2025",
+    "Towers in the United States photographed in 2025",
+    "New York City photographs taken on 2025-11-05",
+    "November 2025 in Manhattan, New York City",
+    "Privately owned public space in Midtown Manhattan",
+    "Photographs by Epicgenius",
+    "Office buildings in New York City photographed in 2025"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.758179,
+    "lon": -73.972885,
+    "azimuth_deg": 49.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75818, -73.97289) is 74 m from Seagram Building (375 Park Avenue) (40.75861, -73.97222) and 57 m from the standard viewpoint; the azimuth 49 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Seagram Building Nov 2025 24.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Seagram_Building_Nov_2025_24.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Seagram Building Nov 2025 25.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Seagram_Building_Nov_2025_25.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/01/Seagram_Building_Nov_2025_25.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Seagram_Building_Nov_2025_25.jpg/1920px-Seagram_Building_Nov_2025_25.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2025-11-05 08:44:43",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.758178,
+    "lon": -73.972882
+   },
+   "original_width": 4080,
+   "original_height": 3060,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 547001,
+   "sha256": "311c5cc4397d8712237c55eb0f7e14ea63367faf12a94023dbb4de636a108615",
+   "mean_luminance": 121.2,
+   "description": "Seagram Building in Manhattan, New York, seen in November 2025",
+   "categories": [
+    "Seagram Building",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Midtown Manhattan in 2025",
+    "Towers in the United States photographed in 2025",
+    "New York City photographs taken on 2025-11-05",
+    "November 2025 in Manhattan, New York City",
+    "Photographs by Epicgenius",
+    "Office buildings in New York City photographed in 2025"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.758178,
+    "lon": -73.972882,
+    "azimuth_deg": 49.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75818, -73.97288) is 74 m from Seagram Building (375 Park Avenue) (40.75861, -73.97222) and 58 m from the standard viewpoint; the azimuth 49 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Seagram Building Nov 2025 25.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Seagram_Building_Nov_2025_25.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Seagram Building Nov 2025 26.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Seagram_Building_Nov_2025_26.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Seagram_Building_Nov_2025_26.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Seagram_Building_Nov_2025_26.jpg/1920px-Seagram_Building_Nov_2025_26.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2025-11-05 08:44:50",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.758179,
+    "lon": -73.972885
+   },
+   "original_width": 4080,
+   "original_height": 3060,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 630535,
+   "sha256": "70853f4cd0893fe28e4602ca1e34853d1fca3a0addc871303170f57ffe6ca31d",
+   "mean_luminance": 125.7,
+   "description": "Seagram Building in Manhattan, New York, seen in November 2025",
+   "categories": [
+    "Seagram Building",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Midtown Manhattan in 2025",
+    "Towers in the United States photographed in 2025",
+    "New York City photographs taken on 2025-11-05",
+    "November 2025 in Manhattan, New York City",
+    "Privately owned public space in Midtown Manhattan",
+    "Photographs by Epicgenius",
+    "Office buildings in New York City photographed in 2025"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.758179,
+    "lon": -73.972885,
+    "azimuth_deg": 49.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75818, -73.97289) is 74 m from Seagram Building (375 Park Avenue) (40.75861, -73.97222) and 57 m from the standard viewpoint; the azimuth 49 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Seagram Building Nov 2025 26.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Seagram_Building_Nov_2025_26.jpg"
+  }
+ ]
+}
