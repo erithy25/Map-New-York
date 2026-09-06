@@ -116,8 +116,9 @@ def _metaball_figure(name: str, base_z: float, resolution: float, subsurf: int) 
     # ---- right arm: raised, holding the torch ---------------------------------------------------------------------
     # shoulder -> elbow -> wrist along a 12.80 m arm reaching the torch handle
     sh = Vector((3.0, 0.0, H * 0.79))
-    el = Vector((5.4, -0.6, H * 1.02))
-    wr = Vector((5.9, -0.9, H * 1.24))
+    el = Vector((5.4, -0.6, H * 0.97))
+    wr = Vector((5.9, -0.9, H * 1.10))     # shoulder -> elbow -> wrist is 11.0 m; with the 5.00 m hand that is the
+                                           # published 42 ft (12.80 m) arm to within 2 %
     for t in (0.0, 0.25, 0.5, 0.75, 1.0):
         p = sh.lerp(el, t)
         ball(p.x, p.y, p.z, 1.55 - 0.15 * t, 2.0)
@@ -233,17 +234,17 @@ def build(lod: int = 0):
                  @ Matrix.Translation(Vector((-2.6, 2.9, 0))))
     objs.append(tab)
     # torch: handle, balcony and the gilded flame; the flame tip is exactly at the published 305 ft 1 in
-    wr = Vector((5.9, -0.9, Z_STATUE + H * 1.24))
-    objs.append(nb.cylinder("torch_handle", 0.85, 4.6, 12, (wr.x, wr.y, wr.z), material=bc.mat("copper_patina")))
-    objs.append(nb.cylinder("torch_balcony", 2.6, 0.9, 20, (wr.x, wr.y, wr.z + 4.6), material=bc.mat("copper_patina")))
-    flame_h = Z_TORCH - (wr.z + 5.5)
+    wr = Vector((5.9, -0.9, Z_STATUE + H * 1.10))
+    objs.append(nb.cylinder("torch_handle", 0.85, 3.6, 12, (wr.x, wr.y, wr.z), material=bc.mat("copper_patina")))
+    objs.append(nb.cylinder("torch_balcony", 2.6, 0.9, 20, (wr.x, wr.y, wr.z + 3.6), material=bc.mat("copper_patina")))
+    flame_h = Z_TORCH - (wr.z + 4.5)
     flame = []
     n_f = 7 if lod == 0 else 3
     for i in range(n_f):
         u = i / n_f
         r = 2.1 * (1 - u) ** 0.7 + 0.15
-        flame.append(nb.cylinder(f"torch_flame{i}", r, flame_h / n_f * 1.15, 12,
-                                 (wr.x, wr.y, wr.z + 5.5 + flame_h * u), material=bc.mat("gold_leaf")))
+        flame.append(nb.cylinder(f"torch_flame{i}", r, flame_h / n_f * (1.0 if i == n_f - 1 else 1.15), 12,
+                                 (wr.x, wr.y, wr.z + 4.5 + flame_h * u), material=bc.mat("gold_leaf")))
     objs.append(bc.join(flame, "torch_flame"))
 
     # rotate the statue (not the fort) so it faces out of the harbour
@@ -282,18 +283,23 @@ def main() -> None:
     cy = sum(p[1] for p in ring_tm) / len(ring_tm)
     ctx = (("grass", GROUND - 0.2, 190.0, (0.0, 0.0)), ("water_dark", 0.35, 2200.0, (0.0, 0.0)))
     _ = cx, cy
-    a = math.radians(bc.heading_to_math_deg(FACING_DEG))
-    # the ferry approaches from the north-east, the canonical view of the statue
-    ferry = (math.cos(a - 1.4) * 420.0, math.sin(a - 1.4) * 420.0, 6.0)
+    def _at(bearing_deg: float, dist: float, z: float):
+        """A camera at a compass bearing from the statue (0 = north, clockwise)."""
+        r = math.radians(bearing_deg)
+        return (math.sin(r) * dist, math.cos(r) * dist, z)
+
+    # The statue faces 145 deg (out of the harbour), so her front-right — the torch arm and the tablet, the view
+    # every Statue Cruises ferry photograph is taken from — is towards 170 deg.
+    ferry = _at(170.0, 420.0, 6.0)
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=250_000, budget_lod1=50_000,
         renders=[
             dict(view="from_the_ferry", cam=ferry, target=(0.0, 0.0, 55.0), fov_deg=34.0, context=ctx,
                  sun_azimuth_deg=210.0, sun_elevation_deg=35.0),
-            dict(view="from_the_island", cam=(math.cos(a + 2.4) * 105.0, math.sin(a + 2.4) * 105.0, GROUND + 1.7),
-                 target=(0.0, 0.0, 60.0), fov_deg=62.0, context=ctx, sun_azimuth_deg=180.0, sun_elevation_deg=48.0),
-            dict(view="figure", cam=(math.cos(a - 1.1) * 130.0, math.sin(a - 1.1) * 130.0, 88.0),
-                 target=(0.0, 0.0, 72.0), fov_deg=40.0, context=ctx, sun_azimuth_deg=230.0, sun_elevation_deg=40.0),
+            dict(view="from_the_island", cam=_at(150.0, 105.0, GROUND + 1.7), target=(0.0, 0.0, 62.0),
+                 fov_deg=64.0, context=ctx, sun_azimuth_deg=180.0, sun_elevation_deg=48.0),
+            dict(view="figure", cam=_at(160.0, 135.0, 86.0), target=(0.0, 0.0, 74.0), fov_deg=42.0, context=ctx,
+                 sun_azimuth_deg=200.0, sun_elevation_deg=42.0),
         ],
         sections={"Placement": "Fort Wood's real OSM ring (way 32965412), centroid NYC_TM (%.1f, %.1f); statue "
                                "confirmed by OSM way 433053921 (height 93 m = the published 305 ft 1 in)."

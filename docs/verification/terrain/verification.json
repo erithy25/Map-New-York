@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-06T12:54:46Z",
+ "generated_at": "2026-09-06T13:20:53Z",
  "no_void": {
   "tiles_expected": 2916,
   "tiles_present": 2916,
@@ -10,10 +10,10 @@
   "samples": 731918916,
   "void_filled_from_tidal_datum_px": 4341,
   "z_min_m": -5.18,
-  "z_max_m": 166.4875,
-  "tiles_with_land": 1236,
-  "tiles_with_water": 2539,
-  "seconds": 33.7
+  "z_max_m": 210.2775,
+  "tiles_with_land": 2294,
+  "tiles_with_water": 1743,
+  "seconds": 44.8
  },
  "extremes": {
   "tiles": 2916,
@@ -26,12 +26,12 @@
    "lat": 40.7051
   },
   "max": {
-   "z_m": 166.488,
-   "tile": "t_-30_5",
-   "x": -29858.0,
-   "y": 5618.0,
-   "lon": -74.30355,
-   "lat": 40.75005
+   "z_m": 210.278,
+   "tile": "t_-26_15",
+   "x": -25838.0,
+   "y": 15618.0,
+   "lon": -74.25636,
+   "lat": 40.84023
   },
   "lowest_tiles": [
    {
@@ -67,70 +67,70 @@
     "z_min_m": -1.998
    },
    {
-    "tile": "t_-2_0",
+    "tile": "t_-11_-5",
     "z_min_m": -1.998
    },
    {
-    "tile": "t_-6_1",
+    "tile": "t_-2_0",
     "z_min_m": -1.998
    }
   ],
   "highest_tiles": [
    {
-    "tile": "t_-30_5",
-    "z_max_m": 166.488
+    "tile": "t_-26_15",
+    "z_max_m": 210.278
    },
    {
-    "tile": "t_-30_6",
-    "z_max_m": 141.798
+    "tile": "t_-26_16",
+    "z_max_m": 209.0
    },
    {
-    "tile": "t_-30_7",
-    "z_max_m": 141.548
+    "tile": "t_-24_14",
+    "z_max_m": 202.505
    },
    {
-    "tile": "t_-30_4",
-    "z_max_m": 130.977
+    "tile": "t_-23_14",
+    "z_max_m": 202.327
    },
    {
-    "tile": "t_-30_8",
-    "z_max_m": 125.797
+    "tile": "t_-27_14",
+    "z_max_m": 202.215
    },
    {
-    "tile": "t_-14_-12",
-    "z_max_m": 125.59
+    "tile": "t_-23_15",
+    "z_max_m": 201.447
    },
    {
-    "tile": "t_-14_-11",
-    "z_max_m": 124.245
+    "tile": "t_-24_12",
+    "z_max_m": 201.407
    },
    {
-    "tile": "t_-15_-12",
-    "z_max_m": 124.148
+    "tile": "t_-25_17",
+    "z_max_m": 198.625
    },
    {
-    "tile": "t_-15_-11",
-    "z_max_m": 123.615
+    "tile": "t_-27_13",
+    "z_max_m": 198.345
    },
    {
-    "tile": "t_-12_-9",
-    "z_max_m": 113.772
+    "tile": "t_-25_11",
+    "z_max_m": 197.523
    }
   ],
   "samples_below": {
-   "-1m": 2525499,
+   "-1m": 78297,
    "-2m": 1075,
    "-5m": 2
   },
   "sub_datum": {
-   "px_below_floor": 16168,
+   "px_below_floor": 16243,
    "px_kept_surveyed": 1454,
-   "px_to_water": 949,
+   "px_to_water": 1024,
    "px_filled_idw": 10642,
    "px_filled_survey": 3123,
    "px_filled_datum": 0
   },
-  "tiles_with_sub_datum": 41,
+  "tiles_with_sub_datum": 42,
   "deepest_source_value": {
    "z_m": -26.973,
    "tile": "t_-5_6"
@@ -144,87 +144,16 @@
    220.0
   ],
   "pass": true,
-  "seconds": 39.2
+  "seconds": 53.5
  },
  "seams": {
   "pairs_checked": 5724,
-  "max_edge_difference_m": 142.475,
-  "worst_pair": "t_-30_5|t_-30_6",
+  "max_edge_difference_m": 2.842170943040401e-14,
+  "worst_pair": "t_-14_-12|t_-14_-11",
   "tolerance_m": 0.001,
-  "violations": [
-   {
-    "pair": "t_-22_-11|t_-22_-10",
-    "max_diff_m": 3.13,
-    "n_samples_off": 176
-   },
-   {
-    "pair": "t_-23_-11|t_-23_-10",
-    "max_diff_m": 4.845,
-    "n_samples_off": 501
-   },
-   {
-    "pair": "t_-24_-11|t_-24_-10",
-    "max_diff_m": 4.8575,
-    "n_samples_off": 365
-   },
-   {
-    "pair": "t_-25_-11|t_-25_-10",
-    "max_diff_m": 5.6325,
-    "n_samples_off": 501
-   },
-   {
-    "pair": "t_-26_-11|t_-26_-10",
-    "max_diff_m": 6.7175,
-    "n_samples_off": 501
-   },
-   {
-    "pair": "t_-27_-11|t_-27_-10",
-    "max_diff_m": 9.5725,
-    "n_samples_off": 501
-   },
-   {
-    "pair": "t_-28_-11|t_-28_-10",
-    "max_diff_m": 11.832500000000001,
-    "n_samples_off": 489
-   },
-   {
-    "pair": "t_-29_-11|t_-29_-10",
-    "max_diff_m": 7.8825,
-    "n_samples_off": 501
-   },
-   {
-    "pair": "t_-30_-11|t_-30_-10",
-    "max_diff_m": 15.4275,
-    "n_samples_off": 500
-   },
-   {
-    "pair": "t_-30_4|t_-30_5",
-    "max_diff_m": 140.2775,
-    "n_samples_off": 500
-   },
-   {
-    "pair": "t_-30_5|t_-29_5",
-    "max_diff_m": 140.2775,
-    "n_samples_off": 501
-   },
-   {
-    "pair": "t_-30_5|t_-30_6",
-    "max_diff_m": 142.475,
-    "n_samples_off": 500
-   },
-   {
-    "pair": "t_17_-12|t_17_-11",
-    "max_diff_m": 2.705,
-    "n_samples_off": 10
-   },
-   {
-    "pair": "t_23_-12|t_23_-11",
-    "max_diff_m": 2.2875,
-    "n_samples_off": 77
-   }
-  ],
-  "n_violations": 14,
-  "seconds": 37.0
+  "violations": [],
+  "n_violations": 0,
+  "seconds": 54.2
  },
  "known_elevations": {
   "points": [
@@ -370,14 +299,14 @@
  },
  "borough_extremes": {
   "New Jersey": {
-   "z_max": 166.4875030517578,
-   "tile_max": "t_-30_5",
-   "z_min": -1.6200000047683716,
-   "tile_min": "t_-10_-5"
+   "z_max": 210.27749633789062,
+   "tile_max": "t_-26_15",
+   "z_min": -1.997499942779541,
+   "tile_min": "t_-11_-5"
   },
   "New York State outside NYC (extension)": {
-   "z_max": 86.99749755859375,
-   "tile_max": "t_3_22",
+   "z_max": 99.49749755859375,
+   "tile_max": "t_6_26",
    "z_min": -5.179999828338623,
    "tile_min": "t_-6_0"
   },
@@ -406,46 +335,21 @@
    "tile_min": "t_-6_0"
   },
   "Bronx": {
-   "z_max": 86.99749755859375,
-   "tile_max": "t_3_22",
+   "z_max": 89.3949966430664,
+   "tile_max": "t_6_22",
    "z_min": -1.934999942779541,
    "tile_min": "t_3_10"
   }
  },
  "water_datum": {
   "points": 358,
-  "at_datum": 352,
-  "max_abs_m": 1.6200000047683718,
+  "at_datum": 357,
+  "max_abs_m": 0.16741379935588552,
   "off_datum_examples": [
-   {
-    "x": 13085.6,
-    "y": 14079.1,
-    "z": -1.62
-   },
-   {
-    "x": 13416.1,
-    "y": 14679.9,
-    "z": -1.62
-   },
-   {
-    "x": -7337.4,
-    "y": -3525.6,
-    "z": -1.62
-   },
    {
     "x": -20211.0,
     "y": -8373.0,
     "z": 0.167
-   },
-   {
-    "x": -8649.1,
-    "y": -5204.7,
-    "z": -1.62
-   },
-   {
-    "x": -8456.0,
-    "y": -5737.2,
-    "z": -1.62
    }
   ]
  },
@@ -459,8 +363,8 @@
    ],
    "cell_m": 20.0,
    "z_min": -3.882499933242798,
-   "z_max": 166.40249633789062,
-   "seconds": 39.3
+   "z_max": 210.1999969482422,
+   "seconds": 77.9
   },
   "manhattan": {
    "png": "/home/user/Map-New-York/docs/verification/terrain/hillshade_manhattan.png",
@@ -477,8 +381,8 @@
     18000.0
    ],
    "z_min": -5.137499809265137,
-   "z_max": 81.09249877929688,
-   "seconds": 56.8
+   "z_max": 108.55999755859375,
+   "seconds": 97.9
   }
  }
 }

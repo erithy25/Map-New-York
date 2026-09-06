@@ -1,6 +1,6 @@
 # World Trade Center site
 
-Script: `blender/landmarks/b_wtc_site.py` · agent B · generated 2026-09-06 13:17 UTC
+Script: `blender/landmarks/b_wtc_site.py` · agent B · generated 2026-09-06 13:29 UTC
 
 ## Placement
 
@@ -38,4 +38,4 @@ St Nicholas Greek Orthodox Church, the individual curtain-wall panes, and the Oc
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_wtc_site.glb` — 40,254 triangles, 1.45 MB, bounds min ['-260.0', '-260.0', '-14.6'] max ['260.0', '260.0', '334.1']
-* `blender_out/landmarks/b_wtc_site_lod1.glb` — 20,874 triangles, 0.47 MB, bounds min ['-260.0', '-260.0', '-14.6'] max ['260.0', '260.0', '334.1']
+* `blender_out/landmarks/b_wtc_site_lod1.glb` — 8,274 triangles, 0.21 MB, bounds min ['-260.0', '-260.0', '-14.6'] max ['260.0', '260.0', '334.1']

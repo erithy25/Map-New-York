@@ -126,11 +126,16 @@ def pick_reference_photo(meta: dict) -> dict | None:
         conf = {"high": 0, "medium": 1, "low": 2}.get(ev.get("confidence", "low"), 2)
         when, _ = photo_instant(p)
         elev = sun_for(vp["lat"], vp["lon"], when)["elevation_deg"]
+        # Hard gate first: a daylight item must not be paired with an after-dark frame, and vice
+        # versa.  Then a real EXIF timestamp, because it fixes the Sun exactly.  Only then the
+        # softer preference for a well-lit hour.
         if night:
-            lit_ok = 0 if elev <= -6.0 else (1 if elev < 0.0 else 2)
+            lit_bad = 0 if elev < 0.0 else 1
+            lit_tier = 0 if elev <= -6.0 else 1
         else:
-            lit_ok = 0 if elev >= 12.0 else (1 if elev > 3.0 else 2)
-        key = (lit_ok, 0 if has_time else 1, conf, err)
+            lit_bad = 0 if elev > 3.0 else 1
+            lit_tier = 0 if elev >= 12.0 else 1
+        key = (lit_bad, 0 if has_time else 1, lit_tier, conf, err)
         if best_key is None or key < best_key:
             best, best_key = p, key
     return best
@@ -229,19 +234,26 @@ def configure_cycles(samples: int, threads: int | None) -> None:
     sc.cycles.samples = samples
     sc.cycles.use_denoising = True
     sc.cycles.use_adaptive_sampling = True
-    sc.cycles.adaptive_threshold = 0.01
-    sc.cycles.max_bounces = 4
+    sc.cycles.adaptive_threshold = 0.02
+    sc.cycles.adaptive_min_samples = max(8, samples // 8)
+    sc.cycles.max_bounces = 3
     sc.cycles.diffuse_bounces = 2
-    sc.cycles.glossy_bounces = 2
-    sc.cycles.transmission_bounces = 2
-    sc.cycles.transparent_max_bounces = 4
+    sc.cycles.glossy_bounces = 1
+    sc.cycles.transmission_bounces = 1
+    sc.cycles.transparent_max_bounces = 3
     sc.cycles.volume_bounces = 0
     sc.cycles.caustics_reflective = False
     sc.cycles.caustics_refractive = False
     sc.render.film_transparent = False
     sc.render.image_settings.file_format = "PNG"
     sc.render.image_settings.color_mode = "RGB"
-    sc.view_settings.view_transform = "Filmic" if "Filmic" in [v.name for v in bpy.types.ColorManagedViewSettings.bl_rna.properties["view_transform"].enum_items] else "Standard"
+    # A photographic tone curve, so the render's highlight roll-off is comparable with a camera's.
+    available = [v.identifier for v in
+                 bpy.types.ColorManagedViewSettings.bl_rna.properties["view_transform"].enum_items]
+    for want in ("Filmic", "AgX", "Standard"):
+        if want in available:
+            sc.view_settings.view_transform = want
+            break
     if threads:
         sc.render.threads_mode = "FIXED"
         sc.render.threads = threads
@@ -313,7 +325,7 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     rep, sampler = vscene.build_scene(
         x, y, radius, prop_radius_m=prop_r, kit_radius_m=kit_r,
         with_props=prop_r > 0, with_kit=kit_r > 0,
-        terrain_max_side=420 if radius <= 1500 else 500,
+        terrain_max_side=300 if radius <= 1500 else 380,
         lod0_radius_m=1200.0)
     placement = vcam.place_camera(slug=slug, lat=vp["lat"], lon=vp["lon"],
                                  azimuth_deg=float(vp["azimuth_deg"]), sampler=sampler,
@@ -501,6 +513,64 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
 # --------------------------------------------------------------------------- CLI
 
 
+def coverage(slug: str) -> dict:
+    """What world data exists for a subject, without building anything.
+
+    Answers the question the INDEX has to answer: can this viewpoint be rendered at all, and if
+    the answer is "only partly", which tiles of building shells are missing.
+    """
+    import scene as vscene
+    from nycsim_pipeline.crs import lonlat_to_tm
+
+    meta = load_meta(slug)
+    vp = meta["viewpoint"]
+    x, y = (float(v) for v in lonlat_to_tm(vp["lon"], vp["lat"]))
+    subject = meta.get("subject") or {}
+    subj_dist = None
+    if subject.get("lat") is not None:
+        sx, sy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
+        subj_dist = math.hypot(sx - x, sy - y)
+    if slug in RADIUS_OVERRIDES:
+        radius, prop_r, kit_r = RADIUS_OVERRIDES[slug]
+    else:
+        radius = max(500.0, min(3000.0, (subj_dist or 200.0) * 1.6 + 400.0))
+        prop_r = 0.0 if radius > 1500.0 else 250.0
+        kit_r = 0.0 if radius > 1500.0 else 120.0
+
+    # The near field decides whether a frame is meaningful; count shells within 600 m as well
+    # as over the whole scene radius.
+    def tile_stats(r):
+        want = vscene.tiles_in_radius(x, y, r)
+        built = [t for t in want if (vscene.TILES_GLB / vscene.tile_name(*t) / "tile_buildings.glb").exists()]
+        return len(want), len(built)
+
+    want_all, built_all = tile_stats(radius)
+    want_near, built_near = tile_stats(min(radius, 600.0))
+    terr = vscene.tiles_in_radius(x, y, radius)
+    terr_built = sum(1 for t in terr
+                     if (vscene.TILES_DATA / vscene.tile_name(*t) / "terrain.png").exists())
+
+    lms = []
+    for e in vscene.load_landmark_catalog():
+        ox, oy = float(e["origin_tm"][0]), float(e["origin_tm"][1])
+        b = e.get("bounds_local_m") or {}
+        bmin, bmax = b.get("min", [0, 0, 0]), b.get("max", [0, 0, 0])
+        nx = min(max(x, ox + bmin[0]), ox + bmax[0])
+        ny = min(max(y, oy + bmin[1]), oy + bmax[1])
+        if math.hypot(nx - x, ny - y) <= radius:
+            lms.append(e["id"])
+    photo = pick_reference_photo(meta)
+    return {"slug": slug, "name": meta.get("name"), "group": meta.get("group"),
+            "night": bool(meta.get("night")), "interior": bool(meta.get("interior")),
+            "radius_m": radius, "subject_distance_m": None if subj_dist is None else round(subj_dist, 1),
+            "tiles_wanted": want_all, "tiles_built": built_all,
+            "tiles_wanted_near": want_near, "tiles_built_near": built_near,
+            "terrain_tiles": len(terr), "terrain_built": terr_built,
+            "landmarks": sorted(lms), "photos": len([p for p in meta.get("photos", [])
+                                                     if (REFERENCE_DIR / slug / p["file"]).exists()]),
+            "reference_photo": None if photo is None else photo["file"]}
+
+
 def resolve_slugs(args) -> list[str]:
     known = list_slugs()
     if args.slugs:
@@ -531,12 +601,17 @@ def main(argv: Sequence[str] | None = None) -> int:
     ap.add_argument("--skip-existing", action="store_true", help="skip slugs that already have a render.png")
     ap.add_argument("--compose-only", action="store_true", help="rebuild sheets from existing renders")
     ap.add_argument("--dry-run", action="store_true", help="print the plan without rendering")
+    ap.add_argument("--coverage", action="store_true",
+                    help="report what world data exists per subject and exit")
     a = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s",
                         datefmt="%H:%M:%S")
     slugs = resolve_slugs(a)
     if a.limit:
         slugs = slugs[:a.limit]
+    if a.coverage:
+        print(json.dumps([coverage(s) for s in slugs], indent=1))
+        return 0
     LOG.info("%d subject(s): %s", len(slugs), ", ".join(slugs))
 
     done, failed = [], []

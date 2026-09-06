@@ -42,15 +42,21 @@ constexpr float kRescanIntervalSeconds = 10.f;
 constexpr float kTrafficBedOffsetMetres = 30.f;
 constexpr float kTrafficBedRadiusMetres = 70.f;
 
+/// The four traffic-bed directions, in world axes.
+const FVector kTrafficBedOffsets[4] = {FVector(1.f, 0.f, 0.f), FVector(-1.f, 0.f, 0.f), FVector(0.f, 1.f, 0.f),
+									   FVector(0.f, -1.f, 0.f)};
+
 constexpr int32 kMaxHornVoices = 8;
 constexpr int32 kMaxScreechVoices = 6;
+
+constexpr int32 kZoneKindCount = static_cast<int32>(ENYCAmbienceZone::Count);
 
 /// The actor tags that make an ambience zone, in ENYCAmbienceZone order.
 const TCHAR* const kZoneTags[] = {
 	TEXT("NYCAmbienceTraffic"), TEXT("NYCSubwayGrate"),  TEXT("NYCSteamVent"), TEXT("NYCPark"),
 	TEXT("NYCWaterfront"),      TEXT("NYCConstruction"), TEXT("NYCCrowd"),     TEXT("NYCHelicopterCorridor"),
 };
-static_assert(UE_ARRAY_COUNT(kZoneTags) == static_cast<int32>(ENYCAmbienceZone::Count),
+static_assert(static_cast<int32>(UE_ARRAY_COUNT(kZoneTags)) == kZoneKindCount,
 			  "kZoneTags must cover every ENYCAmbienceZone");
 
 /// The imported sound each zone kind plays; empty means the zone is synthesised or has no licensed recording.
@@ -58,13 +64,13 @@ const TCHAR* const kZoneLoops[] = {
 	TEXT("traffic_bed_1"), TEXT(""),          TEXT(""),        TEXT("amb_park"),
 	TEXT("amb_waterfront"), TEXT("amb_construction"), TEXT("amb_crowd"), TEXT("amb_helicopter"),
 };
-static_assert(UE_ARRAY_COUNT(kZoneLoops) == static_cast<int32>(ENYCAmbienceZone::Count),
+static_assert(static_cast<int32>(UE_ARRAY_COUNT(kZoneLoops)) == kZoneKindCount,
 			  "kZoneLoops must cover every ENYCAmbienceZone");
 
 const TCHAR* ZoneName(ENYCAmbienceZone Zone)
 {
 	const int32 Index = static_cast<int32>(Zone);
-	return Index >= 0 && Index < UE_ARRAY_COUNT(kZoneTags) ? kZoneTags[Index] : TEXT("?");
+	return Index >= 0 && Index < kZoneKindCount ? kZoneTags[Index] : TEXT("?");
 }
 
 const TCHAR* BusName(ENYCAudioBus Bus)
@@ -154,7 +160,8 @@ void UNYCAudioSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 				int32 Listed = 0;
 				for (const FZoneRecord& Zone : Zones)
 				{
-					const float DistanceM = FVector::Dist(Zone.Location, ListenerLocation) / kCmPerMetre;
+					const float DistanceM =
+						static_cast<float>(FVector::Dist(Zone.Location, ListenerLocation)) / kCmPerMetre;
 					if (DistanceM > 600.f || Listed >= 40)
 					{
 						continue;
@@ -219,12 +226,14 @@ void UNYCAudioSubsystem::OnWorldBeginPlay(UWorld& InWorld)
 
 	// The on-foot weather bed. Non-spatialised: rain and wind are everywhere, not in one direction.
 	WorldRain = NewObject<UNYCProceduralSourceComponent>(&InWorld, TEXT("NYCWorldRain"));
+	WorldRain->SetMobility(EComponentMobility::Movable);
 	WorldRain->SetKind(ENYCSourceKind::Rain);
 	WorldRain->bAllowSpatialization = false;
 	WorldRain->SetSourceGain(0.f);
 	WorldRain->RegisterComponentWithWorld(&InWorld);
 
 	WorldWind = NewObject<UNYCProceduralSourceComponent>(&InWorld, TEXT("NYCWorldWind"));
+	WorldWind->SetMobility(EComponentMobility::Movable);
 	WorldWind->SetKind(ENYCSourceKind::Wind);
 	WorldWind->bAllowSpatialization = false;
 	WorldWind->SetSourceGain(0.f);
@@ -279,7 +288,6 @@ void UNYCAudioSubsystem::Deinitialize()
 	}
 	Emitters.Empty();
 	TrafficBedEmitters.Empty();
-	EmitterZone.Empty();
 	DopplerSources.Empty();
 	Zones.Empty();
 	ZoneIndexByHandle.Empty();
@@ -341,7 +349,7 @@ USoundAttenuation* UNYCAudioSubsystem::GetAttenuation(float FalloffMetres)
 USoundBase* UNYCAudioSubsystem::LoopSoundFor(ENYCAmbienceZone Zone)
 {
 	const int32 Index = static_cast<int32>(Zone);
-	if (Index < 0 || Index >= UE_ARRAY_COUNT(kZoneLoops))
+	if (Index < 0 || Index >= kZoneKindCount)
 	{
 		return nullptr;
 	}
@@ -392,12 +400,11 @@ void UNYCAudioSubsystem::UnregisterAmbienceZone(int32 Handle)
 	{
 		ZoneIndexByHandle.Add(Zones[Index].Handle, Index);
 	}
-	for (int32 i = 0; i < Emitters.Num(); ++i)
+	for (ANYCAmbienceEmitter* Emitter : Emitters)
 	{
-		if (EmitterZone.IsValidIndex(i) && EmitterZone[i] == Handle && Emitters[i] != nullptr)
+		if (Emitter != nullptr && Emitter->GetZoneHandle() == Handle)
 		{
-			Emitters[i]->Release();
-			EmitterZone[i] = INDEX_NONE;
+			Emitter->Release();
 		}
 	}
 	Stats.Zones = Zones.Num();
@@ -423,12 +430,11 @@ int32 UNYCAudioSubsystem::ScanWorldForAmbienceZones()
 			{
 				ZoneIndexByHandle.Add(Zones[i].Handle, i);
 			}
-			for (int32 e = 0; e < EmitterZone.Num(); ++e)
+			for (ANYCAmbienceEmitter* Emitter : Emitters)
 			{
-				if (EmitterZone[e] == Handle && Emitters.IsValidIndex(e) && Emitters[e] != nullptr)
+				if (Emitter != nullptr && Emitter->GetZoneHandle() == Handle)
 				{
-					Emitters[e]->Release();
-					EmitterZone[e] = INDEX_NONE;
+					Emitter->Release();
 				}
 			}
 		}
@@ -442,7 +448,7 @@ int32 UNYCAudioSubsystem::ScanWorldForAmbienceZones()
 		{
 			continue;
 		}
-		for (int32 Kind = 0; Kind < UE_ARRAY_COUNT(kZoneTags); ++Kind)
+		for (int32 Kind = 0; Kind < kZoneKindCount; ++Kind)
 		{
 			if (!Actor->Tags.Contains(FName(kZoneTags[Kind])))
 			{
@@ -452,8 +458,8 @@ int32 UNYCAudioSubsystem::ScanWorldForAmbienceZones()
 			FVector Origin = FVector::ZeroVector;
 			FVector Extent = FVector::ZeroVector;
 			Actor->GetActorBounds(false, Origin, Extent);
-			const float RadiusM =
-				FMath::Clamp(FMath::Max(Extent.X, Extent.Y) / kCmPerMetre, 3.f, 400.f);
+			const float RadiusM = FMath::Clamp(
+				static_cast<float>(FMath::Max(Extent.X, Extent.Y)) / kCmPerMetre, 3.f, 400.f);
 
 			FZoneRecord Record;
 			Record.Location = Origin;
@@ -536,6 +542,8 @@ UNYCProceduralSourceComponent* UNYCAudioSubsystem::MakeVoice(ENYCSourceKind Kind
 		return nullptr;
 	}
 	UNYCProceduralSourceComponent* Source = NewObject<UNYCProceduralSourceComponent>(World);
+	// The voice is moved to wherever the event happened, so it must not be a static component.
+	Source->SetMobility(EComponentMobility::Movable);
 	Source->SetKind(Kind);
 	Source->bAllowSpatialization = true;
 	Source->AttenuationSettings = GetAttenuation(FalloffMetres);
@@ -831,6 +839,7 @@ void UNYCAudioSubsystem::UpdateWeather()
 
 void UNYCAudioSubsystem::UpdateTrafficBed(float DeltaTime)
 {
+	(void)DeltaTime;
 	UWorld* World = GetWorld();
 	if (World == nullptr || TrafficBedEmitters.Num() == 0)
 	{
@@ -839,9 +848,6 @@ void UNYCAudioSubsystem::UpdateTrafficBed(float DeltaTime)
 	UNYCTrafficSubsystem* Traffic = World->GetSubsystem<UNYCTrafficSubsystem>();
 	const float Bus = GetEffectiveGain(ENYCAudioBus::Ambience);
 	const float OffsetCm = kTrafficBedOffsetMetres * kCmPerMetre;
-	static const FVector Offsets[4] = {FVector(1.f, 0.f, 0.f), FVector(-1.f, 0.f, 0.f), FVector(0.f, 1.f, 0.f),
-									   FVector(0.f, -1.f, 0.f)};
-
 	int32 Total = 0;
 	for (int32 i = 0; i < TrafficBedEmitters.Num() && i < 4; ++i)
 	{
@@ -850,7 +856,7 @@ void UNYCAudioSubsystem::UpdateTrafficBed(float DeltaTime)
 		{
 			continue;
 		}
-		const FVector Centre = ListenerLocation + Offsets[i] * OffsetCm;
+		const FVector Centre = ListenerLocation + kTrafficBedOffsets[i] * OffsetCm;
 		int32 Vehicles = 0;
 		float MeanSpeed = 0.f;
 		if (Traffic != nullptr)
@@ -876,6 +882,7 @@ void UNYCAudioSubsystem::UpdateTrafficBed(float DeltaTime)
 
 void UNYCAudioSubsystem::UpdateAmbience(float DeltaTime)
 {
+	(void)DeltaTime;
 	if (MaxEmitters <= 0)
 	{
 		return;
@@ -913,18 +920,11 @@ void UNYCAudioSubsystem::UpdateAmbience(float DeltaTime)
 	}
 
 	// Release the voices whose zone dropped out of the set.
-	EmitterZone.SetNumZeroed(FMath::Max(EmitterZone.Num(), Emitters.Num()));
-	for (int32 i = 0; i < Emitters.Num(); ++i)
+	for (ANYCAmbienceEmitter* Emitter : Emitters)
 	{
-		if (Emitters[i] == nullptr)
+		if (Emitter != nullptr && Emitter->IsInUse() && !Chosen.Contains(Emitter->GetZoneHandle()))
 		{
-			continue;
-		}
-		const int32 Handle = EmitterZone.IsValidIndex(i) ? EmitterZone[i] : INDEX_NONE;
-		if (Handle != INDEX_NONE && !Chosen.Contains(Handle))
-		{
-			Emitters[i]->Release();
-			EmitterZone[i] = INDEX_NONE;
+			Emitter->Release();
 		}
 	}
 
@@ -938,7 +938,7 @@ void UNYCAudioSubsystem::UpdateAmbience(float DeltaTime)
 		int32 EmitterIndex = INDEX_NONE;
 		for (int32 i = 0; i < Emitters.Num(); ++i)
 		{
-			if (EmitterZone.IsValidIndex(i) && EmitterZone[i] == Zone.Handle)
+			if (Emitters[i] != nullptr && Emitters[i]->GetZoneHandle() == Zone.Handle)
 			{
 				EmitterIndex = i;
 				break;
@@ -960,8 +960,6 @@ void UNYCAudioSubsystem::UpdateAmbience(float DeltaTime)
 			if (ANYCAmbienceEmitter* Emitter = SpawnEmitter())
 			{
 				EmitterIndex = Emitters.Add(Emitter);
-				EmitterZone.SetNumZeroed(Emitters.Num());
-				EmitterZone[EmitterIndex] = INDEX_NONE;
 			}
 		}
 		if (EmitterIndex == INDEX_NONE || Emitters[EmitterIndex] == nullptr)
@@ -979,7 +977,6 @@ void UNYCAudioSubsystem::UpdateAmbience(float DeltaTime)
 		Spec.Seed = Zone.Handle;
 		Emitters[EmitterIndex]->Assign(Zone.Handle, Zone.Zone, Spec);
 		Emitters[EmitterIndex]->SetGain(Zone.Gain * Bus);
-		EmitterZone[EmitterIndex] = Zone.Handle;
 
 		if (Emitters[EmitterIndex]->IsAudible())
 		{
@@ -1001,9 +998,9 @@ float UNYCAudioSubsystem::HeadwaySecondsForHour() const
 {
 	// NYCT scheduled headways on a trunk line: about 2-5 min in the peaks, 8-10 min midday, 20 min overnight.
 	int32 Hour = 8;
-	if (const UWorld* World = GetWorld())
+	if (UWorld* World = GetWorld())
 	{
-		if (const UNYCTrafficSubsystem* Traffic = World->GetSubsystem<UNYCTrafficSubsystem>())
+		if (UNYCTrafficSubsystem* Traffic = World->GetSubsystem<UNYCTrafficSubsystem>())
 		{
 			Hour = Traffic->GetHour();
 		}

@@ -1,6 +1,6 @@
 # Ellis Island Main Immigration Building
 
-Script: `blender/landmarks/b_ellis_island_main.py` · agent B · generated 2026-09-06 13:18 UTC
+Script: `blender/landmarks/b_ellis_island_main.py` · agent B · generated 2026-09-06 13:29 UTC
 
 ## Published dimensions
 
@@ -32,4 +32,4 @@ ferry basin and its 1930s ferry building as separate volumes, and the island's s
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_ellis_island_main.glb` — 5,992 triangles, 0.31 MB, bounds min ['-191.6', '-113.2', '-2.0'] max ['99.2', '99.6', '45.3']
-* `blender_out/landmarks/b_ellis_island_main_lod1.glb` — 4,696 triangles, 0.27 MB, bounds min ['-191.6', '-113.2', '-2.0'] max ['99.2', '99.6', '45.3']
+* `blender_out/landmarks/b_ellis_island_main_lod1.glb` — 2,602 triangles, 0.18 MB, bounds min ['-191.6', '-113.2', '-2.0'] max ['99.2', '99.6', '45.3']

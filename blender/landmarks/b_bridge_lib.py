@@ -420,7 +420,8 @@ def build_tower(name: str, axis: Axis, s: float, spec: TowerSpec, lod: int = 0) 
                 out.append(bc.box_between(f"{name}_xa{i}", a, b, 1.0, d_here * 0.6, spec.material))
                 out.append(bc.box_between(f"{name}_xb{i}", axis.p(s, inner / 2, zz), axis.p(s, -inner / 2, z2), 1.0, d_here * 0.6, spec.material))
         for t in spec.cable_t:
-            sad = bc.box(f"{name}_saddle", (spec.leg_d * spec.leg_taper * 0.8, 2.0, 2.5), (0, t, spec.z_top), "steel_black")
+            sad = bc.box(f"{name}_saddle", (spec.leg_d * spec.leg_taper * 0.8, 2.0, 2.5), (0, t, spec.z_saddle - 2.5),
+                         "steel_black")
             bc.transform(sad, M)
             out.append(sad)
     elif spec.kind == "lattice":
@@ -439,7 +440,8 @@ def build_tower(name: str, axis: Axis, s: float, spec: TowerSpec, lod: int = 0) 
                 bc.transform(strut, M)
                 out.append(strut)
         for t in spec.cable_t:
-            sad = bc.box(f"{name}_saddle", (spec.leg_d * spec.leg_taper, 2.4, 3.0), (0, t, spec.z_top), "steel_black")
+            sad = bc.box(f"{name}_saddle", (spec.leg_d * spec.leg_taper, 2.4, 3.0), (0, t, spec.z_saddle - 3.0),
+                         "steel_black")
             bc.transform(sad, M)
             out.append(sad)
     else:

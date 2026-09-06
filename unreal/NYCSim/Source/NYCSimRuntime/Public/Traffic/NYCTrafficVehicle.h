@@ -101,6 +101,9 @@ public:
 
 	int32 GetLodLevel() const { return LodLevel; }
 
+	/** Ground speed from the last simulation step; the ambience bed measures the traffic around the listener. */
+	float GetSpeedMps() const { return CurrentSpeedMps; }
+
 	/** The bus destination sign text (empty for anything that is not a bus). */
 	void SetDestinationSign(const FString& Text);
 
@@ -131,6 +134,7 @@ private:
 	int32 AgentId = 0;
 	uint8 VehicleClass = 0;
 	int32 LodLevel = 0;
+	float CurrentSpeedMps = 0.f;
 	bool bSirenPlaying = false;
 	bool bForHire = true;
 	float WheelSpinDeg = 0.f;

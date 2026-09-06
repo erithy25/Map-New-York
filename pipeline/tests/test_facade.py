@@ -293,14 +293,17 @@ def test_water_tower_count_is_inside_the_published_range(attrs: pl.DataFrame):
     assert int(attrs["has_water_tower"].sum()) >= wooden
 
 
-def test_window_counts_are_bounded_by_the_building(attrs: pl.DataFrame, base_attrs: pl.DataFrame):
-    j = attrs.select(["bin", "window_cols", "window_rows", "bay_width_m", "facade_frontage_m"]).join(
-        base_attrs.select(["bin", "floors"]), on="bin", how="inner")
-    assert (j["window_rows"].to_numpy() <= j["floors"].to_numpy()).all(), "window_rows exceeds floors"
-    assert (j["window_cols"].to_numpy() >= 1).all()
-    assert (j["window_cols"].to_numpy() <= 200).all()
-    bay = j["bay_width_m"].to_numpy()
-    assert (bay >= 1.0).all() and (bay <= 4.0).all()
+def test_window_counts_are_bounded_by_the_building(tiles_with_placements: list[Path]):
+    """``window_rows`` is floors - 1, so it can never exceed the building's own storey count."""
+    for d in _sample(tiles_with_placements, 30, seed=17):
+        t = pq.read_table(d / "buildings.parquet", columns=["window_cols", "window_rows", "floors", "bay_width_m"])
+        rows = t["window_rows"].to_numpy()
+        floors = t["floors"].to_numpy()
+        cols = t["window_cols"].to_numpy()
+        bay = t["bay_width_m"].to_numpy(zero_copy_only=False)
+        assert (rows <= floors).all(), f"{d.name}: window_rows exceeds floors"
+        assert (rows >= 0).all() and (cols >= 1).all() and (cols <= 200).all()
+        assert (bay >= 1.0).all() and (bay <= 4.0).all()
 
 
 # --------------------------------------------------------------------------- per-tile schema
@@ -417,6 +420,16 @@ def test_no_placement_on_a_party_wall(tiles_with_placements: list[Path]):
     rec = read_tile(d)
     if len(rec) == 0:
         pytest.skip("no placements in the sampled tile")
+    # only facade-mounted pieces are constrained: rooftop equipment stands on the deck and may sit anywhere inside
+    # the footprint, including directly behind a party wall
+    try:
+        roof_ids = {p["kit_id"] for p in K.registry()["pieces"]
+                    if p["category"] in ("hvac", "water_tower", "antenna", "bulkhead", "billboard", "vegetation")}
+    except K.KitCatalogMissing:
+        pytest.skip("kit catalog not exported")
+    rec = rec[~np.isin(rec["kit_id"], list(roof_ids))]
+    if len(rec) == 0:
+        pytest.skip("no facade placements in the sampled tile")
     g = shapely.from_wkb(np.asarray(tb["footprint"].to_pylist(), dtype=object))
     tree = shapely.STRtree(g)
     runs = EG.compute_runs(g, np.zeros(len(g)), tree, np.arange(len(g), dtype=np.int64))

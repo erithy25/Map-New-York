@@ -1,0 +1,199 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_carnegie_hall",
+ "name": "Carnegie Hall",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.764321,
+  "lon": -73.980494,
+  "azimuth_deg": 30.0,
+  "note": "Seventh Avenue at West 56th Street, about 100 m south-south-west of the building, looking north-north-east at the corner facade and marquee",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7651,
+  "lon": -73.9799,
+  "name": "Carnegie Hall"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Carnegie Hall\" exterior Seventh Avenue",
+  "\"Carnegie Hall\" building 57th Street"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T13:24:13Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 51,
+ "candidates_eligible": 13,
+ "rejections": {
+  "not_photo": 1,
+  "excluded": 3,
+  "night_for_day_item": 3,
+  "too_old": 1,
+  "keywords": 6,
+  "indoor": 24
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:W 57th St Dec 2020 52.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:W_57th_St_Dec_2020_52.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/fe/W_57th_St_Dec_2020_52.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/W_57th_St_Dec_2020_52.jpg/1920px-W_57th_St_Dec_2020_52.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2020-12-06 14:05:26",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": {
+    "lat": 40.766202,
+    "lon": -73.981713
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 811493,
+   "sha256": "b481b309f94ffc8334f3aaefdbbfad4c013f4624b807a0161c35ddf42bb33917",
+   "mean_luminance": 129.5,
+   "description": "224 West 57th Street (the Argonaut Building), in Manhattan, New York, seen in December 2020. At left are the Carnegie Hall Tower, 888 Seventh Avenue, and 220 West 57th Street (the former ASCE Society House).",
+   "categories": [
+    "224 West 57th Street",
+    "888 Seventh Avenue",
+    "218 West 57th Street",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2020-12-06",
+    "Midtown Manhattan in 2020",
+    "December 2020 in Manhattan, New York City",
+    "Photographs by Epicgenius"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Carnegie Hall\" building 57th Street",
+   "score": 9.75,
+   "estimated_viewpoint": {
+    "lat": 40.766202,
+    "lon": -73.981713,
+    "azimuth_deg": 128.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76620, -73.98171) is 196 m from Carnegie Hall (40.76510, -73.97990) and 233 m from the standard viewpoint; the azimuth 129 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"W 57th St Dec 2020 52.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:W_57th_St_Dec_2020_52.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Carnegie Hall Tower 008.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Carnegie_Hall_Tower_008.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/52/Carnegie_Hall_Tower_008.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Carnegie_Hall_Tower_008.jpg/1920px-Carnegie_Hall_Tower_008.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2026-01-09 12:50:26",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": null,
+   "original_width": 2296,
+   "original_height": 4080,
+   "width": 1920,
+   "height": 3412,
+   "bytes": 1620275,
+   "sha256": "3c76bea40e3e4228abe787b61283fe8498d30a82f87f9d07502cbb94c057ca98",
+   "mean_luminance": 121.5,
+   "description": "Carnegie Hall Tower in Midtown Manhattan",
+   "categories": [
+    "Carnegie Hall Tower",
+    "Self-published work",
+    "Midtown Manhattan in 2026",
+    "New York City photographs taken on 2026-01-09",
+    "January 2026 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Carnegie Hall\" building 57th Street",
+   "score": 7.7,
+   "estimated_viewpoint": {
+    "lat": 40.764321,
+    "lon": -73.980494,
+    "azimuth_deg": 30.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Seventh Avenue at West 56th Street, about 100 m south-south-west of the building, looking north-north-east at the corner facade and marquee) and the azimuth 30 deg is the bearing from there to Carnegie Hall (40.76510, -73.97990)."
+   },
+   "attribution": "\"Carnegie Hall Tower 008.jpg\" by Kidfly182, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Carnegie_Hall_Tower_008.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:W 57th St Dec 2020 54.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:W_57th_St_Dec_2020_54.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/69/W_57th_St_Dec_2020_54.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/W_57th_St_Dec_2020_54.jpg/1920px-W_57th_St_Dec_2020_54.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2020-12-06 14:05:36",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": {
+    "lat": 40.766202,
+    "lon": -73.981713
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 876737,
+   "sha256": "f5dd9a1ecc123221a75c19fba33e351c5b157322903722541524fa423c8675b4",
+   "mean_luminance": 128.4,
+   "description": "224 West 57th Street (the Argonaut Building), in Manhattan, New York, seen in December 2020. At left are the Carnegie Hall Tower, 888 Seventh Avenue, and 220 West 57th Street (the former ASCE Society House).",
+   "categories": [
+    "224 West 57th Street",
+    "888 Seventh Avenue",
+    "218 West 57th Street",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2020-12-06",
+    "Midtown Manhattan in 2020",
+    "December 2020 in Manhattan, New York City",
+    "Photographs by Epicgenius"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Carnegie Hall\" building 57th Street",
+   "score": 9.75,
+   "estimated_viewpoint": {
+    "lat": 40.766202,
+    "lon": -73.981713,
+    "azimuth_deg": 128.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76620, -73.98171) is 196 m from Carnegie Hall (40.76510, -73.97990) and 233 m from the standard viewpoint; the azimuth 129 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"W 57th St Dec 2020 54.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:W_57th_St_Dec_2020_54.jpg"
+  }
+ ]
+}

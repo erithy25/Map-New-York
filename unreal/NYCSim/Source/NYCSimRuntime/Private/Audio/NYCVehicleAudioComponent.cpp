@@ -1,5 +1,6 @@
 #include "Audio/NYCVehicleAudioComponent.h"
 
+#include "Audio/NYCAudioSubsystem.h"
 #include "Audio/NYCProceduralSourceComponent.h"
 #include "Audio/NYCRadioSubsystem.h"
 #include "Components/AudioComponent.h"
@@ -148,6 +149,14 @@ void UNYCVehicleAudioComponent::Initialise(UMeshComponent* InMesh, UNYCVehicleMo
 			.TryLoad());
 	GlassSound = Cast<USoundBase>(
 		FSoftObjectPath(FString::Printf(TEXT("%s/glass_break_1.glass_break_1"), *Settings.SfxContentRoot)).TryLoad());
+	if (ImpactSound == nullptr)
+	{
+		// unreal/tools/fetch_radio.py asks for two CC0 car-crash recordings and found none it could licence, so
+		// there is no impact sample to play. The damage model still runs; it just makes no noise on contact.
+		UE_LOG(LogNYCSim, Log,
+			   TEXT("Vehicle audio: no collision sample under %s (collision_crash_1); impacts are silent."),
+			   *Settings.SfxContentRoot);
+	}
 
 	// The head unit lives in the cabin.
 	if (UWorld* World = GetWorld())
@@ -227,6 +236,33 @@ void UNYCVehicleAudioComponent::PushParameters(float DeltaTime)
 	SetMetaSoundFloat(WindMetaSound, FName(TEXT("WindowOpen")), WindowOpen);
 	SetMetaSoundFloat(RainMetaSound, FName(TEXT("RainRate")), RainRate);
 	SetMetaSoundFloat(RainMetaSound, FName(TEXT("WiperWet")), ScreenWetness);
+
+	// The mix: the car sits on the vehicle bus. The audio subsystem owns the bus values, and applies them to
+	// everything it owns itself (ambience, traffic one-shots, the weather bed and the radio).
+	UWorld* World = GetWorld();
+	UNYCAudioSubsystem* Audio = World != nullptr ? World->GetSubsystem<UNYCAudioSubsystem>() : nullptr;
+	if (Audio != nullptr)
+	{
+		const float Bus = Audio->GetEffectiveGain(ENYCAudioBus::Vehicle);
+		UNYCProceduralSourceComponent* const Sources[] = {EngineSource, TyreSource,  WindSource,
+														 RainSource,   WiperSource, HornSource};
+		for (UNYCProceduralSourceComponent* Source : Sources)
+		{
+			if (Source != nullptr)
+			{
+				Source->SetBusGain(Bus);
+			}
+		}
+		UAudioComponent* const MetaSounds[] = {EngineMetaSound, TyreMetaSound, WindMetaSound, RainMetaSound,
+											   WiperMetaSound};
+		for (UAudioComponent* Component : MetaSounds)
+		{
+			if (Component != nullptr)
+			{
+				Component->SetVolumeMultiplier(Bus);
+			}
+		}
+	}
 }
 
 void UNYCVehicleAudioComponent::HandleHorn(bool bPressed)

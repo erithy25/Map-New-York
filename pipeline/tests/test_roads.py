@@ -5,7 +5,6 @@ Unit tests run anywhere. The tests that read ``data/processed/roads/*`` skip whe
 from __future__ import annotations
 
 import json
-import math
 import struct
 from pathlib import Path
 

@@ -32,7 +32,7 @@ import numpy as np
 import pandas as pd
 import shapely
 
-from ..crs import NYC_TM, stateplane_ft_to_tm
+from ..crs import stateplane_ft_to_tm
 from . import schema as S
 from .geom import angle_diff, heading_math, math_to_compass
 from .names import display
@@ -271,7 +271,7 @@ def _dot_signs(df: pd.DataFrame, sf: _SegmentFrame, nodes: pd.DataFrame, seg: gp
     return out, st
 
 
-def _approach_frames(seg: gpd.GeoDataFrame) -> pd.DataFrame:
+def approach_frames(seg: gpd.GeoDataFrame) -> pd.DataFrame:
     """One row per (segment, end): node, point, outward math heading (pointing away from the node)."""
     from .geom import end_heading
     g = seg.geometry.values
@@ -477,7 +477,7 @@ def build(seg: gpd.GeoDataFrame, nodes: pd.DataFrame, inputs, shift: tuple[float
         parts.append(dot)
     else:
         stats["dot"] = {"rows_read": 0, "note": "dot_signs input missing"}
-    approaches = _approach_frames(seg)
+    approaches = approach_frames(seg)
     gen, stats["generated"] = _generated(seg, nodes, approaches, stop_approaches, yield_approaches)
     if len(gen):
         parts.append(gen)

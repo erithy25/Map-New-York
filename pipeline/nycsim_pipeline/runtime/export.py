@@ -284,6 +284,7 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--roads-dir", type=Path, default=PROCESSED / "roads")
     ap.add_argument("--out-dir", type=Path, default=PROCESSED / "runtime")
+    ap.add_argument("--no-manifest", action="store_true", help="do not record the artefacts in data/manifest/processed.json")
     ap.add_argument("-v", "--verbose", action="store_true")
     a = ap.parse_args(argv)
     logging.basicConfig(level=logging.DEBUG if a.verbose else logging.INFO,
@@ -294,6 +295,17 @@ def main(argv: list[str] | None = None) -> int:
           "signals": export_signals(a.roads_dir, a.out_dir / "signals.nycb")}
     write_layout(a.out_dir / "nycb_layout.json", ALL_DTYPES)
     st["layout"] = str(a.out_dir / "nycb_layout.json")
+    if not a.no_manifest and a.out_dir == PROCESSED / "runtime":
+        from .. import manifest
+        manifest.record_processed("runtime_roadgraph", a.out_dir / "roadgraph.nycb", stage="runtime.export",
+                                  sources=["roads_segments", "roads_nodes", "roads_lanes", "roads_junction_lanes"],
+                                  rows=st["roadgraph"]["counts"]["segments"], schema="nycb.roadgraph/1",
+                                  extra={"counts": st["roadgraph"]["counts"]})
+        manifest.record_processed("runtime_signals", a.out_dir / "signals.nycb", stage="runtime.export",
+                                  sources=["roads_signals"], rows=st["signals"]["counts"]["controllers"],
+                                  schema="nycb.signals/1", extra={"counts": st["signals"]["counts"]})
+        manifest.record_processed("runtime_nycb_layout", a.out_dir / "nycb_layout.json", stage="runtime.export",
+                                  sources=[], schema="nycb.layout/1")
     print(json.dumps(st, indent=1))
     return 0
 

@@ -176,6 +176,9 @@ void UNYCTrafficSubsystem::SetPaused(bool bInPaused)
 
 void UNYCTrafficSubsystem::SetTimeOfDay(int32 Hour, int32 DayClass)
 {
+	// Kept even when the worker is not up yet, so the ambience and the next worker start both see the real hour.
+	SimHour = FMath::Clamp(Hour, 0, 23);
+	SimDayClass = FMath::Clamp(DayClass, 0, 2);
 	if (!Worker.IsValid() || !bStarted)
 	{
 		return;
@@ -191,6 +194,32 @@ void UNYCTrafficSubsystem::SetTimeOfDay(int32 Hour, int32 DayClass)
 	PedConfig.maxPeds = static_cast<uint32_t>(UNYCGameplaySettings::Get().MaxPedestrians);
 	PedConfig.densityScale = UNYCGameplaySettings::Get().PedestrianDensityScale;
 	Worker->SetPedConfig(PedConfig);
+}
+
+void UNYCTrafficSubsystem::GetLocalTraffic(const FVector& Centre, float RadiusMetres, int32& OutVehicles,
+										  float& OutMeanSpeedMps) const
+{
+	OutVehicles = 0;
+	OutMeanSpeedMps = 0.f;
+	const float RadiusCmSq = FMath::Square(FMath::Max(1.f, RadiusMetres) * kCmPerMetre);
+	float SpeedSum = 0.f;
+	for (const TObjectPtr<ANYCTrafficVehicle>& Vehicle : VehiclePool)
+	{
+		if (Vehicle == nullptr || !Vehicle->IsInUse())
+		{
+			continue;
+		}
+		if (FVector::DistSquared(Vehicle->GetActorLocation(), Centre) > RadiusCmSq)
+		{
+			continue;
+		}
+		++OutVehicles;
+		SpeedSum += Vehicle->GetSpeedMps();
+	}
+	if (OutVehicles > 0)
+	{
+		OutMeanSpeedMps = SpeedSum / static_cast<float>(OutVehicles);
+	}
 }
 
 void UNYCTrafficSubsystem::SetWeather(float Wetness, float SnowCover, float RainRateMmH, float TemperatureC,
@@ -261,13 +290,21 @@ void UNYCTrafficSubsystem::LoadFleetAssets()
 	}
 	Stats.MissingFleetMeshes = Missing;
 
-	SirenSound = Cast<USoundBase>(
-		FSoftObjectPath(FString::Printf(TEXT("%s/S_Siren.S_Siren"), *Settings.SfxContentRoot)).TryLoad());
+	// The names the fetcher writes into assets/audio/sfx; the editor import script imports each file under its own
+	// stem, so the content path of a track is <root>/<stem>.<stem>.
+	if (UNYCAudioSubsystem* Audio = GetWorld() != nullptr ? GetWorld()->GetSubsystem<UNYCAudioSubsystem>() : nullptr)
+	{
+		SirenSound = Audio->FindSfx(TEXT("siren_sample_1"));
+		if (SirenSound == nullptr)
+		{
+			SirenSound = Audio->FindSfx(TEXT("siren_sample_2"));
+		}
+	}
 	if (SirenSound == nullptr)
 	{
 		UE_LOG(LogNYCSim, Log,
-			   TEXT("Traffic: no siren sound at %s/S_Siren; emergency vehicles run silent until the audio import "
-					"stage has run."),
+			   TEXT("Traffic: no siren sound under %s (siren_sample_1/2); emergency vehicles run silent until the "
+					"audio import stage has run."),
 			   *Settings.SfxContentRoot);
 	}
 }

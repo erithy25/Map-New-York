@@ -236,8 +236,10 @@ def tenement(*, samples: int, res_x: int) -> Path:
             if any(a < cx < b and c < cz < d for a, b, c, d in openings):
                 continue
             m.box((x0, 0.0, z0), (x1, WALL_T, z1), "red_brick", faces="yY")
-    for a, b, c, d in openings:                    # reveals round every hole
-        m.box((a, 0.0, c), (b, WALL_T, d), "red_brick", faces="xXzZ")
+    # The window/storefront pieces own the masonry reveal for their first 0.26 m; the wall only lines the hole behind
+    # that, so no two faces ever land in the same plane (coplanar liners flicker and wash out the head).
+    for a, b, c, d in openings:
+        m.box((a, 0.26, c), (b, WALL_T, d), "red_brick", faces="xXzZ")
     m.box((-W / 2, 0.0, 0.0), (-W / 2 + 0.001, WALL_T, ROOF), "red_brick", faces="x")
     m.box((W / 2 - 0.001, 0.0, 0.0), (W / 2, WALL_T, ROOF), "red_brick", faces="X")
     m.box((-W / 2, 0.0, ROOF), (W / 2, WALL_T, ROOF + 0.02), "red_brick", faces="Z")

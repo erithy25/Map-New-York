@@ -82,39 +82,59 @@ def build():
     b.prism(coords, FLOOR_M, 9.0, gran, cap_top=False, cap_bottom=False)
     for q, t, n, s in C.ring_stations(coords, 6.5):                # ground-floor openings all round
         C.arched_opening(b, q - t * 1.8, q + t * 1.8, n, 1.0, 5.4, None, 0.9, gran, glass, n=10)
-    # the office-wing fenestration above the base
+    # The 42nd Street front is a triumphal arch, not office fenestration: skin every *other* edge with the wing grid
+    # and build the front separately, so the three great windows are real openings and not covered by piers.
     fen = C.Fenestration(floor_h=4.2, bay_w=3.3, window_frac=0.5, recess=0.45, spandrel_h=1.0,
                          pier="limestone_warm", spandrel="limestone_warm", glass="glass_dark", window_h=2.8)
-    objs.append(C.facade_grid(f"{ID}_skin", P, 9.0, CORNICE_M, fen))
+    us = (math.cos(math.radians(south)), math.sin(math.radians(south)))
+    front_edges = {i for i, e in enumerate(C.edges_of(coords))
+                   if float(e[4][0] * us[0] + e[4][1] * us[1]) > math.cos(math.radians(50.0))}
+    other_edges = [i for i in range(len(coords)) if i not in front_edges]
+    objs.append(C.facade_grid(f"{ID}_skin", P, 9.0, CORNICE_M, fen, edges=other_edges))
     objs.append(C.cornice(f"{ID}_cornice", P, CORNICE_M, [(0.4, 0.0), (1.6, 1.0), (1.9, 1.7), (1.5, 2.6), (0.5, 3.0)], lime))
 
     runs = sorted(C.wall_runs(coords, south, tol_deg=50.0), key=lambda r: -r[1])
     pts, Lf = runs[0]
     b2 = C.MeshBuilder()
-    for k in range(3):                                             # three arched windows, 18 m high
-        cs = Lf * (k + 0.5) / 3
-        a, t, n = C.polyline_at(pts, cs - 8.5)
-        c, t2, n2 = C.polyline_at(pts, cs + 8.5)
-        C.arched_opening(b2, a, c, n, 9.5, 9.5 + ARCH_H - 8.5, None, 2.6, lime, glass, n=16)
-        for f in (-8.5, 8.5):                                      # paired Corinthian columns between the bays
+    half = 8.5                                                     # half-width of each great window
+    arch_top = 9.5 + ARCH_H                                        # 27.5 m
+    centres = [Lf * (k + 0.5) / 3 for k in range(3)]
+    # solid limestone wall around the three openings
+    spans = [(0.0, centres[0] - half)]
+    for k in range(2):
+        spans.append((centres[k] + half, centres[k + 1] - half))
+    spans.append((centres[2] + half, Lf))
+    for s0, s1 in spans:
+        if s1 - s0 < 0.2:
+            continue
+        a, t, n = C.polyline_at(pts, s0)
+        c, t2, n2 = C.polyline_at(pts, s1)
+        b2.box_from_to(a, c, n, 0.5, 9.0, CORNICE_M, lime, top=True)
+    for cs in centres:                                             # sill band below and spandrel above each window
+        a, t, n = C.polyline_at(pts, cs - half)
+        c, t2, n2 = C.polyline_at(pts, cs + half)
+        b2.box_from_to(a, c, n, 0.5, 9.0, 9.5, lime, top=True, bottom=True)
+        b2.box_from_to(a, c, n, 0.5, arch_top, CORNICE_M, lime, top=True, bottom=True)
+        C.arched_opening(b2, a, c, n, 9.5, arch_top - half, None, 2.6, lime, glass, n=16)
+        for f in (-half, half):                                    # paired Corinthian columns flanking each window
             q, qt, qn = C.polyline_at(pts, cs + f)
             for dd in (-1.6, 1.6):
-                C.column(b2, float(q[0] + qt[0] * dd + qn[0] * 1.3), float(q[1] + qt[1] * dd + qn[1] * 1.3),
-                         9.0, 15.5, 0.95, lime, order="corinthian", segments=14)
-    # the Coutan sculptural group and the Tiffany clock over the central bay
+                C.column(b2, float(q[0] + qt[0] * dd + qn[0] * 1.5), float(q[1] + qt[1] * dd + qn[1] * 1.5),
+                         9.0, 17.0, 0.95, lime, order="corinthian", segments=14)
+    # Glory of Commerce over the central bay: a 14.6 m wide group of three figures around the 4.0 m Tiffany clock
     mid, mt, mn = C.polyline_at(pts, Lf / 2)
-    b2.box_from_to(mid - mt * 9.0, mid + mt * 9.0, mn, 2.4, CORNICE_M + 3.0, CORNICE_M + 4.2, lime)   # the plinth
-    zc = CORNICE_M + 4.2
-    C.clock_face(b2, float(mid[0] + mn[0] * 2.2), float(mid[1] + mn[1] * 2.2), zc + 4.0, mn, CLOCK_D / 2,
-                 C.M.emissive_warm, brass, bezel_material=lime)
-    for dx, w, h in ((-5.4, 3.2, ROOF_M - zc), (0.0, 3.6, ROOF_M - zc - 1.5), (5.4, 3.2, ROOF_M - zc - 2.5)):
+    zc = CORNICE_M + 3.0
+    b2.box_from_to(mid - mt * 8.5, mid + mt * 8.5, mn, 3.0, zc - 3.0, zc, lime, top=True, bottom=True)   # the plinth
+    C.clock_face(b2, float(mid[0] + mn[0] * 2.9), float(mid[1] + mn[1] * 2.9), zc + 4.2, mn, CLOCK_D / 2,
+                 C.M.emissive_warm, brass, bezel_material=lime, depth=0.35)
+    for dx, w, h in ((-5.6, 3.4, ROOF_M - zc), (5.6, 3.4, ROOF_M - zc - 1.2), (0.0, 3.0, ROOF_M - zc - 3.4)):
         q = mid + mt * dx
-        b2.hull([(float(q[0] - mt[0] * w / 2 + mn[0] * 0.6), float(q[1] - mt[1] * w / 2 + mn[1] * 0.6), zc),
-                 (float(q[0] + mt[0] * w / 2 + mn[0] * 0.6), float(q[1] + mt[1] * w / 2 + mn[1] * 0.6), zc),
-                 (float(q[0] - mt[0] * w / 2 + mn[0] * 2.6), float(q[1] - mt[1] * w / 2 + mn[1] * 2.6), zc),
-                 (float(q[0] + mt[0] * w / 2 + mn[0] * 2.6), float(q[1] + mt[1] * w / 2 + mn[1] * 2.6), zc),
-                 (float(q[0] - mt[0] * w * 0.28 + mn[0] * 1.6), float(q[1] - mt[1] * w * 0.28 + mn[1] * 1.6), zc + h),
-                 (float(q[0] + mt[0] * w * 0.28 + mn[0] * 1.6), float(q[1] + mt[1] * w * 0.28 + mn[1] * 1.6), zc + h)],
+        b2.hull([(float(q[0] - mt[0] * w / 2 + mn[0] * 0.8), float(q[1] - mt[1] * w / 2 + mn[1] * 0.8), zc),
+                 (float(q[0] + mt[0] * w / 2 + mn[0] * 0.8), float(q[1] + mt[1] * w / 2 + mn[1] * 0.8), zc),
+                 (float(q[0] - mt[0] * w / 2 + mn[0] * 3.2), float(q[1] - mt[1] * w / 2 + mn[1] * 3.2), zc),
+                 (float(q[0] + mt[0] * w / 2 + mn[0] * 3.2), float(q[1] + mt[1] * w / 2 + mn[1] * 3.2), zc),
+                 (float(q[0] - mt[0] * w * 0.3 + mn[0] * 2.0), float(q[1] - mt[1] * w * 0.3 + mn[1] * 2.0), zc + h),
+                 (float(q[0] + mt[0] * w * 0.3 + mn[0] * 2.0), float(q[1] + mt[1] * w * 0.3 + mn[1] * 2.0), zc + h)],
                 lime)
     objs.append(b.build(f"{ID}_base_detail"))
     objs.append(b2.build(f"{ID}_south_front"))

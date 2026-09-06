@@ -1,0 +1,200 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_riverside_church",
+ "name": "Riverside Church",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.811544,
+  "lon": -73.964508,
+  "azimuth_deg": 70.0,
+  "note": "Riverside Drive at West 120th Street, about 130 m west-south-west of the church, looking east-north-east at the carillon tower",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.811944,
+  "lon": -73.963056,
+  "name": "Riverside Church"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Riverside Church\" tower Riverside Drive",
+  "\"Riverside Church\" New York exterior"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T13:25:21Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 94,
+ "candidates_eligible": 57,
+ "rejections": {
+  "night_for_day_item": 1,
+  "excluded": 3,
+  "too_old": 1,
+  "too_small": 4,
+  "not_photo": 1,
+  "not_jpeg": 2,
+  "keywords": 25
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Riverside Church Mar 2026 27.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Riverside_Church_Mar_2026_27.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/ac/Riverside_Church_Mar_2026_27.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Riverside_Church_Mar_2026_27.jpg/1920px-Riverside_Church_Mar_2026_27.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026-03-14 14:38:35",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.81216,
+    "lon": -73.963432
+   },
+   "original_width": 4080,
+   "original_height": 3060,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 660256,
+   "sha256": "896bb28d659f79d28bde3afdcd4c87920e6261042763d3ad96165a4830d0b557",
+   "mean_luminance": 116.5,
+   "description": "Riverside Church in Manhattan, New York, seen from Riverside Drive in March 2026",
+   "categories": [
+    "Exterior of Riverside Church",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Churches in the United States photographed in 2026",
+    "2026 in Morningside Heights, Manhattan",
+    "March 2026 in Manhattan, New York City",
+    "Photographs by Epicgenius",
+    "New York City photographs taken on 2026-03-14"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.81216,
+    "lon": -73.963432,
+    "azimuth_deg": 127.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.81216, -73.96343) is 40 m from Riverside Church (40.81194, -73.96306) and 114 m from the standard viewpoint; the azimuth 127 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Riverside Church Mar 2026 27.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Riverside_Church_Mar_2026_27.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:The Riverside Church (02).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:The_Riverside_Church_(02).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/81/The_Riverside_Church_%2802%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/The_Riverside_Church_%2802%29.jpg/1920px-The_Riverside_Church_%2802%29.jpg",
+   "author": "PortableNYCTours",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2019-07-24 19:52:00",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.812161,
+    "lon": -73.963558
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1223434,
+   "sha256": "e026745233044db881a39a3a44fe3f66f9ed9f50cd07f950569629703d5c3fb0",
+   "mean_luminance": 114.5,
+   "description": "The Riverside Church Architects Allen & Collens and Henry C. Pelton Style Neo-Gothic Groundbreaking 1927 Completed 1930 Location 478, 490 Riverside Dr. & 81 Claremont Ave, Manhattan",
+   "categories": [
+    "Exterior of Riverside Church",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "July 2019 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.6,
+   "estimated_viewpoint": {
+    "lat": 40.812161,
+    "lon": -73.963558,
+    "azimuth_deg": 119.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.81216, -73.96356) is 49 m from Riverside Church (40.81194, -73.96306) and 105 m from the standard viewpoint; the azimuth 120 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"The Riverside Church (02).jpg\" by PortableNYCTours, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:The_Riverside_Church_(02).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Riverside Church Mar 2026 28.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Riverside_Church_Mar_2026_28.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/73/Riverside_Church_Mar_2026_28.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Riverside_Church_Mar_2026_28.jpg/1920px-Riverside_Church_Mar_2026_28.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026-03-14 14:38:59",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.81216,
+    "lon": -73.963432
+   },
+   "original_width": 4080,
+   "original_height": 3060,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 669946,
+   "sha256": "3958cc0f7bdeb53a3e100ef13c61fe9624a8218b1e948d9b0a90e18102425a6d",
+   "mean_luminance": 115.3,
+   "description": "Riverside Church in Manhattan, New York, seen from Riverside Drive in March 2026",
+   "categories": [
+    "Exterior of Riverside Church",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Churches in the United States photographed in 2026",
+    "2026 in Morningside Heights, Manhattan",
+    "March 2026 in Manhattan, New York City",
+    "Photographs by Epicgenius",
+    "New York City photographs taken on 2026-03-14"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.81216,
+    "lon": -73.963432,
+    "azimuth_deg": 127.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.81216, -73.96343) is 40 m from Riverside Church (40.81194, -73.96306) and 114 m from the standard viewpoint; the azimuth 127 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Riverside Church Mar 2026 28.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Riverside_Church_Mar_2026_28.jpg"
+  }
+ ]
+}

@@ -1,6 +1,6 @@
 # Bow Bridge
 
-Script: `blender/landmarks/b_bow_bridge.py` · agent B · generated 2026-09-06 13:18 UTC
+Script: `blender/landmarks/b_bow_bridge.py` · agent B · generated 2026-09-06 13:29 UTC
 
 ## Published dimensions
 

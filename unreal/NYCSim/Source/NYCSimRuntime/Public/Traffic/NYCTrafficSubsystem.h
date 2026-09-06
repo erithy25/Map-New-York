@@ -95,6 +95,19 @@ public:
 	UFUNCTION(BlueprintPure, Category = "NYCSim|Traffic")
 	FNYCTrafficStats GetStats() const { return Stats; }
 
+	/** Simulation hour of day, 0-23 (the ambience bed uses it for subway headways). */
+	UFUNCTION(BlueprintPure, Category = "NYCSim|Traffic")
+	int32 GetHour() const { return SimHour; }
+
+	/** Day class: 0 = weekday, 1 = Saturday, 2 = Sunday. */
+	UFUNCTION(BlueprintPure, Category = "NYCSim|Traffic")
+	int32 GetDayClass() const { return SimDayClass; }
+
+	/** How many simulated vehicles are inside `RadiusMetres` of `Centre` right now, and how fast they are going.
+	 *  Counted from the pooled actors on the game thread, so it is exactly what the player can see. */
+	UFUNCTION(BlueprintPure, Category = "NYCSim|Traffic")
+	void GetLocalTraffic(const FVector& Centre, float RadiusMetres, int32& OutVehicles, float& OutMeanSpeedMps) const;
+
 	/** Time of day and day class the density model uses; the sky subsystem calls this when the clock moves. */
 	UFUNCTION(BlueprintCallable, Category = "NYCSim|Traffic")
 	void SetTimeOfDay(int32 Hour, int32 DayClass);
@@ -161,6 +174,8 @@ private:
 	FVector ObserverForward = FVector::ForwardVector;
 	float ObserverSpeedMps = 0.f;
 	uint64 LastConsumedStep = 0;
+	int32 SimHour = 8;
+	int32 SimDayClass = 0;
 	bool bStarted = false;
 	bool bPaused = false;
 	bool bReportedMissingFleet = false;

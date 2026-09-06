@@ -1,0 +1,194 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_st_john_the_divine",
+ "name": "Cathedral of St. John the Divine",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.803685,
+  "lon": -73.963601,
+  "azimuth_deg": 80.0,
+  "note": "Amsterdam Avenue at West 112th Street, about 130 m west of the cathedral, looking east at the west front and rose window",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.803888,
+  "lon": -73.96208,
+  "name": "Cathedral of St. John the Divine"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Cathedral of St. John the Divine\" west front",
+  "\"St. John the Divine\" Amsterdam Avenue cathedral"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T13:25:10Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 130,
+ "candidates_eligible": 80,
+ "rejections": {
+  "excluded": 17,
+  "too_old": 25,
+  "too_small": 1,
+  "keywords": 6,
+  "indoor": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Cathedral of St. John the Divine (52009407636).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Cathedral_of_St._John_the_Divine_(52009407636).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Cathedral_of_St._John_the_Divine_%2852009407636%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Cathedral_of_St._John_the_Divine_%2852009407636%29.jpg/1920px-Cathedral_of_St._John_the_Divine_%2852009407636%29.jpg",
+   "author": "ajay_suresh",
+   "credit": "Cathedral of St. John the Divine",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2022-04-16 16:17",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.804227,
+    "lon": -73.963081
+   },
+   "original_width": 2915,
+   "original_height": 2915,
+   "width": 1920,
+   "height": 1920,
+   "bytes": 1423735,
+   "sha256": "6d8eb0d0da9b2eff53f599536e5d79c0448b3681da2acaf53ffd6fcf97be7b8a",
+   "mean_luminance": 134.7,
+   "description": "Morningside Heights, NYC",
+   "categories": [
+    "New York City photographs taken on 2022-04-16",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Churches in the United States photographed in 2022",
+    "2022 in Morningside Heights, Manhattan",
+    "April 2022 in Manhattan, New York City",
+    "Western facade of the Cathedral of St. John the Divine",
+    "2022 New York City photographs by ajay suresh"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.804227,
+    "lon": -73.963081,
+    "azimuth_deg": 114.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.80423, -73.96308) is 92 m from Cathedral of St. John the Divine (40.80389, -73.96208) and 74 m from the standard viewpoint; the azimuth 114 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Cathedral of St. John the Divine (52009407636).jpg\" by ajay_suresh, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Cathedral_of_St._John_the_Divine_(52009407636).jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Altar for peace in Cathedral of St. John the Divine (2021).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Altar_for_peace_in_Cathedral_of_St._John_the_Divine_(2021).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Altar_for_peace_in_Cathedral_of_St._John_the_Divine_%282021%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Altar_for_peace_in_Cathedral_of_St._John_the_Divine_%282021%29.jpg/1920px-Altar_for_peace_in_Cathedral_of_St._John_the_Divine_%282021%29.jpg",
+   "author": "Eddie891",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-09-02 09:47:17",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.803994,
+    "lon": -73.962372
+   },
+   "original_width": 2608,
+   "original_height": 2291,
+   "width": 1920,
+   "height": 1687,
+   "bytes": 742262,
+   "sha256": "a20c9a6c257fe0f7456823b45411f54f1615be05b6eeee8e2495324928c66f80",
+   "mean_luminance": 86.3,
+   "description": "Altar for peace in Cathedral of St. John the Divine (2021)",
+   "categories": [
+    "Cathedral of St. John the Divine",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.9,
+   "estimated_viewpoint": {
+    "lat": 40.803994,
+    "lon": -73.962372,
+    "azimuth_deg": 115.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.80399, -73.96237) is 27 m from Cathedral of St. John the Divine (40.80389, -73.96208) and 109 m from the standard viewpoint; the azimuth 116 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Altar for peace in Cathedral of St. John the Divine (2021).jpg\" by Eddie891, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Altar_for_peace_in_Cathedral_of_St._John_the_Divine_(2021).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Cathedral of St. John the Divine - detail.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Cathedral_of_St._John_the_Divine_-_detail.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/71/Cathedral_of_St._John_the_Divine_-_detail.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Cathedral_of_St._John_the_Divine_-_detail.jpg/1920px-Cathedral_of_St._John_the_Divine_-_detail.jpg",
+   "author": "Razvan Dinu",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2016-10-15 17:20:09",
+   "date_source": "DateTimeOriginal",
+   "year": 2016,
+   "camera_gps": {
+    "lat": 40.804283,
+    "lon": -73.962861
+   },
+   "original_width": 2448,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1920,
+   "bytes": 917618,
+   "sha256": "9e8749188b9e23b4ac1d6ac2b61958736b9826e9e83bc9a8dd5098870ea71087",
+   "mean_luminance": 130.6,
+   "description": "Site : Cathedral of St. John the Divine",
+   "categories": [
+    "Self-published work",
+    "Open House New York Weekend 2016 in Manhattan above 110th Street",
+    "Files with coordinates missing SDC location of creation",
+    "Western facade of the Cathedral of St. John the Divine",
+    "Uploaded via Campaign:OHNY2016"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.15,
+   "estimated_viewpoint": {
+    "lat": 40.804283,
+    "lon": -73.962861,
+    "azimuth_deg": 123.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.80428, -73.96286) is 79 m from Cathedral of St. John the Divine (40.80389, -73.96208) and 91 m from the standard viewpoint; the azimuth 124 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Cathedral of St. John the Divine - detail.jpg\" by Razvan Dinu, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Cathedral_of_St._John_the_Divine_-_detail.jpg"
+  }
+ ]
+}

@@ -122,7 +122,7 @@ def build(lod: int = 0):
         objs.append(cont)
     # ---- three orbit rings ------------------------------------------------------------------------------------------
     for k, inc in enumerate(ORBIT_INCL):
-        r = R * (1.16 + 0.05 * k)
+        r = R * (1.02 + 0.03 * k)
         pts = [Vector((r * math.cos(2 * math.pi * i / 64), r * math.sin(2 * math.pi * i / 64), 0.0)) for i in range(65)]
         ring_ob = bc.tube_along(f"orbit{k}", pts, 0.34, "stainless", 6 if lod == 0 else 4, cap=False)
         m = (Matrix.Translation(Vector((0, 0, z_c))) @ Matrix.Rotation(math.radians(40 * k), 4, "Z")

@@ -47,7 +47,7 @@ ROOF_SRC_DEFAULT_FLAT = 3
 FIDELITY_ROOF_INFERRED = 1 << 13
 
 #: PLUTO classes whose stock really has a pitched roof (ADR-013).
-PITCHED_ONE_FAMILY = ("A0", "A1", "A2", "A3", "A5", "A6", "A7", "A8", "A9")
+PITCHED_ONE_FAMILY = ("A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9")
 PITCHED_TWO_FAMILY = ("B1", "B2", "B3", "B9")
 PITCHED_WALKUP = ("C0",)
 PITCHED_MIXED = ("S0", "S1", "S2")           # only when free-standing
@@ -96,22 +96,24 @@ def infer(bldg_class: np.ndarray, feature_code: np.ndarray, year: np.ndarray, fl
     eave = np.asarray(roof_z, dtype=np.float32).copy()
     ridge = np.zeros(n, dtype=np.float32)
     outbuilding = (feature_code == 5110) & (area <= GARAGE_MAX_AREA_M2)
+    style = np.asarray([s.lower() for s in lpc_style], dtype=object)
+    # a designation report naming Second Empire or a mansard is direct evidence of a mansard roof, whatever the
+    # facade class's default roof is: the mansard *is* the defining feature of the type
+    mansard_style = np.asarray([("second empire" in s) or ("mansard" in s) for s in style], dtype=bool)
+    victorian = np.asarray([any(k in s for k in ("queen anne", "victorian", "gothic", "stick", "shingle style",
+                                                 "tudor", "romanesque")) for s in style], dtype=bool)
     # a free-standing house with a side yard, a rowhouse-width footprint and at most three storeys is the detached
     # house stock: it really has a pitched roof even where its facade class is one of the flat-roofed brick types
     # (the ADR-013 geometric test, measured at precision 0.83 against the OSM ``roof:shape`` ground truth)
     detached_house = ((attached == 0) & (short_m <= DETACHED_SHORT_SIDE_M) & (floors <= 3)
                       & (area <= DETACHED_MAX_AREA_M2))
     ok = (eligible(bldg_class, feature_code, attached, floors, area)
-          & ((class_roof != E.ROOF_FLAT) | outbuilding | detached_house))
+          & ((class_roof != E.ROOF_FLAT) | outbuilding | detached_house | mansard_style))
     if not ok.any():
         return roof, pitch, ridge, eave, ok
 
     with np.errstate(invalid="ignore", divide="ignore"):
         aspect = np.where(short_m > 0.1, long_m / short_m, 1.0)
-    style = np.asarray([s.lower() for s in lpc_style], dtype=object)
-    mansard_style = np.asarray([("second empire" in s) or ("mansard" in s) for s in style], dtype=bool)
-    victorian = np.asarray([any(k in s for k in ("queen anne", "victorian", "gothic", "stick", "shingle style",
-                                                 "tudor", "romanesque")) for s in style], dtype=bool)
 
     shed = ok & (outbuilding | ((floors <= 1) & (area < 60.0)))
     mansard = ok & mansard_style & ~shed

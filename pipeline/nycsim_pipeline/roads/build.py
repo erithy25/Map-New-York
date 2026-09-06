@@ -276,7 +276,7 @@ def main(argv: list[str] | None = None) -> int:
     T.lap("junction_lanes")
 
     # ---------------------------------------------------------------- signs
-    approaches = signs_mod._approach_frames(seg)
+    approaches = signs_mod.approach_frames(seg)
     if a.no_signs:
         signs = pd.DataFrame()
         stats["signs"] = {"skipped": True}

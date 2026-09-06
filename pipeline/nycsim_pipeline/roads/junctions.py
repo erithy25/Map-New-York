@@ -24,7 +24,7 @@ from __future__ import annotations
 
 import logging
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 import geopandas as gpd
 import numpy as np
@@ -155,7 +155,6 @@ def _map_restrictions(nodes: pd.DataFrame, approaches: dict[int, list[Approach]]
 def _build_approaches(seg: gpd.GeoDataFrame, lanes: gpd.GeoDataFrame) -> dict[int, list[Approach]]:
     """Every (segment end, direction) as an Approach; incoming and outgoing per node."""
     out: dict[int, list[Approach]] = {}
-    seg_i = seg.set_index("segment_id")
     coords = shapely.get_coordinates(seg.geometry.values)
     n_per = shapely.get_num_coordinates(seg.geometry.values)
     starts = np.concatenate([[0], np.cumsum(n_per)[:-1]])

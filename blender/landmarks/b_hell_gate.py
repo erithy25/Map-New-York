@@ -56,7 +56,10 @@ MHW = bc.MHW_ABOVE_NAVD88_M
 Z_DECK = DECK_MHW + MHW            # 44.90 NAVD88 (top of rail bed at the centre)
 Z_CROWN = CROWN_MHW + MHW          # 93.66
 Z_TOWER_TOP = TOWER_H_MHW + MHW    # 67.76
-RISE = (Z_CROWN - Z_DECK) / 0.75   # build_steel_arch: crown = z_deck + 0.75 * rise for a through arch
+RIB_DEPTH = 6.0                    # depth between the arch's two chords (inferred)
+# build_steel_arch puts the lower chord's crown at z_deck + 0.75 * rise and the upper chord RIB_DEPTH above it, and
+# the published 305 ft is the top of the arch, so solve for the rise that lands the upper chord on Z_CROWN
+RISE = (Z_CROWN - Z_DECK - RIB_DEPTH) / 0.75
 TRACKS = (-6.0, -2.0, 2.0, 6.0)
 GROUND = 4.0
 AP_WARDS = 300.0
@@ -99,7 +102,7 @@ def build(lod: int = 0):
 
     # ---- the steel arch -----------------------------------------------------------------------------------------
     objs += bl.build_steel_arch("arch", axis, S_ARCH0, S_ARCH1, Z_DECK, RISE, WIDTH - 3.0, "steel_red", lod,
-                                n=44 if lod == 0 else 20, through=True, rib_depth=6.0, hanger_spacing=9.14)
+                                n=44 if lod == 0 else 20, through=True, rib_depth=RIB_DEPTH, hanger_spacing=9.14)
 
     # ---- deck: four track beds inside the arch, rails on the three in service -----------------------------------
     ss = bl.samples(S_END_QN, S_END_WI, 9.0)

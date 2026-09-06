@@ -38,7 +38,7 @@ from scipy.spatial import cKDTree
 
 from ..crs import NYC_TM, lonlat_to_tm
 from . import schema as S
-from .geom import PointSnapper, angle_diff, end_heading, fit_line_pca, heading_math
+from .geom import PointSnapper, angle_diff, end_heading, fit_line_pca
 from .names import normalize, core_tokens
 
 log = logging.getLogger("nycsim.roads.signals")
@@ -427,7 +427,6 @@ def build(seg: gpd.GeoDataFrame, nodes: pd.DataFrame, inputs, osm_nodes: pd.Data
 
     # ---- progressive offsets along one-way streets ----
     if len(sig):
-        sig_pos = pos_of.loc[sig["node_id"].to_numpy()].to_numpy()
         ow = seg[seg["drivable"] & seg["traffic_dir"].isin([S.DIR_FORWARD, S.DIR_BACKWARD]) & (seg["rw_type"] == S.RW_STREET)]
         node_xy = nd[["x", "y"]].to_numpy()
         best_lanes = np.zeros(len(sig), dtype=np.int16)

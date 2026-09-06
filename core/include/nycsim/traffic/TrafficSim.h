@@ -61,12 +61,12 @@ struct TrafficConfig {
   float mobil_b_safe = 4.0f;        // [m/s²]
   float lc_gap_front_m = 4.0f;      // explicit gap acceptance on top of MOBIL
   float lc_gap_rear_m = 5.0f;
-  float keep_right_bias = 0.20f;    // [m/s²] — NY VTL 1120(a) keep right
+  float keep_right_bias = 0.10f;    // [m/s²] — NY VTL 1120(a) keep right
   float route_pressure_m = 220.f;   // mandatory-change ramp before the junction
   float route_pressure_max = 6.0f;  // [m/s²] bias at the stop line
   float bike_lane_bias = 3.0f;      // cyclists pulled towards the bike lane
   float lane_change_min_speed = 1.5f;   // [m/s] no lane changes from standstill
-  float lane_change_cooldown_s = 3.0f;
+  float lane_change_cooldown_s = 8.0f;  // hysteresis: no lane-change oscillation
 
   // --- signals -----------------------------------------------------------
   float yellow_reaction_s = 1.0f;   // driver reaction before braking (ITE)
@@ -132,7 +132,7 @@ struct TrafficConfig {
   float spawn_rate_per_s = 60.f; // cap on spawns per simulated second
   float spawn_headway_m = 12.f;  // minimum clear space at the spawn point
   uint32_t max_routes_per_step = 16;
-  float reroute_block_s = 20.f;
+  float reroute_block_s = 45.f;  // genuinely stuck, not merely waiting for a phase
   float reroute_cooldown_s = 45.f;
   bool build_junction_conflicts = true;
 

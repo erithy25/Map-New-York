@@ -53,7 +53,6 @@ def cross_section(width: float, travel: int, park: int, traffic_dir: int, bike: 
     if travel <= 0 or traffic_dir == S.DIR_NONE:
         return []
     two_way = traffic_dir == S.DIR_TWO_WAY
-    fwd = S.DIR_BACKWARD != traffic_dir  # one-way TF -> everything backward
     one_dir = 1 if (traffic_dir == S.DIR_FORWARD) else (-1 if traffic_dir == S.DIR_BACKWARD else 0)
 
     bike_takes_width = bike in (S.BIKE_PROTECTED, S.BIKE_STANDARD)

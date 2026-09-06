@@ -1,9 +1,11 @@
 #include "Traffic/NYCTrafficVehicle.h"
 
+#include "Audio/NYCAudioSubsystem.h"
 #include "Components/AudioComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/TextRenderComponent.h"
 #include "Engine/SkeletalMesh.h"
+#include "Engine/World.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "NYCSimRuntime.h"
 #include "Sound/SoundBase.h"
@@ -94,7 +96,15 @@ void ANYCTrafficVehicle::Release()
 	{
 		SirenAudio->Stop();
 		bSirenPlaying = false;
+		if (UWorld* World = GetWorld())
+		{
+			if (UNYCAudioSubsystem* Audio = World->GetSubsystem<UNYCAudioSubsystem>())
+			{
+				Audio->UnregisterDopplerSource(SirenAudio);
+			}
+		}
 	}
+	CurrentSpeedMps = 0.f;
 	SetActorLocation(FVector(0.f, 0.f, -100000.f));
 }
 
@@ -229,14 +239,32 @@ void ANYCTrafficVehicle::ApplyState(const FNYCTrafficVehicleState& State, float 
 		{
 			SirenAudio->Play();
 			bSirenPlaying = true;
+			// An emergency vehicle passing at 20 m/s shifts its siren by about a semitone either side of the
+			// pass, which is the most audible Doppler in the game; the audio subsystem applies it from the
+			// component's own motion.
+			if (UWorld* World = GetWorld())
+			{
+				if (UNYCAudioSubsystem* Audio = World->GetSubsystem<UNYCAudioSubsystem>())
+				{
+					Audio->RegisterDopplerSource(SirenAudio);
+				}
+			}
 		}
 		else if ((!State.bSiren || LodLevel > 2) && bSirenPlaying)
 		{
 			SirenAudio->Stop();
 			bSirenPlaying = false;
+			if (UWorld* World = GetWorld())
+			{
+				if (UNYCAudioSubsystem* Audio = World->GetSubsystem<UNYCAudioSubsystem>())
+				{
+					Audio->UnregisterDopplerSource(SirenAudio);
+				}
+			}
 		}
 	}
 
+	CurrentSpeedMps = State.SpeedMps;
 	SetDestinationSign(State.DestinationSign);
 }
 

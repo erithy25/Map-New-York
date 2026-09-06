@@ -1,6 +1,6 @@
 # Throgs Neck Bridge
 
-Script: `blender/landmarks/b_throgs_neck.py` · agent B · generated 2026-09-06 13:15 UTC
+Script: `blender/landmarks/b_throgs_neck.py` · agent B · generated 2026-09-06 13:27 UTC
 
 ## Placement
 

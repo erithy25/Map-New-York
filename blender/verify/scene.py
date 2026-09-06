@@ -225,7 +225,7 @@ class TerrainSampler:
 
 
 def build_terrain(sampler: TerrainSampler, cx: float, cy: float, radius_m: float, *,
-                  max_side: int = 420, min_spacing_m: float = 2.0,
+                  max_side: int = 300, min_spacing_m: float = 3.0,
                   col: bpy.types.Collection | None = None) -> dict:
     """Displaced grid over the square of half-width ``radius_m`` centred on (cx, cy)."""
     side = 2.0 * radius_m
@@ -400,7 +400,14 @@ def add_buildings(cx: float, cy: float, radius_m: float, *, lod0_radius_m: float
 
 
 def load_landmark_catalog() -> list[dict]:
-    out = []
+    """Normalise both landmark catalogue shapes into {id, name, origin_tm, glb, bounds_local_m}.
+
+    The tower/building scripts write ``glb`` + ``bounds_local_m`` at the top level; the bridge
+    and monument scripts write a ``lods`` map whose entries carry ``path`` and ``bounds``.  Both
+    place the model by translating it to ``origin_tm`` -- the model axes are already parallel to
+    NYC_TM (blender/landmarks/common.py: "no rotation to apply on import").
+    """
+    out: list[dict] = []
     if not LANDMARK_CATALOG.is_dir():
         return out
     for p in sorted(LANDMARK_CATALOG.glob("*.json")):
@@ -409,8 +416,24 @@ def load_landmark_catalog() -> list[dict]:
         except Exception as exc:
             LOG.warning("landmark catalog %s unreadable: %s", p.name, exc)
             continue
-        if "origin_tm" in e and e.get("glb"):
-            out.append(e)
+        if "origin_tm" not in e:
+            continue
+        glb = e.get("glb")
+        bounds = e.get("bounds_local_m")
+        lods = e.get("lods") if isinstance(e.get("lods"), dict) else {}
+        glb_lod1 = None
+        if not glb and lods:
+            lod0 = lods.get("lod0") or {}
+            glb = lod0.get("path")
+            bounds = lod0.get("bounds") or bounds
+        if lods.get("lod1", {}).get("path"):
+            glb_lod1 = lods["lod1"]["path"]
+        if not glb:
+            LOG.warning("landmark %s has no glb path in its catalogue entry", p.stem)
+            continue
+        out.append({"id": e.get("id", p.stem), "name": e.get("name", p.stem),
+                    "origin_tm": e["origin_tm"], "glb": glb, "glb_lod1": glb_lod1,
+                    "bounds_local_m": bounds, "height_m": e.get("height_m")})
     return out
 
 
@@ -421,25 +444,34 @@ def add_landmarks(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
     placed, skipped, tris = [], [], 0
     for e in entries:
         ox, oy, oz = (float(v) for v in e["origin_tm"])
-        # A landmark's mesh can reach far beyond its origin (bridges); keep it if either the
-        # origin or the model's world bounding box touches the scene disc.
+        # A landmark's mesh can reach far beyond its origin (bridges span kilometres); keep it
+        # if the model's world bounding box touches the scene disc, not just its origin.
         b = e.get("bounds_local_m") or {}
-        bmin = b.get("min", [0, 0, 0])
-        bmax = b.get("max", [0, 0, 0])
-        near_x = min(max(cx, ox + bmin[0]), ox + bmax[0])
-        near_y = min(max(cy, oy + bmin[1]), oy + bmax[1])
-        if math.hypot(near_x - cx, near_y - cy) > radius_m:
-            continue
-        glb = REPO_ROOT / e["glb"] if not Path(e["glb"]).is_absolute() else Path(e["glb"])
-        if not glb.exists():
-            glb = BLENDER_OUT / Path(e["glb"]).name
+        bmin = b.get("min", [0.0, 0.0, 0.0])
+        bmax = b.get("max", [0.0, 0.0, 0.0])
+        near_x = min(max(cx, ox + float(bmin[0])), ox + float(bmax[0]))
+        near_y = min(max(cy, oy + float(bmin[1])), oy + float(bmax[1]))
+        edge = math.hypot(near_x - cx, near_y - cy)
         dist = math.hypot(ox - cx, oy - cy)
+        if edge > radius_m:
+            continue
+
+        def _resolve(rel: str) -> Path:
+            p = Path(rel)
+            q = p if p.is_absolute() else REPO_ROOT / p
+            return q if q.exists() else BLENDER_OUT / "landmarks" / p.name
+
         lod = 0 if dist <= lod0_radius_m else 1
-        tpl = lib.get(glb, key=f"landmark:{e['id']}:lod{lod}", max_lod=lod)
+        tpl = None
+        if lod == 1 and e.get("glb_lod1"):
+            tpl = lib.get(_resolve(e["glb_lod1"]), key=f"landmark:{e['id']}:lod1file", max_lod=1)
         if tpl is None:
-            tpl = lib.get(glb, key=f"landmark:{e['id']}:lod0", max_lod=0)
+            tpl = lib.get(_resolve(e["glb"]), key=f"landmark:{e['id']}:lod{lod}", max_lod=lod)
         if tpl is None:
-            skipped.append({"id": e.get("id"), "reason": lib.failed.get(f"landmark:{e['id']}:lod0", "unavailable")})
+            tpl = lib.get(_resolve(e["glb"]), key=f"landmark:{e['id']}:lod0", max_lod=0)
+        if tpl is None:
+            skipped.append({"id": e.get("id"),
+                            "reason": lib.failed.get(f"landmark:{e['id']}:lod0", "unavailable")})
             continue
         tpl.instance(f"lm_{e['id']}", Matrix.Translation((ox, oy, oz)), col or bpy.context.scene.collection)
         tris += tpl.triangles

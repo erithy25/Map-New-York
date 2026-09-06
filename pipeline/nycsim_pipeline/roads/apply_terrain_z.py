@@ -293,11 +293,13 @@ def apply(roads_dir: Path, tiles_dir: Path, dry_run: bool = False) -> dict:
         manifest.record_processed("roads_terrain_z", roads_dir / "terrain_z_summary.json", stage="roads.apply_terrain_z",
                                   sources=["terrain_tiles"], schema="roads.terrain_z/1")
         # the five rewritten artefacts have new checksums
-        for aid, name, key in (("roads_segments", "segments.parquet", "segments"), ("roads_nodes", "nodes.parquet", "nodes"),
-                               ("roads_lanes", "lanes.parquet", "lanes"), ("roads_junction_lanes", "junction_lanes.parquet", "junction_lanes"),
-                               ("roads_signs", "signs.parquet", "signs")):
+        for aid, name, key, rows in (("roads_segments", "segments.parquet", "segments", len(seg)),
+                                     ("roads_nodes", "nodes.parquet", "nodes", len(nodes)),
+                                     ("roads_lanes", "lanes.parquet", "lanes", len(lanes)),
+                                     ("roads_junction_lanes", "junction_lanes.parquet", "junction_lanes", len(jl)),
+                                     ("roads_signs", "signs.parquet", "signs", len(signs))):
             manifest.record_processed(aid, roads_dir / name, stage="roads.apply_terrain_z", sources=["terrain_tiles"],
-                                      schema=S.SCHEMAS[key], extra={"terrain_z": True})
+                                      rows=int(rows), schema=S.SCHEMAS[key], extra={"terrain_z": True})
     log.info("terrain z applied in %.1fs", time.time() - t0)
     return summary
 

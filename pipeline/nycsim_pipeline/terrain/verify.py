@@ -223,12 +223,42 @@ def check_extremes(top: int = 10) -> dict:
     per_tile.sort(key=lambda r: r[1])
     lowest = [{"tile": n, "z_min_m": round(a, 3)} for n, a, _ in per_tile[:top]]
     highest = [{"tile": n, "z_max_m": round(b, 3)} for n, _, b in sorted(per_tile, key=lambda r: -r[2])[:top]]
+    nyc = nyc_extremes()
+    ok = bool(lo["tile"] and EXTREME_LOW_M <= lo["z_m"] and hi["z_m"] <= EXTREME_HIGH_SCOPE_M)
+    if nyc.get("z_max") is not None:
+        # the highest ground in the five boroughs is Todt Hill, Staten Island (409.8 ft = 124.9 m published)
+        ok = ok and nyc["z_max"] <= EXTREME_HIGH_M and nyc["borough"] == "Staten Island"
     return {"tiles": len(per_tile), "min": lo, "max": hi, "lowest_tiles": lowest, "highest_tiles": highest,
             "samples_below": below, "sub_datum": sub, "tiles_with_sub_datum": tiles_with_sub,
-            "deepest_source_value": deepest_before,
+            "deepest_source_value": deepest_before, "nyc_five_boroughs": nyc,
             "envelope_m": [EXTREME_LOW_M, EXTREME_HIGH_M], "envelope_scope_m": [EXTREME_LOW_M, EXTREME_HIGH_SCOPE_M],
-            "pass": bool(lo["tile"] and EXTREME_LOW_M <= lo["z_m"] and hi["z_m"] <= EXTREME_HIGH_SCOPE_M),
-            "seconds": round(time.time() - t0, 1)}
+            "pass": ok, "seconds": round(time.time() - t0, 1)}
+
+
+def nyc_extremes() -> dict:
+    """Highest and lowest published sample inside the five boroughs, from the tile index.
+
+    Separated from the scope-wide extremes because the scope box also holds the New Jersey Watchung ridge
+    (210 m) and the Westchester hills, which are higher than anything in the city. The city's own maximum
+    must be Todt Hill on Staten Island.
+    """
+    import pyarrow.parquet as pq
+
+    from .index import CODE_ENUM, INDEX_PARQUET
+    if not INDEX_PARQUET.exists():
+        return {"error": f"{INDEX_PARQUET} missing"}
+    t = pq.read_table(INDEX_PARQUET, columns=["tile", "borough_codes", "z_min", "z_max"]).to_pydict()
+    best = {"z_max": None, "tile_max": "", "borough": "", "z_min": None, "tile_min": "", "borough_min": ""}
+    for i, name in enumerate(t["tile"]):
+        codes = [c for c in (t["borough_codes"][i] or []) if 1 <= int(c) <= 5]
+        if not codes or t["z_max"][i] is None:
+            continue
+        label = ", ".join(CODE_ENUM[int(c)] for c in sorted(codes))
+        if best["z_max"] is None or t["z_max"][i] > best["z_max"]:
+            best.update({"z_max": round(float(t["z_max"][i]), 3), "tile_max": name, "borough": label})
+        if best["z_min"] is None or t["z_min"][i] < best["z_min"]:
+            best.update({"z_min": round(float(t["z_min"][i]), 3), "tile_min": name, "borough_min": label})
+    return best
 
 
 def check_known_elevations(sampler: ZSampler) -> dict:
@@ -408,6 +438,10 @@ def main(argv: list[str] | None = None) -> int:
     e = doc["extremes"]
     print(f"  city minimum {e['min']['z_m']:8.3f} m in {e['min']['tile']:10s} ({e['min'].get('lon')}, {e['min'].get('lat')})")
     print(f"  city maximum {e['max']['z_m']:8.3f} m in {e['max']['tile']:10s} ({e['max'].get('lon')}, {e['max'].get('lat')})")
+    n = e.get("nyc_five_boroughs", {})
+    if n.get("z_max") is not None:
+        print(f"  five boroughs:  max {n['z_max']:7.2f} m in {n['tile_max']:10s} ({n['borough']}), "
+              f"min {n['z_min']:7.2f} m in {n['tile_min']}")
     print(f"  sub-datum samples: {e['sub_datum']['px_below_floor']} below the land floor, "
           f"{e['sub_datum']['px_kept_surveyed']} kept (survey-corroborated), "
           f"{e['sub_datum']['px_to_water'] + e['sub_datum']['px_filled_idw'] + e['sub_datum']['px_filled_survey'] + e['sub_datum']['px_filled_datum']} repaired")

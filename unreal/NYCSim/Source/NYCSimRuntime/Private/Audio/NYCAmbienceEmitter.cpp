@@ -24,13 +24,15 @@ ANYCAmbienceEmitter::ANYCAmbienceEmitter()
 	PrimaryActorTick.bStartWithTickEnabled = false;
 	PrimaryActorTick.TickGroup = TG_PrePhysics;
 	SetActorEnableCollision(false);
-	bReplicates = false;
 
 	USceneComponent* Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	// Emitters are re-pointed at zones as the player moves, so nothing here may be a static component.
+	Root->SetMobility(EComponentMobility::Movable);
 	SetRootComponent(Root);
 
 	Loop = CreateDefaultSubobject<UAudioComponent>(TEXT("Loop"));
 	Loop->SetupAttachment(Root);
+	Loop->SetMobility(EComponentMobility::Movable);
 	Loop->bAutoActivate = false;
 	Loop->bAllowSpatialization = true;
 	Loop->bIsUISound = false;
@@ -38,6 +40,7 @@ ANYCAmbienceEmitter::ANYCAmbienceEmitter()
 
 	Synth = CreateDefaultSubobject<UNYCProceduralSourceComponent>(TEXT("Synth"));
 	Synth->SetupAttachment(Root);
+	Synth->SetMobility(EComponentMobility::Movable);
 	Synth->bAutoActivate = false;
 	Synth->bAllowSpatialization = true;
 }
@@ -75,9 +78,13 @@ void ANYCAmbienceEmitter::Assign(int32 InZoneHandle, ENYCAmbienceZone InZone, co
 		if (Synth != nullptr)
 		{
 			Synth->SetKind(SourceKindFor(InZone));
-			Synth->AttenuationSettings = Spec.Attenuation;
-			Synth->SetAmbience(Spec.Gain, InZone == ENYCAmbienceZone::SteamVent ? 0.8f : 0.35f);
-			Synth->SetSourceGain(0.f);
+			// Intensity is the zone's character, not its level: the level is SetSourceGain(), applied per tick.
+			Synth->SetAmbience(1.f, InZone == ENYCAmbienceZone::SteamVent ? 0.8f : 0.35f);
+			if (bZoneChanged)
+			{
+				Synth->AttenuationSettings = Spec.Attenuation;
+				Synth->SetSourceGain(0.f);
+			}
 		}
 		if (InZone == ENYCAmbienceZone::SubwayGrate && bZoneChanged)
 		{

@@ -14,7 +14,7 @@ import pandas as pd
 import pyogrio
 import shapely
 
-from ..crs import NYC_TM, US_SURVEY_FOOT_M, stateplane_ft_to_tm
+from ..crs import NYC_TM
 from . import schema as S
 from .geom import heading_math, angle_diff
 from .names import normalize

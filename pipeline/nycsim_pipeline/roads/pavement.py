@@ -317,7 +317,7 @@ def main(argv: list[str] | None = None) -> int:
 
     from ..paths import PROCESSED as _PROCESSED
     from . import inputs as inputs_mod
-    from .signs import _approach_frames
+    from .signs import approach_frames
 
     ap = argparse.ArgumentParser(description="Build roads/pavement/{tile}.parquet from the planimetric sources")
     ap.add_argument("--roads-dir", type=Path, default=_PROCESSED / "roads")
@@ -329,7 +329,7 @@ def main(argv: list[str] | None = None) -> int:
     out_dir = a.out_dir or (a.roads_dir / "pavement")
     seg = _gpd.read_parquet(a.roads_dir / "segments.parquet")
     nodes = _pd.read_parquet(a.roads_dir / "nodes.parquet")
-    approaches = _approach_frames(seg)
+    approaches = approach_frames(seg)
     st = build(inputs_mod.resolve(), seg, nodes, approaches, out_dir)
     with open(a.roads_dir / "pavement_summary.json", "w") as f:
         json.dump(st, f, indent=1)

@@ -1,0 +1,203 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_lever_house",
+ "name": "Lever House (390 Park Avenue)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.759414,
+  "lon": -73.973894,
+  "azimuth_deg": 70.0,
+  "note": "Park Avenue west sidewalk at East 54th Street, about 100 m west-south-west of the building, looking east-north-east at the green curtain wall over its plaza",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.759722,
+  "lon": -73.972778,
+  "name": "Lever House (390 Park Avenue)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Lever House\" Park Avenue",
+  "\"Lever House\" curtain wall New York"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T13:23:07Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 65,
+ "candidates_eligible": 27,
+ "rejections": {
+  "too_old": 6,
+  "too_small": 5,
+  "keywords": 25,
+  "not_photo": 1,
+  "not_jpeg": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Lever House Nov 2025 04.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Lever_House_Nov_2025_04.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Lever_House_Nov_2025_04.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Lever_House_Nov_2025_04.jpg/1920px-Lever_House_Nov_2025_04.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2025-11-04 08:13:48",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.759937,
+    "lon": -73.972987
+   },
+   "original_width": 4080,
+   "original_height": 3060,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 865072,
+   "sha256": "e4ce4211db2445949779a354471014ade36760d1053a914dd10c4adbbbd5cbb6",
+   "mean_luminance": 99.1,
+   "description": "Lever House in Manhattan, New York, seen in November 2025",
+   "categories": [
+    "Lever House (Manhattan)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Midtown Manhattan in 2025",
+    "Towers in the United States photographed in 2025",
+    "New York City photographs taken on 2025-11-04",
+    "November 2025 in Manhattan, New York City",
+    "Photographs by Epicgenius",
+    "Office buildings in New York City photographed in 2025"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.759937,
+    "lon": -73.972987,
+    "azimuth_deg": 143.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75994, -73.97299) is 30 m from Lever House (390 Park Avenue) (40.75972, -73.97278) and 96 m from the standard viewpoint; the azimuth 144 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Lever House Nov 2025 04.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Lever_House_Nov_2025_04.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Park Av 53 St Mar 2021 47.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Park_Av_53_St_Mar_2021_47.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/04/Park_Av_53_St_Mar_2021_47.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Park_Av_53_St_Mar_2021_47.jpg/1920px-Park_Av_53_St_Mar_2021_47.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-03-21 12:54:19",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.758641,
+    "lon": -73.973129
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 996497,
+   "sha256": "83f0af8e8ca625a7d37a8f61d0dc587ca8923da878cc61a7c824b1fd333954ba",
+   "mean_luminance": 112.2,
+   "description": "The southern and eastern facades of Lever House in Manhattan, New York, seen from Park Avenue and 53rd Street in March 2021. Various other buildings are also visible including 432 Park Avenue at right.",
+   "categories": [
+    "Lever House (Manhattan)",
+    "New York City photographs taken on 2021-03-21",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Midtown Manhattan in 2021",
+    "March 2021 in Manhattan, New York City",
+    "Photographs by Epicgenius"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Lever House\" Park Avenue",
+   "score": 12.9,
+   "estimated_viewpoint": {
+    "lat": 40.758641,
+    "lon": -73.973129,
+    "azimuth_deg": 13.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75864, -73.97313) is 124 m from Lever House (390 Park Avenue) (40.75972, -73.97278) and 107 m from the standard viewpoint; the azimuth 14 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Park Av 53 St Mar 2021 47.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Park_Av_53_St_Mar_2021_47.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Lever House Nov 2025 07.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Lever_House_Nov_2025_07.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Lever_House_Nov_2025_07.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Lever_House_Nov_2025_07.jpg/1920px-Lever_House_Nov_2025_07.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2025-11-04 08:14:48",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.759427,
+    "lon": -73.972777
+   },
+   "original_width": 4080,
+   "original_height": 3060,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 1004436,
+   "sha256": "9747d595d836502e44206782c797827d83d867e2b251cfd0d3250d14e10d5223",
+   "mean_luminance": 100.4,
+   "description": "Lever House in Manhattan, New York, seen in November 2025",
+   "categories": [
+    "Lever House (Manhattan)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Midtown Manhattan in 2025",
+    "Towers in the United States photographed in 2025",
+    "New York City photographs taken on 2025-11-04",
+    "November 2025 in Manhattan, New York City",
+    "Photographs by Epicgenius",
+    "Office buildings in New York City photographed in 2025"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.759427,
+    "lon": -73.972777,
+    "azimuth_deg": 359.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75943, -73.97278) is 33 m from Lever House (390 Park Avenue) (40.75972, -73.97278) and 94 m from the standard viewpoint; the azimuth 360 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Lever House Nov 2025 07.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Lever_House_Nov_2025_07.jpg"
+  }
+ ]
+}

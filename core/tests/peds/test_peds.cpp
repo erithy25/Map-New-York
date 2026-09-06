@@ -123,7 +123,11 @@ TEST_CASE("the sidewalk graph derived from the road graph is well formed") {
       CHECK(ed.width_m == doctest::Approx(3.7f));  // NYC 12 ft continental
     } else {
       ++sidewalks;
-      CHECK(ed.width_m == doctest::Approx(4.6f));  // DOT Street Design Manual
+      // 4.6 m along the block (DOT Street Design Manual); a corner link is
+      // widthed by its own (short) length so its corridor cannot bulge through
+      // the building line.
+      CHECK(ed.width_m >= 1.8f);
+      CHECK(ed.width_m <= 4.61f);
     }
   }
   MESSAGE("sidewalk edges " << sidewalks << ", crosswalks " << crosswalks << " (signalized " << signalized

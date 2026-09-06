@@ -1,6 +1,6 @@
 # Governors Island: Castle Williams and Fort Jay
 
-Script: `blender/landmarks/b_governors_island.py` · agent B · generated 2026-09-06 13:18 UTC
+Script: `blender/landmarks/b_governors_island.py` · agent B · generated 2026-09-06 13:29 UTC
 
 ## Published dimensions
 
@@ -31,4 +31,4 @@ other buildings (Nolan Park, Colonels Row, the Admiral's House), Hills park and 
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_governors_island.glb` — 4,122 triangles, 0.24 MB, bounds min ['-175.8', '-537.4', '-6.0'] max ['232.7', '110.9', '13.5']
-* `blender_out/landmarks/b_governors_island_lod1.glb` — 2,746 triangles, 0.16 MB, bounds min ['-175.6', '-537.4', '-6.0'] max ['232.7', '110.9', '13.5']
+* `blender_out/landmarks/b_governors_island_lod1.glb` — 1,644 triangles, 0.11 MB, bounds min ['-175.6', '-537.4', '-6.0'] max ['232.7', '110.9', '13.5']

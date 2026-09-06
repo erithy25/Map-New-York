@@ -21,7 +21,7 @@ pytest.importorskip("pyarrow")
 import pyarrow.parquet as pq  # noqa: E402
 
 from nycsim_pipeline import crs, tiling  # noqa: E402
-from nycsim_pipeline.paths import BLENDER_OUT, PROCESSED, REPO_ROOT  # noqa: E402
+from nycsim_pipeline.paths import BLENDER_OUT, PROCESSED, REPO_ROOT, VERIFICATION  # noqa: E402
 
 TILES = PROCESSED / "tiles"
 
@@ -404,6 +404,43 @@ def test_landmark_models_match_their_published_heights():
                 break
     assert checked >= 10, f"only {checked} landmarks could be compared against published heights"
     assert not problems, "landmark heights disagree with their cited sources: " + "; ".join(problems)
+
+
+def test_verification_renders_can_actually_serve_as_evidence():
+    """A render that is black, blown out or featureless proves nothing.
+
+    The point of the verification renders is that a person looks at them and judges whether the
+    geometry is right. An image with no visible content cannot support that judgement, so it fails
+    here rather than sitting in a directory looking like evidence.
+
+    Thresholds are set to pass legitimately low-contrast output — a city-wide hillshade over mostly
+    flat terrain, or a chart on a white ground — while catching a camera inside geometry or an
+    exposure set for a different scene.
+    """
+    Image = pytest.importorskip("PIL.Image", reason="Pillow needed to inspect renders")
+    import numpy as np
+    from PIL import Image as PILImage
+
+    renders = sorted((VERIFICATION).rglob("*.png")) if VERIFICATION.exists() else []
+    if not renders:
+        pytest.skip("no verification renders yet")
+    unusable: list[str] = []
+    for r in renders:
+        try:
+            a = np.asarray(PILImage.open(r).convert("L"), dtype=np.float32) / 255.0
+        except Exception as e:  # noqa: BLE001 — an unreadable render is itself the failure
+            unusable.append(f"{r.relative_to(VERIFICATION)}: unreadable ({e})")
+            continue
+        mean, sd = float(a.mean()), float(a.std())
+        if mean < 0.06:
+            unusable.append(f"{r.relative_to(VERIFICATION)}: near-black (mean {mean:.3f})")
+        elif mean > 0.94 and sd < 0.05:
+            unusable.append(f"{r.relative_to(VERIFICATION)}: blown out (mean {mean:.3f}, sd {sd:.3f})")
+        elif sd < 0.025:
+            unusable.append(f"{r.relative_to(VERIFICATION)}: featureless (sd {sd:.3f})")
+    assert not unusable, (
+        f"{len(unusable)} of {len(renders)} verification renders cannot serve as evidence:\n  "
+        + "\n  ".join(unusable))
 
 
 # --------------------------------------------------------------------------- honesty gate

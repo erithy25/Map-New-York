@@ -41,7 +41,10 @@ _COUNT = {"SCALAR": 1, "VEC2": 2, "VEC3": 3, "VEC4": 4, "MAT4": 16}
 
 # ---------------------------------------------------------------------------------------------- expectations
 #
-# max_z   : (expected height of the model's highest point above the frame origin, tolerance %)
+# max_z   : (expected height above the frame origin, tolerance %) or (expected, tolerance %, node-name prefix).
+#           With a prefix only that node's vertices are measured, which is how a landmark whose published figure
+#           belongs to one element (the High Bridge's deck, Bethesda's angel, Central Park's wall) is checked
+#           without the model's tallest piece of furniture — a lamp standard, a railing — standing in for it.
 # span    : (node-name prefix A, node-name prefix B, expected separation in metres, tolerance %)
 # budget  : maximum LOD0 triangles
 #
@@ -72,12 +75,12 @@ LANDMARKS: dict[str, dict] = {
                           spans=[("tower_qn", "tower_bx", 548.64, 1.0)]),
     "b_bronx_whitestone": dict(budget=BUDGET_BRIDGE, max_z=(114.9 + MHW, 1.0),
                                spans=[("tower_bx", "tower_qn", 701.04, 1.0)]),
-    "b_hell_gate": dict(budget=BUDGET_BRIDGE, max_z=(92.96 + MHW, 1.5),
+    "b_hell_gate": dict(budget=BUDGET_BRIDGE, max_z=(92.96 + MHW, 1.0, "arch_rib"),
                         spans=[("tower_qn", "tower_wi", 329.47, 1.0)]),
-    "b_high_bridge": dict(budget=BUDGET_OTHER, max_z=(42.06 + MHW + 2.2, 4.0), spans=[]),
-    "b_pulaski": dict(budget=BUDGET_OTHER, max_z=(11.89 + MHW + 4.0, 8.0), spans=[]),
+    "b_high_bridge": dict(budget=BUDGET_OTHER, max_z=(42.06 + MHW, 1.0, "deck"), spans=[]),
+    "b_pulaski": dict(budget=BUDGET_OTHER, max_z=(11.89 + MHW + 2.4, 1.0, "deck_slab"), spans=[]),
     "b_kosciuszko": dict(budget=BUDGET_OTHER, max_z=(27.43 + MHW + 3.0 + 91.4, 2.0), spans=[]),
-    "b_roosevelt_island_tram": dict(budget=BUDGET_OTHER, max_z=(4.0 + 76.20 + 1.6, 3.0), spans=[]),
+    "b_roosevelt_island_tram": dict(budget=BUDGET_OTHER, max_z=(4.0 + 76.20, 1.0, "tower2_head"), spans=[]),
     "b_lincoln_tunnel_portals": dict(budget=BUDGET_OTHER, max_z=(5.0 + 44.2 + 5.4, 6.0), spans=[]),
     "b_holland_tunnel_portals": dict(budget=BUDGET_OTHER, max_z=(-2.0 + 39.3 + 5.4, 8.0), spans=[]),
     "b_queens_midtown_portals": dict(budget=BUDGET_OTHER, max_z=(3.0 + 33.3 + 5.4, 8.0), spans=[]),
@@ -85,19 +88,19 @@ LANDMARKS: dict[str, dict] = {
     "b_one_world_trade_center": dict(budget=BUDGET_OTHER, max_z=(541.3, 1.0), spans=[]),
     "b_wtc_site": dict(budget=BUDGET_OTHER, max_z=(3.5 + 329.2 + 1.4, 1.0), spans=[]),
     "b_statue_of_liberty": dict(budget=BUDGET_OTHER, max_z=(3.0 + 92.99, 1.0), spans=[]),
-    "b_ellis_island_main": dict(budget=BUDGET_OTHER, max_z=(30.5 + 11.8 + 3.0, 3.0), spans=[]),
-    "b_governors_island": dict(budget=BUDGET_OTHER, max_z=(12.19 + 1.3, 6.0), spans=[]),
-    "b_washington_square_arch": dict(budget=BUDGET_OTHER, max_z=(23.47, 3.0), spans=[]),
-    "b_bethesda_terrace": dict(budget=BUDGET_OTHER, max_z=(7.92, 6.0), spans=[]),
-    "b_bow_bridge": dict(budget=BUDGET_OTHER, max_z=(20.9 + 2.3 + 1.5 + 1.9, 4.0), spans=[]),
-    "b_belvedere_castle": dict(budget=BUDGET_OTHER, max_z=(16.5 + 3.65 + 3.6, 6.0), spans=[]),
-    "b_central_park_walls_gates": dict(budget=BUDGET_OTHER, max_z=(3.0 - 0.4, 6.0), spans=[]),
-    "b_unisphere": dict(budget=BUDGET_OTHER, max_z=(42.67, 2.0), spans=[]),
+    "b_ellis_island_main": dict(budget=BUDGET_OTHER, max_z=(30.5, 1.0, "tower0_cornice"), spans=[]),
+    "b_governors_island": dict(budget=BUDGET_OTHER, max_z=(12.19, 1.0, "castle_williams_wall"), spans=[]),
+    "b_washington_square_arch": dict(budget=BUDGET_OTHER, max_z=(23.47, 3.0, "wsa_atticcap"), spans=[]),
+    "b_bethesda_terrace": dict(budget=BUDGET_OTHER, max_z=(7.92, 1.0, "angel_body"), spans=[]),
+    "b_bow_bridge": dict(budget=BUDGET_OTHER, max_z=(20.9 + 2.3 + 1.5, 1.0, "deck"), spans=[]),
+    "b_belvedere_castle": dict(budget=BUDGET_OTHER, max_z=(16.5, 1.0, "tower_belvedere"), spans=[]),
+    "b_central_park_walls_gates": dict(budget=BUDGET_OTHER, max_z=(1.22, 1.0, "perimeter_wall"), spans=[]),
+    "b_unisphere": dict(budget=BUDGET_OTHER, max_z=(42.67, 1.0, "globe_grid"), spans=[]),
     "b_grants_tomb": dict(budget=BUDGET_OTHER, max_z=(45.72, 2.0), spans=[]),
     "b_columbus_circle_monument": dict(budget=BUDGET_OTHER, max_z=(228.60 + 6.0, 1.0), spans=[]),
-    "b_soldiers_sailors_arch": dict(budget=BUDGET_OTHER, max_z=(24.38 + 4.6, 8.0), spans=[]),
-    "b_prospect_park_boathouse": dict(budget=BUDGET_OTHER, max_z=(1.6 + 6.4 + 2.3 + 0.4 + 1.25, 4.0), spans=[]),
-    "b_coney_island": dict(budget=BUDGET_OTHER, max_z=(79.86 + 3.2, 3.0), spans=[]),
+    "b_soldiers_sailors_arch": dict(budget=BUDGET_OTHER, max_z=(24.38, 3.0, "ssa_atticcap"), spans=[]),
+    "b_prospect_park_boathouse": dict(budget=BUDGET_OTHER, max_z=(1.6 + 6.4 + 2.3 + 1.25, 2.0, "roof_bal"), spans=[]),
+    "b_coney_island": dict(budget=BUDGET_OTHER, max_z=(79.86, 1.0, "parachute_jump_lattice"), spans=[]),
 }
 
 REQUIRED_EXTRAS = ("landmark_id", "origin_tm", "heading_deg", "height_m", "fidelity_statement")
@@ -255,14 +258,22 @@ def test_lod1_present_and_lighter(landmark_id: str) -> None:
 @pytest.mark.parametrize("landmark_id", IDS)
 def test_height_within_1_percent(landmark_id: str) -> None:
     """The model's highest point matches the published height (per-landmark tolerance; 1 % for the primary set)."""
-    spec = LANDMARKS[landmark_id]
-    expected, tol = spec["max_z"]
+    spec = LANDMARKS[landmark_id]["max_z"]
+    expected, tol = spec[0], spec[1]
+    prefix = spec[2] if len(spec) > 2 else None
     g = _glb(landmark_id)
     nodes = g.node_positions()
     assert nodes, f"{landmark_id}: no mesh nodes"
-    top = max(float(v[:, 2].max()) for v in nodes.values())
+    if prefix:
+        sel = [v for k, v in nodes.items() if k.startswith(prefix)]
+        assert sel, f"{landmark_id}: no node whose name starts with {prefix!r} (have {sorted(nodes)[:12]} ...)"
+        top = max(float(v[:, 2].max()) for v in sel)
+        what = f"top of {prefix!r}"
+    else:
+        top = max(float(v[:, 2].max()) for v in nodes.values())
+        what = "highest point"
     err = abs(top - expected) / expected * 100.0
-    assert err <= tol, f"{landmark_id}: highest point {top:.2f} m vs expected {expected:.2f} m ({err:.2f} % > {tol} %)"
+    assert err <= tol, f"{landmark_id}: {what} {top:.2f} m vs expected {expected:.2f} m ({err:.2f} % > {tol} %)"
 
 
 @pytest.mark.parametrize("landmark_id", [k for k in IDS if LANDMARKS[k]["spans"]])

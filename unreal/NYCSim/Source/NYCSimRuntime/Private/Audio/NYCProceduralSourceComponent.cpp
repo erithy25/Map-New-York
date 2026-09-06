@@ -95,6 +95,11 @@ void UNYCProceduralSourceComponent::SetSourceGain(float Gain)
 	ParamGain.store(FMath::Clamp(Gain, 0.f, 2.f), std::memory_order_relaxed);
 }
 
+void UNYCProceduralSourceComponent::SetBusGain(float Gain)
+{
+	ParamBusGain.store(FMath::Clamp(Gain, 0.f, 2.f), std::memory_order_relaxed);
+}
+
 float UNYCProceduralSourceComponent::Noise()
 {
 	// 32-bit xorshift: uniform in [-1, 1), cheap enough for five voices at 48 kHz.
@@ -376,7 +381,7 @@ float UNYCProceduralSourceComponent::GenerateRumble()
 
 int32 UNYCProceduralSourceComponent::OnGenerateAudio(float* OutAudio, int32 NumSamples)
 {
-	const float Gain = ParamGain.load(std::memory_order_relaxed);
+	const float Gain = ParamGain.load(std::memory_order_relaxed) * ParamBusGain.load(std::memory_order_relaxed);
 	for (int32 i = 0; i < NumSamples; ++i)
 	{
 		float Sample = 0.f;

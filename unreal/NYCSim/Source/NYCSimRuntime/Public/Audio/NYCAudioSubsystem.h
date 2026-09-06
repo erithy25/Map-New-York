@@ -245,8 +245,6 @@ private:
 
 	TArray<FZoneRecord> Zones;
 	TMap<int32, int32> ZoneIndexByHandle;
-	/** Handle of the zone each emitter is voicing, parallel to Emitters. */
-	TArray<int32> EmitterZone;
 
 	struct FDopplerSource
 	{

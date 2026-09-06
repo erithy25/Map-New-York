@@ -102,6 +102,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "NYCSim|Audio")
 	void SetSourceGain(float Gain);
 
+	/** Mix-bus gain, multiplied with the source gain; UNYCAudioSubsystem owns the bus values. */
+	UFUNCTION(BlueprintCallable, Category = "NYCSim|Audio")
+	void SetBusGain(float Gain);
+
 private:
 	float GenerateEngine();
 	float GenerateTyre();
@@ -175,4 +179,5 @@ private:
 	std::atomic<float> ParamRainRate{0.f};
 	std::atomic<float> ParamScreenWetness{0.f};
 	std::atomic<float> ParamGain{1.f};
+	std::atomic<float> ParamBusGain{1.f};
 };

@@ -13,6 +13,8 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
 
 namespace nycsim {
@@ -527,7 +529,7 @@ bool TrafficSim::routeAgent(Vehicle& v, uint32_t to_lane, float to_s, uint32_t a
   q.profile.depart_time_s = tod_s_;
   q.profile.dow = dow_;
   q.profile.avoid_lane = avoid_lane;
-  q.profile.avoid_penalty_s = 600.f;
+  q.profile.avoid_penalty_s = 180.f;  // a detour, not a ban
   if (!router_->route(q, route_scratch_) || route_scratch_.lanes.empty()) return false;
   uint32_t* path = pathOf(v.id);
   const size_t n = std::min<size_t>(route_scratch_.lanes.size(), kPathCap);
@@ -1090,7 +1092,10 @@ void TrafficSim::considerLaneChange(uint32_t i, float a_current) {
     if (cp.is_bike && l.kind == LaneKind::Bike && tl.kind != LaneKind::Bike) bias -= cfg_.bike_lane_bias;
     if (cp.is_bus && tl.kind == LaneKind::Bus) bias += 1.5f;
     if ((v.flags & kVehYieldingEv) != 0 && this_side > 0) bias += 4.f;
-    if (need_side == 0 && this_side > 0 && tl.kind == LaneKind::Travel) bias += cfg_.keep_right_bias;
+    // Keep right only when we are not being held up where we are: a keep-right
+    // bias that can cancel the switching threshold makes drivers oscillate.
+    if (need_side == 0 && this_side > 0 && tl.kind == LaneKind::Travel && a_current > -0.2f)
+      bias += std::min(cfg_.keep_right_bias, cfg_.mobil_threshold * 0.5f);
     in.bias = bias;
     if (pressure > 1.f && this_side == need_side) in.threshold = 0.f;
 
@@ -1155,10 +1160,12 @@ void TrafficSim::considerBusStop(Vehicle& v, float& stop_dist) {
   for (uint32_t k = 0; k < n; ++k) {
     const BusStop& st = buses_->stop(stops[k]);
     const float d = st.s - v.s;
-    if (d < -1.f || d > cfg_.bus_stop_zone_m + v.speed * 3.f) continue;
+    if (d < -2.f || d > cfg_.bus_stop_zone_m + v.speed * 3.f) continue;
     if (static_cast<uint32_t>(v.bus_stop_ix) == stops[k]) continue;
-    stop_dist = std::min(stop_dist, std::max(0.f, d));
-    if (d < 1.2f && v.speed < 0.5f) {
+    // IDM settles s0 short of a stationary obstacle, so the target it is given
+    // is the flag pole plus s0; the bus then comes to rest beside the stop.
+    stop_dist = std::min(stop_dist, std::max(0.f, d + classParams(v.cls).min_gap_s0));
+    if (d < 2.0f && v.speed < 0.5f) {
       v.state = DriveState::BusDwelling;
       v.state_timer = v.rng.uniform(cfg_.bus_dwell_min_s, cfg_.bus_dwell_max_s);
       v.bus_stop_ix = static_cast<uint16_t>(stops[k]);
@@ -1222,6 +1229,8 @@ void TrafficSim::decide(uint32_t i) {
   // 2. virtual obstacles → the nearest distance at which we must be stopped
   float stop_dist = kBigDistance;
   bool gate_open = true;
+  bool held_by_signal = false;  // waiting for a phase is not "blocked"
+
 
   // 2a. turn speed on the junction lane we are on / about to enter
   if (l.is_junction != 0 && l.turn != TurnType::Straight) {
@@ -1251,7 +1260,10 @@ void TrafficSim::decide(uint32_t i) {
     if (signalized) signal_stop = signalStopDistance(v, jl, dist_to_line, entered_on_red);
 
     bool may_enter = signal_stop >= kBigDistance;
-    if (!may_enter) stop_dist = std::min(stop_dist, signal_stop);
+    if (!may_enter) {
+      stop_dist = std::min(stop_dist, signal_stop);
+      held_by_signal = true;
+    }
 
     if (may_enter) {
       const routing::Control ctrl = graph_->node(node).control;
@@ -1340,6 +1352,16 @@ void TrafficSim::decide(uint32_t i) {
     }
   }
 
+#ifdef NYCSIM_TRAFFIC_TRACE
+  if (std::getenv("NYCSIM_TRACE") != nullptr && v.id == static_cast<uint32_t>(atoi(std::getenv("NYCSIM_TRACE")))) {
+    std::printf("    trace id=%u v=%.2f v0=%.2f a_before=%.2f stop=%.2f lead=%d leadgap=%.2f jl=%u turn=%d gate=%d\n",
+                v.id, static_cast<double>(v.speed), static_cast<double>(v.v0), static_cast<double>(a),
+                static_cast<double>(stop_dist), static_cast<int>(lead.index != kInvalidIndex),
+                static_cast<double>(lead.gap), jl,
+                jl != kInvalidIndex ? static_cast<int>(graph_->lane(jl).turn) : -1,
+                static_cast<int>(gate_open));
+  }
+#endif
   if (stop_dist < kBigDistance) a = std::min(a, idmStopAccel(p, v.speed, stop_dist));
   a = clampf(a, -p.b_max, p.a);
   new_accel_[i] = a;
@@ -1349,8 +1371,11 @@ void TrafficSim::decide(uint32_t i) {
   considerLaneChange(i, a);
   considerDoublePark(v);
 
-  // 4. honking: blocked for longer than the patience threshold
-  const bool blocked = v.speed < 0.7f && (lead.index != kInvalidIndex ? lead.gap < 12.f : stop_dist < 12.f);
+  // 4. honking: blocked for longer than the patience threshold.  Waiting for a
+  // red is not being blocked — a New Yorker leans on the horn when the light is
+  // green and the car in front has not moved, not while it is still red.
+  const bool blocked = v.speed < 0.7f && !held_by_signal &&
+                       (lead.index != kInvalidIndex ? lead.gap < 12.f : stop_dist < 12.f);
   if (blocked) {
     v.blocked_time += cfg_.dt;
   } else {
@@ -1859,9 +1884,12 @@ void TrafficSim::step() {
     if (v.dest_lane == kInvalidIndex) continue;
     ++routes_this_step_;
     if (router_ != nullptr && router_->attached()) {
-      // Avoid the movement we are currently stuck behind.
+      // Avoid the street we are stuck trying to get into — not the connector
+      // itself, which would send the agent round the block to reach the very
+      // lane it is queued for.
       const uint32_t jl = nextJunction(v);
-      if (routeAgent(v, v.dest_lane, v.dest_s, jl)) ++stats_.reroutes;
+      const uint32_t avoid = jl != kInvalidIndex ? graph_->lane(jl).to_lane : kInvalidIndex;
+      if (routeAgent(v, v.dest_lane, v.dest_s, avoid)) ++stats_.reroutes;
     }
   }
 

@@ -39,7 +39,7 @@
    "asset_id": "Bricks059",
    "physical_size_m": 1.08,
    "size_rule": "brick_course",
-   "notes": "cleaner orange-red face brick; 1920s–50s apartments, schools",
+   "notes": "cleaner orange-red face brick; 1920s\u201350s apartments, schools",
    "physical_size_source": "measured:brick_course"
   },
   "brown_brick": {
@@ -47,7 +47,7 @@
    "asset_id": "Bricks054",
    "physical_size_m": 1.08,
    "size_rule": "brick_course",
-   "notes": "medium brown face brick; 1960s–80s apartment / office",
+   "notes": "medium brown face brick; 1960s\u201380s apartment / office",
    "physical_size_source": "measured:brick_course"
   },
   "dark_brick": {
@@ -80,7 +80,7 @@
    "physical_size_m": 1.08,
    "size_rule": "brick_course",
    "roughness_scale": 0.55,
-   "notes": "white glazed brick, grey mortar; 1955–75 UES apartment towers",
+   "notes": "white glazed brick, grey mortar; 1955\u201375 UES apartment towers",
    "physical_size_source": "measured:brick_course"
   },
   "brownstone": {
@@ -160,18 +160,18 @@
    "physical_size_m": 1.0,
    "procedural": {
     "base_color": [
-     0.85,
-     0.9,
-     0.92,
+     0.42,
+     0.47,
+     0.5,
      1.0
     ],
-    "roughness": 0.03,
+    "roughness": 0.04,
     "metallic": 0.0,
-    "transmission": 0.9,
-    "ior": 1.5,
-    "alpha": 0.25
+    "transmission": 0.0,
+    "ior": 1.52,
+    "alpha": 0.14
    },
-   "notes": "clear window / storefront plate glass"
+   "notes": "clear window / storefront plate glass: alpha-blended (14 %) over the interior card rather than ray-traced transmission \u2014 transmission plus alpha double-counted and rendered milky, and alpha blending is what the UE translucent glass material will use at 1 M buildings"
   },
   "concrete": {
    "provider": "ambientcg",
