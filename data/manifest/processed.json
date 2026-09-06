@@ -6904,15 +6904,15 @@
   },
   "landmark_b_george_washington_bridge_lod0": {
    "artifact_id": "landmark_b_george_washington_bridge_lod0",
-   "bytes": 4000336,
-   "git_commit": "ca87e1135759",
+   "bytes": 4034972,
+   "git_commit": "54b456b4d9c8",
    "landmark_id": "b_george_washington_bridge",
    "lod": 0,
    "path": "blender_out/landmarks/b_george_washington_bridge.glb",
-   "produced_at": "2026-09-06T14:08:16Z",
+   "produced_at": "2026-09-06T15:02:35Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "aca3a256215db22b54d895311b42a976c18339077090fe26690dc6e6d82c1089",
+   "sha256": "fcb05a7e2d95d3c7529b64215c6272b4fb52a6d9fed6f3e0ebc9888c7c166a6c",
    "sources": [
     "osm_bbbike",
     "published_gwb"
@@ -7410,15 +7410,15 @@
   },
   "landmark_b_queensboro_bridge_lod0": {
    "artifact_id": "landmark_b_queensboro_bridge_lod0",
-   "bytes": 2989168,
-   "git_commit": "ca87e1135759",
+   "bytes": 2966708,
+   "git_commit": "54b456b4d9c8",
    "landmark_id": "b_queensboro_bridge",
    "lod": 0,
    "path": "blender_out/landmarks/b_queensboro_bridge.glb",
-   "produced_at": "2026-09-06T14:08:05Z",
+   "produced_at": "2026-09-06T14:59:32Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "d4917f22e4e5fe332d71df97d688a22bf1caef40b111ccd1edeb2c46d2cd9089",
+   "sha256": "60d3e639098c652d038625f6a8d620dc3168e8c7261d84dde82ae96819bd78e0",
    "sources": [
     "osm_bbbike",
     "published_queensboro"
@@ -7756,15 +7756,15 @@
   },
   "landmark_b_williamsburg_bridge_lod0": {
    "artifact_id": "landmark_b_williamsburg_bridge_lod0",
-   "bytes": 3635608,
-   "git_commit": "ca87e1135759",
+   "bytes": 3629204,
+   "git_commit": "54b456b4d9c8",
    "landmark_id": "b_williamsburg_bridge",
    "lod": 0,
    "path": "blender_out/landmarks/b_williamsburg_bridge.glb",
-   "produced_at": "2026-09-06T14:21:27Z",
+   "produced_at": "2026-09-06T14:57:08Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "3470b70db151fbd97d6535afa00f8d103f20c61762336179803f02ff61f8e7be",
+   "sha256": "e5aaef06ff67f162fee56c0f886e42d913cac92662f2868c0636467e0524ac5e",
    "sources": [
     "osm_bbbike",
     "published_williamsburg_bridge"
@@ -7897,14 +7897,14 @@
     1083846,
     1090575
    ],
-   "bytes": 13377432,
+   "bytes": 13377456,
    "footprint_iou": 1.0,
-   "git_commit": "d25a557a7b9b",
+   "git_commit": "54b456b4d9c8",
    "path": "blender_out/landmarks/c_american_museum_natural_history.glb",
-   "produced_at": "2026-09-06T14:43:27Z",
+   "produced_at": "2026-09-06T14:59:13Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "226edd0efc78ba571ae002efbc53a4104d2964753e0c0d64885b21c82d888042",
+   "sha256": "590192fff119b8099a310fc1cac6e14910f2c942fb914edf060aa2553ee66954",
    "sources": [
     "building_footprints"
    ],
@@ -8207,20 +8207,20 @@
   "landmark_glb:c_high_line": {
    "artifact_id": "landmark_glb:c_high_line",
    "bins": [],
-   "bytes": 8963828,
+   "bytes": 8995844,
    "footprint_iou": null,
-   "git_commit": "d25a557a7b9b",
+   "git_commit": "54b456b4d9c8",
    "path": "blender_out/landmarks/c_high_line.glb",
-   "produced_at": "2026-09-06T14:53:39Z",
+   "produced_at": "2026-09-06T15:05:08Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "bcbf39250ca48fea187ae4ad9d847074b427568f2758ef5f4df6d7307d1d6efe",
+   "sha256": "95ec36e208d4d2bb8d092cc0bf1b2e38a9bf7ea29dfefd3f1e9e015e0daab5b8",
    "sources": [
     "building_footprints"
    ],
    "stage": "landmarks",
-   "tris_lod0": 27276,
-   "tris_lod1": 2868
+   "tris_lod0": 27316,
+   "tris_lod1": 2908
   },
   "landmark_glb:c_hudson_yards": {
    "artifact_id": "landmark_glb:c_hudson_yards",
@@ -8609,20 +8609,20 @@
     1083872,
     1083874
    ],
-   "bytes": 15533464,
+   "bytes": 15501516,
    "footprint_iou": 1.0,
-   "git_commit": "0c9873ef9ce1",
+   "git_commit": "54b456b4d9c8",
    "path": "blender_out/landmarks/c_un_headquarters.glb",
-   "produced_at": "2026-09-06T14:42:06Z",
+   "produced_at": "2026-09-06T14:57:46Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "73392778c8d835d54b038a78da0d0a3d6e6676ddd101e0457011c7bb12dbfbe1",
+   "sha256": "f94428bfd338add015cca0d1fb4befa721403e7b5052032a6cda40d1373e22b4",
    "sources": [
     "building_footprints"
    ],
    "stage": "landmarks",
-   "tris_lod0": 12898,
-   "tris_lod1": 1266
+   "tris_lod0": 12670,
+   "tris_lod1": 1038
   },
   "landmark_glb:c_usta_arthur_ashe": {
    "artifact_id": "landmark_glb:c_usta_arthur_ashe",
@@ -8972,19 +8972,19 @@
    "bins": [
     1090825
    ],
-   "bytes": 14599144,
+   "bytes": 14415540,
    "footprint_iou": 1.0,
-   "git_commit": "e9c4094042a0",
+   "git_commit": "54b456b4d9c8",
    "path": "blender_out/landmarks/one_vanderbilt.glb",
-   "produced_at": "2026-09-06T11:58:16Z",
+   "produced_at": "2026-09-06T15:04:03Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "4e424151bd5dccbebd8cf2c08452b18470ec361c49010d16db6bf4ea95ba14ac",
+   "sha256": "96b7ad6ca956f4fc3a302b1cacf2e0ae83abe2c02697492ad79a5aeb6eeec87d",
    "sources": [
     "building_footprints"
    ],
    "stage": "landmarks",
-   "tris_lod0": 74350,
+   "tris_lod0": 71710,
    "tris_lod1": 80
   },
   "landmark_glb:one_wall_street": {
@@ -8992,19 +8992,19 @@
    "bins": [
     1000815
    ],
-   "bytes": 16987792,
+   "bytes": 17007912,
    "footprint_iou": 1.0,
-   "git_commit": "c4464e87459d",
+   "git_commit": "54b456b4d9c8",
    "path": "blender_out/landmarks/one_wall_street.glb",
-   "produced_at": "2026-09-06T12:29:13Z",
+   "produced_at": "2026-09-06T14:58:00Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "1984aaf19d79483e43b7103f19c3a73c5a030bd07ecd82ccb5be95618038b866",
+   "sha256": "8f3dd66216e4d6ec6222696bc0663ecefb416a844fdc7f5470388178985867cd",
    "sources": [
     "building_footprints"
    ],
    "stage": "landmarks",
-   "tris_lod0": 42412,
+   "tris_lod0": 42712,
    "tris_lod1": 364
   },
   "landmark_glb:smoke_test": {

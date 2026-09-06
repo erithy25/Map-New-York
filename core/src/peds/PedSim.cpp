@@ -426,10 +426,11 @@ void PedSim::updateAgent(uint32_t i) {
 
   // Walls: only evaluated near the corridor edge — the hard clamp in
   // integrate() is what actually guarantees non-penetration.
-  // The corridor clamp is what guarantees containment; the wall force only has
-  // to soften the approach, so it is evaluated in the last 40 cm.
+  // Evaluated in the outer 90 cm of the corridor.  Narrowing this band is
+  // tempting for speed but measurably costs containment at corners, where the
+  // force is what keeps an agent off the building line in the first place.
   const float half = edgeWidthHalf(p.edge);
-  if (std::fabs(p.lateral) > half - 0.4f && walk_->wallCount() != 0) {
+  if (std::fabs(p.lateral) > half - 0.9f && walk_->wallCount() != 0) {
     uint32_t buf[8];
     const uint32_t nw = walk_->wallsNear(p.x, p.y, kWallQueryRadius, buf, 8);
     for (uint32_t k = 0; k < nw; ++k) {

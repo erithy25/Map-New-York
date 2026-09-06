@@ -59,8 +59,10 @@ def build():
     objs = []
     gran, glass, alu = C.M.granite_black, C.M.glass_clear, C.M.aluminium
 
-    fen = C.Fenestration(floor_h=5.0, bay_w=3.4, window_frac=0.86, recess=0.3, spandrel_h=0.9,
-                         pier="granite_black", spandrel="granite_black", glass="glass_clear", mullion="aluminium",
+    # Taniguchi's 53rd Street composition is mostly solid: black granite and white panel with measured openings,
+    # not a curtain wall. Roughly half the bay is glazed.
+    fen = C.Fenestration(floor_h=5.0, bay_w=3.4, window_frac=0.52, recess=0.35, spandrel_h=1.1,
+                         pier="marble_white", spandrel="granite_black", glass="glass_clear", mullion="aluminium",
                          mullions=1)
     for bn, poly in parts.items():
         h = TOP_M if bn == 1087646 else HEIGHTS[bn]
@@ -94,7 +96,12 @@ def build():
     minx, miny, maxx, maxy = P.bounds
     d = math.radians(north)
     # the garden sits against the north edge of the site, centred on the campus
-    gx, gy = P.centroid.x + math.cos(d) * 22.0, P.centroid.y + math.sin(d) * 22.0
+    ux, uy = math.cos(d), math.sin(d)
+    n_edge = max(x * ux + y * uy for x, y in C.ring_coords(P if P.geom_type == "Polygon" else max(P.geoms, key=lambda g: g.area)))
+    n_edge = max(n_edge, max(x * ux + y * uy for g in (P.geoms if P.geom_type != "Polygon" else [P]) for x, y in C.ring_coords(g)))
+    cxp = P.centroid.x - ux * (P.centroid.x * ux + P.centroid.y * uy) + ux * (n_edge + GARDEN_D / 2 + 3.0)
+    cyp = P.centroid.y - uy * (P.centroid.x * ux + P.centroid.y * uy) + uy * (n_edge + GARDEN_D / 2 + 3.0)
+    gx, gy = cxp, cyp
     garden = C.rect(gx, gy, GARDEN_W, GARDEN_D, angle_deg=north + 90.0).difference(P.buffer(1.0))
     if not garden.is_empty:
         g = garden if garden.geom_type == "Polygon" else max(garden.geoms, key=lambda gg: gg.area)

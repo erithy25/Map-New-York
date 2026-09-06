@@ -831,6 +831,9 @@ def convex_hull_bm(points: np.ndarray | Sequence[Vec3], *, simplify_deg: float =
     planar-dissolves the result, which is only safe when the caller does not need exact convexity.
     """
     pts = np.asarray(points, dtype=np.float64).reshape(-1, 3)
+    # weld coincident points first: qhull with "QJ" keeps duplicates as separate hull vertices, which yields
+    # two co-located verts sharing hull faces and an edge-count that no longer reads as a closed manifold.
+    pts = np.unique(np.round(pts, 6), axis=0)
     if len(pts) > max_points:
         rng = np.random.default_rng(7)
         pts = pts[rng.choice(len(pts), max_points, replace=False)]

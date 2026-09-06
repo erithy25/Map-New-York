@@ -12,7 +12,7 @@ Dimensions used (source in brackets)
   a bronze equestrian statue of Roosevelt (1940, James Earle Fraser) on a granite plinth before it. The memorial's
   attic reaches 44.8 m, the highest point of the museum (OTI LiDAR).
 * Rose Center for Earth and Space [Polshek Partnership 2000; AMNH]: a **glass cube 95 ft = 29.0 m on each side**
-  (a suspended white-steel space frame with 736 panes of water-white glass) containing the **Hayden Sphere,
+  (a suspended white-steel space frame with 736 panes of water-white low-iron glass, modelled transparent so the sphere reads through it) containing the **Hayden Sphere,
   87 ft = 26.5 m in diameter**, carried clear of the floor on three steel trusses; the sphere's equator is at
   16.0 m. The cube stands at the north-east corner of the north range.
 * 77th Street range [Cady, Berg & See 1892]: pink Vermont granite, Richardsonian Romanesque, a 5-storey range with
@@ -36,6 +36,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import c_common as cc  # noqa: E402
 import common as C  # noqa: E402
+import nycsim_bpy as nb  # noqa: E402
 
 ID = "c_american_museum_natural_history"
 B_MAIN, B_NORTH = 1083846, 1090575
@@ -50,6 +51,12 @@ BASE_TOP = 7.0
 
 def build():
     C.reset()
+    # The Rose Center's whole point is that the Hayden Sphere is visible inside the cube, so its 736 panes of
+    # water-white low-iron glass are modelled as an actually transparent material rather than the palette's opaque
+    # architectural glass [Polshek Partnership; AMNH].
+    C.PALETTE.setdefault("rose_center_glass", ((196, 214, 222), 0.04, 0.0, None, 0.0,
+                                               "water-white low-iron glass, Rose Center cube (alpha 0.30)"))
+    nb.pbr_material("rose_center_glass", base_color=C._srgb(196, 214, 222), roughness=0.04, metallic=0.0, alpha=0.30)
     cc.materials(["granite_pink", "limestone", "glass_clear", "glass_dark", "steel_nirosta", "roof_grey",
                   "roof_dark", "bronze", "granite_grey", "aluminium"])
     g = cc.Group(ID, angle_deg=cc.GRID_ANGLE, origin_bin=B_MAIN)
@@ -129,7 +136,8 @@ def build():
     # ---- the Rose Center: the glass cube and the Hayden Sphere -----------------------------------------------------
     b = C.MeshBuilder()
     ring = C.ring_coords(cube)
-    b.prism(ring, 0.4, CUBE, C.M.glass_clear, cap_top=True, cap_bottom=False, material_top=C.M.glass_clear)
+    b.prism(ring, 0.4, CUBE, C.M.rose_center_glass, cap_top=True, cap_bottom=False,
+            material_top=C.M.rose_center_glass)
     for p0, p1, L, t, n in C.edges_of(ring):                # the white space-frame grid, 736 panes
         nmul = 8
         for k in range(nmul + 1):

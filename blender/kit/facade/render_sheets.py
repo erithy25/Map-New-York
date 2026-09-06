@@ -102,6 +102,12 @@ def _cycles_budget() -> None:
     c.volume_bounces = 0
     c.caustics_reflective = False
     c.caustics_refractive = False
+    # A pane is a small, dark, high-variance region: a sharp specular lobe on a bright sky behind stochastic
+    # alpha transparency throws fireflies, adaptive sampling then stops those pixels early, and the denoiser
+    # smears the survivors into a maze across every window. Clamp the spikes and give every pixel a sample floor.
+    c.sample_clamp_indirect = 3.0
+    c.sample_clamp_direct = 0.0
+    c.adaptive_min_samples = 24
 
 
 def _render(path: Path, *, centre, half_w: float, half_h: float, samples: int, res_x: int,

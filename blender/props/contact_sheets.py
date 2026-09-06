@@ -262,26 +262,29 @@ def annotate(path: Path, placed: list[dict], width: int, height: int) -> None:
         co = world_to_camera_view(sc, cam, Vector((p["x"], 0.0, 0.0)))
         labels.append((max(0.0, min(1.0, co.x)) * width, p))
     im = Image.open(path).convert("RGB")
-    strip = 62
+    # Long ids on a crowded sheet collide, and a collision silently eats characters out of a measurement, so the
+    # captions are spread over as many bands as the sheet needs and each is drawn on its own dark plate.
+    bands = 2 if len(labels) <= 6 else 3
+    band_h = 30
+    strip = 8 + bands * band_h
     sheet = Image.new("RGB", (width, height + strip), (22, 24, 26))
     sheet.paste(im, (0, 0))
     d = ImageDraw.Draw(sheet)
-    font_path = C.FONT_SEMIBOLD
-    f1 = ImageFont.truetype(str(font_path), 14)
-    f2 = ImageFont.truetype(str(font_path), 11)
-    # captions are staggered over two bands so long ids on a crowded sheet cannot overlap
+    f1 = ImageFont.truetype(str(C.FONT_SEMIBOLD), 13)
+    f2 = ImageFont.truetype(str(C.FONT_SEMIBOLD), 11)
     labels.sort(key=lambda t: t[0])
     for k, (x, p) in enumerate(labels):
-        band = (k % 2) * 30
+        top = height + 4 + (k % bands) * band_h
         txt = p["id"]
         dims = "x".join(f"{v:g}" for v in p["size"]) + " m"
         w1 = d.textlength(txt, font=f1)
         w2 = d.textlength(dims, font=f2)
-        x1 = max(2, min(width - w1 - 2, x - w1 / 2))
-        x2 = max(2, min(width - w2 - 2, x - w2 / 2))
-        d.line([(x, height), (x, height + 4 + band)], fill=(90, 96, 102))
-        d.text((x1, height + 4 + band), txt, font=f1, fill=(236, 238, 240))
-        d.text((x2, height + 19 + band), dims, font=f2, fill=(150, 200, 160))
+        w = max(w1, w2)
+        x0 = max(1, min(width - w - 1, x - w / 2))
+        d.rectangle([x0 - 4, top - 2, x0 + w + 4, top + 26], fill=(34, 37, 40))
+        d.line([(x, height), (x, top)], fill=(96, 102, 108))
+        d.text((x0 + (w - w1) / 2, top), txt, font=f1, fill=(238, 240, 242))
+        d.text((x0 + (w - w2) / 2, top + 14), dims, font=f2, fill=(150, 205, 160))
     sheet.save(path)
 
 

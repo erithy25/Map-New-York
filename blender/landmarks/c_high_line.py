@@ -110,6 +110,7 @@ def build():
                   "roof_dark", "granite_grey"])
     parts = load_outline()
     union = shapely.ops.unary_union(parts)
+    deck_len_total = sum(ribbon_length(p) for p in parts)
     main = max(parts, key=lambda p: p.area)
     spur_clip = shapely.geometry.box(*SPUR_BOX)
     lobe = main.intersection(spur_clip)
@@ -125,45 +126,55 @@ def build():
     deck_parts: list = []
     b_str = C.MeshBuilder()
     ncol = 0
-    deck_len = 0.0
+    deck_len = deck_len_total
 
-    for i, poly in enumerate(local):
+    # Cut the ribbon into ~140 m blocks along the local +y axis (which runs NNE, the viaduct's dominant direction).
+    # Two reasons: the engine can stream 2.3 km of deck in pieces, and a verification render can be framed on one
+    # block — framing on the whole ribbon put the camera at the centre of an L-shaped bounding box, i.e. in empty
+    # air a kilometre from any structure, which is what made the first Chelsea frame show a distant hairline.
+    BLOCK = 140.0
+    blocks = []
+    for poly in local:
+        y0b, y1b = poly.bounds[1], poly.bounds[3]
+        n = max(1, int(round((y1b - y0b) / BLOCK)))
+        for k in range(n):
+            band = C.rect_xy(poly.bounds[0] - 5, y0b + (y1b - y0b) * k / n,
+                             poly.bounds[2] + 5, y0b + (y1b - y0b) * (k + 1) / n)
+            piece = poly.intersection(band)
+            for q in (list(piece.geoms) if hasattr(piece, "geoms") else [piece]):
+                if not q.is_empty and q.area > 20.0 and q.geom_type == "Polygon":
+                    blocks.append(C._orient(q, 1.0))
+    # the deck slab and its planting beds, one object per block
+    for i, poly in enumerate(blocks):
         b_deck = C.MeshBuilder()
         ring = C.ring_coords(poly)
-        # the deck slab and its precast plank joints
         b_deck.prism(ring, DECK_Z - 0.28, DECK_Z, C.M.pavement, holes=C.hole_coords(poly))
-        # the planting beds: the inner two thirds of the ribbon, 0.45 m proud
         inner = C.offset_polygon(poly, -2.2)
         if not inner.is_empty:
             for q in (list(inner.geoms) if isinstance(inner, MultiPolygon) else [inner]):
                 b_deck.prism(C.ring_coords(q), DECK_Z, DECK_Z + 0.45, C.M.grass)
-        # the riveted plate-girder fascia
+        deck_parts.append(C.tag(b_deck.build(f"{ID}_deck_{i:02d}"), "base"))
+
+    # the girders, railing and columns follow the *whole* viaduct, not the blocks, so the 140 m cuts leave no
+    # transverse girder or spurious column line inside the run
+    for poly in local:
+        ring = C.ring_coords(poly)
         cc.band_ring(b_str, ring, DECK_Z - GIRDER_D, DECK_Z - 0.28, 0.22, C.M.rust)
         cc.band_ring(b_str, ring, DECK_Z - 0.28, DECK_Z, 0.47, C.M.rust)          # the beaded top flange
         cc.band_ring(b_str, ring, DECK_Z - GIRDER_D, DECK_Z - GIRDER_D + 0.25, 0.47, C.M.rust)
-        # the railing
         cc.band_ring(b_str, ring, DECK_Z + RAIL_H - 0.12, DECK_Z + RAIL_H, 0.06, C.M.aluminium)
-        # the columns: sample the outline every COLUMN_SPACING metres
         per = 0.0
-        edges = list(C.edges_of(ring))
-        deck_len += ribbon_length(poly)
-        s = 0.0
-        for p0, p1, L, t, n in edges:
-            while s < per + L:
-                u = s - per
-                q = p0 + t * u
+        s_pos = 0.0
+        for p0, p1, L, t, n in C.edges_of(ring):
+            while s_pos < per + L:
+                q = p0 + t * (s_pos - per)
+                ang = math.degrees(math.atan2(t[1], t[0]))
                 b_str.box((q[0] - n[0] * 0.35, q[1] - n[1] * 0.35, (DECK_Z - GIRDER_D) / 2),
-                          (0.55, 0.55, DECK_Z - GIRDER_D), C.M.rust,
-                          rot_deg=math.degrees(math.atan2(t[1], t[0])))
-                b_str.box((q[0] - n[0] * 0.35, q[1] - n[1] * 0.35, 0.35), (1.4, 1.4, 0.7), C.M.concrete,
-                          rot_deg=math.degrees(math.atan2(t[1], t[0])))
+                          (0.55, 0.55, DECK_Z - GIRDER_D), C.M.rust, rot_deg=ang)
+                b_str.box((q[0] - n[0] * 0.35, q[1] - n[1] * 0.35, 0.35), (1.4, 1.4, 0.7), C.M.concrete, rot_deg=ang)
                 ncol += 1
-                s += COLUMN_SPACING
+                s_pos += COLUMN_SPACING
             per += L
-        # one object per viaduct segment: the engine can stream 2.3 km of deck in pieces, and a verification
-        # render can be framed on a single block instead of on the centre of a 2.3 km bounding box (which is
-        # empty air, and gave a featureless frame)
-        deck_parts.append(C.tag(b_deck.build(f"{ID}_deck_{i:02d}"), "base"))
     objs.extend(deck_parts)
     objs.append(b_str.build(f"{ID}_structure"))
     return objs, frame, union, local, ncol, deck_len, deck_parts, spur_len, len_no_spur
@@ -197,21 +208,21 @@ def main():
                           f"lifts, the 10th Avenue Square glazing, and the passages through buildings (modelled in "
                           f"c_chelsea_market)."),
                       dimensions={"deck_z_m": DECK_Z, "girder_depth_m": GIRDER_D, "column_spacing_m": COLUMN_SPACING,
-                                  "columns": ncol, "railing_h_m": RAIL_H, "plank_length_m": PLANK_L,
+                                  "columns": ncol, "deck_blocks": len(deck_parts), "railing_h_m": RAIL_H, "plank_length_m": PLANK_L,
                                   "measured_length_m": round(deck_len, 1), "measured_length_excl_spur_m": round(len_no_spur, 1),
                                   "spur_length_m": round(spur_len, 1), "published_length_m": LENGTH_PUBLISHED,
                                   "length_method": "equivalent-rectangle length of each polygon part, L = (P + sqrt(P^2 - 16A)) / 4",
                                   "railing_top_m": round(DECK_Z + RAIL_H, 2),
                                   "osm_relation": OSM_RELATION,
                                   "outline_area_m2": round(real_local.area, 1)})
-    # frame on the single longest segment: the whole 2.3 km ribbon's bounding-box centre is empty air
-    longest = max(deck_parts, key=lambda o: len(o.data.vertices))
+    # frame on one 140 m block in the Chelsea straight: the whole 2.3 km ribbon's bounding-box centre is empty air
+    block = sorted(deck_parts, key=lambda o: o.name)[len(deck_parts) // 3]
     cc.render(ID, [
         {"view": "chelsea", "azimuth_deg": 250, "elevation_deg": "street", "distance": 55, "fov_deg": 70,
          "target_z": 8.0},
         {"view": "aerial", "azimuth_deg": 250, "elevation_deg": 34, "distance": 220, "fov_deg": 55,
          "target_z": 9.0},
-    ], objects=[longest])
+    ], objects=[block])
     return entry
 
 

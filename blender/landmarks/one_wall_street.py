@@ -106,7 +106,11 @@ def build():
         z0 = GROUND_H if k == 0 else fz(f0)
         z1 = fz(f1) if f1 < 50 else ROOF_M
         if k > 0:
-            nxt = chamfer(C.offset_polygon(plan, -3.2), 3.0)
+            # Walker's setbacks shorten the Wall Street elevation; the 34 m depth barely changes, so trim mostly
+            # along the long axis and chamfer the corners.
+            pb = plan.bounds
+            nxt = plan.intersection(C.rect_xy(pb[0] + 8.0, pb[1] + 1.2, pb[2] - 8.0, pb[3] - 1.2))
+            nxt = chamfer(nxt if nxt.geom_type == "Polygon" else max(nxt.geoms, key=lambda g: g.area), 2.0)
             if not nxt.is_empty:
                 plan = nxt if nxt.geom_type == "Polygon" else max(nxt.geoms, key=lambda g: g.area)
         wall_top = z1 - 0.9                    # the plain parapet takes the last 0.9 m of every tier

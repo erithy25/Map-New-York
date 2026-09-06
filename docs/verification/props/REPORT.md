@@ -217,16 +217,23 @@ Every item below was found by opening a render, not by inspecting code.
 |---|---|---|---|
 | 1 | first furniture sheet | The camera stood on the **-Y** side, so every prop presented its back: the mailbox hopper, the Better Bin opening and the hydrant steamer all faced away. | `render_still()` now places the camera on the +Y side (the documented facing direction) and the sun azimuth was mirrored with it. |
 | 2 | first furniture sheet | Perspective row layout made a 0.75 m hydrant ~30 px tall next to a 12 m row; relative size was unreadable. | Switched the sheets to an orthographic camera with the ortho scale set from the row length, and split the big sheets into groups of <= 6. |
-| 3 | `furniture_a` sheet | The Better Bin's throw opening was modelled as a box **protruding** from the body instead of a recess. | Opening moved inside the shell (y 0.11-0.25 against a 0.30 m body radius) and the lip pulled in with it. |
-| 4 | `furniture_a` sheet | The siamese standpipe's inlets splayed too wide and too high — it read as a "Y" rather than an FDC wye. | Inlet angle and rise reduced (caps now at 0.95 m, 0.13 m off the axis); nominal updated to the measured 0.36 x 0.33 x 1.02 m. |
-| 5 | `traffic_signals` sheet | Heads hung 4.13 m over the roadway — **below** the MUTCD 15 ft (4.57 m) minimum. | Arm attachment raised to 5.45 m with a 6.30 m rise and the head hanger shortened from 0.22 m to 0.07 m: clearance now 4.73 m (6.1 m arm) and 4.57 m (9.14 m arm). A test now asserts it. |
-| 6 | `trees_medium` sheet | Crowns were far too sparse — the trees read as saplings, not street trees. | Leaf placement re-budgeted: cards are now distributed over the tips the skeleton actually produced against a per-class total (520 / 820 / 1120) and the card size raised from 0.115 to 0.140 x crown. Mean vegetation LOD0 went 3.0k -> 4.9k triangles, still under the 12k ceiling. |
-| 7 | `trees_medium` sheet | The ground pad was centred on the origin while the row ran to +75 m, so the pad edge cut across the frame. | The pad is now sized and centred on the row. |
-| 8 | `trees_medium` sheet | Ten long ids in one caption strip overlapped into unreadable text. | Captions are staggered over two bands with a tick line to the prop. |
-| 9 | bounds check | The bare-winter trees came out up to 22 % narrower than their leafed twins because the crown scaling was fitted to the (absent) foliage envelope. | Bare trees are fitted to the branch envelope; both states now land on the allometric spread. |
+| 3 | `furniture_a` | The Better Bin's throw opening was modelled as a box **protruding** from the body instead of a recess. | Opening moved inside the shell (y 0.11-0.25 against a 0.30 m body radius) and the lip pulled in with it. |
+| 4 | `furniture_a` | The siamese standpipe's inlets splayed too wide and too high — it read as a "Y" rather than an FDC wye. | Inlet angle and rise reduced (caps now at 0.95 m, 0.13 m off the axis); nominal updated to the measured 0.36 x 0.33 x 1.02 m. |
+| 5 | `traffic_signals` | Heads hung 4.13 m over the roadway — **below** the MUTCD 15 ft (4.57 m) minimum. | Arm attachment raised to 5.45 m with a 6.30 m rise and the head hanger shortened from 0.22 m to 0.07 m: clearance now 4.73 m (6.1 m arm) and 4.57 m (9.14 m arm). A test now asserts it. |
+| 6 | `trees_medium` | Crowns were far too sparse — the trees read as saplings, not street trees. | Leaf placement re-budgeted: cards are distributed over the tips the skeleton actually produced against a per-class total (520 / 820 / 1120) and the card size raised from 0.115 to 0.140 x crown. Mean vegetation LOD0 went 3.0k -> 4.9k triangles, still under the 12k ceiling. |
+| 7 | `trees_medium` | The ground pad was centred on the origin while the row ran to +75 m, so the pad edge cut across the frame; later, the rotated orthographic frame still caught a pad corner. | The pad is sized and centred on the row and runs 400 m past it in both directions. |
+| 8 | `trees_medium` | Ten long ids in one caption strip overlapped into unreadable text. | Captions staggered over bands with a tick line to the prop. |
+| 9 | bounds check | Bare-winter trees came out up to 22 % narrower than their leafed twins: the crown scaling was fitted to the (absent) foliage envelope. | Bare trees are fitted to the branch envelope; both states now land on the allometric spread. |
 | 10 | bounds check | The Citi Bike tyre torus had its **major** radius at the wheel radius, so the bike sat 24 mm below grade. | Major radius reduced by the tube radius; the bike now stands exactly on z = 0. |
 | 11 | bounds check | Tilted refuse bags and the roadwork sign's splayed legs dipped 15-80 mm below grade. | Added `_core.settle_to_ground()` and applied it to the refuse piles, the roadwork sign and the trees (whose trunk-foot ring could tilt a few mm below zero). |
 | 12 | bounds check | Mast-arm/span-wire nominal depth was 0.66 m against a measured 0.59 m, and the U-channel post's bolt-hole plugs stuck 5 mm out of the 38 mm section. | Nominals corrected to the reference-derived bounding box; hole plugs sunk inside the web. |
+| 13 | `signs_nyc`, `signs_regulatory` | **The sign blanks rendered as blank dark plates.** `sign_blank()` put the `SIGN_FACE` polygon on the *far* side of the 2 mm blank and then reversed every normal in the prism to satisfy a facing check — so the viewer saw the aluminium back — and the face UV ran mirrored (u increasing to the reader's *left*). | `sign_blank()` rewritten: the face sits on the facing side, `recalc_face_normals` leaves the prism outward-facing, and u increases to the reader's right. Verified by decoding the exported accessor: on a +Y blank, u = 1.0 at the -X extreme and 0.0 at +X, and the face normal is glTF -Z (Blender +Y). |
+| 14 | `lighting` | **All four lamps vanished from the sheet.** The sheet dropped any imported object carrying a `LIGHT_CONE` material — but a prop is exported as one joined mesh, so the whole lamp went with the cone. | The daylight sheets delete the light-cone *polygons*, not the object; caption bounds skip the same polygons. |
+| 15 | `mta_bullets` | Measured height 1.60 m against a nominal 1.06 m. Blender's glTF importer instantiates nodes that **no scene references**, so the `MSFT_lod` LOD1 subtree was imported and rendered on top of LOD0 — on every sheet. | The sheet drops objects whose `nycsim_lod` extra is 1. The exported files are unchanged and spec-correct; this is an importer-liberality note the engine integrator should know about (see §6). |
+| 16 | `curb_test` | The lamp post was missing (bug 14) and props were rotated with `Euler.rotate_axis("Z")` applied to the importer's X+90 conversion root — i.e. in local space, not world. | Placement now composes a world-space `Matrix.Rotation(heading, "Z")`. The 24 m planetree also put its canopy far above a 1.7 m eye-level frame, so the pit tree became a Callery pear. |
+| 17 | `lighting` | The davit and crook arms reach along +Y, straight at the sheet camera, so they were foreshortened off the top of the frame. | The lighting sheets are shot nearly side-on (`azimuth` 78 deg / 66 deg / 40 deg) so the arm profile reads. |
+| 18 | `lighting_night` | The light cones rendered as solid white cones that swallowed the lamps. | Cone gradient alpha reduced 0.55 -> 0.20 and its emission 3.0 -> 1.1; the cones now read as a light shaft. |
+| 19 | `trees_large` | Two long captions collided and one measurement silently lost its leading digit ("16.862" printed as "6.862"). | Captions now use up to three bands, each drawn on its own dark plate so any residual collision is visible rather than silent. |
 
 Remaining, deliberately accepted deviations from nominal (all inside the per-prop tolerance):
 `trash_bags_small` 14.0 % on one axis (a random pile has no exact size — tolerance 20 %),
@@ -291,6 +298,13 @@ NYC Admin Code 20-231 for the newsstand footprint, MTA brand guidelines for the 
 * `mta_line_bullets`: 23 nodes named `bullet_<line>`; the node translation is a display layout — zero it.
 * Sign blanks are anchored at the **centre of the sign face**, not the ground. Bolt them to
   `post_u_channel_3m` / `_2m` or to a pole/mast at the height `roads/signs.parquet` gives.
+
+### glTF LOD1 caveat for whoever writes the UE importer
+`MSFT_lod` is wired the documented way: `LOD0` references `LOD1` through the extension and `LOD1` is removed
+from the scene's root node list, so a viewer that ignores the extension sees only LOD0. **Blender's own glTF
+importer instantiates unreferenced nodes anyway**, which silently doubles the geometry unless you filter it.
+Every exported object carries a `nycsim_lod` extra (0 or 1) precisely so an importer can tell them apart;
+`contact_sheets.import_prop()` shows the two-line filter.
 
 ### Kind enum
 34 `dataset_kind` values are used. **16 already exist** in `pipeline/nycsim_pipeline/furniture/catalog.py`

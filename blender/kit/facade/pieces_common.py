@@ -161,7 +161,7 @@ def reg_generated_materials() -> None:
     # turns into a maze across every window, and in UE it would be a black hole. A low emissive term is the
     # standard interior-card treatment and matches what a dim room actually looks like from a sunlit street.
     K.generated_material("interior_unlit", image=interior_card_image(False), roughness=0.9,
-                         emission=(1, 1, 1), emission_strength=0.45, uv_scale_m=2.0)
+                         emission=(1, 1, 1), emission_strength=0.60, uv_scale_m=2.0)
     K.generated_material("ivy_leaf", image=ivy_image(), roughness=0.75, alpha_from_image=True, uv_scale_m=0.55)
 
 

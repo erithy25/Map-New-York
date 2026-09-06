@@ -131,7 +131,7 @@ struct TrafficConfig {
   float despawn_m = 1400.f;      // beyond this the agent is recycled
   float spawn_rate_per_s = 60.f; // cap on spawns per simulated second
   float spawn_headway_m = 12.f;  // minimum clear space at the spawn point
-  uint32_t max_routes_per_step = 16;
+  uint32_t max_routes_per_step = 8;   // routing is amortized across steps
   float reroute_block_s = 90.f;  // genuinely stuck, not merely waiting for a phase
   float reroute_cooldown_s = 45.f;
   bool build_junction_conflicts = true;

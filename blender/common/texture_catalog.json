@@ -210,13 +210,13 @@
      0.027,
      1.0
     ],
-    "roughness": 0.02,
+    "roughness": 0.09,
     "metallic": 0.0,
     "transmission": 0.0,
     "ior": 1.52,
     "alpha": 0.26
    },
-   "notes": "clear window / storefront plate glass: near-black diffuse with a 4 % Fresnel specular and 26 % alpha over the interior room box. Glass has essentially no diffuse albedo \u2014 giving it one is what made the first pass read as flat grey plastic in full sun."
+   "notes": "clear window / storefront plate glass: near-black diffuse with a 4 % Fresnel specular and 26 % alpha over the interior room box. Glass has essentially no diffuse albedo \u2014 giving it one is what made the first pass read as flat grey plastic in full sun. Roughness is 0.09 rather than mirror-smooth: a razor-sharp lobe on a small pane is a firefly source, and real float glass in an old sash is never optically flat."
   },
   "concrete": {
    "provider": "ambientcg",
