@@ -55,6 +55,11 @@ PROCESSED = REPO_ROOT / "data" / "processed"
 TILES_DATA = PROCESSED / "tiles"
 BLENDER_OUT = REPO_ROOT / "blender_out"
 TILES_GLB = BLENDER_OUT / "tiles"
+#: Per-tile shell files, in import order: the New York City shells and, where the tile reaches into
+#: New Jersey, the New Jersey ones beside them.  Named here rather than inline so a verification run
+#: can import one dataset on its own -- which is how the before/after pair for the New Jersey stage
+#: was made.
+TILE_GLB_FILES = ("tile_buildings.glb", "tile_buildings_nj.glb")
 LANDMARK_CATALOG = BLENDER_OUT / "landmarks" / "catalog"
 PROPS_CATALOG_JSON = BLENDER_OUT / "props" / "props_asset_catalog.json"
 KIT_MAP_JSON = PROCESSED / "facade" / "kit_catalog_map.json"
@@ -568,8 +573,7 @@ def add_buildings(cx: float, cy: float, radius_m: float, *, lod0_radius_m: float
         # Bayonne are inside the scope (ARCHITECTURE §3) and are built by the same stage into a
         # sibling glb.  Both are imported into the same tile bucket so the LOD choice, the triangle
         # budget and the report cover the whole tile.
-        glbs = [q for q in (TILES_GLB / name / "tile_buildings.glb",
-                            TILES_GLB / name / "tile_buildings_nj.glb") if q.exists()]
+        glbs = [q for q in (TILES_GLB / name / f for f in TILE_GLB_FILES) if q.exists()]
         if not glbs:
             missing.append(name)
             continue
