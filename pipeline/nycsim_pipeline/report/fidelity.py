@@ -36,6 +36,7 @@ FIDELITY_BITS = [
     (8, "SCAFFOLD_REAL", "sidewalk shed from an active DOB permit"),
     (9, "GROUND_REAL", "ground elevation from the LiDAR-derived field"),
     (10, "FACADE_INFERRED", "facade appearance inferred by the rule set (ADR-004)"),
+    (13, "ROOF_INFERRED", "roof shape derived from building class and footprint (ADR-013)"),
     (11, "HEIGHT_INFERRED", "height derived from floor count or neighbours"),
     (12, "FLOORS_INFERRED", "floor count derived from height"),
 ]

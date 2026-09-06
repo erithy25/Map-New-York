@@ -80,6 +80,7 @@ class TileLoad:
     x0: float
     y0: float
     specs: list[sg.BuildingSpec]
+    rows_in: int
     dropped: int
     sources: dict[str, dict[str, int]]
     materials_used: dict[int, int]
@@ -249,7 +250,8 @@ def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: 
         raise FileNotFoundError(path)
     df = pd.read_parquet(path)
     if len(df) == 0:
-        return TileLoad(tile, *tile_origin(tile), specs=[], dropped=0,
+        x0, y0 = tile_origin(tile)
+        return TileLoad(tile, x0, y0, specs=[], rows_in=0, dropped=0,
                         sources={"roof": {}, "material": {}}, materials_used={}, df_index=[])
     x0, y0 = tile_origin(tile)
 
@@ -351,7 +353,7 @@ def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: 
                 attrs=attrs, floors=max(int(floors[i]), 1), area=area))
             df_index.append(i)
 
-    return TileLoad(tile, x0, y0, specs, dropped,
+    return TileLoad(tile, x0, y0, specs, len(df), dropped,
                     {"roof": src_roof, "material": src_mat}, mats_used, df_index)
 
 

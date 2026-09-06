@@ -9,12 +9,16 @@ their shared edge row/column:
    ground elevations. Each point yields a correction ``dz = z_point - z_dem`` at its nearest lattice
    sample; a point whose ``|dz| >= IDW_MAX_DZ_M`` is rejected as an outlier (bridge deck, retaining wall,
    a footprint whose LiDAR ground fell on a roof) and counted. The accepted corrections are spread by
-   inverse-distance weighting with Franke–Little taper ``w = ((R-d)/(R d))^2``, which is zero at the
-   15 m radius, so the correction field is continuous and vanishes away from the points. Samples with no
-   DEM value but with points inside the radius take the inverse-distance mean of the point elevations.
+   inverse-distance weighting with Franke-Little taper ``w = ((R-d)/(R d))^2`` and blended into the DEM
+   with ``alpha = min(1, sum (1 - d/R)^2)``: alpha is 1 at a survey point (the surface passes exactly
+   through it) and 0 at 15 m from every point (the DEM is untouched), so the result is continuous, with
+   no step at the search radius. Samples with no DEM value but with points inside the radius take the
+   inverse-distance mean of the point elevations.
 3. **Hydro-flatten** (`hydro.py`): open water to its real surface (0.0 m NAVD88 for everything tidal),
    pier/jetty decks to their surveyed deck elevation, seawall crests where the water mask would otherwise
-   flood them; the planimetric shoreline is the hard edge between the two regimes.
+   flood them. The planimetric shoreline is burned as a hard edge: a shoreline sample whose ground stands
+   0.1-6 m above the water plane keeps its ground elevation, so the land/water transition is exactly one
+   2 m sample wide instead of a ramp.
 4. **Encode**: quantise to the global 2.5 mm grid, crop to 501 x 501 and write a 16-bit PNG (north row
    first) plus ``terrain.json``.
 
@@ -54,6 +58,8 @@ MARGIN = 16                 # samples of context (32 m) — twice the 15 m densi
 IDW_RADIUS_M = 15.0
 IDW_MAX_DZ_M = 3.0
 IDW_MIN_D_M = 0.25          # a point closer than this to a sample is treated as being at that distance
+SHORE_MIN_RISE_M = 0.10     # a shoreline sample must stand this far above the water plane to stay land
+SHORE_MAX_RISE_M = 6.00     # ... and no more than this (above that it is a bridge/building artefact)
 SCHEMA = "terrain.tile/1"
 TILE_JSON_VERSION = 1
 STAMP_K = int(math.ceil((IDW_RADIUS_M + SPACING_M) / SPACING_M))  # sample half-width of a point's stamp
@@ -82,6 +88,7 @@ class TileResult:
     px_water: int
     px_deck: int
     px_seawall: int
+    px_shore_edge: int
     px_void_filled_sea: int
     px_from_points: int
     has_land: bool
@@ -135,15 +142,21 @@ def densify(z: np.ndarray, valid: np.ndarray, transform, shape: tuple[int, int],
     ok &= d <= IDW_RADIUS_M
     if not ok.any():
         return z, stats
-    d = np.maximum(d, IDW_MIN_D_M)
-    wgt = np.where(ok, ((IDW_RADIUS_M - d) / (IDW_RADIUS_M * d)) ** 2, 0.0)
+    dc = np.maximum(d, IDW_MIN_D_M)
+    wgt = np.where(ok, ((IDW_RADIUS_M - dc) / (IDW_RADIUS_M * dc)) ** 2, 0.0)
+    # partition-of-unity blend so a lone point does not leave a step at the radius: the correction is the
+    # IDW mean of the accepted dz multiplied by alpha = min(1, sum (1 - d/R)^2), which is 1 at a survey
+    # point and 0 at 15 m from every point.
+    phi = np.where(ok, (1.0 - d / IDW_RADIUS_M) ** 2, 0.0)
     flat = (rr * w + cc)
     flat = np.where(ok, flat, 0)
     n = h * w
     wsum = np.bincount(flat.ravel(), weights=wgt.ravel(), minlength=n)
     dsum = np.bincount(flat.ravel(), weights=(wgt * dz[:, None]).ravel(), minlength=n)
     zsum = np.bincount(flat.ravel(), weights=(wgt * pz[:, None]).ravel(), minlength=n)
+    asum = np.bincount(flat.ravel(), weights=phi.ravel(), minlength=n)
     wsum = wsum.reshape(h, w)
+    alpha = np.minimum(1.0, asum.reshape(h, w))
     got = wsum > 0
     corr = np.zeros((h, w), dtype=np.float64)
     np.divide(dsum.reshape(h, w), wsum, out=corr, where=got)
@@ -151,7 +164,7 @@ def densify(z: np.ndarray, valid: np.ndarray, transform, shape: tuple[int, int],
     np.divide(zsum.reshape(h, w), wsum, out=absz, where=got)
     out = z.copy()
     apply_corr = got & valid
-    out[apply_corr] += corr[apply_corr]
+    out[apply_corr] += (alpha * corr)[apply_corr]
     fill = got & ~valid
     out[fill] = absz[fill]
     stats["px_from_points"] = int(fill.sum())
@@ -180,7 +193,7 @@ def build_tile(tile: Tile, stack: DemStack, pts: PointIndex, hydro: HydroLayers,
         with open(json_path) as f:
             doc = json.load(f)
         return TileResult(tile.name, tile.tx, tile.ty, doc["z_min_m"], doc["z_max_m"], 0, 0, 0, 0, 0, 0,
-                          *[doc["px"].get(k, 0) for k in ("3dep_1m", "3dep_19", "3dep_13", "water", "deck", "seawall", "void_filled_sea", "from_points")],
+                          *[doc["px"].get(k, 0) for k in ("3dep_1m", "3dep_19", "3dep_13", "water", "deck", "seawall", "shore_edge", "void_filled_sea", "from_points")],
                           doc["has_land"], doc["has_water"], 0.0, png_path.stat().st_size)
 
     n = SAMPLES + 2 * MARGIN
@@ -191,13 +204,20 @@ def build_tile(tile: Tile, stack: DemStack, pts: PointIndex, hydro: HydroLayers,
     z = np.where(valid, z32.astype(np.float64), 0.0)
 
     z, dstats = densify(z, valid, tr, (n, n), pts, bounds)
+    valid_dem = valid.copy()
 
     th = hydro.tile(tr, (n, n), bounds)
+    z_land = z.copy()
     is_water = np.isfinite(th.water_z)
     z = np.where(is_water, th.water_z.astype(np.float64), z)
     valid |= is_water
     is_wall = np.isfinite(th.seawall_z) & is_water
     z = np.where(is_wall, th.seawall_z.astype(np.float64), z)
+    # the planimetric shoreline is a hard edge: a shoreline sample that the DEM puts above the water plane
+    # keeps its ground elevation, so the land/water transition is one 2 m sample wide instead of a ramp.
+    is_shore = (th.shore_edge & is_water & valid_dem
+                & (z_land > z + SHORE_MIN_RISE_M) & (z_land <= z + SHORE_MAX_RISE_M))
+    z = np.where(is_shore, z_land, z)
     is_deck = np.isfinite(th.deck_z)
     z = np.where(is_deck, th.deck_z.astype(np.float64), z)
     valid |= is_deck
@@ -223,10 +243,12 @@ def build_tile(tile: Tile, stack: DemStack, pts: PointIndex, hydro: HydroLayers,
     water_c = is_water[core, core]
     deck_c = is_deck[core, core]
     wall_c = is_wall[core, core]
+    shore_c = is_shore[core, core]
     void_c = void[core, core]
-    land_c = ~water_c & ~void_c  # a sample filled from the tidal datum is open Atlantic, not land
+    land_c = (~water_c | shore_c) & ~void_c  # a sample filled from the tidal datum is open Atlantic, not land
     px = {"3dep_1m": int((code_c == 1).sum()), "3dep_19": int((code_c == 2).sum()), "3dep_13": int((code_c == 3).sum()),
           "water": int(water_c.sum()), "deck": int(deck_c.sum()), "seawall": int(wall_c.sum()),
+          "shore_edge": int(shore_c.sum()),
           "void_filled_sea": int(void_c.sum()), "from_points": int(dstats["px_from_points"])}
     sources = [CODE_NAME[c] for c in (1, 2, 3) if px[CODE_NAME[c]] > 0]
     if dstats["used_spot"]:
@@ -255,7 +277,7 @@ def build_tile(tile: Tile, stack: DemStack, pts: PointIndex, hydro: HydroLayers,
     return TileResult(tile.name, tile.tx, tile.ty, doc["z_min_m"], doc["z_max_m"], dstats["n_points"],
                       dstats["rejected_spot"], dstats["rejected_bldg"], dstats["used_spot"], dstats["used_bldg"],
                       dstats["no_basis"], px["3dep_1m"], px["3dep_19"], px["3dep_13"], px["water"], px["deck"],
-                      px["seawall"], px["void_filled_sea"], px["from_points"], doc["has_land"], doc["has_water"],
+                      px["seawall"], px["shore_edge"], px["void_filled_sea"], px["from_points"], doc["has_land"], doc["has_water"],
                       round(time.time() - t0, 3), png_bytes)
 
 
@@ -301,7 +323,7 @@ def build_all(tiles: list[Tile], workers: int = 2, overwrite: bool = True, progr
         "schema_version": 1, "tiles": len(results), "written": len(ok), "failed": len(bad), "failures": bad[:50],
         "seconds": round(time.time() - t0, 1),
         "z_min": min((r["z_min"] for r in ok), default=None), "z_max": max((r["z_max"] for r in ok), default=None),
-        "px": {k: int(sum(r[k] for r in ok)) for k in ("px_1m", "px_19", "px_13", "px_water", "px_deck", "px_seawall", "px_void_filled_sea", "px_from_points")},
+        "px": {k: int(sum(r[k] for r in ok)) for k in ("px_1m", "px_19", "px_13", "px_water", "px_deck", "px_seawall", "px_shore_edge", "px_void_filled_sea", "px_from_points")},
         "points": {k: int(sum(r[k] for r in ok)) for k in ("n_used_spot", "n_used_bldg", "n_rejected_spot", "n_rejected_bldg", "n_no_basis")},
         "tiles_with_land": int(sum(1 for r in ok if r["has_land"])),
         "tiles_with_water": int(sum(1 for r in ok if r["has_water"])),

@@ -8,9 +8,11 @@ Rules applied
   |d| > 150 U-turn. At degree-2 nodes the single continuation is always "straight".
 * Left turns leave from the leftmost lane (or the centre-turn lane), right turns from the rightmost lane,
   straight lanes map proportionally; the target lanes fan out when the receiving street has more lanes.
-* U-turns: never at signalised nodes (NYC rule), never on one-way streets, otherwise only where the two-way
-  street is >= 9 m wide and the node has >= 3 legs. A turnaround connector is added at real cul-de-sacs
-  (degree-1 node, two-way street) so traffic can leave; they are counted separately.
+* U-turns: never at signalised nodes (NYC Traffic Rules 4-07(b)), never on one-way streets, otherwise only
+  where the node has >= 3 legs and the two-way street is at least as wide as the fleet's worst curb-to-curb
+  turning circle (11.6 m, the real 2019 Ford Fusion figure from ADR-009), so a connector exists only where a
+  car can physically complete the manoeuvre in one movement. A turnaround connector is added at real
+  cul-de-sacs (degree-1 node, two-way street) so traffic can leave; they are counted separately.
 * Ramps: at a node where a ramp meets a highway, street <-> highway connections are forbidden (traffic must use
   the ramp); ramp <-> highway merges use the outer lane on the ramp's side.
 * OSM ``type=restriction`` relations (via node) are mapped onto (node, from_segment, to_segment) pairs by
@@ -37,7 +39,7 @@ log = logging.getLogger("nycsim.roads.junctions")
 
 STRAIGHT_DEG = 30.0
 UTURN_DEG = 150.0
-UTURN_MIN_WIDTH_M = 9.0
+UTURN_MIN_WIDTH_M = 11.6   # 2019 Ford Fusion curb-to-curb turning circle (ADR-009): the fleet's U-turn width
 RESTRICTION_SNAP_M = 15.0
 RESTRICTION_HEADING_TOL = 35.0
 CONNECTOR_POINTS = 6

@@ -15,9 +15,13 @@ Two products, both keyed by ``(location_id, hour, dow)`` where ``dow`` is 0 week
            unbiased first-order allocation and is stated as an approximation in METHOD.md).
            Non-revenue (deadhead / cruising) kilometres are added by ``shares`` using the published
            occupancy ratios, because the trip records only contain occupied trips.
-``speed``  distance-weighted mean journey speed (km/h) over trips that *start* in the zone.  This is
-           a door-to-door speed and therefore already contains signal, queueing and kerb-manoeuvre
-           delay: exactly the space-mean speed the density conversion needs.
+``speed``  distance-weighted mean journey speed (km/h) over *short* trips (<= 3 km) that start in the
+           zone.  A door-to-door speed already contains signal, queueing and kerb-manoeuvre delay —
+           exactly the space-mean speed the density conversion needs — and the 3 km cap keeps the
+           trip on the surface streets around the pick-up zone instead of letting a run to an airport
+           over the expressways inflate the local speed.  (Midtown zones, weekday: 22.5 km/h at 00:00
+           and 12.0 km/h at 16:00 with no cap; 16.4 and 8.9 km/h with it — the latter matches the
+           NYC DOT Mobility Report's 4-5 mph Midtown core travel speeds.)
 """
 from __future__ import annotations
 
@@ -40,6 +44,8 @@ MILE_KM = 1.609344
 MIN_KM, MAX_KM = 0.3, 60.0
 MIN_MIN, MAX_MIN = 1.0, 180.0
 MIN_KMH, MAX_KMH = 1.5, 110.0
+# A trip longer than this is assumed to leave the pick-up zone's street network (expressway, bridge).
+LOCAL_TRIP_MAX_KM = 3.0
 
 SOURCES: dict[str, tuple[str, str, str, str, str, str]] = {
     # id: (file, pickup col, dropoff col, PU col, DO col, distance col [miles])
@@ -118,7 +124,7 @@ def aggregate(dir_: Path = TLC_DIR, *, services: tuple[str, ...] = ("yellow", "g
              .with_columns(pl.lit(svc).alias("service")).collect(engine="streaming"))
         n_used[svc] = int(round(float(v["trips"].sum())))
         vkm_parts.append(v)
-        s = (lf.group_by(["pu", "hour", "dow"])
+        s = (lf.filter(pl.col("km") <= LOCAL_TRIP_MAX_KM).group_by(["pu", "hour", "dow"])
              .agg(pl.col("km").sum().alias("trip_km"), (pl.col("minutes").sum() / 60.0).alias("trip_h"),
                   pl.len().alias("n_trips"))
              .rename({"pu": "location_id"}).collect(engine="streaming"))
@@ -137,9 +143,11 @@ def aggregate(dir_: Path = TLC_DIR, *, services: tuple[str, ...] = ("yellow", "g
            .agg(pl.col("trip_km").sum(), pl.col("trip_h").sum(), pl.col("n_trips").sum())
            .with_columns((pl.col("trip_km") / pl.col("trip_h")).alias("speed_kmh"))
            .sort(["location_id", "dow", "hour"]))
-    log.info("TLC totals: %s trips/day, %.0f revenue veh-km/day; day counts %s; citywide mean journey speed %.1f km/h",
-             {k: round(float(vkm.filter(pl.col("service") == k)["trips_per_day"].sum())) for k in services},
-             float(vkm["vkm_per_day"].sum()), day_counts,
+    wd = vkm.filter(pl.col("dow") == 0)
+    log.info("TLC totals: %s trips per average weekday, %.0f revenue veh-km per average weekday; day counts %s; "
+             "citywide mean local (<= %.0f km) journey speed %.1f km/h",
+             {k: round(float(wd.filter(pl.col("service") == k)["trips_per_day"].sum())) for k in services},
+             float(wd["vkm_per_day"].sum()), day_counts, LOCAL_TRIP_MAX_KM,
              float(spd["trip_km"].sum() / spd["trip_h"].sum()))
     return TlcAggregate(vkm, spd, day_counts, n_read, n_used)
 

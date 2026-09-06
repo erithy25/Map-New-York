@@ -2,11 +2,11 @@
 
 The stage **extends** every ``tiles/{tile}/buildings.parquet`` written by the buildings stage: the buildings columns
 (DATA_CONTRACTS §5 subset + §5.2 extension) are kept byte-for-byte, the sixteen §5 columns the buildings stage deferred
-are filled, and a documented §5.3 block of facade-provenance columns is appended.  The parquet metadata keys
+are filled, and a documented §5.4 block of facade-provenance columns is appended.  The parquet metadata keys
 ``nycsim.schema`` (``buildings/1``), ``nycsim.tile`` and the GeoParquet ``geo`` block are preserved so the buildings
 stage's own tests keep passing; the facade stage adds its own ``nycsim.facade.*`` keys.
 
-## DATA_CONTRACTS §5.3 — facade stage extension columns (appended section)
+## DATA_CONTRACTS §5.4 — facade stage extension columns (appended section)
 
 | column | type | meaning |
 |---|---|---|
@@ -53,7 +53,7 @@ CONTRACT_FILLED: list[tuple[str, pa.DataType]] = [
     ("street_segment_id", pa.int64()),
 ]
 
-#: DATA_CONTRACTS §5.3 — facade provenance columns appended by this stage.
+#: DATA_CONTRACTS §5.4 — facade provenance columns appended by this stage.
 EXTENSION: list[tuple[str, pa.DataType]] = [
     ("facade_rule", pa.int16()),
     ("material_source", pa.int8()),
@@ -79,10 +79,16 @@ ADDED_COLUMNS: list[tuple[str, pa.DataType]] = CONTRACT_FILLED + EXTENSION
 ADDED_NAMES: list[str] = [c for c, _ in ADDED_COLUMNS]
 
 #: Columns of ``facade_attrs.parquet`` (the whole-city intermediate joined onto the tiles by ``bin``).
-ATTRS_COLUMNS: list[tuple[str, pa.DataType]] = [("bin", pa.int64())] + ADDED_COLUMNS + [
+ATTRS_COLUMNS: list[tuple[str, pa.DataType]] = [
+    ("tile", pa.string()), ("row", pa.int32()), ("bin", pa.int64()),
+] + ADDED_COLUMNS + [
     ("osm_id", pa.int64()),
     ("fidelity", pa.uint16()),
 ]
+#: Join key of every facade intermediate. ``bin`` is *almost* unique (8 rows share the three borough-placeholder
+#: BINs 2000000/3000000/4000000), so the exact key is the row's position inside its tile file — both the buildings
+#: stage and this stage sort by ``(tile, bin, part_index)``, so the position is stable.
+JOIN_KEY: list[str] = ["tile", "row"]
 
 
 def attrs_schema(extra_meta: dict[str, str] | None = None) -> pa.Schema:
@@ -94,7 +100,7 @@ def attrs_schema(extra_meta: dict[str, str] | None = None) -> pa.Schema:
 
 #: Columns of ``geom_attrs.parquet`` (the whole-city footprint geometry summary).
 GEOM_COLUMNS: list[tuple[str, pa.DataType]] = [
-    ("bin", pa.int64()),
+    ("tile", pa.string()), ("row", pa.int32()), ("bin", pa.int64()),
     ("attached", pa.int16()),
     ("n_free_runs", pa.int16()),
     ("free_perimeter_m", pa.float32()),
@@ -114,7 +120,7 @@ def geom_schema(extra_meta: dict[str, str] | None = None) -> pa.Schema:
 
 #: Columns of the cached per-run edge files ``facade/edges/{group}.parquet`` (deleted after the emit pass).
 EDGE_COLUMNS: list[tuple[str, pa.DataType]] = [
-    ("bin", pa.int64()),
+    ("tile", pa.string()), ("row", pa.int32()), ("bin", pa.int64()),
     ("x0", pa.float64()), ("y0", pa.float64()), ("x1", pa.float64()), ("y1", pa.float64()),
     ("length", pa.float32()), ("nx", pa.float32()), ("ny", pa.float32()), ("heading", pa.float32()),
     ("is_party", pa.bool_()), ("is_street", pa.bool_()), ("street_segment_id", pa.int64()),

@@ -530,34 +530,111 @@ def sun_rise_transit_set(date_utc: _dt.date, observer: Observer = CENTRAL_PARK, 
         frac = m[i] + (h_alt[i] - h0_deg) / (360.0 * math.cos(dp_list[i] * DEG) * math.cos(lat * DEG) * math.sin(h_prime[i] * DEG))
         results.append(frac)
 
-    def to_dt(frac: float | None) -> _dt.datetime | None:
-        if frac is None:
-            return None
-        return timesync.datetime_from_julian_day(jd0 + frac)
+    def to_unix(frac: float | None) -> float | None:
+        return None if frac is None else timesync.unix_from_julian_day(jd0 + frac)
 
-    return SunEvents(date_utc, to_dt(results[1]), to_dt(results[0]), to_dt(results[2]), h0_deg)
+    def to_dt(u: float | None) -> _dt.datetime | None:
+        return None if u is None else _dt.datetime.fromtimestamp(u, tz=_dt.timezone.utc)
+
+    # A.2 is a single Newton step from an approximate start and is good to only ~30 s; refine each event on
+    # the full SPA position so the result is exact (< 0.1 s) and matches USNO's tables.
+    transit = refine_transit(to_unix(results[0]), observer, delta_t_s)
+    rise = refine_altitude_crossing(to_unix(results[1]), observer, delta_t_s, h0_deg, rising=True)
+    setting = refine_altitude_crossing(to_unix(results[2]), observer, delta_t_s, h0_deg, rising=False)
+    return SunEvents(date_utc, to_dt(rise), to_dt(transit), to_dt(setting), h0_deg)
 
 
-def sun_events_local(local_date: _dt.date, observer: Observer = CENTRAL_PARK, h0_deg: float = RISE_SET_H0_DEG) -> SunEvents:
-    """Rise/transit/set that fall on a New York *local* calendar day.
+def geometric_altitude(unix_s: float, observer: Observer, delta_t_s: float) -> float:
+    """Geocentric, unrefracted altitude of the Sun's centre — the quantity SPA A.2 compares with ``h0``.
 
-    The UT day whose events are searched is chosen so that the returned instants, converted to
-    America/New_York, fall on ``local_date`` (NYC is UTC−4/−5, so the local day's sunset can fall on the
-    next UT day). Each of the three events is validated independently.
+    Neither refraction nor the observer's parallax/height enters: that is the definition behind the
+    conventional −0.8333° horizon and behind the USNO rise/set tables.
+    """
+    g = geocentric_sun(timesync.julian_day_from_unix(unix_s), delta_t_s)
+    h = observer_hour_angle(g.nu, observer.longitude_deg, g.alpha)
+    return topocentric_elevation_angle(observer.latitude_deg, g.delta, h)
+
+
+def local_hour_angle(unix_s: float, observer: Observer, delta_t_s: float) -> float:
+    """Local hour angle of the Sun in (−180, 180]; zero exactly at transit, +15°/h."""
+    g = geocentric_sun(timesync.julian_day_from_unix(unix_s), delta_t_s)
+    return limit_degrees180pm(observer_hour_angle(g.nu, observer.longitude_deg, g.alpha))
+
+
+REFINE_WINDOW_S: Final = 1800.0
+REFINE_TOLERANCE_S: Final = 0.05
+
+
+def refine_altitude_crossing(unix_s: float | None, observer: Observer, delta_t_s: float, h0_deg: float, rising: bool) -> float | None:
+    """Bisect the geometric altitude onto ``h0_deg`` within ±30 min of the A.2 estimate.
+
+    Returns the A.2 estimate unchanged if the window does not bracket a crossing (only possible within a
+    few minutes of a polar rise/set degeneracy, where A.2 itself is the better-behaved answer)."""
+    if unix_s is None:
+        return None
+    lo, hi = unix_s - REFINE_WINDOW_S, unix_s + REFINE_WINDOW_S
+    f = lambda t: geometric_altitude(t, observer, delta_t_s) - h0_deg  # noqa: E731
+    flo, fhi = f(lo), f(hi)
+    if rising:
+        if not (flo < 0.0 < fhi):
+            return unix_s
+    elif not (flo > 0.0 > fhi):
+        return unix_s
+    while hi - lo > REFINE_TOLERANCE_S:
+        mid = 0.5 * (lo + hi)
+        fm = f(mid)
+        if (fm < 0.0) == rising:
+            lo = mid
+        else:
+            hi = mid
+    return 0.5 * (lo + hi)
+
+
+def refine_transit(unix_s: float | None, observer: Observer, delta_t_s: float) -> float | None:
+    """Bisect the local hour angle onto zero within ±30 min of the A.2 estimate."""
+    if unix_s is None:
+        return None
+    lo, hi = unix_s - REFINE_WINDOW_S, unix_s + REFINE_WINDOW_S
+    f = lambda t: local_hour_angle(t, observer, delta_t_s)  # noqa: E731
+    if not (f(lo) < 0.0 < f(hi)):
+        return unix_s
+    while hi - lo > REFINE_TOLERANCE_S:
+        mid = 0.5 * (lo + hi)
+        if f(mid) < 0.0:
+            lo = mid
+        else:
+            hi = mid
+    return 0.5 * (lo + hi)
+
+
+def sun_events_at_offset(local_date: _dt.date, observer: Observer, utc_offset_s: int, h0_deg: float = RISE_SET_H0_DEG) -> SunEvents:
+    """Rise/transit/set that fall on a *local* calendar day for an observer on a fixed UTC offset.
+
+    :func:`sun_rise_transit_set` returns the events of a **UT** day; west of Greenwich the evening sunset of
+    a local day usually falls just after 00 UT of the next UT day, so both candidate UT days are evaluated
+    and each event is kept only if it lands on ``local_date`` in local time. This is the function the SPA
+    Appendix A.5 reference case exercises (offset −7 h).
     """
     out: dict[str, _dt.datetime | None] = {"sunrise": None, "transit": None, "sunset": None}
+    tz = _dt.timezone(_dt.timedelta(seconds=utc_offset_s))
     for offset in (0, 1):
         ev = sun_rise_transit_set(local_date + _dt.timedelta(days=offset), observer, h0_deg=h0_deg)
         for key in ("sunrise", "transit", "sunset"):
             t = getattr(ev, key)
             if t is None or out[key] is not None:
                 continue
-            off, _ = timesync.nyc_offset(t.timestamp())
-            if (t + _dt.timedelta(seconds=off)).date() == local_date:
+            if t.astimezone(tz).date() == local_date:
                 out[key] = t
-    if out["transit"] is None:  # cannot happen at NYC latitude; keep the UT-day value rather than fail
+    if out["transit"] is None:  # only at |lat| > 89.x deg; keep the UT-day value rather than fail
         out["transit"] = sun_rise_transit_set(local_date, observer, h0_deg=h0_deg).transit
     return SunEvents(local_date, out["sunrise"], out["transit"], out["sunset"], h0_deg)
+
+
+def sun_events_local(local_date: _dt.date, observer: Observer = CENTRAL_PARK, h0_deg: float = RISE_SET_H0_DEG) -> SunEvents:
+    """Rise/transit/set on a New York *local* calendar day (EST/EDT resolved from the date itself)."""
+    noon = timesync.unix_from_civil_utc(local_date.year, local_date.month, local_date.day, 17)
+    off, _ = timesync.nyc_offset(noon)
+    return sun_events_at_offset(local_date, observer, off, h0_deg)
 
 
 # --------------------------------------------------------------------------- Moon (Meeus ch. 47/48)
@@ -715,7 +792,13 @@ def moon_illumination(moon: MoonGeocentric, sun: GeocentricSun) -> tuple[float, 
 
 
 def phase_name(elongation_deg: float) -> str:
-    """Eight-phase name from Moon−Sun elongation; principal phases get a ±11.25° window (1/16 of the cycle)."""
+    """Eight-phase name from the Moon−Sun elongation, each name owning an equal 45° octant of the cycle.
+
+    The four principal phases are centred on 0/90/180/270° and span ±22.5°, i.e. New Moon covers
+    elongation < 22.5° or > 337.5°, Waxing Crescent 22.5°–67.5°, First Quarter 67.5°–112.5°, and so on.
+    (USNO's own ``curphase`` instead names the principal phases only at their exact instants; the two
+    conventions disagree for a day either side of each principal phase.)
+    """
     idx = int(((elongation_deg + 22.5) % 360.0) // 45.0)
     return PHASE_NAMES[idx]
 

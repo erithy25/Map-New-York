@@ -303,3 +303,39 @@ def osm_polygon_local(way_id: int, frame: bc.LocalFrame) -> list[tuple[float, fl
 
 def env_only(name: str) -> bool:
     return os.environ.get(name, "").lower() in ("1", "true", "yes")
+
+
+# ------------------------------------------------------------------------------------------------ build driver
+
+
+def run_landmark(landmark_id: str, title: str, build_fn, *, bins: Sequence[int] = (), sections=None,
+                 renders: Sequence[dict] = (), budget_lod0: int = 250_000, budget_lod1: int = 60_000,
+                 argv: Sequence[str] | None = None) -> dict:
+    """Build LOD0 + LOD1, export both, render the verification views and write the per-landmark report.
+
+    ``build_fn(lod)`` returns ``(objects, extras)``; ``extras`` must carry the keys required by
+    :func:`b_common.finish` (origin_tm, heading_deg, height_m, fidelity_statement).  LOD1 is built first so the LOD0
+    scene is the one left in memory for the renders.  ``renders`` entries are dicts with ``view``, ``cam`` and
+    ``target`` (local-frame xyz), optionally ``fov_deg``, ``size``, ``sun_azimuth_deg``, ``sun_elevation_deg`` and
+    ``context`` (a sequence of ``(material, z, half_size)`` ground/water planes).
+    """
+    args = bc.cli_args(argv)
+    lods: dict[str, dict] = {}
+    if not args["lod0_only"]:
+        bc.new_scene()
+        objs1, extras1 = build_fn(1)
+        lods["lod1"] = bc.finish(objs1, landmark_id, bins, extras1, lod=1, budget_tris=budget_lod1)
+    bc.new_scene()
+    objs0, extras0 = build_fn(0)
+    lods["lod0"] = bc.finish(objs0, landmark_id, bins, extras0, lod=0, budget_tris=budget_lod0)
+    shots: list[Path] = []
+    if not args["no_render"]:
+        for r in renders:
+            shots.append(bc.render_check(landmark_id, r["view"], r["cam"], r["target"], fov_deg=r.get("fov_deg", 50.0),
+                                         size=r.get("size", (1280, 720)), samples=args["samples"],
+                                         sun_azimuth_deg=r.get("sun_azimuth_deg", 220.0),
+                                         sun_elevation_deg=r.get("sun_elevation_deg", 35.0),
+                                         context_planes=r.get("context", ())))
+    if sections:
+        bc.write_report(landmark_id, title, sections, lods, shots)
+    return lods

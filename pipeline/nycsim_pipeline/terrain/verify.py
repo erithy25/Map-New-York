@@ -44,8 +44,8 @@ SEAM_TOL_M = 0.001
 
 # (name, lon, lat, expected low, expected high, note) — published elevations, metres NAVD88/MSL.
 KNOWN_POINTS = [
-    ("Todt Hill summit (Staten Island)", -74.09950, 40.59670, 118.0, 128.0,
-     "409.8 ft / 124.9 m — highest natural point on the Atlantic seaboard south of Maine"),
+    ("Todt Hill summit (Staten Island)", -74.11479, 40.60034, 118.0, 128.0,
+     "409.8 ft / 124.9 m published; highest natural point on the Atlantic seaboard south of Maine"),
     ("Battery Park (Manhattan south tip)", -74.01700, 40.70330, 1.5, 4.0, "waterfront park, 2-3 m above the tidal datum"),
     ("Fort Tryon Park high point", -73.93190, 40.85930, 68.0, 84.0, "~250 ft / 76 m, highest natural ground in Manhattan"),
     ("Brooklyn Heights Promenade", -73.99750, 40.69630, 11.0, 19.0, "cantilevered esplanade ~15 m above the East River"),

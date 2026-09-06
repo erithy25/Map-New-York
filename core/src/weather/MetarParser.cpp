@@ -851,9 +851,10 @@ double intensityRateMmph(PrecipType type, Intensity intensity) {
 
 void classifyPrecipitation(const std::vector<WeatherGroup>& groups, double tempC, PrecipType& type,
                            Intensity& intensity) {
+  // Mirrors weather.py classify_precipitation: the initial best is (none, moderate); a strictly
+  // higher-ranked kind wins, an equal kind wins on the higher intensity class.
   type = PrecipType::None;
   intensity = Intensity::Moderate;
-  bool haveBest = false;
   for (const WeatherGroup& g : groups) {
     if (!g.precipitating()) continue;
     const uint32_t ph = g.phenomena;
@@ -874,15 +875,10 @@ void classifyPrecipitation(const std::vector<WeatherGroup>& groups, double tempC
     } else {
       continue;
     }
-    if (!haveBest || precipTypeRank(kind) > precipTypeRank(type) ||
+    if (precipTypeRank(kind) > precipTypeRank(type) ||
         (kind == type && intensityRank(g.intensity) > intensityRank(intensity))) {
-      // Mirrors weather.py: a strictly higher-ranked kind wins; an equal kind wins on intensity.
-      if (!haveBest || precipTypeRank(kind) > precipTypeRank(type) ||
-          (kind == type && intensityRank(g.intensity) > intensityRank(intensity))) {
-        type = kind;
-        intensity = g.intensity;
-        haveBest = true;
-      }
+      type = kind;
+      intensity = g.intensity;
     }
   }
 }

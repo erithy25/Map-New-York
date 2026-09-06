@@ -1,0 +1,246 @@
+{
+ "schema_version": 1,
+ "slug": "top_of_the_rock_south",
+ "name": "Top of the Rock looking south (Empire State Building centred)",
+ "group": "viewpoint",
+ "viewpoint": {
+  "lat": 40.7593,
+  "lon": -73.9789,
+  "azimuth_deg": 205.2,
+  "note": "Top of the Rock observation deck (70th floor of 30 Rockefeller Plaza), south parapet",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.74844,
+  "lon": -73.98566,
+  "name": "Empire State Building"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2014,
+ "wanted": 4,
+ "queries": [
+  "\"Top of the Rock\" Empire State Building view south",
+  "view from Top of the Rock Empire State Building Midtown"
+ ],
+ "geosearch_radius_m": 80,
+ "fetched_at": "2026-09-06T11:40:44Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query list=search / list=geosearch / prop=imageinfo)",
+ "candidates_seen": 116,
+ "candidates_eligible": 6,
+ "rejections": {
+  "keywords": 60,
+  "too_old": 6,
+  "night_for_day_item": 21,
+  "too_small": 3,
+  "excluded": 1,
+  "not_photo": 3
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:NYC - Top of the Rock - view of Midtown South Central – Empire State Buildung - panoramio (1).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:NYC_-_Top_of_the_Rock_-_view_of_Midtown_South_Central_%E2%80%93_Empire_State_Buildung_-_panoramio_(1).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/f0/NYC_-_Top_of_the_Rock_-_view_of_Midtown_South_Central_%E2%80%93_Empire_State_Buildung_-_panoramio_%281%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/NYC_-_Top_of_the_Rock_-_view_of_Midtown_South_Central_%E2%80%93_Empire_State_Buildung_-_panoramio_%281%29.jpg/1920px-NYC_-_Top_of_the_Rock_-_view_of_Midtown_South_Central_%E2%80%93_Empire_State_Buildung_-_panoramio_%281%29.jpg",
+   "author": "giggel",
+   "credit": "https://web.archive.org/web/20161031101824/http://www.panoramio.com/photo/127863949",
+   "license": {
+    "short_name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0",
+    "template": "cc-by-3.0"
+   },
+   "date_taken": "2016",
+   "date_source": "DateTimeOriginal",
+   "year": 2016,
+   "camera_gps": {
+    "lat": 40.759297,
+    "lon": -73.979478
+   },
+   "original_width": 4000,
+   "original_height": 3000,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 892840,
+   "sha256": "6cc757b900b1cd0885ce9c438fa3aec0543434960541c04761982f829ed39c71",
+   "mean_luminance": 115.3,
+   "description": "NYC - Top of the Rock - view of Midtown South Central – Empire State Building",
+   "categories": [
+    "W. R. Grace Building",
+    "500 Fifth Avenue",
+    "Top of the Rock",
+    "Panoramio files uploaded by Panoramio upload bot",
+    "Panoramio images reviewed by trusted users",
+    "Photos from Panoramio",
+    "Files with coordinates missing SDC location of creation",
+    "Empire State Building in 2016",
+    "Empire State Building from Rockefeller Center",
+    "Photos from Panoramio ID 1368505"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Top of the Rock\" Empire State Building view south",
+   "score": 11.15,
+   "estimated_viewpoint": {
+    "lat": 40.759297,
+    "lon": -73.979478,
+    "azimuth_deg": 203.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75930, -73.97948) is 1315 m from Empire State Building (40.74844, -73.98566) and 49 m from the standard viewpoint; the azimuth 203 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"NYC - Top of the Rock - view of Midtown South Central – Empire State Buildung - panoramio (1).jpg\" by giggel, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:NYC_-_Top_of_the_Rock_-_view_of_Midtown_South_Central_%E2%80%93_Empire_State_Buildung_-_panoramio_(1).jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Prospect (234447291).jpeg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Prospect_(234447291).jpeg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Prospect_%28234447291%29.jpeg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Prospect_%28234447291%29.jpeg/960px-Prospect_%28234447291%29.jpeg",
+   "author": "Michael Mommert",
+   "credit": "Imported from 500px ( archived version ) by the Archive Team . ( detail page )",
+   "license": {
+    "short_name": "CC BY-SA 3.0",
+    "url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "template": "cc-by-sa-3.0"
+   },
+   "date_taken": "2017",
+   "date_source": "DateTimeOriginal",
+   "year": 2017,
+   "camera_gps": {
+    "lat": 40.758974,
+    "lon": -73.979483
+   },
+   "original_width": 1174,
+   "original_height": 2048,
+   "width": 960,
+   "height": 1675,
+   "bytes": 514966,
+   "sha256": "3b45e0f57c0e5c432a878c61e72a4f5acc8a673873f2abf432db325330eff78a",
+   "mean_luminance": 126.2,
+   "description": "500px provided description: Prospect [#city ,#building ,#view ,#skyline ,#skyscraper ,#haze ,#prospect ,#New York ,#New York City ,#Manhattan ,#Rockefeller Center ,#Empire State ,#Downtown ,#Midtown ,#Top of the Rock ,#International Gem Tower]",
+   "categories": [
+    "Midtown Manhattan",
+    "Files with coordinates missing SDC location of creation",
+    "Photos imported with import-500px"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:view from Top of the Rock Empire State Building Midtown",
+   "score": 9.8,
+   "estimated_viewpoint": {
+    "lat": 40.758974,
+    "lon": -73.979483,
+    "azimuth_deg": 204.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75897, -73.97948) is 1282 m from Empire State Building (40.74844, -73.98566) and 61 m from the standard viewpoint; the azimuth 204 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Prospect (234447291).jpeg\" by Michael Mommert, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Prospect_(234447291).jpeg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:View-from-Empire-State-Building.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:View-from-Empire-State-Building.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/59/View-from-Empire-State-Building.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/View-from-Empire-State-Building.jpg/1920px-View-from-Empire-State-Building.jpg",
+   "author": "Sebring12Hrs",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018-10-25 13:05:58",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": null,
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 449810,
+   "sha256": "b0c9a9bd6a1c38b6af7d434471d5377afd12c5f7fc16d9798dfbb8a446ba4288",
+   "mean_luminance": 117.4,
+   "description": "Looking south from the Top of the Rock toward the Empire State Building .",
+   "categories": [
+    "Self-published work",
+    "Empire State Building in 2018",
+    "Empire State Building from Rockefeller Center"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Top of the Rock\" Empire State Building view south",
+   "score": 8.95,
+   "estimated_viewpoint": {
+    "lat": 40.7593,
+    "lon": -73.9789,
+    "azimuth_deg": 205.2,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Top of the Rock observation deck (70th floor of 30 Rockefeller Plaza), south parapet) and the azimuth 205 deg is the bearing from there to Empire State Building (40.74844, -73.98566)."
+   },
+   "attribution": "\"View-from-Empire-State-Building.jpg\" by Sebring12Hrs, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:View-from-Empire-State-Building.jpg"
+  },
+  {
+   "n": 4,
+   "file": "4.jpg",
+   "title": "File:NYC - Top of the Rock - view of Midtown South Central – Empire State Buildung - panoramio.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:NYC_-_Top_of_the_Rock_-_view_of_Midtown_South_Central_%E2%80%93_Empire_State_Buildung_-_panoramio.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/NYC_-_Top_of_the_Rock_-_view_of_Midtown_South_Central_%E2%80%93_Empire_State_Buildung_-_panoramio.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/NYC_-_Top_of_the_Rock_-_view_of_Midtown_South_Central_%E2%80%93_Empire_State_Buildung_-_panoramio.jpg/1920px-NYC_-_Top_of_the_Rock_-_view_of_Midtown_South_Central_%E2%80%93_Empire_State_Buildung_-_panoramio.jpg",
+   "author": "giggel",
+   "credit": "https://web.archive.org/web/20161102050815/http://www.panoramio.com/photo/127863675",
+   "license": {
+    "short_name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0",
+    "template": "cc-by-3.0"
+   },
+   "date_taken": "2016",
+   "date_source": "DateTimeOriginal",
+   "year": 2016,
+   "camera_gps": {
+    "lat": 40.759306,
+    "lon": -73.979506
+   },
+   "original_width": 3000,
+   "original_height": 4000,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1533065,
+   "sha256": "736585187324c474aa418ab8bf664d568102a2c0e44cece2d5c6d98a922356e5",
+   "mean_luminance": 143.4,
+   "description": "NYC - Top of the Rock - view of Midtown South Central – Empire State Buildung",
+   "categories": [
+    "Panoramio files uploaded by Panoramio upload bot",
+    "Panoramio images reviewed by trusted users",
+    "Photos from Panoramio",
+    "Lower Manhattan skylines",
+    "Midtown Manhattan skylines",
+    "Files with coordinates missing SDC location of creation",
+    "Empire State Building in 2016",
+    "Empire State Building from Rockefeller Center",
+    "Photos from Panoramio ID 1368505"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Top of the Rock\" Empire State Building view south",
+   "score": 11.15,
+   "estimated_viewpoint": {
+    "lat": 40.759306,
+    "lon": -73.979506,
+    "azimuth_deg": 203.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75931, -73.97951) is 1315 m from Empire State Building (40.74844, -73.98566) and 51 m from the standard viewpoint; the azimuth 203 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"NYC - Top of the Rock - view of Midtown South Central – Empire State Buildung - panoramio.jpg\" by giggel, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:NYC_-_Top_of_the_Rock_-_view_of_Midtown_South_Central_%E2%80%93_Empire_State_Buildung_-_panoramio.jpg"
+  }
+ ]
+}

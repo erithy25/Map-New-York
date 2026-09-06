@@ -73,3 +73,14 @@ Decision:
 5. The inferred roof keeps the measured mean roof height: eave at `z_roof_max + roof_eave_dz_m`, ridge at `z_roof_max + roof_ridge_dz_m`, symmetric about the LiDAR plane, nominal pitch 30° with the rise clamped to [0.9, 3.0] m.
 
 Consequences: 44.9 % of NYC buildings get a pitched roof (Manhattan 0.5 %, Bronx 33 %, Brooklyn 25 %, Queens 58 %, Staten Island 72 % — the expected borough profile), every one of them flagged `roof_inferred`. Roughly 17 % of them are wrong (mostly flat roofs turned pitched) and about 70 % of genuinely pitched roofs are missed and stay flat. A later stage with a better source (a roof-shape classifier on the 2014 LiDAR point cloud, or bulk OSM `roof:shape` mapping) can replace source 2 without touching the contract. `roof_type == complex` still means "use the CityGML mesh" as §5 says; it now occurs only for the hand-modelled landmarks.
+
+## ADR-013 The city 3-D model carries roof *massing*, not roof *pitch* — pitched roofs are inferred and flagged
+Context: The NYC 3-D Building Model (`DA_WISE`, CityGML LOD2 from 2014 LiDAR) was adopted in ADR-003 as the source of real roof geometry. Measured over 395,891 parsed buildings across six delivery areas, only **28 buildings (0.007 %)** have any roof surface sloped more than 2°, while `n_roof_levels` averages 1.2–2.1 with maxima of 25–38. The dataset therefore represents every building as a stack of horizontal plates: setbacks, bulkheads, penthouses and mechanical levels are real and measured, but a gabled Queens house is modelled as a flat-topped prism.
+
+Decision:
+* Keep the dataset as the source of truth for roof **height, massing steps and setbacks**, and set `ROOF_REAL` for those buildings — that part is genuinely measured.
+* Do **not** claim measured roof shape. `roof_type` from CityGML is `flat` almost everywhere because the source says flat, not because the classifier failed.
+* For building classes that really have pitched roofs (PLUTO A0–A9 one-family, B1–B9 two-family, C0 walk-up, and detached S-class houses — concentrated in Queens, Staten Island and outer Brooklyn), derive the roof shape from building class, footprint aspect ratio and era, generate it in the shell mesh, and flag it `ROOF_INFERRED`. The measured `z_roof_max` is kept as the ridge height, so the building's overall height stays real.
+* Report both numbers separately in the fidelity report: buildings with measured roof massing, and buildings whose roof *shape* is inferred.
+
+Consequences: roof silhouettes in the outer boroughs are typologically correct rather than individually measured, and the report says so. The alternative — shipping half a million flat-topped boxes where real houses have gables — would be visually wrong and would misrepresent the data as complete. Closing this gap needs a source with real roof planes (an aerial photogrammetric mesh, or a re-derivation from the raw 2017 topobathymetric LiDAR point cloud).

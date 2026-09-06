@@ -209,3 +209,38 @@ Conventions used for §5 columns in these files: `floor_height` for single-store
 (the contract formula divides by `floors − 1`); `ground_floor_height` = `height` when `floors` = 1; `year_built` = 0 and
 `bldg_class` = "" / `land_use` = 0 / `address` = "" / `landmark_id` = "" mean unknown; `has_storefront` is set by PLUTO
 class/land-use/retail-area evidence on the primary building or by an attached real business name.
+
+## 5.3 Roof attributes — `buildings/roof_attrs.parquet` — APPENDED by the CityGML stage
+
+*Appended section. Written by `pipeline/nycsim_pipeline/buildings/citygml_join.py`
+(`python -m nycsim_pipeline citygml --join`). One row per distinct real BIN in `buildings_base.parquet`
+(borough-placeholder BINs `x000000` are excluded because they cannot key a join). Parquet metadata
+`nycsim.schema = "buildings_roof_attrs_v1"`, plus `nycsim.roof_attrs` with the enums, the inference rule and the
+build summary. This is the table that fills the §5 columns `roof_type` and `roof_mesh_ref` and sets the §5.1
+`ROOF_REAL` bit — see ADR-013 for why `roof_type` is not read straight out of CityGML. The buildings stage
+applies it with one call: `df = citygml_join.attach_roof_columns(df)`.*
+
+| column | type | meaning |
+|---|---|---|
+| bin | int64 | join key, unique |
+| roof_type | int8 | §5 enum, resolved by the `roof_type_source` precedence below |
+| n_roof_levels | int16 | distinct horizontal roof levels in the LOD2 solid (0 when no CityGML match) |
+| z_roof_max | float32 | highest CityGML roof vertex, m NAVD88; NaN when no match |
+| roof_mesh_ref | string | `t_{tx}_{ty}/roofs.glb#bin_{bin}` when a LOD2 solid exists, else `""` (tile = the footprint tile from `buildings_base`) |
+| citygml_match | bool | a CityGML LOD2 solid exists for this BIN — **this is the `ROOF_REAL` bit** |
+| dz_vs_footprint_m | float32 | `z_roof_max − (ground_z + height)`; NaN when no match |
+| roof_type_source | int8 | 0 citygml, 1 osm `roof:shape`, 2 inferred (PLUTO class + footprint/lot shape), 3 default flat |
+| roof_inferred | bool | `roof_type_source >= 2` |
+| roof_type_conf | float32 | measured precision of the source (1.0 real, 0.83 inferred, 0.0 default) |
+| roof_pitch_deg | float32 | inferred pitch, 0 when not an inferred pitched roof |
+| roof_ridge_deg | float32 | compass heading of the ridge line (0 = north), NaN when not pitched |
+| roof_eave_dz_m | float32 | eave offset from `z_roof_max` (≤ 0); the inferred roof is symmetric about the LiDAR plane |
+| roof_ridge_dz_m | float32 | ridge offset from `z_roof_max` (≥ 0) |
+| z_ground_min | float32 | lowest CityGML ground vertex, m NAVD88; NaN when no match |
+| tri_count | int32 | triangles in the LOD2 solid |
+| citygml_da | int8 | delivery area the solid came from, 0 when no match |
+| citygml_flags | uint16 | CityGML parser flag bitfield (`nycsim.citygml` metadata in `citygml/index.parquet`) |
+
+The LOD2 solids themselves stay in `buildings/citygml/da{n}.parquet` (schema `citygml_solids_v1`: per-BIN
+`tri_xyz` float32 blob + `tri_type`), with `buildings/citygml/index.parquet` (`citygml_index_v1`) as the
+city-wide per-BIN index. A later Blender stage turns the solids into `tiles/{tile}/roofs.glb`.

@@ -445,10 +445,13 @@ def build_roof_attrs(*, index_path: Path = INDEX_PATH, base_path: Path = BASE_PA
     os.replace(tmp, out_path)
     summary["path"] = str(out_path)
     if manifest:
-        record_processed("buildings_roof_attrs", out_path, stage="citygml", sources=["doitt_3d_citygml", "osm", "mappluto"],
-                         rows=table.num_rows, schema=SCHEMA_ID,
-                         extra={k: summary[k] for k in ("citygml_match", "citygml_match_rate", "roof_type_hist",
-                                                        "roof_type_source_hist")})
+        from .citygml import _locked      # the manifest is shared: serialise with the per-DA writers
+        with _locked(CITYGML_DIR):
+            record_processed("buildings_roof_attrs", out_path, stage="citygml",
+                             sources=["doitt_3d_citygml", "osm", "mappluto"],
+                             rows=table.num_rows, schema=SCHEMA_ID,
+                             extra={k: summary[k] for k in ("citygml_match", "citygml_match_rate",
+                                                            "roof_type_hist", "roof_type_source_hist")})
     summary_json = summary_json or (VERIFICATION / "citygml" / "roof_attrs_summary.json")
     summary_json.parent.mkdir(parents=True, exist_ok=True)
     with open(summary_json, "w") as f:

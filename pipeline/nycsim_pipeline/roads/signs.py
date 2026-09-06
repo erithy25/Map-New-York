@@ -184,8 +184,18 @@ def _dot_signs(df: pd.DataFrame, sf: _SegmentFrame, nodes: pd.DataFrame, seg: gp
     node_id, node_dist = ns.snap(pts, SNAP_NODE_M)
     st["snapped_to_node"] = int((node_id >= 0).sum())
 
+    # a sign more than SNAP_SEGMENT_M from every centreline cannot be placed against a street in the scene
+    # (private roads, marinas, airport aprons); it is dropped and counted rather than written with no anchor.
+    placeable = idx >= 0
+    st["dropped_no_segment_within_%dm" % int(SNAP_SEGMENT_M)] = int((~placeable).sum())
+    if not placeable.all():
+        df = df[placeable].reset_index(drop=True)
+        pts, idx, proj, dist = pts[placeable], idx[placeable], proj[placeable], dist[placeable]
+        node_id, node_dist = node_id[placeable], node_dist[placeable]
+    st["rows_written"] = int(len(df))
+
     seg_ids = seg["segment_id"].to_numpy()
-    segment_id = np.where(idx >= 0, seg_ids[np.maximum(idx, 0)], -1)
+    segment_id = seg_ids[idx]
 
     # facing: from the sign towards the roadway centreline
     v = proj[:, :2] - pts

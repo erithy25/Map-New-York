@@ -300,3 +300,43 @@ def build(inputs, seg: gpd.GeoDataFrame, nodes: pd.DataFrame, approaches: pd.Dat
     })
     log.info("pavement: %d rows across %d tiles in %.1fs", stats["rows"], stats["tiles"], time.time() - t0)
     return stats
+
+
+def main(argv: list[str] | None = None) -> int:
+    """Standalone re-runnable entry point: ``python -m nycsim_pipeline.roads.pavement``.
+
+    Reads the already-written ``segments.parquet``/``nodes.parquet`` so the pavement layer can be rebuilt (or
+    built after a ``--no-pavement`` run) without repeating the whole roads stage.
+    """
+    import argparse
+    import json
+    import logging as _logging
+
+    import geopandas as _gpd
+    import pandas as _pd
+
+    from ..paths import PROCESSED as _PROCESSED
+    from . import inputs as inputs_mod
+    from .signs import _approach_frames
+
+    ap = argparse.ArgumentParser(description="Build roads/pavement/{tile}.parquet from the planimetric sources")
+    ap.add_argument("--roads-dir", type=Path, default=_PROCESSED / "roads")
+    ap.add_argument("--out-dir", type=Path, default=None, help="default: <roads-dir>/pavement")
+    ap.add_argument("-v", "--verbose", action="store_true")
+    a = ap.parse_args(argv)
+    _logging.basicConfig(level=_logging.DEBUG if a.verbose else _logging.INFO,
+                         format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+    out_dir = a.out_dir or (a.roads_dir / "pavement")
+    seg = _gpd.read_parquet(a.roads_dir / "segments.parquet")
+    nodes = _pd.read_parquet(a.roads_dir / "nodes.parquet")
+    approaches = _approach_frames(seg)
+    st = build(inputs_mod.resolve(), seg, nodes, approaches, out_dir)
+    with open(a.roads_dir / "pavement_summary.json", "w") as f:
+        json.dump(st, f, indent=1)
+    print(json.dumps(st, indent=1))
+    return 0
+
+
+if __name__ == "__main__":
+    import sys as _sys
+    _sys.exit(main())

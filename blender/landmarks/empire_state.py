@@ -208,9 +208,9 @@ def main():
              tri_budget=C.TRI_BUDGET_LOD0_LARGE,
              material_slots={"ESB_CROWN": "emissive crown lighting (72nd-85th floor spandrels, setback floodlights, mast bands)"})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 150, "elevation_deg": "street", "distance": 210, "target_z": 150, "fov_deg": 62},
-        {"view": "aerial", "azimuth_deg": 215, "elevation_deg": 24, "distance": 900, "fov_deg": 36, "target_z": 205},
-        {"view": "skyline", "azimuth_deg": 160, "elevation_deg": 6, "distance": 1400, "fov_deg": 26, "target_z": 200},
+        {"view": "street", "azimuth_deg": 150, "elevation_deg": "street", "distance": 265, "target_z": 105, "fov_deg": 62},
+        {"view": "aerial", "azimuth_deg": 215, "elevation_deg": 24, "distance": 1250, "fov_deg": 40, "target_z": 215},
+        {"view": "skyline", "azimuth_deg": 160, "elevation_deg": 6, "distance": 1700, "fov_deg": 22, "target_z": 215},
     ])
 
 

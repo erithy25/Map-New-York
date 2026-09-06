@@ -58,7 +58,7 @@ UPLOAD_HOST = "https://upload.wikimedia.org/wikipedia/commons"
 CONTACT = os.environ.get("NYCSIM_CONTACT", "https://github.com/erithy25/Map-New-York")
 USER_AGENT = f"NYCSim-reference-fetch/1.0 ({CONTACT}) python-requests/{requests.__version__}"
 CA_BUNDLE = os.environ.get("REQUESTS_CA_BUNDLE") or os.environ.get("SSL_CERT_FILE") or True
-MIN_INTERVAL_S = 0.5  # <= 2 requests per second, API and file downloads combined
+MIN_INTERVAL_S = float(os.environ.get("NYCSIM_MIN_INTERVAL", "0.5"))  # <= 2 requests/s, API and downloads combined
 DEFAULT_MAX_WIDTH = 1920
 # Standard thumbnail widths served by upload.wikimedia.org; any other width returns HTTP 400.
 THUMB_BUCKETS = (250, 500, 960, 1280, 1920)
@@ -1339,15 +1339,18 @@ def thumb_url(original_url: str, width: int) -> str:
 def thumb_widths(max_width: int, original_width: int, min_width: int = 0) -> list[int]:
     """Thumbnail widths worth requesting for this file, largest first.
 
-    upload.wikimedia.org only renders the standard "bucket" widths and answers any other width
-    with HTTP 400 ("Use thumbnail sizes listed on https://w.wiki/GHai"), so an arbitrary
-    ``--max-width`` has to be rounded down to a bucket. A file already narrower than
-    ``max_width`` needs no rendition at all (empty list => download the original).
+    Two server-side constraints shape this list:
+
+    * upload.wikimedia.org renders only the standard "bucket" widths and answers any other width
+      with HTTP 400 ("Use thumbnail sizes listed on https://w.wiki/GHai"), so an arbitrary
+      ``--max-width`` has to be rounded down to a bucket;
+    * original-resolution files are rate-limited hard for unauthenticated clients (HTTP 429 with
+      ``Retry-After: 600``), so a rendition is requested even when the original is already within
+      ``max_width``. The original is only a last resort, for a file too narrow to have a usable
+      bucket below it.
     """
-    if original_width <= max_width:
-        return []
-    usable = [w for w in THUMB_BUCKETS if w <= max_width and w < original_width and w >= min_width]
-    return sorted(usable, reverse=True)
+    ceiling = min(max_width, original_width - 1)
+    return sorted((w for w in THUMB_BUCKETS if min_width <= w <= ceiling), reverse=True)
 
 
 def _term_re(term: str) -> re.Pattern[str]:
@@ -1622,8 +1625,13 @@ class Client:
             return doc
         raise CommonsError(f"giving up on API call after {self.attempts} attempts ({last})")
 
-    def get_bytes(self, url: str) -> bytes | None:
-        """Download a file; None on 404 (caller falls back), raises CommonsError on other failures."""
+    def get_bytes(self, url: str, max_wait_s: float = 90.0) -> bytes | None:
+        """Download a file.
+
+        Returns None when the rendition is not available (HTTP 400/404) or when the server asks
+        for a back-off longer than ``max_wait_s`` -- the caller then tries a smaller rendition or
+        another candidate instead of blocking the whole run. Other failures raise ``CommonsError``.
+        """
         last = ""
         for attempt in range(self.attempts):
             self._wait()
@@ -1636,6 +1644,10 @@ class Client:
                     if r.status_code in (429, 500, 502, 503, 504):
                         wait = self._retry_after(r, attempt)
                         last = f"HTTP {r.status_code}"
+                        if wait > max_wait_s:
+                            log.warning("download HTTP %d asks for a %.0fs back-off, giving this file up: %s",
+                                        r.status_code, wait, url)
+                            return None
                         log.warning("download HTTP %d, waiting %.0fs", r.status_code, wait)
                         time.sleep(wait)
                         continue
@@ -1761,8 +1773,10 @@ def fetch_image(client: Client, c: Candidate, max_width: int) -> tuple[bytes, in
             log.warning("no usable rendition and original too large (%d bytes): %s", c.bytes, c.title)
             return None
         url = c.url
-        log.info("falling back to the original of %s (%d px, %d bytes), scaling locally", c.title, c.width, c.bytes)
-        data = client.get_bytes(url)
+        # Only reached for a file with no standard rendition at a usable width. Originals are
+        # rate-limited, so make one polite attempt and otherwise move on to the next candidate.
+        log.info("no usable rendition for %s (%d px), trying the original", c.title, c.width)
+        data = client.get_bytes(url, max_wait_s=0.0)
     if data is None:
         return None
     try:
@@ -2084,6 +2098,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--only", action="append", default=[], help="slug or group (repeatable)")
     ap.add_argument("--force", action="store_true", help="re-fetch selected items even if complete")
     ap.add_argument("--max-width", type=int, default=DEFAULT_MAX_WIDTH)
+    ap.add_argument("--min-interval", type=float, default=MIN_INTERVAL_S,
+                    help="seconds between HTTP requests (>= 0.5 keeps the run inside the 2 req/s etiquette limit)")
     ap.add_argument("--out", type=Path, default=OUT_ROOT)
     ap.add_argument("--list", action="store_true", help="print the catalogue and exit")
     ap.add_argument("--index-only", action="store_true", help="regenerate INDEX.md/LICENSES.md/summary.json from existing meta.json files, no network")
@@ -2092,6 +2108,8 @@ def main(argv: list[str] | None = None) -> int:
     logging.basicConfig(level=logging.DEBUG if a.verbose else logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     if a.max_width < 250 or a.max_width > 2000:
         ap.error("--max-width must be within 250..2000 (brief: <= 2,000 px wide)")
+    if a.min_interval < 0.5:
+        ap.error("--min-interval must be >= 0.5 s (Wikimedia etiquette: at most 2 requests per second)")
     items = select_items(a.only)
     if a.list:
         for i in items:
@@ -2102,7 +2120,7 @@ def main(argv: list[str] | None = None) -> int:
     client: Client | None = None
     failures: list[tuple[str, str]] = []
     if not a.index_only:
-        client = Client()
+        client = Client(min_interval=a.min_interval)
         used: set[str] = set()
         for m in all_metas(a.out):  # never pick a photo already used by another slug
             for p in m.get("photos", []):

@@ -43,7 +43,7 @@ V3 = Vector
 BUDGETS: dict[str, int] = {
     "window": 400, "window_accessory": 400, "door_entry": 3000, "cornice": 1200, "string_course": 200, "quoin": 300, "pilaster": 600,
     "trim": 200, "storefront": 6000, "storefront_interior": 6000, "fire_escape": 3000, "parapet": 200, "bulkhead": 800, "water_tower": 4000,
-    "hvac": 1200, "antenna": 800, "billboard": 1500, "scaffold": 3000, "fence": 800, "vegetation": 1500,
+    "hvac": 1200, "antenna": 900, "billboard": 2500, "scaffold": 3000, "fence": 800, "vegetation": 1500,
 }
 
 

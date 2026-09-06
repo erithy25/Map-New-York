@@ -1,16 +1,34 @@
-"""Vehicle volume -> density model.
+"""Vehicle volume model: ATR counts + CSCL + PLUTO → flow per lane on every segment, hour and day type.
 
-1. Count sites are matched to CSCL segments (physicalid, else nearest segment with a street-name check).
-2. Each site's hourly flow per travel lane is expressed as a *level* (weekday daily mean, veh/h/lane)
-   and a normalised *profile* (hour × day type).
-3. Segments are stratified by road class (highway/ramp, arterial >= 3 lanes, two-way street, one-way
-   local). Profiles are pooled by area cluster (CBD, Manhattan, outer commercial, industrial,
-   residential, special) with highways pooled separately; stratum level ratios are pooled by cluster.
-4. NTA level per stratum: observed sites where available, else the NTA's reference level × cluster
-   stratum ratio. Reference level of NTAs without any site is regressed on land use (PLUTO floor-area
-   densities, lot-use mix) and road mix; the fit (R², leave-one-out R²) is reported.
-5. NTA × hour × day type flow = lane-km weighted sum over strata; density from Greenshields with the
-   stratum's lane-km weighted posted speed as free-flow speed and jam density 130 veh/km/lane.
+The model is hierarchical, because the data is: DOT's Automated Traffic Volume Counts give a very
+precise picture of ~2,400 individual blocks and nothing at all about the other 110,000.
+
+1. **Site matching.** Each count site is attached to a CSCL centerline segment by ``SegmentID`` ==
+   ``physicalid`` where that lands within 150 m of the recorded point, else to the nearest segment
+   within 60 m whose street name matches, else to the nearest segment within 25 m.
+2. **Site level and profile.** For each matched site the hourly flow per travel lane gives a *level*
+   (mean over the weekday hours, veh/h/lane) and a *profile* (the 24 x 3 flows divided by that level).
+3. **Profiles** are pooled by area cluster (CBD, rest of Manhattan, commercial, industrial,
+   residential, special) for surface streets and city-wide for freeways/ramps, which is the level at
+   which the diurnal shape is stable.
+4. **Level, stage 1 — road class.** ``log(level)`` is regressed on the *segment's own* attributes
+   (travel lanes, road type, posted speed, kerb-to-kerb width, truck route, one-way, avenue/boulevard
+   name).  This is the part of a block's traffic that comes from what kind of road it is.
+5. **Level, stage 2 — the neighbourhood.** The stage-1 residuals are averaged per NTA into an *NTA
+   effect* and that effect is regressed on land use (PLUTO floor areas and lot-use mix) and
+   accessibility (subway entrances, distance to the Manhattan core, expressway proximity, PLUTO
+   garage area per dwelling).  This is the regression that fills in NTAs with no counts, and its
+   R² / leave-one-out R² are reported.
+6. **Blending.** An NTA with its own sites keeps its observed effect, shrunk toward the regression
+   prediction by ``W / (W + k0)`` where ``W`` is the total weight of its sites and ``k0`` the median
+   weight of one site.  An NTA with no sites uses the prediction outright.
+7. **Assembly.** Every segment gets ``level = exp(stage1(x_segment) + effect(NTA))``; the hourly flow
+   is ``level x profile``; :mod:`speed` turns that into a density; and the NTA value is the lane-km
+   weighted mean over its segments — the vehicles standing on all of the NTA's travel lanes divided
+   by the length of those lanes, exactly what ``veh_per_km_lane`` means in DATA_CONTRACTS §10.
+
+Recency: sites last counted in 2023-2026 carry full weight, older ones 0.6, and the flows themselves
+are already recency-weighted inside :mod:`counts`.
 """
 from __future__ import annotations
 
@@ -19,63 +37,38 @@ from dataclasses import dataclass, field
 
 import numpy as np
 import polars as pl
+import shapely
 
+from . import speed as speedmod
 from .counts import CountData
 from .geo import NtaTable
 from .segments import MPH_TO_KMH, SegmentTable, normalize_street
 
 log = logging.getLogger("nycsim.traffic.model")
 
-JAM_DENSITY = 130.0             # veh/km/lane (7.7 m average headway at standstill, NYC mixed fleet)
-STRATA = {0: "highway_ramp", 1: "arterial", 2: "two_way_street", 3: "one_way_local"}
 CLUSTERS = ("cbd", "manhattan", "commercial", "industrial", "residential", "special")
-CLUSTER_FALLBACK = {"cbd": "manhattan", "manhattan": "commercial", "commercial": "residential", "industrial": "residential",
-                    "residential": "all", "special": "residential", "all": None}
+CLUSTER_FALLBACK = {"cbd": "manhattan", "manhattan": "commercial", "commercial": "residential",
+                    "industrial": "residential", "residential": "all", "special": "residential", "all": None}
 MIN_SITES_FOR_PROFILE = 8
 MIN_HOURS_FOR_PROFILE = 18
-SHRINK_K = 1.0                  # pseudo-sites given to the regression estimate when blending with observed levels
-DENSITY_FLOOR = 0.02            # veh/km/lane: never emit a perfectly empty NTA that has roads
+SHRINK_SITES = 1.0              # pseudo-sites of regression evidence blended into an observed NTA effect
+DENSITY_FLOOR = 0.02            # veh/km/lane — an NTA with roads is never perfectly empty
+SEGMENT_CHUNK = 20000
+
+# Stage-2 features, chosen by forward selection on the leave-one-out R² over the candidate list in
+# :func:`nta_feature_matrix` (see docs/verification/traffic_density/METHOD.md §5).
+STAGE2_FEATURES = ("log_office_far", "log_garage_per_unit", "truck_route_share", "log_d_cbd_km",
+                   "arterial_lane_share", "highway_lane_share")
+STAGE1_RIDGE = 2.0
+STAGE2_RIDGE = 4.0
 
 
-# ----------------------------------------------------------------------------- Greenshields
-def greenshields_density(q_veh_h_lane: np.ndarray, free_flow_kmh: np.ndarray | float, jam_density: float = JAM_DENSITY) -> np.ndarray:
-    """Uncongested-branch density (veh/km/lane) for flow ``q`` under Greenshields v = vf (1 - k/kj).
-
-    q = vf k (1 - k/kj)  =>  k = kj/2 (1 - sqrt(1 - q/qmax)),  qmax = vf kj / 4.  Flows above capacity
-    are capped at capacity (k = kj/2)."""
-    q = np.asarray(q_veh_h_lane, dtype=np.float64)
-    vf = np.asarray(free_flow_kmh, dtype=np.float64)
-    qmax = vf * jam_density / 4.0
-    with np.errstate(divide="ignore", invalid="ignore"):
-        r = np.where(qmax > 0, q / qmax, 0.0)
-    r = np.clip(r, 0.0, 1.0)
-    return jam_density / 2.0 * (1.0 - np.sqrt(1.0 - r))
-
-
-def greenshields_speed(density: np.ndarray, free_flow_kmh: np.ndarray | float, jam_density: float = JAM_DENSITY) -> np.ndarray:
-    k = np.clip(np.asarray(density, dtype=np.float64), 0, jam_density)
-    return np.asarray(free_flow_kmh, dtype=np.float64) * (1.0 - k / jam_density)
-
-
-# ----------------------------------------------------------------------------- strata / clusters
-def stratum_of(rw_type: np.ndarray, travel_lanes: np.ndarray, trafdir: np.ndarray) -> np.ndarray:
-    rw = np.asarray(rw_type)
-    ln = np.asarray(travel_lanes)
-    two_way = np.asarray(trafdir) == "TW"
-    s = np.full(len(rw), 2, dtype=np.int8)
-    s[(rw == 2) | (rw == 9)] = 0
-    art = (s != 0) & (ln >= 3)
-    s[art] = 1
-    one = (s == 2) & (~two_way) & (ln <= 2)
-    s[one] = 3
-    return s
-
-
+# ----------------------------------------------------------------------------- clusters
 def cluster_of(nta: NtaTable, landuse: pl.DataFrame) -> np.ndarray:
-    """Area-type cluster per NTA (see module docstring)."""
+    """Area-type cluster per NTA, used to pool diurnal profiles."""
     lu = landuse.sort("nta_idx")
     res = lu["res_m2"].to_numpy()
-    com = (lu["com_m2"].to_numpy() + lu["office_m2"].to_numpy() + lu["retail_m2"].to_numpy())
+    com = lu["com_m2"].to_numpy() + lu["office_m2"].to_numpy() + lu["retail_m2"].to_numpy()
     ind_share = lu["lot_share_ind"].to_numpy()
     com_ratio = com / np.maximum(res + com, 1.0)
     out = np.array(["residential"] * len(nta), dtype=object)
@@ -90,12 +83,14 @@ def cluster_of(nta: NtaTable, landuse: pl.DataFrame) -> np.ndarray:
 # ----------------------------------------------------------------------------- site matching
 @dataclass
 class MatchedSites:
-    df: pl.DataFrame            # segment_id, seg_row, physicalid, nta_idx, stratum, travel_lanes, trafdir, lane_km, free_flow_kmh, match, dist_m
+    df: pl.DataFrame
     n_by_match: dict[str, int] = field(default_factory=dict)
 
 
 def match_sites(cd: CountData, seg: SegmentTable) -> MatchedSites:
-    sites = cd.sites.filter(pl.col("x").is_not_null() & pl.col("y").is_not_null())
+    """Attach every ATR site to a CSCL segment and copy that segment's attributes onto the site."""
+    sites = cd.sites.filter(pl.col("x").is_not_null() & pl.col("y").is_not_null()
+                            & pl.col("x").is_finite() & pl.col("y").is_finite())
     x, y = sites["x"].to_numpy(), sites["y"].to_numpy()
     seg_ids = sites["segment_id"].to_numpy()
     streets = [normalize_street(s) for s in sites["street"].to_list()]
@@ -103,16 +98,13 @@ def match_sites(cd: CountData, seg: SegmentTable) -> MatchedSites:
     rows = np.full(len(sites), -1, dtype=np.int64)
     dist = np.full(len(sites), np.nan)
     match = np.array(["none"] * len(sites), dtype=object)
-    import shapely
     pts = shapely.points(x, y)
-    # 1) physicalid match, validated by proximity (ATR points are placed on the counted block)
     for i, sid in enumerate(seg_ids.tolist()):
         r = seg.phys_index.get(int(sid))
         if r is not None:
             d = float(shapely.distance(pts[i], seg.geoms[r]))
             if d <= 150.0:
                 rows[i], dist[i], match[i] = r, d, "physicalid"
-    # 2) spatial: nearest few segments within 60 m, prefer same street name
     todo = np.flatnonzero(rows < 0)
     if len(todo):
         cand_i, cand_g = seg.tree.query(pts[todo], predicate="dwithin", distance=60.0)
@@ -124,7 +116,7 @@ def match_sites(cd: CountData, seg: SegmentTable) -> MatchedSites:
             i = int(todo[ci])
             lst.sort()
             name = streets[i]
-            chosen = None
+            chosen: tuple[float, int, str] | None = None
             for cdst, cg in lst:
                 sn = seg_norm[cg]
                 if name and sn and (name == sn or name in sn or sn in name):
@@ -136,7 +128,8 @@ def match_sites(cd: CountData, seg: SegmentTable) -> MatchedSites:
                 dist[i], rows[i], match[i] = chosen
     ok = rows >= 0
     sd = seg.df
-    out = sites.with_columns(pl.Series("seg_row", rows), pl.Series("dist_m", dist), pl.Series("match", match)).filter(pl.Series(ok))
+    out = sites.with_columns(pl.Series("seg_row", rows), pl.Series("dist_m", dist),
+                             pl.Series("match", match)).filter(pl.Series(ok))
     r = out["seg_row"].to_numpy()
     out = out.with_columns(
         pl.Series("physicalid", sd["physicalid"].to_numpy()[r]),
@@ -144,33 +137,37 @@ def match_sites(cd: CountData, seg: SegmentTable) -> MatchedSites:
         pl.Series("travel_lanes", sd["travel_lanes"].to_numpy()[r]),
         pl.Series("trafdir", np.asarray(sd["trafdir"].to_list(), dtype=object)[r].tolist()),
         pl.Series("lane_km", sd["lane_km"].to_numpy()[r]),
-        pl.Series("free_flow_kmh", sd["free_flow_kmh"].to_numpy()[r]),
+        pl.Series("posted_speed_mph", sd["posted_speed_mph"].to_numpy()[r]),
         pl.Series("rw_type", sd["rw_type"].to_numpy()[r]),
+        pl.Series("is_truck_route", sd["is_truck_route"].to_numpy()[r]),
+        pl.Series("streetwidth_ft", sd["streetwidth_ft"].to_numpy()[r]),
+        pl.Series("street_norm", np.asarray(sd["street_norm"].to_list(), dtype=object)[r].tolist()),
     )
-    out = out.with_columns(pl.Series("stratum", stratum_of(out["rw_type"].to_numpy(), out["travel_lanes"].to_numpy(), np.asarray(out["trafdir"].to_list()))))
+    out = out.with_columns(pl.Series("road_class", speedmod.road_class(
+        out["rw_type"].to_numpy(), out["travel_lanes"].to_numpy(),
+        np.asarray(out["trafdir"].to_list()), out["is_truck_route"].to_numpy())))
     out = out.filter(pl.col("nta_idx") >= 0)
-    counts = {k: int(v) for k, v in zip(*np.unique(match, return_counts=True))}
-    counts["none"] = int((~ok).sum())
-    log.info("site matching: %s (%d sites usable)", counts, out.height)
+    counts = {str(k): int(v) for k, v in zip(*np.unique(match, return_counts=True))}
+    counts["unmatched"] = int((~ok).sum())
+    log.info("site matching: %s (%d sites usable, median offset %.0f m)", counts, out.height,
+             float(np.nanmedian(out["dist_m"].to_numpy())) if out.height else float("nan"))
     return MatchedSites(out, counts)
 
 
 # ----------------------------------------------------------------------------- site levels & profiles
 @dataclass
 class SiteModel:
-    sites: pl.DataFrame                 # matched sites + level (veh/h/lane weekday daily mean) + n_hours_wd
+    sites: pl.DataFrame                 # matched sites + level (veh/h/lane) + n_hours_wd + cluster
     q: np.ndarray                       # (n_sites, 24, 3) flow per lane, NaN where unobserved
     n_days: np.ndarray                  # (n_sites, 24, 3)
-    profiles: dict[str, np.ndarray]     # key -> (24, 3) normalised (weekday daily mean = 1)
+    profiles: dict[str, np.ndarray]     # key -> (24, 3), weekday daily mean == 1
     profile_n: dict[str, int]
-    stratum_ratio: dict[str, np.ndarray]  # cluster -> ratio per stratum vs two-way street level
     dir_doubled: int
 
 
 def _weighted_profile(qn: np.ndarray, w: np.ndarray) -> np.ndarray:
-    """Weighted mean of normalised site profiles ignoring NaNs; returns (24, 3)."""
     ww = np.where(np.isfinite(qn), w[:, None, None], 0.0)
-    num = np.nansum(qn * ww, axis=0)
+    num = np.nansum(np.where(np.isfinite(qn), qn, 0.0) * ww, axis=0)
     den = ww.sum(axis=0)
     with np.errstate(invalid="ignore", divide="ignore"):
         return np.where(den > 0, num / den, np.nan)
@@ -184,6 +181,7 @@ def _fill_profile(p: np.ndarray, fallback: np.ndarray) -> np.ndarray:
 
 
 def build_site_model(cd: CountData, ms: MatchedSites, clusters: np.ndarray) -> SiteModel:
+    """Per-site level and the pooled diurnal profiles."""
     sites = ms.df
     sid_to_row = {int(s): i for i, s in enumerate(sites["segment_id"].to_list())}
     n = sites.height
@@ -197,87 +195,64 @@ def build_site_model(cd: CountData, ms: MatchedSites, clusters: np.ndarray) -> S
     dd = fl["dow"].to_numpy().astype(int)
     veh = fl["veh_h"].to_numpy().astype(np.float64)
     ndir = fl["n_dir"].to_numpy().astype(int)
-    # a two-way segment counted in one direction only: assume directional symmetry (flagged)
-    dbl = two_way[rows] & (ndir == 1)
+    dbl = two_way[rows] & (ndir == 1)       # two-way street counted in one direction only
     veh = np.where(dbl, veh * 2.0, veh)
-    q[rows, hh, dd] = veh / lanes[rows]
+    q[rows, hh, dd] = veh / np.maximum(lanes[rows], 1.0)
     nd[rows, hh, dd] = fl["n_days"].to_numpy()
-    # weekday level & normalised profile
+
     wd = q[:, :, 0]
     n_hours_wd = np.isfinite(wd).sum(axis=1)
-    level = np.where(n_hours_wd >= MIN_HOURS_FOR_PROFILE, np.nanmean(wd, axis=1), np.nan)
+    enough = n_hours_wd >= MIN_HOURS_FOR_PROFILE
+    level = np.full(n, np.nan)
+    if enough.any():
+        level[enough] = np.nanmean(wd[enough], axis=1)
     with np.errstate(invalid="ignore", divide="ignore"):
         qn = q / level[:, None, None]
-    stratum = sites["stratum"].to_numpy()
+    cls = sites["road_class"].to_numpy()
     site_cluster = clusters[sites["nta_idx"].to_numpy()]
-    w = np.sqrt(np.maximum(nd[:, :, 0].sum(axis=1), 1.0)) * sites["weight"].to_numpy() if "weight" in sites.columns else np.ones(n)
-    # profiles: 'all', 'highway', and per cluster (non-highway sites)
-    valid = np.isfinite(level)
+    w = np.sqrt(np.maximum(nd[:, :, 0].sum(axis=1), 1.0))
+    valid = np.isfinite(level) & (level > 0)
+
     profiles: dict[str, np.ndarray] = {}
     profile_n: dict[str, int] = {}
-    sel_all = valid & (stratum != 0)
+    sel_all = valid & (cls >= 2)
     p_all = _weighted_profile(qn[sel_all], w[sel_all])
     p_all = np.where(np.isfinite(p_all), p_all, 1.0)
     profiles["all"], profile_n["all"] = p_all, int(sel_all.sum())
-    sel_h = valid & (stratum == 0)
-    if sel_h.sum() >= MIN_SITES_FOR_PROFILE:
-        profiles["highway"] = _fill_profile(_weighted_profile(qn[sel_h], w[sel_h]), p_all)
-    else:
-        profiles["highway"] = p_all
+    sel_h = valid & (cls <= 1)
     profile_n["highway"] = int(sel_h.sum())
+    profiles["highway"] = _fill_profile(_weighted_profile(qn[sel_h], w[sel_h]), p_all) \
+        if sel_h.sum() >= MIN_SITES_FOR_PROFILE else p_all
     for c in CLUSTERS:
-        sel = valid & (stratum != 0) & (site_cluster == c)
-        profile_n[c] = int(sel.sum())
+        profile_n[c] = int((valid & (cls >= 2) & (site_cluster == c)).sum())
     for c in CLUSTERS:
-        sel = valid & (stratum != 0) & (site_cluster == c)
+        sel = valid & (cls >= 2) & (site_cluster == c)
         if sel.sum() >= MIN_SITES_FOR_PROFILE:
             profiles[c] = _fill_profile(_weighted_profile(qn[sel], w[sel]), p_all)
+            continue
+        fb = CLUSTER_FALLBACK[c]
+        while fb is not None and fb != "all" and profile_n.get(fb, 0) < MIN_SITES_FOR_PROFILE:
+            fb = CLUSTER_FALLBACK[fb]
+        if fb is None or fb == "all":
+            profiles[c] = p_all
         else:
-            fb = CLUSTER_FALLBACK[c]
-            while fb is not None and fb not in profiles and profile_n.get(fb, 0) < MIN_SITES_FOR_PROFILE:
-                fb = CLUSTER_FALLBACK[fb]
-            if fb is None or fb == "all":
-                profiles[c] = p_all
-            else:
-                selfb = valid & (stratum != 0) & (site_cluster == fb)
-                profiles[c] = _fill_profile(_weighted_profile(qn[selfb], w[selfb]), p_all)
-            log.info("profile for cluster %s pooled from %s (%d own sites)", c, fb or "all", int(sel.sum()))
-    # renormalise so that the weekday daily mean is exactly 1
+            selfb = valid & (cls >= 2) & (site_cluster == fb)
+            profiles[c] = _fill_profile(_weighted_profile(qn[selfb], w[selfb]), p_all)
+        log.info("profile for cluster %s pooled from %s (%d own sites)", c, fb or "all", int(sel.sum()))
     for k, p in profiles.items():
-        m = np.nanmean(p[:, 0])
+        m = float(np.nanmean(p[:, 0]))
         profiles[k] = p / m if m > 0 else p
-    # stratum level ratios per cluster (vs two-way street stratum), lane-km weighted means of site levels
-    ratio: dict[str, np.ndarray] = {}
-    lane_w = sites["lane_km"].to_numpy()
+        if not np.isfinite(profiles[k]).all():
+            raise ValueError(f"profile {k} still has non-finite entries")
 
-    def _lvl(sel: np.ndarray) -> float:
-        ww = lane_w[sel] * w[sel]
-        return float(np.sum(level[sel] * ww) / np.sum(ww)) if sel.any() and ww.sum() > 0 else np.nan
-
-    glob = np.array([_lvl(valid & (stratum == s)) for s in range(4)])
-    glob_ref = glob[2] if np.isfinite(glob[2]) else np.nanmean(glob)
-    glob_ratio = np.where(np.isfinite(glob), glob / glob_ref, 1.0)
-    for c in CLUSTERS + ("all",):
-        sel_c = valid if c == "all" else valid & (site_cluster == c)
-        lv = np.array([_lvl(sel_c & (stratum == s)) for s in range(4)])
-        cnt = np.array([int((sel_c & (stratum == s)).sum()) for s in range(4)])
-        ref = lv[2] if (np.isfinite(lv[2]) and cnt[2] >= 5) else np.nan
-        r = np.full(4, np.nan)
-        if np.isfinite(ref):
-            for s in range(4):
-                if cnt[s] >= 5 and np.isfinite(lv[s]):
-                    r[s] = lv[s] / ref
-        r = np.where(np.isfinite(r), r, glob_ratio)
-        r[2] = 1.0
-        ratio[c] = r
     sites = sites.with_columns(pl.Series("level", level), pl.Series("n_hours_wd", n_hours_wd.astype(np.int32)),
                                pl.Series("cluster", site_cluster.tolist()))
-    log.info("site model: %d sites, %d with a weekday level; %d segment-hours direction-doubled; profile sites %s; stratum ratios(all)=%s",
-             n, int(valid.sum()), int(dbl.sum()), profile_n, np.round(ratio["all"], 2).tolist())
-    return SiteModel(sites, q, nd, profiles, profile_n, ratio, int(dbl.sum()))
+    log.info("site model: %d sites, %d with a weekday level; %d segment-hours direction-doubled; profile sites %s",
+             n, int(valid.sum()), int(dbl.sum()), profile_n)
+    return SiteModel(sites, q, nd, profiles, profile_n, int(dbl.sum()))
 
 
-# ----------------------------------------------------------------------------- land-use regression
+# ----------------------------------------------------------------------------- regression machinery
 @dataclass
 class Regression:
     feature_names: list[str]
@@ -287,17 +262,79 @@ class Regression:
     r2: float
     r2_loo: float
     n: int
-    rmse_log: float
+    rmse: float
     ridge: float
 
     def predict(self, X: np.ndarray) -> np.ndarray:
-        Z = (X - self.mu) / self.sd
+        Z = (np.asarray(X, dtype=np.float64) - self.mu) / self.sd
         return np.column_stack([np.ones(len(Z)), Z]) @ self.beta
 
+    def as_dict(self) -> dict:
+        return {"features": self.feature_names, "beta": [float(b) for b in self.beta],
+                "r2": self.r2, "r2_loo": self.r2_loo, "n": self.n, "rmse_log": self.rmse, "ridge": self.ridge}
 
-def design_matrix(nta: NtaTable, landuse: pl.DataFrame, roads: pl.DataFrame) -> tuple[np.ndarray, list[str]]:
+
+def fit_regression(X: np.ndarray, y: np.ndarray, w: np.ndarray, names: list[str], ridge: float = 1.0) -> Regression:
+    """Weighted ridge regression on standardised features, with leave-one-out R² from the hat matrix."""
+    X = np.asarray(X, dtype=np.float64)
+    if X.ndim != 2 or X.shape[0] != len(y) or X.shape[1] != len(names):
+        raise ValueError(f"design matrix {X.shape} does not match {len(y)} observations / {len(names)} names")
+    if not np.isfinite(X).all() or not np.isfinite(y).all() or not np.isfinite(w).all():
+        raise ValueError("regression inputs contain non-finite values")
+    mu = X.mean(axis=0)
+    sd = X.std(axis=0)
+    sd[sd == 0] = 1.0
+    Z = np.column_stack([np.ones(len(X)), (X - mu) / sd])
+    R = np.eye(Z.shape[1]) * ridge
+    R[0, 0] = 0.0
+    W = np.sqrt(w)[:, None]
+    A = (Z * W).T @ (Z * W) + R
+    beta = np.linalg.solve(A, (Z * W).T @ (y * W[:, 0]))
+    yhat = Z @ beta
+    ybar = np.average(y, weights=w)
+    ss_tot = float(np.sum(w * (y - ybar) ** 2))
+    ss_res = float(np.sum(w * (y - yhat) ** 2))
+    r2 = 1.0 - ss_res / ss_tot if ss_tot > 0 else 0.0
+    Ainv = np.linalg.inv(A)
+    h = np.einsum("ij,jk,ik->i", Z * W, Ainv, Z * W)
+    loo_res = (y - yhat) / np.maximum(1.0 - h, 1e-6)
+    r2_loo = 1.0 - float(np.sum(w * loo_res ** 2)) / ss_tot if ss_tot > 0 else 0.0
+    rmse = float(np.sqrt(ss_res / float(np.sum(w))))
+    return Regression(list(names), beta, mu, sd, float(r2), float(r2_loo), int(len(y)), rmse, float(ridge))
+
+
+# ----------------------------------------------------------------------------- feature matrices
+def segment_features(rw_type: np.ndarray, travel_lanes: np.ndarray, trafdir: np.ndarray,
+                     posted_mph: np.ndarray, width_ft: np.ndarray, truck_route: np.ndarray,
+                     street_norm: list[str]) -> tuple[np.ndarray, list[str]]:
+    """Stage-1 design matrix: what kind of road this block is."""
+    rw = np.asarray(rw_type)
+    ln = np.asarray(travel_lanes, dtype=np.float64)
+    two_way = (np.asarray(trafdir) == "TW").astype(np.float64)
+    width = np.nan_to_num(np.asarray(width_ft, dtype=np.float64), nan=30.0, posinf=30.0, neginf=30.0)
+    av = np.array([bool(n) and (n.endswith(" AV") or n.endswith(" BLVD") or " AV " in n or " BLVD " in n)
+                   for n in street_norm], dtype=np.float64)
+    f = {
+        "log_travel_lanes": np.log(np.maximum(ln, 1.0)),
+        "is_highway": (rw == 2).astype(np.float64),
+        "is_ramp": (rw == 9).astype(np.float64),
+        "is_bridge_tunnel": ((rw == 3) | (rw == 4)).astype(np.float64),
+        "posted_kmh": np.asarray(posted_mph, dtype=np.float64) * MPH_TO_KMH,
+        "is_two_way": two_way,
+        "is_truck_route": np.asarray(truck_route, dtype=np.float64),
+        "log_width_ft": np.log(np.clip(width, 10.0, 200.0)),
+        "is_avenue": av,
+    }
+    names = list(f)
+    return np.column_stack([f[k] for k in names]), names
+
+
+def nta_feature_matrix(nta: NtaTable, landuse: pl.DataFrame, roads: pl.DataFrame,
+                       access: pl.DataFrame) -> tuple[np.ndarray, list[str]]:
+    """Stage-2 candidate features: land use, road supply and accessibility, one row per NTA."""
     lu = landuse.sort("nta_idx")
     rd = roads.sort("nta_idx")
+    ac = access.sort("nta_idx")
     area = np.maximum(nta.area_km2, 0.05)
     land_m2 = area * 1e6
     f = {
@@ -315,145 +352,211 @@ def design_matrix(nta: NtaTable, landuse: pl.DataFrame, roads: pl.DataFrame) -> 
         "truck_route_share": rd["truck_route_share"].to_numpy(),
         "is_manhattan": (nta.borocode == 1).astype(np.float64),
         "is_staten_island": (nta.borocode == 5).astype(np.float64),
+        "log_sub_density": ac["log_sub_density"].to_numpy(),
+        "log_d_subway_km": ac["log_d_subway_km"].to_numpy(),
+        "log_d_cbd_km": ac["log_d_cbd_km"].to_numpy(),
+        "log_hw_lane_km_3km": ac["log_hw_lane_km_3km"].to_numpy(),
+        "log_garage_per_unit": ac["log_garage_per_unit"].to_numpy(),
     }
     names = list(f)
-    return np.column_stack([f[k] for k in names]), names
+    X = np.column_stack([f[k] for k in names])
+    if not np.isfinite(X).all():
+        bad = [names[j] for j in range(X.shape[1]) if not np.isfinite(X[:, j]).all()]
+        raise ValueError(f"non-finite NTA features: {bad}")
+    return X, names
 
 
-def fit_regression(X: np.ndarray, y: np.ndarray, w: np.ndarray, names: list[str], ridge: float = 1.0) -> Regression:
-    """Weighted ridge regression on standardised features with leave-one-out R²."""
-    mu = X.mean(axis=0)
-    sd = X.std(axis=0)
-    sd[sd == 0] = 1.0
-    Z = np.column_stack([np.ones(len(X)), (X - mu) / sd])
-    p = Z.shape[1]
-    R = np.eye(p) * ridge
-    R[0, 0] = 0.0
-    W = np.sqrt(w)[:, None]
-    A = (Z * W).T @ (Z * W) + R
-    b = (Z * W).T @ (y * W[:, 0])
-    beta = np.linalg.solve(A, b)
-    yhat = Z @ beta
-    ybar = np.average(y, weights=w)
-    ss_tot = np.sum(w * (y - ybar) ** 2)
-    ss_res = np.sum(w * (y - yhat) ** 2)
-    r2 = 1.0 - ss_res / ss_tot if ss_tot > 0 else 0.0
-    # leave-one-out via the hat matrix of the weighted ridge problem
-    Ainv = np.linalg.inv(A)
-    h = np.einsum("ij,jk,ik->i", Z * W, Ainv, Z * W)
-    loo_res = (y - yhat) / np.maximum(1.0 - h, 1e-6)
-    r2_loo = 1.0 - np.sum(w * loo_res ** 2) / ss_tot if ss_tot > 0 else 0.0
-    rmse = float(np.sqrt(np.sum(w * (y - yhat) ** 2) / np.sum(w)))
-    return Regression(names, beta, mu, sd, float(r2), float(r2_loo), int(len(y)), rmse, ridge)
+# ----------------------------------------------------------------------------- two-stage level model
+@dataclass
+class LevelModel:
+    stage1: Regression
+    stage2: Regression
+    effect_obs: np.ndarray          # (n_nta,) observed NTA effect, NaN where no sites
+    effect_pred: np.ndarray         # (n_nta,) regression prediction
+    effect: np.ndarray              # (n_nta,) blended effect actually used
+    site_weight: np.ndarray         # (n_nta,) total site weight
+    n_sites: np.ndarray
+    n_sites_recent: np.ndarray
+    nta_r2_class_only: float
+    nta_r2_with_landuse: float
+    nta_n: int
+    within_nta_sd: float
+    stage2_selected: tuple[str, ...]
 
 
-# ----------------------------------------------------------------------------- NTA assembly
+def fit_level_model(sm: SiteModel, nta: NtaTable, landuse: pl.DataFrame, roads: pl.DataFrame,
+                    access: pl.DataFrame) -> LevelModel:
+    s = sm.sites.filter(pl.col("level").is_not_null() & pl.col("level").is_finite() & (pl.col("level") > 0))
+    if s.height < 50:
+        raise ValueError(f"only {s.height} sites have a usable weekday level — refusing to fit the level model")
+    ly = np.log(s["level"].to_numpy())
+    ni = s["nta_idx"].to_numpy().astype(int)
+    Xs, sn = segment_features(s["rw_type"].to_numpy(), s["travel_lanes"].to_numpy(),
+                              np.asarray(s["trafdir"].to_list()), s["posted_speed_mph"].to_numpy(),
+                              s["streetwidth_ft"].to_numpy(), s["is_truck_route"].to_numpy(),
+                              s["street_norm"].to_list())
+    w = np.sqrt(np.maximum(s["n_hours_wd"].to_numpy().astype(np.float64), 1.0)) * \
+        np.where(np.asarray(s["tier"].to_list()) == "recent", 1.0, 0.6)
+    stage1 = fit_regression(Xs, ly, w, sn, ridge=STAGE1_RIDGE)
+    resid = ly - stage1.predict(Xs)
+
+    n = len(nta)
+    num = np.zeros(n)
+    den = np.zeros(n)
+    cnt = np.zeros(n)
+    cnt_recent = np.zeros(n)
+    np.add.at(num, ni, resid * w)
+    np.add.at(den, ni, w)
+    np.add.at(cnt, ni, 1.0)
+    np.add.at(cnt_recent, ni[np.asarray(s["tier"].to_list()) == "recent"], 1.0)
+    with np.errstate(invalid="ignore", divide="ignore"):
+        effect_obs = np.where(den > 0, num / np.maximum(den, 1e-12), np.nan)
+
+    XA, na = nta_feature_matrix(nta, landuse, roads, access)
+    missing = [f for f in STAGE2_FEATURES if f not in na]
+    if missing:
+        raise ValueError(f"stage-2 features not in the NTA feature matrix: {missing}")
+    cols = [na.index(f) for f in STAGE2_FEATURES]
+    obs = np.isfinite(effect_obs)
+    stage2 = fit_regression(XA[obs][:, cols], effect_obs[obs], np.sqrt(cnt[obs]),
+                            list(STAGE2_FEATURES), ridge=STAGE2_RIDGE)
+    effect_pred = stage2.predict(XA[:, cols])
+    lo, hi = np.percentile(effect_obs[obs], [2, 98])
+    effect_pred = np.clip(effect_pred, lo, hi)
+
+    k0 = float(np.median(w))
+    effect = np.where(obs, (den * np.nan_to_num(effect_obs) + k0 * SHRINK_SITES * effect_pred) /
+                      (den + k0 * SHRINK_SITES), effect_pred)
+
+    # NTA-level goodness of fit: how well the model reproduces each NTA's observed mean log level.
+    p1 = stage1.predict(Xs)
+    o = np.zeros(n)
+    a0 = np.zeros(n)
+    a1 = np.zeros(n)
+    np.add.at(o, ni, ly * w)
+    np.add.at(a0, ni, p1 * w)
+    np.add.at(a1, ni, (p1 + effect_pred[ni]) * w)
+    m = den > 0
+    obs_m, pr0, pr1, ww = o[m] / den[m], a0[m] / den[m], a1[m] / den[m], np.sqrt(cnt[m])
+
+    def _r2(y: np.ndarray, p: np.ndarray) -> float:
+        yb = np.average(y, weights=ww)
+        return float(1.0 - np.sum(ww * (y - p) ** 2) / np.sum(ww * (y - yb) ** 2))
+
+    groups = [resid[ni == i] for i in np.flatnonzero(cnt >= 4)]
+    within_sd = float(np.median([np.std(g, ddof=1) for g in groups])) if groups else float("nan")
+    log.info("level model stage 1 (road class): R²=%.3f LOO=%.3f on %d sites, rmse(log)=%.3f",
+             stage1.r2, stage1.r2_loo, stage1.n, stage1.rmse)
+    log.info("level model stage 2 (land use → NTA effect): R²=%.3f LOO=%.3f on %d NTAs, rmse(log)=%.3f",
+             stage2.r2, stage2.r2_loo, stage2.n, stage2.rmse)
+    log.info("NTA-level R² of the mean log level: road class only %.3f, + land-use effect %.3f (%d NTAs); "
+             "median within-NTA residual sd %.3f", _r2(obs_m, pr0), _r2(obs_m, pr1), int(m.sum()), within_sd)
+    return LevelModel(stage1, stage2, effect_obs, effect_pred, effect, den, cnt.astype(np.int32),
+                      cnt_recent.astype(np.int32), _r2(obs_m, pr0), _r2(obs_m, pr1), int(m.sum()),
+                      within_sd, STAGE2_FEATURES)
+
+
+# ----------------------------------------------------------------------------- assembly
 @dataclass
 class VolumeResult:
-    q_lane: np.ndarray            # (n_nta, 24, 3) flow veh/h/lane, lane-km weighted over strata
+    q_lane: np.ndarray            # (n_nta, 24, 3) lane-km weighted mean flow, veh/h/lane
     density: np.ndarray           # (n_nta, 24, 3) veh/km/lane
-    level_ref: np.ndarray         # (n_nta,) reference-stratum weekday level used
-    level_ref_obs: np.ndarray     # (n_nta,) observed reference level (NaN when no site)
-    level_ref_pred: np.ndarray    # (n_nta,) regression prediction
-    n_sites: np.ndarray           # (n_nta,)
-    n_sites_recent: np.ndarray
+    speed_kmh: np.ndarray         # (n_nta, 24, 3) lane-km weighted harmonic-mean speed
+    veh_km_h: np.ndarray          # (n_nta, 24, 3) vehicle-km driven per hour inside the NTA
+    lane_km: np.ndarray           # (n_nta,)
+    lane_km_class: np.ndarray     # (n_nta, 5)
+    segment_level: np.ndarray     # (n_seg,) weekday mean flow per lane on every CSCL segment
+    road_class: np.ndarray        # (n_seg,)
     source: np.ndarray            # (n_nta,) object str
     clusters: np.ndarray
-    regression: Regression
-    lane_km_strata: np.ndarray    # (n_nta, 4)
-    vf_strata: np.ndarray         # (n_nta, 4) km/h
-    veh_km_h: np.ndarray          # (n_nta, 24, 3) vehicle-km per hour in the NTA (flow × lane-km)
+    level_model: LevelModel
+    calibration: speedmod.SurfaceCalibration
 
 
-def nta_strata(seg: SegmentTable, nta: NtaTable) -> tuple[np.ndarray, np.ndarray]:
-    d = seg.df.filter(pl.col("nta_idx") >= 0)
-    s = stratum_of(d["rw_type"].to_numpy(), d["travel_lanes"].to_numpy(), np.asarray(d["trafdir"].to_list()))
-    idx = d["nta_idx"].to_numpy().astype(int)
-    lk = d["lane_km"].to_numpy()
-    vf = d["free_flow_kmh"].to_numpy()
-    lane_km = np.zeros((len(nta), 4))
-    vfw = np.zeros((len(nta), 4))
-    np.add.at(lane_km, (idx, s), lk)
-    np.add.at(vfw, (idx, s), lk * vf)
-    with np.errstate(invalid="ignore", divide="ignore"):
-        vf_s = np.where(lane_km > 0, vfw / lane_km, 25 * MPH_TO_KMH)
-    return lane_km, vf_s
+def _segment_matrices(seg: SegmentTable, lm: LevelModel) -> tuple[np.ndarray, np.ndarray]:
+    df = seg.df
+    X, _ = segment_features(df["rw_type"].to_numpy(), df["travel_lanes"].to_numpy(),
+                            np.asarray(df["trafdir"].to_list()), df["posted_speed_mph"].to_numpy(),
+                            df["streetwidth_ft"].to_numpy(), df["is_truck_route"].to_numpy(),
+                            df["street_norm"].to_list())
+    base = lm.stage1.predict(X)
+    nidx = df["nta_idx"].to_numpy().astype(int)
+    eff = np.where(nidx >= 0, lm.effect[np.maximum(nidx, 0)], 0.0)
+    return np.exp(base + eff), nidx
 
 
-def assemble_volumes(nta: NtaTable, seg: SegmentTable, sm: SiteModel, landuse: pl.DataFrame, roads: pl.DataFrame,
-                     clusters: np.ndarray) -> VolumeResult:
+def assemble(nta: NtaTable, seg: SegmentTable, sm: SiteModel, lm: LevelModel, clusters: np.ndarray,
+             tlc_speed: np.ndarray, tlc_trip_km: np.ndarray) -> VolumeResult:
+    """Flow, speed and density for every NTA × hour × day type."""
+    df = seg.df
     n = len(nta)
-    lane_km, vf_s = nta_strata(seg, nta)
-    sites = sm.sites.filter(pl.col("level").is_not_null() & pl.col("level").is_finite())
-    s_nta = sites["nta_idx"].to_numpy().astype(int)
-    s_str = sites["stratum"].to_numpy().astype(int)
-    s_lvl = sites["level"].to_numpy()
-    s_w = sites["lane_km"].to_numpy() * np.where(sites["tier"].to_numpy() == "recent", 1.0, 0.6) * np.sqrt(np.maximum(sites["n_hours_wd"].to_numpy(), 1))
-    s_recent = sites["tier"].to_numpy() == "recent"
-    # observed level per NTA × stratum, and reference level (normalised to stratum 2 via cluster ratios)
-    lvl_obs = np.full((n, 4), np.nan)
-    num = np.zeros((n, 4))
-    den = np.zeros((n, 4))
-    np.add.at(num, (s_nta, s_str), s_lvl * s_w)
-    np.add.at(den, (s_nta, s_str), s_w)
-    with np.errstate(invalid="ignore", divide="ignore"):
-        lvl_obs = np.where(den > 0, num / den, np.nan)
-    ref_num = np.zeros(n)
-    ref_den = np.zeros(n)
-    for i in range(len(sites)):
-        r = sm.stratum_ratio.get(clusters[s_nta[i]], sm.stratum_ratio["all"])[s_str[i]]
-        ref_num[s_nta[i]] += s_lvl[i] / max(r, 1e-3) * s_w[i]
-        ref_den[s_nta[i]] += s_w[i]
-    with np.errstate(invalid="ignore", divide="ignore"):
-        level_ref_obs = np.where(ref_den > 0, ref_num / ref_den, np.nan)
-    n_sites = np.bincount(s_nta, minlength=n)
-    n_sites_recent = np.bincount(s_nta[s_recent], minlength=n)
-    # regression on NTAs with observed reference level and roads
-    X, names = design_matrix(nta, landuse, roads)
-    obs = np.isfinite(level_ref_obs) & (level_ref_obs > 0) & (lane_km.sum(axis=1) > 0)
-    w = np.sqrt(n_sites[obs].astype(np.float64))
-    reg = fit_regression(X[obs], np.log(level_ref_obs[obs]), w, names)
-    level_ref_pred = np.exp(reg.predict(X))
-    lo, hi = np.percentile(level_ref_obs[obs], [2, 98])
-    level_ref_pred = np.clip(level_ref_pred, lo * 0.5, hi * 1.2)
-    log.info("regression: n=%d R²=%.3f LOO-R²=%.3f rmse(log)=%.3f", reg.n, reg.r2, reg.r2_loo, reg.rmse_log)
-    # blended reference level (shrink few-site NTAs toward the regression)
-    ns = n_sites.astype(np.float64)
-    level_ref = np.where(obs, (ns * np.nan_to_num(level_ref_obs) + SHRINK_K * level_ref_pred) / (ns + SHRINK_K), level_ref_pred)
-    # per-stratum level: observed where the NTA has sites in that stratum (blended), else reference × ratio
-    lvl = np.zeros((n, 4))
-    for i in range(n):
-        ratio = sm.stratum_ratio.get(clusters[i], sm.stratum_ratio["all"])
-        for s in range(4):
-            model_s = level_ref[i] * ratio[s]
-            if np.isfinite(lvl_obs[i, s]) and den[i, s] > 0:
-                k = den[i, s] / (den[i, s] + np.median(s_w) * SHRINK_K)
-                lvl[i, s] = k * lvl_obs[i, s] + (1 - k) * model_s
-            else:
-                lvl[i, s] = model_s
-    # hourly flows and densities per stratum, lane-km weighted
-    q = np.zeros((n, 24, 3))
-    dens = np.zeros((n, 24, 3))
+    cls = speedmod.road_class(df["rw_type"].to_numpy(), df["travel_lanes"].to_numpy(),
+                              np.asarray(df["trafdir"].to_list()), df["is_truck_route"].to_numpy())
+    level, nidx = _segment_matrices(seg, lm)
+    lane_km = df["lane_km"].to_numpy()
+    posted_kmh = df["posted_speed_mph"].to_numpy().astype(np.float64) * MPH_TO_KMH
+    v_free = speedmod.free_flow_kmh(cls, posted_kmh)
+    q_cap = speedmod.capacity(cls)
+    v_cap = speedmod.speed_at_capacity_kmh(cls, v_free)
+
+    prof_key = np.array(["highway" if c <= 1 else (clusters[i] if i >= 0 else "residential")
+                         for c, i in zip(cls.tolist(), nidx.tolist())], dtype=object)
+    keys = sorted(set(prof_key.tolist()))
+    prof = {k: sm.profiles[k] for k in keys}
+
+    q_seg = np.empty((len(df), 24, 3))
+    for k in keys:
+        m = prof_key == k
+        q_seg[m] = level[m][:, None, None] * prof[k][None, :, :]
+
+    calib = speedmod.calibrate_surface(seg, cls, q_seg, n, nta.borocode, v_free, v_cap, q_cap,
+                                       tlc_speed, tlc_trip_km)
+
+    q_sum = np.zeros((n, 24, 3))
+    k_sum = np.zeros((n, 24, 3))
+    t_sum = np.zeros((n, 24, 3))
     vkm = np.zeros((n, 24, 3))
-    for i in range(n):
-        tot = lane_km[i].sum()
-        if tot <= 0:
+    lk_tot = np.zeros(n)
+    lane_km_class = np.zeros((n, len(speedmod.CLASS_NAMES)))
+    inside = nidx >= 0
+    np.add.at(lk_tot, nidx[inside], lane_km[inside])
+    np.add.at(lane_km_class, (nidx[inside], cls[inside]), lane_km[inside])
+
+    for start in range(0, len(df), SEGMENT_CHUNK):
+        sl = slice(start, start + SEGMENT_CHUNK)
+        m = inside[sl]
+        if not m.any():
             continue
-        for s in range(4):
-            if lane_km[i, s] <= 0:
-                continue
-            prof = sm.profiles["highway"] if s == 0 else sm.profiles.get(clusters[i], sm.profiles["all"])
-            qs = lvl[i, s] * prof
-            ks = greenshields_density(qs, vf_s[i, s])
-            q[i] += qs * lane_km[i, s] / tot
-            dens[i] += ks * lane_km[i, s] / tot
-            vkm[i] += qs * lane_km[i, s]
-    has_roads = lane_km.sum(axis=1) > 0
-    dens[has_roads] = np.maximum(dens[has_roads], DENSITY_FLOOR)
+        idx = nidx[sl][m]
+        lk = lane_km[sl][m][:, None, None]
+        q = q_seg[sl][m]
+        vf = v_free[sl][m][:, None, None]
+        vc = v_cap[sl][m][:, None, None]
+        qc = q_cap[sl][m][:, None, None]
+        surf = np.isin(cls[sl][m], speedmod.SURFACE_CLASSES)[:, None, None]
+        v = speedmod.speed_of_flow(q, vf, vc, qc) * np.where(surf, calib.factor[idx], 1.0)
+        v = np.maximum(v, 0.5)
+        k = np.minimum(q / v, speedmod.K_JAM)
+        np.add.at(q_sum, idx, q * lk)
+        np.add.at(k_sum, idx, k * lk)
+        np.add.at(t_sum, idx, lk / v)
+        np.add.at(vkm, idx, q * lk)
+
+    has = lk_tot > 0
+    q_lane = np.zeros((n, 24, 3))
+    dens = np.zeros((n, 24, 3))
+    spd = np.zeros((n, 24, 3))
+    q_lane[has] = q_sum[has] / lk_tot[has, None, None]
+    dens[has] = np.maximum(k_sum[has] / lk_tot[has, None, None], DENSITY_FLOOR)
+    spd[has] = lk_tot[has, None, None] / np.maximum(t_sum[has], 1e-9)
+
     source = np.array(["landuse_model"] * n, dtype=object)
-    source[(n_sites >= 1) & (n_sites_recent == 0)] = "atr_older"
-    source[(n_sites_recent >= 1)] = "atr_recent"
-    source[(n_sites >= 1) & (n_sites_recent >= 1) & (n_sites > n_sites_recent)] = "atr_mixed"
-    source[~has_roads] = "no_roads"
-    log.info("NTA volume sources: %s", {k: int(v) for k, v in zip(*np.unique(source, return_counts=True))})
-    return VolumeResult(q, dens, level_ref, level_ref_obs, level_ref_pred, n_sites, n_sites_recent, source, clusters, reg, lane_km, vf_s, vkm)
+    source[lm.n_sites >= 1] = "atr_older"
+    source[(lm.n_sites >= 1) & (lm.n_sites_recent >= 1) & (lm.n_sites > lm.n_sites_recent)] = "atr_mixed"
+    source[(lm.n_sites >= 1) & (lm.n_sites == lm.n_sites_recent)] = "atr_recent"
+    source[~has] = "no_roads"
+    log.info("NTA volume sources: %s", {str(k): int(v) for k, v in zip(*np.unique(source, return_counts=True))})
+    log.info("density veh/km/lane: min %.2f p50 %.1f p95 %.1f max %.1f; citywide veh-km per weekday %.3g",
+             dens.min(), float(np.percentile(dens, 50)), float(np.percentile(dens, 95)), dens.max(),
+             float(vkm[:, :, 0].sum()))
+    return VolumeResult(q_lane, dens, spd, vkm, lk_tot, lane_km_class, level, cls, source, clusters, lm, calib)

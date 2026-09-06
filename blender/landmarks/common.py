@@ -39,8 +39,10 @@ window_punch, punched_wall`` builders.
 ``render_check(landmark_id, presets)``
                                    Cycles CPU 64 spp stills to ``docs/verification/landmarks/<id>_<view>.png``.
                                    Presets are dicts ``{"view", "azimuth_deg", "elevation_deg"|"street", "distance",
-                                   "fov_deg", "target_z"}``; defaults give a street-level and an aerial view.
-                                   ``NYCSIM_RENDER_FAST=1`` renders 16 spp at half size for iteration.
+                                   "fov_deg", "target_z"}`` or ``{"view", "eye", "target", "fov_deg"}`` for an explicit
+                                   camera (interiors); defaults give a street-level and an aerial view.
+                                   ``NYCSIM_RENDER_FAST=1`` renders 16 spp at half size for iteration;
+                                   ``NYCSIM_LANDMARK_NO_RENDER=1`` skips the stills entirely (geometry/export checks only).
 
 Conventions
 -----------
@@ -1794,6 +1796,8 @@ def finish(objects: Sequence[bpy.types.Object], landmark_id: str, bins: Sequence
         "bounds_local_m": ex["bounds_local_m"], "dimensions": dimensions or {}, "renders": [], "material_slots": material_slots or {},
         "generator_script": script_name(), "git_commit": nb.git_commit(), "exported_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "schema_version": nb.SCHEMA_VERSION,
+        "materials": sorted({m.name for o in meshes for m in o.data.materials if m is not None}),
+        "textures": {k: v for k, v in sorted(texture_status().items())},
     }
     nb.write_catalog_entry(CATALOG_DIR, entry)
     _record_manifest(landmark_id, glb, bins, {"tris_lod0": lod0, "tris_lod1": lod1_tris, "footprint_iou": entry["footprint_iou"]})
@@ -1812,7 +1816,12 @@ def render_check(landmark_id: str, presets: Sequence[dict] | None = None, *, obj
                  sun_azimuth_deg: float | None = None, sun_elevation_deg: float = 38.0) -> list[Path]:
     """Verification stills. Preset keys: view (name), azimuth_deg (compass direction *from the model to the camera*),
     elevation_deg (camera elevation angle; use "street" for a 1.7 m eye at ``distance`` m), distance (m; default from bounds),
-    fov_deg, target_z (m; default mid-height for aerial, 0.35*h for street), look_up_deg (street only)."""
+    fov_deg, target_z (m; default mid-height for aerial, 0.35*h for street), look_up_deg (street only).
+    ``eye`` and ``target`` (absolute (x, y, z) in the exported frame) override the azimuth/distance placement — that is how
+    interior views are aimed; ``ground=False`` or a preset ``no_ground`` drops the render ground plane for them."""
+    if os.environ.get("NYCSIM_LANDMARK_NO_RENDER") == "1":
+        log.info("%s: NYCSIM_LANDMARK_NO_RENDER=1 — export verified, stills skipped", landmark_id)
+        return []
     fast = os.environ.get("NYCSIM_RENDER_FAST") == "1"
     if fast:
         samples, size = 16, (size[0] // 2, size[1] // 2)
@@ -1837,10 +1846,16 @@ def render_check(landmark_id: str, presets: Sequence[dict] | None = None, *, obj
     for p in presets:
         _clear_verify_objects()
         view = p.get("view", "view")
+        if ground_ob is not None:
+            ground_ob.hide_render = bool(p.get("no_ground", False))
         az = math.radians(90.0 - float(p.get("azimuth_deg", 210.0)))  # compass -> math
         fov = float(p.get("fov_deg", 55.0))
         aspect = size[0] / size[1]
-        if p.get("elevation_deg") == "street":
+        if p.get("eye") is not None:
+            eye = tuple(float(v) for v in p["eye"])
+            target = tuple(float(v) for v in p.get("target", (cx, cy, h * 0.5)))
+            fov = float(p.get("fov_deg", 60.0))
+        elif p.get("elevation_deg") == "street":
             fov = float(p.get("fov_deg", 60.0))
             d = float(p.get("distance", 2.2 * radius + 45.0))
             eye = (cx + d * math.cos(az), cy + d * math.sin(az), float(p.get("eye_z", 1.7)))

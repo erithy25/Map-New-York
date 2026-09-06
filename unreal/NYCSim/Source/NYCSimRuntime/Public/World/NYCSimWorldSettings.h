@@ -120,6 +120,110 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = "Weather")
 	FString NoaaCurrentStationId = TEXT("NYH1927");
 
+	// ---- water --------------------------------------------------------------------------------------------------
+	/** §14.1 unreal_water.json: bodies, per-tile coverage and the tide snapshot ANYCWaterActor starts from. */
+	UPROPERTY(Config, EditAnywhere, Category = "Water")
+	FString UnrealWaterJsonPath = TEXT("Content/NYCSim/Runtime/unreal_water.json");
+
+	/** Directory of the per-tile 8-bit shoreline masks ({tile}.png, 501 x 501, 1 texel = 2 m). */
+	UPROPERTY(Config, EditAnywhere, Category = "Water")
+	FString WaterMaskDir = TEXT("Content/NYCSim/Runtime/water_masks");
+
+	UPROPERTY(Config, EditAnywhere, Category = "Water")
+	FSoftObjectPath WaterMaterialPath = FSoftObjectPath(TEXT("/Game/NYCSim/Materials/M_NYC_Water.M_NYC_Water"));
+
+	/** Tiles around the camera that get their own masked water patch. 3 -> a 7 x 7 km block. */
+	UPROPERTY(Config, EditAnywhere, Category = "Water", meta = (ClampMin = "0", ClampMax = "12"))
+	int32 WaterNearRadiusTiles = 3;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Water", meta = (ClampMin = "4", ClampMax = "256"))
+	int32 WaterPatchQuads = 64;
+
+	/** Half-extent of the far water ring: 40 km keeps the Atlantic and the Hudson under the horizon from any viewpoint. */
+	UPROPERTY(Config, EditAnywhere, Category = "Water", meta = (ClampMin = "4.0", ClampMax = "120.0"))
+	float WaterFarExtentKilometres = 40.f;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Water", meta = (ClampMin = "4", ClampMax = "512"))
+	int32 WaterFarQuads = 96;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Water")
+	bool bSpawnWaterActor = true;
+
+	// ---- sky (continued) ----------------------------------------------------------------------------------------
+	/** Observer used for the sun/moon ephemeris: Belvedere Castle, Central Park (the NWS KNYC station). A single
+	 *  observer is correct to well under a pixel across a 50 km city (the sun's parallax over 50 km is ~0.0004 deg). */
+	UPROPERTY(Config, EditAnywhere, Category = "Sky")
+	double ObserverLatitudeDeg = 40.7794;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Sky")
+	double ObserverLongitudeDeg = -73.9692;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Sky")
+	double ObserverAltitudeMetres = 35.0;
+
+	/** Sun altitude at which the street lighting switches on/off (civil dusk = -6 deg). */
+	UPROPERTY(Config, EditAnywhere, Category = "Sky", meta = (ClampMin = "-18.0", ClampMax = "10.0"))
+	double StreetLightSunAltitudeDeg = -6.0;
+
+	/** Hysteresis around StreetLightSunAltitudeDeg so the lights do not flicker at the threshold. */
+	UPROPERTY(Config, EditAnywhere, Category = "Sky", meta = (ClampMin = "0.0", ClampMax = "3.0"))
+	double StreetLightHysteresisDeg = 0.35;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Sky")
+	bool bSpawnSkyActors = true;
+
+	/** Clear-sky illuminance of the sun disc at the zenith, lux (UE's physical light unit). */
+	UPROPERTY(Config, EditAnywhere, Category = "Sky", meta = (ClampMin = "1000.0"))
+	float SunIntensityLux = 120000.f;
+
+	/** Full-moon illuminance, lux (0.25 lx is the measured full-moon value; UE renders it with the moon light). */
+	UPROPERTY(Config, EditAnywhere, Category = "Sky", meta = (ClampMin = "0.0"))
+	float MoonIntensityLux = 0.25f;
+
+	// ---- weather (continued) ------------------------------------------------------------------------------------
+	/** Snapshots written by services/nycsim_live (used as the seed before the first live poll answers). */
+	UPROPERTY(Config, EditAnywhere, Category = "Weather")
+	FString WeatherJsonPath = TEXT("Content/NYCSim/Live/weather.json");
+
+	UPROPERTY(Config, EditAnywhere, Category = "Weather")
+	FString EsbLightsJsonPath = TEXT("Content/NYCSim/Live/esb_lights.json");
+
+	UPROPERTY(Config, EditAnywhere, Category = "Weather")
+	FString TidesJsonPath = TEXT("Content/NYCSim/Live/tides.json");
+
+	/** False: never touch the network; the JSON snapshots above are the only source. */
+	UPROPERTY(Config, EditAnywhere, Category = "Weather")
+	bool bUseLiveWeather = true;
+
+	/** api.weather.gov requires a contact in the User-Agent (its terms of service). */
+	UPROPERTY(Config, EditAnywhere, Category = "Weather")
+	FString HttpUserAgent = TEXT("NYCSim/1.0 (https://github.com/nycsim; contact via repository)");
+
+	UPROPERTY(Config, EditAnywhere, Category = "Weather", meta = (ClampMin = "1.0", ClampMax = "60.0"))
+	float HttpTimeoutSeconds = 12.f;
+
+	/** Observations older than this are treated as a provider failure (services/nycsim_live/weather.py). */
+	UPROPERTY(Config, EditAnywhere, Category = "Weather", meta = (ClampMin = "60.0"))
+	float MaxObservationAgeSeconds = 9000.f;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Weather", meta = (ClampMin = "60.0"))
+	float TidePollSeconds = 600.f;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Weather", meta = (ClampMin = "300.0"))
+	float EsbPollSeconds = 3600.f;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Weather")
+	FSoftObjectPath RainNiagaraSystem = FSoftObjectPath(TEXT("/Game/NYCSim/FX/NS_Rain.NS_Rain"));
+
+	UPROPERTY(Config, EditAnywhere, Category = "Weather")
+	FSoftObjectPath SnowNiagaraSystem = FSoftObjectPath(TEXT("/Game/NYCSim/FX/NS_Snow.NS_Snow"));
+
+	UPROPERTY(Config, EditAnywhere, Category = "Weather")
+	FSoftObjectPath SteamNiagaraSystem = FSoftObjectPath(TEXT("/Game/NYCSim/FX/NS_Steam.NS_Steam"));
+
+	UPROPERTY(Config, EditAnywhere, Category = "Weather")
+	FSoftObjectPath SplashNiagaraSystem = FSoftObjectPath(TEXT("/Game/NYCSim/FX/NS_RainSplash.NS_RainSplash"));
+
 	// ---- game ---------------------------------------------------------------------------------------------------
 	/** Class path of the player pawn (agent 2's vehicle pawn). Falls back to a fly-camera pawn if unresolvable. */
 	UPROPERTY(Config, EditAnywhere, Category = "Game")

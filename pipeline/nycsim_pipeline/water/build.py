@@ -80,6 +80,9 @@ def write_geoparquet(gdf: gpd.GeoDataFrame, path: Path, schema: str, artifact_id
     tmp = path.with_suffix(".tmp.parquet")
     gdf.to_parquet(tmp, index=False, compression="snappy")
     t = pq.read_table(tmp)
+    # pandas hands pyarrow large_string; DATA_CONTRACTS expects plain string columns
+    fields = [f.with_type(pa.string()) if pa.types.is_large_string(f.type) else f for f in t.schema]
+    t = t.cast(pa.schema(fields, metadata=t.schema.metadata))
     meta = dict(t.schema.metadata or {})
     meta[b"nycsim.schema"] = schema.encode()
     pq.write_table(t.replace_schema_metadata(meta), tmp, compression="snappy")

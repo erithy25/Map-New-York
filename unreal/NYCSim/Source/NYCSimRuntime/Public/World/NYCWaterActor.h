@@ -155,6 +155,10 @@ private:
 	UPROPERTY(Transient)
 	TObjectPtr<UMaterialInterface> WaterMaterial;
 
+	/** Transient shoreline-mask textures built from the staged PNGs (GC anchor; freed with the actor). */
+	UPROPERTY(Transient)
+	TArray<TObjectPtr<UTexture2D>> MaskTextures;
+
 	TArray<FPatch> Patches;
 	TMap<FIntPoint, FWaterTile> WaterTiles;
 

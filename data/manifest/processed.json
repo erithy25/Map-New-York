@@ -5683,6 +5683,76 @@
    "stage": "buildings",
    "tile_root": "data/processed/tiles"
   },
+  "citygml_da11": {
+   "artifact_id": "citygml_da11",
+   "buildings_parsed": 59675,
+   "bytes": 27050948,
+   "counters": {
+    "building_placeholder_bin": 2173,
+    "buildings_with_tri_dropped": 331,
+    "collinear_points_removed": 284916,
+    "dup_points_removed": 675691,
+    "ground_flipped_down": 1,
+    "polygon_non_planar": 15,
+    "roof_face_horizontal": 81403,
+    "roof_face_sloped": 22,
+    "roof_flipped_up": 808,
+    "roof_type_flat": 59675,
+    "tri_dropped_f32_degenerate": 375,
+    "wall_ground_inward": 135,
+    "wall_ground_outward": 497592
+   },
+   "da": 11,
+   "elapsed_s": 275.49,
+   "git_commit": "2c2a6f1d0a54",
+   "path": "data/processed/buildings/citygml/da11.parquet",
+   "produced_at": "2026-09-06T11:38:05Z",
+   "rows": 59675,
+   "schema": "citygml_solids_v1",
+   "sha256": "8d093b409d3223e8808e33d16ae50e1a589b008ea1fedfd91a77c6d99565dbd4",
+   "sources": [
+    "doitt_3d_citygml"
+   ],
+   "stage": "citygml"
+  },
+  "citygml_da13": {
+   "artifact_id": "citygml_da13",
+   "buildings_parsed": 23777,
+   "bytes": 22385789,
+   "counters": {
+    "building_placeholder_bin": 213,
+    "buildings_with_tri_dropped": 917,
+    "collinear_points_removed": 307161,
+    "dup_points_removed": 609281,
+    "duplicate_bin_rows_merged": 4,
+    "polygon_non_planar": 425,
+    "roof_face_horizontal": 60157,
+    "roof_face_sloped": 1993,
+    "roof_face_vertical": 9,
+    "roof_flipped_up": 3417,
+    "roof_type_complex": 6,
+    "roof_type_dome": 4,
+    "roof_type_flat": 23759,
+    "roof_type_gable": 2,
+    "roof_type_hip": 4,
+    "roof_type_mansard": 2,
+    "tri_dropped_f32_degenerate": 1336,
+    "wall_ground_inward": 2258,
+    "wall_ground_outward": 401201
+   },
+   "da": 13,
+   "elapsed_s": 237.96,
+   "git_commit": "2c2a6f1d0a54",
+   "path": "data/processed/buildings/citygml/da13.parquet",
+   "produced_at": "2026-09-06T11:38:24Z",
+   "rows": 23773,
+   "schema": "citygml_solids_v1",
+   "sha256": "b6abf724ba83f61b1a434cf87edfe5f49dec196003f4f028e866d092a1d2c858",
+   "sources": [
+    "doitt_3d_citygml"
+   ],
+   "stage": "citygml"
+  },
   "citygml_da15": {
    "artifact_id": "citygml_da15",
    "buildings_parsed": 66596,
@@ -6039,6 +6109,42 @@
    ],
    "stage": "citygml"
   },
+  "landmark_b_brooklyn_bridge_lod0": {
+   "artifact_id": "landmark_b_brooklyn_bridge_lod0",
+   "bytes": 5672688,
+   "git_commit": "2c2a6f1d0a54",
+   "landmark_id": "b_brooklyn_bridge",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_brooklyn_bridge.glb",
+   "produced_at": "2026-09-06T11:39:30Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "43ea96a2344006232511a7256fd4b88307b98f7cd8e584c172f7c84f02bdf814",
+   "sources": [
+    "osm_bbbike",
+    "published_brooklyn_bridge"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 120912
+  },
+  "landmark_b_brooklyn_bridge_lod1": {
+   "artifact_id": "landmark_b_brooklyn_bridge_lod1",
+   "bytes": 1399028,
+   "git_commit": "2c2a6f1d0a54",
+   "landmark_id": "b_brooklyn_bridge",
+   "lod": 1,
+   "path": "blender_out/landmarks/b_brooklyn_bridge_lod1.glb",
+   "produced_at": "2026-09-06T11:39:22Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "cc2efde8d9b57fa7129928bc312009145824998cb01309f6b57721a7bb306440",
+   "sources": [
+    "osm_bbbike",
+    "published_brooklyn_bridge"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 33496
+  },
   "landmark_b_smoke_test_lod0": {
    "artifact_id": "landmark_b_smoke_test_lod0",
    "bytes": 148460,
@@ -6079,6 +6185,66 @@
     "nta_2020"
    ],
    "stage": "buildings"
+  },
+  "landmark_glb:c_lever_house": {
+   "artifact_id": "landmark_glb:c_lever_house",
+   "bins": [
+    1035732
+   ],
+   "bytes": 7042916,
+   "footprint_iou": 0.9612,
+   "git_commit": "2c2a6f1d0a54",
+   "path": "blender_out/landmarks/c_lever_house.glb",
+   "produced_at": "2026-09-06T11:40:21Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "fc27d2af472b9587cc4ea4fadef0c120b488f5680cdb78acef95c5b9d0f1a692",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 31044,
+   "tris_lod1": 104
+  },
+  "landmark_glb:c_seagram_building": {
+   "artifact_id": "landmark_glb:c_seagram_building",
+   "bins": [
+    1036465
+   ],
+   "bytes": 8952912,
+   "footprint_iou": 1.0,
+   "git_commit": "2c2a6f1d0a54",
+   "path": "blender_out/landmarks/c_seagram_building.glb",
+   "produced_at": "2026-09-06T11:36:37Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "ccb87b88f54592ffabe5dea8dd139801e965ff842a7876dcfc96086101df376e",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 34356,
+   "tris_lod1": 140
+  },
+  "landmark_glb:chrysler": {
+   "artifact_id": "landmark_glb:chrysler",
+   "bins": [
+    1036156
+   ],
+   "bytes": 18120260,
+   "footprint_iou": 1.0,
+   "git_commit": "2c2a6f1d0a54",
+   "path": "blender_out/landmarks/chrysler.glb",
+   "produced_at": "2026-09-06T11:41:21Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "bd753df02abf1281d01a58311abfdb32277d6916d7639f17f1a7debf1ce9ec12",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 57851,
+   "tris_lod1": 132
   },
   "landmark_glb:empire_state": {
    "artifact_id": "landmark_glb:empire_state",
@@ -8447,14 +8613,13 @@
   },
   "water_hydrography": {
    "artifact_id": "water_hydrography",
-   "bytes": 14960789,
-   "git_commit": "5fc3b15ee35a",
-   "levels_finalized": true,
+   "bytes": 18294968,
+   "git_commit": "2c2a6f1d0a54",
    "path": "data/processed/water/hydrography.parquet",
-   "produced_at": "2026-09-06T11:32:48Z",
-   "rows": 1073,
+   "produced_at": "2026-09-06T11:39:40Z",
+   "rows": 2271,
    "schema": "water.hydrography/1",
-   "sha256": "72c600a80df5540b2cca0dbe38130b51f028a3b3cbe46711371863c4bfc82511",
+   "sha256": "f9ac3f01444c08720fcdb9f58966b115a7ed63b7b1fd3cdaf24ef736177c5672",
    "sources": [
     "plan_hydrography",
     "plan_hydro_structures",
@@ -8469,12 +8634,12 @@
   "water_shoreline": {
    "artifact_id": "water_shoreline",
    "bytes": 5902606,
-   "git_commit": "5fc3b15ee35a",
+   "git_commit": "2c2a6f1d0a54",
    "path": "data/processed/water/shoreline.parquet",
-   "produced_at": "2026-09-06T11:32:54Z",
+   "produced_at": "2026-09-06T11:39:40Z",
    "rows": 413,
    "schema": "water.shoreline/1",
-   "sha256": "86a948f56d940b22370f2a15c73419a97bee147989a2a4d31b6ab8e649cab921",
+   "sha256": "bb3821b24fb8c896b5adc2ed30fdce1f2d4ddca84dc9c261ac4820e433f334d5",
    "sources": [
     "plan_shoreline",
     "plan_hydro_structures",
@@ -8485,12 +8650,12 @@
   "water_structures": {
    "artifact_id": "water_structures",
    "bytes": 2500550,
-   "git_commit": "5fc3b15ee35a",
+   "git_commit": "2c2a6f1d0a54",
    "path": "data/processed/water/structures.parquet",
-   "produced_at": "2026-09-06T11:32:15Z",
+   "produced_at": "2026-09-06T11:39:40Z",
    "rows": 2536,
    "schema": "water.structures/1",
-   "sha256": "30a4324012c6d79e8d75f14d32aeb3a9b13859ad64e9a7b839b90be4a3f785ab",
+   "sha256": "74e1dbadc3e3f0c5a477d5f4edf5499c5bb7e76e7e775880e405296c008af054",
    "sources": [
     "plan_hydro_structures"
    ],
@@ -8498,13 +8663,13 @@
   },
   "water_tiles": {
    "artifact_id": "water_tiles",
-   "bytes": 28802,
-   "git_commit": "5fc3b15ee35a",
+   "bytes": 29432,
+   "git_commit": "2c2a6f1d0a54",
    "path": "data/processed/water/water_tiles.parquet",
-   "produced_at": "2026-09-06T11:32:15Z",
+   "produced_at": "2026-09-06T11:38:33Z",
    "rows": 2916,
    "schema": "water.water_tiles/1",
-   "sha256": "927be0a9bcc8674230ae303406b6b2080d5f814120dda8323ffcc38625b50ed9",
+   "sha256": "f4e0e46928c680ae75b8dd32bf396be5dd7feef87c30544267ae65a2480d04ce",
    "sources": [
     "plan_hydrography"
    ],
