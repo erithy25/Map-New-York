@@ -309,13 +309,30 @@ def probe_roads() -> dict[str, Any] | None:
 def probe_terrain() -> dict[str, Any] | None:
     tiles = sorted((PROCESSED / "tiles").glob("*/terrain.json")) if (PROCESSED / "tiles").exists() else []
     src = PROCESSED / "terrain" / "src2m" / "ingest_summary.json"
+    kept = PROCESSED / "terrain" / "src2m_index_kept.json"
     out: dict[str, Any] = {"tiles_with_terrain": len(tiles)}
+    # The 2 m working mosaic was deleted to free disk for the city-wide shell run, taking its
+    # ingest_summary.json with it. The index of what was ingested was deliberately kept behind
+    # (src2m_index_kept.json, with the removal recorded in src2m_removed.json), so the figures are
+    # still real: one entry per ingested window, each naming its source product, kind, byte count
+    # and SHA-256. Bytes are summed per distinct source_id, because one downloaded product is cut
+    # into several windows and summing the windows would count the same download many times.
+    entries: list[dict] = []
     if src.exists():
-        d = json.load(open(src))
-        srcs = d.get("sources", [])
-        out["source_products"] = len(srcs)
-        out["source_kinds"] = sorted({s.get("kind") for s in srcs if s.get("kind")})
-        out["source_bytes"] = sum(s.get("source_bytes", 0) for s in srcs)
+        entries = json.load(open(src)).get("sources", [])
+    elif kept.exists():
+        raw = json.load(open(kept)).get("entries", {})
+        entries = list(raw.values()) if isinstance(raw, dict) else list(raw)
+        out["source_index_only"] = True
+    if entries:
+        by_product: dict[str, int] = {}
+        for s in entries:
+            sid = s.get("source_id") or s.get("path") or ""
+            by_product[sid] = max(by_product.get(sid, 0), int(s.get("source_bytes", 0) or 0))
+        out["source_products"] = len(by_product)
+        out["source_windows"] = len(entries)
+        out["source_kinds"] = sorted({str(s.get("kind")) for s in entries if s.get("kind") is not None})
+        out["source_bytes"] = sum(by_product.values())
     if tiles:
         zmins, zmaxs = [], []
         for t in tiles[:5000]:
@@ -611,8 +628,16 @@ def build_report() -> str:
     A()
     if isinstance(tr, dict):
         A(f"- Tiles with a written heightmap: **{_fmt(tr.get('tiles_with_terrain'))}**")
-        A(f"- USGS 3DEP products ingested: {_fmt(tr.get('source_products'))} "
-          f"({', '.join(tr.get('source_kinds') or []) or 'kinds not recorded'}), {_fmt(round((tr.get('source_bytes') or 0)/1e9, 1))} GB")
+        kinds = ", ".join(f"1/{k} arc-second" if str(k).isdigit() else str(k) for k in (tr.get("source_kinds") or []))
+        A(f"- USGS 3DEP products ingested: **{_fmt(tr.get('source_products'))}** "
+          f"({kinds or 'kinds not recorded'}) cut into {_fmt(tr.get('source_windows'))} windows, "
+          f"{_fmt(round((tr.get('source_bytes') or 0) / 1e9, 1))} GB of source data")
+        if tr.get("source_index_only"):
+            A("  - The 2 m working mosaic those were cut into was deleted to free disk for the city-wide shell "
+              "run; the figures above come from the index kept behind for exactly this purpose "
+              "(`terrain/src2m_index_kept.json`, one record per window with its source SHA-256). The removal, "
+              "its reason and the command that regenerates it are in `terrain/src2m_removed.json`. The 2,916 "
+              "published tiles are the product and are complete.")
         if tr.get("z_min_m") is not None:
             A(f"- Elevation range across written tiles: {tr['z_min_m']:.2f} m to {tr['z_max_m']:.2f} m (NAVD88)")
         A("- Vertical accuracy **0.384 m RMS**, measured against 1,458,592 independent survey and LiDAR ground "

@@ -1,27 +1,28 @@
 {
- "azimuth_reason": "120.2 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 85.0 deg, 35.2 deg away",
+ "azimuth_reason": "120.1 deg, the bearing from this photograph's own GPS position to Equitable Building (120 Broadway); heading and position both come from the photograph.  The item's recorded azimuth is 85.0 deg, 35.1 deg away, and belongs to its nominal viewpoint",
  "camera": {
-  "azimuth_deg": 120.2,
+  "azimuth_deg": 120.14686252153177,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
-  "focal_mm": 35.0,
+  "focal_mm": 18.0,
   "ground_detail": {
-   "chosen_m": 11.11,
-   "max_m": 11.29,
-   "median_m": 11.2,
-   "min_m": 11.04,
+   "chosen_m": 10.64,
+   "max_m": 11.26,
+   "median_m": 10.76,
+   "min_m": 10.26,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 10.67,
    "radius_m": 12.0,
    "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
-  "hfov_deg": 54.432,
-  "lat": 40.708286,
-  "lon": -74.010987,
-  "long_side_fov_deg": 54.432,
+  "hfov_deg": 90.0,
+  "lat": 40.708686,
+  "lon": -74.011078,
+  "long_side_fov_deg": 90.0,
   "pitch_deg": 0.0,
   "portrait": false,
   "resolution": [
@@ -30,22 +31,40 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_equitable_building",
-  "terrain_z_m": 11.107,
-  "x": -5157.733,
-  "y": 915.02,
-  "z": 12.707
+  "terrain_z_m": 10.638,
+  "x": -5163.436,
+  "y": 953.212,
+  "z": 12.238
  },
- "camera_caption": "camera 40.70829, -74.01099 (NYC_TM -5158, 915) z 12.7 m NAVD88 | azimuth 120.2deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.70869, -74.01108 (NYC_TM -5163, 953) z 12.2 m NAVD88 | azimuth 120.1deg pitch +0.0deg | 18 mm on 36 mm (90.0deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.708686,
+  "lon": -74.011078,
+  "offset_from_recorded_m": 45.1,
+  "source": "this photograph's own EXIF camera GPS (40.70869, -74.01108), 45 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
  "clearance": {
-  "direction": "to the right",
+  "direction": "onto the nearest crosswalk",
+  "min_view_m": 39.1,
   "moved": true,
-  "note": "the recorded viewpoint is inside lm_equitable_building.9 (a ray straight up from the eye point hits its roof); the camera was moved 8 m to the right -- the nearest point in open air -- keeping the same eye height above the heightmap",
-  "offset_m": 8.0,
-  "reason": "inside lm_equitable_building.9 (a ray straight up from the eye point hits its roof)"
+  "nearest_obstruction_m": 20.0,
+  "note": "the recorded viewpoint is hard against prop_lamp_bishops_crook_0 (0.03 m from the lens in the view cone); the camera was moved 12 m onto the nearest real crosswalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 41 m from there",
+  "offset_m": 12.4,
+  "reason": "hard against prop_lamp_bishops_crook_0 (0.03 m from the lens in the view cone)",
+  "rule": "pavement snap with a clear view",
+  "view_m": 40.7
  },
+ "frame": {
+  "mean": 0.1275,
+  "reason": null,
+  "sd": 0.1179,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
- "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lens_reason": "widened from 35 mm to 18 mm (74 deg vertical) so that a level axis contains the subject: the equitable_building model's published 165 m height stands 164 m above the lens at 78 m, 64 deg above the horizon; held at the 18 mm floor, so the top of the subject is still cut off -- past that point the distortion would stop the two frames being comparable",
  "lighting": {
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 901.7,
@@ -57,14 +76,14 @@
   },
   "exposure_stops": 0.0,
   "sky_azimuth_deg": 183.955,
-  "sky_elevation_deg": 53.966,
+  "sky_elevation_deg": 53.965,
   "sun_lamp": true,
   "sun_strength_blender": 1.67,
   "view_transform": "Filmic"
  },
  "name": "Equitable Building (120 Broadway)",
  "night": false,
- "pitch_reason": "level optical axis (Equitable Building (120 Broadway) is 60 m away and would need +53 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "pitch_reason": "level optical axis (Equitable Building (120 Broadway) is 78 m away and would need +46 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
  "reference_photo": {
   "author": "Kidfly182",
   "confidence": "high",
@@ -79,9 +98,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_equitable_building/render.png",
- "rendered_at": "2026-09-06T17:52:06Z",
+ "rendered_at": "2026-09-06T22:29:02Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -91,161 +110,173 @@
     "t_-6_0",
     "t_-6_1"
    ],
+   "landmark_bins_suppressed": 19,
+   "landmark_faces_suppressed": 2992,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-5_0": {
      "lod": 0,
      "objects": 18,
-     "triangles": 11932
+     "triangles": 11872
     },
     "t_-5_1": {
      "lod": 0,
      "objects": 18,
-     "triangles": 42918
+     "triangles": 42654
     },
     "t_-6_0": {
      "lod": 0,
      "objects": 16,
-     "triangles": 14912
+     "triangles": 12796
     },
     "t_-6_1": {
      "lod": 0,
      "objects": 18,
-     "triangles": 15588
+     "triangles": 15036
     }
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 4,
    "triangle_budget": 3510000,
-   "triangles": 85350
+   "triangles": 82358
   },
   "centre_tm": [
-   -5153.71,
-   921.93
+   -5161.37,
+   966.36
   ],
   "kit": {
-   "capped": "triangle budget 2663466",
+   "capped": null,
    "per_category": {
-    "bulkhead": 10,
-    "cornice": 23,
-    "door_entry": 14,
-    "hvac": 3,
-    "parapet": 5,
-    "pilaster": 25,
-    "scaffold": 88,
-    "storefront": 100,
-    "storefront_interior": 13,
-    "string_course": 23,
-    "water_tower": 5,
-    "window": 8093,
+    "bulkhead": 17,
+    "cornice": 34,
+    "door_entry": 22,
+    "hvac": 10,
+    "parapet": 14,
+    "pilaster": 28,
+    "scaffold": 53,
+    "storefront": 146,
+    "storefront_interior": 20,
+    "string_course": 34,
+    "water_tower": 9,
+    "window": 8525,
     "window_accessory": 16
    },
-   "placed": 8418,
+   "placed": 8928,
    "radius_m": 120.0,
-   "records_in_range": 14783,
+   "records_in_range": 11873,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 2945,
    "tiles_missing": [],
    "tiles_read": [
     "t_-6_0",
     "t_-6_1"
    ],
-   "triangles": 2663744,
+   "triangles": 2242776,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 40.1,
+     "distance_m": 69.1,
      "id": "equitable_building",
      "lod": 0,
      "name": "Equitable Building",
      "triangles": 86321
     },
     {
-     "distance_m": 108.0,
+     "distance_m": 120.7,
      "id": "trinity_church",
      "lod": 0,
      "name": "Trinity Church",
      "triangles": 3984
     },
     {
-     "distance_m": 123.1,
+     "distance_m": 166.0,
      "id": "federal_hall",
      "lod": 0,
      "name": "Federal Hall National Memorial",
      "triangles": 9070
     },
     {
-     "distance_m": 140.1,
-     "id": "nyse",
-     "lod": 0,
-     "name": "New York Stock Exchange",
-     "triangles": 26049
-    },
-    {
-     "distance_m": 143.3,
+     "distance_m": 180.8,
      "id": "one_wall_street",
      "lod": 0,
      "name": "One Wall Street (Irving Trust Building)",
      "triangles": 42712
     },
     {
-     "distance_m": 175.4,
+     "distance_m": 183.7,
+     "id": "nyse",
+     "lod": 0,
+     "name": "New York Stock Exchange",
+     "triangles": 26049
+    },
+    {
+     "distance_m": 216.4,
      "id": "40_wall_street",
      "lod": 0,
      "name": "40 Wall Street (Trump Building)",
      "triangles": 43167
     },
     {
-     "distance_m": 370.6,
-     "id": "charging_bull",
-     "lod": 0,
-     "name": "Charging Bull",
-     "triangles": 818
-    },
-    {
-     "distance_m": 407.2,
+     "distance_m": 364.3,
      "id": "b_wtc_site",
      "lod": 0,
      "name": "World Trade Center site",
      "triangles": 136174
     },
     {
-     "distance_m": 514.2,
+     "distance_m": 404.3,
+     "id": "charging_bull",
+     "lod": 0,
+     "name": "Charging Bull",
+     "triangles": 818
+    },
+    {
+     "distance_m": 478.4,
      "id": "woolworth",
      "lod": 0,
      "name": "Woolworth Building",
      "triangles": 47871
     },
     {
-     "distance_m": 1637.2,
+     "distance_m": 511.7,
+     "id": "b_one_world_trade_center",
+     "lod": 0,
+     "name": "One World Trade Center",
+     "triangles": 6044
+    },
+    {
+     "distance_m": 1681.8,
      "id": "b_hugh_carey_portals",
      "lod": 0,
      "name": "Hugh L. Carey Tunnel",
      "triangles": 43880
     }
    ],
-   "placed": 10,
+   "placed": 11,
    "skipped": 0,
    "skipped_detail": [],
-   "triangles": 440046
+   "triangles": 446090
   },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 367,
-    "curb": 796,
-    "median": 43,
+    "crosswalk": 390,
+    "curb": 847,
+    "median": 52,
     "parking_lot": 3,
-    "plaza": 38,
-    "roadbed": 323,
-    "sidewalk": 175
+    "plaza": 39,
+    "roadbed": 349,
+    "sidewalk": 184
    },
-   "placed": 1745,
-   "radius_m": 500.0,
+   "placed": 1864,
+   "radius_m": 525.0348685586316,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_0",
@@ -253,34 +284,35 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "triangles": 130654,
-   "vertices": 133914
+   "triangles": 139380,
+   "vertices": 142862
   },
   "props": {
    "capped": null,
+   "impostor_cards_dropped": 5,
    "leaf_off": true,
    "per_kind": {
-    "bench": 58,
-    "bike_rack": 20,
+    "bench": 48,
+    "bike_rack": 18,
     "bus_shelter": 1,
-    "bus_stop_sign": 19,
-    "citibike_dock": 5,
+    "bus_stop_sign": 18,
+    "citibike_dock": 4,
     "flagpole": 6,
-    "hydrant": 79,
+    "hydrant": 75,
     "mailbox": 2,
-    "manhole": 117,
-    "newsstand": 7,
+    "manhole": 114,
+    "newsstand": 6,
     "steam_vent": 3,
-    "street_lamp": 150,
+    "street_lamp": 170,
     "subway_emergency_exit": 1,
-    "subway_entrance": 32,
-    "subway_vent_grate": 70,
-    "tree": 19,
-    "waste_basket": 26
+    "subway_entrance": 35,
+    "subway_vent_grate": 61,
+    "tree": 20,
+    "waste_basket": 25
    },
-   "placed": 615,
+   "placed": 607,
    "radius_m": 250.0,
-   "rows_in_range": 890,
+   "rows_in_range": 869,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_0",
@@ -289,48 +321,52 @@
     "t_-6_1"
    ],
    "tree_species_substituted": 0,
-   "triangles": 1000484,
+   "triangles": 1015780,
    "unmapped_kinds": {
     "artwork": 9,
-    "cooling_tower": 107,
-    "curb_ramp": 148,
+    "cooling_tower": 100,
+    "curb_ramp": 142,
     "drinking_fountain": 2,
     "memorial": 9
    }
   },
-  "radius_m": 500.0,
-  "seconds": 33.55,
+  "radius_m": 525.0348685586316,
+  "seconds": 64.53,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 3.333,
-   "triangles": 180000,
-   "water_quads": 858,
-   "z_max_m": 13.63,
-   "z_min_m": -5.05
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 201,
+   "spacing_m": 2.0,
+   "triangles": 80000,
+   "water_quads": 13,
+   "z_max_m": 13.55,
+   "z_min_m": -2.4
   },
-  "triangles": 4500278
+  "triangles": 4006384
  },
  "scene_request": {
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
-  "radius_m": 500.0
+  "radius_m": 525.0348685586316
  },
  "seconds": {
-  "render": 111.6,
-  "scene": 34.8,
-  "total": 146.4
+  "render": 153.7,
+  "scene": 74.2,
+  "total": 227.8
  },
  "slug": "landmark_equitable_building",
  "status": "rendered",
  "subject": {
-  "distance_m": 60.1,
+  "distance_m": 78.1,
   "name": "Equitable Building (120 Broadway)"
  },
  "sun": {
-  "azimuth_deg": 183.95485968818258,
-  "elevation_deg": 53.96582362894991,
+  "azimuth_deg": 183.95466786647543,
+  "elevation_deg": 53.96542950054933,
   "local": "2022-04-01T13:09:11-04:00",
   "time_source": "EXIF DateTimeOriginal",
   "utc": "2022-04-01T17:09:11Z"

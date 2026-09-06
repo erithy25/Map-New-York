@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-06 22:24 UTC from commit `b3825c374b37` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-06 22:29 UTC from commit `b9b2bcfd95b3` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -91,7 +91,8 @@ Source of truth: NYC Street Centerline (CSCL) and LION, per ADR-006.
 ## 3. Terrain, water and coastline
 
 - Tiles with a written heightmap: **2,916**
-- USGS 3DEP products ingested: not produced (kinds not recorded), 0.00 GB
+- USGS 3DEP products ingested: **30** (1/13 arc-second, 1/19 arc-second, 1m) cut into 117 windows, 4.50 GB of source data
+  - The 2 m working mosaic those were cut into was deleted to free disk for the city-wide shell run; the figures above come from the index kept behind for exactly this purpose (`terrain/src2m_index_kept.json`, one record per window with its source SHA-256). The removal, its reason and the command that regenerates it are in `terrain/src2m_removed.json`. The 2,916 published tiles are the product and are complete.
 - Elevation range across written tiles: -5.18 m to 210.28 m (NAVD88)
 - Vertical accuracy **0.384 m RMS**, measured against 1,458,592 independent survey and LiDAR ground points (0.291 m against planimetric spot elevations, 0.411 m against building ground grades), median bias −0.037 m after rejecting 0.52 % outliers. The plan assumed 0.15 m; this is the measured figure.
 - Land coverage is 100.000 % in every borough, with 99.97 % or better taken from the 3DEP 1 m product (ADR-017). Tile seams match to 2.8 × 10⁻¹⁴ m across 5,724 adjacent pairs.
@@ -111,7 +112,7 @@ Water: hydrography polygons 2,235 · shoreline lines 413 · structures 2,536 · 
 | kit | 138 | 140.3 MB |
 | props | 122 | 79.2 MB |
 | vehicles | 93 | 100.2 MB |
-| character | 25 | 512.8 MB |
+| character | 2 | 34.8 MB |
 | landmarks | 127 | 920.5 MB |
 | tiles | 1,010 | 4,624.0 MB |
 
@@ -179,7 +180,7 @@ Stage reports present: buildings, buildings_mesh, character, citygml, comparison
 
 Lanes that split their work wrote more than one: `landmarks` (REPORT_B.md, REPORT_C.md).
 
-Per-subject reports underneath those: comparison 27, facade 1, landmarks 34, reference 2, traffic_density 2.
+Per-subject reports underneath those: comparison 28, facade 1, landmarks 34, reference 2, traffic_density 2.
 
 What is verified in this environment versus on a workstation is defined in `docs/ARCHITECTURE.md` §14. In short: geodesy, tiling, streaming logic, routing, traffic rules, signal phasing, astronomy, time zone handling, weather parsing, data coverage and asset geometry are verified here by tests and Cycles renders. Unreal Engine compilation, cooking, frame rate, vehicle feel and audio are not — no Unreal editor or GPU exists in this environment, and no claim is made that they were tested.
 
