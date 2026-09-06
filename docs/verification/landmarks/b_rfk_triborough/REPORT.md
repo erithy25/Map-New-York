@@ -1,10 +1,10 @@
 # Robert F. Kennedy (Triborough) Bridge
 
-Script: `blender/landmarks/b_rfk_triborough.py` · agent B · generated 2026-09-06 14:08 UTC
+Script: `blender/landmarks/b_rfk_triborough.py` · agent B · generated 2026-09-06 15:12 UTC
 
 ## Placement
 
-axis heading 329.86 deg (compass, +s), origin NYC_TM (1967.31, 8847.50); alignment source: osm bridge:support ways + published span
+axis heading 329.86 deg (compass, +s), origin NYC_TM (1967.31, 8847.50); alignment source: roads segments.parquet centreline (42 vertices, 0.67 deg from the OSM support axis) + osm supports + published span
 measured span between sus_tower_qn and sus_tower_wi: 420.60 m vs published 420.62 m (-0.00 %); towers snapped symmetrically to the published value
 
 | support | kind | NYC_TM x | NYC_TM y | s (m) | t (m) | source |
@@ -36,5 +36,10 @@ and the island parkland, and the pedestrian walkway ramps.
 
 ## Polycounts / outputs
 
-* `blender_out/landmarks/b_rfk_triborough.glb` — 80,454 triangles, 3.70 MB, bounds min ['-674.1', '-587.5', '-12.0'] max ['467.7', '3563.4', '96.7']
-* `blender_out/landmarks/b_rfk_triborough_lod1.glb` — 22,618 triangles, 0.90 MB, bounds min ['-674.1', '-587.5', '-12.0'] max ['467.7', '3563.4', '96.7']
+* `blender_out/landmarks/b_rfk_triborough.glb` — 80,446 triangles, 3.71 MB, bounds min ['-674.1', '-591.2', '-12.0'] max ['467.7', '3563.4', '96.7']
+
+## Verification renders (Cycles CPU, 64 spp)
+
+![rfk_reference](rfk_reference.png)
+![astoria_suspension_span](astoria_suspension_span.png)
+![suspension_elevation](suspension_elevation.png)

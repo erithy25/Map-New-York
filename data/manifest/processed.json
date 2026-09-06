@@ -6684,15 +6684,15 @@
   },
   "landmark_b_bronx_whitestone_lod0": {
    "artifact_id": "landmark_b_bronx_whitestone_lod0",
-   "bytes": 1978872,
-   "git_commit": "ca87e1135759",
+   "bytes": 2006824,
+   "git_commit": "c445a8cee9a2",
    "landmark_id": "b_bronx_whitestone",
    "lod": 0,
    "path": "blender_out/landmarks/b_bronx_whitestone.glb",
-   "produced_at": "2026-09-06T14:08:56Z",
+   "produced_at": "2026-09-06T15:15:13Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "e53954b987ffa923ce48b44702f78aa7f144bbfcb812960ff2f4cab7ea36ed71",
+   "sha256": "98ee125716e430bafa5a67cfc93f1daddb8c923d4ab664f1019c6acb7522e3ec",
    "sources": [
     "osm_bbbike",
     "published_bronx_whitestone"
@@ -7015,14 +7015,14 @@
   "landmark_b_hell_gate_lod0": {
    "artifact_id": "landmark_b_hell_gate_lod0",
    "bytes": 1089404,
-   "git_commit": "ca87e1135759",
+   "git_commit": "c445a8cee9a2",
    "landmark_id": "b_hell_gate",
    "lod": 0,
    "path": "blender_out/landmarks/b_hell_gate.glb",
-   "produced_at": "2026-09-06T14:09:01Z",
+   "produced_at": "2026-09-06T15:17:56Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "19986769e443b95251bff8d1f76921c4fa83b7a583c1eaba90321ed4e1107c0d",
+   "sha256": "bf6f3163d62af89bfdc3e2bee34392729978421d127b93a7b3a8142920ff857b",
    "sources": [
     "osm_bbbike",
     "published_hell_gate"
@@ -7446,21 +7446,21 @@
   },
   "landmark_b_rfk_triborough_lod0": {
    "artifact_id": "landmark_b_rfk_triborough_lod0",
-   "bytes": 3695712,
-   "git_commit": "ca87e1135759",
+   "bytes": 3705548,
+   "git_commit": "c445a8cee9a2",
    "landmark_id": "b_rfk_triborough",
    "lod": 0,
    "path": "blender_out/landmarks/b_rfk_triborough.glb",
-   "produced_at": "2026-09-06T14:08:40Z",
+   "produced_at": "2026-09-06T15:09:07Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "972fbe8da1c86d00349626d5b30569596c96e03433b54af0f96fa46155de93e3",
+   "sha256": "16abc8a6c8dc4500a51393ba6f5dca7ec8e62880fb43a673d557396bb14bfadf",
    "sources": [
     "osm_bbbike",
     "published_rfk"
    ],
    "stage": "landmarks_b",
-   "triangles": 80454
+   "triangles": 80446
   },
   "landmark_b_rfk_triborough_lod1": {
    "artifact_id": "landmark_b_rfk_triborough_lod1",
@@ -7610,15 +7610,15 @@
   },
   "landmark_b_throgs_neck_lod0": {
    "artifact_id": "landmark_b_throgs_neck_lod0",
-   "bytes": 2329736,
-   "git_commit": "ca87e1135759",
+   "bytes": 2359092,
+   "git_commit": "c445a8cee9a2",
    "landmark_id": "b_throgs_neck",
    "lod": 0,
    "path": "blender_out/landmarks/b_throgs_neck.glb",
-   "produced_at": "2026-09-06T14:08:48Z",
+   "produced_at": "2026-09-06T15:12:28Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "0ba4965bf8db5dae30109f4e9bbb4bd78beb6b0efe5cb8e6dc38a59f714a5848",
+   "sha256": "48e6fa4ba5b4d743d295f29f29a43294f4eb5f64623e89b76bca115872bd3e89",
    "sources": [
     "osm_bbbike",
     "published_throgs_neck"
@@ -7856,14 +7856,14 @@
    "bins": [
     1076262
    ],
-   "bytes": 24397952,
+   "bytes": 24400040,
    "footprint_iou": 1.0,
-   "git_commit": "e9c4094042a0",
+   "git_commit": "c445a8cee9a2",
    "path": "blender_out/landmarks/30_rockefeller_plaza.glb",
-   "produced_at": "2026-09-06T11:53:08Z",
+   "produced_at": "2026-09-06T15:09:41Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "5d10efaee9f9ed48277d23a9c89dde6832c0bf9dd936c9cbd869bb26a9872724",
+   "sha256": "85fc362eebab00b1b784d29d5cbfdcfd1a297bfe43e11324e24b470c77532638",
    "sources": [
     "building_footprints"
    ],
@@ -8209,12 +8209,12 @@
    "bins": [],
    "bytes": 8995844,
    "footprint_iou": null,
-   "git_commit": "54b456b4d9c8",
+   "git_commit": "c445a8cee9a2",
    "path": "blender_out/landmarks/c_high_line.glb",
-   "produced_at": "2026-09-06T15:05:08Z",
+   "produced_at": "2026-09-06T15:15:34Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "95ec36e208d4d2bb8d092cc0bf1b2e38a9bf7ea29dfefd3f1e9e015e0daab5b8",
+   "sha256": "50268c678f548d197629046c962bfeee311d6534ab50ee33f024a494830ab3b9",
    "sources": [
     "building_footprints"
    ],

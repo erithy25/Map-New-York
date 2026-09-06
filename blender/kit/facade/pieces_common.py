@@ -69,7 +69,7 @@ def reg_flats() -> None:
     K.flat("foliage_green_dry", (0.105, 0.115, 0.040), 0.8)
     K.flat("soil", (0.06, 0.045, 0.035), 0.9)
     K.flat("chrome", (0.62, 0.63, 0.65), 0.18, metallic=1.0)
-    K.flat("interior_room_dark", (0.055, 0.052, 0.050), 0.92)      # returns of the sealed room box behind every pane
+    K.flat("interior_room_dark", (0.125, 0.121, 0.116), 0.92)      # returns of the sealed room box behind every pane
     K.emissive("lamp_warm", (1.0, 0.82, 0.55), 6.0)
     K.emissive("neon_red", (1.0, 0.10, 0.06), 14.0)
     K.emissive("neon_blue", (0.15, 0.45, 1.0), 12.0)
@@ -161,7 +161,7 @@ def reg_generated_materials() -> None:
     # turns into a maze across every window, and in UE it would be a black hole. A low emissive term is the
     # standard interior-card treatment and matches what a dim room actually looks like from a sunlit street.
     K.generated_material("interior_unlit", image=interior_card_image(False), roughness=0.9,
-                         emission=(1, 1, 1), emission_strength=0.60, uv_scale_m=2.0)
+                         emission=(1, 1, 1), emission_strength=0.85, uv_scale_m=2.0)
     K.generated_material("ivy_leaf", image=ivy_image(), roughness=0.75, alpha_from_image=True, uv_scale_m=0.55)
 
 

@@ -376,19 +376,32 @@ class AssetLibrary:
 
 
 def add_buildings(cx: float, cy: float, radius_m: float, *, lod0_radius_m: float = 1200.0,
+                  lod1_radius_m: float = 2500.0, triangle_budget: int = 3_500_000,
                   col: bpy.types.Collection | None = None) -> dict:
-    """Import every built tile shell within ``radius_m``; one LOD per tile, nearest gets LOD0."""
+    """Import the built tile shells within ``radius_m``, nearest first, one LOD per tile.
+
+    A 5 km skyline scene reaches 99 tiles; importing all of them at LOD0 would cost more triangles
+    than the machine has memory for, so tiles are taken nearest-first, dropped down to LOD1 beyond
+    ``lod0_radius_m`` and LOD2 beyond ``lod1_radius_m``, and the import stops when the budget is
+    spent.  Whatever is dropped is named in the result so the sheet can say so.
+    """
     wanted = tiles_in_radius(cx, cy, radius_m)
+    wanted.sort(key=lambda t: math.hypot((t[0] + 0.5) * TILE_SIZE_M - cx,
+                                         (t[1] + 0.5) * TILE_SIZE_M - cy))
     imported, missing, tris, per_tile = [], [], 0, {}
+    dropped_for_budget = []
     for tx, ty in wanted:
         name = tile_name(tx, ty)
+        if tris >= triangle_budget:
+            dropped_for_budget.append(name)
+            continue
         glb = TILES_GLB / name / "tile_buildings.glb"
         if not glb.exists():
             missing.append(name)
             continue
         centre = ((tx + 0.5) * TILE_SIZE_M, (ty + 0.5) * TILE_SIZE_M)
         dist = math.hypot(centre[0] - cx, centre[1] - cy)
-        lod = 0 if dist <= lod0_radius_m else 1
+        lod = 0 if dist <= lod0_radius_m else (1 if dist <= lod1_radius_m else 2)
         try:
             created = import_glb(glb)
         except Exception as exc:
@@ -425,6 +438,8 @@ def add_buildings(cx: float, cy: float, radius_m: float, *, lod0_radius_m: float
     bpy.context.view_layer.update()
     return {"tiles_wanted": len(wanted), "tiles_imported": len(imported), "tiles_missing": len(missing),
             "imported": sorted(imported), "missing": sorted(missing), "triangles": tris,
+            "tiles_dropped_for_budget": len(dropped_for_budget),
+            "dropped_for_budget": sorted(dropped_for_budget), "triangle_budget": triangle_budget,
             "per_tile": per_tile}
 
 
@@ -970,7 +985,8 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
     rep = SceneReport(centre_tm=(cx, cy), radius_m=radius_m)
     rep.terrain = build_terrain(sampler, cx, cy, radius_m, max_side=terrain_max_side, col=c_terrain)
     rep.pavement = add_pavement(cx, cy, min(radius_m, pavement_radius_m), sampler, col=c_pave)
-    rep.buildings = add_buildings(cx, cy, radius_m, lod0_radius_m=lod0_radius_m, col=c_build)
+    rep.buildings = add_buildings(cx, cy, radius_m, lod0_radius_m=lod0_radius_m,
+                                  triangle_budget=int(triangle_budget * 0.78), col=c_build)
 
     lib = AssetLibrary()
     rep.landmarks = add_landmarks(lib, cx, cy, radius_m, col=c_landmark)

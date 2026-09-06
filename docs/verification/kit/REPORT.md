@@ -26,7 +26,7 @@ facade_classes.json}`).
 | `blender/kit/facade/build_kit.py` | driver — `python3 blender/kit/facade/build_kit.py [--only PREFIX] [--slice I/N] [--dry-run]` |
 | `blender/kit/facade/render_sheets.py` | Cycles contact sheets and the assembled tenement test |
 | `blender/kit/facade/render_all.sh` | runs every verification render, one Blender process at a time |
-| `tests/test_kit_facade.py` | 1 134 acceptance tests against the exported artefacts |
+| `tests/test_kit_facade.py` | 1 148 acceptance tests against the exported artefacts |
 
 ### Coverage against the brief
 
@@ -150,8 +150,8 @@ therefore `lod1 ≤ max(2, ceil(0.25 · lod0))`, which is binding for every piec
 
 ```
 $ nice -n 15 python3 blender/kit/facade/build_kit.py
-138 pieces in 15 s
-  triangles LOD0 total 50765 (as exported (glb))
+138 pieces in 16 s
+  triangles LOD0 total 50901 (as exported (glb))
   over budget : []
   LOD1 > 25 % : []
   size dev>5 %: []
@@ -164,7 +164,7 @@ embedded 1 K maps stay resident); 140.2 MB of glb written; the glTF exporter emi
 
 ```
 $ python3 -m pytest tests/test_kit_facade.py -q
-1134 passed in 14.45s
+1148 passed in 11.70s
 ```
 
 The suite opens every glb with `pygltflib` and checks, per piece: the file exists and loads; meshes `<id>` and
@@ -183,22 +183,23 @@ storefront bay width × gate state, every interior kind and the pieces the brief
 
 ### 4.3 Renders
 
-Cycles CPU, 64 samples, adaptive sampling at 0.01, bounces limited to 12 (2 diffuse / 2 glossy / 8 transmission /
-24 transparent),
-`nice -n 10`, one Blender process at a time:
+Cycles CPU, 64 samples, adaptive sampling at 0.01, bounces limited to 12 (2 diffuse, 2 glossy, 8 transmission,
+24 transparent), `nice -n 10`, one Blender process at a time. A sheet takes 6-12 minutes and the tenement about
+15 on this box (four vCPUs shared with five other agents; load average ~35 throughout).
 
-| file | contents | resolution | render |
-|---|---|---|---|
-| `docs/verification/kit/tenement_test.png` | assembled 25 ft × 18 m five-storey New Law tenement | 800 × 1296 | RENDER_TENEMENT |
-| `docs/verification/kit/facade_sheet_windows.png` | 18 windows | 800 × H | RENDER_windows |
-| `docs/verification/kit/facade_sheet_accessories.png` | 15 window accessories | 800 × H | RENDER_accessories |
-| `docs/verification/kit/facade_sheet_entries.png` | 13 entrances | 800 × H | RENDER_entries |
-| `docs/verification/kit/facade_sheet_trim.png` | 23 cornices / string courses / quoins / pilasters / trim | 800 × H | RENDER_trim |
-| `docs/verification/kit/facade_sheet_storefront.png` | 19 storefront pieces | 800 × H | RENDER_storefront |
-| `docs/verification/kit/facade_sheet_interiors.png` | 11 interior shells | 800 × H | RENDER_interiors |
-| `docs/verification/kit/facade_sheet_roof.png` | 6 fire escapes, 5 parapets, 3 bulkheads, 2 water towers | 800 × H | RENDER_roof |
-| `docs/verification/kit/facade_sheet_rooftop_equipment.png` | 7 HVAC, 4 antennas, 2 billboards | 800 × H | RENDER_rooftop_equipment |
-| `docs/verification/kit/facade_sheet_street.png` | 3 scaffold, 3 fence, 3 vegetation | 800 × H | RENDER_street |
+| file | contents | resolution | size |
+|---|---|---|---:|
+| `docs/verification/kit/tenement_test.png` | assembled 25 ft x 18.07 m five-storey New Law tenement | 900 x 1458 | 1876 kB |
+| `docs/verification/kit/facade_closeup_detail.png` | street-distance detail: reveal, sill drip, belt course, cornice consoles | 500 x 600 | 491 kB |
+| `docs/verification/kit/facade_sheet_windows.png` | 18 windows | 800 x 774 | 805 kB |
+| `docs/verification/kit/facade_sheet_accessories.png` | 15 window accessories | 800 x 847 | 851 kB |
+| `docs/verification/kit/facade_sheet_entries.png` | 13 entrances | 800 x 822 | 873 kB |
+| `docs/verification/kit/facade_sheet_trim.png` | 24 cornices / string courses / quoins / pilasters / trim | 800 x 1027 | 1048 kB |
+| `docs/verification/kit/facade_sheet_storefront.png` | 19 storefront bays, gates, grilles, awnings, sign | 800 x 767 | 856 kB |
+| `docs/verification/kit/facade_sheet_interiors.png` | 11 interior shells | 800 x 628 | 676 kB |
+| `docs/verification/kit/facade_sheet_roof.png` | 6 fire escapes, 5 parapets, 3 bulkheads, 2 water towers | 800 x 1173 | 1305 kB |
+| `docs/verification/kit/facade_sheet_rooftop_equipment.png` | 7 HVAC, 4 antennas, 2 billboards | **not rendered** | — |
+| `docs/verification/kit/facade_sheet_street.png` | 3 scaffold, 3 fence, 3 vegetation | **not rendered** | — |
 
 Each sheet is a near-orthographic elevation (camera pulled back 240 m with a matching narrow FOV) with every
 piece labelled with its id, triangle count and measured size, so the sheet doubles as the visual index of the kit.
@@ -256,7 +257,12 @@ The renders were inspected and the following were corrected before this report:
 11. **Decimation fell back to a single bounding quad too eagerly.** `make_lod1` now retries with a tightening
     ratio and rejects a decimated result that has collapsed below four triangles, so the flat-quad proxy is a
     last resort rather than the common case.
-12. **The interior shell stuck out past the building.** In the first tenement assembly the 3.6 m bay sat against
+12. **Every pane was a denoiser maze.** The room box behind the glass is sealed, so a purely diffuse interior
+    card is lit only by what leaks through the pane: in Cycles that is near-black noise, which OpenImageDenoise
+    turns into a fine maze across every window (clearly visible at 1100 px on the tenement). The unlit card now
+    carries a low emissive term (0.45), which is the standard interior-card treatment, matches what a dim room
+    looks like from a sunlit street, and renders clean.
+13. **The interior shell stuck out past the building.** In the first tenement assembly the 3.6 m bay sat against
     the party wall, so the 4.80 m shell behind it overhung the facade by half a metre. The test now centres the
     bay where the shell fits, and every shell entry states its width and that it may be scaled in X.
 
@@ -470,7 +476,7 @@ Fonts: `assets/fonts/Overpass` (SIL Open Font License 1.1) is used for the conta
 ```sh
 python3 blender/common/textures.py --fetch-all          # CC0 sources + LICENSE.json (already on disk)
 python3 blender/kit/facade/build_kit.py                 # 138 glb + catalog, ~20 s
-python3 -m pytest tests/test_kit_facade.py -q           # 1 134 assertions
+python3 -m pytest tests/test_kit_facade.py -q           # 1 148 assertions
 sh blender/kit/facade/render_all.sh 64 800              # every verification render, sequentially
 ```
 

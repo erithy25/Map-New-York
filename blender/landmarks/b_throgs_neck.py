@@ -86,7 +86,7 @@ def deck_z(s: float) -> float:
 
 
 def build(lod: int = 0):
-    fit = ba.bridge_axis(SUPPORTS, ("tower_qn", "tower_bx"), MAIN_SPAN, roads_name="Throgs Neck")
+    fit = ba.bridge_axis(SUPPORTS, ("tower_qn", "tower_bx"), MAIN_SPAN, roads_name="THROGS NECK BRG")
     axis = fit.axis
     objs: list = []
     tower = bl.TowerSpec(kind="portal", z_top=Z_TOWER_TOP, z_saddle=Z_SADDLE, width_t=DECK_W + 2.0, depth_s=8.5,
@@ -148,7 +148,7 @@ def build(lod: int = 0):
 
 
 def main() -> None:
-    fit = ba.bridge_axis(SUPPORTS, ("tower_qn", "tower_bx"), MAIN_SPAN)
+    fit = ba.bridge_axis(SUPPORTS, ("tower_qn", "tower_bx"), MAIN_SPAN, roads_name="THROGS NECK BRG")
     ax = fit.axis
     land_qn, land_bx = ax.p(-680.0, 0.0), ax.p(680.0, 0.0)
     ctx = (("water_dark", 0.35, 1800.0, (0.0, 0.0)),

@@ -1,18 +1,18 @@
 # Bronx-Whitestone Bridge
 
-Script: `blender/landmarks/b_bronx_whitestone.py` · agent B · generated 2026-09-06 14:08 UTC
+Script: `blender/landmarks/b_bronx_whitestone.py` · agent B · generated 2026-09-06 15:17 UTC
 
 ## Placement
 
-axis heading 153.89 deg (compass, +s), origin NYC_TM (10147.46, 11339.56); alignment source: osm bridge:support ways + published span
+axis heading 153.89 deg (compass, +s), origin NYC_TM (10147.46, 11339.56); alignment source: roads segments.parquet centreline (27 vertices, 0.01 deg from the OSM support axis) + osm supports + published span
 measured span between tower_bx and tower_qn: 701.15 m vs published 701.04 m (+0.02 %); towers snapped symmetrically to the published value
 
 | support | kind | NYC_TM x | NYC_TM y | s (m) | t (m) | source |
 |---|---|---|---|---|---|---|
 | tower_bx | pylon | 9993.2 | 11654.4 | -350.5 | +0.0 | osm_way/1016686393 |
 | tower_qn | pylon | 10301.7 | 11024.8 | +350.5 | +0.0 | osm_way/1016686394 |
-| anchorage_bx | anchorage | 9891.6 | 11863.7 | -583.2 | +0.9 | osm_way/1016686391 |
-| anchorage_qn | anchorage | 10405.0 | 10815.0 | +584.3 | +0.4 | osm_way/1016686396 |
+| anchorage_bx | anchorage | 9891.6 | 11863.7 | -583.2 | +0.8 | osm_way/1016686391 |
+| anchorage_qn | anchorage | 10405.0 | 10815.0 | +584.3 | +0.5 | osm_way/1016686396 |
 
 ## Published dimensions
 
@@ -35,5 +35,10 @@ interchanges, the 1939 World's Fair-era lamp standards (replaced), and the aerod
 
 ## Polycounts / outputs
 
-* `blender_out/landmarks/b_bronx_whitestone.glb` — 44,680 triangles, 1.98 MB, bounds min ['-390.6', '-781.3', '-14.0'] max ['390.6', '781.3', '115.6']
-* `blender_out/landmarks/b_bronx_whitestone_lod1.glb` — 10,288 triangles, 0.32 MB, bounds min ['-390.6', '-781.3', '-14.0'] max ['390.6', '781.3', '115.6']
+* `blender_out/landmarks/b_bronx_whitestone.glb` — 44,680 triangles, 2.01 MB, bounds min ['-390.4', '-781.4', '-14.0'] max ['390.4', '781.4', '115.6']
+
+## Verification renders (Cycles CPU, 64 spp)
+
+![whitestone_reference](whitestone_reference.png)
+![ferry_point_park](ferry_point_park.png)
+![elevation_from_river](elevation_from_river.png)

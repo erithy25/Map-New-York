@@ -65,7 +65,7 @@ def deck_z(s: float) -> float:
 
 
 def build(lod: int = 0):
-    fit = ba.bridge_axis(SUPPORTS, ("pier_bk", "pier_qn"), MAIN_SPAN, roads_name="Pulaski")
+    fit = ba.bridge_axis(SUPPORTS, ("pier_bk", "pier_qn"), MAIN_SPAN, roads_name="PULASKI BRG")
     axis = fit.axis
     objs: list = []
     objs += bl.build_bascule("bascule", axis, 0.0, MAIN_SPAN, Z_DECK, DECK_W, "steel_gray", lod)
@@ -97,7 +97,7 @@ def build(lod: int = 0):
 
 
 def main() -> None:
-    fit = ba.bridge_axis(SUPPORTS, ("pier_bk", "pier_qn"), MAIN_SPAN)
+    fit = ba.bridge_axis(SUPPORTS, ("pier_bk", "pier_qn"), MAIN_SPAN, roads_name="PULASKI BRG")
     ax = fit.axis
     ctx = (("water_dark", 0.35, 200.0, (0.0, 0.0)),
            ("ground_urban", GROUND, 320.0, (ax.p(-360.0, 0.0).x, ax.p(-360.0, 0.0).y)),

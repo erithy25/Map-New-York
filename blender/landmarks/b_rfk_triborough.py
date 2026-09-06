@@ -135,7 +135,7 @@ def _viaduct(objs: list, name: str, frame, p0_tm, p1_tm, z0: float, z1: float, w
 
 
 def build(lod: int = 0):
-    fit = ba.bridge_axis(SUS_SUPPORTS, ("sus_tower_qn", "sus_tower_wi"), SUS_SPAN, roads_name="Robert F Kennedy")
+    fit = ba.bridge_axis(SUS_SUPPORTS, ("sus_tower_qn", "sus_tower_wi"), SUS_SPAN, roads_name="ROBERT F KENNEDY BRG")
     frame = fit.frame
     axis = fit.axis
     objs: list = []
@@ -246,7 +246,7 @@ def build(lod: int = 0):
 
 
 def main() -> None:
-    fit = ba.bridge_axis(SUS_SUPPORTS, ("sus_tower_qn", "sus_tower_wi"), SUS_SPAN)
+    fit = ba.bridge_axis(SUS_SUPPORTS, ("sus_tower_qn", "sus_tower_wi"), SUS_SPAN, roads_name="ROBERT F KENNEDY BRG")
     frame, ax = fit.frame, fit.axis
     jx, jy, _ = frame.to_local(*JUNCTION_TM)
     ctx = (("water_dark", 0.35, 4200.0, (0.0, 0.0)),

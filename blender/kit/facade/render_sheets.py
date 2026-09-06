@@ -106,8 +106,11 @@ def _cycles_budget() -> None:
     # alpha transparency throws fireflies, adaptive sampling then stops those pixels early, and the denoiser
     # smears the survivors into a maze across every window. Clamp the spikes and give every pixel a sample floor.
     c.sample_clamp_indirect = 3.0
-    c.sample_clamp_direct = 0.0
+    c.sample_clamp_direct = 4.0
     c.adaptive_min_samples = 24
+    # blur_glossy is the specific remedy: it widens glossy lobes reached through a transparent bounce, which is
+    # exactly the "bright sky reflection seen through an alpha-blended pane" path that dominates a window's variance.
+    c.blur_glossy = 2.0
 
 
 def _render(path: Path, *, centre, half_w: float, half_h: float, samples: int, res_x: int,

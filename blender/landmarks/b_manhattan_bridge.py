@@ -98,7 +98,7 @@ def upper_z(s: float) -> float:
 
 
 def build(lod: int = 0):
-    fit = ba.bridge_axis(SUPPORTS, ("tower_bk", "tower_mn"), MAIN_SPAN, roads_name="Manhattan Bridge")
+    fit = ba.bridge_axis(SUPPORTS, ("tower_bk", "tower_mn"), MAIN_SPAN, roads_name="MANHATTAN BRG")
     axis = fit.axis
     objs: list = []
     tower = bl.TowerSpec(kind="portal", z_top=Z_TOWER_TOP, z_saddle=Z_SADDLE, width_t=DECK_W + 4.0, depth_s=9.0,
@@ -182,7 +182,7 @@ def main() -> None:
     3. ``elevation_both_towers`` — a long lens with both towers, the 451.1 m main span and both anchorages in
        frame.  Question: is the span, the cable sag and the two-level deck right?
     """
-    fit = ba.bridge_axis(SUPPORTS, ("tower_bk", "tower_mn"), MAIN_SPAN)
+    fit = ba.bridge_axis(SUPPORTS, ("tower_bk", "tower_mn"), MAIN_SPAN, roads_name="MANHATTAN BRG")
     ax = fit.axis
     fr = fit.frame
     land_bk, land_mn = ax.p(-900.0, 0.0), ax.p(900.0, 0.0)

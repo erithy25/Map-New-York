@@ -88,7 +88,7 @@ def upper_z(s: float) -> float:
 
 
 def build(lod: int = 0):
-    fit = ba.bridge_axis(SUPPORTS, ("tower_nj", "tower_ny"), MAIN_SPAN, roads_name="George Washington Bridge")
+    fit = ba.bridge_axis(SUPPORTS, ("tower_nj", "tower_ny"), MAIN_SPAN, roads_name="GEORGE WASHINGTON BRG")
     axis = fit.axis
     objs: list = []
     tower = bl.TowerSpec(kind="lattice", z_top=Z_TOWER_TOP, z_saddle=Z_SADDLE, width_t=DECK_W + 6.0, depth_s=15.0,
@@ -167,7 +167,7 @@ def main() -> None:
     4. ``upper_deck`` — eye level on the upper roadway looking towards the New Jersey tower.  Question: are the
        8 upper lanes, the suspender pitch and the tower portal at deck level right?
     """
-    fit = ba.bridge_axis(SUPPORTS, ("tower_nj", "tower_ny"), MAIN_SPAN)
+    fit = ba.bridge_axis(SUPPORTS, ("tower_nj", "tower_ny"), MAIN_SPAN, roads_name="GEORGE WASHINGTON BRG")
     ax = fit.axis
     fr = fit.frame
     land_nj, land_ny = ax.p(-820.0, 0.0), ax.p(760.0, 0.0)

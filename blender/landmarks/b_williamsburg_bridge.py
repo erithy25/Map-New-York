@@ -90,7 +90,7 @@ def deck_z(s: float) -> float:
 
 
 def build(lod: int = 0):
-    fit = ba.bridge_axis(SUPPORTS, ("tower_mn", "tower_bk"), MAIN_SPAN, roads_name="Williamsburg Bridge")
+    fit = ba.bridge_axis(SUPPORTS, ("tower_mn", "tower_bk"), MAIN_SPAN, roads_name="WILLIAMSBURG BRG")
     axis = fit.axis
     objs: list = []
     tower = bl.TowerSpec(kind="lattice", z_top=Z_TOWER_TOP, z_saddle=Z_SADDLE, width_t=DECK_W - 3.0, depth_s=11.0,
@@ -164,7 +164,7 @@ def build(lod: int = 0):
 
 
 def main() -> None:
-    fit = ba.bridge_axis(SUPPORTS, ("tower_mn", "tower_bk"), MAIN_SPAN)
+    fit = ba.bridge_axis(SUPPORTS, ("tower_mn", "tower_bk"), MAIN_SPAN, roads_name="WILLIAMSBURG BRG")
     ax = fit.axis
     land_mn, land_bk = ax.p(-800.0, 0.0), ax.p(800.0, 0.0)
     ctx = (("water_dark", 0.35, 1500.0, (0.0, 0.0)),

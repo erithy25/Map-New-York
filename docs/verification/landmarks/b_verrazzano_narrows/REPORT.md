@@ -1,6 +1,6 @@
 # Verrazzano-Narrows Bridge
 
-Script: `blender/landmarks/b_verrazzano_narrows.py` · agent B · generated 2026-09-06 14:08 UTC
+Script: `blender/landmarks/b_verrazzano_narrows.py` · agent B · generated 2026-09-06 15:08 UTC
 
 ## Placement
 
@@ -36,5 +36,10 @@ Expressway interchanges, and the tower elevator machinery.
 
 ## Polycounts / outputs
 
-* `blender_out/landmarks/b_verrazzano_narrows.glb` — 117,032 triangles, 4.85 MB, bounds min ['-1258.6', '-529.5', '-25.0'] max ['1258.6', '529.5', '211.9']
-* `blender_out/landmarks/b_verrazzano_narrows_lod1.glb` — 28,184 triangles, 0.75 MB, bounds min ['-1258.6', '-529.5', '-25.0'] max ['1258.6', '529.5', '211.9']
+* `blender_out/landmarks/b_verrazzano_narrows.glb` — 117,032 triangles, 4.84 MB, bounds min ['-1253.5', '-542.2', '-25.0'] max ['1253.5', '542.2', '211.9']
+
+## Verification renders (Cycles CPU, 64 spp)
+
+![bay_ridge_reference](bay_ridge_reference.png)
+![shore_road_bay_ridge](shore_road_bay_ridge.png)
+![elevation_from_narrows](elevation_from_narrows.png)

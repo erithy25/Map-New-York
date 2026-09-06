@@ -84,9 +84,9 @@ VIEWS: dict[str, dict] = {
         # neighbours; rendered from the stepped build and from a --roof-steps off build of the same
         # tile so the pair is directly comparable.
         "tiles": ["t_-4_5", "t_-3_5", "t_-4_6", "t_-3_6"],
-        "cam": (-3246.0, 5615.0), "cam_agl": 105.0,
-        "target": (-3406.0, 5775.0), "target_agl": 42.0,
-        "fov": 42.0, "sun_az": 145.0, "sun_el": 40.0, "size": (1600, 900),
+        "cam": (-3123.0, 5492.0), "cam_agl": 170.0, "cam_clear": 30.0,
+        "target": (-3406.0, 5775.0), "target_agl": 45.0,
+        "fov": 34.0, "sun_az": 145.0, "sun_el": 40.0, "size": (1600, 900),
         "title": "Midtown setbacks: real multi-level massing recovered from the CityGML LOD2 roof levels",
     },
     "skyline_brooklyn": {
@@ -156,13 +156,38 @@ def _open_point(x: float, y: float, radius: float = 70.0, step: float = 4.0) -> 
     return float(cand[k, 0]), float(cand[k, 1])
 
 
+def _roof_z_near(x: float, y: float, radius: float = 40.0) -> float:
+    """Tallest ``roof_z`` within ``radius`` of (x, y), or -inf if there is nothing there."""
+    import pandas as pd
+    from nycsim_pipeline.tiling import tiles_in_bbox
+
+    best = -math.inf
+    for tile in tiles_in_bbox(x - radius, y - radius, x + radius, y + radius):
+        p = td.tile_path(tile.name)
+        if not p.exists():
+            continue
+        df = pd.read_parquet(p, columns=["centroid_x", "centroid_y", "roof_z"])
+        d = np.hypot(df["centroid_x"].to_numpy() - x, df["centroid_y"].to_numpy() - y)
+        near = df["roof_z"].to_numpy()[d <= radius]
+        if len(near):
+            best = max(best, float(near.max()))
+    return best
+
+
 def _resolve_z(spec: dict, key: str) -> tuple[float, float, float]:
     x, y = spec[key]
     if spec.get(f"{key}_open"):
         x, y = _open_point(x, y, float(spec[f"{key}_open"]))
     if f"{key}_z" in spec:
         return x, y, float(spec[f"{key}_z"])
-    return x, y, _ground_z_at(x, y) + float(spec[f"{key}_agl"])
+    z = _ground_z_at(x, y) + float(spec[f"{key}_agl"])
+    clear = spec.get(f"{key}_clear")
+    if clear:
+        # an aerial camera placed by height above *grade* can end up standing on a roof
+        top = _roof_z_near(x, y)
+        if math.isfinite(top):
+            z = max(z, top + float(clear))
+    return x, y, z
 
 
 # --------------------------------------------------------------------------- scene helpers

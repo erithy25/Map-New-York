@@ -656,16 +656,24 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
                           f"{lit.get('view_transform','')} view transform "
                           f"{lit.get('exposure_stops', 0):+.2f} stops; Cycles CPU, "
                           f"{record.get('samples')} samples max, adaptive, denoised", f_small))
+    pv = scene.get("pavement", {})
     caption_lines.append((
         f"In frame: {b.get('tiles_imported', 0)}/{b.get('tiles_wanted', 0)} building tiles "
         f"({b.get('triangles', 0):,} tris), {lm.get('placed', 0)} landmarks, "
-        f"{pr.get('placed', 0)} props, {kt.get('placed', 0)} kit pieces; "
-        f"{scene.get('triangles', 0):,} triangles total", f_small))
+        f"{pv.get('placed', 0)} pavement polygons ("
+        + ", ".join(f"{v:,} {k}" for k, v in list((pv.get('per_kind') or {}).items())[:6])
+        + f"), {pr.get('placed', 0)} props"
+        + (" (bare-canopy trees)" if pr.get("leaf_off") else "")
+        + f", {kt.get('placed', 0)} kit pieces; {scene.get('triangles', 0):,} triangles total",
+        f_small))
     gaps = []
     if b.get("tiles_missing"):
         miss = b["missing"][:8]
         gaps.append(f"building shells not built for {b['tiles_missing']} tile(s): " + ", ".join(miss)
                     + (" ..." if b["tiles_missing"] > len(miss) else ""))
+    if b.get("tiles_dropped_for_budget"):
+        gaps.append(f"{b['tiles_dropped_for_budget']} of the furthest tiles dropped at the "
+                    f"{b.get('triangle_budget', 0):,}-triangle shell budget")
     if pr.get("capped"):
         gaps.append(f"props capped by {pr['capped']}")
     if kt.get("capped"):
@@ -674,6 +682,8 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
         gaps.append(f"kit not placed: {kt['reason']}")
     if pr.get("reason"):
         gaps.append(f"props not placed: {pr['reason']}")
+    if pv.get("reason"):
+        gaps.append(f"pavement not placed: {pv['reason']}")
     if not scene.get("terrain", {}).get("built", True):
         gaps.append("terrain not built: " + str(scene["terrain"].get("reason")))
     if gaps:

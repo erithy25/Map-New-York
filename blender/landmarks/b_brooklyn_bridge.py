@@ -203,7 +203,7 @@ def _promenade(axis: bl.Axis, lod: int) -> list:
 
 
 def build(lod: int = 0):
-    fit = ba.bridge_axis(SUPPORTS, ("tower_bk", "tower_mn"), MAIN_SPAN, roads_name="Brooklyn Bridge")
+    fit = ba.bridge_axis(SUPPORTS, ("tower_bk", "tower_mn"), MAIN_SPAN, roads_name="BROOKLYN BRG")
     axis = fit.axis
     objs: list = []
 
@@ -325,7 +325,7 @@ def main() -> None:
     4. ``elevation_both_towers`` — a long lens from the river with **both** towers and both approaches in frame.
        Question: is the 486.3 m main span, the 39.0 m cable sag, the suspender rhythm and the deck crest right?
     """
-    fit = ba.bridge_axis(SUPPORTS, ("tower_bk", "tower_mn"), MAIN_SPAN)
+    fit = ba.bridge_axis(SUPPORTS, ("tower_bk", "tower_mn"), MAIN_SPAN, roads_name="BROOKLYN BRG")
     fr = fit.frame
     ax = fit.axis
     land_bk = ax.p(-800.0, 0.0)

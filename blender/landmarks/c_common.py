@@ -528,7 +528,22 @@ def finish(objects: Sequence[bpy.types.Object], script_id: str, frame: C.LocalFr
 
 
 def render(script_id: str, presets: Sequence[dict] | None = None, **kw):
-    return C.render_check(script_id, presets, **kw)
+    """``common.render_check`` with every LOD1 mesh in the scene hidden.
+
+    ``render_check`` hides LOD1 by filtering the ``objects`` list it is given -- but that list is the *framing*
+    subset, so a preset that frames on one part (``objects=[block]``) leaves the LOD1 unhidden and the decimated
+    copy renders on top of the LOD0 it duplicates. That is what made the first High Line aerial show a black deck:
+    ``c_high_line_LOD1`` sat in the same 8.86-9.59 m slab as the 14 deck blocks. Hiding by name over the whole
+    scene is correct whatever ``objects`` is used for. (Reported for ``common.render_check`` in REPORT_C.md.)"""
+    hidden = [o for o in bpy.data.objects
+              if o.type == "MESH" and o.name.endswith("_LOD1") and not o.hide_render]
+    for o in hidden:
+        o.hide_render = True
+    try:
+        return C.render_check(script_id, presets, **kw)
+    finally:
+        for o in hidden:
+            o.hide_render = False
 
 
 def main_guard(fn):

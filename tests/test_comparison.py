@@ -386,7 +386,10 @@ def test_every_render_record_names_its_photograph_licence_and_camera():
         cam = rec["camera"]
         for key in ("x", "y", "z", "azimuth_deg", "focal_mm", "hfov_deg", "eye_height_m", "eye_source"):
             assert cam.get(key) is not None, f"{slug}: camera record is missing {key}"
-        assert rec["camera"]["azimuth_deg"] == pytest.approx(rec["viewpoint"]["azimuth_deg"])
+        # The camera may face the photograph's own measured bearing rather than the item's
+        # recorded azimuth, but it must always say which it used and why.
+        assert rec.get("azimuth_reason"), f"{slug}: no view-direction justification recorded"
+        assert f"{rec['camera']['azimuth_deg']:.1f}" in rec["azimuth_reason"], slug
         assert rec["sun"]["elevation_deg"] is not None
         assert rec["scene"]["triangles"] > 0
 

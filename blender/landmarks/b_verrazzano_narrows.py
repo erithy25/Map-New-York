@@ -86,7 +86,7 @@ def upper_z(s: float) -> float:
 
 
 def build(lod: int = 0):
-    fit = ba.bridge_axis(SUPPORTS, ("tower_si", "tower_bk"), MAIN_SPAN, roads_name="Verrazzano")
+    fit = ba.bridge_axis(SUPPORTS, ("tower_si", "tower_bk"), MAIN_SPAN, roads_name="VERRAZZANO BRG")
     axis = fit.axis
     objs: list = []
     tower = bl.TowerSpec(kind="portal", z_top=Z_TOWER_TOP, z_saddle=Z_SADDLE, width_t=DECK_W + 5.0, depth_s=13.5,
@@ -147,7 +147,7 @@ def build(lod: int = 0):
 
 
 def main() -> None:
-    fit = ba.bridge_axis(SUPPORTS, ("tower_si", "tower_bk"), MAIN_SPAN)
+    fit = ba.bridge_axis(SUPPORTS, ("tower_si", "tower_bk"), MAIN_SPAN, roads_name="VERRAZZANO BRG")
     ax = fit.axis
     land_si, land_bk = ax.p(-1150.0, 0.0), ax.p(1150.0, 0.0)
     ctx = (("water_dark", 0.35, 2600.0, (0.0, 0.0)),

@@ -89,7 +89,7 @@ def upper_z(s: float) -> float:
 
 def build(lod: int = 0):
     fit = ba.bridge_axis(SUPPORTS, ("pier2", "pier3"), SPANS[2], heading_from=("abut_mn", "abut_qn"),
-                         roads_name="Queensboro")
+                         roads_name="QUEENSBORO BRG")
     axis = fit.axis
     objs: list = []
     objs += bl.build_cantilever_truss("qb", axis, PIERS, deck_z, DEPTH_PIER, DEPTH_MID, DECK_W, "steel_tan", lod,
@@ -161,7 +161,8 @@ def build(lod: int = 0):
 
 
 def main() -> None:
-    fit = ba.bridge_axis(SUPPORTS, ("pier2", "pier3"), SPANS[2], heading_from=("abut_mn", "abut_qn"))
+    fit = ba.bridge_axis(SUPPORTS, ("pier2", "pier3"), SPANS[2], heading_from=("abut_mn", "abut_qn"),
+                         roads_name="QUEENSBORO BRG")
     ax = fit.axis
     isl = ax.p(0.0, 0.0)
     land_mn, land_qn = ax.p(-820.0, 0.0), ax.p(700.0, 0.0)

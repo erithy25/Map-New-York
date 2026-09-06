@@ -13,12 +13,42 @@ and every model records which one in its catalog entry's `alignment_source`:
 2. **The same coordinates recorded as constants** in each script (`b_align.Support.xy`), so a model can be rebuilt
    without the extract. `b_align.Support.resolve()` cross-checks the two and logs any disagreement over 8 m.
 
-`data/processed/roads/segments.parquet` — the other alignment source the brief names — **did not exist**: the roads
-stage had produced only `data/processed/roads/cache/`. `b_align.roads_centreline()` implements the consumer side
-(match by `name`/`street_name`, fit the deck centreline, refuse the fit if it differs from the support axis by more
-than 8 degrees), so a rebuild after the roads stage lands will pick the centreline up automatically and record
-`roads segments.parquet centreline + osm supports + published span` in `alignment_source`. Until then every bridge
-reports `osm bridge:support ways + published span`.
+3. **`data/processed/roads/segments.parquet`** — the other alignment source the brief names. It did not exist when
+   this lane started (the roads stage had only produced `data/processed/roads/cache/`); it landed mid-build and is
+   now consumed by `b_align.roads_centreline()`, which **refines the deck heading** while the supports keep the
+   origin and the span.
+
+Two things had to be got right for the roads source to be usable. First, **the name**: LION abbreviates the deck to
+`BROOKLYN BRG`, `GEORGE WASHINGTON BRG`, `ROBERT F KENNEDY BRG` and so on, while `BROOKLYN BRIDGE …` names only the
+approach and entrance ramps — matching on "Brooklyn Bridge" picks up ramps in City Hall Park and misses the span
+entirely. Second, **the window**: even with the right name, a principal-axis fit through every matching segment is
+dragged 24 degrees off the Brooklyn Bridge's main span by its ramps. So the OSM supports supply a prior — their
+midpoint and direction — and only vertices within `span/2 + 80 m` along that axis and 45 m across it are fitted. The
+fit is then refused outright if it still differs from the support axis by more than 8 degrees.
+
+With that window the two independent datasets agree to better than **0.7 degrees** on every bridge in the lane:
+
+| bridge | LION name | support axis | roads centreline | difference | vertices |
+|---|---|---:|---:|---:|---:|
+| Brooklyn | `BROOKLYN BRG` | 136.29 deg | 136.20 deg | **0.09** | 20 |
+| Manhattan | `MANHATTAN BRG` | 157.12 | 156.97 | **0.15** | 39 |
+| Williamsburg | `WILLIAMSBURG BRG` | 111.87 | 111.71 | **0.17** | 52 |
+| Queensboro | `QUEENSBORO BRG` | 119.85 | 119.50 | **0.35** | 58 |
+| George Washington | `GEORGE WASHINGTON BRG` | 104.47 | 104.49 | **0.02** | 48 |
+| Verrazzano-Narrows | `VERRAZZANO BRG` | 67.10 | 67.07 | **0.03** | 88 |
+| Throgs Neck | `THROGS NECK BRG` | 179.48 | 179.94 | **0.46** | 23 |
+| Bronx-Whitestone | `WHITESTONE BRG` | 153.89 | 153.90 | **0.01** | 27 |
+| RFK (East River span) | `ROBERT F KENNEDY BRG` | 149.86 | 150.52 | **0.67** | 42 |
+| Pulaski | `PULASKI BRG` | 8.90 | 14.21 | 5.31 | 16 |
+| Hell Gate | `HELL GATE BRG` | 134.66 | — | — | 2 |
+
+That is a genuine independent check: the OSM `bridge:support` polygons and the LION road centrelines are unrelated
+datasets, and they place the same nine decks to within half a degree. The Pulaski's 5.31 degrees is the same
+disagreement its OSM piers show (they draw the pier caps, not the bascule bearings) and it stays inside the
+8-degree guard; the Hell Gate is a **railway** bridge, so `HELL GATE BRG` in LION is the street beneath it and only
+two vertices fall in the window — the fit is skipped and the bridge keeps its OSM support axis, which is the
+correct outcome. Each bridge's `alignment_source` records which of the two it actually used, with the vertex count
+and the measured disagreement.
 
 ### Measured versus published spans
 
@@ -96,9 +126,13 @@ The most important admissions across the group:
 * **The 9/11 Memorial pool centres are derived, +-15 m** from the OSM memorial-plaza polygon's long axis; no polygon
   exists for the individual pools. The pools themselves are exact: 61.0 m square (the original towers' footprint),
   a 9.14 m waterfall, and 152 bronze parapet panels carrying the `MEMORIAL_NAMES` material slot for the 2,983 names.
-* **The WTC plaza oaks are `b_common.simple_tree` geometry, not prop-library assets.** `blender_out/props/` held
-  only `_smoke.glb` when this model was built, so no tree prop existed to instance. 220 of the published 400+ oaks
-  are placed (70 at LOD1).
+* **The WTC plaza oaks are the wrong species of oak.** The street-props agent's library landed mid-build, so the
+  trees are now real prop assets rather than `b_common.simple_tree`; but `blender_out/props/` has no swamp white
+  oak (*Quercus bicolor*), so `tree_pin_oak_medium` (*Quercus palustris* — same genus, same upright habit) stands
+  in, collapse-decimated to 520 triangles and instanced 220 times so the whole grove costs one mesh in the glb. The
+  Survivor Tree uses `tree_callery_pear_medium`, which **is** the right species. 220 of the published 400+ oaks are
+  placed (70 at LOD1). `b_common.prop_available()` / `prop_template()` / `prop_instance()` are the general helpers,
+  and the build falls back to `simple_tree` and says so in its report if the library is absent.
 * **Approach viaducts are truncated.** Throgs Neck (320 m each side against a published 1,189 m / 853 m),
   Bronx-Whitestone (260 m), Queensboro (400 m), Verrazzano (300 m), Pulaski (300 m each against a published 856.5 m
   total) and Hell Gate (300 m / 220 m against 810 m / 599 m) all stop short: beyond that they are ordinary elevated
@@ -155,18 +189,59 @@ The B lane's own shared modules are:
 | `b_osm_extract.py` | the ODbL OSM extract this lane consumes (already present from wave 1) |
 | `b_build_all.py`, `b_report.py` | the one-process-at-a-time build driver and this report's generator |
 
-## 8. Resource etiquette
+## 8. Verification renders: what each one has to prove
+
+The first pass of renders was rejected, correctly: one frame was black (the camera sat under a context ground
+plane), one was washed to near-white with the towers outside the frame, and even the usable ones were flat. Three
+things were wrong and all three are fixed.
+
+**Framing.** Every view now states, in its script's `main()` docstring, the question it must answer before the
+camera is placed. Where the comparison agent has recorded a real photographic viewpoint under
+`docs/verification/reference/<id>/meta.json`, that viewpoint is used **verbatim**: `b_align.reference_view()` reads
+the photographer's WGS84 position and the subject's, converts both with `nycsim_pipeline.crs.lonlat_to_tm` into the
+landmark's frame, and `b_align.reference_render()` turns them into a render entry — so the render and the reference
+photograph are the same shot and the comparison sheets line up. Twenty-two views across the group are placed this
+way (`landmark_brooklyn_bridge_from_dumbo`, `dumbo_washington_st_manhattan_bridge`,
+`landmark_george_washington_bridge`, `landmark_oculus`, `landmark_911_memorial_pools`, `landmark_statue_of_liberty`
+and the rest); if a reference is not on disk the entry returns `None` and the driver drops it, so a build never
+depends on another agent's output.
+
+Two cameras were **deleted** rather than kept, because looking at them showed they proved nothing: the Brooklyn
+Bridge from the Main Street Park lawn (the Brooklyn anchorage stands between that lawn and the tower and filled the
+entire frame) and a promenade view placed on the reference coordinate (which lands beside the walkway, not on its
+centreline, so half the frame was stiffening truss at arm's length).
+
+**Lighting.** `nycsim_bpy.quick_render`'s defaults put a Nishita sky at strength 0.6 against a 4 W/m2 sun, which is
+roughly as much irradiance from the sky hemisphere as from the sun: masonry renders as a flat pale field with no
+shadow and no relief. `b_common.render_check()` now builds the camera, sun and sky itself with the sun carrying
+about **20x the sky** (5.0 W/m2 against 0.22), the sun disc turned off in the sky texture so it is not counted
+twice, and `exposure = -2.4 EV`. Measured on the Brooklyn tower, that puts the sunlit granite face at 0.40 sRGB
+against 0.23 in shadow — the string courses, the arch reveals and the batter all read. (This Blender build ships
+without an OCIO look table — `view_transform` and `look` offer only `NONE` — so exposure, not a tone curve, is the
+only lever; `render_check` takes both as parameters anyway and falls back cleanly.)
+
+A fourth fix was the **context planes**: they were `sidewalk`, whose 0.62 albedo is brighter than granite's 0.44,
+so the ground blew a whole frame to white. A documented `ground_urban` material (0.21) was added for render context
+only, and the bridge scripts use it in place of `sidewalk` and of the lawn-green `grass`.
+
+## 9. Resource etiquette
 
 Every Blender run was a single `nice -n 10` process; `b_build_all.py` runs the 34 landmarks in sequence in separate
-subprocesses so peak memory stays at one model. Verification renders are Cycles CPU at **64 samples**, 960 x 540,
-with `max_bounces` reduced to 2 for the enclosed tunnel interiors — at the default 6 an interior lit only by 520
-emissive luminaires took over ten minutes a frame on a machine whose load average was above 25 from the other
-agents' jobs.
+subprocesses so peak memory stays at one model. The box's load average sat between 32 and 40 for the whole session
+from the other agents' jobs, which on four cores is roughly a tenth of a core per process, so render cost had to be
+managed rather than ignored: `b_build_all.py --render-scale` and `--max-views` were added for exactly this, and the
+sweep was run at `--samples 24 --render-scale 0.66`, with the canonical viewpoints re-rendered afterwards at full
+size. `max_bounces` is 4 for exteriors and 2 for the enclosed tunnel interiors — at 6 an interior lit only by 520
+emissive luminaires took over ten minutes a frame.
 
-`b_common._record_processed()` was changed to take the shared `data/manifest/.processed.lock` **non-blocking with a
-30 s bounded retry**: several agents write that manifest at once and a blocking `flock` wedged a build for minutes.
+Two hangs were fixed rather than waited out. `b_common._record_processed()` takes the shared
+`data/manifest/.processed.lock` **non-blocking with a 30 s bounded retry** — several agents write that manifest at
+once and a blocking `flock` wedged a build for minutes. And `bpy`-as-a-module occasionally blocks forever in its own
+thread teardown after everything has been written (observed on `b_central_park_walls_gates`: nine minutes wedged on
+a futex with every artefact already on disk), so `b_build_all.py` sets `NYCSIM_LANDMARK_HARD_EXIT=1` and
+`b_align.run_landmark()` flushes and `os._exit(0)`s, which bounds the damage to zero.
 
-## 9. Licences
+## 10. Licences
 
 * OpenStreetMap geometry (bridge supports, tunnel centrelines, fort and monument plans, the Central Park boundary,
   the Coney Island rides, the Roosevelt Island tramway) — **ODbL 1.0, (c) OpenStreetMap contributors**, via
@@ -178,7 +253,7 @@ agents' jobs.
   Landmarks Preservation Commission, PANYNJ, MTA Bridges & Tunnels, CTBUH, HABS/HAER), quoted per landmark in each
   script's docstring. No asset was downloaded, so no new licence file was needed.
 
-## 10. What the next agent needs to know
+## 11. What the next agent needs to know
 
 * **Frame convention.** Every `.glb` is in metres, Z-up, with the origin at `extras["origin_tm"]` = (x, y, z) in
   NYC_TM / NAVD88; a world point is `origin_tm + local`. Bridges and tunnels use z = 0 at NAVD88 0.0, buildings use
@@ -191,7 +266,12 @@ agents' jobs.
 * **Material slots to drive**: `MEMORIAL_NAMES` and `MINTON_TILE` (see section 5). Emissive materials the engine may
   want to control: `light_cool` (tunnel luminaires), `light_warm` (lamp posts, the Luna Park sign), `gold_leaf`
   (the Statue of Liberty's flame).
-* **Rebuild after roads**: re-running any bridge script once `data/processed/roads/segments.parquet` exists will
-  refine the deck heading from the real centreline automatically and record the change in `alignment_source`.
+* **Roads centreline**: `data/processed/roads/segments.parquet` is consumed (section 4). If the roads stage
+  re-emits it with different `street_name` values, the per-bridge LION names in each script's `roads_name=` are the
+  only thing to update; the 8-degree guard means a bad match degrades to the OSM support axis rather than moving a
+  bridge.
+* **Reference viewpoints**: `b_align.reference_view()` / `reference_render()` consume
+  `docs/verification/reference/<id>/meta.json`. Any new reference the comparison agent records is picked up by
+  re-running the landmark; a missing one is skipped, not an error.
 * **Collision.** The tunnel linings are single-sided inward-facing surfaces away from the portals; if the engine
   needs two-sided collision there, generate it from the ribbon meshes rather than expecting a closed solid.

@@ -87,7 +87,7 @@ def deck_z(s: float) -> float:
 
 
 def build(lod: int = 0):
-    fit = ba.bridge_axis(SUPPORTS, ("tower_qn", "tower_wi"), TOWER_SEP, roads_name="Hell Gate")
+    fit = ba.bridge_axis(SUPPORTS, ("tower_qn", "tower_wi"), TOWER_SEP, roads_name="HELL GATE BRG")
     axis = fit.axis
     objs: list = []
 
@@ -156,7 +156,7 @@ def build(lod: int = 0):
 
 
 def main() -> None:
-    fit = ba.bridge_axis(SUPPORTS, ("tower_qn", "tower_wi"), TOWER_SEP)
+    fit = ba.bridge_axis(SUPPORTS, ("tower_qn", "tower_wi"), TOWER_SEP, roads_name="HELL GATE BRG")
     ax = fit.axis
     land_qn, land_wi = ax.p(-380.0, 0.0), ax.p(400.0, 0.0)
     ctx = (("water_dark", 0.35, 900.0, (0.0, 0.0)),

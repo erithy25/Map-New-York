@@ -1,18 +1,18 @@
 # Throgs Neck Bridge
 
-Script: `blender/landmarks/b_throgs_neck.py` · agent B · generated 2026-09-06 14:08 UTC
+Script: `blender/landmarks/b_throgs_neck.py` · agent B · generated 2026-09-06 15:15 UTC
 
 ## Placement
 
-axis heading 359.48 deg (compass, +s), origin NYC_TM (13196.43, 11147.72); alignment source: osm bridge:support ways + published span
+axis heading 359.48 deg (compass, +s), origin NYC_TM (13196.43, 11147.72); alignment source: roads segments.parquet centreline (23 vertices, 0.46 deg from the OSM support axis) + osm supports + published span
 measured span between tower_qn and tower_bx: 549.34 m vs published 548.64 m (+0.13 %); towers snapped symmetrically to the published value
 
 | support | kind | NYC_TM x | NYC_TM y | s (m) | t (m) | source |
 |---|---|---|---|---|---|---|
 | tower_bx | pylon | 13193.9 | 11422.4 | +274.3 | +0.0 | osm_way/1016661640 |
 | tower_qn | pylon | 13198.9 | 10873.1 | -274.3 | +0.0 | osm_way/1016661642 |
-| anchorage_bx | anchorage | 13191.9 | 11599.7 | +452.0 | +0.4 | osm_way/1016661637 |
-| anchorage_qn | anchorage | 13199.5 | 10695.5 | -452.3 | +1.1 | osm_way/1016661644 |
+| anchorage_bx | anchorage | 13191.9 | 11599.7 | +452.0 | +4.0 | osm_way/1016661637 |
+| anchorage_qn | anchorage | 13199.5 | 10695.5 | -452.3 | -2.6 | osm_way/1016661644 |
 
 ## Published dimensions
 
@@ -34,5 +34,10 @@ interchanges, the fender systems around the islands, and the 2010s deck replacem
 
 ## Polycounts / outputs
 
-* `blender_out/landmarks/b_throgs_neck.glb` — 50,392 triangles, 2.33 MB, bounds min ['-58.4', '-801.7', '-9.0'] max ['58.4', '801.7', '106.2']
-* `blender_out/landmarks/b_throgs_neck_lod1.glb` — 10,608 triangles, 0.35 MB, bounds min ['-58.4', '-801.7', '-9.0'] max ['58.4', '801.7', '106.2']
+* `blender_out/landmarks/b_throgs_neck.glb` — 50,392 triangles, 2.36 MB, bounds min ['-54.4', '-801.6', '-9.0'] max ['54.4', '801.6', '106.2']
+
+## Verification renders (Cycles CPU, 64 spp)
+
+![throgs_neck_reference](throgs_neck_reference.png)
+![little_bay_park](little_bay_park.png)
+![elevation_from_sound](elevation_from_sound.png)

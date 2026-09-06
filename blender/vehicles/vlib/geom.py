@@ -822,70 +822,89 @@ def text_on_surface_bm(text: str, *, size: float, depth: float, center: Vec3, no
     return transform_bm(bm, m)
 
 
-def convex_hull_bm(points: np.ndarray | Sequence[Vec3], *, simplify_deg: float = 4.0, max_points: int = 4000) -> bmesh.types.BMesh:
-    """Convex hull of a point cloud as a closed triangle mesh (``UCX_`` collision proxies).
+def _hull_faces(pts: np.ndarray, options: str):
+    """Triangle indices of the convex hull of ``pts`` via qhull, or ``None``."""
+    try:
+        from scipy.spatial import ConvexHull
+    except ImportError:                                     # pragma: no cover - scipy is present here
+        return None
+    try:
+        hull = ConvexHull(pts, qhull_options=options)
+    except Exception:
+        return None
+    tris = []
+    for tri, eq in zip(hull.simplices, hull.equations):
+        a, b, c = int(tri[0]), int(tri[1]), int(tri[2])
+        n = np.cross(pts[b] - pts[a], pts[c] - pts[a])
+        if np.dot(n, eq[:3]) < 0:                            # outward winding
+            b, c = c, b
+        tris.append((a, b, c))
+    return np.asarray(tris, dtype=np.int64) if tris else None
 
-    Qhull (via ``scipy.spatial.ConvexHull``) is used when available because its output is exactly convex to
-    floating-point precision; ``bmesh.ops.convex_hull`` leaves errors of up to ~10 mm on a car-sized cloud,
-    which a strict plane-side convexity test rejects.  ``bmesh`` is the fallback.  ``simplify_deg`` > 0
-    planar-dissolves the result, which is only safe when the caller does not need exact convexity.
+
+def _hull_is_sound(pts: np.ndarray, tris: np.ndarray, tol: float) -> bool:
+    """Closed (every edge shared by exactly two triangles) and convex to ``tol`` metres."""
+    if tris is None or len(tris) < 4:
+        return False
+    edges: dict[tuple[int, int], int] = {}
+    for t in tris:
+        for k in range(3):
+            e = (int(min(t[k], t[(k + 1) % 3])), int(max(t[k], t[(k + 1) % 3])))
+            edges[e] = edges.get(e, 0) + 1
+    if any(c != 2 for c in edges.values()):
+        return False
+    used = np.unique(tris)
+    sub = pts[used]
+    for t in tris:
+        a, b, c = pts[t[0]], pts[t[1]], pts[t[2]]
+        n = np.cross(b - a, c - a)
+        ln = np.linalg.norm(n)
+        if ln < 1e-12:
+            return False
+        n /= ln
+        if (sub @ n - float(np.dot(a, n))).max() > tol:
+            return False
+    return True
+
+
+def convex_hull_bm(points: np.ndarray | Sequence[Vec3], *, simplify_deg: float = 0.0, max_points: int = 4000,
+                   tol: float = 1e-4) -> bmesh.types.BMesh:
+    """Convex hull of a point cloud as a **closed, provably convex** triangle mesh (``UCX_`` proxies).
+
+    Strategy, in order: qhull with ``Qt`` (triangulated output), qhull with ``QJ`` (joggled input, for
+    degenerate clouds), then the cloud's axis-aligned bounding box.  Each candidate is validated for edge
+    manifoldness and plane-side convexity before it is accepted, because a physics engine handed an open or
+    dented "convex" proxy has undefined behaviour rather than a clean failure.  ``bmesh.ops.convex_hull``
+    is not used: it leaves errors of up to ~10 mm on a car-sized cloud.
     """
     pts = np.asarray(points, dtype=np.float64).reshape(-1, 3)
-    # weld coincident points first: qhull with "QJ" keeps duplicates as separate hull vertices, which yields
-    # two co-located verts sharing hull faces and an edge-count that no longer reads as a closed manifold.
+    # weld coincident points: duplicates become separate hull vertices and break the manifold edge count
     pts = np.unique(np.round(pts, 6), axis=0)
     if len(pts) > max_points:
         rng = np.random.default_rng(7)
         pts = pts[rng.choice(len(pts), max_points, replace=False)]
-    try:
-        from scipy.spatial import ConvexHull, QhullError
-    except ImportError:                                     # pragma: no cover - scipy is present here
-        ConvexHull = None
+
+    tris = None
     if len(pts) >= 4:
-        # a slab of a thin part (a bicycle frame) can be coplanar; qhull refuses such input and bmesh
-        # returns an open sheet, so inflate the cloud by 1 mm along its thinnest principal axis first.
-        c = pts.mean(axis=0)
-        try:
-            _u, sv, vt = np.linalg.svd(pts - c, full_matrices=False)
-            if sv[-1] < 2e-2 * max(1e-9, sv[0]):
-                n = vt[-1]
-                pts = np.concatenate([pts + n * 0.001, pts - n * 0.001])
-        except np.linalg.LinAlgError:
-            pass
-    if ConvexHull is not None and len(pts) >= 4:
-        try:
-            # "QJ" joggles the input so every facet is simplicial: with the default "Qt" qhull merges
-            # nearly-coplanar facets and the triangulated output can miss a face, leaving an open hull
-            # (seen on the two-wheelers' rear slab).
-            hull = ConvexHull(pts, qhull_options="QJ")
-            bm = bmesh.new()
-            verts = [bm.verts.new(tuple(p)) for p in pts]
-            for tri, eq in zip(hull.simplices, hull.equations):
-                a, b, c = int(tri[0]), int(tri[1]), int(tri[2])
-                n = np.cross(pts[b] - pts[a], pts[c] - pts[a])
-                if np.dot(n, eq[:3]) < 0:                    # keep the winding outward
-                    b, c = c, b
-                try:
-                    bm.faces.new((verts[a], verts[b], verts[c]))
-                except ValueError:
-                    continue
-            bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context='VERTS')
-            bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
-            if any(len(e.link_faces) != 2 for e in bm.edges):
-                raise RuntimeError("qhull produced an open hull")
-            return bm
-        except Exception as exc:                             # degenerate (coplanar) cloud
-            log.warning("qhull failed (%s); falling back to bmesh.convex_hull", exc)
+        for opts in ("Qt", "QJ"):
+            cand = _hull_faces(pts, opts)
+            if _hull_is_sound(pts, cand, tol):
+                tris = cand
+                break
+    if tris is None:
+        # last resort: the axis-aligned box of the cloud — always closed and always convex
+        lo, hi = pts.min(axis=0) - 1e-4, pts.max(axis=0) + 1e-4
+        log.warning("convex hull degenerate for %d points; using the bounding box proxy instead", len(pts))
+        return box_bm((hi - lo).tolist(), ((lo + hi) / 2).tolist())
+
     bm = bmesh.new()
-    for p in pts:
-        bm.verts.new(p)
-    bmesh.ops.convex_hull(bm, input=bm.verts[:], use_existing_faces=False)
+    verts = [bm.verts.new(tuple(p)) for p in pts]
+    for a, b, c in tris:
+        try:
+            bm.faces.new((verts[a], verts[b], verts[c]))
+        except ValueError:
+            continue
     bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context='VERTS')
-    if simplify_deg > 0:
-        bmesh.ops.dissolve_limit(bm, angle_limit=math.radians(simplify_deg), verts=bm.verts[:], edges=bm.edges[:])
-    bmesh.ops.triangulate(bm, faces=bm.faces[:])
-    bmesh.ops.dissolve_degenerate(bm, dist=1e-6, edges=bm.edges[:])
-    bmesh.ops.triangulate(bm, faces=bm.faces[:])
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     return bm
 
