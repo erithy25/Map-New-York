@@ -1,27 +1,28 @@
 {
- "azimuth_reason": "198.4 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 206.3 deg, 7.9 deg away",
+ "azimuth_reason": "198.5 deg, the bearing from this photograph's own GPS position to Flatiron Building; heading and position both come from the photograph.  The item's recorded azimuth is 206.3 deg, 7.8 deg away, and belongs to its nominal viewpoint",
  "camera": {
-  "azimuth_deg": 198.4,
+  "azimuth_deg": 198.5416684232172,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
-  "focal_mm": 35.0,
+  "focal_mm": 26.548668516781024,
   "ground_detail": {
-   "chosen_m": 12.33,
+   "chosen_m": 12.41,
    "max_m": 12.7,
-   "median_m": 12.49,
-   "min_m": 12.28,
+   "median_m": 12.52,
+   "min_m": 12.31,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 12.46,
    "radius_m": 12.0,
    "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
-  "hfov_deg": 37.849,
-  "lat": 40.7425,
-  "lon": -73.9887,
-  "long_side_fov_deg": 54.432,
+  "hfov_deg": 48.646,
+  "lat": 40.7423,
+  "lon": -73.989094,
+  "long_side_fov_deg": 68.275,
   "pitch_deg": 0.0,
   "portrait": true,
   "resolution": [
@@ -30,20 +31,38 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_flatiron_building",
-  "terrain_z_m": 12.334,
-  "x": -3268.671,
-  "y": 4720.283,
-  "z": 13.934
+  "terrain_z_m": 12.407,
+  "x": -3301.958,
+  "y": 4698.088,
+  "z": 14.007
  },
- "camera_caption": "camera 40.74250, -73.98870 (NYC_TM -3269, 4720) z 13.9 m NAVD88 | azimuth 198.4deg pitch +0.0deg | 35 mm on 36 mm (37.8deg horizontal, 54.4deg vertical, portrait) | 852x1278",
+ "camera_caption": "camera 40.74230, -73.98909 (NYC_TM -3302, 4698) z 14.0 m NAVD88 | azimuth 198.5deg pitch +0.0deg | 27 mm on 36 mm (48.6deg horizontal, 68.3deg vertical, portrait) | 852x1278",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.7423,
+  "lon": -73.989094,
+  "offset_from_recorded_m": 40.0,
+  "source": "this photograph's own EXIF camera GPS (40.74230, -73.98909), 40 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
  "clearance": {
+  "min_view_m": 72.6,
   "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "nearest_obstruction": "prop_newsstand_stainless_25",
+  "nearest_obstruction_m": 46.8,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_newsstand_stainless_25 46.8 m away, and the view azimuth is clear for 110 m",
+  "offset_m": 0.0,
+  "view_m": 110.1
  },
+ "frame": {
+  "mean": 0.4751,
+  "reason": null,
+  "sd": 0.229,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
- "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lens_reason": "widened from 35 mm to 27 mm (68 deg vertical) so that a level axis contains the subject: the flatiron model's published 87 m height stands 85 m above the lens at 145 m, 30 deg above the horizon",
  "lighting": {
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 672.4,
@@ -62,7 +81,7 @@
  },
  "name": "Flatiron Building",
  "night": false,
- "pitch_reason": "level optical axis (Flatiron Building is 179 m away and would need +13 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "pitch_reason": "level optical axis (Flatiron Building is 145 m away and would need +16 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
  "reference_photo": {
   "author": "Christian David",
   "confidence": "high",
@@ -77,9 +96,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_flatiron_building/render.png",
- "rendered_at": "2026-09-06T16:59:42Z",
+ "rendered_at": "2026-09-06T22:35:03Z",
  "resolution_note": "852x1278; the reference photograph is 1920x2880 (0.67:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -89,6 +108,9 @@
     "t_-4_4",
     "t_-4_5"
    ],
+   "landmark_bins_suppressed": 9,
+   "landmark_faces_suppressed": 1782,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-3_4": {
@@ -99,95 +121,91 @@
     "t_-3_5": {
      "lod": 0,
      "objects": 16,
-     "triangles": 49098
+     "triangles": 48780
     },
     "t_-4_4": {
      "lod": 0,
      "objects": 19,
-     "triangles": 61542
+     "triangles": 61210
     },
     "t_-4_5": {
      "lod": 0,
      "objects": 19,
-     "triangles": 45694
+     "triangles": 44562
     }
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 4,
    "triangle_budget": 3510000,
-   "triangles": 219756
+   "triangles": 217974
   },
   "centre_tm": [
-   -3268.67,
-   4720.28
+   -3301.96,
+   4698.09
   ],
   "kit": {
    "capped": null,
    "per_category": {
     "bulkhead": 17,
-    "cornice": 31,
-    "door_entry": 28,
-    "hvac": 11,
-    "parapet": 17,
-    "pilaster": 32,
+    "cornice": 36,
+    "door_entry": 33,
+    "fire_escape": 7,
+    "hvac": 9,
+    "parapet": 18,
+    "pilaster": 42,
     "quoin": 4,
     "scaffold": 61,
-    "storefront": 132,
-    "storefront_interior": 25,
-    "string_course": 30,
-    "water_tower": 8,
-    "window": 3427,
-    "window_accessory": 4
+    "storefront": 155,
+    "storefront_interior": 29,
+    "string_course": 36,
+    "water_tower": 7,
+    "window": 3416,
+    "window_accessory": 3
    },
-   "placed": 3827,
+   "placed": 3873,
    "radius_m": 120.0,
-   "records_in_range": 3827,
+   "records_in_range": 3980,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 107,
    "tiles_missing": [],
    "tiles_read": [
     "t_-4_4"
    ],
-   "triangles": 908295,
+   "triangles": 976233,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 182.9,
+     "distance_m": 149.7,
      "id": "flatiron",
      "lod": 0,
      "name": "Flatiron Building",
      "triangles": 38253
-    },
-    {
-     "distance_m": 707.7,
-     "id": "empire_state",
-     "lod": 0,
-     "name": "Empire State Building",
-     "triangles": 107298
     }
    ],
-   "placed": 2,
+   "placed": 1,
    "skipped": 0,
    "skipped_detail": [],
-   "triangles": 145551
+   "triangles": 38253
   },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 497,
-    "curb": 896,
-    "median": 151,
-    "parking_lot": 18,
-    "plaza": 54,
-    "roadbed": 382,
-    "sidewalk": 226
+    "crosswalk": 425,
+    "curb": 767,
+    "median": 135,
+    "parking_lot": 14,
+    "plaza": 47,
+    "roadbed": 329,
+    "sidewalk": 203
    },
-   "placed": 2224,
-   "radius_m": 685.6567440326239,
+   "placed": 1920,
+   "radius_m": 632.3485736119845,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_4",
@@ -195,83 +213,89 @@
     "t_-4_4",
     "t_-4_5"
    ],
-   "triangles": 169802,
-   "vertices": 173990
+   "triangles": 147697,
+   "vertices": 151305
   },
   "props": {
    "capped": null,
+   "impostor_cards_dropped": 16,
    "leaf_off": false,
    "per_kind": {
-    "bench": 37,
-    "bike_rack": 37,
+    "bench": 38,
+    "bike_rack": 39,
     "bus_shelter": 7,
-    "bus_stop_sign": 17,
+    "bus_stop_sign": 16,
     "citibike_dock": 2,
     "flagpole": 1,
-    "hydrant": 45,
+    "hydrant": 47,
     "linknyc": 6,
     "mailbox": 5,
-    "manhole": 85,
+    "manhole": 84,
     "newsstand": 2,
     "steam_vent": 7,
-    "street_lamp": 99,
+    "street_lamp": 94,
     "subway_entrance": 8,
     "subway_vent_grate": 23,
     "tree": 81,
     "waste_basket": 17
    },
-   "placed": 479,
+   "placed": 477,
    "radius_m": 250.0,
-   "rows_in_range": 735,
+   "rows_in_range": 723,
    "tiles_missing": [],
    "tiles_read": [
     "t_-4_4"
    ],
-   "tree_species_substituted": 25,
-   "triangles": 880186,
+   "tree_species_substituted": 26,
+   "triangles": 886172,
    "unmapped_kinds": {
     "artwork": 18,
-    "cooling_tower": 122,
-    "curb_ramp": 101,
+    "cooling_tower": 123,
+    "curb_ramp": 89,
     "drinking_fountain": 2,
     "memorial": 8,
+    "misc_structure": 1,
     "parks_building": 2,
     "vending_machine": 3
    }
   },
-  "radius_m": 685.6567440326239,
-  "seconds": 19.41,
+  "radius_m": 632.3485736119845,
+  "seconds": 37.64,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 4.571,
-   "triangles": 180000,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 207,
+   "spacing_m": 2.0,
+   "triangles": 84872,
    "water_quads": 0,
-   "z_max_m": 22.94,
-   "z_min_m": 1.04
+   "z_max_m": 21.11,
+   "z_min_m": 1.55
   },
-  "triangles": 2503590
+  "triangles": 2351201
  },
  "scene_request": {
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
-  "radius_m": 685.6567440326239
+  "radius_m": 632.3485736119845
  },
  "seconds": {
-  "render": 83.1,
-  "scene": 19.9,
-  "total": 103.1
+  "render": 91.6,
+  "scene": 38.8,
+  "total": 130.4
  },
  "slug": "landmark_flatiron_building",
  "status": "rendered",
  "subject": {
-  "distance_m": 178.5,
+  "distance_m": 145.2,
   "name": "Flatiron Building"
  },
  "sun": {
-  "azimuth_deg": 265.85922865596024,
-  "elevation_deg": 21.33156600320945,
+  "azimuth_deg": 265.85904084806043,
+  "elevation_deg": 21.331877526043375,
   "local": "2026-04-17T17:39:37-04:00",
   "time_source": "EXIF DateTimeOriginal",
   "utc": "2026-04-17T21:39:37Z"
