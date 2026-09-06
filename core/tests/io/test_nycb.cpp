@@ -2,13 +2,18 @@
 
 #include "nycb_expected.h"
 
+#include <cstdio>
 #include <cstring>
 #include <string>
 #include <vector>
 
+#include "nycsim/io/Json.h"
 #include "nycsim/io/Nycb.h"
 #include "nycsim/io/NycbRecords.h"
 #include "nycsim/tiling/TileCatalog.h"
+#if defined(NYCSIM_HAVE_ROUTING_LANE)
+#include "nycsim/routing/RoadGraph.h"
+#endif
 
 using namespace nycsim;
 using namespace nycsim::io;
@@ -543,50 +548,137 @@ TEST_SUITE("io") {
     }
   }
 
-  TEST_CASE("the real exporter output loads and its section counts match the parquet row counts") {
-    if (nycsim_test_nycb::kRealCountN == 0) {
-      MESSAGE("data/processed/runtime/*.nycb absent when the fixtures were generated - skipped");
+  TEST_CASE("the real exporter output loads, decodes and matches the parquet row counts") {
+    // core/tests/data/runtime/real_counts.json is written by
+    // docs/verification/core/gen_nycb_fixture.py and read here at run time, so the roads stage can
+    // regenerate data/processed/runtime/*.nycb without a recompilation. It records, per file, the
+    // byte size, every section's count and element_size, and the parquet row counts that C++
+    // cannot read itself.
+    const std::string sidecarPath = std::string(NYCSIM_TEST_DATA_DIR) + "/runtime/real_counts.json";
+    std::string sidecar;
+    {
+      std::FILE* f = std::fopen(sidecarPath.c_str(), "rb");
+      if (!f) {
+        MESSAGE("real_counts.json absent - run docs/verification/core/gen_nycb_fixture.py");
+        return;
+      }
+      char buf[8192];
+      size_t n = 0;
+      while ((n = std::fread(buf, 1, sizeof buf, f)) > 0) sidecar.append(buf, n);
+      std::fclose(f);
+    }
+    const Result<json::Value> doc = json::parse(sidecar);
+    REQUIRE(doc.ok());
+    const json::Value* files = doc.value().find("files");
+    REQUIRE(files != nullptr);
+    REQUIRE(files->isObject());
+    if (files->size() == 0) {
+      MESSAGE("no data/processed/runtime/*.nycb existed when the sidecar was generated - skipped");
       return;
     }
-    std::string lastFile;
-    NycbReader reader;
-    bool haveReader = false;
-    int checked = 0;
-    for (int i = 0; i < nycsim_test_nycb::kRealCountN; ++i) {
-      const auto& c = nycsim_test_nycb::kRealCounts[i];
-      if (lastFile != c.file) {
-        const std::string path = std::string(NYCSIM_REPO_ROOT) + "/data/processed/runtime/" + c.file;
-        auto r = NycbReader::fromFile(path.c_str());
-        if (!r) {
-          MESSAGE("skipping " << path << ": " << r.error().message);
-          haveReader = false;
-          lastFile = c.file;
-          continue;
-        }
-        reader = std::move(*r);
-        haveReader = true;
-        lastFile = c.file;
-        CHECK(reader.version() == 1);
-      }
-      if (!haveReader) continue;
-      INFO(c.file, " / ", c.section);
-      const NycbSection* s = reader.find(c.section);
-      REQUIRE(s != nullptr);
-      CHECK(s->elementCount == c.count);
-      CHECK(s->elementSize == c.element_size);
-      CHECK(s->offset % kNycbAlign == 0);
-      CHECK(static_cast<uint64_t>(s->elementSize) * s->elementCount == s->size);
-      if (c.parquet_rows >= 0) {
-        // The exporter must emit exactly one record per parquet row.
-        CHECK(static_cast<int64_t>(s->elementCount) == c.parquet_rows);
-      }
-      ++checked;
-    }
-    CHECK(checked > 0);
 
-    // Cross-section integrity of the real road graph: every index is in range.
-    const std::string path = std::string(NYCSIM_REPO_ROOT) + "/data/processed/runtime/roadgraph.nycb";
-    auto rg = NycbReader::fromFile(path.c_str());
+    // sizeof() of the C++ record type for each section name the contract defines. This is the
+    // Python-writer vs C++-reader divergence check and it holds whatever the data contains.
+    struct KnownSection {
+      const char* name;
+      uint32_t bytes;
+    };
+    const KnownSection known[] = {
+        {"nodes", static_cast<uint32_t>(sizeof(RoadNode))},
+        {"segments", static_cast<uint32_t>(sizeof(RoadSegment))},
+        {"vertices", static_cast<uint32_t>(sizeof(Vertex3))},
+        {"lanes", static_cast<uint32_t>(sizeof(Lane))},
+        {"lane_links", static_cast<uint32_t>(sizeof(LaneLink))},
+        {"junction_lanes", static_cast<uint32_t>(sizeof(JunctionLane))},
+        {"yield_links", static_cast<uint32_t>(sizeof(YieldLink))},
+        {"controllers", static_cast<uint32_t>(sizeof(SignalController))},
+        {"phases", static_cast<uint32_t>(sizeof(SignalPhase))},
+        {"tiles", static_cast<uint32_t>(sizeof(TileRecord))},
+        {"bus_routes", static_cast<uint32_t>(sizeof(BusRoute))},
+        {"bus_stops", static_cast<uint32_t>(sizeof(BusStop))},
+        {"route_stops", static_cast<uint32_t>(sizeof(RouteStop))},
+        {"cells", static_cast<uint32_t>(sizeof(DensityCell))},
+        {"nta_polys", static_cast<uint32_t>(sizeof(NtaPoly))},
+        {"pois", static_cast<uint32_t>(sizeof(Poi))},
+    };
+
+    int filesRead = 0;
+    int sectionsChecked = 0;
+    int countsChecked = 0;
+    int parquetChecked = 0;
+    for (const json::Member& m : files->members()) {
+      const std::string path = std::string(NYCSIM_REPO_ROOT) + "/data/processed/runtime/" + m.key;
+      auto r = NycbReader::fromFile(path.c_str());
+      if (!r) {
+        MESSAGE("skipping " << m.key << ": " << r.error().message);
+        continue;
+      }
+      ++filesRead;
+      const NycbReader& reader = *r;
+      INFO("file ", m.key);
+      CHECK(reader.version() == 1);
+
+      // --- structural assertions: always run, whatever the data holds.
+      for (const NycbSection& s : reader.sections()) {
+        ++sectionsChecked;
+        INFO("section ", s.name);
+        CHECK(s.offset % kNycbAlign == 0);
+        CHECK(static_cast<uint64_t>(s.elementSize) * s.elementCount == s.size);
+        CHECK(s.offset + s.size <= reader.sizeBytes());
+        for (const KnownSection& k : known) {
+          if (s.nameView() != k.name) continue;
+          // The exporter's element_size must equal our sizeof for that record type.
+          CHECK(s.elementSize == k.bytes);
+        }
+        if (s.nameView() == kNycbStrtab) CHECK(s.elementSize == 1);
+      }
+
+      // --- counts: only while the recorded byte size still describes the file on disk.
+      const json::Value* recordedBytes = m.value.find("bytes");
+      REQUIRE(recordedBytes != nullptr);
+      if (static_cast<uint64_t>(recordedBytes->asInt()) != reader.sizeBytes()) {
+        MESSAGE(m.key << " was regenerated since real_counts.json was written ("
+                      << recordedBytes->asInt() << " -> " << reader.sizeBytes()
+                      << " bytes); re-run docs/verification/core/gen_nycb_fixture.py. Structural "
+                         "checks still ran; count checks skipped for this file.");
+        continue;
+      }
+      const json::Value* sections = m.value.find("sections");
+      REQUIRE(sections != nullptr);
+      for (const json::Member& sm : sections->members()) {
+        const NycbSection* s = reader.find(sm.key);
+        INFO("section ", sm.key);
+        REQUIRE(s != nullptr);
+        const json::Value* count = sm.value.find("count");
+        const json::Value* esize = sm.value.find("element_size");
+        REQUIRE(count != nullptr);
+        REQUIRE(esize != nullptr);
+        CHECK(static_cast<int64_t>(s->elementCount) == count->asInt());
+        CHECK(static_cast<int64_t>(s->elementSize) == esize->asInt());
+        ++countsChecked;
+      }
+      // --- the check that catches a writer/reader divergence in the data itself: the exporter
+      //     must emit exactly one record per parquet row.
+      const json::Value* parquet = m.value.find("parquet_rows");
+      if (parquet && parquet->isObject()) {
+        for (const json::Member& pm : parquet->members()) {
+          const NycbSection* s = reader.find(pm.key);
+          INFO("parquet cross-check ", m.key, "/", pm.key);
+          REQUIRE(s != nullptr);
+          CHECK(static_cast<int64_t>(s->elementCount) == pm.value.asInt());
+          ++parquetChecked;
+        }
+      }
+    }
+    CHECK(filesRead > 0);
+    CHECK(sectionsChecked > 0);
+    MESSAGE("real NYCB files: " << filesRead << " read, " << sectionsChecked
+                                << " sections structurally checked, " << countsChecked
+                                << " counts, " << parquetChecked << " parquet cross-checks");
+
+    // --- cross-section integrity of the real road graph.
+    const std::string rgPath = std::string(NYCSIM_REPO_ROOT) + "/data/processed/runtime/roadgraph.nycb";
+    auto rg = NycbReader::fromFile(rgPath.c_str());
     if (!rg) {
       MESSAGE("real roadgraph.nycb not readable - integrity check skipped");
       return;
@@ -627,5 +719,30 @@ TEST_SUITE("io") {
     MESSAGE("real roadgraph.nycb: " << segs.value().size() << " segments, " << lanes.value().size()
                                     << " lanes, " << nv << " vertices, " << rg->sizeBytes()
                                     << " bytes");
+
+#if defined(NYCSIM_HAVE_ROUTING_LANE)
+    // Two independent decoders must agree on the same 100 MB file: core/io's reader above, and the
+    // routing lane's self-contained NycbLite reader (routing/RoadGraph.cpp::loadFromNycb).
+    {
+      std::FILE* f = std::fopen(rgPath.c_str(), "rb");
+      REQUIRE(f != nullptr);
+      std::vector<uint8_t> buf;
+      uint8_t chunk[1 << 16];
+      size_t n = 0;
+      while ((n = std::fread(chunk, 1, sizeof chunk, f)) > 0) buf.insert(buf.end(), chunk, chunk + n);
+      std::fclose(f);
+      routing::RoadGraph g;
+      const bool loaded = g.loadFromNycb(buf.data(), buf.size());
+      CHECK_MESSAGE(loaded, "routing::RoadGraph::loadFromNycb failed: " << g.lastError());
+      if (loaded) {
+        const auto nodes = rg->view<RoadNode>("nodes");
+        REQUIRE(nodes.ok());
+        CHECK(g.nodeCount() == nodes.value().size());
+        CHECK(g.segmentCount() == segs.value().size());
+        MESSAGE("routing::RoadGraph agrees: " << g.nodeCount() << " nodes, " << g.segmentCount()
+                                              << " segments, " << g.laneCount() << " lanes");
+      }
+    }
+#endif
   }
 }

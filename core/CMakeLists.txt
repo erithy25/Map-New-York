@@ -96,6 +96,11 @@ if(NYCSIM_BUILD_TESTS)
     # Repository root, so the io suite can read the real exporter output under
     # data/processed/runtime/ when the roads stage has produced it (it skips when absent).
     NYCSIM_REPO_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/..")
+  # The io suite cross-checks core/io's NYCB reader against the routing lane's independent
+  # NycbLite decoder on the real road graph, but only when that lane is part of the build.
+  if(NYCSIM_BUILD_LANES AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/src/routing/CMakeLists.txt")
+    target_compile_definitions(nycsim_core_tests PRIVATE NYCSIM_HAVE_ROUTING_LANE=1)
+  endif()
 
   function(nycsim_add_test_suite suite)
     target_sources(nycsim_core_tests PRIVATE ${ARGN})
