@@ -331,46 +331,88 @@ def configure_cycles(samples: int, threads: int | None) -> None:
         sc.render.threads = threads
 
 
-def view_azimuth(slug: str, meta: dict, photo: dict) -> tuple[float, str]:
-    """The compass bearing the render should face, and why.
+#: How far the chosen photograph's own EXIF GPS may sit from the item's recorded viewpoint before
+#: it is treated as unreliable rather than as the better measurement.  The reference collector
+#: searches Commons within ~120 m of each item, so a photograph whose GPS is a quarter of a
+#: kilometre away is either mis-tagged or is not a picture of that viewpoint at all.
+PHOTO_GPS_SANITY_M = 250.0
 
-    Three sources, in order of authority:
 
-    1. the chosen photograph's own ``estimated_viewpoint.azimuth_deg`` when it was derived from
-       that photograph's camera GPS (``confidence: high``) -- that is the direction the picture was
-       actually taken in;
-    2. the bearing from the viewpoint to the item's ``subject`` coordinate, when it disagrees with
-       the recorded ``azimuth_deg`` by more than 20 deg -- the subject is what the photograph is of,
-       and a recorded azimuth that points somewhere else is wrong;
-    3. the item's recorded ``azimuth_deg``.
+def view_origin(meta: dict, photo: dict | None) -> tuple[float, float, str, float | None, bool]:
+    """Where the camera stands: (lat, lon, why, metres from the recorded viewpoint, from_photo).
 
-    A sheet whose two halves face different directions cannot be compared, so where the direction
-    rests on assumption rather than measurement the sheet says so.
+    The item's ``viewpoint`` is a nominal position typed by the reference collector; the chosen
+    photograph usually carries the GPS position its own camera recorded.  Where both exist and
+    agree to within :data:`PHOTO_GPS_SANITY_M`, the photograph's is the measurement and the item's
+    is the estimate, so the render stands where the picture was taken.
+
+    Position and heading have to come from the same place.  The earlier version of this module
+    took the *heading* from the photograph's GPS ("camera_gps_to_subject") while leaving the
+    *position* at the item's viewpoint, which for Washington Street in DUMBO aimed a camera 46 m
+    south-east of the photographer along the bearing that only works from the photographer's own
+    spot -- the two halves of the sheet then face different ways, which is exactly the fault this
+    is meant to prevent.
     """
     vp = meta["viewpoint"]
-    recorded = float(vp["azimuth_deg"])
-    ev = (photo or {}).get("estimated_viewpoint") or {}
-    if ev.get("confidence") == "high" and ev.get("azimuth_deg") is not None:
-        got = float(ev["azimuth_deg"])
-        delta = abs((got - recorded + 180.0) % 360.0 - 180.0)
-        return got, (f"{got:.1f} deg, the bearing from this photograph's own camera GPS to the "
-                     f"subject ({ev.get('method', 'camera_gps_to_subject')}); the item's recorded "
-                     f"azimuth is {recorded:.1f} deg, {delta:.1f} deg away")
+    g = (photo or {}).get("camera_gps") or {}
+    if g.get("lat") is None or g.get("lon") is None:
+        return (float(vp["lat"]), float(vp["lon"]),
+                "the item's recorded viewpoint (this photograph carries no camera GPS)",
+                None, False)
+    from nycsim_pipeline.crs import lonlat_to_tm
+    vx, vy = (float(v) for v in lonlat_to_tm(vp["lon"], vp["lat"]))
+    px, py = (float(v) for v in lonlat_to_tm(g["lon"], g["lat"]))
+    d = math.hypot(px - vx, py - vy)
+    if d > PHOTO_GPS_SANITY_M:
+        return (float(vp["lat"]), float(vp["lon"]),
+                (f"the item's recorded viewpoint; this photograph's own EXIF GPS is {d:,.0f} m "
+                 f"away, past the {PHOTO_GPS_SANITY_M:.0f} m at which it could still be the same "
+                 f"view, so it was rejected as mis-tagged"), d, False)
+    return (float(g["lat"]), float(g["lon"]),
+            (f"this photograph's own EXIF camera GPS ({g['lat']:.5f}, {g['lon']:.5f}), {d:.0f} m "
+             f"from the item's recorded viewpoint -- the position the picture was taken from"),
+            d, True)
+
+
+def view_azimuth(slug: str, meta: dict, photo: dict, lat: float, lon: float, *,
+                 origin_is_photo: bool = False) -> tuple[float, str]:
+    """The compass bearing the render should face from (lat, lon), and why.
+
+    Two sources, in order of authority:
+
+    1. the bearing from the camera position actually used to the item's ``subject`` coordinate --
+       the subject is what the photograph is of, so this is measured rather than assumed.  When
+       the camera stands on the photograph's own GPS this bearing is used unconditionally, because
+       position and heading then come from the same measurement; when the camera stands on the
+       item's nominal viewpoint the recorded azimuth is kept unless the subject bearing disagrees
+       with it by more than 20 deg, which means the recorded azimuth points somewhere the subject
+       is not.
+    2. the item's recorded ``azimuth_deg``.
+
+    The bearing is always recomputed from the position the camera ends up at, never copied from
+    the metadata, so heading and position can never come from different places.
+    """
+    recorded = float(meta["viewpoint"]["azimuth_deg"])
     subject = meta.get("subject") or {}
     if subject.get("lat") is not None and subject.get("lon") is not None:
         from nycsim_pipeline.crs import lonlat_to_tm
-        vx, vy = (float(v) for v in lonlat_to_tm(vp["lon"], vp["lat"]))
+        vx, vy = (float(v) for v in lonlat_to_tm(lon, lat))
         sx, sy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
         bearing = math.degrees(math.atan2(sx - vx, sy - vy)) % 360.0
         delta = abs((bearing - recorded + 180.0) % 360.0 - 180.0)
+        name = subject.get("name") or "the subject"
+        if origin_is_photo:
+            return bearing, (f"{bearing:.1f} deg, the bearing from this photograph's own GPS "
+                             f"position to {name}; heading and position both come from the "
+                             f"photograph.  The item's recorded azimuth is {recorded:.1f} deg, "
+                             f"{delta:.1f} deg away, and belongs to its nominal viewpoint")
         if delta > 20.0:
-            return bearing, (f"{bearing:.1f} deg, the bearing from the viewpoint to "
-                             f"{subject.get('name') or 'the subject'}; the item's recorded azimuth "
-                             f"of {recorded:.1f} deg is {delta:.0f} deg away from its own subject "
-                             f"and was not used")
-        return recorded, (f"{recorded:.1f} deg as recorded; it agrees with the bearing to "
-                          f"{subject.get('name') or 'the subject'} ({bearing:.1f} deg) to "
-                          f"{delta:.1f} deg")
+            return bearing, (f"{bearing:.1f} deg, the bearing from the camera position used to "
+                             f"{name}; the item's recorded azimuth of {recorded:.1f} deg is "
+                             f"{delta:.0f} deg away from its own subject and was not used")
+        return recorded, (f"{recorded:.1f} deg as recorded; it agrees with the bearing from the "
+                          f"camera position used to {name} ({bearing:.1f} deg) to {delta:.1f} deg")
+    ev = (photo or {}).get("estimated_viewpoint") or {}
     conf = ev.get("confidence") or "unknown"
     return recorded, (f"{recorded:.1f} deg as recorded in meta.json.  This item names no subject "
                       f"and the reference photograph's own view direction was not derived from the "
@@ -440,7 +482,8 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     outdir = COMPARISON_DIR / slug
     outdir.mkdir(parents=True, exist_ok=True)
 
-    x, y = (float(v) for v in lonlat_to_tm(vp["lon"], vp["lat"]))
+    cam_lat, cam_lon, origin_why, origin_offset_m, origin_is_photo = view_origin(meta, photo)
+    x, y = (float(v) for v in lonlat_to_tm(cam_lon, cam_lat))
     subject = meta.get("subject") or {}
     subj_dist = None
     if subject.get("lat") is not None and subject.get("lon") is not None:
@@ -452,13 +495,22 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         radius = max(500.0, min(3000.0, (subj_dist or 200.0) * 1.6 + 400.0))
         prop_r = 0.0 if radius > 1500.0 else 250.0
         kit_r = 0.0 if radius > 1500.0 else 120.0
+    # A skyline scene still has a foreground.  The reference photographs from the Brooklyn Heights
+    # Promenade and Washington Street carry a railing, benches, litter baskets and street trees
+    # inside 60 m of the lens, and a frame that drops them for being part of a 5 km scene is
+    # missing the half of the picture the eye reads first.  Ground-level long-range viewpoints
+    # therefore keep a near-field ring of props and facade kit; from an observation deck 260 m up
+    # the same props are sub-pixel, so the eye height decides.
+    eye_height_m = vcam.eye_rule_for(slug).height_m
+    if prop_r <= 0.0 and eye_height_m <= 20.0:
+        prop_r, kit_r = 150.0, 70.0
 
     if photo is None:
         return {"slug": slug, "status": "no_reference_photo",
                 "reason": "meta.json lists no photograph that exists on disk"}
 
     when, when_note = photo_instant(photo)
-    sun = sun_for(vp["lat"], vp["lon"], when)
+    sun = sun_for(cam_lat, cam_lon, when)
 
     # Match the render aspect to the reference photograph so the two halves compare like for like,
     # under a fixed pixel budget.  A landscape frame renders at the full 1280 px width; a portrait
@@ -477,6 +529,10 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         "night": bool(meta.get("night")), "interior": bool(meta.get("interior")),
         "viewpoint": {"lat": vp["lat"], "lon": vp["lon"], "azimuth_deg": vp["azimuth_deg"],
                       "note": vp.get("note")},
+        "camera_origin": {"lat": cam_lat, "lon": cam_lon, "source": origin_why,
+                          "from_photograph_gps": origin_is_photo,
+                          "offset_from_recorded_m": None if origin_offset_m is None
+                          else round(origin_offset_m, 1)},
         "subject": {"name": subject.get("name"), "distance_m": None if subj_dist is None else round(subj_dist, 1)},
         "reference_photo": {
             "file": photo["file"], "author": photo.get("author"),
@@ -507,14 +563,22 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         with_props=prop_r > 0, with_kit=kit_r > 0,
         terrain_max_side=300 if radius <= 1500 else 380,
         lod0_radius_m=1200.0, leaf_off=leaf_off)
-    azimuth, azimuth_why = view_azimuth(slug, meta, photo)
+    azimuth, azimuth_why = view_azimuth(slug, meta, photo, cam_lat, cam_lon,
+                                        origin_is_photo=origin_is_photo)
     pitch, pitch_why = aim_pitch(slug, meta, x, y,
                                  (sampler.ground_z(x, y)[0] or 0.0) + vcam.eye_rule_for(slug).height_m,
                                  sampler, vscene.load_landmark_catalog())
-    placement = vcam.place_camera(slug=slug, lat=vp["lat"], lon=vp["lon"],
+    placement = vcam.place_camera(slug=slug, lat=cam_lat, lon=cam_lon,
                                   azimuth_deg=azimuth, sampler=sampler,
                                   resolution=(width, height), note=vp.get("note"), pitch_deg=pitch)
-    clearance = vcam.clear_of_geometry(placement, sampler)
+    # How much open air the corrected viewpoint has to have along the view azimuth before it is
+    # accepted.  A frame whose subject is 170 m away is worthless from a spot with a wall (or a
+    # street tree) ten metres in front of the lens, so the requirement scales with the subject
+    # distance; with no subject named, 20 m is enough to be standing in a street rather than in a
+    # light well.
+    min_view_m = 20.0 if subj_dist is None else max(20.0, min(0.5 * subj_dist, 80.0))
+    clearance = vcam.clear_of_geometry(placement, sampler, min_view_m=min_view_m)
+    clearance["min_view_m"] = round(min_view_m, 1)
     light = setup_world_and_sun(sun["azimuth_deg"], sun["elevation_deg"], night=bool(meta.get("night")))
     light["emissive"] = apply_time_of_day_materials(bool(meta.get("night")))
     configure_cycles(samples, threads)
@@ -622,6 +686,9 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
     caption_lines.append((f"Viewpoint: {record['viewpoint'].get('note') or '-'} "
                           f"({record['viewpoint']['lat']:.5f}, {record['viewpoint']['lon']:.5f}, "
                           f"azimuth {record['viewpoint']['azimuth_deg']:.1f} deg)", f_body))
+    org = record.get("camera_origin") or {}
+    if org.get("source"):
+        caption_lines.append((f"Camera stands at: {org['source']}", f_body))
     subj = record.get("subject", {})
     if subj.get("name"):
         caption_lines.append((f"Subject: {subj['name']}"
@@ -657,6 +724,14 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
                           f"{lit.get('exposure_stops', 0):+.2f} stops; Cycles CPU, "
                           f"{record.get('samples')} samples max, adaptive, denoised", f_small))
     pv = scene.get("pavement", {})
+    tr = scene.get("terrain", {})
+    if tr.get("built"):
+        caption_lines.append((
+            f"Ground mesh: {tr.get('samples', 0)}x{tr.get('samples', 0)} graded grid over "
+            f"{2 * scene.get('radius_m', 0):.0f} m - {tr.get('near_spacing_m', tr.get('spacing_m'))} m "
+            f"spacing within {tr.get('near_m', 0)} m of the viewpoint (the heightmap's own "
+            f"resolution), coarsening to {tr.get('far_spacing_m', '?')} m at the edge of the scene; "
+            f"{tr.get('water_quads', 0):,} quads on the flattened water surface", f_small))
     caption_lines.append((
         f"In frame: {b.get('tiles_imported', 0)}/{b.get('tiles_wanted', 0)} building tiles "
         f"({b.get('triangles', 0):,} tris), {lm.get('placed', 0)} landmarks, "
@@ -664,6 +739,8 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
         + ", ".join(f"{v:,} {k}" for k, v in list((pv.get('per_kind') or {}).items())[:6])
         + f"), {pr.get('placed', 0)} props"
         + (" (bare-canopy trees)" if pr.get("leaf_off") else "")
+        + (f", {pr['impostor_cards_dropped']} opaque impostor cards dropped"
+           if pr.get("impostor_cards_dropped") else "")
         + f", {kt.get('placed', 0)} kit pieces; {scene.get('triangles', 0):,} triangles total",
         f_small))
     gaps = []
@@ -671,6 +748,11 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
         miss = b["missing"][:8]
         gaps.append(f"building shells not built for {b['tiles_missing']} tile(s): " + ", ".join(miss)
                     + (" ..." if b["tiles_missing"] > len(miss) else ""))
+    if b.get("tiles_lod_substituted"):
+        sub = b["lod_substituted"][:6]
+        gaps.append(f"{b['tiles_lod_substituted']} tile(s) had no mesh at the LOD their distance "
+                    f"asks for and were drawn at the nearest LOD present: " + ", ".join(sub)
+                    + (" ..." if b["tiles_lod_substituted"] > len(sub) else ""))
     if b.get("tiles_dropped_for_budget"):
         gaps.append(f"{b['tiles_dropped_for_budget']} of the furthest tiles dropped at the "
                     f"{b.get('triangle_budget', 0):,}-triangle shell budget")
@@ -782,6 +864,14 @@ def write_index(slugs: Sequence[str]) -> Path:
     mandated = {s: name for name, ss in MANDATED_VIEWPOINTS.items() for s in ss}
     drive = {s: name for name, ss in DRIVE_THROUGH_AREAS.items() for s in ss}
     done = sum(1 for _, st, _ in rows if st == "rendered")
+    rendered = {cov["slug"] for cov, st, _ in rows if st == "rendered"}
+
+    def covered(groups: dict[str, list[str]]) -> tuple[int, list[str]]:
+        hit = [name for name, ss in groups.items() if any(s in rendered for s in ss)]
+        return len(hit), sorted(set(groups) - set(hit))
+
+    m_done, m_left = covered(MANDATED_VIEWPOINTS)
+    d_done, d_left = covered(DRIVE_THROUGH_AREAS)
 
     lines = [
         "# Comparison sheets — index",
@@ -792,10 +882,15 @@ def write_index(slugs: Sequence[str]) -> Path:
         f"the raw `render.png` and the `render.json` that records the camera, the Sun and every "
         f"piece of world data that went into the frame.",
         "",
+        f"* **Mandated viewpoints: {m_done} of {len(MANDATED_VIEWPOINTS)} covered.**"
+        + ("" if not m_left else "  Not covered: " + ", ".join(m_left) + "."),
+        f"* **Drive-through areas: {d_done} of {len(DRIVE_THROUGH_AREAS)} covered.**"
+        + ("" if not d_left else "  Not covered: " + ", ".join(d_left) + "."),
+        "",
         "Generated by `python3 blender/verify/render_sheets.py --write-index`.",
         "",
-        "| subject | group | status | sheet | what is in the frame / why not |",
-        "|---|---|---|---|---|",
+        "| subject | group | status | sheet | assessment | what is in the frame / why not |",
+        "|---|---|---|---|---|---|",
     ]
     for cov, status, note in rows:
         slug = cov["slug"]
@@ -805,9 +900,11 @@ def write_index(slugs: Sequence[str]) -> Path:
         elif slug in drive:
             tag = f" *[drive-through: {drive[slug]}]*"
         sheet = f"[sheet]({slug}/sheet.png)" if status == "rendered" else "—"
+        assessed = ("[assessment]({0}/assessment.md)".format(slug)
+                    if (COMPARISON_DIR / slug / "assessment.md").exists() else "—")
         name = (cov.get("name") or slug).replace("|", "/")
         lines.append(f"| [{name}](../reference/{slug}/meta.json){tag} | {cov['group']} | "
-                     f"{status} | {sheet} | {note.replace('|', '/')} |")
+                     f"{status} | {sheet} | {assessed} | {note.replace('|', '/')} |")
     lines += ["", f"Rebuilt {dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds').replace('+00:00', 'Z')}.", ""]
     COMPARISON_DIR.mkdir(parents=True, exist_ok=True)
     out = COMPARISON_DIR / "INDEX.md"
@@ -829,8 +926,9 @@ def coverage(slug: str) -> dict:
     from nycsim_pipeline.crs import lonlat_to_tm
 
     meta = load_meta(slug)
-    vp = meta["viewpoint"]
-    x, y = (float(v) for v in lonlat_to_tm(vp["lon"], vp["lat"]))
+    photo0 = pick_reference_photo(meta)
+    cam_lat, cam_lon, _, _, _ = view_origin(meta, photo0)
+    x, y = (float(v) for v in lonlat_to_tm(cam_lon, cam_lat))
     subject = meta.get("subject") or {}
     subj_dist = None
     if subject.get("lat") is not None:
@@ -863,7 +961,7 @@ def coverage(slug: str) -> dict:
         ny = min(max(y, oy + bmin[1]), oy + bmax[1])
         if math.hypot(nx - x, ny - y) <= radius:
             lms.append(e["id"])
-    photo = pick_reference_photo(meta)
+    photo = photo0
     return {"slug": slug, "name": meta.get("name"), "group": meta.get("group"),
             "night": bool(meta.get("night")), "interior": bool(meta.get("interior")),
             "radius_m": radius, "subject_distance_m": None if subj_dist is None else round(subj_dist, 1),

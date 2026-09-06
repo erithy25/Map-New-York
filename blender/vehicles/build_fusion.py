@@ -305,10 +305,12 @@ def build(detail: str = "high") -> tuple[rig.Vehicle, dict]:
     # ---------- mirrors, wipers, handles, exhaust, plates, grille, badges
     for s in (1, -1):
         v.add(P.mirror(s, lib, x=2.30, y=s * (bp.y_belt(2.30) - 0.005), z=1.040, w=0.185, h=0.108))
-    ws_slope = (bp.z_top(X_ROOF_F) - bp.z_top(X_COWL)) / (X_COWL - X_ROOF_F)     # 0.461 => 65.2 deg rake
-    v.add(P.wiper(1, lib, pivot=(X_COWL - 0.05, 0.34, bp.z_top(X_COWL - 0.05) - 0.010),
+    # spindles on the cowl, just ahead of and below the bottom edge of the windscreen glass itself
+    x_gl, z_gl, ws_slope = P.windscreen_frame(v.objects["Window_WS"])
+    x_spindle, z_spindle = P.wiper_spindle(x_gl, z_gl, ws_slope)
+    v.add(P.wiper(1, lib, pivot=(x_spindle, 0.34, z_spindle),
                   length=0.640, blade=0.560, park_deg=4.0, glass_slope=ws_slope))
-    v.add(P.wiper(-1, lib, pivot=(X_COWL - 0.05, -0.42, bp.z_top(X_COWL - 0.05) - 0.010),
+    v.add(P.wiper(-1, lib, pivot=(x_spindle, -0.42, z_spindle),
                   length=0.560, blade=0.500, park_deg=-4.0, glass_slope=ws_slope))
     v.add(P.exhaust(lib, x_tip=X_REAR + 0.02, y=0.36, z=0.360, r=0.036, length=0.85, tips=2, spacing=0.20))
 
@@ -410,6 +412,11 @@ def apply_livery(v: rig.Vehicle, ctx: dict, livery: str) -> None:
     v.base_id = None if livery == "player_grey" else "fusion_hybrid"
     v.extra_slots = ("TAXI_ROOF",) if spec["taxi"] else ()
 
+
+#: mechanism per opening panel, for ``catalog["door_kind"]`` (rig.py, "Door pivot convention"): the Fusion
+#: has four conventional side-hinged doors, a front-hinged bonnet and a rear-hinged boot lid.
+DOOR_KIND = {"Door_FL": "hinged", "Door_FR": "hinged", "Door_RL": "hinged", "Door_RR": "hinged",
+             "Hood": "front-hinged bonnet", "Trunk": "boot lid / tailgate"}
 
 EXTERIOR = [
     "Body", "Hood", "Trunk", "Door_FL", "Door_FR", "Door_RL", "Door_RR", "Undertray",

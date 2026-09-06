@@ -31,6 +31,20 @@ log = logging.getLogger("nycsim.character.anim")
 FPS = 30
 
 
+def set_scene_fps(scene: bpy.types.Scene | None = None, fps: int = FPS) -> None:
+    """Put the scene on the clip frame rate.
+
+    Every clip in this lane is baked one key per Blender frame, and Blender's glTF exporter converts a key's
+    frame number to a time in seconds with the *scene* frame rate.  A scene left on Blender's 24 fps default
+    therefore exports 30 fps animation with keys 1/24 s apart, which plays 25 % slow in the engine and makes
+    the documented ground speeds wrong.  Called by the builder and again by :func:`export_character`, so the
+    saved .blend and the .glb agree.
+    """
+    scene = scene or bpy.context.scene
+    scene.render.fps = int(fps)
+    scene.render.fps_base = 1.0
+
+
 @dataclass
 class Clip:
     """One finished animation ready to bake."""
@@ -154,6 +168,7 @@ def export_character(path: str | Path, objects: Sequence[bpy.types.Object], extr
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     scene = bpy.context.scene
+    set_scene_fps(scene)
     meta = {"schema_version": nb.SCHEMA_VERSION,
             "generator_script": os.path.basename(sys.argv[0]) if sys.argv else "",
             "git_commit": nb.git_commit(),

@@ -66,6 +66,10 @@ TERRAIN_SPACING_M = 2.0
 
 _LOD_SUFFIX = re.compile(r"_LOD(\d+)$", re.IGNORECASE)
 
+#: Camera-facing impostor cards exported alongside the real geometry of an asset.  Blender's glTF
+#: importer suffixes duplicate names with ".001", so the trailing index has to be tolerated.
+_IMPOSTOR_NAME = re.compile(r"_billboard(\.\d+)?$", re.IGNORECASE)
+
 #: Prop ``kind`` name -> ``dataset_kind`` of the exported asset catalogue.  The two vocabularies
 #: agree for most kinds; the entries here are the ones that do not spell the same.
 PROP_KIND_ALIASES = {
@@ -253,23 +257,71 @@ class TerrainSampler:
                     "chosen_m": round(zz, 2)}
 
 
+def _graded_offsets(radius_m: float, near_m: float, near_spacing_m: float,
+                    max_spacing_m: float, growth: float) -> list[float]:
+    """Distances 0 .. radius_m: ``near_spacing_m`` apart out to ``near_m``, then coarsening."""
+    offs = [0.0]
+    step = float(near_spacing_m)
+    d = 0.0
+    while d < radius_m:
+        d = min(d + step, radius_m)
+        offs.append(d)
+        if d >= near_m:
+            step = min(step * growth, max_spacing_m)
+    return offs
+
+
+def graded_axis(centre: float, radius_m: float, *, near_m: float, near_spacing_m: float,
+                max_spacing_m: float, growth: float, max_points: int) -> tuple[np.ndarray, dict]:
+    """A sample axis that is dense under the camera and coarse at the horizon.
+
+    A uniform grid over a street-level scene is the wrong shape: at a 700 m radius and a 300-sample
+    cap it lands one height every 4.7 m, which turns a flat sidewalk 10 m from the lens into a
+    rolling mound and is the single most visible defect in a foreground.  The same 300 samples
+    graded -- 2 m out to ``near_m``, then growing geometrically to ``max_spacing_m`` -- resolve the
+    kerb the camera is standing on while still reaching the horizon.  ``growth`` (and then the near
+    spacing) is relaxed until the axis fits inside ``max_points``.
+    """
+    ns, g = max(0.25, float(near_spacing_m)), max(1.001, float(growth))
+    offs = _graded_offsets(radius_m, near_m, ns, max_spacing_m, g)
+    for _ in range(60):
+        if 2 * len(offs) - 1 <= max_points:
+            break
+        if g < 1.5:
+            g = min(1.5, g * 1.06)
+        else:
+            ns *= 1.25
+        offs = _graded_offsets(radius_m, near_m, ns, max_spacing_m, g)
+    xs = np.asarray([-o for o in reversed(offs[1:])] + offs, dtype=np.float64) + float(centre)
+    steps = np.diff(np.asarray(offs))
+    return xs, {"near_spacing_m": round(float(ns), 3), "growth": round(float(g), 3),
+                "points": int(xs.size),
+                "far_spacing_m": round(float(steps.max()) if steps.size else 0.0, 2)}
+
+
 def build_terrain(sampler: TerrainSampler, cx: float, cy: float, radius_m: float, *,
-                  max_side: int = 300, min_spacing_m: float = 3.0,
-                  col: bpy.types.Collection | None = None) -> dict:
-    """Displaced grid over the square of half-width ``radius_m`` centred on (cx, cy)."""
-    side = 2.0 * radius_m
-    spacing = max(min_spacing_m, side / max_side)
-    n = int(round(side / spacing)) + 1
-    n = max(2, min(n, max_side + 1))
-    xs1 = np.linspace(cx - radius_m, cx + radius_m, n)
-    ys1 = np.linspace(cy - radius_m, cy + radius_m, n)
+                  max_side: int = 300, near_m: float = 150.0,
+                  near_spacing_m: float = TERRAIN_SPACING_M, max_spacing_m: float = 40.0,
+                  growth: float = 1.14, col: bpy.types.Collection | None = None) -> dict:
+    """Displaced grid over the square of half-width ``radius_m`` centred on (cx, cy).
+
+    The grid is graded rather than uniform (see :func:`graded_axis`): the heightmap's own 2 m
+    spacing within ``near_m`` of the centre, coarsening to at most ``max_spacing_m`` at the edge.
+    The camera can be moved up to 80 m out of a building shell or walked as far as 250 m to a
+    parapet after the terrain is built, so ``near_m`` has to cover that displacement too.
+    """
+    xs1, grade = graded_axis(cx, radius_m, near_m=near_m, near_spacing_m=near_spacing_m,
+                             max_spacing_m=max_spacing_m, growth=growth, max_points=max_side + 1)
+    ys1, _ = graded_axis(cy, radius_m, near_m=near_m, near_spacing_m=near_spacing_m,
+                         max_spacing_m=max_spacing_m, growth=growth, max_points=max_side + 1)
+    n = int(xs1.size)
     xs, ys = np.meshgrid(xs1, ys1)
     z, water = sampler.grid(xs, ys)
     holes = int(np.isnan(z).sum())
     if holes == z.size:
         LOG.warning("no terrain heightmap covers the scene; ground omitted")
         return {"built": False, "reason": "no terrain tiles on disk for this area",
-                "samples": 0, "spacing_m": spacing, "holes": holes}
+                "samples": 0, "spacing_m": grade["near_spacing_m"], "holes": holes}
     fill = float(np.nanmedian(z))
     z = np.where(np.isnan(z), fill, z)
 
@@ -286,7 +338,9 @@ def build_terrain(sampler: TerrainSampler, cx: float, cy: float, radius_m: float
     ob = nb.mesh_object("verify_terrain", verts, faces, col=col, materials=(ground, sea), smooth=False)
     for poly, m in zip(ob.data.polygons, mats):
         poly.material_index = m
-    return {"built": True, "samples": n, "spacing_m": round(spacing, 3),
+    return {"built": True, "samples": n, "spacing_m": grade["near_spacing_m"],
+            "near_spacing_m": grade["near_spacing_m"], "near_m": round(float(near_m), 1),
+            "far_spacing_m": grade["far_spacing_m"], "grading_growth": grade["growth"],
             "triangles": 2 * (n - 1) * (n - 1), "holes": holes,
             "water_quads": int(sum(1 for m in mats if m == 1)),
             "z_min_m": round(float(z.min()), 2), "z_max_m": round(float(z.max()), 2)}
@@ -305,6 +359,14 @@ def import_glb(path: Path) -> list[bpy.types.Object]:
     before = set(bpy.data.objects)
     bpy.ops.import_scene.gltf(filepath=str(path))
     return [ob for ob in bpy.data.objects if ob not in before]
+
+
+def _is_impostor(ob: bpy.types.Object) -> bool:
+    """Is this mesh a camera-facing impostor card rather than the asset's real geometry?"""
+    if _IMPOSTOR_NAME.search(ob.name):
+        return True
+    mats = [m.name for m in ob.data.materials if m is not None]
+    return bool(mats) and all(m.startswith("IMPOSTOR_") for m in mats)
 
 
 def _triangles(ob: bpy.types.Object) -> int:
@@ -336,6 +398,7 @@ class AssetLibrary:
     def __init__(self) -> None:
         self.templates: dict[str, AssetTemplate] = {}
         self.failed: dict[str, str] = {}
+        self.impostors_dropped = 0
         self._hidden = bpy.data.collections.new("verify_templates")
         bpy.context.scene.collection.children.link(self._hidden)
         lc = bpy.context.view_layer.layer_collection.children.get(self._hidden.name)
@@ -360,6 +423,15 @@ class AssetLibrary:
         parts, tris = [], 0
         for ob in created:
             if ob.type == "MESH" and _lod_of(ob.name) <= max_lod:
+                if _is_impostor(ob):
+                    # Every tree asset carries a six-polygon ``<species>_billboard`` card with an
+                    # ``IMPOSTOR_*`` material.  It is meant to stand in for the crown at distance,
+                    # but the exported material is an opaque flat colour with no alpha texture, so
+                    # drawn at LOD0 over the real branches it turns every street tree into a solid
+                    # cone -- which is exactly what the first street-level sheets showed.  The card
+                    # is dropped here and counted, and the real geometry is used at every distance.
+                    self.impostors_dropped += 1
+                    continue
                 parts.append((ob.data, ob.matrix_world.copy()))
                 tris += _triangles(ob)
         for ob in created:
@@ -384,12 +456,17 @@ def add_buildings(cx: float, cy: float, radius_m: float, *, lod0_radius_m: float
     than the machine has memory for, so tiles are taken nearest-first, dropped down to LOD1 beyond
     ``lod0_radius_m`` and LOD2 beyond ``lod1_radius_m``, and the import stops when the budget is
     spent.  Whatever is dropped is named in the result so the sheet can say so.
+
+    Not every tile glb carries every LOD -- a tile whose shells decimate to nothing at LOD2 is
+    written with LOD0 and LOD1 only -- so a tile that has no mesh at the requested LOD falls back
+    to the nearest LOD it does have rather than vanishing from the skyline.
     """
     wanted = tiles_in_radius(cx, cy, radius_m)
     wanted.sort(key=lambda t: math.hypot((t[0] + 0.5) * TILE_SIZE_M - cx,
                                          (t[1] + 0.5) * TILE_SIZE_M - cy))
     imported, missing, tris, per_tile = [], [], 0, {}
-    dropped_for_budget = []
+    dropped_for_budget: list[str] = []
+    lod_substituted: list[str] = []
     for tx, ty in wanted:
         name = tile_name(tx, ty)
         if tris >= triangle_budget:
@@ -409,15 +486,29 @@ def add_buildings(cx: float, cy: float, radius_m: float, *, lod0_radius_m: float
             missing.append(f"{name} (import error)")
             continue
         origin = Vector((tx * TILE_SIZE_M, ty * TILE_SIZE_M, 0.0))
-        kept = 0
-        t = 0
+        by_lod: dict[int, list] = {}
         for ob in created:
             if ob.type != "MESH":
                 bpy.data.objects.remove(ob, do_unlink=True)
                 continue
-            if _lod_of(ob.name) != lod:
-                bpy.data.objects.remove(ob, do_unlink=True)
+            by_lod.setdefault(_lod_of(ob.name), []).append(ob)
+        if not by_lod:
+            LOG.warning("tile %s glb carries no mesh", name)
+            missing.append(f"{name} (no mesh in the glb)")
+            continue
+        # Not every tile carries every LOD: a tile whose shells decimate to nothing at LOD2 is
+        # written with LOD0 and LOD1 only.  Dropping such a tile leaves a hole in the skyline, so
+        # take the nearest LOD that exists instead -- preferring the coarser of two equally near
+        # ones -- and record the substitution.
+        use = min(by_lod, key=lambda l: (abs(l - lod), -l))
+        for l, obs in by_lod.items():
+            if l == use:
                 continue
+            for ob in obs:
+                bpy.data.objects.remove(ob, do_unlink=True)
+        kept = 0
+        t = 0
+        for ob in by_lod[use]:
             ob.location = ob.location + origin
             if col is not None:
                 for c in list(ob.users_collection):
@@ -425,13 +516,13 @@ def add_buildings(cx: float, cy: float, radius_m: float, *, lod0_radius_m: float
                 col.objects.link(ob)
             kept += 1
             t += _triangles(ob)
-        if kept == 0:
-            # The glb has no object at this LOD; re-import at LOD0 rather than lose the tile.
-            LOG.warning("tile %s has no LOD%d objects", name, lod)
-            missing.append(f"{name} (no LOD{lod})")
-            continue
         imported.append(name)
-        per_tile[name] = {"lod": lod, "objects": kept, "triangles": t}
+        per_tile[name] = {"lod": use, "objects": kept, "triangles": t}
+        if use != lod:
+            per_tile[name]["lod_requested"] = lod
+            per_tile[name]["lod_substituted"] = (
+                f"the tile glb has no LOD{lod}; LOD{use} used instead")
+            lod_substituted.append(f"{name} (LOD{lod} -> LOD{use})")
         tris += t
     # Object transforms are set directly, so the dependency graph has to be refreshed before
     # anything (a test, a bounds check, an exporter) reads matrix_world.
@@ -440,7 +531,8 @@ def add_buildings(cx: float, cy: float, radius_m: float, *, lod0_radius_m: float
             "imported": sorted(imported), "missing": sorted(missing), "triangles": tris,
             "tiles_dropped_for_budget": len(dropped_for_budget),
             "dropped_for_budget": sorted(dropped_for_budget), "triangle_budget": triangle_budget,
-            "per_tile": per_tile}
+            "tiles_lod_substituted": len(lod_substituted),
+            "lod_substituted": sorted(lod_substituted), "per_tile": per_tile}
 
 
 # --------------------------------------------------------------------------- landmarks
@@ -799,11 +891,69 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
         tris += tpl.triangles
         per_kind[kind_name] = per_kind.get(kind_name, 0) + 1
     return {"rows_in_range": int(order.size), "placed": placed, "triangles": tris,
-            "leaf_off": leaf_off,
+            "leaf_off": leaf_off, "impostor_cards_dropped": lib.impostors_dropped,
             "capped": capped_reason, "per_kind": dict(sorted(per_kind.items(), key=lambda kv: -kv[1])),
             "unmapped_kinds": unmapped, "tree_species_substituted": species_substituted,
             "tiles_read": sorted(tiles_read), "tiles_missing": sorted(tiles_missing),
             "radius_m": radius_m}
+
+
+# --------------------------------------------------------------------------- prop scale audit
+
+
+def audit_prop_assets(tolerance: float = 0.15) -> dict:
+    """Check every exported prop against the size its own catalogue entry publishes.
+
+    A prop is instanced by translation and yaw alone -- :func:`add_props` never scales one -- so a
+    prop that renders at the wrong size in a frame can only be wrong in its glb.  This imports
+    every asset the way the scene does (LOD0 meshes, the local matrices the glb carries) and
+    measures the world-space bounding box against ``nominal_size_m``.
+
+    A modelled light cone is part of the lamp's glb and legitimately reaches metres beyond the
+    pole, so an entry whose oversize is explained by ``bounds_with_effects`` is reported as
+    ``with_effects`` rather than as a fault: the daylight pass makes those cones transparent.
+    Anything left in ``bad`` is a real scale error.
+    """
+    if not PROPS_CATALOG_JSON.exists():
+        return {"checked": 0, "reason": f"no prop asset catalogue at {PROPS_CATALOG_JSON}"}
+    entries = json.loads(PROPS_CATALOG_JSON.read_text()).get("entries", [])
+    lib = AssetLibrary()
+    bad, with_effects, unloadable = [], [], []
+    for e in entries:
+        tpl = lib.get(BLENDER_OUT / e["glb"], key=f"prop:{e['id']}", max_lod=0)
+        if tpl is None:
+            unloadable.append({"id": e["id"], "reason": lib.failed.get(f"prop:{e['id']}", "unknown")})
+            continue
+        lo = [math.inf] * 3
+        hi = [-math.inf] * 3
+        for mesh, local in tpl.parts:
+            for v in mesh.vertices:
+                w = local @ v.co
+                for k in range(3):
+                    lo[k] = min(lo[k], w[k])
+                    hi[k] = max(hi[k], w[k])
+        size = [hi[k] - lo[k] for k in range(3)]
+        nominal = e.get("nominal_size_m") or size
+        ratio = max((size[k] / nominal[k]) if nominal[k] > 1e-6 else 1.0 for k in range(3))
+        if ratio <= 1.0 + tolerance:
+            continue
+        eff = e.get("bounds_with_effects") or {}
+        eff_size = ([float(eff["max"][k]) - float(eff["min"][k]) for k in range(3)]
+                    if eff.get("max") and eff.get("min") else None)
+        row = {"id": e["id"], "dataset_kind": e.get("dataset_kind"),
+               "imported_size_m": [round(v, 3) for v in size],
+               "nominal_size_m": [round(float(v), 3) for v in nominal],
+               "ratio": round(ratio, 2)}
+        if eff_size and all(abs(size[k] - eff_size[k]) <= 0.05 for k in range(3)):
+            row["explained_by"] = ("bounds_with_effects: the extra extent is the modelled light "
+                                   "cone, which the daylight pass makes transparent")
+            with_effects.append(row)
+        else:
+            bad.append(row)
+    return {"checked": len(entries), "tolerance": tolerance,
+            "bad": sorted(bad, key=lambda r: -r["ratio"]),
+            "with_effects": sorted(with_effects, key=lambda r: -r["ratio"]),
+            "unloadable": unloadable}
 
 
 # --------------------------------------------------------------------------- kit
@@ -1022,8 +1172,8 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
 
 def main(argv: Sequence[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--lat", type=float, required=True)
-    ap.add_argument("--lon", type=float, required=True)
+    ap.add_argument("--lat", type=float, default=40.7526)
+    ap.add_argument("--lon", type=float, default=-73.9814)
     ap.add_argument("--radius", type=float, default=600.0)
     ap.add_argument("--prop-radius", type=float, default=None)
     ap.add_argument("--kit-radius", type=float, default=None)
@@ -1031,8 +1181,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     ap.add_argument("--no-props", action="store_true")
     ap.add_argument("--no-kit", action="store_true")
     ap.add_argument("--json", default=None, help="write the scene report here ('-' for stdout)")
+    ap.add_argument("--audit-props", action="store_true",
+                    help="measure every prop asset against its catalogue size and exit")
     a = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s %(message)s")
+    if a.audit_props:
+        report = audit_prop_assets()
+        print(json.dumps(report, indent=1, sort_keys=True))
+        return 1 if report.get("bad") or report.get("unloadable") else 0
     from nycsim_pipeline.crs import lonlat_to_tm
     x, y = lonlat_to_tm(a.lon, a.lat)
     rep, _ = build_scene(x, y, a.radius, prop_radius_m=a.prop_radius, kit_radius_m=a.kit_radius,

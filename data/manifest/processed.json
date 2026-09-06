@@ -12273,6 +12273,1649 @@
    ],
    "stage": "transit"
   },
+  "vehicles/ambulance_type1_fdny": {
+   "artifact_id": "vehicles/ambulance_type1_fdny",
+   "bytes": 1595100,
+   "catalog": "blender_out/vehicles/catalog/ambulance_type1_fdny.json",
+   "dimension_deviation_pct": {
+    "height_pct": 0.0,
+    "length_pct": 0.349,
+    "width_pct": 0.164
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/ambulance_type1_fdny.glb",
+     "triangles": 36322
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/ambulance_type1_fdny_LOD1.glb",
+     "triangles": 27363
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/ambulance_type1_fdny_LOD2.glb",
+     "triangles": 5721
+    }
+   ],
+   "path": "blender_out/vehicles/ambulance_type1_fdny.glb",
+   "produced_at": "2026-09-06T19:31:49Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 1120,
+    "ground_clearance_mm": 230,
+    "height_mm": 2900,
+    "length_mm": 7160,
+    "rear_overhang_mm": 1800,
+    "rim_diameter_in": 19.5,
+    "track_front_mm": 1920,
+    "track_rear_mm": 1750,
+    "tyre_spec": "225/70R19.5",
+    "tyre_width_mm": 225,
+    "wheel_diameter_mm": 810.3,
+    "wheelbase_mm": 4240,
+    "width_mm": 2440
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "b82eb1ee386150afa2238a43be50adad5cc96fb784b47933521bfd348efce2a4",
+   "sources": [
+    "Ford F-450 chassis cab published dimensions; Type I ambulance module 96 in wide"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 36322
+  },
+  "vehicles/arrow_ebike": {
+   "artifact_id": "vehicles/arrow_ebike",
+   "bytes": 273256,
+   "catalog": "blender_out/vehicles/catalog/arrow_ebike.json",
+   "dimension_deviation_pct": {
+    "height_pct": -0.182,
+    "length_pct": 1.622,
+    "width_pct": 1.151
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/arrow_ebike.glb",
+     "triangles": 5212
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/arrow_ebike_LOD1.glb",
+     "triangles": 4448
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/arrow_ebike_LOD2.glb",
+     "triangles": 1938
+    }
+   ],
+   "path": "blender_out/vehicles/arrow_ebike.glb",
+   "produced_at": "2026-09-06T19:32:09Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 330,
+    "ground_clearance_mm": 245,
+    "height_mm": 1100,
+    "length_mm": 1850,
+    "rear_overhang_mm": 330,
+    "rim_diameter_in": 26.0,
+    "track_front_mm": 0.1,
+    "track_rear_mm": 0.1,
+    "tyre_spec": "26 x 2.0",
+    "tyre_width_mm": 50,
+    "wheel_diameter_mm": 690,
+    "wheelbase_mm": 1190,
+    "width_mm": 660
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "9368c6596d308aea0d2991bcca81a1cf8851d0f67ce894ebd17e9355114f87b8",
+   "sources": [
+    "Arrow class-2 delivery e-bike published specification"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 5212
+  },
+  "vehicles/camry_black_car": {
+   "artifact_id": "vehicles/camry_black_car",
+   "bytes": 1617620,
+   "catalog": "blender_out/vehicles/catalog/camry_black_car.json",
+   "dimension_deviation_pct": {
+    "height_pct": 0.0,
+    "length_pct": -0.0,
+    "width_pct": 0.0
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/camry_black_car.glb",
+     "triangles": 38540
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/camry_black_car_LOD1.glb",
+     "triangles": 27477
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/camry_black_car_LOD2.glb",
+     "triangles": 5722
+    }
+   ],
+   "path": "blender_out/vehicles/camry_black_car.glb",
+   "produced_at": "2026-09-06T19:31:22Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 1000,
+    "ground_clearance_mm": 145,
+    "height_mm": 1445,
+    "length_mm": 4885,
+    "rear_overhang_mm": 1060,
+    "rim_diameter_in": 17.0,
+    "track_front_mm": 1580,
+    "track_rear_mm": 1580,
+    "tyre_spec": "215/55R17",
+    "tyre_width_mm": 215,
+    "wheel_diameter_mm": 668.3,
+    "wheelbase_mm": 2825,
+    "width_mm": 1840
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "e56d9e4e3c3d9d7b49291b71af2d2fdb5a930a831d2a5da143f9f9b810575af3",
+   "sources": [
+    "Toyota Camry XV70 published dimensions"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 38540
+  },
+  "vehicles/camry_boro_taxi": {
+   "artifact_id": "vehicles/camry_boro_taxi",
+   "bytes": 1642728,
+   "catalog": "blender_out/vehicles/catalog/camry_boro_taxi.json",
+   "dimension_deviation_pct": {
+    "height_pct": 0.0,
+    "length_pct": -0.0,
+    "width_pct": 0.0
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/camry_boro_taxi.glb",
+     "triangles": 38652
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/camry_boro_taxi_LOD1.glb",
+     "triangles": 27571
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/camry_boro_taxi_LOD2.glb",
+     "triangles": 5722
+    }
+   ],
+   "path": "blender_out/vehicles/camry_boro_taxi.glb",
+   "produced_at": "2026-09-06T19:31:25Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 1000,
+    "ground_clearance_mm": 145,
+    "height_mm": 1445,
+    "length_mm": 4885,
+    "rear_overhang_mm": 1060,
+    "rim_diameter_in": 17.0,
+    "track_front_mm": 1580,
+    "track_rear_mm": 1580,
+    "tyre_spec": "215/55R17",
+    "tyre_width_mm": 215,
+    "wheel_diameter_mm": 668.3,
+    "wheelbase_mm": 2825,
+    "width_mm": 1840
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "b1df515e98b9e9f02aef0f8e596c15339541ed1dc067024445bfef545b7897f2",
+   "sources": [
+    "Toyota Camry XV70 published dimensions"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 38652
+  },
+  "vehicles/camry_taxi_yellow": {
+   "artifact_id": "vehicles/camry_taxi_yellow",
+   "bytes": 1637416,
+   "catalog": "blender_out/vehicles/catalog/camry_taxi_yellow.json",
+   "dimension_deviation_pct": {
+    "height_pct": 0.0,
+    "length_pct": -0.0,
+    "width_pct": 0.0
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/camry_taxi_yellow.glb",
+     "triangles": 38652
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/camry_taxi_yellow_LOD1.glb",
+     "triangles": 27571
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/camry_taxi_yellow_LOD2.glb",
+     "triangles": 5722
+    }
+   ],
+   "path": "blender_out/vehicles/camry_taxi_yellow.glb",
+   "produced_at": "2026-09-06T19:31:20Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 1000,
+    "ground_clearance_mm": 145,
+    "height_mm": 1445,
+    "length_mm": 4885,
+    "rear_overhang_mm": 1060,
+    "rim_diameter_in": 17.0,
+    "track_front_mm": 1580,
+    "track_rear_mm": 1580,
+    "tyre_spec": "215/55R17",
+    "tyre_width_mm": 215,
+    "wheel_diameter_mm": 668.3,
+    "wheelbase_mm": 2825,
+    "width_mm": 1840
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "a7c036540a981db5b6632188d5e9562bcad17a13845315b2317dc0d90e26b9e7",
+   "sources": [
+    "Toyota Camry XV70 published dimensions"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 38652
+  },
+  "vehicles/citibike_cruiser": {
+   "artifact_id": "vehicles/citibike_cruiser",
+   "bytes": 272688,
+   "catalog": "blender_out/vehicles/catalog/citibike_cruiser.json",
+   "dimension_deviation_pct": {
+    "height_pct": -0.0,
+    "length_pct": -0.526,
+    "width_pct": 1.151
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/citibike_cruiser.glb",
+     "triangles": 4950
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/citibike_cruiser_LOD1.glb",
+     "triangles": 4220
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/citibike_cruiser_LOD2.glb",
+     "triangles": 1940
+    }
+   ],
+   "path": "blender_out/vehicles/citibike_cruiser.glb",
+   "produced_at": "2026-09-06T19:32:09Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 350,
+    "ground_clearance_mm": 250,
+    "height_mm": 1120,
+    "length_mm": 1900,
+    "rear_overhang_mm": 350,
+    "rim_diameter_in": 26.0,
+    "track_front_mm": 0.1,
+    "track_rear_mm": 0.1,
+    "tyre_spec": "26 x 2.0",
+    "tyre_width_mm": 50,
+    "wheel_diameter_mm": 690,
+    "wheelbase_mm": 1200,
+    "width_mm": 660
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "2fcc0c21d938cc0a63b9bcb63868522e8d8ebc6cb4b247e1a0a15419701b8e9f",
+   "sources": [
+    "Citi Bike (Lyft) classic bike published dimensions"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 4950
+  },
+  "vehicles/coned_utility_truck": {
+   "artifact_id": "vehicles/coned_utility_truck",
+   "bytes": 1669768,
+   "catalog": "blender_out/vehicles/catalog/coned_utility_truck.json",
+   "dimension_deviation_pct": {
+    "height_pct": -0.0,
+    "length_pct": 0.0,
+    "width_pct": 0.984
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/coned_utility_truck.glb",
+     "triangles": 37740
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/coned_utility_truck_LOD1.glb",
+     "triangles": 26989
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/coned_utility_truck_LOD2.glb",
+     "triangles": 5237
+    }
+   ],
+   "path": "blender_out/vehicles/coned_utility_truck.glb",
+   "produced_at": "2026-09-06T19:32:06Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 1120,
+    "ground_clearance_mm": 240,
+    "height_mm": 2900,
+    "length_mm": 7340,
+    "rear_overhang_mm": 1900,
+    "rim_diameter_in": 19.5,
+    "track_front_mm": 1900,
+    "track_rear_mm": 1750,
+    "tyre_spec": "225/70R19.5",
+    "tyre_width_mm": 225,
+    "wheel_diameter_mm": 810.3,
+    "wheelbase_mm": 4320,
+    "width_mm": 2440
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "c750a5b14869cd8bcab208e336d6bef2002326d9600e770fc55ef667aab807b4",
+   "sources": [
+    "Ford F-550 chassis cab published dimensions; 11 ft utility body"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 37740
+  },
+  "vehicles/dollar_van": {
+   "artifact_id": "vehicles/dollar_van",
+   "bytes": 1639328,
+   "catalog": "blender_out/vehicles/catalog/dollar_van.json",
+   "dimension_deviation_pct": {
+    "height_pct": 0.0,
+    "length_pct": 0.0,
+    "width_pct": 0.534
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/dollar_van.glb",
+     "triangles": 39714
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/dollar_van_LOD1.glb",
+     "triangles": 27729
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/dollar_van_LOD2.glb",
+     "triangles": 5236
+    }
+   ],
+   "path": "blender_out/vehicles/dollar_van.glb",
+   "produced_at": "2026-09-06T19:32:00Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 960,
+    "ground_clearance_mm": 180,
+    "height_mm": 2750,
+    "length_mm": 6706,
+    "rear_overhang_mm": 1996,
+    "rim_diameter_in": 16.0,
+    "track_front_mm": 1735,
+    "track_rear_mm": 1720,
+    "tyre_spec": "235/65R16",
+    "tyre_width_mm": 235,
+    "wheel_diameter_mm": 711.9,
+    "wheelbase_mm": 3750,
+    "width_mm": 2059
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "6d2c8bc4626db2d48d17181be8475046bf10c061d41d250d0571857743c39fc5",
+   "sources": [
+    "Ford Transit 350 XLT 15-passenger published dimensions"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 39714
+  },
+  "vehicles/explorer_nypd": {
+   "artifact_id": "vehicles/explorer_nypd",
+   "bytes": 1678352,
+   "catalog": "blender_out/vehicles/catalog/explorer_nypd.json",
+   "dimension_deviation_pct": {
+    "height_pct": 0.0,
+    "length_pct": 0.0,
+    "width_pct": 0.036
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/explorer_nypd.glb",
+     "triangles": 39264
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/explorer_nypd_LOD1.glb",
+     "triangles": 28057
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/explorer_nypd_LOD2.glb",
+     "triangles": 5722
+    }
+   ],
+   "path": "blender_out/vehicles/explorer_nypd.glb",
+   "produced_at": "2026-09-06T19:31:32Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 1000,
+    "ground_clearance_mm": 195,
+    "height_mm": 1775,
+    "length_mm": 5049,
+    "rear_overhang_mm": 1024,
+    "rim_diameter_in": 18.0,
+    "track_front_mm": 1697,
+    "track_rear_mm": 1697,
+    "tyre_spec": "255/60R18",
+    "tyre_width_mm": 255,
+    "wheel_diameter_mm": 763.2,
+    "wheelbase_mm": 3025,
+    "width_mm": 2004
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "b40c4f4b624ac61fac24268bd37ae232bc9213ff4835ff0af7753838ead743be",
+   "sources": [
+    "Ford Explorer / Police Interceptor Utility 2020 published dimensions"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 39264
+  },
+  "vehicles/freightliner_stepvan": {
+   "artifact_id": "vehicles/freightliner_stepvan",
+   "bytes": 1538356,
+   "catalog": "blender_out/vehicles/catalog/freightliner_stepvan.json",
+   "dimension_deviation_pct": {
+    "height_pct": 0.0,
+    "length_pct": 0.123,
+    "width_pct": 0.164
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/freightliner_stepvan.glb",
+     "triangles": 35296
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/freightliner_stepvan_LOD1.glb",
+     "triangles": 26499
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/freightliner_stepvan_LOD2.glb",
+     "triangles": 5237
+    }
+   ],
+   "path": "blender_out/vehicles/freightliner_stepvan.glb",
+   "produced_at": "2026-09-06T19:32:02Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 1200,
+    "ground_clearance_mm": 230,
+    "height_mm": 3050,
+    "length_mm": 7620,
+    "rear_overhang_mm": 2280,
+    "rim_diameter_in": 19.5,
+    "track_front_mm": 1900,
+    "track_rear_mm": 1740,
+    "tyre_spec": "225/70R19.5",
+    "tyre_width_mm": 225,
+    "wheel_diameter_mm": 810.3,
+    "wheelbase_mm": 4140,
+    "width_mm": 2440
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "ee04365efa2a4eb2cd25a6c333bd9e923b153c6a06a288c480580f16841b94f5",
+   "sources": [
+    "Freightliner MT55 published dimensions; 25 ft walk-in body"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 35296
+  },
+  "vehicles/fusion_black_car": {
+   "artifact_id": "vehicles/fusion_black_car",
+   "bytes": 4208408,
+   "catalog": "blender_out/vehicles/catalog/fusion_black_car.json",
+   "dimension_deviation_pct": {
+    "height_pct": -0.004,
+    "length_pct": -0.0,
+    "width_pct": 0.0
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/fusion_black_car.glb",
+     "triangles": 84786
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/fusion_black_car_LOD1.glb",
+     "triangles": 58280
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/fusion_black_car_LOD2.glb",
+     "triangles": 7659
+    }
+   ],
+   "path": "blender_out/vehicles/fusion_black_car.glb",
+   "produced_at": "2026-09-06T19:31:15Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 990.0,
+    "ground_clearance_mm": 130.0,
+    "height_mm": 1476.0,
+    "length_mm": 4872.0,
+    "rear_overhang_mm": 1032.0,
+    "rim_diameter_in": 18.0,
+    "track_front_mm": 1585.0,
+    "track_rear_mm": 1590.0,
+    "tyre_spec": "235/45R18",
+    "tyre_width_mm": 235.0,
+    "wheel_diameter_mm": 668.7,
+    "wheelbase_mm": 2850.0,
+    "width_mm": 1852.0
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "dc54f026c651499165e42e68255b009d1aaa72359eb3081e29e4ec325830031f",
+   "sources": [
+    "Ford 2019 Fusion published dimensions (ADR-009)"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 84786
+  },
+  "vehicles/fusion_green_boro_taxi": {
+   "artifact_id": "vehicles/fusion_green_boro_taxi",
+   "bytes": 4245832,
+   "catalog": "blender_out/vehicles/catalog/fusion_green_boro_taxi.json",
+   "dimension_deviation_pct": {
+    "height_pct": -0.004,
+    "length_pct": -0.0,
+    "width_pct": 0.0
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/fusion_green_boro_taxi.glb",
+     "triangles": 84898
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/fusion_green_boro_taxi_LOD1.glb",
+     "triangles": 58275
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/fusion_green_boro_taxi_LOD2.glb",
+     "triangles": 7659
+    }
+   ],
+   "path": "blender_out/vehicles/fusion_green_boro_taxi.glb",
+   "produced_at": "2026-09-06T19:31:18Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 990.0,
+    "ground_clearance_mm": 130.0,
+    "height_mm": 1476.0,
+    "length_mm": 4872.0,
+    "rear_overhang_mm": 1032.0,
+    "rim_diameter_in": 18.0,
+    "track_front_mm": 1585.0,
+    "track_rear_mm": 1590.0,
+    "tyre_spec": "235/45R18",
+    "tyre_width_mm": 235.0,
+    "wheel_diameter_mm": 668.7,
+    "wheelbase_mm": 2850.0,
+    "width_mm": 1852.0
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "8b55cd6ed1326a9489a021c78f823ce45702bd162f0ce0a801b65bb6ff524c26",
+   "sources": [
+    "Ford 2019 Fusion published dimensions (ADR-009)"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 84898
+  },
+  "vehicles/fusion_hybrid": {
+   "artifact_id": "vehicles/fusion_hybrid",
+   "bytes": 4210536,
+   "catalog": "blender_out/vehicles/catalog/fusion_hybrid.json",
+   "dimension_deviation_pct": {
+    "height_pct": -0.004,
+    "length_pct": -0.0,
+    "width_pct": 0.0
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/fusion_hybrid.glb",
+     "triangles": 84786
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/fusion_hybrid_LOD1.glb",
+     "triangles": 58280
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/fusion_hybrid_LOD2.glb",
+     "triangles": 7659
+    }
+   ],
+   "path": "blender_out/vehicles/fusion_hybrid.glb",
+   "produced_at": "2026-09-06T19:31:11Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 990.0,
+    "ground_clearance_mm": 130.0,
+    "height_mm": 1476.0,
+    "length_mm": 4872.0,
+    "rear_overhang_mm": 1032.0,
+    "rim_diameter_in": 18.0,
+    "track_front_mm": 1585.0,
+    "track_rear_mm": 1590.0,
+    "tyre_spec": "235/45R18",
+    "tyre_width_mm": 235.0,
+    "wheel_diameter_mm": 668.7,
+    "wheelbase_mm": 2850.0,
+    "width_mm": 1852.0
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "b53bb4808166a2315931cc15784b424af23071f01cfb91d8d7385867979d4799",
+   "sources": [
+    "Ford 2019 Fusion published dimensions (ADR-009)"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 84786
+  },
+  "vehicles/fusion_yellow_taxi": {
+   "artifact_id": "vehicles/fusion_yellow_taxi",
+   "bytes": 4246528,
+   "catalog": "blender_out/vehicles/catalog/fusion_yellow_taxi.json",
+   "dimension_deviation_pct": {
+    "height_pct": -0.004,
+    "length_pct": -0.0,
+    "width_pct": 0.0
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/fusion_yellow_taxi.glb",
+     "triangles": 84898
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/fusion_yellow_taxi_LOD1.glb",
+     "triangles": 58275
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/fusion_yellow_taxi_LOD2.glb",
+     "triangles": 7659
+    }
+   ],
+   "path": "blender_out/vehicles/fusion_yellow_taxi.glb",
+   "produced_at": "2026-09-06T19:31:13Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 990.0,
+    "ground_clearance_mm": 130.0,
+    "height_mm": 1476.0,
+    "length_mm": 4872.0,
+    "rear_overhang_mm": 1032.0,
+    "rim_diameter_in": 18.0,
+    "track_front_mm": 1585.0,
+    "track_rear_mm": 1590.0,
+    "tyre_spec": "235/45R18",
+    "tyre_width_mm": 235.0,
+    "wheel_diameter_mm": 668.7,
+    "wheelbase_mm": 2850.0,
+    "width_mm": 1852.0
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "fbfaff550d374a21666ac9946c6e67ab844cae4ce0c58113c88d3ca913f6c6ec",
+   "sources": [
+    "Ford 2019 Fusion published dimensions (ADR-009)"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 84898
+  },
+  "vehicles/horse_carriage": {
+   "artifact_id": "vehicles/horse_carriage",
+   "bytes": 567748,
+   "catalog": "blender_out/vehicles/catalog/horse_carriage.json",
+   "dimension_deviation_pct": {
+    "height_pct": -0.0,
+    "length_pct": 0.222,
+    "width_pct": -0.0
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/horse_carriage.glb",
+     "triangles": 11340
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/horse_carriage_LOD1.glb",
+     "triangles": 9668
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/horse_carriage_LOD2.glb",
+     "triangles": 2910
+    }
+   ],
+   "path": "blender_out/vehicles/horse_carriage.glb",
+   "produced_at": "2026-09-06T19:32:11Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 800,
+    "ground_clearance_mm": 380,
+    "height_mm": 2200,
+    "length_mm": 3600,
+    "rear_overhang_mm": 900,
+    "rim_diameter_in": 44.0,
+    "track_front_mm": 1360,
+    "track_rear_mm": 1500,
+    "tyre_spec": "steel tyre",
+    "tyre_width_mm": 60,
+    "wheel_diameter_mm": 1200,
+    "wheelbase_mm": 1900,
+    "width_mm": 1650
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "79810f0da91d607949d1ace54c0bf0ecd79bfd977f978466cce22537de506019",
+   "sources": [
+    "NYC DCWP horse-drawn cab rules; typical vis-a-vis carriage dimensions"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 11340
+  },
+  "vehicles/isuzu_npr_box": {
+   "artifact_id": "vehicles/isuzu_npr_box",
+   "bytes": 1504916,
+   "catalog": "blender_out/vehicles/catalog/isuzu_npr_box.json",
+   "dimension_deviation_pct": {
+    "height_pct": 0.0,
+    "length_pct": 0.016,
+    "width_pct": 0.188
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/isuzu_npr_box.glb",
+     "triangles": 35308
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/isuzu_npr_box_LOD1.glb",
+     "triangles": 26489
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/isuzu_npr_box_LOD2.glb",
+     "triangles": 4751
+    }
+   ],
+   "path": "blender_out/vehicles/isuzu_npr_box.glb",
+   "produced_at": "2026-09-06T19:31:51Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 1130,
+    "ground_clearance_mm": 210,
+    "height_mm": 3200,
+    "length_mm": 7240,
+    "rear_overhang_mm": 2300,
+    "rim_diameter_in": 16.0,
+    "track_front_mm": 1655,
+    "track_rear_mm": 1650,
+    "tyre_spec": "215/85R16",
+    "tyre_width_mm": 215,
+    "wheel_diameter_mm": 771.9,
+    "wheelbase_mm": 3810,
+    "width_mm": 2130
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "6c66ed1d7bf2dfb9e65225e974b19decd716f7f03a0df3c3835ffc70e36d3593",
+   "sources": [
+    "Isuzu NPR-HD published dimensions; 16 ft dry-freight body"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 35308
+  },
+  "vehicles/mack_lr_dsny": {
+   "artifact_id": "vehicles/mack_lr_dsny",
+   "bytes": 1577440,
+   "catalog": "blender_out/vehicles/catalog/mack_lr_dsny.json",
+   "dimension_deviation_pct": {
+    "height_pct": 0.0,
+    "length_pct": 0.126,
+    "width_pct": 0.116
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/mack_lr_dsny.glb",
+     "triangles": 36816
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/mack_lr_dsny_LOD1.glb",
+     "triangles": 27695
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/mack_lr_dsny_LOD2.glb",
+     "triangles": 5721
+    }
+   ],
+   "path": "blender_out/vehicles/mack_lr_dsny.glb",
+   "produced_at": "2026-09-06T19:31:53Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 1600,
+    "ground_clearance_mm": 260,
+    "height_mm": 3450,
+    "length_mm": 10060,
+    "rear_overhang_mm": 3340,
+    "rim_diameter_in": 22.5,
+    "track_front_mm": 2080,
+    "track_rear_mm": 1860,
+    "tyre_spec": "315/80R22.5",
+    "tyre_width_mm": 315,
+    "wheel_diameter_mm": 1075.5,
+    "wheelbase_mm": 5120,
+    "width_mm": 2591
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "98351e25d11f63981138eb67f756c5b7bc6346a443e9753b94a4b9ce7e8885ae",
+   "sources": [
+    "Mack LR published dimensions; DSNY rear-loader configuration"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 36816
+  },
+  "vehicles/mci_j4500_coach": {
+   "artifact_id": "vehicles/mci_j4500_coach",
+   "bytes": 1910972,
+   "catalog": "blender_out/vehicles/catalog/mci_j4500_coach.json",
+   "dimension_deviation_pct": {
+    "height_pct": 0.0,
+    "length_pct": 0.026,
+    "width_pct": 1.351
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/mci_j4500_coach.glb",
+     "triangles": 45244
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/mci_j4500_coach_LOD1.glb",
+     "triangles": 34874
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/mci_j4500_coach_LOD2.glb",
+     "triangles": 5667
+    }
+   ],
+   "path": "blender_out/vehicles/mci_j4500_coach.glb",
+   "produced_at": "2026-09-06T19:31:42Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 2050,
+    "ground_clearance_mm": 280,
+    "height_mm": 3594,
+    "length_mm": 13716,
+    "rear_overhang_mm": 2266,
+    "rim_diameter_in": 22.5,
+    "track_front_mm": 2130,
+    "track_rear_mm": 1860,
+    "tyre_spec": "315/80R22.5",
+    "tyre_width_mm": 315,
+    "wheel_diameter_mm": 1075.5,
+    "wheelbase_mm": 9400,
+    "width_mm": 2591
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "17238174fda75db04ae6d9ec4f782598a7d4193979d5abff989ce2bcabf279f1",
+   "sources": [
+    "MCI J4500 published dimensions"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 45244
+  },
+  "vehicles/moped_scooter": {
+   "artifact_id": "vehicles/moped_scooter",
+   "bytes": 261680,
+   "catalog": "blender_out/vehicles/catalog/moped_scooter.json",
+   "dimension_deviation_pct": {
+    "height_pct": -0.175,
+    "length_pct": -0.839,
+    "width_pct": 0.913
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/moped_scooter.glb",
+     "triangles": 5780
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/moped_scooter_LOD1.glb",
+     "triangles": 4966
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/moped_scooter_LOD2.glb",
+     "triangles": 1940
+    }
+   ],
+   "path": "blender_out/vehicles/moped_scooter.glb",
+   "produced_at": "2026-09-06T19:32:10Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 250,
+    "ground_clearance_mm": 160,
+    "height_mm": 1140,
+    "length_mm": 1860,
+    "rear_overhang_mm": 270,
+    "rim_diameter_in": 12.0,
+    "track_front_mm": 0.1,
+    "track_rear_mm": 0.1,
+    "tyre_spec": "110/70-12",
+    "tyre_width_mm": 110,
+    "wheel_diameter_mm": 458.8,
+    "wheelbase_mm": 1340,
+    "width_mm": 735
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "3552730df17ca9b730306abbaca96318e021834e43f9f029964278413546f7f8",
+   "sources": [
+    "Piaggio Vespa Primavera 150 published dimensions"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 5780
+  },
+  "vehicles/nova_lfs_mta": {
+   "artifact_id": "vehicles/nova_lfs_mta",
+   "bytes": 1806312,
+   "catalog": "blender_out/vehicles/catalog/nova_lfs_mta.json",
+   "dimension_deviation_pct": {
+    "height_pct": 0.313,
+    "length_pct": 0.113,
+    "width_pct": 0.116
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/nova_lfs_mta.glb",
+     "triangles": 39830
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/nova_lfs_mta_LOD1.glb",
+     "triangles": 28912
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/nova_lfs_mta_LOD2.glb",
+     "triangles": 5721
+    }
+   ],
+   "path": "blender_out/vehicles/nova_lfs_mta.glb",
+   "produced_at": "2026-09-06T19:31:36Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 2700,
+    "ground_clearance_mm": 180,
+    "height_mm": 3200,
+    "length_mm": 12192,
+    "rear_overhang_mm": 2392,
+    "rim_diameter_in": 22.5,
+    "track_front_mm": 2100,
+    "track_rear_mm": 1850,
+    "tyre_spec": "305/70R22.5",
+    "tyre_width_mm": 305,
+    "wheel_diameter_mm": 998.5,
+    "wheelbase_mm": 7100,
+    "width_mm": 2591
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "2e3a39f792259ea43a70da520aafe650bacf8ac35c266fe37116eb78d7e83663",
+   "sources": [
+    "Nova Bus LFS published dimensions; MTA NYCT 40-foot bus fleet"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 39830
+  },
+  "vehicles/nv200_taxi": {
+   "artifact_id": "vehicles/nv200_taxi",
+   "bytes": 1605924,
+   "catalog": "blender_out/vehicles/catalog/nv200_taxi.json",
+   "dimension_deviation_pct": {
+    "height_pct": 0.0,
+    "length_pct": -0.0,
+    "width_pct": 0.006
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/nv200_taxi.glb",
+     "triangles": 38430
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/nv200_taxi_LOD1.glb",
+     "triangles": 27379
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/nv200_taxi_LOD2.glb",
+     "triangles": 5721
+    }
+   ],
+   "path": "blender_out/vehicles/nv200_taxi.glb",
+   "produced_at": "2026-09-06T19:31:29Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 900,
+    "ground_clearance_mm": 155,
+    "height_mm": 1872,
+    "length_mm": 4760,
+    "rear_overhang_mm": 1135,
+    "rim_diameter_in": 15.0,
+    "track_front_mm": 1470,
+    "track_rear_mm": 1490,
+    "tyre_spec": "185/60R15",
+    "tyre_width_mm": 185,
+    "wheel_diameter_mm": 603.0,
+    "wheelbase_mm": 2725,
+    "width_mm": 1730
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "668b81fe57beff0b5acb8d4e0418212532e7f83ac142bf132912716168055fbf",
+   "sources": [
+    "Nissan NV200 Taxi published dimensions (NYC TLC Taxi of Tomorrow)"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 38430
+  },
+  "vehicles/pedicab": {
+   "artifact_id": "vehicles/pedicab",
+   "bytes": 330436,
+   "catalog": "blender_out/vehicles/catalog/pedicab.json",
+   "dimension_deviation_pct": {
+    "height_pct": -0.286,
+    "length_pct": 1.552,
+    "width_pct": -0.461
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/pedicab.glb",
+     "triangles": 7090
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/pedicab_LOD1.glb",
+     "triangles": 6048
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/pedicab_LOD2.glb",
+     "triangles": 2132
+    }
+   ],
+   "path": "blender_out/vehicles/pedicab.glb",
+   "produced_at": "2026-09-06T19:32:10Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 400,
+    "ground_clearance_mm": 200,
+    "height_mm": 1750,
+    "length_mm": 2900,
+    "rear_overhang_mm": 650,
+    "rim_diameter_in": 26.0,
+    "track_front_mm": 0.1,
+    "track_rear_mm": 1000,
+    "tyre_spec": "26 x 2.0",
+    "tyre_width_mm": 50,
+    "wheel_diameter_mm": 690,
+    "wheelbase_mm": 1850,
+    "width_mm": 1250
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "deb2a3245e58fc0784ee4b1f0447bd2ed7498639a55d556f223fb34391e3fbb1",
+   "sources": [
+    "NYC Administrative Code \u00a720-250 pedicab dimensions; typical licensed vehicle"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 7090
+  },
+  "vehicles/rav4_fhv": {
+   "artifact_id": "vehicles/rav4_fhv",
+   "bytes": 1637344,
+   "catalog": "blender_out/vehicles/catalog/rav4_fhv.json",
+   "dimension_deviation_pct": {
+    "height_pct": 0.0,
+    "length_pct": 0.0,
+    "width_pct": 0.028
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/rav4_fhv.glb",
+     "triangles": 38876
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/rav4_fhv_LOD1.glb",
+     "triangles": 27763
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/rav4_fhv_LOD2.glb",
+     "triangles": 5722
+    }
+   ],
+   "path": "blender_out/vehicles/rav4_fhv.glb",
+   "produced_at": "2026-09-06T19:31:27Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 1000,
+    "ground_clearance_mm": 203,
+    "height_mm": 1685,
+    "length_mm": 4600,
+    "rear_overhang_mm": 910,
+    "rim_diameter_in": 17.0,
+    "track_front_mm": 1570,
+    "track_rear_mm": 1580,
+    "tyre_spec": "225/65R17",
+    "tyre_width_mm": 225,
+    "wheel_diameter_mm": 724.3,
+    "wheelbase_mm": 2690,
+    "width_mm": 1855
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "c9ae4b98932152808d8ca03219e4a49ca9180897e285e4d6532d926299a136e2",
+   "sources": [
+    "Toyota RAV4 XA50 published dimensions"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 38876
+  },
+  "vehicles/school_bus_bluebird": {
+   "artifact_id": "vehicles/school_bus_bluebird",
+   "bytes": 1658800,
+   "catalog": "blender_out/vehicles/catalog/school_bus_bluebird.json",
+   "dimension_deviation_pct": {
+    "height_pct": 0.0,
+    "length_pct": -0.0,
+    "width_pct": 0.164
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/school_bus_bluebird.glb",
+     "triangles": 38052
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/school_bus_bluebird_LOD1.glb",
+     "triangles": 28576
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/school_bus_bluebird_LOD2.glb",
+     "triangles": 5722
+    }
+   ],
+   "path": "blender_out/vehicles/school_bus_bluebird.glb",
+   "produced_at": "2026-09-06T19:32:08Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 2134,
+    "ground_clearance_mm": 280,
+    "height_mm": 3100,
+    "length_mm": 12192,
+    "rear_overhang_mm": 3124,
+    "rim_diameter_in": 22.5,
+    "track_front_mm": 2050,
+    "track_rear_mm": 1830,
+    "tyre_spec": "275/80R22.5",
+    "tyre_width_mm": 275,
+    "wheel_diameter_mm": 1011.5,
+    "wheelbase_mm": 6934,
+    "width_mm": 2440
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "a73fb4fb2b7c17dfbe5b17867c3b2b259f581284b168f925a57c83620cd024ae",
+   "sources": [
+    "Blue Bird Vision published dimensions; NY State Type C school bus configuration"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 38052
+  },
+  "vehicles/seagrave_engine_fdny": {
+   "artifact_id": "vehicles/seagrave_engine_fdny",
+   "bytes": 1663524,
+   "catalog": "blender_out/vehicles/catalog/seagrave_engine_fdny.json",
+   "dimension_deviation_pct": {
+    "height_pct": 0.0,
+    "length_pct": 0.171,
+    "width_pct": 1.853
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/seagrave_engine_fdny.glb",
+     "triangles": 37936
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/seagrave_engine_fdny_LOD1.glb",
+     "triangles": 28733
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/seagrave_engine_fdny_LOD2.glb",
+     "triangles": 5721
+    }
+   ],
+   "path": "blender_out/vehicles/seagrave_engine_fdny.glb",
+   "produced_at": "2026-09-06T19:31:44Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 1900,
+    "ground_clearance_mm": 250,
+    "height_mm": 3100,
+    "length_mm": 9750,
+    "rear_overhang_mm": 3176,
+    "rim_diameter_in": 22.5,
+    "track_front_mm": 2080,
+    "track_rear_mm": 1860,
+    "tyre_spec": "315/80R22.5",
+    "tyre_width_mm": 315,
+    "wheel_diameter_mm": 1075.5,
+    "wheelbase_mm": 4674,
+    "width_mm": 2591
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "2c41c2ea74feecedc3370754b2066c4098b8f2238203e10a7a17b945e77bfb33",
+   "sources": [
+    "Seagrave Marauder II published dimensions; FDNY engine company configuration"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 37936
+  },
+  "vehicles/seagrave_tower_fdny": {
+   "artifact_id": "vehicles/seagrave_tower_fdny",
+   "bytes": 1847896,
+   "catalog": "blender_out/vehicles/catalog/seagrave_tower_fdny.json",
+   "dimension_deviation_pct": {
+    "height_pct": 0.0,
+    "length_pct": 0.103,
+    "width_pct": 0.039
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/seagrave_tower_fdny.glb",
+     "triangles": 44384
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/seagrave_tower_fdny_LOD1.glb",
+     "triangles": 34039
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/seagrave_tower_fdny_LOD2.glb",
+     "triangles": 5665
+    }
+   ],
+   "path": "blender_out/vehicles/seagrave_tower_fdny.glb",
+   "produced_at": "2026-09-06T19:31:47Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 2050,
+    "ground_clearance_mm": 250,
+    "height_mm": 3350,
+    "length_mm": 12500,
+    "rear_overhang_mm": 4100,
+    "rim_diameter_in": 22.5,
+    "track_front_mm": 2080,
+    "track_rear_mm": 1860,
+    "tyre_spec": "315/80R22.5",
+    "tyre_width_mm": 315,
+    "wheel_diameter_mm": 1075.5,
+    "wheelbase_mm": 6350,
+    "width_mm": 2591
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "5498732ba34e63915b5855079efb122851d22e1d65a44436927007ef900ac7d9",
+   "sources": [
+    "Seagrave Aerialscope 75 ft published dimensions; FDNY ladder company configuration"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 44384
+  },
+  "vehicles/sprinter_van": {
+   "artifact_id": "vehicles/sprinter_van",
+   "bytes": 1586424,
+   "catalog": "blender_out/vehicles/catalog/sprinter_van.json",
+   "dimension_deviation_pct": {
+    "height_pct": -0.0,
+    "length_pct": 0.0,
+    "width_pct": 0.495
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/sprinter_van.glb",
+     "triangles": 37972
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/sprinter_van_LOD1.glb",
+     "triangles": 27825
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/sprinter_van_LOD2.glb",
+     "triangles": 5236
+    }
+   ],
+   "path": "blender_out/vehicles/sprinter_van.glb",
+   "produced_at": "2026-09-06T19:31:55Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 990,
+    "ground_clearance_mm": 180,
+    "height_mm": 2820,
+    "length_mm": 5932,
+    "rear_overhang_mm": 1277,
+    "rim_diameter_in": 16.0,
+    "track_front_mm": 1710,
+    "track_rear_mm": 1700,
+    "tyre_spec": "235/65R16",
+    "tyre_width_mm": 235,
+    "wheel_diameter_mm": 711.9,
+    "wheelbase_mm": 3665,
+    "width_mm": 2020
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "17cb8ff530f0f149bd3c314c352efd178322dbeae13897bf5d1a05caaceb40b2",
+   "sources": [
+    "Mercedes-Benz Sprinter 2500 published dimensions"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 37972
+  },
+  "vehicles/suburban_black_car": {
+   "artifact_id": "vehicles/suburban_black_car",
+   "bytes": 1715368,
+   "catalog": "blender_out/vehicles/catalog/suburban_black_car.json",
+   "dimension_deviation_pct": {
+    "height_pct": 0.0,
+    "length_pct": 0.0,
+    "width_pct": 0.0
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/suburban_black_car.glb",
+     "triangles": 40612
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/suburban_black_car_LOD1.glb",
+     "triangles": 28863
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/suburban_black_car_LOD2.glb",
+     "triangles": 5721
+    }
+   ],
+   "path": "blender_out/vehicles/suburban_black_car.glb",
+   "produced_at": "2026-09-06T19:31:34Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 1000,
+    "ground_clearance_mm": 203,
+    "height_mm": 1933,
+    "length_mm": 5733,
+    "rear_overhang_mm": 1326,
+    "rim_diameter_in": 20.0,
+    "track_front_mm": 1750,
+    "track_rear_mm": 1750,
+    "tyre_spec": "275/60R20",
+    "tyre_width_mm": 275,
+    "wheel_diameter_mm": 838.0,
+    "wheelbase_mm": 3407,
+    "width_mm": 2059
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "4d0443b5b5418eb8bdf1169258f4f1aaa0d9f090d5ef37f316508b016d8ca183",
+   "sources": [
+    "Chevrolet Suburban 2021 published dimensions"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 40612
+  },
+  "vehicles/transit_van": {
+   "artifact_id": "vehicles/transit_van",
+   "bytes": 1582976,
+   "catalog": "blender_out/vehicles/catalog/transit_van.json",
+   "dimension_deviation_pct": {
+    "height_pct": 0.0,
+    "length_pct": 0.0,
+    "width_pct": 0.534
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/transit_van.glb",
+     "triangles": 38504
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/transit_van_LOD1.glb",
+     "triangles": 27824
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/transit_van_LOD2.glb",
+     "triangles": 5237
+    }
+   ],
+   "path": "blender_out/vehicles/transit_van.glb",
+   "produced_at": "2026-09-06T19:31:57Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 960,
+    "ground_clearance_mm": 180,
+    "height_mm": 2540,
+    "length_mm": 5981,
+    "rear_overhang_mm": 1271,
+    "rim_diameter_in": 16.0,
+    "track_front_mm": 1735,
+    "track_rear_mm": 1720,
+    "tyre_spec": "235/65R16",
+    "tyre_width_mm": 235,
+    "wheel_diameter_mm": 711.9,
+    "wheelbase_mm": 3750,
+    "width_mm": 2059
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "3f35fc0b7b4898404211b8d09fe2576e94072ea49a5b4b89ddfb9bcbc49c11df",
+   "sources": [
+    "Ford Transit 250 published dimensions"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 38504
+  },
+  "vehicles/usps_llv": {
+   "artifact_id": "vehicles/usps_llv",
+   "bytes": 1504908,
+   "catalog": "blender_out/vehicles/catalog/usps_llv.json",
+   "dimension_deviation_pct": {
+    "height_pct": 0.0,
+    "length_pct": 0.0,
+    "width_pct": 0.214
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/usps_llv.glb",
+     "triangles": 36060
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/usps_llv_LOD1.glb",
+     "triangles": 26196
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/usps_llv_LOD2.glb",
+     "triangles": 4752
+    }
+   ],
+   "path": "blender_out/vehicles/usps_llv.glb",
+   "produced_at": "2026-09-06T19:32:04Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 780,
+    "ground_clearance_mm": 175,
+    "height_mm": 2440,
+    "length_mm": 4440,
+    "rear_overhang_mm": 970,
+    "rim_diameter_in": 15.0,
+    "track_front_mm": 1520,
+    "track_rear_mm": 1500,
+    "tyre_spec": "205/75R15",
+    "tyre_width_mm": 205,
+    "wheel_diameter_mm": 688.5,
+    "wheelbase_mm": 2690,
+    "width_mm": 1870
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "bd9eb621adc870d76642485974d6e5a177c84adb151e9e4c20f37f2f98634b1e",
+   "sources": [
+    "Grumman LLV published dimensions"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 36060
+  },
+  "vehicles/xd60_sbs": {
+   "artifact_id": "vehicles/xd60_sbs",
+   "bytes": 2153300,
+   "catalog": "blender_out/vehicles/catalog/xd60_sbs.json",
+   "dimension_deviation_pct": {
+    "height_pct": 0.313,
+    "length_pct": 0.229,
+    "width_pct": 0.116
+   },
+   "git_commit": "08eeef65f5ef",
+   "lods": [
+    {
+     "level": 0,
+     "path": "blender_out/vehicles/xd60_sbs.glb",
+     "triangles": 50746
+    },
+    {
+     "level": 1,
+     "path": "blender_out/vehicles/xd60_sbs_LOD1.glb",
+     "triangles": 38845
+    },
+    {
+     "level": 2,
+     "path": "blender_out/vehicles/xd60_sbs_LOD2.glb",
+     "triangles": 5606
+    }
+   ],
+   "path": "blender_out/vehicles/xd60_sbs.glb",
+   "produced_at": "2026-09-06T19:31:39Z",
+   "published_dimensions_mm": {
+    "front_overhang_mm": 2650,
+    "ground_clearance_mm": 180,
+    "height_mm": 3200,
+    "length_mm": 18593,
+    "rear_overhang_mm": 2252,
+    "rim_diameter_in": 22.5,
+    "track_front_mm": 2100,
+    "track_rear_mm": 1850,
+    "tyre_spec": "305/70R22.5",
+    "tyre_width_mm": 305,
+    "wheel_diameter_mm": 998.5,
+    "wheelbase_mm": 13691,
+    "width_mm": 2591
+   },
+   "rows": null,
+   "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
+   "sha256": "94de224e860d02c0ac936dcad1f1e8a06f1249e4a39a0c12389ee780676eeb56",
+   "sources": [
+    "New Flyer Xcelsior XD60 published dimensions; MTA Select Bus Service livery"
+   ],
+   "stage": "vehicles",
+   "triangles_lod0": 50746
+  },
   "water_hydrography": {
    "artifact_id": "water_hydrography",
    "bytes": 21123282,

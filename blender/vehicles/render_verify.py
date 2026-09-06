@@ -128,13 +128,19 @@ def render_fusion(samples: int, which: str = "both") -> None:
         shoot(env.VERIFY_DIR / "fusion_exterior.png", loc=(9.4, 5.6, 2.35), target=(1.55, 0.0, 0.72),
               fov=30.0, samples=samples)
     if which in ("both", "interior"):
-        # SAE eyellipse centroid for the driver: 0.09 m ahead of the H-point and 0.74 m above it, i.e.
-        # (1.99, +0.375, 1.245) for the H-point at (1.90, +0.375, 0.505).
-        eye = (1.89, 0.375, 1.245)
+        # SAE J941 eyellipse centroid for the driver, taken off the H-point the interior is actually built
+        # around (build_fusion.py: SeatSpot(x=1.80, y=0.375, z=0.545)): with a 22 deg backrest the eye sits
+        # 0.15 m *rearward* of the hip and 0.70 m above it, so (1.65, +0.375, 1.245) -- an eye height of
+        # 1.245 m above the road and 0.62 m behind / 0.38 m above the steering-wheel centre (2.28, 0.865).
+        eye = (1.65, 0.375, 1.245)
         area_fill((1.00, 0.0, 1.32), 1.1, 45.0, target=(2.7, 0.0, 0.85))
         area_fill((2.60, 0.90, 1.30), 0.8, 25.0, target=(2.2, 0.2, 0.90))
-        shoot(env.VERIFY_DIR / "fusion_interior_driver_pov.png", loc=eye, target=(5.71, 0.12, 0.075),
-              fov=80.0, samples=samples)
+        # a driver looks down the road, not at the tarmac in front of the bumper: aim 40 m ahead and a little
+        # below eye height (0.6 deg down), so the shot shows the dash top, the A-pillars and the road together
+        # 4:3 rather than 16:9: the windscreen header sits 31 deg above the eye line in this body, so a
+        # 16:9 frame cuts the A-pillars and the header out of the shot entirely.
+        shoot(env.VERIFY_DIR / "fusion_interior_driver_pov.png", loc=eye, target=(41.65, 0.10, 0.85),
+              fov=80.0, size=(SIZE[0], int(round(SIZE[0] * 3 / 4))), samples=samples)
 
 
 def render_ortho(samples: int) -> None:
@@ -151,13 +157,18 @@ def render_ortho(samples: int) -> None:
 
 
 # --------------------------------------------------------------------------- fleet
-def import_glb(path: Path, offset_y: float, yaw_deg: float = 0.0) -> list[bpy.types.Object]:
+def import_glb(path: Path, offset_y: float, yaw_deg: float = 0.0, offset_x: float = 0.0) -> list[bpy.types.Object]:
     before = set(bpy.data.objects)
     bpy.ops.import_scene.gltf(filepath=str(path))
     new = [o for o in bpy.data.objects if o not in before]
+    # the UCX_ hulls are collision proxies, not geometry to look at: the shared UCX_COLLISION material is
+    # translucent green, so leaving them in wraps every vehicle in a green shell.
+    for o in [o for o in new if o.name.startswith("UCX_")]:
+        new.remove(o)
+        g.remove_object(o)
     roots = [o for o in new if o.parent is None]
     for r in roots:
-        r.location = (r.location.x, r.location.y + offset_y, r.location.z)
+        r.location = (r.location.x + offset_x, r.location.y + offset_y, r.location.z)
         r.rotation_euler = (r.rotation_euler.x, r.rotation_euler.y, r.rotation_euler.z + math.radians(yaw_deg))
     return new
 
@@ -167,6 +178,8 @@ def render_fleet(samples: int) -> None:
     cat_dir = env.CATALOG_DIR
     entries = []
     for p in sorted(cat_dir.glob("*.json")):
+        if p.name.startswith("_"):        # _build_summary.json is a run log, not a vehicle
+            continue
         e = json.loads(p.read_text())
         if e.get("base_id"):
             continue                      # liveries share the base geometry; show one per body
@@ -178,24 +191,51 @@ def render_fleet(samples: int) -> None:
     ground(size=400.0)
     world_sky(sun_elev_deg=42.0, sun_rot_deg=200.0)
     sun(elev_deg=42.0, azim_deg=200.0)
-    y = 0.0
-    xs = []
+    # one row of 28 vehicles is 82 m wide and unreadable in a single frame, so the fleet is parked in rows
+    # of at most ROW_M metres and photographed from above the corner of the yard with an orthographic camera
+    # (ortho keeps the scale constant across the frame, so sizes can be compared between rows).
+    ROW_M = 24.0
+    rows: list[list[dict]] = [[]]
+    used = 0.0
     for e in entries:
-        glb = nb.BLENDER_OUT.parent / e["glb"]
-        if not glb.exists():
-            log.warning("missing %s", glb)
-            continue
-        w = e["measured_m"]["width_over_mirrors_m"]
-        y += w / 2 + 0.55
-        import_glb(glb, offset_y=y)
-        xs.append((e["id"], y))
-        y += w / 2
-    total = y
-    cx = total / 2.0
+        w = e["measured_m"]["width_over_mirrors_m"] + 0.55
+        if rows[-1] and used + w > ROW_M:
+            rows.append([])
+            used = 0.0
+        rows[-1].append(e)
+        used += w
+    placed: list[tuple[str, float, float]] = []
+    x = 0.0
+    x_min = 0.0
+    y_max = 0.0
+    for row in rows:
+        y = 0.0
+        row_len = max(e["published_dimensions_mm"]["length_mm"] for e in row) / 1000.0
+        for e in row:
+            glb = nb.BLENDER_OUT.parent / e["glb"]
+            if not glb.exists():
+                log.warning("missing %s", glb)
+                continue
+            w = e["measured_m"]["width_over_mirrors_m"]
+            y += w / 2 + 0.55
+            import_glb(glb, offset_y=y, offset_x=x)
+            placed.append((e["id"], round(x, 3), round(y, 3)))
+            y += w / 2
+        y_max = max(y_max, y)
+        x_min = min(x_min, x)
+        x -= row_len + 2.5
+    max_len = max(e["published_dimensions_mm"]["length_mm"] for e in entries) / 1000.0
+    span_x = max_len - x_min                       # the yard spans x_min .. max_len, y 0 .. y_max
+    cx, cy = 0.5 * (x_min + max_len), 0.5 * y_max
+    scale = 0.80 * (span_x + y_max)                # the rows run diagonally across an orthographic frame
+    d = 90.0
     shoot(env.VERIFY_DIR / "fleet_lineup.png",
-          loc=(46.0, cx - 6.0, 22.0), target=(1.0, cx, 1.1), fov=34.0, size=(SIZE[0] + 600, SIZE[1] + 200), samples=samples)
+          loc=(cx + d * 0.62, cy - d * 0.52, d * 0.58), target=(cx, cy, 1.2),
+          size=(SIZE[0] + 700, SIZE[1] + 480), samples=samples, ortho_scale=scale)
     (env.VERIFY_DIR / "fleet_lineup_order.json").write_text(json.dumps(
-        {"order_left_to_right": [i for i, _ in xs], "y_offsets_m": {i: round(o, 3) for i, o in xs}}, indent=1))
+        {"rows": [[e["id"] for e in row] for row in rows],
+         "placement_m": [{"id": i, "x": xx, "y": yy} for i, xx, yy in placed],
+         "ortho_scale_m": round(scale, 2)}, indent=1))
 
 
 def main() -> int:

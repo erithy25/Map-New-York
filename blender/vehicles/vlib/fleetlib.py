@@ -341,12 +341,14 @@ def build(sp: FleetSpec, lib: M.Library | None = None, *, reset: bool = True) ->
     for s in (1, -1):
         v.add(P.mirror(s, lib, x=mx, y=s * (bp.y_belt(mx) - 0.005), z=bp.z_belt(mx) + 0.06,
                        w=mw, h=mh, d=md, arm=sp.mirror_arm))
-    z_ws = bp.z_top(sp.x_cowl - 0.05) - 0.012
-    dx = max(0.12, sp.x_cowl - sp.x_roof_front)
-    slope = max(0.05, (bp.z_top(sp.x_roof_front) - bp.z_top(sp.x_cowl)) / dx)
-    v.add(P.wiper(1, lib, pivot=(sp.x_cowl - 0.05, 0.30, z_ws), length=sp.wiper_len, blade=sp.wiper_blade,
+    # the spindles sit on the cowl just ahead of, and just below, the bottom edge of the glass that was
+    # actually built (see P.windscreen_frame): a blueprint curve cannot locate that edge for both a raked
+    # sedan screen and a forward-leaning van screen.
+    x_gl, z_gl, slope = P.windscreen_frame(v.objects["Window_WS"])
+    x_ws, z_ws = P.wiper_spindle(x_gl, z_gl, slope)
+    v.add(P.wiper(1, lib, pivot=(x_ws, 0.30, z_ws), length=sp.wiper_len, blade=sp.wiper_blade,
                   park_deg=6.0, glass_slope=slope))
-    v.add(P.wiper(-1, lib, pivot=(sp.x_cowl - 0.05, -0.38, z_ws), length=sp.wiper_len * 0.88,
+    v.add(P.wiper(-1, lib, pivot=(x_ws, -0.38, z_ws), length=sp.wiper_len * 0.88,
                   blade=sp.wiper_blade * 0.88, park_deg=-6.0, glass_slope=slope))
     if sp.exhaust:
         v.add(P.exhaust(lib, x_tip=sp.exhaust[0], y=sp.exhaust[1], z=sp.exhaust[2], r=0.036, length=0.8, tips=1))
@@ -466,18 +468,19 @@ def build_and_export(sp: FleetSpec) -> dict:
     if tris > sp.tri_budget:
         raise RuntimeError(f"{sp.id}: LOD0 {tris} tris over the {sp.tri_budget} budget")
     ext = [o.name for o in body_objs if o.name.startswith(EXTERIOR_PREFIXES)]
+    rear = sp.door_mechanism or ("sliding" if sp.sliding_doors else "hinged")
+    # the mechanism the engine must animate, for the panels this body actually has (waived ones are omitted
+    # rather than described, so the engine never sees a door_kind for a node that is not in the glb)
+    door_kind = {k: kind for k, kind in (("Door_FL", sp.door_mechanism or "hinged"),
+                                         ("Door_FR", sp.door_mechanism or "hinged"),
+                                         ("Door_RL", rear), ("Door_RR", rear),
+                                         ("Trunk", "rear cargo door" if sp.x_rear_door is not None
+                                          else "boot lid / tailgate")) if k in v.objects}
     return rig.finalise(v, lod_budgets=sp.lod_budgets, exterior_names=ext,
                         extra_catalog={"blueprint_table": [list(map(float, r)) for r in sp.table],
                                        "blueprint_table_columns": list(B.TABLE_COLUMNS),
                                        "feature_x": {"cowl": sp.x_cowl, "roof_front": sp.x_roof_front,
                                                      "roof_rear": sp.x_roof_rear, "deck": sp.x_deck,
                                                      "door_cuts": list(sp.door_cuts)},
-                                       "door_kind": {"Door_FL": sp.door_mechanism or "hinged",
-                                                     "Door_FR": sp.door_mechanism or "hinged",
-                                                     "Door_RL": sp.door_mechanism or
-                                                     ("sliding" if sp.sliding_doors else "hinged"),
-                                                     "Door_RR": sp.door_mechanism or
-                                                     ("sliding" if sp.sliding_doors else "hinged"),
-                                                     "Trunk": "rear cargo door" if sp.x_rear_door is not None
-                                                     else "boot lid / tailgate"},
+                                       "door_kind": door_kind,
                                        "build_timings_s": ctx["timings"]})

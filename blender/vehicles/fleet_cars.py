@@ -135,6 +135,10 @@ def nv200() -> FleetSpec:
         tail=LampBox(-1.130, 0.610, 1.320, 0.180, 0.520), paint="#F7B500",
         arch_r_f=0.395, arch_r_r=0.395, wheel_style="steel", tyre_text="185/60 R15 84H",
         n_stations=86, detail="mid", sliding_doors=True, x_rear_door=-0.86,
+        # the NV200's screen is raked over a stubby bonnet, so it is *ahead* of the roof line rather than
+        # between ``x_roof_front`` and ``x_cowl``: name the glass band explicitly or the shell puts the
+        # windscreen region on the roof panel (measured: a flat patch at z 1.824..1.864).
+        front_glass=(2.42, 1.28, 1.84),
         seat_rows=[(1.72, 0.665), (0.72, 0.700)], z_floor=0.470, shifter="lever", steering_x=2.02,
         mirror_x=2.16, mirror_size=(0.20, 0.135, 0.09), exhaust=(-1.12, 0.34, 0.330),
         grille=(3.48, 0.85, 1.15, 0.38), handles_x=(1.90, 0.60),

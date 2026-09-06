@@ -256,6 +256,57 @@ def bake_and_load_face_units(built: BuiltHuman) -> list[str]:
     return names
 
 
+def transfer_tongue_morph(built: BuiltHuman, name: str = "tongueOut") -> int:
+    """Move the ``tongueOut`` face unit onto the tongue mesh, where the tongue actually is.
+
+    MakeHuman's ``tongueOut`` target displaces base-mesh vertices 13380-13605 - the *helper tongue*, a proxy
+    volume that only exists so the real ``tongue01`` mesh can be fitted to it.  :func:`strip_helper_geometry`
+    deletes those vertices, and Blender remaps the shape keys with them, so on the exported body the channel
+    survives by name with every delta equal to zero: the one ARKit channel that silently does nothing.
+
+    The displacement is real, it is just on the wrong object.  This copies it to ``tongue01`` as a shape key
+    of the same name, each tongue vertex taking the delta of the nearest helper-tongue vertex (the two
+    meshes have the same 226-vertex fitted topology, so "nearest" is exact).  Returns the number of tongue
+    vertices given a non-zero delta.
+    """
+    from mathutils import kdtree  # noqa: PLC0415
+
+    tongue = built.bodyparts.get("tongue")
+    basemesh = built.basemesh
+    shape_keys = basemesh.data.shape_keys
+    if tongue is None or shape_keys is None or name not in shape_keys.key_blocks:
+        return 0
+    basis = shape_keys.key_blocks["Basis"]
+    target = shape_keys.key_blocks[name]
+
+    moved_source = [i for i in range(len(basis.data))
+                    if (target.data[i].co - basis.data[i].co).length > 1e-6]
+    if not moved_source:
+        return 0
+    tree = kdtree.KDTree(len(moved_source))
+    for slot, index in enumerate(moved_source):
+        tree.insert(basis.data[index].co, slot)
+    tree.balance()
+
+    if tongue.data.shape_keys is None:
+        tongue.shape_key_add(name="Basis", from_mix=False)
+    key = tongue.data.shape_keys.key_blocks.get(name) or tongue.shape_key_add(name=name, from_mix=False)
+    key.value = 0.0
+    key.slider_min, key.slider_max = 0.0, 1.0
+    to_base = basemesh.matrix_world.inverted() @ tongue.matrix_world
+    moved = 0
+    for index, vert in enumerate(tongue.data.vertices):
+        _co, slot, distance = tree.find(to_base @ vert.co)
+        source = moved_source[slot]
+        delta = target.data[source].co - basis.data[source].co
+        if delta.length > 1e-6 and distance is not None and distance < 0.05:
+            key.data[index].co = vert.co + delta
+            moved += 1
+    log.info("%s: %s transferred from the helper tongue onto %s (%d/%d vertices move)", basemesh.name, name,
+             tongue.name, moved, len(tongue.data.vertices))
+    return moved
+
+
 # --------------------------------------------------------------------------------------- helper geometry
 def strip_helper_geometry(built: BuiltHuman) -> int:
     """Delete every vertex that is not in the ``body`` group; return the number removed.
@@ -291,6 +342,66 @@ def strip_helper_geometry(built: BuiltHuman) -> int:
             basemesh.modifiers.remove(modifier)
     log.info("%s: stripped %d helper vertices, %d remain", basemesh.name, len(doomed),
              len(basemesh.data.vertices))
+    return len(doomed)
+
+
+def hide_body_under_clothes(built: BuiltHuman, *, reach: float = 0.06) -> int:
+    """Delete the skin MakeHuman's own delete groups mark as covered by a worn garment.
+
+    Every MakeClothes asset ships a *delete group* naming the base-mesh vertices it hides; MPFB imports it
+    onto the body as ``Delete.<asset>`` and drives a Mask modifier with it.  :func:`strip_helper_geometry`
+    has to remove that modifier (it also masked the helper geometry it has just deleted), so without this
+    step the skin stays inside the clothes and pokes through wherever the garment sits tight - which is
+    what made the shoes read as a torn black shell with a bare foot coming out of the back of it.
+
+    Two guards make the deletion safe:
+
+    * only groups whose asset is actually still on the character are honoured;
+    * a marked vertex is deleted only if it is genuinely *inside* a worn garment - the closest point on
+      some garment's surface is within ``reach`` and the vertex is behind that surface - so a suit whose
+      trouser half was split away cannot delete the leg it no longer covers, and no skin disappears from
+      the gap between a sweater hem and a waistband.
+
+    Returns the number of vertices removed.  Deleting rather than masking is deliberate: the glTF export
+    runs with ``export_apply=False``, so a Mask modifier would not reach the engine, and the character
+    never changes clothes at runtime.
+    """
+    basemesh = built.basemesh
+    marks = [g for g in basemesh.vertex_groups if g.name.startswith("Delete.")]
+    garments = [o for o in built.clothes.values() if o.type == "MESH" and len(o.data.vertices)]
+    if not marks or not garments:
+        return 0
+
+    marked = {g.index for g in marks}
+    doomed: list[int] = []
+    for vert in basemesh.data.vertices:
+        if not any(g.group in marked and g.weight > 0.0 for g in vert.groups):
+            continue
+        for garment in garments:
+            hit, location, normal, _index = garment.closest_point_on_mesh(vert.co, distance=reach)
+            if hit and (vert.co - location).dot(normal) < 0.0:
+                doomed.append(vert.index)
+                break
+    if not doomed:
+        log.info("%s: no covered skin to remove (%d delete groups, none within %.0f mm of a garment)",
+                 basemesh.name, len(marks), reach * 1000.0)
+        return 0
+
+    for vert in basemesh.data.vertices:
+        vert.select = False
+    for idx in doomed:
+        basemesh.data.vertices[idx].select = True
+    view_layer = bpy.context.view_layer
+    for ob in bpy.data.objects:
+        ob.select_set(False)
+    view_layer.objects.active = basemesh
+    basemesh.select_set(True)
+    bpy.ops.object.mode_set(mode="EDIT")
+    bpy.ops.mesh.select_mode(type="VERT")
+    bpy.ops.mesh.delete(type="VERT")
+    bpy.ops.object.mode_set(mode="OBJECT")
+    log.info("%s: removed %d skin vertices covered by %s, %d remain", basemesh.name, len(doomed),
+             ", ".join(sorted(g.name[len("Delete."):] for g in marks)), len(basemesh.data.vertices))
     return len(doomed)
 
 
@@ -549,6 +660,72 @@ def setup_alpha_materials(built: BuiltHuman) -> list[str]:
             touched.append(material.name)
     log.info("alpha-cut materials wired: %s", touched)
     return touched
+
+
+def set_hair_colour(built: BuiltHuman, colour: tuple[float, float, float]) -> str | None:
+    """Recolour the card-hair texture in place and return the material name.
+
+    The hair cards carry a greyscale-ish diffuse map whose alpha is the card cut-out.  Multiplying the map
+    by the wanted colour through shader nodes would be dropped on glTF export (glTF has a base-colour
+    texture and a factor, not a mix chain), so the *factor* is what is set: the map keeps the strand detail
+    and the base-colour factor carries the colour, which is exactly what glTF stores and what the alpha
+    clip needs left alone.
+    """
+    obj = built.bodyparts.get("hair")
+    if obj is None:
+        return None
+    name = None
+    for slot in obj.material_slots:
+        material = slot.material
+        if material is None or not material.use_nodes:
+            continue
+        bsdf = next((n for n in material.node_tree.nodes if n.type == "BSDF_PRINCIPLED"), None)
+        if bsdf is None:
+            continue
+        texture = _upstream_image(bsdf.inputs["Base Color"])
+        if texture is not None:
+            # A texture is wired into base colour, so the factor is not free: multiply the image itself.
+            tinted = _multiply_image(texture.image, colour)
+            if tinted is not None:
+                texture.image = tinted
+        else:
+            bsdf.inputs["Base Color"].default_value = (*colour, 1.0)
+        name = material.name
+    log.info("%s: hair colour set to (%.3f, %.3f, %.3f)", obj.name, *colour)
+    return name
+
+
+_HAIR_TINT_CACHE: dict[tuple[str, tuple[float, float, float]], bpy.types.Image] = {}
+
+
+def _multiply_image(image, colour: tuple[float, float, float]):
+    """Bake ``image * colour`` into a new image, preserving alpha (the hair card cut-out)."""
+    import numpy as np  # noqa: PLC0415
+
+    if image is None:
+        return None
+    key = (image.name, tuple(round(c, 5) for c in colour))
+    cached = _HAIR_TINT_CACHE.get(key)
+    if cached is not None:
+        return cached
+    width, height = image.size
+    if width == 0 or height == 0:
+        return None
+    pixels = np.empty(width * height * 4, dtype=np.float32)
+    image.pixels.foreach_get(pixels)
+    pixels = pixels.reshape(-1, 4)
+    luminance = pixels[:, :3] @ np.array([0.2126, 0.7152, 0.0722], dtype=np.float32)
+    mean = float(luminance.mean()) or 1.0
+    shade = np.clip(luminance / mean, 0.45, 1.55)[:, None]
+    out = image.copy()
+    out.name = f"{image.name}.tint"
+    new = np.empty_like(pixels)
+    new[:, :3] = shade * np.array(colour, dtype=np.float32)[None, :]
+    new[:, 3] = pixels[:, 3]
+    out.pixels.foreach_set(new.reshape(-1))
+    out.update()
+    _HAIR_TINT_CACHE[key] = out
+    return out
 
 
 def _upstream_image(socket) -> bpy.types.Node | None:

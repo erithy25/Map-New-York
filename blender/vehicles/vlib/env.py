@@ -52,6 +52,34 @@ def finish(code: int = 0) -> None:
     os._exit(code)
 
 
+def record_processed(entry: dict) -> None:
+    """Record a finished vehicle (LOD0 glb + its catalog JSON) in the shared processed manifest.
+
+    Reproducibility rule of the brief: every processed artefact goes through
+    ``nycsim_pipeline.manifest.record_processed``.  The manifest is shared by every agent, so a failure to
+    write it is logged and tolerated rather than allowed to kill a build that has already produced valid
+    geometry; the catalog entry next to the glb carries the same provenance either way.
+    """
+    try:
+        from nycsim_pipeline import manifest
+    except Exception as exc:                      # pragma: no cover - only when the pipeline is absent
+        log.warning("processed manifest unavailable (%s); %s not recorded", exc, entry["id"])
+        return
+    glb = REPO_ROOT / entry["glb"]
+    try:
+        manifest.record_processed(
+            f"vehicles/{entry['id']}", glb, stage="vehicles",
+            sources=list(entry.get("sources", [])), rows=None, schema="DATA_CONTRACTS §13 vehicle glb",
+            extra={"triangles_lod0": entry["triangles"],
+                   "lods": [{"level": l["level"], "path": l["path"], "triangles": l["triangles"]}
+                            for l in entry["lods"]],
+                   "published_dimensions_mm": entry["published_dimensions_mm"],
+                   "dimension_deviation_pct": entry["dimension_deviation_pct"],
+                   "catalog": f"blender_out/vehicles/catalog/{entry['id']}.json"})
+    except Exception as exc:
+        log.warning("could not record %s in the processed manifest: %s", entry["id"], exc)
+
+
 class Timer:
     """Wall-clock section timer used for the build-timings report."""
 

@@ -69,10 +69,12 @@ PLAYER_SPEC = mh_build.HumanSpec(
     hair="short01", eyebrows="eyebrow006", eyelashes="eyelashes02",
 )
 
-#: The player's outfit. Tee, hoodie, jeans, bomber jacket and sneakers are all real tailored
-#: MakeHuman CC0 meshes (the jacket is the upper shell of `male_casualsuit02`); the hood on the
-#: hoodie and the wristwatch are procedural.
-PLAYER_WARDROBE = ("tee_white", "jeans_indigo", "hoodie_grey", "jacket_bomber", "sneakers_black")
+#: The player's outfit: three layers, all real tailored MakeHuman CC0 meshes - a crew tee under a knit
+#: pullover, wool trousers and low sneakers - plus a procedural hood on the pullover and a procedural
+#: wristwatch.  Only two garments cover the torso: `LAYER_MH_PUSH` can stand one fitted layer off another
+#: cleanly, but three MakeHuman torso shells fitted to the same body cannot all clear each other, and the
+#: middle one is the one that then shows through.
+PLAYER_WARDROBE = ("tee_white", "jeans_indigo", "hoodie_grey", "sneakers_black")
 
 # ----------------------------------------------------------------------------------------------- mocap map
 #: Which CMU trial drives which locomotion clip, chosen by *measuring* the mean root speed of all nine
@@ -93,6 +95,7 @@ def build_body(spec: mh_build.HumanSpec, outfit: tuple[str, ...], *, watch: bool
     built = mh_build.build_human(spec, subdiv=0, load_clothes=bool(spec.clothes))
     wardrobe.finish_makehuman(built, outfit, name_prefix=prefix)
     mh_build.bake_and_load_face_units(built)
+    mh_build.transfer_tongue_morph(built)
     mh_build.strip_helper_geometry(built)
     mh_build.split_eyes(built)
     # The rig is converted before the procedural layer is cut, so its regions and inherited weights are
@@ -101,8 +104,13 @@ def build_body(spec: mh_build.HumanSpec, outfit: tuple[str, ...], *, watch: bool
     wardrobe.reweight_from_body(built, outfit, name_prefix=prefix)
     if outfit:
         wardrobe.dress(built, outfit, name_prefix=prefix)
+    wardrobe.resolve_layers(built, outfit, name_prefix=prefix)
     if watch:
         wardrobe.build_watch(built, side="l", name_prefix=prefix)
+    # Last geometry step: the skin under the clothes is removed only once every garment - MakeHuman and
+    # procedural - is in place, so the "is this vertex actually covered?" test sees the finished outfit and
+    # the KD-tree weight transfers above still see a complete body.
+    mh_build.hide_body_under_clothes(built)
     mh_build.setup_skin(built)
     mh_build.setup_eye_materials(built)
     mh_build.setup_alpha_materials(built)
@@ -114,6 +122,7 @@ def build_body(spec: mh_build.HumanSpec, outfit: tuple[str, ...], *, watch: bool
 
 def build_clips(built: mh_build.BuiltHuman) -> tuple[list[anim_lib.Clip], dict]:
     """Retarget the CMU locomotion clips and author everything else. Returns (clips, report)."""
+    anim_lib.set_scene_fps()          # one key per frame at 30 fps, in the .blend as well as the .glb
     rig = pose_solver.Rig(built.armature)
     bad = rig.check_inheritance()
     if bad:

@@ -1,16 +1,16 @@
 {
- "azimuth_reason": "202.1 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 203.2 deg, 1.1 deg away",
+ "azimuth_reason": "202.2 deg, the bearing from this photograph's own GPS position to One Times Square; heading and position both come from the photograph.  The item's recorded azimuth is 203.2 deg, 1.0 deg away, and belongs to its nominal viewpoint",
  "camera": {
-  "azimuth_deg": 202.1,
+  "azimuth_deg": 202.1604953233869,
   "eye_datum": "terrain",
   "eye_height_m": 6.199999999999999,
   "eye_source": "top landing of the TKTS red steps at Duffy Square, 4.6 m above the plaza, plus 1.6 m eye height",
   "focal_mm": 24.0,
   "ground_detail": {
-   "chosen_m": 15.01,
-   "max_m": 15.14,
-   "median_m": 15.01,
-   "min_m": 14.98,
+   "chosen_m": 15.28,
+   "max_m": 16.36,
+   "median_m": 15.28,
+   "min_m": 15.08,
    "mode": "local",
    "percentile": null,
    "radius_m": 5.0,
@@ -19,8 +19,8 @@
   "ground_mode": "local",
   "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap median within 5 m is the ground",
   "hfov_deg": 58.688,
-  "lat": 40.7592,
-  "lon": -73.9847,
+  "lat": 40.759086,
+  "lon": -73.984856,
   "long_side_fov_deg": 73.74,
   "pitch_deg": 0.0,
   "portrait": true,
@@ -30,13 +30,21 @@
   ],
   "sensor_mm": 36.0,
   "slug": "times_square_duffy_south_night",
-  "terrain_z_m": 15.012,
-  "x": -2930.09,
-  "y": 6574.661,
-  "z": 21.212
+  "terrain_z_m": 15.281,
+  "x": -2943.268,
+  "y": 6562.007,
+  "z": 21.481
  },
- "camera_caption": "camera 40.75920, -73.98470 (NYC_TM -2930, 6575) z 21.2 m NAVD88 | azimuth 202.1deg pitch +0.0deg | 24 mm on 36 mm (58.7deg horizontal, 73.7deg vertical, portrait) | 904x1206",
+ "camera_caption": "camera 40.75909, -73.98486 (NYC_TM -2943, 6562) z 21.5 m NAVD88 | azimuth 202.2deg pitch +0.0deg | 24 mm on 36 mm (58.7deg horizontal, 73.7deg vertical, portrait) | 904x1206",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.759086,
+  "lon": -73.984856,
+  "offset_from_recorded_m": 18.3,
+  "source": "this photograph's own EXIF camera GPS (40.75909, -73.98486), 18 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
  "clearance": {
+  "min_view_m": 80.0,
   "moved": false,
   "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
   "offset_m": 0.0
@@ -54,7 +62,7 @@
    "note": "night frame: every emissive material left as the kit authored it"
   },
   "exposure_stops": 2.0,
-  "sky_azimuth_deg": 302.651,
+  "sky_azimuth_deg": 302.65,
   "sky_elevation_deg": -4.0,
   "sun_lamp": false,
   "sun_strength_blender": 0.0,
@@ -62,7 +70,7 @@
  },
  "name": "Times Square centre: Duffy Square looking south, night",
  "night": true,
- "pitch_reason": "level optical axis (the subject is 363 m away; anything that far is photographed with a level camera)",
+ "pitch_reason": "level optical axis (the subject is 346 m away; anything that far is photographed with a level camera)",
  "reference_photo": {
   "author": "Edward Charles Kendall",
   "confidence": "high",
@@ -77,9 +85,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/times_square_duffy_south_night/render.png",
- "rendered_at": "2026-09-06T16:03:42Z",
+ "rendered_at": "2026-09-06T19:37:07Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 64,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -91,6 +99,7 @@
     "t_-4_6",
     "t_-4_7"
    ],
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-3_5": {
@@ -109,9 +118,9 @@
      "triangles": 23700
     },
     "t_-4_5": {
-     "lod": 1,
+     "lod": 0,
      "objects": 19,
-     "triangles": 20038
+     "triangles": 45694
     },
     "t_-4_6": {
      "lod": 0,
@@ -126,106 +135,107 @@
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 6,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 6,
    "triangle_budget": 3510000,
-   "triangles": 235792
+   "triangles": 261448
   },
   "centre_tm": [
-   -2930.09,
-   6574.66
+   -2943.27,
+   6562.01
   ],
   "kit": {
-   "capped": "triangle budget 2692197",
+   "capped": "triangle budget 2768721",
    "per_category": {
     "bulkhead": 23,
-    "cornice": 23,
-    "door_entry": 46,
-    "hvac": 14,
-    "parapet": 30,
+    "cornice": 25,
+    "door_entry": 45,
+    "hvac": 17,
+    "parapet": 29,
     "pilaster": 14,
-    "quoin": 1,
+    "quoin": 2,
     "scaffold": 77,
-    "storefront": 176,
-    "storefront_interior": 34,
-    "string_course": 20,
+    "storefront": 170,
+    "storefront_interior": 33,
+    "string_course": 21,
     "water_tower": 7,
-    "window": 14089,
-    "window_accessory": 1
+    "window": 14170,
+    "window_accessory": 2
    },
-   "placed": 14555,
+   "placed": 14635,
    "radius_m": 130.0,
-   "records_in_range": 21280,
+   "records_in_range": 19539,
    "stale_registry_ids": {},
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_6",
     "t_-4_6"
    ],
-   "triangles": 2692302,
+   "triangles": 2768760,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 367.4,
+     "distance_m": 350.4,
      "id": "c_times_square",
      "lod": 0,
      "name": "Times Square",
      "triangles": 182310
     },
     {
-     "distance_m": 426.1,
+     "distance_m": 439.4,
      "id": "30_rockefeller_plaza",
      "lod": 0,
      "name": "30 Rockefeller Plaza",
      "triangles": 102530
     },
     {
-     "distance_m": 656.5,
+     "distance_m": 673.7,
      "id": "moma",
      "lod": 0,
      "name": "Museum of Modern Art",
      "triangles": 23620
     },
     {
-     "distance_m": 698.1,
+     "distance_m": 690.1,
      "id": "new_york_public_library",
      "lod": 0,
      "name": "New York Public Library, Stephen A. Schwarzman Building",
      "triangles": 51785
     },
     {
-     "distance_m": 722.0,
+     "distance_m": 733.9,
      "id": "st_patricks_cathedral",
      "lod": 0,
      "name": "St. Patrick's Cathedral",
      "triangles": 6259
     },
     {
-     "distance_m": 760.6,
+     "distance_m": 778.3,
      "id": "c_carnegie_hall",
      "lod": 0,
      "name": "Carnegie Hall",
      "triangles": 19122
     },
     {
-     "distance_m": 823.4,
+     "distance_m": 837.5,
      "id": "c_hearst_tower",
      "lod": 0,
      "name": "Hearst Tower",
      "triangles": 13818
     },
     {
-     "distance_m": 878.9,
+     "distance_m": 897.2,
      "id": "c_billionaires_row",
      "lod": 0,
      "name": "Billionaires' Row (West 57th Street corridor)",
      "triangles": 220910
     },
     {
-     "distance_m": 3212.6,
+     "distance_m": 3230.3,
      "id": "b_central_park_walls_gates",
      "lod": 1,
      "name": "Central Park perimeter wall and gates",
@@ -240,15 +250,15 @@
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 467,
-    "curb": 1020,
-    "median": 149,
+    "crosswalk": 470,
+    "curb": 1030,
+    "median": 150,
     "parking_lot": 15,
     "plaza": 79,
-    "roadbed": 429,
-    "sidewalk": 252
+    "roadbed": 433,
+    "sidewalk": 253
    },
-   "placed": 2411,
+   "placed": 2430,
    "radius_m": 800.0,
    "tiles_missing": [],
    "tiles_read": [
@@ -259,65 +269,69 @@
     "t_-4_6",
     "t_-4_7"
    ],
-   "triangles": 172611,
-   "vertices": 177095
+   "triangles": 173167,
+   "vertices": 177689
   },
   "props": {
    "capped": null,
+   "impostor_cards_dropped": 9,
    "leaf_off": false,
    "per_kind": {
-    "bench": 13,
-    "bike_rack": 7,
-    "bus_shelter": 1,
+    "bench": 15,
+    "bike_rack": 5,
     "bus_stop_sign": 5,
     "citibike_dock": 1,
     "flagpole": 2,
-    "hydrant": 51,
-    "linknyc": 15,
+    "hydrant": 50,
+    "linknyc": 16,
     "mailbox": 2,
-    "manhole": 81,
-    "newsstand": 9,
+    "manhole": 80,
+    "newsstand": 10,
     "rtpi_sign": 1,
-    "steam_vent": 3,
+    "steam_vent": 2,
     "street_lamp": 90,
     "subway_emergency_exit": 1,
-    "subway_entrance": 9,
-    "subway_vent_grate": 15,
-    "tree": 32,
+    "subway_entrance": 7,
+    "subway_vent_grate": 17,
+    "tree": 30,
     "waste_basket": 4
    },
-   "placed": 342,
+   "placed": 338,
    "radius_m": 250.0,
-   "rows_in_range": 576,
+   "rows_in_range": 566,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_6",
     "t_-4_6"
    ],
-   "tree_species_substituted": 6,
-   "triangles": 592246,
+   "tree_species_substituted": 7,
+   "triangles": 577918,
    "unmapped_kinds": {
     "artwork": 4,
     "cooling_tower": 129,
-    "curb_ramp": 84,
+    "curb_ramp": 77,
     "memorial": 1,
-    "misc_structure": 13,
+    "misc_structure": 14,
     "vending_machine": 3
    }
   },
   "radius_m": 800.0,
-  "seconds": 56.0,
+  "seconds": 48.12,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 5.333,
-   "triangles": 180000,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 215,
+   "spacing_m": 2.0,
+   "triangles": 91592,
    "water_quads": 0,
-   "z_max_m": 26.47,
-   "z_min_m": 2.24
+   "z_max_m": 25.74,
+   "z_min_m": 1.54
   },
-  "triangles": 4500105
+  "triangles": 4500039
  },
  "scene_request": {
   "kit_radius_m": 130.0,
@@ -325,19 +339,19 @@
   "radius_m": 800.0
  },
  "seconds": {
-  "render": 569.5,
-  "scene": 58.0,
-  "total": 627.5
+  "render": 231.8,
+  "scene": 49.9,
+  "total": 281.7
  },
  "slug": "times_square_duffy_south_night",
  "status": "rendered",
  "subject": {
-  "distance_m": 362.8,
+  "distance_m": 346.0,
   "name": "One Times Square"
  },
  "sun": {
-  "azimuth_deg": 302.6505975483754,
-  "elevation_deg": -9.516099436109942,
+  "azimuth_deg": 302.6504689290039,
+  "elevation_deg": -9.516061449664154,
   "local": "2016-08-03T21:00:36-04:00",
   "time_source": "EXIF DateTimeOriginal",
   "utc": "2016-08-04T01:00:36Z"

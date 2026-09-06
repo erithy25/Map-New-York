@@ -31,10 +31,7 @@ from __future__ import annotations
 
 import json
 import math
-import os
 import struct
-import sys
-import time
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Iterable, Sequence
@@ -51,6 +48,9 @@ nb = env.nb
 log = env.log
 
 SCHEMA_VERSION = 1
+
+#: DATA_CONTRACTS §13 pivot convention, stamped into ``asset.extras.nycsim.pivot`` and the catalog entry
+PIVOT_CONVENTION = "ground under rear-axle centre, +X forward, +Y left, +Z up (DATA_CONTRACTS §13)"
 
 LIGHT_SLOTS_FULL = (
     "LIGHT_HEAD_L", "LIGHT_HEAD_R", "LIGHT_LOW", "LIGHT_HIGH", "LIGHT_TAIL_L", "LIGHT_TAIL_R",
@@ -196,43 +196,19 @@ def is_convex(ob: bpy.types.Object, tol: float = 1e-3) -> bool:
 
 
 # --------------------------------------------------------------------------- export
-def _asset_extras(extra: dict | None) -> dict:
-    meta = {
-        "schema_version": SCHEMA_VERSION,
-        "generator_script": os.path.basename(sys.argv[0]) if sys.argv else "",
-        "git_commit": nb.git_commit(),
-        "exported_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "units": "metres",
-        "up_axis_blender": "Z",
-        "pivot": "ground under rear-axle centre; +X forward, +Y left, +Z up",
-    }
-    if extra:
-        meta.update(extra)
-    return meta
-
-
 def export_glb(path: str | Path, objects: Sequence[bpy.types.Object], *, extras: dict | None = None) -> Path:
-    """``nycsim_bpy.export_glb`` plus ``export_attributes=True`` (needed for the ``_DMG_*`` custom attributes,
-    which the foundation helper does not expose yet — see docs/verification/vehicles/REPORT.md)."""
-    path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    meta = _asset_extras(extras)
-    bpy.context.scene["nycsim"] = json.dumps(meta)
-    for o in bpy.data.objects:
-        o.select_set(False)
-    for o in objects:
-        o.select_set(True)
-    bpy.ops.export_scene.gltf(
-        filepath=str(path), export_format="GLB", use_selection=True, export_yup=True, export_apply=True,
-        export_texcoords=True, export_normals=True, export_tangents=False, export_materials="EXPORT",
-        export_image_format="AUTO", export_draco_mesh_compression_enable=False, export_animations=False,
-        export_skins=False, export_morph=False, export_extras=True, export_attributes=True,
-        export_hierarchy_full_collections=False,
-    )
-    if not path.exists() or path.stat().st_size < 256:
-        raise RuntimeError(f"glTF export failed: {path}")
-    _inject_asset_extras(path, meta)
-    return path
+    """Export a vehicle through the foundation helper ``nycsim_bpy.export_glb``.
+
+    ``export_attributes=True`` carries the ``_DMG_*`` damage weights into the file, and the helper stamps the
+    NYCSim metadata into the file's ``asset.extras`` block as DATA_CONTRACTS §13 requires.  The only
+    vehicle-specific addition is the ``pivot`` string, which travels with the rest of the extras.
+    """
+    meta = {"pivot": PIVOT_CONVENTION}
+    if extras:
+        meta.update(extras)
+    return nb.export_glb(path, objects=list(objects), extras=meta, draco=False, apply_modifiers=True,
+                         export_animations=False, texcoords=True, tangents=False, export_extras=True,
+                         export_attributes=True, export_normals=True)
 
 
 def glb_json(path: Path) -> dict:
@@ -258,30 +234,6 @@ def glb_triangles(path: Path, skip=("UCX_",)) -> int:
             acc = js["accessors"][prim["indices"]] if "indices" in prim else js["accessors"][prim["attributes"]["POSITION"]]
             total += acc["count"] // 3
     return total
-
-
-def _inject_asset_extras(path: Path, meta: dict) -> None:
-    """Blender writes scene custom properties to ``scenes[0].extras``; DATA_CONTRACTS §13 requires
-    ``asset.extras.nycsim``.  Patch the JSON chunk of the glb in place (padding kept 4-byte aligned)."""
-    data = bytearray(path.read_bytes())
-    magic, version, _length = struct.unpack("<4sII", bytes(data[:12]))
-    if magic != b"glTF":
-        raise RuntimeError(f"{path} is not a glb")
-    off = 12
-    while off < len(data):
-        clen, ctype = struct.unpack("<I4s", bytes(data[off:off + 8]))
-        if ctype == b"JSON":
-            js = json.loads(bytes(data[off + 8:off + 8 + clen]))
-            js.setdefault("asset", {}).setdefault("extras", {})["nycsim"] = meta
-            blob = json.dumps(js, separators=(",", ":")).encode("utf-8")
-            blob += b" " * (-len(blob) % 4)
-            new = bytearray(data[:off]) + struct.pack("<I4s", len(blob), b"JSON") + blob \
-                + bytearray(data[off + 8 + clen + (-clen % 4):])
-            struct.pack_into("<I", new, 8, len(new))
-            path.write_bytes(bytes(new))
-            return
-        off += 8 + clen + (-clen % 4)
-    raise RuntimeError(f"{path} has no JSON chunk")
 
 
 # --------------------------------------------------------------------------- LODs
@@ -496,7 +448,7 @@ def finalise(v: Vehicle, *, lod_budgets: tuple[int, int] = (60_000, 8_000),
         "published_dimensions_mm": pub,
         "measured_m": meas,
         "dimension_deviation_pct": {k: round(vv, 3) for k, vv in dev.items()},
-        "pivot": "ground under rear-axle centre, +X forward, +Y left, +Z up (DATA_CONTRACTS §13)",
+        "pivot": PIVOT_CONVENTION,
         "wheel_pivots": v.wheel_pivots(),
         "wheel_diameter_mm": pub["wheel_diameter_mm"],
         "wheel_diameters_mm": v.wheel_diameters(),
@@ -516,6 +468,7 @@ def finalise(v: Vehicle, *, lod_budgets: tuple[int, int] = (60_000, 8_000),
     if extra_catalog:
         entry.update(extra_catalog)
     nb.write_catalog_entry(env.CATALOG_DIR, entry)
+    env.record_processed(entry)
     log.info("%s: %d tris LOD0 (%s), L/W/H %.3f/%.3f/%.3f m, dev %.2f/%.2f/%.2f %%",
              v.id, entry["triangles"], path.name, meas["length_m"], meas["width_m"], meas["height_m"],
              dev["length_pct"], dev["width_pct"], dev["height_pct"])

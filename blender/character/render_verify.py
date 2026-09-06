@@ -7,8 +7,9 @@ Produces, into ``docs/verification/character/``:
                          subsurface skin;
 ``full_body.png``        the finished player in his clothes, front and back;
 ``walk_strip.png``       eight evenly spaced frames of one retargeted walk cycle;
-``bend_test.png``        elbow and knee flexed 0/45/90/120 degrees with the skin shaded flat, so that
-                         collapsing or candy-wrapping weights are visible;
+``bend_test.png``        elbow and knee flexed 0/45/90/120 degrees with the dressed character shaded flat,
+                         so that collapsing or candy-wrapping weights are visible in the silhouette that
+                         actually ships;
 ``npc_lineup.png``       twelve generated pedestrians side by side;
 ``blendshapes.png``      a contact sheet of representative ARKit face units at full weight.
 
@@ -300,10 +301,16 @@ def bend_test(out: Path) -> Path:
     """Elbow and knee flexed through 0/45/90/120 degrees, clay-shaded, to expose bad weights."""
     armature, meshes = load_player()
     studio_lighting(key_energy=1100.0, size=6.0)
-    body = next(o for o in meshes if o.name.endswith(".body"))
+    # Clay-shade the *whole dressed character*, not the bare skin.  The skin under the clothes is deleted at
+    # build time (MakeHuman's own delete groups - `mh_build.hide_body_under_clothes`), so a skin-only render
+    # is now full of holes, and in any case what has to bend correctly is the sleeve and the trouser leg
+    # that ship, not a body nobody sees.  Interior meshes are hidden so the silhouette is the real one.
+    hidden = (".teeth_base", ".tongue01", ".cornea_l", ".cornea_r", ".eyeball_l", ".eyeball_r")
+    shown = [o for o in meshes if not o.name.endswith(hidden)]
     for obj in meshes:
-        obj.hide_render = obj is not body          # the skin itself is what is being judged
-    _flat_shade(body)
+        obj.hide_render = obj not in shown
+    for obj in shown:
+        _flat_shade(obj)
 
     anim_lib.set_active_clip(armature, None)
     for pose_bone in armature.pose.bones:
@@ -349,9 +356,13 @@ def bend_test(out: Path) -> Path:
 
 
 def _flat_shade(obj: bpy.types.Object) -> None:
-    material = nb.pbr_material("bend_test_clay", base_color=(0.72, 0.70, 0.68, 1.0), roughness=0.55)
+    """One matte clay material on the whole object, so shading reads as form and not as fabric colour."""
+    material = bpy.data.materials.get("bend_test_clay") or nb.pbr_material(
+        "bend_test_clay", base_color=(0.72, 0.70, 0.68, 1.0), roughness=0.55)
     obj.data.materials.clear()
     obj.data.materials.append(material)
+    for polygon in obj.data.polygons:
+        polygon.material_index = 0
 
 
 def _set_local_rotation(armature: bpy.types.Object, bone: str, degrees) -> None:

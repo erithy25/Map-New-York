@@ -68,9 +68,14 @@ driving nights. He is saving 400 dollars a month toward it.
 * **Hair** — MakeHuman `short01` card hair with its alpha diffuse map.
 * **Skin** — MakeHuman `middleage_caucasian_male` CC0 diffuse on a Principled BSDF with subsurface weight
   0.18 and a 10/4/2.5 mm RGB scattering radius.
-* **Clothing** — white crew tee, indigo jeans, grey pullover hoodie, olive bomber jacket, black sneakers, and
-  a steel watch on the left wrist. All tailored procedurally from his own body mesh (see
-  `blender/character/wardrobe.py`), so they fit and deform exactly.
+* **Clothing** — white crew tee, indigo wool trousers, grey pullover hoodie, black low sneakers and a steel
+  watch on the left wrist. Every garment except the hood and the watch is a **real tailored MakeHuman CC0
+  mesh** with its own hem, collar, cuffs, sleeve seams and armpit, fitted to his body through the MakeClothes
+  vertex correspondences; the hood on the hoodie and the watch are procedural
+  (`blender/character/wardrobe.py`). The skin underneath a garment is deleted using MakeHuman's own delete
+  groups, so nothing pokes through. Two torso layers, not three: `wardrobe.push_along_normals` can stand one
+  fitted layer off another cleanly, but three MakeHuman torso shells fitted to the same body cannot all
+  clear each other.
 * **Rig** — UE5-Mannequin naming, 71 bones: `root`, `pelvis`, `spine_01..05`, `neck_01/02`, `head`,
   `clavicle/upperarm/lowerarm/hand` per side, the full finger chain including metacarpals, `thigh/calf/foot/
   ball`, and `ik_foot_root`, `ik_foot_l/r`, `ik_hand_root`, `ik_hand_gun`, `ik_hand_l/r`.

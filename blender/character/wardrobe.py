@@ -52,8 +52,10 @@ LAYER_MIN_OFFSET = {LAYER_BASE: 0.006, LAYER_MID: 0.010, LAYER_OUTER: 0.016, LAY
 
 #: How far a fitted MakeHuman garment is pushed out along its normals so an outer layer clears the one
 #: below it.  MakeHuman fits every garment at its own designed stand-off, so a jacket and a sweater
-#: otherwise interpenetrate.
-LAYER_MH_PUSH = {LAYER_BASE: 0.0, LAYER_MID: 0.004, LAYER_OUTER: 0.024, LAYER_ACCESSORY: 0.0}
+#: otherwise interpenetrate.  Applied by :func:`push_along_normals`, which tapers it to zero at the hem,
+#: the cuffs and the collar - an outer layer stands off across the panels and is pinned at its edges,
+#: which is both what a garment does and what stops the boundary loops turning into a saw-tooth.
+LAYER_MH_PUSH = {LAYER_BASE: 0.0, LAYER_MID: 0.004, LAYER_OUTER: 0.011, LAYER_ACCESSORY: 0.0}
 
 #: How far into the garment (as a fraction of its z span) the hem and cuff cinch back towards the body.
 HEM_FRACTION = 0.06
@@ -97,6 +99,7 @@ class Garment:
     quilt_rows: int = 0              # horizontal puffer channels
     quilt_depth: float = 0.0
     hood: bool = False               # attach a procedural hood at the neck
+    includes_shirt: bool = False     # the mesh already contains the shirt worn under it (the suit jackets)
     front_cut: float | None = None   # drop head vertices this far in front of the head joint (hijab)
     layer: int = LAYER_BASE
     tags: tuple[str, ...] = ()
@@ -126,6 +129,14 @@ WARDROBE: tuple[Garment, ...] = (
             colour=_c("9db6cf"), roughness=0.68, tags=("shirt", "office")),
     Garment("sweater_knit", "Charcoal knit sweater", "top", "makehuman", "toigo_fisherman_sweater",
             colour=_c("3a3d42"), roughness=0.88, tags=("knit",)),
+    # `male_casualsuit01` welds its shirt and its jeans into one shell, so the shirt can only be taken off
+    # it with a height cut; the other two packs separate cleanly by connected component.
+    Garment("shirt_oxford", "Oxford button-down", "top", "makehuman", "male_casualsuit01", keep="above",
+            split_z=0.605, colour=_c("8d9aa8"), roughness=0.72, tags=("shirt", "office")),
+    Garment("shirt_stripe", "Striped button shirt", "top", "makehuman", "male_casualsuit03", keep="upper",
+            colour=_c("b9724f"), roughness=0.74, tags=("shirt",)),
+    Garment("longsleeve_navy", "Navy long-sleeve tee", "top", "makehuman", "male_casualsuit02",
+            keep="upper", colour=_c("2c3c56"), roughness=0.83, tags=("tee",)),
     Garment("scrubs_top", "Hospital scrubs top", "top", "makehuman", "toigo_basic_tucked_t-shirt",
             colour=_c("2f6f6a"), roughness=0.80, tags=("scrubs", "work")),
     Garment("tank_grey", "Grey tank top", "top", "makehuman", "toigo_keyhole_tank_top",
@@ -141,19 +152,28 @@ WARDROBE: tuple[Garment, ...] = (
     Garment("kids_hoodie", "Kid's hoodie", "top", "makehuman", "toigo_fisherman_sweater",
             colour=_c("3f7bb5"), roughness=0.87, hood=True, layer=LAYER_MID, tags=("kids", "hoodie")),
 
-    # ---------- outerwear: MakeHuman suit jackets (upper half of a one-mesh suit) -----------------------
-    Garment("jacket_denim", "Denim jacket", "outerwear", "makehuman", "male_casualsuit01", keep="upper",
+    # ---------- outerwear: MakeHuman jackets (the outermost shell of a one-mesh suit) -------------------
+    # `keep="outer"` takes the jacket shell only - right for the field jacket, which is always worn over a
+    # wardrobe top.  The suit jackets keep `"upper"`, because their shirt and tie are modelled as part of
+    # the same upper assembly and a suit jacket with the shirt cut out of it opens onto nothing.
+    # MakeHuman's CC0 packs contain exactly one casual jacket (`male_casualsuit05`, a four-pocket field
+    # jacket) and four tailored suit jackets.  `jacket_field`, `jacket_denim` and `jacket_leather` are
+    # therefore the same field-jacket mesh in three fabrics - stated here rather than implied.
+    Garment("jacket_field", "Olive field jacket", "outerwear", "makehuman", "male_casualsuit05",
+            keep="outer", colour=_c("4a4e39"), roughness=0.74, layer=LAYER_OUTER, tags=("jacket",)),
+    Garment("jacket_denim", "Denim jacket", "outerwear", "makehuman", "male_casualsuit05", keep="outer",
             colour=_c("3f5a78"), roughness=0.80, layer=LAYER_OUTER, tags=("jacket",)),
-    Garment("jacket_leather", "Black leather jacket", "outerwear", "makehuman", "male_casualsuit04",
-            keep="upper", colour=_c("18181a"), roughness=0.38, layer=LAYER_OUTER, tags=("jacket",)),
-    Garment("jacket_bomber", "Olive bomber jacket", "outerwear", "makehuman", "male_casualsuit02",
-            keep="upper", colour=_c("41452f"), roughness=0.62, layer=LAYER_OUTER, tags=("jacket",)),
+    Garment("jacket_leather", "Black leather jacket", "outerwear", "makehuman", "male_casualsuit05",
+            keep="outer", colour=_c("18181a"), roughness=0.34, layer=LAYER_OUTER, tags=("jacket",)),
     Garment("suit_jacket_charcoal", "Charcoal suit jacket", "outerwear", "makehuman", "male_elegantsuit01",
-            keep="upper", colour=_c("35373c"), roughness=0.66, layer=LAYER_OUTER, tags=("suit", "office")),
+            keep="upper", colour=_c("35373c"), roughness=0.66, includes_shirt=True, layer=LAYER_OUTER, tags=("suit", "office")),
     Garment("suit_jacket_navy", "Navy suit jacket", "outerwear", "makehuman", "toigo_male_suit_3",
-            keep="upper", colour=_c("222c40"), roughness=0.66, layer=LAYER_OUTER, tags=("suit", "office")),
+            keep="upper", colour=_c("222c40"), roughness=0.66, includes_shirt=True, layer=LAYER_OUTER, tags=("suit", "office")),
+    Garment("suit_jacket_db", "Double-breasted suit jacket", "outerwear", "makehuman",
+            "toigo_male_double-breasted_suit", keep="upper", colour=_c("2b3138"), roughness=0.66,
+            includes_shirt=True, layer=LAYER_OUTER, tags=("suit", "office")),
     Garment("suit_jacket_womens", "Women's suit jacket", "outerwear", "makehuman", "toigo_female_suit_2",
-            keep="upper", colour=_c("3a3644"), roughness=0.66, layer=LAYER_OUTER, tags=("suit", "office")),
+            keep="upper", colour=_c("3a3644"), roughness=0.66, includes_shirt=True, layer=LAYER_OUTER, tags=("suit", "office")),
 
     # ---------- outerwear: procedural, offset from the top layer ---------------------------------------
     Garment("puffer_black", "Black puffer jacket", "outerwear", "procedural",
@@ -203,6 +223,8 @@ WARDROBE: tuple[Garment, ...] = (
             colour=_c("5a5d44"), roughness=0.84, tags=("cargo", "work")),
     Garment("kids_jeans", "Kid's jeans", "bottom", "makehuman", "toigo_wool_pants",
             colour=_c("39506f"), roughness=0.80, tags=("kids", "jeans")),
+    Garment("shorts_denim", "Denim shorts", "bottom", "makehuman", "cortu_jeans_shorts",
+            colour=_c("41618a"), roughness=0.80, tags=("shorts", "summer")),
 
     # ---------- shoes: real MakeHuman meshes ------------------------------------------------------------
     Garment("sneakers_white", "White sneakers", "shoes", "makehuman", "shoes05",
@@ -213,6 +235,10 @@ WARDROBE: tuple[Garment, ...] = (
             colour=_c("7a5228"), roughness=0.66, layer=LAYER_ACCESSORY, tags=("boots", "work")),
     Garment("shoes_dress", "Black dress shoes", "shoes", "makehuman", "shoes01",
             colour=_c("141416"), roughness=0.35, layer=LAYER_ACCESSORY, tags=("office",)),
+    Garment("shoes_loafer", "Brown loafers", "shoes", "makehuman", "shoes02",
+            colour=_c("53341d"), roughness=0.42, layer=LAYER_ACCESSORY, tags=("office",)),
+    Garment("boots_chelsea", "Black ankle boots", "shoes", "makehuman", "shoes04",
+            colour=_c("1d1b1a"), roughness=0.48, layer=LAYER_ACCESSORY, tags=("boots",)),
 
     # ---------- head ------------------------------------------------------------------------------------
     Garment("hijab_navy", "Navy hijab", "hat", "procedural", bones=NECKHEAD + TORSO, z_lo=0.78, z_hi=1.02,
@@ -267,7 +293,8 @@ def _region(mesh_obj: bpy.types.Object, dominant: list[str], garment: Garment,
 
 
 def build_garment(garment: Garment, body: bpy.types.Object, armature: bpy.types.Object,
-                  dominant: list[str], body_height: float, *, name_prefix: str = "") -> bpy.types.Object:
+                  dominant: list[str], body_height: float, *, name_prefix: str = "",
+                  colour: tuple[float, float, float] | None = None) -> bpy.types.Object:
     """Cut one procedural garment out of ``body`` (which may itself be a garment) and skin it.
 
     Cutting an outer layer from the garment already on the body is what keeps the sleeves, the armpit gap
@@ -327,7 +354,7 @@ def build_garment(garment: Garment, body: bpy.types.Object, armature: bpy.types.
         _add_hood(obj, armature, garment, body_height)
 
     material = nb.pbr_material(f"cloth_{garment.item_id}",
-                               base_color=(*garment.colour, 1.0), roughness=garment.roughness,
+                               base_color=(*(colour or garment.colour), 1.0), roughness=garment.roughness,
                                metallic=garment.metallic)
     new_mesh.materials.append(material)
 
@@ -343,8 +370,20 @@ def _transfer_weights(body: bpy.types.Object, garment_obj: bpy.types.Object) -> 
     A garment vertex is at most ``offset + thickness`` (< 5 cm) from the skin vertex it was cut from, and
     ``bmesh.ops.solidify`` does not preserve vertex order, so the nearest-neighbour lookup is both exact in
     practice and independent of the topology operations above it.
+
+    Every vertex group already on the garment is **removed first**.  A MakeHuman garment arrives from MPFB
+    carrying its own proximity-fitted groups under the very names this function is about to write, and
+    ``vertex_groups.new`` does not overwrite: it would create ``spine_05.001`` beside ``spine_05``, so the
+    correct weights would land in groups no bone matches and the armature would keep deforming the garment
+    with MPFB's proximity weights.  That is exactly the bug that put ``hand_*`` and ``foot_*`` influences on
+    a jacket.  Clearing first also drops MakeHuman's bookkeeping groups (``Delete.*``, ``Left``/``Mid``/
+    ``Right``, ``body``), which are meaningless on a garment and would otherwise propagate to any
+    procedural layer cut from it.
     """
     from mathutils import kdtree  # noqa: PLC0415
+
+    for stale in list(garment_obj.vertex_groups):
+        garment_obj.vertex_groups.remove(stale)
 
     group_names = [g.name for g in body.vertex_groups]
     body_weights: list[list[tuple[str, float]]] = []
@@ -366,34 +405,133 @@ def _transfer_weights(body: bpy.types.Object, garment_obj: bpy.types.Object) -> 
             group.add([vert.index], weight, "REPLACE")
 
 
-def _add_hood(obj: bpy.types.Object, armature: bpy.types.Object, garment: Garment, body_height: float) -> None:
-    """A down hood: a half-ellipsoid behind and above the neck, weighted to ``spine_05``/``neck_01``."""
+def push_along_normals(obj: bpy.types.Object, distance: float, *, taper_rings: int = 3,
+                       smooth_passes: int = 2) -> None:
+    """Stand a fitted garment off the layer below it, without wrecking its hem, cuffs or collar.
+
+    MakeHuman fits every garment at its own designed stand-off, so a jacket and a sweater fitted to the same
+    body interpenetrate; an outer layer has to be pushed out.  A naive ``vert.co += vert.normal * d`` does
+    two damaging things:
+
+    * on an **open boundary** - the neck hole, the cuffs, the hem - a vertex normal is the average of the
+      few faces on one side only, so consecutive boundary vertices tilt in alternating directions and the
+      edge comes out as a saw-tooth.  That is the "jagged polygon fragments around the collar" this build
+      used to show;
+    * it inflates the garment uniformly, so a jacket balloons instead of draping.
+
+    Here the push is a *field*: raw vertex normals are Laplacian-smoothed over the edge graph, and the
+    amount is tapered to zero across ``taper_rings`` rings of the open boundary, so the hem, the cuffs and
+    the collar stay exactly where the tailor put them and only the panels in between stand off.
+    """
+    if distance <= 0.0 or not len(obj.data.vertices):
+        return
+    bm = bmesh.new()
+    bm.from_mesh(obj.data)
+    bm.verts.ensure_lookup_table()
+    bm.edges.ensure_lookup_table()
+    bm.verts.index_update()
+    bm.normal_update()
+
+    normals = [v.normal.copy() for v in bm.verts]
+    for _ in range(max(smooth_passes, 0)):
+        nxt: list[Vector] = []
+        for vert in bm.verts:
+            acc = normals[vert.index].copy()
+            for edge in vert.link_edges:
+                acc += normals[edge.other_vert(vert).index]
+            nxt.append(acc.normalized() if acc.length > 1e-9 else normals[vert.index])
+        normals = nxt
+
+    far = taper_rings + 1
+    ring = [far] * len(bm.verts)
+    frontier = []
+    for vert in bm.verts:
+        if not vert.link_faces or any(len(e.link_faces) < 2 for e in vert.link_edges):
+            ring[vert.index] = 0
+            frontier.append(vert)
+    depth = 0
+    while frontier and depth < taper_rings:
+        depth += 1
+        nxt_verts = []
+        for vert in frontier:
+            for edge in vert.link_edges:
+                other = edge.other_vert(vert)
+                if ring[other.index] > depth:
+                    ring[other.index] = depth
+                    nxt_verts.append(other)
+        frontier = nxt_verts
+
+    for vert in bm.verts:
+        taper = _smoothstep(min(ring[vert.index], taper_rings) / float(max(taper_rings, 1)))
+        if taper > 0.0:
+            vert.co += normals[vert.index] * (distance * taper)
+    bm.to_mesh(obj.data)
+    bm.free()
+    obj.data.update()
+
+
+def _add_hood(obj: bpy.types.Object, armature: bpy.types.Object, garment: Garment,
+              body_height: float) -> None:
+    """A hood lying *down* on the wearer's back, in its own smooth-shaded material slot.
+
+    A down hood is not a ball behind the neck: it is a flattened cowl that starts at the collar and drapes
+    down the shoulder blades, wider than it is deep.  The first version of this was a half-ellipsoid of
+    equal radii, faceted, and inheriting the sweater's UV-mapped material - which sampled the tinted texture
+    at whatever UV the generated vertices happened to carry - so it rendered as a light grey sphere stuck to
+    the back.  Here it is:
+
+    * an ellipsoid squashed to (half-width 0.115 m, half-depth 0.055 m, half-height 0.135 m) and offset down
+      the back, so its silhouette is a cowl;
+    * cut off in front of the neck, and its top rolled forward into a collar lip;
+    * shaded smooth, and given its own material slot with the garment's flat colour, so no UV is needed;
+    * weighted 55/45 to ``neck_01``/``spine_05``, which is where a down hood actually moves from.
+    """
     bones = armature.data.bones
     neck = bones["neck_01"].head_local
-    head = bones["head"].head_local
     forward = (bones["ball_l"].tail_local - bones["ball_l"].head_local)
     forward.z = 0.0
     forward = forward.normalized() if forward.length > 1e-6 else Vector((0.0, -1.0, 0.0))
-    centre = neck - forward * 0.090 - Vector((0.0, 0.0, 0.030))
-    radius = Vector((0.084, 0.100, 0.072))
+    scale = body_height / 1.75                       # the radii below are quoted for a 1.75 m body
+    centre = neck - forward * (0.055 * scale) - Vector((0.0, 0.0, 0.085 * scale))
+    radius = Vector((0.115, 0.055, 0.135)) * scale
 
     bm = bmesh.new()
-    bmesh.ops.create_uvsphere(bm, u_segments=16, v_segments=10, radius=1.0)
+    bmesh.ops.create_uvsphere(bm, u_segments=20, v_segments=14, radius=1.0)
     for vert in bm.verts:
         vert.co = Vector((vert.co.x * radius.x, vert.co.y * radius.y, vert.co.z * radius.z)) + centre
-    verts = list(bm.verts)
-    doomed = [v for v in verts if (v.co - centre).dot(forward) > 0.012]
+    doomed = [v for v in bm.verts if (v.co - centre).dot(forward) > 0.004 * scale]
     bmesh.ops.delete(bm, geom=doomed, context="VERTS")
+    bm.verts.ensure_lookup_table()
+    # roll the top edge forward so the hood meets the collar instead of ending in mid-air behind the neck
+    top = centre.z + radius.z
+    for vert in bm.verts:
+        lift = (vert.co.z - centre.z) / max(radius.z, 1e-6)
+        if lift > 0.25:
+            t = (lift - 0.25) / 0.75
+            vert.co -= forward * (0.030 * scale * t * t)
+            vert.co.z -= (vert.co.z - top) * 0.15 * t
     bm.normal_update()
     hood_mesh = bpy.data.meshes.new(f"{obj.name}.hood")
     bm.to_mesh(hood_mesh)
     bm.free()
 
-    offset = len(obj.data.vertices)
+    vertex_offset = len(obj.data.vertices)
+    face_offset = len(obj.data.polygons)
     obj.data = _join_meshes(obj.data, hood_mesh)
+
+    slot = len(obj.data.materials)
+    flat = nb.pbr_material(f"cloth_{garment.item_id}_hood", base_color=(*garment.colour, 1.0),
+                           roughness=min(garment.roughness + 0.04, 1.0))
+    obj.data.materials.append(flat)
+    for polygon in obj.data.polygons[face_offset:]:
+        polygon.material_index = slot
+        polygon.use_smooth = True
+
     for name, weight in (("neck_01", 0.55), ("spine_05", 0.45)):
         group = obj.vertex_groups.get(name) or obj.vertex_groups.new(name=name)
-        group.add(list(range(offset, len(obj.data.vertices))), weight, "REPLACE")
+        group.add(list(range(vertex_offset, len(obj.data.vertices))), weight, "REPLACE")
+    log.info("%s: hood added (%d vertices, own material slot %d)", obj.name,
+             len(obj.data.vertices) - vertex_offset, slot)
 
 
 def _join_meshes(a: bpy.types.Mesh, b: bpy.types.Mesh) -> bpy.types.Mesh:
@@ -428,14 +566,43 @@ def procedural_items(item_ids: tuple[str, ...]) -> tuple[str, ...]:
 
 
 def split_loose_parts(obj: bpy.types.Object, keep: str, split_z: float) -> int:
-    """Keep only the loose shells of ``obj`` above (``keep="upper"``) or below (``"lower"``) ``split_z``.
+    """Keep only some of the loose shells of ``obj``; return the number of vertices removed.
 
-    Several MakeHuman "casual suit" assets are a single mesh holding a jacket shell and a trouser shell.
-    Splitting by connected component and comparing each component's centroid height gives a real tailored
-    jacket or a real pair of trousers rather than an inseparable suit.
+    Several MakeHuman "casual suit" assets are a single mesh holding several shells - a jacket, the shirt
+    under it and a pair of trousers.  Splitting by connected component gives a real tailored garment
+    instead of an inseparable suit:
+
+    ``"all"``      keep everything (a t-shirt, a pair of trousers, a shoe pair);
+    ``"upper"``    keep every shell whose centroid is above ``split_z`` (jacket *and* the shirt under it);
+    ``"lower"``    keep every shell whose centroid is below it (the trousers);
+    ``"above"``    keep only the vertices above ``split_z``, whatever they are connected to.  Needed for
+                   the packs whose shirt and trousers are welded into one shell, where no component split
+                   can separate them; the cut edge becomes the shirt hem;
+    ``"below"``    the same, keeping the vertices below the plane;
+    ``"outer"``    keep only the *outermost* upper shell - the jacket without the shirt inside it.  The
+                   outermost shell is the one with the largest horizontal footprint: a jacket encloses the
+                   shirt, so its bounding box in x/y is strictly the larger of the two.  Shells smaller
+                   than a tenth of the largest are ignored as trim (collars, cuffs, buttons) so a stray
+                   scrap of geometry cannot win the comparison.
     """
     if keep == "all":
         return 0
+    if keep in ("above", "below"):
+        bm = bmesh.new()
+        bm.from_mesh(obj.data)
+        bm.verts.ensure_lookup_table()
+        want_above = keep == "above"
+        doomed = [v for v in bm.verts
+                  if ((obj.matrix_world @ v.co).z >= split_z) != want_above]
+        if not doomed or len(doomed) == len(bm.verts):
+            bm.free()
+            return 0
+        bmesh.ops.delete(bm, geom=doomed, context="VERTS")
+        removed = len(doomed)
+        bm.to_mesh(obj.data)
+        bm.free()
+        obj.data.update()
+        return removed
     bm = bmesh.new()
     bm.from_mesh(obj.data)
     bm.verts.ensure_lookup_table()
@@ -455,13 +622,32 @@ def split_loose_parts(obj: bpy.types.Object, keep: str, split_z: float) -> int:
     for vert in bm.verts:
         groups.setdefault(find(vert.index), []).append(vert)
 
+    want_upper = keep in ("upper", "outer")
+    upper: list[list] = []
     doomed = []
     for verts in groups.values():
         centre = sum((v.co.z for v in verts), 0.0) / len(verts)
         world_z = (obj.matrix_world @ Vector((0.0, 0.0, centre))).z
         above = world_z >= split_z
-        if (keep == "upper") != above:
+        if want_upper != above:
             doomed.extend(verts)
+        else:
+            upper.append(verts)
+
+    if keep == "outer" and len(upper) > 1:
+        def footprint(verts) -> float:
+            xs = [v.co.x for v in verts]
+            ys = [v.co.y for v in verts]
+            return (max(xs) - min(xs)) * (max(ys) - min(ys))
+
+        biggest = max(len(v) for v in upper)
+        candidates = [v for v in upper if len(v) >= 0.10 * biggest]
+        winner = max(candidates, key=footprint)
+        for verts in upper:
+            if verts is not winner:
+                doomed.extend(verts)
+        log.info("%s: 'outer' split kept the %d-vertex shell with footprint %.4f m2 of %d candidates",
+                 obj.name, len(winner), footprint(winner), len(candidates))
     if not doomed or len(doomed) == len(bm.verts):
         bm.free()
         return 0
@@ -604,10 +790,14 @@ def tint(obj: bpy.types.Object, colour: tuple[float, float, float], roughness: f
             base.default_value = (*colour, 1.0)
 
 
-def finish_makehuman(built, item_ids: tuple[str, ...], *, name_prefix: str = "") -> dict[str, bpy.types.Object]:
+def finish_makehuman(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
+                     colours: dict[str, tuple[float, float, float]] | None = None
+                     ) -> dict[str, bpy.types.Object]:
     """Split, tint and rename the MakeHuman garments MPFB has already fitted. Returns ``{item_id: object}``.
 
-    Called after ``mh_build.build_human`` and before the helper strip.
+    Called after ``mh_build.build_human`` and before the helper strip.  ``colours`` overrides the wardrobe
+    catalogue colour per item id - that is how the pedestrian variety vector's twelve top colours and twelve
+    bottom colours reach the mesh, without needing twelve copies of every garment in the catalogue.
     """
     body = built.basemesh
     height = max((body.matrix_world @ v.co).z for v in body.data.vertices)
@@ -627,13 +817,9 @@ def finish_makehuman(built, item_ids: tuple[str, ...], *, name_prefix: str = "")
             raise RuntimeError(f"MakeHuman asset {garment.mhclo!r} for {item_id!r} was not fitted "
                                f"(have {sorted(by_asset)})")
         removed = split_loose_parts(obj, garment.keep, garment.split_z * height)
-        push = LAYER_MH_PUSH.get(garment.layer, 0.0)
-        if push > 0.0:
-            obj.data.calc_normals_split() if hasattr(obj.data, "calc_normals_split") else None
-            for vert in obj.data.vertices:
-                vert.co = vert.co + vert.normal * push
-            obj.data.update()
-        tint(obj, garment.colour, garment.roughness, garment.metallic, name=f"cloth_{item_id}")
+        push_along_normals(obj, LAYER_MH_PUSH.get(garment.layer, 0.0))
+        colour = (colours or {}).get(item_id, garment.colour)
+        tint(obj, colour, garment.roughness, garment.metallic, name=f"cloth_{item_id}")
         old = obj.name
         obj.name = obj.data.name = f"{name_prefix}{item_id}"
         built.clothes.pop(old, None)
@@ -642,6 +828,107 @@ def finish_makehuman(built, item_ids: tuple[str, ...], *, name_prefix: str = "")
         log.info("%s: MakeHuman %s, %d verts%s", item_id, garment.mhclo, len(obj.data.vertices),
                  f", {removed} removed by the {garment.keep} split" if removed else "")
     return out
+
+
+def _layer_key(garment: Garment) -> int:
+    """Sort key for what is worn over what.
+
+    Two garments with the same :attr:`Garment.layer` still have an order: the base top goes *inside* the
+    waistband and the trousers close over it, while a sweater or a jacket hangs outside them.  So a bottom
+    ranks one step above a base-layer top and below everything above that.  Without the distinction the tee
+    hem and the jeans waistband simply interpenetrate, and the overlap renders as white scraps of tee
+    sticking through the seat of the trousers.
+    """
+    return garment.layer * 2 + (1 if garment.slot == "bottom" else 0)
+
+
+def resolve_layers(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
+                   clearance: float = 0.003, passes: int = 2) -> int:
+    """Pull every inner garment back inside the garment layered over it.  Returns vertices moved.
+
+    Two garments fitted independently to the same body do not know about each other: MakeHuman gives each
+    its own designed stand-off, so a tee's shoulder seam can sit *outside* a sweater's shoulder and shows as
+    a white patch through it.  Pushing the outer layer out (:func:`push_along_normals`) fixes the average
+    case but not the tight spots, because the clearance needed is not constant over a garment.
+
+    So the outer layer gets the last word.  For every vertex of an inner garment the *closest point on the
+    outer garment's surface* is taken (``closest_point_on_mesh``, i.e. against the real triangles and their
+    face normals, not against the nearest vertex - a coarse outer mesh has vertices whose normals point
+    nowhere near the surface the inner vertex is poking through).  If the inner vertex is outside that
+    surface, or within ``clearance`` of it, it is moved back along the face normal until it is ``clearance``
+    inside.  Vertices further than ``reach`` from the outer garment - a tee hem below a jacket, a collar
+    above it - are left exactly where the tailor put them, so this never shrink-wraps.
+    """
+    ordered: list[tuple[int, str, bpy.types.Object]] = []
+    shoes: list[bpy.types.Object] = []
+    bottoms: list[bpy.types.Object] = []
+    for item_id in item_ids:
+        garment = WARDROBE_BY_ID.get(item_id)
+        obj = built.clothes.get(f"{name_prefix}{item_id}")
+        if garment is None or obj is None:
+            continue
+        if garment.slot == "shoes":
+            shoes.append(obj)
+            continue
+        if garment.slot == "bottom":
+            bottoms.append(obj)
+        ordered.append((_layer_key(garment), item_id, obj))
+    ordered.sort(key=lambda t: t[0])
+
+    reach = 0.05
+    moved = 0
+    for _ in range(max(passes, 1)):
+        pass_moved = 0
+        for i, (key_in, _id_in, inner) in enumerate(ordered):
+            for key_out, _id_out, outer in ordered[i + 1:]:
+                if key_out <= key_in or not len(outer.data.vertices):
+                    continue
+                pass_moved += _move_inside(inner, outer, clearance, reach)
+        moved += pass_moved
+        if pass_moved == 0:
+            break
+
+    # Shoes are the one pair the rule above cannot express: a trouser leg drapes *over* the shoe, but the
+    # shoe is a rigid object that must not be dented to make room, so it is the trouser that moves - outward,
+    # out of the shoe - instead of the inner layer moving in.
+    for shoe in shoes:
+        for bottom in bottoms:
+            moved += _move_outside(bottom, shoe, clearance, reach=0.04)
+    if moved:
+        log.info("layer resolve: moved %d garment vertices to keep each layer inside the one over it", moved)
+    return moved
+
+
+def _move_inside(inner: bpy.types.Object, outer: bpy.types.Object, clearance: float,
+                 reach: float) -> int:
+    """Pull ``inner``'s vertices to at least ``clearance`` behind ``outer``'s surface."""
+    moved = 0
+    for vert in inner.data.vertices:
+        hit, location, normal, _index = outer.closest_point_on_mesh(vert.co, distance=reach)
+        if not hit:
+            continue
+        depth = (vert.co - location).dot(normal)
+        if depth > -clearance:
+            vert.co = vert.co - normal * (depth + clearance)
+            moved += 1
+    inner.data.update()
+    return moved
+
+
+def _move_outside(garment: bpy.types.Object, solid: bpy.types.Object, clearance: float,
+                  reach: float) -> int:
+    """Push ``garment``'s vertices to at least ``clearance`` outside ``solid``'s surface."""
+    moved = 0
+    for vert in garment.data.vertices:
+        hit, location, normal, _index = solid.closest_point_on_mesh(vert.co, distance=reach)
+        if not hit:
+            continue
+        depth = (vert.co - location).dot(normal)
+        if depth < clearance:
+            vert.co = vert.co + normal * (clearance - depth)
+            moved += 1
+    garment.data.update()
+    return moved
 
 
 def reweight_from_body(built, item_ids: tuple[str, ...], *, name_prefix: str = "") -> list[str]:
@@ -668,7 +955,8 @@ def reweight_from_body(built, item_ids: tuple[str, ...], *, name_prefix: str = "
     return done
 
 
-def dress(built, item_ids: tuple[str, ...], *, name_prefix: str = "") -> dict[str, bpy.types.Object]:
+def dress(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
+          colours: dict[str, tuple[float, float, float]] | None = None) -> dict[str, bpy.types.Object]:
     """Cut the *procedural* wardrobe items and attach the hoods. Returns ``{item_id: object}``.
 
     Each procedural item is cut from the outermost garment already on the body that covers its region -
@@ -692,7 +980,8 @@ def dress(built, item_ids: tuple[str, ...], *, name_prefix: str = "") -> dict[st
         garment = WARDROBE_BY_ID[item_id]
         source = base if (base is not None and garment.slot == "outerwear") else built.basemesh
         dominant = dominant_bones(source, deform)
-        obj = build_garment(garment, source, armature, dominant, height, name_prefix=name_prefix)
+        obj = build_garment(garment, source, armature, dominant, height, name_prefix=name_prefix,
+                            colour=(colours or {}).get(item_id))
         out[item_id] = obj
         built.clothes[obj.name] = obj
         log.info("%s: procedural, cut from %s, %d verts", item_id, source.name, len(obj.data.vertices))
@@ -702,12 +991,16 @@ def dress(built, item_ids: tuple[str, ...], *, name_prefix: str = "") -> dict[st
 
 
 def _base_layer(built, name_prefix: str) -> bpy.types.Object | None:
-    """The outermost torso garment already on the character, for procedural outerwear to be cut from."""
+    """The outermost torso garment already on the character, for procedural outerwear to be cut from.
+
+    Outerwear counts as well as tops: a hi-vis vest worn over a suit jacket has to be cut from the jacket,
+    not from the shirt underneath it, or it ends up inside the jacket.
+    """
     best, best_layer = None, -1
     for obj in built.clothes.values():
         item_id = obj.name[len(name_prefix):] if obj.name.startswith(name_prefix) else obj.name
         garment = WARDROBE_BY_ID.get(item_id)
-        if garment is None or garment.slot not in ("top",) or not garment.is_makehuman:
+        if garment is None or garment.slot not in ("top", "outerwear") or not garment.is_makehuman:
             continue
         if garment.layer > best_layer:
             best, best_layer = obj, garment.layer

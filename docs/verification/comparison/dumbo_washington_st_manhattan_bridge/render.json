@@ -1,16 +1,16 @@
 {
- "azimuth_reason": "357.0 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 345.8 deg, 11.2 deg away",
+ "azimuth_reason": "357.1 deg, the bearing from this photograph's own GPS position to Manhattan Bridge Brooklyn tower; heading and position both come from the photograph.  The item's recorded azimuth is 345.8 deg, 11.3 deg away, and belongs to its nominal viewpoint",
  "camera": {
-  "azimuth_deg": 357.0,
+  "azimuth_deg": 357.05897899898247,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 28.0,
   "ground_detail": {
-   "chosen_m": 3.65,
-   "max_m": 4.54,
-   "median_m": 3.81,
-   "min_m": 3.59,
+   "chosen_m": 3.47,
+   "max_m": 4.57,
+   "median_m": 3.62,
+   "min_m": 3.4,
    "mode": "street",
    "percentile": 10.0,
    "radius_m": 12.0,
@@ -19,10 +19,10 @@
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
   "hfov_deg": 39.755,
-  "lat": 40.703,
-  "lon": -73.9892,
+  "lat": 40.703061,
+  "lon": -73.989602,
   "long_side_fov_deg": 65.47,
-  "pitch_deg": 0.5306574742857018,
+  "pitch_deg": 0.9384725210895245,
   "portrait": true,
   "resolution": [
    784,
@@ -30,18 +30,23 @@
   ],
   "sensor_mm": 36.0,
   "slug": "dumbo_washington_st_manhattan_bridge",
-  "terrain_z_m": 3.654,
-  "x": -3313.697,
-  "y": 349.862,
-  "z": 5.254
+  "terrain_z_m": 3.468,
+  "x": -3346.83,
+  "y": 340.673,
+  "z": 5.068
  },
- "camera_caption": "camera 40.70300, -73.98920 (NYC_TM -3314, 350) z 5.3 m NAVD88 | azimuth 357.0deg pitch +0.5deg | 28 mm on 36 mm (39.8deg horizontal, 65.5deg vertical, portrait) | 784x1394",
+ "camera_caption": "camera 40.70306, -73.98960 (NYC_TM -3347, 341) z 5.1 m NAVD88 | azimuth 357.1deg pitch +0.9deg | 28 mm on 36 mm (39.8deg horizontal, 65.5deg vertical, portrait) | 784x1394",
+ "camera_origin": {
+  "lat": 40.703061,
+  "lon": -73.989602,
+  "offset_from_recorded_m": 34.6,
+  "source": "this photograph's own EXIF camera GPS (40.70306, -73.98960), 35 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
  "clearance": {
-  "direction": "along the view azimuth",
-  "moved": true,
-  "note": "the recorded viewpoint is inside t_-4_0_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 16 m along the view azimuth -- the nearest point in open air -- keeping the same eye height above the heightmap",
-  "offset_m": 16.0,
-  "reason": "inside t_-4_0_roof_membrane (a ray straight up from the eye point hits its roof)"
+  "min_view_m": 80.0,
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
  },
  "group": "viewpoint",
  "interior": false,
@@ -64,7 +69,7 @@
  },
  "name": "Washington Street in DUMBO with the Manhattan Bridge",
  "night": false,
- "pitch_reason": "aimed at Manhattan Bridge Brooklyn tower 172 m away, at its mid-height (a nominal 10 m subject); +0.5 deg from horizontal",
+ "pitch_reason": "aimed at Manhattan Bridge Brooklyn tower 160 m away, at its mid-height (a nominal 10 m subject); +0.9 deg from horizontal",
  "reference_photo": {
   "author": "David Kernan",
   "confidence": "high",
@@ -79,11 +84,12 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/dumbo_washington_st_manhattan_bridge/render.png",
- "rendered_at": "2026-09-06T15:32:01Z",
+ "rendered_at": "2026-09-06T19:19:04Z",
  "resolution_note": "784x1394; the reference photograph is 1920x3413 (0.56:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 64,
+ "samples": 32,
  "scene": {
   "buildings": {
+   "dropped_for_budget": [],
    "imported": [
     "t_-3_-1",
     "t_-3_0",
@@ -94,6 +100,7 @@
     "t_-5_-1",
     "t_-5_0"
    ],
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-3_-1": {
@@ -137,87 +144,83 @@
      "triangles": 11932
     }
    },
+   "tiles_dropped_for_budget": 0,
    "tiles_imported": 8,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 8,
+   "triangle_budget": 3510000,
    "triangles": 183846
   },
   "centre_tm": [
-   -3312.86,
-   333.88
+   -3346.83,
+   340.67
   ],
   "kit": {
    "capped": null,
    "per_category": {
-    "bulkhead": 34,
-    "cornice": 78,
+    "bulkhead": 38,
+    "cornice": 79,
     "door_entry": 70,
     "fire_escape": 39,
-    "hvac": 44,
-    "parapet": 42,
-    "pilaster": 38,
-    "quoin": 36,
-    "scaffold": 105,
-    "storefront": 414,
-    "storefront_interior": 55,
-    "string_course": 78,
-    "water_tower": 11,
-    "window": 7858,
-    "window_accessory": 195
+    "hvac": 45,
+    "parapet": 44,
+    "pilaster": 28,
+    "quoin": 37,
+    "scaffold": 97,
+    "storefront": 410,
+    "storefront_interior": 56,
+    "string_course": 79,
+    "water_tower": 12,
+    "window": 7694,
+    "window_accessory": 189
    },
-   "placed": 9097,
+   "placed": 8917,
    "radius_m": 140.0,
-   "records_in_range": 9097,
+   "records_in_range": 8917,
    "stale_registry_ids": {},
    "tiles_missing": [],
    "tiles_read": [
     "t_-4_0"
    ],
-   "triangles": 2240248,
+   "triangles": 2262854,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 452.9,
+     "distance_m": 439.4,
      "id": "b_manhattan_bridge",
      "lod": 0,
      "name": "Manhattan Bridge",
      "triangles": 80700
     },
     {
-     "distance_m": 673.4,
+     "distance_m": 640.0,
      "id": "b_brooklyn_bridge",
      "lod": 0,
      "name": "Brooklyn Bridge",
      "triangles": 121824
-    },
-    {
-     "distance_m": 1859.6,
-     "id": "b_williamsburg_bridge",
-     "lod": 0,
-     "name": "Williamsburg Bridge",
-     "triangles": 84236
     }
    ],
-   "placed": 3,
+   "placed": 2,
    "skipped": 0,
    "skipped_detail": [],
-   "triangles": 286760
+   "triangles": 202524
   },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 686,
-    "curb": 978,
-    "median": 133,
-    "parking_lot": 69,
-    "plaza": 23,
-    "roadbed": 557,
-    "sidewalk": 295
+    "crosswalk": 691,
+    "curb": 984,
+    "median": 130,
+    "parking_lot": 71,
+    "plaza": 22,
+    "roadbed": 568,
+    "sidewalk": 296
    },
-   "placed": 2741,
+   "placed": 2762,
    "radius_m": 900.0,
    "tiles_missing": [],
    "tiles_read": [
@@ -230,58 +233,62 @@
     "t_-5_-1",
     "t_-5_0"
    ],
-   "triangles": 207127,
-   "vertices": 212293
+   "triangles": 208300,
+   "vertices": 213508
   },
   "props": {
-   "capped": "triangle budget 1274793",
+   "capped": "triangle budget 1333598",
    "leaf_off": true,
    "per_kind": {
     "bench": 33,
-    "bike_rack": 40,
+    "bike_rack": 36,
     "bus_shelter": 1,
-    "bus_stop_sign": 1,
+    "bus_stop_sign": 2,
     "citibike_dock": 4,
     "flagpole": 1,
-    "hydrant": 53,
-    "manhole": 159,
-    "street_lamp": 122,
+    "hydrant": 55,
+    "manhole": 172,
+    "street_lamp": 134,
     "subway_vent_grate": 7,
-    "tree": 147,
-    "waste_basket": 9
+    "tree": 149,
+    "waste_basket": 10
    },
-   "placed": 577,
+   "placed": 604,
    "radius_m": 250.0,
-   "rows_in_range": 845,
+   "rows_in_range": 823,
    "tiles_missing": [],
    "tiles_read": [
     "t_-4_0"
    ],
-   "tree_species_substituted": 42,
-   "triangles": 1277378,
+   "tree_species_substituted": 43,
+   "triangles": 1333630,
    "unmapped_kinds": {
     "artwork": 3,
-    "cooling_tower": 85,
-    "curb_ramp": 111,
+    "cooling_tower": 84,
+    "curb_ramp": 104,
     "drinking_fountain": 2,
-    "misc_structure": 7,
+    "misc_structure": 6,
     "parks_building": 1,
     "payphone": 1
    }
   },
   "radius_m": 900.0,
-  "seconds": 154.34,
+  "seconds": 70.93,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 6.0,
-   "triangles": 180000,
-   "water_quads": 28572,
-   "z_max_m": 28.15,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 219,
+   "spacing_m": 2.0,
+   "triangles": 95048,
+   "water_quads": 6578,
+   "z_max_m": 27.91,
    "z_min_m": -1.62
   },
-  "triangles": 4375359
+  "triangles": 4286202
  },
  "scene_request": {
   "kit_radius_m": 140.0,
@@ -289,19 +296,19 @@
   "radius_m": 900.0
  },
  "seconds": {
-  "render": 1092.6,
-  "scene": 159.4,
-  "total": 1251.9
+  "render": 243.6,
+  "scene": 72.5,
+  "total": 316.1
  },
  "slug": "dumbo_washington_st_manhattan_bridge",
  "status": "rendered",
  "subject": {
-  "distance_m": 171.8,
+  "distance_m": 160.0,
   "name": "Manhattan Bridge Brooklyn tower"
  },
  "sun": {
-  "azimuth_deg": 218.3681633194315,
-  "elevation_deg": 18.939126809896056,
+  "azimuth_deg": 218.36780642220293,
+  "elevation_deg": 18.939267779609263,
   "local": "2024-11-23T14:17:56-05:00",
   "time_source": "EXIF DateTimeOriginal",
   "utc": "2024-11-23T19:17:56Z"

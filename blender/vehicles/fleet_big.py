@@ -219,10 +219,10 @@ def mci_coach() -> FleetSpec:
                    track_front_mm=2130, track_rear_mm=1860, wheel_diameter_mm=1075.5, tyre_width_mm=315,
                    front_overhang_mm=2050, rear_overhang_mm=2266, rim_diameter_in=22.5, tyre_spec="315/80R22.5",
                    ground_clearance_mm=280)
-    tbl = F.box_table(d, z_under=0.420, z_rocker=0.480, z_belt=2.150, z_top=3.560,
+    tbl = F.box_table(d, z_under=0.420, z_rocker=0.480, z_belt=2.150, z_top=3.594,
                       y_rocker=1.230, y_max=1.2955, y_belt=1.285, y_top=1.100, crown=0.090,
                       x_cowl=10.80, nose_len=0.36, tail_len=0.30, nose_z_top=3.400, nose_z_belt=2.050,
-                      tail_z_top=3.420, nose_y=0.86, tail_y=0.90, y_top_front=1.160, skirt=0.05)
+                      tail_z_top=3.454, nose_y=0.86, tail_y=0.90, y_top_front=1.160, skirt=0.05)
 
     def extras(v, lib, bp):
         bus_signs(v, lib,
@@ -289,7 +289,7 @@ def seagrave_engine() -> FleetSpec:
         v.add(g.to_object("BodyCompartments", g.merge_bm(parts), [steel], smooth=False))
         hose = [g.box_bm((3.10, 1.70, 0.55), (-0.60, 0, 2.70))]
         for k in range(10):
-            hose.append(g.cylinder_bm(0.055, 1.60, axis="Y", center=(-2.00 + k * 0.30, 0, 3.03), segments=10))
+            hose.append(g.cylinder_bm(0.055, 1.60, axis="Y", center=(-2.00 + k * 0.30, 0, 3.045), segments=10))
         v.add(g.to_object("HoseBed", g.merge_bm(hose), [alu], smooth=False))
         v.add(g.to_object("Ladder", P.ladder_rungs(-2.10, 2.60, 1.20, 2.66, 2.66, 14),
                           [lib.brushed_metal()], smooth=False))
@@ -357,7 +357,7 @@ def seagrave_tower() -> FleetSpec:
             boom.append(g.box_bm((ln, w, h), (1.40 - ln / 2 - k * 0.30, 0, z)))
         v.add(g.to_object("AerialBoom", g.merge_bm(boom), [lib.steel_painted((0.72, 0.73, 0.74), "BOOM_STEEL")],
                           smooth=False))
-        parts.append(g.box_bm((1.10, 1.90, 0.95), (-3.10, 0, 2.82)))          # the bucket, stowed at the tail
+        parts.append(g.box_bm((1.10, 1.90, 0.95), (-3.10, 0, 2.875)))          # the bucket, stowed at the tail
         v.add(g.to_object("Turntable", g.merge_bm(parts), [alu], smooth=False))
         outr = []
         for s in (1, -1):
@@ -407,10 +407,10 @@ def ambulance() -> FleetSpec:
                    track_front_mm=1920, track_rear_mm=1750, wheel_diameter_mm=810.3, tyre_width_mm=225,
                    front_overhang_mm=1120, rear_overhang_mm=1800, rim_diameter_in=19.5, tyre_spec="225/70R19.5",
                    ground_clearance_mm=230)
-    tbl = F.box_table(d, z_under=0.360, z_rocker=0.430, z_belt=1.680, z_top=2.870,
+    tbl = F.box_table(d, z_under=0.360, z_rocker=0.430, z_belt=1.680, z_top=2.900,
                       y_rocker=1.130, y_max=1.220, y_belt=1.210, y_top=1.080, crown=0.055,
                       x_cowl=3.55, nose_len=0.40, tail_len=0.22, nose_z_top=1.900, nose_z_belt=1.320,
-                      tail_z_top=2.830, nose_y=0.80, tail_y=0.94, y_top_front=0.930)
+                      tail_z_top=2.860, nose_y=0.80, tail_y=0.94, y_top_front=0.930)
 
     def extras(v, lib, bp):
         v.add(P.light_bar(lib, x=3.15, z=2.870, w=1.70, h=0.120, d=0.32, modules=8))
@@ -460,10 +460,10 @@ def isuzu_npr() -> FleetSpec:
                    track_front_mm=1655, track_rear_mm=1650, wheel_diameter_mm=771.9, tyre_width_mm=215,
                    front_overhang_mm=1130, rear_overhang_mm=2300, rim_diameter_in=16.0, tyre_spec="215/85R16",
                    ground_clearance_mm=210)
-    tbl = F.box_table(d, z_under=0.360, z_rocker=0.420, z_belt=1.800, z_top=3.180,
+    tbl = F.box_table(d, z_under=0.360, z_rocker=0.420, z_belt=1.800, z_top=3.200,
                       y_rocker=0.980, y_max=1.065, y_belt=1.055, y_top=0.960, crown=0.045,
                       x_cowl=3.90, nose_len=0.30, tail_len=0.14, nose_z_top=2.360, nose_z_belt=1.300,
-                      tail_z_top=3.160, nose_y=0.86, tail_y=0.97, y_top_front=0.860)
+                      tail_z_top=3.180, nose_y=0.86, tail_y=0.97, y_top_front=0.860)
 
     def extras(v, lib, bp):
         v.add(g.to_object("Liftgate", g.merge_bm([g.box_bm((0.10, 1.90, 1.20), (-2.36, 0, 1.10)),
@@ -508,10 +508,10 @@ def mack_lr() -> FleetSpec:
                    track_front_mm=2080, track_rear_mm=1860, wheel_diameter_mm=1075.5, tyre_width_mm=315,
                    front_overhang_mm=1600, rear_overhang_mm=3340, rim_diameter_in=22.5, tyre_spec="315/80R22.5",
                    ground_clearance_mm=260)
-    tbl = F.box_table(d, z_under=0.430, z_rocker=0.560, z_belt=1.950, z_top=3.420,
+    tbl = F.box_table(d, z_under=0.430, z_rocker=0.560, z_belt=1.950, z_top=3.450,
                       y_rocker=1.210, y_max=1.2955, y_belt=1.280, y_top=1.170, crown=0.040,
                       x_cowl=6.10, nose_len=0.30, tail_len=0.24, nose_z_top=2.680, nose_z_belt=1.450,
-                      tail_z_top=3.380, nose_y=0.88, tail_y=0.96, y_top_front=1.100)
+                      tail_z_top=3.410, nose_y=0.88, tail_y=0.96, y_top_front=1.100)
 
     def extras(v, lib, bp):
         alu = lib.steel_painted((0.62, 0.63, 0.65), "REFUSE_STEEL")
@@ -562,10 +562,10 @@ def sprinter() -> FleetSpec:
                    track_front_mm=1710, track_rear_mm=1700, wheel_diameter_mm=711.9, tyre_width_mm=235,
                    front_overhang_mm=990, rear_overhang_mm=1277, rim_diameter_in=16.0, tyre_spec="235/65R16",
                    ground_clearance_mm=180)
-    tbl = F.box_table(d, z_under=0.290, z_rocker=0.350, z_belt=1.320, z_top=2.760,
+    tbl = F.box_table(d, z_under=0.290, z_rocker=0.350, z_belt=1.320, z_top=2.820,
                       y_rocker=0.930, y_max=1.010, y_belt=0.995, y_top=0.860, crown=0.075,
                       x_cowl=2.95, nose_len=0.42, tail_len=0.16, nose_z_top=1.760, nose_z_belt=1.080,
-                      tail_z_top=2.720, nose_y=0.78, tail_y=0.94, y_top_front=0.930)
+                      tail_z_top=2.780, nose_y=0.78, tail_y=0.94, y_top_front=0.930)
 
     def extras(v, lib, bp):
         dec = TX.wordmark("parcel", "EXPRESS PARCEL", w=1024, h=180, fg=(40, 60, 120))
@@ -605,10 +605,10 @@ def transit() -> FleetSpec:
                    track_front_mm=1735, track_rear_mm=1720, wheel_diameter_mm=711.9, tyre_width_mm=235,
                    front_overhang_mm=960, rear_overhang_mm=1271, rim_diameter_in=16.0, tyre_spec="235/65R16",
                    ground_clearance_mm=180)
-    tbl = F.box_table(d, z_under=0.290, z_rocker=0.350, z_belt=1.290, z_top=2.480,
+    tbl = F.box_table(d, z_under=0.290, z_rocker=0.350, z_belt=1.290, z_top=2.540,
                       y_rocker=0.950, y_max=1.0295, y_belt=1.015, y_top=0.880, crown=0.070,
                       x_cowl=2.98, nose_len=0.40, tail_len=0.16, nose_z_top=1.700, nose_z_belt=1.060,
-                      tail_z_top=2.440, nose_y=0.78, tail_y=0.94, y_top_front=0.950)
+                      tail_z_top=2.500, nose_y=0.78, tail_y=0.94, y_top_front=0.950)
     return FleetSpec(
         id="transit_van", name="Ford Transit 250 medium roof — delivery", vclass="van", dims=d, table=tbl,
         x_cowl=2.98, x_roof_front=2.42, x_roof_rear=-1.10, x_deck=-1.20, x_bumper_f=3.90, x_bumper_r=-1.24,
@@ -638,10 +638,10 @@ def dollar_van() -> FleetSpec:
                    track_front_mm=1735, track_rear_mm=1720, wheel_diameter_mm=711.9, tyre_width_mm=235,
                    front_overhang_mm=960, rear_overhang_mm=1996, rim_diameter_in=16.0, tyre_spec="235/65R16",
                    ground_clearance_mm=180)
-    tbl = F.box_table(d, z_under=0.290, z_rocker=0.350, z_belt=1.290, z_top=2.690,
+    tbl = F.box_table(d, z_under=0.290, z_rocker=0.350, z_belt=1.290, z_top=2.750,
                       y_rocker=0.950, y_max=1.0295, y_belt=1.015, y_top=0.880, crown=0.070,
                       x_cowl=2.98, nose_len=0.40, tail_len=0.16, nose_z_top=1.700, nose_z_belt=1.060,
-                      tail_z_top=2.650, nose_y=0.78, tail_y=0.94, y_top_front=0.950)
+                      tail_z_top=2.710, nose_y=0.78, tail_y=0.94, y_top_front=0.950)
 
     def extras(v, lib, bp):
         dec = TX.wordmark("dollar_van", "FLATBUSH  ·  UTICA AV  ·  $2", w=1024, h=140, fg=(20, 20, 20))
@@ -677,10 +677,10 @@ def step_van() -> FleetSpec:
                    track_front_mm=1900, track_rear_mm=1740, wheel_diameter_mm=810.3, tyre_width_mm=225,
                    front_overhang_mm=1200, rear_overhang_mm=2280, rim_diameter_in=19.5, tyre_spec="225/70R19.5",
                    ground_clearance_mm=230)
-    tbl = F.box_table(d, z_under=0.340, z_rocker=0.400, z_belt=1.620, z_top=3.020,
+    tbl = F.box_table(d, z_under=0.340, z_rocker=0.400, z_belt=1.620, z_top=3.050,
                       y_rocker=1.130, y_max=1.220, y_belt=1.205, y_top=1.060, crown=0.055,
                       x_cowl=4.35, nose_len=0.34, tail_len=0.16, nose_z_top=2.500, nose_z_belt=1.350,
-                      tail_z_top=2.980, nose_y=0.84, tail_y=0.96, y_top_front=1.050)
+                      tail_z_top=3.010, nose_y=0.84, tail_y=0.96, y_top_front=1.050)
 
     def extras(v, lib, bp):
         dec = TX.wordmark("stepvan", "PARCEL SERVICE", w=1024, h=180, fg=(70, 45, 20))
@@ -725,10 +725,10 @@ def usps_llv() -> FleetSpec:
                    track_front_mm=1520, track_rear_mm=1500, wheel_diameter_mm=688.5, tyre_width_mm=205,
                    front_overhang_mm=780, rear_overhang_mm=970, rim_diameter_in=15.0, tyre_spec="205/75R15",
                    ground_clearance_mm=175)
-    tbl = F.box_table(d, z_under=0.270, z_rocker=0.330, z_belt=1.270, z_top=2.380,
+    tbl = F.box_table(d, z_under=0.270, z_rocker=0.330, z_belt=1.270, z_top=2.440,
                       y_rocker=0.860, y_max=0.935, y_belt=0.920, y_top=0.790, crown=0.060,
                       x_cowl=2.55, nose_len=0.30, tail_len=0.14, nose_z_top=1.640, nose_z_belt=1.000,
-                      tail_z_top=2.340, nose_y=0.80, tail_y=0.94, y_top_front=0.860)
+                      tail_z_top=2.400, nose_y=0.80, tail_y=0.94, y_top_front=0.860)
 
     def extras(v, lib, bp):
         dec = TX.wordmark("usps", "UNITED STATES POSTAL SERVICE", w=1024, h=140, fg=(20, 40, 110))
@@ -835,10 +835,10 @@ def school_bus() -> FleetSpec:
                    track_front_mm=2050, track_rear_mm=1830, wheel_diameter_mm=1011.5, tyre_width_mm=275,
                    front_overhang_mm=2134, rear_overhang_mm=3124, rim_diameter_in=22.5, tyre_spec="275/80R22.5",
                    ground_clearance_mm=280)
-    tbl = F.box_table(d, z_under=0.440, z_rocker=0.560, z_belt=1.880, z_top=3.020,
+    tbl = F.box_table(d, z_under=0.440, z_rocker=0.560, z_belt=1.880, z_top=3.100,
                       y_rocker=1.150, y_max=1.220, y_belt=1.205, y_top=1.080, crown=0.055,
                       x_cowl=7.30, nose_len=1.40, tail_len=0.22, nose_z_top=1.560, nose_z_belt=1.180,
-                      tail_z_top=2.980, nose_y=0.62, tail_y=0.96, y_top_front=0.700)
+                      tail_z_top=3.060, nose_y=0.62, tail_y=0.96, y_top_front=0.700)
 
     def extras(v, lib, bp):
         # the conventional (Type C) bonnet ahead of the windshield

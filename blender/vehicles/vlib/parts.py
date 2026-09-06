@@ -277,14 +277,63 @@ def mirror(side: int, lib: M.Library, *, x: float, y: float, z: float, w: float 
     return ob
 
 
+def windscreen_frame(ob, *, y_band: float = 0.40) -> tuple[float, float, float]:
+    """``(x, z, slope)`` of the bottom edge of a windscreen, measured on the glazing that was actually built.
+
+    Vehicles in this fleet put the base of the front glass in very different places: a raked sedan screen
+    starts at the top of the cowl (above the beltline), a forward-control van leans the other way and starts
+    at the beltline well ahead of the roof.  Deriving the spindle position from a blueprint curve therefore
+    gets one family right and buries the wipers in the bodywork of the other, so it is read off ``Window_WS``:
+    the lowest and highest glass vertices within ``y_band`` of the centreline give the base point and the
+    rise ``dz/|dx|`` of the glass, which is what a parked blade lies along.
+    """
+    mw = ob.matrix_world
+    lo = hi = None
+    for vt in ob.data.vertices:
+        co = mw @ vt.co
+        if abs(co.y) > y_band:
+            continue
+        if lo is None or co.z < lo.z:
+            lo = co.copy()
+        if hi is None or co.z > hi.z:
+            hi = co.copy()
+    if lo is None or hi is None:                      # narrow screen: fall back to the whole object
+        for vt in ob.data.vertices:
+            co = mw @ vt.co
+            if lo is None or co.z < lo.z:
+                lo = co.copy()
+            if hi is None or co.z > hi.z:
+                hi = co.copy()
+    if lo is None or hi is None:
+        raise ValueError(f"{ob.name} has no vertices to measure a windscreen from")
+    dx = abs(hi.x - lo.x)
+    slope = (hi.z - lo.z) / dx if dx > 1e-4 else 6.0  # a vertical screen: park the arm essentially straight up
+    return float(lo.x), float(lo.z), float(max(0.05, min(6.0, slope)))
+
+
+def wiper_spindle(x_glass: float, z_glass: float, slope: float, up: float = 0.030) -> tuple[float, float]:
+    """Spindle position for a windscreen whose bottom edge is ``(x_glass, z_glass)`` and which rises with
+    ``slope`` = dz/|dx| going rearward.  The spindle is placed ``up`` metres *along the glass* from that edge
+    rather than ahead of it: on a forward-control van the bottom of the screen is the front face of the body,
+    and an offset in +X there pushes the wiper past the published length.
+    """
+    n = math.hypot(1.0, slope)
+    return x_glass - up / n, z_glass + up * slope / n
+
+
 def wiper(side: int, lib: M.Library, *, pivot: Sequence[float], length: float, blade: float,
-          park_deg: float = 8.0, glass_slope: float = 0.46) -> object:
-    """``Wiper_L``/``Wiper_R`` in the **parked** position: the arm reaches inboard along the cowl and up
-    the glass (+X is forward, so the windshield is behind the spindle at -X and +Z), and the blade lies
-    along the arm.  The object origin is exactly on the spindle, so the engine sweeps the whole assembly by
-    rotating it about its local Z.
+          park_deg: float = 8.0, glass_slope: float = 0.46,
+          reach: tuple[float, float] = (0.40, 0.72)) -> object:
+    """``Wiper_L``/``Wiper_R`` in the **parked** position: the arm reaches inboard along the bottom edge of
+    the glass and a little way up it (+X is forward, so the windshield is behind the spindle at -X and +Z),
+    and the blade lies along the arm.  The object origin is exactly on the spindle, so the engine sweeps the
+    whole assembly by rotating it about its local Z.
 
     ``length`` is the arm length, ``blade`` the wiper-blade length, ``glass_slope`` dz/|dx| of the windshield.
+    ``reach`` is the (rearward, inboard) fraction of ``length`` the tip travels when parked.  A parked blade
+    follows the *bottom edge* of the daylight opening, so the inboard fraction dominates: an equal split
+    parks the arm diagonally halfway up the screen, where it sits in the driver's line of sight (the
+    windshield of the player car is only 0.385 m tall in z, so 0.62/0.62 covered 59 % of it).
     """
     s = 1 if side > 0 else -1
     tag = "L" if s > 0 else "R"
@@ -292,9 +341,13 @@ def wiper(side: int, lib: M.Library, *, pivot: Sequence[float], length: float, b
     mats = [lib.black_plastic(), lib.rubber()]
     # a parked blade lies across the bottom of the glass pointing *inboard*: outboard would carry the tip
     # past the daylight opening and, on a narrow windscreen, past the published body width.
-    tipx = -length * 0.62
-    tipy = -s * length * 0.62
-    tipz = -tipx * glass_slope
+    # the rearward/upward part of the reach runs *along the glass surface*, so a near-vertical windscreen
+    # (a step van, a bus: slope 3 and up) lifts the parked arm by at most ``reach[0] * length`` instead of
+    # ``reach[0] * length * slope``, which used to park those blades level with the roof.
+    up = math.hypot(1.0, glass_slope)
+    tipx = -length * reach[0] / up
+    tipy = -s * length * reach[1]
+    tipz = length * reach[0] * glass_slope / up
     arm_path = [(0.0, 0.0, 0.0), (tipx * 0.5, tipy * 0.48, tipz * 0.5), (tipx, tipy, tipz)]
     arm = g.tube_bm(arm_path, [0.012, 0.009, 0.007], segments=8, material_index=0)
     spindle = g.cylinder_bm(0.015, 0.05, axis="Z", center=(0, 0, -0.012), segments=12, material_index=0)

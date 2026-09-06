@@ -4,13 +4,13 @@ Stage: **comparison** (`blender/verify/`). This is condition 3 of `docs/DEFINITI
 *"Screenshots from the seven standard viewpoints compared with real photographs."*
 
 Every sheet in this directory puts one licensed photograph beside a Cycles render taken from the
-photograph's own recorded viewpoint, with a caption strip that states the camera, the Sun, the
+position that photograph was taken at, with a caption strip that states the camera, the Sun, the
 licence, and exactly which pieces of world data were in the frame. `INDEX.md` lists every subject
 and its status. Each rendered subject has its own `assessment.md` with the judgement written down.
 
 This report is written from the sheets, not from the code. Where the simulation falls short the
-gap is named and attributed to one of four causes: **missing data**, **missing geometry**,
-**missing material detail**, **lighting**.
+gap is named and attributed to one of five causes: **missing data**, **missing geometry**,
+**missing material detail**, **lighting**, **camera/reference metadata**.
 
 ---
 
@@ -22,21 +22,30 @@ gap is named and attributed to one of four causes: **missing data**, **missing g
 
 | layer | source | how it is placed |
 |---|---|---|
-| terrain | `data/processed/tiles/{tile}/terrain.png` + `.json` (16-bit, 501x501 at 2 m, `z = z_min_m + v*z_scale_m`) | displaced regular grid over the scene square; PNG row 0 is the north edge so the array is flipped before sampling; quads whose four corners sit on a tile's flattened water surface get a separate water material |
-| building shells | `blender_out/tiles/{tile}/tile_buildings.glb` | translated by the tile origin (`tx*1000, ty*1000`). Each glb carries LOD0/LOD1/LOD2 as sibling objects; exactly one LOD is kept per tile (LOD0 inside 1.2 km, LOD1 beyond) and the rest deleted, otherwise every shell would be drawn two or three times over |
-| landmarks | `blender_out/landmarks/catalog/*.json` | translated to `origin_tm`; the model axes are already parallel to NYC_TM ("no rotation to apply on import"). Two catalogue shapes are handled: `glb` + `bounds_local_m` for the towers, and a `lods` map with `path` + `bounds` for the bridges and monuments |
-| props | `data/processed/tiles/{tile}/props.parquet` (§8) | instanced against `blender_out/props/props_asset_catalog.json`, matched on `kind` -> `dataset_kind`; trees matched on the census species (`Styphnolobium japonicum` -> `tree_sophora_*`) and size class. Yaw is the negated compass heading, because every prop asset is authored facing +Y |
-| facade kit | `data/processed/tiles/{tile}/kit_placements.bin` (§6, 40-byte records) | instanced against the tile's own `kit_placements.json` header, which carries the `kit_id -> glb` map the placements were written with. Yaw is `yaw_deg + 90` deg (the record holds the wall's outward normal as an angle CCW from east; every kit piece is authored with its wall plane at y=0 and `into_building = +Y`, so its outward direction is local -Y). `scale` is applied to local X only — it is the along-run stretch, not a uniform scale, so a 12x cornice must not become 12x tall |
+| terrain | `data/processed/tiles/{tile}/terrain.png` + `.json` (16-bit, 501x501 at 2 m, `z = z_min_m + v*z_scale_m`), 2,916 tiles on disk | displaced **graded** grid over the scene square — the heightmap's own 2 m spacing within 150 m of the camera, then coarsening geometrically to at most 40 m at the edge of the scene; PNG row 0 is the north edge so the array is flipped before sampling; quads whose four corners sit on a tile's flattened water surface get a separate water material |
+| building shells | `blender_out/tiles/{tile}/tile_buildings.glb` — 920 tiles, 1,083,026 buildings, zero open shells | translated by the tile origin (`tx*1000, ty*1000`). Each glb carries LOD0/LOD1/LOD2 as sibling objects; exactly one LOD is kept per tile (LOD0 inside 1.2 km, LOD1 to 2.5 km, LOD2 beyond) and the rest deleted, otherwise every shell would be drawn two or three times over. Not every tile carries every LOD, so a tile with no mesh at the LOD its distance asks for is drawn at the nearest LOD it *does* have, and the substitution is printed on the sheet |
+| pavement | `data/processed/roads/pavement/{tile}.parquet` (§7) — **617,518 polygons across 972 tiles**, counted from every file's Parquet metadata | roadbed, sidewalk, median, plaza, curb, crosswalk and parking-lot polygons triangulated in plan, every vertex lifted to the heightmap surface plus that kind's own offset, so the pavement follows the real grade and the curb reveal is the real 0.15 m |
+| landmarks | `blender_out/landmarks/catalog/*.json` — 93 entries | translated to `origin_tm`; the model axes are already parallel to NYC_TM ("no rotation to apply on import"). Two catalogue shapes are handled: `glb` + `bounds_local_m` for the towers, and a `lods` map with `path` + `bounds` for the bridges and monuments. A landmark is kept when its model's *bounding box* touches the scene disc, not just its origin, so a bridge that spans kilometres is not dropped for having a distant origin |
+| props | `data/processed/tiles/{tile}/props.parquet` (§8) — 1,724,589 rows over 1,576 tiles | instanced against `blender_out/props/props_asset_catalog.json` (122 assets), matched on `kind` → `dataset_kind`; trees matched on the census species (`Styphnolobium japonicum` → `tree_sophora_*`) and size class. Yaw is the negated compass heading, because every prop asset is authored facing +Y. **No scale is ever applied** |
+| facade kit | `data/processed/tiles/{tile}/kit_placements.bin` (§6, 40-byte records), 920 tiles | instanced against the tile's own `kit_placements.json` header, which carries the `kit_id → glb` map the placements were written with. Yaw is `yaw_deg + 90` deg (the record holds the wall's outward normal as an angle CCW from east; every kit piece is authored with its wall plane at y=0 and `into_building = +Y`, so its outward direction is local -Y). `scale` is applied to local X only — it is the along-run stretch, not a uniform scale, so a 12x cornice must not become 12x tall |
 
-Instancing shares one mesh datablock across every placement, so 7,000 kit pieces cost 7,000 object
-headers and one copy of the geometry. Everything is capped by a triangle budget (3 M by default,
-allocated buildings -> landmarks -> props -> kit) and every cap is recorded in `render.json` and
+Instancing shares one mesh datablock across every placement, so 13,000 kit pieces cost 13,000 object
+headers and one copy of the geometry. Everything is capped by a triangle budget (4.5 M by default,
+allocated buildings → landmarks → props → kit) and every cap is recorded in `render.json` and
 printed on the sheet, so a frame never silently omits content.
 
 **`camera.py` — put the camera where the photographer stood.**
 
-* Position: the `viewpoint` lat/lon from `meta.json` through `nycsim_pipeline.crs.lonlat_to_tm`.
-* Heading: that entry's `azimuth_deg` (compass, 0 = north, clockwise).
+* Position: **the chosen photograph's own EXIF camera GPS**, where it exists and sits within 250 m
+  of the item's nominal `viewpoint`; otherwise the nominal viewpoint, with the sheet saying the
+  photograph's GPS was rejected and by how far. Of the 57 subjects rendered, the photograph's own
+  GPS was adopted for **45**, rejected as mis-tagged for **10** (up to 3.6 km away) and absent for
+  **2**.
+* Heading: the bearing **from the position actually used** to the item's `subject` coordinate.
+  When the camera stands on the photograph's own GPS this is used unconditionally — position and
+  heading then come from the same measurement. When it stands on the nominal viewpoint the
+  recorded `azimuth_deg` is kept unless the subject bearing disagrees with it by more than 20 deg.
+  The bearing is never copied from the metadata; it is always recomputed at the camera.
 * Height: the heightmap surface plus an eye height read from the viewpoint note — 1.60 m for a
   standing observer, and an explicit entry with its published source where the note names a
   structure (Top of the Rock's 70th-floor deck at 259.1 m, the TKTS steps at 4.6 m, a Staten
@@ -47,12 +56,13 @@ printed on the sheet, so a frame never silently omits content.
   raised plinths that would otherwise lift a street camera onto the terrace beside it.
 * Lens: 35 mm on a 36 mm sensor (54.4 deg horizontal) by default; per-slug overrides with a written
   reason where the reference framing needs a wider lens (24 mm for the Top of the Rock panorama
-  and the Duffy Square bowtie, 28 mm for the promenade, the ferry deck, Washington Street and
-  Bethesda Terrace). A portrait reference is rendered with the lens fitted to the *vertical* axis,
-  because that is where a turned camera's 36 mm dimension lies.
+  and the Duffy Square bowtie, 28 mm for the Brooklyn Heights Promenade, the Staten Island Ferry
+  deck, Washington Street in DUMBO and Bethesda Terrace). A portrait reference is rendered with the
+  lens fitted to the *vertical* axis, because that is where a turned camera's 36 mm dimension lies.
 * The optical axis is level. A level axis keeps vertical building edges vertical, which is the
-  only way a render and a photograph can be compared on proportion; the one exception is a subject
-  inside 250 m that needs less than 8 deg of tilt to centre.
+  convention every architectural photograph follows and the only way a render and a photograph
+  can be compared on proportion; the one exception is a subject inside 250 m that needs less than
+  8 deg of tilt to centre.
 
 **`render_sheets.py` — light it, render it, compose it.**
 
@@ -71,10 +81,12 @@ printed on the sheet, so a frame never silently omits content.
   lenses are switched off (NYC street lighting is dusk-to-dawn); traffic-signal and shopfront
   emissives are left on. In a night frame nothing is touched, so the frame shows exactly how much
   emissive content the world actually has.
-* Cycles CPU, 64 samples with adaptive sampling (threshold 0.03) and denoising, 2 light bounces.
+* Cycles CPU, 32 samples with adaptive sampling (threshold 0.03) and denoising, 2 light bounces,
+  3 threads (the machine is shared with the other stages).
 * Composition with Pillow: reference left, render right, caption strip below naming the subject,
-  the viewpoint and its note, the photograph's title/author/licence/date and Commons URL, the
-  camera parameters, the Sun, what was in the frame, and every gap and cap.
+  where the camera stands and why, the viewpoint note, the photograph's title/author/licence/date
+  and Commons URL, the camera parameters, the Sun, the ground mesh, what was in the frame, and
+  every gap and cap.
 
 Sheets that embed a CC BY-SA photograph are derivative works and carry the same licence; the sheet
 says so in its own caption.
@@ -89,36 +101,94 @@ sampling density. Each sheet states its own resolution.
 
 ---
 
-## 2. A finding that affects every viewpoint: recorded viewpoints inside buildings
+## 2. Four faults in the comparison stage itself, found by looking at the sheets
 
-The reference viewpoints are recorded to five decimal places of latitude but they are *nominal*
-positions, and a third of them are on the wrong side of a facade. Testing every recorded viewpoint
-against the real footprints in `data/processed/tiles/{tile}/buildings.parquet`:
+Every one of these was corrupting *every* frame.
 
-**52 of 171 recorded viewpoints (30 %) fall inside a real building footprint**, up to 52 m from the
-nearest wall. Among them are three of the seven mandated viewpoints — Brooklyn Heights Promenade
-(16.5 m tall shell, BIN 3001515), Washington Street in DUMBO (BIN 3000088) and Bethesda Terrace
-(BIN 1091041) — and two of the five drive-through areas (Broadway at Wall Street, inside BIN
-1001024, a 99.6 m tower; Stone Street, inside BIN 1000836).
+**2.1 Position and heading came from different places.** The first version took the heading from
+the chosen photograph's own GPS (`camera_gps_to_subject`) while leaving the *position* on the
+item's nominal viewpoint. For Washington Street in DUMBO those are 35 m apart, so the camera stood
+on Water Street and looked along a bearing that only works from Washington Street: the render was a
+brick wall where the photograph is the Manhattan Bridge tower. Both now come from the same source
+(§1). Across the 57 subjects the photograph's own GPS is a median **52.5 m** from the item's
+recorded viewpoint, so this was not a small correction. Guarded by
+`tests/test_comparison.py::test_camera_position_and_heading_come_from_the_same_measurement`.
 
-Left alone this renders a black frame: the first Brooklyn Heights Promenade render was uniformly
-black (mean pixel 0.08/255) because the eye point sat inside `t_-5_-1_roof_membrane`, 14 m below
-that shell's roof.
+**2.2 Recorded viewpoints inside buildings.** The reference viewpoints are recorded to five decimal
+places of latitude but they are *nominal* positions. Tested against the real footprints in
+`data/processed/tiles/{tile}/buildings.parquet`, **52 of 171 (30 %) fall inside a real building
+footprint**, up to 52 m from the nearest wall. Left alone this renders a black frame — the first
+Brooklyn Heights Promenade render was uniformly black (mean pixel 0.08/255) because the eye point
+sat inside `t_-5_-1_roof_membrane`, 14 m below that shell's roof.
 
-`camera.py` now detects it — a ray straight up from the eye point that hits a building shell or a
-landmark means the eye is inside it — and walks the camera radially outward in 2 m steps to the
-nearest point in open air, re-measuring the eye height from the heightmap there. Every sheet whose
-camera was moved states the distance, the direction and the shell it was moved out of. A second
-rule covers rooftop viewpoints: an eye point standing on a roof is walked forward along the view
-azimuth to the parapet, because a deck's viewpoint is recorded as one lat/lon for the whole slab
-and the photographs are taken at the edge — without it the Top of the Rock frame is a picture of
-the 30 Rockefeller Plaza roof slab, which is exactly what the first attempt produced.
+`camera.py` detects it (a ray straight up from the eye point that hits a building shell or a
+landmark means the eye is inside it) and corrects it in two steps: first **snap to the real
+pavement** — `data/processed/roads/pavement` holds the DoITT roadbed, sidewalk, plaza, median and
+crosswalk polygons, so the nearest one of those *is* the surface the note names — and only if
+nothing paved is in reach, walk radially outward in 2 m rings. A candidate is accepted only if it
+is both in open air and *able to see*: nothing opaque within 8 m of the lens in a 12 deg cone, and
+a clear view along the azimuth for half the subject distance (capped at 80 m). Without that second
+test the camera settles into a light well and renders brickwork. A rooftop viewpoint is instead
+walked forward to the parapet, because a deck's viewpoint is recorded as one lat/lon for the whole
+slab while the photographs are taken at the edge.
 
 This is a defect in the reference metadata, not in the world. It should be fixed at source by
-snapping each viewpoint to the nearest point outside a footprint.
+snapping each viewpoint to the nearest point outside a footprint — preferably to the photograph's
+own GPS, which §2.1 shows is usually available and much better.
+
+**2.3 Every street tree rendered as a solid opaque cone.** Each tree glb carries a six-polygon
+`<species>_billboard` card with an `IMPOSTOR_*` material intended as a distant stand-in. The
+exported material is a flat opaque colour with **no alpha texture** (`base_color 0.8,0.8,0.8`,
+`alpha 1.0`), and the card carries no `_LOD1` suffix, so the scene loader drew it *at LOD0 over the
+real branches*. Every tree in every street-level frame was therefore a solid cone: the black spikes
+down Fifth Avenue and the black mass that filled the DUMBO frame were both this.  `scene.py` now
+drops impostor cards and prints how many it dropped on the sheet.
+**This is a defect in the props stage, not in the comparison stage** — the exported card should
+carry an alpha-masked crown texture and be tagged `_LOD1` so it is only used at distance. Until it
+is, no consumer of `blender_out/props/*.glb` can draw those assets at LOD0 as exported. Guarded by
+`tests/test_comparison.py::test_tree_impostor_cards_are_not_drawn_over_the_real_branches`.
+
+**2.4 The ground mesh was too coarse to be a street.** The terrain was a uniform grid capped at
+300 samples a side, which over a 700 m street scene lands one height every **4.7 m** and over a
+5 km skyline scene one every **26 m**. A flat sidewalk 10 m from the lens became a rolling mound
+and the East River shoreline a smooth ramp. The grid is now graded: the heightmap's own **2 m**
+spacing within 150 m of the camera, coarsening to 40 m at the edge. For the Fifth Avenue scene that
+is 209² samples and **86,528 triangles** where the uniform grid cost 180,000 — better resolution
+for less than half the geometry. Guarded by
+`tests/test_comparison.py::test_the_ground_mesh_resolves_the_near_field_and_still_reaches_the_horizon`.
+
+Two further corrections came out of the same pass:
+
+* **Tiles with no LOD2 were dropped from skylines.** 20 of the 99 tiles in the Brooklyn Heights
+  Promenade scene carry LOD0 and LOD1 but no LOD2 mesh, and the loader dropped them rather than
+  substituting. That scene now imports **77 of 99** tiles instead of 57. Guarded by
+  `tests/test_comparison.py::test_a_tile_without_the_requested_lod_is_drawn_at_the_nearest_lod_it_has`.
+* **Long-range scenes had no foreground.** Props and facade kit were switched off entirely for any
+  scene over 1.5 km, so the Brooklyn Heights Promenade frame had no railing, no benches and no
+  trees where the photograph is half foreground. A ground-level long-range viewpoint now keeps a
+  150 m ring of props and a 70 m ring of kit; an observation deck (eye above 20 m) still does not,
+  because from 260 m up those props are sub-pixel.
+
+### The prop scale question, answered with numbers
+
+The review reported "two props rendered at roughly a metre across — a red blob and a blue dome".
+Both were identified by projecting `props.parquet` through the recorded camera and measured:
+
+* the red object is `hydrant_fdny` at **14.4 m** from the camera, published size 0.36 x 0.36 x
+  0.75 m — a correct NYC dry-barrel hydrant;
+* the blue object is `mailbox_usps` at **11.3 m**, published size 0.47 x 0.60 x 1.27 m — a correct
+  USPS street collection box (50 in tall). At 11.3 m its 0.60 m depth subtends 3.0 deg, which is
+  68 px of a 1208 px / 54.4 deg frame; it measures about 75 px on the render. It is the right size.
+
+`python3 blender/verify/scene.py --audit-props` now measures **every** exported prop the way the
+scene loads it (LOD0 meshes, the glb's own local matrices) against the size its catalogue entry
+publishes. Result: **0 of 122 assets are the wrong size** and 0 fail to load. The only four whose
+imported geometry exceeds `nominal_size_m` are the street lamps, whose extra extent is exactly
+their `bounds_with_effects` — the modelled light cone, which the daylight pass makes transparent.
+Guarded by `tests/test_comparison.py::test_every_prop_asset_matches_the_size_its_catalogue_publishes`.
+
+What made those two props read as oversized is not scale but context: `mailbox_usps` is 484
+triangles, so its curved hood is a faceted dome and its body a plain box, and there are **no people
+and no vehicles anywhere in any frame** to give the eye a human reference.
 
 ---
-
-## 3. Coverage, verdict and ranked gaps
-
-See section 4 onward, `INDEX.md` for the per-subject table, and each subject's `assessment.md`.

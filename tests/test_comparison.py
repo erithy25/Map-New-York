@@ -203,6 +203,41 @@ def test_building_shells_land_on_their_published_world_bounds():
         assert hi[k] == pytest.approx(want["max"][k], abs=0.5), f"{tile} {axis} max {hi[k]} vs {want['max'][k]}"
 
 
+def test_a_tile_without_the_requested_lod_is_drawn_at_the_nearest_lod_it_has():
+    """A tile whose shells decimate to nothing at LOD2 must not vanish from a skyline."""
+    _skip_without_bpy()
+    import scene as vscene
+    import nycsim_bpy as nb
+
+    tiles = _built_tiles()
+    if not tiles:
+        pytest.skip("no tile_buildings.glb produced yet")
+    # Find a tile whose glb carries LOD0/LOD1 but no LOD2.  There is no cheap way to read a glb's
+    # node names without importing it, so import candidates until one turns up or the budget runs
+    # out -- most tiles do carry all three LODs.
+    victim = None
+    for tile in tiles[:40]:
+        nb.reset_scene()
+        created = vscene.import_glb(REPO_ROOT / "blender_out" / "tiles" / tile / "tile_buildings.glb")
+        lods = {vscene._lod_of(ob.name) for ob in created if ob.type == "MESH"}
+        if lods and 2 not in lods:
+            victim = tile
+            break
+    if victim is None:
+        pytest.skip("every tile sampled carries a LOD2; nothing to exercise the fallback with")
+    tx, ty = (int(v) for v in victim.split("_")[1:3])
+    # Stand 1 m off the tile centre with both LOD thresholds inside that, so the tile falls in
+    # the LOD2 band and the fallback has to fire.
+    cx, cy = (tx + 0.5) * 1000.0 + 1.0, (ty + 0.5) * 1000.0
+    nb.reset_scene()
+    rep = vscene.add_buildings(cx, cy, 200.0, lod0_radius_m=0.5, lod1_radius_m=0.5)
+    assert victim in rep["imported"], f"{victim} was dropped rather than substituted: {rep['missing']}"
+    assert rep["per_tile"][victim]["lod"] != 2
+    assert rep["per_tile"][victim]["lod_requested"] == 2
+    assert rep["tiles_lod_substituted"] >= 1
+    assert any(victim in line for line in rep["lod_substituted"])
+
+
 def test_landmarks_land_at_their_catalogue_origin_and_published_height():
     bpy = _skip_without_bpy()
     import scene as vscene
@@ -229,6 +264,77 @@ def test_landmarks_land_at_their_catalogue_origin_and_published_height():
     assert 300.0 < top < 460.0, f"Empire State model tops out {top:.1f} m above its origin"
     if e.get("bounds_local_m"):
         assert top == pytest.approx(float(e["bounds_local_m"]["max"][2]), abs=1.0)
+
+
+def test_every_prop_asset_matches_the_size_its_catalogue_publishes():
+    """Props are placed by translation and yaw alone, so a wrong on-screen size is a wrong glb."""
+    _skip_without_bpy()
+    import scene as vscene
+    import nycsim_bpy as nb
+
+    if not vscene.PROPS_CATALOG_JSON.exists():
+        pytest.skip("no prop asset catalogue exported yet")
+    nb.reset_scene()
+    rep = vscene.audit_prop_assets()
+    assert rep["checked"] > 0
+    assert rep["unloadable"] == [], f"prop assets that would not import: {rep['unloadable']}"
+    assert rep["bad"] == [], (
+        "prop assets whose glb geometry is bigger than the size their catalogue entry publishes, "
+        f"and not explained by a modelled light cone: {rep['bad']}")
+    # The lamps are the only entries allowed to exceed their nominal size, and only by their cone.
+    for row in rep["with_effects"]:
+        assert row["dataset_kind"] == "street_lamp", row
+
+
+def test_tree_impostor_cards_are_not_drawn_over_the_real_branches():
+    """Every tree glb carries a flat opaque ``*_billboard`` card; drawing it makes a black cone."""
+    _skip_without_bpy()
+    import scene as vscene
+    import nycsim_bpy as nb
+
+    if not vscene.PROPS_CATALOG_JSON.exists():
+        pytest.skip("no prop asset catalogue exported yet")
+    entries = {e["id"]: e for e in json.loads(vscene.PROPS_CATALOG_JSON.read_text())["entries"]}
+    tree = next((e for i, e in entries.items() if i.startswith("tree_")), None)
+    if tree is None:
+        pytest.skip("no tree assets exported yet")
+    nb.reset_scene()
+    created = vscene.import_glb(vscene.BLENDER_OUT / tree["glb"])
+    cards = [ob for ob in created if ob.type == "MESH" and vscene._is_impostor(ob)]
+    assert cards, f"{tree['id']} carries no impostor card; this guard is no longer needed"
+    nb.reset_scene()
+    lib = vscene.AssetLibrary()
+    tpl = lib.get(vscene.BLENDER_OUT / tree["glb"], key="t", max_lod=0)
+    assert tpl is not None
+    assert lib.impostors_dropped >= 1
+    for mesh, _ in tpl.parts:
+        names = [m.name for m in mesh.materials if m is not None]
+        assert not any(n.startswith("IMPOSTOR_") for n in names), (
+            f"{tree['id']} still draws its impostor card at LOD0: {names}")
+
+
+def test_the_ground_mesh_resolves_the_near_field_and_still_reaches_the_horizon():
+    """A uniform grid over a 700 m scene lands one height every 4.7 m; that is a rolling sidewalk."""
+    _skip_without_bpy()
+    import scene as vscene
+
+    xs, grade = vscene.graded_axis(0.0, 700.0, near_m=150.0, near_spacing_m=2.0,
+                                   max_spacing_m=40.0, growth=1.14, max_points=301)
+    assert xs.size <= 301
+    assert xs[0] == pytest.approx(-700.0) and xs[-1] == pytest.approx(700.0)
+    d = np.diff(xs)
+    assert np.all(d > 0.0), "the sample axis must be strictly increasing"
+    near = d[(xs[:-1] >= -140.0) & (xs[:-1] <= 140.0)]
+    assert near.max() <= 2.0 + 1e-6, f"near-field spacing is {near.max():.2f} m, not the heightmap's 2 m"
+    assert d.max() <= 40.0 + 1e-6, f"far-field spacing is {d.max():.2f} m, above the 40 m cap"
+    assert grade["near_spacing_m"] == pytest.approx(2.0)
+    # A 5 km skyline scene still has to fit in its point budget, and still resolve its foreground.
+    xs2, grade2 = vscene.graded_axis(0.0, 5000.0, near_m=150.0, near_spacing_m=2.0,
+                                     max_spacing_m=40.0, growth=1.14, max_points=381)
+    assert xs2.size <= 381
+    d2 = np.diff(xs2)
+    assert d2[(xs2[:-1] >= -140.0) & (xs2[:-1] <= 140.0)].max() <= 4.0
+    assert grade2["far_spacing_m"] <= 40.0 + 1e-6
 
 
 # --------------------------------------------------------------------------- camera
@@ -301,6 +407,47 @@ def test_eye_height_is_the_standing_default_unless_the_note_says_otherwise():
 
 
 # --------------------------------------------------------------------------- sun placement
+
+
+def test_camera_position_and_heading_come_from_the_same_measurement():
+    """Position from the photograph's GPS, heading from that same point to the named subject.
+
+    The failure this guards against is real and was shipped once: the heading was taken from the
+    photograph's own GPS ("camera_gps_to_subject") while the position stayed on the item's nominal
+    viewpoint 35 m away, so the render looked past the subject and the two halves of the sheet
+    faced different ways.
+    """
+    _skip_without_bpy()
+    import render_sheets as rs
+    from nycsim_pipeline.crs import lonlat_to_tm
+
+    # Washington Street in DUMBO: nominal viewpoint, the photograph's own GPS 35 m north-west,
+    # and the Manhattan Bridge Brooklyn tower as the subject.
+    meta = {"viewpoint": {"lat": 40.7030, "lon": -73.9892, "azimuth_deg": 345.8,
+                          "note": "Washington Street, centred on the roadway"},
+            "subject": {"lat": 40.7045, "lon": -73.9897, "name": "Manhattan Bridge Brooklyn tower"}}
+    photo = {"camera_gps": {"lat": 40.703061, "lon": -73.989602}}
+    lat, lon, why, offset, from_photo = rs.view_origin(meta, photo)
+    assert from_photo is True and lat == pytest.approx(40.703061)
+    assert 30.0 < offset < 45.0, offset
+    assert "EXIF camera GPS" in why
+    az, az_why = rs.view_azimuth("x", meta, photo, lat, lon, origin_is_photo=from_photo)
+    vx, vy = (float(v) for v in lonlat_to_tm(lon, lat))
+    sx, sy = (float(v) for v in lonlat_to_tm(meta["subject"]["lon"], meta["subject"]["lat"]))
+    want = math.degrees(math.atan2(sx - vx, sy - vy)) % 360.0
+    assert az == pytest.approx(want, abs=1e-6), "the heading must be measured from the position used"
+    assert "photograph" in az_why
+
+    # A photograph whose GPS is kilometres away is mis-tagged, not a better measurement.
+    far = {"camera_gps": {"lat": 40.7350, "lon": -73.9892}}
+    lat2, lon2, why2, offset2, from_photo2 = rs.view_origin(meta, far)
+    assert from_photo2 is False
+    assert (lat2, lon2) == (40.7030, -73.9892)
+    assert offset2 > rs.PHOTO_GPS_SANITY_M and "rejected" in why2
+    # Falling back to the nominal viewpoint, the recorded azimuth is kept because it agrees with
+    # the bearing to the subject from that point.
+    az2, _ = rs.view_azimuth("x", meta, far, lat2, lon2, origin_is_photo=False)
+    assert az2 == pytest.approx(345.8)
 
 
 def test_sun_position_matches_the_live_services_spa():

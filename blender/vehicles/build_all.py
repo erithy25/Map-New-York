@@ -53,7 +53,9 @@ def build_player(liveries: str = "all") -> list[dict]:
         BF.apply_livery(v, ctx, livery)
         out.append(BF.rig.finalise(v, lod_budgets=(60_000, 8_000),
                                    exterior_names=[n for n in BF.EXTERIOR if n in v.objects],
-                                   extra_catalog={"build_timings_s": ctx["timings"]}))
+                                   extra_catalog={"build_timings_s": ctx["timings"],
+                                                  "door_kind": {k: m for k, m in BF.DOOR_KIND.items()
+                                                                if k in v.objects}}))
     return out
 
 

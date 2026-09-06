@@ -303,8 +303,18 @@ def _blocked(x: float, y: float, z: float, azimuth_deg: float) -> tuple[bool, st
     return False, ""
 
 
-def _standing_on(x: float, y: float, z: float, reach_m: float = 4.0):
-    """The object holding this eye point up, if it is a building roof rather than the ground."""
+def _standing_on(x: float, y: float, z: float, reach_m: float = 30.0):
+    """The object holding this eye point up, if it is a building roof rather than the ground.
+
+    ``reach_m`` is generous on purpose.  An observation-deck eye height is measured from the
+    *published deck level* while the shell under it is built from the roof height in
+    ``buildings_base.parquet``; Top of the Rock's deck sits 259.1 m above the plaza and the shell
+    that carries it tops out a couple of metres lower, and a stepped roof (a setback, a bulkhead)
+    can leave the eye 20 m above the slab it is standing over.  A 4 m ray missed all of that and
+    left the camera in the middle of the roof, which is why the first Top of the Rock frame was a
+    picture of a roof slab.  A street-level camera is unaffected: the only thing below it is
+    terrain and pavement, which this deliberately does not count.
+    """
     from mathutils import Vector
     dg = bpy.context.evaluated_depsgraph_get()
     hit, loc, _, _, ob, _ = bpy.context.scene.ray_cast(
@@ -355,48 +365,250 @@ def _walk_to_parapet(placement: "CameraPlacement", max_m: float = 250.0,
                      f"roof still supports, which is where the reference photographs are taken")}
 
 
-def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 80.0,
-                      step_m: float = 2.0) -> dict:
-    """Move an eye point that landed inside a building out to the first clear spot, and say so.
+PAVEMENT_DIR = REPO_ROOT / "data" / "processed" / "roads" / "pavement"
 
-    The camera is only moved when it is demonstrably inside geometry.  It is walked along the
-    recorded view azimuth first (a viewpoint recorded on the wrong side of a facade is nearly
-    always a few metres short of the open space it names -- a promenade railing, a plaza), then
-    backwards, then sideways.  The eye height is re-measured from the heightmap at the new point,
-    and the offset is reported so the sheet can state it instead of hiding it.
+#: ``kind`` codes from ``data/processed/roads/pavement/*.parquet`` (DATA_CONTRACTS s7) that a
+#: photographer can actually stand on, in the order a street viewpoint should prefer them.
+STANDABLE_PAVEMENT = {1: "sidewalk", 0: "roadbed", 3: "plaza", 5: "crosswalk", 2: "median"}
+
+
+def _opaque(ob) -> bool:
+    """Does this object stop a photographer seeing past it?
+
+    Building shells (``t_<tx>_<ty>_<material>``), landmark models (``lm_*``) and props (``prop_*``)
+    all do.  A street tree is not a wall, but a 7 m bare zelkova five metres in front of the lens
+    fills the frame exactly as a wall does, and nobody photographs a bridge through one.  Terrain
+    and pavement do not: the ray is horizontal at eye height and grazes them.
+    """
+    return ob is not None and bool(_TILE_MESH.match(ob.name) or ob.name.startswith("lm_")
+                                   or ob.name.startswith("prop_"))
+
+
+def view_distance(x: float, y: float, z: float, azimuth_deg: float,
+                  probe_m: float = 150.0) -> float:
+    """Open distance along the view azimuth before the first opaque thing, capped at ``probe_m``."""
+    from mathutils import Vector
+    dg = bpy.context.evaluated_depsgraph_get()
+    a = math.radians(azimuth_deg)
+    origin = Vector((x, y, z))
+    fwd = Vector((math.sin(a), math.cos(a), 0.0))
+    hit, loc, _, _, ob, _ = bpy.context.scene.ray_cast(dg, origin, fwd, distance=probe_m)
+    if hit and _opaque(ob):
+        return float((Vector(loc) - origin).length)
+    return float(probe_m)
+
+
+def nearest_obstruction(x: float, y: float, z: float, azimuth_deg: float, *,
+                        probe_m: float = 60.0, half_angle_deg: float = 6.0,
+                        pitches_deg: tuple[float, ...] = (0.0, 8.0, 16.0, 24.0),
+                        yaw_steps: int = 5) -> tuple[float, str | None]:
+    """Closest opaque thing inside a narrow cone about the view axis, and what it is.
+
+    A single axis ray is not enough to tell whether the lens is clear: the trunk of the street
+    tree that fills the DUMBO frame is 0.2 m across at eye height and a level ray passes beside
+    it while its canopy blocks everything above.  A short fan -- five bearings across 12 deg,
+    four elevations up to 24 deg -- catches the thing that is actually in front of the camera.
+    """
+    from mathutils import Vector
+    dg = bpy.context.evaluated_depsgraph_get()
+    origin = Vector((x, y, z))
+    a0 = math.radians(azimuth_deg)
+    if yaw_steps > 1:
+        yaws = [math.radians(-half_angle_deg + 2.0 * half_angle_deg * i / (yaw_steps - 1))
+                for i in range(yaw_steps)]
+    else:
+        yaws = [0.0]
+    best, what = float(probe_m), None
+    for dyaw in yaws:
+        a = a0 + dyaw
+        for pdeg in pitches_deg:
+            pr = math.radians(pdeg)
+            d = Vector((math.sin(a) * math.cos(pr), math.cos(a) * math.cos(pr), math.sin(pr)))
+            hit, loc, _, _, ob, _ = bpy.context.scene.ray_cast(dg, origin, d, distance=probe_m)
+            if hit and _opaque(ob):
+                dist = float((Vector(loc) - origin).length)
+                if dist < best:
+                    best, what = dist, ob.name
+    return best, what
+
+
+def pavement_candidates(x: float, y: float, *, max_m: float = 70.0) -> list[dict]:
+    """Points inside the real paved surfaces nearest to (x, y), nearest first.
+
+    A recorded viewpoint that lands inside a building is a defect in the reference metadata, and
+    the honest correction is not "step two metres and hope" but "stand on the pavement the note
+    names".  ``data/processed/roads/pavement/{tile}.parquet`` holds the DoITT planimetric roadbed,
+    sidewalk, median, plaza and crosswalk polygons, so the nearest such polygon *is* the surface
+    the photographer stood on.  Each candidate is pushed 1.5 m in from the polygon edge so the eye
+    is on the surface rather than balanced on its kerb line.
+    """
+    if not PAVEMENT_DIR.is_dir():
+        return []
+    try:
+        import pyarrow.parquet as pq
+        import shapely
+        from shapely.geometry import Point
+        from shapely.ops import nearest_points
+    except Exception as exc:
+        LOG.warning("pavement snapping unavailable (%s); falling back to the radial search", exc)
+        return []
+    here = Point(x, y)
+    out: list[dict] = []
+    tx0, tx1 = math.floor((x - max_m) / 1000.0), math.floor((x + max_m) / 1000.0)
+    ty0, ty1 = math.floor((y - max_m) / 1000.0), math.floor((y + max_m) / 1000.0)
+    for tx in range(tx0, tx1 + 1):
+        for ty in range(ty0, ty1 + 1):
+            f = PAVEMENT_DIR / f"t_{tx}_{ty}.parquet"
+            if not f.exists():
+                continue
+            try:
+                t = pq.read_table(f, columns=["kind", "geometry"])
+            except Exception as exc:
+                LOG.warning("pavement tile t_%d_%d unreadable: %s", tx, ty, exc)
+                continue
+            for kind, blob in zip(t.column("kind").to_pylist(), t.column("geometry").to_pylist()):
+                k = int(kind)
+                if k not in STANDABLE_PAVEMENT:
+                    continue
+                try:
+                    g = shapely.from_wkb(blob)
+                except Exception:
+                    continue
+                polys = list(g.geoms) if g.geom_type == "MultiPolygon" else ([g] if g.geom_type == "Polygon" else [])
+                for poly in polys:
+                    if poly.is_empty or poly.distance(here) > max_m:
+                        continue
+                    inside = poly.contains(here)
+                    if inside:
+                        px, py, d = x, y, 0.0
+                    else:
+                        edge = nearest_points(here, poly)[1]
+                        d = here.distance(edge)
+                        rp = poly.representative_point()
+                        vx, vy = rp.x - edge.x, rp.y - edge.y
+                        n = math.hypot(vx, vy)
+                        step = min(1.5, n)
+                        px = edge.x + (vx / n * step if n > 1e-6 else 0.0)
+                        py = edge.y + (vy / n * step if n > 1e-6 else 0.0)
+                        if not poly.contains(Point(px, py)):
+                            px, py = rp.x, rp.y
+                            d = here.distance(rp)
+                    out.append({"x": float(px), "y": float(py), "distance_m": float(d),
+                                "kind": STANDABLE_PAVEMENT[k]})
+    out.sort(key=lambda c: (c["distance_m"], list(STANDABLE_PAVEMENT.values()).index(c["kind"])))
+    return out[:60]
+
+
+def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 80.0,
+                      step_m: float = 2.0, min_view_m: float = 15.0) -> dict:
+    """Move an eye point that landed inside a building out to the real pavement, and say so.
+
+    The camera is only moved when it is demonstrably inside geometry.  Two corrections are tried,
+    in order:
+
+    1. **snap to the pavement.**  A third of the recorded viewpoints sit on the wrong side of a
+       facade, and the surface they name -- a roadway, a sidewalk, a plaza -- is a real polygon in
+       ``data/processed/roads/pavement``.  The nearest such polygon is where the photographer
+       actually stood, so the camera goes there rather than to an arbitrary point two metres away.
+    2. **radial search.**  Where no paved surface is within reach (a park, a pier, a promenade),
+       the camera is walked outward in ``step_m`` rings, trying the view azimuth first.
+
+    Either way the candidate has to be both in open air *and* able to see: a point wedged in a
+    3 m gap between two rear walls passes an "is it inside a shell" test and still renders a
+    picture of brickwork, so a candidate is rejected unless the view azimuth is clear for
+    ``min_view_m``.  If nothing satisfies that, the clearance requirement is dropped and the
+    nearest merely-open point is used, and the sheet says which rule was met.  The eye height is
+    re-measured from the heightmap at the new point, and the offset is always reported.
     """
     blocked, why = _blocked(placement.x, placement.y, placement.z, placement.azimuth_deg)
     if not blocked:
         return _walk_to_parapet(placement)
+    rise = placement.z - (placement.terrain_z_m if placement.terrain_z_m is not None else placement.z)
+    radius_m = placement.ground_detail.get("radius_m", 5.0)
+
+    probe_m = max(min_view_m * 1.2, 60.0)
+    min_clear_m = min(8.0, min_view_m)
+
+    def evaluate(nx: float, ny: float):
+        gz, detail = (sampler.ground_z(nx, ny, mode=placement.ground_mode, radius_m=radius_m)
+                      if sampler is not None else (placement.terrain_z_m, {}))
+        nz = (gz if gz is not None else (placement.terrain_z_m or 0.0)) + rise
+        if _blocked(nx, ny, nz, placement.azimuth_deg)[0]:
+            return None
+        view_m = view_distance(nx, ny, nz, placement.azimuth_deg, probe_m=probe_m)
+        near_m, near_what = nearest_obstruction(nx, ny, nz, placement.azimuth_deg,
+                                                probe_m=max(min_clear_m * 2.0, 20.0))
+        return {"z": nz, "gz": gz, "detail": detail, "view_m": view_m,
+                "near_m": near_m, "near_what": near_what,
+                "sees": view_m >= min_view_m and near_m >= min_clear_m}
+
+    def commit(nx: float, ny: float, got: dict) -> None:
+        cam = bpy.context.scene.camera
+        cam.location = (nx, ny, got["z"])
+        bpy.context.view_layer.update()
+        placement.x, placement.y, placement.z = nx, ny, got["z"]
+        placement.terrain_z_m = got["gz"]
+        placement.ground_detail = got["detail"] or placement.ground_detail
+
+    fallback = None          # (nx, ny, got, description) -- open air but a short view
+    for cand in pavement_candidates(placement.x, placement.y, max_m=max_m):
+        got = evaluate(cand["x"], cand["y"])
+        if got is None:
+            continue
+        desc = (f"the camera was moved {cand['distance_m']:.0f} m onto the nearest real "
+                f"{cand['kind']} polygon in data/processed/roads/pavement, keeping the same eye "
+                f"height above the heightmap")
+        if got["sees"]:
+            commit(cand["x"], cand["y"], got)
+            return {"moved": True, "offset_m": round(cand["distance_m"], 1),
+                    "direction": f"onto the nearest {cand['kind']}", "reason": why,
+                    "rule": "pavement snap with a clear view",
+                    "view_m": round(got["view_m"], 1), "nearest_obstruction_m": round(got["near_m"], 1),
+                    "note": (f"the recorded viewpoint is {why}; {desc}.  The view azimuth is clear "
+                             f"for {got['view_m']:.0f} m from there")}
+        if fallback is None or got["view_m"] > fallback[2]["view_m"]:
+            fallback = (cand["x"], cand["y"], got, round(cand["distance_m"], 1),
+                        f"onto the nearest {cand['kind']}", desc)
+
     a = math.radians(placement.azimuth_deg)
     fwd = (math.sin(a), math.cos(a))
     # Search radially outward, trying every direction at each distance, so the camera ends up at
     # the *nearest* open point rather than the first one found along an arbitrary first axis.
     dirs = [("along the view azimuth", fwd), ("backwards", (-fwd[0], -fwd[1])),
             ("to the left", (-fwd[1], fwd[0])), ("to the right", (fwd[1], -fwd[0]))]
-    rise = placement.z - (placement.terrain_z_m if placement.terrain_z_m is not None else placement.z)
     t = step_m
     while t <= max_m:
         for label, d in dirs:
             nx, ny = placement.x + d[0] * t, placement.y + d[1] * t
-            gz, detail = (sampler.ground_z(nx, ny, mode=placement.ground_mode,
-                                           radius_m=placement.ground_detail.get("radius_m", 5.0))
-                          if sampler is not None else (placement.terrain_z_m, {}))
-            nz = (gz if gz is not None else placement.terrain_z_m or 0.0) + rise
-            if not _blocked(nx, ny, nz, placement.azimuth_deg)[0]:
-                ob = bpy.context.scene.camera
-                ob.location = (nx, ny, nz)
-                bpy.context.view_layer.update()
-                placement.x, placement.y, placement.z = nx, ny, nz
-                placement.terrain_z_m = gz
-                placement.ground_detail = detail or placement.ground_detail
-                return {"moved": True, "offset_m": round(t, 1), "direction": label,
-                        "reason": why,
-                        "note": (f"the recorded viewpoint is {why}; the camera was moved {t:.0f} m "
-                                 f"{label} -- the nearest point in open air -- keeping the same eye "
-                                 f"height above the heightmap")}
+            got = evaluate(nx, ny)
+            if got is None:
+                continue
+            desc = (f"the camera was moved {t:.0f} m {label} -- the nearest point in open air -- "
+                    f"keeping the same eye height above the heightmap")
+            if got["sees"]:
+                commit(nx, ny, got)
+                return {"moved": True, "offset_m": round(t, 1), "direction": label, "reason": why,
+                        "rule": "radial search with a clear view",
+                        "view_m": round(got["view_m"], 1),
+                        "nearest_obstruction_m": round(got["near_m"], 1),
+                        "note": (f"the recorded viewpoint is {why}; {desc}.  The view azimuth is "
+                                 f"clear for {got['view_m']:.0f} m from there")}
+            if fallback is None or got["view_m"] > fallback[2]["view_m"]:
+                fallback = (nx, ny, got, round(t, 1), label, desc)
         t += step_m
-    return {"moved": False, "offset_m": 0.0, "reason": why,
+
+    if fallback is not None:
+        nx, ny, got, off, label, desc = fallback
+        commit(nx, ny, got)
+        return {"moved": True, "offset_m": off, "direction": label, "reason": why,
+                "rule": "open air only",
+                "note": (f"the recorded viewpoint is {why}; {desc}.  No point within {max_m:.0f} m "
+                         f"had {min_view_m:.0f} m of open air along the view azimuth with nothing "
+                         f"inside {min_clear_m:.0f} m of the lens, so the frame is closed off "
+                         f"{got['view_m']:.0f} m ahead"
+                         + (f" and {got['near_what']} stands {got['near_m']:.1f} m in front of the "
+                            f"camera" if got.get("near_what") else ""))}
+    return {"moved": False, "offset_m": 0.0, "reason": why, "rule": "no clear point found",
             "note": (f"the recorded viewpoint is {why} and no clear point was found within "
                      f"{max_m:.0f} m, so the frame is rendered from inside the shell and is dark")}
 

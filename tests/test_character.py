@@ -23,6 +23,7 @@ sys.path.insert(0, str(CHAR_DIR))
 
 import asf_amc  # noqa: E402
 import ue5_skeleton as ue5  # noqa: E402
+import variety  # noqa: E402
 
 PLAYER_GLB = REPO_ROOT / "blender_out" / "character" / "player.glb"
 CATALOG = REPO_ROOT / "blender_out" / "character" / "catalog" / "player.json"
@@ -71,18 +72,45 @@ class Glb:
             self.blob = fh.read(bin_len)
 
     def accessor(self, index: int) -> np.ndarray:
+        """Read accessor ``index`` as an (count, ncomp) array, dense or sparse.
+
+        glTF lets an accessor omit ``bufferView`` entirely: the base data is then all zeros and the real
+        values live in an optional ``sparse`` block of (indices, values) pairs.  Blender writes every morph
+        target that way - a face blendshape moves a few hundred of 14 517 vertices, so the sparse form is
+        about fifty times smaller - which is why a reader that assumes ``bufferView`` raises ``KeyError``
+        on this file's morph targets rather than reading them.
+        """
         acc = self.doc["accessors"][index]
-        view = self.doc["bufferViews"][acc["bufferView"]]
         ncomp = self._COUNT[acc["type"]]
         dtype = np.dtype(self._COMPONENT[acc["componentType"]])
-        offset = view.get("byteOffset", 0) + acc.get("byteOffset", 0)
+        if "bufferView" in acc:
+            out = self._read(acc["bufferView"], acc.get("byteOffset", 0), dtype, ncomp, acc["count"])
+        else:
+            out = np.zeros((acc["count"], ncomp), dtype=dtype)
+        sparse = acc.get("sparse")
+        if sparse:
+            out = out.copy()
+            indices_spec = sparse["indices"]
+            values_spec = sparse["values"]
+            idx_dtype = np.dtype(self._COMPONENT[indices_spec["componentType"]])
+            indices = self._read(indices_spec["bufferView"], indices_spec.get("byteOffset", 0),
+                                 idx_dtype, 1, sparse["count"]).ravel().astype(np.int64)
+            values = self._read(values_spec["bufferView"], values_spec.get("byteOffset", 0),
+                                dtype, ncomp, sparse["count"])
+            out[indices] = values
+        return out
+
+    def _read(self, view_index: int, byte_offset: int, dtype: np.dtype, ncomp: int,
+              count: int) -> np.ndarray:
+        view = self.doc["bufferViews"][view_index]
+        offset = view.get("byteOffset", 0) + byte_offset
         stride = view.get("byteStride")
         if stride and stride != ncomp * dtype.itemsize:
             rows = [np.frombuffer(self.blob, dtype=dtype, count=ncomp, offset=offset + i * stride)
-                    for i in range(acc["count"])]
+                    for i in range(count)]
             return np.vstack(rows)
-        flat = np.frombuffer(self.blob, dtype=dtype, count=acc["count"] * ncomp, offset=offset)
-        return flat.reshape(acc["count"], ncomp)
+        flat = np.frombuffer(self.blob, dtype=dtype, count=count * ncomp, offset=offset)
+        return flat.reshape(count, ncomp)
 
 
 @pytest.fixture(scope="module")
@@ -274,17 +302,54 @@ def test_blendshape_count_and_names(glb: Glb) -> None:
         assert len(primitive.get("targets", [])) == 52
 
 
-def test_blendshapes_actually_move_vertices(glb: Glb) -> None:
-    """Every target must displace at least one vertex - an all-zero morph is a silent failure."""
+def _morph_reach(glb: Glb) -> dict[str, dict[str, float]]:
+    """{blendshape name: {mesh name: largest vertex displacement in metres}} over the whole file."""
+    reach: dict[str, dict[str, float]] = {}
     for mesh in glb.doc["meshes"]:
         names = mesh.get("extras", {}).get("targetNames", [])
-        if len(names) != 52:
+        if not names:
             continue
         for primitive in mesh["primitives"]:
-            for name, target in zip(names, primitive["targets"]):
+            for name, target in zip(names, primitive.get("targets", [])):
+                if "POSITION" not in target:
+                    continue
                 delta = glb.accessor(target["POSITION"])
-                assert float(np.abs(delta).max()) > 1e-5, f"blendshape {name} moves nothing"
-        return
+                per_mesh = reach.setdefault(name, {})
+                mesh_name = mesh.get("name", "?")
+                per_mesh[mesh_name] = max(per_mesh.get(mesh_name, 0.0), float(np.abs(delta).max()))
+    return reach
+
+
+def test_blendshapes_actually_move_vertices(glb: Glb) -> None:
+    """Every ARKit channel must displace at least one vertex *somewhere* in the file.
+
+    An all-zero morph is a silent failure, and one of the 52 is not on the body: MakeHuman's ``tongueOut``
+    target displaces the helper tongue, which is proxy geometry the build deletes, so the channel is carried
+    by the separate tongue mesh instead (``mh_build.transfer_tongue_morph``).  The check is therefore over
+    the union of the file's meshes, plus an explicit assertion that the tongue really does move - this file
+    used to ship a dead ``tongueOut`` and no test caught it, because the reader could not decode a sparse
+    accessor and raised before it got there.
+    """
+    reach = _morph_reach(glb)
+    missing = [name for name in ARKIT_52 if name not in reach]
+    assert not missing, f"blendshapes absent from the glb: {missing}"
+    dead = [name for name in ARKIT_52 if max(reach[name].values()) <= 1e-5]
+    assert not dead, f"blendshapes that move nothing anywhere in the file: {dead}"
+
+    tongue = reach["tongueOut"]
+    on_tongue = {mesh: value for mesh, value in tongue.items() if value > 1e-5}
+    assert on_tongue, f"tongueOut moves nothing; per-mesh reach {tongue}"
+    assert max(on_tongue.values()) > 1e-3, (
+        f"tongueOut moves only {max(on_tongue.values()) * 1000:.2f} mm - the tongue does not come out")
+
+
+def test_body_mesh_carries_the_full_arkit_channel_list(glb: Glb) -> None:
+    """The body must still name all 52 channels, so the runtime can drive one morph set."""
+    for mesh in glb.doc["meshes"]:
+        names = mesh.get("extras", {}).get("targetNames", [])
+        if len(names) == 52:
+            assert list(names) == list(ARKIT_52), "the 52 targets are not the ARKit set in ARKit order"
+            return
     pytest.fail("no 52-target mesh found")
 
 
@@ -367,26 +432,106 @@ def npcs() -> dict:
         return json.load(fh)
 
 
-def test_npc_variety_contract_is_twelve_dimensional(npcs: dict) -> None:
+#: The pedestrian appearance contract, copied here from `docs/verification/traffic/REPORT.md` section 7 so
+#: the test fails if either side drifts, rather than reading the same table the generator wrote.
+PED_CONTRACT = (
+    ("age_band", 4), ("stature", 6), ("body_mass", 6), ("skin_tone", 8),
+    ("hair_style", 10), ("hair_colour", 8), ("top_garment", 10), ("top_colour", 12),
+    ("bottom_garment", 8), ("bottom_colour", 12), ("footwear", 6), ("accessory", 10),
+)
+PED_APPEARANCES = 63_700_992_000
+
+
+def test_variety_module_implements_the_traffic_contract() -> None:
+    """The generator's own tables must be the twelve dimensions the pedestrian simulation publishes."""
+    assert variety.PED_DIMENSIONS == PED_CONTRACT
+    assert variety.distinguishable_appearances() == PED_APPEARANCES
+    for name, levels in PED_CONTRACT:
+        table = variety._TABLES[name]
+        assert len(table) == levels, f"{name} table has {len(table)} entries, contract says {levels}"
+        assert len({e["id"] for e in table}) == levels, f"{name} table has duplicate ids"
+
+
+def test_variety_quantisation_accepts_both_encodings() -> None:
+    """floor(v*levels) must invert bin centres and endpoint-inclusive spacing alike."""
+    for _name, levels in PED_CONTRACT:
+        for level in range(levels):
+            assert variety.quantise((level + 0.5) / levels, levels) == level
+            assert variety.quantise(level / (levels - 1), levels) == level
+    assert variety.quantise(0.0, 4) == 0
+    assert variety.quantise(1.0, 4) == 3
+    for bad in (-0.01, 1.01, float("nan")):
+        with pytest.raises(ValueError):
+            variety.quantise(bad, 4)
+
+
+def test_variety_decode_is_deterministic_and_total() -> None:
+    """Every level of every dimension must decode to a buildable appearance."""
+    for index, (name, levels) in enumerate(PED_CONTRACT):
+        for level in range(levels):
+            vector = [0.5] * 12
+            vector[index] = (level + 0.5) / levels
+            appearance = variety.decode(vector)
+            assert appearance.level(name) == level
+            macros = appearance.macros()
+            assert 0.0 <= macros["gender"] <= 1.0
+            assert 0.0 <= macros["age"] <= 1.0
+            outfit = appearance.outfit()
+            assert len(outfit) == len(set(outfit)), f"{name}={level} wears an item twice: {outfit}"
+            bottoms = {e["item"] for e in variety.BOTTOM_GARMENTS}
+            shoes = {e["item"] for e in variety.FOOTWEAR}
+            assert len(set(outfit) & bottoms) == 1, f"{name}={level} wears {outfit}"
+            assert len(set(outfit) & shoes) == 1, f"{name}={level} wears {outfit}"
+            for item in appearance.colours():
+                assert item in outfit, f"colour override for {item!r} which is not worn"
+            assert 0.6 < appearance.gait()["rate"] < 1.3
+
+
+def test_variety_spread_covers_every_level_in_twelve_draws() -> None:
+    vectors = variety.spread_vectors(12)
+    for index, (name, levels) in enumerate(PED_CONTRACT):
+        seen = {variety.quantise(v[index], levels) for v in vectors}
+        assert len(seen) == min(levels, 12), f"{name}: 12 draws covered {sorted(seen)}"
+    assert len({v for v in vectors}) == 12, "spread_vectors repeated a whole vector"
+
+
+def test_npc_manifest_publishes_the_contract(npcs: dict) -> None:
     contract = npcs["variety_contract"]
-    assert len(contract["dimensions"]) == 12
-    assert contract["dimensions"] == ["body_preset", "skin_tone", "hair", "top", "bottom", "shoes",
-                                      "outerwear", "bag", "hat", "glasses", "height_scale", "walk_style"]
-    assert len(contract["tables"]["body_preset"]) == 24
-    assert len(contract["tables"]["hair"]) == 12
+    assert [(d["name"], d["levels"]) for d in contract["dimensions"]] == list(PED_CONTRACT)
+    assert contract["distinguishable_appearances"] == PED_APPEARANCES
+    for name, levels in PED_CONTRACT:
+        assert len(contract["tables"][name]) == levels
 
 
-def test_wardrobe_has_forty_items(npcs: dict) -> None:
-    assert len(npcs["wardrobe"]) == 40, f"{len(npcs['wardrobe'])} wardrobe items"
-    tags = {t for item in npcs["wardrobe"] for t in item["tags"]}
+def test_wardrobe_covers_the_city(npcs: dict) -> None:
+    items = npcs["wardrobe"]
+    assert len(items) >= 40, f"{len(items)} wardrobe items"
+    tags = {t for item in items for t in item["tags"]}
     for required in ("puffer", "hoodie", "suit", "hijab", "scrubs", "delivery", "hivis", "tourist",
-                     "kids", "sneakers", "jeans"):
+                     "kids", "sneakers", "jeans", "jacket", "boots", "shorts"):
         assert required in tags, f"no wardrobe item tagged {required!r}"
+    ids = {item["id"] for item in items}
+    for item in npcs["variety_contract"]["wardrobe_items_reachable"]:
+        assert item in ids, f"the contract can select {item!r}, which is not in the wardrobe"
 
 
-def test_all_24_base_bodies_are_generated(npcs: dict) -> None:
-    bodies = {n["resolved"]["body_preset"] for n in npcs["npcs"]}
-    assert len(bodies) == 24, f"{len(bodies)} distinct base bodies"
+def test_generated_cast_exercises_every_contract_level(npcs: dict) -> None:
+    """A cast that never wears half the wardrobe is not evidence that the wardrobe works."""
+    vectors = [n["variety_vector"] for n in npcs["npcs"]]
+    for index, (name, levels) in enumerate(PED_CONTRACT):
+        seen = {min(int(v[index] * levels), levels - 1) for v in vectors}
+        assert len(seen) == min(levels, len(vectors)), \
+            f"{name}: {len(vectors)} NPCs cover only levels {sorted(seen)} of {levels}"
+
+
+def test_npc_vectors_are_twelve_floats_that_decode_to_what_was_built(npcs: dict) -> None:
+    for npc in npcs["npcs"]:
+        vector = npc["variety_vector"]
+        assert len(vector) == 12
+        assert all(0.0 <= v <= 1.0 for v in vector)
+        appearance = variety.decode(vector)
+        assert list(appearance.levels) == npc["variety_levels"], f"{npc['id']} does not re-decode"
+        assert appearance.resolve()["outfit"] == npc["resolved"]["outfit"]
 
 
 def test_npcs_share_one_skeleton_and_the_same_clips(npcs: dict) -> None:
@@ -397,12 +542,6 @@ def test_npcs_share_one_skeleton_and_the_same_clips(npcs: dict) -> None:
         assert required in clips, f"NPC set is missing {required}"
     assert {n["bone_count"] for n in npcs["npcs"]} == {71}
     assert {n["blendshapes"] for n in npcs["npcs"]} == {52}
-
-
-def test_npc_variety_vectors_are_twelve_bytes(npcs: dict) -> None:
-    for npc in npcs["npcs"]:
-        assert len(npc["variety_bytes"]) == 12
-        assert all(0 <= b <= 255 for b in npc["variety_bytes"])
 
 
 def test_npc_heights_span_a_real_population(npcs: dict) -> None:
