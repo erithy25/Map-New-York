@@ -130,11 +130,11 @@ def render_fusion(samples: int, which: str = "both") -> None:
     if which in ("both", "interior"):
         # SAE eyellipse centroid for the driver: 0.09 m ahead of the H-point and 0.74 m above it, i.e.
         # (1.99, +0.375, 1.245) for the H-point at (1.90, +0.375, 0.505).
-        eye = (1.99, 0.375, 1.245)
-        area_fill((1.10, 0.0, 1.32), 1.1, 40.0, target=(2.7, 0.0, 0.85))
+        eye = (1.89, 0.375, 1.245)
+        area_fill((1.00, 0.0, 1.32), 1.1, 45.0, target=(2.7, 0.0, 0.85))
         area_fill((2.60, 0.90, 1.30), 0.8, 25.0, target=(2.2, 0.2, 0.90))
-        shoot(env.VERIFY_DIR / "fusion_interior_driver_pov.png", loc=eye, target=(5.75, 0.12, -0.12),
-              fov=78.0, samples=samples)
+        shoot(env.VERIFY_DIR / "fusion_interior_driver_pov.png", loc=eye, target=(5.71, 0.12, 0.075),
+              fov=80.0, samples=samples)
 
 
 def render_ortho(samples: int) -> None:

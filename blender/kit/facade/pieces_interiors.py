@@ -71,7 +71,10 @@ def _chair(m: K.Mesh, x: float, y: float, mat: str, seat_h: float = 0.450) -> No
 def _reg(kind: str, desc: str, builder, budget: int = 6000):
     K.register(f"storefront_interior_{kind}", "storefront_interior", nominal_size=(WIDTH, DEPTH, HEIGHT),
                description=desc, features=["storefront"], budget=budget,
-               extra={"interior_kind": kind,
+               extra={"interior_kind": kind, "shell_width_m": WIDTH, "shell_depth_m": DEPTH, "shell_height_m": HEIGHT,
+                      # the shell is modelled at the middle bay width; for a 3.6 m bay it is wider than the opening,
+                      # so the assembler either hides the overhang behind the brick piers or scales the shell in X
+                      "may_scale_x": True,
                       "serves_storefront_kinds": sorted(k for k, v in fp.STOREFRONT_INTERIOR_FOR_KIND.items() if v == kind)})(builder)
 
 

@@ -84,6 +84,10 @@ facade_classes.json}`).
 
 * Every horizontal trim run (cornices, string courses, parapets, water table) is exactly **1.000 m long in X** so
   it repeats along a wall; quoins and pilasters are one unit / one storey tall instead.
+* Interior shells are modelled at the **middle** bay width (4.80 m). Behind a 4.8 m bay they fit exactly; behind
+  a 3.6 m bay the side walls fall behind the brick piers, and behind a 6.0 m bay the piers show past them — each
+  shell entry carries `shell_width_m`, `shell_depth_m`, `shell_height_m` and `may_scale_x: true`, so the
+  assembler may scale a shell in X to the bay it serves. The shell must fit inside the building footprint.
 * Storefront bays are **hollow** — pair each with a `storefront_interior_*` shell placed at the same origin
   (the bay's catalog entry carries `interior_depth_m = 2.5` and `glass_line_y_m = 0.25`). `facade_params.STOREFRONT_INTERIOR_FOR_KIND`
   maps all 20 storefront kinds onto the 11 shells; each shell's catalog entry lists the kinds it serves in
@@ -222,6 +226,24 @@ The renders were inspected and the following were corrected before this report:
 9. **Decimation fell back to a single bounding quad too eagerly.** `make_lod1` now retries with a tightening
    ratio and rejects a decimated result that has collapsed below four triangles, so the flat-quad proxy is a last
    resort rather than the common case.
+
+## 4.5 DATA_CONTRACTS §13 compliance, and one foundation defect to fix
+
+* `blender_out/kit/facade/<kit_id>.glb` — §13 writes the kit path as `kit/{kit_id}.glb`; the stage brief mandates
+  the `facade/` sub-directory, so every catalog entry carries the exact path relative to `blender_out/` in its
+  `glb` field (`kit/facade/<id>.glb`). Importers should use that field rather than assembling the path.
+* LODs are shipped as an extra mesh **`<id>_LOD1` inside the parent file**, the first of the two forms §13 allows,
+  and the catalog entry names it in `lod1_mesh`. Both the glTF node and the glTF mesh carry that name.
+* Y-up, metres, origin at the wall/ground contact point: satisfied (see the anchor table above and
+  `test_anchor_origin_is_on_the_piece`).
+* **Defect in the foundation, not fixed here:** §13 requires `asset.extras.nycsim`, but
+  `nycsim_bpy.export_glb` sets the metadata as a *scene* custom property, and Blender's glTF exporter writes scene
+  custom properties to `scenes[<i>].extras`, not to `asset.extras`. Every kit glb therefore carries the required
+  JSON blob (schema_version, generator_script, git_commit, exported_at, units, up_axis_blender, kit_id, category,
+  bounds, anchor, nominal_size_m) at `scenes[0].extras.nycsim` and leaves `asset.extras` empty. This affects every
+  Blender stage, so it belongs in `blender/common/nycsim_bpy.py` (or in §13), not in this lane —
+  `tests/test_kit_facade.py::test_nycsim_extras_round_trip` accepts either location so it will keep passing once
+  the foundation is corrected.
 
 ## 5. Fidelity: what is real and what is not
 

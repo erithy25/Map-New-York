@@ -196,7 +196,8 @@ def tenement(*, samples: int, res_x: int) -> Path:
         for x in win_x:
             openings.append((x - win_w / 2, x + win_w / 2, z0, z0 + win_h))
     # ground floor: storefront bay (left) and entrance (right)
-    bay_w, bay_cx = 3.66, -W / 2 + 0.22 + 3.66 / 2
+    # the interior shell is 4.80 m wide, so the bay centre has to leave room for it inside the building
+    bay_w, bay_cx = 3.66, -1.35
     openings.append((bay_cx - bay_w / 2, bay_cx + bay_w / 2, 0.0, GROUND))
     openings.append((1.52, 1.52 + 1.52, 0.0, 2.90))
 

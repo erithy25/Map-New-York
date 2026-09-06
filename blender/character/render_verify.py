@@ -21,6 +21,7 @@ from __future__ import annotations
 import argparse
 import logging
 import math
+import os
 import sys
 import time
 from pathlib import Path
@@ -38,6 +39,10 @@ import nycsim_bpy as nb  # noqa: E402
 log = logging.getLogger("nycsim.character.render")
 
 SAMPLES = 64
+#: ``NYCSIM_RENDER_PREVIEW=1`` renders at a third of the resolution and 10 samples - used while iterating on
+#: framing and poses so that a full 64-sample pass is only spent on a composition that is already right.
+PREVIEW = os.environ.get("NYCSIM_RENDER_PREVIEW", "") not in ("", "0", "false")
+PREVIEW_SCALE = 0.34
 
 
 # --------------------------------------------------------------------------------------------- scene setup
@@ -94,7 +99,7 @@ def render(path: Path, *, location, target, fov_deg: float, size, samples: int =
     scene.camera = cam
     scene.render.engine = "CYCLES"
     scene.cycles.device = "CPU"
-    scene.cycles.samples = samples
+    scene.cycles.samples = 10 if PREVIEW else samples
     scene.cycles.use_denoising = True
     scene.cycles.use_adaptive_sampling = True
     scene.cycles.adaptive_threshold = 0.02
@@ -110,7 +115,7 @@ def render(path: Path, *, location, target, fov_deg: float, size, samples: int =
     scene.cycles.use_fast_gi = True
     scene.render.film_transparent = transparent
     scene.render.resolution_x, scene.render.resolution_y = size
-    scene.render.resolution_percentage = 100
+    scene.render.resolution_percentage = int(PREVIEW_SCALE * 100) if PREVIEW else 100
     scene.render.image_settings.file_format = "PNG"
     path.parent.mkdir(parents=True, exist_ok=True)
     scene.render.filepath = str(path)

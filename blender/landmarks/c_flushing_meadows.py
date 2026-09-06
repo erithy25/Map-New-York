@@ -92,7 +92,7 @@ def build():
         b.lathe([(0.0, 0.0), (dia / 2, 1.2), (dia / 2, 3.0), (dia / 2 - 1.2, 3.6), (0.0, 3.6)], 24, C.M.concrete,
                 origin=(qx, qy, h - 4.8), smooth=False)
         cc.band_ring(b, [(qx + (dia / 2) * math.cos(2 * math.pi * k / 24), qy + (dia / 2) * math.sin(2 * math.pi * k / 24))
-                         for k in range(24)], h - 1.8, h - 0.6, 0.12, C.M.steel_dark)
+                         for k in range(24)], h - 1.2, h, 0.12, C.M.steel_dark)
     objs.append(C.tag(b.build(f"{ID}_towers"), "mass"))
 
     # ---- Theaterama --------------------------------------------------------------------------------------------

@@ -1,0 +1,113 @@
+{
+ "schema_version": 1,
+ "tiles_checked": 920,
+ "tiles_with_problems": 5,
+ "problems": [
+  {
+   "tile": "t_-20_-10",
+   "problems": [
+    "scale out of range [0.8942951560020447, 229.09280395507812]"
+   ],
+   "placements": 5406,
+   "bytes": 216240,
+   "buildings": 52
+  },
+  {
+   "tile": "t_-20_-9",
+   "problems": [
+    "scale out of range [0.9222644567489624, 228.10865783691406]"
+   ],
+   "placements": 1285,
+   "bytes": 51400,
+   "buildings": 114
+  },
+  {
+   "tile": "t_-21_-9",
+   "problems": [
+    "scale out of range [1.0, 228.6962127685547]"
+   ],
+   "placements": 64,
+   "bytes": 2560,
+   "buildings": 3
+  },
+  {
+   "tile": "t_5_12",
+   "problems": [
+    "scale out of range [0.798128068447113, 266.83392333984375]"
+   ],
+   "placements": 28185,
+   "bytes": 1127400,
+   "buildings": 617
+  },
+  {
+   "tile": "t_6_12",
+   "problems": [
+    "scale out of range [0.9496982097625732, 259.1191101074219]"
+   ],
+   "placements": 4285,
+   "bytes": 171400,
+   "buildings": 26
+  }
+ ],
+ "placements": 40933679,
+ "bytes": 1637347160,
+ "buildings": 1083026,
+ "distinct_kit_ids_used": 71,
+ "kit_ids_used_without_a_catalog_piece": [
+  3402
+ ],
+ "catalog": {
+  "entries": 138,
+  "resolved_pipeline_pieces": 115,
+  "pipeline_pieces": 120,
+  "unresolved_pipeline_pieces": [
+   "shutter_pair",
+   "roof_hatch",
+   "shed_light",
+   "balcony_slab",
+   "balcony_juliet"
+  ],
+  "catalog_entries_never_placed": [
+   "acc_ac_bracket",
+   "acc_ac_window_large",
+   "acc_ac_window_small",
+   "acc_blinds_half",
+   "acc_curtains_open",
+   "acc_interior_card_lit",
+   "acc_interior_card_unlit",
+   "acc_roller_shade",
+   "acc_window_guard_child",
+   "antenna_satellite_dish_roof",
+   "antenna_tv_yagi",
+   "construction_fence_plywood",
+   "cornice_return_end",
+   "entry_brownstone_door_surround",
+   "entry_church_doors",
+   "fire_escape_balcony_top",
+   "fire_escape_corner_return",
+   "hvac_chimney_brick",
+   "hvac_condenser_bank",
+   "ivy_panel_sparse",
+   "parapet_cap_terracotta",
+   "pilaster_storefront_column",
+   "quoin_brownstone",
+   "storefront_awning_36",
+   "storefront_awning_60",
+   "storefront_gate_36_closed",
+   "storefront_gate_36_half",
+   "storefront_gate_36_open",
+   "storefront_gate_60_closed",
+   "storefront_gate_60_half",
+   "storefront_gate_60_open",
+   "storefront_grille_36",
+   "storefront_grille_48",
+   "storefront_grille_60",
+   "string_course_dentil",
+   "trim_corner_bead_brick",
+   "trim_datestone_plaque",
+   "trim_keystone",
+   "trim_water_table"
+  ]
+ },
+ "kit_catalog_map": "/home/user/Map-New-York/data/processed/facade/kit_catalog_map.json"
+}

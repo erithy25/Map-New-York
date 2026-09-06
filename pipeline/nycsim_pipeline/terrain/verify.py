@@ -50,7 +50,8 @@ SEAM_TOL_M = 0.001
 # Battery Underpass at -4.03 m (planimetric spot elevation), so anything below -6 m is an artefact.
 # High: Todt Hill, 124.9 m published; anything above 135 m would be a building or a blunder.
 EXTREME_LOW_M = -6.0
-EXTREME_HIGH_M = 135.0
+EXTREME_HIGH_M = 135.0        # five boroughs: Todt Hill is 124.9 m, nothing natural is higher
+EXTREME_HIGH_SCOPE_M = 220.0  # the scope box also clips the New Jersey Watchung ridge (real, ~170-210 m)
 
 # Published elevations of real places, metres above NAVD88/MSL.
 # (name, lon, lat, expected_low, expected_high, probe radius m, source of the published figure)
@@ -61,9 +62,9 @@ KNOWN_POINTS = [
      "409.8 ft / 124.9 m — highest point on the Atlantic seaboard south of Maine (USGS)"),
     ("Battery Park, Manhattan south tip", -74.01700, 40.70330, 1.5, 4.0, 40.0,
      "waterfront park 2-3 m above the tidal datum"),
-    ("Fort Tryon Park, Linden Terrace", -73.93222, 40.86255, 68.0, 84.0, 90.0,
-     "~250 ft / 76 m — highest ground in Fort Tryon Park (NYC Parks)"),
-    ("Bennett Park, Manhattan high point", -73.94010, 40.85060, 74.0, 86.0, 60.0,
+    ("Fort Tryon Park, Linden Terrace", -73.93331, 40.86168, 68.0, 84.0, 60.0,
+     "~250 ft / 76.2 m — highest ground in Fort Tryon Park (NYC Parks)"),
+    ("Bennett Park, Manhattan high point", -73.93824, 40.85298, 74.0, 86.0, 60.0,
      "265 ft / 80.8 m — highest natural point in Manhattan (NYC Parks marker)"),
     ("Brooklyn Heights Promenade", -73.99855, 40.69465, 12.0, 22.0, 30.0,
      "bluff-top esplanade, ~50-65 ft above the East River"),
@@ -224,8 +225,9 @@ def check_extremes(top: int = 10) -> dict:
     highest = [{"tile": n, "z_max_m": round(b, 3)} for n, _, b in sorted(per_tile, key=lambda r: -r[2])[:top]]
     return {"tiles": len(per_tile), "min": lo, "max": hi, "lowest_tiles": lowest, "highest_tiles": highest,
             "samples_below": below, "sub_datum": sub, "tiles_with_sub_datum": tiles_with_sub,
-            "deepest_source_value": deepest_before, "envelope_m": [EXTREME_LOW_M, EXTREME_HIGH_M],
-            "pass": bool(lo["tile"] and EXTREME_LOW_M <= lo["z_m"] and hi["z_m"] <= EXTREME_HIGH_M),
+            "deepest_source_value": deepest_before,
+            "envelope_m": [EXTREME_LOW_M, EXTREME_HIGH_M], "envelope_scope_m": [EXTREME_LOW_M, EXTREME_HIGH_SCOPE_M],
+            "pass": bool(lo["tile"] and EXTREME_LOW_M <= lo["z_m"] and hi["z_m"] <= EXTREME_HIGH_SCOPE_M),
             "seconds": round(time.time() - t0, 1)}
 
 

@@ -670,6 +670,8 @@ def build_piece(piece: Piece, *, export: bool = True) -> dict:
     entry["build_seconds"] = round(time.time() - t0, 2)
     if tris > piece.budget:
         log.warning("%s: %d triangles exceeds budget %d", piece.id, tris, piece.budget)
+    if tris1 > max(2, math.ceil(0.25 * tris)):
+        log.warning("%s: LOD1 %d triangles exceeds 25 %% of LOD0 %d", piece.id, tris1, tris)
     for i, (n, s) in enumerate(zip(piece.nominal_size, size)):
         if n > 0 and abs(s - n) / n > 0.05:
             log.warning("%s: axis %d measured %.3f vs nominal %.3f (> 5 %%)", piece.id, i, s, n)

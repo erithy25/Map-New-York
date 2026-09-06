@@ -414,18 +414,29 @@ def test_known_manhattan_tile_is_manhattan():
 
 @pytest.mark.skipif(not (TILES_DIR / "t_0_0" / "terrain.json").exists(), reason="terrain tiles not built")
 def test_no_published_tile_falls_below_the_deepest_surveyed_ground():
-    """City-wide extremes guard: after the sub-datum repair nothing may sit below -6 m (the deepest
-    surveyed ground in NYC is the Battery Underpass at -4.03 m) or above 135 m (Todt Hill is 124.9 m)."""
-    from nycsim_pipeline.terrain.verify import EXTREME_HIGH_M, EXTREME_LOW_M
-    lows, highs = [], []
+    """Extremes guard. Nothing anywhere may sit below -6 m (the deepest surveyed ground in NYC is the
+    Battery Underpass at -4.03 m). The upper bound is 135 m over the five boroughs (Todt Hill is 124.9 m)
+    and 220 m over the rest of the scope box, which clips the New Jersey Watchung ridge (real, 170-210 m
+    in the 1/3" DEM) and the lower Westchester hills."""
+    from nycsim_pipeline.terrain.verify import EXTREME_HIGH_M, EXTREME_HIGH_SCOPE_M, EXTREME_LOW_M
+    nyc = set()
+    if INDEX_PARQUET.exists():
+        t = pq.read_table(INDEX_PARQUET, columns=["tile", "borough_codes"]).to_pydict()
+        nyc = {n for n, cs in zip(t["tile"], t["borough_codes"]) if cs and set(cs) & {1, 2, 3, 4, 5}}
+    lows, highs_nyc, highs_all = [], [], []
     for d in sorted(TILES_DIR.glob("t_*/terrain.json")):
         doc = json.loads(d.read_text())
         lows.append((doc["z_min_m"], doc["tile"]))
-        highs.append((doc["z_max_m"], doc["tile"]))
+        highs_all.append((doc["z_max_m"], doc["tile"]))
+        if doc["tile"] in nyc:
+            highs_nyc.append((doc["z_max_m"], doc["tile"]))
     assert lows, "no tiles built"
-    lo, hi = min(lows), max(highs)
+    lo, hi = min(lows), max(highs_all)
     assert lo[0] >= EXTREME_LOW_M, f"tile {lo[1]} reaches {lo[0]:.2f} m"
-    assert hi[0] <= EXTREME_HIGH_M, f"tile {hi[1]} reaches {hi[0]:.2f} m"
+    assert hi[0] <= EXTREME_HIGH_SCOPE_M, f"tile {hi[1]} reaches {hi[0]:.2f} m"
+    if highs_nyc:
+        hn = max(highs_nyc)
+        assert hn[0] <= EXTREME_HIGH_M, f"NYC tile {hn[1]} reaches {hn[0]:.2f} m"
 
 
 @pytest.mark.skipif(not (TILES_DIR / "t_-11_-8" / "terrain.json").exists(), reason="terrain tiles not built")

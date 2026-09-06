@@ -6913,6 +6913,25 @@
    "stage": "landmarks_b",
    "triangles": 2920
   },
+  "landmark_b_soldiers_sailors_arch_lod0": {
+   "artifact_id": "landmark_b_soldiers_sailors_arch_lod0",
+   "bytes": 62460,
+   "git_commit": "0ee869feb2c2",
+   "landmark_id": "b_soldiers_sailors_arch",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_soldiers_sailors_arch.glb",
+   "produced_at": "2026-09-06T12:54:27Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "54ad30b2f58d75af713c36fdf05be8071651613ba29aff2294e1485e001369d1",
+   "sources": [
+    "osm_bbbike",
+    "building_footprints",
+    "published_soldiers_sailors_arch"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 1252
+  },
   "landmark_b_statue_of_liberty_lod0": {
    "artifact_id": "landmark_b_statue_of_liberty_lod0",
    "bytes": 468152,
@@ -6948,6 +6967,25 @@
    ],
    "stage": "landmarks_b",
    "triangles": 50392
+  },
+  "landmark_b_unisphere_lod0": {
+   "artifact_id": "landmark_b_unisphere_lod0",
+   "bytes": 367784,
+   "git_commit": "0ee869feb2c2",
+   "landmark_id": "b_unisphere",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_unisphere.glb",
+   "produced_at": "2026-09-06T12:55:42Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "e7e5d507610f098768836ead9d61fb0ab35511f8ae8f7757f927a3a25bc5fb2b",
+   "sources": [
+    "osm_bbbike",
+    "building_footprints",
+    "published_unisphere"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 17236
   },
   "landmark_b_verrazzano_narrows_lod0": {
    "artifact_id": "landmark_b_verrazzano_narrows_lod0",
@@ -7134,6 +7172,26 @@
    "stage": "landmarks",
    "tris_lod0": 220910,
    "tris_lod1": 37774
+  },
+  "landmark_glb:c_bronx_county_courthouse": {
+   "artifact_id": "landmark_glb:c_bronx_county_courthouse",
+   "bins": [
+    2002869
+   ],
+   "bytes": 14559140,
+   "footprint_iou": 1.0,
+   "git_commit": "0ee869feb2c2",
+   "path": "blender_out/landmarks/c_bronx_county_courthouse.glb",
+   "produced_at": "2026-09-06T12:54:37Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "f0bf1b9b6d5ca9075e85e489d5a0f4aca6f6e9c3890bca912a3642e097b4be4a",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 11360,
+   "tris_lod1": 164
   },
   "landmark_glb:c_carnegie_hall": {
    "artifact_id": "landmark_glb:c_carnegie_hall",
@@ -10631,15 +10689,15 @@
   },
   "terrain_tiles": {
    "artifact_id": "terrain_tiles",
-   "bytes": 876,
-   "git_commit": "81e95a230992",
+   "bytes": 2326,
+   "git_commit": "0ee869feb2c2",
    "path": "data/processed/terrain/tile_summary.json",
-   "png_bytes": 304668,
-   "produced_at": "2026-09-06T12:46:00Z",
-   "rows": 1,
+   "png_bytes": 41582883,
+   "produced_at": "2026-09-06T12:54:21Z",
+   "rows": 750,
    "samples_per_tile": 251001,
    "schema": "terrain.tile/1",
-   "sha256": "4078a1bb6ce9874f28fa74b6de894ed2b744e1abafcdfff38135bfae56ada47b",
+   "sha256": "f3698021e2bd00b5ae1df108aec526d800382a1b26f3d6a2325940b3f7dbc436",
    "sources": [
     "usgs_3dep",
     "plan_elevation_points",
@@ -10650,7 +10708,7 @@
    ],
    "spacing_m": 2.0,
    "stage": "terrain",
-   "tiles_written": 1
+   "tiles_written": 750
   },
   "traffic_density": {
    "artifact_id": "traffic_density",

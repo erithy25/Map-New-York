@@ -344,9 +344,9 @@ def build(detail: str = "high") -> tuple[rig.Vehicle, dict]:
     # ---------- interior
     isp = I.InteriorSpec(
         x_dash=2.40, x_cowl=X_COWL, x_rear=0.30, z_floor=0.345, z_roof=1.395, y_cabin=0.775, z_belt=0.985,
-        seats=[I.SeatSpot(x=1.90, y=0.375, z=0.545, name="Seat_FL", back_deg=22.0, width=0.52),
-               I.SeatSpot(x=1.90, y=-0.375, z=0.545, name="Seat_FR", back_deg=22.0, width=0.52),
-               I.SeatSpot(x=0.98, y=0.0, z=0.585, name="Seat_R", back_deg=26.0, bench=1.34)],
+        seats=[I.SeatSpot(x=1.80, y=0.375, z=0.545, name="Seat_FL", back_deg=22.0, width=0.52),
+               I.SeatSpot(x=1.80, y=-0.375, z=0.545, name="Seat_FR", back_deg=22.0, width=0.52),
+               I.SeatSpot(x=0.92, y=0.0, z=0.585, name="Seat_R", back_deg=26.0, bench=1.34)],
         wheel_center=(2.28, 0.375, 0.865), wheel_radius=0.185, column_deg=25.0, detail="full",
         x_roof_front=X_ROOF_F, roof_line=bp.z_top,
         console=True, shifter="rotary", doors_x=(DOOR_CUTS[0:2], DOOR_CUTS[1:3]),

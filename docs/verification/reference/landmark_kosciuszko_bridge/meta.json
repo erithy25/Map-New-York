@@ -1,0 +1,146 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_kosciuszko_bridge",
+ "name": "Kosciuszko Bridge",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.723475,
+  "lon": -73.931129,
+  "azimuth_deg": 20.0,
+  "note": "Meeker Avenue in East Williamsburg, about 500 m south-south-west of the main span, looking north-north-east at the cable-stayed tower",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7277,
+  "lon": -73.9291,
+  "name": "Kosciuszko Bridge"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2017,
+ "wanted": 3,
+ "queries": [
+  "\"Kosciuszko Bridge\" cable-stayed",
+  "\"Kosciuszko Bridge\" Newtown Creek Brooklyn Queens Expressway"
+ ],
+ "geosearch_radius_m": 900,
+ "fetched_at": "2026-09-06T12:54:08Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 33,
+ "candidates_eligible": 2,
+ "rejections": {
+  "excluded": 3,
+  "keywords": 28
+ },
+ "exhausted": true,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Under the K Bridge Park 017.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Under_the_K_Bridge_Park_017.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Under_the_K_Bridge_Park_017.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Under_the_K_Bridge_Park_017.jpg/1920px-Under_the_K_Bridge_Park_017.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-07-01 14:21:51",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.725669,
+    "lon": -73.933219
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 467847,
+   "sha256": "efaac737072d713fba52e80f5f1bb3517b864e136f6f2cb5b97a4a63e5072806",
+   "mean_luminance": 128.1,
+   "description": "Under the K Bridge Park in July 2022",
+   "categories": [
+    "Under The K Bridge Park",
+    "New York City photographs taken on 2022-07-01",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2022 in Greenpoint, Brooklyn",
+    "Parks in New York City in 2022",
+    "Kosciuszko Bridge in 2022",
+    "Brooklyn skylines in 2022",
+    "July 2022 in Brooklyn, New York City",
+    "Underside of Interstate 278 in Brooklyn"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.05,
+   "estimated_viewpoint": {
+    "lat": 40.725669,
+    "lon": -73.933219,
+    "azimuth_deg": 56.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.72567, -73.93322) is 414 m from Kosciuszko Bridge (40.72770, -73.92910) and 301 m from the standard viewpoint; the azimuth 57 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Under the K Bridge Park 017.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Under_the_K_Bridge_Park_017.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Kosciuszko Bridge November 2022.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Kosciuszko_Bridge_November_2022.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/89/Kosciuszko_Bridge_November_2022.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Kosciuszko_Bridge_November_2022.jpg/1920px-Kosciuszko_Bridge_November_2022.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-11-09 13:46:35",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.72585,
+    "lon": -73.932908
+   },
+   "original_width": 2048,
+   "original_height": 1536,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 285943,
+   "sha256": "eec3482ec261aa9b8f2d86b0a53ded0976e5af9af86b4e2f273da59aa15f6978",
+   "mean_luminance": 82.5,
+   "description": "Kosciuszko Bridge in November 2022",
+   "categories": [
+    "New York City photographs taken on 2022-11-09",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2022 in Greenpoint, Brooklyn",
+    "Kosciuszko Bridge in 2022",
+    "November 2022 in Brooklyn, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.05,
+   "estimated_viewpoint": {
+    "lat": 40.72585,
+    "lon": -73.932908,
+    "azimuth_deg": 57.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.72585, -73.93291) is 381 m from Kosciuszko Bridge (40.72770, -73.92910) and 304 m from the standard viewpoint; the azimuth 57 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Kosciuszko Bridge November 2022.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Kosciuszko_Bridge_November_2022.jpg"
+  }
+ ]
+}
