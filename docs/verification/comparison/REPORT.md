@@ -271,3 +271,28 @@ frame was rejected outright — correctly, and with a diagnostic. The clearance 
 ground twice at each candidate, the street percentile first and the height at the point itself
 second, and takes whichever is not underground.
 
+
+### The six near-black frames, separated by cause without rendering anything
+
+Testing each camera position against the real footprints in
+`data/processed/tiles/{tile}/buildings.parquet` (`footprint`, `ground_z`, `roof_z`) separates them
+into three distinct faults, which is why no single fix cleared them:
+
+| subject | mean / sd | camera (NYC_TM, z) | finding | cause |
+|---|---|---|---|---|
+| `landmark_nyse` | 0.000 / 0.001 | (-5106, 794, 8.9) | **inside** BIN 1001020, ground 8.5 m, roof 27.8 m | eye 0.4 m above that building's floor and 19 m below its roof |
+| `landmark_moma` | 0.005 / 0.030 | (-2330, 6804, 21.9) | **inside** BIN 1087646, roof 95.4 m | eye inside the building |
+| `landmark_nypl` | 0.021 / 0.043 | (-2582, 5853, 24.4) | **inside** BIN 1035330, roof 84.7 m | eye inside the library itself |
+| `landmark_metlife_building` | 0.016 / 0.013 | (-2299, 5636, 17.5) | nearest footprint **0.1 m** | eye hard against a wall |
+| `landmark_new_york_times_building` | 0.035 / 0.007 | (-3519, 6181, 12.7) | nearest footprint **0.2 m** | eye hard against a wall |
+| `landmark_st_patricks_cathedral` | 0.023 / 0.018 | (-2358, 6545, 23.0) | nearest footprint **1.6 m** | eye hard against a wall |
+| `landmark_911_memorial_pools` | no render | (-5293, 1241, 2.9) | nearest footprint 18.1 m, **not** inside anything | eye under the plaza: the DEM records the memorial pool voids and the street ground rule found a pool bottom |
+
+Every tile these cameras need has its `tile_buildings.glb` on disk (2/2, 1/1 in each case), so none of
+them is a loading failure. Three are viewpoints recorded inside a building, three are recorded
+against a wall, and one is under the terrain — and all three classes are now caught before the
+frame is rendered: the up-ray test for a shell roof or a paved surface overhead, the 20-ray cone
+test for anything solid within a metre of the lens, and the requirement that a camera with a named
+subject can see roughly as far as its subject. Where a corrected camera still cannot produce a
+usable frame the render is refused, the PNG is deleted, and the subject is dropped from the sheet
+set with its reason recorded in `render_error.txt`. The gate's thresholds were not touched.

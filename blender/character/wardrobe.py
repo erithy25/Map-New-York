@@ -1059,6 +1059,104 @@ def hide_covered_garments(built, item_ids: tuple[str, ...], *, name_prefix: str 
     return dropped
 
 
+def cut_bottoms_at_shoe_collar(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
+                               margin: float = 0.018) -> int:
+    """Terminate every trouser leg at the top of the shoe.  Returns faces removed.
+
+    A trouser leg is modelled down to the ankle bone and a shoe is modelled around the whole foot, so the two
+    overlap by the depth of the shoe.  Nudging the overlap apart cannot work: the hem is *longer* than the
+    shoe collar, so wherever it is pushed it comes out somewhere - in the first pass it emerged from behind
+    the heel, below the sole, with the heel counter torn open around it.
+
+    Real trousers stop inside the shoe.  So does this one: each shoe shell (left and right, found as
+    connected components so the box round one foot never reaches the other) gives a bounding box, and every
+    bottom-garment face entirely inside that box grown by ``margin`` is deleted.  The hem then ends at the
+    collar and the shoe wins, which is the correct precedence for a rigid object against cloth.
+    """
+    shoes = []
+    bottoms = []
+    for item_id in item_ids:
+        garment = WARDROBE_BY_ID.get(item_id)
+        obj = built.clothes.get(f"{name_prefix}{item_id}")
+        if garment is None or obj is None:
+            continue
+        if garment.slot == "shoes":
+            shoes.append(obj)
+        elif garment.slot == "bottom":
+            bottoms.append(obj)
+    if not shoes or not bottoms:
+        return 0
+
+    boxes: list[tuple[Vector, Vector]] = []
+    for shoe in shoes:
+        for shell in _connected_components(shoe):
+            lo = Vector((min(v.x for v in shell), min(v.y for v in shell), min(v.z for v in shell)))
+            hi = Vector((max(v.x for v in shell), max(v.y for v in shell), max(v.z for v in shell)))
+            boxes.append((lo - Vector((margin, margin, margin)), hi + Vector((margin, margin, 0.004))))
+    if not boxes:
+        return 0
+
+    removed = 0
+    for bottom in bottoms:
+        matrix = bottom.matrix_world
+        inside = set()
+        for vert in bottom.data.vertices:
+            world = matrix @ vert.co
+            for lo, hi in boxes:
+                if all(lo[i] <= world[i] <= hi[i] for i in range(3)):
+                    inside.add(vert.index)
+                    break
+        if not inside:
+            continue
+        bm = bmesh.new()
+        bm.from_mesh(bottom.data)
+        bm.verts.ensure_lookup_table()
+        # *Any* vertex inside, not all of them: a face straddling the box leaves a sliver of trouser
+        # sticking out under the sole, and at the collar it costs one ring of geometry that the shoe
+        # covers anyway.
+        doomed = [f for f in bm.faces if any(v.index in inside for v in f.verts)]
+        if not doomed or len(doomed) == len(bm.faces):
+            bm.free()
+            continue
+        bmesh.ops.delete(bm, geom=doomed, context="FACES")
+        bm.verts.ensure_lookup_table()
+        loose = [v for v in bm.verts if not v.link_faces]
+        if loose:
+            bmesh.ops.delete(bm, geom=loose, context="VERTS")
+        removed += len(doomed)
+        bm.to_mesh(bottom.data)
+        bm.free()
+        bottom.data.update()
+        log.info("%s: %d faces cut off inside the shoes, %d vertices remain",
+                 bottom.name.split(".")[-1], len(doomed), len(bottom.data.vertices))
+    return removed
+
+
+def _connected_components(obj: bpy.types.Object) -> list[list[Vector]]:
+    """World-space vertex positions of each connected shell of ``obj``."""
+    bm = bmesh.new()
+    bm.from_mesh(obj.data)
+    bm.verts.ensure_lookup_table()
+    parent = list(range(len(bm.verts)))
+
+    def find(x: int) -> int:
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    for edge in bm.edges:
+        ra, rb = find(edge.verts[0].index), find(edge.verts[1].index)
+        if ra != rb:
+            parent[ra] = rb
+    groups: dict[int, list[Vector]] = {}
+    matrix = obj.matrix_world
+    for vert in bm.verts:
+        groups.setdefault(find(vert.index), []).append(matrix @ vert.co)
+    bm.free()
+    return [g for g in groups.values() if len(g) > 8]
+
+
 def _layer_key(garment: Garment) -> int:
     """Sort key for what is worn over what.
 

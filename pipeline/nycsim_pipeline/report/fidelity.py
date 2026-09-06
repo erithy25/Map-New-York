@@ -444,11 +444,22 @@ def probe_reference_photos() -> dict[str, Any] | None:
 
 
 def probe_reports() -> dict[str, Any]:
+    """Which stages wrote a report, and how many files each one is.
+
+    A lane that split its work writes more than one top-level report — the landmarks lane wrote `REPORT_B.md`
+    and `REPORT_C.md` for its two halves plus one per landmark — so matching only the exact name `REPORT.md`
+    reported that lane as undocumented when it is the most heavily documented one in the repository.
+    """
     d = DOCS / "verification"
-    got = sorted(p.parent.name for p in d.glob("*/REPORT.md")) if d.exists() else []
+    files: dict[str, list[str]] = {}
+    if d.exists():
+        for f in sorted(d.glob("*/REPORT*.md")):
+            files.setdefault(f.parent.name, []).append(f.name)
+    nested = {k: len(list((d / k).rglob("*.md"))) - len(v) for k, v in files.items()} if d.exists() else {}
     expected = ["buildings", "buildings_mesh", "citygml", "core", "facade", "furniture", "kit", "landmarks", "live",
                 "props", "reference", "roads", "terrain", "traffic", "traffic_density", "unreal_world", "unreal_gameplay", "vehicles", "character"]
-    return {"present": got, "missing": [e for e in expected if e not in got]}
+    return {"present": sorted(files), "missing": [e for e in expected if e not in files],
+            "files": files, "nested": {k: v for k, v in nested.items() if v > 0}}
 
 
 # --------------------------------------------------------------------------- report
@@ -719,7 +730,16 @@ def build_report() -> str:
           "every tile holding buildings also holds a shell mesh and kit placements, every shell mesh has building "
           "data behind it, and every content tile has terrain beneath it. Zero exceptions in any direction.")
         A()
+    multi = {k: v for k, v in rp.get("files", {}).items() if len(v) > 1}
     A(f"Stage reports present: {', '.join(rp['present']) or 'none'}.")
+    if multi:
+        A()
+        A("Lanes that split their work wrote more than one: "
+          + "; ".join(f"`{k}` ({', '.join(v)})" for k, v in sorted(multi.items())) + ".")
+    if rp.get("nested"):
+        A()
+        A("Per-subject reports underneath those: "
+          + ", ".join(f"{k} {v}" for k, v in sorted(rp["nested"].items())) + ".")
     A()
     if rp["missing"]:
         A(f"Stage reports still missing: {', '.join(rp['missing'])}.")

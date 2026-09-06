@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-06 22:07 UTC from commit `28d4b4173115` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-06 22:11 UTC from commit `9d6e631db12b` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -175,9 +175,11 @@ Reference photographs collected for side-by-side comparison: 519 photos across 1
 
 Checked by `tests/test_world_integration.py::test_the_world_has_no_orphan_or_missing_content_layers`: every tile holding buildings also holds a shell mesh and kit placements, every shell mesh has building data behind it, and every content tile has terrain beneath it. Zero exceptions in any direction.
 
-Stage reports present: buildings_mesh, character, citygml, comparison, core, facade, furniture, kit, live, performance, props, reference, roads, terrain, traffic, traffic_density, unreal_gameplay, unreal_world, vehicles.
+Stage reports present: buildings, buildings_mesh, character, citygml, comparison, core, facade, furniture, kit, landmarks, live, performance, props, reference, roads, terrain, traffic, traffic_density, unreal_gameplay, unreal_world, vehicles.
 
-Stage reports still missing: buildings, landmarks.
+Lanes that split their work wrote more than one: `landmarks` (REPORT_B.md, REPORT_C.md).
+
+Per-subject reports underneath those: comparison 24, facade 1, landmarks 34, reference 2, traffic_density 2.
 
 What is verified in this environment versus on a workstation is defined in `docs/ARCHITECTURE.md` §14. In short: geodesy, tiling, streaming logic, routing, traffic rules, signal phasing, astronomy, time zone handling, weather parsing, data coverage and asset geometry are verified here by tests and Cycles renders. Unreal Engine compilation, cooking, frame rate, vehicle feel and audio are not — no Unreal editor or GPU exists in this environment, and no claim is made that they were tested.
 
