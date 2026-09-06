@@ -42,6 +42,7 @@ from ..crs import NYC_TM, SCOPE_XMAX, SCOPE_XMIN, SCOPE_YMAX, SCOPE_YMIN, US_SUR
 from ..paths import PROCESSED, RAW, REPO_ROOT
 from ..tiling import scope_tiles
 from .classify import FEAT_CODE_KIND, STRUCT_CODE_KIND, clean_name, is_open_water, kind_from_planimetric
+from .names import assign_names
 
 log = logging.getLogger("nycsim.water")
 
@@ -149,6 +150,7 @@ def provisional_tidal(h: gpd.GeoDataFrame) -> np.ndarray:
 # ----------------------------------------------------------------------------- phase 1
 def build_hydrography(use_osm: bool = True) -> tuple[gpd.GeoDataFrame, dict]:
     stats: dict = {}
+    osm_areas: gpd.GeoDataFrame | None = None
     h = _read_plan(RAW_HYDRO)
     h["feat_code"] = pd.to_numeric(h["feat_code"], errors="coerce").astype("Int64")
     if h["feat_code"].isna().any():
@@ -176,6 +178,7 @@ def build_hydrography(use_osm: bool = True) -> tuple[gpd.GeoDataFrame, dict]:
         boro, nyc_union = nyc_boundary_water()
         inside = nyc_union.buffer(-OSM_INSET_M)
         osm = extract(RAW_OSM, (SCOPE_XMIN, SCOPE_YMIN, SCOPE_XMAX, SCOPE_YMAX))
+        osm_areas = osm.areas
         stats["osm"] = osm.stats
         rows = []
         sea_out = osm.sea.intersection(SCOPE_BOX).difference(inside)
@@ -215,8 +218,11 @@ def build_hydrography(use_osm: bool = True) -> tuple[gpd.GeoDataFrame, dict]:
     # polygons only (make_valid can emit GeometryCollections with line slivers)
     hydro["geometry"] = [shapely.union_all([p for p in getattr(g, "geoms", [g]) if p.geom_type in ("Polygon", "MultiPolygon")]) if g.geom_type == "GeometryCollection" else g for g in hydro.geometry.values]
     hydro = hydro[~hydro.geometry.is_empty].reset_index(drop=True)
-    hydro["tidal"] = provisional_tidal(hydro)
     hydro["is_open_water"] = hydro["kind"].map(is_open_water)
+    hydro, name_stats = assign_names(hydro, osm_areas, OSM_ID_BASE)
+    hydro["is_open_water"] = hydro["kind"].map(is_open_water)  # _split_sea may retype a piece from its neighbour
+    stats["names"] = name_stats
+    hydro["tidal"] = provisional_tidal(hydro)
     hydro["level_mode"] = np.where(hydro["tidal"] & hydro["is_open_water"], "tidal", np.where(hydro["kind"] == "marsh", "dem", "constant"))
     hydro["water_z_m"] = np.where(hydro["level_mode"] == "tidal", 0.0, np.nan).astype("float32")
     hydro["level_source"] = np.where(hydro["level_mode"] == "tidal", "tidal_datum", "pending_dem")

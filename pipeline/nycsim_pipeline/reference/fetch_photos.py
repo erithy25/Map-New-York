@@ -733,9 +733,28 @@ _TAG_RE = re.compile(r"<[^>]+>")
 _WS_RE = re.compile(r"\s+")
 
 
-def strip_html(s: str | None) -> str:
-    if not s:
+def strip_html(s: Any) -> str:
+    """Plain text from an extmetadata value.
+
+    Commons returns most values as strings, but multilingual fields can still arrive as a
+    ``{"en": "...", "fr": "..."}`` map (or a list of such) even with ``multilang=0``, so
+    normalise anything that is not a string before stripping tags.
+    """
+    if s is None or s == "":
         return ""
+    if isinstance(s, dict):
+        for key in ("en", "value", "_"):
+            if s.get(key):
+                return strip_html(s[key])
+        for v in s.values():
+            if v:
+                return strip_html(v)
+        return ""
+    if isinstance(s, (list, tuple)):
+        parts = [strip_html(v) for v in s]
+        return " | ".join(p for p in parts if p)
+    if not isinstance(s, str):
+        s = str(s)
     return _WS_RE.sub(" ", html.unescape(_TAG_RE.sub(" ", s))).strip()
 
 
@@ -884,15 +903,18 @@ def parse_candidate(page: dict[str, Any], provenance: str, geo_hit: bool = False
         return None
     ii = infos[0]
     ext = {k: (v.get("value") if isinstance(v, dict) else v) for k, v in (ii.get("extmetadata") or {}).items()}
-    date_taken, year = parse_date(ext.get("DateTimeOriginal"))
+    date_taken, year = parse_date(strip_html(ext.get("DateTimeOriginal")))
     date_source = "DateTimeOriginal"
     if date_taken is None:
-        date_taken, year = parse_date(ext.get("DateTime"))
+        date_taken, year = parse_date(strip_html(ext.get("DateTime")))
         date_source = "DateTime(file)" if date_taken else "none"
     gps = None
+    lat_s, lon_s = strip_html(ext.get("GPSLatitude")), strip_html(ext.get("GPSLongitude"))
     try:
-        if ext.get("GPSLatitude") not in (None, "") and ext.get("GPSLongitude") not in (None, ""):
-            gps = (float(ext["GPSLatitude"]), float(ext["GPSLongitude"]))
+        if lat_s and lon_s:
+            gps = (float(lat_s), float(lon_s))
+            if not (-90.0 <= gps[0] <= 90.0 and -180.0 <= gps[1] <= 180.0):
+                gps = None
     except (TypeError, ValueError):
         gps = None
     author = strip_html(ext.get("Artist"))

@@ -515,6 +515,12 @@ def evaluated_tris(ob: bpy.types.Object) -> int:
     return n
 
 
+def _name_data(ob: bpy.types.Object) -> bpy.types.Object:
+    """Give the mesh datablock the object's name so the exported glTF mesh carries it too."""
+    ob.data.name = ob.name
+    return ob
+
+
 def make_lod1(ob: bpy.types.Object, pid: str, lod_mesh: Mesh | None = None) -> bpy.types.Object:
     """LOD1 object named ``<id>_LOD1`` with ≤ 25 % of LOD0 triangles: explicit low-poly builder, else decimate, else a
     front-facing quad proxy carrying the dominant material."""
@@ -523,7 +529,7 @@ def make_lod1(ob: bpy.types.Object, pid: str, lod_mesh: Mesh | None = None) -> b
     if lod_mesh is not None:
         lod = lod_mesh.to_object(f"{pid}_LOD1")
         if evaluated_tris(lod) <= target:
-            return lod
+            return _name_data(lod)
         bpy.data.objects.remove(lod, do_unlink=True)
     # decimate a copy
     me = ob.data.copy()
@@ -546,7 +552,7 @@ def make_lod1(ob: bpy.types.Object, pid: str, lod_mesh: Mesh | None = None) -> b
             if m.name not in [x.name for x in new.materials]:
                 new.materials.append(m)
         bpy.data.meshes.remove(me)
-        return lod
+        return _name_data(lod)
     bpy.data.objects.remove(lod, do_unlink=True)
     bpy.data.meshes.remove(me)
     # proxy quad(s): street-facing quad of the bounding box
@@ -557,7 +563,7 @@ def make_lod1(ob: bpy.types.Object, pid: str, lod_mesh: Mesh | None = None) -> b
     pm.face([(lo.x, lo.y, lo.z), (hi.x, lo.y, lo.z), (hi.x, lo.y, hi.z), (lo.x, lo.y, hi.z)], dom)
     if tris0 >= 24:  # room for a top face too
         pm.face([(lo.x, lo.y, hi.z), (hi.x, lo.y, hi.z), (hi.x, hi.y, hi.z), (lo.x, hi.y, hi.z)], dom)
-    return pm.to_object(f"{pid}_LOD1")
+    return _name_data(pm.to_object(f"{pid}_LOD1"))
 
 
 def _dominant_material(ob: bpy.types.Object) -> str:
@@ -575,7 +581,7 @@ def build_piece(piece: Piece, *, export: bool = True) -> dict:
     m = piece.build()
     tris = m.triangles()
     lo, hi = m.bounds()
-    ob = m.to_object(piece.id)
+    ob = _name_data(m.to_object(piece.id))
     m.free()
     lod_mesh = piece.lod1() if piece.lod1 else None
     lod = make_lod1(ob, piece.id, lod_mesh)

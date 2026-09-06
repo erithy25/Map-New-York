@@ -5683,6 +5683,77 @@
    "stage": "buildings",
    "tile_root": "data/processed/tiles"
   },
+  "citygml_da19": {
+   "artifact_id": "citygml_da19",
+   "buildings_parsed": 105569,
+   "bytes": 55828040,
+   "counters": {
+    "building_no_bin": 8,
+    "building_no_ground": 1,
+    "building_no_roof": 1,
+    "building_no_wall": 2,
+    "building_placeholder_bin": 1048,
+    "buildings_with_tri_dropped": 1201,
+    "collinear_points_removed": 572948,
+    "dup_points_removed": 1403985,
+    "duplicate_bin_rows_merged": 27,
+    "polygon_non_planar": 798,
+    "roof_face_horizontal": 160526,
+    "roof_face_sloped": 2620,
+    "roof_face_vertical": 566,
+    "roof_flipped_up": 5153,
+    "roof_type_barrel": 1,
+    "roof_type_complex": 1,
+    "roof_type_flat": 105564,
+    "roof_type_hip": 2,
+    "roof_type_shed": 1,
+    "tri_dropped_f32_degenerate": 1404,
+    "wall_ground_inward": 862,
+    "wall_ground_outward": 1011743
+   },
+   "da": 19,
+   "elapsed_s": 429.29,
+   "git_commit": "80eb5cad0faf",
+   "path": "data/processed/buildings/citygml/da19.parquet",
+   "produced_at": "2026-09-06T11:16:43Z",
+   "rows": 105542,
+   "schema": "citygml_solids_v1",
+   "sha256": "983bc2750b2e1078684a47567b7a10ac185d9cb75109873b6a2e596b12f4bb4f",
+   "sources": [
+    "doitt_3d_citygml"
+   ],
+   "stage": "citygml"
+  },
+  "citygml_da20": {
+   "artifact_id": "citygml_da20",
+   "buildings_parsed": 106165,
+   "bytes": 46410704,
+   "counters": {
+    "building_no_bin": 2,
+    "building_placeholder_bin": 1322,
+    "buildings_with_tri_dropped": 901,
+    "collinear_points_removed": 415496,
+    "dup_points_removed": 1156975,
+    "roof_face_horizontal": 142637,
+    "roof_flipped_up": 1025,
+    "roof_type_flat": 106165,
+    "tri_dropped_f32_degenerate": 1162,
+    "wall_ground_inward": 635,
+    "wall_ground_outward": 850738
+   },
+   "da": 20,
+   "elapsed_s": 362.68,
+   "git_commit": "80eb5cad0faf",
+   "path": "data/processed/buildings/citygml/da20.parquet",
+   "produced_at": "2026-09-06T11:15:36Z",
+   "rows": 106165,
+   "schema": "citygml_solids_v1",
+   "sha256": "8737f99f0b7970d680b77caa32d7d4829b71edd3b1508de605d2ff7980b322a5",
+   "sources": [
+    "doitt_3d_citygml"
+   ],
+   "stage": "citygml"
+  },
   "citygml_da4": {
    "artifact_id": "citygml_da4",
    "buildings_parsed": 16665,
@@ -8037,6 +8108,77 @@
    "valid_px": 5236666,
    "z_max": 33.454280853271484,
    "z_min": -1.6230292320251465
+  },
+  "water_hydrography": {
+   "artifact_id": "water_hydrography",
+   "bytes": 18207534,
+   "git_commit": "80eb5cad0faf",
+   "kinds": {
+    "basin": 20,
+    "bay": 156,
+    "canal": 2,
+    "lake": 61,
+    "marsh": 744,
+    "ocean": 1,
+    "pond": 989,
+    "river": 265
+   },
+   "path": "data/processed/water/hydrography.parquet",
+   "produced_at": "2026-09-06T11:16:12Z",
+   "rows": 2238,
+   "schema": "water.hydrography/1",
+   "sha256": "189a7592eaf2718d7afa89c49597f38c60dbfca76b13be614ea0e8d7f7c1ef41",
+   "sources": [
+    "plan_hydrography",
+    "plan_hydro_structures",
+    "plan_shoreline",
+    "borough_boundaries_water",
+    "osm_newyork_pbf"
+   ],
+   "stage": "water"
+  },
+  "water_shoreline": {
+   "artifact_id": "water_shoreline",
+   "bytes": 5902589,
+   "git_commit": "80eb5cad0faf",
+   "path": "data/processed/water/shoreline.parquet",
+   "produced_at": "2026-09-06T11:16:13Z",
+   "rows": 413,
+   "schema": "water.shoreline/1",
+   "sha256": "ab3c1e65f832a5d99d27685f29ad3fd4793ec1d7bd680b4069736df30051f01d",
+   "sources": [
+    "plan_shoreline",
+    "plan_hydro_structures"
+   ],
+   "stage": "water"
+  },
+  "water_structures": {
+   "artifact_id": "water_structures",
+   "bytes": 2500550,
+   "git_commit": "80eb5cad0faf",
+   "path": "data/processed/water/structures.parquet",
+   "produced_at": "2026-09-06T11:16:13Z",
+   "rows": 2536,
+   "schema": "water.structures/1",
+   "sha256": "30a4324012c6d79e8d75f14d32aeb3a9b13859ad64e9a7b839b90be4a3f785ab",
+   "sources": [
+    "plan_hydro_structures"
+   ],
+   "stage": "water"
+  },
+  "water_tiles": {
+   "artifact_id": "water_tiles",
+   "bytes": 29433,
+   "git_commit": "80eb5cad0faf",
+   "path": "data/processed/water/water_tiles.parquet",
+   "produced_at": "2026-09-06T11:16:13Z",
+   "rows": 2916,
+   "schema": "water.water_tiles/1",
+   "sha256": "7fccfb19e5c9d1d401488ad1fd47ca66a2ddd4dd6167a88c4d4ad43463392848",
+   "sources": [
+    "plan_hydrography"
+   ],
+   "stage": "water"
   }
  },
  "schema_version": 1
