@@ -1,6 +1,6 @@
 # Manhattan Bridge
 
-Script: `blender/landmarks/b_manhattan_bridge.py` · agent B · generated 2026-09-06 14:07 UTC
+Script: `blender/landmarks/b_manhattan_bridge.py` · agent B · generated 2026-09-06 14:56 UTC
 
 ## Placement
 
@@ -55,4 +55,9 @@ plate reinforcement, the tower finial castings in detail, the arch's sculptural 
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_manhattan_bridge.glb` — 80,700 triangles, 3.33 MB, bounds min ['-479.3', '-830.7', '-10.0'] max ['375.3', '999.4', '107.4']
-* `blender_out/landmarks/b_manhattan_bridge_lod1.glb` — 28,940 triangles, 0.94 MB, bounds min ['-476.6', '-830.7', '-10.0'] max ['375.3', '996.7', '107.4']
+
+## Verification renders (Cycles CPU, 64 spp)
+
+![dumbo_washington_street_reference](dumbo_washington_street_reference.png)
+![pebble_beach_reference](pebble_beach_reference.png)
+![dumbo_washington_street](dumbo_washington_street.png)

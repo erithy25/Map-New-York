@@ -79,6 +79,16 @@ VIEWS: dict[str, dict] = {
         "fov": 52.0, "sun_az": 200.0, "sun_el": 44.0, "size": (1600, 900),
         "title": "Bayside one- and two-family houses: gable, hip and shed roofs (t_14_6)",
     },
+    "midtown_setbacks": {
+        # aimed at BIN 1014429 (six roof plateaus, 25.9 m of setback over an 86 m tower) and its
+        # neighbours; rendered from the stepped build and from a --roof-steps off build of the same
+        # tile so the pair is directly comparable.
+        "tiles": ["t_-4_5", "t_-3_5", "t_-4_6", "t_-3_6"],
+        "cam": (-3246.0, 5615.0), "cam_agl": 105.0,
+        "target": (-3406.0, 5775.0), "target_agl": 42.0,
+        "fov": 42.0, "sun_az": 145.0, "sun_el": 40.0, "size": (1600, 900),
+        "title": "Midtown setbacks: real multi-level massing recovered from the CityGML LOD2 roof levels",
+    },
     "skyline_brooklyn": {
         "merged": {"level": 2, "cells": [(-2, 0), (-2, 1), (-1, 0), (-1, 1), (-2, -1), (-1, -1)]},
         "cam": (-4183.8, -431.9), "cam_z": 22.0,      # Brooklyn Heights Promenade deck

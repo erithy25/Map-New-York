@@ -1856,10 +1856,19 @@ uint32_t TrafficSim::spawn(VehicleClass c, uint32_t lane, float s, uint32_t dest
   path[0] = lane;
   nv.path_len = 1;
   nv.path_pos = 0;
-  if (dest_lane != kInvalidIndex && router_ != nullptr && router_->attached()) {
+  // Routing is budgeted like everything else: an agent that cannot be routed in
+  // this step drives on its wander path and picks its route up within a second.
+  if (dest_lane != kInvalidIndex && router_ != nullptr && router_->attached() &&
+      routes_this_step_ < cfg_.max_routes_per_step) {
+    ++routes_this_step_;
     if (!routeAgent(nv, dest_lane, dest_s)) extendPath(nv);
   } else {
     extendPath(nv);
+    if (dest_lane != kInvalidIndex) {
+      nv.dest_lane = dest_lane;
+      nv.dest_s = dest_s;
+      if (pending_routes_.size() < pending_routes_.capacity()) pending_routes_.push_back(id);
+    }
   }
   if (cp.is_bus) assignBusRoute(nv);
   ++stats_.spawned;
