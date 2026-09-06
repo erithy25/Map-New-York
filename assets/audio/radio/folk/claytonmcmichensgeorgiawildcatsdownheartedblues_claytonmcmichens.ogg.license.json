@@ -1,0 +1,28 @@
+{
+ "artist": "Composed by Lovie Austin & Alberta Hunter",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 2721742,
+ "duration_s": 181.58,
+ "file": "folk/claytonmcmichensgeorgiawildcatsdownheartedblues_claytonmcmichens.ogg",
+ "gain_db": 7.4,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+ "loudness_lufs": -21.4,
+ "original_filename": "ClaytonMcmichensGeorgiaWildcatsDownheartedBlues.mp3",
+ "recorded_at": "2026-09-06T12:22:36Z",
+ "schema_version": 1,
+ "sha256": "2ad82e9c3c1c4a223f77a102128ce792f04cc1d9557a8965471e2c205b17e2f5",
+ "source_page": "https://archive.org/details/ClaytonMcmichensGeorgiaWildcatsDownheartedBlues",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/ClaytonMcmichensGeorgiaWildcatsDownheartedBlues/ClaytonMcmichensGeorgiaWildcatsDownheartedBlues.mp3",
+ "title": "Clayton McMichen's Georgia Wildcats Downhearted Blues",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

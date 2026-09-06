@@ -10,6 +10,11 @@ non-reflected structs), and lifetime of everything handed to a worker thread.
 The first workstation build is the first compile. §7 lists the API calls whose exact signature could not be checked
 against installed engine headers here — those are where a first-build error, if any, will be.
 
+Three executable checkers back this file up and are re-runnable at any time:
+`check_sources.py` (523 static assertions over the 36 owned files), `check_math.py` (38 numeric assertions over
+every formula below) and `check_terrain_data.py` (the importer's assumptions against the 2,337 real heightmaps),
+all under `docs/verification/unreal_world/`. All three pass.
+
 Owner: Unreal agent 1. Files under `Private/{Vehicle,Character,Traffic,Peds,UI,Audio,Player}` and their `Public/`
 mirrors belong to Unreal agent 2 and are not listed here. `NYCSimRuntime.Build.cs` is shared; this stage added no
 line to it (every module it needs was already listed).

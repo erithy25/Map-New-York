@@ -1,0 +1,28 @@
+{
+ "artist": "Wilhelm RODE - Bariton",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 4108848,
+ "duration_s": 284.31,
+ "file": "classical/01_rode_hollander_01_rode_holl_nder.ogg",
+ "gain_db": 3.5,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+ "loudness_lufs": -17.5,
+ "original_filename": "01 Rode Holl\u00e4nder.mp3",
+ "recorded_at": "2026-09-06T12:21:28Z",
+ "schema_version": 1,
+ "sha256": "0e777f99cfb0c2f8ad05bc3e71ee3433e68a84bcaf50d9b9fc8e7e54516341af",
+ "source_page": "https://archive.org/details/01-rode-hollander",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/01-rode-hollander/01%20Rode%20Holl%C3%A4nder.mp3",
+ "title": "Die Frist ist um",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

@@ -337,10 +337,13 @@ def build(sp: FleetSpec, lib: M.Library | None = None, *, reset: bool = True) ->
     for s in (1, -1):
         v.add(P.mirror(s, lib, x=mx, y=s * (bp.y_belt(mx) - 0.005), z=bp.z_belt(mx) + 0.06,
                        w=mw, h=mh, d=md, arm=sp.mirror_arm))
-    z_ws = bp.z_top(sp.x_cowl) - 0.012
-    v.add(P.wiper(1, lib, pivot=(sp.x_cowl - 0.03, 0.30, z_ws), length=sp.wiper_len, blade=sp.wiper_blade, park_deg=6.0))
-    v.add(P.wiper(-1, lib, pivot=(sp.x_cowl - 0.03, -0.38, z_ws), length=sp.wiper_len * 0.88,
-                  blade=sp.wiper_blade * 0.88, park_deg=-6.0))
+    z_ws = bp.z_top(sp.x_cowl - 0.05) - 0.012
+    dx = max(0.12, sp.x_cowl - sp.x_roof_front)
+    slope = max(0.05, (bp.z_top(sp.x_roof_front) - bp.z_top(sp.x_cowl)) / dx)
+    v.add(P.wiper(1, lib, pivot=(sp.x_cowl - 0.05, 0.30, z_ws), length=sp.wiper_len, blade=sp.wiper_blade,
+                  park_deg=6.0, glass_slope=slope))
+    v.add(P.wiper(-1, lib, pivot=(sp.x_cowl - 0.05, -0.38, z_ws), length=sp.wiper_len * 0.88,
+                  blade=sp.wiper_blade * 0.88, park_deg=-6.0, glass_slope=slope))
     if sp.exhaust:
         v.add(P.exhaust(lib, x_tip=sp.exhaust[0], y=sp.exhaust[1], z=sp.exhaust[2], r=0.036, length=0.8, tips=1))
     if sp.grille:
@@ -383,6 +386,7 @@ def build(sp: FleetSpec, lib: M.Library | None = None, *, reset: bool = True) ->
             z_roof=z_roof_in, y_cabin=y_cab, z_belt=bp.z_belt(sx) - 0.02, seats=seats,
             wheel_center=(sx, y_cab * 0.48, sp.z_floor + 0.52), wheel_radius=0.19,
             column_deg=sp.column_deg, detail="mid", console=sp.interior != "bench",
+            x_roof_front=sp.x_roof_front, roof_line=bp.z_top,
             shifter=sp.shifter, doors_x=(tuple(cuts[0:2]), tuple(cuts[1:3])) if len(cuts) >= 3 else (tuple(cuts[0:2]),),
             gauge_images=(TX.gauge_speedo("gauge_speedo_120mph", max_mph=120),
                           TX.gauge_tach("gauge_tach_6000rpm", max_rpm=6000, redline_rpm=5000),

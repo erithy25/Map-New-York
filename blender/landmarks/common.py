@@ -544,8 +544,12 @@ def ring_stations(coords: Sequence[tuple[float, float]], spacing: float, *, offs
     Real footprints break a straight wall into many short segments and round the corners into 0.2 m chords, so laying
     bays out per *edge* gives a nonsense rhythm. This walks the perimeter instead: use it for buttresses, bay divisions,
     lamp posts, balusters — anything whose real spacing is measured along the wall."""
+    if len(coords) < 3:
+        return
     ring = list(coords) + [coords[0]]
     per = polyline_length(ring)
+    if per < max(spacing, 1e-3):
+        return
     n = max(1, int(round(per / max(spacing, 1e-3))))
     step = per / n
     for i in range(n):
@@ -893,7 +897,14 @@ class MeshBuilder:
                 self.face((h0[i], h0[j], h1[j], h1[i]), material, smooth_sides)
             hb0.append(h0); hb1.append(h1)
         if cap_top or cap_bottom:
-            tris = nb.triangulate_2d(ring, holes)
+            try:
+                tris = nb.triangulate_2d(ring, holes)
+            except ValueError as e:
+                # A hole that touches or crosses the outer ring (a wall ring offset too far inwards for a thin part of
+                # the plan) cannot be triangulated. The walls are already built; skip the caps and say which shape.
+                log.warning("prism: skipping caps, cannot triangulate ring of %d pts with %d hole(s): %s",
+                            len(ring), len(holes), e)
+                return
             top_idx = b1 + [v for h in hb1 for v in h]
             bot_idx = b0 + [v for h in hb0 for v in h]
             for a, b, c in tris:
@@ -1053,6 +1064,23 @@ def prism(name: str, poly: Polygon, z0: float, z1: float, material, *, inset: fl
                 continue
         b.prism(ring_coords(p), z0, z1, material, holes=hole_coords(p), material_top=material_top, cap_bottom=cap_bottom)
     return b.build(name, role=role)
+
+
+def wall_ring(b: MeshBuilder, poly: Polygon | MultiPolygon, z0: float, z1: float, thickness: float, material, *,
+              cap_top: bool = True, cap_bottom: bool = False, material_top=None) -> None:
+    """A wall of ``thickness`` following ``poly``: the polygon extruded z0->z1 with its inward offset cut out as a hole.
+    Where the inward offset would close or split the ring (a plan too thin for that thickness), the wall is built solid
+    there instead of failing — parapets, garden walls, string courses and balustrade plinths all go through this."""
+    parts = list(poly.geoms) if isinstance(poly, MultiPolygon) else [poly]
+    for p in parts:
+        inner = offset_polygon(p, -abs(thickness))
+        holes: list[list[tuple[float, float]]] = []
+        if isinstance(inner, Polygon) and not inner.is_empty and inner.area > 1e-3 and inner.within(p):
+            holes = [ring_coords(inner)]
+        elif isinstance(inner, MultiPolygon):
+            holes = [ring_coords(q) for q in inner.geoms if q.area > 1e-3 and q.within(p)]
+        b.prism(ring_coords(p), z0, z1, material, holes=holes, cap_top=cap_top, cap_bottom=cap_bottom,
+                material_top=material_top)
 
 
 def plinth(name: str, poly: Polygon, z0: float, z1: float, material, *, role: str = "base", material_top=None) -> bpy.types.Object:
@@ -1400,8 +1428,8 @@ def balustrade(b: MeshBuilder, ring: Sequence[tuple[float, float]], z0: float, h
                spacing: float = 0.75, baluster_r: float = 0.09, rail_t: float = 0.22, plinth_h: float = 0.18) -> None:
     """Stone balustrade around a ring: bottom plinth, turned balusters at ``spacing``, top rail."""
     pts = [tuple(map(float, p[:2])) for p in ring]
-    b.prism(pts, z0, z0 + plinth_h, material, holes=[offset_ring(pts, -rail_t)], cap_bottom=False)
-    b.prism(pts, z0 + h - rail_t, z0 + h, material, holes=[offset_ring(pts, -rail_t)], cap_bottom=True)
+    wall_ring(b, Polygon(pts), z0, z0 + plinth_h, rail_t, material)
+    wall_ring(b, Polygon(pts), z0 + h - rail_t, z0 + h, rail_t, material, cap_bottom=True)
     zb0, zb1 = z0 + plinth_h, z0 + h - rail_t
     prof = [(baluster_r * 0.8, 0.0), (baluster_r * 1.15, (zb1 - zb0) * 0.14), (baluster_r * 0.62, (zb1 - zb0) * 0.42),
             (baluster_r * 0.95, (zb1 - zb0) * 0.78), (baluster_r * 0.8, zb1 - zb0)]

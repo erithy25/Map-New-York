@@ -17,6 +17,21 @@
 //   * suffix `_L` / `_R`  — left / right in the vehicle's own frame (driver's left when seated).
 //   * suffix `_F` / `_R`  — front / rear axle. Wheels use `Wheel_FL, Wheel_FR, Wheel_RL, Wheel_RR`.
 //   * `UCX_<part>_NN`     — convex collision hulls, consumed by the importer, never by gameplay.
+//
+// Bone axis contract (what UNYCVehicleAnimInstance drives; the Blender rig must match these local axes exactly)
+//   | bone                | motion                     | local axis                                   |
+//   |---------------------|----------------------------|----------------------------------------------|
+//   | Wheel_*             | rolling                    | rotation about local **Y**, +Y = forward roll |
+//   | Wheel_F*            | steering                   | rotation about local **Z**, +Z = steer left   |
+//   | SteeringWheel       | driver input               | rotation about local **X** (column axis)      |
+//   | Needle_*            | gauge sweep                | rotation about local **X**, 0 at the rest peg |
+//   | Door_FL/FR/RL/RR    | swing open                 | rotation about local **Z**, positive = open   |
+//   | Door_Hood/Trunk     | lift                       | rotation about local **Y**, positive = open   |
+//   | Wiper_L/R/Rear      | sweep                      | rotation about local **Z**, 0 = parked        |
+//   | Window_*            | drop into the door         | translation along local **-Z**, full = glass height |
+//   | Mirror_L/R          | fold                       | rotation about local **Z**, positive = folded |
+//   | GearSelector        | P R N D                    | rotation about local **X**                    |
+// Every bone's rest pose is the closed / parked / zero state, so the runtime only ever adds a delta.
 #pragma once
 
 #include "CoreMinimal.h"
@@ -81,6 +96,11 @@ namespace NYCVehicleBones
 	inline const TCHAR* const SocketHorn = TEXT("SKT_Horn");
 	inline const TCHAR* const SocketRoofLight = TEXT("SKT_RoofLight");
 	inline const TCHAR* const SocketDestinationSign = TEXT("SKT_DestSign");
+	/// Plane of the centre-console screen: origin at its centre, +X out of the glass, size given by the socket
+	/// scale (X unused, Y = width, Z = height, centimetres). The GPS widget is rendered here.
+	inline const TCHAR* const SocketScreenCentre = TEXT("SKT_Screen");
+	/// Plane of the instrument cluster screen, same convention.
+	inline const TCHAR* const SocketScreenCluster = TEXT("SKT_Cluster");
 }
 
 /** Material slot names. Each is a distinct slot on the mesh so the runtime can create a dynamic instance for it. */

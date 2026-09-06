@@ -62,7 +62,12 @@ IMPORT_SETTINGS: dict[str, dict[str, Any]] = {
     "tree_lod": {"nanite": False, "lods_from_suffix": True, "collision": "simple_capsule", "generate_lightmap_uvs": False, "combine_meshes": True, "material_master": "M_NYC_Foliage", "mobility": "static", "instanced": True},
     "vehicle_skeletal": {"skeletal": True, "nanite": False, "import_animations": False, "material_master": "M_NYC_Vehicle", "physics_asset": True},
     "character_skeletal": {"skeletal": True, "nanite": False, "import_animations": True, "import_morph_targets": True, "material_master": "M_NYC_Character", "physics_asset": True},
-    "terrain_heightmap": {"landscape": True, "samples": TERRAIN_SAMPLES, "spacing_m": 2.0, "component_size_quads": 125, "sections_per_component": 1, "components_per_tile": 4, "notes": "501 samples = 4 components x 125 quads + 1; imported by UNYCTerrainImporter"},
+    # ADR-015: Landscape only accepts component sizes 7/15/31/63/127/255 quads, so the importer
+    # resamples the 501-sample 2 m grid to 505 samples (8 components of 63 quads at 198.412698 cm).
+    "terrain_heightmap": {"landscape": True, "samples": TERRAIN_SAMPLES, "spacing_m": 2.0,
+                          "component_size_quads": 63, "components_per_side": 8, "sections_per_component": 1,
+                          "import_samples": 505, "import_spacing_cm": 198.412698,
+                          "notes": "pipeline emits 501 samples at 2.0 m; UNYCTerrainImporter resamples to 505 samples of 198.412698 cm, still exactly 1000 m wide with borders unchanged (ADR-015)"},
     "texture_mask": {"texture": True, "srgb": False, "compression": "Grayscale", "mip_gen": "NoMipmaps", "address": "Clamp", "notes": "8-bit water/shoreline mask, 1 texel = 2 m"},
     "raw_copy": {"copy": True, "notes": "copied verbatim under Content/NYCSim/Runtime (staged as UFS)"},
     "json_copy": {"copy": True, "notes": "small JSON copied verbatim"},

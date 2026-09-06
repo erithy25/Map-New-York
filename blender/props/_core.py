@@ -902,6 +902,25 @@ def _write_glb(path: Path, js: dict, bin_chunk: bytes) -> None:
             f.write(bb)
 
 
+def set_asset_extras(path: Path, meta: dict) -> None:
+    """DATA_CONTRACTS §13 puts the NYCSim metadata on ``asset.extras``; Blender's exporter can only write scene
+    extras, so the same dict is copied onto the asset record here."""
+    js, bin_chunk = _read_glb(path)
+    js.setdefault("asset", {}).setdefault("extras", {})["nycsim"] = meta
+    _write_glb(path, js, bin_chunk)
+
+
+def settle_to_ground(objects: Sequence[bpy.types.Object]) -> float:
+    """Translate a finished assembly so its lowest vertex sits exactly on z = 0 (the ground-contact anchor).
+    Used where a modelled tilt or a swept cap would otherwise put a few millimetres below grade. Returns the shift."""
+    lo = min(nb.bounds_of([o])["min"][2] for o in objects if o.type == "MESH")
+    if lo < 0.0:
+        for o in objects:
+            if o.type == "MESH":
+                move(o, 0.0, 0.0, -lo)
+    return -lo if lo < 0.0 else 0.0
+
+
 def add_msft_lod(path: Path, coverage=(0.5, 0.03)) -> dict:
     """Wire node LOD1 into node LOD0's MSFT_lod extension and drop LOD1 from the scene roots. Returns node info."""
     js, bin_chunk = _read_glb(path)
@@ -988,6 +1007,7 @@ def build_and_export(spec: PropSpec, *, out_dir: Path = PROPS_OUT, catalog_dir: 
               "anchor": {"origin": "ground_contact", "facing_blender": "+Y", "facing_gltf": "-Z"}}
     nb.export_glb(glb, objects=lod0 + lod1 + [root0, root1], extras=extras)
     add_msft_lod(glb)
+    set_asset_extras(glb, json.loads(bpy.context.scene["nycsim"]))
     entry = {
         "id": spec.id, "category": spec.category, "dataset_kind": spec.dataset_kind, "glb": str(glb.relative_to(nb.BLENDER_OUT)),
         "bounds": bounds, "bounds_with_effects": bounds_all, "size_m": [round(s, 4) for s in size],

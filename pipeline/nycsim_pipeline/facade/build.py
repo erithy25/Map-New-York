@@ -508,9 +508,9 @@ def _apply_roof_attrs(bins: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndar
            if "roof_type_source" in need else np.where(real, RF.ROOF_SRC_CITYGML, RF.ROOF_SRC_DEFAULT_FLAT).astype(np.int8))
     # sources 2 (the CityGML stage's own inference) and 3 (default flat) are handed back as "default flat": ADR-013
     # gives the house stock's roof *shape* to the facade rule, so only the two real sources are carried through.
-    real = np.isin(src, [RF.ROOF_SRC_CITYGML, RF.ROOF_SRC_OSM])
-    rt = np.where(real, rt, 0).astype(np.int8)
-    src = np.where(real, src, RF.ROOF_SRC_DEFAULT_FLAT).astype(np.int8)
+    from_real_source = np.isin(src, [RF.ROOF_SRC_CITYGML, RF.ROOF_SRC_OSM])
+    rt = np.where(from_real_source, rt, 0).astype(np.int8)
+    src = np.where(from_real_source, src, RF.ROOF_SRC_DEFAULT_FLAT).astype(np.int8)
     return rt, ref, real, src, f"joined {int(real.sum()):,} CityGML matches from {ROOF_ATTRS.name}"
 
 

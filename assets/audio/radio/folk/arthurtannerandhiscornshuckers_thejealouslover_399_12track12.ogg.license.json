@@ -1,0 +1,28 @@
+{
+ "artist": "Arthur Tanner and His Corn Shuckers",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 2282085,
+ "duration_s": 170.85,
+ "file": "folk/arthurtannerandhiscornshuckers_thejealouslover_399_12track12.ogg",
+ "gain_db": 6.3,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/licenses/publicdomain/",
+ "loudness_lufs": -20.3,
+ "original_filename": "12Track12.mp3",
+ "recorded_at": "2026-09-06T12:23:08Z",
+ "schema_version": 1,
+ "sha256": "f78f17420f909d4670b2dcb2f7f5c39693d03858f13a629cca6f8553cca60c45",
+ "source_page": "https://archive.org/details/ArthurTannerAndHisCornShuckers-TheJealousLover_399",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/ArthurTannerAndHisCornShuckers-TheJealousLover_399/12Track12.mp3",
+ "title": "12 Track 12",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

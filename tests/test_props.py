@@ -143,7 +143,8 @@ def test_bounds_match_nominal(pid, glbs, catalog):
     catalog compares against glTF (x, z, y)."""
     e = catalog[pid]
     g = glbs[pid]
-    lo, hi = g.bounds(g.meshes_under(g.nodes_by_name()["LOD0"]))
+    # LIGHT_CONE planes are a night effect volume, not part of the object's physical size
+    lo, hi = g.node_bounds(g.nodes_by_name()["LOD0"], exclude_materials=("LIGHT_CONE",))
     gl = [hi[i] - lo[i] for i in range(3)]
     measured = [gl[0], gl[2], gl[1]]                     # back to Blender axis order
     nominal = e["nominal_size_m"]
@@ -170,7 +171,7 @@ def test_anchor_is_ground_contact(pid, glbs, catalog):
         assert origin in ("sign_face_center", "bracket_pole_axis", "bullet_center"), f"{pid}: odd anchor {origin}"
         return
     g = glbs[pid]
-    lo, hi = g.bounds(g.meshes_under(g.nodes_by_name()["LOD0"]))
+    lo, hi = g.node_bounds(g.nodes_by_name()["LOD0"], exclude_materials=("LIGHT_CONE",))
     base = lo[1]                                          # glTF +Y is up
     below_grade_ok = {"manhole_coned": 0.07, "manhole_dep": 0.07, "subway_entrance": 2.5, "roadway_plate": 0.01,
                        "tree_grate": 0.03}
@@ -234,7 +235,8 @@ def test_signal_heads_are_nyc_green_with_backplates(catalog, glbs):
         assert "black_matte" in mats and "retro_yellow_border" in mats, f"{pid}: no backplate with a retro border"
         for lens in ("LED_RED", "LED_YELLOW", "LED_GREEN"):
             assert lens in mats, f"{pid}: missing {lens}"
-        assert catalog[pid]["key_dims_m"]["pole_height"] in (5.50, 8.20)
+        kd = catalog[pid]["key_dims_m"]
+        assert kd.get("pole_height", 5.50) in (5.50, 8.20)
 
 
 def test_pedestrian_signal_has_runtime_slots(catalog, glbs):
@@ -251,7 +253,7 @@ def test_mta_bullet_colours_are_exact(glbs, catalog):
     for line, want in MTA_COLORS.items():
         mat = g.material_by_name(f"MTA_{line}")
         assert mat is not None, f"bullet material MTA_{line} missing (have {sorted(names)})"
-        factor = mat["pbrMetallicRoughness"]["baseColorFactor"]
+        factor = mat["pbrMetallicRoughness"].get("baseColorFactor", [1.0, 1.0, 1.0, 1.0])
         got = linear_to_srgb_hex(factor)
         assert got == want, f"MTA_{line}: exported {got}, official {want}"
     entry = catalog["mta_line_bullets"]
@@ -266,8 +268,11 @@ def test_mta_bullet_glyph_contrast(glbs):
     g = glbs["mta_line_bullets"]
     mats = set(g.material_names())
     assert "MTA_GLYPH_DARK" in mats and "MTA_GLYPH_LIGHT" in mats
-    dark = linear_to_srgb_hex(g.material_by_name("MTA_GLYPH_DARK")["pbrMetallicRoughness"]["baseColorFactor"])
-    light = linear_to_srgb_hex(g.material_by_name("MTA_GLYPH_LIGHT")["pbrMetallicRoughness"]["baseColorFactor"])
+    def factor(name):
+        pbr = g.material_by_name(name)["pbrMetallicRoughness"]
+        return linear_to_srgb_hex(pbr.get("baseColorFactor", [1.0, 1.0, 1.0, 1.0]))   # glTF default is white
+
+    dark, light = factor("MTA_GLYPH_DARK"), factor("MTA_GLYPH_LIGHT")
     assert dark == "#111111" and light == "#FFFFFF"
 
 

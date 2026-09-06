@@ -278,25 +278,30 @@ def mirror(side: int, lib: M.Library, *, x: float, y: float, z: float, w: float 
 
 
 def wiper(side: int, lib: M.Library, *, pivot: Sequence[float], length: float, blade: float,
-          park_deg: float = 8.0, arc_deg: float = -32.0) -> object:
-    """``Wiper_L``/``Wiper_R``: arm + blade, origin exactly on the spindle so the engine can rotate it about Z."""
+          park_deg: float = 8.0, arc_deg: float = -32.0, glass_slope: float = 0.46) -> object:
+    """``Wiper_L``/``Wiper_R``: arm + blade lying **up the windshield**, i.e. towards -X and +Z (+X is forward,
+    so the glass is behind the cowl).  ``glass_slope`` is dz/|dx| of the windshield.  The object origin is
+    exactly on the spindle so the engine rotates the whole assembly about its local Z."""
     s = 1 if side > 0 else -1
     tag = "L" if s > 0 else "R"
     px, py, pz = pivot
     mats = [lib.black_plastic(), lib.rubber()]
     a = math.radians(park_deg * s + arc_deg * 0)
-    arm_path = [(0.0, 0.0, 0.0), (length * 0.45, s * length * 0.10, 0.012), (length * 0.80, s * length * 0.16, 0.018)]
+    arm_path = [(0.0, 0.0, 0.0),
+                (-length * 0.45, s * length * 0.10, length * 0.45 * glass_slope),
+                (-length * 0.80, s * length * 0.16, length * 0.80 * glass_slope)]
     arm = g.tube_bm(arm_path, [0.011, 0.008, 0.007], segments=8, material_index=0)
     spindle = g.cylinder_bm(0.014, 0.05, axis="Z", center=(0, 0, -0.012), segments=12, material_index=0)
-    bx = length * 0.80
+    bx = -length * 0.80
     by = s * length * 0.16
+    bz = length * 0.80 * glass_slope
     # the blade box is built along +Y (tangential); rotating it by the arm's polar angle keeps it
     # perpendicular to the arm, which is how a wiper blade sits.
     swing = math.degrees(math.atan2(by, bx))
-    blade_bm = g.box_bm((0.012, blade, 0.020), (bx, by, 0.016), material_index=0)
-    g.rotate_bm(blade_bm, "Z", swing, center=(bx, by, 0.016))
-    rub = g.box_bm((0.006, blade * 0.98, 0.011), (bx, by, 0.003), material_index=1)
-    g.rotate_bm(rub, "Z", swing, center=(bx, by, 0.003))
+    blade_bm = g.box_bm((0.012, blade, 0.020), (bx, by, bz + 0.016), material_index=0)
+    g.rotate_bm(blade_bm, "Z", swing, center=(bx, by, bz + 0.016))
+    rub = g.box_bm((0.006, blade * 0.98, 0.011), (bx, by, bz + 0.003), material_index=1)
+    g.rotate_bm(rub, "Z", swing, center=(bx, by, bz + 0.003))
     bm = g.merge_bm([arm, spindle, blade_bm, rub])
     g.rotate_bm(bm, "Z", math.degrees(a))
     ob = g.to_object(f"Wiper_{tag}", bm, mats, smooth=True, sharp_angle_deg=40.0)

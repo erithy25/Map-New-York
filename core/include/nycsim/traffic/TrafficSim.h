@@ -191,6 +191,7 @@ struct Vehicle {
   uint32_t claim_node = routing::kInvalidIndex;  // stop-sign claim
   float claim_time = 0.f;
   uint8_t exit_now = 0;  // dead end reached: recycle as soon as the ring allows
+  uint32_t lc_from = routing::kInvalidIndex;  // lane still occupied laterally
 
   uint16_t bus_route = 0xFFFFu;
   uint16_t bus_stop_ix = 0xFFFFu;   // stop currently being served
@@ -332,6 +333,7 @@ class TrafficSim {
   void decide(uint32_t i);
   void integrate(uint32_t i);
   void resolveOverlaps();
+  void laneClamp();
   bool laneSlotClaimed(uint32_t lane, float s, float half_len) const;
   void claimLaneSlot(uint32_t lane, float s, float half_len);
   void updateSpawnDespawn();
@@ -340,6 +342,10 @@ class TrafficSim {
   IdmParams idmOf(const Vehicle& v) const;
   Neighbour leaderInLane(uint32_t lane, float s, float half_len, uint32_t skip) const;
   Neighbour followerInLane(uint32_t lane, float s, float half_len, uint32_t skip) const;
+  // Same, but also counting vehicles that are only laterally in the lane
+  // because they are half way through a change out of it.
+  Neighbour leaderIncludingStraddlers(uint32_t lane, float s, float half_len, uint32_t skip) const;
+  Neighbour followerIncludingStraddlers(uint32_t lane, float s, float half_len, uint32_t skip) const;
   Neighbour leaderAhead(const Vehicle& v, float horizon_m) const;  // follows the path
   float laneOccupancyAhead(uint32_t lane, float from_s, float span_m) const;
   bool exitSpaceAvailable(const Vehicle& v, uint32_t junction_lane) const;
@@ -414,6 +420,9 @@ class TrafficSim {
   };
   std::vector<LcClaim> lc_claims_;
   std::vector<uint32_t> lc_head_, lc_stamp_;
+  // Per-lane list of the agents that are still laterally inside a lane they
+  // have already left (lane change in progress), rebuilt with the order index.
+  std::vector<uint32_t> straddle_head_, straddle_stamp_, straddle_next_;
   std::vector<NodeClaim> claims_;  // kClaimsPerNode per node
   std::vector<float> nta_lane_km_;
   std::vector<uint32_t> spawn_lanes_;

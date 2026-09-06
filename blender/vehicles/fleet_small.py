@@ -485,35 +485,33 @@ def horse_carriage() -> dict:
                                                   arc=(math.radians(5), math.radians(175))), IDX_METAL))
     parts.append(g.set_material_bm(g.ribbon_bm([(0.45, 0, 2.19), (0.05, 0, 2.17), (-0.42, 0, 1.95)], 1.24,
                                                up=(0, 1, 0)), IDX_HOOD))
-    # shafts to the horse
-    for s in (1, -1):
-        parts.append(g.set_material_bm(g.tube_bm([(2.35, s * 0.30, 1.00), (3.30, s * 0.34, 1.05),
-                                                  (4.30, s * 0.36, 1.06)], 0.030, segments=8), IDX_WOOD))
     # lamps on the dash rail
     for s in (1, -1):
         parts.append(g.set_material_bm(g.box_bm((0.10, 0.10, 0.22), (2.28, s * 0.56, 1.72)), IDX_BRASS))
     body = g.to_object("Body", g.merge_bm(parts), mats, smooth=True, sharp_angle_deg=42.0)
     v.add(body)
-    for tag, x, rr, ty in (("RL", 0.0, R, d.y_track_rear), ("RR", 0.0, R, -d.y_track_rear),
-                           ("FL", 1.90, Rf, d.y_track_front / 1.0), ("FR", 1.90, Rf, -d.y_track_front / 1.0)):
-        w = carriage_wheel(f"Wheel_{tag}", radius=rr, lib=lib, spokes=14)
-        w.location = (x, ty / (2.0 if tag in ("FL", "FR") else 2.0) * 2.0 / 2.0 * 2.0 / 2.0, rr)
-        w.location = (x, (d.y_track_rear if tag[1] == "L" or tag == "RL" else 0) * 0, rr)
-        v.add(w)
-    # place them properly (the loop above only creates them; set the real hub centres now)
+    # the shafts and the horse stand ahead of the published carriage envelope, so they are separate objects
+    # (rig.Vehicle.ENVELOPE_EXCLUDE) and the whole rig length is reported as ``rig_length_m``.
+    shafts = []
+    for s in (1, -1):
+        shafts.append(g.set_material_bm(g.tube_bm([(2.35, s * 0.30, 1.00), (3.80, s * 0.34, 1.10),
+                                                   (5.30, s * 0.34, 1.28)], 0.030, segments=8), 0))
+    v.add(g.to_object("Shafts", g.merge_bm(shafts), [lib.wood()], smooth=True, sharp_angle_deg=44.0))
     for tag, x, rr, y in (("RL", 0.0, R, d.y_track_rear), ("RR", 0.0, R, -d.y_track_rear),
                           ("FL", 1.90, Rf, d.y_track_front), ("FR", 1.90, Rf, -d.y_track_front)):
-        v.objects[f"Wheel_{tag}"].location = (x, y, rr)
+        w = carriage_wheel(f"Wheel_{tag}", radius=rr, lib=lib, spokes=14)
+        w.location = (x, y, rr)
+        v.add(w)
     v.add(lamp_slot("LIGHT_HEAD_L", lib.light_white("LIGHT_HEAD_L"), (2.34, 0.56, 1.72), 0.036))
     v.add(lamp_slot("LIGHT_HEAD_R", lib.light_white("LIGHT_HEAD_R"), (2.34, -0.56, 1.72), 0.036))
     v.add(lamp_slot("LIGHT_TAIL_L", lib.light_red("LIGHT_TAIL_L"), (-0.898, 0.42, 1.10), 0.032))
     v.add(lamp_slot("LIGHT_TAIL_R", lib.light_red("LIGHT_TAIL_R"), (-0.898, -0.42, 1.10), 0.032))
     v.add(small_plate(lib, "Plate_R", "HDC 88", (-0.902, 0.0, 0.90), (-1, 0, 0), w=0.16, h=0.10))
-    v.add(build_horse(lib, x0=5.05))
+    v.add(build_horse(lib, x0=3.35))
     rig.add_damage_regions(body, d, z_belt=1.05)
     add_ucx(v, d, 1.05, slices=3)
     return finish(v, lod_budgets=(16_000, 3_000), tri_budget=60_000,
-                  extra_catalog={"rig_length_m": 6.45,
+                  extra_catalog={"rig_length_m": 7.28,
                                  "horse": {"withers_m": 1.60, "body_length_m": 2.10,
                                            "method": "procedural capsules + revolves; not sculpted, not rigged"}})
 

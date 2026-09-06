@@ -822,7 +822,7 @@ bool RoadGraph::loadFromNycb(const uint8_t* data, size_t len) {
   const uint32_t version = rdU32(data + 4);
   if (version != 1) return fail("nycb: unsupported version");
   const uint32_t section_count = rdU32(data + 8);
-  const uint64_t index_offset = rdU64(data + 12);
+  const uint64_t index_offset = rdU64(data + 16);  // 24-byte header: 4 bytes of padding after section_count
   if (section_count > 64) return fail("nycb: implausible section count");
   const uint64_t index_size = static_cast<uint64_t>(section_count) * 40u;
   if (index_offset > len || index_size > len - index_offset) return fail("nycb: section index out of bounds");
@@ -855,7 +855,7 @@ bool RoadGraph::loadFromNycb(const uint8_t* data, size_t len) {
   if (nodes.element_size != 24) return fail("nycb: nodes element_size != 24");
   if (segments.element_size != 48) return fail("nycb: segments element_size != 48");
   if (vertices.element_size != 12) return fail("nycb: vertices element_size != 12");
-  if (lanes.element_size != 44) return fail("nycb: lanes element_size != 44");
+  if (lanes.element_size != 48) return fail("nycb: lanes element_size != 48");
   if (lane_links.present && lane_links.element_size != 8) return fail("nycb: lane_links element_size != 8");
   if (junction_lanes.present && junction_lanes.element_size != 48) return fail("nycb: junction_lanes element_size != 48");
   if (yield_links.present && yield_links.element_size != 8) return fail("nycb: yield_links element_size != 8");
@@ -910,7 +910,7 @@ bool RoadGraph::loadFromNycb(const uint8_t* data, size_t len) {
   };
   std::vector<LaneLinkRange> link_ranges(lanes.element_count);
   for (uint32_t i = 0; i < lanes.element_count; ++i) {
-    const uint8_t* p = lanes.data + static_cast<size_t>(i) * 44u;
+    const uint8_t* p = lanes.data + static_cast<size_t>(i) * 48u;
     const uint32_t fv = rdU32(p + 28), vc = rdU32(p + 32);
     if (!vertRangeOk(fv, vc)) return fail("nycb: lane vertex range out of bounds");
     pts.clear();

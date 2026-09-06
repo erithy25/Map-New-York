@@ -63,7 +63,6 @@ MIN_TLC_TRIPS = 40.0                # trips/day needed before an NTA's own TLC s
 PED_RIDGE = 2.0
 
 _POINT = re.compile(r"POINT\s*\(\s*([-\d.]+)\s+([-\d.]+)\s*\)")
-GENERATORS = ("retail_m2", "office_m2", "com_m2", "res_m2", "units", "subway")
 
 
 @dataclass
@@ -159,15 +158,17 @@ def load_ped_count_sites(nta: NtaTable, path: Path = PED_COUNTS_PATH) -> pl.Data
         cols = sorted(cols, key=_order)[-N_SEASONS:]
         used[per] = cols
         arr = np.vstack([df[c].cast(pl.Float64, strict=False).to_numpy() for c in cols])
-        with np.errstate(invalid="ignore"):
-            mean = np.nanmean(np.where(arr > 0, arr, np.nan), axis=0)
+        good = np.isfinite(arr) & (arr > 0)                 # a season a site was not counted in is blank
+        n_good = good.sum(axis=0)
+        mean = np.where(n_good > 0, np.where(good, arr, 0.0).sum(axis=0) / np.maximum(n_good, 1), np.nan)
         hours = PERIODS[per][1] - PERIODS[per][0]
         out[f"{per}_ph"] = mean / hours
     s = pl.DataFrame(out)
     hrs = np.array([PERIODS[p][1] - PERIODS[p][0] for p in PERIODS], dtype=np.float64)
     per_arr = np.vstack([s[f"{p}_ph"].to_numpy() for p in PERIODS])
-    with np.errstate(invalid="ignore"):
-        level = np.nansum(per_arr * hrs[:, None], axis=0) / np.where(np.isfinite(per_arr), hrs[:, None], 0).sum(axis=0)
+    ok_p = np.isfinite(per_arr)
+    wsum = np.where(ok_p, hrs[:, None], 0.0).sum(axis=0)
+    level = np.where(wsum > 0, np.where(ok_p, per_arr * hrs[:, None], 0.0).sum(axis=0) / np.maximum(wsum, 1e-9), np.nan)
     s = s.with_columns(pl.Series("level_ph", level))
     s = s.with_columns(pl.Series("nta_idx", nta.assign_points(s["x"].to_numpy(), s["y"].to_numpy(), snap_m=300.0)))
     n_all = s.height
@@ -242,7 +243,7 @@ def _tlc_pickup_shape(trips: pl.DataFrame, weights: dict[int, list[tuple[int, fl
 def _period_correction(shape: np.ndarray, sites: pl.DataFrame) -> np.ndarray:
     """Smooth 24-h multiplicative correction that makes the TLC shape match the DOT AM:MD:PM ratios."""
     idx = sites["nta_idx"].to_numpy()
-    obs = np.array([np.nanmean(sites[f"{p}_ph"].to_numpy()) for p in PERIODS])
+    obs = np.array([float(np.mean(sites[f"{p}_ph"].drop_nulls().drop_nans().to_numpy())) for p in PERIODS])
     mod = []
     for p in PERIODS:
         h0, h1 = PERIODS[p]

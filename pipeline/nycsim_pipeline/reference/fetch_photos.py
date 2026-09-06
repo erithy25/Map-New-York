@@ -181,9 +181,9 @@ AERIAL_WORDS = ["aerial", "from above", "helicopter", "drone", "from the air", "
 # Rejected for every item that is not explicitly an interior: transit interiors and building
 # insides look nothing like the outdoor view a render is compared against, and they share
 # categories ("Times Square", "Grand Central") with the views we do want.
-INDOOR_WORDS = ["interior", "inside", "subway entrance", "subway station", "subway platform", "station platform",
-                "railway platform", "subway stairs", "turnstile", "mezzanine", "token booth", "escalator",
-                "waiting room", "lobby", "hallway", "corridor"]
+INDOOR_WORDS = ["interior", "inside", "subway entrance", "subway entrances", "subway station", "subway stations",
+                "subway platform", "station platform", "railway platform", "subway stairs", "turnstile", "turnstiles",
+                "mezzanine", "token booth", "escalator", "escalators", "waiting room", "lobby", "hallway", "corridor"]
 # Deliberately absent: "concourse" (the Grand Concourse is a Bronx boulevard), "BMT"/"IRT" (subway
 # divisions appear in the categories of bridge and street photographs), "staircase" and "elevator"
 # (outdoor stairs, and the Domino Sugar grain elevators). Items that must reject those name them
@@ -438,7 +438,7 @@ CATALOGUE: list[Item] = [
     _it("landmark_lincoln_center", "Lincoln Center", "landmark",
         ['"Lincoln Center" plaza Metropolitan Opera House', '"Lincoln Center for the Performing Arts" fountain plaza'],
         [["lincoln center"]],
-        (40.7720, -73.9828), "top of the Josie Robertson Plaza steps at Columbus Avenue and West 64th Street, looking west at the Metropolitan Opera House",
+        (40.7720, -73.9828), "top of the Josie Robertson Plaza steps at Columbus Avenue and West 64th Street, looking west-north-west at the Metropolitan Opera House",
         subject=(40.7728, -73.9843), subject_name="Metropolitan Opera House", geosearch_radius_m=200,
         exclude=AERIAL_WORDS + ["interior", "inside", "auditorium", "stage", "chandelier", "night", "rendering"]),
     _it("landmark_madison_square_garden", "Madison Square Garden", "landmark",
@@ -474,7 +474,7 @@ CATALOGUE: list[Item] = [
     _it("landmark_municipal_building", "Manhattan Municipal Building", "landmark",
         ['"Manhattan Municipal Building"', '"David N. Dinkins Municipal Building"'],
         [["municipal building"]],
-        (40.7140, -74.0058), "Chambers Street at Broadway (Tweed Courthouse), looking east down Chambers Street at the arch",
+        (40.7140, -74.0058), "Chambers Street at Broadway (Tweed Courthouse), looking south-east down Chambers Street at the arch",
         subject=(40.7128, -74.0040), subject_name="Manhattan Municipal Building", geosearch_radius_m=250,
         exclude=AERIAL_WORDS + ["interior", "inside", "night", "civic fame closeup"]),
     _it("landmark_charging_bull", "Charging Bull", "landmark",
@@ -492,7 +492,7 @@ CATALOGUE: list[Item] = [
     _it("landmark_trinity_church", "Trinity Church", "landmark",
         ['"Trinity Church" Wall Street', '"Trinity Church" Manhattan Broadway spire'],
         [["trinity church"], ["wall street", "manhattan", "broadway", "new york"]],
-        (40.7065, -74.0095), "Wall Street at William Street, looking west up Wall Street at the spire",
+        (40.7065, -74.0095), "Wall Street at William Street, looking west-north-west up Wall Street at the spire",
         subject=(40.7081, -74.0121), subject_name="Trinity Church", geosearch_radius_m=250, gps_subject_max_m=600,
         exclude=AERIAL_WORDS + ["boston", "interior", "inside", "altar", "grave", "tomb", "night", "copley"]),
     _it("landmark_the_dakota", "The Dakota", "landmark",
@@ -510,7 +510,7 @@ CATALOGUE: list[Item] = [
     _it("landmark_apollo_theater", "Apollo Theater", "landmark",
         ['"Apollo Theater" Harlem 125th Street', '"Apollo Theater" marquee Harlem'],
         [["apollo theater", "apollo theatre"]],
-        (40.8097, -73.9503), "south sidewalk of West 125th Street opposite the theatre, looking north at the marquee",
+        (40.8097, -73.9503), "south sidewalk of West 125th Street opposite the theatre, looking north-east at the marquee",
         subject=(40.8100, -73.9500), subject_name="Apollo Theater marquee", geosearch_radius_m=150, gps_subject_max_m=200,
         exclude=["interior", "inside", "stage", "night", "chicago", "oberhausen", "düsseldorf", "victoria", "london", "shaftesbury", "hammersmith"]),
     _it("landmark_yankee_stadium", "Yankee Stadium", "landmark",

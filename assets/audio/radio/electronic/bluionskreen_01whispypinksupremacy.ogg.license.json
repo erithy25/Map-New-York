@@ -1,0 +1,28 @@
+{
+ "artist": "Blu Ion Skreen",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 6465921,
+ "duration_s": 491.0,
+ "file": "electronic/bluionskreen_01whispypinksupremacy.ogg",
+ "gain_db": 6.4,
+ "licence": "CC-BY-2.0-UK",
+ "licence_url": "http://creativecommons.org/licenses/by/2.0/uk/",
+ "loudness_lufs": -20.4,
+ "original_filename": "01WhispyPinkSupremacy.mp3",
+ "recorded_at": "2026-09-06T12:19:09Z",
+ "schema_version": 1,
+ "sha256": "945e46d4267d85d3e512e1a59fe8aebc8597a16911ec295ac3e8b862a67a7ab7",
+ "source_page": "https://archive.org/details/BluIonSkreen",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/BluIonSkreen/01WhispyPinkSupremacy.mp3",
+ "title": "Whispy Pink Supremacy",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

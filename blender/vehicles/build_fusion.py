@@ -305,8 +305,11 @@ def build(detail: str = "high") -> tuple[rig.Vehicle, dict]:
     # ---------- mirrors, wipers, handles, exhaust, plates, grille, badges
     for s in (1, -1):
         v.add(P.mirror(s, lib, x=2.30, y=s * (bp.y_belt(2.30) - 0.005), z=1.040, w=0.185, h=0.108))
-    v.add(P.wiper(1, lib, pivot=(X_COWL - 0.03, 0.34, 1.118), length=0.560, blade=0.600, park_deg=6.0))
-    v.add(P.wiper(-1, lib, pivot=(X_COWL - 0.03, -0.42, 1.118), length=0.480, blade=0.520, park_deg=-6.0))
+    ws_slope = (bp.z_top(X_ROOF_F) - bp.z_top(X_COWL)) / (X_COWL - X_ROOF_F)     # 0.461 => 65.2 deg rake
+    v.add(P.wiper(1, lib, pivot=(X_COWL - 0.05, 0.34, bp.z_top(X_COWL - 0.05) - 0.010),
+                  length=0.560, blade=0.600, park_deg=6.0, glass_slope=ws_slope))
+    v.add(P.wiper(-1, lib, pivot=(X_COWL - 0.05, -0.42, bp.z_top(X_COWL - 0.05) - 0.010),
+                  length=0.480, blade=0.520, park_deg=-6.0, glass_slope=ws_slope))
     v.add(P.exhaust(lib, x_tip=X_REAR + 0.02, y=0.36, z=0.360, r=0.036, length=0.85, tips=2, spacing=0.20))
 
     plate_img = TX.plate_ny("plate_ny_player", LIVERIES["player_grey"]["plate"])
@@ -345,6 +348,7 @@ def build(detail: str = "high") -> tuple[rig.Vehicle, dict]:
                I.SeatSpot(x=1.90, y=-0.375, z=0.545, name="Seat_FR", back_deg=22.0, width=0.52),
                I.SeatSpot(x=0.98, y=0.0, z=0.585, name="Seat_R", back_deg=26.0, bench=1.34)],
         wheel_center=(2.28, 0.375, 0.865), wheel_radius=0.185, column_deg=25.0, detail="full",
+        x_roof_front=X_ROOF_F, roof_line=bp.z_top,
         console=True, shifter="rotary", doors_x=(DOOR_CUTS[0:2], DOOR_CUTS[1:3]),
         gauge_images=(g_speed, g_rpm, g_screen),
     )

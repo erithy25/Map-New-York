@@ -31,6 +31,7 @@ import time
 from pathlib import Path
 
 import numpy as np
+import shapely
 
 _HERE = Path(__file__).resolve().parent
 REPO_ROOT = _HERE.parents[1]
@@ -46,39 +47,111 @@ OUT_DIR = REPO_ROOT / "docs" / "verification" / "buildings_mesh"
 _FETCH_TEXTURES = os.environ.get("NYCSIM_TEXTURES_FETCH", "0") == "1"
 TILES_OUT = REPO_ROOT / "blender_out" / "tiles"
 
-# camera in NYC_TM metres (x east, y north, z NAVD88), target likewise
+# Views in NYC_TM metres (x east, y north).  ``cam_agl`` / ``target_agl`` are heights above the
+# local grade, resolved from the nearest real building ``ground_z`` (LiDAR) at render time, because
+# NAVD88 grade in these places ranges from 3 m (Brooklyn waterfront) to 25 m (Bayside).
 VIEWS: dict[str, dict] = {
     "midtown_aerial": {
-        "tiles": ["t_-4_5", "t_-4_4", "t_-3_5", "t_-3_4"],
-        "cam": (-3750.0, 4450.0, 620.0), "target": (-3020.0, 5390.0, 180.0),
-        "fov": 46.0, "sun_az": 150.0, "sun_el": 42.0, "size": (1600, 900),
-        "title": "Midtown aerial, Empire State Building tile t_-4_5",
+        "tiles": ["t_-4_5", "t_-4_4", "t_-3_5", "t_-3_4", "t_-4_6", "t_-3_6"],
+        "cam": (-3620.0, 4260.0), "cam_z": 640.0,
+        "target": (-3011.6, 5379.8), "target_z": 170.0,
+        "fov": 44.0, "sun_az": 155.0, "sun_el": 44.0, "size": (1600, 900),
+        "title": "Midtown aerial over the Empire State Building (t_-4_5 and neighbours)",
     },
     "midtown_avenue": {
-        "tiles": ["t_-4_5"],
-        "cam": (-3180.0, 4990.0, 5.5), "target": (-3130.0, 6020.0, 60.0),
-        "fov": 62.0, "sun_az": 200.0, "sun_el": 30.0, "size": (1600, 900),
-        "title": "Sixth Avenue looking north from 33rd Street (t_-4_5)",
+        "tiles": ["t_-4_5", "t_-3_5", "t_-4_6", "t_-3_6"],
+        "cam": (-3209.3, 5375.4), "cam_agl": 1.7, "cam_open": 70.0,   # Sixth Ave at West 33rd St
+        "target": (-2960.0, 5810.0), "target_agl": 55.0, "target_open": 70.0,  # ~500 m up the avenue
+        "fov": 60.0, "sun_az": 195.0, "sun_el": 34.0, "size": (1600, 900),
+        "title": "Sixth Avenue looking north from West 33rd Street",
     },
     "park_slope_block": {
-        "tiles": ["t_-3_-4"],
-        "cam": (-2610.0, -3255.0, 4.0), "target": (-2900.0, -3120.0, 12.0),
-        "fov": 60.0, "sun_az": 215.0, "sun_el": 35.0, "size": (1600, 900),
-        "title": "Park Slope brownstone block (t_-3_-4)",
+        "tiles": ["t_-3_-4", "t_-3_-3", "t_-2_-4"],
+        "cam": (-2477.3, -3042.3), "cam_agl": 1.7, "cam_open": 45.0,   # Carroll St at Seventh Ave
+        "target": (-2646.5, -3153.3), "target_agl": 9.0, "target_open": 45.0,  # towards Eighth Ave
+        "fov": 58.0, "sun_az": 210.0, "sun_el": 36.0, "size": (1600, 900),
+        "title": "Park Slope brownstone block, Carroll Street between Seventh and Eighth Avenue",
     },
     "queens_houses": {
         "tiles": ["t_14_6"],
-        "cam": (14180.0, 6360.0, 4.0), "target": (14480.0, 6560.0, 8.0),
-        "fov": 58.0, "sun_az": 205.0, "sun_el": 40.0, "size": (1600, 900),
-        "title": "Bayside one- and two-family houses, roof shapes (t_14_6)",
+        "cam": (14945.2, 6800.0), "cam_agl": 1.7, "cam_open": 50.0,   # Bayside, 216th Street
+        "target": (14640.0, 6960.0), "target_agl": 6.0, "target_open": 50.0,
+        "fov": 58.0, "sun_az": 200.0, "sun_el": 42.0, "size": (1600, 900),
+        "title": "Bayside one- and two-family houses: inferred gable roofs (t_14_6)",
     },
     "skyline_brooklyn": {
         "merged": {"level": 2, "cells": [(-2, 0), (-2, 1), (-1, 0), (-1, 1), (-2, -1), (-1, -1)]},
-        "cam": (-4180.0, -430.0, 22.0), "target": (-5300.0, 1400.0, 110.0),
-        "fov": 55.0, "sun_az": 235.0, "sun_el": 25.0, "size": (1600, 900),
+        "cam": (-4183.8, -431.9), "cam_z": 22.0,      # Brooklyn Heights Promenade deck
+        "target": (-5154.9, 823.5), "target_z": 120.0,     # Lower Manhattan, Wall Street
+        "fov": 58.0, "sun_az": 240.0, "sun_el": 22.0, "size": (1600, 900),
         "title": "Manhattan skyline from the Brooklyn Heights Promenade (merged L2 cells)",
     },
 }
+
+
+def _ground_z_at(x: float, y: float) -> float:
+    """Local grade from the nearest real building ``ground_z`` (LiDAR) in the tile containing (x, y)."""
+    import pandas as pd
+    from nycsim_pipeline.tiling import tile_of
+
+    best = (math.inf, 0.0)
+    for dx in (0.0, -400.0, 400.0):
+        for dy in (0.0, -400.0, 400.0):
+            tile = tile_of(x + dx, y + dy).name
+            p = td.tile_path(tile)
+            if not p.exists():
+                continue
+            df = pd.read_parquet(p, columns=["centroid_x", "centroid_y", "ground_z"])
+            d = np.hypot(df["centroid_x"].to_numpy() - x, df["centroid_y"].to_numpy() - y)
+            k = int(d.argmin())
+            if d[k] < best[0]:
+                best = (float(d[k]), float(df["ground_z"].to_numpy()[k]))
+    if not math.isfinite(best[0]):
+        raise RuntimeError(f"no building near ({x:.0f}, {y:.0f}) to sample the grade from")
+    return best[1]
+
+
+def _open_point(x: float, y: float, radius: float = 70.0, step: float = 4.0) -> tuple[float, float]:
+    """Most open point within ``radius`` of (x, y): the roadway, not the inside of a building.
+
+    Street-level cameras have to stand in the street.  Placing them from a hand-typed latitude and
+    longitude puts them inside a building often enough that it is worth solving properly: sample a
+    grid, measure the distance to the nearest real footprint with an STRtree, and take the maximum
+    (ties broken towards the requested point).
+    """
+    import pandas as pd
+    from nycsim_pipeline.tiling import tiles_in_bbox
+
+    polys = []
+    for tile in tiles_in_bbox(x - radius - 60, y - radius - 60, x + radius + 60, y + radius + 60):
+        p = td.tile_path(tile.name)
+        if p.exists():
+            df = pd.read_parquet(p, columns=["footprint"])
+            polys.append(shapely.from_wkb(df["footprint"].to_numpy()))
+    if not polys:
+        return x, y
+    geoms = np.concatenate(polys)
+    tree = shapely.STRtree(geoms)
+    gx = np.arange(x - radius, x + radius + step, step)
+    gy = np.arange(y - radius, y + radius + step, step)
+    gxx, gyy = np.meshgrid(gx, gy)
+    cand = np.column_stack([gxx.ravel(), gyy.ravel()])
+    keep = np.hypot(cand[:, 0] - x, cand[:, 1] - y) <= radius
+    cand = cand[keep]
+    pts = shapely.points(cand)
+    dist = shapely.distance(pts, geoms[tree.nearest(pts)])
+    score = dist - 0.02 * np.hypot(cand[:, 0] - x, cand[:, 1] - y)
+    k = int(np.argmax(score))
+    return float(cand[k, 0]), float(cand[k, 1])
+
+
+def _resolve_z(spec: dict, key: str) -> tuple[float, float, float]:
+    x, y = spec[key]
+    if spec.get(f"{key}_open"):
+        x, y = _open_point(x, y, float(spec[f"{key}_open"]))
+    if f"{key}_z" in spec:
+        return x, y, float(spec[f"{key}_z"])
+    return x, y, _ground_z_at(x, y) + float(spec[f"{key}_agl"])
 
 
 # --------------------------------------------------------------------------- scene helpers
@@ -264,8 +337,10 @@ def render_view(key: str, *, samples: int = 32, textured: bool = True, out_dir: 
     if ground_tiles:
         _ground_mesh(ground_tiles)
 
+    cam = _resolve_z(spec, "cam")
+    tgt = _resolve_z(spec, "target")
     out = out_dir / f"{key}.png"
-    nb.quick_render(out, camera_location=spec["cam"], camera_target=spec["target"],
+    nb.quick_render(out, camera_location=cam, camera_target=tgt,
                     fov_deg=spec["fov"], size=tuple(size or spec["size"]), samples=samples,
                     sun_azimuth_deg=spec["sun_az"], sun_elevation_deg=spec["sun_el"],
                     sun_strength=3.5)
@@ -275,7 +350,7 @@ def render_view(key: str, *, samples: int = 32, textured: bool = True, out_dir: 
         png_rel = str(out)
     info = {"view": key, "title": spec["title"], "png": png_rel,
             "sources": sources, "materials": mats, "samples": samples,
-            "camera_m": list(spec["cam"]), "target_m": list(spec["target"]),
+            "camera_m": [round(v, 2) for v in cam], "target_m": [round(v, 2) for v in tgt],
             "seconds": round(time.perf_counter() - t0, 1)}
     LOG.info("%s -> %s (%.1fs)", key, out, info["seconds"])
     return info

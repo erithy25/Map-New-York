@@ -70,6 +70,7 @@ def load_specs(modules=MODULES) -> list:
         got = mod.specs() if hasattr(mod, "specs") else list(mod.SPECS)
         for sp in got:
             sp.tags = list(sp.tags) + [f"module:{name}"]
+            sp.variants = [v for v in sp.variants if v != sp.id]
         specs.extend(got)
     ids = [s.id for s in specs]
     dup = sorted({i for i in ids if ids.count(i) > 1})

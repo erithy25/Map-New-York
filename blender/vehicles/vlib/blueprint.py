@@ -486,7 +486,7 @@ class Shell:
 CAP_INSET = 0.030
 
 
-def build_shell(bp: Blueprint, *, detail: str = "high", cap_scales: Sequence[float] = (0.80, 0.42),
+def build_shell(bp: Blueprint, *, detail: str = "high", cap_scales: Sequence[float] = (0.90, 0.66),
                 materials: Sequence = ()) -> Shell:
     """Loft the closed body shell of ``bp`` and tag every quad with its :class:`R` region."""
     samples = SEG_SAMPLES[detail]

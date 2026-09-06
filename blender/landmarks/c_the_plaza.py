@@ -98,9 +98,9 @@ def build():
                         (q[0] - n[0] * inset, q[1] - n[1] * inset, z1 + 1.5)], C.M.copper_green)
     x0, y0, x1, y1 = P.bounds
     for cxy in ((x0 + 6.5, y1 - 6.5), (x1 - 6.5, y1 - 6.5), (x1 - 6.5, y0 + 6.5)):
-        b.lathe([(4.6, 0.0), (4.6, 6.0), (4.2, 8.0), (2.6, 14.0), (1.0, 18.0), (0.0, 20.2)], 20,
+        b.lathe([(4.6, 0.0), (4.6, 6.0), (4.2, 8.0), (2.6, 13.0), (1.0, 16.6), (0.0, 18.6)], 20,
                 C.M.copper_green, origin=(cxy[0], cxy[1], CORNICE), smooth=True)
-        b.lathe([(0.0, 0.0), (0.5, 0.5), (0.0, 1.6)], 10, C.M.gold, origin=(cxy[0], cxy[1], CORNICE + 20.2))
+        b.lathe([(0.0, 0.0), (0.5, 0.5), (0.0, 1.6)], 10, C.M.gold, origin=(cxy[0], cxy[1], CORNICE + 18.6))
     objs.append(C.tag(b.build(f"{ID}_mansard"), "mass"))
     return objs, g
 

@@ -118,7 +118,7 @@ headers here.
 
 ## 2. How it was verified
 
-Two executable checkers were written and run in this container. Both are committed next to this report.
+Three executable checkers were written and run in this container. All are committed next to this report.
 
 ```
 $ python3 docs/verification/unreal_world/check_math.py
@@ -128,16 +128,35 @@ ALL CHECKS PASSED
 $ python3 docs/verification/unreal_world/check_sources.py
 36 owned source files, 7820 lines
   38 config properties, 38 present in DefaultEngine.ini
+  53 core symbols and 63 struct fields used by the adapters are declared
   19 console commands / variables: nycsim.Overlay, nycsim.PrintSun, nycsim.PrintWeather,
      nycsim.Sky.CloudSunAttenuation, nycsim.Sky.Debug, nycsim.Sky.Hz, nycsim.Sky.SetTime, nycsim.Sky.TimeScale,
      nycsim.Streaming.Debug, nycsim.Streaming.Enabled, nycsim.Streaming.Flush, nycsim.Streaming.Hz,
      nycsim.Streaming.Levels, nycsim.Streaming.Reset, nycsim.Streaming.Stats, nycsim.Streaming.Tile,
      nycsim.Weather.FX, nycsim.Weather.Poll, nycsim.WorldInfo
-ALL 407 CHECKS PASSED
+ALL 523 CHECKS PASSED
 
 $ python3 -m py_compile unreal/NYCSim/Content/Python/{import_world,import_assets,build_levels}.py
 (no output - all three parse)
+
+$ python3 docs/verification/unreal_world/check_terrain_data.py
+2337 tiles carry terrain.png
+[PASS] 40 sampled terrain.png are 501 x 501
+[PASS] 40 sampled terrain.png are 16-bit grayscale (PIL mode I;16)
+[PASS] terrain.json schema_version 1 and samples 501
+[PASS] z_scale_m is uniform across the sample - [0.0025]
+       elevation range over the sample: -1.95 .. 96.92 m NAVD88
+[PASS] landscape affine mapping reproduces the contract elevation on real metadata - max error 1.819e-12 cm
+[PASS] neighbouring tiles share their edge elevations - 79 shared edges, 0 differ, max |dz| = 0.000000 m
+[PASS] 501 -> 505 resample leaves the tile corners exactly where they were - max corner error 0.000000000 m
+ALL CHECKS PASSED
 ```
+
+The terrain checker runs against the **2,337 real heightmaps** the terrain stage produced during this session, so
+the importer's assumptions (size, bit depth, schema, z scale, shared tile edges) are confirmed on the actual data it
+will read, not on synthetic input. The 79 shared-edge comparisons are the direct evidence that the 501 -> 505
+resample cannot open a seam between neighbouring landscapes: the source columns are identical to 0.000000 m and the
+resample's edge samples come only from those columns.
 
 **Numeric results worth quoting** (`check_math.py`):
 
@@ -156,13 +175,14 @@ $ python3 -m py_compile unreal/NYCSim/Content/Python/{import_world,import_assets
 | dense Midtown tile at L0, core cost model | **9.5 MB**; the 8 GiB budget holds ~903 of them |
 | `crs.json` / `unreal_water.json` schema and keys the runtime reads | present and correct |
 
-**Static results** (`check_sources.py`, 407 assertions): `.generated.h` is the last include in all 8 reflected
+**Static results** (`check_sources.py`, 523 assertions): `.generated.h` is the last include in all 8 reflected
 headers; no static array is Blueprint-exposed; all 38 `UPROPERTY(Config)` have ini lines; core headers appear only
 under `Private|Public/CoreAdapter` and all 17 of them exist in `core/include`; braces/parentheses/`#if`-`#endif`
 balance in all 36 files; every out-of-line member definition is declared in its header; no TODO/FIXME/stub/
 placeholder marker anywhere; every console command and CVar is documented in `unreal/README.md`.
 
-**Read, not guessed**: the adapters were written against the real core headers as they landed during this session —
+**Read, not guessed**: the adapters were written against the real core headers as they landed during this session, and
+`check_sources.py` asserts that **all 53 core symbols and 63 struct fields** the adapters call are declared there —
 `time/NyTime.h`, `astro/Spa.h`, `astro/Moon.h`, `weather/{WeatherState,WeatherService,NwsParser,OpenMeteoParser,
 MetarParser,WorldEffects}.h`, `vehicle/Friction.h`, `io/Json.h`, `util/{Result,Error}.h`, `tiling/TileScheduler.h`,
 `geo/UECoords.h`. Every core symbol used is checked to exist in those files by `check_sources.py`'s include test and

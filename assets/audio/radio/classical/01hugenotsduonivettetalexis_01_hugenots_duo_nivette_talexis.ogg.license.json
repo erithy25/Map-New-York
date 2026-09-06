@@ -1,0 +1,28 @@
+{
+ "artist": "Amelia TALEXIS - Sopran, Juste NIVETTE - Bass ",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 2927589,
+ "duration_s": 200.72,
+ "file": "classical/01hugenotsduonivettetalexis_01_hugenots_duo_nivette_talexis.ogg",
+ "gain_db": 6.7,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+ "loudness_lufs": -20.7,
+ "original_filename": "01 Hugenots Duo Nivette Talexis.mp3",
+ "recorded_at": "2026-09-06T12:22:09Z",
+ "schema_version": 1,
+ "sha256": "e286001f62245f4aa6243cdd9f5dc17da0f7c5380566374c0b989b54ffa27bcb",
+ "source_page": "https://archive.org/details/01HugenotsDuoNivetteTalexis",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/01HugenotsDuoNivetteTalexis/01%20Hugenots%20Duo%20Nivette%20Talexis.mp3",
+ "title": "Les Hugenots Duo Nivette Talexis",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

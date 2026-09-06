@@ -433,11 +433,7 @@ def _trash_pile(n_bags: int, n_boxes: int, seed: int, spread: float) -> C.Built:
         C.rotate(ob, rng.uniform(0, 360), "Z")
         C.move(ob, rng.uniform(-spread, spread), rng.uniform(-spread * 0.5, spread * 0.5), 0.0)
         parts.append(ob)
-    # tilted bags would otherwise dip below the pavement: settle the whole pile onto z = 0
-    drop = min(C.nb.bounds_of([o])["min"][2] for o in parts)
-    if drop < 0.0:
-        for o in parts:
-            C.move(o, 0.0, 0.0, -drop)
+    C.settle_to_ground(parts)     # tilted bags would otherwise dip below the pavement
     return C.Built(lod0=parts, extra={"key_dims_m": {"bags": n_bags, "boxes": n_boxes, "bag_capacity_gal": 55}})
 
 

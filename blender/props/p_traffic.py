@@ -208,30 +208,30 @@ def build_pushbutton() -> C.Built:
 
 
 SPECS = [
-    C.PropSpec("signal_mastarm_6m", "traffic", "traffic_signal", build_mastarm_6m, (6.70, 0.66, 6.03),
+    C.PropSpec("signal_mastarm_6m", "traffic", "traffic_signal", build_mastarm_6m, (6.34, 0.59, 5.71),
                "NYC DOT mast-arm traffic signal: 5.5 m tapered signal standard with a 20 ft (6.10 m) mast arm carrying "
                "two three-section 12 in heads in dark-green housings with tunnel visors and yellow-bordered backplates. "
                "ITE/MUTCD 12 in section 13.75 x 15.5 x 8 in; MUTCD 15 ft minimum clearance over the roadway.",
                variants=["signal_mastarm_9m", "signal_pedestal", "signal_spanwire"], tags=["mutcd", "mast_arm"], tolerance=0.10),
-    C.PropSpec("signal_mastarm_9m", "traffic", "traffic_signal", build_mastarm_9m, (9.74, 0.66, 6.23),
+    C.PropSpec("signal_mastarm_9m", "traffic", "traffic_signal", build_mastarm_9m, (9.38, 0.59, 5.78),
                "As signal_mastarm_6m but with a 30 ft (9.14 m) mast arm carrying three heads — the NYC configuration for "
                "wide two-way avenues.",
                variants=["signal_mastarm_6m", "signal_pedestal", "signal_spanwire"], tags=["mutcd", "mast_arm"], tolerance=0.10),
-    C.PropSpec("signal_pedestal", "traffic", "traffic_signal", build_pedestal, (0.61, 0.63, 3.79),
+    C.PropSpec("signal_pedestal", "traffic", "traffic_signal", build_pedestal, (0.60, 0.57, 3.91),
                "Pedestal-mounted three-section signal on a 4.5 in pipe standard with a cast base; head bottom at the "
                "8 ft (2.44 m) sidewalk clearance of the MUTCD.",
                variants=["signal_mastarm_6m", "signal_spanwire"], tags=["mutcd", "pedestal"], tolerance=0.10),
-    C.PropSpec("signal_spanwire", "traffic", "traffic_signal", build_spanwire, (6.79, 0.66, 8.27),
+    C.PropSpec("signal_spanwire", "traffic", "traffic_signal", build_spanwire, (6.74, 0.59, 8.27),
                "Span-wire signal: 8.2 m pole with catenary and tether wires and one suspended three-section head on a "
                "balance adjuster — the older NYC intersection type still common outside Manhattan. 6.5 m wire stubs "
                "let the engine chain assemblies pole to pole.",
                variants=["signal_mastarm_6m", "signal_pedestal"], tags=["mutcd", "span_wire"], tolerance=0.10),
-    C.PropSpec("signal_ped_countdown", "traffic", "pedestrian_signal", build_ped_countdown, (0.41, 0.55, 2.99),
+    C.PropSpec("signal_ped_countdown", "traffic", "pedestrian_signal", build_ped_countdown, (0.41, 0.59, 2.99),
                "NYC countdown pedestrian signal: one-section 16 x 18 in head with the MUTCD upraised-hand / walking-person "
                "module (PED_SYMBOL) beside a two-digit countdown (PED_COUNTDOWN), both runtime-swappable emissive slots; "
                "head bottom at the 8 ft (2.44 m) clearance.",
                variants=["ped_pushbutton"], tags=["mutcd", "countdown"], tolerance=0.10),
-    C.PropSpec("ped_pushbutton", "traffic", "ped_pushbutton", build_pushbutton, (0.23, 0.15, 1.62),
+    C.PropSpec("ped_pushbutton", "traffic", "ped_pushbutton", build_pushbutton, (0.23, 0.22, 1.62),
                "Accessible pedestrian signal push-button station: 2 in button with a locator LED at the PROWAG 42 in "
                "(1.07 m) height and the MUTCD R10-3e instruction sign on a 1.6 m post.",
                variants=["signal_ped_countdown"], tags=["mutcd", "aps"], tolerance=0.12),

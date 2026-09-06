@@ -1,0 +1,28 @@
+{
+ "artist": "Luciftias",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 3423021,
+ "duration_s": 202.15,
+ "file": "electronic/ahp007_01_mahorela.ogg",
+ "gain_db": -3.6,
+ "licence": "CC-BY-4.0",
+ "licence_url": "http://creativecommons.org/licenses/by/4.0/",
+ "loudness_lufs": -10.4,
+ "original_filename": "01_Mahorela.mp3",
+ "recorded_at": "2026-09-06T12:17:27Z",
+ "schema_version": 1,
+ "sha256": "2a776daad16dc6053c51c8739ae3eae6200cf6b0c136fb891489baccc1a1561b",
+ "source_page": "https://archive.org/details/ahp007",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/ahp007/01_Mahorela.mp3",
+ "title": "Mahorela",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

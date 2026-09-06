@@ -1,11 +1,15 @@
 #pragma once
 // nycsim/routing/NycbLite.h — minimal, dependency-free reader for the NYCB
-// container (DATA_CONTRACTS §15).  Header: {char magic[4]="NYCB"; uint32
-// version=1; uint32 section_count; uint64 index_offset}; index entries:
-// {char name[16]; uint64 offset; uint64 size; uint32 element_size; uint32
-// element_count}.  Little-endian, read byte-wise (no type punning, works on
-// any host endianness).  Used by RoadGraph, SignalTable and DensityTable so
-// the traffic lane does not depend on core/io.
+// container (DATA_CONTRACTS §15).  Header (24 bytes, natural C alignment as the
+// producer pipeline/nycsim_pipeline/runtime/nycb.py writes it): {char
+// magic[4]="NYCB" @0; uint32 version=1 @4; uint32 section_count @8; 4 bytes of
+// padding; uint64 index_offset @16}.  Index entries (40 bytes): {char name[16]
+// @0; uint64 offset @16; uint64 size @24; uint32 element_size @32; uint32
+// element_count @36}.  Sections start on 8-byte boundaries.  Little-endian,
+// read byte-wise (no type punning, works on any host endianness).  Used by
+// RoadGraph, SignalTable, BusRouteTable and DensityTable so the traffic lane
+// does not depend on core/io.  core/io/NycbRecords.h carries the record
+// layouts and asserts them field by field against the producer.
 
 #include <cstddef>
 #include <cstdint>
@@ -56,7 +60,7 @@ struct File {
     if (std::memcmp(data, "NYCB", 4) != 0) return failWith("nycb: bad magic");
     if (rdU32(data + 4) != 1) return failWith("nycb: unsupported version");
     section_count = rdU32(data + 8);
-    index_offset = rdU64(data + 12);
+    index_offset = rdU64(data + 16);  // 4 bytes of padding sit after section_count
     if (section_count > 64) return failWith("nycb: implausible section count");
     const uint64_t index_size = static_cast<uint64_t>(section_count) * 40u;
     if (index_offset > n || index_size > n - index_offset) return failWith("nycb: section index out of bounds");

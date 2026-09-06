@@ -300,6 +300,15 @@ def main(argv: list[str] | None = None) -> int:
     has_names_sorted = np.array([len(x) > 0 for x in table["storefront_names"].to_pylist()])
     T.lap("assemble")
 
+    # CityGML roof geometry (ADR-013): fills roof_type / roof_mesh_ref and ORs ROOF_REAL into
+
+    # fidelity. Degrades to flat roofs with the bit clear if the CityGML stage has not run yet.
+
+    from .citygml_join import attach_roof_columns
+
+    table = pa.Table.from_pandas(attach_roof_columns(table.to_pandas()), preserve_index=False)
+
+
     base_path = out_dir / "buildings_base.parquet"
     pq.write_table(table, base_path, compression="snappy", row_group_size=131072)
     stats["output"] = {"rows": table.num_rows, "bytes": base_path.stat().st_size, "path": str(base_path)}

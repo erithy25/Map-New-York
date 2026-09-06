@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass, field
-from typing import Sequence
+from typing import Callable, Sequence
 
 import bmesh
 import numpy as np
@@ -54,6 +54,12 @@ class InteriorSpec:
     wheel_radius: float = 0.185
     column_deg: float = 25.0            # column axis below horizontal
     detail: str = "full"
+    #: x of the windshield header.  The headliner, the sun visors and the interior mirror all hang from the
+    #: roof, so they must start here and not at the cowl — starting at the cowl pushes them out through the
+    #: raked windshield (seen in docs/verification/vehicles render 1).
+    x_roof_front: float | None = None
+    #: inner roof height as a function of x; a constant ``z_roof`` is used when this is not given.
+    roof_line: Callable[[float], float] | None = None
     console: bool = True
     shifter: str = "rotary"             # rotary | lever | column | stalk
     doors_x: Sequence[tuple[float, float]] = ()   # door cut spans, front to rear
@@ -317,15 +323,18 @@ def build_carpet(sp: InteriorSpec, lib: M.Library) -> object:
 
 def build_headliner(sp: InteriorSpec, lib: M.Library, *, x_front: float, x_rear: float, y_half: float,
                     z: float, crown: float = 0.03) -> object:
+    """Roof lining between the header and the rear header.  ``sp.roof_line`` (if given) supplies the outer roof
+    height at each station and the liner hangs 60 mm below it, so it can never poke through the glass."""
     stations = []
     n = 7
     for k in range(9):
         x = g.lerp(x_front, x_rear, k / 8)
+        zx = min(z, sp.roof_line(x) - 0.060) if sp.roof_line else z
         ring = []
         for j in range(n):
             t = j / (n - 1)
             yy = -y_half + 2 * y_half * t
-            ring.append((x, yy, z - crown * (1.0 - (2 * t - 1) ** 2)))
+            ring.append((x, yy, zx - crown * (1.0 - (2 * t - 1) ** 2)))
         stations.append(ring)
     bm, _ = g.loft(stations)
     g.flip_bm(bm)
@@ -410,8 +419,9 @@ def build_interior(sp: InteriorSpec, lib: M.Library, *, seam_texture=None, three
     out["Shifter"] = build_shifter(sp, lib)
     out["Pedals"] = build_pedals(sp, lib, three=three_pedals)
     out["Interior_Carpet"] = build_carpet(sp, lib)
+    x_header = sp.x_roof_front if sp.x_roof_front is not None else sp.x_cowl - 0.08
     if sp.headliner:
-        out["Interior_Headliner"] = build_headliner(sp, lib, x_front=sp.x_cowl - 0.08, x_rear=sp.x_rear,
+        out["Interior_Headliner"] = build_headliner(sp, lib, x_front=x_header, x_rear=sp.x_rear,
                                                     y_half=sp.y_cabin * 0.92, z=sp.z_roof)
     tags = ("FL", "FR", "RL", "RR")
     for k, (x0, x1) in enumerate(sp.doors_x[:2]):
@@ -421,7 +431,8 @@ def build_interior(sp: InteriorSpec, lib: M.Library, *, seam_texture=None, three
     xb = x_bpillar if x_bpillar is not None else (sp.doors_x[0][1] if sp.doors_x else sp.x_dash - 0.9)
     out["Interior_Belts"] = build_belts(sp, lib, x_pillar=xb, y_half=sp.y_cabin)
     if sp.detail == "full":
-        out["Interior_Mirror"] = build_rear_view_mirror(sp, lib, x=sp.x_cowl - 0.06, z=sp.z_roof - 0.055)
-        for v in build_visors(sp, lib, x=sp.x_cowl - 0.02, z=sp.z_roof - 0.035, y_half=sp.y_cabin):
+        z_header = (sp.roof_line(x_header) - 0.075) if sp.roof_line else (sp.z_roof - 0.055)
+        out["Interior_Mirror"] = build_rear_view_mirror(sp, lib, x=x_header + 0.10, z=z_header - 0.02)
+        for v in build_visors(sp, lib, x=x_header + 0.08, z=z_header, y_half=sp.y_cabin):
             out[v.name] = v
     return out

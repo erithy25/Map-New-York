@@ -21,6 +21,7 @@ import argparse
 import json
 import math
 import os
+import re
 import struct
 import sys
 import time
@@ -397,6 +398,18 @@ def main(argv=None) -> int:
 
     requested = [t.strip() for t in args.tiles.split(",") if t.strip()]
     tiles = requested or sorted(manifest.get("tiles", {}).keys())
+    if not tiles:
+        # The manifest can predate the terrain/buildings stages. The authoritative list of tiles that have
+        # anything to place is the processed tiles directory itself.
+        tiles_dir = os.path.join(processed_root, "tiles")
+        if os.path.isdir(tiles_dir):
+            tiles = sorted(
+                name for name in os.listdir(tiles_dir)
+                if re.match(r"^t_-?\d+_-?\d+$", name)
+                and any(os.path.isfile(os.path.join(tiles_dir, name, f))
+                        for f in ("terrain.png", "props.json", "buildings.parquet", "kit_placements.bin")))
+            WARN(f"the manifest lists no tiles; falling back to {len(tiles)} tiles found under {tiles_dir} "
+                 f"(re-run `python -m nycsim_pipeline.unreal.manifest` to refresh it)")
     if args.max_tiles:
         tiles = tiles[:args.max_tiles]
 

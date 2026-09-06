@@ -1,0 +1,28 @@
+{
+ "artist": "Deadman & Digi Hartatak",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 5818063,
+ "duration_s": 409.83,
+ "file": "electronic/buddwyerandthecannabinoids_001_sense.ogg",
+ "gain_db": 1.5,
+ "licence": "CC-BY-3.0-US",
+ "licence_url": "http://creativecommons.org/licenses/by/3.0/us/",
+ "loudness_lufs": -15.5,
+ "original_filename": "001_sense.mp3",
+ "recorded_at": "2026-09-06T12:19:35Z",
+ "schema_version": 1,
+ "sha256": "17c7be08f1307a284c3290cc4a6520e4b8645e2c6160d1c9d9b0054d63d4cda9",
+ "source_page": "https://archive.org/details/buddwyerandthecannabinoids",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/buddwyerandthecannabinoids/001_sense.mp3",
+ "title": "001_sense",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

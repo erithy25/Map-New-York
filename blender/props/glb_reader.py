@@ -50,6 +50,7 @@ class Glb:
             raise GlbError(f"{self.path}: no JSON chunk")
         self.json = js
         self.bin = binc
+        self._parent_map: dict[int, int] | None = None
 
     # ---------------------------------------------------------------- accessors
     def accessor(self, index: int) -> list[tuple]:
@@ -112,20 +113,95 @@ class Glb:
                     total += self.json["accessors"][prim["attributes"]["POSITION"]]["count"] // 3
         return total
 
-    def bounds(self, mesh_indices) -> tuple[list[float], list[float]]:
+    # ---------------------------------------------------------------- transforms
+    def _parents(self) -> dict[int, int]:
+        if getattr(self, "_parent_map", None) is None:
+            m: dict[int, int] = {}
+            for i, n in enumerate(self.json.get("nodes", [])):
+                for c in n.get("children", []):
+                    m[c] = i
+            self._parent_map = m
+        return self._parent_map
+
+    @staticmethod
+    def _compose(node: dict) -> list[list[float]]:
+        if "matrix" in node:
+            m = node["matrix"]        # glTF matrices are column-major
+            return [[m[c * 4 + r] for c in range(4)] for r in range(4)]
+        t = node.get("translation", [0.0, 0.0, 0.0])
+        q = node.get("rotation", [0.0, 0.0, 0.0, 1.0])
+        s = node.get("scale", [1.0, 1.0, 1.0])
+        x, y, z, w = q
+        rot = [[1 - 2 * (y * y + z * z), 2 * (x * y - z * w), 2 * (x * z + y * w)],
+               [2 * (x * y + z * w), 1 - 2 * (x * x + z * z), 2 * (y * z - x * w)],
+               [2 * (x * z - y * w), 2 * (y * z + x * w), 1 - 2 * (x * x + y * y)]]
+        return [[rot[r][c] * s[c] for c in range(3)] + [t[r]] for r in range(3)] + [[0.0, 0.0, 0.0, 1.0]]
+
+    @staticmethod
+    def _mul(a, b):
+        return [[sum(a[r][k] * b[k][c] for k in range(4)) for c in range(4)] for r in range(4)]
+
+    @staticmethod
+    def _apply(m, p):
+        return [m[r][0] * p[0] + m[r][1] * p[1] + m[r][2] * p[2] + m[r][3] for r in range(3)]
+
+    def world_matrix(self, node_index: int) -> list[list[float]]:
+        parents = self._parents()
+        chain = []
+        i = node_index
+        while True:
+            chain.append(i)
+            if i not in parents:
+                break
+            i = parents[i]
+        m = [[1.0 if r == c else 0.0 for c in range(4)] for r in range(4)]
+        for i in reversed(chain):
+            m = self._mul(m, self._compose(self.json["nodes"][i]))
+        return m
+
+    def prim_bounds(self, prim: dict) -> tuple[list[float], list[float]]:
+        acc = self.json["accessors"][prim["attributes"]["POSITION"]]
+        if "min" in acc and "max" in acc:
+            return list(acc["min"]), list(acc["max"])
+        pts = self.accessor(prim["attributes"]["POSITION"])
+        return ([min(p[k] for p in pts) for k in range(3)], [max(p[k] for p in pts) for k in range(3)])
+
+    def bounds(self, mesh_indices, exclude_materials: tuple[str, ...] = ()) -> tuple[list[float], list[float]]:
+        """Axis-aligned bounds of the given meshes, ignoring node transforms (meshes are exported pre-baked
+        except where a builder deliberately used the node transform — use :meth:`node_bounds` for those)."""
+        ex = {i for i, m in enumerate(self.json.get("materials", [])) if m.get("name") in exclude_materials}
         lo = [float("inf")] * 3
         hi = [float("-inf")] * 3
         for mi in mesh_indices:
             for prim in self.json["meshes"][mi]["primitives"]:
-                acc = self.json["accessors"][prim["attributes"]["POSITION"]]
-                if "min" in acc and "max" in acc:
-                    mn, mx = acc["min"], acc["max"]
-                else:
-                    pts = self.accessor(prim["attributes"]["POSITION"])
-                    mn = [min(p[k] for p in pts) for k in range(3)]
-                    mx = [max(p[k] for p in pts) for k in range(3)]
+                if prim.get("material") in ex:
+                    continue
+                mn, mx = self.prim_bounds(prim)
                 lo = [min(lo[k], mn[k]) for k in range(3)]
                 hi = [max(hi[k], mx[k]) for k in range(3)]
+        return lo, hi
+
+    def node_bounds(self, root: int, exclude_materials: tuple[str, ...] = ()) -> tuple[list[float], list[float]]:
+        """World-space bounds under ``root``, honouring every node's TRS (the MTA bullets carry their layout in
+        the node translation, so their real extent only shows up here)."""
+        ex = {i for i, m in enumerate(self.json.get("materials", [])) if m.get("name") in exclude_materials}
+        lo = [float("inf")] * 3
+        hi = [float("-inf")] * 3
+        for ni in self.descendants(root):
+            node = self.json["nodes"][ni]
+            if "mesh" not in node:
+                continue
+            m = self.world_matrix(ni)
+            for prim in self.json["meshes"][node["mesh"]]["primitives"]:
+                if prim.get("material") in ex:
+                    continue
+                mn, mx = self.prim_bounds(prim)
+                for cx in (mn[0], mx[0]):
+                    for cy in (mn[1], mx[1]):
+                        for cz in (mn[2], mx[2]):
+                            w = self._apply(m, (cx, cy, cz))
+                            lo = [min(lo[k], w[k]) for k in range(3)]
+                            hi = [max(hi[k], w[k]) for k in range(3)]
         return lo, hi
 
     def primitives_with_material(self, name: str) -> list[dict]:

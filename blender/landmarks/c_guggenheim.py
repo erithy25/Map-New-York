@@ -119,7 +119,7 @@ def main():
                       dimensions={"rotunda_h_m": ROTUNDA_H, "rotunda_bands": BANDS, "annex_h_m": ANNEX_H,
                                   "monitor_h_m": MONITOR_H, "ramp_length_m": 400.0})
     cc.render(ID, [
-        {"view": "fifth_avenue", "azimuth_deg": 240, "elevation_deg": "street", "distance": 65, "fov_deg": 62, "look_up_deg": 22},
+        {"view": "fifth_avenue", "azimuth_deg": 240, "elevation_deg": "street", "distance": 135, "fov_deg": 48, "look_up_deg": 14},
         {"view": "aerial", "azimuth_deg": 250, "elevation_deg": 28},
     ])
     return entry

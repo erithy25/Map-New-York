@@ -91,3 +91,10 @@ Context: ADR-011 fixed the provider order NWS → Open-Meteo → METAR. Measurem
 Decision: keep the fixed order of ADR-011 as the default. Implement and test an opt-in `WeatherService(prefer_freshest_age_s=N)` that selects the freshest successful provider once the leading provider's observation is older than N seconds, but ship it disabled. Every published record carries `stale_age_s` and an `interpolated` flag so a consumer can see exactly what it is getting.
 
 Consequences: default behaviour stays predictable and matches the documented ordering; the observed lag is visible in the data rather than hidden by a silent re-ordering; enabling freshness preference is a one-line change once there is more than a single sample to justify it. Tuning the forecast blend on n = 1 was explicitly refused.
+
+## ADR-015 Heightmaps stay on the 2 m / 501-sample grid; the Unreal importer resamples to Landscape's legal size
+Context: Unreal Landscape only accepts component sizes of 7, 15, 31, 63, 127 or 255 quads, so a 1 km tile cannot be built from 500 quads. The pipeline emits 501 inclusive samples at exactly 2.0 m, which is the natural grid for the source DEM and keeps tile edges shared exactly between neighbours.
+
+Decision: keep the pipeline contract at 501 samples / 2.0 m. The Unreal terrain importer bilinearly resamples each tile to 505 samples (8 components of 63 quads at 198.412698 cm), which is still exactly 1,000 m wide, with the tile borders taken from the source unchanged.
+
+Consequences: interpolation error measured at 0.0020 m on a 16 m sinusoid and 1.1 × 10⁻¹³ m on affine ground, against a terrain product whose own vertical accuracy is about 0.15 m — two orders of magnitude below the noise floor, and exactly zero at tile borders, so tiles still meet watertight. The `component_size_quads: 125` field in `unreal_manifest.json` is not a legal Unreal value and is ignored by the importer; it is corrected to the pair the importer actually uses. The alternative, exporting 505-sample heightmaps, was rejected because it would put the whole pipeline on a non-round 1.98 m grid to suit one consumer.

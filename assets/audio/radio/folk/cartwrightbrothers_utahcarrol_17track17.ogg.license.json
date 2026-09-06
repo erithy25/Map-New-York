@@ -1,0 +1,28 @@
+{
+ "artist": "Cartwright Brothers",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 2151939,
+ "duration_s": 164.63,
+ "file": "folk/cartwrightbrothers_utahcarrol_17track17.ogg",
+ "gain_db": 7.0,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/licenses/publicdomain/",
+ "loudness_lufs": -21.0,
+ "original_filename": "17Track17.mp3",
+ "recorded_at": "2026-09-06T12:22:26Z",
+ "schema_version": 1,
+ "sha256": "2f8a4cf1aac6a3f6f77ecec8b5846f40c0e577369f6a9c7f58be19e78e645c7e",
+ "source_page": "https://archive.org/details/CartwrightBrothers-UtahCarrol",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/CartwrightBrothers-UtahCarrol/17Track17.mp3",
+ "title": "17 Track 17",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

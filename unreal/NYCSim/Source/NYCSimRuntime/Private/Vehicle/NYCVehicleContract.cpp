@@ -75,6 +75,7 @@ const TArray<FName>& FNYCVehicleContract::OptionalSockets()
 		FName(NYCVehicleBones::SocketEngineBay), FName(NYCVehicleBones::SocketPlateFront),
 		FName(NYCVehicleBones::SocketPlateRear), FName(NYCVehicleBones::SocketHorn),
 		FName(NYCVehicleBones::SocketRoofLight), FName(NYCVehicleBones::SocketDestinationSign),
+		FName(NYCVehicleBones::SocketScreenCentre), FName(NYCVehicleBones::SocketScreenCluster),
 	};
 	return Sockets;
 }

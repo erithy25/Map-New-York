@@ -109,14 +109,16 @@ def build_roadwork_sign() -> C.Built:
     mast = C.box("mast", (0.06, 0.05, zc), origin=(0.0, -0.04, 0.0), material=steel, anchor="bottom")
     legs = []
     for i, (dx, dy) in enumerate(((-0.55, -0.40), (0.55, -0.40), (0.0, 0.62))):
-        legs.append(C.tube(f"leg{i}", [(0.0, -0.04, 0.55), (dx, dy - 0.04, 0.0)], 0.020, 6, material=steel))
+        legs.append(C.tube(f"leg{i}", [(0.0, -0.04, 0.55), (dx, dy - 0.04, 0.022)], 0.020, 6, material=steel))
         legs.append(C.box(f"foot{i}", (0.14, 0.14, 0.020), origin=(dx, dy - 0.04, 0.0), material=steel, anchor="bottom"))
     brace = C.tube("brace", [(-0.30, -0.04, 0.30), (0.30, -0.04, 0.30)], 0.014, 6, material=steel)
     flags = [C.sign_blank(f"warning_flag{i}", "rect", 0.46, 0.46, thickness=0.002,
                           face_material=C.mat_solid("fluor_orange_flag", "#FF6A13", 0.6), back_material=orange_frame,
                           center=(sgn * 0.40, 0.0, zc + 0.44))
              for i, sgn in enumerate((-1.0, 1.0))]
-    return C.Built(lod0=[blank, mast, brace] + legs + flags,
+    parts = [blank, mast, brace] + legs + flags
+    C.settle_to_ground(parts)
+    return C.Built(lod0=parts,
                    extra={"key_dims_m": {"sign_size_in": 48, "diagonal": round(diag, 3), "sign_bottom": z0},
                           "sign_face_uv": "0..1 over the diamond bounding box"})
 

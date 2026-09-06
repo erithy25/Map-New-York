@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-06 12:16 UTC from commit `e9c4094042a0` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-06 12:20 UTC from commit `d63f02e8c7ff` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -12,11 +12,11 @@ Total buildings modelled: **1,083,026** (source of truth: NYC Open Data Building
 
 | Borough | Buildings | Median height (m) | Max height (m) | Height real | Floors real | Roof real | Material real |
 |---|---|---|---|---|---|---|---|
-| Manhattan | 45,194 | 17.75 | 472.44 | 99.83 % | 84.77 % | 0.00 % | 0.00 % |
-| Bronx | 104,278 | 8.43 | 137.16 | 99.82 % | 76.68 % | 0.00 % | 0.00 % |
-| Brooklyn | 330,154 | 8.37 | 315.47 | 99.93 % | 77.88 % | 0.00 % | 0.00 % |
-| Queens | 460,939 | 7.42 | 242.01 | 99.97 % | 66.42 % | 0.00 % | 0.00 % |
-| Staten Island | 142,461 | 7.89 | 64.61 | 99.94 % | 79.63 % | 0.00 % | 0.00 % |
+| Manhattan | 45,194 | 17.75 | 472.44 | 99.83 % | 84.77 % | 96.58 % | 0.00 % |
+| Bronx | 104,278 | 8.43 | 137.16 | 99.82 % | 76.68 % | 95.93 % | 0.00 % |
+| Brooklyn | 330,154 | 8.37 | 315.47 | 99.93 % | 77.88 % | 97.06 % | 0.00 % |
+| Queens | 460,939 | 7.42 | 242.01 | 99.97 % | 66.42 % | 94.50 % | 0.00 % |
+| Staten Island | 142,461 | 7.89 | 64.61 | 99.94 % | 79.63 % | 93.86 % | 0.00 % |
 
 ### 1.2 Attribute provenance across the whole city
 
@@ -24,7 +24,7 @@ Total buildings modelled: **1,083,026** (source of truth: NYC Open Data Building
 |---|---|---|---|---|
 | 0 | `FOOTPRINT_REAL` | footprint from the NYC OTI photogrammetric dataset | 1,083,026 | 100.00 % |
 | 1 | `HEIGHT_REAL` | roof height from the LiDAR-derived `height_roof` field | 1,082,290 | 99.93 % |
-| 2 | `ROOF_REAL` | roof geometry from the CityGML LOD2 model | 0 | 0.00 % |
+| 2 | `ROOF_REAL` | roof geometry from the CityGML LOD2 model | 1,033,416 | 95.42 % |
 | 3 | `FLOORS_REAL` | floor count from PLUTO | 794,995 | 73.40 % |
 | 4 | `YEAR_REAL` | year built from PLUTO / footprint dataset | 1,075,197 | 99.28 % |
 | 5 | `MATERIAL_REAL` | facade material from an OSM tag or an LPC designation report | 0 | 0.00 % |
@@ -87,13 +87,13 @@ Water: hydrography polygons 2,271 · shoreline lines 413 · structures 2,536 · 
 | Group | glTF files | Size |
 |---|---|---|
 | kit | 138 | 140.1 MB |
-| props | 123 | 83.6 MB |
+| props | 122 | 78.1 MB |
 | vehicles | 24 | 29.2 MB |
 | character | 1 | 15.1 MB |
-| landmarks | 39 | 405.7 MB |
-| tiles | 2 | 18.2 MB |
+| landmarks | 41 | 434.0 MB |
+| tiles | 14 | 101.5 MB |
 
-Catalog entries describing those assets: 307.
+Catalog entries describing those assets: 309.
 
 ## 6. Simulation code and runtime data
 
@@ -123,11 +123,11 @@ Authored asset licences (textures, fonts, mocap, audio): `docs/ASSET_LICENSES.md
 
 ## 8. Verification status
 
-Reference photographs collected for side-by-side comparison: 103 photos across 34 subjects, each with author and licence metadata.
+Reference photographs collected for side-by-side comparison: 107 photos across 34 subjects, each with author and licence metadata.
 
-Stage reports present: citygml, furniture, live, unreal_world.
+Stage reports present: citygml, core, furniture, live, unreal_world.
 
-Stage reports still missing: buildings, buildings_mesh, core, facade, kit, landmarks, props, reference, roads, terrain, traffic, traffic_density, unreal_gameplay, vehicles, character.
+Stage reports still missing: buildings, buildings_mesh, facade, kit, landmarks, props, reference, roads, terrain, traffic, traffic_density, unreal_gameplay, vehicles, character.
 
 What is verified in this environment versus on a workstation is defined in `docs/ARCHITECTURE.md` §14. In short: geodesy, tiling, streaming logic, routing, traffic rules, signal phasing, astronomy, time zone handling, weather parsing, data coverage and asset geometry are verified here by tests and Cycles renders. Unreal Engine compilation, cooking, frame rate, vehicle feel and audio are not — no Unreal editor or GPU exists in this environment, and no claim is made that they were tested.
 

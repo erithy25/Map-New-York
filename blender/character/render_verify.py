@@ -210,7 +210,7 @@ def walk_strip(out: Path, action: str = "walk", count: int = 8) -> Path:
         frame = start + round((end - start) * i / count)
         set_pose(armature, action, frame)
         tiles.append(render(chenv.VERIFY_DIR / f"_strip_{action}_{i}.png", location=cam, target=centre,
-                            fov_deg=34.0, size=(260, 540), samples=48))
+                            fov_deg=34.0, size=(260, 540), samples=32))
     result = stitch(tiles, out, gap=4)
     for tile in tiles:
         tile.unlink(missing_ok=True)
@@ -272,8 +272,8 @@ def _set_local_rotation(armature: bpy.types.Object, bone: str, degrees) -> None:
                                     math.radians(degrees[2])), "XYZ").to_matrix().to_4x4()
 
 
-def blendshape_sheet(out: Path, names=("jawOpen", "mouthSmileLeft", "mouthPucker", "eyeBlinkLeft",
-                                       "browInnerUp", "cheekPuff", "noseSneerLeft", "mouthFunnel")) -> Path:
+def blendshape_sheet(out: Path, names=("jawOpen", "mouthSmileLeft", "eyeBlinkLeft", "browInnerUp",
+                                       "mouthPucker", "cheekPuff")) -> Path:
     armature, meshes = load_player()
     studio_lighting(key_energy=260.0, size=3.0)
     set_pose(armature, "idle", 1)
@@ -290,10 +290,11 @@ def blendshape_sheet(out: Path, names=("jawOpen", "mouthSmileLeft", "mouthPucker
         keys[name].value = 1.0
         bpy.context.view_layer.update()
         tiles.append(render(chenv.VERIFY_DIR / f"_bs_{name}.png", location=cam, target=eye, fov_deg=22.0,
-                            size=(250, 290), samples=48))
+                            size=(230, 260), samples=32))
         keys[name].value = 0.0
-    row_a = stitch(tiles[:4], chenv.VERIFY_DIR / "_bs_row_a.png", gap=4)
-    row_b = stitch(tiles[4:], chenv.VERIFY_DIR / "_bs_row_b.png", gap=4)
+    half = (len(tiles) + 1) // 2
+    row_a = stitch(tiles[:half], chenv.VERIFY_DIR / "_bs_row_a.png", gap=4)
+    row_b = stitch(tiles[half:], chenv.VERIFY_DIR / "_bs_row_b.png", gap=4)
     result = stitch([row_a, row_b], out, gap=6, vertical=True)
     for tile in [*tiles, row_a, row_b]:
         tile.unlink(missing_ok=True)
@@ -326,7 +327,7 @@ def npc_lineup(out: Path, count: int = 12) -> Path:
     centre = Vector(((lo.x + hi.x) * 0.5, (lo.y + hi.y) * 0.5, (lo.z + hi.z) * 0.5))
     width = hi.x - lo.x
     cam = centre + Vector((0.0, -width * 1.05, 0.25))
-    return render(out, location=cam, target=centre, fov_deg=46.0, size=(1700, 640), samples=48)
+    return render(out, location=cam, target=centre, fov_deg=46.0, size=(1500, 560), samples=32)
 
 
 # --------------------------------------------------------------------------------------------- compositing

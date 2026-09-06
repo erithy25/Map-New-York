@@ -116,6 +116,9 @@ bool TrafficSim::configure(const routing::RoadGraph& g, const SignalTable& sig, 
   lc_claims_.reserve(cap);
   lc_head_.assign(lanes, kInvalidIndex);
   lc_stamp_.assign(lanes, 0u);
+  straddle_head_.assign(lanes, kInvalidIndex);
+  straddle_stamp_.assign(lanes, 0u);
+  straddle_next_.assign(cap, kInvalidIndex);
   conflicts_.clear();
   conflict_first_.assign(lanes, 0u);
   conflict_count_.assign(lanes, 0u);
@@ -285,6 +288,51 @@ void TrafficSim::buildOrder() {
   }
   if (run_lane != kInvalidIndex && run_lane < lane_num_.size())
     lane_num_[run_lane] = static_cast<uint32_t>(order_keys_.size()) - run_start;
+
+  for (uint32_t i = 0; i < veh_.size(); ++i) {
+    const uint32_t from = veh_[i].lc_from;
+    if (from == kInvalidIndex || from >= straddle_head_.size()) continue;
+    if (straddle_stamp_[from] != stamp_) {
+      straddle_stamp_[from] = stamp_;
+      straddle_head_[from] = kInvalidIndex;
+    }
+    straddle_next_[i] = straddle_head_[from];
+    straddle_head_[from] = i;
+  }
+}
+
+TrafficSim::Neighbour TrafficSim::leaderIncludingStraddlers(uint32_t lane, float s, float half_len,
+                                                            uint32_t skip) const {
+  Neighbour r = leaderInLane(lane, s, half_len, skip);
+  if (lane >= straddle_stamp_.size() || straddle_stamp_[lane] != stamp_) return r;
+  for (uint32_t k = straddle_head_[lane]; k != kInvalidIndex; k = straddle_next_[k]) {
+    if (k == skip) continue;
+    const Vehicle& o = veh_[k];
+    if (o.s <= s) continue;
+    const float gap = (o.s - o.length_m * 0.5f) - (s + half_len);
+    if (r.index != kInvalidIndex && gap >= r.gap) continue;
+    r.index = k;
+    r.gap = gap;
+    r.speed = o.speed;
+  }
+  return r;
+}
+
+TrafficSim::Neighbour TrafficSim::followerIncludingStraddlers(uint32_t lane, float s, float half_len,
+                                                              uint32_t skip) const {
+  Neighbour r = followerInLane(lane, s, half_len, skip);
+  if (lane >= straddle_stamp_.size() || straddle_stamp_[lane] != stamp_) return r;
+  for (uint32_t k = straddle_head_[lane]; k != kInvalidIndex; k = straddle_next_[k]) {
+    if (k == skip) continue;
+    const Vehicle& o = veh_[k];
+    if (o.s >= s) continue;
+    const float gap = (s - half_len) - (o.s + o.length_m * 0.5f);
+    if (r.index != kInvalidIndex && gap >= r.gap) continue;
+    r.index = k;
+    r.gap = gap;
+    r.speed = o.speed;
+  }
+  return r;
 }
 
 void TrafficSim::rebuildIndex() {
@@ -372,7 +420,7 @@ TrafficSim::Neighbour TrafficSim::leaderAhead(const Vehicle& v, float horizon_m)
   const uint32_t* path = pathOf(v.id);
   for (int k = 0; k < 4; ++k) {
     const float from_s = (k == 0) ? v.s : -1.f;
-    const Neighbour n = leaderInLane(lane, from_s, 0.f, k == 0 ? self : kInvalidIndex);
+    const Neighbour n = leaderIncludingStraddlers(lane, from_s, 0.f, k == 0 ? self : kInvalidIndex);
     if (n.index != kInvalidIndex) {
       const Vehicle& o = veh_[n.index];
       best.index = n.index;
@@ -607,6 +655,19 @@ bool TrafficSim::advanceLane(Vehicle& v) {
         v.s = len;
         v.speed = 0.f;
         v.exit_now = 1;
+        return true;
+      }
+    }
+    const uint32_t next_lane = path[v.path_pos + 1];
+    // Never drive into an occupied cell: if the head of the receiving lane is
+    // taken, hold at the end of this one (the box-blocking check gates entry,
+    // but the receiving lane can fill while we are inside the junction).
+    if (next_lane < graph_->laneCount()) {
+      const Neighbour head = leaderIncludingStraddlers(next_lane, -1.f, 0.f, kInvalidIndex);
+      if (head.index != kInvalidIndex &&
+          veh_[head.index].s - veh_[head.index].length_m * 0.5f < v.length_m * 0.5f + 0.1f) {
+        v.s = len - 0.01f;
+        v.speed = 0.f;
         return true;
       }
     }
@@ -955,8 +1016,8 @@ void TrafficSim::considerLaneChange(uint32_t i, float a_current) {
     if (tl.direction != l.direction || tl.segment != l.segment) continue;
     if (v.s > tl.length_m - v.length_m) continue;
 
-    const Neighbour lead_new = leaderInLane(target, v.s, v.length_m * 0.5f, self);
-    const Neighbour foll_new = followerInLane(target, v.s, v.length_m * 0.5f, self);
+    const Neighbour lead_new = leaderIncludingStraddlers(target, v.s, v.length_m * 0.5f, self);
+    const Neighbour foll_new = followerIncludingStraddlers(target, v.s, v.length_m * 0.5f, self);
     const Neighbour foll_old = followerInLane(v.lane, v.s, v.length_m * 0.5f, self);
     const Neighbour lead_old = leaderInLane(v.lane, v.s, v.length_m * 0.5f, self);
 
@@ -1304,6 +1365,7 @@ void TrafficSim::integrate(uint32_t i) {
                          (from.width_m + tol.width_m) * 0.5f;
     v.lateral += offset;  // + is left of travel, index grows to the curb
     v.s = clampf(v.s, 0.f, tol.length_m - 0.01f);
+    v.lc_from = v.lane;
     v.lane = to;
     uint32_t* path = pathOf(v.id);
     path[v.path_pos] = to;
@@ -1355,7 +1417,9 @@ void TrafficSim::integrate(uint32_t i) {
   } else {
     v.lateral = target;
     if (v.lc_dir != 0) v.lc_dir = 0;
+    v.lc_from = kInvalidIndex;
   }
+  if (std::fabs(v.lateral) < 0.35f) v.lc_from = kInvalidIndex;
 
   v.honk_cooldown = std::max(0.f, v.honk_cooldown - dt);
   v.lc_cooldown = std::max(0.f, v.lc_cooldown - dt);
@@ -1368,7 +1432,7 @@ void TrafficSim::integrate(uint32_t i) {
 // holds).  IDM is collision-free in exact arithmetic; this makes it so at a
 // 50 ms step as well, and absorbs the one case IDM cannot see — two agents
 // changing into the same gap from opposite sides in the same step.
-void TrafficSim::resolveOverlaps() {
+void TrafficSim::laneClamp() {
   uint32_t k = 0;
   while (k < order_keys_.size()) {
     const uint32_t lane = static_cast<uint32_t>(order_keys_[k] >> 40);
@@ -1390,6 +1454,52 @@ void TrafficSim::resolveOverlaps() {
   }
 }
 
+void TrafficSim::resolveOverlaps() {
+  laneClamp();
+  // Across a lane boundary: the leader may already be on the next lane of the
+  // path (entering a junction, leaving one).  leaderAhead() follows the path,
+  // so one deficit correction per agent closes that case too.
+  for (uint32_t i = 0; i < veh_.size(); ++i) {
+    Vehicle& v = veh_[i];
+    const Neighbour ld = leaderAhead(v, 30.f);
+    if (ld.index == kInvalidIndex || ld.gap >= 0.05f) continue;
+    v.s += ld.gap - 0.05f;
+    if (v.s < 0.f) v.s = 0.f;
+    if (v.speed > ld.speed) v.speed = ld.speed;
+  }
+  // …and against the agents that are only laterally in this lane.
+  for (uint32_t i = 0; i < veh_.size(); ++i) {
+    Vehicle& v = veh_[i];
+    if (v.lane >= straddle_stamp_.size() || straddle_stamp_[v.lane] != stamp_) continue;
+    const Neighbour ld = leaderIncludingStraddlers(v.lane, v.s, v.length_m * 0.5f, i);
+    if (ld.index == kInvalidIndex || ld.gap >= 0.05f) continue;
+    v.s += ld.gap - 0.05f;
+    if (v.s < 0.f) v.s = 0.f;
+    if (v.speed > ld.speed) v.speed = ld.speed;
+  }
+  // A vehicle that is changing lanes still physically occupies the lane it is
+  // leaving until the lateral animation finishes.
+  for (uint32_t i = 0; i < veh_.size(); ++i) {
+    Vehicle& v = veh_[i];
+    if (v.lc_from == kInvalidIndex || v.lc_from >= graph_->laneCount()) continue;
+    const float half = v.length_m * 0.5f;
+    const Neighbour ld = leaderIncludingStraddlers(v.lc_from, v.s, half, i);
+    if (ld.index != kInvalidIndex && ld.gap < 0.05f) {
+      v.s += ld.gap - 0.05f;
+      if (v.s < 0.f) v.s = 0.f;
+      if (v.speed > ld.speed) v.speed = ld.speed;
+    }
+    const Neighbour fl = followerIncludingStraddlers(v.lc_from, v.s, half, i);
+    if (fl.index != kInvalidIndex && fl.gap < 0.05f) {
+      Vehicle& f = veh_[fl.index];
+      f.s += fl.gap - 0.05f;
+      if (f.s < 0.f) f.s = 0.f;
+      if (f.speed > v.speed) f.speed = v.speed;
+    }
+  }
+  laneClamp();
+}
+
 void TrafficSim::updatePose(Vehicle& v) {
   const routing::LanePose pose = graph_->poseAt(v.lane, v.s, v.lateral);
   v.pos = pose.pos;
@@ -1398,6 +1508,12 @@ void TrafficSim::updatePose(Vehicle& v) {
 
 // ---------------------------------------------------------------- spawning
 bool TrafficSim::laneFreeAt(uint32_t lane, float s, float len) const {
+  if (lane < straddle_stamp_.size() && straddle_stamp_[lane] == stamp_) {
+    for (uint32_t k = straddle_head_[lane]; k != kInvalidIndex; k = straddle_next_[k]) {
+      const Vehicle& o = veh_[k];
+      if (std::fabs(o.s - s) < (o.length_m + len) * 0.5f + cfg_.spawn_headway_m) return false;
+    }
+  }
   if (lane >= lane_stamp_.size() || lane_stamp_[lane] != stamp_) return true;
   const uint32_t first = lane_first_[lane], count = lane_num_[lane];
   for (uint32_t k = 0; k < count; ++k) {

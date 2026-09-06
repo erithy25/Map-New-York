@@ -111,20 +111,26 @@ def _label_bodies(hydro: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
 
 
 def _label_raster(named: gpd.GeoDataFrame) -> tuple[np.ndarray, Affine]:
-    """Nearest-named-body label id per ``LABEL_RES_M`` cell over the scope (0 = farther than MAX_NEAREST_M)."""
+    """Nearest-named-body label id per ``LABEL_RES_M`` cell over the scope (0 = farther than MAX_NEAREST_M).
+
+    The bodies are rasterised (largest first, so a small body wins its own cells) and the nearest label is
+    then propagated with a Euclidean distance transform. Computing exact point-to-polygon distances instead
+    would be O(cells x polygon vertices) — hours for the dissolved Atlantic/Sound polygons.
+    """
+    from scipy.ndimage import distance_transform_edt
+
     w = int(np.ceil((SCOPE_XMAX - SCOPE_XMIN) / LABEL_RES_M))
     h = int(np.ceil((SCOPE_YMAX - SCOPE_YMIN) / LABEL_RES_M))
     tr = Affine(LABEL_RES_M, 0.0, SCOPE_XMIN, 0.0, -LABEL_RES_M, SCOPE_YMAX)
-    cx = SCOPE_XMIN + LABEL_RES_M * (np.arange(w) + 0.5)
-    cy = SCOPE_YMAX - LABEL_RES_M * (np.arange(h) + 0.5)
-    gx, gy = np.meshgrid(cx, cy)
-    pts = shapely.points(gx.ravel(), gy.ravel())
-    tree = shapely.STRtree(named.geometry.values)
-    idx = tree.nearest(pts)
-    dist = shapely.distance(pts, named.geometry.values[idx])
-    lab = (idx + 1).astype(np.int32)
+    order = np.argsort(-shapely.area(named.geometry.values), kind="stable")
+    seed = np.zeros((h, w), dtype=np.int32)
+    rasterize(((named.geometry.values[i], int(i) + 1) for i in order), out=seed, transform=tr, all_touched=True)
+    if not seed.any():
+        return seed, tr
+    dist, ind = distance_transform_edt(seed == 0, sampling=(LABEL_RES_M, LABEL_RES_M), return_indices=True)
+    lab = seed[ind[0], ind[1]]
     lab[dist > MAX_NEAREST_M] = 0
-    return lab.reshape(h, w), tr
+    return lab.astype(np.int32), tr
 
 
 def _polygons_only(g):

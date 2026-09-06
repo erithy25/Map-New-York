@@ -396,3 +396,69 @@ def test_revalidate_drops_items_failing_the_current_rules(tmp_path: Path):
         ]})
     assert fp.revalidate(tmp_path, [item2]) == []
     assert (d2 / "meta.json").exists()
+
+
+_COMPASS = ["north", "north-north-east", "north-east", "east-north-east", "east", "east-south-east", "south-east",
+            "south-south-east", "south", "south-south-west", "south-west", "west-south-west", "west",
+            "west-north-west", "north-west", "north-north-west"]
+_COMPASS_DEG = {p: i * 22.5 for i, p in enumerate(_COMPASS)}
+_COMPASS_RE = "|".join(sorted((p for p in _COMPASS), key=len, reverse=True))
+
+
+def _angle_diff(a: float, b: float) -> float:
+    return abs((a - b + 180.0) % 360.0 - 180.0)
+
+
+def test_viewpoint_notes_agree_with_the_computed_geometry():
+    """The prose in every viewpoint_note must match the numbers the meta.json will carry.
+
+    'looking <compass>' must be within 1.5 compass points of the item's azimuth, and
+    '<compass> of/from the subject' must match the bearing from the subject to the camera.
+    """
+    import re
+    bad = []
+    for it in fp.CATALOGUE:
+        note = it.viewpoint_note.lower()
+        m = re.search(r"looking (" + _COMPASS_RE + r")", note)
+        if m and _angle_diff(_COMPASS_DEG[m.group(1)], it.default_azimuth) > 34.0:
+            bad.append((it.slug, "looking " + m.group(1), round(it.default_azimuth, 1)))
+        m2 = re.search(r"(" + _COMPASS_RE + r") (?:of|from)\b", note)
+        if m2 and it.subject is not None:
+            side = fp.bearing_deg(it.subject, it.viewpoint)
+            if _angle_diff(_COMPASS_DEG[m2.group(1)], side) > 34.0:
+                bad.append((it.slug, m2.group(1) + " of", round(side, 1)))
+    assert not bad, bad
+
+
+def test_every_landmark_in_docs_landmarks_md_has_a_subject():
+    """Each structure named in docs/LANDMARKS.md is represented by a catalogue item."""
+    doc = (Path(__file__).resolve().parents[2] / "docs" / "LANDMARKS.md").read_text(encoding="utf-8").lower()
+    assert doc, "docs/LANDMARKS.md is empty"
+    blob = " || ".join(f"{i.slug} :: {i.name}" for i in fp.CATALOGUE).lower()
+    # a representative sample spanning all three landmark groups, keyed to the slug/name text
+    for token in ("empire_state", "chrysler", "flatiron", "one_vanderbilt", "rockefeller", "st_patricks",
+                  "grand_central_facade", "grand_central_concourse", "nypl", "madison_square_garden", "woolworth",
+                  "municipal_building", "city_hall", "trinity_church", "nyse", "charging_bull", "federal_hall",
+                  "40_wall", "one_wall_street", "equitable", "moma", "brooklyn_bridge", "manhattan_bridge",
+                  "williamsburg_bridge", "queensboro", "george_washington", "verrazzano", "rfk_triborough",
+                  "throgs_neck", "whitestone", "hell_gate", "high_bridge", "pulaski", "kosciuszko",
+                  "roosevelt_island_tram", "lincoln_tunnel", "holland_tunnel", "queens_midtown_tunnel",
+                  "hugh_carey_tunnel", "one_world_trade", "oculus", "3_world_trade", "4_world_trade",
+                  "7_world_trade", "911_memorial_pools", "statue_of_liberty", "ellis_island",
+                  "washington_square_arch", "bethesda", "bow_bridge", "belvedere_castle", "central_park_wall_gates",
+                  "unisphere", "castle_williams", "fort_jay", "grants_tomb", "columbus_circle",
+                  "soldiers_sailors_arch", "prospect_park_boathouse", "cyclone", "wonder_wheel", "parachute_jump",
+                  "boardwalk", "30_hudson_yards", "35_hudson_yards", "10_hudson_yards", "55_hudson_yards",
+                  "15_hudson_yards", "50_hudson_yards", "the_shed", "vessel", "432_park", "111_west_57th",
+                  "central_park_tower", "one57", "220_central_park_south", "53w53", "trump_tower", "9_west_57th",
+                  "one_times_square", "two_times_square", "three_times_square", "four_times_square", "tsx_broadway",
+                  "paramount_building", "tkts", "times_square_tower", "bank_of_america_tower", "marriott_marquis",
+                  "new_york_times_building", "port_authority", "hearst", "citigroup_center", "metlife", "lipstick",
+                  "seagram", "lever_house", "united_nations", "dakota", "plaza_hotel", "metropolitan_museum",
+                  "guggenheim", "amnh", "rose_center", "lincoln_center", "apollo", "carnegie_hall",
+                  "john_the_divine", "riverside_church", "yankee_stadium", "citi_field", "barclays", "arthur_ashe",
+                  "domino_sugar", "domino_park", "kings_theatre", "brooklyn_museum", "brooklyn_public_library",
+                  "williamsburgh_savings", "pier_17", "whitehall_ferry", "st_george_ferry", "ny_state_pavilion",
+                  "queens_museum", "bronx_county_courthouse", "high_line", "little_island", "pier_57",
+                  "chelsea_market", "javits", "moynihan"):
+        assert token in blob, f"docs/LANDMARKS.md names a structure with no catalogue item: {token}"

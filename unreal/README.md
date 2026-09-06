@@ -252,6 +252,7 @@ Directories to Package* in Project Settings → Packaging (or `+DirectoriesToAlw
 | Water is grey | `M_NYC_Water` missing — run `-stages=assets`; the actor falls back to the engine default material on purpose |
 | Water is missing entirely near the camera | `unreal_water.json` has no `tiles` (the pipeline's water stage has not run); the far ocean ring still renders |
 | No landscape | that tile has no `terrain.png`/`terrain.json` in `data/processed/tiles/{tile}` |
+| `the manifest lists no tiles; falling back to N tiles found under …` | the manifest predates the terrain/buildings stages; `build_levels.py` scans `data/processed/tiles` instead. Re-run `python -m nycsim_pipeline.unreal.manifest` to refresh it |
 | Sky is black at noon | check `nycsim.PrintSun`: a clock before 1967 is rejected by the core's DST rule and logged |
 | Weather overlay says `STALE` forever | no network, or `api.weather.gov` refusing the `User-Agent`; `nycsim.Overlay 2` shows the HTTP status per provider |
 | Hitching while driving | lower `MaxLoadRequestsPerFrame`, raise `nycsim.Streaming.Hz`, or check `nycsim.Streaming.Stats` for `budget denials` |

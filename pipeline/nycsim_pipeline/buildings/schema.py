@@ -43,7 +43,7 @@ class Fidelity(IntEnum):
 # Bits this stage is allowed to set. ROOF_REAL (citygml stage), MATERIAL_REAL / FACADE_INFERRED (facade rules),
 # LANDMARK_MODEL (landmark scripts) are owned by later stages.
 STAGE_BITS = (
-    Fidelity.FOOTPRINT_REAL, Fidelity.HEIGHT_REAL, Fidelity.FLOORS_REAL, Fidelity.YEAR_REAL, Fidelity.SIGNAGE_REAL,
+    Fidelity.FOOTPRINT_REAL, Fidelity.HEIGHT_REAL, Fidelity.ROOF_REAL, Fidelity.FLOORS_REAL, Fidelity.YEAR_REAL, Fidelity.SIGNAGE_REAL,
     Fidelity.SCAFFOLD_REAL, Fidelity.GROUND_REAL, Fidelity.HEIGHT_INFERRED, Fidelity.FLOORS_INFERRED,
 )
 

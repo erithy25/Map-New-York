@@ -341,7 +341,7 @@ def write_png(path: Path, values: np.ndarray) -> int:
     """16-bit grayscale PNG, north row first. Returns the file size in bytes."""
     if values.dtype != np.uint16 or values.shape != (SAMPLES, SAMPLES):
         raise TileError(f"{path}: expected uint16 {SAMPLES}x{SAMPLES}, got {values.dtype} {values.shape}")
-    tmp = path.with_suffix(".tmp.png")
+    tmp = path.with_suffix(f".{os.getpid()}.tmp.png")  # pid-unique: two passes may run concurrently
     Image.fromarray(values).save(tmp, format="PNG", optimize=True)  # uint16 -> mode "I;16"
     back = np.asarray(Image.open(tmp))
     if back.shape != values.shape or not np.array_equal(back.astype(np.uint16), values):
@@ -452,7 +452,7 @@ def build_tile(tile: Tile, stack: DemStack, pts: PointIndex, hydro: HydroLayers,
                       "z_min_before_m": round(float(sd["z_min_before"]), 3), "land_floor_m": LAND_FLOOR_M,
                       "slip_reach_m": SLIP_REACH_M, "fill_radius_m": FILL_RADIUS_M},
     }
-    tmp = json_path.with_suffix(".tmp.json")
+    tmp = json_path.with_suffix(f".{os.getpid()}.tmp.json")
     with open(tmp, "w") as f:
         json.dump(doc, f, indent=1, sort_keys=True)
     os.replace(tmp, json_path)

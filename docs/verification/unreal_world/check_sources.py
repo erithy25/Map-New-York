@@ -10,7 +10,7 @@ Checked here:
   4. core headers (nycsim/**) are included only from Private/CoreAdapter, and every one of them exists
   5. braces, parentheses and #if/#endif balance in every file
   6. every out-of-line member definition in a .cpp is declared in the matching header
-  7. no TODO / FIXME / stub / placeholder markers
+  7. no TODO / FIXME / stub / placeholder markers, and every core symbol the adapters call is declared
   8. every console command and CVar registered in the sources is documented in unreal/README.md
 """
 from __future__ import annotations
@@ -118,6 +118,41 @@ for rel, text in TEXT.items():
         check(f"{rel}: core headers are included only under CoreAdapter", "CoreAdapter" in rel, str(hits[:3]))
     for header in hits:
         check(f"{rel}: core header {header} exists", os.path.isfile(os.path.join(core_root, header)))
+
+# ------------------------------------------- 4b. every core symbol/field the adapters use exists in core/include
+CORE_SYMBOLS = [
+    "simTime", "civilFromUnix", "unixFromCivilUtc", "deltaTSeconds",
+    "solarPositionUnix", "moonPositionUnix", "sunEventsLocal", "limitDegrees", "moonPhaseName",
+    "kRiseSetH0Deg", "kCivilTwilightH0Deg", "kManhattanStreetSunsetAzimuthDeg", "kAtmosRefractHorizonDeg",
+    "WeatherService", "Provider", "ProviderStatus", "parseNwsObservation", "NwsForecastBlend", "parseOpenMeteo",
+    "parseMetar", "weatherStateFromMetar", "ceilingM", "worldEffectsStep", "WorldEffectsState", "toWeatherJson",
+    "fromWeatherJson", "obscurationList", "sourceName", "precipTypeName", "kNwsObsUrlTemplate", "kNwsGridpointUrl",
+    "kOpenMeteoUrl", "kNwsGridpointTtlS", "surfaceClassName", "restoreLastGood", "providerStatus", "polls",
+    "failures", "TileScheduler", "TileCostModel", "SchedulerConfig", "CameraState", "Transition", "SchedulerStats",
+    "toUE", "fromUE", "headingToUEYaw", "ueYawToHeading", "mathAngleToUEYaw", "directionToUE",
+    "errorCodeName", "failWith", "fail",
+]
+CORE_FIELDS = [
+    "azimuthAstro", "alphaPrime", "deltaPrime", "distanceAu", "semidiameterDeg", "illuminatedFraction",
+    "phaseAngleDeg", "elongationDeg", "waxing", "observationTimeUnix", "hasSkyClearCode", "clouds",
+    "observedAtUnix", "fetchedAtUnix", "staleAgeS", "windFromHeading", "precipRateMmph", "cloudCover",
+    "visibilityM", "pressureHpa", "snowDepthCm", "thunder", "obscuration", "interpolated", "rawText",
+    "wetness", "puddles", "snowCover", "snowDepthM", "iceRisk", "fogDensity", "windSpeedMps", "windGustMps",
+    "windHeadingDeg", "flagSway", "umbrellaShare", "pedestrianDensityScale", "plowActivity", "overcast",
+    "rainRateMmph", "snowRateCmph", "headlights", "wipers", "wiperSpeed", "surface",
+    "secondsSinceLocalMidnight", "tzAbbreviation", "utcOffsetS", "isDst", "dayOfYear", "jde", "deltaTS",
+    "residentBytes", "countByTier", "overBudget", "totalLoads", "totalUnloads", "totalUpgrades",
+    "totalDowngrades", "totalBudgetDenials", "updates", "budgetLimited", "distanceNow_m",
+]
+core_text = []
+for root, _, names in os.walk(core_root):
+    for name in names:
+        if name.endswith(".h"):
+            core_text.append(open(os.path.join(root, name), encoding="utf-8").read())
+core_blob = "\n".join(core_text)
+for symbol in CORE_SYMBOLS + CORE_FIELDS:
+    check(f"core header declares {symbol}", re.search(rf"\b{re.escape(symbol)}\b", core_blob) is not None)
+print(f"  {len(CORE_SYMBOLS)} core symbols and {len(CORE_FIELDS)} struct fields used by the adapters are declared")
 
 # ---------------------------------------------------------------- 5. balance
 def strip_comments_and_strings(text: str) -> str:

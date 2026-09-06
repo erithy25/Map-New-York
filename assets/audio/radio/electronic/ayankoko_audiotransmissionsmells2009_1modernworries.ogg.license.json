@@ -1,0 +1,28 @@
+{
+ "artist": "Ayankoko",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 3591857,
+ "duration_s": 406.44,
+ "file": "electronic/ayankoko_audiotransmissionsmells2009_1modernworries.ogg",
+ "gain_db": 3.3,
+ "licence": "CC-BY-2.0-FR",
+ "licence_url": "http://creativecommons.org/licenses/by/2.0/fr/",
+ "loudness_lufs": -17.3,
+ "original_filename": "1ModernWorries.mp3",
+ "recorded_at": "2026-09-06T12:18:36Z",
+ "schema_version": 1,
+ "sha256": "077a94ab8929b387ebbb1bc93b98050f8eaaa535cd6cb5bbb71e702900bb2bd6",
+ "source_page": "https://archive.org/details/Ayankoko-AudioTransmissionSmells2009",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/Ayankoko-AudioTransmissionSmells2009/1ModernWorries.mp3",
+ "title": "1 modern worries",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

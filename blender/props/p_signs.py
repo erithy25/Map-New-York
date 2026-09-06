@@ -81,7 +81,7 @@ def _u_channel(name: str, length: float) -> C.Built:
     holes = []
     z = length - 0.06
     while z > length - 0.36:
-        holes.append(C.cyl(f"{name}_hole{len(holes)}", 0.0125, 0.010, 8, origin=(0.0, -0.005, z), material=P.dark_grey(), axis="Y"))
+        holes.append(C.cyl(f"{name}_hole{len(holes)}", 0.0125, 0.030, 8, origin=(0.0, 0.004, z), material=P.dark_grey(), axis="Y"))
         z -= 0.0254
     return C.Built(lod0=[post] + holes,
                    extra={"key_dims_m": {"length": length, "flange_width": 0.070, "depth": 0.038, "weight_class": "3 lb/ft"}})

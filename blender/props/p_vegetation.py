@@ -146,7 +146,7 @@ def build_skeleton(species: str, height: float, dbh_cm: float, crown_m: float, s
     n = 6
     for i in range(n):
         t = i / (n - 1)
-        trunk_pts.append([rng.gauss(0, 0.012) * t * clear, rng.gauss(0, 0.012) * t * clear, t * clear])
+        trunk_pts.append([rng.gauss(0, 0.012) * t * t * clear, rng.gauss(0, 0.012) * t * t * clear, t * clear])
         trunk_r.append(r_trunk * (1.30 if i == 0 else 1.0) * (1.0 - 0.28 * t))
     sk.branches.append((trunk_pts, trunk_r, 0))
     card = max(0.35, min(1.35, crown_m * 0.115))
@@ -254,6 +254,7 @@ def _tree_builder(species: str, latin: str, common: str, cls: dict, size_class: 
             leaf_mat = C.mat_image(f"LEAF_{species}", LF.leaf_atlas(species), alpha_clip=True, roughness=0.78, backface=True)
             leaf_mat.use_backface_culling = False
             parts.append(_leaf_object(sk, leaf_mat, f"{species}_leaves", random.Random(seed ^ 0x5EED)))
+        C.settle_to_ground(parts)
         segs = []
         for pts, radii, _ in sk.branches:
             for i in range(len(pts) - 1):
@@ -271,7 +272,7 @@ def _tree_builder(species: str, latin: str, common: str, cls: dict, size_class: 
                               "crown_habit": habit.crown_note,
                               "key_dims_m": {"height": height, "crown_spread": crown, "dbh_cm": dbh,
                                              "trunk_radius": round(dbh / 200.0, 4)},
-                              "leaf_cards": len(sk.leaves), "branches": len(sk.branches)})
+                              "leaf_cards": 0 if bare else len(sk.leaves), "branches": len(sk.branches)})
 
     return build
 

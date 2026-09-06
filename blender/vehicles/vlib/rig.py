@@ -335,7 +335,8 @@ class Vehicle:
 
     #: parts that manufacturers exclude from the published length/width/height envelope
     ENVELOPE_EXCLUDE = ("UCX_", "Mirror_", "Antenna", "TAXI_ROOF", "LightBar", "SIGN_", "Ladder", "Pole",
-                        "RoofRack", "Exhaust_Stack", "Mast", "PushBumper", "Bullbar")
+                        "RoofRack", "Exhaust_Stack", "Mast", "PushBumper", "Bullbar", "Horse", "Shafts",
+                        "AerialBoom", "Boom", "CrossingGate", "StopArm", "Liftgate")
 
     def measured(self) -> dict:
         g.sync()
