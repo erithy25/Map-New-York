@@ -20,22 +20,182 @@
  "min_year": 2010,
  "wanted": 3,
  "queries": [
-  "\"Central Park\" perimeter wall Manhattan schist",
-  "\"Scholars' Gate\" Central Park entrance"
+  "Central Park entrance gate Manhattan",
+  "Central Park perimeter wall Fifth Avenue"
  ],
  "geosearch_radius_m": 400,
- "fetched_at": "2026-09-06T13:59:02Z",
+ "fetched_at": "2026-09-06T14:05:22Z",
  "max_width": 1920,
  "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
- "candidates_seen": 35,
- "candidates_eligible": 0,
+ "candidates_seen": 85,
+ "candidates_eligible": 29,
  "rejections": {
-  "keywords": 29,
+  "keywords": 31,
   "too_small": 4,
-  "not_photo": 1,
-  "excluded": 1
+  "licence": 1,
+  "not_photo": 3,
+  "excluded": 17
  },
- "exhausted": true,
- "status": "no_suitable_photo",
- "photos": []
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Central Park td (2019-07-11) 064 - Wien Walk, Central Park Zoo.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Central_Park_td_(2019-07-11)_064_-_Wien_Walk,_Central_Park_Zoo.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Central_Park_td_%282019-07-11%29_064_-_Wien_Walk%2C_Central_Park_Zoo.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Central_Park_td_%282019-07-11%29_064_-_Wien_Walk%2C_Central_Park_Zoo.jpg/1920px-Central_Park_td_%282019-07-11%29_064_-_Wien_Walk%2C_Central_Park_Zoo.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2019-07-11 17:41:51",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.765984,
+    "lon": -73.97233
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 1055173,
+   "sha256": "95267692eb1660edbe141f39d283516f8994a4e5b3713d927f3853b88401e582",
+   "mean_luminance": 91.3,
+   "description": "The entrance into the Central Park Zoo at the north end of the Wien Walk at the southeast corner of Central Park, at 5th Avenue and 62nd Street near Lenox Hill, Manhattan.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "Central Park Zoo",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Zoo entrances in the United States",
+    "2019 Manhattan photographs by Tdorante10",
+    "Gates of Central Park",
+    "Wien Walk (Central Park)",
+    "1939 World's Fair memorial benches in Central Park",
+    "Photographs by Tdorante10 taken on 2019-07-11",
+    "Central Park in July 2019",
+    "Rain in Central Park"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:Central Park entrance gate Manhattan",
+   "score": 11.6,
+   "estimated_viewpoint": {
+    "lat": 40.765984,
+    "lon": -73.97233,
+    "azimuth_deg": 210.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76598, -73.97233) is 192 m from Central Park perimeter wall and gates (40.76450, -73.97350) and 180 m from the standard viewpoint; the azimuth 211 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Central Park td (2019-07-11) 064 - Wien Walk, Central Park Zoo.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Central_Park_td_(2019-07-11)_064_-_Wien_Walk,_Central_Park_Zoo.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Miners' Gate (north entrance), Central Park, 5th Avenue and 79th Street, Upper East Side, Manhattan.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Miners%27_Gate_(north_entrance),_Central_Park,_5th_Avenue_and_79th_Street,_Upper_East_Side,_Manhattan.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/50/Miners%27_Gate_%28north_entrance%29%2C_Central_Park%2C_5th_Avenue_and_79th_Street%2C_Upper_East_Side%2C_Manhattan.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Miners%27_Gate_%28north_entrance%29%2C_Central_Park%2C_5th_Avenue_and_79th_Street%2C_Upper_East_Side%2C_Manhattan.jpg/1920px-Miners%27_Gate_%28north_entrance%29%2C_Central_Park%2C_5th_Avenue_and_79th_Street%2C_Upper_East_Side%2C_Manhattan.jpg",
+   "author": "Deansfa",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-01-18 12:13:17",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.777214,
+    "lon": -73.963722
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 2390795,
+   "sha256": "8829f0fbd733fd3f013f6c158943efbf24687aad48a1017b984700d47ca44b45",
+   "mean_luminance": 133.9,
+   "description": "Miners' Gate (north entrance), Central Park, 5th Avenue and 79th Street, Upper East Side, Manhattan",
+   "categories": [
+    "Miners' Gate (Central Park)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2021-01-18",
+    "2021 in the Upper East Side",
+    "Sorted waste container trios in New York City",
+    "Central Park in January 2021"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:Central Park entrance gate Manhattan",
+   "score": 9.9,
+   "estimated_viewpoint": {
+    "lat": 40.764406,
+    "lon": -73.972798,
+    "azimuth_deg": 280.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint (camera GPS implausibly far)",
+    "explanation": "The file carries GPS (40.77721, -73.96372) but it is 1.6 km from Central Park perimeter wall and gates (40.76450, -73.97350), beyond the 1.5 km plausibility limit for this view, so it is ignored; the viewpoint is the standard photographer position (Grand Army Plaza at Fifth Avenue and 60th Street, about 60 m east of Scholars' Gate, looking west at the schist perimeter wall and gate piers) and the azimuth 280 deg is the bearing from there to the subject."
+   },
+   "attribution": "\"Miners' Gate (north entrance), Central Park, 5th Avenue and 79th Street, Upper East Side, Manhattan.jpg\" by Deansfa, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Miners%27_Gate_(north_entrance),_Central_Park,_5th_Avenue_and_79th_Street,_Upper_East_Side,_Manhattan.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Decapitated lamppost in Central Park 02.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Decapitated_lamppost_in_Central_Park_02.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/29/Decapitated_lamppost_in_Central_Park_02.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Decapitated_lamppost_in_Central_Park_02.jpg/1920px-Decapitated_lamppost_in_Central_Park_02.jpg",
+   "author": "Jay Dobkin",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2025-08-30 15:40:55",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": null,
+   "original_width": 4080,
+   "original_height": 3060,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 925587,
+   "sha256": "067f335d32de52067f83f84c92893b0b5136efb4336734cade6b1d9bbce8325f",
+   "mean_luminance": 95.6,
+   "description": "A decapitated lamppost in August 2025 in Central Park , New York City, on a path just east of the park's West Drive, north of the the West 100th Street entrance (the Boys Gate).",
+   "categories": [
+    "Self-published work",
+    "Central Park in 2025",
+    "New York City photographs taken on 2025-08-30",
+    "August 2025 in Manhattan, New York City",
+    "Decay in New York City",
+    "Damaged street lights",
+    "Central Park Pedestrian Poles in Central Park"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:Central Park entrance gate Manhattan",
+   "score": 9.7,
+   "estimated_viewpoint": {
+    "lat": 40.764406,
+    "lon": -73.972798,
+    "azimuth_deg": 280.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Grand Army Plaza at Fifth Avenue and 60th Street, about 60 m east of Scholars' Gate, looking west at the schist perimeter wall and gate piers) and the azimuth 280 deg is the bearing from there to Central Park perimeter wall and gates (40.76450, -73.97350)."
+   },
+   "attribution": "\"Decapitated lamppost in Central Park 02.jpg\" by Jay Dobkin, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Decapitated_lamppost_in_Central_Park_02.jpg"
+  }
+ ]
 }

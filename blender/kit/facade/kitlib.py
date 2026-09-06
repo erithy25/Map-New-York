@@ -350,6 +350,28 @@ class Mesh:
 _MAT_CACHE: dict[str, bpy.types.Material] = {}
 
 
+def _tileable_variation(size: int, octaves: int, strength: float, seed: int):
+    """Seamlessly tiling low-frequency luminance variation in [1-strength, 1+strength].
+
+    Built from sinusoids at *integer* frequencies in both axes, so the field is exactly periodic over the tile and the
+    texture stays seamless. Multiplied into the albedo it reads as the soot, rain-streaking and patched brick that
+    every New York wall carries — which is what stops a tiled texture reading as wallpaper at building scale."""
+    import numpy as np
+    rng = np.random.default_rng(seed)
+    yy, xx = np.mgrid[0:size, 0:size] / float(size)
+    acc = np.zeros((size, size), dtype=np.float64)
+    for o in range(octaves):
+        f = 2 ** o
+        for _ in range(3):
+            fx, fy = (int(v) for v in rng.integers(-f, f + 1, 2))
+            if fx == 0 and fy == 0:
+                fx = f
+            phase = float(rng.random()) * 2.0 * np.pi
+            acc += np.sin(2.0 * np.pi * (fx * xx + fy * yy) + phase) / (o + 1.0)
+    peak = float(np.abs(acc).max()) or 1.0
+    return 1.0 + strength * (acc / peak)
+
+
 def _kit_maps(name: str) -> dict[str, str]:
     """1K JPEG copies of a material's maps for embedding (colour with AO baked, normal, ORM packed G=rough B=metal)."""
     meta = tx.resolve(name)
@@ -360,7 +382,10 @@ def _kit_maps(name: str) -> dict[str, str]:
     adir = Path(maps["color"]).parent / f"kit{KIT_TEX_RES}"
     adir.mkdir(exist_ok=True)
     aid = meta["asset_id"]
-    out = {"color": adir / f"{aid}_{KIT_TEX_RES}_color.jpg", "normal": adir / f"{aid}_{KIT_TEX_RES}_normal.jpg", "orm": adir / f"{aid}_{KIT_TEX_RES}_orm.jpg"}
+    bk = meta.get("breakup")
+    tag = f"_bk{int(round(float(bk.get('strength', 0.15)) * 100))}" if bk else ""
+    out = {"color": adir / f"{aid}_{KIT_TEX_RES}{tag}_color.jpg", "normal": adir / f"{aid}_{KIT_TEX_RES}_normal.jpg",
+           "orm": adir / f"{aid}_{KIT_TEX_RES}_orm.jpg"}
     if all(p.exists() for p in out.values()):
         return {k: str(v) for k, v in out.items()}
     R = (KIT_TEX_RES, KIT_TEX_RES)
@@ -372,6 +397,12 @@ def _kit_maps(name: str) -> dict[str, str]:
         col = Image.composite(col, Image.new("RGB", R, (0, 0, 0)), Image.new("L", R, 255))
         from PIL import ImageChops
         col = ImageChops.multiply(col, Image.merge("RGB", (ao_mix, ao_mix, ao_mix)))
+    if bk:
+        import numpy as np
+        var = _tileable_variation(KIT_TEX_RES, int(bk.get("octaves", 4)), float(bk.get("strength", 0.15)),
+                                  int(bk.get("seed", 1)))
+        arr = np.asarray(col, dtype=np.float64) * var[:, :, None]
+        col = Image.fromarray(np.clip(arr, 0, 255).astype("uint8"), "RGB")
     col.save(out["color"], quality=88, optimize=True)
     if "normal" in maps:
         Image.open(maps["normal"]).convert("RGB").resize(R, Image.LANCZOS).save(out["normal"], quality=90, optimize=True)
@@ -594,6 +625,16 @@ def make_lod1(ob: bpy.types.Object, pid: str, lod_mesh: Mesh | None = None) -> b
     return _name_data(pm.to_object(f"{pid}_LOD1"))
 
 
+def _glazing_setback(ob: bpy.types.Object) -> float | None:
+    """Smallest y (distance behind the wall plane) of any glazing polygon, or None when the piece has no glass."""
+    idx = {i for i, mm in enumerate(ob.data.materials)
+           if mm.name in ("kit_glass_clear", "kit_glass_curtain")}
+    if not idx:
+        return None
+    ys = [ob.data.vertices[v].co.y for p in ob.data.polygons if p.material_index in idx for v in p.vertices]
+    return min(ys) if ys else None
+
+
 def _dominant_material(ob: bpy.types.Object) -> str:
     counts: dict[int, float] = {}
     for p in ob.data.polygons:
@@ -649,6 +690,7 @@ def build_piece(piece: Piece, *, export: bool = True) -> dict:
     tris1 = evaluated_tris(lod)
     size = (hi.x - lo.x, hi.y - lo.y, hi.z - lo.z)
     mats = [mm.name[4:] if mm.name.startswith("kit_") else mm.name for mm in ob.data.materials]
+    setback = _glazing_setback(ob)
     tex_assets = sorted({tx.resolve(mm)["asset_id"] for mm in mats if _is_catalog_material(mm)})
     entry = {
         "id": piece.id, "category": piece.category, "glb": f"kit/facade/{piece.id}.glb",
@@ -661,6 +703,11 @@ def build_piece(piece: Piece, *, export: bool = True) -> dict:
         "variants": piece.variants, "features": piece.features, "description": piece.description,
         "lod1_mesh": f"{piece.id}_LOD1", "schema_version": nb.SCHEMA_VERSION,
     }
+    if setback is not None:
+        # How far the outermost glazing sits behind the wall plane (y = 0). A New York sash in a masonry opening is
+        # set 100-200 mm back; that reveal is what shades the opening at a raking sun. Recorded so the pipeline can
+        # place accessories against it and so a regression cannot quietly flatten the facade again.
+        entry["glazing_setback_m"] = round(setback, 4)
     entry.update(piece.extra)
     if export:
         path = KIT_OUT / f"{piece.id}.glb"

@@ -1,6 +1,6 @@
 # Pulaski Bridge
 
-Script: `blender/landmarks/b_pulaski.py` · agent B · generated 2026-09-06 13:27 UTC
+Script: `blender/landmarks/b_pulaski.py` · agent B · generated 2026-09-06 14:09 UTC
 
 ## Placement
 
@@ -29,5 +29,5 @@ gates and warning signals, and the 2016 bike-lane barrier detail.
 
 ## Polycounts / outputs
 
-* `blender_out/landmarks/b_pulaski.glb` — 14,592 triangles, 0.69 MB, bounds min ['-72.9', '-323.6', '-3.0'] max ['73.5', '323.5', '22.8']
-* `blender_out/landmarks/b_pulaski_lod1.glb` — 3,904 triangles, 0.13 MB, bounds min ['-72.9', '-323.6', '-3.0'] max ['73.5', '323.5', '21.2']
+* `blender_out/landmarks/b_pulaski.glb` — 14,592 triangles, 0.69 MB, bounds min ['-58.0', '-325.5', '-3.0'] max ['58.6', '325.4', '22.8']
+* `blender_out/landmarks/b_pulaski_lod1.glb` — 3,904 triangles, 0.14 MB, bounds min ['-58.0', '-325.5', '-3.0'] max ['58.6', '325.4', '21.2']

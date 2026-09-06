@@ -95,7 +95,9 @@ def build(lod: int = 0):
     objs: list = []
     tower = bl.TowerSpec(kind="lattice", z_top=Z_TOWER_TOP, z_saddle=Z_SADDLE, width_t=DECK_W - 3.0, depth_s=11.0,
                          z_base=-9.0, z_deck=Z_DECK_TOWER, leg_w=9.4, leg_d=11.0, leg_taper=0.55,
-                         struts_z=(Z_DECK_TOWER + TRUSS_DEPTH + 6.0, 78.0, Z_TOWER_TOP - 5.0), x_brace=True,
+                         # a lattice tower's portal struts are 9 m-deep girders drawn *upwards* from struts_z, so the top one is
+                         # placed 15 m down to bring its top chord just under the cable saddles at 98.31 m
+                         struts_z=(Z_DECK_TOWER + TRUSS_DEPTH + 6.0, 78.0, Z_TOWER_TOP - 15.0), x_brace=True,
                          pier_w=DECK_W - 1.0, pier_d=15.0, material="steel_gray", pier_material="granite_dark",
                          cable_t=CABLE_T)
     objs += bl.build_tower("tower_mn", axis, S_T_MN, tower, lod)

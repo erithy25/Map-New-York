@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "description": "NYCSim material name -> CC0 PBR texture source. Every asset id was checked against the provider API and its preview inspected visually by the facade-kit agent (2026-09-05). physical_size_m = real-world metres covered by one texture tile (Poly Haven publishes it; AmbientCG values are measured from the downloaded colour map with size_rule by `python3 blender/common/textures.py --measure`: brick_course = 67.5 mm NYC/modular course, lap = 101.6 mm vinyl double-4 exposure, plank = 140 mm cedar stave, tile = 100 mm, corrugation = 68 mm (2 2/3 in) pitch). tint multiplies the colour map; color_override replaces it (paint colours); roughness_override / roughness_scale adjust the roughness map. provider 'procedural' entries return {} from get_texture_set and carry their shader parameters in `procedural`.",
+ "description": "NYCSim material name -> CC0 PBR texture source. Every asset id was checked against the provider API and its preview inspected visually by the facade-kit agent (2026-09-05). physical_size_m = real-world metres covered by one texture tile (Poly Haven publishes it; AmbientCG values are measured from the downloaded colour map with size_rule by `python3 blender/common/textures.py --measure`: brick_course = 67.5 mm NYC/modular course, lap = 101.6 mm vinyl double-4 exposure, plank = 140 mm cedar stave, tile = 100 mm, corrugation = 68 mm (2 2/3 in) pitch). tint multiplies the colour map; color_override replaces it (paint colours); roughness_override / roughness_scale adjust the roughness map. provider 'procedural' entries return {} from get_texture_set and carry their shader parameters in `procedural`. `breakup` bakes a seamless low-frequency luminance variation (soot, rain-streaking, patched brick) into the kit's 1K colour map for wall-scale materials, so the tile repeat stops reading as wallpaper across a facade; it is baked into the image, so it survives the glTF export.",
  "license": "All entries CC0 1.0 (AmbientCG: Lennart Demes / ambientCG; Poly Haven: authors recorded in LICENSE.json on download).",
  "aliases": {
   "brick_red": "red_brick",
@@ -32,7 +32,12 @@
    "physical_size_m": 3.24,
    "size_rule": "brick_course",
    "notes": "weathered red common brick, light mortar; Old Law tenements, lofts, rowhouses",
-   "physical_size_source": "measured:brick_course"
+   "physical_size_source": "measured:brick_course",
+   "breakup": {
+    "strength": 0.17,
+    "octaves": 4,
+    "seed": 108
+   }
   },
   "red_brick_orange": {
    "provider": "ambientcg",
@@ -40,7 +45,12 @@
    "physical_size_m": 1.08,
    "size_rule": "brick_course",
    "notes": "cleaner orange-red face brick; 1920s\u201350s apartments, schools",
-   "physical_size_source": "measured:brick_course"
+   "physical_size_source": "measured:brick_course",
+   "breakup": {
+    "strength": 0.15,
+    "octaves": 4,
+    "seed": 109
+   }
   },
   "brown_brick": {
    "provider": "ambientcg",
@@ -48,7 +58,12 @@
    "physical_size_m": 1.08,
    "size_rule": "brick_course",
    "notes": "medium brown face brick; 1960s\u201380s apartment / office",
-   "physical_size_source": "measured:brick_course"
+   "physical_size_source": "measured:brick_course",
+   "breakup": {
+    "strength": 0.15,
+    "octaves": 4,
+    "seed": 101
+   }
   },
   "dark_brick": {
    "provider": "ambientcg",
@@ -56,7 +71,12 @@
    "physical_size_m": 1.08,
    "size_rule": "brick_course",
    "notes": "dark grey-black brick; 1980s condos, modern infill",
-   "physical_size_source": "measured:brick_course"
+   "physical_size_source": "measured:brick_course",
+   "breakup": {
+    "strength": 0.13,
+    "octaves": 4,
+    "seed": 105
+   }
   },
   "tan_brick": {
    "provider": "ambientcg",
@@ -64,7 +84,12 @@
    "physical_size_m": 2.835,
    "size_rule": "brick_course",
    "notes": "buff / tan brick; New Law tenements, 1920s setback offices, Art Deco",
-   "physical_size_source": "measured:brick_course"
+   "physical_size_source": "measured:brick_course",
+   "breakup": {
+    "strength": 0.16,
+    "octaves": 4,
+    "seed": 112
+   }
   },
   "tan_brick_yellow": {
    "provider": "ambientcg",
@@ -72,7 +97,12 @@
    "physical_size_m": 1.62,
    "size_rule": "brick_course",
    "notes": "yellow-tan brick; Queens 2-family, 1950s schools",
-   "physical_size_source": "measured:brick_course"
+   "physical_size_source": "measured:brick_course",
+   "breakup": {
+    "strength": 0.15,
+    "octaves": 4,
+    "seed": 113
+   }
   },
   "white_glazed_brick": {
    "provider": "ambientcg",
@@ -81,7 +111,12 @@
    "size_rule": "brick_course",
    "roughness_scale": 0.55,
    "notes": "white glazed brick, grey mortar; 1955\u201375 UES apartment towers",
-   "physical_size_source": "measured:brick_course"
+   "physical_size_source": "measured:brick_course",
+   "breakup": {
+    "strength": 0.11,
+    "octaves": 4,
+    "seed": 115
+   }
   },
   "brownstone": {
    "provider": "ambientcg",
@@ -100,7 +135,12 @@
    "asset_id": "red_sandstone_wall",
    "physical_size_m": 2.0,
    "roughness_override": 0.85,
-   "notes": "dark red-brown sandstone ashlar with joints for whole brownstone facades (shell shader)"
+   "notes": "dark red-brown sandstone ashlar with joints for whole brownstone facades (shell shader)",
+   "breakup": {
+    "strength": 0.14,
+    "octaves": 4,
+    "seed": 102
+   }
   },
   "limestone": {
    "provider": "ambientcg",
@@ -114,7 +154,12 @@
    "asset_id": "large_sandstone_blocks_01",
    "physical_size_m": 3.0,
    "roughness_override": 0.85,
-   "notes": "light ashlar blocks with joints for limestone bases and bank facades (shell shader)"
+   "notes": "light ashlar blocks with joints for limestone bases and bank facades (shell shader)",
+   "breakup": {
+    "strength": 0.12,
+    "octaves": 4,
+    "seed": 106
+   }
   },
   "terracotta": {
    "provider": "ambientcg",
@@ -177,25 +222,45 @@
    "provider": "ambientcg",
    "asset_id": "Concrete030",
    "physical_size_m": 2.0,
-   "notes": "cast-in-place concrete with board/form marks; parking garages, NYCHA slab edges, bulkheads"
+   "notes": "cast-in-place concrete with board/form marks; parking garages, NYCHA slab edges, bulkheads",
+   "breakup": {
+    "strength": 0.14,
+    "octaves": 4,
+    "seed": 103
+   }
   },
   "precast": {
    "provider": "ambientcg",
    "asset_id": "Concrete034",
    "physical_size_m": 2.0,
-   "notes": "smooth light precast / cast stone; sills, copings, panels"
+   "notes": "smooth light precast / cast stone; sills, copings, panels",
+   "breakup": {
+    "strength": 0.11,
+    "octaves": 4,
+    "seed": 107
+   }
   },
   "concrete_sidewalk": {
    "provider": "ambientcg",
    "asset_id": "Concrete036",
    "physical_size_m": 1.5,
-   "notes": "weathered grey broom-finish concrete; sidewalk flags (joints are geometry / shader), stoop landings"
+   "notes": "weathered grey broom-finish concrete; sidewalk flags (joints are geometry / shader), stoop landings",
+   "breakup": {
+    "strength": 0.13,
+    "octaves": 4,
+    "seed": 104
+   }
   },
   "stucco": {
    "provider": "ambientcg",
    "asset_id": "Plaster001",
    "physical_size_m": 2.0,
-   "notes": "white rough stucco; Tudor gables, Mediterranean houses, EIFS sign bands"
+   "notes": "white rough stucco; Tudor gables, Mediterranean houses, EIFS sign bands",
+   "breakup": {
+    "strength": 0.13,
+    "octaves": 4,
+    "seed": 111
+   }
   },
   "vinyl_siding": {
    "provider": "ambientcg",
@@ -204,7 +269,12 @@
    "size_rule": "lap",
    "roughness_override": 0.5,
    "notes": "clean cream lap siding read as vinyl double-4 (101.6 mm exposure); Queens / Staten Island houses",
-   "physical_size_source": "measured:lap"
+   "physical_size_source": "measured:lap",
+   "breakup": {
+    "strength": 0.08,
+    "octaves": 4,
+    "seed": 114
+   }
   },
   "wood_clapboard": {
    "provider": "ambientcg",
@@ -212,13 +282,23 @@
    "physical_size_m": 2.032,
    "size_rule": "lap",
    "notes": "weathered painted wood clapboard; frame rowhouses",
-   "physical_size_source": "measured:lap"
+   "physical_size_source": "measured:lap",
+   "breakup": {
+    "strength": 0.12,
+    "octaves": 4,
+    "seed": 116
+   }
   },
   "stone_rubble": {
    "provider": "ambientcg",
    "asset_id": "Bricks102",
    "physical_size_m": 2.0,
-   "notes": "grey-tan rubble ashlar (Manhattan schist / fieldstone) for churches and mansions"
+   "notes": "grey-tan rubble ashlar (Manhattan schist / fieldstone) for churches and mansions",
+   "breakup": {
+    "strength": 0.15,
+    "octaves": 4,
+    "seed": 110
+   }
   },
   "metal_panel": {
    "provider": "ambientcg",

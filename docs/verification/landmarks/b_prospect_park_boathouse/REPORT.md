@@ -1,6 +1,6 @@
 # Prospect Park Boathouse (Audubon Center)
 
-Script: `blender/landmarks/b_prospect_park_boathouse.py` · agent B · generated 2026-09-06 13:39 UTC
+Script: `blender/landmarks/b_prospect_park_boathouse.py` · agent B · generated 2026-09-06 14:11 UTC
 
 ## Published dimensions
 

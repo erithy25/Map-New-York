@@ -1,6 +1,6 @@
 # Queens-Midtown Tunnel
 
-Script: `blender/landmarks/b_queens_midtown_portals.py` · agent B · generated 2026-09-06 13:28 UTC
+Script: `blender/landmarks/b_queens_midtown_portals.py` · agent B · generated 2026-09-06 14:09 UTC
 
 ## Placement
 

@@ -1,6 +1,6 @@
 # High Bridge
 
-Script: `blender/landmarks/b_high_bridge.py` · agent B · generated 2026-09-06 13:27 UTC
+Script: `blender/landmarks/b_high_bridge.py` · agent B · generated 2026-09-06 14:09 UTC
 
 ## Placement
 

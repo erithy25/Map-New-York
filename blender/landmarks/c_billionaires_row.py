@@ -294,11 +294,11 @@ def main():
         {"view": "sheep_meadow", "azimuth_deg": 20, "elevation_deg": "street", "distance": 1300, "fov_deg": 42, "look_up_deg": 12},
         {"view": "aerial", "azimuth_deg": 20, "elevation_deg": 30},
     ])
-    cc.render(ID, [{"view": "432_park_grid", "azimuth_deg": 250, "elevation_deg": 18, "distance": 700,
-                    "fov_deg": 40, "target_z": 220}],
+    cc.render(ID, [{"view": "432_park_grid", "azimuth_deg": 250, "elevation_deg": 14, "distance": 1000,
+                    "fov_deg": 52, "target_z": 215}],
               objects=[o for o in objs if o is not None and "_432_" in o.name])
-    cc.render(ID, [{"view": "111_w57_setbacks", "azimuth_deg": 95, "elevation_deg": 12, "distance": 780,
-                    "fov_deg": 38, "target_z": 220}],
+    cc.render(ID, [{"view": "111_w57_setbacks", "azimuth_deg": 95, "elevation_deg": 10, "distance": 1150,
+                    "fov_deg": 50, "target_z": 225}],
               objects=[o for o in objs if o is not None and "_111_" in o.name or (o is not None and "steinway" in o.name)])
     return entry
 

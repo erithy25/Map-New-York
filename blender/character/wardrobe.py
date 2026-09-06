@@ -473,14 +473,89 @@ def split_loose_parts(obj: bpy.types.Object, keep: str, split_z: float) -> int:
     return removed
 
 
+_TINT_CACHE: dict[tuple[str, tuple[float, float, float]], bpy.types.Image] = {}
+
+
+def _tinted_image(image: bpy.types.Image, colour: tuple[float, float, float]) -> bpy.types.Image:
+    """A copy of ``image`` reduced to luminance and multiplied by ``colour``.
+
+    The tint is baked into the pixels rather than expressed as shader nodes, because glTF carries only a
+    base-colour texture and a base-colour factor: a Mix/MapRange chain would be dropped on export and the
+    garment would arrive in the engine wearing the asset author's original colour.
+    """
+    key = (image.name, tuple(round(c, 5) for c in colour))
+    cached = _TINT_CACHE.get(key)
+    if cached is not None:
+        return cached
+    import numpy as np  # noqa: PLC0415
+
+    width, height = image.size
+    if width == 0 or height == 0:
+        return image
+    buffer = np.empty(width * height * 4, dtype=np.float32)
+    image.pixels.foreach_get(buffer)
+    pixels = buffer.reshape(-1, 4)
+    luma = pixels[:, 0] * 0.2126 + pixels[:, 1] * 0.7152 + pixels[:, 2] * 0.0722
+    band = np.clip(0.55 + 0.80 * luma, 0.0, 1.6)
+    out = np.empty_like(pixels)
+    for channel in range(3):
+        out[:, channel] = np.clip(band * colour[channel], 0.0, 1.0)
+    out[:, 3] = pixels[:, 3]
+    tinted = bpy.data.images.new(f"{image.name}.tint", width, height, alpha=True,
+                                 float_buffer=image.is_float)
+    tinted.colorspace_settings.name = image.colorspace_settings.name
+    tinted.pixels.foreach_set(out.reshape(-1))
+    tinted.pack()
+    _TINT_CACHE[key] = tinted
+    return tinted
+
+
+def _texture_node(socket) -> bpy.types.Node | None:
+    """Walk upstream from a shader socket to the first image texture node."""
+    seen = set()
+    stack = [socket]
+    while stack:
+        current = stack.pop()
+        if not current.is_linked:
+            continue
+        node = current.links[0].from_node
+        if node.name in seen:
+            continue
+        seen.add(node.name)
+        if node.type == "TEX_IMAGE":
+            return node
+        stack.extend(node.inputs)
+    return None
+
+
+def thicken(obj: bpy.types.Object, thickness: float = 0.003) -> None:
+    """Give a MakeHuman garment real fabric thickness.
+
+    The CC0 garments are single-sided shells.  Their open boundaries - a cuff, an ankle opening, a waist -
+    render as a ragged tear at grazing angles because the camera sees straight through the surface into the
+    unlit interior.  Solidifying inwards closes that: the boundary becomes a hem edge, and the garment is
+    physically what cloth is - a surface with two faces and a thickness.
+    """
+    bm = bmesh.new()
+    bm.from_mesh(obj.data)
+    if not bm.faces:
+        bm.free()
+        return
+    bmesh.ops.solidify(bm, geom=list(bm.faces), thickness=-thickness)
+    bm.normal_update()
+    bm.to_mesh(obj.data)
+    bm.free()
+    obj.data.update()
+
+
 def tint(obj: bpy.types.Object, colour: tuple[float, float, float], roughness: float,
          metallic: float = 0.0, name: str = "") -> None:
     """Recolour a MakeHuman garment, keeping its texture only as light-and-shade fabric detail.
 
-    Multiplying the wardrobe colour straight into the garment's own diffuse map gives muddy hues, because
-    that map already carries the asset author's colour.  Instead the texture is reduced to luminance and
-    remapped into a 0.55-1.35 shading band, which is then multiplied by the wardrobe colour: painted seams,
-    weave and folds survive, and the hue is exactly the one asked for.
+    The garment's own diffuse map already carries the asset author's colour, so multiplying the wardrobe
+    colour into it gives muddy hues.  Instead the map is reduced to luminance, remapped into a 0.55-1.35
+    shading band and multiplied by the wardrobe colour - baked into a new image, so the colour survives the
+    glTF export.  A garment with no texture just gets a flat base colour.
     """
     for slot in obj.material_slots:
         material = slot.material
@@ -491,31 +566,21 @@ def tint(obj: bpy.types.Object, colour: tuple[float, float, float], roughness: f
             material.name = name
         slot.material = material
         tree = material.node_tree
-        nodes = tree.nodes
-        bsdf = next((n for n in nodes if n.type == "BSDF_PRINCIPLED"), None)
+        bsdf = next((n for n in tree.nodes if n.type == "BSDF_PRINCIPLED"), None)
         if bsdf is None:
             continue
         bsdf.inputs["Roughness"].default_value = roughness
         bsdf.inputs["Metallic"].default_value = metallic
         base = bsdf.inputs["Base Color"]
-        if base.is_linked:
-            source = base.links[0].from_socket
-            grey = nodes.new("ShaderNodeRGBToBW")
-            band = nodes.new("ShaderNodeMapRange")
-            band.inputs["From Min"].default_value = 0.0
-            band.inputs["From Max"].default_value = 1.0
-            band.inputs["To Min"].default_value = 0.55
-            band.inputs["To Max"].default_value = 1.35
-            band.clamp = True
-            mix = nodes.new("ShaderNodeMixRGB")
-            mix.blend_type = "MULTIPLY"
-            mix.inputs["Fac"].default_value = 1.0
-            mix.inputs["Color2"].default_value = (*colour, 1.0)
-            tree.links.new(source, grey.inputs["Color"])
-            tree.links.new(grey.outputs["Val"], band.inputs["Value"])
-            tree.links.new(band.outputs["Result"], mix.inputs["Color1"])
-            tree.links.new(mix.outputs["Color"], base)
+        texture = _texture_node(base)
+        if texture is not None and texture.image is not None:
+            texture.image = _tinted_image(texture.image, colour)
+            for link in list(base.links):
+                tree.links.remove(link)
+            tree.links.new(texture.outputs["Color"], base)     # texture straight into base colour
         else:
+            for link in list(base.links):
+                tree.links.remove(link)
             base.default_value = (*colour, 1.0)
 
 
@@ -542,6 +607,7 @@ def finish_makehuman(built, item_ids: tuple[str, ...], *, name_prefix: str = "")
             raise RuntimeError(f"MakeHuman asset {garment.mhclo!r} for {item_id!r} was not fitted "
                                f"(have {sorted(by_asset)})")
         removed = split_loose_parts(obj, garment.keep, garment.split_z * height)
+        thicken(obj, 0.003)
         push = LAYER_MH_PUSH.get(garment.layer, 0.0)
         if push > 0.0:
             obj.data.calc_normals_split() if hasattr(obj.data, "calc_normals_split") else None

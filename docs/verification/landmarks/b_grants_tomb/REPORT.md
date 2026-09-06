@@ -1,6 +1,6 @@
 # General Grant National Memorial
 
-Script: `blender/landmarks/b_grants_tomb.py` · agent B · generated 2026-09-06 13:39 UTC
+Script: `blender/landmarks/b_grants_tomb.py` · agent B · generated 2026-09-06 14:11 UTC
 
 ## Placement
 

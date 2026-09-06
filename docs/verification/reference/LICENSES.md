@@ -768,7 +768,11 @@ Every photograph under `docs/verification/reference/` is from Wikimedia Commons 
 
 ## landmark_central_park_wall_gates — Central Park perimeter wall and gates
 
-_No suitably licensed photograph found._
+| file | title | author | licence | date taken | camera GPS |
+|---|---|---|---|---|---|
+| [1.jpg](landmark_central_park_wall_gates/1.jpg) | [Central Park td (2019-07-11) 064 - Wien Walk, Central Park Zoo.jpg](https://commons.wikimedia.org/wiki/File:Central_Park_td_(2019-07-11)_064_-_Wien_Walk,_Central_Park_Zoo.jpg) | Tdorante10 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2019-07-11 17:41:51 | 40.76598, -73.97233 |
+| [2.jpg](landmark_central_park_wall_gates/2.jpg) | [Miners' Gate (north entrance), Central Park, 5th Avenue and 79th Street, Upper East Side, Manhattan.jpg](https://commons.wikimedia.org/wiki/File:Miners%27_Gate_(north_entrance),_Central_Park,_5th_Avenue_and_79th_Street,_Upper_East_Side,_Manhattan.jpg) | Deansfa | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2021-01-18 12:13:17 | 40.77721, -73.96372 |
+| [3.jpg](landmark_central_park_wall_gates/3.jpg) | [Decapitated lamppost in Central Park 02.jpg](https://commons.wikimedia.org/wiki/File:Decapitated_lamppost_in_Central_Park_02.jpg) | Jay Dobkin | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2025-08-30 15:40:55 | — |
 
 ## landmark_castle_williams — Castle Williams (Governors Island)
 
@@ -845,15 +849,25 @@ _No suitably licensed photograph found._
 
 | file | title | author | licence | date taken | camera GPS |
 |---|---|---|---|---|---|
-| [1.jpg](landmark_55_hudson_yards/1.jpg) | [10 mile panorama of NYC, Feb., 2018.jpg](https://commons.wikimedia.org/wiki/File:10_mile_panorama_of_NYC,_Feb.,_2018.jpg) | DigbyDalton | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2018-02-21 15:08:32 | 40.77170, -74.01578 |
+| [1.jpg](landmark_55_hudson_yards/1.jpg) | [55 Hudson Yards 001.jpg](https://commons.wikimedia.org/wiki/File:55_Hudson_Yards_001.jpg) | Kidfly182 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2022-10-14 12:33:01 | 40.75456, -74.00116 |
+| [2.jpg](landmark_55_hudson_yards/2.jpg) | [55 Hudson Yards.jpg](https://commons.wikimedia.org/wiki/File:55_Hudson_Yards.jpg) | Kidfly182 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2021-08-26 13:40:44 | 40.75463, -74.00128 |
+| [3.jpg](landmark_55_hudson_yards/3.jpg) | [Hudson Yards Plaza March 2019 62.jpg](https://commons.wikimedia.org/wiki/File:Hudson_Yards_Plaza_March_2019_62.jpg) | Epicgenius | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2019 | — |
 
 ## landmark_15_hudson_yards — 15 Hudson Yards
 
-_No suitably licensed photograph found._
+| file | title | author | licence | date taken | camera GPS |
+|---|---|---|---|---|---|
+| [1.jpg](landmark_15_hudson_yards/1.jpg) | [15 Hudson Yards 077.jpg](https://commons.wikimedia.org/wiki/File:15_Hudson_Yards_077.jpg) | Kidfly182 | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | 2025-01-30 13:08:53 | — |
+| [2.jpg](landmark_15_hudson_yards/2.jpg) | [15 Hudson Yards 068.jpg](https://commons.wikimedia.org/wiki/File:15_Hudson_Yards_068.jpg) | Kidfly182 | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | 2025-01-10 12:32:01 | — |
+| [3.jpg](landmark_15_hudson_yards/3.jpg) | [15 Hudson Yards 079.jpg](https://commons.wikimedia.org/wiki/File:15_Hudson_Yards_079.jpg) | Kidfly182 | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | 2025-02-21 13:10:44 | — |
 
 ## landmark_50_hudson_yards — 50 Hudson Yards
 
-_No suitably licensed photograph found._
+| file | title | author | licence | date taken | camera GPS |
+|---|---|---|---|---|---|
+| [1.jpg](landmark_50_hudson_yards/1.jpg) | [Plaza between 1 Manhattan West and 2 Manhattan West.jpg](https://commons.wikimedia.org/wiki/File:Plaza_between_1_Manhattan_West_and_2_Manhattan_West.jpg) | Kenneth C. Zirkel | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | 2024-11-23 16:42:28 | 40.75243, -73.99806 |
+| [2.jpg](landmark_50_hudson_yards/2.jpg) | [50 Hudson Yards.jpg](https://commons.wikimedia.org/wiki/File:50_Hudson_Yards.jpg) | Kidfly182 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2023-02-18 12:42:25 | 40.75478, -74.00111 |
+| [3.jpg](landmark_50_hudson_yards/3.jpg) | [50 Hudson Yards (55379880087).jpg](https://commons.wikimedia.org/wiki/File:50_Hudson_Yards_(55379880087).jpg) | Ajay Suresh | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | 2026-06-16 | — |
 
 ## landmark_the_shed — The Shed
 
@@ -930,7 +944,9 @@ _No suitably licensed photograph found._
 
 | file | title | author | licence | date taken | camera GPS |
 |---|---|---|---|---|---|
-| [1.jpg](landmark_tsx_broadway/1.jpg) | [TSX Broadway construction - Palace Theatre raised.jpg](https://commons.wikimedia.org/wiki/File:TSX_Broadway_construction_-_Palace_Theatre_raised.jpg) | Z22 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2022-05-17 17:18:33 | 40.75898, -73.98421 |
+| [1.jpg](landmark_tsx_broadway/1.jpg) | [Times Sq Sep 2022 11.jpg](https://commons.wikimedia.org/wiki/File:Times_Sq_Sep_2022_11.jpg) | Epicgenius | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2022-09-14 10:36:09 | — |
+| [2.jpg](landmark_tsx_broadway/2.jpg) | [Times Sq Sep 2022 04.jpg](https://commons.wikimedia.org/wiki/File:Times_Sq_Sep_2022_04.jpg) | Epicgenius | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2022-09-14 10:34:50 | — |
+| [3.jpg](landmark_tsx_broadway/3.jpg) | [Times Sq Sep 2022 08.jpg](https://commons.wikimedia.org/wiki/File:Times_Sq_Sep_2022_08.jpg) | Epicgenius | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2022-09-14 10:35:37 | — |
 
 ## landmark_paramount_building — Paramount Building (1501 Broadway)
 
@@ -992,21 +1008,25 @@ _No suitably licensed photograph found._
 
 | file | title | author | licence | date taken | camera GPS |
 |---|---|---|---|---|---|
-| [1.jpg](landmark_hearst_tower/1.jpg) | [W 57th St Nov 2020 163.jpg](https://commons.wikimedia.org/wiki/File:W_57th_St_Nov_2020_163.jpg) | Epicgenius | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2020-11-22 13:13:56 | 40.76655, -73.98408 |
-| [2.jpg](landmark_hearst_tower/2.jpg) | [Hearst Tower (Manhattan) May 2023.JPG](https://commons.wikimedia.org/wiki/File:Hearst_Tower_(Manhattan)_May_2023.JPG) | Benoît Prieur | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | 2023-05-20 15:45:06 | 40.76613, -73.98336 |
-| [3.jpg](landmark_hearst_tower/3.jpg) | [Hearstowernyc.JPG](https://commons.wikimedia.org/wiki/File:Hearstowernyc.JPG) | User:Alsandro | [Public domain](https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain) | 2015-09-07 | 40.76556, -73.98361 |
+| [1.jpg](landmark_hearst_tower/1.jpg) | [Hearst Tower (Manhattan) May 2023.JPG](https://commons.wikimedia.org/wiki/File:Hearst_Tower_(Manhattan)_May_2023.JPG) | Benoît Prieur | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | 2023-05-20 15:45:06 | 40.76613, -73.98336 |
+| [2.jpg](landmark_hearst_tower/2.jpg) | [Hearstowernyc.JPG](https://commons.wikimedia.org/wiki/File:Hearstowernyc.JPG) | User:Alsandro | [Public domain](https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain) | 2015-09-07 | 40.76556, -73.98361 |
+| [3.jpg](landmark_hearst_tower/3.jpg) | [At New York City 2024 534.jpg](https://commons.wikimedia.org/wiki/File:At_New_York_City_2024_534.jpg) | Photograph by Mike Peel ( www.mikepeel.net ). | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2024 | 40.76394, -73.98525 |
 
 ## landmark_citigroup_center — Citigroup Center (601 Lexington Avenue)
 
-_No suitably licensed photograph found._
+| file | title | author | licence | date taken | camera GPS |
+|---|---|---|---|---|---|
+| [1.jpg](landmark_citigroup_center/1.jpg) | [601 Lexington Avenue 001.jpg](https://commons.wikimedia.org/wiki/File:601_Lexington_Avenue_001.jpg) | Kidfly182 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2022-12-12 12:16:34 | 40.75816, -73.97125 |
+| [2.jpg](landmark_citigroup_center/2.jpg) | [Citigroup Center at 601 Lexington Avenue (1977) (A. Moore) - Flickr.jpg](https://commons.wikimedia.org/wiki/File:Citigroup_Center_at_601_Lexington_Avenue_(1977)_(A._Moore)_-_Flickr.jpg) | Andrew Moore from Johannesburg, South Africa | [Public domain](https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain) | 2015-10-18 23:20 | 40.75814, -73.97124 |
+| [3.jpg](landmark_citigroup_center/3.jpg) | [Citigroup Center Oct 2023 31.jpg](https://commons.wikimedia.org/wiki/File:Citigroup_Center_Oct_2023_31.jpg) | Epicgenius | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2023-10-03 11:00:58 | — |
 
 ## landmark_metlife_building — MetLife Building (200 Park Avenue)
 
 | file | title | author | licence | date taken | camera GPS |
 |---|---|---|---|---|---|
-| [1.jpg](landmark_metlife_building/1.jpg) | [270 Park Avenue under construction 2024.jpg](https://commons.wikimedia.org/wiki/File:270_Park_Avenue_under_construction_2024.jpg) | MemeGod27 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2024 | 40.75607, -73.97711 |
-| [2.jpg](landmark_metlife_building/2.jpg) | [NYC – Park Avenue – Grand Central Terminal - panoramio.jpg](https://commons.wikimedia.org/wiki/File:NYC_%E2%80%93_Park_Avenue_%E2%80%93_Grand_Central_Terminal_-_panoramio.jpg) | giggel | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) | 2016 | 40.74897, -73.97990 |
-| [3.jpg](landmark_metlife_building/3.jpg) | [Park Av Nov 2025 06.jpg](https://commons.wikimedia.org/wiki/File:Park_Av_Nov_2025_06.jpg) | Epicgenius | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2025-11-05 08:45:46 | 40.75786, -73.97259 |
+| [1.jpg](landmark_metlife_building/1.jpg) | [NYC – Park Avenue – Grand Central Terminal - panoramio.jpg](https://commons.wikimedia.org/wiki/File:NYC_%E2%80%93_Park_Avenue_%E2%80%93_Grand_Central_Terminal_-_panoramio.jpg) | giggel | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) | 2016 | 40.74897, -73.97990 |
+| [2.jpg](landmark_metlife_building/2.jpg) | [Park Av Nov 2025 05.jpg](https://commons.wikimedia.org/wiki/File:Park_Av_Nov_2025_05.jpg) | Epicgenius | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2025-11-05 08:45:28 | 40.75818, -73.97288 |
+| [3.jpg](landmark_metlife_building/3.jpg) | [Grand Central Terminal MetLife Building Park Ave viaduct Summer Streets.jpg](https://commons.wikimedia.org/wiki/File:Grand_Central_Terminal_MetLife_Building_Park_Ave_viaduct_Summer_Streets.jpg) | Beyond My Ken | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2012-08-04 | 40.75150, -73.97813 |
 
 ## landmark_lipstick_building — Lipstick Building (885 Third Avenue)
 
@@ -1236,7 +1256,9 @@ _No suitably licensed photograph found._
 
 | file | title | author | licence | date taken | camera GPS |
 |---|---|---|---|---|---|
-| [1.jpg](street_staten_island_ranch_houses/1.jpg) | [New Dorp SIR Station; 2018-10-25; 02.jpg](https://commons.wikimedia.org/wiki/File:New_Dorp_SIR_Station;_2018-10-25;_02.jpg) | DanTD | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2018 | — |
+| [1.jpg](street_staten_island_ranch_houses/1.jpg) | [Typical house in Dongan Hills (built in 1960).jpg](https://commons.wikimedia.org/wiki/File:Typical_house_in_Dongan_Hills_(built_in_1960).jpg) | MJPlante1 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2024-09-27 | — |
+| [2.jpg](street_staten_island_ranch_houses/2.jpg) | [Stadium Theatre 217 Main St & Bentley Ln Tottenville jeh.jpg](https://commons.wikimedia.org/wiki/File:Stadium_Theatre_217_Main_St_%26_Bentley_Ln_Tottenville_jeh.jpg) | Jim.henderson | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | 2013 | 40.50967, -74.24753 |
+| [3.jpg](street_staten_island_ranch_houses/3.jpg) | [Easter Egg Hunt at Conference House in TottenVille Staten Island, NYC - panoramio (2).jpg](https://commons.wikimedia.org/wiki/File:Easter_Egg_Hunt_at_Conference_House_in_TottenVille_Staten_Island,_NYC_-_panoramio_(2).jpg) | MikeinNYC | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | 2011 | 40.49942, -74.25168 |
 
 ## street_elevated_roosevelt_ave_7 — Elevated subway street: Roosevelt Avenue under the 7
 
@@ -1250,15 +1272,17 @@ _No suitably licensed photograph found._
 
 | file | title | author | licence | date taken | camera GPS |
 |---|---|---|---|---|---|
-| [1.jpg](street_elevated_broadway_bushwick_j/1.jpg) | [Book Row Bookstore in Bushwick, Brooklyn, June 2026.jpg](https://commons.wikimedia.org/wiki/File:Book_Row_Bookstore_in_Bushwick,_Brooklyn,_June_2026.jpg) | CastIronSeasoner | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | 2026-06-28 16:55:03 | 40.69856, -73.93778 |
-| [2.jpg](street_elevated_broadway_bushwick_j/2.jpg) | [Myrtle Avenue Jamaica Line 003.jpg](https://commons.wikimedia.org/wiki/File:Myrtle_Avenue_Jamaica_Line_003.jpg) | Kidfly182 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2021-08-09 16:25:45 | 40.69715, -73.93572 |
-| [3.jpg](street_elevated_broadway_bushwick_j/3.jpg) | [Myrtle Av bridge vc.jpg](https://commons.wikimedia.org/wiki/File:Myrtle_Av_bridge_vc.jpg) | Ed from Queens, USA | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) | 2015-06-21 20:43 | 40.69712, -73.93549 |
+| [1.jpg](street_elevated_broadway_bushwick_j/1.jpg) | [Myrtle Avenue Jamaica Line 003.jpg](https://commons.wikimedia.org/wiki/File:Myrtle_Avenue_Jamaica_Line_003.jpg) | Kidfly182 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2021-08-09 16:25:45 | 40.69715, -73.93572 |
+| [2.jpg](street_elevated_broadway_bushwick_j/2.jpg) | [Myrtle Av bridge vc.jpg](https://commons.wikimedia.org/wiki/File:Myrtle_Av_bridge_vc.jpg) | Ed from Queens, USA | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) | 2015-06-21 20:43 | 40.69712, -73.93549 |
+| [3.jpg](street_elevated_broadway_bushwick_j/3.jpg) | [Myrtle Avenue Jamaica Line 004.jpg](https://commons.wikimedia.org/wiki/File:Myrtle_Avenue_Jamaica_Line_004.jpg) | Kidfly182 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2021-08-09 16:25:56 | 40.69700, -73.93559 |
 
 ## street_midtown_avenue_rush_hour — Midtown avenue at rush hour
 
 | file | title | author | licence | date taken | camera GPS |
 |---|---|---|---|---|---|
-| [1.jpg](street_midtown_avenue_rush_hour/1.jpg) | [25th St 3rd Av 01 - Fitzgerald's Pub.jpg](https://commons.wikimedia.org/wiki/File:25th_St_3rd_Av_01_-_Fitzgerald%27s_Pub.jpg) | Tdorante10 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2018 | 40.74012, -73.98204 |
+| [1.jpg](street_midtown_avenue_rush_hour/1.jpg) | [26th St 8th Av td (2018-11-27) 24 - Midtown Tennis Club.jpg](https://commons.wikimedia.org/wiki/File:26th_St_8th_Av_td_(2018-11-27)_24_-_Midtown_Tennis_Club.jpg) | Tdorante10 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2018 | 40.74720, -73.99708 |
+| [2.jpg](street_midtown_avenue_rush_hour/2.jpg) | [Traffic in New York City.JPG](https://commons.wikimedia.org/wiki/File:Traffic_in_New_York_City.JPG) | Raidarmax | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | 2012-07-17 | 40.75847, -73.99250 |
+| [3.jpg](street_midtown_avenue_rush_hour/3.jpg) | [26th St 8th Av td (2018-11-27) 04 - Midtown Tennis Club Gristedes.jpg](https://commons.wikimedia.org/wiki/File:26th_St_8th_Av_td_(2018-11-27)_04_-_Midtown_Tennis_Club_Gristedes.jpg) | Tdorante10 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2018 | 40.74720, -73.99708 |
 
 ## street_times_square_wet_night — Times Square on a wet night
 

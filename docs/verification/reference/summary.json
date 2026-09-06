@@ -1,31 +1,22 @@
 {
  "schema_version": 1,
- "generated_at": "2026-09-06T14:02:10Z",
+ "generated_at": "2026-09-06T14:21:09Z",
  "items": 172,
  "items_in_catalogue": 172,
- "photos": 501,
- "bytes": 409690533,
- "items_without_photo": [
-  "landmark_central_park_wall_gates",
-  "landmark_15_hudson_yards",
-  "landmark_50_hudson_yards",
-  "landmark_citigroup_center"
- ],
+ "photos": 521,
+ "bytes": 426632906,
+ "items_without_photo": [],
  "items_partial": [
   "landmark_central_park_sheep_meadow (2/3)",
   "landmark_lincoln_tunnel_portal (2/3)",
   "landmark_kosciuszko_bridge (2/3)",
   "landmark_35_hudson_yards (2/3)",
-  "landmark_55_hudson_yards (1/3)",
   "landmark_two_times_square (2/3)",
-  "landmark_tsx_broadway (1/3)",
-  "street_staten_island_ranch_houses (1/3)",
-  "street_midtown_avenue_rush_hour (1/3)",
   "street_nyc_traffic_signals (3/4)",
   "street_newsstand (2/3)"
  ],
- "http_requests_this_run": 48,
- "elapsed_s": 209.6,
+ "http_requests_this_run": 10,
+ "elapsed_s": 30.0,
  "per_item": [
   {
    "slug": "promenade_lower_manhattan",
@@ -1906,16 +1897,19 @@
   {
    "slug": "landmark_central_park_wall_gates",
    "group": "landmark",
-   "count": 0,
+   "count": 3,
    "wanted": 3,
-   "bytes": 0,
-   "licences": [],
-   "status": "no_suitable_photo",
+   "bytes": 4371555,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
    "rejections": {
-    "keywords": 29,
+    "keywords": 31,
     "too_small": 4,
-    "not_photo": 1,
-    "excluded": 1
+    "licence": 1,
+    "not_photo": 3,
+    "excluded": 17
    }
   },
   {
@@ -2099,30 +2093,35 @@
   {
    "slug": "landmark_55_hudson_yards",
    "group": "landmark",
-   "count": 1,
+   "count": 3,
    "wanted": 3,
-   "bytes": 85388,
+   "bytes": 2553798,
    "licences": [
     "CC BY-SA 4.0"
    ],
    "status": "ok",
    "rejections": {
-    "too_old": 5,
-    "keywords": 3,
-    "indoor": 27
+    "too_old": 12,
+    "keywords": 10,
+    "licence": 1,
+    "indoor": 28,
+    "night_for_day_item": 1
    }
   },
   {
    "slug": "landmark_15_hudson_yards",
    "group": "landmark",
-   "count": 0,
+   "count": 3,
    "wanted": 3,
-   "bytes": 0,
-   "licences": [],
-   "status": "no_suitable_photo",
+   "bytes": 2257700,
+   "licences": [
+    "CC BY 4.0"
+   ],
+   "status": "ok",
    "rejections": {
-    "too_old": 14,
-    "keywords": 22,
+    "keywords": 34,
+    "indoor": 3,
+    "too_old": 1,
     "too_small": 4,
     "excluded": 4
    }
@@ -2130,15 +2129,20 @@
   {
    "slug": "landmark_50_hudson_yards",
    "group": "landmark",
-   "count": 0,
+   "count": 3,
    "wanted": 3,
-   "bytes": 0,
-   "licences": [],
-   "status": "no_suitable_photo",
+   "bytes": 3274325,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
    "rejections": {
-    "keywords": 28,
-    "indoor": 1,
-    "too_old": 1
+    "too_old": 6,
+    "keywords": 58,
+    "excluded": 8,
+    "licence": 1,
+    "indoor": 1
    }
   },
   {
@@ -2324,20 +2328,20 @@
   {
    "slug": "landmark_tsx_broadway",
    "group": "landmark",
-   "count": 1,
+   "count": 3,
    "wanted": 3,
-   "bytes": 877969,
+   "bytes": 2008082,
    "licences": [
     "CC BY-SA 4.0"
    ],
    "status": "ok",
    "rejections": {
-    "keywords": 68,
+    "keywords": 67,
+    "excluded": 5,
     "not_photo": 4,
     "too_old": 1,
-    "indoor": 2,
-    "too_small": 1,
-    "excluded": 3
+    "indoor": 4,
+    "too_small": 1
    }
   },
   {
@@ -2485,7 +2489,7 @@
    "group": "landmark",
    "count": 3,
    "wanted": 3,
-   "bytes": 1488348,
+   "bytes": 1766732,
    "licences": [
     "CC BY-SA 4.0",
     "CC0",
@@ -2493,22 +2497,29 @@
    ],
    "status": "ok",
    "rejections": {
+    "not_photo": 12,
     "indoor": 2,
-    "keywords": 47,
+    "keywords": 46,
     "too_small": 3,
-    "too_old": 5,
+    "too_old": 4,
     "excluded": 1
    }
   },
   {
    "slug": "landmark_citigroup_center",
    "group": "landmark",
-   "count": 0,
+   "count": 3,
    "wanted": 3,
-   "bytes": 0,
-   "licences": [],
-   "status": "no_suitable_photo",
+   "bytes": 2226650,
+   "licences": [
+    "CC BY-SA 4.0",
+    "Public domain"
+   ],
+   "status": "ok",
    "rejections": {
+    "night_for_day_item": 1,
+    "too_old": 1,
+    "too_small": 2,
     "indoor": 3,
     "keywords": 26,
     "not_jpeg": 1
@@ -2519,20 +2530,20 @@
    "group": "landmark",
    "count": 3,
    "wanted": 3,
-   "bytes": 2852907,
+   "bytes": 2445383,
    "licences": [
     "CC BY 3.0",
     "CC BY-SA 4.0"
    ],
    "status": "ok",
    "rejections": {
-    "too_old": 25,
+    "too_old": 17,
+    "excluded": 11,
     "licence": 2,
-    "excluded": 9,
     "too_small": 10,
     "keywords": 17,
     "night_for_day_item": 6,
-    "not_photo": 12
+    "not_photo": 20
    }
   },
   {
@@ -3070,19 +3081,22 @@
   {
    "slug": "street_staten_island_ranch_houses",
    "group": "streetscape",
-   "count": 1,
+   "count": 3,
    "wanted": 3,
-   "bytes": 724984,
+   "bytes": 2035656,
    "licences": [
-    "CC BY-SA 4.0"
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0",
+    "CC0"
    ],
    "status": "ok",
    "rejections": {
+    "not_photo": 19,
+    "excluded": 15,
     "too_small": 3,
-    "excluded": 8,
-    "not_photo": 5,
-    "licence": 1,
-    "too_old": 2
+    "licence": 9,
+    "too_old": 2,
+    "keywords": 2
    }
   },
   {
@@ -3110,17 +3124,16 @@
    "group": "streetscape",
    "count": 3,
    "wanted": 3,
-   "bytes": 3314532,
+   "bytes": 2063015,
    "licences": [
     "CC BY 2.0",
-    "CC BY 4.0",
     "CC BY-SA 4.0"
    ],
    "status": "ok",
    "rejections": {
     "keywords": 83,
     "indoor": 4,
-    "excluded": 8,
+    "excluded": 9,
     "too_small": 1,
     "not_photo": 1,
     "not_jpeg": 1
@@ -3129,14 +3142,20 @@
   {
    "slug": "street_midtown_avenue_rush_hour",
    "group": "streetscape",
-   "count": 1,
+   "count": 3,
    "wanted": 3,
-   "bytes": 703094,
+   "bytes": 1986699,
    "licences": [
+    "CC BY-SA 3.0",
     "CC BY-SA 4.0"
    ],
    "status": "ok",
-   "rejections": {}
+   "rejections": {
+    "not_photo": 2,
+    "too_old": 1,
+    "excluded": 9,
+    "indoor": 1
+   }
   },
   {
    "slug": "street_times_square_wet_night",

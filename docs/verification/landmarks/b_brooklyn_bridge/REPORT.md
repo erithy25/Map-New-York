@@ -1,6 +1,6 @@
 # Brooklyn Bridge
 
-Script: `blender/landmarks/b_brooklyn_bridge.py` · agent B · generated 2026-09-06 13:31 UTC
+Script: `blender/landmarks/b_brooklyn_bridge.py` · agent B · generated 2026-09-06 14:07 UTC
 
 ## Placement
 
@@ -48,6 +48,10 @@ measured span between tower_bk and tower_mn: 486.49 m vs published 486.30 m (+0.
 
 Four verification renders, each framed and lit to answer one question.
 
+    0. ``dumbo_pebble_beach`` and ``promenade_reference`` — the two viewpoints the comparison agent recorded for
+       this bridge (``docs/verification/reference/landmark_brooklyn_bridge_from_dumbo`` and
+       ``landmark_brooklyn_bridge_walkway``), used verbatim so this render and the reference photograph are the same
+       shot.  They are skipped when those references are not on disk.
     1. ``dumbo_main_street_park`` — street level in Brooklyn Bridge Park at the foot of Main Street, the canonical
        DUMBO view of *this* bridge.  (The famous Washington Street shot, whose real photographic viewpoint is
        recorded in ``docs/verification/reference/dumbo_washington_st_manhattan_bridge/meta.json`` — camera

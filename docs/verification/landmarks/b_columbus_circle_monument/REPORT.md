@@ -1,6 +1,6 @@
 # Columbus Circle Monument and Deutsche Bank Center
 
-Script: `blender/landmarks/b_columbus_circle_monument.py` · agent B · generated 2026-09-06 13:39 UTC
+Script: `blender/landmarks/b_columbus_circle_monument.py` · agent B · generated 2026-09-06 14:11 UTC
 
 ## Published dimensions
 

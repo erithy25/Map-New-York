@@ -1,6 +1,6 @@
 # Statue of Liberty
 
-Script: `blender/landmarks/b_statue_of_liberty.py` · agent B · generated 2026-09-06 13:29 UTC
+Script: `blender/landmarks/b_statue_of_liberty.py` · agent B · generated 2026-09-06 14:10 UTC
 
 ## Placement
 
@@ -22,12 +22,26 @@ Fort Wood's real OSM ring (way 32965412), centroid NYC_TM (-7994.2, -1180.5); st
 
 ## Honesty statement
 
-, not a scan or a photogrammetric model.**  It is built from 38 metaball elements
+The figure is a stylised sculpt, not a scan or a photogrammetric model.**  It is built from 38 metaball elements
 (legs and drapery, torso, both arms, neck, head) meshed at a 0.80 m metaball resolution and then smoothed with one
 level of Catmull-Clark subdivision, exactly as the build brief specifies.  The published proportions above set the
 positions and radii of those metaballs, so the silhouette and the overall dimensions are right, but **the drapery
 folds, the face, the sandal, the broken chains at the feet and the repousse surface are not reproduced** — anyone
 comparing this model with a photograph will see a correct silhouette and an invented surface.
+
+## Verification renders
+
+Three verification renders, each framed to answer one question.
+
+    1. ``from_the_ferry`` — 420 m out on a bearing of 170 deg, which is where the Statue Cruises ferry passes and
+       where the statue's front-right (torch arm and tablet) faces the camera.  Question: is the 92.99 m
+       ground-to-torch composition right — a 19.81 m star fort, a 27.13 m pedestal and a 46.05 m figure — and does
+       the silhouette read as the Statue of Liberty?
+    2. ``from_the_island`` — 105 m out at eye height on the same bearing.  Question: does the pedestal's batter
+       (18.90 m square down to 12.19 m) and its Doric loggia read, and is Fort Wood's eleven-pointed plan visible?
+    3. ``figure`` — a long lens level with the statue's waist.  Question: is the figure's posture right — the
+       raised right arm with the torch, the tablet in the lowered left arm, the seven-ray crown — and is it
+       recognisably a *sculpt*, not a scan (see the honesty statement in the docstring)?
 
 ## Not modelled
 
@@ -37,5 +51,5 @@ emissive gold material is used), and the island's landscaping and buildings (a s
 
 ## Polycounts / outputs
 
-* `blender_out/landmarks/b_statue_of_liberty.glb` — 19,812 triangles, 0.46 MB, bounds min ['-45.3', '-58.6', '-2.0'] max ['51.7', '38.3', '96.0']
-* `blender_out/landmarks/b_statue_of_liberty_lod1.glb` — 1,704 triangles, 0.08 MB, bounds min ['-45.3', '-58.6', '-2.0'] max ['51.7', '38.3', '96.0']
+* `blender_out/landmarks/b_statue_of_liberty.glb` — 19,812 triangles, 0.47 MB, bounds min ['-45.3', '-58.6', '-2.0'] max ['51.7', '38.3', '96.0']
+* `blender_out/landmarks/b_statue_of_liberty_lod1.glb` — 1,704 triangles, 0.09 MB, bounds min ['-45.3', '-58.6', '-2.0'] max ['51.7', '38.3', '96.0']

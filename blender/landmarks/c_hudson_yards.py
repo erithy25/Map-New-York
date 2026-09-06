@@ -388,7 +388,7 @@ def main():
                                                "(role='shell'); translate it -83.2 m along local +x to retract it"},
                       notes="The Shed's shell is exported as its own node so the engine can animate it along the rails.")
     cc.render(ID, [
-        {"view": "public_square", "azimuth_deg": 205, "elevation_deg": "street", "distance": 1100, "fov_deg": 38, "look_up_deg": 14},
+        {"view": "public_square", "azimuth_deg": 238, "elevation_deg": "street", "distance": 950, "fov_deg": 44, "look_up_deg": 16},
         {"view": "aerial", "azimuth_deg": 240, "elevation_deg": 28},
     ])
     cc.render(ID, [{"view": "vessel", "azimuth_deg": 200, "elevation_deg": 30, "distance": 130, "fov_deg": 45, "target_z": 24}],

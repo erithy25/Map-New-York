@@ -1,6 +1,6 @@
 # Ed Koch Queensboro Bridge
 
-Script: `blender/landmarks/b_queensboro_bridge.py` · agent B · generated 2026-09-06 13:26 UTC
+Script: `blender/landmarks/b_queensboro_bridge.py` · agent B · generated 2026-09-06 14:08 UTC
 
 ## Placement
 
@@ -45,5 +45,5 @@ Roosevelt Island elevator/trolley kiosk, the finials on the pier towers in detai
 
 ## Polycounts / outputs
 
-* `blender_out/landmarks/b_queensboro_bridge.glb` — 59,736 triangles, 2.94 MB, bounds min ['-875.0', '-478.0', '-8.0'] max ['819.9', '509.5', '107.6']
-* `blender_out/landmarks/b_queensboro_bridge_lod1.glb` — 16,164 triangles, 0.66 MB, bounds min ['-875.0', '-478.0', '-8.0'] max ['819.9', '509.5', '107.6']
+* `blender_out/landmarks/b_queensboro_bridge.glb` — 59,736 triangles, 2.99 MB, bounds min ['-873.7', '-480.3', '-8.0'] max ['818.6', '512.0', '107.6']
+* `blender_out/landmarks/b_queensboro_bridge_lod1.glb` — 16,164 triangles, 0.71 MB, bounds min ['-873.7', '-480.3', '-8.0'] max ['818.6', '512.0', '107.6']

@@ -1,6 +1,6 @@
 # George Washington Bridge
 
-Script: `blender/landmarks/b_george_washington_bridge.py` · agent B · generated 2026-09-06 13:26 UTC
+Script: `blender/landmarks/b_george_washington_bridge.py` · agent B · generated 2026-09-06 14:08 UTC
 
 ## Placement
 
@@ -28,6 +28,23 @@ measured span between tower_nj and tower_ny: 1066.19 m vs published 1066.80 m (-
   Each tower is two lattice legs braced by lattice portal struts, the lower one framing the roadway.
 * Deck: the 1962 lower level hangs from the same suspenders inside a stiffening truss between the two roadway levels.
 
+## Verification renders
+
+Four verification renders, each framed to answer one question.
+
+    1. ``fort_washington_park`` — the canonical viewpoint: the Manhattan shore in Fort Washington Park about 300 m
+       south of the New York tower (40.8480 N, 73.9480 W), where the Little Red Lighthouse stands almost directly
+       under the tower.  Question: does the 184.1 m bare-lattice tower read at the right height and proportion from
+       the ground, and does the main span leave it at the right angle?
+    2. ``tower_lattice`` — close to the New York tower with the sun 35 deg up and off-axis.  Question: is this the
+       *unclad* steel lattice (Cass Gilbert's granite was never applied), with two tapering legs and four lattice
+       portal struts, and do the four cables pass over the legs in pairs?
+    3. ``elevation_both_towers`` — a long lens from the Hudson with both towers in frame.  Question: is the
+       1,066.8 m span and the 99.7 m cable sag right — the cable should come down to within about 2 m of the upper
+       deck at mid-span, which is the GWB's signature profile?
+    4. ``upper_deck`` — eye level on the upper roadway looking towards the New Jersey tower.  Question: are the
+       8 upper lanes, the suspender pitch and the tower portal at deck level right?
+
 ## Not modelled
 
 the Cass Gilbert cladding that was never built (correctly absent), the cable bands and wrapping, the
@@ -36,5 +53,5 @@ approach and its bus station, the Palisades Interstate Parkway interchange, and 
 
 ## Polycounts / outputs
 
-* `blender_out/landmarks/b_george_washington_bridge.glb` — 94,736 triangles, 4.03 MB, bounds min ['-873.4', '-244.8', '-16.0'] max ['885.2', '241.8', '187.8']
-* `blender_out/landmarks/b_george_washington_bridge_lod1.glb` — 26,032 triangles, 0.83 MB, bounds min ['-873.4', '-244.8', '-16.0'] max ['885.2', '241.8', '187.8']
+* `blender_out/landmarks/b_george_washington_bridge.glb` — 94,736 triangles, 4.00 MB, bounds min ['-876.5', '-231.4', '-16.0'] max ['888.3', '228.5', '186.3']
+* `blender_out/landmarks/b_george_washington_bridge_lod1.glb` — 26,032 triangles, 0.78 MB, bounds min ['-876.5', '-231.4', '-16.0'] max ['888.3', '228.5', '185.4']

@@ -226,9 +226,9 @@ def _acc_roller_shade():
     return m
 
 
-@K.register("acc_interior_card_lit", "window_accessory", nominal_size=(1.3, 0.01, 2.0),
-            description="Lit interior card (emissive room image) for use behind any window opening up to 1.3 x 2.0 m.",
-            features=[], budget=8)
+@K.register("acc_interior_card_lit", "window_accessory", nominal_size=(1.3, 0.31, 2.0),
+            description="Lit interior room box (emissive room image on the back wall, dark returns) for use behind any window opening up to 1.3 x 2.0 m; 0.30 m deep so the pane gets parallax and no daylight leaks in from behind the shell.",
+            features=[], budget=40)
 def _acc_card_lit():
     m = K.Mesh()
     P.interior_card(m, -0.65, 0.65, 0.0, 2.00, 0.010, True)
@@ -236,9 +236,9 @@ def _acc_card_lit():
     return m
 
 
-@K.register("acc_interior_card_unlit", "window_accessory", nominal_size=(1.3, 0.01, 2.0),
-            description="Unlit interior card (dark room image) for use behind any window opening up to 1.3 x 2.0 m.",
-            features=[], budget=8)
+@K.register("acc_interior_card_unlit", "window_accessory", nominal_size=(1.3, 0.31, 2.0),
+            description="Unlit interior room box (dim room image on the back wall, dark returns) for use behind any window opening up to 1.3 x 2.0 m; 0.30 m deep so the pane gets parallax and no daylight leaks in from behind the shell.",
+            features=[], budget=40)
 def _acc_card_unlit():
     m = K.Mesh()
     P.interior_card(m, -0.65, 0.65, 0.0, 2.00, 0.010, False)

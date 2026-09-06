@@ -1,6 +1,6 @@
 # Belvedere Castle
 
-Script: `blender/landmarks/b_belvedere_castle.py` · agent B · generated 2026-09-06 13:29 UTC
+Script: `blender/landmarks/b_belvedere_castle.py` · agent B · generated 2026-09-06 14:10 UTC
 
 ## Published dimensions
 

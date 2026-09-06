@@ -154,12 +154,22 @@ def lod0(gltf):
 
 # --------------------------------------------------------------------------- tests
 def test_glb_loads_and_has_lod_chain(gltf, tile_glb):
+    """The glb must carry exactly the LOD chain its manifest declares.
+
+    A tile may legitimately be built with `--lod 0,1` (the full-city run does, to halve the bytes),
+    so the chain is checked against the manifest rather than hard-coded to 0/1/2; a tile built with
+    the default settings must still have all three.
+    """
+    import json
+
     path, tile = tile_glb
     assert path.stat().st_size > 10_000
     names = [m.name for m in gltf.meshes]
     assert names, "no meshes in the tile glb"
     lods = {_lod_of(n) for n in names}
-    assert lods == {0, 1, 2}, f"LOD chain incomplete: {sorted(lods)}"
+    declared = {int(k[3:]) for k in json.loads((path.parent / "manifest.json").read_text())["triangles"]}
+    assert 0 in declared, "LOD0 is mandatory"
+    assert lods == declared, f"glb has LODs {sorted(lods)} but the manifest declares {sorted(declared)}"
     assert all(n.startswith(tile) for n in names), names[:3]
     # one mesh per (LOD, material class) keeps the draw calls bounded
     assert len(names) <= 3 * 25, f"{len(names)} meshes is more than one per LOD per material"
@@ -174,14 +184,29 @@ def test_glb_loads_and_has_lod_chain(gltf, tile_glb):
 
 def test_lod_triangle_budget(gltf):
     counts = {0: 0, 1: 0, 2: 0}
+    present = set()
     for mesh in gltf.meshes:
         lod = _lod_of(mesh.name)
+        present.add(lod)
         for prim in mesh.primitives:
             counts[lod] += gltf.accessors[prim.indices].count // 3
     assert counts[0] > 0
-    assert counts[1] < counts[0], counts
-    assert counts[2] < counts[1], counts
-    assert counts[2] / counts[0] < 0.45, f"LOD2 is not a massing LOD: {counts}"
+    if 1 in present:
+        assert counts[1] < counts[0], counts
+    if 2 in present:
+        assert counts[2] < counts.get(1, counts[0]), counts
+        assert counts[2] / counts[0] < 0.45, f"LOD2 is not a massing LOD: {counts}"
+
+
+def test_full_lod_chain_when_built_with_defaults(tmp_path_factory):
+    """A tile built with the default `--lod 0,1,2` carries all three meshes."""
+    import build_tile as bt
+
+    out = tmp_path_factory.mktemp("lodchain")
+    m = bt.build_tile("t_-6_0", out_root=out, lods=(0, 1, 2))
+    g = pygltflib.GLTF2().load(str(out / "t_-6_0" / "tile_buildings.glb"))
+    assert {_lod_of(mesh.name) for mesh in g.meshes} == {0, 1, 2}
+    assert set(m["triangles"]) == {"lod0", "lod1", "lod2"}
 
 
 def test_attributes_present(gltf):
@@ -324,7 +349,7 @@ def test_manifest_matches_glb(tile_glb):
     assert m["tile"] == tile
     assert m["buildings"]["open_shells_lod0"] == 0
     assert m["glb"]["bytes"] == path.stat().st_size
-    assert set(m["triangles"]) == {"lod0", "lod1", "lod2"}
+    assert "lod0" in m["triangles"]
     assert m["materials"], "no material list in the manifest"
 
 

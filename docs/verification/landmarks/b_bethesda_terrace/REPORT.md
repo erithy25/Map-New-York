@@ -1,6 +1,6 @@
 # Bethesda Terrace and Fountain
 
-Script: `blender/landmarks/b_bethesda_terrace.py` · agent B · generated 2026-09-06 13:29 UTC
+Script: `blender/landmarks/b_bethesda_terrace.py` · agent B · generated 2026-09-06 14:10 UTC
 
 ## Published dimensions
 

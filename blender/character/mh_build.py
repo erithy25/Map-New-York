@@ -511,6 +511,63 @@ def setup_eye_materials(built: BuiltHuman) -> dict:
     return out
 
 
+def setup_alpha_materials(built: BuiltHuman) -> list[str]:
+    """Wire the alpha channel of the card-hair, brow and lash textures into their materials.
+
+    MakeHuman's hair, eyebrow and eyelash meshes are alpha-cut polygon cards.  MPFB's MakeSkin import leaves
+    the image's alpha unconnected, so the cards render (and export) as opaque quads - which is what turned a
+    braid into a white spike in the first NPC line-up.  Linking alpha and setting a clip threshold makes the
+    glTF exporter emit ``alphaMode: MASK`` and the cards read as hair.
+    """
+    touched: list[str] = []
+    for key in ("hair", "eyebrows", "eyelashes"):
+        obj = built.bodyparts.get(key)
+        if obj is None:
+            continue
+        for slot in obj.material_slots:
+            material = slot.material
+            if material is None or not material.use_nodes:
+                continue
+            tree = material.node_tree
+            bsdf = next((n for n in tree.nodes if n.type == "BSDF_PRINCIPLED"), None)
+            if bsdf is None:
+                continue
+            texture = _upstream_image(bsdf.inputs["Base Color"])
+            if texture is None or "Alpha" not in texture.outputs:
+                continue
+            alpha = bsdf.inputs["Alpha"]
+            for link in list(alpha.links):
+                tree.links.remove(link)
+            tree.links.new(texture.outputs["Alpha"], alpha)
+            if hasattr(material, "blend_method"):
+                material.blend_method = "CLIP"
+            if hasattr(material, "alpha_threshold"):
+                material.alpha_threshold = 0.5
+            if hasattr(material, "surface_render_method"):
+                material.surface_render_method = "DITHERED"
+            material.show_transparent_back = False
+            touched.append(material.name)
+    log.info("alpha-cut materials wired: %s", touched)
+    return touched
+
+
+def _upstream_image(socket) -> bpy.types.Node | None:
+    seen: set[str] = set()
+    stack = [socket]
+    while stack:
+        current = stack.pop()
+        if not current.is_linked:
+            continue
+        node = current.links[0].from_node
+        if node.name in seen:
+            continue
+        seen.add(node.name)
+        if node.type == "TEX_IMAGE":
+            return node
+        stack.extend(node.inputs)
+    return None
+
+
 def face_unit_licences() -> dict:
     """Per-target licence/author record for the ARKit face units, read from the pack's own JSON."""
     if not FACEUNITS_PACK_JSON.exists():

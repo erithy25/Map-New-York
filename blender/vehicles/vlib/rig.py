@@ -226,6 +226,31 @@ def export_glb(path: str | Path, objects: Sequence[bpy.types.Object], *, extras:
     return path
 
 
+def glb_json(path: Path) -> dict:
+    data = path.read_bytes()
+    off = 12
+    while off < len(data):
+        clen, ctype = struct.unpack("<I4s", data[off:off + 8])
+        if ctype == b"JSON":
+            return json.loads(data[off + 8:off + 8 + clen])
+        off += 8 + clen + (-clen % 4)
+    raise RuntimeError(f"{path} has no JSON chunk")
+
+
+def glb_triangles(path: Path, skip=("UCX_",)) -> int:
+    """Rendered triangles actually present in an exported glb.  Counting in Blender over-reports slightly
+    (the exporter drops degenerate faces), and the catalog must agree with the file."""
+    js = glb_json(path)
+    total = 0
+    for n in js.get("nodes", []):
+        if "mesh" not in n or n.get("name", "").startswith(tuple(skip)):
+            continue
+        for prim in js["meshes"][n["mesh"]]["primitives"]:
+            acc = js["accessors"][prim["indices"]] if "indices" in prim else js["accessors"][prim["attributes"]["POSITION"]]
+            total += acc["count"] // 3
+    return total
+
+
 def _inject_asset_extras(path: Path, meta: dict) -> None:
     """Blender writes scene custom properties to ``scenes[0].extras``; DATA_CONTRACTS §13 requires
     ``asset.extras.nycsim``.  Patch the JSON chunk of the glb in place (padding kept 4-byte aligned)."""
@@ -300,16 +325,17 @@ def export_lods(base_path: Path, lod0_objects: Sequence[bpy.types.Object], lod1_
         else:
             copies[0].name = "Body"
         p = base_path.with_name(f"{base_path.stem}_LOD{level}.glb")
-        tris = g.tri_count_all(copies)
-        export_glb(p, copies, extras={**extras, "lod": level, "triangles": tris})
+        export_glb(p, copies, extras={**extras, "lod": level})
+        tris = glb_triangles(p)
         out.append({"level": level, "path": str(p.relative_to(nb.BLENDER_OUT.parent)), "triangles": tris,
                     "budget": budget, "nodes": sorted(c.name for c in copies)})
         for c in list(copies):
             g.remove_object(c)
         for o, nm in saved.items():
             o.name = nm
-    out.insert(0, {"level": 0, "path": str(base_path.relative_to(nb.BLENDER_OUT.parent)), "triangles": tri0,
-                   "budget": None, "nodes": sorted(o.name for o in lod0_objects)})
+    out.insert(0, {"level": 0, "path": str(base_path.relative_to(nb.BLENDER_OUT.parent)),
+                   "triangles": glb_triangles(base_path), "budget": None,
+                   "nodes": sorted(o.name for o in lod0_objects)})
     return out
 
 
@@ -447,6 +473,7 @@ def finalise(v: Vehicle, *, lod_budgets: tuple[int, int] = (60_000, 8_000),
                                    if not o.name.startswith(("Interior_", "Seat_", "Pedals", "Shifter", "SteeringWheel"))]
     lod_src = [v.objects[n] for n in ext_names if n in v.objects and v.objects[n].type == "MESH"]
     lods = export_lods(path, body_objs, lod_src, lod_budgets, extras)
+    tri_lod0 = lods[0]["triangles"]
     entry = {
         "schema_version": SCHEMA_VERSION,
         "id": v.id,
@@ -456,7 +483,7 @@ def finalise(v: Vehicle, *, lod_budgets: tuple[int, int] = (60_000, 8_000),
         "base_id": v.base_id,
         "glb": str(path.relative_to(nb.BLENDER_OUT.parent)),
         "lods": lods,
-        "triangles": lods[0]["triangles"],
+        "triangles": tri_lod0,
         "published_dimensions_mm": pub,
         "measured_m": meas,
         "dimension_deviation_pct": {k: round(vv, 3) for k, vv in dev.items()},

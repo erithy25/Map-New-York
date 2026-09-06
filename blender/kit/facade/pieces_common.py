@@ -369,7 +369,7 @@ def sash(m: K.Mesh, x0: float, x1: float, z0: float, z1: float, y: float, *, lig
     m.glass_pane(gx0, gx1, gz0, gz1, y + thick / 2, glass_mat, GLASS_T)
 
 
-def interior_card(m: K.Mesh, x0: float, x1: float, z0: float, z1: float, y: float, lit: bool, *, depth: float = 0.45) -> None:
+def interior_card(m: K.Mesh, x0: float, x1: float, z0: float, z1: float, y: float, lit: bool, *, depth: float = 0.30) -> None:
     """Shallow sealed room box behind the glass: the imagery card at ``depth`` with dark returns closing the sides.
 
     A single card is not enough.  A building shell is an open box, so a bare card lets the sky behind the wall light

@@ -122,6 +122,7 @@ def build(lod: int = 0):
 
 def main() -> None:
     ax = _axis(0.0)
+    frame = ba.frame_at(CENTRE_TM[0], CENTRE_TM[1], 0.0, HEADING)   # the same frame build() uses
     ctx = (("water_dark", 0.35, 160.0, (ax.p(S_PYLON + MAIN_SPAN / 2, 0.0).x, ax.p(S_PYLON + MAIN_SPAN / 2, 0.0).y)),
            ("sidewalk", GROUND, 380.0, (ax.p(-430.0, 0.0).x, ax.p(-430.0, 0.0).y)),
            ("sidewalk", GROUND, 380.0, (ax.p(430.0, 0.0).x, ax.p(430.0, 0.0).y)))
@@ -129,7 +130,7 @@ def main() -> None:
         ID, TITLE, build, budget_lod0=250_000, budget_lod1=50_000,
         renders=[
             # the comparison agent's recorded photographic viewpoint, used verbatim
-            ba.reference_render("landmark_kosciuszko_bridge", fit.frame, view="kosciuszko_reference",
+            ba.reference_render("landmark_kosciuszko_bridge", frame, view="kosciuszko_reference",
                                 ground_z=GROUND, target_z=60.0, fov_deg=58.0, size=(1280, 720), context=ctx,
                                 sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
             dict(view="newtown_creek", cam=ax.p(S_PYLON + 140.0, -260.0, GROUND + 2.0),

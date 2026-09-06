@@ -26,8 +26,14 @@ TEXTURE_ROOT = REPO / "assets" / "textures"
 sys.path.insert(0, str(REPO / "blender" / "common"))
 
 MIN_PIECES = 120
-# budgets fixed by the kit brief; every other category is bounded by the per-entry budget in the catalog
-BRIEF_BUDGETS = {"window": 400, "storefront": 6000, "fire_escape": 3000, "water_tower": 4000}
+# Budgets fixed by the kit brief; every other category is bounded by the per-entry budget in the catalog.
+# The window cap was raised from the brief's 400 to 900 on an explicit instruction from the orchestrator after the
+# first verification pass: at 400 the sashes read flat because there was no geometry left for the reveal jamb, the
+# sill drip and the sealed interior box. The deviation is recorded in docs/verification/kit/REPORT.md.
+BRIEF_BUDGETS = {"window": 900, "storefront": 6000, "fire_escape": 3000, "water_tower": 4000}
+# A sash in a New York masonry opening sits 100-200 mm behind the wall face. Anything shallower reads as a decal.
+MIN_GLAZING_SETBACK_M = 0.10
+MAX_GLAZING_SETBACK_M = 0.25
 VALID_ANCHORS = {"wall_bottom_centre", "wall_sill_centre", "wall_head_centre", "wall_platform_centre",
                  "wall_corner_bottom", "wall_corner_platform", "wall_bay_frame", "ground_bottom_centre",
                  "ground_corner_bottom"}
@@ -294,6 +300,30 @@ def test_uv_tiling_is_in_metres(entry):
         assert seen & (wanted - {1.0}), f"{entry['id']}: no non-unit tiling emitted although {sorted(wanted)} are declared"
 
 
+# Windows whose glazing is legitimately not set back in a masonry reveal.
+NOT_RECESSED = {
+    "win_bay_window": "a bay projects in front of the wall, so its glazing is ahead of the wall plane",
+    "win_curtain_wall_module": "curtain-wall glazing sits in the facade plane by construction",
+    "win_dormer": "a dormer stands out of the roof slope, not in a masonry reveal",
+}
+_RECESSED = [e for e in ENTRIES
+             if e["category"] == "window" and "glazing_setback_m" in e and e["id"] not in NOT_RECESSED]
+
+
+@pytest.mark.parametrize("entry", _RECESSED, ids=[e["id"] for e in _RECESSED])
+def test_window_glazing_is_recessed(entry):
+    """The sash must sit back inside the masonry opening, not in the wall plane.
+
+    This is the regression guard for the first verification pass, where every window read flat because the glazing
+    was barely behind the brick face and the opening threw no shadow. Bays, dormers and curtain-wall modules are
+    excluded by ``NOT_RECESSED``: their glazing really is at or in front of the facade plane."""
+    d = entry["glazing_setback_m"]
+    assert d >= MIN_GLAZING_SETBACK_M, (
+        f"{entry['id']}: glazing only {d * 1000:.0f} mm behind the wall plane — a New York sash is set back "
+        f"{MIN_GLAZING_SETBACK_M * 1000:.0f}-{MAX_GLAZING_SETBACK_M * 1000:.0f} mm and the reveal is what shades it")
+    assert d <= MAX_GLAZING_SETBACK_M, f"{entry['id']}: glazing {d * 1000:.0f} mm back is deeper than any real reveal"
+
+
 @pytest.mark.parametrize("entry", [e for e in ENTRIES if "glass_clear" in e["materials"]],
                          ids=[e["id"] for e in ENTRIES if "glass_clear" in e["materials"]])
 def test_glass_is_translucent(entry):
@@ -325,7 +355,10 @@ def test_nycsim_extras_round_trip():
         extras = dict(g.asset.extras or {})
         if "nycsim" not in extras and g.scenes:
             extras.update(g.scenes[g.scene or 0].extras or {})
-        meta = json.loads(extras["nycsim"])
+        # DATA_CONTRACTS §13 asks for asset.extras.nycsim as a JSON object; nycsim_bpy writes it that way and leaves
+        # the Blender scene custom property (a JSON string) in the scene extras. Accept either shape.
+        raw = extras["nycsim"]
+        meta = raw if isinstance(raw, dict) else json.loads(raw)
         assert meta["units"] == "metres" and meta["up_axis_blender"] == "Z"
         assert meta["kit_id"] == entry["id"]
         assert meta["schema_version"] == entry["schema_version"]

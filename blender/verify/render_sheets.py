@@ -331,6 +331,53 @@ def configure_cycles(samples: int, threads: int | None) -> None:
         sc.render.threads = threads
 
 
+def aim_pitch(slug: str, meta: dict, cam_x: float, cam_y: float, cam_z: float,
+              sampler, landmarks: Sequence[dict]) -> tuple[float, str]:
+    """How far the optical axis tilts off horizontal, and why.
+
+    The default is level: a level axis keeps vertical building edges vertical, which is the
+    convention every architectural photograph follows and the only way a render and a photograph
+    can be compared on proportion.  The single exception is a subject standing close to the camera
+    and clearly below or above eye level -- the Bethesda fountain 69 m away and 6 m below the
+    terrace, say -- where a level axis would push it to the edge of the frame.  For a subject
+    inside 250 m the axis is aimed at its mid-height, taken from the landmark model that stands
+    there when there is one; if that aim exceeds 8 deg it is discarded and the axis stays level,
+    because past that point a real photograph would be taken with a wider lens rather than a
+    tilted camera.
+    """
+    subject = meta.get("subject") or {}
+    if subject.get("lat") is None or subject.get("lon") is None:
+        return 0.0, "level optical axis (the reference names no subject to aim at)"
+    from nycsim_pipeline.crs import lonlat_to_tm
+    sx, sy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
+    dist = math.hypot(sx - cam_x, sy - cam_y)
+    if dist > 250.0 or dist < 1.0:
+        return 0.0, (f"level optical axis (the subject is {dist:.0f} m away; anything that far is "
+                     f"photographed with a level camera)")
+    ground, _ = sampler.ground_z(sx, sy, mode="street", radius_m=15.0) if sampler else (None, {})
+    if ground is None:
+        ground = cam_z - 1.6
+    height, src = 10.0, "a nominal 10 m subject"
+    best = None
+    for e in landmarks:
+        ox, oy = float(e["origin_tm"][0]), float(e["origin_tm"][1])
+        d = math.hypot(ox - sx, oy - sy)
+        h = e.get("height_m") or (e.get("bounds_local_m") or {}).get("max", [0, 0, 0])[2]
+        if d <= 120.0 and h and (best is None or d < best[0]):
+            best = (d, float(h), e["id"])
+    if best is not None:
+        height, src = best[1], f"the {best[2]} model's {best[1]:.0f} m height"
+    target_z = ground + height / 2.0
+    pitch = math.degrees(math.atan2(target_z - cam_z, dist))
+    if abs(pitch) > 8.0:
+        return 0.0, (f"level optical axis ({subject.get('name') or 'the subject'} is {dist:.0f} m "
+                     f"away and would need {pitch:+.0f} deg of tilt; a real frame would use a wider "
+                     f"lens instead, and a tilted axis would stop the render being comparable on "
+                     f"proportion)")
+    return pitch, (f"aimed at {subject.get('name') or 'the subject'} {dist:.0f} m away, at its "
+                   f"mid-height ({src}); {pitch:+.1f} deg from horizontal")
+
+
 def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | None = None,
                    width: int = RENDER_WIDTH, dry_run: bool = False) -> dict:
     """Build, aim, light and render one subject.  Returns the record written to render.json."""
@@ -399,9 +446,13 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         with_props=prop_r > 0, with_kit=kit_r > 0,
         terrain_max_side=300 if radius <= 1500 else 380,
         lod0_radius_m=1200.0)
+    pitch, pitch_why = aim_pitch(slug, meta, x, y,
+                                 (sampler.ground_z(x, y)[0] or 0.0) + vcam.eye_rule_for(slug).height_m,
+                                 sampler, vscene.load_landmark_catalog())
     placement = vcam.place_camera(slug=slug, lat=vp["lat"], lon=vp["lon"],
                                   azimuth_deg=float(vp["azimuth_deg"]), sampler=sampler,
-                                  resolution=(width, height), note=vp.get("note"))
+                                  resolution=(width, height), note=vp.get("note"), pitch_deg=pitch)
+    clearance = vcam.clear_of_geometry(placement, sampler)
     light = setup_world_and_sun(sun["azimuth_deg"], sun["elevation_deg"], night=bool(meta.get("night")))
     light["emissive"] = apply_time_of_day_materials(bool(meta.get("night")))
     configure_cycles(samples, threads)
@@ -417,6 +468,8 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         "camera": placement.as_dict(),
         "camera_caption": placement.caption(),
         "lens_reason": vcam.focal_for(slug)[1],
+        "pitch_reason": pitch_why,
+        "clearance": clearance,
         "lighting": light,
         "scene": rep.as_dict(),
         "render_png": str(render_path.relative_to(REPO_ROOT)),
@@ -515,6 +568,11 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
                           f"via Wikimedia Commons {ph.get('page_url')}", f_small))
     caption_lines.append((f"Render: {record.get('camera_caption', '')}", f_small))
     caption_lines.append((f"Lens: {record.get('lens_reason','')}", f_small))
+    if record.get("pitch_reason"):
+        caption_lines.append((f"Aim: {record['pitch_reason']}", f_small))
+    cl = record.get("clearance") or {}
+    if cl.get("note"):
+        caption_lines.append((f"Camera clearance: {cl['note']}", f_small))
     caption_lines.append((f"Eye height: {cam.get('eye_height_m')} m above "
                           f"{'sea level' if cam.get('eye_datum') == 'sea' else 'the terrain surface'} - "
                           f"{cam.get('eye_source','')}", f_small))

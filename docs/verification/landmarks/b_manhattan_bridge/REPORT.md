@@ -1,6 +1,6 @@
 # Manhattan Bridge
 
-Script: `blender/landmarks/b_manhattan_bridge.py` · agent B · generated 2026-09-06 13:25 UTC
+Script: `blender/landmarks/b_manhattan_bridge.py` · agent B · generated 2026-09-06 14:07 UTC
 
 ## Placement
 
@@ -30,6 +30,22 @@ measured span between tower_bk and tower_mn: 445.63 m vs published 451.10 m (-1.
   colonnade (LP-1240).
 * Colour: the "Manhattan Bridge blue" of the current paint scheme.
 
+## Verification renders
+
+Three verification renders, each framed to answer one question.
+
+    1. ``dumbo_washington_street`` — **the real photographic viewpoint**, taken from
+       ``docs/verification/reference/dumbo_washington_st_manhattan_bridge/meta.json``: camera 40.70330 N,
+       73.98958 W (Washington Street between Front and Water), azimuth 355.6 deg, subject the Manhattan Bridge's
+       Brooklyn tower 134 m away; rendered in portrait like the four Commons photographs the reference records.
+       Question: at the real camera position, distance and bearing, is the tower the right size and shape?
+       *The brick warehouse walls that frame the tower in the photographs belong to the buildings stage and are
+       not in this model, so the render shows the bridge alone against the sky.*
+    2. ``tower_three_quarter`` — the Brooklyn tower from the river with the sun 35 deg up and off-axis.
+       Question: are the portal legs, the four horizontal struts, the finials and the two deck levels right?
+    3. ``elevation_both_towers`` — a long lens with both towers, the 451.1 m main span and both anchorages in
+       frame.  Question: is the span, the cable sag and the two-level deck right?
+
 ## Not modelled
 
 the cable bands and wrapping, the subway third rail and signals, the 2001-2004 reconstruction's steel
@@ -38,5 +54,5 @@ plate reinforcement, the tower finial castings in detail, the arch's sculptural 
 
 ## Polycounts / outputs
 
-* `blender_out/landmarks/b_manhattan_bridge.glb` — 80,700 triangles, 3.34 MB, bounds min ['-468.5', '-834.5', '-10.0'] max ['366.0', '1003.5', '109.9']
-* `blender_out/landmarks/b_manhattan_bridge_lod1.glb` — 28,940 triangles, 0.94 MB, bounds min ['-465.8', '-834.5', '-10.0'] max ['366.0', '1000.8', '109.9']
+* `blender_out/landmarks/b_manhattan_bridge.glb` — 80,700 triangles, 3.33 MB, bounds min ['-479.3', '-830.7', '-10.0'] max ['375.3', '999.4', '107.4']
+* `blender_out/landmarks/b_manhattan_bridge_lod1.glb` — 28,940 triangles, 0.94 MB, bounds min ['-476.6', '-830.7', '-10.0'] max ['375.3', '996.7', '107.4']

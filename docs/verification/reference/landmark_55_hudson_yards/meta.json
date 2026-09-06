@@ -20,70 +20,181 @@
  "min_year": 2018,
  "wanted": 3,
  "queries": [
-  "\"55 Hudson Yards\" tower",
-  "\"55 Hudson Yards\" Kohn Pedersen Fox"
+  "55 Hudson Yards Manhattan",
+  "55 Hudson Yards tower"
  ],
  "geosearch_radius_m": 400,
- "fetched_at": "2026-09-06T14:00:09Z",
+ "fetched_at": "2026-09-06T14:10:09Z",
  "max_width": 1920,
  "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
- "candidates_seen": 37,
- "candidates_eligible": 2,
+ "candidates_seen": 90,
+ "candidates_eligible": 38,
  "rejections": {
-  "too_old": 5,
-  "keywords": 3,
-  "indoor": 27
+  "too_old": 12,
+  "keywords": 10,
+  "licence": 1,
+  "indoor": 28,
+  "night_for_day_item": 1
  },
- "exhausted": true,
+ "exhausted": false,
  "status": "ok",
  "photos": [
   {
    "n": 1,
    "file": "1.jpg",
-   "title": "File:10 mile panorama of NYC, Feb., 2018.jpg",
-   "page_url": "https://commons.wikimedia.org/wiki/File:10_mile_panorama_of_NYC,_Feb.,_2018.jpg",
-   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/3d/10_mile_panorama_of_NYC%2C_Feb.%2C_2018.jpg",
-   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/10_mile_panorama_of_NYC%2C_Feb.%2C_2018.jpg/1920px-10_mile_panorama_of_NYC%2C_Feb.%2C_2018.jpg",
-   "author": "DigbyDalton",
+   "title": "File:55 Hudson Yards 001.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:55_Hudson_Yards_001.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a0/55_Hudson_Yards_001.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/55_Hudson_Yards_001.jpg/1920px-55_Hudson_Yards_001.jpg",
+   "author": "Kidfly182",
    "credit": "Own work",
    "license": {
     "short_name": "CC BY-SA 4.0",
     "url": "https://creativecommons.org/licenses/by-sa/4.0",
     "template": "cc-by-sa-4.0"
    },
-   "date_taken": "2018-02-21 15:08:32",
+   "date_taken": "2022-10-14 12:33:01",
    "date_source": "DateTimeOriginal",
-   "year": 2018,
+   "year": 2022,
    "camera_gps": {
-    "lat": 40.771703,
-    "lon": -74.015778
+    "lat": 40.754561,
+    "lon": -74.001158
    },
-   "original_width": 8582,
-   "original_height": 972,
+   "original_width": 2448,
+   "original_height": 3264,
    "width": 1920,
-   "height": 217,
-   "bytes": 85388,
-   "sha256": "f77b65ca71c01de5afd4ae586e24a931659fc5e6171a3d40a032b375a1eb9f62",
-   "mean_luminance": 160.3,
-   "description": "10 mile Manhattan panorama from 120th street to The Battery taken Feb. 21, 2018 from Weehawken, NJ 1 Riverside Church 2 Deutsche Bank Center , Time Warner Center 3 220 Central Park South 4 Central Park Tower 5 One57 6 432 Park Avenue 7 53W53 8 Chrysler Building 9 Bank of America Tower 10 Conde Nast Building 11 The New York Times Building 12 Empire State Building 13 Manhattan West 14 a: 55 Hudson Yards , b: 35 Hudson Yards , c: 10 Hudson Yards , d: 15 Hudson Yards 15 56 Leonard Street 16 8 Spruce Street 17 Woolworth Building 18 70 Pine Street 19 30 Park Place 20 40 Wall Street 21 Three World Tr",
+   "height": 2560,
+   "bytes": 1102337,
+   "sha256": "652f3030b81c175794d822c062639085ba1340c3cd89007a45fb50c4c1f9f77b",
+   "mean_luminance": 109.6,
+   "description": "55 Hudson Yards",
    "categories": [
+    "55 Hudson Yards",
+    "New York City photographs taken on 2022-10-14",
     "Self-published work",
     "Files with coordinates missing SDC location of creation",
-    "Manhattan skylines from New Jersey"
+    "Hudson Yards in 2022",
+    "October 2022 in Manhattan, New York City"
    ],
    "assessments": "",
    "restrictions": "",
-   "provenance": "search:\"55 Hudson Yards\" tower",
-   "score": 5.45,
+   "provenance": "search:55 Hudson Yards Manhattan",
+   "score": 10.05,
    "estimated_viewpoint": {
-    "lat": 40.771703,
-    "lon": -74.015778,
-    "azimuth_deg": 146.9,
+    "lat": 40.754561,
+    "lon": -74.001158,
+    "azimuth_deg": 331.7,
     "confidence": "high",
     "method": "camera_gps_to_subject",
-    "explanation": "Camera GPS from the Commons file description (40.77170, -74.01578) is 2179 m from 55 Hudson Yards (40.75528, -74.00167) and 2320 m from the standard viewpoint; the azimuth 147 deg is the initial great-circle bearing from that camera position to the subject."
+    "explanation": "Camera GPS from the Commons file description (40.75456, -74.00116) is 91 m from 55 Hudson Yards (40.75528, -74.00167) and 161 m from the standard viewpoint; the azimuth 332 deg is the initial great-circle bearing from that camera position to the subject."
    },
-   "attribution": "\"10 mile panorama of NYC, Feb., 2018.jpg\" by DigbyDalton, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:10_mile_panorama_of_NYC,_Feb.,_2018.jpg"
+   "attribution": "\"55 Hudson Yards 001.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:55_Hudson_Yards_001.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:55 Hudson Yards.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:55_Hudson_Yards.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a7/55_Hudson_Yards.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/55_Hudson_Yards.jpg/1920px-55_Hudson_Yards.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-08-26 13:40:44",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.754628,
+    "lon": -74.001275
+   },
+   "original_width": 2448,
+   "original_height": 3264,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 850376,
+   "sha256": "821c82be70856cf8ea306e014fbf0241eba258c20303224f0139571c16d6f3e0",
+   "mean_luminance": 120.9,
+   "description": "55 Hudson Yards in August 2021",
+   "categories": [
+    "55 Hudson Yards",
+    "New York City photographs taken on 2021-08-26",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Hudson Yards in 2021",
+    "August 2021 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:55 Hudson Yards Manhattan",
+   "score": 9.9,
+   "estimated_viewpoint": {
+    "lat": 40.754628,
+    "lon": -74.001275,
+    "azimuth_deg": 335.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75463, -74.00128) is 79 m from 55 Hudson Yards (40.75528, -74.00167) and 168 m from the standard viewpoint; the azimuth 335 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"55 Hudson Yards.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:55_Hudson_Yards.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Hudson Yards Plaza March 2019 62.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Hudson_Yards_Plaza_March_2019_62.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d7/Hudson_Yards_Plaza_March_2019_62.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Hudson_Yards_Plaza_March_2019_62.jpg/1920px-Hudson_Yards_Plaza_March_2019_62.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2019",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": null,
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 601085,
+   "sha256": "93b929ff0fa489e136e84c805eee9f47873ae9aaaf4690be4595ad5a5d64a652",
+   "mean_luminance": 117.7,
+   "description": "The Hudson Yards development in New York City in March 2019",
+   "categories": [
+    "15 Hudson Yards",
+    "10 Hudson Yards",
+    "55 Hudson Yards",
+    "30 Hudson Yards",
+    "35 Hudson Yards",
+    "New York City photographs taken on 2019-03-19",
+    "Self-published work",
+    "United States photographs taken on 2019-03-19",
+    "Clouds and blue sky in New York City",
+    "Hudson Yards in 2019",
+    "March 2019 in Manhattan, New York City",
+    "Photographs by Epicgenius",
+    "Hudson Yards skylines"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:55 Hudson Yards Manhattan",
+   "score": 7.1,
+   "estimated_viewpoint": {
+    "lat": 40.754966,
+    "lon": -73.999329,
+    "azimuth_deg": 280.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (West 34th Street at Tenth Avenue, about 200 m east of the tower, looking west at 55 Hudson Yards) and the azimuth 280 deg is the bearing from there to 55 Hudson Yards (40.75528, -74.00167)."
+   },
+   "attribution": "\"Hudson Yards Plaza March 2019 62.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Hudson_Yards_Plaza_March_2019_62.jpg"
   }
  ]
 }

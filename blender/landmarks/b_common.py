@@ -702,10 +702,12 @@ def prop_template(prop_id: str, max_tris: int = 0) -> "bpy.types.Object":
     for o in meshes:                       # the importer parents meshes to an empty; bake that out before joining
         o.matrix_world = o.matrix_world.copy()
         o.parent = None
-    ob = join(meshes, f"prop_{prop_id}") if len(meshes) > 1 else meshes[0]
+    leftovers = [o.name for o in made if o.type != "MESH"]     # the importer's empties, by name: join() invalidates
+    ob = join(meshes, f"prop_{prop_id}") if len(meshes) > 1 else meshes[0]   # the pointers it consumed
     ob.name = f"prop_{prop_id}"
-    for o in made:
-        if o.type != "MESH" and o.name in bpy.data.objects:
+    for nm in leftovers:
+        o = bpy.data.objects.get(nm)
+        if o is not None:
             bpy.data.objects.remove(o, do_unlink=True)
     if max_tris > 0:
         n = tri_count([ob])

@@ -33,10 +33,11 @@ OUT = C.nb.REPO_ROOT / "docs" / "verification" / "props"
 REF_HEIGHT = 1.75          # human-height reference rod beside every prop
 
 SHEETS: dict[str, dict] = {
-    "lighting": {"ids": ["lamp_cobra_davit", "lamp_bishops_crook", "lamp_park_twin"], "pad": 1.6},
+    # the davit/crook arms reach along +Y, so these sheets are shot nearly side-on to show the arm profile
+    "lighting": {"ids": ["lamp_cobra_davit", "lamp_bishops_crook", "lamp_park_twin"], "pad": 2.4, "azimuth": 78.0},
     "lighting_night": {"ids": ["lamp_cobra_davit", "lamp_bishops_crook", "lamp_park_twin", "subway_globe_green",
-                               "subway_globe_red"], "pad": 1.6, "night": True},
-    "lighting_highmast": {"ids": ["lamp_highmast"], "pad": 3.0},
+                               "subway_globe_red"], "pad": 2.0, "night": True, "azimuth": 66.0},
+    "lighting_highmast": {"ids": ["lamp_highmast"], "pad": 3.0, "azimuth": 40.0},
     "traffic_signals": {"ids": ["signal_mastarm_6m", "signal_mastarm_9m", "signal_spanwire"], "pad": 2.0},
     "traffic_pedestrian": {"ids": ["signal_pedestal", "signal_ped_countdown", "ped_pushbutton"], "pad": 0.9},
     "signs_regulatory": {"ids": ["sign_r1_1_stop", "sign_r1_2_yield", "sign_r6_1_oneway", "sign_r2_1_speed"],
@@ -244,7 +245,8 @@ def render_sheet(name: str, spec: dict, samples: int, width: int) -> Path:
     out = OUT / f"sheet_{name}.png"
     render_still(out, center=Vector((row_len / 2.0, 0.0, (top + 0.9) / 2.0 - 0.35)), ortho_scale=ortho,
                  size=(width, height_px), samples=samples * (2 if night else 1), night=night,
-                 azimuth_deg=0.0 if spec.get("front") else 26.0, elevation_deg=4.0 if spec.get("front") else 11.0)
+                 azimuth_deg=spec.get("azimuth", 0.0 if spec.get("front") else 26.0),
+                 elevation_deg=spec.get("elevation", 4.0 if spec.get("front") else 11.0))
     annotate(out, placed, width, height_px)
     return out
 

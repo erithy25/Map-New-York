@@ -406,12 +406,16 @@ def test_ucx_proxies_convex(vid, glbs):
         assert len(idx) >= 4, f"{vid}: {n['name']} has {len(idx)} triangles"
         ok, worst = _is_convex(pos, idx, CONVEX_TOL_M)
         assert ok, f"{vid}: {n['name']} is not convex (worst outside distance {worst * 1000:.2f} mm)"
+        # glTF splits vertices per normal/UV, so weld by position before testing the edge manifold
+        key = np.round(pos, 5)
+        _, first, inv = np.unique(key, axis=0, return_index=True, return_inverse=True)
+        w = inv[idx]
         edges: dict[tuple[int, int], int] = {}
-        for tri in idx:
+        for tri in w:
             for k in range(3):
-                key = (int(min(tri[k], tri[(k + 1) % 3])), int(max(tri[k], tri[(k + 1) % 3])))
-                edges[key] = edges.get(key, 0) + 1
-        open_edges = [k for k, cnt in edges.items() if cnt != 2]
+                e = (int(min(tri[k], tri[(k + 1) % 3])), int(max(tri[k], tri[(k + 1) % 3])))
+                edges[e] = edges.get(e, 0) + 1
+        open_edges = [e for e, cnt in edges.items() if cnt != 2]
         assert not open_edges, f"{vid}: {n['name']} is not a closed hull ({len(open_edges)} open edges)"
 
 
@@ -419,7 +423,8 @@ def test_ucx_proxies_convex(vid, glbs):
 def test_ucx_proxies_cover_the_body(vid, glbs):
     """The union of the proxies must enclose the vehicle's footprint to within 12 cm on every side."""
     e, glb = _entry(vid), glbs[vid]
-    b = glb.node_world_bounds(skip=("UCX_",))
+    # the hull covers the collidable exterior; cabin furniture sits inside it by construction
+    b = glb.node_world_bounds(skip=("UCX_", "Interior_", "Seat_", "Pedals", "Shifter", "SteeringWheel"))
     lo = np.min([v[0] for v in b.values()], axis=0)
     hi = np.max([v[1] for v in b.values()], axis=0)
     u = glb.node_world_bounds(skip=tuple(n for n in glb.node_names() if not n.startswith("UCX_")))
@@ -450,13 +455,13 @@ def test_damage_weights_in_range(vid, glbs):
     glb = glbs[vid]
     by_name = {n.get("name", ""): n for n in glb.nodes()}
     mesh = glb.json["meshes"][by_name["Body"]["mesh"]]
-    prim = mesh["primitives"][0]
-    for region in ("FRONT", "REAR"):
-        acc_idx = prim["attributes"][f"_DMG_{region}"]
-        vals = glb.accessor(acc_idx).ravel()
-        assert vals.min() >= -1e-5 and vals.max() <= 1 + 1e-5, \
-            f"{vid}: _DMG_{region} weights outside 0..1 ({vals.min()}..{vals.max()})"
-        assert vals.max() > 0.5, f"{vid}: _DMG_{region} never reaches the region (max {vals.max():.3f})"
+    for region in ("FRONT", "REAR", "LEFT", "RIGHT", "ROOF"):
+        lo, hi = 1.0, 0.0
+        for prim in mesh["primitives"]:          # one primitive per material; the region spans the whole panel
+            vals = glb.accessor(prim["attributes"][f"_DMG_{region}"]).ravel()
+            lo, hi = min(lo, float(vals.min())), max(hi, float(vals.max()))
+        assert lo >= -1e-5 and hi <= 1 + 1e-5, f"{vid}: _DMG_{region} weights outside 0..1 ({lo}..{hi})"
+        assert hi > 0.5, f"{vid}: _DMG_{region} never reaches the region (max {hi:.3f})"
 
 
 # --------------------------------------------------------------------------- interior slots
@@ -538,8 +543,11 @@ def test_steering_wheel_axis(vid, glbs):
     # +Z (the column axis) becomes the glTF node's local +Y, i.e. column 1 of its world matrix.
     axis = m[:3, 1] / np.linalg.norm(m[:3, 1])
     # the column must point forward and downward: +X and -Y in glTF (Y-up)
-    assert axis[0] > 0.7, f"{vid}: steering column axis {axis} does not point forward"
-    assert axis[1] < 0.0, f"{vid}: steering column axis {axis} does not tilt downward"
+    assert axis[0] > 0.1, f"{vid}: steering column axis {axis} does not point forward"
+    assert axis[1] < -0.1, f"{vid}: steering column axis {axis} does not tilt downward"
+    tilt = math.degrees(math.atan2(-axis[1], axis[0]))
+    # a car's column is ~20-25 deg below horizontal, a bus or a cab-over truck 55-70 deg
+    assert 12.0 <= tilt <= 80.0, f"{vid}: steering column is {tilt:.1f} deg below horizontal"
     lo, hi = glb.mesh_bounds_local(glb.nodes()[i]["mesh"])
     dia = max(hi[0] - lo[0], hi[1] - lo[1])
     assert 0.30 <= dia <= 0.52, f"{vid}: steering wheel diameter {dia * 1000:.0f} mm is not road-car sized"

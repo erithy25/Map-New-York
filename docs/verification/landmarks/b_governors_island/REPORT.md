@@ -1,6 +1,6 @@
 # Governors Island: Castle Williams and Fort Jay
 
-Script: `blender/landmarks/b_governors_island.py` · agent B · generated 2026-09-06 13:29 UTC
+Script: `blender/landmarks/b_governors_island.py` · agent B · generated 2026-09-06 14:10 UTC
 
 ## Published dimensions
 

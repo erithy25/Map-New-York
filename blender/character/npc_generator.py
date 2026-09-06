@@ -143,6 +143,7 @@ def build_npc(vector: variety.VarietyVector, index: int) -> NpcBuild:
         wardrobe.build_bag(built, resolved["bag"], name_prefix=f"{name}.")
     mh_build.setup_skin(built)
     mh_build.setup_eye_materials(built)
+    mh_build.setup_alpha_materials(built)
     problems = rig_ue5.verify_skeleton(built.armature)
     if problems:
         raise RuntimeError(f"{name}: UE5 skeleton verification failed: {problems}")

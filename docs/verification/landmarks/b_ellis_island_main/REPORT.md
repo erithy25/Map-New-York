@@ -1,6 +1,6 @@
 # Ellis Island Main Immigration Building
 
-Script: `blender/landmarks/b_ellis_island_main.py` · agent B · generated 2026-09-06 13:29 UTC
+Script: `blender/landmarks/b_ellis_island_main.py` · agent B · generated 2026-09-06 14:10 UTC
 
 ## Published dimensions
 

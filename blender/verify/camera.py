@@ -27,6 +27,7 @@ import argparse
 import json
 import logging
 import math
+import re
 import sys
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -45,6 +46,9 @@ DEFAULT_FOCAL_MM = 35.0
 SENSOR_WIDTH_MM = 36.0
 
 REFERENCE_DIR = REPO_ROOT / "docs" / "verification" / "reference"
+
+#: Objects that count as solid world: tile building shells and placed landmark models.
+_TILE_MESH = re.compile(r"^t_-?\d+_-?\d+_")
 
 
 @dataclass(frozen=True)
@@ -112,8 +116,11 @@ LENS_OVERRIDES: dict[str, LensRule] = {
     "staten_island_ferry_lower_manhattan": LensRule(
         28.0, "ferry-deck skyline, same wide framing as the promenade"),
     "dumbo_washington_st_manhattan_bridge": LensRule(
-        28.0, "narrow Washington Street canyon: the bridge tower and both cornice lines only "
-              "fit at about 65 deg horizontal"),
+        28.0, "the 102 m Manhattan Bridge tower stands 172 m from the viewpoint, so its top sits "
+              "31 deg above a level optical axis: 28 mm is the longest normal lens that still "
+              "contains it without tilting the camera and skewing the verticals.  The reference "
+              "photographs are longer (about 60 mm equivalent) and tilted up, so the render frames "
+              "more of Washington Street than they do"),
     "bethesda_terrace_fountain": LensRule(
         28.0, "the terrace, fountain and the Lake behind it need a wide frame from the upper "
               "level"),
@@ -265,6 +272,131 @@ def place_camera(*, slug: str, lat: float, lon: float, azimuth_deg: float, sampl
                            eye_datum=rule.datum, eye_source=rule.source, terrain_z_m=terrain_z,
                            resolution=resolution, portrait=portrait, long_side_fov_deg=long_fov,
                            ground_mode=mode, ground_source=mode_why, ground_detail=ground_detail)
+
+
+def _blocked(x: float, y: float, z: float, azimuth_deg: float) -> tuple[bool, str]:
+    """Is this eye point inside a building shell, or hard against a wall?
+
+    A ray straight up from a street, a park or a promenade hits nothing.  One that hits a shell
+    means the eye is under that building's roof, i.e. inside it -- which happens because the
+    reference viewpoints are recorded to about 0.0001 deg (roughly 10 m) and several of them land
+    on the wrong side of a facade.  A second ray along the view direction catches an eye point
+    that is outside but pressed against a wall.
+    """
+    from mathutils import Vector
+    dg = bpy.context.evaluated_depsgraph_get()
+    sc = bpy.context.scene
+    def is_shell(ob) -> bool:
+        # Building shells are named ``t_<tx>_<ty>_<material>`` and landmarks ``lm_<id>``.  Kit and
+        # prop instances (a sidewalk shed, a bus shelter) are legitimate things to stand under.
+        return ob is not None and (_TILE_MESH.match(ob.name) or ob.name.startswith("lm_"))
+
+    hit, _, _, _, ob, _ = sc.ray_cast(dg, Vector((x, y, z)), Vector((0.0, 0.0, 1.0)))
+    if hit and is_shell(ob):
+        return True, f"inside {ob.name} (a ray straight up from the eye point hits its roof)"
+    a = math.radians(azimuth_deg)
+    fwd = Vector((math.sin(a), math.cos(a), 0.0))
+    hit, loc, _, _, ob, _ = sc.ray_cast(dg, Vector((x, y, z)), fwd, distance=2.0)
+    if hit and is_shell(ob):
+        return True, (f"hard against {ob.name} ({(Vector(loc) - Vector((x, y, z))).length:.1f} m "
+                      f"ahead along the view azimuth)")
+    return False, ""
+
+
+def _standing_on(x: float, y: float, z: float, reach_m: float = 4.0):
+    """The object holding this eye point up, if it is a building roof rather than the ground."""
+    from mathutils import Vector
+    dg = bpy.context.evaluated_depsgraph_get()
+    hit, loc, _, _, ob, _ = bpy.context.scene.ray_cast(
+        dg, Vector((x, y, z)), Vector((0.0, 0.0, -1.0)), distance=reach_m)
+    if hit and ob is not None and (_TILE_MESH.match(ob.name) or ob.name.startswith("lm_")):
+        return ob, float(loc.z)
+    return None, None
+
+
+def _walk_to_parapet(placement: "CameraPlacement", max_m: float = 250.0,
+                     step_m: float = 2.0) -> dict:
+    """An eye point standing on a roof belongs at that roof's edge, not in the middle of it.
+
+    Observation-deck viewpoints (Top of the Rock, the High Line) are recorded as one lat/lon for
+    the whole deck, which lands in the middle of the slab; the photographs are all taken at the
+    parapet on the side the view faces.  Left alone the render is a picture of a roof.  This walks
+    the eye forward along the view azimuth while the roof still supports it and stops at the last
+    supported point -- the parapet.
+    """
+    ob, _ = _standing_on(placement.x, placement.y, placement.z)
+    if ob is None:
+        return {"moved": False, "offset_m": 0.0,
+                "note": "the recorded viewpoint is in open air on the ground; the camera was not moved"}
+    a = math.radians(placement.azimuth_deg)
+    dx, dy = math.sin(a), math.cos(a)
+    t, last_good = step_m, 0.0
+    while t <= max_m:
+        nx, ny = placement.x + dx * t, placement.y + dy * t
+        on, _ = _standing_on(nx, ny, placement.z)
+        if on is None:
+            break
+        last_good = t
+        t += step_m
+    if last_good < step_m:
+        return {"moved": False, "offset_m": 0.0, "standing_on": ob.name,
+                "note": (f"the eye point stands on {ob.name} and is already at its {placement.azimuth_deg:.0f} deg "
+                         f"edge; the camera was not moved")}
+    nx, ny = placement.x + dx * last_good, placement.y + dy * last_good
+    cam = bpy.context.scene.camera
+    cam.location = (nx, ny, placement.z)
+    bpy.context.view_layer.update()
+    placement.x, placement.y = nx, ny
+    return {"moved": True, "offset_m": round(last_good, 1), "direction": "along the view azimuth",
+            "standing_on": ob.name,
+            "note": (f"the eye point stands on the roof of {ob.name}, which the reference viewpoint "
+                     f"records as a single lat/lon for the whole deck; the camera was walked "
+                     f"{last_good:.0f} m along the view azimuth to the parapet, the last point the "
+                     f"roof still supports, which is where the reference photographs are taken")}
+
+
+def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 80.0,
+                      step_m: float = 2.0) -> dict:
+    """Move an eye point that landed inside a building out to the first clear spot, and say so.
+
+    The camera is only moved when it is demonstrably inside geometry.  It is walked along the
+    recorded view azimuth first (a viewpoint recorded on the wrong side of a facade is nearly
+    always a few metres short of the open space it names -- a promenade railing, a plaza), then
+    backwards, then sideways.  The eye height is re-measured from the heightmap at the new point,
+    and the offset is reported so the sheet can state it instead of hiding it.
+    """
+    blocked, why = _blocked(placement.x, placement.y, placement.z, placement.azimuth_deg)
+    if not blocked:
+        return _walk_to_parapet(placement)
+    a = math.radians(placement.azimuth_deg)
+    fwd = (math.sin(a), math.cos(a))
+    dirs = [("along the view azimuth", fwd), ("backwards", (-fwd[0], -fwd[1])),
+            ("to the left", (-fwd[1], fwd[0])), ("to the right", (fwd[1], -fwd[0]))]
+    rise = placement.z - (placement.terrain_z_m if placement.terrain_z_m is not None else placement.z)
+    for label, d in dirs:
+        t = step_m
+        while t <= max_m:
+            nx, ny = placement.x + d[0] * t, placement.y + d[1] * t
+            gz, detail = (sampler.ground_z(nx, ny, mode=placement.ground_mode,
+                                           radius_m=placement.ground_detail.get("radius_m", 5.0))
+                          if sampler is not None else (placement.terrain_z_m, {}))
+            nz = (gz if gz is not None else placement.terrain_z_m or 0.0) + rise
+            if not _blocked(nx, ny, nz, placement.azimuth_deg)[0]:
+                ob = bpy.context.scene.camera
+                ob.location = (nx, ny, nz)
+                bpy.context.view_layer.update()
+                placement.x, placement.y, placement.z = nx, ny, nz
+                placement.terrain_z_m = gz
+                placement.ground_detail = detail or placement.ground_detail
+                return {"moved": True, "offset_m": round(t, 1), "direction": label,
+                        "reason": why,
+                        "note": (f"the recorded viewpoint is {why}; the camera was moved {t:.0f} m "
+                                 f"{label} to the first point in open air, keeping the same eye "
+                                 f"height above the heightmap")}
+            t += step_m
+    return {"moved": False, "offset_m": 0.0, "reason": why,
+            "note": (f"the recorded viewpoint is {why} and no clear point was found within "
+                     f"{max_m:.0f} m, so the frame is rendered from inside the shell and is dark")}
 
 
 def load_reference(slug: str) -> dict:

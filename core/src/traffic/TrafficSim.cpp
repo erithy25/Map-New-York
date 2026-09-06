@@ -1635,13 +1635,23 @@ uint32_t TrafficSim::separateBodies() {
         const float back = std::min(clearanceAlongHeading(mover, other) + 0.05f, 2.5f);
         if (back <= 0.05f) return false;
         float s_new = mover.s - back;
+        uint32_t new_lane = mover.lane;
         if (s_new < 0.f) {
+          // Nowhere left on this lane: step back onto the one we came from, but
+          // only into space that is free there.
           uint32_t* mpath = pathOf(mover.id);
           if (mover.path_pos == 0 || mpath[mover.path_pos - 1] >= graph_->laneCount()) return false;
+          new_lane = mpath[mover.path_pos - 1];
           const float deficit = -s_new;
+          s_new = std::max(0.f, graph_->lane(new_lane).length_m - deficit);
+          const Neighbour behind =
+              followerInLane(new_lane, s_new, mover.length_m * 0.5f, indexOfId(mover.id));
+          const Neighbour front = leaderInLane(new_lane, s_new, mover.length_m * 0.5f, indexOfId(mover.id));
+          if ((behind.index != kInvalidIndex && behind.gap < 0.1f) ||
+              (front.index != kInvalidIndex && front.gap < 0.1f))
+            return false;
           --mover.path_pos;
-          mover.lane = mpath[mover.path_pos];
-          s_new = std::max(0.f, graph_->lane(mover.lane).length_m - deficit);
+          mover.lane = new_lane;
           mover.junction_time = 0.f;
         }
         mover.s = s_new;
@@ -1649,24 +1659,7 @@ uint32_t TrafficSim::separateBodies() {
         updatePose(mover);
         return true;
       };
-      // Last resort when both are pinned against the start of their lanes:
-      // separate forwards instead, which is always possible on the far side.
-      auto pressOn = [&](Vehicle& mover, const Vehicle& other) {
-        const float fwd = std::min(clearanceAlongHeading(mover, other) + 0.05f, 2.5f);
-        const float len = graph_->lane(mover.lane).length_m;
-        if (fwd <= 0.05f || mover.s + fwd >= len) return false;
-        // Only into space that is actually free — pushing forward into the
-        // vehicle ahead just moves the overlap along the queue.
-        const uint32_t self = indexOfId(mover.id);
-        const Neighbour ahead = leaderIncludingStraddlers(mover.lane, mover.s, mover.length_m * 0.5f, self);
-        if (ahead.index != kInvalidIndex && ahead.gap < fwd + 0.2f) return false;
-        mover.s += fwd;
-        if (mover.speed > other.speed) mover.speed = other.speed;
-        updatePose(mover);
-        return true;
-      };
-      const bool ok = a_ahead > 0.f ? (giveWay(a, b) || giveWay(b, a) || pressOn(b, a) || pressOn(a, b))
-                                    : (giveWay(b, a) || giveWay(a, b) || pressOn(a, b) || pressOn(b, a));
+      const bool ok = a_ahead > 0.f ? (giveWay(a, b) || giveWay(b, a)) : (giveWay(b, a) || giveWay(a, b));
       if (ok) ++moved;
     });
   }

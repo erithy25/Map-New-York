@@ -823,11 +823,43 @@ def text_on_surface_bm(text: str, *, size: float, depth: float, center: Vec3, no
 
 
 def convex_hull_bm(points: np.ndarray | Sequence[Vec3], *, simplify_deg: float = 4.0, max_points: int = 4000) -> bmesh.types.BMesh:
-    """Convex hull of a point cloud, planar-dissolved to a compact proxy (UCX_ collision meshes)."""
+    """Convex hull of a point cloud as a closed triangle mesh (``UCX_`` collision proxies).
+
+    Qhull (via ``scipy.spatial.ConvexHull``) is used when available because its output is exactly convex to
+    floating-point precision; ``bmesh.ops.convex_hull`` leaves errors of up to ~10 mm on a car-sized cloud,
+    which a strict plane-side convexity test rejects.  ``bmesh`` is the fallback.  ``simplify_deg`` > 0
+    planar-dissolves the result, which is only safe when the caller does not need exact convexity.
+    """
     pts = np.asarray(points, dtype=np.float64).reshape(-1, 3)
     if len(pts) > max_points:
         rng = np.random.default_rng(7)
         pts = pts[rng.choice(len(pts), max_points, replace=False)]
+    try:
+        from scipy.spatial import ConvexHull, QhullError
+    except ImportError:                                     # pragma: no cover - scipy is present here
+        ConvexHull = None
+    if ConvexHull is not None and len(pts) >= 4:
+        try:
+            hull = ConvexHull(pts, qhull_options="Qt")
+            bm = bmesh.new()
+            used = sorted(set(int(i) for i in hull.vertices))
+            remap = {old: k for k, old in enumerate(used)}
+            verts = [bm.verts.new(tuple(pts[i])) for i in used]
+            centre = pts[used].mean(axis=0)
+            for tri, eq in zip(hull.simplices, hull.equations):
+                a, b, c = (remap[int(i)] for i in tri)
+                n = np.cross(pts[used][b] - pts[used][a], pts[used][c] - pts[used][a])
+                if np.dot(n, eq[:3]) < 0:                    # keep the winding outward
+                    b, c = c, b
+                try:
+                    bm.faces.new((verts[a], verts[b], verts[c]))
+                except ValueError:
+                    continue
+            bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+            del centre
+            return bm
+        except Exception as exc:                             # degenerate (coplanar) cloud
+            log.warning("qhull failed (%s); falling back to bmesh.convex_hull", exc)
     bm = bmesh.new()
     for p in pts:
         bm.verts.new(p)
@@ -836,21 +868,10 @@ def convex_hull_bm(points: np.ndarray | Sequence[Vec3], *, simplify_deg: float =
     if simplify_deg > 0:
         bmesh.ops.dissolve_limit(bm, angle_limit=math.radians(simplify_deg), verts=bm.verts[:], edges=bm.edges[:])
     bmesh.ops.triangulate(bm, faces=bm.faces[:])
-    # a zero-area sliver has an undefined normal, which recalc_face_normals cannot orient; left in place it
-    # makes an otherwise perfectly convex hull fail a plane-side convexity test.
     bmesh.ops.dissolve_degenerate(bm, dist=1e-6, edges=bm.edges[:])
     bmesh.ops.triangulate(bm, faces=bm.faces[:])
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     return bm
-
-
-def sync() -> None:
-    """Flush pending object-transform edits into ``matrix_world``.
-
-    ``ob.location = ...`` only writes the *local* transform; ``matrix_world`` keeps its stale value until the
-    view layer is evaluated.  Every consumer of world positions (bounds, damage weights, convex hulls) must call
-    this first or it silently measures wheels sitting at z = 0."""
-    bpy.context.view_layer.update()
 
 
 def mesh_points(ob: bpy.types.Object, world: bool = True) -> np.ndarray:

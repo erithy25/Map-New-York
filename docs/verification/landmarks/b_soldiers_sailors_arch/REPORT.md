@@ -1,6 +1,6 @@
 # Soldiers' and Sailors' Memorial Arch
 
-Script: `blender/landmarks/b_soldiers_sailors_arch.py` · agent B · generated 2026-09-06 13:39 UTC
+Script: `blender/landmarks/b_soldiers_sailors_arch.py` · agent B · generated 2026-09-06 14:11 UTC
 
 ## Placement
 
@@ -24,5 +24,5 @@ rooms, the plaza's Bailey Fountain and its sculpture, and the flanking Stanford 
 
 ## Polycounts / outputs
 
-* `blender_out/landmarks/b_soldiers_sailors_arch.glb` — 1,252 triangles, 0.06 MB, bounds min ['-14.2', '-14.5', '-1.1'] max ['14.2', '14.5', '30.4']
-* `blender_out/landmarks/b_soldiers_sailors_arch_lod1.glb` — 388 triangles, 0.03 MB, bounds min ['-14.2', '-14.5', '-1.1'] max ['14.2', '14.5', '30.4']
+* `blender_out/landmarks/b_soldiers_sailors_arch.glb` — 1,252 triangles, 0.06 MB, bounds min ['-14.2', '-14.5', '-1.1'] max ['14.2', '14.5', '29.7']
+* `blender_out/landmarks/b_soldiers_sailors_arch_lod1.glb` — 388 triangles, 0.03 MB, bounds min ['-14.2', '-14.5', '-1.1'] max ['14.2', '14.5', '29.7']

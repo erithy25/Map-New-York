@@ -104,6 +104,7 @@ def build_body(spec: mh_build.HumanSpec, outfit: tuple[str, ...], *, watch: bool
         wardrobe.build_watch(built, side="l", name_prefix=prefix)
     mh_build.setup_skin(built)
     mh_build.setup_eye_materials(built)
+    mh_build.setup_alpha_materials(built)
     problems = rig_ue5.verify_skeleton(built.armature)
     if problems:
         raise RuntimeError(f"UE5 skeleton verification failed: {problems}")

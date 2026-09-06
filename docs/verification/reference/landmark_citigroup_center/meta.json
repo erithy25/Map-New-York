@@ -20,21 +20,176 @@
  "min_year": 2010,
  "wanted": 3,
  "queries": [
-  "\"Citigroup Center\" New York angled roof",
-  "\"601 Lexington Avenue\" tower Citicorp"
+  "Citigroup Center Manhattan",
+  "601 Lexington Avenue New York"
  ],
  "geosearch_radius_m": 400,
- "fetched_at": "2026-09-06T14:02:04Z",
+ "fetched_at": "2026-09-06T14:08:20Z",
  "max_width": 1920,
  "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
- "candidates_seen": 30,
- "candidates_eligible": 0,
+ "candidates_seen": 89,
+ "candidates_eligible": 55,
  "rejections": {
+  "night_for_day_item": 1,
+  "too_old": 1,
+  "too_small": 2,
   "indoor": 3,
   "keywords": 26,
   "not_jpeg": 1
  },
- "exhausted": true,
- "status": "no_suitable_photo",
- "photos": []
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:601 Lexington Avenue 001.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:601_Lexington_Avenue_001.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/75/601_Lexington_Avenue_001.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/601_Lexington_Avenue_001.jpg/1280px-601_Lexington_Avenue_001.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-12-12 12:16:34",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.758164,
+    "lon": -73.971253
+   },
+   "original_width": 1536,
+   "original_height": 2048,
+   "width": 1280,
+   "height": 1707,
+   "bytes": 585666,
+   "sha256": "9fab69c49444b45a37f7cb0764400a7d7b6a9bb38d3b25ae4b96250d7f92af1f",
+   "mean_luminance": 125.7,
+   "description": "601 Lexington Avenue in Midtown Manhattan",
+   "categories": [
+    "Citigroup Center",
+    "New York City photographs taken on 2022-12-12",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Office buildings in the United States photographed in 2022",
+    "Midtown Manhattan in 2022",
+    "December 2022 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:601 Lexington Avenue New York",
+   "score": 11.05,
+   "estimated_viewpoint": {
+    "lat": 40.758164,
+    "lon": -73.971253,
+    "azimuth_deg": 58.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75816, -73.97125) is 96 m from Citigroup Center (601 Lexington Avenue) (40.75861, -73.97028) and 139 m from the standard viewpoint; the azimuth 59 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"601 Lexington Avenue 001.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:601_Lexington_Avenue_001.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Citigroup Center at 601 Lexington Avenue (1977) (A. Moore) - Flickr.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Citigroup_Center_at_601_Lexington_Avenue_(1977)_(A._Moore)_-_Flickr.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/55/Citigroup_Center_at_601_Lexington_Avenue_%281977%29_%28A._Moore%29_-_Flickr.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Citigroup_Center_at_601_Lexington_Avenue_%281977%29_%28A._Moore%29_-_Flickr.jpg/1920px-Citigroup_Center_at_601_Lexington_Avenue_%281977%29_%28A._Moore%29_-_Flickr.jpg",
+   "author": "Andrew Moore from Johannesburg, South Africa",
+   "credit": "Citigroup Center at 601 Lexington Avenue (1977)",
+   "license": {
+    "short_name": "Public domain",
+    "url": "https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain",
+    "template": "pd"
+   },
+   "date_taken": "2015-10-18 23:20",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.758136,
+    "lon": -73.971237
+   },
+   "original_width": 3365,
+   "original_height": 5047,
+   "width": 1920,
+   "height": 2880,
+   "bytes": 1155741,
+   "sha256": "7914ec280adc2b0410dc978017a7e544efec0c64fa3e9d203c4de8c9f3afa4b3",
+   "mean_luminance": 95.1,
+   "description": "The building is one of the most distinctive in New York's skyline, thanks to a 45° angled top and a unique stilt-style base necessitated by the positioning of St. Peter's Evangelical Lutheran Church in one of the corners. There is a great podcast on the building's design and scandal around 'structural integrity' at <a href=\" http://99percentinvisible.org/episode/structural-integrity-2/ \" rel=\"noreferrer nofollow\">99percentinvisible.org/episode/structural-integrity-2/</a>",
+   "categories": [
+    "Citigroup Center",
+    "PD US architecture",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Flickr images imported by User:JWilz12345"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:601 Lexington Avenue New York",
+   "score": 11.0,
+   "estimated_viewpoint": {
+    "lat": 40.758136,
+    "lon": -73.971237,
+    "azimuth_deg": 56.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75814, -73.97124) is 97 m from Citigroup Center (601 Lexington Avenue) (40.75861, -73.97028) and 136 m from the standard viewpoint; the azimuth 57 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Citigroup Center at 601 Lexington Avenue (1977) (A. Moore) - Flickr.jpg\" by Andrew Moore from Johannesburg, South Africa, Public domain (https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Citigroup_Center_at_601_Lexington_Avenue_(1977)_(A._Moore)_-_Flickr.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Citigroup Center Oct 2023 31.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Citigroup_Center_Oct_2023_31.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Citigroup_Center_Oct_2023_31.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Citigroup_Center_Oct_2023_31.jpg/1920px-Citigroup_Center_Oct_2023_31.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-10-03 11:00:58",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": null,
+   "original_width": 5184,
+   "original_height": 3456,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 485243,
+   "sha256": "6afab5e40b33f422cde703bcfdbb992ac86561525ac0346a14ac692fc8aee74b",
+   "mean_luminance": 121.9,
+   "description": "The Citigroup Center in Manhattan, New York, seen in October 2023",
+   "categories": [
+    "Citigroup Center",
+    "Self-published work",
+    "New York City photographs taken on 2023-10-03",
+    "Buildings in the United States photographed in 2023",
+    "Midtown Manhattan in 2023",
+    "October 2023 in Manhattan, New York City",
+    "Photographs by Epicgenius"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:Citigroup Center Manhattan",
+   "score": 8.7,
+   "estimated_viewpoint": {
+    "lat": 40.756921,
+    "lon": -73.97109,
+    "azimuth_deg": 20.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Lexington Avenue at East 52nd Street, about 200 m south-south-west of the tower, looking north-north-east at the angled crown of Citigroup Center) and the azimuth 20 deg is the bearing from there to Citigroup Center (601 Lexington Avenue) (40.75861, -73.97028)."
+   },
+   "attribution": "\"Citigroup Center Oct 2023 31.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Citigroup_Center_Oct_2023_31.jpg"
+  }
+ ]
 }
