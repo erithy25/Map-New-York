@@ -18,6 +18,7 @@
 //     `s` (metres along the lane) is the only longitudinal coordinate anywhere;
 //   * nothing here allocates after finalize(); queries write into caller buffers.
 
+#include <cmath>
 #include <cstddef>
 #include <cstdint>
 #include <string>

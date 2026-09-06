@@ -8,6 +8,7 @@ import json
 import logging
 import time
 from pathlib import Path
+from collections import Counter
 from typing import Any
 
 import numpy as np
@@ -158,4 +159,137 @@ def validate(out_dir: Path, *, parquets: list[Path] | None = None, footprints: P
     log.info("validation: %d/%d BIN matched (%.2f%%), median |dz_roof_max| %.3f m, dz_ground mean %.3f m -> %s", len(m), len(ok),
              100 * rep["bin_match_rate"], rep["roof_height_check"]["all"]["dz_roof_max_abs_m"].get("median", float("nan")),
              rep["vertical_datum_check"]["dz_ground_m"].get("mean", float("nan")), out_json)
+    return rep
+
+
+# --------------------------------------------------------------------------- roof flatness evidence
+ROOF_SLOPE_BUCKETS = (0.01, 0.5, 1.0, 2.0, 5.0, 10.0, 15.0, 25.0, 45.0, 90.1)
+
+
+def roof_evidence(bins: list[int], *, da: int, zip_path: Path | None = None, census: bool = False,
+                  max_buildings: int | None = None, out_json: Path | None = None) -> dict[str, Any]:
+    """Dump every ``RoofSurface`` polygon of the named BINs **from the raw CityGML**, plus a slope census.
+
+    The slope is computed from the Newell normal of the *source* ring (EPSG:2263 US survey feet, z in feet)
+    before any datum/unit transform, so the answer is independent of the pipeline's CRS handling. This is
+    the evidence behind ADR-013 (the NYC 3-D Building Model carries no sloped roof geometry).
+
+    ``census`` streams the whole delivery area and buckets every roof face by slope; without it the scan
+    stops as soon as all requested BINs have been seen.
+    """
+    from .citygml import (GML_ID_ATTRS, MEMBER_FMT, TAG_EXTERIOR, TAG_GENVALUE, TAG_POLY, TAG_STRATTR, ZIP_PATH,
+                          _surface_type_of, iter_buildings, open_member_stream, ring_coords)
+    from .citygml_geom import SURF_ROOF, azimuth_deg, newell_normal, slope_deg
+
+    zip_path = zip_path or ZIP_PATH
+    want = {int(b) for b in bins}
+    counters: Counter = Counter()
+    buckets = np.zeros(len(ROOF_SLOPE_BUCKETS) + 1, dtype=np.int64)
+    found: dict[int, dict[str, Any]] = {}
+    max_slope_seen = 0.0
+    max_slope_bin = 0
+    n_seen = 0
+    t0 = time.time()
+    stream, proc = open_member_stream(zip_path, MEMBER_FMT.format(n=da))
+    try:
+        for elem in iter_buildings(stream):
+            n_seen += 1
+            raw_bin = None
+            for ch in elem.iterchildren(*TAG_STRATTR):
+                if ch.get("name") != "BIN":
+                    continue
+                for vt in TAG_GENVALUE:
+                    v = ch.findtext(vt)
+                    if v is not None:
+                        raw_bin = v.strip()
+                        break
+                break
+            b = int(raw_bin) if raw_bin and raw_bin.isdigit() else 0
+            wanted = b in want and b not in found
+            if not (wanted or census):
+                if want and not found.keys() >= want:
+                    continue
+                break
+            faces: list[dict[str, Any]] = []
+            for poly in elem.iter(*TAG_POLY):
+                stype, _srs = _surface_type_of(poly)
+                if stype != SURF_ROOF:
+                    continue
+                ring = None
+                for t in TAG_EXTERIOR:
+                    el = poly.find(t)
+                    if el is not None:
+                        ring = ring_coords(el, counters)
+                        break
+                if ring is None or len(ring) < 4:
+                    counters["roof_ring_unusable"] += 1
+                    continue
+                pts = ring[:-1] if np.allclose(ring[0], ring[-1]) else ring
+                nrm = newell_normal(pts)
+                two_a = float(np.sqrt(nrm @ nrm))
+                if two_a <= 0.0:
+                    counters["roof_ring_degenerate"] += 1
+                    continue
+                nhat = nrm / two_a
+                sl = slope_deg(nhat)
+                buckets[int(np.searchsorted(ROOF_SLOPE_BUCKETS, sl, side="left"))] += 1
+                counters["roof_faces"] += 1
+                if sl > max_slope_seen:
+                    max_slope_seen, max_slope_bin = sl, b
+                if wanted:
+                    faces.append({
+                        "n_vertices": int(len(pts)),
+                        "slope_deg": round(sl, 6),
+                        "azimuth_deg": round(azimuth_deg(nhat), 3) if sl > 1e-9 else None,
+                        "normal": [round(float(v), 9) for v in nhat],
+                        "z_min_ft": round(float(pts[:, 2].min()), 4),
+                        "z_max_ft": round(float(pts[:, 2].max()), 4),
+                        "z_range_ft": round(float(pts[:, 2].max() - pts[:, 2].min()), 6),
+                        "area_ft2": round(0.5 * two_a, 2),
+                    })
+            if wanted:
+                found[b] = {"bin": b, "gml_id": elem.get(GML_ID_ATTRS[0]) or elem.get(GML_ID_ATTRS[1]) or "",
+                            "n_roof_faces": len(faces), "roof_faces": faces,
+                            "max_slope_deg": round(max((f["slope_deg"] for f in faces), default=0.0), 6),
+                            "z_span_of_roof_faces_ft": round(
+                                max((f["z_max_ft"] for f in faces), default=0.0) - min((f["z_min_ft"] for f in faces), default=0.0), 4)}
+                if not census and found.keys() >= want:
+                    break
+            if max_buildings is not None and n_seen >= max_buildings:
+                break
+    finally:
+        if proc is not None:
+            proc.kill()
+            proc.wait()
+            for s in (proc.stdout, proc.stderr):
+                if s is not None:
+                    s.close()
+        else:
+            stream.close()
+    edges = ["[0, %g)" % ROOF_SLOPE_BUCKETS[0]] + \
+            ["[%g, %g)" % (ROOF_SLOPE_BUCKETS[i], ROOF_SLOPE_BUCKETS[i + 1]) for i in range(len(ROOF_SLOPE_BUCKETS) - 1)] + \
+            [">= %g" % ROOF_SLOPE_BUCKETS[-1]]
+    total = int(buckets.sum())
+    rep = {
+        "generated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "da": da, "member": MEMBER_FMT.format(n=da), "buildings_scanned": n_seen, "census": census,
+        "description": "RoofSurface polygon slopes computed from the raw EPSG:2263 (US survey feet) rings, before any "
+                       "unit/datum transform. slope 0 deg = perfectly horizontal face.",
+        "roof_faces_scanned": total,
+        "slope_histogram_deg": {e: int(c) for e, c in zip(edges, buckets.tolist())},
+        "fraction_faces_sloped_ge_1deg": float(buckets[2:].sum() / total) if total else float("nan"),
+        "max_slope_deg_seen": round(max_slope_seen, 6), "max_slope_bin": max_slope_bin,
+        "buildings_requested": sorted(want), "buildings_found": sorted(found),
+        "buildings_missing": sorted(want - set(found)),
+        "buildings": [found[b] for b in sorted(found)],
+        "counters": dict(sorted(counters.items())),
+        "elapsed_s": round(time.time() - t0, 1),
+    }
+    if out_json is not None:
+        out_json.parent.mkdir(parents=True, exist_ok=True)
+        with open(out_json, "w") as f:
+            json.dump(rep, f, indent=1, default=str)
+        rep["json"] = str(out_json)
+    log.info("roof evidence DA%s: %d roof faces, %.6f%% sloped >= 1 deg, max slope %.6f deg", da, total,
+             100 * rep["fraction_faces_sloped_ge_1deg"], max_slope_seen)
     return rep

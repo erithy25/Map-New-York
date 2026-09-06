@@ -21,7 +21,7 @@ from .grid import NODATA, bounds_of, pixel_offset
 
 KIND_CODE = {"1m": 1, "19": 2, "13": 3}
 CODE_NAME = {0: "void", 1: "3dep_1m", 2: "3dep_19", 3: "3dep_13"}
-MAX_OPEN = 48
+MAX_OPEN = 160  # > the number of intermediates (117); reopening a deflate GeoTIFF costs seconds
 
 
 @dataclass(frozen=True)

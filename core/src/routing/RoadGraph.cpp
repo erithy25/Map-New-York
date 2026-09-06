@@ -576,7 +576,7 @@ void RoadGraph::buildSpatialIndex() {
       int cx0, cy0, cx1, cy1;
       cellRange(vertices_[l.first_vertex + k], vertices_[l.first_vertex + k + 1], cx0, cy0, cx1, cy1);
       for (int cy = cy0; cy <= cy1; ++cy)
-        for (int cx = cx0; cx <= cx1; ++cx) grid_start_[static_cast<size_t>(cy) * grid_nx_ + cx + 1]++;
+        for (int cx = cx0; cx <= cx1; ++cx) grid_start_[static_cast<size_t>(cy) * grid_nx_ + static_cast<size_t>(cx) + 1]++;
     }
   }
   for (size_t c = 0; c < nc; ++c) grid_start_[c + 1] += grid_start_[c];
@@ -589,7 +589,7 @@ void RoadGraph::buildSpatialIndex() {
       cellRange(vertices_[l.first_vertex + k], vertices_[l.first_vertex + k + 1], cx0, cy0, cx1, cy1);
       for (int cy = cy0; cy <= cy1; ++cy)
         for (int cx = cx0; cx <= cx1; ++cx)
-          grid_entries_[cur[static_cast<size_t>(cy) * grid_nx_ + cx]++] = GridEntry{static_cast<uint32_t>(li), k};
+          grid_entries_[cur[static_cast<size_t>(cy) * grid_nx_ + static_cast<size_t>(cx)]++] = GridEntry{static_cast<uint32_t>(li), k};
     }
   }
 }
@@ -748,7 +748,7 @@ NearestLane RoadGraph::nearestLane(float x, float y, uint32_t kinds_mask, float 
         if (std::abs(dx) != r && std::abs(dy) != r) continue;  // ring only
         const int gx = cx + dx, gy = cy + dy;
         if (gx < 0 || gy < 0 || gx >= static_cast<int>(grid_nx_) || gy >= static_cast<int>(grid_ny_)) continue;
-        const size_t cell = static_cast<size_t>(gy) * grid_nx_ + gx;
+        const size_t cell = static_cast<size_t>(gy) * grid_nx_ + static_cast<size_t>(gx);
         for (uint32_t e = grid_start_[cell]; e < grid_start_[cell + 1]; ++e) {
           const GridEntry& ge = grid_entries_[e];
           const Lane& l = lanes_[ge.lane];
@@ -789,7 +789,7 @@ uint32_t RoadGraph::lanesNear(float x, float y, float radius, uint32_t* out, uin
   uint32_t found = 0;
   for (int cy = cy0; cy <= cy1; ++cy) {
     for (int cx = cx0; cx <= cx1; ++cx) {
-      const size_t cell = static_cast<size_t>(cy) * grid_nx_ + cx;
+      const size_t cell = static_cast<size_t>(cy) * grid_nx_ + static_cast<size_t>(cx);
       for (uint32_t e = grid_start_[cell]; e < grid_start_[cell + 1]; ++e) {
         const GridEntry& ge = grid_entries_[e];
         const Lane& l = lanes_[ge.lane];

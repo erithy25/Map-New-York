@@ -223,10 +223,10 @@ void Router::selectLandmarks(uint32_t count, uint64_t seed) {
     dist_from_.resize(static_cast<size_t>(k + 1) * n);
     dist_to_.resize(static_cast<size_t>(k + 1) * n);
     dijkstraLowerBound(next, false, scratch_dist_);
-    std::copy(scratch_dist_.begin(), scratch_dist_.end(), dist_from_.begin() + static_cast<size_t>(k) * n);
+    std::copy(scratch_dist_.begin(), scratch_dist_.end(), dist_from_.begin() + static_cast<ptrdiff_t>(static_cast<size_t>(k) * n));
     for (uint32_t v = 0; v < n; ++v) min_dist[v] = std::min(min_dist[v], scratch_dist_[v]);
     dijkstraLowerBound(next, true, scratch_dist_);
-    std::copy(scratch_dist_.begin(), scratch_dist_.end(), dist_to_.begin() + static_cast<size_t>(k) * n);
+    std::copy(scratch_dist_.begin(), scratch_dist_.end(), dist_to_.begin() + static_cast<ptrdiff_t>(static_cast<size_t>(k) * n));
     // pick the lane farthest from all chosen landmarks
     bestd = -1.f;
     uint32_t cand = kInvalidIndex;

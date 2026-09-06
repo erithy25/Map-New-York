@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <map>
 #include <random>
 #include <set>
 #include <vector>
@@ -190,13 +191,27 @@ TEST_SUITE("tiling") {
     CHECK(st.countByTier[tierIndex(Tier::L0)] <= 12);
     CHECK(st.totalLoads == tr.size());
     CHECK(st.updates == 1);
-    // Transitions are ordered nearest-first (non-decreasing priority).
-    for (size_t i = 1; i < tr.size(); ++i) {
-      const auto& a = tr[i - 1];
-      const auto& b = tr[i];
-      CHECK(a.distanceNow_m <= b.distanceNow_m + 1e-9 ||
-            sched.entries()[0].info.tx == sched.entries()[0].info.tx);  // cone weighting may reorder
+    // Transitions are emitted in the scheduler's priority order: non-decreasing cone-weighted
+    // effective distance, ties broken by (ty, tx). (Raw distance can decrease across a
+    // cone boundary, which is why the cone-weighted priority is the invariant.)
+    std::map<std::pair<int32_t, int32_t>, double> priority;
+    std::map<std::pair<int32_t, int32_t>, Tile> tileOfKey;
+    for (const auto& e : sched.entries()) {
+      priority[{e.info.tx, e.info.ty}] = e.priority;
+      tileOfKey.insert({{e.info.tx, e.info.ty}, e.info.tile()});
     }
+    bool orderOk = true;
+    for (size_t i = 1; i < tr.size(); ++i) {
+      const double pa = priority.at({tr[i - 1].tx, tr[i - 1].ty});
+      const double pb = priority.at({tr[i].tx, tr[i].ty});
+      if (pa > pb) orderOk = false;
+      if (pa == pb && !(tileOfKey.at({tr[i - 1].tx, tr[i - 1].ty}) < tileOfKey.at({tr[i].tx, tr[i].ty})))
+        orderOk = false;
+    }
+    CHECK(orderOk);
+    // The very first transition is the tile the camera stands in (priority 0).
+    CHECK(tr.front().tx == tileOf(cam.x_m, cam.y_m).tx);
+    CHECK(tr.front().ty == tileOf(cam.x_m, cam.y_m).ty);
     // Second identical update: nothing changes.
     CHECK(sched.update(cam).empty());
     sched.reset();

@@ -84,6 +84,13 @@ Value& Value::set(std::string key, Value v) {
   return obj_.back().value;
 }
 
+Value& Value::append(std::string key, Value v) {
+  if (type_ == Type::Null) type_ = Type::Object;
+  NYCSIM_CHECK(type_ == Type::Object, "json::Value::append on a non-object");
+  obj_.push_back(Member{std::move(key), std::move(v)});
+  return obj_.back().value;
+}
+
 bool Value::erase(std::string_view key) {
   if (type_ != Type::Object) return false;
   for (size_t i = 0; i < obj_.size(); ++i) {
@@ -363,7 +370,7 @@ struct Parser {
           ++pos;
           Value item;
           if (!parseValue(item, depth + 1)) return false;
-          out.obj_.push_back(Member{std::move(key), std::move(item)});  // keep duplicates
+          out.append(std::move(key), std::move(item));  // duplicate keys are kept
           skipWs();
           if (pos >= s.size()) return failAt("unterminated object", pos);
           if (s[pos] == ',') {
@@ -395,7 +402,8 @@ struct Parser {
 
 void writeString(std::string& out, std::string_view s) {
   out.push_back('"');
-  for (unsigned char c : s) {
+  for (const char ch : s) {
+    const unsigned char c = static_cast<unsigned char>(ch);
     switch (c) {
       case '"': out += "\\\""; break;
       case '\\': out += "\\\\"; break;
@@ -496,7 +504,7 @@ Result<Value> parse(std::string_view text) {
   if (!p.parseValue(v, 0)) return p.err;
   p.skipWs();
   if (p.pos != text.size()) return Error{ErrorCode::ParseError, "trailing characters", static_cast<int64_t>(p.pos)};
-  return std::move(v);
+  return v;
 }
 
 std::string dump(const Value& v, int indent) {

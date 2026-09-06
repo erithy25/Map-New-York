@@ -35,7 +35,7 @@ Result<std::vector<TileInfo>> readTileCatalog(const io::NycbReader& reader) {
   std::vector<TileInfo> out;
   out.reserve(records.size());
   for (const io::TileRecord& r : records) out.push_back(toTileInfo(r));
-  return std::move(out);
+  return out;
 }
 
 Result<std::vector<TileInfo>> readTileCatalog(const char* path) {

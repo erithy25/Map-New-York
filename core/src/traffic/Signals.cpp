@@ -180,7 +180,7 @@ uint32_t SignalTable::addDefaultPlans(const routing::RoadGraph& g, const Default
 float SignalTable::cycleTime(uint32_t plan, double t) const {
   const SignalPlan& p = plans_[plan];
   double tc = std::fmod(t - static_cast<double>(p.offset_s), static_cast<double>(p.cycle_s));
-  if (tc < 0.0) tc += p.cycle_s;
+  if (tc < 0.0) tc += static_cast<double>(p.cycle_s);
   return static_cast<float>(tc);
 }
 

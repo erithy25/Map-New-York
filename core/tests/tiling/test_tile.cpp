@@ -53,7 +53,12 @@ TEST_SUITE("tiling") {
     CHECK(tilesInBbox(999.9999999999, 0, 1000.0000001, 1, v) == 2);
     CHECK(v[1] == Tile{1, 0});
     v.clear();
-    CHECK(tilesInBbox(10, 10, 0, 0, v) == 0);  // inverted box
+    // Inverted box: tiling.py clamps the upper edge with max(xmax - 1e-9, xmin), so an inverted
+    // box degenerates to the single tile containing (xmin, ymin). Verified against
+    // list(tiles_in_bbox(10, 10, 0, 0)) == [Tile(0, 0)].
+    CHECK(tilesInBbox(10, 10, 0, 0, v) == 1);
+    CHECK(v[0] == Tile{0, 0});
+    v.clear();
     CHECK(tilesInBbox(std::nan(""), 0, 1, 1, v) == 0);
     auto scope = scopeTiles();
     CHECK(scope.size() == 2916);

@@ -75,6 +75,10 @@ class NYCSIM_API Value {
   Value& push(Value v);
   /// Sets/replaces an object member (converts a null to an object). Returns the member value.
   Value& set(std::string key, Value v);
+  /// Appends an object member without replacing an existing one with the same key (converts a null
+  /// to an object). RFC 8259 permits duplicate names; the parser uses this so a document round-trips
+  /// byte-for-member. Returns the appended member value.
+  Value& append(std::string key, Value v);
   bool erase(std::string_view key);
 
  private:

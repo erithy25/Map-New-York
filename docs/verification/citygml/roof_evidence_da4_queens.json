@@ -1,0 +1,676 @@
+{
+ "generated": "2026-09-06T11:14:34Z",
+ "da": 4,
+ "member": "DA_WISE_GMLs/DA4_3D_Buildings_Merged.gml",
+ "buildings_scanned": 16665,
+ "census": true,
+ "description": "RoofSurface polygon slopes computed from the raw EPSG:2263 (US survey feet) rings, before any unit/datum transform. slope 0 deg = perfectly horizontal face.",
+ "roof_faces_scanned": 21956,
+ "slope_histogram_deg": {
+  "[0, 0.01)": 21956,
+  "[0.01, 0.5)": 0,
+  "[0.5, 1)": 0,
+  "[1, 2)": 0,
+  "[2, 5)": 0,
+  "[5, 10)": 0,
+  "[10, 15)": 0,
+  "[15, 25)": 0,
+  "[25, 45)": 0,
+  "[45, 90.1)": 0,
+  ">= 90.1": 0
+ },
+ "fraction_faces_sloped_ge_1deg": 0.0,
+ "max_slope_deg_seen": 0.0,
+ "max_slope_bin": 0,
+ "buildings_requested": [
+  4292333,
+  4292359,
+  4292589,
+  4292622,
+  4292916,
+  4292918,
+  4292920,
+  4292950,
+  4292952,
+  4293264,
+  4293266,
+  4293267,
+  4293285,
+  4293307,
+  4293308,
+  4293309,
+  4516459,
+  4593660,
+  4594318,
+  4594319
+ ],
+ "buildings_found": [
+  4292333,
+  4292359,
+  4292589,
+  4292622,
+  4292916,
+  4292918,
+  4292920,
+  4292950,
+  4292952,
+  4293264,
+  4293266,
+  4293267,
+  4293285,
+  4293307,
+  4293308,
+  4293309,
+  4516459,
+  4593660,
+  4594318,
+  4594319
+ ],
+ "buildings_missing": [],
+ "buildings": [
+  {
+   "bin": 4292333,
+   "gml_id": "gml_KDA6NUIDFBBEZ8Y81VV47GXE1BPH29DVDINP",
+   "n_roof_faces": 1,
+   "roof_faces": [
+    {
+     "n_vertices": 12,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 29.289,
+     "z_max_ft": 29.289,
+     "z_range_ft": 0.0,
+     "area_ft2": 1320.9
+    }
+   ],
+   "max_slope_deg": 0.0,
+   "z_span_of_roof_faces_ft": 0.0
+  },
+  {
+   "bin": 4292359,
+   "gml_id": "gml_HJMDBC37UAUTWOMPBXU2OD0WI8E31H7DYI2W",
+   "n_roof_faces": 4,
+   "roof_faces": [
+    {
+     "n_vertices": 4,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 19.3879,
+     "z_max_ft": 19.3879,
+     "z_range_ft": 0.0,
+     "area_ft2": 212.94
+    },
+    {
+     "n_vertices": 4,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 19.394,
+     "z_max_ft": 19.394,
+     "z_range_ft": 0.0,
+     "area_ft2": 99.63
+    },
+    {
+     "n_vertices": 5,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 24.1594,
+     "z_max_ft": 24.1594,
+     "z_range_ft": 0.0,
+     "area_ft2": 186.89
+    },
+    {
+     "n_vertices": 19,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 36.2651,
+     "z_max_ft": 36.2651,
+     "z_range_ft": 0.0,
+     "area_ft2": 1642.98
+    }
+   ],
+   "max_slope_deg": 0.0,
+   "z_span_of_roof_faces_ft": 16.8772
+  },
+  {
+   "bin": 4292589,
+   "gml_id": "gml_9X1PST3MMT17HJM04Y0ZS6RNHFAR4KBKDXYK",
+   "n_roof_faces": 2,
+   "roof_faces": [
+    {
+     "n_vertices": 4,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 21.2193,
+     "z_max_ft": 21.2193,
+     "z_range_ft": 0.0,
+     "area_ft2": 225.38
+    },
+    {
+     "n_vertices": 10,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 39.7619,
+     "z_max_ft": 39.7619,
+     "z_range_ft": 0.0,
+     "area_ft2": 1506.91
+    }
+   ],
+   "max_slope_deg": 0.0,
+   "z_span_of_roof_faces_ft": 18.5426
+  },
+  {
+   "bin": 4292622,
+   "gml_id": "gml_BV7BLZI91E47W9KLEDMAY6I23B5SA4JK3BXS",
+   "n_roof_faces": 1,
+   "roof_faces": [
+    {
+     "n_vertices": 12,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 33.6787,
+     "z_max_ft": 33.6787,
+     "z_range_ft": 0.0,
+     "area_ft2": 1486.09
+    }
+   ],
+   "max_slope_deg": 0.0,
+   "z_span_of_roof_faces_ft": 0.0
+  },
+  {
+   "bin": 4292916,
+   "gml_id": "gml_SP3FM52O00EP0LW7NYSLUW3JTWXD9E2ZGUZB",
+   "n_roof_faces": 2,
+   "roof_faces": [
+    {
+     "n_vertices": 6,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 18.5798,
+     "z_max_ft": 18.5798,
+     "z_range_ft": 0.0,
+     "area_ft2": 485.31
+    },
+    {
+     "n_vertices": 5,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 33.6691,
+     "z_max_ft": 33.6691,
+     "z_range_ft": 0.0,
+     "area_ft2": 1047.53
+    }
+   ],
+   "max_slope_deg": 0.0,
+   "z_span_of_roof_faces_ft": 15.0893
+  },
+  {
+   "bin": 4292918,
+   "gml_id": "gml_TB3Y9NVJ34PSB0O9XIHTHTBPBREI1F6GAGFL",
+   "n_roof_faces": 2,
+   "roof_faces": [
+    {
+     "n_vertices": 8,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 17.8788,
+     "z_max_ft": 17.8788,
+     "z_range_ft": 0.0,
+     "area_ft2": 414.21
+    },
+    {
+     "n_vertices": 4,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 33.6332,
+     "z_max_ft": 33.6332,
+     "z_range_ft": 0.0,
+     "area_ft2": 1021.39
+    }
+   ],
+   "max_slope_deg": 0.0,
+   "z_span_of_roof_faces_ft": 15.7544
+  },
+  {
+   "bin": 4292920,
+   "gml_id": "gml_IZVH8PZCJFKG2M5APII6AY0LSAS8I945L86U",
+   "n_roof_faces": 2,
+   "roof_faces": [
+    {
+     "n_vertices": 4,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 22.3956,
+     "z_max_ft": 22.3956,
+     "z_range_ft": 0.0,
+     "area_ft2": 171.44
+    },
+    {
+     "n_vertices": 5,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 37.5476,
+     "z_max_ft": 37.5476,
+     "z_range_ft": 0.0,
+     "area_ft2": 922.06
+    }
+   ],
+   "max_slope_deg": 0.0,
+   "z_span_of_roof_faces_ft": 15.152
+  },
+  {
+   "bin": 4292950,
+   "gml_id": "gml_G1EC770G7FK6LM5AW2HJFQH0XJYRVHE6IHRO",
+   "n_roof_faces": 1,
+   "roof_faces": [
+    {
+     "n_vertices": 4,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 31.4102,
+     "z_max_ft": 31.4102,
+     "z_range_ft": 0.0,
+     "area_ft2": 1444.36
+    }
+   ],
+   "max_slope_deg": 0.0,
+   "z_span_of_roof_faces_ft": 0.0
+  },
+  {
+   "bin": 4292952,
+   "gml_id": "gml_EI5XQP8M3PEBU6OLD28H3J2DYGXC9HX9PDHS",
+   "n_roof_faces": 1,
+   "roof_faces": [
+    {
+     "n_vertices": 4,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 30.8935,
+     "z_max_ft": 30.8935,
+     "z_range_ft": 0.0,
+     "area_ft2": 1468.43
+    }
+   ],
+   "max_slope_deg": 0.0,
+   "z_span_of_roof_faces_ft": 0.0
+  },
+  {
+   "bin": 4293264,
+   "gml_id": "gml_9PO53AZ2DGR8W7QTF2VSUVCHQU5GXHR1OADB",
+   "n_roof_faces": 1,
+   "roof_faces": [
+    {
+     "n_vertices": 4,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 39.9025,
+     "z_max_ft": 39.9025,
+     "z_range_ft": 0.0,
+     "area_ft2": 1434.89
+    }
+   ],
+   "max_slope_deg": 0.0,
+   "z_span_of_roof_faces_ft": 0.0
+  },
+  {
+   "bin": 4293266,
+   "gml_id": "gml_H77LO9H4U9F1Y1ST5L0M68PYFQBSFPJL65UH",
+   "n_roof_faces": 1,
+   "roof_faces": [
+    {
+     "n_vertices": 4,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 33.7779,
+     "z_max_ft": 33.7779,
+     "z_range_ft": 0.0,
+     "area_ft2": 1393.51
+    }
+   ],
+   "max_slope_deg": 0.0,
+   "z_span_of_roof_faces_ft": 0.0
+  },
+  {
+   "bin": 4293267,
+   "gml_id": "gml_X6382EI21YEJ1X4QJ6DX529HITF2IWTVP3CX",
+   "n_roof_faces": 1,
+   "roof_faces": [
+    {
+     "n_vertices": 4,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 33.6968,
+     "z_max_ft": 33.6968,
+     "z_range_ft": 0.0,
+     "area_ft2": 1409.85
+    }
+   ],
+   "max_slope_deg": 0.0,
+   "z_span_of_roof_faces_ft": 0.0
+  },
+  {
+   "bin": 4293285,
+   "gml_id": "gml_UYJADSPDPXT88BV8ER6TELHAL305GZILSH6X",
+   "n_roof_faces": 1,
+   "roof_faces": [
+    {
+     "n_vertices": 4,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 39.8689,
+     "z_max_ft": 39.8689,
+     "z_range_ft": 0.0,
+     "area_ft2": 1343.93
+    }
+   ],
+   "max_slope_deg": 0.0,
+   "z_span_of_roof_faces_ft": 0.0
+  },
+  {
+   "bin": 4293307,
+   "gml_id": "gml_EGAPVUHU3ULMZ8HMJEDYBQDCL9F1LTB9Q02J",
+   "n_roof_faces": 1,
+   "roof_faces": [
+    {
+     "n_vertices": 4,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 33.6843,
+     "z_max_ft": 33.6843,
+     "z_range_ft": 0.0,
+     "area_ft2": 1388.35
+    }
+   ],
+   "max_slope_deg": 0.0,
+   "z_span_of_roof_faces_ft": 0.0
+  },
+  {
+   "bin": 4293308,
+   "gml_id": "gml_7FKLHUHM8TOGXU5AY7I9A3EM62LINR6FXZ33",
+   "n_roof_faces": 2,
+   "roof_faces": [
+    {
+     "n_vertices": 4,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 19.698,
+     "z_max_ft": 19.698,
+     "z_range_ft": 0.0,
+     "area_ft2": 243.93
+    },
+    {
+     "n_vertices": 6,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 33.5252,
+     "z_max_ft": 33.5252,
+     "z_range_ft": 0.0,
+     "area_ft2": 1420.65
+    }
+   ],
+   "max_slope_deg": 0.0,
+   "z_span_of_roof_faces_ft": 13.8272
+  },
+  {
+   "bin": 4293309,
+   "gml_id": "gml_IAJOWAQ8RM88UEDCCFGWUZ7P1TBEH2BR83VW",
+   "n_roof_faces": 3,
+   "roof_faces": [
+    {
+     "n_vertices": 4,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 23.6681,
+     "z_max_ft": 23.6681,
+     "z_range_ft": 0.0,
+     "area_ft2": 173.07
+    },
+    {
+     "n_vertices": 9,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 35.0766,
+     "z_max_ft": 35.0766,
+     "z_range_ft": 0.0,
+     "area_ft2": 1283.29
+    },
+    {
+     "n_vertices": 8,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 24.4304,
+     "z_max_ft": 24.4304,
+     "z_range_ft": 0.0,
+     "area_ft2": 727.73
+    }
+   ],
+   "max_slope_deg": 0.0,
+   "z_span_of_roof_faces_ft": 11.4085
+  },
+  {
+   "bin": 4516459,
+   "gml_id": "gml_LT9LMZLEKQNTSBF7IJCEPP1ZCB7G8ZHJZ95T",
+   "n_roof_faces": 1,
+   "roof_faces": [
+    {
+     "n_vertices": 4,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 21.739,
+     "z_max_ft": 21.739,
+     "z_range_ft": 0.0,
+     "area_ft2": 546.35
+    }
+   ],
+   "max_slope_deg": 0.0,
+   "z_span_of_roof_faces_ft": 0.0
+  },
+  {
+   "bin": 4593660,
+   "gml_id": "gml_DAY2S3W1M3B56A2DLRM4K8F3I9A8U1C2EP9C",
+   "n_roof_faces": 1,
+   "roof_faces": [
+    {
+     "n_vertices": 4,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 20.8578,
+     "z_max_ft": 20.8578,
+     "z_range_ft": 0.0,
+     "area_ft2": 282.34
+    }
+   ],
+   "max_slope_deg": 0.0,
+   "z_span_of_roof_faces_ft": 0.0
+  },
+  {
+   "bin": 4594318,
+   "gml_id": "gml_0O2VSJHJH883059I4TSGX9Y1OOYGY04MM236",
+   "n_roof_faces": 1,
+   "roof_faces": [
+    {
+     "n_vertices": 4,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 24.0435,
+     "z_max_ft": 24.0435,
+     "z_range_ft": 0.0,
+     "area_ft2": 432.26
+    }
+   ],
+   "max_slope_deg": 0.0,
+   "z_span_of_roof_faces_ft": 0.0
+  },
+  {
+   "bin": 4594319,
+   "gml_id": "gml_BJ6AD0ZLOWRJRWFILCWCRMMM14LJPRSJ0R11",
+   "n_roof_faces": 1,
+   "roof_faces": [
+    {
+     "n_vertices": 4,
+     "slope_deg": 0.0,
+     "azimuth_deg": null,
+     "normal": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "z_min_ft": 21.7456,
+     "z_max_ft": 21.7456,
+     "z_range_ft": 0.0,
+     "area_ft2": 271.11
+    }
+   ],
+   "max_slope_deg": 0.0,
+   "z_span_of_roof_faces_ft": 0.0
+  }
+ ],
+ "counters": {
+  "roof_faces": 21956
+ },
+ "elapsed_s": 5.5
+}

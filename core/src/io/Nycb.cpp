@@ -57,7 +57,7 @@ Result<NycbReader> NycbReader::fromMemory(ByteSpan bytes) {
   NycbReader r;
   r.data_ = bytes;
   NYCSIM_TRY_VOID(r.parse());
-  return std::move(r);
+  return r;
 }
 
 Result<NycbReader> NycbReader::fromBuffer(std::vector<uint8_t>&& bytes) {
@@ -65,7 +65,7 @@ Result<NycbReader> NycbReader::fromBuffer(std::vector<uint8_t>&& bytes) {
   r.owned_ = std::move(bytes);
   r.data_ = ByteSpan(r.owned_.data(), r.owned_.size());
   NYCSIM_TRY_VOID(r.parse());
-  return std::move(r);
+  return r;
 }
 
 Result<NycbReader> NycbReader::fromFile(const char* path) {
@@ -252,7 +252,7 @@ Result<std::vector<uint8_t>> NycbWriter::finish() const {
     out.insert(out.end(), b, b + sizeof e);
   }
   std::memcpy(out.data(), &h, sizeof h);
-  return std::move(out);
+  return out;
 }
 
 Result<void> NycbWriter::writeFile(const char* path) const {
