@@ -299,10 +299,7 @@ Every photograph under `docs/verification/reference/` is from Wikimedia Commons 
 
 ## landmark_central_park_sheep_meadow — Central Park: Sheep Meadow with the Midtown skyline
 
-| file | title | author | licence | date taken | camera GPS |
-|---|---|---|---|---|---|
-| [1.jpg](landmark_central_park_sheep_meadow/1.jpg) | [View from Central Park, New York City, 20231002 1803 1847.jpg](https://commons.wikimedia.org/wiki/File:View_from_Central_Park,_New_York_City,_20231002_1803_1847.jpg) | Jakub Hałun | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | 2023-10-02 18:03:28 | 40.77339, -73.97559 |
-| [2.jpg](landmark_central_park_sheep_meadow/2.jpg) | [View from Central Park, New York City, 20231002 1803 1850.jpg](https://commons.wikimedia.org/wiki/File:View_from_Central_Park,_New_York_City,_20231002_1803_1850.jpg) | Jakub Hałun | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | 2023-10-02 18:03:53 | 40.77326, -73.97542 |
+_No suitably licensed photograph found._
 
 ## landmark_metropolitan_museum — Metropolitan Museum of Art
 
@@ -506,7 +503,11 @@ Every photograph under `docs/verification/reference/` is from Wikimedia Commons 
 
 ## landmark_111_west_57th — 111 West 57th Street (Steinway Tower, Billionaires' Row)
 
-_No suitably licensed photograph found._
+| file | title | author | licence | date taken | camera GPS |
+|---|---|---|---|---|---|
+| [1.jpg](landmark_111_west_57th/1.jpg) | [111 West 57th Street Feb 2026 36.jpg](https://commons.wikimedia.org/wiki/File:111_West_57th_Street_Feb_2026_36.jpg) | Epicgenius | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2026-02-28 12:29:32 | 40.76464, -73.97790 |
+| [2.jpg](landmark_111_west_57th/2.jpg) | [At New York City 2024 505.jpg](https://commons.wikimedia.org/wiki/File:At_New_York_City_2024_505.jpg) | Photograph by Mike Peel ( www.mikepeel.net ). | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2024-03-03 | 40.76967, -73.97213 |
+| [3.jpg](landmark_111_west_57th/3.jpg) | [111 W57 fr West Drive 2020 jeh.jpg](https://commons.wikimedia.org/wiki/File:111_W57_fr_West_Drive_2020_jeh.jpg) | Jim.henderson | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2020 | 40.77190, -73.97730 |
 
 ## landmark_central_park_tower — Central Park Tower (Billionaires' Row)
 
@@ -520,9 +521,9 @@ _No suitably licensed photograph found._
 
 | file | title | author | licence | date taken | camera GPS |
 |---|---|---|---|---|---|
-| [1.jpg](landmark_one57/1.jpg) | [2017 One57 tower from Seventh Avenue.jpg](https://commons.wikimedia.org/wiki/File:2017_One57_tower_from_Seventh_Avenue.jpg) | Beyond My Ken | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2017-02-16 | 40.76535, -73.97971 |
-| [2.jpg](landmark_one57/2.jpg) | [One57 & Central Park Tower.jpg](https://commons.wikimedia.org/wiki/File:One57_%26_Central_Park_Tower.jpg) | Kidfly182 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2021-08-14 15:14:26 | 40.76459, -73.97784 |
-| [3.jpg](landmark_one57/3.jpg) | [111 W57 & One57 & CP Tower fr Col Cir jeh.jpg](https://commons.wikimedia.org/wiki/File:111_W57_%26_One57_%26_CP_Tower_fr_Col_Cir_jeh.jpg) | Jim.henderson | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2020-01-05 15:25:38 | 40.76872, -73.98168 |
+| [1.jpg](landmark_one57/1.jpg) | [2017 One57 base from Seventh Avenue.jpg](https://commons.wikimedia.org/wiki/File:2017_One57_base_from_Seventh_Avenue.jpg) | Beyond My Ken | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2017-02-16 | 40.76543, -73.97988 |
+| [2.jpg](landmark_one57/2.jpg) | [One57 2025 015.jpg](https://commons.wikimedia.org/wiki/File:One57_2025_015.jpg) | Kidfly182 | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | 2025-11-03 12:32:14 | — |
+| [3.jpg](landmark_one57/3.jpg) | [One57 New York in 2015.jpg](https://commons.wikimedia.org/wiki/File:One57_New_York_in_2015.jpg) | Choinowski | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2015-04-26 13:15:22 | — |
 
 ## landmark_united_nations_hq — United Nations Headquarters
 
@@ -824,10 +825,7 @@ _No suitably licensed photograph found._
 
 ## landmark_35_hudson_yards — 35 Hudson Yards
 
-| file | title | author | licence | date taken | camera GPS |
-|---|---|---|---|---|---|
-| [1.jpg](landmark_35_hudson_yards/1.jpg) | [35 Hudson Yards 04-2021.jpg](https://commons.wikimedia.org/wiki/File:35_Hudson_Yards_04-2021.jpg) | Percival Kestreltail | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | 2021 | 40.75488, -74.00084 |
-| [2.jpg](landmark_35_hudson_yards/2.jpg) | [Pier 66 and Hudson Yards (01473)p.jpg](https://commons.wikimedia.org/wiki/File:Pier_66_and_Hudson_Yards_(01473)p.jpg) | Rhododendrites | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2019-08-10 15:28:39 | 40.75122, -74.01035 |
+_No suitably licensed photograph found._
 
 ## landmark_10_hudson_yards — 10 Hudson Yards
 
@@ -839,9 +837,7 @@ _No suitably licensed photograph found._
 
 ## landmark_55_hudson_yards — 55 Hudson Yards
 
-| file | title | author | licence | date taken | camera GPS |
-|---|---|---|---|---|---|
-| [1.jpg](landmark_55_hudson_yards/1.jpg) | [10 mile panorama of NYC, Feb., 2018.jpg](https://commons.wikimedia.org/wiki/File:10_mile_panorama_of_NYC,_Feb.,_2018.jpg) | DigbyDalton | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2018-02-21 15:08:32 | 40.77170, -74.01578 |
+_No suitably licensed photograph found._
 
 ## landmark_15_hudson_yards — 15 Hudson Yards
 
@@ -1174,7 +1170,11 @@ _No suitably licensed photograph found._
 
 ## landmark_javits_center — Jacob K. Javits Convention Center
 
-_No suitably licensed photograph found._
+| file | title | author | licence | date taken | camera GPS |
+|---|---|---|---|---|---|
+| [1.jpg](landmark_javits_center/1.jpg) | [Javits Ctr 12th Av 01.jpg](https://commons.wikimedia.org/wiki/File:Javits_Ctr_12th_Av_01.jpg) | Tdorante10 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2017-09-16 18:13:28 | 40.76058, -74.00203 |
+| [2.jpg](landmark_javits_center/2.jpg) | [Quill Depot-Javits Ctr 05.jpg](https://commons.wikimedia.org/wiki/File:Quill_Depot-Javits_Ctr_05.jpg) | Tdorante10 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2017-09-16 18:09:32 | 40.75953, -73.99904 |
+| [3.jpg](landmark_javits_center/3.jpg) | [Quill Depot-Javits Ctr 07.jpg](https://commons.wikimedia.org/wiki/File:Quill_Depot-Javits_Ctr_07.jpg) | Tdorante10 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2017-09-16 18:11:18 | 40.75953, -73.99904 |
 
 ## landmark_moynihan_train_hall — Moynihan Train Hall
 
@@ -1226,7 +1226,9 @@ _No suitably licensed photograph found._
 
 ## street_staten_island_ranch_houses — Staten Island ranch houses
 
-_No suitably licensed photograph found._
+| file | title | author | licence | date taken | camera GPS |
+|---|---|---|---|---|---|
+| [1.jpg](street_staten_island_ranch_houses/1.jpg) | [New Dorp SIR Station; 2018-10-25; 02.jpg](https://commons.wikimedia.org/wiki/File:New_Dorp_SIR_Station;_2018-10-25;_02.jpg) | DanTD | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2018 | — |
 
 ## street_elevated_roosevelt_ave_7 — Elevated subway street: Roosevelt Avenue under the 7
 
@@ -1246,9 +1248,7 @@ _No suitably licensed photograph found._
 
 ## street_midtown_avenue_rush_hour — Midtown avenue at rush hour
 
-| file | title | author | licence | date taken | camera GPS |
-|---|---|---|---|---|---|
-| [1.jpg](street_midtown_avenue_rush_hour/1.jpg) | [25th St 3rd Av 01 - Fitzgerald's Pub.jpg](https://commons.wikimedia.org/wiki/File:25th_St_3rd_Av_01_-_Fitzgerald%27s_Pub.jpg) | Tdorante10 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2018 | 40.74012, -73.98204 |
+_No suitably licensed photograph found._
 
 ## street_times_square_wet_night — Times Square on a wet night
 
@@ -1268,7 +1268,12 @@ _No suitably licensed photograph found._
 
 ## street_nyc_street_name_signs — NYC street name signs (close-ups)
 
-_No suitably licensed photograph found._
+| file | title | author | licence | date taken | camera GPS |
+|---|---|---|---|---|---|
+| [1.jpg](street_nyc_street_name_signs/1.jpg) | [Street signs at 47th street and Broadway designating Lloyd Richards Way in Manhattan, New York,.jpg](https://commons.wikimedia.org/wiki/File:Street_signs_at_47th_street_and_Broadway_designating_Lloyd_Richards_Way_in_Manhattan,_New_York,.jpg) | Dizzycheekchewer | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2026-03-25 | 40.75800, 73.98550 |
+| [2.jpg](street_nyc_street_name_signs/2.jpg) | [Christopher Street Sign 003.jpg](https://commons.wikimedia.org/wiki/File:Christopher_Street_Sign_003.jpg) | Kidfly182 | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | 2025-02-11 13:11:21 | 40.73372, -74.00262 |
+| [3.jpg](street_nyc_street_name_signs/3.jpg) | [Allen Street - Avenue of the Immigrants, New York City.jpg](https://commons.wikimedia.org/wiki/File:Allen_Street_-_Avenue_of_the_Immigrants,_New_York_City.jpg) | Mxn | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2025-06-24 14:45:48 | 40.71908, -73.99055 |
+| [4.jpg](street_nyc_street_name_signs/4.jpg) | [Douglaston Parkway sign at northwest intersection with Northern Boulevard, November 8, 2023.jpg](https://commons.wikimedia.org/wiki/File:Douglaston_Parkway_sign_at_northwest_intersection_with_Northern_Boulevard,_November_8,_2023.jpg) | D. Benjamin Miller | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | 2023-11-08 14:13:32 | 40.76540, -73.74467 |
 
 ## street_nyc_traffic_signals — NYC traffic signals and pedestrian signals (close-ups)
 

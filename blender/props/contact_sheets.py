@@ -86,6 +86,15 @@ def import_prop(prop_id: str, keep_light_cones: bool = False) -> list[bpy.types.
     before = set(bpy.data.objects)
     bpy.ops.import_scene.gltf(filepath=str(path))
     new = [o for o in bpy.data.objects if o not in before]
+    # Blender's importer instantiates nodes that no scene references, so the MSFT_lod LOD1 subtree comes in too
+    # and would render on top of LOD0. Drop it: every exported object carries nycsim_lod (0 or 1).
+    lod1 = [o for o in new if o.get("nycsim_lod") == 1 or (o.type == "EMPTY" and o.name.split(".")[0] == "LOD1")]
+    for o in lod1:
+        me = o.data if o.type == "MESH" else None
+        new.remove(o)
+        bpy.data.objects.remove(o)
+        if me is not None and me.users == 0:
+            bpy.data.meshes.remove(me)
     if not keep_light_cones:
         for o in new:
             if o.type != "MESH":

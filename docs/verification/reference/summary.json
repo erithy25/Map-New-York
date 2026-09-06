@@ -1,34 +1,31 @@
 {
  "schema_version": 1,
- "generated_at": "2026-09-06T13:46:26Z",
+ "generated_at": "2026-09-06T13:57:09Z",
  "items": 172,
  "items_in_catalogue": 172,
- "photos": 490,
- "bytes": 402933682,
+ "photos": 495,
+ "bytes": 405990400,
  "items_without_photo": [
-  "landmark_111_west_57th",
+  "landmark_central_park_sheep_meadow",
   "landmark_central_park_wall_gates",
+  "landmark_35_hudson_yards",
+  "landmark_55_hudson_yards",
   "landmark_15_hudson_yards",
   "landmark_50_hudson_yards",
   "landmark_citigroup_center",
-  "landmark_javits_center",
-  "street_staten_island_ranch_houses",
-  "street_nyc_street_name_signs"
+  "street_midtown_avenue_rush_hour"
  ],
  "items_partial": [
-  "landmark_central_park_sheep_meadow (2/3)",
   "landmark_lincoln_tunnel_portal (2/3)",
   "landmark_kosciuszko_bridge (2/3)",
-  "landmark_35_hudson_yards (2/3)",
-  "landmark_55_hudson_yards (1/3)",
   "landmark_two_times_square (2/3)",
   "landmark_tsx_broadway (1/3)",
-  "street_midtown_avenue_rush_hour (1/3)",
+  "street_staten_island_ranch_houses (1/3)",
   "street_nyc_traffic_signals (3/4)",
   "street_newsstand (2/3)"
  ],
- "http_requests_this_run": 1195,
- "elapsed_s": 5315.2,
+ "http_requests_this_run": 113,
+ "elapsed_s": 457.9,
  "per_item": [
   {
    "slug": "promenade_lower_manhattan",
@@ -751,13 +748,11 @@
   {
    "slug": "landmark_central_park_sheep_meadow",
    "group": "landmark",
-   "count": 2,
+   "count": 0,
    "wanted": 3,
-   "bytes": 1160728,
-   "licences": [
-    "CC BY 4.0"
-   ],
-   "status": "ok",
+   "bytes": 0,
+   "licences": [],
+   "status": "no_suitable_photo",
    "rejections": {
     "too_old": 4,
     "too_small": 4,
@@ -1262,18 +1257,20 @@
   {
    "slug": "landmark_111_west_57th",
    "group": "landmark",
-   "count": 0,
+   "count": 3,
    "wanted": 3,
-   "bytes": 0,
-   "licences": [],
-   "status": "no_suitable_photo",
+   "bytes": 2084569,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
    "rejections": {
-    "keywords": 92,
     "licence": 2,
     "too_small": 1,
-    "too_old": 1,
-    "excluded": 8,
-    "night_for_day_item": 1
+    "keywords": 32,
+    "too_old": 6,
+    "night_for_day_item": 2,
+    "excluded": 3
    }
   },
   {
@@ -1298,8 +1295,9 @@
    "group": "landmark",
    "count": 3,
    "wanted": 3,
-   "bytes": 2355010,
+   "bytes": 3364564,
    "licences": [
+    "CC BY 4.0",
     "CC BY-SA 4.0"
    ],
    "status": "ok",
@@ -2063,19 +2061,15 @@
   {
    "slug": "landmark_35_hudson_yards",
    "group": "landmark",
-   "count": 2,
+   "count": 0,
    "wanted": 3,
-   "bytes": 1750923,
-   "licences": [
-    "CC BY-SA 3.0",
-    "CC BY-SA 4.0"
-   ],
-   "status": "ok",
+   "bytes": 0,
+   "licences": [],
+   "status": "no_suitable_photo",
    "rejections": {
-    "excluded": 5,
+    "too_old": 7,
     "keywords": 2,
-    "too_old": 3,
-    "indoor": 28
+    "indoor": 29
    }
   },
   {
@@ -2100,18 +2094,15 @@
   {
    "slug": "landmark_55_hudson_yards",
    "group": "landmark",
-   "count": 1,
+   "count": 0,
    "wanted": 3,
-   "bytes": 85388,
-   "licences": [
-    "CC BY-SA 4.0"
-   ],
-   "status": "ok",
+   "bytes": 0,
+   "licences": [],
+   "status": "no_suitable_photo",
    "rejections": {
-    "excluded": 5,
+    "too_old": 5,
     "keywords": 3,
-    "indoor": 26,
-    "too_old": 1
+    "indoor": 27
    }
   },
   {
@@ -2123,9 +2114,10 @@
    "licences": [],
    "status": "no_suitable_photo",
    "rejections": {
-    "excluded": 33,
-    "keywords": 7,
-    "too_small": 4
+    "too_old": 14,
+    "keywords": 22,
+    "too_small": 4,
+    "excluded": 4
    }
   },
   {
@@ -2137,9 +2129,9 @@
    "licences": [],
    "status": "no_suitable_photo",
    "rejections": {
-    "keywords": 26,
+    "keywords": 28,
     "indoor": 1,
-    "excluded": 3
+    "too_old": 1
    }
   },
   {
@@ -2939,16 +2931,20 @@
   {
    "slug": "landmark_javits_center",
    "group": "landmark",
-   "count": 0,
+   "count": 3,
    "wanted": 3,
-   "bytes": 0,
-   "licences": [],
-   "status": "no_suitable_photo",
+   "bytes": 1452768,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
    "rejections": {
-    "excluded": 17,
+    "night_for_day_item": 2,
     "keywords": 24,
+    "excluded": 10,
     "not_photo": 2,
-    "indoor": 1
+    "indoor": 2,
+    "too_old": 1
    }
   },
   {
@@ -3067,12 +3063,20 @@
   {
    "slug": "street_staten_island_ranch_houses",
    "group": "streetscape",
-   "count": 0,
+   "count": 1,
    "wanted": 3,
-   "bytes": 0,
-   "licences": [],
-   "status": "no_suitable_photo",
-   "rejections": {}
+   "bytes": 724984,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_small": 3,
+    "excluded": 8,
+    "not_photo": 5,
+    "licence": 1,
+    "too_old": 2
+   }
   },
   {
    "slug": "street_elevated_roosevelt_ave_7",
@@ -3118,13 +3122,11 @@
   {
    "slug": "street_midtown_avenue_rush_hour",
    "group": "streetscape",
-   "count": 1,
+   "count": 0,
    "wanted": 3,
-   "bytes": 703094,
-   "licences": [
-    "CC BY-SA 4.0"
-   ],
-   "status": "ok",
+   "bytes": 0,
+   "licences": [],
+   "status": "no_suitable_photo",
    "rejections": {}
   },
   {
@@ -3166,13 +3168,23 @@
   {
    "slug": "street_nyc_street_name_signs",
    "group": "streetscape",
-   "count": 0,
+   "count": 4,
    "wanted": 4,
-   "bytes": 0,
-   "licences": [],
-   "status": "no_suitable_photo",
+   "bytes": 1484976,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0",
+    "CC0"
+   ],
+   "status": "ok",
    "rejections": {
-    "indoor": 18
+    "excluded": 10,
+    "indoor": 12,
+    "keywords": 27,
+    "too_old": 13,
+    "too_small": 5,
+    "not_photo": 4,
+    "licence": 5
    }
   },
   {

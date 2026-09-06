@@ -8080,6 +8080,26 @@
    "tris_lod0": 40256,
    "tris_lod1": 48
   },
+  "landmark_glb:c_citi_field": {
+   "artifact_id": "landmark_glb:c_citi_field",
+   "bins": [
+    4536844
+   ],
+   "bytes": 20351396,
+   "footprint_iou": 1.0,
+   "git_commit": "cd11ee45dc3b",
+   "path": "blender_out/landmarks/c_citi_field.glb",
+   "produced_at": "2026-09-06T13:57:19Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "a0f364a3445c189e8530ba4e4d293e7d16f4bfac0dd9fc92a2489dc46c103939",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 8986,
+   "tris_lod1": 1536
+  },
   "landmark_glb:c_citigroup_center": {
    "artifact_id": "landmark_glb:c_citigroup_center",
    "bins": [

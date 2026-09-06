@@ -125,7 +125,7 @@ Grade separation: 114,273 segments at grade, 5,278 at a constant level code, 2,6
    between `terrain(end) + level offset` so a bridge does not follow the riverbed; nodes, lanes, junction lanes
    and sign mounting heights are lifted consistently.
 
-Result of the run against the 2,916 terrain tiles that existed at the time:
+Result of the final run, against the 2,916 terrain tiles the terrain stage had written (last tile written 13:30):
 
 | layer | rows | vertices | vertices with terrain | at-grade lifted | structures lifted |
 |---|---:|---:|---:|---:|---:|
@@ -135,8 +135,8 @@ Result of the run against the 2,916 terrain tiles that existed at the time:
 | nodes | 79,291 | — | 79,291 | — | — |
 | signs | 633,287 | — | 633,287 | — | — |
 
-Ground heights under the network: mean **16.04 m**, min **−5.12 m**, max **121.29 m** (Todt Hill, Staten Island —
-the published summit is 124.9 m, and the road does not reach the summit). Runtime 126 s, 3,717 tile loads
+Ground heights under the network: mean **16.06 m**, min **−5.12 m**, max **121.29 m** (Todt Hill, Staten Island —
+the published summit is 124.9 m, and the road does not reach the summit). Runtime 108 s, 3,717 tile loads
 through a 256-tile LRU (~130 MB ceiling).
 
 The stage is **idempotent**: the grade-separation offset is recomputed from the immutable `level_from`/`level_to`
@@ -544,7 +544,7 @@ per-tile pavement bounds, and the two binary round-trips.
 | manifest | 2.0 |
 | **total (without pavement)** | **673.4** |
 | pavement (earlier pass, same code) | 366.3 |
-| `apply_terrain_z` | 126.2 |
-| `runtime.export` (standalone) | 9.9 |
+| `apply_terrain_z` | 107.9 |
+| `runtime.export` (standalone) | 10.0 |
 
 Peak RSS observed during the full pass: 2.5 GB.
