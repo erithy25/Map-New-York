@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-06 15:18 UTC from commit `d7604b3ff77c` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-06 18:40 UTC from commit `4330392ec1ad` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -107,10 +107,10 @@ Water: hydrography polygons 2,235 · shoreline lines 413 · structures 2,536 · 
 |---|---|---|
 | kit | 138 | 140.3 MB |
 | props | 122 | 79.2 MB |
-| vehicles | 93 | 100.3 MB |
-| character | 25 | 513.3 MB |
-| landmarks | 127 | 920.4 MB |
-| tiles | 491 | 1,965.2 MB |
+| vehicles | 93 | 100.2 MB |
+| character | 25 | 509.3 MB |
+| landmarks | 127 | 920.5 MB |
+| tiles | 1,010 | 4,624.0 MB |
 
 Catalog entries describing those assets: 386.
 
