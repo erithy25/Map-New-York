@@ -147,11 +147,15 @@ def sheet(group: str, *, samples: int, res_x: int, only: set[str] | None = None)
         lo, hi = m.bounds()
         ob = m.to_object(pid)
         m.free()
-        built.append([piece, ob, lo, hi, tris])
+        # keep the *unrotated* extents for the label: the sheet turns pieces to show their depth, and a
+        # rotated bounding box is not the piece's size
+        built.append([piece, ob, lo, hi, tris, (hi0.x - lo0.x, hi0.y - lo0.y, hi0.z - lo0.z)])
 
-    gap_x, gap_z, label_band = 0.55, 0.55, 0.62
+    gap_x, gap_z, label_band = 0.55, 0.55, 1.55
+    label_h = 0.185          # cap height of the two-line caption
+    stagger = (0.0, -0.42, -0.84)   # three phases so captions of narrow neighbours cannot overlap
     target_w = max(9.0, math.sqrt(sum((hi.x - lo.x + gap_x) * (hi.z - lo.z + gap_z + label_band)
-                                      for _, _, lo, hi, _ in built) * 1.55))
+                                      for _, _, lo, hi, _, _ in built) * 1.55))
     rows, cur, cur_w = [], [], 0.0
     for item in built:
         w = item[3].x - item[2].x + gap_x
@@ -170,12 +174,12 @@ def sheet(group: str, *, samples: int, res_x: int, only: set[str] | None = None)
     for r, row in enumerate(rows):
         z_top -= row_h[r]
         x = -total_w / 2 + (total_w - sum(it[3].x - it[2].x + gap_x for it in row)) / 2
-        for piece, ob, lo, hi, tris in row:
+        for k, (piece, ob, lo, hi, tris, real) in enumerate(row):
             w = hi.x - lo.x
             cx = x + gap_x / 2 + w / 2
             ob.location = Vector((cx - (lo.x + hi.x) / 2, 0.0, z_top + label_band - lo.z))
-            _label(f"{piece.id}\n{tris} tris   {w:.2f} x {hi.y - lo.y:.2f} x {hi.z - lo.z:.2f} m",
-                   (cx, -2.2, z_top + label_band - 0.10), 0.185)
+            _label(f"{piece.id}\n{tris} tris   {real[0]:.2f} x {real[1]:.2f} x {real[2]:.2f} m",
+                   (cx, -2.2, z_top + label_band - 0.16 + stagger[k % 3]), label_h)
             x += w + gap_x
     back_y = max(0.8, max(it[3].y for it in built) + 0.7)
     front_y = min(-2.6, min(it[2].y for it in built) - 0.8)
@@ -211,7 +215,9 @@ def tenement(*, samples: int, res_x: int) -> Path:
     ROOF = GROUND + 4 * FLOOR                      # 17.00 m to the roof deck
     WALL_T = 0.400
     win_x = (-2.44, 0.0, 2.44)                     # three window bays
-    win_w, win_h = 1.06, 1.994                     # the soldier-lintel window piece
+    # The hole in the wall is the *masonry opening* the piece is built for (facade_params.WINDOW_TYPES), not the
+    # piece's bounding box — the box includes the soldier lintel above and the sill below, which belong in the brick.
+    win_w, win_h = P.W_OPENING["double_hung_1_1_soldier"]
     sill_from_floor = 0.95
 
     m = K.Mesh()

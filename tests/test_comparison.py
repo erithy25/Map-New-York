@@ -48,11 +48,11 @@ def test_tiles_in_radius_covers_exactly_the_intersecting_tiles():
     # On the corner of four tiles every one of them is inside the disc.
     got = set(vscene.tiles_in_radius(1000.0, 1000.0, 50.0))
     assert got == {(0, 0), (0, 1), (1, 0), (1, 1)}
-    # A 1.2 km radius from the centre of a tile reaches two tiles out along the axes but the
-    # far diagonal corner tiles stay out (their nearest point is 1.27 km away).
+    # From the centre of a tile, a 1.2 km radius reaches the neighbours and their diagonals but
+    # not the next ring: the nearest corner of t_2_0 is 1.5 km away.
     got = set(vscene.tiles_in_radius(500.0, 500.0, 1200.0))
-    assert (2, 0) in got and (-2, 0) in got
-    assert (2, 2) not in got
+    assert (1, 0) in got and (-1, 0) in got and (1, 1) in got and (-1, -1) in got
+    assert (2, 0) not in got and (2, 2) not in got
     for tx, ty in got:
         nx = min(max(500.0, tx * 1000.0), tx * 1000.0 + 1000.0)
         ny = min(max(500.0, ty * 1000.0), ty * 1000.0 + 1000.0)

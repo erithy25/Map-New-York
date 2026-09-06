@@ -226,8 +226,18 @@ def pbr_material(name: str, *, base_color=(0.8, 0.8, 0.8, 1.0), roughness: float
 # --------------------------------------------------------------------------- export
 def export_glb(path: str | Path, *, objects: Sequence[bpy.types.Object] | None = None, extras: dict | None = None,
                draco: bool = False, apply_modifiers: bool = True, export_animations: bool = False, texcoords: bool = True,
-               tangents: bool = False, export_extras: bool = True) -> Path:
-    """Export selected (or all) objects to .glb with NYCSim asset extras (DATA_CONTRACTS §13)."""
+               tangents: bool = False, export_extras: bool = True, export_attributes: bool = False,
+               export_normals: bool = True) -> Path:
+    """Export selected (or all) objects to .glb with NYCSim asset extras (DATA_CONTRACTS §13).
+
+    ``export_attributes`` carries custom mesh attributes into the file; the building shell stage needs
+    it to ship per-building values such as ``bin`` and ``facade_class`` alongside the geometry. Note
+    that glTF stores attributes as float32, so an integer wider than 24 bits must be split across two
+    attributes by the caller. Custom attribute names must begin with an underscore and be upper case
+    (``_BIN``, ``_FACADE_CLASS``) — that is the glTF convention for application-specific attributes,
+    and Blender's exporter silently drops any custom attribute that does not follow it. ``export_normals`` is exposed so a stage that computes its own normals
+    can turn Blender's off.
+    """
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     sc = bpy.context.scene
@@ -236,6 +246,8 @@ def export_glb(path: str | Path, *, objects: Sequence[bpy.types.Object] | None =
     if extras:
         meta.update(extras)
     sc["nycsim"] = json.dumps(meta)
+    _pending_asset_extras.clear()
+    _pending_asset_extras.update(meta)
     for o in bpy.data.objects:
         o.select_set(False)
     use_selection = objects is not None
@@ -243,13 +255,56 @@ def export_glb(path: str | Path, *, objects: Sequence[bpy.types.Object] | None =
         for o in objects:
             o.select_set(True)
     bpy.ops.export_scene.gltf(filepath=str(path), export_format="GLB", use_selection=use_selection, export_yup=True,
-                              export_apply=apply_modifiers, export_texcoords=texcoords, export_normals=True, export_tangents=tangents,
+                              export_apply=apply_modifiers, export_texcoords=texcoords, export_normals=export_normals,
+                              export_tangents=tangents, export_attributes=export_attributes,
                               export_materials="EXPORT", export_image_format="AUTO", export_draco_mesh_compression_enable=draco,
                               export_animations=export_animations, export_extras=export_extras, export_skins=export_animations,
                               export_morph=export_animations)
     if not path.exists() or path.stat().st_size < 100:
         raise RuntimeError(f"glTF export failed: {path}")
+    _stamp_asset_extras(path, meta)
     return path
+
+
+_pending_asset_extras: dict = {}
+
+
+def _stamp_asset_extras(path: Path, meta: dict) -> None:
+    """Write the NYCSim metadata into the file's ``asset.extras`` block (DATA_CONTRACTS §13).
+
+    Blender's exporter puts scene custom properties on the scene node, not on ``asset``. Consumers
+    read ``asset.extras.nycsim``, so the JSON chunk is patched in place after export. A failure here
+    is logged and tolerated: the geometry is already valid and the scene-level copy still carries the
+    same values.
+    """
+    import struct
+    try:
+        raw = path.read_bytes()
+        magic, _version, _length = struct.unpack("<4sII", raw[:12])
+        if magic != b"glTF":
+            return
+        off = 12
+        json_off = json_len = None
+        while off + 8 <= len(raw):
+            clen, ctype = struct.unpack("<I4s", raw[off:off + 8])
+            if ctype == b"JSON":
+                json_off, json_len = off + 8, clen
+                break
+            off += 8 + clen + ((4 - clen % 4) % 4)
+        if json_off is None:
+            return
+        doc = json.loads(raw[json_off:json_off + json_len].decode("utf-8"))
+        doc.setdefault("asset", {}).setdefault("extras", {})["nycsim"] = meta
+        new_json = json.dumps(doc, separators=(",", ":")).encode("utf-8")
+        new_json += b" " * ((4 - len(new_json) % 4) % 4)
+        out = bytearray(raw[:json_off - 8])
+        out += struct.pack("<I4s", len(new_json), b"JSON") + new_json
+        out += raw[json_off + json_len + ((4 - json_len % 4) % 4):]
+        struct.pack_into("<I", out, 8, len(out))
+        path.write_bytes(bytes(out))
+    except Exception as e:  # noqa: BLE001 — metadata stamping must never lose valid geometry
+        import logging
+        logging.getLogger("nycsim.bpy").warning("could not stamp asset.extras on %s: %s", path, e)
 
 
 def write_catalog_entry(catalog_dir: str | Path, entry: dict) -> Path:

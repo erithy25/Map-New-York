@@ -364,8 +364,7 @@ def main(argv: list[str] | None = None) -> int:
                 ("roads_signals", out_dir / "signals.parquet", n_sig, S.SCHEMAS["signals"]),
                 ("roads_signs", out_dir / "signs.parquet", n_signs, S.SCHEMAS["signs"]),
                 ("roads_bridges_tunnels", out_dir / "bridges_tunnels.json", bridges_doc["n_found"], "roads.bridges/1"),
-                ("roads_connectivity", out_dir / "connectivity.json", None, "roads.connectivity/1"),
-                ("roads_build_summary", out_dir / "build_summary.json", None, "roads.build_summary/1")):
+                ("roads_connectivity", out_dir / "connectivity.json", None, "roads.connectivity/1")):
             if path.exists():
                 manifest.record_processed(aid, path, stage="roads", sources=srcs, rows=rows, schema=schema)
         if not a.no_runtime:
@@ -384,6 +383,9 @@ def main(argv: list[str] | None = None) -> int:
         stats["timings_s"] = {**T.steps, "total": T.total}
         with open(out_dir / "build_summary.json", "w") as f:
             json.dump(stats, f, indent=1, default=str)
+        # recorded last, because the summary carries the timings of the manifest step itself
+        manifest.record_processed("roads_build_summary", out_dir / "build_summary.json", stage="roads",
+                                  sources=srcs, schema="roads.build_summary/1")
 
     print(json.dumps({
         "segments": n_seg, "nodes": n_nodes, "lanes": n_lanes, "junction_lanes": n_jl, "signals": n_sig, "signs": n_signs,

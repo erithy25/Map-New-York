@@ -863,17 +863,23 @@ def finish(objects: Sequence[bpy.types.Object], landmark_id: str, bins: Sequence
     return rec
 
 
-def render_check(landmark_id: str, view: str, camera_location, camera_target, *, fov_deg: float = 50.0, size=(960, 540), samples: int = 64,
-                 sun_azimuth_deg: float = 220.0, sun_elevation_deg: float = 35.0, sun_strength: float = 2.0, exposure: float = -1.6,
-                 max_bounces: int = 6, context_planes: Sequence[Sequence] = ()) -> Path:
-    """Cycles CPU verification render into docs/verification/landmarks/<id>/<view>.png.
+def render_check(landmark_id: str, view: str, camera_location, camera_target, *, fov_deg: float = 50.0,
+                 size=(960, 540), samples: int = 64, sun_azimuth_deg: float = 220.0, sun_elevation_deg: float = 35.0,
+                 sun_strength: float = 5.0, sky_strength: float = 0.22, exposure: float = -2.4,
+                 max_bounces: int = 4, context_planes: Sequence[Sequence] = (), **_ignored) -> Path:
+    """Cycles CPU verification render into ``docs/verification/landmarks/<id>/<view>.png``.
 
-    ``context_planes`` adds ``(material, z, half_size)`` or ``(material, z, half_size, (cx, cy))`` ground/water planes so
-    that a bridge or a monument is not floating in the void; they are removed afterwards.  ``sun_strength`` (W/m2) and
-    ``exposure`` (EV, applied to the AgX view transform) keep the exposure sane — Blender's 4 W/m2 default blows the
-    highlights out to white through AgX and hides every material.
+    The lighting is set up here rather than through ``nycsim_bpy.quick_render`` because the *ratio* between the sun
+    and the sky dome is what decides whether a render is evidence.  ``quick_render``'s defaults (Nishita sky at
+    strength 0.6, sun 4 W/m2) put roughly as much irradiance into a surface from the sky hemisphere as from the sun,
+    so masonry renders as a flat pale field with no shadow and no relief -- exactly the failure the first pass of
+    these renders showed.  Here the sun carries ~20x the sky (``sun_strength`` 5.0 W/m2 against ``sky_strength``
+    0.22) and ``exposure`` (EV on the AgX view transform) brings a 0.44-albedo granite back to a mid grey, so string
+    courses, arch reveals and the batter all read.
+
+    ``context_planes`` adds ``(material, z, half_size)`` or ``(material, z, half_size, (cx, cy))`` ground/water planes
+    so that a bridge or a monument is not floating in the void; they are removed afterwards.
     """
-    fn = _shared("render_check", ("landmark_id", "view"))
     out_dir = VERIFY / landmark_id
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / f"{view}.png"
@@ -882,20 +888,53 @@ def render_check(landmark_id: str, view: str, camera_location, camera_target, *,
         m, z, half = spec[0], spec[1], spec[2]
         centre = spec[3] if len(spec) > 3 else (0.0, 0.0)
         tmp.append(ground_plane(f"_ctx_{i}", half, z, m, centre))
-    bpy.context.scene.view_settings.exposure = exposure
-    cyc = bpy.context.scene.cycles
-    cyc.max_bounces = max_bounces
-    cyc.diffuse_bounces = max_bounces
-    cyc.glossy_bounces = max_bounces
-    cyc.transmission_bounces = max_bounces
-    cyc.transparent_max_bounces = max_bounces
+    sc = bpy.context.scene
     try:
-        if fn is not None:
-            res = fn(landmark_id, view, camera_location, camera_target, fov_deg=fov_deg, size=size, samples=samples)
-            if isinstance(res, (str, Path)) and Path(res).exists():
-                return Path(res)
-        nb.quick_render(path, camera_location=camera_location, camera_target=camera_target, fov_deg=fov_deg, size=size, samples=samples,
-                        sun_azimuth_deg=sun_azimuth_deg, sun_elevation_deg=sun_elevation_deg, sun_strength=sun_strength)
+        cam = bpy.data.cameras.new("verify_cam")
+        cam.lens_unit = "FOV"
+        cam.angle = math.radians(fov_deg)
+        cam.clip_start = 0.1
+        cam.clip_end = 60000.0
+        camob = bpy.data.objects.new("verify_cam", cam)
+        nb.link(camob)
+        camob.location = Vector(camera_location)
+        camob.rotation_euler = (Vector(camera_target) - camob.location).to_track_quat("-Z", "Y").to_euler()
+        sc.camera = camob
+
+        sun = bpy.data.lights.new("verify_sun", "SUN")
+        sun.energy = sun_strength
+        sun.angle = math.radians(0.53)          # the real angular diameter, so shadow edges are physically soft
+        sunob = bpy.data.objects.new("verify_sun", sun)
+        nb.link(sunob)
+        sunob.rotation_euler = (math.radians(90.0 - sun_elevation_deg), 0.0, math.radians(-sun_azimuth_deg))
+
+        world = bpy.data.worlds.get("World") or bpy.data.worlds.new("World")
+        sc.world = world
+        world.use_nodes = True
+        nt = world.node_tree
+        bg = nt.nodes.get("Background") or nt.nodes.new("ShaderNodeBackground")
+        skytex = next((n for n in nt.nodes if n.bl_idname == "ShaderNodeTexSky"), None) or nt.nodes.new("ShaderNodeTexSky")
+        skytex.sky_type = "NISHITA"
+        skytex.sun_elevation = math.radians(sun_elevation_deg)
+        skytex.sun_rotation = math.radians(sun_azimuth_deg)
+        skytex.sun_disc = False                 # the SUN lamp above is the sun; the dome is sky light only
+        nt.links.new(skytex.outputs["Color"], bg.inputs["Color"])
+        bg.inputs["Strength"].default_value = sky_strength
+
+        sc.view_settings.view_transform = "AgX"
+        sc.view_settings.look = "None"
+        sc.view_settings.exposure = exposure
+        sc.render.engine = "CYCLES"
+        sc.cycles.device = "CPU"
+        sc.cycles.samples = samples
+        sc.cycles.use_denoising = True
+        for attr in ("max_bounces", "diffuse_bounces", "glossy_bounces", "transmission_bounces", "transparent_max_bounces"):
+            setattr(sc.cycles, attr, max_bounces)
+        sc.render.resolution_x, sc.render.resolution_y = size
+        sc.render.resolution_percentage = 100
+        sc.render.image_settings.file_format = "PNG"
+        sc.render.filepath = str(path)
+        bpy.ops.render.render(write_still=True)
     finally:
         for o in tmp:
             bpy.data.objects.remove(o)
@@ -905,7 +944,8 @@ def render_check(landmark_id: str, view: str, camera_location, camera_target, *,
                 bpy.data.objects.remove(o)
     if not path.exists() or path.stat().st_size < 1000:
         raise RuntimeError(f"render failed: {path}")
-    log.info("render %s -> %s", view, path)
+    log.info("render %s -> %s (%dx%d, %d samples, sun %.1f / sky %.2f, exposure %.1f EV)",
+             view, path, size[0], size[1], samples, sun_strength, sky_strength, exposure)
     return path
 
 

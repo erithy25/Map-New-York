@@ -246,6 +246,7 @@ def place_camera(*, slug: str, lat: float, lon: float, azimuth_deg: float, sampl
     # along +Y (north); rot_z = -azimuth swings it clockwise onto the compass bearing.
     ob.rotation_euler = Euler((math.radians(90.0 + pitch_deg), 0.0, math.radians(-azimuth_deg)), "XYZ")
     bpy.context.scene.camera = ob
+    bpy.context.view_layer.update()   # so matrix_world reflects the transform just assigned
 
     sc = bpy.context.scene
     sc.render.resolution_x, sc.render.resolution_y = resolution

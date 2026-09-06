@@ -152,7 +152,7 @@ def main() -> None:
                  target=(nj[0] + 60.0, nj[1] - 25.0, GROUND_NJ + 1.0), fov_deg=60.0, context=ctx,
                  sun_azimuth_deg=110.0, sun_elevation_deg=38.0),
             dict(view="tube_interior", cam=tuple(cam_in), target=tuple(tgt_in), fov_deg=72.0,
-                 sun_elevation_deg=88.0, sun_strength=0.02, exposure=2.4, max_bounces=2, size=(960, 540)),
+                 sun_elevation_deg=88.0, sun_strength=0.02, sky_strength=0.0, exposure=2.4, max_bounces=2, size=(960, 540)),
         ],
         sections={"Placement": "frame origin NYC_TM (%.1f, %.1f); three bores on real OSM centrelines."
                                % ((PORTAL_NJ[0] + PORTAL_NY[0]) / 2, (PORTAL_NJ[1] + PORTAL_NY[1]) / 2),

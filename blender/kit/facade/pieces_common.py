@@ -36,6 +36,11 @@ GROUND_H = 4.20                # ground-floor commercial storey
 RAIL_H = 0.860                 # 34 in fire-escape / stoop railing
 PICKET = 0.014                 # 9/16 in square picket
 
+# Masonry rough openings by window type (metres): what the *wall* hole must be for each kit window. The piece's
+# bounding box is larger — it carries the lintel above and the sill below, which sit in the surrounding brick.
+import facade_params as _fp                                              # noqa: E402
+W_OPENING = {w[0]: (w[1], w[2]) for w in _fp.WINDOW_TYPES}
+
 # --------------------------------------------------------------------------- material name helpers
 GLASS = "glass_clear"
 SASH_WHITE = "painted_wood_white"

@@ -420,6 +420,9 @@ def add_buildings(cx: float, cy: float, radius_m: float, *, lod0_radius_m: float
         imported.append(name)
         per_tile[name] = {"lod": lod, "objects": kept, "triangles": t}
         tris += t
+    # Object transforms are set directly, so the dependency graph has to be refreshed before
+    # anything (a test, a bounds check, an exporter) reads matrix_world.
+    bpy.context.view_layer.update()
     return {"tiles_wanted": len(wanted), "tiles_imported": len(imported), "tiles_missing": len(missing),
             "imported": sorted(imported), "missing": sorted(missing), "triangles": tris,
             "per_tile": per_tile}
@@ -507,6 +510,7 @@ def add_landmarks(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
         placed.append({"id": e.get("id"), "name": e.get("name"), "distance_m": round(dist, 1),
                        "lod": lod, "triangles": tpl.triangles})
     placed.sort(key=lambda d: d["distance_m"])
+    bpy.context.view_layer.update()
     return {"catalog_entries": len(entries), "placed": len(placed), "skipped": len(skipped),
             "triangles": tris, "landmarks": placed, "skipped_detail": skipped}
 
@@ -844,6 +848,7 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
     else:
         rep.kit = {"placed": 0, "reason": "disabled"}
 
+    bpy.context.view_layer.update()
     rep.triangles = (int(rep.terrain.get("triangles", 0)) + rep.buildings["triangles"]
                      + rep.landmarks["triangles"] + int(rep.props.get("triangles", 0))
                      + int(rep.kit.get("triangles", 0)))

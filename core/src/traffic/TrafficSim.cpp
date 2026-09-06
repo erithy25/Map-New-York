@@ -1655,6 +1655,11 @@ uint32_t TrafficSim::separateBodies() {
         const float fwd = std::min(clearanceAlongHeading(mover, other) + 0.05f, 2.5f);
         const float len = graph_->lane(mover.lane).length_m;
         if (fwd <= 0.05f || mover.s + fwd >= len) return false;
+        // Only into space that is actually free — pushing forward into the
+        // vehicle ahead just moves the overlap along the queue.
+        const uint32_t self = indexOfId(mover.id);
+        const Neighbour ahead = leaderIncludingStraddlers(mover.lane, mover.s, mover.length_m * 0.5f, self);
+        if (ahead.index != kInvalidIndex && ahead.gap < fwd + 0.2f) return false;
         mover.s += fwd;
         if (mover.speed > other.speed) mover.speed = other.speed;
         updatePose(mover);

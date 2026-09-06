@@ -8215,14 +8215,14 @@
     1090274,
     1090391
    ],
-   "bytes": 21381496,
-   "footprint_iou": 0.9212,
-   "git_commit": "e9c4094042a0",
+   "bytes": 21381732,
+   "footprint_iou": 0.9593,
+   "git_commit": "b4fc9627fb80",
    "path": "blender_out/landmarks/c_hudson_yards.glb",
-   "produced_at": "2026-09-06T12:09:06Z",
+   "produced_at": "2026-09-06T13:58:49Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "35ffa36a34a1bf7935ee1c0e16262f2b1e533452ccef595841ab59f65308d82e",
+   "sha256": "92963414c9aa0be64dc19645c2fcbbf6a5ee1be85eb78036386fde51ae9581db",
    "sources": [
     "building_footprints"
    ],
@@ -8853,14 +8853,14 @@
    "bins": [
     1001394
    ],
-   "bytes": 26225832,
+   "bytes": 26226308,
    "footprint_iou": 1.0,
-   "git_commit": "e9c4094042a0",
+   "git_commit": "b4fc9627fb80",
    "path": "blender_out/landmarks/municipal_building.glb",
-   "produced_at": "2026-09-06T12:14:32Z",
+   "produced_at": "2026-09-06T13:59:33Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "a25a49dede1722b2cb11936198467b1188fd62b86a0666d9fb682927e42c1fc5",
+   "sha256": "084e130ab8618476536d6ada62ae90f6e6df17487e9ef1f8f6012faea2aa2ded",
    "sources": [
     "building_footprints"
    ],
@@ -9269,13 +9269,13 @@
   },
   "roads_build_summary": {
    "artifact_id": "roads_build_summary",
-   "bytes": 21106,
-   "git_commit": "38976a48e050",
+   "bytes": 21126,
+   "git_commit": "b4fc9627fb80",
    "path": "data/processed/roads/build_summary.json",
-   "produced_at": "2026-09-06T13:05:26Z",
+   "produced_at": "2026-09-06T13:59:16Z",
    "rows": null,
    "schema": "roads.build_summary/1",
-   "sha256": "fe4a1426d82dfade625ae8287abf4e6d0836c4425a234a577b40471ebc459c69",
+   "sha256": "a0facba51dbcad0a1d9b679b83ace2a3d9f0f386eaa0266cb8cab1dbd812b7f0",
    "sources": [
     "centerline",
     "lion",

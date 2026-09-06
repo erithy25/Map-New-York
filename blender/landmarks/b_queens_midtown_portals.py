@@ -123,7 +123,7 @@ def main() -> None:
                  target=(mn[0] + 40.0, mn[1] - 14.0, GROUND_MN + 1.0), fov_deg=58.0, context=ctx,
                  sun_azimuth_deg=140.0, sun_elevation_deg=40.0),
             dict(view="tube_interior", cam=tuple(cam_in), target=tuple(tgt_in), fov_deg=72.0,
-                 sun_elevation_deg=88.0, sun_strength=0.02, exposure=2.4, max_bounces=2, size=(960, 540)),
+                 sun_elevation_deg=88.0, sun_strength=0.02, sky_strength=0.0, exposure=2.4, max_bounces=2, size=(960, 540)),
             dict(view="manhattan_ventilation_building", cam=(v[0] + 90.0, v[1] - 80.0, 26.0),
                  target=(v[0], v[1], 16.0), fov_deg=50.0, context=ctx, sun_azimuth_deg=220.0, sun_elevation_deg=36.0),
         ],

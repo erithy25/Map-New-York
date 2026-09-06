@@ -494,8 +494,9 @@ def run_landmark(landmark_id: str, title: str, build_fn, *, bins: Sequence[int] 
                                          size=r.get("size", (960, 540)), samples=r.get("samples", args["samples"]),
                                          sun_azimuth_deg=r.get("sun_azimuth_deg", 220.0),
                                          sun_elevation_deg=r.get("sun_elevation_deg", 35.0),
-                                         sun_strength=r.get("sun_strength", 2.0),
-                                         exposure=r.get("exposure", -1.6),
+                                         sun_strength=r.get("sun_strength", 5.0),
+                                         sky_strength=r.get("sky_strength", 0.22),
+                                         exposure=r.get("exposure", -2.4),
                                          max_bounces=r.get("max_bounces", 4),
                                          context_planes=r.get("context", ())))
     if sections:
