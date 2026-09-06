@@ -1,27 +1,28 @@
 {
- "azimuth_reason": "3.0 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 355.0 deg, 8.0 deg away",
+ "azimuth_reason": "355.0 deg as recorded; it agrees with the bearing from the camera position used to Federal Hall National Memorial (355.1 deg) to 0.1 deg",
  "camera": {
-  "azimuth_deg": 3.0,
+  "azimuth_deg": 355.0,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
-  "focal_mm": 35.0,
+  "focal_mm": 26.3256105501293,
   "ground_detail": {
-   "chosen_m": 7.16,
-   "max_m": 7.67,
-   "median_m": 7.35,
-   "min_m": 7.06,
+   "chosen_m": 6.57,
+   "max_m": 7.5,
+   "median_m": 6.77,
+   "min_m": 6.41,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 6.65,
    "radius_m": 12.0,
    "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
-  "hfov_deg": 54.432,
+  "hfov_deg": 68.724,
   "lat": 40.706864,
   "lon": -74.010237,
-  "long_side_fov_deg": 54.432,
+  "long_side_fov_deg": 68.724,
   "pitch_deg": 0.0,
   "portrait": false,
   "resolution": [
@@ -30,31 +31,52 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_federal_hall",
-  "terrain_z_m": 7.165,
-  "x": -5090.438,
-  "y": 763.98,
-  "z": 8.765
+  "terrain_z_m": 6.568,
+  "x": -5120.316,
+  "y": 780.976,
+  "z": 8.168
  },
- "camera_caption": "camera 40.70686, -74.01024 (NYC_TM -5090, 764) z 8.8 m NAVD88 | azimuth 3.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.70686, -74.01024 (NYC_TM -5120, 781) z 8.2 m NAVD88 | azimuth 355.0deg pitch +0.0deg | 26 mm on 36 mm (68.7deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.706864,
+  "lon": -74.010237,
+  "offset_from_recorded_m": 0.0,
+  "photograph_gps_offset_m": 20.0,
+  "source": "the item's recorded viewpoint.  This photograph's own EXIF GPS is 20 m away, but the eye point there is inside t_-6_0_roof_membrane (a ray straight up from the eye point hits its roof), while the recorded viewpoint is in open air"
+ },
  "clearance": {
-  "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "direction": "onto the nearest roadbed",
+  "min_view_m": 29.4,
+  "moved": true,
+  "nearest_obstruction_m": 17.8,
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 12 m ahead, less than the 29 m this frame needs to show its subject; the camera was moved 33 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there",
+  "offset_m": 33.0,
+  "reason": "boxed in: the view azimuth is closed off 12 m ahead, less than the 29 m this frame needs to show its subject",
+  "rule": "pavement snap with a clear view",
+  "view_m": 60.0
  },
+ "frame": {
+  "mean": 0.0986,
+  "reason": null,
+  "sd": 0.063,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
- "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lens_reason": "widened from 35 mm to 26 mm (54 deg vertical) so that a level axis contains the subject: the federal_hall model's published 19 m height stands 18 m above the lens at 40 m, 24 deg above the horizon",
  "lighting": {
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 859.8,
   "emissive": {
    "cones_hidden": 2,
-   "lamps_switched_off": 5,
+   "lamps_switched_off": 4,
    "night": false,
    "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.0,
-  "sky_azimuth_deg": 95.304,
+  "sky_azimuth_deg": 95.303,
   "sky_elevation_deg": 43.469,
   "sun_lamp": true,
   "sun_strength_blender": 1.592,
@@ -77,9 +99,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_federal_hall/render.png",
- "rendered_at": "2026-09-06T17:47:54Z",
+ "rendered_at": "2026-09-06T22:32:51Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -89,138 +111,143 @@
     "t_-6_0",
     "t_-6_1"
    ],
+   "landmark_bins_suppressed": 19,
+   "landmark_faces_suppressed": 2992,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-5_0": {
      "lod": 0,
      "objects": 18,
-     "triangles": 11932
+     "triangles": 11872
     },
     "t_-5_1": {
      "lod": 0,
      "objects": 18,
-     "triangles": 42918
+     "triangles": 42654
     },
     "t_-6_0": {
      "lod": 0,
      "objects": 16,
-     "triangles": 14912
+     "triangles": 12796
     },
     "t_-6_1": {
      "lod": 0,
      "objects": 18,
-     "triangles": 15588
+     "triangles": 15036
     }
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 4,
    "triangle_budget": 3510000,
-   "triangles": 85350
+   "triangles": 82358
   },
   "centre_tm": [
-   -5090.44,
-   763.98
+   -5096.96,
+   745.11
   ],
   "kit": {
-   "capped": "triangle budget 2684701",
+   "capped": "triangle budget 2759278",
    "per_category": {
-    "bulkhead": 11,
-    "cornice": 17,
-    "door_entry": 14,
-    "hvac": 11,
-    "parapet": 7,
-    "pilaster": 15,
-    "quoin": 8,
-    "scaffold": 127,
-    "storefront": 76,
-    "storefront_interior": 10,
-    "string_course": 17,
-    "water_tower": 5,
-    "window": 10091,
-    "window_accessory": 197
+    "bulkhead": 8,
+    "cornice": 12,
+    "door_entry": 12,
+    "hvac": 8,
+    "parapet": 10,
+    "pilaster": 13,
+    "quoin": 6,
+    "scaffold": 114,
+    "storefront": 78,
+    "storefront_interior": 9,
+    "string_course": 12,
+    "water_tower": 3,
+    "window": 10595,
+    "window_accessory": 830
    },
-   "placed": 10606,
+   "placed": 11710,
    "radius_m": 120.0,
-   "records_in_range": 22099,
+   "records_in_range": 23336,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 3470,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_0",
     "t_-6_0"
    ],
-   "triangles": 2684818,
+   "triangles": 2759452,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 46.1,
+     "distance_m": 61.3,
      "id": "40_wall_street",
      "lod": 0,
      "name": "40 Wall Street (Trump Building)",
      "triangles": 43167
     },
     {
-     "distance_m": 52.0,
+     "distance_m": 71.1,
      "id": "federal_hall",
      "lod": 0,
      "name": "Federal Hall National Memorial",
      "triangles": 9070
     },
     {
-     "distance_m": 83.8,
+     "distance_m": 84.1,
      "id": "nyse",
      "lod": 0,
      "name": "New York Stock Exchange",
      "triangles": 26049
     },
     {
-     "distance_m": 135.4,
+     "distance_m": 135.0,
      "id": "one_wall_street",
      "lod": 0,
      "name": "One Wall Street (Irving Trust Building)",
      "triangles": 42712
     },
     {
-     "distance_m": 153.8,
+     "distance_m": 171.7,
      "id": "equitable_building",
      "lod": 0,
      "name": "Equitable Building",
      "triangles": 86321
     },
     {
-     "distance_m": 212.1,
+     "distance_m": 219.3,
      "id": "trinity_church",
      "lod": 0,
      "name": "Trinity Church",
      "triangles": 3984
     },
     {
-     "distance_m": 309.1,
+     "distance_m": 294.6,
      "id": "charging_bull",
      "lod": 0,
      "name": "Charging Bull",
      "triangles": 818
     },
     {
-     "distance_m": 576.8,
+     "distance_m": 591.3,
      "id": "b_wtc_site",
      "lod": 0,
      "name": "World Trade Center site",
      "triangles": 136174
     },
     {
-     "distance_m": 1181.3,
+     "distance_m": 1185.9,
      "id": "b_brooklyn_bridge",
      "lod": 0,
      "name": "Brooklyn Bridge",
      "triangles": 121824
     },
     {
-     "distance_m": 1478.6,
+     "distance_m": 1459.6,
      "id": "b_hugh_carey_portals",
      "lod": 0,
      "name": "Hugh L. Carey Tunnel",
@@ -235,15 +262,15 @@
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 380,
-    "curb": 817,
-    "median": 30,
+    "crosswalk": 381,
+    "curb": 823,
+    "median": 34,
     "parking_lot": 4,
     "plaza": 46,
-    "roadbed": 323,
-    "sidewalk": 159
+    "roadbed": 322,
+    "sidewalk": 158
    },
-   "placed": 1759,
+   "placed": 1768,
    "radius_m": 500.0,
    "tiles_missing": [],
    "tiles_read": [
@@ -252,61 +279,64 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "triangles": 128744,
-   "vertices": 132040
+   "triangles": 130767,
+   "vertices": 134081
   },
   "props": {
    "capped": null,
+   "impostor_cards_dropped": 7,
    "leaf_off": false,
    "per_kind": {
-    "bench": 59,
-    "bike_rack": 22,
-    "bus_shelter": 1,
+    "bench": 60,
+    "bike_rack": 25,
     "bus_stop_sign": 9,
-    "citibike_dock": 4,
+    "citibike_dock": 3,
     "flagpole": 5,
-    "hydrant": 77,
-    "manhole": 113,
+    "hydrant": 71,
+    "manhole": 114,
     "newsstand": 7,
     "steam_vent": 1,
-    "street_lamp": 113,
-    "subway_entrance": 27,
-    "subway_vent_grate": 26,
-    "tree": 17,
-    "waste_basket": 35
+    "street_lamp": 108,
+    "subway_entrance": 26,
+    "subway_vent_grate": 27,
+    "tree": 27,
+    "waste_basket": 34
    },
-   "placed": 516,
+   "placed": 517,
    "radius_m": 250.0,
-   "rows_in_range": 774,
+   "rows_in_range": 780,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_0",
-    "t_-6_0",
-    "t_-6_1"
+    "t_-6_0"
    ],
-   "tree_species_substituted": 6,
-   "triangles": 907206,
+   "tree_species_substituted": 8,
+   "triangles": 935190,
    "unmapped_kinds": {
-    "artwork": 11,
-    "cooling_tower": 104,
-    "curb_ramp": 132,
+    "artwork": 10,
+    "cooling_tower": 107,
+    "curb_ramp": 135,
     "drinking_fountain": 3,
     "memorial": 8
    }
   },
   "radius_m": 500.0,
-  "seconds": 36.26,
+  "seconds": 62.09,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 3.333,
-   "triangles": 180000,
-   "water_quads": 4360,
-   "z_max_m": 12.04,
-   "z_min_m": -4.33
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 199,
+   "spacing_m": 2.0,
+   "triangles": 78408,
+   "water_quads": 44,
+   "z_max_m": 12.03,
+   "z_min_m": -1.88
   },
-  "triangles": 4500117
+  "triangles": 4500174
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -314,19 +344,19 @@
   "radius_m": 500.0
  },
  "seconds": {
-  "render": 128.8,
-  "scene": 37.4,
-  "total": 166.2
+  "render": 158.4,
+  "scene": 69.8,
+  "total": 228.2
  },
  "slug": "landmark_federal_hall",
  "status": "rendered",
  "subject": {
-  "distance_m": 39.9,
+  "distance_m": 58.7,
   "name": "Federal Hall National Memorial"
  },
  "sun": {
-  "azimuth_deg": 95.30364891083457,
-  "elevation_deg": 43.46868057052333,
+  "azimuth_deg": 95.3034332120742,
+  "elevation_deg": 43.46863818814788,
   "local": "2016-06-21T09:30:00-04:00",
   "time_source": "photograph year only; 21 June 09:30 assumed",
   "utc": "2016-06-21T13:30:00Z"

@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-06 22:29 UTC from commit `b9b2bcfd95b3` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-06 22:33 UTC from commit `c23a45dbe54e` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -112,7 +112,7 @@ Water: hydrography polygons 2,235 · shoreline lines 413 · structures 2,536 · 
 | kit | 138 | 140.3 MB |
 | props | 122 | 79.2 MB |
 | vehicles | 93 | 100.2 MB |
-| character | 2 | 34.8 MB |
+| character | 11 | 221.4 MB |
 | landmarks | 127 | 920.5 MB |
 | tiles | 1,010 | 4,624.0 MB |
 
@@ -180,7 +180,7 @@ Stage reports present: buildings, buildings_mesh, character, citygml, comparison
 
 Lanes that split their work wrote more than one: `landmarks` (REPORT_B.md, REPORT_C.md).
 
-Per-subject reports underneath those: comparison 28, facade 1, landmarks 34, reference 2, traffic_density 2.
+Per-subject reports underneath those: comparison 29, facade 1, landmarks 34, reference 2, traffic_density 2.
 
 What is verified in this environment versus on a workstation is defined in `docs/ARCHITECTURE.md` §14. In short: geodesy, tiling, streaming logic, routing, traffic rules, signal phasing, astronomy, time zone handling, weather parsing, data coverage and asset geometry are verified here by tests and Cycles renders. Unreal Engine compilation, cooking, frame rate, vehicle feel and audio are not — no Unreal editor or GPU exists in this environment, and no claim is made that they were tested.
 
@@ -212,6 +212,19 @@ What is verified in this environment versus on a workstation is defined in `docs
 | B8 | **213,451 accessory garages (19.7 % of footprints) share a class with multi-storey parking decks.** | `facade_classes.json` has one garage typology. Their material and roof are overridden from real lot evidence so the shells read correctly. | A class 57 `accessory_garage_1fl`, proposed to the kit lane. |
 | B9 | **Shell storage is 5.70 GB, not ADR-003's ~1.3 GB estimate; placements are 1.68 GB, not "< 1 GB".** | The estimate did not budget for the LOD chain (+80 %) or per-building vertex attributes (62 % of the LOD0 payload). Draco compresses 4.7× but needs 16+ hours for the city here and makes the geometry unreadable to `pygltflib`. | Amend ADR-003 to ≈3 GB LOD0 / ≈5.7 GB with the chain, and treat Draco as a workstation packaging step. |
 | B10 | **Multi-part complexes are one row per BIN, and interiors do not exist.** Every building is a shell. | The base table is keyed by BIN; the brief asks for a drivable exterior city. | Out of scope. |
+| B11 | **New Jersey has terrain but no buildings.** 1,104 tiles of New Jersey shoreline carry a heightmap and nothing standing on it, so every view west from Manhattan shows bare ground where Jersey City, Hoboken and Newark stand. The comparison lane found it independently on the Brooklyn Heights Promenade frame. | The brief's scope is the five boroughs *plus* the New Jersey shoreline. 231,336 NJ buildings from FEMA/ORNL USA Structures were downloaded, parsed and written to `data/processed/nj/`, and then never tiled — the tiling stage is NYC-only. | Tile them and build their shells; the data is on disk. **In progress at the time of writing.** Note that the source carries a height for only 73.7 % of them, none of their ground elevations, and no roof geometry at all, so New Jersey will never reach the fidelity of the five boroughs. |
+
+### The photorealism gap, stated as its own item
+
+The comparison assessments are the most direct evidence in the project of the distance between what is built
+and a photograph, and three findings recur in almost every frame. They are listed here rather than left in
+the individual assessments, because together they are the honest answer to "is it photorealistic".
+
+| # | Deviation | Reason | What would close it |
+|---|---|---|---|
+| B12 | **Buildings have no facade textures and no glass.** Every shell carries a per-material base colour only — no albedo or normal maps, no glass BSDF, no spandrel banding, no fenestration readable at distance. In the Brooklyn Heights Promenade frame the Lower Manhattan towers are "flat pastel solids: pale pink, pale blue, white" against a photograph whose towers are dark glass with strong vertical banding and a tonal range from near-black to specular white. **The skyline reads as a massing study rather than a city.** | This is the visible consequence of A2: with 96.69 % of facades inferred there is no per-building appearance to texture from, and the facade kit places geometry (windows, cornices, fire escapes) rather than painting surfaces. | The A2 fix — licensed street-level imagery and a vision model — plus an authored material set with a glass BSDF. This is the single largest gap between this build and photorealism, and it is a material and imagery problem, not a geometry one. |
+| B13 | **Non-building structures at ground level do not exist.** The Brooklyn Heights Promenade deck itself, Brooklyn Bridge Park, the East River piers and the Squibb bridge are all absent, so a camera standing on the promenade stands on bare terrain and its own railing, benches and lamps sit below the parapet line where the deck should be. | No stage produces structures that are neither buildings, roads, nor props. The terrain heightmap flattens them into ground. | A structures stage consuming the planimetric deck and pier polygons, which are already downloaded. |
+| B14 | **Water is a mirror.** Roughness 0.06 with no wave normal map makes the East River a perfect reflector of sky and towers; the real surface at that distance is dark, broken and largely non-reflective. The mirrored towers below the waterline are the most conspicuously unreal thing in the frame. | The water normal map is not in the repository (see H3). It is bound by material parameter, so no graph editing is needed. | One texture. |
 
 ---
 
@@ -328,5 +341,5 @@ Two things, stated so their absence is not mistaken for an oversight:
   struct that made the road graph unreadable to the router, and a character whose garments all carried
   the wrong vertex weights.
 
-That is **61 deviations**, each with the stage report it is drawn from. The source document is `docs/DEVIATIONS.md`.
+That is **65 deviations**, each with the stage report it is drawn from. The source document is `docs/DEVIATIONS.md`.
 
