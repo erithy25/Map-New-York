@@ -386,7 +386,7 @@ def build_roof_attrs(*, index_path: Path = INDEX_PATH, base_path: Path = BASE_PA
         "z_ground_min": np.where(match, df.z_ground_min.to_numpy(dtype=np.float64), np.nan).astype(np.float32),
         "tri_count": df.tri_count.fillna(0).to_numpy().astype(np.int32),
         "citygml_da": df.da.fillna(0).to_numpy().astype(np.int8),
-        "citygml_flags": df.flags.fillna(0).to_numpy().astype(np.uint16),
+        "citygml_flags": df["flags"].fillna(0).to_numpy().astype(np.uint16),
     }, schema=SCHEMA)
     table = table.sort_by([("bin", "ascending")])
 

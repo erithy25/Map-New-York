@@ -5683,6 +5683,68 @@
    "stage": "buildings",
    "tile_root": "data/processed/tiles"
   },
+  "citygml_da15": {
+   "artifact_id": "citygml_da15",
+   "buildings_parsed": 66596,
+   "bytes": 36272355,
+   "counters": {
+    "building_no_bin": 2,
+    "building_placeholder_bin": 1437,
+    "buildings_with_tri_dropped": 745,
+    "collinear_points_removed": 540428,
+    "dup_points_removed": 954222,
+    "ground_flipped_down": 1,
+    "roof_face_horizontal": 99162,
+    "roof_flipped_up": 2404,
+    "roof_type_flat": 66596,
+    "tri_dropped_f32_degenerate": 1057,
+    "wall_ground_inward": 458,
+    "wall_ground_outward": 715993
+   },
+   "da": 15,
+   "elapsed_s": 307.48,
+   "git_commit": "1ed58d0d4c6b",
+   "path": "data/processed/buildings/citygml/da15.parquet",
+   "produced_at": "2026-09-06T11:21:51Z",
+   "rows": 66596,
+   "schema": "citygml_solids_v1",
+   "sha256": "ffb326e031aa170ccbf9edafa687c277799847ca50d70e7d891109f2ea02d717",
+   "sources": [
+    "doitt_3d_citygml"
+   ],
+   "stage": "citygml"
+  },
+  "citygml_da18": {
+   "artifact_id": "citygml_da18",
+   "buildings_parsed": 105486,
+   "bytes": 45876936,
+   "counters": {
+    "building_no_bin": 1,
+    "building_placeholder_bin": 841,
+    "buildings_with_tri_dropped": 830,
+    "collinear_points_removed": 337649,
+    "dup_points_removed": 1119467,
+    "duplicate_bin_rows_merged": 14,
+    "roof_face_horizontal": 149098,
+    "roof_flipped_up": 1579,
+    "roof_type_flat": 105486,
+    "tri_dropped_f32_degenerate": 975,
+    "wall_ground_inward": 380,
+    "wall_ground_outward": 789210
+   },
+   "da": 18,
+   "elapsed_s": 369.0,
+   "git_commit": "1ed58d0d4c6b",
+   "path": "data/processed/buildings/citygml/da18.parquet",
+   "produced_at": "2026-09-06T11:21:49Z",
+   "rows": 105472,
+   "schema": "citygml_solids_v1",
+   "sha256": "1ce4053e572b7ad69508b5a1eee32e6dad70cbcd118c444c7fc2ef897d163037",
+   "sources": [
+    "doitt_3d_citygml"
+   ],
+   "stage": "citygml"
+  },
   "citygml_da19": {
    "artifact_id": "citygml_da19",
    "buildings_parsed": 105569,
@@ -5845,6 +5907,51 @@
    "stage": "landmarks",
    "tris_lod0": 53987,
    "tris_lod1": 272
+  },
+  "live/esb_lights": {
+   "artifact_id": "live/esb_lights",
+   "bytes": 405,
+   "git_commit": "1ed58d0d4c6b",
+   "path": "data/processed/live/esb_lights.json",
+   "produced_at": "2026-09-06T11:24:43Z",
+   "rows": 1,
+   "schema": "live/esb_lights/1",
+   "sha256": "7a8cf1d8fb4a24747293670fddf61b33be89525ee500a646e05cc344b4162f19",
+   "sources": [
+    "esbnyc.com"
+   ],
+   "stage": "live"
+  },
+  "live/tides": {
+   "artifact_id": "live/tides",
+   "bytes": 2202,
+   "git_commit": "1ed58d0d4c6b",
+   "path": "data/processed/live/tides.json",
+   "produced_at": "2026-09-06T11:24:43Z",
+   "rows": 1,
+   "schema": "live/tides/1",
+   "sha256": "e2278eac6336e3de9a623db502c13d74ff7a4d12becded851d85459999f3c836",
+   "sources": [
+    "api.tidesandcurrents.noaa.gov"
+   ],
+   "stage": "live"
+  },
+  "live/weather": {
+   "artifact_id": "live/weather",
+   "bytes": 813,
+   "git_commit": "1ed58d0d4c6b",
+   "path": "data/processed/live/weather.json",
+   "produced_at": "2026-09-06T11:24:43Z",
+   "rows": 1,
+   "schema": "live/weather/1",
+   "sha256": "d61f3b91aaf29f12392c96fdc07bce1db57c39554b01da4e848cda6547df2231",
+   "sources": [
+    "api.weather.gov",
+    "api.open-meteo.com",
+    "aviationweather.gov",
+    "tgftp.nws.noaa.gov"
+   ],
+   "stage": "live"
   },
   "nj/buildings_nj_usa_structures": {
    "artifact_id": "nj/buildings_nj_usa_structures",

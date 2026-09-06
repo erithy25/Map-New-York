@@ -1,0 +1,98 @@
+{
+ "generated": "2026-09-06T11:22:30Z",
+ "rows": 1083026,
+ "citygml_match": 15584,
+ "citygml_match_rate": 0.014389312906615354,
+ "roof_type_hist": {
+  "flat": 596374,
+  "gable": 486472,
+  "hip": 147,
+  "mansard": 9,
+  "shed": 12,
+  "sawtooth": 0,
+  "complex": 1,
+  "dome": 5,
+  "barrel": 6
+ },
+ "roof_type_source_hist": {
+  "citygml": 0,
+  "osm": 4038,
+  "inferred": 486232,
+  "default": 592756
+ },
+ "roof_inferred_rows": 1078988,
+ "pitched_rows": 486652,
+ "pitched_frac": 0.4493447064059404,
+ "dz_vs_footprint_m": {
+  "n": 15584,
+  "median_abs": 4.76837158203125e-07,
+  "mean": 0.0056256125537674775,
+  "p99_abs": 0.7522364282608036,
+  "frac_within_1m": 0.9923639630390144
+ },
+ "n_roof_levels_hist": {
+  "0": 1067442,
+  "1": 11516,
+  "2": 3559,
+  "3": 457,
+  "4": 28,
+  "5": 14,
+  "6": 3,
+  "7": 4,
+  "8": 1,
+  "10": 1,
+  "17": 1
+ },
+ "osm": {
+  "available": true,
+  "tagged": 4364,
+  "matched": 4056,
+  "used": 4038,
+  "max_dist_m": 6.0,
+  "recognised_tags": 4364,
+  "unrecognised_tags": [],
+  "hist": {
+   "flat": 3618,
+   "gable": 240,
+   "hip": 147,
+   "mansard": 9,
+   "shed": 12,
+   "complex": 1,
+   "dome": 5,
+   "barrel": 6
+  }
+ },
+ "inference_rule": {
+  "classes": [
+   "A0",
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9",
+   "B1",
+   "B2",
+   "B3",
+   "B9",
+   "R1",
+   "R3"
+  ],
+  "front_ratio_max": 0.8,
+  "max_span_m": 14.0,
+  "max_floors": 3,
+  "max_footprint_m2": 400.0,
+  "pitch_deg": 30.0,
+  "rise_clamp_m": [
+   0.9,
+   3.0
+  ],
+  "measured_precision": 0.831,
+  "gable_vs_hip": "not decidable from available attributes; every inferred pitched roof is reported as gable"
+ },
+ "elapsed_s": 12.0,
+ "path": "/tmp/claude-0/-home-user-Map-New-York/acd234fa-9154-5ea7-ad61-034753232ccb/scratchpad/cgtest/roof_attrs.parquet"
+}

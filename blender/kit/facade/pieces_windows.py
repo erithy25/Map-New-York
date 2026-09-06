@@ -106,7 +106,7 @@ def _win_casement():
     P.sash(m, fx0, mid - 0.012, fz0, fz1, P.REVEAL, lights_z=3, frame_mat=P.BLACK, stile=0.032, thick=0.035)
     P.sash(m, mid + 0.012, fx1, fz0, fz1, P.REVEAL, lights_z=3, frame_mat=P.BLACK, stile=0.032, thick=0.035)
     m.box((mid - 0.016, P.REVEAL - 0.010, fz0), (mid + 0.016, P.REVEAL + 0.045, fz1), P.BLACK)   # mullion
-    P.interior_card(m, fx0, fx1, fz0, fz1, P.REVEAL + 0.24, False)
+    P.interior_card(m, fx0, fx1, fz0, fz1, P.REVEAL + 0.155, False)
     P.stone_sill(m, x0, x1, z0 - P.SILL_H, "precast", ear=0.055)
     return m
 
@@ -130,7 +130,7 @@ def _win_steel():
         w = 0.020 if j == 2 else 0.012                    # heavier bar at the pivot vent head
         m.box((gx0, y + 0.006, z - w / 2), (gx1, y + 0.034, z + w / 2), P.BLACK)
     m.glass_pane(gx0, gx1, gz0, gz1, y + 0.020, P.GLASS)
-    P.interior_card(m, gx0, gx1, gz0, gz1, y + 0.26, False)
+    P.interior_card(m, gx0, gx1, gz0, gz1, y + 0.155, False)
     m.box((x0 - 0.06, -0.030, z1), (x1 + 0.06, 0.010, z1 + 0.090), P.GALV)          # lintel angle
     m.box((x0 - 0.02, -0.045, z0 - 0.050), (x1 + 0.02, P.WYTHE, z0), "precast")     # sill
     return m
@@ -152,7 +152,7 @@ def _win_punched():
     m.box(((gx0 + gx1) / 2 - 0.026, y + 0.004, split + 0.030), ((gx0 + gx1) / 2 + 0.026, y + 0.056, gz1), P.ALU)
     m.glass_pane(gx0, gx1, gz0, split - 0.030, y + 0.030, "glass_curtain")
     m.glass_pane(gx0, gx1, split + 0.030, gz1, y + 0.030, "glass_curtain")
-    P.interior_card(m, gx0, gx1, gz0, gz1, y + 0.26, False)
+    P.interior_card(m, gx0, gx1, gz0, gz1, y + 0.155, False)
     m.box((x0 - 0.06, -0.055, z0 - 0.090), (x1 + 0.06, P.WYTHE, z0), "precast")
     return m
 
@@ -179,54 +179,85 @@ def _win_curtain():
     m.glass_pane(x0 + 0.075, x1 - 0.075, vision_top + 0.050, h - 0.050, y + 0.075, "glass_curtain", 0.024)
     m.box((x0 + 0.075, y + 0.100, 0.050), (x1 - 0.075, y + 0.130, vision_bot), "metal_panel")           # shadow box back pan
     m.box((x0, y + 0.180, 0.050), (x1, y + 0.260, 0.420), "concrete")                                   # slab edge
-    P.interior_card(m, x0 + 0.08, x1 - 0.08, vision_bot, vision_top, y + 0.30, False)
+    P.interior_card(m, x0 + 0.08, x1 - 0.08, vision_bot, vision_top, y + 0.20, False)
     return m
 
 
 # --------------------------------------------------------------------------- 10  bay window
-@K.register("win_bay_window", "window", nominal_size=(2.40, 0.85, 2.55),
-            description="Three-sided projecting bay, 2.4 m wide x 0.62 m deep with three 1/1 sashes, panelled apron and lead-clad roof "
-                        "(Brooklyn / Queens rowhouse).",
+@K.register("win_bay_window", "window", nominal_size=(2.40, 0.77, 2.63),
+            description="Three-sided projecting bay, 2.40 m wide x 0.62 m deep, with three 1/1 sashes, a panelled brownstone apron, "
+                        "moulded sill and head bands and a lead-clad roof (Brooklyn / Queens rowhouse).",
             features=["bay_windows"], budget=900)
 def _win_bay():
     m = K.Mesh()
     w, h = W["bay_window"]
     x0, x1 = -w / 2, w / 2
-    proj = 0.62
-    cx0, cx1 = x0 + 0.46, x1 - 0.46
-    apron, head = 0.28, h + 0.28
+    proj = 0.62                       # 2 ft projection past the wall face (rowhouse bay)
+    cx0, cx1 = x0 + 0.46, x1 - 0.46   # 45 deg canted returns
+    apron, head = 0.30, 0.30 + h      # sill at 0.30, head at 2.40
+    top = head + 0.22
     plan = [(x0, 0.0), (cx0, -proj), (cx1, -proj), (x1, 0.0)]
-    for i in range(3):
-        (ax, ay), (bx, by) = plan[i], plan[i + 1]
-        m.face([(ax, ay, 0.0), (bx, by, 0.0), (bx, by, apron), (ax, ay, apron)], "brownstone")      # apron
-        m.face([(ax, ay, head), (bx, by, head), (bx, by, head + 0.10), (ax, ay, head + 0.10)], "brownstone")
-    for i in range(3):
+
+    def facet(i):
         (ax, ay), (bx, by) = plan[i], plan[i + 1]
         dx, dy = bx - ax, by - ay
         L = math.hypot(dx, dy)
         ux, uy = dx / L, dy / L
-        nx, ny = -uy, ux                                              # outward normal of that facet
-        j = 0.075
-        px0, py0 = ax + ux * j, ay + uy * j
-        px1, py1 = bx - ux * j, by - uy * j
-        for zz in (apron, head):                                      # facet rails
-            m.face([(ax, ay, zz), (bx, by, zz), (bx + nx * 0.10, by + ny * 0.10, zz), (ax + nx * 0.10, ay + ny * 0.10, zz)], "brownstone")
-        # glazing plane recessed 90 mm behind the facet
-        gx0, gy0 = px0 + nx * -0.09, py0 + ny * -0.09
-        gx1, gy1 = px1 + nx * -0.09, py1 + ny * -0.09
-        m.face([(gx0, gy0, apron + 0.06), (gx1, gy1, apron + 0.06), (gx1, gy1, head - 0.06), (gx0, gy0, head - 0.06)], P.GLASS)
-        m.face([(gx0, gy0, apron + 0.06), (gx0, gy0, head - 0.06), (gx1, gy1, head - 0.06), (gx1, gy1, apron + 0.06)], "interior_unlit",
-               uvs=[(0, 0), (0, 2), (2, 2), (2, 0)])
-        # sash stiles / meeting rail on that facet
-        for t, ww in ((0.0, 0.055), (1.0, 0.055), (0.5, 0.030)):
-            sx = px0 + (px1 - px0) * t
-            sy = py0 + (py1 - py0) * t
-            m.face([(sx - ux * ww, sy - uy * ww, apron + 0.06), (sx + ux * ww, sy + uy * ww, apron + 0.06),
-                    (sx + ux * ww, sy + uy * ww, head - 0.06), (sx - ux * ww, sy - uy * ww, head - 0.06)], P.SASH_WHITE)
-        zm = (apron + head) / 2
-        m.face([(px0, py0, zm - 0.030), (px1, py1, zm - 0.030), (px1, py1, zm + 0.030), (px0, py0, zm + 0.030)], P.SASH_WHITE)
-    m.face([(x, y, head + 0.10) for x, y in plan], "metal_panel")            # lead-clad bay roof deck
-    m.face([(x, y, 0.0) for x, y in reversed(plan)], "brownstone")           # soffit under the bay
+        return (ax, ay), (bx, by), (ux, uy), (uy, -ux), L      # outward normal is (uy, -ux)
+
+    for i in range(3):
+        (ax, ay), (bx, by), (ux, uy), (nx, ny), L = facet(i)
+        e = 0.055                                              # projection of the sill / head bands
+        # apron below the sill
+        m.face([(ax, ay, 0.0), (bx, by, 0.0), (bx, by, apron), (ax, ay, apron)], "brownstone")
+        # recessed apron panel
+        m.face([(ax + ux * 0.14 + nx * 0.008, ay + uy * 0.14 + ny * 0.008, 0.09),
+                (bx - ux * 0.14 + nx * 0.008, by - uy * 0.14 + ny * 0.008, 0.09),
+                (bx - ux * 0.14 + nx * 0.008, by - uy * 0.14 + ny * 0.008, apron - 0.07),
+                (ax + ux * 0.14 + nx * 0.008, ay + uy * 0.14 + ny * 0.008, apron - 0.07)], "brownstone")
+        # moulded sill band and head band (project e outwards, 0.10 / 0.14 deep)
+        for (zb, zt) in ((apron - 0.06, apron + 0.04), (head - 0.05, head + 0.13)):
+            A = (ax, ay, zb); B = (bx, by, zb)
+            An = (ax + nx * e, ay + ny * e, zb); Bn = (bx + nx * e, by + ny * e, zb)
+            At = (ax + nx * e, ay + ny * e, zt); Bt = (bx + nx * e, by + ny * e, zt)
+            m.face([An, Bn, Bt, At], "brownstone")                                  # band face
+            m.face([A, B, Bn, An], "brownstone", flip=True)                         # underside
+            m.face([At, Bt, (bx, by, zt), (ax, ay, zt)], "brownstone")              # top wash
+        # pier faces beside the glazing
+        m.face([(ax, ay, apron), (ax + ux * 0.13, ay + uy * 0.13, apron),
+                (ax + ux * 0.13, ay + uy * 0.13, head), (ax, ay, head)], "brownstone")
+        m.face([(bx - ux * 0.13, by - uy * 0.13, apron), (bx, by, apron),
+                (bx, by, head), (bx - ux * 0.13, by - uy * 0.13, head)], "brownstone")
+        # reveal + sash + glass, set 0.10 m back from the facet
+        px0, py0 = ax + ux * 0.13, ay + uy * 0.13
+        px1, py1 = bx - ux * 0.13, by - uy * 0.13
+        rx0, ry0 = px0 - nx * 0.10, py0 - ny * 0.10
+        rx1, ry1 = px1 - nx * 0.10, py1 - ny * 0.10
+        m.face([(px0, py0, apron), (rx0, ry0, apron), (rx0, ry0, head), (px0, py0, head)], "brownstone", flip=True)
+        m.face([(px1, py1, apron), (px1, py1, head), (rx1, ry1, head), (rx1, ry1, apron)], "brownstone", flip=True)
+        m.face([(px0, py0, head), (rx0, ry0, head), (rx1, ry1, head), (px1, py1, head)], "brownstone", flip=True)
+        m.face([(px0, py0, apron), (px1, py1, apron), (rx1, ry1, apron), (rx0, ry0, apron)], "brownstone", flip=True)
+        m.face([(rx0, ry0, apron + 0.02), (rx1, ry1, apron + 0.02), (rx1, ry1, head - 0.02), (rx0, ry0, head - 0.02)], P.GLASS)
+        m.face([(rx0 + nx * 0.16, ry0 + ny * 0.16, apron), (rx0 + nx * 0.16, ry0 + ny * 0.16, head),
+                (rx1 + nx * 0.16, ry1 + ny * 0.16, head), (rx1 + nx * 0.16, ry1 + ny * 0.16, apron)],
+               "interior_unlit", uvs=[(0, 0), (0, 2), (2, 2), (2, 0)])
+        for t, ww in ((0.0, 0.055), (1.0, 0.055)):             # sash stiles
+            sx = rx0 + (rx1 - rx0) * t
+            sy = ry0 + (ry1 - ry0) * t
+            m.face([(sx - ux * ww + nx * 0.012, sy - uy * ww + ny * 0.012, apron),
+                    (sx + ux * ww + nx * 0.012, sy + uy * ww + ny * 0.012, apron),
+                    (sx + ux * ww + nx * 0.012, sy + uy * ww + ny * 0.012, head),
+                    (sx - ux * ww + nx * 0.012, sy - uy * ww + ny * 0.012, head)], P.SASH_WHITE)
+        zm = (apron + head) / 2                                # meeting rail
+        m.face([(rx0 + nx * 0.012, ry0 + ny * 0.012, zm - 0.032), (rx1 + nx * 0.012, ry1 + ny * 0.012, zm - 0.032),
+                (rx1 + nx * 0.012, ry1 + ny * 0.012, zm + 0.032), (rx0 + nx * 0.012, ry0 + ny * 0.012, zm + 0.032)], P.SASH_WHITE)
+    # roof: a shallow lead-clad hip from the head band up to the wall
+    rp = [(x + (0.0 if abs(abs(x) - w / 2) < 1e-6 else 0.0), y) for x, y in plan]
+    for i in range(3):
+        (ax, ay), (bx, by) = rp[i], rp[i + 1]
+        m.face([(ax, ay, head + 0.13), (bx, by, head + 0.13), (bx * 0.86, by * 0.5, top), (ax * 0.86, ay * 0.5, top)], "metal_panel")
+    m.face([(x * 0.86, y * 0.5, top) for x, y in rp], "metal_panel")
+    m.face([(x, y, 0.0) for x, y in reversed(plan)], "brownstone")               # soffit under the bay
     return m
 
 
@@ -283,7 +314,7 @@ def _win_slider():
     m.frame(mid - 0.020, gx1, gz0, gz1, y + 0.028, y + 0.050, 0.032, P.ALU)      # sliding light (outboard track)
     m.glass_pane(gx0 + 0.032, mid - 0.012, gz0 + 0.032, gz1 - 0.032, y + 0.015, P.GLASS)
     m.glass_pane(mid + 0.012, gx1 - 0.032, gz0 + 0.032, gz1 - 0.032, y + 0.039, P.GLASS)
-    P.interior_card(m, gx0, gx1, gz0, gz1, y + 0.24, False)
+    P.interior_card(m, gx0, gx1, gz0, gz1, y + 0.155, False)
     m.box((x0 - 0.055, -0.050, z0 - 0.075), (x1 + 0.055, P.WYTHE, z0), "precast")
     return m
 
@@ -306,48 +337,49 @@ def _win_picture():
     m.glass_pane(a + 0.028, b - 0.028, fz0, fz1, y + 0.028, P.GLASS)
     P.sash(m, fx0, a - 0.028, fz0, fz1, y + 0.006, frame_mat=P.SASH_WHITE, stile=0.036, thick=0.040)
     P.sash(m, b + 0.028, fx1, fz0, fz1, y + 0.006, frame_mat=P.SASH_WHITE, stile=0.036, thick=0.040)
-    P.interior_card(m, fx0, fx1, fz0, fz1, y + 0.24, False)
+    P.interior_card(m, fx0, fx1, fz0, fz1, y + 0.155, False)
     m.box((x0 - 0.06, -0.055, z0 - 0.060), (x1 + 0.06, P.WYTHE, z0), P.ALU)
     return m
 
 
 # --------------------------------------------------------------------------- 15  gothic arched (church)
-@K.register("win_gothic_arched", "window", nominal_size=(1.50, 0.34, 4.15),
-            description="Pointed-arch traceried church window with a limestone hood mould, Y-tracery and leaded stained glass.",
+@K.register("win_gothic_arched", "window", nominal_size=(1.35, 0.33, 3.67),
+            description="Pointed-arch traceried church window: equilateral two-centred limestone arch with a hood mould, Y-tracery "
+                        "mullions, saddle bars and leaded glass.",
             features=["arched_windows"], budget=1000)
 def _win_gothic():
     m = K.Mesh()
     ow, oh = W["gothic_arched"]
     x0, x1 = -ow / 2, ow / 2
-    spring = oh - ow * 0.92          # springing line; two-centred arch of equilateral proportion
+    y = P.REVEAL
+    spring = oh - ow * 0.92          # springing line of a two-centred (equilateral) arch, R = the span
     R = ow
     seg = 10
-    P.reveal(m, x0, x1, 0.0, spring, P.REVEAL + 0.10, "limestone", head=False)
-    # arch reveal + glass, built from a two-centred (equilateral) arch
-    left_c, right_c = (x1 - R, spring), (x0 + R, spring)
+
+    def arch_z(x: float) -> float:
+        """Equilateral pointed arch: the left half is struck from the right springing point and vice versa."""
+        cxx = x1 if x <= 0.0 else x0
+        return spring + math.sqrt(max(R * R - (x - cxx) ** 2, 0.0))
+
+    P.reveal(m, x0, x1, 0.0, spring, y + 0.10, "limestone", head=False)
+    m.glass_pane(x0 + 0.02, x1 - 0.02, 0.10, spring, y, "glass_curtain")
     prev = None
     for i in range(seg + 1):
-        t = i / seg
-        # parameterise by x across the span and solve the two-centred arch for z
-        x = x0 + (x1 - x0) * t
-        c = left_c if x <= 0 else right_c
-        dz = math.sqrt(max(R * R - (x - c[0]) ** 2, 0.0))
-        z = c[1] + dz
-        cur = (x, z)
+        x = x0 + (x1 - x0) * i / seg
+        z = arch_z(x)
         if prev is not None:
             px, pz = prev
-            m.face([(px, 0.0, pz), (x, 0.0, z), (x, P.REVEAL + 0.10, z), (px, P.REVEAL + 0.10, pz)], "limestone", flip=True)
-            m.face([(px, -0.045, pz), (px, -0.045, pz + 0.13), (x, -0.045, z + 0.13), (x, -0.045, z)], "limestone")
+            m.face([(px, 0.0, pz), (x, 0.0, z), (x, y + 0.10, z), (px, y + 0.10, pz)], "limestone", flip=True)         # soffit
+            m.face([(px, -0.045, pz), (px, -0.045, pz + 0.13), (x, -0.045, z + 0.13), (x, -0.045, z)], "limestone")    # hood face
             m.face([(px, -0.045, pz + 0.13), (px, P.WYTHE, pz + 0.13), (x, P.WYTHE, z + 0.13), (x, -0.045, z + 0.13)], "limestone")
-        prev = cur
-    y = P.REVEAL
-    m.glass_pane(x0 + 0.02, x1 - 0.02, 0.06, spring + 0.30, y, "glass_curtain")
-    for t in (0.333, 0.667):                                                          # mullions
+            m.face([(px, y, spring), (x, y, spring), (x, y, z), (px, y, pz)], "glass_curtain")                          # arch-head glazing
+        prev = (x, z)
+    for t in (1 / 3, 2 / 3):                                                       # Y-tracery mullions into the head
         xm = x0 + (x1 - x0) * t
-        m.box((xm - 0.045, y - 0.030, 0.0), (xm + 0.045, y + 0.070, spring + 0.55), "limestone")
-    for zz in (1.10, 2.20, 3.10):                                                     # transoms / saddle bars
-        m.box((x0, y - 0.020, zz - 0.030), (x1, y + 0.060, zz + 0.030), "limestone")
-    m.box((x0 - 0.075, -0.055, 0.0), (x1 + 0.075, P.WYTHE, 0.12), "limestone")        # stone sill block
+        m.box((xm - 0.045, y - 0.030, 0.10), (xm + 0.045, y + 0.070, spring + (arch_z(xm) - spring) * 0.55), "limestone")
+    for zz in (0.95, 1.85, 2.75):                                                  # wrought-iron saddle bars
+        m.box((x0, y - 0.014, zz - 0.014), (x1, y + 0.040, zz + 0.014), P.BLACK)
+    m.box((x0 - 0.075, -0.055, 0.0), (x1 + 0.075, P.WYTHE, 0.10), "limestone")     # stone sill block
     return m
 
 
@@ -371,7 +403,7 @@ def _win_ribbon():
     m.box((gx0, y + 0.002, zt - 0.028), (gx1, y + 0.053, zt + 0.028), P.ALU)
     m.glass_pane(gx0, gx1, gz0, zt, y + 0.028, "glass_curtain")
     m.glass_pane(gx0, gx1, zt, gz1, y + 0.028, "glass_curtain")
-    P.interior_card(m, gx0, gx1, gz0, gz1, y + 0.25, False)
+    P.interior_card(m, gx0, gx1, gz0, gz1, y + 0.155, False)
     m.box((x0 - 0.05, -0.060, z0 - 0.100), (x1 + 0.05, P.WYTHE, z0), "precast")
     return m
 
@@ -397,7 +429,7 @@ def _win_chicago():
         mid = (fz0 + fz1) / 2
         P.sash(m, sx0, sx1, mid, fz1, y + 0.030, frame_mat=P.SASH_WHITE, stile=0.038, thick=0.038)
         P.sash(m, sx0, sx1, fz0, mid, y - 0.008, frame_mat=P.SASH_WHITE, stile=0.038, thick=0.038)
-    P.interior_card(m, fx0, fx1, fz0, fz1, y + 0.26, False)
+    P.interior_card(m, fx0, fx1, fz0, fz1, y + 0.155, False)
     P.stone_lintel(m, x0, x1, z1, "precast", h=0.180, ear=0.100)
     P.stone_sill(m, x0, x1, z0 - 0.110, "precast", h=0.110, ear=0.075)
     return m

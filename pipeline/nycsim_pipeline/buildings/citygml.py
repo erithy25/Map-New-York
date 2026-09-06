@@ -157,7 +157,12 @@ INDEX_COLUMNS = ["bin", "bin_ok", "da", "doitt_id", "roof_type", "n_roof_levels"
 # posLists take the slow, counting code path instead of being silently truncated.
 warnings.filterwarnings("error", message="string or file could not be read to its end")
 
-_SRS_RE = re.compile(r"EPSG(?::+|/0/)(\d+)", re.IGNORECASE)
+# srsName spellings seen in CityGML: "EPSG:2263" (what the DoITT delivery uses), the OGC urn
+# "urn:ogc:def:crs:EPSG::2263" / "urn:ogc:def:crs:EPSG:6.12:2263" (an authority *version* sits between the
+# authority and the code and must not be mistaken for it), the compound urn
+# "urn:ogc:def:crs,crs:EPSG:6.12:2263,crs:EPSG:6.12:5703" (the first code is the horizontal one) and the
+# OGC http form "http://www.opengis.net/def/crs/EPSG/0/2263".
+_SRS_RE = re.compile(r"EPSG[:/]{1,2}(?:\d+(?:\.\d+)*[:/])?(\d{3,6})\b", re.IGNORECASE)
 
 # NAD83 -> WGS84 7-parameter Helmert (ESRI "NAD_1983_To_WGS_1984_5" = NAD83(CORS96) -> ITRF00 @ 1997.0, position-vector
 # convention). Measured against footprints_raw (Socrata WGS84 export of the same buildings) this reproduces the

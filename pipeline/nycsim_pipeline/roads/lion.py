@@ -238,7 +238,6 @@ def node_positions_from_cscl(cscl: gpd.GeoDataFrame, assignment: pd.DataFrame, n
     out = nodes.copy()
     out["x"] = out["x"] + shift[0]
     out["y"] = out["y"] + shift[1]
-    idx = out["node_id"].map(mean_xy.index.get_indexer_for) if False else None  # placeholder-free explicit join below
     j = out.set_index("node_id")
     common = j.index.intersection(mean_xy.index)
     j.loc[common, "x"] = mean_xy.loc[common, "x"]

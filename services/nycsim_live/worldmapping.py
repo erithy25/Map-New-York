@@ -89,11 +89,21 @@ UMBRELLA_WIND_ZERO_MPS: Final = 17.0  # at this wind only the stubborn minimum r
 UMBRELLA_WIND_MIN: Final = 0.10
 
 # --------------------------------------------------------------------------- window condensation
+# Steady-state pane surface temperatures (ISO 6946 surface resistances, m²K/W):
+#   T_si = T_in − (R_si/R_tot)·(T_in − T_out)      T_so = T_out + (R_se/R_tot)·(T_in − T_out)
+# R_si = 0.13, R_se = 0.04; glazing resistance 0.004 for 4 mm single glass (U = 5.75 W/m²K) and 0.19 for a
+# sealed double unit (U = 2.78 W/m²K) — both match the published U-values for those assemblies. NYC's pre-war
+# stock is largely single-glazed, so both are carried and the visible city-wide effect is the single-glazed one.
+R_SI: Final = 0.13
+R_SE: Final = 0.04
+R_GLAZING_SINGLE: Final = 0.004
+R_GLAZING_DOUBLE: Final = 0.19
+R_TOTAL_SINGLE: Final = R_SI + R_GLAZING_SINGLE + R_SE  # 0.174 -> U 5.75
+R_TOTAL_DOUBLE: Final = R_SI + R_GLAZING_DOUBLE + R_SE  # 0.360 -> U 2.78
 INDOOR_TEMP_C: Final = 21.0  # heating season set point
 INDOOR_RH: Final = 40.0
 INDOOR_TEMP_COOLED_C: Final = 23.0  # air-conditioning set point used above OUTDOOR_AC_C
 OUTDOOR_AC_C: Final = 26.0
-GLASS_SURFACE_RATIO: Final = 0.35  # R_si / R_total for typical double glazing (0.13 / 0.36)
 CONDENSATION_FULL_C: Final = 3.0  # this many °C below the dew point = fully fogged pane
 
 
@@ -139,6 +149,7 @@ class WorldState:
     window_condensation: float = 0.0  # max of the two below
     window_condensation_interior: float = 0.0  # winter: warm humid room against cold glass
     window_condensation_exterior: float = 0.0  # summer: humid outdoor air against AC-cooled glass
+    window_condensation_double: float = 0.0  # same for a sealed double unit (modern glazing)
     # --- bookkeeping
     missing: list[str] = field(default_factory=list)  # observation fields that were null (neutral used)
 
@@ -204,9 +215,7 @@ def tau_dry_s(temp_c: float | None, rh: float | None, wind_mps: float | None, so
     The denominator is scaled by 2 so that the reference state (20 °C, RH 50 %, calm, dark) gives exactly
     :data:`TAU_DRY_BASE_S`. Below 0 °C the film freezes and τ is multiplied by :data:`FREEZE_DRY_FACTOR`.
     """
-    deficit = 0.02 if rh is None else max(0.02, 1.0 - clamp(rh, 0.0, 100.0) / 100.0)
-    if rh is None:
-        deficit = 0.5  # neutral: reference humidity
+    deficit = 0.5 if rh is None else max(0.02, 1.0 - clamp(rh, 0.0, 100.0) / 100.0)  # None -> reference RH 50 %
     u = 0.0 if wind_mps is None else max(0.0, wind_mps)
     t = 20.0 if temp_c is None else temp_c
     e = 2.0 * deficit * (1.0 + u / 3.0) * (2.0 ** ((t - 20.0) / 10.0)) * (1.0 + 1.5 * clamp(solar_factor, 0.0, 1.0))
@@ -280,23 +289,23 @@ def umbrella_probability(precip_type: str, rate_mmph: float | None, wind_mps: fl
     return clamp(p, 0.0, UMBRELLA_MAX)
 
 
-def window_condensation(temp_c: float | None, dewpoint_c: float | None) -> tuple[float, float]:
-    """(interior, exterior) condensation on double glazing, 0..1.
+def window_condensation(temp_c: float | None, dewpoint_c: float | None, r_total: float = R_TOTAL_SINGLE) -> tuple[float, float]:
+    """(interior, exterior) condensation fraction on a pane of total resistance ``r_total``, 0..1.
 
-    Interior surface temperature of a double-glazed pane: T_si = T_in − r·(T_in − T_out) with
-    r = R_si/R_total = 0.13/0.36 = 0.35. Condensation forms once T_si drops below the *indoor* dew point
-    (21 °C / 40 % RH ⇒ 6.9 °C); the fraction is linear over :data:`CONDENSATION_FULL_C` degrees below it.
-    Above :data:`OUTDOOR_AC_C` the building is cooled to 23 °C and the mirror case applies: the exterior
-    surface T_so = T_out − r·(T_out − T_in) falls below the *outdoor* dew point and the pane fogs outside.
+    Winter: the interior surface sits at T_si = T_in − (R_si/R_tot)·(T_in − T_out) with T_in = 21 °C; when it
+    falls below the *indoor* dew point (21 °C / 40 % RH ⇒ 6.9 °C) the pane fogs from inside, linearly over
+    :data:`CONDENSATION_FULL_C` degrees. Summer: above :data:`OUTDOOR_AC_C` the room is cooled to 23 °C, the
+    exterior surface sits at T_so = T_out − (R_se/R_tot)·(T_out − T_in), and the pane fogs from outside once
+    that drops below the *outdoor* dew point.
     """
     if temp_c is None:
         return 0.0, 0.0
     td_in = dewpoint_from_rh(INDOOR_TEMP_C, INDOOR_RH)
-    t_si = INDOOR_TEMP_C - GLASS_SURFACE_RATIO * (INDOOR_TEMP_C - temp_c)
+    t_si = INDOOR_TEMP_C - (R_SI / r_total) * (INDOOR_TEMP_C - temp_c)
     interior = clamp((td_in - t_si) / CONDENSATION_FULL_C, 0.0, 1.0)
     exterior = 0.0
     if temp_c > OUTDOOR_AC_C and dewpoint_c is not None:
-        t_so = temp_c - GLASS_SURFACE_RATIO * (temp_c - INDOOR_TEMP_COOLED_C)
+        t_so = temp_c - (R_SE / r_total) * (temp_c - INDOOR_TEMP_COOLED_C)
         exterior = clamp((dewpoint_c - t_so) / CONDENSATION_FULL_C, 0.0, 1.0)
     return interior, exterior
 
@@ -361,23 +370,27 @@ class WorldMapper:
         self.puddle = clamp(self.puddle, 0.0, 1.0)
 
     def _step_snow(self, obs: WeatherObservation, dt_s: float, plow: bool, salt: bool) -> None:
+        """Ground and carriageway coverage in units of :data:`SNOW_FULL_COVER_CM`.
+
+        Ground cover follows ``weather.SnowModel``'s depth (authoritative, and reset outright by an observed
+        4/sss group); road cover integrates the same accretion and melt but is additionally cleared by
+        traffic, plows and salt, and can never exceed the ground cover.
+        """
         dt_h = dt_s / 3600.0
         depth = obs.snow_depth_cm or 0.0
+        accretion = (obs.snowfall_rate_cmph or 0.0) * dt_h / SNOW_FULL_COVER_CM
+        melt = 0.0
+        if obs.temp_c is not None and obs.temp_c > SNOW_MELT_ABOVE_C:
+            melt += SNOW_MELT_CM_PER_H_PER_C * (obs.temp_c - SNOW_MELT_ABOVE_C) * dt_h / SNOW_FULL_COVER_CM
+        if obs.precip_type in ("rain", "drizzle", "freezing_rain"):
+            melt += SNOW_RAIN_MELT_CM_PER_MM * (obs.precip_rate_mmph or 0.0) * dt_h / SNOW_FULL_COVER_CM
+        supported = clamp(depth / SNOW_FULL_COVER_CM, 0.0, 1.0)
         if obs.snow_depth_source == "observed":
-            self.snow_cover = clamp(depth / SNOW_FULL_COVER_CM, 0.0, 1.0)
+            self.snow_cover = supported
         else:
-            accretion = (obs.snowfall_rate_cmph or 0.0) * dt_h / SNOW_FULL_COVER_CM
-            melt = 0.0
-            if obs.temp_c is not None and obs.temp_c > SNOW_MELT_ABOVE_C:
-                melt += SNOW_MELT_CM_PER_H_PER_C * (obs.temp_c - SNOW_MELT_ABOVE_C) * dt_h / SNOW_FULL_COVER_CM
-            if obs.precip_type in ("rain", "drizzle", "freezing_rain"):
-                melt += SNOW_RAIN_MELT_CM_PER_MM * (obs.precip_rate_mmph or 0.0) * dt_h / SNOW_FULL_COVER_CM
-            self.snow_cover = clamp(self.snow_cover + accretion - melt, 0.0, 1.0)
-            # the depth model in weather.SnowModel is authoritative for depth; keep cover consistent with it
-            self.snow_cover = min(self.snow_cover, clamp(depth / SNOW_FULL_COVER_CM, 0.0, 1.0)) if depth > 0.0 else (0.0 if obs.snow_depth_source == "none" else self.snow_cover)
+            self.snow_cover = min(clamp(self.snow_cover + accretion - melt, 0.0, 1.0), supported)
         clear = ROAD_CLEAR_TRAFFIC_PER_H + (ROAD_CLEAR_PLOW_PER_H if plow else 0.0) + (ROAD_CLEAR_SALT_PER_H if salt else 0.0)
-        road = min(self.snow_cover_road + max(0.0, self.snow_cover - self.snow_cover_road), self.snow_cover)
-        self.snow_cover_road = clamp(road - clear * dt_h, 0.0, self.snow_cover)
+        self.snow_cover_road = clamp(self.snow_cover_road + accretion - melt - clear * dt_h, 0.0, self.snow_cover)
 
     def update(self, obs: WeatherObservation, now_unix: float | None = None, sun_elevation_deg: float | None = None) -> WorldState:
         now = self.clock() if now_unix is None else now_unix
@@ -390,13 +403,14 @@ class WorldMapper:
         plow, salt = plow_and_salt(depth, obs.temp_c, obs.precip_type)
         self._step_snow(obs, dt_s, plow, salt)
         enu, ue = wind_vectors(obs.wind_mps, obs.wind_from_heading)
-        fog = fog_density_from_visibility(obs.visibility_m) if any(o in FOG_OBSCURATIONS for o in obs.obscuration) or (obs.rh or 0.0) >= 95.0 else 0.0
-        haze = fog_density_from_visibility(obs.visibility_m) if any(o in AEROSOL_OBSCURATIONS for o in obs.obscuration) else 0.0
-        if not obs.obscuration and obs.visibility_m is not None and obs.visibility_m < FOG_VIS_CLEAR_M and fog == 0.0:
-            # visibility restricted without a reported obscuration group (e.g. heavy precipitation): treat as
-            # droplet obscuration so the renderer still thickens the fog volume.
-            fog = fog_density_from_visibility(obs.visibility_m)
-        cond_in, cond_out = window_condensation(obs.temp_c, obs.dewpoint_c)
+        # Restricted visibility is attributed to dry aerosol only when an aerosol group is reported without a
+        # droplet group; otherwise (fog/mist, saturated air, or heavy precipitation with no group) to droplets.
+        density = fog_density_from_visibility(obs.visibility_m)
+        droplet = any(o in FOG_OBSCURATIONS for o in obs.obscuration) or (obs.rh or 0.0) >= 95.0
+        aerosol = any(o in AEROSOL_OBSCURATIONS for o in obs.obscuration)
+        fog, haze = (0.0, density) if (aerosol and not droplet) else (density, 0.0)
+        cond_in, cond_out = window_condensation(obs.temp_c, obs.dewpoint_c, R_TOTAL_SINGLE)
+        cond_in2, cond_out2 = window_condensation(obs.temp_c, obs.dewpoint_c, R_TOTAL_DOUBLE)
         missing = [k for k in ("temp_c", "dewpoint_c", "rh", "wind_mps", "wind_dir_deg", "cloud_cover", "visibility_m") if getattr(obs, k) is None]
         st = WorldState(
             updated_at_unix=now,
@@ -430,6 +444,7 @@ class WorldMapper:
             window_condensation=max(cond_in, cond_out),
             window_condensation_interior=cond_in,
             window_condensation_exterior=cond_out,
+            window_condensation_double=max(cond_in2, cond_out2),
             missing=missing,
         )
         self.last_update = now

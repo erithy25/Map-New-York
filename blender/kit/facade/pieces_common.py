@@ -292,7 +292,7 @@ def double_hung(m: K.Mesh, x0: float, x1: float, z0: float, z1: float, *, lights
     sash(m, fx0, fx1, mid - MEETING_RAIL / 2, fz1, reveal_depth + 0.030, lights_x=lights_x, lights_z=lights_z, frame_mat=frame_mat)
     sash(m, fx0, fx1, fz0, mid + MEETING_RAIL / 2, reveal_depth - 0.010, lights_x=lights_x, lights_z=lights_z, frame_mat=frame_mat)
     if lit is not None:
-        interior_card(m, fx0, fx1, fz0, fz1, reveal_depth + 0.24, lit)
+        interior_card(m, fx0, fx1, fz0, fz1, reveal_depth + 0.155, lit)
 
 
 # --------------------------------------------------------------------------- railings, ladders, gratings
