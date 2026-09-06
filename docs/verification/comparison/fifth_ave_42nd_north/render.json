@@ -13,6 +13,7 @@
    "min_m": 23.34,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 23.42,
    "radius_m": 12.0,
    "samples": 113
   },
@@ -46,9 +47,19 @@
  "clearance": {
   "min_view_m": 20.0,
   "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "nearest_obstruction": "prop_lamp_cobra_davit_1",
+  "nearest_obstruction_m": 5.1,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_cobra_davit_1 5.1 m away, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
  },
+ "frame": {
+  "mean": 0.4878,
+  "reason": null,
+  "sd": 0.1711,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "viewpoint",
  "interior": false,
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
@@ -85,7 +96,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/fifth_ave_42nd_north/render.png",
- "rendered_at": "2026-09-06T19:41:20Z",
+ "rendered_at": "2026-09-06T21:38:52Z",
  "resolution_note": "1208x902; the reference photograph is 1920x1434 (1.34:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
@@ -99,38 +110,40 @@
     "t_-4_5",
     "t_-4_6"
    ],
+   "landmark_bins_suppressed": 39,
+   "landmark_faces_suppressed": 4408,
    "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-2_5": {
      "lod": 1,
      "objects": 14,
-     "triangles": 7312
+     "triangles": 7200
     },
     "t_-2_6": {
      "lod": 1,
      "objects": 18,
-     "triangles": 22968
+     "triangles": 22732
     },
     "t_-3_5": {
      "lod": 0,
      "objects": 16,
-     "triangles": 49098
+     "triangles": 48780
     },
     "t_-3_6": {
      "lod": 0,
      "objects": 17,
-     "triangles": 30874
+     "triangles": 29970
     },
     "t_-4_5": {
      "lod": 0,
      "objects": 19,
-     "triangles": 45694
+     "triangles": 44562
     },
     "t_-4_6": {
      "lod": 0,
      "objects": 17,
-     "triangles": 66858
+     "triangles": 65152
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -139,40 +152,41 @@
    "tiles_missing": 0,
    "tiles_wanted": 6,
    "triangle_budget": 3510000,
-   "triangles": 222804
+   "triangles": 218396
   },
   "centre_tm": [
    -2667.66,
    5848.08
   ],
   "kit": {
-   "capped": "triangle budget 2695529",
+   "capped": "triangle budget 2699937",
    "per_category": {
-    "antenna": 8,
-    "bulkhead": 36,
-    "cornice": 38,
-    "door_entry": 44,
-    "hvac": 43,
-    "parapet": 22,
-    "pilaster": 27,
-    "quoin": 7,
-    "scaffold": 52,
-    "storefront": 188,
-    "storefront_interior": 38,
-    "string_course": 39,
-    "water_tower": 16,
-    "window": 10880,
-    "window_accessory": 82
+    "antenna": 9,
+    "bulkhead": 39,
+    "cornice": 39,
+    "door_entry": 51,
+    "hvac": 34,
+    "parapet": 28,
+    "pilaster": 31,
+    "quoin": 8,
+    "scaffold": 58,
+    "storefront": 204,
+    "storefront_interior": 43,
+    "string_course": 41,
+    "water_tower": 17,
+    "window": 11150,
+    "window_accessory": 131
    },
-   "placed": 11520,
+   "placed": 11883,
    "radius_m": 140.0,
    "records_in_range": 18259,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 1453,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_5"
    ],
-   "triangles": 2695961,
+   "triangles": 2700038,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -310,7 +324,7 @@
    }
   },
   "radius_m": 700.0,
-  "seconds": 68.51,
+  "seconds": 62.09,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -325,7 +339,7 @@
    "z_max_m": 25.75,
    "z_min_m": -0.72
   },
-  "triangles": 4500432
+  "triangles": 4500101
  },
  "scene_request": {
   "kit_radius_m": 140.0,
@@ -333,9 +347,9 @@
   "radius_m": 700.0
  },
  "seconds": {
-  "render": 181.1,
-  "scene": 69.8,
-  "total": 250.9
+  "render": 191.1,
+  "scene": 65.0,
+  "total": 256.2
  },
  "slug": "fifth_ave_42nd_north",
  "status": "rendered",

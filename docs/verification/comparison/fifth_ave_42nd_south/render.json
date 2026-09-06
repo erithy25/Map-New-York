@@ -13,6 +13,7 @@
    "min_m": 21.68,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 21.98,
    "radius_m": 12.0,
    "samples": 113
   },
@@ -46,9 +47,19 @@
  "clearance": {
   "min_view_m": 20.0,
   "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "nearest_obstruction": "prop_lamp_cobra_davit_17",
+  "nearest_obstruction_m": 29.3,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_cobra_davit_17 29.3 m away, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
  },
+ "frame": {
+  "mean": 0.3829,
+  "reason": null,
+  "sd": 0.1663,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "viewpoint",
  "interior": false,
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
@@ -85,7 +96,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/fifth_ave_42nd_south/render.png",
- "rendered_at": "2026-09-06T19:44:38Z",
+ "rendered_at": "2026-09-06T21:42:35Z",
  "resolution_note": "1280x776; the reference photograph is 1920x1163 (1.65:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
@@ -99,38 +110,40 @@
     "t_-4_5",
     "t_-4_6"
    ],
+   "landmark_bins_suppressed": 39,
+   "landmark_faces_suppressed": 4660,
    "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-2_5": {
      "lod": 0,
      "objects": 14,
-     "triangles": 17092
+     "triangles": 16728
     },
     "t_-2_6": {
      "lod": 1,
      "objects": 18,
-     "triangles": 22968
+     "triangles": 22732
     },
     "t_-3_5": {
      "lod": 0,
      "objects": 16,
-     "triangles": 49098
+     "triangles": 48780
     },
     "t_-3_6": {
      "lod": 0,
      "objects": 17,
-     "triangles": 30874
+     "triangles": 29970
     },
     "t_-4_5": {
      "lod": 0,
      "objects": 19,
-     "triangles": 45694
+     "triangles": 44562
     },
     "t_-4_6": {
      "lod": 0,
      "objects": 17,
-     "triangles": 66858
+     "triangles": 65152
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -139,41 +152,42 @@
    "tiles_missing": 0,
    "tiles_wanted": 6,
    "triangle_budget": 3510000,
-   "triangles": 232584
+   "triangles": 227924
   },
   "centre_tm": [
    -2607.24,
    5942.12
   ],
   "kit": {
-   "capped": "triangle budget 2694125",
+   "capped": "triangle budget 2698785",
    "per_category": {
     "antenna": 6,
     "bulkhead": 23,
-    "cornice": 21,
-    "door_entry": 37,
-    "hvac": 25,
+    "cornice": 22,
+    "door_entry": 38,
+    "hvac": 23,
     "parapet": 23,
     "pilaster": 12,
-    "quoin": 2,
-    "scaffold": 21,
-    "storefront": 152,
-    "storefront_interior": 31,
-    "string_course": 22,
+    "quoin": 3,
+    "scaffold": 25,
+    "storefront": 159,
+    "storefront_interior": 32,
+    "string_course": 23,
     "water_tower": 9,
-    "window": 12382,
+    "window": 12810,
     "window_accessory": 9
    },
-   "placed": 12775,
+   "placed": 13217,
    "radius_m": 140.0,
    "records_in_range": 19975,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 642,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_5",
     "t_-3_6"
    ],
-   "triangles": 2694356,
+   "triangles": 2698838,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -319,7 +333,7 @@
    }
   },
   "radius_m": 700.0,
-  "seconds": 66.34,
+  "seconds": 70.82,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -334,7 +348,7 @@
    "z_max_m": 25.74,
    "z_min_m": 7.43
   },
-  "triangles": 4500231
+  "triangles": 4500053
  },
  "scene_request": {
   "kit_radius_m": 140.0,
@@ -342,9 +356,9 @@
   "radius_m": 700.0
  },
  "seconds": {
-  "render": 129.7,
-  "scene": 67.7,
-  "total": 197.3
+  "render": 147.6,
+  "scene": 74.3,
+  "total": 221.9
  },
  "slug": "fifth_ave_42nd_south",
  "status": "rendered",

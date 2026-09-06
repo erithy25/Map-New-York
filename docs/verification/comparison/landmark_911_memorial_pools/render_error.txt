@@ -1,5 +1,5 @@
 landmark_911_memorial_pools: the render cannot serve as evidence -- near-black (mean 0.000).
-camera: camera 40.71116, -74.01263 (NYC_TM -5293, 1241) z 2.9 m NAVD88 | azimuth 314.3deg pitch +0.0deg | 35 mm on 36 mm (42.2deg horizontal, 54.4deg vertical, portrait) | 904x1206
+camera: camera 40.71116, -74.01263 (NYC_TM -5293, 1241) z 2.9 m NAVD88 | azimuth 314.3deg pitch +0.0deg | 18 mm on 36 mm (73.7deg horizontal, 90.0deg vertical, portrait) | 904x1206
 clearance: the recorded viewpoint is under verify_terrain (1.3 m of ground or paving directly overhead, so the eye point is beneath the walking surface) and no clear point was found within 80 m, so the frame is rendered from inside the shell and is dark
 view along the azimuth: None m; nearest solid thing in the view cone: None m
 sun: elevation 23.6 deg, direct normal irradiance 702 W/m2, exposure +0.88 stops

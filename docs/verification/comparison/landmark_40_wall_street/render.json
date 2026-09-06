@@ -5,7 +5,7 @@
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
-  "focal_mm": 35.0,
+  "focal_mm": 18.0,
   "ground_detail": {
    "chosen_m": 4.06,
    "max_m": 4.35,
@@ -19,10 +19,10 @@
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
-  "hfov_deg": 54.432,
+  "hfov_deg": 90.0,
   "lat": 40.706285,
   "lon": -74.01193,
-  "long_side_fov_deg": 54.432,
+  "long_side_fov_deg": 90.0,
   "pitch_deg": 0.0,
   "portrait": false,
   "resolution": [
@@ -36,7 +36,7 @@
   "y": 698.474,
   "z": 5.661
  },
- "camera_caption": "camera 40.70629, -74.01193 (NYC_TM -5180, 698) z 5.7 m NAVD88 | azimuth 70.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x606",
+ "camera_caption": "camera 40.70629, -74.01193 (NYC_TM -5180, 698) z 5.7 m NAVD88 | azimuth 70.0deg pitch +0.0deg | 18 mm on 36 mm (90.0deg horizontal) | 1280x606",
  "camera_origin": {
   "from_photograph_gps": false,
   "lat": 40.706285,
@@ -56,9 +56,9 @@
   "view_m": 96.0
  },
  "frame": {
-  "mean": 0.1219,
+  "mean": 0.1307,
   "reason": null,
-  "sd": 0.0559,
+  "sd": 0.0837,
   "usable": true
  },
  "frame_retry": {
@@ -67,20 +67,20 @@
    "moved": false,
    "nearest_obstruction": "t_-6_0_limestone",
    "nearest_obstruction_m": 35.3,
-   "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is t_-6_0_limestone 35.3 m away, and the view azimuth is clear for 150 m",
+   "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is t_-6_0_limestone 35.3 m away, and the view azimuth is clear for 44 m",
    "offset_m": 0.0,
-   "view_m": 150.0
+   "view_m": 43.8
   },
   "first_frame": {
-   "mean": 0.0131,
-   "reason": "near-black (mean 0.013)",
-   "sd": 0.0291,
+   "mean": 0.0158,
+   "reason": "near-black (mean 0.016)",
+   "sd": 0.0325,
    "usable": false
   }
  },
  "group": "landmark",
  "interior": false,
- "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lens_reason": "widened from 35 mm to 18 mm (51 deg vertical) so that a level axis contains the subject: the 40_wall_street model's published 282 m height stands 284 m above the lens at 200 m, 55 deg above the horizon; held at the 18 mm floor, so the top of the subject is still cut off -- past that point the distortion would stop the two frames being comparable",
  "lighting": {
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 687.1,
@@ -114,7 +114,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_40_wall_street/render.png",
- "rendered_at": "2026-09-06T21:23:58Z",
+ "rendered_at": "2026-09-06T21:52:59Z",
  "resolution_note": "1280x606; the reference photograph is 1920x909 (2.11:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
@@ -367,7 +367,7 @@
    }
   },
   "radius_m": 720.7110795832725,
-  "seconds": 80.57,
+  "seconds": 83.15,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -390,9 +390,9 @@
   "radius_m": 720.7110795832725
  },
  "seconds": {
-  "render": 231.2,
-  "scene": 82.9,
-  "total": 314.1
+  "render": 162.3,
+  "scene": 85.9,
+  "total": 248.2
  },
  "slug": "landmark_40_wall_street",
  "status": "rendered",

@@ -49,9 +49,9 @@
   "moved": false,
   "nearest_obstruction": "prop_lamp_cobra_davit_14",
   "nearest_obstruction_m": 35.8,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_cobra_davit_14 35.8 m away, and the view azimuth is clear for 37 m",
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_cobra_davit_14 35.8 m away, and the view azimuth is clear for 149 m",
   "offset_m": 0.0,
-  "view_m": 37.3
+  "view_m": 148.8
  },
  "frame": {
   "mean": 0.6084,
@@ -96,7 +96,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_barclays_center/render.png",
- "rendered_at": "2026-09-06T21:27:41Z",
+ "rendered_at": "2026-09-06T21:56:19Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
@@ -276,7 +276,7 @@
    }
   },
   "radius_m": 746.9552510710566,
-  "seconds": 45.96,
+  "seconds": 39.32,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -299,9 +299,9 @@
   "radius_m": 746.9552510710566
  },
  "seconds": {
-  "render": 86.7,
-  "scene": 47.1,
-  "total": 133.9
+  "render": 81.0,
+  "scene": 40.5,
+  "total": 121.4
  },
  "slug": "landmark_barclays_center",
  "status": "rendered",

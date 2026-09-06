@@ -7,13 +7,13 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
-   "chosen_m": 25.31,
-   "max_m": 26.1,
-   "median_m": 25.64,
-   "min_m": 25.07,
+   "chosen_m": 25.35,
+   "max_m": 25.86,
+   "median_m": 25.54,
+   "min_m": 25.09,
    "mode": "street",
    "percentile": 10.0,
-   "point_m": 25.47,
+   "point_m": 25.46,
    "radius_m": 12.0,
    "samples": 113
   },
@@ -31,12 +31,12 @@
   ],
   "sensor_mm": 36.0,
   "slug": "drive_brooklyn_park_slope_7th_ave",
-  "terrain_z_m": 25.305,
-  "x": -2384.317,
-  "y": -3053.433,
-  "z": 26.905
+  "terrain_z_m": 25.35,
+  "x": -2390.317,
+  "y": -3063.826,
+  "z": 26.95
  },
- "camera_caption": "camera 40.67250, -73.97820 (NYC_TM -2384, -3053) z 26.9 m NAVD88 | azimuth 30.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x720",
+ "camera_caption": "camera 40.67250, -73.97820 (NYC_TM -2390, -3064) z 26.9 m NAVD88 | azimuth 30.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x720",
  "camera_origin": {
   "from_photograph_gps": false,
   "lat": 40.6725,
@@ -45,18 +45,20 @@
   "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 737 m away, past the 250 m at which it could still be the same view, so it was rejected as mis-tagged"
  },
  "clearance": {
+  "direction": "backwards",
   "min_view_m": 20.0,
-  "moved": false,
-  "nearest_obstruction": "t_-3_-4_tan_brick",
-  "nearest_obstruction_m": 8.6,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is t_-3_-4_tan_brick 8.6 m away, and the view azimuth is clear for 9 m",
-  "offset_m": 0.0,
-  "view_m": 8.6
+  "moved": true,
+  "nearest_obstruction_m": 20.0,
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 9 m ahead, less than the 12 m below which a frame shows nothing but wall; the camera was moved 12 m backwards -- the nearest point in open air -- keeping the same eye height above the heightmap.  The view azimuth is clear for 21 m from there",
+  "offset_m": 12.0,
+  "reason": "boxed in: the view azimuth is closed off 9 m ahead, less than the 12 m below which a frame shows nothing but wall",
+  "rule": "radial search with a clear view",
+  "view_m": 20.6
  },
  "frame": {
-  "mean": 0.5162,
+  "mean": 0.5634,
   "reason": null,
-  "sd": 0.0851,
+  "sd": 0.0676,
   "usable": true
  },
  "frame_retry": null,
@@ -96,7 +98,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_park_slope_7th_ave/render.png",
- "rendered_at": "2026-09-06T20:59:25Z",
+ "rendered_at": "2026-09-06T21:48:50Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
@@ -263,7 +265,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 32.31,
+  "seconds": 32.75,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -286,9 +288,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 173.7,
-  "scene": 33.6,
-  "total": 207.3
+  "render": 151.1,
+  "scene": 39.0,
+  "total": 190.0
  },
  "slug": "drive_brooklyn_park_slope_7th_ave",
  "status": "rendered",

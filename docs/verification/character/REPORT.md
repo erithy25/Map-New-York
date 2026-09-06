@@ -123,7 +123,23 @@ before they were:
 * a trouser leg drapes *over* the shoe, but a shoe is rigid and must not be dented to make room, so for that
   one pair it is the trouser that moves, outward, out of the shoe.
 
-On the player, 2 487 garment vertices move.
+There is a **second constraint that fights the first**: no garment may be inside the *skin* either. A tight
+trouser over a wide hip leaves the hip surface outside the cloth, and the skin then shows as a scrap through
+the seat of the trousers in every frame of the walk strip — which is exactly what the walk strip showed, and
+what hiding one mesh at a time proved (with the body hidden the scraps vanish, with the tee hidden they do
+not). The body cannot move — it carries the face morphs and the silhouette — so the garment does, outwards.
+Applying the two constraints once each, in either order, does not converge: pulling the tee inside the
+trousers pushes it inside the body, and pushing it back out of the body pushes it outside the trousers. They
+are alternated to convergence instead, with the skin getting the last word.
+
+Even then a base layer sandwiched under a *fitted* sweater cannot satisfy both: where the knit hugs the body
+there is no room between skin and sweater at all, and resolving simply trades scraps of skin showing through
+the trousers for white specks of tee showing through the knit. So `hide_covered_garments` runs first and
+**deletes the part of an inner garment that another garment completely covers** — a vertex whose own normal
+points into an outer garment within 45 mm is marked, and a face goes when all of its vertices are marked.
+The tee keeps its collar, its armholes and its hem, the parts that show, and loses the sandwiched middle:
+992 of its 1 034 faces, leaving 80 vertices. The layer resolve then has room to work and moves 4 304 vertices
+on the player.
 
 ### 0.6 Consequences for the review's five points
 
@@ -135,16 +151,17 @@ On the player, 2 487 garment vertices move.
 | feet read as flippers | 0.4 | `detail.png`: a black sneaker with a sole line, toe cap and stitching, no skin through it |
 | broken geometry at the neck join | 0.3 | clean ribbed collar in `face_closeup.png` |
 
-Two further defects were found by the same method and fixed in this pass: the pullover's procedural hood was
-a faceted grey sphere stuck to the back (three shapes were built and judged on the render before one read as
-a hood — see 7.4), and the player's outfit was cut from three MakeHuman torso layers to two, because
-`push_along_normals` can stand one fitted layer off another cleanly but three shells fitted to the same body
-cannot all clear each other and the middle one is the one that shows.
+Three further defects were found on the same renders and fixed in this pass: the pullover's procedural hood
+was a faceted grey sphere stuck to the back (three shapes were built and judged on a close-up before one read
+as a hood — see 7.4); scraps of skin showed through the seat of the trousers in every frame of the walk strip
+(0.5); and the player's outfit was cut from three MakeHuman torso layers to two, because `push_along_normals`
+can stand one fitted layer off another cleanly but three shells fitted to the same body cannot all clear each
+other and the middle one is the one that shows.
 
 ### 0.7 The same method, applied to the NPCs
 
 The line-up was then rendered from the *exported glb files* rather than from the build scene, and read the
-same way — one pedestrian at a time, at portrait size. Six more defects came out of that, all fixed:
+same way — one pedestrian at a time, at portrait size. Eight more defects came out of that, all fixed:
 
 | what the render showed | cause | fix |
 |---|---|---|
@@ -378,8 +395,10 @@ wardrobe:
   in per build (`finish_makehuman(..., colours=...)`).
 * **Layer stand-off** (`push_along_normals`, section 0.3). Base 0, mid 4 mm, outer 11 mm, tapered to zero
   across three rings of every open boundary.
-* **Layer resolve** (`resolve_layers`, section 0.5). The outer layer gets the last word, by closest point on
-  its real surface.
+* **Covered-face removal** (`hide_covered_garments`, section 0.5). What one garment completely covers of
+  another is deleted, the same way MakeHuman's delete groups treat the skin.
+* **Layer resolve** (`resolve_layers`, section 0.5). Two constraints alternated to convergence: no garment
+  inside the skin, no inner garment outside the layer over it.
 
 ### 7.2 Weights: taken from the body, not from MPFB's proximity fit
 
@@ -693,8 +712,8 @@ stride coprime to its level count, so every level of every dimension appears wit
 **The 24 shipped pedestrians.** 6 per age band, 14 female and 10 male, statures **1.153 m** (an eight-year-old
 girl) to **1.903 m** (a middle-aged man), adults 1.511-1.903 m, all ten top looks, all ten accessory levels
 and all six footwear levels worn at least once. Every one hits its own stature target: the largest error over
-the cast is **8.5 mm**, the mean 3.1 mm, at a mean of 3.0 probe builds. 12-14 meshes and 18 835-30 206
-vertices each; 14.4-31.4 MB per glb, **496 MB** for the cast, which is dominated by the 25 shared animations
+the cast is **8.5 mm**, the mean 3.1 mm, at a mean of 3.0 probe builds. 12-14 meshes and 18 383-30 206
+vertices each; 14.4-31.4 MB per glb, **495 MB** for the cast, which is dominated by the 25 shared animations
 and the 52 morph targets each file carries its own copy of. Across the cast the contract's height formula and
 real anthropometry differ by 64 mm on average and 179 mm at worst, which is the size of the sex and ageing
 terms the formula is missing.
@@ -768,17 +787,30 @@ the knee at 120 degrees, which is what four-influence linear blend skinning does
 
 The renders were opened again after the orchestrator's second review, and this time the diagnosis came from
 **rendering the character one layer at a time** rather than from staring at the finished frame (section 0).
-Six further defects were found on a render and fixed:
+Eighteen further defects were found on a render in this pass and fixed. Nine on the player:
 
 12. the "bomber jacket" was a crude long-sleeve tee shell inflated 24 mm — the balloon (0.1);
 13. every garment was still deforming with MPFB's proximity weights, because the corrected weights had gone
     into `bone.001` groups the armature ignores (0.2);
 14. the 24 mm stand-off saw-toothed every open boundary, which is the jagged collar (0.3);
 15. the whole foot stayed inside the sneaker, which is the torn "flipper" (0.4);
-16. the hood was a faceted grey sphere on the back; three shapes were built and judged on a close-up before
-    one read (7.4);
-17. the hi-vis vest blew up to 2.3 m tall under `bmesh.ops.solidify` and produced a 2.51 m pedestrian in the
-    first run of the new NPC generator (section 9).
+16. nothing resolved one garment layer against another, so the tee's shoulder seam sat outside the sweater
+    (0.5);
+17. the tee hem and the jeans waistband interpenetrated in a saw-tooth at the hip, because the layer order
+    put a base top over a bottom rather than inside it (0.5);
+18. the shoe pushed out through the back of the trouser hem (0.5);
+19. scraps of skin showed through the seat of the trousers in every frame of the walk strip, because a
+    garment may be inside the *skin* as well as outside its outer layer, and the two constraints have to be
+    alternated rather than applied once each (0.5);
+20. the hood was a faceted grey sphere on the back; three shapes were built and judged on a close-up before
+    one read (7.4).
+
+And nine on the NPCs, from the same one-at-a-time reading of the line-up (0.7 has the table): the hi-vis vest
+blew up to 2.3 m tall under `bmesh.ops.solidify` and produced a **2.51 m pedestrian**; the line-up lighting
+was a portrait rig; a courier's box clipped out of a child's chest; a shoulder bag floated clear of the hip;
+a tote hung horizontally off a forearm; joggers came out floral; a shirt tore across an older woman's
+midriff; skin went missing between a polo hem and a waistband; and two shoe assets were named for their file
+names rather than for what they are.
 
 `bend_test.png` now clay-shades the **dressed** character rather than the bare skin: the skin under the
 clothes is deleted at build time, so a skin-only render is full of holes, and what has to bend correctly is
@@ -872,10 +904,10 @@ ARKit set in ARKit order).
 12. **The contract's height formula has no sex term and does not shorten the older band** (9). This lane
     builds to the simulation's number rather than to anthropometry, and reports the difference: 64 mm on
     average and 179 mm at worst across the shipped cast.
-13. **Two 5 mm scraps of the tee's hem still show through the seat of the player's trousers** on the back
-    view. `resolve_layers` moves 2 487 vertices and leaves those two; a fourth pass clears them but the cast
-    would have to be regenerated to keep the code and the shipped assets in step, so it is recorded rather
-    than half-applied.
+13. **A few millimetre slivers of the tee's remaining collar ring still show through the knit** on the
+    player's chest and shoulder. Linear blend skinning moves the two meshes slightly differently under the
+    idle pose, and the clearance that would close it starts to flatten the knit. The much worse versions of
+    this - scraps of skin through the seat of the trousers, white patches across the shoulders - are gone.
 14. **Character forward is -Y in Blender**, recorded as `extras.nycsim.forward_axis_blender`. That is
    MakeHuman's native orientation, kept because rotating a shape-keyed, skinned, multi-mesh character risks
    more than it gains; the UE import must apply the +X convention. This differs from the vehicles lane, which

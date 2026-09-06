@@ -244,3 +244,30 @@ more. If it still fails, `render.png` and any stale `sheet.png` are deleted and 
 distance along the view azimuth, the Sun elevation and the exposure. Nothing that cannot serve as
 evidence is left in the directory looking like evidence. The measured mean and standard deviation
 of every accepted frame are recorded in its `render.json` under `frame`.
+
+## 2.6 Three more faults, found the same way
+
+**A landmark sheet whose landmark is out of frame.** The rule that keeps the optical axis level is
+what makes a render comparable with a photograph on proportion, and it was applied with a fixed
+35 mm lens. For 40 Wall Street — a 227 m tower photographed from 200 m — that puts the crown far
+above the top of the frame, and the sheet said so honestly while showing a dark corner of a street
+instead of the building. The lens is now widened until a *level* axis contains the subject, with
+12 % headroom, down to a floor of 18 mm below which the distortion would stop the two frames being
+comparable; the sheet prints the focal length it chose, the height of the subject above the lens
+and the angle that forced it. Where even 18 mm is not enough, the sheet says the top is still cut
+off rather than tilting the camera and skewing the verticals.
+
+**An eye point in open air that can see nothing.** Seventh Avenue at Garfield Place put the camera
+in the open with a party wall 8.6 m ahead: not dark, not inside anything, and completely
+featureless — the frame passed the luminance gate at sd 0.085. A viewpoint whose azimuth closes off
+inside 12 m is now corrected like a blocked one. The threshold is deliberately lower than the 20 m
+a *candidate* must satisfy: a camera with 17 m of street in front of it is looking across a road at
+the opposite facade, which is a real street-level view and is left alone.
+
+**A camera under a hole in the terrain.** The 9/11 Memorial pools drop 9 m below the plaza and the
+1 m DEM records them, so the 10th-percentile street ground rule inside 12 m found the bottom of a
+pool and put the eye 1.3 m under the plaza deck. Every candidate within 80 m did the same, so the
+frame was rejected outright — correctly, and with a diagnostic. The clearance search now reads the
+ground twice at each candidate, the street percentile first and the height at the point itself
+second, and takes whichever is not underground.
+

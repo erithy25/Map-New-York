@@ -962,6 +962,69 @@ def verify_outfit(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
     return problems
 
 
+def hide_covered_garments(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
+                          reach: float = 0.045) -> int:
+    """Delete the parts of an inner garment that another garment completely covers.  Returns faces removed.
+
+    A base layer worn under a fitted sweater has to satisfy two constraints at once - outside the skin and
+    inside the sweater - and where the sweater hugs the body there is simply no room between them.  Resolving
+    the two against each other then trades one artefact for another: pull the tee in and scraps of skin show
+    through the trousers, push it out and white specks of tee show through the knit.
+
+    The way out is that the covered part of the tee is not needed at all.  Nobody sees it, the engine does not
+    need it, and MakeHuman's own delete groups do exactly this for the skin.  So every inner-garment vertex
+    whose own normal points into an outer garment within ``reach`` is marked, and a face is deleted when all
+    of its vertices are marked - which keeps the collar, the cuffs and the hem, the parts that actually show,
+    and removes the sandwiched middle.  It also takes several thousand vertices out of the export.
+    """
+    ordered: list[tuple[int, str, bpy.types.Object]] = []
+    for item_id in item_ids:
+        garment = WARDROBE_BY_ID.get(item_id)
+        obj = built.clothes.get(f"{name_prefix}{item_id}")
+        if garment is None or obj is None or garment.slot == "shoes":
+            continue
+        ordered.append((_layer_key(garment), item_id, obj))
+    if len(ordered) < 2:
+        return 0
+    ordered.sort(key=lambda t: t[0])
+
+    removed = 0
+    for i, (key_in, item_id, inner) in enumerate(ordered):
+        outers = [o for k, _i, o in ordered[i + 1:] if k > key_in and len(o.data.vertices)]
+        if not outers:
+            continue
+        covered = set()
+        for vert in inner.data.vertices:
+            origin = vert.co + vert.normal * 0.0005
+            for outer in outers:
+                hit, _location, _normal, _index = outer.ray_cast(origin, vert.normal, distance=reach)
+                if hit:
+                    covered.add(vert.index)
+                    break
+        if not covered:
+            continue
+        bm = bmesh.new()
+        bm.from_mesh(inner.data)
+        bm.verts.ensure_lookup_table()
+        doomed = [f for f in bm.faces if all(v.index in covered for v in f.verts)]
+        if not doomed or len(doomed) == len(bm.faces):
+            bm.free()
+            continue
+        bmesh.ops.delete(bm, geom=doomed, context="FACES")
+        bm.verts.ensure_lookup_table()
+        loose = [v for v in bm.verts if not v.link_faces]
+        if loose:
+            bmesh.ops.delete(bm, geom=loose, context="VERTS")
+        count = len(doomed)
+        bm.to_mesh(inner.data)
+        bm.free()
+        inner.data.update()
+        removed += count
+        log.info("%s: %d covered faces removed, %d vertices remain", item_id, count,
+                 len(inner.data.vertices))
+    return removed
+
+
 def _layer_key(garment: Garment) -> int:
     """Sort key for what is worn over what.
 

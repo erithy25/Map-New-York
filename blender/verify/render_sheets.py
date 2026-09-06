@@ -474,6 +474,7 @@ def choose_lens(slug: str, top: tuple[float, float, str] | None, cam_z: float,
     down to a floor of 18 mm (90 deg on the long side), below which the distortion would make the
     comparison meaningless.  It is never lengthened, and the reason is printed on the sheet.
     """
+    import camera as vcam
     base, why = vcam.focal_for(slug)
     if top is None:
         return base, why

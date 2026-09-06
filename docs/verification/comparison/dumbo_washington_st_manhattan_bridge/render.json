@@ -49,9 +49,9 @@
   "moved": false,
   "nearest_obstruction": "prop_lamp_cobra_davit_1",
   "nearest_obstruction_m": 2.6,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_cobra_davit_1 2.6 m away, and the view azimuth is clear for 5 m",
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_cobra_davit_1 2.6 m away, and the view azimuth is clear for 150 m",
   "offset_m": 0.0,
-  "view_m": 5.4
+  "view_m": 150.0
  },
  "frame": {
   "mean": 0.3438,
@@ -96,7 +96,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/dumbo_washington_st_manhattan_bridge/render.png",
- "rendered_at": "2026-09-06T20:22:59Z",
+ "rendered_at": "2026-09-06T21:34:35Z",
  "resolution_note": "784x1394; the reference photograph is 1920x3413 (0.56:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
@@ -289,7 +289,7 @@
    }
   },
   "radius_m": 900.0,
-  "seconds": 67.45,
+  "seconds": 63.69,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -312,9 +312,9 @@
   "radius_m": 900.0
  },
  "seconds": {
-  "render": 280.6,
-  "scene": 69.9,
-  "total": 350.5
+  "render": 190.1,
+  "scene": 66.4,
+  "total": 256.6
  },
  "slug": "dumbo_washington_st_manhattan_bridge",
  "status": "rendered",
