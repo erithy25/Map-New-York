@@ -1,26 +1,27 @@
 {
- "azimuth_reason": "314.4 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 301.3 deg, 13.1 deg away",
+ "azimuth_reason": "314.3 deg, the bearing from this photograph's own GPS position to the North Pool; heading and position both come from the photograph.  The item's recorded azimuth is 301.3 deg, 13.0 deg away, and belongs to its nominal viewpoint",
  "camera": {
-  "azimuth_deg": 314.4,
+  "azimuth_deg": 314.3496980102347,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
-   "chosen_m": 3.68,
-   "max_m": 5.89,
-   "median_m": 5.38,
-   "min_m": -0.11,
+   "chosen_m": 1.34,
+   "max_m": 4.55,
+   "median_m": 4.36,
+   "min_m": 0.31,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 4.26,
    "radius_m": 12.0,
    "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
   "hfov_deg": 42.163,
-  "lat": 40.7112,
-  "lon": -74.0122,
+  "lat": 40.711156,
+  "lon": -74.012633,
   "long_side_fov_deg": 54.432,
   "pitch_deg": 0.0,
   "portrait": true,
@@ -30,18 +31,41 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_911_memorial_pools",
-  "terrain_z_m": 3.679,
-  "x": -5223.8,
-  "y": 1278.467,
-  "z": 5.279
+  "terrain_z_m": 1.341,
+  "x": -5292.577,
+  "y": 1240.741,
+  "z": 2.941
  },
- "camera_caption": "camera 40.71120, -74.01220 (NYC_TM -5224, 1278) z 5.3 m NAVD88 | azimuth 314.4deg pitch +0.0deg | 35 mm on 36 mm (42.2deg horizontal, 54.4deg vertical, portrait) | 904x1206",
+ "camera_caption": "camera 40.71116, -74.01263 (NYC_TM -5293, 1241) z 2.9 m NAVD88 | azimuth 314.3deg pitch +0.0deg | 35 mm on 36 mm (42.2deg horizontal, 54.4deg vertical, portrait) | 904x1206",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.711156,
+  "lon": -74.012633,
+  "offset_from_recorded_m": 36.9,
+  "source": "this photograph's own EXIF camera GPS (40.71116, -74.01263), 37 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
  "clearance": {
-  "direction": "to the right",
-  "moved": true,
-  "note": "the recorded viewpoint is inside lm_b_wtc_site.232 (a ray straight up from the eye point hits its roof); the camera was moved 46 m to the right -- the nearest point in open air -- keeping the same eye height above the heightmap",
-  "offset_m": 46.0,
-  "reason": "inside lm_b_wtc_site.232 (a ray straight up from the eye point hits its roof)"
+  "min_view_m": 51.2,
+  "moved": false,
+  "note": "the recorded viewpoint is under verify_terrain (1.3 m of ground or paving directly overhead, so the eye point is beneath the walking surface) and no clear point was found within 80 m, so the frame is rendered from inside the shell and is dark",
+  "offset_m": 0.0,
+  "reason": "under verify_terrain (1.3 m of ground or paving directly overhead, so the eye point is beneath the walking surface)",
+  "rule": "no clear point found"
+ },
+ "frame": {
+  "mean": 0.0003,
+  "reason": "near-black (mean 0.000)",
+  "sd": 0.0011,
+  "usable": false
+ },
+ "frame_retry": {
+  "first_frame": {
+   "mean": 0.0003,
+   "reason": "near-black (mean 0.000)",
+   "sd": 0.0011,
+   "usable": false
+  },
+  "note": "no clear eye point was found within 80 m, so the frame stands as it is"
  },
  "group": "landmark",
  "interior": false,
@@ -64,7 +88,7 @@
  },
  "name": "National September 11 Memorial pools",
  "night": false,
- "pitch_reason": "level optical axis (the North Pool is 128 m away and would need +52 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "pitch_reason": "level optical axis (the North Pool is 102 m away and would need +58 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
  "reference_photo": {
   "author": "Oleg Yunakov",
   "confidence": "high",
@@ -79,9 +103,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_911_memorial_pools/render.png",
- "rendered_at": "2026-09-06T17:58:32Z",
+ "rendered_at": "2026-09-06T21:25:27Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -91,130 +115,135 @@
     "t_-6_0",
     "t_-6_1"
    ],
+   "landmark_bins_suppressed": 19,
+   "landmark_faces_suppressed": 2992,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-5_0": {
      "lod": 0,
      "objects": 18,
-     "triangles": 11932
+     "triangles": 11872
     },
     "t_-5_1": {
      "lod": 0,
      "objects": 18,
-     "triangles": 42918
+     "triangles": 42654
     },
     "t_-6_0": {
      "lod": 0,
      "objects": 16,
-     "triangles": 14912
+     "triangles": 12796
     },
     "t_-6_1": {
      "lod": 0,
      "objects": 18,
-     "triangles": 15588
+     "triangles": 15036
     }
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 4,
    "triangle_budget": 3510000,
-   "triangles": 85350
+   "triangles": 82358
   },
   "centre_tm": [
-   -5255.98,
-   1245.6
+   -5292.58,
+   1240.74
   ],
   "kit": {
    "capped": null,
    "per_category": {
-    "bulkhead": 3,
-    "door_entry": 14,
-    "hvac": 11,
-    "parapet": 39,
-    "storefront": 46,
-    "storefront_interior": 10,
-    "window": 4228
+    "bulkhead": 1,
+    "door_entry": 3,
+    "fence": 1,
+    "parapet": 5,
+    "string_course": 3,
+    "window": 203,
+    "window_accessory": 48
    },
-   "placed": 4351,
+   "placed": 264,
    "radius_m": 120.0,
-   "records_in_range": 4351,
+   "records_in_range": 4251,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 3987,
    "tiles_missing": [],
    "tiles_read": [
     "t_-6_1"
    ],
-   "triangles": 601190,
+   "triangles": 62815,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 91.0,
+     "distance_m": 63.4,
      "id": "b_wtc_site",
      "lod": 0,
      "name": "World Trade Center site",
      "triangles": 136174
     },
     {
-     "distance_m": 217.1,
+     "distance_m": 210.8,
      "id": "b_one_world_trade_center",
      "lod": 0,
      "name": "One World Trade Center",
      "triangles": 6044
     },
     {
-     "distance_m": 351.6,
+     "distance_m": 348.5,
      "id": "trinity_church",
      "lod": 0,
      "name": "Trinity Church",
      "triangles": 3984
     },
     {
-     "distance_m": 356.0,
-     "id": "woolworth",
-     "lod": 0,
-     "name": "Woolworth Building",
-     "triangles": 47871
-    },
-    {
-     "distance_m": 358.9,
+     "distance_m": 370.6,
      "id": "equitable_building",
      "lod": 0,
      "name": "Equitable Building",
      "triangles": 86321
     },
     {
-     "distance_m": 450.9,
+     "distance_m": 391.7,
+     "id": "woolworth",
+     "lod": 0,
+     "name": "Woolworth Building",
+     "triangles": 47871
+    },
+    {
+     "distance_m": 450.3,
      "id": "one_wall_street",
      "lod": 0,
      "name": "One Wall Street (Irving Trust Building)",
      "triangles": 42712
     },
     {
-     "distance_m": 460.2,
+     "distance_m": 470.1,
      "id": "federal_hall",
      "lod": 0,
      "name": "Federal Hall National Memorial",
      "triangles": 9070
     },
     {
-     "distance_m": 470.2,
+     "distance_m": 473.4,
      "id": "nyse",
      "lod": 0,
      "name": "New York Stock Exchange",
      "triangles": 26049
     },
     {
-     "distance_m": 508.1,
+     "distance_m": 519.9,
      "id": "40_wall_street",
      "lod": 0,
      "name": "40 Wall Street (Trump Building)",
      "triangles": 43167
     },
     {
-     "distance_m": 552.6,
+     "distance_m": 588.9,
      "id": "city_hall",
      "lod": 0,
      "name": "New York City Hall",
@@ -229,16 +258,16 @@
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 426,
-    "curb": 817,
-    "median": 71,
-    "parking_lot": 5,
-    "plaza": 43,
-    "roadbed": 356,
-    "sidewalk": 199
+    "crosswalk": 358,
+    "curb": 701,
+    "median": 64,
+    "parking_lot": 4,
+    "plaza": 34,
+    "roadbed": 309,
+    "sidewalk": 179
    },
-   "placed": 1917,
-   "radius_m": 605.5656641388424,
+   "placed": 1649,
+   "radius_m": 563.8090218678801,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_0",
@@ -246,77 +275,82 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "triangles": 132369,
-   "vertices": 135963
+   "triangles": 115804,
+   "vertices": 118882
   },
   "props": {
    "capped": null,
+   "impostor_cards_dropped": 4,
    "leaf_off": false,
    "per_kind": {
-    "bench": 106,
-    "bike_rack": 11,
-    "bus_stop_sign": 9,
-    "citibike_dock": 5,
+    "bench": 95,
+    "bike_rack": 6,
+    "bus_stop_sign": 6,
+    "citibike_dock": 4,
     "flagpole": 13,
-    "hydrant": 59,
-    "manhole": 91,
+    "hydrant": 61,
+    "manhole": 89,
     "steam_vent": 2,
-    "street_lamp": 204,
-    "subway_entrance": 26,
-    "subway_vent_grate": 21,
-    "tree": 17,
-    "waste_basket": 6
+    "street_lamp": 200,
+    "subway_entrance": 23,
+    "subway_vent_grate": 17,
+    "tree": 30,
+    "waste_basket": 8
    },
-   "placed": 570,
+   "placed": 554,
    "radius_m": 250.0,
-   "rows_in_range": 730,
+   "rows_in_range": 704,
    "tiles_missing": [],
    "tiles_read": [
     "t_-6_0",
     "t_-6_1"
    ],
-   "tree_species_substituted": 0,
-   "triangles": 1011718,
+   "tree_species_substituted": 5,
+   "triangles": 1048726,
    "unmapped_kinds": {
-    "artwork": 5,
-    "cooling_tower": 53,
-    "curb_ramp": 98,
-    "memorial": 4
+    "artwork": 3,
+    "cooling_tower": 48,
+    "curb_ramp": 96,
+    "memorial": 3
    }
   },
-  "radius_m": 605.5656641388424,
-  "seconds": 19.44,
+  "radius_m": 563.8090218678801,
+  "seconds": 19.96,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 4.037,
-   "triangles": 180000,
-   "water_quads": 8367,
-   "z_max_m": 14.08,
-   "z_min_m": -2.06
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 203,
+   "spacing_m": 2.0,
+   "triangles": 81608,
+   "water_quads": 787,
+   "z_max_m": 13.63,
+   "z_min_m": -1.81
   },
-  "triangles": 2456842
+  "triangles": 1837526
  },
  "scene_request": {
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
-  "radius_m": 605.5656641388424
+  "radius_m": 563.8090218678801
  },
  "seconds": {
-  "render": 27.7,
-  "scene": 20.8,
-  "total": 48.6
+  "render": 67.5,
+  "scene": 20.5,
+  "total": 88.0
  },
  "slug": "landmark_911_memorial_pools",
- "status": "rendered",
+ "status": "rejected_unusable_frame",
  "subject": {
-  "distance_m": 128.5,
+  "distance_m": 102.4,
   "name": "the North Pool"
  },
  "sun": {
-  "azimuth_deg": 254.37033298202573,
-  "elevation_deg": 23.580130300403898,
+  "azimuth_deg": 254.37003049108205,
+  "elevation_deg": 23.580457663946778,
   "local": "2025-09-11T17:01:35-04:00",
   "time_source": "EXIF DateTimeOriginal",
   "utc": "2025-09-11T21:01:35Z"
