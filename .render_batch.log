@@ -63978,3 +63978,813 @@ Time: 01:07.29 (Saving: 00:00.08)
 21:26:00 INFO glTFImporter Data are loaded, start creating Blender stuff
 21:26:00 | INFO: Blender create Mesh node hvac_vent_pipe_cluster
 21:26:00 INFO glTFImporter Blender create Mesh node hvac_vent_pipe_cluster
+21:26:00 | INFO: Blender create Mesh node hvac_vent_pipe_cluster_LOD1
+21:26:00 INFO glTFImporter Blender create Mesh node hvac_vent_pipe_cluster_LOD1
+21:26:00 | INFO: glTF import finished in 0.46s
+21:26:00 INFO glTFImporter glTF import finished in 0.46s
+21:26:01 | INFO: Data are loaded, start creating Blender stuff
+21:26:01 INFO glTFImporter Data are loaded, start creating Blender stuff
+21:26:01 | INFO: Blender create Mesh node win_aluminum_slider
+21:26:01 INFO glTFImporter Blender create Mesh node win_aluminum_slider
+21:26:01 | INFO: Blender create Mesh node win_aluminum_slider_LOD1
+21:26:01 INFO glTFImporter Blender create Mesh node win_aluminum_slider_LOD1
+21:26:01 | INFO: glTF import finished in 0.51s
+21:26:01 INFO glTFImporter glTF import finished in 0.51s
+21:26:02 | INFO: Data are loaded, start creating Blender stuff
+21:26:02 INFO glTFImporter Data are loaded, start creating Blender stuff
+21:26:02 | INFO: Blender create Mesh node win_punched_office
+21:26:02 INFO glTFImporter Blender create Mesh node win_punched_office
+21:26:02 | INFO: Blender create Mesh node win_punched_office_LOD1
+21:26:02 INFO glTFImporter Blender create Mesh node win_punched_office_LOD1
+21:26:02 | INFO: glTF import finished in 0.52s
+21:26:02 INFO glTFImporter glTF import finished in 0.52s
+21:26:03 | INFO: Data are loaded, start creating Blender stuff
+21:26:03 INFO glTFImporter Data are loaded, start creating Blender stuff
+21:26:03 | INFO: Blender create Mesh node storefront_interior_bank
+21:26:03 INFO glTFImporter Blender create Mesh node storefront_interior_bank
+21:26:03 | INFO: Blender create Mesh node storefront_interior_bank_LOD1
+21:26:03 INFO glTFImporter Blender create Mesh node storefront_interior_bank_LOD1
+21:26:03 | INFO: glTF import finished in 0.58s
+21:26:03 INFO glTFImporter glTF import finished in 0.58s
+21:26:04 | INFO: Data are loaded, start creating Blender stuff
+21:26:04 INFO glTFImporter Data are loaded, start creating Blender stuff
+21:26:04 | INFO: Blender create Mesh node win_double_hung_1_1
+21:26:04 INFO glTFImporter Blender create Mesh node win_double_hung_1_1
+21:26:04 | INFO: Blender create Mesh node win_double_hung_1_1_LOD1
+21:26:04 INFO glTFImporter Blender create Mesh node win_double_hung_1_1_LOD1
+21:26:05 | INFO: glTF import finished in 0.57s
+21:26:05 INFO glTFImporter glTF import finished in 0.57s
+21:26:05 | INFO: Data are loaded, start creating Blender stuff
+21:26:05 INFO glTFImporter Data are loaded, start creating Blender stuff
+21:26:05 | INFO: Blender create Mesh node acc_through_wall_ac_unit
+21:26:05 INFO glTFImporter Blender create Mesh node acc_through_wall_ac_unit
+21:26:05 | INFO: Blender create Mesh node acc_through_wall_ac_unit_LOD1
+21:26:05 INFO glTFImporter Blender create Mesh node acc_through_wall_ac_unit_LOD1
+21:26:06 | INFO: glTF import finished in 0.66s
+21:26:06 INFO glTFImporter glTF import finished in 0.66s
+21:26:06 | INFO: Data are loaded, start creating Blender stuff
+21:26:06 INFO glTFImporter Data are loaded, start creating Blender stuff
+21:26:06 | INFO: Blender create Mesh node storefront_interior_restaurant
+21:26:06 INFO glTFImporter Blender create Mesh node storefront_interior_restaurant
+21:26:06 | INFO: Blender create Mesh node storefront_interior_restaurant_LOD1
+21:26:06 INFO glTFImporter Blender create Mesh node storefront_interior_restaurant_LOD1
+21:26:07 | INFO: glTF import finished in 0.52s
+21:26:07 INFO glTFImporter glTF import finished in 0.52s
+21:26:07 | INFO: Data are loaded, start creating Blender stuff
+21:26:07 INFO glTFImporter Data are loaded, start creating Blender stuff
+21:26:07 | INFO: Blender create Mesh node pilaster_stone_fluted
+21:26:07 INFO glTFImporter Blender create Mesh node pilaster_stone_fluted
+21:26:07 | INFO: Blender create Mesh node pilaster_stone_fluted_LOD1
+21:26:07 INFO glTFImporter Blender create Mesh node pilaster_stone_fluted_LOD1
+21:26:08 | INFO: glTF import finished in 0.51s
+21:26:08 INFO glTFImporter glTF import finished in 0.51s
+21:26:08 | INFO: Data are loaded, start creating Blender stuff
+21:26:08 INFO glTFImporter Data are loaded, start creating Blender stuff
+21:26:08 | INFO: Blender create Mesh node pilaster_storefront_column
+21:26:08 INFO glTFImporter Blender create Mesh node pilaster_storefront_column
+21:26:08 | INFO: Blender create Mesh node pilaster_storefront_column_LOD1
+21:26:08 INFO glTFImporter Blender create Mesh node pilaster_storefront_column_LOD1
+21:26:09 | INFO: glTF import finished in 0.48s
+21:26:09 INFO glTFImporter glTF import finished in 0.48s
+21:26:10 | INFO: Data are loaded, start creating Blender stuff
+21:26:10 INFO glTFImporter Data are loaded, start creating Blender stuff
+21:26:10 | INFO: Blender create Mesh node sidewalk_shed_corner
+21:26:10 INFO glTFImporter Blender create Mesh node sidewalk_shed_corner
+21:26:10 | INFO: Blender create Mesh node sidewalk_shed_corner_LOD1
+21:26:10 INFO glTFImporter Blender create Mesh node sidewalk_shed_corner_LOD1
+21:26:10 | INFO: glTF import finished in 0.60s
+21:26:10 INFO glTFImporter glTF import finished in 0.60s
+21:26:11 | INFO: Data are loaded, start creating Blender stuff
+21:26:11 INFO glTFImporter Data are loaded, start creating Blender stuff
+21:26:11 | INFO: Blender create Mesh node sidewalk_shed_module
+21:26:11 INFO glTFImporter Blender create Mesh node sidewalk_shed_module
+21:26:11 | INFO: Blender create Mesh node sidewalk_shed_module_LOD1
+21:26:11 INFO glTFImporter Blender create Mesh node sidewalk_shed_module_LOD1
+21:26:11 | INFO: glTF import finished in 0.59s
+21:26:11 INFO glTFImporter glTF import finished in 0.59s
+21:26:12 | INFO: Data are loaded, start creating Blender stuff
+21:26:12 INFO glTFImporter Data are loaded, start creating Blender stuff
+21:26:12 | INFO: Blender create Mesh node storefront_bay_36
+21:26:12 INFO glTFImporter Blender create Mesh node storefront_bay_36
+21:26:12 | INFO: Blender create Mesh node storefront_bay_36_LOD1
+21:26:12 INFO glTFImporter Blender create Mesh node storefront_bay_36_LOD1
+21:26:13 | INFO: glTF import finished in 0.64s
+21:26:13 INFO glTFImporter glTF import finished in 0.64s
+21:26:13 INFO nycsim.verify.scene scene built: 2721756 triangles in 46.0 s (6 tiles, 2 landmarks, 2118 pavement polys, 430 props, 3702 kit)
+Fra:1 Mem:583.60M (Peak 583.60M) | Time:00:00.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | verify_terrain
+Fra:1 Mem:583.60M (Peak 583.60M) | Time:00:00.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | verify_pavement
+Fra:1 Mem:604.83M (Peak 604.83M) | Time:00:00.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-2_brown_brick
+Fra:1 Mem:605.00M (Peak 605.00M) | Time:00:00.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-2_brownstone
+Fra:1 Mem:604.92M (Peak 605.00M) | Time:00:00.62 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-2_cast_iron
+Fra:1 Mem:604.93M (Peak 605.00M) | Time:00:00.62 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-2_concrete
+Fra:1 Mem:604.95M (Peak 605.00M) | Time:00:00.62 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-2_glass_curtain
+Fra:1 Mem:607.93M (Peak 607.93M) | Time:00:00.62 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-2_limestone
+Fra:1 Mem:611.55M (Peak 611.55M) | Time:00:00.63 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-2_metal_panel
+Fra:1 Mem:611.57M (Peak 611.57M) | Time:00:00.63 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-2_precast
+Fra:1 Mem:611.58M (Peak 611.58M) | Time:00:00.63 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-2_red_brick
+Fra:1 Mem:610.21M (Peak 612.81M) | Time:00:00.63 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-2_roof_membrane
+Fra:1 Mem:611.11M (Peak 612.81M) | Time:00:00.63 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-2_stone_rubble
+Fra:1 Mem:611.17M (Peak 612.81M) | Time:00:00.63 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-2_stucco
+Fra:1 Mem:611.19M (Peak 612.81M) | Time:00:00.63 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-2_tan_brick
+Fra:1 Mem:612.00M (Peak 612.81M) | Time:00:00.63 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-2_tar_roof
+Fra:1 Mem:612.01M (Peak 612.81M) | Time:00:00.63 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-2_terracotta
+Fra:1 Mem:612.04M (Peak 612.81M) | Time:00:00.63 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-2_vinyl_siding
+Fra:1 Mem:612.32M (Peak 612.81M) | Time:00:00.63 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-2_wood_clapboard
+Fra:1 Mem:612.71M (Peak 612.81M) | Time:00:00.63 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-3_brown_brick
+Fra:1 Mem:612.76M (Peak 612.81M) | Time:00:00.63 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-3_brownstone
+Fra:1 Mem:615.25M (Peak 615.25M) | Time:00:00.64 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-3_concrete
+Fra:1 Mem:615.67M (Peak 615.67M) | Time:00:00.64 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-3_glass_curtain
+Fra:1 Mem:616.37M (Peak 616.37M) | Time:00:00.64 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-3_limestone
+Fra:1 Mem:616.99M (Peak 617.41M) | Time:00:00.64 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-3_metal_panel
+Fra:1 Mem:617.02M (Peak 617.41M) | Time:00:00.64 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-3_red_brick
+Fra:1 Mem:618.14M (Peak 618.14M) | Time:00:00.64 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-3_roof_membrane
+Fra:1 Mem:620.24M (Peak 620.24M) | Time:00:00.64 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-3_stone_rubble
+Fra:1 Mem:620.70M (Peak 620.70M) | Time:00:00.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-3_stucco
+Fra:1 Mem:620.74M (Peak 620.74M) | Time:00:00.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-3_tan_brick
+Fra:1 Mem:620.43M (Peak 620.74M) | Time:00:00.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-3_tar_roof
+Fra:1 Mem:620.44M (Peak 620.74M) | Time:00:00.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-3_terracotta
+Fra:1 Mem:621.78M (Peak 621.78M) | Time:00:00.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-3_vinyl_siding
+Fra:1 Mem:622.08M (Peak 622.08M) | Time:00:00.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_-3_wood_clapboard
+Fra:1 Mem:622.09M (Peak 622.09M) | Time:00:00.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-2_brown_brick
+Fra:1 Mem:622.93M (Peak 622.93M) | Time:00:00.65 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-2_brownstone
+Fra:1 Mem:627.86M (Peak 627.86M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | verify_sun
+Fra:1 Mem:627.51M (Peak 627.86M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-2_concrete
+Fra:1 Mem:627.51M (Peak 627.86M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_1603_3435
+Fra:1 Mem:628.47M (Peak 628.47M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-2_glass_curtain
+Fra:1 Mem:628.57M (Peak 628.57M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-2_granite
+Fra:1 Mem:628.53M (Peak 628.57M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-2_limestone
+Fra:1 Mem:628.08M (Peak 628.57M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-2_metal_panel
+Fra:1 Mem:628.13M (Peak 628.57M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_3402_3410
+Fra:1 Mem:628.18M (Peak 628.57M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-2_red_brick
+Fra:1 Mem:629.77M (Peak 629.77M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_3401_3409
+Fra:1 Mem:630.24M (Peak 630.24M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_1403_3158
+Fra:1 Mem:630.47M (Peak 630.47M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_1402_3157
+Fra:1 Mem:630.40M (Peak 630.47M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-2_roof_membrane
+Fra:1 Mem:631.36M (Peak 631.36M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_1809_3136
+Fra:1 Mem:631.81M (Peak 631.81M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_412_3036
+Fra:1 Mem:631.65M (Peak 631.81M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-2_stone_rubble
+Fra:1 Mem:631.88M (Peak 631.88M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_207_3033
+Fra:1 Mem:631.97M (Peak 631.97M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-2_stucco
+Fra:1 Mem:631.98M (Peak 631.98M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_1800_2743
+Fra:1 Mem:632.59M (Peak 632.59M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-2_tan_brick
+Fra:1 Mem:633.68M (Peak 633.68M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_214_2691
+Fra:1 Mem:633.28M (Peak 633.68M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-2_tar_roof
+Fra:1 Mem:633.32M (Peak 633.68M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_200_2679
+Fra:1 Mem:633.33M (Peak 633.68M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-2_terracotta
+Fra:1 Mem:633.45M (Peak 633.68M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-2_vinyl_siding
+Fra:1 Mem:633.53M (Peak 633.68M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2806_2370
+Fra:1 Mem:633.78M (Peak 633.78M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-2_white_glazed_brick
+Fra:1 Mem:634.06M (Peak 634.06M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-2_wood_clapboard
+Fra:1 Mem:634.58M (Peak 634.58M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2601_2309
+Fra:1 Mem:634.59M (Peak 634.59M) | Time:00:00.66 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-3_brown_brick
+Fra:1 Mem:635.10M (Peak 635.10M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-3_brownstone
+Fra:1 Mem:637.29M (Peak 637.29M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_208_2141
+Fra:1 Mem:637.48M (Peak 637.48M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2800_1797
+Fra:1 Mem:637.99M (Peak 637.99M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_608_1621
+Fra:1 Mem:638.03M (Peak 638.03M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_600_1574
+Fra:1 Mem:638.09M (Peak 638.09M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-3_concrete
+Fra:1 Mem:638.14M (Peak 638.14M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_211_1571
+Fra:1 Mem:638.09M (Peak 638.14M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_203_1461
+Fra:1 Mem:638.15M (Peak 638.15M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_213_1381
+Fra:1 Mem:638.15M (Peak 638.15M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-3_glass_curtain
+Fra:1 Mem:638.82M (Peak 638.82M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2000_1257
+Fra:1 Mem:639.20M (Peak 639.20M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-3_granite
+Fra:1 Mem:639.26M (Peak 639.26M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-3_limestone
+Fra:1 Mem:639.95M (Peak 639.95M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2002_1256
+Fra:1 Mem:639.55M (Peak 639.95M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-3_metal_panel
+Fra:1 Mem:639.66M (Peak 639.95M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-3_precast
+Fra:1 Mem:639.79M (Peak 639.95M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-3_red_brick
+Fra:1 Mem:640.53M (Peak 640.53M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_1000_1255
+Fra:1 Mem:641.43M (Peak 641.43M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_803_1253
+Fra:1 Mem:641.86M (Peak 641.86M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2005_1252
+Fra:1 Mem:641.74M (Peak 641.86M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-3_roof_membrane
+Fra:1 Mem:643.13M (Peak 643.13M) | Time:00:00.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2003_1248
+Fra:1 Mem:643.59M (Peak 643.59M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_402_1241
+Fra:1 Mem:643.86M (Peak 643.86M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_1201_1240
+Fra:1 Mem:643.88M (Peak 643.88M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_3602_1239
+Fra:1 Mem:643.76M (Peak 643.88M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_611_1236
+Fra:1 Mem:643.76M (Peak 643.88M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-3_stone_rubble
+Fra:1 Mem:644.33M (Peak 644.33M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-3_stucco
+Fra:1 Mem:644.94M (Peak 644.94M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-3_tan_brick
+Fra:1 Mem:646.19M (Peak 646.19M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-3_tar_roof
+Fra:1 Mem:646.32M (Peak 646.32M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-3_vinyl_siding
+Fra:1 Mem:646.56M (Peak 646.56M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_-3_wood_clapboard
+Fra:1 Mem:646.37M (Peak 646.56M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-2_brown_brick_LOD1
+Fra:1 Mem:646.36M (Peak 646.56M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-2_brownstone_LOD1
+Fra:1 Mem:646.34M (Peak 646.56M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_605_1235
+Fra:1 Mem:646.87M (Peak 646.87M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_806_1233
+Fra:1 Mem:647.09M (Peak 647.09M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-2_concrete_LOD1
+Fra:1 Mem:647.10M (Peak 647.10M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_1002_1232
+Fra:1 Mem:647.10M (Peak 647.10M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-2_glass_curtain_LOD1
+Fra:1 Mem:647.16M (Peak 647.16M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_209_1227
+Fra:1 Mem:647.27M (Peak 647.27M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-2_limestone_LOD1
+Fra:1 Mem:648.01M (Peak 648.01M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_205_41
+Fra:1 Mem:648.08M (Peak 648.08M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_606_29
+Fra:1 Mem:648.14M (Peak 648.14M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-2_metal_panel_LOD1
+Fra:1 Mem:648.12M (Peak 648.14M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_1605_27
+Fra:1 Mem:648.13M (Peak 648.14M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-2_red_brick_LOD1
+Fra:1 Mem:649.39M (Peak 649.40M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2201_26
+Fra:1 Mem:649.39M (Peak 649.40M) | Time:00:00.68 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_1804_25
+Fra:1 Mem:650.28M (Peak 650.28M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2401_21
+Fra:1 Mem:650.30M (Peak 650.30M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2804_16
+Fra:1 Mem:650.34M (Peak 650.34M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_1802_15
+Fra:1 Mem:651.41M (Peak 651.41M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-2_roof_membrane_LOD1
+Fra:1 Mem:651.05M (Peak 651.41M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-2_stone_rubble_LOD1
+Fra:1 Mem:651.85M (Peak 651.85M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-2_stucco_LOD1
+Fra:1 Mem:651.87M (Peak 651.87M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-2_tan_brick_LOD1
+Fra:1 Mem:652.44M (Peak 652.44M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_1601_5
+Fra:1 Mem:652.43M (Peak 652.44M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2204_3
+Fra:1 Mem:652.44M (Peak 652.44M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_1618_2
+Fra:1 Mem:652.82M (Peak 652.82M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_1611_1
+Fra:1 Mem:652.88M (Peak 652.88M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_1604_0
+Fra:1 Mem:653.54M (Peak 653.54M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_tree_sophora_small_353
+Fra:1 Mem:653.30M (Peak 653.54M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-2_tar_roof_LOD1
+Fra:1 Mem:653.39M (Peak 653.54M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-2_terracotta_LOD1
+Fra:1 Mem:653.63M (Peak 653.63M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-2_vinyl_siding_LOD1
+Fra:1 Mem:654.02M (Peak 654.02M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-2_white_glazed_brick_LOD1
+Fra:1 Mem:654.20M (Peak 654.20M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-2_wood_clapboard_LOD1
+Fra:1 Mem:654.20M (Peak 654.20M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-3_brown_brick_LOD1
+Fra:1 Mem:654.22M (Peak 654.22M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-3_brownstone_LOD1
+Fra:1 Mem:654.39M (Peak 654.39M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-3_concrete_LOD1
+Fra:1 Mem:654.65M (Peak 654.65M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-3_glass_curtain_LOD1
+Fra:1 Mem:654.76M (Peak 654.76M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-3_limestone_LOD1
+Fra:1 Mem:654.90M (Peak 654.90M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-3_metal_panel_LOD1
+Fra:1 Mem:655.06M (Peak 655.06M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-3_precast_LOD1
+Fra:1 Mem:654.72M (Peak 655.06M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-3_red_brick_LOD1
+Fra:1 Mem:654.92M (Peak 655.06M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-3_roof_membrane_LOD1
+Fra:1 Mem:655.82M (Peak 655.82M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-3_stone_rubble_LOD1
+Fra:1 Mem:655.83M (Peak 655.83M) | Time:00:00.69 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-3_tan_brick_LOD1
+Fra:1 Mem:656.20M (Peak 656.20M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-3_tar_roof_LOD1
+Fra:1 Mem:656.51M (Peak 656.51M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-4_-3_vinyl_siding_LOD1
+Fra:1 Mem:656.74M (Peak 656.74M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_barclays_center.0
+Fra:1 Mem:656.88M (Peak 656.88M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_tree_zelkova_large_318
+Fra:1 Mem:661.28M (Peak 661.28M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_barclays_center.1
+Fra:1 Mem:661.33M (Peak 661.33M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_barclays_center.2
+Fra:1 Mem:661.63M (Peak 661.63M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_barclays_center.3
+Fra:1 Mem:661.65M (Peak 661.66M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_barclays_center.4
+Fra:1 Mem:661.84M (Peak 661.84M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_williamsburgh_savings_bank_tower.0
+Fra:1 Mem:661.75M (Peak 661.84M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_williamsburgh_savings_bank_tower.1
+Fra:1 Mem:661.87M (Peak 661.87M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_williamsburgh_savings_bank_tower.2
+Fra:1 Mem:658.27M (Peak 661.87M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_williamsburgh_savings_bank_tower.3
+Fra:1 Mem:659.50M (Peak 661.87M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_williamsburgh_savings_bank_tower.4
+Fra:1 Mem:659.51M (Peak 661.87M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_williamsburgh_savings_bank_tower.5
+Fra:1 Mem:659.88M (Peak 661.87M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_williamsburgh_savings_bank_tower.6
+Fra:1 Mem:659.97M (Peak 661.87M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_williamsburgh_savings_bank_tower.7
+Fra:1 Mem:659.99M (Peak 661.87M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_williamsburgh_savings_bank_tower.8
+Fra:1 Mem:660.64M (Peak 661.87M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_williamsburgh_savings_bank_tower.9
+Fra:1 Mem:659.75M (Peak 661.87M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_williamsburgh_savings_bank_tower.10
+Fra:1 Mem:659.76M (Peak 661.87M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_williamsburgh_savings_bank_tower.11
+Fra:1 Mem:659.83M (Peak 661.87M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_williamsburgh_savings_bank_tower.12
+Fra:1 Mem:659.88M (Peak 661.87M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_williamsburgh_savings_bank_tower.13
+Fra:1 Mem:659.89M (Peak 661.87M) | Time:00:00.70 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_williamsburgh_savings_bank_tower.14
+Fra:1 Mem:659.88M (Peak 661.87M) | Time:00:00.71 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_mailbox_usps_286
+Fra:1 Mem:662.36M (Peak 662.42M) | Time:00:00.71 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_tree_littleleaf_linden_medium_281
+Fra:1 Mem:663.37M (Peak 664.41M) | Time:00:00.71 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_williamsburgh_savings_bank_tower.15
+Fra:1 Mem:663.37M (Peak 664.41M) | Time:00:00.71 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_williamsburgh_savings_bank_tower.16
+Fra:1 Mem:672.43M (Peak 672.56M) | Time:00:00.71 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_tree_pin_oak_small_255
+Fra:1 Mem:673.59M (Peak 673.59M) | Time:00:00.72 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_williamsburgh_savings_bank_tower.17
+Fra:1 Mem:673.63M (Peak 673.63M) | Time:00:00.72 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_lamp_cobra_davit_0
+Fra:1 Mem:673.63M (Peak 673.63M) | Time:00:00.72 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_newsstand_stainless_1
+Fra:1 Mem:673.36M (Peak 673.63M) | Time:00:00.72 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_hydrant_fdny_2
+Fra:1 Mem:673.31M (Peak 673.63M) | Time:00:00.72 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_tree_ginkgo_large_214
+Fra:1 Mem:673.60M (Peak 673.63M) | Time:00:00.72 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_manhole_coned_4
+Fra:1 Mem:676.75M (Peak 676.97M) | Time:00:00.72 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_bike_rack_cityrack_8
+Fra:1 Mem:676.80M (Peak 676.97M) | Time:00:00.72 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_sign_nyc_parking_18_11
+Fra:1 Mem:676.80M (Peak 676.97M) | Time:00:00.72 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_linknyc_kiosk_15
+Fra:1 Mem:676.95M (Peak 676.97M) | Time:00:00.72 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_vent_grate_sidewalk_16
+Fra:1 Mem:677.79M (Peak 677.79M) | Time:00:00.72 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_tree_honeylocust_large_19
+Fra:1 Mem:677.00M (Peak 677.79M) | Time:00:00.73 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_tree_pin_oak_large_199
+Fra:1 Mem:678.83M (Peak 678.83M) | Time:00:00.73 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_tree_honeylocust_medium_21
+Fra:1 Mem:679.82M (Peak 680.15M) | Time:00:00.73 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_tree_planetree_medium_189
+Fra:1 Mem:680.34M (Peak 680.34M) | Time:00:00.73 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_tree_ginkgo_small_28
+Fra:1 Mem:682.14M (Peak 682.14M) | Time:00:00.74 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_tree_honeylocust_small_39
+Fra:1 Mem:683.21M (Peak 683.21M) | Time:00:00.74 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_tree_ginkgo_medium_48
+Fra:1 Mem:683.93M (Peak 683.93M) | Time:00:00.74 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_tree_callery_pear_medium_186
+Fra:1 Mem:683.65M (Peak 684.90M) | Time:00:00.74 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_subway_entrance_62
+Fra:1 Mem:675.90M (Peak 684.90M) | Time:00:00.74 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_subway_globe_red_70
+Fra:1 Mem:675.96M (Peak 684.90M) | Time:00:00.74 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_citibike_bike_82
+Fra:1 Mem:676.83M (Peak 684.90M) | Time:00:00.75 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_bus_shelter_cemusa_129
+Fra:1 Mem:676.75M (Peak 684.90M) | Time:00:00.75 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_tree_pin_oak_medium_185
+Fra:1 Mem:676.77M (Peak 684.90M) | Time:00:00.75 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_litter_basket_betterbin_132
+Fra:1 Mem:676.80M (Peak 684.90M) | Time:00:00.75 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_tree_zelkova_medium_147
+Fra:1 Mem:678.06M (Peak 684.90M) | Time:00:00.75 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_tree_norway_maple_large_160
+Fra:1 Mem:679.55M (Peak 684.90M) | Time:00:00.75 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_tree_littleleaf_linden_small_174
+Fra:1 Mem:680.19M (Peak 684.90M) | Time:00:00.76 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_tree_planetree_large_165
+Fra:1 Mem:679.82M (Peak 684.90M) | Time:00:00.76 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_tree_littleleaf_linden_large_170
+Fra:1 Mem:684.97M (Peak 684.98M) | Time:00:00.76 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_tree_callery_pear_small_167
+Fra:1 Mem:682.90M (Peak 687.74M) | Time:00:00.77 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:665.16M (Peak 687.74M) | Time:00:00.80 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_1K_color
+Fra:1 Mem:665.16M (Peak 687.74M) | Time:00:00.80 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_normal.011
+Fra:1 Mem:673.17M (Peak 687.74M) | Time:00:00.81 | Mem:2.00M, Peak:2.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_1K_normal
+Fra:1 Mem:675.21M (Peak 687.74M) | Time:00:00.82 | Mem:6.00M, Peak:6.00M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_color.011
+Fra:1 Mem:675.21M (Peak 687.74M) | Time:00:00.82 | Mem:8.00M, Peak:8.00M | Scene, ViewLayer | Updating Images | Loading Concrete036_1K_color
+Fra:1 Mem:683.22M (Peak 687.74M) | Time:00:00.83 | Mem:10.00M, Peak:10.00M | Scene, ViewLayer | Updating Images | Loading Concrete036_1K_roughness
+Fra:1 Mem:687.21M (Peak 691.22M) | Time:00:00.83 | Mem:14.00M, Peak:14.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_normal.013
+Fra:1 Mem:691.21M (Peak 695.22M) | Time:00:00.84 | Mem:18.00M, Peak:18.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm.013
+Fra:1 Mem:695.21M (Peak 699.22M) | Time:00:00.84 | Mem:22.00M, Peak:22.00M | Scene, ViewLayer | Updating Images | Loading Concrete036_1K_normal
+Fra:1 Mem:699.21M (Peak 703.22M) | Time:00:00.85 | Mem:26.00M, Peak:26.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color.013
+Fra:1 Mem:703.21M (Peak 707.22M) | Time:00:00.85 | Mem:30.00M, Peak:30.00M | Scene, ViewLayer | Updating Images | Loading WoodFloor051_1024_normal.009
+Fra:1 Mem:707.21M (Peak 711.22M) | Time:00:00.85 | Mem:34.00M, Peak:34.00M | Scene, ViewLayer | Updating Images | Loading Rubber004_1K_color
+Fra:1 Mem:711.21M (Peak 715.22M) | Time:00:00.86 | Mem:38.00M, Peak:38.00M | Scene, ViewLayer | Updating Images | Loading WoodFloor051_1024_color.009
+Fra:1 Mem:715.21M (Peak 719.22M) | Time:00:00.87 | Mem:42.00M, Peak:42.00M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.019
+Fra:1 Mem:719.21M (Peak 723.22M) | Time:00:00.87 | Mem:46.00M, Peak:46.00M | Scene, ViewLayer | Updating Images | Loading Rubber004_1K_roughness
+Fra:1 Mem:727.22M (Peak 731.23M) | Time:00:00.87 | Mem:50.00M, Peak:50.00M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.019
+Fra:1 Mem:727.21M (Peak 731.23M) | Time:00:00.87 | Mem:54.00M, Peak:54.00M | Scene, ViewLayer | Updating Images | Loading Rubber004_1K_normal
+Fra:1 Mem:731.21M (Peak 735.22M) | Time:00:00.88 | Mem:58.00M, Peak:58.00M | Scene, ViewLayer | Updating Images | Loading Granite002A_1024_normal.005
+Fra:1 Mem:739.22M (Peak 743.23M) | Time:00:00.89 | Mem:62.00M, Peak:62.00M | Scene, ViewLayer | Updating Images | Loading Granite002A_1024_color.005
+Fra:1 Mem:739.21M (Peak 743.23M) | Time:00:00.89 | Mem:66.00M, Peak:66.00M | Scene, ViewLayer | Updating Images | Loading Marble026_1K_color
+Fra:1 Mem:747.22M (Peak 751.23M) | Time:00:00.91 | Mem:70.00M, Peak:70.00M | Scene, ViewLayer | Updating Images | Loading Metal055A_1024_normal.007
+Fra:1 Mem:747.21M (Peak 751.23M) | Time:00:00.91 | Mem:74.00M, Peak:74.00M | Scene, ViewLayer | Updating Images | Loading Marble026_1K_roughness
+Fra:1 Mem:755.22M (Peak 759.23M) | Time:00:00.91 | Mem:78.00M, Peak:78.00M | Scene, ViewLayer | Updating Images | Loading Metal055A_1024_color.005
+Fra:1 Mem:755.21M (Peak 759.23M) | Time:00:00.91 | Mem:82.00M, Peak:82.00M | Scene, ViewLayer | Updating Images | Loading Marble026_1K_normal
+Fra:1 Mem:759.21M (Peak 763.22M) | Time:00:00.92 | Mem:86.00M, Peak:86.00M | Scene, ViewLayer | Updating Images | Loading PaintedWood002_1024_normal.001
+Fra:1 Mem:763.21M (Peak 767.22M) | Time:00:00.93 | Mem:90.00M, Peak:90.00M | Scene, ViewLayer | Updating Images | Loading PaintedWood002_1024_color.001
+Fra:1 Mem:771.22M (Peak 775.23M) | Time:00:00.93 | Mem:94.00M, Peak:94.00M | Scene, ViewLayer | Updating Images | Loading Concrete030_1K_color
+Fra:1 Mem:775.22M (Peak 779.23M) | Time:00:00.94 | Mem:98.00M, Peak:98.00M | Scene, ViewLayer | Updating Images | Loading WoodFloor051_1024_normal.008
+Fra:1 Mem:775.21M (Peak 779.23M) | Time:00:00.94 | Mem:102.00M, Peak:102.00M | Scene, ViewLayer | Updating Images | Loading Concrete030_1K_roughness
+Fra:1 Mem:779.21M (Peak 783.22M) | Time:00:00.94 | Mem:106.00M, Peak:106.00M | Scene, ViewLayer | Updating Images | Loading WoodFloor051_1024_color.008
+Fra:1 Mem:783.21M (Peak 787.22M) | Time:00:00.95 | Mem:110.00M, Peak:110.00M | Scene, ViewLayer | Updating Images | Loading Concrete030_1K_normal
+Fra:1 Mem:787.21M (Peak 791.22M) | Time:00:00.95 | Mem:114.00M, Peak:114.00M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_normal.010
+Fra:1 Mem:791.21M (Peak 795.22M) | Time:00:00.96 | Mem:118.00M, Peak:118.00M | Scene, ViewLayer | Updating Images | Loading Rubber004_1K_color.001
+Fra:1 Mem:795.21M (Peak 799.22M) | Time:00:00.96 | Mem:122.00M, Peak:122.00M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_color.010
+Fra:1 Mem:799.21M (Peak 803.22M) | Time:00:00.97 | Mem:126.00M, Peak:126.00M | Scene, ViewLayer | Updating Images | Loading Metal055A_1024_normal.006
+Fra:1 Mem:803.21M (Peak 807.22M) | Time:00:00.97 | Mem:130.00M, Peak:130.00M | Scene, ViewLayer | Updating Images | Loading Rubber004_1K_roughness.001
+Fra:1 Mem:807.21M (Peak 811.22M) | Time:00:00.98 | Mem:134.00M, Peak:134.00M | Scene, ViewLayer | Updating Images | Loading PaintedWood002_1024_normal
+Fra:1 Mem:815.22M (Peak 819.23M) | Time:00:00.99 | Mem:138.00M, Peak:138.00M | Scene, ViewLayer | Updating Images | Loading PaintedWood002_1024_color
+Fra:1 Mem:815.21M (Peak 819.23M) | Time:00:00.99 | Mem:142.00M, Peak:142.00M | Scene, ViewLayer | Updating Images | Loading Rubber004_1K_normal.001
+Fra:1 Mem:823.22M (Peak 827.23M) | Time:00:00.99 | Mem:146.00M, Peak:146.00M | Scene, ViewLayer | Updating Images | Loading Bricks029_1K_color
+Fra:1 Mem:823.21M (Peak 827.23M) | Time:00:01.00 | Mem:150.00M, Peak:150.00M | Scene, ViewLayer | Updating Images | Loading WoodFloor051_1024_normal.007
+Fra:1 Mem:827.21M (Peak 831.22M) | Time:00:01.01 | Mem:154.00M, Peak:154.00M | Scene, ViewLayer | Updating Images | Loading WoodFloor051_1024_color.007
+Fra:1 Mem:835.22M (Peak 839.23M) | Time:00:01.02 | Mem:158.00M, Peak:158.00M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_normal.009
+Fra:1 Mem:835.21M (Peak 839.23M) | Time:00:01.02 | Mem:162.00M, Peak:162.00M | Scene, ViewLayer | Updating Images | Loading Bricks029_1K_roughness
+Fra:1 Mem:839.21M (Peak 843.22M) | Time:00:01.02 | Mem:166.00M, Peak:166.00M | Scene, ViewLayer | Updating Images | Loading Bricks029_1K_normal
+Fra:1 Mem:843.21M (Peak 847.22M) | Time:00:01.03 | Mem:170.00M, Peak:170.00M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_color.009
+Fra:1 Mem:847.21M (Peak 851.22M) | Time:00:01.03 | Mem:174.00M, Peak:174.00M | Scene, ViewLayer | Updating Images | Loading Metal055A_1024_normal.005
+Fra:1 Mem:855.22M (Peak 859.23M) | Time:00:01.04 | Mem:178.00M, Peak:178.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_512_color
+Fra:1 Mem:851.71M (Peak 859.23M) | Time:00:01.04 | Mem:182.00M, Peak:182.00M | Scene, ViewLayer | Updating Images | Loading Metal055A_1024_normal.004
+Fra:1 Mem:855.71M (Peak 859.23M) | Time:00:01.04 | Mem:182.50M, Peak:182.50M | Scene, ViewLayer | Updating Images | Loading Concrete034_512_normal
+Fra:1 Mem:856.21M (Peak 859.23M) | Time:00:01.04 | Mem:183.00M, Peak:183.00M | Scene, ViewLayer | Updating Images | Loading Metal032_512_color
+Fra:1 Mem:857.21M (Peak 859.23M) | Time:00:01.04 | Mem:184.00M, Peak:184.00M | Scene, ViewLayer | Updating Images | Loading Metal032_512_normal
+Fra:1 Mem:862.22M (Peak 863.23M) | Time:00:01.05 | Mem:185.00M, Peak:185.00M | Scene, ViewLayer | Updating Images | Loading light_cone_gradient
+Fra:1 Mem:866.29M (Peak 866.29M) | Time:00:01.05 | Mem:185.06M, Peak:185.06M | Scene, ViewLayer | Updating Images | Loading Metal009_512_color
+Fra:1 Mem:863.28M (Peak 867.29M) | Time:00:01.05 | Mem:189.06M, Peak:189.06M | Scene, ViewLayer | Updating Images | Loading Metal055A_1024_color.004
+Fra:1 Mem:867.28M (Peak 868.29M) | Time:00:01.05 | Mem:190.06M, Peak:190.06M | Scene, ViewLayer | Updating Images | Loading Metal009_512_normal
+Fra:1 Mem:864.28M (Peak 868.29M) | Time:00:01.05 | Mem:194.06M, Peak:194.06M | Scene, ViewLayer | Updating Images | Loading ad_panel
+Fra:1 Mem:865.40M (Peak 868.29M) | Time:00:01.05 | Mem:195.06M, Peak:195.06M | Scene, ViewLayer | Updating Images | Loading Metal041B_512_color
+Fra:1 Mem:867.53M (Peak 871.54M) | Time:00:01.05 | Mem:199.06M, Peak:199.06M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_normal.005
+Fra:1 Mem:866.40M (Peak 871.54M) | Time:00:01.05 | Mem:200.19M, Peak:200.19M | Scene, ViewLayer | Updating Images | Loading Metal041B_512_normal
+Fra:1 Mem:871.40M (Peak 872.41M) | Time:00:01.06 | Mem:201.19M, Peak:201.19M | Scene, ViewLayer | Updating Images | Loading Metal032_512_color.001
+Fra:1 Mem:872.40M (Peak 873.41M) | Time:00:01.06 | Mem:202.19M, Peak:202.19M | Scene, ViewLayer | Updating Images | Loading Metal032_512_normal.001
+Fra:1 Mem:874.41M (Peak 874.41M) | Time:00:01.06 | Mem:203.19M, Peak:203.19M | Scene, ViewLayer | Updating Images | Loading sign_nyc_no_standing
+Fra:1 Mem:877.63M (Peak 877.63M) | Time:00:01.06 | Mem:204.19M, Peak:204.19M | Scene, ViewLayer | Updating Images | Loading Metal032_512_color.002
+Fra:1 Mem:878.63M (Peak 878.63M) | Time:00:01.06 | Mem:204.40M, Peak:204.40M | Scene, ViewLayer | Updating Images | Loading Metal032_512_normal.002
+Fra:1 Mem:875.62M (Peak 879.63M) | Time:00:01.06 | Mem:208.40M, Peak:208.40M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_color.005
+Fra:1 Mem:880.63M (Peak 881.64M) | Time:00:01.06 | Mem:209.40M, Peak:209.40M | Scene, ViewLayer | Updating Images | Loading Metal009_512_color.001
+Fra:1 Mem:881.63M (Peak 882.64M) | Time:00:01.06 | Mem:210.40M, Peak:210.40M | Scene, ViewLayer | Updating Images | Loading Metal009_512_normal.001
+Fra:1 Mem:881.62M (Peak 882.64M) | Time:00:01.07 | Mem:211.40M, Peak:211.40M | Scene, ViewLayer | Updating Images | Loading linknyc_screen
+Fra:1 Mem:882.18M (Peak 883.19M) | Time:00:01.07 | Mem:212.40M, Peak:212.40M | Scene, ViewLayer | Updating Images | Loading Metal041B_512_color.001
+Fra:1 Mem:883.18M (Peak 887.19M) | Time:00:01.07 | Mem:216.40M, Peak:216.40M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_normal.012
+Fra:1 Mem:888.19M (Peak 888.76M) | Time:00:01.07 | Mem:216.97M, Peak:216.97M | Scene, ViewLayer | Updating Images | Loading Metal041B_512_normal.001
+Fra:1 Mem:888.18M (Peak 888.76M) | Time:00:01.07 | Mem:217.97M, Peak:217.97M | Scene, ViewLayer | Updating Images | Loading Bark007_1024_color
+Fra:1 Mem:892.18M (Peak 893.19M) | Time:00:01.07 | Mem:218.97M, Peak:218.97M | Scene, ViewLayer | Updating Images | Loading Bark007_1024_normal
+Fra:1 Mem:896.18M (Peak 900.19M) | Time:00:01.08 | Mem:222.97M, Peak:222.97M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm.012
+Fra:1 Mem:900.18M (Peak 904.19M) | Time:00:01.08 | Mem:226.97M, Peak:226.97M | Scene, ViewLayer | Updating Images | Loading leaf_honeylocust
+Fra:1 Mem:906.20M (Peak 910.21M) | Time:00:01.09 | Mem:230.97M, Peak:230.97M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color.012
+Fra:1 Mem:909.19M (Peak 910.21M) | Time:00:01.09 | Mem:231.97M, Peak:231.97M | Scene, ViewLayer | Updating Images | Loading Bark007_1024_color.001
+Fra:1 Mem:913.19M (Peak 917.20M) | Time:00:01.09 | Mem:235.97M, Peak:235.97M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.018
+Fra:1 Mem:913.18M (Peak 917.20M) | Time:00:01.09 | Mem:239.97M, Peak:239.97M | Scene, ViewLayer | Updating Images | Loading Bark007_1024_normal.001
+Fra:1 Mem:917.18M (Peak 921.19M) | Time:00:01.10 | Mem:243.97M, Peak:243.97M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.018
+Fra:1 Mem:921.18M (Peak 925.19M) | Time:00:01.10 | Mem:247.97M, Peak:247.97M | Scene, ViewLayer | Updating Images | Loading leaf_honeylocust.001
+Fra:1 Mem:926.19M (Peak 927.20M) | Time:00:01.10 | Mem:248.97M, Peak:248.97M | Scene, ViewLayer | Updating Images | Loading Bark012_1024_color
+Fra:1 Mem:926.18M (Peak 930.19M) | Time:00:01.10 | Mem:252.97M, Peak:252.97M | Scene, ViewLayer | Updating Images | Loading Granite002A_1024_normal.004
+Fra:1 Mem:930.18M (Peak 934.19M) | Time:00:01.11 | Mem:256.97M, Peak:256.97M | Scene, ViewLayer | Updating Images | Loading Bark012_1024_normal
+Fra:1 Mem:934.18M (Peak 938.19M) | Time:00:01.11 | Mem:260.97M, Peak:260.97M | Scene, ViewLayer | Updating Images | Loading Granite002A_1024_color.004
+Fra:1 Mem:938.18M (Peak 942.19M) | Time:00:01.12 | Mem:264.97M, Peak:264.97M | Scene, ViewLayer | Updating Images | Loading leaf_ginkgo
+Fra:1 Mem:939.18M (Peak 943.19M) | Time:00:01.12 | Mem:268.97M, Peak:268.97M | Scene, ViewLayer | Updating Images | Loading Bark007_1024_color.002
+Fra:1 Mem:947.19M (Peak 948.20M) | Time:00:01.12 | Mem:269.97M, Peak:269.97M | Scene, ViewLayer | Updating Images | Loading Bark007_1024_normal.002
+Fra:1 Mem:947.18M (Peak 951.19M) | Time:00:01.12 | Mem:273.97M, Peak:273.97M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_normal.008
+Fra:1 Mem:955.19M (Peak 959.20M) | Time:00:01.13 | Mem:277.97M, Peak:277.97M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_color.008
+Fra:1 Mem:959.19M (Peak 963.20M) | Time:00:01.13 | Mem:281.97M, Peak:281.97M | Scene, ViewLayer | Updating Images | Loading leaf_honeylocust.002
+Fra:1 Mem:956.18M (Peak 963.20M) | Time:00:01.14 | Mem:285.97M, Peak:285.97M | Scene, ViewLayer | Updating Images | Loading Bark012_1024_color.001
+Fra:1 Mem:960.18M (Peak 963.20M) | Time:00:01.14 | Mem:286.97M, Peak:286.97M | Scene, ViewLayer | Updating Images | Loading Bark012_1024_normal.001
+Fra:1 Mem:964.18M (Peak 968.19M) | Time:00:01.14 | Mem:290.97M, Peak:290.97M | Scene, ViewLayer | Updating Images | Loading WoodFloor051_1024_normal.006
+Fra:1 Mem:972.19M (Peak 976.20M) | Time:00:01.14 | Mem:294.97M, Peak:294.97M | Scene, ViewLayer | Updating Images | Loading WoodFloor051_1024_color.006
+Fra:1 Mem:976.19M (Peak 980.20M) | Time:00:01.15 | Mem:298.97M, Peak:298.97M | Scene, ViewLayer | Updating Images | Loading leaf_ginkgo.001
+Fra:1 Mem:981.20M (Peak 981.20M) | Time:00:01.15 | Mem:299.97M, Peak:299.97M | Scene, ViewLayer | Updating Images | Loading Concrete034_512_color.001
+Fra:1 Mem:977.69M (Peak 981.20M) | Time:00:01.15 | Mem:303.97M, Peak:303.97M | Scene, ViewLayer | Updating Images | Loading Concrete034_512_normal.001
+Fra:1 Mem:974.69M (Peak 981.20M) | Time:00:01.15 | Mem:307.97M, Peak:307.97M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_normal.011
+Fra:1 Mem:974.18M (Peak 981.20M) | Time:00:01.15 | Mem:308.47M, Peak:308.47M | Scene, ViewLayer | Updating Images | Loading subway_wordmark
+Fra:1 Mem:978.74M (Peak 981.20M) | Time:00:01.15 | Mem:308.97M, Peak:308.97M | Scene, ViewLayer | Updating Images | Loading Metal009_512_color.002
+Fra:1 Mem:979.74M (Peak 981.20M) | Time:00:01.16 | Mem:309.53M, Peak:309.53M | Scene, ViewLayer | Updating Images | Loading Metal009_512_normal.002
+Fra:1 Mem:980.74M (Peak 981.75M) | Time:00:01.16 | Mem:310.53M, Peak:310.53M | Scene, ViewLayer | Updating Images | Loading ad_panel.001
+Fra:1 Mem:981.87M (Peak 982.88M) | Time:00:01.16 | Mem:311.53M, Peak:311.53M | Scene, ViewLayer | Updating Images | Loading Metal009_512_color.003
+Fra:1 Mem:982.87M (Peak 983.88M) | Time:00:01.16 | Mem:312.53M, Peak:312.53M | Scene, ViewLayer | Updating Images | Loading Metal009_512_normal.003
+Fra:1 Mem:987.88M (Peak 988.89M) | Time:00:01.16 | Mem:313.53M, Peak:313.53M | Scene, ViewLayer | Updating Images | Loading Bark005_1024_color
+Fra:1 Mem:985.87M (Peak 989.88M) | Time:00:01.16 | Mem:317.53M, Peak:317.53M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm.011
+Fra:1 Mem:989.87M (Peak 991.00M) | Time:00:01.17 | Mem:318.65M, Peak:318.65M | Scene, ViewLayer | Updating Images | Loading Bark005_1024_normal
+Fra:1 Mem:991.87M (Peak 993.88M) | Time:00:01.17 | Mem:320.65M, Peak:320.65M | Scene, ViewLayer | Updating Images | Loading leaf_zelkova
+Fra:1 Mem:994.88M (Peak 998.89M) | Time:00:01.17 | Mem:324.65M, Peak:324.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color.011
+Fra:1 Mem:997.88M (Peak 999.89M) | Time:00:01.17 | Mem:326.65M, Peak:326.65M | Scene, ViewLayer | Updating Images | Loading Bark006_1024_color
+Fra:1 Mem:1000.87M (Peak 1001.88M) | Time:00:01.17 | Mem:327.65M, Peak:327.65M | Scene, ViewLayer | Updating Images | Loading Bark006_1024_normal
+Fra:1 Mem:1004.87M (Peak 1008.88M) | Time:00:01.18 | Mem:331.65M, Peak:331.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.017
+Fra:1 Mem:1016.89M (Peak 1020.90M) | Time:00:01.18 | Mem:335.65M, Peak:335.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.017
+Fra:1 Mem:1016.88M (Peak 1020.90M) | Time:00:01.18 | Mem:339.65M, Peak:339.65M | Scene, ViewLayer | Updating Images | Loading leaf_norway_maple
+Fra:1 Mem:1013.87M (Peak 1020.90M) | Time:00:01.18 | Mem:343.65M, Peak:343.65M | Scene, ViewLayer | Updating Images | Loading Bark004_1024_color
+Fra:1 Mem:1017.87M (Peak 1020.90M) | Time:00:01.19 | Mem:344.65M, Peak:344.65M | Scene, ViewLayer | Updating Images | Loading Bark004_1024_normal
+Fra:1 Mem:1021.87M (Peak 1025.88M) | Time:00:01.19 | Mem:348.65M, Peak:348.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_normal.008
+Fra:1 Mem:1033.89M (Peak 1037.90M) | Time:00:01.20 | Mem:352.65M, Peak:352.65M | Scene, ViewLayer | Updating Images | Loading leaf_planetree
+Fra:1 Mem:1030.88M (Peak 1037.90M) | Time:00:01.20 | Mem:356.65M, Peak:356.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_orm.008
+Fra:1 Mem:1026.87M (Peak 1037.90M) | Time:00:01.20 | Mem:360.65M, Peak:360.65M | Scene, ViewLayer | Updating Images | Loading Bark003_1024_color
+Fra:1 Mem:1034.87M (Peak 1037.90M) | Time:00:01.20 | Mem:361.65M, Peak:361.65M | Scene, ViewLayer | Updating Images | Loading Bark003_1024_normal
+Fra:1 Mem:1038.87M (Peak 1042.88M) | Time:00:01.21 | Mem:369.65M, Peak:369.65M | Scene, ViewLayer | Updating Images | Loading leaf_callery_pear
+Fra:1 Mem:1039.87M (Peak 1042.88M) | Time:00:01.21 | Mem:369.65M, Peak:369.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_bk11_color.008
+Fra:1 Mem:1039.87M (Peak 1042.88M) | Time:00:01.21 | Mem:370.65M, Peak:370.65M | Scene, ViewLayer | Updating Images | Loading Bark014_1024_color
+Fra:1 Mem:1051.88M (Peak 1055.89M) | Time:00:01.22 | Mem:374.65M, Peak:374.65M | Scene, ViewLayer | Updating Images | Loading interior_card_unlit.010
+Fra:1 Mem:1052.88M (Peak 1056.89M) | Time:00:01.22 | Mem:378.65M, Peak:378.65M | Scene, ViewLayer | Updating Images | Loading Bark014_1024_normal
+Fra:1 Mem:1052.87M (Peak 1056.89M) | Time:00:01.22 | Mem:382.65M, Peak:382.65M | Scene, ViewLayer | Updating Images | Loading leaf_littleleaf_linden
+Fra:1 Mem:1053.87M (Peak 1056.89M) | Time:00:01.22 | Mem:383.65M, Peak:383.65M | Scene, ViewLayer | Updating Images | Loading PaintedWood007C_1024_normal.004
+Fra:1 Mem:1057.87M (Peak 1058.88M) | Time:00:01.23 | Mem:384.65M, Peak:384.65M | Scene, ViewLayer | Updating Images | Loading Bark014_1024_color.001
+Fra:1 Mem:1065.88M (Peak 1069.89M) | Time:00:01.23 | Mem:388.65M, Peak:388.65M | Scene, ViewLayer | Updating Images | Loading Bark014_1024_normal.001
+Fra:1 Mem:1061.87M (Peak 1069.89M) | Time:00:01.23 | Mem:392.65M, Peak:392.65M | Scene, ViewLayer | Updating Images | Loading PaintedWood007C_1024_orm.004
+Fra:1 Mem:1073.88M (Peak 1077.89M) | Time:00:01.24 | Mem:396.65M, Peak:396.65M | Scene, ViewLayer | Updating Images | Loading PaintedWood007C_1024_color.004
+Fra:1 Mem:1077.88M (Peak 1081.89M) | Time:00:01.24 | Mem:400.65M, Peak:400.65M | Scene, ViewLayer | Updating Images | Loading leaf_littleleaf_linden.001
+Fra:1 Mem:1078.88M (Peak 1081.89M) | Time:00:01.24 | Mem:401.65M, Peak:401.65M | Scene, ViewLayer | Updating Images | Loading Bark012_1024_color.002
+Fra:1 Mem:1082.88M (Peak 1082.88M) | Time:00:01.25 | Mem:405.65M, Peak:405.65M | Scene, ViewLayer | Updating Images | Loading Bark012_1024_normal.002
+Fra:1 Mem:1082.87M (Peak 1086.88M) | Time:00:01.25 | Mem:409.65M, Peak:409.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_normal.009
+Fra:1 Mem:1090.88M (Peak 1094.89M) | Time:00:01.25 | Mem:413.65M, Peak:413.65M | Scene, ViewLayer | Updating Images | Loading leaf_pin_oak
+Fra:1 Mem:1087.87M (Peak 1094.89M) | Time:00:01.26 | Mem:417.65M, Peak:417.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_orm.009
+Fra:1 Mem:1095.88M (Peak 1096.89M) | Time:00:01.26 | Mem:418.65M, Peak:418.65M | Scene, ViewLayer | Updating Images | Loading Bark003_1024_color.001
+Fra:1 Mem:1099.88M (Peak 1103.89M) | Time:00:01.26 | Mem:422.65M, Peak:422.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_bk17_color.009
+Fra:1 Mem:1103.88M (Peak 1107.89M) | Time:00:01.27 | Mem:426.65M, Peak:426.65M | Scene, ViewLayer | Updating Images | Loading Bark003_1024_normal.001
+Fra:1 Mem:1103.87M (Peak 1107.89M) | Time:00:01.27 | Mem:430.65M, Peak:430.65M | Scene, ViewLayer | Updating Images | Loading leaf_callery_pear.001
+Fra:1 Mem:1104.87M (Peak 1108.88M) | Time:00:01.27 | Mem:434.65M, Peak:434.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_normal.010
+Fra:1 Mem:1108.87M (Peak 1109.88M) | Time:00:01.28 | Mem:435.65M, Peak:435.65M | Scene, ViewLayer | Updating Images | Loading Bark004_1024_color.001
+Fra:1 Mem:1116.88M (Peak 1120.89M) | Time:00:01.28 | Mem:439.65M, Peak:439.65M | Scene, ViewLayer | Updating Images | Loading Bark004_1024_normal.001
+Fra:1 Mem:1116.87M (Peak 1120.89M) | Time:00:01.28 | Mem:443.65M, Peak:443.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm.010
+Fra:1 Mem:1124.88M (Peak 1128.89M) | Time:00:01.29 | Mem:447.65M, Peak:447.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color.010
+Fra:1 Mem:1128.88M (Peak 1132.89M) | Time:00:01.29 | Mem:451.65M, Peak:451.65M | Scene, ViewLayer | Updating Images | Loading leaf_planetree.001
+Fra:1 Mem:1129.88M (Peak 1133.89M) | Time:00:01.30 | Mem:455.65M, Peak:455.65M | Scene, ViewLayer | Updating Images | Loading Bark012_1024_color.003
+Fra:1 Mem:1129.87M (Peak 1133.89M) | Time:00:01.30 | Mem:459.65M, Peak:459.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.016
+Fra:1 Mem:1133.87M (Peak 1134.88M) | Time:00:01.30 | Mem:460.65M, Peak:460.65M | Scene, ViewLayer | Updating Images | Loading Bark012_1024_normal.003
+Fra:1 Mem:1137.87M (Peak 1141.88M) | Time:00:01.30 | Mem:464.65M, Peak:464.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.016
+Fra:1 Mem:1145.88M (Peak 1149.89M) | Time:00:01.31 | Mem:468.65M, Peak:468.65M | Scene, ViewLayer | Updating Images | Loading Granite002A_1024_normal.003
+Fra:1 Mem:1149.88M (Peak 1153.89M) | Time:00:01.31 | Mem:472.65M, Peak:472.65M | Scene, ViewLayer | Updating Images | Loading leaf_pin_oak.001
+Fra:1 Mem:1150.88M (Peak 1154.89M) | Time:00:01.31 | Mem:476.65M, Peak:476.65M | Scene, ViewLayer | Updating Images | Loading Granite002A_1024_color.003
+Fra:1 Mem:1147.88M (Peak 1154.89M) | Time:00:01.31 | Mem:480.65M, Peak:480.65M | Scene, ViewLayer | Updating Images | Loading Bark012_1024_color.004
+Fra:1 Mem:1154.87M (Peak 1155.88M) | Time:00:01.31 | Mem:481.65M, Peak:481.65M | Scene, ViewLayer | Updating Images | Loading Bark012_1024_normal.004
+Fra:1 Mem:1162.88M (Peak 1166.89M) | Time:00:01.32 | Mem:485.65M, Peak:485.65M | Scene, ViewLayer | Updating Images | Loading WoodFloor051_1024_normal.005
+Fra:1 Mem:1166.88M (Peak 1170.89M) | Time:00:01.33 | Mem:489.65M, Peak:489.65M | Scene, ViewLayer | Updating Images | Loading leaf_ginkgo.002
+Fra:1 Mem:1171.89M (Peak 1171.90M) | Time:00:01.33 | Mem:490.65M, Peak:490.65M | Scene, ViewLayer | Updating Images | Loading Bark012_1024_color.005
+Fra:1 Mem:1171.88M (Peak 1171.90M) | Time:00:01.33 | Mem:494.65M, Peak:494.65M | Scene, ViewLayer | Updating Images | Loading Bark012_1024_normal.005
+Fra:1 Mem:1171.87M (Peak 1175.88M) | Time:00:01.33 | Mem:498.65M, Peak:498.65M | Scene, ViewLayer | Updating Images | Loading WoodFloor051_1024_color.005
+Fra:1 Mem:1175.87M (Peak 1179.88M) | Time:00:01.34 | Mem:502.65M, Peak:502.65M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_normal.004
+Fra:1 Mem:1179.87M (Peak 1183.88M) | Time:00:01.34 | Mem:506.65M, Peak:506.65M | Scene, ViewLayer | Updating Images | Loading leaf_pin_oak.002
+Fra:1 Mem:1188.89M (Peak 1189.90M) | Time:00:01.34 | Mem:507.65M, Peak:507.65M | Scene, ViewLayer | Updating Images | Loading Bark014_1024_color.002
+Fra:1 Mem:1188.88M (Peak 1192.89M) | Time:00:01.34 | Mem:511.65M, Peak:511.65M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_color.004
+Fra:1 Mem:1192.88M (Peak 1196.89M) | Time:00:01.35 | Mem:515.65M, Peak:515.65M | Scene, ViewLayer | Updating Images | Loading terrazzo_tiles_1024_normal
+Fra:1 Mem:1196.88M (Peak 1200.89M) | Time:00:01.35 | Mem:519.65M, Peak:519.65M | Scene, ViewLayer | Updating Images | Loading Bark014_1024_normal.002
+Fra:1 Mem:1200.88M (Peak 1204.89M) | Time:00:01.36 | Mem:523.65M, Peak:523.65M | Scene, ViewLayer | Updating Images | Loading terrazzo_tiles_1024_color
+Fra:1 Mem:1200.87M (Peak 1204.89M) | Time:00:01.36 | Mem:527.65M, Peak:527.65M | Scene, ViewLayer | Updating Images | Loading leaf_littleleaf_linden.002
+Fra:1 Mem:1205.88M (Peak 1206.89M) | Time:00:01.36 | Mem:528.65M, Peak:528.65M | Scene, ViewLayer | Updating Images | Loading Bark005_1024_color.001
+Fra:1 Mem:1203.87M (Peak 1207.88M) | Time:00:01.36 | Mem:532.65M, Peak:532.65M | Scene, ViewLayer | Updating Images | Loading Bark005_1024_normal.001
+Fra:1 Mem:1205.87M (Peak 1207.88M) | Time:00:01.37 | Mem:534.65M, Peak:534.65M | Scene, ViewLayer | Updating Images | Loading leaf_zelkova.001
+Fra:1 Mem:1210.88M (Peak 1212.89M) | Time:00:01.37 | Mem:536.65M, Peak:536.65M | Scene, ViewLayer | Updating Images | Loading Bark010_1024_color
+Fra:1 Mem:1210.87M (Peak 1214.88M) | Time:00:01.37 | Mem:540.65M, Peak:540.65M | Scene, ViewLayer | Updating Images | Loading interior_card_unlit.009
+Fra:1 Mem:1211.87M (Peak 1214.88M) | Time:00:01.37 | Mem:541.65M, Peak:541.65M | Scene, ViewLayer | Updating Images | Loading Bark010_1024_normal
+Fra:1 Mem:1215.87M (Peak 1216.88M) | Time:00:01.38 | Mem:542.65M, Peak:542.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.015
+Fra:1 Mem:1219.87M (Peak 1223.88M) | Time:00:01.38 | Mem:546.65M, Peak:546.65M | Scene, ViewLayer | Updating Images | Loading leaf_sophora
+Fra:1 Mem:1220.87M (Peak 1224.88M) | Time:00:01.38 | Mem:550.65M, Peak:550.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.015
+Fra:1 Mem:1228.88M (Peak 1229.89M) | Time:00:01.38 | Mem:551.65M, Peak:551.65M | Scene, ViewLayer | Updating Images | Loading Metal055A_1024_color
+Fra:1 Mem:1232.88M (Peak 1236.89M) | Time:00:01.39 | Mem:555.65M, Peak:555.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_normal.007
+Fra:1 Mem:1236.88M (Peak 1240.89M) | Time:00:01.39 | Mem:559.65M, Peak:559.65M | Scene, ViewLayer | Updating Images | Loading Metal055A_1024_normal
+Fra:1 Mem:1236.87M (Peak 1240.89M) | Time:00:01.39 | Mem:563.65M, Peak:563.65M | Scene, ViewLayer | Updating Images | Loading Granite002A_1024_color
+Fra:1 Mem:1244.88M (Peak 1244.88M) | Time:00:01.40 | Mem:567.65M, Peak:567.65M | Scene, ViewLayer | Updating Images | Loading Granite002A_1024_normal
+Fra:1 Mem:1244.87M (Peak 1248.88M) | Time:00:01.40 | Mem:571.65M, Peak:571.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_orm.007
+Fra:1 Mem:1252.88M (Peak 1256.89M) | Time:00:01.40 | Mem:575.65M, Peak:575.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color
+Fra:1 Mem:1256.88M (Peak 1260.89M) | Time:00:01.40 | Mem:579.65M, Peak:579.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_bk11_color.007
+Fra:1 Mem:1260.88M (Peak 1264.89M) | Time:00:01.41 | Mem:583.65M, Peak:583.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal
+Fra:1 Mem:1260.87M (Peak 1264.89M) | Time:00:01.41 | Mem:587.65M, Peak:587.65M | Scene, ViewLayer | Updating Images | Loading WoodFloor051_1024_color
+Fra:1 Mem:1264.87M (Peak 1268.88M) | Time:00:01.41 | Mem:591.65M, Peak:591.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_normal.006
+Fra:1 Mem:1272.88M (Peak 1276.89M) | Time:00:01.42 | Mem:595.65M, Peak:595.65M | Scene, ViewLayer | Updating Images | Loading WoodFloor051_1024_normal
+Fra:1 Mem:1276.88M (Peak 1280.89M) | Time:00:01.42 | Mem:599.65M, Peak:599.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_orm.006
+Fra:1 Mem:1276.87M (Peak 1280.89M) | Time:00:01.42 | Mem:603.65M, Peak:603.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color
+Fra:1 Mem:1280.87M (Peak 1284.88M) | Time:00:01.42 | Mem:607.65M, Peak:607.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm
+Fra:1 Mem:1288.88M (Peak 1292.89M) | Time:00:01.43 | Mem:611.65M, Peak:611.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_bk11_color.006
+Fra:1 Mem:1292.88M (Peak 1296.89M) | Time:00:01.43 | Mem:615.65M, Peak:615.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_normal
+Fra:1 Mem:1296.88M (Peak 1296.89M) | Time:00:01.43 | Mem:619.65M, Peak:619.65M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_color
+Fra:1 Mem:1296.87M (Peak 1300.88M) | Time:00:01.44 | Mem:623.65M, Peak:623.65M | Scene, ViewLayer | Updating Images | Loading interior_card_unlit.008
+Fra:1 Mem:1297.87M (Peak 1301.88M) | Time:00:01.44 | Mem:627.65M, Peak:627.65M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_normal
+Fra:1 Mem:1301.87M (Peak 1302.88M) | Time:00:01.44 | Mem:628.65M, Peak:628.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.014
+Fra:1 Mem:1309.88M (Peak 1313.89M) | Time:00:01.44 | Mem:632.65M, Peak:632.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.014
+Fra:1 Mem:1313.88M (Peak 1317.89M) | Time:00:01.45 | Mem:636.65M, Peak:636.65M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_color.001
+Fra:1 Mem:1317.88M (Peak 1321.89M) | Time:00:01.45 | Mem:640.65M, Peak:640.65M | Scene, ViewLayer | Updating Images | Loading Bricks060_1024_normal
+Fra:1 Mem:1321.88M (Peak 1325.89M) | Time:00:01.46 | Mem:644.65M, Peak:644.65M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_normal.001
+Fra:1 Mem:1325.88M (Peak 1329.89M) | Time:00:01.46 | Mem:648.65M, Peak:648.65M | Scene, ViewLayer | Updating Images | Loading Bricks060_1024_orm
+Fra:1 Mem:1325.87M (Peak 1329.89M) | Time:00:01.46 | Mem:652.65M, Peak:652.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.001
+Fra:1 Mem:1333.88M (Peak 1337.89M) | Time:00:01.47 | Mem:656.65M, Peak:656.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.001
+Fra:1 Mem:1337.88M (Peak 1341.89M) | Time:00:01.47 | Mem:660.65M, Peak:660.65M | Scene, ViewLayer | Updating Images | Loading Bricks060_1024_bk11_color
+Fra:1 Mem:1341.88M (Peak 1345.89M) | Time:00:01.47 | Mem:664.65M, Peak:664.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color.001
+Fra:1 Mem:1349.89M (Peak 1353.90M) | Time:00:01.48 | Mem:668.65M, Peak:668.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm.001
+Fra:1 Mem:1349.88M (Peak 1353.90M) | Time:00:01.48 | Mem:672.65M, Peak:672.65M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_normal.007
+Fra:1 Mem:1349.87M (Peak 1353.90M) | Time:00:01.48 | Mem:676.65M, Peak:676.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_normal.001
+Fra:1 Mem:1357.88M (Peak 1361.89M) | Time:00:01.49 | Mem:680.65M, Peak:680.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_bk17_color
+Fra:1 Mem:1361.88M (Peak 1365.89M) | Time:00:01.49 | Mem:684.65M, Peak:684.65M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_color.007
+Fra:1 Mem:1365.88M (Peak 1369.89M) | Time:00:01.49 | Mem:688.65M, Peak:688.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_orm
+Fra:1 Mem:1369.88M (Peak 1369.89M) | Time:00:01.50 | Mem:692.65M, Peak:692.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_normal
+Fra:1 Mem:1369.87M (Peak 1373.88M) | Time:00:01.50 | Mem:696.65M, Peak:696.65M | Scene, ViewLayer | Updating Images | Loading Rust005_1024_normal.002
+Fra:1 Mem:1373.87M (Peak 1377.88M) | Time:00:01.50 | Mem:700.65M, Peak:700.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_bk11_color
+Fra:1 Mem:1385.89M (Peak 1389.90M) | Time:00:01.51 | Mem:704.65M, Peak:704.65M | Scene, ViewLayer | Updating Images | Loading Rust005_1024_orm.002
+Fra:1 Mem:1385.88M (Peak 1389.90M) | Time:00:01.51 | Mem:708.65M, Peak:708.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_orm
+Fra:1 Mem:1389.88M (Peak 1393.89M) | Time:00:01.52 | Mem:712.65M, Peak:712.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_normal
+Fra:1 Mem:1389.87M (Peak 1393.89M) | Time:00:01.52 | Mem:716.65M, Peak:716.65M | Scene, ViewLayer | Updating Images | Loading Fabric037_1024_color
+Fra:1 Mem:1397.88M (Peak 1401.89M) | Time:00:01.52 | Mem:720.65M, Peak:720.65M | Scene, ViewLayer | Updating Images | Loading Fabric037_1024_normal
+Fra:1 Mem:1393.87M (Peak 1401.89M) | Time:00:01.52 | Mem:724.65M, Peak:724.65M | Scene, ViewLayer | Updating Images | Loading Rust005_1024_color.002
+Fra:1 Mem:1401.87M (Peak 1405.88M) | Time:00:01.53 | Mem:728.65M, Peak:728.65M | Scene, ViewLayer | Updating Images | Loading Rust005_1024_normal.001
+Fra:1 Mem:1409.88M (Peak 1413.89M) | Time:00:01.54 | Mem:732.65M, Peak:732.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.002
+Fra:1 Mem:1409.87M (Peak 1413.89M) | Time:00:01.54 | Mem:736.65M, Peak:736.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.002
+Fra:1 Mem:1417.88M (Peak 1421.89M) | Time:00:01.54 | Mem:740.65M, Peak:740.65M | Scene, ViewLayer | Updating Images | Loading Rust005_1024_orm.001
+Fra:1 Mem:1413.87M (Peak 1421.89M) | Time:00:01.54 | Mem:744.65M, Peak:744.65M | Scene, ViewLayer | Updating Images | Loading Tiles012_1024_color
+Fra:1 Mem:1425.88M (Peak 1429.89M) | Time:00:01.55 | Mem:748.65M, Peak:748.65M | Scene, ViewLayer | Updating Images | Loading Tiles012_1024_orm
+Fra:1 Mem:1429.88M (Peak 1433.89M) | Time:00:01.55 | Mem:752.65M, Peak:752.65M | Scene, ViewLayer | Updating Images | Loading Rust005_1024_color.001
+Fra:1 Mem:1429.87M (Peak 1433.89M) | Time:00:01.55 | Mem:756.65M, Peak:756.65M | Scene, ViewLayer | Updating Images | Loading Tiles012_1024_normal
+Fra:1 Mem:1437.88M (Peak 1437.88M) | Time:00:01.56 | Mem:760.65M, Peak:760.65M | Scene, ViewLayer | Updating Images | Loading Tiles133A_1024_color
+Fra:1 Mem:1437.87M (Peak 1441.88M) | Time:00:01.56 | Mem:764.65M, Peak:764.65M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_normal.006
+Fra:1 Mem:1445.88M (Peak 1449.89M) | Time:00:01.56 | Mem:768.65M, Peak:768.65M | Scene, ViewLayer | Updating Images | Loading Tiles133A_1024_orm
+Fra:1 Mem:1445.87M (Peak 1449.89M) | Time:00:01.56 | Mem:772.65M, Peak:772.65M | Scene, ViewLayer | Updating Images | Loading Tiles133A_1024_normal
+Fra:1 Mem:1449.87M (Peak 1453.88M) | Time:00:01.57 | Mem:776.65M, Peak:776.65M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_color.006
+Fra:1 Mem:1457.88M (Peak 1461.89M) | Time:00:01.57 | Mem:780.65M, Peak:780.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.003
+Fra:1 Mem:1457.87M (Peak 1461.89M) | Time:00:01.57 | Mem:784.65M, Peak:784.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.003
+Fra:1 Mem:1469.89M (Peak 1473.90M) | Time:00:01.58 | Mem:788.65M, Peak:788.65M | Scene, ViewLayer | Updating Images | Loading WoodFloor051_1024_color.001
+Fra:1 Mem:1469.88M (Peak 1473.90M) | Time:00:01.58 | Mem:792.65M, Peak:792.65M | Scene, ViewLayer | Updating Images | Loading Planks023B_1024_normal
+Fra:1 Mem:1473.88M (Peak 1477.89M) | Time:00:01.59 | Mem:796.65M, Peak:796.65M | Scene, ViewLayer | Updating Images | Loading WoodFloor051_1024_normal.001
+Fra:1 Mem:1477.88M (Peak 1481.89M) | Time:00:01.59 | Mem:800.65M, Peak:800.65M | Scene, ViewLayer | Updating Images | Loading Planks023B_1024_orm
+Fra:1 Mem:1477.87M (Peak 1481.89M) | Time:00:01.59 | Mem:804.65M, Peak:804.65M | Scene, ViewLayer | Updating Images | Loading WoodFloor051_1024_color.002
+Fra:1 Mem:1481.87M (Peak 1485.88M) | Time:00:01.59 | Mem:808.65M, Peak:808.65M | Scene, ViewLayer | Updating Images | Loading WoodFloor051_1024_normal.002
+Fra:1 Mem:1485.87M (Peak 1489.88M) | Time:00:01.59 | Mem:812.65M, Peak:812.65M | Scene, ViewLayer | Updating Images | Loading Planks023B_1024_color
+Fra:1 Mem:1493.88M (Peak 1497.89M) | Time:00:01.60 | Mem:816.65M, Peak:816.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.004
+Fra:1 Mem:1497.88M (Peak 1501.89M) | Time:00:01.60 | Mem:820.65M, Peak:820.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_normal.005
+Fra:1 Mem:1501.88M (Peak 1505.89M) | Time:00:01.60 | Mem:824.65M, Peak:824.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.004
+Fra:1 Mem:1501.87M (Peak 1505.89M) | Time:00:01.61 | Mem:828.65M, Peak:828.65M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_color.002
+Fra:1 Mem:1513.89M (Peak 1517.90M) | Time:00:01.61 | Mem:832.65M, Peak:832.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_orm.005
+Fra:1 Mem:1513.88M (Peak 1517.90M) | Time:00:01.61 | Mem:836.65M, Peak:836.65M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_normal.002
+Fra:1 Mem:1513.87M (Peak 1517.90M) | Time:00:01.61 | Mem:840.65M, Peak:840.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color.002
+Fra:1 Mem:1521.88M (Peak 1521.88M) | Time:00:01.62 | Mem:844.65M, Peak:844.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_bk11_color.005
+Fra:1 Mem:1525.88M (Peak 1529.89M) | Time:00:01.62 | Mem:848.65M, Peak:848.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm.002
+Fra:1 Mem:1529.88M (Peak 1533.89M) | Time:00:01.63 | Mem:852.65M, Peak:852.65M | Scene, ViewLayer | Updating Images | Loading interior_card_unlit.007
+Fra:1 Mem:1530.88M (Peak 1534.89M) | Time:00:01.63 | Mem:856.65M, Peak:856.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_normal.002
+Fra:1 Mem:1530.87M (Peak 1534.89M) | Time:00:01.63 | Mem:860.65M, Peak:860.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_bk17_color.001
+Fra:1 Mem:1534.87M (Peak 1535.88M) | Time:00:01.63 | Mem:861.65M, Peak:861.65M | Scene, ViewLayer | Updating Images | Loading PaintedWood007C_1024_normal.003
+Fra:1 Mem:1542.88M (Peak 1546.89M) | Time:00:01.64 | Mem:865.65M, Peak:865.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_orm.001
+Fra:1 Mem:1546.88M (Peak 1550.89M) | Time:00:01.64 | Mem:869.65M, Peak:869.65M | Scene, ViewLayer | Updating Images | Loading PaintedWood007C_1024_orm.003
+Fra:1 Mem:1546.87M (Peak 1550.89M) | Time:00:01.64 | Mem:873.65M, Peak:873.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_normal.001
+Fra:1 Mem:1550.87M (Peak 1554.88M) | Time:00:01.65 | Mem:877.65M, Peak:877.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_bk11_color.001
+Fra:1 Mem:1554.87M (Peak 1558.88M) | Time:00:01.65 | Mem:881.65M, Peak:881.65M | Scene, ViewLayer | Updating Images | Loading PaintedWood007C_1024_color.003
+Fra:1 Mem:1558.87M (Peak 1562.88M) | Time:00:01.65 | Mem:885.65M, Peak:885.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_orm.001
+Fra:1 Mem:1562.87M (Peak 1566.88M) | Time:00:01.66 | Mem:889.65M, Peak:889.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_normal.008
+Fra:1 Mem:1570.88M (Peak 1574.89M) | Time:00:01.66 | Mem:893.65M, Peak:893.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_normal.001
+Fra:1 Mem:1570.87M (Peak 1574.89M) | Time:00:01.66 | Mem:897.65M, Peak:897.65M | Scene, ViewLayer | Updating Images | Loading Rubber004_1024_color
+Fra:1 Mem:1574.87M (Peak 1578.88M) | Time:00:01.67 | Mem:901.65M, Peak:901.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_orm.008
+Fra:1 Mem:1582.88M (Peak 1586.89M) | Time:00:01.67 | Mem:905.65M, Peak:905.65M | Scene, ViewLayer | Updating Images | Loading Rubber004_1024_orm
+Fra:1 Mem:1582.87M (Peak 1586.89M) | Time:00:01.67 | Mem:909.65M, Peak:909.65M | Scene, ViewLayer | Updating Images | Loading Rubber004_1024_normal
+Fra:1 Mem:1586.87M (Peak 1590.88M) | Time:00:01.67 | Mem:913.65M, Peak:913.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_bk17_color.008
+Fra:1 Mem:1590.87M (Peak 1594.88M) | Time:00:01.68 | Mem:917.65M, Peak:917.65M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_color.003
+Fra:1 Mem:1598.88M (Peak 1602.89M) | Time:00:01.68 | Mem:921.65M, Peak:921.65M | Scene, ViewLayer | Updating Images | Loading Rust005_1024_normal
+Fra:1 Mem:1598.87M (Peak 1602.89M) | Time:00:01.68 | Mem:925.65M, Peak:925.65M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_normal.003
+Fra:1 Mem:1602.87M (Peak 1606.88M) | Time:00:01.69 | Mem:929.65M, Peak:929.65M | Scene, ViewLayer | Updating Images | Loading WoodFloor051_1024_color.003
+Fra:1 Mem:1606.87M (Peak 1610.88M) | Time:00:01.69 | Mem:933.65M, Peak:933.65M | Scene, ViewLayer | Updating Images | Loading Rust005_1024_orm
+Fra:1 Mem:1610.87M (Peak 1614.88M) | Time:00:01.69 | Mem:937.65M, Peak:937.65M | Scene, ViewLayer | Updating Images | Loading WoodFloor051_1024_normal.003
+Fra:1 Mem:1614.87M (Peak 1618.88M) | Time:00:01.70 | Mem:941.65M, Peak:941.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.005
+Fra:1 Mem:1622.88M (Peak 1626.89M) | Time:00:01.70 | Mem:945.65M, Peak:945.65M | Scene, ViewLayer | Updating Images | Loading Rust005_1024_color
+Fra:1 Mem:1618.87M (Peak 1626.89M) | Time:00:01.70 | Mem:949.65M, Peak:949.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.005
+Fra:1 Mem:1630.88M (Peak 1634.89M) | Time:00:01.70 | Mem:953.65M, Peak:953.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.006
+Fra:1 Mem:1634.88M (Peak 1638.89M) | Time:00:01.71 | Mem:957.65M, Peak:957.65M | Scene, ViewLayer | Updating Images | Loading Marble026_1024_normal
+Fra:1 Mem:1634.87M (Peak 1638.89M) | Time:00:01.71 | Mem:961.65M, Peak:961.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.006
+Fra:1 Mem:1638.87M (Peak 1642.88M) | Time:00:01.71 | Mem:965.65M, Peak:965.65M | Scene, ViewLayer | Updating Images | Loading Metal055A_1024_color.001
+Fra:1 Mem:1646.88M (Peak 1650.89M) | Time:00:01.71 | Mem:969.65M, Peak:969.65M | Scene, ViewLayer | Updating Images | Loading Marble026_1024_color
+Fra:1 Mem:1650.88M (Peak 1654.89M) | Time:00:01.72 | Mem:973.65M, Peak:973.65M | Scene, ViewLayer | Updating Images | Loading Metal055A_1024_normal.001
+Fra:1 Mem:1654.88M (Peak 1658.89M) | Time:00:01.72 | Mem:977.65M, Peak:977.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_normal.004
+Fra:1 Mem:1658.88M (Peak 1662.89M) | Time:00:01.72 | Mem:981.65M, Peak:981.65M | Scene, ViewLayer | Updating Images | Loading Granite002A_1024_color.001
+Fra:1 Mem:1658.87M (Peak 1662.89M) | Time:00:01.73 | Mem:985.65M, Peak:985.65M | Scene, ViewLayer | Updating Images | Loading Granite002A_1024_normal.001
+Fra:1 Mem:1666.88M (Peak 1670.89M) | Time:00:01.73 | Mem:989.65M, Peak:989.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_orm.004
+Fra:1 Mem:1666.87M (Peak 1670.89M) | Time:00:01.73 | Mem:993.65M, Peak:993.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.007
+Fra:1 Mem:1674.88M (Peak 1678.89M) | Time:00:01.74 | Mem:997.65M, Peak:997.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.007
+Fra:1 Mem:1678.88M (Peak 1682.89M) | Time:00:01.75 | Mem:1001.65M, Peak:1001.65M | Scene, ViewLayer | Updating Images | Loading WoodFloor051_1024_color.004
+Fra:1 Mem:1678.87M (Peak 1682.89M) | Time:00:01.75 | Mem:1005.65M, Peak:1005.65M | Scene, ViewLayer | Updating Images | Loading WoodFloor051_1024_normal.004
+Fra:1 Mem:1682.87M (Peak 1686.88M) | Time:00:01.75 | Mem:1009.65M, Peak:1009.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_bk11_color.004
+Fra:1 Mem:1690.88M (Peak 1694.89M) | Time:00:01.76 | Mem:1013.65M, Peak:1013.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color.003
+Fra:1 Mem:1694.88M (Peak 1698.89M) | Time:00:01.76 | Mem:1017.65M, Peak:1017.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_normal.007
+Fra:1 Mem:1698.88M (Peak 1702.89M) | Time:00:01.76 | Mem:1021.65M, Peak:1021.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm.003
+Fra:1 Mem:1698.87M (Peak 1702.89M) | Time:00:01.76 | Mem:1025.65M, Peak:1025.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_normal.003
+Fra:1 Mem:1706.88M (Peak 1710.89M) | Time:00:01.77 | Mem:1029.65M, Peak:1029.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_orm.007
+Fra:1 Mem:1710.88M (Peak 1714.89M) | Time:00:01.77 | Mem:1033.65M, Peak:1033.65M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_color.004
+Fra:1 Mem:1710.87M (Peak 1714.89M) | Time:00:01.77 | Mem:1037.65M, Peak:1037.65M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_normal.004
+Fra:1 Mem:1718.88M (Peak 1722.89M) | Time:00:01.78 | Mem:1041.65M, Peak:1041.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_bk17_color.007
+Fra:1 Mem:1722.88M (Peak 1726.89M) | Time:00:01.78 | Mem:1045.65M, Peak:1045.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_bk17_color.002
+Fra:1 Mem:1722.87M (Peak 1726.89M) | Time:00:01.79 | Mem:1049.65M, Peak:1049.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_orm.002
+Fra:1 Mem:1726.87M (Peak 1730.88M) | Time:00:01.79 | Mem:1053.65M, Peak:1053.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.013
+Fra:1 Mem:1734.88M (Peak 1738.89M) | Time:00:01.79 | Mem:1057.65M, Peak:1057.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_normal.002
+Fra:1 Mem:1738.88M (Peak 1742.89M) | Time:00:01.80 | Mem:1061.65M, Peak:1061.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.013
+Fra:1 Mem:1738.87M (Peak 1742.89M) | Time:00:01.80 | Mem:1065.65M, Peak:1065.65M | Scene, ViewLayer | Updating Images | Loading interior_card_unlit
+Fra:1 Mem:1743.88M (Peak 1747.89M) | Time:00:01.80 | Mem:1069.65M, Peak:1069.65M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_color
+Fra:1 Mem:1744.88M (Peak 1748.89M) | Time:00:01.81 | Mem:1073.65M, Peak:1073.65M | Scene, ViewLayer | Updating Images | Loading Fabric071_1024_normal
+Fra:1 Mem:1743.87M (Peak 1748.89M) | Time:00:01.81 | Mem:1074.65M, Peak:1074.65M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_normal
+Fra:1 Mem:1755.88M (Peak 1759.89M) | Time:00:01.81 | Mem:1078.65M, Peak:1078.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.008
+Fra:1 Mem:1755.87M (Peak 1759.89M) | Time:00:01.81 | Mem:1082.65M, Peak:1082.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.008
+Fra:1 Mem:1767.89M (Peak 1771.90M) | Time:00:01.82 | Mem:1086.65M, Peak:1086.65M | Scene, ViewLayer | Updating Images | Loading Fabric071_1024_color
+Fra:1 Mem:1767.88M (Peak 1771.90M) | Time:00:01.82 | Mem:1090.65M, Peak:1090.65M | Scene, ViewLayer | Updating Images | Loading Concrete030_1024_bk14_color
+Fra:1 Mem:1771.88M (Peak 1775.89M) | Time:00:01.83 | Mem:1094.65M, Peak:1094.65M | Scene, ViewLayer | Updating Images | Loading Concrete030_1024_orm
+Fra:1 Mem:1775.88M (Peak 1779.89M) | Time:00:01.83 | Mem:1098.65M, Peak:1098.65M | Scene, ViewLayer | Updating Images | Loading Concrete030_1024_normal
+Fra:1 Mem:1775.87M (Peak 1779.89M) | Time:00:01.83 | Mem:1102.65M, Peak:1102.65M | Scene, ViewLayer | Updating Images | Loading interior_card_lit
+Fra:1 Mem:1780.88M (Peak 1781.89M) | Time:00:01.83 | Mem:1103.65M, Peak:1103.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.012
+Fra:1 Mem:1784.88M (Peak 1788.89M) | Time:00:01.84 | Mem:1107.65M, Peak:1107.65M | Scene, ViewLayer | Updating Images | Loading interior_card_unlit.001
+Fra:1 Mem:1789.89M (Peak 1790.90M) | Time:00:01.84 | Mem:1108.65M, Peak:1108.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_bk17_color.003
+Fra:1 Mem:1789.88M (Peak 1793.89M) | Time:00:01.84 | Mem:1112.65M, Peak:1112.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.012
+Fra:1 Mem:1789.87M (Peak 1793.89M) | Time:00:01.85 | Mem:1116.65M, Peak:1116.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_orm.003
+Fra:1 Mem:1797.88M (Peak 1801.89M) | Time:00:01.85 | Mem:1120.65M, Peak:1120.65M | Scene, ViewLayer | Updating Images | Loading Granite002A_1024_normal.002
+Fra:1 Mem:1797.87M (Peak 1801.89M) | Time:00:01.85 | Mem:1124.65M, Peak:1124.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_normal.003
+Fra:1 Mem:1805.88M (Peak 1809.89M) | Time:00:01.86 | Mem:1128.65M, Peak:1128.65M | Scene, ViewLayer | Updating Images | Loading Granite002A_1024_color.002
+Fra:1 Mem:1809.88M (Peak 1813.89M) | Time:00:01.86 | Mem:1132.65M, Peak:1132.65M | Scene, ViewLayer | Updating Images | Loading PaintedWood007C_1024_color
+Fra:1 Mem:1809.87M (Peak 1813.89M) | Time:00:01.86 | Mem:1136.65M, Peak:1136.65M | Scene, ViewLayer | Updating Images | Loading PaintedWood007C_1024_orm
+Fra:1 Mem:1821.89M (Peak 1825.90M) | Time:00:01.87 | Mem:1140.65M, Peak:1140.65M | Scene, ViewLayer | Updating Images | Loading Travertine005_1024_normal.002
+Fra:1 Mem:1817.88M (Peak 1825.90M) | Time:00:01.87 | Mem:1144.65M, Peak:1144.65M | Scene, ViewLayer | Updating Images | Loading PaintedWood007C_1024_normal
+Fra:1 Mem:1829.89M (Peak 1833.90M) | Time:00:01.88 | Mem:1148.65M, Peak:1148.65M | Scene, ViewLayer | Updating Images | Loading Travertine005_1024_color.002
+Fra:1 Mem:1829.88M (Peak 1833.90M) | Time:00:01.88 | Mem:1152.65M, Peak:1152.65M | Scene, ViewLayer | Updating Images | Loading interior_card_unlit.002
+Fra:1 Mem:1826.87M (Peak 1833.90M) | Time:00:01.88 | Mem:1156.65M, Peak:1156.65M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_color.001
+Fra:1 Mem:1830.87M (Peak 1833.90M) | Time:00:01.88 | Mem:1157.65M, Peak:1157.65M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_normal.001
+Fra:1 Mem:1842.89M (Peak 1846.90M) | Time:00:01.89 | Mem:1161.65M, Peak:1161.65M | Scene, ViewLayer | Updating Images | Loading interior_card_unlit.006
+Fra:1 Mem:1838.88M (Peak 1846.90M) | Time:00:01.89 | Mem:1165.65M, Peak:1165.65M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_color.002
+Fra:1 Mem:1843.88M (Peak 1846.90M) | Time:00:01.89 | Mem:1166.65M, Peak:1166.65M | Scene, ViewLayer | Updating Images | Loading PaintedWood007C_1024_normal.002
+Fra:1 Mem:1847.88M (Peak 1851.89M) | Time:00:01.90 | Mem:1170.65M, Peak:1170.65M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_normal.002
+Fra:1 Mem:1847.87M (Peak 1851.89M) | Time:00:01.90 | Mem:1174.65M, Peak:1174.65M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_color.003
+Fra:1 Mem:1855.88M (Peak 1859.89M) | Time:00:01.90 | Mem:1178.65M, Peak:1178.65M | Scene, ViewLayer | Updating Images | Loading PaintedWood007C_1024_orm.002
+Fra:1 Mem:1859.88M (Peak 1863.89M) | Time:00:01.91 | Mem:1182.65M, Peak:1182.65M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_normal.003
+Fra:1 Mem:1863.88M (Peak 1867.89M) | Time:00:01.91 | Mem:1186.65M, Peak:1186.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_bk17_color.004
+Fra:1 Mem:1867.88M (Peak 1871.89M) | Time:00:01.91 | Mem:1190.65M, Peak:1190.65M | Scene, ViewLayer | Updating Images | Loading PaintedWood007C_1024_color.002
+Fra:1 Mem:1867.87M (Peak 1871.89M) | Time:00:01.92 | Mem:1194.65M, Peak:1194.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_orm.004
+Fra:1 Mem:1879.89M (Peak 1883.90M) | Time:00:01.92 | Mem:1198.65M, Peak:1198.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_normal.004
+Fra:1 Mem:1879.88M (Peak 1883.90M) | Time:00:01.93 | Mem:1202.65M, Peak:1202.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_normal.006
+Fra:1 Mem:1879.87M (Peak 1883.90M) | Time:00:01.93 | Mem:1206.65M, Peak:1206.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_bk11_color.002
+Fra:1 Mem:1887.88M (Peak 1891.89M) | Time:00:01.94 | Mem:1210.65M, Peak:1210.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_orm.002
+Fra:1 Mem:1891.88M (Peak 1895.89M) | Time:00:01.94 | Mem:1214.65M, Peak:1214.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_orm.006
+Fra:1 Mem:1895.88M (Peak 1899.89M) | Time:00:01.94 | Mem:1218.65M, Peak:1218.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_normal.002
+Fra:1 Mem:1899.88M (Peak 1903.89M) | Time:00:01.95 | Mem:1222.65M, Peak:1222.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_bk17_color.006
+Fra:1 Mem:1899.87M (Peak 1903.89M) | Time:00:01.95 | Mem:1226.65M, Peak:1226.65M | Scene, ViewLayer | Updating Images | Loading Travertine005_1024_color
+Fra:1 Mem:1903.87M (Peak 1907.88M) | Time:00:01.95 | Mem:1230.65M, Peak:1230.65M | Scene, ViewLayer | Updating Images | Loading Travertine005_1024_normal
+Fra:1 Mem:1915.89M (Peak 1915.89M) | Time:00:01.96 | Mem:1234.65M, Peak:1234.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_normal.003
+Fra:1 Mem:1915.88M (Peak 1919.89M) | Time:00:01.96 | Mem:1238.65M, Peak:1238.65M | Scene, ViewLayer | Updating Images | Loading Metal055A_1024_color.002
+Fra:1 Mem:1923.89M (Peak 1927.90M) | Time:00:01.97 | Mem:1242.65M, Peak:1242.65M | Scene, ViewLayer | Updating Images | Loading Metal055A_1024_normal.002
+Fra:1 Mem:1923.88M (Peak 1927.90M) | Time:00:01.97 | Mem:1246.65M, Peak:1246.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_orm.003
+Fra:1 Mem:1923.87M (Peak 1927.90M) | Time:00:01.97 | Mem:1250.65M, Peak:1250.65M | Scene, ViewLayer | Updating Images | Loading interior_card_unlit.003
+Fra:1 Mem:1924.87M (Peak 1927.90M) | Time:00:01.97 | Mem:1251.65M, Peak:1251.65M | Scene, ViewLayer | Updating Images | Loading Metal055A_1024_color.003
+Fra:1 Mem:1932.88M (Peak 1936.89M) | Time:00:01.98 | Mem:1255.65M, Peak:1255.65M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_bk11_color.003
+Fra:1 Mem:1936.88M (Peak 1940.89M) | Time:00:01.98 | Mem:1259.65M, Peak:1259.65M | Scene, ViewLayer | Updating Images | Loading Metal055A_1024_normal.003
+Fra:1 Mem:1944.89M (Peak 1948.90M) | Time:00:01.99 | Mem:1263.65M, Peak:1263.65M | Scene, ViewLayer | Updating Images | Loading interior_card_unlit.005
+Fra:1 Mem:1941.88M (Peak 1948.90M) | Time:00:01.99 | Mem:1267.65M, Peak:1267.65M | Scene, ViewLayer | Updating Images | Loading Travertine005_1024_color.001
+Fra:1 Mem:1941.87M (Peak 1948.90M) | Time:00:01.99 | Mem:1271.65M, Peak:1271.65M | Scene, ViewLayer | Updating Images | Loading Travertine005_1024_normal.001
+Fra:1 Mem:1945.87M (Peak 1948.90M) | Time:00:01.99 | Mem:1272.65M, Peak:1272.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_normal.009
+Fra:1 Mem:1949.87M (Peak 1953.88M) | Time:00:02.00 | Mem:1276.65M, Peak:1276.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.009
+Fra:1 Mem:1957.88M (Peak 1961.89M) | Time:00:02.00 | Mem:1280.65M, Peak:1280.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm.009
+Fra:1 Mem:1961.88M (Peak 1965.89M) | Time:00:02.00 | Mem:1284.65M, Peak:1284.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.009
+Fra:1 Mem:1961.88M (Peak 1965.89M) | Time:00:02.00 | Mem:1288.65M, Peak:1288.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color.004
+Fra:1 Mem:1973.89M (Peak 1977.90M) | Time:00:02.01 | Mem:1292.65M, Peak:1292.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color.009
+Fra:1 Mem:1973.88M (Peak 1977.90M) | Time:00:02.01 | Mem:1296.65M, Peak:1296.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm.004
+Fra:1 Mem:1981.89M (Peak 1985.90M) | Time:00:02.02 | Mem:1300.65M, Peak:1300.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_normal.004
+Fra:1 Mem:1981.88M (Peak 1985.90M) | Time:00:02.02 | Mem:1304.65M, Peak:1304.65M | Scene, ViewLayer | Updating Images | Loading Bricks029_1024_normal
+Fra:1 Mem:1981.88M (Peak 1985.90M) | Time:00:02.02 | Mem:1308.65M, Peak:1308.65M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_color.005
+Fra:1 Mem:1989.88M (Peak 1993.89M) | Time:00:02.03 | Mem:1312.65M, Peak:1312.65M | Scene, ViewLayer | Updating Images | Loading Bricks029_1024_orm
+Fra:1 Mem:1989.88M (Peak 1993.89M) | Time:00:02.04 | Mem:1316.65M, Peak:1316.65M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_normal.005
+Fra:1 Mem:1997.88M (Peak 2001.89M) | Time:00:02.04 | Mem:1320.65M, Peak:1320.65M | Scene, ViewLayer | Updating Images | Loading Bricks029_1024_bk16_color
+Fra:1 Mem:1997.88M (Peak 2001.89M) | Time:00:02.04 | Mem:1324.65M, Peak:1324.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color.005
+Fra:1 Mem:2009.89M (Peak 2013.90M) | Time:00:02.05 | Mem:1328.65M, Peak:1328.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm.005
+Fra:1 Mem:2009.88M (Peak 2013.90M) | Time:00:02.05 | Mem:1332.65M, Peak:1332.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_normal.005
+Fra:1 Mem:2009.88M (Peak 2013.90M) | Time:00:02.05 | Mem:1336.65M, Peak:1336.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.011
+Fra:1 Mem:2021.89M (Peak 2025.90M) | Time:00:02.06 | Mem:1340.65M, Peak:1340.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color.006
+Fra:1 Mem:2017.88M (Peak 2025.90M) | Time:00:02.06 | Mem:1344.65M, Peak:1344.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.011
+Fra:1 Mem:2029.89M (Peak 2033.90M) | Time:00:02.07 | Mem:1348.65M, Peak:1348.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm.006
+Fra:1 Mem:2025.87M (Peak 2033.90M) | Time:00:02.07 | Mem:1356.65M, Peak:1356.65M | Scene, ViewLayer | Updating Images | Loading interior_card_unlit.004
+Fra:1 Mem:2030.88M (Peak 2033.90M) | Time:00:02.07 | Mem:1357.65M, Peak:1357.65M | Scene, ViewLayer | Updating Images | Loading PaintedWood007C_1024_normal.001
+Fra:1 Mem:2038.88M (Peak 2042.89M) | Time:00:02.08 | Mem:1361.65M, Peak:1361.65M | Scene, ViewLayer | Updating Images | Loading PaintedWood007C_1024_orm.001
+Fra:1 Mem:2042.88M (Peak 2046.89M) | Time:00:02.08 | Mem:1365.65M, Peak:1365.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.010
+Fra:1 Mem:2042.88M (Peak 2046.89M) | Time:00:02.09 | Mem:1369.65M, Peak:1369.65M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.010
+Fra:1 Mem:2050.88M (Peak 2054.89M) | Time:00:02.09 | Mem:1373.65M, Peak:1373.65M | Scene, ViewLayer | Updating Images | Loading PaintedWood007C_1024_color.001
+Fra:1 Mem:2054.88M (Peak 2058.89M) | Time:00:02.09 | Mem:1377.65M, Peak:1377.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_bk17_color.005
+Fra:1 Mem:2058.88M (Peak 2062.89M) | Time:00:02.10 | Mem:1381.65M, Peak:1381.65M | Scene, ViewLayer | Updating Images | Loading WoodSiding009_1024_normal
+Fra:1 Mem:2058.88M (Peak 2062.89M) | Time:00:02.10 | Mem:1385.65M, Peak:1385.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_orm.005
+Fra:1 Mem:2062.88M (Peak 2066.89M) | Time:00:02.11 | Mem:1389.65M, Peak:1389.65M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_normal.005
+Fra:1 Mem:2070.88M (Peak 2074.89M) | Time:00:02.11 | Mem:1393.65M, Peak:1393.65M | Scene, ViewLayer | Updating Images | Loading WoodSiding009_1024_bk8_color
+Fra:1 Mem:2070.88M (Peak 2074.89M) | Time:00:02.11 | Mem:1397.65M, Peak:1397.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color.007
+Fra:1 Mem:2082.89M (Peak 2086.90M) | Time:00:02.12 | Mem:1401.65M, Peak:1401.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm.007
+Fra:1 Mem:2082.88M (Peak 2086.90M) | Time:00:02.12 | Mem:1405.65M, Peak:1405.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_normal.008
+Fra:1 Mem:2082.88M (Peak 2086.90M) | Time:00:02.13 | Mem:1409.65M, Peak:1409.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_normal.007
+Fra:1 Mem:2086.88M (Peak 2090.89M) | Time:00:02.13 | Mem:1413.65M, Peak:1413.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color.008
+Fra:1 Mem:2090.88M (Peak 2094.89M) | Time:00:02.13 | Mem:1417.65M, Peak:1417.65M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm.008
+Fra:1 Mem:2007.29M (Peak 2102.89M) | Time:00:02.24 | Mem:1429.65M, Peak:1429.65M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:2007.29M (Peak 2102.89M) | Time:00:02.24 | Mem:1429.65M, Peak:1429.65M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:2007.29M (Peak 2102.89M) | Time:00:02.24 | Mem:1429.65M, Peak:1429.65M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:2007.29M (Peak 2102.89M) | Time:00:02.24 | Mem:1429.65M, Peak:1429.65M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:2007.68M (Peak 2102.89M) | Time:00:02.25 | Mem:1429.96M, Peak:1429.96M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:2007.68M (Peak 2102.89M) | Time:00:02.25 | Mem:1429.96M, Peak:1429.96M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:2007.68M (Peak 2102.89M) | Time:00:02.25 | Mem:1429.96M, Peak:1429.96M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:2007.68M (Peak 2102.89M) | Time:00:02.25 | Mem:1429.96M, Peak:1429.96M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:2007.68M (Peak 2102.89M) | Time:00:02.25 | Mem:1429.96M, Peak:1429.96M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:2007.68M (Peak 2102.89M) | Time:00:02.25 | Mem:1429.96M, Peak:1429.96M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:2008.68M (Peak 2102.89M) | Time:00:02.25 | Mem:1430.93M, Peak:1430.93M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:2008.68M (Peak 2102.89M) | Time:00:02.25 | Mem:1430.93M, Peak:1430.93M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:2008.68M (Peak 2102.89M) | Time:00:02.25 | Mem:1430.93M, Peak:1430.93M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:2019.19M (Peak 2102.89M) | Time:00:02.33 | Mem:1430.93M, Peak:1430.93M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:2019.19M (Peak 2102.89M) | Time:00:02.33 | Mem:1430.93M, Peak:1430.93M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:2047.59M (Peak 2102.89M) | Time:00:02.35 | Mem:1430.95M, Peak:1430.95M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.01M, Peak:1459.01M | Scene, ViewLayer | Updating Geometry BVH sidewalk_shed_module 72/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.02M, Peak:1459.02M | Scene, ViewLayer | Updating Geometry BVH sidewalk_shed_module 72/71 | Building BVH 0%
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.04M, Peak:1459.05M | Scene, ViewLayer | Updating Geometry BVH sidewalk_shed_corner 71/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.06M, Peak:1459.07M | Scene, ViewLayer | Updating Geometry BVH pilaster_storefront_column 70/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.08M, Peak:1459.08M | Scene, ViewLayer | Updating Geometry BVH pilaster_stone_fluted 69/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.09M, Peak:1459.10M | Scene, ViewLayer | Updating Geometry BVH storefront_interior_restaurant 68/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.13M, Peak:1459.15M | Scene, ViewLayer | Updating Geometry BVH acc_through_wall_ac_unit 67/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.14M, Peak:1459.15M | Scene, ViewLayer | Updating Geometry BVH win_double_hung_1_1 66/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.16M, Peak:1459.17M | Scene, ViewLayer | Updating Geometry BVH win_punched_office 65/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.17M, Peak:1459.17M | Scene, ViewLayer | Updating Geometry BVH win_aluminum_slider 64/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.18M, Peak:1459.19M | Scene, ViewLayer | Updating Geometry BVH win_double_hung_1_1_soldier 63/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.21M, Peak:1459.22M | Scene, ViewLayer | Updating Geometry BVH hvac_chimney_brick 62/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.21M, Peak:1459.22M | Scene, ViewLayer | Updating Geometry BVH entry_lobby_canopy 61/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.23M, Peak:1459.24M | Scene, ViewLayer | Updating Geometry BVH entry_apartment_lobby_glass 60/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.25M, Peak:1459.26M | Scene, ViewLayer | Updating Geometry BVH win_double_hung_6_6 59/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.27M, Peak:1459.28M | Scene, ViewLayer | Updating Geometry BVH win_casement_pair 58/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.30M, Peak:1459.30M | Scene, ViewLayer | Updating Geometry BVH win_picture_window 57/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.31M, Peak:1459.32M | Scene, ViewLayer | Updating Geometry BVH fire_escape_balcony_top 56/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.36M, Peak:1459.36M | Scene, ViewLayer | Updating Geometry BVH lamp_cobra_davit 2/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.36M, Peak:1459.37M | Scene, ViewLayer | Updating Geometry BVH fire_escape_drop_ladder 55/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.36M, Peak:1459.37M | Scene, ViewLayer | Updating Geometry BVH hydrant_fdny 3/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.38M, Peak:1459.38M | Scene, ViewLayer | Updating Geometry BVH string_course_brick_soldier 54/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.38M, Peak:1459.39M | Scene, ViewLayer | Updating Geometry BVH cornice_pressed_metal_b 53/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.41M, Peak:1459.42M | Scene, ViewLayer | Updating Geometry BVH fire_escape_top_hook 52/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.43M, Peak:1459.44M | Scene, ViewLayer | Updating Geometry BVH fire_escape_floor_unit 51/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.55M, Peak:1459.59M | Scene, ViewLayer | Updating Geometry BVH acc_ac_window_medium 50/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.57M, Peak:1459.59M | Scene, ViewLayer | Updating Geometry BVH quoin_brownstone 49/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.58M, Peak:1459.59M | Scene, ViewLayer | Updating Geometry BVH fence_iron_areaway 48/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.67M, Peak:1459.68M | Scene, ViewLayer | Updating Geometry BVH entry_stoop_brownstone_10 47/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.72M, Peak:1459.75M | Scene, ViewLayer | Updating Geometry BVH manhole_coned 4/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.94M, Peak:1460.00M | Scene, ViewLayer | Updating Geometry BVH entry_door_single_panel 46/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1459.96M, Peak:1460.00M | Scene, ViewLayer | Updating Geometry BVH bike_rack_cityrack 5/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1460.01M, Peak:1460.01M | Scene, ViewLayer | Updating Geometry BVH cornice_stone 45/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1460.09M, Peak:1460.09M | Scene, ViewLayer | Updating Geometry BVH sign_nyc_parking_18 6/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1460.11M, Peak:1460.11M | Scene, ViewLayer | Updating Geometry BVH string_course_stone_belt 44/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1460.14M, Peak:1460.14M | Scene, ViewLayer | Updating Geometry BVH vent_grate_sidewalk 7/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1460.17M, Peak:1460.17M | Scene, ViewLayer | Updating Geometry BVH win_double_hung_1_1_stone 43/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1460.13M, Peak:1460.19M | Scene, ViewLayer | Updating Geometry BVH tree_honeylocust_large 8/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1460.13M, Peak:1460.19M | Scene, ViewLayer | Updating Geometry BVH tree_honeylocust_medium 9/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1460.13M, Peak:1460.19M | Scene, ViewLayer | Updating Geometry BVH win_curtain_wall_module 42/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1460.49M, Peak:1460.50M | Scene, ViewLayer | Updating Geometry BVH entry_double_doors 41/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1460.51M, Peak:1460.52M | Scene, ViewLayer | Updating Geometry BVH storefront_bay_60 40/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1460.59M, Peak:1460.60M | Scene, ViewLayer | Updating Geometry BVH parapet_cap_metal_coping 39/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1460.60M, Peak:1460.60M | Scene, ViewLayer | Updating Geometry BVH storefront_interior_generic_retail 38/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1460.71M, Peak:1460.74M | Scene, ViewLayer | Updating Geometry BVH bulkhead_stair_brick 37/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1460.76M, Peak:1460.76M | Scene, ViewLayer | Updating Geometry BVH hvac_rooftop_unit_large 36/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1460.82M, Peak:1460.82M | Scene, ViewLayer | Updating Geometry BVH storefront_interior_bodega 35/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1461.05M, Peak:1461.08M | Scene, ViewLayer | Updating Geometry BVH storefront_awning_48 34/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1461.10M, Peak:1461.11M | Scene, ViewLayer | Updating Geometry BVH parapet_wall_brick 33/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1461.14M, Peak:1461.14M | Scene, ViewLayer | Updating Geometry BVH storefront_sign_projecting 32/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1461.19M, Peak:1461.19M | Scene, ViewLayer | Updating Geometry BVH storefront_gate_48_open 31/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1461.21M, Peak:1461.21M | Scene, ViewLayer | Updating Geometry BVH storefront_bay_48 30/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1461.16M, Peak:1461.30M | Scene, ViewLayer | Updating Geometry BVH tree_ginkgo_small 10/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1461.19M, Peak:1461.30M | Scene, ViewLayer | Updating Geometry BVH tree_sophora_small 29/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1461.71M, Peak:1461.91M | Scene, ViewLayer | Updating Geometry BVH tree_honeylocust_small 11/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1461.72M, Peak:1461.92M | Scene, ViewLayer | Updating Geometry BVH tree_ginkgo_medium 12/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1461.86M, Peak:1461.92M | Scene, ViewLayer | Updating Geometry BVH tree_zelkova_large 28/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1462.47M, Peak:1462.55M | Scene, ViewLayer | Updating Geometry BVH subway_entrance 13/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1462.63M, Peak:1462.74M | Scene, ViewLayer | Updating Geometry BVH citibike_bike 14/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1462.59M, Peak:1462.74M | Scene, ViewLayer | Updating Geometry BVH bus_shelter_cemusa 15/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1462.75M, Peak:1462.76M | Scene, ViewLayer | Updating Geometry BVH litter_basket_betterbin 16/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1463.07M, Peak:1463.10M | Scene, ViewLayer | Updating Geometry BVH tree_zelkova_medium 17/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.35 | Mem:1463.20M, Peak:1463.26M | Scene, ViewLayer | Updating Geometry BVH tree_norway_maple_large 18/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.36 | Mem:1463.32M, Peak:1463.53M | Scene, ViewLayer | Updating Geometry BVH tree_littleleaf_linden_medium 27/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.36 | Mem:1464.26M, Peak:1464.26M | Scene, ViewLayer | Updating Geometry BVH tree_planetree_large 19/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.36 | Mem:1464.45M, Peak:1464.59M | Scene, ViewLayer | Updating Geometry BVH tree_ginkgo_large 26/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.36 | Mem:1464.56M, Peak:1464.80M | Scene, ViewLayer | Updating Geometry BVH tree_callery_pear_small 20/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.36 | Mem:1465.57M, Peak:1465.67M | Scene, ViewLayer | Updating Geometry BVH tree_littleleaf_linden_large 21/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.36 | Mem:1465.73M, Peak:1465.73M | Scene, ViewLayer | Updating Geometry BVH tree_pin_oak_medium 22/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.36 | Mem:1465.78M, Peak:1466.00M | Scene, ViewLayer | Updating Geometry BVH tree_pin_oak_large 25/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.36 | Mem:1466.77M, Peak:1466.91M | Scene, ViewLayer | Updating Geometry BVH tree_callery_pear_medium 23/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.36 | Mem:1467.30M, Peak:1467.56M | Scene, ViewLayer | Updating Geometry BVH tree_planetree_medium 24/71 | Building BVH
+Fra:1 Mem:2047.27M (Peak 2102.89M) | Time:00:02.36 | Mem:1467.48M, Peak:1467.81M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:2047.31M (Peak 2102.89M) | Time:00:02.36 | Mem:1467.48M, Peak:1467.81M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:2047.31M (Peak 2102.89M) | Time:00:02.50 | Mem:1512.73M, Peak:1535.13M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:2047.31M (Peak 2102.89M) | Time:00:02.50 | Mem:1512.73M, Peak:1535.13M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:2085.63M (Peak 2102.89M) | Time:00:02.52 | Mem:1512.73M, Peak:1535.13M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:2085.63M (Peak 2102.89M) | Time:00:02.52 | Mem:1551.06M, Peak:1551.06M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:2085.63M (Peak 2102.89M) | Time:00:02.52 | Mem:1551.09M, Peak:1551.09M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:2085.65M (Peak 2102.89M) | Time:00:02.52 | Mem:1551.10M, Peak:1551.10M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:2085.65M (Peak 2102.89M) | Time:00:02.52 | Mem:1551.10M, Peak:1551.10M | Scene, ViewLayer | Updating Images | Loading sky_nishita
+Fra:1 Mem:2086.65M (Peak 2102.89M) | Time:00:02.74 | Mem:1552.10M, Peak:1552.10M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:2086.65M (Peak 2102.89M) | Time:00:02.75 | Mem:1552.10M, Peak:1552.10M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:2086.65M (Peak 2102.89M) | Time:00:02.75 | Mem:1552.19M, Peak:1552.19M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:2086.65M (Peak 2102.89M) | Time:00:02.75 | Mem:1552.19M, Peak:1552.19M | Scene, ViewLayer | Updating Lights | Importance map
+Fra:1 Mem:2087.65M (Peak 2102.89M) | Time:00:02.75 | Mem:1553.24M, Peak:1555.73M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:2088.61M (Peak 2102.89M) | Time:00:02.77 | Mem:1554.19M, Peak:1555.73M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:2088.61M (Peak 2102.89M) | Time:00:02.77 | Mem:1554.19M, Peak:1555.73M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:2088.61M (Peak 2102.89M) | Time:00:02.77 | Mem:1554.11M, Peak:1555.73M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:2088.61M (Peak 2102.89M) | Time:00:02.77 | Mem:1554.20M, Peak:1555.73M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:2088.61M (Peak 2102.89M) | Time:00:02.77 | Mem:1554.20M, Peak:1555.73M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:2088.68M (Peak 2102.89M) | Time:00:02.77 | Mem:1554.20M, Peak:1555.73M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:2088.68M (Peak 2102.89M) | Time:00:02.77 | Mem:1554.20M, Peak:1555.73M | Scene, ViewLayer | Sample 0/32
+Fra:1 Mem:2155.52M (Peak 2155.52M) | Time:00:05.39 | Remaining:01:21.27 | Mem:1621.00M, Peak:1621.00M | Scene, ViewLayer | Sample 1/32

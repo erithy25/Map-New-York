@@ -626,10 +626,23 @@ def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 8
     radius_m = placement.ground_detail.get("radius_m", 5.0)
 
     def evaluate(nx: float, ny: float):
-        gz, detail = (sampler.ground_z(nx, ny, mode=placement.ground_mode, radius_m=radius_m)
-                      if sampler is not None else (placement.terrain_z_m, {}))
-        nz = (gz if gz is not None else (placement.terrain_z_m or 0.0)) + rise
-        if _blocked(nx, ny, nz, placement.azimuth_deg)[0]:
+        # Two readings of the ground, tried in order.  The street percentile is right almost
+        # everywhere -- it keeps a sidewalk camera off the plinth beside it -- but where the 1 m
+        # DEM carries a void (the 9/11 Memorial pools drop 9 m below the plaza, and the 10th
+        # percentile inside 12 m finds the bottom of one) it puts the eye under the walking
+        # surface.  The height at the point itself recovers that case.
+        readings = []
+        if sampler is not None:
+            readings.append(sampler.ground_z(nx, ny, mode=placement.ground_mode, radius_m=radius_m))
+            if placement.ground_mode != "local":
+                readings.append(sampler.ground_z(nx, ny, mode="local", radius_m=radius_m))
+        else:
+            readings.append((placement.terrain_z_m, {}))
+        for gz, detail in readings:
+            nz = (gz if gz is not None else (placement.terrain_z_m or 0.0)) + rise
+            if not _blocked(nx, ny, nz, placement.azimuth_deg)[0]:
+                break
+        else:
             return None
         view_m = view_distance(nx, ny, nz, placement.azimuth_deg, probe_m=probe_m)
         near_m, near_what = nearest_obstruction(nx, ny, nz, placement.azimuth_deg,
