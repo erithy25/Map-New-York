@@ -577,7 +577,8 @@ def pavement_candidates(x: float, y: float, *, max_m: float = 70.0) -> list[dict
 
 
 def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 80.0,
-                      step_m: float = 2.0, min_view_m: float = 15.0, force: bool = False) -> dict:
+                      step_m: float = 2.0, min_view_m: float = 15.0, force: bool = False,
+                      has_subject: bool = False) -> dict:
     """Move an eye point that landed inside a building out to the real pavement, and say so.
 
     The camera is only moved when it is demonstrably inside geometry.  Two corrections are tried,
@@ -613,10 +614,16 @@ def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 8
         # with 9 m is looking at a party wall.  The 20 m the search demands of a *candidate* would
         # churn the first case for nothing, so the threshold for disturbing a viewpoint that is
         # otherwise in open air is the stricter of the two.
-        if v < min(min_view_m, BOXED_IN_M):
+        # With a named subject the camera has to be able to see roughly as far as the subject,
+        # because that is what the frame is for: the Chrysler Building viewpoint stands on a
+        # sidewalk with a party wall 13 m ahead and the tower 205 m beyond it, and a frame of the
+        # wall proves nothing.  With no subject named there is nothing to see *to*, so only a wall
+        # in the lens counts.
+        need = min_view_m if has_subject else min(min_view_m, BOXED_IN_M)
+        if v < need:
             blocked = True
             why = (f"boxed in: the view azimuth is closed off {v:.0f} m ahead, less than the "
-                   f"{min(min_view_m, BOXED_IN_M):.0f} m below which a frame shows nothing but wall")
+                   f"{need:.0f} m this frame needs to show its subject")
     if force and not blocked:
         blocked, why = True, ("rendered as an unusable frame from this eye point, so it is treated "
                               "as blocked even though no ray test caught it")

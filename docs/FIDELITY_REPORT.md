@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-06 20:07 UTC from commit `a829bd1e20b5` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-06 22:07 UTC from commit `28d4b4173115` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -12,30 +12,33 @@ Total buildings modelled: **1,083,026** (source of truth: NYC Open Data Building
 
 | Borough | Buildings | Median height (m) | Max height (m) | Height real | Floors real | Roof real | Material real |
 |---|---|---|---|---|---|---|---|
-| Manhattan | 45,194 | 17.75 | 472.44 | 99.83 % | 84.77 % | 96.58 % | 0.00 % |
-| Bronx | 104,278 | 8.43 | 137.16 | 99.82 % | 76.68 % | 95.93 % | 0.00 % |
-| Brooklyn | 330,154 | 8.37 | 315.47 | 99.93 % | 77.88 % | 97.06 % | 0.00 % |
-| Queens | 460,939 | 7.42 | 242.01 | 99.97 % | 66.42 % | 94.50 % | 0.00 % |
-| Staten Island | 142,461 | 7.89 | 64.61 | 99.94 % | 79.63 % | 93.86 % | 0.00 % |
+| Manhattan | 45,194 | 17.75 | 472.44 | 99.83 % | 84.77 % | 96.58 % | 32.63 % |
+| Bronx | 104,278 | 8.43 | 137.16 | 99.82 % | 76.68 % | 95.93 % | 0.94 % |
+| Brooklyn | 330,154 | 8.37 | 315.47 | 99.93 % | 77.88 % | 97.06 % | 4.64 % |
+| Queens | 460,939 | 7.42 | 242.01 | 99.97 % | 66.42 % | 94.50 % | 0.95 % |
+| Staten Island | 142,461 | 7.89 | 64.61 | 99.94 % | 79.63 % | 93.86 % | 0.28 % |
 
 ### 1.2 Attribute provenance across the whole city
 
-| Bit | Flag | Meaning | Buildings | Share |
-|---|---|---|---|---|
-| 0 | `FOOTPRINT_REAL` | footprint from the NYC OTI photogrammetric dataset | 1,083,026 | 100.00 % |
-| 1 | `HEIGHT_REAL` | roof height from the LiDAR-derived `height_roof` field | 1,082,290 | 99.93 % |
-| 2 | `ROOF_REAL` | roof geometry from the CityGML LOD2 model | 1,033,416 | 95.42 % |
-| 3 | `FLOORS_REAL` | floor count from PLUTO | 794,995 | 73.40 % |
-| 4 | `YEAR_REAL` | year built from PLUTO / footprint dataset | 1,075,197 | 99.28 % |
-| 5 | `MATERIAL_REAL` | facade material from an OSM tag or an LPC designation report | 0 | 0.00 % |
-| 6 | `SIGNAGE_REAL` | at least one real business name attached to the ground floor | 30,381 | 2.81 % |
-| 7 | `LANDMARK_MODEL` | replaced by a hand-scripted landmark model | 0 | 0.00 % |
-| 8 | `SCAFFOLD_REAL` | sidewalk shed from an active DOB permit | 6,396 | 0.59 % |
-| 9 | `GROUND_REAL` | ground elevation from the LiDAR-derived field | 1,082,833 | 99.98 % |
-| 10 | `FACADE_INFERRED` | facade appearance inferred by the rule set (ADR-004) | 0 | 0.00 % |
-| 13 | `ROOF_INFERRED` | roof shape derived from building class and footprint (ADR-013) | 0 | 0.00 % |
-| 11 | `HEIGHT_INFERRED` | height derived from floor count or neighbours | 736 | 0.07 % |
-| 12 | `FLOORS_INFERRED` | floor count derived from height | 288,031 | 26.60 % |
+| Bit | Flag | Meaning | Counted from | Buildings | Share |
+|---|---|---|---|---|---|
+| 0 | `FOOTPRINT_REAL` | footprint from the NYC OTI photogrammetric dataset | `buildings/buildings_base.parquet` | 1,083,026 | 100.00 % |
+| 1 | `HEIGHT_REAL` | roof height from the LiDAR-derived `height_roof` field | `buildings/buildings_base.parquet` | 1,082,290 | 99.93 % |
+| 2 | `ROOF_REAL` | roof geometry from the CityGML LOD2 model | `facade/facade_attrs.parquet` | 1,033,416 | 95.42 % |
+| 3 | `FLOORS_REAL` | floor count from PLUTO | `buildings/buildings_base.parquet` | 794,995 | 73.40 % |
+| 4 | `YEAR_REAL` | year built from PLUTO / footprint dataset | `buildings/buildings_base.parquet` | 1,075,197 | 99.28 % |
+| 5 | `MATERIAL_REAL` | facade material from an OSM tag or an LPC designation report | `facade/facade_attrs.parquet` | 35,818 | 3.31 % |
+| 6 | `SIGNAGE_REAL` | at least one real business name attached to the ground floor | `buildings/buildings_base.parquet` | 30,381 | 2.81 % |
+| 7 | `LANDMARK_MODEL` | replaced by a hand-scripted landmark model | `blender_out/landmarks/catalog` | 121 | 0.01 % |
+| 8 | `SCAFFOLD_REAL` | sidewalk shed from an active DOB permit | `buildings/buildings_base.parquet` | 6,396 | 0.59 % |
+| 9 | `GROUND_REAL` | ground elevation from the LiDAR-derived field | `buildings/buildings_base.parquet` | 1,082,833 | 99.98 % |
+| 10 | `FACADE_INFERRED` | facade appearance inferred by the rule set (ADR-004) | `facade/facade_attrs.parquet` | 1,047,208 | 96.69 % |
+| 13 | `ROOF_INFERRED` | roof shape derived from building class and footprint (ADR-013) | `facade/facade_attrs.parquet` | 567,800 | 52.43 % |
+| 11 | `HEIGHT_INFERRED` | height derived from floor count or neighbours | `buildings/buildings_base.parquet` | 736 | 0.07 % |
+| 12 | `FLOORS_INFERRED` | floor count derived from height | `buildings/buildings_base.parquet` | 288,031 | 26.60 % |
+
+Each bit is counted from the table of the stage that sets it. DATA_CONTRACTS §5.1 gives bits 2, 5, 10 and 13 to the facade stage, which writes its own table and does not write back into the base table, and bit 7 to the landmark scripts, whose catalog is the authority on which models exist. A bit whose owning artefact is missing reads **not produced**, never zero — a zero here would claim that nothing is inferred, which is the one thing this report must not get wrong.
+* 121 BINs are named by the landmark catalog; 121 of them exist in the buildings table
 
 Buildings whose footprint **and** height are both from measurement: 99.93 %.
 
@@ -108,7 +111,7 @@ Water: hydrography polygons 2,235 · shoreline lines 413 · structures 2,536 · 
 | kit | 138 | 140.3 MB |
 | props | 122 | 79.2 MB |
 | vehicles | 93 | 100.2 MB |
-| character | 6 | 120.0 MB |
+| character | 25 | 512.8 MB |
 | landmarks | 127 | 920.5 MB |
 | tiles | 1,010 | 4,624.0 MB |
 
@@ -172,7 +175,7 @@ Reference photographs collected for side-by-side comparison: 519 photos across 1
 
 Checked by `tests/test_world_integration.py::test_the_world_has_no_orphan_or_missing_content_layers`: every tile holding buildings also holds a shell mesh and kit placements, every shell mesh has building data behind it, and every content tile has terrain beneath it. Zero exceptions in any direction.
 
-Stage reports present: buildings_mesh, character, citygml, comparison, core, facade, furniture, kit, live, props, reference, roads, terrain, traffic, traffic_density, unreal_gameplay, unreal_world, vehicles.
+Stage reports present: buildings_mesh, character, citygml, comparison, core, facade, furniture, kit, live, performance, props, reference, roads, terrain, traffic, traffic_density, unreal_gameplay, unreal_world, vehicles.
 
 Stage reports still missing: buildings, landmarks.
 

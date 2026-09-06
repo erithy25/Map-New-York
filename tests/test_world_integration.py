@@ -517,3 +517,80 @@ def test_no_placeholder_markers_in_shipped_source():
                 if (marker.search(line) or unfinished or bare_incomplete) and not negated.search(line):
                     hits.append(f"{p.relative_to(REPO_ROOT)}:{i}: {line.strip()[:100]}")
     assert not hits, "placeholder markers found in shipped source:\n" + "\n".join(hits[:40])
+
+
+def test_fidelity_report_counts_every_bit_from_the_stage_that_sets_it():
+    """The report must not read a fidelity bit from a table that never writes it.
+
+    DATA_CONTRACTS §5.1 gives bits 2, 5, 10 and 13 to the facade stage, which writes
+    `facade/facade_attrs.parquet` and does not write back into `buildings_base.parquet`. Counting them in
+    the base table returns 0 for each, and the report then states that 0 % of facades are inferred and
+    0 % of roofs are inferred when the real figures are 96.69 % and 52.43 %. That is not a rounding error
+    in a table — it is the report claiming inferred content is real, which the brief names as the worst
+    failure available to this project. This test fails if any bit is counted from a table that does not
+    set it, by checking the count the report produces against a direct count in the owning table.
+    """
+    import numpy as np
+
+    from nycsim_pipeline.report.fidelity import FIDELITY_BITS, FIDELITY_TABLES, probe_buildings
+
+    b = probe_buildings()
+    if b is None:
+        pytest.skip("buildings_base.parquet not produced")
+
+    direct: dict[str, int] = {}
+    for owner, rel in FIDELITY_TABLES.items():
+        path = PROCESSED / rel
+        if not path.exists():
+            continue
+        pf = pq.ParquetFile(path)
+        if "fidelity" not in pf.schema_arrow.names:
+            continue
+        fid = np.asarray(pf.read(columns=["fidelity"]).column("fidelity")).astype(np.uint32)
+        for bit, name, _desc, o in FIDELITY_BITS:
+            if o == owner:
+                direct[name] = int(((fid >> bit) & 1).sum())
+
+    assert direct, "no owning table carried a fidelity column — the probe cannot be checked"
+    wrong = {name: (b["bits"].get(name), n) for name, n in direct.items() if b["bits"].get(name) != n}
+    assert not wrong, ("the report's count disagrees with a direct count in the owning table "
+                       f"(reported, actual): {wrong}")
+
+    # The two bits that record inference must be non-zero: every building's facade appearance is inferred
+    # unless a real material was found (ADR-004), and every roof without LOD2 geometry is inferred
+    # (ADR-013). A zero in either would mean the report is reading the wrong table again.
+    for name in ("FACADE_INFERRED", "ROOF_INFERRED"):
+        n = b["bits"].get(name)
+        assert n, f"{name} is {n!r}; inferred content exists and must be reported as inferred"
+        assert n < b["total"], f"{name} covers every building, which no rule set should produce"
+
+    # A bit whose owning artefact is absent must read None ("not produced"), never 0.
+    for _bit, name, _desc, owner in FIDELITY_BITS:
+        if owner in FIDELITY_TABLES and not (PROCESSED / FIDELITY_TABLES[owner]).exists():
+            assert b["bits"].get(name) is None, f"{name} has no owning table but was reported as a number"
+
+
+def test_landmark_models_are_flagged_on_the_buildings_they_replace():
+    """Bit 7 must count the landmark models that exist, not zero.
+
+    No stage writes a landmark column into the buildings table, so the landmark catalog is the authority.
+    If the catalog names BINs and the report still says none are flagged, the report is under-claiming the
+    hand-built work; if it names BINs that no building has, the catalog and the buildings table disagree.
+    """
+    from nycsim_pipeline.report.fidelity import _landmark_model_bins, probe_buildings
+
+    lm = _landmark_model_bins()
+    if lm is None:
+        pytest.skip("landmark catalog not produced")
+    b = probe_buildings()
+    if b is None:
+        pytest.skip("buildings_base.parquet not produced")
+    if not lm:
+        pytest.skip("no landmark entry names a BIN")
+
+    base = pq.read_table(PROCESSED / "buildings" / "buildings_base.parquet", columns=["bin"])
+    known = set(base.column("bin").to_pylist())
+    missing = sorted(b for b in lm if b not in known)
+    assert not missing, f"the landmark catalog names {len(missing)} BINs no building has: {missing[:10]}"
+    assert b["bits"].get("LANDMARK_MODEL") == len(lm), (
+        f"catalog names {len(lm)} BINs but the report flags {b['bits'].get('LANDMARK_MODEL')!r}")

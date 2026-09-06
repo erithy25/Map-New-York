@@ -24,22 +24,36 @@ log = logging.getLogger("nycsim.fidelity")
 
 BOROUGH_NAMES = {1: "Manhattan", 2: "Bronx", 3: "Brooklyn", 4: "Queens", 5: "Staten Island", 6: "New Jersey"}
 
+# (bit, name, meaning, owning table). A bit is only meaningful in the table of the stage that sets it:
+# DATA_CONTRACTS §5.1 gives bits 5, 10 and 13 to the facade stage, which writes its own table and does not
+# write back into the base table. Counting them in `buildings_base.parquet` reports 0 for every one of them,
+# which reads as "nothing is inferred" — the opposite of the truth and the worst error this report can make.
+# `buildings` means data/processed/buildings/buildings_base.parquet; `facade` means
+# data/processed/facade/facade_attrs.parquet.
 FIDELITY_BITS = [
-    (0, "FOOTPRINT_REAL", "footprint from the NYC OTI photogrammetric dataset"),
-    (1, "HEIGHT_REAL", "roof height from the LiDAR-derived `height_roof` field"),
-    (2, "ROOF_REAL", "roof geometry from the CityGML LOD2 model"),
-    (3, "FLOORS_REAL", "floor count from PLUTO"),
-    (4, "YEAR_REAL", "year built from PLUTO / footprint dataset"),
-    (5, "MATERIAL_REAL", "facade material from an OSM tag or an LPC designation report"),
-    (6, "SIGNAGE_REAL", "at least one real business name attached to the ground floor"),
-    (7, "LANDMARK_MODEL", "replaced by a hand-scripted landmark model"),
-    (8, "SCAFFOLD_REAL", "sidewalk shed from an active DOB permit"),
-    (9, "GROUND_REAL", "ground elevation from the LiDAR-derived field"),
-    (10, "FACADE_INFERRED", "facade appearance inferred by the rule set (ADR-004)"),
-    (13, "ROOF_INFERRED", "roof shape derived from building class and footprint (ADR-013)"),
-    (11, "HEIGHT_INFERRED", "height derived from floor count or neighbours"),
-    (12, "FLOORS_INFERRED", "floor count derived from height"),
+    (0, "FOOTPRINT_REAL", "footprint from the NYC OTI photogrammetric dataset", "buildings"),
+    (1, "HEIGHT_REAL", "roof height from the LiDAR-derived `height_roof` field", "buildings"),
+    (2, "ROOF_REAL", "roof geometry from the CityGML LOD2 model", "facade"),
+    (3, "FLOORS_REAL", "floor count from PLUTO", "buildings"),
+    (4, "YEAR_REAL", "year built from PLUTO / footprint dataset", "buildings"),
+    (5, "MATERIAL_REAL", "facade material from an OSM tag or an LPC designation report", "facade"),
+    (6, "SIGNAGE_REAL", "at least one real business name attached to the ground floor", "buildings"),
+    (7, "LANDMARK_MODEL", "replaced by a hand-scripted landmark model", "landmarks"),
+    (8, "SCAFFOLD_REAL", "sidewalk shed from an active DOB permit", "buildings"),
+    (9, "GROUND_REAL", "ground elevation from the LiDAR-derived field", "buildings"),
+    (10, "FACADE_INFERRED", "facade appearance inferred by the rule set (ADR-004)", "facade"),
+    (13, "ROOF_INFERRED", "roof shape derived from building class and footprint (ADR-013)", "facade"),
+    (11, "HEIGHT_INFERRED", "height derived from floor count or neighbours", "buildings"),
+    (12, "FLOORS_INFERRED", "floor count derived from height", "buildings"),
 ]
+
+# Where each owner keeps its fidelity column, relative to data/processed. The `landmarks` owner is
+# deliberately absent: no stage writes a landmark column into a parquet file, so bit 7 is counted from the
+# landmark catalog that the landmark scripts write (see `_landmark_model_bins`).
+FIDELITY_TABLES = {
+    "buildings": Path("buildings") / "buildings_base.parquet",
+    "facade": Path("facade") / "facade_attrs.parquet",
+}
 
 
 def _fmt(n: Any, unit: str = "") -> str:
@@ -87,6 +101,31 @@ def _safe(fn: Callable[[], Any], what: str) -> Any:
 
 
 # --------------------------------------------------------------------------- probes
+def _landmark_model_bins() -> set[int] | None:
+    """BINs replaced by a hand-scripted landmark model, from the landmark catalog.
+
+    The catalog written by the landmark scripts is the authority on which models exist — there is no
+    landmark column in the buildings table — so bit 7 is counted from it rather than from a parquet file.
+    An entry with an empty ``bins`` list is a landmark that is not a building (a bridge, a monument, a
+    park wall) and correctly contributes nothing.
+    """
+    cat = REPO_ROOT / "blender_out" / "landmarks" / "catalog"
+    if not cat.is_dir():
+        return None
+    bins: set[int] = set()
+    for f in sorted(cat.glob("*.json")):
+        try:
+            entry = json.load(open(f))
+        except (OSError, json.JSONDecodeError):
+            continue
+        for b in entry.get("bins") or []:
+            try:
+                bins.add(int(b))
+            except (TypeError, ValueError):
+                continue
+    return bins
+
+
 def probe_buildings() -> dict[str, Any] | None:
     import numpy as np
     import pyarrow.parquet as pq
@@ -97,14 +136,80 @@ def probe_buildings() -> dict[str, Any] | None:
     pf = pq.ParquetFile(p)
     cols = [c for c in ("borough", "fidelity", "height", "floors", "year_built", "bin") if c in pf.schema_arrow.names]
     t = pf.read(columns=cols)
-    fid = np.asarray(t.column("fidelity")) if "fidelity" in cols else None
+    fid = np.asarray(t.column("fidelity")).astype(np.uint32) if "fidelity" in cols else None
+    bins = np.asarray(t.column("bin")).astype(np.int64) if "bin" in cols else None
     bor = np.asarray(t.column("borough")) if "borough" in cols else None
     height = np.asarray(t.column("height")) if "height" in cols else None
     total = pf.metadata.num_rows
-    out: dict[str, Any] = {"total": total, "path": str(p.relative_to(REPO_ROOT)), "by_borough": {}, "bits": {}, "bits_by_borough": {}}
+    out: dict[str, Any] = {"total": total, "path": str(p.relative_to(REPO_ROOT)), "by_borough": {}, "bits": {},
+                           "bits_by_borough": {}, "bit_sources": {}, "bit_source_notes": []}
+
+    # Merge each owner's bits into one array aligned to the base table's rows, so the per-borough
+    # breakdown works and no bit is read from a table that does not set it.
+    owners = {name for _b, _n, _d, name in FIDELITY_BITS}
+    available: dict[str, bool] = {"buildings": True}
+    if fid is not None and bins is not None:
+        order = np.argsort(bins, kind="stable")
+        sorted_bins = bins[order]
+        for owner in sorted(owners - {"buildings", "landmarks"}):
+            path = PROCESSED / FIDELITY_TABLES[owner]
+            owned = [b for b, _n, _d, o in FIDELITY_BITS if o == owner]
+            if not path.exists():
+                available[owner] = False
+                continue
+            other = pq.ParquetFile(path)
+            if not {"bin", "fidelity"} <= set(other.schema_arrow.names):
+                available[owner] = False
+                out["bit_source_notes"].append(f"`{path.relative_to(REPO_ROOT)}` has no bin/fidelity pair")
+                continue
+            ot = other.read(columns=["bin", "fidelity"])
+            obins = np.asarray(ot.column("bin")).astype(np.int64)
+            ofid = np.asarray(ot.column("fidelity")).astype(np.uint32)
+            mask = np.uint32(sum(1 << b for b in owned))
+            if len(obins) == len(bins) and bool(np.array_equal(obins, bins)):
+                # The derived table was written row-for-row from the base table, so position is an exact
+                # join. A BIN join is not: NYC assigns the sentinel BINs 1000000..5000000 to footprints with
+                # no BIN of their own, and those few rows are indistinguishable by BIN alone.
+                fid[:] = (fid & ~mask) | (ofid & mask)
+            else:
+                pos = np.searchsorted(sorted_bins, obins)
+                pos = np.clip(pos, 0, len(sorted_bins) - 1)
+                hit = sorted_bins[pos] == obins
+                rows = order[pos[hit]]
+                fid[rows] = (fid[rows] & ~mask) | (ofid[hit] & mask)
+                dupes = len(obins) - len(np.unique(obins))
+                out["bit_source_notes"].append(
+                    f"`{path.relative_to(REPO_ROOT)}` is not row-aligned with the base table, so its bits were "
+                    f"joined on BIN" + (f"; {dupes:,} of its rows share a BIN with another and only one of each "
+                                        f"group could be matched" if dupes else ""))
+                if int((~hit).sum()):
+                    out["bit_source_notes"].append(
+                        f"{int((~hit).sum()):,} rows in `{path.relative_to(REPO_ROOT)}` have a BIN that is not in "
+                        f"the base table and were not counted")
+            available[owner] = True
+        if "landmarks" in owners:
+            lm = _landmark_model_bins()
+            available["landmarks"] = lm is not None
+            if lm:
+                pos = np.searchsorted(sorted_bins, np.array(sorted(lm), dtype=np.int64))
+                pos = np.clip(pos, 0, len(sorted_bins) - 1)
+                arr = np.array(sorted(lm), dtype=np.int64)
+                hit = sorted_bins[pos] == arr
+                fid[order[pos[hit]]] |= np.uint32(1 << 7)
+                out["bit_source_notes"].append(
+                    f"{len(lm):,} BINs are named by the landmark catalog; {int(hit.sum()):,} of them exist in the "
+                    f"buildings table")
+    elif fid is not None:
+        for owner in owners - {"buildings"}:
+            available[owner] = False
+        out["bit_source_notes"].append("base table has no `bin` column, so only its own bits could be counted")
+
     if fid is not None:
-        for bit, name, _desc in FIDELITY_BITS:
-            out["bits"][name] = int(((fid >> bit) & 1).sum())
+        for bit, name, _desc, owner in FIDELITY_BITS:
+            out["bit_sources"][name] = owner
+            # A bit whose owning table is absent is unknown, not zero. Reporting it as zero would claim
+            # nothing is inferred, which is the one thing this report must never get wrong.
+            out["bits"][name] = int(((fid >> bit) & 1).sum()) if available.get(owner) else None
     if bor is not None:
         for code, bname in BOROUGH_NAMES.items():
             m = bor == code
@@ -117,7 +222,9 @@ def probe_buildings() -> dict[str, Any] | None:
                 entry |= {"height_median_m": float(np.median(h)), "height_max_m": float(h.max())}
             out["by_borough"][bname] = entry
             if fid is not None:
-                out["bits_by_borough"][bname] = {name: int(((fid[m] >> bit) & 1).sum()) for bit, name, _ in FIDELITY_BITS}
+                out["bits_by_borough"][bname] = {
+                    name: (int(((fid[m] >> bit) & 1).sum()) if available.get(owner) else None)
+                    for bit, name, _d, owner in FIDELITY_BITS}
     # per-tile completed schema (facade stage)
     tiles = sorted((PROCESSED / "tiles").glob("*/buildings.parquet")) if (PROCESSED / "tiles").exists() else []
     out["tiles_with_buildings"] = len(tiles)
@@ -405,15 +512,27 @@ def build_report() -> str:
         A()
         A("### 1.2 Attribute provenance across the whole city")
         A()
-        A("| Bit | Flag | Meaning | Buildings | Share |")
-        A("|---|---|---|---|---|")
-        for bit, name, desc in FIDELITY_BITS:
+        A("| Bit | Flag | Meaning | Counted from | Buildings | Share |")
+        A("|---|---|---|---|---|---|")
+        srcs = b.get("bit_sources", {})
+        for bit, name, desc, _owner in FIDELITY_BITS:
             n = b["bits"].get(name)
-            A(f"| {bit} | `{name}` | {desc} | {_fmt(n)} | {_pct(n, b['total'])} |")
+            table = FIDELITY_TABLES.get(srcs.get(name, ""))
+            where = "`blender_out/landmarks/catalog`" if srcs.get(name) == "landmarks" else (
+                f"`{table.as_posix()}`" if table else "—")
+            A(f"| {bit} | `{name}` | {desc} | {where} | {_fmt(n)} | {_pct(n, b['total'])} |")
         A()
-        real_all = b["bits"].get("FOOTPRINT_REAL", 0) and b["bits"].get("HEIGHT_REAL", 0)
-        A(f"Buildings whose footprint **and** height are both from measurement: "
-          f"{_pct(min(b['bits'].get('FOOTPRINT_REAL', 0), b['bits'].get('HEIGHT_REAL', 0)), b['total'])}.")
+        A("Each bit is counted from the table of the stage that sets it. DATA_CONTRACTS §5.1 gives bits 2, 5, 10 "
+          "and 13 to the facade stage, which writes its own table and does not write back into the base table, and "
+          "bit 7 to the landmark scripts, whose catalog is the authority on which models exist. A bit whose owning "
+          "artefact is missing reads **not produced**, never zero — a zero here would claim that nothing is "
+          "inferred, which is the one thing this report must not get wrong.")
+        for note in b.get("bit_source_notes", []):
+            A(f"* {note}")
+        A()
+        fp, hr = b["bits"].get("FOOTPRINT_REAL"), b["bits"].get("HEIGHT_REAL")
+        both = min(fp, hr) if fp is not None and hr is not None else None
+        A(f"Buildings whose footprint **and** height are both from measurement: {_pct(both, b['total'])}.")
         A()
         A(f"Per-tile files with the complete §5 schema: {b.get('tile_schema_full_ok', 'not checked')} of "
           f"{b.get('tile_schema_sampled', 0)} sampled ({b.get('tiles_with_buildings', 0)} tiles hold buildings).")

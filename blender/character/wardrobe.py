@@ -918,8 +918,8 @@ def finish_makehuman(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
     return out
 
 
-def verify_outfit(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
-                  margin: float = 0.30) -> list[str]:
+def verify_outfit(built, item_ids: tuple[str, ...], *, name_prefix: str = "", margin: float = 0.30,
+                  dropped: tuple[str, ...] = ()) -> list[str]:
     """Check every garment on the character is where a garment can be. Returns a list of problems.
 
     A procedural cut that goes wrong does not fail loudly - it produces a mesh with a few vertices thrown to
@@ -940,6 +940,8 @@ def verify_outfit(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
 
     problems: list[str] = []
     for item_id in item_ids:
+        if item_id in dropped:
+            continue                    # deliberately removed by hide_covered_garments: nothing showed
         obj = built.clothes.get(f"{name_prefix}{item_id}")
         if obj is None or not len(obj.data.vertices):
             problems.append(f"{item_id}: not on the character")
@@ -963,32 +965,53 @@ def verify_outfit(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
 
 
 def hide_covered_garments(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
-                          reach: float = 0.045) -> int:
-    """Delete the parts of an inner garment that another garment completely covers.  Returns faces removed.
+                          reach: float = 0.045, pinch: float = 0.022) -> list[str]:
+    """Delete the parts of an inner garment that another garment covers or pinches.
 
-    A base layer worn under a fitted sweater has to satisfy two constraints at once - outside the skin and
-    inside the sweater - and where the sweater hugs the body there is simply no room between them.  Resolving
-    the two against each other then trades one artefact for another: pull the tee in and scraps of skin show
-    through the trousers, push it out and white specks of tee show through the knit.
+    Returns the item ids of any garment that turned out to be *entirely* covered and was dropped.
 
-    The way out is that the covered part of the tee is not needed at all.  Nobody sees it, the engine does not
-    need it, and MakeHuman's own delete groups do exactly this for the skin.  So every inner-garment vertex
-    whose own normal points into an outer garment within ``reach`` is marked, and a face is deleted when all
-    of its vertices are marked - which keeps the collar, the cuffs and the hem, the parts that actually show,
-    and removes the sandwiched middle.  It also takes several thousand vertices out of the export.
+    A base layer worn under a *fitted* sweater has to satisfy two constraints at once - outside the skin and
+    inside the sweater - and where the knit hugs the body there is no room between them at all.  Resolving
+    the two against each other only trades one artefact for another: pull the tee in and scraps of skin show
+    through the trousers, push it out and smooth white blobs of tee break the knit at the side seams and the
+    shoulder blade.  Those blobs were measured, not guessed: of the tee's 80 remaining vertices, 39 sat up to
+    **15.8 mm outside** the sweater's surface, all of them in the 1.10-1.33 m band across the back and flanks
+    where the sweater is tightest.
+
+    The way out is that a pinched inner layer is not needed.  Nobody sees it, and MakeHuman's own delete
+    groups do exactly this for the skin.  A vertex is therefore marked when **either**
+
+    * a ray along its own normal hits an outer garment within ``reach`` - it is directly underneath; **or**
+    * the closest point on an outer garment is within ``pinch`` of it, on either side - the outer cloth is
+      right there, so there is no room for this one and nothing to see.
+
+    The second test is what closes the seam blobs: a ray can miss through the hairline gap of a UV seam, and
+    a vertex already pushed proud of the outer surface is not "underneath" anything.  A face is deleted when
+    all of its vertices are marked, so the collar, the cuffs, the open front of a jacket and the hem - the
+    parts that actually show - survive, and the sandwiched middle does not.
+
+    Shoes count as an outer layer here even though they are excluded from :func:`resolve_layers`' pull-inside
+    pass: a trouser leg terminates *inside* the shoe collar, and the part of the hem inside the shoe is what
+    was passing through the heel counter and coming out behind it.
+
+    A garment left with less than 4 % of its faces is removed from the character altogether and logged: it is
+    entirely covered, and shipping 40 disconnected scraps of it helps nobody.  The player's white tee under
+    his fisherman sweater is one: all 1 034 of its faces are covered, so the export ships the sweater and not
+    a tee nobody can see.  The item ids of anything dropped are returned so the caller can tell
+    :func:`verify_outfit` that its absence is deliberate.
     """
     ordered: list[tuple[int, str, bpy.types.Object]] = []
     for item_id in item_ids:
         garment = WARDROBE_BY_ID.get(item_id)
         obj = built.clothes.get(f"{name_prefix}{item_id}")
-        if garment is None or obj is None or garment.slot == "shoes":
+        if garment is None or obj is None:
             continue
         ordered.append((_layer_key(garment), item_id, obj))
     if len(ordered) < 2:
-        return 0
+        return []
     ordered.sort(key=lambda t: t[0])
 
-    removed = 0
+    dropped: list[str] = []
     for i, (key_in, item_id, inner) in enumerate(ordered):
         outers = [o for k, _i, o in ordered[i + 1:] if k > key_in and len(o.data.vertices)]
         if not outers:
@@ -1001,13 +1024,18 @@ def hide_covered_garments(built, item_ids: tuple[str, ...], *, name_prefix: str 
                 if hit:
                     covered.add(vert.index)
                     break
+                near, location, _n2, _j = outer.closest_point_on_mesh(vert.co, distance=pinch)
+                if near and (vert.co - location).length <= pinch:
+                    covered.add(vert.index)
+                    break
         if not covered:
             continue
         bm = bmesh.new()
         bm.from_mesh(inner.data)
         bm.verts.ensure_lookup_table()
+        total = len(bm.faces)
         doomed = [f for f in bm.faces if all(v.index in covered for v in f.verts)]
-        if not doomed or len(doomed) == len(bm.faces):
+        if not doomed:
             bm.free()
             continue
         bmesh.ops.delete(bm, geom=doomed, context="FACES")
@@ -1015,14 +1043,20 @@ def hide_covered_garments(built, item_ids: tuple[str, ...], *, name_prefix: str 
         loose = [v for v in bm.verts if not v.link_faces]
         if loose:
             bmesh.ops.delete(bm, geom=loose, context="VERTS")
-        count = len(doomed)
+        left = len(bm.faces)
         bm.to_mesh(inner.data)
         bm.free()
         inner.data.update()
-        removed += count
-        log.info("%s: %d covered faces removed, %d vertices remain", item_id, count,
-                 len(inner.data.vertices))
-    return removed
+        if left <= max(1, int(0.04 * total)):
+            log.info("%s: %d of %d faces covered - the garment is entirely hidden and is dropped",
+                     item_id, len(doomed), total)
+            built.clothes.pop(inner.name, None)
+            bpy.data.objects.remove(inner, do_unlink=True)
+            dropped.append(item_id)
+        else:
+            log.info("%s: %d of %d covered faces removed, %d vertices remain", item_id, len(doomed), total,
+                     len(inner.data.vertices))
+    return dropped
 
 
 def _layer_key(garment: Garment) -> int:
@@ -1398,12 +1432,18 @@ def build_bag(built, kind: str, *, name_prefix: str = "") -> bpy.types.Object:
     sx, sy, sz = (v * scale for v in spec["size"])
     on_arm = spec["bone"].startswith(("hand_", "lowerarm_", "upperarm_"))
     if on_arm:
-        # the bone's own frame: its axis is "down" once the arm hangs
+        # The bone's own frame: its axis points "down" once the arm hangs, so a bag built along it hangs
+        # correctly in any pose.  It has to hang **from the grip**, though: measuring the drop from the
+        # *head* of the bone put a briefcase 370 mm below the wrist with a 280 mm gap between the fingers
+        # and the handle - a prop hovering beside the hip, attached to nothing the eye can see.  The grip is
+        # the far end of the bone (the knuckles, for `hand_*`) plus a couple of centimetres for the fingers
+        # to close round, and the bag's top face starts there.
         axis = (bone.tail_local - bone.head_local).normalized()
         side = axis.cross(forward)
         side = side.normalized() if side.length > 1e-6 else right.copy()
         depth = side.cross(axis).normalized()
-        centre = bone.head_local + axis * (abs(spec["up"]) * scale + sz * 0.5)
+        grip = (bone.tail_local - bone.head_local).length + 0.018 * scale
+        centre = bone.head_local + axis * (grip + sz * 0.5)
         ex, ey, ez = side, depth, axis
     else:
         centre = (bone.head_local + bone.tail_local) * 0.5 + up * (spec["up"] * scale)

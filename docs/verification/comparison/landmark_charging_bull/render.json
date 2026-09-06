@@ -1,28 +1,29 @@
 {
- "azimuth_reason": "179.1 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 217.2 deg, 38.1 deg away",
+ "azimuth_reason": "179.2 deg, the bearing from this photograph's own GPS position to Charging Bull; heading and position both come from the photograph.  The item's recorded azimuth is 217.2 deg, 38.0 deg away, and belongs to its nominal viewpoint",
  "camera": {
-  "azimuth_deg": 179.1,
+  "azimuth_deg": 179.18084013505924,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
-   "chosen_m": 7.25,
-   "max_m": 8.44,
-   "median_m": 7.85,
-   "min_m": 6.97,
+   "chosen_m": 7.44,
+   "max_m": 8.15,
+   "median_m": 7.71,
+   "min_m": 7.26,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 7.65,
    "radius_m": 12.0,
    "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
   "hfov_deg": 54.432,
-  "lat": 40.7058,
-  "lon": -74.0131,
+  "lat": 40.705804,
+  "lon": -74.013406,
   "long_side_fov_deg": 54.432,
-  "pitch_deg": -2.2591088410813436,
+  "pitch_deg": -2.4045152854000857,
   "portrait": false,
   "resolution": [
    1208,
@@ -30,17 +31,35 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_charging_bull",
-  "terrain_z_m": 7.246,
-  "x": -5332.466,
-  "y": 645.994,
-  "z": 8.846
+  "terrain_z_m": 7.444,
+  "x": -5358.325,
+  "y": 646.457,
+  "z": 9.044
  },
- "camera_caption": "camera 40.70580, -74.01310 (NYC_TM -5332, 646) z 8.8 m NAVD88 | azimuth 179.1deg pitch -2.3deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.70580, -74.01341 (NYC_TM -5358, 646) z 9.0 m NAVD88 | azimuth 179.2deg pitch -2.4deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.705804,
+  "lon": -74.013406,
+  "offset_from_recorded_m": 25.9,
+  "source": "this photograph's own EXIF camera GPS (40.70580, -74.01341), 26 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
  "clearance": {
+  "min_view_m": 20.0,
   "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "nearest_obstruction": null,
+  "nearest_obstruction_m": 60.0,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is further than 60 m, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
  },
+ "frame": {
+  "mean": 0.3524,
+  "reason": null,
+  "sd": 0.2167,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
@@ -62,7 +81,7 @@
  },
  "name": "Charging Bull",
  "night": false,
- "pitch_reason": "aimed at Charging Bull 42 m away, at its mid-height (the charging_bull model's 3 m height); -2.3 deg from horizontal",
+ "pitch_reason": "aimed at Charging Bull 34 m away, at its mid-height (the charging_bull model's 3 m height); -2.4 deg from horizontal",
  "reference_photo": {
   "author": "Epicgenius",
   "confidence": "high",
@@ -77,149 +96,148 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_charging_bull/render.png",
- "rendered_at": "2026-09-06T17:06:24Z",
+ "rendered_at": "2026-09-06T22:01:33Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
     "t_-5_0",
-    "t_-5_1",
     "t_-6_0",
     "t_-6_1"
    ],
+   "landmark_bins_suppressed": 16,
+   "landmark_faces_suppressed": 2728,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-5_0": {
      "lod": 0,
      "objects": 18,
-     "triangles": 11932
-    },
-    "t_-5_1": {
-     "lod": 0,
-     "objects": 18,
-     "triangles": 42918
+     "triangles": 11872
     },
     "t_-6_0": {
      "lod": 0,
      "objects": 16,
-     "triangles": 14912
+     "triangles": 12796
     },
     "t_-6_1": {
      "lod": 0,
      "objects": 18,
-     "triangles": 15588
+     "triangles": 15036
     }
    },
    "tiles_dropped_for_budget": 0,
-   "tiles_imported": 4,
+   "tiles_imported": 3,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
-   "tiles_wanted": 4,
+   "tiles_wanted": 3,
    "triangle_budget": 3510000,
-   "triangles": 85350
+   "triangles": 39704
   },
   "centre_tm": [
-   -5332.47,
-   645.99
+   -5358.33,
+   646.46
   ],
   "kit": {
-   "capped": "triangle budget 2539070",
+   "capped": "triangle budget 2569110",
    "per_category": {
     "antenna": 3,
     "bulkhead": 17,
-    "cornice": 27,
-    "door_entry": 26,
-    "hvac": 26,
-    "parapet": 16,
-    "pilaster": 46,
-    "scaffold": 271,
-    "storefront": 173,
-    "storefront_interior": 25,
-    "string_course": 27,
-    "water_tower": 8,
-    "window": 9006,
-    "window_accessory": 8
+    "cornice": 29,
+    "door_entry": 22,
+    "hvac": 24,
+    "parapet": 15,
+    "pilaster": 36,
+    "scaffold": 274,
+    "storefront": 175,
+    "storefront_interior": 23,
+    "string_course": 29,
+    "water_tower": 7,
+    "window": 8595,
+    "window_accessory": 4
    },
-   "placed": 9679,
+   "placed": 9253,
    "radius_m": 120.0,
-   "records_in_range": 15195,
+   "records_in_range": 13758,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
     "t_-6_0"
    ],
-   "triangles": 2539103,
+   "triangles": 2569338,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 42.3,
+     "distance_m": 31.7,
      "id": "charging_bull",
      "lod": 0,
      "name": "Charging Bull",
      "triangles": 818
     },
     {
-     "distance_m": 186.3,
+     "distance_m": 202.4,
      "id": "one_wall_street",
      "lod": 0,
      "name": "One Wall Street (Irving Trust Building)",
      "triangles": 42712
     },
     {
-     "distance_m": 211.0,
+     "distance_m": 231.0,
      "id": "nyse",
      "lod": 0,
      "name": "New York Stock Exchange",
      "triangles": 26049
     },
     {
-     "distance_m": 258.9,
+     "distance_m": 267.1,
      "id": "trinity_church",
      "lod": 0,
      "name": "Trinity Church",
      "triangles": 3984
     },
     {
-     "distance_m": 295.3,
+     "distance_m": 316.6,
      "id": "federal_hall",
      "lod": 0,
      "name": "Federal Hall National Memorial",
      "triangles": 9070
     },
     {
-     "distance_m": 315.3,
+     "distance_m": 338.6,
      "id": "40_wall_street",
      "lod": 0,
      "name": "40 Wall Street (Trump Building)",
      "triangles": 43167
     },
     {
-     "distance_m": 347.3,
+     "distance_m": 363.8,
      "id": "equitable_building",
      "lod": 0,
      "name": "Equitable Building",
      "triangles": 86321
     },
     {
-     "distance_m": 527.0,
+     "distance_m": 528.2,
      "id": "c_whitehall_and_st_george_ferry_terminals",
      "lod": 0,
      "name": "Whitehall, Battery Maritime and St. George ferry terminals",
      "triangles": 77605
     },
     {
-     "distance_m": 639.0,
+     "distance_m": 638.9,
      "id": "b_wtc_site",
      "lod": 0,
      "name": "World Trade Center site",
      "triangles": 136174
     },
     {
-     "distance_m": 1379.4,
+     "distance_m": 1384.3,
      "id": "b_hugh_carey_portals",
      "lod": 0,
      "name": "Hugh L. Carey Tunnel",
@@ -234,78 +252,82 @@
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 340,
-    "curb": 700,
-    "median": 58,
+    "crosswalk": 326,
+    "curb": 670,
+    "median": 54,
     "parking_lot": 2,
     "plaza": 42,
-    "roadbed": 266,
-    "sidewalk": 144
+    "roadbed": 250,
+    "sidewalk": 140
    },
-   "placed": 1552,
+   "placed": 1484,
    "radius_m": 500.0,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_0",
-    "t_-5_1",
     "t_-6_0",
     "t_-6_1"
    ],
-   "triangles": 128760,
-   "vertices": 131620
+   "triangles": 125642,
+   "vertices": 128370
   },
   "props": {
    "capped": null,
+   "impostor_cards_dropped": 8,
    "leaf_off": true,
    "per_kind": {
-    "bench": 107,
-    "bike_rack": 30,
-    "bus_stop_sign": 25,
+    "bench": 109,
+    "bike_rack": 29,
+    "bus_stop_sign": 26,
     "citibike_dock": 2,
     "flagpole": 3,
-    "hydrant": 71,
+    "hydrant": 70,
     "mailbox": 3,
-    "manhole": 118,
+    "manhole": 127,
     "newsstand": 5,
-    "steam_vent": 2,
-    "street_lamp": 142,
+    "steam_vent": 4,
+    "street_lamp": 159,
     "subway_entrance": 33,
-    "subway_vent_grate": 71,
-    "tree": 38,
-    "waste_basket": 28
+    "subway_vent_grate": 69,
+    "tree": 57,
+    "waste_basket": 31
    },
-   "placed": 678,
+   "placed": 727,
    "radius_m": 250.0,
-   "rows_in_range": 875,
+   "rows_in_range": 928,
    "tiles_missing": [],
    "tiles_read": [
     "t_-6_0"
    ],
-   "tree_species_substituted": 0,
-   "triangles": 1097040,
+   "tree_species_substituted": 6,
+   "triangles": 1217356,
    "unmapped_kinds": {
     "artwork": 7,
-    "cooling_tower": 74,
-    "curb_ramp": 107,
-    "drinking_fountain": 3,
-    "memorial": 4,
-    "misc_structure": 1,
+    "cooling_tower": 70,
+    "curb_ramp": 112,
+    "drinking_fountain": 4,
+    "memorial": 5,
+    "misc_structure": 2,
     "parks_building": 1
    }
   },
   "radius_m": 500.0,
-  "seconds": 44.36,
+  "seconds": 42.91,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 3.333,
-   "triangles": 180000,
-   "water_quads": 9258,
-   "z_max_m": 12.91,
-   "z_min_m": -4.81
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 199,
+   "spacing_m": 2.0,
+   "triangles": 78408,
+   "water_quads": 1037,
+   "z_max_m": 11.84,
+   "z_min_m": -4.75
   },
-  "triangles": 4500033
+  "triangles": 4500228
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -313,19 +335,19 @@
   "radius_m": 500.0
  },
  "seconds": {
-  "render": 152.3,
-  "scene": 45.4,
-  "total": 197.7
+  "render": 119.2,
+  "scene": 45.5,
+  "total": 164.8
  },
  "slug": "landmark_charging_bull",
  "status": "rendered",
  "subject": {
-  "distance_m": 41.9,
+  "distance_m": 33.8,
   "name": "Charging Bull"
  },
  "sun": {
-  "azimuth_deg": 139.40138255153897,
-  "elevation_deg": 23.034083807445413,
+  "azimuth_deg": 139.40110933680785,
+  "elevation_deg": 23.033930094872876,
   "local": "2020-02-05T09:35:51-05:00",
   "time_source": "EXIF DateTimeOriginal",
   "utc": "2020-02-05T14:35:51Z"

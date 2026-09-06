@@ -104,9 +104,9 @@ def build_body(spec: mh_build.HumanSpec, outfit: tuple[str, ...], *, watch: bool
     wardrobe.reweight_from_body(built, outfit, name_prefix=prefix)
     if outfit:
         wardrobe.dress(built, outfit, name_prefix=prefix)
-    wardrobe.hide_covered_garments(built, outfit, name_prefix=prefix)
+    hidden = wardrobe.hide_covered_garments(built, outfit, name_prefix=prefix)
     wardrobe.resolve_layers(built, outfit, name_prefix=prefix)
-    bad = wardrobe.verify_outfit(built, outfit, name_prefix=prefix)
+    bad = wardrobe.verify_outfit(built, outfit, name_prefix=prefix, dropped=tuple(hidden))
     if bad:
         raise RuntimeError(f"garment verification failed: {bad}")
     if watch:
@@ -131,7 +131,12 @@ def build_clips(built: mh_build.BuiltHuman) -> tuple[list[anim_lib.Clip], dict]:
     bad = rig.check_inheritance()
     if bad:
         raise RuntimeError(f"bones with non-standard inheritance would break the pose solver: {bad}")
-    body = anim_procedural.BodyRef(rig)
+    # the trousers go with the body reference: the standing pose has to clear the *clothed* hip, not
+    # the skin of the thigh (anim_procedural.relaxed_arms)
+    bottoms = [o for name, o in built.clothes.items()
+               if (wardrobe.WARDROBE_BY_ID.get(name.split(".")[-1]) or
+                   wardrobe.Garment("", "", "")).slot == "bottom"]
+    body = anim_procedural.BodyRef(rig, bottom_meshes=bottoms)
     forward_yaw = math.degrees(math.atan2(body.forward.y, body.forward.x))
     log.info("character forward is %s (yaw %.1f deg), leg %.3f m, arm %.3f m",
              [round(v, 3) for v in body.forward], forward_yaw, body.leg_length, body.arm_length)

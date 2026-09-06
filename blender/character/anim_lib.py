@@ -164,75 +164,37 @@ def set_active_clip(armature: bpy.types.Object, action: bpy.types.Action | None)
 
 # ------------------------------------------------------------------------------------------------ export
 def export_character(path: str | Path, objects: Sequence[bpy.types.Object], extras: dict) -> Path:
-    """Export a rigged, animated, morph-target character to .glb with the NYCSim asset extras."""
+    """Export a rigged, animated, morph-target character to .glb with the NYCSim asset extras.
+
+    The export goes through the foundation exporter, :func:`nycsim_bpy.export_glb`, which stamps the
+    ``asset.extras.nycsim`` block DATA_CONTRACTS section 13 requires.  What a character needs beyond a
+    building's export - one glTF animation per NLA clip, a rest-position armature, unsampled F-curves and a
+    hard four-influence cap - goes through that function's ``operator_kwargs`` passthrough rather than
+    through a second copy of the operator call here.
+
+    The scene frame rate is set first and stays this lane's own business: the exporter converts a key's
+    frame number to seconds with it, so a scene left on Blender's 24 fps default ships 30 fps clips 25 %
+    slow.
+    """
     path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    scene = bpy.context.scene
-    set_scene_fps(scene)
+    set_scene_fps(bpy.context.scene)
     meta = {"schema_version": nb.SCHEMA_VERSION,
             "generator_script": os.path.basename(sys.argv[0]) if sys.argv else "",
             "git_commit": nb.git_commit(),
             "exported_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "units": "metres", "up_axis_blender": "Z"}
     meta.update(extras)
-    scene["nycsim"] = json.dumps(meta)
-    for ob in bpy.data.objects:
-        ob.select_set(False)
-    for ob in objects:
-        ob.select_set(True)
-    bpy.context.view_layer.objects.active = objects[0]
-    # `nycsim_bpy.export_glb` is the foundation exporter and is used everywhere else in this repo, but it
-    # ties skins, morph targets and animations to one `export_animations` flag and cannot express what a
-    # character needs: one glTF animation per NLA clip (`export_animation_mode="ACTIONS"` +
-    # `export_nla_strips`), a rest-position armature, unsampled F-curves, and a hard four-influence cap.
-    # So the operator is called directly here, and `patch_asset_extras` below writes the same
-    # `asset.extras.nycsim` block DATA_CONTRACTS section 13 requires and `nycsim_bpy` stamps.
-    # Requested foundation change: let `export_glb` pass extra keyword arguments through to the operator.
-    bpy.ops.export_scene.gltf(
-        filepath=str(path), export_format="GLB", use_selection=True, export_yup=True,
-        export_apply=False, export_texcoords=True, export_normals=True, export_tangents=False,
-        export_attributes=False,
-        export_materials="EXPORT", export_image_format="AUTO",
-        export_animations=True, export_animation_mode="ACTIONS", export_nla_strips=True,
-        export_frame_range=False, export_force_sampling=False, export_bake_animation=False,
-        export_optimize_animation_size=False, export_anim_single_armature=True,
-        export_skins=True, export_morph=True, export_morph_normal=False,
-        export_def_bones=False, export_rest_position_armature=True, export_extras=True,
-        export_all_influences=False)
+    nb.export_glb(path, objects=list(objects), active=objects[0], extras=meta,
+                  apply_modifiers=False, export_animations=True,
+                  operator_kwargs=dict(export_animation_mode="ACTIONS", export_nla_strips=True,
+                                       export_rest_position_armature=True, export_force_sampling=False,
+                                       export_bake_animation=False, export_optimize_animation_size=False,
+                                       export_anim_single_armature=True, export_morph_normal=False,
+                                       export_def_bones=False, export_all_influences=False,
+                                       export_frame_range=False))
     if not path.exists() or path.stat().st_size < 1024:
         raise RuntimeError(f"glTF export failed or produced an empty file: {path}")
-    patch_asset_extras(path, {"nycsim": meta})
     return path
-
-
-def patch_asset_extras(path: Path, extras: dict) -> None:
-    """Write ``extras`` into the glb's ``asset.extras`` (DATA_CONTRACTS §13).
-
-    Blender's exporter can only put custom properties on scene and object nodes, so the JSON chunk is
-    rewritten in place: the chunk keeps its 4-byte alignment by padding with spaces, and the file's total
-    length field is corrected.
-    """
-    import struct  # noqa: PLC0415
-
-    with open(path, "rb") as fh:
-        blob = fh.read()
-    magic, version, _length = struct.unpack_from("<III", blob, 0)
-    if magic != 0x46546C67:
-        raise ValueError(f"{path} is not a .glb")
-    json_len, json_type = struct.unpack_from("<II", blob, 12)
-    if json_type != 0x4E4F534A:
-        raise ValueError(f"{path}: first chunk is not JSON")
-    doc = json.loads(blob[20:20 + json_len].decode("utf-8"))
-    doc.setdefault("asset", {}).setdefault("extras", {}).update(extras)
-    rest = blob[20 + json_len:]
-    new_json = json.dumps(doc, separators=(",", ":")).encode("utf-8")
-    new_json += b" " * ((4 - len(new_json) % 4) % 4)
-    total = 12 + 8 + len(new_json) + len(rest)
-    with open(path, "wb") as fh:
-        fh.write(struct.pack("<III", magic, version, total))
-        fh.write(struct.pack("<II", len(new_json), json_type))
-        fh.write(new_json)
-        fh.write(rest)
 
 
 def glb_summary(path: str | Path) -> dict:

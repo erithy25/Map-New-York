@@ -157,9 +157,9 @@ def build_npc(appearance: variety.PedAppearance, vector: tuple[float, ...], inde
     rig_ue5.convert_to_ue5(built.armature, built.meshes())
     wardrobe.reweight_from_body(built, outfit, name_prefix=prefix)
     wardrobe.dress(built, outfit, name_prefix=prefix, colours=colours)
-    wardrobe.hide_covered_garments(built, outfit, name_prefix=prefix)
+    hidden = wardrobe.hide_covered_garments(built, outfit, name_prefix=prefix)
     wardrobe.resolve_layers(built, outfit, name_prefix=prefix)
-    bad = wardrobe.verify_outfit(built, outfit, name_prefix=prefix)
+    bad = wardrobe.verify_outfit(built, outfit, name_prefix=prefix, dropped=tuple(hidden))
     if bad:
         raise RuntimeError(f"{name}: garment verification failed: {bad}")
 

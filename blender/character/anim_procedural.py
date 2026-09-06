@@ -44,6 +44,12 @@ class BodyRef:
     rig: Rig
     forward: Vector = field(default_factory=lambda: Vector((0.0, -1.0, 0.0)))
     right: Vector = field(default_factory=lambda: Vector((1.0, 0.0, 0.0)))
+    #: The character's *bottom* garments, if the caller has them.  Used to measure where the clothed hip
+    #: actually is, which is not where the skin is: a fitted trouser stands 6-20 mm off the hip and is cut
+    #: wider than it.  Only bottoms, deliberately: the body mesh carries the arms, and in MakeHuman's rest
+    #: pose they are straight out to the side, so measuring the *body* over the hand's height band returns
+    #: the half-span of the arms (0.57 m) instead of the width of the hip.
+    bottom_meshes: list = field(default_factory=list)
 
     def __post_init__(self) -> None:
         # The toe bones splay outwards symmetrically, so the body's forward axis is their *mean*: using
@@ -62,6 +68,24 @@ class BodyRef:
 
     def head_of(self, bone: str) -> Vector:
         return self.rig.rest[bone].translation.copy()
+
+    def dressed_hip_half_width(self, z_lo: float, z_hi: float, *, default: float = 0.0) -> float:
+        """Half-width of the clothed hip along ``right`` over a height band, in armature space.
+
+        Returns ``default`` when no bottom garment was attached.  Vertices are read at rest, which is where
+        the garment was fitted and where the standing pose's IK targets are expressed.
+        """
+        widest = default
+        for obj in self.bottom_meshes:
+            data = getattr(obj, "data", None)
+            if data is None or not hasattr(data, "vertices"):
+                continue
+            matrix = obj.matrix_world
+            for vert in data.vertices:
+                world = matrix @ vert.co
+                if z_lo <= world.z <= z_hi:
+                    widest = max(widest, abs(world.dot(self.right)))
+        return widest
 
     @property
     def arm_length(self) -> float:
@@ -301,14 +325,38 @@ def planted_feet(body: BodyRef, *, stance: float = 0.0, toe_out_deg: float = 7.0
     return out
 
 
+#: Clearance between the knuckles and the clothed hip, in metres.  A hand at rest is a few centimetres off
+#: the trousers, not touching them.
+HAND_CLEARANCE = 0.028
+#: Half-thickness of the hand across the knuckles, so the *palm* is placed with the whole hand in mind.
+HAND_HALF_WIDTH = 0.026
+
+
 def relaxed_arms(body: BodyRef) -> dict[str, dict]:
-    """Arms hanging naturally at the sides, used when a clip does not otherwise place them."""
+    """Arms hanging naturally at the sides, used when a clip does not otherwise place them.
+
+    The lateral position is **measured against the dressed silhouette**, not offset from the shoulder by a
+    constant.  A fixed 16 mm outboard offset clears the *skin* of the thigh and still buries the fingertips
+    inside the trousers, because a fitted trouser stands 6-20 mm off the hip and is cut wider than it - which
+    is what put black claw-shaped streaks across most of the first NPC line-up.  Here the widest point of
+    every mesh on the character is taken over the height band the hand hangs in, and the hand is placed
+    outside that by its own half-width plus :data:`HAND_CLEARANCE`.  A character with no clothes attached
+    falls back to the hip joint plus the same clearance, so the function still works on a bare body.
+    """
     out = {}
     for side in ("l", "r"):
         sign = 1.0 if side == "l" else -1.0
-        # outboard of the thigh, not across it: a hand hung inboard penetrates the trouser leg
-        target = (body.shoulder(side) - UP * (body.arm_length * 0.92)
-                  - body.right * (0.016 * sign) + body.forward * 0.055)
+        shoulder = body.shoulder(side)
+        drop = body.arm_length * 0.92
+        hand_z = shoulder.z - drop
+        # the band the hand and the fingers occupy, generously: knuckles to fingertips
+        fallback = abs(body.head_of(f"thigh_{side}").dot(body.right)) + 0.075
+        widest = body.dressed_hip_half_width(hand_z - 0.11, hand_z + 0.06, default=fallback)
+        lateral = widest + HAND_HALF_WIDTH + HAND_CLEARANCE
+        fore_aft = body.forward * shoulder.dot(body.forward)
+        target = (Vector((0.0, 0.0, hand_z)) + fore_aft
+                  - body.right * (lateral * sign)
+                  + body.forward * 0.055)
         out[f"hand_{side}"] = hand_ik(body, side, target,
                                       finger_dir=(-UP * 0.94 + body.forward * 0.34).normalized(),
                                       back_dir=(body.right * -sign))
