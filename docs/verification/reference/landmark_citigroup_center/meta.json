@@ -1,0 +1,40 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_citigroup_center",
+ "name": "Citigroup Center (601 Lexington Avenue)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.756921,
+  "lon": -73.97109,
+  "azimuth_deg": 20.0,
+  "note": "Lexington Avenue at East 52nd Street, about 200 m south-south-west of the tower, looking north-north-east at the angled crown of Citigroup Center",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.758611,
+  "lon": -73.970278,
+  "name": "Citigroup Center (601 Lexington Avenue)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Citigroup Center\" New York angled roof",
+  "\"601 Lexington Avenue\" tower Citicorp"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T14:02:04Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 30,
+ "candidates_eligible": 0,
+ "rejections": {
+  "indoor": 3,
+  "keywords": 26,
+  "not_jpeg": 1
+ },
+ "exhausted": true,
+ "status": "no_suitable_photo",
+ "photos": []
+}

@@ -20,13 +20,82 @@
   "Midtown Manhattan street traffic taxis pedestrians avenue"
  ],
  "geosearch_radius_m": 0,
- "fetched_at": "2026-09-06T13:54:02Z",
+ "fetched_at": "2026-09-06T14:02:10Z",
  "max_width": 1920,
  "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
  "candidates_seen": 1,
  "candidates_eligible": 1,
  "rejections": {},
  "exhausted": true,
- "status": "no_suitable_photo",
- "photos": []
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:25th St 3rd Av 01 - Fitzgerald's Pub.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:25th_St_3rd_Av_01_-_Fitzgerald%27s_Pub.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/df/25th_St_3rd_Av_01_-_Fitzgerald%27s_Pub.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/25th_St_3rd_Av_01_-_Fitzgerald%27s_Pub.jpg/1920px-25th_St_3rd_Av_01_-_Fitzgerald%27s_Pub.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.74012,
+    "lon": -73.982038
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 703094,
+   "sha256": "de420b947a28b18883fd96ea6c9bb3766a00b55217e82102f666b38d0a538bae",
+   "mean_luminance": 121.7,
+   "description": "Looking southwest at Fitzgerald's Pub and Dog & Bone restaurant within 336 3rd Avenue (foreground), and Baruch College (background) at 3rd Avenue and East 25th Street in Kips Bay / Rose Hill, Manhattan. A UPS truck is (intentionally?) blocking entrance into the 25th Street Pedestrian Plaza that runs through the Baruch College campus.",
+   "categories": [
+    "Built in New York City in 1910",
+    "Taken with Sony DSC-RX100",
+    "Kips Bay, Manhattan",
+    "Rose Hill, Manhattan",
+    "25th Street (Manhattan)",
+    "3rd Avenue (Manhattan)",
+    "Pubs in New York (state)",
+    "Self-published work",
+    "Traffic signals in Manhattan, New York City",
+    "Nissan NV200 taxis in New York City",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2018-03-15",
+    "Bars in Manhattan, New York City",
+    "2018 Manhattan photographs by Tdorante10",
+    "Trucks in Manhattan, New York City",
+    "March 2018 in Manhattan, New York City",
+    "Brick buildings in Manhattan",
+    "Intersections in Manhattan, New York City",
+    "UPS vans",
+    "Restaurants in Midtown Manhattan",
+    "Corner buildings in Manhattan, New York City",
+    "Academic Center, Baruch College",
+    "Photographs by Tdorante10 taken on 2018-03-15"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:Midtown Manhattan street traffic taxis pedestrians avenue",
+   "score": 9.45,
+   "estimated_viewpoint": {
+    "lat": 40.74012,
+    "lon": -73.982038,
+    "azimuth_deg": 209.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.74012, -73.98204), 1981 m from the reference position (Seventh Avenue at West 44th Street, roadway centre, looking downtown (representative avenue)); this item is a view along a street rather than at a point subject, so the azimuth 209 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"25th St 3rd Av 01 - Fitzgerald's Pub.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:25th_St_3rd_Av_01_-_Fitzgerald%27s_Pub.jpg"
+  }
+ ]
 }

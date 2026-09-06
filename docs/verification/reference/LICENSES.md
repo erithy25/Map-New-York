@@ -299,7 +299,10 @@ Every photograph under `docs/verification/reference/` is from Wikimedia Commons 
 
 ## landmark_central_park_sheep_meadow — Central Park: Sheep Meadow with the Midtown skyline
 
-_No suitably licensed photograph found._
+| file | title | author | licence | date taken | camera GPS |
+|---|---|---|---|---|---|
+| [1.jpg](landmark_central_park_sheep_meadow/1.jpg) | [View from Central Park, New York City, 20231002 1803 1847.jpg](https://commons.wikimedia.org/wiki/File:View_from_Central_Park,_New_York_City,_20231002_1803_1847.jpg) | Jakub Hałun | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | 2023-10-02 18:03:28 | 40.77339, -73.97559 |
+| [2.jpg](landmark_central_park_sheep_meadow/2.jpg) | [View from Central Park, New York City, 20231002 1803 1850.jpg](https://commons.wikimedia.org/wiki/File:View_from_Central_Park,_New_York_City,_20231002_1803_1850.jpg) | Jakub Hałun | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | 2023-10-02 18:03:53 | 40.77326, -73.97542 |
 
 ## landmark_metropolitan_museum — Metropolitan Museum of Art
 
@@ -825,7 +828,10 @@ _No suitably licensed photograph found._
 
 ## landmark_35_hudson_yards — 35 Hudson Yards
 
-_No suitably licensed photograph found._
+| file | title | author | licence | date taken | camera GPS |
+|---|---|---|---|---|---|
+| [1.jpg](landmark_35_hudson_yards/1.jpg) | [35 Hudson Yards 04-2021.jpg](https://commons.wikimedia.org/wiki/File:35_Hudson_Yards_04-2021.jpg) | Percival Kestreltail | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | 2021 | 40.75488, -74.00084 |
+| [2.jpg](landmark_35_hudson_yards/2.jpg) | [Pier 66 and Hudson Yards (01473)p.jpg](https://commons.wikimedia.org/wiki/File:Pier_66_and_Hudson_Yards_(01473)p.jpg) | Rhododendrites | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2019-08-10 15:28:39 | 40.75122, -74.01035 |
 
 ## landmark_10_hudson_yards — 10 Hudson Yards
 
@@ -837,7 +843,9 @@ _No suitably licensed photograph found._
 
 ## landmark_55_hudson_yards — 55 Hudson Yards
 
-_No suitably licensed photograph found._
+| file | title | author | licence | date taken | camera GPS |
+|---|---|---|---|---|---|
+| [1.jpg](landmark_55_hudson_yards/1.jpg) | [10 mile panorama of NYC, Feb., 2018.jpg](https://commons.wikimedia.org/wiki/File:10_mile_panorama_of_NYC,_Feb.,_2018.jpg) | DigbyDalton | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2018-02-21 15:08:32 | 40.77170, -74.01578 |
 
 ## landmark_15_hudson_yards — 15 Hudson Yards
 
@@ -1248,7 +1256,9 @@ _No suitably licensed photograph found._
 
 ## street_midtown_avenue_rush_hour — Midtown avenue at rush hour
 
-_No suitably licensed photograph found._
+| file | title | author | licence | date taken | camera GPS |
+|---|---|---|---|---|---|
+| [1.jpg](street_midtown_avenue_rush_hour/1.jpg) | [25th St 3rd Av 01 - Fitzgerald's Pub.jpg](https://commons.wikimedia.org/wiki/File:25th_St_3rd_Av_01_-_Fitzgerald%27s_Pub.jpg) | Tdorante10 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2018 | 40.74012, -73.98204 |
 
 ## street_times_square_wet_night — Times Square on a wet night
 

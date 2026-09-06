@@ -67,12 +67,14 @@ def build():
     for q, t, n, s in C.ring_stations(aring, 14.0):                # attic pedestals between the balustrade runs
         b.box((float(q[0]), float(q[1]), ATTIC_M + 1.1), (2.2, 1.4, 2.2), marble,
               rot_deg=math.degrees(math.atan2(t[1], t[0])))
-    # the copper roof over the reading room, the tallest element of the building
-    inner = C.offset_polygon(P, -14.0)
-    if inner.geom_type != "Polygon":
-        inner = max(inner.geoms, key=lambda g: g.area)
-    b.prism(C.ring_coords(inner), ATTIC_M, ROOF_M - 1.6, marble, cap_top=False)
-    C.hip_roof(b, C.ring_coords(inner), ROOF_M - 1.6, 1.6, cop, inset=6.0)
+    # flat roof deck over the wings, and the copper roof only over the Rose Main Reading Room (78 x 24 m, top floor)
+    b.prism(C.ring_coords(C.offset_polygon(P, -1.6)), ATTIC_M - 0.4, ATTIC_M, C.M.roof_grey, cap_bottom=False)
+    inner = C.offset_polygon(P, -28.0)
+    if inner.geom_type != "Polygon" or inner.is_empty:
+        inner = C.offset_polygon(P, -20.0)
+        inner = inner if inner.geom_type == "Polygon" else max(inner.geoms, key=lambda g: g.area)
+    b.prism(C.ring_coords(inner), ATTIC_M, ROOF_M - 2.6, marble, cap_top=False)
+    C.hip_roof(b, C.ring_coords(inner), ROOF_M - 2.6, 2.6, cop, inset=7.0)
     objs.append(b.build(f"{ID}_attic_detail"))
 
     # ---- the Fifth Avenue front: terrace, steps, portico, lions and fountains -----------------------------------

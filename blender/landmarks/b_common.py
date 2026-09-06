@@ -866,6 +866,7 @@ def finish(objects: Sequence[bpy.types.Object], landmark_id: str, bins: Sequence
 def render_check(landmark_id: str, view: str, camera_location, camera_target, *, fov_deg: float = 50.0,
                  size=(960, 540), samples: int = 64, sun_azimuth_deg: float = 220.0, sun_elevation_deg: float = 35.0,
                  sun_strength: float = 5.0, sky_strength: float = 0.22, exposure: float = -2.4,
+                 view_transform: str = "AgX", look: str = "AgX - Medium High Contrast",
                  max_bounces: int = 4, context_planes: Sequence[Sequence] = (), **_ignored) -> Path:
     """Cycles CPU verification render into ``docs/verification/landmarks/<id>/<view>.png``.
 
@@ -921,8 +922,12 @@ def render_check(landmark_id: str, view: str, camera_location, camera_target, *,
         nt.links.new(skytex.outputs["Color"], bg.inputs["Color"])
         bg.inputs["Strength"].default_value = sky_strength
 
-        sc.view_settings.view_transform = "AgX"
-        sc.view_settings.look = "None"
+        sc.view_settings.view_transform = view_transform
+        try:
+            sc.view_settings.look = look
+        except TypeError:              # the look list depends on the OCIO config; fall back to no look
+            log.warning("view look %r not available; using None", look)
+            sc.view_settings.look = "None"
         sc.view_settings.exposure = exposure
         sc.render.engine = "CYCLES"
         sc.cycles.device = "CPU"
