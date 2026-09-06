@@ -7,13 +7,13 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 18.0,
   "ground_detail": {
-   "chosen_m": 14.18,
-   "max_m": 15.01,
-   "median_m": 14.45,
-   "min_m": 14.03,
+   "chosen_m": 14.92,
+   "max_m": 15.58,
+   "median_m": 15.28,
+   "min_m": 14.74,
    "mode": "street",
    "percentile": 10.0,
-   "point_m": 14.47,
+   "point_m": 15.24,
    "radius_m": 12.0,
    "samples": 113
   },
@@ -31,12 +31,12 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_chrysler_building",
-  "terrain_z_m": 14.176,
-  "x": -2254.876,
-  "y": 5552.773,
-  "z": 15.776
+  "terrain_z_m": 14.923,
+  "x": -2274.29,
+  "y": 5563.709,
+  "z": 16.523
  },
- "camera_caption": "camera 40.75000, -73.97670 (NYC_TM -2255, 5553) z 15.8 m NAVD88 | azimuth 29.6deg pitch +0.0deg | 18 mm on 36 mm (90.0deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.75000, -73.97670 (NYC_TM -2274, 5564) z 16.5 m NAVD88 | azimuth 29.6deg pitch +0.0deg | 18 mm on 36 mm (90.0deg horizontal) | 1208x906",
  "camera_origin": {
   "from_photograph_gps": false,
   "lat": 40.75,
@@ -46,18 +46,20 @@
   "source": "the item's recorded viewpoint.  This photograph's own EXIF GPS is 137 m away, but the eye point there is inside t_-3_5_roof_membrane (a ray straight up from the eye point hits its roof), while the recorded viewpoint is in open air"
  },
  "clearance": {
+  "direction": "onto the nearest roadbed",
   "min_view_m": 36.0,
-  "moved": false,
-  "nearest_obstruction": "prop_tree_callery_pear_small_145",
-  "nearest_obstruction_m": 10.1,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_tree_callery_pear_small_145 10.1 m away, and the view azimuth is clear for 13 m",
-  "offset_m": 0.0,
-  "view_m": 13.4
+  "moved": true,
+  "nearest_obstruction_m": 18.9,
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 13 m ahead, less than the 36 m this frame needs to show its subject; the camera was moved 21 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there",
+  "offset_m": 20.9,
+  "reason": "boxed in: the view azimuth is closed off 13 m ahead, less than the 36 m this frame needs to show its subject",
+  "rule": "pavement snap with a clear view",
+  "view_m": 60.0
  },
  "frame": {
-  "mean": 0.0959,
+  "mean": 0.2224,
   "reason": null,
-  "sd": 0.0471,
+  "sd": 0.1173,
   "usable": true
  },
  "frame_retry": null,
@@ -97,7 +99,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_chrysler_building/render.png",
- "rendered_at": "2026-09-06T22:05:09Z",
+ "rendered_at": "2026-09-06T22:11:39Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
@@ -296,7 +298,7 @@
    }
   },
   "radius_m": 515.3261545006338,
-  "seconds": 74.53,
+  "seconds": 62.71,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -319,9 +321,9 @@
   "radius_m": 515.3261545006338
  },
  "seconds": {
-  "render": 137.9,
-  "scene": 77.8,
-  "total": 215.7
+  "render": 183.4,
+  "scene": 71.4,
+  "total": 254.7
  },
  "slug": "landmark_chrysler_building",
  "status": "rendered",
