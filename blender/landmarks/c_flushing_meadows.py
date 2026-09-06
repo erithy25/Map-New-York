@@ -140,7 +140,7 @@ def main():
                                   "tower_platform_d_m": [d for _, d in TOWERS],
                                   "theaterama_m": [THEATERAMA_D, THEATERAMA_H], "queens_museum_m": MUSEUM_H})
     cc.render(ID, [
-        {"view": "grand_central_parkway", "azimuth_deg": 200, "elevation_deg": "street", "distance": 300, "fov_deg": 55, "look_up_deg": 14},
+        {"view": "grand_central_parkway", "azimuth_deg": 200, "elevation_deg": "street", "fov_deg": 50, "look_up_deg": 10},
         {"view": "aerial", "azimuth_deg": 230, "elevation_deg": 28},
     ])
     return entry

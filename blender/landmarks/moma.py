@@ -138,7 +138,7 @@ def main():
                          "garden_m": [GARDEN_W, GARDEN_D], "reflecting_pools": 2, "gallery_band_pitch_m": 5.0,
                          "campus_m": [139.6, 61.5]})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 180, "elevation_deg": "street", "distance": 105, "target_z": 32, "fov_deg": 64},
+        {"view": "street", "azimuth_deg": 180, "elevation_deg": "street", "distance": 128, "target_z": 38, "fov_deg": 64},
         {"view": "aerial", "azimuth_deg": 350, "elevation_deg": 28, "distance": 260, "fov_deg": 48, "target_z": 30},
     ])
 

@@ -201,7 +201,7 @@ def main():
                          "needle_m": round(TIP_M - CROWN_TOP_M, 1), "storeys": 77},
              tri_budget=C.TRI_BUDGET_LOD0_LARGE)
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 200, "elevation_deg": "street", "distance": 480, "target_z": 134, "fov_deg": 60},
+        {"view": "street", "azimuth_deg": 200, "elevation_deg": "street", "distance": 545, "target_z": 160, "fov_deg": 60},
         {"view": "aerial", "azimuth_deg": 225, "elevation_deg": 22, "distance": 900, "fov_deg": 40, "target_z": 165},
         {"view": "crown", "azimuth_deg": 210, "elevation_deg": 12, "distance": 620, "fov_deg": 16, "target_z": 275},
     ])

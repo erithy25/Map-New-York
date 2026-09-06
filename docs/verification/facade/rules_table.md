@@ -38,9 +38,9 @@ Columns: `#` order, `rule` stable rule name, `class` the `facade_class` written 
 | 29 | `civic_postwar` | 40 | `school_brick_1960` | class in N,P,J,Y,Z (except Y1) | 2,245 | 0.207 % |
 | 30 | `self_storage` | 46 | `self_storage_metal_panel_2000` | class == E7 or (class in E* and year >= 1990) | 1,531 | 0.141 % |
 | 31 | `daylight_factory` | 45 | `daylight_factory_concrete_1920` | class in F*,L1,L2,L3 and year 1900..1935 and floors >= 4 | 137 | 0.013 % |
-| 32 | `industrial_loft_brick` | 21 | `industrial_loft_brick_1910` | class in L*,F*,RM,RW,O5 and year <= 1930 and floors >= 4 | 999 | 0.092 % |
+| 32 | `industrial_loft_brick` | 21 | `industrial_loft_brick_1910` | class in L*,F*,RW and year <= 1930 and floors >= 4 | 4 | 0.000 % |
 | 33 | `warehouse_low` | 22 | `warehouse_concrete_1950` | class in E*,F*,L*,RW and floors <= 3 | 9,132 | 0.843 % |
-| 34 | `loft_converted` | 21 | `industrial_loft_brick_1910` | class in L*,F*,E*,RW,RM | 3,903 | 0.360 % |
+| 34 | `loft_converted` | 21 | `industrial_loft_brick_1910` | class in L*,F*,E*,RW | 181 | 0.017 % |
 | 35 | `big_box_retail` | 47 | `big_box_retail_precast_1990` | class in K3,K5,K6,K8 or (class in K* and footprint_area >= 1800 and floors <= 2 and year >= 1975) | 1,169 | 0.108 % |
 | 36 | `limestone_bank` | 24 | `limestone_bank_1915` | class in K4,O7,O9,K1 and year 1900..1940 and floors <= 6 and footprint_area >= 200 | 4,924 | 0.455 % |
 | 37 | `taxpayer_corner` | 37 | `bodega_corner_taxpayer_1_2fl` | class in K1,K2,K9,S1,S9,RS and floors <= 2 | 14,592 | 1.347 % |
@@ -58,10 +58,10 @@ Columns: `#` order, `rule` stable rule name, `class` the `facade_class` written 
 | 49 | `office_brown_brick_1985` | 54 | `brown_brick_office_1985_midrise` | class in O*,RB and year 1969..1999 | 825 | 0.076 % |
 | 50 | `office_lowrise_prewar` | 26 | `masonry_office_1920_setback` | class in O*,RB and year <= 1945 | 3,498 | 0.323 % |
 | 51 | `office_generic` | 54 | `brown_brick_office_1985_midrise` | class in O*,RB | 1,589 | 0.147 % |
-| 52 | `supertall_residential` | 18 | `supertall_glass_2015` | class in D*,R4,RR and floors >= 50 and year >= 2005 | 20 | 0.002 % |
-| 53 | `nycha_campus_tower` | 13 | `nycha_tower_brick_1960` | floors >= 6 and year 1935..1975 and n_bldgs_on_lot >= 3 and footprint_area >= 400 and class in C/D/R/S | 2,521 | 0.233 % |
-| 54 | `condo_midrise_2010` | 50 | `condo_midrise_2010_glass_brick` | class in D*,R4,RR,RM and year >= 2000 and floors 6..24 | 2,824 | 0.261 % |
-| 55 | `condo_tower_2010` | 17 | `glass_curtain_office_2010` | class in D*,R4,RR and year >= 2000 and floors >= 25 | 116 | 0.011 % |
+| 52 | `supertall_residential` | 18 | `supertall_glass_2015` | class in D*,R4,RR,RM and floors >= 50 and year >= 2005 | 61 | 0.006 % |
+| 53 | `nycha_campus_tower` | 13 | `nycha_tower_brick_1960` | floors >= 6 and year 1935..1975 and n_bldgs_on_lot >= 3 and footprint_area >= 400 and class in C/D/R/S | 2,601 | 0.240 % |
+| 54 | `condo_midrise_2010` | 50 | `condo_midrise_2010_glass_brick` | class in D*,R4,RR,RM and year >= 2000 and floors 6..24 | 4,370 | 0.403 % |
+| 55 | `condo_tower_2010` | 50 | `condo_midrise_2010_glass_brick` | class in D*,R4,RR,RM,RX and year >= 2000 and floors 25..49 | 278 | 0.026 % |
 | 56 | `brown_brick_condo_1985` | 15 | `brown_brick_condo_1985_25fl` | class in D*,R4,RR and year 1976..1999 and floors >= 10 | 257 | 0.024 % |
 | 57 | `mitchell_lama_slab` | 14 | `mitchell_lama_slab_1970_concrete` | class in D*,R4 and year 1962..1980 and floors >= 14 | 521 | 0.048 % |
 | 58 | `postwar_white_brick` | 11 | `postwar_white_brick_1960_20fl` | class in D*,R4 and year 1955..1975 and floors >= 11 and borough == MN | 225 | 0.021 % |
@@ -74,10 +74,10 @@ Columns: `#` order, `rule` stable rule name, `class` the `facade_class` written 
 | 65 | `old_law_tenement_era` | 1 | `tenement_1880_brick_5fl_fire_escape` | class in C1,C2,C7,S3,S4,S5,C0 and year 1879..1901 and floors 4..7 and borough in MN,BX,BK,QN | 3,822 | 0.353 % |
 | 66 | `new_law_tenement` | 2 | `tenement_1905_new_law_6fl` | class in C1,C2,C7,C5,S5,S4,D1 and year 1902..1929 and floors 4..8 | 13,195 | 1.218 % |
 | 67 | `bushwick_frame_3fl` | 32 | `bushwick_frame_3fl_1900` | class in C0,C2,C3,S3,B* and year 1885..1925 and floors == 3 and borough in BK,QN and (frame belt NTA or class B2) | 16,414 | 1.516 % |
-| 68 | `fedders_special` | 33 | `fedders_special_2005` | class in C0,C1,C2,C3,B2,D1,RM and year >= 1998 and floors 3..6 | 18,540 | 1.712 % |
+| 68 | `fedders_special` | 33 | `fedders_special_2005` | class in C0,C1,C2,C3,B2,D1,RM and year >= 1998 and floors 3..6 | 19,306 | 1.783 % |
 | 69 | `townhouse_modern` | 49 | `townhouse_modern_2015_glass_metal` | class in C0,C1,C7,D0,D1,RM,R* and year >= 2005 and floors 3..8 | 206 | 0.019 % |
 | 70 | `walkup_prewar_tenement` | 2 | `tenement_1905_new_law_6fl` | class in C* and year <= 1945 and floors 4..7 | 4,376 | 0.404 % |
-| 71 | `walkup_postwar` | 12 | `postwar_red_brick_1950_6fl_elevator` | class in C*,S* and floors 4..7 | 4,177 | 0.386 % |
+| 71 | `walkup_postwar` | 12 | `postwar_red_brick_1950_6fl_elevator` | class in C*,S* and floors 4..7 | 5,111 | 0.472 % |
 | 72 | `federal_rowhouse` | 6 | `federal_rowhouse_1830_3fl_dormer` | class in A4,B1,C0,S2 and year <= 1840 and floors <= 3 | 47 | 0.004 % |
 | 73 | `greek_revival_rowhouse` | 7 | `greek_revival_rowhouse_1840_3fl` | class in A4,B1,B3,C0,S2 and year 1830..1858 and floors 3..4 | 537 | 0.050 % |
 | 74 | `brownstone_rowhouse_1860` | 4 | `brownstone_rowhouse_1860_3fl_stoop` | class in A4,B1,B3,C0,S2 and year 1845..1875 and floors <= 3 and borough in MN,BK and attached | 591 | 0.055 % |
@@ -96,17 +96,17 @@ Columns: `#` order, `rule` stable rule name, `class` the `facade_class` written 
 | 87 | `house_frame_prewar` | 31 | `brooklyn_frame_rowhouse_1900_siding` | class in A*,B* and year <= 1925 and detached | 51,249 | 4.732 % |
 | 88 | `house_brick_prewar` | 34 | `rowhouse_brick_1920_2fl_flat_roof` | class in A*,B* | 60,554 | 5.591 % |
 | 89 | `fallback_supertall` | 18 | `supertall_glass_2015` | floors >= 50 and year >= 2005 | 5 | 0.000 % |
-| 90 | `fallback_tower_modern` | 17 | `glass_curtain_office_2010` | floors >= 20 and year >= 1990 | 65 | 0.006 % |
-| 91 | `fallback_tower_postwar` | 13 | `nycha_tower_brick_1960` | floors >= 12 and year 1940..1989 | 89 | 0.008 % |
-| 92 | `fallback_tower_prewar` | 26 | `masonry_office_1920_setback` | floors >= 10 | 273 | 0.025 % |
-| 93 | `fallback_mid_modern` | 50 | `condo_midrise_2010_glass_brick` | floors >= 6 and year >= 1990 | 308 | 0.028 % |
-| 94 | `fallback_mid_postwar` | 12 | `postwar_red_brick_1950_6fl_elevator` | floors >= 6 and year >= 1945 | 229 | 0.021 % |
-| 95 | `fallback_mid_prewar` | 8 | `prewar_apt_1925_brick_limestone_6_12fl` | floors >= 6 | 1,220 | 0.113 % |
-| 96 | `fallback_low_prewar_masonry` | 2 | `tenement_1905_new_law_6fl` | floors 3..5 and year <= 1929 | 16,690 | 1.541 % |
-| 97 | `fallback_low_modern` | 33 | `fedders_special_2005` | floors 3..5 and year >= 1990 | 3,124 | 0.288 % |
-| 98 | `fallback_low_postwar` | 12 | `postwar_red_brick_1950_6fl_elevator` | floors 3..5 | 30,858 | 2.849 % |
-| 99 | `fallback_small_suburban` | 30 | `staten_island_sf_1970_siding` | floors <= 2 and borough in QN,SI | 14,100 | 1.302 % |
-| 100 | `fallback_small_masonry` | 34 | `rowhouse_brick_1920_2fl_flat_roof` | always true | 25,389 | 2.344 % |
+| 90 | `fallback_tower_modern` | 17 | `glass_curtain_office_2010` | floors >= 20 and year >= 1990 | 94 | 0.009 % |
+| 91 | `fallback_tower_postwar` | 13 | `nycha_tower_brick_1960` | floors >= 12 and year 1940..1989 | 314 | 0.029 % |
+| 92 | `fallback_tower_prewar` | 26 | `masonry_office_1920_setback` | floors >= 10 | 616 | 0.057 % |
+| 93 | `fallback_mid_modern` | 50 | `condo_midrise_2010_glass_brick` | floors >= 6 and year >= 1990 | 326 | 0.030 % |
+| 94 | `fallback_mid_postwar` | 12 | `postwar_red_brick_1950_6fl_elevator` | floors >= 6 and year >= 1945 | 256 | 0.024 % |
+| 95 | `fallback_mid_prewar` | 8 | `prewar_apt_1925_brick_limestone_6_12fl` | floors >= 6 | 1,303 | 0.120 % |
+| 96 | `fallback_low_prewar_masonry` | 2 | `tenement_1905_new_law_6fl` | floors 3..5 and year <= 1929 | 16,762 | 1.548 % |
+| 97 | `fallback_low_modern` | 33 | `fedders_special_2005` | floors 3..5 and year >= 1990 | 3,156 | 0.291 % |
+| 98 | `fallback_low_postwar` | 12 | `postwar_red_brick_1950_6fl_elevator` | floors 3..5 | 30,984 | 2.861 % |
+| 99 | `fallback_small_suburban` | 30 | `staten_island_sf_1970_siding` | floors <= 2 and borough in QN,SI | 14,169 | 1.308 % |
+| 100 | `fallback_small_masonry` | 34 | `rowhouse_brick_1920_2fl_flat_roof` | always true | 25,553 | 2.359 % |
 
 ## Rationale per rule
 
@@ -239,7 +239,7 @@ Self-storage conversions and new-builds: corrugated/ribbed metal panel over a co
 The reinforced-concrete daylight factory (Kahn system, 1908-1935): concrete frame with wide steel-sash industrial windows filling the bays — Long Island City, Bush Terminal, the Bronx industrial belt.
 
 **32. `industrial_loft_brick` -> 21 `industrial_loft_brick_1910`**  
-*predicate:* `class in L*,F*,RM,RW,O5 and year <= 1930 and floors >= 4`  
+*predicate:* `class in L*,F*,RW and year <= 1930 and floors >= 4`  
 The 1895-1930 masonry loft: load-bearing red brick with brick-pier bays, corbelled cornice, water tower, fire escapes and a loading dock — DUMBO, the Garment District, Long Island City.
 
 **33. `warehouse_low` -> 22 `warehouse_concrete_1950`**  
@@ -247,8 +247,8 @@ The 1895-1930 masonry loft: load-bearing red brick with brick-pier bays, corbell
 Single- and two-storey warehouses and light-manufacturing sheds: concrete or brick walls, roll-down loading doors, parapet roof.
 
 **34. `loft_converted` -> 21 `industrial_loft_brick_1910`**  
-*predicate:* `class in L*,F*,E*,RW,RM`  
-Remaining loft / factory / warehouse stock keeps the masonry loft treatment.
+*predicate:* `class in L*,F*,E*,RW`  
+Remaining loft / factory / warehouse stock keeps the masonry loft treatment. MapPLUTO ``RM`` is a *mixed residential/commercial condo*, not a loft, and is deliberately excluded — it is handled by the condo rules.
 
 **35. `big_box_retail` -> 47 `big_box_retail_precast_1990`**  
 *predicate:* `class in K3,K5,K6,K8 or (class in K* and footprint_area >= 1800 and floors <= 2 and year >= 1975)`  
@@ -319,7 +319,7 @@ Remaining prewar office buildings keep the masonry setback treatment.
 Remaining office buildings: brown brick / precast midrise.
 
 **52. `supertall_residential` -> 18 `supertall_glass_2015`**  
-*predicate:* `class in D*,R4,RR and floors >= 50 and year >= 2005`  
+*predicate:* `class in D*,R4,RR,RM and floors >= 50 and year >= 2005`  
 Post-2005 supertall residential (Billionaires' Row, 57th Street, Downtown Brooklyn): curtain wall with limestone or metal spandrels, 3.4 m floor-to-floor.
 
 **53. `nycha_campus_tower` -> 13 `nycha_tower_brick_1960`**  
@@ -330,9 +330,9 @@ NYCHA and Mitchell-Lama campuses are superblocks: several identical red-brick to
 *predicate:* `class in D*,R4,RR,RM and year >= 2000 and floors 6..24`  
 The 2000s+ condo midrise: glass-and-brick or glass-and-metal facade, balconies, a canopy and a retail or lobby base.
 
-**55. `condo_tower_2010` -> 17 `glass_curtain_office_2010`**  
-*predicate:* `class in D*,R4,RR and year >= 2000 and floors >= 25`  
-Post-2000 residential towers above 25 storeys are curtain-walled.
+**55. `condo_tower_2010` -> 50 `condo_midrise_2010_glass_brick`**  
+*predicate:* `class in D*,R4,RR,RM,RX and year >= 2000 and floors 25..49`  
+Post-2000 residential towers between 25 and 49 storeys: a glazed-and-masonry condo shaft over a retail or lobby base. The kit has no 2000s stone-clad residential tower, so the limestone-faced examples (15 Central Park West and its imitators) take this class — stated as gap G-4.
 
 **56. `brown_brick_condo_1985` -> 15 `brown_brick_condo_1985_25fl`**  
 *predicate:* `class in D*,R4,RR and year 1976..1999 and floors >= 10`  

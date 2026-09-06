@@ -158,7 +158,7 @@ def main():
                                   "battery_maritime_top_m": BMB_TOP, "st_george_top_m": ST_GEORGE_TOP,
                                   "slip_length_m": SLIP_L, "slip_deck_z_m": SLIP_Z})
     cc.render(ID, [
-        {"view": "harbour", "azimuth_deg": 180, "elevation_deg": "street", "distance": 400, "fov_deg": 55, "look_up_deg": 8},
+        {"view": "harbour", "azimuth_deg": 180, "elevation_deg": "street", "fov_deg": 45, "look_up_deg": 6},
         {"view": "aerial", "azimuth_deg": 200, "elevation_deg": 34},
     ])
     return entry

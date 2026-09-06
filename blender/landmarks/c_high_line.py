@@ -148,7 +148,7 @@ def main():
                                   "osm_relation": OSM_RELATION,
                                   "outline_area_m2": round(real_local.area, 1)})
     cc.render(ID, [
-        {"view": "chelsea", "azimuth_deg": 250, "elevation_deg": "street", "distance": 90, "fov_deg": 66, "look_up_deg": 10},
+        {"view": "chelsea", "azimuth_deg": 250, "elevation_deg": "street", "distance": 70, "fov_deg": 70, "look_up_deg": 8},
         {"view": "aerial", "azimuth_deg": 250, "elevation_deg": 40},
     ])
     return entry

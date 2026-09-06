@@ -1,0 +1,213 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_barclays_center",
+ "name": "Barclays Center",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.684,
+  "lon": -73.9768,
+  "azimuth_deg": 144.8,
+  "note": "north-west corner of Flatbush and Atlantic Avenues, looking south-east at the oculus entrance",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.6826,
+  "lon": -73.9755,
+  "name": "Barclays Center"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2012,
+ "wanted": 3,
+ "queries": [
+  "\"Barclays Center\" exterior Atlantic Avenue Flatbush",
+  "\"Barclays Center\" oculus entrance plaza"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T12:42:14Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 75,
+ "candidates_eligible": 35,
+ "rejections": {
+  "indoor": 14,
+  "excluded": 16,
+  "keywords": 8,
+  "not_jpeg": 1,
+  "too_small": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Barclays Center (54458684337).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Barclays_Center_(54458684337).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/07/Barclays_Center_%2854458684337%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Barclays_Center_%2854458684337%29.jpg/1920px-Barclays_Center_%2854458684337%29.jpg",
+   "author": "Eden, Janine and Jim from New York City",
+   "credit": "Barclays Center",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2025-04-17 18:23",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.683866,
+    "lon": -73.977453
+   },
+   "original_width": 4032,
+   "original_height": 2268,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 624429,
+   "sha256": "1d68b0e38dbf5b4cdc4afb9cab2f1bbe63d065453f232e1d10b0d752027725fa",
+   "mean_luminance": 98.0,
+   "description": "Barclays Center",
+   "categories": [
+    "Exterior of Barclays Center",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Photographs by Eden, Janine and Jim in Brooklyn, New York City",
+    "New York City photographs taken on 2025-04-17",
+    "April 2025 in Brooklyn, New York City",
+    "Barclays Center in 2025"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.683866,
+    "lon": -73.977453,
+    "azimuth_deg": 130.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.68387, -73.97745) is 217 m from Barclays Center (40.68260, -73.97550) and 57 m from the standard viewpoint; the azimuth 131 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Barclays Center (54458684337).jpg\" by Eden, Janine and Jim from New York City, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Barclays_Center_(54458684337).jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Atlantic Terminal td (2019-03-30) 018 - Barclays Center, Ebbets Field Flagpole.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Atlantic_Terminal_td_(2019-03-30)_018_-_Barclays_Center,_Ebbets_Field_Flagpole.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Atlantic_Terminal_td_%282019-03-30%29_018_-_Barclays_Center%2C_Ebbets_Field_Flagpole.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Atlantic_Terminal_td_%282019-03-30%29_018_-_Barclays_Center%2C_Ebbets_Field_Flagpole.jpg/1920px-Atlantic_Terminal_td_%282019-03-30%29_018_-_Barclays_Center%2C_Ebbets_Field_Flagpole.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2019",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.683712,
+    "lon": -73.976989
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 628747,
+   "sha256": "cd87c0822ec47ef58ac2d3cdb3b28290a60943ed987f741839780c26e7cc81b8",
+   "mean_luminance": 143.4,
+   "description": "The former center field flagbole of Ebbets Field in the plaza at the west side of the Barclays Center, at Atlantic Avenue, Flatbush Avenue, and Pacific Street in Atlantic Terminal, Brooklyn.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "Ebbets Field",
+    "Exterior of Barclays Center",
+    "New York City photographs taken on 2019-03-30",
+    "Self-published work",
+    "Plaques in Brooklyn",
+    "Files with coordinates missing SDC location of creation",
+    "Baseball plaques",
+    "Urban squares in Brooklyn, New York City",
+    "United States photographs taken on 2019-03-30",
+    "2019 Brooklyn photographs by Tdorante10",
+    "March 2019 in Brooklyn, New York City",
+    "Privately owned public space in New York City",
+    "Flagpoles in Brooklyn, New York City",
+    "Parks in Downtown Brooklyn",
+    "Sports venues in the United States photographed in 2019"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.6,
+   "estimated_viewpoint": {
+    "lat": 40.683712,
+    "lon": -73.976989,
+    "azimuth_deg": 134.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.68371, -73.97699) is 176 m from Barclays Center (40.68260, -73.97550) and 36 m from the standard viewpoint; the azimuth 135 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Atlantic Terminal td (2019-03-30) 018 - Barclays Center, Ebbets Field Flagpole.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Atlantic_Terminal_td_(2019-03-30)_018_-_Barclays_Center,_Ebbets_Field_Flagpole.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Barclays Center 1.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Barclays_Center_1.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Barclays_Center_1.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Barclays_Center_1.jpg/1920px-Barclays_Center_1.jpg",
+   "author": "Rhododendrites",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2016-10-30 22:55:06",
+   "date_source": "DateTimeOriginal",
+   "year": 2016,
+   "camera_gps": {
+    "lat": 40.683619,
+    "lon": -73.977116
+   },
+   "original_width": 4246,
+   "original_height": 2301,
+   "width": 1920,
+   "height": 1040,
+   "bytes": 569028,
+   "sha256": "8024e0fa952d9a869361f4bd47535aa93403e31eac89331eb9ac05dc4fe9f92c",
+   "mean_luminance": 107.0,
+   "description": "Barclays Center in Brooklyn",
+   "categories": [
+    "Exterior of Barclays Center",
+    "Self-published work",
+    "Files uploaded by Rhododendrites (all)",
+    "Atlantic Avenue – Barclays Center subway entrance",
+    "Files with coordinates missing SDC location of creation",
+    "Roof gardens and green roofs in New York City",
+    "Ford Escape (2008) Taxis in New York City",
+    "Orion VII NG hybrid buses of MTA Regional Bus Operations",
+    "Buses in Downtown Brooklyn",
+    "B41 (New York City bus)",
+    "Photographs taken by Rhododendrites - unsorted Brooklyn",
+    "Files by Rhododendrites - 2016-10"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.15,
+   "estimated_viewpoint": {
+    "lat": 40.683619,
+    "lon": -73.977116,
+    "azimuth_deg": 129.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.68362, -73.97712) is 177 m from Barclays Center (40.68260, -73.97550) and 50 m from the standard viewpoint; the azimuth 130 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Barclays Center 1.jpg\" by Rhododendrites, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Barclays_Center_1.jpg"
+  }
+ ]
+}

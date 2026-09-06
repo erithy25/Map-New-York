@@ -149,7 +149,7 @@ def main():
                          "base_storey_h_m": BASE_STOREY_H, "shaft_storey_h_m": SHAFT_STOREY_H, "cornice_h_m": CORNICE_H,
                          "lot_long_axis_m": 66.8, "lot_base_width_m": 26.7, "published_lot_ft": [190, 87]})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 190, "elevation_deg": "street", "distance": 138, "target_z": 38, "fov_deg": 60},
+        {"view": "street", "azimuth_deg": 190, "elevation_deg": "street", "distance": 149, "target_z": 44, "fov_deg": 60},
         {"view": "aerial", "azimuth_deg": 205, "elevation_deg": 17, "distance": 230, "fov_deg": 48, "target_z": 50},
     ])
 

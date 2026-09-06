@@ -165,7 +165,6 @@ def _import_glb(path: Path) -> list:
 
 def _place(objects, origin_m) -> None:
     """glTF is exported Y-up in tile-local metres; put the imported objects back in world NYC_TM."""
-    import bpy
     from mathutils import Matrix
 
     x0, y0 = float(origin_m[0]), float(origin_m[1])
@@ -209,8 +208,6 @@ def _textured_material(name: str, resolution: str = "2K"):
 
 
 def _swap_materials(objects, textured: bool) -> list[str]:
-    import bpy
-
     used = []
     for ob in objects:
         if ob.type != "MESH":

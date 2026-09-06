@@ -259,9 +259,9 @@ def tenement(*, samples: int, res_x: int) -> Path:
     _place("hvac_rooftop_unit_small", (-2.60, 2.10, ROOF))
 
     path = OUT / "tenement_test.png"
-    K.nb.quick_render(path, camera_location=(-10.5, -29.0, 7.0), camera_target=(0.0, 1.5, 10.0),
+    K.nb.quick_render(path, camera_location=(-10.5, -29.0, 8.0), camera_target=(0.0, 1.5, 11.2),
                       # portrait frame: fov_deg is the VERTICAL field of view (Blender AUTO sensor fit)
-                      fov_deg=54.0, size=(res_x, int(res_x * 1.62)), samples=samples,
+                      fov_deg=50.0, size=(res_x, int(res_x * 1.62)), samples=samples,
                       sun_azimuth_deg=196.0, sun_elevation_deg=48.0, sun_strength=3.4)
     return path
 

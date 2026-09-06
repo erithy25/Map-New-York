@@ -134,7 +134,7 @@ def main():
                          "ground_floor_h_m": GROUND_H, "floor_h_m": round(FLOOR_H, 3),
                          "setback_floors": list(SETBACK_FLOORS), "turrets": 4})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 200, "elevation_deg": "street", "distance": 425, "target_z": 119, "fov_deg": 62},
+        {"view": "street", "azimuth_deg": 200, "elevation_deg": "street", "distance": 480, "target_z": 141, "fov_deg": 62},
         {"view": "aerial", "azimuth_deg": 215, "elevation_deg": 22, "distance": 800, "fov_deg": 38, "target_z": 150},
     ])
 

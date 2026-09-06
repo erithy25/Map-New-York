@@ -149,7 +149,7 @@ def main():
                                   "syrup_tank_m": [TANK_D, TANK_H], "syrup_tanks": TANKS,
                                   "park_length_m": 137.0, "sign_letter_h_m": SIGN_LETTER_H})
     cc.render(ID, [
-        {"view": "east_river", "azimuth_deg": 270, "elevation_deg": "street", "distance": 150, "fov_deg": 60, "look_up_deg": 22},
+        {"view": "east_river", "azimuth_deg": 270, "elevation_deg": "street", "fov_deg": 55, "look_up_deg": 18},
         {"view": "aerial", "azimuth_deg": 250, "elevation_deg": 28},
     ])
     return entry

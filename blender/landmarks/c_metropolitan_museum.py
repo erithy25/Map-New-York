@@ -18,7 +18,8 @@ Dimensions used (source in brackets)
 * Roche Dinkeloo glass wings [Met Museum]: the Sackler Wing (Temple of Dendur, north-east), the Lehman Wing (west
   apse) and the American Wing court are sloping glass walls; the Sackler Wing's north glass wall is 24.0 m high and
   leans back 12 degrees.
-* Indiana limestone throughout the 1902-26 fabric [LP-0955].
+* Indiana limestone throughout the 1902-26 fabric [LP-0955]. Footprint from [NYC Building Footprints, OTI
+  5zhs-2jue].
 
 Fidelity: real footprint; the three giant arches, the paired Corinthian order, the attic and balustrade, the
 33.0 m McKim colonnade wings, the 42.0 m central pavilion, the 30.5 m grand stair and the sloping glass wings are
@@ -151,7 +152,7 @@ def main():
                                   "rear_top_m": REAR_TOP, "arch_w_m": ARCH_W, "arch_crown_m": ARCH_CROWN,
                                   "grand_stair_m": [STAIR_W, STAIR_RISE], "grand_stair_risers": STAIR_RISERS})
     cc.render(ID, [
-        {"view": "fifth_avenue", "azimuth_deg": 270, "elevation_deg": "street", "distance": 105, "fov_deg": 65, "look_up_deg": 18},
+        {"view": "fifth_avenue", "azimuth_deg": 270, "elevation_deg": "street", "fov_deg": 55, "look_up_deg": 10},
         {"view": "aerial", "azimuth_deg": 250, "elevation_deg": 30},
     ])
     return entry

@@ -217,7 +217,7 @@ def load_roof_attrs(path: Path | str = ROOF_ATTRS_PATH) -> pd.DataFrame | None:
             cols = set(pq.ParquetFile(p).schema_arrow.names)
             want = [c for c in ("bin", "roof_type", "roof_type_source", "roof_inferred",
                                 "roof_eave_dz_m", "roof_ridge_dz_m", "roof_slope_deg",
-                                "roof_type_conf", "roof_mesh_ref") if c in cols]
+                                "roof_pitch_deg", "roof_type_conf", "roof_mesh_ref") if c in cols]
             if "bin" in want and "roof_type" in want:
                 df = pd.read_parquet(p, columns=want).drop_duplicates("bin").set_index("bin")
                 LOG.info("roof_attrs: %d rows from %s", len(df), p)
@@ -290,7 +290,8 @@ def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: 
         ra_type = idx["roof_type"].to_numpy() if "roof_type" in roof_attrs.columns else None
         ra_eave = idx["roof_eave_dz_m"].to_numpy() if "roof_eave_dz_m" in roof_attrs.columns else None
         ra_ridge = idx["roof_ridge_dz_m"].to_numpy() if "roof_ridge_dz_m" in roof_attrs.columns else None
-        ra_slope = idx["roof_slope_deg"].to_numpy() if "roof_slope_deg" in roof_attrs.columns else None
+        ra_slope = (idx["roof_pitch_deg"].to_numpy() if "roof_pitch_deg" in roof_attrs.columns
+                    else (idx["roof_slope_deg"].to_numpy() if "roof_slope_deg" in roof_attrs.columns else None))
         ra_src = idx["roof_type_source"].to_numpy() if "roof_type_source" in roof_attrs.columns else None
 
     bins = df["bin"].to_numpy()
@@ -331,6 +332,12 @@ def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: 
                                              col_fc, classes, cls[i], int(fcode[i]),
                                              int(floors[i]), parts[0],
                                              _f(bfront, i), _f(lfront, i))
+        # ADR-013 §5 publishes the eave and ridge offsets it measured; prefer them over the pitch.
+        rise = 0.0
+        if kind != sg.ROOF_FLAT and ra_ridge is not None and ra_eave is not None:
+            dr, de = _f(ra_ridge, i), _f(ra_eave, i)
+            if math.isfinite(dr) and math.isfinite(de) and dr - de > 0.05:
+                rise = float(dr - de)
         # ---- material
         mat_wall, msource = _resolve_material(i, col_mat, col_fc, classes, cls[i], int(year[i]),
                                               int(boro[i]), int(floors[i]), z1 - z0)
@@ -364,7 +371,7 @@ def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: 
             area = float(area_col[i]) if area_col is not None else float(part.area)
             specs.append(sg.BuildingSpec(
                 bin=int(bins[i]), polygon=local, ground_z=z0, roof_z=z_top,
-                roof=sg.RoofSpec(kind=kind, slope_deg=slope,
+                roof=sg.RoofSpec(kind=kind, slope_deg=slope, rise_m=rise,
                                  parapet_h=sg.PARAPET_H_M if kind == sg.ROOF_FLAT else 0.0,
                                  source=rsource),
                 mat_wall=mat_wall, mat_roof=mat_roof,

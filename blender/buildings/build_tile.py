@@ -42,7 +42,6 @@ import logging
 import math
 import os
 import struct
-import struct
 import subprocess
 import sys
 import time
@@ -284,7 +283,6 @@ def stamp_asset_extras(path: Path, meta: dict) -> None:
 # --------------------------------------------------------------------------- per-tile driver
 def build_tile(tile: str, *, out_root: Path = OUT_ROOT, lods=(0, 1, 2), attrs_mode: str = "full",
                ridge_mode: str = "clamp", roof_attrs=None) -> dict:
-    import bpy
     import nycsim_bpy as nb
 
     t0 = time.perf_counter()
@@ -292,7 +290,6 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, lods=(0, 1, 2), attrs_mo
         attrs_by_lod = {lod: list(ATTR_BY_LOD[lod]) for lod in lods}
     else:
         attrs_by_lod = {lod: list(ATTR_MIN) for lod in lods}
-    attr_names = attrs_by_lod[0]
     load = td.load_tile(tile, roof_attrs=roof_attrs, ridge_mode=ridge_mode)
     t_load = time.perf_counter() - t0
 

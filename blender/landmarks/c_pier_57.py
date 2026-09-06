@@ -109,7 +109,7 @@ def main():
                                   "caisson_lengths_m": list(CAISSONS), "rooftop_park_m2": 9700,
                                   "length_m": round(x1 - x0, 1)})
     cc.render(ID, [
-        {"view": "hudson", "azimuth_deg": 270, "elevation_deg": "street", "distance": 210, "fov_deg": 58, "look_up_deg": 10},
+        {"view": "hudson", "azimuth_deg": 270, "elevation_deg": "street", "fov_deg": 52, "look_up_deg": 7},
         {"view": "aerial", "azimuth_deg": 250, "elevation_deg": 30},
     ])
     return entry

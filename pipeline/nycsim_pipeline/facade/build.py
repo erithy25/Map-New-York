@@ -583,6 +583,11 @@ def pass_emit(only_tiles: set[str] | None, limit_groups: int | None, out_dir: Pa
         raise FileNotFoundError(f"{attrs_path} missing: run the `rules` pass first")
     attrs = pl.read_parquet(attrs_path)
     edges_dir = out_dir / "edges"
+    if not edges_dir.exists() or not any(edges_dir.glob("*.parquet")):
+        raise FileNotFoundError(
+            f"{edges_dir} holds no edge runs: run the `geom` pass first (the emit pass deletes the cache when it "
+            f"finishes a full run, so a repeated `emit` needs `geom` again, or use `facade all`)")
+    edges_dir = out_dir / "edges"
     groups = tile_groups(attrs["tile"].unique().to_list() if only_tiles is None
                          else [t2 for t2 in attrs["tile"].unique().to_list() if t2 in only_tiles])
     if limit_groups:
@@ -599,7 +604,7 @@ def pass_emit(only_tiles: set[str] | None, limit_groups: int | None, out_dir: Pa
         epath = edges_dir / f"{gname}.parquet"
         edges = pl.read_parquet(epath) if epath.exists() else None
         if edges is None:
-            log.warning("edges for %s missing: placements skipped for %d tiles", gname, len(gtiles))
+            raise FileNotFoundError(f"{epath} missing: the edge cache is incomplete, re-run the `geom` pass")
         edges_by_tile = {}
         if edges is not None and edges.height:
             parts = edges.partition_by("tile", as_dict=True)

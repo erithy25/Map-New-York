@@ -133,8 +133,8 @@ def render_fusion(samples: int, which: str = "both") -> None:
         eye = (1.99, 0.375, 1.245)
         area_fill((1.10, 0.0, 1.32), 1.1, 40.0, target=(2.7, 0.0, 0.85))
         area_fill((2.60, 0.90, 1.30), 0.8, 25.0, target=(2.2, 0.2, 0.90))
-        shoot(env.VERIFY_DIR / "fusion_interior_driver_pov.png", loc=eye, target=(6.4, 0.10, 0.42),
-              fov=64.0, samples=samples)
+        shoot(env.VERIFY_DIR / "fusion_interior_driver_pov.png", loc=eye, target=(5.75, 0.12, -0.12),
+              fov=78.0, samples=samples)
 
 
 def render_ortho(samples: int) -> None:

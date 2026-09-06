@@ -181,7 +181,7 @@ def main():
                                   "field_lf_lc_cf_rc_rf_m": [LF, LC, CF, RC, RF], "infield_square_m": INFIELD,
                                   "mound_distance_m": MOUND, "outfield_wall_h_m": WALL_H, "capacity": CAPACITY})
     cc.render(ID, [
-        {"view": "gate4", "azimuth_deg": 210, "elevation_deg": "street", "distance": 220, "fov_deg": 60, "look_up_deg": 14},
+        {"view": "gate4", "azimuth_deg": 210, "elevation_deg": "street", "fov_deg": 55, "look_up_deg": 9},
         {"view": "aerial", "azimuth_deg": 235, "elevation_deg": 34},
     ])
     return entry

@@ -277,7 +277,7 @@ def build(detail: str = "high") -> tuple[rig.Vehicle, dict]:
     # ---------- lamps
     head = {}
     for s, tag in ((1, "L"), (-1, "R")):
-        head.update(P.headlamp_unit("head", s, lib, x=3.700, y=s * 0.545, z=0.950, w=0.320, h=0.165, rake=-16.0))
+        head.update(P.headlamp_unit("head", s, lib, x=3.752, y=s * 0.512, z=0.848, w=0.300, h=0.140, rake=-22.0))
     v.add(head["LIGHT_HEAD_L"]); v.add(head["LIGHT_HEAD_R"])
     v.add(head["LIGHT_TURN_FL"]); v.add(head["LIGHT_TURN_FR"])
     v.add(g.join([head["_low_L"], head["_low_R"]], "LIGHT_LOW", sharp_angle_deg=50.0))
@@ -307,9 +307,9 @@ def build(detail: str = "high") -> tuple[rig.Vehicle, dict]:
         v.add(P.mirror(s, lib, x=2.30, y=s * (bp.y_belt(2.30) - 0.005), z=1.040, w=0.185, h=0.108))
     ws_slope = (bp.z_top(X_ROOF_F) - bp.z_top(X_COWL)) / (X_COWL - X_ROOF_F)     # 0.461 => 65.2 deg rake
     v.add(P.wiper(1, lib, pivot=(X_COWL - 0.05, 0.34, bp.z_top(X_COWL - 0.05) - 0.010),
-                  length=0.560, blade=0.600, park_deg=6.0, glass_slope=ws_slope))
+                  length=0.640, blade=0.560, park_deg=4.0, glass_slope=ws_slope))
     v.add(P.wiper(-1, lib, pivot=(X_COWL - 0.05, -0.42, bp.z_top(X_COWL - 0.05) - 0.010),
-                  length=0.480, blade=0.520, park_deg=-6.0, glass_slope=ws_slope))
+                  length=0.560, blade=0.500, park_deg=-4.0, glass_slope=ws_slope))
     v.add(P.exhaust(lib, x_tip=X_REAR + 0.02, y=0.36, z=0.360, r=0.036, length=0.85, tips=2, spacing=0.20))
 
     plate_img = TX.plate_ny("plate_ny_player", LIVERIES["player_grey"]["plate"])
@@ -317,10 +317,10 @@ def build(detail: str = "high") -> tuple[rig.Vehicle, dict]:
     v.add(P.plate("Plate_R", lib, plate_img, center=(X_REAR + 0.048, 0.0, 0.735), normal=(-1, 0, -0.05)))
 
     trim = [lib.gloss_black(), lib.chrome(), lib.black_plastic()]
-    grille_bm = P.grille(lib, x=3.760, z0=0.760, z1=0.930, y_half=0.395, bars=5, rake=0.10)
-    lower = P.grille(lib, x=3.740, z0=0.420, z1=0.610, y_half=0.480, bars=3, rake=0.06)
-    surround = g.set_material_bm(P.grille_surround(3.782, 0.760, 0.930, 0.395, bar=0.026), 1)
-    lower_sur = g.set_material_bm(P.grille_surround(3.762, 0.420, 0.610, 0.480, bar=0.020), 2)
+    grille_bm = P.grille(lib, x=3.800, z0=0.740, z1=0.890, y_half=0.330, bars=5, rake=0.09)
+    lower = P.grille(lib, x=3.796, z0=0.420, z1=0.600, y_half=0.420, bars=3, rake=0.06)
+    surround = g.set_material_bm(P.grille_surround(3.818, 0.740, 0.890, 0.330, bar=0.026), 1)
+    lower_sur = g.set_material_bm(P.grille_surround(3.812, 0.420, 0.600, 0.420, bar=0.020), 2)
     v.add(g.to_object("Grille", g.merge_bm([grille_bm, lower, surround, lower_sur]), trim,
                       smooth=True, sharp_angle_deg=40.0))
 

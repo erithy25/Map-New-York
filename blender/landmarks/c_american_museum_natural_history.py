@@ -65,7 +65,11 @@ def build():
                          window_h=3.4)
     objs += C.tower_tier(f"{ID}_main", Pm, BASE_TOP, RANGE_CORNICE - 2.0, fen, roof_material="roof_grey",
                          parapet_h=1.2, parapet_t=0.6)
-    objs += C.tower_tier(f"{ID}_north", Pn, BASE_TOP, RANGE_CORNICE - 6.0, fen, roof_material="roof_grey",
+    nx0, ny0, nx1, ny1 = Pn.bounds
+    ccx, ccy = nx1 - CUBE / 2 - 1.0, ny1 - CUBE / 2 - 1.0
+    cube = C.rect(ccx, ccy, CUBE, CUBE)
+    Pn_body = C._clean_polygon(Pn.difference(cube.buffer(0.6)).buffer(0))     # the cube is a void in the block
+    objs += C.tower_tier(f"{ID}_north", Pn_body, BASE_TOP, RANGE_CORNICE - 6.0, fen, roof_material="roof_grey",
                          parapet_h=1.2, parapet_t=0.6)
     b = C.MeshBuilder()
     for P in (Pm, Pn):                                     # Richardsonian round-arched ground floor
@@ -82,7 +86,9 @@ def build():
     # corner turrets on the 1892 range
     b = C.MeshBuilder()
     mx0, my0, mx1, my1 = Pm.bounds
-    for cxy in ((mx0 + 6.0, my0 + 6.0), (mx0 + 6.0, my1 - 6.0)):
+    mring = C.ring_coords(Pm)
+    corners = sorted(mring, key=lambda q: (q[0] - mx0) ** 2 + min((q[1] - my0) ** 2, (q[1] - my1) ** 2))[:2]
+    for cxy in [(q[0] + 5.0, q[1] + (5.0 if q[1] < (my0 + my1) / 2 else -5.0)) for q in corners]:
         b.lathe([(4.4, 0.0), (4.4, RANGE_CORNICE - BASE_TOP), (5.0, RANGE_CORNICE - BASE_TOP + 0.6),
                  (5.0, RANGE_CORNICE - BASE_TOP + 1.4), (0.0, RANGE_CORNICE - BASE_TOP + 9.0)], 16,
                 C.M.granite_pink, origin=(cxy[0], cxy[1], BASE_TOP), smooth=False)
@@ -120,10 +126,7 @@ def build():
     objs.append(b.build(f"{ID}_roosevelt_memorial"))
 
     # ---- the Rose Center: the glass cube and the Hayden Sphere -----------------------------------------------------
-    nx0, ny0, nx1, ny1 = Pn.bounds
-    ccx, ccy = nx1 - CUBE / 2 - 1.0, ny1 - CUBE / 2 - 1.0
     b = C.MeshBuilder()
-    cube = C.rect(ccx, ccy, CUBE, CUBE)
     ring = C.ring_coords(cube)
     b.prism(ring, 0.4, CUBE, C.M.glass_clear, cap_top=True, cap_bottom=False, material_top=C.M.glass_clear)
     for p0, p1, L, t, n in C.edges_of(ring):                # the white space-frame grid, 736 panes
@@ -166,7 +169,7 @@ def main():
                                   "hayden_sphere_m": SPHERE_D, "sphere_centre_z_m": SPHERE_Z,
                                   "range_cornice_m": RANGE_CORNICE})
     cc.render(ID, [
-        {"view": "central_park_west", "azimuth_deg": 90, "elevation_deg": "street", "distance": 110, "fov_deg": 62, "look_up_deg": 22},
+        {"view": "central_park_west", "azimuth_deg": 90, "elevation_deg": "street", "fov_deg": 55, "look_up_deg": 12},
         {"view": "aerial", "azimuth_deg": 60, "elevation_deg": 28},
     ])
     return entry

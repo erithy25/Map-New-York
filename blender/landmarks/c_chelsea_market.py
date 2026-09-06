@@ -3,15 +3,15 @@ Romeyn & Stever and Albert G. Zimmermann for Nabisco, 1890-1932; converted by Va
 
 Dimensions used (source in brackets)
 ------------------------------------
-* Footprint: the real OTI polygon (15,224 m2) — the full block bounded by Ninth and Tenth Avenues and West 15th and
-  16th Streets, 243.2 x 172.6 m.
+* Footprint [NYC Building Footprints, OTI 5zhs-2jue]: the real OTI polygon (15,224 m2) — the full block bounded
+  by Ninth and Tenth Avenues and West 15th and 16th Streets, 243.2 x 172.6 m.
 * Height [OTI LiDAR]: **37.7 m** at the tallest of the eleven interconnected buildings; the lower ranges step down
   to 24.0 m and 16.0 m, which is what gives the complex its stepped brick silhouette.
 * Elevation [Nabisco factory drawings; AIA Guide]: load-bearing red brick with segmental-arched window openings on
   a **3.35 m (11 ft) bay**, corbelled brick cornices, cast-iron lintels, and painted signage panels; the ground
   floor has wide loading openings with steel lintels.
-* The High Line passes through the complex's western range at 9.1 m above the street; the model leaves that
-  opening in the west range (the viaduct itself belongs to ``c_high_line``).
+* The High Line passes through the complex's western range at 9.1 m above the street [Friends of the High Line];
+  the model leaves that opening in the west range (the viaduct itself belongs to ``c_high_line``).
 * Storey heights derived so the tall range's parapet lands at 37.7 m: ground floor 5.5 m, then nine storeys of
   3.45 m and a 1.2 m parapet.
 
@@ -101,7 +101,7 @@ def main():
                                   "ground_h_m": GROUND_H, "floor_h_m": FLOOR_H, "bay_m": BAY,
                                   "highline_soffit_m": HIGHLINE_Z})
     cc.render(ID, [
-        {"view": "ninth_avenue", "azimuth_deg": 100, "elevation_deg": "street", "distance": 130, "fov_deg": 62, "look_up_deg": 18},
+        {"view": "ninth_avenue", "azimuth_deg": 100, "elevation_deg": "street", "fov_deg": 55, "look_up_deg": 12},
         {"view": "aerial", "azimuth_deg": 120, "elevation_deg": 30},
     ])
     return entry

@@ -77,6 +77,7 @@ class RoofSpec:
     slope_deg: float = GABLE_SLOPE_DEG
     parapet_h: float = PARAPET_H_M
     source: str = "default"
+    rise_m: float = 0.0     # explicit ridge-minus-eave rise (ADR-013 §5); 0 = derive from the pitch
 
 
 @dataclass
@@ -754,6 +755,8 @@ def _pitched_geometry(spec: BuildingSpec, poly: Polygon, z0: float, z1: float, l
         natural = b * (1.0 - MANSARD_DECK_FRAC) * math.tan(slope)
     else:
         natural = b * math.tan(slope)
+    if spec.roof.rise_m > 0.0:
+        natural = float(spec.roof.rise_m)
     h = z1 - z0
     rise = min(natural, MAX_RISE_FRAC * h, max(h - MIN_WALL_H_M, 0.25 * h))
     rise = max(rise, 0.35)

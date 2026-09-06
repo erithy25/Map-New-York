@@ -139,7 +139,7 @@ def main():
                          "ground_floor_h_m": BASE_H, "floor_h_m": FLOOR_H, "tower_plan_m": 26.0,
                          "tempietto_columns": 16})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 190, "elevation_deg": "street", "distance": 270, "target_z": 75, "fov_deg": 62},
+        {"view": "street", "azimuth_deg": 190, "elevation_deg": "street", "distance": 302, "target_z": 89, "fov_deg": 62},
         {"view": "aerial", "azimuth_deg": 205, "elevation_deg": 24, "distance": 600, "fov_deg": 40, "target_z": 95},
     ])
 

@@ -13,7 +13,8 @@ Dimensions used (source in brackets)
 * Train hall [SOM 2021]: the former mail sorting room is roofed by four steel-and-glass vaults springing from the
   original 1913 steel trusses; the skylight is **92 ft = 28.0 m** above the hall floor and the hall is
   approximately 45 x 55 m on plan.
-* Material [LP-0233]: Milford pink granite throughout.
+* Material [LP-0233]: Milford pink granite throughout. Footprint from [NYC Building Footprints, OTI 5zhs-2jue];
+  storey heights derived from the [OTI LiDAR] roof height and the published storey count.
 
 Fidelity: real footprint; the 20-column, 16.15 m Corinthian colonnade with its entablature, inscription frieze and
 granite steps; the 24.0 m cornice and 31.2 m attic; and SOM's four glazed vaults over the train hall reaching
@@ -132,7 +133,7 @@ def main():
                                   "column_module_m": COLUMN_MODULE, "train_hall_plan_m": [HALL_W, HALL_D],
                                   "skylight_above_floor_m": SKYLIGHT_Z})
     cc.render(ID, [
-        {"view": "eighth_avenue", "azimuth_deg": 100, "elevation_deg": "street", "distance": 150, "fov_deg": 62, "look_up_deg": 16},
+        {"view": "eighth_avenue", "azimuth_deg": 100, "elevation_deg": "street", "fov_deg": 55, "look_up_deg": 10},
         {"view": "aerial", "azimuth_deg": 120, "elevation_deg": 30},
     ])
     return entry

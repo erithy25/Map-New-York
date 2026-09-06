@@ -137,7 +137,7 @@ def main():
                          "published_diameter_m": 129.5, "roof_cables": CABLES, "drum_ribs": 96,
                          "block_m": [175.1, 129.0]})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 110, "elevation_deg": "street", "distance": 175, "target_z": 26, "fov_deg": 66},
+        {"view": "street", "azimuth_deg": 110, "elevation_deg": "street", "distance": 178, "target_z": 24, "fov_deg": 66},
         {"view": "aerial", "azimuth_deg": 125, "elevation_deg": 28, "distance": 400, "fov_deg": 50, "target_z": 22},
     ])
 

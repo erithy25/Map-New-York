@@ -3,16 +3,16 @@ Warren & Wetmore 1921 Fifth Avenue addition.
 
 Dimensions used (source in brackets)
 ------------------------------------
-* Footprint: the real OTI polygon (5,444 m2), 90.8 m east-west by 66.5 m north-south, with the light court notched
-  out of the south-west corner.
+* Footprint [NYC Building Footprints, OTI 5zhs-2jue]: the real OTI polygon (5,444 m2), 90.8 m east-west by
+  66.5 m north-south, with the light court notched out of the south-west corner.
 * Height [LPC designation report LP-0629; AIA Guide]: 19 storeys, 250 ft = 76.2 m to the ridge of the mansard.
   Storey heights derived so the main cornice lands at 56.0 m: a three-storey rusticated marble base to 15.0 m, then
   13 storeys of 3.15 m; the mansard roof occupies the top three storeys, 20.2 m from cornice to ridge.
 * Elevation [LP-0629]: white glazed brick above a Vermont-marble base, a French Renaissance chateau composition with
   a heavy modillioned copper cornice, balustraded balconies, and a green copper mansard with two orders of dormers,
   corner turrets and iron cresting.
-* Frontages: Fifth Avenue is east (local +x) and Central Park South north (+y); the Grand Army Plaza corner carries
-  the porte-cochere.
+* Frontages [AIA Guide to New York City]: Fifth Avenue is east (local +x) and Central Park South north (+y); the
+  Grand Army Plaza corner carries the porte-cochere.
 
 Fidelity: real footprint; 19 storeys, the 56.0 m cornice, the 76.2 m ridge, the marble base, the glazed-brick shaft
 with punched windows, the copper cornice and the two-order dormered mansard with corner turrets are modelled as

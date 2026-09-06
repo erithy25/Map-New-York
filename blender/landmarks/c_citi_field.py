@@ -152,7 +152,7 @@ def main():
                                   "rotunda_h_m": ROTUNDA_H, "rotunda_d_m": ROTUNDA_D,
                                   "rotunda_arches": ROTUNDA_ARCHES, "capacity": CAPACITY})
     cc.render(ID, [
-        {"view": "rotunda", "azimuth_deg": 180, "elevation_deg": "street", "distance": 210, "fov_deg": 60, "look_up_deg": 12},
+        {"view": "rotunda", "azimuth_deg": 180, "elevation_deg": "street", "fov_deg": 55, "look_up_deg": 9},
         {"view": "aerial", "azimuth_deg": 215, "elevation_deg": 34},
     ])
     return entry

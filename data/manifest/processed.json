@@ -6425,13 +6425,13 @@
   },
   "facade_attrs": {
    "artifact_id": "facade_attrs",
-   "bytes": 59906200,
-   "git_commit": "c4464e87459d",
+   "bytes": 54477426,
+   "git_commit": "1a5dfa8dd00c",
    "path": "data/processed/facade/facade_attrs.parquet",
-   "produced_at": "2026-09-06T12:32:35Z",
+   "produced_at": "2026-09-06T12:42:17Z",
    "rows": 1083026,
    "schema": "facade_attrs/1",
-   "sha256": "714032ba0ae2fb8306e8ea68a20c3120750602b4a77e01cb7862f8ef3c19b976",
+   "sha256": "bbac2a6780aa388c531137dcaefa387e49727d0bcd055b8002727706accfd2a3",
    "sources": [
     "building_footprints",
     "pluto",
@@ -6444,9 +6444,9 @@
   "facade_geom_attrs": {
    "artifact_id": "facade_geom_attrs",
    "bytes": 47047679,
-   "git_commit": "c4464e87459d",
+   "git_commit": "1a5dfa8dd00c",
    "path": "data/processed/facade/geom_attrs.parquet",
-   "produced_at": "2026-09-06T12:32:34Z",
+   "produced_at": "2026-09-06T12:42:17Z",
    "rows": 1083026,
    "schema": "facade_geom/1",
    "sha256": "fe9cd704a0dd2ac895a09f1511391cfabd3e3720f71c25fdd094e9fc5941b27e",
@@ -6462,9 +6462,9 @@
   "facade_kit_ids": {
    "artifact_id": "facade_kit_ids",
    "bytes": 17297,
-   "git_commit": "c4464e87459d",
+   "git_commit": "1a5dfa8dd00c",
    "path": "data/processed/facade/kit_ids.json",
-   "produced_at": "2026-09-06T12:32:35Z",
+   "produced_at": "2026-09-06T12:42:18Z",
    "rows": null,
    "schema": "kit_ids/1",
    "sha256": "a4cea8137e261b8b8404a6e1b42f295975a16fa644a8703c0ac03d75a7cb64ee",
@@ -7251,6 +7251,27 @@
    "tris_lod0": 84303,
    "tris_lod1": 760
   },
+  "landmark_glb:c_riverside_church": {
+   "artifact_id": "landmark_glb:c_riverside_church",
+   "bins": [
+    1081792,
+    1081791
+   ],
+   "bytes": 5192980,
+   "footprint_iou": 1.0,
+   "git_commit": "1a5dfa8dd00c",
+   "path": "blender_out/landmarks/c_riverside_church.glb",
+   "produced_at": "2026-09-06T12:43:32Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "283acd9d0d7edd3713853a36e52458dcfc553d2d97a5c279707be29dfc63423e",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 18746,
+   "tris_lod1": 3204
+  },
   "landmark_glb:c_seagram_building": {
    "artifact_id": "landmark_glb:c_seagram_building",
    "bins": [
@@ -7270,6 +7291,26 @@
    "stage": "landmarks",
    "tris_lod0": 34356,
    "tris_lod1": 140
+  },
+  "landmark_glb:c_st_john_the_divine": {
+   "artifact_id": "landmark_glb:c_st_john_the_divine",
+   "bins": [
+    1082706
+   ],
+   "bytes": 6621360,
+   "footprint_iou": 1.0,
+   "git_commit": "1a5dfa8dd00c",
+   "path": "blender_out/landmarks/c_st_john_the_divine.glb",
+   "produced_at": "2026-09-06T12:41:35Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "22af13a69e97bf39bb1225a596e570713efff4193633dbb0a538a6f340dde407",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 4329,
+   "tris_lod1": 576
   },
   "landmark_glb:c_the_dakota": {
    "artifact_id": "landmark_glb:c_the_dakota",
@@ -7365,6 +7406,26 @@
    "tris_lod0": 12338,
    "tris_lod1": 706
   },
+  "landmark_glb:c_yankee_stadium": {
+   "artifact_id": "landmark_glb:c_yankee_stadium",
+   "bins": [
+    2114490
+   ],
+   "bytes": 13622072,
+   "footprint_iou": 1.0,
+   "git_commit": "1a5dfa8dd00c",
+   "path": "blender_out/landmarks/c_yankee_stadium.glb",
+   "produced_at": "2026-09-06T12:45:23Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "e219c61bedec07ec56f72c9020519d05378eb41fc3d1cd063fda587d2888adb8",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 10196,
+   "tris_lod1": 1742
+  },
   "landmark_glb:charging_bull": {
    "artifact_id": "landmark_glb:charging_bull",
    "bins": [],
@@ -7448,14 +7509,14 @@
    "bins": [
     1001026
    ],
-   "bytes": 20448832,
+   "bytes": 20449072,
    "footprint_iou": 1.0,
-   "git_commit": "c4464e87459d",
+   "git_commit": "1a5dfa8dd00c",
    "path": "blender_out/landmarks/equitable_building.glb",
-   "produced_at": "2026-09-06T12:36:15Z",
+   "produced_at": "2026-09-06T12:43:34Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "d4edd8b0face1d357551061ad89b3ce6540404b52529ad64e56622527b83c2d0",
+   "sha256": "fa19e4b4d51627502538ac37ab906af31037f375e98710d9c397f43b6161ba11",
    "sources": [
     "building_footprints"
    ],
@@ -7713,14 +7774,14 @@
    "bins": [
     1001028
    ],
-   "bytes": 3048240,
+   "bytes": 3048320,
    "footprint_iou": 1.0,
-   "git_commit": "e9c4094042a0",
+   "git_commit": "1a5dfa8dd00c",
    "path": "blender_out/landmarks/trinity_church.glb",
-   "produced_at": "2026-09-06T12:09:24Z",
+   "produced_at": "2026-09-06T12:42:37Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "cc8324661b82c6a8df845d272a3ca6f6ce6b93ff29bde7c9b41f68614dcdd5ba",
+   "sha256": "5085271769355c2d35dfa25a9884f5f1d890b23e5bc15b80cc2b4ae5c8bc9a81",
    "sources": [
     "building_footprints"
    ],
@@ -8215,9 +8276,9 @@
    "bytes": 862296,
    "cell_element_size": 32,
    "cells": 18864,
-   "git_commit": "c4464e87459d",
+   "git_commit": "1a5dfa8dd00c",
    "path": "data/processed/runtime/density.nycb",
-   "produced_at": "2026-09-06T12:36:33Z",
+   "produced_at": "2026-09-06T12:45:09Z",
    "rings": 334,
    "rows": 18864,
    "schema": "runtime/density.nycb@1",
@@ -10457,15 +10518,15 @@
   },
   "terrain_tiles": {
    "artifact_id": "terrain_tiles",
-   "bytes": 2785,
-   "git_commit": "c4464e87459d",
+   "bytes": 2483,
+   "git_commit": "1a5dfa8dd00c",
    "path": "data/processed/terrain/tile_summary.json",
-   "png_bytes": 110677144,
-   "produced_at": "2026-09-06T12:27:33Z",
-   "rows": 747,
+   "png_bytes": 228194067,
+   "produced_at": "2026-09-06T12:42:30Z",
+   "rows": 2915,
    "samples_per_tile": 251001,
    "schema": "terrain.tile/1",
-   "sha256": "b471e074069172b98352acfad8ebac140f8478dda5a0c53fca64d8f63029e4db",
+   "sha256": "cc146da79fb149febe635820b21d64baedb814d2748c3e3b8e81c347cc0e5a68",
    "sources": [
     "usgs_3dep",
     "plan_elevation_points",
@@ -10476,20 +10537,20 @@
    ],
    "spacing_m": 2.0,
    "stage": "terrain",
-   "tiles_written": 747
+   "tiles_written": 2915
   },
   "traffic_density": {
    "artifact_id": "traffic_density",
    "bytes": 1107702,
    "day_types": 3,
-   "git_commit": "c4464e87459d",
+   "git_commit": "1a5dfa8dd00c",
    "hours": 24,
    "ntas": 262,
    "path": "data/processed/traffic/density.parquet",
-   "produced_at": "2026-09-06T12:36:32Z",
+   "produced_at": "2026-09-06T12:45:09Z",
    "rows": 18864,
    "schema": "traffic/density@1",
-   "sha256": "4b20f6c63850fc2178a7e817a7b83bc59d5fe2c859483024e46eefcb69e59ffc",
+   "sha256": "906024acde7fae0e3ba7b28f21c16896f2a2eb51fecbca0653dad0a9d9375495",
    "sources": [
     "traffic_volume_auto",
     "dot_vehicle_class_counts",
@@ -10513,13 +10574,13 @@
   },
   "traffic_density_detail": {
    "artifact_id": "traffic_density_detail",
-   "bytes": 2762675,
-   "git_commit": "c4464e87459d",
+   "bytes": 2762659,
+   "git_commit": "1a5dfa8dd00c",
    "path": "data/processed/traffic/density_detail.parquet",
-   "produced_at": "2026-09-06T12:36:33Z",
+   "produced_at": "2026-09-06T12:45:09Z",
    "rows": 18864,
    "schema": "traffic/density_detail@1",
-   "sha256": "557d84043d4e597fe8cbeed2f6a60e11df9e4a2987177f853c31d968d387c51c",
+   "sha256": "2a623ac5e051d0fd534ad0ad4004fc51c3382893163fc468af29abd224ad2f77",
    "sources": [
     "traffic_volume_auto",
     "dot_vehicle_class_counts",
@@ -10543,13 +10604,13 @@
   },
   "traffic_fleet_mix": {
    "artifact_id": "traffic_fleet_mix",
-   "bytes": 44127,
-   "git_commit": "c4464e87459d",
+   "bytes": 44269,
+   "git_commit": "1a5dfa8dd00c",
    "path": "data/processed/traffic/fleet_mix.json",
-   "produced_at": "2026-09-06T12:36:33Z",
+   "produced_at": "2026-09-06T12:45:09Z",
    "rows": 30,
    "schema": "traffic/fleet_mix@1",
-   "sha256": "121514bf9359c371bfb55428be469a65a590e2f26f4dee1c94f41da05b71496a",
+   "sha256": "4f95905d3ef1f894bf1b52b7b48e0513b2526289636544f731735c60d5c48969",
    "sources": [
     "traffic_volume_auto",
     "dot_vehicle_class_counts",
@@ -10834,14 +10895,14 @@
   },
   "water_hydrography": {
    "artifact_id": "water_hydrography",
-   "bytes": 18688072,
-   "git_commit": "c4464e87459d",
+   "bytes": 20638154,
+   "git_commit": "1a5dfa8dd00c",
    "levels_finalized": true,
    "path": "data/processed/water/hydrography.parquet",
-   "produced_at": "2026-09-06T12:35:05Z",
-   "rows": 2209,
+   "produced_at": "2026-09-06T12:42:30Z",
+   "rows": 2246,
    "schema": "water.hydrography/1",
-   "sha256": "3fbc5525dbe51b934cfd56e28d184171e3e9b7a6978efa19bd90446d49e5a683",
+   "sha256": "2a91a7fd1fcc0a38d5c0dec1e730a284af0cf0cabe8ad3f76b100e087cc7ffce",
    "sources": [
     "plan_hydrography",
     "plan_hydro_structures",
@@ -10855,26 +10916,25 @@
   },
   "water_shoreline": {
    "artifact_id": "water_shoreline",
-   "bytes": 5902606,
-   "git_commit": "7681d64744ab",
+   "bytes": 5902589,
+   "git_commit": "1a5dfa8dd00c",
    "path": "data/processed/water/shoreline.parquet",
-   "produced_at": "2026-09-06T12:25:00Z",
+   "produced_at": "2026-09-06T12:40:42Z",
    "rows": 413,
    "schema": "water.shoreline/1",
-   "sha256": "bb3821b24fb8c896b5adc2ed30fdce1f2d4ddca84dc9c261ac4820e433f334d5",
+   "sha256": "36be4a1aac0f558f5ce29cff1329a2379f877239e805d5d0aeb685867291fa5b",
    "sources": [
     "plan_shoreline",
-    "plan_hydro_structures",
-    "usgs_3dep"
+    "plan_hydro_structures"
    ],
    "stage": "water"
   },
   "water_structures": {
    "artifact_id": "water_structures",
    "bytes": 2500550,
-   "git_commit": "7681d64744ab",
+   "git_commit": "1a5dfa8dd00c",
    "path": "data/processed/water/structures.parquet",
-   "produced_at": "2026-09-06T12:25:00Z",
+   "produced_at": "2026-09-06T12:40:42Z",
    "rows": 2536,
    "schema": "water.structures/1",
    "sha256": "74e1dbadc3e3f0c5a477d5f4edf5499c5bb7e76e7e775880e405296c008af054",
@@ -10885,17 +10945,15 @@
   },
   "water_tiles": {
    "artifact_id": "water_tiles",
-   "bytes": 32231,
-   "git_commit": "c4464e87459d",
+   "bytes": 28650,
+   "git_commit": "1a5dfa8dd00c",
    "path": "data/processed/water/water_tiles.parquet",
-   "produced_at": "2026-09-06T12:33:41Z",
+   "produced_at": "2026-09-06T12:40:42Z",
    "rows": 2916,
    "schema": "water.water_tiles/1",
-   "sha256": "ec1db582517621dc48fa14628f70b834885fd7c6debdcc21c924234a9b126bdf",
+   "sha256": "68a4e089f0e239c86db83baddfa9fcaec40f0689f0289c9786bc67c7905e9388",
    "sources": [
-    "plan_hydrography",
-    "osm_newyork_pbf",
-    "usgs_3dep"
+    "plan_hydrography"
    ],
    "stage": "water"
   }

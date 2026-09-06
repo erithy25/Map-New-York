@@ -125,7 +125,7 @@ def main():
                                   "expansion_roof_m": EXPANSION_ROOF, "structural_grid_m": GRID,
                                   "space_frame_module_m": MODULE, "glass_panes_published": 16000})
     cc.render(ID, [
-        {"view": "eleventh_avenue", "azimuth_deg": 100, "elevation_deg": "street", "distance": 320, "fov_deg": 58, "look_up_deg": 12},
+        {"view": "eleventh_avenue", "azimuth_deg": 100, "elevation_deg": "street", "fov_deg": 52, "look_up_deg": 8},
         {"view": "aerial", "azimuth_deg": 120, "elevation_deg": 30},
     ])
     return entry

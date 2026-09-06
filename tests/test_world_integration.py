@@ -283,19 +283,49 @@ def test_roadgraph_binary_agrees_with_the_parquet_it_came_from():
 
 
 # --------------------------------------------------------------------------- assets vs. data
-def test_kit_placements_reference_kit_pieces_that_exist():
+def test_kit_placements_are_populated_and_reference_real_kit_pieces():
+    """A tile full of buildings must carry facade kit placements.
+
+    The emit stage once wrote 920 well-formed headers with `count: 0` and reported no problems,
+    because it validated structure and not content. Zero placements means no windows, no fire
+    escapes and no storefronts anywhere in the city, so emptiness is a failure, not a pass.
+    """
     headers = _tile_files("kit_placements.json")
     if not headers:
         pytest.skip("kit placements not produced yet")
     catalog_dir = BLENDER_OUT / "kit" / "catalog"
-    if not catalog_dir.exists():
-        pytest.skip("kit catalog not produced yet")
-    known = {json.load(open(p)).get("kit_id", json.load(open(p)).get("id")) for p in catalog_dir.glob("*.json")}
-    known |= {i for i in range(0, 4096)}  # numeric kit ids are validated against the catalog map below
-    for h in headers[:50]:
+    known: set = set()
+    if catalog_dir.exists():
+        for p in catalog_dir.glob("*.json"):
+            d = json.load(open(p))
+            for key in ("kit_id", "id"):
+                if key in d:
+                    known.add(d[key])
+
+    populated = 0
+    total_records = 0
+    for h in headers:
         d = json.load(open(h))
-        for kid in d.get("kit_ids", []):
-            assert kid in known, f"{h.parent.name} references unknown kit id {kid!r}"
+        blob = h.parent / "kit_placements.bin"
+        assert blob.exists(), f"{h.parent.name}: header without a .bin"
+        size = blob.stat().st_size
+        assert size == d.get("bytes", size), f"{h.parent.name}: header says {d.get('bytes')} bytes, file has {size}"
+        assert size % 40 == 0, f"{h.parent.name}: {size} bytes is not a whole number of 40-byte records"
+        if size:
+            populated += 1
+            total_records += size // 40
+        if known and d.get("kit_ids"):
+            unknown = [k for k in d["kit_ids"] if k not in known]
+            assert not unknown, f"{h.parent.name} references kit ids absent from the catalog: {unknown[:5]}"
+
+    # Every tile that holds buildings should hold placements: a building needs windows.
+    with_buildings = sum(1 for h in headers if (h.parent / "buildings.parquet").exists())
+    assert populated > 0, (
+        f"all {len(headers)} kit placement files are empty — the emit stage produced no placements at all")
+    assert populated >= 0.9 * with_buildings, (
+        f"only {populated} of {with_buildings} tiles with buildings carry placements")
+    assert total_records > 1_000_000, (
+        f"only {total_records:,} placements city-wide for over a million buildings — far too few to be windows")
 
 
 def test_every_exported_asset_has_a_catalog_entry():

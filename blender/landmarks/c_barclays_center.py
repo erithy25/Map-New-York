@@ -141,7 +141,7 @@ def main():
                                   "panels_published": 12000, "oculus_cantilever_m": OCULUS_CANTILEVER,
                                   "oculus_opening_m": OCULUS_D, "court_m": list(COURT), "capacity": CAPACITY})
     cc.render(ID, [
-        {"view": "atlantic_flatbush", "azimuth_deg": 45, "elevation_deg": "street", "distance": 130, "fov_deg": 62, "look_up_deg": 14},
+        {"view": "atlantic_flatbush", "azimuth_deg": 45, "elevation_deg": "street", "fov_deg": 55, "look_up_deg": 11},
         {"view": "aerial", "azimuth_deg": 45, "elevation_deg": 30},
     ])
     return entry

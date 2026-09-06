@@ -1,0 +1,198 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_united_nations_hq",
+ "name": "United Nations Headquarters",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7495,
+  "lon": -73.9698,
+  "azimuth_deg": 113.7,
+  "note": "First Avenue at East 43rd Street, west sidewalk, looking east at the flag row and the Secretariat",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7489,
+  "lon": -73.968,
+  "name": "UN Secretariat Building"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"United Nations Headquarters\" Secretariat Building First Avenue flags",
+  "\"United Nations Headquarters\" New York exterior"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T12:44:13Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 55,
+ "candidates_eligible": 26,
+ "rejections": {
+  "too_small": 5,
+  "excluded": 9,
+  "keywords": 13,
+  "too_old": 2
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:UN Headquarters December 2021.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:UN_Headquarters_December_2021.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/UN_Headquarters_December_2021.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/UN_Headquarters_December_2021.jpg/1920px-UN_Headquarters_December_2021.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-12-07 12:02:52",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.749478,
+    "lon": -73.969581
+   },
+   "original_width": 2448,
+   "original_height": 3264,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1078356,
+   "sha256": "bc018d9c3cb4d9489b8ec19fbc0c54fd78a94f3f075c13eb9eea3c3fb2fd90b7",
+   "mean_luminance": 105.2,
+   "description": "UN Headquarters in December 2021",
+   "categories": [
+    "United Nations Secretariat Building",
+    "New York City photographs taken on 2021-12-07",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Headquarters of the United Nations in 2021",
+    "December 2021 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.9,
+   "estimated_viewpoint": {
+    "lat": 40.749478,
+    "lon": -73.969581,
+    "azimuth_deg": 115.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74948, -73.96958) is 148 m from UN Secretariat Building (40.74890, -73.96800) and 19 m from the standard viewpoint; the azimuth 116 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"UN Headquarters December 2021.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:UN_Headquarters_December_2021.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:United Nations headquarters 3.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:United_Nations_headquarters_3.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/2f/United_Nations_headquarters_3.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/United_Nations_headquarters_3.jpg/1920px-United_Nations_headquarters_3.jpg",
+   "author": "Horizon206",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2023",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.749964,
+    "lon": -73.969183
+   },
+   "original_width": 4032,
+   "original_height": 2268,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 807000,
+   "sha256": "4218b7854b203148a46fe86ec2428c63ed20a8d7a8e6e4ddfb2ba33df31b444c",
+   "mean_luminance": 118.0,
+   "description": "The headquarters of the United Nations in New York City",
+   "categories": [
+    "United Nations Secretariat Building",
+    "CC-Zero",
+    "New York City photographs taken on 2023-06-20",
+    "Self-published work",
+    "Uploaded with Mobile/Android",
+    "Files with coordinates missing SDC location of creation",
+    "Headquarters of the United Nations in 2023",
+    "June 2023 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.2,
+   "estimated_viewpoint": {
+    "lat": 40.749964,
+    "lon": -73.969183,
+    "azimuth_deg": 139.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74996, -73.96918) is 155 m from UN Secretariat Building (40.74890, -73.96800) and 73 m from the standard viewpoint; the azimuth 140 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"United Nations headquarters 3.jpg\" by Horizon206, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:United_Nations_headquarters_3.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:United Nations Secretariat Building (51923065518).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:United_Nations_Secretariat_Building_(51923065518).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/50/United_Nations_Secretariat_Building_%2851923065518%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/United_Nations_Secretariat_Building_%2851923065518%29.jpg/1920px-United_Nations_Secretariat_Building_%2851923065518%29.jpg",
+   "author": "ajay_suresh",
+   "credit": "United Nations Secretariat Building",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2022",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.749602,
+    "lon": -73.969712
+   },
+   "original_width": 3184,
+   "original_height": 4245,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1768989,
+   "sha256": "d924ffb39ad93eb23ffd28d3a111bbcb2325a506bff83a3865b9173c6521c862",
+   "mean_luminance": 172.5,
+   "description": "United Nations Secretariat Building",
+   "categories": [
+    "United Nations Secretariat Building",
+    "New York City photographs taken on 2022-03-06",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Headquarters of the United Nations in 2022",
+    "March 2022 in Manhattan, New York City",
+    "2022 New York City photographs by ajay suresh"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.05,
+   "estimated_viewpoint": {
+    "lat": 40.749602,
+    "lon": -73.969712,
+    "azimuth_deg": 118.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74960, -73.96971) is 164 m from UN Secretariat Building (40.74890, -73.96800) and 14 m from the standard viewpoint; the azimuth 118 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"United Nations Secretariat Building (51923065518).jpg\" by ajay_suresh, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:United_Nations_Secretariat_Building_(51923065518).jpg"
+  }
+ ]
+}

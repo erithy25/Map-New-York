@@ -139,7 +139,7 @@ def main():
                                   "nave_bays": NAVE_BAYS,
                                   "length_m": round(P.bounds[2] - P.bounds[0], 1)})
     cc.render(ID, [
-        {"view": "amsterdam_avenue", "azimuth_deg": 260, "elevation_deg": "street", "distance": 120, "fov_deg": 62, "look_up_deg": 24},
+        {"view": "amsterdam_avenue", "azimuth_deg": 260, "elevation_deg": "street", "fov_deg": 55, "look_up_deg": 16},
         {"view": "aerial", "azimuth_deg": 220, "elevation_deg": 28},
     ])
     return entry

@@ -132,7 +132,7 @@ def main():
              dimensions={"tip_m": TIP_M, "roof_m": ROOF_M, "storeys": 93, "base_h_m": BASE_H, "floor_h_m": FLOOR_H,
                          "setbacks_m": list(SETBACKS), "lot_m": [65.7, 61.2], "chisel_h_m": 10.0})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 140, "elevation_deg": "street", "distance": 645, "target_z": 180, "fov_deg": 62},
+        {"view": "street", "azimuth_deg": 140, "elevation_deg": "street", "distance": 727, "target_z": 214, "fov_deg": 62},
         {"view": "aerial", "azimuth_deg": 305, "elevation_deg": 22, "distance": 1150, "fov_deg": 40, "target_z": 210},
     ])
 

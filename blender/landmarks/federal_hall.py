@@ -122,7 +122,7 @@ def main():
                          "statue_h_m": STATUE_H, "statue_pedestal_h_m": PEDESTAL_H,
                          "published_plan_m": [61.0, 27.4], "footprint_plan_m": [55.6, 28.5]})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 180, "elevation_deg": "street", "distance": 46, "target_z": 12, "fov_deg": 62},
+        {"view": "street", "azimuth_deg": 180, "elevation_deg": "street", "distance": 68, "target_z": 12, "fov_deg": 62},
         {"view": "aerial", "azimuth_deg": 200, "elevation_deg": 26, "distance": 105, "fov_deg": 48, "target_z": 11},
     ])
 

@@ -129,7 +129,7 @@ def main():
                                   "bowl_top_m": BOWL_TOP, "roof_opening_m": OPENING, "roof_columns": COLUMNS,
                                   "court_m": list(COURT), "runoff_m": list(RUNOFF), "capacity": CAPACITY})
     cc.render(ID, [
-        {"view": "plaza", "azimuth_deg": 200, "elevation_deg": "street", "distance": 190, "fov_deg": 60, "look_up_deg": 16},
+        {"view": "plaza", "azimuth_deg": 200, "elevation_deg": "street", "fov_deg": 55, "look_up_deg": 12},
         {"view": "aerial", "azimuth_deg": 220, "elevation_deg": 32},
     ])
     return entry

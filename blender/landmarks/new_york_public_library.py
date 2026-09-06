@@ -140,7 +140,7 @@ def main():
                          "lion_length_m": LION_L, "lion_pedestal_h_m": PEDESTAL_H, "portico_bays": 3,
                          "published_plan_m": [118.9, 82.3]})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 100, "elevation_deg": "street", "distance": 105, "target_z": 20, "fov_deg": 66},
+        {"view": "street", "azimuth_deg": 100, "elevation_deg": "street", "distance": 120, "target_z": 22, "fov_deg": 66},
         {"view": "aerial", "azimuth_deg": 115, "elevation_deg": 24, "distance": 285, "fov_deg": 48, "target_z": 20},
     ])
 

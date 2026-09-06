@@ -150,7 +150,7 @@ def main():
                          "rink_m": [RINK_L, RINK_W], "plaza_depth_m": PLAZA_DEPTH, "prometheus_len_m": 5.5,
                          "flagpoles": flags, "flagpole_h_m": FLAG_H, "flag_spacing_m": FLAG_SPACING})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 105, "elevation_deg": "street", "distance": 395, "target_z": 110, "fov_deg": 62},
+        {"view": "street", "azimuth_deg": 105, "elevation_deg": "street", "distance": 442, "target_z": 130, "fov_deg": 62},
         {"view": "aerial", "azimuth_deg": 158, "elevation_deg": 24, "distance": 830, "fov_deg": 42, "target_z": 130},
         {"view": "plaza", "fov_deg": 68, **plaza_cam},
     ])

@@ -130,7 +130,7 @@ def main():
                                   "geffen_pier_h_m": GEFFEN_PIER_H, "koch_top_m": KOCH_TOP,
                                   "revson_fountain_d_m": FOUNTAIN_D})
     cc.render(ID, [
-        {"view": "plaza", "azimuth_deg": 90, "elevation_deg": "street", "distance": 120, "fov_deg": 66, "look_up_deg": 18},
+        {"view": "plaza", "azimuth_deg": 90, "elevation_deg": "street", "fov_deg": 58, "look_up_deg": 12},
         {"view": "aerial", "azimuth_deg": 100, "elevation_deg": 28},
     ])
     return entry

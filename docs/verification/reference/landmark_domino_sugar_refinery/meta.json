@@ -1,0 +1,208 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_domino_sugar_refinery",
+ "name": "Domino Sugar Refinery",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.715,
+  "lon": -73.9672,
+  "azimuth_deg": 198.0,
+  "note": "Domino Park esplanade at South 2nd Street, looking south at the refinery building",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7143,
+  "lon": -73.9675,
+  "name": "Domino Sugar Refinery"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2018,
+ "wanted": 3,
+ "queries": [
+  "\"Domino Sugar Refinery\" Williamsburg",
+  "\"Domino Park\" refinery building Brooklyn"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T12:45:05Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 75,
+ "candidates_eligible": 35,
+ "rejections": {
+  "too_old": 12,
+  "excluded": 8,
+  "not_photo": 3,
+  "keywords": 17
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Domino Refinery in 2023.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Domino_Refinery_in_2023.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/15/Domino_Refinery_in_2023.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Domino_Refinery_in_2023.jpg/1920px-Domino_Refinery_in_2023.jpg",
+   "author": "Kevin Payravi",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-11-18 16:07:41",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.714808,
+    "lon": -73.968022
+   },
+   "original_width": 8160,
+   "original_height": 6144,
+   "width": 1920,
+   "height": 1446,
+   "bytes": 869433,
+   "sha256": "7df1678c028a1fb05ef8235a56044bbcccf6067b94f83f3ab067a5bf4a359f0b",
+   "mean_luminance": 98.4,
+   "description": "This is a photo of a place or building that is listed on the New York City Landmarks Preservation Commission listing in the United States. Its reference number is",
+   "categories": [
+    "Domino Sugar Refinery",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Uploaded via Campaign:wlm-us-other",
+    "Images from Wiki Loves Monuments missing SDC inception",
+    "Images from Wiki Loves Monuments missing SDC creator",
+    "Images from Wiki Loves Monuments missing SDC depicts",
+    "Images from Wiki Loves Monuments missing SDC location of creation",
+    "Images from Wiki Loves Monuments missing SDC source of file",
+    "New York City Designated Landmarks with known IDs",
+    "2023 in Williamsburg, Brooklyn",
+    "Images from Wiki Loves Monuments 2025",
+    "Images from Wiki Loves Monuments 2025 in the United States",
+    "Images from Wiki Loves Monuments 2025 in New York",
+    "Buildings from Wiki Loves Monuments 2025 in the United States",
+    "Images from Wiki Loves Monuments 2025 in New York City",
+    "Images from Wiki Loves Monuments 2025 in the United States uploaded on 2025-11-01"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.714808,
+    "lon": -73.968022,
+    "azimuth_deg": 142.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71481, -73.96802) is 72 m from Domino Sugar Refinery (40.71430, -73.96750) and 72 m from the standard viewpoint; the azimuth 142 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Domino Refinery in 2023.jpg\" by Kevin Payravi, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Domino_Refinery_in_2023.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Domino Sugar Refinery June 2022.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Domino_Sugar_Refinery_June_2022.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/86/Domino_Sugar_Refinery_June_2022.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Domino_Sugar_Refinery_June_2022.jpg/1920px-Domino_Sugar_Refinery_June_2022.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-06-28 13:43:57",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.713183,
+    "lon": -73.967742
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 671810,
+   "sha256": "1ea59d5296f2b4bab37461adbd529521daeb453dd2f055fab45b97c6624b9177",
+   "mean_luminance": 80.8,
+   "description": "Domino Sugar Refinery in June 2022",
+   "categories": [
+    "Domino Sugar Refinery",
+    "Domino Park",
+    "New York City photographs taken on 2022-06-28",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "June 2022 in Brooklyn, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.713183,
+    "lon": -73.967742,
+    "azimuth_deg": 9.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71318, -73.96774) is 126 m from Domino Sugar Refinery (40.71430, -73.96750) and 207 m from the standard viewpoint; the azimuth 9 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Domino Sugar Refinery June 2022.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Domino_Sugar_Refinery_June_2022.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Domino Park green jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Domino_Park_green_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Domino_Park_green_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Domino_Park_green_jeh.jpg/1920px-Domino_Park_green_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018-09-08 18:40:22",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.713597,
+    "lon": -73.968622
+   },
+   "original_width": 4608,
+   "original_height": 3072,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 670762,
+   "sha256": "febd95c4db68823f4c8a09b7090e4123d6d8c0934d1696ad20e189bc715b6d7d",
+   "mean_luminance": 151.8,
+   "description": "Looking northeast at grass and end of volleyball court",
+   "categories": [
+    "Domino Park",
+    "Lawns in the United States",
+    "Self-published work",
+    "Parks in New York City in 2018",
+    "Files with coordinates missing SDC location of creation",
+    "2018 in Williamsburg, Brooklyn",
+    "September 2018 in Brooklyn, New York City",
+    "2018 Brooklyn photos by Jim.henderson"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.45,
+   "estimated_viewpoint": {
+    "lat": 40.713597,
+    "lon": -73.968622,
+    "azimuth_deg": 50.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71360, -73.96862) is 123 m from Domino Sugar Refinery (40.71430, -73.96750) and 197 m from the standard viewpoint; the azimuth 50 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Domino Park green jeh.jpg\" by Jim.henderson, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Domino_Park_green_jeh.jpg"
+  }
+ ]
+}

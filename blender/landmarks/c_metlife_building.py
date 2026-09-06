@@ -3,8 +3,8 @@ Pietro Belluschi, 1963.
 
 Dimensions used (source in brackets)
 ------------------------------------
-* Footprint: the real OTI polygon (10,073 m2) — the base straddles the Grand Central train shed between East 44th
-  and 45th Streets; 91.0 m east-west by 113.5 m north-south in the local frame.
+* Footprint [NYC Building Footprints, OTI 5zhs-2jue]: the real OTI polygon (10,073 m2) — the base straddles the
+  Grand Central train shed between East 44th and 45th Streets; 91.0 m east-west by 113.5 m north-south.
 * Height [CTBUH]: 808 ft = 246.3 m, 59 floors. Storeys derived to land the roof on 246.3 m: a 9-storey base of
   4.90 m (top 44.1 m) and 50 tower floors of 4.044 m.
 * Tower plan [Emery Roth & Sons; Gropius/Belluschi published plans]: an elongated octagon — a 78 x 40 m rectangle
@@ -12,8 +12,9 @@ Dimensions used (source in brackets)
   wide elevation. The chamfer dimension is measured from photographs (stated inference, +-1.5 m).
 * Elevation [AIA Guide; LPC Grand Central area studies]: precast concrete panels with narrow vertical windows on a
   1.60 m module; the concrete piers read as continuous vertical ribs the full height of the shaft.
-* Base [AIA Guide]: nine storeys wrapping over the Grand Central concourse, with the Park Avenue viaduct passing
-  through it at 44th Street; the roof of the base carried the 1965-77 heliport.
+* Base [AIA Guide; Landmarks Preservation Commission Grand Central studies]: nine storeys wrapping over the Grand
+  Central concourse, with the Park Avenue viaduct passing through it at 44th Street; the roof of the base carried
+  the 1965-77 heliport.
 
 Fidelity: real footprint; published height, floor count, octagonal tower plan and precast rib elevation modelled as
 geometry. Inferred (stated): the corner chamfer dimension and the 9/50 floor split between base and tower. NOT

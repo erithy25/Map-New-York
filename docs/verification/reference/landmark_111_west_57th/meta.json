@@ -1,0 +1,43 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_111_west_57th",
+ "name": "111 West 57th Street (Steinway Tower, Billionaires' Row)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7683,
+  "lon": -73.9748,
+  "azimuth_deg": 210.1,
+  "note": "Central Park at Wollman Rink / the Pond, looking south-south-west at the tower",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7649,
+  "lon": -73.9774,
+  "name": "111 West 57th Street"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2020,
+ "wanted": 3,
+ "queries": [
+  "\"111 West 57th Street\" Steinway Tower",
+  "\"Steinway Tower\" Central Park skyscraper"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T12:42:39Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 105,
+ "candidates_eligible": 0,
+ "rejections": {
+  "keywords": 92,
+  "licence": 2,
+  "too_small": 1,
+  "too_old": 1,
+  "excluded": 8,
+  "night_for_day_item": 1
+ },
+ "exhausted": true,
+ "status": "no_suitable_photo",
+ "photos": []
+}

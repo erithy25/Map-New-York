@@ -134,7 +134,7 @@ def main():
              dimensions={"roof_m": ROOF_M, "storeys": 50, "ground_floor_h_m": GROUND_H, "floor_h_m": round(FLOOR_H, 3),
                          "setback_floors": list(SETBACK_FLOORS), "flute_bay_m": FLUTE_BAY, "flute_depth_m": FLUTE_DEPTH})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 210, "elevation_deg": "street", "distance": 305, "target_z": 85, "fov_deg": 62},
+        {"view": "street", "azimuth_deg": 210, "elevation_deg": "street", "distance": 340, "target_z": 100, "fov_deg": 62},
         {"view": "aerial", "azimuth_deg": 225, "elevation_deg": 24, "distance": 620, "fov_deg": 40, "target_z": 105},
     ])
 
