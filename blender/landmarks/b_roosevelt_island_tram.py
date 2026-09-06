@@ -181,7 +181,7 @@ def main() -> None:
     mid = (P[2] + P[3]) / 2
     ctx = (("water_dark", 0.35, 700.0, (mid.x, mid.y)),
            ("ground_urban", GROUND, 260.0, (P[0].x - 60.0, P[0].y + 60.0)),
-           ("grass", GROUND, 200.0, (P[4].x + 60.0, P[4].y - 60.0)))
+           ("ground_urban", GROUND, 200.0, (P[4].x + 60.0, P[4].y - 60.0)))
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=250_000, budget_lod1=50_000,
         renders=[

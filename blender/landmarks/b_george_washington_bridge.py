@@ -172,8 +172,8 @@ def main() -> None:
     fr = fit.frame
     land_nj, land_ny = ax.p(-820.0, 0.0), ax.p(760.0, 0.0)
     ctx = (("water_dark", 0.35, 2000.0, (0.0, 0.0)),
-           ("grass", GROUND_NJ, 400.0, (land_nj.x, land_nj.y)),
-           ("grass", GROUND_NY, 380.0, (land_ny.x, land_ny.y)))
+           ("ground_urban", GROUND_NJ, 400.0, (land_nj.x, land_nj.y)),
+           ("ground_urban", GROUND_NY, 380.0, (land_ny.x, land_ny.y)))
     fort_washington = fr.from_lonlat(-73.9480, 40.8480, GROUND_NY + 1.65)
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=400_000, budget_lod1=90_000,

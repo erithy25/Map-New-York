@@ -515,6 +515,137 @@ def add_landmarks(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
             "triangles": tris, "landmarks": placed, "skipped_detail": skipped}
 
 
+# --------------------------------------------------------------------------- pavement
+
+
+PAVEMENT_DIR = PROCESSED / "roads" / "pavement"
+
+#: ``kind`` -> (name, lift above the terrain in metres, base colour, roughness).  The lift keeps the
+#: pavement clear of the terrain grid it is draped on and reproduces the real 0.15 m curb reveal:
+#: roadbed at +0.10, everything the pedestrian walks on at +0.25.
+PAVEMENT_KINDS = {
+    0: ("roadbed", 0.10, (0.055, 0.055, 0.058, 1.0), 0.85),
+    1: ("sidewalk", 0.25, (0.34, 0.335, 0.32, 1.0), 0.88),
+    2: ("median", 0.25, (0.30, 0.30, 0.29, 1.0), 0.88),
+    3: ("plaza", 0.25, (0.33, 0.31, 0.30, 1.0), 0.80),
+    4: ("curb", 0.25, (0.42, 0.42, 0.41, 1.0), 0.80),
+    5: ("crosswalk", 0.115, (0.62, 0.62, 0.60, 1.0), 0.75),
+    6: ("parking_lot", 0.10, (0.075, 0.075, 0.078, 1.0), 0.85),
+}
+
+
+def add_pavement(cx: float, cy: float, radius_m: float, sampler: TerrainSampler, *,
+                 col: bpy.types.Collection | None = None,
+                 triangle_budget: int = 900_000) -> dict:
+    """Drape the real paved surfaces over the terrain.
+
+    ``data/processed/roads/pavement/{tile}.parquet`` (DATA_CONTRACTS s7) holds the DoITT
+    planimetric roadbed, sidewalk, median, plaza, curb and parking-lot polygons plus the derived
+    crosswalks, clipped to the tile grid.  Without them a street-level frame is a single flat
+    ground plane where the photograph has asphalt, a curb line, a sidewalk and a crosswalk, which
+    is the largest single difference at eye level.  Each polygon is triangulated in plan and every
+    vertex is lifted to the heightmap surface plus the kind's own offset, so the pavement follows
+    the real grade and the curb reveal is the real 0.15 m.
+    """
+    try:
+        import pyarrow.parquet as pq
+        import shapely
+    except Exception as exc:
+        return {"placed": 0, "reason": f"pyarrow/shapely unavailable: {exc}"}
+    if not PAVEMENT_DIR.is_dir():
+        return {"placed": 0, "reason": f"no pavement directory at {PAVEMENT_DIR}"}
+
+    mats = {k: nb.pbr_material(f"pave_{name}", base_color=colour, roughness=rough)
+            for k, (name, _lift, colour, rough) in PAVEMENT_KINDS.items()}
+    mat_list = [mats[k] for k in sorted(mats)]
+    mat_index = {k: i for i, k in enumerate(sorted(mats))}
+
+    verts: list[tuple[float, float, float]] = []
+    faces: list[tuple[int, int, int]] = []
+    face_kind: list[int] = []
+    per_kind: dict[str, int] = {}
+    tiles_read, tiles_missing, dropped = [], [], 0
+    r2 = radius_m * radius_m
+    for tx, ty in tiles_in_radius(cx, cy, radius_m):
+        tname = tile_name(tx, ty)
+        p = PAVEMENT_DIR / f"{tname}.parquet"
+        if not p.exists():
+            tiles_missing.append(tname)
+            continue
+        try:
+            t = pq.read_table(p, columns=["kind", "geometry"])
+        except Exception as exc:
+            LOG.warning("pavement tile %s unreadable: %s", tname, exc)
+            tiles_missing.append(tname)
+            continue
+        tiles_read.append(tname)
+        kinds = t.column("kind").to_pylist()
+        geoms = t.column("geometry").to_pylist()
+        for kind, blob in zip(kinds, geoms):
+            if len(faces) >= triangle_budget:
+                dropped += 1
+                continue
+            k = int(kind)
+            if k not in PAVEMENT_KINDS:
+                dropped += 1
+                continue
+            try:
+                g = shapely.from_wkb(blob)
+            except Exception:
+                dropped += 1
+                continue
+            polys = list(g.geoms) if g.geom_type == "MultiPolygon" else ([g] if g.geom_type == "Polygon" else [])
+            for poly in polys:
+                ex = list(poly.exterior.coords)[:-1]
+                if len(ex) < 3:
+                    continue
+                # Cheap reject: skip a polygon whose bounding box misses the scene disc entirely.
+                xs = [c[0] for c in ex]
+                ys = [c[1] for c in ex]
+                nx = min(max(cx, min(xs)), max(xs))
+                ny = min(max(cy, min(ys)), max(ys))
+                if (nx - cx) ** 2 + (ny - cy) ** 2 > r2:
+                    continue
+                holes = [list(r.coords)[:-1] for r in poly.interiors if len(r.coords) > 3]
+                try:
+                    tris = nb.triangulate_2d(ex, holes)
+                except Exception:
+                    dropped += 1
+                    continue
+                if not tris:
+                    dropped += 1
+                    continue
+                ring = list(ex)
+                for h in holes:
+                    ring.extend(h)
+                base = len(verts)
+                ax = np.array([c[0] for c in ring], dtype=np.float64)
+                ay = np.array([c[1] for c in ring], dtype=np.float64)
+                z, _ = sampler.grid(ax.reshape(1, -1), ay.reshape(1, -1))
+                z = z.ravel()
+                if np.isnan(z).all():
+                    dropped += 1
+                    continue
+                fill = float(np.nanmedian(z))
+                z = np.where(np.isnan(z), fill, z) + PAVEMENT_KINDS[k][1]
+                verts.extend((float(ax[i]), float(ay[i]), float(z[i])) for i in range(len(ring)))
+                for a, b, c in tris:
+                    faces.append((base + a, base + b, base + c))
+                    face_kind.append(k)
+                per_kind[PAVEMENT_KINDS[k][0]] = per_kind.get(PAVEMENT_KINDS[k][0], 0) + 1
+    if not faces:
+        return {"placed": 0, "reason": "no pavement polygons in range",
+                "tiles_missing": sorted(tiles_missing)}
+    ob = nb.mesh_object("verify_pavement", verts, faces, col=col, materials=mat_list, smooth=False)
+    for poly, k in zip(ob.data.polygons, face_kind):
+        poly.material_index = mat_index[k]
+    bpy.context.view_layer.update()
+    return {"placed": sum(per_kind.values()), "triangles": len(faces), "vertices": len(verts),
+            "per_kind": dict(sorted(per_kind.items(), key=lambda kv: -kv[1])),
+            "dropped_polygons": dropped, "tiles_read": sorted(tiles_read),
+            "tiles_missing": sorted(tiles_missing), "radius_m": radius_m}
+
+
 # --------------------------------------------------------------------------- props
 
 
@@ -802,6 +933,7 @@ class SceneReport:
     centre_tm: tuple[float, float]
     radius_m: float
     terrain: dict = field(default_factory=dict)
+    pavement: dict = field(default_factory=dict)
     buildings: dict = field(default_factory=dict)
     landmarks: dict = field(default_factory=dict)
     props: dict = field(default_factory=dict)
@@ -813,14 +945,14 @@ class SceneReport:
         return {"centre_tm": [round(self.centre_tm[0], 2), round(self.centre_tm[1], 2)],
                 "radius_m": self.radius_m, "triangles": self.triangles,
                 "seconds": round(self.seconds, 2), "terrain": self.terrain,
-                "buildings": self.buildings, "landmarks": self.landmarks,
+                "pavement": self.pavement, "buildings": self.buildings, "landmarks": self.landmarks,
                 "props": self.props, "kit": self.kit}
 
 
 def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float | None = None,
                 kit_radius_m: float | None = None, triangle_budget: int = 4_500_000,
                 terrain_max_side: int = 420, lod0_radius_m: float = 1200.0,
-                with_props: bool = True, with_kit: bool = True,
+                with_props: bool = True, with_kit: bool = True, pavement_radius_m: float = 900.0,
                 leaf_off: bool = False) -> tuple[SceneReport, TerrainSampler]:
     """Reset the scene and populate it from every artefact available around (cx, cy)."""
     import time
@@ -828,6 +960,7 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
     nb.reset_scene()
     scene_col = bpy.context.scene.collection
     c_terrain = nb.collection("terrain", scene_col)
+    c_pave = nb.collection("pavement", scene_col)
     c_build = nb.collection("buildings", scene_col)
     c_landmark = nb.collection("landmarks", scene_col)
     c_props = nb.collection("props", scene_col)
@@ -836,12 +969,14 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
     sampler = TerrainSampler()
     rep = SceneReport(centre_tm=(cx, cy), radius_m=radius_m)
     rep.terrain = build_terrain(sampler, cx, cy, radius_m, max_side=terrain_max_side, col=c_terrain)
+    rep.pavement = add_pavement(cx, cy, min(radius_m, pavement_radius_m), sampler, col=c_pave)
     rep.buildings = add_buildings(cx, cy, radius_m, lod0_radius_m=lod0_radius_m, col=c_build)
 
     lib = AssetLibrary()
     rep.landmarks = add_landmarks(lib, cx, cy, radius_m, col=c_landmark)
 
-    used = int(rep.terrain.get("triangles", 0)) + rep.buildings["triangles"] + rep.landmarks["triangles"]
+    used = (int(rep.terrain.get("triangles", 0)) + int(rep.pavement.get("triangles", 0))
+            + rep.buildings["triangles"] + rep.landmarks["triangles"])
     left = max(0, triangle_budget - used)
     if with_props:
         rep.props = add_props(lib, cx, cy, prop_radius_m if prop_radius_m is not None else min(radius_m, 400.0),
@@ -857,13 +992,15 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
         rep.kit = {"placed": 0, "reason": "disabled"}
 
     bpy.context.view_layer.update()
-    rep.triangles = (int(rep.terrain.get("triangles", 0)) + rep.buildings["triangles"]
+    rep.triangles = (int(rep.terrain.get("triangles", 0)) + int(rep.pavement.get("triangles", 0))
+                     + rep.buildings["triangles"]
                      + rep.landmarks["triangles"] + int(rep.props.get("triangles", 0))
                      + int(rep.kit.get("triangles", 0)))
     rep.seconds = time.time() - t0
-    LOG.info("scene built: %d triangles in %.1f s (%d tiles, %d landmarks, %d props, %d kit)",
-             rep.triangles, rep.seconds, rep.buildings["tiles_imported"], rep.landmarks["placed"],
-             rep.props.get("placed", 0), rep.kit.get("placed", 0))
+    LOG.info("scene built: %d triangles in %.1f s (%d tiles, %d landmarks, %d pavement polys, "
+             "%d props, %d kit)", rep.triangles, rep.seconds, rep.buildings["tiles_imported"],
+             rep.landmarks["placed"], rep.pavement.get("placed", 0), rep.props.get("placed", 0),
+             rep.kit.get("placed", 0))
     return rep, sampler
 
 

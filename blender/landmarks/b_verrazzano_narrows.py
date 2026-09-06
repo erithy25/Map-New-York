@@ -151,8 +151,8 @@ def main() -> None:
     ax = fit.axis
     land_si, land_bk = ax.p(-1150.0, 0.0), ax.p(1150.0, 0.0)
     ctx = (("water_dark", 0.35, 2600.0, (0.0, 0.0)),
-           ("grass", GROUND_SI, 460.0, (land_si.x, land_si.y)),
-           ("grass", GROUND_BK, 460.0, (land_bk.x, land_bk.y)))
+           ("ground_urban", GROUND_SI, 460.0, (land_si.x, land_si.y)),
+           ("ground_urban", GROUND_BK, 460.0, (land_bk.x, land_bk.y)))
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=400_000, budget_lod1=90_000,
         renders=[

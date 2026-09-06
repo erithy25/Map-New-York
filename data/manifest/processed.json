@@ -7684,15 +7684,15 @@
   },
   "landmark_b_verrazzano_narrows_lod0": {
    "artifact_id": "landmark_b_verrazzano_narrows_lod0",
-   "bytes": 4852316,
-   "git_commit": "ca87e1135759",
+   "bytes": 4838760,
+   "git_commit": "6eb537c722c2",
    "landmark_id": "b_verrazzano_narrows",
    "lod": 0,
    "path": "blender_out/landmarks/b_verrazzano_narrows.glb",
-   "produced_at": "2026-09-06T14:08:30Z",
+   "produced_at": "2026-09-06T15:06:40Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "575a043d6f76fd09b17b575f637987ea089dc364e6f563e46609655b52ffb589",
+   "sha256": "89dc83b1d0e0f8d649a1e18e601961db91482e3c9a2cdcf9803bda20bec11a32",
    "sources": [
     "osm_bbbike",
     "published_verrazzano"

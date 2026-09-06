@@ -129,8 +129,8 @@ def main() -> None:
     frame = ba.frame_at(mid[0], mid[1], 0.0, heading)
     axis = bl.Axis(Vector((0.0, 0.0, 0.0)), Vector((dx / L, dy / L, 0.0)))
     ctx = (("water_dark", 0.35, 400.0, (axis.p(S_ARCH_C, 0.0).x, axis.p(S_ARCH_C, 0.0).y)),
-           ("grass", GROUND, 300.0, (axis.p(200.0, 0.0).x, axis.p(200.0, 0.0).y)),
-           ("grass", GROUND, 200.0, (axis.p(-260.0, 0.0).x, axis.p(-260.0, 0.0).y)))
+           ("ground_urban", GROUND, 300.0, (axis.p(200.0, 0.0).x, axis.p(200.0, 0.0).y)),
+           ("ground_urban", GROUND, 200.0, (axis.p(-260.0, 0.0).x, axis.p(-260.0, 0.0).y)))
     _ = frame
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=250_000, budget_lod1=50_000,

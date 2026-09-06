@@ -331,6 +331,54 @@ def configure_cycles(samples: int, threads: int | None) -> None:
         sc.render.threads = threads
 
 
+def view_azimuth(slug: str, meta: dict, photo: dict) -> tuple[float, str]:
+    """The compass bearing the render should face, and why.
+
+    Three sources, in order of authority:
+
+    1. the chosen photograph's own ``estimated_viewpoint.azimuth_deg`` when it was derived from
+       that photograph's camera GPS (``confidence: high``) -- that is the direction the picture was
+       actually taken in;
+    2. the bearing from the viewpoint to the item's ``subject`` coordinate, when it disagrees with
+       the recorded ``azimuth_deg`` by more than 20 deg -- the subject is what the photograph is of,
+       and a recorded azimuth that points somewhere else is wrong;
+    3. the item's recorded ``azimuth_deg``.
+
+    A sheet whose two halves face different directions cannot be compared, so where the direction
+    rests on assumption rather than measurement the sheet says so.
+    """
+    vp = meta["viewpoint"]
+    recorded = float(vp["azimuth_deg"])
+    ev = (photo or {}).get("estimated_viewpoint") or {}
+    if ev.get("confidence") == "high" and ev.get("azimuth_deg") is not None:
+        got = float(ev["azimuth_deg"])
+        delta = abs((got - recorded + 180.0) % 360.0 - 180.0)
+        return got, (f"{got:.1f} deg, the bearing from this photograph's own camera GPS to the "
+                     f"subject ({ev.get('method', 'camera_gps_to_subject')}); the item's recorded "
+                     f"azimuth is {recorded:.1f} deg, {delta:.1f} deg away")
+    subject = meta.get("subject") or {}
+    if subject.get("lat") is not None and subject.get("lon") is not None:
+        from nycsim_pipeline.crs import lonlat_to_tm
+        vx, vy = (float(v) for v in lonlat_to_tm(vp["lon"], vp["lat"]))
+        sx, sy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
+        bearing = math.degrees(math.atan2(sx - vx, sy - vy)) % 360.0
+        delta = abs((bearing - recorded + 180.0) % 360.0 - 180.0)
+        if delta > 20.0:
+            return bearing, (f"{bearing:.1f} deg, the bearing from the viewpoint to "
+                             f"{subject.get('name') or 'the subject'}; the item's recorded azimuth "
+                             f"of {recorded:.1f} deg is {delta:.0f} deg away from its own subject "
+                             f"and was not used")
+        return recorded, (f"{recorded:.1f} deg as recorded; it agrees with the bearing to "
+                          f"{subject.get('name') or 'the subject'} ({bearing:.1f} deg) to "
+                          f"{delta:.1f} deg")
+    conf = ev.get("confidence") or "unknown"
+    return recorded, (f"{recorded:.1f} deg as recorded in meta.json.  This item names no subject "
+                      f"and the reference photograph's own view direction was not derived from the "
+                      f"image (confidence: {conf}), so the two halves of this sheet are not "
+                      f"guaranteed to face the same way -- compare them on street width, storey "
+                      f"height and material, not on composition")
+
+
 def aim_pitch(slug: str, meta: dict, cam_x: float, cam_y: float, cam_z: float,
               sampler, landmarks: Sequence[dict]) -> tuple[float, str]:
     """How far the optical axis tilts off horizontal, and why.
@@ -459,11 +507,12 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         with_props=prop_r > 0, with_kit=kit_r > 0,
         terrain_max_side=300 if radius <= 1500 else 380,
         lod0_radius_m=1200.0, leaf_off=leaf_off)
+    azimuth, azimuth_why = view_azimuth(slug, meta, photo)
     pitch, pitch_why = aim_pitch(slug, meta, x, y,
                                  (sampler.ground_z(x, y)[0] or 0.0) + vcam.eye_rule_for(slug).height_m,
                                  sampler, vscene.load_landmark_catalog())
     placement = vcam.place_camera(slug=slug, lat=vp["lat"], lon=vp["lon"],
-                                  azimuth_deg=float(vp["azimuth_deg"]), sampler=sampler,
+                                  azimuth_deg=azimuth, sampler=sampler,
                                   resolution=(width, height), note=vp.get("note"), pitch_deg=pitch)
     clearance = vcam.clear_of_geometry(placement, sampler)
     light = setup_world_and_sun(sun["azimuth_deg"], sun["elevation_deg"], night=bool(meta.get("night")))
@@ -482,6 +531,7 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         "camera_caption": placement.caption(),
         "lens_reason": vcam.focal_for(slug)[1],
         "pitch_reason": pitch_why,
+        "azimuth_reason": azimuth_why,
         "clearance": clearance,
         "lighting": light,
         "scene": rep.as_dict(),
@@ -581,6 +631,8 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
                           f"via Wikimedia Commons {ph.get('page_url')}", f_small))
     caption_lines.append((f"Render: {record.get('camera_caption', '')}", f_small))
     caption_lines.append((f"Lens: {record.get('lens_reason','')}", f_small))
+    if record.get("azimuth_reason"):
+        caption_lines.append((f"View direction: {record['azimuth_reason']}", f_small))
     if record.get("pitch_reason"):
         caption_lines.append((f"Aim: {record['pitch_reason']}", f_small))
     cl = record.get("clearance") or {}
