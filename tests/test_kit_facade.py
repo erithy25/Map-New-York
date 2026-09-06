@@ -125,6 +125,9 @@ def test_brief_coverage():
     cats: dict[str, list[str]] = {}
     for e in ENTRIES:
         cats.setdefault(e["category"], []).append(e["id"])
+    # the pipeline writes window_type as an int; the kit piece for index i is win_<WINDOW_TYPE_NAMES[i]>
+    for name in fp.WINDOW_TYPE_NAMES:
+        assert f"win_{name}" in IDS, f"no kit piece for window type {name}"
     assert len(cats.get("window", [])) >= len(fp.WINDOW_TYPES)
     for w in fp.STOREFRONT_BAY_WIDTHS_M:
         key = f"{w:.1f}".replace(".", "")

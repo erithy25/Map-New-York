@@ -22,10 +22,14 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Iterable
 
-from ..paths import BLENDER_OUT
+from ..paths import BLENDER_OUT, PROCESSED
 from .enums import KIT_CATEGORIES
 
 CATALOG_DIR = BLENDER_OUT / "kit" / "catalog"
+#: Registry written by every facade run. It is also the fallback source of the numbering while the kit agent is
+#: re-exporting ``blender_out/kit/`` (the directory disappears for the duration of a rebuild), so a facade re-run
+#: never invents ids and never silently changes them.
+REGISTRY_PATH = PROCESSED / "facade" / "kit_ids.json"
 KIT_ID_STRIDE = 200
 KIT_ID_MAX = (len(KIT_CATEGORIES) + 1) * KIT_ID_STRIDE
 
@@ -175,24 +179,56 @@ class KitCatalogMissing(FileNotFoundError):
     """Raised when the exported Blender kit catalog is not on disk."""
 
 
-@lru_cache(maxsize=1)
-def catalog() -> dict[str, dict]:
-    """``catalog_id -> catalog entry`` from ``blender_out/kit/catalog/*.json``."""
-    if not CATALOG_DIR.exists():
-        raise KitCatalogMissing(
-            f"{CATALOG_DIR} missing: the Blender kit agent exports it; the facade stage numbers its kit ids from it")
+def _read_catalog_dir() -> dict[str, dict]:
     out: dict[str, dict] = {}
+    if not CATALOG_DIR.exists():
+        return out
     for p in sorted(CATALOG_DIR.glob("*.json")):
-        with open(p) as f:
-            d = json.load(f)
+        try:
+            with open(p) as f:
+                d = json.load(f)
+        except (json.JSONDecodeError, OSError):
+            continue                      # the kit agent writes catalog entries while it exports; skip a partial one
         cid = str(d.get("id") or p.stem)
         cat = str(d.get("category") or "")
         if cat not in KIT_CATEGORIES:
             raise ValueError(f"catalog entry {cid!r} has category {cat!r}, not one of facade_params.KIT_CATEGORIES")
         out[cid] = d
-    if not out:
-        raise KitCatalogMissing(f"{CATALOG_DIR} holds no catalog entries")
     return out
+
+
+def _read_cached_registry() -> dict[str, dict]:
+    """Rebuild the catalog view from a previously written ``kit_ids.json`` (schema 2)."""
+    if not REGISTRY_PATH.exists():
+        return {}
+    try:
+        with open(REGISTRY_PATH) as f:
+            doc = json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return {}
+    if int(doc.get("schema_version", 0)) < 2:
+        return {}
+    return {p["catalog_id"]: {"id": p["catalog_id"], "category": p["category"], "glb": p.get("glb", ""),
+                              "nominal_size_m": p.get("nominal_size_m", [0.0, 0.0, 0.0])}
+            for p in doc.get("pieces", []) if p.get("catalog_id")}
+
+
+@lru_cache(maxsize=1)
+def catalog() -> dict[str, dict]:
+    """``catalog_id -> catalog entry`` from ``blender_out/kit/catalog/*.json``.
+
+    Falls back to the registry this stage last wrote when the kit directory is temporarily absent (the Blender kit
+    agent removes and re-creates it during a re-export), so the ids stay stable across a rebuild.
+    """
+    out = _read_catalog_dir()
+    if out:
+        return out
+    cached = _read_cached_registry()
+    if cached:
+        return cached
+    raise KitCatalogMissing(
+        f"{CATALOG_DIR} missing and no cached registry at {REGISTRY_PATH}: the Blender kit agent exports the "
+        f"catalog and the facade stage numbers its kit ids from it")
 
 
 @lru_cache(maxsize=1)
@@ -298,7 +334,13 @@ def registry() -> dict:
     }
 
 
-def write_registry(path: Path) -> Path:
+def refresh() -> None:
+    """Drop the cached catalog and numbering (call after the kit agent re-exports)."""
+    catalog.cache_clear()
+    _numbering.cache_clear()
+
+
+def write_registry(path: Path = REGISTRY_PATH) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(".tmp")
     with open(tmp, "w") as f:

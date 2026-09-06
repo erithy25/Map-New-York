@@ -69,6 +69,7 @@ LIT_SHARE_OFFICE = 0.18
 LIT_SHARE_RETAIL = 0.55
 MAX_PLACEMENTS_PER_BUILDING = 2500
 ROOF_INSET_FRACTION = 0.28    # roof equipment sits this fraction of sqrt(area) from the roof anchor
+MAX_RUN_SCALE = 12.0          # a run piece is split into segments rather than stretched further than this
 
 _CURTAIN_WALL = E.WINDOW_TYPE_INDEX["curtain_wall_module"]
 _THROUGH_WALL = E.WINDOW_TYPE_INDEX["through_wall_ac_sleeve"]
@@ -122,6 +123,22 @@ def _index_within(counts: np.ndarray) -> np.ndarray:
     if total == 0:
         return np.zeros(0, dtype=np.int64)
     return np.arange(total, dtype=np.int64) - np.repeat(_cumstart(counts), counts)
+
+
+def _split_run(run_idx: np.ndarray, length: np.ndarray, nominal_w: float
+               ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Split each run into segments no longer than ``MAX_RUN_SCALE x nominal_w``.
+
+    Returns ``(run index per segment, centre offset along the run, segment length)``.  One record per segment keeps
+    the along-run stretch factor bounded instead of asking the engine to stretch a 2 m cornice over half a kilometre.
+    """
+    seg_max = MAX_RUN_SCALE * nominal_w
+    n_seg = np.maximum(np.ceil(length / seg_max).astype(np.int64), 1)
+    rep = np.repeat(run_idx, n_seg)
+    k = _index_within(n_seg)
+    seg_len = np.repeat(length / n_seg, n_seg)
+    t = (k + 0.5) * seg_len
+    return rep, t, seg_len
 
 
 def _seed_mix(base: np.ndarray, a: np.ndarray, b: np.ndarray = None, salt: int = 0) -> np.ndarray:
@@ -251,28 +268,28 @@ def build_placements(b: dict[str, np.ndarray], runs: dict[str, np.ndarray], geom
     from .kit_ids import CORNICE_STYLES
     corn_runs = r_idx[r_free & (r_len >= 2.0) & b["has_cornice"][r_b] & (r_street | (r_idx == prim[r_b]))]
     if len(corn_runs):
-        cb = r_b[corn_runs]
-        t = r_len[corn_runs] * 0.5
-        cx = r_x0[corn_runs] + r_ux[corn_runs] * t
-        cy = r_y0[corn_runs] + r_uy[corn_runs] * t
+        seg, t, seg_len = _split_run(corn_runs, r_len[corn_runs], CORNICE_NOMINAL_W_M)
+        cb = r_b[seg]
+        cx = r_x0[seg] + r_ux[seg] * t
+        cy = r_y0[seg] + r_uy[seg] * t
         style = CLASS.cornice_style[fc[cb]]
         kid = np.asarray([kit_id("cornice", n) for n in CORNICE_STYLES], dtype=np.uint32)[style]
-        acc.add(kid, b["bin"][cb], cx, cy, rz[cb], r_yaw[corn_runs], (r_len[corn_runs] / CORNICE_NOMINAL_W_M).astype(np.float32),
-                _seed_mix(seed[cb], corn_runs, salt=SALT_VARIANT + 2), np.uint32(0))
+        acc.add(kid, b["bin"][cb], cx, cy, rz[cb], r_yaw[seg], (seg_len / CORNICE_NOMINAL_W_M).astype(np.float32),
+                _seed_mix(seed[cb], seg, t.astype(np.int64), salt=SALT_VARIANT + 2), np.uint32(0))
     flat_roof = CLASS.roof_shape[fc] == E.ROOF_FLAT
     par_runs = r_idx[r_free & (r_len >= 2.0) & flat_roof[r_b] & ~b["has_cornice"][r_b] & ~is_garage[r_b]]
     if len(par_runs):
-        pb = r_b[par_runs]
-        t = r_len[par_runs] * 0.5
-        px = r_x0[par_runs] + r_ux[par_runs] * t
-        py = r_y0[par_runs] + r_uy[par_runs] * t
+        seg, t, seg_len = _split_run(par_runs, r_len[par_runs], PARAPET_NOMINAL_W_M)
+        pb = r_b[seg]
+        px = r_x0[seg] + r_ux[seg] * t
+        py = r_y0[seg] + r_uy[seg] * t
         mat = b["material_primary"][pb]
         piece = np.where(np.isin(mat, [E.CONCRETE, E.PRECAST, E.METAL_PANEL, E.GLASS_CURTAIN]), 2,
                          np.where(np.isin(mat, [E.LIMESTONE, E.GRANITE, E.BROWNSTONE, E.STONE_RUBBLE]), 1, 0))
         kid = np.asarray([kit_id("parapet", n) for n in ("parapet_brick", "parapet_stone", "parapet_concrete")],
                          dtype=np.uint32)[piece]
-        acc.add(kid, b["bin"][pb], px, py, rz[pb], r_yaw[par_runs], (r_len[par_runs] / PARAPET_NOMINAL_W_M).astype(np.float32),
-                _seed_mix(seed[pb], par_runs, salt=SALT_VARIANT + 3), np.uint32(0))
+        acc.add(kid, b["bin"][pb], px, py, rz[pb], r_yaw[seg], (seg_len / PARAPET_NOMINAL_W_M).astype(np.float32),
+                _seed_mix(seed[pb], seg, t.astype(np.int64), salt=SALT_VARIANT + 3), np.uint32(0))
 
     # ---- sidewalk sheds (real active DOB permits) ------------------------------------------------------------------------
     shed_runs = r_idx[r_free & (r_len >= 3.0) & b["has_scaffold"][r_b] & (r_street | (r_idx == prim[r_b]))]
@@ -343,13 +360,13 @@ def _ground_floor(acc: Accum, b, nb, r_b, r_len, r_x0, r_y0, r_ux, r_uy, r_yaw, 
         pick = np.argmin(np.abs(step[:, None] - sf_bay_w[None, :]), axis=1)
         acc.add(sf_bay_kids[pick], b["bin"][sb], sx, sy, gz[sb], r_yaw[rep], (step / sf_bay_w[pick]).astype(np.float32),
                 vs, np.uint32(FLAG_LIT))
-        # sign band above the glass: one per shopfront run, stretched across its bays
-        band = k == 0
-        acc.add(np.uint32(kit_id("storefront", "sign_band")), b["bin"][sb][band],
-                r_x0[rep][band] + r_ux[rep][band] * (r_len[rep][band] * 0.5),
-                r_y0[rep][band] + r_uy[rep][band] * (r_len[rep][band] * 0.5),
-                (gz[sb][band] + np.minimum(gfh[sb][band], 4.5) - 0.85), r_yaw[rep][band],
-                (r_len[rep][band] / 3.6).astype(np.float32), vs[band], np.uint32(FLAG_LIT))
+        # sign band above the glass: segments of at most MAX_RUN_SCALE nominal widths along the shopfront
+        bseg, bt, blen = _split_run(sf_runs, r_len[sf_runs], 3.6)
+        bb2 = r_b[bseg]
+        acc.add(np.uint32(kit_id("storefront", "sign_band")), b["bin"][bb2],
+                r_x0[bseg] + r_ux[bseg] * bt, r_y0[bseg] + r_uy[bseg] * bt,
+                (gz[bb2] + np.minimum(gfh[bb2], 4.5) - 0.85), r_yaw[bseg], (blen / 3.6).astype(np.float32),
+                _seed_mix(seed[bb2], bseg, bt.astype(np.int64), salt=SALT_STOREFRONT_BAY + 1), np.uint32(FLAG_LIT))
         # roll-down gate on a share of the bays (the runtime lowers them at night: FLAG_ANIMATED)
         gate_kids = np.asarray([kit_id("storefront", n) for n in
                                 ("roll_gate_open_3_6", "roll_gate_open_4_8", "roll_gate_open_6_0")], dtype=np.uint32)

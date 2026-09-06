@@ -34,6 +34,8 @@ REF_HEIGHT = 1.75          # human-height reference rod beside every prop
 
 SHEETS: dict[str, dict] = {
     "lighting": {"ids": ["lamp_cobra_davit", "lamp_bishops_crook", "lamp_park_twin"], "pad": 1.6},
+    "lighting_night": {"ids": ["lamp_cobra_davit", "lamp_bishops_crook", "lamp_park_twin", "subway_globe_green",
+                               "subway_globe_red"], "pad": 1.6, "night": True},
     "lighting_highmast": {"ids": ["lamp_highmast"], "pad": 3.0},
     "traffic_signals": {"ids": ["signal_mastarm_6m", "signal_mastarm_9m", "signal_spanwire"], "pad": 2.0},
     "traffic_pedestrian": {"ids": ["signal_pedestal", "signal_ped_countdown", "ped_pushbutton"], "pad": 0.9},
@@ -67,15 +69,26 @@ for _cls in ("small", "medium", "large"):
 
 
 # --------------------------------------------------------------------------------------------- scene helpers
-def import_prop(prop_id: str) -> list[bpy.types.Object]:
-    """Import ``<id>.glb``; only the LOD0 node is in the glTF scene, so only LOD0 comes in."""
+def import_prop(prop_id: str, keep_light_cones: bool = False) -> list[bpy.types.Object]:
+    """Import ``<id>.glb``; only the LOD0 node is in the glTF scene, so only LOD0 comes in.
+
+    ``LIGHT_CONE`` planes are a night-only effect volume — they are dropped on daylight sheets, where they
+    would blow the image out and would also inflate the measured bounding box."""
     path = C.PROPS_OUT / f"{prop_id}.glb"
     if not path.exists():
         raise FileNotFoundError(path)
     before = set(bpy.data.objects)
     bpy.ops.import_scene.gltf(filepath=str(path))
     new = [o for o in bpy.data.objects if o not in before]
-    # the importer converts glTF Y-up back to Blender Z-up via a -90 deg X rotation on the root empty
+    if not keep_light_cones:
+        drop = [o for o in new if o.type == "MESH"
+                and any(m and m.name.split(".")[0] == "LIGHT_CONE" for m in o.data.materials)]
+        for o in drop:
+            me = o.data
+            new.remove(o)
+            bpy.data.objects.remove(o)
+            if me.users == 0:
+                bpy.data.meshes.remove(me)
     return new
 
 
@@ -110,13 +123,13 @@ def reference_rod(x: float, y: float, name: str) -> list[bpy.types.Object]:
     return [rod, band, foot]
 
 
-def layout(ids: list[str], pad: float, lift: float = 0.0) -> tuple[list[dict], float, float]:
+def layout(ids: list[str], pad: float, lift: float = 0.0, night: bool = False) -> tuple[list[dict], float, float]:
     """Import each prop, place it in a row along X with its own reference rod. Returns placements and row extent."""
     placed = []
     cursor = 0.0
     top = 0.0
     for pid in ids:
-        objs = import_prop(pid)
+        objs = import_prop(pid, keep_light_cones=night)
         lo, hi = world_bounds(objs)
         w = max(hi.x - lo.x, 0.05)
         cx = (hi.x + lo.x) / 2.0
@@ -135,7 +148,7 @@ def layout(ids: list[str], pad: float, lift: float = 0.0) -> tuple[list[dict], f
 
 def render_still(path: Path, *, center: Vector, ortho_scale: float, size: tuple[int, int], samples: int,
                  azimuth_deg: float = 26.0, elevation_deg: float = 11.0, sun_azimuth_deg: float = 214.0,
-                 sun_elevation_deg: float = 46.0, sun_strength: float = 3.0) -> Path:
+                 sun_elevation_deg: float = 46.0, sun_strength: float = 3.0, night: bool = False) -> Path:
     """Orthographic Cycles CPU still. Orthographic keeps every prop on the sheet at the same metres-per-pixel,
     which is the whole point of a contact sheet: a wrong size cannot hide behind perspective."""
     sc = bpy.context.scene
@@ -152,13 +165,13 @@ def render_still(path: Path, *, center: Vector, ortho_scale: float, size: tuple[
     camob.rotation_euler = (-back).to_track_quat("-Z", "Y").to_euler()
     sc.camera = camob
     sun = bpy.data.lights.new("sheet_sun", "SUN")
-    sun.energy = sun_strength
+    sun.energy = 0.02 if night else sun_strength
     sun.angle = math.radians(1.6)
     sunob = bpy.data.objects.new("sheet_sun", sun)
     nb.link(sunob)
     sunob.rotation_euler = (math.radians(90 - sun_elevation_deg), 0.0, math.radians(sun_azimuth_deg))
     fill = bpy.data.lights.new("sheet_fill", "SUN")
-    fill.energy = sun_strength * 0.25
+    fill.energy = 0.0 if night else sun_strength * 0.25
     fillob = bpy.data.objects.new("sheet_fill", fill)
     nb.link(fillob)
     fillob.rotation_euler = (math.radians(60.0), 0.0, math.radians(-sun_azimuth_deg + 150.0))
@@ -166,8 +179,10 @@ def render_still(path: Path, *, center: Vector, ortho_scale: float, size: tuple[
     sc.world = world
     world.use_nodes = True
     bg = world.node_tree.nodes.get("Background")
-    bg.inputs["Color"].default_value = (0.42, 0.50, 0.62, 1.0)
-    bg.inputs["Strength"].default_value = 0.85
+    # a brighter sky keeps galvanised and stainless props from reading black: with no environment to reflect,
+    # a metallic BSDF has nothing to return
+    bg.inputs["Color"].default_value = (0.020, 0.030, 0.060, 1.0) if night else (0.44, 0.52, 0.64, 1.0)
+    bg.inputs["Strength"].default_value = 0.6 if night else 1.5
     sc.render.engine = "CYCLES"
     sc.cycles.device = "CPU"
     sc.cycles.samples = samples
@@ -189,13 +204,15 @@ def render_sheet(name: str, spec: dict, samples: int, width: int) -> Path:
     for cache in (bpy.data.materials, bpy.data.images, bpy.data.meshes):
         for it in list(cache):
             cache.remove(it)
-    placed, row_len, top = layout(spec["ids"], spec.get("pad", 1.0), spec.get("lift", 0.0))
-    ground(row_len * 1.6 + 20.0, max(24.0, top * 1.2), row_len / 2.0)
+    night = bool(spec.get("night"))
+    placed, row_len, top = layout(spec["ids"], spec.get("pad", 1.0), spec.get("lift", 0.0), night=night)
+    # the pad runs far past the frame in Y so its far edge never crosses the picture
+    ground(row_len * 1.6 + 20.0, 400.0, row_len / 2.0)
     ortho = row_len * 1.04
     height_px = max(220, min(1400, int(width * (top + 0.9) / ortho)))
     out = OUT / f"sheet_{name}.png"
     render_still(out, center=Vector((row_len / 2.0, 0.0, (top + 0.9) / 2.0 - 0.35)), ortho_scale=ortho,
-                 size=(width, height_px), samples=samples,
+                 size=(width, height_px), samples=samples * (2 if night else 1), night=night,
                  azimuth_deg=0.0 if spec.get("front") else 26.0, elevation_deg=4.0 if spec.get("front") else 11.0)
     annotate(out, placed, width, height_px)
     return out

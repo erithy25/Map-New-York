@@ -418,6 +418,25 @@ def build_report() -> str:
         if rd.get("lanes_real_pct") is not None:
             A(f"- Lane count from data (not inferred): {rd['lanes_real_pct']:.1f} % of segments")
         A()
+        rw_names = {1: "street", 2: "highway", 3: "bridge", 4: "tunnel", 5: "boardwalk", 6: "path",
+                    7: "step street", 8: "driveway", 9: "ramp", 10: "alley", 11: "unknown",
+                    12: "non-physical", 13: "U-turn", 14: "ferry route"}
+        if rd.get("km_by_rw_type"):
+            A("| Road class | Centreline km |")
+            A("|---|---|")
+            for code, km in sorted(rd["km_by_rw_type"].items(), key=lambda x: -x[1]):
+                A(f"| {rw_names.get(int(code), code)} | {km:,.0f} |")
+            A()
+            street_km = rd["km_by_rw_type"].get(1)
+            if street_km:
+                A(f"**External cross-check.** New York City's published mapped street mileage is about 6,000 centreline "
+                  f"miles, roughly 9,650 km. This build carries **{street_km:,.0f} km** classified as street, about "
+                  f"{100 * (street_km / 9650 - 1):+.0f} % against that figure — the difference is the service roads, "
+                  f"marginal streets and private roads that CSCL carries and the published mileage excludes. The "
+                  f"drivable network (street, highway, bridge, tunnel, ramp, alley) totals "
+                  f"{sum(rd['km_by_rw_type'].get(c, 0.0) for c in (1, 2, 3, 4, 9, 10)):,.0f} km; ferry routes are "
+                  f"listed above for completeness but are not road.")
+                A()
         if rd.get("km_by_borough"):
             A("| Borough | Centreline km |")
             A("|---|---|")

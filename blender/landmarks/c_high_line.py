@@ -130,7 +130,10 @@ def build():
 def main():
     objs, frame, union, local, ncol, deck_len = build()
     real_local = shapely.ops.unary_union(local)
-    entry = cc.finish(objs, ID, frame, real_footprint=real_local, require_base=True, iou_min=0.90,
+    entry = cc.finish(objs, ID, frame, real_footprint=real_local, iou_min=0.90,
+                      iou_z=DECK_Z - 0.14,
+                      plan_polygon_note=("model section at z = 9.00 m against OSM relation -7141751; the viaduct deck is "
+                                         "9.14 m above the street, so the standard 1.5 m slice would cut only its columns"),
                       footprint_source="OSM relation -7141751 'The High Line' (leisure=park) via data/processed/osm/landuse_leisure.parquet",
                       fidelity_statement=(
                           f"Exact: the deck follows the real OSM park outline (relation -7141751, 28,962 m2) at the "

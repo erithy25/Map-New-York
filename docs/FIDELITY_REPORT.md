@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-06 12:39 UTC from commit `c4464e87459d` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-06 12:59 UTC from commit `49d10e26327a` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -53,11 +53,29 @@ Source of truth: NYC Street Centerline (CSCL) and LION, per ADR-006.
 
 - Segments: **122,235**
 - Total centreline length: **12,997.29 km**
-- Nodes: 79,291 · lanes: 384,703 · junction lanes: 470,016
+- Nodes: 79,291 · lanes: 381,971 · junction lanes: 469,754
 - Signalised intersections: 19,814 · signs: 633,287
 - Named bridges and tunnels resolved: 53
 - Posted speed from data (not inferred): 82.6 % of segments
 - Lane count from data (not inferred): 92.9 % of segments
+
+| Road class | Centreline km |
+|---|---|
+| street | 10,360 |
+| highway | 653 |
+| path | 651 |
+| ramp | 372 |
+| alley | 309 |
+| ferry route | 307 |
+| bridge | 203 |
+| driveway | 94 |
+| boardwalk | 21 |
+| tunnel | 15 |
+| step street | 8 |
+| U-turn | 5 |
+| non-physical | 0 |
+
+**External cross-check.** New York City's published mapped street mileage is about 6,000 centreline miles, roughly 9,650 km. This build carries **10,360 km** classified as street, about +7 % against that figure — the difference is the service roads, marginal streets and private roads that CSCL carries and the published mileage excludes. The drivable network (street, highway, bridge, tunnel, ramp, alley) totals 11,912 km; ferry routes are listed above for completeness but are not road.
 
 | Borough | Centreline km |
 |---|---|
@@ -69,11 +87,11 @@ Source of truth: NYC Street Centerline (CSCL) and LION, per ADR-006.
 
 ## 3. Terrain, water and coastline
 
-- Tiles with a written heightmap: **2,338**
+- Tiles with a written heightmap: **2,916**
 - USGS 3DEP products ingested: 30 (13, 19, 1m), 4.50 GB
-- Elevation range across written tiles: -5.18 m to 202.50 m (NAVD88)
+- Elevation range across written tiles: -5.18 m to 166.49 m (NAVD88)
 
-Water: hydrography polygons 2,209 · shoreline lines 413 · structures 2,536 · water tiles 2,916.
+Water: hydrography polygons 2,235 · shoreline lines 413 · structures 2,536 · water tiles 2,916.
 
 ## 4. Street environment, transit and traffic model
 
@@ -87,12 +105,12 @@ Water: hydrography polygons 2,209 · shoreline lines 413 · structures 2,536 · 
 |---|---|---|
 | kit | 138 | 140.1 MB |
 | props | 122 | 79.2 MB |
-| vehicles | 24 | 29.2 MB |
+| vehicles | 63 | 68.7 MB |
 | character | 1 | 15.1 MB |
-| landmarks | 56 | 627.2 MB |
-| tiles | 76 | 353.4 MB |
+| landmarks | 75 | 748.6 MB |
+| tiles | 34 | 213.2 MB |
 
-Catalog entries describing those assets: 324.
+Catalog entries describing those assets: 357.
 
 ## 6. Simulation code and runtime data
 
@@ -122,11 +140,11 @@ Authored asset licences (textures, fonts, mocap, audio): `docs/ASSET_LICENSES.md
 
 ## 8. Verification status
 
-Reference photographs collected for side-by-side comparison: 180 photos across 59 subjects, each with author and licence metadata.
+Reference photographs collected for side-by-side comparison: 284 photos across 95 subjects, each with author and licence metadata.
 
-Stage reports present: citygml, core, furniture, live, unreal_world.
+Stage reports present: citygml, core, furniture, kit, live, props, unreal_world.
 
-Stage reports still missing: buildings, buildings_mesh, facade, kit, landmarks, props, reference, roads, terrain, traffic, traffic_density, unreal_gameplay, vehicles, character.
+Stage reports still missing: buildings, buildings_mesh, facade, landmarks, reference, roads, terrain, traffic, traffic_density, unreal_gameplay, vehicles, character.
 
 What is verified in this environment versus on a workstation is defined in `docs/ARCHITECTURE.md` §14. In short: geodesy, tiling, streaming logic, routing, traffic rules, signal phasing, astronomy, time zone handling, weather parsing, data coverage and asset geometry are verified here by tests and Cycles renders. Unreal Engine compilation, cooking, frame rate, vehicle feel and audio are not — no Unreal editor or GPU exists in this environment, and no claim is made that they were tested.
 

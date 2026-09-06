@@ -6570,6 +6570,25 @@
    ],
    "stage": "furniture"
   },
+  "landmark_b_belvedere_castle_lod0": {
+   "artifact_id": "landmark_b_belvedere_castle_lod0",
+   "bytes": 238356,
+   "git_commit": "49d10e26327a",
+   "landmark_id": "b_belvedere_castle",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_belvedere_castle.glb",
+   "produced_at": "2026-09-06T12:58:27Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "00c1e76f6d7d0b1a3b3e0b7b034ae2c328a5dd304611ca21ec879de2130f418c",
+   "sources": [
+    "building_footprints",
+    "osm_bbbike",
+    "published_belvedere_castle"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 4456
+  },
   "landmark_b_bethesda_terrace_lod0": {
    "artifact_id": "landmark_b_bethesda_terrace_lod0",
    "bytes": 555544,
@@ -6588,6 +6607,24 @@
    ],
    "stage": "landmarks_b",
    "triangles": 10808
+  },
+  "landmark_b_bow_bridge_lod0": {
+   "artifact_id": "landmark_b_bow_bridge_lod0",
+   "bytes": 125272,
+   "git_commit": "49d10e26327a",
+   "landmark_id": "b_bow_bridge",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_bow_bridge.glb",
+   "produced_at": "2026-09-06T12:57:31Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "6c50bf37ec7f88f432a8bccd23aa84aac0d4c857d6441a2c549e0f52357b7fd7",
+   "sources": [
+    "osm_bbbike",
+    "published_bow_bridge"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 2672
   },
   "landmark_b_bronx_whitestone_lod0": {
    "artifact_id": "landmark_b_bronx_whitestone_lod0",
@@ -7211,6 +7248,26 @@
    "stage": "landmarks",
    "tris_lod0": 11360,
    "tris_lod1": 164
+  },
+  "landmark_glb:c_brooklyn_museum": {
+   "artifact_id": "landmark_glb:c_brooklyn_museum",
+   "bins": [
+    3029667
+   ],
+   "bytes": 15161232,
+   "footprint_iou": 1.0,
+   "git_commit": "49d10e26327a",
+   "path": "blender_out/landmarks/c_brooklyn_museum.glb",
+   "produced_at": "2026-09-06T12:58:41Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "dc20f8d8ac72ea63fc167126146e657708d1a0178497fb1aa1c7f78474fb3c91",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 22569,
+   "tris_lod1": 1520
   },
   "landmark_glb:c_carnegie_hall": {
    "artifact_id": "landmark_glb:c_carnegie_hall",
@@ -7986,12 +8043,12 @@
    ],
    "bytes": 3048320,
    "footprint_iou": 1.0,
-   "git_commit": "1a5dfa8dd00c",
+   "git_commit": "49d10e26327a",
    "path": "blender_out/landmarks/trinity_church.glb",
-   "produced_at": "2026-09-06T12:42:37Z",
+   "produced_at": "2026-09-06T12:58:47Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "5085271769355c2d35dfa25a9884f5f1d890b23e5bc15b80cc2b4ae5c8bc9a81",
+   "sha256": "853759a0d6414f8742453d23e7f468e2b78a0b3ed799d5888a61aacca72fdf23",
    "sources": [
     "building_footprints"
    ],

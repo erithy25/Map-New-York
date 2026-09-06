@@ -310,14 +310,14 @@ def bend_test(out: Path) -> Path:
         knee = armature.matrix_world @ pose["calf_l"].head
         hip = armature.matrix_world @ pose["thigh_l"].head
         foot = armature.matrix_world @ pose["foot_l"].head
-        arm_focus = (shoulder + elbow + hand) / 3.0
-        leg_focus = (hip + knee + foot) / 3.0
+        arm_focus = elbow * 0.55 + (shoulder + hand) * 0.225
+        leg_focus = knee * 0.55 + (hip + foot) * 0.225
         elbow_tiles.append(render(chenv.VERIFY_DIR / f"_elbow_{int(angle)}.png",
-                                  location=arm_focus + outboard * 0.78 + forward * 0.10,
-                                  target=arm_focus, fov_deg=42.0, size=(340, 340), samples=48))
+                                  location=arm_focus + outboard * 0.60 + forward * 0.08,
+                                  target=arm_focus, fov_deg=40.0, size=(340, 340), samples=48))
         knee_tiles.append(render(chenv.VERIFY_DIR / f"_knee_{int(angle)}.png",
-                                 location=leg_focus + outboard * 0.95 + forward * 0.10,
-                                 target=leg_focus, fov_deg=42.0, size=(340, 340), samples=48))
+                                 location=leg_focus + outboard * 0.78 + forward * 0.08,
+                                 target=leg_focus, fov_deg=40.0, size=(340, 340), samples=48))
     row_a = stitch(elbow_tiles, chenv.VERIFY_DIR / "_row_elbow.png", gap=4)
     row_b = stitch(knee_tiles, chenv.VERIFY_DIR / "_row_knee.png", gap=4)
     result = stitch([row_a, row_b], out, gap=6, vertical=True)

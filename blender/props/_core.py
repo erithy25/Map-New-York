@@ -606,9 +606,13 @@ def regular_polygon(n: int, radius: float, rotation: float = 0.0) -> list[tuple[
 def sign_blank(name: str, shape: str, w: float, h: float, *, thickness: float = 0.002, face_material: bpy.types.Material,
                back_material: bpy.types.Material, center=(0.0, 0.0, 0.0), facing: str = "+Y",
                two_sided: bool = False) -> bpy.types.Object:
-    """Flat sign blank whose front (+Y) face carries ``face_material`` with UV (0,0)-(1,1) spanning the face's bounding box
-    exactly (u to the reader's right, v up). ``shape``: rect | octagon | triangle_down | diamond | pentagon | circle.
-    ``center`` is the centre of the face; ``facing`` '+Y' (default) or '-Y' (second face of a two-sided assembly)."""
+    """Flat sign blank whose face on the ``facing`` side carries ``face_material`` with UV (0,0)-(1,1) spanning that
+    face's bounding box exactly, u to the reader's right and v up. ``shape``: rect | octagon | triangle_down |
+    diamond | pentagon | circle. ``center`` is the centre of the face.
+
+    The reader stands on the facing side looking back along it, so their right hand points along **-X** for a
+    ``+Y`` sign: world x = -reader x. ``two_sided`` puts ``face_material`` on the back as well, with u mirrored so
+    the legend reads correctly from behind (NYC street-name blades)."""
     if shape == "rect":
         ring = [(-w / 2, -h / 2), (w / 2, -h / 2), (w / 2, h / 2), (-w / 2, h / 2)]
     elif shape == "octagon":
@@ -624,36 +628,28 @@ def sign_blank(name: str, shape: str, w: float, h: float, *, thickness: float = 
         ring = regular_polygon(32, w / 2)
     else:
         raise ValueError(f"unknown sign shape {shape}")
-    # ring is (x_right, z_up) as read by the viewer; viewer's right is -X in world (viewer stands at +Y looking -Y)
-    sgn = -1.0 if facing == "+Y" else 1.0
+    front_dir = 1.0 if facing == "+Y" else -1.0
+    sgn = -front_dir                    # world x = sgn * reader x
     bm, uv = _new_bm()
-    yf, yb = (-thickness / 2, thickness / 2) if facing == "+Y" else (thickness / 2, -thickness / 2)
+    yf, yb = front_dir * thickness / 2, -front_dir * thickness / 2
     front = [bm.verts.new((sgn * x, yf, z)) for x, z in ring]
     back = [bm.verts.new((sgn * x, yb, z)) for x, z in ring]
     n = len(ring)
-    ff = bm.faces.new(front if facing == "-Y" else list(reversed(front)))
+    ff = bm.faces.new(front)
     ff.material_index = 0
-    for loop in ff.loops:
-        x = -sgn * loop.vert.co.x  # reader-space right
-        z = loop.vert.co.z
-        loop[uv].uv = ((x + w / 2) / w, (z + h / 2) / h)
-    fb = bm.faces.new(back if facing == "+Y" else list(reversed(back)))
+    for loop, (rx, rz) in zip(ff.loops, ring):
+        loop[uv].uv = ((rx + w / 2) / w, (rz + h / 2) / h)
+    rev = list(reversed(ring))
+    fb = bm.faces.new(list(reversed(back)))
     fb.material_index = 0 if two_sided else 1
-    for loop in fb.loops:
-        # two-sided blades carry the same legend on both faces; the back is mirrored so it reads correctly from behind
-        x = (sgn * loop.vert.co.x) if two_sided else loop.vert.co.x
-        loop[uv].uv = ((x + w / 2) / w, (loop.vert.co.z + h / 2) / h)
+    for loop, (rx, rz) in zip(fb.loops, rev):
+        loop[uv].uv = (((-rx if two_sided else rx) + w / 2) / w, (rz + h / 2) / h)
     for i in range(n):
         f = bm.faces.new((front[i], front[(i + 1) % n], back[(i + 1) % n], back[i]))
         f.material_index = 1
-    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
-    # make sure the SIGN_FACE face points along `facing`
-    want = Vector((0, 1, 0)) if facing == "+Y" else Vector((0, -1, 0))
-    if ff.normal.dot(want) < 0:
-        bmesh.ops.reverse_faces(bm, faces=list(bm.faces))
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)     # closed prism -> outward normals, face normal = facing
     bmesh.ops.translate(bm, vec=Vector(center), verts=bm.verts)
-    ob = bm_object(name, bm, [face_material, back_material])
-    return ob
+    return bm_object(name, bm, [face_material, back_material])
 
 
 def text_mesh(name: str, text: str, size_m: float, *, material, depth: float = 0.003, font: Path | str = FONT_BOLD, align: str = "CENTER",

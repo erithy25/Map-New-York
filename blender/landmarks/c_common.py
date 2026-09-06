@@ -445,9 +445,18 @@ def screen_slots() -> dict[str, str]:
 def finish(objects: Sequence[bpy.types.Object], script_id: str, frame: C.LocalFrame, *, real_footprint,
            fidelity_statement: str, dimensions: dict, notes: str = "", material_slots: dict | None = None,
            lod1_objects: Sequence[bpy.types.Object] | None = None, height_m: float | None = None,
-           require_base: bool = True, iou_min: float = C.IOU_MIN, footprint_source: str | None = None) -> dict:
+           require_base: bool = True, iou_min: float = C.IOU_MIN, footprint_source: str | None = None,
+           plan_polygon=None, plan_polygon_note: str = "", iou_z: float | None = None) -> dict:
     """``common.finish`` with the lane-C registry metadata filled in (and an explicit ``real_footprint``, because
-    ``common.load_footprints`` cannot read landmark_footprints.parquet — see the module docstring)."""
+    ``common.load_footprints`` cannot read landmark_footprints.parquet — see the module docstring).
+
+    For an **elevated** structure the 1.5 m slice that ``common.footprint_iou`` takes cuts only the columns, so that
+    check is meaningless. Two alternatives are provided and both are labelled in the catalog with
+    ``footprint_iou_method`` so nobody mistakes them for the standard figure:
+
+    * ``iou_z`` — take the same section-based measurement at a different height (the High Line's deck at 9.0 m).
+    * ``plan_polygon`` — compare the polygon the model's deck was built from against ``real_footprint`` in plan
+      (Little Island's deck undulates 4.6-18.9 m, so no single horizontal section can measure it)."""
     meta = SCRIPTS[script_id]
     assign_screen_uvs([o for o in objects if o is not None])
     slots = dict(material_slots or {})
@@ -460,7 +469,21 @@ def finish(objects: Sequence[bpy.types.Object], script_id: str, frame: C.LocalFr
     tex = texture_status()
     if tex:
         dims["textures"] = tex
-    return C.finish(objects, script_id, meta["bins"], frame,
+    plan_iou = None
+    method = plan_polygon_note
+    if iou_z is not None:
+        meshes = C.all_mesh_objects([o for o in objects if o is not None])
+        plan_iou, _sec = C.footprint_iou(meshes, real_footprint, z_cut=float(iou_z))
+        if plan_iou < iou_min:
+            raise C.FidelityError(f"{script_id}: footprint IoU {plan_iou:.3f} at z = {iou_z} m < {iou_min}")
+        method = method or f"model section at z = {iou_z} m (the structure is elevated, so the standard 1.5 m slice would cut only its columns)"
+        require_base = False
+    elif plan_polygon is not None:
+        plan_iou = C.iou(plan_polygon, real_footprint)
+        if plan_iou < iou_min:
+            raise C.FidelityError(f"{script_id}: plan IoU {plan_iou:.3f} < {iou_min} against the source outline")
+        require_base = False
+    entry = C.finish(objects, script_id, meta["bins"], frame,
                     height_m=float(meta["height_m"] if height_m is None else height_m),
                     name=meta["name"], fidelity_statement=fidelity_statement, real_footprint=real_footprint,
                     lp_number=meta.get("lp_number", ""), height_source=meta["height_source"],
@@ -468,6 +491,13 @@ def finish(objects: Sequence[bpy.types.Object], script_id: str, frame: C.LocalFr
                     notes=notes, dimensions=dims, lod1_objects=lod1_objects, tri_budget=int(meta["budget"]),
                     iou_min=iou_min, require_base=require_base, material_slots=slots,
                     extras={"agent": AGENT, "group_parts": [p["id"] for p in parts]})
+    if plan_iou is not None:
+        entry["footprint_iou"] = round(float(plan_iou), 4)
+        entry["footprint_iou_method"] = (method or
+                                         "plan IoU of the model's deck outline against the source outline; the "
+                                         "structure is elevated, so a 1.5 m section would cut only its columns")
+        nb.write_catalog_entry(C.CATALOG_DIR, entry)
+    return entry
 
 
 def render(script_id: str, presets: Sequence[dict] | None = None, **kw):

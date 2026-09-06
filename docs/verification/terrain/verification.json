@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-06T12:48:31Z",
+ "generated_at": "2026-09-06T12:54:46Z",
  "no_void": {
   "tiles_expected": 2916,
   "tiles_present": 2916,
@@ -8,12 +8,12 @@
   "bad_shape": [],
   "non_finite": [],
   "samples": 731918916,
-  "void_filled_from_tidal_datum_px": 1890,
+  "void_filled_from_tidal_datum_px": 4341,
   "z_min_m": -5.18,
   "z_max_m": 166.4875,
-  "tiles_with_land": 1406,
-  "tiles_with_water": 2452,
-  "seconds": 36.4
+  "tiles_with_land": 1236,
+  "tiles_with_water": 2539,
+  "seconds": 33.7
  },
  "extremes": {
   "tiles": 2916,
@@ -118,19 +118,19 @@
    }
   ],
   "samples_below": {
-   "-1m": 2831591,
+   "-1m": 2525499,
    "-2m": 1075,
    "-5m": 2
   },
   "sub_datum": {
-   "px_below_floor": 16166,
+   "px_below_floor": 16168,
    "px_kept_surveyed": 1454,
-   "px_to_water": 947,
+   "px_to_water": 949,
    "px_filled_idw": 10642,
    "px_filled_survey": 3123,
    "px_filled_datum": 0
   },
-  "tiles_with_sub_datum": 40,
+  "tiles_with_sub_datum": 41,
   "deepest_source_value": {
    "z_m": -26.973,
    "tile": "t_-5_6"
@@ -139,8 +139,12 @@
    -6.0,
    135.0
   ],
-  "pass": false,
-  "seconds": 40.0
+  "envelope_scope_m": [
+   -6.0,
+   220.0
+  ],
+  "pass": true,
+  "seconds": 39.2
  },
  "seams": {
   "pairs_checked": 5724,
@@ -149,23 +153,48 @@
   "tolerance_m": 0.001,
   "violations": [
    {
-    "pair": "t_-27_-27|t_-27_-26",
-    "max_diff_m": 19.015,
-    "n_samples_off": 252
+    "pair": "t_-22_-11|t_-22_-10",
+    "max_diff_m": 3.13,
+    "n_samples_off": 176
    },
    {
-    "pair": "t_-28_-27|t_-28_-26",
-    "max_diff_m": 23.9375,
+    "pair": "t_-23_-11|t_-23_-10",
+    "max_diff_m": 4.845,
     "n_samples_off": 501
    },
    {
-    "pair": "t_-29_-27|t_-29_-26",
-    "max_diff_m": 22.3625,
+    "pair": "t_-24_-11|t_-24_-10",
+    "max_diff_m": 4.8575,
+    "n_samples_off": 365
+   },
+   {
+    "pair": "t_-25_-11|t_-25_-10",
+    "max_diff_m": 5.6325,
     "n_samples_off": 501
    },
    {
-    "pair": "t_-30_-27|t_-30_-26",
-    "max_diff_m": 30.225,
+    "pair": "t_-26_-11|t_-26_-10",
+    "max_diff_m": 6.7175,
+    "n_samples_off": 501
+   },
+   {
+    "pair": "t_-27_-11|t_-27_-10",
+    "max_diff_m": 9.5725,
+    "n_samples_off": 501
+   },
+   {
+    "pair": "t_-28_-11|t_-28_-10",
+    "max_diff_m": 11.832500000000001,
+    "n_samples_off": 489
+   },
+   {
+    "pair": "t_-29_-11|t_-29_-10",
+    "max_diff_m": 7.8825,
+    "n_samples_off": 501
+   },
+   {
+    "pair": "t_-30_-11|t_-30_-10",
+    "max_diff_m": 15.4275,
     "n_samples_off": 500
    },
    {
@@ -182,10 +211,20 @@
     "pair": "t_-30_5|t_-30_6",
     "max_diff_m": 142.475,
     "n_samples_off": 500
+   },
+   {
+    "pair": "t_17_-12|t_17_-11",
+    "max_diff_m": 2.705,
+    "n_samples_off": 10
+   },
+   {
+    "pair": "t_23_-12|t_23_-11",
+    "max_diff_m": 2.2875,
+    "n_samples_off": 77
    }
   ],
-  "n_violations": 7,
-  "seconds": 44.5
+  "n_violations": 14,
+  "seconds": 37.0
  },
  "known_elevations": {
   "points": [
@@ -225,37 +264,37 @@
    },
    {
     "name": "Fort Tryon Park, Linden Terrace",
-    "lon": -73.93222,
-    "lat": 40.86255,
-    "x": 1499.0,
-    "y": 18051.3,
-    "probe_z_m": 46.274,
-    "radius_m": 90.0,
-    "z_min_r": 21.296,
-    "z_max_r": 71.322,
+    "lon": -73.93331,
+    "lat": 40.86168,
+    "x": 1407.1,
+    "y": 17954.6,
+    "probe_z_m": 77.323,
+    "radius_m": 60.0,
+    "z_min_r": 59.296,
+    "z_max_r": 77.323,
     "expected_m": [
      68.0,
      84.0
     ],
-    "published": "~250 ft / 76 m \u2014 highest ground in Fort Tryon Park (NYC Parks)",
+    "published": "~250 ft / 76.2 m \u2014 highest ground in Fort Tryon Park (NYC Parks)",
     "pass": true
    },
    {
     "name": "Bennett Park, Manhattan high point",
-    "lon": -73.9401,
-    "lat": 40.8506,
-    "x": 834.8,
-    "y": 16724.1,
-    "probe_z_m": 58.152,
+    "lon": -73.93824,
+    "lat": 40.85298,
+    "x": 991.6,
+    "y": 16988.4,
+    "probe_z_m": 81.07,
     "radius_m": 60.0,
-    "z_min_r": 54.25,
-    "z_max_r": 62.941,
+    "z_min_r": 75.499,
+    "z_max_r": 81.07,
     "expected_m": [
      74.0,
      86.0
     ],
     "published": "265 ft / 80.8 m \u2014 highest natural point in Manhattan (NYC Parks marker)",
-    "pass": false
+    "pass": true
    },
    {
     "name": "Brooklyn Heights Promenade",
@@ -326,7 +365,7 @@
     "pass": true
    }
   ],
-  "passed": 7,
+  "passed": 8,
   "total": 8
  },
  "borough_extremes": {
@@ -375,7 +414,7 @@
  },
  "water_datum": {
   "points": 358,
-  "at_datum": 347,
+  "at_datum": 352,
   "max_abs_m": 1.6200000047683718,
   "off_datum_examples": [
    {
@@ -389,34 +428,9 @@
     "z": -1.62
    },
    {
-    "x": -15504.0,
-    "y": -19713.2,
-    "z": 0.1
-   },
-   {
-    "x": -14775.0,
-    "y": -21687.3,
-    "z": 0.043
-   },
-   {
-    "x": -17311.6,
-    "y": -20370.1,
-    "z": 0.1
-   },
-   {
     "x": -7337.4,
     "y": -3525.6,
     "z": -1.62
-   },
-   {
-    "x": -18760.3,
-    "y": -20446.8,
-    "z": 0.1
-   },
-   {
-    "x": -15442.9,
-    "y": -21283.4,
-    "z": 0.1
    },
    {
     "x": -20211.0,
@@ -426,6 +440,11 @@
    {
     "x": -8649.1,
     "y": -5204.7,
+    "z": -1.62
+   },
+   {
+    "x": -8456.0,
+    "y": -5737.2,
     "z": -1.62
    }
   ]
@@ -441,7 +460,7 @@
    "cell_m": 20.0,
    "z_min": -3.882499933242798,
    "z_max": 166.40249633789062,
-   "seconds": 51.8
+   "seconds": 39.3
   },
   "manhattan": {
    "png": "/home/user/Map-New-York/docs/verification/terrain/hillshade_manhattan.png",
@@ -459,7 +478,7 @@
    ],
    "z_min": -5.137499809265137,
    "z_max": 81.09249877929688,
-   "seconds": 68.1
+   "seconds": 56.8
   }
  }
 }

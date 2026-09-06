@@ -92,6 +92,12 @@ facade_classes.json}`).
   (the bay's catalog entry carries `interior_depth_m = 2.5` and `glass_line_y_m = 0.25`). `facade_params.STOREFRONT_INTERIOR_FOR_KIND`
   maps all 20 storefront kinds onto the 11 shells; each shell's catalog entry lists the kinds it serves in
   `serves_storefront_kinds`.
+* **Naming is the lookup key.** The kit piece for `window_type` index *i* is `win_<facade_params.WINDOW_TYPE_NAMES[i]>`
+  (asserted by `test_brief_coverage`); the shell for storefront kind *k* is
+  `storefront_interior_<STOREFRONT_INTERIOR_FOR_KIND[k]>`; the bay / gate / grille / awning for width *w* is
+  `storefront_{bay,gate,grille,awning}_<w with the dot removed>` (`36`, `48`, `60`). `blender/common/facade_classes.json`
+  (56 NYC facade classes, validated by `facade_params.load_facade_classes()`) names only window types, materials,
+  features and storefront kinds that the kit implements.
 * Gates, grilles and awnings carry `bay_width_m` (and gates `gate_state`) so they drop straight onto the
   matching bay. Per-piece extras are merged into the top level of the catalog entry.
 

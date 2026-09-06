@@ -213,6 +213,45 @@ def foot_ik(body: BodyRef, side: str, target: Vector, *, toe_dir: Vector | None 
     return spec
 
 
+#: A hand at rest is not flat: the metacarpophalangeal, proximal and distal joints sit at roughly these
+#: angles (Kapandji's "position of function"), which is what stops the procedural clips looking like a
+#: mannequin with its fingers splayed.
+RELAXED_HAND_DEG = {"01": 17.0, "02": 26.0, "03": 18.0}
+RELAXED_THUMB_DEG = {"01": 8.0, "02": 12.0, "03": 10.0}
+
+
+def finger_curl_sign(rig: Rig) -> float:
+    """+1 or -1: which local-X direction closes the fingers on this rig (measured, not assumed)."""
+    if "index_02_l" not in rig.rest or "index_03_l" not in rig.rest:
+        return 1.0
+    anchor = rig.rest["hand_l"].translation
+    best, best_d = 1.0, float("inf")
+    for sign in (1.0, -1.0):
+        basis = {"index_02_l": Matrix.Rotation(math.radians(sign * 60.0), 4, "X")}
+        world = rig.evaluate(basis)
+        d = (world["index_03_l"].translation - anchor).length
+        if d < best_d:
+            best, best_d = sign, d
+    return best
+
+
+def with_relaxed_hands(rig: Rig, base: dict[str, Matrix], sign: float) -> dict[str, Matrix]:
+    """Return ``base`` with a resting curl added to every finger."""
+    out = {k: v.copy() for k, v in base.items()}
+    identity = Matrix.Identity(4)
+    for side in ("l", "r"):
+        for finger in ("index", "middle", "ring", "pinky"):
+            for joint, angle in RELAXED_HAND_DEG.items():
+                name = f"{finger}_{joint}_{side}"
+                if name in rig.rest:
+                    out[name] = out.get(name, identity) @ Matrix.Rotation(math.radians(sign * angle), 4, "X")
+        for joint, angle in RELAXED_THUMB_DEG.items():
+            name = f"thumb_{joint}_{side}"
+            if name in rig.rest:
+                out[name] = out.get(name, identity) @ Matrix.Rotation(math.radians(sign * angle), 4, "X")
+    return out
+
+
 def planted_feet(body: BodyRef, *, stance: float = 0.0, toe_out_deg: float = 7.0) -> dict[str, dict]:
     """Both feet flat on the ground under the hips - what makes a standing clip stand.
 
@@ -254,9 +293,10 @@ class ProceduralClips:
         self.rig = rig
         self.body = body
         self.car = package
-        self.standing = standing
         self.walk = walk_frames or []
         self.fps = fps
+        self.curl_sign = finger_curl_sign(rig)
+        self.standing = with_relaxed_hands(rig, standing, self.curl_sign)
 
     # ------------------------------------------------------------------ standing
     def idle(self) -> Clip:

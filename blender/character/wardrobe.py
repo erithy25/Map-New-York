@@ -47,8 +47,8 @@ LAYER_BASE, LAYER_MID, LAYER_OUTER, LAYER_ACCESSORY = 0, 1, 2, 3
 
 #: Minimum stand-off from the skin per layer, metres.  Each layer must clear the *outer* surface of the one
 #: below it (stand-off + fabric thickness), otherwise two garments occupy the same shell and read as one
-#: shapeless mass.  Base 6 mm -> mid 22 mm -> outer 42 mm.
-LAYER_MIN_OFFSET = {LAYER_BASE: 0.006, LAYER_MID: 0.022, LAYER_OUTER: 0.042, LAYER_ACCESSORY: 0.006}
+#: shapeless mass.  Outer surfaces land at 9.5 mm (base), 21 mm (mid) and 33 mm (outer) from the skin.
+LAYER_MIN_OFFSET = {LAYER_BASE: 0.006, LAYER_MID: 0.013, LAYER_OUTER: 0.024, LAYER_ACCESSORY: 0.006}
 
 #: How far into the garment (as a fraction of its z span) the hem and cuff cinch back towards the body.
 HEM_FRACTION = 0.06
@@ -126,49 +126,49 @@ WARDROBE: tuple[Garment, ...] = (
             _c("d4552f"), 0.84, tags=("kids",)),
 
     # ---- mid layer
-    Garment("hoodie_grey", "Grey pullover hoodie", "top", TORSO + UPPERARM + FOREARM, 0.41, 0.87, 0.019,
-            0.008, _c("707277"), 0.87, hood=True, layer=LAYER_MID, tags=("hoodie",)),
-    Garment("hoodie_black", "Black zip hoodie", "top", TORSO + UPPERARM + FOREARM, 0.41, 0.87, 0.019, 0.008,
+    Garment("hoodie_grey", "Grey pullover hoodie", "top", TORSO + UPPERARM + FOREARM, 0.41, 0.87, 0.013,
+            0.006, _c("707277"), 0.87, hood=True, layer=LAYER_MID, tags=("hoodie",)),
+    Garment("hoodie_black", "Black zip hoodie", "top", TORSO + UPPERARM + FOREARM, 0.41, 0.87, 0.013, 0.006,
             _c("232427"), 0.88, hood=True, layer=LAYER_MID, tags=("hoodie",)),
-    Garment("hoodie_navy", "Navy hoodie", "top", TORSO + UPPERARM + FOREARM, 0.41, 0.87, 0.019, 0.008,
+    Garment("hoodie_navy", "Navy hoodie", "top", TORSO + UPPERARM + FOREARM, 0.41, 0.87, 0.013, 0.006,
             _c("1e2b45"), 0.87, hood=True, layer=LAYER_MID, tags=("hoodie",)),
-    Garment("kids_hoodie", "Kid's hoodie", "top", TORSO + UPPERARM + FOREARM, 0.40, 0.87, 0.017, 0.007,
+    Garment("kids_hoodie", "Kid's hoodie", "top", TORSO + UPPERARM + FOREARM, 0.40, 0.87, 0.012, 0.006,
             _c("3f7bb5"), 0.87, hood=True, layer=LAYER_MID, tags=("kids", "hoodie")),
 
     # ---- outerwear
     Garment("puffer_black", "Black puffer jacket", "outerwear", TORSO + UPPERARM + FOREARM, 0.39, 0.88,
-            0.036, 0.012, _c("161618"), 0.55, quilt_rows=7, quilt_depth=0.011, layer=LAYER_OUTER,
+            0.028, 0.010, _c("161618"), 0.55, quilt_rows=7, quilt_depth=0.011, layer=LAYER_OUTER,
             tags=("puffer", "winter")),
     Garment("puffer_olive", "Olive puffer jacket", "outerwear", TORSO + UPPERARM + FOREARM, 0.39, 0.88,
-            0.036, 0.012, _c("4a4f35"), 0.58, quilt_rows=7, quilt_depth=0.011, layer=LAYER_OUTER,
+            0.028, 0.010, _c("4a4f35"), 0.58, quilt_rows=7, quilt_depth=0.011, layer=LAYER_OUTER,
             tags=("puffer", "winter")),
     Garment("puffer_red_long", "Long red puffer", "outerwear", TORSO + UPPERARM + FOREARM + HIPS + THIGHS,
-            0.28, 0.88, 0.038, 0.012, _c("8c2320"), 0.56, quilt_rows=11, quilt_depth=0.011,
+            0.28, 0.88, 0.030, 0.010, _c("8c2320"), 0.56, quilt_rows=11, quilt_depth=0.011,
             layer=LAYER_OUTER, tags=("puffer", "winter")),
-    Garment("kids_puffer", "Kid's puffer", "outerwear", TORSO + UPPERARM + FOREARM, 0.38, 0.88, 0.032,
-            0.011, _c("2f5fa8"), 0.57, quilt_rows=6, quilt_depth=0.010, layer=LAYER_OUTER,
+    Garment("kids_puffer", "Kid's puffer", "outerwear", TORSO + UPPERARM + FOREARM, 0.38, 0.88, 0.026,
+            0.009, _c("2f5fa8"), 0.57, quilt_rows=6, quilt_depth=0.010, layer=LAYER_OUTER,
             tags=("kids", "puffer")),
-    Garment("jacket_denim", "Denim jacket", "outerwear", TORSO + UPPERARM + FOREARM, 0.42, 0.87, 0.022,
-            0.009, _c("3f5a78"), 0.80, layer=LAYER_OUTER, tags=("jacket",)),
-    Garment("jacket_leather", "Black leather jacket", "outerwear", TORSO + UPPERARM + FOREARM, 0.41, 0.87,
-            0.022, 0.009, _c("18181a"), 0.38, layer=LAYER_OUTER, tags=("jacket",)),
-    Garment("jacket_bomber", "Olive bomber jacket", "outerwear", TORSO + UPPERARM + FOREARM, 0.42, 0.87,
-            0.024, 0.009, _c("41452f"), 0.62, layer=LAYER_OUTER, tags=("jacket",)),
+    Garment("jacket_denim", "Denim jacket", "outerwear", TORSO + UPPERARM + FOREARM, 0.445, 0.855, 0.014,
+            0.007, _c("3f5a78"), 0.80, layer=LAYER_OUTER, tags=("jacket",)),
+    Garment("jacket_leather", "Black leather jacket", "outerwear", TORSO + UPPERARM + FOREARM, 0.435, 0.855,
+            0.013, 0.006, _c("18181a"), 0.38, layer=LAYER_OUTER, tags=("jacket",)),
+    Garment("jacket_bomber", "Olive bomber jacket", "outerwear", TORSO + UPPERARM + FOREARM, 0.445, 0.855,
+            0.015, 0.007, _c("41452f"), 0.62, layer=LAYER_OUTER, tags=("jacket",)),
     Garment("coat_wool", "Camel wool overcoat", "outerwear", TORSO + UPPERARM + FOREARM + HIPS + THIGHS,
-            0.30, 0.88, 0.026, 0.010, _c("9a7a51"), 0.85, layer=LAYER_OUTER, tags=("coat", "winter")),
+            0.30, 0.88, 0.018, 0.008, _c("9a7a51"), 0.85, layer=LAYER_OUTER, tags=("coat", "winter")),
     Garment("coat_trench", "Beige trench coat", "outerwear", TORSO + UPPERARM + FOREARM + HIPS + THIGHS,
-            0.32, 0.88, 0.024, 0.009, _c("b6a488"), 0.72, layer=LAYER_OUTER, tags=("coat", "rain")),
+            0.32, 0.88, 0.016, 0.007, _c("b6a488"), 0.72, layer=LAYER_OUTER, tags=("coat", "rain")),
     Garment("suit_jacket_charcoal", "Charcoal suit jacket", "outerwear", TORSO + UPPERARM + FOREARM,
-            0.40, 0.87, 0.020, 0.008, _c("35373c"), 0.66, layer=LAYER_OUTER, tags=("suit", "office")),
+            0.40, 0.87, 0.014, 0.006, _c("35373c"), 0.66, layer=LAYER_OUTER, tags=("suit", "office")),
     Garment("suit_jacket_navy", "Navy suit jacket", "outerwear", TORSO + UPPERARM + FOREARM, 0.40, 0.87,
-            0.020, 0.008, _c("222c40"), 0.66, layer=LAYER_OUTER, tags=("suit", "office")),
-    Garment("vest_hivis", "ANSI class-2 hi-vis vest", "outerwear", TORSO, 0.44, 0.86, 0.028, 0.006,
+            0.014, 0.006, _c("222c40"), 0.66, layer=LAYER_OUTER, tags=("suit", "office")),
+    Garment("vest_hivis", "ANSI class-2 hi-vis vest", "outerwear", TORSO, 0.44, 0.86, 0.020, 0.006,
             _c("d8f000"), 0.60, layer=LAYER_OUTER, tags=("hivis", "work"),
             notes="ANSI/ISEA 107 class 2 fluorescent yellow-green"),
-    Garment("vest_delivery", "Insulated delivery vest", "outerwear", TORSO, 0.42, 0.86, 0.032, 0.009,
+    Garment("vest_delivery", "Insulated delivery vest", "outerwear", TORSO, 0.42, 0.86, 0.026, 0.008,
             _c("1d1f22"), 0.62, quilt_rows=5, quilt_depth=0.009, layer=LAYER_OUTER,
             tags=("delivery", "work")),
-    Garment("vest_conedison", "Con-Ed orange work vest", "outerwear", TORSO, 0.44, 0.86, 0.028, 0.006,
+    Garment("vest_conedison", "Con-Ed orange work vest", "outerwear", TORSO, 0.44, 0.86, 0.020, 0.006,
             _c("e8630a"), 0.62, layer=LAYER_OUTER, tags=("hivis", "work")),
 
     # ---- bottoms
@@ -193,10 +193,10 @@ WARDROBE: tuple[Garment, ...] = (
     Garment("hijab_navy", "Navy hijab", "hat", NECKHEAD + TORSO, 0.78, 1.02, 0.016, 0.005,
             _c("222b3d"), 0.75, layer=LAYER_ACCESSORY, tags=("hijab",),
             notes="drapes from the crown over the shoulders; covers hair, neck and the upper chest"),
-    Garment("sneakers_white", "White sneakers", "shoes", FEET, 0.0, 0.10, 0.010, 0.006,
-            _c("e9e7e2"), 0.60, sole=0.024, layer=LAYER_ACCESSORY, tags=("sneakers",), smooth_iters=18),
-    Garment("sneakers_black", "Black sneakers", "shoes", FEET, 0.0, 0.10, 0.010, 0.006,
-            _c("1a1a1c"), 0.62, sole=0.024, layer=LAYER_ACCESSORY, tags=("sneakers",), smooth_iters=18),
+    Garment("sneakers_white", "White sneakers", "shoes", FEET, 0.0, 0.10, 0.015, 0.006,
+            _c("e9e7e2"), 0.60, sole=0.028, layer=LAYER_ACCESSORY, tags=("sneakers",), smooth_iters=18),
+    Garment("sneakers_black", "Black sneakers", "shoes", FEET, 0.0, 0.10, 0.015, 0.006,
+            _c("1a1a1c"), 0.62, sole=0.028, layer=LAYER_ACCESSORY, tags=("sneakers",), smooth_iters=18),
     Garment("boots_work", "Tan work boots", "shoes", FEET + CALVES, 0.0, 0.155, 0.013, 0.007,
             _c("7a5228"), 0.66, sole=0.030, layer=LAYER_ACCESSORY, tags=("boots", "work"), smooth_iters=18),
     Garment("shoes_dress", "Black dress shoes", "shoes", FEET, 0.0, 0.085, 0.008, 0.005,
