@@ -42,3 +42,8 @@ assets/audio/**/*.ogg
 assets/audio/**/*.wav
 .pytest_cache/
 **/__pycache__/
+
+# Blender stdout from the render batches. 4.5 MB of churn, rewritten continuously by the
+# verification lanes, referenced by no code or report — the provenance of every render lives in
+# its own render.json beside the image. Kept on disk, out of the history.
+.render_batch.log
