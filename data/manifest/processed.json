@@ -6642,6 +6642,25 @@
    "stage": "landmarks_b",
    "triangles": 94736
   },
+  "landmark_b_grants_tomb_lod0": {
+   "artifact_id": "landmark_b_grants_tomb_lod0",
+   "bytes": 340756,
+   "git_commit": "ae96647d31ee",
+   "landmark_id": "b_grants_tomb",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_grants_tomb.glb",
+   "produced_at": "2026-09-06T12:53:39Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "b3beadac66656411120cf3e6c9f92d274cd701af1967d27e098fcea104ad3a03",
+   "sources": [
+    "building_footprints",
+    "osm_bbbike",
+    "published_grants_tomb"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 10264
+  },
   "landmark_b_hell_gate_lod0": {
    "artifact_id": "landmark_b_hell_gate_lod0",
    "bytes": 1087680,
@@ -6947,6 +6966,24 @@
    ],
    "stage": "landmarks_b",
    "triangles": 117032
+  },
+  "landmark_b_washington_square_arch_lod0": {
+   "artifact_id": "landmark_b_washington_square_arch_lod0",
+   "bytes": 54552,
+   "git_commit": "ae96647d31ee",
+   "landmark_id": "b_washington_square_arch",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_washington_square_arch.glb",
+   "produced_at": "2026-09-06T12:52:32Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "bf51957171f520fd01bd1d38a5ecb7dd55ca44a57fc3343aaa78b4555a415b11",
+   "sources": [
+    "osm_bbbike",
+    "published_washington_square_arch"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 1072
   },
   "landmark_b_williamsburg_bridge_lod0": {
    "artifact_id": "landmark_b_williamsburg_bridge_lod0",
@@ -7461,6 +7498,26 @@
    "stage": "landmarks",
    "tris_lod0": 12338,
    "tris_lod1": 706
+  },
+  "landmark_glb:c_usta_arthur_ashe": {
+   "artifact_id": "landmark_glb:c_usta_arthur_ashe",
+   "bins": [
+    4467715
+   ],
+   "bytes": 13002328,
+   "footprint_iou": 1.0,
+   "git_commit": "ae96647d31ee",
+   "path": "blender_out/landmarks/c_usta_arthur_ashe.glb",
+   "produced_at": "2026-09-06T12:52:42Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "ec7ec8fc2da27ae3eef839252fed0385c0cbf45b802dc50cbef98ada2f0f0d52",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 2452,
+   "tris_lod1": 316
   },
   "landmark_glb:c_yankee_stadium": {
    "artifact_id": "landmark_glb:c_yankee_stadium",

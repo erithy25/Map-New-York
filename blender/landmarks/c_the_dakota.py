@@ -121,7 +121,7 @@ def main():
                           "ironwork, the additions inside the court."),
                       dimensions={"ridge_m": RIDGE, "cornice_m": CORNICE, "base_top_m": BASE_TOP, "floors": FLOORS})
     cc.render(ID, [
-        {"view": "w72nd", "azimuth_deg": 200, "elevation_deg": "street", "distance": 80, "fov_deg": 60, "look_up_deg": 26},
+        {"view": "w72nd", "azimuth_deg": 200, "elevation_deg": "street", "distance": 120, "fov_deg": 52, "look_up_deg": 20},
         {"view": "aerial", "azimuth_deg": 240, "elevation_deg": 30},
     ])
     return entry

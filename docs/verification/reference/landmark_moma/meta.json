@@ -1,0 +1,202 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_moma",
+ "name": "Museum of Modern Art",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.76143,
+  "lon": -73.9775,
+  "azimuth_deg": 0.0,
+  "note": "West 53rd Street south sidewalk between Fifth and Sixth Avenues, looking north at the museum's 53rd Street front",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7617,
+  "lon": -73.9775,
+  "name": "Museum of Modern Art"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Museum of Modern Art\" New York 53rd Street facade",
+  "MoMA New York exterior building"
+ ],
+ "geosearch_radius_m": 150,
+ "fetched_at": "2026-09-06T12:51:32Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 101,
+ "candidates_eligible": 19,
+ "rejections": {
+  "excluded": 14,
+  "too_small": 8,
+  "keywords": 28,
+  "not_jpeg": 25,
+  "too_old": 3,
+  "indoor": 1,
+  "not_photo": 3
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Museum of Modern Art (MoMA) (51395759113).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Museum_of_Modern_Art_(MoMA)_(51395759113).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/10/Museum_of_Modern_Art_%28MoMA%29_%2851395759113%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Museum_of_Modern_Art_%28MoMA%29_%2851395759113%29.jpg/1920px-Museum_of_Modern_Art_%28MoMA%29_%2851395759113%29.jpg",
+   "author": "ajay_suresh",
+   "credit": "Museum of Modern Art (MoMA)",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2021-08-21 15:18",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.761288,
+    "lon": -73.977748
+   },
+   "original_width": 3888,
+   "original_height": 3888,
+   "width": 1920,
+   "height": 1920,
+   "bytes": 1462203,
+   "sha256": "27565d2fda3d712104ba472726a90dfe061935b5cb0b13ce6cfe207185109812",
+   "mean_luminance": 85.7,
+   "description": "Museum of Modern Art (MoMA)",
+   "categories": [
+    "New York City photographs taken on 2021-08-21",
+    "Museums in the United States photographed in 2021",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "August 2021 in Manhattan, New York City",
+    "Museum of Modern Art - Exterior",
+    "2021 New York City photographs by ajay suresh"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.9,
+   "estimated_viewpoint": {
+    "lat": 40.761288,
+    "lon": -73.977748,
+    "azimuth_deg": 24.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76129, -73.97775) is 50 m from Museum of Modern Art (40.76170, -73.97750) and 26 m from the standard viewpoint; the azimuth 25 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Museum of Modern Art (MoMA) (51395759113).jpg\" by ajay_suresh, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Museum_of_Modern_Art_(MoMA)_(51395759113).jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:MoMA Museum shop (2) 2021 jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:MoMA_Museum_shop_(2)_2021_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e5/MoMA_Museum_shop_%282%29_2021_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/MoMA_Museum_shop_%282%29_2021_jeh.jpg/1920px-MoMA_Museum_shop_%282%29_2021_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2021-05-08 09:55:58",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.7613,
+    "lon": -73.9778
+   },
+   "original_width": 3759,
+   "original_height": 3007,
+   "width": 1920,
+   "height": 1536,
+   "bytes": 548387,
+   "sha256": "6a3459b9c560f88ac365a3ac7b3d6bcdbd2da1eb2eaf901e1f4a78709f841eb0",
+   "mean_luminance": 135.0,
+   "description": "Looking east on a cloudy day, at newly opened museum shop entrance",
+   "categories": [
+    "53rd Street (Manhattan)",
+    "Self-published work",
+    "Museum shops in the United States",
+    "Files with coordinates missing SDC location of creation",
+    "Shops in Manhattan",
+    "May 2021 in Manhattan, New York City",
+    "2021 Manhattan photos by Jim.henderson",
+    "May 2021 photos by Jim.henderson",
+    "May 2011 photos by Jim.henderson"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.9,
+   "estimated_viewpoint": {
+    "lat": 40.7613,
+    "lon": -73.9778,
+    "azimuth_deg": 29.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76130, -73.97780) is 51 m from Museum of Modern Art (40.76170, -73.97750) and 29 m from the standard viewpoint; the azimuth 30 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"MoMA Museum shop (2) 2021 jeh.jpg\" by Jim.henderson, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:MoMA_Museum_shop_(2)_2021_jeh.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Apple Macintosh XL Home Computer at The MoMA (40612678894).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Apple_Macintosh_XL_Home_Computer_at_The_MoMA_(40612678894).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/41/Apple_Macintosh_XL_Home_Computer_at_The_MoMA_%2840612678894%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Apple_Macintosh_XL_Home_Computer_at_The_MoMA_%2840612678894%29.jpg/1920px-Apple_Macintosh_XL_Home_Computer_at_The_MoMA_%2840612678894%29.jpg",
+   "author": "Nan Palmero from San Antonio, TX, USA",
+   "credit": "Apple Macintosh XL Home Computer at The MoMA",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.761413,
+    "lon": -73.977612
+   },
+   "original_width": 7952,
+   "original_height": 5304,
+   "width": 1920,
+   "height": 1281,
+   "bytes": 320893,
+   "sha256": "956d507ed60609b477c1c24bd6fc94f5020725f448e96bc927df2b736156dd65",
+   "mean_luminance": 74.8,
+   "description": "Apple Macintosh XL Home Computer at The MoMA",
+   "categories": [
+    "Museum of Modern Art (New York City)",
+    "New York City photographs taken on 2018-04-02",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "April 2018 in Manhattan, New York City",
+    "Photographs by Nan Palmero"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.45,
+   "estimated_viewpoint": {
+    "lat": 40.761413,
+    "lon": -73.977612,
+    "azimuth_deg": 16.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76141, -73.97761) is 33 m from Museum of Modern Art (40.76170, -73.97750) and 10 m from the standard viewpoint; the azimuth 16 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Apple Macintosh XL Home Computer at The MoMA (40612678894).jpg\" by Nan Palmero from San Antonio, TX, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Apple_Macintosh_XL_Home_Computer_at_The_MoMA_(40612678894).jpg"
+  }
+ ]
+}

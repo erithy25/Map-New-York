@@ -180,7 +180,7 @@ def main():
                                   "pot_head_range_m": [HEAD_MIN, HEAD_MAX], "area_m2": round(P.area, 1),
                                   "area_published_m2": AREA_PUBLISHED, "osm_way": OSM_WAY, "amph_seats": 687})
     cc.render(ID, [
-        {"view": "hudson_river_park", "azimuth_deg": 80, "elevation_deg": "street", "distance": 130, "fov_deg": 62, "look_up_deg": 12},
+        {"view": "hudson_river_park", "azimuth_deg": 80, "elevation_deg": "street", "distance": 175, "fov_deg": 55, "look_up_deg": 10},
         {"view": "aerial", "azimuth_deg": 100, "elevation_deg": 34},
     ])
     return entry

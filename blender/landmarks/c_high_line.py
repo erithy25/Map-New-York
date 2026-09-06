@@ -73,6 +73,9 @@ def load_outline() -> list[Polygon]:
 
 def build():
     C.reset()
+    # weathering (Cor-Ten) steel: not in the shared palette, so its albedo is declared here
+    C.custom_material("rust", (122, 74, 50), roughness=0.72, metallic=0.25,
+                      note="pre-weathered / Cor-Ten steel [SHoP Barclays Center panels; High Line viaduct girders]")
     cc.materials(["steel_dark", "rust", "concrete", "concrete_dark", "pavement", "grass", "aluminium",
                   "roof_dark", "granite_grey"])
     parts = load_outline()

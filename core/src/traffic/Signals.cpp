@@ -78,8 +78,12 @@ bool SignalTable::loadFromNycb(const uint8_t* data, size_t len) {
     error_ = "signals.nycb: missing controllers/phases section";
     return false;
   }
-  if (controllers.element_size != 28 || phases.element_size != 28) {
-    error_ = "signals.nycb: unexpected element size (expected 28/28)";
+  // Natural C alignment (data/processed/runtime/nycb_layout.json): the
+  // controller record pads to 32 bytes (int64 node_id, int32 controller_id,
+  // float cycle_s, float offset_s, uint32 first_phase, uint32 phase_count),
+  // while the phase record is a plain 7 x 4 bytes.
+  if (controllers.element_size != 32 || phases.element_size != 28) {
+    error_ = "signals.nycb: unexpected element size (expected controllers 32, phases 28)";
     return false;
   }
   reserve(controllers.element_count, phases.element_count);

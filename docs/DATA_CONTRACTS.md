@@ -102,7 +102,9 @@ Little-endian records, 40 bytes each:
 ```
 uint32 kit_id; int64 bin; float32 x, y, z; float32 yaw_deg; float32 scale; uint32 variant_seed; uint32 flags
 ```
-`kit_catalog.json` maps `kit_id` → glb path, category, bounds. flags bit0 = lit at night, bit1 = animated, bit2 = interior-visible.
+`kit_catalog.json` maps `kit_id` → glb path, category, bounds.
+
+**Who owns the id space.** The exported Blender catalog (`blender_out/kit/catalog/*.json`) is the authority on which pieces exist. The numeric registry `data/processed/facade/kit_ids.json` is *generated from it*: pieces are grouped by the catalog's own `category`, sorted by catalog `id` within each group, and numbered `kit_id = (category_index + 1) × 200 + index_within_category`. Every registry entry carries `catalog_id` (the exporting catalog's `id`, verbatim) and `glb` (its path), so a numeric id in a placement record always resolves to a file that exists. A rule that needs a piece the kit does not export must leave it out of the registry and report the gap — never emit an id that resolves to nothing. Enforced by `tests/test_world_integration.py::test_kit_placements_are_populated_and_reference_real_kit_pieces`. flags bit0 = lit at night, bit1 = animated, bit2 = interior-visible.
 
 ## 7. Roads — `roads/segments.parquet` (GeoParquet, lines)
 | column | type | notes |

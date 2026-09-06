@@ -98,7 +98,7 @@ def main():
                                   "ground_clear_m": GROUND_CLEAR, "podium_top_m": PODIUM_TOP, "floor_h_m": FLOOR_H,
                                   "slab_plan_m": [SLAB_W, SLAB_D], "curtain_module_m": MODULE_M})
     cc.render(ID, [
-        {"view": "park_ave", "azimuth_deg": 119, "elevation_deg": "street", "distance": 70, "fov_deg": 62, "look_up_deg": 38},
+        {"view": "park_ave", "azimuth_deg": 119, "elevation_deg": "street", "distance": 150, "fov_deg": 50, "look_up_deg": 32},
         {"view": "aerial", "azimuth_deg": 130, "elevation_deg": 26},
     ])
     return entry

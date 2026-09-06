@@ -126,7 +126,7 @@ def main():
                       dimensions={"top_m": TOP, "floors": 37, "base_top_m": BASE_TOP, "clock_centre_z_m": CLOCK_Z,
                                   "clock_face_d_m": CLOCK_D, "dome_base_m": DOME_BASE})
     cc.render(ID, [
-        {"view": "hanson_place", "azimuth_deg": 200, "elevation_deg": "street", "distance": 130, "fov_deg": 58, "look_up_deg": 40},
+        {"view": "hanson_place", "azimuth_deg": 200, "elevation_deg": "street", "distance": 260, "fov_deg": 45, "look_up_deg": 33},
         {"view": "aerial", "azimuth_deg": 220, "elevation_deg": 26},
     ])
     return entry

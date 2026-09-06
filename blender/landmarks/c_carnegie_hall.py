@@ -103,7 +103,7 @@ def main():
                       dimensions={"studio_tower_m": TOWER_TOP, "hall_cornice_m": CORNICE, "base_top_m": BASE_TOP,
                                   "auditorium_seats": 2804})
     cc.render(ID, [
-        {"view": "seventh_ave", "azimuth_deg": 250, "elevation_deg": "street", "distance": 75, "fov_deg": 62, "look_up_deg": 30},
+        {"view": "seventh_ave", "azimuth_deg": 250, "elevation_deg": "street", "distance": 130, "fov_deg": 52, "look_up_deg": 22},
         {"view": "aerial", "azimuth_deg": 220, "elevation_deg": 30},
     ])
     return entry

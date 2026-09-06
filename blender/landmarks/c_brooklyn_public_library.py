@@ -121,7 +121,7 @@ def main():
                       dimensions={"parapet_m": PARAPET, "wing_cornice_m": CORNICE, "entrance_h_m": ENTRY_H,
                                   "entrance_w_m": ENTRY_W, "entrance_splay_m": ENTRY_SPLAY, "storeys": 4})
     cc.render(ID, [
-        {"view": "grand_army_plaza", "azimuth_deg": 315, "elevation_deg": "street", "distance": 90, "fov_deg": 62, "look_up_deg": 22},
+        {"view": "grand_army_plaza", "azimuth_deg": 315, "elevation_deg": "street", "distance": 145, "fov_deg": 52, "look_up_deg": 15},
         {"view": "aerial", "azimuth_deg": 330, "elevation_deg": 30},
     ])
     return entry

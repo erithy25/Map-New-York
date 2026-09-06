@@ -45,6 +45,15 @@ FEET = ("foot_l", "foot_r", "ball_l", "ball_r")
 
 LAYER_BASE, LAYER_MID, LAYER_OUTER, LAYER_ACCESSORY = 0, 1, 2, 3
 
+#: Minimum stand-off from the skin per layer, metres.  Each layer must clear the *outer* surface of the one
+#: below it (stand-off + fabric thickness), otherwise two garments occupy the same shell and read as one
+#: shapeless mass.  Base 6 mm -> mid 22 mm -> outer 42 mm.
+LAYER_MIN_OFFSET = {LAYER_BASE: 0.006, LAYER_MID: 0.022, LAYER_OUTER: 0.042, LAYER_ACCESSORY: 0.006}
+
+#: How far into the garment (as a fraction of its z span) the hem and cuff cinch back towards the body.
+HEM_FRACTION = 0.06
+HEM_TIGHTNESS = 0.30
+
 
 @dataclass
 class Garment:
@@ -65,9 +74,15 @@ class Garment:
     quilt_depth: float = 0.0
     hood: bool = False
     sole: float = 0.0               # sneaker/boot sole thickness, metres
+    smooth_iters: int = 0           # Laplacian passes before the offset (shoes: merges the toes)
     layer: int = LAYER_BASE
     tags: tuple[str, ...] = ()
     notes: str = ""
+
+
+def _smoothstep(t: float) -> float:
+    t = min(max(t, 0.0), 1.0)
+    return t * t * (3.0 - 2.0 * t)
 
 
 def _c(hex_code: str) -> tuple[float, float, float]:
@@ -179,13 +194,13 @@ WARDROBE: tuple[Garment, ...] = (
             _c("222b3d"), 0.75, layer=LAYER_ACCESSORY, tags=("hijab",),
             notes="drapes from the crown over the shoulders; covers hair, neck and the upper chest"),
     Garment("sneakers_white", "White sneakers", "shoes", FEET, 0.0, 0.10, 0.010, 0.006,
-            _c("e9e7e2"), 0.60, sole=0.024, layer=LAYER_ACCESSORY, tags=("sneakers",)),
+            _c("e9e7e2"), 0.60, sole=0.024, layer=LAYER_ACCESSORY, tags=("sneakers",), smooth_iters=18),
     Garment("sneakers_black", "Black sneakers", "shoes", FEET, 0.0, 0.10, 0.010, 0.006,
-            _c("1a1a1c"), 0.62, sole=0.024, layer=LAYER_ACCESSORY, tags=("sneakers",)),
+            _c("1a1a1c"), 0.62, sole=0.024, layer=LAYER_ACCESSORY, tags=("sneakers",), smooth_iters=18),
     Garment("boots_work", "Tan work boots", "shoes", FEET + CALVES, 0.0, 0.155, 0.013, 0.007,
-            _c("7a5228"), 0.66, sole=0.030, layer=LAYER_ACCESSORY, tags=("boots", "work")),
+            _c("7a5228"), 0.66, sole=0.030, layer=LAYER_ACCESSORY, tags=("boots", "work"), smooth_iters=18),
     Garment("shoes_dress", "Black dress shoes", "shoes", FEET, 0.0, 0.085, 0.008, 0.005,
-            _c("141416"), 0.35, sole=0.016, layer=LAYER_ACCESSORY, tags=("office",)),
+            _c("141416"), 0.35, sole=0.016, layer=LAYER_ACCESSORY, tags=("office",), smooth_iters=16),
 )
 
 WARDROBE_BY_ID = {g.item_id: g for g in WARDROBE}
@@ -250,11 +265,22 @@ def build_garment(garment: Garment, body: bpy.types.Object, armature: bpy.types.
         bm.verts.layers.deform.remove(deform_layer)
     bm.normal_update()
 
+    if garment.smooth_iters:
+        # A shoe cut from the foot follows the toes; Laplacian smoothing merges them into a toe box.
+        for _ in range(garment.smooth_iters):
+            bmesh.ops.smooth_vert(bm, verts=list(bm.verts), factor=0.55,
+                                  use_axis_x=True, use_axis_y=True, use_axis_z=True)
+        bm.normal_update()
+
+    offset = max(garment.offset, LAYER_MIN_OFFSET.get(garment.layer, garment.offset))
     for vert in bm.verts:
-        push = garment.offset
+        z_norm = (vert.co.z - z_lo) / max(z_hi - z_lo, 1e-6)
+        hem = min(z_norm, 1.0 - z_norm) / HEM_FRACTION
+        taper = HEM_TIGHTNESS + (1.0 - HEM_TIGHTNESS) * _smoothstep(min(max(hem, 0.0), 1.0))
+        push = offset * taper
         if garment.quilt_rows:
-            z_norm = (vert.co.z - z_lo) / max(z_hi - z_lo, 1e-6)
-            push += garment.quilt_depth * 0.5 * (1.0 + math.cos(2.0 * math.pi * garment.quilt_rows * z_norm))
+            push += garment.quilt_depth * 0.5 * taper * (
+                1.0 + math.cos(2.0 * math.pi * garment.quilt_rows * z_norm))
         vert.co += vert.normal * push
     if garment.sole > 0.0:
         for vert in bm.verts:
@@ -324,15 +350,15 @@ def _add_hood(obj: bpy.types.Object, armature: bpy.types.Object, garment: Garmen
     forward = (bones["ball_l"].tail_local - bones["ball_l"].head_local)
     forward.z = 0.0
     forward = forward.normalized() if forward.length > 1e-6 else Vector((0.0, -1.0, 0.0))
-    centre = neck - forward * 0.075 + Vector((0.0, 0.0, (head.z - neck.z) * 0.35))
-    radius = Vector((0.115, 0.135, 0.115))
+    centre = neck - forward * 0.105 + Vector((0.0, 0.0, (head.z - neck.z) * 0.18))
+    radius = Vector((0.098, 0.112, 0.096))
 
     bm = bmesh.new()
     bmesh.ops.create_uvsphere(bm, u_segments=16, v_segments=10, radius=1.0)
     for vert in bm.verts:
         vert.co = Vector((vert.co.x * radius.x, vert.co.y * radius.y, vert.co.z * radius.z)) + centre
     verts = list(bm.verts)
-    doomed = [v for v in verts if (v.co - centre).dot(forward) > 0.03]
+    doomed = [v for v in verts if (v.co - centre).dot(forward) > 0.012]
     bmesh.ops.delete(bm, geom=doomed, context="VERTS")
     bm.normal_update()
     hood_mesh = bpy.data.meshes.new(f"{obj.name}.hood")
@@ -384,13 +410,22 @@ def build_watch(built, *, side: str = "l", name_prefix: str = "") -> bpy.types.O
     axis = (wrist - lower.head_local).normalized()
     centre = wrist - axis * 0.045
 
-    # radius of the forearm at that point, measured from the body mesh
+    # Radius of the forearm at that point, measured from the body vertices that actually belong to the
+    # forearm - sampling every vertex in the plane would include the torso and produce a hoop.
     body = built.basemesh
-    radius = 0.031
-    samples = [((body.matrix_world @ v.co) - centre) for v in body.data.vertices]
-    near = [s for s in samples if abs(s.dot(axis)) < 0.012]
-    if near:
-        radius = sorted((s - axis * s.dot(axis)).length for s in near)[len(near) // 2] + 0.004
+    deform = {b.name for b in armature.data.bones if b.use_deform}
+    dominant = dominant_bones(body, deform)
+    forearm = {f"lowerarm_{side}", f"hand_{side}"}
+    radial = []
+    for vert in body.data.vertices:
+        if dominant[vert.index] not in forearm:
+            continue
+        rel = (body.matrix_world @ vert.co) - centre
+        along = rel.dot(axis)
+        if abs(along) > 0.014:
+            continue
+        radial.append((rel - axis * along).length)
+    radius = (sorted(radial)[int(len(radial) * 0.85)] + 0.003) if len(radial) >= 8 else 0.031
 
     up = axis.cross(Vector((0.0, 0.0, 1.0)))
     if up.length < 1e-4:

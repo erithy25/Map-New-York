@@ -95,7 +95,7 @@ def main():
                       dimensions={"top_m": TOP, "levels": LEVELS, "bay_m": BAY, "canopy_z_m": CANOPY_Z,
                                   "canopy_depth_m": CANOPY_D, "roof_lawn_m2": 6070})
     cc.render(ID, [
-        {"view": "east_river", "azimuth_deg": 100, "elevation_deg": "street", "distance": 120, "fov_deg": 62, "look_up_deg": 12},
+        {"view": "east_river", "azimuth_deg": 100, "elevation_deg": "street", "distance": 175, "fov_deg": 52, "look_up_deg": 9},
         {"view": "aerial", "azimuth_deg": 120, "elevation_deg": 30},
     ])
     return entry

@@ -464,6 +464,28 @@ bool SidewalkGraph::buildFromRoadGraph(const routing::RoadGraph& g, const traffi
   };
   std::vector<std::vector<Corner>> corners(nnode);
 
+  // The two widest streets meeting at each node decide how far the crosswalks
+  // sit from the node: a crossing must clear the intersection box, and the stop
+  // line (TrafficConfig::stop_line_setback_m) sits behind it.
+  std::vector<float> half1(nnode, 0.f), half2(nnode, 0.f);
+  for (uint32_t si = 0; si < nseg; ++si) {
+    const routing::Segment& seg = g.segment(si);
+    const float h = seg.attrs.width_m * 0.5f;
+    for (uint32_t n : {seg.from_node, seg.to_node}) {
+      if (n == kInvalidIndex || n >= nnode) continue;
+      if (h > half1[n]) {
+        half2[n] = half1[n];
+        half1[n] = h;
+      } else if (h > half2[n]) {
+        half2[n] = h;
+      }
+    }
+  }
+  auto crossingSetback = [&](uint32_t node, float own_half) {
+    const float other = half1[node] > own_half + 1e-3f ? half1[node] : half2[node];
+    return other + 0.3f + p.crosswalk_width_m * 0.5f;
+  };
+
   for (uint32_t si = 0; si < nseg; ++si) {
     const routing::Segment& seg = g.segment(si);
     if (seg.from_node == kInvalidIndex || seg.to_node == kInvalidIndex) continue;
@@ -479,14 +501,17 @@ bool SidewalkGraph::buildFromRoadGraph(const routing::RoadGraph& g, const traffi
     const float half = seg.attrs.width_m * 0.5f;
     const float sw = std::max(p.min_sidewalk_width_m, p.sidewalk_width_m);
     const float off = half + sw * 0.5f;
-    const float setback = std::min(p.corner_radius_m + 1.f, len * 0.35f);
+    const float setback_a =
+        std::min(std::max(crossingSetback(seg.from_node, half), p.corner_radius_m), len * 0.4f);
+    const float setback_b =
+        std::min(std::max(crossingSetback(seg.to_node, half), p.corner_radius_m), len * 0.4f);
 
     for (int side = -1; side <= 1; side += 2) {
       // side = -1 → right of the a→b direction (normal (uy, -ux))
       const float nx = side < 0 ? uy : -uy;
       const float ny = side < 0 ? -ux : ux;
-      Vec3 pa{a.x + ux * setback + nx * off, a.y + uy * setback + ny * off, a.z};
-      Vec3 pb{b.x - ux * setback + nx * off, b.y - uy * setback + ny * off, b.z};
+      Vec3 pa{a.x + ux * setback_a + nx * off, a.y + uy * setback_a + ny * off, a.z};
+      Vec3 pb{b.x - ux * setback_b + nx * off, b.y - uy * setback_b + ny * off, b.z};
       const uint32_t na = addNode(pa, true);
       const uint32_t nb = addNode(pb, true);
       const uint32_t e = addEdge(na, nb, sw, WalkEdgeKind::Sidewalk);
@@ -534,18 +559,33 @@ bool SidewalkGraph::buildFromRoadGraph(const routing::RoadGraph& g, const traffi
         if (e == kInvalidIndex) continue;
         // Pedestrians crossing segment S walk parallel to the traffic coming
         // from the other streets: use that movement's signal group.
+        // Pedestrians crossing street S walk parallel to the traffic on the
+        // streets that cross S, so the crossing takes THAT movement's group.
+        // Comparing segment ids is not enough: the opposite approach of the
+        // same street is a different segment but the same direction, and using
+        // its group would put pedestrians in the roadway on its green.
         int32_t group = -1;
         uint32_t plan = kInvalidIndex;
         if (signals != nullptr) {
           plan = signals->planForNode(ni);
           if (plan != kInvalidIndex) {
+            const routing::Segment& crossed = g.segment(c0.segment);
+            const Vec3& ca = g.node(crossed.from_node).pos;
+            const Vec3& cb = g.node(crossed.to_node).pos;
+            float sdx = cb.x - ca.x, sdy = cb.y - ca.y;
+            const float slen = std::sqrt(sdx * sdx + sdy * sdy);
+            if (slen > 1e-4f) {
+              sdx /= slen;
+              sdy /= slen;
+            }
             uint32_t njl = 0;
             const uint32_t* jls = g.nodeJunctionLanes(ni, njl);
             for (uint32_t j = 0; j < njl; ++j) {
               const routing::Lane& jl = g.lane(jls[j]);
               if (jl.signal_group < 0 || jl.from_lane == kInvalidIndex) continue;
-              const uint32_t fseg = g.lane(jl.from_lane).segment;
-              if (fseg == c0.segment) continue;  // parallel to the crossing
+              const routing::Lane& from = g.lane(jl.from_lane);
+              const routing::LanePose pose = g.poseAt(jl.from_lane, from.length_m);
+              if (std::fabs(pose.dir.x * sdx + pose.dir.y * sdy) > 0.7f) continue;  // parallel
               if (group < 0 || jl.signal_group < group) group = jl.signal_group;
             }
           }

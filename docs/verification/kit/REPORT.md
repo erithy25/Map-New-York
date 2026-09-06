@@ -168,15 +168,15 @@ Cycles CPU, 64 samples, adaptive sampling at 0.03, bounces limited to 4 (2 diffu
 | file | contents | resolution | render |
 |---|---|---|---|
 | `docs/verification/kit/tenement_test.png` | assembled 25 ft × 18 m five-storey New Law tenement | 800 × 1296 | RENDER_TENEMENT |
-| `docs/verification/kit/facade_sheet_windows.png` | 18 windows | 1000 × H | RENDER_windows |
-| `docs/verification/kit/facade_sheet_accessories.png` | 15 window accessories | 1000 × H | RENDER_accessories |
-| `docs/verification/kit/facade_sheet_entries.png` | 13 entrances | 1000 × H | RENDER_entries |
-| `docs/verification/kit/facade_sheet_trim.png` | 23 cornices / string courses / quoins / pilasters / trim | 1000 × H | RENDER_trim |
-| `docs/verification/kit/facade_sheet_storefront.png` | 19 storefront pieces | 1000 × H | RENDER_storefront |
-| `docs/verification/kit/facade_sheet_interiors.png` | 11 interior shells | 1000 × H | RENDER_interiors |
-| `docs/verification/kit/facade_sheet_roof.png` | 6 fire escapes, 5 parapets, 3 bulkheads, 2 water towers | 1000 × H | RENDER_roof |
-| `docs/verification/kit/facade_sheet_rooftop_equipment.png` | 7 HVAC, 4 antennas, 2 billboards | 1000 × H | RENDER_rooftop_equipment |
-| `docs/verification/kit/facade_sheet_street.png` | 3 scaffold, 3 fence, 3 vegetation | 1000 × H | RENDER_street |
+| `docs/verification/kit/facade_sheet_windows.png` | 18 windows | 800 × H | RENDER_windows |
+| `docs/verification/kit/facade_sheet_accessories.png` | 15 window accessories | 800 × H | RENDER_accessories |
+| `docs/verification/kit/facade_sheet_entries.png` | 13 entrances | 800 × H | RENDER_entries |
+| `docs/verification/kit/facade_sheet_trim.png` | 23 cornices / string courses / quoins / pilasters / trim | 800 × H | RENDER_trim |
+| `docs/verification/kit/facade_sheet_storefront.png` | 19 storefront pieces | 800 × H | RENDER_storefront |
+| `docs/verification/kit/facade_sheet_interiors.png` | 11 interior shells | 800 × H | RENDER_interiors |
+| `docs/verification/kit/facade_sheet_roof.png` | 6 fire escapes, 5 parapets, 3 bulkheads, 2 water towers | 800 × H | RENDER_roof |
+| `docs/verification/kit/facade_sheet_rooftop_equipment.png` | 7 HVAC, 4 antennas, 2 billboards | 800 × H | RENDER_rooftop_equipment |
+| `docs/verification/kit/facade_sheet_street.png` | 3 scaffold, 3 fence, 3 vegetation | 800 × H | RENDER_street |
 
 Each sheet is a near-orthographic elevation (camera pulled back 240 m with a matching narrow FOV) with every
 piece labelled with its id, triangle count and measured size, so the sheet doubles as the visual index of the kit.
@@ -305,7 +305,7 @@ Fonts: `assets/fonts/Overpass` (SIL Open Font License 1.1) is used for the conta
 python3 blender/common/textures.py --fetch-all          # CC0 sources + LICENSE.json (already on disk)
 python3 blender/kit/facade/build_kit.py                 # 138 glb + catalog, ~16 s
 python3 -m pytest tests/test_kit_facade.py -q           # 973 assertions
-sh blender/kit/facade/render_all.sh 64 1000             # every verification render, sequentially
+sh blender/kit/facade/render_all.sh 64 800              # every verification render, sequentially
 ```
 
 ## 8. Full piece list

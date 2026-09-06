@@ -120,7 +120,7 @@ def main():
                           "roof plant."),
                       dimensions={"ridge_m": RIDGE, "cornice_m": CORNICE, "base_top_m": BASE_TOP, "floors": 19})
     cc.render(ID, [
-        {"view": "grand_army_plaza", "azimuth_deg": 60, "elevation_deg": "street", "distance": 110, "fov_deg": 60, "look_up_deg": 24},
+        {"view": "grand_army_plaza", "azimuth_deg": 60, "elevation_deg": "street", "distance": 175, "fov_deg": 50, "look_up_deg": 20},
         {"view": "aerial", "azimuth_deg": 60, "elevation_deg": 28},
     ])
     return entry

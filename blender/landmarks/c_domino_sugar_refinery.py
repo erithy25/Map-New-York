@@ -46,6 +46,9 @@ SIGN_LETTER_H = 5.5
 
 def build():
     C.reset()
+    # weathering (Cor-Ten) steel: not in the shared palette, so its albedo is declared here
+    C.custom_material("rust", (122, 74, 50), roughness=0.72, metallic=0.25,
+                      note="pre-weathered / Cor-Ten steel [SHoP Barclays Center panels; High Line viaduct girders]")
     cc.materials(["brick_red", "brick_buff", "glass_clear", "glass_dark", "steel_dark", "rust", "concrete",
                   "roof_dark", "pavement", "grass", "wood_dark"])
     g = cc.Group(ID)

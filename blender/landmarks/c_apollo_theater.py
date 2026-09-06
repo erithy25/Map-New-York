@@ -122,7 +122,7 @@ def main():
                       dimensions={"cornice_m": CORNICE, "blade_sign_m": [BLADE_W, BLADE_H],
                                   "marquee_m": [MARQUEE_W, MARQUEE_D], "seats": 1506})
     cc.render(ID, [
-        {"view": "w125th", "azimuth_deg": 30, "elevation_deg": "street", "distance": 42, "fov_deg": 65, "look_up_deg": 26},
+        {"view": "w125th", "azimuth_deg": 30, "elevation_deg": "street", "distance": 85, "fov_deg": 52, "look_up_deg": 14},
         {"view": "aerial", "azimuth_deg": 30, "elevation_deg": 30},
     ])
     return entry

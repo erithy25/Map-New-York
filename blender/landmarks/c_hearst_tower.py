@@ -159,7 +159,7 @@ def main():
                                   "diagrid_module_w_m": MODULE_W, "diagrid_module_h_m": MODULE_H,
                                   "corner_chamfer_m": CHAMFER})
     cc.render(ID, [
-        {"view": "eighth_ave", "azimuth_deg": 260, "elevation_deg": "street", "distance": 150, "fov_deg": 55, "look_up_deg": 40},
+        {"view": "eighth_ave", "azimuth_deg": 260, "elevation_deg": "street", "distance": 230, "fov_deg": 48, "look_up_deg": 38},
         {"view": "aerial", "azimuth_deg": 230, "elevation_deg": 26},
     ])
     return entry

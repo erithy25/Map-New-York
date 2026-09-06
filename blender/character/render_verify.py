@@ -210,13 +210,17 @@ def full_body(out: Path) -> Path:
     centre = (lo + hi) * 0.5
     forward = _forward(armature)
     height = hi.z - lo.z
-    front = centre + forward * (height * 1.5)
-    back = centre - forward * (height * 1.5) + forward.cross(Vector((0, 0, 1))) * 0.1
-    left = render(out.with_name("full_body_front.png"), location=front, target=centre, fov_deg=40.0,
-                  size=(480, 960))
-    right = render(out.with_name("full_body_back.png"), location=back, target=centre, fov_deg=40.0,
+    cam = centre + forward * (height * 1.55) + Vector((0.0, 0.0, height * 0.04))
+    front = render(out.with_name("full_body_front.png"), location=cam, target=centre, fov_deg=40.0,
                    size=(480, 960))
-    return stitch([left, right], out, gap=12)
+    # For the rear view, turn the character rather than the camera: the lights and the backdrop stay put,
+    # so the two halves of the sheet are lit identically.
+    armature.rotation_euler.z += math.pi
+    bpy.context.view_layer.update()
+    back = render(out.with_name("full_body_back.png"), location=cam, target=centre, fov_deg=40.0,
+                  size=(480, 960))
+    armature.rotation_euler.z -= math.pi
+    return stitch([front, back], out, gap=12)
 
 
 def walk_strip(out: Path, action: str = "walk", count: int = 8) -> Path:
@@ -244,45 +248,76 @@ def walk_strip(out: Path, action: str = "walk", count: int = 8) -> Path:
     return result
 
 
+def _flexion_sign(armature: bpy.types.Object, joint: str, distal: str, proximal: str) -> float:
+    """+1 or -1: whichever local-X rotation of ``joint`` brings ``distal`` closer to ``proximal``.
+
+    Flexion direction depends on the bone roll MPFB fitted, so it is measured rather than assumed - that is
+    the whole point of a bend test.
+    """
+    bones = armature.data.bones
+    anchor = armature.matrix_world @ bones[proximal].head_local
+    best, best_d = 1.0, math.inf
+    for sign in (1.0, -1.0):
+        _set_local_rotation(armature, joint, (sign * 60.0, 0.0, 0.0))
+        bpy.context.view_layer.update()
+        pose = armature.pose.bones[distal]
+        d = ((armature.matrix_world @ pose.head) - anchor).length
+        if d < best_d:
+            best, best_d = sign, d
+    _set_local_rotation(armature, joint, (0.0, 0.0, 0.0))
+    bpy.context.view_layer.update()
+    return best
+
+
 def bend_test(out: Path) -> Path:
-    """Elbow and knee flexed through 0/45/90/120 degrees, matcap-flat, to expose bad weights."""
+    """Elbow and knee flexed through 0/45/90/120 degrees, clay-shaded, to expose bad weights."""
     armature, meshes = load_player()
-    studio_lighting(key_energy=1100.0, size=5.0)
-    # hide the clothing so the skin deformation itself is visible
+    studio_lighting(key_energy=1100.0, size=6.0)
     body = next(o for o in meshes if o.name.endswith(".body"))
     for obj in meshes:
-        obj.hide_render = obj is not body
+        obj.hide_render = obj is not body          # the skin itself is what is being judged
     _flat_shade(body)
 
     anim_lib.set_active_clip(armature, None)
     for pose_bone in armature.pose.bones:
         pose_bone.rotation_mode = "QUATERNION"
         pose_bone.matrix_basis = Matrix.Identity(4)
+    # lift the arm away from the ribs so the elbow silhouette is against the backdrop, not the torso
+    _set_local_rotation(armature, "upperarm_l", (0.0, 0.0, -55.0))
     bpy.context.view_layer.update()
 
+    elbow_sign = _flexion_sign(armature, "lowerarm_l", "hand_l", "upperarm_l")
+    knee_sign = _flexion_sign(armature, "calf_l", "foot_l", "thigh_l")
+    log.info("flexion signs: elbow %+.0f, knee %+.0f", elbow_sign, knee_sign)
+
+    forward = _forward(armature)
+    outboard = -forward.cross(Vector((0.0, 0.0, 1.0)))    # the character's own left, where the left limb is
     angles = (0.0, 45.0, 90.0, 120.0)
-    lo, hi = _bounds([body])
     elbow_tiles, knee_tiles = [], []
     for angle in angles:
-        _set_local_rotation(armature, "lowerarm_l", (-angle, 0.0, 0.0))
-        _set_local_rotation(armature, "calf_l", (angle, 0.0, 0.0))
+        _set_local_rotation(armature, "lowerarm_l", (elbow_sign * angle, 0.0, 0.0))
+        _set_local_rotation(armature, "calf_l", (knee_sign * angle, 0.0, 0.0))
         bpy.context.view_layer.update()
-        elbow = armature.matrix_world @ armature.data.bones["lowerarm_l"].head_local
-        knee = armature.matrix_world @ armature.data.bones["calf_l"].head_local
-        forward = _forward(armature)
-        side = forward.cross(Vector((0.0, 0.0, 1.0)))
+        pose = armature.pose.bones
+        elbow = armature.matrix_world @ pose["lowerarm_l"].head
+        shoulder = armature.matrix_world @ pose["upperarm_l"].head
+        hand = armature.matrix_world @ pose["hand_l"].head
+        knee = armature.matrix_world @ pose["calf_l"].head
+        hip = armature.matrix_world @ pose["thigh_l"].head
+        foot = armature.matrix_world @ pose["foot_l"].head
+        arm_focus = (shoulder + elbow + hand) / 3.0
+        leg_focus = (hip + knee + foot) / 3.0
         elbow_tiles.append(render(chenv.VERIFY_DIR / f"_elbow_{int(angle)}.png",
-                                  location=elbow + side * 0.42 + forward * 0.05 + Vector((0, 0, 0.04)),
-                                  target=elbow, fov_deg=34.0, size=(340, 340), samples=48))
+                                  location=arm_focus + outboard * 0.78 + forward * 0.10,
+                                  target=arm_focus, fov_deg=42.0, size=(340, 340), samples=48))
         knee_tiles.append(render(chenv.VERIFY_DIR / f"_knee_{int(angle)}.png",
-                                 location=knee + side * 0.50 + forward * 0.08,
-                                 target=knee, fov_deg=34.0, size=(340, 340), samples=48))
+                                 location=leg_focus + outboard * 0.95 + forward * 0.10,
+                                 target=leg_focus, fov_deg=42.0, size=(340, 340), samples=48))
     row_a = stitch(elbow_tiles, chenv.VERIFY_DIR / "_row_elbow.png", gap=4)
     row_b = stitch(knee_tiles, chenv.VERIFY_DIR / "_row_knee.png", gap=4)
     result = stitch([row_a, row_b], out, gap=6, vertical=True)
     for tile in [*elbow_tiles, *knee_tiles, row_a, row_b]:
         tile.unlink(missing_ok=True)
-    _ = lo, hi
     return result
 
 

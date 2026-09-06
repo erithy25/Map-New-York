@@ -131,7 +131,7 @@ def main():
                       dimensions={"dome_top_m": DOME_TOP, "cornice_m": CORNICE, "portico_columns": 6,
                                   "portico_column_h_m": COLUMN_H, "entrance_pavilion_m": [PAVILION_W, PAVILION_H]})
     cc.render(ID, [
-        {"view": "eastern_parkway", "azimuth_deg": 0, "elevation_deg": "street", "distance": 130, "fov_deg": 62, "look_up_deg": 18},
+        {"view": "eastern_parkway", "azimuth_deg": 0, "elevation_deg": "street", "distance": 200, "fov_deg": 52, "look_up_deg": 13},
         {"view": "aerial", "azimuth_deg": 20, "elevation_deg": 30},
     ])
     return entry

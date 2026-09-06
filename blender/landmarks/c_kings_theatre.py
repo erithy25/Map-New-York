@@ -119,7 +119,7 @@ def main():
                                   "auditorium_top_m": AUDITORIUM_TOP, "arch_m": [ARCH_W, ARCH_H],
                                   "marquee_m": [MARQUEE_W, MARQUEE_D], "blade_sign_m": BLADE_H, "seats": SEATS})
     cc.render(ID, [
-        {"view": "flatbush_avenue", "azimuth_deg": 90, "elevation_deg": "street", "distance": 55, "fov_deg": 65, "look_up_deg": 26},
+        {"view": "flatbush_avenue", "azimuth_deg": 90, "elevation_deg": "street", "distance": 90, "fov_deg": 52, "look_up_deg": 14},
         {"view": "aerial", "azimuth_deg": 110, "elevation_deg": 30},
     ])
     return entry

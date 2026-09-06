@@ -46,6 +46,9 @@ CAPACITY = 17732
 
 def build():
     C.reset()
+    # weathering (Cor-Ten) steel: not in the shared palette, so its albedo is declared here
+    C.custom_material("rust", (122, 74, 50), roughness=0.72, metallic=0.25,
+                      note="pre-weathered / Cor-Ten steel [SHoP Barclays Center panels; High Line viaduct girders]")
     cc.materials(["rust", "steel_dark", "glass_clear", "glass_dark", "concrete", "concrete_dark", "pavement",
                   "roof_dark", "emissive_warm", "wood_dark"])
     g = cc.Group(ID)

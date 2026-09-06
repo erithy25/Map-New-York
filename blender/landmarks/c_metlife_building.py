@@ -100,7 +100,7 @@ def main():
                                   "tower_plan_m": [PLAN_W, PLAN_D], "corner_chamfer_m": CHAMFER,
                                   "window_module_m": 1.60})
     cc.render(ID, [
-        {"view": "park_ave_axis", "azimuth_deg": 209, "elevation_deg": "street", "distance": 260, "fov_deg": 45, "look_up_deg": 28},
+        {"view": "park_ave_axis", "azimuth_deg": 209, "elevation_deg": "street", "distance": 620, "fov_deg": 32, "look_up_deg": 21},
         {"view": "aerial", "azimuth_deg": 200, "elevation_deg": 26},
     ])
     return entry

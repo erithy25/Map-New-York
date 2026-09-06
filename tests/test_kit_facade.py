@@ -243,35 +243,52 @@ def test_texture_licences_present(entry):
         assert "CC0" in json.dumps(rec), f"{asset_id}: licence record is not CC0"
 
 
+# tile size (metres) of the kit's generated, non-catalogued materials — see pieces_common.reg_generated_materials
+GENERATED_TILE_M = {"interior_lit": 2.0, "interior_unlit": 2.0, "ivy_leaf": 0.55}
+
+
+def _texture_scales(g) -> set[float]:
+    """Every KHR_texture_transform scale emitted by the file, from any texture slot."""
+    out: set[float] = set()
+    for m in g.materials:
+        infos = []
+        pbr = m.pbrMetallicRoughness
+        if pbr is not None:
+            infos += [pbr.baseColorTexture, pbr.metallicRoughnessTexture]
+        infos += [m.normalTexture, m.occlusionTexture, m.emissiveTexture]
+        for info in infos:
+            if info is None or not getattr(info, "extensions", None):
+                continue
+            t = info.extensions.get("KHR_texture_transform")
+            if t and "scale" in t:
+                out.add(round(float(t["scale"][0]), 4))
+    return out
+
+
 @pytest.mark.parametrize("entry", [e for e in ENTRIES if e["texture_assets"]],
                          ids=[e["id"] for e in ENTRIES if e["texture_assets"]])
 def test_uv_tiling_is_in_metres(entry):
-    """UVs are metres, so a textured material whose tile is not 1 m must carry a KHR_texture_transform of
-    1 / physical_size_m. (A 1 m tile needs no transform and the exporter omits the identity.)"""
+    """UVs are metres: every KHR_texture_transform the file emits must equal 1 / physical_size_m of one of the
+    piece's own materials, and a material whose tile is not 1 m must actually carry one. (A 1 m tile is the
+    identity transform and the exporter omits it.)"""
     import textures as tx
     g = _gltf(entry["id"])
     wanted = set()
     for name in entry["materials"]:
+        if name in GENERATED_TILE_M:
+            wanted.add(round(1.0 / GENERATED_TILE_M[name], 4))
+            continue
         try:
             rec = tx.resolve(name)
         except tx.TextureError:
             continue
         if rec.get("provider") != "procedural":
             wanted.add(round(1.0 / float(rec.get("physical_size_m", 1.0)), 4))
-    seen = set()
-    for m in g.materials:
-        bct = m.pbrMetallicRoughness.baseColorTexture if m.pbrMetallicRoughness else None
-        if bct is None or not bct.extensions:
-            continue
-        t = bct.extensions.get("KHR_texture_transform")
-        if t and "scale" in t:
-            seen.add(round(float(t["scale"][0]), 4))
+    seen = _texture_scales(g)
+    assert seen <= wanted, f"{entry['id']}: texture scales {sorted(seen - wanted)} match no declared tile size"
     if wanted - {1.0}:
         assert "KHR_texture_transform" in (g.extensionsUsed or []), f"{entry['id']}: no KHR_texture_transform"
-        assert seen, f"{entry['id']}: no base-colour texture carries a KHR_texture_transform scale"
-        assert seen & wanted, f"{entry['id']}: texture scales {sorted(seen)} match no catalogued tile size {sorted(wanted)}"
-    else:
-        assert seen <= {1.0}, f"{entry['id']}: unexpected texture scale {sorted(seen)} for 1 m tiles"
+        assert seen & (wanted - {1.0}), f"{entry['id']}: no non-unit tiling emitted although {sorted(wanted)} are declared"
 
 
 @pytest.mark.parametrize("entry", [e for e in ENTRIES if "glass_clear" in e["materials"]],

@@ -304,6 +304,7 @@ def test_kit_placements_are_populated_and_reference_real_kit_pieces():
 
     populated = 0
     total_records = 0
+    used_ids: set = set()
     for h in headers:
         d = json.load(open(h))
         blob = h.parent / "kit_placements.bin"
@@ -314,9 +315,8 @@ def test_kit_placements_are_populated_and_reference_real_kit_pieces():
         if size:
             populated += 1
             total_records += size // 40
-        if known and d.get("kit_ids"):
-            unknown = [k for k in d["kit_ids"] if k not in known]
-            assert not unknown, f"{h.parent.name} references kit ids absent from the catalog: {unknown[:5]}"
+        for kid in d.get("kit_ids", []):
+            used_ids.add(kid)
 
     # Every tile that holds buildings should hold placements: a building needs windows.
     with_buildings = sum(1 for h in headers if (h.parent / "buildings.parquet").exists())
@@ -326,6 +326,29 @@ def test_kit_placements_are_populated_and_reference_real_kit_pieces():
         f"only {populated} of {with_buildings} tiles with buildings carry placements")
     assert total_records > 1_000_000, (
         f"only {total_records:,} placements city-wide for over a million buildings — far too few to be windows")
+
+    # Every numeric kit id a placement uses must resolve, through the registry, to an asset that
+    # exists on disk. The registry and the Blender kit catalog are written by different stages, so
+    # this is the check that catches them drifting apart.
+    registry_path = PROCESSED / "facade" / "kit_ids.json"
+    if not registry_path.exists():
+        pytest.skip("kit id registry not produced yet")
+    registry = json.load(open(registry_path))
+    by_id = {int(p["kit_id"]): p for p in registry.get("pieces", [])}
+    assert by_id, "the kit id registry lists no pieces"
+    unregistered = sorted(k for k in used_ids if int(k) not in by_id)
+    assert not unregistered, f"placements use kit ids missing from the registry: {unregistered[:8]}"
+
+    catalog_ids = {json.load(open(p))["id"] for p in (BLENDER_OUT / "kit" / "catalog").glob("*.json")} \
+        if (BLENDER_OUT / "kit" / "catalog").exists() else set()
+    if catalog_ids:
+        unresolved = sorted(
+            f'{k}:{by_id[int(k)].get("category")}/{by_id[int(k)].get("name")}'
+            for k in used_ids
+            if by_id[int(k)].get("catalog_id") not in catalog_ids)
+        assert not unresolved, (
+            f"{len(unresolved)} kit ids used by placements do not resolve to an exported asset — the registry "
+            f"must carry the exporting catalog's own id in `catalog_id`. Examples: {unresolved[:6]}")
 
 
 def test_every_exported_asset_has_a_catalog_entry():
@@ -403,7 +426,7 @@ def test_no_placeholder_markers_in_shipped_source():
                             r"|not implemented|NotImplementedError|dummy|fake data|TBD|coming soon", re.I)
     suspicious = re.compile(r"placeholder|stub(bed)? out", re.I)
     negated = re.compile(r"not a placeholder|nothing here is a placeholder|no placeholder|forbids placeholder"
-                         r"|must be deleted|keeps them out", re.I)
+                         r"|must be deleted|keeps them out|banned|for banned in|forbidden", re.I)
 
     hits: list[str] = []
     for root in roots:

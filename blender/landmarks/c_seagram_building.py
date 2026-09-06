@@ -123,7 +123,7 @@ def main():
                                   "bustle_top_m": round(LOBBY_H + (BUSTLE_FLOORS - 1) * FLOOR_H, 2)},
                       notes="Plaza geometry is tagged role='plaza' and lies outside the footprint, so it is excluded from the IoU base volume.")
     cc.render(ID, [
-        {"view": "plaza", "azimuth_deg": 285, "elevation_deg": "street", "distance": 70, "fov_deg": 62, "look_up_deg": 40},
+        {"view": "plaza", "azimuth_deg": 285, "elevation_deg": "street", "distance": 190, "fov_deg": 48, "look_up_deg": 38},
         {"view": "aerial", "azimuth_deg": 300, "elevation_deg": 24},
     ])
     return entry

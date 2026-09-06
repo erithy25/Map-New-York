@@ -40,7 +40,7 @@ OUT = C.OUT_DIR
 CATALOG = C.CATALOG_DIR
 VERIFY = C.VERIFY_DIR
 SAMPLES = int(os.environ.get("NYCSIM_RENDER_SAMPLES", "64"))
-SIZE = (1600, 900)
+SIZE = (1280, 720)
 
 
 def catalog(landmark_id: str) -> dict:

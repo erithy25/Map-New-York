@@ -71,7 +71,12 @@ struct TrafficConfig {
   // --- signals -----------------------------------------------------------
   float yellow_reaction_s = 1.0f;   // driver reaction before braking (ITE)
   float red_run_window_s = 0.8f;    // late entry window for non-law-abiding
-  float stop_line_setback_m = 1.0f; // stop line ahead of the junction lane
+  // Distance from the end of the approach lane back to the stopped vehicle's
+  // front bumper.  NYC DOT Street Design Manual: a 12 ft (3.66 m) continental
+  // crosswalk starting at the kerb line, with the stop line about 4 ft behind
+  // it — 5 m in total, which is also what SidewalkGraph places its crossings
+  // at, so a queue never stands on the crosswalk.
+  float stop_line_setback_m = 5.0f;
   bool no_right_on_red = true;      // NYC Traffic Rules §4-03(a)(2) — always
 
   // --- stop / yield ------------------------------------------------------

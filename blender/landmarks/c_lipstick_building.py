@@ -91,7 +91,7 @@ def main():
                                   "tier_inset_m": INSET_M,
                                   "ellipse_axes_m": [round(P.bounds[2] - P.bounds[0], 2), round(P.bounds[3] - P.bounds[1], 2)]})
     cc.render(ID, [
-        {"view": "third_ave", "azimuth_deg": 100, "elevation_deg": "street", "distance": 60, "fov_deg": 62, "look_up_deg": 45},
+        {"view": "third_ave", "azimuth_deg": 100, "elevation_deg": "street", "distance": 165, "fov_deg": 48, "look_up_deg": 40},
         {"view": "aerial", "azimuth_deg": 120, "elevation_deg": 25},
     ])
     return entry

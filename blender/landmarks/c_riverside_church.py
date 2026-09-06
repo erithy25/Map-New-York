@@ -143,7 +143,7 @@ def main():
                                   "aisle_top_m": AISLE_TOP, "parish_house_m": PARISH_TOP, "nave_bays": NAVE_BAYS,
                                   "carillon_bells": BELLS})
     cc.render(ID, [
-        {"view": "riverside_drive", "azimuth_deg": 250, "elevation_deg": "street", "distance": 180, "fov_deg": 55, "look_up_deg": 30},
+        {"view": "riverside_drive", "azimuth_deg": 250, "elevation_deg": "street", "distance": 290, "fov_deg": 45, "look_up_deg": 26},
         {"view": "aerial", "azimuth_deg": 230, "elevation_deg": 26},
     ])
     return entry

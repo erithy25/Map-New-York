@@ -213,6 +213,24 @@ def foot_ik(body: BodyRef, side: str, target: Vector, *, toe_dir: Vector | None 
     return spec
 
 
+def planted_feet(body: BodyRef, *, stance: float = 0.0, toe_out_deg: float = 7.0) -> dict[str, dict]:
+    """Both feet flat on the ground under the hips - what makes a standing clip stand.
+
+    ``stance`` widens the feet beyond their rest separation; ``toe_out_deg`` is the natural outward splay.
+    """
+    out = {}
+    for side in ("l", "r"):
+        sign = 1.0 if side == "l" else -1.0
+        rest = body.foot(side)
+        target = rest - body.right * (stance * 0.5 * sign)
+        toe = body.forward.copy()
+        toe.rotate(Matrix.Rotation(math.radians(toe_out_deg * sign), 4, "Z"))
+        out[f"foot_{side}"] = foot_ik(body, side, target, toe_dir=toe,
+                                      pole=body.head_of(f"thigh_{side}") + body.forward * 1.1
+                                      - body.right * (0.06 * sign))
+    return out
+
+
 def relaxed_arms(body: BodyRef) -> dict[str, dict]:
     """Arms hanging naturally at the sides, used when a clip does not otherwise place them."""
     out = {}
@@ -258,11 +276,9 @@ class ProceduralClips:
                 "clavicle_l": (0.0, 0.0, 0.8 * breathe),
                 "clavicle_r": (0.0, 0.0, -0.8 * breathe),
             })
-            spec.ik = relaxed_arms(body)
-            spec.pelvis_loc = Vector((0.0, 0.0, 0.0))
-            basis = pose_solver.solve_pose(rig, spec, self.standing)
+            spec.ik = {**relaxed_arms(body), **planted_feet(body)}
             offset = body.right * (0.011 * sway) - UP * (0.004 * abs(sway))
-            _translate_pelvis(rig, basis, offset)
+            basis = self._resolve_standing(spec, offset)
             pose_solver.bake_ik_bones(rig, basis)
             frames.append(basis)
         frames[-1] = {k: v.copy() for k, v in frames[0].items()}
@@ -296,6 +312,7 @@ class ProceduralClips:
                 "hand_l": hand_ik(body, "l", phone - body.right * 0.10 - UP * 0.05,
                                   finger_dir=(body.forward * 0.20 + body.right * 0.94 + UP * 0.24).normalized(),
                                   back_dir=(body.forward * -0.3 + UP * 0.9).normalized()),
+                **planted_feet(body),
             }
             basis = pose_solver.solve_pose(rig, spec, self.standing)
             pose_solver.bake_ik_bones(rig, basis)
@@ -318,7 +335,7 @@ class ProceduralClips:
                 "spine_05": (0.0, 0.0, spine_yaw * 0.5),
                 "spine_04": (0.0, 0.0, spine_yaw * 0.3),
             })
-            spec.ik = relaxed_arms(body)
+            spec.ik = {**relaxed_arms(body), **planted_feet(body)}
             keys.append(KeyPose(t, spec, "sine"))
         frames = bake_keyposes(rig, keys, base=self.standing, fps=self.fps, loop=True)
         return Clip(name="look_around", frames=frames, fps=self.fps, loop=True,
@@ -330,11 +347,11 @@ class ProceduralClips:
         raised = (body.shoulder("r") + UP * (body.arm_length * 0.86)
                   + body.forward * (body.arm_length * 0.34) - body.right * 0.16)
         rest_spec = PoseSpec(rot={"head": (0.0, 0.0, -18.0), "neck_01": (0.0, 0.0, -8.0)})
-        rest_spec.ik = relaxed_arms(body)
+        rest_spec.ik = {**relaxed_arms(body), **planted_feet(body)}
         up_spec = PoseSpec(rot={"spine_04": (-3.0, 0.0, -4.0), "spine_05": (-4.0, 0.0, -6.0),
                                 "clavicle_r": (0.0, 0.0, -14.0),
                                 "head": (-4.0, 0.0, -22.0), "neck_01": (0.0, 0.0, -10.0)})
-        up_spec.ik = dict(relaxed_arms(body))
+        up_spec.ik = {**relaxed_arms(body), **planted_feet(body)}
         up_spec.ik["hand_r"] = hand_ik(body, "r", raised,
                                        finger_dir=(UP * 0.93 + body.forward * 0.3).normalized(),
                                        back_dir=body.forward,
@@ -375,8 +392,8 @@ class ProceduralClips:
                                   finger_dir=(-body.right * 0.9 + body.forward * 0.2 + UP * 0.1).normalized(),
                                   back_dir=body.forward),
             }
-            basis = pose_solver.solve_pose(rig, spec, self.standing)
-            _translate_pelvis(rig, basis, body.right * -0.055 - UP * 0.035)
+            spec.ik.update(planted_feet(body, stance=0.10))
+            basis = self._resolve_standing(spec, body.right * -0.055 - UP * 0.035)
             pose_solver.bake_ik_bones(rig, basis)
             frames.append(basis)
         frames[-1] = {k: v.copy() for k, v in frames[0].items()}
@@ -394,7 +411,7 @@ class ProceduralClips:
             phase = 2.0 * math.pi * i / n
             spec = PoseSpec(rot={"spine_04": (0.4 * math.sin(phase * 3.0), 0.0, 0.0),
                                  "head": (2.0, 0.0, 2.0 * math.sin(phase * 0.5))})
-            spec.ik = dict(relaxed_arms(body))
+            spec.ik = {**relaxed_arms(body), **planted_feet(body)}
             spec.ik["hand_r"] = hand_ik(body, "r", grip + UP * (0.008 * math.sin(phase)),
                                         finger_dir=(-body.right * 0.35 + body.forward * 0.3 - UP * 0.88).normalized(),
                                         back_dir=body.forward)
@@ -560,6 +577,14 @@ class ProceduralClips:
                           f"exported Fusion Hybrid steering wheel ({self.car.source}); "
                           f"+/-2.2 deg micro-correction")
 
+    def _resolve_standing(self, spec: PoseSpec, offset: Vector) -> dict[str, Matrix]:
+        """Solve a standing pose with the pelvis displaced first, so the IK targets stay world-anchored."""
+        rig = self.rig
+        basis = pose_solver.solve_pose(rig, PoseSpec(rot=dict(spec.rot)), self.standing)
+        if offset.length > 0.0:
+            _translate_pelvis(rig, basis, offset)
+        return pose_solver.solve_pose(rig, PoseSpec(ik=spec.ik), basis)
+
     def _resolve_seated(self, spec: PoseSpec, offset: Vector) -> dict[str, Matrix]:
         """Solve a seated pose: pelvis is displaced first so the IK targets are reached from the seat."""
         rig = self.rig
@@ -673,10 +698,10 @@ class ProceduralClips:
         # the character faces the car: the handle is to the character's front-left at hip-plus height
         handle = body.hip + body.forward * 0.46 + UP * (car.door_handle.z - car.hip_point.z + 0.10)
         stand = PoseSpec()
-        stand.ik = relaxed_arms(body)
+        stand.ik = {**relaxed_arms(body), **planted_feet(body)}
         reach = PoseSpec(rot={"spine_03": (5.0, 0.0, -6.0), "spine_05": (4.0, 0.0, -8.0),
                               "clavicle_r": (0.0, 0.0, -10.0), "head": (4.0, 0.0, -6.0)})
-        reach.ik = dict(relaxed_arms(body))
+        reach.ik = {**relaxed_arms(body), **planted_feet(body)}
         reach.ik["hand_r"] = hand_ik(body, "r", handle,
                                      finger_dir=body.forward,
                                      back_dir=UP,
@@ -689,7 +714,7 @@ class ProceduralClips:
                                     finger_dir=body.forward, back_dir=UP,
                                     pole=body.shoulder("r") - body.forward * 0.2 + body.right * 0.45 - UP * 0.4)
         back = PoseSpec(rot={"spine_03": (0.0, 0.0, 3.0)})
-        back.ik = relaxed_arms(body)
+        back.ik = {**relaxed_arms(body), **planted_feet(body)}
         keys = [KeyPose(0.0, stand), KeyPose(0.55, reach, "out"), KeyPose(1.05, pull, "smooth"),
                 KeyPose(1.75, back, "in")]
         frames = bake_keyposes(rig, keys, base=self.standing, fps=self.fps)
@@ -707,10 +732,10 @@ class ProceduralClips:
         rig, body, car = self.rig, self.body, self.car
         edge = body.hip + body.forward * 0.30 + body.right * -0.16 + UP * 0.20
         stand = PoseSpec()
-        stand.ik = relaxed_arms(body)
+        stand.ik = {**relaxed_arms(body), **planted_feet(body)}
         grab = PoseSpec(rot={"spine_03": (3.0, 0.0, 5.0), "spine_05": (3.0, 0.0, 7.0),
                              "clavicle_l": (0.0, 0.0, 9.0), "head": (3.0, 0.0, 8.0)})
-        grab.ik = dict(relaxed_arms(body))
+        grab.ik = {**relaxed_arms(body), **planted_feet(body)}
         grab.ik["hand_l"] = hand_ik(body, "l", edge,
                                     finger_dir=(body.forward * 0.4 - body.right * 0.9).normalized(),
                                     back_dir=UP,
@@ -737,11 +762,11 @@ class ProceduralClips:
         sill_side = body.hip + body.forward * 0.28 + body.right * -0.10
 
         stand = PoseSpec()
-        stand.ik = relaxed_arms(body)
+        stand.ik = {**relaxed_arms(body), **planted_feet(body)}
 
         brace = PoseSpec(rot={"spine_03": (10.0, 0.0, -5.0), "spine_05": (8.0, 0.0, -8.0),
                               "neck_01": (-6.0, 0.0, 0.0), "head": (-4.0, 0.0, -8.0)})
-        brace.ik = dict(relaxed_arms(body))
+        brace.ik = {**relaxed_arms(body), **planted_feet(body)}
         brace.ik["hand_l"] = hand_ik(body, "l", roof,
                                      finger_dir=(body.forward * 0.75 + UP * 0.66).normalized(), back_dir=UP,
                                      pole=body.shoulder("l") - body.forward * 0.2 - body.right * 0.5 - UP * 0.4)

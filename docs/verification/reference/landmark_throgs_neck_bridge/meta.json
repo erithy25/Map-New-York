@@ -1,0 +1,202 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_throgs_neck_bridge",
+ "name": "Throgs Neck Bridge",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.793849,
+  "lon": -73.798021,
+  "azimuth_deg": 25.0,
+  "note": "Little Bay Park shoreline in Bayside, Queens, about 1 km south-west of the main span, looking north-east along the bridge",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.802,
+  "lon": -73.793,
+  "name": "Throgs Neck Bridge"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Throgs Neck Bridge\"",
+  "\"Throgs Neck Bridge\" East River span"
+ ],
+ "geosearch_radius_m": 1500,
+ "fetched_at": "2026-09-06T12:52:29Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 102,
+ "candidates_eligible": 82,
+ "rejections": {
+  "too_old": 13,
+  "too_small": 2,
+  "keywords": 4,
+  "night_for_day_item": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:MTA Bridges & Tunnels, NYPD, Law Enforcement Partners Interagency Taskforce Enforcement at George Washington & Throgs Neck Bridges 4-19-24 (53668714208).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:MTA_Bridges_%26_Tunnels,_NYPD,_Law_Enforcement_Partners_Interagency_Taskforce_Enforcement_at_George_Washington_%26_Throgs_Neck_Bridges_4-19-24_(53668714208).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/eb/MTA_Bridges_%26_Tunnels%2C_NYPD%2C_Law_Enforcement_Partners_Interagency_Taskforce_Enforcement_at_George_Washington_%26_Throgs_Neck_Bridges_4-19-24_%2853668714208%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/MTA_Bridges_%26_Tunnels%2C_NYPD%2C_Law_Enforcement_Partners_Interagency_Taskforce_Enforcement_at_George_Washington_%26_Throgs_Neck_Bridges_4-19-24_%2853668714208%29.jpg/1920px-MTA_Bridges_%26_Tunnels%2C_NYPD%2C_Law_Enforcement_Partners_Interagency_Taskforce_Enforcement_at_George_Washington_%26_Throgs_Neck_Bridges_4-19-24_%2853668714208%29.jpg",
+   "author": "Metropolitan Transportation Authority from United States of America",
+   "credit": "MTA Bridges & Tunnels, NYPD, Law Enforcement Partners Interagency Taskforce Enforcement at George Washington & Throgs Neck Bridges 4-19-24",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2024-04-19 17:37",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.788722,
+    "lon": -73.788934
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 805174,
+   "sha256": "45674f14dd2574e9de1690e413a23261e108d7566a9ed7fdecacdc3b418230a8",
+   "mean_luminance": 117.6,
+   "description": "Credit: Ray Raimundi, MTA",
+   "categories": [
+    "Triborough Bridge and Tunnel Authority Police",
+    "Flickr images reviewed by trusted users",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images taken by the Metropolitan Transportation Authority (New York)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.788722,
+    "lon": -73.788934,
+    "azimuth_deg": 346.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.78872, -73.78893) is 1516 m from Throgs Neck Bridge (40.80200, -73.79300) and 954 m from the standard viewpoint; the azimuth 347 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"MTA Bridges & Tunnels, NYPD, Law Enforcement Partners Interagency Taskforce Enforcement at George Washington & Throgs Neck Bridges 4-19-24 (53668714208).jpg\" by Metropolitan Transportation Authority from United States of America, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:MTA_Bridges_%26_Tunnels,_NYPD,_Law_Enforcement_Partners_Interagency_Taskforce_Enforcement_at_George_Washington_%26_Throgs_Neck_Bridges_4-19-24_(53668714208).jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Clearview Expressway td (2019-05-25) 30 - Throgs Neck Bridge.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Clearview_Expressway_td_(2019-05-25)_30_-_Throgs_Neck_Bridge.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Clearview_Expressway_td_%282019-05-25%29_30_-_Throgs_Neck_Bridge.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Clearview_Expressway_td_%282019-05-25%29_30_-_Throgs_Neck_Bridge.jpg/1920px-Clearview_Expressway_td_%282019-05-25%29_30_-_Throgs_Neck_Bridge.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2019-05-25 14:08:31",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.785253,
+    "lon": -73.786688
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 470767,
+   "sha256": "5c048669658888b1fb415c9d3f8e2522e15ec5e2365addc316193e0b4d15b0da",
+   "mean_luminance": 117.5,
+   "description": "Approaching the Throgs Neck Bridge traveling north on the Clearview Expressway (Interstate 295) in Bay Terrace, Bayside, Queens.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "E-ZPass",
+    "Bay Terrace, Queens",
+    "New York City photographs taken on 2019-05-25",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Views from automobiles in Queens, New York City",
+    "2019 Queens photographs by Tdorante10",
+    "2019 in Bayside, Queens",
+    "Clearview Expressway (Interstate 295)",
+    "May 2019 in Queens, New York City",
+    "Views of New York City from south",
+    "Road sign gantries in Queens, New York City",
+    "Road signs for the Throgs Neck Bridge",
+    "Road signs for the Bronx, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.6,
+   "estimated_viewpoint": {
+    "lat": 40.785253,
+    "lon": -73.786688,
+    "azimuth_deg": 344.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.78525, -73.78669) is 1937 m from Throgs Neck Bridge (40.80200, -73.79300) and 1351 m from the standard viewpoint; the azimuth 344 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Clearview Expressway td (2019-05-25) 30 - Throgs Neck Bridge.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Clearview_Expressway_td_(2019-05-25)_30_-_Throgs_Neck_Bridge.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:ThrogsNeckBridge.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:ThrogsNeckBridge.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d3/ThrogsNeckBridge.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/ThrogsNeckBridge.jpg/1920px-ThrogsNeckBridge.jpg",
+   "author": "Roadrunnermeep",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2019",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.791111,
+    "lon": -73.781586
+   },
+   "original_width": 2048,
+   "original_height": 1536,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 384982,
+   "sha256": "9d1c84b5ddd2c44945dcf006d11b033737b5ac4de8037fc39157584840bcb27e",
+   "mean_luminance": 157.5,
+   "description": "A picture of the Throgs Neck Bridge",
+   "categories": [
+    "January 2019 in New York City",
+    "Throgs Neck Bridge",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2019-01-16",
+    "Metropolitan Transportation Authority in 2019"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Throgs Neck Bridge\"",
+   "score": 12.6,
+   "estimated_viewpoint": {
+    "lat": 40.791111,
+    "lon": -73.781586,
+    "azimuth_deg": 321.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.79111, -73.78159) is 1546 m from Throgs Neck Bridge (40.80200, -73.79300) and 1417 m from the standard viewpoint; the azimuth 322 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"ThrogsNeckBridge.jpg\" by Roadrunnermeep, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:ThrogsNeckBridge.jpg"
+  }
+ ]
+}

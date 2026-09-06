@@ -280,19 +280,15 @@ def standing_pose_from_locomotion(clip: SourceClip, rig: pose_solver.Rig,
 
     The fourteen CMU files downloaded for this build contain no standing/idle trial (the slowest 0.25 s
     rolling root speed across all nine AMC clips is 1.03 m/s), so the idle's *posture* is taken from the real
-    mocap - the mean pose over the frames where both feet are on the ground and the legs are closest together
-    - and only its *motion* is authored procedurally.
+    mocap and only its *motion* is authored procedurally.
+
+    The posture is the circular mean of every bone's rotation over one whole gait cycle.  Averaging a full
+    cycle - not just the double-support instants - is what makes it a *stance*: the forward and backward
+    halves of each swing cancel, so the legs come under the hips and the arms hang, while the spine, neck and
+    shoulder carriage that the subject actually held are preserved.
     """
-    lz = clip.positions["lfoot"][:, 2]
-    rz = clip.positions["rfoot"][:, 2]
-    floor = float(np.percentile(np.concatenate([lz, rz]), 2.0))
-    dir_vec = np.array([math.cos(clip.travel_yaw_rad), math.sin(clip.travel_yaw_rad)])
-    separation = np.abs((clip.positions["lfoot"][:, :2] - clip.positions["rfoot"][:, :2]) @ dir_vec)
-    both_down = (lz - floor < 0.03) & (rz - floor < 0.03)
-    candidates = np.where(both_down)[0]
-    if len(candidates) == 0:
-        candidates = np.argsort(separation)[:10]
-    candidates = candidates[np.argsort(separation[candidates])][: max(len(candidates) // 3, 1)]
+    start, end = gait_cycle(clip)
+    candidates = np.arange(start, end + 1)
 
     align = Quaternion(Vector((0.0, 0.0, 1.0)), forward_yaw_deg * math.pi / 180.0 - clip.travel_yaw_rad)
     align_inv = align.inverted()

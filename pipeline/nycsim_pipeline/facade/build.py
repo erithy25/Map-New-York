@@ -574,6 +574,11 @@ def _rules_summary(df: pl.DataFrame, attrs: pl.DataFrame, hits: dict[str, int], 
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+#: A building with at least one free facade run must produce placements. Below this many records per building the
+#: emit pass has silently produced nothing useful and must fail rather than write empty files.
+MIN_PLACEMENTS_PER_BUILDING = 4.0
+
+
 def pass_emit(only_tiles: set[str] | None, limit_groups: int | None, out_dir: Path, tiles_root: Path,
               validate_every: int = 25) -> dict:
     """Extend the per-tile buildings files and write the kit placements."""
@@ -584,10 +589,10 @@ def pass_emit(only_tiles: set[str] | None, limit_groups: int | None, out_dir: Pa
     attrs = pl.read_parquet(attrs_path)
     edges_dir = out_dir / "edges"
     if not edges_dir.exists() or not any(edges_dir.glob("*.parquet")):
-        raise FileNotFoundError(
-            f"{edges_dir} holds no edge runs: run the `geom` pass first (the emit pass deletes the cache when it "
-            f"finishes a full run, so a repeated `emit` needs `geom` again, or use `facade all`)")
-    edges_dir = out_dir / "edges"
+        # the edge cache is a derived intermediate the emit pass deletes when it finishes a full run; rebuild it
+        # rather than writing empty placement files
+        log.warning("%s holds no edge runs; rebuilding it with the geom pass", edges_dir)
+        pass_geom(only_tiles, limit_groups, out_dir)
     groups = tile_groups(attrs["tile"].unique().to_list() if only_tiles is None
                          else [t2 for t2 in attrs["tile"].unique().to_list() if t2 in only_tiles])
     if limit_groups:
@@ -596,7 +601,8 @@ def pass_emit(only_tiles: set[str] | None, limit_groups: int | None, out_dir: Pa
     attrs_by_tile = {k[0] if isinstance(k, tuple) else k: v for k, v in attrs_by_tile.items()}
     t.lap(f"load facade_attrs ({attrs.height:,} rows, {len(groups)} groups)")
 
-    tot = {"tiles": 0, "buildings": 0, "placements": 0, "bytes": 0, "validated": 0, "problems": []}
+    tot: dict = {"tiles": 0, "buildings": 0, "placements": 0, "bytes": 0, "validated": 0, "problems": [],
+                 "_empty_tiles": []}
     kit_counts: dict[int, int] = {}
     n_place_by_key: dict[tuple[str, int], int] = {}
     ti = 0
@@ -643,6 +649,8 @@ def pass_emit(only_tiles: set[str] | None, limit_groups: int | None, out_dir: Pa
 
             tot["tiles"] += 1
             tot["buildings"] += out_tbl.num_rows
+            if out_tbl.num_rows and len(rec) == 0:
+                tot["_empty_tiles"].append(tile)
             tot["placements"] += int(len(rec))
             tot["bytes"] += hdr["bytes"]
             ti += 1
@@ -660,6 +668,15 @@ def pass_emit(only_tiles: set[str] | None, limit_groups: int | None, out_dir: Pa
                              "name": KIT_PIECE[k][1] if k in KIT_PIECE else "?", "count": int(v)}
                             for k, v in sorted(kit_counts.items(), key=lambda kv: -kv[1])]
     tot["placements_per_building"] = round(tot["placements"] / max(tot["buildings"], 1), 2)
+    # a tile that holds buildings but no placements is a failure, not a silent success
+    empty = [e for e in tot.pop("_empty_tiles", []) ]
+    if empty:
+        tot["problems"].append({"empty_tiles": empty[:50], "n_empty_tiles": len(empty),
+                                "problems": ["tile holds buildings but kit_placements.bin is empty"]})
+    if tot["buildings"] and tot["placements_per_building"] < MIN_PLACEMENTS_PER_BUILDING:
+        tot["problems"].append({"problems": [
+            f"placements per building {tot['placements_per_building']} is below the {MIN_PLACEMENTS_PER_BUILDING} "
+            f"floor: the placement generator produced nothing usable"]})
     tot["elapsed_s"] = t.total
     tot["max_rss_mb"] = round(_rss_mb(), 1)
     with open(out_dir / "emit_summary.json", "w") as f:
@@ -785,9 +802,14 @@ def main(argv: list[str] | None = None) -> int:
         result["rules"] = pass_rules(out_dir, a.limit_groups if subset else None)
     if a.stage in ("emit", "all"):
         result["emit"] = pass_emit(only, a.limit_groups, out_dir, tiles_root)
-        if not a.keep_edges and not subset:
+        if not a.keep_edges and not subset and not result["emit"].get("problems"):
             shutil.rmtree(out_dir / "edges", ignore_errors=True)
-            log.info("removed the edge cache (%s)", out_dir / "edges")
+            log.info("removed the edge cache (%s); the emit pass rebuilds it when it is needed again",
+                     out_dir / "edges")
+        if result["emit"].get("problems"):
+            log.error("emit finished with %d problem groups: %s", len(result["emit"]["problems"]),
+                      json.dumps(result["emit"]["problems"])[:2000])
+            return 1
 
     if not subset and not a.no_manifest:
         for aid, p, schema in (("facade_geom_attrs", out_dir / "geom_attrs.parquet", "facade_geom/1"),

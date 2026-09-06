@@ -110,7 +110,7 @@ def main():
                       dimensions={"tower_top_m": TOWER_TOP, "cornice_m": CORNICE, "base_top_m": BASE_TOP,
                                   "portico_pier_h_m": PORTICO_H, "storeys": 9})
     cc.render(ID, [
-        {"view": "grand_concourse", "azimuth_deg": 250, "elevation_deg": "street", "distance": 110, "fov_deg": 60, "look_up_deg": 22},
+        {"view": "grand_concourse", "azimuth_deg": 250, "elevation_deg": "street", "distance": 170, "fov_deg": 50, "look_up_deg": 18},
         {"view": "aerial", "azimuth_deg": 230, "elevation_deg": 30},
     ])
     return entry

@@ -140,7 +140,7 @@ def main():
                                   "roof_slope_deg": 45.0, "base_top_m": BASE_TOP, "church_top_m": CHURCH_TOP,
                                   "tower_centre_local_m": list(TOWER_C)})
     cc.render(ID, [
-        {"view": "lexington", "azimuth_deg": 250, "elevation_deg": "street", "distance": 120, "fov_deg": 60, "look_up_deg": 40},
+        {"view": "lexington", "azimuth_deg": 250, "elevation_deg": "street", "distance": 360, "fov_deg": 44, "look_up_deg": 36},
         {"view": "aerial", "azimuth_deg": 200, "elevation_deg": 24},
     ])
     return entry
