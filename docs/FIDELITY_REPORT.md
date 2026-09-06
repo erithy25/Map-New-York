@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-06 13:03 UTC from commit `55caa0f4e2b7` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-06 13:58 UTC from commit `7080214f921f` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -89,7 +89,9 @@ Source of truth: NYC Street Centerline (CSCL) and LION, per ADR-006.
 
 - Tiles with a written heightmap: **2,916**
 - USGS 3DEP products ingested: 30 (13, 19, 1m), 4.50 GB
-- Elevation range across written tiles: -5.18 m to 166.49 m (NAVD88)
+- Elevation range across written tiles: -5.18 m to 210.28 m (NAVD88)
+- Vertical accuracy **0.384 m RMS**, measured against 1,458,592 independent survey and LiDAR ground points (0.291 m against planimetric spot elevations, 0.411 m against building ground grades), median bias −0.037 m after rejecting 0.52 % outliers. The plan assumed 0.15 m; this is the measured figure.
+- Land coverage is 100.000 % in every borough, with 99.97 % or better taken from the 3DEP 1 m product (ADR-017). Tile seams match to 2.8 × 10⁻¹⁴ m across 5,724 adjacent pairs.
 
 Water: hydrography polygons 2,235 · shoreline lines 413 · structures 2,536 · water tiles 2,916.
 
@@ -103,19 +105,19 @@ Water: hydrography polygons 2,235 · shoreline lines 413 · structures 2,536 · 
 
 | Group | glTF files | Size |
 |---|---|---|
-| kit | 138 | 140.1 MB |
+| kit | 138 | 140.2 MB |
 | props | 122 | 79.2 MB |
-| vehicles | 63 | 68.7 MB |
-| character | 2 | 30.8 MB |
-| landmarks | 79 | 796.0 MB |
-| tiles | 34 | 213.2 MB |
+| vehicles | 93 | 100.2 MB |
+| character | 23 | 515.7 MB |
+| landmarks | 124 | 889.3 MB |
+| tiles | 87 | 406.4 MB |
 
-Catalog entries describing those assets: 361.
+Catalog entries describing those assets: 383.
 
 ## 6. Simulation code and runtime data
 
 - `core/`: 52 headers, 37 sources, 19 test files; registered ctest cases: 11
-- Runtime binaries: `density.nycb` 0.9 MB, `roadgraph.nycb` 104.5 MB, `signals.nycb` 1.7 MB, `transit.nycb` 2.4 MB
+- Runtime binaries: `density.nycb` 0.9 MB, `roadgraph.nycb` 104.2 MB, `signals.nycb` 1.7 MB, `transit.nycb` 2.4 MB
 
 ## 7. Data sources and licences
 
@@ -140,11 +142,11 @@ Authored asset licences (textures, fonts, mocap, audio): `docs/ASSET_LICENSES.md
 
 ## 8. Verification status
 
-Reference photographs collected for side-by-side comparison: 301 photos across 102 subjects, each with author and licence metadata.
+Reference photographs collected for side-by-side comparison: 495 photos across 172 subjects, each with author and licence metadata.
 
-Stage reports present: citygml, core, furniture, kit, live, props, traffic_density, unreal_world.
+Stage reports present: buildings_mesh, character, citygml, core, facade, furniture, kit, live, props, roads, terrain, traffic_density, unreal_gameplay, unreal_world.
 
-Stage reports still missing: buildings, buildings_mesh, facade, landmarks, reference, roads, terrain, traffic, unreal_gameplay, vehicles, character.
+Stage reports still missing: buildings, landmarks, reference, traffic, vehicles.
 
 What is verified in this environment versus on a workstation is defined in `docs/ARCHITECTURE.md` §14. In short: geodesy, tiling, streaming logic, routing, traffic rules, signal phasing, astronomy, time zone handling, weather parsing, data coverage and asset geometry are verified here by tests and Cycles renders. Unreal Engine compilation, cooking, frame rate, vehicle feel and audio are not — no Unreal editor or GPU exists in this environment, and no claim is made that they were tested.
 

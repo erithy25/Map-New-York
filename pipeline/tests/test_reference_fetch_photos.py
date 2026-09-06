@@ -462,3 +462,19 @@ def test_every_landmark_in_docs_landmarks_md_has_a_subject():
                   "queens_museum", "bronx_county_courthouse", "high_line", "little_island", "pier_57",
                   "chelsea_market", "javits", "moynihan"):
         assert token in blob, f"docs/LANDMARKS.md names a structure with no catalogue item: {token}"
+
+
+def test_force_refetch_can_reuse_the_items_own_photos(tmp_path: Path):
+    """used_titles stops two subjects sharing a file; it must not stop one subject re-picking its own."""
+    item = fp.BY_SLUG["promenade_lower_manhattan"]
+    base = "https://upload.wikimedia.org/wikipedia/commons/a/ab/Skyline_from_Brooklyn_Heights_Promenade_"
+    pages = [_page("File:Skyline from Brooklyn Heights Promenade 1.jpg", w=4000, h=2600, artist="A",
+                   date="2022-06-01 12:00:00", gps=(40.6961, -73.9976))]
+    images = {fp.thumb_url(base + "1.jpg", 1920): _jpeg_bytes(1920, 1248, 140)}
+    client = FakeClient(pages, images)
+    used: set[str] = set()
+    first = fp.process_item(client, item, tmp_path, fp.DEFAULT_MAX_WIDTH, False, used)  # type: ignore[arg-type]
+    assert len(first["photos"]) == 1 and used == {"File:Skyline from Brooklyn Heights Promenade 1.jpg"}
+    again = fp.process_item(client, item, tmp_path, fp.DEFAULT_MAX_WIDTH, True, used)  # type: ignore[arg-type]
+    assert [p["title"] for p in again["photos"]] == [p["title"] for p in first["photos"]]
+    assert (tmp_path / item.slug / "1.jpg").is_file()

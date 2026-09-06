@@ -66,7 +66,7 @@ def build():
     objs += C.tower_tier(f"{ID}_main", Pm, BASE_TOP, RANGE_CORNICE - 2.0, fen, roof_material="roof_grey",
                          parapet_h=1.2, parapet_t=0.6)
     nx0, ny0, nx1, ny1 = Pn.bounds
-    ccx, ccy = nx1 - CUBE / 2 - 1.0, ny1 - CUBE / 2 - 1.0
+    ccx, ccy = nx1 - CUBE / 2, ny1 - CUBE / 2          # flush with the block's north-east corner
     cube = C.rect(ccx, ccy, CUBE, CUBE)
     Pn_body = C._clean_polygon(Pn.difference(cube.buffer(0.6)).buffer(0))     # the cube is a void in the block
     objs += C.tower_tier(f"{ID}_north", Pn_body, BASE_TOP, RANGE_CORNICE - 6.0, fen, roof_material="roof_grey",
@@ -99,7 +99,8 @@ def build():
     p0, p1, L, t, n = C.edge_facing(coords, 0.0)            # the east (Central Park West) elevation
     mid = (p0 + p1) / 2
     b = C.MeshBuilder()
-    portico = C.rect_xy(mid[0] - 4.0, mid[1] - 24.0, mid[0] + 14.0, mid[1] + 24.0)
+    # the hall sits behind the colonnade (it used to project 14 m in front of it, hiding the columns)
+    portico = C.rect_xy(mid[0] - 16.0, mid[1] - 24.0, mid[0] + 1.0, mid[1] + 24.0)
     b.prism(C.ring_coords(portico), BASE_TOP, MEMORIAL_TOP - 6.0, C.M.limestone, material_top=C.M.roof_grey)
     for k in range(4):                                      # the four 60 ft Ionic columns
         u = -12.0 + 8.0 * k

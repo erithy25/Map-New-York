@@ -1919,6 +1919,13 @@ def process_item(client: Client, item: Item, out_root: Path, max_width: int, for
         log.info("present  %-45s %d photo(s)", item.slug, len(meta.get("photos", [])))
         return meta
     d.mkdir(parents=True, exist_ok=True)
+    # A re-fetch of this item must be able to pick its own previous photographs again: they were
+    # put into used_titles (which stops two *different* subjects sharing a file) when the run
+    # started, and the stored meta.json is about to be discarded.
+    stale = load_meta(d)
+    if stale:
+        for ph in stale.get("photos", []):
+            used_titles.discard(ph.get("title", ""))
     for old in d.glob("*.jpg"):
         old.unlink()
     if (d / "meta.json").exists():

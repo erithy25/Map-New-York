@@ -774,6 +774,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     ap.add_argument("--dry-run", action="store_true", help="print the plan without rendering")
     ap.add_argument("--coverage", action="store_true",
                     help="report what world data exists per subject and exit")
+    ap.add_argument("--write-index", action="store_true",
+                    help="rebuild docs/verification/comparison/INDEX.md and exit")
     a = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s",
                         datefmt="%H:%M:%S")
@@ -782,6 +784,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         slugs = slugs[:a.limit]
     if a.coverage:
         print(json.dumps([coverage(s) for s in slugs], indent=1))
+        return 0
+    if a.write_index:
+        write_index(slugs)
         return 0
     LOG.info("%d subject(s): %s", len(slugs), ", ".join(slugs))
 
