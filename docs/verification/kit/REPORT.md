@@ -62,8 +62,8 @@ facade_classes.json}`).
 
 ## 2. Conventions the next agent needs
 
-* Blender Z-up metres; glTF exported Y-up by `nycsim_bpy.export_glb` with `asset.extras` → the glTF **scene**
-  extras carry the `nycsim` JSON blob (schema_version, git commit, bounds, anchor, nominal size).
+* Blender Z-up metres, glTF exported Y-up by `nycsim_bpy.export_glb`. The `nycsim` JSON blob (schema_version,
+  generator script, git commit, bounds, anchor, nominal size) lands on the glTF **scene** extras — see §4.5.
 * The wall plane is `y = 0`; **+Y points into the building**, −Y is the street.
 * Every glb contains exactly two meshes: `<id>` (LOD0) and `<id>_LOD1`.
 * UVs are in metres; each material tiles through a Mapping node at its catalogued `physical_size_m`, which the
@@ -144,8 +144,7 @@ $ nice -n 12 python3 blender/kit/facade/build_kit.py
   size dev>5 %: []
 ```
 
-Peak RSS of the build process ≈ 0.9 GB (all 46 catalogue materials and their embedded 1 K maps stay resident for
-the whole run); 140.1 MB of glb written.
+BUILD_RSS_LINE
 
 ### 4.2 Tests
 
@@ -227,7 +226,7 @@ The renders were inspected and the following were corrected before this report:
    ratio and rejects a decimated result that has collapsed below four triangles, so the flat-quad proxy is a last
    resort rather than the common case.
 
-## 4.5 DATA_CONTRACTS §13 compliance, and one foundation defect to fix
+### 4.5 DATA_CONTRACTS §13 compliance, and one foundation defect to fix
 
 * `blender_out/kit/facade/<kit_id>.glb` — §13 writes the kit path as `kit/{kit_id}.glb`; the stage brief mandates
   the `facade/` sub-directory, so every catalog entry carries the exact path relative to `blender_out/` in its

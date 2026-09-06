@@ -1,0 +1,213 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_hugh_carey_tunnel_portal",
+ "name": "Hugh L. Carey (Brooklyn-Battery) Tunnel Manhattan portal",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.702068,
+  "lon": -74.015091,
+  "azimuth_deg": 200.0,
+  "note": "Battery Place near West Street, about 150 m north-north-east of the Manhattan portal, looking south-south-west at the tunnel mouth and ventilation building",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7008,
+  "lon": -74.0157,
+  "name": "Hugh L. Carey (Brooklyn-Battery) Tunnel Manhattan portal"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Hugh L. Carey Tunnel\" entrance Manhattan",
+  "\"Brooklyn-Battery Tunnel\" Manhattan portal ventilation building"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T12:56:27Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 54,
+ "candidates_eligible": 20,
+ "rejections": {
+  "too_old": 2,
+  "too_small": 5,
+  "excluded": 1,
+  "keywords": 23,
+  "indoor": 3
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Brooklyn-Battery Tunnel Manhattan portal, July 2025.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Brooklyn-Battery_Tunnel_Manhattan_portal,_July_2025.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/82/Brooklyn-Battery_Tunnel_Manhattan_portal%2C_July_2025.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Brooklyn-Battery_Tunnel_Manhattan_portal%2C_July_2025.jpg/1920px-Brooklyn-Battery_Tunnel_Manhattan_portal%2C_July_2025.jpg",
+   "author": "Mr. Matté (if there is an issue with this image, contact me using this image's Commons talk page , my Commons user talk page , or my English Wikipedia user talk page ; I'll know about it a lot faster)",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2025-07-09 15:07:14",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.7061,
+    "lon": -74.015
+   },
+   "original_width": 2891,
+   "original_height": 2177,
+   "width": 1920,
+   "height": 1446,
+   "bytes": 904459,
+   "sha256": "6733fb5c47927433b0954ea488c1e5db854f200a26fe2774eca56e4226539fb5",
+   "mean_luminance": 134.1,
+   "description": "Photo of southbound unsigned Interstate 478 entering the Brooklyn-Battery Tunnel at its northern Manhattan portal in Manhattan, New York City . Also seen is the electronic toll gantry for the tunnel. Photo taken looking south-southwest.",
+   "categories": [
+    "Self-published work",
+    "Views of New York City from north",
+    "Files with coordinates missing SDC location of creation",
+    "Financial District, Manhattan in 2025",
+    "Metropolitan Transportation Authority in 2025",
+    "Brooklyn-Battery Tunnel Ventilation Building (Battery Place)",
+    "July 2025 in road transport in the United States",
+    "July 2025 in Manhattan, New York City",
+    "Electronic toll gates in New York City",
+    "Brooklyn-Battery Tunnel, Manhattan portal",
+    "New York City photographs taken on 2025-07-09",
+    "Photos taken by User:Mr. Matté in New York"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Brooklyn-Battery Tunnel\" Manhattan portal ventilation building",
+   "score": 10.2,
+   "estimated_viewpoint": {
+    "lat": 40.7061,
+    "lon": -74.015,
+    "azimuth_deg": 185.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70610, -74.01500) is 592 m from Hugh L. Carey (Brooklyn-Battery) Tunnel Manhattan portal (40.70080, -74.01570) and 448 m from the standard viewpoint; the azimuth 186 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Brooklyn-Battery Tunnel Manhattan portal, July 2025.jpg\" by Mr. Matté (if there is an issue with this image, contact me using this image's Commons talk page , my Commons user talk page , or my English Wikipedia user talk page ; I'll know about it a lot faster), CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Brooklyn-Battery_Tunnel_Manhattan_portal,_July_2025.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:2024-05-20 14 47 08 View south along Interstate 478 (Brooklyn-Battery Tunnel Manhattan Approach) toward the Brooklyn-Battery Tunnel from the Morris Street Pedestrian Overpass in Manhattan, New York City, New York.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:2024-05-20_14_47_08_View_south_along_Interstate_478_(Brooklyn-Battery_Tunnel_Manhattan_Approach)_toward_the_Brooklyn-Battery_Tunnel_from_the_Morris_Street_Pedestrian_Overpass_in_Manhattan,_New_York_City,_New_York.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e2/2024-05-20_14_47_08_View_south_along_Interstate_478_%28Brooklyn-Battery_Tunnel_Manhattan_Approach%29_toward_the_Brooklyn-Battery_Tunnel_from_the_Morris_Street_Pedestrian_Overpass_in_Manhattan%2C_New_York_City%2C_New_York.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/2024-05-20_14_47_08_View_south_along_Interstate_478_%28Brooklyn-Battery_Tunnel_Manhattan_Approach%29_toward_the_Brooklyn-Battery_Tunnel_from_the_Morris_Street_Pedestrian_Overpass_in_Manhattan%2C_New_York_City%2C_New_York.jpg/1920px-2024-05-20_14_47_08_View_south_along_Interstate_478_%28Brooklyn-Battery_Tunnel_Manhattan_Approach%29_toward_the_Brooklyn-Battery_Tunnel_from_the_Morris_Street_Pedestrian_Overpass_in_Manhattan%2C_New_York_City%2C_New_York.jpg",
+   "author": "Famartin",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024-05-20 14:47:08",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.706217,
+    "lon": -74.0149
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 851604,
+   "sha256": "273747440e9e47c6727b415f19aa0567d0c8bf1d61476ea41705566dd546c996",
+   "mean_luminance": 117.0,
+   "description": "View south along Interstate 478 (Brooklyn-Battery Tunnel Manhattan Approach) toward the Brooklyn-Battery Tunnel from the Morris Street Pedestrian Overpass in Manhattan, New York City, New York",
+   "categories": [
+    "Self-published work",
+    "Morris Street Pedestrian Overpass",
+    "Files with coordinates missing SDC location of creation",
+    "Financial District, Manhattan in 2024",
+    "Metropolitan Transportation Authority in 2024",
+    "New York City photographs taken on 2024-05-20",
+    "Brooklyn-Battery Tunnel Ventilation Building (Battery Place)",
+    "May 2024 in Manhattan, New York City",
+    "Brooklyn-Battery Tunnel, Manhattan portal",
+    "Brooklyn-Battery Tunnel Manhattan Approach (Interstate 478)",
+    "Famartin's 2024 photos",
+    "Famartin's May 2024 photos"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Brooklyn-Battery Tunnel\" Manhattan portal ventilation building",
+   "score": 10.2,
+   "estimated_viewpoint": {
+    "lat": 40.706217,
+    "lon": -74.0149,
+    "azimuth_deg": 186.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70622, -74.01490) is 606 m from Hugh L. Carey (Brooklyn-Battery) Tunnel Manhattan portal (40.70080, -74.01570) and 462 m from the standard viewpoint; the azimuth 186 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"2024-05-20 14 47 08 View south along Interstate 478 (Brooklyn-Battery Tunnel Manhattan Approach) toward the Brooklyn-Battery Tunnel from the Morris Street Pedestrian Overpass in Manhattan, New York City, New York.jpg\" by Famartin, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:2024-05-20_14_47_08_View_south_along_Interstate_478_(Brooklyn-Battery_Tunnel_Manhattan_Approach)_toward_the_Brooklyn-Battery_Tunnel_from_the_Morris_Street_Pedestrian_Overpass_in_Manhattan,_New_York_City,_New_York.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:1-25 Broadway NYC rear 7.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:1-25_Broadway_NYC_rear_7.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a6/1-25_Broadway_NYC_rear_7.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/1-25_Broadway_NYC_rear_7.jpg/1920px-1-25_Broadway_NYC_rear_7.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2020-02-05 09:21:56",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": {
+    "lat": 40.706202,
+    "lon": -74.014884
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 404407,
+   "sha256": "f29a6a5370d038cb6d2659338f487c8eb02a88ff384fcb42cacd20e9cbb3175c",
+   "mean_luminance": 95.1,
+   "description": "Rears of the buildings at 1-25 Broadway, Manhattan, New York",
+   "categories": [
+    "Bowling Green Offices Building",
+    "1 Broadway",
+    "Exterior of 25 Broadway",
+    "Self-published work",
+    "Morris Street Pedestrian Overpass",
+    "Files with coordinates missing SDC location of creation",
+    "Photographs taken on 2020-02-05",
+    "Brooklyn-Battery Tunnel Ventilation Building (Battery Place)",
+    "February 2020 in Manhattan, New York City",
+    "Brooklyn-Battery Tunnel, Manhattan portal",
+    "Photographs by Epicgenius"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Brooklyn-Battery Tunnel\" Manhattan portal ventilation building",
+   "score": 9.75,
+   "estimated_viewpoint": {
+    "lat": 40.706202,
+    "lon": -74.014884,
+    "azimuth_deg": 186.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70620, -74.01488) is 605 m from Hugh L. Carey (Brooklyn-Battery) Tunnel Manhattan portal (40.70080, -74.01570) and 460 m from the standard viewpoint; the azimuth 187 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"1-25 Broadway NYC rear 7.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:1-25_Broadway_NYC_rear_7.jpg"
+  }
+ ]
+}
