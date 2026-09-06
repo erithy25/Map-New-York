@@ -985,6 +985,13 @@ def hide_covered_garments(built, item_ids: tuple[str, ...], *, name_prefix: str 
     * the closest point on an outer garment is within ``pinch`` of it, on either side - the outer cloth is
       right there, so there is no room for this one and nothing to see.
 
+    The proximity test ignores closest points that land on the outer garment's own **rim** - any face with an
+    open boundary edge, i.e. a hem, a cuff or a collar.  A vertex beside a hem is beside the edge of the
+    outer garment, not underneath it, and cutting there walks the cut out past that edge and leaves the
+    exposed cut as a saw-tooth on a hem that should have been left alone.  That is what it did to a child's
+    polo, and requiring the ray instead simply put the poke-through back; the rim test separates the two
+    cases properly.
+
     The second test is what closes the seam blobs: a ray can miss through the hairline gap of a UV seam, and
     a vertex already pushed proud of the outer surface is not "underneath" anything.  A face is deleted when
     all of its vertices are marked, so the collar, the cuffs, the open front of a jacket and the hem - the
@@ -1016,6 +1023,7 @@ def hide_covered_garments(built, item_ids: tuple[str, ...], *, name_prefix: str 
         outers = [o for k, _i, o in ordered[i + 1:] if k > key_in and len(o.data.vertices)]
         if not outers:
             continue
+        rims = {id(o): _boundary_faces(o) for o in outers}
         covered = set()
         for vert in inner.data.vertices:
             origin = vert.co + vert.normal * 0.0005
@@ -1024,8 +1032,11 @@ def hide_covered_garments(built, item_ids: tuple[str, ...], *, name_prefix: str 
                 if hit:
                     covered.add(vert.index)
                     break
-                near, location, _n2, _j = outer.closest_point_on_mesh(vert.co, distance=pinch)
-                if near and (vert.co - location).length <= pinch:
+                near, location, _n2, face = outer.closest_point_on_mesh(vert.co, distance=pinch)
+                # Not near the outer garment's *rim*: a closest point that lands on a hem or a cuff means
+                # this vertex is beside the edge of the outer garment, not underneath it, and cutting there
+                # walks the cut past that edge and exposes it as a saw-tooth.
+                if near and (vert.co - location).length <= pinch and face not in rims[id(outer)]:
                     covered.add(vert.index)
                     break
         if not covered:
@@ -1087,11 +1098,23 @@ def cut_bottoms_at_shoe_collar(built, item_ids: tuple[str, ...], *, name_prefix:
     if not shoes or not bottoms:
         return 0
 
+    # The collar height comes from the *rig*, not from the shoe mesh.  Several MakeHuman shoe assets model a
+    # sock that runs half way up the calf, and a box round the whole shell then cuts the trouser off at
+    # mid-calf with a ragged edge.  A shoe collar sits a few centimetres above the ankle joint, so that is
+    # where the box stops and the sock between the hem and the shoe stays visible, as it should be.
+    bones = built.armature.data.bones
+    ankle = min(bones[f"foot_{side}"].head_local.z for side in ("l", "r") if f"foot_{side}" in bones)
+    height = max((built.basemesh.matrix_world @ v.co).z for v in built.basemesh.data.vertices)
+    collar_z = ankle + 0.045 * (height / 1.75)
+
     boxes: list[tuple[Vector, Vector]] = []
     for shoe in shoes:
         for shell in _connected_components(shoe):
             lo = Vector((min(v.x for v in shell), min(v.y for v in shell), min(v.z for v in shell)))
             hi = Vector((max(v.x for v in shell), max(v.y for v in shell), max(v.z for v in shell)))
+            hi.z = min(hi.z, collar_z)
+            if hi.z <= lo.z:
+                continue
             boxes.append((lo - Vector((margin, margin, margin)), hi + Vector((margin, margin, 0.004))))
     if not boxes:
         return 0
@@ -1130,6 +1153,27 @@ def cut_bottoms_at_shoe_collar(built, item_ids: tuple[str, ...], *, name_prefix:
         log.info("%s: %d faces cut off inside the shoes, %d vertices remain",
                  bottom.name.split(".")[-1], len(doomed), len(bottom.data.vertices))
     return removed
+
+
+def _boundary_faces(obj: bpy.types.Object) -> set[int]:
+    """Polygon indices of ``obj`` that touch an open boundary edge - its hems, cuffs and collars."""
+    counts: dict[tuple[int, int], int] = {}
+    for polygon in obj.data.polygons:
+        verts = list(polygon.vertices)
+        for i, a in enumerate(verts):
+            b = verts[(i + 1) % len(verts)]
+            key = (a, b) if a < b else (b, a)
+            counts[key] = counts.get(key, 0) + 1
+    out: set[int] = set()
+    for polygon in obj.data.polygons:
+        verts = list(polygon.vertices)
+        for i, a in enumerate(verts):
+            b = verts[(i + 1) % len(verts)]
+            key = (a, b) if a < b else (b, a)
+            if counts[key] < 2:
+                out.add(polygon.index)
+                break
+    return out
 
 
 def _connected_components(obj: bpy.types.Object) -> list[list[Vector]]:

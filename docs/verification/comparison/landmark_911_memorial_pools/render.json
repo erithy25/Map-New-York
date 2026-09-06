@@ -103,7 +103,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_911_memorial_pools/render.png",
- "rendered_at": "2026-09-06T21:54:17Z",
+ "rendered_at": "2026-09-06T22:13:35Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
@@ -315,7 +315,7 @@
    }
   },
   "radius_m": 563.8090218678801,
-  "seconds": 16.96,
+  "seconds": 15.45,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -338,9 +338,9 @@
   "radius_m": 563.8090218678801
  },
  "seconds": {
-  "render": 59.1,
-  "scene": 17.9,
-  "total": 77.0
+  "render": 97.0,
+  "scene": 16.4,
+  "total": 113.5
  },
  "slug": "landmark_911_memorial_pools",
  "status": "rejected_unusable_frame",

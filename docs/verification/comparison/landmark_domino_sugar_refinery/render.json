@@ -1,27 +1,28 @@
 {
- "azimuth_reason": "9.3 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 198.0 deg, 171.3 deg away",
+ "azimuth_reason": "9.4 deg, the bearing from this photograph's own GPS position to Domino Sugar Refinery; heading and position both come from the photograph.  The item's recorded azimuth is 198.0 deg, 171.4 deg away, and belongs to its nominal viewpoint",
  "camera": {
-  "azimuth_deg": 9.3,
+  "azimuth_deg": 9.372684840209363,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
-  "focal_mm": 35.0,
+  "focal_mm": 25.75375693214617,
   "ground_detail": {
-   "chosen_m": 3.14,
-   "max_m": 5.5,
-   "median_m": 4.39,
-   "min_m": 2.96,
+   "chosen_m": 5.82,
+   "max_m": 6.81,
+   "median_m": 5.91,
+   "min_m": 5.59,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 5.82,
    "radius_m": 12.0,
    "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
-  "hfov_deg": 54.432,
-  "lat": 40.715,
-  "lon": -73.9672,
-  "long_side_fov_deg": 54.432,
+  "hfov_deg": 69.901,
+  "lat": 40.713183,
+  "lon": -73.967742,
+  "long_side_fov_deg": 69.901,
   "pitch_deg": 0.0,
   "portrait": false,
   "resolution": [
@@ -30,22 +31,40 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_domino_sugar_refinery",
-  "terrain_z_m": 3.137,
-  "x": -1453.664,
-  "y": 1663.892,
-  "z": 4.737
+  "terrain_z_m": 5.822,
+  "x": -1473.332,
+  "y": 1453.692,
+  "z": 7.422
  },
- "camera_caption": "camera 40.71500, -73.96720 (NYC_TM -1454, 1664) z 4.7 m NAVD88 | azimuth 9.3deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.71318, -73.96774 (NYC_TM -1473, 1454) z 7.4 m NAVD88 | azimuth 9.4deg pitch +0.0deg | 26 mm on 36 mm (69.9deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.713183,
+  "lon": -73.967742,
+  "offset_from_recorded_m": 206.9,
+  "source": "this photograph's own EXIF camera GPS (40.71318, -73.96774), 207 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
  "clearance": {
-  "direction": "backwards",
+  "direction": "onto the nearest sidewalk",
+  "min_view_m": 62.9,
   "moved": true,
-  "note": "the recorded viewpoint is inside t_-2_1_tan_brick (a ray straight up from the eye point hits its roof); the camera was moved 2 m backwards -- the nearest point in open air -- keeping the same eye height above the heightmap",
-  "offset_m": 2.0,
-  "reason": "inside t_-2_1_tan_brick (a ray straight up from the eye point hits its roof)"
+  "nearest_obstruction_m": 20.0,
+  "note": "the recorded viewpoint is inside t_-2_1_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 28 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 75 m from there",
+  "offset_m": 27.8,
+  "reason": "inside t_-2_1_roof_membrane (a ray straight up from the eye point hits its roof)",
+  "rule": "pavement snap with a clear view",
+  "view_m": 75.4
  },
+ "frame": {
+  "mean": 0.4024,
+  "reason": null,
+  "sd": 0.1976,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
- "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lens_reason": "widened from 35 mm to 26 mm (55 deg vertical) so that a level axis contains the subject: the c_domino_sugar_refinery model's published 60 m height stands 58 m above the lens at 126 m, 25 deg above the horizon",
  "lighting": {
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 938.5,
@@ -56,15 +75,15 @@
    "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.0,
-  "sky_azimuth_deg": 211.675,
-  "sky_elevation_deg": 70.174,
+  "sky_azimuth_deg": 211.677,
+  "sky_elevation_deg": 70.176,
   "sun_lamp": true,
   "sun_strength_blender": 1.738,
   "view_transform": "Filmic"
  },
  "name": "Domino Sugar Refinery",
  "night": false,
- "pitch_reason": "level optical axis (Domino Sugar Refinery is 82 m away and would need +19 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "pitch_reason": "level optical axis (Domino Sugar Refinery is 126 m away and would need +12 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
  "reference_photo": {
   "author": "Kidfly182",
   "confidence": "high",
@@ -79,17 +98,22 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_domino_sugar_refinery/render.png",
- "rendered_at": "2026-09-06T18:00:35Z",
+ "rendered_at": "2026-09-06T22:20:59Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
     "t_-1_1",
+    "t_-2_0",
     "t_-2_1",
-    "t_-2_2"
+    "t_-2_2",
+    "t_-3_1"
    ],
+   "landmark_bins_suppressed": 1,
+   "landmark_faces_suppressed": 52,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-1_1": {
@@ -97,70 +121,80 @@
      "objects": 15,
      "triangles": 68896
     },
+    "t_-2_0": {
+     "lod": 0,
+     "objects": 9,
+     "triangles": 20634
+    },
     "t_-2_1": {
      "lod": 0,
      "objects": 15,
-     "triangles": 26744
+     "triangles": 26692
     },
     "t_-2_2": {
      "lod": 0,
      "objects": 6,
      "triangles": 3172
+    },
+    "t_-3_1": {
+     "lod": 0,
+     "objects": 11,
+     "triangles": 14788
     }
    },
    "tiles_dropped_for_budget": 0,
-   "tiles_imported": 3,
+   "tiles_imported": 5,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
-   "tiles_wanted": 3,
+   "tiles_wanted": 5,
    "triangle_budget": 3510000,
-   "triangles": 98812
+   "triangles": 134182
   },
   "centre_tm": [
-   -1453.34,
-   1665.87
+   -1499.18,
+   1464.1
   ],
   "kit": {
    "capped": null,
    "per_category": {
-    "bulkhead": 12,
-    "cornice": 24,
-    "door_entry": 22,
-    "fire_escape": 5,
-    "hvac": 19,
-    "parapet": 33,
-    "pilaster": 8,
-    "quoin": 8,
-    "scaffold": 104,
-    "storefront": 124,
-    "storefront_interior": 14,
-    "string_course": 23,
-    "water_tower": 1,
-    "window": 4995,
-    "window_accessory": 85
+    "bulkhead": 11,
+    "cornice": 6,
+    "door_entry": 26,
+    "fire_escape": 20,
+    "hvac": 25,
+    "parapet": 56,
+    "pilaster": 20,
+    "quoin": 6,
+    "storefront": 152,
+    "storefront_interior": 16,
+    "string_course": 6,
+    "window": 4824,
+    "window_accessory": 61
    },
-   "placed": 5477,
+   "placed": 5229,
    "radius_m": 120.0,
-   "records_in_range": 5477,
+   "records_in_range": 5500,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 271,
    "tiles_missing": [],
    "tiles_read": [
     "t_-2_1"
    ],
-   "triangles": 987988,
+   "triangles": 814788,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 63.5,
+     "distance_m": 143.8,
      "id": "c_domino_sugar_refinery",
      "lod": 0,
      "name": "Domino Sugar Refinery and Domino Park",
      "triangles": 20932
     },
     {
-     "distance_m": 446.3,
+     "distance_m": 374.1,
      "id": "b_williamsburg_bridge",
      "lod": 0,
      "name": "Williamsburg Bridge",
@@ -175,90 +209,98 @@
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 201,
-    "curb": 290,
-    "median": 33,
-    "parking_lot": 13,
-    "plaza": 1,
-    "roadbed": 169,
-    "sidewalk": 78
+    "crosswalk": 269,
+    "curb": 387,
+    "median": 42,
+    "parking_lot": 22,
+    "plaza": 3,
+    "roadbed": 215,
+    "sidewalk": 107
    },
-   "placed": 785,
-   "radius_m": 530.8202579530237,
+   "placed": 1045,
+   "radius_m": 601.1443958987674,
    "tiles_missing": [],
    "tiles_read": [
     "t_-1_1",
+    "t_-2_0",
     "t_-2_1",
-    "t_-2_2"
+    "t_-2_2",
+    "t_-3_1"
    ],
-   "triangles": 60158,
-   "vertices": 61652
+   "triangles": 82268,
+   "vertices": 84248
   },
   "props": {
    "capped": null,
+   "impostor_cards_dropped": 19,
    "leaf_off": false,
    "per_kind": {
-    "bench": 61,
-    "bike_rack": 8,
-    "bus_stop_sign": 5,
+    "bench": 42,
+    "bike_rack": 7,
+    "bus_stop_sign": 4,
     "citibike_dock": 2,
-    "flagpole": 1,
-    "hydrant": 26,
+    "hydrant": 36,
     "linknyc": 2,
-    "manhole": 61,
-    "street_lamp": 130,
-    "tree": 99,
-    "waste_basket": 20
+    "manhole": 131,
+    "steam_vent": 1,
+    "street_lamp": 142,
+    "tree": 119,
+    "waste_basket": 12
    },
-   "placed": 415,
+   "placed": 498,
    "radius_m": 250.0,
-   "rows_in_range": 537,
+   "rows_in_range": 627,
    "tiles_missing": [],
    "tiles_read": [
     "t_-2_1"
    ],
-   "tree_species_substituted": 34,
-   "triangles": 1057842,
+   "tree_species_substituted": 46,
+   "triangles": 1231828,
    "unmapped_kinds": {
     "artwork": 2,
-    "cooling_tower": 52,
-    "curb_ramp": 61,
-    "drinking_fountain": 7
+    "cooling_tower": 53,
+    "curb_ramp": 68,
+    "drinking_fountain": 4,
+    "misc_structure": 2
    }
   },
-  "radius_m": 530.8202579530237,
-  "seconds": 30.53,
+  "radius_m": 601.1443958987674,
+  "seconds": 43.92,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 3.539,
-   "triangles": 180000,
-   "water_quads": 40148,
-   "z_max_m": 18.12,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 205,
+   "spacing_m": 2.0,
+   "triangles": 83232,
+   "water_quads": 12969,
+   "z_max_m": 17.9,
    "z_min_m": -1.62
   },
-  "triangles": 2489968
+  "triangles": 2451466
  },
  "scene_request": {
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
-  "radius_m": 530.8202579530237
+  "radius_m": 601.1443958987674
  },
  "seconds": {
-  "render": 89.0,
-  "scene": 31.2,
-  "total": 120.2
+  "render": 182.5,
+  "scene": 47.6,
+  "total": 230.1
  },
  "slug": "landmark_domino_sugar_refinery",
  "status": "rendered",
  "subject": {
-  "distance_m": 81.8,
+  "distance_m": 125.7,
   "name": "Domino Sugar Refinery"
  },
  "sun": {
-  "azimuth_deg": 211.6751906127216,
-  "elevation_deg": 70.17396193958682,
+  "azimuth_deg": 211.67651337268828,
+  "elevation_deg": 70.17572348254727,
   "local": "2022-06-28T13:43:57-04:00",
   "time_source": "EXIF DateTimeOriginal",
   "utc": "2022-06-28T17:43:57Z"

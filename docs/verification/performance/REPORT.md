@@ -38,10 +38,27 @@ measurement; the wall clock is the weather.
 | The emergency-yield field is computed once per step instead of once per vehicle. With about 60 emergency vehicles in a 5,000 fleet, that was 300,000 pair tests a step for a rule that almost never fires. | **11.66 % of the step, gone** — 300,000 pair tests become about 660 |
 | `SpatialHash` made sparse. It cleared and prefix-summed every grid cell per rebuild; the pedestrian hash alone touched 87,808 cells four times a step. Now an open-addressed table of occupied cells. | hash instructions 1,685 M → 1,311 M; the memset leaves the profile entirely |
 | `wallsNear` skips de-duplication for a single-cell query, which is essentially always: a pedestrian moves 7 cm a step against a 25 m wall grid. | 7.05 % → 4.78 % |
-| `SignalTable::setActiveWindow` restricts the phase refresh to the streamed region. | **28.9× faster on the real table** — 0.813 ms → 0.028 ms per call, and it is called twice a step, so **1.57 ms saved, 19.6 % of the whole 8 ms budget** |
+| `SignalTable::setActiveWindow` restricts what `SignalTable::cacheStates` refreshes to the streamed region. | **28.9× faster on the real table** — 0.813 ms → 0.028 ms per call, and it is called twice a step, so **1.57 ms saved, 19.6 % of the whole 8 ms budget** |
 
 The signal window was verified transparent: **0 of 39,628 plan states differ** between the windowed
 and whole-table paths.
+
+`tests/test_performance.py` re-measures the `cacheStates` window against the shipped signal table on
+every run, so the figure above is reproducible rather than a one-off reading:
+
+```
+table            19814 plans bound to 79291 graph nodes
+plan extent      46 x 45 km; densest 1 km cell holds 123 plans at (-3665, 1869)
+whole table      19814 plans refreshed per step
+window 3000 m      978 plans refreshed per step (4.9 % of the table)
+speed-up         28.6x  (0.7812 ms saved per step, 9.76 % of an 8 ms budget)
+```
+
+The two figures differ because they count different things and both are stated rather than one being
+chosen: 28.9× is the wall-clock cost of a `cacheStates` call in the bench, 28.6× is the ratio of plans
+refreshed, and the per-step saving is quoted here for one call and in the table above for the two the
+step actually makes. The plan extent line is the reason the window works at all — 19,814 signal plans
+are spread over 46 × 45 km, so a 3 km window around the player reaches under 5 % of them.
 
 Two defects were found and fixed inside this work, both introduced by it and both caught by the suite.
 One is worth recording: the sparse hash's build stamp started at zero while slot stamps were
@@ -115,6 +132,22 @@ slope                     +0.0000 MB per simulated minute
 
 The allocation contract holds: every buffer is sized in `configure()` and nothing is allocated in
 `step()`. The simulation runs indefinitely without growing.
+
+`tests/test_performance.py::test_memory_is_flat_over_a_long_run` runs its own shorter soak on every
+invocation and asserts the **RSS slope** stays inside its bound, so this result is reproducible and not
+a single favourable run. Its most recent measurement here:
+
+```
+plan             31.0 simulated minutes = 37199 steps at 20 Hz, sampling RSS every 200
+churn            9101 spawns, 7601 despawns (vehicles); 377990 / 375095 (pedestrians)
+RSS samples      180 after the first simulated minute, 11.2 - 11.2 MB (spread 0.05 MB)
+RSS slope        +0.0023 MB per simulated minute (+0.14 MB per simulated hour)
+```
+
++0.14 MB per simulated hour is the honest number for the harness run, against the +0.0000 MB/min of the
+longer bench above; at that rate a session would take three weeks of simulated time to grow by 1 GB. The
+difference between the two is sampling noise on an 11 MB resident set, not a leak — the spread across all
+180 samples is 0.05 MB, which is smaller than the slope's own extrapolation over the run.
 
 ## 7. Streaming under load — the real route
 

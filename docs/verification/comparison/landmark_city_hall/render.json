@@ -1,28 +1,29 @@
 {
- "azimuth_reason": "41.9 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 45.9 deg, 4.0 deg away",
+ "azimuth_reason": "42.1 deg, the bearing from this photograph's own GPS position to New York City Hall; heading and position both come from the photograph.  The item's recorded azimuth is 45.9 deg, 3.8 deg away, and belongs to its nominal viewpoint",
  "camera": {
-  "azimuth_deg": 41.9,
+  "azimuth_deg": 42.05810818126913,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
-   "chosen_m": 11.02,
-   "max_m": 11.56,
-   "median_m": 11.26,
-   "min_m": 10.94,
+   "chosen_m": 11.51,
+   "max_m": 12.26,
+   "median_m": 11.9,
+   "min_m": 11.41,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 11.85,
    "radius_m": 12.0,
    "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
   "hfov_deg": 54.432,
-  "lat": 40.7117,
-  "lon": -74.0075,
+  "lat": 40.711953,
+  "lon": -74.007003,
   "long_side_fov_deg": 54.432,
-  "pitch_deg": 5.9754107205572,
+  "pitch_deg": 7.952817434002504,
   "portrait": false,
   "resolution": [
    1208,
@@ -30,17 +31,35 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_city_hall",
-  "terrain_z_m": 11.02,
-  "x": -4858.791,
-  "y": 1300.854,
-  "z": 12.62
+  "terrain_z_m": 11.51,
+  "x": -4816.776,
+  "y": 1328.922,
+  "z": 13.11
  },
- "camera_caption": "camera 40.71170, -74.00750 (NYC_TM -4859, 1301) z 12.6 m NAVD88 | azimuth 41.9deg pitch +6.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.71195, -74.00700 (NYC_TM -4817, 1329) z 13.1 m NAVD88 | azimuth 42.1deg pitch +8.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.711953,
+  "lon": -74.007003,
+  "offset_from_recorded_m": 50.5,
+  "source": "this photograph's own EXIF camera GPS (40.71195, -74.00700), 51 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
  "clearance": {
+  "min_view_m": 63.3,
   "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "nearest_obstruction": null,
+  "nearest_obstruction_m": 60.0,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is further than 60 m, and the view azimuth is clear for 103 m",
+  "offset_m": 0.0,
+  "view_m": 102.7
  },
+ "frame": {
+  "mean": 0.4948,
+  "reason": null,
+  "sd": 0.1948,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
@@ -54,7 +73,7 @@
    "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.0,
-  "sky_azimuth_deg": 169.068,
+  "sky_azimuth_deg": 169.069,
   "sky_elevation_deg": 64.31,
   "sun_lamp": true,
   "sun_strength_blender": 1.719,
@@ -62,7 +81,7 @@
  },
  "name": "New York City Hall",
  "night": false,
- "pitch_reason": "aimed at New York City Hall 176 m away, at its mid-height (the city_hall model's 37 m height); +6.0 deg from horizontal",
+ "pitch_reason": "aimed at New York City Hall 127 m away, at its mid-height (the city_hall model's 37 m height); +8.0 deg from horizontal",
  "reference_photo": {
   "author": "Deans Charbal",
   "confidence": "high",
@@ -77,9 +96,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_city_hall/render.png",
- "rendered_at": "2026-09-06T17:34:42Z",
+ "rendered_at": "2026-09-06T22:17:08Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -89,182 +108,173 @@
     "t_-6_0",
     "t_-6_1"
    ],
+   "landmark_bins_suppressed": 19,
+   "landmark_faces_suppressed": 2992,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-5_0": {
      "lod": 0,
      "objects": 18,
-     "triangles": 11932
+     "triangles": 11872
     },
     "t_-5_1": {
      "lod": 0,
      "objects": 18,
-     "triangles": 42918
+     "triangles": 42654
     },
     "t_-6_0": {
      "lod": 0,
      "objects": 16,
-     "triangles": 14912
+     "triangles": 12796
     },
     "t_-6_1": {
      "lod": 0,
      "objects": 18,
-     "triangles": 15588
+     "triangles": 15036
     }
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 4,
    "triangle_budget": 3510000,
-   "triangles": 85350
+   "triangles": 82358
   },
   "centre_tm": [
-   -4858.79,
-   1300.85
+   -4816.78,
+   1328.92
   ],
   "kit": {
-   "capped": "triangle budget 2176084",
+   "capped": null,
    "per_category": {
-    "bulkhead": 16,
-    "cornice": 19,
-    "door_entry": 24,
-    "fire_escape": 16,
-    "hvac": 25,
-    "parapet": 19,
-    "pilaster": 3,
-    "scaffold": 147,
-    "storefront": 118,
-    "storefront_interior": 16,
-    "string_course": 17,
-    "water_tower": 3,
-    "window": 10515,
-    "window_accessory": 34
+    "bulkhead": 20,
+    "cornice": 25,
+    "door_entry": 28,
+    "fire_escape": 6,
+    "hvac": 28,
+    "parapet": 23,
+    "pilaster": 2,
+    "scaffold": 153,
+    "storefront": 142,
+    "storefront_interior": 23,
+    "string_course": 24,
+    "water_tower": 6,
+    "window": 11031,
+    "window_accessory": 2
    },
-   "placed": 10972,
+   "placed": 11513,
    "radius_m": 120.0,
-   "records_in_range": 15967,
+   "records_in_range": 13047,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 1534,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_1"
    ],
-   "triangles": 2176118,
+   "triangles": 2150602,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 108.2,
-     "id": "woolworth",
-     "lod": 0,
-     "name": "Woolworth Building",
-     "triangles": 47871
-    },
-    {
-     "distance_m": 173.4,
+     "distance_m": 123.7,
      "id": "city_hall",
      "lod": 0,
      "name": "New York City Hall",
      "triangles": 44823
     },
     {
-     "distance_m": 355.6,
+     "distance_m": 124.1,
+     "id": "woolworth",
+     "lod": 0,
+     "name": "Woolworth Building",
+     "triangles": 47871
+    },
+    {
+     "distance_m": 306.0,
      "id": "municipal_building",
      "lod": 0,
      "name": "Manhattan Municipal Building",
      "triangles": 97825
     },
     {
-     "distance_m": 461.8,
+     "distance_m": 508.8,
      "id": "equitable_building",
      "lod": 0,
      "name": "Equitable Building",
      "triangles": 86321
     },
     {
-     "distance_m": 479.5,
+     "distance_m": 523.1,
      "id": "b_wtc_site",
      "lod": 0,
      "name": "World Trade Center site",
      "triangles": 136174
     },
     {
-     "distance_m": 501.0,
+     "distance_m": 534.4,
      "id": "b_one_world_trade_center",
      "lod": 0,
      "name": "One World Trade Center",
      "triangles": 6044
     },
     {
-     "distance_m": 537.6,
+     "distance_m": 581.6,
      "id": "federal_hall",
      "lod": 0,
      "name": "Federal Hall National Memorial",
      "triangles": 9070
     },
     {
-     "distance_m": 552.3,
+     "distance_m": 593.8,
      "id": "40_wall_street",
      "lod": 0,
      "name": "40 Wall Street (Trump Building)",
      "triangles": 43167
     },
     {
-     "distance_m": 570.0,
+     "distance_m": 619.5,
      "id": "trinity_church",
      "lod": 0,
      "name": "Trinity Church",
      "triangles": 3984
     },
     {
-     "distance_m": 605.2,
+     "distance_m": 651.3,
      "id": "nyse",
      "lod": 0,
      "name": "New York Stock Exchange",
      "triangles": 26049
     },
     {
-     "distance_m": 621.9,
-     "id": "one_wall_street",
-     "lod": 0,
-     "name": "One Wall Street (Irving Trust Building)",
-     "triangles": 42712
-    },
-    {
-     "distance_m": 1155.3,
+     "distance_m": 1138.2,
      "id": "b_brooklyn_bridge",
      "lod": 0,
      "name": "Brooklyn Bridge",
      "triangles": 121824
-    },
-    {
-     "distance_m": 2030.3,
-     "id": "b_hugh_carey_portals",
-     "lod": 0,
-     "name": "Hugh L. Carey Tunnel",
-     "triangles": 43880
     }
    ],
-   "placed": 13,
+   "placed": 11,
    "skipped": 0,
    "skipped_detail": [],
-   "triangles": 709744
+   "triangles": 623152
   },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 632,
-    "curb": 1174,
-    "median": 79,
-    "parking_lot": 23,
-    "plaza": 69,
-    "roadbed": 527,
-    "sidewalk": 253
+    "crosswalk": 502,
+    "curb": 916,
+    "median": 66,
+    "parking_lot": 18,
+    "plaza": 57,
+    "roadbed": 411,
+    "sidewalk": 190
    },
-   "placed": 2757,
-   "radius_m": 681.6499481279182,
+   "placed": 2160,
+   "radius_m": 602.5756731136107,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_0",
@@ -272,84 +282,89 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "triangles": 175114,
-   "vertices": 180344
+   "triangles": 140935,
+   "vertices": 145009
   },
   "props": {
-   "capped": "triangle budget 1172427",
+   "capped": "triangle budget 1249613",
+   "impostor_cards_dropped": 8,
    "leaf_off": false,
    "per_kind": {
-    "bench": 107,
+    "bench": 123,
     "bike_rack": 36,
     "bus_shelter": 2,
-    "bus_stop_sign": 22,
+    "bus_stop_sign": 21,
     "citibike_dock": 3,
     "flagpole": 18,
     "hydrant": 58,
     "mailbox": 4,
-    "manhole": 108,
-    "newsstand": 3,
-    "steam_vent": 4,
-    "street_lamp": 162,
+    "manhole": 117,
+    "newsstand": 1,
+    "steam_vent": 6,
+    "street_lamp": 161,
     "subway_emergency_exit": 3,
-    "subway_entrance": 27,
-    "subway_vent_grate": 51,
-    "tree": 36,
-    "waste_basket": 58
+    "subway_entrance": 24,
+    "subway_vent_grate": 52,
+    "tree": 43,
+    "waste_basket": 56
    },
-   "placed": 702,
+   "placed": 728,
    "radius_m": 250.0,
-   "rows_in_range": 980,
+   "rows_in_range": 978,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_1",
     "t_-6_1"
    ],
    "tree_species_substituted": 4,
-   "triangles": 1173708,
+   "triangles": 1251482,
    "unmapped_kinds": {
     "artwork": 4,
-    "cooling_tower": 68,
-    "curb_ramp": 129,
+    "cooling_tower": 55,
+    "curb_ramp": 112,
     "drinking_fountain": 5,
-    "memorial": 4,
-    "misc_structure": 1,
-    "parks_building": 8
+    "memorial": 5,
+    "misc_structure": 3,
+    "parks_building": 9
    }
   },
-  "radius_m": 681.6499481279182,
-  "seconds": 64.93,
+  "radius_m": 602.5756731136107,
+  "seconds": 72.86,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 4.544,
-   "triangles": 180000,
-   "water_quads": 1543,
-   "z_max_m": 14.26,
-   "z_min_m": -3.37
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 205,
+   "spacing_m": 2.0,
+   "triangles": 83232,
+   "water_quads": 11,
+   "z_max_m": 14.05,
+   "z_min_m": -1.73
   },
-  "triangles": 4500034
+  "triangles": 4331761
  },
  "scene_request": {
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
-  "radius_m": 681.6499481279182
+  "radius_m": 602.5756731136107
  },
  "seconds": {
-  "render": 81.0,
-  "scene": 66.2,
-  "total": 147.2
+  "render": 136.9,
+  "scene": 76.1,
+  "total": 213.0
  },
  "slug": "landmark_city_hall",
  "status": "rendered",
  "subject": {
-  "distance_m": 176.0,
+  "distance_m": 126.6,
   "name": "New York City Hall"
  },
  "sun": {
-  "azimuth_deg": 169.06758153521946,
-  "elevation_deg": 64.31003680076194,
+  "azimuth_deg": 169.06877408894093,
+  "elevation_deg": 64.30985989114565,
   "local": "2024-05-01T12:33:28-04:00",
   "time_source": "EXIF DateTimeOriginal",
   "utc": "2024-05-01T16:33:28Z"

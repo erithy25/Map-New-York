@@ -348,6 +348,24 @@ def probe_origin(slug: str, lat: float, lon: float, azimuth_deg: float, sampler,
             "blocked": blocked, "why": why}
 
 
+def _surface_below(x: float, y: float, top_m: float = 400.0) -> float | None:
+    """Height of the rendered ground or paving under (x, y), by dropping a ray onto it."""
+    from mathutils import Vector
+    dg = bpy.context.evaluated_depsgraph_get()
+    origin = Vector((x, y, top_m))
+    down = Vector((0.0, 0.0, -1.0))
+    travelled = 0.0
+    for _ in range(6):
+        hit, loc, _, _, ob, _ = bpy.context.scene.ray_cast(
+            dg, origin - Vector((0.0, 0.0, travelled)), down, distance=max(top_m - travelled, 0.0))
+        if not hit or ob is None:
+            return None
+        if ob.name in ("verify_terrain", "verify_pavement"):
+            return float(loc.z)
+        travelled = top_m - float(loc.z) + 0.05
+    return None
+
+
 def _standing_on(x: float, y: float, z: float, reach_m: float = 30.0):
     """The object holding this eye point up, if it is a building roof rather than the ground.
 
@@ -645,6 +663,14 @@ def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 8
                 readings.append(sampler.ground_z(nx, ny, mode="local", radius_m=radius_m))
         else:
             readings.append((placement.terrain_z_m, {}))
+        # Last resort: the height of the *rendered* ground, found by dropping a ray onto it.  The
+        # heightmap and the mesh built from it are not the same surface where the DEM has a void:
+        # the 9/11 Memorial pools drop 9 m below the plaza, the graded terrain grid bridges them,
+        # and a camera placed from the DEM sample ends up under a mesh that the DEM says is not
+        # there.  Standing on what will actually be drawn is the only reading that cannot lie.
+        surf = _surface_below(nx, ny)
+        if surf is not None:
+            readings.append((surf, {"mode": "rendered surface", "chosen_m": round(surf, 2)}))
         for gz, detail in readings:
             nz = (gz if gz is not None else (placement.terrain_z_m or 0.0)) + rise
             if not _blocked(nx, ny, nz, placement.azimuth_deg)[0]:
