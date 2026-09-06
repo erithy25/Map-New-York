@@ -680,14 +680,21 @@ def _image_mean_rgb(path: str) -> tuple[float, float, float]:
     return m
 
 
-def _tint_base_color(material: bpy.types.Material, albedo: tuple[float, float, float, float], color_path: str) -> None:
-    """Insert ``colour map x tint`` before Base Color so the textured surface keeps the documented mean albedo.
-    (glTF reads this as baseColorTexture x baseColorFactor.)"""
+def _tint_base_color(material: bpy.types.Material, albedo: tuple[float, float, float, float],
+                     color_path: str) -> tuple[float, float, float]:
+    """Insert ``colour map x tint`` before Base Color so the textured surface carries the documented mean albedo, and
+    return the tint. Blender's glTF exporter turns exactly this node (``ShaderNodeMix``, RGBA, MULTIPLY, factor 1) into
+    ``baseColorTexture x baseColorFactor``, so the render and the exported .glb agree.
+
+    glTF restricts ``baseColorFactor`` to [0, 1], so the tint can only *darken*: where the CC0 scan is already darker
+    than the documented albedo the tint is 1 and the surface keeps the scan's albedo. The tint actually applied is
+    reported by :func:`texture_status` and recorded in the catalog entry."""
     nt = material.node_tree
     bsdf = nt.nodes["Principled BSDF"]
-    link = next((l for l in nt.links if l.to_socket is bsdf.inputs["Base Color"]), None)
+    # socket identity is not stable across RNA accesses, so match by node and socket name
+    link = next((l for l in nt.links if l.to_node == bsdf and l.to_socket.name == "Base Color"), None)
     if link is None:
-        return
+        raise RuntimeError("no colour link into Base Color")
     src = link.from_socket
     mean = _image_mean_rgb(color_path)
     tint = tuple(min(1.0, albedo[i] / mean[i]) for i in range(3))
@@ -698,7 +705,7 @@ def _tint_base_color(material: bpy.types.Material, albedo: tuple[float, float, f
     nt.links.new(src, mix.inputs[6])                      # A (colour)
     mix.inputs[7].default_value = (*tint, 1.0)            # B (constant tint)
     nt.links.new(mix.outputs[2], bsdf.inputs["Base Color"])
-    bsdf.inputs["Base Color"].default_value = (*tint, 1.0)
+    return tint
 
 
 def _texture_maps(name: str) -> tuple[dict[str, str], float] | None:
@@ -743,9 +750,11 @@ def mat(name: str) -> bpy.types.Material:
     maps, size = tex
     m = nb.pbr_material(name, base_color=albedo, roughness=rough, metallic=metal, textures=maps, uv_scale_m=size)
     try:
-        _tint_base_color(m, albedo, maps["color"])
+        tint = _tint_base_color(m, albedo, maps["color"])
+        _texture_status[name] += " tint " + "/".join(f"{v:.2f}" for v in tint)
     except Exception as e:                                 # keep the (untinted) textured material rather than failing
         log.warning("material %s: could not tint the colour map to the documented albedo (%s)", name, e)
+        _texture_status[name] += " (untinted)"
     m["nycsim_texture_set"] = TEXTURE_NAMES[name]
     m["nycsim_uv_tile_m"] = size
     return m

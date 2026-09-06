@@ -4,9 +4,11 @@ Frame: the CSCL digitisation direction is "forward"; offsets are signed, positiv
 US right-hand traffic: on two-way streets forward lanes lie right of the centreline (direction +1), backward
 lanes left (direction -1). On one-way streets every lane carries the single legal direction.
 
-Lane width = (width_m - parking*2.4 - bike*1.5) / travel_lanes clamped to [2.7, 3.7] m. Slack is given to the
-parking lanes (<= 3.0 m each) and the rest is kept as curb margin; an over-allocated stack (clamp at 2.7 m on
-a narrow street) is compressed uniformly so the lanes always fit the real curb-to-curb width.
+Lane width = (width_m - parking*2.4 - bike*1.5) / travel_lanes clamped to [2.7, 3.7] m, with any slack given to
+the parking lanes (<= 3.0 m each). A stack that does not fit the real curb-to-curb width is made to fit the way
+a narrow NYC street really is: optional lanes go first (parking from the kerb inwards, then the bike lane), and
+only the survivors are narrowed — never below the physical minimum in ``MIN_W``, so the pipeline never emits a
+"lane" no vehicle of its kind could use.
 
 lane_id = segment_id * 32 + (index_from_center + 16); index_from_center in [-15, 15], 0 for a lane centred on
 the centreline (odd lane counts on one-way streets, the centre-turn lane on odd two-way counts).
@@ -177,7 +179,7 @@ def expected_lanes(travel: int, park: int, traffic_dir: int, bike: int, bike_tra
             n_bike = 2 if (bike_trafdir or "").upper() in ("TW", "") else 1
         else:
             n_bike = 1
-    n_park = park if park >= 1 else 0
+    n_park = 2 * (park // 2) if park >= 2 else (1 if park == 1 else 0)
     return travel + n_park + n_bike
 
 

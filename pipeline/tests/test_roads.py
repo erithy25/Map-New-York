@@ -165,6 +165,25 @@ def test_cross_section_places_a_protected_bike_lane_at_the_curb():
     assert ks[0] == S.LANE_PARKING and ks[1] == S.LANE_BIKE       # standard lane sits inside the parked cars
 
 
+def test_cross_section_never_emits_an_unusable_lane():
+    for width in np.arange(2.0, 20.0, 0.25):
+        for travel, park, bike in ((1, 0, S.BIKE_NONE), (2, 2, S.BIKE_NONE), (4, 2, S.BIKE_PROTECTED), (3, 1, S.BIKE_STANDARD)):
+            stack = L.cross_section(float(width), travel, park, S.DIR_TWO_WAY, bike, "TW")
+            for lane in stack:
+                assert lane["width"] >= L.MIN_W[lane["kind"]] - 1e-9, (width, travel, park, lane)
+            assert any(l["kind"] in (S.LANE_TRAVEL, S.LANE_TURN) for l in stack), (width, travel)
+
+
+def test_narrow_street_loses_its_parking_before_its_travel_lanes():
+    wide = L.cross_section(15.0, 2, 2, S.DIR_TWO_WAY, S.BIKE_NONE, "")
+    assert sum(1 for l in wide if l["kind"] == S.LANE_PARKING) == 2
+    narrow = L.cross_section(6.0, 2, 2, S.DIR_TWO_WAY, S.BIKE_NONE, "")
+    assert sum(1 for l in narrow if l["kind"] == S.LANE_PARKING) == 0
+    assert sum(1 for l in narrow if l["kind"] == S.LANE_TRAVEL) == 2
+    assert sum(l["width"] for l in narrow) <= 6.0 + 1e-9
+    assert L.expected_lanes(2, 2, S.DIR_TWO_WAY, S.BIKE_NONE, "") == 4
+
+
 def test_cross_section_is_empty_where_no_vehicle_may_go():
     assert L.cross_section(9.0, 2, 0, S.DIR_NONE, S.BIKE_NONE, "") == []
     assert L.cross_section(9.0, 0, 0, S.DIR_TWO_WAY, S.BIKE_NONE, "") == []
@@ -593,7 +612,10 @@ def test_lanes_belong_to_their_segment_and_stay_in_the_corridor(segments: gpd.Ge
     assert set(lanes["segment_id"]) <= set(seg_index.index)
     assert lanes["kind"].between(0, 5).all()
     assert lanes["direction"].isin([-1, 1]).all()
-    assert (lanes["width_m"] > 0.5).all()
+    assert (lanes["width_m"] >= min(L.MIN_W.values()) - 1e-3).all()
+    for kind, w in L.MIN_W.items():
+        sub = lanes.loc[lanes["kind"] == kind, "width_m"]
+        assert sub.empty or sub.min() >= w - 1e-3, f"kind {kind}: min width {sub.min()}"
     assert shapely.has_z(lanes.geometry.values).all()
     rng = np.random.default_rng(7)
     sample = rng.choice(len(lanes), size=min(4000, len(lanes)), replace=False)
@@ -657,7 +679,10 @@ def test_signs_are_real_and_placed():
     assert signs["arrow"].between(0, 3).all()
     assert signs["support"].between(0, 3).all()
     assert (signs["sign_w_m"] > 0).all() and (signs["sign_h_m"] > 0).all()
-    assert (signs["sign_w_m"] < 4.0).all() and (signs["sign_h_m"] < 4.0).all()
+    # DOT overhead guide panels really are metres across; nothing may exceed a full sign gantry
+    assert (signs["sign_w_m"] < 8.0).all() and (signs["sign_h_m"] < 8.0).all()
+    oversize = signs[(signs["sign_w_m"] > 2.5) | (signs["sign_h_m"] > 2.5)]
+    assert (oversize["source"] == 0).all(), "only real DOT records may be larger than a 2.5 m panel"
     assert signs["facing_heading"].between(0.0, 360.0).all()
     assert signs["x"].between(SCOPE_XMIN, SCOPE_XMAX).all() and signs["y"].between(SCOPE_YMIN, SCOPE_YMAX).all()
     assert (signs["z"] >= signs["ground_z"]).all()
