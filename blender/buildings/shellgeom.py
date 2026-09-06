@@ -845,8 +845,10 @@ def _build_from_pieces(buf: TriBuf, spec: BuildingSpec, poly: Polygon, z0: float
 
     for ri, ring in enumerate(rings):
         _emit_ring_walls(buf, ring, ri, u_origin[ri], samples, z0, spec.mat_wall)
-    for p, q, zl, zh, nrm in risers:
-        _emit_riser(buf, p, q, zl, zh, nrm, spec.mat_wall, v_ref=z0)
+    for r in risers:
+        p, q, zl, zh, nrm = r[0], r[1], r[2], r[3], r[4]
+        _emit_riser(buf, p, q, zl, zh, nrm, spec.mat_wall, v_ref=z0,
+                    z_hi_q=(r[5] if len(r) > 5 else None))
     _emit_cap(buf, rings, z0, spec.mat_wall, up=False)
 
 
@@ -867,7 +869,8 @@ def _build_stepped(buf: TriBuf, spec: BuildingSpec, poly: Polygon, z0: float, z1
 
     sample_pieces: list[RoofPiece] = []
     cap_pieces: list[RoofPiece] = []
-    risers: list[tuple[np.ndarray, np.ndarray, float, float, np.ndarray]] = []
+    risers: list = []
+    region_pieces: list[tuple[int, RoofPiece]] = []
 
     for i, (region, z_top) in enumerate(steps):
         region = shapely.geometry.polygon.orient(region, 1.0)
@@ -882,31 +885,34 @@ def _build_stepped(buf: TriBuf, spec: BuildingSpec, poly: Polygon, z0: float, z1
             pcs = _cover_shortfall(pcs, region, z_eave, z_top)
             cap_pieces.extend(pcs)
             sample_pieces.extend(pcs)
+            region_pieces.extend((i, pc) for pc in pcs)
             risers.extend(rs_)
             continue
-        sample_pieces.append(RoofPiece(region, 0.0, 0.0, z_top, z_top, z_top))
+        flat_piece = RoofPiece(region, 0.0, 0.0, z_top, z_top, z_top)
+        sample_pieces.append(flat_piece)
+        region_pieces.append((i, flat_piece))
         if _parapet_wanted_for(region.area, z_top - z0, spec.floors, spec.roof.parapet_h, lod):
             if _emit_parapet(buf, spec, region, z0, z_top):
                 continue                               # coping band + deck emitted, no plain cap
         cap_pieces.append(RoofPiece(region, 0.0, 0.0, z_top, z_top, z_top))
 
-    risers.extend(_step_risers(steps))
+    risers.extend(_step_risers(steps, region_pieces))
     _build_from_pieces(buf, spec, poly, z0, sample_pieces, cap_pieces, risers)
 
 
-def _step_risers(steps: Sequence[tuple[Polygon, float]]
-                 ) -> list[tuple[np.ndarray, np.ndarray, float, float, np.ndarray]]:
+def _step_risers(steps: Sequence[tuple[Polygon, float]], region_pieces: Sequence[tuple[int, RoofPiece]]
+                 ) -> list[tuple[np.ndarray, np.ndarray, float, float, np.ndarray, float]]:
     """Vertical faces where a taller level abuts a shorter one.
 
-    Walked from the taller side so each shared edge is emitted exactly once, using the taller
-    region's own vertices at both heights; the shorter region's cap carries the same vertices
-    because the regions came from exact differences of one footprint.
+    Walked from the taller side, over the *pieces* that define its top surface rather than over the
+    region outline, so each riser's top edge carries the exact vertices and heights of the cap it
+    has to weld to — flat for a flat level, sloping for a level whose main mass is pitched.  Each
+    shared edge is visited once from each side and emitted only from the taller one.
     """
-    out: list[tuple[np.ndarray, np.ndarray, float, float, np.ndarray]] = []
-    for i, (region, z_hi) in enumerate(steps):
-        ext, holes = ring_coords(shapely.geometry.polygon.orient(region, 1.0))
-        ring_list = [ext] + holes
-        for ring in ring_list:
+    out: list[tuple[np.ndarray, np.ndarray, float, float, np.ndarray, float]] = []
+    for ridx, piece in region_pieces:
+        ext, holes = ring_coords(shapely.geometry.polygon.orient(piece.poly, 1.0))
+        for ring in [ext] + holes:
             if len(ring) < 3:
                 continue
             nxt = ring + _edge_vectors(ring)
@@ -917,13 +923,16 @@ def _step_risers(steps: Sequence[tuple[Polygon, float]]
                 if seg < WELD_M:
                     continue
                 nx, ny = dy / seg, -dx / seg           # outward normal of a CCW ring
-                mx, my = (p[0] + q[0]) / 2 + nx * 0.02, (p[1] + q[1]) / 2 + ny * 0.02
+                zp = piece.z_pt(p[0], p[1])
+                zq = piece.z_pt(q[0], q[1])
+                mx = (p[0] + q[0]) / 2 + nx * 0.02
+                my = (p[1] + q[1]) / 2 + ny * 0.02
                 probe = shapely.Point(mx, my)
                 for j, (other, z_lo) in enumerate(steps):
-                    if j == i or z_lo >= z_hi - WELD_M:
+                    if j == ridx or z_lo >= max(zp, zq) - WELD_M:
                         continue
                     if other.contains(probe):
-                        out.append((p, q, z_lo, z_hi, np.array([nx, ny])))
+                        out.append((p, q, z_lo, zp, np.array([nx, ny]), zq))
                         break
     return out
 
