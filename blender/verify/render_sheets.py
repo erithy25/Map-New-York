@@ -412,9 +412,16 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     when, when_note = photo_instant(photo)
     sun = sun_for(vp["lat"], vp["lon"], when)
 
-    # Match the render aspect to the reference photograph so the two halves compare like for like.
+    # Match the render aspect to the reference photograph so the two halves compare like for like,
+    # under a fixed pixel budget.  A landscape frame renders at the full 1280 px width; a portrait
+    # reference (a quarter of the set, some as tall as 1:2.2) would otherwise cost three times the
+    # samples of a landscape frame for the same content, so its width is reduced to keep the frame
+    # the same size in pixels.  The angle of view is unchanged -- only the sampling density is.
     pw, ph = int(photo.get("width") or 1600), int(photo.get("height") or 1067)
     aspect = pw / ph if ph else 1.5
+    budget = width * int(round(width / 1.5))
+    w = min(width, int(round(math.sqrt(budget * aspect))))
+    width = max(480, int(round(w / 2) * 2))
     height = max(360, int(round(width / aspect / 2) * 2))
 
     record = {
@@ -435,6 +442,9 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         "sun": {**sun, "time_source": when_note},
         "scene_request": {"radius_m": radius, "prop_radius_m": prop_r, "kit_radius_m": kit_r},
         "samples": samples,
+        "resolution_note": (f"{width}x{height}; the reference photograph is {pw}x{ph} "
+                            f"({aspect:.2f}:1), and the render is held to the same pixel budget as "
+                            f"a 1280 px landscape frame"),
     }
     if dry_run:
         record["status"] = "dry_run"

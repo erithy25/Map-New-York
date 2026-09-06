@@ -43,6 +43,11 @@ AREA_TOL_REL = 0.02           # published vs recovered level area (the 2 % measu
 AREA_TOL_ABS_M2 = 1.5
 MAX_LEFTOVER_FRAC = 0.25      # footprint not covered by any recovered level
 MAX_LEVELS = 8
+# The 2014 CityGML outline and the 2026 OTI footprint disagree by a few millimetres, so a step line
+# that should end on a wall stops just short of it and the wall builder never sees the step.  Region
+# vertices closer than this to the footprint boundary are pulled onto it (measured offsets are
+# under 1 cm; the step line itself is not moved).
+BOUNDARY_SNAP_M = 0.05
 
 
 @dataclass
@@ -96,6 +101,34 @@ def recover_levels(tri_xyz: bytes, tri_type: bytes, *, z_tol: float = Z_CLUSTER_
             continue
         out.append((float(z[grp].mean()), shapely.union_all(parts)))
     out.sort(key=lambda t: t[0])
+    return out
+
+
+def snap_to_boundary(poly: Polygon, footprint: Polygon, tol: float = BOUNDARY_SNAP_M) -> Polygon | None:
+    """Pull region vertices that sit just off the footprint boundary exactly onto it."""
+    from shapely.ops import nearest_points
+
+    bnd = footprint.boundary
+    rings = []
+    for ring in [poly.exterior] + list(poly.interiors):
+        coords = shapely.get_coordinates(ring)
+        pts = shapely.points(coords)
+        d = shapely.distance(pts, bnd)
+        moved = coords.copy()
+        for i in np.nonzero((d > 0.0) & (d < tol))[0]:
+            near = nearest_points(bnd, pts[i])[0]
+            moved[i] = (near.x, near.y)
+        if len(moved) >= 4:
+            moved[-1] = moved[0]
+        rings.append(moved)
+    try:
+        out = Polygon(rings[0], rings[1:])
+    except Exception:
+        return poly
+    if not out.is_valid:
+        out = out.buffer(0)
+        if out.geom_type != "Polygon" or out.is_empty:
+            return poly
     return out
 
 
@@ -157,14 +190,18 @@ def check_against_published(levels: list[tuple[float, Polygon]], pub_z, pub_area
 
 
 # --------------------------------------------------------------------------- footprint partition
-def partition_footprint(footprint: Polygon, levels: list[tuple[float, Polygon]], *,
-                        weld: float = 1e-3) -> tuple[list[tuple[Polygon, float]], str]:
+def partition_footprint(footprint: Polygon, levels: list[tuple[float, Polygon]]
+                        ) -> tuple[list[tuple[Polygon, float]], str]:
     """Cut the *real OTI footprint* into one region per recovered level.
 
     The shell's plan stays the real 2026 footprint; the 2014 CityGML levels only say which part of
     it is lower.  The largest region is computed last, as ``footprint − union(others)``, so the
     regions tile the footprint exactly and adjacent regions share bit-identical boundaries — which
     is what lets the step faces weld to the level caps.
+
+    The regions are deliberately *not* snapped to a grid afterwards: GEOS already returns exact
+    shared boundaries here, and snapping displaced the step/footprint crossing points by up to
+    7 mm, past the tolerance the wall builder uses to recognise a vertex as sitting on the ring.
     """
     if len(levels) < 2:
         return [], "fewer than two levels"
@@ -184,29 +221,31 @@ def partition_footprint(footprint: Polygon, levels: list[tuple[float, Polygon]],
             r = footprint.intersection(poly)
             if taken is not None:
                 r = r.difference(taken)
-            r = shapely.set_precision(r, weld, mode="valid_output")
         except Exception:
             continue
-        parts = [p for p in _iter_polygons(r) if p.area >= MIN_LEVEL_AREA_M2]
+        parts = [snap_to_boundary(p, footprint) for p in _iter_polygons(r)
+                 if p.area >= MIN_LEVEL_AREA_M2]
+        parts = [p for p in parts if p is not None and p.area >= MIN_LEVEL_AREA_M2]
         if not parts:
             continue
+        # each disjoint part is its own region: the shell builder needs single polygons, and two
+        # disconnected wings at the same height are independent steps anyway
+        for part in parts:
+            others.append((part, z))
         reg = shapely.union_all(parts)
-        others.append((reg, z))
         taken = reg if taken is None else shapely.union_all([taken, reg])
 
     if not others:
         return [], "no secondary level survives the footprint intersection"
     try:
         main_region = footprint.difference(taken)
-        main_region = shapely.set_precision(main_region, weld, mode="valid_output")
     except Exception:
         return [], "main region difference failed"
     main_parts = [p for p in _iter_polygons(main_region) if p.area >= MIN_LEVEL_AREA_M2]
     if not main_parts:
         return [], "main region vanished"
-    main_poly = shapely.union_all(main_parts)
 
-    regions = [(main_poly, levels[main][0])] + others
+    regions = [(p, levels[main][0]) for p in main_parts] + others
     covered = sum(p.area for p, _ in regions)
     if covered < (1.0 - MAX_LEFTOVER_FRAC) * area:
         return [], f"regions cover only {covered / area:.2f} of the footprint"

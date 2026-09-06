@@ -238,7 +238,7 @@ def closeup(*, samples: int, res_x: int) -> Path:
     _place("win_double_hung_1_1_soldier", (0.0, 0.0, sill_z))
     _place("trim_lintel_stone", (-1.75, 0.0, sill_z + 1.20))
     _place("trim_sill_cast_stone", (-1.75, 0.0, sill_z))
-    _place("trim_keystone", (1.80, 0.0, sill_z + 0.95))
+    _place("trim_keystone", (1.32, 0.0, sill_z + 0.95))
     for k in range(6):
         _place("string_course_brick_soldier", (-2.6 + k * 1.0, 0.0, 0.62))
         _place("string_course_stone_belt", (-2.6 + k * 1.0, 0.0, 3.70))

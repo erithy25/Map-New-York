@@ -657,7 +657,9 @@ def _build_shell_once(spec: BuildingSpec, lod: int, tolerant: bool = False) -> T
         _build_massing(buf, spec)
         return buf
     poly = spec.polygon
-    if lod == 1:
+    if lod == 1 and not spec.roof_steps:
+        # a stepped building keeps its exact ring: the level regions were cut from it, and the
+        # steps are the silhouette this LOD exists to preserve
         poly = _simplify_for_lod1(poly)
         if poly is None:
             _build_massing(buf, spec)
@@ -865,7 +867,6 @@ def _build_stepped(buf: TriBuf, spec: BuildingSpec, poly: Polygon, z0: float, z1
     if len(steps) < 2:
         _build_flat(buf, spec, poly, z0, z1, lod)
         return
-    main = max(range(len(steps)), key=lambda i: steps[i][0].area)
 
     sample_pieces: list[RoofPiece] = []
     cap_pieces: list[RoofPiece] = []
@@ -875,19 +876,6 @@ def _build_stepped(buf: TriBuf, spec: BuildingSpec, poly: Polygon, z0: float, z1
     for i, (region, z_top) in enumerate(steps):
         region = shapely.geometry.polygon.orient(region, 1.0)
         z_top = max(z_top, z0 + 0.05)
-        if i == main and spec.roof.kind not in (ROOF_FLAT, ROOF_COMPLEX):
-            # the pitch, where the data says there is one, goes on the main mass only
-            sub = BuildingSpec(bin=spec.bin, polygon=region, ground_z=z0, roof_z=z_top,
-                               roof=spec.roof, mat_wall=spec.mat_wall, mat_roof=spec.mat_roof,
-                               facade_heading=spec.facade_heading, floors=spec.floors,
-                               area=region.area)
-            z_eave, pcs, rs_ = _pitched_geometry(sub, region, z0, z_top, lod)
-            pcs = _cover_shortfall(pcs, region, z_eave, z_top)
-            cap_pieces.extend(pcs)
-            sample_pieces.extend(pcs)
-            region_pieces.extend((i, pc) for pc in pcs)
-            risers.extend(rs_)
-            continue
         flat_piece = RoofPiece(region, 0.0, 0.0, z_top, z_top, z_top)
         sample_pieces.append(flat_piece)
         region_pieces.append((i, flat_piece))

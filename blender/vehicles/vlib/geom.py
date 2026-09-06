@@ -838,6 +838,17 @@ def convex_hull_bm(points: np.ndarray | Sequence[Vec3], *, simplify_deg: float =
         from scipy.spatial import ConvexHull, QhullError
     except ImportError:                                     # pragma: no cover - scipy is present here
         ConvexHull = None
+    if len(pts) >= 4:
+        # a slab of a thin part (a bicycle frame) can be coplanar; qhull refuses such input and bmesh
+        # returns an open sheet, so inflate the cloud by 1 mm along its thinnest principal axis first.
+        c = pts.mean(axis=0)
+        try:
+            _u, sv, vt = np.linalg.svd(pts - c, full_matrices=False)
+            if sv[-1] < 1e-3 * max(1e-9, sv[0]):
+                n = vt[-1]
+                pts = np.concatenate([pts + n * 0.001, pts - n * 0.001])
+        except np.linalg.LinAlgError:
+            pass
     if ConvexHull is not None and len(pts) >= 4:
         try:
             hull = ConvexHull(pts, qhull_options="Qt")

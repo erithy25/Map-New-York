@@ -37,11 +37,9 @@ from __future__ import annotations
 
 import argparse
 import hashlib
-import json
 import logging
 import math
 import os
-import struct
 import subprocess
 import sys
 import time
@@ -212,77 +210,24 @@ def _make_object(name: str, pos: np.ndarray, tri: np.ndarray, uv: np.ndarray, at
 
 
 def export_glb(path: Path, objects, extras: dict, *, export_normals: bool = False) -> Path:
-    """glTF export with custom vertex attributes enabled.
+    """Export via the shared ``nycsim_bpy.export_glb``.
 
-    ``blender/common/nycsim_bpy.export_glb`` (owned by the kit agent) does not pass
-    ``export_attributes``, which this stage requires, so the export call is repeated here with the
-    identical ``asset.extras.nycsim`` contract of DATA_CONTRACTS §13.  See REPORT.md: the requested
-    foundation change is a single ``export_attributes: bool = False`` passthrough.
+    The foundation now passes ``export_attributes`` (custom mesh attributes are this stage's whole
+    per-building channel) and ``export_normals`` (omitted here: a glTF client computes flat normals
+    from the winding, which is exactly what a faceted shell wants, and it saves 17 % of the bytes),
+    and it stamps ``asset.extras.nycsim`` as DATA_CONTRACTS §13 requires.
     """
-    import bpy
     import nycsim_bpy as nb
 
-    path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    meta = {"schema_version": nb.SCHEMA_VERSION, "generator_script": "blender/buildings/build_tile.py",
-            "git_commit": nb.git_commit(), "exported_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-            "units": "metres", "up_axis_blender": "Z"}
-    meta.update(extras)
-    bpy.context.scene["nycsim"] = json.dumps(meta)
-    for o in bpy.data.objects:
-        o.select_set(False)
-    for o in objects:
-        o.select_set(True)
-    bpy.ops.export_scene.gltf(
-        filepath=str(path), export_format="GLB", use_selection=True, export_yup=True,
-        export_apply=False, export_texcoords=True, export_normals=export_normals, export_tangents=False,
-        export_materials="EXPORT", export_image_format="NONE", export_attributes=True,
-        export_animations=False, export_extras=True, export_skins=False, export_morph=False,
-        export_cameras=False, export_lights=False)
-    if not path.exists() or path.stat().st_size < 100:
-        raise RuntimeError(f"glTF export produced nothing: {path}")
-    stamp_asset_extras(path, meta)
-    return path
-
-
-def stamp_asset_extras(path: Path, meta: dict) -> None:
-    """Put the NYCSim metadata on ``asset.extras.nycsim`` as DATA_CONTRACTS §13 requires.
-
-    Blender's exporter can only attach scene custom properties to the *scene* node's extras, and it
-    JSON-encodes them as a string; §13 asks for a real object on ``asset.extras``.  pygltflib drops
-    ``asset.extras`` when it re-saves, so the GLB JSON chunk is rewritten here directly: 12-byte
-    header, JSON chunk (space padded to 4 bytes), binary chunk copied through untouched.
-    """
-    raw = path.read_bytes()
-    if raw[:4] != b"glTF":
-        raise RuntimeError(f"not a GLB: {path}")
-    total = struct.unpack_from("<I", raw, 8)[0]
-    if total != len(raw):
-        raise RuntimeError(f"GLB length field {total} != file size {len(raw)}: {path}")
-    off = 12
-    chunks: list[tuple[int, bytes]] = []
-    while off + 8 <= len(raw):
-        clen, ctype = struct.unpack_from("<II", raw, off)
-        chunks.append((ctype, raw[off + 8: off + 8 + clen]))
-        off += 8 + clen
-    if not chunks or chunks[0][0] != 0x4E4F534A:
-        raise RuntimeError(f"first GLB chunk is not JSON: {path}")
-    doc = json.loads(chunks[0][1].decode("utf-8"))
-    doc.setdefault("asset", {}).setdefault("extras", {})["nycsim"] = meta
-    js = json.dumps(doc, separators=(",", ":")).encode("utf-8")
-    js += b" " * ((4 - len(js) % 4) % 4)
-    body = bytearray(struct.pack("<II", len(js), 0x4E4F534A) + js)
-    for ctype, data in chunks[1:]:
-        pad = b"\x00" if ctype == 0x004E4942 else b" "
-        data = data + pad * ((4 - len(data) % 4) % 4)
-        body += struct.pack("<II", len(data), ctype) + data
-    out = b"glTF" + struct.pack("<II", 2, 12 + len(body)) + bytes(body)
-    path.write_bytes(out)
+    return nb.export_glb(path, objects=objects, extras=extras, apply_modifiers=False,
+                         texcoords=True, tangents=False, export_extras=True,
+                         export_attributes=True, export_normals=export_normals,
+                         export_animations=False)
 
 
 # --------------------------------------------------------------------------- per-tile driver
 def build_tile(tile: str, *, out_root: Path = OUT_ROOT, lods=(0, 1, 2), attrs_mode: str = "full",
-               ridge_mode: str = "clamp", roof_attrs=None) -> dict:
+               ridge_mode: str = "clamp", roof_attrs=None, roof_steps: str = "auto") -> dict:
     import nycsim_bpy as nb
 
     t0 = time.perf_counter()
@@ -290,7 +235,7 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, lods=(0, 1, 2), attrs_mo
         attrs_by_lod = {lod: list(ATTR_BY_LOD[lod]) for lod in lods}
     else:
         attrs_by_lod = {lod: list(ATTR_MIN) for lod in lods}
-    load = td.load_tile(tile, roof_attrs=roof_attrs, ridge_mode=ridge_mode)
+    load = td.load_tile(tile, roof_attrs=roof_attrs, ridge_mode=ridge_mode, roof_steps=roof_steps)
     t_load = time.perf_counter() - t0
 
     t1 = time.perf_counter()
@@ -344,6 +289,7 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, lods=(0, 1, 2), attrs_mo
                        "instead; branch on the face normal."),
             },
             "ridge_mode": ridge_mode,
+            "roof_steps": roof_steps,
         })
     elif glb.exists():
         glb.unlink()
@@ -374,6 +320,7 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, lods=(0, 1, 2), attrs_mo
         "origin_m": [load.x0, load.y0, 0.0],
         "materials": mat_stats,
         "sources": load.sources,
+        "roof_steps": {"mode": roof_steps, **load.steps},
         "ridge_mode": ridge_mode,
         "attributes": {str(k): v for k, v in attrs_by_lod.items()},
         "glb": {"path": _rel(glb) if glb.exists() else "",
@@ -442,7 +389,8 @@ def run_serial(tiles: list[str], args) -> int:
             continue
         try:
             m = build_tile(tile, out_root=Path(args.out), lods=args.lod, attrs_mode=args.attrs,
-                           ridge_mode=args.ridge_mode, roof_attrs=roof_attrs)
+                           ridge_mode=args.ridge_mode, roof_attrs=roof_attrs,
+                           roof_steps=args.roof_steps)
         except Exception as exc:
             LOG.exception("tile %s failed", tile)
             print(f"[{i}/{len(tiles)}] {tile} FAILED: {exc}", flush=True)
@@ -451,8 +399,8 @@ def run_serial(tiles: list[str], args) -> int:
             _purge()
         ok += 1
         print(f"[{i}/{len(tiles)}] {tile} buildings={m['buildings']['solids']} "
-              f"tris={m['triangles'].get('lod0', 0)} bytes={m['glb']['bytes']} "
-              f"t={m['seconds']['total']}s", flush=True)
+              f"tris={m['triangles'].get('lod0', 0)} steps={m['roof_steps'].get('applied', 0)} "
+              f"bytes={m['glb']['bytes']} t={m['seconds']['total']}s", flush=True)
     return 0 if ok == len(tiles) else 1
 
 
@@ -470,7 +418,7 @@ def run_parallel(tiles: list[str], args) -> int:
         cmd = ["nice", "-n", str(args.nice), sys.executable, str(Path(__file__).resolve()),
                "--tile-list", str(listfile), "--out", str(args.out),
                "--lod", ",".join(str(v) for v in args.lod), "--attrs", args.attrs,
-               "--ridge-mode", args.ridge_mode]
+               "--ridge-mode", args.ridge_mode, "--roof-steps", args.roof_steps]
         if args.skip_existing:
             cmd.append("--skip-existing")
         log = open(logdir / f"worker{i}.log", "w")
@@ -499,6 +447,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--ridge-mode", choices=("clamp", "adr013"), default="clamp",
                     help="clamp: pitched ridge at roof_z (mesh height == height column). "
                          "adr013: ridge above the LiDAR plane per ADR-013 §5")
+    ap.add_argument("--roof-steps", choices=("auto", "off"), default="auto",
+                    help="auto: recover the real multi-level massing from the CityGML LOD2 roof "
+                         "triangles and build the steps; off: one height per building")
     ap.add_argument("--skip-existing", action="store_true")
     ap.add_argument("--limit", type=int, default=0, help="process at most N tiles (debugging)")
     ap.add_argument("-v", "--verbose", action="store_true")

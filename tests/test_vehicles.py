@@ -527,7 +527,8 @@ def test_door_pivots_on_the_hinge_edge(vid, glbs):
         assert abs(hi[0]) < 0.06, f"{vid}: {name} origin is {hi[0]:.3f} m from its leading edge"
         assert abs(pivot[1]) > 0.2, f"{vid}: {name} hinge is on the centreline (y = {pivot[1]:.3f})"
         checked += 1
-    assert checked >= 2, f"{vid}: only {checked} doors checked"
+    have = len([n for n in glb.node_names() if n.startswith("Door_") and n not in waived])
+    assert checked == have and checked >= 1, f"{vid}: checked {checked} of {have} doors"
 
 
 @pytest.mark.parametrize("vid", [i for i in IDS if _entry(i)["contract_profile"] == "full"])

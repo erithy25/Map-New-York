@@ -359,6 +359,19 @@ The tenement's own window nearly doubled (186 → 340) because that is where the
 brick-by-brick soldier course landed. Pieces that were already articulated moved little, which is the point: the
 budget was raised so geometry *could* go where it reads, not so every piece would grow.
 
+**Downstream: the placement stage must re-read the catalog.** Two fields changed for every window in this pass and
+`data/processed/facade/kit_catalog_map.json` was built before it:
+
+* `nominal_size_m` / `bounds` — the depth (Y) of every window grew, from ~0.33-0.38 m to ~0.63-0.68 m, because the
+  sealed interior room box extends 0.30 m *into* the building behind the glass. Nothing moved on the wall plane:
+  X, Z and the anchor are unchanged, so **placements do not move**, but anything that culls or packs on the
+  bounding box needs the new depth.
+* `glazing_setback_m` — new, on the 31 pieces that carry glazing. Accessories that sit against the glass (window
+  guards, AC units, curtains, interior cards) should be offset by it rather than by a hard-coded constant.
+
+Re-running the placement stage against the rebuilt catalog is enough; no schema changed, only values, and both
+fields are additive to what §6 requires.
+
 **Budget deviation, restated.** The window cap went from the brief's 400 to 900 on the orchestrator's explicit
 instruction ("the budget is a cap, not a target"). Category caps for `cornice` (1 200 → 2 500), `string_course`
 (200 → 600), `trim` (200 → 400), `quoin` (300 → 500), `pilaster` (600 → 900) and `window_accessory` (400 → 500)

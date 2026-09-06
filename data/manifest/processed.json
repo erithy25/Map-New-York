@@ -8414,20 +8414,20 @@
    "bins": [
     1084820
    ],
-   "bytes": 15501168,
+   "bytes": 15524208,
    "footprint_iou": 1.0,
-   "git_commit": "38976a48e050",
+   "git_commit": "55694db0f5af",
    "path": "blender_out/landmarks/c_moynihan_train_hall.glb",
-   "produced_at": "2026-09-06T13:09:52Z",
+   "produced_at": "2026-09-06T14:40:31Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "1edc3f54dcbe9e12018c6727f3dc67a61ddeb6927e8083bd7ffd225ab7471708",
+   "sha256": "bc23934552616ae8b0e56c84a1807e8d3a3a242314af81cc84a46013b353e79c",
    "sources": [
     "building_footprints"
    ],
    "stage": "landmarks",
-   "tris_lod0": 29032,
-   "tris_lod1": 4110
+   "tris_lod0": 29086,
+   "tris_lod1": 4164
   },
   "landmark_glb:c_pier_17_seaport": {
    "artifact_id": "landmark_glb:c_pier_17_seaport",
@@ -8709,14 +8709,14 @@
   "landmark_glb:charging_bull": {
    "artifact_id": "landmark_glb:charging_bull",
    "bins": [],
-   "bytes": 2693660,
+   "bytes": 2695188,
    "footprint_iou": null,
-   "git_commit": "d63f02e8c7ff",
+   "git_commit": "55694db0f5af",
    "path": "blender_out/landmarks/charging_bull.glb",
-   "produced_at": "2026-09-06T12:22:44Z",
+   "produced_at": "2026-09-06T14:40:01Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "6ed39bbff335d1625df4c8db50ec87a2ef503bff9bb5e4b7e27c3cb3ba1aa390",
+   "sha256": "e4688388d99e101cdc51674db63719cb134b0867528515fa34028334f127a94c",
    "sources": [
     "building_footprints"
    ],

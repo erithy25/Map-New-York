@@ -25,7 +25,7 @@ import json
 import logging
 import math
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -38,6 +38,7 @@ sys.path.insert(0, str(REPO_ROOT / "blender" / "common"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import facade_params as fp  # noqa: E402  (blender/common, read-only foundation)
+import roofsteps as rsx  # noqa: E402
 import shellgeom as sg  # noqa: E402
 
 LOG = logging.getLogger("nycsim.buildings")
@@ -85,6 +86,7 @@ class TileLoad:
     sources: dict[str, dict[str, int]]
     materials_used: dict[int, int]
     df_index: list[int]          # index into the source dataframe, parallel to ``specs``
+    steps: dict[str, int] = field(default_factory=dict)   # stepped-massing provenance counters
 
 
 # --------------------------------------------------------------------------- material rules
@@ -252,14 +254,21 @@ def available_tiles() -> list[str]:
     return sorted(p.parent.name for p in TILES_DIR.glob("*/buildings.parquet"))
 
 
+MAX_CITYGML_DZ_M = 3.0        # CityGML z_roof_max vs the contract roof_z; beyond this it is a different building
+
+
 def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: str = "clamp",
-              min_height: float = 1.0) -> TileLoad:
+              min_height: float = 1.0, roof_steps: str = "auto") -> TileLoad:
     """Load one tile and resolve every geometry input.  ``ridge_mode``:
 
     ``clamp``   (default) the pitched ridge sits at ``roof_z`` and the eave below it, so the mesh
                 spans exactly ``[ground_z, roof_z]`` and matches the ``height`` column.
     ``adr013``  honour ``roof_ridge_dz_m`` / ``roof_eave_dz_m`` from ``roof_attrs.parquet``: the
                 ridge rises above the LiDAR plane, so the mesh is taller than ``height``.
+
+    ``roof_steps`` ``auto`` recovers the real multi-level massing from the CityGML LOD2 roof
+    triangles (see ``roofsteps``) and cuts the footprint into one region per level; ``off`` builds
+    every building at a single height.
     """
     path = tile_path(tile)
     if not path.exists():
@@ -310,6 +319,21 @@ def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: 
     area_col = df["footprint_area"].to_numpy(dtype=np.float64) if "footprint_area" in have else None
     bfront = df["bldg_frontage"].to_numpy(dtype=np.float64) if "bldg_frontage" in have else None
     lfront = df["lot_frontage"].to_numpy(dtype=np.float64) if "lot_frontage" in have else None
+
+    step_sets: dict[int, rsx.StepSet] = {}
+    step_stats: dict[str, int] = {"candidates": 0, "recovered": 0, "rejected_area": 0,
+                                  "rejected_geom": 0, "strict_per_level_match": 0,
+                                  "applied": 0, "rejected_partition": 0, "rejected_dz": 0,
+                                  "pitch_traded_for_step": 0}
+    if roof_steps == "auto":
+        try:
+            step_sets, st = rsx.load_tile_steps(tile)
+            for k in ("candidates", "recovered", "rejected_area", "rejected_geom",
+                      "strict_per_level_match"):
+                step_stats[k] = st.get(k, 0)
+        except Exception as exc:
+            LOG.warning("roof-step recovery unavailable for %s: %s", tile, exc)
+            step_sets = {}
 
     specs: list[sg.BuildingSpec] = []
     df_index: list[int] = []
@@ -366,9 +390,19 @@ def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: 
             "lit_seed_hi": float(int(seed[i]) >> 16),
             "lit_seed_lo": float(int(seed[i]) & 0xFFFF),
         }
+        ss = step_sets.get(int(bins[i]))
         for part in parts:
             local = shapely.transform(part, lambda c: c - np.array([x0, y0]))
             area = float(area_col[i]) if area_col is not None else float(part.area)
+            steps_local = None
+            if ss is not None and ss.ok and len(parts) == 1:
+                steps_local, why = _steps_for(ss, part, z_top, x0, y0)
+                if steps_local is None:
+                    step_stats["rejected_dz" if why == "dz" else "rejected_partition"] += 1
+                else:
+                    step_stats["applied"] += 1
+                    if kind != sg.ROOF_FLAT:
+                        step_stats["pitch_traded_for_step"] += 1
             specs.append(sg.BuildingSpec(
                 bin=int(bins[i]), polygon=local, ground_z=z0, roof_z=z_top,
                 roof=sg.RoofSpec(kind=kind, slope_deg=slope, rise_m=rise,
@@ -376,11 +410,35 @@ def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: 
                                  source=rsource),
                 mat_wall=mat_wall, mat_roof=mat_roof,
                 facade_heading=float(head[i]) if math.isfinite(head[i]) else 0.0,
-                attrs=attrs, floors=max(int(floors[i]), 1), area=area))
+                attrs=attrs, floors=max(int(floors[i]), 1), area=area,
+                roof_steps=steps_local))
             df_index.append(i)
 
     return TileLoad(tile, x0, y0, specs, len(df), dropped,
-                    {"roof": src_roof, "material": src_mat}, mats_used, df_index)
+                    {"roof": src_roof, "material": src_mat}, mats_used, df_index, step_stats)
+
+
+def _steps_for(ss: rsx.StepSet, footprint_world, z_top: float, x0: float, y0: float):
+    """Level regions for one building in tile-local metres, or ``(None, reason)``.
+
+    The recovered CityGML heights are shifted so the tallest level lands on the contract ``roof_z``
+    (``z_top``): the building's overall height stays the measured LiDAR one, and only the *depth*
+    of each step comes from the 2014 model.
+    """
+    z_cg_max = max(z for z, _ in ss.levels)
+    if abs(z_cg_max - z_top) > MAX_CITYGML_DZ_M:
+        return None, "dz"
+    dz = z_top - z_cg_max
+    regions, why = rsx.partition_footprint(footprint_world, ss.levels)
+    if not regions:
+        return None, why
+    out = []
+    for poly, z in regions:
+        local = shapely.transform(poly, lambda c: c - np.array([x0, y0]))
+        out.append((local, float(z + dz)))
+    if len({round(z, 3) for _, z in out}) < 2:
+        return None, "levels collapse to one height"
+    return out, "ok"
 
 
 def _f(arr, i) -> float:

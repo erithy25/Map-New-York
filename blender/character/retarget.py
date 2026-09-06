@@ -209,6 +209,7 @@ def retarget(clip: SourceClip, rig: pose_solver.Rig, *, name: str, target_speed_
         pose_solver.bake_ik_bones(rig, basis)
         frames_out.append(basis)
 
+    ground_clip(rig, frames_out)
     if loop:
         frames_out.append({k: v.copy() for k, v in frames_out[0].items()})
 
@@ -218,6 +219,33 @@ def retarget(clip: SourceClip, rig: pose_solver.Rig, *, name: str, target_speed_
                           source_speed_mps=clip.speed_mps, equivalent_speed_mps=equivalent_speed,
                           target_speed_mps=achieved, time_scale=time_scale, cycle_frames_source=cycle_src,
                           method="cmu-mocap-retarget")
+
+
+def ground_clip(rig: pose_solver.Rig, frames: list[dict[str, Matrix]]) -> float:
+    """Shift the whole clip vertically so the lowest foot of the cycle touches the ground.
+
+    Transferring the pelvis height as a ratio of leg length gets the *bob* right but leaves a constant
+    offset, because the CMU subject's ankle-to-sole distance is not this character's.  Measuring the lowest
+    ankle over the finished cycle and moving the pelvis by the difference from its rest ankle height plants
+    the clip on the floor - without which the character visibly hovers.
+    """
+    if not frames:
+        return 0.0
+    rest_ankle = min(rig.rest["foot_l"].translation.z, rig.rest["foot_r"].translation.z)
+    lowest = math.inf
+    for basis in frames:
+        world = rig.evaluate(basis)
+        lowest = min(lowest, world["foot_l"].translation.z, world["foot_r"].translation.z)
+    delta = rest_ankle - lowest
+    if abs(delta) < 1e-4:
+        return 0.0
+    for basis in frames:
+        world = rig.evaluate(basis)
+        desired = Matrix.Translation(Vector((0.0, 0.0, delta))) @ world["pelvis"]
+        basis["pelvis"] = rig.base_matrix("pelvis", world).inverted() @ desired
+        pose_solver.bake_ik_bones(rig, basis)
+    log.info("grounded the clip: pelvis moved %+.1f mm", delta * 1000.0)
+    return delta
 
 
 def _lerp_index(t: float, n: int) -> tuple[int, int, float]:

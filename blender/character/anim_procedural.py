@@ -235,8 +235,9 @@ def finger_curl_sign(rig: Rig) -> float:
     return best
 
 
-def with_relaxed_hands(rig: Rig, base: dict[str, Matrix], sign: float) -> dict[str, Matrix]:
-    """Return ``base`` with a resting curl added to every finger."""
+def with_relaxed_hands(rig: Rig, base: dict[str, Matrix], sign: float,
+                       scale: float = 1.0) -> dict[str, Matrix]:
+    """Return ``base`` with a resting curl added to every finger, scaled by ``scale``."""
     out = {k: v.copy() for k, v in base.items()}
     identity = Matrix.Identity(4)
     for side in ("l", "r"):
@@ -244,11 +245,13 @@ def with_relaxed_hands(rig: Rig, base: dict[str, Matrix], sign: float) -> dict[s
             for joint, angle in RELAXED_HAND_DEG.items():
                 name = f"{finger}_{joint}_{side}"
                 if name in rig.rest:
-                    out[name] = out.get(name, identity) @ Matrix.Rotation(math.radians(sign * angle), 4, "X")
+                    out[name] = out.get(name, identity) @ Matrix.Rotation(
+                        math.radians(sign * angle * scale), 4, "X")
         for joint, angle in RELAXED_THUMB_DEG.items():
             name = f"thumb_{joint}_{side}"
             if name in rig.rest:
-                out[name] = out.get(name, identity) @ Matrix.Rotation(math.radians(sign * angle), 4, "X")
+                out[name] = out.get(name, identity) @ Matrix.Rotation(
+                    math.radians(sign * angle * scale), 4, "X")
     return out
 
 

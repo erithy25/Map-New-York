@@ -160,6 +160,14 @@ def build_clips(built: mh_build.BuiltHuman) -> tuple[list[anim_lib.Clip], dict]:
                                        chenv.MOCAP_DIR / f"{IDLE_SOURCE['trial']}.amc")
     standing = retarget.standing_pose_from_locomotion(idle_source, rig, forward_yaw_deg=forward_yaw)
 
+    # CMU's single finger-curl channel leaves the MakeHuman rest hand almost flat, which reads as splayed
+    # fingers; the resting curl is composed on at 60 % so the mocap curl still shows through.
+    curl = anim_procedural.finger_curl_sign(rig)
+    for clip in clips:
+        clip.frames = [anim_procedural.with_relaxed_hands(rig, frame, curl, scale=0.6)
+                       for frame in clip.frames]
+    walk_frames = [dict(f) for f in clips[0].frames[:-1]] if clips else []
+
     package = car_ref.driver_package()
     author = anim_procedural.ProceduralClips(rig, body, package, standing, walk_frames,
                                              fps=float(anim_lib.FPS))

@@ -1668,13 +1668,17 @@ uint32_t TrafficSim::separateBodies() {
         const float sep = boxRadiusOn(a, nx, ny) + boxRadiusOn(b, nx, ny) -
                           std::fabs(dx * nx + dy * ny);
         if (sep > 0.f) {
-          const float shift = std::min(sep * 0.5f + 0.03f, 0.4f);
-          const float side = (dx * nx + dy * ny) >= 0.f ? -1.f : 1.f;  // push a away from b
-          a.lateral = clampf(a.lateral + side * shift, -2.0f, 2.0f);
-          b.lateral = clampf(b.lateral - side * shift, -2.0f, 2.0f);
-          updatePose(a);
-          updatePose(b);
-          ok = true;
+          // Only `a` is moved: `b`'s lateral is expressed in its own lane frame,
+          // which points the other way when the two are travelling in opposite
+          // directions, and a sign mistake there would push them together.
+          const float shift = std::min(sep + 0.05f, 0.5f);
+          const float side = (dx * nx + dy * ny) >= 0.f ? -1.f : 1.f;  // away from b
+          const float before = a.lateral;
+          a.lateral = clampf(a.lateral + side * shift, -2.5f, 2.5f);
+          if (a.lateral != before) {
+            updatePose(a);
+            ok = true;
+          }
         }
       }
       if (ok) ++moved;
