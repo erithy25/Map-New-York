@@ -1,0 +1,335 @@
+{
+ "azimuth_reason": "249.4 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 31.1 deg, 141.7 deg away",
+ "camera": {
+  "azimuth_deg": 249.4,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 12.11,
+   "max_m": 14.04,
+   "median_m": 13.38,
+   "min_m": 10.9,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.746,
+  "lon": -73.9876,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_empire_state_building",
+  "terrain_z_m": 12.113,
+  "x": -3175.596,
+  "y": 5108.914,
+  "z": 13.713
+ },
+ "camera_caption": "camera 40.74600, -73.98760 (NYC_TM -3176, 5109) z 13.7 m NAVD88 | azimuth 249.4deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 912.7,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 5,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 145.617,
+  "sky_elevation_deg": 57.691,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.69,
+  "view_transform": "Filmic"
+ },
+ "name": "Empire State Building",
+ "night": false,
+ "pitch_reason": "level optical axis (the subject is 317 m away; anything that far is photographed with a level camera)",
+ "reference_photo": {
+  "author": "Kidfly182",
+  "confidence": "high",
+  "date_taken": "2021-08-19 11:47:25",
+  "estimated_azimuth_deg": 249.4,
+  "file": "1.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Empire_State_Building_August_2021_007.jpg",
+  "title": "File:Empire State Building August 2021 007.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_empire_state_building/render.png",
+ "rendered_at": "2026-09-06T16:57:57Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-3_4",
+    "t_-3_5",
+    "t_-4_4",
+    "t_-4_5",
+    "t_-4_6",
+    "t_-5_4",
+    "t_-5_5"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-3_4": {
+     "lod": 0,
+     "objects": 15,
+     "triangles": 63422
+    },
+    "t_-3_5": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 49098
+    },
+    "t_-4_4": {
+     "lod": 0,
+     "objects": 19,
+     "triangles": 61542
+    },
+    "t_-4_5": {
+     "lod": 0,
+     "objects": 19,
+     "triangles": 45694
+    },
+    "t_-4_6": {
+     "lod": 1,
+     "objects": 17,
+     "triangles": 28552
+    },
+    "t_-5_4": {
+     "lod": 1,
+     "objects": 17,
+     "triangles": 34668
+    },
+    "t_-5_5": {
+     "lod": 1,
+     "objects": 16,
+     "triangles": 12900
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 7,
+   "tiles_missing": 0,
+   "tiles_wanted": 7,
+   "triangle_budget": 3510000,
+   "triangles": 295876
+  },
+  "centre_tm": [
+   -3175.6,
+   5108.91
+  ],
+  "kit": {
+   "capped": "triangle budget 2667068",
+   "per_category": {
+    "bulkhead": 56,
+    "cornice": 52,
+    "door_entry": 67,
+    "fire_escape": 105,
+    "hvac": 19,
+    "parapet": 18,
+    "pilaster": 65,
+    "quoin": 20,
+    "scaffold": 123,
+    "storefront": 208,
+    "storefront_interior": 46,
+    "string_course": 49,
+    "vegetation": 1,
+    "water_tower": 20,
+    "window": 9806,
+    "window_accessory": 181
+   },
+   "placed": 10836,
+   "radius_m": 120.0,
+   "records_in_range": 14550,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-4_4",
+    "t_-4_5"
+   ],
+   "triangles": 2667203,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 315.9,
+     "id": "empire_state",
+     "lod": 0,
+     "name": "Empire State Building",
+     "triangles": 107298
+    },
+    {
+     "distance_m": 579.5,
+     "id": "flatiron",
+     "lod": 0,
+     "name": "Flatiron Building",
+     "triangles": 38253
+    },
+    {
+     "distance_m": 699.0,
+     "id": "madison_square_garden",
+     "lod": 0,
+     "name": "Madison Square Garden",
+     "triangles": 7884
+    },
+    {
+     "distance_m": 918.4,
+     "id": "new_york_public_library",
+     "lod": 0,
+     "name": "New York Public Library, Stephen A. Schwarzman Building",
+     "triangles": 51785
+    },
+    {
+     "distance_m": 932.8,
+     "id": "c_moynihan_train_hall",
+     "lod": 0,
+     "name": "Moynihan Train Hall (James A. Farley Building)",
+     "triangles": 29086
+    }
+   ],
+   "placed": 5,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 234306
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 761,
+    "curb": 1465,
+    "median": 233,
+    "parking_lot": 26,
+    "plaza": 104,
+    "roadbed": 605,
+    "sidewalk": 349
+   },
+   "placed": 3543,
+   "radius_m": 900.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_4",
+    "t_-3_5",
+    "t_-4_4",
+    "t_-4_5",
+    "t_-4_6",
+    "t_-5_4",
+    "t_-5_5"
+   ],
+   "triangles": 259172,
+   "vertices": 265836
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 6,
+    "bike_rack": 26,
+    "bus_shelter": 2,
+    "bus_stop_sign": 11,
+    "citibike_dock": 2,
+    "hydrant": 60,
+    "linknyc": 14,
+    "mailbox": 5,
+    "manhole": 99,
+    "newsstand": 4,
+    "rtpi_sign": 1,
+    "steam_vent": 11,
+    "street_lamp": 102,
+    "subway_emergency_exit": 2,
+    "subway_entrance": 4,
+    "subway_vent_grate": 30,
+    "tree": 65,
+    "waste_basket": 3
+   },
+   "placed": 447,
+   "radius_m": 250.0,
+   "rows_in_range": 696,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_4",
+    "t_-3_5",
+    "t_-4_4",
+    "t_-4_5"
+   ],
+   "tree_species_substituted": 10,
+   "triangles": 863578,
+   "unmapped_kinds": {
+    "artwork": 1,
+    "cooling_tower": 139,
+    "curb_ramp": 97,
+    "drinking_fountain": 1,
+    "memorial": 3,
+    "misc_structure": 2,
+    "payphone": 3,
+    "vending_machine": 3
+   }
+  },
+  "radius_m": 906.6320560377108,
+  "seconds": 37.79,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 6.044,
+   "triangles": 180000,
+   "water_quads": 0,
+   "z_max_m": 25.68,
+   "z_min_m": -1.4
+  },
+  "triangles": 4500135
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 906.6320560377108
+ },
+ "seconds": {
+  "render": 115.1,
+  "scene": 39.0,
+  "total": 154.1
+ },
+ "slug": "landmark_empire_state_building",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 316.6,
+  "name": "Empire State Building"
+ },
+ "sun": {
+  "azimuth_deg": 145.61685501008947,
+  "elevation_deg": 57.69084572223399,
+  "local": "2021-08-19T11:47:25-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2021-08-19T15:47:25Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 31.1,
+  "lat": 40.746,
+  "lon": -73.9876,
+  "note": "Fifth Avenue at 30th Street, east sidewalk, looking uptown at the full height of the tower"
+ }
+}

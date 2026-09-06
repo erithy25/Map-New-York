@@ -1,6 +1,6 @@
 {
  "engine": "CYCLES CPU",
- "generated_at": "2026-09-06T15:07:26Z",
+ "generated_at": "2026-09-06T15:38:17Z",
  "renders": [
   {
    "camera_m": [
@@ -94,9 +94,9 @@
   },
   {
    "camera_m": [
-    -3246.0,
-    5615.0,
-    119.02
+    -3252.0,
+    5959.0,
+    122.41
    ],
    "materials": [
     "brown_brick",
@@ -121,7 +121,7 @@
    ],
    "png": "docs/verification/buildings_mesh/midtown_setbacks.png",
    "samples": 24,
-   "seconds": 302.7,
+   "seconds": 419.1,
    "sources": [
     "blender_out/tiles/t_-4_5/tile_buildings.glb",
     "blender_out/tiles/t_-3_5/tile_buildings.glb",
@@ -131,7 +131,7 @@
    "target_m": [
     -3406.0,
     5775.0,
-    54.5
+    64.5
    ],
    "title": "Midtown setbacks: real multi-level massing recovered from the CityGML LOD2 roof levels",
    "view": "midtown_setbacks"

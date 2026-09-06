@@ -1,6 +1,6 @@
 # Queens-Midtown Tunnel
 
-Script: `blender/landmarks/b_queens_midtown_portals.py` · agent B · generated 2026-09-06 14:09 UTC
+Script: `blender/landmarks/b_queens_midtown_portals.py` · agent B · generated 2026-09-06 15:42 UTC
 
 ## Placement
 
@@ -34,4 +34,9 @@ jet fans, and the individual tile courses.
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_queens_midtown_portals.glb` — 30,888 triangles, 1.44 MB, bounds min ['-850.0', '-265.0', '-23.6'] max ['821.1', '504.1', '41.7']
-* `blender_out/landmarks/b_queens_midtown_portals_lod1.glb` — 5,110 triangles, 0.33 MB, bounds min ['-850.0', '-265.0', '-23.5'] max ['821.1', '504.1', '41.7']
+
+## Verification renders (Cycles CPU, 64 spp)
+
+![manhattan_portal_reference](manhattan_portal_reference.png)
+![manhattan_portal](manhattan_portal.png)
+![tube_interior](tube_interior.png)

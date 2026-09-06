@@ -1,0 +1,276 @@
+{
+ "azimuth_reason": "140.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
+ "camera": {
+  "azimuth_deg": 140.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 24.55,
+   "max_m": 24.84,
+   "median_m": 24.55,
+   "min_m": 24.26,
+   "mode": "local",
+   "percentile": null,
+   "radius_m": 5.0,
+   "samples": 16
+  },
+  "ground_mode": "local",
+  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap median within 5 m is the ground",
+  "hfov_deg": 54.432,
+  "lat": 40.7196,
+  "lon": -73.8447,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1280,
+   720
+  ],
+  "sensor_mm": 36.0,
+  "slug": "drive_queens_forest_hills",
+  "terrain_z_m": 24.555,
+  "x": 8896.875,
+  "y": 2181.88,
+  "z": 26.155
+ },
+ "camera_caption": "camera 40.71960, -73.84470 (NYC_TM 8897, 2182) z 26.2 m NAVD88 | azimuth 140.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x720",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "drive_through",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 754.0,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 5,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.61,
+  "sky_azimuth_deg": 239.583,
+  "sky_elevation_deg": 28.278,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.396,
+  "view_transform": "Filmic"
+ },
+ "name": "Queens residential block: Forest Hills Gardens",
+ "night": false,
+ "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "reference_photo": {
+  "author": "XanderAi",
+  "confidence": "medium",
+  "date_taken": "2024-09-26 16:04:15",
+  "estimated_azimuth_deg": 140.0,
+  "file": "1.jpg",
+  "height": 1081,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Homes_in_Forest_Hills_Gardens_05.jpg",
+  "title": "File:Homes in Forest Hills Gardens 05.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/drive_queens_forest_hills/render.png",
+ "rendered_at": "2026-09-06T16:48:20Z",
+ "resolution_note": "1280x720; the reference photograph is 1920x1081 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_8_1",
+    "t_8_2",
+    "t_9_1",
+    "t_9_2"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_8_1": {
+     "lod": 0,
+     "objects": 11,
+     "triangles": 82726
+    },
+    "t_8_2": {
+     "lod": 0,
+     "objects": 12,
+     "triangles": 66928
+    },
+    "t_9_1": {
+     "lod": 0,
+     "objects": 12,
+     "triangles": 58738
+    },
+    "t_9_2": {
+     "lod": 0,
+     "objects": 10,
+     "triangles": 32028
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "triangle_budget": 3510000,
+   "triangles": 240420
+  },
+  "centre_tm": [
+   8896.87,
+   2181.88
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 24,
+    "cornice": 45,
+    "door_entry": 94,
+    "fence": 2,
+    "fire_escape": 13,
+    "hvac": 12,
+    "parapet": 139,
+    "pilaster": 68,
+    "quoin": 42,
+    "scaffold": 86,
+    "storefront": 328,
+    "storefront_interior": 72,
+    "string_course": 77,
+    "vegetation": 3,
+    "water_tower": 4,
+    "window": 2201,
+    "window_accessory": 296
+   },
+   "placed": 3506,
+   "radius_m": 120.0,
+   "records_in_range": 3506,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_8_2",
+    "t_9_2"
+   ],
+   "triangles": 934556,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [],
+   "placed": 0,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 0
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 531,
+    "curb": 904,
+    "median": 91,
+    "parking_lot": 30,
+    "plaza": 3,
+    "roadbed": 409,
+    "sidewalk": 296
+   },
+   "placed": 2264,
+   "radius_m": 720.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_8_1",
+    "t_8_2",
+    "t_9_1",
+    "t_9_2"
+   ],
+   "triangles": 193055,
+   "vertices": 197319
+  },
+  "props": {
+   "capped": "triangle budget 1360283",
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 9,
+    "bike_rack": 15,
+    "bike_shelter": 1,
+    "bus_shelter": 3,
+    "bus_stop_sign": 1,
+    "citibike_dock": 3,
+    "hydrant": 30,
+    "linknyc": 6,
+    "mailbox": 5,
+    "manhole": 100,
+    "newsstand": 2,
+    "street_lamp": 68,
+    "subway_entrance": 3,
+    "subway_vent_grate": 4,
+    "tree": 167,
+    "waste_basket": 14
+   },
+   "placed": 431,
+   "radius_m": 250.0,
+   "rows_in_range": 864,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_8_1",
+    "t_8_2",
+    "t_9_1",
+    "t_9_2"
+   ],
+   "tree_species_substituted": 45,
+   "triangles": 1360990,
+   "unmapped_kinds": {
+    "artwork": 1,
+    "billboard": 1,
+    "cooling_tower": 181,
+    "curb_ramp": 77,
+    "misc_structure": 3,
+    "payphone": 2,
+    "vending_machine": 5
+   }
+  },
+  "radius_m": 720.0,
+  "seconds": 27.52,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.8,
+   "triangles": 180000,
+   "water_quads": 0,
+   "z_max_m": 35.31,
+   "z_min_m": 1.54
+  },
+  "triangles": 2909021
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 720.0
+ },
+ "seconds": {
+  "render": 91.9,
+  "scene": 28.1,
+  "total": 120.0
+ },
+ "slug": "drive_queens_forest_hills",
+ "status": "rendered",
+ "subject": {
+  "distance_m": null,
+  "name": null
+ },
+ "sun": {
+  "azimuth_deg": 239.5827524557521,
+  "elevation_deg": 28.27801403054314,
+  "local": "2024-09-26T16:04:15-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2024-09-26T20:04:15Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 140.0,
+  "lat": 40.7196,
+  "lon": -73.8447,
+  "note": "Greenway Terrace at Station Square, Forest Hills Gardens, looking south-east"
+ }
+}

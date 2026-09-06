@@ -1,0 +1,369 @@
+{
+ "azimuth_reason": "55.9 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 70.0 deg, 14.1 deg away",
+ "camera": {
+  "azimuth_deg": 55.9,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 5.02,
+   "max_m": 5.55,
+   "median_m": 5.29,
+   "min_m": 4.94,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.706285,
+  "lon": -74.01193,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1280,
+   606
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_40_wall_street",
+  "terrain_z_m": 5.017,
+  "x": -5233.554,
+  "y": 699.782,
+  "z": 6.617
+ },
+ "camera_caption": "camera 40.70629, -74.01193 (NYC_TM -5234, 700) z 6.6 m NAVD88 | azimuth 55.9deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x606",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 687.1,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 5,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.95,
+  "sky_azimuth_deg": 242.866,
+  "sky_elevation_deg": 22.402,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.272,
+  "view_transform": "Filmic"
+ },
+ "name": "40 Wall Street (Trump Building)",
+ "night": false,
+ "pitch_reason": "level optical axis (40 Wall Street (Trump Building) is 200 m away and would need +35 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "reference_photo": {
+  "author": "Jakub Ha\u0142un",
+  "confidence": "high",
+  "date_taken": "2023-10-03 16:27:26",
+  "estimated_azimuth_deg": 55.9,
+  "file": "3.jpg",
+  "height": 909,
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:View_of_Manhattan_from_Liberty_Island_ferry,_NYC,_20231003_1627_2026.jpg",
+  "title": "File:View of Manhattan from Liberty Island ferry, NYC, 20231003 1627 2026.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_40_wall_street/render.png",
+ "rendered_at": "2026-09-06T17:45:05Z",
+ "resolution_note": "1280x606; the reference photograph is 1920x909 (2.11:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-5_0",
+    "t_-5_1",
+    "t_-6_-1",
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-5_0": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 11932
+    },
+    "t_-5_1": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 42918
+    },
+    "t_-6_-1": {
+     "lod": 1,
+     "objects": 8,
+     "triangles": 1312
+    },
+    "t_-6_0": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 14912
+    },
+    "t_-6_1": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 15588
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 5,
+   "tiles_missing": 0,
+   "tiles_wanted": 5,
+   "triangle_budget": 3510000,
+   "triangles": 86662
+  },
+  "centre_tm": [
+   -5233.55,
+   699.78
+  ],
+  "kit": {
+   "capped": "triangle budget 2391486",
+   "per_category": {
+    "antenna": 3,
+    "bulkhead": 13,
+    "cornice": 16,
+    "door_entry": 20,
+    "hvac": 15,
+    "parapet": 17,
+    "pilaster": 32,
+    "quoin": 1,
+    "scaffold": 59,
+    "storefront": 116,
+    "storefront_interior": 18,
+    "string_course": 16,
+    "water_tower": 8,
+    "window": 8717,
+    "window_accessory": 1127
+   },
+   "placed": 10178,
+   "radius_m": 120.0,
+   "records_in_range": 18999,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-6_0"
+   ],
+   "triangles": 2391713,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 96.9,
+     "id": "one_wall_street",
+     "lod": 0,
+     "name": "One Wall Street (Irving Trust Building)",
+     "triangles": 42712
+    },
+    {
+     "distance_m": 103.5,
+     "id": "nyse",
+     "lod": 0,
+     "name": "New York Stock Exchange",
+     "triangles": 26049
+    },
+    {
+     "distance_m": 153.3,
+     "id": "charging_bull",
+     "lod": 0,
+     "name": "Charging Bull",
+     "triangles": 818
+    },
+    {
+     "distance_m": 183.9,
+     "id": "federal_hall",
+     "lod": 0,
+     "name": "Federal Hall National Memorial",
+     "triangles": 9070
+    },
+    {
+     "distance_m": 195.8,
+     "id": "trinity_church",
+     "lod": 0,
+     "name": "Trinity Church",
+     "triangles": 3984
+    },
+    {
+     "distance_m": 203.0,
+     "id": "40_wall_street",
+     "lod": 0,
+     "name": "40 Wall Street (Trump Building)",
+     "triangles": 43167
+    },
+    {
+     "distance_m": 247.1,
+     "id": "equitable_building",
+     "lod": 0,
+     "name": "Equitable Building",
+     "triangles": 86321
+    },
+    {
+     "distance_m": 588.9,
+     "id": "c_whitehall_and_st_george_ferry_terminals",
+     "lod": 0,
+     "name": "Whitehall, Battery Maritime and St. George ferry terminals",
+     "triangles": 77605
+    },
+    {
+     "distance_m": 594.5,
+     "id": "b_wtc_site",
+     "lod": 0,
+     "name": "World Trade Center site",
+     "triangles": 136174
+    },
+    {
+     "distance_m": 749.3,
+     "id": "woolworth",
+     "lod": 0,
+     "name": "Woolworth Building",
+     "triangles": 47871
+    },
+    {
+     "distance_m": 754.0,
+     "id": "b_one_world_trade_center",
+     "lod": 0,
+     "name": "One World Trade Center",
+     "triangles": 6044
+    },
+    {
+     "distance_m": 1318.8,
+     "id": "b_brooklyn_bridge",
+     "lod": 0,
+     "name": "Brooklyn Bridge",
+     "triangles": 121824
+    },
+    {
+     "distance_m": 1420.1,
+     "id": "b_hugh_carey_portals",
+     "lod": 0,
+     "name": "Hugh L. Carey Tunnel",
+     "triangles": 43880
+    }
+   ],
+   "placed": 13,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 645519
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 534,
+    "curb": 1076,
+    "median": 76,
+    "parking_lot": 7,
+    "plaza": 61,
+    "roadbed": 415,
+    "sidewalk": 216
+   },
+   "placed": 2385,
+   "radius_m": 720.7110795832725,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_0",
+    "t_-5_1",
+    "t_-6_-1",
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "triangles": 175797,
+   "vertices": 180247
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 95,
+    "bike_rack": 32,
+    "bus_shelter": 1,
+    "bus_stop_sign": 13,
+    "citibike_dock": 2,
+    "flagpole": 3,
+    "hydrant": 74,
+    "mailbox": 2,
+    "manhole": 109,
+    "newsstand": 8,
+    "steam_vent": 3,
+    "street_lamp": 124,
+    "subway_entrance": 35,
+    "subway_vent_grate": 73,
+    "tree": 22,
+    "waste_basket": 27
+   },
+   "placed": 623,
+   "radius_m": 250.0,
+   "rows_in_range": 838,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_0",
+    "t_-6_0"
+   ],
+   "tree_species_substituted": 0,
+   "triangles": 1020536,
+   "unmapped_kinds": {
+    "artwork": 6,
+    "cooling_tower": 89,
+    "curb_ramp": 109,
+    "drinking_fountain": 3,
+    "memorial": 7,
+    "misc_structure": 1
+   }
+  },
+  "radius_m": 720.7110795832725,
+  "seconds": 59.77,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.805,
+   "triangles": 180000,
+   "water_quads": 25236,
+   "z_max_m": 13.63,
+   "z_min_m": -4.83
+  },
+  "triangles": 4500227
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 720.7110795832725
+ },
+ "seconds": {
+  "render": 44.5,
+  "scene": 60.9,
+  "total": 105.5
+ },
+ "slug": "landmark_40_wall_street",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 200.4,
+  "name": "40 Wall Street (Trump Building)"
+ },
+ "sun": {
+  "azimuth_deg": 242.86571652878922,
+  "elevation_deg": 22.402042978362346,
+  "local": "2023-10-03T16:27:26-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2023-10-03T20:27:26Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 70.0,
+  "lat": 40.706285,
+  "lon": -74.01193,
+  "note": "Wall Street at Broad Street, about 200 m west-south-west of the tower, looking east-north-east at the pyramidal crown"
+ }
+}

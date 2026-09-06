@@ -1,6 +1,6 @@
 # Roosevelt Island Tramway
 
-Script: `blender/landmarks/b_roosevelt_island_tram.py` · agent B · generated 2026-09-06 14:09 UTC
+Script: `blender/landmarks/b_roosevelt_island_tram.py` · agent B · generated 2026-09-06 15:31 UTC
 
 ## Placement
 
@@ -21,4 +21,9 @@ station canopies' glazing pattern, the rescue-cabin rail, and the tower maintena
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_roosevelt_island_tram.glb` — 5,836 triangles, 0.24 MB, bounds min ['-450.9', '-200.6', '0.8'] max ['408.5', '236.3', '81.8']
-* `blender_out/landmarks/b_roosevelt_island_tram_lod1.glb` — 1,764 triangles, 0.09 MB, bounds min ['-450.9', '-200.6', '0.7'] max ['408.5', '236.3', '80.2']
+
+## Verification renders (Cycles CPU, 64 spp)
+
+![tram_reference](tram_reference.png)
+![from_the_island](from_the_island.png)
+![york_avenue_tower](york_avenue_tower.png)

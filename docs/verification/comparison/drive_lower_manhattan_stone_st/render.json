@@ -1,0 +1,373 @@
+{
+ "azimuth_reason": "60.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
+ "camera": {
+  "azimuth_deg": 60.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 3.16,
+   "max_m": 3.94,
+   "median_m": 3.45,
+   "min_m": 3.03,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.704,
+  "lon": -74.0105,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1280,
+   576
+  ],
+  "sensor_mm": 36.0,
+  "slug": "drive_lower_manhattan_stone_st",
+  "terrain_z_m": 3.164,
+  "x": -5107.686,
+  "y": 448.953,
+  "z": 4.764
+ },
+ "camera_caption": "camera 40.70400, -74.01050 (NYC_TM -5108, 449) z 4.8 m NAVD88 | azimuth 60.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x576",
+ "clearance": {
+  "direction": "along the view azimuth",
+  "moved": true,
+  "note": "the eye point stands on the roof of t_-6_0_red_brick, which the reference viewpoint records as a single lat/lon for the whole deck; the camera was walked 6 m along the view azimuth to the parapet, the last point the roof still supports, which is where the reference photographs are taken",
+  "offset_m": 6.0,
+  "standing_on": "t_-6_0_red_brick"
+ },
+ "group": "drive_through",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 890.3,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 4,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 203.859,
+  "sky_elevation_deg": 50.633,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.649,
+  "view_transform": "Filmic"
+ },
+ "name": "Lower Manhattan drive-through: Stone Street",
+ "night": false,
+ "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "reference_photo": {
+  "author": "Kidfly182",
+  "confidence": "medium",
+  "date_taken": "2025-03-29 14:00:14",
+  "estimated_azimuth_deg": 60.0,
+  "file": "1.jpg",
+  "height": 863,
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Financial_District_Manhattan_March_2025_107.jpg",
+  "title": "File:Financial District Manhattan March 2025 107.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/drive_lower_manhattan_stone_st/render.png",
+ "rendered_at": "2026-09-06T16:36:24Z",
+ "resolution_note": "1280x576; the reference photograph is 1920x863 (2.22:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-5_-1",
+    "t_-5_0",
+    "t_-5_1",
+    "t_-6_-1",
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-5_-1": {
+     "lod": 0,
+     "objects": 11,
+     "triangles": 7516
+    },
+    "t_-5_0": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 11932
+    },
+    "t_-5_1": {
+     "lod": 1,
+     "objects": 18,
+     "triangles": 17456
+    },
+    "t_-6_-1": {
+     "lod": 0,
+     "objects": 8,
+     "triangles": 3596
+    },
+    "t_-6_0": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 14912
+    },
+    "t_-6_1": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 15588
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "triangle_budget": 3510000,
+   "triangles": 71000
+  },
+  "centre_tm": [
+   -5112.88,
+   445.95
+  ],
+  "kit": {
+   "capped": "triangle budget 2277724",
+   "per_category": {
+    "bulkhead": 38,
+    "cornice": 38,
+    "door_entry": 86,
+    "fire_escape": 23,
+    "hvac": 15,
+    "parapet": 48,
+    "pilaster": 35,
+    "quoin": 12,
+    "scaffold": 44,
+    "storefront": 265,
+    "storefront_interior": 67,
+    "string_course": 22,
+    "vegetation": 5,
+    "water_tower": 7,
+    "window": 9705,
+    "window_accessory": 281
+   },
+   "placed": 10691,
+   "radius_m": 120.0,
+   "records_in_range": 12374,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_0",
+    "t_-6_0"
+   ],
+   "triangles": 2277837,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 300.3,
+     "id": "charging_bull",
+     "lod": 0,
+     "name": "Charging Bull",
+     "triangles": 818
+    },
+    {
+     "distance_m": 342.2,
+     "id": "nyse",
+     "lod": 0,
+     "name": "New York Stock Exchange",
+     "triangles": 26049
+    },
+    {
+     "distance_m": 342.3,
+     "id": "40_wall_street",
+     "lod": 0,
+     "name": "40 Wall Street (Trump Building)",
+     "triangles": 43167
+    },
+    {
+     "distance_m": 366.7,
+     "id": "one_wall_street",
+     "lod": 0,
+     "name": "One Wall Street (Irving Trust Building)",
+     "triangles": 42712
+    },
+    {
+     "distance_m": 370.7,
+     "id": "federal_hall",
+     "lod": 0,
+     "name": "Federal Hall National Memorial",
+     "triangles": 9070
+    },
+    {
+     "distance_m": 393.0,
+     "id": "c_whitehall_and_st_george_ferry_terminals",
+     "lod": 0,
+     "name": "Whitehall, Battery Maritime and St. George ferry terminals",
+     "triangles": 77605
+    },
+    {
+     "distance_m": 470.0,
+     "id": "equitable_building",
+     "lod": 0,
+     "name": "Equitable Building",
+     "triangles": 86321
+    },
+    {
+     "distance_m": 471.0,
+     "id": "trinity_church",
+     "lod": 0,
+     "name": "Trinity Church",
+     "triangles": 3984
+    },
+    {
+     "distance_m": 773.6,
+     "id": "c_pier_17_seaport",
+     "lod": 0,
+     "name": "Pier 17, South Street Seaport",
+     "triangles": 1350
+    },
+    {
+     "distance_m": 868.7,
+     "id": "b_wtc_site",
+     "lod": 0,
+     "name": "World Trade Center site",
+     "triangles": 136174
+    },
+    {
+     "distance_m": 1160.5,
+     "id": "b_hugh_carey_portals",
+     "lod": 0,
+     "name": "Hugh L. Carey Tunnel",
+     "triangles": 43880
+    },
+    {
+     "distance_m": 1210.9,
+     "id": "b_brooklyn_bridge",
+     "lod": 0,
+     "name": "Brooklyn Bridge",
+     "triangles": 121824
+    }
+   ],
+   "placed": 12,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 592954
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 437,
+    "curb": 919,
+    "median": 54,
+    "parking_lot": 7,
+    "plaza": 52,
+    "roadbed": 338,
+    "sidewalk": 175
+   },
+   "placed": 1982,
+   "radius_m": 720.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_-1",
+    "t_-5_0",
+    "t_-5_1",
+    "t_-6_-1",
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "triangles": 149106,
+   "vertices": 152792
+  },
+  "props": {
+   "capped": "triangle budget 1227429",
+   "leaf_off": true,
+   "per_kind": {
+    "bench": 110,
+    "bike_rack": 28,
+    "bus_stop_sign": 10,
+    "citibike_dock": 5,
+    "flagpole": 12,
+    "hydrant": 77,
+    "linknyc": 2,
+    "mailbox": 2,
+    "manhole": 123,
+    "newsstand": 5,
+    "steam_vent": 3,
+    "street_lamp": 108,
+    "subway_entrance": 6,
+    "subway_vent_grate": 37,
+    "tree": 93,
+    "waste_basket": 33
+   },
+   "placed": 654,
+   "radius_m": 250.0,
+   "rows_in_range": 965,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_0",
+    "t_-6_0"
+   ],
+   "tree_species_substituted": 12,
+   "triangles": 1229216,
+   "unmapped_kinds": {
+    "artwork": 3,
+    "cooling_tower": 85,
+    "curb_ramp": 132,
+    "memorial": 4,
+    "misc_structure": 3,
+    "vending_machine": 1
+   }
+  },
+  "radius_m": 720.0,
+  "seconds": 68.66,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.8,
+   "triangles": 180000,
+   "water_quads": 35556,
+   "z_max_m": 12.91,
+   "z_min_m": -4.45
+  },
+  "triangles": 4500113
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 720.0
+ },
+ "seconds": {
+  "render": 52.2,
+  "scene": 70.0,
+  "total": 122.3
+ },
+ "slug": "drive_lower_manhattan_stone_st",
+ "status": "rendered",
+ "subject": {
+  "distance_m": null,
+  "name": null
+ },
+ "sun": {
+  "azimuth_deg": 203.85913413273965,
+  "elevation_deg": 50.6329553523302,
+  "local": "2025-03-29T14:00:14-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2025-03-29T18:00:14Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 60.0,
+  "lat": 40.704,
+  "lon": -74.0105,
+  "note": "west end of the Stone Street pedestrian block at William Street, looking east-north-east"
+ }
+}

@@ -1,0 +1,336 @@
+{
+ "azimuth_reason": "308.4 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 296.9 deg, 11.5 deg away",
+ "camera": {
+  "azimuth_deg": 308.4,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 21.76,
+   "max_m": 22.26,
+   "median_m": 21.88,
+   "min_m": 21.71,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 37.52,
+  "lat": 40.7588,
+  "lon": -73.9776,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": true,
+  "resolution": [
+   848,
+   1284
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_rockefeller_center",
+  "terrain_z_m": 21.758,
+  "x": -2330.576,
+  "y": 6530.029,
+  "z": 23.358
+ },
+ "camera_caption": "camera 40.75880, -73.97760 (NYC_TM -2331, 6530) z 23.4 m NAVD88 | azimuth 308.4deg pitch +0.0deg | 35 mm on 36 mm (37.5deg horizontal, 54.4deg vertical, portrait) | 848x1284",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 730.5,
+  "emissive": {
+   "cones_hidden": 1,
+   "lamps_switched_off": 3,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.73,
+  "sky_azimuth_deg": 272.796,
+  "sky_elevation_deg": 25.995,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.353,
+  "view_transform": "Filmic"
+ },
+ "name": "Rockefeller Center (30 Rockefeller Plaza)",
+ "night": false,
+ "pitch_reason": "level optical axis (30 Rockefeller Plaza is 123 m away and would need +46 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "reference_photo": {
+  "author": "Axel Tschentscher",
+  "confidence": "high",
+  "date_taken": "2021-05-13 17:37:41",
+  "estimated_azimuth_deg": 308.4,
+  "file": "1.jpg",
+  "height": 2909,
+  "licence": "Public domain",
+  "licence_url": "https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Rockefeller_Center_British_Empire_Building_Gold-Leaf-Figures_2021-05-13_17-37.jpg",
+  "title": "File:Rockefeller Center British Empire Building Gold-Leaf-Figures 2021-05-13 17-37.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_rockefeller_center/render.png",
+ "rendered_at": "2026-09-06T17:30:27Z",
+ "resolution_note": "848x1284; the reference photograph is 1920x2909 (0.66:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-2_6",
+    "t_-2_7",
+    "t_-3_5",
+    "t_-3_6",
+    "t_-3_7"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-2_6": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 53944
+    },
+    "t_-2_7": {
+     "lod": 1,
+     "objects": 16,
+     "triangles": 24364
+    },
+    "t_-3_5": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 49098
+    },
+    "t_-3_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 30874
+    },
+    "t_-3_7": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 23700
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 5,
+   "tiles_missing": 0,
+   "tiles_wanted": 5,
+   "triangle_budget": 3510000,
+   "triangles": 181980
+  },
+  "centre_tm": [
+   -2330.58,
+   6530.03
+  ],
+  "kit": {
+   "capped": "triangle budget 2104886",
+   "per_category": {
+    "antenna": 2,
+    "bulkhead": 21,
+    "cornice": 11,
+    "door_entry": 29,
+    "hvac": 18,
+    "parapet": 47,
+    "pilaster": 10,
+    "scaffold": 7,
+    "storefront": 155,
+    "storefront_interior": 21,
+    "string_course": 24,
+    "water_tower": 6,
+    "window": 8752,
+    "window_accessory": 103
+   },
+   "placed": 9206,
+   "radius_m": 120.0,
+   "records_in_range": 10553,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_6"
+   ],
+   "triangles": 2105028,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 122.3,
+     "id": "st_patricks_cathedral",
+     "lod": 0,
+     "name": "St. Patrick's Cathedral",
+     "triangles": 6259
+    },
+    {
+     "distance_m": 178.2,
+     "id": "30_rockefeller_plaza",
+     "lod": 0,
+     "name": "30 Rockefeller Plaza",
+     "triangles": 102530
+    },
+    {
+     "distance_m": 311.0,
+     "id": "moma",
+     "lod": 0,
+     "name": "Museum of Modern Art",
+     "triangles": 23620
+    },
+    {
+     "distance_m": 409.6,
+     "id": "c_lever_house",
+     "lod": 0,
+     "name": "Lever House",
+     "triangles": 31044
+    },
+    {
+     "distance_m": 476.8,
+     "id": "c_seagram_building",
+     "lod": 0,
+     "name": "Seagram Building",
+     "triangles": 34356
+    },
+    {
+     "distance_m": 591.4,
+     "id": "c_metlife_building",
+     "lod": 0,
+     "name": "MetLife Building (200 Park Avenue)",
+     "triangles": 105284
+    },
+    {
+     "distance_m": 648.3,
+     "id": "c_citigroup_center",
+     "lod": 0,
+     "name": "Citigroup Center (601 Lexington Avenue)",
+     "triangles": 76574
+    },
+    {
+     "distance_m": 684.0,
+     "id": "c_billionaires_row",
+     "lod": 0,
+     "name": "Billionaires' Row (West 57th Street corridor)",
+     "triangles": 220910
+    },
+    {
+     "distance_m": 808.5,
+     "id": "c_times_square",
+     "lod": 0,
+     "name": "Times Square",
+     "triangles": 182310
+    }
+   ],
+   "placed": 9,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 782887
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 347,
+    "curb": 614,
+    "median": 47,
+    "parking_lot": 2,
+    "plaza": 57,
+    "roadbed": 299,
+    "sidewalk": 147
+   },
+   "placed": 1513,
+   "radius_m": 596.8267657926042,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_6",
+    "t_-2_7",
+    "t_-3_5",
+    "t_-3_6",
+    "t_-3_7"
+   ],
+   "triangles": 116685,
+   "vertices": 119571
+  },
+  "props": {
+   "capped": "triangle budget 1133456",
+   "leaf_off": false,
+   "per_kind": {
+    "bike_rack": 6,
+    "bus_shelter": 7,
+    "bus_stop_sign": 20,
+    "citibike_dock": 5,
+    "flagpole": 87,
+    "hydrant": 55,
+    "linknyc": 7,
+    "manhole": 71,
+    "rtpi_sign": 1,
+    "steam_vent": 8,
+    "street_lamp": 79,
+    "subway_entrance": 1,
+    "subway_vent_grate": 16,
+    "tree": 146,
+    "waste_basket": 1
+   },
+   "placed": 510,
+   "radius_m": 250.0,
+   "rows_in_range": 777,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_6"
+   ],
+   "tree_species_substituted": 2,
+   "triangles": 1133562,
+   "unmapped_kinds": {
+    "artwork": 7,
+    "cooling_tower": 100,
+    "curb_ramp": 86,
+    "memorial": 2
+   }
+  },
+  "radius_m": 596.8267657926042,
+  "seconds": 42.83,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 3.979,
+   "triangles": 180000,
+   "water_quads": 0,
+   "z_max_m": 24.5,
+   "z_min_m": 0.91
+  },
+  "triangles": 4500142
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 596.8267657926042
+ },
+ "seconds": {
+  "render": 153.3,
+  "scene": 43.8,
+  "total": 197.1
+ },
+ "slug": "landmark_rockefeller_center",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 123.0,
+  "name": "30 Rockefeller Plaza"
+ },
+ "sun": {
+  "azimuth_deg": 272.7963003231356,
+  "elevation_deg": 25.994890921440415,
+  "local": "2021-05-13T17:37:41-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2021-05-13T21:37:41Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 296.9,
+  "lat": 40.7588,
+  "lon": -73.9776,
+  "note": "Fifth Avenue at the Channel Gardens (between 49th and 50th Streets), looking west up the axis to 30 Rockefeller Plaza"
+ }
+}

@@ -1,0 +1,347 @@
+{
+ "azimuth_reason": "29.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
+ "camera": {
+  "azimuth_deg": 29.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 17.42,
+   "max_m": 18.98,
+   "median_m": 18.83,
+   "min_m": 15.67,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.7566,
+  "lon": -73.9822,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1280,
+   854
+  ],
+  "sensor_mm": 36.0,
+  "slug": "drive_midtown_sixth_ave_45th",
+  "terrain_z_m": 17.424,
+  "x": -2719.095,
+  "y": 6285.853,
+  "z": 19.024
+ },
+ "camera_caption": "camera 40.75660, -73.98220 (NYC_TM -2719, 6286) z 19.0 m NAVD88 | azimuth 29.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "drive_through",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 860.0,
+  "emissive": {
+   "cones_hidden": 1,
+   "lamps_switched_off": 4,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 95.383,
+  "sky_elevation_deg": 43.502,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.593,
+  "view_transform": "Filmic"
+ },
+ "name": "Midtown drive-through: Sixth Avenue at 45th Street",
+ "night": false,
+ "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "reference_photo": {
+  "author": "Tdorante10",
+  "confidence": "medium",
+  "date_taken": "2018",
+  "estimated_azimuth_deg": 29.0,
+  "file": "1.jpg",
+  "height": 1280,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:45th_St_6th_Av_td_06_-_1156_Sixth_Avenue.jpg",
+  "title": "File:45th St 6th Av td 06 - 1156 Sixth Avenue.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/drive_midtown_sixth_ave_45th/render.png",
+ "rendered_at": "2026-09-06T16:31:20Z",
+ "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-2_6",
+    "t_-3_5",
+    "t_-3_6",
+    "t_-3_7",
+    "t_-4_5",
+    "t_-4_6"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-2_6": {
+     "lod": 1,
+     "objects": 18,
+     "triangles": 22968
+    },
+    "t_-3_5": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 49098
+    },
+    "t_-3_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 30874
+    },
+    "t_-3_7": {
+     "lod": 1,
+     "objects": 16,
+     "triangles": 9960
+    },
+    "t_-4_5": {
+     "lod": 0,
+     "objects": 19,
+     "triangles": 45694
+    },
+    "t_-4_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 66858
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "triangle_budget": 3510000,
+   "triangles": 225452
+  },
+  "centre_tm": [
+   -2719.09,
+   6285.85
+  ],
+  "kit": {
+   "capped": "triangle budget 2406053",
+   "per_category": {
+    "antenna": 1,
+    "bulkhead": 33,
+    "cornice": 17,
+    "door_entry": 38,
+    "fire_escape": 11,
+    "hvac": 15,
+    "parapet": 30,
+    "pilaster": 14,
+    "quoin": 4,
+    "scaffold": 18,
+    "storefront": 126,
+    "storefront_interior": 26,
+    "string_course": 17,
+    "water_tower": 13,
+    "window": 12695,
+    "window_accessory": 130
+   },
+   "placed": 13188,
+   "radius_m": 120.0,
+   "records_in_range": 18753,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_6"
+   ],
+   "triangles": 2406147,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 357.2,
+     "id": "30_rockefeller_plaza",
+     "lod": 0,
+     "name": "30 Rockefeller Plaza",
+     "triangles": 102530
+    },
+    {
+     "distance_m": 369.5,
+     "id": "c_times_square",
+     "lod": 0,
+     "name": "Times Square",
+     "triangles": 182310
+    },
+    {
+     "distance_m": 377.9,
+     "id": "new_york_public_library",
+     "lod": 0,
+     "name": "New York Public Library, Stephen A. Schwarzman Building",
+     "triangles": 51785
+    },
+    {
+     "distance_m": 507.2,
+     "id": "one_vanderbilt",
+     "lod": 0,
+     "name": "One Vanderbilt",
+     "triangles": 71710
+    },
+    {
+     "distance_m": 550.5,
+     "id": "st_patricks_cathedral",
+     "lod": 0,
+     "name": "St. Patrick's Cathedral",
+     "triangles": 6259
+    },
+    {
+     "distance_m": 579.6,
+     "id": "c_metlife_building",
+     "lod": 0,
+     "name": "MetLife Building (200 Park Avenue)",
+     "triangles": 105284
+    },
+    {
+     "distance_m": 600.3,
+     "id": "grand_central_terminal",
+     "lod": 0,
+     "name": "Grand Central Terminal",
+     "triangles": 29560
+    },
+    {
+     "distance_m": 677.9,
+     "id": "moma",
+     "lod": 0,
+     "name": "Museum of Modern Art",
+     "triangles": 23620
+    },
+    {
+     "distance_m": 1007.6,
+     "id": "c_billionaires_row",
+     "lod": 0,
+     "name": "Billionaires' Row (West 57th Street corridor)",
+     "triangles": 220910
+    }
+   ],
+   "placed": 9,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 793968
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 458,
+    "curb": 909,
+    "median": 112,
+    "parking_lot": 4,
+    "plaza": 89,
+    "roadbed": 406,
+    "sidewalk": 218
+   },
+   "placed": 2196,
+   "radius_m": 720.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_6",
+    "t_-3_5",
+    "t_-3_6",
+    "t_-3_7",
+    "t_-4_5",
+    "t_-4_6"
+   ],
+   "triangles": 153403,
+   "vertices": 157561
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": false,
+   "per_kind": {
+    "bike_rack": 12,
+    "bus_shelter": 3,
+    "bus_stop_sign": 10,
+    "citibike_dock": 4,
+    "flagpole": 3,
+    "hydrant": 43,
+    "linknyc": 2,
+    "mailbox": 5,
+    "manhole": 73,
+    "newsstand": 4,
+    "rtpi_sign": 1,
+    "steam_vent": 7,
+    "street_lamp": 83,
+    "subway_entrance": 14,
+    "subway_vent_grate": 10,
+    "tree": 63
+   },
+   "placed": 337,
+   "radius_m": 250.0,
+   "rows_in_range": 501,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_6"
+   ],
+   "tree_species_substituted": 9,
+   "triangles": 741124,
+   "unmapped_kinds": {
+    "artwork": 1,
+    "cooling_tower": 128,
+    "curb_ramp": 32,
+    "drinking_fountain": 1,
+    "memorial": 2
+   }
+  },
+  "radius_m": 720.0,
+  "seconds": 53.2,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.8,
+   "triangles": 180000,
+   "water_quads": 0,
+   "z_max_m": 25.7,
+   "z_min_m": 4.23
+  },
+  "triangles": 4500094
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 720.0
+ },
+ "seconds": {
+  "render": 271.3,
+  "scene": 54.6,
+  "total": 325.9
+ },
+ "slug": "drive_midtown_sixth_ave_45th",
+ "status": "rendered",
+ "subject": {
+  "distance_m": null,
+  "name": null
+ },
+ "sun": {
+  "azimuth_deg": 95.38320340718536,
+  "elevation_deg": 43.50155762375766,
+  "local": "2018-06-21T09:30:00-04:00",
+  "time_source": "photograph year only; 21 June 09:30 assumed",
+  "utc": "2018-06-21T13:30:00Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 29.0,
+  "lat": 40.7566,
+  "lon": -73.9822,
+  "note": "Sixth Avenue at West 45th Street, roadway centre, looking uptown"
+ }
+}

@@ -97,9 +97,16 @@ def recover_levels(tri_xyz: bytes, tri_type: bytes, *, z_tol: float = Z_CLUSTER_
         if not polys:
             continue
         try:
-            merged = shapely.union_all(polys).buffer(0)
+            # the roof faces of one level are a triangulation, so they do not overlap:
+            # coverage_union_all is the specialised (and much faster) operator for that
+            merged = shapely.coverage_union_all(polys)
+            if merged is None or merged.is_empty or not merged.is_valid:
+                raise ValueError("coverage union invalid")
         except Exception:
-            continue
+            try:
+                merged = shapely.union_all(polys).buffer(0)
+            except Exception:
+                continue
         parts = [q for q in _iter_polygons(merged) if q.area >= min_area]
         if not parts:
             continue

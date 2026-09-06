@@ -1,0 +1,270 @@
+{
+ "azimuth_reason": "44.5 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 26.8 deg, 17.7 deg away",
+ "camera": {
+  "azimuth_deg": 44.5,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 8.61,
+   "max_m": 9.21,
+   "median_m": 9.07,
+   "min_m": 8.49,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.7308,
+  "lon": -73.9973,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_washington_square_arch",
+  "terrain_z_m": 8.606,
+  "x": -3995.742,
+  "y": 3421.367,
+  "z": 10.206
+ },
+ "camera_caption": "camera 40.73080, -73.99730 (NYC_TM -3996, 3421) z 10.2 m NAVD88 | azimuth 44.5deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 547.5,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 3,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 1.6,
+  "sky_azimuth_deg": 271.518,
+  "sky_elevation_deg": 14.318,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.014,
+  "view_transform": "Filmic"
+ },
+ "name": "Washington Square Arch",
+ "night": false,
+ "pitch_reason": "level optical axis (Washington Square Arch is 37 m away and would need +14 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "reference_photo": {
+  "author": "Christian David",
+  "confidence": "high",
+  "date_taken": "2026-04-16 18:15:53",
+  "estimated_azimuth_deg": 44.5,
+  "file": "1.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Skateboarders_at_the_central_fountain,_Washington_Square_Park,_Manhattan,_New_York.jpg",
+  "title": "File:Skateboarders at the central fountain, Washington Square Park, Manhattan, New York.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_washington_square_arch/render.png",
+ "rendered_at": "2026-09-06T17:32:13Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-4_2",
+    "t_-4_3",
+    "t_-5_2",
+    "t_-5_3"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-4_2": {
+     "lod": 0,
+     "objects": 19,
+     "triangles": 87836
+    },
+    "t_-4_3": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 71440
+    },
+    "t_-5_2": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 53444
+    },
+    "t_-5_3": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 102634
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "triangle_budget": 3510000,
+   "triangles": 315354
+  },
+  "centre_tm": [
+   -3995.74,
+   3421.37
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 2,
+    "cornice": 12,
+    "door_entry": 17,
+    "fence": 1,
+    "hvac": 1,
+    "parapet": 29,
+    "pilaster": 3,
+    "storefront": 14,
+    "storefront_interior": 2,
+    "string_course": 12,
+    "window": 2070,
+    "window_accessory": 80
+   },
+   "placed": 2243,
+   "radius_m": 120.0,
+   "records_in_range": 2243,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-4_3",
+    "t_-5_3"
+   ],
+   "triangles": 401031,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 51.1,
+     "id": "b_washington_square_arch",
+     "lod": 0,
+     "name": "Washington Square Arch",
+     "triangles": 1072
+    }
+   ],
+   "placed": 1,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 1072
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 277,
+    "curb": 507,
+    "median": 39,
+    "parking_lot": 9,
+    "plaza": 12,
+    "roadbed": 254,
+    "sidewalk": 134
+   },
+   "placed": 1232,
+   "radius_m": 500.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-4_2",
+    "t_-4_3",
+    "t_-5_2",
+    "t_-5_3"
+   ],
+   "triangles": 93551,
+   "vertices": 95823
+  },
+  "props": {
+   "capped": "triangle budget 1368508",
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 387,
+    "bike_rack": 2,
+    "citibike_dock": 1,
+    "flagpole": 1,
+    "hydrant": 19,
+    "manhole": 30,
+    "steam_vent": 1,
+    "street_lamp": 136,
+    "tree": 75,
+    "waste_basket": 54
+   },
+   "placed": 706,
+   "radius_m": 250.0,
+   "rows_in_range": 1238,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-4_3",
+    "t_-5_3"
+   ],
+   "tree_species_substituted": 4,
+   "triangles": 1368976,
+   "unmapped_kinds": {
+    "artwork": 2,
+    "cooling_tower": 18,
+    "curb_ramp": 47,
+    "drinking_fountain": 9,
+    "parks_building": 1,
+    "parks_comfort_station": 1
+   }
+  },
+  "radius_m": 500.0,
+  "seconds": 11.06,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 3.333,
+   "triangles": 180000,
+   "water_quads": 0,
+   "z_max_m": 14.42,
+   "z_min_m": -1.29
+  },
+  "triangles": 2359984
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 500.0
+ },
+ "seconds": {
+  "render": 91.3,
+  "scene": 11.4,
+  "total": 102.7
+ },
+ "slug": "landmark_washington_square_arch",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 37.4,
+  "name": "Washington Square Arch"
+ },
+ "sun": {
+  "azimuth_deg": 271.5176558377239,
+  "elevation_deg": 14.317546632372427,
+  "local": "2026-04-16T18:15:53-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2026-04-16T22:15:53Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 26.8,
+  "lat": 40.7308,
+  "lon": -73.9973,
+  "note": "south rim of the Washington Square fountain, looking north through the Arch up Fifth Avenue"
+ }
+}

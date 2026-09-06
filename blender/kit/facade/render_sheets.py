@@ -254,6 +254,7 @@ def closeup(*, samples: int, res_x: int) -> Path:
     for k in range(7):
         _place("cornice_pressed_metal_a", (-3.0 + k * 1.0, 0.0, 4.48))
     _ground(-8.0, 8.0, -9.0, 0.0)
+    _cycles_budget()
     path = OUT / "facade_closeup_detail.png"
     # Portrait frame from the sidewalk: quick_render applies fov_deg to the larger image dimension, so at 4.6 m
     # a 55 deg vertical FOV covers z 0.9-5.7 m — sill course, window, belt course and cornice soffit in one shot.

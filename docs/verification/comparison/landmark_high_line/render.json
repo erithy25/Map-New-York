@@ -1,0 +1,300 @@
+{
+ "azimuth_reason": "29.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
+ "camera": {
+  "azimuth_deg": 29.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 10.7,
+  "eye_source": "High Line deck, 30 ft (9.1 m) above the street on the West Side Line viaduct, plus 1.6 m eye height",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 1.84,
+   "max_m": 2.5,
+   "median_m": 1.84,
+   "min_m": 1.13,
+   "mode": "local",
+   "percentile": null,
+   "radius_m": 5.0,
+   "samples": 16
+  },
+  "ground_mode": "local",
+  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap median within 5 m is the ground",
+  "hfov_deg": 54.432,
+  "lat": 40.7461,
+  "lon": -74.006,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_high_line",
+  "terrain_z_m": 1.842,
+  "x": -4608.402,
+  "y": 5339.502,
+  "z": 12.542
+ },
+ "camera_caption": "camera 40.74610, -74.00600 (NYC_TM -4608, 5340) z 12.5 m NAVD88 | azimuth 29.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "clearance": {
+  "direction": "along the view azimuth",
+  "moved": true,
+  "note": "the eye point stands on the roof of lm_c_high_line.5, which the reference viewpoint records as a single lat/lon for the whole deck; the camera was walked 250 m along the view azimuth to the parapet, the last point the roof still supports, which is where the reference photographs are taken",
+  "offset_m": 250.0,
+  "standing_on": "lm_c_high_line.5"
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 730.3,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 5,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.73,
+  "sky_azimuth_deg": 203.455,
+  "sky_elevation_deg": 25.981,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.352,
+  "view_transform": "Filmic"
+ },
+ "name": "High Line",
+ "night": false,
+ "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "reference_photo": {
+  "author": "Kidfly182",
+  "confidence": "medium",
+  "date_taken": "2023-01-21 13:36:45",
+  "estimated_azimuth_deg": 29.0,
+  "file": "3.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:The_High_Line_Hotel_001.jpg",
+  "title": "File:The High Line Hotel 001.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_high_line/render.png",
+ "rendered_at": "2026-09-06T17:43:18Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-5_4",
+    "t_-5_5",
+    "t_-6_4",
+    "t_-6_5"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-5_4": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 81644
+    },
+    "t_-5_5": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 31960
+    },
+    "t_-6_4": {
+     "lod": 0,
+     "objects": 6,
+     "triangles": 676
+    },
+    "t_-6_5": {
+     "lod": 0,
+     "objects": 2,
+     "triangles": 288
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "triangle_budget": 3510000,
+   "triangles": 114568
+  },
+  "centre_tm": [
+   -4729.6,
+   5120.85
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 40,
+    "cornice": 39,
+    "door_entry": 73,
+    "fence": 5,
+    "fire_escape": 80,
+    "hvac": 37,
+    "parapet": 53,
+    "pilaster": 24,
+    "quoin": 28,
+    "scaffold": 80,
+    "storefront": 285,
+    "storefront_interior": 40,
+    "string_course": 30,
+    "water_tower": 5,
+    "window": 3993,
+    "window_accessory": 173
+   },
+   "placed": 4985,
+   "radius_m": 120.0,
+   "records_in_range": 4985,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_5"
+   ],
+   "triangles": 1136432,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 232.8,
+     "id": "c_high_line",
+     "lod": 0,
+     "name": "The High Line",
+     "triangles": 27316
+    },
+    {
+     "distance_m": 392.9,
+     "id": "c_chelsea_market",
+     "lod": 0,
+     "name": "Chelsea Market (National Biscuit Company complex)",
+     "triangles": 40256
+    },
+    {
+     "distance_m": 452.3,
+     "id": "c_pier_57",
+     "lod": 0,
+     "name": "Pier 57",
+     "triangles": 1996
+    },
+    {
+     "distance_m": 599.4,
+     "id": "c_little_island",
+     "lod": 0,
+     "name": "Little Island (Pier 55)",
+     "triangles": 8661
+    }
+   ],
+   "placed": 4,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 78229
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 296,
+    "curb": 663,
+    "median": 142,
+    "parking_lot": 20,
+    "plaza": 6,
+    "roadbed": 247,
+    "sidewalk": 194
+   },
+   "placed": 1568,
+   "radius_m": 720.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_4",
+    "t_-5_5",
+    "t_-6_4",
+    "t_-6_5"
+   ],
+   "triangles": 103230,
+   "vertices": 106086
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": true,
+   "per_kind": {
+    "bench": 3,
+    "bike_rack": 9,
+    "bus_shelter": 2,
+    "bus_stop_sign": 9,
+    "citibike_dock": 4,
+    "hydrant": 59,
+    "manhole": 90,
+    "newsstand": 1,
+    "steam_vent": 12,
+    "street_lamp": 99,
+    "tree": 255,
+    "waste_basket": 1
+   },
+   "placed": 544,
+   "radius_m": 250.0,
+   "rows_in_range": 782,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_4",
+    "t_-5_5"
+   ],
+   "tree_species_substituted": 77,
+   "triangles": 1367250,
+   "unmapped_kinds": {
+    "artwork": 2,
+    "cooling_tower": 153,
+    "curb_ramp": 71,
+    "drinking_fountain": 2,
+    "misc_structure": 5,
+    "parks_building": 1,
+    "payphone": 1,
+    "vending_machine": 3
+   }
+  },
+  "radius_m": 720.0,
+  "seconds": 36.72,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.8,
+   "triangles": 180000,
+   "water_quads": 23867,
+   "z_max_m": 13.41,
+   "z_min_m": -1.94
+  },
+  "triangles": 2979709
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 720.0
+ },
+ "seconds": {
+  "render": 86.7,
+  "scene": 38.6,
+  "total": 125.3
+ },
+ "slug": "landmark_high_line",
+ "status": "rendered",
+ "subject": {
+  "distance_m": null,
+  "name": null
+ },
+ "sun": {
+  "azimuth_deg": 203.45458551992039,
+  "elevation_deg": 25.980636185595575,
+  "local": "2023-01-21T13:36:45-05:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2023-01-21T18:36:45Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 29.0,
+  "lat": 40.7461,
+  "lon": -74.006,
+  "note": "on the High Line at West 20th Street (Chelsea Grasslands), centre of the path, looking north"
+ }
+}

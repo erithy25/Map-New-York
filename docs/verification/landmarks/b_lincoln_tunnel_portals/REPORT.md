@@ -1,6 +1,6 @@
 # Lincoln Tunnel
 
-Script: `blender/landmarks/b_lincoln_tunnel_portals.py` · agent B · generated 2026-09-06 14:09 UTC
+Script: `blender/landmarks/b_lincoln_tunnel_portals.py` · agent B · generated 2026-09-06 15:35 UTC
 
 ## Placement
 
@@ -39,4 +39,9 @@ and the individual tile courses.
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_lincoln_tunnel_portals.glb` — 57,080 triangles, 2.55 MB, bounds min ['-1169.4', '-606.0', '-28.9'] max ['1180.3', '625.8', '54.6']
-* `blender_out/landmarks/b_lincoln_tunnel_portals_lod1.glb` — 9,306 triangles, 0.55 MB, bounds min ['-1169.4', '-606.0', '-28.8'] max ['1180.3', '625.5', '54.6']
+
+## Verification renders (Cycles CPU, 64 spp)
+
+![manhattan_portal_reference](manhattan_portal_reference.png)
+![weehawken_portals](weehawken_portals.png)
+![tube_interior](tube_interior.png)

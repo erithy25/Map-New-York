@@ -1,0 +1,316 @@
+{
+ "azimuth_reason": "202.4 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 199.4 deg, 3.0 deg away",
+ "camera": {
+  "azimuth_deg": 202.4,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 2.66,
+   "max_m": 2.85,
+   "median_m": 2.66,
+   "min_m": 2.57,
+   "mode": "local",
+   "percentile": null,
+   "radius_m": 5.0,
+   "samples": 16
+  },
+  "ground_mode": "local",
+  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap median within 5 m is the ground",
+  "hfov_deg": 54.432,
+  "lat": 40.7165,
+  "lon": -73.9668,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_williamsburg_bridge",
+  "terrain_z_m": 2.663,
+  "x": -1419.51,
+  "y": 1832.432,
+  "z": 4.263
+ },
+ "camera_caption": "camera 40.71650, -73.96680 (NYC_TM -1420, 1832) z 4.3 m NAVD88 | azimuth 202.4deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 939.3,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 3,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 208.003,
+  "sky_elevation_deg": 70.726,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.74,
+  "view_transform": "Filmic"
+ },
+ "name": "Williamsburg Bridge",
+ "night": false,
+ "pitch_reason": "level optical axis (the subject is 507 m away; anything that far is photographed with a level camera)",
+ "reference_photo": {
+  "author": "Kidfly182",
+  "confidence": "high",
+  "date_taken": "2022-06-28 13:38:05",
+  "estimated_azimuth_deg": 202.4,
+  "file": "3.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Williamsburg_Bridge_June_2022_003.jpg",
+  "title": "File:Williamsburg Bridge June 2022 003.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_williamsburg_bridge/render.png",
+ "rendered_at": "2026-09-06T18:04:09Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-1_0",
+    "t_-1_1",
+    "t_-1_2",
+    "t_-2_0",
+    "t_-2_1",
+    "t_-2_2",
+    "t_-2_3",
+    "t_-3_0",
+    "t_-3_1",
+    "t_-3_2"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-1_0": {
+     "lod": 1,
+     "objects": 12,
+     "triangles": 34272
+    },
+    "t_-1_1": {
+     "lod": 0,
+     "objects": 15,
+     "triangles": 68896
+    },
+    "t_-1_2": {
+     "lod": 0,
+     "objects": 10,
+     "triangles": 44446
+    },
+    "t_-2_0": {
+     "lod": 1,
+     "objects": 9,
+     "triangles": 9812
+    },
+    "t_-2_1": {
+     "lod": 0,
+     "objects": 15,
+     "triangles": 26744
+    },
+    "t_-2_2": {
+     "lod": 0,
+     "objects": 6,
+     "triangles": 3172
+    },
+    "t_-2_3": {
+     "lod": 1,
+     "objects": 5,
+     "triangles": 252
+    },
+    "t_-3_0": {
+     "lod": 1,
+     "objects": 13,
+     "triangles": 4560
+    },
+    "t_-3_1": {
+     "lod": 0,
+     "objects": 11,
+     "triangles": 14788
+    },
+    "t_-3_2": {
+     "lod": 1,
+     "objects": 13,
+     "triangles": 29036
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 10,
+   "tiles_missing": 0,
+   "tiles_wanted": 10,
+   "triangle_budget": 3510000,
+   "triangles": 235978
+  },
+  "centre_tm": [
+   -1419.51,
+   1832.43
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 8,
+    "cornice": 13,
+    "door_entry": 39,
+    "fence": 1,
+    "fire_escape": 21,
+    "hvac": 6,
+    "parapet": 68,
+    "quoin": 4,
+    "scaffold": 36,
+    "storefront": 126,
+    "storefront_interior": 18,
+    "string_course": 9,
+    "window": 3573,
+    "window_accessory": 14
+   },
+   "placed": 3936,
+   "radius_m": 120.0,
+   "records_in_range": 3936,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_1"
+   ],
+   "triangles": 563387,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 233.3,
+     "id": "c_domino_sugar_refinery",
+     "lod": 0,
+     "name": "Domino Sugar Refinery and Domino Park",
+     "triangles": 20932
+    },
+    {
+     "distance_m": 555.8,
+     "id": "b_williamsburg_bridge",
+     "lod": 0,
+     "name": "Williamsburg Bridge",
+     "triangles": 84236
+    }
+   ],
+   "placed": 2,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 105168
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 564,
+    "curb": 815,
+    "median": 92,
+    "parking_lot": 41,
+    "plaza": 10,
+    "roadbed": 441,
+    "sidewalk": 221
+   },
+   "placed": 2184,
+   "radius_m": 900.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-1_1",
+    "t_-1_2",
+    "t_-2_0",
+    "t_-2_1",
+    "t_-2_2",
+    "t_-3_1",
+    "t_-3_2"
+   ],
+   "triangles": 167519,
+   "vertices": 171615
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 36,
+    "bike_rack": 7,
+    "bus_stop_sign": 4,
+    "citibike_dock": 3,
+    "flagpole": 1,
+    "hydrant": 24,
+    "linknyc": 2,
+    "manhole": 56,
+    "street_lamp": 83,
+    "tree": 96,
+    "waste_basket": 14
+   },
+   "placed": 326,
+   "radius_m": 250.0,
+   "rows_in_range": 443,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_1",
+    "t_-2_2"
+   ],
+   "tree_species_substituted": 27,
+   "triangles": 895646,
+   "unmapped_kinds": {
+    "artwork": 1,
+    "cooling_tower": 45,
+    "curb_ramp": 69,
+    "drinking_fountain": 2
+   }
+  },
+  "radius_m": 1210.448885472359,
+  "seconds": 35.34,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 8.07,
+   "triangles": 180000,
+   "water_quads": 27357,
+   "z_max_m": 18.72,
+   "z_min_m": -1.62
+  },
+  "triangles": 2147698
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 1210.448885472359
+ },
+ "seconds": {
+  "render": 69.9,
+  "scene": 35.9,
+  "total": 105.8
+ },
+ "slug": "landmark_williamsburg_bridge",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 506.5,
+  "name": "Williamsburg Bridge Brooklyn tower"
+ },
+ "sun": {
+  "azimuth_deg": 208.00306409415265,
+  "elevation_deg": 70.72574930337714,
+  "local": "2022-06-28T13:38:05-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2022-06-28T17:38:05Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 199.4,
+  "lat": 40.7165,
+  "lon": -73.9668,
+  "note": "north end of Domino Park (Grand Street pier), looking south at the Brooklyn tower"
+ }
+}

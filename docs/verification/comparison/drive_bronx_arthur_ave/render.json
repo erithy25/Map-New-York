@@ -1,0 +1,260 @@
+{
+ "azimuth_reason": "190.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
+ "camera": {
+  "azimuth_deg": 190.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 24.29,
+   "max_m": 24.89,
+   "median_m": 24.51,
+   "min_m": 24.08,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.8551,
+  "lon": -73.8878,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "drive_bronx_arthur_ave",
+  "terrain_z_m": 24.288,
+  "x": 5244.653,
+  "y": 17225.657,
+  "z": 25.888
+ },
+ "camera_caption": "camera 40.85510, -73.88780 (NYC_TM 5245, 17226) z 25.9 m NAVD88 | azimuth 190.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "drive_through",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 913.3,
+  "emissive": {
+   "cones_hidden": 1,
+   "lamps_switched_off": 2,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 246.78,
+  "sky_elevation_deg": 57.923,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.691,
+  "view_transform": "Filmic"
+ },
+ "name": "Bronx drive-through: Arthur Avenue (Belmont)",
+ "night": false,
+ "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "reference_photo": {
+  "author": "Hugo L. Gonz\u00e1lez",
+  "confidence": "medium",
+  "date_taken": "2019-06-15 15:04:31",
+  "estimated_azimuth_deg": 190.0,
+  "file": "2.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:NYC_Parks_D%E2%80%99Auria-Murphy_Triangle_IMG_0677_HLG.jpg",
+  "title": "File:NYC Parks D\u2019Auria-Murphy Triangle IMG 0677 HLG.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/drive_bronx_arthur_ave/render.png",
+ "rendered_at": "2026-09-06T16:55:20Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_4_16",
+    "t_4_17",
+    "t_5_16",
+    "t_5_17"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_4_16": {
+     "lod": 0,
+     "objects": 13,
+     "triangles": 45976
+    },
+    "t_4_17": {
+     "lod": 0,
+     "objects": 12,
+     "triangles": 72158
+    },
+    "t_5_16": {
+     "lod": 0,
+     "objects": 11,
+     "triangles": 60840
+    },
+    "t_5_17": {
+     "lod": 0,
+     "objects": 12,
+     "triangles": 53204
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "triangle_budget": 3510000,
+   "triangles": 232178
+  },
+  "centre_tm": [
+   5244.65,
+   17225.66
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 62,
+    "cornice": 121,
+    "door_entry": 188,
+    "fence": 5,
+    "fire_escape": 154,
+    "hvac": 14,
+    "parapet": 168,
+    "pilaster": 77,
+    "quoin": 118,
+    "scaffold": 14,
+    "storefront": 600,
+    "storefront_interior": 129,
+    "string_course": 113,
+    "water_tower": 1,
+    "window": 3939,
+    "window_accessory": 693
+   },
+   "placed": 6396,
+   "radius_m": 120.0,
+   "records_in_range": 6396,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_5_17"
+   ],
+   "triangles": 1660029,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [],
+   "placed": 0,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 0
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 547,
+    "curb": 963,
+    "median": 76,
+    "parking_lot": 134,
+    "plaza": 25,
+    "roadbed": 398,
+    "sidewalk": 234
+   },
+   "placed": 2377,
+   "radius_m": 720.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_4_16",
+    "t_4_17",
+    "t_5_16",
+    "t_5_17"
+   ],
+   "triangles": 188541,
+   "vertices": 192969
+  },
+  "props": {
+   "capped": "triangle budget 1364748",
+   "leaf_off": false,
+   "per_kind": {
+    "citibike_dock": 2,
+    "flagpole": 1,
+    "hydrant": 25,
+    "mailbox": 1,
+    "manhole": 54,
+    "street_lamp": 63,
+    "tree": 201
+   },
+   "placed": 347,
+   "radius_m": 250.0,
+   "rows_in_range": 888,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_4_17",
+    "t_5_16",
+    "t_5_17"
+   ],
+   "tree_species_substituted": 67,
+   "triangles": 1367730,
+   "unmapped_kinds": {
+    "cooling_tower": 45,
+    "curb_ramp": 70,
+    "parks_comfort_station": 1
+   }
+  },
+  "radius_m": 720.0,
+  "seconds": 31.43,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.8,
+   "triangles": 180000,
+   "water_quads": 0,
+   "z_max_m": 36.33,
+   "z_min_m": 10.98
+  },
+  "triangles": 3628478
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 720.0
+ },
+ "seconds": {
+  "render": 77.2,
+  "scene": 32.3,
+  "total": 109.4
+ },
+ "slug": "drive_bronx_arthur_ave",
+ "status": "rendered",
+ "subject": {
+  "distance_m": null,
+  "name": null
+ },
+ "sun": {
+  "azimuth_deg": 246.78043702673625,
+  "elevation_deg": 57.92298245304283,
+  "local": "2019-06-15T15:04:31-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2019-06-15T19:04:31Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 190.0,
+  "lat": 40.8551,
+  "lon": -73.8878,
+  "note": "Arthur Avenue at East 187th Street, roadway centre, looking south"
+ }
+}

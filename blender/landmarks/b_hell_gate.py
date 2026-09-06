@@ -168,6 +168,7 @@ def main() -> None:
             # the comparison agent's recorded photographic viewpoint, used verbatim
             ba.reference_render("landmark_hell_gate_bridge", fit.frame, view="astoria_park_reference",
                                 ground_z=GROUND, target_z=70.0, fov_deg=58.0, size=(1280, 720), context=ctx,
+                                aim=ax.p(0.0, 0.0, 70.0),
                                 sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
             dict(view="astoria_park", cam=ax.p(S_T_QN - 90.0, -230.0, GROUND + 2.0), target=ax.p(30.0, 0.0, 60.0),
                  fov_deg=60.0, context=ctx, sun_azimuth_deg=250.0, sun_elevation_deg=32.0),

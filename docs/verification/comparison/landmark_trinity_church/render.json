@@ -1,0 +1,399 @@
+{
+ "azimuth_reason": "311.4 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 309.1 deg, 2.3 deg away",
+ "camera": {
+  "azimuth_deg": 311.4,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 7.89,
+   "max_m": 8.46,
+   "median_m": 8.13,
+   "min_m": 7.55,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 35.446,
+  "lat": 40.7065,
+  "lon": -74.0095,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": true,
+  "resolution": [
+   824,
+   1326
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_trinity_church",
+  "terrain_z_m": 7.886,
+  "x": -5028.184,
+  "y": 723.516,
+  "z": 9.486
+ },
+ "camera_caption": "camera 40.70650, -74.00950 (NYC_TM -5028, 724) z 9.5 m NAVD88 | azimuth 311.4deg pitch +0.0deg | 35 mm on 36 mm (35.4deg horizontal, 54.4deg vertical, portrait) | 824x1326",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 863.6,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 5,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 220.933,
+  "sky_elevation_deg": 44.251,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.599,
+  "view_transform": "Filmic"
+ },
+ "name": "Trinity Church",
+ "night": false,
+ "pitch_reason": "level optical axis (the subject is 283 m away; anything that far is photographed with a level camera)",
+ "reference_photo": {
+  "author": "Tony Hisgett from Birmingham, UK",
+  "confidence": "high",
+  "date_taken": "2011-09-16 14:43",
+  "estimated_azimuth_deg": 311.4,
+  "file": "2.jpg",
+  "height": 3089,
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Trinity_Church_Wall_St_(6217334552).jpg",
+  "title": "File:Trinity Church Wall St (6217334552).jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_trinity_church/render.png",
+ "rendered_at": "2026-09-06T17:16:47Z",
+ "resolution_note": "824x1326; the reference photograph is 1920x3089 (0.62:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-5_-1",
+    "t_-5_0",
+    "t_-5_1",
+    "t_-6_-1",
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-5_-1": {
+     "lod": 1,
+     "objects": 11,
+     "triangles": 3260
+    },
+    "t_-5_0": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 11932
+    },
+    "t_-5_1": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 42918
+    },
+    "t_-6_-1": {
+     "lod": 1,
+     "objects": 8,
+     "triangles": 1312
+    },
+    "t_-6_0": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 14912
+    },
+    "t_-6_1": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 15588
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "triangle_budget": 3510000,
+   "triangles": 89922
+  },
+  "centre_tm": [
+   -5028.18,
+   723.52
+  ],
+  "kit": {
+   "capped": "triangle budget 2101035",
+   "per_category": {
+    "bulkhead": 11,
+    "cornice": 11,
+    "door_entry": 16,
+    "fire_escape": 11,
+    "hvac": 9,
+    "parapet": 15,
+    "pilaster": 12,
+    "quoin": 4,
+    "scaffold": 135,
+    "storefront": 86,
+    "storefront_interior": 11,
+    "string_course": 12,
+    "water_tower": 5,
+    "window": 8227,
+    "window_accessory": 511
+   },
+   "placed": 9076,
+   "radius_m": 120.0,
+   "records_in_range": 22476,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_0",
+    "t_-6_0"
+   ],
+   "triangles": 2101172,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 61.8,
+     "id": "40_wall_street",
+     "lod": 0,
+     "name": "40 Wall Street (Trump Building)",
+     "triangles": 43167
+    },
+    {
+     "distance_m": 111.8,
+     "id": "federal_hall",
+     "lod": 0,
+     "name": "Federal Hall National Memorial",
+     "triangles": 9070
+    },
+    {
+     "distance_m": 155.6,
+     "id": "nyse",
+     "lod": 0,
+     "name": "New York Stock Exchange",
+     "triangles": 26049
+    },
+    {
+     "distance_m": 206.9,
+     "id": "one_wall_street",
+     "lod": 0,
+     "name": "One Wall Street (Irving Trust Building)",
+     "triangles": 42712
+    },
+    {
+     "distance_m": 210.7,
+     "id": "equitable_building",
+     "lod": 0,
+     "name": "Equitable Building",
+     "triangles": 86321
+    },
+    {
+     "distance_m": 286.1,
+     "id": "trinity_church",
+     "lod": 0,
+     "name": "Trinity Church",
+     "triangles": 3984
+    },
+    {
+     "distance_m": 350.3,
+     "id": "charging_bull",
+     "lod": 0,
+     "name": "Charging Bull",
+     "triangles": 818
+    },
+    {
+     "distance_m": 641.3,
+     "id": "b_wtc_site",
+     "lod": 0,
+     "name": "World Trade Center site",
+     "triangles": 136174
+    },
+    {
+     "distance_m": 668.0,
+     "id": "woolworth",
+     "lod": 0,
+     "name": "Woolworth Building",
+     "triangles": 47871
+    },
+    {
+     "distance_m": 676.1,
+     "id": "c_whitehall_and_st_george_ferry_terminals",
+     "lod": 0,
+     "name": "Whitehall, Battery Maritime and St. George ferry terminals",
+     "triangles": 77605
+    },
+    {
+     "distance_m": 678.9,
+     "id": "c_pier_17_seaport",
+     "lod": 0,
+     "name": "Pier 17, South Street Seaport",
+     "triangles": 1350
+    },
+    {
+     "distance_m": 755.4,
+     "id": "city_hall",
+     "lod": 0,
+     "name": "New York City Hall",
+     "triangles": 44823
+    },
+    {
+     "distance_m": 786.7,
+     "id": "b_one_world_trade_center",
+     "lod": 0,
+     "name": "One World Trade Center",
+     "triangles": 6044
+    },
+    {
+     "distance_m": 872.3,
+     "id": "municipal_building",
+     "lod": 0,
+     "name": "Manhattan Municipal Building",
+     "triangles": 97825
+    },
+    {
+     "distance_m": 1115.4,
+     "id": "b_brooklyn_bridge",
+     "lod": 0,
+     "name": "Brooklyn Bridge",
+     "triangles": 121824
+    },
+    {
+     "distance_m": 1440.1,
+     "id": "b_hugh_carey_portals",
+     "lod": 0,
+     "name": "Hugh L. Carey Tunnel",
+     "triangles": 43880
+    }
+   ],
+   "placed": 16,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 789517
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 716,
+    "curb": 1454,
+    "median": 115,
+    "parking_lot": 17,
+    "plaza": 77,
+    "roadbed": 588,
+    "sidewalk": 263
+   },
+   "placed": 3230,
+   "radius_m": 852.1083270185936,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_-1",
+    "t_-5_0",
+    "t_-5_1",
+    "t_-6_-1",
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "triangles": 219622,
+   "vertices": 225702
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 64,
+    "bike_rack": 19,
+    "bus_shelter": 1,
+    "bus_stop_sign": 7,
+    "citibike_dock": 5,
+    "flagpole": 4,
+    "hydrant": 81,
+    "linknyc": 1,
+    "mailbox": 1,
+    "manhole": 117,
+    "newsstand": 8,
+    "steam_vent": 3,
+    "street_lamp": 126,
+    "subway_entrance": 23,
+    "subway_vent_grate": 32,
+    "tree": 53,
+    "waste_basket": 35
+   },
+   "placed": 580,
+   "radius_m": 250.0,
+   "rows_in_range": 849,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_0",
+    "t_-6_0"
+   ],
+   "tree_species_substituted": 12,
+   "triangles": 1119904,
+   "unmapped_kinds": {
+    "artwork": 8,
+    "cooling_tower": 107,
+    "curb_ramp": 145,
+    "drinking_fountain": 3,
+    "memorial": 4,
+    "vending_machine": 2
+   }
+  },
+  "radius_m": 852.1083270185936,
+  "seconds": 49.15,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 5.681,
+   "triangles": 180000,
+   "water_quads": 28223,
+   "z_max_m": 14.43,
+   "z_min_m": -4.59
+  },
+  "triangles": 4500137
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 852.1083270185936
+ },
+ "seconds": {
+  "render": 123.1,
+  "scene": 50.1,
+  "total": 173.2
+ },
+ "slug": "landmark_trinity_church",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 282.6,
+  "name": "Trinity Church"
+ },
+ "sun": {
+  "azimuth_deg": 220.9325659114471,
+  "elevation_deg": 44.251231702832,
+  "local": "2011-09-16T14:43:00-04:00",
+  "time_source": "EXIF DateTimeOriginal (minutes)",
+  "utc": "2011-09-16T18:43:00Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 309.1,
+  "lat": 40.7065,
+  "lon": -74.0095,
+  "note": "Wall Street at William Street, looking west-north-west up Wall Street at the spire"
+ }
+}

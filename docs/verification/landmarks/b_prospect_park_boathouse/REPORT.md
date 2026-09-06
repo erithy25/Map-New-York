@@ -1,6 +1,6 @@
 # Prospect Park Boathouse (Audubon Center)
 
-Script: `blender/landmarks/b_prospect_park_boathouse.py` · agent B · generated 2026-09-06 14:11 UTC
+Script: `blender/landmarks/b_prospect_park_boathouse.py` · agent B · generated 2026-09-06 15:58 UTC
 
 ## Published dimensions
 
@@ -26,4 +26,8 @@ exhibits), the boat landing and its steps down to the Lullwater, the Lullwater B
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_prospect_park_boathouse.glb` — 6,176 triangles, 0.30 MB, bounds min ['-9.4', '-19.3', '-3.0'] max ['9.5', '19.8', '11.6']
-* `blender_out/landmarks/b_prospect_park_boathouse_lod1.glb` — 828 triangles, 0.06 MB, bounds min ['-9.4', '-19.3', '-3.0'] max ['9.5', '19.8', '11.6']
+
+## Verification renders (Cycles CPU, 64 spp)
+
+![from_the_lullwater](from_the_lullwater.png)
+![three_quarter](three_quarter.png)

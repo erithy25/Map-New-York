@@ -1,0 +1,384 @@
+{
+ "azimuth_reason": "333.2 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 337.3 deg, 4.1 deg away",
+ "camera": {
+  "azimuth_deg": 333.2,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 6.22,
+   "max_m": 6.97,
+   "median_m": 6.56,
+   "min_m": 6.05,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 40.449,
+  "lat": 40.7104,
+  "lon": -74.0121,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": true,
+  "resolution": [
+   884,
+   1234
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_one_world_trade_center",
+  "terrain_z_m": 6.224,
+  "x": -5219.034,
+  "y": 1171.184,
+  "z": 7.824
+ },
+ "camera_caption": "camera 40.71040, -74.01210 (NYC_TM -5219, 1171) z 7.8 m NAVD88 | azimuth 333.2deg pitch +0.0deg | 35 mm on 36 mm (40.4deg horizontal, 54.4deg vertical, portrait) | 884x1234",
+ "clearance": {
+  "direction": "to the right",
+  "moved": true,
+  "note": "the recorded viewpoint is inside lm_b_wtc_site.232 (a ray straight up from the eye point hits its roof); the camera was moved 32 m to the right -- the nearest point in open air -- keeping the same eye height above the heightmap",
+  "offset_m": 32.0,
+  "reason": "inside lm_b_wtc_site.232 (a ray straight up from the eye point hits its roof)"
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 625.1,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 5,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 1.25,
+  "sky_azimuth_deg": 257.393,
+  "sky_elevation_deg": 18.285,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.158,
+  "view_transform": "Filmic"
+ },
+ "name": "One World Trade Center",
+ "night": false,
+ "pitch_reason": "level optical axis (the subject is 282 m away; anything that far is photographed with a level camera)",
+ "reference_photo": {
+  "author": "Opencooper",
+  "confidence": "high",
+  "date_taken": "2017-09-15 17:23:28",
+  "estimated_azimuth_deg": 333.2,
+  "file": "3.jpg",
+  "height": 2682,
+  "licence": "CC0",
+  "licence_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page_url": "https://commons.wikimedia.org/wiki/File:One_World_Trade_Center,_top_and_spire.JPG",
+  "title": "File:One World Trade Center, top and spire.JPG",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_one_world_trade_center/render.png",
+ "rendered_at": "2026-09-06T17:03:03Z",
+ "resolution_note": "884x1234; the reference photograph is 1920x2682 (0.72:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-5_0",
+    "t_-5_1",
+    "t_-6_0",
+    "t_-6_1",
+    "t_-6_2"
+   ],
+   "missing": [
+    "t_-7_0",
+    "t_-7_1"
+   ],
+   "per_tile": {
+    "t_-5_0": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 11932
+    },
+    "t_-5_1": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 42918
+    },
+    "t_-6_0": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 14912
+    },
+    "t_-6_1": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 15588
+    },
+    "t_-6_2": {
+     "lod": 1,
+     "objects": 15,
+     "triangles": 3684
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 5,
+   "tiles_missing": 2,
+   "tiles_wanted": 7,
+   "triangle_budget": 3510000,
+   "triangles": 89034
+  },
+  "centre_tm": [
+   -5247.6,
+   1156.76
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 11,
+    "cornice": 18,
+    "door_entry": 29,
+    "fence": 1,
+    "fire_escape": 15,
+    "hvac": 5,
+    "parapet": 21,
+    "pilaster": 1,
+    "quoin": 19,
+    "scaffold": 9,
+    "storefront": 80,
+    "storefront_interior": 16,
+    "string_course": 21,
+    "water_tower": 4,
+    "window": 7036,
+    "window_accessory": 20
+   },
+   "placed": 7306,
+   "radius_m": 120.0,
+   "records_in_range": 7306,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-6_1"
+   ],
+   "triangles": 1246591,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 156.9,
+     "id": "b_wtc_site",
+     "lod": 0,
+     "name": "World Trade Center site",
+     "triangles": 136174
+    },
+    {
+     "distance_m": 263.0,
+     "id": "trinity_church",
+     "lod": 0,
+     "name": "Trinity Church",
+     "triangles": 3984
+    },
+    {
+     "distance_m": 275.3,
+     "id": "equitable_building",
+     "lod": 0,
+     "name": "Equitable Building",
+     "triangles": 86321
+    },
+    {
+     "distance_m": 303.6,
+     "id": "b_one_world_trade_center",
+     "lod": 0,
+     "name": "One World Trade Center",
+     "triangles": 6044
+    },
+    {
+     "distance_m": 361.7,
+     "id": "one_wall_street",
+     "lod": 0,
+     "name": "One Wall Street (Irving Trust Building)",
+     "triangles": 42712
+    },
+    {
+     "distance_m": 375.0,
+     "id": "federal_hall",
+     "lod": 0,
+     "name": "Federal Hall National Memorial",
+     "triangles": 9070
+    },
+    {
+     "distance_m": 381.3,
+     "id": "nyse",
+     "lod": 0,
+     "name": "New York Stock Exchange",
+     "triangles": 26049
+    },
+    {
+     "distance_m": 392.2,
+     "id": "woolworth",
+     "lod": 0,
+     "name": "Woolworth Building",
+     "triangles": 47871
+    },
+    {
+     "distance_m": 424.6,
+     "id": "40_wall_street",
+     "lod": 0,
+     "name": "40 Wall Street (Trump Building)",
+     "triangles": 43167
+    },
+    {
+     "distance_m": 553.6,
+     "id": "charging_bull",
+     "lod": 0,
+     "name": "Charging Bull",
+     "triangles": 818
+    },
+    {
+     "distance_m": 578.9,
+     "id": "city_hall",
+     "lod": 0,
+     "name": "New York City Hall",
+     "triangles": 44823
+    },
+    {
+     "distance_m": 770.0,
+     "id": "municipal_building",
+     "lod": 0,
+     "name": "Manhattan Municipal Building",
+     "triangles": 97825
+    },
+    {
+     "distance_m": 1430.7,
+     "id": "b_brooklyn_bridge",
+     "lod": 0,
+     "name": "Brooklyn Bridge",
+     "triangles": 121824
+    },
+    {
+     "distance_m": 1876.7,
+     "id": "b_hugh_carey_portals",
+     "lod": 0,
+     "name": "Hugh L. Carey Tunnel",
+     "triangles": 43880
+    }
+   ],
+   "placed": 14,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 710562
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 790,
+    "curb": 1500,
+    "median": 118,
+    "parking_lot": 15,
+    "plaza": 96,
+    "roadbed": 603,
+    "sidewalk": 313
+   },
+   "placed": 3435,
+   "radius_m": 850.86521276853,
+   "tiles_missing": [
+    "t_-7_0",
+    "t_-7_1"
+   ],
+   "tiles_read": [
+    "t_-5_0",
+    "t_-5_1",
+    "t_-6_0",
+    "t_-6_1",
+    "t_-6_2"
+   ],
+   "triangles": 239736,
+   "vertices": 246190
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 103,
+    "bike_rack": 13,
+    "bus_shelter": 1,
+    "bus_stop_sign": 15,
+    "citibike_dock": 4,
+    "flagpole": 12,
+    "hydrant": 68,
+    "manhole": 98,
+    "newsstand": 2,
+    "steam_vent": 1,
+    "street_lamp": 195,
+    "subway_emergency_exit": 1,
+    "subway_entrance": 27,
+    "subway_vent_grate": 32,
+    "tree": 23,
+    "waste_basket": 13
+   },
+   "placed": 608,
+   "radius_m": 250.0,
+   "rows_in_range": 814,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_1",
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "tree_species_substituted": 0,
+   "triangles": 1063844,
+   "unmapped_kinds": {
+    "artwork": 6,
+    "cooling_tower": 67,
+    "curb_ramp": 125,
+    "memorial": 8
+   }
+  },
+  "radius_m": 850.86521276853,
+  "seconds": 66.48,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 5.672,
+   "triangles": 180000,
+   "water_quads": 21038,
+   "z_max_m": 14.41,
+   "z_min_m": -4.24
+  },
+  "triangles": 3529767
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 850.86521276853
+ },
+ "seconds": {
+  "render": 129.9,
+  "scene": 68.6,
+  "total": 198.5
+ },
+ "slug": "landmark_one_world_trade_center",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 281.8,
+  "name": "One World Trade Center"
+ },
+ "sun": {
+  "azimuth_deg": 257.39254438274554,
+  "elevation_deg": 18.284625524875185,
+  "local": "2017-09-15T17:23:28-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2017-09-15T21:23:28Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 337.3,
+  "lat": 40.7104,
+  "lon": -74.0121,
+  "note": "south-east corner of the 9/11 Memorial plaza (Greenwich and Liberty Streets), looking north-north-west"
+ }
+}

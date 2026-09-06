@@ -1,0 +1,294 @@
+{
+ "azimuth_reason": "10.0 deg as recorded; it agrees with the bearing to TKTS booth and red steps, Duffy Square (10.1 deg) to 0.1 deg",
+ "camera": {
+  "azimuth_deg": 10.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 14.52,
+   "max_m": 14.6,
+   "median_m": 14.52,
+   "min_m": 14.42,
+   "mode": "local",
+   "percentile": null,
+   "radius_m": 5.0,
+   "samples": 16
+  },
+  "ground_mode": "local",
+  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap median within 5 m is the ground",
+  "hfov_deg": 54.432,
+  "lat": 40.758469,
+  "lon": -73.984824,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 3.3238486222455097,
+  "portrait": false,
+  "resolution": [
+   1280,
+   854
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_tkts_booth",
+  "terrain_z_m": 14.525,
+  "x": -2940.593,
+  "y": 6493.489,
+  "z": 16.125
+ },
+ "camera_caption": "camera 40.75847, -73.98482 (NYC_TM -2941, 6493) z 16.1 m NAVD88 | azimuth 10.0deg pitch +3.3deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 867.7,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 4,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 175.743,
+  "sky_elevation_deg": 45.13,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.607,
+  "view_transform": "Filmic"
+ },
+ "name": "TKTS booth and red steps, Duffy Square",
+ "night": false,
+ "pitch_reason": "aimed at TKTS booth and red steps, Duffy Square 60 m away, at its mid-height (a nominal 10 m subject); +3.3 deg from horizontal",
+ "reference_photo": {
+  "author": "Jakub Ha\u0142un",
+  "confidence": "medium",
+  "date_taken": "2023-10-03 12:32:56",
+  "estimated_azimuth_deg": 10.0,
+  "file": "1.jpg",
+  "height": 1281,
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Times_Square,_New_York_City,_20231003_1232_1916.jpg",
+  "title": "File:Times Square, New York City, 20231003 1232 1916.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_tkts_booth/render.png",
+ "rendered_at": "2026-09-06T18:17:21Z",
+ "resolution_note": "1280x854; the reference photograph is 1920x1281 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-3_5",
+    "t_-3_6",
+    "t_-4_5",
+    "t_-4_6"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-3_5": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 49098
+    },
+    "t_-3_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 30874
+    },
+    "t_-4_5": {
+     "lod": 0,
+     "objects": 19,
+     "triangles": 45694
+    },
+    "t_-4_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 66858
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "triangle_budget": 3510000,
+   "triangles": 192524
+  },
+  "centre_tm": [
+   -2940.59,
+   6493.49
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 30,
+    "cornice": 32,
+    "door_entry": 63,
+    "fire_escape": 21,
+    "hvac": 25,
+    "parapet": 42,
+    "pilaster": 21,
+    "quoin": 11,
+    "scaffold": 77,
+    "storefront": 199,
+    "storefront_interior": 43,
+    "string_course": 28,
+    "water_tower": 9,
+    "window": 12457,
+    "window_accessory": 14
+   },
+   "placed": 13072,
+   "radius_m": 120.0,
+   "records_in_range": 13072,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_6",
+    "t_-4_6"
+   ],
+   "triangles": 2634185,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 290.5,
+     "id": "c_times_square",
+     "lod": 0,
+     "name": "Times Square",
+     "triangles": 182310
+    },
+    {
+     "distance_m": 443.4,
+     "id": "30_rockefeller_plaza",
+     "lod": 0,
+     "name": "30 Rockefeller Plaza",
+     "triangles": 102530
+    },
+    {
+     "distance_m": 946.4,
+     "id": "c_billionaires_row",
+     "lod": 0,
+     "name": "Billionaires' Row (West 57th Street corridor)",
+     "triangles": 220910
+    }
+   ],
+   "placed": 3,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 505750
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 171,
+    "curb": 368,
+    "median": 62,
+    "parking_lot": 4,
+    "plaza": 45,
+    "roadbed": 164,
+    "sidewalk": 105
+   },
+   "placed": 919,
+   "radius_m": 500.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_5",
+    "t_-3_6",
+    "t_-4_5",
+    "t_-4_6"
+   ],
+   "triangles": 64211,
+   "vertices": 65921
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 15,
+    "bike_rack": 8,
+    "bus_stop_sign": 1,
+    "citibike_dock": 2,
+    "flagpole": 2,
+    "hydrant": 49,
+    "linknyc": 12,
+    "mailbox": 2,
+    "manhole": 82,
+    "newsstand": 10,
+    "steam_vent": 3,
+    "street_lamp": 90,
+    "subway_emergency_exit": 2,
+    "subway_entrance": 8,
+    "subway_vent_grate": 14,
+    "tree": 28,
+    "waste_basket": 5
+   },
+   "placed": 333,
+   "radius_m": 250.0,
+   "rows_in_range": 567,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_6",
+    "t_-4_6"
+   ],
+   "tree_species_substituted": 5,
+   "triangles": 581664,
+   "unmapped_kinds": {
+    "artwork": 4,
+    "cooling_tower": 135,
+    "curb_ramp": 80,
+    "memorial": 1,
+    "misc_structure": 12,
+    "vending_machine": 2
+   }
+  },
+  "radius_m": 500.0,
+  "seconds": 46.0,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 3.333,
+   "triangles": 180000,
+   "water_quads": 0,
+   "z_max_m": 21.91,
+   "z_min_m": 5.92
+  },
+  "triangles": 4158334
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 500.0
+ },
+ "seconds": {
+  "render": 154.4,
+  "scene": 47.3,
+  "total": 201.6
+ },
+ "slug": "landmark_tkts_booth",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 59.9,
+  "name": "TKTS booth and red steps, Duffy Square"
+ },
+ "sun": {
+  "azimuth_deg": 175.7430662806703,
+  "elevation_deg": 45.12987064032651,
+  "local": "2023-10-03T12:32:56-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2023-10-03T16:32:56Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 10.0,
+  "lat": 40.758469,
+  "lon": -73.984824,
+  "note": "Duffy Square about 60 m south of the booth, looking north at the red glass steps over the TKTS booth"
+ }
+}

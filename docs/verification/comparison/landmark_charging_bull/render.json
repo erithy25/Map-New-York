@@ -1,0 +1,339 @@
+{
+ "azimuth_reason": "179.1 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 217.2 deg, 38.1 deg away",
+ "camera": {
+  "azimuth_deg": 179.1,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 7.25,
+   "max_m": 8.44,
+   "median_m": 7.85,
+   "min_m": 6.97,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.7058,
+  "lon": -74.0131,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": -2.2591088410813436,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_charging_bull",
+  "terrain_z_m": 7.246,
+  "x": -5332.466,
+  "y": 645.994,
+  "z": 8.846
+ },
+ "camera_caption": "camera 40.70580, -74.01310 (NYC_TM -5332, 646) z 8.8 m NAVD88 | azimuth 179.1deg pitch -2.3deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 695.4,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 4,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.91,
+  "sky_azimuth_deg": 139.401,
+  "sky_elevation_deg": 23.034,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.288,
+  "view_transform": "Filmic"
+ },
+ "name": "Charging Bull",
+ "night": false,
+ "pitch_reason": "aimed at Charging Bull 42 m away, at its mid-height (the charging_bull model's 3 m height); -2.3 deg from horizontal",
+ "reference_photo": {
+  "author": "Epicgenius",
+  "confidence": "high",
+  "date_taken": "2020-02-05 09:35:51",
+  "estimated_azimuth_deg": 179.1,
+  "file": "1.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Bowling_Green_NYC_Feb_2020_15.jpg",
+  "title": "File:Bowling Green NYC Feb 2020 15.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_charging_bull/render.png",
+ "rendered_at": "2026-09-06T17:06:24Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-5_0",
+    "t_-5_1",
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-5_0": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 11932
+    },
+    "t_-5_1": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 42918
+    },
+    "t_-6_0": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 14912
+    },
+    "t_-6_1": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 15588
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "triangle_budget": 3510000,
+   "triangles": 85350
+  },
+  "centre_tm": [
+   -5332.47,
+   645.99
+  ],
+  "kit": {
+   "capped": "triangle budget 2539070",
+   "per_category": {
+    "antenna": 3,
+    "bulkhead": 17,
+    "cornice": 27,
+    "door_entry": 26,
+    "hvac": 26,
+    "parapet": 16,
+    "pilaster": 46,
+    "scaffold": 271,
+    "storefront": 173,
+    "storefront_interior": 25,
+    "string_course": 27,
+    "water_tower": 8,
+    "window": 9006,
+    "window_accessory": 8
+   },
+   "placed": 9679,
+   "radius_m": 120.0,
+   "records_in_range": 15195,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-6_0"
+   ],
+   "triangles": 2539103,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 42.3,
+     "id": "charging_bull",
+     "lod": 0,
+     "name": "Charging Bull",
+     "triangles": 818
+    },
+    {
+     "distance_m": 186.3,
+     "id": "one_wall_street",
+     "lod": 0,
+     "name": "One Wall Street (Irving Trust Building)",
+     "triangles": 42712
+    },
+    {
+     "distance_m": 211.0,
+     "id": "nyse",
+     "lod": 0,
+     "name": "New York Stock Exchange",
+     "triangles": 26049
+    },
+    {
+     "distance_m": 258.9,
+     "id": "trinity_church",
+     "lod": 0,
+     "name": "Trinity Church",
+     "triangles": 3984
+    },
+    {
+     "distance_m": 295.3,
+     "id": "federal_hall",
+     "lod": 0,
+     "name": "Federal Hall National Memorial",
+     "triangles": 9070
+    },
+    {
+     "distance_m": 315.3,
+     "id": "40_wall_street",
+     "lod": 0,
+     "name": "40 Wall Street (Trump Building)",
+     "triangles": 43167
+    },
+    {
+     "distance_m": 347.3,
+     "id": "equitable_building",
+     "lod": 0,
+     "name": "Equitable Building",
+     "triangles": 86321
+    },
+    {
+     "distance_m": 527.0,
+     "id": "c_whitehall_and_st_george_ferry_terminals",
+     "lod": 0,
+     "name": "Whitehall, Battery Maritime and St. George ferry terminals",
+     "triangles": 77605
+    },
+    {
+     "distance_m": 639.0,
+     "id": "b_wtc_site",
+     "lod": 0,
+     "name": "World Trade Center site",
+     "triangles": 136174
+    },
+    {
+     "distance_m": 1379.4,
+     "id": "b_hugh_carey_portals",
+     "lod": 0,
+     "name": "Hugh L. Carey Tunnel",
+     "triangles": 43880
+    }
+   ],
+   "placed": 10,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 469780
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 340,
+    "curb": 700,
+    "median": 58,
+    "parking_lot": 2,
+    "plaza": 42,
+    "roadbed": 266,
+    "sidewalk": 144
+   },
+   "placed": 1552,
+   "radius_m": 500.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_0",
+    "t_-5_1",
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "triangles": 128760,
+   "vertices": 131620
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": true,
+   "per_kind": {
+    "bench": 107,
+    "bike_rack": 30,
+    "bus_stop_sign": 25,
+    "citibike_dock": 2,
+    "flagpole": 3,
+    "hydrant": 71,
+    "mailbox": 3,
+    "manhole": 118,
+    "newsstand": 5,
+    "steam_vent": 2,
+    "street_lamp": 142,
+    "subway_entrance": 33,
+    "subway_vent_grate": 71,
+    "tree": 38,
+    "waste_basket": 28
+   },
+   "placed": 678,
+   "radius_m": 250.0,
+   "rows_in_range": 875,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-6_0"
+   ],
+   "tree_species_substituted": 0,
+   "triangles": 1097040,
+   "unmapped_kinds": {
+    "artwork": 7,
+    "cooling_tower": 74,
+    "curb_ramp": 107,
+    "drinking_fountain": 3,
+    "memorial": 4,
+    "misc_structure": 1,
+    "parks_building": 1
+   }
+  },
+  "radius_m": 500.0,
+  "seconds": 44.36,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 3.333,
+   "triangles": 180000,
+   "water_quads": 9258,
+   "z_max_m": 12.91,
+   "z_min_m": -4.81
+  },
+  "triangles": 4500033
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 500.0
+ },
+ "seconds": {
+  "render": 152.3,
+  "scene": 45.4,
+  "total": 197.7
+ },
+ "slug": "landmark_charging_bull",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 41.9,
+  "name": "Charging Bull"
+ },
+ "sun": {
+  "azimuth_deg": 139.40138255153897,
+  "elevation_deg": 23.034083807445413,
+  "local": "2020-02-05T09:35:51-05:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2020-02-05T14:35:51Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 217.2,
+  "lat": 40.7058,
+  "lon": -74.0131,
+  "note": "Broadway traffic island at the north tip of Bowling Green, looking south-west at the bull's head"
+ }
+}

@@ -1,0 +1,353 @@
+{
+ "azimuth_reason": "209.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
+ "camera": {
+  "azimuth_deg": 209.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 21.2,
+   "max_m": 21.61,
+   "median_m": 21.29,
+   "min_m": 21.12,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.7538,
+  "lon": -73.9806,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1280,
+   776
+  ],
+  "sensor_mm": 36.0,
+  "slug": "fifth_ave_42nd_south",
+  "terrain_z_m": 21.199,
+  "x": -2584.093,
+  "y": 5974.867,
+  "z": 22.799
+ },
+ "camera_caption": "camera 40.75380, -73.98060 (NYC_TM -2584, 5975) z 22.8 m NAVD88 | azimuth 209.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x776",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "viewpoint",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 727.5,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 5,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.75,
+  "sky_azimuth_deg": 204.611,
+  "sky_elevation_deg": 25.727,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.347,
+  "view_transform": "Filmic"
+ },
+ "name": "Fifth Avenue at 42nd Street (NYPL), street view looking south",
+ "night": false,
+ "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "reference_photo": {
+  "author": "Rhododendrites",
+  "confidence": "medium",
+  "date_taken": "2017-01-21 13:41:20",
+  "estimated_azimuth_deg": 209.0,
+  "file": "2.jpg",
+  "height": 1163,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:01-21-2017_-_Women%27s_March_on_NYC_looking_down_42nd_(10794).jpg",
+  "title": "File:01-21-2017 - Women's March on NYC looking down 42nd (10794).jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/fifth_ave_42nd_south/render.png",
+ "rendered_at": "2026-09-06T16:13:43Z",
+ "resolution_note": "1280x776; the reference photograph is 1920x1163 (1.65:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-2_5",
+    "t_-2_6",
+    "t_-3_5",
+    "t_-3_6",
+    "t_-4_5",
+    "t_-4_6"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-2_5": {
+     "lod": 0,
+     "objects": 14,
+     "triangles": 17092
+    },
+    "t_-2_6": {
+     "lod": 1,
+     "objects": 18,
+     "triangles": 22968
+    },
+    "t_-3_5": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 49098
+    },
+    "t_-3_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 30874
+    },
+    "t_-4_5": {
+     "lod": 0,
+     "objects": 19,
+     "triangles": 45694
+    },
+    "t_-4_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 66858
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "triangle_budget": 3510000,
+   "triangles": 232584
+  },
+  "centre_tm": [
+   -2584.09,
+   5974.87
+  ],
+  "kit": {
+   "capped": "triangle budget 2593943",
+   "per_category": {
+    "antenna": 5,
+    "bulkhead": 23,
+    "cornice": 17,
+    "door_entry": 36,
+    "hvac": 27,
+    "parapet": 26,
+    "pilaster": 14,
+    "quoin": 3,
+    "scaffold": 47,
+    "storefront": 146,
+    "storefront_interior": 28,
+    "string_course": 18,
+    "water_tower": 9,
+    "window": 12327,
+    "window_accessory": 4
+   },
+   "placed": 12730,
+   "radius_m": 140.0,
+   "records_in_range": 22363,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_5",
+    "t_-3_6"
+   ],
+   "triangles": 2594172,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 154.2,
+     "id": "new_york_public_library",
+     "lod": 0,
+     "name": "New York Public Library, Stephen A. Schwarzman Building",
+     "triangles": 51785
+    },
+    {
+     "distance_m": 196.0,
+     "id": "one_vanderbilt",
+     "lod": 0,
+     "name": "One Vanderbilt",
+     "triangles": 71710
+    },
+    {
+     "distance_m": 308.0,
+     "id": "grand_central_terminal",
+     "lod": 0,
+     "name": "Grand Central Terminal",
+     "triangles": 29560
+    },
+    {
+     "distance_m": 334.5,
+     "id": "c_metlife_building",
+     "lod": 0,
+     "name": "MetLife Building (200 Park Avenue)",
+     "triangles": 105284
+    },
+    {
+     "distance_m": 503.0,
+     "id": "chrysler",
+     "lod": 0,
+     "name": "Chrysler Building",
+     "triangles": 57851
+    },
+    {
+     "distance_m": 568.6,
+     "id": "c_times_square",
+     "lod": 0,
+     "name": "Times Square",
+     "triangles": 182310
+    },
+    {
+     "distance_m": 601.5,
+     "id": "30_rockefeller_plaza",
+     "lod": 0,
+     "name": "30 Rockefeller Plaza",
+     "triangles": 102530
+    },
+    {
+     "distance_m": 643.6,
+     "id": "st_patricks_cathedral",
+     "lod": 0,
+     "name": "St. Patrick's Cathedral",
+     "triangles": 6259
+    },
+    {
+     "distance_m": 733.7,
+     "id": "empire_state",
+     "lod": 0,
+     "name": "Empire State Building",
+     "triangles": 107298
+    }
+   ],
+   "placed": 9,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 714587
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 528,
+    "curb": 936,
+    "median": 75,
+    "parking_lot": 1,
+    "plaza": 93,
+    "roadbed": 430,
+    "sidewalk": 220
+   },
+   "placed": 2283,
+   "radius_m": 700.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_5",
+    "t_-2_6",
+    "t_-3_5",
+    "t_-3_6",
+    "t_-4_5",
+    "t_-4_6"
+   ],
+   "triangles": 165752,
+   "vertices": 170102
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": true,
+   "per_kind": {
+    "bench": 1,
+    "bike_rack": 23,
+    "bus_shelter": 7,
+    "bus_stop_sign": 22,
+    "citibike_dock": 3,
+    "flagpole": 14,
+    "hydrant": 51,
+    "linknyc": 4,
+    "mailbox": 5,
+    "manhole": 82,
+    "newsstand": 6,
+    "rtpi_sign": 1,
+    "steam_vent": 10,
+    "street_lamp": 87,
+    "subway_entrance": 8,
+    "subway_vent_grate": 10,
+    "tree": 46,
+    "waste_basket": 8
+   },
+   "placed": 388,
+   "radius_m": 250.0,
+   "rows_in_range": 575,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_5",
+    "t_-3_6"
+   ],
+   "tree_species_substituted": 6,
+   "triangles": 613134,
+   "unmapped_kinds": {
+    "artwork": 7,
+    "cooling_tower": 114,
+    "curb_ramp": 56,
+    "drinking_fountain": 1,
+    "memorial": 4,
+    "parks_building": 2,
+    "parks_comfort_station": 1,
+    "vending_machine": 2
+   }
+  },
+  "radius_m": 700.0,
+  "seconds": 50.55,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.667,
+   "triangles": 180000,
+   "water_quads": 0,
+   "z_max_m": 25.75,
+   "z_min_m": 4.31
+  },
+  "triangles": 4500229
+ },
+ "scene_request": {
+  "kit_radius_m": 140.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 700.0
+ },
+ "seconds": {
+  "render": 225.7,
+  "scene": 51.8,
+  "total": 277.6
+ },
+ "slug": "fifth_ave_42nd_south",
+ "status": "rendered",
+ "subject": {
+  "distance_m": null,
+  "name": null
+ },
+ "sun": {
+  "azimuth_deg": 204.6105403696947,
+  "elevation_deg": 25.726974456942074,
+  "local": "2017-01-21T13:41:20-05:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2017-01-21T18:41:20Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 209.0,
+  "lat": 40.7538,
+  "lon": -73.9806,
+  "note": "Fifth Avenue at 43rd Street, looking downtown past the New York Public Library"
+ }
+}

@@ -1,0 +1,283 @@
+{
+ "azimuth_reason": "30.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
+ "camera": {
+  "azimuth_deg": 30.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 25.31,
+   "max_m": 26.1,
+   "median_m": 25.64,
+   "min_m": 25.07,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.6725,
+  "lon": -73.9782,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1280,
+   720
+  ],
+  "sensor_mm": 36.0,
+  "slug": "drive_brooklyn_park_slope_7th_ave",
+  "terrain_z_m": 25.305,
+  "x": -2384.317,
+  "y": -3053.433,
+  "z": 26.905
+ },
+ "camera_caption": "camera 40.67250, -73.97820 (NYC_TM -2384, -3053) z 26.9 m NAVD88 | azimuth 30.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x720",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "drive_through",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 923.0,
+  "emissive": {
+   "cones_hidden": 1,
+   "lamps_switched_off": 2,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 187.678,
+  "sky_elevation_deg": 61.849,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.709,
+  "view_transform": "Filmic"
+ },
+ "name": "Brooklyn brownstone block: Park Slope, Seventh Avenue / Garfield Place",
+ "night": false,
+ "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "reference_photo": {
+  "author": "ajay_suresh",
+  "confidence": "medium",
+  "date_taken": "2026-04-23 13:09",
+  "estimated_azimuth_deg": 30.0,
+  "file": "3.jpg",
+  "height": 1080,
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Park_Slope_-_Brooklyn_(55268725540).jpg",
+  "title": "File:Park Slope - Brooklyn (55268725540).jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/drive_brooklyn_park_slope_7th_ave/render.png",
+ "rendered_at": "2026-09-06T16:39:51Z",
+ "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-2_-3",
+    "t_-2_-4",
+    "t_-3_-3",
+    "t_-3_-4",
+    "t_-4_-3",
+    "t_-4_-4"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-2_-3": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 103640
+    },
+    "t_-2_-4": {
+     "lod": 0,
+     "objects": 13,
+     "triangles": 19620
+    },
+    "t_-3_-3": {
+     "lod": 0,
+     "objects": 15,
+     "triangles": 112416
+    },
+    "t_-3_-4": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 158592
+    },
+    "t_-4_-3": {
+     "lod": 1,
+     "objects": 13,
+     "triangles": 20180
+    },
+    "t_-4_-4": {
+     "lod": 1,
+     "objects": 13,
+     "triangles": 34240
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "triangle_budget": 3510000,
+   "triangles": 448688
+  },
+  "centre_tm": [
+   -2384.32,
+   -3053.43
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 93,
+    "cornice": 68,
+    "door_entry": 194,
+    "fence": 41,
+    "fire_escape": 159,
+    "hvac": 8,
+    "parapet": 104,
+    "quoin": 56,
+    "scaffold": 31,
+    "storefront": 107,
+    "storefront_interior": 31,
+    "string_course": 68,
+    "vegetation": 1,
+    "window": 2337,
+    "window_accessory": 276
+   },
+   "placed": 3574,
+   "radius_m": 120.0,
+   "records_in_range": 3574,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_-3",
+    "t_-3_-4"
+   ],
+   "triangles": 1066069,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 703.6,
+     "id": "b_soldiers_sailors_arch",
+     "lod": 0,
+     "name": "Soldiers' and Sailors' Memorial Arch",
+     "triangles": 1252
+    }
+   ],
+   "placed": 1,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 1252
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 417,
+    "curb": 716,
+    "median": 113,
+    "parking_lot": 25,
+    "plaza": 3,
+    "roadbed": 330,
+    "sidewalk": 195
+   },
+   "placed": 1799,
+   "radius_m": 720.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_-3",
+    "t_-2_-4",
+    "t_-3_-3",
+    "t_-3_-4",
+    "t_-4_-3",
+    "t_-4_-4"
+   ],
+   "triangles": 166921,
+   "vertices": 170221
+  },
+  "props": {
+   "capped": "triangle budget 1296098",
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 3,
+    "bike_rack": 4,
+    "bus_stop_sign": 2,
+    "citibike_dock": 1,
+    "hydrant": 16,
+    "mailbox": 1,
+    "manhole": 37,
+    "street_lamp": 41,
+    "tree": 166,
+    "waste_basket": 8
+   },
+   "placed": 279,
+   "radius_m": 250.0,
+   "rows_in_range": 756,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_-3",
+    "t_-3_-4"
+   ],
+   "tree_species_substituted": 40,
+   "triangles": 1301554,
+   "unmapped_kinds": {
+    "cooling_tower": 7,
+    "curb_ramp": 38
+   }
+  },
+  "radius_m": 720.0,
+  "seconds": 27.65,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.8,
+   "triangles": 180000,
+   "water_quads": 0,
+   "z_max_m": 53.16,
+   "z_min_m": 2.61
+  },
+  "triangles": 3164484
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 720.0
+ },
+ "seconds": {
+  "render": 176.7,
+  "scene": 28.2,
+  "total": 204.9
+ },
+ "slug": "drive_brooklyn_park_slope_7th_ave",
+ "status": "rendered",
+ "subject": {
+  "distance_m": null,
+  "name": null
+ },
+ "sun": {
+  "azimuth_deg": 187.67824635086868,
+  "elevation_deg": 61.8486516959584,
+  "local": "2026-04-23T13:09:00-04:00",
+  "time_source": "EXIF DateTimeOriginal (minutes)",
+  "utc": "2026-04-23T17:09:00Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 30.0,
+  "lat": 40.6725,
+  "lon": -73.9782,
+  "note": "Seventh Avenue at Garfield Place, Park Slope, roadway centre, looking north-east toward Flatbush Avenue"
+ }
+}

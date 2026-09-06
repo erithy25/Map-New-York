@@ -126,8 +126,9 @@ def build():
                        angle_deg=math.degrees(math.atan2(t[1], t[0])) + 90.0)
             flags += 1
     objs.append(b.build(f"{ID}_lower_plaza"))
-    plaza_cam = {"eye": fr.to_export(px0 + RINK_W + 26.0, cy - 16.0, 3.2),
-                 "target": fr.to_export(px0 + 3.0, cy, 26.0)}
+    # stand on the plaza deck at its east end, looking west along the axis and down into the rink well
+    plaza_cam = {"eye": fr.to_export(px0 + RINK_W + 21.0, cy - 9.0, 4.6),
+                 "target": fr.to_export(px0 + 5.0, cy + 1.0, -1.6)}
     return objs, fr, fp, flags, plaza_cam
 
 
@@ -152,7 +153,7 @@ def main():
     C.render_check(ID, [
         {"view": "street", "azimuth_deg": 105, "elevation_deg": "street", "distance": 442, "target_z": 130, "fov_deg": 62},
         {"view": "aerial", "azimuth_deg": 158, "elevation_deg": 24, "distance": 830, "fov_deg": 42, "target_z": 130},
-        {"view": "plaza", "fov_deg": 68, **plaza_cam},
+        {"view": "plaza", "fov_deg": 74, **plaza_cam},
     ])
 
 

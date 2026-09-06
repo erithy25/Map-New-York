@@ -1,6 +1,6 @@
 # Bow Bridge
 
-Script: `blender/landmarks/b_bow_bridge.py` · agent B · generated 2026-09-06 14:10 UTC
+Script: `blender/landmarks/b_bow_bridge.py` · agent B · generated 2026-09-06 15:54 UTC
 
 ## Published dimensions
 
@@ -26,4 +26,8 @@ abutment stonework courses, and the Lake.
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_bow_bridge.glb` — 2,672 triangles, 0.13 MB, bounds min ['-11.9', '-16.3', '18.4'] max ['11.9', '16.3', '25.8']
-* `blender_out/landmarks/b_bow_bridge_lod1.glb` — 1,064 triangles, 0.06 MB, bounds min ['-11.9', '-16.3', '18.4'] max ['11.9', '16.3', '25.8']
+
+## Verification renders (Cycles CPU, 64 spp)
+
+![from_the_lake](from_the_lake.png)
+![deck](deck.png)

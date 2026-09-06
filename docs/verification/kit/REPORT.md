@@ -201,6 +201,10 @@ Cycles CPU, 64 samples, adaptive sampling at 0.01, bounces limited to 12 (2 diff
 | `docs/verification/kit/facade_sheet_rooftop_equipment.png` | 7 HVAC, 4 antennas, 2 billboards | **not rendered** | — |
 | `docs/verification/kit/facade_sheet_street.png` | 3 scaffold, 3 fence, 3 vegetation | **not rendered** | — |
 
+The whole set regenerates with `sh blender/kit/facade/render_all.sh 64 800` (tenement, then the nine sheets, one
+Blender process at a time). Individual images: `--tenement`, `--closeup`, `--sheet <name>`; `--list` prints the
+sheet names.
+
 Each sheet is a near-orthographic elevation (camera pulled back 240 m with a matching narrow FOV) with every
 piece labelled with its id, triangle count and measured size, so the sheet doubles as the visual index of the kit.
 Free-standing pieces are turned 28° so their depth reads; wall pieces face the camera square-on.

@@ -138,6 +138,7 @@ def main() -> None:
             # the comparison agent's recorded photographic viewpoint, used verbatim
             ba.reference_render("landmark_high_bridge", frame, view="high_bridge_reference",
                                 ground_z=GROUND, target_z=28.0, fov_deg=58.0, size=(1280, 720), context=ctx,
+                                aim=axis.p(0.0, 0.0, 28.0),
                                 sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
             dict(view="from_the_bronx_shore", cam=axis.p(180.0, -160.0, GROUND + 2.0), target=axis.p(-60.0, 0.0, 28.0),
                  fov_deg=58.0, context=ctx, sun_azimuth_deg=200.0, sun_elevation_deg=34.0),

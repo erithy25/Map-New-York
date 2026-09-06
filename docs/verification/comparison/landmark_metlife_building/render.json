@@ -1,0 +1,376 @@
+{
+ "azimuth_reason": "210.6 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 10.0 deg, 159.4 deg away",
+ "camera": {
+  "azimuth_deg": 210.6,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 15.92,
+   "max_m": 18.37,
+   "median_m": 16.9,
+   "min_m": 15.49,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.750676,
+  "lon": -73.977285,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_metlife_building",
+  "terrain_z_m": 15.925,
+  "x": -2299.167,
+  "y": 5636.465,
+  "z": 17.525
+ },
+ "camera_caption": "camera 40.75068, -73.97728 (NYC_TM -2299, 5636) z 17.5 m NAVD88 | azimuth 210.6deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "clearance": {
+  "direction": "backwards",
+  "moved": true,
+  "note": "the recorded viewpoint is inside t_-3_5_glass_curtain (a ray straight up from the eye point hits its roof); the camera was moved 10 m backwards -- the nearest point in open air -- keeping the same eye height above the heightmap",
+  "offset_m": 10.0,
+  "reason": "inside t_-3_5_glass_curtain (a ray straight up from the eye point hits its roof)"
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 660.9,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 4,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 1.08,
+  "sky_azimuth_deg": 135.006,
+  "sky_elevation_deg": 20.535,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.224,
+  "view_transform": "Filmic"
+ },
+ "name": "MetLife Building (200 Park Avenue)",
+ "night": false,
+ "pitch_reason": "level optical axis (the subject is 300 m away; anything that far is photographed with a level camera)",
+ "reference_photo": {
+  "author": "Epicgenius",
+  "confidence": "high",
+  "date_taken": "2025-11-05 08:45:28",
+  "estimated_azimuth_deg": 210.6,
+  "file": "2.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Park_Av_Nov_2025_05.jpg",
+  "title": "File:Park Av Nov 2025 05.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_metlife_building/render.png",
+ "rendered_at": "2026-09-06T18:08:48Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-2_4",
+    "t_-2_5",
+    "t_-2_6",
+    "t_-3_4",
+    "t_-3_5",
+    "t_-3_6",
+    "t_-4_5",
+    "t_-4_6"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-2_4": {
+     "lod": 1,
+     "objects": 7,
+     "triangles": 996
+    },
+    "t_-2_5": {
+     "lod": 0,
+     "objects": 14,
+     "triangles": 17092
+    },
+    "t_-2_6": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 53944
+    },
+    "t_-3_4": {
+     "lod": 0,
+     "objects": 15,
+     "triangles": 63422
+    },
+    "t_-3_5": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 49098
+    },
+    "t_-3_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 30874
+    },
+    "t_-4_5": {
+     "lod": 1,
+     "objects": 19,
+     "triangles": 20038
+    },
+    "t_-4_6": {
+     "lod": 1,
+     "objects": 17,
+     "triangles": 28552
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 8,
+   "tiles_missing": 0,
+   "tiles_wanted": 8,
+   "triangle_budget": 3510000,
+   "triangles": 264016
+  },
+  "centre_tm": [
+   -2304.26,
+   5627.86
+  ],
+  "kit": {
+   "capped": "triangle budget 1967520",
+   "per_category": {
+    "bulkhead": 13,
+    "cornice": 13,
+    "door_entry": 16,
+    "fire_escape": 11,
+    "hvac": 9,
+    "parapet": 17,
+    "pilaster": 16,
+    "quoin": 2,
+    "scaffold": 55,
+    "storefront": 86,
+    "storefront_interior": 12,
+    "string_course": 13,
+    "water_tower": 5,
+    "window": 8993,
+    "window_accessory": 56
+   },
+   "placed": 9317,
+   "radius_m": 120.0,
+   "records_in_range": 19491,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_5"
+   ],
+   "triangles": 1967576,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 194.4,
+     "id": "chrysler",
+     "lod": 0,
+     "name": "Chrysler Building",
+     "triangles": 57851
+    },
+    {
+     "distance_m": 228.2,
+     "id": "grand_central_terminal",
+     "lod": 0,
+     "name": "Grand Central Terminal",
+     "triangles": 29560
+    },
+    {
+     "distance_m": 276.6,
+     "id": "one_vanderbilt",
+     "lod": 0,
+     "name": "One Vanderbilt",
+     "triangles": 71710
+    },
+    {
+     "distance_m": 320.6,
+     "id": "c_metlife_building",
+     "lod": 0,
+     "name": "MetLife Building (200 Park Avenue)",
+     "triangles": 105284
+    },
+    {
+     "distance_m": 503.8,
+     "id": "new_york_public_library",
+     "lod": 0,
+     "name": "New York Public Library, Stephen A. Schwarzman Building",
+     "triangles": 51785
+    },
+    {
+     "distance_m": 752.4,
+     "id": "empire_state",
+     "lod": 0,
+     "name": "Empire State Building",
+     "triangles": 107298
+    },
+    {
+     "distance_m": 799.1,
+     "id": "c_un_headquarters",
+     "lod": 0,
+     "name": "United Nations Headquarters",
+     "triangles": 12670
+    },
+    {
+     "distance_m": 877.0,
+     "id": "st_patricks_cathedral",
+     "lod": 0,
+     "name": "St. Patrick's Cathedral",
+     "triangles": 6259
+    },
+    {
+     "distance_m": 964.1,
+     "id": "30_rockefeller_plaza",
+     "lod": 0,
+     "name": "30 Rockefeller Plaza",
+     "triangles": 102530
+    },
+    {
+     "distance_m": 994.1,
+     "id": "c_times_square",
+     "lod": 0,
+     "name": "Times Square",
+     "triangles": 182310
+    },
+    {
+     "distance_m": 1405.7,
+     "id": "b_queens_midtown_portals",
+     "lod": 0,
+     "name": "Queens-Midtown Tunnel",
+     "triangles": 30888
+    }
+   ],
+   "placed": 11,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 758145
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 917,
+    "curb": 1600,
+    "median": 168,
+    "parking_lot": 12,
+    "plaza": 125,
+    "roadbed": 691,
+    "sidewalk": 338
+   },
+   "placed": 3851,
+   "radius_m": 879.4202708432679,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_4",
+    "t_-2_5",
+    "t_-2_6",
+    "t_-3_4",
+    "t_-3_5",
+    "t_-3_6",
+    "t_-4_5",
+    "t_-4_6"
+   ],
+   "triangles": 270719,
+   "vertices": 278047
+  },
+  "props": {
+   "capped": "triangle budget 1059492",
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 6,
+    "bike_rack": 6,
+    "bus_stop_sign": 6,
+    "citibike_dock": 5,
+    "flagpole": 2,
+    "hydrant": 41,
+    "linknyc": 8,
+    "mailbox": 3,
+    "manhole": 70,
+    "newsstand": 1,
+    "steam_vent": 6,
+    "street_lamp": 79,
+    "subway_entrance": 14,
+    "subway_vent_grate": 15,
+    "tree": 115,
+    "waste_basket": 24
+   },
+   "placed": 401,
+   "radius_m": 250.0,
+   "rows_in_range": 849,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_5"
+   ],
+   "tree_species_substituted": 18,
+   "triangles": 1059600,
+   "unmapped_kinds": {
+    "cooling_tower": 68,
+    "curb_ramp": 47,
+    "drinking_fountain": 4,
+    "misc_structure": 3,
+    "vending_machine": 2
+   }
+  },
+  "radius_m": 879.4202708432679,
+  "seconds": 51.02,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 5.863,
+   "triangles": 180000,
+   "water_quads": 4461,
+   "z_max_m": 25.69,
+   "z_min_m": -4.28
+  },
+  "triangles": 4500056
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 879.4202708432679
+ },
+ "seconds": {
+  "render": 59.0,
+  "scene": 52.6,
+  "total": 111.6
+ },
+ "slug": "landmark_metlife_building",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 299.6,
+  "name": "MetLife Building (200 Park Avenue)"
+ },
+ "sun": {
+  "azimuth_deg": 135.0058823985783,
+  "elevation_deg": 20.534735447118244,
+  "local": "2025-11-05T08:45:28-05:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2025-11-05T13:45:28Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 10.0,
+  "lat": 40.750676,
+  "lon": -73.977285,
+  "note": "Park Avenue at East 45th Street south of the Helmsley Building, about 300 m south of the tower, looking north up Park Avenue at the MetLife Building"
+ }
+}

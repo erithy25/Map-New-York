@@ -1,0 +1,320 @@
+{
+ "azimuth_reason": "278.9 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 299.1 deg, 20.2 deg away",
+ "camera": {
+  "azimuth_deg": 278.9,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 11.47,
+   "max_m": 11.66,
+   "median_m": 11.56,
+   "min_m": 11.4,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.7497,
+  "lon": -73.9915,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 6.092983880225664,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_madison_square_garden",
+  "terrain_z_m": 11.469,
+  "x": -3504.786,
+  "y": 5519.944,
+  "z": 13.069
+ },
+ "camera_caption": "camera 40.74970, -73.99150 (NYC_TM -3505, 5520) z 13.1 m NAVD88 | azimuth 278.9deg pitch +6.1deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 768.8,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 5,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.53,
+  "sky_azimuth_deg": 266.479,
+  "sky_elevation_deg": 29.86,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.424,
+  "view_transform": "Filmic"
+ },
+ "name": "Madison Square Garden",
+ "night": false,
+ "pitch_reason": "aimed at Madison Square Garden 183 m away, at its mid-height (the madison_square_garden model's 44 m height); +6.1 deg from horizontal",
+ "reference_photo": {
+  "author": "Zakarie Faibis",
+  "confidence": "high",
+  "date_taken": "2018-08-06 17:20:06",
+  "estimated_azimuth_deg": 278.9,
+  "file": "3.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Madison_Square_Garden_112.jpg",
+  "title": "File:Madison Square Garden 112.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_madison_square_garden/render.png",
+ "rendered_at": "2026-09-06T17:38:53Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-3_5",
+    "t_-4_4",
+    "t_-4_5",
+    "t_-4_6",
+    "t_-5_5",
+    "t_-5_6"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-3_5": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 49098
+    },
+    "t_-4_4": {
+     "lod": 0,
+     "objects": 19,
+     "triangles": 61542
+    },
+    "t_-4_5": {
+     "lod": 0,
+     "objects": 19,
+     "triangles": 45694
+    },
+    "t_-4_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 66858
+    },
+    "t_-5_5": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 31960
+    },
+    "t_-5_6": {
+     "lod": 1,
+     "objects": 10,
+     "triangles": 2560
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "triangle_budget": 3510000,
+   "triangles": 257712
+  },
+  "centre_tm": [
+   -3504.79,
+   5519.94
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 14,
+    "cornice": 22,
+    "door_entry": 28,
+    "hvac": 13,
+    "parapet": 23,
+    "pilaster": 4,
+    "scaffold": 77,
+    "storefront": 114,
+    "storefront_interior": 18,
+    "string_course": 26,
+    "water_tower": 3,
+    "window": 9167,
+    "window_accessory": 1
+   },
+   "placed": 9510,
+   "radius_m": 120.0,
+   "records_in_range": 9510,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-4_5"
+   ],
+   "triangles": 2270953,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 182.8,
+     "id": "madison_square_garden",
+     "lod": 0,
+     "name": "Madison Square Garden",
+     "triangles": 7884
+    },
+    {
+     "distance_m": 424.1,
+     "id": "c_moynihan_train_hall",
+     "lod": 0,
+     "name": "Moynihan Train Hall (James A. Farley Building)",
+     "triangles": 29086
+    },
+    {
+     "distance_m": 509.1,
+     "id": "empire_state",
+     "lod": 0,
+     "name": "Empire State Building",
+     "triangles": 107298
+    },
+    {
+     "distance_m": 834.7,
+     "id": "c_times_square",
+     "lod": 0,
+     "name": "Times Square",
+     "triangles": 182310
+    },
+    {
+     "distance_m": 1163.1,
+     "id": "c_high_line",
+     "lod": 0,
+     "name": "The High Line",
+     "triangles": 27316
+    }
+   ],
+   "placed": 5,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 353894
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 334,
+    "curb": 871,
+    "median": 171,
+    "parking_lot": 25,
+    "plaza": 65,
+    "roadbed": 334,
+    "sidewalk": 212
+   },
+   "placed": 2012,
+   "radius_m": 693.4573904092729,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_5",
+    "t_-4_4",
+    "t_-4_5",
+    "t_-4_6",
+    "t_-5_5",
+    "t_-5_6"
+   ],
+   "triangles": 134998,
+   "vertices": 138764
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 4,
+    "bike_rack": 18,
+    "bus_shelter": 1,
+    "bus_stop_sign": 6,
+    "citibike_dock": 1,
+    "flagpole": 1,
+    "hydrant": 43,
+    "linknyc": 8,
+    "mailbox": 4,
+    "manhole": 69,
+    "newsstand": 6,
+    "steam_vent": 7,
+    "street_lamp": 83,
+    "subway_emergency_exit": 2,
+    "subway_entrance": 11,
+    "subway_vent_grate": 26,
+    "tree": 27,
+    "waste_basket": 11
+   },
+   "placed": 328,
+   "radius_m": 250.0,
+   "rows_in_range": 539,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-4_5"
+   ],
+   "tree_species_substituted": 10,
+   "triangles": 551724,
+   "unmapped_kinds": {
+    "artwork": 4,
+    "billboard": 2,
+    "cooling_tower": 147,
+    "curb_ramp": 38,
+    "memorial": 1,
+    "misc_structure": 6,
+    "vending_machine": 13
+   }
+  },
+  "radius_m": 693.4573904092729,
+  "seconds": 50.21,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.623,
+   "triangles": 180000,
+   "water_quads": 79,
+   "z_max_m": 24.05,
+   "z_min_m": -1.93
+  },
+  "triangles": 3749281
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 693.4573904092729
+ },
+ "seconds": {
+  "render": 113.1,
+  "scene": 51.2,
+  "total": 164.4
+ },
+ "slug": "landmark_madison_square_garden",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 183.4,
+  "name": "Madison Square Garden"
+ },
+ "sun": {
+  "azimuth_deg": 266.4792638530279,
+  "elevation_deg": 29.860277059564467,
+  "local": "2018-08-06T17:20:06-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2018-08-06T21:20:06Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 299.1,
+  "lat": 40.7497,
+  "lon": -73.9915,
+  "note": "Seventh Avenue at West 32nd Street, east sidewalk, looking west at the arena drum"
+ }
+}

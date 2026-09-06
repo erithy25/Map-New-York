@@ -859,7 +859,7 @@ def _hull_is_sound(pts: np.ndarray, tris: np.ndarray, tol: float) -> bool:
         a, b, c = pts[t[0]], pts[t[1]], pts[t[2]]
         n = np.cross(b - a, c - a)
         ln = np.linalg.norm(n)
-        if ln < 1e-12:
+        if ln < 1e-9:            # sliver: its normal is noise, so the hull is not usable as a proxy
             return False
         n /= ln
         if (sub @ n - float(np.dot(a, n))).max() > tol:
@@ -878,8 +878,10 @@ def convex_hull_bm(points: np.ndarray | Sequence[Vec3], *, simplify_deg: float =
     is not used: it leaves errors of up to ~10 mm on a car-sized cloud.
     """
     pts = np.asarray(points, dtype=np.float64).reshape(-1, 3)
-    # weld coincident points: duplicates become separate hull vertices and break the manifold edge count
-    pts = np.unique(np.round(pts, 6), axis=0)
+    # Snap to a 1 mm grid and weld.  Near-coincident points make qhull emit sliver triangles whose normal is
+    # numerically meaningless; the hull then reads as dented by tens of millimetres even though qhull thinks
+    # it is convex.  1 mm is far finer than any collision proxy needs.
+    pts = np.unique(np.round(pts, 3), axis=0)
     if len(pts) > max_points:
         rng = np.random.default_rng(7)
         pts = pts[rng.choice(len(pts), max_points, replace=False)]

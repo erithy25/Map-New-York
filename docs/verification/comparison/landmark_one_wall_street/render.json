@@ -1,0 +1,335 @@
+{
+ "azimuth_reason": "51.8 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 75.0 deg, 23.2 deg away",
+ "camera": {
+  "azimuth_deg": 51.8,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 10.08,
+   "max_m": 10.58,
+   "median_m": 10.26,
+   "min_m": 9.97,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 42.163,
+  "lat": 40.707082,
+  "lon": -74.012355,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": true,
+  "resolution": [
+   904,
+   1206
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_one_wall_street",
+  "terrain_z_m": 10.079,
+  "x": -5269.406,
+  "y": 788.313,
+  "z": 11.679
+ },
+ "camera_caption": "camera 40.70708, -74.01235 (NYC_TM -5269, 788) z 11.7 m NAVD88 | azimuth 51.8deg pitch +0.0deg | 35 mm on 36 mm (42.2deg horizontal, 54.4deg vertical, portrait) | 904x1206",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 649.3,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 5,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 1.14,
+  "sky_azimuth_deg": 239.608,
+  "sky_elevation_deg": 19.775,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.202,
+  "view_transform": "Filmic"
+ },
+ "name": "One Wall Street (Irving Trust Building)",
+ "night": false,
+ "pitch_reason": "level optical axis (One Wall Street (Irving Trust Building) is 60 m away and would need +58 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "reference_photo": {
+  "author": "Emperor of Emperors",
+  "confidence": "high",
+  "date_taken": "2026-02-27 15:49:02",
+  "estimated_azimuth_deg": 51.8,
+  "file": "1.jpg",
+  "height": 2560,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Buildings_in_FiDi,_Manhattan.jpg",
+  "title": "File:Buildings in FiDi, Manhattan.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_one_wall_street/render.png",
+ "rendered_at": "2026-09-06T17:54:51Z",
+ "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-5_0",
+    "t_-5_1",
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-5_0": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 11932
+    },
+    "t_-5_1": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 42918
+    },
+    "t_-6_0": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 14912
+    },
+    "t_-6_1": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 15588
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "triangle_budget": 3510000,
+   "triangles": 85350
+  },
+  "centre_tm": [
+   -5269.41,
+   788.31
+  ],
+  "kit": {
+   "capped": "triangle budget 2664800",
+   "per_category": {
+    "antenna": 4,
+    "bulkhead": 12,
+    "cornice": 26,
+    "door_entry": 21,
+    "hvac": 14,
+    "parapet": 14,
+    "pilaster": 27,
+    "quoin": 6,
+    "scaffold": 68,
+    "storefront": 147,
+    "storefront_interior": 23,
+    "string_course": 26,
+    "water_tower": 5,
+    "window": 10111,
+    "window_accessory": 786
+   },
+   "placed": 11290,
+   "radius_m": 120.0,
+   "records_in_range": 19752,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-6_0"
+   ],
+   "triangles": 2664874,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 48.0,
+     "id": "one_wall_street",
+     "lod": 0,
+     "name": "One Wall Street (Irving Trust Building)",
+     "triangles": 42712
+    },
+    {
+     "distance_m": 97.6,
+     "id": "nyse",
+     "lod": 0,
+     "name": "New York Stock Exchange",
+     "triangles": 26049
+    },
+    {
+     "distance_m": 106.3,
+     "id": "trinity_church",
+     "lod": 0,
+     "name": "Trinity Church",
+     "triangles": 3984
+    },
+    {
+     "distance_m": 180.5,
+     "id": "federal_hall",
+     "lod": 0,
+     "name": "Federal Hall National Memorial",
+     "triangles": 9070
+    },
+    {
+     "distance_m": 196.2,
+     "id": "charging_bull",
+     "lod": 0,
+     "name": "Charging Bull",
+     "triangles": 818
+    },
+    {
+     "distance_m": 201.1,
+     "id": "equitable_building",
+     "lod": 0,
+     "name": "Equitable Building",
+     "triangles": 86321
+    },
+    {
+     "distance_m": 221.5,
+     "id": "40_wall_street",
+     "lod": 0,
+     "name": "40 Wall Street (Trump Building)",
+     "triangles": 43167
+    },
+    {
+     "distance_m": 501.4,
+     "id": "b_wtc_site",
+     "lod": 0,
+     "name": "World Trade Center site",
+     "triangles": 136174
+    },
+    {
+     "distance_m": 1511.8,
+     "id": "b_hugh_carey_portals",
+     "lod": 0,
+     "name": "Hugh L. Carey Tunnel",
+     "triangles": 43880
+    }
+   ],
+   "placed": 9,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 392175
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 387,
+    "curb": 748,
+    "median": 49,
+    "parking_lot": 2,
+    "plaza": 44,
+    "roadbed": 299,
+    "sidewalk": 157
+   },
+   "placed": 1686,
+   "radius_m": 500.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_0",
+    "t_-5_1",
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "triangles": 130443,
+   "vertices": 133559
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": true,
+   "per_kind": {
+    "bench": 80,
+    "bike_rack": 28,
+    "bus_shelter": 1,
+    "bus_stop_sign": 15,
+    "citibike_dock": 2,
+    "flagpole": 5,
+    "hydrant": 72,
+    "mailbox": 1,
+    "manhole": 119,
+    "newsstand": 5,
+    "steam_vent": 3,
+    "street_lamp": 143,
+    "subway_emergency_exit": 1,
+    "subway_entrance": 34,
+    "subway_vent_grate": 85,
+    "tree": 24,
+    "waste_basket": 31
+   },
+   "placed": 649,
+   "radius_m": 250.0,
+   "rows_in_range": 891,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "tree_species_substituted": 0,
+   "triangles": 1047232,
+   "unmapped_kinds": {
+    "artwork": 5,
+    "cooling_tower": 103,
+    "curb_ramp": 122,
+    "drinking_fountain": 3,
+    "memorial": 8,
+    "misc_structure": 1
+   }
+  },
+  "radius_m": 500.0,
+  "seconds": 36.82,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 3.333,
+   "triangles": 180000,
+   "water_quads": 2365,
+   "z_max_m": 12.1,
+   "z_min_m": -5.1
+  },
+  "triangles": 4500074
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 500.0
+ },
+ "seconds": {
+  "render": 124.3,
+  "scene": 38.0,
+  "total": 162.3
+ },
+ "slug": "landmark_one_wall_street",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 60.2,
+  "name": "One Wall Street (Irving Trust Building)"
+ },
+ "sun": {
+  "azimuth_deg": 239.60819640505497,
+  "elevation_deg": 19.77509805407791,
+  "local": "2026-02-27T15:49:02-05:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2026-02-27T20:49:02Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 75.0,
+  "lat": 40.707082,
+  "lon": -74.012355,
+  "note": "Broadway east sidewalk at Wall Street, about 60 m west-south-west of the building, looking east-north-east at the fluted limestone facade"
+ }
+}

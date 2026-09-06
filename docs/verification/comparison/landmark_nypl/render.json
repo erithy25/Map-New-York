@@ -1,0 +1,340 @@
+{
+ "azimuth_reason": "261.6 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 292.4 deg, 30.8 deg away",
+ "camera": {
+  "azimuth_deg": 261.6,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 22.85,
+   "max_m": 23.82,
+   "median_m": 23.29,
+   "min_m": 22.68,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.7527,
+  "lon": -73.9806,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 6.838596792883117,
+  "portrait": false,
+  "resolution": [
+   1280,
+   720
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_nypl",
+  "terrain_z_m": 22.846,
+  "x": -2582.157,
+  "y": 5853.005,
+  "z": 24.446
+ },
+ "camera_caption": "camera 40.75270, -73.98060 (NYC_TM -2582, 5853) z 24.4 m NAVD88 | azimuth 261.6deg pitch +6.8deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x720",
+ "clearance": {
+  "direction": "backwards",
+  "moved": true,
+  "note": "the recorded viewpoint is inside t_-3_5_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 2 m backwards -- the nearest point in open air -- keeping the same eye height above the heightmap",
+  "offset_m": 2.0,
+  "reason": "inside t_-3_5_roof_membrane (a ray straight up from the eye point hits its roof)"
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 854.3,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 5,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.03,
+  "sky_azimuth_deg": 245.205,
+  "sky_elevation_deg": 42.372,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.582,
+  "view_transform": "Filmic"
+ },
+ "name": "New York Public Library (Stephen A. Schwarzman Building)",
+ "night": false,
+ "pitch_reason": "aimed at New York Public Library main entrance 146 m away, at its mid-height (the new_york_public_library model's 38 m height); +6.8 deg from horizontal",
+ "reference_photo": {
+  "author": "ajay_suresh",
+  "confidence": "high",
+  "date_taken": "2021-08-21 15:52",
+  "estimated_azimuth_deg": 261.6,
+  "file": "1.jpg",
+  "height": 1080,
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:New_York_Public_Library_-_Main_Branch_(51396225599).jpg",
+  "title": "File:New York Public Library - Main Branch (51396225599).jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_nypl/render.png",
+ "rendered_at": "2026-09-06T17:24:29Z",
+ "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-2_5",
+    "t_-2_6",
+    "t_-3_5",
+    "t_-3_6",
+    "t_-4_5",
+    "t_-4_6"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-2_5": {
+     "lod": 0,
+     "objects": 14,
+     "triangles": 17092
+    },
+    "t_-2_6": {
+     "lod": 1,
+     "objects": 18,
+     "triangles": 22968
+    },
+    "t_-3_5": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 49098
+    },
+    "t_-3_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 30874
+    },
+    "t_-4_5": {
+     "lod": 0,
+     "objects": 19,
+     "triangles": 45694
+    },
+    "t_-4_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 66858
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "triangle_budget": 3510000,
+   "triangles": 232584
+  },
+  "centre_tm": [
+   -2584.14,
+   5852.71
+  ],
+  "kit": {
+   "capped": "triangle budget 2538921",
+   "per_category": {
+    "antenna": 6,
+    "bulkhead": 34,
+    "cornice": 30,
+    "door_entry": 42,
+    "hvac": 27,
+    "parapet": 26,
+    "pilaster": 12,
+    "quoin": 4,
+    "scaffold": 85,
+    "storefront": 155,
+    "storefront_interior": 35,
+    "string_course": 31,
+    "water_tower": 16,
+    "window": 12520,
+    "window_accessory": 9
+   },
+   "placed": 13032,
+   "radius_m": 120.0,
+   "records_in_range": 17877,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_5"
+   ],
+   "triangles": 2539010,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 149.5,
+     "id": "new_york_public_library",
+     "lod": 0,
+     "name": "New York Public Library, Stephen A. Schwarzman Building",
+     "triangles": 51785
+    },
+    {
+     "distance_m": 175.8,
+     "id": "one_vanderbilt",
+     "lod": 0,
+     "name": "One Vanderbilt",
+     "triangles": 71710
+    },
+    {
+     "distance_m": 284.2,
+     "id": "grand_central_terminal",
+     "lod": 0,
+     "name": "Grand Central Terminal",
+     "triangles": 29560
+    },
+    {
+     "distance_m": 345.4,
+     "id": "c_metlife_building",
+     "lod": 0,
+     "name": "MetLife Building (200 Park Avenue)",
+     "triangles": 105284
+    },
+    {
+     "distance_m": 457.5,
+     "id": "chrysler",
+     "lod": 0,
+     "name": "Chrysler Building",
+     "triangles": 57851
+    },
+    {
+     "distance_m": 635.1,
+     "id": "c_times_square",
+     "lod": 0,
+     "name": "Times Square",
+     "triangles": 182310
+    },
+    {
+     "distance_m": 638.9,
+     "id": "empire_state",
+     "lod": 0,
+     "name": "Empire State Building",
+     "triangles": 107298
+    }
+   ],
+   "placed": 7,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 605798
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 440,
+    "curb": 793,
+    "median": 69,
+    "parking_lot": 1,
+    "plaza": 66,
+    "roadbed": 359,
+    "sidewalk": 178
+   },
+   "placed": 1906,
+   "radius_m": 633.7302028086041,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_5",
+    "t_-2_6",
+    "t_-3_5",
+    "t_-3_6",
+    "t_-4_5",
+    "t_-4_6"
+   ],
+   "triangles": 139807,
+   "vertices": 143431
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 6,
+    "bike_rack": 16,
+    "bus_shelter": 9,
+    "bus_stop_sign": 25,
+    "citibike_dock": 3,
+    "flagpole": 16,
+    "hydrant": 56,
+    "linknyc": 3,
+    "mailbox": 4,
+    "manhole": 94,
+    "newsstand": 6,
+    "rtpi_sign": 1,
+    "steam_vent": 11,
+    "street_lamp": 96,
+    "subway_entrance": 9,
+    "subway_vent_grate": 11,
+    "tree": 54,
+    "waste_basket": 17
+   },
+   "placed": 437,
+   "radius_m": 250.0,
+   "rows_in_range": 649,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_5",
+    "t_-3_6"
+   ],
+   "tree_species_substituted": 3,
+   "triangles": 802890,
+   "unmapped_kinds": {
+    "artwork": 8,
+    "cooling_tower": 120,
+    "curb_ramp": 67,
+    "drinking_fountain": 3,
+    "memorial": 4,
+    "parks_building": 3,
+    "parks_comfort_station": 1,
+    "vending_machine": 6
+   }
+  },
+  "radius_m": 633.7302028086041,
+  "seconds": 36.96,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.225,
+   "triangles": 180000,
+   "water_quads": 0,
+   "z_max_m": 25.72,
+   "z_min_m": 4.31
+  },
+  "triangles": 4500089
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 633.7302028086041
+ },
+ "seconds": {
+  "render": 54.0,
+  "scene": 38.4,
+  "total": 92.3
+ },
+ "slug": "landmark_nypl",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 146.1,
+  "name": "New York Public Library main entrance"
+ },
+ "sun": {
+  "azimuth_deg": 245.2051417446611,
+  "elevation_deg": 42.372051963107225,
+  "local": "2021-08-21T15:52:00-04:00",
+  "time_source": "EXIF DateTimeOriginal (minutes)",
+  "utc": "2021-08-21T19:52:00Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 292.4,
+  "lat": 40.7527,
+  "lon": -73.9806,
+  "note": "Fifth Avenue at East 41st Street, east sidewalk, looking west-north-west at the portico and lions"
+ }
+}

@@ -1,0 +1,271 @@
+{
+ "azimuth_reason": "165.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
+ "camera": {
+  "azimuth_deg": 165.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 18.69,
+   "max_m": 19.38,
+   "median_m": 18.93,
+   "min_m": 18.64,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.752,
+  "lon": -73.883,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "drive_queens_jackson_heights",
+  "terrain_z_m": 18.694,
+  "x": 5658.134,
+  "y": 5776.688,
+  "z": 20.294
+ },
+ "camera_caption": "camera 40.75200, -73.88300 (NYC_TM 5658, 5777) z 20.3 m NAVD88 | azimuth 165.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "drive_through",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 893.8,
+  "emissive": {
+   "cones_hidden": 1,
+   "lamps_switched_off": 3,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 157.625,
+  "sky_elevation_deg": 51.618,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.655,
+  "view_transform": "Filmic"
+ },
+ "name": "Queens residential block: Jackson Heights side street with two-family homes",
+ "night": false,
+ "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "reference_photo": {
+  "author": "Deans Charbal",
+  "confidence": "medium",
+  "date_taken": "2022-09-11 11:57:15",
+  "estimated_azimuth_deg": 165.0,
+  "file": "2.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:78-12_35th_Avenue_(entrance),_between_78th_and_79th_Street,_Jackson_Heights,_Queens,_New_York.jpg",
+  "title": "File:78-12 35th Avenue (entrance), between 78th and 79th Street, Jackson Heights, Queens, New York.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/drive_queens_jackson_heights/render.png",
+ "rendered_at": "2026-09-06T16:46:18Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_4_5",
+    "t_4_6",
+    "t_5_5",
+    "t_5_6",
+    "t_6_5",
+    "t_6_6"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_4_5": {
+     "lod": 0,
+     "objects": 12,
+     "triangles": 77694
+    },
+    "t_4_6": {
+     "lod": 1,
+     "objects": 11,
+     "triangles": 22332
+    },
+    "t_5_5": {
+     "lod": 0,
+     "objects": 12,
+     "triangles": 85398
+    },
+    "t_5_6": {
+     "lod": 0,
+     "objects": 12,
+     "triangles": 100086
+    },
+    "t_6_5": {
+     "lod": 0,
+     "objects": 12,
+     "triangles": 97000
+    },
+    "t_6_6": {
+     "lod": 0,
+     "objects": 11,
+     "triangles": 86492
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "triangle_budget": 3510000,
+   "triangles": 469002
+  },
+  "centre_tm": [
+   5658.13,
+   5776.69
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 51,
+    "cornice": 25,
+    "door_entry": 125,
+    "fence": 39,
+    "fire_escape": 11,
+    "hvac": 10,
+    "parapet": 320,
+    "pilaster": 2,
+    "quoin": 38,
+    "storefront": 8,
+    "storefront_interior": 2,
+    "string_course": 134,
+    "water_tower": 9,
+    "window": 4896,
+    "window_accessory": 844
+   },
+   "placed": 6514,
+   "radius_m": 120.0,
+   "records_in_range": 6514,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_5_5"
+   ],
+   "triangles": 1676191,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [],
+   "placed": 0,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 0
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 475,
+    "curb": 768,
+    "median": 49,
+    "parking_lot": 30,
+    "plaza": 28,
+    "roadbed": 485,
+    "sidewalk": 264
+   },
+   "placed": 2099,
+   "radius_m": 720.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_4_5",
+    "t_4_6",
+    "t_5_5",
+    "t_5_6",
+    "t_6_5",
+    "t_6_6"
+   ],
+   "triangles": 164318,
+   "vertices": 168286
+  },
+  "props": {
+   "capped": "triangle budget 1290338",
+   "leaf_off": false,
+   "per_kind": {
+    "bus_shelter": 1,
+    "bus_stop_sign": 5,
+    "citibike_dock": 1,
+    "hydrant": 20,
+    "mailbox": 2,
+    "manhole": 60,
+    "street_lamp": 50,
+    "tree": 169
+   },
+   "placed": 308,
+   "radius_m": 250.0,
+   "rows_in_range": 724,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_5_5",
+    "t_5_6"
+   ],
+   "tree_species_substituted": 66,
+   "triangles": 1293472,
+   "unmapped_kinds": {
+    "curb_ramp": 39
+   }
+  },
+  "radius_m": 720.0,
+  "seconds": 27.02,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.8,
+   "triangles": 180000,
+   "water_quads": 0,
+   "z_max_m": 26.44,
+   "z_min_m": 6.42
+  },
+  "triangles": 3782983
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 720.0
+ },
+ "seconds": {
+  "render": 163.2,
+  "scene": 27.8,
+  "total": 190.9
+ },
+ "slug": "drive_queens_jackson_heights",
+ "status": "rendered",
+ "subject": {
+  "distance_m": null,
+  "name": null
+ },
+ "sun": {
+  "azimuth_deg": 157.6251882528661,
+  "elevation_deg": 51.618015820129926,
+  "local": "2022-09-11T11:57:15-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2022-09-11T15:57:15Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 165.0,
+  "lat": 40.752,
+  "lon": -73.883,
+  "note": "84th Street between 35th and 37th Avenues, Jackson Heights, looking south"
+ }
+}

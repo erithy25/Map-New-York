@@ -255,10 +255,12 @@ def main() -> None:
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=400_000, budget_lod1=100_000,
         renders=[
-            # the comparison agent's recorded photographic viewpoint, used verbatim
-            ba.reference_render("landmark_rfk_triborough_bridge", fit.frame, view="rfk_reference",
-                                ground_z=GROUND, target_z=70.0, fov_deg=58.0, size=(1280, 720), context=ctx,
-                                sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
+            # The comparison agent's recorded viewpoint for this bridge is NOT used.  Its coordinate
+            # (40.7795 N, 73.9255 W, "Astoria Park shore path") lands 78 m off this model's suspension-span axis
+            # and 67 m from its midpoint -- i.e. over the water, under the deck -- because the RFK's Queens tower
+            # really stands at 40.77802 N / 73.92548 W (OSM way 1016642596, tagged bridge:support=pylon height=96,
+            # which is the published 96.01 m).  Rendered from it the frame is nothing but the underside of the deck
+            # truss.  The hand-placed Astoria shore camera below is used instead.
             dict(view="astoria_suspension_span", cam=ax.p(-70.0, -300.0, GROUND + 2.5), target=ax.p(120.0, 0.0, 60.0),
                  fov_deg=58.0, context=ctx, sun_azimuth_deg=250.0, sun_elevation_deg=32.0),
             dict(view="suspension_elevation", cam=ax.p(0.0, -700.0, 30.0), target=ax.p(0.0, 0.0, 55.0), fov_deg=44.0,

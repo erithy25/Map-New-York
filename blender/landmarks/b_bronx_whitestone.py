@@ -154,6 +154,7 @@ def main() -> None:
             # the comparison agent's recorded photographic viewpoint, used verbatim
             ba.reference_render("landmark_bronx_whitestone_bridge", fit.frame, view="whitestone_reference",
                                 ground_z=GROUND, target_z=75.0, fov_deg=48.0, size=(1280, 720), context=ctx,
+                                aim=ax.p(0.0, 0.0, 75.0),
                                 sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
             dict(view="ferry_point_park", cam=ax.p(S_T_BX - 40.0, -300.0, GROUND + 2.0), target=ax.p(120.0, 0.0, 75.0),
                  fov_deg=58.0, context=ctx, sun_azimuth_deg=250.0, sun_elevation_deg=30.0),

@@ -1,0 +1,310 @@
+{
+ "azimuth_reason": "115.5 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 70.0 deg, 45.5 deg away",
+ "camera": {
+  "azimuth_deg": 115.5,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 11.07,
+   "max_m": 11.7,
+   "median_m": 11.35,
+   "min_m": 10.67,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.75565,
+  "lon": -73.991673,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 1.9194341500475587,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_new_york_times_building",
+  "terrain_z_m": 11.074,
+  "x": -3519.082,
+  "y": 6180.693,
+  "z": 12.674
+ },
+ "camera_caption": "camera 40.75565, -73.99167 (NYC_TM -3519, 6181) z 12.7 m NAVD88 | azimuth 115.5deg pitch +1.9deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 886.0,
+  "emissive": {
+   "cones_hidden": 1,
+   "lamps_switched_off": 4,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 101.608,
+  "sky_elevation_deg": 49.485,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.641,
+  "view_transform": "Filmic"
+ },
+ "name": "The New York Times Building (620 Eighth Avenue)",
+ "night": false,
+ "pitch_reason": "aimed at The New York Times Building (620 Eighth Avenue) 150 m away, at its mid-height (a nominal 10 m subject); +1.9 deg from horizontal",
+ "reference_photo": {
+  "author": "Famartin",
+  "confidence": "high",
+  "date_taken": "2024-06-17 10:01:23",
+  "estimated_azimuth_deg": 115.5,
+  "file": "1.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:2024-06-17_10_01_23_The_front_of_the_New_York_Times_Building_along_8th_Avenue_in_Manhattan,_New_York_City,_New_York.jpg",
+  "title": "File:2024-06-17 10 01 23 The front of the New York Times Building along 8th Avenue in Manhattan, New York City, New York.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_new_york_times_building/render.png",
+ "rendered_at": "2026-09-06T18:21:21Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-3_5",
+    "t_-3_6",
+    "t_-4_5",
+    "t_-4_6",
+    "t_-5_5",
+    "t_-5_6"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-3_5": {
+     "lod": 1,
+     "objects": 16,
+     "triangles": 22148
+    },
+    "t_-3_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 30874
+    },
+    "t_-4_5": {
+     "lod": 0,
+     "objects": 19,
+     "triangles": 45694
+    },
+    "t_-4_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 66858
+    },
+    "t_-5_5": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 31960
+    },
+    "t_-5_6": {
+     "lod": 0,
+     "objects": 10,
+     "triangles": 5718
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "triangle_budget": 3510000,
+   "triangles": 203252
+  },
+  "centre_tm": [
+   -3519.08,
+   6180.69
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 72,
+    "cornice": 31,
+    "door_entry": 79,
+    "fire_escape": 80,
+    "hvac": 46,
+    "parapet": 72,
+    "pilaster": 27,
+    "quoin": 5,
+    "scaffold": 82,
+    "storefront": 343,
+    "storefront_interior": 57,
+    "string_course": 25,
+    "water_tower": 17,
+    "window": 11926,
+    "window_accessory": 56
+   },
+   "placed": 12918,
+   "radius_m": 120.0,
+   "records_in_range": 12918,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-4_6"
+   ],
+   "triangles": 2575530,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 437.4,
+     "id": "c_times_square",
+     "lod": 0,
+     "name": "Times Square",
+     "triangles": 182310
+    },
+    {
+     "distance_m": 578.8,
+     "id": "c_moynihan_train_hall",
+     "lod": 0,
+     "name": "Moynihan Train Hall (James A. Farley Building)",
+     "triangles": 29086
+    },
+    {
+     "distance_m": 591.0,
+     "id": "madison_square_garden",
+     "lod": 0,
+     "name": "Madison Square Garden",
+     "triangles": 7884
+    },
+    {
+     "distance_m": 1679.9,
+     "id": "b_lincoln_tunnel_portals",
+     "lod": 0,
+     "name": "Lincoln Tunnel",
+     "triangles": 57080
+    }
+   ],
+   "placed": 4,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 276360
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 435,
+    "curb": 1124,
+    "median": 138,
+    "parking_lot": 28,
+    "plaza": 55,
+    "roadbed": 428,
+    "sidewalk": 189
+   },
+   "placed": 2397,
+   "radius_m": 640.4250617855669,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_5",
+    "t_-3_6",
+    "t_-4_5",
+    "t_-4_6",
+    "t_-5_5",
+    "t_-5_6"
+   ],
+   "triangles": 126845,
+   "vertices": 131423
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 2,
+    "bike_rack": 7,
+    "bus_shelter": 1,
+    "bus_stop_sign": 8,
+    "citibike_dock": 4,
+    "hydrant": 50,
+    "linknyc": 8,
+    "mailbox": 1,
+    "manhole": 82,
+    "newsstand": 4,
+    "steam_vent": 8,
+    "street_lamp": 91,
+    "subway_entrance": 6,
+    "subway_vent_grate": 22,
+    "tree": 109
+   },
+   "placed": 403,
+   "radius_m": 250.0,
+   "rows_in_range": 605,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-4_5",
+    "t_-4_6"
+   ],
+   "tree_species_substituted": 24,
+   "triangles": 878798,
+   "unmapped_kinds": {
+    "artwork": 1,
+    "cooling_tower": 120,
+    "curb_ramp": 74,
+    "misc_structure": 7
+   }
+  },
+  "radius_m": 640.4250617855669,
+  "seconds": 45.6,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.27,
+   "triangles": 180000,
+   "water_quads": 31,
+   "z_max_m": 22.01,
+   "z_min_m": -1.81
+  },
+  "triangles": 4240785
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 640.4250617855669
+ },
+ "seconds": {
+  "render": 99.2,
+  "scene": 46.9,
+  "total": 146.1
+ },
+ "slug": "landmark_new_york_times_building",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 150.3,
+  "name": "The New York Times Building (620 Eighth Avenue)"
+ },
+ "sun": {
+  "azimuth_deg": 101.60774512917021,
+  "elevation_deg": 49.484546947392325,
+  "local": "2024-06-17T10:01:23-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2024-06-17T14:01:23Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 70.0,
+  "lat": 40.75565,
+  "lon": -73.991673,
+  "note": "Eighth Avenue at West 40th Street, about 150 m west-south-west of the tower, looking east-north-east at the ceramic-rod facade"
+ }
+}

@@ -1,0 +1,289 @@
+{
+ "azimuth_reason": "25.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
+ "camera": {
+  "azimuth_deg": 25.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 29.92,
+   "max_m": 30.96,
+   "median_m": 30.16,
+   "min_m": 29.74,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.832,
+  "lon": -73.9186,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1280,
+   780
+  ],
+  "sensor_mm": 36.0,
+  "slug": "drive_bronx_grand_concourse",
+  "terrain_z_m": 29.92,
+  "x": 2646.729,
+  "y": 14659.839,
+  "z": 31.52
+ },
+ "camera_caption": "camera 40.83200, -73.91860 (NYC_TM 2647, 14660) z 31.5 m NAVD88 | azimuth 25.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x780",
+ "clearance": {
+  "direction": "to the left",
+  "moved": true,
+  "note": "the recorded viewpoint is inside t_2_14_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 2 m to the left -- the nearest point in open air -- keeping the same eye height above the heightmap",
+  "offset_m": 2.0,
+  "reason": "inside t_2_14_roof_membrane (a ray straight up from the eye point hits its roof)"
+ },
+ "group": "drive_through",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 342.4,
+  "emissive": {
+   "cones_hidden": 1,
+   "lamps_switched_off": 3,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 2.34,
+  "sky_azimuth_deg": 283.256,
+  "sky_elevation_deg": 7.399,
+  "sun_lamp": true,
+  "sun_strength_blender": 0.634,
+  "view_transform": "Filmic"
+ },
+ "name": "Bronx drive-through: Grand Concourse Art Deco apartments",
+ "night": false,
+ "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "reference_photo": {
+  "author": "Paul Lowry",
+  "confidence": "medium",
+  "date_taken": "2025-04-29 19:05:26",
+  "estimated_azimuth_deg": 25.0,
+  "file": "3.jpg",
+  "height": 1171,
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Lowes_Paradise_Theater,_The_Bronx.jpg",
+  "title": "File:Lowes Paradise Theater, The Bronx.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/drive_bronx_grand_concourse/render.png",
+ "rendered_at": "2026-09-06T16:53:29Z",
+ "resolution_note": "1280x780; the reference photograph is 1920x1171 (1.64:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_1_14",
+    "t_2_13",
+    "t_2_14",
+    "t_2_15",
+    "t_3_14",
+    "t_3_15"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_1_14": {
+     "lod": 0,
+     "objects": 10,
+     "triangles": 23908
+    },
+    "t_2_13": {
+     "lod": 0,
+     "objects": 12,
+     "triangles": 41374
+    },
+    "t_2_14": {
+     "lod": 0,
+     "objects": 14,
+     "triangles": 65392
+    },
+    "t_2_15": {
+     "lod": 0,
+     "objects": 11,
+     "triangles": 59584
+    },
+    "t_3_14": {
+     "lod": 0,
+     "objects": 12,
+     "triangles": 57946
+    },
+    "t_3_15": {
+     "lod": 0,
+     "objects": 11,
+     "triangles": 45940
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "triangle_budget": 3510000,
+   "triangles": 294144
+  },
+  "centre_tm": [
+   2648.54,
+   14658.99
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "antenna": 3,
+    "bulkhead": 19,
+    "cornice": 101,
+    "door_entry": 91,
+    "fire_escape": 59,
+    "hvac": 19,
+    "parapet": 98,
+    "quoin": 160,
+    "scaffold": 277,
+    "storefront": 258,
+    "storefront_interior": 67,
+    "string_course": 138,
+    "water_tower": 5,
+    "window": 4764,
+    "window_accessory": 537
+   },
+   "placed": 6596,
+   "radius_m": 120.0,
+   "records_in_range": 6596,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_2_14"
+   ],
+   "triangles": 1699910,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 718.8,
+     "id": "c_yankee_stadium",
+     "lod": 0,
+     "name": "Yankee Stadium",
+     "triangles": 10604
+    },
+    {
+     "distance_m": 772.3,
+     "id": "c_bronx_county_courthouse",
+     "lod": 0,
+     "name": "Bronx County Courthouse (Mario Merola Building)",
+     "triangles": 11360
+    }
+   ],
+   "placed": 2,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 21964
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 601,
+    "curb": 923,
+    "median": 143,
+    "parking_lot": 88,
+    "plaza": 19,
+    "roadbed": 408,
+    "sidewalk": 251
+   },
+   "placed": 2433,
+   "radius_m": 720.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_1_14",
+    "t_2_13",
+    "t_2_14",
+    "t_2_15",
+    "t_3_14",
+    "t_3_15"
+   ],
+   "triangles": 192259,
+   "vertices": 196757
+  },
+  "props": {
+   "capped": "triangle budget 1334071",
+   "leaf_off": false,
+   "per_kind": {
+    "bus_shelter": 2,
+    "bus_stop_sign": 3,
+    "citibike_dock": 2,
+    "hydrant": 28,
+    "manhole": 61,
+    "street_lamp": 62,
+    "subway_entrance": 2,
+    "subway_vent_grate": 26,
+    "tree": 205
+   },
+   "placed": 391,
+   "radius_m": 250.0,
+   "rows_in_range": 869,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_2_14"
+   ],
+   "tree_species_substituted": 77,
+   "triangles": 1334978,
+   "unmapped_kinds": {
+    "cooling_tower": 10,
+    "curb_ramp": 81
+   }
+  },
+  "radius_m": 720.0,
+  "seconds": 24.61,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.8,
+   "triangles": 180000,
+   "water_quads": 0,
+   "z_max_m": 36.28,
+   "z_min_m": 2.13
+  },
+  "triangles": 3723255
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 720.0
+ },
+ "seconds": {
+  "render": 190.2,
+  "scene": 25.5,
+  "total": 215.7
+ },
+ "slug": "drive_bronx_grand_concourse",
+ "status": "rendered",
+ "subject": {
+  "distance_m": null,
+  "name": null
+ },
+ "sun": {
+  "azimuth_deg": 283.25589880446165,
+  "elevation_deg": 7.398868047866967,
+  "local": "2025-04-29T19:05:26-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2025-04-29T23:05:26Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 25.0,
+  "lat": 40.832,
+  "lon": -73.9186,
+  "note": "Grand Concourse at East 165th Street, main roadway, looking north toward the 167th Street Art Deco blocks"
+ }
+}

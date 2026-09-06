@@ -1,0 +1,314 @@
+{
+ "azimuth_reason": "67.5 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 30.5 deg, 37.0 deg away",
+ "camera": {
+  "azimuth_deg": 67.5,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 17.53,
+   "max_m": 18.44,
+   "median_m": 17.91,
+   "min_m": 17.28,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.7514,
+  "lon": -73.9779,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_grand_central_facade",
+  "terrain_z_m": 17.529,
+  "x": -2356.169,
+  "y": 5708.273,
+  "z": 19.129
+ },
+ "camera_caption": "camera 40.75140, -73.97790 (NYC_TM -2356, 5708) z 19.1 m NAVD88 | azimuth 67.5deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 732.4,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 5,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.72,
+  "sky_azimuth_deg": 180.41,
+  "sky_elevation_deg": 26.172,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.356,
+  "view_transform": "Filmic"
+ },
+ "name": "Grand Central Terminal facade",
+ "night": false,
+ "pitch_reason": "level optical axis (Grand Central Terminal 42nd Street facade is 116 m away and would need +10 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "reference_photo": {
+  "author": "Kidfly182",
+  "confidence": "high",
+  "date_taken": "2022-12-12 11:51:16",
+  "estimated_azimuth_deg": 67.5,
+  "file": "1.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Grand_Central_Terminal_December_2022_004.jpg",
+  "title": "File:Grand Central Terminal December 2022 004.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_grand_central_facade/render.png",
+ "rendered_at": "2026-09-06T17:08:58Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-2_5",
+    "t_-2_6",
+    "t_-3_5",
+    "t_-3_6"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-2_5": {
+     "lod": 0,
+     "objects": 14,
+     "triangles": 17092
+    },
+    "t_-2_6": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 53944
+    },
+    "t_-3_5": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 49098
+    },
+    "t_-3_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 30874
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "triangle_budget": 3510000,
+   "triangles": 151008
+  },
+  "centre_tm": [
+   -2356.17,
+   5708.27
+  ],
+  "kit": {
+   "capped": "triangle budget 2472984",
+   "per_category": {
+    "antenna": 3,
+    "bulkhead": 14,
+    "cornice": 16,
+    "door_entry": 21,
+    "fire_escape": 11,
+    "hvac": 18,
+    "parapet": 20,
+    "pilaster": 4,
+    "quoin": 2,
+    "scaffold": 78,
+    "storefront": 132,
+    "storefront_interior": 16,
+    "string_course": 16,
+    "water_tower": 4,
+    "window": 12494,
+    "window_accessory": 7
+   },
+   "placed": 12856,
+   "radius_m": 120.0,
+   "records_in_range": 16138,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_5"
+   ],
+   "triangles": 2473036,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 158.0,
+     "id": "grand_central_terminal",
+     "lod": 0,
+     "name": "Grand Central Terminal",
+     "triangles": 29560
+    },
+    {
+     "distance_m": 183.1,
+     "id": "one_vanderbilt",
+     "lod": 0,
+     "name": "One Vanderbilt",
+     "triangles": 71710
+    },
+    {
+     "distance_m": 215.8,
+     "id": "chrysler",
+     "lod": 0,
+     "name": "Chrysler Building",
+     "triangles": 57851
+    },
+    {
+     "distance_m": 258.1,
+     "id": "c_metlife_building",
+     "lod": 0,
+     "name": "MetLife Building (200 Park Avenue)",
+     "triangles": 105284
+    },
+    {
+     "distance_m": 417.7,
+     "id": "new_york_public_library",
+     "lod": 0,
+     "name": "New York Public Library, Stephen A. Schwarzman Building",
+     "triangles": 51785
+    },
+    {
+     "distance_m": 1494.0,
+     "id": "b_queens_midtown_portals",
+     "lod": 0,
+     "name": "Queens-Midtown Tunnel",
+     "triangles": 30888
+    }
+   ],
+   "placed": 6,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 347078
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 429,
+    "curb": 737,
+    "median": 63,
+    "parking_lot": 2,
+    "plaza": 47,
+    "roadbed": 338,
+    "sidewalk": 158
+   },
+   "placed": 1774,
+   "radius_m": 585.7890339669063,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_5",
+    "t_-2_6",
+    "t_-3_5",
+    "t_-3_6"
+   ],
+   "triangles": 132504,
+   "vertices": 135886
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": true,
+   "per_kind": {
+    "bench": 6,
+    "bike_rack": 7,
+    "bus_shelter": 2,
+    "bus_stop_sign": 16,
+    "citibike_dock": 5,
+    "flagpole": 2,
+    "hydrant": 60,
+    "linknyc": 10,
+    "mailbox": 4,
+    "manhole": 115,
+    "newsstand": 5,
+    "steam_vent": 10,
+    "street_lamp": 113,
+    "subway_entrance": 22,
+    "subway_vent_grate": 24,
+    "tree": 152,
+    "waste_basket": 31
+   },
+   "placed": 584,
+   "radius_m": 250.0,
+   "rows_in_range": 801,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_5"
+   ],
+   "tree_species_substituted": 27,
+   "triangles": 1216426,
+   "unmapped_kinds": {
+    "artwork": 2,
+    "cooling_tower": 115,
+    "curb_ramp": 84,
+    "drinking_fountain": 3,
+    "misc_structure": 3,
+    "vending_machine": 10
+   }
+  },
+  "radius_m": 585.7890339669063,
+  "seconds": 62.66,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 3.905,
+   "triangles": 180000,
+   "water_quads": 1,
+   "z_max_m": 25.74,
+   "z_min_m": -2.9
+  },
+  "triangles": 4500052
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 585.7890339669063
+ },
+ "seconds": {
+  "render": 87.5,
+  "scene": 64.1,
+  "total": 151.6
+ },
+ "slug": "landmark_grand_central_facade",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 116.1,
+  "name": "Grand Central Terminal 42nd Street facade"
+ },
+ "sun": {
+  "azimuth_deg": 180.41006559171072,
+  "elevation_deg": 26.171892697391034,
+  "local": "2022-12-12T11:51:16-05:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2022-12-12T16:51:16Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 30.5,
+  "lat": 40.7514,
+  "lon": -73.9779,
+  "note": "Pershing Square plaza on Park Avenue at East 41st Street, looking north at the 42nd Street facade"
+ }
+}

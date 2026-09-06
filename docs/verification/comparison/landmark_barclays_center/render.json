@@ -1,0 +1,279 @@
+{
+ "azimuth_reason": "130.5 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 144.8 deg, 14.3 deg away",
+ "camera": {
+  "azimuth_deg": 130.5,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 13.97,
+   "max_m": 14.79,
+   "median_m": 14.47,
+   "min_m": 13.89,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.684,
+  "lon": -73.9768,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 5.777833117118683,
+  "portrait": false,
+  "resolution": [
+   1280,
+   720
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_barclays_center",
+  "terrain_z_m": 13.967,
+  "x": -2265.557,
+  "y": -1776.422,
+  "z": 15.567
+ },
+ "camera_caption": "camera 40.68400, -73.97680 (NYC_TM -2266, -1776) z 15.6 m NAVD88 | azimuth 130.5deg pitch +5.8deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x720",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 520.9,
+  "emissive": {
+   "cones_hidden": 1,
+   "lamps_switched_off": 4,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 1.71,
+  "sky_azimuth_deg": 273.082,
+  "sky_elevation_deg": 13.182,
+  "sun_lamp": true,
+  "sun_strength_blender": 0.965,
+  "view_transform": "Filmic"
+ },
+ "name": "Barclays Center",
+ "night": false,
+ "pitch_reason": "aimed at Barclays Center 190 m away, at its mid-height (the c_barclays_center model's 42 m height); +5.8 deg from horizontal",
+ "reference_photo": {
+  "author": "Eden, Janine and Jim from New York City",
+  "confidence": "high",
+  "date_taken": "2025-04-17 18:23",
+  "estimated_azimuth_deg": 130.5,
+  "file": "1.jpg",
+  "height": 1080,
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Barclays_Center_(54458684337).jpg",
+  "title": "File:Barclays Center (54458684337).jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_barclays_center/render.png",
+ "rendered_at": "2026-09-06T18:02:21Z",
+ "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-2_-2",
+    "t_-2_-3",
+    "t_-3_-2",
+    "t_-3_-3"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-2_-2": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 77806
+    },
+    "t_-2_-3": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 103640
+    },
+    "t_-3_-2": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 55084
+    },
+    "t_-3_-3": {
+     "lod": 0,
+     "objects": 15,
+     "triangles": 112416
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "triangle_budget": 3510000,
+   "triangles": 348946
+  },
+  "centre_tm": [
+   -2265.56,
+   -1776.42
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 9,
+    "cornice": 13,
+    "door_entry": 28,
+    "fence": 1,
+    "fire_escape": 17,
+    "hvac": 11,
+    "parapet": 31,
+    "pilaster": 4,
+    "quoin": 13,
+    "storefront": 105,
+    "storefront_interior": 12,
+    "string_course": 12,
+    "window": 2822,
+    "window_accessory": 6
+   },
+   "placed": 3084,
+   "radius_m": 120.0,
+   "records_in_range": 3084,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_-2"
+   ],
+   "triangles": 497609,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 185.4,
+     "id": "c_williamsburgh_savings_bank_tower",
+     "lod": 0,
+     "name": "Williamsburgh Savings Bank Tower (One Hanson Place)",
+     "triangles": 40930
+    },
+    {
+     "distance_m": 202.2,
+     "id": "c_barclays_center",
+     "lod": 0,
+     "name": "Barclays Center",
+     "triangles": 7058
+    }
+   ],
+   "placed": 2,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 47988
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 453,
+    "curb": 713,
+    "median": 78,
+    "parking_lot": 58,
+    "plaza": 16,
+    "roadbed": 336,
+    "sidewalk": 204
+   },
+   "placed": 1858,
+   "radius_m": 704.6201883665751,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_-2",
+    "t_-2_-3",
+    "t_-3_-2",
+    "t_-3_-3"
+   ],
+   "triangles": 154317,
+   "vertices": 157787
+  },
+  "props": {
+   "capped": "triangle budget 1319062",
+   "leaf_off": false,
+   "per_kind": {
+    "bike_rack": 18,
+    "bus_shelter": 3,
+    "bus_stop_sign": 10,
+    "citibike_dock": 2,
+    "hydrant": 43,
+    "linknyc": 1,
+    "manhole": 75,
+    "newsstand": 1,
+    "street_lamp": 79,
+    "subway_entrance": 9,
+    "subway_vent_grate": 24,
+    "tree": 152,
+    "waste_basket": 2
+   },
+   "placed": 419,
+   "radius_m": 250.0,
+   "rows_in_range": 809,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_-2",
+    "t_-3_-3"
+   ],
+   "tree_species_substituted": 30,
+   "triangles": 1321962,
+   "unmapped_kinds": {
+    "artwork": 1,
+    "cooling_tower": 119,
+    "curb_ramp": 82,
+    "misc_structure": 1
+   }
+  },
+  "radius_m": 704.6201883665751,
+  "seconds": 28.31,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.697,
+   "triangles": 180000,
+   "water_quads": 0,
+   "z_max_m": 32.05,
+   "z_min_m": 3.21
+  },
+  "triangles": 2550822
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 704.6201883665751
+ },
+ "seconds": {
+  "render": 75.2,
+  "scene": 28.7,
+  "total": 104.0
+ },
+ "slug": "landmark_barclays_center",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 190.4,
+  "name": "Barclays Center"
+ },
+ "sun": {
+  "azimuth_deg": 273.082049223817,
+  "elevation_deg": 13.181763858511593,
+  "local": "2025-04-17T18:23:00-04:00",
+  "time_source": "EXIF DateTimeOriginal (minutes)",
+  "utc": "2025-04-17T22:23:00Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 144.8,
+  "lat": 40.684,
+  "lon": -73.9768,
+  "note": "north-west corner of Flatbush and Atlantic Avenues, looking south-east at the oculus entrance"
+ }
+}

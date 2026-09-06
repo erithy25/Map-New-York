@@ -1,6 +1,6 @@
 # General Grant National Memorial
 
-Script: `blender/landmarks/b_grants_tomb.py` · agent B · generated 2026-09-06 14:11 UTC
+Script: `blender/landmarks/b_grants_tomb.py` · agent B · generated 2026-09-06 15:56 UTC
 
 ## Placement
 
@@ -26,4 +26,8 @@ the entrance, the bronze doors, the 1970s mosaic benches around the plaza, and t
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_grants_tomb.glb` — 10,264 triangles, 0.34 MB, bounds min ['-23.9', '-24.3', '-2.2'] max ['24.4', '23.9', '45.7']
-* `blender_out/landmarks/b_grants_tomb_lod1.glb` — 3,208 triangles, 0.15 MB, bounds min ['-23.9', '-24.3', '-2.2'] max ['24.4', '23.9', '45.7']
+
+## Verification renders (Cycles CPU, 64 spp)
+
+![riverside_drive](riverside_drive.png)
+![three_quarter](three_quarter.png)

@@ -1,0 +1,288 @@
+{
+ "azimuth_reason": "29.5 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 170.0 deg, 140.5 deg away",
+ "camera": {
+  "azimuth_deg": 29.5,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 41.76,
+   "max_m": 42.24,
+   "median_m": 42.01,
+   "min_m": 41.16,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.675128,
+  "lon": -73.970309,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 3.3954360311001945,
+  "portrait": false,
+  "resolution": [
+   1280,
+   720
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_soldiers_sailors_arch",
+  "terrain_z_m": 41.761,
+  "x": -1717.064,
+  "y": -2761.784,
+  "z": 43.361
+ },
+ "camera_caption": "camera 40.67513, -73.97031 (NYC_TM -1717, -2762) z 43.4 m NAVD88 | azimuth 29.5deg pitch +3.4deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x720",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 763.1,
+  "emissive": {
+   "cones_hidden": 1,
+   "lamps_switched_off": 3,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.56,
+  "sky_azimuth_deg": 221.64,
+  "sky_elevation_deg": 29.24,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.413,
+  "view_transform": "Filmic"
+ },
+ "name": "Soldiers' and Sailors' Memorial Arch (Grand Army Plaza, Brooklyn)",
+ "night": false,
+ "pitch_reason": "aimed at Soldiers' and Sailors' Memorial Arch (Grand Army Plaza, Brooklyn) 150 m away, at its mid-height (the b_soldiers_sailors_arch model's 24 m height); +3.4 deg from horizontal",
+ "reference_photo": {
+  "author": "Another Believer",
+  "confidence": "high",
+  "date_taken": "2020-02-22 14:33:47",
+  "estimated_azimuth_deg": 29.5,
+  "file": "3.jpg",
+  "height": 1080,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Brooklyn,_NYC_(2020)_-_30.jpg",
+  "title": "File:Brooklyn, NYC (2020) - 30.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_soldiers_sailors_arch/render.png",
+ "rendered_at": "2026-09-06T18:18:53Z",
+ "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-2_-3",
+    "t_-2_-4",
+    "t_-3_-3",
+    "t_-3_-4"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-2_-3": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 103640
+    },
+    "t_-2_-4": {
+     "lod": 0,
+     "objects": 13,
+     "triangles": 19620
+    },
+    "t_-3_-3": {
+     "lod": 0,
+     "objects": 15,
+     "triangles": 112416
+    },
+    "t_-3_-4": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 158592
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "triangle_budget": 3510000,
+   "triangles": 394268
+  },
+  "centre_tm": [
+   -1717.06,
+   -2761.78
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 17,
+    "cornice": 21,
+    "door_entry": 35,
+    "fence": 1,
+    "fire_escape": 46,
+    "hvac": 4,
+    "parapet": 109,
+    "quoin": 28,
+    "scaffold": 144,
+    "storefront": 51,
+    "storefront_interior": 15,
+    "string_course": 47,
+    "water_tower": 6,
+    "window": 3534,
+    "window_accessory": 582
+   },
+   "placed": 4640,
+   "radius_m": 120.0,
+   "records_in_range": 4640,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_-3"
+   ],
+   "triangles": 1142003,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 240.0,
+     "id": "b_soldiers_sailors_arch",
+     "lod": 0,
+     "name": "Soldiers' and Sailors' Memorial Arch",
+     "triangles": 1252
+    },
+    {
+     "distance_m": 370.3,
+     "id": "c_brooklyn_public_library",
+     "lod": 0,
+     "name": "Brooklyn Public Library, Central Library",
+     "triangles": 8956
+    },
+    {
+     "distance_m": 742.3,
+     "id": "c_brooklyn_museum",
+     "lod": 0,
+     "name": "Brooklyn Museum",
+     "triangles": 22569
+    }
+   ],
+   "placed": 3,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 32777
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 313,
+    "curb": 500,
+    "median": 89,
+    "parking_lot": 18,
+    "plaza": 4,
+    "roadbed": 245,
+    "sidewalk": 134
+   },
+   "placed": 1303,
+   "radius_m": 639.6279661038143,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_-3",
+    "t_-2_-4",
+    "t_-3_-3",
+    "t_-3_-4"
+   ],
+   "triangles": 126780,
+   "vertices": 129006
+  },
+  "props": {
+   "capped": "triangle budget 1318161",
+   "leaf_off": true,
+   "per_kind": {
+    "bench": 40,
+    "bike_rack": 12,
+    "bus_shelter": 4,
+    "bus_stop_sign": 8,
+    "citibike_dock": 1,
+    "hydrant": 34,
+    "linknyc": 1,
+    "mailbox": 2,
+    "manhole": 68,
+    "street_lamp": 74,
+    "subway_entrance": 4,
+    "subway_vent_grate": 9,
+    "tree": 208
+   },
+   "placed": 465,
+   "radius_m": 250.0,
+   "rows_in_range": 793,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_-3",
+    "t_-2_-4"
+   ],
+   "tree_species_substituted": 67,
+   "triangles": 1319078,
+   "unmapped_kinds": {
+    "artwork": 4,
+    "cooling_tower": 7,
+    "curb_ramp": 75,
+    "misc_structure": 1,
+    "parks_building": 1
+   }
+  },
+  "radius_m": 639.6279661038143,
+  "seconds": 30.28,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.264,
+   "triangles": 180000,
+   "water_quads": 0,
+   "z_max_m": 60.72,
+   "z_min_m": 9.6
+  },
+  "triangles": 3194906
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 639.6279661038143
+ },
+ "seconds": {
+  "render": 59.1,
+  "scene": 30.9,
+  "total": 90.0
+ },
+ "slug": "landmark_soldiers_sailors_arch",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 149.8,
+  "name": "Soldiers' and Sailors' Memorial Arch (Grand Army Plaza, Brooklyn)"
+ },
+ "sun": {
+  "azimuth_deg": 221.6401509249767,
+  "elevation_deg": 29.24016026318648,
+  "local": "2020-02-22T14:33:47-05:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2020-02-22T19:33:47Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 170.0,
+  "lat": 40.675128,
+  "lon": -73.970309,
+  "note": "the plaza island north of the arch at Grand Army Plaza, about 150 m from it, looking south at the Soldiers' and Sailors' Memorial Arch"
+ }
+}

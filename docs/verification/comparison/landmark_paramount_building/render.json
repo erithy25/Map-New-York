@@ -1,0 +1,314 @@
+{
+ "azimuth_reason": "4.1 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 210.0 deg, 154.1 deg away",
+ "camera": {
+  "azimuth_deg": 4.1,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 14.68,
+   "max_m": 14.95,
+   "median_m": 14.83,
+   "min_m": 14.44,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.758234,
+  "lon": -73.985617,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_paramount_building",
+  "terrain_z_m": 14.685,
+  "x": -3007.566,
+  "y": 6467.419,
+  "z": 16.285
+ },
+ "camera_caption": "camera 40.75823, -73.98562 (NYC_TM -3008, 6467) z 16.3 m NAVD88 | azimuth 4.1deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 917.5,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 4,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 171.888,
+  "sky_elevation_deg": 59.539,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.699,
+  "view_transform": "Filmic"
+ },
+ "name": "Paramount Building (1501 Broadway)",
+ "night": false,
+ "pitch_reason": "level optical axis (Paramount Building (1501 Broadway) is 130 m away and would need +54 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "reference_photo": {
+  "author": "Kidfly182",
+  "confidence": "high",
+  "date_taken": "2021-08-25 12:41:13",
+  "estimated_azimuth_deg": 4.1,
+  "file": "2.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Paramount_Building_Times_Square.jpg",
+  "title": "File:Paramount Building Times Square.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_paramount_building/render.png",
+ "rendered_at": "2026-09-06T18:24:22Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-3_5",
+    "t_-3_6",
+    "t_-3_7",
+    "t_-4_5",
+    "t_-4_6",
+    "t_-4_7"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-3_5": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 49098
+    },
+    "t_-3_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 30874
+    },
+    "t_-3_7": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 23700
+    },
+    "t_-4_5": {
+     "lod": 0,
+     "objects": 19,
+     "triangles": 45694
+    },
+    "t_-4_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 66858
+    },
+    "t_-4_7": {
+     "lod": 0,
+     "objects": 13,
+     "triangles": 45224
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "triangle_budget": 3510000,
+   "triangles": 261448
+  },
+  "centre_tm": [
+   -3007.57,
+   6467.42
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 10,
+    "cornice": 16,
+    "door_entry": 31,
+    "hvac": 18,
+    "parapet": 22,
+    "pilaster": 16,
+    "quoin": 9,
+    "scaffold": 24,
+    "storefront": 125,
+    "storefront_interior": 23,
+    "string_course": 14,
+    "water_tower": 4,
+    "window": 8818,
+    "window_accessory": 3
+   },
+   "placed": 9133,
+   "radius_m": 120.0,
+   "records_in_range": 9133,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_6",
+    "t_-4_6"
+   ],
+   "triangles": 1755453,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 238.7,
+     "id": "c_times_square",
+     "lod": 0,
+     "name": "Times Square",
+     "triangles": 182310
+    },
+    {
+     "distance_m": 514.1,
+     "id": "30_rockefeller_plaza",
+     "lod": 0,
+     "name": "30 Rockefeller Plaza",
+     "triangles": 102530
+    },
+    {
+     "distance_m": 627.6,
+     "id": "new_york_public_library",
+     "lod": 0,
+     "name": "New York Public Library, Stephen A. Schwarzman Building",
+     "triangles": 51785
+    },
+    {
+     "distance_m": 1010.2,
+     "id": "c_billionaires_row",
+     "lod": 0,
+     "name": "Billionaires' Row (West 57th Street corridor)",
+     "triangles": 220910
+    }
+   ],
+   "placed": 4,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 557535
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 261,
+    "curb": 600,
+    "median": 92,
+    "parking_lot": 7,
+    "plaza": 61,
+    "roadbed": 254,
+    "sidewalk": 163
+   },
+   "placed": 1438,
+   "radius_m": 607.8729621967308,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_5",
+    "t_-3_6",
+    "t_-3_7",
+    "t_-4_5",
+    "t_-4_6",
+    "t_-4_7"
+   ],
+   "triangles": 95920,
+   "vertices": 98604
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 16,
+    "bike_rack": 7,
+    "bus_stop_sign": 1,
+    "citibike_dock": 1,
+    "flagpole": 2,
+    "hydrant": 45,
+    "linknyc": 10,
+    "mailbox": 3,
+    "manhole": 77,
+    "newsstand": 6,
+    "steam_vent": 6,
+    "street_lamp": 85,
+    "subway_emergency_exit": 2,
+    "subway_entrance": 5,
+    "subway_vent_grate": 18,
+    "tree": 14,
+    "waste_basket": 5
+   },
+   "placed": 303,
+   "radius_m": 250.0,
+   "rows_in_range": 519,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_6",
+    "t_-4_6"
+   ],
+   "tree_species_substituted": 6,
+   "triangles": 475072,
+   "unmapped_kinds": {
+    "artwork": 3,
+    "cooling_tower": 129,
+    "curb_ramp": 71,
+    "memorial": 1,
+    "misc_structure": 11,
+    "vending_machine": 1
+   }
+  },
+  "radius_m": 607.8729621967308,
+  "seconds": 45.94,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.052,
+   "triangles": 180000,
+   "water_quads": 0,
+   "z_max_m": 25.73,
+   "z_min_m": 6.05
+  },
+  "triangles": 3325428
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 607.8729621967308
+ },
+ "seconds": {
+  "render": 131.3,
+  "scene": 46.9,
+  "total": 178.2
+ },
+ "slug": "landmark_paramount_building",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 129.9,
+  "name": "Paramount Building (1501 Broadway)"
+ },
+ "sun": {
+  "azimuth_deg": 171.8881092060068,
+  "elevation_deg": 59.539437634861024,
+  "local": "2021-08-25T12:41:13-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2021-08-25T16:41:13Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 210.0,
+  "lat": 40.758234,
+  "lon": -73.985617,
+  "note": "Broadway at West 44th Street, about 130 m north-north-east of the building, looking south-south-west at the setback clock tower and globe"
+ }
+}

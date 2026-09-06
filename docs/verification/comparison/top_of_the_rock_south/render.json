@@ -1,0 +1,781 @@
+{
+ "azimuth_reason": "205.2 deg as recorded; it agrees with the bearing to Empire State Building (205.4 deg) to 0.2 deg",
+ "camera": {
+  "azimuth_deg": 205.2,
+  "eye_datum": "terrain",
+  "eye_height_m": 260.70000000000005,
+  "eye_source": "Top of the Rock outdoor deck, 70th floor of 30 Rockefeller Plaza: roof/deck level 259.1 m above the plaza (blender_out/landmarks/catalog/30_rockefeller_plaza.json, CTBUH 850 ft), plus 1.6 m eye height",
+  "focal_mm": 24.0,
+  "ground_detail": {
+   "chosen_m": 20.27,
+   "max_m": 20.4,
+   "median_m": 20.27,
+   "min_m": 20.19,
+   "mode": "local",
+   "percentile": null,
+   "radius_m": 5.0,
+   "samples": 16
+  },
+  "ground_mode": "local",
+  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap median within 5 m is the ground",
+  "hfov_deg": 73.74,
+  "lat": 40.7593,
+  "lon": -73.9789,
+  "long_side_fov_deg": 73.74,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "top_of_the_rock_south",
+  "terrain_z_m": 20.267,
+  "x": -2440.331,
+  "y": 6585.589,
+  "z": 280.967
+ },
+ "camera_caption": "camera 40.75930, -73.97890 (NYC_TM -2440, 6586) z 281.0 m NAVD88 | azimuth 205.2deg pitch +0.0deg | 24 mm on 36 mm (73.7deg horizontal) | 1208x906",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "viewpoint",
+ "interior": false,
+ "lens_reason": "observation-deck panorama: the reference frames span the whole Midtown-to-Lower-Manhattan skyline, which needs 74 deg horizontal (24 mm)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 821.2,
+  "emissive": {
+   "cones_hidden": 0,
+   "lamps_switched_off": 0,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.23,
+  "sky_azimuth_deg": 187.927,
+  "sky_elevation_deg": 36.675,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.521,
+  "view_transform": "Filmic"
+ },
+ "name": "Top of the Rock looking south (Empire State Building centred)",
+ "night": false,
+ "pitch_reason": "level optical axis (the subject is 1334 m away; anything that far is photographed with a level camera)",
+ "reference_photo": {
+  "author": "Sebring12Hrs",
+  "confidence": "medium",
+  "date_taken": "2018-10-25 13:05:58",
+  "estimated_azimuth_deg": 205.2,
+  "file": "3.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:View-from-Empire-State-Building.jpg",
+  "title": "File:View-from-Empire-State-Building.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/top_of_the_rock_south/render.png",
+ "rendered_at": "2026-09-06T16:22:33Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-1_2",
+    "t_-1_3",
+    "t_-1_4",
+    "t_-1_5",
+    "t_-1_6",
+    "t_-1_7",
+    "t_-2_2",
+    "t_-2_3",
+    "t_-2_4",
+    "t_-2_5",
+    "t_-2_6",
+    "t_-2_7",
+    "t_-2_8",
+    "t_-3_2",
+    "t_-3_3",
+    "t_-3_4",
+    "t_-3_5",
+    "t_-3_6",
+    "t_-3_7",
+    "t_-3_8",
+    "t_-4_2",
+    "t_-4_3",
+    "t_-4_4",
+    "t_-4_5",
+    "t_-4_6",
+    "t_-4_7",
+    "t_-4_8",
+    "t_-5_2",
+    "t_-5_3",
+    "t_-5_4",
+    "t_-5_5",
+    "t_-5_6",
+    "t_-5_7",
+    "t_-6_2",
+    "t_-6_3",
+    "t_-6_4",
+    "t_-6_5"
+   ],
+   "missing": [
+    "t_-1_10 (no LOD2)",
+    "t_-1_8 (no LOD2)",
+    "t_-1_9 (no LOD2)",
+    "t_-2_10 (no LOD2)",
+    "t_-2_11 (no LOD2)",
+    "t_-2_9 (no LOD2)",
+    "t_-3_10 (no LOD2)",
+    "t_-3_11",
+    "t_-3_9 (no LOD2)",
+    "t_-4_10",
+    "t_-4_11",
+    "t_-4_9 (no LOD2)",
+    "t_-5_10",
+    "t_-5_8",
+    "t_-5_9",
+    "t_-6_10",
+    "t_-6_6",
+    "t_-6_7",
+    "t_-6_8",
+    "t_-6_9",
+    "t_-7_3",
+    "t_-7_4",
+    "t_-7_5",
+    "t_-7_6",
+    "t_-7_7",
+    "t_-7_8",
+    "t_-7_9",
+    "t_0_10 (no LOD2)",
+    "t_0_2 (no LOD2)",
+    "t_0_3 (no LOD2)",
+    "t_0_4 (no LOD2)",
+    "t_0_5 (no LOD2)",
+    "t_0_6 (no LOD2)",
+    "t_0_7 (no LOD2)",
+    "t_0_8 (no LOD2)",
+    "t_0_9 (no LOD2)",
+    "t_1_3 (no LOD2)",
+    "t_1_4 (no LOD2)",
+    "t_1_5 (no LOD2)",
+    "t_1_6 (no LOD2)",
+    "t_1_7 (no LOD2)",
+    "t_1_8 (no LOD2)",
+    "t_1_9 (no LOD2)",
+    "t_2_5 (no LOD2)",
+    "t_2_6 (no LOD2)",
+    "t_2_7 (no LOD2)"
+   ],
+   "per_tile": {
+    "t_-1_2": {
+     "lod": 2,
+     "objects": 10,
+     "triangles": 16924
+    },
+    "t_-1_3": {
+     "lod": 2,
+     "objects": 16,
+     "triangles": 26828
+    },
+    "t_-1_4": {
+     "lod": 2,
+     "objects": 12,
+     "triangles": 8028
+    },
+    "t_-1_5": {
+     "lod": 1,
+     "objects": 10,
+     "triangles": 5024
+    },
+    "t_-1_6": {
+     "lod": 1,
+     "objects": 12,
+     "triangles": 8904
+    },
+    "t_-1_7": {
+     "lod": 1,
+     "objects": 15,
+     "triangles": 27624
+    },
+    "t_-2_2": {
+     "lod": 2,
+     "objects": 6,
+     "triangles": 620
+    },
+    "t_-2_3": {
+     "lod": 2,
+     "objects": 5,
+     "triangles": 172
+    },
+    "t_-2_4": {
+     "lod": 1,
+     "objects": 7,
+     "triangles": 996
+    },
+    "t_-2_5": {
+     "lod": 1,
+     "objects": 14,
+     "triangles": 7312
+    },
+    "t_-2_6": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 53944
+    },
+    "t_-2_7": {
+     "lod": 1,
+     "objects": 16,
+     "triangles": 24364
+    },
+    "t_-2_8": {
+     "lod": 1,
+     "objects": 15,
+     "triangles": 7900
+    },
+    "t_-3_2": {
+     "lod": 2,
+     "objects": 13,
+     "triangles": 16572
+    },
+    "t_-3_3": {
+     "lod": 2,
+     "objects": 14,
+     "triangles": 14884
+    },
+    "t_-3_4": {
+     "lod": 1,
+     "objects": 15,
+     "triangles": 27804
+    },
+    "t_-3_5": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 49098
+    },
+    "t_-3_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 30874
+    },
+    "t_-3_7": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 23700
+    },
+    "t_-3_8": {
+     "lod": 1,
+     "objects": 16,
+     "triangles": 27008
+    },
+    "t_-4_2": {
+     "lod": 2,
+     "objects": 19,
+     "triangles": 23520
+    },
+    "t_-4_3": {
+     "lod": 2,
+     "objects": 18,
+     "triangles": 19116
+    },
+    "t_-4_4": {
+     "lod": 1,
+     "objects": 19,
+     "triangles": 27266
+    },
+    "t_-4_5": {
+     "lod": 1,
+     "objects": 19,
+     "triangles": 20038
+    },
+    "t_-4_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 66858
+    },
+    "t_-4_7": {
+     "lod": 1,
+     "objects": 13,
+     "triangles": 18952
+    },
+    "t_-4_8": {
+     "lod": 1,
+     "objects": 10,
+     "triangles": 4948
+    },
+    "t_-5_2": {
+     "lod": 2,
+     "objects": 18,
+     "triangles": 18116
+    },
+    "t_-5_3": {
+     "lod": 2,
+     "objects": 18,
+     "triangles": 29476
+    },
+    "t_-5_4": {
+     "lod": 2,
+     "objects": 17,
+     "triangles": 24028
+    },
+    "t_-5_5": {
+     "lod": 1,
+     "objects": 16,
+     "triangles": 12900
+    },
+    "t_-5_6": {
+     "lod": 1,
+     "objects": 10,
+     "triangles": 2560
+    },
+    "t_-5_7": {
+     "lod": 1,
+     "objects": 7,
+     "triangles": 412
+    },
+    "t_-6_2": {
+     "lod": 2,
+     "objects": 15,
+     "triangles": 2652
+    },
+    "t_-6_3": {
+     "lod": 2,
+     "objects": 11,
+     "triangles": 1100
+    },
+    "t_-6_4": {
+     "lod": 2,
+     "objects": 6,
+     "triangles": 172
+    },
+    "t_-6_5": {
+     "lod": 2,
+     "objects": 2,
+     "triangles": 60
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 37,
+   "tiles_missing": 46,
+   "tiles_wanted": 83,
+   "triangle_budget": 3510000,
+   "triangles": 650754
+  },
+  "centre_tm": [
+   -2440.33,
+   6585.59
+  ],
+  "kit": {
+   "placed": 0,
+   "reason": "disabled"
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 65.3,
+     "id": "30_rockefeller_plaza",
+     "lod": 0,
+     "name": "30 Rockefeller Plaza",
+     "triangles": 102530
+    },
+    {
+     "distance_m": 243.8,
+     "id": "st_patricks_cathedral",
+     "lod": 0,
+     "name": "St. Patrick's Cathedral",
+     "triangles": 6259
+    },
+    {
+     "distance_m": 278.2,
+     "id": "moma",
+     "lod": 0,
+     "name": "Museum of Modern Art",
+     "triangles": 23620
+    },
+    {
+     "distance_m": 510.5,
+     "id": "c_lever_house",
+     "lod": 0,
+     "name": "Lever House",
+     "triangles": 31044
+    },
+    {
+     "distance_m": 593.1,
+     "id": "c_seagram_building",
+     "lod": 0,
+     "name": "Seagram Building",
+     "triangles": 34356
+    },
+    {
+     "distance_m": 638.5,
+     "id": "c_billionaires_row",
+     "lod": 0,
+     "name": "Billionaires' Row (West 57th Street corridor)",
+     "triangles": 220910
+    },
+    {
+     "distance_m": 639.2,
+     "id": "c_carnegie_hall",
+     "lod": 0,
+     "name": "Carnegie Hall",
+     "triangles": 19122
+    },
+    {
+     "distance_m": 668.9,
+     "id": "c_metlife_building",
+     "lod": 0,
+     "name": "MetLife Building (200 Park Avenue)",
+     "triangles": 105284
+    },
+    {
+     "distance_m": 685.0,
+     "id": "c_the_plaza",
+     "lod": 0,
+     "name": "The Plaza Hotel",
+     "triangles": 26492
+    },
+    {
+     "distance_m": 703.2,
+     "id": "one_vanderbilt",
+     "lod": 0,
+     "name": "One Vanderbilt",
+     "triangles": 71710
+    },
+    {
+     "distance_m": 731.4,
+     "id": "c_times_square",
+     "lod": 0,
+     "name": "Times Square",
+     "triangles": 182310
+    },
+    {
+     "distance_m": 734.2,
+     "id": "new_york_public_library",
+     "lod": 0,
+     "name": "New York Public Library, Stephen A. Schwarzman Building",
+     "triangles": 51785
+    },
+    {
+     "distance_m": 743.0,
+     "id": "grand_central_terminal",
+     "lod": 0,
+     "name": "Grand Central Terminal",
+     "triangles": 29560
+    },
+    {
+     "distance_m": 763.3,
+     "id": "c_citigroup_center",
+     "lod": 0,
+     "name": "Citigroup Center (601 Lexington Avenue)",
+     "triangles": 76574
+    },
+    {
+     "distance_m": 863.5,
+     "id": "c_lipstick_building",
+     "lod": 0,
+     "name": "Lipstick Building (885 Third Avenue)",
+     "triangles": 30130
+    },
+    {
+     "distance_m": 900.5,
+     "id": "c_hearst_tower",
+     "lod": 0,
+     "name": "Hearst Tower",
+     "triangles": 13818
+    },
+    {
+     "distance_m": 901.4,
+     "id": "chrysler",
+     "lod": 0,
+     "name": "Chrysler Building",
+     "triangles": 57851
+    },
+    {
+     "distance_m": 1007.7,
+     "id": "b_columbus_circle_monument",
+     "lod": 0,
+     "name": "Columbus Circle Monument and Deutsche Bank Center",
+     "triangles": 2856
+    },
+    {
+     "distance_m": 1334.6,
+     "id": "empire_state",
+     "lod": 0,
+     "name": "Empire State Building",
+     "triangles": 107298
+    },
+    {
+     "distance_m": 1468.6,
+     "id": "c_un_headquarters",
+     "lod": 0,
+     "name": "United Nations Headquarters",
+     "triangles": 12670
+    },
+    {
+     "distance_m": 1567.0,
+     "id": "madison_square_garden",
+     "lod": 0,
+     "name": "Madison Square Garden",
+     "triangles": 7884
+    },
+    {
+     "distance_m": 1583.4,
+     "id": "c_lincoln_center",
+     "lod": 0,
+     "name": "Lincoln Center for the Performing Arts",
+     "triangles": 4625
+    },
+    {
+     "distance_m": 1673.8,
+     "id": "c_moynihan_train_hall",
+     "lod": 0,
+     "name": "Moynihan Train Hall (James A. Farley Building)",
+     "triangles": 29086
+    },
+    {
+     "distance_m": 1686.0,
+     "id": "b_roosevelt_island_tram",
+     "lod": 0,
+     "name": "Roosevelt Island Tramway",
+     "triangles": 5836
+    },
+    {
+     "distance_m": 1801.2,
+     "id": "b_bethesda_terrace",
+     "lod": 0,
+     "name": "Bethesda Terrace and Fountain",
+     "triangles": 10808
+    },
+    {
+     "distance_m": 1924.5,
+     "id": "b_bow_bridge",
+     "lod": 0,
+     "name": "Bow Bridge",
+     "triangles": 2672
+    },
+    {
+     "distance_m": 1955.3,
+     "id": "c_the_dakota",
+     "lod": 0,
+     "name": "The Dakota",
+     "triangles": 20808
+    },
+    {
+     "distance_m": 1966.0,
+     "id": "c_hudson_yards",
+     "lod": 0,
+     "name": "Hudson Yards (Eastern Yard)",
+     "triangles": 103450
+    },
+    {
+     "distance_m": 2002.6,
+     "id": "c_javits_center",
+     "lod": 0,
+     "name": "Jacob K. Javits Convention Center",
+     "triangles": 12732
+    },
+    {
+     "distance_m": 2083.9,
+     "id": "b_queensboro_bridge",
+     "lod": 0,
+     "name": "Ed Koch Queensboro Bridge",
+     "triangles": 59736
+    },
+    {
+     "distance_m": 2173.1,
+     "id": "b_queens_midtown_portals",
+     "lod": 0,
+     "name": "Queens-Midtown Tunnel",
+     "triangles": 30888
+    },
+    {
+     "distance_m": 2223.7,
+     "id": "flatiron",
+     "lod": 0,
+     "name": "Flatiron Building",
+     "triangles": 38253
+    },
+    {
+     "distance_m": 2383.4,
+     "id": "b_belvedere_castle",
+     "lod": 0,
+     "name": "Belvedere Castle",
+     "triangles": 4456
+    },
+    {
+     "distance_m": 2439.8,
+     "id": "c_american_museum_natural_history",
+     "lod": 0,
+     "name": "American Museum of Natural History + Rose Center",
+     "triangles": 58762
+    },
+    {
+     "distance_m": 2539.6,
+     "id": "c_high_line",
+     "lod": 0,
+     "name": "The High Line",
+     "triangles": 27316
+    },
+    {
+     "distance_m": 2589.1,
+     "id": "c_metropolitan_museum",
+     "lod": 0,
+     "name": "The Metropolitan Museum of Art",
+     "triangles": 84671
+    },
+    {
+     "distance_m": 2624.6,
+     "id": "b_lincoln_tunnel_portals",
+     "lod": 0,
+     "name": "Lincoln Tunnel",
+     "triangles": 57080
+    },
+    {
+     "distance_m": 2951.5,
+     "id": "c_chelsea_market",
+     "lod": 0,
+     "name": "Chelsea Market (National Biscuit Company complex)",
+     "triangles": 40256
+    },
+    {
+     "distance_m": 2975.1,
+     "id": "b_central_park_walls_gates",
+     "lod": 0,
+     "name": "Central Park perimeter wall and gates",
+     "triangles": 18448
+    },
+    {
+     "distance_m": 3127.0,
+     "id": "c_guggenheim",
+     "lod": 1,
+     "name": "Solomon R. Guggenheim Museum",
+     "triangles": 9660
+    },
+    {
+     "distance_m": 3143.3,
+     "id": "b_pulaski",
+     "lod": 1,
+     "name": "Pulaski Bridge",
+     "triangles": 3904
+    },
+    {
+     "distance_m": 3167.7,
+     "id": "c_pier_57",
+     "lod": 1,
+     "name": "Pier 57",
+     "triangles": 2068
+    },
+    {
+     "distance_m": 3296.3,
+     "id": "c_little_island",
+     "lod": 1,
+     "name": "Little Island (Pier 55)",
+     "triangles": 9746
+    },
+    {
+     "distance_m": 3475.2,
+     "id": "b_washington_square_arch",
+     "lod": 1,
+     "name": "Washington Square Arch",
+     "triangles": 208
+    },
+    {
+     "distance_m": 4954.1,
+     "id": "b_rfk_triborough",
+     "lod": 1,
+     "name": "Robert F. Kennedy (Triborough) Bridge",
+     "triangles": 22618
+    },
+    {
+     "distance_m": 5084.1,
+     "id": "b_holland_tunnel_portals",
+     "lod": 1,
+     "name": "Holland Tunnel",
+     "triangles": 6654
+    }
+   ],
+   "placed": 46,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 1878804
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 739,
+    "curb": 1372,
+    "median": 153,
+    "parking_lot": 11,
+    "plaza": 121,
+    "roadbed": 625,
+    "sidewalk": 350
+   },
+   "placed": 3371,
+   "radius_m": 900.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_5",
+    "t_-2_6",
+    "t_-2_7",
+    "t_-3_5",
+    "t_-3_6",
+    "t_-3_7",
+    "t_-4_5",
+    "t_-4_6",
+    "t_-4_7"
+   ],
+   "triangles": 255494,
+   "vertices": 261834
+  },
+  "props": {
+   "placed": 0,
+   "reason": "disabled"
+  },
+  "radius_m": 4500.0,
+  "seconds": 120.62,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 381,
+   "spacing_m": 23.684,
+   "triangles": 288800,
+   "water_quads": 32587,
+   "z_max_m": 80.03,
+   "z_min_m": -3.07
+  },
+  "triangles": 3073852
+ },
+ "scene_request": {
+  "kit_radius_m": 0.0,
+  "prop_radius_m": 0.0,
+  "radius_m": 4500.0
+ },
+ "seconds": {
+  "render": 80.2,
+  "scene": 121.1,
+  "total": 201.3
+ },
+ "slug": "top_of_the_rock_south",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 1334.3,
+  "name": "Empire State Building"
+ },
+ "sun": {
+  "azimuth_deg": 187.9268058156653,
+  "elevation_deg": 36.67452315784369,
+  "local": "2018-10-25T13:05:58-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2018-10-25T17:05:58Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 205.2,
+  "lat": 40.7593,
+  "lon": -73.9789,
+  "note": "Top of the Rock observation deck (70th floor of 30 Rockefeller Plaza), south parapet"
+ }
+}

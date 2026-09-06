@@ -1,0 +1,273 @@
+{
+ "azimuth_reason": "13.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
+ "camera": {
+  "azimuth_deg": 13.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 17.77,
+   "max_m": 18.93,
+   "median_m": 18.33,
+   "min_m": 17.13,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.6817,
+  "lon": -73.933,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "drive_brooklyn_bed_stuy_stuyvesant_ave",
+  "terrain_z_m": 17.765,
+  "x": 1433.259,
+  "y": -2031.138,
+  "z": 19.365
+ },
+ "camera_caption": "camera 40.68170, -73.93300 (NYC_TM 1433, -2031) z 19.4 m NAVD88 | azimuth 13.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "clearance": {
+  "direction": "to the left",
+  "moved": true,
+  "note": "the recorded viewpoint is inside t_1_-3_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 4 m to the left -- the nearest point in open air -- keeping the same eye height above the heightmap",
+  "offset_m": 4.0,
+  "reason": "inside t_1_-3_roof_membrane (a ray straight up from the eye point hits its roof)"
+ },
+ "group": "drive_through",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 844.1,
+  "emissive": {
+   "cones_hidden": 1,
+   "lamps_switched_off": 1,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.09,
+  "sky_azimuth_deg": 217.966,
+  "sky_elevation_deg": 40.46,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.563,
+  "view_transform": "Filmic"
+ },
+ "name": "Brooklyn brownstone block: Bed-Stuy, Stuyvesant Avenue",
+ "night": false,
+ "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "reference_photo": {
+  "author": "Kidfly182",
+  "confidence": "medium",
+  "date_taken": "2022-09-27 14:38:22",
+  "estimated_azimuth_deg": 13.0,
+  "file": "2.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Utica_Avenue_Station_September_2022_003.jpg",
+  "title": "File:Utica Avenue Station September 2022 003.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/drive_brooklyn_bed_stuy_stuyvesant_ave/render.png",
+ "rendered_at": "2026-09-06T16:43:05Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_0_-2",
+    "t_0_-3",
+    "t_1_-2",
+    "t_1_-3",
+    "t_2_-2",
+    "t_2_-3"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_0_-2": {
+     "lod": 0,
+     "objects": 14,
+     "triangles": 113306
+    },
+    "t_0_-3": {
+     "lod": 0,
+     "objects": 15,
+     "triangles": 120308
+    },
+    "t_1_-2": {
+     "lod": 0,
+     "objects": 15,
+     "triangles": 125266
+    },
+    "t_1_-3": {
+     "lod": 0,
+     "objects": 14,
+     "triangles": 71868
+    },
+    "t_2_-2": {
+     "lod": 0,
+     "objects": 12,
+     "triangles": 117614
+    },
+    "t_2_-3": {
+     "lod": 0,
+     "objects": 13,
+     "triangles": 85356
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "triangle_budget": 3510000,
+   "triangles": 633718
+  },
+  "centre_tm": [
+   1437.16,
+   -2032.04
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 134,
+    "cornice": 152,
+    "door_entry": 278,
+    "fence": 92,
+    "fire_escape": 153,
+    "hvac": 9,
+    "parapet": 27,
+    "pilaster": 11,
+    "quoin": 31,
+    "scaffold": 5,
+    "storefront": 44,
+    "storefront_interior": 8,
+    "string_course": 25,
+    "vegetation": 55,
+    "window": 2245,
+    "window_accessory": 268
+   },
+   "placed": 3537,
+   "radius_m": 120.0,
+   "records_in_range": 3537,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_1_-2",
+    "t_1_-3"
+   ],
+   "triangles": 1164738,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [],
+   "placed": 0,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 0
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 384,
+    "curb": 175,
+    "median": 27,
+    "parking_lot": 50,
+    "plaza": 2,
+    "roadbed": 328,
+    "sidewalk": 172
+   },
+   "placed": 1138,
+   "radius_m": 720.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_0_-2",
+    "t_0_-3",
+    "t_1_-2",
+    "t_1_-3",
+    "t_2_-2",
+    "t_2_-3"
+   ],
+   "triangles": 131624,
+   "vertices": 133642
+  },
+  "props": {
+   "capped": "triangle budget 1244130",
+   "leaf_off": false,
+   "per_kind": {
+    "hydrant": 17,
+    "mailbox": 1,
+    "manhole": 37,
+    "street_lamp": 38,
+    "tree": 164
+   },
+   "placed": 257,
+   "radius_m": 250.0,
+   "rows_in_range": 719,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_1_-2",
+    "t_1_-3"
+   ],
+   "tree_species_substituted": 54,
+   "triangles": 1244768,
+   "unmapped_kinds": {
+    "cooling_tower": 4,
+    "curb_ramp": 35
+   }
+  },
+  "radius_m": 720.0,
+  "seconds": 18.53,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.8,
+   "triangles": 180000,
+   "water_quads": 0,
+   "z_max_m": 27.4,
+   "z_min_m": 11.16
+  },
+  "triangles": 3354848
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 720.0
+ },
+ "seconds": {
+  "render": 173.4,
+  "scene": 19.2,
+  "total": 192.6
+ },
+ "slug": "drive_brooklyn_bed_stuy_stuyvesant_ave",
+ "status": "rendered",
+ "subject": {
+  "distance_m": null,
+  "name": null
+ },
+ "sun": {
+  "azimuth_deg": 217.96608847472646,
+  "elevation_deg": 40.459730129104614,
+  "local": "2022-09-27T14:38:22-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2022-09-27T18:38:22Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 13.0,
+  "lat": 40.6817,
+  "lon": -73.933,
+  "note": "Stuyvesant Avenue at Decatur Street, Stuyvesant Heights, roadway centre, looking north"
+ }
+}

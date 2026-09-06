@@ -1,6 +1,6 @@
 # Unisphere
 
-Script: `blender/landmarks/b_unisphere.py` · agent B · generated 2026-09-06 14:10 UTC
+Script: `blender/landmarks/b_unisphere.py` · agent B · generated 2026-09-06 15:56 UTC
 
 ## Placement
 
@@ -26,4 +26,8 @@ the three capsule-shaped 1964 information plaques, the ring lighting, and the su
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_unisphere.glb` — 17,236 triangles, 0.37 MB, bounds min ['-47.2', '-47.2', '-1.4'] max ['47.2', '47.2', '43.9']
-* `blender_out/landmarks/b_unisphere_lod1.glb` — 5,848 triangles, 0.13 MB, bounds min ['-47.2', '-47.2', '-1.4'] max ['47.2', '47.2', '43.9']
+
+## Verification renders (Cycles CPU, 64 spp)
+
+![promenade](promenade.png)
+![close](close.png)

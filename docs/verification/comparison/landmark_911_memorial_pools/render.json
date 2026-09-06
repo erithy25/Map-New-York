@@ -1,0 +1,330 @@
+{
+ "azimuth_reason": "314.4 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 301.3 deg, 13.1 deg away",
+ "camera": {
+  "azimuth_deg": 314.4,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 3.68,
+   "max_m": 5.89,
+   "median_m": 5.38,
+   "min_m": -0.11,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 42.163,
+  "lat": 40.7112,
+  "lon": -74.0122,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": true,
+  "resolution": [
+   904,
+   1206
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_911_memorial_pools",
+  "terrain_z_m": 3.679,
+  "x": -5223.8,
+  "y": 1278.467,
+  "z": 5.279
+ },
+ "camera_caption": "camera 40.71120, -74.01220 (NYC_TM -5224, 1278) z 5.3 m NAVD88 | azimuth 314.4deg pitch +0.0deg | 35 mm on 36 mm (42.2deg horizontal, 54.4deg vertical, portrait) | 904x1206",
+ "clearance": {
+  "direction": "to the right",
+  "moved": true,
+  "note": "the recorded viewpoint is inside lm_b_wtc_site.232 (a ray straight up from the eye point hits its roof); the camera was moved 46 m to the right -- the nearest point in open air -- keeping the same eye height above the heightmap",
+  "offset_m": 46.0,
+  "reason": "inside lm_b_wtc_site.232 (a ray straight up from the eye point hits its roof)"
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 702.3,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 3,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.88,
+  "sky_azimuth_deg": 254.37,
+  "sky_elevation_deg": 23.58,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.301,
+  "view_transform": "Filmic"
+ },
+ "name": "National September 11 Memorial pools",
+ "night": false,
+ "pitch_reason": "level optical axis (the North Pool is 128 m away and would need +52 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "reference_photo": {
+  "author": "Oleg Yunakov",
+  "confidence": "high",
+  "date_taken": "2025-09-11 17:01:35",
+  "estimated_azimuth_deg": 314.4,
+  "file": "1.jpg",
+  "height": 2560,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:National_September_11_Memorial_South_Pool_-_04.jpg",
+  "title": "File:National September 11 Memorial South Pool - 04.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_911_memorial_pools/render.png",
+ "rendered_at": "2026-09-06T17:58:32Z",
+ "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-5_0",
+    "t_-5_1",
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-5_0": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 11932
+    },
+    "t_-5_1": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 42918
+    },
+    "t_-6_0": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 14912
+    },
+    "t_-6_1": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 15588
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "triangle_budget": 3510000,
+   "triangles": 85350
+  },
+  "centre_tm": [
+   -5255.98,
+   1245.6
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 3,
+    "door_entry": 14,
+    "hvac": 11,
+    "parapet": 39,
+    "storefront": 46,
+    "storefront_interior": 10,
+    "window": 4228
+   },
+   "placed": 4351,
+   "radius_m": 120.0,
+   "records_in_range": 4351,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-6_1"
+   ],
+   "triangles": 601190,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 91.0,
+     "id": "b_wtc_site",
+     "lod": 0,
+     "name": "World Trade Center site",
+     "triangles": 136174
+    },
+    {
+     "distance_m": 217.1,
+     "id": "b_one_world_trade_center",
+     "lod": 0,
+     "name": "One World Trade Center",
+     "triangles": 6044
+    },
+    {
+     "distance_m": 351.6,
+     "id": "trinity_church",
+     "lod": 0,
+     "name": "Trinity Church",
+     "triangles": 3984
+    },
+    {
+     "distance_m": 356.0,
+     "id": "woolworth",
+     "lod": 0,
+     "name": "Woolworth Building",
+     "triangles": 47871
+    },
+    {
+     "distance_m": 358.9,
+     "id": "equitable_building",
+     "lod": 0,
+     "name": "Equitable Building",
+     "triangles": 86321
+    },
+    {
+     "distance_m": 450.9,
+     "id": "one_wall_street",
+     "lod": 0,
+     "name": "One Wall Street (Irving Trust Building)",
+     "triangles": 42712
+    },
+    {
+     "distance_m": 460.2,
+     "id": "federal_hall",
+     "lod": 0,
+     "name": "Federal Hall National Memorial",
+     "triangles": 9070
+    },
+    {
+     "distance_m": 470.2,
+     "id": "nyse",
+     "lod": 0,
+     "name": "New York Stock Exchange",
+     "triangles": 26049
+    },
+    {
+     "distance_m": 508.1,
+     "id": "40_wall_street",
+     "lod": 0,
+     "name": "40 Wall Street (Trump Building)",
+     "triangles": 43167
+    },
+    {
+     "distance_m": 552.6,
+     "id": "city_hall",
+     "lod": 0,
+     "name": "New York City Hall",
+     "triangles": 44823
+    }
+   ],
+   "placed": 10,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 446215
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 426,
+    "curb": 817,
+    "median": 71,
+    "parking_lot": 5,
+    "plaza": 43,
+    "roadbed": 356,
+    "sidewalk": 199
+   },
+   "placed": 1917,
+   "radius_m": 605.5656641388424,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_0",
+    "t_-5_1",
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "triangles": 132369,
+   "vertices": 135963
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 106,
+    "bike_rack": 11,
+    "bus_stop_sign": 9,
+    "citibike_dock": 5,
+    "flagpole": 13,
+    "hydrant": 59,
+    "manhole": 91,
+    "steam_vent": 2,
+    "street_lamp": 204,
+    "subway_entrance": 26,
+    "subway_vent_grate": 21,
+    "tree": 17,
+    "waste_basket": 6
+   },
+   "placed": 570,
+   "radius_m": 250.0,
+   "rows_in_range": 730,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "tree_species_substituted": 0,
+   "triangles": 1011718,
+   "unmapped_kinds": {
+    "artwork": 5,
+    "cooling_tower": 53,
+    "curb_ramp": 98,
+    "memorial": 4
+   }
+  },
+  "radius_m": 605.5656641388424,
+  "seconds": 19.44,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.037,
+   "triangles": 180000,
+   "water_quads": 8367,
+   "z_max_m": 14.08,
+   "z_min_m": -2.06
+  },
+  "triangles": 2456842
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 605.5656641388424
+ },
+ "seconds": {
+  "render": 27.7,
+  "scene": 20.8,
+  "total": 48.6
+ },
+ "slug": "landmark_911_memorial_pools",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 128.5,
+  "name": "the North Pool"
+ },
+ "sun": {
+  "azimuth_deg": 254.37033298202573,
+  "elevation_deg": 23.580130300403898,
+  "local": "2025-09-11T17:01:35-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2025-09-11T21:01:35Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 301.3,
+  "lat": 40.7112,
+  "lon": -74.0122,
+  "note": "memorial plaza between the two pools on the Greenwich Street side, looking north-west across the North Pool"
+ }
+}

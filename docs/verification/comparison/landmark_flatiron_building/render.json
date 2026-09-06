@@ -1,0 +1,285 @@
+{
+ "azimuth_reason": "198.4 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 206.3 deg, 7.9 deg away",
+ "camera": {
+  "azimuth_deg": 198.4,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 12.33,
+   "max_m": 12.7,
+   "median_m": 12.49,
+   "min_m": 12.28,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 37.849,
+  "lat": 40.7425,
+  "lon": -73.9887,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": true,
+  "resolution": [
+   852,
+   1278
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_flatiron_building",
+  "terrain_z_m": 12.334,
+  "x": -3268.671,
+  "y": 4720.283,
+  "z": 13.934
+ },
+ "camera_caption": "camera 40.74250, -73.98870 (NYC_TM -3269, 4720) z 13.9 m NAVD88 | azimuth 198.4deg pitch +0.0deg | 35 mm on 36 mm (37.8deg horizontal, 54.4deg vertical, portrait) | 852x1278",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 672.4,
+  "emissive": {
+   "cones_hidden": 1,
+   "lamps_switched_off": 4,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 1.03,
+  "sky_azimuth_deg": 265.859,
+  "sky_elevation_deg": 21.332,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.245,
+  "view_transform": "Filmic"
+ },
+ "name": "Flatiron Building",
+ "night": false,
+ "pitch_reason": "level optical axis (Flatiron Building is 179 m away and would need +13 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "reference_photo": {
+  "author": "Christian David",
+  "confidence": "high",
+  "date_taken": "2026-04-17 17:39:37",
+  "estimated_azimuth_deg": 198.4,
+  "file": "1.jpg",
+  "height": 2880,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Flatiron_Building,_Fifth_Avenue,_Manhattan,_New_York.jpg",
+  "title": "File:Flatiron Building, Fifth Avenue, Manhattan, New York.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_flatiron_building/render.png",
+ "rendered_at": "2026-09-06T16:59:42Z",
+ "resolution_note": "852x1278; the reference photograph is 1920x2880 (0.67:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-3_4",
+    "t_-3_5",
+    "t_-4_4",
+    "t_-4_5"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-3_4": {
+     "lod": 0,
+     "objects": 15,
+     "triangles": 63422
+    },
+    "t_-3_5": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 49098
+    },
+    "t_-4_4": {
+     "lod": 0,
+     "objects": 19,
+     "triangles": 61542
+    },
+    "t_-4_5": {
+     "lod": 0,
+     "objects": 19,
+     "triangles": 45694
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "triangle_budget": 3510000,
+   "triangles": 219756
+  },
+  "centre_tm": [
+   -3268.67,
+   4720.28
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 17,
+    "cornice": 31,
+    "door_entry": 28,
+    "hvac": 11,
+    "parapet": 17,
+    "pilaster": 32,
+    "quoin": 4,
+    "scaffold": 61,
+    "storefront": 132,
+    "storefront_interior": 25,
+    "string_course": 30,
+    "water_tower": 8,
+    "window": 3427,
+    "window_accessory": 4
+   },
+   "placed": 3827,
+   "radius_m": 120.0,
+   "records_in_range": 3827,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-4_4"
+   ],
+   "triangles": 908295,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 182.9,
+     "id": "flatiron",
+     "lod": 0,
+     "name": "Flatiron Building",
+     "triangles": 38253
+    },
+    {
+     "distance_m": 707.7,
+     "id": "empire_state",
+     "lod": 0,
+     "name": "Empire State Building",
+     "triangles": 107298
+    }
+   ],
+   "placed": 2,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 145551
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 497,
+    "curb": 896,
+    "median": 151,
+    "parking_lot": 18,
+    "plaza": 54,
+    "roadbed": 382,
+    "sidewalk": 226
+   },
+   "placed": 2224,
+   "radius_m": 685.6567440326239,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_4",
+    "t_-3_5",
+    "t_-4_4",
+    "t_-4_5"
+   ],
+   "triangles": 169802,
+   "vertices": 173990
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 37,
+    "bike_rack": 37,
+    "bus_shelter": 7,
+    "bus_stop_sign": 17,
+    "citibike_dock": 2,
+    "flagpole": 1,
+    "hydrant": 45,
+    "linknyc": 6,
+    "mailbox": 5,
+    "manhole": 85,
+    "newsstand": 2,
+    "steam_vent": 7,
+    "street_lamp": 99,
+    "subway_entrance": 8,
+    "subway_vent_grate": 23,
+    "tree": 81,
+    "waste_basket": 17
+   },
+   "placed": 479,
+   "radius_m": 250.0,
+   "rows_in_range": 735,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-4_4"
+   ],
+   "tree_species_substituted": 25,
+   "triangles": 880186,
+   "unmapped_kinds": {
+    "artwork": 18,
+    "cooling_tower": 122,
+    "curb_ramp": 101,
+    "drinking_fountain": 2,
+    "memorial": 8,
+    "parks_building": 2,
+    "vending_machine": 3
+   }
+  },
+  "radius_m": 685.6567440326239,
+  "seconds": 19.41,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.571,
+   "triangles": 180000,
+   "water_quads": 0,
+   "z_max_m": 22.94,
+   "z_min_m": 1.04
+  },
+  "triangles": 2503590
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 685.6567440326239
+ },
+ "seconds": {
+  "render": 83.1,
+  "scene": 19.9,
+  "total": 103.1
+ },
+ "slug": "landmark_flatiron_building",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 178.5,
+  "name": "Flatiron Building"
+ },
+ "sun": {
+  "azimuth_deg": 265.85922865596024,
+  "elevation_deg": 21.33156600320945,
+  "local": "2026-04-17T17:39:37-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2026-04-17T21:39:37Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 206.3,
+  "lat": 40.7425,
+  "lon": -73.9887,
+  "note": "Fifth Avenue at 24th Street (Worth Monument traffic island), looking downtown at the prow"
+ }
+}

@@ -1,6 +1,6 @@
 # One World Trade Center
 
-Script: `blender/landmarks/b_one_world_trade_center.py` · agent B · generated 2026-09-06 14:09 UTC
+Script: `blender/landmarks/b_one_world_trade_center.py` · agent B · generated 2026-09-06 15:46 UTC
 
 ## Placement
 
@@ -37,4 +37,9 @@ paving and bollards.
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_one_world_trade_center.glb` — 6,044 triangles, 0.36 MB, bounds min ['-42.3', '-42.4', '-6.0'] max ['42.1', '42.4', '542.8']
-* `blender_out/landmarks/b_one_world_trade_center_lod1.glb` — 444 triangles, 0.04 MB, bounds min ['-42.3', '-42.4', '-6.0'] max ['42.1', '42.4', '542.8']
+
+## Verification renders (Cycles CPU, 64 spp)
+
+![one_wtc_reference](one_wtc_reference.png)
+![west_street](west_street.png)
+![harbour](harbour.png)

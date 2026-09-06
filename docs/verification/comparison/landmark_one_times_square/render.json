@@ -1,0 +1,315 @@
+{
+ "azimuth_reason": "10.5 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 200.0 deg, 170.5 deg away",
+ "camera": {
+  "azimuth_deg": 10.5,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 13.92,
+   "max_m": 14.97,
+   "median_m": 14.49,
+   "min_m": 13.6,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 42.163,
+  "lat": 40.757942,
+  "lon": -73.985757,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": true,
+  "resolution": [
+   904,
+   1206
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_one_times_square",
+  "terrain_z_m": 13.918,
+  "x": -3019.401,
+  "y": 6434.997,
+  "z": 15.518
+ },
+ "camera_caption": "camera 40.75794, -73.98576 (NYC_TM -3019, 6435) z 15.5 m NAVD88 | azimuth 10.5deg pitch +0.0deg | 35 mm on 36 mm (42.2deg horizontal, 54.4deg vertical, portrait) | 904x1206",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 903.7,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 3,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 251.807,
+  "sky_elevation_deg": 54.605,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.674,
+  "view_transform": "Filmic"
+ },
+ "name": "One Times Square",
+ "night": false,
+ "pitch_reason": "level optical axis (One Times Square is 180 m away and would need +46 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "reference_photo": {
+  "author": "Scu ba",
+  "confidence": "high",
+  "date_taken": "2024-06-27 15:26:26",
+  "estimated_azimuth_deg": 10.5,
+  "file": "2.jpg",
+  "height": 2560,
+  "licence": "CC0",
+  "licence_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Paramount_Building_via_One_Times_Square.jpg",
+  "title": "File:Paramount Building via One Times Square.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_one_times_square/render.png",
+ "rendered_at": "2026-09-06T18:13:56Z",
+ "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-3_5",
+    "t_-3_6",
+    "t_-3_7",
+    "t_-4_5",
+    "t_-4_6",
+    "t_-4_7"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-3_5": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 49098
+    },
+    "t_-3_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 30874
+    },
+    "t_-3_7": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 23700
+    },
+    "t_-4_5": {
+     "lod": 0,
+     "objects": 19,
+     "triangles": 45694
+    },
+    "t_-4_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 66858
+    },
+    "t_-4_7": {
+     "lod": 0,
+     "objects": 13,
+     "triangles": 45224
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "triangle_budget": 3510000,
+   "triangles": 261448
+  },
+  "centre_tm": [
+   -3019.4,
+   6435.0
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 4,
+    "cornice": 10,
+    "door_entry": 25,
+    "fire_escape": 7,
+    "hvac": 13,
+    "parapet": 19,
+    "pilaster": 9,
+    "quoin": 5,
+    "scaffold": 40,
+    "storefront": 93,
+    "storefront_interior": 14,
+    "string_course": 9,
+    "water_tower": 1,
+    "window": 10616,
+    "window_accessory": 2
+   },
+   "placed": 10867,
+   "radius_m": 120.0,
+   "records_in_range": 10867,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_6",
+    "t_-4_6"
+   ],
+   "triangles": 1971252,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 204.2,
+     "id": "c_times_square",
+     "lod": 0,
+     "name": "Times Square",
+     "triangles": 182310
+    },
+    {
+     "distance_m": 533.0,
+     "id": "30_rockefeller_plaza",
+     "lod": 0,
+     "name": "30 Rockefeller Plaza",
+     "triangles": 102530
+    },
+    {
+     "distance_m": 604.6,
+     "id": "new_york_public_library",
+     "lod": 0,
+     "name": "New York Public Library, Stephen A. Schwarzman Building",
+     "triangles": 51785
+    },
+    {
+     "distance_m": 1042.2,
+     "id": "c_billionaires_row",
+     "lod": 0,
+     "name": "Billionaires' Row (West 57th Street corridor)",
+     "triangles": 220910
+    }
+   ],
+   "placed": 4,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 557535
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 351,
+    "curb": 782,
+    "median": 117,
+    "parking_lot": 10,
+    "plaza": 66,
+    "roadbed": 324,
+    "sidewalk": 198
+   },
+   "placed": 1848,
+   "radius_m": 687.7311626350473,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_5",
+    "t_-3_6",
+    "t_-3_7",
+    "t_-4_5",
+    "t_-4_6",
+    "t_-4_7"
+   ],
+   "triangles": 122478,
+   "vertices": 125940
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 16,
+    "bike_rack": 8,
+    "bus_stop_sign": 3,
+    "flagpole": 2,
+    "hydrant": 50,
+    "linknyc": 7,
+    "mailbox": 1,
+    "manhole": 74,
+    "newsstand": 5,
+    "rtpi_sign": 1,
+    "steam_vent": 6,
+    "street_lamp": 85,
+    "subway_emergency_exit": 2,
+    "subway_entrance": 8,
+    "subway_vent_grate": 14,
+    "tree": 20,
+    "waste_basket": 5
+   },
+   "placed": 307,
+   "radius_m": 250.0,
+   "rows_in_range": 519,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_6",
+    "t_-4_6"
+   ],
+   "tree_species_substituted": 6,
+   "triangles": 506006,
+   "unmapped_kinds": {
+    "artwork": 3,
+    "cooling_tower": 126,
+    "curb_ramp": 72,
+    "drinking_fountain": 1,
+    "memorial": 1,
+    "misc_structure": 9
+   }
+  },
+  "radius_m": 687.7311626350473,
+  "seconds": 61.08,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.585,
+   "triangles": 180000,
+   "water_quads": 0,
+   "z_max_m": 25.71,
+   "z_min_m": 2.38
+  },
+  "triangles": 3598719
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 687.7311626350473
+ },
+ "seconds": {
+  "render": 127.3,
+  "scene": 62.2,
+  "total": 189.5
+ },
+ "slug": "landmark_one_times_square",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 179.8,
+  "name": "One Times Square"
+ },
+ "sun": {
+  "azimuth_deg": 251.80687203621773,
+  "elevation_deg": 54.604686584894395,
+  "local": "2024-06-27T15:26:26-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2024-06-27T19:26:26Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 200.0,
+  "lat": 40.757942,
+  "lon": -73.985757,
+  "note": "the Times Square bowtie at West 45th Street, about 180 m north-north-east of the building, looking south-south-west at One Times Square"
+ }
+}

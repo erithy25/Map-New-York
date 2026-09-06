@@ -1,10 +1,10 @@
 # Pulaski Bridge
 
-Script: `blender/landmarks/b_pulaski.py` · agent B · generated 2026-09-06 14:09 UTC
+Script: `blender/landmarks/b_pulaski.py` · agent B · generated 2026-09-06 15:26 UTC
 
 ## Placement
 
-axis heading 10.78 deg (compass, +s), origin NYC_TM (-223.01, 4357.57); alignment source: osm bridge:support ways + published span
+axis heading 10.78 deg (compass, +s), origin NYC_TM (-223.01, 4357.57); alignment source: roads segments.parquet centreline (16 vertices, 3.43 deg from the OSM support axis) + osm supports + published span
 measured span between pier_bk and pier_qn: 52.62 m vs published 53.95 m (-2.46 %); towers snapped symmetrically to the published value
 
 | support | kind | NYC_TM x | NYC_TM y | s (m) | t (m) | source |
@@ -29,5 +29,10 @@ gates and warning signals, and the 2016 bike-lane barrier detail.
 
 ## Polycounts / outputs
 
-* `blender_out/landmarks/b_pulaski.glb` — 14,592 triangles, 0.69 MB, bounds min ['-58.0', '-325.5', '-3.0'] max ['58.6', '325.4', '22.8']
-* `blender_out/landmarks/b_pulaski_lod1.glb` — 3,904 triangles, 0.14 MB, bounds min ['-58.0', '-325.5', '-3.0'] max ['58.6', '325.4', '21.2']
+* `blender_out/landmarks/b_pulaski.glb` — 14,592 triangles, 0.71 MB, bounds min ['-91.9', '-320.1', '-3.0'] max ['92.5', '319.9', '22.8']
+
+## Verification renders (Cycles CPU, 64 spp)
+
+![pulaski_reference](pulaski_reference.png)
+![newtown_creek](newtown_creek.png)
+![roadway](roadway.png)

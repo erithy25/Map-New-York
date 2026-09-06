@@ -1,0 +1,320 @@
+{
+ "azimuth_reason": "292.9 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 288.3 deg, 4.6 deg away",
+ "camera": {
+  "azimuth_deg": 292.9,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 2.12,
+   "max_m": 2.51,
+   "median_m": 2.12,
+   "min_m": 1.96,
+   "mode": "local",
+   "percentile": null,
+   "radius_m": 5.0,
+   "samples": 16
+  },
+  "ground_mode": "local",
+  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap median within 5 m is the ground",
+  "hfov_deg": 54.432,
+  "lat": 40.704,
+  "lon": -73.992,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_brooklyn_bridge_from_dumbo",
+  "terrain_z_m": 2.123,
+  "x": -3549.439,
+  "y": 445.041,
+  "z": 3.723
+ },
+ "camera_caption": "camera 40.70400, -73.99200 (NYC_TM -3549, 445) z 3.7 m NAVD88 | azimuth 292.9deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 847.9,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 4,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.07,
+  "sky_azimuth_deg": 204.628,
+  "sky_elevation_deg": 41.147,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.57,
+  "view_transform": "Filmic"
+ },
+ "name": "Brooklyn Bridge seen from DUMBO / Brooklyn Bridge Park",
+ "night": false,
+ "pitch_reason": "level optical axis (the subject is 285 m away; anything that far is photographed with a level camera)",
+ "reference_photo": {
+  "author": "Kidfly182",
+  "confidence": "high",
+  "date_taken": "2023-03-07 13:20:26",
+  "estimated_azimuth_deg": 292.9,
+  "file": "3.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Brooklyn_Bridge_March_2023_009.jpg",
+  "title": "File:Brooklyn Bridge March 2023 009.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_brooklyn_bridge_from_dumbo/render.png",
+ "rendered_at": "2026-09-06T17:19:36Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-3_-1",
+    "t_-3_0",
+    "t_-3_1",
+    "t_-4_-1",
+    "t_-4_0",
+    "t_-4_1",
+    "t_-5_-1",
+    "t_-5_0",
+    "t_-5_1"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-3_-1": {
+     "lod": 1,
+     "objects": 13,
+     "triangles": 9528
+    },
+    "t_-3_0": {
+     "lod": 0,
+     "objects": 13,
+     "triangles": 11796
+    },
+    "t_-3_1": {
+     "lod": 1,
+     "objects": 11,
+     "triangles": 6664
+    },
+    "t_-4_-1": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 59678
+    },
+    "t_-4_0": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 9892
+    },
+    "t_-4_1": {
+     "lod": 0,
+     "objects": 14,
+     "triangles": 59652
+    },
+    "t_-5_-1": {
+     "lod": 1,
+     "objects": 11,
+     "triangles": 3260
+    },
+    "t_-5_0": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 11932
+    },
+    "t_-5_1": {
+     "lod": 1,
+     "objects": 18,
+     "triangles": 17456
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 9,
+   "tiles_missing": 0,
+   "tiles_wanted": 9,
+   "triangle_budget": 3510000,
+   "triangles": 189858
+  },
+  "centre_tm": [
+   -3549.44,
+   445.04
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 5,
+    "cornice": 27,
+    "door_entry": 17,
+    "fire_escape": 7,
+    "hvac": 24,
+    "parapet": 17,
+    "pilaster": 2,
+    "quoin": 8,
+    "storefront": 104,
+    "storefront_interior": 13,
+    "string_course": 24,
+    "window": 1521
+   },
+   "placed": 1769,
+   "radius_m": 120.0,
+   "records_in_range": 1769,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-4_0"
+   ],
+   "triangles": 379282,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 353.8,
+     "id": "b_manhattan_bridge",
+     "lod": 0,
+     "name": "Manhattan Bridge",
+     "triangles": 80700
+    },
+    {
+     "distance_m": 412.1,
+     "id": "b_brooklyn_bridge",
+     "lod": 0,
+     "name": "Brooklyn Bridge",
+     "triangles": 121824
+    },
+    {
+     "distance_m": 826.2,
+     "id": "c_pier_17_seaport",
+     "lod": 0,
+     "name": "Pier 17, South Street Seaport",
+     "triangles": 1350
+    }
+   ],
+   "placed": 3,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 203874
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 596,
+    "curb": 918,
+    "median": 112,
+    "parking_lot": 64,
+    "plaza": 21,
+    "roadbed": 543,
+    "sidewalk": 258
+   },
+   "placed": 2512,
+   "radius_m": 855.4401913277031,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_-1",
+    "t_-3_0",
+    "t_-3_1",
+    "t_-4_-1",
+    "t_-4_0",
+    "t_-4_1",
+    "t_-5_-1",
+    "t_-5_0",
+    "t_-5_1"
+   ],
+   "triangles": 182312,
+   "vertices": 187056
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": true,
+   "per_kind": {
+    "bench": 69,
+    "bike_rack": 22,
+    "bus_shelter": 1,
+    "bus_stop_sign": 3,
+    "citibike_dock": 3,
+    "flagpole": 3,
+    "hydrant": 35,
+    "mailbox": 1,
+    "manhole": 104,
+    "steam_vent": 1,
+    "street_lamp": 106,
+    "subway_vent_grate": 7,
+    "tree": 78,
+    "waste_basket": 13
+   },
+   "placed": 446,
+   "radius_m": 250.0,
+   "rows_in_range": 556,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-4_0"
+   ],
+   "tree_species_substituted": 31,
+   "triangles": 897982,
+   "unmapped_kinds": {
+    "cooling_tower": 35,
+    "curb_ramp": 68,
+    "drinking_fountain": 2,
+    "misc_structure": 1,
+    "parks_building": 4
+   }
+  },
+  "radius_m": 855.4401913277031,
+  "seconds": 27.21,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 5.703,
+   "triangles": 180000,
+   "water_quads": 33331,
+   "z_max_m": 27.78,
+   "z_min_m": -1.62
+  },
+  "triangles": 2033308
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 855.4401913277031
+ },
+ "seconds": {
+  "render": 84.5,
+  "scene": 27.6,
+  "total": 112.1
+ },
+ "slug": "landmark_brooklyn_bridge_from_dumbo",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 284.7,
+  "name": "Brooklyn Bridge Brooklyn tower"
+ },
+ "sun": {
+  "azimuth_deg": 204.62769092816555,
+  "elevation_deg": 41.14707277830868,
+  "local": "2023-03-07T13:20:26-05:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2023-03-07T18:20:26Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 288.3,
+  "lat": 40.704,
+  "lon": -73.992,
+  "note": "Pebble Beach at Main Street Park (Brooklyn Bridge Park), water's edge, looking west at the Brooklyn tower"
+ }
+}

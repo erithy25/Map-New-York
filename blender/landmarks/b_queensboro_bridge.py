@@ -176,6 +176,7 @@ def main() -> None:
             # the comparison agent's recorded photographic viewpoint, used verbatim
             ba.reference_render("landmark_queensboro_bridge", fit.frame, view="queensboro_reference",
                                 ground_z=GROUND, target_z=60.0, fov_deg=58.0, size=(1280, 720), context=ctx,
+                                aim=ax.p(-120.0, 0.0, 55.0),
                                 sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
             dict(view="elevation_from_river", cam=ax.p(-120.0, -520.0, 20.0), target=ax.p(-120.0, 0.0, 55.0),
                  fov_deg=52.0, context=ctx, sun_azimuth_deg=200.0, sun_elevation_deg=32.0),

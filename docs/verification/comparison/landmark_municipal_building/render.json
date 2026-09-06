@@ -1,0 +1,342 @@
+{
+ "azimuth_reason": "81.6 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 131.3 deg, 49.7 deg away",
+ "camera": {
+  "azimuth_deg": 81.6,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 11.16,
+   "max_m": 11.64,
+   "median_m": 11.28,
+   "min_m": 11.05,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.714,
+  "lon": -74.0058,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_municipal_building",
+  "terrain_z_m": 11.161,
+  "x": -4714.978,
+  "y": 1556.173,
+  "z": 12.761
+ },
+ "camera_caption": "camera 40.71400, -74.00580 (NYC_TM -4715, 1556) z 12.8 m NAVD88 | azimuth 81.6deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 907.3,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 5,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 212.21,
+  "sky_elevation_deg": 55.803,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.68,
+  "view_transform": "Filmic"
+ },
+ "name": "Manhattan Municipal Building",
+ "night": false,
+ "pitch_reason": "level optical axis (Manhattan Municipal Building is 202 m away and would need +23 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "reference_photo": {
+  "author": "Kidfly182",
+  "confidence": "high",
+  "date_taken": "2022-04-16 14:06:42",
+  "estimated_azimuth_deg": 81.6,
+  "file": "3.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Manhattan_Municipal_Building_April_2022_003.jpg",
+  "title": "File:Manhattan Municipal Building April 2022 003.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_municipal_building/render.png",
+ "rendered_at": "2026-09-06T17:57:41Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-4_1",
+    "t_-5_0",
+    "t_-5_1",
+    "t_-5_2",
+    "t_-6_0",
+    "t_-6_1",
+    "t_-6_2"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-4_1": {
+     "lod": 1,
+     "objects": 14,
+     "triangles": 24812
+    },
+    "t_-5_0": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 11932
+    },
+    "t_-5_1": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 42918
+    },
+    "t_-5_2": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 53444
+    },
+    "t_-6_0": {
+     "lod": 1,
+     "objects": 16,
+     "triangles": 5410
+    },
+    "t_-6_1": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 15588
+    },
+    "t_-6_2": {
+     "lod": 1,
+     "objects": 15,
+     "triangles": 3684
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 7,
+   "tiles_missing": 0,
+   "tiles_wanted": 7,
+   "triangle_budget": 3510000,
+   "triangles": 157788
+  },
+  "centre_tm": [
+   -4714.98,
+   1556.17
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 21,
+    "cornice": 50,
+    "door_entry": 33,
+    "fire_escape": 23,
+    "hvac": 39,
+    "parapet": 10,
+    "pilaster": 43,
+    "quoin": 2,
+    "scaffold": 158,
+    "storefront": 176,
+    "storefront_interior": 25,
+    "string_course": 48,
+    "water_tower": 9,
+    "window": 6832
+   },
+   "placed": 7469,
+   "radius_m": 120.0,
+   "records_in_range": 7469,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_1"
+   ],
+   "triangles": 1847348,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 139.1,
+     "id": "city_hall",
+     "lod": 0,
+     "name": "New York City Hall",
+     "triangles": 44823
+    },
+    {
+     "distance_m": 216.2,
+     "id": "municipal_building",
+     "lod": 0,
+     "name": "Manhattan Municipal Building",
+     "triangles": 97825
+    },
+    {
+     "distance_m": 273.9,
+     "id": "woolworth",
+     "lod": 0,
+     "name": "Woolworth Building",
+     "triangles": 47871
+    },
+    {
+     "distance_m": 632.7,
+     "id": "b_one_world_trade_center",
+     "lod": 0,
+     "name": "One World Trade Center",
+     "triangles": 6044
+    },
+    {
+     "distance_m": 679.5,
+     "id": "b_wtc_site",
+     "lod": 0,
+     "name": "World Trade Center site",
+     "triangles": 136174
+    },
+    {
+     "distance_m": 754.3,
+     "id": "equitable_building",
+     "lod": 0,
+     "name": "Equitable Building",
+     "triangles": 86321
+    },
+    {
+     "distance_m": 1221.0,
+     "id": "b_brooklyn_bridge",
+     "lod": 0,
+     "name": "Brooklyn Bridge",
+     "triangles": 121824
+    }
+   ],
+   "placed": 7,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 540882
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 724,
+    "curb": 1314,
+    "median": 114,
+    "parking_lot": 32,
+    "plaza": 67,
+    "roadbed": 587,
+    "sidewalk": 290
+   },
+   "placed": 3128,
+   "radius_m": 723.5457771648207,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-4_1",
+    "t_-5_0",
+    "t_-5_1",
+    "t_-5_2",
+    "t_-6_0",
+    "t_-6_1",
+    "t_-6_2"
+   ],
+   "triangles": 201334,
+   "vertices": 207278
+  },
+  "props": {
+   "capped": "triangle budget 1196998",
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 89,
+    "bike_rack": 36,
+    "bus_shelter": 1,
+    "bus_stop_sign": 18,
+    "citibike_dock": 2,
+    "flagpole": 12,
+    "hydrant": 52,
+    "linknyc": 4,
+    "mailbox": 4,
+    "manhole": 100,
+    "newsstand": 2,
+    "steam_vent": 10,
+    "street_lamp": 140,
+    "subway_emergency_exit": 2,
+    "subway_entrance": 20,
+    "subway_vent_grate": 56,
+    "tree": 64,
+    "waste_basket": 40
+   },
+   "placed": 652,
+   "radius_m": 250.0,
+   "rows_in_range": 929,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_1"
+   ],
+   "tree_species_substituted": 7,
+   "triangles": 1199962,
+   "unmapped_kinds": {
+    "artwork": 4,
+    "cooling_tower": 84,
+    "curb_ramp": 111,
+    "drinking_fountain": 4,
+    "memorial": 5,
+    "misc_structure": 2,
+    "parks_building": 9
+   }
+  },
+  "radius_m": 723.5457771648207,
+  "seconds": 46.29,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.824,
+   "triangles": 180000,
+   "water_quads": 1741,
+   "z_max_m": 14.29,
+   "z_min_m": -1.87
+  },
+  "triangles": 4127314
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 723.5457771648207
+ },
+ "seconds": {
+  "render": 120.8,
+  "scene": 47.2,
+  "total": 168.0
+ },
+ "slug": "landmark_municipal_building",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 202.2,
+  "name": "Manhattan Municipal Building"
+ },
+ "sun": {
+  "azimuth_deg": 212.2101515942748,
+  "elevation_deg": 55.80328209139492,
+  "local": "2022-04-16T14:06:42-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2022-04-16T18:06:42Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 131.3,
+  "lat": 40.714,
+  "lon": -74.0058,
+  "note": "Chambers Street at Broadway (Tweed Courthouse), looking south-east down Chambers Street at the arch"
+ }
+}

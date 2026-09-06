@@ -1,0 +1,336 @@
+{
+ "azimuth_reason": "24.5 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 0.0 deg, 24.5 deg away",
+ "camera": {
+  "azimuth_deg": 24.5,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 20.32,
+   "max_m": 20.89,
+   "median_m": 20.51,
+   "min_m": 20.26,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.76143,
+  "lon": -73.9775,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1044,
+   1044
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_moma",
+  "terrain_z_m": 20.32,
+  "x": -2330.334,
+  "y": 6803.887,
+  "z": 21.92
+ },
+ "camera_caption": "camera 40.76143, -73.97750 (NYC_TM -2330, 6804) z 21.9 m NAVD88 | azimuth 24.5deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1044x1044",
+ "clearance": {
+  "direction": "backwards",
+  "moved": true,
+  "note": "the recorded viewpoint is inside lm_moma.5 (a ray straight up from the eye point hits its roof); the camera was moved 20 m backwards -- the nearest point in open air -- keeping the same eye height above the heightmap",
+  "offset_m": 20.0,
+  "reason": "inside lm_moma.5 (a ray straight up from the eye point hits its roof)"
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 880.1,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 5,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 236.494,
+  "sky_elevation_deg": 47.994,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.63,
+  "view_transform": "Filmic"
+ },
+ "name": "Museum of Modern Art",
+ "night": false,
+ "pitch_reason": "level optical axis (Museum of Modern Art is 30 m away and would need +50 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "reference_photo": {
+  "author": "ajay_suresh",
+  "confidence": "high",
+  "date_taken": "2021-08-21 15:18",
+  "estimated_azimuth_deg": 24.5,
+  "file": "1.jpg",
+  "height": 1920,
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Museum_of_Modern_Art_(MoMA)_(51395759113).jpg",
+  "title": "File:Museum of Modern Art (MoMA) (51395759113).jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_moma/render.png",
+ "rendered_at": "2026-09-06T18:10:44Z",
+ "resolution_note": "1044x1044; the reference photograph is 1920x1920 (1.00:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-2_6",
+    "t_-2_7",
+    "t_-3_6",
+    "t_-3_7"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-2_6": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 53944
+    },
+    "t_-2_7": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 57268
+    },
+    "t_-3_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 30874
+    },
+    "t_-3_7": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 23700
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "triangle_budget": 3510000,
+   "triangles": 165786
+  },
+  "centre_tm": [
+   -2322.04,
+   6822.09
+  ],
+  "kit": {
+   "capped": "triangle budget 2349380",
+   "per_category": {
+    "bulkhead": 34,
+    "cornice": 13,
+    "door_entry": 37,
+    "fire_escape": 30,
+    "hvac": 36,
+    "parapet": 64,
+    "pilaster": 5,
+    "quoin": 10,
+    "scaffold": 9,
+    "storefront": 59,
+    "storefront_interior": 19,
+    "string_course": 16,
+    "water_tower": 12,
+    "window": 13421,
+    "window_accessory": 475
+   },
+   "placed": 14240,
+   "radius_m": 120.0,
+   "records_in_range": 16578,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_6"
+   ],
+   "triangles": 2349511,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 20.5,
+     "id": "moma",
+     "lod": 0,
+     "name": "Museum of Modern Art",
+     "triangles": 23620
+    },
+    {
+     "distance_m": 310.1,
+     "id": "30_rockefeller_plaza",
+     "lod": 0,
+     "name": "30 Rockefeller Plaza",
+     "triangles": 102530
+    },
+    {
+     "distance_m": 340.4,
+     "id": "st_patricks_cathedral",
+     "lod": 0,
+     "name": "St. Patrick's Cathedral",
+     "triangles": 6259
+    },
+    {
+     "distance_m": 391.9,
+     "id": "c_billionaires_row",
+     "lod": 0,
+     "name": "Billionaires' Row (West 57th Street corridor)",
+     "triangles": 220910
+    },
+    {
+     "distance_m": 423.6,
+     "id": "c_the_plaza",
+     "lod": 0,
+     "name": "The Plaza Hotel",
+     "triangles": 26492
+    },
+    {
+     "distance_m": 440.2,
+     "id": "c_lever_house",
+     "lod": 0,
+     "name": "Lever House",
+     "triangles": 31044
+    },
+    {
+     "distance_m": 446.3,
+     "id": "c_carnegie_hall",
+     "lod": 0,
+     "name": "Carnegie Hall",
+     "triangles": 19122
+    },
+    {
+     "distance_m": 575.8,
+     "id": "c_seagram_building",
+     "lod": 0,
+     "name": "Seagram Building",
+     "triangles": 34356
+    },
+    {
+     "distance_m": 2711.0,
+     "id": "b_central_park_walls_gates",
+     "lod": 0,
+     "name": "Central Park perimeter wall and gates",
+     "triangles": 18448
+    }
+   ],
+   "placed": 9,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 482781
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 213,
+    "curb": 371,
+    "median": 48,
+    "parking_lot": 2,
+    "plaza": 47,
+    "roadbed": 194,
+    "sidewalk": 102
+   },
+   "placed": 977,
+   "radius_m": 500.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_6",
+    "t_-2_7",
+    "t_-3_6",
+    "t_-3_7"
+   ],
+   "triangles": 83603,
+   "vertices": 85407
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": false,
+   "per_kind": {
+    "bike_rack": 10,
+    "bus_shelter": 6,
+    "bus_stop_sign": 16,
+    "citibike_dock": 6,
+    "flagpole": 19,
+    "hydrant": 53,
+    "linknyc": 2,
+    "mailbox": 4,
+    "manhole": 79,
+    "newsstand": 2,
+    "steam_vent": 4,
+    "street_lamp": 93,
+    "subway_emergency_exit": 2,
+    "subway_entrance": 5,
+    "subway_vent_grate": 28,
+    "tree": 169,
+    "waste_basket": 4
+   },
+   "placed": 502,
+   "radius_m": 250.0,
+   "rows_in_range": 670,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_6",
+    "t_-3_7"
+   ],
+   "tree_species_substituted": 38,
+   "triangles": 1238450,
+   "unmapped_kinds": {
+    "artwork": 7,
+    "cooling_tower": 93,
+    "curb_ramp": 66,
+    "drinking_fountain": 1,
+    "misc_structure": 1
+   }
+  },
+  "radius_m": 500.0,
+  "seconds": 49.55,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 3.333,
+   "triangles": 180000,
+   "water_quads": 0,
+   "z_max_m": 26.57,
+   "z_min_m": 7.53
+  },
+  "triangles": 4500131
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 500.0
+ },
+ "seconds": {
+  "render": 61.5,
+  "scene": 52.0,
+  "total": 113.5
+ },
+ "slug": "landmark_moma",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 30.0,
+  "name": "Museum of Modern Art"
+ },
+ "sun": {
+  "azimuth_deg": 236.49441295196587,
+  "elevation_deg": 47.993996322308476,
+  "local": "2021-08-21T15:18:00-04:00",
+  "time_source": "EXIF DateTimeOriginal (minutes)",
+  "utc": "2021-08-21T19:18:00Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 0.0,
+  "lat": 40.76143,
+  "lon": -73.9775,
+  "note": "West 53rd Street south sidewalk between Fifth and Sixth Avenues, looking north at the museum's 53rd Street front"
+ }
+}

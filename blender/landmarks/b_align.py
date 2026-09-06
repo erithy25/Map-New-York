@@ -386,17 +386,40 @@ def reference_view(ref_id: str, frame: bc.LocalFrame, *, eye_m: float = 1.65, gr
 
 
 def reference_render(ref_id: str, frame: bc.LocalFrame, *, view: str | None = None, ground_z: float = 0.0,
-                     target_z: float = 0.0, eye_m: float = 1.65, **kw) -> dict | None:
+                     target_z: float = 0.0, eye_m: float = 1.65, min_distance_m: float = 60.0,
+                     aim: Sequence[float] | None = None, **kw) -> dict | None:
     """A ``renders`` entry placed on the comparison agent's real photographic viewpoint, or ``None`` if it is absent.
 
     ``run_landmark`` drops ``None`` entries, so a landmark can simply list this first and keep its own hand-placed
     views after it; the render is then the *same shot* as the reference photograph in
     ``docs/verification/reference/<ref_id>/``.
+
+    The photographer's position is the reproducible half of a reference and is always used verbatim.  The recorded
+    *subject* coordinate is only as good as whoever typed it: the Hell Gate reference names a point 591 m west of
+    the arch, which aims the camera at empty water.  So a landmark may pass ``aim`` — a point in its own frame,
+    normally the tower or facade the shot is of — and the camera is aimed there instead; the disagreement with the
+    recorded subject is logged so a bad reference is visible rather than silent.  ``min_distance_m`` refuses a
+    viewpoint that lands on top of the subject in this model's frame (the RFK reference does).
     """
     cam_t = reference_view(ref_id, frame, eye_m=eye_m, ground_z=ground_z, target_z=target_z)
     if cam_t is None:
         return None
     cam, target = cam_t
+    if aim is not None:
+        recorded = target
+        target = (float(aim[0]), float(aim[1]), float(aim[2]) if len(aim) > 2 else target_z)
+        off = math.dist(recorded[:2], target[:2])
+        log.info("reference viewpoint %s: aiming at the model's own subject, %.0f m from the recorded subject point",
+                 ref_id, off)
+        if off > 120.0:
+            log.warning("reference viewpoint %s records a subject %.0f m from this model's subject; the "
+                        "photographer's position is still used verbatim, the aim is not", ref_id, off)
+    if math.dist(cam[:2], target[:2]) < min_distance_m:
+        # a recorded viewpoint that lands on top of the subject cannot produce evidence; skip rather than render it
+        log.warning("reference viewpoint %s is only %.0f m from its subject in this model's frame (< %.0f m); "
+                    "skipping it and keeping the hand-placed cameras", ref_id,
+                    math.dist(cam[:2], target[:2]), min_distance_m)
+        return None
     d = dict(view=view or ref_id, cam=cam, target=target, reference=ref_id)
     d.update(kw)
     return d

@@ -84,9 +84,11 @@ VIEWS: dict[str, dict] = {
         # neighbours; rendered from the stepped build and from a --roof-steps off build of the same
         # tile so the pair is directly comparable.
         "tiles": ["t_-4_5", "t_-3_5", "t_-4_6", "t_-3_6"],
-        "cam": (-3123.0, 5492.0), "cam_agl": 170.0, "cam_clear": 30.0,
-        "target": (-3406.0, 5775.0), "target_agl": 45.0,
-        "fov": 34.0, "sun_az": 145.0, "sun_el": 40.0, "size": (1600, 900),
+        # 240 m out on the clearest sightline (40 deg compass: tallest obstruction 63 m against a
+        # 98.8 m tower), high enough to clear it, so the setback profile stands against the sky
+        "cam": (-3252.0, 5959.0), "cam_agl": 78.0, "cam_clear": 16.0,
+        "target": (-3406.0, 5775.0), "target_agl": 52.0,
+        "fov": 31.0, "sun_az": 150.0, "sun_el": 38.0, "size": (1600, 900),
         "title": "Midtown setbacks: real multi-level massing recovered from the CityGML LOD2 roof levels",
     },
     "skyline_brooklyn": {

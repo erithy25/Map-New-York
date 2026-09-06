@@ -1,0 +1,344 @@
+{
+ "azimuth_reason": "29.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
+ "camera": {
+  "azimuth_deg": 29.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 23.59,
+   "max_m": 23.82,
+   "median_m": 23.68,
+   "min_m": 23.51,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.7526,
+  "lon": -73.9814,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   902
+  ],
+  "sensor_mm": 36.0,
+  "slug": "fifth_ave_42nd_north",
+  "terrain_z_m": 23.586,
+  "x": -2651.698,
+  "y": 5841.632,
+  "z": 25.186
+ },
+ "camera_caption": "camera 40.75260, -73.98140 (NYC_TM -2652, 5842) z 25.2 m NAVD88 | azimuth 29.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x902",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "viewpoint",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 468.3,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 5,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 1.91,
+  "sky_azimuth_deg": 243.293,
+  "sky_elevation_deg": 11.179,
+  "sun_lamp": true,
+  "sun_strength_blender": 0.867,
+  "view_transform": "Filmic"
+ },
+ "name": "Fifth Avenue at 42nd Street (NYPL), street view looking north",
+ "night": false,
+ "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "reference_photo": {
+  "author": "Epicgenius",
+  "confidence": "medium",
+  "date_taken": "2017-02-16 16:24:37",
+  "estimated_azimuth_deg": 29.0,
+  "file": "1.jpg",
+  "height": 1434,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:NYPL_main_Feb_2017_4.jpg",
+  "title": "File:NYPL main Feb 2017 4.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/fifth_ave_42nd_north/render.png",
+ "rendered_at": "2026-09-06T16:09:03Z",
+ "resolution_note": "1208x902; the reference photograph is 1920x1434 (1.34:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-2_5",
+    "t_-2_6",
+    "t_-3_5",
+    "t_-3_6",
+    "t_-4_5",
+    "t_-4_6"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-2_5": {
+     "lod": 1,
+     "objects": 14,
+     "triangles": 7312
+    },
+    "t_-2_6": {
+     "lod": 1,
+     "objects": 18,
+     "triangles": 22968
+    },
+    "t_-3_5": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 49098
+    },
+    "t_-3_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 30874
+    },
+    "t_-4_5": {
+     "lod": 0,
+     "objects": 19,
+     "triangles": 45694
+    },
+    "t_-4_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 66858
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "triangle_budget": 3510000,
+   "triangles": 222804
+  },
+  "centre_tm": [
+   -2651.7,
+   5841.63
+  ],
+  "kit": {
+   "capped": "triangle budget 2591489",
+   "per_category": {
+    "antenna": 7,
+    "bulkhead": 38,
+    "cornice": 40,
+    "door_entry": 47,
+    "hvac": 38,
+    "parapet": 23,
+    "pilaster": 31,
+    "quoin": 7,
+    "scaffold": 64,
+    "storefront": 188,
+    "storefront_interior": 42,
+    "string_course": 42,
+    "water_tower": 17,
+    "window": 10430,
+    "window_accessory": 79
+   },
+   "placed": 11093,
+   "radius_m": 140.0,
+   "records_in_range": 18751,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_5"
+   ],
+   "triangles": 2591618,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 97.4,
+     "id": "new_york_public_library",
+     "lod": 0,
+     "name": "New York Public Library, Stephen A. Schwarzman Building",
+     "triangles": 51785
+    },
+    {
+     "distance_m": 244.2,
+     "id": "one_vanderbilt",
+     "lod": 0,
+     "name": "One Vanderbilt",
+     "triangles": 71710
+    },
+    {
+     "distance_m": 352.0,
+     "id": "grand_central_terminal",
+     "lod": 0,
+     "name": "Grand Central Terminal",
+     "triangles": 29560
+    },
+    {
+     "distance_m": 413.6,
+     "id": "c_metlife_building",
+     "lod": 0,
+     "name": "MetLife Building (200 Park Avenue)",
+     "triangles": 105284
+    },
+    {
+     "distance_m": 520.7,
+     "id": "chrysler",
+     "lod": 0,
+     "name": "Chrysler Building",
+     "triangles": 57851
+    },
+    {
+     "distance_m": 586.7,
+     "id": "empire_state",
+     "lod": 0,
+     "name": "Empire State Building",
+     "triangles": 107298
+    },
+    {
+     "distance_m": 590.7,
+     "id": "c_times_square",
+     "lod": 0,
+     "name": "Times Square",
+     "triangles": 182310
+    },
+    {
+     "distance_m": 744.2,
+     "id": "30_rockefeller_plaza",
+     "lod": 0,
+     "name": "30 Rockefeller Plaza",
+     "triangles": 102530
+    }
+   ],
+   "placed": 8,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 708328
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 534,
+    "curb": 962,
+    "median": 75,
+    "parking_lot": 1,
+    "plaza": 82,
+    "roadbed": 434,
+    "sidewalk": 211
+   },
+   "placed": 2299,
+   "radius_m": 700.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_5",
+    "t_-2_6",
+    "t_-3_5",
+    "t_-3_6",
+    "t_-4_5",
+    "t_-4_6"
+   ],
+   "triangles": 165283,
+   "vertices": 169659
+  },
+  "props": {
+   "capped": null,
+   "leaf_off": true,
+   "per_kind": {
+    "bike_rack": 18,
+    "bus_shelter": 9,
+    "bus_stop_sign": 24,
+    "citibike_dock": 2,
+    "flagpole": 17,
+    "hydrant": 49,
+    "linknyc": 3,
+    "mailbox": 5,
+    "manhole": 79,
+    "newsstand": 6,
+    "rtpi_sign": 1,
+    "steam_vent": 10,
+    "street_lamp": 85,
+    "subway_entrance": 6,
+    "subway_vent_grate": 9,
+    "tree": 58,
+    "waste_basket": 6
+   },
+   "placed": 387,
+   "radius_m": 250.0,
+   "rows_in_range": 590,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_5",
+    "t_-3_6"
+   ],
+   "tree_species_substituted": 2,
+   "triangles": 632096,
+   "unmapped_kinds": {
+    "artwork": 7,
+    "cooling_tower": 126,
+    "curb_ramp": 57,
+    "drinking_fountain": 1,
+    "memorial": 6,
+    "parks_building": 3,
+    "parks_comfort_station": 1,
+    "vending_machine": 2
+   }
+  },
+  "radius_m": 700.0,
+  "seconds": 51.97,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.667,
+   "triangles": 180000,
+   "water_quads": 0,
+   "z_max_m": 25.7,
+   "z_min_m": -1.84
+  },
+  "triangles": 4500129
+ },
+ "scene_request": {
+  "kit_radius_m": 140.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 700.0
+ },
+ "seconds": {
+  "render": 244.7,
+  "scene": 53.1,
+  "total": 297.8
+ },
+ "slug": "fifth_ave_42nd_north",
+ "status": "rendered",
+ "subject": {
+  "distance_m": null,
+  "name": null
+ },
+ "sun": {
+  "azimuth_deg": 243.29256461330036,
+  "elevation_deg": 11.179203359017773,
+  "local": "2017-02-16T16:24:37-05:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2017-02-16T21:24:37Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 29.0,
+  "lat": 40.7526,
+  "lon": -73.9814,
+  "note": "Fifth Avenue west sidewalk in front of the New York Public Library (between 40th and 42nd), looking uptown"
+ }
+}

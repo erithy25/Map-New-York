@@ -1,0 +1,338 @@
+{
+ "azimuth_reason": "13.5 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 29.6 deg, 16.1 deg away",
+ "camera": {
+  "azimuth_deg": 13.5,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 14.18,
+   "max_m": 15.01,
+   "median_m": 14.45,
+   "min_m": 14.03,
+   "mode": "street",
+   "percentile": 10.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.75,
+  "lon": -73.9767,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_chrysler_building",
+  "terrain_z_m": 14.176,
+  "x": -2254.876,
+  "y": 5552.773,
+  "z": 15.776
+ },
+ "camera_caption": "camera 40.75000, -73.97670 (NYC_TM -2255, 5553) z 15.8 m NAVD88 | azimuth 13.5deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "clearance": {
+  "moved": false,
+  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
+  "offset_m": 0.0
+ },
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 820.0,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 5,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.24,
+  "sky_azimuth_deg": 215.789,
+  "sky_elevation_deg": 36.499,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.519,
+  "view_transform": "Filmic"
+ },
+ "name": "Chrysler Building",
+ "night": false,
+ "pitch_reason": "level optical axis (Chrysler Building is 205 m away and would need +37 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "reference_photo": {
+  "author": "Kidfly182",
+  "confidence": "high",
+  "date_taken": "2022-10-08 14:36:16",
+  "estimated_azimuth_deg": 13.5,
+  "file": "1.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Chrysler_Building_October_2022_001.jpg",
+  "title": "File:Chrysler Building October 2022 001.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_chrysler_building/render.png",
+ "rendered_at": "2026-09-06T17:11:36Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 40,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-2_4",
+    "t_-2_5",
+    "t_-2_6",
+    "t_-3_4",
+    "t_-3_5",
+    "t_-3_6"
+   ],
+   "missing": [],
+   "per_tile": {
+    "t_-2_4": {
+     "lod": 1,
+     "objects": 7,
+     "triangles": 996
+    },
+    "t_-2_5": {
+     "lod": 0,
+     "objects": 14,
+     "triangles": 17092
+    },
+    "t_-2_6": {
+     "lod": 1,
+     "objects": 18,
+     "triangles": 22968
+    },
+    "t_-3_4": {
+     "lod": 0,
+     "objects": 15,
+     "triangles": 63422
+    },
+    "t_-3_5": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 49098
+    },
+    "t_-3_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 30874
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "triangle_budget": 3510000,
+   "triangles": 184450
+  },
+  "centre_tm": [
+   -2254.88,
+   5552.77
+  ],
+  "kit": {
+   "capped": "triangle budget 2253225",
+   "per_category": {
+    "bulkhead": 40,
+    "cornice": 26,
+    "door_entry": 56,
+    "fire_escape": 57,
+    "hvac": 19,
+    "parapet": 55,
+    "pilaster": 7,
+    "quoin": 18,
+    "scaffold": 65,
+    "storefront": 149,
+    "storefront_interior": 35,
+    "string_course": 25,
+    "water_tower": 8,
+    "window": 10503,
+    "window_accessory": 191
+   },
+   "placed": 11254,
+   "radius_m": 120.0,
+   "records_in_range": 20246,
+   "stale_registry_ids": {},
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_5"
+   ],
+   "triangles": 2253261,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 214.4,
+     "id": "chrysler",
+     "lod": 0,
+     "name": "Chrysler Building",
+     "triangles": 57851
+    },
+    {
+     "distance_m": 306.6,
+     "id": "grand_central_terminal",
+     "lod": 0,
+     "name": "Grand Central Terminal",
+     "triangles": 29560
+    },
+    {
+     "distance_m": 365.3,
+     "id": "one_vanderbilt",
+     "lod": 0,
+     "name": "One Vanderbilt",
+     "triangles": 71710
+    },
+    {
+     "distance_m": 391.2,
+     "id": "c_metlife_building",
+     "lod": 0,
+     "name": "MetLife Building (200 Park Avenue)",
+     "triangles": 105284
+    },
+    {
+     "distance_m": 587.6,
+     "id": "new_york_public_library",
+     "lod": 0,
+     "name": "New York Public Library, Stephen A. Schwarzman Building",
+     "triangles": 51785
+    },
+    {
+     "distance_m": 735.5,
+     "id": "c_un_headquarters",
+     "lod": 0,
+     "name": "United Nations Headquarters",
+     "triangles": 12670
+    },
+    {
+     "distance_m": 779.3,
+     "id": "empire_state",
+     "lod": 0,
+     "name": "Empire State Building",
+     "triangles": 107298
+    },
+    {
+     "distance_m": 1323.5,
+     "id": "b_queens_midtown_portals",
+     "lod": 0,
+     "name": "Queens-Midtown Tunnel",
+     "triangles": 30888
+    }
+   ],
+   "placed": 8,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 467046
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 666,
+    "curb": 1193,
+    "median": 117,
+    "parking_lot": 10,
+    "plaza": 83,
+    "roadbed": 511,
+    "sidewalk": 243
+   },
+   "placed": 2823,
+   "radius_m": 727.2763796273734,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_4",
+    "t_-2_5",
+    "t_-2_6",
+    "t_-3_4",
+    "t_-3_5",
+    "t_-3_6"
+   ],
+   "triangles": 201257,
+   "vertices": 206627
+  },
+  "props": {
+   "capped": "triangle budget 1213536",
+   "leaf_off": false,
+   "per_kind": {
+    "bike_rack": 9,
+    "bus_shelter": 1,
+    "bus_stop_sign": 7,
+    "citibike_dock": 2,
+    "hydrant": 34,
+    "linknyc": 18,
+    "mailbox": 3,
+    "manhole": 58,
+    "newsstand": 3,
+    "steam_vent": 5,
+    "street_lamp": 78,
+    "subway_entrance": 7,
+    "subway_vent_grate": 9,
+    "tree": 161,
+    "waste_basket": 12
+   },
+   "placed": 407,
+   "radius_m": 250.0,
+   "rows_in_range": 904,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_5"
+   ],
+   "tree_species_substituted": 18,
+   "triangles": 1214022,
+   "unmapped_kinds": {
+    "cooling_tower": 52,
+    "curb_ramp": 49,
+    "drinking_fountain": 2,
+    "misc_structure": 3,
+    "vending_machine": 3
+   }
+  },
+  "radius_m": 727.2763796273734,
+  "seconds": 43.49,
+  "terrain": {
+   "built": true,
+   "holes": 0,
+   "samples": 301,
+   "spacing_m": 4.849,
+   "triangles": 180000,
+   "water_quads": 2828,
+   "z_max_m": 25.72,
+   "z_min_m": -4.22
+  },
+  "triangles": 4500036
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 727.2763796273734
+ },
+ "seconds": {
+  "render": 110.3,
+  "scene": 44.7,
+  "total": 155.0
+ },
+ "slug": "landmark_chrysler_building",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 204.5,
+  "name": "Chrysler Building"
+ },
+ "sun": {
+  "azimuth_deg": 215.78891080313628,
+  "elevation_deg": 36.499070759284024,
+  "local": "2022-10-08T14:36:16-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2022-10-08T18:36:16Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 29.6,
+  "lat": 40.75,
+  "lon": -73.9767,
+  "note": "Lexington Avenue at East 40th Street, west sidewalk, looking uptown at the crown"
+ }
+}
