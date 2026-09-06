@@ -6681,14 +6681,14 @@
   "landmark_b_holland_tunnel_portals_lod0": {
    "artifact_id": "landmark_b_holland_tunnel_portals_lod0",
    "bytes": 1866652,
-   "git_commit": "d63f02e8c7ff",
+   "git_commit": "7681d64744ab",
    "landmark_id": "b_holland_tunnel_portals",
    "lod": 0,
    "path": "blender_out/landmarks/b_holland_tunnel_portals.glb",
-   "produced_at": "2026-09-06T12:22:37Z",
+   "produced_at": "2026-09-06T12:24:48Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "29980c292cc0f845f627e781a6aacda8285a5397b9f6fbd73d3d560a690b959c",
+   "sha256": "24b13e8de91b2f5614f67036ae45a3de54262b8ee35c2a552b23bac8a5e43ccb",
    "sources": [
     "osm_bbbike",
     "published_holland_tunnel"
@@ -7146,6 +7146,26 @@
    "tris_lod0": 20708,
    "tris_lod1": 1642
   },
+  "landmark_glb:c_the_plaza": {
+   "artifact_id": "landmark_glb:c_the_plaza",
+   "bins": [
+    1035253
+   ],
+   "bytes": 16720948,
+   "footprint_iou": 1.0,
+   "git_commit": "7681d64744ab",
+   "path": "blender_out/landmarks/c_the_plaza.glb",
+   "produced_at": "2026-09-06T12:24:32Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "56e01f5d778849d636f5ed8e040fc12a3bf0d8f2798b1474fde0f5b0777a8fc2",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 26425,
+   "tris_lod1": 4094
+  },
   "landmark_glb:charging_bull": {
    "artifact_id": "landmark_glb:charging_bull",
    "bins": [],
@@ -7516,12 +7536,12 @@
    ],
    "bytes": 17458524,
    "footprint_iou": 1.0,
-   "git_commit": "e9c4094042a0",
+   "git_commit": "7681d64744ab",
    "path": "blender_out/landmarks/woolworth.glb",
-   "produced_at": "2026-09-06T12:03:30Z",
+   "produced_at": "2026-09-06T12:25:16Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "c35c9e3d83b16470e0fd32fd73c4d24c3efe8ae41864859f10aa722b913a851c",
+   "sha256": "afb3784ac6766fdc32ecb7a4cc500739659f0380ffb2513f7b27e2f386e82cc9",
    "sources": [
     "building_footprints"
    ],
@@ -10615,53 +10635,46 @@
   },
   "water_hydrography": {
    "artifact_id": "water_hydrography",
-   "bytes": 18237694,
-   "git_commit": "d63f02e8c7ff",
-   "kinds": {
-    "basin": 20,
-    "bay": 78,
-    "canal": 2,
-    "lake": 61,
-    "marsh": 744,
-    "ocean": 3,
-    "pond": 989,
-    "river": 356
-   },
+   "bytes": 18286618,
+   "git_commit": "7681d64744ab",
    "path": "data/processed/water/hydrography.parquet",
-   "produced_at": "2026-09-06T12:23:05Z",
+   "produced_at": "2026-09-06T12:24:59Z",
    "rows": 2253,
    "schema": "water.hydrography/1",
-   "sha256": "9fef4764a838bb5bac66e8afcf05b87bad13981f6c96443dd05c82c8edfbe275",
+   "sha256": "530d882e2b83be8bc09748094c28a8be68e52d170b2e8bd562b90a2afefe9efd",
    "sources": [
     "plan_hydrography",
     "plan_hydro_structures",
     "plan_shoreline",
     "borough_boundaries_water",
-    "osm_newyork_pbf"
+    "osm_newyork_pbf",
+    "plan_elevation_points",
+    "usgs_3dep"
    ],
    "stage": "water"
   },
   "water_shoreline": {
    "artifact_id": "water_shoreline",
-   "bytes": 5902589,
-   "git_commit": "d63f02e8c7ff",
+   "bytes": 5902606,
+   "git_commit": "7681d64744ab",
    "path": "data/processed/water/shoreline.parquet",
-   "produced_at": "2026-09-06T12:23:06Z",
+   "produced_at": "2026-09-06T12:25:00Z",
    "rows": 413,
    "schema": "water.shoreline/1",
-   "sha256": "36be4a1aac0f558f5ce29cff1329a2379f877239e805d5d0aeb685867291fa5b",
+   "sha256": "bb3821b24fb8c896b5adc2ed30fdce1f2d4ddca84dc9c261ac4820e433f334d5",
    "sources": [
     "plan_shoreline",
-    "plan_hydro_structures"
+    "plan_hydro_structures",
+    "usgs_3dep"
    ],
    "stage": "water"
   },
   "water_structures": {
    "artifact_id": "water_structures",
    "bytes": 2500550,
-   "git_commit": "d63f02e8c7ff",
+   "git_commit": "7681d64744ab",
    "path": "data/processed/water/structures.parquet",
-   "produced_at": "2026-09-06T12:23:06Z",
+   "produced_at": "2026-09-06T12:25:00Z",
    "rows": 2536,
    "schema": "water.structures/1",
    "sha256": "74e1dbadc3e3f0c5a477d5f4edf5499c5bb7e76e7e775880e405296c008af054",

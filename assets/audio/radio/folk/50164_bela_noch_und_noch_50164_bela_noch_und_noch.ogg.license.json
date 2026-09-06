@@ -1,0 +1,28 @@
+{
+ "artist": "K\u00fcnstler-Kapelle Dajos BELA",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 3146049,
+ "duration_s": 216.47,
+ "file": "folk/50164_bela_noch_und_noch_50164_bela_noch_und_noch.ogg",
+ "gain_db": 1.7,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+ "loudness_lufs": -15.7,
+ "original_filename": "50164 Bela Noch und noch.mp3",
+ "recorded_at": "2026-09-06T12:24:50Z",
+ "schema_version": 1,
+ "sha256": "4afc1a5f5c588a88339f0d71986c40a705b8c5f7657ac57f8f4c77ca71f33685",
+ "source_page": "https://archive.org/details/50164-bela-noch-und-noch",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/50164-bela-noch-und-noch/50164%20Bela%20Noch%20und%20noch.mp3",
+ "title": "Noch und noch und noch...",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

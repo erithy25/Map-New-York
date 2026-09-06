@@ -1,6 +1,6 @@
 # Holland Tunnel
 
-Script: `blender/landmarks/b_holland_tunnel_portals.py` · agent B · generated 2026-09-06 12:22 UTC
+Script: `blender/landmarks/b_holland_tunnel_portals.py` · agent B · generated 2026-09-06 12:24 UTC
 
 ## Placement
 
@@ -22,9 +22,9 @@ frame origin NYC_TM (-6063.5, 3019.0); both tube centrelines are the real OSM tu
 
 Placement (all four ventilation buildings and both tube centrelines are real OSM geometry)
 * North tube: OSM ways ``46613913`` + ``415877358``; south tube: ``22927390`` + ``415882710`` — all
-  ``highway=motorway, tunnel=yes, name=Holland Tunnel``.  The chained OSM centrelines measure 2,556 m and 2,499 m
-  against the published 2,608.5 m and 2,551.4 m (-2.0 %); each is extended symmetrically along its end tangents to
-  the published length, because OSM stops the tunnel way at the portal building rather than at the portal face.
+  ``highway=motorway, tunnel=yes, name=Holland Tunnel``.  The chained OSM centrelines measure **2,613.0 m** and
+  **2,550.7 m** against the published 2,608.5 m and 2,551.4 m — **+0.17 %** and **-0.03 %**; each is then trimmed or
+  extended symmetrically along its end tangents to exactly the published length.
 * Ventilation buildings, with the heights OSM records: ``249664800`` Manhattan river tower (39.3 m),
   ``249664802`` Manhattan land building (35.5 m), ``331072217`` New Jersey river tower (34.0 m, height not tagged —
   taken from its twin), ``320431782`` New Jersey land building (33.0 m, height not tagged).  Their real polygon
@@ -39,3 +39,7 @@ and their ramp networks, and the cast-iron lining segment bolts.
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_holland_tunnel_portals.glb` — 40,892 triangles, 1.87 MB, bounds min ['-1260.7', '-439.3', '-27.6'] max ['1281.9', '396.1', '42.9']
+
+## Verification renders (Cycles CPU, 64 spp)
+
+![tube_interior](tube_interior.png)

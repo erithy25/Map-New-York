@@ -1,0 +1,112 @@
+{
+ "files": {
+  "density.nycb": {
+   "bytes": 862296,
+   "parquet_rows": {},
+   "sections": {
+    "cells": {
+     "count": 18864,
+     "element_size": 32
+    },
+    "nta_polys": {
+     "count": 334,
+     "element_size": 12
+    },
+    "strtab": {
+     "count": 1835,
+     "element_size": 1
+    },
+    "vertices": {
+     "count": 21051,
+     "element_size": 12
+    }
+   }
+  },
+  "roadgraph.nycb": {
+   "bytes": 104507552,
+   "parquet_rows": {
+    "junction_lanes": 470016,
+    "lanes": 384703,
+    "nodes": 79291,
+    "segments": 122235
+   },
+   "sections": {
+    "junction_lanes": {
+     "count": 470016,
+     "element_size": 48
+    },
+    "lane_links": {
+     "count": 470016,
+     "element_size": 8
+    },
+    "lanes": {
+     "count": 384703,
+     "element_size": 48
+    },
+    "nodes": {
+     "count": 79291,
+     "element_size": 24
+    },
+    "segments": {
+     "count": 122235,
+     "element_size": 48
+    },
+    "strtab": {
+     "count": 148757,
+     "element_size": 1
+    },
+    "vertices": {
+     "count": 3924272,
+     "element_size": 12
+    },
+    "yield_links": {
+     "count": 588785,
+     "element_size": 8
+    }
+   }
+  },
+  "signals.nycb": {
+   "bytes": 1744328,
+   "parquet_rows": {
+    "controllers": 19814
+   },
+   "sections": {
+    "controllers": {
+     "count": 19814,
+     "element_size": 32
+    },
+    "phases": {
+     "count": 39649,
+     "element_size": 28
+    }
+   }
+  },
+  "transit.nycb": {
+   "bytes": 2370712,
+   "parquet_rows": {},
+   "sections": {
+    "bus_routes": {
+     "count": 345,
+     "element_size": 68
+    },
+    "bus_stops": {
+     "count": 13364,
+     "element_size": 24
+    },
+    "route_stops": {
+     "count": 21963,
+     "element_size": 8
+    },
+    "strtab": {
+     "count": 205860,
+     "element_size": 1
+    },
+    "vertices": {
+     "count": 137060,
+     "element_size": 12
+    }
+   }
+  }
+ },
+ "schema_version": 1
+}

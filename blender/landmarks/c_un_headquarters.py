@@ -112,11 +112,11 @@ def build():
                            spandrel_proud=0.1, pier="marble_white", spandrel="marble_white", glass="glass_blue")
     objs += C.tower_tier(f"{ID}_library", Plib, 4.5, LIB_H, fen_l, roof_material="roof_grey", parapet_h=0.9,
                          parapet_t=0.4)
-    return objs, g
+    return objs, g, Psec
 
 
 def main():
-    objs, g = build()
+    objs, g, Psec = build()
     entry = cc.finish(objs, ID, g.frame, real_footprint=g.real_local,
                       fidelity_statement=(
                           "Exact: three real OTI footprints (the Secretariat polygon matches the published 72 x 287 "

@@ -1,0 +1,28 @@
+{
+ "artist": "Selahattin K\u00fc\u00e7\u00fckda\u00f0",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 2764350,
+ "duration_s": 178.6,
+ "file": "folk/avanosluselahattinercan_uzerindecennetgibiavanossarkisi_uzerinde.ogg",
+ "gain_db": 0.5,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/licenses/publicdomain/",
+ "loudness_lufs": -14.5,
+ "original_filename": "UzerindeCennetGibi.mp3",
+ "recorded_at": "2026-09-06T12:24:24Z",
+ "schema_version": 1,
+ "sha256": "1abeb607b49f3f15ba9c3b6cb3b139a59c74e1716c54f0e50d38721b3102134d",
+ "source_page": "https://archive.org/details/AvanosluSelahattinErcan-UzerindeCennetGibiavanosSarkisi",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/AvanosluSelahattinErcan-UzerindeCennetGibiavanosSarkisi/UzerindeCennetGibi.mp3",
+ "title": "uzerinde cennet gibi",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

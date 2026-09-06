@@ -150,13 +150,40 @@ def test_terrain_tiles_are_readable_and_seams_line_up():
     assert checked or len(files) < 2, "no shared tile edges could be compared"
 
 
-def test_highest_terrain_point_is_todt_hill():
-    """Todt Hill on Staten Island, about 125 m, is the highest natural point in New York City."""
+def test_highest_points_are_todt_hill_in_the_city_and_the_palisades_in_new_jersey():
+    """Todt Hill (about 125 m) is the highest natural point in New York City.
+
+    The scope also covers the New Jersey shoreline, whose Palisades ridge is higher, so the
+    city-wide maximum is checked inside Staten Island rather than over the whole grid.
+    """
     files = _tile_files("terrain.json")
     if not files:
         pytest.skip("terrain tiles not produced yet")
-    peak = max((json.load(open(f)).get("z_max_m", -999), f.parent.name) for f in files)
-    assert 100.0 < peak[0] < 160.0, f"city-wide terrain maximum {peak[0]:.1f} m is not consistent with Todt Hill"
+    # Staten Island bounding box in WGS84, converted once to the world CRS.
+    sw = crs.lonlat_to_tm(-74.262, 40.491)
+    ne = crs.lonlat_to_tm(-74.049, 40.651)
+    peaks_si: list[tuple[float, str]] = []
+    peaks_all: list[tuple[float, str]] = []
+    for f in files:
+        name = f.parent.name
+        z = json.load(open(f)).get("z_max_m")
+        if not isinstance(z, (int, float)):
+            continue
+        peaks_all.append((z, name))
+        t = tiling.Tile.parse(name)
+        cx, cy = t.x0 + 500.0, t.y0 + 500.0
+        if sw[0] <= cx <= ne[0] and sw[1] <= cy <= ne[1]:
+            peaks_si.append((z, name))
+    assert peaks_si, "no tiles fall inside the Staten Island bounding box"
+    si_peak = max(peaks_si)
+    assert 100.0 < si_peak[0] < 145.0, f"Staten Island maximum {si_peak[0]:.1f} m in {si_peak[1]} is not Todt Hill"
+    overall = max(peaks_all)
+    # The Palisades escarpment opposite Manhattan reaches roughly 150-180 m.
+    assert 100.0 < overall[0] < 220.0, f"scope-wide terrain maximum {overall[0]:.1f} m in {overall[1]} is implausible"
+    lowest = min((json.load(open(f)).get("z_min_m", 999), f.parent.name) for f in files)
+    assert lowest[0] > -12.0, (
+        f"lowest terrain sample {lowest[0]:.1f} m in {lowest[1]} — deeper than any real cut in the scope, "
+        "which usually means an unfilled DEM void")
 
 
 # --------------------------------------------------------------------------- roads

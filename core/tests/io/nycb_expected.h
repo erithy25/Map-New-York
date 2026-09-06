@@ -62,26 +62,8 @@ inline constexpr StringOffset kStringOffsets[] = {
 };
 inline constexpr int kStringOffsetN = 2;
 
-// Section counts of the real exporter output under data/processed/runtime/ at the
-// time this header was generated, with the parquet row counts they must equal.
-struct RealCount { const char* file; const char* section; uint32_t count; uint32_t element_size; int64_t parquet_rows; };
-inline constexpr RealCount kRealCounts[] = {
-    {"roadgraph.nycb", "junction_lanes", 466279, 48, 466279},
-    {"roadgraph.nycb", "lane_links", 466279, 8, -1},
-    {"roadgraph.nycb", "lanes", 384703, 48, 384703},
-    {"roadgraph.nycb", "nodes", 79291, 24, 79291},
-    {"roadgraph.nycb", "segments", 122235, 48, 122235},
-    {"roadgraph.nycb", "strtab", 148757, 1, -1},
-    {"roadgraph.nycb", "vertices", 3901850, 12, -1},
-    {"roadgraph.nycb", "yield_links", 551241, 8, -1},
-    {"signals.nycb", "controllers", 23839, 32, 23839},
-    {"signals.nycb", "phases", 46981, 28, -1},
-    {"transit.nycb", "bus_routes", 345, 68, -1},
-    {"transit.nycb", "bus_stops", 13364, 24, -1},
-    {"transit.nycb", "route_stops", 21963, 8, -1},
-    {"transit.nycb", "strtab", 205860, 1, -1},
-    {"transit.nycb", "vertices", 137060, 12, -1},
-};
-inline constexpr int kRealCountN = 15;
+// The real exporter output under data/processed/runtime/ is NOT snapshotted here:
+// the test reads core/tests/data/runtime/real_counts.json at run time so the roads
+// stage can regenerate its data without a recompilation.
 
 }  // namespace nycsim_test_nycb

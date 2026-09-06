@@ -532,6 +532,20 @@ class TunnelCfg:
     toll_xy: tuple[float, float] | None = None
 
 
+def tube_path(cfg: "TunnelCfg", frame: bc.LocalFrame, tube: "TubeCfg") -> tuple[list[Vector], float]:
+    """The finished 3-D centreline of one bore (OSM ways chained, extended to the published length, vertical profile
+    applied) plus the length the OSM ways actually measured, so a caller can report the difference or place a camera
+    inside the tube."""
+    raw = chain(frame, tube.ways, tube.start_tm, tube.fallback)
+    measured = polyline_length(raw)
+    line = extend_to_length(raw, tube.length_m)
+    pa = Vector(frame.to_local(*cfg.portal_a_tm)[:2] + (0.0,))
+    a_first = (line[0] - pa).length < (line[-1] - pa).length
+    za = (cfg.ground_a if a_first else cfg.ground_b) - 4.0
+    zb = (cfg.ground_b if a_first else cfg.ground_a) - 4.0
+    return profile_z(line, za, zb, cfg.z_low), measured
+
+
 def assemble(cfg: TunnelCfg, frame: bc.LocalFrame, lod: int = 0) -> tuple[list, dict]:
     """Build every tube, both portal head-walls and all ventilation buildings of one vehicular tunnel.
 
@@ -540,14 +554,7 @@ def assemble(cfg: TunnelCfg, frame: bc.LocalFrame, lod: int = 0) -> tuple[list, 
     objs: list = []
     stats: dict[str, dict] = {}
     for tube in cfg.tubes:
-        raw = chain(frame, tube.ways, tube.start_tm, tube.fallback)
-        measured = polyline_length(raw)
-        line = extend_to_length(raw, tube.length_m)
-        # which portal is which end?
-        pa = Vector(frame.to_local(*cfg.portal_a_tm)[:2] + (0.0,))
-        za = cfg.ground_a - 4.0 if (line[0] - pa).length < (line[-1] - pa).length else cfg.ground_b - 4.0
-        zb = cfg.ground_b - 4.0 if (line[0] - pa).length < (line[-1] - pa).length else cfg.ground_a - 4.0
-        line = profile_z(line, za, zb, cfg.z_low)
+        line, measured = tube_path(cfg, frame, tube)
         spec = TubeSpec(**{**cfg.spec.__dict__, "lanes": tube.lanes})
         objs += build_tube(tube.name, line, spec, lod)
         stats[tube.name] = {"osm_measured_m": round(measured, 1), "published_m": tube.length_m,

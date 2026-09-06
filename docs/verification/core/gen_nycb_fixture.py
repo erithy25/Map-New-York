@@ -240,37 +240,61 @@ def main() -> int:
     expected["sizeof"] = {k: v["sizeof"] for k, v in layout["sections"].items()}
     expected["sizeof"]["header"] = layout["container"]["header"]["sizeof"]
     expected["sizeof"]["index_entry"] = layout["container"]["index_entry"]["sizeof"]
-    # Section counts of the *real* exporter output, when the roads stage has produced it, together
-    # with the parquet row counts they must equal.
-    real: dict = {}
-    processed = pathlib.Path("data/processed")
-    from nycsim_pipeline.runtime.nycb import NycbReader  # local import: only needed here
-    pairs = [("roadgraph", {"nodes": "nodes", "segments": "segments", "lanes": "lanes",
-                            "junction_lanes": "junction_lanes"}),
-             ("signals", {"controllers": "signals"}),
-             ("transit", {})]
-    for stem, parquet_map in pairs:
-        path = processed / "runtime" / f"{stem}.nycb"
-        if not path.exists():
-            continue
-        reader = NycbReader(path)
-        entry = {"sections": {k: v.element_count for k, v in reader.sections.items()},
-                 "element_size": {k: v.element_size for k, v in reader.sections.items()},
-                 "parquet_rows": {}}
-        for section, parquet in parquet_map.items():
-            pfile = processed / "roads" / f"{parquet}.parquet"
-            if pfile.exists():
-                import pyarrow.parquet as pq
-                entry["parquet_rows"][section] = pq.ParquetFile(pfile).metadata.num_rows
-        real[stem] = entry
-    expected["real"] = real
-
     (OUT / "expected.json").write_text(json.dumps(expected, indent=1, sort_keys=True))
     write_cpp_header(expected)
+    write_real_counts()
     print(json.dumps(expected["sizeof"], sort_keys=True))
     for f in sorted(OUT.glob("*.nycb")):
         print(f, f.stat().st_size, "bytes")
     return 0
+
+
+def write_real_counts() -> None:
+    """Record the real exporter output under data/processed/runtime/ for the C++ interop test.
+
+    The C++ test reads this JSON at run time (with nycsim::json), so refreshing it after the roads
+    stage re-runs needs no recompilation. Each file records its byte size: the test compares counts
+    only while the recorded size still describes the file on disk, and says so loudly otherwise,
+    because a changed size means the data was regenerated and this file is stale.
+
+    `parquet_rows` is the cross-check that matters: the exporter must emit exactly one record per
+    parquet row. It is computed here because C++ cannot read parquet.
+    """
+    processed = pathlib.Path("data/processed")
+    from nycsim_pipeline.runtime.nycb import NycbReader  # local import: only needed here
+
+    parquet_maps = {
+        "roadgraph": {"nodes": "roads/nodes", "segments": "roads/segments",
+                      "lanes": "roads/lanes", "junction_lanes": "roads/junction_lanes"},
+        "signals": {"controllers": "roads/signals"},
+        "transit": {},
+        "density": {},
+    }
+    out: dict = {"schema_version": 1, "files": {}}
+    for stem, parquet_map in parquet_maps.items():
+        path = processed / "runtime" / f"{stem}.nycb"
+        if not path.exists():
+            continue
+        reader = NycbReader(path)
+        entry = {
+            "bytes": path.stat().st_size,
+            "sections": {k: {"count": v.element_count, "element_size": v.element_size}
+                         for k, v in reader.sections.items()},
+            "parquet_rows": {},
+        }
+        for section, parquet in parquet_map.items():
+            pfile = processed / f"{parquet}.parquet"
+            if not pfile.exists():
+                continue
+            import pyarrow.parquet as pq
+            rows = pq.ParquetFile(pfile).metadata.num_rows
+            entry["parquet_rows"][section] = rows
+            got = reader.sections[section].element_count if section in reader.sections else None
+            status = "OK" if got == rows else "MISMATCH"
+            print(f"  {stem}.nycb/{section}: nycb {got} vs {parquet}.parquet {rows}  [{status}]")
+        out["files"][f"{stem}.nycb"] = entry
+    (OUT / "real_counts.json").write_text(json.dumps(out, indent=1, sort_keys=True))
+    print(f"wrote {OUT / 'real_counts.json'} for {len(out['files'])} real files")
 
 
 def write_cpp_header(expected: dict) -> None:
@@ -299,24 +323,12 @@ def write_cpp_header(expected: dict) -> None:
     for k in sorted(expected["strings"]):
         lines.append(f'    {{"{k}", {expected["strings"][k]}}},')
     lines += ["};", f"inline constexpr int kStringOffsetN = {len(expected['strings'])};", ""]
-    real = expected.get("real", {})
-    lines += ["// Section counts of the real exporter output under data/processed/runtime/ at the",
-              "// time this header was generated, with the parquet row counts they must equal.",
-              "struct RealCount { const char* file; const char* section; uint32_t count; "
-              "uint32_t element_size; int64_t parquet_rows; };",
-              "inline constexpr RealCount kRealCounts[] = {"]
-    n = 0
-    for stem in sorted(real):
-        e = real[stem]
-        for sec in sorted(e["sections"]):
-            rows = e["parquet_rows"].get(sec, -1)
-            lines.append(f'    {{"{stem}.nycb", "{sec}", {e["sections"][sec]}, '
-                         f'{e["element_size"][sec]}, {rows}}},')
-            n += 1
-    lines += ["};", f"inline constexpr int kRealCountN = {n};", "",
+    lines += ["// The real exporter output under data/processed/runtime/ is NOT snapshotted here:",
+              "// the test reads core/tests/data/runtime/real_counts.json at run time so the roads",
+              "// stage can regenerate its data without a recompilation.", "",
               "}  // namespace nycsim_test_nycb"]
     h.write_text("\n".join(lines) + "\n")
-    print(f"wrote {h} ({n} real-file rows)")
+    print(f"wrote {h}")
 
 
 if __name__ == "__main__":

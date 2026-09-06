@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-06 12:20 UTC from commit `d63f02e8c7ff` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-06 12:25 UTC from commit `7681d64744ab` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -70,11 +70,11 @@ Source of truth: NYC Street Centerline (CSCL) and LION, per ADR-006.
 
 ## 3. Terrain, water and coastline
 
-- Tiles with a written heightmap: **2,337**
+- Tiles with a written heightmap: **2,338**
 - USGS 3DEP products ingested: 30 (13, 19, 1m), 4.50 GB
-- Elevation range across written tiles: -5.18 m to 141.80 m (NAVD88)
+- Elevation range across written tiles: -5.18 m to 196.68 m (NAVD88)
 
-Water: hydrography polygons 2,271 · shoreline lines 413 · structures 2,536 · water tiles 2,916.
+Water: hydrography polygons 2,253 · shoreline lines 413 · structures 2,536 · water tiles 2,916.
 
 ## 4. Street environment, transit and traffic model
 
@@ -90,15 +90,15 @@ Water: hydrography polygons 2,271 · shoreline lines 413 · structures 2,536 · 
 | props | 122 | 78.1 MB |
 | vehicles | 24 | 29.2 MB |
 | character | 1 | 15.1 MB |
-| landmarks | 41 | 434.0 MB |
-| tiles | 14 | 101.5 MB |
+| landmarks | 47 | 497.3 MB |
+| tiles | 42 | 244.0 MB |
 
-Catalog entries describing those assets: 309.
+Catalog entries describing those assets: 315.
 
 ## 6. Simulation code and runtime data
 
 - `core/`: 52 headers, 37 sources, 19 test files; registered ctest cases: 11
-- Runtime binaries: `density.nycb` 0.9 MB, `roadgraph.nycb` 103.7 MB, `signals.nycb` 2.1 MB, `transit.nycb` 2.4 MB
+- Runtime binaries: `density.nycb` 0.9 MB, `roadgraph.nycb` 104.5 MB, `signals.nycb` 1.7 MB, `transit.nycb` 2.4 MB
 
 ## 7. Data sources and licences
 
@@ -123,7 +123,7 @@ Authored asset licences (textures, fonts, mocap, audio): `docs/ASSET_LICENSES.md
 
 ## 8. Verification status
 
-Reference photographs collected for side-by-side comparison: 107 photos across 34 subjects, each with author and licence metadata.
+Reference photographs collected for side-by-side comparison: 123 photos across 40 subjects, each with author and licence metadata.
 
 Stage reports present: citygml, core, furniture, live, unreal_world.
 

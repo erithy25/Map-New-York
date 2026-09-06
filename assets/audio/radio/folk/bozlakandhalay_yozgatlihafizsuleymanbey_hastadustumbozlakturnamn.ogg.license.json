@@ -1,0 +1,28 @@
+{
+ "artist": "unknown",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 3135914,
+ "duration_s": 248.27,
+ "file": "folk/bozlakandhalay_yozgatlihafizsuleymanbey_hastadustumbozlakturnamn.ogg",
+ "gain_db": 5.3,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/licenses/publicdomain/",
+ "loudness_lufs": -19.3,
+ "original_filename": "HastaDustumBozlakTurnamNerdenGeldinHalay-YozgatliHafizSuleymanBey.mp3",
+ "recorded_at": "2026-09-06T12:24:38Z",
+ "schema_version": 1,
+ "sha256": "776e43b8baaca4142b82d6e9f8b49e6d6bf5be236be0a9cf354efbf77ec3fbe8",
+ "source_page": "https://archive.org/details/BozlakAndHalay-YozgatliHafizSuleymanBey",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/BozlakAndHalay-YozgatliHafizSuleymanBey/HastaDustumBozlakTurnamNerdenGeldinHalay-YozgatliHafizSuleymanBey.mp3",
+ "title": "HastaDustum(Bozlak),TurnamNerdenGeldin(Halay)-YozgatliHafizSuleymanBey",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

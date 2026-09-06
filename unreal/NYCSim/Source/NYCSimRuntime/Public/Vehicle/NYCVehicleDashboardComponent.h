@@ -24,21 +24,24 @@ class UTextureRenderTarget2D;
 class UUserWidget;
 class UWidgetComponent;
 
-/** Warning lamps that the cluster can show; drawn by the shader from a bitmask. */
-UENUM(BlueprintType)
-enum class ENYCWarningLamp : uint8
+/** Warning lamps the cluster can show, as a bitmask. Deliberately a plain C++ enum: it is a flag set, which
+ *  UnrealHeaderTool's BlueprintType enums do not model, and nothing in Blueprint needs it. */
+enum class ENYCWarningLamp : int32
 {
 	None = 0,
-	CheckEngine = 1,
-	LowFuel = 2,
-	Battery = 4,
-	Brake = 8,
-	Abs = 16,
-	TractionControl = 32,
-	SeatBelt = 64,
-	DoorAjar = 128
+	CheckEngine = 1 << 0,
+	LowFuel = 1 << 1,
+	Battery = 1 << 2,
+	Brake = 1 << 3,
+	Abs = 1 << 4,
+	TractionControl = 1 << 5,
+	SeatBelt = 1 << 6,
+	DoorAjar = 1 << 7,
+	Headlights = 1 << 8,
+	HighBeam = 1 << 9,
+	TurnLeft = 1 << 10,
+	TurnRight = 1 << 11
 };
-ENUM_CLASS_FLAGS(ENYCWarningLamp);
 
 UCLASS(ClassGroup = (NYCSim), meta = (BlueprintSpawnableComponent))
 class NYCSIMRUNTIME_API UNYCVehicleDashboardComponent : public UActorComponent
@@ -153,4 +156,6 @@ private:
 	float MpgWindow = 0.f;
 	float Backlight = 0.f;
 	int32 WarningMask = 0;
+	/** Distance accumulated inside the current 5 s economy window, miles. */
+	float MpgDistanceMiles = 0.f;
 };

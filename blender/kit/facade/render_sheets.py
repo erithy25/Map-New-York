@@ -68,9 +68,13 @@ def _label(text: str, loc, size: float, mat_name: str = "paint_black") -> bpy.ty
     return ob
 
 
-def _backdrop(x0: float, x1: float, z0: float, z1: float, mat: str = "red_brick") -> None:
+def _backdrop(x0: float, x1: float, z0: float, z1: float, y: float, mat: str = "precast") -> None:
+    """Neutral wall *behind* every piece. It must not sit on the wall plane (y = 0): the kit's wall pieces put their
+    sashes, reveals and interior cards at positive y, i.e. inside the masonry, and a backdrop at y = 0 would hide
+    exactly the parts the sheet is meant to show."""
     m = K.Mesh()
-    m.box((x0, 0.0, z0), (x1, 0.60, z1), mat, faces="yZ")
+    m.face([(x0, y, z0), (x0, y, z1), (x1, y, z1), (x1, y, z0)], mat,
+           uvs=[(x0, z0), (x0, z1), (x1, z1), (x1, z0)])
     m.to_object("backdrop")
 
 
@@ -92,11 +96,13 @@ def _render(path: Path, *, centre, half_w: float, half_h: float, samples: int, r
 
 
 # --------------------------------------------------------------------------- contact sheets
-def sheet(group: str, *, samples: int, res_x: int) -> Path:
+def sheet(group: str, *, samples: int, res_x: int, only: set[str] | None = None) -> Path:
     """Greedy row-packed elevation of every piece in the group; free-standing pieces are turned 28 deg so their
     depth reads, wall pieces face the camera square-on."""
     cats = SHEETS[group]
     ids = [pid for pid in sorted(K.REGISTRY) if K.REGISTRY[pid].category in cats]
+    if only:
+        ids = [pid for pid in ids if pid in only]
     if not ids:
         raise SystemExit(f"no pieces for sheet {group}")
     built = []
@@ -142,8 +148,10 @@ def sheet(group: str, *, samples: int, res_x: int) -> Path:
             _label(f"{piece.id}\n{tris} tris   {w:.2f} x {hi.y - lo.y:.2f} x {hi.z - lo.z:.2f} m",
                    (cx, -2.2, z_top + label_band - 0.10), 0.185)
             x += w + gap_x
-    _backdrop(-total_w / 2 - 0.5, total_w / 2 + 0.5, -0.3, total_h + 0.7, "tan_brick")
-    _ground(-total_w / 2 - 0.5, total_w / 2 + 0.5, -9.0, 0.0)
+    back_y = max(0.8, max(it[3].y for it in built) + 0.7)
+    front_y = min(-2.6, min(it[2].y for it in built) - 0.8)
+    _backdrop(-total_w / 2 - 0.5, total_w / 2 + 0.5, -0.3, total_h + 0.7, back_y)
+    _ground(-total_w / 2 - 0.5, total_w / 2 + 0.5, front_y, back_y)
     path = OUT / f"facade_sheet_{group}.png"
     _render(path, centre=(0.0, 0.0, total_h / 2 + 0.2), half_w=total_w / 2 + 0.7,
             half_h=total_h / 2 + 0.7, samples=samples, res_x=res_x)
@@ -257,6 +265,7 @@ def tenement(*, samples: int, res_x: int) -> Path:
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--sheet")
+    ap.add_argument("--ids", help="debug: render only these piece ids (comma separated) on the given --sheet")
     ap.add_argument("--tenement", action="store_true")
     ap.add_argument("--list", action="store_true")
     ap.add_argument("--samples", type=int, default=64)
@@ -274,7 +283,7 @@ def main(argv=None) -> int:
     if a.tenement:
         p = tenement(samples=a.samples, res_x=a.res)
     elif a.sheet:
-        p = sheet(a.sheet, samples=a.samples, res_x=a.res)
+        p = sheet(a.sheet, samples=a.samples, res_x=a.res, only=set(a.ids.split(",")) if a.ids else None)
     else:
         ap.error("give --sheet NAME, --tenement or --list")
     print(f"wrote {p} ({p.stat().st_size / 1024:.0f} kB)")

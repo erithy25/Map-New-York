@@ -58,6 +58,7 @@ def build():
                          pier="brick_buff", spandrel="terracotta_cream", glass="glass_dark",
                          floor_z=[5.6, 11.0, 16.0], window_h=3.0)
     objs += C.tower_tier(f"{ID}_front", front, 5.6, CORNICE - 2.0, fen, roof_material="roof_dark", parapet_h=0.0)
+    # (the cornice above tops out at exactly CORNICE; nothing on this building rises higher)
 
     b = C.MeshBuilder()
     e0, e1, L, t, n = C.edge_facing(C.ring_coords(front), 90.0)      # the West 125th Street facade
@@ -87,7 +88,7 @@ def build():
         b.box_from_to(q, q + t * 0.42, n, 0.95, CORNICE - 2.6, CORNICE - 2.0, C.M.terracotta_cream)
     objs.append(b.build(f"{ID}_facade"))
     objs.append(C.cornice(f"{ID}_cornice", front, CORNICE - 2.0,
-                          [(0.5, 0.0), (1.5, 0.9), (1.5, 1.5), (0.5, 2.0)], C.M.terracotta_cream))
+                          [(0.5, 0.0), (1.5, 0.9), (1.5, 1.5), (0.5, 1.85)], C.M.terracotta_cream))
 
     # ---- the marquee and the vertical blade sign ------------------------------------------------------------------
     b = C.MeshBuilder()

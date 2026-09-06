@@ -339,11 +339,20 @@ def render_view(key: str, *, samples: int = 32, textured: bool = True, out_dir: 
 
     cam = _resolve_z(spec, "cam")
     tgt = _resolve_z(spec, "target")
+    sc = bpy.context.scene
+    # Factory settings render these light-coloured masonry shells badly overexposed; AgX with a
+    # little negative exposure is what the kit and landmark stages use for their sheets too.
+    sc.view_settings.view_transform = "AgX"
+    try:
+        sc.view_settings.look = "AgX - Medium Contrast"
+    except TypeError:
+        pass
+    sc.view_settings.exposure = float(spec.get("exposure", -0.6))
     out = out_dir / f"{key}.png"
     nb.quick_render(out, camera_location=cam, camera_target=tgt,
                     fov_deg=spec["fov"], size=tuple(size or spec["size"]), samples=samples,
                     sun_azimuth_deg=spec["sun_az"], sun_elevation_deg=spec["sun_el"],
-                    sun_strength=3.5)
+                    sun_strength=float(spec.get("sun_strength", 2.6)))
     try:
         png_rel = str(out.relative_to(REPO_ROOT))
     except ValueError:

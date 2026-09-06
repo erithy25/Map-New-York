@@ -112,14 +112,18 @@ def main() -> None:
     ctx = (("water_dark", 0.35, 1400.0, (0.0, 0.0)),
            ("sidewalk", GROUND_NY, 300.0, (ny[0] + 240.0, ny[1] - 90.0)),
            ("sidewalk", GROUND_NJ, 300.0, (nj[0] - 240.0, nj[1] + 90.0)))
+    path, _ = tl.tube_path(CFG, frame, CFG.tubes[0])
+    i = len(path) // 2
+    cam_in = path[i] + bc.Vector((0, 0, 1.5))
+    tgt_in = path[min(i + 14, len(path) - 1)] + bc.Vector((0, 0, 1.9))
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=250_000, budget_lod1=60_000,
         renders=[
             dict(view="manhattan_portal", cam=(ny[0] + 70.0, ny[1] - 42.0, GROUND_NY + 6.0),
                  target=(ny[0] - 30.0, ny[1] + 12.0, GROUND_NY + 1.0), fov_deg=58.0, context=ctx,
                  sun_azimuth_deg=140.0, sun_elevation_deg=40.0),
-            dict(view="tube_interior", cam=(0.0, 0.0, Z_LOW + 1.6), target=(300.0, 80.0, Z_LOW + 2.0),
-                 fov_deg=70.0, sun_elevation_deg=90.0, sun_strength=0.05, exposure=1.6),
+            dict(view="tube_interior", cam=tuple(cam_in), target=tuple(tgt_in),
+                 fov_deg=72.0, sun_elevation_deg=88.0, sun_strength=0.02, exposure=2.2),
             dict(view="river_ventilation_tower", cam=(v1[0] + 120.0, v1[1] - 110.0, 24.0),
                  target=(v1[0], v1[1], 18.0), fov_deg=48.0, context=ctx, sun_azimuth_deg=220.0, sun_elevation_deg=35.0),
         ],
