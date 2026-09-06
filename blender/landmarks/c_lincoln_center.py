@@ -60,13 +60,17 @@ def build():
     b.lathe([(FOUNTAIN_D / 2, 0.0), (FOUNTAIN_D / 2, 0.95), (FOUNTAIN_D / 2 - 0.45, 0.95),
              (FOUNTAIN_D / 2 - 0.45, 0.35)], 40, C.M.granite_grey, origin=(fcx, fcy, 0.35), smooth=True, cap=False)
     b.lathe([(0.0, 0.0), (FOUNTAIN_D / 2 - 0.5, 0.0)], 40, C.M.water_dark, origin=(fcx, fcy, 1.05))
+    for k in range(24):                                # the fountain jets
+        a = 2 * math.pi * k / 24
+        b.lathe([(0.10, 0.0), (0.04, 5.5)], 6, C.M.water_dark,
+                origin=(fcx + (FOUNTAIN_D / 2 - 1.6) * math.cos(a), fcy + (FOUNTAIN_D / 2 - 1.6) * math.sin(a), 1.05))
     objs.append(C.tag(b.build(f"{ID}_plaza"), "plaza"))
 
     # ---- Metropolitan Opera House ---------------------------------------------------------------------------------
     objs.append(C.plinth(f"{ID}_met_base", Pmet, 0.0, 3.0, trav, material_top=C.M.roof_grey))
-    objs.append(C.prism(f"{ID}_met_body", C.offset_polygon(Pmet, -0.6), 3.0, MET_TOP - 4.0, trav,
+    objs.append(C.prism(f"{ID}_met_body", C.offset_polygon(Pmet, -0.6), 3.0, MET_ARCH_H + 4.4, trav,
                         material_top=C.M.roof_grey, role="mass"))
-    objs.append(C.prism(f"{ID}_met_flytower", C.offset_polygon(Pmet, -22.0), MET_TOP - 4.0, MET_TOP, trav,
+    objs.append(C.prism(f"{ID}_met_flytower", C.offset_polygon(Pmet, -22.0), MET_ARCH_H + 4.4, MET_TOP, trav,
                         material_top=C.M.roof_dark, role="mass"))
     b = C.MeshBuilder()
     p0, p1, L, t, n = C.edge_facing(C.ring_coords(Pmet), 0.0)          # the east front onto the plaza

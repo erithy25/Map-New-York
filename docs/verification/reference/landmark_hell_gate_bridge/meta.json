@@ -1,0 +1,201 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_hell_gate_bridge",
+ "name": "Hell Gate Bridge",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.78,
+  "lon": -73.925,
+  "azimuth_deg": 307.2,
+  "note": "Astoria Park shore path, looking north-west at the arch",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7823,
+  "lon": -73.929,
+  "name": "Hell Gate Bridge"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Hell Gate Bridge\" Astoria Park",
+  "\"Hell Gate Bridge\" East River arch"
+ ],
+ "geosearch_radius_m": 700,
+ "fetched_at": "2026-09-06T12:47:42Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 105,
+ "candidates_eligible": 42,
+ "rejections": {
+  "too_small": 9,
+  "too_old": 17,
+  "night_for_day_item": 1,
+  "indoor": 2,
+  "excluded": 14,
+  "keywords": 18,
+  "not_jpeg": 2
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Hell Gate Bridge (84462)p.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Hell_Gate_Bridge_(84462)p.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Hell_Gate_Bridge_%2884462%29p.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Hell_Gate_Bridge_%2884462%29p.jpg/1920px-Hell_Gate_Bridge_%2884462%29p.jpg",
+   "author": "Rhododendrites",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2019-05-18 12:22:17",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.779738,
+    "lon": -73.926552
+   },
+   "original_width": 7212,
+   "original_height": 3149,
+   "width": 1920,
+   "height": 838,
+   "bytes": 394006,
+   "sha256": "356eb2301d4e2ebc074496912d045493ba181228fa4c6693300532efd398cb4e",
+   "mean_luminance": 154.6,
+   "description": "Hell Gate Bridge and the East River, viewed from the RFK bridge",
+   "categories": [
+    "May 2019 in New York City",
+    "Hell Gate Bridge",
+    "Randall's Island",
+    "East River (New York)",
+    "Self-published work",
+    "Files uploaded by Rhododendrites (all)",
+    "Files with coordinates missing SDC location of creation",
+    "Files by Rhododendrites - 2019-05",
+    "Photographs taken by Rhododendrites - Randall's Island"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.1,
+   "estimated_viewpoint": {
+    "lat": 40.779738,
+    "lon": -73.926552,
+    "azimuth_deg": 324.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.77974, -73.92655) is 352 m from Hell Gate Bridge (40.78230, -73.92900) and 134 m from the standard viewpoint; the azimuth 324 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Hell Gate Bridge (84462)p.jpg\" by Rhododendrites, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Hell_Gate_Bridge_(84462)p.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:View of Hell Gate Bridge from Astoria Park, Queens New York.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:View_of_Hell_Gate_Bridge_from_Astoria_Park,_Queens_New_York.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/0d/View_of_Hell_Gate_Bridge_from_Astoria_Park%2C_Queens_New_York.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/View_of_Hell_Gate_Bridge_from_Astoria_Park%2C_Queens_New_York.jpg/1920px-View_of_Hell_Gate_Bridge_from_Astoria_Park%2C_Queens_New_York.jpg",
+   "author": "Kenneth C. Zirkel",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2023-11-23 16:33:35",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.782067,
+    "lon": -73.919792
+   },
+   "original_width": 3600,
+   "original_height": 2700,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 1467354,
+   "sha256": "c40458cdf08fd11ede6ce4f715c536e18ae7487c002d62be13b06cffec6c798a",
+   "mean_luminance": 107.1,
+   "description": "View of Hell Gate Bridge from Astoria Park, Queens New York",
+   "categories": [
+    "Hell Gate Bridge",
+    "Astoria Park",
+    "Self-published work",
+    "November 2023 in Queens, New York City",
+    "Images by kzirkel",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.782067,
+    "lon": -73.919792,
+    "azimuth_deg": 271.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.78207, -73.91979) is 776 m from Hell Gate Bridge (40.78230, -73.92900) and 495 m from the standard viewpoint; the azimuth 272 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"View of Hell Gate Bridge from Astoria Park, Queens New York.jpg\" by Kenneth C. Zirkel, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:View_of_Hell_Gate_Bridge_from_Astoria_Park,_Queens_New_York.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:20210626 24 Hell Gate Bridge (51620190796).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:20210626_24_Hell_Gate_Bridge_(51620190796).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/88/20210626_24_Hell_Gate_Bridge_%2851620190796%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/20210626_24_Hell_Gate_Bridge_%2851620190796%29.jpg/1920px-20210626_24_Hell_Gate_Bridge_%2851620190796%29.jpg",
+   "author": "David Wilson from Oak Park, Illinois, USA",
+   "credit": "20210626 24 Hell Gate Bridge",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2021-06-26 08:31",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.782634,
+    "lon": -73.922367
+   },
+   "original_width": 3648,
+   "original_height": 2736,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 446861,
+   "sha256": "92220299244b7df17561419fdd8e207926f35d554caf18ff072c4987086d7f00",
+   "mean_luminance": 140.5,
+   "description": "20210626 24 Hell Gate Bridge",
+   "categories": [
+    "Hell Gate Bridge",
+    "Photographs by David Wilson",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Manhattan, New York City in 2021",
+    "Wards Island Wastewater Treatment Plant"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.9,
+   "estimated_viewpoint": {
+    "lat": 40.782634,
+    "lon": -73.922367,
+    "azimuth_deg": 266.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.78263, -73.92237) is 560 m from Hell Gate Bridge (40.78230, -73.92900) and 367 m from the standard viewpoint; the azimuth 266 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"20210626 24 Hell Gate Bridge (51620190796).jpg\" by David Wilson from Oak Park, Illinois, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:20210626_24_Hell_Gate_Bridge_(51620190796).jpg"
+  }
+ ]
+}

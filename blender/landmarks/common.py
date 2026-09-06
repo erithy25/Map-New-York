@@ -1987,8 +1987,12 @@ def render_check(landmark_id: str, presets: Sequence[dict] | None = None, *, obj
     VERIFY_DIR.mkdir(parents=True, exist_ok=True)
     ground_ob = None
     if ground:
+        # A flat, untextured asphalt plane: it fills most of an aerial frame, and tiling a 1 K texture over kilometres
+        # of it costs several times the whole building in Cycles while adding nothing to the verification.
+        rgb, rough, metal, _, _, _ = PALETTE["asphalt"]
+        gmat = nb.pbr_material("_render_ground", base_color=_srgb(*rgb), roughness=rough, metallic=metal)
         b = MeshBuilder()
-        b.box((cx, cy, -0.05), (max(4000.0, radius * 20), max(4000.0, radius * 20), 0.1), mat("asphalt"))
+        b.box((cx, cy, -0.05), (max(4000.0, radius * 20), max(4000.0, radius * 20), 0.1), gmat)
         ground_ob = b.build("_render_ground")
     for p in presets:
         _clear_verify_objects()

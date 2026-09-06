@@ -1,0 +1,203 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_high_bridge",
+ "name": "High Bridge",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.8418,
+  "lon": -73.9322,
+  "azimuth_deg": 77.9,
+  "note": "Highbridge Park overlook on the Manhattan side, looking east along the deck",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.8424,
+  "lon": -73.9285,
+  "name": "High Bridge"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2015,
+ "wanted": 3,
+ "queries": [
+  "\"High Bridge\" Harlem River aqueduct",
+  "\"High Bridge\" Highbridge Park Manhattan Bronx"
+ ],
+ "geosearch_radius_m": 500,
+ "fetched_at": "2026-09-06T12:48:19Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 115,
+ "candidates_eligible": 27,
+ "rejections": {
+  "excluded": 55,
+  "too_old": 12,
+  "too_small": 9,
+  "licence": 8,
+  "not_photo": 1,
+  "keywords": 2,
+  "not_jpeg": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:2024-05-30 12 52 09 View north along the Harlem River Drive (right) and the ramps from the drive to the Washington Bridge and the George Washington Bridge (left) from the High Bridge in the Bronx, New York City, New York.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:2024-05-30_12_52_09_View_north_along_the_Harlem_River_Drive_(right)_and_the_ramps_from_the_drive_to_the_Washington_Bridge_and_the_George_Washington_Bridge_(left)_from_the_High_Bridge_in_the_Bronx,_New_York_City,_New_York.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/bd/2024-05-30_12_52_09_View_north_along_the_Harlem_River_Drive_%28right%29_and_the_ramps_from_the_drive_to_the_Washington_Bridge_and_the_George_Washington_Bridge_%28left%29_from_the_High_Bridge_in_the_Bronx%2C_New_York_City%2C_New_York.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/2024-05-30_12_52_09_View_north_along_the_Harlem_River_Drive_%28right%29_and_the_ramps_from_the_drive_to_the_Washington_Bridge_and_the_George_Washington_Bridge_%28left%29_from_the_High_Bridge_in_the_Bronx%2C_New_York_City%2C_New_York.jpg/1920px-2024-05-30_12_52_09_View_north_along_the_Harlem_River_Drive_%28right%29_and_the_ramps_from_the_drive_to_the_Washington_Bridge_and_the_George_Washington_Bridge_%28left%29_from_the_High_Bridge_in_the_Bronx%2C_New_York_City%2C_New_York.jpg",
+   "author": "Famartin",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024-05-30 12:52:09",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.842475,
+    "lon": -73.93135
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 918677,
+   "sha256": "00063927444d5e431f9c15c816f463d6f13f5b296fde50f2f4814e8aa3ee1426",
+   "mean_luminance": 120.9,
+   "description": "View north along the Harlem River Drive (right) and the ramps from the drive to the Washington Bridge and the George Washington Bridge (left) from the High Bridge in the Bronx, New York City, New York",
+   "categories": [
+    "Harlem River Drive",
+    "Highbridge Park, Manhattan",
+    "Views from High Bridge (New York City)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Parks in New York City in 2024",
+    "2024 in Washington Heights, Manhattan",
+    "New York City photographs taken on 2024-05-30",
+    "May 2024 in Manhattan, New York City",
+    "Views of New York City from south",
+    "Harlem River Drive / Washington Bridge / George Washington Bridge Connectors",
+    "Famartin's 2024 photos",
+    "Famartin's May 2024 photos"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.2,
+   "estimated_viewpoint": {
+    "lat": 40.842475,
+    "lon": -73.93135,
+    "azimuth_deg": 92.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.84248, -73.93135) is 240 m from High Bridge (40.84240, -73.92850) and 104 m from the standard viewpoint; the azimuth 92 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"2024-05-30 12 52 09 View north along the Harlem River Drive (right) and the ramps from the drive to the Washington Bridge and the George Washington Bridge (left) from the High Bridge in the Bronx, New York City, New York.jpg\" by Famartin, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:2024-05-30_12_52_09_View_north_along_the_Harlem_River_Drive_(right)_and_the_ramps_from_the_drive_to_the_Washington_Bridge_and_the_George_Washington_Bridge_(left)_from_the_High_Bridge_in_the_Bronx,_New_York_City,_New_York.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:HighBridge-Sept29-5 (44833997654).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:HighBridge-Sept29-5_(44833997654).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/HighBridge-Sept29-5_%2844833997654%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/HighBridge-Sept29-5_%2844833997654%29.jpg/1920px-HighBridge-Sept29-5_%2844833997654%29.jpg",
+   "author": "Ajay Suresh from New York, NY, USA",
+   "credit": "HighBridge-Sept29-5",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2018-09-29 18:50",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.842297,
+    "lon": -73.929806
+   },
+   "original_width": 4608,
+   "original_height": 3456,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 781126,
+   "sha256": "f01fedd35bb5c122f1ab3c7298dbfae1feaa3c0c0be064f74e25ee85d98a63c9",
+   "mean_luminance": 101.0,
+   "description": "OLYMPUS DIGITAL CAMERA",
+   "categories": [
+    "September 2018 in New York City",
+    "Views from High Bridge (New York City)",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Major Deegan Expressway (Interstate 87)",
+    "New York City photographs by ajay suresh"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.45,
+   "estimated_viewpoint": {
+    "lat": 40.842297,
+    "lon": -73.929806,
+    "azimuth_deg": 84.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.84230, -73.92981) is 110 m from High Bridge (40.84240, -73.92850) and 209 m from the standard viewpoint; the azimuth 84 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"HighBridge-Sept29-5 (44833997654).jpg\" by Ajay Suresh from New York, NY, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:HighBridge-Sept29-5_(44833997654).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:High Bridge looking east.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:High_Bridge_looking_east.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e2/High_Bridge_looking_east.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/High_Bridge_looking_east.jpg/1920px-High_Bridge_looking_east.jpg",
+   "author": "RoySmith",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2017-05-19 08:42:55",
+   "date_source": "DateTimeOriginal",
+   "year": 2017,
+   "camera_gps": {
+    "lat": 40.842336,
+    "lon": -73.930987
+   },
+   "original_width": 3888,
+   "original_height": 4233,
+   "width": 1920,
+   "height": 2090,
+   "bytes": 618517,
+   "sha256": "3f76106af479bbae37a33479bdb0a7b70e8c4db65888d75cd13dff5cf8f1c7c8",
+   "mean_luminance": 148.1,
+   "description": "Taken from the approximate center of the span. Looking east (towards The Bronx).",
+   "categories": [
+    "New York City in the 2010s",
+    "High Bridge (New York City)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.3,
+   "estimated_viewpoint": {
+    "lat": 40.842336,
+    "lon": -73.930987,
+    "azimuth_deg": 88.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.84234, -73.93099) is 209 m from High Bridge (40.84240, -73.92850) and 118 m from the standard viewpoint; the azimuth 88 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"High Bridge looking east.jpg\" by RoySmith, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:High_Bridge_looking_east.jpg"
+  }
+ ]
+}

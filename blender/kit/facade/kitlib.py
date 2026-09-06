@@ -66,7 +66,7 @@ class Piece:
         if category not in fp.KIT_CATEGORIES:
             raise ValueError(f"{pid}: unknown category {category}")
         self.id, self.category, self.build, self.lod1 = pid, category, build, lod1
-        self.nominal_size = tuple(float(x) for x in nominal_size)
+        self.nominal_size = tuple(round(float(x), 4) for x in nominal_size)
         self.anchor, self.description = anchor, description
         self.variants, self.features = list(variants), list(features)
         self.budget = budget if budget is not None else BUDGETS.get(category, 2000)

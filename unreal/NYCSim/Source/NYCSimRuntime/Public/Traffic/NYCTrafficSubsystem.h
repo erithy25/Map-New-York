@@ -77,7 +77,6 @@ public:
 	// FTickableGameObject
 	virtual void Tick(float DeltaTime) override;
 	virtual TStatId GetStatId() const override;
-	virtual bool IsTickable() const override { return bStarted; }
 
 	/** The player's car; the spawn ring follows it and the AI brakes for it. Null when the player is on foot. */
 	UFUNCTION(BlueprintCallable, Category = "NYCSim|Traffic")
@@ -118,8 +117,10 @@ private:
 	USkeletalMesh* FleetMeshFor(uint8 VehicleClass);
 	USkeletalMesh* CrowdMeshFor(uint8 Archetype);
 	FLinearColor PaintFor(uint8 VehicleClass, int32 AgentId) const;
-	ANYCTrafficVehicle* AcquireVehicleActor();
-	ANYCPedestrian* AcquirePedestrianActor();
+	/** Index into VehiclePool, or INDEX_NONE when the pool is at its cap. */
+	int32 AcquireVehicleActor();
+	/** Index into PedestrianPool, or INDEX_NONE when the pool is at its cap. */
+	int32 AcquirePedestrianActor();
 	int32 LodForDistance(float DistanceMetres, float FirstCutMetres) const;
 
 	UPROPERTY(Transient)

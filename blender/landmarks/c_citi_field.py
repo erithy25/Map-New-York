@@ -61,9 +61,12 @@ def build():
     field = field_polygon(hx, hy, axis)
 
     objs.append(C.plinth(f"{ID}_base", P, 0.0, 8.0, C.M.concrete, material_top=C.M.pavement))
-    rings = [(0.0, C.offset_polygon(field, 6.0)), (8.0, C.offset_polygon(field, 24.0)),
-             (17.0, C.offset_polygon(field, 38.0)), (28.0, C.offset_polygon(field, 50.0)),
-             (ROOF_TOP - 3.0, C.offset_polygon(field, 58.0))]
+    def bowl_ring(d):
+        """The bowl at offset ``d`` from the field, clipped to the real footprint so nothing overhangs the wall."""
+        return C._clean_polygon(C.offset_polygon(field, d).intersection(C.offset_polygon(P, -2.0)).buffer(0))
+
+    rings = [(0.0, bowl_ring(6.0)), (8.0, bowl_ring(24.0)), (17.0, bowl_ring(38.0)), (28.0, bowl_ring(50.0)),
+             (ROOF_TOP - 3.0, bowl_ring(58.0))]
     b = C.MeshBuilder()
     for i in range(len(rings) - 1):
         z0, pa = rings[i]
@@ -79,7 +82,7 @@ def build():
             b.loft([[(x, y, z1) for x, y in r1], [(x, y, z1 + 3.2) for x, y in r1]], C.M.concrete,
                    cap_top=False, cap_bottom=False)
     # the upper-deck roof canopy
-    rr = C.ring_coords(C._clean_polygon(C.offset_polygon(field, 58.0)))
+    rr = C.ring_coords(bowl_ring(58.0))
     nseg = 72
     rt = [_resample(rr, k / nseg) for k in range(nseg)]
     b.loft([[(x, y, ROOF_TOP - 3.0) for x, y in rt], [(x, y, ROOF_TOP) for x, y in C.offset_ring(rt, -9.0)]],

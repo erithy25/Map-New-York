@@ -6426,9 +6426,9 @@
   "facade_attrs": {
    "artifact_id": "facade_attrs",
    "bytes": 54477426,
-   "git_commit": "1a5dfa8dd00c",
+   "git_commit": "e8db92f376a2",
    "path": "data/processed/facade/facade_attrs.parquet",
-   "produced_at": "2026-09-06T12:42:17Z",
+   "produced_at": "2026-09-06T12:50:30Z",
    "rows": 1083026,
    "schema": "facade_attrs/1",
    "sha256": "bbac2a6780aa388c531137dcaefa387e49727d0bcd055b8002727706accfd2a3",
@@ -6444,9 +6444,9 @@
   "facade_geom_attrs": {
    "artifact_id": "facade_geom_attrs",
    "bytes": 47047679,
-   "git_commit": "1a5dfa8dd00c",
+   "git_commit": "e8db92f376a2",
    "path": "data/processed/facade/geom_attrs.parquet",
-   "produced_at": "2026-09-06T12:42:17Z",
+   "produced_at": "2026-09-06T12:50:29Z",
    "rows": 1083026,
    "schema": "facade_geom/1",
    "sha256": "fe9cd704a0dd2ac895a09f1511391cfabd3e3720f71c25fdd094e9fc5941b27e",
@@ -6462,9 +6462,9 @@
   "facade_kit_ids": {
    "artifact_id": "facade_kit_ids",
    "bytes": 17297,
-   "git_commit": "1a5dfa8dd00c",
+   "git_commit": "e8db92f376a2",
    "path": "data/processed/facade/kit_ids.json",
-   "produced_at": "2026-09-06T12:42:18Z",
+   "produced_at": "2026-09-06T12:50:30Z",
    "rows": null,
    "schema": "kit_ids/1",
    "sha256": "a4cea8137e261b8b8404a6e1b42f295975a16fa644a8703c0ac03d75a7cb64ee",
@@ -6771,14 +6771,14 @@
   "landmark_b_one_world_trade_center_lod0": {
    "artifact_id": "landmark_b_one_world_trade_center_lod0",
    "bytes": 357332,
-   "git_commit": "81e95a230992",
+   "git_commit": "e8db92f376a2",
    "landmark_id": "b_one_world_trade_center",
    "lod": 0,
    "path": "blender_out/landmarks/b_one_world_trade_center.glb",
-   "produced_at": "2026-09-06T12:46:11Z",
+   "produced_at": "2026-09-06T12:46:30Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "1ed980c40834fb5dd02596c751f6eb6a4446a631e5fa57db9ae110a2b858d30c",
+   "sha256": "39c5dd274e20fd2c7d4d20972cf23a47665ec39df618ffbfa10f1dcf0cfb6560",
    "sources": [
     "building_footprints",
     "published_one_wtc"
@@ -6893,6 +6893,24 @@
    ],
    "stage": "landmarks_b",
    "triangles": 2920
+  },
+  "landmark_b_statue_of_liberty_lod0": {
+   "artifact_id": "landmark_b_statue_of_liberty_lod0",
+   "bytes": 468152,
+   "git_commit": "e8db92f376a2",
+   "landmark_id": "b_statue_of_liberty",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_statue_of_liberty.glb",
+   "produced_at": "2026-09-06T12:50:59Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "1c8ac59e0c8b36192a75329f63ac8f59c4ed5b900927a0e8aab9015efa7d38ae",
+   "sources": [
+    "osm_bbbike",
+    "published_statue_of_liberty"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 20068
   },
   "landmark_b_throgs_neck_lod0": {
    "artifact_id": "landmark_b_throgs_neck_lod0",
@@ -7031,6 +7049,26 @@
    "stage": "landmarks",
    "tris_lod0": 57606,
    "tris_lod1": 4174
+  },
+  "landmark_glb:c_apollo_theater": {
+   "artifact_id": "landmark_glb:c_apollo_theater",
+   "bins": [
+    1058654
+   ],
+   "bytes": 14833032,
+   "footprint_iou": 1.0,
+   "git_commit": "e8db92f376a2",
+   "path": "blender_out/landmarks/c_apollo_theater.glb",
+   "produced_at": "2026-09-06T12:49:49Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "0d82ce0efcc0c0003e26be89ed737e3bd8d2b2e22e9e64069565a134965b41f2",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 7029,
+   "tris_lod1": 72
   },
   "landmark_glb:c_billionaires_row": {
    "artifact_id": "landmark_glb:c_billionaires_row",
@@ -7529,12 +7567,12 @@
    ],
    "bytes": 20449072,
    "footprint_iou": 1.0,
-   "git_commit": "1a5dfa8dd00c",
+   "git_commit": "e8db92f376a2",
    "path": "blender_out/landmarks/equitable_building.glb",
-   "produced_at": "2026-09-06T12:43:34Z",
+   "produced_at": "2026-09-06T12:49:22Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "fa19e4b4d51627502538ac37ab906af31037f375e98710d9c397f43b6161ba11",
+   "sha256": "45aaba5fb697cd0585ef0fc9fa3e64405ca1e8f21152686c1f57919ec7957742",
    "sources": [
     "building_footprints"
    ],
@@ -10913,14 +10951,14 @@
   },
   "water_hydrography": {
    "artifact_id": "water_hydrography",
-   "bytes": 20638154,
-   "git_commit": "1a5dfa8dd00c",
+   "bytes": 21123282,
+   "git_commit": "e8db92f376a2",
    "levels_finalized": true,
    "path": "data/processed/water/hydrography.parquet",
-   "produced_at": "2026-09-06T12:42:30Z",
-   "rows": 2246,
+   "produced_at": "2026-09-06T12:48:46Z",
+   "rows": 2235,
    "schema": "water.hydrography/1",
-   "sha256": "2a91a7fd1fcc0a38d5c0dec1e730a284af0cf0cabe8ad3f76b100e087cc7ffce",
+   "sha256": "120c137659a84f1103100487051765443a3c94f716834434d76cc0ecd2e27cf2",
    "sources": [
     "plan_hydrography",
     "plan_hydro_structures",
@@ -10934,16 +10972,17 @@
   },
   "water_shoreline": {
    "artifact_id": "water_shoreline",
-   "bytes": 5902589,
-   "git_commit": "1a5dfa8dd00c",
+   "bytes": 5902606,
+   "git_commit": "e8db92f376a2",
    "path": "data/processed/water/shoreline.parquet",
-   "produced_at": "2026-09-06T12:40:42Z",
+   "produced_at": "2026-09-06T12:49:06Z",
    "rows": 413,
    "schema": "water.shoreline/1",
-   "sha256": "36be4a1aac0f558f5ce29cff1329a2379f877239e805d5d0aeb685867291fa5b",
+   "sha256": "bb3821b24fb8c896b5adc2ed30fdce1f2d4ddca84dc9c261ac4820e433f334d5",
    "sources": [
     "plan_shoreline",
-    "plan_hydro_structures"
+    "plan_hydro_structures",
+    "usgs_3dep"
    ],
    "stage": "water"
   },

@@ -83,8 +83,9 @@ def main(argv: list[str] | None = None) -> int:
     bad_lod = [r for r in rows if r["polycount"]["lod1_triangles"] > max(2, math.ceil(0.25 * r["polycount"]["lod0_triangles"]))]
     bad_size = [r for r in rows if max((abs(m - nm) / nm if nm > 0 else 0.0)
                                        for m, nm in zip(r["measured_size_m"], r["nominal_size_m"])) > 0.05]
+    src = "as exported (glb)" if not a.dry_run else "as modelled (Blender polygons; the exporter drops degenerate faces)"
     print(f"\n{len(rows)} pieces in {time.time() - t0:.0f} s"
-          f"\n  triangles LOD0 total {sum(r['polycount']['lod0_triangles'] for r in rows)}"
+          f"\n  triangles LOD0 total {sum(r['polycount']['lod0_triangles'] for r in rows)} ({src})"
           f"\n  over budget : {[r['id'] for r in over]}"
           f"\n  LOD1 > 25 % : {[r['id'] for r in bad_lod]}"
           f"\n  size dev>5 %: {[(r['id'], r['nominal_size_m'], r['measured_size_m']) for r in bad_size]}")

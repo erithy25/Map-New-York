@@ -74,9 +74,12 @@ def build():
 
     # ---- the seating bowl: three decks lofted from the field edge outwards and upwards ----------------------------
     bowl_in = C.offset_polygon(field, 7.0)
-    rings = [(0.0, C.offset_polygon(field, 6.0)), (9.0, C.offset_polygon(field, 26.0)),
-             (19.0, C.offset_polygon(field, 40.0)), (30.0, C.offset_polygon(field, 52.0)),
-             (FRIEZE_TOP - FRIEZE_D, C.offset_polygon(field, 62.0))]
+    def bowl_ring(d):
+        """The bowl at offset ``d`` from the field, clipped to the real footprint so nothing overhangs the wall."""
+        return C._clean_polygon(C.offset_polygon(field, d).intersection(C.offset_polygon(P, -2.0)).buffer(0))
+
+    rings = [(0.0, bowl_ring(6.0)), (9.0, bowl_ring(26.0)), (19.0, bowl_ring(40.0)), (30.0, bowl_ring(52.0)),
+             (FRIEZE_TOP - FRIEZE_D, bowl_ring(62.0))]
     b = C.MeshBuilder()
     for i in range(len(rings) - 1):
         z0, pa = rings[i]
@@ -133,7 +136,7 @@ def build():
     objs.append(b.build(f"{ID}_exterior"))
     # the frieze: an arched-motif band 3.0 m deep around the top of the upper deck
     b = C.MeshBuilder()
-    fr = C.ring_coords(C.offset_polygon(field, 62.0))
+    fr = C.ring_coords(bowl_ring(62.0))
     nseg = 160
     rr = [_resample(fr, k / nseg) for k in range(nseg)]
     b.loft([[(x, y, FRIEZE_TOP - FRIEZE_D) for x, y in rr], [(x, y, FRIEZE_TOP - 0.5) for x, y in rr],

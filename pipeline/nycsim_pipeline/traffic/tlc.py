@@ -175,7 +175,6 @@ def corridor_weights(zones, nta, pairs: list[tuple[int, int]],
         keys.append((pu, do))
     if lines:
         arr = np.array(lines, dtype=object)
-        total = shapely.length(arr)
         tree = STRtree(nta.geoms)
         li, gi = tree.query(arr, predicate="intersects")
         seg_len = shapely.length(shapely.intersection(arr[li], nta.geoms[gi]))
@@ -214,7 +213,6 @@ def zone_to_nta(vkm: pl.DataFrame, weights: dict[tuple[int, int], list[tuple[int
         raise ValueError(f"nta_traffic shape {nta_traffic.shape} != {(n_nta,)}")
     t = np.maximum(np.asarray(nta_traffic, dtype=np.float64), 1e-6)
     pairs = sorted(weights)
-    pair_index = {p: i for i, p in enumerate(pairs)}
     counts = np.zeros(len(pairs), dtype=np.int64)
     flat_nta: list[int] = []
     flat_w: list[float] = []

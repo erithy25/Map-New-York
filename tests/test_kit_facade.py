@@ -243,6 +243,50 @@ def test_texture_licences_present(entry):
         assert "CC0" in json.dumps(rec), f"{asset_id}: licence record is not CC0"
 
 
+@pytest.mark.parametrize("entry", [e for e in ENTRIES if e["texture_assets"]],
+                         ids=[e["id"] for e in ENTRIES if e["texture_assets"]])
+def test_uv_tiling_is_in_metres(entry):
+    """UVs are metres, so a textured material whose tile is not 1 m must carry a KHR_texture_transform of
+    1 / physical_size_m. (A 1 m tile needs no transform and the exporter omits the identity.)"""
+    import textures as tx
+    g = _gltf(entry["id"])
+    wanted = set()
+    for name in entry["materials"]:
+        try:
+            rec = tx.resolve(name)
+        except tx.TextureError:
+            continue
+        if rec.get("provider") != "procedural":
+            wanted.add(round(1.0 / float(rec.get("physical_size_m", 1.0)), 4))
+    seen = set()
+    for m in g.materials:
+        bct = m.pbrMetallicRoughness.baseColorTexture if m.pbrMetallicRoughness else None
+        if bct is None or not bct.extensions:
+            continue
+        t = bct.extensions.get("KHR_texture_transform")
+        if t and "scale" in t:
+            seen.add(round(float(t["scale"][0]), 4))
+    if wanted - {1.0}:
+        assert "KHR_texture_transform" in (g.extensionsUsed or []), f"{entry['id']}: no KHR_texture_transform"
+        assert seen, f"{entry['id']}: no base-colour texture carries a KHR_texture_transform scale"
+        assert seen & wanted, f"{entry['id']}: texture scales {sorted(seen)} match no catalogued tile size {sorted(wanted)}"
+    else:
+        assert seen <= {1.0}, f"{entry['id']}: unexpected texture scale {sorted(seen)} for 1 m tiles"
+
+
+@pytest.mark.parametrize("entry", [e for e in ENTRIES if "glass_clear" in e["materials"]],
+                         ids=[e["id"] for e in ENTRIES if "glass_clear" in e["materials"]])
+def test_glass_is_transmissive(entry):
+    """Clear glazing must survive the export as KHR_materials_transmission, not as a flat opaque slab."""
+    g = _gltf(entry["id"])
+    assert "KHR_materials_transmission" in (g.extensionsUsed or []), f"{entry['id']}: glass lost its transmission"
+    glass = [m for m in g.materials if m.name.endswith("glass_clear")]
+    assert glass, f"{entry['id']}: no glass_clear material in the glb"
+    for m in glass:
+        assert (m.extensions or {}).get("KHR_materials_transmission"), f"{entry['id']}: {m.name} has no transmission"
+        assert m.alphaMode == "BLEND"
+
+
 # --------------------------------------------------------------------------- kit-wide invariants
 def test_every_glb_has_a_catalog_entry():
     on_disk = {p.stem for p in GLB_DIR.glob("*.glb")}

@@ -85,10 +85,11 @@ facade_classes.json}`).
 * Every horizontal trim run (cornices, string courses, parapets, water table) is exactly **1.000 m long in X** so
   it repeats along a wall; quoins and pilasters are one unit / one storey tall instead.
 * Storefront bays are **hollow** — pair each with a `storefront_interior_*` shell placed at the same origin
-  (`extra.interior_depth_m = 2.5`, `extra.glass_line_y_m = 0.25`). `facade_params.STOREFRONT_INTERIOR_FOR_KIND`
-  maps all 20 storefront kinds onto the 11 shells; each catalog entry lists the kinds it serves in
-  `extra.serves_storefront_kinds`.
-* Gates, grilles and awnings carry `extra.bay_width_m` so they drop straight onto the matching bay.
+  (the bay's catalog entry carries `interior_depth_m = 2.5` and `glass_line_y_m = 0.25`). `facade_params.STOREFRONT_INTERIOR_FOR_KIND`
+  maps all 20 storefront kinds onto the 11 shells; each shell's catalog entry lists the kinds it serves in
+  `serves_storefront_kinds`.
+* Gates, grilles and awnings carry `bay_width_m` (and gates `gate_state`) so they drop straight onto the
+  matching bay. Per-piece extras are merged into the top level of the catalog entry.
 
 ## 3. Polycounts
 
@@ -243,9 +244,8 @@ cedar water tanks (10 000 / 20 000 US gal); 14.63 × 4.88 m (48 × 16 ft) roofto
   cast foliate scrolls, the Ionic pilaster capital is a simplified volute, and terracotta rosettes are stepped
   blocks. At the triangle budgets the brief sets (a window is 400 triangles) that is the achievable fidelity;
   finer ornament belongs in normal maps, which the kit does not bake.
-* Storefront sign bands carry a plain painted panel, not shop names. `pieces_common.sign_band_image()` renders
-  text with the licensed Overpass font and is ready for the signage agent, but no piece uses it — inventing shop
-  names would be fabricated data.
+* Storefront sign bands are a plain painted panel with no lettering. The fascia geometry and its metre UVs are
+  there for the signage/props agent to map real signs onto; inventing shop names here would be fabricated data.
 * The interior shells are lit by emissive ceiling planes and flat-coloured stock, not by real fixtures; they are
   built to read correctly through 6 mm of glass from the sidewalk, which is all they are for.
 * Only 30 of the 46 catalogued materials are used by kit pieces. The other 16 (asphalt, tar roof, brown/orange

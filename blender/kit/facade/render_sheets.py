@@ -97,8 +97,9 @@ def _render(path: Path, *, centre, half_w: float, half_h: float, samples: int, r
 
 # --------------------------------------------------------------------------- contact sheets
 def sheet(group: str, *, samples: int, res_x: int, only: set[str] | None = None) -> Path:
-    """Greedy row-packed elevation of every piece in the group; free-standing pieces are turned 28 deg so their
-    depth reads, wall pieces face the camera square-on."""
+    """Greedy row-packed elevation of every piece in the group. Free-standing pieces, and wall pieces that project
+    far enough that a flat elevation would hide what they do, are turned 28 deg; the rest face the camera
+    square-on."""
     cats = SHEETS[group]
     ids = [pid for pid in sorted(K.REGISTRY) if K.REGISTRY[pid].category in cats]
     if only:
@@ -110,7 +111,10 @@ def sheet(group: str, *, samples: int, res_x: int, only: set[str] | None = None)
         piece = K.REGISTRY[pid]
         m = piece.build()
         tris = m.triangles()
-        if piece.anchor.startswith("ground"):
+        lo0, hi0 = m.bounds()
+        # turn free-standing pieces, and any wall piece that projects far enough that a flat elevation would hide
+        # what it does (stoops, canopies, cornices, dormers, air conditioners)
+        if piece.anchor.startswith("ground") or (hi0.y - lo0.y) > 0.45 * (hi0.x - lo0.x):
             turned = K.Mesh()
             turned.merge(m, rot_z_deg=28.0)
             m.free()

@@ -38,6 +38,9 @@ INSET_M = 3.0
 
 def build():
     C.reset()
+    # polished red Imperial granite: the CC0 "granite" scan is grey, so the real albedo is declared here
+    C.custom_material("granite_imperial_red", (150, 78, 62), roughness=0.32,
+                      note="polished red Imperial granite (Lipstick Building spandrels) [Johnson/Burgee; AIA Guide]")
     g = cc.Group(ID, angle_deg=cc.GRID_ANGLE)
     P = g.poly(BIN)
     objs: list = []
@@ -53,20 +56,20 @@ def build():
     b.prism(C.ring_coords(C.offset_polygon(P, -2.4)), 0.05, GROUND_H - 0.4, C.M.glass_clear, cap_bottom=False, cap_top=False)
     for i in range(0, len(ring), 3):
         x, y = ring[i]
-        b.lathe([(0.55, 0.0), (0.55, GROUND_H)], 12, C.M.granite_pink, origin=(x, y, 0.0))
+        b.lathe([(0.55, 0.0), (0.55, GROUND_H)], 12, C.M.granite_imperial_red, origin=(x, y, 0.0))
     objs.append(b.build(f"{ID}_colonnade"))
 
     # ---- the three telescoping elliptical tiers ------------------------------------------------------------------
-    fen = C.Fenestration(floor_h=FLOOR_H, bay_w=2.4, window_frac=1.0, recess=0.30, spandrel_h=2.40,
-                         spandrel_proud=0.30, pier="granite_pink", spandrel="granite_pink", glass="glass_dark")
+    # continuous ribbon glazing between deep red-granite spandrel bands, which is what gives the building its
+    # horizontal "lipstick" reading; a punched-window facade would be wrong here
     for name, poly, za, zb in ((f"{ID}_t1", P, GROUND_H, z1), (f"{ID}_t2", t2, z1, z2), (f"{ID}_t3", t3, z2, ROOF_M)):
-        objs += C.tower_tier(name, poly, za, zb, fen, roof_material="roof_dark", parapet_h=0.0)
-        # stainless band at every floor line (the polished spandrel that reads as a stripe)
+        objs += cc.curtain(name, poly, za, zb, floor_h=FLOOR_H, module=2.4, glass="glass_dark",
+                           mullion="steel_chrome", spandrel="granite_imperial_red", spandrel_h=2.40, proud=0.34,
+                           mullion_w=0.10, mullion_d=0.36, role="mass")
         bb = C.MeshBuilder()
         z = za
         while z < zb - 0.3:
-            bb.prism(C.ring_coords(poly), z + FLOOR_H - 1.05, z + FLOOR_H - 0.35, C.M.steel_chrome,
-                     holes=[C.ring_coords(C.offset_polygon(poly, -0.34))], cap_top=False, cap_bottom=False)
+            cc.band_ring(bb, C.ring_coords(poly), z + FLOOR_H - 1.10, z + FLOOR_H - 0.40, 0.40, C.M.steel_chrome)
             z += FLOOR_H
         objs.append(bb.build(f"{name}_bands"))
     objs.append(C.prism(f"{ID}_mech", C.offset_polygon(t3, -3.0), ROOF_M - 3.6, ROOF_M, C.M.steel_chrome,
@@ -79,7 +82,7 @@ def main():
     entry = cc.finish(objs, ID, g.frame, real_footprint=g.real_local,
                       fidelity_statement=(
                           "Exact: real elliptical OTI footprint, 138.0 m / 34 floors (CTBUH), three telescoping "
-                          "elliptical tiers, banded red-granite / stainless / ribbon-glass elevation, lifted "
+                          "elliptical tiers, banded red Imperial granite / stainless / ribbon-glass elevation, lifted "
                           "colonnaded ground floor. Inferred (stated, +-1 floor): the setback floors (20 and 29) and "
                           "their 3 m insets, read from photographs. Not modelled: lobby interior, rooftop louvres, "
                           "Third Avenue canopy."),

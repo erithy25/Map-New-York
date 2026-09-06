@@ -1,0 +1,212 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_one_wall_street",
+ "name": "One Wall Street (Irving Trust Building)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.707082,
+  "lon": -74.012355,
+  "azimuth_deg": 75.0,
+  "note": "Broadway east sidewalk at Wall Street, about 60 m west-south-west of the building, looking east-north-east at the fluted limestone facade",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.707222,
+  "lon": -74.011667,
+  "name": "One Wall Street (Irving Trust Building)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"1 Wall Street\" building Manhattan",
+  "\"One Wall Street\" Irving Trust Building"
+ ],
+ "geosearch_radius_m": 200,
+ "fetched_at": "2026-09-06T12:50:46Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 123,
+ "candidates_eligible": 51,
+ "rejections": {
+  "excluded": 11,
+  "too_old": 21,
+  "too_small": 4,
+  "keywords": 32,
+  "not_photo": 2,
+  "night_for_day_item": 1,
+  "indoor": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Buildings in FiDi, Manhattan.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Buildings_in_FiDi,_Manhattan.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/62/Buildings_in_FiDi%2C_Manhattan.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Buildings_in_FiDi%2C_Manhattan.jpg/1920px-Buildings_in_FiDi%2C_Manhattan.jpg",
+   "author": "Emperor of Emperors",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026-02-27 15:49:02",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.706791,
+    "lon": -74.01239
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1262545,
+   "sha256": "e0acc000ae081e86479f03bf705ced65ba02268a552a48c29d91f1eeff0183b1",
+   "mean_luminance": 107.9,
+   "description": "Buildings in FiDi, Manhattan",
+   "categories": [
+    "Continental Bank Building",
+    "20 Exchange Place",
+    "Broad Exchange Building",
+    "1 Wall Street",
+    "52 Broadway",
+    "Images with annotations",
+    "Self-published work",
+    "Pages with local camera heading and missing SDC heading",
+    "Files with coordinates missing SDC location of creation",
+    "Financial District, Manhattan in 2026",
+    "February 2026 in Manhattan, New York City",
+    "New York City photographs taken on 2026-02-27"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"1 Wall Street\" building Manhattan",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.706791,
+    "lon": -74.01239,
+    "azimuth_deg": 51.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70679, -74.01239) is 78 m from One Wall Street (Irving Trust Building) (40.70722, -74.01167) and 32 m from the standard viewpoint; the azimuth 52 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Buildings in FiDi, Manhattan.jpg\" by Emperor of Emperors, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Buildings_in_FiDi,_Manhattan.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:WCNA 2025 Culture Crawl 1 Wall Street.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:WCNA_2025_Culture_Crawl_1_Wall_Street.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/4c/WCNA_2025_Culture_Crawl_1_Wall_Street.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/WCNA_2025_Culture_Crawl_1_Wall_Street.jpg/1920px-WCNA_2025_Culture_Crawl_1_Wall_Street.jpg",
+   "author": "AntiCompositeNumber",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2025",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.707625,
+    "lon": -74.011669
+   },
+   "original_width": 4000,
+   "original_height": 1560,
+   "width": 1920,
+   "height": 749,
+   "bytes": 494648,
+   "sha256": "c08a74f84d4a1be31b3fe82af2bf37324ef1e8faebed3a09cceef43d548c75b1",
+   "mean_luminance": 99.2,
+   "description": "1 Wall Street (residential skyscraper in Manhattan, New York)",
+   "categories": [
+    "1 Wall Street",
+    "Self-published work",
+    "Uploaded with Mobile/Android",
+    "Files with coordinates missing SDC location of creation",
+    "Wall Street in 2025",
+    "Group photographs in New York City",
+    "New York City photographs taken on 2025-10-16",
+    "Nodir Ataev at WikiConference North America 2025",
+    "Elena Lappen in 2025",
+    "Financial District, Manhattan during WikiConference North America 2025 Cultural Crawl",
+    "Molly Stark Dean at WikiConference North America 2025"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"One Wall Street\" Irving Trust Building",
+   "score": 10.2,
+   "estimated_viewpoint": {
+    "lat": 40.707625,
+    "lon": -74.011669,
+    "azimuth_deg": 179.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70763, -74.01167) is 45 m from One Wall Street (Irving Trust Building) (40.70722, -74.01167) and 84 m from the standard viewpoint; the azimuth 180 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"WCNA 2025 Culture Crawl 1 Wall Street.jpg\" by AntiCompositeNumber, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:WCNA_2025_Culture_Crawl_1_Wall_Street.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:1 Wall Street Apr 2025 12.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:1_Wall_Street_Apr_2025_12.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/52/1_Wall_Street_Apr_2025_12.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/1_Wall_Street_Apr_2025_12.jpg/1920px-1_Wall_Street_Apr_2025_12.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2025-04-22 18:07:05",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.70568,
+    "lon": -74.01366
+   },
+   "original_width": 3060,
+   "original_height": 4080,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 767638,
+   "sha256": "7544064a9d9e2290f617ff1289621ece02f58245c4a8da75062b59886c8622d3",
+   "mean_luminance": 128.4,
+   "description": "1 Wall Street in Manhattan, New York, photographed in April 2025",
+   "categories": [
+    "1 Wall Street",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Financial District, Manhattan in 2025",
+    "Wall Street in 2025",
+    "New York City photographs taken on 2025-04-22",
+    "Apartment buildings in the United States photographed in 2025",
+    "April 2025 in Manhattan, New York City",
+    "Photographs by Epicgenius"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"One Wall Street\" Irving Trust Building",
+   "score": 10.2,
+   "estimated_viewpoint": {
+    "lat": 40.70568,
+    "lon": -74.01366,
+    "azimuth_deg": 44.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70568, -74.01366) is 240 m from One Wall Street (Irving Trust Building) (40.70722, -74.01167) and 191 m from the standard viewpoint; the azimuth 44 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"1 Wall Street Apr 2025 12.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:1_Wall_Street_Apr_2025_12.jpg"
+  }
+ ]
+}

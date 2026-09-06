@@ -346,6 +346,43 @@ def test_every_exported_asset_has_a_catalog_entry():
         assert not missing, f"{group}: {len(missing)} exported assets without a catalog entry, e.g. {missing[:5]}"
 
 
+def test_landmark_models_match_their_published_heights():
+    """Every landmark catalog entry is checked against the published height it cites.
+
+    Heights are compared to the tip (spire and mast included) because that is what the catalog
+    records — the Empire State Building is 443.2 m to the tip and 380.6 m to the roof, and both
+    numbers appear in its `height_source` string.
+    """
+    catalog = BLENDER_OUT / "landmarks" / "catalog"
+    if not catalog.exists() or not any(catalog.glob("*.json")):
+        pytest.skip("no landmark catalog yet")
+    published_tip_m = {
+        "empire_state": 443.2, "chrysler": 318.9, "flatiron": 86.9, "one_vanderbilt": 427.0,
+        "woolworth": 241.4, "40_wall_street": 282.5, "30_rockefeller_plaza": 259.1,
+        "one_world_trade_center": 541.3, "george_washington_bridge": 184.0,
+        "verrazzano_narrows": 211.0, "brooklyn_bridge": 84.3, "hearst_tower": 182.0,
+        "metlife_building": 246.0, "seagram_building": 157.0, "un_headquarters": 154.0,
+        "central_park_tower": 472.4, "432_park": 425.5, "111_west_57": 435.0, "one57": 306.1,
+        "bank_of_america_tower": 365.8, "citigroup_center": 279.0, "statue_of_liberty": 93.0,
+    }
+    checked, problems = 0, []
+    for f in sorted(catalog.glob("*.json")):
+        d = json.load(open(f))
+        ident = str(d.get("id", f.stem))
+        height = d.get("height_m") or d.get("model_height_m")
+        assert height, f"{ident}: catalog entry carries no height"
+        assert d.get("height_source"), f"{ident}: height has no cited source"
+        stripped = ident[2:] if ident[:2] in ("b_", "c_") else ident
+        for key, real in published_tip_m.items():
+            if key == stripped or key in stripped:
+                checked += 1
+                if abs(height - real) / real > 0.02:
+                    problems.append(f"{ident}: model {height:.1f} m vs published {real:.1f} m")
+                break
+    assert checked >= 10, f"only {checked} landmarks could be compared against published heights"
+    assert not problems, "landmark heights disagree with their cited sources: " + "; ".join(problems)
+
+
 # --------------------------------------------------------------------------- honesty gate
 def test_no_placeholder_markers_in_shipped_source():
     """The brief forbids placeholders. This test is the gate that keeps them out.

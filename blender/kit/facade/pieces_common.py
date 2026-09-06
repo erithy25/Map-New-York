@@ -107,51 +107,6 @@ def interior_card_image(lit: bool) -> str:
     return str(p)
 
 
-def commercial_card_image(kind: str) -> str:
-    """Card seen through a shopfront transom for kinds with no modelled interior: shelving bands and ceiling lights."""
-    from PIL import Image, ImageDraw, ImageFilter
-    p = _gen_dir() / f"commercial_card_{kind}.png"
-    if p.exists():
-        return str(p)
-    W = H = 512
-    img = Image.new("RGB", (W, H), (54, 52, 48))
-    d = ImageDraw.Draw(img)
-    for i in range(5):
-        y = int(H * (0.24 + i * 0.14))
-        d.rectangle([0, y, W, y + int(H * 0.09)], fill=(96, 88, 76))
-        for k in range(14):
-            x = int(W * k / 14.0)
-            d.rectangle([x + 3, y + 3, x + int(W / 14.0) - 4, y + int(H * 0.09) - 3],
-                        fill=(70 + (k * 37) % 120, 60 + (k * 61) % 120, 55 + (k * 23) % 120))
-    for k in range(3):
-        d.rectangle([int(W * 0.08), int(H * (0.06 + 0.05 * k)), int(W * 0.92), int(H * (0.085 + 0.05 * k))], fill=(240, 244, 235))
-    img = img.filter(ImageFilter.GaussianBlur(2.5))
-    img.save(p)
-    return str(p)
-
-
-def sign_band_image(text: str, fg: Sequence[int], bg: Sequence[int], *, key: str) -> str:
-    """Sign-band / awning-valance texture: a 1024 x 256 strip with the shop name set in Overpass."""
-    from PIL import Image, ImageDraw, ImageFont
-    p = _gen_dir() / f"sign_{key}.png"
-    if p.exists():
-        return str(p)
-    W, H = 1024, 256
-    img = Image.new("RGB", (W, H), tuple(bg))
-    d = ImageDraw.Draw(img)
-    font_path = K.nb.ASSETS / "fonts" / "Overpass" / "overpass-bold.otf"
-    size = 132
-    font = ImageFont.truetype(str(font_path), size) if font_path.exists() else ImageFont.load_default()
-    while font_path.exists() and d.textlength(text, font=font) > W * 0.92 and size > 24:
-        size -= 6
-        font = ImageFont.truetype(str(font_path), size)
-    w = d.textlength(text, font=font)
-    d.text(((W - w) / 2, (H - size * 1.05) / 2), text, font=font, fill=tuple(fg))
-    d.rectangle([0, 0, W - 1, H - 1], outline=tuple(int(c * 0.7) for c in bg), width=6)
-    img.save(p)
-    return str(p)
-
-
 def ivy_image() -> str:
     """RGBA ivy leaf sheet (alpha-cut) for the vegetation pieces."""
     from PIL import Image, ImageDraw

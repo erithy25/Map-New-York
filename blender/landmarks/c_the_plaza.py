@@ -79,9 +79,10 @@ def build():
     b = C.MeshBuilder()
     ring = C.ring_coords(P)
     b.loft([[(x, y, CORNICE + 0.4) for x, y in ring],
-            [(x, y, CORNICE + 14.0) for x, y in C.offset_ring(ring, -7.0)],
-            [(x, y, RIDGE - 0.6) for x, y in C.offset_ring(ring, -9.5)]], C.M.copper_green,
-           cap_top=True, cap_bottom=False, material_top=C.M.copper_green)
+            [(x, y, CORNICE + 15.0) for x, y in C.offset_ring(ring, -8.0)],
+            [(x, y, RIDGE - 0.4) for x, y in C.offset_ring(ring, -22.0)],
+            [(x, y, RIDGE) for x, y in C.offset_ring(ring, -23.0)]], C.M.copper_green,
+           cap_top=True, cap_bottom=False, material_top=C.M.roof_grey)
     for p0, p1, L, t, n in C.edges_of(ring):
         for order, (z0, z1, w) in enumerate(((CORNICE + 1.2, CORNICE + 6.2, 2.0), (CORNICE + 7.4, CORNICE + 11.4, 1.6))):
             ndorm = max(1, int(round(L / (6.0 + 2.0 * order))))

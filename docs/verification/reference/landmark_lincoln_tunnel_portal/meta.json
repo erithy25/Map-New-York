@@ -1,0 +1,143 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_lincoln_tunnel_portal",
+ "name": "Lincoln Tunnel Manhattan portal",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.759,
+  "lon": -73.9982,
+  "azimuth_deg": 297.2,
+  "note": "West 39th Street at Tenth Avenue, looking west at the Manhattan portals",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7597,
+  "lon": -74.0,
+  "name": "Lincoln Tunnel Manhattan portals"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Lincoln Tunnel\" entrance Manhattan portal",
+  "\"Lincoln Tunnel\" New York side Dyer Avenue"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T12:49:17Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 34,
+ "candidates_eligible": 2,
+ "rejections": {
+  "too_old": 1,
+  "excluded": 1,
+  "keywords": 30
+ },
+ "exhausted": true,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Lincoln Tunnel Land Ventilation Building.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Lincoln_Tunnel_Land_Ventilation_Building.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b4/Lincoln_Tunnel_Land_Ventilation_Building.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Lincoln_Tunnel_Land_Ventilation_Building.jpg/1920px-Lincoln_Tunnel_Land_Ventilation_Building.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2024-08-10 12:57:29",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.758536,
+    "lon": -73.999953
+   },
+   "original_width": 4608,
+   "original_height": 2072,
+   "width": 1920,
+   "height": 863,
+   "bytes": 642852,
+   "sha256": "434dc5c678f4cbf6d88072fe30241f7d33d66861e4d8ecd1921f176f76ed9fd4",
+   "mean_luminance": 137.2,
+   "description": "Lincoln Tunnel Land Ventilation Building",
+   "categories": [
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Midtown Manhattan in 2024",
+    "2024 in Hell's Kitchen, Manhattan",
+    "New York City photographs taken on 2024-08-10",
+    "August 2024 in Manhattan, New York City",
+    "Lincoln Tunnel Land Ventilation Building (491 11th Avenue)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.758536,
+    "lon": -73.999953,
+    "azimuth_deg": 358.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75854, -73.99995) is 129 m from Lincoln Tunnel Manhattan portals (40.75970, -74.00000) and 156 m from the standard viewpoint; the azimuth 358 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Lincoln Tunnel Land Ventilation Building.jpg\" by Kidfly182, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Lincoln_Tunnel_Land_Ventilation_Building.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:20110121.24.NYC.Midtown.502 W41St.SS.Cyril&Methodius&RaphaelChurch taken by James Russiello near Lincoln Tunnel.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:20110121.24.NYC.Midtown.502_W41St.SS.Cyril%26Methodius%26RaphaelChurch_taken_by_James_Russiello_near_Lincoln_Tunnel.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/62/20110121.24.NYC.Midtown.502_W41St.SS.Cyril%26Methodius%26RaphaelChurch_taken_by_James_Russiello_near_Lincoln_Tunnel.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/20110121.24.NYC.Midtown.502_W41St.SS.Cyril%26Methodius%26RaphaelChurch_taken_by_James_Russiello_near_Lincoln_Tunnel.jpg/1280px-20110121.24.NYC.Midtown.502_W41St.SS.Cyril%26Methodius%26RaphaelChurch_taken_by_James_Russiello_near_Lincoln_Tunnel.jpg",
+   "author": "James Russiello2",
+   "credit": "Own work",
+   "license": {
+    "short_name": "Public domain",
+    "url": "https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain",
+    "template": "pd"
+   },
+   "date_taken": "2011-01-21",
+   "date_source": "DateTimeOriginal",
+   "year": 2011,
+   "camera_gps": {
+    "lat": 40.758889,
+    "lon": -73.997778
+   },
+   "original_width": 1455,
+   "original_height": 1014,
+   "width": 1280,
+   "height": 892,
+   "bytes": 253498,
+   "sha256": "2bfa8fb1386321dcbe421beff794cdde75f0ebc4fd714833c10938922f06af0f",
+   "mean_luminance": 138.1,
+   "description": "Looking east across 40th Street at the Church of Saints Cyril & Methodius and St. Raphael is a Roman Catholic parish church in the Roman Catholic Archdiocese of New York, located at 502 West 41st Street, Manhattan, New York City. It was established in 1974 from the parish merger of St. Raphael's Roman Catholic Church and SS. Cyril & Methodius and is staffed by the Franciscan Friars.",
+   "categories": [
+    "Taken with Canon Digital IXUS 950 IS",
+    "PD-user",
+    "Church of Sts. Cyril & Methodius and St. Raphael (New York City)",
+    "Churches in the United States photographed in 2011",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 8.0,
+   "estimated_viewpoint": {
+    "lat": 40.758889,
+    "lon": -73.997778,
+    "azimuth_deg": 295.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75889, -73.99778) is 208 m from Lincoln Tunnel Manhattan portals (40.75970, -74.00000) and 38 m from the standard viewpoint; the azimuth 296 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"20110121.24.NYC.Midtown.502 W41St.SS.Cyril&Methodius&RaphaelChurch taken by James Russiello near Lincoln Tunnel.jpg\" by James Russiello2, Public domain (https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:20110121.24.NYC.Midtown.502_W41St.SS.Cyril%26Methodius%26RaphaelChurch_taken_by_James_Russiello_near_Lincoln_Tunnel.jpg"
+  }
+ ]
+}

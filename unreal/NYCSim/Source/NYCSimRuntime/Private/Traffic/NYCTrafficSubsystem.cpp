@@ -47,7 +47,7 @@ FLinearColor PrivateCarColour(uint32 Hash)
 		Total += W;
 	}
 	uint32 Pick = Hash % Total;
-	for (int32 i = 0; i < UE_ARRAY_COUNT(Weights); ++i)
+	for (int32 i = 0; i < static_cast<int32>(UE_ARRAY_COUNT(Weights)); ++i)
 	{
 		if (Pick < Weights[i])
 		{
@@ -374,21 +374,23 @@ FLinearColor UNYCTrafficSubsystem::PaintFor(uint8 VehicleClass, int32 AgentId) c
 	return PrivateCarColour(HashAgent(AgentId));
 }
 
-ANYCTrafficVehicle* UNYCTrafficSubsystem::AcquireVehicleActor()
+int32 UNYCTrafficSubsystem::AcquireVehicleActor()
 {
 	if (FreeVehicleActors.Num() > 0)
 	{
-		return VehiclePool[FreeVehicleActors.Pop(EAllowShrinking::No)];
+		const int32 Index = FreeVehicleActors.Last();
+		FreeVehicleActors.RemoveAtSwap(FreeVehicleActors.Num() - 1);
+		return Index;
 	}
 	const UNYCGameplaySettings& Settings = UNYCGameplaySettings::Get();
 	if (VehiclePool.Num() >= Settings.MaxTrafficVehicles)
 	{
-		return nullptr;
+		return INDEX_NONE;
 	}
 	UWorld* World = GetWorld();
 	if (World == nullptr)
 	{
-		return nullptr;
+		return INDEX_NONE;
 	}
 	FActorSpawnParameters Params;
 	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
@@ -397,28 +399,29 @@ ANYCTrafficVehicle* UNYCTrafficSubsystem::AcquireVehicleActor()
 		ANYCTrafficVehicle::StaticClass(), FVector(0.f, 0.f, -100000.f), FRotator::ZeroRotator, Params);
 	if (Actor == nullptr)
 	{
-		return nullptr;
+		return INDEX_NONE;
 	}
 	Actor->SetSirenSound(SirenSound);
-	VehiclePool.Add(Actor);
-	return Actor;
+	return VehiclePool.Add(Actor);
 }
 
-ANYCPedestrian* UNYCTrafficSubsystem::AcquirePedestrianActor()
+int32 UNYCTrafficSubsystem::AcquirePedestrianActor()
 {
 	if (FreePedestrianActors.Num() > 0)
 	{
-		return PedestrianPool[FreePedestrianActors.Pop(EAllowShrinking::No)];
+		const int32 Index = FreePedestrianActors.Last();
+		FreePedestrianActors.RemoveAtSwap(FreePedestrianActors.Num() - 1);
+		return Index;
 	}
 	const UNYCGameplaySettings& Settings = UNYCGameplaySettings::Get();
 	if (PedestrianPool.Num() >= Settings.MaxPedestrians)
 	{
-		return nullptr;
+		return INDEX_NONE;
 	}
 	UWorld* World = GetWorld();
 	if (World == nullptr)
 	{
-		return nullptr;
+		return INDEX_NONE;
 	}
 	FActorSpawnParameters Params;
 	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
@@ -427,11 +430,10 @@ ANYCPedestrian* UNYCTrafficSubsystem::AcquirePedestrianActor()
 		ANYCPedestrian::StaticClass(), FVector(0.f, 0.f, -100000.f), FRotator::ZeroRotator, Params);
 	if (Actor == nullptr)
 	{
-		return nullptr;
+		return INDEX_NONE;
 	}
 	Actor->SetClips(CrowdWalkClip, CrowdIdleClip);
-	PedestrianPool.Add(Actor);
-	return Actor;
+	return PedestrianPool.Add(Actor);
 }
 
 int32 UNYCTrafficSubsystem::LodForDistance(float DistanceMetres, float FirstCutMetres) const
@@ -539,8 +541,6 @@ void UNYCTrafficSubsystem::PublishObserver()
 void UNYCTrafficSubsystem::UpdateVehicles(const FNYCSimSnapshot& InSnapshot, float DeltaTime)
 {
 	const UNYCGameplaySettings& Settings = UNYCGameplaySettings::Get();
-	const TArray<FString>* RouteNames = nullptr;
-	(void)RouteNames;
 
 	SeenAgents.Reset();
 	for (const nycsim_gameplay::VehicleSnapshot& Agent : InSnapshot.Vehicles)
@@ -548,7 +548,7 @@ void UNYCTrafficSubsystem::UpdateVehicles(const FNYCSimSnapshot& InSnapshot, flo
 		const int32 AgentId = static_cast<int32>(Agent.id);
 		SeenAgents.Add(AgentId);
 
-		int32* PoolIndex = VehicleActorByAgent.Find(AgentId);
+		const int32* PoolIndex = VehicleActorByAgent.Find(AgentId);
 		bool bTeleport = false;
 		ANYCTrafficVehicle* Actor = nullptr;
 		if (PoolIndex != nullptr && VehiclePool.IsValidIndex(*PoolIndex))
@@ -557,13 +557,14 @@ void UNYCTrafficSubsystem::UpdateVehicles(const FNYCSimSnapshot& InSnapshot, flo
 		}
 		else
 		{
-			Actor = AcquireVehicleActor();
-			if (Actor == nullptr)
+			const int32 Index = AcquireVehicleActor();
+			if (Index == INDEX_NONE)
 			{
 				continue;  // pool at its cap: this agent simulates without a body this frame
 			}
+			Actor = VehiclePool[Index];
 			Actor->Acquire(AgentId, Agent.cls, FleetMeshFor(Agent.cls), PaintFor(Agent.cls, AgentId));
-			VehicleActorByAgent.Add(AgentId, VehiclePool.IndexOfByKey(Actor));
+			VehicleActorByAgent.Add(AgentId, Index);
 			bTeleport = true;
 		}
 
@@ -637,7 +638,7 @@ void UNYCTrafficSubsystem::UpdatePedestrians(const FNYCSimSnapshot& InSnapshot, 
 		const int32 AgentId = static_cast<int32>(Agent.id);
 		SeenAgents.Add(AgentId);
 
-		int32* PoolIndex = PedestrianActorByAgent.Find(AgentId);
+		const int32* PoolIndex = PedestrianActorByAgent.Find(AgentId);
 		bool bTeleport = false;
 		ANYCPedestrian* Actor = nullptr;
 		if (PoolIndex != nullptr && PedestrianPool.IsValidIndex(*PoolIndex))
@@ -646,13 +647,14 @@ void UNYCTrafficSubsystem::UpdatePedestrians(const FNYCSimSnapshot& InSnapshot, 
 		}
 		else
 		{
-			Actor = AcquirePedestrianActor();
-			if (Actor == nullptr)
+			const int32 Index = AcquirePedestrianActor();
+			if (Index == INDEX_NONE)
 			{
 				continue;
 			}
+			Actor = PedestrianPool[Index];
 			Actor->Acquire(AgentId, CrowdMeshFor(Agent.archetype), Agent.archetype, Agent.variant);
-			PedestrianActorByAgent.Add(AgentId, PedestrianPool.IndexOfByKey(Actor));
+			PedestrianActorByAgent.Add(AgentId, Index);
 			bTeleport = true;
 		}
 

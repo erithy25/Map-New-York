@@ -1,0 +1,209 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_federal_hall",
+ "name": "Federal Hall National Memorial",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.706864,
+  "lon": -74.010237,
+  "azimuth_deg": 355.0,
+  "note": "Wall Street south sidewalk opposite 26 Wall Street, looking north at the Doric portico and the Washington statue",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.707222,
+  "lon": -74.010278,
+  "name": "Federal Hall National Memorial"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Federal Hall\" Wall Street",
+  "\"Federal Hall National Memorial\" exterior columns"
+ ],
+ "geosearch_radius_m": 150,
+ "fetched_at": "2026-09-06T12:50:11Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 84,
+ "candidates_eligible": 27,
+ "rejections": {
+  "too_old": 16,
+  "not_photo": 9,
+  "licence": 4,
+  "too_small": 7,
+  "keywords": 20,
+  "not_jpeg": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Federal Hall IMG 2027.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Federal_Hall_IMG_2027.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/40/Federal_Hall_IMG_2027.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Federal_Hall_IMG_2027.jpg/1920px-Federal_Hall_IMG_2027.jpg",
+   "author": "Bjoertvedt",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.706933,
+    "lon": -74.010383
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 805343,
+   "sha256": "d119a06e98974270cc9ad3374b5510afad11970c5ce968765f704603b72fc945",
+   "mean_luminance": 126.5,
+   "description": "Federal Hall at Lower Manhattan, NY",
+   "categories": [
+    "Exterior of Federal Hall",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2018-06-28",
+    "Federal Hall in 2018",
+    "June 2018 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.45,
+   "estimated_viewpoint": {
+    "lat": 40.706933,
+    "lon": -74.010383,
+    "azimuth_deg": 15.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70693, -74.01038) is 33 m from Federal Hall National Memorial (40.70722, -74.01028) and 15 m from the standard viewpoint; the azimuth 15 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Federal Hall IMG 2027.jpg\" by Bjoertvedt, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Federal_Hall_IMG_2027.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Hungry March Band Wall St 02 jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Hungry_March_Band_Wall_St_02_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Hungry_March_Band_Wall_St_02_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Hungry_March_Band_Wall_St_02_jeh.jpg/1920px-Hungry_March_Band_Wall_St_02_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2016",
+   "date_source": "DateTimeOriginal",
+   "year": 2016,
+   "camera_gps": {
+    "lat": 40.707,
+    "lon": -74.010417
+   },
+   "original_width": 3601,
+   "original_height": 2999,
+   "width": 1920,
+   "height": 1599,
+   "bytes": 644081,
+   "sha256": "7f4851d0a1f582aad96417d57c4596637a34693014daa6b79e709cb72ea22048",
+   "mean_luminance": 104.4,
+   "description": "Looking northeast as Hungry March Band start their march",
+   "categories": [
+    "CC-Zero",
+    "Exterior of Federal Hall",
+    "Hungry March Band",
+    "Women wearing sunglasses in New York (state)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2016-08-13",
+    "Walking people in Manhattan, New York City",
+    "Federal Hall in 2016",
+    "August 2016 in Manhattan, New York City",
+    "Men wearing sunglasses in Manhattan, New York City",
+    "Drumming in the United States",
+    "People with marching bass drums",
+    "Females wearing hats and sunglasses",
+    "Evans Drumheads",
+    "2016 Manhattan photos by Jim.henderson",
+    "August 2016 photos by Jim.henderson"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.15,
+   "estimated_viewpoint": {
+    "lat": 40.707,
+    "lon": -74.010417,
+    "azimuth_deg": 25.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70700, -74.01042) is 27 m from Federal Hall National Memorial (40.70722, -74.01028) and 21 m from the standard viewpoint; the azimuth 25 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Hungry March Band Wall St 02 jeh.jpg\" by Jim.henderson, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Hungry_March_Band_Wall_St_02_jeh.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Financial District, New York, NY, USA - panoramio - Sergei Gussev (34).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Financial_District,_New_York,_NY,_USA_-_panoramio_-_Sergei_Gussev_(34).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Financial_District%2C_New_York%2C_NY%2C_USA_-_panoramio_-_Sergei_Gussev_%2834%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Financial_District%2C_New_York%2C_NY%2C_USA_-_panoramio_-_Sergei_Gussev_%2834%29.jpg/1920px-Financial_District%2C_New_York%2C_NY%2C_USA_-_panoramio_-_Sergei_Gussev_%2834%29.jpg",
+   "author": "Sergei Gussev",
+   "credit": "https://web.archive.org/web/20161015042224/http://www.panoramio.com/photo/134110755",
+   "license": {
+    "short_name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0",
+    "template": "cc-by-3.0"
+   },
+   "date_taken": "2016",
+   "date_source": "DateTimeOriginal",
+   "year": 2016,
+   "camera_gps": {
+    "lat": 40.706694,
+    "lon": -74.010314
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 632234,
+   "sha256": "e2ea944c014945ea07bbcaaa2197b7eda827b099ebd48d30502cdbf9a44b27ad",
+   "mean_luminance": 106.4,
+   "description": "Financial District, New York, NY, USA",
+   "categories": [
+    "Exterior of Federal Hall",
+    "Panoramio files uploaded by Panoramio upload bot",
+    "Panoramio images reviewed by trusted users",
+    "Photos from Panoramio",
+    "Files with coordinates missing SDC location of creation",
+    "Photographs by Sergei Gussev",
+    "Federal Hall in 2016"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.15,
+   "estimated_viewpoint": {
+    "lat": 40.706694,
+    "lon": -74.010314,
+    "azimuth_deg": 3.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70669, -74.01031) is 59 m from Federal Hall National Memorial (40.70722, -74.01028) and 20 m from the standard viewpoint; the azimuth 3 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Financial District, New York, NY, USA - panoramio - Sergei Gussev (34).jpg\" by Sergei Gussev, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Financial_District,_New_York,_NY,_USA_-_panoramio_-_Sergei_Gussev_(34).jpg"
+  }
+ ]
+}
