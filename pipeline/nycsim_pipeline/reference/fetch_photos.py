@@ -1143,10 +1143,14 @@ CATALOGUE: list[Item] = [
         ['Staten Island houses residential street', 'Staten Island one-family houses', 'Dongan Hills Staten Island house', 'Staten Island Tottenville houses'],
         [["staten island"], ["house", "houses", "home", "homes", "residence", "dwelling", "bungalow", "ranch", "cape cod"]],
         (40.5480, -74.1450), "Great Kills / New Dorp Beach residential street, looking north (representative block)",
-        azimuth=0.0, representative=True,
+        # Commons has almost nothing on ordinary Staten Island tract housing: a title/category search
+        # over the whole borough returns parks, stations and civic buildings, and an incategory: search
+        # for "Houses in Staten Island" returns nothing at all. want=1 records what actually exists
+        # rather than padding the subject with photographs of something else.
+        azimuth=0.0, representative=True, want=1,
         exclude=AERIAL_WORDS + ["ferry", "night", "interior", "inside", "church", "school", "fort", "beach", "boardwalk",
                                "zoo", "mall", "landfill", "bridge", "1900", "mansion", "victorian", "historic",
-                               "station", "railway", "railroad", "sir", "sunset", "about to set", "lighthouse", "park"]),
+                               "station", "railway", "railroad", "sir", "sunset", "about to set", "lighthouse", "park", "theatre", "theater", "conference house", "easter", "egg hunt"]),
     _it("street_elevated_roosevelt_ave_7", "Elevated subway street: Roosevelt Avenue under the 7", "streetscape",
         ['"Roosevelt Avenue" elevated 7 train Jackson Heights street', '"Roosevelt Avenue" under the elevated Queens'],
         [["roosevelt avenue", "roosevelt ave"], ["queens", "jackson heights", "woodside", "corona", "elmhurst", "flushing", "sunnyside", "74th", "82nd", "90th", "103rd"]],

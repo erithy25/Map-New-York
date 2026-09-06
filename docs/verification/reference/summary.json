@@ -1,10 +1,10 @@
 {
  "schema_version": 1,
- "generated_at": "2026-09-06T14:21:09Z",
+ "generated_at": "2026-09-06T14:22:40Z",
  "items": 172,
  "items_in_catalogue": 172,
- "photos": 521,
- "bytes": 426632906,
+ "photos": 519,
+ "bytes": 424839418,
  "items_without_photo": [],
  "items_partial": [
   "landmark_central_park_sheep_meadow (2/3)",
@@ -15,8 +15,8 @@
   "street_nyc_traffic_signals (3/4)",
   "street_newsstand (2/3)"
  ],
- "http_requests_this_run": 10,
- "elapsed_s": 30.0,
+ "http_requests_this_run": 0,
+ "elapsed_s": 1.3,
  "per_item": [
   {
    "slug": "promenade_lower_manhattan",
@@ -3081,18 +3081,16 @@
   {
    "slug": "street_staten_island_ranch_houses",
    "group": "streetscape",
-   "count": 3,
-   "wanted": 3,
-   "bytes": 2035656,
+   "count": 1,
+   "wanted": 1,
+   "bytes": 242168,
    "licences": [
-    "CC BY-SA 3.0",
-    "CC BY-SA 4.0",
-    "CC0"
+    "CC BY-SA 4.0"
    ],
    "status": "ok",
    "rejections": {
     "not_photo": 19,
-    "excluded": 15,
+    "excluded": 21,
     "too_small": 3,
     "licence": 9,
     "too_old": 2,

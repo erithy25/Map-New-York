@@ -1659,7 +1659,24 @@ uint32_t TrafficSim::separateBodies() {
         updatePose(mover);
         return true;
       };
-      const bool ok = a_ahead > 0.f ? (giveWay(a, b) || giveWay(b, a)) : (giveWay(b, a) || giveWay(a, b));
+      bool ok = a_ahead > 0.f ? (giveWay(a, b) || giveWay(b, a)) : (giveWay(b, a) || giveWay(a, b));
+      if (!ok) {
+        // Both are wedged — typically one nosing into a junction with the queue
+        // right behind it.  Edge them apart sideways instead, which is what a
+        // driver does in that situation and which nothing else constrains.
+        const float nx = -std::sin(a.heading_rad), ny = std::cos(a.heading_rad);  // a's left
+        const float sep = boxRadiusOn(a, nx, ny) + boxRadiusOn(b, nx, ny) -
+                          std::fabs(dx * nx + dy * ny);
+        if (sep > 0.f) {
+          const float shift = std::min(sep * 0.5f + 0.03f, 0.4f);
+          const float side = (dx * nx + dy * ny) >= 0.f ? -1.f : 1.f;  // push a away from b
+          a.lateral = clampf(a.lateral + side * shift, -2.0f, 2.0f);
+          b.lateral = clampf(b.lateral - side * shift, -2.0f, 2.0f);
+          updatePose(a);
+          updatePose(b);
+          ok = true;
+        }
+      }
       if (ok) ++moved;
     });
   }

@@ -6721,14 +6721,14 @@
   "landmark_b_brooklyn_bridge_lod0": {
    "artifact_id": "landmark_b_brooklyn_bridge_lod0",
    "bytes": 5722588,
-   "git_commit": "ca87e1135759",
+   "git_commit": "53f1c49152ac",
    "landmark_id": "b_brooklyn_bridge",
    "lod": 0,
    "path": "blender_out/landmarks/b_brooklyn_bridge.glb",
-   "produced_at": "2026-09-06T14:07:36Z",
+   "produced_at": "2026-09-06T14:23:15Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "ebb81855f7e5212ad7d08255f970f336ce786eea3625bf138910c3d3884576c5",
+   "sha256": "9f0f632fdc590f65b0181a2001f5fe6765700eb18304aaf8f25df742c8744412",
    "sources": [
     "osm_bbbike",
     "published_brooklyn_bridge"
@@ -8204,6 +8204,24 @@
    "tris_lod0": 13818,
    "tris_lod1": 232
   },
+  "landmark_glb:c_high_line": {
+   "artifact_id": "landmark_glb:c_high_line",
+   "bins": [],
+   "bytes": 8943832,
+   "footprint_iou": null,
+   "git_commit": "53f1c49152ac",
+   "path": "blender_out/landmarks/c_high_line.glb",
+   "produced_at": "2026-09-06T14:23:34Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "dd1c8fff0bbac8b94db3624e7fcbe4005ecda3a03d93e472d90742c80dea5f9d",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 27276,
+   "tris_lod1": 2868
+  },
   "landmark_glb:c_hudson_yards": {
    "artifact_id": "landmark_glb:c_hudson_yards",
    "bins": [
@@ -8934,14 +8952,14 @@
     1078981,
     1078982
    ],
-   "bytes": 15397300,
+   "bytes": 15398956,
    "footprint_iou": 1.0,
-   "git_commit": "d63f02e8c7ff",
+   "git_commit": "53f1c49152ac",
    "path": "blender_out/landmarks/nyse.glb",
-   "produced_at": "2026-09-06T12:20:38Z",
+   "produced_at": "2026-09-06T14:23:10Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "601ac7fb322c9ce447e21202c41e3c99835525141b78bb17bdddaf30145c948b",
+   "sha256": "354c58f86d3ffb04c1c9ef01eb322f2f809186d7919703467323d24449db2447",
    "sources": [
     "building_footprints"
    ],

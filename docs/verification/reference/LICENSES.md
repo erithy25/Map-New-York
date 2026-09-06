@@ -1257,8 +1257,6 @@ Every photograph under `docs/verification/reference/` is from Wikimedia Commons 
 | file | title | author | licence | date taken | camera GPS |
 |---|---|---|---|---|---|
 | [1.jpg](street_staten_island_ranch_houses/1.jpg) | [Typical house in Dongan Hills (built in 1960).jpg](https://commons.wikimedia.org/wiki/File:Typical_house_in_Dongan_Hills_(built_in_1960).jpg) | MJPlante1 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2024-09-27 | — |
-| [2.jpg](street_staten_island_ranch_houses/2.jpg) | [Stadium Theatre 217 Main St & Bentley Ln Tottenville jeh.jpg](https://commons.wikimedia.org/wiki/File:Stadium_Theatre_217_Main_St_%26_Bentley_Ln_Tottenville_jeh.jpg) | Jim.henderson | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | 2013 | 40.50967, -74.24753 |
-| [3.jpg](street_staten_island_ranch_houses/3.jpg) | [Easter Egg Hunt at Conference House in TottenVille Staten Island, NYC - panoramio (2).jpg](https://commons.wikimedia.org/wiki/File:Easter_Egg_Hunt_at_Conference_House_in_TottenVille_Staten_Island,_NYC_-_panoramio_(2).jpg) | MikeinNYC | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | 2011 | 40.49942, -74.25168 |
 
 ## street_elevated_roosevelt_ave_7 — Elevated subway street: Roosevelt Avenue under the 7
 
