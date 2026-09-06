@@ -23,12 +23,12 @@ _NAME_RULES: tuple[tuple[re.Pattern[str], str], ...] = (
     (re.compile(r"\b(RESERVOIR|LAKE|MEER)\b", re.I), "lake"),
     (re.compile(r"\b(POND|POOL|WATER)\b", re.I), "pond"),
 )
-_UNNAMED = {"", "unset", "no name", "<null>", "null", "none", "marsh", "pond"}
+_UNNAMED = {"", "unset", "no name", "<null>", "null", "none", "nan", "n/a", "marsh", "pond"}
 
 
 def clean_name(name: str | None) -> str:
-    """Normalise a planimetric name: placeholders become '', real names are title-cased per NYC usage."""
-    if name is None:
+    """Normalise a planimetric name: placeholders (incl. a missing value read back as NaN) become ''."""
+    if name is None or (isinstance(name, float) and name != name):
         return ""
     n = str(name).strip()
     if n.lower() in _UNNAMED:

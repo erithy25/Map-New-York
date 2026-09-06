@@ -21,9 +21,11 @@ from ..paths import RAW
 log = logging.getLogger("nycsim.traffic.counts")
 
 ATR_PATH = RAW / "nyc_opendata" / "traffic_volume_auto.csv"
-RECENT_YEARS = (2023, 2025)       # last three full years at build time (2026-09)
-OLDER_YEARS = (2015, 2022)        # fallback window for segments not counted recently
-YEAR_WEIGHT = {**{y: 1.0 for y in range(2023, 2027)}, **{y: 0.6 for y in range(2019, 2023)}, **{y: 0.4 for y in range(2015, 2019)}}
+RECENT_YEARS = (2023, 2026)       # counts taken in the last four calendar years (build date 2026-09)
+OLDER_YEARS = (2012, 2022)        # fallback window for segments not counted recently
+# Recency weights: recent counts dominate, older ones still carry the spatial pattern.
+YEAR_WEIGHT = {**{y: 1.0 for y in range(2023, 2027)}, **{y: 0.6 for y in range(2019, 2023)},
+               **{y: 0.4 for y in range(2015, 2019)}, **{y: 0.25 for y in range(2012, 2015)}}
 MAX_15MIN_VOL = 3000              # > 3000 veh / 15 min / direction is physically impossible on any NYC segment
 _WKT = re.compile(r"POINT \(\s*([-\d.]+)\s+([-\d.]+)\s*\)")
 

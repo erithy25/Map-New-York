@@ -1062,6 +1062,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--label", type=int, default=0, help="DA label used with --gml")
     ap.add_argument("--force", action="store_true", help="re-process DAs already marked done")
     ap.add_argument("--build-index", action="store_true", help="build index.parquet from the per-DA files")
+    ap.add_argument("--join", action="store_true",
+                    help="build data/processed/buildings/roof_attrs.parquet from index.parquet + buildings_base + OSM roof:shape "
+                         "(what buildings/build.py consumes for roof_type/roof_mesh_ref/ROOF_REAL)")
     ap.add_argument("--validate", action="store_true", help="compare against footprints_raw.parquet and write a validation JSON")
     ap.add_argument("--validation-out", type=Path, help="where to write the validation JSON (default docs/verification/citygml/)")
     ap.add_argument("--datum", choices=DATUM_MODES, default="auto",
@@ -1082,7 +1085,7 @@ def main(argv: list[str] | None = None) -> int:
         out_path = out_dir / (f"da{a.label}.parquet" if a.limit is None else f"da{a.label}_limit{a.limit}.parquet")
         s = process_gml_file(a.gml, da=a.label, out_path=out_path, limit=a.limit, log_every=a.log_every)
         summaries.append(s)
-    elif a.da or (not a.build_index and not a.validate):
+    elif a.da or (not a.build_index and not a.validate and not a.join):
         if not a.zip.exists():
             log.error("zip not found: %s", a.zip)
             return 2
@@ -1102,6 +1105,14 @@ def main(argv: list[str] | None = None) -> int:
     if a.build_index:
         try:
             print(json.dumps(build_index(out_dir, manifest=not a.no_manifest)))
+        except FileNotFoundError as e:
+            log.error("%s", e)
+            rc = 1
+    if a.join:
+        from .citygml_join import OUT_PATH as ROOF_ATTRS_PATH, build_roof_attrs
+        try:
+            print(json.dumps(build_roof_attrs(index_path=out_dir / "index.parquet", out_path=ROOF_ATTRS_PATH,
+                                              manifest=not a.no_manifest), indent=1, default=str))
         except FileNotFoundError as e:
             log.error("%s", e)
             rc = 1
