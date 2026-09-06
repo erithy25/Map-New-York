@@ -104,7 +104,6 @@ def build_body(spec: mh_build.HumanSpec, outfit: tuple[str, ...], *, watch: bool
     wardrobe.reweight_from_body(built, outfit, name_prefix=prefix)
     if outfit:
         wardrobe.dress(built, outfit, name_prefix=prefix)
-    wardrobe.cut_bottoms_at_shoe_collar(built, outfit, name_prefix=prefix)
     hidden = wardrobe.hide_covered_garments(built, outfit, name_prefix=prefix)
     wardrobe.resolve_layers(built, outfit, name_prefix=prefix)
     bad = wardrobe.verify_outfit(built, outfit, name_prefix=prefix, dropped=tuple(hidden))
