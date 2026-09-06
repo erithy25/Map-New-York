@@ -1,0 +1,205 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_washington_square_arch",
+ "name": "Washington Square Arch",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7308,
+  "lon": -73.9973,
+  "azimuth_deg": 26.8,
+  "note": "south rim of the Washington Square fountain, looking north through the Arch up Fifth Avenue",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7311,
+  "lon": -73.9971,
+  "name": "Washington Square Arch"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Washington Square Arch\"",
+  "\"Washington Square Park\" arch fountain"
+ ],
+ "geosearch_radius_m": 200,
+ "fetched_at": "2026-09-06T12:32:18Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 128,
+ "candidates_eligible": 82,
+ "rejections": {
+  "too_old": 16,
+  "excluded": 10,
+  "too_small": 11,
+  "licence": 2,
+  "not_photo": 4,
+  "keywords": 3
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Skateboarders at the central fountain, Washington Square Park, Manhattan, New York.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Skateboarders_at_the_central_fountain,_Washington_Square_Park,_Manhattan,_New_York.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/2a/Skateboarders_at_the_central_fountain%2C_Washington_Square_Park%2C_Manhattan%2C_New_York.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Skateboarders_at_the_central_fountain%2C_Washington_Square_Park%2C_Manhattan%2C_New_York.jpg/1920px-Skateboarders_at_the_central_fountain%2C_Washington_Square_Park%2C_Manhattan%2C_New_York.jpg",
+   "author": "Christian David",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026-04-16 18:15:53",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.730926,
+    "lon": -73.997326
+   },
+   "original_width": 6860,
+   "original_height": 5145,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 815205,
+   "sha256": "55ec0df94e9e325fefd5c97ca7df6811be956272c23194d3caad7a60d8fa5888",
+   "mean_luminance": 131.1,
+   "description": "Skateboarders at the central fountain plaza of Washington Square Park, Greenwich Village, with the Romanesque campanile of Judson Memorial Church and cherry blossoms behind. Manhattan, New York City.",
+   "categories": [
+    "Judson Memorial Church",
+    "Self-published work",
+    "Skateboarding in New York City",
+    "Files with coordinates missing SDC location of creation",
+    "Washington Square Park fountain",
+    "April 2026 in Manhattan, New York City",
+    "Images of the United States by Christian David"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.7,
+   "estimated_viewpoint": {
+    "lat": 40.730926,
+    "lon": -73.997326,
+    "azimuth_deg": 44.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.73093, -73.99733) is 27 m from Washington Square Arch (40.73110, -73.99710) and 14 m from the standard viewpoint; the azimuth 45 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Skateboarders at the central fountain, Washington Square Park, Manhattan, New York.jpg\" by Christian David, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Skateboarders_at_the_central_fountain,_Washington_Square_Park,_Manhattan,_New_York.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Balloon animal guy in Washington Square Park (00947).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Balloon_animal_guy_in_Washington_Square_Park_(00947).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c2/Balloon_animal_guy_in_Washington_Square_Park_%2800947%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Balloon_animal_guy_in_Washington_Square_Park_%2800947%29.jpg/1920px-Balloon_animal_guy_in_Washington_Square_Park_%2800947%29.jpg",
+   "author": "Rhododendrites",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2017-06-10 17:08:44",
+   "date_source": "DateTimeOriginal",
+   "year": 2017,
+   "camera_gps": {
+    "lat": 40.730915,
+    "lon": -73.997439
+   },
+   "original_width": 2283,
+   "original_height": 2025,
+   "width": 1920,
+   "height": 1703,
+   "bytes": 795205,
+   "sha256": "65ae6750e43120c458e6957be131c96e63a8847af63786c3f1fb5e6a29adbef5",
+   "mean_luminance": 119.6,
+   "description": "Man making balloon animals for kids in Washington Square Park.",
+   "categories": [
+    "Self-published work",
+    "Files uploaded by Rhododendrites (all)",
+    "Files with coordinates missing SDC location of creation",
+    "Washington Square Park in 2017",
+    "Balloon animals",
+    "F-number f/1.7",
+    "Taken with Panasonic Lumix G 20mm F1.7 II",
+    "Photographs taken by Rhododendrites - Washington Square Park",
+    "Files by Rhododendrites - 2017-06"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.8,
+   "estimated_viewpoint": {
+    "lat": 40.730915,
+    "lon": -73.997439,
+    "azimuth_deg": 54.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.73092, -73.99744) is 35 m from Washington Square Arch (40.73110, -73.99710) and 17 m from the standard viewpoint; the azimuth 54 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Balloon animal guy in Washington Square Park (00947).jpg\" by Rhododendrites, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Balloon_animal_guy_in_Washington_Square_Park_(00947).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:30 Hudson Yards From Washington Square Park November 2024.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:30_Hudson_Yards_From_Washington_Square_Park_November_2024.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/30_Hudson_Yards_From_Washington_Square_Park_November_2024.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/30_Hudson_Yards_From_Washington_Square_Park_November_2024.jpg/1920px-30_Hudson_Yards_From_Washington_Square_Park_November_2024.jpg",
+   "author": "BruceSchaff",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024-11-26 16:14:24",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.731084,
+    "lon": -73.997197
+   },
+   "original_width": 7259,
+   "original_height": 4842,
+   "width": 1920,
+   "height": 1281,
+   "bytes": 536934,
+   "sha256": "4b6381fd0042b23bdc0afd2667f5857f7319180383d806f55b39da1c02c0509f",
+   "mean_luminance": 99.3,
+   "description": "30 Hudson Yards From Washington Square Park November 2024",
+   "categories": [
+    "30 Hudson Yards",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "New York City photographs taken on 2024-11-26",
+    "Hudson Yards in 2024",
+    "2024 in Greenwich Village, Manhattan",
+    "November 2024 in Manhattan, New York City",
+    "Photos from Wikicurious - Capturing the Moment",
+    "Hudson Yards skylines",
+    "Uploaded via Campaign:Wikicurious Capturing the Moment 2024"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.7308,
+    "lon": -73.9973,
+    "azimuth_deg": 26.8,
+    "confidence": "medium",
+    "method": "standard_viewpoint (camera GPS coincides with subject)",
+    "explanation": "The file's GPS (40.73108, -73.99720) lies within 8 m of Washington Square Arch (40.73110, -73.99710), so the uploader geotagged the subject rather than the camera; the viewpoint is therefore the standard photographer position for this view (south rim of the Washington Square fountain, looking north through the Arch up Fifth Avenue) and the azimuth 27 deg is the bearing from there to the subject."
+   },
+   "attribution": "\"30 Hudson Yards From Washington Square Park November 2024.jpg\" by BruceSchaff, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:30_Hudson_Yards_From_Washington_Square_Park_November_2024.jpg"
+  }
+ ]
+}

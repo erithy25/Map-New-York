@@ -56,6 +56,30 @@ IdmParams idmFor(const VehicleClassParams& p, float desiredSpeed, float wetness,
 
 }  // namespace
 
+VehicleClassInfo vehicleClassInfo(uint8_t classIndex)
+{
+	const uint8_t Clamped =
+		classIndex < nycsim::traffic::kVehicleClassCount ? classIndex : 0;
+	const VehicleClassParams& p = classParams(static_cast<VehicleClass>(Clamped));
+	VehicleClassInfo Info;
+	Info.name = p.name;
+	Info.body = p.body;
+	Info.lengthM = p.length_m;
+	Info.widthM = p.width_m;
+	Info.heightM = p.height_m;
+	Info.isEmergency = p.is_emergency;
+	Info.isBus = p.is_bus;
+	Info.isBike = p.is_bike;
+	Info.isTruck = p.is_truck;
+	Info.isTaxi = p.is_taxi;
+	return Info;
+}
+
+uint8_t vehicleClassCount()
+{
+	return static_cast<uint8_t>(nycsim::traffic::kVehicleClassCount);
+}
+
 TrafficSim::TrafficSim() = default;
 TrafficSim::~TrafficSim() = default;
 

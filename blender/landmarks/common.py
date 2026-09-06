@@ -42,6 +42,7 @@ window_punch, punched_wall`` builders.
                                    "fov_deg", "target_z"}`` or ``{"view", "eye", "target", "fov_deg"}`` for an explicit
                                    camera (interiors); defaults give a street-level and an aerial view.
                                    ``NYCSIM_RENDER_FAST=1`` renders 16 spp at half size for iteration;
+                                   ``NYCSIM_RENDER_SIZE=WxH`` overrides the still size (default 1280x720);
                                    ``NYCSIM_LANDMARK_NO_RENDER=1`` skips the stills entirely (geometry/export checks only).
 
 Conventions
@@ -58,7 +59,6 @@ import json
 import logging
 import math
 import os
-import re
 import sys
 import time
 from pathlib import Path
@@ -77,7 +77,7 @@ from mathutils import Matrix, Vector
 import shapely
 import shapely.ops
 from shapely import wkb as _wkb
-from shapely.geometry import LineString, MultiLineString, MultiPolygon, Point, Polygon
+from shapely.geometry import MultiLineString, MultiPolygon, Polygon
 from shapely.geometry.polygon import orient as _orient
 
 import nycsim_bpy as nb
@@ -610,6 +610,7 @@ PALETTE: dict[str, tuple] = {
     "steel_nirosta":    ((205, 205, 210), 0.22, 1.0, None, 0.0, "Nirosta (Krupp KA-2) stainless steel (Chrysler crown)"),
     "steel_chrome":     ((155, 157, 160), 0.35, 0.9, None, 0.0, "chrome-nickel steel spandrels (Empire State)"),
     "aluminium":        ((175, 176, 178), 0.4, 0.85, None, 0.0, "anodised aluminium mullions"),
+    "aluminium_cast":   ((182, 180, 172), 0.55, 0.3, None, 0.0, "cast-aluminium spandrel panels (Rockefeller Center) — matt, only lightly specular"),
     "steel_dark":       ((48, 50, 54), 0.5, 0.7, None, 0.0, "painted steel (dark)"),
     "cast_iron":        ((36, 36, 38), 0.6, 0.6, None, 0.0, "black painted cast iron"),
     "bronze":           ((96, 66, 38), 0.45, 0.85, None, 0.0, "statuary bronze"),
@@ -1360,10 +1361,10 @@ def gable_roof(b: MeshBuilder, ring: Sequence[tuple[float, float]], z_eave: floa
         za = z_eave + rise * (1.0 - abs(off[i]) / hmax)
         ze = z_eave + rise * (1.0 - abs(off[j]) / hmax)
         ua = float(np.dot(np.asarray(a) - c, d)); ue = float(np.dot(np.asarray(e) - c, d))
-        ra = tuple(c + d * ua); re = tuple(c + d * ue)
+        ra = tuple(c + d * ua); rb = tuple(c + d * ue)
         b.face([b.vert(a[0], a[1], z_eave), b.vert(e[0], e[1], z_eave), b.vert(e[0], e[1], ze), b.vert(a[0], a[1], za)],
                gable_material or material)                                     # fascia between eave and roof plane
-        b.face([b.vert(a[0], a[1], za), b.vert(e[0], e[1], ze), b.vert(re[0], re[1], z_eave + rise),
+        b.face([b.vert(a[0], a[1], za), b.vert(e[0], e[1], ze), b.vert(rb[0], rb[1], z_eave + rise),
                 b.vert(ra[0], ra[1], z_eave + rise)], material)                # slope up to the ridge
 
 
@@ -1955,6 +1956,10 @@ def render_check(landmark_id: str, presets: Sequence[dict] | None = None, *, obj
     if os.environ.get("NYCSIM_LANDMARK_NO_RENDER") == "1":
         log.info("%s: NYCSIM_LANDMARK_NO_RENDER=1 — export verified, stills skipped", landmark_id)
         return []
+    env_size = os.environ.get("NYCSIM_RENDER_SIZE")
+    if env_size:
+        w, _, h = env_size.partition("x")
+        size = (int(w), int(h))
     fast = os.environ.get("NYCSIM_RENDER_FAST") == "1"
     if fast:
         samples, size = 16, (size[0] // 2, size[1] // 2)

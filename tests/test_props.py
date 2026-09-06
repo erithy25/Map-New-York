@@ -237,6 +237,9 @@ def test_signal_heads_are_nyc_green_with_backplates(catalog, glbs):
             assert lens in mats, f"{pid}: missing {lens}"
         kd = catalog[pid]["key_dims_m"]
         assert kd.get("pole_height", 5.50) in (5.50, 8.20)
+        if "lowest_head_bottom" in kd:
+            assert kd["lowest_head_bottom"] >= 4.57, (
+                f"{pid}: lowest head bottom {kd['lowest_head_bottom']} m breaks the MUTCD 15 ft clearance")
 
 
 def test_pedestrian_signal_has_runtime_slots(catalog, glbs):

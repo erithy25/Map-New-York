@@ -1,0 +1,20 @@
+{
+ "artist": "Kenney",
+ "attribution_note": "",
+ "bytes": 906695,
+ "duration_s": 66.33,
+ "file": "sfx/radio_jingle_1.ogg",
+ "gain_db": -0.7,
+ "licence": "CC0-1.0",
+ "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+ "loudness_lufs": -13.3,
+ "original_filename": "jinglesPreview.ogg",
+ "recorded_at": "2026-09-06T12:30:00Z",
+ "schema_version": 1,
+ "sha256": "05e5f8245318df0c9ff7994762162647c2e1de001fe8ec7621e69ecb56a80d89",
+ "source_page": "https://opengameart.org/content/85-short-music-jingles",
+ "source_site": "opengameart.org",
+ "source_url": "https://opengameart.org/sites/default/files/jinglesPreview.ogg",
+ "title": "85 Short music jingles",
+ "transcode": null
+}

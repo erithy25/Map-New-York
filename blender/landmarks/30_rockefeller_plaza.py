@@ -19,8 +19,8 @@ Dimensions used (source in brackets)
   wall over a granite fountain wall. The plaza is ringed by the flag row — the flags of the United Nations member
   states, about 100 poles of 8.5 m; the model places as many 8.5 m poles at the published 2.7 m spacing as the real
   parapet length allows and reports the count in ``dimensions``.
-* Materials [LPC Rockefeller Center designation report LP-1446]: Indiana limestone piers with cast-aluminium spandrels
-  in continuous vertical window strips; granite at the ground floor; gilded bronze for Prometheus.
+* Materials [LPC Rockefeller Center designation report LP-1446]: Indiana limestone piers (1.5 m) with matt cast-aluminium spandrels
+  in continuous vertical window strips on a 2.9 m module; granite at the ground floor; gilded bronze for Prometheus.
 
 Fidelity: exact — real footprint, 259.1 m / 70 storeys, the constant-width east and west elevations, the stepped north
 and south flanks, the limestone-pier / aluminium-spandrel window-strip rhythm, the sunken plaza at -6.1 m with a
@@ -60,7 +60,7 @@ def build():
     minx, miny, maxx, maxy = P.bounds
     cy = (miny + maxy) / 2
     objs = []
-    lime, alu, gran, glass = C.M.limestone, C.M.aluminium, C.M.granite_grey, C.M.glass_dark
+    gran = C.M.granite_grey
 
     # ---- base on the real footprint ----------------------------------------------------------------------------
     objs.append(C.plinth(f"{ID}_base", P, 0.0, GROUND_H, gran, material_top=C.M.roof_grey))
@@ -76,8 +76,8 @@ def build():
     objs.append(b.build(f"{ID}_ground_detail"))
 
     # ---- the stepped slab --------------------------------------------------------------------------------------
-    fen = C.Fenestration(floor_h=FLOOR_H, bay_w=2.9, window_frac=0.54, recess=0.42, spandrel_h=1.0, strip=True,
-                         pier="limestone", spandrel="aluminium", glass="glass_dark")
+    fen = C.Fenestration(floor_h=FLOOR_H, bay_w=2.9, window_frac=0.48, recess=0.42, spandrel_h=1.0, strip=True,
+                         pier="limestone", spandrel="aluminium_cast", glass="glass_dark")
     levels = [1, *SETBACK_FLOORS, 70]
     plan = P
     for k in range(len(levels) - 1):
@@ -150,7 +150,7 @@ def main():
                          "rink_m": [RINK_L, RINK_W], "plaza_depth_m": PLAZA_DEPTH, "prometheus_len_m": 5.5,
                          "flagpoles": flags, "flagpole_h_m": FLAG_H, "flag_spacing_m": FLAG_SPACING})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 105, "elevation_deg": "street", "distance": 195, "target_z": 78, "fov_deg": 64},
+        {"view": "street", "azimuth_deg": 105, "elevation_deg": "street", "distance": 395, "target_z": 110, "fov_deg": 62},
         {"view": "aerial", "azimuth_deg": 158, "elevation_deg": 24, "distance": 830, "fov_deg": 42, "target_z": 130},
         {"view": "plaza", "fov_deg": 68, **plaza_cam},
     ])

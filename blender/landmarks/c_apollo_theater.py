@@ -72,7 +72,7 @@ def build():
     for k in range(4):
         u = L * (k + 0.5) / 4
         q = e0 + t * u
-        C.column(b, q[0] + n[0] * 0.55, q[1] + n[1] * 0.55, 5.6, CORNICE - 4.6, 0.62, C.M.terracotta_cream,
+        C.column(b, q[0] + n[0] * 0.55, q[1] + n[1] * 0.55, 5.6, CORNICE - 4.6 - 5.6, 0.62, C.M.terracotta_cream,
                  order="corinthian", segments=14)
     # arched second-storey windows between the pilasters
     for k in range(3):

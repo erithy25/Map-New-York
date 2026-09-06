@@ -175,7 +175,7 @@ def main():
                          "published_length_m": 121.9, "published_transept_width_m": 53.0, "published_vault_m": 34.1,
                          "tower_plan_m": 12.5})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 100, "elevation_deg": "street", "distance": 130, "target_z": 44, "fov_deg": 64},
+        {"view": "street", "azimuth_deg": 100, "elevation_deg": "street", "distance": 158, "target_z": 44, "fov_deg": 62},
         {"view": "aerial", "azimuth_deg": 125, "elevation_deg": 24, "distance": 320, "fov_deg": 46, "target_z": 50},
     ])
 

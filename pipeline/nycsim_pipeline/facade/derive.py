@@ -207,6 +207,12 @@ def garage_material(bldg_class: np.ndarray, nta: np.ndarray, year: np.ndarray, f
     return prim.astype(np.int8), sec.astype(np.int8)
 
 
+#: Facade class 22 (``warehouse_concrete_1950``) spans 1935-1985. Before about 1940 the NYC industrial shed is
+#: load-bearing brick, not concrete: its two class materials are simply swapped for the pre-war rows.
+PREWAR_INDUSTRIAL_CLASS = 22
+PREWAR_INDUSTRIAL_MAX_YEAR = 1940
+
+
 def resolve_material(fc: np.ndarray, osm_material: np.ndarray, osm_colour_material: np.ndarray,
                      lpc_material: np.ndarray, base_primary: np.ndarray | None = None,
                      base_secondary: np.ndarray | None = None) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
@@ -220,11 +226,16 @@ def resolve_material(fc: np.ndarray, osm_material: np.ndarray, osm_colour_materi
     sec = (CLASS.material_secondary[fc] if base_secondary is None else base_secondary).astype(np.int8)
     src = np.full(len(fc), MAT_SRC_RULE, dtype=np.int8)
 
+    # An OSM ``building:colour`` is a statement about *shade*, not about material family, so it only refines a
+    # masonry wall that the rule or the LPC report already settled on; an explicit ``building:material`` tag and an
+    # LPC designation-report material are statements about the family and override it.
     take = lpc_material >= 0
     prim = np.where(take, lpc_material, prim).astype(np.int8)
     src = np.where(take, MAT_SRC_LPC, src).astype(np.int8)
 
-    take = osm_colour_material >= 0
+    brick_family = np.isin(prim, [E.RED_BRICK, E.BROWN_BRICK, E.TAN_BRICK, E.WHITE_GLAZED_BRICK])
+    take = (osm_colour_material >= 0) & brick_family & np.isin(
+        osm_colour_material, [E.RED_BRICK, E.BROWN_BRICK, E.TAN_BRICK, E.WHITE_GLAZED_BRICK])
     prim = np.where(take, osm_colour_material, prim).astype(np.int8)
     src = np.where(take, MAT_SRC_OSM_COLOUR, src).astype(np.int8)
 
@@ -247,21 +258,24 @@ def resolve_frontage(primary_run_len: np.ndarray, bldg_frontage: np.ndarray, lot
                      footprint_area: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     """Facade frontage in metres and its source code.
 
-    The primary footprint run is preferred: it is the exact surface the kit pieces are placed on.  MapPLUTO
-    ``bldgfront`` and ``lotfront`` back it up where the geometry gave no free run.
+    MapPLUTO ``bldgfront`` is the **surveyed frontage of the building** and is exactly what DATA_CONTRACTS §5 means by
+    "windows across primary facade", so it is preferred (available for 1,060,165 of 1,083,026 footprints).  The longest
+    street-facing footprint run backs it up: it is the right value where PLUTO has none, but on its own it
+    under-counts a facade that a projecting bay or a step has split into several short runs.  The *placements* always
+    use the real per-run geometry regardless, so a 1.9 m run still gets one bay on the ground.
     """
     n = len(primary_run_len)
     front = np.zeros(n, dtype=np.float32)
     src = np.full(n, FRONT_SRC_AREA, dtype=np.int8)
 
-    ok = np.isfinite(primary_run_len) & (primary_run_len >= 2.0)
-    front = np.where(ok, primary_run_len, front).astype(np.float32)
-    src = np.where(ok, FRONT_SRC_GEOMETRY, src).astype(np.int8)
+    ok = np.isfinite(bldg_frontage) & (bldg_frontage >= 2.0) & (bldg_frontage <= 250.0)
+    front = np.where(ok, bldg_frontage, front).astype(np.float32)
+    src = np.where(ok, FRONT_SRC_PLUTO, src).astype(np.int8)
 
     need = ~ok
-    ok2 = need & np.isfinite(bldg_frontage) & (bldg_frontage >= 2.0) & (bldg_frontage <= 250.0)
-    front = np.where(ok2, bldg_frontage, front).astype(np.float32)
-    src = np.where(ok2, FRONT_SRC_PLUTO, src).astype(np.int8)
+    ok2 = need & np.isfinite(primary_run_len) & (primary_run_len >= 2.0)
+    front = np.where(ok2, primary_run_len, front).astype(np.float32)
+    src = np.where(ok2, FRONT_SRC_GEOMETRY, src).astype(np.int8)
 
     need = need & ~ok2
     ok3 = need & np.isfinite(lot_frontage) & (lot_frontage >= 2.0) & (lot_frontage <= 250.0)

@@ -113,7 +113,7 @@ def main():
                          "ground_floor_h_m": GROUND_H, "floor_h_m": round(FLOOR_H, 3), "setbacks": 0,
                          "lot_m": [96.2, 49.2]})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 200, "elevation_deg": "street", "distance": 165, "target_z": 62, "fov_deg": 62},
+        {"view": "street", "azimuth_deg": 200, "elevation_deg": "street", "distance": 250, "target_z": 70, "fov_deg": 62},
         {"view": "aerial", "azimuth_deg": 215, "elevation_deg": 24, "distance": 560, "fov_deg": 42, "target_z": 88},
     ])
 

@@ -82,7 +82,10 @@ LATIN_TO_KEY = {
     "Acer rubrum": "red_maple",
 }
 CLASS_ORDER = ("small", "medium", "large")
-CARDS_PER_TIP = {"small": 4, "medium": 5, "large": 6}
+# Total leaf cards per tree, distributed over the tips the skeleton actually produced. Budgeting the total
+# (rather than a fixed count per tip) keeps a 6-scaffold species like pin oak inside the 12k triangle ceiling
+# while still filling a 14 m crown.
+CARD_BUDGET = {"small": 520, "medium": 820, "large": 1120}
 MAX_ORDER = {"small": 4, "medium": 4, "large": 5}
 
 
@@ -90,10 +93,11 @@ MAX_ORDER = {"small": 4, "medium": 4, "large": 5}
 class Skeleton:
     branches: list[tuple[list[list[float]], list[float], int]] = field(default_factory=list)
     leaves: list[tuple[list[float], float]] = field(default_factory=list)
+    tips: list[list[list[float]]] = field(default_factory=list)
 
 
 def _grow(sk: Skeleton, rng: random.Random, habit: Habit, start, direction, length: float, radius: float,
-          order: int, max_order: int, cards: int, card_size: float) -> None:
+          order: int, max_order: int) -> None:
     """Recursively add one branch and its children. ``direction`` is a unit Vector."""
     n_pts = 5 if order <= 1 else (4 if order == 2 else 3)
     pts, radii = [list(start)], [radius]
@@ -110,14 +114,7 @@ def _grow(sk: Skeleton, rng: random.Random, habit: Habit, start, direction, leng
         radii.append(radius * (1.0 - 0.55 * i / (n_pts - 1)))
     sk.branches.append((pts, radii, order))
     if order >= max_order or radius < 0.006:
-        for k in range(cards):
-            t = 0.35 + 0.65 * (k + 0.5) / cards
-            i = min(len(pts) - 2, int(t * (len(pts) - 1)))
-            f = t * (len(pts) - 1) - i
-            p = [pts[i][j] * (1 - f) + pts[i + 1][j] * f for j in range(3)]
-            jitter = card_size * 0.42
-            sk.leaves.append(([p[0] + rng.gauss(0, jitter), p[1] + rng.gauss(0, jitter), p[2] + rng.gauss(0, jitter * 0.7)],
-                              card_size * rng.uniform(0.78, 1.25)))
+        sk.tips.append(pts)
         return
     n_children = 3 if order <= 2 else 2
     tip = C.Vector(pts[-1])
@@ -132,10 +129,11 @@ def _grow(sk: Skeleton, rng: random.Random, habit: Habit, start, direction, leng
         # a sub-branch part way along the parent keeps the crown from being hollow
         base = tip if c == 0 else C.Vector([pts[-2][j] * 0.5 + pts[-1][j] * 0.5 for j in range(3)])
         _grow(sk, rng, habit, base, nd, length * habit.len_ratio * rng.uniform(0.85, 1.12),
-              radius * rng.uniform(0.56, 0.70), order + 1, max_order, cards, card_size)
+              radius * rng.uniform(0.56, 0.70), order + 1, max_order)
 
 
-def build_skeleton(species: str, height: float, dbh_cm: float, crown_m: float, size_class: str, seed: int) -> Skeleton:
+def build_skeleton(species: str, height: float, dbh_cm: float, crown_m: float, size_class: str, seed: int,
+                   bare: bool = False) -> Skeleton:
     """Trunk + recursive crown, then scale the centrelines (not the radii) to the allometric height and spread."""
     habit = HABITS[species]
     rng = random.Random(seed)
@@ -149,7 +147,7 @@ def build_skeleton(species: str, height: float, dbh_cm: float, crown_m: float, s
         trunk_pts.append([rng.gauss(0, 0.012) * t * t * clear, rng.gauss(0, 0.012) * t * t * clear, t * clear])
         trunk_r.append(r_trunk * (1.30 if i == 0 else 1.0) * (1.0 - 0.28 * t))
     sk.branches.append((trunk_pts, trunk_r, 0))
-    card = max(0.35, min(1.35, crown_m * 0.115))
+    card = max(0.40, min(1.70, crown_m * 0.140))
     top = C.Vector(trunk_pts[-1])
     ang = math.radians(habit.angle1)
     for c in range(habit.scaffolds):
@@ -158,20 +156,33 @@ def build_skeleton(species: str, height: float, dbh_cm: float, crown_m: float, s
         nd = C.Vector((math.sin(a) * math.cos(az), math.sin(a) * math.sin(az), math.cos(a)))
         base = C.Vector((top.x, top.y, top.z - clear * rng.uniform(0.0, 0.16)))
         _grow(sk, rng, habit, base, nd, (height - clear) * 0.52 * rng.uniform(0.9, 1.1),
-              r_trunk * 0.62 * rng.uniform(0.85, 1.05), 1, MAX_ORDER[size_class],
-              CARDS_PER_TIP[size_class], card)
+              r_trunk * 0.62 * rng.uniform(0.85, 1.05), 1, MAX_ORDER[size_class])
+    per_tip = max(2, min(12, round(CARD_BUDGET[size_class] / max(1, len(sk.tips)))))
+    for pts in sk.tips:
+        for k in range(per_tip):
+            t = 0.30 + 0.70 * (k + 0.5) / per_tip
+            i = min(len(pts) - 2, int(t * (len(pts) - 1)))
+            f = t * (len(pts) - 1) - i
+            q = [pts[i][j] * (1 - f) + pts[i + 1][j] * f for j in range(3)]
+            jitter = card * 0.46
+            sk.leaves.append(([q[0] + rng.gauss(0, jitter), q[1] + rng.gauss(0, jitter), q[2] + rng.gauss(0, jitter * 0.7)],
+                              card * rng.uniform(0.80, 1.28)))
     # scale centrelines so the finished tree has exactly the allometric height and crown spread
-    xs = [p[0] for b, _, _ in sk.branches for p in b] + [p[0] for p, _ in sk.leaves]
-    ys = [p[1] for b, _, _ in sk.branches for p in b] + [p[1] for p, _ in sk.leaves]
-    zs = [p[2] for b, _, _ in sk.branches for p in b] + [p[2] for p, _ in sk.leaves]
+    # A leafed tree's crown spread is its foliage envelope; a bare winter tree's is its branch envelope, so the
+    # measurement the scaling is fitted to changes with the state (and both end up at the allometric spread).
+    env = [p for b, _, _ in sk.branches for p in b] + ([] if bare else [p for p, _ in sk.leaves])
+    xs = [p[0] for p in env]
+    ys = [p[1] for p in env]
+    zs = [p[2] for p in env]
     # A procedural crown is never symmetric, so each horizontal axis is brought to the allometric spread
     # independently; the trunk radii are untouched, so DBH stays exactly the census value.
     z_max = max(zs)
-    wx = (max(xs) - min(xs)) + card
-    wy = (max(ys) - min(ys)) + card
+    margin = 0.0 if bare else card
+    wx = (max(xs) - min(xs)) + margin
+    wy = (max(ys) - min(ys)) + margin
     sx = crown_m / wx if wx > 1e-6 else 1.0
     sy = crown_m / wy if wy > 1e-6 else 1.0
-    sz = height / (z_max + card * 0.5) if z_max > 1e-6 else 1.0
+    sz = height / (z_max + margin * 0.5) if z_max > 1e-6 else 1.0
     cx, cy = (max(xs) + min(xs)) / 2.0, (max(ys) + min(ys)) / 2.0
     for pts, _, _ in sk.branches:
         for p in pts:
@@ -245,7 +256,7 @@ def _tree_builder(species: str, latin: str, common: str, cls: dict, size_class: 
 
     def build() -> C.Built:
         height, dbh, crown = cls["height_m"], cls["dbh_cm"], cls["crown_m"]
-        sk = build_skeleton(species, height, dbh, crown, size_class, seed)
+        sk = build_skeleton(species, height, dbh, crown, size_class, seed, bare=bare)
         bark = C.mat_textured(f"bark_{species}", habit.bark, habit.bark_uv_m, tint=habit.bark_tint,
                               roughness=0.85, resolution=C.BARK_TEX_RES, max_px=C.BARK_TEX_PX, normal_strength=1.2)
         wood = _wood_object(sk, bark, f"{species}_wood")

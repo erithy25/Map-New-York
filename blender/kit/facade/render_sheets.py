@@ -192,7 +192,8 @@ def tenement(*, samples: int, res_x: int) -> Path:
         for x in win_x:
             openings.append((x - win_w / 2, x + win_w / 2, z0, z0 + win_h))
     # ground floor: storefront bay (left) and entrance (right)
-    openings.append((-W / 2 + 0.10, -W / 2 + 0.10 + 4.86, 0.0, GROUND))
+    bay_w, bay_cx = 3.66, -W / 2 + 0.22 + 3.66 / 2
+    openings.append((bay_cx - bay_w / 2, bay_cx + bay_w / 2, 0.0, GROUND))
     openings.append((1.52, 1.52 + 1.52, 0.0, 2.90))
 
     # brick front wall built as spandrels and piers around the openings
@@ -229,9 +230,10 @@ def tenement(*, samples: int, res_x: int) -> Path:
             _place("acc_window_guard_child", (win_x[2], 0.0, z))
         if f == 1:
             _place("acc_flower_box", (win_x[2], 0.0, z))
-    _place("storefront_bay_48", (-W / 2 + 0.10 + 2.43, 0.0, 0.0))
-    _place("storefront_interior_bodega", (-W / 2 + 0.10 + 2.43, 0.25, 0.0))
-    _place("storefront_awning_48", (-W / 2 + 0.10 + 2.43, 0.0, 0.0))
+    _place("storefront_bay_36", (bay_cx, 0.0, 0.0))
+    _place("storefront_interior_bodega", (bay_cx, 0.25, 0.0))
+    _place("storefront_awning_36", (bay_cx, 0.0, 0.0))
+    _place("storefront_gate_36_open", (bay_cx, 0.0, 0.0))
     _place("entry_stoop_tenement_4", (2.28, 0.0, 0.0))
     for k in range(8):                                       # stone belt course at the storefront lintel line
         _place("string_course_stone_belt", (-W / 2 + 0.5 + k, 0.0, GROUND - 0.30))
@@ -252,12 +254,13 @@ def tenement(*, samples: int, res_x: int) -> Path:
     _place("bulkhead_stair_brick", (-2.10, 5.40, ROOF))
     _place("hvac_vent_pipe_cluster", (-0.20, 2.60, ROOF))
     _place("antenna_tv_yagi", (2.90, 2.30, ROOF))
-    _place("ivy_panel_sparse", (W / 2 - 1.10, 0.0, 0.20))
-    _place("entry_areaway_railing", (-W / 2 - 1.6, -1.10, 0.0))
+    _place("ivy_panel_sparse", (W / 2 - 1.05, 0.0, 0.25))
+    _place("acc_satellite_dish", (0.92, 0.0, GROUND + 2 * FLOOR + 0.80))
+    _place("hvac_rooftop_unit_small", (-2.60, 2.10, ROOF))
 
     path = OUT / "tenement_test.png"
-    K.nb.quick_render(path, camera_location=(-9.5, -26.0, 9.0), camera_target=(0.0, 1.0, 8.6),
-                      fov_deg=46.0, size=(res_x, int(res_x * 1.18)), samples=samples,
+    K.nb.quick_render(path, camera_location=(-10.5, -29.0, 7.0), camera_target=(0.0, 1.5, 10.0),
+                      fov_deg=42.0, size=(res_x, int(res_x * 1.70)), samples=samples,
                       sun_azimuth_deg=196.0, sun_elevation_deg=48.0, sun_strength=3.4)
     return path
 

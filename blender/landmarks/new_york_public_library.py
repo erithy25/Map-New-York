@@ -50,7 +50,6 @@ def build():
     fr = C.local_frame(fp.polygon, fp.ground_z)
     P = fr.local_polygon(fp.polygon)
     minx, miny, maxx, maxy = P.bounds
-    cx, cy = P.centroid.x, P.centroid.y
     east = fr.local_cardinal(90.0)
     objs = []
     marble, gran, bronze, cop = C.M.marble_white, C.M.granite_grey, C.M.bronze, C.M.copper_green

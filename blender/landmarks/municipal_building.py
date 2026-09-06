@@ -54,7 +54,7 @@ def build():
     cx, cy = P.centroid.x, P.centroid.y
     south = fr.local_cardinal(180.0)
     objs = []
-    gran, brick, tc, gold = C.M.granite_rusticated, C.M.brick_buff, C.M.terracotta_cream, C.M.gold
+    gran, tc, gold = C.M.granite_rusticated, C.M.terracotta_cream, C.M.gold
     glass = C.M.glass_dark
 
     # ---- rusticated granite base, storeys 1-3, on the real footprint --------------------------------------------
@@ -139,7 +139,7 @@ def main():
                          "ground_floor_h_m": BASE_H, "floor_h_m": FLOOR_H, "tower_plan_m": 26.0,
                          "tempietto_columns": 16})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 190, "elevation_deg": "street", "distance": 165, "target_z": 62, "fov_deg": 64},
+        {"view": "street", "azimuth_deg": 190, "elevation_deg": "street", "distance": 270, "target_z": 75, "fov_deg": 62},
         {"view": "aerial", "azimuth_deg": 205, "elevation_deg": 24, "distance": 600, "fov_deg": 40, "target_z": 95},
     ])
 

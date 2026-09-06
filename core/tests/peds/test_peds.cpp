@@ -259,8 +259,12 @@ TEST_CASE("law-abiding pedestrians only cross on WALK; jaywalkers use gaps") {
       last_edge[p.id] = p.edge;
       if (prev == p.edge || prev == routing::kInvalidIndex) continue;
       if (w.walk.edge(p.edge).kind != WalkEdgeKind::Crosswalk) continue;
-      ++entries;
       const traffic::PedSignal ps = sim.crosswalkState(p.edge);
+      // Unsignalized crossings are governed by gap acceptance, not by a phase
+      // (NY VTL §1151 gives the pedestrian the right of way there); the
+      // compliance rule under test is about signalized crosswalks.
+      if (ps == traffic::PedSignal::Off) continue;
+      ++entries;
       if (ps == traffic::PedSignal::Walk) ++on_walk;
       const bool jay = (p.flags & kPedJaywalker) != 0;
       if (ps != traffic::PedSignal::Walk) {

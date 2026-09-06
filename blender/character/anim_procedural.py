@@ -46,9 +46,15 @@ class BodyRef:
     right: Vector = field(default_factory=lambda: Vector((1.0, 0.0, 0.0)))
 
     def __post_init__(self) -> None:
-        ball = self.rig.armature.data.bones["ball_l"]
-        toe = (ball.tail_local - ball.head_local)
-        toe.z = 0.0
+        # The toe bones splay outwards symmetrically, so the body's forward axis is their *mean*: using
+        # ball_l on its own biases the facing by 3.4 degrees, which would make the character walk crabwise.
+        bones = self.rig.armature.data.bones
+        toe = Vector((0.0, 0.0, 0.0))
+        for side in ("l", "r"):
+            ball = bones[f"ball_{side}"]
+            v = ball.tail_local - ball.head_local
+            v.z = 0.0
+            toe += v
         if toe.length < 1e-6:
             toe = Vector((0.0, -1.0, 0.0))
         self.forward = toe.normalized()
@@ -411,10 +417,10 @@ class ProceduralClips:
         rig, body = self.rig, self.body
         sign = 1.0 if direction == "left" else -1.0
         walk = self._walk_base()
-        half = max(len(walk) // 2, 2)
+        span = max(len(walk), 2)   # a 90 deg pivot takes one full stride, not a half step
         frames: list[dict[str, Matrix]] = []
-        for i in range(half + 1):
-            u = i / half
+        for i in range(span + 1):
+            u = i / span
             src = walk[i % len(walk)]
             basis = {k: v.copy() for k, v in src.items()}
             yaw = sign * 90.0 * anim_lib.ease(u, "smooth")
@@ -427,8 +433,8 @@ class ProceduralClips:
             frames.append(basis)
         return Clip(name=f"turn_{direction}_90", frames=frames, fps=self.fps, loop=False,
                     method="procedural-on-mocap-gait", speed_mps=0.0,
-                    notes=f"root yaws {int(sign * 90)} deg over one walk half-cycle "
-                          f"({half / self.fps:.2f} s) with a 16 deg torso lead")
+                    notes=f"root yaws {int(sign * 90)} deg over one full walk cycle "
+                          f"({span / self.fps:.2f} s) with a 16 deg torso lead")
 
     def stairs(self, direction: str) -> Clip:
         """Stair cycle: the retargeted walk gait with the swing foot lifted onto a real NYC riser.

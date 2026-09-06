@@ -351,19 +351,20 @@ def build_rules() -> list[Rule]:
         "industrial windows filling the bays — Long Island City, Bush Terminal, the Bronx industrial belt.",
         lambda: (letter("F") | isin("L1", "L2", "L3")) & yr_between(1900, 1935) & (pl.col("floors") >= 4))
     add("industrial_loft_brick", 21,
-        "class in L*,F*,RM,RW,O5 and year <= 1930 and floors >= 4",
+        "class in L*,F*,RW and year <= 1930 and floors >= 4",
         "The 1895-1930 masonry loft: load-bearing red brick with brick-pier bays, corbelled cornice, water tower, "
         "fire escapes and a loading dock — DUMBO, the Garment District, Long Island City.",
-        lambda: (isin(*LOFT) | letter("F") | isin("RM", "RW")) & yr_le(1930) & (pl.col("floors") >= 4))
+        lambda: (isin(*LOFT) | letter("F") | isin("RW")) & yr_le(1930) & (pl.col("floors") >= 4))
     add("warehouse_low", 22,
         "class in E*,F*,L*,RW and floors <= 3",
         "Single- and two-storey warehouses and light-manufacturing sheds: concrete or brick walls, roll-down loading "
         "doors, parapet roof.",
         lambda: (letter("E", "F") | isin(*LOFT) | isin("RW")) & (pl.col("floors") <= 3))
     add("loft_converted", 21,
-        "class in L*,F*,E*,RW,RM",
-        "Remaining loft / factory / warehouse stock keeps the masonry loft treatment.",
-        lambda: letter("L", "F", "E") | isin("RW", "RM"))
+        "class in L*,F*,E*,RW",
+        "Remaining loft / factory / warehouse stock keeps the masonry loft treatment. MapPLUTO ``RM`` is a *mixed "
+        "residential/commercial condo*, not a loft, and is deliberately excluded — it is handled by the condo rules.",
+        lambda: letter("L", "F", "E") | isin("RW"))
 
     # ================================================================================================ tier E: retail
     add("big_box_retail", 47,
@@ -454,10 +455,10 @@ def build_rules() -> list[Rule]:
 
     # ================================================================================================ tier H: apartments
     add("supertall_residential", 18,
-        "class in D*,R4,RR and floors >= 50 and year >= 2005",
+        "class in D*,R4,RR,RM and floors >= 50 and year >= 2005",
         "Post-2005 supertall residential (Billionaires' Row, 57th Street, Downtown Brooklyn): curtain wall with "
         "limestone or metal spandrels, 3.4 m floor-to-floor.",
-        lambda: (isin(*ELEV_APT) | isin("R4", "RR")) & (pl.col("floors") >= 50) & yr_ge(2005))
+        lambda: (isin(*ELEV_APT) | isin("R4", "RR", "RM")) & (pl.col("floors") >= 50) & yr_ge(2005))
     add("nycha_campus_tower", 13,
         "floors >= 6 and year 1935..1975 and n_bldgs_on_lot >= 3 and footprint_area >= 400 and class in C/D/R/S",
         "NYCHA and Mitchell-Lama campuses are superblocks: several identical red-brick towers on one very large tax "
@@ -469,10 +470,12 @@ def build_rules() -> list[Rule]:
         "The 2000s+ condo midrise: glass-and-brick or glass-and-metal facade, balconies, a canopy and a retail or "
         "lobby base.",
         lambda: (isin(*ELEV_APT) | isin("R4", "RR", "RM")) & yr_ge(2000) & fl_between(6, 24))
-    add("condo_tower_2010", 17,
-        "class in D*,R4,RR and year >= 2000 and floors >= 25",
-        "Post-2000 residential towers above 25 storeys are curtain-walled.",
-        lambda: (isin(*ELEV_APT) | isin("R4", "RR")) & yr_ge(2000) & (pl.col("floors") >= 25))
+    add("condo_tower_2010", 50,
+        "class in D*,R4,RR,RM,RX and year >= 2000 and floors 25..49",
+        "Post-2000 residential towers between 25 and 49 storeys: a glazed-and-masonry condo shaft over a retail or "
+        "lobby base. The kit has no 2000s stone-clad residential tower, so the limestone-faced examples "
+        "(15 Central Park West and its imitators) take this class — stated as gap G-4.",
+        lambda: (isin(*ELEV_APT) | isin("R4", "RR", "RM", "RX")) & yr_ge(2000) & fl_between(25, 49))
     add("brown_brick_condo_1985", 15,
         "class in D*,R4,RR and year 1976..1999 and floors >= 10",
         "The 1980s-90s brown-brick condo tower with punched windows, balconies and setbacks — the Upper East Side, "

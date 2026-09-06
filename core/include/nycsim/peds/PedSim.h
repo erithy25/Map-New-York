@@ -201,6 +201,7 @@ class PedSim {
   uint32_t* pathOf(uint32_t id) { return path_pool_.data() + static_cast<size_t>(id) * kPathCap; }
   const uint32_t* pathOf(uint32_t id) const { return path_pool_.data() + static_cast<size_t>(id) * kPathCap; }
   bool advanceEdge(Pedestrian& p);
+  void reprojectOntoEdge(Pedestrian& p);
   float edgeWidthHalf(uint32_t edge) const;
 
   static uint32_t roadPedsProbe(const void* ctx, float x, float y, float r);

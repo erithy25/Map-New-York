@@ -41,6 +41,17 @@ horse_carriage       68 licensed carriages (DCWP); by law they operate in Centra
 
 The taxi group's internal split (yellow / green / black car) is **not** assumed: it is measured from
 the May 2025 TLC trip records, per borough, CBD flag and time band.
+
+Two views of the same numbers are written for every region × band:
+
+``within_group``  the split *inside* each of the five groups (taxi, truck, bus, bike, other).  This is
+                  what a host using ``density.parquet`` needs: the density cell already says what
+                  share of the stream is for-hire, commercial, bus or bicycle, and this says which
+                  class inside that group to spawn.
+``share``         the unconditional mix, obtained by multiplying ``within_group`` by the group shares
+                  the density table itself reports for that region and band (vehicle-count weighted
+                  over the region's NTAs and the band's hours).  The two views are therefore
+                  consistent by construction, and ``share`` can be used on its own.
 """
 from __future__ import annotations
 
@@ -107,9 +118,9 @@ class FleetFacts:
 FLEET: dict[str, FleetFacts] = {
     "sedan": FleetFacts(1_045_000, 18.0, {"night": 0.25, "am_peak": 1.20, "midday": 1.00, "pm_peak": 1.35, "evening": 0.60},
                         "NYS DMV: ~1.9 M private passenger vehicles registered in the five boroughs; 55 % car bodies",
-                        cbd_factor=0.55),
+                        cbd_factor=1.0),
     "suv": FleetFacts(855_000, 18.0, {"night": 0.25, "am_peak": 1.20, "midday": 1.00, "pm_peak": 1.35, "evening": 0.60},
-                      "NYS DMV registrations, 45 % SUV/crossover bodies", cbd_factor=0.55),
+                      "NYS DMV registrations, 45 % SUV/crossover bodies", cbd_factor=1.0),
     "taxi": FleetFacts(13_587, 180.0, {"night": 0.55, "am_peak": 1.15, "midday": 1.05, "pm_peak": 1.35, "evening": 0.95},
                        "13,587 TLC medallions", cbd_factor=3.2),
     "boro_taxi": FleetFacts(850, 150.0, {"night": 0.45, "am_peak": 1.25, "midday": 1.05, "pm_peak": 1.30, "evening": 0.85},
@@ -117,8 +128,10 @@ FLEET: dict[str, FleetFacts] = {
                             boroughs=(1, 2, 3, 4, 5), cbd_factor=0.05),
     "black_car": FleetFacts(100_000, 130.0, {"night": 0.60, "am_peak": 1.10, "midday": 0.95, "pm_peak": 1.30, "evening": 1.05},
                             "~100,000 TLC-licensed for-hire vehicles (~78,000 high-volume)", cbd_factor=1.6),
-    "nypd": FleetFacts(9_000, 90.0, {"night": 0.85, "am_peak": 1.05, "midday": 1.10, "pm_peak": 1.05, "evening": 0.95},
-                       "~9,000 NYPD vehicles across 77 precincts", cbd_factor=1.8),
+    "nypd": FleetFacts(9_000, 40.0, {"night": 0.75, "am_peak": 1.05, "midday": 1.15, "pm_peak": 1.10, "evening": 0.95},
+                       "~9,000 NYPD vehicles across 77 precincts; the marked patrol fleet is roughly a third of "
+                       "that and the NYPD publishes no fleet mileage, so 40 km per vehicle per day is an "
+                       "assumption (see REPORT.md gaps)", cbd_factor=1.4),
     "fdny_engine": FleetFacts(198, 55.0, {"night": 0.70, "am_peak": 1.05, "midday": 1.15, "pm_peak": 1.15, "evening": 0.95},
                               "198 FDNY engine companies", cbd_factor=1.3),
     "fdny_ladder": FleetFacts(143, 50.0, {"night": 0.70, "am_peak": 1.05, "midday": 1.15, "pm_peak": 1.15, "evening": 0.95},
@@ -207,8 +220,32 @@ def _taxi_split(tlc_by_service: dict[str, np.ndarray], nta: NtaTable) -> dict[tu
     return out
 
 
+def region_group_shares(nta: NtaTable, shares: dict[str, np.ndarray], vehicles: np.ndarray
+                        ) -> dict[tuple[int, bool, str], dict[str, float]]:
+    """Vehicle-count weighted mean group share per region and time band, straight from the density table.
+
+    ``shares`` holds the four (n_nta, 24, 3) contract share arrays; ``vehicles`` is (n_nta, 24, 3)
+    vehicle counts (density x lane-km), the weight that makes the mean an average over road users
+    rather than over NTAs.
+    """
+    out: dict[tuple[int, bool, str], dict[str, float]] = {}
+    for b, cbd, _ in REGIONS:
+        m = (nta.borocode == b) & (nta.is_cbd == cbd)
+        for band, hours in TIME_BANDS.items():
+            w = vehicles[m][:, list(hours), 0]
+            tot = float(w.sum())
+            d: dict[str, float] = {}
+            for g in ("taxi", "truck", "bus", "bike"):
+                a = shares[g][m][:, list(hours), 0]
+                d[g] = float((a * w).sum() / tot) if tot > 0 else 0.0
+            d["other"] = max(0.0, 1.0 - sum(d.values()))
+            out[(b, cbd, band)] = d
+    return out
+
+
 def build_fleet_mix(nta: NtaTable, landuse: pl.DataFrame, tlc_by_service: dict[str, np.ndarray],
-                    dsny_path: Path, share_stats: dict) -> dict:
+                    dsny_path: Path, share_stats: dict,
+                    group_shares: dict[tuple[int, bool, str], dict[str, float]] | None = None) -> dict:
     """Assemble the fleet-mix document (see the module docstring for the sources of every figure)."""
     dsny = dsny_intensity_by_borough(dsny_path)
     pop = _population_weight(nta, landuse)
@@ -243,13 +280,23 @@ def build_fleet_mix(nta: NtaTable, landuse: pl.DataFrame, tlc_by_service: dict[s
             total = sum(vmt.values())
             if total <= 0:
                 raise ValueError(f"fleet mix: no activity for region {region_name} band {band}")
-            share = {c: vmt[c] / total for c in CLASSES}
+            raw = {c: vmt[c] / total for c in CLASSES}
             within: dict[str, dict[str, float]] = {}
             for g in GROUPS:
                 members = [c for c in CLASSES if GROUP_OF[c] == g]
-                s = sum(share[c] for c in members)
-                within[g] = ({c: share[c] / s for c in members} if s > 0
+                sg = sum(raw[c] for c in members)
+                within[g] = ({c: raw[c] / sg for c in members} if sg > 0
                              else {c: 1.0 / len(members) for c in members})
+            gs = (group_shares or {}).get((b, cbd, band))
+            if gs is None:
+                share = raw
+            else:
+                share = {}
+                for g in GROUPS:
+                    for c, v in within[g].items():
+                        share[c] = gs.get(g, 0.0) * v
+                ssum = sum(share.values())
+                share = {c: v / ssum for c, v in share.items()} if ssum > 0 else raw
             entries.append({
                 "borough": b, "borough_name": BOROUGH_NAMES[b], "cbd": bool(cbd), "region": region_name,
                 "band": band, "hours": list(TIME_BANDS[band]),

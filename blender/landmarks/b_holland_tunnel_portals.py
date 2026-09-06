@@ -115,7 +115,7 @@ def main() -> None:
     path, _ = tl.tube_path(CFG, frame, CFG.tubes[0])
     i = len(path) // 2
     cam_in = path[i] + bc.Vector((0, 0, 1.5))
-    tgt_in = path[min(i + 14, len(path) - 1)] + bc.Vector((0, 0, 1.9))
+    tgt_in = path[min(i + 2, len(path) - 1)] + bc.Vector((0, 0, 1.9))
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=250_000, budget_lod1=60_000,
         renders=[
@@ -123,7 +123,7 @@ def main() -> None:
                  target=(ny[0] - 30.0, ny[1] + 12.0, GROUND_NY + 1.0), fov_deg=58.0, context=ctx,
                  sun_azimuth_deg=140.0, sun_elevation_deg=40.0),
             dict(view="tube_interior", cam=tuple(cam_in), target=tuple(tgt_in),
-                 fov_deg=72.0, sun_elevation_deg=88.0, sun_strength=0.02, exposure=2.2),
+                 fov_deg=72.0, sun_elevation_deg=88.0, sun_strength=0.02, exposure=2.4, max_bounces=2, size=(960, 540)),
             dict(view="river_ventilation_tower", cam=(v1[0] + 120.0, v1[1] - 110.0, 24.0),
                  target=(v1[0], v1[1], 18.0), fov_deg=48.0, context=ctx, sun_azimuth_deg=220.0, sun_elevation_deg=35.0),
         ],

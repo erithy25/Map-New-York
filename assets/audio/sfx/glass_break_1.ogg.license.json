@@ -1,0 +1,20 @@
+{
+ "artist": "rubberduck",
+ "attribution_note": "",
+ "bytes": 1516881,
+ "duration_s": 46.01,
+ "file": "sfx/glass_break_1.ogg",
+ "gain_db": 5.6,
+ "licence": "CC0-1.0",
+ "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+ "loudness_lufs": -19.6,
+ "original_filename": "bfh1_prev.ogg",
+ "recorded_at": "2026-09-06T12:29:44Z",
+ "schema_version": 1,
+ "sha256": "046989fe576ece7d917d75ebd91702cf1a913e94e88037dc1805080b8f99ad91",
+ "source_page": "https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx",
+ "source_site": "opengameart.org",
+ "source_url": "https://opengameart.org/sites/default/files/bfh1_prev.ogg",
+ "title": "75 CC0 breaking / falling / hit sfx",
+ "transcode": null
+}

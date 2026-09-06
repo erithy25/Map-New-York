@@ -32,6 +32,25 @@
 namespace nycsim_gameplay
 {
 
+/// Fleet metadata the Unreal side needs without including nycsim/traffic/VehicleClass.h itself.
+/// `classIndex` is VehicleSnapshot::cls.
+struct VehicleClassInfo
+{
+	const char* name = "sedan";   ///< stable id used for the asset name SK_<name>
+	const char* body = "";        ///< the ADR-009 body the Blender vehicles agent produces
+	float lengthM = 4.5f, widthM = 1.8f, heightM = 1.5f;
+	bool isEmergency = false;
+	bool isBus = false;
+	bool isBike = false;
+	bool isTruck = false;
+	bool isTaxi = false;
+};
+
+/// Metadata for one fleet class (clamped to a valid class).
+VehicleClassInfo vehicleClassInfo(uint8_t classIndex);
+/// Number of fleet classes.
+uint8_t vehicleClassCount();
+
 /// Bits of VehicleSnapshot::flags — read by the pooled Unreal actor to drive lights, doors and sound.
 enum : uint8_t
 {

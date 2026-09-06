@@ -1,0 +1,28 @@
+{
+ "artist": "Jacob A. Riis; read by LibriVox volunteers",
+ "attribution_note": "LibriVox recordings are in the public domain; text is public domain (pre-1930 US).",
+ "bytes": 7189201,
+ "duration_s": 973.01,
+ "file": "talk/otherhalflives_01_riis.ogg",
+ "gain_db": 6.4,
+ "licence": "Public Domain (LibriVox; CC PDM/CC0)",
+ "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+ "loudness_lufs": -22.4,
+ "original_filename": "otherhalflives_01_riis.mp3",
+ "recorded_at": "2026-09-06T12:28:12Z",
+ "schema_version": 1,
+ "sha256": "3568ac91d8660347fa2f9770d00ef59eccab944ca6459c6c48c150500a67767d",
+ "source_page": "https://archive.org/details/how_the_other_half_lives_1102_librivox",
+ "source_site": "archive.org (LibriVox)",
+ "source_url": "https://archive.org/download/how_the_other_half_lives_1102_librivox/otherhalflives_01_riis.mp3",
+ "title": "How the Other Half Lives: Studies Among the Tenements of New York \u2014 01 - Genesis of the Tenement",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": true,
+  "quality": 1.5,
+  "sample_rate": 32000,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

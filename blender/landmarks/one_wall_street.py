@@ -12,7 +12,8 @@ Dimensions used (source in brackets)
 * Facade [LPC LP-2559]: the defining feature is the *fluted* curtain wall — the limestone is folded into shallow
   vertical faceted bays about 3.0 m wide with the windows in the reveals, so that the wall reads as a continuous
   curtain of shallow curves rather than as piers and spandrels. Modelled here as a real folded surface: each bay is a
-  three-plane fold, 0.55 m deep, with the glazing in the fold.
+  three-plane fold, 0.55 m deep, whose innermost 28 % carries the glazing, so the wall reads as limestone with narrow
+  dark slots — which is how the building reads from Wall Street.
 * Materials [LPC LP-2559]: Rockwood Alabama limestone throughout; polished granite at the entrance surrounds.
 
 Fidelity: exact — real footprint, 199.3 m, 50 storeys, the sheer lot-line rise, the five chamfered setbacks with cut
@@ -23,7 +24,6 @@ Not modelled — the Red Room mosaic lobby (a designated interior landmark) and 
 """
 from __future__ import annotations
 
-import math
 import pathlib
 import sys
 
@@ -54,8 +54,8 @@ def fluted_wall(b: C.MeshBuilder, poly, z0: float, z1: float, floors, lime, glas
         mod = L / k
         for i in range(k):
             a = p0 + t * (mod * i)
-            m0 = p0 + t * (mod * (i + 0.28)) - n * FLUTE_DEPTH
-            m1 = p0 + t * (mod * (i + 0.72)) - n * FLUTE_DEPTH
+            m0 = p0 + t * (mod * (i + 0.36)) - n * FLUTE_DEPTH
+            m1 = p0 + t * (mod * (i + 0.64)) - n * FLUTE_DEPTH
             c = p0 + t * (mod * (i + 1))
             b.quad((a[0], a[1], z0), (m0[0], m0[1], z0), (m0[0], m0[1], z1), (a[0], a[1], z1), lime)
             b.quad((m0[0], m0[1], z0), (m1[0], m1[1], z0), (m1[0], m1[1], z1), (m0[0], m0[1], z1), glass)
@@ -109,13 +109,13 @@ def build():
             nxt = chamfer(C.offset_polygon(plan, -3.2), 3.0)
             if not nxt.is_empty:
                 plan = nxt if nxt.geom_type == "Polygon" else max(nxt.geoms, key=lambda g: g.area)
-        objs.append(C.prism(f"{ID}_t{k}_mass", plan, z0, z1, lime, inset=FLUTE_DEPTH + 0.05,
-                            material_top=C.M.roof_grey, role="mass"))
-        fluted_wall(b, plan, z0, z1, floors, lime, glass)
-        b.prism(C.ring_coords(plan), z1, z1 + 0.9, lime, holes=[C.ring_coords(C.offset_polygon(plan, -0.45))],
-                cap_bottom=False)                  # the plain parapet at each setback
+        wall_top = z1 - 0.9                    # the plain parapet takes the last 0.9 m of every tier
+        objs.append(C.prism(f"{ID}_t{k}_mass", plan, z0, wall_top, lime, inset=FLUTE_DEPTH + 0.05,
+                            material_top=C.M.roof_dark, role="mass"))
+        fluted_wall(b, plan, z0, wall_top, floors, lime, glass)
+        b.prism(C.ring_coords(plan), wall_top - 0.4, wall_top, C.M.roof_dark)          # roof deck of this tier
+        C.wall_ring(b, plan, wall_top, z1, 0.45, lime)                                 # parapet
     objs.append(b.build(f"{ID}_skin"))
-    objs.append(C.prism(f"{ID}_roof", plan, ROOF_M - 0.5, ROOF_M, C.M.roof_dark))
     return objs, fr, fp
 
 
@@ -134,7 +134,7 @@ def main():
              dimensions={"roof_m": ROOF_M, "storeys": 50, "ground_floor_h_m": GROUND_H, "floor_h_m": round(FLOOR_H, 3),
                          "setback_floors": list(SETBACK_FLOORS), "flute_bay_m": FLUTE_BAY, "flute_depth_m": FLUTE_DEPTH})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 210, "elevation_deg": "street", "distance": 165, "target_z": 68, "fov_deg": 62},
+        {"view": "street", "azimuth_deg": 210, "elevation_deg": "street", "distance": 305, "target_z": 85, "fov_deg": 62},
         {"view": "aerial", "azimuth_deg": 225, "elevation_deg": 24, "distance": 620, "fov_deg": 40, "target_z": 105},
     ])
 

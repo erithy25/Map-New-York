@@ -1909,6 +1909,7 @@ float TrafficSim::timeToArrivalProbe(const void* ctx, float x, float y, float r)
   const TrafficSim* self = static_cast<const TrafficSim*>(ctx);
   float best = 1e9f;
   self->hash_.query(x, y, r, [&](uint32_t i) {
+    if (i >= self->veh_.size()) return;  // despawned since the hash was built
     const Vehicle& v = self->veh_[i];
     const float dx = x - v.pos.x, dy = y - v.pos.y;
     const float d2 = dx * dx + dy * dy;
@@ -1929,6 +1930,7 @@ bool TrafficSim::freeTaxiProbe(const void* ctx, float x, float y, float r, TaxiS
   float best = r;
   bool found = false;
   self->hash_.query(x, y, r, [&](uint32_t i) {
+    if (i >= self->veh_.size()) return;
     const Vehicle& v = self->veh_[i];
     if ((v.flags & kVehRoofLight) == 0) return;
     if (v.state != DriveState::Driving) return;

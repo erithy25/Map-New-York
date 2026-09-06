@@ -58,7 +58,7 @@ def build():
     P = fr.local_polygon(fp.polygon)
     cx, cy = P.centroid.x, P.centroid.y
     objs = []
-    white, grey, steel = C.M.white_brick, C.M.grey_brick_dark, C.M.steel_nirosta
+    white, steel = C.M.white_brick, C.M.steel_nirosta
     gran, glass = C.M.granite_black, C.M.glass_dark
 
     Z16, Z24, Z31, Z61, Z71 = _z(16), _z(24), _z(31), _z(61), _z(71)
@@ -149,11 +149,8 @@ def build():
     # ---- the crown: seven radiating terraced arches with triangular windows ------------------------------------
     b = C.MeshBuilder()
     ring71 = C.ring_coords(t4)
-    base_r = max(math.dist((x, y), (cx, cy)) for x, y in ring71)
     span = CROWN_TOP_M - Z71                                        # 43.3 m of crown
     tiers = 7
-    prev = ring71
-    prev_z = Z71
     for k in range(tiers):
         f0 = k / tiers
         f1 = (k + 1) / tiers
@@ -180,7 +177,6 @@ def build():
                 b.tri((float(q[0] - t[0] * w - n[0] * 0.3), float(q[1] - t[1] * w - n[1] * 0.3), z0 + 0.8),
                       (float(q[0] + t[0] * w - n[0] * 0.3), float(q[1] + t[1] * w - n[1] * 0.3), z0 + 0.8),
                       (float(q[0] - n[0] * 0.3), float(q[1] - n[1] * 0.3), z0 + 0.8 + hgt), glass)
-        prev, prev_z = r1, z1
     # ---- the needle: 282.0 -> 318.9 m ------------------------------------------------------------------------
     b.lathe([(1.5, 0.0), (1.2, 6.0), (0.85, 14.0), (0.5, 26.0), (0.22, TIP_M - CROWN_TOP_M - 2.0), (0.0, TIP_M - CROWN_TOP_M)],
             8, steel, origin=(cx, cy, CROWN_TOP_M), smooth=True)
@@ -205,7 +201,7 @@ def main():
                          "needle_m": round(TIP_M - CROWN_TOP_M, 1), "storeys": 77},
              tri_budget=C.TRI_BUDGET_LOD0_LARGE)
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 200, "elevation_deg": "street", "distance": 275, "target_z": 118, "fov_deg": 60},
+        {"view": "street", "azimuth_deg": 200, "elevation_deg": "street", "distance": 480, "target_z": 134, "fov_deg": 60},
         {"view": "aerial", "azimuth_deg": 225, "elevation_deg": 22, "distance": 900, "fov_deg": 40, "target_z": 165},
         {"view": "crown", "azimuth_deg": 210, "elevation_deg": 12, "distance": 620, "fov_deg": 16, "target_z": 275},
     ])

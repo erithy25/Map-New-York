@@ -33,6 +33,7 @@ import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
 import pyogrio
+import rasterio
 import shapely
 from shapely.geometry import box
 from shapely.ops import unary_union
@@ -58,6 +59,7 @@ RAW_HYDRO = RAW / "nyc_opendata" / "plan_hydrography.geojson"
 RAW_STRUCT = RAW / "nyc_opendata" / "plan_hydro_structures.geojson"
 RAW_SHORE = RAW / "nyc_opendata" / "plan_shoreline.geojson"
 RAW_BORO_WATER = RAW / "nyc_opendata" / "borough_boundaries_water.geojson"
+RAW_BORO_LAND = RAW / "nyc_opendata" / "borough_boundaries.geojson"
 RAW_ELEV = RAW / "nyc_opendata" / "plan_elevation_points.geojson"
 RAW_OSM = RAW / "osm" / "NewYork.osm.pbf"
 
@@ -65,7 +67,8 @@ CONNECT_DIST_M = 25.0      # polygons closer than this are one hydraulic system 
 TIDAL_MAX_Z_M = 3.0        # a connected body whose DEM p10 sits below this is at the tidal datum, not perched
 SURVEYED_PERCHED_Z_M = 1.0  # ... unless a surveyed water-elevation point puts its pool at least this high
 FLAT_RANGE_M = 0.75        # p90-p10 of the DEM inside a body below this -> one constant level
-OSM_INSET_M = 10.0         # OSM water is cut this far inside the NYC boundary so the two sources overlap
+OSM_INSET_M = 10.0         # OSM water is cut this far *outside* the NYC land boundary, so the shoreline
+                           # sample line always belongs to the surveyed planimetric side
 MIN_OSM_AREA_M2 = 100.0
 OSM_ID_BASE = 10_000_000
 SCOPE_BOX = box(SCOPE_XMIN, SCOPE_YMIN, SCOPE_XMAX, SCOPE_YMAX)
@@ -106,6 +109,21 @@ def _read_plan(path: Path) -> gpd.GeoDataFrame:
     if g.crs is None:
         raise WaterError(f"{path}: no CRS")
     return g.to_crs(NYC_TM)
+
+
+def nyc_land_polygon():
+    """Union of the five boroughs' **land** (no water), used to keep OSM water off NYC ground.
+
+    The water-inclusive borough file reaches out to the state line in the middle of the harbour, so cutting
+    OSM water against it would leave the part of the Upper Bay, the Narrows, Jamaica Bay and the ocean that
+    lies inside the city limits but outside the planimetric hydrography with no water polygon at all — the
+    3DEP water constant (-1.62 m) would then survive into the published terrain. Cutting against the land
+    boundary instead lets the OSM sea fill exactly those gaps while the surveyed planimetric polygons stay
+    authoritative wherever they exist (both flatten to the same tidal datum where they overlap).
+    """
+    b = _read_plan(RAW_BORO_LAND)
+    b["geometry"] = shapely.make_valid(b.geometry.values)
+    return unary_union(b.geometry.values)
 
 
 def nyc_boundary_water():
@@ -179,8 +197,7 @@ def build_hydrography(use_osm: bool = True) -> tuple[gpd.GeoDataFrame, dict]:
     frames = [h[["water_id", "kind", "name", "source", "feat_code", "osm_id", "plan_source_id", "geometry"]]]
     if use_osm:
         from .osm_water import extract
-        boro, nyc_union = nyc_boundary_water()
-        inside = nyc_union.buffer(-OSM_INSET_M)
+        inside = nyc_land_polygon().buffer(OSM_INSET_M)
         osm = extract(RAW_OSM, (SCOPE_XMIN, SCOPE_YMIN, SCOPE_XMAX, SCOPE_YMAX))
         osm_areas = osm.areas
         stats["osm"] = osm.stats
@@ -361,6 +378,11 @@ def load_water_elevation_points() -> gpd.GeoDataFrame:
 STAT_BLOCK_M = 2000.0        # DEM statistics are gathered in 2 km lattice blocks (1001 x 1001 samples, 4 MB)
 STAT_MAX_BLOCKS = 24         # ... and from at most this many blocks, spread evenly over a large body
 STAT_MAX_SAMPLES = 400_000   # ... keeping at most this many samples in total
+CLIP_CELL_M = 8.0            # resolution of the DEM land/water mask used to clip OSM-derived polygons
+CLIP_TOL_M = 1.0             # a sample is water only if the DEM stands no higher than level + this
+CLIP_BLOCK_M = 4000.0        # DEM is read in 4 km blocks (2001 x 2001 samples) while building that mask
+CLIP_MIN_MIXED_P90_M = 1.0   # only bodies whose DEM p90 exceeds level + this are worth clipping
+CLIP_MIN_PART_M2 = 400.0     # drop clipped fragments smaller than this
 
 
 def _blocks_over(geom, block_m: float, max_blocks: int) -> list[tuple[float, float, float, float]]:
@@ -414,6 +436,93 @@ def _dem_stats_for_polygon(stack, geom, max_samples: int = STAT_MAX_SAMPLES) -> 
         parts = [vals]
     v = np.concatenate(parts)
     return int(v.size), float(np.median(v)), float(np.percentile(v, 10)), float(np.percentile(v, 90))
+
+
+def clip_osm_water_to_dem(stack, hydro: gpd.GeoDataFrame | None = None) -> tuple[gpd.GeoDataFrame, dict]:
+    """Cut OSM-derived water polygons back to where the DEM agrees that there is water.
+
+    The planimetric hydrography is surveyed and is trusted as it stands. The OSM half of the world is not:
+    outside the city the sea comes from ``natural=coastline`` chains polygonised inside the scope box and
+    voted by the left/right rule, and where the extract's coastline does not close inside the box a face
+    can swallow dry land — the observed failure was one 1,003 km2 face that reached across the Hudson and
+    covered the New Jersey Palisades and Watchungs, which would have flattened land standing 47-167 m to
+    the tidal datum.
+
+    The fix uses the elevation model as the referee: a body is kept only where the 3DEP surface stands no
+    higher than its own water level plus ``CLIP_TOL_M``. The mask is built at ``CLIP_CELL_M`` from 2 m
+    samples with a *maximum* reduction, so a cell counts as water only when every 2 m sample in it is at or
+    below the level — the test errs towards keeping land. Voids (open ocean beyond the 3DEP tiles) count as
+    water. Only bodies whose DEM statistics show land inside them are touched; the rest are untouched.
+    """
+    from rasterio.features import rasterize, shapes
+
+    from ..terrain.grid import NODATA, SPACING_M, lattice_grid
+
+    t0 = time.time()
+    h = hydro if hydro is not None else read_geoparquet(HYDRO_PATH, SCHEMAS["hydrography"])
+    osm = np.flatnonzero((h["source"].values == "osm"))
+    stats = {"osm_bodies": int(osm.size), "examined": 0, "clipped": 0, "dropped": 0,
+             "area_removed_km2": 0.0, "area_before_km2": float(h.loc[h["source"] == "osm", "area_m2"].sum() / 1e6)}
+    geoms = list(h.geometry.values)
+    drop: list[int] = []
+    for i in osm:
+        level = float(h["water_z_m"].values[i]) if np.isfinite(h["water_z_m"].values[i]) else 0.0
+        p90 = float(h["z_dem_p90"].values[i]) if "z_dem_p90" in h else float("nan")
+        if np.isfinite(p90) and p90 <= level + CLIP_MIN_MIXED_P90_M:
+            continue                                   # the DEM says the whole body is water: leave it
+        g = geoms[i]
+        stats["examined"] += 1
+        keep_parts = []
+        for bx0, by0, bx1, by1 in _blocks_over(g, CLIP_BLOCK_M, max_blocks=4096):
+            piece = g.intersection(box(bx0, by0, bx1, by1))
+            if piece.is_empty or piece.area < CLIP_MIN_PART_M2:
+                continue
+            tr, w, hgt = lattice_grid(bx0, by0, bx1, by1)
+            z, _ = stack.read(tr, w, hgt)
+            k = int(CLIP_CELL_M / SPACING_M)
+            hh, ww = (hgt // k) * k, (w // k) * k
+            zb = z[:hh, :ww].reshape(hh // k, k, ww // k, k)
+            zmax = zb.max(axis=(1, 3))                 # a cell is water only if every 2 m sample agrees
+            allvoid = (zb == NODATA).all(axis=(1, 3))
+            water = (zmax <= level + CLIP_TOL_M) | allvoid
+            if not water.any():
+                continue
+            trc = tr * rasterio.Affine.scale(k)
+            inside = rasterize([(piece, 1)], out_shape=water.shape, transform=trc, fill=0, dtype="uint8", all_touched=True).astype(bool)
+            m = (water & inside).astype(np.uint8)
+            if not m.any():
+                continue
+            for geom_json, val in shapes(m, mask=m.astype(bool), transform=trc):
+                if val:
+                    keep_parts.append(shapely.geometry.shape(geom_json))
+        if not keep_parts:
+            drop.append(int(i))
+            stats["dropped"] += 1
+            stats["area_removed_km2"] += g.area / 1e6
+            continue
+        new_geom = shapely.make_valid(unary_union(keep_parts)).intersection(g)
+        new_geom = shapely.union_all([q for q in getattr(new_geom, "geoms", [new_geom])
+                                      if q.geom_type in ("Polygon", "MultiPolygon") and q.area >= CLIP_MIN_PART_M2])
+        if new_geom.is_empty:
+            drop.append(int(i))
+            stats["dropped"] += 1
+            stats["area_removed_km2"] += g.area / 1e6
+            continue
+        removed = g.area - new_geom.area
+        if removed > CLIP_MIN_PART_M2:
+            geoms[i] = new_geom
+            stats["clipped"] += 1
+            stats["area_removed_km2"] += removed / 1e6
+    h = h.copy()
+    h["geometry"] = gpd.GeoSeries(geoms, crs=h.crs, index=h.index)
+    if drop:
+        h = h.drop(index=h.index[drop])
+    h["area_m2"] = h.geometry.area.astype("float64")
+    stats["area_after_km2"] = float(h.loc[h["source"] == "osm", "area_m2"].sum() / 1e6)
+    stats["area_removed_km2"] = round(stats["area_removed_km2"], 3)
+    stats["seconds"] = round(time.time() - t0, 1)
+    log.info("clip OSM water to the DEM: %s", stats)
+    return h.reset_index(drop=True), stats
 
 
 def finalize_levels(stack) -> dict:
@@ -493,6 +602,39 @@ def finalize_levels(stack) -> dict:
     return stats
 
 
+def refine_osm_geometry(stack) -> dict:
+    """Clip the OSM-derived polygons to the DEM, refresh their statistics and rewrite the water artefacts."""
+    t0 = time.time()
+    h = read_geoparquet(HYDRO_PATH, SCHEMAS["hydrography"])
+    before = len(h)
+    h, stats = clip_osm_water_to_dem(stack, h)
+    changed = h["source"].values == "osm"
+    med = h["z_dem_median"].values.astype(np.float64).copy()
+    p10 = h["z_dem_p10"].values.astype(np.float64).copy()
+    p90 = h["z_dem_p90"].values.astype(np.float64).copy()
+    cnt = h["n_dem_samples"].values.astype(np.int32).copy()
+    for i in np.flatnonzero(changed):
+        cnt[i], med[i], p10[i], p90[i] = _dem_stats_for_polygon(stack, h.geometry.values[i])
+    h["z_dem_median"], h["z_dem_p10"], h["z_dem_p90"] = med.astype("float32"), p10.astype("float32"), p90.astype("float32")
+    h["n_dem_samples"] = cnt
+    write_geoparquet(h, HYDRO_PATH, SCHEMAS["hydrography"], "water_hydrography",
+                     ["plan_hydrography", "plan_hydro_structures", "plan_shoreline", "borough_boundaries_water",
+                      "osm_newyork_pbf", "plan_elevation_points", "usgs_3dep"],
+                     extra={"osm_clipped_to_dem": True})
+    wt = build_water_tiles(h)
+    tmp = WTILES_PATH.with_suffix(".tmp.parquet")
+    tbl = pa.Table.from_pandas(wt, preserve_index=False)
+    pq.write_table(tbl.replace_schema_metadata({**(tbl.schema.metadata or {}), b"nycsim.schema": SCHEMAS["water_tiles"].encode()}), tmp, compression="snappy")
+    os.replace(tmp, WTILES_PATH)
+    manifest.record_processed("water_tiles", WTILES_PATH, stage="water", sources=["plan_hydrography", "osm_newyork_pbf", "usgs_3dep"],
+                              rows=len(wt), schema=SCHEMAS["water_tiles"])
+    stats.update({"polygons_before": before, "polygons_after": len(h),
+                  "tiles_with_open_water": int(wt["has_open_water"].sum()),
+                  "total_area_km2": float(h["area_m2"].sum() / 1e6), "seconds": round(time.time() - t0, 1)})
+    _save_summary({"osm_dem_clip": stats})
+    return stats
+
+
 def classify_shoreline_by_dem(stack, rise_m: float = 1.0, reach_m: float = 6.0, step_m: float = 10.0) -> dict:
     """Refine 'natural' shoreline parts: a terrain rise >= ``rise_m`` within ``reach_m`` = vertical face = bulkhead.
 
@@ -564,6 +706,8 @@ def main(argv: list[str] | None = None) -> int:
         from ..terrain.compose import DemStack
         with DemStack(INDEX_PATH) as stack:
             stats["levels"] = finalize_levels(stack)
+            stats["osm_dem_clip"] = refine_osm_geometry(stack)
+            stats["levels_after_clip"] = finalize_levels(stack)
             stats["shoreline_dem"] = classify_shoreline_by_dem(stack)
     print(json.dumps(stats, indent=1, default=str))
     return 0

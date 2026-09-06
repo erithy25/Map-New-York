@@ -1,0 +1,196 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_nypl",
+ "name": "New York Public Library (Stephen A. Schwarzman Building)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7527,
+  "lon": -73.9806,
+  "azimuth_deg": 292.4,
+  "note": "Fifth Avenue at East 41st Street, east sidewalk, looking west-north-west at the portico and lions",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7532,
+  "lon": -73.9822,
+  "name": "New York Public Library main entrance"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"New York Public Library\" Main Branch facade Fifth Avenue",
+  "\"Stephen A. Schwarzman Building\" exterior lions"
+ ],
+ "geosearch_radius_m": 200,
+ "fetched_at": "2026-09-06T12:31:24Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 60,
+ "candidates_eligible": 28,
+ "rejections": {
+  "too_old": 2,
+  "excluded": 7,
+  "not_photo": 1,
+  "keywords": 22
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:New York Public Library - Main Branch (51396225599).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:New_York_Public_Library_-_Main_Branch_(51396225599).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/ee/New_York_Public_Library_-_Main_Branch_%2851396225599%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/New_York_Public_Library_-_Main_Branch_%2851396225599%29.jpg/1920px-New_York_Public_Library_-_Main_Branch_%2851396225599%29.jpg",
+   "author": "ajay_suresh",
+   "credit": "New York Public Library- Main Branch",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2021-08-21 15:52",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.75335,
+    "lon": -73.980853
+   },
+   "original_width": 4776,
+   "original_height": 2687,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 860441,
+   "sha256": "7160f5c834d690577cb4b61d5d6c052220a63ad7eafdc1825ef0af1f3ce179d6",
+   "mean_luminance": 143.0,
+   "description": "New York Public Library- Main Branch",
+   "categories": [
+    "Exterior of the New York Public Library Main Branch",
+    "New York City photographs taken on 2021-08-21",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Libraries in the United States photographed in 2021",
+    "Midtown Manhattan in 2021",
+    "August 2021 in Manhattan, New York City",
+    "2021 New York City photographs by ajay suresh"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.9,
+   "estimated_viewpoint": {
+    "lat": 40.75335,
+    "lon": -73.980853,
+    "azimuth_deg": 261.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75335, -73.98085) is 115 m from New York Public Library main entrance (40.75320, -73.98220) and 75 m from the standard viewpoint; the azimuth 262 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"New York Public Library - Main Branch (51396225599).jpg\" by ajay_suresh, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:New_York_Public_Library_-_Main_Branch_(51396225599).jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:-blacklivesmatter on NY Public Library MVIMG 20200728 140346 (50163560506).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:-blacklivesmatter_on_NY_Public_Library_MVIMG_20200728_140346_(50163560506).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e5/-blacklivesmatter_on_NY_Public_Library_MVIMG_20200728_140346_%2850163560506%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/-blacklivesmatter_on_NY_Public_Library_MVIMG_20200728_140346_%2850163560506%29.jpg/1920px--blacklivesmatter_on_NY_Public_Library_MVIMG_20200728_140346_%2850163560506%29.jpg",
+   "author": "h_wang_02",
+   "credit": "#blacklivesmatter on NY Public Library MVIMG_20200728_140346",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2020",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": {
+    "lat": 40.753011,
+    "lon": -73.981206
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1250619,
+   "sha256": "44228d9829eecc4aad0d823a1c0975b1c10fef8a1a489388ecfc4b84220db2d6",
+   "mean_luminance": 115.0,
+   "description": "blacklivesmatter on NY Public Library MVIMG_20200728_140346",
+   "categories": [
+    "Exterior of the New York Public Library Main Branch",
+    "New York City photographs taken on 2020-07-28",
+    "Files with coordinates missing SDC location of creation",
+    "Black Lives Matter banners",
+    "Flickr images reviewed by FlickreviewR 2",
+    "July 2020 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.75,
+   "estimated_viewpoint": {
+    "lat": 40.753011,
+    "lon": -73.981206,
+    "azimuth_deg": 284.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75301, -73.98121) is 86 m from New York Public Library main entrance (40.75320, -73.98220) and 62 m from the standard viewpoint; the azimuth 284 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"-blacklivesmatter on NY Public Library MVIMG 20200728 140346 (50163560506).jpg\" by h_wang_02, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:-blacklivesmatter_on_NY_Public_Library_MVIMG_20200728_140346_(50163560506).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Facade of the New York Public Library Main Branch.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Facade_of_the_New_York_Public_Library_Main_Branch.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Facade_of_the_New_York_Public_Library_Main_Branch.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Facade_of_the_New_York_Public_Library_Main_Branch.jpg/1920px-Facade_of_the_New_York_Public_Library_Main_Branch.jpg",
+   "author": "bryansjs",
+   "credit": "https://www.flickr.com/photos/bryansjs/50246929683/in/album-72157661776983853/",
+   "license": {
+    "short_name": "CC BY-SA 2.0",
+    "url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "template": "cc-by-sa-2.0"
+   },
+   "date_taken": "2019",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.752763,
+    "lon": -73.98149
+   },
+   "original_width": 6720,
+   "original_height": 4480,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 741506,
+   "sha256": "9a2829fe6a66bda26fe99821eb984ce4d4dd58f66cd098122211b2e77e3ba878",
+   "mean_luminance": 132.4,
+   "description": "The front facade of the Main Branch of the New York Public Library",
+   "categories": [
+    "Exterior of the New York Public Library Main Branch",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "United States photographs taken on 2019-04-09",
+    "April 2019 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.6,
+   "estimated_viewpoint": {
+    "lat": 40.752763,
+    "lon": -73.98149,
+    "azimuth_deg": 309.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75276, -73.98149) is 77 m from New York Public Library main entrance (40.75320, -73.98220) and 75 m from the standard viewpoint; the azimuth 309 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Facade of the New York Public Library Main Branch.jpg\" by bryansjs, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Facade_of_the_New_York_Public_Library_Main_Branch.jpg"
+  }
+ ]
+}

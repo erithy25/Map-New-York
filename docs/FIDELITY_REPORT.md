@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-06 12:25 UTC from commit `7681d64744ab` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-06 12:39 UTC from commit `c4464e87459d` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -39,8 +39,7 @@ Total buildings modelled: **1,083,026** (source of truth: NYC Open Data Building
 
 Buildings whose footprint **and** height are both from measurement: 99.93 %.
 
-Per-tile files with the complete §5 schema: 0 of 25 sampled (920 tiles hold buildings).
-First schema gap seen: ["missing column 'roof_type'", "missing column 'roof_mesh_ref'", "missing column 'facade_class'", "missing column 'material_primary'", "missing column 'material_secondary'", "missing column 'window_type'"]
+Per-tile files with the complete §5 schema: 25 of 25 sampled (920 tiles hold buildings).
 
 ### 1.3 Roof geometry (CityGML LOD2)
 
@@ -72,9 +71,9 @@ Source of truth: NYC Street Centerline (CSCL) and LION, per ADR-006.
 
 - Tiles with a written heightmap: **2,338**
 - USGS 3DEP products ingested: 30 (13, 19, 1m), 4.50 GB
-- Elevation range across written tiles: -5.18 m to 196.68 m (NAVD88)
+- Elevation range across written tiles: -5.18 m to 202.50 m (NAVD88)
 
-Water: hydrography polygons 2,253 · shoreline lines 413 · structures 2,536 · water tiles 2,916.
+Water: hydrography polygons 2,209 · shoreline lines 413 · structures 2,536 · water tiles 2,916.
 
 ## 4. Street environment, transit and traffic model
 
@@ -87,13 +86,13 @@ Water: hydrography polygons 2,253 · shoreline lines 413 · structures 2,536 · 
 | Group | glTF files | Size |
 |---|---|---|
 | kit | 138 | 140.1 MB |
-| props | 122 | 78.1 MB |
+| props | 122 | 79.2 MB |
 | vehicles | 24 | 29.2 MB |
 | character | 1 | 15.1 MB |
-| landmarks | 47 | 497.3 MB |
-| tiles | 42 | 244.0 MB |
+| landmarks | 56 | 627.2 MB |
+| tiles | 76 | 353.4 MB |
 
-Catalog entries describing those assets: 315.
+Catalog entries describing those assets: 324.
 
 ## 6. Simulation code and runtime data
 
@@ -123,7 +122,7 @@ Authored asset licences (textures, fonts, mocap, audio): `docs/ASSET_LICENSES.md
 
 ## 8. Verification status
 
-Reference photographs collected for side-by-side comparison: 123 photos across 40 subjects, each with author and licence metadata.
+Reference photographs collected for side-by-side comparison: 180 photos across 59 subjects, each with author and licence metadata.
 
 Stage reports present: citygml, core, furniture, live, unreal_world.
 

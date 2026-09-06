@@ -57,45 +57,70 @@ The library had never been compiled. Fifteen `-Werror` diagnostics were fixed:
 `ctest --test-dir core/build --output-on-failure` over all 11 registered suites:
 
 ```
-    Start  1: util
- 1/11 Test  #1: util ...........................   Passed    0.04 sec
-    Start  2: geo
- 2/11 Test  #2: geo ............................   Passed    0.12 sec
-    Start  3: tiling
- 3/11 Test  #3: tiling .........................   Passed   30.71 sec
-    Start  4: io
- 4/11 Test  #4: io .............................   Passed    1.65 sec
-    Start  5: time
- 5/11 Test  #5: time ...........................   Passed    0.04 sec
-    Start  6: astro
- 6/11 Test  #6: astro ..........................   Passed    0.76 sec
-    Start  7: weather
- 7/11 Test  #7: weather ........................   Passed    0.05 sec
-    Start  8: vehicle
- 8/11 Test  #8: vehicle ........................   Passed    0.10 sec
-    Start  9: traffic
- 9/11 Test  #9: traffic ........................   Failed   (traffic agent's lane, in flight)
-    Start 10: routing
-10/11 Test #10: routing ........................   Passed    0.03 sec
-    Start 11: peds
-11/11 Test #11: peds ...........................   Failed   (peds agent's lane, in flight)
+      Start  1: util
+ 1/11 Test  #1: util .............................   Passed    0.01 sec
+      Start  2: geo
+ 2/11 Test  #2: geo ..............................   Passed    0.10 sec
+      Start  3: tiling
+ 3/11 Test  #3: tiling ...........................   Passed   25.78 sec
+      Start  4: io
+ 4/11 Test  #4: io ...............................   Passed    3.52 sec
+      Start  5: time
+ 5/11 Test  #5: time .............................   Passed    0.04 sec
+      Start  6: astro
+ 6/11 Test  #6: astro ............................   Passed    0.48 sec
+      Start  7: weather
+ 7/11 Test  #7: weather ..........................   Passed    0.04 sec
+      Start  8: vehicle
+ 8/11 Test  #8: vehicle ..........................   Passed    0.07 sec
+      Start  9: traffic
+ 9/11 Test  #9: traffic ..........................***Failed  (traffic agent's lane, in flight)
+      Start 10: routing
+10/11 Test #10: routing ..........................   Passed    0.02 sec
+      Start 11: peds
+11/11 Test #11: peds .............................***Failed  (peds agent's lane, in flight)
 
 82% tests passed, 2 tests failed out of 11
-Total Test time (real) = 147.16 sec
+Total Test time (real) = 202.16 sec
+
+The following tests FAILED:
+	  9 - traffic (Failed)
+	 11 - peds (Failed)
 ```
 
-**Excluding the two suites that are not this lane** (`ctest -E "^(traffic|peds)$"`), which is the
-result this report certifies:
+**Excluding the two suites that are not this lane** (`ctest --test-dir core/build -E
+"^(traffic|peds)$"`), which is the result this report certifies:
 
 ```
+    Start 1: util
+1/9 Test #1: util .............................   Passed    0.02 sec
+    Start 2: geo
+2/9 Test #2: geo ..............................   Passed    0.03 sec
+    Start 3: tiling
+3/9 Test #3: tiling ...........................   Passed   25.56 sec
+    Start 4: io
+4/9 Test #4: io ...............................   Passed    4.10 sec
+    Start 5: time
+5/9 Test #5: time .............................   Passed    0.03 sec
+    Start 6: astro
+6/9 Test #6: astro ............................   Passed    0.60 sec
+    Start 7: weather
+7/9 Test #7: weather ..........................   Passed    0.06 sec
+    Start 8: vehicle
+8/9 Test #8: vehicle ..........................   Passed    0.07 sec
+    Start 9: routing
+9/9 Test #9: routing ..........................   Passed    0.02 sec
+
 100% tests passed, 0 tests failed out of 9
-Total Test time (real) =  33.52 sec
+Total Test time (real) =  30.50 sec
 ```
 
 The two failures are in the traffic/pedestrian agent's own files, which were being written while this
-build ran (`tests/traffic/test_sim.cpp`, `tests/peds/test_peds.cpp:487` —
-`collisions_with_peds == 0` fails with 598). They are reported to the orchestrator, not fixed here:
-that lane is not mine.
+build ran. Their state changed between runs during this session (assertion failures in one run —
+`tests/peds/test_peds.cpp:487`, `collisions_with_peds == 0` failing with 598 — then SIGSEGV in
+`tests/traffic/test_signals.cpp:149` in the next), which is what an actively edited lane looks like.
+Neither is caused by anything in this lane: the crash is inside their synthetic-grid signal
+simulation and touches no `core/io` code. They are reported to the orchestrator, not fixed here.
 
 ### 2.1 Per-suite detail (test cases / assertions, all passing)
 
@@ -328,23 +353,38 @@ The C++ side was **wrong** and is now fixed — see the contract deviation in §
   `core/tests/io/nycb_expected.h`. The C++ reader reads all six and every field of every record type
   is asserted (ids, floats, enums, string-table offsets, the 24-entry headway array, ...). All 16
   record sizes equal the exporter's numpy `dtype.itemsize`.
-* **The real exporter output is loaded.** `data/processed/runtime/roadgraph.nycb` (103,728,864 bytes)
-  appeared during this work and is read by the C++ reader in the test. **Section counts equal the
-  parquet row counts exactly:**
+* **All four real exporter outputs are loaded** — `data/processed/runtime/{roadgraph,signals,
+  transit,density}.nycb` — and 19 sections are checked structurally: every section's `element_size`
+  equals `sizeof()` of the matching C++ record type (this is the writer/reader divergence check and
+  it holds whatever the data contains), `element_size x element_count == size`, 8-byte alignment,
+  and every section inside the file.
+* **Section counts equal the parquet row counts exactly** (5 cross-checks):
 
   | section | nycb records | `data/processed/roads/*.parquet` rows |
   |---|---:|---:|
   | `nodes` | 79,291 | `nodes.parquet` 79,291 |
   | `segments` | 122,235 | `segments.parquet` 122,235 |
   | `lanes` | 384,703 | `lanes.parquet` 384,703 |
-  | `junction_lanes` | 466,279 | `junction_lanes.parquet` 466,279 |
-  | `controllers` (signals.nycb) | 23,839 | `signals.parquet` 23,839 |
+  | `junction_lanes` | 470,016 | `junction_lanes.parquet` 470,016 |
+  | `controllers` (signals.nycb) | 19,814 | `signals.parquet` 19,814 |
 
-  plus `vertices` 3,901,850, `lane_links` 466,279, `yield_links` 551,241, `strtab` 148,757 bytes;
-  `transit.nycb` 345 routes / 13,364 stops / 21,963 route-stops / 137,060 vertices.
-  Cross-section integrity over the real file: every `first_vertex + vertex_count`,
+  plus `vertices` 3,924,272, `lane_links` 470,016, `yield_links` 588,785; `transit.nycb` 345 routes /
+  13,364 stops / 21,963 route-stops; `density.nycb` 18,864 cells. `roadgraph.nycb` is 104,507,552
+  bytes.
+* **Not a frozen snapshot.** The counts and the parquet rows live in
+  `core/tests/data/runtime/real_counts.json`, written by `gen_nycb_fixture.py` (which reads the
+  parquet, something C++ cannot do) and parsed by the test **at run time with `nycsim::json`**. The
+  file records each `.nycb`'s byte size: when the roads stage regenerates its data the structural
+  checks still run and the count check reports, by name, that the sidecar must be regenerated,
+  instead of failing on a stale number. This was not academic — the roads stage regenerated
+  mid-session (junction_lanes 466,279 -> 470,016, controllers 23,839 -> 19,814) and the first
+  design did fail on it.
+* Cross-section integrity over the real file: every `first_vertex + vertex_count`,
   `first_succ + succ_count` and `first_yield + yield_count` is in range and every `name_str` resolves
   — **0 violations**, and **0 degenerate** (single-vertex) segments or lanes.
+* **Two independent decoders agree on the same 104 MB file:** `core/io`'s `NycbReader` and the
+  routing lane's self-contained `NycbLite` reader (`routing::RoadGraph::loadFromNycb`) return the
+  same 79,291 nodes and 122,235 segments (854,719 lanes = 384,703 road + 470,016 junction).
 * Writer/reader round trip, 8-byte section alignment, 24-byte header, and typed rejection of every
   corruption mode (bad magic, wrong version, truncated header, truncated index, index past EOF,
   section past EOF, `element_size x element_count != size`, duplicate name, empty name, unterminated
@@ -354,7 +394,7 @@ The C++ side was **wrong** and is now fixed — see the contract deviation in §
 
 ## 5. Contract deviations and additions
 
-Five, all necessary and all documented in the code as well.
+Six, all necessary and all documented in the code as well.
 
 ### 5.1 §12 extension — the weather -> world mapping (**new**, `weather/WorldEffects.h`)
 
@@ -415,6 +455,42 @@ now uses it. `set()`, `find()` and the rest are unchanged.
 this lane can be built and tested while another agent's lane is mid-edit. `traffic_standalone` is now
 inside that guard, because its benchmark links the lane sources.
 
+### 5.6 The routing lane's NYCB reader had the same packed-layout bug (**fixed**)
+
+`include/nycsim/routing/NycbLite.h` and `src/routing/RoadGraph.cpp` carry a second, self-contained
+NYCB decoder so the traffic lane does not depend on `core/io`. It had the same packed assumption and
+**could not load the real road graph at all** — verified before the fix:
+
+```
+loadFromNycb = FALSE ; lastError = nycb: section index out of bounds
+```
+
+Three fixes, all in `routing/` (this lane's responsibility to keep working):
+
+* `NycbLite.h`: `index_offset = rdU64(data + 12)` -> `+ 16`, and the header's layout comment corrected;
+* `RoadGraph.cpp`: the same `+ 12` -> `+ 16`;
+* `RoadGraph.cpp`: `lanes.element_size != 44` -> `!= 48` and the lane stride `* 44u` -> `* 48u`
+  (the *field offsets* inside `Lane` are identical either way; only the 4 bytes of tail padding
+  differ, which is why this was a size-only fix).
+
+After the fix:
+
+```
+loadFromNycb = true ; lastError = (none)
+nodes=79291 segments=122235 lanes=854719
+```
+
+and the io suite now asserts this permanently (see §4.3).
+
+**One instance is left for its owner:** `src/traffic/Signals.cpp:81` still reads
+`if (controllers.element_size != 28 || phases.element_size != 28)`. The producer writes
+`SignalController` at **32** bytes (`phases` at 28 is correct), so `SignalTable::loadFromNycb`
+rejects every real `signals.nycb`. The field offsets it then reads (node_id 0, controller_id 8,
+cycle_s 12, offset_s 16, first_phase 20, phase_count 24) are already correct, so the fix is the
+single constant `28` -> `32` on that line. `src/traffic/{Density,BusRoutes}.cpp` were checked and are
+correct (32, and `>=` comparisons respectively). That file is the traffic agent's; it was not edited
+here.
+
 ### 5.5 One calibrated vehicle constant, named
 
 `Powertrain::maxWheelForceN = 6424.0` N. There is no published transaxle ratio for the Ford HF35
@@ -426,28 +502,31 @@ constant; everything else is `PUBLISHED` or `DERIVED` with the formula stated.
 
 ## 6. Gaps and what the next agents need to know
 
-1. **`traffic` and `peds` suites are red** at the time of writing — `tests/traffic/test_sim.cpp` and
-   `tests/peds/test_peds.cpp:487` (`collisions_with_peds == 0` fails with 598 over 360 samples).
-   Those files belong to the traffic/pedestrian agent and were being written during this build. The
-   library itself compiles and links cleanly with those lanes enabled; only their assertions fail.
-2. **The repository placeholder gate**
+1. **`traffic` and `peds` suites are red** at the time of writing, in the traffic/pedestrian agent's
+   own files, which were being edited during this build. The library compiles and links cleanly with
+   those lanes enabled.
+2. **`src/traffic/Signals.cpp:81` still rejects every real `signals.nycb`** — it checks
+   `controllers.element_size != 28` but the producer writes `SignalController` at 32 bytes. The
+   field offsets it reads afterwards are already right, so the fix is the single constant
+   `28` -> `32`. See §5.6; that file belongs to the traffic agent and was not edited here.
+3. **The repository placeholder gate**
    (`tests/test_world_integration.py::test_no_placeholder_markers_in_shipped_source`)
    has **no hits in `core/`**. It still fails on four lines outside this lane, all of which are
    legitimate uses of the *word*: `pipeline/nycsim_pipeline/buildings/citygml_join.py:348,349,353`
    (a variable named `placeholder` for unusable BINs) and `blender/props/_legends.py:3` ("Nothing here
    is a placeholder"). Those need either an `allow` pattern in the gate or a rename by their owners.
-3. **Manhattanhenge dates** are within one day of the AMNH announcement; the azimuth criterion is met
+4. **Manhattanhenge dates** are within one day of the AMNH announcement; the azimuth criterion is met
    exactly. See §3.2 for why, and for the sensitivity figures.
-4. **Weather fixtures are a snapshot** (2026-09-06). They are archived so the tests are hermetic and
+5. **Weather fixtures are a snapshot** (2026-09-06). They are archived so the tests are hermetic and
    need no network. Re-run `gen_weather_cases.py` after refetching if a provider changes its schema.
    `gen_usno_cases.py --offline` regenerates the astronomy header from the archived USNO responses.
-5. **Nothing in core does I/O over the network.** `WeatherService` takes injected fetch functions; the
+6. **Nothing in core does I/O over the network.** `WeatherService` takes injected fetch functions; the
    UE runtime supplies them.
-6. **For the UE agents:** the six entry points, with worked snippets, are in `core/README.md`
+7. **For the UE agents:** the six entry points, with worked snippets, are in `core/README.md`
    ("How the Unreal module consumes it"). Two rules that matter most: convert coordinates only through
    `geo/UECoords.h`, and install a fatal handler at start-up
    (`nycsim::setFatalHandler`) that routes to `UE_LOG(..., Fatal, ...)` and does not return.
-7. **After adding a file to `core/src`**, re-run `unreal/tools/gen_core_unity.py` so UBT picks it up.
+8. **After adding a file to `core/src`**, re-run `unreal/tools/gen_core_unity.py` so UBT picks it up.
 
 ---
 

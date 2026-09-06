@@ -1,0 +1,221 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_woolworth_building",
+ "name": "Woolworth Building",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7127,
+  "lon": -74.0066,
+  "azimuth_deg": 257.6,
+  "note": "City Hall Park by the fountain, looking west-south-west at the Woolworth Building",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7124,
+  "lon": -74.0084,
+  "name": "Woolworth Building"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Woolworth Building\" exterior",
+  "\"Woolworth Building\" City Hall Park Broadway"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T12:33:38Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 117,
+ "candidates_eligible": 23,
+ "rejections": {
+  "excluded": 42,
+  "too_small": 5,
+  "licence": 1,
+  "not_photo": 7,
+  "too_old": 12,
+  "night_for_day_item": 2,
+  "keywords": 23,
+  "not_jpeg": 1,
+  "indoor": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Woolworth Building April 2022 007.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Woolworth_Building_April_2022_007.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/92/Woolworth_Building_April_2022_007.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Woolworth_Building_April_2022_007.jpg/1920px-Woolworth_Building_April_2022_007.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-04-30 13:17:00",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.712333,
+    "lon": -74.006797
+   },
+   "original_width": 2448,
+   "original_height": 3264,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 896349,
+   "sha256": "17dc860ad0892a1d6b971f8da77ade1d58dbd022359b0d60990374d6c91a674c",
+   "mean_luminance": 133.5,
+   "description": "Woolworth Building in April 2022",
+   "categories": [
+    "New York City photographs taken on 2022-04-30",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Office buildings in the United States photographed in 2022",
+    "2022 in Tribeca, Manhattan",
+    "April 2022 in Manhattan, New York City",
+    "Woolworth Building (New York City)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.712333,
+    "lon": -74.006797,
+    "azimuth_deg": 273.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71233, -74.00680) is 135 m from Woolworth Building (40.71240, -74.00840) and 44 m from the standard viewpoint; the azimuth 273 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Woolworth Building April 2022 007.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Woolworth_Building_April_2022_007.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Dülmen, Münsterstraße, Fundamente -- 2016 -- 1851.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_M%C3%BCnsterstra%C3%9Fe,_Fundamente_--_2016_--_1851.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/2a/D%C3%BClmen%2C_M%C3%BCnsterstra%C3%9Fe%2C_Fundamente_--_2016_--_1851.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/D%C3%BClmen%2C_M%C3%BCnsterstra%C3%9Fe%2C_Fundamente_--_2016_--_1851.jpg/1920px-D%C3%BClmen%2C_M%C3%BCnsterstra%C3%9Fe%2C_Fundamente_--_2016_--_1851.jpg",
+   "author": "Dietmar Rabich",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2016",
+   "date_source": "DateTimeOriginal",
+   "year": 2016,
+   "camera_gps": {
+    "lat": 51.83782,
+    "lon": 7.285572
+   },
+   "original_width": 5150,
+   "original_height": 2897,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 887533,
+   "sha256": "7e8af2aac5a725ac4847c569e933509d995c05834526364abd00fec31594d5fa",
+   "mean_luminance": 141.9,
+   "description": "Exposed foundations on the Münsterstraße (View from the Nonnengasse) in Dülmen , North Rhine-Westphalia , Germany The foundations date back to Dülmen’s pre-World War II development (the Duke of Croÿ’s administrative building (Rentei) in the foreground, and Agnetenberg Abbey in the background); the former KiK/Woolworth building was demolished at this site in 2016.",
+   "categories": [
+    "Buildings in Germany photographed in 2016",
+    "Taken with Canon EOS 70D",
+    "Münsterstraße (Dülmen)",
+    "ISO speed rating 100",
+    "Taken with Canon EF-S 10-22mm F3.5-4.5 USM",
+    "Uploaded with VicuñaUploader",
+    "Photographs with aspect ratio of 16:9",
+    "Self-published work",
+    "Exposure time 1/80 sec",
+    "Photographs by Dietmar Rabich/Dülmen",
+    "Photographs by Dietmar Rabich/Quality images",
+    "Information field template with formatting",
+    "Photographs by Dietmar Rabich/Quality images of buildings",
+    "Foundations (architecture) in Germany",
+    "F-number f/8",
+    "Buildings with addresses",
+    "Images by XRay (flat list)",
+    "Lens focal length 22 mm",
+    "Archaeological excavations in Kreis Coesfeld",
+    "Construction sites in Dülmen",
+    "Dülmen photographs taken on 2016-04-09",
+    "Photographs by Dietmar Rabich/Architectural photography",
+    "Photographs by Dietmar Rabich/Quality images of North Rhine-Westphalia",
+    "Abandoned places in Dülmen",
+    "Photographs by Dietmar Rabich/Quality images of construction sites"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "search:\"Woolworth Building\" exterior",
+   "score": 9.65,
+   "estimated_viewpoint": {
+    "lat": 40.7127,
+    "lon": -74.0066,
+    "azimuth_deg": 257.6,
+    "confidence": "medium",
+    "method": "standard_viewpoint (camera GPS implausibly far)",
+    "explanation": "The file carries GPS (51.83782, 7.28557) but it is 6036.3 km from Woolworth Building (40.71240, -74.00840), beyond the 2.5 km plausibility limit for this view, so it is ignored; the viewpoint is the standard photographer position (City Hall Park by the fountain, looking west-south-west at the Woolworth Building) and the azimuth 258 deg is the bearing from there to the subject."
+   },
+   "attribution": "\"Dülmen, Münsterstraße, Fundamente -- 2016 -- 1851.jpg\" by Dietmar Rabich, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_M%C3%BCnsterstra%C3%9Fe,_Fundamente_--_2016_--_1851.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Woolworth Building April 2022 006.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Woolworth_Building_April_2022_006.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/73/Woolworth_Building_April_2022_006.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Woolworth_Building_April_2022_006.jpg/1920px-Woolworth_Building_April_2022_006.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-04-30 13:16:58",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.712333,
+    "lon": -74.006797
+   },
+   "original_width": 2448,
+   "original_height": 3264,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1044890,
+   "sha256": "328a40411632fd05a1f889d086e448ff511fba38b2d0f3c32e2cddb753984616",
+   "mean_luminance": 134.5,
+   "description": "Woolworth Building in April 2022",
+   "categories": [
+    "New York City photographs taken on 2022-04-30",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Office buildings in the United States photographed in 2022",
+    "2022 in Tribeca, Manhattan",
+    "April 2022 in Manhattan, New York City",
+    "Woolworth Building (New York City)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.712333,
+    "lon": -74.006797,
+    "azimuth_deg": 273.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71233, -74.00680) is 135 m from Woolworth Building (40.71240, -74.00840) and 44 m from the standard viewpoint; the azimuth 273 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Woolworth Building April 2022 006.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Woolworth_Building_April_2022_006.jpg"
+  }
+ ]
+}

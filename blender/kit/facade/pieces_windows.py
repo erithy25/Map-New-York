@@ -276,25 +276,34 @@ def _win_arched():
 
 
 # --------------------------------------------------------------------------- 12  dormer
-@K.register("win_dormer", "window", nominal_size=(1.64, 1.09, 2.03), anchor="wall_bottom_centre",
-            description="Gable dormer with a 6/6 sash, clapboard cheeks and a slate-pitched roof; sits on a 30 deg mansard/roof plane.",
+@K.register("win_dormer", "window", nominal_size=(1.64, 1.09, 2.25), anchor="wall_bottom_centre",
+            description="Gable dormer with a 6/6 sash, clapboard cheeks and a standing-seam roof; sits on a mansard or pitched "
+                        "roof plane, its front wall built as a frame round the sash opening.",
             features=["dormers"], budget=700)
 def _win_dormer():
     m = K.Mesh()
     ow, oh = W["dormer"]
     x0, x1 = -0.73, 0.73
     depth = 1.00
-    wall_h = 1.55
-    ridge = 1.98
-    m.box((x0, 0.0, 0.0), (x1, depth, wall_h), P.SASH_WHITE, faces="yxX")           # cheeks + face
+    wall_h = 1.78
+    ridge = 2.20
+    oz0, oz1 = 0.26, 0.26 + oh          # sash opening 0.26 .. 1.66
+    ax0, ax1 = -ow / 2, ow / 2
+    # front skin built as a frame around the opening
+    m.face([(x0, 0.0, 0.0), (ax0, 0.0, 0.0), (ax0, 0.0, wall_h), (x0, 0.0, wall_h)], P.SASH_WHITE)
+    m.face([(ax1, 0.0, 0.0), (x1, 0.0, 0.0), (x1, 0.0, wall_h), (ax1, 0.0, wall_h)], P.SASH_WHITE)
+    m.face([(ax0, 0.0, 0.0), (ax1, 0.0, 0.0), (ax1, 0.0, oz0), (ax0, 0.0, oz0)], P.SASH_WHITE)
+    m.face([(ax0, 0.0, oz1), (ax1, 0.0, oz1), (ax1, 0.0, wall_h), (ax0, 0.0, wall_h)], P.SASH_WHITE)
+    m.box((x0, 0.0, 0.0), (x1, depth, wall_h), P.SASH_WHITE, faces="xX")            # clapboard cheeks
     m.face([(x0, 0.0, wall_h), (x1, 0.0, wall_h), (0.0, 0.0, ridge)], P.SASH_WHITE)  # gable tympanum
     m.face([(x0, depth, wall_h), (0.0, depth, ridge), (x1, depth, wall_h)], P.SASH_WHITE)
-    for s in (-1, 1):                                                                # roof planes with 90 mm overhang
+    for s in (-1, 1):                                                               # roof planes, 90 mm overhang
         m.face([(0.0, -0.09, ridge + 0.05), (s * (x1 + 0.09), -0.09, wall_h + 0.02),
                 (s * (x1 + 0.09), depth, wall_h + 0.02), (0.0, depth, ridge + 0.05)], "metal_panel", flip=(s < 0))
-    P.reveal(m, -ow / 2, ow / 2, 0.28, 0.28 + oh, 0.10, P.SASH_WHITE)
-    P.double_hung(m, -ow / 2, ow / 2, 0.28, 0.28 + oh, lights_x=3, lights_z=2, reveal_depth=0.10, lit=False)
-    m.box((-ow / 2 - 0.07, -0.045, 0.22), (ow / 2 + 0.07, 0.09, 0.28), P.SASH_WHITE)  # sill
+    m.box((x0 - 0.09, -0.09, wall_h - 0.05), (x1 + 0.09, depth, wall_h + 0.02), "metal_panel", faces="yz")   # eaves fascia
+    P.reveal(m, ax0, ax1, oz0, oz1, 0.10, P.SASH_WHITE)
+    P.double_hung(m, ax0, ax1, oz0, oz1, lights_x=3, lights_z=2, reveal_depth=0.10, lit=False)
+    m.box((ax0 - 0.07, -0.045, oz0 - 0.06), (ax1 + 0.07, 0.09, oz0), P.SASH_WHITE)   # sill
     return m
 
 

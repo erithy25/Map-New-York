@@ -75,7 +75,6 @@ def build():
     objs.append(C.prism(f"{ID}_drum_mass", drum, PODIUM_M, ROOF_M - 3.0, precast, inset=0.7,
                         material_top=C.M.roof_grey, role="mass"))
     b = C.MeshBuilder()
-    dring = C.ring_coords(drum)
     nrib = 96
     for k in range(nrib):                          # precast panels and radial ribs
         a0 = 2 * math.pi * k / nrib

@@ -1,0 +1,201 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_guggenheim",
+ "name": "Solomon R. Guggenheim Museum",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7826,
+  "lon": -73.9585,
+  "azimuth_deg": 316.6,
+  "note": "Fifth Avenue at East 88th Street, Central Park side, looking north-west at the rotunda",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.783,
+  "lon": -73.959,
+  "name": "Guggenheim Museum"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Solomon R. Guggenheim Museum\" exterior",
+  "\"Guggenheim Museum\" New York Fifth Avenue"
+ ],
+ "geosearch_radius_m": 200,
+ "fetched_at": "2026-09-06T12:26:18Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 130,
+ "candidates_eligible": 42,
+ "rejections": {
+  "too_old": 24,
+  "excluded": 46,
+  "keywords": 8,
+  "too_small": 8,
+  "not_photo": 1,
+  "indoor": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Solomon Guggenheim Museum 10 (New York) (45190882852).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Solomon_Guggenheim_Museum_10_(New_York)_(45190882852).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/82/Solomon_Guggenheim_Museum_10_%28New_York%29_%2845190882852%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Solomon_Guggenheim_Museum_10_%28New_York%29_%2845190882852%29.jpg/1920px-Solomon_Guggenheim_Museum_10_%28New_York%29_%2845190882852%29.jpg",
+   "author": "VillageHero from Ulm, Germany",
+   "credit": "Solomon Guggenheim Museum 10 (New York)",
+   "license": {
+    "short_name": "CC BY-SA 2.0",
+    "url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "template": "cc-by-sa-2.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.782988,
+    "lon": -73.959016
+   },
+   "original_width": 5184,
+   "original_height": 2920,
+   "width": 1920,
+   "height": 1081,
+   "bytes": 481837,
+   "sha256": "fb2a2d0b07dffc2f913623ee8466248f13c51a06cf02ad406d029482ff27c776",
+   "mean_luminance": 116.4,
+   "description": "by https://www.flickr.com/photos/villagehero/",
+   "categories": [
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2018-03-11",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Skylight of the Solomon R. Guggenheim Museum",
+    "Files from VillageHero Flickr stream"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.45,
+   "estimated_viewpoint": {
+    "lat": 40.7826,
+    "lon": -73.9585,
+    "azimuth_deg": 316.6,
+    "confidence": "medium",
+    "method": "standard_viewpoint (camera GPS coincides with subject)",
+    "explanation": "The file's GPS (40.78299, -73.95902) lies within 2 m of Guggenheim Museum (40.78300, -73.95900), so the uploader geotagged the subject rather than the camera; the viewpoint is therefore the standard photographer position for this view (Fifth Avenue at East 88th Street, Central Park side, looking north-west at the rotunda) and the azimuth 317 deg is the bearing from there to the subject."
+   },
+   "attribution": "\"Solomon Guggenheim Museum 10 (New York) (45190882852).jpg\" by VillageHero from Ulm, Germany, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Solomon_Guggenheim_Museum_10_(New_York)_(45190882852).jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Guggenheim (5957915634).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Guggenheim_(5957915634).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/49/Guggenheim_%285957915634%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Guggenheim_%285957915634%29.jpg/1920px-Guggenheim_%285957915634%29.jpg",
+   "author": "Kevin Dooley from Chandler, AZ, USA",
+   "credit": "Guggenheim",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2011-06-05 11:14",
+   "date_source": "DateTimeOriginal",
+   "year": 2011,
+   "camera_gps": {
+    "lat": 40.782795,
+    "lon": -73.959237
+   },
+   "original_width": 3521,
+   "original_height": 2641,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 174192,
+   "sha256": "d9f5c755e8281a3d1094be5d1178ffae33e6ec4629607415c882480c6ad9f399",
+   "mean_luminance": 210.5,
+   "description": "The Solomon R. Guggenheim Museum in New York City. Building design by Frank Lloyd Wright.",
+   "categories": [
+    "Exterior of the Solomon R. Guggenheim Museum",
+    "Photographs by Kevin Dooley",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 11.0,
+   "estimated_viewpoint": {
+    "lat": 40.782795,
+    "lon": -73.959237,
+    "azimuth_deg": 41.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.78280, -73.95924) is 30 m from Guggenheim Museum (40.78300, -73.95900) and 66 m from the standard viewpoint; the azimuth 41 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Guggenheim (5957915634).jpg\" by Kevin Dooley from Chandler, AZ, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Guggenheim_(5957915634).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Guggenheim Museum (6279243061).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Guggenheim_Museum_(6279243061).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Guggenheim_Museum_%286279243061%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Guggenheim_Museum_%286279243061%29.jpg/1920px-Guggenheim_Museum_%286279243061%29.jpg",
+   "author": "Erik Drost",
+   "credit": "Guggenheim Museum",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2011",
+   "date_source": "DateTimeOriginal",
+   "year": 2011,
+   "camera_gps": {
+    "lat": 40.782738,
+    "lon": -73.959199
+   },
+   "original_width": 3114,
+   "original_height": 1926,
+   "width": 1920,
+   "height": 1188,
+   "bytes": 483156,
+   "sha256": "d9ae223e0a1b34f051cc495d4968a0562838f92e21cadcd37b3b669fe97f7e47",
+   "mean_luminance": 117.9,
+   "description": "New York Acity",
+   "categories": [
+    "Exterior of the Solomon R. Guggenheim Museum",
+    "89th Street (Manhattan)",
+    "New York City photographs taken on 2011-08-04",
+    "Photographs by Erik Drost",
+    "Files with coordinates missing SDC location of creation",
+    "Files uploaded by Artix Kreiger",
+    "United States photographs taken on 2011-08-04",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Street signs in Manhattan, New York City",
+    "Roads and streets in New York City named after people",
+    "August 2011 in Manhattan, New York City",
+    "Honorary street name signs in New York City",
+    "30 mph speed limit road signs in New York (state)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 11.0,
+   "estimated_viewpoint": {
+    "lat": 40.782738,
+    "lon": -73.959199,
+    "azimuth_deg": 29.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.78274, -73.95920) is 34 m from Guggenheim Museum (40.78300, -73.95900) and 61 m from the standard viewpoint; the azimuth 30 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Guggenheim Museum (6279243061).jpg\" by Erik Drost, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Guggenheim_Museum_(6279243061).jpg"
+  }
+ ]
+}

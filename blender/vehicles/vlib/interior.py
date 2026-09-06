@@ -86,7 +86,9 @@ def build_dash(sp: InteriorSpec, lib: M.Library) -> object:
     IDX_SOFT, IDX_PIANO, IDX_TRIM, IDX_SPEED, IDX_RPM, IDX_SCREEN, IDX_PLASTIC = range(7)
     xd, xc, zf, zb = sp.x_dash, sp.x_cowl, sp.z_floor, sp.z_belt
     yc = sp.y_cabin
-    z_top = zb + 0.055                                   # dash top pad height
+    # the dash top pad sits just below the cowl, ~105 mm above the beltline; everything mounted on the
+    # dash (binnacle, vents, screen) must stay below it or it pokes through the top surface.
+    z_top = zb + 0.105
     # side profile of the dash moulding, from the windshield base rearwards and down into the footwell
     prof = [(xc + 0.02, z_top - 0.02), (xc - 0.10, z_top), (xd + 0.05, z_top - 0.005), (xd, z_top - 0.075),
             (xd + 0.015, zb - 0.055), (xd - 0.02, zb - 0.16), (xd + 0.02, zb - 0.28),
@@ -98,7 +100,7 @@ def build_dash(sp: InteriorSpec, lib: M.Library) -> object:
     sgn = 1.0 if sp.left_hand_drive else -1.0
 
     # --- instrument binnacle: hood + two round gauges + a strip LCD, facing the driver
-    bz = zb + 0.02
+    bz = zb + 0.040
     bx = xd - 0.005
     hood = g.rounded_box_bm((0.20, 0.44, 0.135), 0.030, segments=2, center=(bx - 0.06, ydrv, bz + 0.02), material_index=IDX_SOFT)
     parts.append(hood)
@@ -123,7 +125,7 @@ def build_dash(sp: InteriorSpec, lib: M.Library) -> object:
 
     # --- centre stack: screen, HVAC panel, vents
     sx = xd - 0.02
-    sc = Vector((sx - 0.055, 0.0, zb + 0.045))
+    sc = Vector((sx - 0.055, 0.0, zb + 0.020))
     n = Vector((-1.0, 0.0, 0.16)).normalized(); up = Vector((0, 0, 1)); up = (up - n * up.dot(n)).normalized()
     rt = up.cross(n).normalized()
     sw, sh = 0.205, 0.118
@@ -131,25 +133,25 @@ def build_dash(sp: InteriorSpec, lib: M.Library) -> object:
                                  tuple(sc + rt * sw + up * sh), tuple(sc - rt * sw + up * sh)],
                                 material_index=IDX_SCREEN))
     parts.append(g.rounded_box_bm((0.055, sw * 2 + 0.035, sh * 2 + 0.035), 0.012, segments=2,
-                                  center=(sx - 0.012, 0.0, zb + 0.045), material_index=IDX_PIANO))
-    parts.append(g.rounded_box_bm((0.10, 0.36, 0.115), 0.018, segments=2, center=(sx - 0.03, 0, zb - 0.115),
+                                  center=(sx - 0.012, 0.0, zb + 0.020), material_index=IDX_PIANO))
+    parts.append(g.rounded_box_bm((0.10, 0.36, 0.115), 0.018, segments=2, center=(sx - 0.03, 0, zb - 0.150),
                                   material_index=IDX_PIANO))
     for k in range(3):                                    # HVAC rotaries
-        parts.append(g.cylinder_bm(0.026, 0.024, axis="X", center=(sx - 0.075, (k - 1) * 0.115, zb - 0.115),
+        parts.append(g.cylinder_bm(0.026, 0.024, axis="X", center=(sx - 0.075, (k - 1) * 0.115, zb - 0.150),
                                    segments=16, material_index=IDX_TRIM))
     # vents (outer pair + centre pair) with slats
-    for vy, vw in ((yc * 0.86, 0.115), (-yc * 0.86, 0.115), (0.115, 0.10), (-0.115, 0.10)):
-        parts.append(g.rounded_box_bm((0.055, vw, 0.062), 0.010, segments=1, center=(sx - 0.028, vy, zb + 0.128),
+    for vy, vw in ((yc * 0.86, 0.115), (-yc * 0.86, 0.115), (0.125, 0.10), (-0.125, 0.10)):
+        parts.append(g.rounded_box_bm((0.055, vw, 0.062), 0.010, segments=1, center=(sx - 0.028, vy, zb + 0.062),
                                       material_index=IDX_PIANO))
         if sp.detail == "full":
             for s in range(3):
-                parts.append(g.box_bm((0.030, vw * 0.9, 0.005), (sx - 0.048, vy, zb + 0.128 + (s - 1) * 0.017),
+                parts.append(g.box_bm((0.030, vw * 0.9, 0.005), (sx - 0.048, vy, zb + 0.062 + (s - 1) * 0.017),
                                       material_index=IDX_PLASTIC))
     # trim strip across the dash face
     parts.append(g.box_bm((0.030, yc * 1.72, 0.028), (sx - 0.014, 0, zb - 0.035), material_index=IDX_TRIM))
     # glovebox seam
     parts.append(g.rounded_box_bm((0.045, 0.44, 0.20), 0.014, segments=1,
-                                  center=(sx - 0.020, -ydrv * 0.95, zb - 0.145), material_index=IDX_SOFT))
+                                  center=(sx - 0.020, -ydrv * 0.95, zb - 0.170), material_index=IDX_SOFT))
 
     ob = g.to_object("Interior_Dash", g.merge_bm(parts), mats, smooth=True, sharp_angle_deg=34.0)
     return ob

@@ -52,7 +52,6 @@ def build():
     fr = C.local_frame(fp.polygon, fp.ground_z)
     P = fr.local_polygon(fp.polygon)
     minx, miny, maxx, maxy = P.bounds
-    south = fr.local_cardinal(180.0)               # Wall Street is south of the building
     objs = []
     marble, gran, bronze = C.M.marble_white, C.M.granite_grey, C.M.bronze
 

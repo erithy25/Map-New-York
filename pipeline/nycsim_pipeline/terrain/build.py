@@ -74,6 +74,8 @@ def run_step(step: str, args: argparse.Namespace) -> dict:
         from .ingest import INDEX_PATH
         with DemStack(INDEX_PATH) as stack:
             res["levels"] = water_build.finalize_levels(stack)
+            res["osm_dem_clip"] = water_build.refine_osm_geometry(stack)
+            res["levels_after_clip"] = water_build.finalize_levels(stack)
             res["shoreline"] = water_build.classify_shoreline_by_dem(stack)
     elif step == "coverage":
         from .compose import DemStack

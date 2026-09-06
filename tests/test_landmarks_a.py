@@ -85,14 +85,15 @@ class Glb:
             return m
         return {i: world(i) for i in range(len(self.g.nodes))}
 
-    def triangles(self, node_filter=None):
-        """(N,3,3) triangles in *Blender* coordinates (x east, y north, z up) for nodes passing node_filter(node)."""
+    def triangles_by_node(self, node_filter=None) -> list[np.ndarray]:
+        """One (N,3,3) triangle array per matching node, in *Blender* coordinates (x east, y north, z up)."""
         mats = self.node_world_matrices()
-        tris = []
+        out = []
         for i, n in enumerate(self.g.nodes):
             if n.mesh is None or (node_filter and not node_filter(n)):
                 continue
             m = mats[i]
+            tris = []
             for prim in self.g.meshes[n.mesh].primitives:
                 pos = self.accessor(prim.attributes.POSITION).astype(np.float64)
                 pos = (m[:3, :3] @ pos.T).T + m[:3, 3]
@@ -103,7 +104,14 @@ class Glb:
                 else:
                     idx = np.arange(len(pos))
                 tris.append(pos[idx.reshape(-1, 3)])
-        return np.concatenate(tris) if tris else np.zeros((0, 3, 3))
+            if tris:
+                out.append(np.concatenate(tris))
+        return out
+
+    def triangles(self, node_filter=None):
+        """(N,3,3) triangles for every matching node, concatenated."""
+        out = self.triangles_by_node(node_filter)
+        return np.concatenate(out) if out else np.zeros((0, 3, 3))
 
 
 def _section(tris: np.ndarray, z: float):
@@ -150,7 +158,6 @@ def _real_footprint_local(bins, origin_xy):
     import shapely
     import shapely.ops
     from shapely import wkb
-    from shapely.geometry import Polygon
     polys = []
     for path in (CANDIDATES, RAW):
         if not path.exists():
@@ -238,9 +245,13 @@ def test_footprint_iou(lid, built_ids):
         assert not cat["bins"]
         assert "no building footprint" in cat["fidelity_statement"].lower() or cat.get("footprint_iou") is None
         return
-    base = glb.triangles(lambda n: (n.extras or {}).get("nycsim_role") == "base")
-    assert base.shape[0] > 0, "no base-tagged nodes in glb"
-    sec = _section(base, 1.5)
+    # Section each base node separately and union the results: two base volumes that share a party wall (the NYSE
+    # trading hall and 11 Wall Street, MoMA's three blocks) merge into an open line graph if sectioned together.
+    import shapely.ops
+    per_node = glb.triangles_by_node(lambda n: (n.extras or {}).get("nycsim_role") == "base")
+    assert per_node, "no base-tagged nodes in glb"
+    assert sum(t.shape[0] for t in per_node) > 0
+    sec = shapely.ops.unary_union([_section(t, 1.5) for t in per_node])
     real = _real_footprint_local(cat["bins"], cat["origin_tm"][:2])
     inter = sec.intersection(real).area
     union = sec.union(real).area

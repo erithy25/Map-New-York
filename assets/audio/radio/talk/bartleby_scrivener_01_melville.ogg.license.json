@@ -1,0 +1,28 @@
+{
+ "artist": "Herman Melville; read by LibriVox volunteers",
+ "attribution_note": "LibriVox recordings are in the public domain; text is public domain (pre-1930 US).",
+ "bytes": 10207377,
+ "duration_s": 1357.95,
+ "file": "talk/bartleby_scrivener_01_melville.ogg",
+ "gain_db": -0.2,
+ "licence": "Public Domain (LibriVox; CC PDM/CC0)",
+ "licence_url": "http://creativecommons.org/licenses/publicdomain/",
+ "loudness_lufs": -15.8,
+ "original_filename": "bartleby_scrivener_01_melville.mp3",
+ "recorded_at": "2026-09-06T12:27:07Z",
+ "schema_version": 1,
+ "sha256": "2318e2ed598b67b6195f7a7f9565d4dccf8d5cd67d4f914ce11423456118ab56",
+ "source_page": "https://archive.org/details/bartleby_scrivener_1107_librivox",
+ "source_site": "archive.org (LibriVox)",
+ "source_url": "https://archive.org/download/bartleby_scrivener_1107_librivox/bartleby_scrivener_01_melville.mp3",
+ "title": "Bartleby the Scrivener \u2014 01",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": true,
+  "quality": 1.5,
+  "sample_rate": 32000,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

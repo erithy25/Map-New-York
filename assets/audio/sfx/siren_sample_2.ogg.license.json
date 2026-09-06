@@ -1,0 +1,20 @@
+{
+ "artist": "Techtonic",
+ "attribution_note": "search: police siren",
+ "bytes": 637356,
+ "duration_s": 76.32,
+ "file": "sfx/siren_sample_2.ogg",
+ "gain_db": 6.5,
+ "licence": "Public Domain",
+ "licence_url": "",
+ "loudness_lufs": -20.5,
+ "original_filename": "Civil-defense-siren-waver.ogg",
+ "recorded_at": "2026-09-06T12:31:18Z",
+ "schema_version": 1,
+ "sha256": "b5b68e742939dc5b493fc4eb3961a1da78076eeac4996d16ae1cb77f5b0455f1",
+ "source_page": "https://commons.wikimedia.org/wiki/File:Civil-defense-siren-waver.ogg",
+ "source_site": "commons.wikimedia.org",
+ "source_url": "https://upload.wikimedia.org/wikipedia/commons/6/69/Civil-defense-siren-waver.ogg",
+ "title": "Civil-defense-siren-waver",
+ "transcode": null
+}

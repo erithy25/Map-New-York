@@ -1,0 +1,209 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_coney_island_cyclone",
+ "name": "Coney Island Cyclone",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.5754,
+  "lon": -73.9772,
+  "azimuth_deg": 225.4,
+  "note": "Surf Avenue at West 10th Street, north sidewalk, looking south-west at the lift hill",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.5748,
+  "lon": -73.978,
+  "name": "Cyclone roller coaster"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Coney Island Cyclone\" roller coaster",
+  "\"Cyclone\" roller coaster Coney Island Luna Park"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T12:39:34Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 95,
+ "candidates_eligible": 37,
+ "rejections": {
+  "too_old": 16,
+  "keywords": 31,
+  "licence": 1,
+  "not_photo": 3,
+  "too_small": 4,
+  "excluded": 2,
+  "night_for_day_item": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Coney Island Cyclone New York September 2016 002.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Coney_Island_Cyclone_New_York_September_2016_002.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Coney_Island_Cyclone_New_York_September_2016_002.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Coney_Island_Cyclone_New_York_September_2016_002.jpg/1920px-Coney_Island_Cyclone_New_York_September_2016_002.jpg",
+   "author": "King of Hearts",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2016",
+   "date_source": "DateTimeOriginal",
+   "year": 2016,
+   "camera_gps": {
+    "lat": 40.575283,
+    "lon": -73.977845
+   },
+   "original_width": 2920,
+   "original_height": 4380,
+   "width": 1920,
+   "height": 2880,
+   "bytes": 1407915,
+   "sha256": "149826fa91e0d2e1f88d4f812cd08f984efed81c47489f11c177488e615ee648",
+   "mean_luminance": 110.9,
+   "description": "Ticket booth, Coney Island Cyclone , Brooklyn , New York City .",
+   "categories": [
+    "Taken with Nikon D7000",
+    "Coney Island Cyclone",
+    "Images from Wiki Loves Monuments 2020 in the United States",
+    "Images from Wiki Loves Monuments 2020 in New York",
+    "Self-published work",
+    "National Register of Historic Places with known IDs",
+    "Uploaded via Campaign:wlm-us",
+    "Barricades in New York City",
+    "United States photographs taken on 2016-09-24",
+    "Standing people in Brooklyn, New York City",
+    "Images from Wiki Loves Monuments 2020",
+    "Wiki Loves Monuments 2020 in the United States unreviewed",
+    "2016 in Coney Island, Brooklyn",
+    "Ticket booths in the United States",
+    "September 2016 in Brooklyn, New York City"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.65,
+   "estimated_viewpoint": {
+    "lat": 40.575283,
+    "lon": -73.977845,
+    "azimuth_deg": 193.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.57528, -73.97785) is 55 m from Cyclone roller coaster (40.57480, -73.97800) and 56 m from the standard viewpoint; the azimuth 194 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Coney Island Cyclone New York September 2016 002.jpg\" by King of Hearts, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Coney_Island_Cyclone_New_York_September_2016_002.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Coney Island Cyclone August 2022.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Coney_Island_Cyclone_August_2022.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/06/Coney_Island_Cyclone_August_2022.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Coney_Island_Cyclone_August_2022.jpg/1920px-Coney_Island_Cyclone_August_2022.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-08-12 13:53:45",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.575397,
+    "lon": -73.977806
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 613418,
+   "sha256": "fe24a475a343abb55e6e6b70b221320566a2fe029869dfdf36aa3b0e50481bd8",
+   "mean_luminance": 126.4,
+   "description": "Coney Island Cyclone in August 2022",
+   "categories": [
+    "Coney Island Cyclone",
+    "New York City photographs taken on 2022-08-12",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Amusement parks in 2022",
+    "2022 in Coney Island, Brooklyn",
+    "August 2022 in Brooklyn, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.05,
+   "estimated_viewpoint": {
+    "lat": 40.575397,
+    "lon": -73.977806,
+    "azimuth_deg": 193.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.57540, -73.97781) is 68 m from Cyclone roller coaster (40.57480, -73.97800) and 51 m from the standard viewpoint; the azimuth 194 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Coney Island Cyclone August 2022.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Coney_Island_Cyclone_August_2022.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Coney Island Cyclone August 2022 001.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Coney_Island_Cyclone_August_2022_001.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/f7/Coney_Island_Cyclone_August_2022_001.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Coney_Island_Cyclone_August_2022_001.jpg/1920px-Coney_Island_Cyclone_August_2022_001.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-08-12 13:54:26",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.575231,
+    "lon": -73.977792
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 550773,
+   "sha256": "ad0ffdac88130a8a2084584399c6323881fd94ed55d617e03697a704c80417fa",
+   "mean_luminance": 128.4,
+   "description": "Coney Island Cyclone in August 2022",
+   "categories": [
+    "Coney Island Cyclone",
+    "New York City photographs taken on 2022-08-12",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Amusement parks in 2022",
+    "2022 in Coney Island, Brooklyn",
+    "August 2022 in Brooklyn, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.05,
+   "estimated_viewpoint": {
+    "lat": 40.575231,
+    "lon": -73.977792,
+    "azimuth_deg": 200.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.57523, -73.97779) is 51 m from Cyclone roller coaster (40.57480, -73.97800) and 53 m from the standard viewpoint; the azimuth 200 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Coney Island Cyclone August 2022 001.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Coney_Island_Cyclone_August_2022_001.jpg"
+  }
+ ]
+}

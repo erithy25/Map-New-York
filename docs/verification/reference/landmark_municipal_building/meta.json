@@ -1,0 +1,206 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_municipal_building",
+ "name": "Manhattan Municipal Building",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.714,
+  "lon": -74.0058,
+  "azimuth_deg": 131.3,
+  "note": "Chambers Street at Broadway (Tweed Courthouse), looking east down Chambers Street at the arch",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7128,
+  "lon": -74.004,
+  "name": "Manhattan Municipal Building"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Manhattan Municipal Building\"",
+  "\"David N. Dinkins Municipal Building\""
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T12:34:31Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 107,
+ "candidates_eligible": 64,
+ "rejections": {
+  "licence": 1,
+  "too_old": 3,
+  "excluded": 5,
+  "indoor": 5,
+  "too_small": 4,
+  "not_photo": 2,
+  "not_jpeg": 1,
+  "keywords": 22
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Chambers St Bway td (2019-11-26) 10 - Manhattan Municipal Building.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Chambers_St_Bway_td_(2019-11-26)_10_-_Manhattan_Municipal_Building.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/99/Chambers_St_Bway_td_%282019-11-26%29_10_-_Manhattan_Municipal_Building.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Chambers_St_Bway_td_%282019-11-26%29_10_-_Manhattan_Municipal_Building.jpg/1920px-Chambers_St_Bway_td_%282019-11-26%29_10_-_Manhattan_Municipal_Building.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2019-11-26 17:45:01",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.71425,
+    "lon": -74.006111
+   },
+   "original_width": 3648,
+   "original_height": 5472,
+   "width": 1920,
+   "height": 2880,
+   "bytes": 1010620,
+   "sha256": "d1c04d9777077de956cdc33478488e011ac35812f1a79b7947a3e2f6473c6adf",
+   "mean_luminance": 109.9,
+   "description": "Looking east at the Manhattan Municipal Building from Chambers Street and Broadway in Tribeca / Civic Center, Manhattan.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "Manhattan Municipal Building",
+    "New York City photographs taken on 2019-11-26",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2019 Manhattan photographs by Tdorante10",
+    "Civic Center, Manhattan in 2019",
+    "2019 in Tribeca, Manhattan",
+    "November 2019 in Manhattan, New York City",
+    "Broadway and Chambers Street, Manhattan",
+    "Views of New York City from west"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.6,
+   "estimated_viewpoint": {
+    "lat": 40.71425,
+    "lon": -74.006111,
+    "azimuth_deg": 132.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71425, -74.00611) is 240 m from Manhattan Municipal Building (40.71280, -74.00400) and 38 m from the standard viewpoint; the azimuth 132 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Chambers St Bway td (2019-11-26) 10 - Manhattan Municipal Building.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Chambers_St_Bway_td_(2019-11-26)_10_-_Manhattan_Municipal_Building.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Manhattan Municipal Building (48126617842).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Manhattan_Municipal_Building_(48126617842).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/da/Manhattan_Municipal_Building_%2848126617842%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Manhattan_Municipal_Building_%2848126617842%29.jpg/1920px-Manhattan_Municipal_Building_%2848126617842%29.jpg",
+   "author": "Ajay Suresh from New York, NY, USA",
+   "credit": "Manhattan Municipal Building",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2019-06-22 20:01",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.71393,
+    "lon": -74.006256
+   },
+   "original_width": 2978,
+   "original_height": 3971,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1577508,
+   "sha256": "1e521998df8eb4af9f3122fdd7d1341631b1f1712e6e46b2ed0b408553b8f58b",
+   "mean_luminance": 91.9,
+   "description": "Civic Center, Manhattan, NYC",
+   "categories": [
+    "Manhattan Municipal Building",
+    "New York City photographs taken on 2019-06-22",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Civic Center, Manhattan in 2019",
+    "June 2019 in Manhattan, New York City",
+    "2019 New York City photographs by ajay suresh"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.6,
+   "estimated_viewpoint": {
+    "lat": 40.71393,
+    "lon": -74.006256,
+    "azimuth_deg": 123.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71393, -74.00626) is 228 m from Manhattan Municipal Building (40.71280, -74.00400) and 39 m from the standard viewpoint; the azimuth 123 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Manhattan Municipal Building (48126617842).jpg\" by Ajay Suresh from New York, NY, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Manhattan_Municipal_Building_(48126617842).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Manhattan Municipal Building April 2022 003.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Manhattan_Municipal_Building_April_2022_003.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/26/Manhattan_Municipal_Building_April_2022_003.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Manhattan_Municipal_Building_April_2022_003.jpg/1920px-Manhattan_Municipal_Building_April_2022_003.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-04-16 14:06:42",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.712711,
+    "lon": -74.004792
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 602459,
+   "sha256": "ff2b2fbc0d0dd620531b1ccd775b1c49c3bd9f273be303eeaac7f705d4ecd727",
+   "mean_luminance": 139.5,
+   "description": "Manhattan Municipal Building in April 2022",
+   "categories": [
+    "Manhattan Municipal Building",
+    "New York City photographs taken on 2022-04-16",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Office buildings in the United States photographed in 2022",
+    "Civic Center, Manhattan in 2022",
+    "April 2022 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"David N. Dinkins Municipal Building\"",
+   "score": 10.05,
+   "estimated_viewpoint": {
+    "lat": 40.712711,
+    "lon": -74.004792,
+    "azimuth_deg": 81.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71271, -74.00479) is 67 m from Manhattan Municipal Building (40.71280, -74.00400) and 167 m from the standard viewpoint; the azimuth 82 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Manhattan Municipal Building April 2022 003.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Manhattan_Municipal_Building_April_2022_003.jpg"
+  }
+ ]
+}

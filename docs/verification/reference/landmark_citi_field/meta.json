@@ -1,0 +1,196 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_citi_field",
+ "name": "Citi Field",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7547,
+  "lon": -73.8458,
+  "azimuth_deg": 0.0,
+  "note": "Mets-Willets Point station ramp / 126th Street plaza, looking north at the Jackie Robinson Rotunda",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7571,
+  "lon": -73.8458,
+  "name": "Citi Field (Jackie Robinson Rotunda)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2009,
+ "wanted": 3,
+ "queries": [
+  "\"Citi Field\" exterior rotunda",
+  "\"Citi Field\" Jackie Robinson Rotunda exterior facade"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T12:38:26Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 70,
+ "candidates_eligible": 12,
+ "rejections": {
+  "excluded": 47,
+  "too_small": 1,
+  "keywords": 7,
+  "too_old": 1,
+  "indoor": 2
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Citi Field August 2021.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Citi_Field_August_2021.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Citi_Field_August_2021.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Citi_Field_August_2021.jpg/1920px-Citi_Field_August_2021.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-08-07 15:14:05",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.754739,
+    "lon": -73.846022
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 474248,
+   "sha256": "e486ffa05d523451e0fc61767a1e2d7c90fd2c743510115aa2b927f06f79a212",
+   "mean_luminance": 152.6,
+   "description": "Citi Field, home of the New York Mets",
+   "categories": [
+    "Exterior of Citi Field",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Flushing Meadows–Corona Park in 2021",
+    "2021 New York Mets season",
+    "August 2021 in Queens, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.9,
+   "estimated_viewpoint": {
+    "lat": 40.754739,
+    "lon": -73.846022,
+    "azimuth_deg": 4.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75474, -73.84602) is 263 m from Citi Field (Jackie Robinson Rotunda) (40.75710, -73.84580) and 19 m from the standard viewpoint; the azimuth 4 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Citi Field August 2021.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Citi_Field_August_2021.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Citi Field (48613685207).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Citi_Field_(48613685207).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Citi_Field_%2848613685207%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Citi_Field_%2848613685207%29.jpg/1920px-Citi_Field_%2848613685207%29.jpg",
+   "author": "Ajay Suresh from New York, NY, USA",
+   "credit": "Citi Field",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2019",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.754544,
+    "lon": -73.846523
+   },
+   "original_width": 4516,
+   "original_height": 2540,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 887276,
+   "sha256": "e7d0b772ff1599594b2fcd70a2ed45c33b085e417cf46055c6586ff3e0205d08",
+   "mean_luminance": 101.8,
+   "description": "Flushing Meadows–Corona Park, Queens, NYC",
+   "categories": [
+    "Exterior of Citi Field",
+    "2019 New York Mets season",
+    "New York City photographs taken on 2019-08-23",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Flushing Meadows–Corona Park in 2019",
+    "August 2019 in Queens, New York City",
+    "New York City photographs by ajay suresh"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.6,
+   "estimated_viewpoint": {
+    "lat": 40.754544,
+    "lon": -73.846523,
+    "azimuth_deg": 12.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75454, -73.84652) is 291 m from Citi Field (Jackie Robinson Rotunda) (40.75710, -73.84580) and 63 m from the standard viewpoint; the azimuth 12 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Citi Field (48613685207).jpg\" by Ajay Suresh from New York, NY, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Citi_Field_(48613685207).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Citi Field New York Mets 03.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Citi_Field_New_York_Mets_03.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d9/Citi_Field_New_York_Mets_03.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Citi_Field_New_York_Mets_03.jpg/1920px-Citi_Field_New_York_Mets_03.jpg",
+   "author": "Zakarie Faibis",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018-08-02 17:23:28",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.754697,
+    "lon": -73.844353
+   },
+   "original_width": 2448,
+   "original_height": 3264,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 829365,
+   "sha256": "d8aea77176be4c62302d03c52cd66d9c8aeaadd58eb5f5097e3bb2f664aa1638",
+   "mean_luminance": 120.7,
+   "description": "Citi Field New York Mets vs Atlanta Braves",
+   "categories": [
+    "Exterior of Citi Field",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2018 New York Mets season"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.45,
+   "estimated_viewpoint": {
+    "lat": 40.754697,
+    "lon": -73.844353,
+    "azimuth_deg": 335.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75470, -73.84435) is 294 m from Citi Field (Jackie Robinson Rotunda) (40.75710, -73.84580) and 122 m from the standard viewpoint; the azimuth 335 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Citi Field New York Mets 03.jpg\" by Zakarie Faibis, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Citi_Field_New_York_Mets_03.jpg"
+  }
+ ]
+}

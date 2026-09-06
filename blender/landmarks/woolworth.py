@@ -146,8 +146,8 @@ def main():
                          "floor_h_m": round(FLOOR_H, 3), "base_top_floor": 30, "tower_plan_m": [25.0, 25.0],
                          "tourelles": 4, "tourelle_h_m": 16.0})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 120, "elevation_deg": "street", "distance": 185, "target_z": 88, "fov_deg": 62},
-        {"view": "aerial", "azimuth_deg": 130, "elevation_deg": 22, "distance": 720, "fov_deg": 38, "target_z": 130},
+        {"view": "street", "azimuth_deg": 120, "elevation_deg": "street", "distance": 365, "target_z": 102, "fov_deg": 60},
+        {"view": "aerial", "azimuth_deg": 130, "elevation_deg": 20, "distance": 640, "fov_deg": 40, "target_z": 128},
     ])
 
 

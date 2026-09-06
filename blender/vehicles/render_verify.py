@@ -128,11 +128,13 @@ def render_fusion(samples: int, which: str = "both") -> None:
         shoot(env.VERIFY_DIR / "fusion_exterior.png", loc=(9.4, 5.6, 2.35), target=(1.55, 0.0, 0.72),
               fov=30.0, samples=samples)
     if which in ("both", "interior"):
-        # driver's eye point: 0.62 m above the H-point, 0.09 m ahead of it (SAE eyellipse centroid)
-        eye = (BF.LIVERIES and (1.99, 0.375, 1.165))
-        area_fill((1.2, 0.0, 1.34), 1.2, 55.0, target=(2.6, 0.0, 0.80))
-        shoot(env.VERIFY_DIR / "fusion_interior_driver_pov.png", loc=eye, target=(4.6, 0.10, 0.74),
-              fov=72.0, samples=samples)
+        # SAE eyellipse centroid for the driver: 0.09 m ahead of the H-point and 0.74 m above it, i.e.
+        # (1.99, +0.375, 1.245) for the H-point at (1.90, +0.375, 0.505).
+        eye = (1.99, 0.375, 1.245)
+        area_fill((1.10, 0.0, 1.32), 1.1, 40.0, target=(2.7, 0.0, 0.85))
+        area_fill((2.60, 0.90, 1.30), 0.8, 25.0, target=(2.2, 0.2, 0.90))
+        shoot(env.VERIFY_DIR / "fusion_interior_driver_pov.png", loc=eye, target=(6.4, 0.10, 0.42),
+              fov=64.0, samples=samples)
 
 
 def render_ortho(samples: int) -> None:

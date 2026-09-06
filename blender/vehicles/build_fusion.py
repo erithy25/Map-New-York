@@ -83,18 +83,18 @@ def blueprint() -> Blueprint:
         name="fusion",
         dims=DIMS,
         # ---- underbody centreline: flat pan over the wheelbase, valances rising at both ends
-        z_under=curve((-1.032, 0.520), (-0.85, 0.380), (-0.55, 0.260), (-0.20, 0.190), (0.30, 0.175),
-                      (1.20, 0.160), (2.20, 0.150), (2.80, 0.145), (3.25, 0.150), (3.55, 0.180),
-                      (3.72, 0.260), (3.84, 0.480)),
+        z_under=curve((-1.032, 0.400), (-0.85, 0.330), (-0.55, 0.250), (-0.20, 0.190), (0.30, 0.175),
+                      (1.20, 0.160), (2.20, 0.150), (2.80, 0.145), (3.25, 0.150), (3.55, 0.170),
+                      (3.72, 0.200), (3.84, 0.290)),
         # ---- rocker: bottom edge of the visible side surface between the arches (0.195 m = published 130 mm
         #      clearance + 65 mm of sill section)
-        z_rocker=curve((-1.032, 0.470), (-0.80, 0.330), (-0.50, 0.245), (-0.10, 0.205), (0.60, 0.195),
-                       (2.00, 0.195), (2.55, 0.210), (3.05, 0.255), (3.45, 0.330), (3.70, 0.390),
-                       (3.84, 0.460)),
+        z_rocker=curve((-1.032, 0.430), (-0.80, 0.320), (-0.50, 0.240), (-0.10, 0.205), (0.60, 0.195),
+                       (2.00, 0.195), (2.55, 0.210), (3.05, 0.250), (3.45, 0.295), (3.70, 0.300),
+                       (3.84, 0.340)),
         # ---- beltline: bottom of the daylight opening; rises 55 mm from the cowl to the boot shoulder
-        z_belt=curve((-1.032, 1.020), (-0.60, 1.035), (0.00, 1.030), (0.80, 1.010), (1.40, 0.990),
-                     (2.10, 0.975), (2.72, 0.980), (3.10, 0.975), (3.45, 0.950), (3.70, 0.915),
-                     (3.84, 0.870)),
+        z_belt=curve((-1.032, 1.010), (-0.60, 1.035), (0.00, 1.030), (0.80, 1.010), (1.40, 0.990),
+                     (2.10, 0.975), (2.72, 0.980), (3.10, 0.985), (3.45, 0.960), (3.70, 0.900),
+                     (3.84, 0.760)),
         # ---- top centreline: boot lid -> backlight -> roof (peak 1.476 = published height) -> windshield -> hood
         z_top=curve((-1.032, 1.078), (-0.70, 1.118), (-0.30, 1.170), (0.02, 1.205), (0.30, 1.310),
                     (0.55, 1.410), (0.78, 1.462), (1.10, 1.474), (1.40, 1.476), (1.75, 1.470),
@@ -108,14 +108,14 @@ def blueprint() -> Blueprint:
                     (1.30, 0.926), (2.10, 0.926), (2.70, 0.921), (3.10, 0.905), (3.45, 0.885),
                     (3.68, 0.830), (3.84, 0.720)),
         y_belt=curve((-1.032, 0.790), (-0.80, 0.845), (-0.40, 0.865), (0.10, 0.878), (1.00, 0.890),
-                     (2.10, 0.890), (2.72, 0.878), (3.10, 0.862), (3.45, 0.840), (3.68, 0.780),
-                     (3.84, 0.660)),
-        y_top=curve((-1.032, 0.640), (-0.80, 0.690), (-0.35, 0.700), (0.02, 0.690), (0.35, 0.655),
-                    (0.78, 0.618), (1.40, 0.628), (2.00, 0.606), (2.35, 0.680), (2.72, 0.760),
-                    (3.05, 0.790), (3.40, 0.775), (3.68, 0.720), (3.84, 0.580)),
-        crown=curve((-1.032, 0.014), (-0.50, 0.022), (0.02, 0.045), (0.40, 0.062), (0.78, 0.036),
-                    (1.40, 0.028), (2.00, 0.040), (2.35, 0.075), (2.72, 0.068), (3.10, 0.042),
-                    (3.50, 0.048), (3.84, 0.060)),
+                     (2.10, 0.890), (2.72, 0.878), (3.10, 0.890), (3.45, 0.868), (3.68, 0.800),
+                     (3.84, 0.670)),
+        y_top=curve((-1.032, 0.700), (-0.80, 0.762), (-0.35, 0.778), (0.02, 0.730), (0.35, 0.660),
+                    (0.78, 0.618), (1.40, 0.628), (2.00, 0.606), (2.35, 0.690), (2.72, 0.790),
+                    (3.05, 0.872), (3.40, 0.845), (3.68, 0.775), (3.84, 0.640)),
+        crown=curve((-1.032, 0.018), (-0.50, 0.030), (0.02, 0.048), (0.40, 0.062), (0.78, 0.036),
+                    (1.40, 0.028), (2.00, 0.040), (2.35, 0.075), (2.72, 0.070), (3.10, 0.080),
+                    (3.50, 0.086), (3.84, 0.076)),
         shoulder_t=curve((-1.032, 0.50), (0.00, 0.60), (1.50, 0.63), (2.85, 0.58), (3.84, 0.50)),
         tumble=curve((-1.032, 0.40), (0.50, 0.55), (2.00, 0.55), (3.00, 0.45), (3.84, 0.40)),
         x_cowl=X_COWL, x_roof_front=X_ROOF_F, x_roof_rear=X_ROOF_R, x_deck=X_DECK, x_hood_rear=X_COWL,
@@ -277,7 +277,7 @@ def build(detail: str = "high") -> tuple[rig.Vehicle, dict]:
     # ---------- lamps
     head = {}
     for s, tag in ((1, "L"), (-1, "R")):
-        head.update(P.headlamp_unit("head", s, lib, x=3.700, y=s * 0.530, z=0.930, w=0.320, h=0.165, rake=-16.0))
+        head.update(P.headlamp_unit("head", s, lib, x=3.700, y=s * 0.545, z=0.950, w=0.320, h=0.165, rake=-16.0))
     v.add(head["LIGHT_HEAD_L"]); v.add(head["LIGHT_HEAD_R"])
     v.add(head["LIGHT_TURN_FL"]); v.add(head["LIGHT_TURN_FR"])
     v.add(g.join([head["_low_L"], head["_low_R"]], "LIGHT_LOW", sharp_angle_deg=50.0))
@@ -313,14 +313,14 @@ def build(detail: str = "high") -> tuple[rig.Vehicle, dict]:
     v.add(P.exhaust(lib, x_tip=X_REAR + 0.02, y=0.36, z=0.360, r=0.036, length=0.85, tips=2, spacing=0.20))
 
     plate_img = TX.plate_ny("plate_ny_player", LIVERIES["player_grey"]["plate"])
-    v.add(P.plate("Plate_F", lib, plate_img, center=(3.795, 0.0, 0.640), normal=(1, 0, 0.10)))
+    v.add(P.plate("Plate_F", lib, plate_img, center=(3.800, 0.0, 0.690), normal=(1, 0, 0.10)))
     v.add(P.plate("Plate_R", lib, plate_img, center=(X_REAR + 0.048, 0.0, 0.735), normal=(-1, 0, -0.05)))
 
     trim = [lib.gloss_black(), lib.chrome(), lib.black_plastic()]
-    grille_bm = P.grille(lib, x=3.755, z0=0.770, z1=0.955, y_half=0.400, bars=5, rake=0.10)
-    lower = P.grille(lib, x=3.735, z0=0.500, z1=0.665, y_half=0.470, bars=3, rake=0.06)
-    surround = g.set_material_bm(P.grille_surround(3.775, 0.770, 0.955, 0.400, bar=0.026), 1)
-    lower_sur = g.set_material_bm(P.grille_surround(3.755, 0.500, 0.665, 0.470, bar=0.020), 2)
+    grille_bm = P.grille(lib, x=3.760, z0=0.760, z1=0.930, y_half=0.395, bars=5, rake=0.10)
+    lower = P.grille(lib, x=3.740, z0=0.420, z1=0.610, y_half=0.480, bars=3, rake=0.06)
+    surround = g.set_material_bm(P.grille_surround(3.782, 0.760, 0.930, 0.395, bar=0.026), 1)
+    lower_sur = g.set_material_bm(P.grille_surround(3.762, 0.420, 0.610, 0.480, bar=0.020), 2)
     v.add(g.to_object("Grille", g.merge_bm([grille_bm, lower, surround, lower_sur]), trim,
                       smooth=True, sharp_angle_deg=40.0))
 

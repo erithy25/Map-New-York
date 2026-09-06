@@ -184,7 +184,11 @@ def run(*, write_runtime: bool = True, rebuild_sidewalks: bool = False) -> dict:
     detail = detail.join(per_nta, on="nta_code", how="left")
     _write_parquet(detail, DETAIL_PATH, "traffic/density_detail@1")
 
-    fm = fleet_mix.build_fleet_mix(nta, lu, tlc_vkm, RAW / "nyc_opendata" / fleet_mix.DSNY_PATH, sh.stats)
+    veh_count = vol.density * vol.lane_km[:, None, None]
+    group_shares = fleet_mix.region_group_shares(
+        nta, {"taxi": sh.taxi, "truck": sh.truck, "bus": sh.bus, "bike": sh.bike}, veh_count)
+    fm = fleet_mix.build_fleet_mix(nta, lu, tlc_vkm, RAW / "nyc_opendata" / fleet_mix.DSNY_PATH,
+                                   sh.stats, group_shares)
     fleet_mix.validate_fleet_mix(fm)
     fleet_mix.write_fleet_mix(fm, FLEET_PATH)
     mark("outputs")

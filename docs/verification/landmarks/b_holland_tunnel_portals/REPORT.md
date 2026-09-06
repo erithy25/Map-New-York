@@ -1,6 +1,6 @@
 # Holland Tunnel
 
-Script: `blender/landmarks/b_holland_tunnel_portals.py` · agent B · generated 2026-09-06 12:24 UTC
+Script: `blender/landmarks/b_holland_tunnel_portals.py` · agent B · generated 2026-09-06 12:35 UTC
 
 ## Placement
 

@@ -490,6 +490,21 @@ void PedSim::integrate(uint32_t i) {
                                      : (p.flags & ~(kPedOnRoad | kPedJaywalking)));
 }
 
+// Carries the world position across an edge change instead of snapping to the
+// node: a snap would teleport the agent by up to half a corridor width, which
+// is how a pedestrian ends up on the far side of a building line.
+void PedSim::reprojectOntoEdge(Pedestrian& p) {
+  float s = 0.f, lat = 0.f;
+  walk_->projectOnEdge(p.edge, p.x, p.y, s, lat);
+  const float half = edgeWidthHalf(p.edge);
+  p.s = clampf(s, 0.f, walk_->edge(p.edge).length_m);
+  p.lateral = clampf(lat, -half, half);
+  const Vec3 q = walk_->pointOn(p.edge, p.s, p.lateral);
+  p.x = q.x;
+  p.y = q.y;
+  p.z = q.z;
+}
+
 // Node reached: take the next edge of the path, or wait at the kerb.
 bool PedSim::advanceEdge(Pedestrian& p) {
   const uint32_t node = currentNodeAhead(p);
@@ -531,11 +546,10 @@ bool PedSim::advanceEdge(Pedestrian& p) {
       p.vy = 0.f;
       return false;
     }
-    const WalkEdge& ne = walk_->edge(pick);
     p.edge = pick;
-    p.dir = ne.a == node ? 1 : -1;
-    p.s = p.dir > 0 ? 0.f : ne.length_m;
-    p.activity = ne.kind == WalkEdgeKind::Crosswalk ? PedActivity::Cross : PedActivity::Walk;
+    p.dir = walk_->edge(pick).a == node ? 1 : -1;
+    reprojectOntoEdge(p);
+    p.activity = walk_->edge(pick).kind == WalkEdgeKind::Crosswalk ? PedActivity::Cross : PedActivity::Walk;
     p.wait_time = 0.f;
     if (p.path_len > 0) p.path_len = 0;
     return true;
@@ -559,12 +573,11 @@ bool PedSim::advanceEdge(Pedestrian& p) {
     }
     return false;
   }
-  const WalkEdge& ne = walk_->edge(next_edge);
-  const bool crossing = ne.kind == WalkEdgeKind::Crosswalk;
+  const bool crossing = walk_->edge(next_edge).kind == WalkEdgeKind::Crosswalk;
   if (crossing && crosswalkState(next_edge) != PedSignal::Walk) p.flags |= kPedJaywalking;
   p.edge = next_edge;
-  p.dir = ne.a == node ? 1 : -1;
-  p.s = p.dir > 0 ? 0.f : ne.length_m;
+  p.dir = walk_->edge(next_edge).a == node ? 1 : -1;
+  reprojectOntoEdge(p);
   p.path_pos += 1;
   p.wait_time = 0.f;
   p.activity = crossing ? PedActivity::Cross : (((p.flags & kPedJogger) != 0) ? PedActivity::Jog

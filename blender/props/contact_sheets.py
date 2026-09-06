@@ -93,9 +93,10 @@ def world_bounds(objs) -> tuple[Vector, Vector]:
     return lo, hi
 
 
-def ground(size: float = 200.0, material=None) -> bpy.types.Object:
-    """Plain neutral pad: a contact sheet is about the prop, and an untextured ground samples far faster."""
-    return C.box("ground", (size, size, 0.10), origin=(0, 0, -0.10),
+def ground(size_x: float, size_y: float, center_x: float = 0.0, material=None) -> bpy.types.Object:
+    """Plain neutral pad under the row: a contact sheet is about the prop, and an untextured ground samples
+    far faster than a tiling concrete material."""
+    return C.box("ground", (size_x, size_y, 0.10), origin=(center_x, 0.0, -0.10),
                  material=material or C.mat_solid("sheet_ground", "#8E9297", 0.85))
 
 
@@ -188,8 +189,8 @@ def render_sheet(name: str, spec: dict, samples: int, width: int) -> Path:
     for cache in (bpy.data.materials, bpy.data.images, bpy.data.meshes):
         for it in list(cache):
             cache.remove(it)
-    ground(max(60.0, len(spec["ids"]) * 12.0))
     placed, row_len, top = layout(spec["ids"], spec.get("pad", 1.0), spec.get("lift", 0.0))
+    ground(row_len * 1.6 + 20.0, max(24.0, top * 1.2), row_len / 2.0)
     ortho = row_len * 1.04
     height_px = max(220, min(1400, int(width * (top + 0.9) / ortho)))
     out = OUT / f"sheet_{name}.png"
@@ -211,22 +212,26 @@ def annotate(path: Path, placed: list[dict], width: int, height: int) -> None:
         co = world_to_camera_view(sc, cam, Vector((p["x"], 0.0, 0.0)))
         labels.append((max(0.0, min(1.0, co.x)) * width, p))
     im = Image.open(path).convert("RGB")
-    strip = 46
+    strip = 62
     sheet = Image.new("RGB", (width, height + strip), (22, 24, 26))
     sheet.paste(im, (0, 0))
     d = ImageDraw.Draw(sheet)
     font_path = C.FONT_SEMIBOLD
-    f1 = ImageFont.truetype(str(font_path), 15)
-    f2 = ImageFont.truetype(str(font_path), 12)
-    for x, p in labels:
+    f1 = ImageFont.truetype(str(font_path), 14)
+    f2 = ImageFont.truetype(str(font_path), 11)
+    # captions are staggered over two bands so long ids on a crowded sheet cannot overlap
+    labels.sort(key=lambda t: t[0])
+    for k, (x, p) in enumerate(labels):
+        band = (k % 2) * 30
         txt = p["id"]
         dims = "x".join(f"{v:g}" for v in p["size"]) + " m"
         w1 = d.textlength(txt, font=f1)
         w2 = d.textlength(dims, font=f2)
         x1 = max(2, min(width - w1 - 2, x - w1 / 2))
         x2 = max(2, min(width - w2 - 2, x - w2 / 2))
-        d.text((x1, height + 5), txt, font=f1, fill=(236, 238, 240))
-        d.text((x2, height + 25), dims, font=f2, fill=(150, 200, 160))
+        d.line([(x, height), (x, height + 4 + band)], fill=(90, 96, 102))
+        d.text((x1, height + 4 + band), txt, font=f1, fill=(236, 238, 240))
+        d.text((x2, height + 19 + band), dims, font=f2, fill=(150, 200, 160))
     sheet.save(path)
 
 

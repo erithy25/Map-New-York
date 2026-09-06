@@ -320,6 +320,9 @@ def pass_rules(out_dir: Path, limit_groups: int | None = None) -> dict:
 
     base_prim = D.CLASS.material_primary[fc].astype(np.int8)
     base_sec = D.CLASS.material_secondary[fc].astype(np.int8)
+    swap = (fc == D.PREWAR_INDUSTRIAL_CLASS) & (year > 0) & (year <= D.PREWAR_INDUSTRIAL_MAX_YEAR)
+    if swap.any():
+        base_prim[swap], base_sec[swap] = base_sec[swap].copy(), base_prim[swap].copy()
     gar = feature_code == 5110
     if gar.any():
         gp, gs = D.garage_material(np.asarray(df["bldg_class"].to_list(), dtype=object)[gar],

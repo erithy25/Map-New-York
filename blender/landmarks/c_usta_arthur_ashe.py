@@ -45,7 +45,7 @@ CAPACITY = 23771
 
 def build():
     C.reset()
-    cc.materials(["concrete", "concrete_dark", "steel_dark", "steel_galvanized" if False else "aluminium",
+    cc.materials(["concrete", "concrete_dark", "steel_dark", "aluminium",
                   "marble_white", "grass", "asphalt", "roof_dark", "pavement", "glass_dark"])
     g = cc.Group(ID)
     P = g.poly(BIN)

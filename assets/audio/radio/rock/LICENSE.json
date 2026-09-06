@@ -1,0 +1,134 @@
+{
+ "author": "Captain Missouri and C. Russell Lewis; Cold Colours; Deadman & Digi Hartatak; Kaagootaabaa; Mathias Klingner; No Brigade; Shearer; brainhall Art Production",
+ "fetched_at": "2026-09-06T12:31:18Z",
+ "files": [
+  {
+   "artist": "Kaagootaabaa",
+   "bytes": 5308050,
+   "duration_s": 409.05,
+   "file": "bravetruthforce_1_wacksabbath.ogg",
+   "licence": "CC-BY-4.0",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0/",
+   "sha256": "fc90dc344e9a9b6e4ab81a63b027f42498bd16936db6e8fc836ea0dbc2fc8eaf",
+   "source_page": "https://archive.org/details/BraveTruthForce",
+   "source_site": "archive.org",
+   "source_url": "https://archive.org/download/BraveTruthForce/1-wackSabbath.mp3",
+   "title": "1-Wack Sabbath"
+  },
+  {
+   "artist": "brainhall Art Production",
+   "bytes": 6382928,
+   "duration_s": 475.47,
+   "file": "bug_feat_joana_aderi_a77_202402_02_zwei.ogg",
+   "licence": "CC-BY-4.0",
+   "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+   "sha256": "6d1d12c9f7bce2836dcc9c04d82720df693764b644d76a11fee68fa1e36f7c36",
+   "source_page": "https://archive.org/details/bug-feat.-joana-aderi-a77-_202402",
+   "source_site": "archive.org",
+   "source_url": "https://archive.org/download/bug-feat.-joana-aderi-a77-_202402/02%20zwei.%20_%20_%20_%20..mp3",
+   "title": "BUG (feat. Joana Aderi) > A77 -+/& ( )"
+  },
+  {
+   "artist": "No Brigade",
+   "bytes": 2471006,
+   "duration_s": 165.04,
+   "file": "dtrash191_dtrash191_02_stars_explode.ogg",
+   "licence": "CC-BY-3.0",
+   "licence_url": "http://creativecommons.org/licenses/by/3.0/",
+   "sha256": "dd876c6477b9f4565b553e917d7d1bf12a4f695e5a61b1342bbe66ab0a2155ec",
+   "source_page": "https://archive.org/details/dtrash191",
+   "source_site": "archive.org",
+   "source_url": "https://archive.org/download/dtrash191/dtrash191_02_stars_explode.mp3",
+   "title": "Stars Explode"
+  },
+  {
+   "artist": "Cold Colours",
+   "bytes": 5681215,
+   "duration_s": 404.06,
+   "file": "laconia002_coldcolours_laconia002_coldcolours_01_still_128.ogg",
+   "licence": "CC-BY-2.5",
+   "licence_url": "http://creativecommons.org/licenses/by/2.5/",
+   "sha256": "45287911554dcf0aeab8b9dab9fdf1004b45f06e61bf02dee2d60ff3bdb040bc",
+   "source_page": "https://archive.org/details/laconia002_coldcolours",
+   "source_site": "archive.org",
+   "source_url": "https://archive.org/download/laconia002_coldcolours/laconia002_coldcolours_01_Still_128.mp3",
+   "title": "Still"
+  },
+  {
+   "artist": "Deadman & Digi Hartatak",
+   "bytes": 3598970,
+   "duration_s": 235.29,
+   "file": "lost_songs_again_caressing_a_feeling.ogg",
+   "licence": "CC-BY-3.0-US",
+   "licence_url": "http://creativecommons.org/licenses/by/3.0/us/",
+   "sha256": "75393043ed7672354d5443eaddcebe3c4085bd4c2e16c42da73bb73594504eeb",
+   "source_page": "https://archive.org/details/lost_songs_again",
+   "source_site": "archive.org",
+   "source_url": "https://archive.org/download/lost_songs_again/caressing_a_feeling.mp3",
+   "title": "caressing_a_feeling"
+  },
+  {
+   "artist": "Mathias Klingner",
+   "bytes": 4624728,
+   "duration_s": 282.0,
+   "file": "mk_songsandwrongs_arktis.ogg",
+   "licence": "CC-BY-3.0",
+   "licence_url": "http://creativecommons.org/licenses/by/3.0/",
+   "sha256": "8518f6f80487b0131d8dd0d05d8dea2f0b771c8af2e5c86f53d0723decb520b3",
+   "source_page": "https://archive.org/details/MK-SongsAndWrongs",
+   "source_site": "archive.org",
+   "source_url": "https://archive.org/download/MK-SongsAndWrongs/Arktis.mp3",
+   "title": "Arktis"
+  },
+  {
+   "artist": "Captain Missouri and C. Russell Lewis",
+   "bytes": 1476494,
+   "duration_s": 174.29,
+   "file": "romehughesep_01romehughesi.ogg",
+   "licence": "CC-BY-3.0",
+   "licence_url": "http://creativecommons.org/licenses/by/3.0/",
+   "sha256": "9aff8d4ae792b05b9c9b05541c15e250f4d3e5dfef6bcd815851d48c003ee2ca",
+   "source_page": "https://archive.org/details/RomeHughesEp",
+   "source_site": "archive.org",
+   "source_url": "https://archive.org/download/RomeHughesEp/01RomeHughesI.mp3",
+   "title": "Rome Hughes I"
+  },
+  {
+   "artist": "Shearer",
+   "bytes": 3952800,
+   "duration_s": 246.1,
+   "file": "shearer_martyr_shearer_martyr.ogg",
+   "licence": "CC-BY-4.0",
+   "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+   "sha256": "4191a5f273b0ecc3464b8ad3b5c131ea0a0f3b540c2b29b7dab0a4b6974aec9a",
+   "source_page": "https://archive.org/details/shearer-martyr",
+   "source_site": "archive.org",
+   "source_url": "https://archive.org/download/shearer-martyr/SHEARER-Martyr.mp3",
+   "title": "Martyr"
+  }
+ ],
+ "license": "CC-BY-2.5; CC-BY-3.0; CC-BY-3.0-US; CC-BY-4.0 (per file)",
+ "licenses": [
+  "CC-BY-2.5",
+  "CC-BY-3.0",
+  "CC-BY-3.0-US",
+  "CC-BY-4.0"
+ ],
+ "name": "NYCSim audio: audio/radio/rock",
+ "note": "Only CC0 / Public Domain / CC BY files are accepted; share-alike, non-commercial and no-derivatives are rejected by unreal/tools/fetch_radio.py. Per-file provenance is in the matching <file>.license.json.",
+ "schema_version": 1,
+ "sha256": {
+  "bravetruthforce_1_wacksabbath.ogg": "fc90dc344e9a9b6e4ab81a63b027f42498bd16936db6e8fc836ea0dbc2fc8eaf",
+  "bug_feat_joana_aderi_a77_202402_02_zwei.ogg": "6d1d12c9f7bce2836dcc9c04d82720df693764b644d76a11fee68fa1e36f7c36",
+  "dtrash191_dtrash191_02_stars_explode.ogg": "dd876c6477b9f4565b553e917d7d1bf12a4f695e5a61b1342bbe66ab0a2155ec",
+  "laconia002_coldcolours_laconia002_coldcolours_01_still_128.ogg": "45287911554dcf0aeab8b9dab9fdf1004b45f06e61bf02dee2d60ff3bdb040bc",
+  "lost_songs_again_caressing_a_feeling.ogg": "75393043ed7672354d5443eaddcebe3c4085bd4c2e16c42da73bb73594504eeb",
+  "mk_songsandwrongs_arktis.ogg": "8518f6f80487b0131d8dd0d05d8dea2f0b771c8af2e5c86f53d0723decb520b3",
+  "romehughesep_01romehughesi.ogg": "9aff8d4ae792b05b9c9b05541c15e250f4d3e5dfef6bcd815851d48c003ee2ca",
+  "shearer_martyr_shearer_martyr.ogg": "4191a5f273b0ecc3464b8ad3b5c131ea0a0f3b540c2b29b7dab0a4b6974aec9a"
+ },
+ "sources": [
+  "archive.org"
+ ],
+ "url": "https://archive.org/details/BraveTruthForce"
+}

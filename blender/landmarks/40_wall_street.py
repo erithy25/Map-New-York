@@ -50,7 +50,7 @@ def build():
     fr = C.local_frame(fp.polygon, fp.ground_z)
     P = fr.local_polygon(fp.polygon)
     objs = []
-    lime, brick, cop, glass = C.M.limestone, C.M.brick_buff, C.M.copper_green, C.M.glass_dark
+    lime, cop, glass = C.M.limestone, C.M.copper_green, C.M.glass_dark
 
     # ---- limestone base on the real footprint ------------------------------------------------------------------
     objs.append(C.plinth(f"{ID}_base", P, 0.0, GROUND_H, lime, material_top=C.M.roof_grey))
@@ -63,7 +63,7 @@ def build():
         for i in range(k):
             a = p0 + t * (L * i / k + 0.9); c = p0 + t * (L * (i + 1) / k - 0.9)
             C.window_punch(b, a, c, n, 0.9, GROUND_H - 1.4, 0.55, lime, C.M.glass_clear, sill=0.0)
-    runs = sorted(C.wall_runs(coords, -90.0, tol_deg=60.0), key=lambda r: -r[1])
+    runs = sorted(C.wall_runs(coords, fr.local_cardinal(180.0), tol_deg=60.0), key=lambda r: -r[1])
     if runs:                                       # the Wall Street entrance: a three-storey arched portal
         pts, L = runs[0]
         a, t, n = C.polyline_at(pts, L / 2 - 5.0)
@@ -134,7 +134,7 @@ def main():
                          "ground_floor_h_m": GROUND_H, "floor_h_m": round(FLOOR_H, 3),
                          "setback_floors": list(SETBACK_FLOORS), "turrets": 4})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 200, "elevation_deg": "street", "distance": 190, "target_z": 82, "fov_deg": 62},
+        {"view": "street", "azimuth_deg": 200, "elevation_deg": "street", "distance": 425, "target_z": 119, "fov_deg": 62},
         {"view": "aerial", "azimuth_deg": 215, "elevation_deg": 22, "distance": 800, "fov_deg": 38, "target_z": 150},
     ])
 

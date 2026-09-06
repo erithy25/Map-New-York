@@ -1,0 +1,215 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_nyse",
+ "name": "New York Stock Exchange",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7071,
+  "lon": -74.0104,
+  "azimuth_deg": 251.7,
+  "note": "Broad Street at Wall Street (Federal Hall side), looking west-south-west at the Broad Street facade",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7069,
+  "lon": -74.0112,
+  "name": "New York Stock Exchange (11 Broad Street)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"New York Stock Exchange\" building facade Broad Street",
+  "\"New York Stock Exchange\" exterior flag columns"
+ ],
+ "geosearch_radius_m": 150,
+ "fetched_at": "2026-09-06T12:35:17Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 90,
+ "candidates_eligible": 41,
+ "rejections": {
+  "not_jpeg": 1,
+  "not_photo": 11,
+  "too_small": 20,
+  "too_old": 7,
+  "excluded": 2,
+  "keywords": 8
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:New York Stock Exchange August 2017 02.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:New_York_Stock_Exchange_August_2017_02.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/92/New_York_Stock_Exchange_August_2017_02.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/New_York_Stock_Exchange_August_2017_02.jpg/1920px-New_York_Stock_Exchange_August_2017_02.jpg",
+   "author": "Arild Vågen",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2017",
+   "date_source": "DateTimeOriginal",
+   "year": 2017,
+   "camera_gps": {
+    "lat": 40.707158,
+    "lon": -74.010533
+   },
+   "original_width": 5843,
+   "original_height": 3901,
+   "width": 1920,
+   "height": 1282,
+   "bytes": 692275,
+   "sha256": "c3e1fa72ed55cfcbad5e96ea025d6a839373802bfbf6995ca3ab0c6f21ef5c8c",
+   "mean_luminance": 110.3,
+   "description": "Intersection of Broad Street and Wall Street with New York Stock Exchange and the Federal Hall. This is an image of a place or building that is listed on the National Register of Historic Places in the United States of America . Its reference number is 78001877 ( Wikidata ). This is an image of a place or building that is listed on the National Register of Historic Places in the United States of America . Its reference number is 66000095 ( Wikidata ). This is an image of a place or building that is listed on the National Register of Historic Places in the United States of America . Its referen",
+   "categories": [
+    "Wall Street",
+    "23 Wall Street",
+    "Images with annotations",
+    "Images from Wiki Loves Monuments 2017 in New York",
+    "New York City photographs taken on 2017-08-16",
+    "Self-published work",
+    "Images from Wiki Loves Monuments 2017 in the United States",
+    "National Register of Historic Places with known IDs",
+    "Images from Wiki Loves Monuments 2017",
+    "Media created by technology pool of Wikimedia Sverige",
+    "Uploaded via Campaign:wlm-us",
+    "Images by Arild Vågen - WLM 2017",
+    "Federal Hall in 2017",
+    "New York Stock Exchange Broad Street facade",
+    "Wiki Loves Monuments 2017 in the United States unreviewed",
+    "Images by Arild Vågen - USA"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.8,
+   "estimated_viewpoint": {
+    "lat": 40.707158,
+    "lon": -74.010533,
+    "azimuth_deg": 243.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70716, -74.01053) is 63 m from New York Stock Exchange (11 Broad Street) (40.70690, -74.01120) and 13 m from the standard viewpoint; the azimuth 243 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"New York Stock Exchange August 2017 02.jpg\" by Arild Vågen, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:New_York_Stock_Exchange_August_2017_02.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:New York Stock Exchange 09-2018.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:New_York_Stock_Exchange_09-2018.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/0e/New_York_Stock_Exchange_09-2018.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/New_York_Stock_Exchange_09-2018.jpg/1920px-New_York_Stock_Exchange_09-2018.jpg",
+   "author": "Igge",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018-09-20 19:35:13",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.707133,
+    "lon": -74.010551
+   },
+   "original_width": 6000,
+   "original_height": 4000,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 883715,
+   "sha256": "140ee9fa037f4140e73744778c643922b5cded6bbcd72a7a9b7a11b5d588ebbf",
+   "mean_luminance": 141.4,
+   "description": "New York Stock Exchange",
+   "categories": [
+    "Wall Street",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "New York Stock Exchange Broad Street facade"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.45,
+   "estimated_viewpoint": {
+    "lat": 40.707133,
+    "lon": -74.010551,
+    "azimuth_deg": 244.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70713, -74.01055) is 61 m from New York Stock Exchange (11 Broad Street) (40.70690, -74.01120) and 13 m from the standard viewpoint; the azimuth 245 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"New York Stock Exchange 09-2018.jpg\" by Igge, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:New_York_Stock_Exchange_09-2018.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:New York Stock Exchange August 2017 04.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:New_York_Stock_Exchange_August_2017_04.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/32/New_York_Stock_Exchange_August_2017_04.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/New_York_Stock_Exchange_August_2017_04.jpg/1920px-New_York_Stock_Exchange_August_2017_04.jpg",
+   "author": "Arild Vågen",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2017",
+   "date_source": "DateTimeOriginal",
+   "year": 2017,
+   "camera_gps": {
+    "lat": 40.707158,
+    "lon": -74.010533
+   },
+   "original_width": 3206,
+   "original_height": 4802,
+   "width": 1920,
+   "height": 2876,
+   "bytes": 1141247,
+   "sha256": "9b6bac54edcb34227a0bdb24da2999e2a68b3531d3826f47d8b2439f0b3f810f",
+   "mean_luminance": 105.9,
+   "description": "Intersection of Broad Street and Wall Street with New York Stock Exchange and the Federal Hall. This is an image of a place or building that is listed on the National Register of Historic Places in the United States of America . Its reference number is 78001877 ( Wikidata ). This is an image of a place or building that is listed on the National Register of Historic Places in the United States of America . Its reference number is 66000095 ( Wikidata ). This is an image of a place or building that is listed on the National Register of Historic Places in the United States of America . Its referen",
+   "categories": [
+    "Wall Street",
+    "23 Wall Street",
+    "Statue of George Washington (Wall Street)",
+    "Images from Wiki Loves Monuments 2017 in New York",
+    "New York City photographs taken on 2017-08-16",
+    "Self-published work",
+    "Images from Wiki Loves Monuments 2017 in the United States",
+    "National Register of Historic Places with known IDs",
+    "Images from Wiki Loves Monuments 2017",
+    "Media created by technology pool of Wikimedia Sverige",
+    "Uploaded via Campaign:wlm-us",
+    "Images by Arild Vågen - WLM 2017",
+    "Federal Hall in 2017",
+    "New York Stock Exchange Broad Street facade",
+    "Wiki Loves Monuments 2017 in the United States unreviewed",
+    "Images by Arild Vågen - USA"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.8,
+   "estimated_viewpoint": {
+    "lat": 40.707158,
+    "lon": -74.010533,
+    "azimuth_deg": 243.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70716, -74.01053) is 63 m from New York Stock Exchange (11 Broad Street) (40.70690, -74.01120) and 13 m from the standard viewpoint; the azimuth 243 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"New York Stock Exchange August 2017 04.jpg\" by Arild Vågen, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:New_York_Stock_Exchange_August_2017_04.jpg"
+  }
+ ]
+}

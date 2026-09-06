@@ -108,7 +108,12 @@ namespace NYCVehicleSlots
 {
 	inline const TCHAR* const BodyPaint = TEXT("BODY_PAINT");
 	inline const TCHAR* const Glass = TEXT("GLASS");
+	/// Mirror glass. A mesh may carry the single slot MIRROR_GLASS (all mirrors share one capture) or the three
+	/// suffixed slots below, which the runtime prefers so each mirror shows its own view.
 	inline const TCHAR* const MirrorGlass = TEXT("MIRROR_GLASS");
+	inline const TCHAR* const MirrorGlassLeft = TEXT("MIRROR_GLASS_L");
+	inline const TCHAR* const MirrorGlassRight = TEXT("MIRROR_GLASS_R");
+	inline const TCHAR* const MirrorGlassInterior = TEXT("MIRROR_GLASS_I");
 	inline const TCHAR* const PlateFace = TEXT("PLATE_FACE");
 
 	// Emissive lamp slots. Every one is driven through the scalar parameter NYCVehicleParams::Emissive.

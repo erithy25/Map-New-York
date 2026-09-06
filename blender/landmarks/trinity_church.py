@@ -141,7 +141,7 @@ def main():
                          "clerestory_h_m": NAVE_WALL_H, "nave_ridge_m": NAVE_RIDGE_M, "tower_plan_m": TOWER_W,
                          "published_nave_m": [50.6, 24.1]})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 95, "elevation_deg": "street", "distance": 95, "target_z": 34, "fov_deg": 62},
+        {"view": "street", "azimuth_deg": 95, "elevation_deg": "street", "distance": 132, "target_z": 37, "fov_deg": 62},
         {"view": "aerial", "azimuth_deg": 120, "elevation_deg": 22, "distance": 235, "fov_deg": 45, "target_z": 45},
     ])
 

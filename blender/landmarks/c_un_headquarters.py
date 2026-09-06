@@ -8,8 +8,8 @@ Dimensions used (source in brackets)
   the published 72 x 287 ft slab (21.9 x 87.5 m) to within 0.6 m — no idealisation was needed.
 * Secretariat [UN; Harrison]: 505 ft = 154.0 m, 39 floors. The broad east and west faces are green-tinted glass
   curtain wall; the two narrow ends are windowless Vermont marble. Floor-to-floor 154.0 / 39 = 3.95 m.
-* General Assembly Building [UN; Harrison/Niemeyer]: 380 ft long with concave sloping side walls that rise from
-  ~14 m at the ends to 27.5 m at the centre, and a shallow 23 m dome added in 1952 at the insistence of the US
+* General Assembly Building [UN; Harrison/Niemeyer]: 380 ft long with concave sloping side walls that swoop from
+  34.0 m at both ends down to 16.0 m at the waist, and a shallow 23 m dome added in 1952 at the insistence of the US
   Congress. The north facade is a full-height glass wall over the delegates' entrance.
 * Conference Building [UN]: the four-storey block on the East River side of the plaza, 26.0 m high and 120 m long,
   carrying the three council chambers.
@@ -38,7 +38,8 @@ ID = "c_un_headquarters"
 B_SEC, B_GA, B_LIB = 1083875, 1083872, 1083874
 SEC_H = 154.0
 SEC_FLOORS = 39
-GA_RIDGE = 27.5
+GA_END = 34.0
+GA_WAIST = 16.0
 GA_DOME_D = 23.0
 CONF_H = 26.0
 LIB_H = 18.4
@@ -68,20 +69,20 @@ def build():
         y_a = ay0 + (ay1 - ay0) * k / nseg
         y_b = ay0 + (ay1 - ay0) * (k + 1) / nseg
         for x_side, sgn in ((ax0 + 1.0, -1.0), (ax1 - 1.0, 1.0)):
-            za = 6.5 + (GA_RIDGE - 6.5) * math.sin(math.pi * (k / nseg) ** 0.8)
-            zb = 6.5 + (GA_RIDGE - 6.5) * math.sin(math.pi * ((k + 1) / nseg) ** 0.8)
-            lean = 3.5 * math.sin(math.pi * (k + 0.5) / nseg)
+            za = GA_END - (GA_END - GA_WAIST) * math.sin(math.pi * (k / nseg))
+            zb = GA_END - (GA_END - GA_WAIST) * math.sin(math.pi * ((k + 1) / nseg))
+            lean = 4.5 * math.sin(math.pi * (k + 0.5) / nseg)
             b.quad((x_side, y_a, 6.5), (x_side, y_b, 6.5),
                    (x_side + sgn * lean, y_b, zb), (x_side + sgn * lean, y_a, za), C.M.limestone)
             b.quad((x_side + sgn * lean, y_a, za), (x_side + sgn * lean, y_b, zb),
                    (ax0 + (ax1 - ax0) / 2, y_b, zb), (ax0 + (ax1 - ax0) / 2, y_a, za), C.M.roof_grey)
-    b.quad((ax0 + 1.0, ay1, 6.5), (ax1 - 1.0, ay1, 6.5), (ax1 - 1.0, ay1, GA_RIDGE - 6.0),
-           (ax0 + 1.0, ay1, GA_RIDGE - 6.0), C.M.glass_clear)                       # the north glass wall
-    b.quad((ax1 - 1.0, ay0, 6.5), (ax0 + 1.0, ay0, 6.5), (ax0 + 1.0, ay0, GA_RIDGE - 8.0),
-           (ax1 - 1.0, ay0, GA_RIDGE - 8.0), C.M.limestone)
+    b.quad((ax0 + 1.0, ay1, 6.5), (ax1 - 1.0, ay1, 6.5), (ax1 - 1.0, ay1, GA_END),
+           (ax0 + 1.0, ay1, GA_END), C.M.glass_clear)                               # the north glass wall
+    b.quad((ax1 - 1.0, ay0, 6.5), (ax0 + 1.0, ay0, 6.5), (ax0 + 1.0, ay0, GA_END),
+           (ax1 - 1.0, ay0, GA_END), C.M.limestone)
     dcx, dcy = (ax0 + ax1) / 2, ay0 + (ay1 - ay0) * 0.42
-    b.lathe([(GA_DOME_D / 2, 0.0), (GA_DOME_D / 2 * 0.94, 1.4), (GA_DOME_D / 2 * 0.7, 3.4),
-             (GA_DOME_D / 2 * 0.38, 4.6), (0.0, 5.1)], 40, C.M.steel_nirosta, origin=(dcx, dcy, GA_RIDGE - 1.5),
+    b.lathe([(GA_DOME_D / 2, 0.0), (GA_DOME_D / 2 * 0.94, 1.6), (GA_DOME_D / 2 * 0.7, 4.0),
+             (GA_DOME_D / 2 * 0.38, 5.6), (0.0, 6.3)], 40, C.M.steel_nirosta, origin=(dcx, dcy, GA_WAIST + 0.6),
             smooth=True)
     objs.append(C.tag(b.build(f"{ID}_general_assembly"), "mass"))
 
@@ -122,7 +123,7 @@ def main():
                           "Exact: three real OTI footprints (the Secretariat polygon matches the published 72 x 287 "
                           "ft slab to 0.6 m); the Secretariat at 505 ft = 154.0 m over 39 floors with glass broad "
                           "faces and windowless Vermont-marble ends; the General Assembly's concave side walls to "
-                          "27.5 m with its 23 m dome and full-height north glass wall; the Conference Building at "
+                          "34.0 m at the ends and 16.0 m at the waist with its 23 m dome and full-height north glass wall; the Conference Building at "
                           "26.0 m; the Library at 18.4 m. Inferred (stated): the split of the BIN 1083872 podium "
                           "polygon between the General Assembly and the Conference Building (cut on the polygon's "
                           "own vertices) and the General Assembly wall profile (+-1 m from published sections). "
@@ -131,7 +132,7 @@ def main():
                       dimensions={"secretariat_m": SEC_H, "secretariat_floors": SEC_FLOORS,
                                   "secretariat_plan_m": [round(Psec.bounds[2] - Psec.bounds[0], 2),
                                                          round(Psec.bounds[3] - Psec.bounds[1], 2)],
-                                  "ga_ridge_m": GA_RIDGE, "ga_dome_diameter_m": GA_DOME_D, "conference_m": CONF_H,
+                                  "ga_end_wall_m": GA_END, "ga_waist_m": GA_WAIST, "ga_dome_diameter_m": GA_DOME_D, "conference_m": CONF_H,
                                   "library_m": LIB_H})
     cc.render(ID, [
         {"view": "first_avenue", "azimuth_deg": 285, "elevation_deg": "street", "distance": 260, "fov_deg": 58, "look_up_deg": 26},

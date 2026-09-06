@@ -144,7 +144,7 @@ def main():
                          "tower_storeys": 23, "floor_h_m": round(FLOOR_H, 3),
                          "published_trading_floor_m": [42.7, 33.2, 24.1]})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 95, "elevation_deg": "street", "distance": 78, "target_z": 26, "fov_deg": 66},
+        {"view": "street", "azimuth_deg": 95, "elevation_deg": "street", "distance": 165, "target_z": 45, "fov_deg": 62},
         {"view": "aerial", "azimuth_deg": 115, "elevation_deg": 24, "distance": 320, "fov_deg": 44, "target_z": 55},
     ])
 

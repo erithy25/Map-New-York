@@ -1,0 +1,200 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_amnh",
+ "name": "American Museum of Natural History",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.781,
+  "lon": -73.9727,
+  "azimuth_deg": 288.3,
+  "note": "Central Park West at West 79th Street, park side, looking west at the Roosevelt Memorial entrance",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7813,
+  "lon": -73.9739,
+  "name": "American Museum of Natural History (Central Park West entrance)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"American Museum of Natural History\" Central Park West facade",
+  "\"American Museum of Natural History\" exterior Roosevelt"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T12:27:18Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 100,
+ "candidates_eligible": 62,
+ "rejections": {
+  "too_old": 3,
+  "excluded": 14,
+  "too_small": 2,
+  "licence": 2,
+  "not_photo": 3,
+  "keywords": 13,
+  "indoor": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:At American Museum of Natural History 2024 035.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:At_American_Museum_of_Natural_History_2024_035.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/5f/At_American_Museum_of_Natural_History_2024_035.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/At_American_Museum_of_Natural_History_2024_035.jpg/1920px-At_American_Museum_of_Natural_History_2024_035.jpg",
+   "author": "Photograph by Mike Peel ( www.mikepeel.net ).",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024-03-02",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.781392,
+    "lon": -73.972878
+   },
+   "original_width": 6960,
+   "original_height": 4640,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 581432,
+   "sha256": "f4bb522a2eef880cf8df7c0616196162351675397f7cfaa26aaeb750139acf77",
+   "mean_luminance": 114.1,
+   "description": "Castillo, Chichen Itza, Yucatan",
+   "categories": [
+    "Models of buildings",
+    "Uploaded with LrMediaWiki",
+    "Files with coordinates missing SDC location of creation",
+    "Museums in the United States photographed in 2024",
+    "2024 in the Upper West Side",
+    "New York City photographs taken on 2024-03-02",
+    "March 2024 in Manhattan, New York City",
+    "Chichen Itza - Castillo in art",
+    "Photos by Mike Peel using a Canon EOS 90D",
+    "Collections of the American Museum of Natural History from Mexico",
+    "Photos by Mike Peel of New York City in 2024"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.781392,
+    "lon": -73.972878,
+    "azimuth_deg": 263.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.78139, -73.97288) is 87 m from American Museum of Natural History (Central Park West entrance) (40.78130, -73.97390) and 46 m from the standard viewpoint; the azimuth 263 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"At American Museum of Natural History 2024 035.jpg\" by Photograph by Mike Peel ( www.mikepeel.net )., CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:At_American_Museum_of_Natural_History_2024_035.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:AMNH Roosevelt memorial plaque.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:AMNH_Roosevelt_memorial_plaque.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/03/AMNH_Roosevelt_memorial_plaque.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/AMNH_Roosevelt_memorial_plaque.jpg/1920px-AMNH_Roosevelt_memorial_plaque.jpg",
+   "author": "Mitchell Golden",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-11-19 22:30:04",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.78083,
+    "lon": -73.97284
+   },
+   "original_width": 4096,
+   "original_height": 3072,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 576357,
+   "sha256": "449f1f393d4afa4c5b2f0215decb24065ea4b36d935b0c22d03b438b0117afd2",
+   "mean_luminance": 110.6,
+   "description": "Plaque memorializing Theodore Roosevelt, at the Roosevelt Memorial in front of the American Museum of Natural History. This plaque replaced the Equestrian Statue of Theodore Roosevelt, which stood on this spot from 1940 until 2022.",
+   "categories": [
+    "Statue of Theodore Roosevelt (James Earle Fraser)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.78083,
+    "lon": -73.97284,
+    "azimuth_deg": 300.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.78083, -73.97284) is 103 m from American Museum of Natural History (Central Park West entrance) (40.78130, -73.97390) and 22 m from the standard viewpoint; the azimuth 300 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"AMNH Roosevelt memorial plaque.jpg\" by Mitchell Golden, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:AMNH_Roosevelt_memorial_plaque.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:AmericanMuseumOfNaturalHistory2020FrontEntrance.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:AmericanMuseumOfNaturalHistory2020FrontEntrance.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/af/AmericanMuseumOfNaturalHistory2020FrontEntrance.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/AmericanMuseumOfNaturalHistory2020FrontEntrance.jpg/1920px-AmericanMuseumOfNaturalHistory2020FrontEntrance.jpg",
+   "author": "DanielPenfield",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2020-01-01 11:24:55",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": {
+    "lat": 40.780672,
+    "lon": -73.972842
+   },
+   "original_width": 3036,
+   "original_height": 4048,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1589289,
+   "sha256": "84cefcf9a16b690d2a2768d9ecaf8ea31be471addb87153df1386558e3f4fb25",
+   "mean_luminance": 118.8,
+   "description": "American Museum of Natural History on New Year's Day 2020",
+   "categories": [
+    "New York City photographs taken on 2020-01-01",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Entrances in Manhattan, New York City",
+    "January 2020 in Manhattan, New York City",
+    "American Museum of Natural History Central Park West entrance"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.75,
+   "estimated_viewpoint": {
+    "lat": 40.780672,
+    "lon": -73.972842,
+    "azimuth_deg": 308.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.78067, -73.97284) is 113 m from American Museum of Natural History (Central Park West entrance) (40.78130, -73.97390) and 38 m from the standard viewpoint; the azimuth 308 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"AmericanMuseumOfNaturalHistory2020FrontEntrance.jpg\" by DanielPenfield, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:AmericanMuseumOfNaturalHistory2020FrontEntrance.jpg"
+  }
+ ]
+}

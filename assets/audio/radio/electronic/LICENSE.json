@@ -1,0 +1,150 @@
+{
+ "author": "Adhesion; Ayankoko; B.L.Underwood; Blu Ion Skreen; Crystal Dreams; Deadman & Digi Hartatak; Luciftias; mumble and sigh",
+ "fetched_at": "2026-09-06T12:31:18Z",
+ "files": [
+  {
+   "artist": "mumble and sigh",
+   "bytes": 1221575,
+   "duration_s": 86.5,
+   "file": "2025_10_29_202602_2025_10_03.ogg",
+   "licence": "CC-BY-4.0",
+   "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+   "sha256": "cf163fe96be8fd6ada02a07fab7be704f981929a3b21ac5767fc32d0e63eac50",
+   "source_page": "https://archive.org/details/2025-10-29_202602",
+   "source_site": "archive.org",
+   "source_url": "https://archive.org/download/2025-10-29_202602/2025-10-03.mp3",
+   "title": "2025-10-03"
+  },
+  {
+   "artist": "Adhesion",
+   "bytes": 2866784,
+   "duration_s": 162.0,
+   "file": "adhesionnewfolder_01_flagnebula.ogg",
+   "licence": "CC-BY-2.5",
+   "licence_url": "http://creativecommons.org/licenses/by/2.5/",
+   "sha256": "f53e30fc15a1a5ca33396e95c6273a33145bf6192029258d35a72d9bf888b034",
+   "source_page": "https://archive.org/details/AdhesionNewFolder",
+   "source_site": "archive.org",
+   "source_url": "https://archive.org/download/AdhesionNewFolder/01-FlagNebula.mp3",
+   "title": "Flag Nebula"
+  },
+  {
+   "artist": "Luciftias",
+   "bytes": 3423021,
+   "duration_s": 202.15,
+   "file": "ahp007_01_mahorela.ogg",
+   "licence": "CC-BY-4.0",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0/",
+   "sha256": "2a776daad16dc6053c51c8739ae3eae6200cf6b0c136fb891489baccc1a1561b",
+   "source_page": "https://archive.org/details/ahp007",
+   "source_site": "archive.org",
+   "source_url": "https://archive.org/download/ahp007/01_Mahorela.mp3",
+   "title": "Mahorela"
+  },
+  {
+   "artist": "Ayankoko",
+   "bytes": 3591857,
+   "duration_s": 406.44,
+   "file": "ayankoko_audiotransmissionsmells2009_1modernworries.ogg",
+   "licence": "CC-BY-2.0-FR",
+   "licence_url": "http://creativecommons.org/licenses/by/2.0/fr/",
+   "sha256": "077a94ab8929b387ebbb1bc93b98050f8eaaa535cd6cb5bbb71e702900bb2bd6",
+   "source_page": "https://archive.org/details/Ayankoko-AudioTransmissionSmells2009",
+   "source_site": "archive.org",
+   "source_url": "https://archive.org/download/Ayankoko-AudioTransmissionSmells2009/1ModernWorries.mp3",
+   "title": "1 modern worries"
+  },
+  {
+   "artist": "Blu Ion Skreen",
+   "bytes": 6465921,
+   "duration_s": 491.0,
+   "file": "bluionskreen_01whispypinksupremacy.ogg",
+   "licence": "CC-BY-2.0-UK",
+   "licence_url": "http://creativecommons.org/licenses/by/2.0/uk/",
+   "sha256": "945e46d4267d85d3e512e1a59fe8aebc8597a16911ec295ac3e8b862a67a7ab7",
+   "source_page": "https://archive.org/details/BluIonSkreen",
+   "source_site": "archive.org",
+   "source_url": "https://archive.org/download/BluIonSkreen/01WhispyPinkSupremacy.mp3",
+   "title": "Whispy Pink Supremacy"
+  },
+  {
+   "artist": "B.L.Underwood",
+   "bytes": 6704070,
+   "duration_s": 472.63,
+   "file": "blunderwood_ashestoashes_2frozen.ogg",
+   "licence": "CC-BY-2.0-UK",
+   "licence_url": "http://creativecommons.org/licenses/by/2.0/uk/",
+   "sha256": "2029247854b1d5dfe1a96b0ac94f8e19dbfb57e1005b61f063759ff8d405d1d4",
+   "source_page": "https://archive.org/details/Blunderwood_ashesToAshes",
+   "source_site": "archive.org",
+   "source_url": "https://archive.org/download/Blunderwood_ashesToAshes/2Frozen.mp3",
+   "title": "Frozen"
+  },
+  {
+   "artist": "B.L.Underwood",
+   "bytes": 2002868,
+   "duration_s": 141.4,
+   "file": "blunderwood_personal_landscapes1_03_flight_of_terror.ogg",
+   "licence": "CC-BY-2.0-UK",
+   "licence_url": "http://creativecommons.org/licenses/by/2.0/uk/",
+   "sha256": "e95d76931b82fda75a1bd38125a62197636527f87faac3039a46a0e073bded62",
+   "source_page": "https://archive.org/details/BLUnderwood_Personal_Landscapes1",
+   "source_site": "archive.org",
+   "source_url": "https://archive.org/download/BLUnderwood_Personal_Landscapes1/03_Flight_of_Terror.mp3",
+   "title": "Flight of Terror"
+  },
+  {
+   "artist": "Crystal Dreams",
+   "bytes": 6322794,
+   "duration_s": 512.0,
+   "file": "bof075_02_purple_fiction.ogg",
+   "licence": "CC-BY-3.0",
+   "licence_url": "http://creativecommons.org/licenses/by/3.0/",
+   "sha256": "74085b4cc850f51fb52cf80b70a43e336973eb90b86c730c20db148bde8554fc",
+   "source_page": "https://archive.org/details/bof075",
+   "source_site": "archive.org",
+   "source_url": "https://archive.org/download/bof075/02-Purple_Fiction.ogg",
+   "title": "Purple Fiction"
+  },
+  {
+   "artist": "Deadman & Digi Hartatak",
+   "bytes": 5818063,
+   "duration_s": 409.83,
+   "file": "buddwyerandthecannabinoids_001_sense.ogg",
+   "licence": "CC-BY-3.0-US",
+   "licence_url": "http://creativecommons.org/licenses/by/3.0/us/",
+   "sha256": "17c7be08f1307a284c3290cc4a6520e4b8645e2c6160d1c9d9b0054d63d4cda9",
+   "source_page": "https://archive.org/details/buddwyerandthecannabinoids",
+   "source_site": "archive.org",
+   "source_url": "https://archive.org/download/buddwyerandthecannabinoids/001_sense.mp3",
+   "title": "001_sense"
+  }
+ ],
+ "license": "CC-BY-2.0-FR; CC-BY-2.0-UK; CC-BY-2.5; CC-BY-3.0; CC-BY-3.0-US; CC-BY-4.0 (per file)",
+ "licenses": [
+  "CC-BY-2.0-FR",
+  "CC-BY-2.0-UK",
+  "CC-BY-2.5",
+  "CC-BY-3.0",
+  "CC-BY-3.0-US",
+  "CC-BY-4.0"
+ ],
+ "name": "NYCSim audio: audio/radio/electronic",
+ "note": "Only CC0 / Public Domain / CC BY files are accepted; share-alike, non-commercial and no-derivatives are rejected by unreal/tools/fetch_radio.py. Per-file provenance is in the matching <file>.license.json.",
+ "schema_version": 1,
+ "sha256": {
+  "2025_10_29_202602_2025_10_03.ogg": "cf163fe96be8fd6ada02a07fab7be704f981929a3b21ac5767fc32d0e63eac50",
+  "adhesionnewfolder_01_flagnebula.ogg": "f53e30fc15a1a5ca33396e95c6273a33145bf6192029258d35a72d9bf888b034",
+  "ahp007_01_mahorela.ogg": "2a776daad16dc6053c51c8739ae3eae6200cf6b0c136fb891489baccc1a1561b",
+  "ayankoko_audiotransmissionsmells2009_1modernworries.ogg": "077a94ab8929b387ebbb1bc93b98050f8eaaa535cd6cb5bbb71e702900bb2bd6",
+  "bluionskreen_01whispypinksupremacy.ogg": "945e46d4267d85d3e512e1a59fe8aebc8597a16911ec295ac3e8b862a67a7ab7",
+  "blunderwood_ashestoashes_2frozen.ogg": "2029247854b1d5dfe1a96b0ac94f8e19dbfb57e1005b61f063759ff8d405d1d4",
+  "blunderwood_personal_landscapes1_03_flight_of_terror.ogg": "e95d76931b82fda75a1bd38125a62197636527f87faac3039a46a0e073bded62",
+  "bof075_02_purple_fiction.ogg": "74085b4cc850f51fb52cf80b70a43e336973eb90b86c730c20db148bde8554fc",
+  "buddwyerandthecannabinoids_001_sense.ogg": "17c7be08f1307a284c3290cc4a6520e4b8645e2c6160d1c9d9b0054d63d4cda9"
+ },
+ "sources": [
+  "archive.org"
+ ],
+ "url": "https://archive.org/details/2025-10-29_202602"
+}

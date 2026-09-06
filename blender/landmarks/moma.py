@@ -57,7 +57,7 @@ def build():
     south = fr.local_cardinal(180.0)
     north = fr.local_cardinal(0.0)
     objs = []
-    gran, glass, panel, alu = C.M.granite_black, C.M.glass_clear, C.M.marble_white, C.M.aluminium
+    gran, glass, alu = C.M.granite_black, C.M.glass_clear, C.M.aluminium
 
     fen = C.Fenestration(floor_h=5.0, bay_w=3.4, window_frac=0.86, recess=0.3, spandrel_h=0.9,
                          pier="granite_black", spandrel="granite_black", glass="glass_clear", mullion="aluminium",

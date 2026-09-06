@@ -103,8 +103,8 @@ def build_better_bin() -> C.Built:
     hood = C.lathe("hood", [(0.292, 0.76), (0.305, 0.79), (0.290, 0.86), (0.215, 0.925), (0.140, 0.945)], 24,
                    material=body_mat, smooth=True)
     lid = C.lathe("lid", [(0.140, 0.945), (0.120, 0.952)], 24, material=body_mat)
-    mouth = C.box("throw_opening", (0.34, 0.16, 0.20), origin=(0.0, 0.235, 0.735), material=dark, anchor="bottom")
-    lip = C.box("mouth_lip", (0.36, 0.05, 0.03), origin=(0.0, 0.245, 0.935), material=body_mat, anchor="center")
+    mouth = C.box("throw_opening", (0.30, 0.14, 0.19), origin=(0.0, 0.180, 0.735), material=dark, anchor="bottom")
+    lip = C.box("mouth_lip", (0.32, 0.05, 0.025), origin=(0.0, 0.205, 0.928), material=body_mat, anchor="center")
     # perforation band (the bin's visible pattern), modelled as three recessed rings
     rings = [C.torus(f"perf{k}", 0.302, 0.006, 26, 4, origin=(0, 0, 0.22 + 0.20 * k), material=dark) for k in range(3)]
     return C.Built(lod0=[base, body, hood, lid, mouth, lip] + rings,

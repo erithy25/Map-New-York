@@ -785,7 +785,7 @@ def finish(objects: Sequence[bpy.types.Object], landmark_id: str, bins: Sequence
 
 def render_check(landmark_id: str, view: str, camera_location, camera_target, *, fov_deg: float = 50.0, size=(1280, 720), samples: int = 64,
                  sun_azimuth_deg: float = 220.0, sun_elevation_deg: float = 35.0, sun_strength: float = 2.0, exposure: float = -1.6,
-                 context_planes: Sequence[Sequence] = ()) -> Path:
+                 max_bounces: int = 6, context_planes: Sequence[Sequence] = ()) -> Path:
     """Cycles CPU verification render into docs/verification/landmarks/<id>/<view>.png.
 
     ``context_planes`` adds ``(material, z, half_size)`` or ``(material, z, half_size, (cx, cy))`` ground/water planes so
@@ -803,6 +803,12 @@ def render_check(landmark_id: str, view: str, camera_location, camera_target, *,
         centre = spec[3] if len(spec) > 3 else (0.0, 0.0)
         tmp.append(ground_plane(f"_ctx_{i}", half, z, m, centre))
     bpy.context.scene.view_settings.exposure = exposure
+    cyc = bpy.context.scene.cycles
+    cyc.max_bounces = max_bounces
+    cyc.diffuse_bounces = max_bounces
+    cyc.glossy_bounces = max_bounces
+    cyc.transmission_bounces = max_bounces
+    cyc.transparent_max_bounces = max_bounces
     try:
         if fn is not None:
             res = fn(landmark_id, view, camera_location, camera_target, fov_deg=fov_deg, size=size, samples=samples)

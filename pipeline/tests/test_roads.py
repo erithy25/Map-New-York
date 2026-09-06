@@ -438,6 +438,84 @@ def test_terrain_sampler_reads_the_contract_png(tmp_path):
     assert not ok2.any()
 
 
+def _tiny_roads_dir(tmp_path: Path) -> Path:
+    """A minimal but contract-shaped roads directory plus one terrain tile, for the terrain-lift test."""
+    d = tmp_path / "roads"
+    d.mkdir()
+    line = shapely.LineString([(10.0, 10.0, 0.0), (500.0, 10.0, 0.0), (900.0, 10.0, 0.0)])
+    deck = shapely.LineString([(10.0, 500.0, 5.5), (900.0, 500.0, 5.5)])          # level code 17 = +5.5 m
+    seg = gpd.GeoDataFrame({
+        "segment_id": np.array([1, 2], dtype=np.int64),
+        "from_node": np.array([10, 30], dtype=np.int64), "to_node": np.array([20, 40], dtype=np.int64),
+        "z_source": np.array([S.Z_AT_GRADE, S.Z_LEVEL_CONST], dtype=np.int8),
+        "level_from": np.array([S.LEVEL_AT_GRADE, 17], dtype=np.int8),
+        "level_to": np.array([S.LEVEL_AT_GRADE, 17], dtype=np.int8),
+        "z_from": np.float32([0.0, 5.5]), "z_to": np.float32([0.0, 5.5]),
+    }, geometry=[line, deck], crs=NYC_TM)
+    S.write_geoparquet(seg, d / "segments.parquet", S.SCHEMAS["segments"])
+    S.write_parquet(pd.DataFrame({"node_id": np.array([10, 20, 30, 40], dtype=np.int64),
+                                  "z": np.float32([0, 0, 5.5, 5.5])}), d / "nodes.parquet", S.SCHEMAS["nodes"])
+    S.write_geoparquet(gpd.GeoDataFrame({"lane_id": np.array([1], dtype=np.int64),
+                                         "segment_id": np.array([1], dtype=np.int64)},
+                                        geometry=[shapely.LineString([(10.0, 12.0, 0.0), (900.0, 12.0, 0.0)])], crs=NYC_TM),
+                      d / "lanes.parquet", S.SCHEMAS["lanes"])
+    S.write_geoparquet(gpd.GeoDataFrame({"junction_lane_id": np.array([1], dtype=np.int64),
+                                         "from_segment": np.array([2], dtype=np.int64)},
+                                        geometry=[shapely.LineString([(880.0, 500.0, 5.5), (900.0, 505.0, 5.5)])], crs=NYC_TM),
+                      d / "junction_lanes.parquet", S.SCHEMAS["junction_lanes"])
+    S.write_parquet(pd.DataFrame({"sign_id": np.array([1], dtype=np.int64), "x": [400.0], "y": [12.0],
+                                  "z": np.float32([2.5]), "ground_z": np.float32([0.0])}),
+                    d / "signs.parquet", S.SCHEMAS["signs"])
+
+    tiles = tmp_path / "tiles" / "t_0_0"
+    tiles.mkdir(parents=True)
+    n = 501
+    vals = np.tile((np.arange(n) * 8).astype(np.uint16)[:, None], (1, n))
+    Image.fromarray(vals, mode="I;16").save(tiles / "terrain.png")
+    (tiles / "terrain.json").write_text(json.dumps({"schema_version": 1, "tile": "t_0_0", "x0": 0.0, "y0": 0.0,
+                                                    "z_min_m": 2.0, "z_scale_m": 0.0025, "samples": n, "spacing_m": 2.0}))
+    return d
+
+
+def _seg_z(d: Path) -> np.ndarray:
+    g = gpd.read_parquet(d / "segments.parquet")
+    return shapely.get_coordinates(g.geometry.values, include_z=True)[:, 2]
+
+
+def test_apply_terrain_z_lifts_the_network_and_is_idempotent(tmp_path):
+    from nycsim_pipeline.roads import apply_terrain_z as A
+    d = _tiny_roads_dir(tmp_path)
+    r1 = A.apply(d, tmp_path / "tiles")
+    assert r1["applied"] and r1["tiles_with_terrain"] == 1
+    z1 = _seg_z(d)
+    # at-grade line at y = 10 m -> raster row (1000-10)/2 = 495 -> 2.0 + 495*8*0.0025 = 11.9 m
+    assert np.allclose(z1[:3], 2.0 + 495 * 8 * 0.0025, atol=1e-3)
+    # the deck at y = 500 m keeps its 5.5 m level offset above the ground there
+    ground_500 = 2.0 + 250 * 8 * 0.0025
+    assert np.allclose(z1[3:], ground_500 + 5.5, atol=1e-3)
+    assert r1["signs"]["z_updated"] == 1
+    signs = pd.read_parquet(d / "signs.parquet")
+    assert float(signs["ground_z"].iloc[0]) == pytest.approx(2.0 + 494 * 8 * 0.0025, abs=1e-2)
+    assert float(signs["z"].iloc[0]) - float(signs["ground_z"].iloc[0]) == pytest.approx(2.5, abs=1e-3)
+    nodes = pd.read_parquet(d / "nodes.parquet")
+    assert float(nodes.loc[nodes["node_id"] == 30, "z"].iloc[0]) == pytest.approx(ground_500 + 5.5, abs=1e-2)
+
+    r2 = A.apply(d, tmp_path / "tiles")
+    z2 = _seg_z(d)
+    assert np.array_equal(z1, z2), "re-running the stage must not accumulate offsets"
+    signs2 = pd.read_parquet(d / "signs.parquet")
+    assert float(signs2["z"].iloc[0]) == pytest.approx(float(signs["z"].iloc[0]))
+    assert r2["segments"]["at_grade_vertices_lifted"] == r1["segments"]["at_grade_vertices_lifted"]
+
+
+def test_apply_terrain_z_reports_when_there_is_no_terrain_yet(tmp_path):
+    from nycsim_pipeline.roads import apply_terrain_z as A
+    d = _tiny_roads_dir(tmp_path)
+    out = A.apply(d, tmp_path / "no_tiles_here")
+    assert out["applied"] is False and out["tiles_with_terrain"] == 0
+    assert "terrain" in out["note"]
+
+
 # --------------------------------------------------------------------------- produced artefacts
 @pytest.fixture(scope="module")
 def segments() -> gpd.GeoDataFrame:

@@ -94,22 +94,25 @@ def _signal_pole(height: float, *, dia_base: float = 0.244, dia_top: float = 0.1
 def _mast_arm(length: float, n_heads: int) -> C.Built:
     steel = P.black_steel()
     parts = _signal_pole(5.50, material=steel)
-    z0, z1 = 5.30, 5.30 + 0.13 * math.sqrt(length)          # arms rise slightly over the span
-    pts = C.bezier_points([(0.10, 0.0, z0), (length * 0.45, 0.0, z1 + 0.10), (length, 0.0, z1)], 14)
+    # the arm leaves the 5.5 m standard just under its cap and rises over the span so the lowest head keeps the
+    # MUTCD 15 ft (4.57 m) clearance over the roadway
+    z0, z1 = 5.45, 6.30
+    pts = C.bezier_points([(0.10, 0.0, z0), (length * 0.45, 0.0, z1 + 0.16), (length, 0.0, z1)], 14)
     radii = [0.105 - 0.042 * (i / 13) for i in range(14)]
     parts.append(C.tube("mast_arm", pts, radii, 14, material=steel))
     parts.append(C.box("arm_flange", (0.05, 0.30, 0.42), origin=(0.13, 0.0, z0), material=steel, anchor="center"))
     heads_x = [length * f for f in ((0.46, 0.88) if n_heads == 2 else (0.34, 0.62, 0.90))][:n_heads]
     for i, hx in enumerate(heads_x):
         t = hx / length
-        za = z0 + (z1 - z0) * (3 * t ** 2 - 2 * t ** 3) + 0.10 * 4 * t * (1 - t)
-        parts.append(C.box(f"hanger{i}", (0.09, 0.09, 0.22), origin=(hx, 0.0, za - 0.22), material=steel, anchor="bottom"))
-        parts += signal_head(za - 0.22 - HEAD_H, x=hx, name=f"head{i}", lens_on=(0 if i == 0 else None))
+        za = z0 + (z1 - z0) * (3 * t ** 2 - 2 * t ** 3) + 0.16 * 4 * t * (1 - t)
+        parts.append(C.box(f"hanger{i}", (0.09, 0.09, 0.07), origin=(hx, 0.0, za - 0.07), material=steel, anchor="bottom"))
+        parts += signal_head(za - 0.07 - HEAD_H, x=hx, name=f"head{i}", lens_on=(0 if i == 0 else None))
     return C.Built(lod0=parts, extra={"key_dims_m": {"pole_height": 5.50, "arm_length": length, "heads": n_heads,
                                                      "lowest_head_bottom": round(min(
                                                          z0 + (z1 - z0) * (3 * (hx / length) ** 2 - 2 * (hx / length) ** 3)
-                                                         + 0.10 * 4 * (hx / length) * (1 - hx / length) - 0.22 - HEAD_H
-                                                         for hx in heads_x), 2)},
+                                                         + 0.16 * 4 * (hx / length) * (1 - hx / length) - 0.07 - HEAD_H
+                                                         for hx in heads_x), 2),
+                                                     "mutcd_min_clearance": 4.57},
                                       "arm_direction_blender": "+X", "facing_blender": "+Y"})
 
 
@@ -208,12 +211,12 @@ def build_pushbutton() -> C.Built:
 
 
 SPECS = [
-    C.PropSpec("signal_mastarm_6m", "traffic", "traffic_signal", build_mastarm_6m, (6.34, 0.59, 5.71),
+    C.PropSpec("signal_mastarm_6m", "traffic", "traffic_signal", build_mastarm_6m, (6.34, 0.59, 6.37),
                "NYC DOT mast-arm traffic signal: 5.5 m tapered signal standard with a 20 ft (6.10 m) mast arm carrying "
                "two three-section 12 in heads in dark-green housings with tunnel visors and yellow-bordered backplates. "
                "ITE/MUTCD 12 in section 13.75 x 15.5 x 8 in; MUTCD 15 ft minimum clearance over the roadway.",
                variants=["signal_mastarm_9m", "signal_pedestal", "signal_spanwire"], tags=["mutcd", "mast_arm"], tolerance=0.10),
-    C.PropSpec("signal_mastarm_9m", "traffic", "traffic_signal", build_mastarm_9m, (9.38, 0.59, 5.78),
+    C.PropSpec("signal_mastarm_9m", "traffic", "traffic_signal", build_mastarm_9m, (9.38, 0.59, 6.37),
                "As signal_mastarm_6m but with a 30 ft (9.14 m) mast arm carrying three heads — the NYC configuration for "
                "wide two-way avenues.",
                variants=["signal_mastarm_6m", "signal_pedestal", "signal_spanwire"], tags=["mutcd", "mast_arm"], tolerance=0.10),

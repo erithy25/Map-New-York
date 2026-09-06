@@ -147,10 +147,14 @@ def _bounds(objects) -> tuple[Vector, Vector]:
 
 
 def _forward(armature: bpy.types.Object) -> Vector:
-    ball = armature.data.bones["ball_l"]
-    v = armature.matrix_world.to_3x3() @ (ball.tail_local - ball.head_local)
-    v.z = 0.0
-    return v.normalized()
+    """Mean toe direction of both feet - the body facing axis (matches anim_procedural.BodyRef)."""
+    total = Vector((0.0, 0.0, 0.0))
+    for side in ("l", "r"):
+        ball = armature.data.bones[f"ball_{side}"]
+        v = armature.matrix_world.to_3x3() @ (ball.tail_local - ball.head_local)
+        v.z = 0.0
+        total += v
+    return total.normalized()
 
 
 def set_pose(armature: bpy.types.Object, action_name: str, frame: int) -> None:
@@ -163,16 +167,39 @@ def set_pose(armature: bpy.types.Object, action_name: str, frame: int) -> None:
 
 
 # ------------------------------------------------------------------------------------------------ renders
+def _face_focus(armature: bpy.types.Object, meshes) -> tuple[Vector, Vector]:
+    """(focus point just inside the face, forward axis). Found from the nose tip, not from a bone offset."""
+    forward = _forward(armature)
+    body = next(o for o in meshes if o.name.endswith(".body"))
+    head_bone = armature.data.bones["head"]
+    z_lo = head_bone.head_local.z
+    group = body.vertex_groups.get("head")
+    names = [g.name for g in body.vertex_groups]
+    best, best_d = None, -math.inf
+    for vert in body.data.vertices:
+        if group is not None:
+            weight = next((g.weight for g in vert.groups if names[g.group] == "head"), 0.0)
+            if weight < 0.5:
+                continue
+        world = body.matrix_world @ vert.co
+        if world.z < z_lo:
+            continue
+        d = world.dot(forward)
+        if d > best_d:
+            best, best_d = world, d
+    if best is None:
+        best = armature.matrix_world @ head_bone.head_local
+    return best - forward * 0.06, forward
+
+
 def face_closeup(out: Path) -> Path:
     armature, meshes = load_player()
-    studio_lighting(key_energy=260.0, size=3.0)
+    studio_lighting(key_energy=300.0, size=3.0)
     set_pose(armature, "idle", 1)
-    head = armature.matrix_world @ armature.data.bones["head"].head_local
-    eye = head + Vector((0.0, 0.0, 0.085))
-    forward = _forward(armature)
+    focus, forward = _face_focus(armature, meshes)
     right = forward.cross(Vector((0.0, 0.0, 1.0)))
-    cam = eye + forward * 0.46 + right * 0.28 + Vector((0.0, 0.0, 0.06))
-    return render(out, location=cam, target=eye, fov_deg=26.0, size=(680, 840), samples=SAMPLES)
+    cam = focus + forward * 0.50 + right * 0.26 + Vector((0.0, 0.0, 0.035))
+    return render(out, location=cam, target=focus, fov_deg=30.0, size=(680, 840), samples=SAMPLES)
 
 
 def full_body(out: Path) -> Path:
@@ -279,10 +306,8 @@ def blendshape_sheet(out: Path, names=("jawOpen", "mouthSmileLeft", "eyeBlinkLef
     set_pose(armature, "idle", 1)
     body = next(o for o in meshes if o.name.endswith(".body"))
     keys = body.data.shape_keys.key_blocks
-    head = armature.matrix_world @ armature.data.bones["head"].head_local
-    eye = head + Vector((0.0, 0.0, 0.085))
-    forward = _forward(armature)
-    cam = eye + forward * 0.40 + Vector((0.0, 0.0, 0.02))
+    eye, forward = _face_focus(armature, meshes)
+    cam = eye + forward * 0.42 + Vector((0.0, 0.0, 0.02))
     tiles = []
     for name in names:
         if name not in keys:
