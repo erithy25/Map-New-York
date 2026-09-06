@@ -640,7 +640,7 @@ def pass_emit(only_tiles: set[str] | None, limit_groups: int | None, out_dir: Pa
             a = a.with_columns(pl.Series("n_placements", n_by_bin, dtype=pl.Int32))
             hdr = P.write_tile(rec, tile, tdir, extra={"rules_version": R.RULES_VERSION})
             for k in hdr["kit_id_counts"]:
-                kit_counts[k["kit_id"]] = kit_counts.get(k["kit_id"], 0) + k["count"]
+                kit_counts[int(k["kit_id"])] = kit_counts.get(int(k["kit_id"]), 0) + int(k["count"])
 
             out_tbl = _extend_table(base_tbl, a)
             tmp = bpath.with_suffix(".tmp")
@@ -663,9 +663,8 @@ def pass_emit(only_tiles: set[str] | None, limit_groups: int | None, out_dir: Pa
             log.info("emit %d/%d groups, %d tiles, %s placements, %.1f MB, rss %.0f MB",
                      gi + 1, len(groups), tot["tiles"], f"{tot['placements']:,}", tot["bytes"] / 1e6, _rss_mb())
     t.lap("emit tiles")
-    from .kit_ids import KIT_PIECE
-    tot["kit_id_counts"] = [{"kit_id": int(k), "category": KIT_PIECE[k][0] if k in KIT_PIECE else "?",
-                             "name": KIT_PIECE[k][1] if k in KIT_PIECE else "?", "count": int(v)}
+    from .kit_ids import piece_info
+    tot["kit_id_counts"] = [{**piece_info(int(k)), "count": int(v)}
                             for k, v in sorted(kit_counts.items(), key=lambda kv: -kv[1])]
     tot["placements_per_building"] = round(tot["placements"] / max(tot["buildings"], 1), 2)
     # a tile that holds buildings but no placements is a failure, not a silent success

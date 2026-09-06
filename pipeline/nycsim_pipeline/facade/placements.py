@@ -34,7 +34,7 @@ import shapely
 
 from . import enums as E
 from .derive import CLASS, SALT_AC_UNIT, SALT_GATE, SALT_STOREFRONT_BAY, SALT_VARIANT, SALT_WINDOW_LIT, TANK_PIECE
-from .kit_ids import FLAG_ANIMATED, FLAG_INTERIOR, FLAG_LIT, KIT_ID, kit_id
+from .kit_ids import FLAG_ANIMATED, FLAG_INTERIOR, FLAG_LIT, kit_id
 
 log = logging.getLogger("nycsim.facade.placements")
 
@@ -204,7 +204,7 @@ def build_placements(b: dict[str, np.ndarray], runs: dict[str, np.ndarray], geom
         # ``through_wall_ac_sleeve`` names the sleeve opening, not a window: the 2000s infill type really has a
         # normal one-over-one sash with the sleeve punched underneath, so place both.
         wt_place = np.where(wt[wb] == _THROUGH_WALL, E.WINDOW_TYPE_INDEX["double_hung_1_1"], wt[wb])
-        kid = np.asarray([KIT_ID[("window", n)] for n in E.WINDOW_TYPE_NAMES], dtype=np.uint32)[wt_place]
+        kid = np.asarray([kit_id("window", n) for n in E.WINDOW_TYPE_NAMES], dtype=np.uint32)[wt_place]
         wscale = np.where(curtain, np.minimum(step[w_bay] / np.maximum(bay_w[wb], 0.5), 2.0), 1.0)
         acc.add(kid, b["bin"][wb], wx, wy, wz, wyaw, wscale.astype(np.float32), vseed,
                 np.where(lit, FLAG_LIT, 0).astype(np.uint32))
@@ -256,7 +256,7 @@ def build_placements(b: dict[str, np.ndarray], runs: dict[str, np.ndarray], geom
         cx = r_x0[corn_runs] + r_ux[corn_runs] * t
         cy = r_y0[corn_runs] + r_uy[corn_runs] * t
         style = CLASS.cornice_style[fc[cb]]
-        kid = np.asarray([KIT_ID[("cornice", n)] for n in CORNICE_STYLES], dtype=np.uint32)[style]
+        kid = np.asarray([kit_id("cornice", n) for n in CORNICE_STYLES], dtype=np.uint32)[style]
         acc.add(kid, b["bin"][cb], cx, cy, rz[cb], r_yaw[corn_runs], (r_len[corn_runs] / CORNICE_NOMINAL_W_M).astype(np.float32),
                 _seed_mix(seed[cb], corn_runs, salt=SALT_VARIANT + 2), np.uint32(0))
     flat_roof = CLASS.roof_shape[fc] == E.ROOF_FLAT
@@ -288,10 +288,10 @@ def build_placements(b: dict[str, np.ndarray], runs: dict[str, np.ndarray], geom
         vs = _seed_mix(seed[sb], rep, k, salt=SALT_VARIANT + 4)
         acc.add(np.uint32(kit_id("scaffold", "sidewalk_shed_bay")), b["bin"][sb], sx, sy, gz[sb], r_yaw[rep],
                 (step / SHED_BAY_M).astype(np.float32), vs, np.uint32(0))
-        light = (k % 2) == 0
-        acc.add(np.uint32(kit_id("scaffold", "shed_light")), b["bin"][sb][light], sx[light], sy[light],
-                (gz[sb][light] + 3.4), r_yaw[rep][light], np.float32(1.0), vs[light],
-                np.uint32(FLAG_LIT | FLAG_ANIMATED))
+        # the shed is capped at both ends by the corner module (the kit exports no separate shed light)
+        ends = (k == 0) | (k == (np.repeat(n_bay, n_bay) - 1))
+        acc.add(np.uint32(kit_id("scaffold", "sidewalk_shed_end")), b["bin"][sb][ends], sx[ends], sy[ends],
+                gz[sb][ends], r_yaw[rep][ends], np.float32(1.0), vs[ends], np.uint32(FLAG_LIT))
 
     # ---- roof: water tower, bulkheads, HVAC, antennas -----------------------------------------------------------------
     _roof_equipment(acc, b, geoms, fc, floors, rz, seed, nb)
@@ -351,16 +351,21 @@ def _ground_floor(acc: Accum, b, nb, r_b, r_len, r_x0, r_y0, r_ux, r_uy, r_yaw, 
                 (gz[sb][band] + np.minimum(gfh[sb][band], 4.5) - 0.85), r_yaw[rep][band],
                 (r_len[rep][band] / 3.6).astype(np.float32), vs[band], np.uint32(FLAG_LIT))
         # roll-down gate on a share of the bays (the runtime lowers them at night: FLAG_ANIMATED)
+        gate_kids = np.asarray([kit_id("storefront", n) for n in
+                                ("roll_gate_open_3_6", "roll_gate_open_4_8", "roll_gate_open_6_0")], dtype=np.uint32)
         gate = (E.rand_unit(vs, SALT_GATE) < ROLL_GATE_SHARE) & CLASS.has_roll_gate[fc[sb]]
         if gate.any():
-            acc.add(np.uint32(kit_id("storefront", "roll_gate_open")), b["bin"][sb][gate], sx[gate], sy[gate],
-                    gz[sb][gate], r_yaw[rep][gate], (step[gate] / 3.6).astype(np.float32), vs[gate],
+            acc.add(gate_kids[pick[gate]], b["bin"][sb][gate], sx[gate], sy[gate],
+                    gz[sb][gate], r_yaw[rep][gate], (step[gate] / sf_bay_w[pick[gate]]).astype(np.float32), vs[gate],
                     np.uint32(FLAG_ANIMATED))
-        # fabric awning
+        # fabric awning, in the same three bay widths the kit exports
+        awn_kids = np.asarray([kit_id("storefront", n) for n in ("awning_3_6", "awning_4_8", "awning_6_0")],
+                              dtype=np.uint32)
         awn = (E.rand_unit(vs, SALT_GATE + 1) < AWNING_SHARE) & CLASS.has_awning[fc[sb]]
         if awn.any():
-            acc.add(np.uint32(kit_id("storefront", "awning_fabric")), b["bin"][sb][awn], sx[awn], sy[awn],
-                    (gz[sb][awn] + 2.85), r_yaw[rep][awn], (step[awn] / 3.6).astype(np.float32), vs[awn], np.uint32(0))
+            acc.add(awn_kids[pick[awn]], b["bin"][sb][awn], sx[awn], sy[awn],
+                    (gz[sb][awn] + 2.85), r_yaw[rep][awn], (step[awn] / sf_bay_w[pick[awn]]).astype(np.float32),
+                    vs[awn], np.uint32(0))
         # one entrance door and one interior shell per storefront run
         first_bay = k == 0
         acc.add(np.uint32(kit_id("storefront", "storefront_door")), b["bin"][sb][first_bay], sx[first_bay],
@@ -436,7 +441,7 @@ def _ground_floor(acc: Accum, b, nb, r_b, r_len, r_x0, r_y0, r_ux, r_uy, r_yaw, 
         curtain = wt[bi] == _CURTAIN_WALL
         z = np.where(curtain, gz[bi], gz[bi] + GROUND_SILL_M + np.maximum(entry_z[bi] - gz[bi] - 0.6, 0.0))
         vseed = _seed_mix(seed[bi], run[rep], k, salt=SALT_VARIANT + 7)
-        kid = np.asarray([KIT_ID[("window", n)] for n in E.WINDOW_TYPE_NAMES], dtype=np.uint32)[wt[bi]]
+        kid = np.asarray([kit_id("window", n) for n in E.WINDOW_TYPE_NAMES], dtype=np.uint32)[wt[bi]]
         lit = E.rand_unit(vseed, SALT_WINDOW_LIT) < LIT_SHARE_RESIDENTIAL
         acc.add(kid, b["bin"][bi], gx, gy, z, r_yaw[run[rep]], np.float32(1.0), vseed,
                 np.where(lit, FLAG_LIT, 0).astype(np.uint32))
@@ -542,7 +547,7 @@ def write_tile(rec: np.ndarray, tile: str, out_dir: Path, extra: dict | None = N
     tmp.replace(bin_path)
 
     kid, cnt = (np.unique(rec["kit_id"], return_counts=True) if len(rec) else (np.zeros(0, dtype=np.uint32), np.zeros(0, dtype=np.int64)))
-    from .kit_ids import KIT_PIECE
+    from .kit_ids import piece_info
     header = {
         "schema_version": 1,
         "schema": PLACEMENTS_SCHEMA,
@@ -567,9 +572,7 @@ def write_tile(rec: np.ndarray, tile: str, out_dir: Path, extra: dict | None = N
         "sorted_by": ["bin", "kit_id"],
         # ``kit_ids`` is the plain id list the cross-stage catalog check reads; the breakdown sits next to it.
         "kit_ids": [int(k) for k in kid],
-        "kit_id_counts": [{"kit_id": int(k), "category": KIT_PIECE[int(k)][0] if int(k) in KIT_PIECE else "unknown",
-                           "name": KIT_PIECE[int(k)][1] if int(k) in KIT_PIECE else "unknown", "count": int(c)}
-                          for k, c in zip(kid, cnt)],
+        "kit_id_counts": [{**piece_info(int(k)), "count": int(c)} for k, c in zip(kid, cnt)],
         "buildings": int(len(np.unique(rec["bin"]))) if len(rec) else 0,
     }
     if extra:

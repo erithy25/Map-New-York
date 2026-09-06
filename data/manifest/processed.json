@@ -6570,6 +6570,25 @@
    ],
    "stage": "furniture"
   },
+  "landmark_b_bethesda_terrace_lod0": {
+   "artifact_id": "landmark_b_bethesda_terrace_lod0",
+   "bytes": 555544,
+   "git_commit": "6f87abf275ac",
+   "landmark_id": "b_bethesda_terrace",
+   "lod": 0,
+   "path": "blender_out/landmarks/b_bethesda_terrace.glb",
+   "produced_at": "2026-09-06T12:56:43Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "6e95fe391fdac405b740dedb95f9f95df2c8d082922ac7e92b887f0c254c1f79",
+   "sources": [
+    "building_footprints",
+    "osm_bbbike",
+    "published_bethesda_terrace"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 10808
+  },
   "landmark_b_bronx_whitestone_lod0": {
    "artifact_id": "landmark_b_bronx_whitestone_lod0",
    "bytes": 1977220,
@@ -7299,6 +7318,26 @@
    "stage": "landmarks",
    "tris_lod0": 103450,
    "tris_lod1": 1026
+  },
+  "landmark_glb:c_kings_theatre": {
+   "artifact_id": "landmark_glb:c_kings_theatre",
+   "bins": [
+    3117845
+   ],
+   "bytes": 14172948,
+   "footprint_iou": 1.0,
+   "git_commit": "6f87abf275ac",
+   "path": "blender_out/landmarks/c_kings_theatre.glb",
+   "produced_at": "2026-09-06T12:56:38Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "4ea1e102ce2a9bff95ccd7a7da56f9c00a3c2d794ae2cf930f129b5fbde285bb",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 581,
+   "tris_lod1": 98
   },
   "landmark_glb:c_lever_house": {
    "artifact_id": "landmark_glb:c_lever_house",
