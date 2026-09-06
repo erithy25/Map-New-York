@@ -24,7 +24,7 @@
   "\"50 Hudson Yards\" Foster Partners"
  ],
  "geosearch_radius_m": 400,
- "fetched_at": "2026-09-06T13:50:09Z",
+ "fetched_at": "2026-09-06T14:01:08Z",
  "max_width": 1920,
  "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
  "candidates_seen": 30,

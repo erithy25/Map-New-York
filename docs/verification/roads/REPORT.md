@@ -8,7 +8,7 @@ PYTHONPATH=pipeline python -m nycsim_pipeline roads              # everything be
 PYTHONPATH=pipeline python -m nycsim_pipeline.roads.apply_terrain_z   # lift onto the real terrain
 PYTHONPATH=pipeline python -m nycsim_pipeline.runtime.export          # re-export the §15 binaries
 PYTHONPATH=pipeline python -m pytest pipeline/tests/test_roads.py -q  # 55 passed
-PYTHONPATH=pipeline python -m pytest tests/test_world_integration.py -q  # 18 passed
+PYTHONPATH=pipeline python -m pytest tests/test_world_integration.py -q  # 19 passed
 ```
 
 ---
@@ -450,7 +450,7 @@ controller's phase slice matches the parquet phase list.
 
 ## 12. Tests
 
-`pipeline/tests/test_roads.py` — **55 passed** in 26 s. `tests/test_world_integration.py` — **18 passed**.
+`pipeline/tests/test_roads.py` — **55 passed** in 26 s. `tests/test_world_integration.py` — **19 passed**.
 
 Unit (no data): name normalisation across CSCL/LION/DOT/OSM spellings; level-code → height; offset polylines
 (exact 3 m offset, mitre limit at corners); Bézier connector tangents; heading conventions; lane cross-sections

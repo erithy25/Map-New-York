@@ -1,0 +1,41 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_15_hudson_yards",
+ "name": "15 Hudson Yards",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.75311,
+  "lon": -74.000277,
+  "azimuth_deg": 280.0,
+  "note": "Tenth Avenue at West 30th Street, about 250 m east of the tower, looking west at the curved shaft of 15 Hudson Yards",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7535,
+  "lon": -74.0032,
+  "name": "15 Hudson Yards"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2019,
+ "wanted": 3,
+ "queries": [
+  "\"15 Hudson Yards\" residential tower",
+  "\"15 Hudson Yards\" Diller Scofidio"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T14:01:03Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 44,
+ "candidates_eligible": 0,
+ "rejections": {
+  "too_old": 14,
+  "keywords": 22,
+  "too_small": 4,
+  "excluded": 4
+ },
+ "exhausted": true,
+ "status": "no_suitable_photo",
+ "photos": []
+}
