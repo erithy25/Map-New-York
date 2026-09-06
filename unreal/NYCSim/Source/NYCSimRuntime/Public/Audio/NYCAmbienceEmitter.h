@@ -5,9 +5,11 @@
 // pool is a couple of dozen actors. They are not meant to be hand-placed - place a tagged actor (or call
 // UNYCAudioSubsystem::RegisterAmbienceZone) and the pool will voice it.
 //
-// Two zone kinds are synthesised because no recording of them could be licensed from a source reachable here (a
-// Con Edison steam vent and a subway grate); the rest play a licensed loop and stay silent while that loop is
-// missing from the imported content, which the subsystem logs once per zone kind.
+// Three zone kinds are synthesised because no recording of them could be licensed from a source reachable here:
+// a Con Edison steam vent, a subway grate, and the traffic bed itself - the last of which is better synthesised
+// anyway, because it is then made of the traffic that is really around you rather than of somebody else's street.
+// The rest play a licensed loop and stay silent while that loop is missing from the imported content, which the
+// subsystem logs once per zone kind.
 #pragma once
 
 #include "CoreMinimal.h"
@@ -22,7 +24,8 @@ class USoundBase;
 UENUM(BlueprintType)
 enum class ENYCAmbienceZone : uint8
 {
-	/** The rolling traffic bed; gain follows the number of simulated vehicles actually near the listener. */
+	/** The rolling traffic bed: level and brightness follow the vehicles the simulation actually has in the zone
+	 *  (synthesised from them unless a licensed street recording is imported as `amb_traffic`). */
 	TrafficBed = 0,
 	/** A subway grate: ventilation hum plus the swell of a train passing beneath (synthesised). */
 	SubwayGrate,
@@ -117,6 +120,7 @@ private:
 	float NextTrainSeconds = 0.f;
 	float TrafficGain = 0.f;
 	float TrafficPitch = 1.f;
+	float TrafficSpeedMps = 0.f;
 	uint32 RandomState = 0x2545F491u;
 	bool bSynthetic = false;
 	bool bAudible = false;

@@ -263,6 +263,7 @@ class TowerSpec:
     arch_h: float = 35.7          # gothic: arch opening height above roadway
     arch_gap: float = 8.83        # gothic: |t| of each arch centre (half the pier-to-pier spacing)
     cornice_w: float = 1.5        # gothic: projection of the crown cornice course
+    course_h: float = 0.0         # gothic: string-course pitch (0 = no coursing modelled)
     batter: float = 0.0           # gothic: half-width lost per metre of height (granite batter)
     pier_w: float = 43.0          # masonry pier (below deck) width t
     pier_d: float = 18.0          # masonry pier depth s
@@ -377,6 +378,31 @@ def build_tower(name: str, axis: Axis, s: float, spec: TowerSpec, lod: int = 0) 
         body = bc.profile_extrude(f"{name}_body", prof, spec.depth_s, spec.material, holes=holes, plane="yz")
         bc.transform(body, M)
         out.append(body)
+        # granite string courses.  The Brooklyn Bridge towers are laid in courses roughly 0.6-0.9 m high; a string
+        # course every fourth course (3.0 m) is modelled as a shallow 0.09 m projection so that raking light reads
+        # the stonework.  Below the arch crowns each course is three pieces (left pier, centre pier, right pier) so
+        # that it does not cross the two openings.
+        if lod == 0 and spec.course_h > 0:
+            courses = []
+            arch_l0, arch_l1 = -gap - spec.arch_w / 2, -gap + spec.arch_w / 2
+            arch_r0, arch_r1 = gap - spec.arch_w / 2, gap + spec.arch_w / 2
+            zc = spec.z_deck + spec.course_h
+            while zc < spec.z_top - 5.0:
+                w_here = W / 2 - b * max(0.0, zc - spec.z_deck)
+                if zc < spec.z_deck + spec.arch_h + 0.5:
+                    pieces = [(-w_here, arch_l0), (arch_l1, arch_r0), (arch_r1, w_here)]
+                else:
+                    pieces = [(-w_here, w_here)]
+                for i, (t0, t1) in enumerate(pieces):
+                    if t1 - t0 < 0.4:
+                        continue
+                    cb = bc.box(f"{name}_course{int(zc)}_{i}", (spec.depth_s + 0.18, t1 - t0, 0.24),
+                                (0, (t0 + t1) / 2, zc), spec.material)
+                    bc.transform(cb, M)
+                    courses.append(cb)
+                zc += spec.course_h
+            if courses:
+                out.append(bc.join(courses, f"{name}_string_courses"))
         # string course above the arch crowns, where the real towers step back
         zz = spec.z_deck + spec.arch_h + 3.2
         w_here = W / 2 - b * (zz - spec.z_deck)

@@ -6425,13 +6425,13 @@
   },
   "facade_attrs": {
    "artifact_id": "facade_attrs",
-   "bytes": 54477426,
-   "git_commit": "38976a48e050",
+   "bytes": 54486006,
+   "git_commit": "bc0f31c8a002",
    "path": "data/processed/facade/facade_attrs.parquet",
-   "produced_at": "2026-09-06T13:18:08Z",
+   "produced_at": "2026-09-06T13:30:34Z",
    "rows": 1083026,
    "schema": "facade_attrs/1",
-   "sha256": "bbac2a6780aa388c531137dcaefa387e49727d0bcd055b8002727706accfd2a3",
+   "sha256": "bd1a1d707708c5a076409cfacb8436b63219faf40309da2496879729af7b04be",
    "sources": [
     "building_footprints",
     "pluto",
@@ -6444,9 +6444,9 @@
   "facade_geom_attrs": {
    "artifact_id": "facade_geom_attrs",
    "bytes": 47047679,
-   "git_commit": "38976a48e050",
+   "git_commit": "bc0f31c8a002",
    "path": "data/processed/facade/geom_attrs.parquet",
-   "produced_at": "2026-09-06T13:18:07Z",
+   "produced_at": "2026-09-06T13:30:33Z",
    "rows": 1083026,
    "schema": "facade_geom/1",
    "sha256": "fe9cd704a0dd2ac895a09f1511391cfabd3e3720f71c25fdd094e9fc5941b27e",
@@ -6462,12 +6462,12 @@
   "facade_kit_ids": {
    "artifact_id": "facade_kit_ids",
    "bytes": 41639,
-   "git_commit": "38976a48e050",
+   "git_commit": "bc0f31c8a002",
    "path": "data/processed/facade/kit_ids.json",
-   "produced_at": "2026-09-06T13:18:08Z",
+   "produced_at": "2026-09-06T13:30:34Z",
    "rows": null,
    "schema": "kit_ids/1",
-   "sha256": "67a35f84eb48787633573025aa9fd9fa3716aabfe439e39ac8a6da333e2135c8",
+   "sha256": "1c86de7e4afb037d48ae3ac34101a41de84c06349fdacf16022447c88a5847d4",
    "sources": [
     "building_footprints",
     "pluto",
@@ -7972,14 +7972,14 @@
    "bins": [
     1036474
    ],
-   "bytes": 20131312,
+   "bytes": 20131632,
    "footprint_iou": 1.0,
-   "git_commit": "e9c4094042a0",
+   "git_commit": "bc0f31c8a002",
    "path": "blender_out/landmarks/c_citigroup_center.glb",
-   "produced_at": "2026-09-06T11:47:24Z",
+   "produced_at": "2026-09-06T13:30:41Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "e86345e4c4cdefdf94f1aafa757e01214f23e863ab95d889a51d26ce2f9e9ac4",
+   "sha256": "c72730a88233c7f928d2e73075dd15164f543edf6262ddbc7977db5e870aed97",
    "sources": [
     "building_footprints"
    ],
@@ -11596,15 +11596,15 @@
   },
   "terrain_tiles": {
    "artifact_id": "terrain_tiles",
-   "bytes": 2259,
-   "git_commit": "38976a48e050",
+   "bytes": 2296,
+   "git_commit": "bc0f31c8a002",
    "path": "data/processed/terrain/tile_summary.json",
-   "png_bytes": 145326041,
-   "produced_at": "2026-09-06T13:20:07Z",
-   "rows": 666,
+   "png_bytes": 525155057,
+   "produced_at": "2026-09-06T13:30:44Z",
+   "rows": 2916,
    "samples_per_tile": 251001,
    "schema": "terrain.tile/1",
-   "sha256": "40a94b955ae4b2f933f455b25fb95593b84d610b382cf5f5091d354d3de929b1",
+   "sha256": "28e1cbf1a03c43afe43661d72ebff78a50737628031286ee84901d424495c895",
    "sources": [
     "usgs_3dep",
     "plan_elevation_points",
@@ -11615,7 +11615,7 @@
    ],
    "spacing_m": 2.0,
    "stage": "terrain",
-   "tiles_written": 666
+   "tiles_written": 2916
   },
   "tiles_index": {
    "artifact_id": "tiles_index",

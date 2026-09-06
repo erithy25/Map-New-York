@@ -6,16 +6,28 @@
 
 namespace
 {
-/// Which zones are synthesised rather than played from a licensed recording.
-bool IsSyntheticZone(ENYCAmbienceZone Zone)
+/// The zones this build can synthesise when no licensed recording is imported for them.
+bool HasSynthesiser(ENYCAmbienceZone Zone)
 {
-	return Zone == ENYCAmbienceZone::SubwayGrate || Zone == ENYCAmbienceZone::SteamVent;
+	return Zone == ENYCAmbienceZone::SubwayGrate || Zone == ENYCAmbienceZone::SteamVent ||
+		   Zone == ENYCAmbienceZone::TrafficBed;
 }
 
 ENYCSourceKind SourceKindFor(ENYCAmbienceZone Zone)
 {
-	return Zone == ENYCAmbienceZone::SubwayGrate ? ENYCSourceKind::Rumble : ENYCSourceKind::Steam;
+	switch (Zone)
+	{
+	case ENYCAmbienceZone::SubwayGrate: return ENYCSourceKind::Rumble;
+	case ENYCAmbienceZone::SteamVent: return ENYCSourceKind::Steam;
+	// Distant traffic is tyre-on-road noise: broadband, its centre frequency rising with speed. That is exactly
+	// what the tyre generator produces, and here it is driven by the vehicles the simulation actually has in the
+	// zone rather than by a recording of somebody else's street.
+	default: return ENYCSourceKind::Tyre;
+	}
 }
+
+/// An idling queue still makes noise, so the generator never sees a speed of zero.
+constexpr float kMinBedSpeedMps = 2.5f;
 }  // namespace
 
 ANYCAmbienceEmitter::ANYCAmbienceEmitter()
@@ -66,7 +78,8 @@ void ANYCAmbienceEmitter::Assign(int32 InZoneHandle, ENYCAmbienceZone InZone, co
 	Zone = InZone;
 	RadiusMetres = FMath::Max(2.f, Spec.RadiusMetres);
 	HeadwaySeconds = FMath::Max(20.f, Spec.HeadwaySeconds);
-	bSynthetic = IsSyntheticZone(InZone);
+	// A licensed recording wins; the synthesiser is what runs when there is none.
+	bSynthetic = Spec.LoopSound == nullptr && HasSynthesiser(InZone);
 	RandomState = static_cast<uint32>(Spec.Seed) * 2654435761u + 0x9E3779B9u;
 
 	SetActorLocation(Spec.Location);
@@ -177,6 +190,7 @@ void ANYCAmbienceEmitter::SetTrafficLevel(int32 Vehicles, float MeanSpeedMps)
 	TrafficGain = FMath::Clamp(FMath::Loge(1.f + N) / FMath::Loge(1.f + 18.f), 0.f, 1.f);
 	// Free-flowing traffic is brighter than a queue; 1.0 at 12 m/s, 0.92 at a standstill.
 	TrafficPitch = FMath::Clamp(0.92f + 0.08f * (MeanSpeedMps / 12.f), 0.90f, 1.06f);
+	TrafficSpeedMps = FMath::Max(kMinBedSpeedMps, MeanSpeedMps);
 }
 
 void ANYCAmbienceEmitter::Tick(float DeltaTime)
@@ -202,6 +216,11 @@ void ANYCAmbienceEmitter::Tick(float DeltaTime)
 	{
 		if (Synth != nullptr)
 		{
+			if (Zone == ENYCAmbienceZone::TrafficBed)
+			{
+				// Roughness 0.55 is a worn asphalt street; the bed carries no slip and no spray of its own.
+				Synth->SetTyre(TrafficSpeedMps, 0.55f, 0.f, 0.f);
+			}
 			Synth->SetSourceGain(Applied);
 			if (Zone == ENYCAmbienceZone::SubwayGrate)
 			{

@@ -59,9 +59,14 @@ const TCHAR* const kZoneTags[] = {
 static_assert(static_cast<int32>(UE_ARRAY_COUNT(kZoneTags)) == kZoneKindCount,
 			  "kZoneTags must cover every ENYCAmbienceZone");
 
-/// The imported sound each zone kind plays; empty means the zone is synthesised or has no licensed recording.
+/// The imported sound each zone kind prefers. Empty means "always synthesised"; a name that is not imported
+/// means the zone is synthesised if it has a generator and silent if it does not.
+///
+/// Nothing here maps to assets/audio/sfx/traffic_bed_1.ogg: the Commons search for a city traffic ambience
+/// returned a railway-station tunnel recorded in Tampere. It is licensed (CC-BY-4.0) and kept with its record,
+/// but it is not a New York street, so no zone plays it.
 const TCHAR* const kZoneLoops[] = {
-	TEXT("traffic_bed_1"), TEXT(""),          TEXT(""),        TEXT("amb_park"),
+	TEXT("amb_traffic"),    TEXT(""),                 TEXT(""),          TEXT("amb_park"),
 	TEXT("amb_waterfront"), TEXT("amb_construction"), TEXT("amb_crowd"), TEXT("amb_helicopter"),
 };
 static_assert(static_cast<int32>(UE_ARRAY_COUNT(kZoneLoops)) == kZoneKindCount,
@@ -169,10 +174,7 @@ void UNYCAudioSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 					++Listed;
 					Ar.Logf(TEXT("  %-22s %6.0f m  r=%.0f m  gain %.2f%s"), ZoneName(Zone.Zone), DistanceM,
 							Zone.RadiusMetres, Zone.Gain,
-							LoopSoundFor(Zone.Zone) == nullptr && Zone.Zone != ENYCAmbienceZone::SubwayGrate &&
-									Zone.Zone != ENYCAmbienceZone::SteamVent
-								? TEXT("  [no licensed recording imported]")
-								: TEXT(""));
+							LoopSoundFor(Zone.Zone) == nullptr ? TEXT("  [synthesised or silent]") : TEXT(""));
 				}
 				Ar.Logf(TEXT("%d of %d zones within 600 m"), Listed, Zones.Num());
 			})));

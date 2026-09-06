@@ -471,6 +471,10 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
         gaps.append("terrain not built: " + str(scene["terrain"].get("reason")))
     if gaps:
         caption_lines.append(("Gaps: " + "; ".join(gaps), f_small))
+    caption_lines.append((
+        f"This sheet embeds the photograph above and is therefore a derivative work distributed "
+        f"under the same licence ({ph.get('licence')}); the right-hand image is NYCSim output "
+        f"(blender/verify/render_sheets.py).", f_small))
 
     tmp = Image.new("RGB", (10, 10))
     d0 = ImageDraw.Draw(tmp)

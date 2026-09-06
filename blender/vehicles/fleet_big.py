@@ -353,8 +353,8 @@ def seagrave_tower() -> FleetSpec:
         # turntable, boom (stowed) and the platform: a 75 ft (22.9 m) telescopic boom is stowed over the body
         parts = [g.cylinder_bm(0.85, 0.40, axis="Z", center=(1.40, 0, 2.72), segments=28)]
         boom = []
-        for k, (ln, w, h, z) in enumerate(((8.6, 0.72, 0.62, 2.98), (7.4, 0.60, 0.52, 2.99), (6.4, 0.50, 0.44, 3.00))):
-            boom.append(g.box_bm((ln, w, h), (1.40 - ln / 2 + k * 0.35, 0, z)))
+        for k, (ln, w, h, z) in enumerate(((5.3, 0.72, 0.62, 2.98), (4.6, 0.60, 0.52, 2.99), (3.9, 0.50, 0.44, 3.00))):
+            boom.append(g.box_bm((ln, w, h), (1.40 - ln / 2 - k * 0.30, 0, z)))
         v.add(g.to_object("AerialBoom", g.merge_bm(boom), [lib.steel_painted((0.72, 0.73, 0.74), "BOOM_STEEL")],
                           smooth=False))
         parts.append(g.box_bm((1.10, 1.90, 0.95), (-3.10, 0, 2.82)))          # the bucket, stowed at the tail
@@ -517,7 +517,7 @@ def mack_lr() -> FleetSpec:
         alu = lib.steel_painted((0.62, 0.63, 0.65), "REFUSE_STEEL")
         parts = [g.box_bm((1.45, 2.45, 1.85), (-2.42, 0, 1.55)),          # the hopper at the tail
                  g.box_bm((0.28, 2.35, 1.10), (-3.19, 0, 1.10)),          # the tailgate packer panel
-                 g.box_bm((0.60, 1.60, 0.20), (-3.32, 0, 0.70))]          # the loading sill
+                 g.box_bm((0.55, 1.60, 0.20), (-3.06, 0, 0.70))]          # the loading sill
         for k in range(6):
             parts.append(g.box_bm((0.05, 2.50, 0.10), (3.60 - k * 1.10, 0, 2.60)))
         v.add(g.to_object("RefuseBody", g.merge_bm(parts), [alu], smooth=False))
@@ -785,19 +785,19 @@ def coned_truck() -> FleetSpec:
         parts = [g.box_bm((3.10, 2.40, 1.10), (-0.20, 0, 1.35))]
         for s in (1, -1):
             for bx in (0.85, -0.30, -1.35):
-                parts.append(g.box_bm((0.95, 0.06, 0.85), (bx, s * 1.222, 1.35)))
+                parts.append(g.box_bm((0.95, 0.06, 0.85), (bx, s * 1.202, 1.35)))
         parts.append(g.box_bm((3.00, 2.30, 0.06), (-0.20, 0, 1.93)))
         v.add(g.to_object("UtilityBody", g.merge_bm(parts), [steel], smooth=False))
         boom = [g.cylinder_bm(0.28, 0.45, axis="Z", center=(1.05, 0, 2.10), segments=20),
                 g.box_bm((0.34, 0.34, 0.60), (1.05, 0, 2.58)),
-                g.box_bm((2.60, 0.36, 0.34), (-0.30, 0, 2.55)),
-                g.box_bm((0.80, 0.62, 0.70), (-1.70, 0, 2.55))]
+                g.box_bm((2.36, 0.36, 0.34), (-0.18, 0, 2.55)),
+                g.box_bm((0.80, 0.62, 0.70), (-1.46, 0, 2.55))]
         v.add(g.to_object("Boom", g.merge_bm(boom), [lib.steel_painted((0.85, 0.72, 0.20), "BOOM_YELLOW")],
                           smooth=False))
         v.add(P.light_bar(lib, x=3.40, z=2.220, w=1.20, h=0.100, d=0.22, modules=4))
         dec = TX.wordmark("coned", "Con Edison", w=1024, h=200, fg=(255, 255, 255))
         for s, tag in ((1, "L"), (-1, "R")):
-            y = s * 1.223
+            y = s * 1.218
             c = [(3.55, y, 1.10), (2.35, y, 1.10), (2.35, y, 1.36), (3.55, y, 1.36)]
             v.add(g.to_object(f"Decal_ConEd_{tag}", g.quad_uv01_bm(c if s > 0 else list(reversed(c))),
                               [lib.decal("DECAL_CONED", dec)], smooth=False))

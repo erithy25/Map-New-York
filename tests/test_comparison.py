@@ -162,6 +162,75 @@ def test_kit_ids_resolve_to_files_or_are_reported_as_unresolved():
     assert not missing, f"{len(missing)} registry entries point at files that do not exist: {missing[:5]}"
 
 
+# --------------------------------------------------------------------------- world placement
+
+
+def _built_tiles() -> list[str]:
+    d = REPO_ROOT / "blender_out" / "tiles"
+    if not d.is_dir():
+        return []
+    return sorted(p.parent.name for p in d.glob("*/tile_buildings.glb"))
+
+
+def test_building_shells_land_on_their_published_world_bounds():
+    """A tile glb is stored in tile-local metres; the scene must translate it by the tile origin."""
+    bpy = _skip_without_bpy()
+    import scene as vscene
+    import nycsim_bpy as nb
+
+    tiles = _built_tiles()
+    if not tiles:
+        pytest.skip("no tile_buildings.glb produced yet")
+    tile = tiles[0]
+    manifest = json.loads((REPO_ROOT / "blender_out" / "tiles" / tile / "manifest.json").read_text())
+    want = manifest["bounds_world_m"]
+    tx, ty = (int(v) for v in tile.split("_")[1:3])
+    nb.reset_scene()
+    rep = vscene.add_buildings((tx + 0.5) * 1000.0, (ty + 0.5) * 1000.0, 200.0, lod0_radius_m=1e9)
+    assert rep["tiles_imported"] == 1, rep
+    lo = [float("inf")] * 3
+    hi = [float("-inf")] * 3
+    for ob in bpy.context.scene.objects:
+        if ob.type != "MESH":
+            continue
+        for corner in ob.bound_box:
+            w = ob.matrix_world @ __import__("mathutils").Vector(corner)
+            for k in range(3):
+                lo[k] = min(lo[k], w[k])
+                hi[k] = max(hi[k], w[k])
+    for k, axis in enumerate("xyz"):
+        assert lo[k] == pytest.approx(want["min"][k], abs=0.5), f"{tile} {axis} min {lo[k]} vs {want['min'][k]}"
+        assert hi[k] == pytest.approx(want["max"][k], abs=0.5), f"{tile} {axis} max {hi[k]} vs {want['max'][k]}"
+
+
+def test_landmarks_land_at_their_catalogue_origin_and_published_height():
+    bpy = _skip_without_bpy()
+    import scene as vscene
+    import nycsim_bpy as nb
+
+    entries = {e["id"]: e for e in vscene.load_landmark_catalog()}
+    if "empire_state" not in entries:
+        pytest.skip("Empire State Building not exported yet")
+    e = entries["empire_state"]
+    ox, oy, oz = (float(v) for v in e["origin_tm"])
+    nb.reset_scene()
+    lib = vscene.AssetLibrary()
+    rep = vscene.add_landmarks(lib, ox, oy, 50.0, catalog=[e])
+    assert rep["placed"] == 1, rep
+    zs = []
+    for ob in bpy.context.scene.objects:
+        if ob.type != "MESH":
+            continue
+        for corner in ob.bound_box:
+            zs.append((ob.matrix_world @ __import__("mathutils").Vector(corner)).z)
+    assert zs
+    # The published roof/antenna height is measured from the model origin (street level).
+    top = max(zs) - oz
+    assert 300.0 < top < 460.0, f"Empire State model tops out {top:.1f} m above its origin"
+    if e.get("bounds_local_m"):
+        assert top == pytest.approx(float(e["bounds_local_m"]["max"][2]), abs=1.0)
+
+
 # --------------------------------------------------------------------------- camera
 
 

@@ -82,8 +82,9 @@ VIEWS: dict[str, dict] = {
     "skyline_brooklyn": {
         "merged": {"level": 2, "cells": [(-2, 0), (-2, 1), (-1, 0), (-1, 1), (-2, -1), (-1, -1)]},
         "cam": (-4183.8, -431.9), "cam_z": 22.0,      # Brooklyn Heights Promenade deck
-        "target": (-5154.9, 823.5), "target_z": 120.0,     # Lower Manhattan, Wall Street
-        "fov": 58.0, "sun_az": 240.0, "sun_el": 22.0, "size": (1600, 900),
+        "target": (-5154.9, 823.5), "target_z": 150.0,     # Lower Manhattan, Wall Street
+        "water": True,                                      # the East River really is in this shot
+        "fov": 46.0, "sun_az": 240.0, "sun_el": 22.0, "size": (1600, 900),
         "title": "Manhattan skyline from the Brooklyn Heights Promenade (merged L2 cells)",
     },
 }
@@ -234,6 +235,26 @@ def _hide_lods(objects, keep_lod: int = 0) -> None:
             ob.hide_viewport = True
 
 
+def _water_plane(level_m: float = 0.0, half_size: float = 30000.0):
+    """Flat water at 0.0 m NAVD88 for the harbour views (DATA_CONTRACTS §4 water_level_m).
+
+    The water stage has not produced ``water/hydrography.parquet`` geometry yet; this is a plain
+    plane used only inside the verification renders, never exported.
+    """
+    import bpy
+    import nycsim_bpy as nb
+
+    me = bpy.data.meshes.new("verify_water")
+    me.from_pydata([(-half_size, -half_size, level_m), (half_size, -half_size, level_m),
+                    (half_size, half_size, level_m), (-half_size, half_size, level_m)], [], [(0, 1, 2, 3)])
+    me.update()
+    ob = bpy.data.objects.new("verify_water", me)
+    bpy.context.scene.collection.objects.link(ob)
+    me.materials.append(nb.pbr_material("VERIFY_water", base_color=(0.03, 0.06, 0.09, 1.0),
+                                        roughness=0.16, metallic=0.0))
+    return ob
+
+
 def _ground_mesh(tiles: list[str], pad: float = 250.0, step: float = 12.0):
     """Approximate terrain from the buildings' own LiDAR ground elevations.
 
@@ -330,6 +351,8 @@ def render_view(key: str, *, samples: int = 32, textured: bool = True, out_dir: 
                 sources.append(str(p))
         ground_tiles = spec["tiles"]
     _hide_lods(imported, keep_lod=0)
+    if spec.get("water"):
+        _water_plane()
     mats = _swap_materials([o for o in imported if not o.hide_render], textured)
     if ground_tiles:
         _ground_mesh(ground_tiles)

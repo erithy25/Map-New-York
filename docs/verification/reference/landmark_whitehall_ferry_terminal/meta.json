@@ -1,0 +1,206 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_whitehall_ferry_terminal",
+ "name": "Staten Island Ferry Whitehall Terminal",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.702677,
+  "lon": -74.012522,
+  "azimuth_deg": 200.0,
+  "note": "Whitehall Street at South Street, about 150 m north-north-east of the terminal, looking south-south-west at the Whitehall Terminal front",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.701409,
+  "lon": -74.013131,
+  "name": "Staten Island Ferry Whitehall Terminal"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Whitehall Terminal\" Staten Island Ferry Manhattan",
+  "\"Whitehall Ferry Terminal\" exterior"
+ ],
+ "geosearch_radius_m": 350,
+ "fetched_at": "2026-09-06T13:30:35Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 115,
+ "candidates_eligible": 30,
+ "rejections": {
+  "not_jpeg": 2,
+  "keywords": 24,
+  "indoor": 22,
+  "too_small": 9,
+  "night_for_day_item": 5,
+  "excluded": 7,
+  "not_photo": 1,
+  "too_old": 15
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:South Ferry td (2018-08-02) 36 - Whitehall Terminal.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:South_Ferry_td_(2018-08-02)_36_-_Whitehall_Terminal.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b3/South_Ferry_td_%282018-08-02%29_36_-_Whitehall_Terminal.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/South_Ferry_td_%282018-08-02%29_36_-_Whitehall_Terminal.jpg/1920px-South_Ferry_td_%282018-08-02%29_36_-_Whitehall_Terminal.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.7025,
+    "lon": -74.0128
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 645896,
+   "sha256": "136cceccf27157b1405219dcc426ca0d0a25900541da6dc3186da281db24d961",
+   "mean_luminance": 113.1,
+   "description": "The upper level boarding area of the Staten Island Ferry Whitehall Terminal at the south end of Peter Minuit Plaza, at South Street and Whitehall Street in South Ferry, Financial District, Manhattan. Pictured is a duo of modern DSNY trash cans, and a normal metal one.",
+   "categories": [
+    "Staten Island Ferry Whitehall Terminal",
+    "Taken with Sony DSC-RX100",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2018-08-02",
+    "Financial District, Manhattan in 2018",
+    "2018 Manhattan photographs by Tdorante10",
+    "August 2018 in Manhattan, New York City",
+    "Sorted waste container trios in New York City",
+    "Photographs by Tdorante10 taken on 2018-08-02"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.45,
+   "estimated_viewpoint": {
+    "lat": 40.7025,
+    "lon": -74.0128,
+    "azimuth_deg": 193.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70250, -74.01280) is 124 m from Staten Island Ferry Whitehall Terminal (40.70141, -74.01313) and 31 m from the standard viewpoint; the azimuth 193 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"South Ferry td (2018-08-02) 36 - Whitehall Terminal.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:South_Ferry_td_(2018-08-02)_36_-_Whitehall_Terminal.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Staten Island Ferry Whitehall Terminal.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Staten_Island_Ferry_Whitehall_Terminal.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/aa/Staten_Island_Ferry_Whitehall_Terminal.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Staten_Island_Ferry_Whitehall_Terminal.jpg/1920px-Staten_Island_Ferry_Whitehall_Terminal.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-01-17 11:35:59",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.701808,
+    "lon": -74.012939
+   },
+   "original_width": 2048,
+   "original_height": 1536,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 356766,
+   "sha256": "18a68c9a63ac2bec181657aff019337a97ea9e0fa424bee4cb316b89799fde7a",
+   "mean_luminance": 143.5,
+   "description": "The Whitehall Terminal of the Staten Island Ferry in Lower Manhattan",
+   "categories": [
+    "Staten Island Ferry Whitehall Terminal",
+    "New York City photographs taken on 2023-01-17",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Lower Manhattan in 2023",
+    "January 2023 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Whitehall Terminal\" Staten Island Ferry Manhattan",
+   "score": 12.2,
+   "estimated_viewpoint": {
+    "lat": 40.701808,
+    "lon": -74.012939,
+    "azimuth_deg": 200.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70181, -74.01294) is 47 m from Staten Island Ferry Whitehall Terminal (40.70141, -74.01313) and 103 m from the standard viewpoint; the azimuth 200 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Staten Island Ferry Whitehall Terminal.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Staten_Island_Ferry_Whitehall_Terminal.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Staten Island Ferry (51490632968).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Staten_Island_Ferry_(51490632968).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/35/Staten_Island_Ferry_%2851490632968%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Staten_Island_Ferry_%2851490632968%29.jpg/1920px-Staten_Island_Ferry_%2851490632968%29.jpg",
+   "author": "Eden, Janine and Jim from New York City",
+   "credit": "Staten Island Ferry",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2021-09-18 15:23",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.701438,
+    "lon": -74.011462
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 705720,
+   "sha256": "1fdeaf4f04a285909ef9c7ada51c2e379c7c93ad5e9152ff774ba07190685a24",
+   "mean_luminance": 146.7,
+   "description": "Staten Island Ferry",
+   "categories": [
+    "Staten Island Ferry Whitehall Terminal",
+    "New York City photographs taken on 2021-09-18",
+    "Staten Island Ferry boats",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Clouds and blue sky in New York City",
+    "Lower Manhattan in 2021",
+    "Photographs by Eden, Janine and Jim in Manhattan, New York City",
+    "September 2021 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Whitehall Terminal\" Staten Island Ferry Manhattan",
+   "score": 11.9,
+   "estimated_viewpoint": {
+    "lat": 40.701438,
+    "lon": -74.011462,
+    "azimuth_deg": 268.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70144, -74.01146) is 141 m from Staten Island Ferry Whitehall Terminal (40.70141, -74.01313) and 164 m from the standard viewpoint; the azimuth 269 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Staten Island Ferry (51490632968).jpg\" by Eden, Janine and Jim from New York City, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Staten_Island_Ferry_(51490632968).jpg"
+  }
+ ]
+}

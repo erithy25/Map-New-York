@@ -210,7 +210,7 @@ def build(lod: int = 0):
     # ---- towers -------------------------------------------------------------------------------------------------
     tower = bl.TowerSpec(kind="gothic", z_top=Z_TOWER_TOP, z_saddle=Z_SADDLE, width_t=TOWER_W, depth_s=TOWER_D,
                          z_base=-13.0, z_deck=Z_DECK_TOWER, arch_w=ARCH_W, arch_h=ARCH_H, arch_gap=ARCH_GAP,
-                         batter=0.055, cornice_w=1.6, pier_w=TOWER_W + 1.6, pier_d=TOWER_D + 1.6,
+                         batter=0.055, cornice_w=1.6, course_h=3.0, pier_w=TOWER_W + 1.6, pier_d=TOWER_D + 1.6,
                          material="granite_gray", pier_material="granite_dark", cable_t=CABLE_T)
     for name, s in (("tower_bk", S_TOWER_BK), ("tower_mn", S_TOWER_MN)):
         objs += bl.build_tower(name, axis, s, tower, lod)
@@ -304,38 +304,60 @@ def build(lod: int = 0):
 
 
 def main() -> None:
+    """Four verification renders, each framed and lit to answer one question.
+
+    1. ``dumbo_main_street_park`` — street level in Brooklyn Bridge Park at the foot of Main Street, the canonical
+       DUMBO view of *this* bridge.  (The famous Washington Street shot, whose real photographic viewpoint is
+       recorded in ``docs/verification/reference/dumbo_washington_st_manhattan_bridge/meta.json`` — camera
+       40.7033 N, 73.98958 W, azimuth 355.6 deg — frames the **Manhattan** Bridge, and is rendered on that model.)
+       Question: does the bridge read correctly at street level and eye height, at the right size and distance?
+    2. ``tower_three_quarter`` — the Brooklyn tower from the river, close enough that the whole 84.3 m tower fills
+       the frame, with the sun 35 deg up and roughly 60 deg off the tower's face so the 3.0 m string courses, the
+       arch reveals and the batter all cast shadow.  Question: are the two pointed arches, the tower's plan and its
+       height right, and does the deck pass through the arches at the right level?
+    3. ``promenade`` — deck level on the promenade looking at the Brooklyn tower.  Question: is the promenade
+       5.49 m above the roadway, does it split around the centre pier and pass through both arches, and do the
+       four cables and the diagonal stay fan converge correctly?
+    4. ``elevation_both_towers`` — a long lens from the river with **both** towers and both approaches in frame.
+       Question: is the 486.3 m main span, the 39.0 m cable sag, the suspender rhythm and the deck crest right?
+    """
     fit = ba.bridge_axis(SUPPORTS, ("tower_bk", "tower_mn"), MAIN_SPAN)
     fr = fit.frame
-    # canonical viewpoints
-    dumbo = fr.from_lonlat(-73.98946, 40.70320, GROUND_BK + 1.7)                     # Washington Street at Front Street, DUMBO
-    dumbo_t = fit.axis.p(S_TOWER_BK, 0.0, 55.0)
-    park = fr.from_lonlat(-73.99560, 40.70120, 7.0)                      # Brooklyn Bridge Park, Pier 1 lawn
-    park_t = fit.axis.p(60.0, 0.0, 48.0)
-    prom = fit.axis.p(S_TOWER_BK - 150.0, 0.0, deck_z(S_TOWER_BK - 150.0) + PROMENADE_DZ + 1.6)
-    prom_t = fit.axis.p(S_TOWER_BK + 40.0, 0.0, deck_z(S_TOWER_BK) + PROMENADE_DZ + 6.0)
-    water = fit.axis.p(0.0, -430.0, 12.0)
-    water_t = fit.axis.p(0.0, 0.0, 50.0)
-    land_bk = fit.axis.p(-800.0, 0.0)
-    land_mn = fit.axis.p(900.0, 0.0)
+    ax = fit.axis
+    land_bk = ax.p(-800.0, 0.0)
+    land_mn = ax.p(900.0, 0.0)
     ctx = (("water_dark", 0.35, 1600.0, (0.0, 0.0)),
            ("sidewalk", GROUND_BK, 480.0, (land_bk.x, land_bk.y)),
            ("sidewalk", GROUND_MN, 560.0, (land_mn.x, land_mn.y)))
+    # 1. Brooklyn Bridge Park, Main Street lawn (40.70345 N, 73.99373 W): 90 m east of the Brooklyn tower
+    park = fr.from_lonlat(-73.99373, 40.70345, GROUND_BK + 1.65)
+    park_t = ax.p(S_TOWER_BK + 40.0, 0.0, 46.0)
+    # 2. three-quarter of the Brooklyn tower from the river, south-east of it
+    tq = ax.p(S_TOWER_BK - 96.0, -122.0, 26.0)
+    tq_t = ax.p(S_TOWER_BK, 0.0, 46.0)
+    # 3. promenade, 150 m short of the Brooklyn tower
+    prom = ax.p(S_TOWER_BK - 150.0, 0.0, deck_z(S_TOWER_BK - 150.0) + PROMENADE_DZ + 1.65)
+    prom_t = ax.p(S_TOWER_BK + 30.0, 0.0, deck_z(S_TOWER_BK) + PROMENADE_DZ + 8.0)
+    # 4. full elevation, far enough back and long enough a lens that both towers fit
+    elev = ax.p(0.0, -1150.0, 55.0)
+    elev_t = ax.p(0.0, 0.0, 52.0)
     ba.run_landmark(
-        ID, TITLE, build, bins=(), budget_lod0=900_000, budget_lod1=120_000,
+        ID, TITLE, build, bins=(), budget_lod0=900_000, budget_lod1=140_000,
         renders=[
-            dict(view="dumbo_washington_street", cam=dumbo, target=dumbo_t, fov_deg=55.0, context=ctx,
-                 sun_azimuth_deg=250.0, sun_elevation_deg=28.0),
-            dict(view="brooklyn_bridge_park", cam=park, target=park_t, fov_deg=58.0, context=ctx,
-                 sun_azimuth_deg=200.0, sun_elevation_deg=32.0),
+            dict(view="dumbo_main_street_park", cam=park, target=park_t, fov_deg=64.0, context=ctx,
+                 sun_azimuth_deg=215.0, sun_elevation_deg=35.0, size=(1280, 720)),
+            dict(view="tower_three_quarter", cam=tq, target=tq_t, fov_deg=46.0, context=ctx,
+                 sun_azimuth_deg=205.0, sun_elevation_deg=35.0, size=(1280, 720)),
             dict(view="promenade", cam=prom, target=prom_t, fov_deg=62.0, context=ctx,
-                 sun_azimuth_deg=300.0, sun_elevation_deg=40.0),
-            dict(view="elevation_from_river", cam=water, target=water_t, fov_deg=38.0, context=ctx,
-                 sun_azimuth_deg=180.0, sun_elevation_deg=30.0),
+                 sun_azimuth_deg=250.0, sun_elevation_deg=35.0, size=(1280, 720)),
+            dict(view="elevation_both_towers", cam=elev, target=elev_t, fov_deg=34.0, context=ctx,
+                 sun_azimuth_deg=185.0, sun_elevation_deg=35.0, size=(1280, 720)),
         ],
         sections={
             "Placement": fit.report(),
             "Published dimensions": __doc__.split("Dimensions used (source in brackets)\n------------------------------------\n")[1]
             .split("\nPlacement:")[0].strip(),
+            "Verification renders": main.__doc__.strip(),
             "Not modelled": __doc__.split("Not modelled:")[1].strip(),
         },
     )
