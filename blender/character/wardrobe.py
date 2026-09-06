@@ -997,8 +997,8 @@ def hide_covered_garments(built, item_ids: tuple[str, ...], *, name_prefix: str 
     all of its vertices are marked, so the collar, the cuffs, the open front of a jacket and the hem - the
     parts that actually show - survive, and the sandwiched middle does not.
 
-    Shoes are handled separately, by :func:`tuck_shoe_shaft_into_bottoms`: they are rigid, and the generic
-    rule above - which is tuned for cloth against cloth - eats a shoe's whole upper.
+    Shoes are handled separately, by :func:`cut_bottoms_at_shoe_collar`: they are rigid, and the rule above -
+    which is tuned for cloth against cloth - eats a shoe's whole upper.
 
     A garment left with less than 4 % of its faces is removed from the character altogether and logged: it is
     entirely covered, and shipping 40 disconnected scraps of it helps nobody.  The player's white tee under
@@ -1011,7 +1011,7 @@ def hide_covered_garments(built, item_ids: tuple[str, ...], *, name_prefix: str 
         garment = WARDROBE_BY_ID.get(item_id)
         obj = built.clothes.get(f"{name_prefix}{item_id}")
         if garment is None or obj is None or garment.slot == "shoes":
-            continue                       # shoes: see tuck_shoe_shaft_into_bottoms
+            continue                       # shoes: see cut_bottoms_at_shoe_collar
         ordered.append((_layer_key(garment), item_id, obj))
     if len(ordered) < 2:
         return []
