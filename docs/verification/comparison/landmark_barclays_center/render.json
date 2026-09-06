@@ -1,28 +1,29 @@
 {
- "azimuth_reason": "130.5 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 144.8 deg, 14.3 deg away",
+ "azimuth_reason": "130.4 deg, the bearing from this photograph's own GPS position to Barclays Center; heading and position both come from the photograph.  The item's recorded azimuth is 144.8 deg, 14.4 deg away, and belongs to its nominal viewpoint",
  "camera": {
-  "azimuth_deg": 130.5,
+  "azimuth_deg": 130.43240032204773,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
-   "chosen_m": 13.97,
-   "max_m": 14.79,
-   "median_m": 14.47,
+   "chosen_m": 13.96,
+   "max_m": 14.22,
+   "median_m": 14.08,
    "min_m": 13.89,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 14.0,
    "radius_m": 12.0,
    "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
   "hfov_deg": 54.432,
-  "lat": 40.684,
-  "lon": -73.9768,
+  "lat": 40.683866,
+  "lon": -73.977453,
   "long_side_fov_deg": 54.432,
-  "pitch_deg": 5.777833117118683,
+  "pitch_deg": 5.18935571659904,
   "portrait": false,
   "resolution": [
    1280,
@@ -30,23 +31,41 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_barclays_center",
-  "terrain_z_m": 13.967,
-  "x": -2265.557,
-  "y": -1776.422,
-  "z": 15.567
+  "terrain_z_m": 13.959,
+  "x": -2320.764,
+  "y": -1791.285,
+  "z": 15.559
  },
- "camera_caption": "camera 40.68400, -73.97680 (NYC_TM -2266, -1776) z 15.6 m NAVD88 | azimuth 130.5deg pitch +5.8deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x720",
+ "camera_caption": "camera 40.68387, -73.97745 (NYC_TM -2321, -1791) z 15.6 m NAVD88 | azimuth 130.4deg pitch +5.2deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x720",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.683866,
+  "lon": -73.977453,
+  "offset_from_recorded_m": 57.2,
+  "source": "this photograph's own EXIF camera GPS (40.68387, -73.97745), 57 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
  "clearance": {
+  "min_view_m": 80.0,
   "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "nearest_obstruction": "prop_lamp_cobra_davit_14",
+  "nearest_obstruction_m": 35.8,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_cobra_davit_14 35.8 m away, and the view azimuth is clear for 37 m",
+  "offset_m": 0.0,
+  "view_m": 37.3
  },
+ "frame": {
+  "mean": 0.6084,
+  "reason": null,
+  "sd": 0.2181,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
  "lighting": {
   "background_strength": 0.25,
-  "direct_normal_irradiance_w_m2": 520.9,
+  "direct_normal_irradiance_w_m2": 521.0,
   "emissive": {
    "cones_hidden": 1,
    "lamps_switched_off": 4,
@@ -62,7 +81,7 @@
  },
  "name": "Barclays Center",
  "night": false,
- "pitch_reason": "aimed at Barclays Center 190 m away, at its mid-height (the c_barclays_center model's 42 m height); +5.8 deg from horizontal",
+ "pitch_reason": "aimed at Barclays Center 217 m away, at its mid-height (the c_barclays_center model's 42 m height); +5.2 deg from horizontal",
  "reference_photo": {
   "author": "Eden, Janine and Jim from New York City",
   "confidence": "high",
@@ -77,9 +96,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_barclays_center/render.png",
- "rendered_at": "2026-09-06T18:02:21Z",
+ "rendered_at": "2026-09-06T21:27:41Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -87,8 +106,13 @@
     "t_-2_-2",
     "t_-2_-3",
     "t_-3_-2",
-    "t_-3_-3"
+    "t_-3_-3",
+    "t_-4_-2",
+    "t_-4_-3"
    ],
+   "landmark_bins_suppressed": 3,
+   "landmark_faces_suppressed": 264,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-2_-2": {
@@ -99,71 +123,85 @@
     "t_-2_-3": {
      "lod": 0,
      "objects": 16,
-     "triangles": 103640
+     "triangles": 103548
     },
     "t_-3_-2": {
      "lod": 0,
      "objects": 17,
-     "triangles": 55084
+     "triangles": 54912
     },
     "t_-3_-3": {
      "lod": 0,
      "objects": 15,
      "triangles": 112416
+    },
+    "t_-4_-2": {
+     "lod": 1,
+     "objects": 16,
+     "triangles": 40248
+    },
+    "t_-4_-3": {
+     "lod": 1,
+     "objects": 13,
+     "triangles": 20180
     }
    },
    "tiles_dropped_for_budget": 0,
-   "tiles_imported": 4,
+   "tiles_imported": 6,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
-   "tiles_wanted": 4,
+   "tiles_wanted": 6,
    "triangle_budget": 3510000,
-   "triangles": 348946
+   "triangles": 409110
   },
   "centre_tm": [
-   -2265.56,
-   -1776.42
+   -2320.76,
+   -1791.29
   ],
   "kit": {
    "capped": null,
    "per_category": {
-    "bulkhead": 9,
-    "cornice": 13,
-    "door_entry": 28,
-    "fence": 1,
-    "fire_escape": 17,
-    "hvac": 11,
-    "parapet": 31,
-    "pilaster": 4,
-    "quoin": 13,
-    "storefront": 105,
-    "storefront_interior": 12,
-    "string_course": 12,
-    "window": 2822,
-    "window_accessory": 6
+    "bulkhead": 23,
+    "cornice": 25,
+    "door_entry": 42,
+    "fence": 3,
+    "fire_escape": 31,
+    "hvac": 10,
+    "parapet": 44,
+    "pilaster": 6,
+    "quoin": 30,
+    "scaffold": 9,
+    "storefront": 129,
+    "storefront_interior": 16,
+    "string_course": 23,
+    "water_tower": 1,
+    "window": 3204,
+    "window_accessory": 106
    },
-   "placed": 3084,
+   "placed": 3702,
    "radius_m": 120.0,
-   "records_in_range": 3084,
+   "records_in_range": 3702,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_-2"
    ],
-   "triangles": 497609,
+   "triangles": 670977,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 185.4,
+     "distance_m": 184.6,
      "id": "c_williamsburgh_savings_bank_tower",
      "lod": 0,
      "name": "Williamsburgh Savings Bank Tower (One Hanson Place)",
      "triangles": 40930
     },
     {
-     "distance_m": 202.2,
+     "distance_m": 232.6,
      "id": "c_barclays_center",
      "lod": 0,
      "name": "Barclays Center",
@@ -178,94 +216,102 @@
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 453,
-    "curb": 713,
-    "median": 78,
-    "parking_lot": 58,
-    "plaza": 16,
-    "roadbed": 336,
-    "sidewalk": 204
+    "crosswalk": 518,
+    "curb": 814,
+    "median": 85,
+    "parking_lot": 63,
+    "plaza": 17,
+    "roadbed": 387,
+    "sidewalk": 234
    },
-   "placed": 1858,
-   "radius_m": 704.6201883665751,
+   "placed": 2118,
+   "radius_m": 746.9552510710566,
    "tiles_missing": [],
    "tiles_read": [
     "t_-2_-2",
     "t_-2_-3",
     "t_-3_-2",
-    "t_-3_-3"
+    "t_-3_-3",
+    "t_-4_-2",
+    "t_-4_-3"
    ],
-   "triangles": 154317,
-   "vertices": 157787
+   "triangles": 172799,
+   "vertices": 176777
   },
   "props": {
-   "capped": "triangle budget 1319062",
+   "capped": "triangle budget 1323075",
+   "impostor_cards_dropped": 20,
    "leaf_off": false,
    "per_kind": {
-    "bike_rack": 18,
+    "bike_rack": 21,
     "bus_shelter": 3,
-    "bus_stop_sign": 10,
+    "bus_stop_sign": 11,
     "citibike_dock": 2,
     "hydrant": 43,
     "linknyc": 1,
-    "manhole": 75,
+    "mailbox": 1,
+    "manhole": 74,
     "newsstand": 1,
-    "street_lamp": 79,
+    "street_lamp": 80,
     "subway_entrance": 9,
     "subway_vent_grate": 24,
-    "tree": 152,
-    "waste_basket": 2
+    "tree": 156,
+    "waste_basket": 4
    },
-   "placed": 419,
+   "placed": 430,
    "radius_m": 250.0,
-   "rows_in_range": 809,
+   "rows_in_range": 834,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_-2",
     "t_-3_-3"
    ],
-   "tree_species_substituted": 30,
-   "triangles": 1321962,
+   "tree_species_substituted": 28,
+   "triangles": 1330994,
    "unmapped_kinds": {
     "artwork": 1,
-    "cooling_tower": 119,
-    "curb_ramp": 82,
+    "cooling_tower": 108,
+    "curb_ramp": 85,
     "misc_structure": 1
    }
   },
-  "radius_m": 704.6201883665751,
-  "seconds": 28.31,
+  "radius_m": 746.9552510710566,
+  "seconds": 45.96,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 4.697,
-   "triangles": 180000,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 213,
+   "spacing_m": 2.0,
+   "triangles": 89888,
    "water_quads": 0,
-   "z_max_m": 32.05,
-   "z_min_m": 3.21
+   "z_max_m": 33.36,
+   "z_min_m": 1.35
   },
-  "triangles": 2550822
+  "triangles": 2721756
  },
  "scene_request": {
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
-  "radius_m": 704.6201883665751
+  "radius_m": 746.9552510710566
  },
  "seconds": {
-  "render": 75.2,
-  "scene": 28.7,
-  "total": 104.0
+  "render": 86.7,
+  "scene": 47.1,
+  "total": 133.9
  },
  "slug": "landmark_barclays_center",
  "status": "rendered",
  "subject": {
-  "distance_m": 190.4,
+  "distance_m": 216.8,
   "name": "Barclays Center"
  },
  "sun": {
-  "azimuth_deg": 273.082049223817,
-  "elevation_deg": 13.181763858511593,
+  "azimuth_deg": 273.0816609210534,
+  "elevation_deg": 13.182248654298892,
   "local": "2025-04-17T18:23:00-04:00",
   "time_source": "EXIF DateTimeOriginal (minutes)",
   "utc": "2025-04-17T22:23:00Z"

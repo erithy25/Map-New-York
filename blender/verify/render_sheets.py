@@ -434,6 +434,73 @@ def view_azimuth(slug: str, meta: dict, photo: dict, lat: float, lon: float, *,
                       f"height and material, not on composition")
 
 
+def subject_top(meta: dict, cam_x: float, cam_y: float, sampler,
+                landmarks: Sequence[dict]) -> tuple[float, float, str] | None:
+    """(distance, height of the subject's top above the camera's own eye level, source).
+
+    The height comes from the landmark model standing at the subject coordinate where there is
+    one, otherwise from a nominal 10 m.  Returns None when the item names no subject.
+    """
+    subject = meta.get("subject") or {}
+    if subject.get("lat") is None or subject.get("lon") is None:
+        return None
+    from nycsim_pipeline.crs import lonlat_to_tm
+    sx, sy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
+    dist = math.hypot(sx - cam_x, sy - cam_y)
+    ground, _ = sampler.ground_z(sx, sy, mode="street", radius_m=15.0) if sampler else (None, {})
+    height, src = 10.0, "a nominal 10 m subject"
+    best = None
+    for e in landmarks:
+        ox, oy = float(e["origin_tm"][0]), float(e["origin_tm"][1])
+        d = math.hypot(ox - sx, oy - sy)
+        h = e.get("height_m") or (e.get("bounds_local_m") or {}).get("max", [0, 0, 0])[2]
+        if d <= 120.0 and h and (best is None or d < best[0]):
+            best = (d, float(h), e["id"])
+    if best is not None:
+        height, src = best[1], f"the {best[2]} model's published {best[1]:.0f} m height"
+    base = ground if ground is not None else 0.0
+    return dist, base + height, src
+
+
+def choose_lens(slug: str, top: tuple[float, float, str] | None, cam_z: float,
+                portrait: bool, aspect: float) -> tuple[float, str]:
+    """The focal length, widened where a level axis cannot otherwise contain the subject.
+
+    The rule that keeps the optical axis level is what makes a render comparable with a
+    photograph on proportion, but held to a 35 mm lens it puts the crown of a 227 m tower 200 m
+    away far above the top of the frame -- and a sheet whose subject is out of shot proves
+    nothing.  A photographer in that position reaches for a wider lens, and so does this: the
+    focal length is reduced until the subject's top sits inside the frame with 12 % headroom,
+    down to a floor of 18 mm (90 deg on the long side), below which the distortion would make the
+    comparison meaningless.  It is never lengthened, and the reason is printed on the sheet.
+    """
+    base, why = vcam.focal_for(slug)
+    if top is None:
+        return base, why
+    dist, top_z, src = top
+    rise = top_z - cam_z
+    if dist < 1.0 or rise <= 0.0:
+        return base, why
+    theta = math.atan(rise / dist) * 1.12
+    if theta >= math.radians(88.0):
+        return 18.0, (f"{why}; widened to the 18 mm floor because {src} tops out {rise:.0f} m "
+                      f"above the lens only {dist:.0f} m away and no normal lens contains it")
+    # Sensor dimension that maps to the vertical axis of the frame.
+    sensor_v = vcam.SENSOR_WIDTH_MM if portrait else vcam.SENSOR_WIDTH_MM / max(aspect, 1e-6)
+    needed = sensor_v / (2.0 * math.tan(theta))
+    if needed >= base:
+        return base, why
+    f = max(18.0, needed)
+    fov = math.degrees(2.0 * math.atan(sensor_v / (2.0 * f)))
+    note = (f"widened from {base:.0f} mm to {f:.0f} mm ({fov:.0f} deg vertical) so that a level "
+            f"axis contains the subject: {src} stands {rise:.0f} m above the lens at {dist:.0f} m, "
+            f"{math.degrees(theta / 1.12):.0f} deg above the horizon")
+    if f > needed + 0.01:
+        note += ("; held at the 18 mm floor, so the top of the subject is still cut off -- past "
+                 "that point the distortion would stop the two frames being comparable")
+    return f, note
+
+
 def aim_pitch(slug: str, meta: dict, cam_x: float, cam_y: float, cam_z: float,
               sampler, landmarks: Sequence[dict]) -> tuple[float, str]:
     """How far the optical axis tilts off horizontal, and why.
@@ -634,8 +701,11 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     pitch, pitch_why = aim_pitch(slug, meta, x, y,
                                  (sampler.ground_z(x, y)[0] or 0.0) + vcam.eye_rule_for(slug).height_m,
                                  sampler, vscene.load_landmark_catalog())
+    eye_z = (sampler.ground_z(x, y)[0] or 0.0) + vcam.eye_rule_for(slug).height_m
+    top = subject_top(meta, x, y, sampler, vscene.load_landmark_catalog())
+    focal_mm, lens_why = choose_lens(slug, top, eye_z, height > width, width / height)
     placement = vcam.place_camera(slug=slug, lat=cam_lat, lon=cam_lon,
-                                  azimuth_deg=azimuth, sampler=sampler,
+                                  azimuth_deg=azimuth, sampler=sampler, focal_mm=focal_mm,
                                   resolution=(width, height), note=vp.get("note"), pitch_deg=pitch)
     # How much open air the corrected viewpoint has to have along the view azimuth before it is
     # accepted.  A frame whose subject is 170 m away is worthless from a spot with a wall (or a
@@ -683,7 +753,7 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         "frame_retry": retry,
         "camera": placement.as_dict(),
         "camera_caption": placement.caption(),
-        "lens_reason": vcam.focal_for(slug)[1],
+        "lens_reason": lens_why,
         "pitch_reason": pitch_why,
         "azimuth_reason": azimuth_why,
         "clearance": clearance,
