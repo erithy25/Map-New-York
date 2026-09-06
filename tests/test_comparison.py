@@ -238,6 +238,31 @@ def test_a_tile_without_the_requested_lod_is_drawn_at_the_nearest_lod_it_has():
     assert any(victim in line for line in rep["lod_substituted"])
 
 
+def test_a_landmark_model_replaces_the_tile_shell_of_the_same_building():
+    """Both are the same object; drawing both puts two Empire State Buildings in one frame."""
+    _skip_without_bpy()
+    import scene as vscene
+    import nycsim_bpy as nb
+    from nycsim_pipeline.crs import lonlat_to_tm
+
+    bins = vscene.landmark_bins()
+    if not bins:
+        pytest.skip("no landmark catalogue entry names the BINs it replaces")
+    if not _built_tiles():
+        pytest.skip("no tile_buildings.glb produced yet")
+    # Around the Empire State Building, where several catalogued landmarks stand together.
+    x, y = (float(v) for v in lonlat_to_tm(-73.9857, 40.7484))
+    nb.reset_scene()
+    plain = vscene.add_buildings(x, y, 300.0, lod0_radius_m=1e9)
+    nb.reset_scene()
+    thinned = vscene.add_buildings(x, y, 300.0, lod0_radius_m=1e9, suppress_landmark_bins=bins)
+    assert thinned["tiles_imported"] == plain["tiles_imported"]
+    assert thinned["landmark_bins_suppressed"] >= 1, thinned
+    assert thinned["landmark_faces_suppressed"] >= 1
+    assert thinned["triangles"] < plain["triangles"], (
+        "suppressing the shells of catalogued landmarks must remove geometry")
+
+
 def test_landmarks_land_at_their_catalogue_origin_and_published_height():
     bpy = _skip_without_bpy()
     import scene as vscene

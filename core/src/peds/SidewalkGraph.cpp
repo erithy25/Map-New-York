@@ -318,6 +318,17 @@ uint32_t SidewalkGraph::wallsNear(float x, float y, float radius, uint32_t* out,
   cy0 = std::clamp(cy0, 0, static_cast<int>(gny_) - 1);
   cy1 = std::clamp(cy1, 0, static_cast<int>(gny_) - 1);
   uint32_t n = 0;
+  // buildSpatialIndex() files each wall once per cell of its bounding box, so a
+  // query that lands inside a single cell cannot see a duplicate and does not
+  // need the O(n^2) dedup scan.  A pedestrian moves ~7 cm per step against a
+  // 25 m wall grid, so this is the case for essentially every crossesWall()
+  // test — 20,001 of them a step.
+  if (cx0 == cx1 && cy0 == cy1) {
+    const size_t cell = static_cast<size_t>(cy0) * gnx_ + static_cast<size_t>(cx0);
+    const uint32_t end = wgrid_start_[cell + 1];
+    for (uint32_t k = wgrid_start_[cell]; k < end && n < cap; ++k) out[n++] = wgrid_items_[k];
+    return n;
+  }
   for (int cy = cy0; cy <= cy1; ++cy) {
     for (int cx = cx0; cx <= cx1; ++cx) {
       const size_t cell = static_cast<size_t>(cy) * gnx_ + static_cast<size_t>(cx);

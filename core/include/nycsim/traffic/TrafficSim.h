@@ -364,7 +364,13 @@ class TrafficSim {
   void releaseClaim(Vehicle& v);
   float signalStopDistance(const Vehicle& v, uint32_t junction_lane, float dist_to_line, bool& entered_on_red);
   float playerConstraint(const Vehicle& v, float& swerve_out, bool& brake_hard);
-  float emergencyConstraint(Vehicle& v);
+  // Emergency vehicles are few and their influence radius is small, so the
+  // yield field is computed once per step by walking the sirens and querying
+  // the spatial hash around each, instead of every vehicle walking the siren
+  // list (which was O(vehicles x sirens) and 11 % of the step).  Same inputs,
+  // same arithmetic, same flags: only the traversal order of the pair loop
+  // changes, and the accumulator is a min.
+  void updateEmergencyField();
   float pedestrianConstraint(const Vehicle& v, uint32_t junction_lane, float dist_to_line) const;
   void considerLaneChange(uint32_t i, float a_current);
   void considerDoublePark(Vehicle& v);
@@ -415,6 +421,7 @@ class TrafficSim {
 
   SpatialHash hash_;
   std::vector<uint32_t> ev_list_;  // indices of vehicles running a siren
+  std::vector<float> ev_limit_;    // per-slot stop distance from updateEmergencyField()
   std::vector<Conflict> conflicts_;
   std::vector<uint32_t> conflict_first_, conflict_count_;
   std::vector<JunctionLock> jl_lock_;

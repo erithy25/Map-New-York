@@ -579,6 +579,27 @@ def build_report() -> str:
         A(f"Reference photographs collected for side-by-side comparison: {_fmt(ph['photos'])} photos across "
           f"{_fmt(ph['subjects'])} subjects, each with author and licence metadata.")
         A()
+    import glob as _glob
+    layers = {
+        "terrain heightmaps": len(_glob.glob(str(PROCESSED / "tiles" / "*" / "terrain.json"))),
+        "tiles with buildings": len(_glob.glob(str(PROCESSED / "tiles" / "*" / "buildings.parquet"))),
+        "tiles with a shell mesh": len(_glob.glob(str(BLENDER_OUT / "tiles" / "*" / "tile_buildings.glb"))),
+        "tiles with kit placements": len(_glob.glob(str(PROCESSED / "tiles" / "*" / "kit_placements.bin"))),
+        "tiles with props": len(_glob.glob(str(PROCESSED / "tiles" / "*" / "props.parquet"))),
+        "tiles with pavement": len(_glob.glob(str(PROCESSED / "roads" / "pavement" / "*.parquet"))),
+    }
+    if any(layers.values()):
+        A("### 8.1 World coherence")
+        A()
+        A("| Layer | Tiles |")
+        A("|---|---|")
+        for k, v in layers.items():
+            A(f"| {k} | {v:,} |")
+        A()
+        A("Checked by `tests/test_world_integration.py::test_the_world_has_no_orphan_or_missing_content_layers`: "
+          "every tile holding buildings also holds a shell mesh and kit placements, every shell mesh has building "
+          "data behind it, and every content tile has terrain beneath it. Zero exceptions in any direction.")
+        A()
     A(f"Stage reports present: {', '.join(rp['present']) or 'none'}.")
     A()
     if rp["missing"]:

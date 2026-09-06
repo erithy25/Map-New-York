@@ -7,10 +7,10 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
-   "chosen_m": 23.59,
-   "max_m": 23.82,
-   "median_m": 23.68,
-   "min_m": 23.51,
+   "chosen_m": 23.4,
+   "max_m": 23.93,
+   "median_m": 23.54,
+   "min_m": 23.34,
    "mode": "street",
    "percentile": 10.0,
    "radius_m": 12.0,
@@ -19,8 +19,8 @@
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
   "hfov_deg": 54.432,
-  "lat": 40.7526,
-  "lon": -73.9814,
+  "lat": 40.752658,
+  "lon": -73.981589,
   "long_side_fov_deg": 54.432,
   "pitch_deg": 0.0,
   "portrait": false,
@@ -30,13 +30,21 @@
   ],
   "sensor_mm": 36.0,
   "slug": "fifth_ave_42nd_north",
-  "terrain_z_m": 23.586,
-  "x": -2651.698,
-  "y": 5841.632,
-  "z": 25.186
+  "terrain_z_m": 23.402,
+  "x": -2667.657,
+  "y": 5848.078,
+  "z": 25.002
  },
- "camera_caption": "camera 40.75260, -73.98140 (NYC_TM -2652, 5842) z 25.2 m NAVD88 | azimuth 29.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x902",
+ "camera_caption": "camera 40.75266, -73.98159 (NYC_TM -2668, 5848) z 25.0 m NAVD88 | azimuth 29.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x902",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.752658,
+  "lon": -73.981589,
+  "offset_from_recorded_m": 17.2,
+  "source": "this photograph's own EXIF camera GPS (40.75266, -73.98159), 17 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
  "clearance": {
+  "min_view_m": 20.0,
   "moved": false,
   "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
   "offset_m": 0.0
@@ -54,7 +62,7 @@
    "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 1.91,
-  "sky_azimuth_deg": 243.293,
+  "sky_azimuth_deg": 243.292,
   "sky_elevation_deg": 11.179,
   "sun_lamp": true,
   "sun_strength_blender": 0.867,
@@ -77,9 +85,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/fifth_ave_42nd_north/render.png",
- "rendered_at": "2026-09-06T16:09:03Z",
+ "rendered_at": "2026-09-06T19:41:20Z",
  "resolution_note": "1208x902; the reference photograph is 1920x1434 (1.34:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 64,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -91,6 +99,7 @@
     "t_-4_5",
     "t_-4_6"
    ],
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-2_5": {
@@ -126,99 +135,100 @@
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 6,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 6,
    "triangle_budget": 3510000,
    "triangles": 222804
   },
   "centre_tm": [
-   -2651.7,
-   5841.63
+   -2667.66,
+   5848.08
   ],
   "kit": {
-   "capped": "triangle budget 2591489",
+   "capped": "triangle budget 2695529",
    "per_category": {
-    "antenna": 7,
-    "bulkhead": 38,
-    "cornice": 40,
-    "door_entry": 47,
-    "hvac": 38,
-    "parapet": 23,
-    "pilaster": 31,
+    "antenna": 8,
+    "bulkhead": 36,
+    "cornice": 38,
+    "door_entry": 44,
+    "hvac": 43,
+    "parapet": 22,
+    "pilaster": 27,
     "quoin": 7,
-    "scaffold": 64,
+    "scaffold": 52,
     "storefront": 188,
-    "storefront_interior": 42,
-    "string_course": 42,
-    "water_tower": 17,
-    "window": 10430,
-    "window_accessory": 79
+    "storefront_interior": 38,
+    "string_course": 39,
+    "water_tower": 16,
+    "window": 10880,
+    "window_accessory": 82
    },
-   "placed": 11093,
+   "placed": 11520,
    "radius_m": 140.0,
-   "records_in_range": 18751,
+   "records_in_range": 18259,
    "stale_registry_ids": {},
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_5"
    ],
-   "triangles": 2591618,
+   "triangles": 2695961,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 97.4,
+     "distance_m": 81.6,
      "id": "new_york_public_library",
      "lod": 0,
      "name": "New York Public Library, Stephen A. Schwarzman Building",
      "triangles": 51785
     },
     {
-     "distance_m": 244.2,
+     "distance_m": 259.0,
      "id": "one_vanderbilt",
      "lod": 0,
      "name": "One Vanderbilt",
      "triangles": 71710
     },
     {
-     "distance_m": 352.0,
+     "distance_m": 367.7,
      "id": "grand_central_terminal",
      "lod": 0,
      "name": "Grand Central Terminal",
      "triangles": 29560
     },
     {
-     "distance_m": 413.6,
+     "distance_m": 427.6,
      "id": "c_metlife_building",
      "lod": 0,
      "name": "MetLife Building (200 Park Avenue)",
      "triangles": 105284
     },
     {
-     "distance_m": 520.7,
+     "distance_m": 537.7,
      "id": "chrysler",
      "lod": 0,
      "name": "Chrysler Building",
      "triangles": 57851
     },
     {
-     "distance_m": 586.7,
-     "id": "empire_state",
-     "lod": 0,
-     "name": "Empire State Building",
-     "triangles": 107298
-    },
-    {
-     "distance_m": 590.7,
+     "distance_m": 574.6,
      "id": "c_times_square",
      "lod": 0,
      "name": "Times Square",
      "triangles": 182310
     },
     {
-     "distance_m": 744.2,
+     "distance_m": 582.1,
+     "id": "empire_state",
+     "lod": 0,
+     "name": "Empire State Building",
+     "triangles": 107298
+    },
+    {
+     "distance_m": 741.2,
      "id": "30_rockefeller_plaza",
      "lod": 0,
      "name": "30 Rockefeller Plaza",
@@ -233,15 +243,15 @@
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 534,
-    "curb": 962,
-    "median": 75,
+    "crosswalk": 521,
+    "curb": 954,
+    "median": 74,
     "parking_lot": 1,
-    "plaza": 82,
-    "roadbed": 434,
-    "sidewalk": 211
+    "plaza": 83,
+    "roadbed": 420,
+    "sidewalk": 209
    },
-   "placed": 2299,
+   "placed": 2262,
    "radius_m": 700.0,
    "tiles_missing": [],
    "tiles_read": [
@@ -252,16 +262,17 @@
     "t_-4_5",
     "t_-4_6"
    ],
-   "triangles": 165283,
-   "vertices": 169659
+   "triangles": 163735,
+   "vertices": 168039
   },
   "props": {
    "capped": null,
+   "impostor_cards_dropped": 12,
    "leaf_off": true,
    "per_kind": {
-    "bike_rack": 18,
+    "bike_rack": 19,
     "bus_shelter": 9,
-    "bus_stop_sign": 24,
+    "bus_stop_sign": 22,
     "citibike_dock": 2,
     "flagpole": 17,
     "hydrant": 49,
@@ -270,28 +281,28 @@
     "manhole": 79,
     "newsstand": 6,
     "rtpi_sign": 1,
-    "steam_vent": 10,
-    "street_lamp": 85,
+    "steam_vent": 11,
+    "street_lamp": 84,
     "subway_entrance": 6,
     "subway_vent_grate": 9,
-    "tree": 58,
-    "waste_basket": 6
+    "tree": 56,
+    "waste_basket": 5
    },
-   "placed": 387,
+   "placed": 383,
    "radius_m": 250.0,
-   "rows_in_range": 590,
+   "rows_in_range": 588,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_5",
     "t_-3_6"
    ],
    "tree_species_substituted": 2,
-   "triangles": 632096,
+   "triangles": 623076,
    "unmapped_kinds": {
     "artwork": 7,
-    "cooling_tower": 126,
-    "curb_ramp": 57,
-    "drinking_fountain": 1,
+    "cooling_tower": 130,
+    "curb_ramp": 54,
+    "drinking_fountain": 2,
     "memorial": 6,
     "parks_building": 3,
     "parks_comfort_station": 1,
@@ -299,18 +310,22 @@
    }
   },
   "radius_m": 700.0,
-  "seconds": 51.97,
+  "seconds": 68.51,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 4.667,
-   "triangles": 180000,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 209,
+   "spacing_m": 2.0,
+   "triangles": 86528,
    "water_quads": 0,
-   "z_max_m": 25.7,
-   "z_min_m": -1.84
+   "z_max_m": 25.75,
+   "z_min_m": -0.72
   },
-  "triangles": 4500129
+  "triangles": 4500432
  },
  "scene_request": {
   "kit_radius_m": 140.0,
@@ -318,9 +333,9 @@
   "radius_m": 700.0
  },
  "seconds": {
-  "render": 244.7,
-  "scene": 53.1,
-  "total": 297.8
+  "render": 181.1,
+  "scene": 69.8,
+  "total": 250.9
  },
  "slug": "fifth_ave_42nd_north",
  "status": "rendered",
@@ -329,8 +344,8 @@
   "name": null
  },
  "sun": {
-  "azimuth_deg": 243.29256461330036,
-  "elevation_deg": 11.179203359017773,
+  "azimuth_deg": 243.2924184434051,
+  "elevation_deg": 11.179304499872213,
   "local": "2017-02-16T16:24:37-05:00",
   "time_source": "EXIF DateTimeOriginal",
   "utc": "2017-02-16T21:24:37Z"

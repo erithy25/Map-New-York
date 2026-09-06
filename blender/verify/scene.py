@@ -230,9 +230,13 @@ class TerrainSampler:
                  percentile: float = 10.0) -> tuple[float | None, dict]:
         """Ground height under a viewpoint, read from a neighbourhood rather than one sample.
 
-        ``mode="local"`` takes the median inside ``radius_m`` -- right for a viewpoint that names
-        the surface it stands on (a promenade, a terrace, an observation deck), where the raised
-        structure *is* the ground.  ``mode="street"`` takes a low percentile inside ``radius_m``
+        ``mode="local"`` takes the height **at the point itself** -- right for a viewpoint that
+        names the surface it stands on (a promenade, a terrace, an observation deck), where the
+        raised structure *is* the ground.  Bethesda Terrace is why: its upper level stands 5.4 m
+        above the fountain plaza, the two are 4 m apart in plan, and the median inside 5 m put the
+        camera 3.8 m *below* the terrace it was standing on, which rendered a black frame from
+        inside the bank.  The neighbourhood is still measured and reported so the sheet can show
+        how much relief there is.  ``mode="street"`` takes a low percentile inside ``radius_m``
         instead: the 1 m heightmap carries building grades and raised plinths, and a camera
         recorded as standing on a sidewalk must not be lifted onto the terrace next to it.
         Returns ``(z, detail)``; ``z`` is None when no heightmap covers the point.
@@ -246,13 +250,17 @@ class TerrainSampler:
         if not ok.any():
             return None, {"mode": mode, "samples": 0}
         vals = z[ok]
+        point = self.z_at(x, y)
         if mode == "street":
             zz = float(np.percentile(vals, percentile))
+        elif point is not None:
+            zz = float(point)
         else:
             zz = float(np.median(vals))
         return zz, {"mode": mode, "radius_m": radius_m, "samples": int(ok.sum()),
                     "min_m": round(float(vals.min()), 2), "max_m": round(float(vals.max()), 2),
                     "median_m": round(float(np.median(vals)), 2),
+                    "point_m": None if point is None else round(float(point), 2),
                     "percentile": percentile if mode == "street" else None,
                     "chosen_m": round(zz, 2)}
 
@@ -447,9 +455,90 @@ class AssetLibrary:
 # --------------------------------------------------------------------------- buildings
 
 
+def landmark_bins(catalog: Sequence[dict] | None = None) -> set[int]:
+    """BINs that a landmark model replaces, from the catalogue's own ``bins`` list.
+
+    67 of the 93 landmark catalogue entries name the building footprints they were built from --
+    121 BINs in all -- and ``blender_out/tiles`` builds a shell for every one of them.  Drawing
+    both puts two versions of the Empire State Building, the Flatiron and the Woolworth in the
+    same frame, differing by a metre or two and z-fighting where they touch.
+    """
+    out: set[int] = set()
+    entries = catalog if catalog is not None else _raw_landmark_entries()
+    for e in entries:
+        for b in (e.get("bins") or []):
+            try:
+                out.add(int(b))
+            except (TypeError, ValueError):
+                continue
+    return out
+
+
+def _raw_landmark_entries() -> list[dict]:
+    out = []
+    if not LANDMARK_CATALOG.is_dir():
+        return out
+    for p in sorted(LANDMARK_CATALOG.glob("*.json")):
+        try:
+            out.append(json.loads(p.read_text()))
+        except Exception as exc:
+            LOG.warning("landmark catalog %s unreadable: %s", p.name, exc)
+    return out
+
+
+def suppress_bins(objects: Sequence[bpy.types.Object], bins: set[int]) -> dict:
+    """Delete the faces of imported shells whose ``_BIN`` vertex attribute is in ``bins``.
+
+    The tile glb carries ``_BIN`` as a per-vertex float (NYC BINs are seven digits, well inside
+    float32's exact integer range), so a shell can be removed from a merged per-material mesh
+    without touching its neighbours.
+    """
+    if not bins:
+        return {"meshes_edited": 0, "faces_removed": 0, "bins_removed": []}
+    import bmesh
+    wanted = np.fromiter(sorted(bins), dtype=np.int64)
+    edited = 0
+    removed_faces = 0
+    removed_bins: set[int] = set()
+    for ob in objects:
+        if ob.type != "MESH":
+            continue
+        me = ob.data
+        attr = me.attributes.get("_BIN")
+        if attr is None or attr.domain != "POINT":
+            continue
+        n = len(me.vertices)
+        if n == 0:
+            continue
+        vals = np.empty(n, dtype=np.float32)
+        attr.data.foreach_get("value", vals)
+        ints = np.rint(vals).astype(np.int64)
+        mask = np.isin(ints, wanted)
+        if not mask.any():
+            continue
+        removed_bins.update(int(v) for v in np.unique(ints[mask]))
+        bm = bmesh.new()
+        bm.from_mesh(me)
+        bm.verts.ensure_lookup_table()
+        doomed = [v for i, v in enumerate(bm.verts) if mask[i]]
+        faces = {f for v in doomed for f in v.link_faces}
+        removed_faces += len(faces)
+        # "VERTS" removes each vertex and every face that uses it in one pass, which is exactly
+        # the semantics wanted here: a face belongs to a suppressed building if any of its
+        # vertices carries that BIN.  Deleting the faces first invalidates the vertex handles.
+        bmesh.ops.delete(bm, geom=doomed, context="VERTS")
+        bm.to_mesh(me)
+        bm.free()
+        me.update()
+        edited += 1
+    return {"meshes_edited": edited, "faces_removed": removed_faces,
+            "bins_removed": sorted(removed_bins)}
+
+
 def add_buildings(cx: float, cy: float, radius_m: float, *, lod0_radius_m: float = 1200.0,
                   lod1_radius_m: float = 2500.0, triangle_budget: int = 3_500_000,
-                  col: bpy.types.Collection | None = None) -> dict:
+                  col: bpy.types.Collection | None = None,
+                  suppress_landmark_bins: set[int] | None = None) -> dict:
     """Import the built tile shells within ``radius_m``, nearest first, one LOD per tile.
 
     A 5 km skyline scene reaches 99 tiles; importing all of them at LOD0 would cost more triangles
@@ -467,6 +556,7 @@ def add_buildings(cx: float, cy: float, radius_m: float, *, lod0_radius_m: float
     imported, missing, tris, per_tile = [], [], 0, {}
     dropped_for_budget: list[str] = []
     lod_substituted: list[str] = []
+    suppressed = {"meshes": 0, "faces": 0, "bins": set()}
     for tx, ty in wanted:
         name = tile_name(tx, ty)
         if tris >= triangle_budget:
@@ -506,6 +596,11 @@ def add_buildings(cx: float, cy: float, radius_m: float, *, lod0_radius_m: float
                 continue
             for ob in obs:
                 bpy.data.objects.remove(ob, do_unlink=True)
+        if suppress_landmark_bins:
+            rep = suppress_bins(by_lod[use], suppress_landmark_bins)
+            suppressed["meshes"] += rep["meshes_edited"]
+            suppressed["faces"] += rep["faces_removed"]
+            suppressed["bins"].update(rep["bins_removed"])
         kept = 0
         t = 0
         for ob in by_lod[use]:
@@ -532,7 +627,10 @@ def add_buildings(cx: float, cy: float, radius_m: float, *, lod0_radius_m: float
             "tiles_dropped_for_budget": len(dropped_for_budget),
             "dropped_for_budget": sorted(dropped_for_budget), "triangle_budget": triangle_budget,
             "tiles_lod_substituted": len(lod_substituted),
-            "lod_substituted": sorted(lod_substituted), "per_tile": per_tile}
+            "lod_substituted": sorted(lod_substituted),
+            "landmark_bins_suppressed": len(suppressed["bins"]),
+            "landmark_faces_suppressed": suppressed["faces"],
+            "per_tile": per_tile}
 
 
 # --------------------------------------------------------------------------- landmarks
@@ -1135,8 +1233,12 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
     rep = SceneReport(centre_tm=(cx, cy), radius_m=radius_m)
     rep.terrain = build_terrain(sampler, cx, cy, radius_m, max_side=terrain_max_side, col=c_terrain)
     rep.pavement = add_pavement(cx, cy, min(radius_m, pavement_radius_m), sampler, col=c_pave)
+    # A landmark model and the tile shell of the same building are two versions of one object.
+    # The catalogue names the BINs each model was built from, so those shells are removed from the
+    # merged per-material meshes before anything else is placed.
     rep.buildings = add_buildings(cx, cy, radius_m, lod0_radius_m=lod0_radius_m,
-                                  triangle_budget=int(triangle_budget * 0.78), col=c_build)
+                                  triangle_budget=int(triangle_budget * 0.78), col=c_build,
+                                  suppress_landmark_bins=landmark_bins())
 
     lib = AssetLibrary()
     rep.landmarks = add_landmarks(lib, cx, cy, radius_m, col=c_landmark)

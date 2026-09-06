@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-06 18:40 UTC from commit `4330392ec1ad` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-06 20:07 UTC from commit `a829bd1e20b5` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -108,7 +108,7 @@ Water: hydrography polygons 2,235 · shoreline lines 413 · structures 2,536 · 
 | kit | 138 | 140.3 MB |
 | props | 122 | 79.2 MB |
 | vehicles | 93 | 100.2 MB |
-| character | 25 | 509.3 MB |
+| character | 6 | 120.0 MB |
 | landmarks | 127 | 920.5 MB |
 | tiles | 1,010 | 4,624.0 MB |
 
@@ -159,9 +159,22 @@ Authored asset licences (textures, fonts, mocap, audio): `docs/ASSET_LICENSES.md
 
 Reference photographs collected for side-by-side comparison: 519 photos across 172 subjects, each with author and licence metadata.
 
-Stage reports present: buildings_mesh, character, citygml, comparison, core, facade, furniture, kit, live, props, reference, roads, terrain, traffic, traffic_density, unreal_gameplay, unreal_world.
+### 8.1 World coherence
 
-Stage reports still missing: buildings, landmarks, vehicles.
+| Layer | Tiles |
+|---|---|
+| terrain heightmaps | 2,916 |
+| tiles with buildings | 920 |
+| tiles with a shell mesh | 920 |
+| tiles with kit placements | 920 |
+| tiles with props | 1,576 |
+| tiles with pavement | 972 |
+
+Checked by `tests/test_world_integration.py::test_the_world_has_no_orphan_or_missing_content_layers`: every tile holding buildings also holds a shell mesh and kit placements, every shell mesh has building data behind it, and every content tile has terrain beneath it. Zero exceptions in any direction.
+
+Stage reports present: buildings_mesh, character, citygml, comparison, core, facade, furniture, kit, live, props, reference, roads, terrain, traffic, traffic_density, unreal_gameplay, unreal_world, vehicles.
+
+Stage reports still missing: buildings, landmarks.
 
 What is verified in this environment versus on a workstation is defined in `docs/ARCHITECTURE.md` §14. In short: geodesy, tiling, streaming logic, routing, traffic rules, signal phasing, astronomy, time zone handling, weather parsing, data coverage and asset geometry are verified here by tests and Cycles renders. Unreal Engine compilation, cooking, frame rate, vehicle feel and audio are not — no Unreal editor or GPU exists in this environment, and no claim is made that they were tested.
 

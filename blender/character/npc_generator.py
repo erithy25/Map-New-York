@@ -112,6 +112,9 @@ def build_npc(appearance: variety.PedAppearance, vector: tuple[float, ...], inde
     wardrobe.reweight_from_body(built, outfit, name_prefix=prefix)
     wardrobe.dress(built, outfit, name_prefix=prefix, colours=colours)
     wardrobe.resolve_layers(built, outfit, name_prefix=prefix)
+    bad = wardrobe.verify_outfit(built, outfit, name_prefix=prefix)
+    if bad:
+        raise RuntimeError(f"{name}: garment verification failed: {bad}")
 
     hair = appearance.hair
     if hair["procedural"]:

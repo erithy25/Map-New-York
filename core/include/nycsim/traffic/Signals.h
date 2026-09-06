@@ -108,23 +108,62 @@ class SignalTable {
   // Per-step cache for hot loops: fills states for groups 0..kMaxCachedGroups-1.
   // Logically const (a memoization of the pure time functions above), so the
   // traffic simulation can hold the table by const reference.
+  //
+  // Cost is O(refreshed plans x 8).  On the synthetic Midtown grid that is
+  // 3,000 operations a step; on the real 19,814-plan table it is 158,000, of
+  // which all but a few hundred are for intersections nowhere near the player.
+  // setActiveWindow() restricts the refresh to the plans inside the streamed
+  // region; a plan outside it is simply not memoized, and the accessors below
+  // fall back to the pure time function, so the value a caller sees is the same
+  // either way — only the cost changes.
   void cacheStates(double t) const;
+  /// Refresh only the plans whose intersection lies in this rectangle (metres,
+  /// NYC_TM).  Requires bind().  Cheap to call every step: the plan list is
+  /// only rebuilt when the covered grid cells change.
+  void setActiveWindow(float minx, float miny, float maxx, float maxy) const;
+  /// Back to refreshing every plan (the default).
+  void clearActiveWindow() const;
+  /// Plans the last cacheStates() actually refreshed (diagnostics).
+  uint32_t cachedPlanCount() const { return cached_plans_; }
+
   VehSignal cachedVehicleState(uint32_t plan, int32_t group) const {
     if (group < 0 || group >= static_cast<int32_t>(kMaxCachedGroups)) return VehSignal::Off;
+    if (plan >= cache_stamp_.size() || cache_stamp_[plan] != cache_epoch_)
+      return vehicleState(plan, group, cache_time_);
     return static_cast<VehSignal>(veh_cache_[plan * kMaxCachedGroups + static_cast<uint32_t>(group)]);
   }
   PedSignal cachedPedState(uint32_t plan, int32_t group) const {
     if (group < 0 || group >= static_cast<int32_t>(kMaxCachedGroups)) return PedSignal::Off;
+    if (plan >= cache_stamp_.size() || cache_stamp_[plan] != cache_epoch_)
+      return pedState(plan, group, cache_time_);
     return static_cast<PedSignal>(ped_cache_[plan * kMaxCachedGroups + static_cast<uint32_t>(group)]);
   }
   double cachedTime() const { return cache_time_; }
 
  private:
   float cycleTime(uint32_t plan, double t) const;
+  void cacheOnePlan(uint32_t pi, double t) const;
+  void buildPlanGrid();
+  uint32_t cellOfPos(float x, float y) const;
+  struct PlanPos {
+    float x, y;
+    uint32_t plan;
+  };
+  std::vector<PlanPos> plan_pos_;
   std::vector<SignalPlan> plans_;
   std::vector<SignalPhase> phases_;
   std::vector<uint32_t> node_to_plan_;
+  // Coarse grid over the plans, built by bind(), used by setActiveWindow().
+  std::vector<uint32_t> grid_first_, grid_plans_;
+  float grid_x0_ = 0.f, grid_y0_ = 0.f, grid_cell_ = 1000.f;
+  uint32_t grid_nx_ = 0, grid_ny_ = 0;
+  mutable std::vector<uint32_t> active_;
+  mutable bool window_active_ = false;
+  mutable int win_cx0_ = 0, win_cy0_ = 0, win_cx1_ = -1, win_cy1_ = -1;
   mutable std::vector<uint8_t> veh_cache_, ped_cache_;
+  mutable std::vector<uint32_t> cache_stamp_;
+  mutable uint32_t cache_epoch_ = 0;
+  mutable uint32_t cached_plans_ = 0;
   mutable double cache_time_ = -1.0;
   std::string error_;
 };

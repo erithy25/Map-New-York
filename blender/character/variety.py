@@ -73,22 +73,36 @@ def distinguishable_appearances() -> int:
 
 
 # ------------------------------------------------------------------------------------------------- tables
-#: MakeHuman's `age` macro is 1 year at 0.0, 25 years at 0.5 and 90 years at 1.0.
+#: MakeHuman's `age` macro is 1 year at 0.0, 25 years at 0.5 and 90 years at 1.0.  ``height_macro`` is the
+#: range of MakeHuman's `height` macro that :data:`STATURES` interpolates for that band, per sex.
+#:
+#: Those ranges are **measured, not guessed**.  A sweep of all 4 x 6 x 2 combinations (quoted in
+#: ``docs/verification/character/REPORT.md``) gave a linear macro-to-stature response per band and sex -
+#: a young adult male is 1.486 m at macro 0.24 and 2.192 m at macro 0.90, i.e. 1.070 m per unit of macro -
+#: and these ranges are that fit inverted onto real anthropometry: adult men 1.60-1.93 m, adult women
+#: 1.48-1.79 m, over-65s 4-7 cm shorter, eight-year-olds 1.13-1.42 m.  Feeding the stature dimension
+#: straight into the macro, as the first version did, put a 1.71 m "child" and a 2.05 m pedestrian on the
+#: street.
 AGE_BANDS: tuple[dict, ...] = (
-    {"id": "child", "age": 0.20, "label": "child, about 8", "years": 8},
-    {"id": "young_adult", "age": 0.44, "label": "young adult, about 22", "years": 22},
-    {"id": "middle_aged", "age": 0.62, "label": "middle-aged, about 45", "years": 45},
-    {"id": "older", "age": 0.84, "label": "older, about 70", "years": 70},
+    {"id": "child", "age": 0.20, "label": "child, about 8", "years": 8,
+     "height_macro": {"male": (0.203, 0.489), "female": (0.266, 0.552)}},
+    {"id": "young_adult", "age": 0.44, "label": "young adult, about 22", "years": 22,
+     "height_macro": {"male": (0.347, 0.655), "female": (0.339, 0.629)}},
+    {"id": "middle_aged", "age": 0.62, "label": "middle-aged, about 45", "years": 45,
+     "height_macro": {"male": (0.292, 0.581), "female": (0.287, 0.559)}},
+    {"id": "older", "age": 0.84, "label": "older, about 70", "years": 70,
+     "height_macro": {"male": (0.259, 0.540), "female": (0.258, 0.512)}},
 )
 
-#: MakeHuman's `height` macro. Combined with age and sex this spans roughly 1.25 m (child) to 1.95 m.
+#: Stature is a *fraction of the age band's own height range*, not a raw MakeHuman macro: "tall" means tall
+#: for an eight-year-old in the child band and tall for an adult in the others.
 STATURES: tuple[dict, ...] = (
-    {"id": "very_short", "height": 0.24},
-    {"id": "short", "height": 0.40},
-    {"id": "below_average", "height": 0.50},
-    {"id": "average", "height": 0.60},
-    {"id": "tall", "height": 0.74},
-    {"id": "very_tall", "height": 0.90},
+    {"id": "very_short", "fraction": 0.00},
+    {"id": "short", "fraction": 0.20},
+    {"id": "below_average", "fraction": 0.40},
+    {"id": "average", "fraction": 0.58},
+    {"id": "tall", "fraction": 0.78},
+    {"id": "very_tall", "fraction": 1.00},
 )
 
 #: MakeHuman's `weight` macro with the `muscle` macro that goes with it - a heavy body is not a muscular one.
@@ -293,7 +307,7 @@ class PedAppearance:
         return {
             "gender": self.sex,
             "age": age["age"],
-            "height": stature["height"],
+            "height": _height_macro(age, stature, self.is_male),
             "weight": mass["weight"],
             "muscle": mass["muscle"],
             # Children are proportioned differently from adults; MakeHuman's `proportions` macro carries it.
@@ -365,6 +379,12 @@ class PedAppearance:
         out["outfit"] = list(self.outfit())
         out["gait"] = self.gait()["id"]
         return out
+
+
+def _height_macro(age: dict, stature: dict, is_male: bool) -> float:
+    """Interpolate the age band's own measured height-macro range at this stature fraction."""
+    lo, hi = age["height_macro"]["male" if is_male else "female"]
+    return lo + (hi - lo) * stature["fraction"]
 
 
 def gait_for(age_band: str, body_mass: str) -> dict:

@@ -99,6 +99,7 @@ bool TrafficSim::configure(const routing::RoadGraph& g, const SignalTable& sig, 
   new_swerve_.assign(cap, 0.f);
   new_flags_.assign(cap, 0u);
   new_lane_.assign(cap, kInvalidIndex);
+  ev_limit_.assign(cap, kBigDistance);
   pending_routes_.clear();
   pending_routes_.reserve(cap);
 
@@ -926,27 +927,48 @@ float TrafficSim::playerConstraint(const Vehicle& v, float& swerve_out, bool& br
 }
 
 // Emergency vehicles: pull right and slow down (NY VTL §1144).
-float TrafficSim::emergencyConstraint(Vehicle& v) {
-  if ((v.flags & kVehSiren) != 0) return kBigDistance;
-  v.flags &= static_cast<uint8_t>(~kVehYieldingEv);
-  float limit = kBigDistance;
-  const float r2 = cfg_.emergency_radius_m * cfg_.emergency_radius_m;
+// The yield field for the whole fleet, computed once per step from the poses
+// the spatial hash was built on.  A vehicle only reaches this rule when it is
+// driving (decide() returns earlier for a parked or dwelling agent), so the
+// same state filter is applied here; the flag of an agent that never asks is
+// left alone, exactly as before.
+void TrafficSim::updateEmergencyField() {
+  const uint32_t n = static_cast<uint32_t>(veh_.size());
+  std::fill_n(ev_limit_.begin(), n, kBigDistance);
+  auto asks = [](const Vehicle& v) {
+    return (v.flags & kVehSiren) == 0 &&
+           (v.state == DriveState::Driving || v.state == DriveState::StoppedAtLine ||
+            v.state == DriveState::WaitingRow);
+  };
+  for (uint32_t i = 0; i < n; ++i) {
+    Vehicle& v = veh_[i];
+    if (asks(v)) v.flags &= static_cast<uint8_t>(~kVehYieldingEv);
+  }
+  if (ev_list_.empty()) return;
+  const float radius = cfg_.emergency_radius_m;
+  const float r2 = radius * radius;
   for (uint32_t ei : ev_list_) {
     const Vehicle& e = veh_[ei];
-    if (e.id == v.id) continue;
-    const float dx = v.pos.x - e.pos.x, dy = v.pos.y - e.pos.y;
-    const float d2 = dx * dx + dy * dy;
-    if (d2 > r2) continue;
-    // Only yield to a siren that is behind us and pointing our way.
     const float ex = std::cos(e.heading_rad), ey = std::sin(e.heading_rad);
-    const float along = dx * ex + dy * ey;   // > 0 when we are ahead of it
-    const float lateral = std::fabs(-dx * ey + dy * ex);
-    if (along < -5.f || along > cfg_.emergency_radius_m || lateral > 12.f) continue;
-    v.flags |= kVehYieldingEv;
-    ++stats_.emergency_yields;
-    limit = std::min(limit, 6.f + along * 0.2f);  // slow, keep creeping to the curb
+    const float epx = e.pos.x, epy = e.pos.y;
+    const uint32_t eid = e.id;
+    hash_.query(epx, epy, radius, [&](uint32_t i) {
+      if (i >= n) return;
+      Vehicle& v = veh_[i];
+      if (v.id == eid || !asks(v)) return;
+      const float dx = v.pos.x - epx, dy = v.pos.y - epy;
+      const float d2 = dx * dx + dy * dy;
+      if (d2 > r2) return;
+      // Only yield to a siren that is behind us and pointing our way.
+      const float along = dx * ex + dy * ey;   // > 0 when we are ahead of it
+      const float lateral = std::fabs(-dx * ey + dy * ex);
+      if (along < -5.f || along > radius || lateral > 12.f) return;
+      v.flags |= kVehYieldingEv;
+      ++stats_.emergency_yields;
+      // slow, keep creeping to the curb
+      ev_limit_[i] = std::min(ev_limit_[i], 6.f + along * 0.2f);
+    });
   }
-  return limit;
 }
 
 // Where a vehicle must yield to people already in the roadway.  The crossings
@@ -1354,8 +1376,8 @@ void TrafficSim::decide(uint32_t i) {
   // 2c. bus stop
   considerBusStop(v, stop_dist);
 
-  // 2d. emergency vehicles
-  const float ev = emergencyConstraint(v);
+  // 2d. emergency vehicles (field computed once per step by updateEmergencyField)
+  const float ev = ev_limit_[i];
   if (ev < kBigDistance) {
     stop_dist = std::min(stop_dist, ev);
     new_swerve_[i] = -1.4f;  // pull to the right
@@ -2031,6 +2053,7 @@ void TrafficSim::step() {
   if (signals_ != nullptr) const_cast<SignalTable*>(signals_)->cacheStates(time_s_);
 
   rebuildIndex();
+  updateEmergencyField();
 
   const uint32_t n = static_cast<uint32_t>(veh_.size());
   for (uint32_t i = 0; i < n; ++i) decide(i);

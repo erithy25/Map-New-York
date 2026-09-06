@@ -130,6 +130,15 @@ bool SignalTable::bind(const routing::RoadGraph& g) {
     }
     node_to_plan_[ni] = i;
   }
+  plan_pos_.clear();
+  plan_pos_.reserve(plans_.size());
+  for (uint32_t i = 0; i < plans_.size(); ++i) {
+    const uint32_t ni = plans_[i].node_index;
+    if (ni == kInvalidIndex) continue;  // unlocatable: never in a window, always on demand
+    const routing::Vec3& p = g.node(ni).pos;
+    plan_pos_.push_back(PlanPos{p.x, p.y, i});
+  }
+  buildPlanGrid();
   if (unknown > 0) {
     error_ = "signals: " + std::to_string(unknown) + " plan(s) reference unknown node ids";
     return false;
@@ -299,41 +308,134 @@ float SignalTable::expectedDelay(uint32_t plan, int32_t group) const {
   return r * r / (2.f * p.cycle_s);
 }
 
+void SignalTable::cacheOnePlan(uint32_t pi, double t) const {
+  const SignalPlan& p = plans_[pi];
+  const float tc = cycleTime(pi, t);
+  uint8_t* vc = veh_cache_.data() + pi * kMaxCachedGroups;
+  uint8_t* pc = ped_cache_.data() + pi * kMaxCachedGroups;
+  for (uint32_t gi = 0; gi < kMaxCachedGroups; ++gi) {
+    vc[gi] = static_cast<uint8_t>(VehSignal::Off);
+    pc[gi] = static_cast<uint8_t>(PedSignal::Off);
+  }
+  float start = 0.f;
+  for (uint32_t i = 0; i < p.phase_count; ++i) {
+    const SignalPhase& ph = phases_[p.first_phase + i];
+    if (ph.group >= 0 && ph.group < static_cast<int32_t>(kMaxCachedGroups)) {
+      const float local = tc - start;
+      VehSignal vs = VehSignal::Red;
+      if (local >= ph.lpi_s && local < ph.lpi_s + ph.green_s) vs = VehSignal::Green;
+      else if (local >= ph.lpi_s + ph.green_s && local < ph.lpi_s + ph.green_s + ph.yellow_s) vs = VehSignal::Yellow;
+      PedSignal ps = PedSignal::DontWalk;
+      if (local >= 0.f && local < ph.ped_walk_s) ps = PedSignal::Walk;
+      else if (local >= ph.ped_walk_s && local < ph.ped_walk_s + ph.ped_flash_s) ps = PedSignal::Flash;
+      uint8_t& v = vc[ph.group];
+      uint8_t& q = pc[ph.group];
+      if (v == static_cast<uint8_t>(VehSignal::Off) || static_cast<uint8_t>(vs) > v) v = static_cast<uint8_t>(vs);
+      auto rank = [](uint8_t x) { return x == static_cast<uint8_t>(PedSignal::Walk) ? 2 : (x == static_cast<uint8_t>(PedSignal::Flash) ? 1 : (x == static_cast<uint8_t>(PedSignal::Off) ? -1 : 0)); };
+      if (rank(static_cast<uint8_t>(ps)) > rank(q)) q = static_cast<uint8_t>(ps);
+    }
+    start += ph.duration();
+  }
+  cache_stamp_[pi] = cache_epoch_;
+}
+
 void SignalTable::cacheStates(double t) const {
   if (veh_cache_.size() != plans_.size() * kMaxCachedGroups) {
     veh_cache_.assign(plans_.size() * kMaxCachedGroups, static_cast<uint8_t>(VehSignal::Off));
     ped_cache_.assign(plans_.size() * kMaxCachedGroups, static_cast<uint8_t>(PedSignal::Off));
   }
-  for (uint32_t pi = 0; pi < plans_.size(); ++pi) {
-    const SignalPlan& p = plans_[pi];
-    const float tc = cycleTime(pi, t);
-    uint8_t* vc = veh_cache_.data() + pi * kMaxCachedGroups;
-    uint8_t* pc = ped_cache_.data() + pi * kMaxCachedGroups;
-    for (uint32_t gi = 0; gi < kMaxCachedGroups; ++gi) {
-      vc[gi] = static_cast<uint8_t>(VehSignal::Off);
-      pc[gi] = static_cast<uint8_t>(PedSignal::Off);
-    }
-    float start = 0.f;
-    for (uint32_t i = 0; i < p.phase_count; ++i) {
-      const SignalPhase& ph = phases_[p.first_phase + i];
-      if (ph.group >= 0 && ph.group < static_cast<int32_t>(kMaxCachedGroups)) {
-        const float local = tc - start;
-        VehSignal vs = VehSignal::Red;
-        if (local >= ph.lpi_s && local < ph.lpi_s + ph.green_s) vs = VehSignal::Green;
-        else if (local >= ph.lpi_s + ph.green_s && local < ph.lpi_s + ph.green_s + ph.yellow_s) vs = VehSignal::Yellow;
-        PedSignal ps = PedSignal::DontWalk;
-        if (local >= 0.f && local < ph.ped_walk_s) ps = PedSignal::Walk;
-        else if (local >= ph.ped_walk_s && local < ph.ped_walk_s + ph.ped_flash_s) ps = PedSignal::Flash;
-        uint8_t& v = vc[ph.group];
-        uint8_t& q = pc[ph.group];
-        if (v == static_cast<uint8_t>(VehSignal::Off) || static_cast<uint8_t>(vs) > v) v = static_cast<uint8_t>(vs);
-        auto rank = [](uint8_t x) { return x == static_cast<uint8_t>(PedSignal::Walk) ? 2 : (x == static_cast<uint8_t>(PedSignal::Flash) ? 1 : (x == static_cast<uint8_t>(PedSignal::Off) ? -1 : 0)); };
-        if (rank(static_cast<uint8_t>(ps)) > rank(q)) q = static_cast<uint8_t>(ps);
-      }
-      start += ph.duration();
-    }
+  if (cache_stamp_.size() != plans_.size()) cache_stamp_.assign(plans_.size(), 0u);
+  // Every plan becomes stale; the ones refreshed below re-stamp themselves, and
+  // the accessors compute the rest on demand.
+  ++cache_epoch_;
+  if (cache_epoch_ == 0u) {
+    std::fill(cache_stamp_.begin(), cache_stamp_.end(), 0u);
+    cache_epoch_ = 1u;
   }
   cache_time_ = t;
+  if (window_active_) {
+    for (uint32_t pi : active_) cacheOnePlan(pi, t);
+    cached_plans_ = static_cast<uint32_t>(active_.size());
+    return;
+  }
+  for (uint32_t pi = 0; pi < plans_.size(); ++pi) cacheOnePlan(pi, t);
+  cached_plans_ = static_cast<uint32_t>(plans_.size());
+}
+
+// A 1 km grid — one streaming tile (ARCHITECTURE §3) — over the intersections
+// that carry a plan, so the streamed region maps to a plan list in O(cells).
+void SignalTable::buildPlanGrid() {
+  grid_first_.clear();
+  grid_plans_.clear();
+  grid_nx_ = grid_ny_ = 0;
+  window_active_ = false;
+  win_cx1_ = -1;
+  win_cy1_ = -1;
+  if (plan_pos_.empty()) return;
+  float minx = 1e30f, miny = 1e30f, maxx = -1e30f, maxy = -1e30f;
+  bool any = false;
+  for (const PlanPos& pp : plan_pos_) {
+    minx = std::min(minx, pp.x);
+    miny = std::min(miny, pp.y);
+    maxx = std::max(maxx, pp.x);
+    maxy = std::max(maxy, pp.y);
+    any = true;
+  }
+  if (!any) return;
+  grid_x0_ = minx - 1.f;
+  grid_y0_ = miny - 1.f;
+  grid_nx_ = static_cast<uint32_t>((maxx - grid_x0_) / grid_cell_) + 1u;
+  grid_ny_ = static_cast<uint32_t>((maxy - grid_y0_) / grid_cell_) + 1u;
+  const size_t nc = static_cast<size_t>(grid_nx_) * grid_ny_;
+  grid_first_.assign(nc + 1, 0u);
+  for (const PlanPos& pp : plan_pos_) ++grid_first_[cellOfPos(pp.x, pp.y) + 1u];
+  for (size_t c = 0; c < nc; ++c) grid_first_[c + 1] += grid_first_[c];
+  grid_plans_.assign(plan_pos_.size(), 0u);
+  std::vector<uint32_t> cur(grid_first_.begin(), grid_first_.end() - 1);
+  for (const PlanPos& pp : plan_pos_) grid_plans_[cur[cellOfPos(pp.x, pp.y)]++] = pp.plan;
+}
+
+uint32_t SignalTable::cellOfPos(float x, float y) const {
+  int cx = static_cast<int>((x - grid_x0_) / grid_cell_);
+  int cy = static_cast<int>((y - grid_y0_) / grid_cell_);
+  cx = std::clamp(cx, 0, static_cast<int>(grid_nx_) - 1);
+  cy = std::clamp(cy, 0, static_cast<int>(grid_ny_) - 1);
+  return static_cast<uint32_t>(cy) * grid_nx_ + static_cast<uint32_t>(cx);
+}
+
+void SignalTable::setActiveWindow(float minx, float miny, float maxx, float maxy) const {
+  if (grid_nx_ == 0 || grid_ny_ == 0) {
+    window_active_ = false;
+    return;
+  }
+  int cx0 = static_cast<int>(std::floor((minx - grid_x0_) / grid_cell_));
+  int cy0 = static_cast<int>(std::floor((miny - grid_y0_) / grid_cell_));
+  int cx1 = static_cast<int>(std::floor((maxx - grid_x0_) / grid_cell_));
+  int cy1 = static_cast<int>(std::floor((maxy - grid_y0_) / grid_cell_));
+  cx0 = std::clamp(cx0, 0, static_cast<int>(grid_nx_) - 1);
+  cx1 = std::clamp(cx1, 0, static_cast<int>(grid_nx_) - 1);
+  cy0 = std::clamp(cy0, 0, static_cast<int>(grid_ny_) - 1);
+  cy1 = std::clamp(cy1, 0, static_cast<int>(grid_ny_) - 1);
+  if (window_active_ && cx0 == win_cx0_ && cy0 == win_cy0_ && cx1 == win_cx1_ && cy1 == win_cy1_) return;
+  win_cx0_ = cx0;
+  win_cy0_ = cy0;
+  win_cx1_ = cx1;
+  win_cy1_ = cy1;
+  window_active_ = true;
+  active_.clear();
+  for (int cy = cy0; cy <= cy1; ++cy) {
+    for (int cx = cx0; cx <= cx1; ++cx) {
+      const size_t c = static_cast<size_t>(cy) * grid_nx_ + static_cast<size_t>(cx);
+      for (uint32_t k = grid_first_[c]; k < grid_first_[c + 1]; ++k) active_.push_back(grid_plans_[k]);
+    }
+  }
+}
+
+void SignalTable::clearActiveWindow() const {
+  window_active_ = false;
+  win_cx1_ = -1;
+  win_cy1_ = -1;
+  active_.clear();
 }
 
 }  // namespace traffic

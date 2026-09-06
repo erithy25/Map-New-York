@@ -100,6 +100,7 @@ class Garment:
     quilt_depth: float = 0.0
     hood: bool = False               # attach a procedural hood at the neck
     includes_shirt: bool = False     # the mesh already contains the shirt worn under it (the suit jackets)
+    push: float | None = None        # makehuman: override the layer's stand-off (a puffer is padded)
     front_cut: float | None = None   # drop head vertices this far in front of the head joint (hijab)
     layer: int = LAYER_BASE
     tags: tuple[str, ...] = ()
@@ -176,25 +177,26 @@ WARDROBE: tuple[Garment, ...] = (
             keep="upper", colour=_c("3a3644"), roughness=0.66, includes_shirt=True, layer=LAYER_OUTER, tags=("suit", "office")),
 
     # ---------- outerwear: procedural, offset from the top layer ---------------------------------------
-    Garment("puffer_black", "Black puffer jacket", "outerwear", "procedural",
-            bones=TORSO + HIPS + UPPERARM + FOREARM, z_lo=0.40, z_hi=0.90, offset=0.026, thickness=0.010,
-            colour=_c("161618"), roughness=0.55, quilt_rows=7, quilt_depth=0.010, layer=LAYER_OUTER,
+    # MakeHuman's CC0 packs contain no puffer and no long coat, and an offset of the *skin* does not read as
+    # one - cut from the body with sleeves and a hem it comes out as a painted-on body-suit, and cut from the
+    # tee underneath it comes out as a t-shirt.  Both were built and rejected on the render.  So these five
+    # are the field-jacket mesh in five fabrics, standing off further (`push`) where the garment is padded.
+    # Stated, not implied: a "long" coat is therefore hip-length, and that is a fidelity gap (section 12).
+    Garment("puffer_black", "Black puffer jacket", "outerwear", "makehuman", "male_casualsuit05",
+            keep="outer", push=0.019, colour=_c("161618"), roughness=0.55, layer=LAYER_OUTER,
             tags=("puffer", "winter")),
-    Garment("puffer_olive", "Olive puffer jacket", "outerwear", "procedural",
-            bones=TORSO + HIPS + UPPERARM + FOREARM, z_lo=0.40, z_hi=0.90, offset=0.026, thickness=0.010,
-            colour=_c("4a4f35"), roughness=0.58, quilt_rows=7, quilt_depth=0.010, layer=LAYER_OUTER,
+    Garment("puffer_olive", "Olive puffer jacket", "outerwear", "makehuman", "male_casualsuit05",
+            keep="outer", push=0.019, colour=_c("4a4f35"), roughness=0.58, layer=LAYER_OUTER,
             tags=("puffer", "winter")),
-    Garment("puffer_red_long", "Long red puffer", "outerwear", "procedural",
-            bones=TORSO + HIPS + UPPERARM + FOREARM + THIGHS, z_lo=0.30, z_hi=0.90, offset=0.028,
-            thickness=0.010, colour=_c("8c2320"), roughness=0.56, quilt_rows=11, quilt_depth=0.010,
-            layer=LAYER_OUTER, tags=("puffer", "winter")),
-    Garment("coat_wool", "Camel wool overcoat", "outerwear", "procedural",
-            bones=TORSO + HIPS + UPPERARM + FOREARM + THIGHS, z_lo=0.32, z_hi=0.90, offset=0.018,
-            thickness=0.008, colour=_c("9a7a51"), roughness=0.85, layer=LAYER_OUTER,
+    Garment("puffer_red_long", "Long red puffer", "outerwear", "makehuman", "male_casualsuit05",
+            keep="outer", push=0.022, colour=_c("8c2320"), roughness=0.56, layer=LAYER_OUTER,
+            tags=("puffer", "winter")),
+    Garment("coat_wool", "Camel wool overcoat", "outerwear", "makehuman", "male_casualsuit05",
+            keep="outer", push=0.014, colour=_c("9a7a51"), roughness=0.85, layer=LAYER_OUTER,
             tags=("coat", "winter")),
-    Garment("coat_trench", "Beige trench coat", "outerwear", "procedural",
-            bones=TORSO + HIPS + UPPERARM + FOREARM + THIGHS, z_lo=0.34, z_hi=0.90, offset=0.016,
-            thickness=0.007, colour=_c("b6a488"), roughness=0.72, layer=LAYER_OUTER, tags=("coat", "rain")),
+    Garment("coat_trench", "Beige trench coat", "outerwear", "makehuman", "male_casualsuit05",
+            keep="outer", push=0.013, colour=_c("b6a488"), roughness=0.72, layer=LAYER_OUTER,
+            tags=("coat", "rain")),
     Garment("vest_hivis", "ANSI class-2 hi-vis vest", "outerwear", "procedural", bones=TORSO + HIPS,
             z_lo=0.44, z_hi=0.855, offset=0.016, thickness=0.005, colour=_c("d8f000"), roughness=0.60,
             layer=LAYER_OUTER, tags=("hivis", "work"),
@@ -325,7 +327,21 @@ def build_garment(garment: Garment, body: bpy.types.Object, armature: bpy.types.
     deform_layer = bm.verts.layers.deform.active
     if deform_layer is not None:
         bm.verts.layers.deform.remove(deform_layer)
+    # Clean the cut before offsetting it.  A procedural layer is cut from whatever is outermost on the body,
+    # which is usually a MakeHuman garment, and those CC0 meshes carry coincident vertices, degenerate faces
+    # and inconsistent winding.  `bmesh.ops.solidify` on that fans out spikes: the hi-vis vest cut from a
+    # fitted sweater came out 2.3 m tall and 4.0 m deep and made a 2.51 m "pedestrian".
+    bmesh.ops.remove_doubles(bm, verts=list(bm.verts), dist=2e-5)
+    bmesh.ops.dissolve_degenerate(bm, dist=2e-5, edges=list(bm.edges))
+    bm.verts.ensure_lookup_table()
+    stray = [v for v in bm.verts if not v.link_faces]
+    if stray:
+        bmesh.ops.delete(bm, geom=stray, context="VERTS")
+    bmesh.ops.recalc_face_normals(bm, faces=list(bm.faces))
     bm.normal_update()
+    if not bm.faces:
+        bm.free()
+        raise RuntimeError(f"garment {garment.item_id!r} has no faces left after cleaning the cut")
 
     offset = max(garment.offset, LAYER_MIN_OFFSET.get(garment.layer, garment.offset))
     for vert in bm.verts:
@@ -337,8 +353,23 @@ def build_garment(garment: Garment, body: bpy.types.Object, armature: bpy.types.
             push += garment.quilt_depth * 0.5 * taper * (
                 1.0 + math.cos(2.0 * math.pi * garment.quilt_rows * z_norm))
         vert.co += vert.normal * push
+
+    shell = _bounds_of(bm)
+    single_sided = bpy.data.meshes.new(f"{name_prefix}{garment.item_id}.shell")
+    bm.to_mesh(single_sided)                       # keep the un-thickened shell to fall back to
     bmesh.ops.solidify(bm, geom=list(bm.faces), thickness=-garment.thickness)
     bm.normal_update()
+    thick = _bounds_of(bm)
+    slack = 8.0 * garment.thickness + 1e-4
+    grew = max(max(a - b for a, b in zip(shell[0], thick[0])),
+               max(b - a for a, b in zip(shell[1], thick[1])))
+    if grew > slack:
+        log.warning("%s: solidify grew the garment by %.0f mm (limit %.0f mm) - shipping the single-sided "
+                    "shell instead", garment.item_id, grew * 1000.0, slack * 1000.0)
+        bm.clear()
+        bm.from_mesh(single_sided)
+        bm.normal_update()
+    bpy.data.meshes.remove(single_sided)
 
     new_mesh = bpy.data.meshes.new(f"{name_prefix}{garment.item_id}")
     bm.to_mesh(new_mesh)
@@ -362,6 +393,15 @@ def build_garment(garment: Garment, body: bpy.types.Object, armature: bpy.types.
     modifier = obj.modifiers.new("Armature", "ARMATURE")
     modifier.object = armature
     return obj
+
+
+def _bounds_of(bm) -> tuple[tuple[float, float, float], tuple[float, float, float]]:
+    """(min, max) corner of a bmesh, for the sanity check around ``bmesh.ops.solidify``."""
+    xs = [v.co for v in bm.verts]
+    if not xs:
+        return ((0.0, 0.0, 0.0), (0.0, 0.0, 0.0))
+    return ((min(c.x for c in xs), min(c.y for c in xs), min(c.z for c in xs)),
+            (max(c.x for c in xs), max(c.y for c in xs), max(c.z for c in xs)))
 
 
 def _transfer_weights(body: bpy.types.Object, garment_obj: bpy.types.Object) -> None:
@@ -472,66 +512,118 @@ def push_along_normals(obj: bpy.types.Object, distance: float, *, taper_rings: i
 
 def _add_hood(obj: bpy.types.Object, armature: bpy.types.Object, garment: Garment,
               body_height: float) -> None:
-    """A hood lying *down* on the wearer's back, in its own smooth-shaded material slot.
+    """A hood lying *down*: a thick roll of the same cloth around the back of the collar.
 
-    A down hood is not a ball behind the neck: it is a flattened cowl that starts at the collar and drapes
-    down the shoulder blades, wider than it is deep.  The first version of this was a half-ellipsoid of
-    equal radii, faceted, and inheriting the sweater's UV-mapped material - which sampled the tinted texture
-    at whatever UV the generated vertices happened to carry - so it rendered as a light grey sphere stuck to
-    the back.  Here it is:
+    Down, a hood is not a dome behind the head - it is a bunched cylinder of fabric that follows the collar
+    round the back of the neck and tapers out towards the collarbones.  Two earlier shapes were built and
+    rejected on the render before this one:
 
-    * an ellipsoid squashed to (half-width 0.115 m, half-depth 0.055 m, half-height 0.135 m) and offset down
-      the back, so its silhouette is a cowl;
-    * cut off in front of the neck, and its top rolled forward into a collar lip;
-    * shaded smooth, and given its own material slot with the garment's flat colour, so no UV is needed;
-    * weighted 55/45 to ``neck_01``/``spine_05``, which is where a down hood actually moves from.
+    * a half-ellipsoid placed from the neck joint - most of it ends up inside the sweater, because the back
+      panel of a knitted sweater is 100-140 mm behind the neck joint and by a distance that depends on the
+      body, so what showed was a few fragments;
+    * the same ellipsoid projected outwards onto the garment surface - projecting every vertex flattens the
+      volume away and leaves a crumpled skin.
+
+    So the roll is *swept along the garment itself*: the collar line is found by asking the garment for the
+    closest surface point on a ring of directions around the neck axis, and a tube is swept along those
+    points, standing off along each point's own surface normal.  That puts it on the sweater whatever shape
+    the sweater is, and keeps its volume.  Each ring is UV-mapped from the nearest garment vertex, so the
+    hood is shaded by the same knit texture, and it is weighted 55/45 to ``neck_01``/``spine_05``.
     """
+    from mathutils import kdtree  # noqa: PLC0415
+
     bones = armature.data.bones
     neck = bones["neck_01"].head_local
     forward = (bones["ball_l"].tail_local - bones["ball_l"].head_local)
     forward.z = 0.0
     forward = forward.normalized() if forward.length > 1e-6 else Vector((0.0, -1.0, 0.0))
-    scale = body_height / 1.75                       # the radii below are quoted for a 1.75 m body
-    centre = neck - forward * (0.055 * scale) - Vector((0.0, 0.0, 0.085 * scale))
-    radius = Vector((0.115, 0.055, 0.135)) * scale
+    back = -forward
+    right = forward.cross(Vector((0.0, 0.0, 1.0))).normalized()
+    scale = body_height / 1.75
 
+    span = math.radians(86.0)                       # from straight back round towards the collarbones
+    segments = 13
+    centre = neck + Vector((0.0, 0.0, -0.028 * scale))
+    path: list[tuple[Vector, Vector]] = []          # (surface point, outward normal)
+    for i in range(segments):
+        t = -1.0 + 2.0 * i / (segments - 1)
+        angle = t * span
+        direction = (back * math.cos(angle) + right * math.sin(angle)).normalized()
+        # Ray-cast horizontally *inwards* at the collar height rather than asking for the nearest surface
+        # point: from a probe out at the side the nearest point is the top of the shoulder, and the roll
+        # then spans the shoulders like a yoke instead of following the collar.
+        origin = centre + direction * (0.45 * scale)
+        hit, location, normal, _index = obj.ray_cast(origin, -direction, distance=0.45 * scale)
+        if not hit:
+            continue
+        if normal.dot(direction) < 0.0:
+            normal = -normal
+        path.append((location, normal.normalized()))
+    if len(path) < 4:
+        log.warning("%s: could not trace a collar line for the hood", obj.name)
+        return
+
+    ring_count = 8
     bm = bmesh.new()
-    bmesh.ops.create_uvsphere(bm, u_segments=20, v_segments=14, radius=1.0)
-    for vert in bm.verts:
-        vert.co = Vector((vert.co.x * radius.x, vert.co.y * radius.y, vert.co.z * radius.z)) + centre
-    doomed = [v for v in bm.verts if (v.co - centre).dot(forward) > 0.004 * scale]
-    bmesh.ops.delete(bm, geom=doomed, context="VERTS")
+    rings: list[list] = []
+    for i, (point, normal) in enumerate(path):
+        t = -1.0 + 2.0 * i / (len(path) - 1)
+        thickness = (0.044 - 0.020 * t * t) * scale          # thickest at the nape, tapering to the front
+        nxt = path[min(i + 1, len(path) - 1)][0]
+        prv = path[max(i - 1, 0)][0]
+        tangent = (nxt - prv)
+        tangent = tangent.normalized() if tangent.length > 1e-6 else right.copy()
+        side = tangent.cross(normal).normalized()
+        hub = point + normal * (thickness * 0.85)
+        ring = []
+        for k in range(ring_count):
+            a = 2.0 * math.pi * k / ring_count
+            offset = normal * (math.cos(a) * thickness) + side * (math.sin(a) * thickness * 0.78)
+            ring.append(bm.verts.new(hub + offset))
+        rings.append(ring)
     bm.verts.ensure_lookup_table()
-    # roll the top edge forward so the hood meets the collar instead of ending in mid-air behind the neck
-    top = centre.z + radius.z
-    for vert in bm.verts:
-        lift = (vert.co.z - centre.z) / max(radius.z, 1e-6)
-        if lift > 0.25:
-            t = (lift - 0.25) / 0.75
-            vert.co -= forward * (0.030 * scale * t * t)
-            vert.co.z -= (vert.co.z - top) * 0.15 * t
+    for i in range(len(rings) - 1):
+        for k in range(ring_count):
+            a, b = rings[i][k], rings[i][(k + 1) % ring_count]
+            c, d = rings[i + 1][(k + 1) % ring_count], rings[i + 1][k]
+            bm.faces.new((a, b, c, d))
+    for ring in (rings[0], rings[-1]):               # cap the two open ends
+        bm.faces.new(ring if ring is rings[0] else list(reversed(ring)))
     bm.normal_update()
     hood_mesh = bpy.data.meshes.new(f"{obj.name}.hood")
     bm.to_mesh(hood_mesh)
     bm.free()
 
+    uv_layer = obj.data.uv_layers.active
+    source_uv: list[tuple[float, float]] = [(0.0, 0.0)] * len(obj.data.vertices)
+    if uv_layer is not None:
+        for loop in obj.data.loops:
+            source_uv[loop.vertex_index] = tuple(uv_layer.data[loop.index].uv)
+    tree = kdtree.KDTree(len(obj.data.vertices))
+    for vert in obj.data.vertices:
+        tree.insert(vert.co, vert.index)
+    tree.balance()
+
     vertex_offset = len(obj.data.vertices)
     face_offset = len(obj.data.polygons)
     obj.data = _join_meshes(obj.data, hood_mesh)
 
-    slot = len(obj.data.materials)
-    flat = nb.pbr_material(f"cloth_{garment.item_id}_hood", base_color=(*garment.colour, 1.0),
-                           roughness=min(garment.roughness + 0.04, 1.0))
-    obj.data.materials.append(flat)
+    uv_layer = obj.data.uv_layers.active
     for polygon in obj.data.polygons[face_offset:]:
-        polygon.material_index = slot
         polygon.use_smooth = True
+        polygon.material_index = 0
+        if uv_layer is None:
+            continue
+        for loop_index in polygon.loop_indices:
+            vertex = obj.data.vertices[obj.data.loops[loop_index].vertex_index]
+            _co, nearest, _distance = tree.find(vertex.co)
+            uv_layer.data[loop_index].uv = source_uv[nearest]
 
     for name, weight in (("neck_01", 0.55), ("spine_05", 0.45)):
         group = obj.vertex_groups.get(name) or obj.vertex_groups.new(name=name)
         group.add(list(range(vertex_offset, len(obj.data.vertices))), weight, "REPLACE")
-    log.info("%s: hood added (%d vertices, own material slot %d)", obj.name,
-             len(obj.data.vertices) - vertex_offset, slot)
+    log.info("%s: hood added - %d-point collar roll, %d vertices", obj.name, len(path),
+             len(obj.data.vertices) - vertex_offset)
 
 
 def _join_meshes(a: bpy.types.Mesh, b: bpy.types.Mesh) -> bpy.types.Mesh:
@@ -817,7 +909,8 @@ def finish_makehuman(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
             raise RuntimeError(f"MakeHuman asset {garment.mhclo!r} for {item_id!r} was not fitted "
                                f"(have {sorted(by_asset)})")
         removed = split_loose_parts(obj, garment.keep, garment.split_z * height)
-        push_along_normals(obj, LAYER_MH_PUSH.get(garment.layer, 0.0))
+        push = garment.push if garment.push is not None else LAYER_MH_PUSH.get(garment.layer, 0.0)
+        push_along_normals(obj, push)
         colour = (colours or {}).get(item_id, garment.colour)
         tint(obj, colour, garment.roughness, garment.metallic, name=f"cloth_{item_id}")
         old = obj.name
@@ -828,6 +921,50 @@ def finish_makehuman(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
         log.info("%s: MakeHuman %s, %d verts%s", item_id, garment.mhclo, len(obj.data.vertices),
                  f", {removed} removed by the {garment.keep} split" if removed else "")
     return out
+
+
+def verify_outfit(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
+                  margin: float = 0.30) -> list[str]:
+    """Check every garment on the character is where a garment can be. Returns a list of problems.
+
+    A procedural cut that goes wrong does not fail loudly - it produces a mesh with a few vertices thrown to
+    infinity, which then quietly widens the exported bounding box and, because stature is measured from the
+    scene, reports a 2.5 m pedestrian.  So every finished garment is checked against the body's own bounding
+    box grown by ``margin``: nothing a person wears is a third of a metre away from them, and anything that
+    is, is broken.  Also catches non-finite coordinates, which a degenerate normal can produce.
+    """
+    body = built.basemesh
+    lo = Vector((math.inf,) * 3)
+    hi = Vector((-math.inf,) * 3)
+    for vert in body.data.vertices:
+        world = body.matrix_world @ vert.co
+        lo = Vector(map(min, lo, world))
+        hi = Vector(map(max, hi, world))
+    lo -= Vector((margin,) * 3)
+    hi += Vector((margin,) * 3)
+
+    problems: list[str] = []
+    for item_id in item_ids:
+        obj = built.clothes.get(f"{name_prefix}{item_id}")
+        if obj is None or not len(obj.data.vertices):
+            problems.append(f"{item_id}: not on the character")
+            continue
+        bad = 0
+        worst = 0.0
+        for vert in obj.data.vertices:
+            world = obj.matrix_world @ vert.co
+            if not all(math.isfinite(c) for c in world):
+                problems.append(f"{item_id}: non-finite vertex coordinate")
+                bad = -1
+                break
+            over = max(max(lo[i] - world[i] for i in range(3)), max(world[i] - hi[i] for i in range(3)))
+            if over > 0.0:
+                bad += 1
+                worst = max(worst, over)
+        if bad > 0:
+            problems.append(f"{item_id}: {bad} of {len(obj.data.vertices)} vertices up to "
+                            f"{worst * 1000:.0f} mm outside the body's bounding box + {margin * 1000:.0f} mm")
+    return problems
 
 
 def _layer_key(garment: Garment) -> int:
@@ -843,7 +980,7 @@ def _layer_key(garment: Garment) -> int:
 
 
 def resolve_layers(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
-                   clearance: float = 0.003, passes: int = 2) -> int:
+                   clearance: float = 0.004, passes: int = 3) -> int:
     """Pull every inner garment back inside the garment layered over it.  Returns vertices moved.
 
     Two garments fitted independently to the same body do not know about each other: MakeHuman gives each
@@ -976,9 +1113,17 @@ def dress(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
                 _add_hood(obj, armature, garment, height)
 
     base = _base_layer(built, name_prefix)
+    torso_only = set(TORSO) | set(HIPS)
     for item_id in procedural_items(item_ids):
         garment = WARDROBE_BY_ID[item_id]
-        source = base if (base is not None and garment.slot == "outerwear") else built.basemesh
+        # A procedural layer can only be as long and as sleeved as the surface it is cut from.  A vest covers
+        # nothing but the torso, so cutting it from the garment already on the body is right and keeps that
+        # garment's armpit.  A puffer or a long coat has sleeves to the wrist and a hem at the thigh, and
+        # cutting *those* from a short-sleeved tee produced a beige t-shirt labelled "trench coat" - so
+        # anything reaching past the torso is cut from the body, which has arms and legs.
+        covers_torso_only = bool(garment.bones) and set(garment.bones) <= torso_only
+        source = base if (base is not None and garment.slot == "outerwear" and covers_torso_only) \
+            else built.basemesh
         dominant = dominant_bones(source, deform)
         obj = build_garment(garment, source, armature, dominant, height, name_prefix=name_prefix,
                             colour=(colours or {}).get(item_id))

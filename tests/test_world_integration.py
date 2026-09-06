@@ -443,6 +443,41 @@ def test_verification_renders_can_actually_serve_as_evidence():
         + "\n  ".join(unusable))
 
 
+def test_the_world_has_no_orphan_or_missing_content_layers():
+    """Every layer must agree about which tiles hold content.
+
+    A building without a mesh is invisible; a mesh without buildings is geometry nobody can query;
+    a content tile without terrain is a building floating over nothing. None of these show up in a
+    per-stage test, because each stage only sees its own output.
+    """
+    def tiles_with(pattern: str, depth: str = "parent") -> set:
+        if depth == "parent":
+            return {p.parent.name for p in Path(".").glob(pattern)}
+        return {p.stem for p in Path(".").glob(pattern)}
+
+    terrain = tiles_with("data/processed/tiles/*/terrain.json")
+    buildings = tiles_with("data/processed/tiles/*/buildings.parquet")
+    shells = tiles_with("blender_out/tiles/*/tile_buildings.glb")
+    props = tiles_with("data/processed/tiles/*/props.parquet")
+    kit = tiles_with("data/processed/tiles/*/kit_placements.bin")
+    if not buildings:
+        pytest.skip("no per-tile building data yet")
+
+    problems = []
+    if shells:
+        missing_mesh = sorted(buildings - shells)
+        assert not missing_mesh, f"{len(missing_mesh)} tiles hold buildings but no shell mesh, e.g. {missing_mesh[:5]}"
+        orphan_mesh = sorted(shells - buildings)
+        assert not orphan_mesh, f"{len(orphan_mesh)} shell meshes have no building data, e.g. {orphan_mesh[:5]}"
+    if kit:
+        no_kit = sorted(buildings - kit)
+        assert not no_kit, f"{len(no_kit)} tiles hold buildings but no kit placements, e.g. {no_kit[:5]}"
+    if terrain:
+        floating = sorted((buildings | props) - terrain)
+        assert not floating, f"{len(floating)} content tiles have no terrain beneath them, e.g. {floating[:5]}"
+    assert not problems
+
+
 # --------------------------------------------------------------------------- honesty gate
 def test_no_placeholder_markers_in_shipped_source():
     """The brief forbids placeholders. This test is the gate that keeps them out.

@@ -105,6 +105,9 @@ def build_body(spec: mh_build.HumanSpec, outfit: tuple[str, ...], *, watch: bool
     if outfit:
         wardrobe.dress(built, outfit, name_prefix=prefix)
     wardrobe.resolve_layers(built, outfit, name_prefix=prefix)
+    bad = wardrobe.verify_outfit(built, outfit, name_prefix=prefix)
+    if bad:
+        raise RuntimeError(f"garment verification failed: {bad}")
     if watch:
         wardrobe.build_watch(built, side="l", name_prefix=prefix)
     # Last geometry step: the skin under the clothes is removed only once every garment - MakeHuman and

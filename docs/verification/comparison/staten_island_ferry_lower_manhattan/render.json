@@ -1,7 +1,7 @@
 {
- "azimuth_reason": "15.1 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 15.8 deg, 0.7 deg away",
+ "azimuth_reason": "15.8 deg as recorded; it agrees with the bearing from the camera position used to One World Trade Center (15.9 deg) to 0.1 deg",
  "camera": {
-  "azimuth_deg": 15.1,
+  "azimuth_deg": 15.8,
   "eye_datum": "sea",
   "eye_height_m": 8.0,
   "eye_source": "open bow deck of a Molinari/Barberi-class Staten Island Ferry: upper (promenade) deck about 6.4 m above the waterline, plus 1.6 m eye height; the boat is not modelled, so the camera floats free at that height over the Upper Bay",
@@ -35,8 +35,16 @@
   "y": -996.974,
   "z": 8.0
  },
- "camera_caption": "camera 40.69100, -74.02150 (NYC_TM -6044, -997) z 8.0 m NAVD88 | azimuth 15.1deg pitch +0.0deg | 28 mm on 36 mm (65.5deg horizontal) | 1280x560",
+ "camera_caption": "camera 40.69100, -74.02150 (NYC_TM -6044, -997) z 8.0 m NAVD88 | azimuth 15.8deg pitch +0.0deg | 28 mm on 36 mm (65.5deg horizontal) | 1280x560",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.691,
+  "lon": -74.0215,
+  "offset_from_recorded_m": 699.0,
+  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 699 m away, past the 250 m at which it could still be the same view, so it was rejected as mis-tagged"
+ },
  "clearance": {
+  "min_view_m": 80.0,
   "moved": false,
   "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
   "offset_m": 0.0
@@ -48,8 +56,8 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 785.9,
   "emissive": {
-   "cones_hidden": 0,
-   "lamps_switched_off": 0,
+   "cones_hidden": 1,
+   "lamps_switched_off": 1,
    "night": false,
    "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
@@ -77,9 +85,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/staten_island_ferry_lower_manhattan/render.png",
- "rendered_at": "2026-09-06T15:53:12Z",
+ "rendered_at": "2026-09-06T19:48:32Z",
  "resolution_note": "1280x560; the reference photograph is 1920x840 (2.29:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 64,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -94,6 +102,7 @@
     "t_-2_-2",
     "t_-2_-3",
     "t_-2_-4",
+    "t_-2_-5",
     "t_-2_0",
     "t_-2_1",
     "t_-2_2",
@@ -101,6 +110,8 @@
     "t_-3_-2",
     "t_-3_-3",
     "t_-3_-4",
+    "t_-3_-5",
+    "t_-3_-6",
     "t_-3_0",
     "t_-3_1",
     "t_-3_2",
@@ -109,6 +120,9 @@
     "t_-4_-2",
     "t_-4_-3",
     "t_-4_-4",
+    "t_-4_-5",
+    "t_-4_-6",
+    "t_-4_-7",
     "t_-4_0",
     "t_-4_1",
     "t_-4_2",
@@ -118,6 +132,9 @@
     "t_-5_-2",
     "t_-5_-3",
     "t_-5_-4",
+    "t_-5_-5",
+    "t_-5_-6",
+    "t_-5_-7",
     "t_-5_0",
     "t_-5_1",
     "t_-5_2",
@@ -127,15 +144,40 @@
     "t_-6_-2",
     "t_-6_-3",
     "t_-6_-4",
+    "t_-6_-5",
+    "t_-6_-6",
+    "t_-6_-7",
     "t_-6_0",
     "t_-6_1",
     "t_-6_2",
     "t_-6_3",
     "t_-6_4",
     "t_-7_-2",
+    "t_-7_-6",
+    "t_-7_-7",
     "t_-8_-1",
     "t_-8_-2",
-    "t_-8_0"
+    "t_-8_-7",
+    "t_-8_0",
+    "t_-9_-2"
+   ],
+   "lod_substituted": [
+    "t_-2_-5 (LOD2 -> LOD1)",
+    "t_-3_-5 (LOD2 -> LOD1)",
+    "t_-3_-6 (LOD2 -> LOD1)",
+    "t_-4_-5 (LOD2 -> LOD1)",
+    "t_-4_-6 (LOD2 -> LOD1)",
+    "t_-4_-7 (LOD2 -> LOD1)",
+    "t_-5_-5 (LOD2 -> LOD1)",
+    "t_-5_-6 (LOD2 -> LOD1)",
+    "t_-5_-7 (LOD2 -> LOD1)",
+    "t_-6_-5 (LOD2 -> LOD1)",
+    "t_-6_-6 (LOD2 -> LOD1)",
+    "t_-6_-7 (LOD2 -> LOD1)",
+    "t_-7_-6 (LOD2 -> LOD1)",
+    "t_-7_-7 (LOD2 -> LOD1)",
+    "t_-8_-7 (LOD2 -> LOD1)",
+    "t_-9_-2 (LOD2 -> LOD1)"
    ],
    "missing": [
     "t_-10_-1",
@@ -162,24 +204,10 @@
     "t_-12_-4",
     "t_-12_0",
     "t_-12_1",
-    "t_-2_-5 (no LOD2)",
-    "t_-3_-5 (no LOD2)",
-    "t_-3_-6 (no LOD2)",
-    "t_-4_-5 (no LOD2)",
-    "t_-4_-6 (no LOD2)",
-    "t_-4_-7 (no LOD2)",
-    "t_-5_-5 (no LOD2)",
-    "t_-5_-6 (no LOD2)",
-    "t_-5_-7 (no LOD2)",
-    "t_-6_-5 (no LOD2)",
-    "t_-6_-6 (no LOD2)",
-    "t_-6_-7 (no LOD2)",
     "t_-7_-1",
     "t_-7_-3",
     "t_-7_-4",
     "t_-7_-5",
-    "t_-7_-6 (no LOD2)",
-    "t_-7_-7 (no LOD2)",
     "t_-7_0",
     "t_-7_1",
     "t_-7_2",
@@ -189,13 +217,11 @@
     "t_-8_-4",
     "t_-8_-5",
     "t_-8_-6",
-    "t_-8_-7 (no LOD2)",
     "t_-8_1",
     "t_-8_2",
     "t_-8_3",
     "t_-8_4",
     "t_-9_-1",
-    "t_-9_-2 (no LOD2)",
     "t_-9_-3",
     "t_-9_-4",
     "t_-9_-5",
@@ -258,6 +284,13 @@
      "objects": 13,
      "triangles": 4628
     },
+    "t_-2_-5": {
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 10,
+     "triangles": 2352
+    },
     "t_-2_0": {
      "lod": 2,
      "objects": 9,
@@ -292,6 +325,20 @@
      "lod": 2,
      "objects": 16,
      "triangles": 45924
+    },
+    "t_-3_-5": {
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 10,
+     "triangles": 39932
+    },
+    "t_-3_-6": {
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 12,
+     "triangles": 29540
     },
     "t_-3_0": {
      "lod": 2,
@@ -332,6 +379,27 @@
      "lod": 2,
      "objects": 13,
      "triangles": 30256
+    },
+    "t_-4_-5": {
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 14,
+     "triangles": 25548
+    },
+    "t_-4_-6": {
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 10,
+     "triangles": 1444
+    },
+    "t_-4_-7": {
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 12,
+     "triangles": 47104
     },
     "t_-4_0": {
      "lod": 2,
@@ -378,6 +446,27 @@
      "objects": 9,
      "triangles": 1332
     },
+    "t_-5_-5": {
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 12,
+     "triangles": 15088
+    },
+    "t_-5_-6": {
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 13,
+     "triangles": 29304
+    },
+    "t_-5_-7": {
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 11,
+     "triangles": 66548
+    },
     "t_-5_0": {
      "lod": 1,
      "objects": 18,
@@ -423,6 +512,27 @@
      "objects": 7,
      "triangles": 304
     },
+    "t_-6_-5": {
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 6,
+     "triangles": 488
+    },
+    "t_-6_-6": {
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 13,
+     "triangles": 23532
+    },
+    "t_-6_-7": {
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 14,
+     "triangles": 61180
+    },
     "t_-6_0": {
      "lod": 1,
      "objects": 16,
@@ -453,6 +563,20 @@
      "objects": 3,
      "triangles": 620
     },
+    "t_-7_-6": {
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 10,
+     "triangles": 1064
+    },
+    "t_-7_-7": {
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 12,
+     "triangles": 18780
+    },
     "t_-8_-1": {
      "lod": 1,
      "objects": 3,
@@ -463,26 +587,62 @@
      "objects": 2,
      "triangles": 28
     },
+    "t_-8_-7": {
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 7,
+     "triangles": 4556
+    },
     "t_-8_0": {
      "lod": 1,
      "objects": 2,
      "triangles": 24
+    },
+    "t_-9_-2": {
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 7,
+     "triangles": 152
     }
    },
    "tiles_dropped_for_budget": 0,
-   "tiles_imported": 52,
-   "tiles_missing": 68,
+   "tiles_imported": 68,
+   "tiles_lod_substituted": 16,
+   "tiles_missing": 52,
    "tiles_wanted": 120,
    "triangle_budget": 3510000,
-   "triangles": 751792
+   "triangles": 1118404
   },
   "centre_tm": [
    -6043.67,
    -996.97
   ],
   "kit": {
-   "placed": 0,
-   "reason": "disabled"
+   "capped": null,
+   "per_category": {
+    "bulkhead": 1,
+    "cornice": 12,
+    "door_entry": 1,
+    "quoin": 22,
+    "string_course": 12,
+    "window": 188
+   },
+   "placed": 236,
+   "radius_m": 70.0,
+   "records_in_range": 236,
+   "stale_registry_ids": {},
+   "tiles_missing": [
+    "t_-7_-1"
+   ],
+   "tiles_read": [
+    "t_-6_-1",
+    "t_-6_-2",
+    "t_-7_-2"
+   ],
+   "triangles": 65890,
+   "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
@@ -726,32 +886,62 @@
    "vertices": 41562
   },
   "props": {
-   "placed": 0,
-   "reason": "disabled"
+   "capped": null,
+   "impostor_cards_dropped": 0,
+   "leaf_off": true,
+   "per_kind": {
+    "bench": 9,
+    "bike_rack": 1,
+    "manhole": 20,
+    "steam_vent": 1,
+    "street_lamp": 3,
+    "waste_basket": 2
+   },
+   "placed": 36,
+   "radius_m": 150.0,
+   "rows_in_range": 40,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-6_-1",
+    "t_-6_-2",
+    "t_-7_-1",
+    "t_-7_-2"
+   ],
+   "tree_species_substituted": 0,
+   "triangles": 77164,
+   "unmapped_kinds": {
+    "curb_ramp": 2,
+    "memorial": 1,
+    "vending_machine": 1
+   }
   },
   "radius_m": 5500.0,
-  "seconds": 108.55,
+  "seconds": 122.44,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.5,
    "holes": 0,
-   "samples": 381,
-   "spacing_m": 28.947,
-   "triangles": 288800,
-   "water_quads": 51447,
-   "z_max_m": 65.49,
-   "z_min_m": -3.62
+   "near_m": 150.0,
+   "near_spacing_m": 3.125,
+   "samples": 373,
+   "spacing_m": 3.125,
+   "triangles": 276768,
+   "water_quads": 63627,
+   "z_max_m": 66.03,
+   "z_min_m": -3.79
   },
-  "triangles": 2100312
+  "triangles": 2597946
  },
  "scene_request": {
-  "kit_radius_m": 0.0,
-  "prop_radius_m": 0.0,
+  "kit_radius_m": 70.0,
+  "prop_radius_m": 150.0,
   "radius_m": 5500.0
  },
  "seconds": {
-  "render": 143.0,
-  "scene": 109.1,
-  "total": 252.1
+  "render": 30.4,
+  "scene": 122.9,
+  "total": 153.3
  },
  "slug": "staten_island_ferry_lower_manhattan",
  "status": "rendered",

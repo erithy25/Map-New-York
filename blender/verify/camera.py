@@ -200,7 +200,9 @@ def ground_mode_for(slug: str, note: str | None) -> tuple[str, float, str]:
     if any(w in n for w in _RAISED_WORDS):
         return ("local", 5.0,
                 "the viewpoint note names the raised surface the photographer stood on, so the "
-                "heightmap median within 5 m is the ground")
+                "heightmap height at the point itself is the ground (the neighbourhood is still "
+                "measured and printed, because a terrace can stand metres above the plaza 4 m "
+                "away and a median across that step would put the camera underground)")
     if any(w in n for w in _STREET_WORDS):
         return ("street", 12.0,
                 "the viewpoint note places the photographer on the traffic surface, so the 10th "
@@ -291,16 +293,54 @@ def _blocked(x: float, y: float, z: float, azimuth_deg: float) -> tuple[bool, st
         # prop instances (a sidewalk shed, a bus shelter) are legitimate things to stand under.
         return ob is not None and (_TILE_MESH.match(ob.name) or ob.name.startswith("lm_"))
 
-    hit, _, _, _, ob, _ = sc.ray_cast(dg, Vector((x, y, z)), Vector((0.0, 0.0, 1.0)))
+    hit, up_loc, _, _, ob, _ = sc.ray_cast(dg, Vector((x, y, z)), Vector((0.0, 0.0, 1.0)))
     if hit and is_shell(ob):
         return True, f"inside {ob.name} (a ray straight up from the eye point hits its roof)"
+    # Ground and pavement overhead mean the eye is under a slab.  The Bethesda Terrace viewpoint
+    # is the case: its plaza polygons bridge the 5 m step between the lower plaza and the upper
+    # terrace, so a camera standing on the lower level sits in a sealed pocket 1.9 m under the
+    # bridged surface and renders black.  Nothing outdoors ever has terrain or pavement above it.
+    if hit and ob is not None and ob.name in ("verify_terrain", "verify_pavement"):
+        d = float((Vector(up_loc) - Vector((x, y, z))).length)
+        return True, (f"under {ob.name} ({d:.1f} m of ground or paving directly overhead, so the "
+                      f"eye point is beneath the walking surface)")
     a = math.radians(azimuth_deg)
     fwd = Vector((math.sin(a), math.cos(a), 0.0))
     hit, loc, _, _, ob, _ = sc.ray_cast(dg, Vector((x, y, z)), fwd, distance=2.0)
     if hit and is_shell(ob):
         return True, (f"hard against {ob.name} ({(Vector(loc) - Vector((x, y, z))).length:.1f} m "
                       f"ahead along the view azimuth)")
+    # A single axis ray is not enough.  The Bethesda Terrace viewpoint lands with the terrace's
+    # own model 2 cm off the lens and its stair wall filling the frame, while a level ray along
+    # the azimuth slips through the gap between two piers: the render was black.  Anything solid
+    # inside a metre of the lens anywhere in the view cone means the eye is against it.
+    near_m, what = nearest_obstruction(x, y, z, azimuth_deg, probe_m=4.0)
+    if what is not None and near_m < 1.0:
+        return True, f"hard against {what} ({near_m:.2f} m from the lens in the view cone)"
     return False, ""
+
+
+def probe_origin(slug: str, lat: float, lon: float, azimuth_deg: float, sampler,
+                 note: str | None) -> dict:
+    """Is a camera at this lat/lon usable, without creating one?
+
+    Returns the ground height, the eye height above it, whether the eye point is blocked and why.
+    Used to choose between the photograph's own GPS and the item's nominal viewpoint: the
+    photograph's GPS is the better measurement of where the picture was taken, but it is a
+    hand-held fix with metres of error, and where it lands under a slab or inside a wall the
+    nominal viewpoint is the one that can actually be rendered.
+    """
+    from nycsim_pipeline.crs import lonlat_to_tm
+    x, y = (float(v) for v in lonlat_to_tm(lon, lat))
+    rule = eye_rule_for(slug)
+    mode, radius, _ = ground_mode_for(slug, note)
+    gz, detail = (sampler.ground_z(x, y, mode=mode, radius_m=radius) if sampler is not None
+                  else (None, {}))
+    base = 0.0 if rule.datum == "sea" else (gz if gz is not None else 0.0)
+    z = base + rule.height_m
+    blocked, why = _blocked(x, y, z, azimuth_deg)
+    return {"x": x, "y": y, "z": z, "ground_z": gz, "ground_detail": detail,
+            "blocked": blocked, "why": why}
 
 
 def _standing_on(x: float, y: float, z: float, reach_m: float = 30.0):
@@ -334,10 +374,19 @@ def _walk_to_parapet(placement: "CameraPlacement", max_m: float = 250.0,
     the eye forward along the view azimuth while the roof still supports it and stops at the last
     supported point -- the parapet.
     """
+    near_m, near_what = nearest_obstruction(placement.x, placement.y, placement.z,
+                                            placement.azimuth_deg, probe_m=60.0)
+    view_m = view_distance(placement.x, placement.y, placement.z, placement.azimuth_deg, probe_m=150.0)
     ob, _ = _standing_on(placement.x, placement.y, placement.z)
     if ob is None:
         return {"moved": False, "offset_m": 0.0,
-                "note": "the recorded viewpoint is in open air on the ground; the camera was not moved"}
+                "view_m": round(view_m, 1), "nearest_obstruction_m": round(near_m, 1),
+                "nearest_obstruction": near_what,
+                "note": (f"the viewpoint is in open air on the ground and the camera was not moved; "
+                         f"the nearest solid thing in the view cone is "
+                         + (f"{near_what} {near_m:.1f} m away" if near_what else
+                            f"further than {near_m:.0f} m")
+                         + f", and the view azimuth is clear for {view_m:.0f} m")}
     a = math.radians(placement.azimuth_deg)
     dx, dy = math.sin(a), math.cos(a)
     t, last_good = step_m, 0.0

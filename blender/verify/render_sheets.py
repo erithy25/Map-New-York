@@ -337,6 +337,16 @@ def configure_cycles(samples: int, threads: int | None) -> None:
 #: kilometre away is either mis-tagged or is not a picture of that viewpoint at all.
 PHOTO_GPS_SANITY_M = 250.0
 
+#: Slugs whose viewpoint is not a fixed place, with the radius their photographs' GPS may sit
+#: inside and the reason.  A Staten Island Ferry viewpoint is a moving vessel: "about 1 nautical
+#: mile south of Whitehall Terminal" is a description of a route, not a position, and the
+#: photograph's own GPS is the only statement of where along it the picture was taken.
+MOVING_VIEWPOINTS: dict[str, tuple[float, str]] = {
+    "staten_island_ferry_lower_manhattan": (
+        1500.0, "the viewpoint is the deck of a moving ferry, so the photograph's own GPS is the "
+                "only record of where along the route it was taken"),
+}
+
 
 def view_origin(meta: dict, photo: dict | None) -> tuple[float, float, str, float | None, bool]:
     """Where the camera stands: (lat, lon, why, metres from the recorded viewpoint, from_photo).
@@ -363,14 +373,16 @@ def view_origin(meta: dict, photo: dict | None) -> tuple[float, float, str, floa
     vx, vy = (float(v) for v in lonlat_to_tm(vp["lon"], vp["lat"]))
     px, py = (float(v) for v in lonlat_to_tm(g["lon"], g["lat"]))
     d = math.hypot(px - vx, py - vy)
-    if d > PHOTO_GPS_SANITY_M:
+    limit, why_limit = MOVING_VIEWPOINTS.get(meta.get("slug", ""), (PHOTO_GPS_SANITY_M, ""))
+    if d > limit:
         return (float(vp["lat"]), float(vp["lon"]),
                 (f"the item's recorded viewpoint; this photograph's own EXIF GPS is {d:,.0f} m "
-                 f"away, past the {PHOTO_GPS_SANITY_M:.0f} m at which it could still be the same "
-                 f"view, so it was rejected as mis-tagged"), d, False)
+                 f"away, past the {limit:,.0f} m at which it could still be the same view, so it "
+                 f"was rejected as mis-tagged"), d, False)
     return (float(g["lat"]), float(g["lon"]),
-            (f"this photograph's own EXIF camera GPS ({g['lat']:.5f}, {g['lon']:.5f}), {d:.0f} m "
-             f"from the item's recorded viewpoint -- the position the picture was taken from"),
+            (f"this photograph's own EXIF camera GPS ({g['lat']:.5f}, {g['lon']:.5f}), {d:,.0f} m "
+             f"from the item's recorded viewpoint -- the position the picture was taken from"
+             + (f" ({why_limit})" if why_limit else "")),
             d, True)
 
 
@@ -565,6 +577,31 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         lod0_radius_m=1200.0, leaf_off=leaf_off)
     azimuth, azimuth_why = view_azimuth(slug, meta, photo, cam_lat, cam_lon,
                                         origin_is_photo=origin_is_photo)
+    # A hand-held GPS fix is the better *measurement* of where the picture was taken, but it has
+    # metres of error and the world it lands in is not always renderable.  At Bethesda Terrace the
+    # photograph's GPS falls on the lower plaza, where the plaza polygons bridge the 5 m step up
+    # to the upper level and seal the eye 1.6 m beneath the paving; the item's own viewpoint, 43 m
+    # away, is on the upper terrace in open air.  So the photograph's GPS is used unless the eye
+    # point there is blocked and the nominal viewpoint is not.
+    if origin_is_photo:
+        probe = vcam.probe_origin(slug, cam_lat, cam_lon, azimuth, sampler, vp.get("note"))
+        if probe["blocked"]:
+            alt_az, alt_az_why = view_azimuth(slug, meta, photo, float(vp["lat"]), float(vp["lon"]),
+                                              origin_is_photo=False)
+            alt = vcam.probe_origin(slug, float(vp["lat"]), float(vp["lon"]), alt_az, sampler,
+                                    vp.get("note"))
+            if not alt["blocked"]:
+                origin_why = (f"the item's recorded viewpoint.  This photograph's own EXIF GPS is "
+                              f"{origin_offset_m:.0f} m away, but the eye point there is "
+                              f"{probe['why']}, while the recorded viewpoint is in open air")
+                cam_lat, cam_lon = float(vp["lat"]), float(vp["lon"])
+                origin_is_photo = False
+                x, y = alt["x"], alt["y"]
+                azimuth, azimuth_why = alt_az, alt_az_why
+                record["camera_origin"] = {"lat": cam_lat, "lon": cam_lon, "source": origin_why,
+                                           "from_photograph_gps": False,
+                                           "offset_from_recorded_m": 0.0,
+                                           "photograph_gps_offset_m": round(origin_offset_m, 1)}
     pitch, pitch_why = aim_pitch(slug, meta, x, y,
                                  (sampler.ground_z(x, y)[0] or 0.0) + vcam.eye_rule_for(slug).height_m,
                                  sampler, vscene.load_landmark_catalog())

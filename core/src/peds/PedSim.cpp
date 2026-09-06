@@ -53,6 +53,10 @@ bool PedSim::configure(const SidewalkGraph& w, const traffic::SignalTable* sig, 
   const float per_agent = std::sqrt(world_m2 / std::max(1.f, 4.f * static_cast<float>(cap)));
   const float cell = clampf(per_agent, std::max(1.0f, cfg_.force.cutoff_m), 40.f);
   hash_.configure(minx - 20.f, miny - 20.f, maxx + 20.f, maxy + 20.f, cell, static_cast<uint32_t>(cap));
+  // The uniqueness rule queries a 60 m radius, which is far wider than the
+  // crowd hash's cell, so it keeps its own coarse grid: sharing the crowd hash
+  // was measured to make the query scan thousands of cells and the pedestrian
+  // suite went from 12 s to over 9 minutes.
   sig_hash_.configure(minx - 20.f, miny - 20.f, maxx + 20.f, maxy + 20.f,
                       std::max(10.f, cfg_.uniqueness_radius_m), static_cast<uint32_t>(cap));
   road_hash_.configure(minx - 20.f, miny - 20.f, maxx + 20.f, maxy + 20.f, std::max(8.f, cell),
@@ -383,8 +387,9 @@ void PedSim::updateAgent(uint32_t i) {
     const float look = 4.0f;
     const float target_s = clampf(p.s + static_cast<float>(p.dir) * look, 0.f, e.length_m);
     const float target_lat = -static_cast<float>(p.dir) * p.pref_lateral;
-    const Vec3 target = walk_->pointOn(p.edge, target_s, clampf(target_lat, -edgeWidthHalf(p.edge),
-                                                                edgeWidthHalf(p.edge)));
+    const float corridor_half = edgeWidthHalf(p.edge);
+    const Vec3 target =
+        walk_->pointOn(p.edge, target_s, clampf(target_lat, -corridor_half, corridor_half));
     float ex = target.x - p.x, ey = target.y - p.y;
     const float el = std::sqrt(ex * ex + ey * ey);
     if (el > 1e-4f) {
