@@ -1,0 +1,203 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_coney_island_boardwalk",
+ "name": "Riegelmann Boardwalk, Coney Island",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.5727,
+  "lon": -73.9789,
+  "azimuth_deg": 70.0,
+  "note": "on the Riegelmann Boardwalk at West 12th Street, looking east-north-east along the deck toward the Wonder Wheel and the aquarium",
+  "representative": false
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2014,
+ "wanted": 3,
+ "queries": [
+  "\"Riegelmann Boardwalk\" Coney Island",
+  "\"Coney Island\" boardwalk amusement"
+ ],
+ "geosearch_radius_m": 700,
+ "fetched_at": "2026-09-06T13:04:14Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 130,
+ "candidates_eligible": 76,
+ "rejections": {
+  "too_old": 19,
+  "not_jpeg": 2,
+  "excluded": 2,
+  "keywords": 23,
+  "too_small": 6,
+  "not_photo": 2
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Ruby's Bar & Grill (Coney Island) AB.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Ruby%27s_Bar_%26_Grill_(Coney_Island)_AB.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/66/Ruby%27s_Bar_%26_Grill_%28Coney_Island%29_AB.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Ruby%27s_Bar_%26_Grill_%28Coney_Island%29_AB.jpg/1920px-Ruby%27s_Bar_%26_Grill_%28Coney_Island%29_AB.jpg",
+   "author": "Chepry (Andrzej Barabasz)",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-04-28 13:12:12",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.573226,
+    "lon": -73.979868
+   },
+   "original_width": 4500,
+   "original_height": 3000,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 725801,
+   "sha256": "5736809fd74a2160f8ada0d2f3eea10b45abbe15ee5c82253355ce09cfe5823d",
+   "mean_luminance": 99.9,
+   "description": "Ruby's Bar & Grill, Coney Island, 2022",
+   "categories": [
+    "Riegelmann Boardwalk",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Ruby's Bar & Grill (Coney Island)",
+    "Photographs by Chepry",
+    "Photographs by Chepry/Quality images",
+    "Files by User:Chepry",
+    "Photographs by Chepry/By year/2022",
+    "Photographs by Chepry/Places",
+    "Taken with Ricoh GR IIIx"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 16.05,
+   "estimated_viewpoint": {
+    "lat": 40.573226,
+    "lon": -73.979868,
+    "azimuth_deg": 70.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.57323, -73.97987), 101 m from the reference position (on the Riegelmann Boardwalk at West 12th Street, looking east-north-east along the deck toward the Wonder Wheel and the aquarium); this item is a view along a street rather than at a point subject, so the azimuth 70 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Ruby's Bar & Grill (Coney Island) AB.jpg\" by Chepry (Andrzej Barabasz), CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Ruby%27s_Bar_%26_Grill_(Coney_Island)_AB.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Riegelmann Boardwalk - Coney Island, Brooklyn, New York City, New York, USA - October 3, 2023 01.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Riegelmann_Boardwalk_-_Coney_Island,_Brooklyn,_New_York_City,_New_York,_USA_-_October_3,_2023_01.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/f4/Riegelmann_Boardwalk_-_Coney_Island%2C_Brooklyn%2C_New_York_City%2C_New_York%2C_USA_-_October_3%2C_2023_01.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Riegelmann_Boardwalk_-_Coney_Island%2C_Brooklyn%2C_New_York_City%2C_New_York%2C_USA_-_October_3%2C_2023_01.jpg/1920px-Riegelmann_Boardwalk_-_Coney_Island%2C_Brooklyn%2C_New_York_City%2C_New_York%2C_USA_-_October_3%2C_2023_01.jpg",
+   "author": "Giorgio Galeotti",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-10-03 13:08:26",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.573201,
+    "lon": -73.97992
+   },
+   "original_width": 8210,
+   "original_height": 5473,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 495097,
+   "sha256": "e2d5f9ed6d0fb44d44dc53dd166afd257edee10c3db41d3a129e306c007afd7f",
+   "mean_luminance": 151.5,
+   "description": "Riegelmann Boardwalk - Coney Island, Brooklyn, New York City, New York, USA",
+   "categories": [
+    "Riegelmann Boardwalk",
+    "With trademark",
+    "Self-published work",
+    "New York City photographs taken on 2023-10-03",
+    "Files with coordinates missing SDC location of creation",
+    "2023 in Coney Island, Brooklyn",
+    "October 2023 in Brooklyn, New York City",
+    "Coney Island (Brooklyn park) in 2023"
+   ],
+   "assessments": "",
+   "restrictions": "trademarked",
+   "provenance": "geosearch",
+   "score": 15.2,
+   "estimated_viewpoint": {
+    "lat": 40.573201,
+    "lon": -73.97992,
+    "azimuth_deg": 70.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.57320, -73.97992), 103 m from the reference position (on the Riegelmann Boardwalk at West 12th Street, looking east-north-east along the deck toward the Wonder Wheel and the aquarium); this item is a view along a street rather than at a point subject, so the azimuth 70 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Riegelmann Boardwalk - Coney Island, Brooklyn, New York City, New York, USA - October 3, 2023 01.jpg\" by Giorgio Galeotti, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Riegelmann_Boardwalk_-_Coney_Island,_Brooklyn,_New_York_City,_New_York,_USA_-_October_3,_2023_01.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Nathan's Famous (Coney Island) AB.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Nathan%27s_Famous_(Coney_Island)_AB.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/40/Nathan%27s_Famous_%28Coney_Island%29_AB.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Nathan%27s_Famous_%28Coney_Island%29_AB.jpg/1920px-Nathan%27s_Famous_%28Coney_Island%29_AB.jpg",
+   "author": "Chepry 💬 ( Andrzej Barabasz ) 📷 🇵🇱",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-04-28 13:11:54",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.573226,
+    "lon": -73.979868
+   },
+   "original_width": 4500,
+   "original_height": 3000,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 640042,
+   "sha256": "03244586b3854c4d3d646872731a867ce58195516346fe92661638c8b6b9cb4f",
+   "mean_luminance": 98.9,
+   "description": "Nathan's Famous on Riegelmann Boardwalk, Coney Island",
+   "categories": [
+    "Riegelmann Boardwalk",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Nathan's Famous (1205 Boardwalk West)",
+    "Photographs by Chepry",
+    "Photographs by Chepry/Quality images",
+    "Files by User:Chepry",
+    "Photographs by Chepry/By year/2022",
+    "Photographs by Chepry/Places",
+    "Taken with Ricoh GR IIIx"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 16.05,
+   "estimated_viewpoint": {
+    "lat": 40.573226,
+    "lon": -73.979868,
+    "azimuth_deg": 70.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.57323, -73.97987), 101 m from the reference position (on the Riegelmann Boardwalk at West 12th Street, looking east-north-east along the deck toward the Wonder Wheel and the aquarium); this item is a view along a street rather than at a point subject, so the azimuth 70 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Nathan's Famous (Coney Island) AB.jpg\" by Chepry 💬 ( Andrzej Barabasz ) 📷 🇵🇱, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Nathan%27s_Famous_(Coney_Island)_AB.jpg"
+  }
+ ]
+}

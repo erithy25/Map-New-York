@@ -10863,15 +10863,15 @@
   },
   "terrain_tiles": {
    "artifact_id": "terrain_tiles",
-   "bytes": 862,
+   "bytes": 2334,
    "git_commit": "55caa0f4e2b7",
    "path": "data/processed/terrain/tile_summary.json",
-   "png_bytes": 567,
-   "produced_at": "2026-09-06T12:59:58Z",
-   "rows": 1,
+   "png_bytes": 156349661,
+   "produced_at": "2026-09-06T13:03:55Z",
+   "rows": 750,
    "samples_per_tile": 251001,
    "schema": "terrain.tile/1",
-   "sha256": "e8c6e5f827e35761cd582c7700ab2fab8b485cbf3597dfae4f8c2261db337221",
+   "sha256": "681dcf751d80d9e4ca14bc93589fb1b780511fe6f334dc579d8d94180d00d9ef",
    "sources": [
     "usgs_3dep",
     "plan_elevation_points",
@@ -10882,7 +10882,7 @@
    ],
    "spacing_m": 2.0,
    "stage": "terrain",
-   "tiles_written": 1
+   "tiles_written": 750
   },
   "traffic_density": {
    "artifact_id": "traffic_density",
