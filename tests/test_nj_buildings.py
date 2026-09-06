@@ -491,14 +491,43 @@ def test_the_shell_run_covered_every_tile_that_has_a_table(tile_files):
 
 
 # --------------------------------------------------------------------------- manifest
+def test_the_shell_index_matches_the_meshes_on_disk(tile_files):
+    """``shells_index.json`` is the only audit trail for the meshes (blender_out is git-ignored),
+    so its counts and hashes must be the ones on disk, not the ones from an earlier run."""
+    idx_path = PROCESSED / "buildings_nj" / "shells_index.json"
+    if not idx_path.exists():
+        pytest.skip("the New Jersey shell index has not been written")
+    idx = json.loads(idx_path.read_text())
+    want = {p.parent.name for p in tile_files}
+    assert set(idx["tiles"]) == want, "the shell index and the tile tables disagree on which tiles exist"
+    assert idx["totals"]["tiles"] == len(want)
+    tot = 0
+    for tile, rec in idx["tiles"].items():
+        m = json.loads((BLENDER_OUT / "tiles" / tile / "manifest_nj.json").read_text())
+        assert rec["buildings"] == m["buildings"]["solids"], tile
+        assert rec["triangles"] == {k: int(v) for k, v in m["triangles"].items()}, tile
+        assert rec["bytes"] == (BLENDER_OUT / "tiles" / tile / "tile_buildings_nj.glb").stat().st_size, tile
+        tot += rec["buildings"]
+    assert tot == idx["totals"]["buildings"]
+    published = sum(pq.ParquetFile(p).metadata.num_rows for p in tile_files)
+    assert tot == published, f"{tot} shells for {published} published buildings"
+    from nycsim_pipeline import manifest
+
+    rng = np.random.default_rng(5)
+    for tile in rng.choice(sorted(idx["tiles"]), size=3, replace=False):
+        glb = BLENDER_OUT / "tiles" / str(tile) / "tile_buildings_nj.glb"
+        assert manifest.sha256_of(glb) == idx["tiles"][str(tile)]["sha256"], f"{tile} glb has drifted"
+
+
 def test_every_artifact_is_registered_in_the_manifest(tile_files):
     from nycsim_pipeline import manifest
 
     doc = json.loads((REPO_ROOT / "data" / "manifest" / "processed.json").read_text())["entries"]
-    for key in ("buildings_nj_base", "buildings_nj_summary", "buildings_nj_tiles"):
+    for key in ("buildings_nj_base", "buildings_nj_summary", "buildings_nj_tiles", "buildings_nj_shells"):
         assert key in doc, f"{key} is not recorded in data/manifest/processed.json"
-        assert doc[key]["stage"] == "buildings_nj"
+        assert doc[key]["stage"] in ("buildings_nj", "buildings_nj_mesh")
         assert doc[key]["sources"] == [nj.SOURCE_ID]
+        assert doc[key]["license"] == nj.LICENSE
     base = REPO_ROOT / doc["buildings_nj_base"]["path"]
     assert base.exists()
     assert manifest.sha256_of(base) == doc["buildings_nj_base"]["sha256"], "buildings_nj_base has drifted"

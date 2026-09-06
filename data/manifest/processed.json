@@ -200,12 +200,32 @@
    ],
    "stage": "buildings_nj"
   },
+  "buildings_nj_shells": {
+   "artifact_id": "buildings_nj_shells",
+   "bytes": 190923,
+   "git_commit": "33ff3c48c836",
+   "glb": "tile_buildings_nj.glb",
+   "glb_bytes_total": 899039268,
+   "glb_root": "blender_out/tiles/{tile}/tile_buildings_nj.glb",
+   "license": "Public domain (US Government work: FEMA / ORNL USA Structures)",
+   "n_tiles": 486,
+   "path": "data/processed/buildings_nj/shells_index.json",
+   "produced_at": "2026-09-06T23:07:24Z",
+   "rows": 231382,
+   "schema": "buildings_nj_shells/1",
+   "sha256": "ae9c5f4667d9b6ea6698455b1a214a5b9977ec1ea80d348619d99bb4dfd6dbba",
+   "sources": [
+    "usa_structures_nj_hudson"
+   ],
+   "stage": "buildings_nj_mesh"
+  },
   "buildings_nj_summary": {
    "artifact_id": "buildings_nj_summary",
    "bytes": 28923,
-   "git_commit": "d7d0e82f44df",
+   "git_commit": "33ff3c48c836",
+   "license": "Public domain (US Government work: FEMA / ORNL USA Structures)",
    "path": "data/processed/buildings_nj/buildings_nj_summary.json",
-   "produced_at": "2026-09-06T23:01:23Z",
+   "produced_at": "2026-09-06T23:08:36Z",
    "rows": null,
    "schema": "buildings_nj_summary/1",
    "sha256": "da5a331f384f59b41514dcb168b088a453db75d500dbdf66c3a372aad6671c69",

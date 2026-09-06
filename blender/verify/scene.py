@@ -6,7 +6,8 @@ invented geometry:
 * terrain   -- ``data/processed/tiles/{tile}/terrain.png`` + ``terrain.json`` (16-bit,
                501x501 at 2 m, ``z = z_min_m + value * z_scale_m``) displaced onto a regular
                grid, with the water surface split off as its own material.
-* buildings -- ``blender_out/tiles/{tile}/tile_buildings.glb``; the file carries LOD0/LOD1/LOD2
+* buildings -- ``blender_out/tiles/{tile}/tile_buildings.glb`` and, where the tile reaches into
+               New Jersey, ``tile_buildings_nj.glb`` beside it; each file carries LOD0/LOD1/LOD2
                as sibling objects (``_LOD1`` / ``_LOD2`` suffixes) so exactly one LOD per tile
                is kept and the others are dropped, otherwise every shell would be drawn twice.
 * landmarks -- ``blender_out/landmarks/catalog/*.json``; each entry gives ``origin_tm``
@@ -554,6 +555,7 @@ def add_buildings(cx: float, cy: float, radius_m: float, *, lod0_radius_m: float
     wanted.sort(key=lambda t: math.hypot((t[0] + 0.5) * TILE_SIZE_M - cx,
                                          (t[1] + 0.5) * TILE_SIZE_M - cy))
     imported, missing, tris, per_tile = [], [], 0, {}
+    with_nj: list[str] = []
     dropped_for_budget: list[str] = []
     lod_substituted: list[str] = []
     suppressed = {"meshes": 0, "faces": 0, "bins": set()}
@@ -562,17 +564,28 @@ def add_buildings(cx: float, cy: float, radius_m: float, *, lod0_radius_m: float
         if tris >= triangle_budget:
             dropped_for_budget.append(name)
             continue
-        glb = TILES_GLB / name / "tile_buildings.glb"
-        if not glb.exists():
+        # A tile can carry a New York shell file, a New Jersey one, or both: the Hudson bank and
+        # Bayonne are inside the scope (ARCHITECTURE §3) and are built by the same stage into a
+        # sibling glb.  Both are imported into the same tile bucket so the LOD choice, the triangle
+        # budget and the report cover the whole tile.
+        glbs = [q for q in (TILES_GLB / name / "tile_buildings.glb",
+                            TILES_GLB / name / "tile_buildings_nj.glb") if q.exists()]
+        if not glbs:
             missing.append(name)
             continue
         centre = ((tx + 0.5) * TILE_SIZE_M, (ty + 0.5) * TILE_SIZE_M)
         dist = math.hypot(centre[0] - cx, centre[1] - cy)
         lod = 0 if dist <= lod0_radius_m else (1 if dist <= lod1_radius_m else 2)
-        try:
-            created = import_glb(glb)
-        except Exception as exc:
-            LOG.warning("tile %s failed to import: %s", name, exc)
+        created = []
+        loaded = []
+        for q in glbs:
+            try:
+                created.extend(import_glb(q))
+            except Exception as exc:
+                LOG.warning("tile %s: %s failed to import: %s", name, q.name, exc)
+                continue
+            loaded.append(q.name)
+        if not created:
             missing.append(f"{name} (import error)")
             continue
         origin = Vector((tx * TILE_SIZE_M, ty * TILE_SIZE_M, 0.0))
@@ -597,7 +610,10 @@ def add_buildings(cx: float, cy: float, radius_m: float, *, lod0_radius_m: float
             for ob in obs:
                 bpy.data.objects.remove(ob, do_unlink=True)
         if suppress_landmark_bins:
-            rep = suppress_bins(by_lod[use], suppress_landmark_bins)
+            # Only the New York shells: a New Jersey object's ``_bin`` is a USA Structures BUILD_ID,
+            # not a BIN, and New Jersey has no hand-modelled landmark to make room for.
+            rep = suppress_bins([ob for ob in by_lod[use] if "_nj_" not in ob.name],
+                                suppress_landmark_bins)
             suppressed["meshes"] += rep["meshes_edited"]
             suppressed["faces"] += rep["faces_removed"]
             suppressed["bins"].update(rep["bins_removed"])
@@ -612,7 +628,9 @@ def add_buildings(cx: float, cy: float, radius_m: float, *, lod0_radius_m: float
             kept += 1
             t += _triangles(ob)
         imported.append(name)
-        per_tile[name] = {"lod": use, "objects": kept, "triangles": t}
+        per_tile[name] = {"lod": use, "objects": kept, "triangles": t, "files": loaded}
+        if "tile_buildings_nj.glb" in loaded:
+            with_nj.append(name)
         if use != lod:
             per_tile[name]["lod_requested"] = lod
             per_tile[name]["lod_substituted"] = (
@@ -628,6 +646,7 @@ def add_buildings(cx: float, cy: float, radius_m: float, *, lod0_radius_m: float
             "dropped_for_budget": sorted(dropped_for_budget), "triangle_budget": triangle_budget,
             "tiles_lod_substituted": len(lod_substituted),
             "lod_substituted": sorted(lod_substituted),
+            "tiles_with_new_jersey": len(with_nj), "new_jersey": sorted(with_nj),
             "landmark_bins_suppressed": len(suppressed["bins"]),
             "landmark_faces_suppressed": suppressed["faces"],
             "per_tile": per_tile}

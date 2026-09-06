@@ -666,6 +666,59 @@ def height_report(df: pl.DataFrame, geoms: np.ndarray, osm_path: Path | None = N
             "worst_20": p.sort("err_m").head(20).to_dicts()}
 
 
+# ---- shell meshes ---------------------------------------------------------------------------------------------------
+SHELL_MANIFEST = "manifest_nj.json"
+SHELL_GLB = "tile_buildings_nj.glb"
+
+
+def shells_index(blender_tiles: Path, out_dir: Path, *, record: bool = True) -> dict:
+    """Aggregate the per-tile ``manifest_nj.json`` files written by ``build_tile.py --source nj``.
+
+    The shell meshes live under ``blender_out/`` (git-ignored, like every other generated mesh), so
+    this index is what makes them auditable: one row per tile with the glb's size, SHA-256, triangle
+    counts per LOD and building count, registered in ``data/manifest/processed.json`` like every
+    other artefact.
+    """
+    mans = sorted(Path(blender_tiles).glob(f"*/{SHELL_MANIFEST}"))
+    tiles: dict[str, dict] = {}
+    tot = {"tiles": 0, "buildings": 0, "bytes": 0, "lod0": 0, "lod1": 0, "lod2": 0,
+           "open_shells_lod0": 0, "dropped_empty_footprint": 0, "seconds": 0.0}
+    for m in mans:
+        doc = json.loads(m.read_text())
+        glb = m.parent / SHELL_GLB
+        if not glb.exists():
+            continue
+        tile = doc["tile"]
+        tiles[tile] = {"buildings": doc["buildings"]["solids"], "bytes": doc["glb"]["bytes"],
+                       "sha256": doc["glb"]["sha256"],
+                       "triangles": {k: int(v) for k, v in doc["triangles"].items()},
+                       "bounds_world_m": doc["bounds_world_m"], "seconds": doc["seconds"]["total"]}
+        tot["tiles"] += 1
+        tot["buildings"] += doc["buildings"]["solids"]
+        tot["bytes"] += doc["glb"]["bytes"]
+        for k in ("lod0", "lod1", "lod2"):
+            tot[k] += int(doc["triangles"].get(k, 0))
+        tot["open_shells_lod0"] += doc["buildings"].get("open_shells_lod0", 0)
+        tot["dropped_empty_footprint"] += doc["buildings"].get("dropped_empty_footprint", 0)
+        tot["seconds"] += doc["seconds"]["total"]
+    doc = {"schema_version": SCHEMA_VERSION, "stage": "buildings_nj_mesh", "glb": SHELL_GLB,
+           "generated_at": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+           "totals": {**tot, "seconds": round(tot["seconds"], 1),
+                      "bytes_per_building": round(tot["bytes"] / max(tot["buildings"], 1), 1)},
+           "tiles": tiles}
+    out_dir.mkdir(parents=True, exist_ok=True)
+    path = out_dir / "shells_index.json"
+    with open(path, "w") as f:
+        json.dump(doc, f, indent=1, sort_keys=True)
+    if record:
+        manifest.record_processed("buildings_nj_shells", path, stage="buildings_nj_mesh", sources=[SOURCE_ID],
+                                  rows=tot["buildings"], schema="buildings_nj_shells/1",
+                                  extra={"license": LICENSE, "n_tiles": tot["tiles"],
+                                         "glb_bytes_total": tot["bytes"], "glb": SHELL_GLB,
+                                         "glb_root": "blender_out/tiles/{tile}/" + SHELL_GLB})
+    return doc
+
+
 def summary(table: pa.Table, source_stats: dict, ground_stats: dict, attr_stats: dict) -> dict:
     df = pl.from_arrow(table.select(["borough", "height", "ground_z", "roof_z", "floors", "fidelity",
                                      "county", "city", "occ_class", "tile", "height_source"]))
@@ -711,6 +764,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--limit", type=int, default=None, help="first N source rows (development subset, never recorded)")
     ap.add_argument("--no-tiles", action="store_true", help="compute everything but write no per-tile files")
     ap.add_argument("--no-manifest", action="store_true", help="skip the manifest write")
+    ap.add_argument("--shells-index", action="store_true",
+                    help="only aggregate and register the shell meshes built by "
+                         "blender/buildings/build_tile.py --source nj, then exit")
+    ap.add_argument("--blender-tiles", type=Path, default=None,
+                    help="shell mesh root (default blender_out/tiles)")
     ap.add_argument("-v", "--verbose", action="store_true")
     a = ap.parse_args(argv)
     logging.basicConfig(level=logging.DEBUG if a.verbose else logging.INFO,
@@ -720,6 +778,13 @@ def main(argv: list[str] | None = None) -> int:
     tiles_root = a.tiles_root or (PROCESSED / "tiles")
     out_dir.mkdir(parents=True, exist_ok=True)
     t0 = time.perf_counter()
+
+    if a.shells_index:
+        from ..paths import BLENDER_OUT
+
+        doc = shells_index(a.blender_tiles or (BLENDER_OUT / "tiles"), out_dir, record=not a.no_manifest)
+        print(json.dumps(doc["totals"], indent=1))
+        return 0
 
     df, geoms, src_stats = load_source(limit=a.limit)
     ground, ground_stats = sample_ground(geoms, df["centroid_x"].to_numpy(), df["centroid_y"].to_numpy())
@@ -755,7 +820,8 @@ def main(argv: list[str] | None = None) -> int:
                                   extra={"license": LICENSE, "columns": [c for c, _, _ in COLUMNS],
                                          "borough_code": BOROUGH_NJ})
         manifest.record_processed("buildings_nj_summary", out_dir / "buildings_nj_summary.json",
-                                  stage="buildings_nj", sources=[SOURCE_ID], schema="buildings_nj_summary/1")
+                                  stage="buildings_nj", sources=[SOURCE_ID], schema="buildings_nj_summary/1",
+                                  extra={"license": LICENSE})
         if tile_files:
             for t, v in tile_files.items():
                 v["sha256"] = manifest.sha256_of(tiles_root / t / TILE_FILENAME)
