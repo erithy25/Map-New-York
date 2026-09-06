@@ -1,0 +1,196 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_bronx_county_courthouse",
+ "name": "Bronx County Courthouse",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.825711,
+  "lon": -73.925619,
+  "azimuth_deg": 70.0,
+  "note": "the Grand Concourse at East 161st Street, about 130 m west-south-west of the building, looking east-north-east at the limestone facade and friezes",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.826111,
+  "lon": -73.924167,
+  "name": "Bronx County Courthouse"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Bronx County Courthouse\" Grand Concourse",
+  "\"Bronx County Building\" courthouse exterior"
+ ],
+ "geosearch_radius_m": 350,
+ "fetched_at": "2026-09-06T13:32:26Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 34,
+ "candidates_eligible": 4,
+ "rejections": {
+  "too_old": 1,
+  "keywords": 20,
+  "too_small": 2,
+  "indoor": 7
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Yield not to Evil-2766.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Yield_not_to_Evil-2766.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/77/Yield_not_to_Evil-2766.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Yield_not_to_Evil-2766.jpg/1920px-Yield_not_to_Evil-2766.jpg",
+   "author": "Javier Dejesus",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 3.0",
+    "url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "template": "cc-by-sa-3.0"
+   },
+   "date_taken": "2012",
+   "date_source": "DateTimeOriginal",
+   "year": 2012,
+   "camera_gps": {
+    "lat": 40.8257,
+    "lon": -73.9236
+   },
+   "original_width": 3456,
+   "original_height": 5184,
+   "width": 1920,
+   "height": 2880,
+   "bytes": 1038870,
+   "sha256": "f3476cad88fb69eb728d18b112429e2a4e002aead2452386099a9c80329379f5",
+   "mean_luminance": 136.4,
+   "description": "Bronx County Courthouse",
+   "categories": [
+    "Taken with Canon EOS 650D",
+    "Bronx County Courthouse",
+    "Self-published work",
+    "National Register of Historic Places with known IDs",
+    "Images from Wiki Loves Monuments 2012",
+    "Images from Wiki Loves Monuments 2012 in the United States",
+    "United States photographs taken on 2012-09-15",
+    "Flagpoles in the Bronx, New York City",
+    "WLM 2012 United States reviewed"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 9.0,
+   "estimated_viewpoint": {
+    "lat": 40.8257,
+    "lon": -73.9236,
+    "azimuth_deg": 313.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.82570, -73.92360) is 66 m from Bronx County Courthouse (40.82611, -73.92417) and 170 m from the standard viewpoint; the azimuth 314 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Yield not to Evil-2766.jpg\" by Javier Dejesus, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Yield_not_to_Evil-2766.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Grand Concourse from Hostos Community College.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Grand_Concourse_from_Hostos_Community_College.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/18/Grand_Concourse_from_Hostos_Community_College.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Grand_Concourse_from_Hostos_Community_College.jpg/1920px-Grand_Concourse_from_Hostos_Community_College.jpg",
+   "author": "Sapphire Williams",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": null,
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 752990,
+   "sha256": "ed0a4c855e82628786985a876818d7227a9f8e97b3751ad05625b51357b15554",
+   "mean_luminance": 111.2,
+   "description": "A picture of Grand Concourse facing north taken at the bridge of Eugenio María de Hostos Community College of CUNY , between the A and C buildings. The Bronx Central Annex Post Office can be seen on the right side after the B building, as well as the Bronx County Courthouse which can be seen far ahead behind the trees of Franz Sigel Park.",
+   "categories": [
+    "February 2018 in New York City",
+    "CC-Zero",
+    "Bronx County Courthouse",
+    "Grand Concourse (Bronx)",
+    "Hostos Community College",
+    "United States Post Office (Bronx Central Annex)",
+    "Franz Sigel Park",
+    "Self-published work",
+    "United States photographs taken on 2018-02-17"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Bronx County Courthouse\" Grand Concourse",
+   "score": 6.95,
+   "estimated_viewpoint": {
+    "lat": 40.825711,
+    "lon": -73.925619,
+    "azimuth_deg": 70.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (the Grand Concourse at East 161st Street, about 130 m west-south-west of the building, looking east-north-east at the limestone facade and friezes) and the azimuth 70 deg is the bearing from there to Bronx County Courthouse (40.82611, -73.92417)."
+   },
+   "attribution": "\"Grand Concourse from Hostos Community College.jpg\" by Sapphire Williams, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Grand_Concourse_from_Hostos_Community_College.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Bronx County Courthouse, Concourse Village, Bronx - 20220616.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Bronx_County_Courthouse,_Concourse_Village,_Bronx_-_20220616.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/69/Bronx_County_Courthouse%2C_Concourse_Village%2C_Bronx_-_20220616.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Bronx_County_Courthouse%2C_Concourse_Village%2C_Bronx_-_20220616.jpg/1920px-Bronx_County_Courthouse%2C_Concourse_Village%2C_Bronx_-_20220616.jpg",
+   "author": "Andre Carrotflower",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-06-16 13:12:25",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": null,
+   "original_width": 3389,
+   "original_height": 3389,
+   "width": 1920,
+   "height": 1920,
+   "bytes": 909790,
+   "sha256": "a14e4074f1b97f6407845f4a33b7868580737612ff760eb10b0610a982fd5605",
+   "mean_luminance": 138.9,
+   "description": "The Bronx County Courthouse, as seen from the south end of the Grand Concourse on a June 2022 afternoon. Architects Max Hausle and Joseph H. Freedlander collaborated with a bevy of noted artists and sculptors (Charles Keck, Adolf A. Weinman, James Monroe Hewlett, and Joseph Kiselewski were among those who contributed works) on this massive civic temple that was built over three years beginning in 1931 as a prominent local example of the large-scale public works projects that provided welcome job opportunities to designers and builders during the Great Depression, and of which then-New York may",
+   "categories": [
+    "Views from automobiles in the Bronx, New York City",
+    "Bronx County Courthouse",
+    "New York City photographs taken on 2022-06-16",
+    "Self-published work",
+    "June 2022 in the Bronx, New York City",
+    "Photos taken by Andre Carrotflower in 2022",
+    "Photos taken by Andre Carrotflower in the Bronx, New York"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Bronx County Courthouse\" Grand Concourse",
+   "score": 4.55,
+   "estimated_viewpoint": {
+    "lat": 40.825711,
+    "lon": -73.925619,
+    "azimuth_deg": 70.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (the Grand Concourse at East 161st Street, about 130 m west-south-west of the building, looking east-north-east at the limestone facade and friezes) and the azimuth 70 deg is the bearing from there to Bronx County Courthouse (40.82611, -73.92417)."
+   },
+   "attribution": "\"Bronx County Courthouse, Concourse Village, Bronx - 20220616.jpg\" by Andre Carrotflower, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Bronx_County_Courthouse,_Concourse_Village,_Bronx_-_20220616.jpg"
+  }
+ ]
+}

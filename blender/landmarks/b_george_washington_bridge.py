@@ -152,27 +152,49 @@ def build(lod: int = 0):
 
 
 def main() -> None:
+    """Four verification renders, each framed to answer one question.
+
+    1. ``fort_washington_park`` — the canonical viewpoint: the Manhattan shore in Fort Washington Park about 300 m
+       south of the New York tower (40.8480 N, 73.9480 W), where the Little Red Lighthouse stands almost directly
+       under the tower.  Question: does the 184.1 m bare-lattice tower read at the right height and proportion from
+       the ground, and does the main span leave it at the right angle?
+    2. ``tower_lattice`` — close to the New York tower with the sun 35 deg up and off-axis.  Question: is this the
+       *unclad* steel lattice (Cass Gilbert's granite was never applied), with two tapering legs and four lattice
+       portal struts, and do the four cables pass over the legs in pairs?
+    3. ``elevation_both_towers`` — a long lens from the Hudson with both towers in frame.  Question: is the
+       1,066.8 m span and the 99.7 m cable sag right — the cable should come down to within about 2 m of the upper
+       deck at mid-span, which is the GWB's signature profile?
+    4. ``upper_deck`` — eye level on the upper roadway looking towards the New Jersey tower.  Question: are the
+       8 upper lanes, the suspender pitch and the tower portal at deck level right?
+    """
     fit = ba.bridge_axis(SUPPORTS, ("tower_nj", "tower_ny"), MAIN_SPAN)
     ax = fit.axis
+    fr = fit.frame
     land_nj, land_ny = ax.p(-820.0, 0.0), ax.p(760.0, 0.0)
     ctx = (("water_dark", 0.35, 2000.0, (0.0, 0.0)),
            ("grass", GROUND_NJ, 400.0, (land_nj.x, land_nj.y)),
            ("grass", GROUND_NY, 380.0, (land_ny.x, land_ny.y)))
-    # Fort Washington Park: the canonical GWB viewpoint, on the Manhattan shore below the New York tower
-    fort_washington = ax.p(S_T_NY + 60.0, -210.0, GROUND_NY + 1.7)
+    fort_washington = fr.from_lonlat(-73.9480, 40.8480, GROUND_NY + 1.65)
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=400_000, budget_lod1=90_000,
         renders=[
-            dict(view="fort_washington_park", cam=fort_washington, target=ax.p(S_T_NY - 120.0, 0.0, 120.0),
-                 fov_deg=62.0, context=ctx, sun_azimuth_deg=230.0, sun_elevation_deg=30.0),
-            dict(view="elevation_from_hudson", cam=ax.p(0.0, -1250.0, 40.0), target=ax.p(0.0, 0.0, 110.0),
-                 fov_deg=42.0, context=ctx, sun_azimuth_deg=190.0, sun_elevation_deg=32.0),
-            dict(view="upper_deck", cam=ax.p(S_T_NJ - 60.0, -10.0, Z_UPPER_MID + 2.2),
-                 target=ax.p(S_T_NJ + 300.0, 0.0, Z_UPPER_MID + 30.0), fov_deg=58.0, context=ctx,
-                 sun_azimuth_deg=110.0, sun_elevation_deg=40.0),
+            # the comparison agent's recorded Fort Washington Park viewpoint, used verbatim
+            ba.reference_render("landmark_george_washington_bridge", fr, view="fort_washington_park_reference",
+                                ground_z=GROUND_NY, target_z=110.0, fov_deg=72.0, size=(1280, 720), context=ctx,
+                                sun_azimuth_deg=235.0, sun_elevation_deg=35.0),
+            dict(view="fort_washington_park", cam=fort_washington, target=ax.p(S_T_NY - 40.0, 0.0, 90.0),
+                 fov_deg=72.0, size=(1280, 720), context=ctx, sun_azimuth_deg=235.0, sun_elevation_deg=35.0),
+            dict(view="tower_lattice", cam=ax.p(S_T_NY - 150.0, -180.0, 40.0), target=ax.p(S_T_NY, 0.0, 110.0),
+                 fov_deg=52.0, size=(1280, 720), context=ctx, sun_azimuth_deg=205.0, sun_elevation_deg=35.0),
+            dict(view="elevation_both_towers", cam=ax.p(0.0, -1750.0, 110.0), target=ax.p(0.0, 0.0, 105.0),
+                 fov_deg=40.0, size=(1280, 720), context=ctx, sun_azimuth_deg=185.0, sun_elevation_deg=35.0),
+            dict(view="upper_deck", cam=ax.p(S_T_NJ + 80.0, -11.0, Z_UPPER_MID + 1.8),
+                 target=ax.p(S_T_NJ - 40.0, 0.0, Z_UPPER_MID + 40.0), fov_deg=62.0, size=(1280, 720), context=ctx,
+                 sun_azimuth_deg=120.0, sun_elevation_deg=35.0),
         ],
         sections={"Placement": fit.report(),
                   "Published dimensions": __doc__.split("------------------------------------\n")[1].split("\nPlacement:")[0].strip(),
+                  "Verification renders": main.__doc__.strip(),
                   "Not modelled": __doc__.split("Not modelled:")[1].strip()},
     )
 

@@ -150,15 +150,32 @@ def build():
     barrel_rise = FLOOR_M + CONC_H - wall_top
     C.barrel_vault(b, (cx - CONC_L / 2, cy), (cx + CONC_L / 2, cy), CONC_W, wall_top, barrel_rise, ceil,
                    segments=28, thickness=0.5, lunette_material=marble, closed_ends=True)
+    # The vault's extrados is not exposed on the skyline: the concourse rises above the surrounding roof as a
+    # clerestory box with tall arched windows in its long walls, closed by a flat roof at 42.0 m.
+    CLERE_TOP = 42.0
+    C.wall_ring(b, conc, CORNICE_M, CLERE_TOP, 0.8, lime)
+    b.prism(cring, CLERE_TOP - 0.5, CLERE_TOP, C.M.roof_grey, cap_bottom=False)
+    for p0, p1, L, t, n in C.edges_of(cring):
+        if L < 20:
+            continue
+        k = max(3, int(round(L / 14.0)))
+        for i in range(k):
+            a = p0 + t * (L * (i + 0.18) / k); c = p0 + t * (L * (i + 0.82) / k)
+            C.arched_opening(b, a, c, n, CORNICE_M + 1.0, CLERE_TOP - 3.5, None, 0.9, lime, C.M.glass_clear, n=12)
     # the great lunette windows at both ends and the half-round windows over the east and west balconies
     for sx in (-1, 1):
         x = cx + sx * (CONC_L / 2 - 0.4)
         for i in range(3):
-            w = CONC_W / 3.4
-            y0 = cy + (i - 1) * (CONC_W / 3.2) - w / 2 + w * 0.12
-            y1 = y0 + w * 0.76
-            b.quad((x, y0, wall_top - 12.0), (x, y1, wall_top - 12.0), (x, y1, wall_top + 8.0), (x, y0, wall_top + 8.0),
+            w = CONC_W / 3.3
+            y0 = cy + (i - 1) * (CONC_W / 3.15) - w / 2 + w * 0.08
+            y1 = y0 + w * 0.84
+            b.quad((x, y0, FLOOR_M + 6.0), (x, y1, FLOOR_M + 6.0), (x, y1, wall_top + 11.0), (x, y0, wall_top + 11.0),
                    C.M.glass_clear)
+            for zz in (FLOOR_M + 6.0, wall_top + 11.0):            # heads and sills of the great end windows
+                b.box((x - sx * 0.35, (y0 + y1) / 2, zz), (0.7, y1 - y0 + 1.2, 0.7), marble)
+            for yy in (y0, y1):
+                b.box((x - sx * 0.35, yy, (FLOOR_M + 6.0 + wall_top + 11.0) / 2),
+                      (0.7, 0.7, wall_top + 11.0 - FLOOR_M - 6.0), marble)
     # ticket windows along the west wall, with brass grilles and warm lit counters
     for i in range(9):
         y = cy - CONC_W / 2 + 3.0 + i * ((CONC_W - 6.0) / 8)
@@ -183,8 +200,8 @@ def build():
         for dy in (-6.4, 6.4):                                                         # balustrades
             b.box((x - sx * 4.2, cy + dy, FLOOR_M + 4.6), (8.6, 0.5, 1.0), marble, rot_deg=0.0)
     objs.append(b.build(f"{ID}_concourse"))
-    concourse_cam = {"eye": fr.to_export(cx + CONC_L / 2 - 6.0, cy + CONC_W / 2 - 5.0, FLOOR_M + 8.0),
-                     "target": fr.to_export(cx - CONC_L / 4, cy, FLOOR_M + 17.0)}
+    concourse_cam = {"eye": fr.to_export(cx + CONC_L / 2 - 7.0, cy + CONC_W / 2 - 7.0, FLOOR_M + 5.0),
+                     "target": fr.to_export(cx - CONC_L / 4, cy, FLOOR_M + 26.0)}
     return objs, fr, fp, concourse_cam
 
 
@@ -207,13 +224,13 @@ def main():
              dimensions={"roof_m": ROOF_M, "cornice_m": CORNICE_M, "concourse_m": [CONC_L, CONC_W, CONC_H],
                          "concourse_floor_z_m": FLOOR_M, "vault_springing_above_floor_m": SPRING_H,
                          "arched_window_h_m": ARCH_H, "clock_d_m": CLOCK_D, "staircase_w_m": 12.0,
-                         "ticket_windows": 9},
+                         "ticket_windows": 9, "clerestory_top_m": 42.0},
              tri_budget=C.TRI_BUDGET_LOD0_LARGE,
              material_slots={"GCT_CEILING": "emissive celestial ceiling of the Main Concourse barrel vault"})
     C.render_check(ID, [
         {"view": "street", "azimuth_deg": 180, "elevation_deg": "street", "distance": 125, "target_z": 30, "fov_deg": 64},
         {"view": "aerial", "azimuth_deg": 200, "elevation_deg": 26, "distance": 300, "fov_deg": 46, "target_z": 25},
-        {"view": "concourse", "fov_deg": 72, "no_ground": True, **cam},
+        {"view": "concourse", "fov_deg": 78, "no_ground": True, **cam},
     ])
 
 

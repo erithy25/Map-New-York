@@ -62,7 +62,11 @@ enum class BikeLane : uint8_t { None = 0, Protected = 1, Standard = 2, Sharrow =
 constexpr uint32_t laneKindBit(LaneKind k) { return 1u << static_cast<unsigned>(static_cast<int8_t>(k)); }
 constexpr uint32_t kAllLaneKinds = 0x3Fu;
 constexpr uint32_t kMotorLaneKinds = laneKindBit(LaneKind::Travel) | laneKindBit(LaneKind::Turn);
-constexpr uint32_t kBusLaneKinds = kMotorLaneKinds | laneKindBit(LaneKind::Bus) | laneKindBit(LaneKind::Parking);
+// Buses use travel, turn and bus lanes.  Not parking lanes: New York bus stops
+// are kerbside no-standing zones, not lay-bys, so a bus dwells in the travel
+// lane — and a bus that drifts into the parking lane drives straight past its
+// own stops.
+constexpr uint32_t kBusLaneKinds = kMotorLaneKinds | laneKindBit(LaneKind::Bus);
 constexpr uint32_t kEmergencyLaneKinds = kMotorLaneKinds | laneKindBit(LaneKind::Bus) | laneKindBit(LaneKind::Shoulder);
 constexpr uint32_t kBikeLaneKinds = kMotorLaneKinds | laneKindBit(LaneKind::Bike);
 

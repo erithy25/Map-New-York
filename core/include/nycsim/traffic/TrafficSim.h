@@ -339,6 +339,7 @@ class TrafficSim {
   void integrate(uint32_t i);
   void resolveOverlaps();
   void laneClamp();
+  uint32_t separateBodies();
   bool laneSlotClaimed(uint32_t lane, float s, float half_len) const;
   void claimLaneSlot(uint32_t lane, float s, float half_len);
   void updateSpawnDespawn();

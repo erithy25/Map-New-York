@@ -306,6 +306,10 @@ def build(lod: int = 0):
 def main() -> None:
     """Four verification renders, each framed and lit to answer one question.
 
+    0. ``dumbo_pebble_beach`` and ``promenade_reference`` — the two viewpoints the comparison agent recorded for
+       this bridge (``docs/verification/reference/landmark_brooklyn_bridge_from_dumbo`` and
+       ``landmark_brooklyn_bridge_walkway``), used verbatim so this render and the reference photograph are the same
+       shot.  They are skipped when those references are not on disk.
     1. ``dumbo_main_street_park`` — street level in Brooklyn Bridge Park at the foot of Main Street, the canonical
        DUMBO view of *this* bridge.  (The famous Washington Street shot, whose real photographic viewpoint is
        recorded in ``docs/verification/reference/dumbo_washington_st_manhattan_bridge/meta.json`` — camera
@@ -344,6 +348,15 @@ def main() -> None:
     ba.run_landmark(
         ID, TITLE, build, bins=(), budget_lod0=900_000, budget_lod1=140_000,
         renders=[
+            # 1a/3a: the comparison agent's real photographic viewpoints, used verbatim so this render and the
+            # reference photograph are the same shot.  Dropped automatically if the reference is not on disk.
+            ba.reference_render("landmark_brooklyn_bridge_from_dumbo", fr, view="dumbo_pebble_beach",
+                                ground_z=GROUND_BK, target_z=46.0, fov_deg=58.0, context=ctx,
+                                sun_azimuth_deg=215.0, sun_elevation_deg=35.0, size=(1280, 720)),
+            ba.reference_render("landmark_brooklyn_bridge_walkway", fr, view="promenade_reference",
+                                ground_z=deck_z(S_TOWER_BK - 120.0) + PROMENADE_DZ, target_z=Z_TOWER_TOP - 14.0,
+                                fov_deg=62.0, context=ctx, sun_azimuth_deg=250.0, sun_elevation_deg=35.0,
+                                size=(1280, 720)),
             dict(view="dumbo_main_street_park", cam=park, target=park_t, fov_deg=64.0, context=ctx,
                  sun_azimuth_deg=215.0, sun_elevation_deg=35.0, size=(1280, 720)),
             dict(view="tower_three_quarter", cam=tq, target=tq_t, fov_deg=46.0, context=ctx,

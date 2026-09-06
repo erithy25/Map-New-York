@@ -64,28 +64,31 @@ float PlayerVehicleSpec::dragForceN(float speedMps) const
 TyreFrictionModel::TyreFrictionModel()
 {
 	// Peak longitudinal friction coefficients. The six values ARCHITECTURE §7 fixes are used verbatim
-	// (dry asphalt 1.0, wet 0.7, steel plate 0.55 wet, painted marking 0.6 wet, snow 0.3, ice 0.15); the rest
-	// follow the same convention and are documented in docs/verification/unreal_gameplay/REPORT.md.
+	// (dry asphalt 1.0, wet 0.7, steel plate 0.55 wet, painted marking 0.6 wet, snow 0.3, ice 0.15).
+	// Every surface that core's nycsim/vehicle/Friction.h also carries now holds core's value — the self-test
+	// asserts them against frictionTable() so the two tables cannot drift. Default, Grass, Sidewalk and Water
+	// have no core counterpart (they are UE physical-material slots, not DATA_CONTRACTS §7 road surfaces) and
+	// keep the values documented in docs/verification/unreal_gameplay/REPORT.md.
 	//                                                       dry    wet    roll  roughness (m RMS)  name
 	table_[static_cast<int>(SurfaceClass::Default)]        = {1.00f, 0.70f, 1.00f, 0.0040f, "default"};
 	table_[static_cast<int>(SurfaceClass::Asphalt)]        = {1.00f, 0.70f, 1.00f, 0.0045f, "asphalt"};
-	table_[static_cast<int>(SurfaceClass::Concrete)]       = {0.95f, 0.68f, 0.98f, 0.0030f, "concrete"};
+	table_[static_cast<int>(SurfaceClass::Concrete)]       = {0.95f, 0.65f, 0.98f, 0.0030f, "concrete"};
 	// Belgian block: high dry grip, poor wet grip, and by far the roughest ride in the city.
-	table_[static_cast<int>(SurfaceClass::Cobble)]         = {0.85f, 0.55f, 1.25f, 0.0180f, "cobble"};
+	table_[static_cast<int>(SurfaceClass::Cobble)]         = {0.75f, 0.50f, 1.25f, 0.0180f, "cobble"};
 	// Construction plates and bridge grating: §7 gives 0.55 wet.
 	table_[static_cast<int>(SurfaceClass::SteelPlate)]     = {0.75f, 0.55f, 0.95f, 0.0060f, "steel plate"};
 	// Thermoplastic markings and crosswalk paint: §7 gives 0.6 wet.
 	table_[static_cast<int>(SurfaceClass::PaintedMarking)] = {0.90f, 0.60f, 1.00f, 0.0035f, "painted marking"};
-	table_[static_cast<int>(SurfaceClass::Gravel)]         = {0.62f, 0.55f, 1.60f, 0.0140f, "gravel"};
-	table_[static_cast<int>(SurfaceClass::Boardwalk)]      = {0.80f, 0.50f, 1.10f, 0.0110f, "boardwalk"};
+	table_[static_cast<int>(SurfaceClass::Gravel)]         = {0.55f, 0.45f, 1.60f, 0.0140f, "gravel"};
+	table_[static_cast<int>(SurfaceClass::Boardwalk)]      = {0.70f, 0.45f, 1.10f, 0.0110f, "boardwalk"};
 	table_[static_cast<int>(SurfaceClass::Grass)]          = {0.55f, 0.42f, 2.10f, 0.0160f, "grass"};
-	table_[static_cast<int>(SurfaceClass::Sidewalk)]       = {0.95f, 0.68f, 1.05f, 0.0055f, "sidewalk"};
+	table_[static_cast<int>(SurfaceClass::Sidewalk)]       = {0.95f, 0.65f, 1.05f, 0.0055f, "sidewalk"};
 	// Driving into the water is not a driving surface; the value keeps the solver stable if a wheel gets there.
 	table_[static_cast<int>(SurfaceClass::Water)]          = {0.25f, 0.20f, 3.00f, 0.0100f, "water"};
 	// Manhole covers, subway grates, trench plates.
-	table_[static_cast<int>(SurfaceClass::Metal)]          = {0.72f, 0.50f, 0.95f, 0.0070f, "metal"};
-	table_[static_cast<int>(SurfaceClass::Snow)]           = {0.30f, 0.28f, 1.80f, 0.0090f, "snow"};
-	table_[static_cast<int>(SurfaceClass::Ice)]            = {0.15f, 0.12f, 1.10f, 0.0030f, "ice"};
+	table_[static_cast<int>(SurfaceClass::Metal)]          = {0.75f, 0.55f, 0.95f, 0.0070f, "metal"};
+	table_[static_cast<int>(SurfaceClass::Snow)]           = {0.30f, 0.30f, 1.80f, 0.0090f, "snow"};
+	table_[static_cast<int>(SurfaceClass::Ice)]            = {0.15f, 0.15f, 1.10f, 0.0030f, "ice"};
 }
 
 const SurfaceFriction& TyreFrictionModel::surface(SurfaceClass s) const

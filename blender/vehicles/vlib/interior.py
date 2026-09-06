@@ -176,14 +176,23 @@ def build_steering_wheel(sp: InteriorSpec, lib: M.Library) -> object:
                                                         center=(-0.012, s * 0.088, -0.030)), 2))
     bm = g.merge_bm(parts)
     ob = g.to_object("SteeringWheel", bm, mats, smooth=True, sharp_angle_deg=36.0)
-    axis = Vector((math.cos(math.radians(-sp.column_deg)), 0.0, math.sin(math.radians(-sp.column_deg)))).normalized()
-    rot = axis.to_track_quat("Z", "Y").to_matrix().to_4x4()
-    ob.matrix_world = Matrix.Translation(Vector(sp.wheel_center)) @ rot
+    ob.matrix_world = Matrix.Translation(Vector(sp.wheel_center)) @ column_basis(sp.column_deg)
     return ob
 
 
+def column_basis(column_deg: float) -> Matrix:
+    """Rotation whose **local +Z is the steering-column axis** (forward and down by ``column_deg``) and whose
+    local +Y is the vehicle's left.  ``Vector.to_track_quat`` does not guarantee which axis lands where, so
+    the basis is written out explicitly."""
+    zc = Vector((math.cos(math.radians(column_deg)), 0.0, -math.sin(math.radians(column_deg)))).normalized()
+    yc = Vector((0.0, 1.0, 0.0))
+    xc = yc.cross(zc).normalized()
+    yc = zc.cross(xc).normalized()
+    return Matrix(((xc.x, yc.x, zc.x, 0.0), (xc.y, yc.y, zc.y, 0.0), (xc.z, yc.z, zc.z, 0.0), (0.0, 0.0, 0.0, 1.0)))
+
+
 def build_column(sp: InteriorSpec, lib: M.Library) -> object:
-    axis = Vector((math.cos(math.radians(-sp.column_deg)), 0.0, math.sin(math.radians(-sp.column_deg)))).normalized()
+    axis = Vector(column_basis(sp.column_deg).col[2][:3]).normalized()
     c = Vector(sp.wheel_center)
     bm = g.cylinder_bm(0.042, 0.30, axis=tuple(axis), center=tuple(c + axis * 0.19), segments=16)
     stalks = [bm]
@@ -289,7 +298,7 @@ def build_shifter(sp: InteriorSpec, lib: M.Library) -> object:
                  g.rounded_box_bm((0.16, 0.09, 0.02), 0.008, center=(x, 0, z), material_index=1)]
         origin = (x, 0.0, z)
     else:                                            # column stalk
-        ax = Vector((math.cos(math.radians(-sp.column_deg)), 0, math.sin(math.radians(-sp.column_deg))))
+        ax = Vector(column_basis(sp.column_deg).col[2][:3]).normalized()
         c = Vector(sp.wheel_center) + ax * 0.10
         parts = [g.tube_bm([tuple(c), tuple(c + Vector((0.02, -0.16, -0.03)))], 0.012, segments=8, material_index=1)]
         origin = tuple(c)

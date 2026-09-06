@@ -140,7 +140,7 @@ def finish(v: Vehicle, *, lod_budgets=(12_000, 2_500), tri_budget=40_000, extra_
 
 
 def add_ucx(v: Vehicle, d: Dimensions, z_belt: float, slices: int = 3) -> None:
-    srcs = [o for o in v.objects.values() if o.type == "MESH" and not o.name.startswith(("UCX_", "Wheel"))]
+    srcs = [o for o in v.objects.values() if o.type == "MESH" and not o.name.startswith("UCX_")]
     v.add_all(rig.ucx_proxies("Body", srcs, d, z_belt=z_belt, slices=slices, cabin=False))
 
 

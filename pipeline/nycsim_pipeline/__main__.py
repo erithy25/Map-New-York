@@ -9,6 +9,7 @@ STAGES = {
     "water": "nycsim_pipeline.water.build",
     "roads": "nycsim_pipeline.roads.build",
     "buildings": "nycsim_pipeline.buildings.build",
+    "facade": "nycsim_pipeline.facade.build",
     "citygml": "nycsim_pipeline.buildings.citygml",
     "furniture": "nycsim_pipeline.furniture.build",
     "transit": "nycsim_pipeline.transit.build",

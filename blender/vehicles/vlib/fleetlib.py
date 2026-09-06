@@ -421,8 +421,9 @@ def build(sp: FleetSpec, lib: M.Library | None = None, *, reset: bool = True) ->
     for nm in ("Body", "Hood", "Trunk", "Door_FL", "Door_FR", "Door_RL", "Door_RR", "Door_SL", "Door_SR"):
         if nm in v.objects:
             rig.add_damage_regions(v.objects[nm], d, z_belt=z_belt_mid)
-    hull_src = [v.objects[n] for n in ("Body", "Hood", "Trunk", "Door_FL", "Door_FR", "Door_RL", "Door_RR",
-                                       "Door_SL", "Door_SR") if n in v.objects]
+    hull_src = [o for n, o in v.objects.items()
+                if o.type == "MESH" and not n.startswith(("UCX_", "Wheel_", "Interior_", "Seat_", "Mirror_",
+                                                          "Pedals", "Shifter", "SteeringWheel"))]
     v.add_all(rig.ucx_proxies("Body", hull_src, d, z_belt=z_belt_mid,
                               slices=max(4, int(round(d.length / 1.4))), cabin=True))
     t.mark("dmg+ucx")

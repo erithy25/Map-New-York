@@ -206,19 +206,27 @@ class Library:
         return basic("MIRROR_GLASS", (0.96, 0.96, 0.96), roughness=0.0, metallic=1.0)
 
     # ---- light slots (emission default strength is the 'off' look; the engine drives intensity)
-    def light(self, slot: str, rgb: tuple[float, float, float], *, strength: float = 0.0, alpha: float = 1.0) -> bpy.types.Material:
-        return basic(slot, (*rgb, alpha), roughness=0.15, metallic=0.0, emission=(*rgb, 1.0), emission_strength=strength, alpha=alpha)
+    #: 'off' emission of a light slot.  It must be > 0 so the exported glTF material carries a non-zero
+    #: ``emissiveFactor`` in the lamp's own colour — that is how the importer recognises the slot and learns
+    #: its tint.  The engine scales it at runtime; 0.04 is dark enough to read as an unlit lamp.
+    LIGHT_OFF_STRENGTH = 0.04
 
-    def light_white(self, slot: str, strength: float = 0.0) -> bpy.types.Material:
+    def light(self, slot: str, rgb: tuple[float, float, float], *, strength: float | None = None,
+              alpha: float = 1.0) -> bpy.types.Material:
+        st = self.LIGHT_OFF_STRENGTH if strength is None else strength
+        return basic(slot, (*rgb, alpha), roughness=0.15, metallic=0.0, emission=(*rgb, 1.0),
+                     emission_strength=st, alpha=alpha)
+
+    def light_white(self, slot: str, strength: float | None = None) -> bpy.types.Material:
         return self.light(slot, (0.95, 0.96, 1.0), strength=strength)
 
-    def light_red(self, slot: str, strength: float = 0.0) -> bpy.types.Material:
+    def light_red(self, slot: str, strength: float | None = None) -> bpy.types.Material:
         return self.light(slot, (1.0, 0.03, 0.02), strength=strength)
 
-    def light_amber(self, slot: str, strength: float = 0.0) -> bpy.types.Material:
+    def light_amber(self, slot: str, strength: float | None = None) -> bpy.types.Material:
         return self.light(slot, (1.0, 0.45, 0.02), strength=strength)
 
-    def light_blue(self, slot: str, strength: float = 0.0) -> bpy.types.Material:
+    def light_blue(self, slot: str, strength: float | None = None) -> bpy.types.Material:
         return self.light(slot, (0.05, 0.2, 1.0), strength=strength)
 
     # ---- interior

@@ -146,10 +146,14 @@ class Glb:
             out[name] = (w.min(axis=0), w.max(axis=0))
         return out
 
-    def triangles(self) -> int:
+    def triangles(self, skip=("UCX_",)) -> int:
+        """Rendered triangles: mesh nodes whose name does not start with one of ``skip`` (the ``UCX_``
+        collision proxies are not drawn and do not count against a LOD budget)."""
         total = 0
-        for m in self.json.get("meshes", []):
-            for p in m["primitives"]:
+        for n in self.nodes():
+            if "mesh" not in n or n.get("name", "").startswith(tuple(skip)):
+                continue
+            for p in self.json["meshes"][n["mesh"]]["primitives"]:
                 if "indices" in p:
                     total += self.json["accessors"][p["indices"]]["count"] // 3
                 else:
@@ -305,9 +309,11 @@ def test_wheel_pivots_at_hub_centres(vid, glbs):
     e, glb = _entry(vid), glbs[vid]
     wm = glb.world_matrices()
     by_name = {n.get("name", ""): i for i, n in enumerate(glb.nodes())}
-    r = e["published_dimensions_mm"]["wheel_diameter_mm"] / 2000.0
+    diam = e.get("wheel_diameters_mm", {})
     checked = 0
     for name, pivot in e["wheel_pivots"].items():
+        # a carriage has smaller front wheels than rear, so the catalog records each wheel's own diameter
+        r = diam.get(name, e["published_dimensions_mm"]["wheel_diameter_mm"]) / 2000.0
         assert name in by_name, f"{vid}: {name} not in the glb"
         i = by_name[name]
         t = wm[i][:3, 3]
@@ -369,6 +375,10 @@ def test_fleet_lod0_budget():
 
 # --------------------------------------------------------------------------- collision proxies
 def _is_convex(pos: np.ndarray, idx: np.ndarray, tol: float) -> tuple[bool, float]:
+    """Every vertex must lie on the inner side of every face plane.  Face normals are oriented away from the
+    hull centroid rather than from the winding, so the test measures convexity itself and not the exporter's
+    triangle order (which a separate manifold check covers)."""
+    centre = pos.mean(axis=0)
     worst = 0.0
     for tri in idx:
         a, b, c = pos[tri[0]], pos[tri[1]], pos[tri[2]]
@@ -377,6 +387,8 @@ def _is_convex(pos: np.ndarray, idx: np.ndarray, tol: float) -> tuple[bool, floa
         if ln < 1e-12:
             continue
         n = n / ln
+        if np.dot(a - centre, n) < 0:
+            n = -n
         d = float(np.dot(a, n))
         worst = max(worst, float((pos @ n - d).max()))
     return worst <= tol, worst
@@ -394,6 +406,13 @@ def test_ucx_proxies_convex(vid, glbs):
         assert len(idx) >= 4, f"{vid}: {n['name']} has {len(idx)} triangles"
         ok, worst = _is_convex(pos, idx, CONVEX_TOL_M)
         assert ok, f"{vid}: {n['name']} is not convex (worst outside distance {worst * 1000:.2f} mm)"
+        edges: dict[tuple[int, int], int] = {}
+        for tri in idx:
+            for k in range(3):
+                key = (int(min(tri[k], tri[(k + 1) % 3])), int(max(tri[k], tri[(k + 1) % 3])))
+                edges[key] = edges.get(key, 0) + 1
+        open_edges = [k for k, cnt in edges.items() if cnt != 2]
+        assert not open_edges, f"{vid}: {n['name']} is not a closed hull ({len(open_edges)} open edges)"
 
 
 @pytest.mark.parametrize("vid", IDS)
@@ -515,7 +534,9 @@ def test_steering_wheel_axis(vid, glbs):
     by_name = {n.get("name", ""): i for i, n in enumerate(glb.nodes())}
     i = by_name["SteeringWheel"]
     m = wm[i]
-    axis = m[:3, 2] / np.linalg.norm(m[:3, 2])          # local +Z in glTF space
+    # export_yup rewrites every local frame by C = [[1,0,0],[0,0,1],[0,-1,0]], so the object's Blender-local
+    # +Z (the column axis) becomes the glTF node's local +Y, i.e. column 1 of its world matrix.
+    axis = m[:3, 1] / np.linalg.norm(m[:3, 1])
     # the column must point forward and downward: +X and -Y in glTF (Y-up)
     assert axis[0] > 0.7, f"{vid}: steering column axis {axis} does not point forward"
     assert axis[1] < 0.0, f"{vid}: steering column axis {axis} does not tilt downward"

@@ -836,6 +836,10 @@ def convex_hull_bm(points: np.ndarray | Sequence[Vec3], *, simplify_deg: float =
     if simplify_deg > 0:
         bmesh.ops.dissolve_limit(bm, angle_limit=math.radians(simplify_deg), verts=bm.verts[:], edges=bm.edges[:])
     bmesh.ops.triangulate(bm, faces=bm.faces[:])
+    # a zero-area sliver has an undefined normal, which recalc_face_normals cannot orient; left in place it
+    # makes an otherwise perfectly convex hull fail a plane-side convexity test.
+    bmesh.ops.dissolve_degenerate(bm, dist=1e-6, edges=bm.edges[:])
+    bmesh.ops.triangulate(bm, faces=bm.faces[:])
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     return bm
 

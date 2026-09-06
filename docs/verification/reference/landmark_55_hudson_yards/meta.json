@@ -24,67 +24,17 @@
   "\"55 Hudson Yards\" Kohn Pedersen Fox"
  ],
  "geosearch_radius_m": 400,
- "fetched_at": "2026-09-06T13:06:15Z",
+ "fetched_at": "2026-09-06T13:53:03Z",
  "max_width": 1920,
  "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
  "candidates_seen": 37,
  "candidates_eligible": 2,
  "rejections": {
-  "excluded": 5,
+  "too_old": 5,
   "keywords": 3,
-  "indoor": 26,
-  "too_old": 1
+  "indoor": 27
  },
  "exhausted": true,
- "status": "ok",
- "photos": [
-  {
-   "n": 1,
-   "file": "1.jpg",
-   "title": "File:10 mile panorama of NYC, Feb., 2018.jpg",
-   "page_url": "https://commons.wikimedia.org/wiki/File:10_mile_panorama_of_NYC,_Feb.,_2018.jpg",
-   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/3d/10_mile_panorama_of_NYC%2C_Feb.%2C_2018.jpg",
-   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/10_mile_panorama_of_NYC%2C_Feb.%2C_2018.jpg/1920px-10_mile_panorama_of_NYC%2C_Feb.%2C_2018.jpg",
-   "author": "DigbyDalton",
-   "credit": "Own work",
-   "license": {
-    "short_name": "CC BY-SA 4.0",
-    "url": "https://creativecommons.org/licenses/by-sa/4.0",
-    "template": "cc-by-sa-4.0"
-   },
-   "date_taken": "2018-02-21 15:08:32",
-   "date_source": "DateTimeOriginal",
-   "year": 2018,
-   "camera_gps": {
-    "lat": 40.771703,
-    "lon": -74.015778
-   },
-   "original_width": 8582,
-   "original_height": 972,
-   "width": 1920,
-   "height": 217,
-   "bytes": 85388,
-   "sha256": "f77b65ca71c01de5afd4ae586e24a931659fc5e6171a3d40a032b375a1eb9f62",
-   "mean_luminance": 160.3,
-   "description": "10 mile Manhattan panorama from 120th street to The Battery taken Feb. 21, 2018 from Weehawken, NJ 1 Riverside Church 2 Deutsche Bank Center , Time Warner Center 3 220 Central Park South 4 Central Park Tower 5 One57 6 432 Park Avenue 7 53W53 8 Chrysler Building 9 Bank of America Tower 10 Conde Nast Building 11 The New York Times Building 12 Empire State Building 13 Manhattan West 14 a: 55 Hudson Yards , b: 35 Hudson Yards , c: 10 Hudson Yards , d: 15 Hudson Yards 15 56 Leonard Street 16 8 Spruce Street 17 Woolworth Building 18 70 Pine Street 19 30 Park Place 20 40 Wall Street 21 Three World Tr",
-   "categories": [
-    "Self-published work",
-    "Files with coordinates missing SDC location of creation",
-    "Manhattan skylines from New Jersey"
-   ],
-   "assessments": "",
-   "restrictions": "",
-   "provenance": "search:\"55 Hudson Yards\" tower",
-   "score": 5.45,
-   "estimated_viewpoint": {
-    "lat": 40.771703,
-    "lon": -74.015778,
-    "azimuth_deg": 146.9,
-    "confidence": "high",
-    "method": "camera_gps_to_subject",
-    "explanation": "Camera GPS from the Commons file description (40.77170, -74.01578) is 2179 m from 55 Hudson Yards (40.75528, -74.00167) and 2320 m from the standard viewpoint; the azimuth 147 deg is the initial great-circle bearing from that camera position to the subject."
-   },
-   "attribution": "\"10 mile panorama of NYC, Feb., 2018.jpg\" by DigbyDalton, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:10_mile_panorama_of_NYC,_Feb.,_2018.jpg"
-  }
- ]
+ "status": "no_suitable_photo",
+ "photos": []
 }

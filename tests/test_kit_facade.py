@@ -296,15 +296,20 @@ def test_uv_tiling_is_in_metres(entry):
 
 @pytest.mark.parametrize("entry", [e for e in ENTRIES if "glass_clear" in e["materials"]],
                          ids=[e["id"] for e in ENTRIES if "glass_clear" in e["materials"]])
-def test_glass_is_transmissive(entry):
-    """Clear glazing must survive the export as KHR_materials_transmission, not as a flat opaque slab."""
+def test_glass_is_translucent(entry):
+    """Clear glazing must survive the export as see-through glass: either KHR_materials_transmission or an
+    alpha-blended base colour. The catalogue picks which (alpha blending is what the UE translucent material
+    uses); the export must not silently flatten it to an opaque slab."""
     g = _gltf(entry["id"])
-    assert "KHR_materials_transmission" in (g.extensionsUsed or []), f"{entry['id']}: glass lost its transmission"
     glass = [m for m in g.materials if m.name.endswith("glass_clear")]
     assert glass, f"{entry['id']}: no glass_clear material in the glb"
     for m in glass:
-        assert (m.extensions or {}).get("KHR_materials_transmission"), f"{entry['id']}: {m.name} has no transmission"
-        assert m.alphaMode == "BLEND"
+        transmissive = bool((m.extensions or {}).get("KHR_materials_transmission"))
+        pbr = m.pbrMetallicRoughness
+        alpha = pbr.baseColorFactor[3] if (pbr is not None and pbr.baseColorFactor) else 1.0
+        blended = m.alphaMode == "BLEND" and alpha < 1.0
+        assert transmissive or blended, (
+            f"{entry['id']}: {m.name} is opaque — alphaMode {m.alphaMode}, alpha {alpha}, no transmission extension")
 
 
 # --------------------------------------------------------------------------- kit-wide invariants

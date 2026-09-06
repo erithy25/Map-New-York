@@ -1,0 +1,190 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_rose_center",
+ "name": "Rose Center for Earth and Space",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.781936,
+  "lon": -73.974698,
+  "azimuth_deg": 110.0,
+  "note": "Columbus Avenue at West 81st Street, about 130 m west-north-west of the building, looking east-south-east at the glass cube",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.781536,
+  "lon": -73.973247,
+  "name": "Rose Center for Earth and Space"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Rose Center for Earth and Space\" glass cube",
+  "\"Hayden Planetarium\" Rose Center exterior"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T13:35:30Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 46,
+ "candidates_eligible": 4,
+ "rejections": {
+  "too_old": 3,
+  "night_for_day_item": 4,
+  "too_small": 18,
+  "keywords": 14,
+  "excluded": 3
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Upper West Side, New York, NY, USA - panoramio (28).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Upper_West_Side,_New_York,_NY,_USA_-_panoramio_(28).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Upper_West_Side%2C_New_York%2C_NY%2C_USA_-_panoramio_%2828%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Upper_West_Side%2C_New_York%2C_NY%2C_USA_-_panoramio_%2828%29.jpg/1920px-Upper_West_Side%2C_New_York%2C_NY%2C_USA_-_panoramio_%2828%29.jpg",
+   "author": "kajikawa",
+   "credit": "https://web.archive.org/web/20161028202122/http://www.panoramio.com/photo/102233036",
+   "license": {
+    "short_name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0",
+    "template": "cc-by-3.0"
+   },
+   "date_taken": "2013",
+   "date_source": "DateTimeOriginal",
+   "year": 2013,
+   "camera_gps": {
+    "lat": 40.781845,
+    "lon": -73.973656
+   },
+   "original_width": 2592,
+   "original_height": 1936,
+   "width": 1920,
+   "height": 1434,
+   "bytes": 393235,
+   "sha256": "d38b7ab2c5f51065c4ca7a7c3587d6f3397bac507ea75f37a83432f67de2be0b",
+   "mean_luminance": 103.6,
+   "description": "Upper West Side, New York, NY, USA",
+   "categories": [
+    "Rose Center for Earth and Space",
+    "Panoramio files uploaded by Panoramio upload bot",
+    "Panoramio images reviewed by trusted users",
+    "2013 in the Upper West Side",
+    "Photos from Panoramio",
+    "Files with coordinates missing SDC location of creation",
+    "New York City photographs taken on 2013-08-05",
+    "August 2013 in Manhattan, New York City",
+    "Photos from Panoramio ID 7158"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 9.0,
+   "estimated_viewpoint": {
+    "lat": 40.781845,
+    "lon": -73.973656,
+    "azimuth_deg": 134.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.78184, -73.97366) is 49 m from Rose Center for Earth and Space (40.78154, -73.97325) and 88 m from the standard viewpoint; the azimuth 135 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Upper West Side, New York, NY, USA - panoramio (28).jpg\" by kajikawa, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Upper_West_Side,_New_York,_NY,_USA_-_panoramio_(28).jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Hayden Planetarium, NYC.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Hayden_Planetarium,_NYC.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/25/Hayden_Planetarium%2C_NYC.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Hayden_Planetarium%2C_NYC.jpg/1920px-Hayden_Planetarium%2C_NYC.jpg",
+   "author": "joiseyshowaa",
+   "credit": "https://www.flickr.com/photos/30201239@N00/51740451007/",
+   "license": {
+    "short_name": "CC BY-SA 2.0",
+    "url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "template": "cc-by-sa-2.0"
+   },
+   "date_taken": "2021-09-22 20:01:13",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": null,
+   "original_width": 2953,
+   "original_height": 2789,
+   "width": 1920,
+   "height": 1813,
+   "bytes": 895164,
+   "sha256": "bbd32b7cbad30716e485c89375fa5b051bfaa23daf53891e87f9d8bef294933f",
+   "mean_luminance": 68.7,
+   "description": "The planetarium at the Museum of Natural History seen from the pathway off 81st street.",
+   "categories": [
+    "Exterior of the Rose Center for Earth and Space",
+    "New York City photographs taken on 2021-09-22",
+    "Flickr images reviewed by FlickreviewR 2",
+    "2021 in the Upper West Side",
+    "September 2021 in Manhattan, New York City",
+    "Photographs by joiseyshowaa"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Hayden Planetarium\" Rose Center exterior",
+   "score": 8.4,
+   "estimated_viewpoint": {
+    "lat": 40.781936,
+    "lon": -73.974698,
+    "azimuth_deg": 110.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Columbus Avenue at West 81st Street, about 130 m west-north-west of the building, looking east-south-east at the glass cube) and the azimuth 110 deg is the bearing from there to Rose Center for Earth and Space (40.78154, -73.97325)."
+   },
+   "attribution": "\"Hayden Planetarium, NYC.jpg\" by joiseyshowaa, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Hayden_Planetarium,_NYC.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Hayden Planetarium, American Museum of Natural History.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Hayden_Planetarium,_American_Museum_of_Natural_History.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Hayden_Planetarium%2C_American_Museum_of_Natural_History.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Hayden_Planetarium%2C_American_Museum_of_Natural_History.jpg/1920px-Hayden_Planetarium%2C_American_Museum_of_Natural_History.jpg",
+   "author": "Photograph by Mike Peel ( www.mikepeel.net ).",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2012-07-08",
+   "date_source": "DateTimeOriginal",
+   "year": 2012,
+   "camera_gps": null,
+   "original_width": 5184,
+   "original_height": 3456,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 480484,
+   "sha256": "fc93137d0ab61e1df31263f11e94cd64f2327d247acd0d269d18cb1ecdcc3efd",
+   "mean_luminance": 97.6,
+   "description": "Hayden Planetarium, American Museum of Natural History, New York.",
+   "categories": [
+    "Exterior of the Rose Center for Earth and Space",
+    "Self-published work",
+    "Photos by Mike Peel using a Canon EOS 60D"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Hayden Planetarium\" Rose Center exterior",
+   "score": 4.5,
+   "estimated_viewpoint": {
+    "lat": 40.781936,
+    "lon": -73.974698,
+    "azimuth_deg": 110.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Columbus Avenue at West 81st Street, about 130 m west-north-west of the building, looking east-south-east at the glass cube) and the azimuth 110 deg is the bearing from there to Rose Center for Earth and Space (40.78154, -73.97325)."
+   },
+   "attribution": "\"Hayden Planetarium, American Museum of Natural History.jpg\" by Photograph by Mike Peel ( www.mikepeel.net )., CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Hayden_Planetarium,_American_Museum_of_Natural_History.jpg"
+  }
+ ]
+}

@@ -1088,8 +1088,26 @@ void TrafficSim::considerLaneChange(uint32_t i, float a_current) {
     float bias = 0.f;
     const int this_side = side == 0 ? -1 : 1;
     if (need_side != 0) bias += (this_side == need_side ? pressure : -pressure);
-    if (cp.is_bike && tl.kind == LaneKind::Bike) bias += cfg_.bike_lane_bias;
-    if (cp.is_bike && l.kind == LaneKind::Bike && tl.kind != LaneKind::Bike) bias -= cfg_.bike_lane_bias;
+    if (cp.is_bike) {
+      // Cyclists work their way towards the bike lane one lane at a time, so
+      // the incentive has to reward every step of the way, not only the last.
+      int bike_ix = 127;
+      uint32_t ns = 0;
+      const uint32_t* seg_lanes = graph_->segmentLanes(l.segment, ns);
+      for (uint32_t q = 0; q < ns; ++q) {
+        const Lane& c = graph_->lane(seg_lanes[q]);
+        if (c.kind == LaneKind::Bike && c.direction == l.direction && c.disabled == 0)
+          bike_ix = std::min<int>(bike_ix, c.index_from_center);
+      }
+      if (bike_ix != 127) {
+        const int here = std::abs(static_cast<int>(l.index_from_center) - bike_ix);
+        const int there = std::abs(static_cast<int>(tl.index_from_center) - bike_ix);
+        if (there < here) bias += cfg_.bike_lane_bias;
+        if (there > here) bias -= cfg_.bike_lane_bias;
+      }
+      if (tl.kind == LaneKind::Bike) bias += cfg_.bike_lane_bias;
+      if (l.kind == LaneKind::Bike && tl.kind != LaneKind::Bike) bias -= cfg_.bike_lane_bias;
+    }
     if (cp.is_bus && tl.kind == LaneKind::Bus) bias += 1.5f;
     if ((v.flags & kVehYieldingEv) != 0 && this_side > 0) bias += 4.f;
     // Keep right only when we are not being held up where we are: a keep-right
@@ -1468,7 +1486,7 @@ void TrafficSim::integrate(uint32_t i) {
     if (v.lc_dir != 0) v.lc_dir = 0;
     v.lc_from = kInvalidIndex;
   }
-  if (std::fabs(v.lateral) < 0.35f) v.lc_from = kInvalidIndex;
+  if (std::fabs(v.lateral) < 0.35f || v.lc_from == v.lane) v.lc_from = kInvalidIndex;
 
   v.honk_cooldown = std::max(0.f, v.honk_cooldown - dt);
   v.lc_cooldown = std::max(0.f, v.lc_cooldown - dt);
@@ -1547,6 +1565,107 @@ void TrafficSim::resolveOverlaps() {
     }
   }
   laneClamp();
+}
+
+namespace {
+// Penetration depth of two oriented boxes along the separating axes; ≤ 0 when
+// they are apart.
+// Half-extent of a vehicle's box projected on the unit axis (nx,ny).
+float boxRadiusOn(const Vehicle& v, float nx, float ny) {
+  const float hx = std::cos(v.heading_rad), hy = std::sin(v.heading_rad);
+  return v.length_m * 0.5f * std::fabs(hx * nx + hy * ny) +
+         v.width_m * 0.5f * std::fabs(-hy * nx + hx * ny);
+}
+
+// How far `mover` has to travel backwards along its own heading before its box
+// clears `other`'s.  For a rear-end overlap this is the penetration depth; for
+// two bodies side by side it is the whole longitudinal clearance, which is the
+// case a penetration-depth push cannot resolve.
+float clearanceAlongHeading(const Vehicle& mover, const Vehicle& other) {
+  const float nx = std::cos(mover.heading_rad), ny = std::sin(mover.heading_rad);
+  const float dx = other.pos.x - mover.pos.x, dy = other.pos.y - mover.pos.y;
+  const float need = boxRadiusOn(mover, nx, ny) + boxRadiusOn(other, nx, ny) - std::fabs(dx * nx + dy * ny);
+  return need > 0.f ? need : 0.f;
+}
+
+float boxPenetration(const Vehicle& a, const Vehicle& b) {
+  const float ax = std::cos(a.heading_rad), ay = std::sin(a.heading_rad);
+  const float bx = std::cos(b.heading_rad), by = std::sin(b.heading_rad);
+  const float ahl = a.length_m * 0.5f, ahw = a.width_m * 0.5f;
+  const float bhl = b.length_m * 0.5f, bhw = b.width_m * 0.5f;
+  const float dx = b.pos.x - a.pos.x, dy = b.pos.y - a.pos.y;
+  const float axes[4][2] = {{ax, ay}, {-ay, ax}, {bx, by}, {-by, bx}};
+  float least = 1e9f;
+  for (int i = 0; i < 4; ++i) {
+    const float nx = axes[i][0], ny = axes[i][1];
+    const float ra = ahl * std::fabs(ax * nx + ay * ny) + ahw * std::fabs(-ay * nx + ax * ny);
+    const float rb = bhl * std::fabs(bx * nx + by * ny) + bhw * std::fabs(-by * nx + bx * ny);
+    const float sep = ra + rb - std::fabs(dx * nx + dy * ny);
+    if (sep <= 0.f) return 0.f;
+    least = std::min(least, sep);
+  }
+  return least;
+}
+}  // namespace
+
+// Impenetrability. The longitudinal model keeps agents apart inside a lane and
+// along a path, but two cases are outside its frame: a body that straddles two
+// lanes for the two seconds a lane change takes, and two bodies on connectors
+// that cross inside a junction. This pass works on the rendered poses, so it
+// closes both: whichever agent is behind gives way along its own lane. Bounded
+// to 1 m per step so it never shows as a jump.
+uint32_t TrafficSim::separateBodies() {
+  const uint32_t n = static_cast<uint32_t>(veh_.size());
+  uint32_t moved = 0;
+  for (uint32_t i = 0; i < n; ++i) {
+    const float reach = veh_[i].length_m * 0.5f + 6.5f;
+    hash_.query(veh_[i].pos.x, veh_[i].pos.y, reach, [&](uint32_t j) {
+      if (j <= i || j >= veh_.size()) return;
+      Vehicle& a = veh_[i];
+      Vehicle& b = veh_[j];
+      const float pen = boxPenetration(a, b);
+      if (pen <= 0.f) return;
+      // The one whose own heading points at the other is behind, so it yields.
+      const float dx = b.pos.x - a.pos.x, dy = b.pos.y - a.pos.y;
+      const float a_ahead = dx * std::cos(a.heading_rad) + dy * std::sin(a.heading_rad);
+      (void)pen;
+      // Give way with whichever of the two can: an agent pinned at the start of
+      // its first lane has nowhere to go, and then the other one moves instead.
+      auto giveWay = [&](Vehicle& mover, const Vehicle& other) {
+        const float back = std::min(clearanceAlongHeading(mover, other) + 0.05f, 2.5f);
+        if (back <= 0.05f) return false;
+        float s_new = mover.s - back;
+        if (s_new < 0.f) {
+          uint32_t* mpath = pathOf(mover.id);
+          if (mover.path_pos == 0 || mpath[mover.path_pos - 1] >= graph_->laneCount()) return false;
+          const float deficit = -s_new;
+          --mover.path_pos;
+          mover.lane = mpath[mover.path_pos];
+          s_new = std::max(0.f, graph_->lane(mover.lane).length_m - deficit);
+          mover.junction_time = 0.f;
+        }
+        mover.s = s_new;
+        if (mover.speed > other.speed) mover.speed = other.speed;
+        updatePose(mover);
+        return true;
+      };
+      // Last resort when both are pinned against the start of their lanes:
+      // separate forwards instead, which is always possible on the far side.
+      auto pressOn = [&](Vehicle& mover, const Vehicle& other) {
+        const float fwd = std::min(clearanceAlongHeading(mover, other) + 0.05f, 2.5f);
+        const float len = graph_->lane(mover.lane).length_m;
+        if (fwd <= 0.05f || mover.s + fwd >= len) return false;
+        mover.s += fwd;
+        if (mover.speed > other.speed) mover.speed = other.speed;
+        updatePose(mover);
+        return true;
+      };
+      const bool ok = a_ahead > 0.f ? (giveWay(a, b) || giveWay(b, a) || pressOn(b, a) || pressOn(a, b))
+                                    : (giveWay(b, a) || giveWay(a, b) || pressOn(a, b) || pressOn(b, a));
+      if (ok) ++moved;
+    });
+  }
+  return moved;
 }
 
 void TrafficSim::updatePose(Vehicle& v) {
@@ -1873,6 +1992,17 @@ void TrafficSim::step() {
   buildOrder();
   resolveOverlaps();
   for (uint32_t i = 0; i < n; ++i) updatePose(veh_[i]);
+  // Impenetrability, relaxed against the final poses until nothing moves
+  // (giving way to one neighbour can bring an agent up against another).  This
+  // is the last thing in the step that touches a position, so nothing can
+  // reintroduce an overlap afterwards.  In free flow the first sweep finds
+  // nothing and the loop ends immediately.
+  for (int sweep = 0; sweep < 8; ++sweep) {
+    hash_.begin();
+    for (uint32_t i = 0; i < n; ++i) hash_.insert(i, veh_[i].pos.x, veh_[i].pos.y);
+    hash_.end();
+    if (separateBodies() == 0) break;
+  }
 
   // Deferred routing (budgeted so the step time stays bounded).
   while (!pending_routes_.empty() && routes_this_step_ < cfg_.max_routes_per_step) {

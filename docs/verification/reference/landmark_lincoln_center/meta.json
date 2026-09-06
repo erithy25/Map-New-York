@@ -7,7 +7,7 @@
   "lat": 40.772,
   "lon": -73.9828,
   "azimuth_deg": 305.2,
-  "note": "top of the Josie Robertson Plaza steps at Columbus Avenue and West 64th Street, looking west at the Metropolitan Opera House",
+  "note": "top of the Josie Robertson Plaza steps at Columbus Avenue and West 64th Street, looking west-north-west at the Metropolitan Opera House",
   "representative": false
  },
  "subject": {
@@ -24,7 +24,7 @@
   "\"Lincoln Center for the Performing Arts\" fountain plaza"
  ],
  "geosearch_radius_m": 200,
- "fetched_at": "2026-09-06T12:29:20Z",
+ "fetched_at": "2026-09-06T13:55:17Z",
  "max_width": 1920,
  "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
  "candidates_seen": 87,

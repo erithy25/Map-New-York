@@ -303,3 +303,61 @@ window_condensation_double, missing[] (observation fields that were null)}`.
 
 `live/overlay.txt` (new — the exact monospace text block the in-game debug overlay draws; produced by
 `nycsim_live.debug_overlay`, 62-column headers, one field per line, `—` for every null).
+
+## 5.4 Facade columns — APPENDED by the facade stage (ADR-004)
+
+*Appended section. Written by `pipeline/nycsim_pipeline/facade/` (`python -m nycsim_pipeline.facade.build all`) into
+`facade/facade_attrs.parquet` and into every `tiles/{tile}/buildings.parquet`. The stage **fills** the sixteen §5
+columns the buildings stage deferred (`roof_type, roof_mesh_ref, facade_class, material_primary, material_secondary,
+window_type, window_cols, window_rows, has_fire_escape, has_stoop, has_cornice, has_water_tower, rooftop_units,
+awning_text, landmark_model, street_segment_id`), **overwrites** `osm_id` (from the footprint-overlap match against
+`osm/buildings.parquet`) and `fidelity` (bits 2, 5, 10 and 13), and **appends** the provenance columns below. Every
+buildings-stage column and the GeoParquet `geo` metadata are preserved unchanged; `nycsim.schema` stays `buildings/1`
+and the stage adds `nycsim.facade.schema = "facade/1"` and `nycsim.facade.rules_version`.*
+
+| column | type | meaning |
+|---|---|---|
+| facade_rule | int16 | 0-based index into `facade.rules.RULES` of the rule that classified the building — every class is traceable to a named, documented predicate |
+| material_source | int8 | 0 OSM `building:material`, 1 OSM `building:colour` (shade refinement of a masonry wall only), 2 LPC `MATERIAL1`, 3 rule |
+| frontage_source | int8 | 0 primary footprint run, 1 PLUTO `bldgfront`, 2 PLUTO `lotfront`, 3 sqrt(footprint area) |
+| facade_frontage_m | float32 | frontage `window_cols` was computed from |
+| bay_width_m | float32 | centre-to-centre window bay spacing of the class's window family |
+| water_tower_kind | int8 | 0 none, 1 wooden 10,000 gal, 2 wooden 20,000 gal, 3 steel/enclosed |
+| attached | int16 | party-wall facade runs (0 = free-standing); real footprint adjacency |
+| n_free_runs | int16 | non-party-wall facade runs at least 1.2 m long |
+| is_corner | bool | two street-facing free runs ≥ 4 m, normals 60–120° apart, nearest centrelines on two different streets |
+| free_perimeter_m | float32 | total length of non-party-wall facade |
+| street_frontage_m | float32 | total length of street-facing facade |
+| storefront_kind_primary | int8 | storefront kind used for the ground-floor treatment (§5 `storefront_kinds` enum) |
+| awning_real | bool | `awning_text` is a real business name; false means the generic wording for the kind |
+| osm_iou | float32 | intersection-over-union of the matched OSM building, 0 when unmatched |
+| n_placements | int32 | kit placement records this building owns in `kit_placements.bin` |
+| roof_source | int8 | 0 CityGML, 1 OSM `roof:shape`, 2 facade rule (ADR-013), 3 default flat |
+| roof_pitch_deg | float32 | roof pitch, 0 when flat |
+| roof_ridge_heading | float32 | compass heading of the ridge line folded to [0, 180); 0 when flat |
+| roof_eave_z | float32 | eave elevation, m NAVD88 — the ridge stays at the measured `roof_z` so the building's height is unchanged |
+
+`fidelity` bit 13 `ROOF_INFERRED` (ADR-013) is set exactly where `roof_source == 2`.
+
+## 6.1 Kit placement conventions — APPENDED by the facade stage
+
+*Appended section; the record layout in §6 is unchanged. Each tile's `kit_placements.json` header repeats all of this
+so a consumer never has to guess.*
+
+* `kit_id` is derived **from the exported Blender kit catalog**: `kit_id = (index of the piece's category in
+  `facade_params.KIT_CATEGORIES` + 1) × 200 + index of the catalog id inside that category, catalog ids sorted
+  lexicographically`. `data/processed/facade/kit_ids.json` is the registry (`kit_id`, `category`, `catalog_id`, `glb`,
+  `nominal_size_m`, the placement roles that use it); `data/processed/facade/kit_catalog_map.json` is the same map for
+  the UE importer. Every id in a placement file names an asset that exists.
+* `x, y` NYC_TM metres of the piece's contact point — the wall face for facade pieces, the roof deck for roof pieces,
+  the sidewalk for stoops, storefronts and sheds.
+* `z` NAVD88 metres, absolute, consistent with `ground_z` / `roof_z`.
+* `yaw_deg` uses the contract's default angle convention (0 = east, counter-clockwise); it is the outward normal of the
+  wall run for a facade piece.
+* `scale` is a uniform scale for point pieces. For **run pieces** (cornice, parapet, string course, sign band,
+  storefront bay, roll gate, awning, sidewalk shed) it is the along-run stretch factor relative to the piece's nominal
+  width; runs longer than 12 nominal widths are split into several records so no instance is stretched further.
+* `variant_seed` is derived from the building's `lit_seed` and the piece's address on the building (run, bay, floor);
+  the kit picks weathering, glass tint and gate state from it. The whole file is a deterministic function of the
+  inputs — the same inputs regenerate the same bytes.
+* Records are sorted by `(bin, kit_id)`.

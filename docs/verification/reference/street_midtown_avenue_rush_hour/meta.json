@@ -1,0 +1,32 @@
+{
+ "schema_version": 1,
+ "slug": "street_midtown_avenue_rush_hour",
+ "name": "Midtown avenue at rush hour",
+ "group": "streetscape",
+ "viewpoint": {
+  "lat": 40.7576,
+  "lon": -73.9866,
+  "azimuth_deg": 209.0,
+  "note": "Seventh Avenue at West 44th Street, roadway centre, looking downtown (representative avenue)",
+  "representative": true
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "Manhattan avenue traffic rush hour taxis",
+  "Midtown Manhattan street traffic taxis pedestrians avenue"
+ ],
+ "geosearch_radius_m": 0,
+ "fetched_at": "2026-09-06T13:54:02Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 1,
+ "candidates_eligible": 1,
+ "rejections": {},
+ "exhausted": true,
+ "status": "no_suitable_photo",
+ "photos": []
+}

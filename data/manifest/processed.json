@@ -6426,9 +6426,9 @@
   "facade_attrs": {
    "artifact_id": "facade_attrs",
    "bytes": 54486006,
-   "git_commit": "bc0f31c8a002",
+   "git_commit": "3b5d1262beec",
    "path": "data/processed/facade/facade_attrs.parquet",
-   "produced_at": "2026-09-06T13:30:34Z",
+   "produced_at": "2026-09-06T13:38:10Z",
    "rows": 1083026,
    "schema": "facade_attrs/1",
    "sha256": "bd1a1d707708c5a076409cfacb8436b63219faf40309da2496879729af7b04be",
@@ -6444,9 +6444,9 @@
   "facade_geom_attrs": {
    "artifact_id": "facade_geom_attrs",
    "bytes": 47047679,
-   "git_commit": "bc0f31c8a002",
+   "git_commit": "3b5d1262beec",
    "path": "data/processed/facade/geom_attrs.parquet",
-   "produced_at": "2026-09-06T13:30:33Z",
+   "produced_at": "2026-09-06T13:38:10Z",
    "rows": 1083026,
    "schema": "facade_geom/1",
    "sha256": "fe9cd704a0dd2ac895a09f1511391cfabd3e3720f71c25fdd094e9fc5941b27e",
@@ -6462,9 +6462,9 @@
   "facade_kit_ids": {
    "artifact_id": "facade_kit_ids",
    "bytes": 41639,
-   "git_commit": "bc0f31c8a002",
+   "git_commit": "3b5d1262beec",
    "path": "data/processed/facade/kit_ids.json",
-   "produced_at": "2026-09-06T13:30:34Z",
+   "produced_at": "2026-09-06T13:38:10Z",
    "rows": null,
    "schema": "kit_ids/1",
    "sha256": "1c86de7e4afb037d48ae3ac34101a41de84c06349fdacf16022447c88a5847d4",
@@ -6721,14 +6721,14 @@
   "landmark_b_brooklyn_bridge_lod0": {
    "artifact_id": "landmark_b_brooklyn_bridge_lod0",
    "bytes": 5720484,
-   "git_commit": "e1034ccf726a",
+   "git_commit": "3b5d1262beec",
    "landmark_id": "b_brooklyn_bridge",
    "lod": 0,
    "path": "blender_out/landmarks/b_brooklyn_bridge.glb",
-   "produced_at": "2026-09-06T13:31:54Z",
+   "produced_at": "2026-09-06T13:40:27Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "a176e153b33f8d989cff9aced47a724ffa21e0370f8333e11ed094ecfd3e3969",
+   "sha256": "cf1c0555bde7258d6aa123bb822d45ca141e0bb39085a3879230182c630919c0",
    "sources": [
     "osm_bbbike",
     "published_brooklyn_bridge"
@@ -6793,14 +6793,14 @@
   "landmark_b_columbus_circle_monument_lod0": {
    "artifact_id": "landmark_b_columbus_circle_monument_lod0",
    "bytes": 180076,
-   "git_commit": "38976a48e050",
+   "git_commit": "3b5d1262beec",
    "landmark_id": "b_columbus_circle_monument",
    "lod": 0,
    "path": "blender_out/landmarks/b_columbus_circle_monument.glb",
-   "produced_at": "2026-09-06T13:09:14Z",
+   "produced_at": "2026-09-06T13:39:32Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "8fbfd1553024403c166ced093ba19d850cb983127f26a5de7ed46b90336b9976",
+   "sha256": "774154bd2e0b1c3dc989024c1f28f33a380a82b692058d0817c167b1d5ea3b49",
    "sources": [
     "osm_bbbike",
     "building_footprints",
@@ -6809,17 +6809,36 @@
    "stage": "landmarks_b",
    "triangles": 2856
   },
+  "landmark_b_columbus_circle_monument_lod1": {
+   "artifact_id": "landmark_b_columbus_circle_monument_lod1",
+   "bytes": 86028,
+   "git_commit": "3b5d1262beec",
+   "landmark_id": "b_columbus_circle_monument",
+   "lod": 1,
+   "path": "blender_out/landmarks/b_columbus_circle_monument_lod1.glb",
+   "produced_at": "2026-09-06T13:39:32Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "0e520d4bf35927b9aadc371f7d9ed2421de29fa3db1408279643389558ad7496",
+   "sources": [
+    "osm_bbbike",
+    "building_footprints",
+    "published_columbus_circle"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 1200
+  },
   "landmark_b_coney_island_lod0": {
    "artifact_id": "landmark_b_coney_island_lod0",
    "bytes": 1803076,
-   "git_commit": "38976a48e050",
+   "git_commit": "3b5d1262beec",
    "landmark_id": "b_coney_island",
    "lod": 0,
    "path": "blender_out/landmarks/b_coney_island.glb",
-   "produced_at": "2026-09-06T13:12:27Z",
+   "produced_at": "2026-09-06T13:39:48Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "1a585049d53220e7ffe6d750a8e189b8015507a55048365f9197e633245c3f99",
+   "sha256": "c2497c516ace74b00ee9b84b50eca3ee63c11d0425373c4edbd07d25af683d31",
    "sources": [
     "osm_bbbike",
     "building_footprints",
@@ -6827,6 +6846,25 @@
    ],
    "stage": "landmarks_b",
    "triangles": 37308
+  },
+  "landmark_b_coney_island_lod1": {
+   "artifact_id": "landmark_b_coney_island_lod1",
+   "bytes": 344080,
+   "git_commit": "3b5d1262beec",
+   "landmark_id": "b_coney_island",
+   "lod": 1,
+   "path": "blender_out/landmarks/b_coney_island_lod1.glb",
+   "produced_at": "2026-09-06T13:39:49Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "7610cea19fc066faf8bed26692b9770efa1e54de97dc151e2ad6de30f01cb801",
+   "sources": [
+    "osm_bbbike",
+    "building_footprints",
+    "published_coney_island"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 9144
   },
   "landmark_b_ellis_island_main_lod0": {
    "artifact_id": "landmark_b_ellis_island_main_lod0",
@@ -6939,14 +6977,14 @@
   "landmark_b_grants_tomb_lod0": {
    "artifact_id": "landmark_b_grants_tomb_lod0",
    "bytes": 340756,
-   "git_commit": "ae96647d31ee",
+   "git_commit": "3b5d1262beec",
    "landmark_id": "b_grants_tomb",
    "lod": 0,
    "path": "blender_out/landmarks/b_grants_tomb.glb",
-   "produced_at": "2026-09-06T12:53:39Z",
+   "produced_at": "2026-09-06T13:39:25Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "b3beadac66656411120cf3e6c9f92d274cd701af1967d27e098fcea104ad3a03",
+   "sha256": "9e87554858913544a655a7d3595b47a285994af2294796e517b82e8e0ed2a3b5",
    "sources": [
     "building_footprints",
     "osm_bbbike",
@@ -6954,6 +6992,25 @@
    ],
    "stage": "landmarks_b",
    "triangles": 10264
+  },
+  "landmark_b_grants_tomb_lod1": {
+   "artifact_id": "landmark_b_grants_tomb_lod1",
+   "bytes": 145100,
+   "git_commit": "3b5d1262beec",
+   "landmark_id": "b_grants_tomb",
+   "lod": 1,
+   "path": "blender_out/landmarks/b_grants_tomb_lod1.glb",
+   "produced_at": "2026-09-06T13:39:27Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "3623991be9bfc5949f6d06aad65d6d5200d00745fd8f069b58ca74454f101b2f",
+   "sources": [
+    "building_footprints",
+    "osm_bbbike",
+    "published_grants_tomb"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 3208
   },
   "landmark_b_hell_gate_lod0": {
    "artifact_id": "landmark_b_hell_gate_lod0",
@@ -7246,20 +7303,38 @@
   "landmark_b_prospect_park_boathouse_lod0": {
    "artifact_id": "landmark_b_prospect_park_boathouse_lod0",
    "bytes": 297332,
-   "git_commit": "38976a48e050",
+   "git_commit": "3b5d1262beec",
    "landmark_id": "b_prospect_park_boathouse",
    "lod": 0,
    "path": "blender_out/landmarks/b_prospect_park_boathouse.glb",
-   "produced_at": "2026-09-06T13:10:07Z",
+   "produced_at": "2026-09-06T13:39:40Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "00d54cdf9d9fb7b9ab9afd98ffeef03852e8925031fa1695ccff9c13b25b20af",
+   "sha256": "e719479219152a6469e7f072d72b68de295cc2721e434274cdcb720c1f37068a",
    "sources": [
     "building_footprints",
     "published_prospect_park_boathouse"
    ],
    "stage": "landmarks_b",
    "triangles": 6176
+  },
+  "landmark_b_prospect_park_boathouse_lod1": {
+   "artifact_id": "landmark_b_prospect_park_boathouse_lod1",
+   "bytes": 56368,
+   "git_commit": "3b5d1262beec",
+   "landmark_id": "b_prospect_park_boathouse",
+   "lod": 1,
+   "path": "blender_out/landmarks/b_prospect_park_boathouse_lod1.glb",
+   "produced_at": "2026-09-06T13:39:41Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "7fb5d0049339f97c0e5202ae23c55eedd902b650a3d507eb97ff133e95788a00",
+   "sources": [
+    "building_footprints",
+    "published_prospect_park_boathouse"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 828
   },
   "landmark_b_pulaski_lod0": {
    "artifact_id": "landmark_b_pulaski_lod0",
@@ -7462,14 +7537,14 @@
   "landmark_b_soldiers_sailors_arch_lod0": {
    "artifact_id": "landmark_b_soldiers_sailors_arch_lod0",
    "bytes": 62460,
-   "git_commit": "0ee869feb2c2",
+   "git_commit": "3b5d1262beec",
    "landmark_id": "b_soldiers_sailors_arch",
    "lod": 0,
    "path": "blender_out/landmarks/b_soldiers_sailors_arch.glb",
-   "produced_at": "2026-09-06T12:54:27Z",
+   "produced_at": "2026-09-06T13:39:36Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "54ad30b2f58d75af713c36fdf05be8071651613ba29aff2294e1485e001369d1",
+   "sha256": "df740d4aeffdb05e286946d25b11b61ba3be8e8c4ba5dcec74bdbacc6774776e",
    "sources": [
     "osm_bbbike",
     "building_footprints",
@@ -7477,6 +7552,25 @@
    ],
    "stage": "landmarks_b",
    "triangles": 1252
+  },
+  "landmark_b_soldiers_sailors_arch_lod1": {
+   "artifact_id": "landmark_b_soldiers_sailors_arch_lod1",
+   "bytes": 27712,
+   "git_commit": "3b5d1262beec",
+   "landmark_id": "b_soldiers_sailors_arch",
+   "lod": 1,
+   "path": "blender_out/landmarks/b_soldiers_sailors_arch_lod1.glb",
+   "produced_at": "2026-09-06T13:39:36Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "d75c4b51c2c509b27bbb7c0b7fb94aff487fe7c9298df024aec31e78bb229c77",
+   "sources": [
+    "osm_bbbike",
+    "building_footprints",
+    "published_soldiers_sailors_arch"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 388
   },
   "landmark_b_statue_of_liberty_lod0": {
    "artifact_id": "landmark_b_statue_of_liberty_lod0",
@@ -7553,14 +7647,14 @@
   "landmark_b_unisphere_lod0": {
    "artifact_id": "landmark_b_unisphere_lod0",
    "bytes": 367784,
-   "git_commit": "0ee869feb2c2",
+   "git_commit": "3b5d1262beec",
    "landmark_id": "b_unisphere",
    "lod": 0,
    "path": "blender_out/landmarks/b_unisphere.glb",
-   "produced_at": "2026-09-06T12:55:42Z",
+   "produced_at": "2026-09-06T13:39:10Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "e7e5d507610f098768836ead9d61fb0ab35511f8ae8f7757f927a3a25bc5fb2b",
+   "sha256": "ba02961b67002d8e3f9ad5754d093f0418777444dfdadfad40f7bf7cba97ae15",
    "sources": [
     "osm_bbbike",
     "building_footprints",
@@ -7568,6 +7662,25 @@
    ],
    "stage": "landmarks_b",
    "triangles": 17236
+  },
+  "landmark_b_unisphere_lod1": {
+   "artifact_id": "landmark_b_unisphere_lod1",
+   "bytes": 125404,
+   "git_commit": "3b5d1262beec",
+   "landmark_id": "b_unisphere",
+   "lod": 1,
+   "path": "blender_out/landmarks/b_unisphere_lod1.glb",
+   "produced_at": "2026-09-06T13:39:10Z",
+   "rows": null,
+   "schema": "glb",
+   "sha256": "b064f9f9c1e67ec8490cee1cfd3a11d9eb388d99fe652384ffb1a3cd37433c7e",
+   "sources": [
+    "osm_bbbike",
+    "building_footprints",
+    "published_unisphere"
+   ],
+   "stage": "landmarks_b",
+   "triangles": 5848
   },
   "landmark_b_verrazzano_narrows_lod0": {
    "artifact_id": "landmark_b_verrazzano_narrows_lod0",
@@ -7784,40 +7897,40 @@
     1083846,
     1090575
    ],
-   "bytes": 13246672,
+   "bytes": 13375836,
    "footprint_iou": 1.0,
-   "git_commit": "c4464e87459d",
+   "git_commit": "3b5d1262beec",
    "path": "blender_out/landmarks/c_american_museum_natural_history.glb",
-   "produced_at": "2026-09-06T12:36:27Z",
+   "produced_at": "2026-09-06T13:47:09Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "677fa6b5361ac62636afcef3e9913aeb115348cb9ee52073083c77e6d25bcfdf",
+   "sha256": "fc3e7432794de3909081ad3a43471fce27510b2e02b95778c11a03df63b67ff2",
    "sources": [
     "building_footprints"
    ],
    "stage": "landmarks",
-   "tris_lod0": 57606,
-   "tris_lod1": 4174
+   "tris_lod0": 58762,
+   "tris_lod1": 5330
   },
   "landmark_glb:c_apollo_theater": {
    "artifact_id": "landmark_glb:c_apollo_theater",
    "bins": [
     1058654
    ],
-   "bytes": 14833032,
+   "bytes": 14836692,
    "footprint_iou": 1.0,
-   "git_commit": "e8db92f376a2",
+   "git_commit": "3b5d1262beec",
    "path": "blender_out/landmarks/c_apollo_theater.glb",
-   "produced_at": "2026-09-06T12:49:49Z",
+   "produced_at": "2026-09-06T13:40:26Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "0d82ce0efcc0c0003e26be89ed737e3bd8d2b2e22e9e64069565a134965b41f2",
+   "sha256": "b06929484eb0e7f91473d5004e35a4bbd9664047a0c6951c0609f6914fd4e9ae",
    "sources": [
     "building_footprints"
    ],
    "stage": "landmarks",
-   "tris_lod0": 7029,
-   "tris_lod1": 72
+   "tris_lod0": 7049,
+   "tris_lod1": 92
   },
   "landmark_glb:c_barclays_center": {
    "artifact_id": "landmark_glb:c_barclays_center",
@@ -7932,20 +8045,20 @@
    "bins": [
     1023449
    ],
-   "bytes": 15790996,
+   "bytes": 15795120,
    "footprint_iou": 1.0,
-   "git_commit": "d63f02e8c7ff",
+   "git_commit": "3b5d1262beec",
    "path": "blender_out/landmarks/c_carnegie_hall.glb",
-   "produced_at": "2026-09-06T12:20:38Z",
+   "produced_at": "2026-09-06T13:38:39Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "58c0a0b295fdf834635077cd35b16e4f59de4512f545da78b2910e46ca107f64",
+   "sha256": "a85fbf246ec6d0d15b9d05d83355ed107561e41b5e6afd83b55d1ea0ea0c9c9c",
    "sources": [
     "building_footprints"
    ],
    "stage": "landmarks",
-   "tris_lod0": 19102,
-   "tris_lod1": 72
+   "tris_lod0": 19122,
+   "tris_lod1": 92
   },
   "landmark_glb:c_chelsea_market": {
    "artifact_id": "landmark_glb:c_chelsea_market",
@@ -8036,14 +8149,14 @@
     1046946,
     1046964
    ],
-   "bytes": 7074796,
+   "bytes": 7074956,
    "footprint_iou": 1.0,
-   "git_commit": "e9c4094042a0",
+   "git_commit": "3b5d1262beec",
    "path": "blender_out/landmarks/c_guggenheim.glb",
-   "produced_at": "2026-09-06T12:15:02Z",
+   "produced_at": "2026-09-06T13:45:28Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "fda9bff02a81f36f1039cd9dbd27e5f56af056d58244ac64371760244edc581d",
+   "sha256": "09bdf42982ca4a2ced1af98e2ab9a02b596bb166d490c915ef84c502eb4117ad",
    "sources": [
     "building_footprints"
    ],
@@ -8056,20 +8169,20 @@
    "bins": [
     1025451
    ],
-   "bytes": 9193000,
+   "bytes": 9197620,
    "footprint_iou": 1.0,
-   "git_commit": "e9c4094042a0",
+   "git_commit": "3b5d1262beec",
    "path": "blender_out/landmarks/c_hearst_tower.glb",
-   "produced_at": "2026-09-06T11:52:44Z",
+   "produced_at": "2026-09-06T13:33:48Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "746388b81ec2704c382c59eb47bb0a89857fa0a264df7d6ae10ae69535f0a15b",
+   "sha256": "867309ce781f55a0c9c3273978bb2b09e916f1e10cede8cf68180c4fb7bfdbb0",
    "sources": [
     "building_footprints"
    ],
    "stage": "landmarks",
-   "tris_lod0": 13790,
-   "tris_lod1": 204
+   "tris_lod0": 13818,
+   "tris_lod1": 232
   },
   "landmark_glb:c_hudson_yards": {
    "artifact_id": "landmark_glb:c_hudson_yards",
@@ -8165,19 +8278,19 @@
     1081023,
     1028831
    ],
-   "bytes": 14056028,
+   "bytes": 14083736,
    "footprint_iou": 1.0,
-   "git_commit": "c4464e87459d",
+   "git_commit": "3b5d1262beec",
    "path": "blender_out/landmarks/c_lincoln_center.glb",
-   "produced_at": "2026-09-06T12:39:31Z",
+   "produced_at": "2026-09-06T13:51:47Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "5447e6dee4a2a81e233e147c95661b1c2fe3998520ca9647c7ab4a7606fb2bab",
+   "sha256": "20af02fa10bc0681e4924ee3af048100417ba84ffb1d6ad0464cad8f24d51d15",
    "sources": [
     "building_footprints"
    ],
    "stage": "landmarks",
-   "tris_lod0": 4145,
+   "tris_lod0": 4625,
    "tris_lod1": 156
   },
   "landmark_glb:c_lipstick_building": {
@@ -8223,14 +8336,14 @@
    "bins": [
     1085630
    ],
-   "bytes": 19423316,
+   "bytes": 19423636,
    "footprint_iou": 1.0,
-   "git_commit": "e9c4094042a0",
+   "git_commit": "3b5d1262beec",
    "path": "blender_out/landmarks/c_metlife_building.glb",
-   "produced_at": "2026-09-06T11:49:30Z",
+   "produced_at": "2026-09-06T13:32:11Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "8e002e0c480034bc606211f52e3b220280da6940a13f2da360eae4957dfdedce",
+   "sha256": "32aa76a21c1773854ab48ea3d84ec27da6a973a9464b7f57c420b6c5e814b7be",
    "sources": [
     "building_footprints"
    ],
@@ -8243,20 +8356,20 @@
    "bins": [
     1083810
    ],
-   "bytes": 12322188,
+   "bytes": 12361456,
    "footprint_iou": 1.0,
-   "git_commit": "c4464e87459d",
+   "git_commit": "3b5d1262beec",
    "path": "blender_out/landmarks/c_metropolitan_museum.glb",
-   "produced_at": "2026-09-06T12:34:03Z",
+   "produced_at": "2026-09-06T13:43:51Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "7ab6be987bcb8c196b649396e72089d896c00cab13d030b31d3833d56d916267",
+   "sha256": "7961eea3a778ca453080df4613c10f3355731f5b2016df2f041ddb99957178c0",
    "sources": [
     "building_footprints"
    ],
    "stage": "landmarks",
-   "tris_lod0": 84303,
-   "tris_lod1": 760
+   "tris_lod0": 84671,
+   "tris_lod1": 1128
   },
   "landmark_glb:c_moynihan_train_hall": {
    "artifact_id": "landmark_glb:c_moynihan_train_hall",
@@ -8284,20 +8397,20 @@
     1081792,
     1081791
    ],
-   "bytes": 5192980,
+   "bytes": 5201852,
    "footprint_iou": 1.0,
-   "git_commit": "1a5dfa8dd00c",
+   "git_commit": "3b5d1262beec",
    "path": "blender_out/landmarks/c_riverside_church.glb",
-   "produced_at": "2026-09-06T12:43:32Z",
+   "produced_at": "2026-09-06T13:54:49Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "283acd9d0d7edd3713853a36e52458dcfc553d2d97a5c279707be29dfc63423e",
+   "sha256": "ecbf9b3a808134402008930346acb49bf3941ecbd827a4cbfbddf6627aea8a99",
    "sources": [
     "building_footprints"
    ],
    "stage": "landmarks",
-   "tris_lod0": 18746,
-   "tris_lod1": 3204
+   "tris_lod0": 18842,
+   "tris_lod1": 3221
   },
   "landmark_glb:c_seagram_building": {
    "artifact_id": "landmark_glb:c_seagram_building",
@@ -8324,60 +8437,60 @@
    "bins": [
     1082706
    ],
-   "bytes": 6621360,
+   "bytes": 6673488,
    "footprint_iou": 1.0,
-   "git_commit": "1a5dfa8dd00c",
+   "git_commit": "3b5d1262beec",
    "path": "blender_out/landmarks/c_st_john_the_divine.glb",
-   "produced_at": "2026-09-06T12:41:35Z",
+   "produced_at": "2026-09-06T13:53:20Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "22af13a69e97bf39bb1225a596e570713efff4193633dbb0a538a6f340dde407",
+   "sha256": "659acbe38ab6eb3a1cadc8564d1384c5d73ad48724232a7b52207590c0b13820",
    "sources": [
     "building_footprints"
    ],
    "stage": "landmarks",
-   "tris_lod0": 4329,
-   "tris_lod1": 576
+   "tris_lod0": 4833,
+   "tris_lod1": 826
   },
   "landmark_glb:c_the_dakota": {
    "artifact_id": "landmark_glb:c_the_dakota",
    "bins": [
     1028637
    ],
-   "bytes": 18771344,
+   "bytes": 18784268,
    "footprint_iou": 1.0,
-   "git_commit": "d63f02e8c7ff",
+   "git_commit": "3b5d1262beec",
    "path": "blender_out/landmarks/c_the_dakota.glb",
-   "produced_at": "2026-09-06T12:17:38Z",
+   "produced_at": "2026-09-06T13:35:25Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "92869a1558e588cf4e7c49765f74283564ef7c935c8dc3c3a23a2aa9afdd35e2",
+   "sha256": "85f890fe44d6798607793e5be1ce118b48e4b35c37c3b8e61ff29229975cb823",
    "sources": [
     "building_footprints"
    ],
    "stage": "landmarks",
-   "tris_lod0": 20708,
-   "tris_lod1": 1642
+   "tris_lod0": 20808,
+   "tris_lod1": 1742
   },
   "landmark_glb:c_the_plaza": {
    "artifact_id": "landmark_glb:c_the_plaza",
    "bins": [
     1035253
    ],
-   "bytes": 16720948,
+   "bytes": 19623416,
    "footprint_iou": 1.0,
-   "git_commit": "7681d64744ab",
+   "git_commit": "3b5d1262beec",
    "path": "blender_out/landmarks/c_the_plaza.glb",
-   "produced_at": "2026-09-06T12:24:32Z",
+   "produced_at": "2026-09-06T13:36:57Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "56e01f5d778849d636f5ed8e040fc12a3bf0d8f2798b1474fde0f5b0777a8fc2",
+   "sha256": "02cafde06deb313da36755dd0f27b4638ab33d9b48c583aa7cd194682a57d3e8",
    "sources": [
     "building_footprints"
    ],
    "stage": "landmarks",
-   "tris_lod0": 26425,
-   "tris_lod1": 4094
+   "tris_lod0": 26492,
+   "tris_lod1": 4161
   },
   "landmark_glb:c_times_square": {
    "artifact_id": "landmark_glb:c_times_square",
@@ -8418,14 +8531,14 @@
     1083872,
     1083874
    ],
-   "bytes": 15452372,
+   "bytes": 15452692,
    "footprint_iou": 1.0,
-   "git_commit": "c4464e87459d",
+   "git_commit": "3b5d1262beec",
    "path": "blender_out/landmarks/c_un_headquarters.glb",
-   "produced_at": "2026-09-06T12:27:41Z",
+   "produced_at": "2026-09-06T13:42:11Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "811252ed4c7cf09ffdce90ac828ccca44b3f3a148abfb465a32d6be55e6c73fa",
+   "sha256": "2f0d5989bd81c94151a0c2abf93eb3af608747b80c2475f6562605353de631ea",
    "sources": [
     "building_footprints"
    ],
@@ -8500,20 +8613,20 @@
    "bins": [
     2114490
    ],
-   "bytes": 13622072,
+   "bytes": 13669316,
    "footprint_iou": 1.0,
-   "git_commit": "1a5dfa8dd00c",
+   "git_commit": "3b5d1262beec",
    "path": "blender_out/landmarks/c_yankee_stadium.glb",
-   "produced_at": "2026-09-06T12:45:23Z",
+   "produced_at": "2026-09-06T13:55:59Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "e219c61bedec07ec56f72c9020519d05378eb41fc3d1cd063fda587d2888adb8",
+   "sha256": "c4d0945d0d41f172cf90acaa39884bdd5ad896533dd3bf001f31dd57df73fd54",
    "sources": [
     "building_footprints"
    ],
    "stage": "landmarks",
-   "tris_lod0": 10196,
-   "tris_lod1": 1742
+   "tris_lod0": 10604,
+   "tris_lod1": 1811
   },
   "landmark_glb:charging_bull": {
    "artifact_id": "landmark_glb:charging_bull",
@@ -8740,14 +8853,14 @@
    "bins": [
     1034194
    ],
-   "bytes": 19435152,
+   "bytes": 19435472,
    "footprint_iou": 1.0,
-   "git_commit": "e9c4094042a0",
+   "git_commit": "3b5d1262beec",
    "path": "blender_out/landmarks/new_york_public_library.glb",
-   "produced_at": "2026-09-06T12:14:21Z",
+   "produced_at": "2026-09-06T13:48:21Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "22a9dd541274a878df8dad7199fcda3f13e5d6c24f5cacb98953af7224b1171c",
+   "sha256": "3ef93268afe4382ae62a9602216e11a1acd16a1ad74296fd26007af68463c1b6",
    "sources": [
     "building_footprints"
    ],
@@ -9204,13 +9317,13 @@
   },
   "roads_junction_lanes": {
    "artifact_id": "roads_junction_lanes",
-   "bytes": 59638315,
-   "git_commit": "38976a48e050",
+   "bytes": 59648428,
+   "git_commit": "3b5d1262beec",
    "path": "data/processed/roads/junction_lanes.parquet",
-   "produced_at": "2026-09-06T13:07:44Z",
-   "rows": null,
+   "produced_at": "2026-09-06T13:46:48Z",
+   "rows": 469754,
    "schema": "roads.junction_lanes.v1",
-   "sha256": "81573f40fd104b5d6bfb734f66c322176f1f9750667fbb6d4dbf9c7c4fb048d2",
+   "sha256": "5586786076e594075157c039253eacafb5154a634657cff252168f31491f05f6",
    "sources": [
     "terrain_tiles"
    ],
@@ -9219,13 +9332,13 @@
   },
   "roads_lanes": {
    "artifact_id": "roads_lanes",
-   "bytes": 36827201,
-   "git_commit": "38976a48e050",
+   "bytes": 36832851,
+   "git_commit": "3b5d1262beec",
    "path": "data/processed/roads/lanes.parquet",
-   "produced_at": "2026-09-06T13:07:43Z",
-   "rows": null,
+   "produced_at": "2026-09-06T13:46:47Z",
+   "rows": 381971,
    "schema": "roads.lanes.v1",
-   "sha256": "28086313010cd6a3690c29d6568bd16bc984f55a84db04b8fc145402c3af9137",
+   "sha256": "aab51497fcc6afcf646e910f9ff71243f6b46ea267da676ee156c8f2486efd9e",
    "sources": [
     "terrain_tiles"
    ],
@@ -9234,13 +9347,13 @@
   },
   "roads_nodes": {
    "artifact_id": "roads_nodes",
-   "bytes": 4208878,
-   "git_commit": "38976a48e050",
+   "bytes": 4209554,
+   "git_commit": "3b5d1262beec",
    "path": "data/processed/roads/nodes.parquet",
-   "produced_at": "2026-09-06T13:07:43Z",
-   "rows": null,
+   "produced_at": "2026-09-06T13:46:47Z",
+   "rows": 79291,
    "schema": "roads.nodes.v1",
-   "sha256": "1a93b76a7944f49c8f2446f91acc8aa9e40662aacf470086a9183ee916da5975",
+   "sha256": "364b59af9786ecb914a11df224aa0e7a6bf725cbe49158177ff805942530c7b0",
    "sources": [
     "terrain_tiles"
    ],
@@ -9284,13 +9397,13 @@
   },
   "roads_segments": {
    "artifact_id": "roads_segments",
-   "bytes": 13670915,
-   "git_commit": "38976a48e050",
+   "bytes": 13673283,
+   "git_commit": "3b5d1262beec",
    "path": "data/processed/roads/segments.parquet",
-   "produced_at": "2026-09-06T13:07:43Z",
-   "rows": null,
+   "produced_at": "2026-09-06T13:46:47Z",
+   "rows": 122235,
    "schema": "roads.segments.v1",
-   "sha256": "48e39e37d5b462bb37077338ed53656865d324cf3bffb095772cd9a5ea331231",
+   "sha256": "d04685b14c998d9769508d4dd66792ba56c89d99ed276d28aa6107fe61a46865",
    "sources": [
     "terrain_tiles"
    ],
@@ -9333,13 +9446,13 @@
   },
   "roads_signs": {
    "artifact_id": "roads_signs",
-   "bytes": 33734435,
-   "git_commit": "38976a48e050",
+   "bytes": 33737415,
+   "git_commit": "3b5d1262beec",
    "path": "data/processed/roads/signs.parquet",
-   "produced_at": "2026-09-06T13:07:44Z",
-   "rows": null,
+   "produced_at": "2026-09-06T13:46:48Z",
+   "rows": 633287,
    "schema": "roads.signs.v1",
-   "sha256": "8600d34143dad4d22e72cc81f96e36a655048c09bb13163dd0e906789c378a8b",
+   "sha256": "e3eb45c3d5e425ed885cc126265593f2dc0b4badfe2e0f3d6bbce3213913595b",
    "sources": [
     "terrain_tiles"
    ],
@@ -9348,13 +9461,13 @@
   },
   "roads_terrain_z": {
    "artifact_id": "roads_terrain_z",
-   "bytes": 1194,
-   "git_commit": "38976a48e050",
+   "bytes": 1195,
+   "git_commit": "3b5d1262beec",
    "path": "data/processed/roads/terrain_z_summary.json",
-   "produced_at": "2026-09-06T13:07:42Z",
+   "produced_at": "2026-09-06T13:46:46Z",
    "rows": null,
    "schema": "roads.terrain_z/1",
-   "sha256": "0f2471eb8d01d92b3cf0c01557d18c1cd53c76527b35393d9ad105c4eef4f4d7",
+   "sha256": "3956dfc104aefc5490af12c42429d269ddae47fd2358a85a315f4cb4ce6a5e3f",
    "sources": [
     "terrain_tiles"
    ],
@@ -9388,9 +9501,9 @@
   "runtime_nycb_layout": {
    "artifact_id": "runtime_nycb_layout",
    "bytes": 8746,
-   "git_commit": "f97cecf39726",
+   "git_commit": "3b5d1262beec",
    "path": "data/processed/runtime/nycb_layout.json",
-   "produced_at": "2026-09-06T13:25:19Z",
+   "produced_at": "2026-09-06T13:47:14Z",
    "rows": null,
    "schema": "nycb.layout/1",
    "sha256": "1b7fcceca7ccb04fb6e3ca9cf88d51e53069dfab79987dedac6a0cfa91139b23",
@@ -9410,12 +9523,12 @@
     "vertices": 3910302,
     "yield_links": 588201
    },
-   "git_commit": "f97cecf39726",
+   "git_commit": "3b5d1262beec",
    "path": "data/processed/runtime/roadgraph.nycb",
-   "produced_at": "2026-09-06T13:25:19Z",
+   "produced_at": "2026-09-06T13:47:13Z",
    "rows": 122235,
    "schema": "nycb.roadgraph/1",
-   "sha256": "c646f75e22b7855a1569f01903e17588a55380310bcdae4c1c715e2c243138d3",
+   "sha256": "97d483b10515f48722dccf13f5677dfe8ccc1ba6118df64f769099529052d24d",
    "sources": [
     "roads_segments",
     "roads_nodes",
@@ -9431,9 +9544,9 @@
     "controllers": 19814,
     "phases": 39649
    },
-   "git_commit": "f97cecf39726",
+   "git_commit": "3b5d1262beec",
    "path": "data/processed/runtime/signals.nycb",
-   "produced_at": "2026-09-06T13:25:19Z",
+   "produced_at": "2026-09-06T13:47:14Z",
    "rows": 19814,
    "schema": "nycb.signals/1",
    "sha256": "36b3d4d7af5eb20969198834b1eeb78eb6ed9006cc9860f9ce5418b9adf72b14",
@@ -9471,6 +9584,70 @@
    ],
    "stage": "transit"
   },
+  "terrain_coverage": {
+   "artifact_id": "terrain_coverage",
+   "boroughs": {
+    "Bronx": {
+     "borough_code": 2,
+     "coverage_pct": 100.0,
+     "land_km2": 110.74,
+     "pct_13": 0.0254,
+     "pct_19": 0.0,
+     "pct_1m": 99.9746,
+     "void_px": 0
+    },
+    "Brooklyn": {
+     "borough_code": 3,
+     "coverage_pct": 100.0,
+     "land_km2": 180.438,
+     "pct_13": 0.0001,
+     "pct_19": 0.0,
+     "pct_1m": 99.9999,
+     "void_px": 0
+    },
+    "Manhattan": {
+     "borough_code": 1,
+     "coverage_pct": 100.0,
+     "land_km2": 59.382,
+     "pct_13": 0.0,
+     "pct_19": 0.0,
+     "pct_1m": 100.0,
+     "void_px": 0
+    },
+    "Queens": {
+     "borough_code": 4,
+     "coverage_pct": 100.0,
+     "land_km2": 283.68,
+     "pct_13": 0.0,
+     "pct_19": 0.0,
+     "pct_1m": 100.0,
+     "void_px": 0
+    },
+    "Staten Island": {
+     "borough_code": 5,
+     "coverage_pct": 100.0,
+     "land_km2": 151.442,
+     "pct_13": 0.0,
+     "pct_19": 0.0,
+     "pct_1m": 100.0,
+     "void_px": 0
+    }
+   },
+   "bytes": 566941,
+   "git_commit": "3b5d1262beec",
+   "path": "data/processed/terrain/coverage.json",
+   "produced_at": "2026-09-06T13:55:37Z",
+   "rows": 2916,
+   "schema": "terrain.coverage/1",
+   "sha256": "0a601e16331e491ab7e25ac41f7284ee473ebf96bb7053d910e7ecc9ee51bf6e",
+   "sources": [
+    "usgs_3dep",
+    "borough_boundaries",
+    "plan_hydrography"
+   ],
+   "stage": "terrain",
+   "void_px_land": 1890
+  },
   "terrain_ground_points": {
    "artifact_id": "terrain_ground_points",
    "buildings": 1082459,
@@ -9486,6 +9663,24 @@
     "building_footprints"
    ],
    "spot": 376133,
+   "stage": "terrain"
+  },
+  "terrain_overview_16m": {
+   "artifact_id": "terrain_overview_16m",
+   "bytes": 19652118,
+   "cell_m": 16.0,
+   "git_commit": "3b5d1262beec",
+   "path": "data/processed/terrain/overview_16m.tif",
+   "produced_at": "2026-09-06T13:50:41Z",
+   "rows": 11394000,
+   "schema": "terrain.overview/1",
+   "sha256": "6fb7b2d0ad40d3b6414a00573a5b9b4c86a2d956f784b8e8aafdc49408475a07",
+   "sources": [
+    "usgs_3dep",
+    "plan_hydrography",
+    "plan_elevation_points",
+    "building_footprints"
+   ],
    "stage": "terrain"
   },
   "terrain_src2m_usgs_3dep_13_n41w074__-1_-2": {
@@ -11619,13 +11814,13 @@
   },
   "tiles_index": {
    "artifact_id": "tiles_index",
-   "bytes": 46971,
-   "git_commit": "e1034ccf726a",
+   "bytes": 46584,
+   "git_commit": "3b5d1262beec",
    "path": "data/processed/tiles/index.parquet",
-   "produced_at": "2026-09-06T13:31:50Z",
+   "produced_at": "2026-09-06T13:38:18Z",
    "rows": 2916,
    "schema": "tiles.index/1",
-   "sha256": "c8835581305ef2743d2892c9db9b5698ed80c5a17bb0c3c4bcef92bc91798b20",
+   "sha256": "fad71608a7020b2cd4ecda4af8c9feb4911a67e876964b63b66b55bd214e4a83",
    "sources": [
     "usgs_3dep",
     "plan_hydrography",

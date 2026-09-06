@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-06T13:20:53Z",
+ "generated_at": "2026-09-06T13:46:56Z",
  "no_void": {
   "tiles_expected": 2916,
   "tiles_present": 2916,
@@ -13,7 +13,7 @@
   "z_max_m": 210.2775,
   "tiles_with_land": 2294,
   "tiles_with_water": 1743,
-  "seconds": 44.8
+  "seconds": 52.8
  },
  "extremes": {
   "tiles": 2916,
@@ -135,6 +135,14 @@
    "z_m": -26.973,
    "tile": "t_-5_6"
   },
+  "nyc_five_boroughs": {
+   "z_max": 125.59,
+   "tile_max": "t_-14_-12",
+   "borough": "Staten Island",
+   "z_min": -5.18,
+   "tile_min": "t_-6_0",
+   "borough_min": "Manhattan"
+  },
   "envelope_m": [
    -6.0,
    135.0
@@ -144,7 +152,7 @@
    220.0
   ],
   "pass": true,
-  "seconds": 53.5
+  "seconds": 65.5
  },
  "seams": {
   "pairs_checked": 5724,
@@ -153,7 +161,7 @@
   "tolerance_m": 0.001,
   "violations": [],
   "n_violations": 0,
-  "seconds": 54.2
+  "seconds": 53.6
  },
  "known_elevations": {
   "points": [
@@ -307,8 +315,8 @@
   "New York State outside NYC (extension)": {
    "z_max": 99.49749755859375,
    "tile_max": "t_6_26",
-   "z_min": -5.179999828338623,
-   "tile_min": "t_-6_0"
+   "z_min": -1.9950000047683716,
+   "tile_min": "t_-15_-7"
   },
   "Staten Island": {
    "z_max": 125.58999633789062,
@@ -353,6 +361,18 @@
    }
   ]
  },
+ "overview": {
+  "path": "/home/user/Map-New-York/data/processed/terrain/overview_16m.tif",
+  "width": 3376,
+  "height": 3375,
+  "cell_m": 16.0,
+  "valid_px": 11394000,
+  "nan_px": 0,
+  "z_min": -3.9000000953674316,
+  "z_max": 210.20750427246094,
+  "bytes": 19652118,
+  "seconds": 49.5
+ },
  "hillshade": {
   "city": {
    "png": "/home/user/Map-New-York/docs/verification/terrain/hillshade_city.png",
@@ -364,7 +384,7 @@
    "cell_m": 20.0,
    "z_min": -3.882499933242798,
    "z_max": 210.1999969482422,
-   "seconds": 77.9
+   "seconds": 80.1
   },
   "manhattan": {
    "png": "/home/user/Map-New-York/docs/verification/terrain/hillshade_manhattan.png",
@@ -382,7 +402,7 @@
    ],
    "z_min": -5.137499809265137,
    "z_max": 108.55999755859375,
-   "seconds": 97.9
+   "seconds": 85.0
   }
  }
 }

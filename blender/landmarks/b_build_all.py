@@ -51,7 +51,7 @@ def main() -> int:
     ap.add_argument("--samples", type=int, default=64)
     ap.add_argument("--only", nargs="*", default=None)
     ap.add_argument("--lod0-only", action="store_true")
-    ap.add_argument("--timeout", type=int, default=5400)
+    ap.add_argument("--timeout", type=int, default=2400)
     a = ap.parse_args()
     todo = a.only or LANDMARKS
     results = []
@@ -68,7 +68,8 @@ def main() -> int:
             cmd.append("--lod0-only")
         t0 = time.time()
         try:
-            p = subprocess.run(cmd, cwd=str(REPO), capture_output=True, text=True, timeout=a.timeout)
+            env = dict(os.environ, NYCSIM_LANDMARK_HARD_EXIT="1")
+            p = subprocess.run(cmd, cwd=str(REPO), capture_output=True, text=True, timeout=a.timeout, env=env)
             rc = p.returncode
             tail = "\n".join((p.stderr or "").strip().splitlines()[-4:])
         except subprocess.TimeoutExpired:

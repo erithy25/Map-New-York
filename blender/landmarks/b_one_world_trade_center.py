@@ -202,6 +202,10 @@ def main() -> None:
     ba.run_landmark(
         ID, TITLE, build, bins=BINS, budget_lod0=250_000, budget_lod1=50_000,
         renders=[
+            # the comparison agent's recorded photographic viewpoint, used verbatim
+            ba.reference_render("landmark_one_world_trade_center", frame, view="one_wtc_reference",
+                                ground_z=0.0, target_z=280.0, fov_deg=62.0, size=(720, 1280), context=ctx,
+                                sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
             dict(view="west_street", cam=(-150.0, -40.0, 1.7), target=(0.0, 0.0, 210.0), fov_deg=70.0, context=ctx,
                  sun_azimuth_deg=200.0, sun_elevation_deg=45.0),
             dict(view="harbour", cam=(-1500.0, -2100.0, 60.0), target=(0.0, 0.0, 300.0), fov_deg=26.0, context=ctx,

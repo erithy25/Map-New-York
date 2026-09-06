@@ -7,7 +7,7 @@
   "lat": 40.7065,
   "lon": -74.0095,
   "azimuth_deg": 309.1,
-  "note": "Wall Street at William Street, looking west up Wall Street at the spire",
+  "note": "Wall Street at William Street, looking west-north-west up Wall Street at the spire",
   "representative": false
  },
  "subject": {
@@ -24,7 +24,7 @@
   "\"Trinity Church\" Manhattan Broadway spire"
  ],
  "geosearch_radius_m": 250,
- "fetched_at": "2026-09-06T12:36:19Z",
+ "fetched_at": "2026-09-06T13:56:16Z",
  "max_width": 1920,
  "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
  "candidates_seen": 130,
@@ -205,7 +205,7 @@
     "azimuth_deg": 309.1,
     "confidence": "medium",
     "method": "standard_viewpoint",
-    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Wall Street at William Street, looking west up Wall Street at the spire) and the azimuth 309 deg is the bearing from there to Trinity Church (40.70810, -74.01210)."
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Wall Street at William Street, looking west-north-west up Wall Street at the spire) and the azimuth 309 deg is the bearing from there to Trinity Church (40.70810, -74.01210)."
    },
    "attribution": "\"NYC, Wall Street & Broadway.jpg\" by Jess Hawsor, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:NYC,_Wall_Street_%26_Broadway.jpg"
   }

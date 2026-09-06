@@ -105,6 +105,10 @@ def main() -> None:
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=250_000, budget_lod1=50_000,
         renders=[
+            # the comparison agent's recorded photographic viewpoint, used verbatim
+            ba.reference_render("landmark_pulaski_bridge", fit.frame, view="pulaski_reference",
+                                ground_z=GROUND, target_z=16.0, fov_deg=58.0, size=(1280, 720), context=ctx,
+                                sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
             dict(view="newtown_creek", cam=ax.p(-90.0, -140.0, GROUND + 2.0), target=ax.p(40.0, 0.0, 14.0),
                  fov_deg=60.0, context=ctx, sun_azimuth_deg=230.0, sun_elevation_deg=35.0),
             dict(view="roadway", cam=ax.p(-160.0, -2.6, deck_z(-160.0) + 2.0), target=ax.p(200.0, -2.6, Z_DECK + 3.0),

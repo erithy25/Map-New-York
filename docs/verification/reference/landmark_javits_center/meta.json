@@ -1,0 +1,210 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_javits_center",
+ "name": "Jacob K. Javits Convention Center",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.756731,
+  "lon": -73.999711,
+  "azimuth_deg": 290.0,
+  "note": "Eleventh Avenue at West 36th Street, about 250 m east-south-east of the building, looking west-north-west at the space-frame glass wall",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7575,
+  "lon": -74.0025,
+  "name": "Jacob K. Javits Convention Center"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Javits Center\" glass exterior Eleventh Avenue",
+  "\"Jacob K. Javits Convention Center\" building"
+ ],
+ "geosearch_radius_m": 500,
+ "fetched_at": "2026-09-06T13:51:13Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 44,
+ "candidates_eligible": 3,
+ "rejections": {
+  "night_for_day_item": 2,
+  "keywords": 24,
+  "excluded": 10,
+  "not_photo": 2,
+  "indoor": 2,
+  "too_old": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Javits Ctr 12th Av 01.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Javits_Ctr_12th_Av_01.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b9/Javits_Ctr_12th_Av_01.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Javits_Ctr_12th_Av_01.jpg/1920px-Javits_Ctr_12th_Av_01.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2017-09-16 18:13:28",
+   "date_source": "DateTimeOriginal",
+   "year": 2017,
+   "camera_gps": {
+    "lat": 40.760585,
+    "lon": -74.002033
+   },
+   "original_width": 5152,
+   "original_height": 3864,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 425230,
+   "sha256": "0aa36132a01be81a01ef52e56f9f61140a532c7a8fd1538691a2875dfb1174df",
+   "mean_luminance": 102.2,
+   "description": "A construction site for the Jacob Javits Center on 12th Avenue (West Side Highway) and West 40th Street (Anthony Brizzi Place) in Hell's Kitchen, Manhattan.",
+   "categories": [
+    "Taken with Sony DSC-W830",
+    "40th Street (Manhattan)",
+    "Jacob K. Javits Convention Center",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2017-09-16",
+    "Construction in Manhattan, New York City",
+    "2017 Manhattan photographs by Tdorante10",
+    "September 2017 in Manhattan, New York City",
+    "12th Avenue (Manhattan)",
+    "Construction site fences in New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Jacob K. Javits Convention Center\" building",
+   "score": 9.3,
+   "estimated_viewpoint": {
+    "lat": 40.760585,
+    "lon": -74.002033,
+    "azimuth_deg": 186.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76058, -74.00203) is 345 m from Jacob K. Javits Convention Center (40.75750, -74.00250) and 471 m from the standard viewpoint; the azimuth 187 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Javits Ctr 12th Av 01.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Javits_Ctr_12th_Av_01.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Quill Depot-Javits Ctr 05.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Quill_Depot-Javits_Ctr_05.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/14/Quill_Depot-Javits_Ctr_05.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Quill_Depot-Javits_Ctr_05.jpg/1920px-Quill_Depot-Javits_Ctr_05.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2017-09-16 18:09:32",
+   "date_source": "DateTimeOriginal",
+   "year": 2017,
+   "camera_gps": {
+    "lat": 40.759534,
+    "lon": -73.999045
+   },
+   "original_width": 5152,
+   "original_height": 3864,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 484285,
+   "sha256": "5374d5905a409486d2e5e48af42e776db02d4edb357a8a8895868cc05fc8425d",
+   "mean_luminance": 144.1,
+   "description": "A building of the Jacob Javits Center under construction on the south side of West 40th Street (Anthony Brizzi Place) west of 11th Avenue in Hell's Kitchen, Manhattan, across from the Michael J. Quill Bus Depot.",
+   "categories": [
+    "September 2017 in New York City",
+    "Taken with Sony DSC-W830",
+    "40th Street (Manhattan)",
+    "Jacob K. Javits Convention Center",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "New York City photographs taken on 2017-09-16",
+    "Construction in Manhattan, New York City",
+    "2017 Manhattan photographs by Tdorante10"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Jacob K. Javits Convention Center\" building",
+   "score": 9.3,
+   "estimated_viewpoint": {
+    "lat": 40.759534,
+    "lon": -73.999045,
+    "azimuth_deg": 232.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75953, -73.99904) is 369 m from Jacob K. Javits Convention Center (40.75750, -74.00250) and 317 m from the standard viewpoint; the azimuth 232 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Quill Depot-Javits Ctr 05.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Quill_Depot-Javits_Ctr_05.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Quill Depot-Javits Ctr 07.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Quill_Depot-Javits_Ctr_07.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/ba/Quill_Depot-Javits_Ctr_07.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Quill_Depot-Javits_Ctr_07.jpg/1920px-Quill_Depot-Javits_Ctr_07.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2017-09-16 18:11:18",
+   "date_source": "DateTimeOriginal",
+   "year": 2017,
+   "camera_gps": {
+    "lat": 40.759534,
+    "lon": -73.999045
+   },
+   "original_width": 5152,
+   "original_height": 3864,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 543253,
+   "sha256": "e7c4e056c0541198d999cd197b807d349b9117c1151b42236adf58dc5fa691b8",
+   "mean_luminance": 134.0,
+   "description": "A construction site for the Jacob Javits Center on West 40th Street (Anthony Brizzi Place) west of 11th Avenue in Hell's Kitchen, Manhattan, across from the Michael J. Quill Bus Depot.",
+   "categories": [
+    "September 2017 in New York City",
+    "Taken with Sony DSC-W830",
+    "Hell's Kitchen, Manhattan",
+    "40th Street (Manhattan)",
+    "Jacob K. Javits Convention Center",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "New York City photographs taken on 2017-09-16",
+    "Construction in Manhattan, New York City",
+    "2017 Manhattan photographs by Tdorante10",
+    "Fences in New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Jacob K. Javits Convention Center\" building",
+   "score": 9.3,
+   "estimated_viewpoint": {
+    "lat": 40.759534,
+    "lon": -73.999045,
+    "azimuth_deg": 232.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75953, -73.99904) is 369 m from Jacob K. Javits Convention Center (40.75750, -74.00250) and 317 m from the standard viewpoint; the azimuth 232 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Quill Depot-Javits Ctr 07.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Quill_Depot-Javits_Ctr_07.jpg"
+  }
+ ]
+}

@@ -1,0 +1,210 @@
+{
+ "schema_version": 1,
+ "slug": "street_nycha_tower_campus",
+ "name": "NYCHA tower-in-the-park campus",
+ "group": "streetscape",
+ "viewpoint": {
+  "lat": 40.7098,
+  "lon": -73.999,
+  "azimuth_deg": 12.6,
+  "note": "South Street at the Brooklyn Bridge approach, looking north at the Alfred E. Smith Houses (representative campus)",
+  "representative": true
+ },
+ "subject": {
+  "lat": 40.7115,
+  "lon": -73.9985,
+  "name": "Alfred E. Smith Houses"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "NYCHA houses towers \"New York City Housing Authority\"",
+  "\"Alfred E. Smith Houses\"",
+  "\"Queensbridge Houses\""
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T13:37:37Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 103,
+ "candidates_eligible": 27,
+ "rejections": {
+  "too_small": 14,
+  "too_old": 9,
+  "excluded": 22,
+  "not_photo": 3,
+  "night_for_day_item": 1,
+  "indoor": 2,
+  "not_jpeg": 1,
+  "keywords": 23,
+  "licence": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:NYCHA Alfred E. Smith Houses 002.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:NYCHA_Alfred_E._Smith_Houses_002.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/83/NYCHA_Alfred_E._Smith_Houses_002.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/NYCHA_Alfred_E._Smith_Houses_002.jpg/1920px-NYCHA_Alfred_E._Smith_Houses_002.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-05-11 13:53:46",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.709922,
+    "lon": -73.996986
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 1039106,
+   "sha256": "60a4a786a63726aa76b821c3e51250a6c709cade476c73683cca23c917d36fe5",
+   "mean_luminance": 106.7,
+   "description": "NYCHA Alfred E. Smith Houses in Lower Manhattan",
+   "categories": [
+    "Alfred E. Smith Houses",
+    "New York City photographs taken on 2022-05-11",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2022 in the Lower East Side",
+    "Apartment buildings in the United States photographed in 2022",
+    "May 2022 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.05,
+   "estimated_viewpoint": {
+    "lat": 40.709922,
+    "lon": -73.996986,
+    "azimuth_deg": 324.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70992, -73.99699) is 217 m from Alfred E. Smith Houses (40.71150, -73.99850) and 170 m from the standard viewpoint; the azimuth 324 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"NYCHA Alfred E. Smith Houses 002.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:NYCHA_Alfred_E._Smith_Houses_002.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:2024-06-15 08 51 13 View north along the Franklin Delano Roosevelt-East River Drive from the Brooklyn Bridge in Manhattan, New York City, New York.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:2024-06-15_08_51_13_View_north_along_the_Franklin_Delano_Roosevelt-East_River_Drive_from_the_Brooklyn_Bridge_in_Manhattan,_New_York_City,_New_York.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/2024-06-15_08_51_13_View_north_along_the_Franklin_Delano_Roosevelt-East_River_Drive_from_the_Brooklyn_Bridge_in_Manhattan%2C_New_York_City%2C_New_York.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/2024-06-15_08_51_13_View_north_along_the_Franklin_Delano_Roosevelt-East_River_Drive_from_the_Brooklyn_Bridge_in_Manhattan%2C_New_York_City%2C_New_York.jpg/1920px-2024-06-15_08_51_13_View_north_along_the_Franklin_Delano_Roosevelt-East_River_Drive_from_the_Brooklyn_Bridge_in_Manhattan%2C_New_York_City%2C_New_York.jpg",
+   "author": "Famartin",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024-06-15 08:51:13",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.708623,
+    "lon": -73.999898
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 695215,
+   "sha256": "aedbf18f32cb3dfbc535adaeafb76a193c8b8a92c7439294de33c0361a5a287d",
+   "mean_luminance": 112.3,
+   "description": "View north along the Franklin Delano Roosevelt/East River Drive from the Brooklyn Bridge in Manhattan, New York City, New York",
+   "categories": [
+    "One Manhattan Square",
+    "Two Bridges, Manhattan",
+    "Alfred E. Smith Houses",
+    "Franklin D. Roosevelt East River Drive",
+    "Views from the Brooklyn Bridge",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2024 in the Lower East Side",
+    "New York City photographs taken on 2024-06-15",
+    "June 2024 in Manhattan, New York City",
+    "Views of New York City from west",
+    "Famartin's 2024 photos",
+    "Famartin's June 2024 photos"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Alfred E. Smith Houses\"",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.708623,
+    "lon": -73.999898,
+    "azimuth_deg": 20.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70862, -73.99990) is 341 m from Alfred E. Smith Houses (40.71150, -73.99850) and 151 m from the standard viewpoint; the azimuth 20 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"2024-06-15 08 51 13 View north along the Franklin Delano Roosevelt-East River Drive from the Brooklyn Bridge in Manhattan, New York City, New York.jpg\" by Famartin, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:2024-06-15_08_51_13_View_north_along_the_Franklin_Delano_Roosevelt-East_River_Drive_from_the_Brooklyn_Bridge_in_Manhattan,_New_York_City,_New_York.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:NYCHA Alfred E. Smith Houses 003.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:NYCHA_Alfred_E._Smith_Houses_003.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/3a/NYCHA_Alfred_E._Smith_Houses_003.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/NYCHA_Alfred_E._Smith_Houses_003.jpg/1280px-NYCHA_Alfred_E._Smith_Houses_003.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-01-17 12:49:58",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.70855,
+    "lon": -73.999222
+   },
+   "original_width": 1536,
+   "original_height": 2048,
+   "width": 1280,
+   "height": 1707,
+   "bytes": 678421,
+   "sha256": "c74b3d49c27839a829ad41c8d974b99f677623bad7b83de42edae9b6d743407a",
+   "mean_luminance": 125.7,
+   "description": "NYCHA Alfred E. Smith Houses in Lower Manhattan",
+   "categories": [
+    "Alfred E. Smith Houses",
+    "New York City photographs taken on 2023-01-17",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2023 in the Lower East Side",
+    "Apartment buildings in the United States photographed in 2023",
+    "January 2023 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.70855,
+    "lon": -73.999222,
+    "azimuth_deg": 10.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70855, -73.99922) is 334 m from Alfred E. Smith Houses (40.71150, -73.99850) and 140 m from the standard viewpoint; the azimuth 11 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"NYCHA Alfred E. Smith Houses 003.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:NYCHA_Alfred_E._Smith_Houses_003.jpg"
+  }
+ ]
+}

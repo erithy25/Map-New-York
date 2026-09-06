@@ -168,25 +168,49 @@ def build(lod: int = 0):
 
 
 def main() -> None:
+    """Three verification renders, each framed to answer one question.
+
+    1. ``dumbo_washington_street`` — **the real photographic viewpoint**, taken from
+       ``docs/verification/reference/dumbo_washington_st_manhattan_bridge/meta.json``: camera 40.70330 N,
+       73.98958 W (Washington Street between Front and Water), azimuth 355.6 deg, subject the Manhattan Bridge's
+       Brooklyn tower 134 m away; rendered in portrait like the four Commons photographs the reference records.
+       Question: at the real camera position, distance and bearing, is the tower the right size and shape?
+       *The brick warehouse walls that frame the tower in the photographs belong to the buildings stage and are
+       not in this model, so the render shows the bridge alone against the sky.*
+    2. ``tower_three_quarter`` — the Brooklyn tower from the river with the sun 35 deg up and off-axis.
+       Question: are the portal legs, the four horizontal struts, the finials and the two deck levels right?
+    3. ``elevation_both_towers`` — a long lens with both towers, the 451.1 m main span and both anchorages in
+       frame.  Question: is the span, the cable sag and the two-level deck right?
+    """
     fit = ba.bridge_axis(SUPPORTS, ("tower_bk", "tower_mn"), MAIN_SPAN)
     ax = fit.axis
+    fr = fit.frame
     land_bk, land_mn = ax.p(-900.0, 0.0), ax.p(900.0, 0.0)
     ctx = (("water_dark", 0.35, 1500.0, (0.0, 0.0)),
            ("sidewalk", GROUND, 460.0, (land_bk.x, land_bk.y)),
            ("sidewalk", GROUND, 460.0, (land_mn.x, land_mn.y)))
+    washington_st = fr.from_lonlat(-73.98958, 40.70330, GROUND + 1.65)
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=400_000, budget_lod1=90_000,
         renders=[
-            dict(view="dumbo_washington_street", cam=fit.frame.from_lonlat(-73.98905, 40.70338, 3.0),
-                 target=ax.p(S_T_BK, 0.0, 60.0), fov_deg=52.0, context=ctx, sun_azimuth_deg=250.0, sun_elevation_deg=30.0),
-            dict(view="elevation_from_river", cam=ax.p(0.0, -520.0, 20.0), target=ax.p(0.0, 0.0, 60.0),
-                 fov_deg=40.0, context=ctx, sun_azimuth_deg=170.0, sun_elevation_deg=30.0),
-            dict(view="canal_street_arch", cam=ax.p(S_END_MN + 55.0, 26.0, GROUND + 1.7),
-                 target=ax.p(S_END_MN - 6.0, 0.0, 12.0), fov_deg=58.0, context=ctx, sun_azimuth_deg=120.0,
-                 sun_elevation_deg=45.0),
+            # the comparison agent's recorded viewpoint, used verbatim (portrait, like the reference photographs)
+            ba.reference_render("dumbo_washington_st_manhattan_bridge", fr, view="dumbo_washington_street_reference",
+                                ground_z=GROUND, target_z=52.0, fov_deg=62.0, size=(720, 1280), context=ctx,
+                                sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
+            ba.reference_render("landmark_manhattan_bridge", fr, view="pebble_beach_reference",
+                                ground_z=GROUND, target_z=52.0, fov_deg=58.0, size=(1280, 720), context=ctx,
+                                sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
+            dict(view="dumbo_washington_street", cam=washington_st, target=ax.p(S_T_BK, 0.0, 52.0),
+                 fov_deg=62.0, size=(720, 1280), context=ctx, sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
+            dict(view="tower_three_quarter", cam=ax.p(S_T_BK - 90.0, -125.0, 26.0),
+                 target=ax.p(S_T_BK, 0.0, 58.0), fov_deg=46.0, size=(1280, 720), context=ctx,
+                 sun_azimuth_deg=205.0, sun_elevation_deg=35.0),
+            dict(view="elevation_both_towers", cam=ax.p(0.0, -1050.0, 55.0), target=ax.p(0.0, 0.0, 56.0),
+                 fov_deg=36.0, size=(1280, 720), context=ctx, sun_azimuth_deg=185.0, sun_elevation_deg=35.0),
         ],
         sections={"Placement": fit.report(),
                   "Published dimensions": __doc__.split("------------------------------------\n")[1].split("\nPlacement:")[0].strip(),
+                  "Verification renders": main.__doc__.strip(),
                   "Not modelled": __doc__.split("Not modelled:")[1].strip()},
     )
 

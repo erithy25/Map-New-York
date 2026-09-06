@@ -490,6 +490,10 @@ TEST_CASE("drivers yield to pedestrians in the crosswalk") {
         const float d2 = dx * dx + dy * dy;
         const float reach = veh.length_m * 0.4f;
         if (d2 >= reach * reach) continue;
+        // Only what is in front of the vehicle counts as a failure to yield;
+        // somebody stepping off the kerb behind a car that has already cleared
+        // the crossing is not one.
+        if (dx * std::cos(veh.heading_rad) + dy * std::sin(veh.heading_rad) <= 0.f) continue;
         if (ped_sim.crosswalkState(ped.edge) == traffic::PedSignal::Walk) {
           ++hits_with_right_of_way;
         } else {

@@ -592,14 +592,18 @@ TEST_CASE("cyclists prefer bike lanes") {
     if (id != routing::kInvalidIndex) ids.push_back(id);
   }
   REQUIRE(ids.size() >= 4u);
-  uint32_t on_bike_lane = 0;
-  for (int i = 0; i < 2000; ++i) sim.step();
-  for (uint32_t id : ids) {
-    const Vehicle* v = sim.byId(id);
-    if (v == nullptr) continue;
-    if (g.lane(v->lane).kind == routing::LaneKind::Bike) ++on_bike_lane;
+  // Count the ones that reach a bike lane at any point: a cyclist that gets
+  // there and then rides off the edge of the synthetic grid still counts.
+  std::unordered_set<uint32_t> reached;
+  for (int i = 0; i < 2000; ++i) {
+    sim.step();
+    for (uint32_t id : ids) {
+      const Vehicle* v = sim.byId(id);
+      if (v != nullptr && g.lane(v->lane).kind == routing::LaneKind::Bike) reached.insert(id);
+    }
   }
-  MESSAGE(on_bike_lane << " of " << ids.size() << " cyclists ended up in a bike lane");
+  const uint32_t on_bike_lane = static_cast<uint32_t>(reached.size());
+  MESSAGE(on_bike_lane << " of " << ids.size() << " cyclists reached a bike lane");
   CHECK(on_bike_lane * 2u >= static_cast<uint32_t>(ids.size()));
 }
 

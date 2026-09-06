@@ -118,11 +118,14 @@ def build():
         C.arched_opening(b, q - t * 2.6, q + t * 2.6, n, TERRACE_M, TERRACE_M + 5.4, None, 1.7, marble, C.M.water_dark, n=12)
         b.box_from_to(q - t * 3.4, q + t * 3.4, n, 2.2, 0.0, TERRACE_M + 0.9, gran, top=True)
     objs.append(b.build(f"{ID}_fifth_avenue_front"))
-    return objs, fr, fp
+    # aim the street camera square on the Fifth Avenue portico, not on the footprint's bounding-box centre
+    front_cam = {"eye": fr.to_export(float(mid[0] + mn[0] * 118.0), float(mid[1] + mn[1] * 118.0), 1.7),
+                 "target": fr.to_export(float(mid[0] + mn[0] * 6.0), float(mid[1] + mn[1] * 6.0), 19.0)}
+    return objs, fr, fp, front_cam
 
 
 def main():
-    objs, fr, fp = build()
+    objs, fr, fp, front_cam = build()
     C.finish(objs, ID, BINS, fr, height_m=ROOF_M, name="New York Public Library, Stephen A. Schwarzman Building",
              lp_number="LP-00246",
              height_source="LiDAR height_roof for BIN 1034194 = 38.18 m (highest roof); plan 390 x 270 ft = 118.9 x 82.3 m [Wikipedia / LPC LP-0246]",
@@ -140,7 +143,7 @@ def main():
                          "lion_length_m": LION_L, "lion_pedestal_h_m": PEDESTAL_H, "portico_bays": 3,
                          "published_plan_m": [118.9, 82.3]})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 100, "elevation_deg": "street", "distance": 120, "target_z": 22, "fov_deg": 66},
+        {"view": "street", "fov_deg": 66, **front_cam},
         {"view": "aerial", "azimuth_deg": 115, "elevation_deg": 24, "distance": 285, "fov_deg": 48, "target_z": 20},
     ])
 

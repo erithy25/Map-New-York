@@ -35,7 +35,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
-from ..crs import SCOPE_XMAX, SCOPE_XMIN, SCOPE_YMAX, SCOPE_YMIN, TILE_SIZE_M, lonlat_to_tm
+from ..crs import NYC_TM_PROJ4, SCOPE_XMAX, SCOPE_XMIN, SCOPE_YMAX, SCOPE_YMIN, TILE_SIZE_M, lonlat_to_tm
 from ..paths import PROCESSED, VERIFICATION
 from ..tiling import Tile, scope_tiles
 from .grid import SAMPLES, SPACING_M
@@ -380,6 +380,81 @@ def tint(z: np.ndarray, shade: np.ndarray) -> np.ndarray:
     return np.clip(rgb, 0, 255).astype(np.uint8)
 
 
+def write_overview(cell_m: float = 16.0) -> dict:
+    """``data/processed/terrain/overview_16m.tif`` — the whole scope at 16 m for QA and coarse LOD work.
+
+    Built from the published tiles, not from the intermediates, so it shows exactly the surface the engine
+    loads. 16 m is a multiple of the 2 m lattice spacing and 1 km tiles start at multiples of 1000 m, so
+    every overview sample falls exactly on a published lattice sample (x = 16k -> column (16k - 1000 tx)/2,
+    an integer) and no resampling happens: the overview is a strict decimation. Voids (tiles that were
+    never written) stay NaN.
+    """
+    import rasterio
+    from rasterio.transform import Affine
+
+    from . import manifest_safe as manifest
+    from .grid import NODATA
+    t0 = time.time()
+    step = int(round(cell_m / SPACING_M))
+    if abs(cell_m / SPACING_M - step) > 1e-9 or TILE_SIZE_M % cell_m != 0 and (TILE_SIZE_M / cell_m) % 0.5 != 0:
+        raise ValueError(f"overview cell {cell_m} m must be a multiple of the {SPACING_M} m lattice")
+    # largest 16 m lattice fully inside the scope, so every sample lands on a published tile (no NaN ring)
+    x0 = math.ceil(SCOPE_XMIN / cell_m) * cell_m
+    y1 = math.floor(SCOPE_YMAX / cell_m) * cell_m
+    w = int(math.floor(SCOPE_XMAX / cell_m) - math.ceil(SCOPE_XMIN / cell_m)) + 1
+    h = int(math.floor(SCOPE_YMAX / cell_m) - math.ceil(SCOPE_YMIN / cell_m)) + 1
+    out = np.full((h, w), np.nan, dtype=np.float32)
+    filled = 0
+    for name in _tile_names():
+        r = load_tile(name)
+        if r is None:
+            continue
+        z, _ = r
+        t = Tile.parse(name)
+        # global overview columns/rows whose coordinate falls inside this tile (north row first, inclusive
+        # edges are written by whichever tile owns them last — they are bit-identical anyway)
+        c0 = int(math.ceil((t.x0 - x0) / cell_m))
+        c1 = int(math.floor((t.x0 + TILE_SIZE_M - x0) / cell_m))
+        r0 = int(math.ceil((y1 - (t.y0 + TILE_SIZE_M)) / cell_m))
+        r1 = int(math.floor((y1 - t.y0) / cell_m))
+        c0, c1 = max(c0, 0), min(c1, w - 1)
+        r0, r1 = max(r0, 0), min(r1, h - 1)
+        if c1 < c0 or r1 < r0:
+            continue
+        cols = np.arange(c0, c1 + 1)
+        rows = np.arange(r0, r1 + 1)
+        src_c = np.rint((x0 + cols * cell_m - t.x0) / SPACING_M).astype(int)
+        src_r = np.rint(((t.y0 + TILE_SIZE_M) - (y1 - rows * cell_m)) / SPACING_M).astype(int)
+        ok_c = (src_c >= 0) & (src_c < SAMPLES)
+        ok_r = (src_r >= 0) & (src_r < SAMPLES)
+        block = z[np.ix_(src_r[ok_r], src_c[ok_c])]
+        out[np.ix_(rows[ok_r], cols[ok_c])] = block.astype(np.float32)
+        filled += block.size
+    path = PROCESSED / "terrain" / "overview_16m.tif"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    profile = dict(driver="GTiff", dtype="float32", count=1, width=w, height=h,
+                   crs=rasterio.crs.CRS.from_proj4(NYC_TM_PROJ4),
+                   transform=Affine(cell_m, 0.0, x0 - cell_m / 2, 0.0, -cell_m, y1 + cell_m / 2),
+                   nodata=float("nan"), tiled=True, blockxsize=256, blockysize=256, compress="deflate", predictor=3)
+    tmp = path.with_suffix(".tmp.tif")
+    with rasterio.open(tmp, "w", **profile) as ds:
+        ds.write(out, 1)
+        ds.update_tags(**{"nycsim.schema": "terrain.overview/1", "cell_m": str(cell_m),
+                          "vertical_datum": "NAVD88 metres", "AREA_OR_POINT": "Point",
+                          "note": "strict decimation of tiles/{tile}/terrain.png, no resampling"})
+    os.replace(tmp, path)
+    valid = np.isfinite(out)
+    stats = {"path": str(path), "width": w, "height": h, "cell_m": cell_m,
+             "valid_px": int(valid.sum()), "nan_px": int((~valid).sum()),
+             "z_min": float(np.nanmin(out)), "z_max": float(np.nanmax(out)),
+             "bytes": path.stat().st_size, "seconds": round(time.time() - t0, 1)}
+    manifest.record_processed("terrain_overview_16m", path, stage="terrain",
+                              sources=["usgs_3dep", "plan_hydrography", "plan_elevation_points", "building_footprints"],
+                              rows=w * h, schema="terrain.overview/1", extra={"cell_m": cell_m})
+    log.info("overview: %s", stats)
+    return stats
+
+
 def render_hillshades(stride_city: int = 10, stride_manhattan: int = 2) -> dict:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     out: dict[str, dict] = {}
@@ -414,6 +489,7 @@ def run(skip_hillshade: bool = False) -> dict:
         doc["water_datum"] = check_water(sampler)
     except Exception as e:  # noqa: BLE001
         doc["water_datum"] = {"error": f"{type(e).__name__}: {e}"}
+    doc["overview"] = write_overview()
     if not skip_hillshade:
         doc["hillshade"] = render_hillshades()
     OUT_DIR.mkdir(parents=True, exist_ok=True)

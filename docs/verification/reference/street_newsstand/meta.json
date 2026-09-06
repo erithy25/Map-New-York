@@ -1,0 +1,148 @@
+{
+ "schema_version": 1,
+ "slug": "street_newsstand",
+ "name": "NYC newsstand (close-up)",
+ "group": "streetscape",
+ "viewpoint": {
+  "lat": 40.755,
+  "lon": -73.984,
+  "azimuth_deg": 0.0,
+  "note": "Midtown sidewalk (representative; close-up reference, not a view)",
+  "representative": true
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "New York City newsstand sidewalk",
+  "newsstand Manhattan sidewalk Cemusa"
+ ],
+ "geosearch_radius_m": 0,
+ "fetched_at": "2026-09-06T13:43:18Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 4,
+ "candidates_eligible": 2,
+ "rejections": {
+  "not_photo": 1,
+  "keywords": 1
+ },
+ "exhausted": true,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:57th St Park Av td 01.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:57th_St_Park_Av_td_01.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/57th_St_Park_Av_td_01.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/57th_St_Park_Av_td_01.jpg/1920px-57th_St_Park_Av_td_01.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.76135,
+    "lon": -73.970387
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 634183,
+   "sha256": "52ff9b853c8fab00f4d8a21c7b05fda16e47330f0b67f5f2f7e4f06c1bb67d1e",
+   "mean_luminance": 85.4,
+   "description": "Looking west at a newsstand on the south side of 57th Street at Park Avenue in Midtown Manhattan.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "Self-published work",
+    "Snow in Manhattan, New York City",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2018-03-22",
+    "Sidewalks in Manhattan, New York City",
+    "2018 Manhattan photographs by Tdorante10",
+    "Midtown Manhattan in 2018",
+    "March 2018 in Manhattan, New York City",
+    "JCDecaux newsstands in New York City",
+    "Park Avenue and 57th Street, Manhattan",
+    "Photographs by Tdorante10 taken on 2018-03-22"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:New York City newsstand sidewalk",
+   "score": 9.45,
+   "estimated_viewpoint": {
+    "lat": 40.76135,
+    "lon": -73.970387,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.76135, -73.97039), 1347 m from the reference position (Midtown sidewalk (representative; close-up reference, not a view)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"57th St Park Av td 01.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:57th_St_Park_Av_td_01.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:MTA Queens Center 13.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:MTA_Queens_Center_13.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/0a/MTA_Queens_Center_13.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/MTA_Queens_Center_13.jpg/1920px-MTA_Queens_Center_13.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2017-11-01 15:07:14",
+   "date_source": "DateTimeOriginal",
+   "year": 2017,
+   "camera_gps": {
+    "lat": 40.734101,
+    "lon": -73.871196
+   },
+   "original_width": 4900,
+   "original_height": 3675,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 471723,
+   "sha256": "31e2dfdd2d23bd2d11d34d3ebaf3321589a34f063d2c0ee5a498563d609a0090",
+   "mean_luminance": 139.5,
+   "description": "A newsstand at Queens Boulevard and 90th Street across from Queens Center mall in Elmhurst, Queens.",
+   "categories": [
+    "Queens Center",
+    "Queens Boulevard",
+    "New York City photographs taken on 2017-11-01",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Sidewalks in Queens, New York City",
+    "2017 Queens photographs by Tdorante10",
+    "2017 in Elmhurst, Queens",
+    "November 2017 in Queens, New York City",
+    "JCDecaux newsstands in New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:New York City newsstand sidewalk",
+   "score": 9.3,
+   "estimated_viewpoint": {
+    "lat": 40.734101,
+    "lon": -73.871196,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.73410, -73.87120), 9783 m from the reference position (Midtown sidewalk (representative; close-up reference, not a view)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"MTA Queens Center 13.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:MTA_Queens_Center_13.jpg"
+  }
+ ]
+}

@@ -1,6 +1,6 @@
 # Columbus Circle Monument and Deutsche Bank Center
 
-Script: `blender/landmarks/b_columbus_circle_monument.py` · agent B · generated 2026-09-06 13:09 UTC
+Script: `blender/landmarks/b_columbus_circle_monument.py` · agent B · generated 2026-09-06 13:39 UTC
 
 ## Published dimensions
 
@@ -33,3 +33,4 @@ memorial), the Deutsche Bank Center's atrium and its curtain-wall mullions, and 
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_columbus_circle_monument.glb` — 2,856 triangles, 0.18 MB, bounds min ['-176.0', '-55.1', '-6.0'] max ['32.5', '129.8', '234.6']
+* `blender_out/landmarks/b_columbus_circle_monument_lod1.glb` — 1,200 triangles, 0.09 MB, bounds min ['-176.0', '-55.1', '-6.0'] max ['32.5', '129.8', '234.6']

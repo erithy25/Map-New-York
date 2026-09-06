@@ -1,0 +1,210 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_little_island",
+ "name": "Little Island at Pier 55",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.742312,
+  "lon": -74.007662,
+  "azimuth_deg": 260.0,
+  "note": "the Hudson River Park esplanade near West 13th Street, about 200 m east of the park, looking west at Little Island on its tulip-shaped piles",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.742,
+  "lon": -74.01,
+  "name": "Little Island at Pier 55"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2021,
+ "wanted": 3,
+ "queries": [
+  "\"Little Island\" Pier 55 Hudson River Park",
+  "\"Little Island\" Manhattan tulip piles park"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T13:33:10Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 101,
+ "candidates_eligible": 37,
+ "rejections": {
+  "keywords": 49,
+  "too_old": 5,
+  "excluded": 9,
+  "indoor": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Hudson River Park td (2024-08-18) 001 - Little Island at Pier 55.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Hudson_River_Park_td_(2024-08-18)_001_-_Little_Island_at_Pier_55.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/31/Hudson_River_Park_td_%282024-08-18%29_001_-_Little_Island_at_Pier_55.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Hudson_River_Park_td_%282024-08-18%29_001_-_Little_Island_at_Pier_55.jpg/1920px-Hudson_River_Park_td_%282024-08-18%29_001_-_Little_Island_at_Pier_55.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024-08-18 09:12:09",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.741944,
+    "lon": -74.010278
+   },
+   "original_width": 9248,
+   "original_height": 5204,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 598352,
+   "sha256": "7fd5b2c6117026ed41ad48d89d6460645dade941d6c1af38d96219fc76856db0",
+   "mean_luminance": 118.1,
+   "description": "Looking across the West Side Highway towards Little Island at Pier 55 in the Meatpacking District section of Hudson River Park, at the West Side Highway (West Street / 11th Avenue) and 13th Street in the Meatpacking District, Manhattan.",
+   "categories": [
+    "Little Island at Pier 55",
+    "Taken with Samsung Galaxy S21 5G",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Crosswalks in Manhattan, New York City",
+    "Hudson River Park in 2024",
+    "2024 in Chelsea, Manhattan",
+    "2024 Manhattan photographs by Tdorante10",
+    "August 2024 in Manhattan, New York City",
+    "Streetscapes of the West Side Highway",
+    "Views of New York City from east",
+    "Entrances to Hudson River Park",
+    "Photographs by Tdorante10 taken on 2024-08-18"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Little Island\" Pier 55 Hudson River Park",
+   "score": 12.2,
+   "estimated_viewpoint": {
+    "lat": 40.741944,
+    "lon": -74.010278,
+    "azimuth_deg": 75.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74194, -74.01028) is 24 m from Little Island at Pier 55 (40.74200, -74.01000) and 224 m from the standard viewpoint; the azimuth 75 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Hudson River Park td (2024-08-18) 001 - Little Island at Pier 55.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Hudson_River_Park_td_(2024-08-18)_001_-_Little_Island_at_Pier_55.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Little Island at Pier 55, New York City, 20231001 1017 0809.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Little_Island_at_Pier_55,_New_York_City,_20231001_1017_0809.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/18/Little_Island_at_Pier_55%2C_New_York_City%2C_20231001_1017_0809.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Little_Island_at_Pier_55%2C_New_York_City%2C_20231001_1017_0809.jpg/1920px-Little_Island_at_Pier_55%2C_New_York_City%2C_20231001_1017_0809.jpg",
+   "author": "Jakub Hałun",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-10-01 10:17:39",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.740033,
+    "lon": -74.016188
+   },
+   "original_width": 4524,
+   "original_height": 3020,
+   "width": 1920,
+   "height": 1282,
+   "bytes": 639617,
+   "sha256": "8d585364c7cf6d8bdd3087b8d2f6be53d8bd9ec7672ee76faba5d96a2b8fa34e",
+   "mean_luminance": 161.9,
+   "description": "Little Island at Pier 55 - artificial island park in the Hudson River, in New York City",
+   "categories": [
+    "Fireboats in New York City",
+    "New York City photographs taken on 2023-10-01",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Empire State Building in 2023",
+    "October 2023 in Manhattan, New York City",
+    "Little Island at Pier 55 in 2023"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "search:\"Little Island\" Pier 55 Hudson River Park",
+   "score": 11.7,
+   "estimated_viewpoint": {
+    "lat": 40.740033,
+    "lon": -74.016188,
+    "azimuth_deg": 67.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74003, -74.01619) is 565 m from Little Island at Pier 55 (40.74200, -74.01000) and 762 m from the standard viewpoint; the azimuth 67 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Little Island at Pier 55, New York City, 20231001 1017 0809.jpg\" by Jakub Hałun, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Little_Island_at_Pier_55,_New_York_City,_20231001_1017_0809.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Hudson River Park td (2024-08-08) 061 - Gansevoort Park Athletic Field.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Hudson_River_Park_td_(2024-08-08)_061_-_Gansevoort_Park_Athletic_Field.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Hudson_River_Park_td_%282024-08-08%29_061_-_Gansevoort_Park_Athletic_Field.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Hudson_River_Park_td_%282024-08-08%29_061_-_Gansevoort_Park_Athletic_Field.jpg/1920px-Hudson_River_Park_td_%282024-08-08%29_061_-_Gansevoort_Park_Athletic_Field.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024-08-08 15:10:14",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.74,
+    "lon": -74.011111
+   },
+   "original_width": 9248,
+   "original_height": 5204,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 327606,
+   "sha256": "b212bd3120c49555fefa51a3db9b86c4e209f5737401a068d349fc3e2c632080",
+   "mean_luminance": 125.9,
+   "description": "Looking north at the Chelsea / Meatpacking skyline from the Athletic Field of the new Gansevoort Peninsula Park in the Meatpacking section of Hudson River Park, on the Hudson River at West Street / 11th Avenue (West Side Highway) and Gansevoort Street in the Meatpacking District, Manhattan. In the background is Little Island at Pier 55.",
+   "categories": [
+    "Little Island at Pier 55",
+    "Taken with Samsung Galaxy S21 5G",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Hudson River Park in 2024",
+    "Lower Manhattan in 2024",
+    "2024 Manhattan photographs by Tdorante10",
+    "Midtown Manhattan skylines in 2024",
+    "August 2024 in Manhattan, New York City",
+    "Chelsea, Manhattan skylines from Hudson River Park",
+    "Athletic Field (Gansevoort Peninsula Park)",
+    "Photographs by Tdorante10 taken on 2024-08-08",
+    "Baseball venues in the United States photographed in 2024"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Little Island\" Pier 55 Hudson River Park",
+   "score": 12.2,
+   "estimated_viewpoint": {
+    "lat": 40.74,
+    "lon": -74.011111,
+    "azimuth_deg": 22.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74000, -74.01111) is 241 m from Little Island at Pier 55 (40.74200, -74.01000) and 388 m from the standard viewpoint; the azimuth 23 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Hudson River Park td (2024-08-08) 061 - Gansevoort Park Athletic Field.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Hudson_River_Park_td_(2024-08-08)_061_-_Gansevoort_Park_Athletic_Field.jpg"
+  }
+ ]
+}

@@ -363,8 +363,10 @@ def build(detail: str = "high") -> tuple[rig.Vehicle, dict]:
     # ---------- damage regions + collision
     for nm in ("Body", "Hood", "Trunk", "Door_FL", "Door_FR", "Door_RL", "Door_RR"):
         rig.add_damage_regions(v.objects[nm], DIMS, z_belt=0.99)
-    ucx = rig.ucx_proxies("Body", [v.objects["Body"], *[v.objects[n] for n in
-                                                        ("Hood", "Trunk", "Door_FL", "Door_FR", "Door_RL", "Door_RR")]],
+    ucx = rig.ucx_proxies("Body", [o for n, o in v.objects.items()
+                                   if o.type == "MESH" and not n.startswith(
+                                       ("UCX_", "Wheel_", "Interior_", "Seat_", "Mirror_", "Pedals",
+                                        "Shifter", "SteeringWheel"))],
                           DIMS, z_belt=0.99, slices=6, cabin=True)
     v.add_all(ucx)
     t.mark("dmg+ucx")

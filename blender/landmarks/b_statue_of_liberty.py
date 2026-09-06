@@ -278,34 +278,48 @@ def build(lod: int = 0):
 
 
 def main() -> None:
+    """Three verification renders, each framed to answer one question.
+
+    1. ``from_the_ferry`` — 420 m out on a bearing of 170 deg, which is where the Statue Cruises ferry passes and
+       where the statue's front-right (torch arm and tablet) faces the camera.  Question: is the 92.99 m
+       ground-to-torch composition right — a 19.81 m star fort, a 27.13 m pedestal and a 46.05 m figure — and does
+       the silhouette read as the Statue of Liberty?
+    2. ``from_the_island`` — 105 m out at eye height on the same bearing.  Question: does the pedestal's batter
+       (18.90 m square down to 12.19 m) and its Doric loggia read, and is Fort Wood's eleven-pointed plan visible?
+    3. ``figure`` — a long lens level with the statue's waist.  Question: is the figure's posture right — the
+       raised right arm with the torch, the tablet in the lowered left arm, the seven-ray crown — and is it
+       recognisably a *sculpt*, not a scan (see the honesty statement in the docstring)?
+    """
     ring_tm = ba.osm_polygon_local(FORT_WAY, bc.LocalFrame(0.0, 0.0))
     cx = sum(p[0] for p in ring_tm) / len(ring_tm)
     cy = sum(p[1] for p in ring_tm) / len(ring_tm)
+    frame = bc.local_frame((cx, cy), GROUND, FACING_DEG)   # the same frame build() uses
     ctx = (("grass", GROUND - 0.2, 190.0, (0.0, 0.0)), ("water_dark", 0.35, 2200.0, (0.0, 0.0)))
-    _ = cx, cy
+
     def _at(bearing_deg: float, dist: float, z: float):
         """A camera at a compass bearing from the statue (0 = north, clockwise)."""
         r = math.radians(bearing_deg)
         return (math.sin(r) * dist, math.cos(r) * dist, z)
 
-    # The statue faces 145 deg (out of the harbour), so her front-right — the torch arm and the tablet, the view
-    # every Statue Cruises ferry photograph is taken from — is towards 170 deg.
-    ferry = _at(170.0, 420.0, 6.0)
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=250_000, budget_lod1=50_000,
         renders=[
-            dict(view="from_the_ferry", cam=ferry, target=(0.0, 0.0, 55.0), fov_deg=34.0, context=ctx,
-                 sun_azimuth_deg=210.0, sun_elevation_deg=35.0),
-            dict(view="from_the_island", cam=_at(150.0, 105.0, GROUND + 1.7), target=(0.0, 0.0, 62.0),
-                 fov_deg=64.0, context=ctx, sun_azimuth_deg=180.0, sun_elevation_deg=48.0),
-            dict(view="figure", cam=_at(160.0, 135.0, 86.0), target=(0.0, 0.0, 74.0), fov_deg=42.0, context=ctx,
-                 sun_azimuth_deg=200.0, sun_elevation_deg=42.0),
+            # the comparison agent's recorded viewpoint (flagpole plaza on Liberty Island), used verbatim
+            ba.reference_render("landmark_statue_of_liberty", frame, view="liberty_island_reference",
+                                ground_z=GROUND, target_z=52.0, fov_deg=68.0, size=(720, 1280), context=ctx,
+                                sun_azimuth_deg=190.0, sun_elevation_deg=35.0),
+            dict(view="from_the_ferry", cam=_at(170.0, 420.0, 8.0), target=(0.0, 0.0, 48.0), fov_deg=26.0,
+                 size=(720, 1280), context=ctx, sun_azimuth_deg=210.0, sun_elevation_deg=35.0),
+            dict(view="from_the_island", cam=_at(155.0, 105.0, GROUND + 1.65), target=(0.0, 0.0, 52.0),
+                 fov_deg=68.0, size=(720, 1280), context=ctx, sun_azimuth_deg=190.0, sun_elevation_deg=35.0),
+            dict(view="figure", cam=_at(165.0, 165.0, 74.0), target=(0.0, 0.0, 72.0), fov_deg=30.0,
+                 size=(720, 1280), context=ctx, sun_azimuth_deg=205.0, sun_elevation_deg=35.0),
         ],
         sections={"Placement": "Fort Wood's real OSM ring (way 32965412), centroid NYC_TM (%.1f, %.1f); statue "
-                               "confirmed by OSM way 433053921 (height 93 m = the published 305 ft 1 in)."
-                               % (cx, cy),
+                               "confirmed by OSM way 433053921 (height 93 m = the published 305 ft 1 in)." % (cx, cy),
                   "Published dimensions": __doc__.split("-------------------------------------------------------------------------------------------\n")[1].split("\n**The figure")[0].strip(),
-                  "Honesty statement": __doc__.split("**The figure is a stylised sculpt")[1].split("Placement:")[0].strip(),
+                  "Honesty statement": "The figure is a stylised sculpt" + __doc__.split("**The figure is a stylised sculpt")[1].split("Placement:")[0].strip(),
+                  "Verification renders": main.__doc__.strip(),
                   "Not modelled": __doc__.split("Not modelled:")[1].strip()},
     )
 

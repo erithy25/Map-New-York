@@ -1,0 +1,199 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_chelsea_market",
+ "name": "Chelsea Market",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.741614,
+  "lon": -74.006317,
+  "azimuth_deg": 10.0,
+  "note": "Ninth Avenue at West 15th Street, about 100 m south of the building, looking north at the Chelsea Market brick facade",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7425,
+  "lon": -74.006111,
+  "name": "Chelsea Market"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Chelsea Market\" Ninth Avenue building",
+  "\"Chelsea Market\" Manhattan exterior brick"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T13:34:09Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 45,
+ "candidates_eligible": 13,
+ "rejections": {
+  "too_old": 12,
+  "indoor": 1,
+  "excluded": 2,
+  "keywords": 17
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Chelsea Market April 2022.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Chelsea_Market_April_2022.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/de/Chelsea_Market_April_2022.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Chelsea_Market_April_2022.jpg/1920px-Chelsea_Market_April_2022.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-04-20 14:38:10",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.741511,
+    "lon": -74.005014
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 751629,
+   "sha256": "fddf79655daf81e7b5d269f5f3445518d3f342b43d3df7fd6fd74c16bd97c841",
+   "mean_luminance": 109.9,
+   "description": "Chelsea Market in April 2022",
+   "categories": [
+    "Chelsea Market",
+    "10th Avenue (Manhattan)",
+    "16th Street (Manhattan)",
+    "9th Avenue (Manhattan)",
+    "New York City photographs taken on 2022-04-20",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2022 in Chelsea, Manhattan",
+    "April 2022 in Manhattan, New York City",
+    "15th Street (Manhattan)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.741511,
+    "lon": -74.005014,
+    "azimuth_deg": 320.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74151, -74.00501) is 144 m from Chelsea Market (40.74250, -74.00611) and 110 m from the standard viewpoint; the azimuth 320 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Chelsea Market April 2022.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Chelsea_Market_April_2022.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Chelsea Market July 2022.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Chelsea_Market_July_2022.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/40/Chelsea_Market_July_2022.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Chelsea_Market_July_2022.jpg/1920px-Chelsea_Market_July_2022.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-07-19 10:39:11",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.741814,
+    "lon": -74.005158
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 604241,
+   "sha256": "5ab12835a7952405fdc77764ca4a80d52fd9f24fb1230d236a2ed48ef26dc6d4",
+   "mean_luminance": 83.1,
+   "description": "Chelsea Market in July 2022",
+   "categories": [
+    "Chelsea Market",
+    "New York City photographs taken on 2022-07-19",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2022 in Chelsea, Manhattan",
+    "July 2022 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.741814,
+    "lon": -74.005158,
+    "azimuth_deg": 313.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74181, -74.00516) is 111 m from Chelsea Market (40.74250, -74.00611) and 100 m from the standard viewpoint; the azimuth 314 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Chelsea Market July 2022.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Chelsea_Market_July_2022.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Chelsea Market August 2022 003.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Chelsea_Market_August_2022_003.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d8/Chelsea_Market_August_2022_003.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Chelsea_Market_August_2022_003.jpg/1920px-Chelsea_Market_August_2022_003.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-08-08 13:10:32",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.741975,
+    "lon": -74.005836
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 567702,
+   "sha256": "ee083dadb04de062a466ecc866b8e2cd67bc5a59c1638022ce37e49f07fa9223",
+   "mean_luminance": 164.6,
+   "description": "Chelsea Market in August 2022",
+   "categories": [
+    "Chelsea Market",
+    "New York City photographs taken on 2022-08-08",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2022 in Chelsea, Manhattan",
+    "August 2022 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.741975,
+    "lon": -74.005836,
+    "azimuth_deg": 338.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74197, -74.00584) is 63 m from Chelsea Market (40.74250, -74.00611) and 57 m from the standard viewpoint; the azimuth 338 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Chelsea Market August 2022 003.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Chelsea_Market_August_2022_003.jpg"
+  }
+ ]
+}

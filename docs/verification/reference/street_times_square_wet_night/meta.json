@@ -1,0 +1,202 @@
+{
+ "schema_version": 1,
+ "slug": "street_times_square_wet_night",
+ "name": "Times Square on a wet night",
+ "group": "streetscape",
+ "viewpoint": {
+  "lat": 40.7568,
+  "lon": -73.9862,
+  "azimuth_deg": 29.0,
+  "note": "Broadway at West 44th Street, roadway centre, looking north up the bowtie",
+  "representative": false
+ },
+ "subject": null,
+ "night": true,
+ "interior": false,
+ "min_year": 2012,
+ "wanted": 3,
+ "queries": [
+  "\"Times Square\" rain night",
+  "\"Times Square\" rainy night reflections wet"
+ ],
+ "geosearch_radius_m": 200,
+ "fetched_at": "2026-09-06T13:41:09Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 95,
+ "candidates_eligible": 12,
+ "rejections": {
+  "keywords": 70,
+  "not_photo": 3,
+  "too_old": 7,
+  "too_small": 2,
+  "indoor": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:THANK YOU NYC.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:THANK_YOU_NYC.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e5/THANK_YOU_NYC.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/THANK_YOU_NYC.jpg/1920px-THANK_YOU_NYC.jpg",
+   "author": "Jorge Jaramillo",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2020",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": {
+    "lat": 40.758488,
+    "lon": -73.9851
+   },
+   "original_width": 7952,
+   "original_height": 5304,
+   "width": 1920,
+   "height": 1281,
+   "bytes": 664587,
+   "sha256": "e251cc0cb2ecfecb207163bd2be9cd7c9aced143cc8d4dcda25ee7dd74826d64",
+   "mean_luminance": 50.3,
+   "description": "Thank You Healthcare Workers Billboard in Times Square in The Time of COVID-19",
+   "categories": [
+    "Taken with Sony FE 35mm F1.4 ZA",
+    "Taken with Sony ILCE-7RM3",
+    "Reflections in New York (state)",
+    "Pages using Occupation template with incorrect parameters",
+    "Self-published work",
+    "Times Square at night in the 2020s",
+    "Files with coordinates missing SDC location of creation",
+    "Puddles in the United States",
+    "New York City photographs taken on 2020-04-26",
+    "COVID-19 pandemic in art in the United States",
+    "April 2020 in Times Square",
+    "Times Square during the COVID-19 pandemic",
+    "Advertisements in Times Square",
+    "Billboards in Manhattan, New York City",
+    "Rain in Times Square",
+    "Art photography about the COVID-19 pandemic",
+    "Thank you signs during the COVID-19 pandemic in the United States",
+    "Appreciation for essential workers during the COVID-19 pandemic in New York City",
+    "Photographs by JJxFile",
+    "Photographs by Jorge Jaramillo"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Times Square\" rain night",
+   "score": 12.75,
+   "estimated_viewpoint": {
+    "lat": 40.758488,
+    "lon": -73.9851,
+    "azimuth_deg": 29.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.75849, -73.98510), 209 m from the reference position (Broadway at West 44th Street, roadway centre, looking north up the bowtie); this item is a view along a street rather than at a point subject, so the azimuth 29 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"THANK YOU NYC.jpg\" by Jorge Jaramillo, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:THANK_YOU_NYC.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Blue hour in Daqing Times Square after rain 20250531195748.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Blue_hour_in_Daqing_Times_Square_after_rain_20250531195748.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b5/Blue_hour_in_Daqing_Times_Square_after_rain_20250531195748.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Blue_hour_in_Daqing_Times_Square_after_rain_20250531195748.jpg/1920px-Blue_hour_in_Daqing_Times_Square_after_rain_20250531195748.jpg",
+   "author": "TurnOnTheNight",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2025-05-31 19:57:48",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 46.582342,
+    "lon": 125.089697
+   },
+   "original_width": 6000,
+   "original_height": 4000,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 598446,
+   "sha256": "e8962adc4becb3d69f329d7c023ffe88431fcc29ddfa8aa4ffcf45b2dbb2e3ef",
+   "mean_luminance": 67.1,
+   "description": "​大庆时代广场雨后的蓝调时刻",
+   "categories": [
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "China photographs taken on 2025-05-31",
+    "Daqing Times Square",
+    "Blue hour in Daqing",
+    "Taken with Panasonic Lumix DC-S5M2X and Panasonic Lumix S 24-105mm F4 Macro O.I.S. by User:TurnOnTheNight"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Times Square\" rain night",
+   "score": 11.2,
+   "estimated_viewpoint": {
+    "lat": 46.582342,
+    "lon": 125.089697,
+    "azimuth_deg": 29.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (46.58234, 125.08970), 10121187 m from the reference position (Broadway at West 44th Street, roadway centre, looking north up the bowtie); this item is a view along a street rather than at a point subject, so the azimuth 29 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Blue hour in Daqing Times Square after rain 20250531195748.jpg\" by TurnOnTheNight, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Blue_hour_in_Daqing_Times_Square_after_rain_20250531195748.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Times Square on a Rainy Night.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Times_Square_on_a_Rainy_Night.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/ed/Times_Square_on_a_Rainy_Night.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Times_Square_on_a_Rainy_Night.jpg/960px-Times_Square_on_a_Rainy_Night.jpg",
+   "author": "Noah Donohue",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2019-11-07",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": null,
+   "original_width": 1240,
+   "original_height": 930,
+   "width": 960,
+   "height": 720,
+   "bytes": 235192,
+   "sha256": "423f6607902226775690ef0188997f12805415efa2c8651e78ace62398ca6e7c",
+   "mean_luminance": 55.9,
+   "description": "A rainy night near Times Square in New York City,",
+   "categories": [
+    "Self-published work",
+    "Times Square at night in the 2010s",
+    "Rain at night",
+    "November 2019 in Times Square",
+    "Rain in Times Square"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Times Square\" rain night",
+   "score": 10.1,
+   "estimated_viewpoint": {
+    "lat": 40.7568,
+    "lon": -73.9862,
+    "azimuth_deg": 29.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Broadway at West 44th Street, roadway centre, looking north up the bowtie) and the azimuth 29 deg is the heading of the street/view axis at that position."
+   },
+   "attribution": "\"Times Square on a Rainy Night.jpg\" by Noah Donohue, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Times_Square_on_a_Rainy_Night.jpg"
+  }
+ ]
+}

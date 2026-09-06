@@ -42,6 +42,7 @@ if not log.handlers:
 
 OUT = Path(os.environ.get("NYCSIM_BLENDER_OUT", REPO / "blender_out")) / "landmarks"
 CATALOG = OUT / "catalog"
+PROPS = OUT.parent / "props"          # the street-props agent's library (trees, furniture)
 VERIFY = REPO / "docs" / "verification" / "landmarks"
 FOOTPRINTS = REPO / "data/processed/landmarks/candidate_footprints.parquet"
 FOOTPRINTS_RAW = REPO / "data/processed/buildings/footprints_raw.parquet"
@@ -666,6 +667,72 @@ def simple_tree(name: str, base, height: float = 9.0, crown_r: float = 3.5, trun
     ob = join(parts, name)
     for p in ob.data.polygons:
         p.use_smooth = True
+    return ob
+
+
+_PROP_TEMPLATES: dict[tuple[str, int], "bpy.types.Object"] = {}
+
+
+def prop_available(prop_id: str) -> bool:
+    """True when ``blender_out/props/<prop_id>.glb`` exists (the street-props agent's library)."""
+    return (PROPS / f"{prop_id}.glb").is_file()
+
+
+def prop_template(prop_id: str, max_tris: int = 0) -> "bpy.types.Object":
+    """Import ``blender_out/props/<prop_id>.glb`` once, join it to a single mesh and return the template object.
+
+    The glb was written Y-up, so the default glTF importer restores the original (east, north, up) orientation with the
+    trunk base at the local origin.  ``max_tris`` > 0 collapse-decimates the template, which is what makes a real prop
+    affordable at hundreds of instances.  The template is hidden and must not be handed to :func:`finish`; make copies
+    with :func:`prop_instance`, which share its mesh data so the exported glb stores the geometry exactly once.
+    """
+    key = (prop_id, int(max_tris))
+    ob = _PROP_TEMPLATES.get(key)
+    if ob is not None and ob.name in bpy.data.objects:
+        return ob
+    path = PROPS / f"{prop_id}.glb"
+    if not path.is_file():
+        raise FileNotFoundError(f"prop_template: {path} does not exist")
+    before = set(bpy.data.objects)
+    bpy.ops.import_scene.gltf(filepath=str(path))
+    made = [o for o in bpy.data.objects if o not in before]
+    meshes = [o for o in made if o.type == "MESH"]
+    if not meshes:
+        raise ValueError(f"prop_template({prop_id}): the glb carries no mesh")
+    for o in meshes:                       # the importer parents meshes to an empty; bake that out before joining
+        o.matrix_world = o.matrix_world.copy()
+        o.parent = None
+    ob = join(meshes, f"prop_{prop_id}") if len(meshes) > 1 else meshes[0]
+    ob.name = f"prop_{prop_id}"
+    for o in made:
+        if o.type != "MESH" and o.name in bpy.data.objects:
+            bpy.data.objects.remove(o, do_unlink=True)
+    if max_tris > 0:
+        n = tri_count([ob])
+        if n > max_tris:
+            mod = ob.modifiers.new("prop_decimate", "DECIMATE")
+            mod.decimate_type = "COLLAPSE"
+            mod.ratio = max(0.02, max_tris / n)
+            bpy.context.view_layer.objects.active = ob
+            bpy.ops.object.modifier_apply(modifier=mod.name)
+            log.info("prop %s: %d -> %d triangles", prop_id, n, tri_count([ob]))
+    ob.hide_render = True
+    ob.hide_viewport = True
+    _PROP_TEMPLATES[key] = ob
+    return ob
+
+
+def prop_instance(template: "bpy.types.Object", name: str, location, rotation_z: float = 0.0,
+                  scale: float = 1.0) -> "bpy.types.Object":
+    """A linked duplicate of ``template`` (shares its mesh data, so N instances cost one mesh in the exported glb)."""
+    ob = template.copy()
+    ob.name = name
+    ob.hide_render = False
+    ob.hide_viewport = False
+    ob.location = Vector(location)
+    ob.rotation_euler = (0.0, 0.0, float(rotation_z))
+    ob.scale = (float(scale), float(scale), float(scale))
+    nb.link(ob)
     return ob
 
 

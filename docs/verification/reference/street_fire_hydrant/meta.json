@@ -1,0 +1,154 @@
+{
+ "schema_version": 1,
+ "slug": "street_fire_hydrant",
+ "name": "NYC fire hydrant (close-up)",
+ "group": "streetscape",
+ "viewpoint": {
+  "lat": 40.755,
+  "lon": -73.984,
+  "azimuth_deg": 0.0,
+  "note": "Midtown sidewalk (representative; close-up reference, not a view)",
+  "representative": true
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 2,
+ "queries": [
+  "New York City fire hydrant",
+  "fire hydrant Manhattan sidewalk"
+ ],
+ "geosearch_radius_m": 0,
+ "fetched_at": "2026-09-06T13:42:27Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 55,
+ "candidates_eligible": 15,
+ "rejections": {
+  "too_small": 5,
+  "keywords": 22,
+  "licence": 1,
+  "too_old": 8,
+  "not_photo": 3,
+  "excluded": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Fire Hydrant on East 101st Street, Lex Avenue, East Harlem Open Streets, June 15 2024, East Harlem, Manhattan.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Fire_Hydrant_on_East_101st_Street,_Lex_Avenue,_East_Harlem_Open_Streets,_June_15_2024,_East_Harlem,_Manhattan.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Fire_Hydrant_on_East_101st_Street%2C_Lex_Avenue%2C_East_Harlem_Open_Streets%2C_June_15_2024%2C_East_Harlem%2C_Manhattan.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Fire_Hydrant_on_East_101st_Street%2C_Lex_Avenue%2C_East_Harlem_Open_Streets%2C_June_15_2024%2C_East_Harlem%2C_Manhattan.jpg/1920px-Fire_Hydrant_on_East_101st_Street%2C_Lex_Avenue%2C_East_Harlem_Open_Streets%2C_June_15_2024%2C_East_Harlem%2C_Manhattan.jpg",
+   "author": "Deans Charbal",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024-06-15 15:28:50",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.789158,
+    "lon": -73.948997
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 2198652,
+   "sha256": "9e6590352e3c97048d9b928d0828948257374b43412514fb279c61195dc45cf0",
+   "mean_luminance": 108.8,
+   "description": "Fire Hydrant on East 101st Street, Lex Avenue, East Harlem Open Streets, June 15 2024, East Harlem, Manhattan",
+   "categories": [
+    "Self-published work",
+    "Fire hydrants in New York City",
+    "Files with coordinates missing SDC location of creation",
+    "2024 in East Harlem",
+    "New York City photographs taken on 2024-06-15",
+    "June 2024 in Manhattan, New York City",
+    "Water flowing from fire hydrants",
+    "Files by User:Deansfa",
+    "Road closure in New York City",
+    "101st Street (Manhattan)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:New York City fire hydrant",
+   "score": 10.2,
+   "estimated_viewpoint": {
+    "lat": 40.789158,
+    "lon": -73.948997,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.78916, -73.94900), 4808 m from the reference position (Midtown sidewalk (representative; close-up reference, not a view)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"Fire Hydrant on East 101st Street, Lex Avenue, East Harlem Open Streets, June 15 2024, East Harlem, Manhattan.jpg\" by Deans Charbal, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Fire_Hydrant_on_East_101st_Street,_Lex_Avenue,_East_Harlem_Open_Streets,_June_15_2024,_East_Harlem,_Manhattan.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Black fire hydrant Manhattan (w 56th Street) May 2023.JPG",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Black_fire_hydrant_Manhattan_(w_56th_Street)_May_2023.JPG",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Black_fire_hydrant_Manhattan_%28w_56th_Street%29_May_2023.JPG",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Black_fire_hydrant_Manhattan_%28w_56th_Street%29_May_2023.JPG/1920px-Black_fire_hydrant_Manhattan_%28w_56th_Street%29_May_2023.JPG",
+   "author": "Benoît Prieur",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2023-05-20 15:50:36",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.767194,
+    "lon": -73.985903
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1895961,
+   "sha256": "23586b30ee26a1bcfe9aa7d88688ce928bc76835cf6a2a3419f75fadf3da88d0",
+   "mean_luminance": 131.8,
+   "description": "Black fire hydrant Manhattan (w 56th Street) May 2023.",
+   "categories": [
+    "CC-Zero",
+    "Images of New York by Benoît Prieur",
+    "Photographs by Benoît Prieur",
+    "New York City photographs taken on 2023-05-20",
+    "56th Street (Manhattan)",
+    "Self-published work",
+    "Fire hydrants in New York City",
+    "2023 images by Benoît Prieur",
+    "Files with coordinates missing SDC location of creation",
+    "Rain in Manhattan, New York City",
+    "Midtown Manhattan in 2023",
+    "May 2023 in Manhattan, New York City",
+    "Uploaded with PyCommonist",
+    "Black fire hydrants in New York (state)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:New York City fire hydrant",
+   "score": 10.2,
+   "estimated_viewpoint": {
+    "lat": 40.767194,
+    "lon": -73.985903,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.76719, -73.98590), 1365 m from the reference position (Midtown sidewalk (representative; close-up reference, not a view)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"Black fire hydrant Manhattan (w 56th Street) May 2023.JPG\" by Benoît Prieur, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Black_fire_hydrant_Manhattan_(w_56th_Street)_May_2023.JPG"
+  }
+ ]
+}

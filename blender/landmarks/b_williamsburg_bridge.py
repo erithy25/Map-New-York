@@ -171,6 +171,10 @@ def main() -> None:
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=400_000, budget_lod1=90_000,
         renders=[
+            # the comparison agent's recorded photographic viewpoint, used verbatim
+            ba.reference_render("landmark_williamsburg_bridge", fit.frame, view="williamsburg_reference",
+                                ground_z=GROUND, target_z=Z_TOWER_TOP - 12.0, fov_deg=58.0, size=(1280, 720), context=ctx,
+                                sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
             dict(view="east_river_park", cam=ax.p(-330.0, -300.0, 6.0), target=ax.p(0.0, 0.0, 55.0), fov_deg=52.0,
                  context=ctx, sun_azimuth_deg=140.0, sun_elevation_deg=32.0),
             dict(view="elevation_from_river", cam=ax.p(0.0, -560.0, 22.0), target=ax.p(0.0, 0.0, 55.0), fov_deg=40.0,

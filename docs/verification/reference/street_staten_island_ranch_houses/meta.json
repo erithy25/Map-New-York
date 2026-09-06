@@ -1,0 +1,94 @@
+{
+ "schema_version": 1,
+ "slug": "street_staten_island_ranch_houses",
+ "name": "Staten Island ranch houses",
+ "group": "streetscape",
+ "viewpoint": {
+  "lat": 40.548,
+  "lon": -74.145,
+  "azimuth_deg": 0.0,
+  "note": "Great Kills / New Dorp Beach residential street, looking north (representative block)",
+  "representative": true
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "Staten Island houses residential street",
+  "Staten Island New Dorp houses",
+  "Staten Island Great Kills houses street"
+ ],
+ "geosearch_radius_m": 0,
+ "fetched_at": "2026-09-06T13:52:07Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 20,
+ "candidates_eligible": 1,
+ "rejections": {
+  "too_small": 3,
+  "excluded": 8,
+  "not_photo": 5,
+  "licence": 1,
+  "too_old": 2
+ },
+ "exhausted": true,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:New Dorp SIR Station; 2018-10-25; 02.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:New_Dorp_SIR_Station;_2018-10-25;_02.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/99/New_Dorp_SIR_Station%3B_2018-10-25%3B_02.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/New_Dorp_SIR_Station%3B_2018-10-25%3B_02.jpg/1920px-New_Dorp_SIR_Station%3B_2018-10-25%3B_02.jpg",
+   "author": "DanTD",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": null,
+   "original_width": 3648,
+   "original_height": 2736,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 724984,
+   "sha256": "df2867cfaf34bc8d5873cd76d5c76b0455f574c6be67d1d2cb60352c167611c4",
+   "mean_luminance": 120.9,
+   "description": "View of the station house of the New Dorp Staten Island Railway station as seen from the Tottenville -bound platform in the New Dorp section of Staten Island, New York City . The Saint George Terminal -bound platform on the right also has a staircase leading to the station house. Though the station house is similar to many others from the PWA -funded and B&O influenced grade elimination projects of the 1930's, it was actually built in the late-1960's when B&O merged with C&O and WM to form the Chessie System Railroad, and was trying to dispose of subsidiaries like the Staten Island Rapid Trans",
+   "categories": [
+    "Bridges in Staten Island, New York City",
+    "New Dorp (Staten Island Railway station)",
+    "New York City photographs taken on 2018-10-25",
+    "Self-published work",
+    "Staten Island Railway station platforms",
+    "Railway photographs taken on 2018-10-25",
+    "Staten Island Railway in 2018",
+    "2018 in New Dorp, Staten Island",
+    "October 2018 in Staten Island, New York City",
+    "Staten Island Railway station houses",
+    "Bridges over railway lines in New York City",
+    "Lamp posts at train stations in New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:Staten Island New Dorp houses",
+   "score": 6.95,
+   "estimated_viewpoint": {
+    "lat": 40.548,
+    "lon": -74.145,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Great Kills / New Dorp Beach residential street, looking north (representative block)) and the azimuth 0 deg is the heading of the street/view axis at that position. The subject is generic, so this position is representative of the type of scene, not where this specific photo was taken."
+   },
+   "attribution": "\"New Dorp SIR Station; 2018-10-25; 02.jpg\" by DanTD, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:New_Dorp_SIR_Station;_2018-10-25;_02.jpg"
+  }
+ ]
+}

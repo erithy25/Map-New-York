@@ -7,7 +7,7 @@
   "lat": 40.714,
   "lon": -74.0058,
   "azimuth_deg": 131.3,
-  "note": "Chambers Street at Broadway (Tweed Courthouse), looking east down Chambers Street at the arch",
+  "note": "Chambers Street at Broadway (Tweed Courthouse), looking south-east down Chambers Street at the arch",
   "representative": false
  },
  "subject": {
@@ -24,11 +24,11 @@
   "\"David N. Dinkins Municipal Building\""
  ],
  "geosearch_radius_m": 250,
- "fetched_at": "2026-09-06T12:34:31Z",
+ "fetched_at": "2026-09-06T13:56:08Z",
  "max_width": 1920,
  "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
- "candidates_seen": 107,
- "candidates_eligible": 64,
+ "candidates_seen": 108,
+ "candidates_eligible": 65,
  "rejections": {
   "licence": 1,
   "too_old": 3,

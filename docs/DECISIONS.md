@@ -15,7 +15,7 @@ Consequences: One extra pyproj definition; every consumer reads it from `crs.jso
 ## ADR-003 Building detail = real shell + instanced kit, not unique meshes
 Context: 1.08 M buildings × detailed unique facade meshes exceed disk (> 50 GB) and cannot stream at 60 fps.
 Decision: Generate a unique shell (real footprint, real roof) per building in Blender; generate a detailed facade kit once in Blender; compute per-building kit placements deterministically in the pipeline from real attributes (floors, windows, storefronts, fire escapes, rooftop equipment).
-Consequences: Storage ≈ 1.3 GB shells + < 1 GB placements. Visual variety comes from parameters (materials, weathering seeds, kit variants), not from unique geometry. Landmarks are excluded from this and hand-scripted.
+Consequences: storage measured after the full run is **≈ 1.3 GB of shells and ≈ 1.7 GB of placements** (42,068,609 records at 40 bytes, 38.8 per building). The original estimate of under 1 GB for placements was low because it did not account for window accessories, trim runs and rooftop equipment being individually placed rather than derived in the shader. Visual variety comes from parameters (materials, weathering seeds, kit variants), not from unique geometry. Landmarks are excluded from this and hand-scripted.
 
 ## ADR-004 Facade appearance is inferred from real attributes and flagged
 Context: No lawful, feasible source of per-building street-level imagery for 1.08 M buildings in this environment.
@@ -105,3 +105,24 @@ Context: DATA_CONTRACTS §10 names the share columns but does not say what count
 Decision: `taxi_share` covers **all street-hail and app-hail for-hire traffic** — yellow medallion, green boro and high-volume for-hire together. The four share columns are fractions of the **road-user stream**, motor vehicles plus bicycles, while `veh_per_km_lane` counts motor vehicles only. The split inside the for-hire group lives in `fleet_mix.json`, measured from trip records rather than assumed: in the central business district at midday it is 24.0 % yellow, 0.07 % green and 76.0 % high-volume for-hire, and on Staten Island 0.48 / 0.03 / 99.5 %.
 
 Consequences: a spawner reads the group share from the density cell and then the class within the group from the fleet mix, so the two files are consistent by construction. Anyone wanting medallions only can read `within_group.taxi`, which already carries the numbers, without a rebuild. Reporting a "taxi share" that excluded app-hail would understate for-hire traffic in New York by roughly a factor of three and would be misleading.
+
+## ADR-017 City terrain comes from 3DEP 1 m LiDAR, not the 1/9 arc-second product (supersedes part of ADR-005)
+Context: ADR-005 chose the USGS 3DEP 1/9 arc-second product (about 3.4 m) because the city's own 1-foot DEM is a 26.6 GB download against a ~30 GB disk allowance. On ingest the terrain stage found that **the 1/9 arc-second dataset has no data over the five boroughs at all**: all eighteen products intersecting the scope carry data only in New Jersey, Nassau, Fairfield and a sliver of Westchester.
+
+Decision: use the 3DEP **1 m** LiDAR product for the city, falling back to 1/3 arc-second only where neither the 1 m nor the planimetric sources reach. The 1 m product is finer than the original plan and comes from the same 2013–14 acquisition as the CityGML building model, so terrain and buildings share a vintage.
+
+Consequences: the terrain is better than ADR-005 promised, not worse — 99.97 % of land samples in every borough come from the 1 m product, and the accuracy statement in the fidelity report is raised accordingly. ADR-005's disk reasoning stands; only its choice of product is superseded. The upgrade path to the city's 1-foot DEM is unchanged.
+
+## ADR-018 A land sample below −2 m that no survey point corroborates is a source artefact and is repaired
+Context: A city-wide scan found 16,243 samples below −2 m NAVD88 across 42 tiles, with a minimum of −26.97 m. Four causes, only one of them real: LiDAR returning the water surface inside pier slips and dry docks, rail tunnel mouths, construction pits from the 2013–14 flight that have since been built over (the West Side Yard before the Hudson Yards platform, the World Trade Center site), and genuine below-datum ground such as the Battery Underpass.
+
+Decision: a sub-datum sample is **kept** when a survey ground point within 15 m sits below the same floor — a sharp test, since only 23 of 376,133 spot elevations lie below −2 m. Otherwise it is repaired: to the nearest water surface within 30 m of open water, else by inverse-distance interpolation from the pit rim, else from the eight nearest survey points out to 240 m. Every branch is counted per tile in `terrain.json` under `sub_datum`, together with the value before the edit, so no source value is lost and every repair is auditable.
+
+Consequences: the Battery Underpass and the other genuine cuts survive; a driver does not fall into a 27 m hole where a tunnel portal was scanned in 2013. Because every input to a repair lies inside the 32 m tile margin or comes from the global point index, the edit is seam-identical — the 5,724 adjacent tile pairs still match to 2.8 × 10⁻¹⁴ m.
+
+## ADR-019 OpenStreetMap water is clipped against the elevation surface; surveyed polygons never are
+Context: The coastline-derived sea face from OpenStreetMap claimed a 1,003 km² "bay" covering the New Jersey Palisades and the Watchung ridges, flattening ground standing between 47 m and 167 m to sea level in three tiles.
+
+Decision: OpenStreetMap water is cut against the New York City land boundary, and every remaining body is clipped back to where the elevation surface stands no higher than that body's own level plus 1 m. Planimetric hydrography is surveyed and is never clipped; it remains the authority inside the city.
+
+Consequences: 1,139.7 km² of falsely claimed water removed. The Palisades, the Watchungs, Hoboken, Jersey City, Midtown, Todt Hill and Kennedy Airport read as land; the mid-Hudson, Upper Bay, the Narrows, Newark Bay, Long Island Sound, the Atlantic and Jamaica Bay read as water; the Central Park reservoir reads as water at 34.52 m. Using OpenStreetMap water unclipped would have put the New Jersey skyline under the sea.

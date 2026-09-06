@@ -61,7 +61,7 @@ VIEWS: dict[str, dict] = {
     "midtown_avenue": {
         "tiles": ["t_-4_5", "t_-3_5", "t_-4_6", "t_-3_6"],
         "cam": (-3209.3, 5375.4), "cam_agl": 1.7, "cam_open": 70.0,   # Sixth Ave at West 33rd St
-        "target": (-2960.0, 5810.0), "target_agl": 55.0, "target_open": 70.0,  # ~500 m up the avenue
+        "target": (-2960.0, 5810.0), "target_agl": 150.0, "target_open": 70.0,  # ~500 m up the avenue
         "fov": 60.0, "sun_az": 195.0, "sun_el": 34.0, "size": (1600, 900),
         "title": "Sixth Avenue looking north from West 33rd Street",
     },

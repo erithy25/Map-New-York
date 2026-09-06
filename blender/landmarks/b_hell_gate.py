@@ -56,10 +56,12 @@ MHW = bc.MHW_ABOVE_NAVD88_M
 Z_DECK = DECK_MHW + MHW            # 44.90 NAVD88 (top of rail bed at the centre)
 Z_CROWN = CROWN_MHW + MHW          # 93.66
 Z_TOWER_TOP = TOWER_H_MHW + MHW    # 67.76
-RIB_DEPTH = 6.0                    # depth between the arch's two chords (inferred)
-# build_steel_arch puts the lower chord's crown at z_deck + 0.75 * rise and the upper chord RIB_DEPTH above it, and
-# the published 305 ft is the top of the arch, so solve for the rise that lands the upper chord on Z_CROWN
-RISE = (Z_CROWN - Z_DECK - RIB_DEPTH) / 0.75
+RIB_DEPTH = 6.0                    # depth between the arch's two chord centrelines (inferred)
+UPPER_CHORD_H = 1.2                # section depth of the upper chord in build_steel_arch (inferred)
+# build_steel_arch puts the lower chord's crown at z_deck + 0.75 * rise, the upper chord centreline RIB_DEPTH above it
+# and the chord section is centred on that line; the published 305 ft is the *top* of the arch, so solve for the rise
+# that lands the upper surface of the upper chord exactly on Z_CROWN
+RISE = (Z_CROWN - Z_DECK - RIB_DEPTH - UPPER_CHORD_H / 2) / 0.75
 TRACKS = (-6.0, -2.0, 2.0, 6.0)
 GROUND = 4.0
 AP_WARDS = 300.0
@@ -163,6 +165,10 @@ def main() -> None:
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=400_000, budget_lod1=90_000,
         renders=[
+            # the comparison agent's recorded photographic viewpoint, used verbatim
+            ba.reference_render("landmark_hell_gate_bridge", fit.frame, view="astoria_park_reference",
+                                ground_z=GROUND, target_z=70.0, fov_deg=58.0, size=(1280, 720), context=ctx,
+                                sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
             dict(view="astoria_park", cam=ax.p(S_T_QN - 90.0, -230.0, GROUND + 2.0), target=ax.p(30.0, 0.0, 60.0),
                  fov_deg=60.0, context=ctx, sun_azimuth_deg=250.0, sun_elevation_deg=32.0),
             dict(view="elevation", cam=ax.p(0.0, -520.0, 30.0), target=ax.p(0.0, 0.0, 60.0), fov_deg=48.0,

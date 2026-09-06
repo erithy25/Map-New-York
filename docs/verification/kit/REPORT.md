@@ -14,7 +14,7 @@ facade_classes.json}`).
 | file | role |
 |---|---|
 | `blender/kit/facade/kitlib.py` | geometry accumulator (metre UVs, named material slots), PBR materials from `textures.py`, LOD1 generation, glb export, catalog entries, triangle accounting |
-| `blender/kit/facade/pieces_common.py` | shared sub-builders (masonry reveals, lintels, sills, segmental arches, sashes, railings, ladders, stairs, gratings, brackets, dentils) and the two generated textures (interior cards, ivy leaf sheet) |
+| `blender/kit/facade/pieces_common.py` | the real NYC dimension constants, a classical moulding kit (`curve`/`profile`/`sweep` chains cyma, ovolo, cavetto and fillet members into a swept section) and the shared sub-builders on top of it — masonry reveals, moulded lintels, sills with a throated drip, keystones, segmental and gauged arches, sashes, double-hung assemblies, railings, ladders, stairs, gratings, consoles, dentils, the full pressed-metal cornice member chain — plus the two generated textures (interior cards, ivy leaf sheet) |
 | `blender/kit/facade/pieces_windows.py` | 18 windows — one per `facade_params.WINDOW_TYPES` entry |
 | `blender/kit/facade/pieces_accessories.py` | 15 window accessories |
 | `blender/kit/facade/pieces_entries.py` | 13 stoops, doors, canopies, gates, hatches |
@@ -108,7 +108,7 @@ facade_classes.json}`).
 | `antenna` | 4 | 978 | 306 | - / 900 | 21 % | 4.6 |
 | `billboard` | 2 | 1,904 | 1,528 | - / 2500 | 18 % | 2.6 |
 | `bulkhead` | 3 | 420 | 260 | - / 900 | 18 % | 9.1 |
-| `cornice` | 7 | 1,890 | 394 | - / 600/1000/1400/2200/2500/2800 | 20 % | 2.0 |
+| `cornice` | 7 | 1,938 | 406 | - / 600/1000/1400/2200/2500/2800 | 20 % | 2.0 |
 | `door_entry` | 13 | 5,250 | 1,720 | - / 400/500/900/1200/1400/1600/1800/2000/2200/2600/3000 | 17 % | 13.6 |
 | `fence` | 3 | 1,201 | 561 | - / 800 | 19 % | 2.9 |
 | `fire_escape` | 6 | 4,198 | 1,260 | 3 000 / 3000 | 9 % | 2.9 |
@@ -119,13 +119,13 @@ facade_classes.json}`).
 | `scaffold` | 3 | 1,752 | 1,092 | - / 3000 | 22 % | 4.0 |
 | `storefront` | 19 | 9,600 | 1,676 | 6 000 / 800/6000 | 10 % | 24.5 |
 | `storefront_interior` | 11 | 9,831 | 1,642 | - / 6000 | 20 % | 16.2 |
-| `string_course` | 4 | 452 | 144 | - / 400/500/600 | 18 % | 1.5 |
+| `string_course` | 4 | 440 | 144 | - / 400/500/600 | 20 % | 1.5 |
 | `trim` | 6 | 191 | 48 | - / 300/400 | 16 % | 3.4 |
 | `vegetation` | 3 | 824 | 440 | - / 1500 | 23 % | 0.2 |
 | `water_tower` | 2 | 2,372 | 1,234 | 4 000 / 4000 | 18 % | 4.1 |
-| `window` | 18 | 3,856 | 346 | 400 / 500/900/1100/1200/1600 | 4 % | 25.7 |
+| `window` | 18 | 3,844 | 346 | 400 / 500/900/1100/1200/1600 | 4 % | 25.7 |
 | `window_accessory` | 15 | 2,236 | 312 | - / 8/500 | 18 % | 7.4 |
-| **total** | **138** | **50,741** | | | **15 %** | **140.2** |
+| **total** | **138** | **50,765** | | | **15 %** | **140.2** |
 
 `budget` is the per-piece ceiling recorded in the catalog. The **brief's** caps are the binding ones and
 `tests/test_kit_facade.py::test_triangle_budget` enforces both: every piece must be inside its own catalog budget
@@ -145,8 +145,8 @@ therefore `lod1 ≤ max(2, ceil(0.25 · lod0))`, which is binding for every piec
 
 ```
 $ nice -n 15 python3 blender/kit/facade/build_kit.py
-138 pieces in 20 s
-  triangles LOD0 total 50741 (as exported (glb))
+138 pieces in 15 s
+  triangles LOD0 total 50765 (as exported (glb))
   over budget : []
   LOD1 > 25 % : []
   size dev>5 %: []
@@ -169,7 +169,8 @@ sit within ±5 % of `nominal_size_m` on all three axes; the origin lies on the d
 image is embedded (no external URI) with a jpeg/png mime type and any piece listing texture assets has a material
 with a base-colour texture; every `KHR_texture_transform` the file emits equals 1 / `physical_size_m` of one of
 that piece's own materials (so the UVs really are metres) and a material whose tile is not 1 m actually carries
-one; clear glazing survives as `KHR_materials_transmission` with `alphaMode: BLEND`; and every referenced texture
+one; clear glazing survives as see-through glass (a transmission extension or an alpha-blended base colour,
+whichever the catalogue specifies); and every referenced texture
 asset has a CC0 `LICENSE.json` on disk. Kit-wide it
 checks the ≥ 120 piece count, id/file agreement both ways, valid categories and anchors, the `nycsim` extras
 round-trip, the written `facade_params.json` contract, and that the kit covers every `WINDOW_TYPES` entry, every
@@ -177,7 +178,7 @@ storefront bay width × gate state, every interior kind and the pieces the brief
 
 ### 4.3 Renders
 
-Cycles CPU, 64 samples, adaptive sampling at 0.03, bounces limited to 6 (2 diffuse / 2 glossy / 6 transmission /
+Cycles CPU, 64 samples, adaptive sampling at 0.01, bounces limited to 12 (2 diffuse / 2 glossy / 8 transmission /
 24 transparent),
 `nice -n 10`, one Blender process at a time:
 
@@ -238,10 +239,15 @@ The renders were inspected and the following were corrected before this report:
 9. **94 LOD1 meshes exported with "Mesh … is not valid, and may be exported wrongly".** Collapse decimation
    leaves duplicate and zero-area faces; `Mesh.to_object` and `make_lod1` now call `mesh.validate()` before
    export. The exporter is silent and the LOD0 triangle total is unchanged.
-10. **The glass was salted with black speckle.** Kit glazing is alpha-blended *and* transmissive, and the panes
-    stack (outer sash, inner sash, interior card), so the render's `transparent_max_bounces = 4` terminated rays
-    before they reached the interior card and returned black. Raised to 24 (transparent bounces cost no BSDF
-    evaluation), with `max_bounces`/`transmission_bounces` at 6.
+10. **The glass rendered as blotchy noise.** Two problems, found by rendering one window on its own and
+    comparing settings. First, `transparent_max_bounces = 4` terminated rays before they reached the interior
+    card (the glazing is alpha-blended *and* transmissive and the panes stack: outer sash, inner sash, card), so
+    they returned black — raised to 24, which costs no BSDF evaluation. Second, the interior card is lit only
+    through the glass, so at `max_bounces = 4` and an adaptive threshold of 0.03 the card was pure variance that
+    the denoiser turned into blobs. `max_bounces = 12`, `transmission_bounces = 8` and `adaptive_threshold = 0.01`
+    render it clean for 9 % more time (2 min 10 s → 2 min 22 s on the two-window test frame). `glass_clear` was
+    then simplified in the catalogue to alpha-blended translucency with no ray-traced transmission — the two
+    together double-counted and read milky, and alpha blending is what the UE translucent material will use.
 11. **Decimation fell back to a single bounding quad too eagerly.** `make_lod1` now retries with a tightening
     ratio and rejects a decimated result that has collapsed below four triangles, so the flat-quad proxy is a
     last resort rather than the common case.
@@ -350,7 +356,7 @@ Fonts: `assets/fonts/Overpass` (SIL Open Font License 1.1) is used for the conta
 ```sh
 python3 blender/common/textures.py --fetch-all          # CC0 sources + LICENSE.json (already on disk)
 python3 blender/kit/facade/build_kit.py                 # 138 glb + catalog, ~20 s
-python3 -m pytest tests/test_kit_facade.py -q           # 973 assertions
+python3 -m pytest tests/test_kit_facade.py -q           # 1 134 assertions
 sh blender/kit/facade/render_all.sh 64 800              # every verification render, sequentially
 ```
 
@@ -386,10 +392,10 @@ sh blender/kit/facade/render_all.sh 64 800              # every verification ren
 | `construction_fence_plywood` | fence | 132 | 22 | 800 | 2.44 x 0.14 x 2.48 | ground_bottom_centre | plywood_green, interior_wood_floor, glass_clear, paint_grey, paint_white |
 | `cornice_bracket` | cornice | 84 | 18 | 600 | 0.15 x 0.40 x 0.60 | wall_bottom_centre | metal_panel |
 | `cornice_brick_corbel` | cornice | 204 | 37 | 1400 | 1.01 x 0.34 x 0.54 | wall_bottom_centre | red_brick, precast |
-| `cornice_pressed_metal_a` | cornice | 302 | 59 | 2500 | 1.00 x 0.55 x 0.88 | wall_bottom_centre | metal_panel |
-| `cornice_pressed_metal_b` | cornice | 362 | 71 | 2800 | 1.00 x 0.69 x 1.19 | wall_bottom_centre | metal_panel |
-| `cornice_pressed_metal_c` | cornice | 394 | 80 | 2200 | 1.00 x 0.44 x 0.62 | wall_bottom_centre | metal_panel |
-| `cornice_return_end` | cornice | 228 | 46 | 1000 | 0.86 x 0.55 x 0.90 | wall_corner_bottom | metal_panel |
+| `cornice_pressed_metal_a` | cornice | 314 | 61 | 2500 | 1.00 x 0.55 x 0.92 | wall_bottom_centre | metal_panel |
+| `cornice_pressed_metal_b` | cornice | 374 | 73 | 2800 | 1.00 x 0.69 x 1.15 | wall_bottom_centre | metal_panel |
+| `cornice_pressed_metal_c` | cornice | 406 | 83 | 2200 | 1.00 x 0.44 x 0.62 | wall_bottom_centre | metal_panel |
+| `cornice_return_end` | cornice | 240 | 50 | 1000 | 0.86 x 0.55 x 0.92 | wall_corner_bottom | metal_panel |
 | `cornice_stone` | cornice | 316 | 64 | 1400 | 1.00 x 0.50 x 0.78 | wall_bottom_centre | limestone |
 | `entry_apartment_lobby_glass` | door_entry | 278 | 4 | 1600 | 2.54 x 0.57 x 3.05 | wall_bottom_centre | granite, aluminum_anodized, glass_clear, chrome, interior_lit |
 | `entry_areaway_railing` | door_entry | 372 | 61 | 900 | 3.20 x 0.15 x 1.05 | wall_bottom_centre | cast_iron |
@@ -466,14 +472,14 @@ sh blender/kit/facade/render_all.sh 64 800              # every verification ren
 | `storefront_interior_restaurant` | storefront_interior | 616 | 121 | 6000 | 4.80 x 2.50 x 3.40 | wall_bottom_centre | interior_wood_floor, paint_maroon, paint_white, lamp_warm, steel_galvanized, granite, metal_panel, paint_black, painted_metal_black |
 | `storefront_interior_vacant` | storefront_interior | 394 | 72 | 6000 | 4.80 x 2.50 x 3.40 | wall_bottom_centre | concrete, stucco, fluoro_white, plywood_green, metal_panel, interior_wood_floor, paint_grey |
 | `storefront_sign_projecting` | storefront | 124 | 24 | 800 | 0.11 x 1.16 x 0.95 | wall_bottom_centre | paint_darkgreen, metal_panel, painted_metal_black, fluoro_white |
-| `string_course_brick_soldier` | string_course | 136 | 24 | 600 | 1.00 x 0.13 x 0.26 | wall_bottom_centre | red_brick |
+| `string_course_brick_soldier` | string_course | 124 | 29 | 600 | 1.00 x 0.13 x 0.26 | wall_bottom_centre | red_brick |
 | `string_course_dentil` | string_course | 144 | 27 | 400 | 1.00 x 0.29 x 0.24 | wall_bottom_centre | terracotta |
 | `string_course_stone_belt` | string_course | 52 | 12 | 400 | 1.00 x 0.18 x 0.25 | wall_bottom_centre | limestone |
 | `string_course_terracotta_band` | string_course | 120 | 20 | 500 | 1.00 x 0.16 x 0.36 | wall_bottom_centre | terracotta |
 | `trim_corner_bead_brick` | trim | 37 | 5 | 300 | 0.34 x 0.34 x 3.05 | wall_corner_bottom | red_brick, granite, precast |
 | `trim_datestone_plaque` | trim | 48 | 7 | 300 | 0.72 x 0.16 x 0.48 | wall_bottom_centre | limestone |
 | `trim_keystone` | trim | 36 | 6 | 400 | 0.29 x 0.21 x 0.44 | wall_bottom_centre | limestone |
-| `trim_lintel_stone` | trim | 20 | 4 | 400 | 1.18 x 0.14 x 0.15 | wall_bottom_centre | limestone |
+| `trim_lintel_stone` | trim | 20 | 4 | 400 | 1.18 x 0.15 x 0.15 | wall_bottom_centre | limestone |
 | `trim_sill_cast_stone` | trim | 32 | 6 | 400 | 1.10 x 0.17 x 0.10 | wall_bottom_centre | precast |
 | `trim_water_table` | trim | 18 | 2 | 300 | 1.00 x 0.22 x 0.42 | wall_bottom_centre | granite |
 | `water_tower_large` | water_tower | 1234 | 229 | 4000 | 4.45 x 4.60 x 13.08 | ground_bottom_centre | cedar_wood, steel_galvanized, rust |
@@ -486,7 +492,7 @@ sh blender/kit/facade/render_all.sh 64 800              # every verification ren
 | `win_curtain_wall_module` | window | 134 | 22 | 900 | 1.50 x 0.29 x 3.90 | wall_bottom_centre | aluminum_anodized, glass_curtain, metal_panel, concrete, interior_unlit |
 | `win_dormer` | window | 294 | 4 | 1200 | 1.64 x 1.09 x 2.25 | wall_bottom_centre | painted_wood_white, metal_panel, glass_clear, interior_unlit |
 | `win_double_hung_1_1` | window | 200 | 4 | 900 | 0.99 x 0.33 x 1.75 | wall_bottom_centre | red_brick, painted_wood_white, glass_clear, interior_unlit, precast |
-| `win_double_hung_1_1_soldier` | window | 344 | 4 | 900 | 1.06 x 0.36 x 1.99 | wall_bottom_centre | red_brick, painted_wood_white, glass_clear, interior_unlit, precast |
+| `win_double_hung_1_1_soldier` | window | 332 | 4 | 900 | 1.06 x 0.36 x 1.99 | wall_bottom_centre | red_brick, painted_wood_white, glass_clear, interior_unlit, precast |
 | `win_double_hung_1_1_stone` | window | 240 | 4 | 900 | 1.18 x 0.38 x 1.95 | wall_bottom_centre | red_brick, painted_wood_white, glass_clear, interior_unlit, limestone |
 | `win_double_hung_2_2` | window | 264 | 4 | 900 | 1.18 x 0.38 x 2.05 | wall_bottom_centre | brownstone, painted_wood_white, glass_clear, interior_unlit |
 | `win_double_hung_6_6` | window | 304 | 4 | 900 | 1.01 x 0.38 x 1.89 | wall_bottom_centre | red_brick, painted_wood_white, glass_clear, interior_unlit, brownstone |

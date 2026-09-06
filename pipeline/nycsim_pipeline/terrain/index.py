@@ -49,7 +49,8 @@ CODE_ENUM = {0: "water", 1: "Manhattan", 2: "Bronx", 3: "Brooklyn", 4: "Queens",
 CODE_NJ = 6
 CODE_OTHER_NY = 7
 CODE_WATER = 0
-MIN_TILE_OVERLAP_M2 = 100.0  # a borough must own at least this much of a tile to be listed
+MIN_TILE_OVERLAP_M2 = 100.0   # a borough must own at least this much of a tile to be listed
+MIN_OUTSIDE_NYC_M2 = 10_000.0  # ... and this much of a tile must fall outside the city before 6/7 is added
 
 COUNT_COLS = ("n_buildings", "n_road_segments", "n_props", "n_trees")
 TERRAIN_COLS = ("tile", "tx", "ty", "x0", "y0", "borough_codes", "has_terrain", "has_water", "has_land", "z_min", "z_max")
@@ -126,11 +127,15 @@ def tile_borough_codes(tiles: list[Tile], has_land: dict[str, bool], has_water: 
             if a >= MIN_TILE_OVERLAP_M2:
                 codes.append(keys[j])
                 claimed += a
-        if has_land.get(t.name, False) and claimed < b.area - MIN_TILE_OVERLAP_M2:
-            cy = t.y0 + 500.0
-            k = int(np.argmin(np.abs(ys - cy)))
-            line_x = float(xs[k]) if xs.size else 0.0
-            codes.append(CODE_NJ if (t.x0 + 500.0) < line_x else CODE_OTHER_NY)
+        # Land outside the city limits (the NYC boundary *including water* is the city's jurisdiction, so
+        # a harbour tile is inside it): only then is the tile New Jersey or New York State outside NYC.
+        if has_land.get(t.name, False):
+            outside = b.difference(nyc_all).area
+            if outside >= MIN_OUTSIDE_NYC_M2:
+                cy = t.y0 + 500.0
+                k = int(np.argmin(np.abs(ys - cy)))
+                line_x = float(xs[k]) if xs.size else 0.0
+                codes.append(CODE_NJ if (t.x0 + 500.0) < line_x else CODE_OTHER_NY)
         out[t.name] = sorted(set(codes))
     return out
 

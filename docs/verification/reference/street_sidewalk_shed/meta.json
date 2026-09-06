@@ -1,0 +1,201 @@
+{
+ "schema_version": 1,
+ "slug": "street_sidewalk_shed",
+ "name": "Sidewalk shed (scaffolding)",
+ "group": "streetscape",
+ "viewpoint": {
+  "lat": 40.755,
+  "lon": -73.984,
+  "azimuth_deg": 0.0,
+  "note": "Midtown sidewalk under a shed (representative; close-up reference, not a view)",
+  "representative": true
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"sidewalk shed\" New York scaffolding",
+  "scaffolding sidewalk shed Manhattan sidewalk"
+ ],
+ "geosearch_radius_m": 0,
+ "fetched_at": "2026-09-06T13:44:10Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 8,
+ "candidates_eligible": 7,
+ "rejections": {
+  "indoor": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:47 St sidewalk shed work 2020 jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:47_St_sidewalk_shed_work_2020_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/98/47_St_sidewalk_shed_work_2020_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/47_St_sidewalk_shed_work_2020_jeh.jpg/1920px-47_St_sidewalk_shed_work_2020_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2020-01-21 13:21:19",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": {
+    "lat": 40.7615,
+    "lon": -73.99
+   },
+   "original_width": 3946,
+   "original_height": 2959,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 717761,
+   "sha256": "ae1ab6e4cc8c00ca2273a4a9fb2c6bab9ab72f690a61e0613e9879c5c53c6389",
+   "mean_luminance": 113.6,
+   "description": "Looking west at construction workers setting up sidewalk protection",
+   "categories": [
+    "47th Street (Manhattan)",
+    "9th Avenue (Manhattan)",
+    "New York City photographs taken on 2020-01-21",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Midtown Manhattan in 2020",
+    "January 2020 in Manhattan, New York City",
+    "2020 Manhattan photos by Jim.henderson",
+    "January 2020 photos by Jim.henderson",
+    "Scaffolding in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"sidewalk shed\" New York scaffolding",
+   "score": 9.75,
+   "estimated_viewpoint": {
+    "lat": 40.7615,
+    "lon": -73.99,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.76150, -73.99000), 882 m from the reference position (Midtown sidewalk under a shed (representative; close-up reference, not a view)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"47 St sidewalk shed work 2020 jeh.jpg\" by Jim.henderson, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:47_St_sidewalk_shed_work_2020_jeh.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Sidewalk shed 2073 Bwy jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Sidewalk_shed_2073_Bwy_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/87/Sidewalk_shed_2073_Bwy_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Sidewalk_shed_2073_Bwy_jeh.jpg/1920px-Sidewalk_shed_2073_Bwy_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2020-06-21 11:33:43",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": {
+    "lat": 40.7784,
+    "lon": -73.982225
+   },
+   "original_width": 2642,
+   "original_height": 3522,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1090213,
+   "sha256": "ad875bb27bbaa3ad416ed76fd4eac769ee352521df39920b183bd0f0924e25a8",
+   "mean_luminance": 113.5,
+   "description": "Looking north at one of the new \"Urban Forest\" sidewalk sheds on a sunny morning. Please use anywhere you want, and credit \"Jim.henderson via Wikimedia Commons\".",
+   "categories": [
+    "June 2020 in New York City",
+    "72nd Street (Manhattan)",
+    "Self-published work",
+    "2020 in the Upper West Side",
+    "Files with coordinates missing SDC location of creation",
+    "Sidewalks in Manhattan, New York City",
+    "Broadway from 59th to 110th Streets",
+    "June 2020 photos by Jim.henderson",
+    "2020 Manhattan photos by Jim.henderson",
+    "Scaffolding in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"sidewalk shed\" New York scaffolding",
+   "score": 9.75,
+   "estimated_viewpoint": {
+    "lat": 40.7784,
+    "lon": -73.982225,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.77840, -73.98222), 2606 m from the reference position (Midtown sidewalk under a shed (representative; close-up reference, not a view)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"Sidewalk shed 2073 Bwy jeh.jpg\" by Jim.henderson, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Sidewalk_shed_2073_Bwy_jeh.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Urban Forest 8 Av & 47 St gets grid jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Urban_Forest_8_Av_%26_47_St_gets_grid_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e1/Urban_Forest_8_Av_%26_47_St_gets_grid_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Urban_Forest_8_Av_%26_47_St_gets_grid_jeh.jpg/1920px-Urban_Forest_8_Av_%26_47_St_gets_grid_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2020-01-24 11:35:43",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": {
+    "lat": 40.7604,
+    "lon": -73.9874
+   },
+   "original_width": 2221,
+   "original_height": 1249,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 400504,
+   "sha256": "41b364e903bc05db927ef14e834ca7867ab511fc424c676657f943185dd420e3",
+   "mean_luminance": 111.9,
+   "description": "Looking east as workers install a grid roof on above the sidewalk",
+   "categories": [
+    "47th Street (Manhattan)",
+    "8th Avenue (Manhattan)",
+    "New York City photographs taken on 2020-01-24",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Construction in Manhattan, New York City",
+    "Midtown Manhattan in 2020",
+    "January 2020 in Manhattan, New York City",
+    "2020 Manhattan photos by Jim.henderson",
+    "January 2020 photos by Jim.henderson",
+    "Scaffolding in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:scaffolding sidewalk shed Manhattan sidewalk",
+   "score": 9.75,
+   "estimated_viewpoint": {
+    "lat": 40.7604,
+    "lon": -73.9874,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.76040, -73.98740), 665 m from the reference position (Midtown sidewalk under a shed (representative; close-up reference, not a view)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"Urban Forest 8 Av & 47 St gets grid jeh.jpg\" by Jim.henderson, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Urban_Forest_8_Av_%26_47_St_gets_grid_jeh.jpg"
+  }
+ ]
+}

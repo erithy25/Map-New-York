@@ -156,6 +156,10 @@ def main() -> None:
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=400_000, budget_lod1=90_000,
         renders=[
+            # the comparison agent's recorded photographic viewpoint, used verbatim
+            ba.reference_render("landmark_verrazzano_narrows_bridge", fit.frame, view="bay_ridge_reference",
+                                ground_z=GROUND_BK, target_z=120.0, fov_deg=48.0, size=(1280, 720), context=ctx,
+                                sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
             dict(view="shore_road_bay_ridge", cam=ax.p(S_T_BK + 120.0, -330.0, GROUND_BK + 2.0),
                  target=ax.p(S_T_BK - 200.0, 0.0, 140.0), fov_deg=62.0, context=ctx, sun_azimuth_deg=250.0,
                  sun_elevation_deg=28.0),

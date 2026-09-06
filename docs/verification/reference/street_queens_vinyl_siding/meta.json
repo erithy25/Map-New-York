@@ -1,0 +1,191 @@
+{
+ "schema_version": 1,
+ "slug": "street_queens_vinyl_siding",
+ "name": "Queens vinyl-sided houses",
+ "group": "streetscape",
+ "viewpoint": {
+  "lat": 40.744,
+  "lon": -73.906,
+  "azimuth_deg": 0.0,
+  "note": "60th Street near 39th Avenue, Woodside, looking north (representative block)",
+  "representative": true
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "Queens \"vinyl siding\" house",
+  "\"Woodside, Queens\" houses street",
+  "\"Ridgewood, Queens\" houses",
+  "Astoria Queens detached house siding"
+ ],
+ "geosearch_radius_m": 0,
+ "fetched_at": "2026-09-06T13:38:15Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 32,
+ "candidates_eligible": 16,
+ "rejections": {
+  "excluded": 6,
+  "not_photo": 1,
+  "too_small": 8,
+  "too_old": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:60th Lane Ridgewood.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:60th_Lane_Ridgewood.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/95/60th_Lane_Ridgewood.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/60th_Lane_Ridgewood.jpg/1920px-60th_Lane_Ridgewood.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-04-09 11:53:20",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.698169,
+    "lon": -73.894828
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 948982,
+   "sha256": "6d4d7f50bf7c34d729e8822b3b11561b63bdfc86dcecf7d22f3e3f0d9645b04d",
+   "mean_luminance": 93.0,
+   "description": "60th Lane in Ridgewood, Queens in April 2022",
+   "categories": [
+    "New York City photographs taken on 2022-04-09",
+    "Self-published work",
+    "Row houses in Queens, New York City",
+    "Files with coordinates missing SDC location of creation",
+    "Clouds and blue sky in New York City",
+    "2022 in Ridgewood, Queens",
+    "April 2022 in Queens, New York City",
+    "Buildings in Ridgewood, Queens"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Ridgewood, Queens\" houses",
+   "score": 9.05,
+   "estimated_viewpoint": {
+    "lat": 40.698169,
+    "lon": -73.894828,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.69817, -73.89483), 5182 m from the reference position (60th Street near 39th Avenue, Woodside, looking north (representative block)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"60th Lane Ridgewood.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:60th_Lane_Ridgewood.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Woodside Houses.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Woodside_Houses.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/02/Woodside_Houses.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Woodside_Houses.jpg/1920px-Woodside_Houses.jpg",
+   "author": "Rayvxp",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2019-10-08 16:20:12",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.754211,
+    "lon": -73.909133
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1626858,
+   "sha256": "9b4afa3188f289aa512c4adbf69be8091cac4fedaca08c01aa7896ac383da997",
+   "mean_luminance": 115.4,
+   "description": "Woodside Houses",
+   "categories": [
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2019 in Woodside, Queens",
+    "October 2019 in Queens, New York City",
+    "NYCHA Queens",
+    "Welcome signs in New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Woodside, Queens\" houses street",
+   "score": 8.6,
+   "estimated_viewpoint": {
+    "lat": 40.754211,
+    "lon": -73.909133,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.75421, -73.90913), 1166 m from the reference position (60th Street near 39th Avenue, Woodside, looking north (representative block)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"Woodside Houses.jpg\" by Rayvxp, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Woodside_Houses.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:68th Avenue–64th Place Historic District.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:68th_Avenue%E2%80%9364th_Place_Historic_District.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/94/68th_Avenue%E2%80%9364th_Place_Historic_District.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/68th_Avenue%E2%80%9364th_Place_Historic_District.jpg/1920px-68th_Avenue%E2%80%9364th_Place_Historic_District.jpg",
+   "author": "Rublov",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-03-26 14:31:24",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": null,
+   "original_width": 4833,
+   "original_height": 3174,
+   "width": 1920,
+   "height": 1261,
+   "bytes": 761294,
+   "sha256": "1ec311ea9e39d93b0809d96d3a59b8d6c08e77cdfa235b081fcc919db3189f85",
+   "mean_luminance": 121.3,
+   "description": "Houses in the 68th Avenue–64th Place Historic District in Ridgewood, Queens",
+   "categories": [
+    "New York City photographs taken on 2022-03-26",
+    "Self-published work",
+    "2022 in Ridgewood, Queens",
+    "68th Avenue–64th Place Historic District",
+    "March 2022 in Queens, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Ridgewood, Queens\" houses",
+   "score": 8.55,
+   "estimated_viewpoint": {
+    "lat": 40.744,
+    "lon": -73.906,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (60th Street near 39th Avenue, Woodside, looking north (representative block)) and the azimuth 0 deg is the heading of the street/view axis at that position. The subject is generic, so this position is representative of the type of scene, not where this specific photo was taken."
+   },
+   "attribution": "\"68th Avenue–64th Place Historic District.jpg\" by Rublov, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:68th_Avenue%E2%80%9364th_Place_Historic_District.jpg"
+  }
+ ]
+}

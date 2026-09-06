@@ -64,6 +64,7 @@ def reg_flats() -> None:
     K.flat("foliage_green_dry", (0.105, 0.115, 0.040), 0.8)
     K.flat("soil", (0.06, 0.045, 0.035), 0.9)
     K.flat("chrome", (0.62, 0.63, 0.65), 0.18, metallic=1.0)
+    K.flat("interior_room_dark", (0.055, 0.052, 0.050), 0.92)      # returns of the sealed room box behind every pane
     K.emissive("lamp_warm", (1.0, 0.82, 0.55), 6.0)
     K.emissive("neon_red", (1.0, 0.10, 0.06), 14.0)
     K.emissive("neon_blue", (0.15, 0.45, 1.0), 12.0)
@@ -88,7 +89,9 @@ def interior_card_image(lit: bool) -> str:
     if lit:
         wall, floor, ceil = (150, 118, 84), (86, 62, 42), (176, 148, 112)
     else:
-        wall, floor, ceil = (26, 27, 32), (16, 16, 20), (30, 32, 38)
+        # A daytime room seen from a sunlit street is dim but not black: at pure black the pane reads as a hole and
+        # the glass loses all depth, so the card carries the light a north-facing room actually has.
+        wall, floor, ceil = (58, 57, 62), (34, 32, 36), (72, 71, 78)
     img = Image.new("RGB", (W, H), wall)
     d = ImageDraw.Draw(img)
     d.rectangle([0, 0, W, int(H * 0.16)], fill=ceil)                     # ceiling
@@ -361,11 +364,20 @@ def sash(m: K.Mesh, x0: float, x1: float, z0: float, z1: float, y: float, *, lig
     m.glass_pane(gx0, gx1, gz0, gz1, y + thick / 2, glass_mat, GLASS_T)
 
 
-def interior_card(m: K.Mesh, x0: float, x1: float, z0: float, z1: float, y: float, lit: bool) -> None:
-    """Card of interior imagery a few centimetres behind the glass (kills the 'hollow box' look from the street)."""
+def interior_card(m: K.Mesh, x0: float, x1: float, z0: float, z1: float, y: float, lit: bool, *, depth: float = 0.45) -> None:
+    """Shallow sealed room box behind the glass: the imagery card at ``depth`` with dark returns closing the sides.
+
+    A single card is not enough.  A building shell is an open box, so a bare card lets the sky behind the wall light
+    the opening from the back and the pane washes out to a flat grey — which is exactly how the first verification
+    pass failed.  Closing the returns both seals the light leak and gives the pane real parallax depth."""
     mat = "interior_lit" if lit else "interior_unlit"
-    m.face([(x0, y, z0), (x1, y, z0), (x1, y, z1), (x0, y, z1)], mat,
-           uvs=[(0, 0), (2, 0), (2, 2), (0, 2)])
+    dark = "interior_room_dark"
+    yb = y + depth
+    m.face([(x0, yb, z0), (x1, yb, z0), (x1, yb, z1), (x0, yb, z1)], mat, uvs=[(0, 0), (2, 0), (2, 2), (0, 2)])
+    m.face([(x0, y, z0), (x0, yb, z0), (x0, yb, z1), (x0, y, z1)], dark)                        # -X return
+    m.face([(x1, yb, z0), (x1, y, z0), (x1, y, z1), (x1, yb, z1)], dark)                        # +X return
+    m.face([(x0, y, z1), (x0, yb, z1), (x1, yb, z1), (x1, y, z1)], dark, flip=True)             # ceiling
+    m.face([(x0, y, z0), (x1, y, z0), (x1, yb, z0), (x0, yb, z0)], dark, flip=True)             # floor
 
 
 def double_hung(m: K.Mesh, x0: float, x1: float, z0: float, z1: float, *, lights_x: int = 1, lights_z: int = 1,
@@ -374,7 +386,10 @@ def double_hung(m: K.Mesh, x0: float, x1: float, z0: float, z1: float, *, lights
     lower sash outboard, a parting bead between them, the meeting-rail overlap and an interior card.
 
     The whole assembly sits ``reveal_depth`` (155 mm) behind the wall face, so the masonry jamb shades it."""
-    m.frame(x0, x1, z0, z1, reveal_depth - 0.012, reveal_depth + 0.070, CASING * 0.75, frame_mat)
+    # The frame box runs all the way back to the masonry liner (reveal_depth + 0.10, the depth every caller uses), so
+    # the opening is sealed: any gap between frame and liner lets daylight in from behind the shell and reads as a
+    # bright sliver at the head.
+    m.frame(x0, x1, z0, z1, reveal_depth - 0.012, reveal_depth + 0.100, CASING * 0.75, frame_mat)
     fx0, fx1 = x0 + CASING * 0.75, x1 - CASING * 0.75
     fz0, fz1 = z0 + CASING * 0.75, z1 - CASING * 0.75
     mid = (fz0 + fz1) / 2

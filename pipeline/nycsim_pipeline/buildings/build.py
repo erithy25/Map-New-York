@@ -306,7 +306,20 @@ def main(argv: list[str] | None = None) -> int:
 
     from .citygml_join import attach_roof_columns
 
-    table = pa.Table.from_pandas(attach_roof_columns(table.to_pandas()), preserve_index=False)
+    _roofed = pa.Table.from_pandas(attach_roof_columns(table.to_pandas()), preserve_index=False)
+    # pandas widens strings to large_string and replaces the key-value metadata; cast back so the
+    # file keeps the schema and the nycsim.* metadata every downstream consumer validates against.
+    def _narrow(field: pa.Field) -> pa.Field:
+        ty = field.type
+        if pa.types.is_large_string(ty):
+            ty = pa.string()
+        elif pa.types.is_large_binary(ty):
+            ty = pa.binary()
+        elif pa.types.is_large_list(ty):
+            ty = pa.list_(ty.value_type)
+        return field.with_type(ty)
+
+    table = _roofed.cast(pa.schema([_narrow(f) for f in _roofed.schema], metadata=table.schema.metadata))
 
 
     base_path = out_dir / "buildings_base.parquet"

@@ -164,7 +164,7 @@ def build_skeleton(species: str, height: float, dbh_cm: float, crown_m: float, s
             i = min(len(pts) - 2, int(t * (len(pts) - 1)))
             f = t * (len(pts) - 1) - i
             q = [pts[i][j] * (1 - f) + pts[i + 1][j] * f for j in range(3)]
-            jitter = card * 0.46
+            jitter = card * 0.30
             sk.leaves.append(([q[0] + rng.gauss(0, jitter), q[1] + rng.gauss(0, jitter), q[2] + rng.gauss(0, jitter * 0.7)],
                               card * rng.uniform(0.80, 1.28)))
     # scale centrelines so the finished tree has exactly the allometric height and crown spread

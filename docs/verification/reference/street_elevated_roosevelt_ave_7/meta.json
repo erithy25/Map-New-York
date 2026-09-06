@@ -1,0 +1,211 @@
+{
+ "schema_version": 1,
+ "slug": "street_elevated_roosevelt_ave_7",
+ "name": "Elevated subway street: Roosevelt Avenue under the 7",
+ "group": "streetscape",
+ "viewpoint": {
+  "lat": 40.7466,
+  "lon": -73.8912,
+  "azimuth_deg": 75.0,
+  "note": "Roosevelt Avenue at 74th Street, roadway centre under the 7 train structure, looking east",
+  "representative": false
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Roosevelt Avenue\" elevated 7 train Jackson Heights street",
+  "\"Roosevelt Avenue\" under the elevated Queens"
+ ],
+ "geosearch_radius_m": 500,
+ "fetched_at": "2026-09-06T13:39:19Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 66,
+ "candidates_eligible": 10,
+ "rejections": {
+  "keywords": 31,
+  "excluded": 19,
+  "too_small": 1,
+  "too_old": 2,
+  "licence": 2,
+  "indoor": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Roosevelt Avenue Jackson Avenue Station Station 001.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Roosevelt_Avenue_Jackson_Avenue_Station_Station_001.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Roosevelt_Avenue_Jackson_Avenue_Station_Station_001.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Roosevelt_Avenue_Jackson_Avenue_Station_Station_001.jpg/1920px-Roosevelt_Avenue_Jackson_Avenue_Station_Station_001.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2025-12-26 13:41:01",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.7468,
+    "lon": -73.8915
+   },
+   "original_width": 4080,
+   "original_height": 2296,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 413383,
+   "sha256": "e7cd5d0f750705afdf022d4f9c8480ddb037d68d460b0f22f652ff2eeb4ab3e3",
+   "mean_luminance": 90.7,
+   "description": "The Roosevelt Avenue Jackson Heights Station on the IND Queens Blvd Line",
+   "categories": [
+    "Self-published work",
+    "Jackson Heights – Roosevelt Avenue (IND Queens Boulevard Line)",
+    "Files with coordinates missing SDC location of creation",
+    "2025 in Jackson Heights, Queens",
+    "New York City photographs taken on 2025-12-26",
+    "December 2025 in Queens, New York City",
+    "New York City Subway in December 2025"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 15.2,
+   "estimated_viewpoint": {
+    "lat": 40.7468,
+    "lon": -73.8915,
+    "azimuth_deg": 75.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.74680, -73.89150), 34 m from the reference position (Roosevelt Avenue at 74th Street, roadway centre under the 7 train structure, looking east); this item is a view along a street rather than at a point subject, so the azimuth 75 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Roosevelt Avenue Jackson Avenue Station Station 001.jpg\" by Kidfly182, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Roosevelt_Avenue_Jackson_Avenue_Station_Station_001.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Little Amal at Jackson Heights–Roosevelt Avenue-74th St HDR 2022 jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Little_Amal_at_Jackson_Heights%E2%80%93Roosevelt_Avenue-74th_St_HDR_2022_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/cf/Little_Amal_at_Jackson_Heights%E2%80%93Roosevelt_Avenue-74th_St_HDR_2022_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Little_Amal_at_Jackson_Heights%E2%80%93Roosevelt_Avenue-74th_St_HDR_2022_jeh.jpg/1920px-Little_Amal_at_Jackson_Heights%E2%80%93Roosevelt_Avenue-74th_St_HDR_2022_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.74685,
+    "lon": -73.8922
+   },
+   "original_width": 2400,
+   "original_height": 2400,
+   "width": 1920,
+   "height": 1920,
+   "bytes": 783047,
+   "sha256": "622cb9d453df4a4abbc1d3f7d14001cae7551ee5901a74356aaf754552b62bcb",
+   "mean_luminance": 97.5,
+   "description": "Jackson Heights–Roosevelt Avenue/74th Street (New York City Subway station complex in Queens)",
+   "categories": [
+    "Views from IRT Flushing Line stations",
+    "Little Amal, The Walk",
+    "New York City photographs taken on 2022-09-21",
+    "Self-published work",
+    "74th Street – Broadway (IRT Flushing Line)",
+    "Uploaded with Mobile/Android",
+    "Files with coordinates missing SDC location of creation",
+    "Kebabs in the United States",
+    "Crowds in Queens, New York City",
+    "Statues in the United States photographed in 2022",
+    "2022 events in Queens, New York City",
+    "2022 in Jackson Heights, Queens",
+    "September 2022 in Queens, New York City",
+    "2022 Queens photos by Jim.henderson",
+    "September 2022 photos by Jim.henderson",
+    "Diversity Plaza (Queens)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 15.05,
+   "estimated_viewpoint": {
+    "lat": 40.74685,
+    "lon": -73.8922,
+    "azimuth_deg": 75.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.74685, -73.89220), 89 m from the reference position (Roosevelt Avenue at 74th Street, roadway centre under the 7 train structure, looking east); this item is a view along a street rather than at a point subject, so the azimuth 75 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Little Amal at Jackson Heights–Roosevelt Avenue-74th St HDR 2022 jeh.jpg\" by Jim.henderson, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Little_Amal_at_Jackson_Heights%E2%80%93Roosevelt_Avenue-74th_St_HDR_2022_jeh.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Jackson Heights, Queens NY.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Jackson_Heights,_Queens_NY.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Jackson_Heights%2C_Queens_NY.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Jackson_Heights%2C_Queens_NY.jpg/1920px-Jackson_Heights%2C_Queens_NY.jpg",
+   "author": "Tenzin Youdon",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018-09-22 19:05:09",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.747273,
+    "lon": -73.892361
+   },
+   "original_width": 4006,
+   "original_height": 2253,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 538693,
+   "sha256": "4b98e6cbbe8e6d60aa28cb3c29e86ae5c68774e6c29a4f13a9b003932bbd7278",
+   "mean_luminance": 102.5,
+   "description": "A full shot of Jackson Heights located in Queens borough of New York, shown with diverse commercials restaurants and the 7 line MTA track.",
+   "categories": [
+    "Jackson Heights, Queens",
+    "Images from Wiki Loves Monuments 2018",
+    "Images from Wiki Loves Monuments 2018 in New York",
+    "Self-published work",
+    "Jackson Heights – Roosevelt Avenue (IND Queens Boulevard Line)",
+    "Uploaded via Campaign:wlm-us",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2018-09-22",
+    "Images from Wiki Loves Monuments 2018 in the United States",
+    "Images from Wiki Loves Monuments missing SDC depicts",
+    "Images from Wiki Loves Monuments missing SDC location of creation",
+    "Wiki Loves Monuments 2018 in the United States unreviewed",
+    "Diversity Plaza (Queens)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.45,
+   "estimated_viewpoint": {
+    "lat": 40.747273,
+    "lon": -73.892361,
+    "azimuth_deg": 75.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.74727, -73.89236), 123 m from the reference position (Roosevelt Avenue at 74th Street, roadway centre under the 7 train structure, looking east); this item is a view along a street rather than at a point subject, so the azimuth 75 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Jackson Heights, Queens NY.jpg\" by Tenzin Youdon, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Jackson_Heights,_Queens_NY.jpg"
+  }
+ ]
+}

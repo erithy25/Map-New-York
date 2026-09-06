@@ -38,7 +38,10 @@ ID = "b_soldiers_sailors_arch"
 TITLE = "Soldiers' and Sailors' Memorial Arch"
 BINS = [3347227]
 
-HEIGHT = 24.38          # 80 ft
+HEIGHT = 24.38          # 80 ft -- to the top of the attic cap, the quadriga stands above it
+# triumphal_arch stacks body (HEIGHT - 4.4), cornice (0.9 * 1.4), attic (ATTIC_H) and a 0.7 m attic cap; solve the
+# attic height so the cap lands exactly on the published 24.38 m
+ATTIC_H = HEIGHT - (HEIGHT - 4.4) - 0.9 * 1.4 - 0.7   # = 2.44
 WIDTH = 24.38           # 80 ft
 DEPTH = 10.67           # 35 ft
 OPENING_W = 10.67       # 35 ft
@@ -58,13 +61,13 @@ def build(lod: int = 0):
     objs: list = []
     objs += pk.triumphal_arch("ssa", (0.0, 0.0, 0.0), HEADING, width=WIDTH, depth=DEPTH, height=HEIGHT - 4.4,
                               opening_w=OPENING_W, opening_h=OPENING_H, material="granite_gray",
-                              attic_h=3.2, cornice=0.9, lod=lod)
+                              attic_h=ATTIC_H, cornice=0.9, lod=lod)
     objs.append(bc.prism("ssa_steps", bc.rect(WIDTH + 4.0, DEPTH + 4.0), -1.1, 0.0, "granite_gray"))
     # ---- the MacMonnies quadriga on the attic: chariot, four horses, three figures (blocked out) -------------------
     a = math.radians(bc.heading_to_math_deg(HEADING))
     d = Vector((math.cos(a), math.sin(a), 0.0))
     n = Vector((-d.y, d.x, 0.0))
-    z_attic = HEIGHT - 4.4 + 0.9 * 1.4 + 3.2 + 0.7
+    z_attic = HEIGHT  # top of the attic cap = the published 80 ft; the quadriga stands above it
     q = []
     q.append(bc.box("quadriga_chariot", (2.6, 3.0, 1.9), (-d.x * 2.2, -d.y * 2.2, z_attic), "bronze_green"))
     for k, t in enumerate((-3.3, -1.1, 1.1, 3.3)):

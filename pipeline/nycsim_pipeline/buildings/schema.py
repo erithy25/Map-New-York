@@ -95,6 +95,10 @@ COLUMNS: list[tuple[str, pa.DataType, bool]] = [
     (GEOMETRY_COLUMN, pa.binary(), True),
     ("ground_z", pa.float32(), True),
     ("roof_z", pa.float32(), True),
+    # Filled by citygml_join.attach_roof_columns before this stage writes (ADR-013): measured roof
+    # massing from the city 3-D model, with pitched shapes inferred later by the facade rules.
+    ("roof_type", pa.int8(), True),
+    ("roof_mesh_ref", pa.string(), False),
     ("height", pa.float32(), True),
     ("floors", pa.int16(), True),
     ("floor_height", pa.float32(), True),

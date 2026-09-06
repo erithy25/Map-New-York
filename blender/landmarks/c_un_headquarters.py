@@ -64,26 +64,49 @@ def build():
     # ---- the General Assembly: concave side walls rising to the centre, glass north wall, shallow dome -----------
     ax0, ay0, ax1, ay1 = ga.bounds
     b = C.MeshBuilder()
-    nseg = 14
+    nseg = 20
+    axc = (ax0 + ax1) / 2
+
+    def wall_z(u: float) -> float:
+        """Height of the concave side wall at fractional position u along the building [Harrison; UN sections]."""
+        return GA_END - (GA_END - GA_WAIST) * math.sin(math.pi * u)
+
+    def lean_at(u: float) -> float:
+        return 4.5 * math.sin(math.pi * u)
+
     for k in range(nseg):
-        y_a = ay0 + (ay1 - ay0) * k / nseg
-        y_b = ay0 + (ay1 - ay0) * (k + 1) / nseg
+        ua, ub = k / nseg, (k + 1) / nseg
+        y_a = ay0 + (ay1 - ay0) * ua
+        y_b = ay0 + (ay1 - ay0) * ub
+        za, zb = wall_z(ua), wall_z(ub)
+        la, lb = lean_at(ua), lean_at(ub)
         for x_side, sgn in ((ax0 + 1.0, -1.0), (ax1 - 1.0, 1.0)):
-            za = GA_END - (GA_END - GA_WAIST) * math.sin(math.pi * (k / nseg))
-            zb = GA_END - (GA_END - GA_WAIST) * math.sin(math.pi * ((k + 1) / nseg))
-            lean = 4.5 * math.sin(math.pi * (k + 0.5) / nseg)
+            # the concave side wall, leaning out as it dips
             b.quad((x_side, y_a, 6.5), (x_side, y_b, 6.5),
-                   (x_side + sgn * lean, y_b, zb), (x_side + sgn * lean, y_a, za), C.M.limestone)
-            b.quad((x_side + sgn * lean, y_a, za), (x_side + sgn * lean, y_b, zb),
-                   (ax0 + (ax1 - ax0) / 2, y_b, zb), (ax0 + (ax1 - ax0) / 2, y_a, za), C.M.roof_grey)
+                   (x_side + sgn * lb, y_b, zb), (x_side + sgn * la, y_a, za), C.M.limestone)
+            # its coping
+            b.quad((x_side + sgn * la, y_a, za), (x_side + sgn * lb, y_b, zb),
+                   (x_side + sgn * (lb + 0.6), y_b, zb - 1.6), (x_side + sgn * (la + 0.6), y_a, za - 1.6),
+                   C.M.marble_white)
+            # the warped roof: from the wall top up to a ridge 3.0 m higher on the centre line
+            b.quad((x_side + sgn * la, y_a, za), (x_side + sgn * lb, y_b, zb),
+                   (axc, y_b, zb + 3.0), (axc, y_a, za + 3.0), C.M.roof_grey)
+    # the north (First Avenue) elevation: a full-height glass wall on vertical mullions over the delegates' entrance
     b.quad((ax0 + 1.0, ay1, 6.5), (ax1 - 1.0, ay1, 6.5), (ax1 - 1.0, ay1, GA_END),
-           (ax0 + 1.0, ay1, GA_END), C.M.glass_clear)                               # the north glass wall
+           (ax0 + 1.0, ay1, GA_END), C.M.glass_clear)
+    for k in range(int((ax1 - ax0) // 3.2) + 1):
+        xx = ax0 + 1.0 + 3.2 * k
+        if xx > ax1 - 1.0:
+            break
+        b.box((xx, ay1 + 0.35, (6.5 + GA_END) / 2), (0.3, 0.7, GA_END - 6.5), C.M.marble_white)
+    b.box(((ax0 + ax1) / 2, ay1 + 4.0, 6.5), (26.0, 8.0, 1.0), C.M.marble_white)     # the entrance canopy
+    # the south end is windowless limestone
     b.quad((ax1 - 1.0, ay0, 6.5), (ax0 + 1.0, ay0, 6.5), (ax0 + 1.0, ay0, GA_END),
            (ax1 - 1.0, ay0, GA_END), C.M.limestone)
-    dcx, dcy = (ax0 + ax1) / 2, ay0 + (ay1 - ay0) * 0.42
+    dcx, dcy = axc, ay0 + (ay1 - ay0) * 0.42
     b.lathe([(GA_DOME_D / 2, 0.0), (GA_DOME_D / 2 * 0.94, 1.6), (GA_DOME_D / 2 * 0.7, 4.0),
-             (GA_DOME_D / 2 * 0.38, 5.6), (0.0, 6.3)], 40, C.M.steel_nirosta, origin=(dcx, dcy, GA_WAIST + 0.6),
-            smooth=True)
+             (GA_DOME_D / 2 * 0.38, 5.6), (0.0, 6.3)], 40, C.M.steel_nirosta,
+            origin=(dcx, dcy, wall_z(0.42) + 2.6), smooth=True)
     objs.append(C.tag(b.build(f"{ID}_general_assembly"), "mass"))
 
     # ---- the Conference Building on the East River side ------------------------------------------------------------

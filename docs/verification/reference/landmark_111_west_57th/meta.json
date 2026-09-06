@@ -24,20 +24,187 @@
   "\"Steinway Tower\" Central Park skyscraper"
  ],
  "geosearch_radius_m": 400,
- "fetched_at": "2026-09-06T12:42:39Z",
+ "fetched_at": "2026-09-06T13:49:38Z",
  "max_width": 1920,
  "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
  "candidates_seen": 105,
- "candidates_eligible": 0,
+ "candidates_eligible": 59,
  "rejections": {
-  "keywords": 92,
   "licence": 2,
   "too_small": 1,
-  "too_old": 1,
-  "excluded": 8,
-  "night_for_day_item": 1
+  "keywords": 32,
+  "too_old": 6,
+  "night_for_day_item": 2,
+  "excluded": 3
  },
- "exhausted": true,
- "status": "no_suitable_photo",
- "photos": []
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:111 West 57th Street Feb 2026 36.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:111_West_57th_Street_Feb_2026_36.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b0/111_West_57th_Street_Feb_2026_36.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/111_West_57th_Street_Feb_2026_36.jpg/1920px-111_West_57th_Street_Feb_2026_36.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026-02-28 12:29:32",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.764636,
+    "lon": -73.9779
+   },
+   "original_width": 4080,
+   "original_height": 3060,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 461085,
+   "sha256": "7edd5fd0cd0017d61ca2ea1d8ab2ad5ded4443f11d68492ace8c9c270a61841f",
+   "mean_luminance": 117.3,
+   "description": "Bonhams at 111 West 57th Street in Manhattan, New York, seen in February 2026",
+   "categories": [
+    "111 West 57th Street",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Midtown Manhattan in 2026",
+    "February 2026 in Manhattan, New York City",
+    "New York City photographs taken on 2026-02-28",
+    "Photographs by Epicgenius",
+    "Office buildings in New York City photographed in 2026"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"111 West 57th Street\" Steinway Tower",
+   "score": 10.2,
+   "estimated_viewpoint": {
+    "lat": 40.764636,
+    "lon": -73.9779,
+    "azimuth_deg": 55.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76464, -73.97790) is 51 m from 111 West 57th Street (40.76490, -73.97740) and 484 m from the standard viewpoint; the azimuth 55 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"111 West 57th Street Feb 2026 36.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:111_West_57th_Street_Feb_2026_36.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:At New York City 2024 505.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:At_New_York_City_2024_505.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/4c/At_New_York_City_2024_505.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/At_New_York_City_2024_505.jpg/1920px-At_New_York_City_2024_505.jpg",
+   "author": "Photograph by Mike Peel ( www.mikepeel.net ).",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024-03-03",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.769672,
+    "lon": -73.972125
+   },
+   "original_width": 6960,
+   "original_height": 4640,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 821759,
+   "sha256": "eb1a229294f34c8ddb13e77a911256872110fd3e876c0a77727cba8dd8cda1ac",
+   "mean_luminance": 125.0,
+   "description": "",
+   "categories": [
+    "Central Park Tower",
+    "111 West 57th Street",
+    "Media lacking a description",
+    "Views of buildings from Central Park",
+    "Uploaded with LrMediaWiki",
+    "Files with coordinates missing SDC location of creation",
+    "Clouds and blue sky in New York City",
+    "New York City photographs taken on 2024-03-03",
+    "Midtown Manhattan skylines in 2024",
+    "March 2024 in Manhattan, New York City",
+    "Central Park in March 2024",
+    "Central Park from 59th Street to 65th Street",
+    "Photos by Mike Peel using a Canon EOS 90D",
+    "Photos by Mike Peel of New York City in 2024"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Steinway Tower\" Central Park skyscraper",
+   "score": 10.2,
+   "estimated_viewpoint": {
+    "lat": 40.769672,
+    "lon": -73.972125,
+    "azimuth_deg": 219.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76967, -73.97213) is 692 m from 111 West 57th Street (40.76490, -73.97740) and 272 m from the standard viewpoint; the azimuth 220 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"At New York City 2024 505.jpg\" by Photograph by Mike Peel ( www.mikepeel.net )., CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:At_New_York_City_2024_505.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:111 W57 fr West Drive 2020 jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:111_W57_fr_West_Drive_2020_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e5/111_W57_fr_West_Drive_2020_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/111_W57_fr_West_Drive_2020_jeh.jpg/1920px-111_W57_fr_West_Drive_2020_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2020",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": {
+    "lat": 40.7719,
+    "lon": -73.9773
+   },
+   "original_width": 2901,
+   "original_height": 4352,
+   "width": 1920,
+   "height": 2880,
+   "bytes": 801725,
+   "sha256": "7d542c8f7f43a82d17f849eb455272e72b76d6169ed01a761e31d9eec6ef287c",
+   "mean_luminance": 171.2,
+   "description": "Looking south from West Drive near Tavern on the Green, on a sunny morning",
+   "categories": [
+    "111 West 57th Street",
+    "New York City photographs taken on 2020-05-04",
+    "Self-published work",
+    "Views of buildings from Central Park",
+    "Files with coordinates missing SDC location of creation",
+    "Midtown Manhattan in 2020",
+    "May 2020 in Manhattan, New York City",
+    "Central Park photos by Jim.henderson",
+    "2020 Manhattan photos by Jim.henderson"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Steinway Tower\" Central Park skyscraper",
+   "score": 9.75,
+   "estimated_viewpoint": {
+    "lat": 40.7719,
+    "lon": -73.9773,
+    "azimuth_deg": 180.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.77190, -73.97730) is 778 m from 111 West 57th Street (40.76490, -73.97740) and 452 m from the standard viewpoint; the azimuth 181 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"111 W57 fr West Drive 2020 jeh.jpg\" by Jim.henderson, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:111_W57_fr_West_Drive_2020_jeh.jpg"
+  }
+ ]
 }

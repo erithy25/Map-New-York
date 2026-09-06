@@ -20,7 +20,7 @@
 //       -Icore/include -Iunreal/NYCSim/Source/NYCSimRuntime/Private
 //       unreal/tools/gameplay_selftest.cpp
 //       unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter/Gameplay*.cpp
-//       core/src/routing/*.cpp core/src/traffic/*.cpp
+//       core/src/routing/*.cpp core/src/traffic/*.cpp core/src/vehicle/*.cpp
 //
 // Exit code 0 = every check passed; the summary it prints is quoted in docs/verification/unreal_gameplay/REPORT.md.
 #include <cmath>
@@ -34,6 +34,8 @@
 #include "CoreAdapter/GameplayTrafficSim.h"
 #include "CoreAdapter/GameplayVehicleDynamics.h"
 #include "nycsim/traffic/Random.h"
+#include "nycsim/vehicle/Friction.h"
+#include "nycsim/vehicle/VehicleSpec.h"
 
 using namespace nycsim_gameplay;
 
@@ -277,8 +279,35 @@ void testVehicleDynamics()
 {
 	std::printf("[1] player vehicle specification and tyre friction\n");
 	const PlayerVehicleSpec spec;
-	checkClose(spec.wheelRadiusM(), 0.3234, 0.005, "225/50R17 loaded radius ≈ 0.323 m");
-	checkClose(spec.speedAtRpm(spec.maxRpm), 45.7, 1.5, "top gear: 6000 rpm ≈ 45.7 m/s (165 km/h)");
+
+	// The gameplay spec is a translation of core's authoritative one, so every figure core carries is asserted
+	// against it here. A divergence in either direction fails this test rather than reaching the car.
+	const nycsim::vehicle::VehicleSpec& core = nycsim::vehicle::fusionHybrid2019();
+	checkClose(spec.lengthM, core.dimensions.lengthM, 1e-6, "length matches core VehicleSpec");
+	checkClose(spec.widthM, core.dimensions.widthM, 1e-6, "width matches core VehicleSpec");
+	checkClose(spec.widthMirrorsM, core.dimensions.widthMirrorsM, 1e-6, "mirror width matches core VehicleSpec");
+	checkClose(spec.heightM, core.dimensions.heightM, 1e-6, "height matches core VehicleSpec");
+	checkClose(spec.wheelbaseM, core.dimensions.wheelbaseM, 1e-6, "wheelbase matches core VehicleSpec");
+	checkClose(spec.trackFrontM, core.dimensions.trackFrontM, 1e-6, "front track matches core VehicleSpec");
+	checkClose(spec.trackRearM, core.dimensions.trackRearM, 1e-6, "rear track matches core VehicleSpec");
+	checkClose(spec.groundClearanceM, core.dimensions.groundClearanceM, 1e-6,
+			   "ground clearance matches core VehicleSpec");
+	checkClose(spec.massKg, core.mass.curbMassKg, 1e-6, "curb mass matches core VehicleSpec");
+	checkClose(spec.frontMassShare, core.mass.frontWeightFraction, 1e-6,
+			   "front weight fraction matches core VehicleSpec");
+	checkClose(spec.cogHeightM, core.mass.cgHeightM, 1e-6, "centre-of-gravity height matches core VehicleSpec");
+	checkClose(spec.dragCoefficient, core.aero.dragCoefficient, 1e-6, "Cd matches core VehicleSpec");
+	checkClose(spec.frontalAreaM2, core.aero.frontalAreaM2, 1e-6, "frontal area matches core VehicleSpec");
+	checkClose(spec.tyreWidthM, core.tyre.sectionWidthM, 1e-6, "tyre section width matches core VehicleSpec");
+	checkClose(spec.tyreAspect, core.tyre.aspectRatio, 1e-6, "tyre aspect ratio matches core VehicleSpec");
+	checkClose(spec.rimDiameterInch, core.tyre.rimDiameterInch, 1e-6, "rim diameter matches core VehicleSpec");
+	checkClose(spec.wheelRadiusM(), core.tyre.rollingRadiusM(), 1e-4,
+			   "rolling radius matches core VehicleSpec (SAE J1270)");
+	checkClose(spec.fuelTankLitres, core.powertrain.fuelTankL, 1e-6, "fuel tank matches core VehicleSpec");
+	checkClose(spec.batteryKwh, core.powertrain.batteryCapacityKwh, 1e-6, "battery matches core VehicleSpec");
+
+	checkClose(spec.wheelRadiusM(), 0.3176, 0.005, "225/50R17 rolling radius ≈ 0.318 m");
+	checkClose(spec.speedAtRpm(spec.maxRpm), 44.3, 1.5, "top gear: 6000 rpm ≈ 44.3 m/s (160 km/h)");
 	checkClose(spec.rpmAtSpeed(13.4), 1780.0, 120.0, "30 mph ≈ 1780 rpm in the single eCVT ratio");
 	// Peak power from the sampled torque curve must land on the published 140 kW combined output.
 	double peakKw = 0.0;
@@ -308,6 +337,44 @@ void testVehicleDynamics()
 	check(friction.aquaplaneSpeedMps(0.f, 241.f) > 1000.f, "no aquaplaning on a dry road");
 	check(friction.aquaplaneSpeedMps(1.f, 241.f) > friction.aquaplaneSpeedMps(4.f, 241.f),
 		  "a thinner film raises the aquaplaning threshold");
+
+	// The same six normative coefficients, this time asserted against core's own friction table rather than
+	// against literals, so the two implementations of ARCHITECTURE §7 cannot drift apart.
+	namespace cv = nycsim::vehicle;
+	checkClose(friction.peakFriction(SurfaceClass::Asphalt, 0.f, 0.f, 0.f),
+			   cv::frictionTable(cv::SurfaceClass::DryAsphalt).dry, 1e-4, "dry asphalt matches core Friction");
+	checkClose(friction.peakFriction(SurfaceClass::Asphalt, 1.f, 0.f, 0.f),
+			   cv::frictionTable(cv::SurfaceClass::DryAsphalt).wet, 1e-4, "soaked asphalt matches core Friction");
+	checkClose(friction.peakFriction(SurfaceClass::SteelPlate, 1.f, 0.f, 0.f),
+			   cv::frictionTable(cv::SurfaceClass::SteelPlateWet).wet, 1e-4, "wet steel plate matches core Friction");
+	checkClose(friction.peakFriction(SurfaceClass::PaintedMarking, 1.f, 0.f, 0.f),
+			   cv::frictionTable(cv::SurfaceClass::PaintedMarkingWet).wet, 1e-4,
+			   "wet painted marking matches core Friction");
+	checkClose(friction.peakFriction(SurfaceClass::Asphalt, 0.f, 1.f, 0.f),
+			   cv::frictionTable(cv::SurfaceClass::Snow).dry, 1e-4, "snow cover matches core Friction");
+	checkClose(friction.peakFriction(SurfaceClass::Asphalt, 0.f, 0.f, 1.f),
+			   cv::frictionTable(cv::SurfaceClass::Ice).dry, 1e-4, "ice cover matches core Friction");
+	const struct
+	{
+		SurfaceClass mine;
+		cv::SurfaceClass theirs;
+		const char* what;
+	} kShared[] = {
+		{SurfaceClass::Concrete, cv::SurfaceClass::Concrete, "concrete"},
+		{SurfaceClass::Cobble, cv::SurfaceClass::BelgianBlock, "Belgian block"},
+		{SurfaceClass::Gravel, cv::SurfaceClass::Gravel, "gravel"},
+		{SurfaceClass::Boardwalk, cv::SurfaceClass::Boardwalk, "boardwalk"},
+		{SurfaceClass::Metal, cv::SurfaceClass::SteelGrate, "steel grate"},
+	};
+	for (const auto& e : kShared)
+	{
+		const cv::FrictionEntry entry = cv::frictionTable(e.theirs);
+		checkClose(friction.peakFriction(e.mine, 0.f, 0.f, 0.f), entry.dry, 1e-4,
+				   "dry surface matches core Friction");
+		checkClose(friction.peakFriction(e.mine, 1.f, 0.f, 0.f), entry.wet, 1e-4,
+				   "wet surface matches core Friction");
+		(void)e.what;
+	}
 	std::printf("      wheel radius %.4f m, top speed %.1f m/s, peak power %.1f kW\n", spec.wheelRadiusM(),
 				spec.speedAtRpm(spec.maxRpm), peakKw);
 }

@@ -86,10 +86,13 @@ def build(lod: int = 0):
     for i in (1, 2, 3):
         base = P[i] + Vector((0, 0, GROUND - 3.0))
         top = P[i] + Vector((0, 0, z_sheave[i]))
+        # the published tower height is to the top of the sheave head, so the lattice stops 1.6 m short of it and the
+        # head occupies that band -- the rope then rides over the sheaves at exactly the published elevation
+        top = P[i] + Vector((0, 0, z_sheave[i] - 1.6))
         objs.append(bc.lattice_column(f"tower{i}", base, top, 7.5, 3.4, "steel_gray",
                                       panels=max(int(TOWER_H[i] / 9), 4), member=0.5 if lod == 0 else 0.8,
                                       x_brace=(lod == 0)))
-        head = bc.box(f"tower{i}_head", (4.0, ROPE_GAUGE + 3.2, 1.6), (P[i].x, P[i].y, z_sheave[i]), "steel_gray")
+        head = bc.box(f"tower{i}_head", (4.0, ROPE_GAUGE + 3.2, 1.6), (P[i].x, P[i].y, z_sheave[i] - 1.6), "steel_gray")
         objs.append(head)
         if lod == 0:
             for dt in (-ROPE_GAUGE / 2, ROPE_GAUGE / 2):
@@ -182,6 +185,10 @@ def main() -> None:
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=250_000, budget_lod1=50_000,
         renders=[
+            # the comparison agent's recorded photographic viewpoint, used verbatim
+            ba.reference_render("landmark_roosevelt_island_tram", frame, view="tram_reference",
+                                ground_z=GROUND, target_z=60.0, fov_deg=58.0, size=(1280, 720), context=ctx,
+                                sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
             dict(view="from_the_island", cam=(P[4].x + 90.0, P[4].y - 40.0, GROUND + 2.0),
                  target=(P[2].x, P[2].y, 55.0), fov_deg=58.0, context=ctx, sun_azimuth_deg=250.0, sun_elevation_deg=34.0),
             dict(view="york_avenue_tower", cam=(P[2].x + 110.0, P[2].y + 90.0, GROUND + 2.0),

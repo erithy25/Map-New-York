@@ -29,11 +29,10 @@ import datetime as dt
 import json
 import logging
 import math
-import os
 import sys
 import time
 from pathlib import Path
-from typing import Iterable, Sequence
+from typing import Sequence
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
@@ -49,6 +48,18 @@ COMPARISON_DIR = REPO_ROOT / "docs" / "verification" / "comparison"
 FONT_DIR = REPO_ROOT / "assets" / "fonts" / "Overpass"
 
 NY_TZ = "America/New_York"
+
+# Lighting model constants.  SUN_CALIBRATION and REFERENCE_KEY_W were measured with
+# blender/verify/ test renders of a 0.26-albedo ground: they put a clear-midday sunlit ground at
+# about 150/255 through Filmic, which is where a correctly exposed photograph of concrete sits.
+SOLAR_CONSTANT_W = 1361.0
+ATMOSPHERIC_TRANSMITTANCE = 0.7
+SUN_CALIBRATION = 540.0
+DIFFUSE_KEY_W = 90.0
+REFERENCE_KEY_W = 681.0
+SKY_STRENGTH_DAY = 0.25
+SKY_STRENGTH_NIGHT = 0.5
+NIGHT_EXPOSURE_STOPS = 2.0
 RENDER_WIDTH = 1280
 DEFAULT_SAMPLES = 64
 
@@ -177,11 +188,19 @@ def sun_for(lat: float, lon: float, when_local: dt.datetime, elevation_m: float 
 
 
 def setup_world_and_sun(sun_azimuth_deg: float, sun_elevation_deg: float, *, night: bool) -> dict:
-    """Nishita sky at the real Sun position plus a matching directional light.
+    """Nishita sky at the real Sun position, a matching directional light, and an exposure.
 
-    Below the horizon the sky node is clamped to civil twilight and the directional light is
-    removed; nothing artificial is added to stand in for street lighting, so a night frame shows
-    exactly how much emissive content the world currently has (which is the point of the check).
+    The Sun's strength follows the direct normal irradiance for the Sun's actual elevation --
+    1361 W/m2 at the top of the atmosphere, Kasten-Young air mass, 0.7 atmospheric transmittance
+    per air mass -- divided by a single calibration constant so that a clear midday frame lands
+    where a correctly exposed photograph lands (a 0.26-albedo sunlit ground at about 150/255
+    through the Filmic view transform).  The view exposure then opens up by as much as three
+    stops as the light falls off, the way a photographer would; it never stops down, so a bright
+    scene stays bright.
+
+    Below the horizon the sky node is clamped to civil twilight and no directional light is
+    added.  Nothing artificial stands in for street lighting, so a night frame shows exactly how
+    much emissive content the world currently has -- which is the point of the check.
     """
     import bpy
     sc = bpy.context.scene
@@ -202,28 +221,88 @@ def setup_world_and_sun(sun_azimuth_deg: float, sun_elevation_deg: float, *, nig
     sky.sun_intensity = 0.0
     sky.altitude = 0.0
     nt.links.new(sky.outputs["Color"], bg.inputs["Color"])
-    bg.inputs["Strength"].default_value = 0.35 if night else 1.0
+    bg.inputs["Strength"].default_value = SKY_STRENGTH_NIGHT if night else SKY_STRENGTH_DAY
 
+    dni = 0.0
     lamp = None
     if sun_elevation_deg > 0.5:
-        # Direct normal irradiance falls off with air mass; 1361 W/m2 at the top of the
-        # atmosphere, Kasten-Young air mass, 0.7 atmospheric transmittance per air mass.
         e = math.radians(sun_elevation_deg)
-        am = 1.0 / (math.sin(e) + 0.50572 * (sun_elevation_deg + 6.07995) ** -1.6364)
-        irradiance = 1361.0 * (0.7 ** (am ** 0.678))
+        air_mass = 1.0 / (math.sin(e) + 0.50572 * (sun_elevation_deg + 6.07995) ** -1.6364)
+        dni = SOLAR_CONSTANT_W * (ATMOSPHERIC_TRANSMITTANCE ** (air_mass ** 0.678))
         light = bpy.data.lights.new("verify_sun", "SUN")
-        light.energy = max(0.5, irradiance / 200.0)
+        light.energy = dni / SUN_CALIBRATION
         light.angle = math.radians(0.53)
         lamp = bpy.data.objects.new("verify_sun", light)
-        bpy.context.scene.collection.objects.link(lamp)
+        sc.collection.objects.link(lamp)
         lamp.rotation_euler = (math.radians(90.0 - sun_elevation_deg), 0.0,
                                math.radians(-sun_azimuth_deg))
-        strength = light.energy
+        key = dni * math.sin(e) + DIFFUSE_KEY_W
+        exposure = min(3.0, max(0.0, math.log2(REFERENCE_KEY_W / key)))
     else:
-        strength = 0.0
+        exposure = NIGHT_EXPOSURE_STOPS
+    sc.view_settings.exposure = exposure
+    for want in ("Filmic", "AgX", "Standard"):
+        try:
+            sc.view_settings.view_transform = want
+            break
+        except (TypeError, ValueError):
+            continue
     return {"sky_elevation_deg": round(sky_elev, 3), "sky_azimuth_deg": round(sun_azimuth_deg, 3),
-            "sun_lamp": lamp is not None, "sun_strength_w": round(strength, 2),
-            "background_strength": bg.inputs["Strength"].default_value}
+            "sun_lamp": lamp is not None,
+            "direct_normal_irradiance_w_m2": round(dni, 1),
+            "sun_strength_blender": round(dni / SUN_CALIBRATION, 3),
+            "background_strength": bg.inputs["Strength"].default_value,
+            "view_transform": sc.view_settings.view_transform,
+            "exposure_stops": round(exposure, 2)}
+
+
+def apply_time_of_day_materials(night: bool) -> dict:
+    """Switch the world's emissive content to match the hour of the reference photograph.
+
+    Three cases, and only the first two change anything:
+
+    * ``LIGHT_CONE`` -- the prop kit models the beam under each street lamp as a cone of emissive
+      geometry.  That is a night-time visualisation, not a physical object, so in a daylight frame
+      it is made fully transparent; left on it hangs a glowing cone under every lamp at noon.
+    * ``LAMP_EMISSIVE`` -- NYC street lighting is dusk-to-dawn, so the lamp lens is off in a
+      daylight frame.  Its authored material is pure emission over a black base, which would
+      render as a black hole once the emission is zeroed, so the base colour is set to a pale
+      diffuser grey at the same time.
+    * everything else (``LED_*`` on traffic signals, lit shopfronts and screens) is left exactly
+      as the kit authored it: those run in daylight too, and a night frame must show the emissive
+      content the world really has.
+    """
+    import bpy
+    if night:
+        return {"night": True, "cones_hidden": 0, "lamps_switched_off": 0,
+                "note": "night frame: every emissive material left as the kit authored it"}
+    cones = lamps = 0
+    for mat in bpy.data.materials:
+        name = (mat.name or "").upper()
+        is_cone = "LIGHT_CONE" in name
+        is_lamp = "LAMP_EMISSIVE" in name
+        if not (is_cone or is_lamp) or not mat.use_nodes:
+            continue
+        for node in mat.node_tree.nodes:
+            if node.type == "EMISSION" and "Strength" in node.inputs:
+                node.inputs["Strength"].default_value = 0.0
+            elif node.type == "BSDF_PRINCIPLED":
+                if "Emission Strength" in node.inputs:
+                    node.inputs["Emission Strength"].default_value = 0.0
+                if is_cone and "Alpha" in node.inputs:
+                    node.inputs["Alpha"].default_value = 0.0
+                if is_lamp and "Base Color" in node.inputs:
+                    c = node.inputs["Base Color"].default_value
+                    if max(c[0], c[1], c[2]) < 0.05:
+                        node.inputs["Base Color"].default_value = (0.62, 0.61, 0.58, 1.0)
+        if is_cone:
+            mat.blend_method = "BLEND"
+            cones += 1
+        else:
+            lamps += 1
+    return {"night": False, "cones_hidden": cones, "lamps_switched_off": lamps,
+            "note": "daylight frame: modelled light cones made transparent and street-lamp lenses "
+                    "switched off (dusk-to-dawn control); signals and shopfront emissives left on"}
 
 
 def configure_cycles(samples: int, threads: int | None) -> None:
@@ -234,26 +313,19 @@ def configure_cycles(samples: int, threads: int | None) -> None:
     sc.cycles.samples = samples
     sc.cycles.use_denoising = True
     sc.cycles.use_adaptive_sampling = True
-    sc.cycles.adaptive_threshold = 0.02
+    sc.cycles.adaptive_threshold = 0.03
     sc.cycles.adaptive_min_samples = max(8, samples // 8)
-    sc.cycles.max_bounces = 3
+    sc.cycles.max_bounces = 2
     sc.cycles.diffuse_bounces = 2
     sc.cycles.glossy_bounces = 1
     sc.cycles.transmission_bounces = 1
-    sc.cycles.transparent_max_bounces = 3
+    sc.cycles.transparent_max_bounces = 2
     sc.cycles.volume_bounces = 0
     sc.cycles.caustics_reflective = False
     sc.cycles.caustics_refractive = False
     sc.render.film_transparent = False
     sc.render.image_settings.file_format = "PNG"
     sc.render.image_settings.color_mode = "RGB"
-    # A photographic tone curve, so the render's highlight roll-off is comparable with a camera's.
-    available = [v.identifier for v in
-                 bpy.types.ColorManagedViewSettings.bl_rna.properties["view_transform"].enum_items]
-    for want in ("Filmic", "AgX", "Standard"):
-        if want in available:
-            sc.view_settings.view_transform = want
-            break
     if threads:
         sc.render.threads_mode = "FIXED"
         sc.render.threads = threads
@@ -328,9 +400,10 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         terrain_max_side=300 if radius <= 1500 else 380,
         lod0_radius_m=1200.0)
     placement = vcam.place_camera(slug=slug, lat=vp["lat"], lon=vp["lon"],
-                                 azimuth_deg=float(vp["azimuth_deg"]), sampler=sampler,
-                                 resolution=(width, height))
+                                  azimuth_deg=float(vp["azimuth_deg"]), sampler=sampler,
+                                  resolution=(width, height), note=vp.get("note"))
     light = setup_world_and_sun(sun["azimuth_deg"], sun["elevation_deg"], night=bool(meta.get("night")))
+    light["emissive"] = apply_time_of_day_materials(bool(meta.get("night")))
     configure_cycles(samples, threads)
 
     render_path = outdir / "render.png"
@@ -445,10 +518,21 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
     caption_lines.append((f"Eye height: {cam.get('eye_height_m')} m above "
                           f"{'sea level' if cam.get('eye_datum') == 'sea' else 'the terrain surface'} - "
                           f"{cam.get('eye_source','')}", f_small))
+    if cam.get("eye_datum") != "sea":
+        gd = cam.get("ground_detail") or {}
+        caption_lines.append((
+            f"Ground under the camera: {cam.get('terrain_z_m')} m NAVD88 from the 2 m heightmap "
+            f"({gd.get('samples', 0)} samples in {gd.get('radius_m', 0)} m, range "
+            f"{gd.get('min_m')}-{gd.get('max_m')} m) - {cam.get('ground_source','')}", f_small))
     sun = record.get("sun", {})
+    lit = record.get("lighting", {})
     caption_lines.append((f"Sun: azimuth {sun.get('azimuth_deg', 0):.1f} deg, elevation "
                           f"{sun.get('elevation_deg', 0):.1f} deg at {sun.get('local','')} "
-                          f"({sun.get('time_source','')}); Cycles CPU, {record.get('samples')} samples, denoised", f_small))
+                          f"({sun.get('time_source','')}); direct normal irradiance "
+                          f"{lit.get('direct_normal_irradiance_w_m2', 0):.0f} W/m2, Nishita sky, "
+                          f"{lit.get('view_transform','')} view transform "
+                          f"{lit.get('exposure_stops', 0):+.2f} stops; Cycles CPU, "
+                          f"{record.get('samples')} samples max, adaptive, denoised", f_small))
     caption_lines.append((
         f"In frame: {b.get('tiles_imported', 0)}/{b.get('tiles_wanted', 0)} building tiles "
         f"({b.get('triangles', 0):,} tris), {lm.get('placed', 0)} landmarks, "
@@ -535,11 +619,9 @@ def coverage(slug: str) -> dict:
         sx, sy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
         subj_dist = math.hypot(sx - x, sy - y)
     if slug in RADIUS_OVERRIDES:
-        radius, prop_r, kit_r = RADIUS_OVERRIDES[slug]
+        radius = RADIUS_OVERRIDES[slug][0]
     else:
         radius = max(500.0, min(3000.0, (subj_dist or 200.0) * 1.6 + 400.0))
-        prop_r = 0.0 if radius > 1500.0 else 250.0
-        kit_r = 0.0 if radius > 1500.0 else 120.0
 
     # The near field decides whether a frame is meaningful; count shells within 600 m as well
     # as over the whole scene radius.

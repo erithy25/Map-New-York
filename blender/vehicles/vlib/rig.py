@@ -23,6 +23,7 @@ from __future__ import annotations
 import json
 import math
 import os
+import struct
 import sys
 import time
 from dataclasses import dataclass, field
@@ -91,14 +92,23 @@ def add_damage_regions(ob: bpy.types.Object, dims: Dimensions, *, z_belt: float,
     hw = dims.half_width
 
     def ramp(v, a, b):
+        if abs(b - a) < 1e-6:
+            return np.zeros_like(v)
         return np.clip((v - a) / (b - a), 0.0, 1.0)
 
+    # the ramps are anchored on the *panel's own* extent as well as the vehicle envelope, so every region
+    # reaches 1.0 somewhere on every panel it applies to (a door skin never reaches the vehicle's nose).
+    x_hi, x_lo = min(xf, float(x.max())), max(xr, float(x.min()))
+    y_hi, y_lo = min(hw, float(y.max())), max(-hw, float(y.min()))
+    z_hi = float(z.max())
+    front_a = min(dims.x_axle_front - soft, x_hi - 0.15)
+    rear_a = max(soft, x_lo + 0.15)
     w = {
-        "FRONT": ramp(x, dims.x_axle_front - soft, xf),
-        "REAR": ramp(-x, -(soft), -xr),
-        "LEFT": ramp(y, hw * 0.15, hw * 0.92),
-        "RIGHT": ramp(-y, hw * 0.15, hw * 0.92),
-        "ROOF": ramp(z, z_belt, z_belt + 0.30),
+        "FRONT": ramp(x, front_a, x_hi),
+        "REAR": ramp(-x, -rear_a, -x_lo),
+        "LEFT": ramp(y, max(0.0, y_hi) * 0.15, max(0.02, y_hi)),
+        "RIGHT": ramp(-y, max(0.0, -y_lo) * 0.15, max(0.02, -y_lo)),
+        "ROOF": ramp(z, z_belt, max(z_belt + 0.05, min(z_hi, z_belt + 0.30))),
     }
     means = {}
     for name, vals in w.items():
@@ -121,7 +131,9 @@ def add_damage_regions(ob: bpy.types.Object, dims: Dimensions, *, z_belt: float,
 def ucx_proxies(name_stem: str, sources: Sequence[bpy.types.Object], dims: Dimensions, *, z_belt: float,
                 slices: int = 5, cabin: bool = True, lib: M.Library | None = None) -> list[bpy.types.Object]:
     """Convex ``UCX_<stem>_NN`` proxies: X-slabs of the lower body plus one hull for the greenhouse.
-    Slabs of a convex-hull-per-slab decomposition are convex by construction."""
+    Slabs of a convex-hull-per-slab decomposition are convex by construction — provided the hull is *not*
+    planar-dissolved afterwards: dissolving merges nearly-coplanar hull faces into n-gons whose
+    re-triangulation cuts inside the hull and makes the proxy fail a convexity test."""
     g.sync()
     pts = np.concatenate([g.mesh_points(o) for o in sources if o.type == "MESH" and len(o.data.vertices)])
     if len(pts) == 0:
@@ -131,6 +143,12 @@ def ucx_proxies(name_stem: str, sources: Sequence[bpy.types.Object], dims: Dimen
     low = pts[pts[:, 2] <= z_belt + 0.02]
     if len(low) < 8:
         low = pts
+    # the proxies must reach the road: a hull built from body panels alone floats above it and lets a
+    # wheel-height obstacle pass under the vehicle.
+    ground = pts.copy()
+    ground[:, 2] = 0.0
+    pts = np.concatenate([pts, ground])
+    low = np.concatenate([low, ground])
     x0, x1 = float(pts[:, 0].min()), float(pts[:, 0].max())
     for k in range(slices):
         a = x0 + (x1 - x0) * k / slices
@@ -138,13 +156,13 @@ def ucx_proxies(name_stem: str, sources: Sequence[bpy.types.Object], dims: Dimen
         sel = low[(low[:, 0] >= a - 1e-4) & (low[:, 0] <= b + 1e-4)]
         if len(sel) < 8:
             continue
-        bm = g.convex_hull_bm(sel, simplify_deg=6.0, max_points=1500)
+        bm = g.convex_hull_bm(sel, simplify_deg=0.0, max_points=1500)
         ob = g.to_object(f"UCX_{name_stem}_{len(out):02d}", bm, [mat], smooth=False)
         out.append(ob)
     if cabin:
         hi = pts[pts[:, 2] > z_belt - 0.02]
         if len(hi) >= 8:
-            bm = g.convex_hull_bm(hi, simplify_deg=6.0, max_points=1500)
+            bm = g.convex_hull_bm(hi, simplify_deg=0.0, max_points=1500)
             ob = g.to_object(f"UCX_{name_stem}_{len(out):02d}", bm, [mat], smooth=False)
             out.append(ob)
     return out
@@ -189,7 +207,8 @@ def export_glb(path: str | Path, objects: Sequence[bpy.types.Object], *, extras:
     which the foundation helper does not expose yet — see docs/verification/vehicles/REPORT.md)."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    bpy.context.scene["nycsim"] = json.dumps(_asset_extras(extras))
+    meta = _asset_extras(extras)
+    bpy.context.scene["nycsim"] = json.dumps(meta)
     for o in bpy.data.objects:
         o.select_set(False)
     for o in objects:
@@ -203,7 +222,32 @@ def export_glb(path: str | Path, objects: Sequence[bpy.types.Object], *, extras:
     )
     if not path.exists() or path.stat().st_size < 256:
         raise RuntimeError(f"glTF export failed: {path}")
+    _inject_asset_extras(path, meta)
     return path
+
+
+def _inject_asset_extras(path: Path, meta: dict) -> None:
+    """Blender writes scene custom properties to ``scenes[0].extras``; DATA_CONTRACTS §13 requires
+    ``asset.extras.nycsim``.  Patch the JSON chunk of the glb in place (padding kept 4-byte aligned)."""
+    data = bytearray(path.read_bytes())
+    magic, version, _length = struct.unpack("<4sII", bytes(data[:12]))
+    if magic != b"glTF":
+        raise RuntimeError(f"{path} is not a glb")
+    off = 12
+    while off < len(data):
+        clen, ctype = struct.unpack("<I4s", bytes(data[off:off + 8]))
+        if ctype == b"JSON":
+            js = json.loads(bytes(data[off + 8:off + 8 + clen]))
+            js.setdefault("asset", {}).setdefault("extras", {})["nycsim"] = meta
+            blob = json.dumps(js, separators=(",", ":")).encode("utf-8")
+            blob += b" " * (-len(blob) % 4)
+            new = bytearray(data[:off]) + struct.pack("<I4s", len(blob), b"JSON") + blob \
+                + bytearray(data[off + 8 + clen + (-clen % 4):])
+            struct.pack_into("<I", new, 8, len(new))
+            path.write_bytes(bytes(new))
+            return
+        off += 8 + clen + (-clen % 4)
+    raise RuntimeError(f"{path} has no JSON chunk")
 
 
 # --------------------------------------------------------------------------- LODs
@@ -243,7 +287,8 @@ def export_lods(base_path: Path, lod0_objects: Sequence[bpy.types.Object], lod1_
     for level, (srcs, budget, merge) in enumerate(((lod1_objects, budgets[0], None),
                                                    (lod1_objects, budgets[1], "Body")), start=1):
         cur = g.tri_count_all(srcs)
-        ratio = min(1.0, budget / max(1, cur))
+        # always coarser than the level above, and under budget (collapse-decimate overshoots a little)
+        ratio = min(0.85, 0.97 * budget / max(1, cur))
         saved = {o: o.name for o in srcs}
         meshy = [o for o in srcs if o.type == "MESH" and len(o.data.polygons)]
         for o in srcs:
@@ -338,6 +383,17 @@ class Vehicle:
                         "RoofRack", "Exhaust_Stack", "Mast", "PushBumper", "Bullbar", "Horse", "Shafts",
                         "CrossingGate", "StopArm", "Liftgate")
 
+    def wheel_diameters(self) -> dict[str, float]:
+        """Actual rolling diameter of each wheel in millimetres (a carriage's front wheels are smaller than
+        its rear wheels, so a single published figure cannot describe every axle)."""
+        out = {}
+        for name, ob in self.objects.items():
+            if not name.startswith("Wheel_") or ob.type != "MESH":
+                continue
+            pts = g.mesh_points(ob, world=False)
+            out[name] = round(float(max(pts[:, 0].max() - pts[:, 0].min(), pts[:, 2].max() - pts[:, 2].min())) * 1000.0, 1)
+        return out
+
     def measured(self) -> dict:
         g.sync()
         meshes = [o for o in self.objects.values() if o.type == "MESH"]
@@ -407,6 +463,7 @@ def finalise(v: Vehicle, *, lod_budgets: tuple[int, int] = (60_000, 8_000),
         "pivot": "ground under rear-axle centre, +X forward, +Y left, +Z up (DATA_CONTRACTS §13)",
         "wheel_pivots": v.wheel_pivots(),
         "wheel_diameter_mm": pub["wheel_diameter_mm"],
+        "wheel_diameters_mm": v.wheel_diameters(),
         "nodes": sorted(o.name for o in objs),
         "materials": sorted(v.material_names()),
         "light_slots": sorted(s for s in v.material_names() if s.startswith("LIGHT_")),

@@ -274,6 +274,28 @@ def _flexion_sign(armature: bpy.types.Object, joint: str, distal: str, proximal:
     return best
 
 
+def detail(out: Path) -> Path:
+    """Close-ups of the left hand and the left foot - the two places a body most obviously fails."""
+    armature, meshes = load_player()
+    studio_lighting(key_energy=320.0, size=3.0)
+    set_pose(armature, "idle", 1)
+    forward = _forward(armature)
+    outboard = -forward.cross(Vector((0.0, 0.0, 1.0)))
+    pose = armature.pose.bones
+    hand = armature.matrix_world @ pose["middle_02_l"].head
+    foot = armature.matrix_world @ pose["ball_l"].head
+    tiles = [render(chenv.VERIFY_DIR / "_detail_hand.png",
+                    location=hand + outboard * 0.16 + forward * 0.14 + Vector((0.0, 0.0, 0.07)),
+                    target=hand, fov_deg=34.0, size=(460, 460)),
+             render(chenv.VERIFY_DIR / "_detail_foot.png",
+                    location=foot + outboard * 0.30 + forward * 0.16 + Vector((0.0, 0.0, 0.14)),
+                    target=foot, fov_deg=34.0, size=(460, 460))]
+    result = stitch(tiles, out, gap=6)
+    for tile in tiles:
+        tile.unlink(missing_ok=True)
+    return result
+
+
 def bend_test(out: Path) -> Path:
     """Elbow and knee flexed through 0/45/90/120 degrees, clay-shaded, to expose bad weights."""
     armature, meshes = load_player()
@@ -427,6 +449,7 @@ RENDERS = {
     "body": ("full_body.png", full_body),
     "walk": ("walk_strip.png", walk_strip),
     "bend": ("bend_test.png", bend_test),
+    "detail": ("detail.png", detail),
     "blendshapes": ("blendshapes.png", blendshape_sheet),
     "npc": ("npc_lineup.png", npc_lineup),
 }

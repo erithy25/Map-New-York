@@ -160,14 +160,18 @@ def main():
                       dimensions={"whitehall_top_m": WHITEHALL_TOP, "whitehall_glass_wall_m": WHITEHALL_GLASS,
                                   "battery_maritime_top_m": BMB_TOP, "st_george_top_m": ST_GEORGE_TOP,
                                   "slip_length_m": SLIP_L, "slip_deck_z_m": SLIP_Z})
-    # the two ends of the route are 6 km apart, so each is framed on its own objects
-    cc.render(ID, [{"view": "whitehall_harbour", "azimuth_deg": 180, "elevation_deg": "street", "fov_deg": 52,
-                    "look_up_deg": 9},
-                   {"view": "whitehall_aerial", "azimuth_deg": 200, "elevation_deg": 32}],
+    # The two ends of the route are 6.0 km apart, so framing on the whole group put the camera 13 km out and both
+    # terminals became sub-pixel — a uniform grey frame. Each end is now framed on its own objects, and each frame
+    # is aimed at the thing it has to prove: Whitehall's 22.9 m north glass hall, the Battery Maritime Building's
+    # arched slip gantries, and St. George's curved standing-seam roof.
+    cc.render(ID, [{"view": "whitehall_glass_hall", "azimuth_deg": 15, "elevation_deg": 16, "distance": 210,
+                    "fov_deg": 48, "target_z": 15.0},
+                   {"view": "whitehall_slips", "azimuth_deg": 190, "elevation_deg": 12, "distance": 260,
+                    "fov_deg": 48, "target_z": 12.0}],
               objects=groups["manhattan"])
-    cc.render(ID, [{"view": "st_george_harbour", "azimuth_deg": 20, "elevation_deg": "street", "fov_deg": 52,
-                    "look_up_deg": 9},
-                   {"view": "st_george_aerial", "azimuth_deg": 40, "elevation_deg": 32}],
+    cc.render(ID, [{"view": "st_george_harbour", "azimuth_deg": 200, "elevation_deg": 14, "distance": 300,
+                    "fov_deg": 48, "target_z": 11.0},
+                   {"view": "st_george_aerial", "azimuth_deg": 230, "elevation_deg": 30}],
               objects=groups["st_george"])
     return entry
 

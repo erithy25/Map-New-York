@@ -119,6 +119,10 @@ def main() -> None:
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=250_000, budget_lod1=60_000,
         renders=[
+            # the comparison agent's recorded photographic viewpoint, used verbatim
+            ba.reference_render("landmark_holland_tunnel_portal", frame, view="manhattan_portal_reference",
+                                ground_z=GROUND_NY, target_z=GROUND_NY + 6.0, fov_deg=58.0, size=(1280, 720), context=ctx,
+                                sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
             dict(view="manhattan_portal", cam=(ny[0] + 70.0, ny[1] - 42.0, GROUND_NY + 6.0),
                  target=(ny[0] - 30.0, ny[1] + 12.0, GROUND_NY + 1.0), fov_deg=58.0, context=ctx,
                  sun_azimuth_deg=140.0, sun_elevation_deg=40.0),

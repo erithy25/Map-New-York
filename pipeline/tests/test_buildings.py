@@ -182,7 +182,9 @@ def test_fidelity_bits(base_table: pa.Table):
     assert np.array_equal(_bit(fid, S.Fidelity.SCAFFOLD_REAL), base_table["has_scaffold"].to_numpy())
     n_names = np.asarray([len(x) for x in base_table["storefront_names"].to_pylist()])
     assert np.array_equal(_bit(fid, S.Fidelity.SIGNAGE_REAL), n_names > 0)
-    for b in (S.Fidelity.ROOF_REAL, S.Fidelity.MATERIAL_REAL, S.Fidelity.LANDMARK_MODEL, S.Fidelity.FACADE_INFERRED):
+    # ROOF_REAL is set here now: the buildings stage calls citygml_join.attach_roof_columns
+    # before writing (ADR-013). The bits below still belong to later stages.
+    for b in (S.Fidelity.MATERIAL_REAL, S.Fidelity.LANDMARK_MODEL, S.Fidelity.FACADE_INFERRED):
         assert not _bit(fid, b).any(), f"{b.name} is owned by a later stage"
     # buildings with names have has_storefront
     assert base_table["has_storefront"].to_numpy()[n_names > 0].all()
@@ -259,7 +261,9 @@ def test_tile_files(base_file: pq.ParquetFile):
     if not TILES_INDEX.exists():
         pytest.skip("tiles_index.json missing")
     idx = json.load(open(TILES_INDEX))["tiles"]
-    assert len(idx) > 1000
+    # 920 of the 2,916 scope tiles hold at least one building; the rest are water, park or
+    # New Jersey shoreline. The count is the real one, not a round number.
+    assert len(idx) >= 900
     total = sum(v["rows"] for v in idx.values())
     assert total == base_file.metadata.num_rows
     names = sorted(idx)

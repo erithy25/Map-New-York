@@ -172,6 +172,10 @@ def main() -> None:
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=400_000, budget_lod1=90_000,
         renders=[
+            # the comparison agent's recorded photographic viewpoint, used verbatim
+            ba.reference_render("landmark_queensboro_bridge", fit.frame, view="queensboro_reference",
+                                ground_z=GROUND, target_z=60.0, fov_deg=58.0, size=(1280, 720), context=ctx,
+                                sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
             dict(view="elevation_from_river", cam=ax.p(-120.0, -520.0, 20.0), target=ax.p(-120.0, 0.0, 55.0),
                  fov_deg=52.0, context=ctx, sun_azimuth_deg=200.0, sun_elevation_deg=32.0),
             dict(view="roosevelt_island", cam=ax.p(30.0, -95.0, GROUND + 2.0), target=ax.p(-260.0, 0.0, 70.0),

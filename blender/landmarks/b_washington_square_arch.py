@@ -34,7 +34,10 @@ import b_park_lib as pk  # noqa: E402
 ID = "b_washington_square_arch"
 TITLE = "Washington Square Arch"
 
-HEIGHT = 23.47          # 77 ft
+HEIGHT = 23.47          # 77 ft -- to the top of the attic cap
+# triumphal_arch stacks body (HEIGHT - 3.2), cornice (0.7 * 1.4), attic (ATTIC_H) and a 0.7 m cap; solve the
+# attic height so the cap lands exactly on the published 23.47 m
+ATTIC_H = 3.2 - 0.7 * 1.4 - 0.7   # = 1.52
 WIDTH = 18.90           # 62 ft
 DEPTH = 9.0             # inferred from the OSM footprint's short side
 OPENING_W = 9.14        # 30 ft
@@ -55,7 +58,7 @@ def build(lod: int = 0):
     objs: list = []
     objs += pk.triumphal_arch("wsa", (0.0, 0.0, 0.0), HEADING, width=WIDTH, depth=DEPTH, height=HEIGHT - 3.2,
                               opening_w=OPENING_W, opening_h=OPENING_H, material="marble_white",
-                              attic_h=2.1, cornice=0.7, lod=lod)
+                              attic_h=ATTIC_H, cornice=0.7, lod=lod)
     # the two Washington statues on the north piers, blocked out on their pedestals
     a = math.radians(bc.heading_to_math_deg(HEADING))
     d = bc.Vector((math.cos(a), math.sin(a), 0.0))

@@ -69,11 +69,17 @@ for _cls in ("small", "medium", "large"):
 
 
 # --------------------------------------------------------------------------------------------- scene helpers
+def _light_cone_slots(ob) -> set[int]:
+    """Material-slot indices of the night-only light-cone effect on an imported prop (the importer suffixes
+    duplicate material names, so the comparison is on the stem)."""
+    return {i for i, m in enumerate(ob.data.materials) if m and m.name.split(".")[0] == "LIGHT_CONE"}
+
+
 def import_prop(prop_id: str, keep_light_cones: bool = False) -> list[bpy.types.Object]:
     """Import ``<id>.glb``; only the LOD0 node is in the glTF scene, so only LOD0 comes in.
 
-    ``LIGHT_CONE`` planes are a night-only effect volume — they are dropped on daylight sheets, where they
-    would blow the image out and would also inflate the measured bounding box."""
+    ``LIGHT_CONE`` planes are a night-only effect volume. On a daylight sheet their *faces* are deleted — not
+    the object, which is the whole joined lamp — because they would otherwise blow the image out."""
     path = C.PROPS_OUT / f"{prop_id}.glb"
     if not path.exists():
         raise FileNotFoundError(path)
@@ -81,28 +87,44 @@ def import_prop(prop_id: str, keep_light_cones: bool = False) -> list[bpy.types.
     bpy.ops.import_scene.gltf(filepath=str(path))
     new = [o for o in bpy.data.objects if o not in before]
     if not keep_light_cones:
-        drop = [o for o in new if o.type == "MESH"
-                and any(m and m.name.split(".")[0] == "LIGHT_CONE" for m in o.data.materials)]
-        for o in drop:
-            me = o.data
-            new.remove(o)
-            bpy.data.objects.remove(o)
-            if me.users == 0:
-                bpy.data.meshes.remove(me)
+        for o in new:
+            if o.type != "MESH":
+                continue
+            slots = _light_cone_slots(o)
+            if not slots:
+                continue
+            bm = C.bmesh.new()
+            bm.from_mesh(o.data)
+            bm.faces.ensure_lookup_table()
+            doomed = [f for f in bm.faces if f.material_index in slots]
+            if doomed:
+                C.bmesh.ops.delete(bm, geom=doomed, context="FACES")
+            bm.to_mesh(o.data)
+            bm.free()
+            o.data.update()
     return new
 
 
-def world_bounds(objs) -> tuple[Vector, Vector]:
+def solid_bounds(objs) -> tuple[Vector, Vector]:
+    """Bounds of the physical geometry: polygons carrying the light-cone effect material are ignored, so a
+    caption never reports the size of a lamp's light pool."""
     lo = Vector((math.inf,) * 3)
     hi = Vector((-math.inf,) * 3)
     bpy.context.view_layer.update()
     for o in objs:
         if o.type != "MESH":
             continue
-        for c in o.bound_box:
-            w = o.matrix_world @ Vector(c)
-            lo = Vector(map(min, lo, w))
-            hi = Vector(map(max, hi, w))
+        skip = _light_cone_slots(o)
+        me = o.data
+        for poly in me.polygons:
+            if poly.material_index in skip:
+                continue
+            for vi in poly.vertices:
+                w = o.matrix_world @ me.vertices[vi].co
+                lo = Vector(map(min, lo, w))
+                hi = Vector(map(max, hi, w))
+    if not all(map(math.isfinite, lo)):
+        return world_bounds(objs)
     return lo, hi
 
 
@@ -130,9 +152,7 @@ def layout(ids: list[str], pad: float, lift: float = 0.0, night: bool = False) -
     top = 0.0
     for pid in ids:
         objs = import_prop(pid, keep_light_cones=night)
-        solid = [o for o in objs if o.type != "MESH"
-                 or not any(m and m.name.split(".")[0] == "LIGHT_CONE" for m in o.data.materials)]
-        lo, hi = world_bounds(solid)          # the caption is the prop's physical size, never its light pool
+        lo, hi = solid_bounds(objs)           # the caption is the prop's physical size, never its light pool
         w = max(hi.x - lo.x, 0.05)
         cx = (hi.x + lo.x) / 2.0
         x = cursor + pad * 0.5 + w / 2.0
@@ -209,7 +229,7 @@ def render_sheet(name: str, spec: dict, samples: int, width: int) -> Path:
     night = bool(spec.get("night"))
     placed, row_len, top = layout(spec["ids"], spec.get("pad", 1.0), spec.get("lift", 0.0), night=night)
     # the pad runs far past the frame in Y so its far edge never crosses the picture
-    ground(row_len * 1.6 + 20.0, 400.0, row_len / 2.0)
+    ground(row_len * 2.0 + 400.0, 400.0, row_len / 2.0)
     ortho = row_len * 1.04
     height_px = max(220, min(1400, int(width * (top + 0.9) / ortho)))
     out = OUT / f"sheet_{name}.png"
@@ -265,7 +285,7 @@ CURB_PLACEMENT = [
     ("litter_basket_wire", 1.20, 0.70, 180.0, SIDEWALK_TOP),
     ("tree_grate", 13.00, 1.45, 0.0, SIDEWALK_TOP - 0.06),
     ("tree_guard", 13.00, 1.45, 0.0, SIDEWALK_TOP),
-    ("tree_planetree_medium", 13.00, 1.45, 0.0, SIDEWALK_TOP),
+    ("tree_callery_pear_medium", 13.00, 1.45, 0.0, SIDEWALK_TOP),
     ("linknyc_kiosk", 17.60, 1.10, 90.0, SIDEWALK_TOP),
     ("post_u_channel_3m", 21.30, 0.62, 0.0, SIDEWALK_TOP),
     ("sign_nyc_parking_24", 21.30, 0.585, 180.0, SIDEWALK_TOP + 2.05),
@@ -305,12 +325,13 @@ def render_curb(samples: int, width: int) -> Path:
           material=P.concrete_rough(), anchor="bottom")
     C.box("lane_line", (x1 - x0, 0.12, 0.004), origin=((x0 + x1) / 2, -6.60, 0.0),
           material=C.mat_solid("lane_paint", "#E4E2D8", 0.7), anchor="bottom")
+    from mathutils import Matrix
     for pid, x, y, heading, z in CURB_PLACEMENT:
         objs = import_prop(pid)
+        place = Matrix.Translation(Vector((x, y, z))) @ Matrix.Rotation(math.radians(heading), 4, "Z")
         for o in objs:
             if o.parent is None:
-                o.rotation_euler.rotate_axis("Z", math.radians(heading))
-                o.location += Vector((x, y, z))
+                o.matrix_world = place @ o.matrix_world
     out = OUT / "curb_test.png"
     sc = bpy.context.scene
     cam = bpy.data.cameras.new("curb_cam")
@@ -319,11 +340,11 @@ def render_curb(samples: int, width: int) -> Path:
     cam.clip_end = 500.0
     camob = bpy.data.objects.new("curb_cam", cam)
     nb.link(camob)
-    camob.location = Vector((-4.6, -6.4, 1.72))
-    camob.rotation_euler = (Vector((19.0, 1.6, 2.10)) - camob.location).to_track_quat("-Z", "Y").to_euler()
+    camob.location = Vector((-4.2, -6.8, 1.68))
+    camob.rotation_euler = (Vector((18.0, 1.6, 3.05)) - camob.location).to_track_quat("-Z", "Y").to_euler()
     sc.camera = camob
     sun = bpy.data.lights.new("curb_sun", "SUN")
-    sun.energy = 3.4
+    sun.energy = 2.9
     sun.angle = math.radians(0.9)
     sunob = bpy.data.objects.new("curb_sun", sun)
     nb.link(sunob)
@@ -339,7 +360,7 @@ def render_curb(samples: int, width: int) -> Path:
     sky.sun_rotation = math.radians(120.0)
     sky.sun_intensity = 0.0
     nt.links.new(sky.outputs["Color"], bg.inputs["Color"])
-    bg.inputs["Strength"].default_value = 0.5
+    bg.inputs["Strength"].default_value = 0.32
     sc.render.engine = "CYCLES"
     sc.cycles.device = "CPU"
     sc.cycles.samples = samples

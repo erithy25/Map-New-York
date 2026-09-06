@@ -124,14 +124,17 @@ def build_npc(vector: variety.VarietyVector, index: int) -> NpcBuild:
     resolved = vector.resolve()
     name = f"npc_{index:02d}_{resolved['body_preset']}"
     spec = spec_from_vector(vector, name)
+    outfit = outfit_from_vector(vector)
+    spec.clothes = tuple(spec.clothes) + wardrobe.makehuman_assets(outfit)
     built = mh_build.build_human(spec, subdiv=0, load_clothes=bool(spec.clothes))
+    wardrobe.finish_makehuman(built, outfit, name_prefix=f"{name}.")
     mh_build.bake_and_load_face_units(built)
     mh_build.strip_helper_geometry(built)
     mh_build.split_eyes(built)
-    # UE5 rig first: everything below is cut from the body and inherits its (already normalised) weights.
+    # UE5 rig first: everything below inherits the body's (already normalised) weights.
     rig_ue5.convert_to_ue5(built.armature, built.meshes())
 
-    wardrobe.dress(built, outfit_from_vector(vector), name_prefix=f"{name}.")
+    wardrobe.dress(built, outfit, name_prefix=f"{name}.")
     if resolved["hair"] in ("buzzcut", "topknot"):
         wardrobe.build_procedural_hair(built, resolved["hair"], name_prefix=f"{name}.")
     if resolved["hat"] in wardrobe.HAT_SPECS:

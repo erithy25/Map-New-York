@@ -1,15 +1,22 @@
 """Download/processed manifests with SHA-256 (docs/DATA_CONTRACTS.md preamble)."""
 from __future__ import annotations
 
+import fcntl
 import hashlib
 import json
+import logging
 import os
+import threading
+import time
+from contextlib import contextmanager
 import subprocess
 import time
 from pathlib import Path
 from typing import Any
 
 from .paths import MANIFEST, REPO_ROOT
+
+log = logging.getLogger("nycsim.manifest")
 
 DOWNLOADS = MANIFEST / "downloads.json"
 PROCESSED_MANIFEST = MANIFEST / "processed.json"
@@ -41,13 +48,50 @@ def _load(path: Path) -> dict[str, Any]:
 
 
 def _save(path: Path, doc: dict[str, Any]) -> None:
-    tmp = path.with_suffix(".tmp")
-    with open(tmp, "w") as f:
-        json.dump(doc, f, indent=1, sort_keys=True)
-    os.replace(tmp, path)
+    """Atomically replace a manifest.
+
+    Many stages run concurrently and all of them record artefacts here. A shared fixed temp name
+    races: one writer's ``os.replace`` moves the file the other is still writing to, and the loser
+    fails *after* its artefact is already on disk. The temp name is therefore per-process and
+    per-thread, and the read-modify-write is serialised by an advisory lock on a sibling file.
+    """
+    tmp = path.with_name(f"{path.stem}.{os.getpid()}.{threading.get_ident():x}.tmp")
+    try:
+        with open(tmp, "w") as f:
+            json.dump(doc, f, indent=1, sort_keys=True)
+        os.replace(tmp, path)
+    finally:
+        if tmp.exists():
+            tmp.unlink()
+
+
+@contextmanager
+def _manifest_lock(path: Path):
+    """Serialise concurrent read-modify-write on one manifest across processes."""
+    lock = path.with_suffix(".lock")
+    lock.parent.mkdir(parents=True, exist_ok=True)
+    fh = open(lock, "a+")
+    try:
+        for attempt in range(60):
+            try:
+                fcntl.flock(fh.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+                break
+            except OSError:
+                time.sleep(0.1 + 0.05 * attempt)
+        else:
+            # Never block a stage on bookkeeping: proceed unlocked and say so.
+            log.warning("manifest lock on %s busy for 6 s; writing without it", lock.name)
+        yield
+    finally:
+        try:
+            fcntl.flock(fh.fileno(), fcntl.LOCK_UN)
+        except OSError:
+            pass
+        fh.close()
 
 
 def record_download(source_id: str, path: Path, url: str, *, license: str, attribution: str, notes: str = "", extra: dict | None = None) -> dict:
+  with _manifest_lock(DOWNLOADS):
     doc = _load(DOWNLOADS)
     entry = {
         "source_id": source_id,
@@ -72,6 +116,7 @@ def get_download(source_id: str) -> dict | None:
 
 
 def record_processed(artifact_id: str, path: Path, *, stage: str, sources: list[str], rows: int | None = None, schema: str = "", extra: dict | None = None) -> dict:
+  with _manifest_lock(PROCESSED_MANIFEST):
     doc = _load(PROCESSED_MANIFEST)
     entry = {
         "artifact_id": artifact_id,

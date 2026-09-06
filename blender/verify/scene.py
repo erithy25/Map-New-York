@@ -32,11 +32,10 @@ import json
 import logging
 import math
 import re
-import struct
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterable, Sequence
+from typing import Sequence
 
 import numpy as np
 
@@ -222,6 +221,36 @@ class TerrainSampler:
         z, _ = self.grid(np.array([[float(x)]]), np.array([[float(y)]]))
         v = float(z[0, 0])
         return None if math.isnan(v) else v
+
+    def ground_z(self, x: float, y: float, *, mode: str = "local", radius_m: float = 5.0,
+                 percentile: float = 10.0) -> tuple[float | None, dict]:
+        """Ground height under a viewpoint, read from a neighbourhood rather than one sample.
+
+        ``mode="local"`` takes the median inside ``radius_m`` -- right for a viewpoint that names
+        the surface it stands on (a promenade, a terrace, an observation deck), where the raised
+        structure *is* the ground.  ``mode="street"`` takes a low percentile inside ``radius_m``
+        instead: the 1 m heightmap carries building grades and raised plinths, and a camera
+        recorded as standing on a sidewalk must not be lifted onto the terrace next to it.
+        Returns ``(z, detail)``; ``z`` is None when no heightmap covers the point.
+        """
+        n = max(3, int(round(2 * radius_m / TERRAIN_SPACING_M)) + 1)
+        xs, ys = np.meshgrid(np.linspace(x - radius_m, x + radius_m, n),
+                             np.linspace(y - radius_m, y + radius_m, n))
+        d = np.hypot(xs - x, ys - y)
+        z, _ = self.grid(xs, ys)
+        ok = (~np.isnan(z)) & (d <= radius_m)
+        if not ok.any():
+            return None, {"mode": mode, "samples": 0}
+        vals = z[ok]
+        if mode == "street":
+            zz = float(np.percentile(vals, percentile))
+        else:
+            zz = float(np.median(vals))
+        return zz, {"mode": mode, "radius_m": radius_m, "samples": int(ok.sum()),
+                    "min_m": round(float(vals.min()), 2), "max_m": round(float(vals.max()), 2),
+                    "median_m": round(float(np.median(vals)), 2),
+                    "percentile": percentile if mode == "street" else None,
+                    "chosen_m": round(zz, 2)}
 
 
 def build_terrain(sampler: TerrainSampler, cx: float, cy: float, radius_m: float, *,
@@ -497,7 +526,7 @@ def _load_prop_assets() -> tuple[dict[str, list[dict]], dict[str, dict]]:
     return by_kind, by_id
 
 
-def _tree_asset_id(species: str, height_m: float) -> str:
+def _tree_asset_id(species: str, height_m: float) -> tuple[str, bool]:
     key = TREE_SPECIES_KEYS.get((species or "").strip().lower())
     exact = key is not None
     key = key or TREE_FALLBACK_KEY
@@ -548,7 +577,6 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
     for r in rows:
         for c in cols:
             merged[c].extend(r[c])
-    n = len(merged["x"])
     xs = np.asarray(merged["x"], dtype=np.float64)
     ys = np.asarray(merged["y"], dtype=np.float64)
     d = np.hypot(xs - cx, ys - cy)
@@ -606,8 +634,10 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
         head = merged["heading"][i]
         yaw = 0.0
         if head is not None and not (isinstance(head, float) and math.isnan(head)):
-            # props.parquet heading is a compass bearing; scene yaw is counter-clockwise from +x.
-            yaw = math.radians(90.0 - float(head))
+            # props.parquet ``heading`` is a compass bearing (0 = north, clockwise); every prop
+            # asset is authored facing +Y (north) in Blender, so the scene yaw about +Z is the
+            # negated bearing.
+            yaw = math.radians(-float(head))
         m = Matrix.Translation((float(xs[i]), float(ys[i]), float(z))) @ Euler((0.0, 0.0, yaw)).to_matrix().to_4x4()
         tpl.instance(f"prop_{entry['id']}_{placed}", m, col or bpy.context.scene.collection)
         placed += 1
@@ -731,9 +761,16 @@ def add_kit(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
             unresolved[kid] = unresolved.get(kid, 0) + 1
             continue
         s = float(r["scale"]) or 1.0
+        # ``yaw_deg`` is the wall run's outward normal as an angle counter-clockwise from east
+        # (pipeline/nycsim_pipeline/facade/placements.py::_yaw).  Every kit piece is authored
+        # with its wall plane at y = 0 and ``into_building = +Y``, so its outward direction is
+        # local -Y; aligning -Y with the normal is a rotation of yaw + 90 deg about Z.
+        # ``scale`` is the along-run stretch relative to the piece's nominal width (1.0 for
+        # point pieces), so it applies to local X only -- a uniform scale would make a stretched
+        # cornice proportionally taller and thicker as well.
         m = (Matrix.Translation((float(r["x"]), float(r["y"]), float(r["z"])))
-             @ Euler((0.0, 0.0, math.radians(float(r["yaw_deg"])))).to_matrix().to_4x4()
-             @ Matrix.Scale(s, 4))
+             @ Euler((0.0, 0.0, math.radians(float(r["yaw_deg"]) + 90.0))).to_matrix().to_4x4()
+             @ Matrix.Diagonal((s, 1.0, 1.0, 1.0)))
         tpl.instance(f"kit_{kid}_{placed}", m, col or bpy.context.scene.collection)
         placed += 1
         tris += tpl.triangles

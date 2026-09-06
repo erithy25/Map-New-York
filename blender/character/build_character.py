@@ -69,7 +69,9 @@ PLAYER_SPEC = mh_build.HumanSpec(
     hair="short01", eyebrows="eyebrow006", eyelashes="eyelashes02",
 )
 
-#: The player's outfit: MakeHuman CC0 shoes plus procedurally tailored NYC clothing.
+#: The player's outfit. Tee, hoodie, jeans, bomber jacket and sneakers are all real tailored
+#: MakeHuman CC0 meshes (the jacket is the upper shell of `male_casualsuit02`); the hood on the
+#: hoodie and the wristwatch are procedural.
 PLAYER_WARDROBE = ("tee_white", "jeans_indigo", "hoodie_grey", "jacket_bomber", "sneakers_black")
 
 # ----------------------------------------------------------------------------------------------- mocap map
@@ -86,17 +88,20 @@ IDLE_SOURCE = {"subject": "07", "trial": "07_01"}
 # --------------------------------------------------------------------------------------------- build steps
 def build_body(spec: mh_build.HumanSpec, outfit: tuple[str, ...], *, watch: bool = True) -> mh_build.BuiltHuman:
     """MPFB body -> ARKit blendshapes -> helper strip -> eye split -> UE5 rig -> clothing -> materials."""
+    prefix = f"{spec.name}."
+    spec.clothes = tuple(spec.clothes) + wardrobe.makehuman_assets(outfit)
     built = mh_build.build_human(spec, subdiv=0, load_clothes=bool(spec.clothes))
+    wardrobe.finish_makehuman(built, outfit, name_prefix=prefix)
     mh_build.bake_and_load_face_units(built)
     mh_build.strip_helper_geometry(built)
     mh_build.split_eyes(built)
-    # The rig is converted *before* the procedural wardrobe is cut, so the garments' body regions and the
-    # weights they inherit are already in UE5 bone names.
+    # The rig is converted before the procedural layer is cut, so its regions and inherited weights are
+    # already in UE5 bone names.
     rig_ue5.convert_to_ue5(built.armature, built.meshes())
     if outfit:
-        wardrobe.dress(built, outfit, name_prefix=f"{spec.name}.")
+        wardrobe.dress(built, outfit, name_prefix=prefix)
     if watch:
-        wardrobe.build_watch(built, side="l", name_prefix=f"{spec.name}.")
+        wardrobe.build_watch(built, side="l", name_prefix=prefix)
     mh_build.setup_skin(built)
     mh_build.setup_eye_materials(built)
     problems = rig_ue5.verify_skeleton(built.armature)

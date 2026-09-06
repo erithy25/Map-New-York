@@ -168,10 +168,21 @@ def main():
                       dimensions={"memorial_top_m": MEMORIAL_TOP, "ionic_column_m": COLUMN_H, "rose_cube_m": CUBE,
                                   "hayden_sphere_m": SPHERE_D, "sphere_centre_z_m": SPHERE_Z,
                                   "range_cornice_m": RANGE_CORNICE})
+    # each frame has to prove something: the Roosevelt Memorial's colonnade on Central Park West, and the Rose
+    # Center's glass cube with the Hayden Sphere inside it. The first preset previously put the eye 110 m from a
+    # model whose own radius is 108 m — inside the building, hence a black frame; the distance is now explicit and
+    # well clear of the facade.
     cc.render(ID, [
-        {"view": "central_park_west", "azimuth_deg": 90, "elevation_deg": "street", "fov_deg": 55, "look_up_deg": 12},
+        {"view": "central_park_west", "azimuth_deg": 90, "elevation_deg": "street", "distance": 260,
+         "fov_deg": 46, "target_z": 24.0},
         {"view": "aerial", "azimuth_deg": 60, "elevation_deg": 28},
     ])
+    cc.render(ID, [{"view": "roosevelt_memorial", "azimuth_deg": 90, "elevation_deg": 8, "distance": 120,
+                    "fov_deg": 45, "target_z": 26.0}],
+              objects=[o for o in objs if o is not None and "roosevelt" in o.name])
+    cc.render(ID, [{"view": "rose_center", "azimuth_deg": 55, "elevation_deg": 14, "distance": 105,
+                    "fov_deg": 45, "target_z": 16.0}],
+              objects=[o for o in objs if o is not None and "rose_center" in o.name])
     return entry
 
 

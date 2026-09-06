@@ -528,11 +528,14 @@ def measure(built: BuiltHuman) -> dict:
     lo = Vector((math.inf,) * 3)
     hi = Vector((-math.inf,) * 3)
     for obj in built.meshes():
+        # stature is the *body's* height: a hat, a hijab or a bag would otherwise be reported as growth
+        include_top = obj is built.basemesh
         evaluated = obj.evaluated_get(depsgraph)
         for corner in evaluated.bound_box:
             world = obj.matrix_world @ Vector(corner)
             lo = Vector(map(min, lo, world))
-            hi = Vector(map(max, hi, world))
+            if include_top:
+                hi = Vector(map(max, hi, world))
     bones = built.armature.data.bones
     out = {"height_m": hi.z - lo.z, "shoulder_width_m": 0.0, "leg_length_m": 0.0}
     if "clavicle_l" in bones and "clavicle_r" in bones:

@@ -11,10 +11,13 @@ no footprint in the OTI layer).  Two sources are used, in this order:
    byte-identically without the OSM extract.  When both are available they are cross-checked: a disagreement larger than
    ``tol_m`` is logged and the recorded constant wins (the constants were verified against the published span lengths).
 
-``data/processed/roads/segments.parquet`` — the other alignment source named in the brief — did **not** exist when this
-module was written (the roads agent had produced only ``data/processed/roads/cache/``).  :func:`roads_available` and
-:func:`roads_centreline` implement the consumer side so that a rebuild after the roads stage picks the deck centreline
-up automatically; :func:`bridge_axis` records which source it actually used in ``SpanFit.source``.
+``data/processed/roads/segments.parquet`` — the other alignment source named in the brief — is consumed by
+:func:`roads_centreline`: it selects every segment whose ``street_name`` contains the bridge's name, keeps the vertices
+inside a 4 km box around the landmark frame, rejects the ones more than ``max_offset_m`` off the principal line (approach
+ramps, service roads, the same-named circle at Hell Gate) and returns the rest.  :func:`bridge_axis` then refines the
+axis *direction* by a least-squares fit through those vertices, but only when the fit is within 8 deg of the direction
+the OSM supports give — the supports always keep the origin and the span.  ``SpanFit.source`` records which of the two
+was actually used, and every landmark report prints it.
 
 Axis convention (shared with ``b_bridge_lib.Axis``): ``s`` runs along the bridge with s = 0 at the midpoint of the two
 named span supports, ``t`` is positive to the left of +s, ``z`` is NAVD88 metres.  The landmark's local frame origin is
@@ -26,6 +29,7 @@ import json
 import logging
 import math
 import os
+import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Sequence
@@ -138,38 +142,62 @@ def roads_available() -> bool:
 def roads_centreline(name_like: str, frame: bc.LocalFrame, max_offset_m: float = 120.0) -> list[tuple[float, float]] | None:
     """Deck centreline vertices (local frame) for the named bridge from ``data/processed/roads/segments.parquet``.
 
-    Returns ``None`` when the parquet does not exist, has no ``name``/``geometry`` columns, or matches nothing.  Only
-    vertices within ``max_offset_m`` of the frame origin's 4 km neighbourhood are returned, so that a same-named street
-    elsewhere in the city cannot pollute the fit.
+    Returns ``None`` when the parquet does not exist, carries no usable name/geometry pair, or matches nothing near the
+    frame.  Only vertices inside a 4 km box around the frame origin are returned, so a same-named street elsewhere in
+    the city cannot pollute the fit; vertices further than ``max_offset_m`` from the support midpoint are dropped as
+    approach ramps or service roads.  Geometries are read as WKB and may carry a Z ordinate (the roads stage writes
+    ``terrain_applied`` 3D linestrings), so only the first two ordinates of each vertex are used.
     """
     if not roads_available():
         return None
     try:
+        import pyarrow.compute as pc
         import pyarrow.parquet as pq
         from shapely import wkb
+
         schema = pq.read_schema(ROAD_SEGMENTS)
-        cols = [c for c in ("name", "geometry", "street_name") if c in schema.names]
-        if "geometry" not in cols or not any(c in cols for c in ("name", "street_name")):
-            log.info("segments.parquet has columns %s; no usable name/geometry pair", schema.names)
+        if "geometry" not in schema.names:
+            log.info("segments.parquet has columns %s; no geometry column", schema.names)
             return None
-        namecol = "name" if "name" in cols else "street_name"
-        table = pq.read_table(ROAD_SEGMENTS, columns=cols)
+        namecol = next((c for c in ("name", "street_name", "name_norm") if c in schema.names), None)
+        if namecol is None:
+            log.info("segments.parquet has columns %s; no usable name column", schema.names)
+            return None
+        table = pq.read_table(ROAD_SEGMENTS, columns=[namecol, "geometry"])
+        names = table.column(namecol).combine_chunks()
+        mask = pc.match_substring(pc.utf8_lower(pc.cast(names, "string")), name_like.lower())
+        hit = table.filter(pc.fill_null(mask, False))
+        if hit.num_rows == 0:
+            log.info("segments.parquet: no segment whose %s contains %r", namecol, name_like)
+            return None
         pts: list[tuple[float, float]] = []
-        needle = name_like.lower()
-        for rec in table.to_pylist():
-            nm = (rec.get(namecol) or "").lower()
-            if needle not in nm:
+        for geom in hit.column("geometry").to_pylist():
+            if not isinstance(geom, (bytes, bytearray)):
                 continue
-            geom = rec["geometry"]
-            g = wkb.loads(geom) if isinstance(geom, (bytes, bytearray)) else geom
-            for x, y in list(g.coords) if g.geom_type == "LineString" else []:
-                lx, ly, _ = frame.to_local(float(x), float(y))
-                if abs(lx) < 4000.0 and abs(ly) < 4000.0:
-                    pts.append((lx, ly))
+            g = wkb.loads(bytes(geom))
+            parts = list(g.geoms) if g.geom_type.startswith("Multi") else [g]
+            for part in parts:
+                if part.geom_type != "LineString":
+                    continue
+                for c in part.coords:
+                    lx, ly, _ = frame.to_local(float(c[0]), float(c[1]))
+                    if abs(lx) < 4000.0 and abs(ly) < 4000.0:
+                        pts.append((lx, ly))
         if len(pts) < 4:
+            log.info("segments.parquet: %r matched %d segments but only %d vertices near the frame",
+                     name_like, hit.num_rows, len(pts))
             return None
-        log.info("roads segments.parquet: %d centreline vertices for %r", len(pts), name_like)
-        return pts
+        # drop obvious outliers: keep the vertices within max_offset_m of the principal line through the cloud
+        arr = np.asarray(pts)
+        c = arr.mean(axis=0)
+        _, _, vt = np.linalg.svd(arr - c, full_matrices=False)
+        off = np.abs((arr - c) @ vt[1])
+        keep = arr[off <= max_offset_m]
+        if len(keep) < 4:
+            return None
+        log.info("roads segments.parquet: %d of %d centreline vertices for %r (max offset %.0f m)",
+                 len(keep), len(pts), name_like, max_offset_m)
+        return [(float(x), float(y)) for x, y in keep]
     except Exception as e:  # a partially written parquet must never break a landmark build
         log.warning("roads_centreline(%r) failed: %s", name_like, e)
         return None
@@ -274,6 +302,97 @@ def bridge_axis(supports: Sequence[Support], span_pair: tuple[str, str], publish
     return fit
 
 
+def axis_in_frame(frame: bc.LocalFrame, supports: Sequence[Support], span_pair: tuple[str, str],
+                  published_span_m: float, *, tol_m: float = 8.0) -> SpanFit:
+    """Place a *secondary* span inside an existing landmark frame (e.g. one of the RFK's three crossings).
+
+    Unlike :func:`bridge_axis`, the local frame is given and is **not** moved: the returned axis has its origin at the
+    midpoint of the two named supports *expressed in that frame*, and its direction runs from the first to the second.
+    The two span supports are snapped symmetrically to ``published_span_m`` about that midpoint; every other support
+    keeps its measured (s, t).  ``SpanFit.frame`` is the frame that was passed in, so ``report()`` prints the parent
+    landmark's origin alongside this span's own measured-vs-published comparison.
+    """
+    by_name = {sp.name: sp for sp in supports}
+    for n in span_pair:
+        if n not in by_name:
+            raise KeyError(f"axis_in_frame: span support {n!r} not in {list(by_name)}")
+    for sp in supports:
+        sp.resolve(tol_m)
+    a = np.asarray(frame.to_local(*by_name[span_pair[0]].resolved)[:2])
+    b = np.asarray(frame.to_local(*by_name[span_pair[1]].resolved)[:2])
+    measured = float(np.hypot(*(b - a)))
+    if measured < 1.0:
+        raise ValueError(f"axis_in_frame: span supports {span_pair} coincide")
+    mid = 0.5 * (a + b)
+    d = (b - a) / measured
+    axis = Axis(bc.Vector((float(mid[0]), float(mid[1]), 0.0)), bc.Vector((float(d[0]), float(d[1]), 0.0)))
+    s: dict[str, float] = {}
+    t: dict[str, float] = {}
+    for sp in supports:
+        lx, ly, _ = frame.to_local(sp.resolved[0], sp.resolved[1])
+        ss, tt = axis.st(lx, ly)
+        s[sp.name] = ss
+        t[sp.name] = tt
+    half = published_span_m / 2.0
+    s[span_pair[0]], s[span_pair[1]] = -half, +half
+    t[span_pair[0]] = t[span_pair[1]] = 0.0
+    fit = SpanFit(frame, axis, s, t, by_name, measured, published_span_m, axis.heading_deg,
+                  "osm bridge:support ways + published span (secondary span in the landmark frame)")
+    fit.span_pair = span_pair
+    log.info("%s (in-frame): measured %.2f m, published %.2f m (%+.2f %%), heading %.2f deg", span_pair, measured,
+             published_span_m, fit.span_error_pct, axis.heading_deg)
+    return fit
+
+
+REFERENCE = REPO / "docs" / "verification" / "reference"
+
+
+def reference_view(ref_id: str, frame: bc.LocalFrame, *, eye_m: float = 1.65, ground_z: float = 0.0,
+                   target_z: float = 0.0) -> tuple[tuple[float, float, float], tuple[float, float, float]] | None:
+    """Camera and target for one of the comparison agent's real photographic viewpoints, in ``frame`` coordinates.
+
+    ``docs/verification/reference/<ref_id>/meta.json`` records the WGS84 position a photographer stood at and the
+    WGS84 position of the subject.  Using those verbatim is what makes this model's render and the reference photo
+    the *same* shot, so the comparison agent's sheets line up.  Returns ``None`` when the reference does not exist,
+    so a build never depends on another agent's output being finished.
+
+    ``ground_z`` is the NAVD88 elevation the photographer stood on and ``eye_m`` their eye height above it;
+    ``target_z`` is the NAVD88 elevation to aim at on the subject.
+    """
+    meta = REFERENCE / ref_id / "meta.json"
+    if not meta.is_file():
+        log.info("reference viewpoint %s not on disk; using the hand-placed camera", ref_id)
+        return None
+    try:
+        m = json.loads(meta.read_text())
+        vp, sub = m["viewpoint"], m["subject"]
+        cx, cy, _ = frame.from_lonlat(float(vp["lon"]), float(vp["lat"]))
+        tx, ty, _ = frame.from_lonlat(float(sub["lon"]), float(sub["lat"]))
+    except (OSError, ValueError, KeyError, TypeError) as e:
+        log.warning("reference viewpoint %s unusable (%s); using the hand-placed camera", ref_id, e)
+        return None
+    log.info("reference viewpoint %s: camera (%.1f, %.1f) local, subject (%.1f, %.1f), %.0f m away -- %s",
+             ref_id, cx, cy, tx, ty, math.hypot(tx - cx, ty - cy), vp.get("note", ""))
+    return (cx, cy, ground_z + eye_m), (tx, ty, target_z)
+
+
+def reference_render(ref_id: str, frame: bc.LocalFrame, *, view: str | None = None, ground_z: float = 0.0,
+                     target_z: float = 0.0, eye_m: float = 1.65, **kw) -> dict | None:
+    """A ``renders`` entry placed on the comparison agent's real photographic viewpoint, or ``None`` if it is absent.
+
+    ``run_landmark`` drops ``None`` entries, so a landmark can simply list this first and keep its own hand-placed
+    views after it; the render is then the *same shot* as the reference photograph in
+    ``docs/verification/reference/<ref_id>/``.
+    """
+    cam_t = reference_view(ref_id, frame, eye_m=eye_m, ground_z=ground_z, target_z=target_z)
+    if cam_t is None:
+        return None
+    cam, target = cam_t
+    d = dict(view=view or ref_id, cam=cam, target=target, reference=ref_id)
+    d.update(kw)
+    return d
+
+
 def point_axis(frame: bc.LocalFrame, heading_deg: float) -> Axis:
     """Axis through the frame origin with the given compass heading (for structures placed from one point)."""
     a = math.radians(heading_deg)
@@ -367,6 +486,8 @@ def run_landmark(landmark_id: str, title: str, build_fn, *, bins: Sequence[int] 
         bc.new_scene()
         objs0, _ = build_fn(0)
         for r in renders:
+            if r is None:                       # a reference viewpoint the comparison agent has not published yet
+                continue
             if args["views"] and r["view"] not in args["views"]:
                 continue
             shots.append(bc.render_check(landmark_id, r["view"], r["cam"], r["target"], fov_deg=r.get("fov_deg", 50.0),
@@ -375,8 +496,15 @@ def run_landmark(landmark_id: str, title: str, build_fn, *, bins: Sequence[int] 
                                          sun_elevation_deg=r.get("sun_elevation_deg", 35.0),
                                          sun_strength=r.get("sun_strength", 2.0),
                                          exposure=r.get("exposure", -1.6),
-                                         max_bounces=r.get("max_bounces", 6),
+                                         max_bounces=r.get("max_bounces", 4),
                                          context_planes=r.get("context", ())))
     if sections:
         bc.write_report(landmark_id, title, sections, lods, shots)
+    if env_only("NYCSIM_LANDMARK_HARD_EXIT"):
+        # bpy-as-a-module occasionally blocks forever in its own thread teardown after the scene has been written
+        # (observed on b_central_park_walls_gates: 9 min wedged on a futex with every artefact already on disk).
+        # The batch driver sets this so a teardown hang cannot stall the queue; everything above has been flushed.
+        for stream in (sys.stdout, sys.stderr):
+            stream.flush()
+        os._exit(0)
     return lods

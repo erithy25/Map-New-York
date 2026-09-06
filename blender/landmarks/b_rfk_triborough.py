@@ -135,7 +135,7 @@ def _viaduct(objs: list, name: str, frame, p0_tm, p1_tm, z0: float, z1: float, w
 
 
 def build(lod: int = 0):
-    fit = ba.bridge_axis(SUS_SUPPORTS, ("sus_tower_qn", "sus_tower_wi"), SUS_SPAN, roads_name="Robert F. Kennedy")
+    fit = ba.bridge_axis(SUS_SUPPORTS, ("sus_tower_qn", "sus_tower_wi"), SUS_SPAN, roads_name="Robert F Kennedy")
     frame = fit.frame
     axis = fit.axis
     objs: list = []
@@ -255,6 +255,10 @@ def main() -> None:
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=400_000, budget_lod1=100_000,
         renders=[
+            # the comparison agent's recorded photographic viewpoint, used verbatim
+            ba.reference_render("landmark_rfk_triborough_bridge", fit.frame, view="rfk_reference",
+                                ground_z=GROUND, target_z=70.0, fov_deg=58.0, size=(1280, 720), context=ctx,
+                                sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
             dict(view="astoria_suspension_span", cam=ax.p(-70.0, -300.0, GROUND + 2.5), target=ax.p(120.0, 0.0, 60.0),
                  fov_deg=58.0, context=ctx, sun_azimuth_deg=250.0, sun_elevation_deg=32.0),
             dict(view="suspension_elevation", cam=ax.p(0.0, -700.0, 30.0), target=ax.p(0.0, 0.0, 55.0), fov_deg=44.0,

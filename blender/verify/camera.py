@@ -28,7 +28,7 @@ import json
 import logging
 import math
 import sys
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -149,10 +149,15 @@ class CameraPlacement:
     eye_source: str
     terrain_z_m: float | None
     resolution: tuple[int, int]
+    portrait: bool = False
+    long_side_fov_deg: float = 0.0
+    ground_mode: str = "local"
+    ground_source: str = ""
+    ground_detail: dict = field(default_factory=dict)
 
     def as_dict(self) -> dict:
         d = asdict(self)
-        for k in ("x", "y", "z", "hfov_deg", "terrain_z_m"):
+        for k in ("x", "y", "z", "hfov_deg", "long_side_fov_deg", "terrain_z_m"):
             if d[k] is not None:
                 d[k] = round(d[k], 3)
         d["resolution"] = list(self.resolution)
@@ -162,7 +167,9 @@ class CameraPlacement:
         return (f"camera {self.lat:.5f}, {self.lon:.5f} (NYC_TM {self.x:.0f}, {self.y:.0f}) "
                 f"z {self.z:.1f} m NAVD88 | azimuth {self.azimuth_deg:.1f}deg "
                 f"pitch {self.pitch_deg:+.1f}deg | {self.focal_mm:.0f} mm on {self.sensor_mm:.0f} mm "
-                f"({self.hfov_deg:.1f}deg horizontal) | {self.resolution[0]}x{self.resolution[1]}")
+                f"({self.hfov_deg:.1f}deg horizontal"
+                + (f", {self.long_side_fov_deg:.1f}deg vertical, portrait" if self.portrait else "")
+                + f") | {self.resolution[0]}x{self.resolution[1]}")
 
 
 def eye_rule_for(slug: str) -> EyeRule:
@@ -170,10 +177,35 @@ def eye_rule_for(slug: str) -> EyeRule:
                                            "standing observer, 1.6 m eye height above the terrain surface"))
 
 
+#: Words in a viewpoint note that mean the photographer stood on the traffic surface rather than
+#: on a raised structure.  The 1 m heightmap carries building grades and plinths, so a viewpoint
+#: recorded on a sidewalk must be measured against the low ground nearby, not the terrace beside it.
+_STREET_WORDS = ("roadway", "sidewalk", "street", "avenue", "curb", "crosswalk", "intersection",
+                 "pavement", "plaza")
+_RAISED_WORDS = ("terrace", "promenade", "deck", "observation", "steps", "walkway", "bridge",
+                 "pier", "boardwalk", "platform", "parapet", "railing", "roof", "balcony",
+                 "overlook", "viaduct", "ferry", "high line")
+
+
+def ground_mode_for(slug: str, note: str | None) -> tuple[str, float, str]:
+    """(mode, radius_m, why) for :meth:`scene.TerrainSampler.ground_z` at this viewpoint."""
+    n = (note or "").lower()
+    if any(w in n for w in _RAISED_WORDS):
+        return ("local", 5.0,
+                "the viewpoint note names the raised surface the photographer stood on, so the "
+                "heightmap median within 5 m is the ground")
+    if any(w in n for w in _STREET_WORDS):
+        return ("street", 12.0,
+                "the viewpoint note places the photographer on the traffic surface, so the 10th "
+                "percentile of the heightmap within 12 m is used -- the 1 m DEM carries building "
+                "grades and raised plinths that would otherwise lift the camera off the street")
+    return ("local", 5.0, "no surface named in the note; heightmap median within 5 m")
+
+
 def place_camera(*, slug: str, lat: float, lon: float, azimuth_deg: float, sampler,
                  resolution: tuple[int, int] = (1280, 853), pitch_deg: float = 0.0,
                  focal_mm: float | None = None, eye_rule: EyeRule | None = None,
-                 clip_end: float = 60000.0) -> CameraPlacement:
+                 note: str | None = None, clip_end: float = 60000.0) -> CameraPlacement:
     """Create and activate the scene camera for a reference viewpoint.
 
     ``pitch_deg`` is positive upwards from horizontal; the default 0 keeps the optical axis
@@ -182,7 +214,10 @@ def place_camera(*, slug: str, lat: float, lon: float, azimuth_deg: float, sampl
     from nycsim_pipeline.crs import lonlat_to_tm
     x, y = (float(v) for v in lonlat_to_tm(lon, lat))
     rule = eye_rule or eye_rule_for(slug)
-    terrain_z = sampler.z_at(x, y) if sampler is not None else None
+    mode, mode_radius, mode_why = ground_mode_for(slug, note)
+    terrain_z, ground_detail = (None, {})
+    if sampler is not None:
+        terrain_z, ground_detail = sampler.ground_z(x, y, mode=mode, radius_m=mode_radius)
     if rule.datum == "sea":
         base = 0.0
     elif terrain_z is None:
@@ -194,8 +229,13 @@ def place_camera(*, slug: str, lat: float, lon: float, azimuth_deg: float, sampl
 
     f = focal_mm if focal_mm is not None else focal_for(slug)[0]
     cam = bpy.data.cameras.new(f"verify_cam_{slug}")
-    cam.sensor_fit = "HORIZONTAL"
+    # A focal length is quoted against the sensor's long side.  A portrait reference photograph
+    # was taken with the camera turned, so the 36 mm dimension is vertical there; fitting the
+    # lens to the short side instead would silently widen the frame.
+    portrait = resolution[1] > resolution[0]
+    cam.sensor_fit = "VERTICAL" if portrait else "HORIZONTAL"
     cam.sensor_width = SENSOR_WIDTH_MM
+    cam.sensor_height = SENSOR_WIDTH_MM if portrait else SENSOR_WIDTH_MM * 2.0 / 3.0
     cam.lens = f
     cam.clip_start = 0.10
     cam.clip_end = clip_end
@@ -212,11 +252,18 @@ def place_camera(*, slug: str, lat: float, lon: float, azimuth_deg: float, sampl
     sc.render.resolution_percentage = 100
     sc.render.pixel_aspect_x = sc.render.pixel_aspect_y = 1.0
 
+    long_fov = horizontal_fov_deg(f)          # along the sensor's 36 mm side
+    if portrait:
+        hfov = math.degrees(2.0 * math.atan(math.tan(math.radians(long_fov) / 2.0)
+                                            * resolution[0] / resolution[1]))
+    else:
+        hfov = long_fov
     return CameraPlacement(slug=slug, lat=lat, lon=lon, x=x, y=y, z=z, azimuth_deg=azimuth_deg,
                            pitch_deg=pitch_deg, focal_mm=f, sensor_mm=SENSOR_WIDTH_MM,
-                           hfov_deg=horizontal_fov_deg(f), eye_height_m=rule.height_m,
+                           hfov_deg=hfov, eye_height_m=rule.height_m,
                            eye_datum=rule.datum, eye_source=rule.source, terrain_z_m=terrain_z,
-                           resolution=resolution)
+                           resolution=resolution, portrait=portrait, long_side_fov_deg=long_fov,
+                           ground_mode=mode, ground_source=mode_why, ground_detail=ground_detail)
 
 
 def load_reference(slug: str) -> dict:
@@ -235,7 +282,6 @@ def main(argv=None) -> int:
     meta = load_reference(a.slug)
     vp = meta["viewpoint"]
     sampler = vscene.TerrainSampler()
-    nb_scene = bpy.context.scene  # noqa: F841 (ensure bpy is live)
     p = place_camera(slug=a.slug, lat=vp["lat"], lon=vp["lon"], azimuth_deg=vp["azimuth_deg"],
                      sampler=sampler)
     print(json.dumps(p.as_dict(), indent=1))

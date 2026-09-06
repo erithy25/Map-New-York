@@ -632,7 +632,7 @@ PALETTE: dict[str, tuple] = {
     "flag_blue":        ((60, 59, 110), 0.8, 0.0, None, 0.0, "flag blue (Old Glory Blue)"),
     "ESB_CROWN":        ((240, 240, 240), 0.5, 0.0, (1.0, 1.0, 1.0), 6.0, "Empire State crown lighting slot — emissive; UE drives colour from live/esb_lights.json"),
     "emissive_warm":    ((250, 235, 200), 0.5, 0.0, (1.0, 0.85, 0.6), 4.0, "warm interior/lobby light"),
-    "GCT_CEILING":      ((70, 105, 120), 0.9, 0.0, (0.35, 0.62, 0.75), 1.2, "Grand Central celestial ceiling (cerulean with gold constellations) — emissive so the vault reads lit"),
+    "GCT_CEILING":      ((70, 105, 120), 0.9, 0.0, (0.35, 0.62, 0.75), 3.5, "Grand Central celestial ceiling (cerulean with gold constellations) — emissive at a strength that also lights the concourse, as the real ceiling does"),
 }
 _MATS: dict[str, bpy.types.Material] = {}
 

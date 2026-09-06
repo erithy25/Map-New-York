@@ -24,7 +24,7 @@
   "\"601 Lexington Avenue\" tower Citicorp"
  ],
  "geosearch_radius_m": 400,
- "fetched_at": "2026-09-06T13:20:04Z",
+ "fetched_at": "2026-09-06T13:51:02Z",
  "max_width": 1920,
  "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
  "candidates_seen": 30,

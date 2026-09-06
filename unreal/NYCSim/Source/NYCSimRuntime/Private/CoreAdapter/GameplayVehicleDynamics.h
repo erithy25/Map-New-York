@@ -1,13 +1,17 @@
 // GameplayVehicleDynamics — the player car's published specification and its tyre-friction model.
 //
-// Pure C++ (std only, no Unreal, no core headers): this is the data that ARCHITECTURE §7 fixes for the player
-// vehicle, expressed once so that the Chaos setup (NYCVehicleMovementComponent), the audio synthesiser
-// (NYCVehicleAudioComponent) and the standalone self-test all read the same numbers.
+// Pure C++ (std only, no Unreal): this is the data that ARCHITECTURE §7 fixes for the player vehicle, expressed
+// once so that the Chaos setup (NYCVehicleMovementComponent), the audio synthesiser (NYCVehicleAudioComponent)
+// and the standalone self-test all read the same numbers.
 //
-// When `core/include/nycsim/vehicle/VehicleSpec.h` lands (the core vehicle agent's file; on 2026-09-06 only empty
-// translation units exist under core/src/vehicle/) this file becomes a thin translation of it: the struct below is
-// deliberately shaped like the contract in ARCHITECTURE §7 so the swap touches only GameplayVehicleDynamics.cpp.
-// See unreal/COMPILE_CHECKLIST_GAMEPLAY.md §"core isolation" and the gap list in the stage report.
+// `core/include/nycsim/vehicle/VehicleSpec.h` landed on 2026-09-06 and is authoritative for every published and
+// derived figure of the 2019 Fusion Hybrid. This struct is the UE-facing translation of
+// `nycsim::vehicle::fusionHybrid2019()`: every field below that core also carries now holds core's value, and
+// unreal/tools/gameplay_selftest.cpp asserts them field by field against `fusionHybrid2019()`, so the two cannot
+// drift apart silently. The remaining fields are the ones core does not model (steering-wheel travel for the
+// SteeringWheel bone, suspension frequency for the Chaos setup, per-axle brake torques, and the engine torque
+// curve the audio synthesiser needs); each carries its own derivation. The differences between core's
+// longitudinal model and this one are listed in docs/verification/unreal_gameplay/REPORT.md.
 #pragma once
 
 #include <cstdint>
@@ -57,24 +61,25 @@ struct PlayerVehicleSpec
 	float widthMirrorsM = 2.121f;   ///< mirrors extended
 	float heightM = 1.476f;
 	float wheelbaseM = 2.850f;
-	float trackFrontM = 1.585f;
-	float trackRearM = 1.580f;
+	float trackFrontM = 1.580f;   ///< core PUBLISHED 62.2 in
+	float trackRearM = 1.583f;    ///< core PUBLISHED 62.3 in
 	float groundClearanceM = 0.140f;
 	float massKg = 1685.f;          ///< curb mass, hybrid trim
-	float frontMassShare = 0.57f;   ///< transverse hybrid drivetrain over the front axle
-	float cogHeightM = 0.53f;
-	float dragCoefficient = 0.277f; ///< published Cd
-	float frontalAreaM2 = 2.28f;
+	float frontMassShare = 0.58f;   ///< core PUBLISHED 58/42 static distribution
+	float cogHeightM = 0.548f;      ///< core DERIVED 0.371 x roof height
+	float dragCoefficient = 0.27f;  ///< core PUBLISHED Cd
+	float frontalAreaM2 = 2.27f;    ///< core PUBLISHED 24.4 sq ft
 
 	// Tyres: 225/50R17 (SE Hybrid standard fitment).
 	float tyreWidthM = 0.225f;
 	float tyreAspect = 0.50f;
 	float rimDiameterInch = 17.f;
-	/// Loaded radius = rim/2 + sidewall, minus 1.5 % static deflection.
+	/// Rolling (loaded) radius. SAE J1270 puts it at 0.967 of the unloaded radius at rated load, which is what
+	/// core's Tyre::rollingRadiusM() uses; this is the same formula on the same size code.
 	float wheelRadiusM() const
 	{
-		const float rim = rimDiameterInch * 0.0254f * 0.5f;
-		return (rim + tyreWidthM * tyreAspect) * 0.985f;
+		const float unloaded = 0.5f * (rimDiameterInch * 0.0254f + 2.f * tyreWidthM * tyreAspect);
+		return unloaded * 0.967f;
 	}
 
 	// Hybrid powertrain: 2.0 L Atkinson I4 + 88 kW traction motor, 188 hp (140 kW) combined, eCVT, FWD.

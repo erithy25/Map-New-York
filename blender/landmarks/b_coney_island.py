@@ -229,6 +229,16 @@ def main() -> None:
     ba.run_landmark(
         ID, TITLE, build, bins=BINS, budget_lod0=250_000, budget_lod1=60_000,
         renders=[
+            # the comparison agent's recorded photographic viewpoints, used verbatim
+            ba.reference_render("landmark_coney_island_wonder_wheel", frame, view="wonder_wheel_reference",
+                                ground_z=BOARDWALK_Z - GROUND, target_z=26.0, fov_deg=62.0, size=(1280, 720),
+                                context=ctx, sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
+            ba.reference_render("landmark_coney_island_parachute_jump", frame, view="parachute_jump_reference",
+                                ground_z=0.0, target_z=48.0, fov_deg=54.0, size=(720, 1280),
+                                context=ctx, sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
+            ba.reference_render("landmark_coney_island_cyclone", frame, view="cyclone_reference",
+                                ground_z=0.0, target_z=18.0, fov_deg=58.0, size=(1280, 720),
+                                context=ctx, sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
             dict(view="boardwalk", cam=(wx + 130.0, wy - 190.0, BOARDWALK_Z - GROUND + 1.7),
                  target=(wx - 60.0, wy - 20.0, 26.0), fov_deg=64.0, context=ctx, sun_azimuth_deg=200.0,
                  sun_elevation_deg=38.0),

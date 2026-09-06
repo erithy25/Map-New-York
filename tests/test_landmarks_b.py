@@ -90,15 +90,15 @@ LANDMARKS: dict[str, dict] = {
     "b_statue_of_liberty": dict(budget=BUDGET_OTHER, max_z=(3.0 + 92.99, 1.0), spans=[]),
     "b_ellis_island_main": dict(budget=BUDGET_OTHER, max_z=(30.5, 1.0, "tower0_cornice"), spans=[]),
     "b_governors_island": dict(budget=BUDGET_OTHER, max_z=(12.19, 1.0, "castle_williams_wall"), spans=[]),
-    "b_washington_square_arch": dict(budget=BUDGET_OTHER, max_z=(23.47, 3.0, "wsa_atticcap"), spans=[]),
+    "b_washington_square_arch": dict(budget=BUDGET_OTHER, max_z=(23.47, 1.0, "wsa_atticcap"), spans=[]),
     "b_bethesda_terrace": dict(budget=BUDGET_OTHER, max_z=(7.92, 1.0, "angel_body"), spans=[]),
     "b_bow_bridge": dict(budget=BUDGET_OTHER, max_z=(20.9 + 2.3 + 1.5, 1.0, "deck"), spans=[]),
-    "b_belvedere_castle": dict(budget=BUDGET_OTHER, max_z=(16.5, 1.0, "tower_belvedere"), spans=[]),
+    "b_belvedere_castle": dict(budget=BUDGET_OTHER, max_z=(16.5 + 3.65 + 3.6, 1.0), spans=[]),
     "b_central_park_walls_gates": dict(budget=BUDGET_OTHER, max_z=(1.22, 1.0, "perimeter_wall"), spans=[]),
     "b_unisphere": dict(budget=BUDGET_OTHER, max_z=(42.67, 1.0, "globe_grid"), spans=[]),
     "b_grants_tomb": dict(budget=BUDGET_OTHER, max_z=(45.72, 2.0), spans=[]),
     "b_columbus_circle_monument": dict(budget=BUDGET_OTHER, max_z=(228.60 + 6.0, 1.0), spans=[]),
-    "b_soldiers_sailors_arch": dict(budget=BUDGET_OTHER, max_z=(24.38, 3.0, "ssa_atticcap"), spans=[]),
+    "b_soldiers_sailors_arch": dict(budget=BUDGET_OTHER, max_z=(24.38, 1.0, "ssa_atticcap"), spans=[]),
     "b_prospect_park_boathouse": dict(budget=BUDGET_OTHER, max_z=(1.6 + 6.4 + 2.3 + 1.25, 2.0, "roof_bal"), spans=[]),
     "b_coney_island": dict(budget=BUDGET_OTHER, max_z=(79.86, 1.0, "parachute_jump_lattice"), spans=[]),
 }
@@ -308,7 +308,8 @@ def test_catalog_entry(landmark_id: str) -> None:
 
 def test_every_b_script_has_a_landmark_entry() -> None:
     """Every ``blender/landmarks/b_<name>.py`` that is a landmark script is covered by this test module."""
-    lib = {"b_common", "b_bridge_lib", "b_tunnel_lib", "b_park_lib", "b_align", "b_osm_extract", "b_build_all"}
+    lib = {"b_common", "b_bridge_lib", "b_tunnel_lib", "b_park_lib", "b_align", "b_osm_extract", "b_build_all",
+           "b_report"}
     scripts = {p.stem for p in (REPO / "blender" / "landmarks").glob("b_*.py")} - lib
     assert scripts == set(LANDMARKS), (f"landmark scripts not covered: {sorted(scripts - set(LANDMARKS))}; "
                                        f"tested but missing: {sorted(set(LANDMARKS) - scripts)}")

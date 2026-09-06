@@ -362,6 +362,22 @@ def test_verification_renders_exist(lid):
         assert p.stat().st_size > 5000, f"{p.name} is only {p.stat().st_size} bytes"
 
 
+@pytest.mark.parametrize("lid", IDS)
+def test_verification_renders_can_serve_as_evidence(lid):
+    """A render only counts if the subject is visible in it: a camera inside geometry gives a black frame and a
+    subject too far away gives a featureless grey one. Same thresholds as
+    tests/test_world_integration.py::test_verification_renders_can_actually_serve_as_evidence."""
+    _exported(lid)
+    np = pytest.importorskip("numpy")
+    Image = pytest.importorskip("PIL.Image", reason="Pillow is needed to inspect the renders")
+    for p in sorted(VERIFY.glob(f"{lid}_*.png")):
+        a = np.asarray(Image.open(p).convert("L"), dtype=np.float32) / 255.0
+        mean, sd = float(a.mean()), float(a.std())
+        assert mean >= 0.06, f"{p.name} is black (mean luminance {mean:.3f}) — camera inside geometry?"
+        assert not (mean > 0.94 and sd < 0.025), f"{p.name} is blown out (mean {mean:.3f}, sd {sd:.3f})"
+        assert sd >= 0.025, f"{p.name} is featureless (sd {sd:.3f}) — subject too far away or out of frame?"
+
+
 def test_canonical_viewpoint_renders_exist():
     """The four viewpoints the brief names, produced by blender/landmarks/c_renders.py."""
     for name in ("canonical_times_square_from_duffy_square",

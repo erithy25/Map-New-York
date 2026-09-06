@@ -114,7 +114,7 @@ def build_roadwork_sign() -> C.Built:
     brace = C.tube("brace", [(-0.30, -0.04, 0.30), (0.30, -0.04, 0.30)], 0.014, 6, material=steel)
     flags = [C.sign_blank(f"warning_flag{i}", "rect", 0.46, 0.46, thickness=0.002,
                           face_material=C.mat_solid("fluor_orange_flag", "#FF6A13", 0.6), back_material=orange_frame,
-                          center=(sgn * 0.40, 0.0, zc + 0.44))
+                          center=(sgn * 0.66, 0.0, zc + 0.30))
              for i, sgn in enumerate((-1.0, 1.0))]
     parts = [blank, mast, brace] + legs + flags
     C.settle_to_ground(parts)
@@ -275,7 +275,7 @@ SPECS = [
     C.PropSpec("roadway_plate", "construction", "work_zone_device", build_roadway_plate, (3.24, 4.46, 0.031),
                "Steel roadway plate over a utility cut: 8 x 12 ft x 1 in plate with 0.40 m cold-patch asphalt ramps "
                "on all four edges and four lifting lugs.", tags=["dot"], tolerance=0.10),
-    C.PropSpec("sign_roadwork_w20_1", "construction", "road_sign", build_roadwork_sign, (1.73, 1.16, 2.29),
+    C.PropSpec("sign_roadwork_w20_1", "construction", "road_sign", build_roadwork_sign, (1.79, 1.16, 2.29),
                "MUTCD W20-1 ROAD WORK AHEAD, 48 in orange diamond with a black border and legend on a folding "
                "portable stand, sign bottom at 0.55 m, with two fluorescent warning flags. SIGN_FACE UV spans the "
                "diamond's bounding box.", tags=["mutcd:W20-1"], tolerance=0.10),

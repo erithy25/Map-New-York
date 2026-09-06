@@ -1,0 +1,188 @@
+{
+ "schema_version": 1,
+ "slug": "street_linknyc_kiosk",
+ "name": "LinkNYC kiosk (close-up)",
+ "group": "streetscape",
+ "viewpoint": {
+  "lat": 40.755,
+  "lon": -73.984,
+  "azimuth_deg": 0.0,
+  "note": "Midtown sidewalk (representative; close-up reference, not a view)",
+  "representative": true
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2016,
+ "wanted": 3,
+ "queries": [
+  "LinkNYC kiosk",
+  "LinkNYC Link kiosk sidewalk Manhattan"
+ ],
+ "geosearch_radius_m": 0,
+ "fetched_at": "2026-09-06T13:43:11Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 50,
+ "candidates_eligible": 40,
+ "rejections": {
+  "indoor": 2,
+  "excluded": 5,
+  "keywords": 3
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Kew Gardens Rd 83rd Av td (2020-10-17) 02 - LinkNYC.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Kew_Gardens_Rd_83rd_Av_td_(2020-10-17)_02_-_LinkNYC.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/49/Kew_Gardens_Rd_83rd_Av_td_%282020-10-17%29_02_-_LinkNYC.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Kew_Gardens_Rd_83rd_Av_td_%282020-10-17%29_02_-_LinkNYC.jpg/1920px-Kew_Gardens_Rd_83rd_Av_td_%282020-10-17%29_02_-_LinkNYC.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2020-10-17 12:07:24",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": {
+    "lat": 40.711031,
+    "lon": -73.827937
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 1046648,
+   "sha256": "de9469ffb0780b0d519100ab1289d4f7a6aab052e1d7652307a4df22a3536055",
+   "mean_luminance": 114.4,
+   "description": "A LinkNYC kiosk at the northeast corner of Kew Gardens Road and 83rd Avenue in Kew Gardens, Queens.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "Kew Gardens, Queens",
+    "LinkNYC",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Views from automobiles in Queens, New York City",
+    "2020 Queens photographs by Tdorante10",
+    "October 2020 in Queens, New York City",
+    "Photographs by Tdorante10 taken on 2020-10-17"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:LinkNYC kiosk",
+   "score": 7.75,
+   "estimated_viewpoint": {
+    "lat": 40.711031,
+    "lon": -73.827937,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.71103, -73.82794), 14029 m from the reference position (Midtown sidewalk (representative; close-up reference, not a view)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"Kew Gardens Rd 83rd Av td (2020-10-17) 02 - LinkNYC.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Kew_Gardens_Rd_83rd_Av_td_(2020-10-17)_02_-_LinkNYC.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:LinkNYC kiosk at 23rd and 8th 4.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:LinkNYC_kiosk_at_23rd_and_8th_4.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/78/LinkNYC_kiosk_at_23rd_and_8th_4.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/LinkNYC_kiosk_at_23rd_and_8th_4.jpg/1920px-LinkNYC_kiosk_at_23rd_and_8th_4.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2016-09-19 17:11:07",
+   "date_source": "DateTimeOriginal",
+   "year": 2016,
+   "camera_gps": {
+    "lat": 40.745439,
+    "lon": -73.99865
+   },
+   "original_width": 2592,
+   "original_height": 1936,
+   "width": 1920,
+   "height": 1434,
+   "bytes": 671624,
+   "sha256": "b9abb66fd17fef2924a4fd63c918d520595865e9c22a31e2218e888e94f6ac9b",
+   "mean_luminance": 124.4,
+   "description": "A LinkNYC kiosk at 23rd Street and 8th Avenue in Manhattan, New York City.",
+   "categories": [
+    "LinkNYC",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "8th Avenue and 23rd Street, Manhattan",
+    "Photographs by Epicgenius"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:LinkNYC kiosk",
+   "score": 7.15,
+   "estimated_viewpoint": {
+    "lat": 40.745439,
+    "lon": -73.99865,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.74544, -73.99865), 1629 m from the reference position (Midtown sidewalk (representative; close-up reference, not a view)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"LinkNYC kiosk at 23rd and 8th 4.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:LinkNYC_kiosk_at_23rd_and_8th_4.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:LinkNYC.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:LinkNYC.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c0/LinkNYC.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/LinkNYC.jpg/1920px-LinkNYC.jpg",
+   "author": "CyprianLatewood",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2019-06-16",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": null,
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1280359,
+   "sha256": "afdb538374f25c8af9fef66b7e8b663e94552818019151aacc25328ee536e5e4",
+   "mean_luminance": 109.5,
+   "description": "an NYCLink kiosk",
+   "categories": [
+    "Canal Street (Manhattan)",
+    "LinkNYC",
+    "Signs in Manhattan, New York City",
+    "Lower Manhattan in 2019",
+    "Canal Street (IRT Lexington Avenue Line)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:LinkNYC kiosk",
+   "score": 7.1,
+   "estimated_viewpoint": {
+    "lat": 40.755,
+    "lon": -73.984,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Midtown sidewalk (representative; close-up reference, not a view)) and the azimuth 0 deg is the heading of the street/view axis at that position. The subject is generic, so this position is representative of the type of scene, not where this specific photo was taken."
+   },
+   "attribution": "\"LinkNYC.jpg\" by CyprianLatewood, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:LinkNYC.jpg"
+  }
+ ]
+}

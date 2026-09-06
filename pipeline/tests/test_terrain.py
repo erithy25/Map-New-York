@@ -454,3 +454,37 @@ def test_known_sub_datum_artefacts_are_repaired_and_accounted():
         repaired = sd["px_to_water"] + sd["px_filled_idw"] + sd["px_filled_survey"] + sd["px_filled_datum"]
         assert repaired == sd["px_below_floor"] - sd["px_kept_surveyed"] > 0
         assert "sub_datum_repair" in doc["sources"]
+
+
+@pytest.mark.skipif(not (PROCESSED / "terrain" / "overview_16m.tif").exists(), reason="overview not built")
+def test_overview_is_a_strict_decimation_of_the_tiles():
+    """Every 16 m overview sample must equal the published 2 m sample at the same coordinate, exactly."""
+    import rasterio
+    with rasterio.open(PROCESSED / "terrain" / "overview_16m.tif") as ds:
+        assert ds.dtypes[0] == "float32"
+        assert ds.res == (16.0, 16.0)
+        assert (ds.transform.c + 8.0) % 16.0 == 0        # pixel centres on the 16 m lattice
+        a = ds.read(1)
+        assert np.isfinite(a).all(), "overview must have no voids inside the scope"
+        tr = ds.transform
+    rng = np.random.default_rng(11)
+    checked = 0
+    for _ in range(200):
+        row = int(rng.integers(0, a.shape[0]))
+        col = int(rng.integers(0, a.shape[1]))
+        x = tr.c + 16.0 * col + 8.0
+        y = tr.f - 16.0 * row - 8.0
+        tile = Tile(math.floor(x / TILE_SIZE_M), math.floor(y / TILE_SIZE_M))
+        d = TILES_DIR / tile.name
+        if not (d / "terrain.png").exists():
+            continue
+        doc = json.loads((d / "terrain.json").read_text())
+        img = np.asarray(Image.open(d / "terrain.png")).astype(np.float64)
+        z = img * doc["z_scale_m"] + doc["z_min_m"]
+        c = int(round((x - tile.x0) / SPACING_M))
+        r = int(round((tile.y0 + TILE_SIZE_M - y) / SPACING_M))
+        # the overview is float32, so equality holds to the float32 resolution at these magnitudes
+        # (2e-5 m at 200 m), four orders of magnitude below the 2.5 mm elevation quantum
+        assert a[row, col] == pytest.approx(z[r, c], abs=1e-4), f"{tile.name} ({r},{c})"
+        checked += 1
+    assert checked >= 100
