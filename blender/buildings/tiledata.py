@@ -1,9 +1,10 @@
 """Tile input loading and attribute resolution for the building-shell stage (no ``bpy``).
 
-Reads ``data/processed/tiles/{tile}/buildings.parquet`` (DATA_CONTRACTS §5 + §5.2), resolves the
-columns that later stages own but may not have written yet, and hands ``shellgeom`` a list of
-``BuildingSpec``.  Every fallback is deterministic and its provenance is counted so the tile
-manifest and the stage report can state exactly how much of the output is real.
+Reads a per-tile building table — ``data/processed/tiles/{tile}/buildings.parquet`` for New York
+City (DATA_CONTRACTS §5 + §5.2) or ``buildings_nj.parquet`` for New Jersey (``buildings_nj/1``,
+borough 6) — resolves the columns that later stages own but may not have written yet, and hands
+``shellgeom`` a list of ``BuildingSpec``.  Every fallback is deterministic and its provenance is
+counted so the tile manifest and the stage report can state exactly how much of the output is real.
 
 Resolution chains
 -----------------
@@ -246,19 +247,32 @@ def tile_origin(tile: str) -> tuple[float, float]:
     return float(int(tx)) * 1000.0, float(int(ty)) * 1000.0
 
 
-def tile_path(tile: str) -> Path:
-    return TILES_DIR / tile / "buildings.parquet"
+# Per-tile building tables.  ``buildings.parquet`` is the New York City table (DATA_CONTRACTS §5);
+# ``buildings_nj.parquet`` is the New Jersey table written by ``buildings/nj_tiles.py``
+# (``nycsim.schema = buildings_nj/1``, borough 6).  They live side by side because nine tiles carry
+# both, and they are never merged: a New Jersey row has no BIN, no PLUTO class and no CityGML roof.
+TABLE_NYC = "buildings.parquet"
+TABLE_NJ = "buildings_nj.parquet"
+
+# Passed as ``roof_attrs`` for a table whose ``bin`` column is not a New York City BIN, so the
+# ADR-013 roof attributes are never joined across datasets on a numerically colliding key.
+EMPTY_ROOF_ATTRS = pd.DataFrame({"bin": pd.Series([], dtype="int64"),
+                                 "roof_type": pd.Series([], dtype="float64")}).set_index("bin")
 
 
-def available_tiles() -> list[str]:
-    return sorted(p.parent.name for p in TILES_DIR.glob("*/buildings.parquet"))
+def tile_path(tile: str, filename: str = TABLE_NYC) -> Path:
+    return TILES_DIR / tile / filename
+
+
+def available_tiles(filename: str = TABLE_NYC) -> list[str]:
+    return sorted(p.parent.name for p in TILES_DIR.glob(f"*/{filename}"))
 
 
 MAX_CITYGML_DZ_M = 3.0        # CityGML z_roof_max vs the contract roof_z; beyond this it is a different building
 
 
 def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: str = "clamp",
-              min_height: float = 1.0, roof_steps: str = "auto") -> TileLoad:
+              min_height: float = 1.0, roof_steps: str = "auto", filename: str = TABLE_NYC) -> TileLoad:
     """Load one tile and resolve every geometry input.  ``ridge_mode``:
 
     ``clamp``   (default) the pitched ridge sits at ``roof_z`` and the eave below it, so the mesh
@@ -270,7 +284,7 @@ def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: 
     triangles (see ``roofsteps``) and cuts the footprint into one region per level; ``off`` builds
     every building at a single height.
     """
-    path = tile_path(tile)
+    path = tile_path(tile, filename)
     if not path.exists():
         raise FileNotFoundError(path)
     df = pd.read_parquet(path)

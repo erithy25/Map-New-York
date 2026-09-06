@@ -3,6 +3,7 @@
 
     python3 blender/buildings/build_tile.py --tile t_-4_5
     python3 blender/buildings/build_tile.py --all --workers 2 --lod 0,1,2
+    python3 blender/buildings/build_tile.py --source nj --all --workers 2
 
 Output per tile (DATA_CONTRACTS §13, ARCHITECTURE §4.3):
 
@@ -14,6 +15,12 @@ Output per tile (DATA_CONTRACTS §13, ARCHITECTURE §4.3):
   attributes listed in ``ATTR_NAMES`` below.
 * ``blender_out/tiles/{tile}/manifest.json`` — counts, triangles, bounds, materials, provenance
   of every inferred attribute, and generation time.
+
+``--source nj`` runs the identical path over ``buildings_nj.parquet`` (the New Jersey shoreline of
+ARCHITECTURE §3/§5, borough 6) and writes ``tile_buildings_nj.glb`` + ``manifest_nj.json`` beside
+the New York files, so neither dataset can overwrite the other and a consumer can load one, the
+other or both.  New Jersey shells carry the same LOD chain, UVs and vertex attributes; what differs
+is the fidelity of their input, which ``buildings_nj/1`` states per row.
 
 Reading the attributes in Unreal
 --------------------------------
@@ -59,6 +66,20 @@ LOG = logging.getLogger("nycsim.buildings.build_tile")
 
 OUT_ROOT = Path(os.environ.get("NYCSIM_BLENDER_OUT", REPO_ROOT / "blender_out")) / "tiles"
 SCHEMA_VERSION = 1
+
+# The two per-tile building tables and the sibling files they produce.  New Jersey is a second,
+# lower-fidelity dataset (ARCHITECTURE §5: skyline, not a drivable borough) written by
+# ``pipeline/nycsim_pipeline/buildings/nj_tiles.py``.  It is built through exactly this path so the
+# shells get the same cleaning, LOD chain, UVs and vertex attributes, but into its own ``.glb`` and
+# its own manifest so a New Jersey run can never overwrite a New York one.  Its ``bin`` column is a
+# USA Structures BUILD_ID, so the ADR-013 roof attributes (keyed by real BIN) are not joined to it,
+# and it has no CityGML massing, so roof-step recovery is off.
+SOURCES = {
+    "nyc": {"table": td.TABLE_NYC, "glb": "tile_buildings.glb", "manifest": "manifest.json",
+            "stage": "buildings_mesh", "roof_steps": None, "roof_attrs": "adr013"},
+    "nj": {"table": td.TABLE_NJ, "glb": "tile_buildings_nj.glb", "manifest": "manifest_nj.json",
+           "stage": "buildings_nj_mesh", "roof_steps": "off", "roof_attrs": "none"},
+}
 
 ATTR_NAMES = ("_bin", "_facade_class", "_floors", "_floor_height", "_ground_floor_height",
               "_is_storefront", "_lit_seed_hi", "_lit_seed_lo")
@@ -227,15 +248,22 @@ def export_glb(path: Path, objects, extras: dict, *, export_normals: bool = Fals
 
 # --------------------------------------------------------------------------- per-tile driver
 def build_tile(tile: str, *, out_root: Path = OUT_ROOT, lods=(0, 1, 2), attrs_mode: str = "full",
-               ridge_mode: str = "clamp", roof_attrs=None, roof_steps: str = "auto") -> dict:
+               ridge_mode: str = "clamp", roof_attrs=None, roof_steps: str = "auto",
+               source: str = "nyc") -> dict:
     import nycsim_bpy as nb
 
+    src = SOURCES[source]
+    if src["roof_steps"] is not None:
+        roof_steps = src["roof_steps"]
+    if src["roof_attrs"] == "none":
+        roof_attrs = td.EMPTY_ROOF_ATTRS
     t0 = time.perf_counter()
     if attrs_mode == "full":
         attrs_by_lod = {lod: list(ATTR_BY_LOD[lod]) for lod in lods}
     else:
         attrs_by_lod = {lod: list(ATTR_MIN) for lod in lods}
-    load = td.load_tile(tile, roof_attrs=roof_attrs, ridge_mode=ridge_mode, roof_steps=roof_steps)
+    load = td.load_tile(tile, roof_attrs=roof_attrs, ridge_mode=ridge_mode, roof_steps=roof_steps,
+                        filename=src["table"])
     t_load = time.perf_counter() - t0
 
     t1 = time.perf_counter()
@@ -253,7 +281,8 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, lods=(0, 1, 2), attrs_mo
     for (lod, m), bucket in sorted(buckets.items()):
         pos, tri, uv, att = bucket.finish()
         mname = td.material_name(m)
-        name = f"{tile}_{mname}" + ("" if lod == 0 else f"_LOD{lod}")
+        prefix = tile if source == "nyc" else f"{tile}_nj"
+        name = f"{prefix}_{mname}" + ("" if lod == 0 else f"_LOD{lod}")
         ob = _make_object(name, pos, tri, uv, att, attrs_by_lod[lod], mname,
                           {"tile": tile, "lod": lod, "material": mname, "material_index": int(m),
                            "origin_m": [load.x0, load.y0, 0.0]})
@@ -270,11 +299,12 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, lods=(0, 1, 2), attrs_mo
     t_mesh = time.perf_counter() - t2
 
     out_dir = Path(out_root) / tile
-    glb = out_dir / "tile_buildings.glb"
+    glb = out_dir / src["glb"]
     t3 = time.perf_counter()
     if objects:
         export_glb(glb, objects, {
-            "stage": "buildings", "tile": tile, "origin_m": [load.x0, load.y0, 0.0],
+            "stage": src["stage"], "source": source, "table": src["table"],
+            "tile": tile, "origin_m": [load.x0, load.y0, 0.0],
             "crs": "NYC_TM", "vertical_datum": "NAVD88 metres",
             "lods": sorted(lods), "lod_suffix": {"0": "", "1": "_LOD1", "2": "_LOD2"},
             "attributes": {str(k): v for k, v in attrs_by_lod.items()},
@@ -300,7 +330,9 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, lods=(0, 1, 2), attrs_mo
     total = time.perf_counter() - t0
     manifest = {
         "schema_version": SCHEMA_VERSION,
-        "stage": "buildings_mesh",
+        "stage": src["stage"],
+        "source": source,
+        "table": src["table"],
         "tile": tile,
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "git_commit": nb.git_commit(),
@@ -329,7 +361,7 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, lods=(0, 1, 2), attrs_mo
         "seconds": {"total": round(total, 3), "load": round(t_load, 3), "geometry": round(t_geom, 3),
                     "mesh": round(t_mesh, 3), "export": round(t_export, 3)},
     }
-    td.write_json(out_dir / "manifest.json", manifest)
+    td.write_json(out_dir / src["manifest"], manifest)
     return manifest
 
 
@@ -379,18 +411,19 @@ def _parse_lods(s: str) -> tuple[int, ...]:
 
 
 def run_serial(tiles: list[str], args) -> int:
-    roof_attrs = td.load_roof_attrs()
+    src = SOURCES[args.source]
+    roof_attrs = td.load_roof_attrs() if src["roof_attrs"] == "adr013" else td.EMPTY_ROOF_ATTRS
     ok = 0
     for i, tile in enumerate(tiles, 1):
-        out = Path(args.out) / tile / "tile_buildings.glb"
-        if args.skip_existing and out.exists() and (out.parent / "manifest.json").exists():
+        out = Path(args.out) / tile / src["glb"]
+        if args.skip_existing and out.exists() and (out.parent / src["manifest"]).exists():
             print(f"[{i}/{len(tiles)}] {tile} skipped (exists)", flush=True)
             ok += 1
             continue
         try:
             m = build_tile(tile, out_root=Path(args.out), lods=args.lod, attrs_mode=args.attrs,
                            ridge_mode=args.ridge_mode, roof_attrs=roof_attrs,
-                           roof_steps=args.roof_steps)
+                           roof_steps=args.roof_steps, source=args.source)
         except Exception as exc:
             LOG.exception("tile %s failed", tile)
             print(f"[{i}/{len(tiles)}] {tile} FAILED: {exc}", flush=True)
@@ -418,7 +451,8 @@ def run_parallel(tiles: list[str], args) -> int:
         cmd = ["nice", "-n", str(args.nice), sys.executable, str(Path(__file__).resolve()),
                "--tile-list", str(listfile), "--out", str(args.out),
                "--lod", ",".join(str(v) for v in args.lod), "--attrs", args.attrs,
-               "--ridge-mode", args.ridge_mode, "--roof-steps", args.roof_steps]
+               "--ridge-mode", args.ridge_mode, "--roof-steps", args.roof_steps,
+               "--source", args.source]
         if args.skip_existing:
             cmd.append("--skip-existing")
         log = open(logdir / f"worker{i}.log", "w")
@@ -450,6 +484,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--roof-steps", choices=("auto", "off"), default="auto",
                     help="auto: recover the real multi-level massing from the CityGML LOD2 roof "
                          "triangles and build the steps; off: one height per building")
+    ap.add_argument("--source", choices=tuple(SOURCES), default="nyc",
+                    help="which per-tile building table to build: nyc = buildings.parquet -> "
+                         "tile_buildings.glb; nj = buildings_nj.parquet -> tile_buildings_nj.glb")
     ap.add_argument("--skip-existing", action="store_true")
     ap.add_argument("--limit", type=int, default=0, help="process at most N tiles (debugging)")
     ap.add_argument("-v", "--verbose", action="store_true")
@@ -464,7 +501,7 @@ def main(argv: list[str] | None = None) -> int:
     elif args.tile_list:
         tiles = [t.strip() for t in Path(args.tile_list).read_text().split("\n") if t.strip()]
     else:
-        tiles = td.available_tiles()
+        tiles = td.available_tiles(SOURCES[args.source]["table"])
     if args.limit:
         tiles = tiles[: args.limit]
     if not tiles:

@@ -79,6 +79,7 @@ SRC_NEIGHBOURS = 2       # median of the 10 nearest buildings with a real value
 SRC_FOOTPRINT_YEAR = 0   # year from footprint construction_year
 SRC_HEIGHT_TO_FLOORS = 2 # floors from height / class floor height
 SRC_BSIN = 3             # ground from Building Elevation & Subgrade z_grade
+SRC_TERRAIN = 4          # ground sampled from the published terrain surface (terrain/segment_z.sample_z)
 SRC_NONE = -1
 
 # Facade heading methods.
