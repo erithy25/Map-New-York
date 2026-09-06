@@ -1,6 +1,6 @@
 # Brooklyn Bridge
 
-Script: `blender/landmarks/b_brooklyn_bridge.py` · agent B · generated 2026-09-06 13:25 UTC
+Script: `blender/landmarks/b_brooklyn_bridge.py` · agent B · generated 2026-09-06 13:31 UTC
 
 ## Placement
 
@@ -44,6 +44,25 @@ measured span between tower_bk and tower_mn: 486.49 m vs published 486.30 m (+0.
   motor lanes plus (since 2021) a two-way protected bike lane on the innermost Manhattan-bound lane; the model marks
   six lanes and does not distinguish the bike lane (stated gap).
 
+## Verification renders
+
+Four verification renders, each framed and lit to answer one question.
+
+    1. ``dumbo_main_street_park`` — street level in Brooklyn Bridge Park at the foot of Main Street, the canonical
+       DUMBO view of *this* bridge.  (The famous Washington Street shot, whose real photographic viewpoint is
+       recorded in ``docs/verification/reference/dumbo_washington_st_manhattan_bridge/meta.json`` — camera
+       40.7033 N, 73.98958 W, azimuth 355.6 deg — frames the **Manhattan** Bridge, and is rendered on that model.)
+       Question: does the bridge read correctly at street level and eye height, at the right size and distance?
+    2. ``tower_three_quarter`` — the Brooklyn tower from the river, close enough that the whole 84.3 m tower fills
+       the frame, with the sun 35 deg up and roughly 60 deg off the tower's face so the 3.0 m string courses, the
+       arch reveals and the batter all cast shadow.  Question: are the two pointed arches, the tower's plan and its
+       height right, and does the deck pass through the arches at the right level?
+    3. ``promenade`` — deck level on the promenade looking at the Brooklyn tower.  Question: is the promenade
+       5.49 m above the roadway, does it split around the centre pier and pass through both arches, and do the
+       four cables and the diagonal stay fan converge correctly?
+    4. ``elevation_both_towers`` — a long lens from the river with **both** towers and both approaches in frame.
+       Question: is the 486.3 m main span, the 39.0 m cable sag, the suspender rhythm and the deck crest right?
+
 ## Not modelled
 
 the caissons and their timber, the individual cable wrapping wires and cable bands, the granite coursing
@@ -53,5 +72,5 @@ roadway (only the four trusses that show above the deck are built).
 
 ## Polycounts / outputs
 
-* `blender_out/landmarks/b_brooklyn_bridge.glb` — 120,912 triangles, 5.67 MB, bounds min ['-703.3', '-603.6', '-13.0'] max ['577.8', '734.8', '85.0']
+* `blender_out/landmarks/b_brooklyn_bridge.glb` — 121,824 triangles, 5.72 MB, bounds min ['-703.3', '-603.6', '-13.0'] max ['577.8', '734.8', '85.0']
 * `blender_out/landmarks/b_brooklyn_bridge_lod1.glb` — 33,496 triangles, 1.40 MB, bounds min ['-703.3', '-603.6', '-13.0'] max ['577.8', '734.8', '85.0']

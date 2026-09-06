@@ -90,11 +90,11 @@ def _cycles_budget() -> None:
     overrides device / samples / denoising."""
     c = bpy.context.scene.cycles
     c.use_adaptive_sampling = True
-    c.adaptive_threshold = 0.03
-    c.max_bounces = 6
+    c.adaptive_threshold = 0.01
+    c.max_bounces = 12
     c.diffuse_bounces = 2
     c.glossy_bounces = 2
-    c.transmission_bounces = 6
+    c.transmission_bounces = 8
     # kit glazing is alpha-blended *and* transmissive and the panes stack (outer sash, inner sash, interior card),
     # so a low transparent limit terminates rays early and salts the glass with black samples
     c.transparent_max_bounces = 24

@@ -6720,33 +6720,33 @@
   },
   "landmark_b_brooklyn_bridge_lod0": {
    "artifact_id": "landmark_b_brooklyn_bridge_lod0",
-   "bytes": 5672704,
-   "git_commit": "f97cecf39726",
+   "bytes": 5720484,
+   "git_commit": "e1034ccf726a",
    "landmark_id": "b_brooklyn_bridge",
    "lod": 0,
    "path": "blender_out/landmarks/b_brooklyn_bridge.glb",
-   "produced_at": "2026-09-06T13:25:34Z",
+   "produced_at": "2026-09-06T13:31:54Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "901f9bdf2590cc73f0ec938d88d547aed40c08541bda4f4b35a96c433865c6a7",
+   "sha256": "a176e153b33f8d989cff9aced47a724ffa21e0370f8333e11ed094ecfd3e3969",
    "sources": [
     "osm_bbbike",
     "published_brooklyn_bridge"
    ],
    "stage": "landmarks_b",
-   "triangles": 120912
+   "triangles": 121824
   },
   "landmark_b_brooklyn_bridge_lod1": {
    "artifact_id": "landmark_b_brooklyn_bridge_lod1",
    "bytes": 1399044,
-   "git_commit": "f97cecf39726",
+   "git_commit": "e1034ccf726a",
    "landmark_id": "b_brooklyn_bridge",
    "lod": 1,
    "path": "blender_out/landmarks/b_brooklyn_bridge_lod1.glb",
-   "produced_at": "2026-09-06T13:25:35Z",
+   "produced_at": "2026-09-06T13:31:57Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "e9bca003e43583915fb4659abb06fa351d10fa53f68790844a4941bbf5ba3bff",
+   "sha256": "3ee4bebdafab60795c1bc11eed189e250eea4bda1237437cb60f7c1117c9fa66",
    "sources": [
     "osm_bbbike",
     "published_brooklyn_bridge"
@@ -11620,9 +11620,9 @@
   "tiles_index": {
    "artifact_id": "tiles_index",
    "bytes": 46971,
-   "git_commit": "38976a48e050",
+   "git_commit": "e1034ccf726a",
    "path": "data/processed/tiles/index.parquet",
-   "produced_at": "2026-09-06T13:20:45Z",
+   "produced_at": "2026-09-06T13:31:50Z",
    "rows": 2916,
    "schema": "tiles.index/1",
    "sha256": "c8835581305ef2743d2892c9db9b5698ed80c5a17bb0c3c4bcef92bc91798b20",
