@@ -165,22 +165,38 @@ def _material_from_facade_class(classes_by_id: dict[int, dict[str, Any]], fc: in
 
 
 # --------------------------------------------------------------------------- roof rules
-def _roof_from_class(bldg_class: str, feature_code: int, floors: int, area: float,
-                     short_side: float) -> tuple[int, float]:
-    """PLUTO class → roof kind for the case where no roof source exists at all.
+# ADR-013 §3: the roof-shape inference fires only for detached one/two-family stock.  Reproduced
+# here verbatim so a tile still gets the right roofs before buildings/roof_attrs.parquet lands, and
+# so the two stages cannot drift apart.
+ADR013_CLASSES = tuple(f"A{d}" for d in range(10)) + ("B1", "B2", "B3", "B9", "R1", "R3")
+ADR013_MAX_FRONTAGE_RATIO = 0.80
+ADR013_MAX_SHORT_SIDE_M = 14.0
+ADR013_MAX_FLOORS = 3
+ADR013_MAX_AREA_M2 = 400.0
+ADR013_PITCH_DEG = 30.0
 
-    Deliberately conservative and aligned with ADR-013 §3: only detached one/two-family stock on a
-    small footprint gets a pitch; everything else stays flat.
+
+def _roof_from_class(bldg_class: str, feature_code: int, floors: int, area: float,
+                     short_side: float, bldg_frontage: float, lot_frontage: float) -> tuple[int, float]:
+    """PLUTO class → roof kind when no roof source exists (ADR-013 §3/§4 reproduced).
+
+    Only detached one/two-family stock with a side yard gets a pitch, and it is always a gable with
+    the ridge on the long axis, because gable-vs-hip is not decidable from these attributes.
     """
     c = (bldg_class or "").upper()
     if feature_code == FC_GARAGE:
         return sg.ROOF_FLAT, 0.0
-    if c[:1] == "M":                                    # houses of worship
+    if c[:1] == "M":                                    # houses of worship: pitched by typology
         return sg.ROOF_GABLE, sg.STEEP_SLOPE_DEG
-    if c[:1] in ("A", "B") or c[:2] in ("R1", "R3", "C0"):
-        if floors <= 3 and area <= 400.0 and short_side <= 14.0:
-            return sg.ROOF_GABLE, sg.GABLE_SLOPE_DEG
-    return sg.ROOF_FLAT, 0.0
+    if c[:2] not in ADR013_CLASSES:
+        return sg.ROOF_FLAT, 0.0
+    if floors > ADR013_MAX_FLOORS or area > ADR013_MAX_AREA_M2 or short_side > ADR013_MAX_SHORT_SIDE_M:
+        return sg.ROOF_FLAT, 0.0
+    if not (math.isfinite(bldg_frontage) and math.isfinite(lot_frontage) and lot_frontage > 0.0):
+        return sg.ROOF_FLAT, 0.0                        # no frontage evidence -> stay flat
+    if bldg_frontage / lot_frontage >= ADR013_MAX_FRONTAGE_RATIO:
+        return sg.ROOF_FLAT, 0.0                        # party walls: attached rowhouse, flat roof
+    return sg.ROOF_GABLE, ADR013_PITCH_DEG
 
 
 # --------------------------------------------------------------------------- roof_attrs side-load
@@ -291,6 +307,8 @@ def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: 
     head = df["primary_facade_heading"].to_numpy(dtype=np.float64)
     fcode = df["feature_code"].to_numpy(dtype=np.int32) if "feature_code" in have else np.full(len(df), 2100)
     area_col = df["footprint_area"].to_numpy(dtype=np.float64) if "footprint_area" in have else None
+    bfront = df["bldg_frontage"].to_numpy(dtype=np.float64) if "bldg_frontage" in have else None
+    lfront = df["lot_frontage"].to_numpy(dtype=np.float64) if "lot_frontage" in have else None
 
     specs: list[sg.BuildingSpec] = []
     df_index: list[int] = []
@@ -311,7 +329,8 @@ def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: 
         # ---- roof
         kind, slope, rsource = _resolve_roof(i, col_roof, col_slope, ra_type, ra_slope, ra_src,
                                              col_fc, classes, cls[i], int(fcode[i]),
-                                             int(floors[i]), parts[0])
+                                             int(floors[i]), parts[0],
+                                             _f(bfront, i), _f(lfront, i))
         # ---- material
         mat_wall, msource = _resolve_material(i, col_mat, col_fc, classes, cls[i], int(year[i]),
                                               int(boro[i]), int(floors[i]), z1 - z0)
@@ -357,8 +376,17 @@ def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: 
                     {"roof": src_roof, "material": src_mat}, mats_used, df_index)
 
 
+def _f(arr, i) -> float:
+    if arr is None:
+        return float("nan")
+    try:
+        return float(arr[i])
+    except (TypeError, ValueError):
+        return float("nan")
+
+
 def _resolve_roof(i, col_roof, col_slope, ra_type, ra_slope, ra_src, col_fc, classes,
-                  bldg_class, feature_code, floors, poly) -> tuple[int, float, str]:
+                  bldg_class, feature_code, floors, poly, bldg_frontage, lot_frontage) -> tuple[int, float, str]:
     slope = sg.GABLE_SLOPE_DEG
     if col_roof is not None:
         v = col_roof[i]
@@ -392,7 +420,8 @@ def _resolve_roof(i, col_roof, col_slope, ra_type, ra_slope, ra_src, col_fc, cla
                     slope = sg.STEEP_SLOPE_DEG
                 return kind, slope, "facade_class"
     short = _short_side(poly)
-    kind, s = _roof_from_class(bldg_class, feature_code, floors, float(poly.area), short)
+    kind, s = _roof_from_class(bldg_class, feature_code, floors, float(poly.area), short,
+                               bldg_frontage, lot_frontage)
     return kind, (s or slope), ("bldg_class" if kind != sg.ROOF_FLAT else "default_flat")
 
 

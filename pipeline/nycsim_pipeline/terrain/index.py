@@ -185,6 +185,12 @@ def build_table(tiles: list[Tile], terrain: dict[str, dict], previous: pa.Table 
         "has_land": pa.array(hland, pa.bool_()),
         "z_min": pa.array(zmin, pa.float32()), "z_max": pa.array(zmax, pa.float32()),
     })
+    # never drop a column another stage added: carry extras across, aligned by tile
+    if previous is not None:
+        extras = [c for c in previous.schema.names if c not in tbl.schema.names]
+        for c in extras:
+            vals = [prev.get(n, {}).get(c) for n in names]
+            tbl = tbl.append_column(c, pa.array(vals, previous.schema.field(c).type))
     return tbl.replace_schema_metadata({b"nycsim.schema": SCHEMA.encode(),
                                         b"nycsim.borough_codes": json.dumps(CODE_ENUM).encode(),
                                         b"nycsim.terrain_columns": json.dumps(list(TERRAIN_COLS)).encode()})

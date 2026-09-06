@@ -133,6 +133,53 @@ def gauge_speedo(name: str = "gauge_speedo_160mph", *, max_mph: int = 160, w: in
     return save(img, name)
 
 
+def gauge_tach(name: str = "gauge_tach_7000rpm", *, max_rpm: int = 7000, redline_rpm: int = 6000,
+              w: int = 1024, hybrid: bool = False) -> Path:
+    """Tachometer (or, with ``hybrid=True``, the Fusion Hybrid's CHG/ECO/PWR power-flow dial) face for the
+    ``GAUGE_RPM`` slot. 240 degree sweep matching :func:`gauge_speedo`; the needle is a separate mesh."""
+    img = Image.new("RGB", (w, w), (0, 0, 0))
+    d = ImageDraw.Draw(img)
+    c = w / 2
+    R = w * 0.47
+    d.ellipse([c - R, c - R, c + R, c + R], fill=(8, 8, 9), outline=(40, 40, 42), width=3)
+    sweep, start = 240.0, 210.0
+
+    def polar(r: float, ang_deg: float) -> tuple[float, float]:
+        a = math.radians(ang_deg)
+        return (c + r * math.cos(a), c - r * math.sin(a))
+
+    if hybrid:
+        zones = [(0.00, 0.34, (40, 120, 200), "CHG"), (0.34, 0.72, (60, 170, 90), "ECO"), (0.72, 1.00, (210, 150, 40), "PWR")]
+        for f0, f1, col, label in zones:
+            a0 = start - sweep * f0
+            a1 = start - sweep * f1
+            d.arc([c - R * 0.90, c - R * 0.90, c + R * 0.90, c + R * 0.90], start=-a0, end=-a1, fill=col, width=int(w * 0.035))
+            x, y = polar(R * 0.66, (a0 + a1) / 2)
+            text_fit(d, (x, y), label, height_px=w * 0.045, fill=col, font_path=FONT_SANS_BOLD)
+        for k in range(0, 21):
+            ang = start - sweep * k / 20
+            major = k % 5 == 0
+            d.line([polar(R * (0.78 if major else 0.84), ang), polar(R * 0.93, ang)],
+                   fill=(235, 235, 235), width=6 if major else 3)
+        text_fit(d, (c, c + R * 0.30), "POWER", height_px=w * 0.032, fill=(200, 200, 200))
+    else:
+        step = 500
+        for rpm in range(0, max_rpm + 1, step):
+            frac = rpm / max_rpm
+            ang = start - sweep * frac
+            major = rpm % 1000 == 0
+            col = (230, 40, 30) if rpm >= redline_rpm else (235, 235, 235)
+            d.line([polar(R * (0.80 if major else 0.87), ang), polar(R * 0.93, ang)], fill=col, width=6 if major else 3)
+            if major:
+                x, y = polar(R * 0.68, ang)
+                text_fit(d, (x, y), str(rpm // 1000), height_px=w * 0.075, fill=col, font_path=FONT_SANS_BOLD)
+        d.arc([c - R * 0.965, c - R * 0.965, c + R * 0.965, c + R * 0.965],
+              start=-(start - sweep * redline_rpm / max_rpm), end=-(start - sweep), fill=(200, 30, 25), width=int(w * 0.022))
+        text_fit(d, (c, c + R * 0.28), "x1000 r/min", height_px=w * 0.030, fill=(200, 200, 200), font_path=FONT_SANS)
+    d.ellipse([c - w * 0.03, c - w * 0.03, c + w * 0.03, c + w * 0.03], fill=(30, 30, 30))
+    return save(img, name)
+
+
 def cluster_lcd(name: str, *, w: int = 768, h: int = 512, title: str = "EV / HYBRID", accent: RGB = (80, 200, 255),
                 bars: int = 12) -> Path:
     """Generic in-cluster LCD default image (the runtime redraws the slot). Dark UI, one arc meter, labels."""

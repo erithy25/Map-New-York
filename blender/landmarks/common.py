@@ -332,15 +332,19 @@ class LocalFrame:
             out[:, 2] = a[:, 2] + self.origin[2]
         return out[0] if one else out
 
-    def local_polygon(self, poly: Polygon) -> Polygon:
-        ext = self.to_local(np.asarray(poly.exterior.coords)[:, :2])
-        holes = [self.to_local(np.asarray(h.coords)[:, :2]) for h in poly.interiors]
+    def _map_polygon(self, poly, fn):
+        if isinstance(poly, MultiPolygon):
+            return MultiPolygon([self._map_polygon(p, fn) for p in poly.geoms])
+        ext = fn(np.asarray(poly.exterior.coords)[:, :2])
+        holes = [fn(np.asarray(h.coords)[:, :2]) for h in poly.interiors]
         return _orient(Polygon(ext, holes), 1.0)
 
-    def world_polygon(self, poly: Polygon) -> Polygon:
-        ext = self.to_world(np.asarray(poly.exterior.coords)[:, :2])
-        holes = [self.to_world(np.asarray(h.coords)[:, :2]) for h in poly.interiors]
-        return _orient(Polygon(ext, holes), 1.0)
+    def local_polygon(self, poly: Polygon | MultiPolygon) -> Polygon | MultiPolygon:
+        """NYC_TM (Multi)Polygon -> local frame (CCW, holes kept)."""
+        return self._map_polygon(poly, self.to_local)
+
+    def world_polygon(self, poly: Polygon | MultiPolygon) -> Polygon | MultiPolygon:
+        return self._map_polygon(poly, self.to_world)
 
 
 def principal_angle_deg(poly: Polygon) -> float:

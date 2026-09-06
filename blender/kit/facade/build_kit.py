@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import logging
 import sys
 import time
@@ -77,7 +78,9 @@ def main(argv: list[str] | None = None) -> int:
         K.unlink_all_pieces()
 
     over = [r for r in rows if not r["polycount"]["within_budget"]]
-    bad_lod = [r for r in rows if r["polycount"]["lod1_ratio"] > 0.25]
+    # a mesh of n triangles cannot have an LOD below 2 triangles, so the ratio rule is
+    # lod1 <= max(2, 25 % of LOD0) — binding for every piece above 8 triangles.
+    bad_lod = [r for r in rows if r["polycount"]["lod1_triangles"] > max(2, math.ceil(0.25 * r["polycount"]["lod0_triangles"]))]
     bad_size = [r for r in rows if max((abs(m - nm) / nm if nm > 0 else 0.0)
                                        for m, nm in zip(r["measured_size_m"], r["nominal_size_m"])) > 0.05]
     print(f"\n{len(rows)} pieces in {time.time() - t0:.0f} s"

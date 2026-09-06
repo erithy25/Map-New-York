@@ -784,23 +784,32 @@ def finish(objects: Sequence[bpy.types.Object], landmark_id: str, bins: Sequence
 
 
 def render_check(landmark_id: str, view: str, camera_location, camera_target, *, fov_deg: float = 50.0, size=(1280, 720), samples: int = 64,
-                 sun_azimuth_deg: float = 220.0, sun_elevation_deg: float = 35.0, context_planes: Sequence[tuple[str, float, float]] = ()) -> Path:
-    """Cycles CPU verification render into docs/verification/landmarks/<id>/<view>.png.  ``context_planes`` adds
-    (material, z, half-size) ground/water planes for legibility; they are removed afterwards."""
+                 sun_azimuth_deg: float = 220.0, sun_elevation_deg: float = 35.0, sun_strength: float = 2.0, exposure: float = -1.6,
+                 context_planes: Sequence[Sequence] = ()) -> Path:
+    """Cycles CPU verification render into docs/verification/landmarks/<id>/<view>.png.
+
+    ``context_planes`` adds ``(material, z, half_size)`` or ``(material, z, half_size, (cx, cy))`` ground/water planes so
+    that a bridge or a monument is not floating in the void; they are removed afterwards.  ``sun_strength`` (W/m2) and
+    ``exposure`` (EV, applied to the AgX view transform) keep the exposure sane — Blender's 4 W/m2 default blows the
+    highlights out to white through AgX and hides every material.
+    """
     fn = _shared("render_check", ("landmark_id", "view"))
     out_dir = VERIFY / landmark_id
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / f"{view}.png"
     tmp = []
-    for i, (m, z, half) in enumerate(context_planes):
-        tmp.append(ground_plane(f"_ctx_{i}", half, z, m))
+    for i, spec in enumerate(context_planes):
+        m, z, half = spec[0], spec[1], spec[2]
+        centre = spec[3] if len(spec) > 3 else (0.0, 0.0)
+        tmp.append(ground_plane(f"_ctx_{i}", half, z, m, centre))
+    bpy.context.scene.view_settings.exposure = exposure
     try:
         if fn is not None:
             res = fn(landmark_id, view, camera_location, camera_target, fov_deg=fov_deg, size=size, samples=samples)
             if isinstance(res, (str, Path)) and Path(res).exists():
                 return Path(res)
         nb.quick_render(path, camera_location=camera_location, camera_target=camera_target, fov_deg=fov_deg, size=size, samples=samples,
-                        sun_azimuth_deg=sun_azimuth_deg, sun_elevation_deg=sun_elevation_deg)
+                        sun_azimuth_deg=sun_azimuth_deg, sun_elevation_deg=sun_elevation_deg, sun_strength=sun_strength)
     finally:
         for o in tmp:
             bpy.data.objects.remove(o)

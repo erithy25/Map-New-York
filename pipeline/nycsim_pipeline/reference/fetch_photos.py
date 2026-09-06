@@ -181,8 +181,8 @@ AERIAL_WORDS = ["aerial", "from above", "helicopter", "drone", "from the air", "
 # insides look nothing like the outdoor view a render is compared against, and they share
 # categories ("Times Square", "Grand Central") with the views we do want.
 INDOOR_WORDS = ["interior", "inside", "subway entrance", "subway station", "subway platform", "station platform",
-                "platform", "turnstile", "mezzanine", "token booth", "escalator", "waiting room", "concourse",
-                "bmt", "irt", "ind", "staircase", "stairwell", "lobby", "hallway", "corridor", "elevator"]
+                "railway platform", "turnstile", "mezzanine", "token booth", "escalator", "waiting room", "concourse",
+                "bmt", "irt", "staircase", "stairwell", "lobby", "hallway", "corridor", "elevator"]
 # Not rejected outright (a street scene has people in it) but scored down: the subject of these
 # files is a person, not the place.
 PEOPLE_WORDS = ["tourist", "tourists", "selfie", "portrait", "cosplay", "costumed", "busker", "street performer",
@@ -549,7 +549,8 @@ CATALOGUE: list[Item] = [
         [["barclays center", "barclays centre"]],
         (40.6840, -73.9768), "north-west corner of Flatbush and Atlantic Avenues, looking south-east at the oculus entrance",
         subject=(40.6826, -73.9755), subject_name="Barclays Center", geosearch_radius_m=250, min_year=2012,
-        exclude=AERIAL_WORDS + ["interior", "inside", "arena floor", "game", "concert", "nets", "night", "construction", "rendering"]),
+        exclude=AERIAL_WORDS + ["interior", "inside", "arena floor", "game", "concert", "nets", "night", "construction", "rendering"],
+         allow=("subway entrance",)),
     _it("landmark_432_park_avenue", "432 Park Avenue (Billionaires' Row)", "landmark",
         ['"432 Park Avenue" skyscraper', '"432 Park Avenue" from Park Avenue street'],
         [["432 park"]],
@@ -935,7 +936,8 @@ CATALOGUE: list[Item] = [
          [["port authority bus terminal"]], (40.756667, -73.991111), 250.0, 120.0,
          "Ninth Avenue at West 41st Street, about 120 m west-south-west of the terminal, looking east-north-east at the Port Authority Bus Terminal",
          geosearch_radius_m=350, gps_subject_max_m=2500,
-         exclude=AERIAL_WORDS + ["interior", "gate", "concourse", "george washington bridge bus station", "newark"]),
+         exclude=AERIAL_WORDS + ["interior", "gate", "concourse", "george washington bridge bus station", "newark"],
+         allow=("concourse",)),
     _lmk("landmark_hearst_tower", "Hearst Tower",
          ['"Hearst Tower" New York diagrid', '"Hearst Tower" 300 West 57th Street'],
          [["hearst tower", "hearst building"], ["new york", "manhattan", "eighth avenue", "57th"]],
@@ -1038,14 +1040,16 @@ CATALOGUE: list[Item] = [
          (40.701409, -74.013131), 20.0, 150.0,
          "Whitehall Street at South Street, about 150 m north-north-east of the terminal, looking south-south-west at the Whitehall Terminal front",
          geosearch_radius_m=350, gps_subject_max_m=2000,
-         exclude=AERIAL_WORDS + ["interior", "waiting room", "st. george", "1905", "1950"]),
+         exclude=AERIAL_WORDS + ["interior", "waiting room", "st. george", "1905", "1950"],
+         allow=("waiting room",)),
     _lmk("landmark_st_george_ferry_terminal", "St. George Ferry Terminal",
          ['"St. George Terminal" Staten Island ferry', '"St. George Ferry Terminal" exterior Staten Island'],
          [["st. george terminal", "st george terminal", "st. george ferry", "st george ferry"]],
          (40.643333, -74.074167), 170.0, 150.0,
          "Bay Street south of the terminal, about 150 m away, looking north-north-west at the St. George Terminal front",
          geosearch_radius_m=350, gps_subject_max_m=2000,
-         exclude=AERIAL_WORDS + ["interior", "waiting room", "whitehall", "bermuda", "utah", "grenada"]),
+         exclude=AERIAL_WORDS + ["interior", "waiting room", "whitehall", "bermuda", "utah", "grenada"],
+         allow=("waiting room",)),
     _lmk("landmark_ny_state_pavilion", "New York State Pavilion",
          ['"New York State Pavilion" Flushing Meadows', '"Tent of Tomorrow" New York State Pavilion towers'],
          [["new york state pavilion", "state pavilion", "tent of tomorrow"], ["flushing meadows", "queens", "world's fair", "new york"]],
@@ -1094,7 +1098,8 @@ CATALOGUE: list[Item] = [
          [["moynihan"]], (40.751111, -73.995278), 250.0, 130.0,
          "Ninth Avenue at West 32nd Street, about 130 m west-south-west of the building, looking east-north-east at the Moynihan entrance in the Farley Post Office",
          geosearch_radius_m=350, gps_subject_max_m=2000, min_year=2021,
-         exclude=AERIAL_WORDS + ["under construction", "rendering", "penn station platform"]),
+         exclude=AERIAL_WORDS + ["under construction", "rendering", "penn station platform"],
+         allow=("concourse",)),
     _lmk("landmark_rose_center", "Rose Center for Earth and Space",
          ['"Rose Center for Earth and Space" glass cube', '"Hayden Planetarium" Rose Center exterior'],
          [["rose center", "hayden planetarium"]], (40.781536, -73.973247), 290.0, 130.0,
@@ -1137,13 +1142,15 @@ CATALOGUE: list[Item] = [
         [["roosevelt avenue", "roosevelt ave"], ["queens", "jackson heights", "woodside", "corona", "elmhurst", "flushing", "sunnyside", "74th", "82nd", "90th", "103rd"]],
         (40.7466, -73.8912), "Roosevelt Avenue at 74th Street, roadway centre under the 7 train structure, looking east",
         azimuth=75.0, geosearch_radius_m=500,
-        exclude=["night", "platform", "mezzanine", "interior", "inside", "1917", "1920"]),
+        exclude=["night", "platform", "mezzanine", "interior", "inside", "1917", "1920"],
+        allow=("bmt", "irt", "subway station", "subway entrance", "subway platform", "station platform", "mezzanine", "staircase")),
     _it("street_elevated_broadway_bushwick_j", "Elevated subway street: Broadway (Brooklyn) under the J", "streetscape",
         ['"Broadway" Bushwick elevated J train street', '"Broadway" Brooklyn elevated BMT Jamaica Line street level'],
         [["broadway"], ["bushwick", "bedford", "brooklyn", "jamaica line", "myrtle", "kosciuszko", "gates avenue", "halsey"]],
         (40.6978, -73.9355), "Broadway at Myrtle Avenue, Bushwick, roadway centre under the J/M/Z structure, looking south-east",
         azimuth=127.0, geosearch_radius_m=600,
-        exclude=["night", "platform", "mezzanine", "interior", "inside", "manhattan", "1900", "1910", "1920"]),
+        exclude=["night", "platform", "mezzanine", "interior", "inside", "manhattan", "1900", "1910", "1920"],
+        allow=("bmt", "irt", "subway station", "subway entrance", "subway platform", "station platform", "mezzanine", "staircase")),
     _it("street_midtown_avenue_rush_hour", "Midtown avenue at rush hour", "streetscape",
         ['Manhattan avenue traffic rush hour taxis', 'Midtown Manhattan street traffic taxis pedestrians avenue'],
         [["manhattan", "midtown", "avenue"], ["traffic", "rush hour", "taxis", "cabs", "crowd", "pedestrians"]],
@@ -1206,7 +1213,8 @@ CATALOGUE: list[Item] = [
         [["mta", "new york city bus", "new york city transit", "nyct"], ["bus"]],
         (40.7550, -73.9840), "Midtown street (representative; vehicle reference, viewpoint not meaningful)",
         azimuth=0.0, representative=True, want=4, min_year=2014,
-        exclude=["night", "interior", "inside", "depot", "rts", "orion", "toy", "model", "bus terminal", "greyhound", "school bus", "tour bus", "double-decker", "map", "logo"]),
+        exclude=["night", "interior", "inside", "depot", "rts", "orion", "toy", "model", "bus terminal", "greyhound", "school bus", "tour bus", "double-decker", "map", "logo"],
+         allow=("bmt", "irt")),
     _it("vehicle_nypd_car", "NYPD patrol car", "vehicle",
         ['NYPD Ford Explorer police car', 'NYPD police car Ford Police Interceptor Utility', 'NYPD patrol car street Manhattan'],
         [["nypd", "new york city police", "new york police"]],
@@ -2096,6 +2104,45 @@ def write_summary(out_root: Path, metas: list[dict[str, Any]], client: Client | 
 # CLI
 # ----------------------------------------------------------------------------------------------
 
+def revalidate(out_root: Path, items: list[Item]) -> list[str]:
+    """Drop stored items whose photos no longer pass the current selection rules.
+
+    The catalogue's keyword, exclusion and licence rules get tightened as bad matches turn up.
+    Re-running the text tests against each stored ``meta.json`` (title + description + categories,
+    the same haystack the live filter uses) finds photos accepted under looser rules; the whole
+    item directory is removed so the next resumable pass re-fetches it. Returns the slugs dropped.
+    """
+    dropped: list[str] = []
+    for item in items:
+        d = item_dir(out_root, item)
+        meta = load_meta(d)
+        if not meta:
+            continue
+        bad: list[str] = []
+        for ph in meta.get("photos", []):
+            hay = " | ".join([ph.get("title", ""), ph.get("description", ""), " | ".join(ph.get("categories", []))]).lower()
+            reason = ""
+            if not licence_ok(ph.get("license", {}).get("short_name"), ph.get("license", {}).get("template")):
+                reason = "licence"
+            elif any(has_term(hay, w) for w in NOT_PHOTO_WORDS):
+                reason = "not_photo"
+            elif any(has_term(hay, w) for w in item.exclude):
+                reason = "excluded"
+            elif not item.interior and any(has_term(hay, w) and w not in item.allow for w in INDOOR_WORDS):
+                reason = "indoor"
+            elif any(not any(has_term(hay, k) for k in group) for group in item.keywords):
+                reason = "keywords"
+            if reason:
+                bad.append(f"{ph.get('file')} ({reason}: {ph.get('title')})")
+        if bad:
+            log.info("revalidate: dropping %s -- %s", item.slug, "; ".join(bad))
+            for f in d.glob("*.jpg"):
+                f.unlink()
+            (d / "meta.json").unlink(missing_ok=True)
+            dropped.append(item.slug)
+    return dropped
+
+
 def select_items(only: list[str]) -> list[Item]:
     if not only:
         return list(CATALOGUE)
@@ -2121,6 +2168,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out", type=Path, default=OUT_ROOT)
     ap.add_argument("--list", action="store_true", help="print the catalogue and exit")
     ap.add_argument("--index-only", action="store_true", help="regenerate INDEX.md/LICENSES.md/summary.json from existing meta.json files, no network")
+    ap.add_argument("--revalidate", action="store_true",
+                    help="re-test stored photos against the current rules and re-fetch the items that now fail")
     ap.add_argument("-v", "--verbose", action="store_true")
     a = ap.parse_args(argv)
     logging.basicConfig(level=logging.DEBUG if a.verbose else logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -2137,6 +2186,9 @@ def main(argv: list[str] | None = None) -> int:
     t0 = time.monotonic()
     client: Client | None = None
     failures: list[tuple[str, str]] = []
+    if a.revalidate:
+        dropped = revalidate(a.out, items)
+        log.info("revalidate: %d item(s) dropped for re-fetch%s", len(dropped), (": " + ", ".join(dropped)) if dropped else "")
     if not a.index_only:
         client = Client(min_interval=a.min_interval)
         used: set[str] = set()

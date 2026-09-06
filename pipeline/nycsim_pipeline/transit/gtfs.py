@@ -236,9 +236,9 @@ def shape_lines(feed: Feed, shape_ids: set[str]) -> dict[str, np.ndarray]:
     df = feed.table("shapes", ["shape_id", "shape_pt_lat", "shape_pt_lon", "shape_pt_sequence"])
     df = df.with_columns([
         pl.col("shape_id").str.strip_chars(),
-        pl.col("shape_pt_lat").cast(pl.Float64, strict=False),
-        pl.col("shape_pt_lon").cast(pl.Float64, strict=False),
-        pl.col("shape_pt_sequence").cast(pl.Int64, strict=False),
+        pl.col("shape_pt_lat").str.strip_chars().cast(pl.Float64, strict=False),
+        pl.col("shape_pt_lon").str.strip_chars().cast(pl.Float64, strict=False),
+        pl.col("shape_pt_sequence").str.strip_chars().cast(pl.Int64, strict=False),
     ]).filter(pl.col("shape_id").is_in(list(shape_ids)) & pl.col("shape_pt_lat").is_finite()
               & pl.col("shape_pt_lon").is_finite())
     df = df.sort(["shape_id", "shape_pt_sequence"])

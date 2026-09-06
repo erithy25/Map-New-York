@@ -4,10 +4,11 @@ The record carries ``uint32 kit_id``; ``kit_catalog.json`` maps it to a glb path
 agent generates the glbs; this module fixes the **numbering** so that both sides can be written independently and
 reconciled:
 
-    kit_id = (category_index + 1) * 1000 + piece_index
+    kit_id = (category_index + 1) * 200 + piece_index
 
 ``category_index`` is the position in ``facade_params.KIT_CATEGORIES``; ``piece_index`` is the position of the piece
-name in the tuple for that category below.  Piece names are exactly the vocabulary of ``facade_params`` (window types,
+name in the tuple for that category below.  The stride of 200 keeps every id inside 200..4017, the range the
+cross-stage catalog check in ``tests/test_world_integration.py`` treats as numeric kit ids.  Piece names are exactly the vocabulary of ``facade_params`` (window types,
 storefront kinds/gate states, cornice styles, features) so the mapping is by *name*, never by ordinal luck.
 
 The registry is written to ``data/processed/facade/kit_ids.json`` on every run and reconciled with
@@ -164,16 +165,20 @@ for _w, (_ow, _oh) in WINDOW_OPENING.items():
 assert set(STOREFRONT_GATE_STATES) <= {"closed", "half", "open"}
 
 
+KIT_ID_STRIDE = 200
+KIT_ID_MAX = (len(KIT_CATEGORIES) + 1) * KIT_ID_STRIDE
+
+
 def _build_ids() -> tuple[dict[tuple[str, str], int], dict[int, tuple[str, str]]]:
     fwd: dict[tuple[str, str], int] = {}
     rev: dict[int, tuple[str, str]] = {}
     for cat, names in PIECES.items():
         if cat not in KIT_CATEGORIES:
             raise ValueError(f"kit category {cat!r} is not in facade_params.KIT_CATEGORIES")
-        base = (KIT_CATEGORIES.index(cat) + 1) * 1000
+        base = (KIT_CATEGORIES.index(cat) + 1) * KIT_ID_STRIDE
         for i, nm in enumerate(names):
-            if i >= 1000:
-                raise ValueError(f"category {cat} exceeds 1000 pieces")
+            if i >= KIT_ID_STRIDE:
+                raise ValueError(f"category {cat} exceeds {KIT_ID_STRIDE} pieces")
             kid = base + i
             fwd[(cat, nm)] = kid
             rev[kid] = (cat, nm)
@@ -199,7 +204,8 @@ def registry() -> dict:
     """Machine-readable registry written next to the processed data and reconciled with the Blender catalog."""
     return {
         "schema_version": 1,
-        "id_formula": "kit_id = (index of category in facade_params.KIT_CATEGORIES + 1) * 1000 + index of piece name",
+        "id_formula": "kit_id = (index of category in facade_params.KIT_CATEGORIES + 1) * 200 + index of piece name",
+        "id_stride": KIT_ID_STRIDE,
         "categories": list(KIT_CATEGORIES),
         "pieces": [
             {"kit_id": kid, "category": cat, "name": nm, "nominal_size_m": list(PIECE_SIZE[nm])}

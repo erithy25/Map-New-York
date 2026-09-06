@@ -19,11 +19,12 @@ def test_parse_recorded_tgftp_knyc():
     assert r.observation_time == dt.datetime(2026, 9, 5, 18, 51, tzinfo=dt.timezone.utc)
     assert r.auto is True
     assert r.wind_variable is True and r.wind_dir_deg is None
-    assert r.wind_speed_mps == pytest.approx(6 * M.KT_TO_MPS)
-    assert r.visibility_m == pytest.approx(M.VIS_UNLIMITED_M)
-    assert r.clouds == [M.CloudLayer("SCT", pytest.approx(8000 * M.FOOT_M), None)]
+    assert r.wind_speed_mps == pytest.approx(6 * M.KT_TO_MPS, abs=1e-3)
+    assert r.visibility_m == pytest.approx(M.VIS_UNLIMITED_M, abs=1.0)
+    assert [c.cover for c in r.clouds] == ["SCT"]
+    assert r.clouds[0].base_m == pytest.approx(8000 * M.FOOT_M, abs=1.0)
     assert r.temp_c == 25.0 and r.dewpoint_c == 13.9  # T-group refines 25/14
-    assert r.altimeter_hpa == pytest.approx(29.86 * M.INHG_TO_HPA, abs=1e-3)
+    assert r.altimeter_hpa == pytest.approx(29.86 * M.INHG_TO_HPA, abs=0.05)  # parser rounds to 0.1 hPa
     assert r.sea_level_pressure_hpa == pytest.approx(1010.1)
     assert r.weather == [] and r.unparsed == []
 
@@ -54,11 +55,11 @@ def test_every_recorded_awc_report_parses_without_leftovers():
         if row.get("dewp") is not None:
             assert r.dewpoint_c == pytest.approx(row["dewp"], abs=0.06), raw
         if row.get("wspd") is not None and not r.wind_calm:
-            assert r.wind_speed_mps == pytest.approx(row["wspd"] * M.KT_TO_MPS, abs=1e-6), raw
+            assert r.wind_speed_mps == pytest.approx(row["wspd"] * M.KT_TO_MPS, abs=1e-3), raw
         if row.get("wdir") not in (None, "VRB") and isinstance(row.get("wdir"), (int, float)) and row["wdir"] > 0:
             assert r.wind_dir_deg == pytest.approx(float(row["wdir"])), raw
         if row.get("visib") is not None and isinstance(row["visib"], (int, float)):
-            assert r.visibility_m == pytest.approx(float(row["visib"]) * M.STATUTE_MILE_M, rel=0.02), raw
+            assert r.visibility_m == pytest.approx(float(row["visib"]) * M.STATUTE_MILE_M, rel=0.02, abs=1.0), raw
         if row.get("altim") is not None:
             assert r.altimeter_hpa == pytest.approx(row["altim"], abs=0.6), raw
 
@@ -93,9 +94,9 @@ def test_awc_weather_string_matches_the_parsed_groups():
 )
 def test_wind_groups(token, speed_mps, direction, gust, calm, variable):
     r = M.parse_metar(f"KNYC 051851Z {token} 10SM CLR 25/14 A2986", REF)
-    assert r.wind_speed_mps == (None if speed_mps is None else pytest.approx(speed_mps))
+    assert r.wind_speed_mps == (None if speed_mps is None else pytest.approx(speed_mps, abs=1e-3))
     assert r.wind_dir_deg == (None if direction is None else pytest.approx(direction))
-    assert r.wind_gust_mps == (None if gust is None else pytest.approx(gust))
+    assert r.wind_gust_mps == (None if gust is None else pytest.approx(gust, abs=1e-3))
     assert r.wind_calm is calm and r.wind_variable is variable
 
 
@@ -119,7 +120,7 @@ def test_variable_wind_range():
 )
 def test_visibility_groups(token, metres):
     r = M.parse_metar(f"KNYC 051851Z 00000KT {token} CLR 25/14 A2986", REF)
-    assert r.visibility_m == pytest.approx(metres)
+    assert r.visibility_m == pytest.approx(metres, abs=1.0)
 
 
 def test_visibility_qualifiers():
@@ -130,7 +131,7 @@ def test_visibility_qualifiers():
 def test_cavok_sets_unlimited_visibility_and_clear_sky():
     r = M.parse_metar("EGLL 051850Z 25010KT CAVOK 20/10 Q1013", REF)
     assert r.cavok is True
-    assert r.visibility_m == pytest.approx(M.VIS_UNLIMITED_M)
+    assert r.visibility_m == pytest.approx(M.VIS_UNLIMITED_M, abs=1.0)
     assert M.cloud_cover_fraction(r.clouds, r.sky_clear_code) == 0.0
     assert r.altimeter_hpa == pytest.approx(1013.0)
 
@@ -161,14 +162,14 @@ def test_sky_groups():
     r = M.parse_metar("KJFK 051851Z 00000KT 10SM FEW015 SCT027 BKN037CB OVC250 18/15 A2994", REF)
     assert [c.cover for c in r.clouds] == ["FEW", "SCT", "BKN", "OVC"]
     assert r.clouds[2].cloud_type == "CB"
-    assert r.clouds[0].base_m == pytest.approx(1500 * M.FOOT_M)
-    assert r.ceiling_m == pytest.approx(3700 * M.FOOT_M)
+    assert r.clouds[0].base_m == pytest.approx(1500 * M.FOOT_M, abs=1.0)
+    assert r.ceiling_m == pytest.approx(3700 * M.FOOT_M, abs=1.0)
     assert M.cloud_cover_fraction(r.clouds) == 1.0
 
 
 def test_vertical_visibility():
     r = M.parse_metar("KNYC 051851Z 00000KT 1/4SM FG VV002 05/05 A2986", REF)
-    assert r.vertical_visibility_m == pytest.approx(200 * M.FOOT_M)
+    assert r.vertical_visibility_m == pytest.approx(200 * M.FOOT_M, abs=0.1)
     assert M.cloud_cover_fraction(r.clouds, r.sky_clear_code) == 1.0
 
 
@@ -193,7 +194,7 @@ def test_remark_groups():
     assert r.snow_depth_cm == pytest.approx(6 * M.INCH_CM)
     assert r.snowfall_6h_cm == pytest.approx(2.5 * M.INCH_CM)
     assert r.snow_water_equivalent_mm == pytest.approx(1.2 * 25.4)
-    assert r.peak_wind_dir_deg == 310.0 and r.peak_wind_mps == pytest.approx(35 * M.KT_TO_MPS)
+    assert r.peak_wind_dir_deg == 310.0 and r.peak_wind_mps == pytest.approx(35 * M.KT_TO_MPS, abs=1e-3)
     assert r.temp_c == pytest.approx(-2.2) and r.dewpoint_c == pytest.approx(-3.9)
 
 

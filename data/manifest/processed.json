@@ -5715,6 +5715,46 @@
    ],
    "stage": "citygml"
   },
+  "citygml_da12": {
+   "artifact_id": "citygml_da12",
+   "buildings_parsed": 24038,
+   "bytes": 22241123,
+   "counters": {
+    "building_placeholder_bin": 174,
+    "buildings_with_tri_dropped": 487,
+    "collinear_points_removed": 261808,
+    "dup_points_removed": 609733,
+    "duplicate_bin_rows_merged": 7,
+    "polygon_non_planar": 366,
+    "polygons_with_holes": 3,
+    "roof_face_horizontal": 77905,
+    "roof_face_sloped": 1642,
+    "roof_face_vertical": 37,
+    "roof_flipped_up": 4064,
+    "roof_type_barrel": 1,
+    "roof_type_complex": 18,
+    "roof_type_dome": 1,
+    "roof_type_flat": 24006,
+    "roof_type_gable": 1,
+    "roof_type_hip": 5,
+    "roof_type_mansard": 6,
+    "tri_dropped_f32_degenerate": 905,
+    "wall_ground_inward": 897,
+    "wall_ground_outward": 322365
+   },
+   "da": 12,
+   "elapsed_s": 362.81,
+   "git_commit": "c3d5939c05b8",
+   "path": "data/processed/buildings/citygml/da12.parquet",
+   "produced_at": "2026-09-06T11:44:09Z",
+   "rows": 24031,
+   "schema": "citygml_solids_v1",
+   "sha256": "31f806b9ae47cbaf0184bc9e9bb03f691d73aea461e1b4550e163f100d171324",
+   "sources": [
+    "doitt_3d_citygml"
+   ],
+   "stage": "citygml"
+  },
   "citygml_da13": {
    "artifact_id": "citygml_da13",
    "buildings_parsed": 23777,
@@ -6213,12 +6253,12 @@
    ],
    "bytes": 11085248,
    "footprint_iou": 1.0,
-   "git_commit": "36597370ed89",
+   "git_commit": "c3d5939c05b8",
    "path": "blender_out/landmarks/c_lipstick_building.glb",
-   "produced_at": "2026-09-06T11:41:51Z",
+   "produced_at": "2026-09-06T11:44:08Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "15a9cea445844aa3a4d949f6578a2c50f7f4e2d1e25cbc8378febcef02311b6b",
+   "sha256": "b4b5c7c49b88dfee74e17a75c738c4fa6cf462217005f5906e5ccf5923ffbd96",
    "sources": [
     "building_footprints"
    ],

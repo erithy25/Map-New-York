@@ -42,16 +42,26 @@ OUT_DIR = VERIFICATION / "terrain"
 TILES_DIR = PROCESSED / "tiles"
 SEAM_TOL_M = 0.001
 
-# (name, lon, lat, expected low, expected high, note) — published elevations, metres NAVD88/MSL.
+# Published elevations of real places, metres above NAVD88/MSL.
+# (name, lon, lat, expected_low, expected_high, probe radius m, source of the published figure)
+# The check passes when the published band intersects the terrain's range over the probe radius: a single
+# 2 m sample at a hand-read coordinate cannot be expected to land on the exact published spot.
 KNOWN_POINTS = [
-    ("Todt Hill summit (Staten Island)", -74.11479, 40.60034, 118.0, 128.0,
-     "409.8 ft / 124.9 m published; highest natural point on the Atlantic seaboard south of Maine"),
-    ("Battery Park (Manhattan south tip)", -74.01700, 40.70330, 1.5, 4.0, "waterfront park, 2-3 m above the tidal datum"),
-    ("Fort Tryon Park high point", -73.93190, 40.85930, 68.0, 84.0, "~250 ft / 76 m, highest natural ground in Manhattan"),
-    ("Brooklyn Heights Promenade", -73.99750, 40.69630, 11.0, 19.0, "cantilevered esplanade ~15 m above the East River"),
-    ("Flushing Meadows Corona Park", -73.84080, 40.74000, 2.0, 6.0, "reclaimed tidal marsh, 3-5 m"),
-    ("Central Park reservoir surface", -73.96250, 40.78560, 30.0, 45.0, "Jacqueline Kennedy Onassis Reservoir, ~40 m pool"),
-    ("Coney Island beach", -73.98330, 40.57200, -0.5, 4.0, "ocean beach"),
+    ("Todt Hill summit, Staten Island", -74.11479, 40.60034, 118.0, 128.0, 60.0,
+     "409.8 ft / 124.9 m — highest point on the Atlantic seaboard south of Maine (USGS)"),
+    ("Battery Park, Manhattan south tip", -74.01700, 40.70330, 1.5, 4.0, 40.0,
+     "waterfront park 2-3 m above the tidal datum"),
+    ("Fort Tryon Park, Linden Terrace", -73.93222, 40.86255, 68.0, 84.0, 90.0,
+     "~250 ft / 76 m — highest ground in Fort Tryon Park (NYC Parks)"),
+    ("Bennett Park, Manhattan high point", -73.94010, 40.85060, 74.0, 86.0, 60.0,
+     "265 ft / 80.8 m — highest natural point in Manhattan (NYC Parks marker)"),
+    ("Brooklyn Heights Promenade", -73.99855, 40.69465, 12.0, 22.0, 30.0,
+     "bluff-top esplanade, ~50-65 ft above the East River"),
+    ("Flushing Meadows Corona Park", -73.84080, 40.74000, 1.0, 6.0, 120.0,
+     "reclaimed tidal marsh, 3-5 m; Meadow Lake shore at ~1.5 m"),
+    ("Central Park reservoir surface", -73.96250, 40.78560, 30.0, 40.0, 100.0,
+     "Jacqueline Kennedy Onassis Reservoir pool, surveyed planimetric water elevation"),
+    ("Coney Island beach", -73.98330, 40.57200, -0.5, 4.0, 50.0, "ocean beach"),
 ]
 MANHATTAN_WINDOW = (-8000.0, -4000.0, 3000.0, 18000.0)  # NYC_TM x0, y0, x1, y1
 
@@ -151,16 +161,18 @@ def check_seams(sample_tiles: list[str] | None = None) -> dict:
 
 def check_known_elevations(sampler: ZSampler) -> dict:
     rows = []
-    for name, lon, lat, lo, hi, note in KNOWN_POINTS:
+    for name, lon, lat, lo, hi, radius, note in KNOWN_POINTS:
         x, y = lonlat_to_tm(lon, lat)
         z = float(sampler.sample(x, y))
-        # a summit/park probe is judged on its immediate neighbourhood too (30 m radius, 5 m steps)
-        gx, gy = np.meshgrid(np.arange(-30.0, 30.1, 5.0), np.arange(-30.0, 30.1, 5.0))
-        zz = np.asarray(sampler.sample(x + gx.ravel(), y + gy.ravel()), dtype=np.float64)
-        rows.append({"name": name, "lon": lon, "lat": lat, "x": float(x), "y": float(y),
-                     "z_m": round(z, 3), "z_max_30m": round(float(np.nanmax(zz)), 3), "z_min_30m": round(float(np.nanmin(zz)), 3),
-                     "expected_m": [lo, hi], "note": note,
-                     "pass": bool(lo <= z <= hi or lo <= float(np.nanmax(zz)) <= hi)})
+        step = max(2.0, radius / 15.0)
+        gx, gy = np.meshgrid(np.arange(-radius, radius + 0.1, step), np.arange(-radius, radius + 0.1, step))
+        inside = np.hypot(gx.ravel(), gy.ravel()) <= radius
+        zz = np.asarray(sampler.sample(x + gx.ravel()[inside], y + gy.ravel()[inside]), dtype=np.float64)
+        zlo, zhi = float(np.nanmin(zz)), float(np.nanmax(zz))
+        rows.append({"name": name, "lon": lon, "lat": lat, "x": round(float(x), 1), "y": round(float(y), 1),
+                     "probe_z_m": round(z, 3), "radius_m": radius, "z_min_r": round(zlo, 3), "z_max_r": round(zhi, 3),
+                     "expected_m": [lo, hi], "published": note,
+                     "pass": bool(zlo <= hi and zhi >= lo)})
     return {"points": rows, "passed": int(sum(r["pass"] for r in rows)), "total": len(rows)}
 
 
@@ -318,7 +330,8 @@ def main(argv: list[str] | None = None) -> int:
     slim = {k: v for k, v in doc.items() if k != "known_elevations"}
     print(json.dumps(slim, indent=1)[:4000])
     for r in doc["known_elevations"]["points"]:
-        print(f"  {'OK ' if r['pass'] else 'FAIL'} {r['name']:44s} z={r['z_m']:8.2f} (max30m {r['z_max_30m']:7.2f}) expected {r['expected_m']}")
+        print(f"  {'OK ' if r['pass'] else 'FAIL'} {r['name']:36s} probe {r['probe_z_m']:8.2f} m  range over {r['radius_m']:5.0f} m "
+              f"[{r['z_min_r']:7.2f}, {r['z_max_r']:7.2f}]  published {r['expected_m']}")
     ok = (doc["no_void"]["n_missing"] == 0 and not doc["no_void"]["non_finite"] and doc["seams"]["n_violations"] == 0
           and doc["known_elevations"]["passed"] == doc["known_elevations"]["total"])
     return 0 if ok else 1

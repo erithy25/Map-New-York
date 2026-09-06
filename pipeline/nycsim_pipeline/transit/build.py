@@ -123,7 +123,8 @@ def read_feed(feed: G.Feed, scratch: Path) -> FeedResult:
         stops = stops.with_columns(pl.lit("").alias("parent_station"))
     stops = stops.with_columns([
         pl.col("stop_id").str.strip_chars(), pl.col("stop_name").fill_null("").str.strip_chars(),
-        pl.col("stop_lat").cast(pl.Float64, strict=False), pl.col("stop_lon").cast(pl.Float64, strict=False),
+        pl.col("stop_lat").str.strip_chars().cast(pl.Float64, strict=False),
+        pl.col("stop_lon").str.strip_chars().cast(pl.Float64, strict=False),
         pl.col("location_type").fill_null("0").str.strip_chars(), pl.col("parent_station").fill_null("").str.strip_chars(),
     ]).filter(pl.col("stop_lat").is_finite() & pl.col("stop_lon").is_finite())
     res.stops = stops

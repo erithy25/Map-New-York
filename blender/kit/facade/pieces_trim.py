@@ -363,11 +363,22 @@ def _datestone():
     return m
 
 
-@K.register("trim_corner_bead_brick", "trim", nominal_size=(0.24, 0.24, 3.05),
-            description="Brick outside-corner return, one storey tall: two 0.115 m wythes mitred at 90 deg, for wrapping the "
-                        "kit round a building corner.",
-            features=[], budget=200)
+@K.register("trim_corner_bead_brick", "trim", nominal_size=(0.34, 0.34, 3.05),
+            description="Brick outside-corner return, one storey tall: two 0.155 m wythes mitred round a 90 deg corner with a "
+                        "chamfered arris, a granite base block and a cast-stone band at the top, for wrapping the kit round a "
+                        "building corner.",
+            features=[], budget=300)
 def _corner_bead():
     m = K.Mesh()
-    m.box((-0.120, -0.120, 0.0), (0.120, 0.120, 3.050), "red_brick", faces="yxZ")
+    a, h = 0.155, 3.050
+    ch = 0.045                                              # chamfered arris
+    m.face([(-a, -a + ch, 0.22), (-a, -a + ch, h - 0.16), (-a, a, h - 0.16), (-a, a, 0.22)], "red_brick")       # -X face
+    m.face([(-a + ch, -a, 0.22), (a, -a, 0.22), (a, -a, h - 0.16), (-a + ch, -a, h - 0.16)], "red_brick")       # -Y face
+    m.face([(-a, -a + ch, 0.22), (-a + ch, -a, 0.22), (-a + ch, -a, h - 0.16), (-a, -a + ch, h - 0.16)], "red_brick")
+    m.face([(-a, a, 0.22), (-a, a, h - 0.16), (a, a, h - 0.16), (a, a, 0.22)], "red_brick", flip=True)          # +Y back
+    m.face([(a, -a, 0.22), (a, a, 0.22), (a, a, h - 0.16), (a, -a, h - 0.16)], "red_brick", flip=True)          # +X back
+    m.box((-a - 0.030, -a - 0.030, 0.0), (a, a, 0.220), "granite")                                              # base block
+    m.box((-a - 0.020, -a - 0.020, h - 0.160), (a, a, h), "precast")                                            # band at the top
+    m.face([(-a, -a + ch, h - 0.16), (-a + ch, -a, h - 0.16), (a, -a, h - 0.16), (a, a, h - 0.16), (-a, a, h - 0.16)],
+           "red_brick")                                                                                          # top bed
     return m

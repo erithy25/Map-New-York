@@ -335,6 +335,8 @@ def run_landmark(landmark_id: str, title: str, build_fn, *, bins: Sequence[int] 
                                          size=r.get("size", (1280, 720)), samples=args["samples"],
                                          sun_azimuth_deg=r.get("sun_azimuth_deg", 220.0),
                                          sun_elevation_deg=r.get("sun_elevation_deg", 35.0),
+                                         sun_strength=r.get("sun_strength", 2.0),
+                                         exposure=r.get("exposure", -1.6),
                                          context_planes=r.get("context", ())))
     if sections:
         bc.write_report(landmark_id, title, sections, lods, shots)

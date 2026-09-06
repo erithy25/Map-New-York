@@ -99,6 +99,13 @@ struct TrafficConfig
 	float fallbackVehPerKmLane = 22.f;
 };
 
+/// A pedestrian standing in the carriageway (crossing, jaywalking, stepping off the curb) that vehicles must not
+/// drive through. Fed in by the host from the previous pedestrian step (one 50 ms lag, documented in the report).
+struct PedObstacle
+{
+	float x = 0.f, y = 0.f;
+};
+
 /// Observer (the player's camera / car) that the spawn ring follows.
 struct TrafficObserver
 {
@@ -147,6 +154,9 @@ public:
 	void setConfig(const TrafficConfig& config) { config_ = config; }
 	const TrafficConfig& config() const { return config_; }
 	void setObserver(const TrafficObserver& observer) { observer_ = observer; }
+
+	/// Pedestrians currently in the roadway. Replaces the previous set; call once per step before step().
+	void setPedObstacles(const std::vector<PedObstacle>& obstacles);
 
 	/// One fixed step. `dt` is ignored except as a sanity bound: the model always advances config().stepSeconds
 	/// so the simulation is reproducible for a given seed and observer path.
@@ -227,6 +237,8 @@ private:
 	float stopLineDistance(const Agent& a) const;
 	/// Distance to the player's car in `a`'s path (-1 when the player is not ahead in this lane).
 	float playerObstacleDistance(const Agent& a, float& playerSpeed) const;
+	/// Distance to the nearest pedestrian standing in `a`'s lane ahead (-1 when there is none).
+	float pedObstacleDistance(const Agent& a) const;
 	/// Junction admission: false while the agent must wait at the stop line.
 	bool junctionClear(const Agent& a, uint32_t junctionLane) const;
 	nycsim::traffic::VehicleClass drawClass(uint32_t lane);
@@ -259,6 +271,8 @@ private:
 	bool spawnLanesValid_ = false;
 
 	nycsim::SpatialHash hash_;
+	nycsim::SpatialHash pedHash_;
+	std::vector<PedObstacle> pedObstacles_;
 	std::vector<TrafficEvent> events_;
 	std::vector<BusStop> busStops_;
 	std::vector<BusRoute> busRoutes_;

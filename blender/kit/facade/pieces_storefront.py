@@ -104,7 +104,7 @@ def _reg_bay(width: float) -> None:
     key = f"{width:.1f}".replace(".", "")
     tag = f"{width:.1f} m"
 
-    @K.register(f"storefront_bay_{key}", "storefront", nominal_size=(width, 0.79, 4.34),
+    @K.register(f"storefront_bay_{key}", "storefront", nominal_size=(width + 0.06, 1.075, 4.34),
                 description=f"{tag} storefront bay: cast-iron pilasters, wood bulkhead, plate glass, recessed entrance with a "
                             f"glazed aluminium door, transom lights, sign fascia with gooseneck lights and a steel lintel. "
                             f"Pair with a storefront_interior_* shell.",
@@ -150,7 +150,8 @@ def _reg_gate(width: float, state: str) -> None:
     key = f"{width:.1f}".replace(".", "")
     label = {"closed": "fully closed", "half": "half raised (1.75 m)", "open": "rolled up in the hood"}[state]
 
-    @K.register(f"storefront_gate_{key}_{state}", "storefront", nominal_size=(width, 0.36, 3.80),
+    @K.register(f"storefront_gate_{key}_{state}", "storefront",
+                nominal_size=(width + 0.06, 0.453 if state == "open" else 0.355, 3.806 if state == "open" else 3.80),
                 description=f"Corrugated roll-down security gate for the {width:.1f} m storefront bay, {label}: steel guide "
                             f"channels, slat curtain, bottom bar with lock hasps and the coil hood.",
                 features=["roll_gate"], budget=6000,
@@ -215,7 +216,7 @@ def _grille_lod(width: float) -> K.Mesh:
 def _reg_grille(width: float) -> None:
     key = f"{width:.1f}".replace(".", "")
 
-    @K.register(f"storefront_grille_{key}", "storefront", nominal_size=(width, 0.09, 2.96),
+    @K.register(f"storefront_grille_{key}", "storefront", nominal_size=(width + 0.028, 0.06, 2.94),
                 description=f"Folding scissor security grille for the {width:.1f} m storefront bay: pantograph lattice of 24 mm "
                             f"flat bar between head and floor tracks (drawn closed).",
                 features=["roll_gate"], budget=6000, extra={"bay_width_m": width},
@@ -259,7 +260,7 @@ def _awning(width: float) -> K.Mesh:
 def _reg_awning(width: float) -> None:
     key = f"{width:.1f}".replace(".", "")
 
-    @K.register(f"storefront_awning_{key}", "storefront", nominal_size=(width, 1.25, 0.72),
+    @K.register(f"storefront_awning_{key}", "storefront", nominal_size=(width + 0.04, 1.28, 0.965),
                 description=f"Fixed canvas box awning for the {width:.1f} m storefront bay: 1.22 m projection, aluminium tube "
                             f"frame, sloped cover and a 0.30 m scalloped valance. Shares the bay's sidewalk-level frame.",
                 features=["awning"], budget=6000, extra={"bay_width_m": width, "projection_m": 1.22})

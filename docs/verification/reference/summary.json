@@ -1,15 +1,73 @@
 {
  "schema_version": 1,
- "generated_at": "2026-09-06T11:27:04Z",
- "items": 1,
- "items_in_catalogue": 96,
- "photos": 3,
- "bytes": 2054171,
+ "generated_at": "2026-09-06T11:43:48Z",
+ "items": 4,
+ "items_in_catalogue": 172,
+ "photos": 15,
+ "bytes": 12199813,
  "items_without_photo": [],
  "items_partial": [],
- "http_requests_this_run": 10,
- "elapsed_s": 39.1,
+ "http_requests_this_run": 0,
+ "elapsed_s": 0.0,
  "per_item": [
+  {
+   "slug": "promenade_lower_manhattan",
+   "group": "viewpoint",
+   "count": 4,
+   "wanted": 4,
+   "bytes": 2696186,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 32,
+    "night_for_day_item": 3,
+    "too_old": 3,
+    "too_small": 16
+   }
+  },
+  {
+   "slug": "top_of_the_rock_south",
+   "group": "viewpoint",
+   "count": 4,
+   "wanted": 4,
+   "bytes": 3390681,
+   "licences": [
+    "CC BY 3.0",
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 60,
+    "too_old": 6,
+    "night_for_day_item": 21,
+    "too_small": 3,
+    "excluded": 1,
+    "not_photo": 3
+   }
+  },
+  {
+   "slug": "times_square_duffy_south_night",
+   "group": "viewpoint",
+   "count": 4,
+   "wanted": 4,
+   "bytes": 4058775,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 40,
+    "too_old": 31,
+    "too_small": 1,
+    "excluded": 2,
+    "not_photo": 1
+   }
+  },
   {
    "slug": "landmark_charging_bull",
    "group": "landmark",

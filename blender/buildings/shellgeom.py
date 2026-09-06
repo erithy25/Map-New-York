@@ -372,11 +372,19 @@ def roof_pieces(poly: Polygon, roof: RoofSpec, z_eave: float, z_top: float,
         kind = ROOF_HIP
 
     def clip(region: Polygon) -> list[Polygon]:
+        """Footprint ∩ region, snapped to the 1 mm weld grid.
+
+        The snap is what makes the pieces stitch: after it, two pieces that share a boundary carry
+        bit-identical coordinates on the grid the vertex welder uses, and zero-width slivers
+        (a clip line grazing a footprint edge) collapse and are dropped instead of emitting a
+        degenerate cap plus a duplicate wall over the same footprint edge.
+        """
         try:
             inter = poly.intersection(region)
+            inter = shapely.set_precision(inter, WELD_M, mode="valid_output")
         except Exception:
             return []
-        return [p for p in _iter_polygons(inter) if p.area > 1e-7]
+        return [p for p in _iter_polygons(inter) if p.is_valid and p.area > 1e-4]
 
     def hip_like(v_off: float, u_off: float, k: float) -> None:
         """Four slopes falling away from the rectangle |v| <= v_off, |u| <= u_off at ``z_top``."""
