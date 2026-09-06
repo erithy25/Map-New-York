@@ -480,6 +480,34 @@ def aim_pitch(slug: str, meta: dict, cam_x: float, cam_y: float, cam_z: float,
                    f"mid-height ({src}); {pitch:+.1f} deg from horizontal")
 
 
+#: A render that is black, blown out or featureless proves nothing, so it is refused rather than
+#: written to a sheet.  Thresholds match
+#: ``tests/test_world_integration.py::test_verification_renders_can_actually_serve_as_evidence``.
+FRAME_MEAN_MIN = 0.06
+FRAME_MEAN_MAX = 0.94
+FRAME_SD_MIN = 0.025
+FRAME_BLOWN_SD = 0.05
+
+
+def frame_metrics(path: Path) -> dict:
+    """Mean and standard deviation of a rendered frame's luminance, and whether it is evidence."""
+    from PIL import Image
+    import numpy as np
+    try:
+        a = np.asarray(Image.open(path).convert("L"), dtype=np.float32) / 255.0
+    except Exception as exc:
+        return {"mean": None, "sd": None, "usable": False, "reason": f"unreadable ({exc})"}
+    mean, sd = float(a.mean()), float(a.std())
+    reason = None
+    if mean < FRAME_MEAN_MIN:
+        reason = f"near-black (mean {mean:.3f})"
+    elif mean > FRAME_MEAN_MAX and sd < FRAME_BLOWN_SD:
+        reason = f"blown out (mean {mean:.3f}, sd {sd:.3f})"
+    elif sd < FRAME_SD_MIN:
+        reason = f"featureless (sd {sd:.3f})"
+    return {"mean": round(mean, 4), "sd": round(sd, 4), "usable": reason is None, "reason": reason}
+
+
 def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | None = None,
                    width: int = RENDER_WIDTH, dry_run: bool = False) -> dict:
     """Build, aim, light and render one subject.  Returns the record written to render.json."""
@@ -626,8 +654,32 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     bpy.ops.render.render(write_still=True)
     t2 = time.time()
 
+    # A frame that is black, blown out or featureless is not evidence of anything.  Measure it
+    # here rather than letting it sit in the directory looking like a result.  The overwhelmingly
+    # likely cause at street level is an eye point the ray tests did not catch -- inside a light
+    # well, under a slab, hard against a wall -- so the first response is to force the same
+    # correction a detected block would get and render once more.
+    frame = frame_metrics(render_path)
+    retry = None
+    if not frame["usable"]:
+        LOG.warning("%s: first frame is %s; forcing the clearance correction and re-rendering",
+                    slug, frame["reason"])
+        forced = vcam.clear_of_geometry(placement, sampler, min_view_m=min_view_m, force=True)
+        forced["min_view_m"] = round(min_view_m, 1)
+        if forced.get("moved"):
+            bpy.ops.render.render(write_still=True)
+            t2 = time.time()
+            retry = {"first_frame": frame, "clearance": clearance}
+            clearance = forced
+            frame = frame_metrics(render_path)
+        else:
+            retry = {"first_frame": frame,
+                     "note": "no clear eye point was found within 80 m, so the frame stands as it is"}
+
     record.update({
-        "status": "rendered",
+        "status": "rendered" if frame["usable"] else "rejected_unusable_frame",
+        "frame": frame,
+        "frame_retry": retry,
         "camera": placement.as_dict(),
         "camera_caption": placement.caption(),
         "lens_reason": vcam.focal_for(slug)[1],
@@ -641,7 +693,27 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         "rendered_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
     })
     (outdir / "render.json").write_text(json.dumps(record, indent=1, sort_keys=True))
-    LOG.info("%s rendered in %.0f s (scene %.0f s, %d triangles)", slug, t2 - t0, t1 - t0, rep.triangles)
+    err = outdir / "render_error.txt"
+    if frame["usable"]:
+        err.unlink(missing_ok=True)
+        LOG.info("%s rendered in %.0f s (scene %.0f s, %d triangles; frame mean %.3f sd %.3f)",
+                 slug, t2 - t0, t1 - t0, rep.triangles, frame["mean"], frame["sd"])
+    else:
+        # Leave no unusable PNG behind: a black render.png is indistinguishable from evidence in a
+        # directory listing, and the project-wide gate scans every PNG under docs/verification.
+        render_path.unlink(missing_ok=True)
+        (outdir / "sheet.png").unlink(missing_ok=True)
+        err.write_text(
+            f"{slug}: the render cannot serve as evidence -- {frame['reason']}.\n"
+            f"camera: {placement.caption()}\n"
+            f"clearance: {clearance.get('note')}\n"
+            f"view along the azimuth: {clearance.get('view_m')} m; nearest solid thing in the view "
+            f"cone: {clearance.get('nearest_obstruction_m')} m\n"
+            f"sun: elevation {sun['elevation_deg']:.1f} deg, direct normal irradiance "
+            f"{light.get('direct_normal_irradiance_w_m2', 0):.0f} W/m2, exposure "
+            f"{light.get('exposure_stops', 0):+.2f} stops\n"
+            f"retry: {json.dumps(retry)}\n")
+        LOG.error("%s rejected: %s (camera %s)", slug, frame["reason"], placement.caption())
     return record
 
 
@@ -1086,7 +1158,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             continue
         if rec.get("status") != "rendered":
             failed.append(slug)
-            (outdir / "render_error.txt").write_text(json.dumps(rec, indent=1))
+            err = outdir / "render_error.txt"
+            # render_subject writes a diagnostic for a frame it rejected; do not overwrite it.
+            if not err.exists():
+                err.write_text(json.dumps(rec, indent=1))
             continue
         compose_sheet(slug, rec)
         done.append(slug)

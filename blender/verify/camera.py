@@ -549,7 +549,7 @@ def pavement_candidates(x: float, y: float, *, max_m: float = 70.0) -> list[dict
 
 
 def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 80.0,
-                      step_m: float = 2.0, min_view_m: float = 15.0) -> dict:
+                      step_m: float = 2.0, min_view_m: float = 15.0, force: bool = False) -> dict:
     """Move an eye point that landed inside a building out to the real pavement, and say so.
 
     The camera is only moved when it is demonstrably inside geometry.  Two corrections are tried,
@@ -570,6 +570,9 @@ def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 8
     re-measured from the heightmap at the new point, and the offset is always reported.
     """
     blocked, why = _blocked(placement.x, placement.y, placement.z, placement.azimuth_deg)
+    if force and not blocked:
+        blocked, why = True, ("rendered as an unusable frame from this eye point, so it is treated "
+                              "as blocked even though no ray test caught it")
     if not blocked:
         return _walk_to_parapet(placement)
     rise = placement.z - (placement.terrain_z_m if placement.terrain_z_m is not None else placement.z)

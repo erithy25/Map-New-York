@@ -1,1003 +1,1002 @@
-20:05:56 INFO nycsim.verify.render 1 subject(s): bethesda_terrace_fountain
-20:05:59 | INFO: Data are loaded, start creating Blender stuff
-20:05:59 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:05:59 | INFO: Blender create Mesh node t_-2_8_red_brick
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_red_brick
-20:05:59 | INFO: Blender create Mesh node t_-2_8_brown_brick
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_brown_brick
-20:05:59 | INFO: Blender create Mesh node t_-2_8_tan_brick
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_tan_brick
-20:05:59 | INFO: Blender create Mesh node t_-2_8_white_glazed_brick
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_white_glazed_brick
-20:05:59 | INFO: Blender create Mesh node t_-2_8_brownstone
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_brownstone
-20:05:59 | INFO: Blender create Mesh node t_-2_8_limestone
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_limestone
-20:05:59 | INFO: Blender create Mesh node t_-2_8_terracotta
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_terracotta
-20:05:59 | INFO: Blender create Mesh node t_-2_8_cast_iron
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_cast_iron
-20:05:59 | INFO: Blender create Mesh node t_-2_8_glass_curtain
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_glass_curtain
-20:05:59 | INFO: Blender create Mesh node t_-2_8_concrete
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_concrete
-20:05:59 | INFO: Blender create Mesh node t_-2_8_stucco
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_stucco
-20:05:59 | INFO: Blender create Mesh node t_-2_8_stone_rubble
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_stone_rubble
-20:05:59 | INFO: Blender create Mesh node t_-2_8_granite
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_granite
-20:05:59 | INFO: Blender create Mesh node t_-2_8_roof_membrane
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_roof_membrane
-20:05:59 | INFO: Blender create Mesh node t_-2_8_tar_roof
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_tar_roof
-20:05:59 | INFO: Blender create Mesh node t_-2_8_red_brick_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_red_brick_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_8_brown_brick_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_brown_brick_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_8_tan_brick_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_tan_brick_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_8_white_glazed_brick_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_white_glazed_brick_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_8_brownstone_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_brownstone_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_8_limestone_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_limestone_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_8_terracotta_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_terracotta_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_8_cast_iron_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_cast_iron_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_8_glass_curtain_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_glass_curtain_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_8_concrete_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_concrete_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_8_stucco_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_stucco_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_8_stone_rubble_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_stone_rubble_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_8_granite_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_granite_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_8_roof_membrane_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_roof_membrane_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_8_tar_roof_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_8_tar_roof_LOD1
-20:05:59 | INFO: glTF import finished in 0.08s
-20:05:59 INFO glTFImporter glTF import finished in 0.08s
-20:05:59 | INFO: Data are loaded, start creating Blender stuff
-20:05:59 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:05:59 | INFO: Blender create Mesh node t_-2_7_red_brick
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_red_brick
-20:05:59 | INFO: Blender create Mesh node t_-2_7_brown_brick
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_brown_brick
-20:05:59 | INFO: Blender create Mesh node t_-2_7_tan_brick
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_tan_brick
-20:05:59 | INFO: Blender create Mesh node t_-2_7_white_glazed_brick
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_white_glazed_brick
-20:05:59 | INFO: Blender create Mesh node t_-2_7_brownstone
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_brownstone
-20:05:59 | INFO: Blender create Mesh node t_-2_7_limestone
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_limestone
-20:05:59 | INFO: Blender create Mesh node t_-2_7_glass_curtain
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_glass_curtain
-20:05:59 | INFO: Blender create Mesh node t_-2_7_concrete
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_concrete
-20:05:59 | INFO: Blender create Mesh node t_-2_7_stucco
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_stucco
-20:05:59 | INFO: Blender create Mesh node t_-2_7_vinyl_siding
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_vinyl_siding
-20:05:59 | INFO: Blender create Mesh node t_-2_7_wood_clapboard
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_wood_clapboard
-20:05:59 | INFO: Blender create Mesh node t_-2_7_stone_rubble
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_stone_rubble
-20:05:59 | INFO: Blender create Mesh node t_-2_7_metal_panel
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_metal_panel
-20:05:59 | INFO: Blender create Mesh node t_-2_7_granite
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_granite
-20:05:59 | INFO: Blender create Mesh node t_-2_7_roof_membrane
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_roof_membrane
-20:05:59 | INFO: Blender create Mesh node t_-2_7_tar_roof
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_tar_roof
-20:05:59 | INFO: Blender create Mesh node t_-2_7_red_brick_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_red_brick_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_7_brown_brick_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_brown_brick_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_7_tan_brick_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_tan_brick_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_7_white_glazed_brick_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_white_glazed_brick_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_7_brownstone_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_brownstone_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_7_limestone_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_limestone_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_7_glass_curtain_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_glass_curtain_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_7_concrete_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_concrete_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_7_stucco_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_stucco_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_7_vinyl_siding_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_vinyl_siding_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_7_wood_clapboard_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_wood_clapboard_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_7_stone_rubble_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_stone_rubble_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_7_metal_panel_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_metal_panel_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_7_granite_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_granite_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_7_roof_membrane_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_roof_membrane_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_7_tar_roof_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_tar_roof_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-2_7_red_brick_LOD2
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_red_brick_LOD2
-20:05:59 | INFO: Blender create Mesh node t_-2_7_brown_brick_LOD2
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_brown_brick_LOD2
-20:05:59 | INFO: Blender create Mesh node t_-2_7_tan_brick_LOD2
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_tan_brick_LOD2
-20:05:59 | INFO: Blender create Mesh node t_-2_7_white_glazed_brick_LOD2
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_white_glazed_brick_LOD2
-20:05:59 | INFO: Blender create Mesh node t_-2_7_brownstone_LOD2
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_brownstone_LOD2
-20:05:59 | INFO: Blender create Mesh node t_-2_7_limestone_LOD2
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_limestone_LOD2
-20:05:59 | INFO: Blender create Mesh node t_-2_7_glass_curtain_LOD2
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_glass_curtain_LOD2
-20:05:59 | INFO: Blender create Mesh node t_-2_7_concrete_LOD2
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_concrete_LOD2
-20:05:59 | INFO: Blender create Mesh node t_-2_7_stucco_LOD2
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_stucco_LOD2
-20:05:59 | INFO: Blender create Mesh node t_-2_7_vinyl_siding_LOD2
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_vinyl_siding_LOD2
-20:05:59 | INFO: Blender create Mesh node t_-2_7_wood_clapboard_LOD2
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_wood_clapboard_LOD2
-20:05:59 | INFO: Blender create Mesh node t_-2_7_stone_rubble_LOD2
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_stone_rubble_LOD2
-20:05:59 | INFO: Blender create Mesh node t_-2_7_metal_panel_LOD2
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_metal_panel_LOD2
-20:05:59 | INFO: Blender create Mesh node t_-2_7_granite_LOD2
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_granite_LOD2
-20:05:59 | INFO: Blender create Mesh node t_-2_7_roof_membrane_LOD2
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_roof_membrane_LOD2
-20:05:59 | INFO: Blender create Mesh node t_-2_7_tar_roof_LOD2
-20:05:59 INFO glTFImporter Blender create Mesh node t_-2_7_tar_roof_LOD2
-20:05:59 | INFO: glTF import finished in 0.16s
-20:05:59 INFO glTFImporter glTF import finished in 0.16s
-20:05:59 | INFO: Data are loaded, start creating Blender stuff
-20:05:59 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:05:59 | INFO: Blender create Mesh node t_-3_8_red_brick
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_red_brick
-20:05:59 | INFO: Blender create Mesh node t_-3_8_brown_brick
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_brown_brick
-20:05:59 | INFO: Blender create Mesh node t_-3_8_tan_brick
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_tan_brick
-20:05:59 | INFO: Blender create Mesh node t_-3_8_white_glazed_brick
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_white_glazed_brick
-20:05:59 | INFO: Blender create Mesh node t_-3_8_brownstone
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_brownstone
-20:05:59 | INFO: Blender create Mesh node t_-3_8_limestone
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_limestone
-20:05:59 | INFO: Blender create Mesh node t_-3_8_terracotta
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_terracotta
-20:05:59 | INFO: Blender create Mesh node t_-3_8_glass_curtain
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_glass_curtain
-20:05:59 | INFO: Blender create Mesh node t_-3_8_concrete
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_concrete
-20:05:59 | INFO: Blender create Mesh node t_-3_8_stucco
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_stucco
-20:05:59 | INFO: Blender create Mesh node t_-3_8_wood_clapboard
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_wood_clapboard
-20:05:59 | INFO: Blender create Mesh node t_-3_8_stone_rubble
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_stone_rubble
-20:05:59 | INFO: Blender create Mesh node t_-3_8_metal_panel
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_metal_panel
-20:05:59 | INFO: Blender create Mesh node t_-3_8_granite
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_granite
-20:05:59 | INFO: Blender create Mesh node t_-3_8_roof_membrane
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_roof_membrane
-20:05:59 | INFO: Blender create Mesh node t_-3_8_tar_roof
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_tar_roof
-20:05:59 | INFO: Blender create Mesh node t_-3_8_red_brick_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_red_brick_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-3_8_brown_brick_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_brown_brick_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-3_8_tan_brick_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_tan_brick_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-3_8_white_glazed_brick_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_white_glazed_brick_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-3_8_brownstone_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_brownstone_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-3_8_limestone_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_limestone_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-3_8_terracotta_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_terracotta_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-3_8_glass_curtain_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_glass_curtain_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-3_8_concrete_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_concrete_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-3_8_stucco_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_stucco_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-3_8_wood_clapboard_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_wood_clapboard_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-3_8_stone_rubble_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_stone_rubble_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-3_8_metal_panel_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_metal_panel_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-3_8_granite_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_granite_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-3_8_roof_membrane_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_roof_membrane_LOD1
-20:05:59 | INFO: Blender create Mesh node t_-3_8_tar_roof_LOD1
-20:05:59 INFO glTFImporter Blender create Mesh node t_-3_8_tar_roof_LOD1
-20:05:59 | INFO: glTF import finished in 0.14s
-20:05:59 INFO glTFImporter glTF import finished in 0.14s
-20:06:00 | INFO: Data are loaded, start creating Blender stuff
-20:06:00 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:00 | INFO: Blender create Mesh node t_-3_7_red_brick
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_red_brick
-20:06:00 | INFO: Blender create Mesh node t_-3_7_brown_brick
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_brown_brick
-20:06:00 | INFO: Blender create Mesh node t_-3_7_tan_brick
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_tan_brick
-20:06:00 | INFO: Blender create Mesh node t_-3_7_white_glazed_brick
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_white_glazed_brick
-20:06:00 | INFO: Blender create Mesh node t_-3_7_limestone
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_limestone
-20:06:00 | INFO: Blender create Mesh node t_-3_7_terracotta
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_terracotta
-20:06:00 | INFO: Blender create Mesh node t_-3_7_glass_curtain
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_glass_curtain
-20:06:00 | INFO: Blender create Mesh node t_-3_7_concrete
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_concrete
-20:06:00 | INFO: Blender create Mesh node t_-3_7_stucco
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_stucco
-20:06:00 | INFO: Blender create Mesh node t_-3_7_wood_clapboard
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_wood_clapboard
-20:06:00 | INFO: Blender create Mesh node t_-3_7_stone_rubble
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_stone_rubble
-20:06:00 | INFO: Blender create Mesh node t_-3_7_metal_panel
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_metal_panel
-20:06:00 | INFO: Blender create Mesh node t_-3_7_granite
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_granite
-20:06:00 | INFO: Blender create Mesh node t_-3_7_precast
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_precast
-20:06:00 | INFO: Blender create Mesh node t_-3_7_roof_membrane
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_roof_membrane
-20:06:00 | INFO: Blender create Mesh node t_-3_7_tar_roof
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_tar_roof
-20:06:00 | INFO: Blender create Mesh node t_-3_7_red_brick_LOD1
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_red_brick_LOD1
-20:06:00 | INFO: Blender create Mesh node t_-3_7_brown_brick_LOD1
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_brown_brick_LOD1
-20:06:00 | INFO: Blender create Mesh node t_-3_7_tan_brick_LOD1
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_tan_brick_LOD1
-20:06:00 | INFO: Blender create Mesh node t_-3_7_white_glazed_brick_LOD1
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_white_glazed_brick_LOD1
-20:06:00 | INFO: Blender create Mesh node t_-3_7_limestone_LOD1
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_limestone_LOD1
-20:06:00 | INFO: Blender create Mesh node t_-3_7_terracotta_LOD1
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_terracotta_LOD1
-20:06:00 | INFO: Blender create Mesh node t_-3_7_glass_curtain_LOD1
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_glass_curtain_LOD1
-20:06:00 | INFO: Blender create Mesh node t_-3_7_concrete_LOD1
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_concrete_LOD1
-20:06:00 | INFO: Blender create Mesh node t_-3_7_stucco_LOD1
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_stucco_LOD1
-20:06:00 | INFO: Blender create Mesh node t_-3_7_wood_clapboard_LOD1
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_wood_clapboard_LOD1
-20:06:00 | INFO: Blender create Mesh node t_-3_7_stone_rubble_LOD1
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_stone_rubble_LOD1
-20:06:00 | INFO: Blender create Mesh node t_-3_7_metal_panel_LOD1
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_metal_panel_LOD1
-20:06:00 | INFO: Blender create Mesh node t_-3_7_granite_LOD1
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_granite_LOD1
-20:06:00 | INFO: Blender create Mesh node t_-3_7_precast_LOD1
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_precast_LOD1
-20:06:00 | INFO: Blender create Mesh node t_-3_7_roof_membrane_LOD1
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_roof_membrane_LOD1
-20:06:00 | INFO: Blender create Mesh node t_-3_7_tar_roof_LOD1
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_tar_roof_LOD1
-20:06:00 | INFO: Blender create Mesh node t_-3_7_red_brick_LOD2
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_red_brick_LOD2
-20:06:00 | INFO: Blender create Mesh node t_-3_7_brown_brick_LOD2
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_brown_brick_LOD2
-20:06:00 | INFO: Blender create Mesh node t_-3_7_tan_brick_LOD2
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_tan_brick_LOD2
-20:06:00 | INFO: Blender create Mesh node t_-3_7_white_glazed_brick_LOD2
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_white_glazed_brick_LOD2
-20:06:00 | INFO: Blender create Mesh node t_-3_7_limestone_LOD2
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_limestone_LOD2
-20:06:00 | INFO: Blender create Mesh node t_-3_7_terracotta_LOD2
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_terracotta_LOD2
-20:06:00 | INFO: Blender create Mesh node t_-3_7_glass_curtain_LOD2
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_glass_curtain_LOD2
-20:06:00 | INFO: Blender create Mesh node t_-3_7_concrete_LOD2
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_concrete_LOD2
-20:06:00 | INFO: Blender create Mesh node t_-3_7_stucco_LOD2
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_stucco_LOD2
-20:06:00 | INFO: Blender create Mesh node t_-3_7_wood_clapboard_LOD2
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_wood_clapboard_LOD2
-20:06:00 | INFO: Blender create Mesh node t_-3_7_stone_rubble_LOD2
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_stone_rubble_LOD2
-20:06:00 | INFO: Blender create Mesh node t_-3_7_metal_panel_LOD2
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_metal_panel_LOD2
-20:06:00 | INFO: Blender create Mesh node t_-3_7_granite_LOD2
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_granite_LOD2
-20:06:00 | INFO: Blender create Mesh node t_-3_7_precast_LOD2
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_precast_LOD2
-20:06:00 | INFO: Blender create Mesh node t_-3_7_roof_membrane_LOD2
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_roof_membrane_LOD2
-20:06:00 | INFO: Blender create Mesh node t_-3_7_tar_roof_LOD2
-20:06:00 INFO glTFImporter Blender create Mesh node t_-3_7_tar_roof_LOD2
-20:06:00 | INFO: glTF import finished in 0.22s
-20:06:00 INFO glTFImporter glTF import finished in 0.22s
-20:06:00 | INFO: Data are loaded, start creating Blender stuff
-20:06:00 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:00 | INFO: Blender create Mesh node terrace
-20:06:00 INFO glTFImporter Blender create Mesh node terrace
-20:06:00 | INFO: Blender create Mesh node terrace_crenels
-20:06:00 INFO glTFImporter Blender create Mesh node terrace_crenels
-20:06:00 | INFO: Blender create Mesh node hall
-20:06:00 INFO glTFImporter Blender create Mesh node hall
-20:06:00 | INFO: Blender create Mesh node hall_band
-20:06:00 INFO glTFImporter Blender create Mesh node hall_band
-20:06:00 | INFO: Blender create Mesh node hall_crenels
-20:06:00 INFO glTFImporter Blender create Mesh node hall_crenels
-20:06:00 | INFO: Blender create Mesh node tower
-20:06:00 INFO glTFImporter Blender create Mesh node tower
-20:06:00 | INFO: Blender create Mesh node tower_belvedere
-20:06:00 INFO glTFImporter Blender create Mesh node tower_belvedere
-20:06:00 | INFO: Blender create Mesh node tower_crenels
-20:06:00 INFO glTFImporter Blender create Mesh node tower_crenels
-20:06:00 | INFO: Blender create Mesh node tower_cap_shell
-20:06:00 INFO glTFImporter Blender create Mesh node tower_cap_shell
-20:06:00 | INFO: Blender create Mesh node turret
-20:06:00 INFO glTFImporter Blender create Mesh node turret
-20:06:00 | INFO: Blender create Mesh node turret_crenels
-20:06:00 INFO glTFImporter Blender create Mesh node turret_crenels
-20:06:00 | INFO: Blender create Mesh node turret_cap_shell
-20:06:00 INFO glTFImporter Blender create Mesh node turret_cap_shell
-20:06:00 | INFO: Blender create Mesh node arch_surrounds
-20:06:00 INFO glTFImporter Blender create Mesh node arch_surrounds
-20:06:00 | INFO: Blender create Mesh node loggia_columns
-20:06:00 INFO glTFImporter Blender create Mesh node loggia_columns
-20:06:00 | INFO: Blender create Mesh node loggia_roof
-20:06:00 INFO glTFImporter Blender create Mesh node loggia_roof
-20:06:00 | INFO: glTF import finished in 0.04s
-20:06:00 INFO glTFImporter glTF import finished in 0.04s
-20:06:00 | INFO: Data are loaded, start creating Blender stuff
-20:06:00 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:00 | INFO: Blender create Mesh node lower_plaza
-20:06:00 INFO glTFImporter Blender create Mesh node lower_plaza
-20:06:00 | INFO: Blender create Mesh node basin_rim
-20:06:00 INFO glTFImporter Blender create Mesh node basin_rim
-20:06:00 | INFO: Blender create Mesh node basin_water
-20:06:00 INFO glTFImporter Blender create Mesh node basin_water
-20:06:00 | INFO: Blender create Mesh node fountain_pedestal
-20:06:00 INFO glTFImporter Blender create Mesh node fountain_pedestal
-20:06:00 | INFO: Blender create Mesh node fountain_upper_basin
-20:06:00 INFO glTFImporter Blender create Mesh node fountain_upper_basin
-20:06:00 | INFO: Blender create Mesh node fountain_stem
-20:06:00 INFO glTFImporter Blender create Mesh node fountain_stem
-20:06:00 | INFO: Blender create Mesh node cherub0
-20:06:00 INFO glTFImporter Blender create Mesh node cherub0
-20:06:00 | INFO: Blender create Mesh node cherub1
-20:06:00 INFO glTFImporter Blender create Mesh node cherub1
-20:06:00 | INFO: Blender create Mesh node cherub2
-20:06:00 INFO glTFImporter Blender create Mesh node cherub2
-20:06:00 | INFO: Blender create Mesh node cherub3
-20:06:00 INFO glTFImporter Blender create Mesh node cherub3
-20:06:00 | INFO: Blender create Mesh node angel_body
-20:06:00 INFO glTFImporter Blender create Mesh node angel_body
-20:06:00 | INFO: Blender create Mesh node angel_wings
-20:06:00 INFO glTFImporter Blender create Mesh node angel_wings
-20:06:00 | INFO: Blender create Mesh node angel_arm
-20:06:00 INFO glTFImporter Blender create Mesh node angel_arm
-20:06:00 | INFO: Blender create Mesh node terrace0
-20:06:00 INFO glTFImporter Blender create Mesh node terrace0
-20:06:00 | INFO: Blender create Mesh node terrace0_bal_rail0
-20:06:00 INFO glTFImporter Blender create Mesh node terrace0_bal_rail0
-20:06:00 | INFO: Blender create Mesh node terrace0_bal_rail1
-20:06:00 INFO glTFImporter Blender create Mesh node terrace0_bal_rail1
-20:06:00 | INFO: Blender create Mesh node terrace0_bal_balusters
-20:06:00 INFO glTFImporter Blender create Mesh node terrace0_bal_balusters
-20:06:00 | INFO: Blender create Mesh node terrace1
-20:06:00 INFO glTFImporter Blender create Mesh node terrace1
-20:06:00 | INFO: Blender create Mesh node terrace1_bal_rail0
-20:06:00 INFO glTFImporter Blender create Mesh node terrace1_bal_rail0
-20:06:00 | INFO: Blender create Mesh node terrace1_bal_rail1
-20:06:00 INFO glTFImporter Blender create Mesh node terrace1_bal_rail1
-20:06:00 | INFO: Blender create Mesh node terrace1_bal_balusters
-20:06:00 INFO glTFImporter Blender create Mesh node terrace1_bal_balusters
-20:06:00 | INFO: Blender create Mesh node stair-1
-20:06:00 INFO glTFImporter Blender create Mesh node stair-1
-20:06:00 | INFO: Blender create Mesh node stair1
-20:06:00 INFO glTFImporter Blender create Mesh node stair1
-20:06:00 | INFO: Blender create Mesh node arcade_walls
-20:06:00 INFO glTFImporter Blender create Mesh node arcade_walls
-20:06:00 | INFO: Blender create Mesh node arcade_floor
-20:06:00 INFO glTFImporter Blender create Mesh node arcade_floor
-20:06:00 | INFO: Blender create Mesh node arcade_ceiling
-20:06:00 INFO glTFImporter Blender create Mesh node arcade_ceiling
-20:06:00 | INFO: Blender create Mesh node arcade_piers
-20:06:00 INFO glTFImporter Blender create Mesh node arcade_piers
-20:06:00 | INFO: glTF import finished in 0.08s
-20:06:00 INFO glTFImporter glTF import finished in 0.08s
-20:06:00 | INFO: Data are loaded, start creating Blender stuff
-20:06:00 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:00 | INFO: Blender create Mesh node deck
-20:06:00 INFO glTFImporter Blender create Mesh node deck
-20:06:00 | INFO: Blender create Mesh node beam
-20:06:00 INFO glTFImporter Blender create Mesh node beam
-20:06:00 | INFO: Blender create Mesh node cast_iron_beams
-20:06:00 INFO glTFImporter Blender create Mesh node cast_iron_beams
-20:06:00 | INFO: Blender create Mesh node balustrade-1
-20:06:00 INFO glTFImporter Blender create Mesh node balustrade-1
-20:06:00 | INFO: Blender create Mesh node balustrade1
-20:06:00 INFO glTFImporter Blender create Mesh node balustrade1
-20:06:00 | INFO: Blender create Mesh node abutment
-20:06:00 INFO glTFImporter Blender create Mesh node abutment
-20:06:00 | INFO: Blender create Mesh node abutment.001
-20:06:00 INFO glTFImporter Blender create Mesh node abutment.001
-20:06:00 | INFO: glTF import finished in 0.03s
-20:06:00 INFO glTFImporter glTF import finished in 0.03s
-20:06:00 | INFO: Data are loaded, start creating Blender stuff
-20:06:00 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:00 | INFO: Blender create Mesh node perimeter_wall
-20:06:00 INFO glTFImporter Blender create Mesh node perimeter_wall
-20:06:00 | INFO: Blender create Mesh node wall_coping
-20:06:00 INFO glTFImporter Blender create Mesh node wall_coping
-20:06:00 | INFO: Blender create Mesh node gate_piers
-20:06:00 INFO glTFImporter Blender create Mesh node gate_piers
-20:06:00 | INFO: glTF import finished in 0.04s
-20:06:00 INFO glTFImporter glTF import finished in 0.04s
-20:06:00 | INFO: Data are loaded, start creating Blender stuff
-20:06:00 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:00 | INFO: Blender create Mesh node c_american_museum_natural_history_LOD1
-20:06:00 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_LOD1
-20:06:00 | INFO: Blender create Mesh node c_american_museum_natural_history_arcade
-20:06:00 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_arcade
-20:06:00 | INFO: Blender create Mesh node c_american_museum_natural_history_main_base_core
-20:06:00 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_main_base_core
-20:06:00 | INFO: Blender create Mesh node c_american_museum_natural_history_main_base_plinth
-20:06:00 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_main_base_plinth
-20:06:00 | INFO: Blender create Mesh node c_american_museum_natural_history_main_mass
-20:06:00 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_main_mass
-20:06:00 | INFO: Blender create Mesh node c_american_museum_natural_history_main_parapet
-20:06:00 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_main_parapet
-20:06:00 | INFO: Blender create Mesh node c_american_museum_natural_history_main_skin
-20:06:00 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_main_skin
-20:06:00 | INFO: Blender create Mesh node c_american_museum_natural_history_north_base_core
-20:06:00 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_north_base_core
-20:06:00 | INFO: Blender create Mesh node c_american_museum_natural_history_north_base_plinth
-20:06:00 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_north_base_plinth
-20:06:00 | INFO: Blender create Mesh node c_american_museum_natural_history_north_mass
-20:06:00 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_north_mass
-20:06:00 | INFO: Blender create Mesh node c_american_museum_natural_history_north_parapet
-20:06:00 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_north_parapet
-20:06:00 | INFO: Blender create Mesh node c_american_museum_natural_history_north_skin
-20:06:00 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_north_skin
-20:06:00 | INFO: Blender create Mesh node c_american_museum_natural_history_roosevelt_memorial
-20:06:00 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_roosevelt_memorial
-20:06:00 | INFO: Blender create Mesh node c_american_museum_natural_history_rose_center
-20:06:00 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_rose_center
-20:06:00 | INFO: Blender create Mesh node c_american_museum_natural_history_turrets
-20:06:00 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_turrets
-20:06:00 | INFO: glTF import finished in 0.23s
-20:06:00 INFO glTFImporter glTF import finished in 0.23s
-20:06:00 | INFO: Data are loaded, start creating Blender stuff
-20:06:00 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:00 | INFO: Blender create Mesh node c_metropolitan_museum_LOD1
-20:06:00 INFO glTFImporter Blender create Mesh node c_metropolitan_museum_LOD1
-20:06:00 | INFO: Blender create Mesh node c_metropolitan_museum_base_core
-20:06:00 INFO glTFImporter Blender create Mesh node c_metropolitan_museum_base_core
-20:06:00 | INFO: Blender create Mesh node c_metropolitan_museum_base_plinth
-20:06:00 INFO glTFImporter Blender create Mesh node c_metropolitan_museum_base_plinth
-20:06:00 | INFO: Blender create Mesh node c_metropolitan_museum_colonnade
-20:06:00 INFO glTFImporter Blender create Mesh node c_metropolitan_museum_colonnade
-20:06:01 | INFO: Blender create Mesh node c_metropolitan_museum_glass_wings
-20:06:01 INFO glTFImporter Blender create Mesh node c_metropolitan_museum_glass_wings
-20:06:01 | INFO: Blender create Mesh node c_metropolitan_museum_pavilion
-20:06:01 INFO glTFImporter Blender create Mesh node c_metropolitan_museum_pavilion
-20:06:01 | INFO: Blender create Mesh node c_metropolitan_museum_pavilion_front
-20:06:01 INFO glTFImporter Blender create Mesh node c_metropolitan_museum_pavilion_front
-20:06:01 | INFO: Blender create Mesh node c_metropolitan_museum_rear
-20:06:01 INFO glTFImporter Blender create Mesh node c_metropolitan_museum_rear
-20:06:01 | INFO: Blender create Mesh node c_metropolitan_museum_wing_cornice
-20:06:01 INFO glTFImporter Blender create Mesh node c_metropolitan_museum_wing_cornice
-20:06:01 | INFO: Blender create Mesh node c_metropolitan_museum_wings
-20:06:01 INFO glTFImporter Blender create Mesh node c_metropolitan_museum_wings
-20:06:01 | INFO: glTF import finished in 0.23s
-20:06:01 INFO glTFImporter glTF import finished in 0.23s
-20:06:01 | INFO: Data are loaded, start creating Blender stuff
-20:06:01 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:01 | INFO: Blender create Mesh node c_the_dakota_LOD1
-20:06:01 INFO glTFImporter Blender create Mesh node c_the_dakota_LOD1
-20:06:01 | INFO: Blender create Mesh node c_the_dakota_base_core
-20:06:01 INFO glTFImporter Blender create Mesh node c_the_dakota_base_core
-20:06:01 | INFO: Blender create Mesh node c_the_dakota_base_detail
-20:06:01 INFO glTFImporter Blender create Mesh node c_the_dakota_base_detail
-20:06:01 | INFO: Blender create Mesh node c_the_dakota_base_plinth
-20:06:01 INFO glTFImporter Blender create Mesh node c_the_dakota_base_plinth
-20:06:01 | INFO: Blender create Mesh node c_the_dakota_body_mass
-20:06:01 INFO glTFImporter Blender create Mesh node c_the_dakota_body_mass
-20:06:01 | INFO: Blender create Mesh node c_the_dakota_body_skin
-20:06:01 INFO glTFImporter Blender create Mesh node c_the_dakota_body_skin
-20:06:01 | INFO: Blender create Mesh node c_the_dakota_cornice
-20:06:01 INFO glTFImporter Blender create Mesh node c_the_dakota_cornice
-20:06:01 | INFO: Blender create Mesh node c_the_dakota_roof
-20:06:01 INFO glTFImporter Blender create Mesh node c_the_dakota_roof
-20:06:01 | INFO: glTF import finished in 0.15s
-20:06:01 INFO glTFImporter glTF import finished in 0.15s
-20:06:01 | INFO: Data are loaded, start creating Blender stuff
-20:06:01 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:01 | INFO: Blender create Mesh node lamp_cobra_davit
-20:06:01 INFO glTFImporter Blender create Mesh node lamp_cobra_davit
-20:06:01 | INFO: Blender create Mesh node lamp_cobra_davit_LOD1
-20:06:01 INFO glTFImporter Blender create Mesh node lamp_cobra_davit_LOD1
-20:06:01 | INFO: glTF import finished in 0.04s
-20:06:01 INFO glTFImporter glTF import finished in 0.04s
-20:06:01 | INFO: Data are loaded, start creating Blender stuff
-20:06:01 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:01 | INFO: Blender create Mesh node manhole_coned
-20:06:01 INFO glTFImporter Blender create Mesh node manhole_coned
-20:06:01 | INFO: Blender create Mesh node manhole_coned_LOD1
-20:06:01 INFO glTFImporter Blender create Mesh node manhole_coned_LOD1
-20:06:01 | INFO: glTF import finished in 0.03s
-20:06:01 INFO glTFImporter glTF import finished in 0.03s
-20:06:01 | INFO: Data are loaded, start creating Blender stuff
-20:06:01 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:01 | INFO: Blender create Mesh node steam_stack_3m
-20:06:01 INFO glTFImporter Blender create Mesh node steam_stack_3m
-20:06:01 | INFO: Blender create Mesh node steam_stack_3m_LOD1
-20:06:01 INFO glTFImporter Blender create Mesh node steam_stack_3m_LOD1
-20:06:01 | INFO: glTF import finished in 0.02s
-20:06:01 INFO glTFImporter glTF import finished in 0.02s
-20:06:01 | INFO: Data are loaded, start creating Blender stuff
-20:06:01 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:01 | INFO: Blender create Mesh node lamp_bishops_crook
-20:06:01 INFO glTFImporter Blender create Mesh node lamp_bishops_crook
-20:06:01 | INFO: Blender create Mesh node lamp_bishops_crook_LOD1
-20:06:01 INFO glTFImporter Blender create Mesh node lamp_bishops_crook_LOD1
-20:06:01 | INFO: glTF import finished in 0.04s
-20:06:01 INFO glTFImporter glTF import finished in 0.04s
-20:06:01 | INFO: Data are loaded, start creating Blender stuff
-20:06:01 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:01 | INFO: Blender create Mesh node flag_nyc_pole
-20:06:01 INFO glTFImporter Blender create Mesh node flag_nyc_pole
-20:06:01 | INFO: Blender create Mesh node flag_nyc_pole_LOD1
-20:06:01 INFO glTFImporter Blender create Mesh node flag_nyc_pole_LOD1
-20:06:01 | INFO: glTF import finished in 0.03s
-20:06:01 INFO glTFImporter glTF import finished in 0.03s
-20:06:01 | INFO: Data are loaded, start creating Blender stuff
-20:06:01 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:01 | INFO: Blender create Mesh node bench_worlds_fair
-20:06:01 INFO glTFImporter Blender create Mesh node bench_worlds_fair
-20:06:01 | INFO: Blender create Mesh node bench_worlds_fair_LOD1
-20:06:01 INFO glTFImporter Blender create Mesh node bench_worlds_fair_LOD1
-20:06:01 | INFO: glTF import finished in 0.03s
-20:06:01 INFO glTFImporter glTF import finished in 0.03s
-20:06:01 | INFO: Data are loaded, start creating Blender stuff
-20:06:01 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:01 | INFO: Blender create Mesh node win_double_hung_1_1_stone
-20:06:01 INFO glTFImporter Blender create Mesh node win_double_hung_1_1_stone
-20:06:01 | INFO: Blender create Mesh node win_double_hung_1_1_stone_LOD1
-20:06:01 INFO glTFImporter Blender create Mesh node win_double_hung_1_1_stone_LOD1
-20:06:01 | INFO: glTF import finished in 0.05s
-20:06:01 INFO glTFImporter glTF import finished in 0.05s
-20:06:01 | INFO: Data are loaded, start creating Blender stuff
-20:06:01 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:01 | INFO: Blender create Mesh node cornice_pressed_metal_b
-20:06:01 INFO glTFImporter Blender create Mesh node cornice_pressed_metal_b
-20:06:01 | INFO: Blender create Mesh node cornice_pressed_metal_b_LOD1
-20:06:01 INFO glTFImporter Blender create Mesh node cornice_pressed_metal_b_LOD1
-20:06:01 | INFO: glTF import finished in 0.02s
-20:06:01 INFO glTFImporter glTF import finished in 0.02s
-20:06:01 | INFO: Data are loaded, start creating Blender stuff
-20:06:01 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:01 | INFO: Blender create Mesh node string_course_stone_belt
-20:06:01 INFO glTFImporter Blender create Mesh node string_course_stone_belt
-20:06:01 | INFO: Blender create Mesh node string_course_stone_belt_LOD1
-20:06:01 INFO glTFImporter Blender create Mesh node string_course_stone_belt_LOD1
-20:06:01 | INFO: glTF import finished in 0.03s
-20:06:01 INFO glTFImporter glTF import finished in 0.03s
-20:06:01 | INFO: Data are loaded, start creating Blender stuff
-20:06:01 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:01 | INFO: Blender create Mesh node quoin_limestone
-20:06:01 INFO glTFImporter Blender create Mesh node quoin_limestone
-20:06:01 | INFO: Blender create Mesh node quoin_limestone_LOD1
-20:06:01 INFO glTFImporter Blender create Mesh node quoin_limestone_LOD1
-20:06:01 | INFO: glTF import finished in 0.03s
-20:06:01 INFO glTFImporter glTF import finished in 0.03s
-20:06:01 | INFO: Data are loaded, start creating Blender stuff
-20:06:01 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:01 | INFO: Blender create Mesh node bulkhead_stair_brick
-20:06:01 INFO glTFImporter Blender create Mesh node bulkhead_stair_brick
-20:06:01 | INFO: Blender create Mesh node bulkhead_stair_brick_LOD1
-20:06:01 INFO glTFImporter Blender create Mesh node bulkhead_stair_brick_LOD1
-20:06:02 | INFO: glTF import finished in 0.06s
-20:06:02 INFO glTFImporter glTF import finished in 0.06s
-20:06:02 | INFO: Data are loaded, start creating Blender stuff
-20:06:02 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:02 | INFO: Blender create Mesh node entry_apartment_lobby_glass
-20:06:02 INFO glTFImporter Blender create Mesh node entry_apartment_lobby_glass
-20:06:02 | INFO: Blender create Mesh node entry_apartment_lobby_glass_LOD1
-20:06:02 INFO glTFImporter Blender create Mesh node entry_apartment_lobby_glass_LOD1
-20:06:02 | INFO: glTF import finished in 0.05s
-20:06:02 INFO glTFImporter glTF import finished in 0.05s
-20:06:02 | INFO: Data are loaded, start creating Blender stuff
-20:06:02 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:02 | INFO: Blender create Mesh node fire_escape_top_hook
-20:06:02 INFO glTFImporter Blender create Mesh node fire_escape_top_hook
-20:06:02 | INFO: Blender create Mesh node fire_escape_top_hook_LOD1
-20:06:02 INFO glTFImporter Blender create Mesh node fire_escape_top_hook_LOD1
-20:06:02 | INFO: glTF import finished in 0.04s
-20:06:02 INFO glTFImporter glTF import finished in 0.04s
-20:06:02 | INFO: Data are loaded, start creating Blender stuff
-20:06:02 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:02 | INFO: Blender create Mesh node fire_escape_floor_unit
-20:06:02 INFO glTFImporter Blender create Mesh node fire_escape_floor_unit
-20:06:02 | INFO: Blender create Mesh node fire_escape_floor_unit_LOD1
-20:06:02 INFO glTFImporter Blender create Mesh node fire_escape_floor_unit_LOD1
-20:06:02 | INFO: glTF import finished in 0.05s
-20:06:02 INFO glTFImporter glTF import finished in 0.05s
-20:06:02 | INFO: Data are loaded, start creating Blender stuff
-20:06:02 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:02 | INFO: Blender create Mesh node fire_escape_drop_ladder
-20:06:02 INFO glTFImporter Blender create Mesh node fire_escape_drop_ladder
-20:06:02 | INFO: Blender create Mesh node fire_escape_drop_ladder_LOD1
-20:06:02 INFO glTFImporter Blender create Mesh node fire_escape_drop_ladder_LOD1
-20:06:02 | INFO: glTF import finished in 0.03s
-20:06:02 INFO glTFImporter glTF import finished in 0.03s
-20:06:02 | INFO: Data are loaded, start creating Blender stuff
-20:06:02 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:02 | INFO: Blender create Mesh node fire_escape_balcony_top
-20:06:02 INFO glTFImporter Blender create Mesh node fire_escape_balcony_top
-20:06:02 | INFO: Blender create Mesh node fire_escape_balcony_top_LOD1
-20:06:02 INFO glTFImporter Blender create Mesh node fire_escape_balcony_top_LOD1
-20:06:02 | INFO: glTF import finished in 0.04s
-20:06:02 INFO glTFImporter glTF import finished in 0.04s
-20:06:02 | INFO: Data are loaded, start creating Blender stuff
-20:06:02 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:02 | INFO: Blender create Mesh node win_aluminum_slider
-20:06:02 INFO glTFImporter Blender create Mesh node win_aluminum_slider
-20:06:02 | INFO: Blender create Mesh node win_aluminum_slider_LOD1
-20:06:02 INFO glTFImporter Blender create Mesh node win_aluminum_slider_LOD1
-20:06:02 | INFO: glTF import finished in 0.06s
-20:06:02 INFO glTFImporter glTF import finished in 0.06s
-20:06:02 | INFO: Data are loaded, start creating Blender stuff
-20:06:02 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:02 | INFO: Blender create Mesh node entry_lobby_canopy
-20:06:02 INFO glTFImporter Blender create Mesh node entry_lobby_canopy
-20:06:02 | INFO: Blender create Mesh node entry_lobby_canopy_LOD1
-20:06:02 INFO glTFImporter Blender create Mesh node entry_lobby_canopy_LOD1
-20:06:02 | INFO: glTF import finished in 0.11s
-20:06:02 INFO glTFImporter glTF import finished in 0.11s
-20:06:02 | INFO: Data are loaded, start creating Blender stuff
-20:06:02 INFO glTFImporter Data are loaded, start creating Blender stuff
-20:06:02 | INFO: Blender create Mesh node parapet_wall_brick
-20:06:02 INFO glTFImporter Blender create Mesh node parapet_wall_brick
-20:06:02 | INFO: Blender create Mesh node parapet_wall_brick_LOD1
-20:06:02 INFO glTFImporter Blender create Mesh node parapet_wall_brick_LOD1
-20:06:02 | INFO: glTF import finished in 0.06s
-20:06:02 INFO glTFImporter glTF import finished in 0.06s
-20:06:02 INFO nycsim.verify.scene scene built: 889496 triangles in 5.5 s (4 tiles, 7 landmarks, 969 pavement polys, 120 props, 368 kit)
-Fra:1 Mem:229.04M (Peak 229.04M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | verify_terrain
-Fra:1 Mem:233.88M (Peak 233.88M) | Time:00:00.11 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | verify_pavement
-Fra:1 Mem:242.86M (Peak 242.99M) | Time:00:00.11 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | verify_sun
-Fra:1 Mem:242.86M (Peak 242.99M) | Time:00:00.11 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2204_246
-Fra:1 Mem:244.86M (Peak 244.86M) | Time:00:00.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_608_239
-Fra:1 Mem:245.40M (Peak 245.40M) | Time:00:00.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_200_230
-Fra:1 Mem:245.44M (Peak 245.44M) | Time:00:00.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2000_71
-Fra:1 Mem:245.55M (Peak 245.55M) | Time:00:00.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2002_70
-Fra:1 Mem:246.26M (Peak 246.26M) | Time:00:00.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2003_67
-Fra:1 Mem:246.50M (Peak 246.50M) | Time:00:00.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2005_66
-Fra:1 Mem:248.55M (Peak 248.55M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_600_65
-Fra:1 Mem:248.60M (Peak 248.60M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2401_38
-Fra:1 Mem:248.62M (Peak 248.62M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_1202_16
-Fra:1 Mem:248.64M (Peak 248.64M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_1002_9
-Fra:1 Mem:248.65M (Peak 248.65M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_803_8
-Fra:1 Mem:248.72M (Peak 248.72M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_209_0
-Fra:1 Mem:248.77M (Peak 248.77M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_bench_worlds_fair_23
-Fra:1 Mem:248.98M (Peak 248.98M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_flag_nyc_pole_21
-Fra:1 Mem:249.04M (Peak 249.04M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_lamp_bishops_crook_19
-Fra:1 Mem:249.24M (Peak 249.24M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_steam_stack_3m_5
-Fra:1 Mem:249.26M (Peak 249.26M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_brownstone
-Fra:1 Mem:249.42M (Peak 249.42M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_cast_iron
-Fra:1 Mem:249.42M (Peak 249.42M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_concrete
-Fra:1 Mem:249.43M (Peak 249.43M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_glass_curtain
-Fra:1 Mem:249.44M (Peak 249.44M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_granite
-Fra:1 Mem:249.46M (Peak 249.46M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_limestone
-Fra:1 Mem:250.01M (Peak 250.01M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_manhole_coned_1
-Fra:1 Mem:250.00M (Peak 250.01M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_lamp_cobra_davit_0
-Fra:1 Mem:250.55M (Peak 250.55M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_roof_membrane
-Fra:1 Mem:250.78M (Peak 250.78M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_stone_rubble
-Fra:1 Mem:251.17M (Peak 251.17M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_stucco
-Fra:1 Mem:251.24M (Peak 251.24M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_tan_brick
-Fra:1 Mem:251.71M (Peak 251.71M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_the_dakota.5
-Fra:1 Mem:251.75M (Peak 251.75M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_the_dakota.4
-Fra:1 Mem:257.86M (Peak 257.86M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_tar_roof
-Fra:1 Mem:257.86M (Peak 257.86M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_terracotta
-Fra:1 Mem:257.86M (Peak 257.86M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_white_glazed_brick
-Fra:1 Mem:260.19M (Peak 262.20M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_brown_brick
-Fra:1 Mem:256.89M (Peak 262.20M) | Time:00:00.19 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_brownstone
-Fra:1 Mem:257.56M (Peak 262.20M) | Time:00:00.19 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_the_dakota.3
-Fra:1 Mem:257.58M (Peak 262.20M) | Time:00:00.19 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_the_dakota.2
-Fra:1 Mem:257.60M (Peak 262.20M) | Time:00:00.19 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_the_dakota.1
-Fra:1 Mem:258.32M (Peak 262.20M) | Time:00:00.20 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_concrete
-Fra:1 Mem:258.47M (Peak 262.20M) | Time:00:00.20 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_glass_curtain
-Fra:1 Mem:258.57M (Peak 262.20M) | Time:00:00.20 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_granite
-Fra:1 Mem:258.64M (Peak 262.20M) | Time:00:00.20 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_limestone
-Fra:1 Mem:259.79M (Peak 262.20M) | Time:00:00.20 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_metal_panel
-Fra:1 Mem:259.84M (Peak 262.20M) | Time:00:00.20 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_red_brick
-Fra:1 Mem:261.02M (Peak 262.20M) | Time:00:00.20 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_metropolitan_museum.8
-Fra:1 Mem:261.04M (Peak 262.20M) | Time:00:00.20 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_metropolitan_museum.7
-Fra:1 Mem:261.12M (Peak 262.20M) | Time:00:00.20 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_metropolitan_museum.6
-Fra:1 Mem:261.18M (Peak 262.20M) | Time:00:00.21 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_roof_membrane
-Fra:1 Mem:261.90M (Peak 262.20M) | Time:00:00.21 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_stone_rubble
-Fra:1 Mem:263.22M (Peak 263.22M) | Time:00:00.21 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_stucco
-Fra:1 Mem:263.28M (Peak 263.28M) | Time:00:00.21 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_tan_brick
-Fra:1 Mem:265.26M (Peak 265.26M) | Time:00:00.21 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_tar_roof
-Fra:1 Mem:265.26M (Peak 265.26M) | Time:00:00.21 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_vinyl_siding
-Fra:1 Mem:265.27M (Peak 265.27M) | Time:00:00.21 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_white_glazed_brick
-Fra:1 Mem:265.41M (Peak 265.41M) | Time:00:00.22 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_wood_clapboard
-Fra:1 Mem:265.65M (Peak 265.65M) | Time:00:00.22 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_brown_brick
-Fra:1 Mem:265.76M (Peak 265.76M) | Time:00:00.22 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_brownstone
-Fra:1 Mem:267.96M (Peak 267.96M) | Time:00:00.22 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_concrete
-Fra:1 Mem:268.00M (Peak 268.00M) | Time:00:00.22 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_glass_curtain
-Fra:1 Mem:267.64M (Peak 269.20M) | Time:00:00.23 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_granite
-Fra:1 Mem:267.93M (Peak 269.20M) | Time:00:00.23 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_metal_panel
-Fra:1 Mem:267.94M (Peak 269.20M) | Time:00:00.23 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_red_brick
-Fra:1 Mem:270.81M (Peak 270.81M) | Time:00:00.23 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_roof_membrane
-Fra:1 Mem:271.64M (Peak 271.64M) | Time:00:00.24 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_stone_rubble
-Fra:1 Mem:271.64M (Peak 271.64M) | Time:00:00.24 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_metropolitan_museum.3
-Fra:1 Mem:271.79M (Peak 271.79M) | Time:00:00.24 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_metropolitan_museum.2
-Fra:1 Mem:273.64M (Peak 273.64M) | Time:00:00.24 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_stucco
-Fra:1 Mem:273.64M (Peak 273.64M) | Time:00:00.24 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_tan_brick
-Fra:1 Mem:274.11M (Peak 274.11M) | Time:00:00.24 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_tar_roof
-Fra:1 Mem:274.64M (Peak 274.64M) | Time:00:00.25 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_white_glazed_brick
-Fra:1 Mem:274.66M (Peak 274.66M) | Time:00:00.25 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_wood_clapboard
-Fra:1 Mem:274.67M (Peak 274.67M) | Time:00:00.25 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_brown_brick
-Fra:1 Mem:274.79M (Peak 274.79M) | Time:00:00.25 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_concrete
-Fra:1 Mem:276.18M (Peak 276.18M) | Time:00:00.25 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_glass_curtain
-Fra:1 Mem:276.36M (Peak 276.36M) | Time:00:00.25 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_granite
-Fra:1 Mem:276.39M (Peak 276.39M) | Time:00:00.25 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_limestone
-Fra:1 Mem:276.53M (Peak 276.53M) | Time:00:00.25 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_metal_panel
-Fra:1 Mem:276.55M (Peak 276.55M) | Time:00:00.25 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_precast
-Fra:1 Mem:276.56M (Peak 276.56M) | Time:00:00.25 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_roof_membrane
-Fra:1 Mem:276.88M (Peak 276.88M) | Time:00:00.25 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_stone_rubble
-Fra:1 Mem:276.88M (Peak 276.88M) | Time:00:00.25 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_stucco
-Fra:1 Mem:276.89M (Peak 276.89M) | Time:00:00.25 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_tan_brick
-Fra:1 Mem:277.62M (Peak 277.62M) | Time:00:00.25 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_tar_roof
-Fra:1 Mem:281.42M (Peak 281.42M) | Time:00:00.26 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_terracotta
-Fra:1 Mem:281.46M (Peak 281.46M) | Time:00:00.26 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_white_glazed_brick
-Fra:1 Mem:281.51M (Peak 281.51M) | Time:00:00.26 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_wood_clapboard
-Fra:1 Mem:281.54M (Peak 281.54M) | Time:00:00.26 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.0
-Fra:1 Mem:281.61M (Peak 281.61M) | Time:00:00.26 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.1
-Fra:1 Mem:281.61M (Peak 281.61M) | Time:00:00.26 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.2
-Fra:1 Mem:281.65M (Peak 281.65M) | Time:00:00.26 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.3
-Fra:1 Mem:281.89M (Peak 281.89M) | Time:00:00.26 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.5
-Fra:1 Mem:283.00M (Peak 283.00M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.6
-Fra:1 Mem:283.05M (Peak 283.05M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.7
-Fra:1 Mem:283.23M (Peak 283.23M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.8
-Fra:1 Mem:283.31M (Peak 283.31M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.9
-Fra:1 Mem:283.31M (Peak 283.31M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.10
-Fra:1 Mem:283.32M (Peak 283.32M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.11
-Fra:1 Mem:283.35M (Peak 283.35M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.12
-Fra:1 Mem:283.36M (Peak 283.36M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.13
-Fra:1 Mem:283.37M (Peak 283.37M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.14
-Fra:1 Mem:283.40M (Peak 283.40M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.0
-Fra:1 Mem:286.22M (Peak 286.56M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.2
-Fra:1 Mem:286.22M (Peak 286.56M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.3
-Fra:1 Mem:286.22M (Peak 286.56M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.4
-Fra:1 Mem:286.23M (Peak 286.56M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.5
-Fra:1 Mem:286.24M (Peak 286.56M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.6
-Fra:1 Mem:286.25M (Peak 286.56M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.7
-Fra:1 Mem:286.28M (Peak 286.56M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.8
-Fra:1 Mem:286.32M (Peak 286.56M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.9
-Fra:1 Mem:286.32M (Peak 286.56M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.10
-Fra:1 Mem:286.32M (Peak 286.56M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.11
-Fra:1 Mem:286.32M (Peak 286.56M) | Time:00:00.28 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.12
-Fra:1 Mem:286.33M (Peak 286.56M) | Time:00:00.28 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.13
-Fra:1 Mem:286.34M (Peak 286.56M) | Time:00:00.28 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.14
-Fra:1 Mem:286.35M (Peak 286.56M) | Time:00:00.28 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.15
-Fra:1 Mem:286.37M (Peak 286.56M) | Time:00:00.28 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.16
-Fra:1 Mem:286.37M (Peak 286.56M) | Time:00:00.28 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.17
-Fra:1 Mem:286.41M (Peak 286.56M) | Time:00:00.28 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.18
-Fra:1 Mem:286.46M (Peak 286.56M) | Time:00:00.28 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.19
-Fra:1 Mem:286.46M (Peak 286.56M) | Time:00:00.28 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.20
-Fra:1 Mem:287.49M (Peak 288.49M) | Time:00:00.28 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.21
-Fra:1 Mem:287.50M (Peak 288.49M) | Time:00:00.28 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.22
-Fra:1 Mem:287.50M (Peak 288.49M) | Time:00:00.28 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.23
-Fra:1 Mem:287.50M (Peak 288.49M) | Time:00:00.28 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.24
-Fra:1 Mem:289.29M (Peak 289.34M) | Time:00:00.29 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.25
-Fra:1 Mem:289.29M (Peak 289.34M) | Time:00:00.29 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.26
-Fra:1 Mem:289.29M (Peak 289.34M) | Time:00:00.29 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bow_bridge.0
-Fra:1 Mem:289.30M (Peak 289.34M) | Time:00:00.29 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bow_bridge.1
-Fra:1 Mem:289.30M (Peak 289.34M) | Time:00:00.29 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bow_bridge.2
-Fra:1 Mem:289.37M (Peak 289.37M) | Time:00:00.29 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bow_bridge.3
-Fra:1 Mem:289.36M (Peak 289.37M) | Time:00:00.29 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bow_bridge.5
-Fra:1 Mem:289.35M (Peak 289.37M) | Time:00:00.30 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bow_bridge.6
-Fra:1 Mem:289.39M (Peak 289.39M) | Time:00:00.30 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_central_park_walls_gates.0
-Fra:1 Mem:289.56M (Peak 289.56M) | Time:00:00.30 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_central_park_walls_gates.1
-Fra:1 Mem:291.83M (Peak 291.83M) | Time:00:00.30 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_central_park_walls_gates.2
-Fra:1 Mem:292.78M (Peak 295.68M) | Time:00:00.32 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.0
-Fra:1 Mem:292.66M (Peak 295.68M) | Time:00:00.32 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.1
-Fra:1 Mem:292.87M (Peak 295.68M) | Time:00:00.32 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.2
-Fra:1 Mem:296.21M (Peak 296.21M) | Time:00:00.32 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.3
-Fra:1 Mem:296.42M (Peak 296.42M) | Time:00:00.32 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.4
-Fra:1 Mem:297.38M (Peak 297.38M) | Time:00:00.33 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.5
-Fra:1 Mem:305.96M (Peak 308.16M) | Time:00:00.34 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.6
-Fra:1 Mem:305.99M (Peak 308.16M) | Time:00:00.34 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.7
-Fra:1 Mem:305.99M (Peak 308.16M) | Time:00:00.34 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.8
-Fra:1 Mem:306.02M (Peak 308.16M) | Time:00:00.35 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.9
-Fra:1 Mem:306.06M (Peak 308.16M) | Time:00:00.35 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.10
-Fra:1 Mem:309.45M (Peak 318.84M) | Time:00:00.38 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.11
-Fra:1 Mem:302.88M (Peak 318.84M) | Time:00:00.39 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_metropolitan_museum.1
-Fra:1 Mem:302.86M (Peak 318.84M) | Time:00:00.39 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.12
-Fra:1 Mem:303.14M (Peak 318.84M) | Time:00:00.39 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_metropolitan_museum.0
-Fra:1 Mem:303.08M (Peak 318.84M) | Time:00:00.39 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.13
-Fra:1 Mem:301.93M (Peak 318.84M) | Time:00:00.39 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
-Fra:1 Mem:299.25M (Peak 318.84M) | Time:00:00.40 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_normal.002
-Fra:1 Mem:299.25M (Peak 318.84M) | Time:00:00.40 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Granite002A_1K_roughness
-Fra:1 Mem:315.28M (Peak 319.27M) | Time:00:00.45 | Mem:4.00M, Peak:4.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_orm.002
-Fra:1 Mem:315.27M (Peak 319.28M) | Time:00:00.45 | Mem:8.00M, Peak:8.00M | Scene, ViewLayer | Updating Images | Loading Granite002A_1K_normal
-Fra:1 Mem:323.28M (Peak 327.29M) | Time:00:00.47 | Mem:12.00M, Peak:12.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_bk11_color.002
-Fra:1 Mem:323.27M (Peak 327.29M) | Time:00:00.47 | Mem:16.00M, Peak:16.00M | Scene, ViewLayer | Updating Images | Loading tarred_gravel_1K_color
-Fra:1 Mem:331.28M (Peak 335.29M) | Time:00:00.49 | Mem:20.00M, Peak:20.00M | Scene, ViewLayer | Updating Images | Loading tarred_gravel_1K_roughness
-Fra:1 Mem:331.27M (Peak 335.29M) | Time:00:00.49 | Mem:24.00M, Peak:24.00M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_normal.002
-Fra:1 Mem:339.28M (Peak 343.29M) | Time:00:00.50 | Mem:28.00M, Peak:28.00M | Scene, ViewLayer | Updating Images | Loading tarred_gravel_1K_normal
-Fra:1 Mem:339.27M (Peak 343.29M) | Time:00:00.51 | Mem:32.00M, Peak:32.00M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_orm.002
-Fra:1 Mem:343.27M (Peak 347.28M) | Time:00:00.52 | Mem:36.00M, Peak:36.00M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_bk17_color.002
-Fra:1 Mem:347.27M (Peak 355.29M) | Time:00:00.53 | Mem:44.00M, Peak:44.00M | Scene, ViewLayer | Updating Images | Loading Concrete030_1K_color
-Fra:1 Mem:351.27M (Peak 355.29M) | Time:00:00.53 | Mem:44.00M, Peak:44.00M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.003
-Fra:1 Mem:359.28M (Peak 359.28M) | Time:00:00.54 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Images | Loading Concrete030_1K_roughness
-Fra:1 Mem:359.27M (Peak 363.28M) | Time:00:00.55 | Mem:52.00M, Peak:52.00M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.003
-Fra:1 Mem:363.27M (Peak 367.28M) | Time:00:00.55 | Mem:56.00M, Peak:56.00M | Scene, ViewLayer | Updating Images | Loading Fabric071_1024_normal
-Fra:1 Mem:371.28M (Peak 375.29M) | Time:00:00.57 | Mem:60.00M, Peak:60.00M | Scene, ViewLayer | Updating Images | Loading Fabric071_1024_color
-Fra:1 Mem:371.27M (Peak 375.29M) | Time:00:00.57 | Mem:64.00M, Peak:64.00M | Scene, ViewLayer | Updating Images | Loading Concrete030_1K_normal
-Fra:1 Mem:375.27M (Peak 379.28M) | Time:00:00.58 | Mem:68.00M, Peak:68.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_normal.001
-Fra:1 Mem:379.27M (Peak 383.29M) | Time:00:00.58 | Mem:72.00M, Peak:72.00M | Scene, ViewLayer | Updating Images | Loading Concrete030_1K_color.001
-Fra:1 Mem:383.27M (Peak 387.28M) | Time:00:00.61 | Mem:76.00M, Peak:76.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_orm.001
-Fra:1 Mem:395.29M (Peak 399.30M) | Time:00:00.62 | Mem:80.00M, Peak:80.00M | Scene, ViewLayer | Updating Images | Loading Concrete030_1K_roughness.001
-Fra:1 Mem:395.28M (Peak 399.30M) | Time:00:00.63 | Mem:84.00M, Peak:84.00M | Scene, ViewLayer | Updating Images | Loading Concrete030_1K_normal.001
-Fra:1 Mem:395.27M (Peak 399.30M) | Time:00:00.63 | Mem:88.00M, Peak:88.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_bk11_color.001
-Fra:1 Mem:399.27M (Peak 403.28M) | Time:00:00.65 | Mem:92.00M, Peak:92.00M | Scene, ViewLayer | Updating Images | Loading interior_card_unlit.001
-Fra:1 Mem:400.27M (Peak 404.29M) | Time:00:00.66 | Mem:96.00M, Peak:96.00M | Scene, ViewLayer | Updating Images | Loading tarred_gravel_1K_color.001
-Fra:1 Mem:404.28M (Peak 408.28M) | Time:00:00.68 | Mem:100.00M, Peak:100.00M | Scene, ViewLayer | Updating Images | Loading tarred_gravel_1K_roughness.001
-Fra:1 Mem:408.28M (Peak 408.28M) | Time:00:00.69 | Mem:101.00M, Peak:101.00M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.002
-Fra:1 Mem:416.28M (Peak 420.29M) | Time:00:00.70 | Mem:105.00M, Peak:105.00M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.002
-Fra:1 Mem:416.28M (Peak 420.29M) | Time:00:00.71 | Mem:109.00M, Peak:109.00M | Scene, ViewLayer | Updating Images | Loading tarred_gravel_1K_normal.001
-Fra:1 Mem:420.28M (Peak 424.28M) | Time:00:00.72 | Mem:113.00M, Peak:113.00M | Scene, ViewLayer | Updating Images | Loading Bricks060_1024_normal
-Fra:1 Mem:428.28M (Peak 432.29M) | Time:00:00.75 | Mem:117.00M, Peak:117.00M | Scene, ViewLayer | Updating Images | Loading Bricks060_1024_orm
-Fra:1 Mem:428.27M (Peak 432.29M) | Time:00:00.76 | Mem:125.00M, Peak:125.00M | Scene, ViewLayer | Updating Images | Loading Granite002A_1K_roughness.001
-Fra:1 Mem:436.28M (Peak 440.28M) | Time:00:00.78 | Mem:129.00M, Peak:129.00M | Scene, ViewLayer | Updating Images | Loading Bricks060_1024_bk11_color
-Fra:1 Mem:440.28M (Peak 444.28M) | Time:00:00.81 | Mem:133.00M, Peak:133.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_normal.003
-Fra:1 Mem:444.28M (Peak 448.28M) | Time:00:00.82 | Mem:137.00M, Peak:137.00M | Scene, ViewLayer | Updating Images | Loading Granite002A_1K_normal.001
-Fra:1 Mem:452.29M (Peak 452.29M) | Time:00:00.84 | Mem:141.00M, Peak:141.00M | Scene, ViewLayer | Updating Images | Loading Travertine005_1K_color
-Fra:1 Mem:456.28M (Peak 460.29M) | Time:00:00.85 | Mem:145.00M, Peak:145.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm.003
-Fra:1 Mem:456.28M (Peak 460.29M) | Time:00:00.86 | Mem:149.00M, Peak:149.00M | Scene, ViewLayer | Updating Images | Loading Travertine005_1K_roughness
-Fra:1 Mem:460.28M (Peak 464.28M) | Time:00:00.87 | Mem:153.00M, Peak:153.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color.003
-Fra:1 Mem:464.27M (Peak 468.28M) | Time:00:00.89 | Mem:157.00M, Peak:157.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_normal.002
-Fra:1 Mem:468.28M (Peak 468.28M) | Time:00:00.90 | Mem:161.00M, Peak:161.00M | Scene, ViewLayer | Updating Images | Loading Travertine005_1K_normal
-Fra:1 Mem:472.28M (Peak 476.29M) | Time:00:00.93 | Mem:165.00M, Peak:165.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm.002
-Fra:1 Mem:480.28M (Peak 484.29M) | Time:00:00.94 | Mem:169.00M, Peak:169.00M | Scene, ViewLayer | Updating Images | Loading Rubber004_1K_color
-Fra:1 Mem:480.27M (Peak 488.29M) | Time:00:00.95 | Mem:177.00M, Peak:177.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color.002
-Fra:1 Mem:484.27M (Peak 488.29M) | Time:00:00.95 | Mem:181.00M, Peak:181.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_normal.001
-Fra:1 Mem:488.28M (Peak 488.29M) | Time:00:00.96 | Mem:181.00M, Peak:181.00M | Scene, ViewLayer | Updating Images | Loading Rubber004_1K_roughness
-Fra:1 Mem:492.28M (Peak 496.29M) | Time:00:00.97 | Mem:185.00M, Peak:185.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm.001
-Fra:1 Mem:496.28M (Peak 500.29M) | Time:00:00.99 | Mem:189.00M, Peak:189.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color.001
-Fra:1 Mem:504.28M (Peak 508.29M) | Time:00:01.00 | Mem:193.00M, Peak:193.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_normal
-Fra:1 Mem:504.28M (Peak 508.29M) | Time:00:01.01 | Mem:197.00M, Peak:197.00M | Scene, ViewLayer | Updating Images | Loading Rubber004_1K_normal
-Fra:1 Mem:512.28M (Peak 516.29M) | Time:00:01.02 | Mem:201.00M, Peak:201.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm
-Fra:1 Mem:516.28M (Peak 520.29M) | Time:00:01.03 | Mem:205.00M, Peak:205.00M | Scene, ViewLayer | Updating Images | Loading Marble026_1K_color
-Fra:1 Mem:516.28M (Peak 520.29M) | Time:00:01.04 | Mem:209.00M, Peak:209.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color
-Fra:1 Mem:520.28M (Peak 524.29M) | Time:00:01.05 | Mem:213.00M, Peak:213.00M | Scene, ViewLayer | Updating Images | Loading interior_card_lit
-Fra:1 Mem:521.28M (Peak 525.29M) | Time:00:01.06 | Mem:217.00M, Peak:217.00M | Scene, ViewLayer | Updating Images | Loading Marble026_1K_roughness
-Fra:1 Mem:521.27M (Peak 525.29M) | Time:00:01.07 | Mem:218.00M, Peak:218.00M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.001
-Fra:1 Mem:529.28M (Peak 533.29M) | Time:00:01.08 | Mem:222.00M, Peak:222.00M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.001
-Fra:1 Mem:533.28M (Peak 537.29M) | Time:00:01.10 | Mem:226.00M, Peak:226.00M | Scene, ViewLayer | Updating Images | Loading Granite002A_1024_normal
-Fra:1 Mem:541.28M (Peak 545.29M) | Time:00:01.11 | Mem:230.00M, Peak:230.00M | Scene, ViewLayer | Updating Images | Loading Granite002A_1024_color
-Fra:1 Mem:545.28M (Peak 545.29M) | Time:00:01.13 | Mem:234.00M, Peak:234.00M | Scene, ViewLayer | Updating Images | Loading Marble026_1K_normal
-Fra:1 Mem:545.28M (Peak 549.29M) | Time:00:01.13 | Mem:238.00M, Peak:238.00M | Scene, ViewLayer | Updating Images | Loading Metal055A_1K_color
-Fra:1 Mem:549.28M (Peak 553.29M) | Time:00:01.14 | Mem:242.00M, Peak:242.00M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_normal
-Fra:1 Mem:557.28M (Peak 561.29M) | Time:00:01.16 | Mem:246.00M, Peak:246.00M | Scene, ViewLayer | Updating Images | Loading Metal055A_1K_metalness-Metal055A_1K_roughness
-Fra:1 Mem:557.28M (Peak 561.29M) | Time:00:01.17 | Mem:250.00M, Peak:250.00M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_color
-Fra:1 Mem:561.28M (Peak 565.29M) | Time:00:01.19 | Mem:254.00M, Peak:254.00M | Scene, ViewLayer | Updating Images | Loading Rubber004_1024_normal
-Fra:1 Mem:565.28M (Peak 569.29M) | Time:00:01.20 | Mem:258.00M, Peak:258.00M | Scene, ViewLayer | Updating Images | Loading Metal055A_1K_normal
-Fra:1 Mem:569.28M (Peak 573.29M) | Time:00:01.21 | Mem:262.00M, Peak:262.00M | Scene, ViewLayer | Updating Images | Loading Rubber004_1024_orm
-Fra:1 Mem:573.28M (Peak 577.29M) | Time:00:01.22 | Mem:266.00M, Peak:266.00M | Scene, ViewLayer | Updating Images | Loading Bricks029_1K_color
-Fra:1 Mem:577.28M (Peak 581.29M) | Time:00:01.24 | Mem:270.00M, Peak:270.00M | Scene, ViewLayer | Updating Images | Loading Rubber004_1024_color
-Fra:1 Mem:585.28M (Peak 589.29M) | Time:00:01.26 | Mem:274.00M, Peak:274.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_normal
-Fra:1 Mem:589.28M (Peak 593.29M) | Time:00:01.27 | Mem:278.00M, Peak:278.00M | Scene, ViewLayer | Updating Images | Loading Bricks029_1K_roughness
-Fra:1 Mem:593.28M (Peak 597.29M) | Time:00:01.28 | Mem:282.00M, Peak:282.00M | Scene, ViewLayer | Updating Images | Loading Bricks029_1K_normal
-Fra:1 Mem:593.28M (Peak 597.29M) | Time:00:01.28 | Mem:286.00M, Peak:286.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_orm
-Fra:1 Mem:597.28M (Peak 601.29M) | Time:00:01.30 | Mem:290.00M, Peak:290.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_bk11_color
-Fra:1 Mem:601.28M (Peak 605.29M) | Time:00:01.32 | Mem:294.00M, Peak:294.00M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_normal.001
-Fra:1 Mem:609.28M (Peak 613.29M) | Time:00:01.33 | Mem:298.00M, Peak:298.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_512_color
-Fra:1 Mem:609.78M (Peak 613.29M) | Time:00:01.33 | Mem:298.50M, Peak:298.50M | Scene, ViewLayer | Updating Images | Loading Concrete034_512_normal
-Fra:1 Mem:606.27M (Peak 613.29M) | Time:00:01.34 | Mem:303.00M, Peak:303.00M | Scene, ViewLayer | Updating Images | Loading Metal032_512_color
-Fra:1 Mem:607.27M (Peak 613.29M) | Time:00:01.34 | Mem:304.00M, Peak:304.00M | Scene, ViewLayer | Updating Images | Loading Metal032_512_normal
-Fra:1 Mem:612.28M (Peak 613.29M) | Time:00:01.35 | Mem:305.00M, Peak:305.00M | Scene, ViewLayer | Updating Images | Loading light_cone_gradient
-Fra:1 Mem:612.34M (Peak 613.29M) | Time:00:01.35 | Mem:305.06M, Peak:305.06M | Scene, ViewLayer | Updating Images | Loading Metal041B_512_color
-Fra:1 Mem:617.35M (Peak 618.36M) | Time:00:01.35 | Mem:306.06M, Peak:306.06M | Scene, ViewLayer | Updating Images | Loading Metal041B_512_normal
-Fra:1 Mem:622.36M (Peak 623.37M) | Time:00:01.36 | Mem:307.06M, Peak:307.06M | Scene, ViewLayer | Updating Images | Loading Metal041B_512_color.001
-Fra:1 Mem:623.36M (Peak 624.37M) | Time:00:01.36 | Mem:308.06M, Peak:308.06M | Scene, ViewLayer | Updating Images | Loading Metal041B_512_normal.001
-Fra:1 Mem:619.35M (Peak 624.37M) | Time:00:01.36 | Mem:312.06M, Peak:312.06M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_bk17_color.001
-Fra:1 Mem:624.35M (Peak 625.36M) | Time:00:01.37 | Mem:313.06M, Peak:313.06M | Scene, ViewLayer | Updating Images | Loading light_cone_gradient.001
-Fra:1 Mem:620.34M (Peak 625.36M) | Time:00:01.37 | Mem:317.06M, Peak:317.06M | Scene, ViewLayer | Updating Images | Loading Metal032_512_color.001
-Fra:1 Mem:621.40M (Peak 625.36M) | Time:00:01.37 | Mem:317.12M, Peak:317.12M | Scene, ViewLayer | Updating Images | Loading Metal032_512_normal.001
-Fra:1 Mem:626.41M (Peak 627.42M) | Time:00:01.38 | Mem:319.12M, Peak:319.12M | Scene, ViewLayer | Updating Images | Loading Metal041B_512_color.002
-Fra:1 Mem:628.57M (Peak 629.58M) | Time:00:01.39 | Mem:320.12M, Peak:320.12M | Scene, ViewLayer | Updating Images | Loading Metal041B_512_normal.002
-Fra:1 Mem:624.56M (Peak 629.58M) | Time:00:01.39 | Mem:324.12M, Peak:324.12M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_normal.002
-Fra:1 Mem:633.57M (Peak 634.58M) | Time:00:01.40 | Mem:325.12M, Peak:325.12M | Scene, ViewLayer | Updating Images | Loading Planks021_512_color
-Fra:1 Mem:634.57M (Peak 635.58M) | Time:00:01.40 | Mem:327.28M, Peak:327.28M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_bk17_color
-Fra:1 Mem:630.56M (Peak 635.58M) | Time:00:01.40 | Mem:331.28M, Peak:331.28M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_color.002
-Fra:1 Mem:639.56M (Peak 640.57M) | Time:00:01.41 | Mem:332.28M, Peak:332.28M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_orm
-Fra:1 Mem:643.56M (Peak 647.57M) | Time:00:01.43 | Mem:336.28M, Peak:336.28M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_normal.001
-Fra:1 Mem:655.58M (Peak 659.59M) | Time:00:01.45 | Mem:340.28M, Peak:340.28M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_normal
-Fra:1 Mem:655.57M (Peak 659.59M) | Time:00:01.45 | Mem:344.28M, Peak:344.28M | Scene, ViewLayer | Updating Images | Loading PaintedWood007C_1024_color
-Fra:1 Mem:651.56M (Peak 659.59M) | Time:00:01.46 | Mem:348.28M, Peak:348.28M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_color.001
-Fra:1 Mem:663.57M (Peak 667.58M) | Time:00:01.48 | Mem:352.28M, Peak:352.28M | Scene, ViewLayer | Updating Images | Loading PaintedWood007C_1024_orm
-Fra:1 Mem:663.56M (Peak 667.58M) | Time:00:01.49 | Mem:360.28M, Peak:360.28M | Scene, ViewLayer | Updating Images | Loading PaintedWood007C_1024_normal
-Fra:1 Mem:675.57M (Peak 679.58M) | Time:00:01.50 | Mem:364.28M, Peak:364.28M | Scene, ViewLayer | Updating Images | Loading interior_card_unlit
-Fra:1 Mem:671.56M (Peak 679.58M) | Time:00:01.51 | Mem:372.28M, Peak:372.28M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_color
-Fra:1 Mem:684.57M (Peak 685.58M) | Time:00:01.52 | Mem:373.28M, Peak:373.28M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_normal
-Fra:1 Mem:663.78M (Peak 692.58M) | Time:00:01.56 | Mem:385.28M, Peak:385.28M | Scene, ViewLayer | Waiting for render to start
-Fra:1 Mem:663.78M (Peak 692.58M) | Time:00:01.56 | Mem:385.28M, Peak:385.28M | Scene, ViewLayer | Updating Scene
-Fra:1 Mem:663.78M (Peak 692.58M) | Time:00:01.56 | Mem:385.28M, Peak:385.28M | Scene, ViewLayer | Updating Shaders
-Fra:1 Mem:663.78M (Peak 692.58M) | Time:00:01.56 | Mem:385.28M, Peak:385.28M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
-Fra:1 Mem:663.99M (Peak 692.58M) | Time:00:01.56 | Mem:385.41M, Peak:385.41M | Scene, ViewLayer | Updating Procedurals
-Fra:1 Mem:663.99M (Peak 692.58M) | Time:00:01.56 | Mem:385.41M, Peak:385.41M | Scene, ViewLayer | Updating Background
-Fra:1 Mem:663.99M (Peak 692.58M) | Time:00:01.56 | Mem:385.41M, Peak:385.41M | Scene, ViewLayer | Updating Camera
-Fra:1 Mem:663.99M (Peak 692.58M) | Time:00:01.56 | Mem:385.41M, Peak:385.41M | Scene, ViewLayer | Updating Meshes Flags
-Fra:1 Mem:663.99M (Peak 692.58M) | Time:00:01.56 | Mem:385.41M, Peak:385.41M | Scene, ViewLayer | Updating Objects
-Fra:1 Mem:663.99M (Peak 692.58M) | Time:00:01.56 | Mem:385.41M, Peak:385.41M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
-Fra:1 Mem:664.14M (Peak 692.58M) | Time:00:01.56 | Mem:385.55M, Peak:385.55M | Scene, ViewLayer | Updating Particle Systems
-Fra:1 Mem:664.14M (Peak 692.58M) | Time:00:01.56 | Mem:385.55M, Peak:385.55M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
-Fra:1 Mem:664.14M (Peak 692.58M) | Time:00:01.56 | Mem:385.55M, Peak:385.55M | Scene, ViewLayer | Updating Meshes
-Fra:1 Mem:674.04M (Peak 692.58M) | Time:00:01.65 | Mem:385.55M, Peak:385.55M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
-Fra:1 Mem:674.04M (Peak 692.58M) | Time:00:01.66 | Mem:385.55M, Peak:385.55M | Scene, ViewLayer | Updating Mesh | Computing attributes
-Fra:1 Mem:695.49M (Peak 695.49M) | Time:00:01.67 | Mem:385.57M, Peak:385.57M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
-Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.67 | Mem:406.94M, Peak:406.94M | Scene, ViewLayer | Updating Geometry BVH parapet_wall_brick 15/14 | Building BVH
-Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.67 | Mem:406.94M, Peak:406.94M | Scene, ViewLayer | Updating Geometry BVH parapet_wall_brick 15/14 | Building BVH 0%
-Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.67 | Mem:406.94M, Peak:406.94M | Scene, ViewLayer | Updating Geometry BVH win_aluminum_slider 14/14 | Building BVH
-Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.67 | Mem:406.96M, Peak:406.96M | Scene, ViewLayer | Updating Geometry BVH fire_escape_floor_unit 13/14 | Building BVH
-Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.67 | Mem:407.04M, Peak:407.07M | Scene, ViewLayer | Updating Geometry BVH entry_apartment_lobby_glass 12/14 | Building BVH
-Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.67 | Mem:407.06M, Peak:407.07M | Scene, ViewLayer | Updating Geometry BVH bulkhead_stair_brick 11/14 | Building BVH
-Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.67 | Mem:407.07M, Peak:407.07M | Scene, ViewLayer | Updating Geometry BVH quoin_limestone 10/14 | Building BVH
-Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.67 | Mem:407.07M, Peak:407.07M | Scene, ViewLayer | Updating Geometry BVH string_course_stone_belt 9/14 | Building BVH
-Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.67 | Mem:407.08M, Peak:407.08M | Scene, ViewLayer | Updating Geometry BVH cornice_pressed_metal_b 8/14 | Building BVH
-Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.68 | Mem:407.10M, Peak:407.11M | Scene, ViewLayer | Updating Geometry BVH win_double_hung_1_1_stone 7/14 | Building BVH
-Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.68 | Mem:407.12M, Peak:407.13M | Scene, ViewLayer | Updating Geometry BVH bench_worlds_fair 6/14 | Building BVH
-Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.68 | Mem:407.20M, Peak:407.24M | Scene, ViewLayer | Updating Geometry BVH lamp_bishops_crook 5/14 | Building BVH
-Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.68 | Mem:407.32M, Peak:407.38M | Scene, ViewLayer | Updating Geometry BVH steam_stack_3m 4/14 | Building BVH
-Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.68 | Mem:407.37M, Peak:407.39M | Scene, ViewLayer | Updating Geometry BVH manhole_coned 3/14 | Building BVH
-Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.68 | Mem:407.57M, Peak:407.66M | Scene, ViewLayer | Updating Geometry BVH lamp_cobra_davit 2/14 | Building BVH
-Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.68 | Mem:407.62M, Peak:407.66M | Scene, ViewLayer | Updating Scene BVH | Building
-Fra:1 Mem:695.44M (Peak 695.49M) | Time:00:01.68 | Mem:407.62M, Peak:407.66M | Scene, ViewLayer | Updating Scene BVH | Building BVH
-Fra:1 Mem:695.44M (Peak 695.49M) | Time:00:01.88 | Mem:442.78M, Peak:460.43M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
-Fra:1 Mem:695.44M (Peak 695.49M) | Time:00:01.88 | Mem:442.78M, Peak:460.43M | Scene, ViewLayer | Updating Mesh | Computing normals
-Fra:1 Mem:722.99M (Peak 722.99M) | Time:00:01.92 | Mem:442.78M, Peak:460.43M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
-Fra:1 Mem:722.99M (Peak 722.99M) | Time:00:01.92 | Mem:470.33M, Peak:470.33M | Scene, ViewLayer | Updating Objects Flags
-Fra:1 Mem:722.99M (Peak 722.99M) | Time:00:01.92 | Mem:470.34M, Peak:470.34M | Scene, ViewLayer | Updating Primitive Offsets
-Fra:1 Mem:722.99M (Peak 722.99M) | Time:00:01.92 | Mem:470.34M, Peak:470.34M | Scene, ViewLayer | Updating Images
-Fra:1 Mem:722.99M (Peak 722.99M) | Time:00:01.92 | Mem:470.34M, Peak:470.34M | Scene, ViewLayer | Updating Images | Loading sky_nishita
-Fra:1 Mem:723.99M (Peak 723.99M) | Time:00:02.31 | Mem:471.34M, Peak:471.34M | Scene, ViewLayer | Updating Camera Volume
-Fra:1 Mem:723.99M (Peak 723.99M) | Time:00:02.31 | Mem:471.34M, Peak:471.34M | Scene, ViewLayer | Updating Lookup Tables
-Fra:1 Mem:723.99M (Peak 723.99M) | Time:00:02.31 | Mem:471.42M, Peak:471.42M | Scene, ViewLayer | Updating Lights
-Fra:1 Mem:723.99M (Peak 723.99M) | Time:00:02.31 | Mem:471.42M, Peak:471.42M | Scene, ViewLayer | Updating Lights | Importance map
-Fra:1 Mem:725.00M (Peak 729.49M) | Time:00:02.33 | Mem:472.45M, Peak:474.94M | Scene, ViewLayer | Updating Lights | Computing tree
-Fra:1 Mem:725.10M (Peak 729.49M) | Time:00:02.33 | Mem:472.55M, Peak:474.94M | Scene, ViewLayer | Updating Integrator
-Fra:1 Mem:725.10M (Peak 729.49M) | Time:00:02.33 | Mem:472.55M, Peak:474.94M | Scene, ViewLayer | Updating Film
-Fra:1 Mem:725.10M (Peak 729.49M) | Time:00:02.33 | Mem:472.47M, Peak:474.94M | Scene, ViewLayer | Updating Lookup Tables
-Fra:1 Mem:725.10M (Peak 729.49M) | Time:00:02.33 | Mem:472.55M, Peak:474.94M | Scene, ViewLayer | Updating Baking
-Fra:1 Mem:725.10M (Peak 729.49M) | Time:00:02.33 | Mem:472.55M, Peak:474.94M | Scene, ViewLayer | Updating Device | Writing constant memory
-Fra:1 Mem:725.12M (Peak 729.49M) | Time:00:02.33 | Mem:472.55M, Peak:474.94M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
-Fra:1 Mem:725.12M (Peak 729.49M) | Time:00:02.33 | Mem:472.55M, Peak:474.94M | Scene, ViewLayer | Sample 0/24
-Fra:1 Mem:804.39M (Peak 804.39M) | Time:00:14.32 | Remaining:04:35.74 | Mem:551.78M, Peak:551.78M | Scene, ViewLayer | Sample 1/24
-Fra:1 Mem:804.39M (Peak 804.39M) | Time:00:31.19 | Remaining:03:22.02 | Mem:551.78M, Peak:551.78M | Scene, ViewLayer | Sample 3/24
-Fra:1 Mem:804.39M (Peak 804.39M) | Time:01:08.10 | Remaining:02:39.73 | Mem:551.78M, Peak:551.78M | Scene, ViewLayer | Sample 7/24
-Fra:1 Mem:804.39M (Peak 804.39M) | Time:01:40.59 | Remaining:01:56.12 | Mem:551.78M, Peak:551.78M | Scene, ViewLayer | Sample 11/24
-Fra:1 Mem:804.39M (Peak 804.39M) | Time:02:09.69 | Remaining:01:16.41 | Mem:551.78M, Peak:551.78M | Scene, ViewLayer | Sample 15/24
-Fra:1 Mem:804.39M (Peak 804.39M) | Time:02:17.10 | Remaining:01:07.38 | Mem:551.78M, Peak:551.78M | Scene, ViewLayer | Sample 16/24
+20:09:27 INFO nycsim.verify.render 2 subject(s): bethesda_terrace_fountain, drive_lower_manhattan_stone_st
+20:09:29 | INFO: Data are loaded, start creating Blender stuff
+20:09:29 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:29 | INFO: Blender create Mesh node t_-2_8_red_brick
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_red_brick
+20:09:29 | INFO: Blender create Mesh node t_-2_8_brown_brick
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_brown_brick
+20:09:29 | INFO: Blender create Mesh node t_-2_8_tan_brick
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_tan_brick
+20:09:29 | INFO: Blender create Mesh node t_-2_8_white_glazed_brick
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_white_glazed_brick
+20:09:29 | INFO: Blender create Mesh node t_-2_8_brownstone
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_brownstone
+20:09:29 | INFO: Blender create Mesh node t_-2_8_limestone
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_limestone
+20:09:29 | INFO: Blender create Mesh node t_-2_8_terracotta
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_terracotta
+20:09:29 | INFO: Blender create Mesh node t_-2_8_cast_iron
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_cast_iron
+20:09:29 | INFO: Blender create Mesh node t_-2_8_glass_curtain
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_glass_curtain
+20:09:29 | INFO: Blender create Mesh node t_-2_8_concrete
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_concrete
+20:09:29 | INFO: Blender create Mesh node t_-2_8_stucco
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_stucco
+20:09:29 | INFO: Blender create Mesh node t_-2_8_stone_rubble
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_stone_rubble
+20:09:29 | INFO: Blender create Mesh node t_-2_8_granite
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_granite
+20:09:29 | INFO: Blender create Mesh node t_-2_8_roof_membrane
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_roof_membrane
+20:09:29 | INFO: Blender create Mesh node t_-2_8_tar_roof
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_tar_roof
+20:09:29 | INFO: Blender create Mesh node t_-2_8_red_brick_LOD1
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_red_brick_LOD1
+20:09:29 | INFO: Blender create Mesh node t_-2_8_brown_brick_LOD1
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_brown_brick_LOD1
+20:09:29 | INFO: Blender create Mesh node t_-2_8_tan_brick_LOD1
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_tan_brick_LOD1
+20:09:29 | INFO: Blender create Mesh node t_-2_8_white_glazed_brick_LOD1
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_white_glazed_brick_LOD1
+20:09:29 | INFO: Blender create Mesh node t_-2_8_brownstone_LOD1
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_brownstone_LOD1
+20:09:29 | INFO: Blender create Mesh node t_-2_8_limestone_LOD1
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_limestone_LOD1
+20:09:29 | INFO: Blender create Mesh node t_-2_8_terracotta_LOD1
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_terracotta_LOD1
+20:09:29 | INFO: Blender create Mesh node t_-2_8_cast_iron_LOD1
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_cast_iron_LOD1
+20:09:29 | INFO: Blender create Mesh node t_-2_8_glass_curtain_LOD1
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_glass_curtain_LOD1
+20:09:29 | INFO: Blender create Mesh node t_-2_8_concrete_LOD1
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_concrete_LOD1
+20:09:29 | INFO: Blender create Mesh node t_-2_8_stucco_LOD1
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_stucco_LOD1
+20:09:29 | INFO: Blender create Mesh node t_-2_8_stone_rubble_LOD1
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_stone_rubble_LOD1
+20:09:29 | INFO: Blender create Mesh node t_-2_8_granite_LOD1
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_granite_LOD1
+20:09:29 | INFO: Blender create Mesh node t_-2_8_roof_membrane_LOD1
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_roof_membrane_LOD1
+20:09:29 | INFO: Blender create Mesh node t_-2_8_tar_roof_LOD1
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_8_tar_roof_LOD1
+20:09:29 | INFO: glTF import finished in 0.07s
+20:09:29 INFO glTFImporter glTF import finished in 0.07s
+20:09:29 | INFO: Data are loaded, start creating Blender stuff
+20:09:29 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:29 | INFO: Blender create Mesh node t_-2_7_red_brick
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_7_red_brick
+20:09:29 | INFO: Blender create Mesh node t_-2_7_brown_brick
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_7_brown_brick
+20:09:29 | INFO: Blender create Mesh node t_-2_7_tan_brick
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_7_tan_brick
+20:09:29 | INFO: Blender create Mesh node t_-2_7_white_glazed_brick
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_7_white_glazed_brick
+20:09:29 | INFO: Blender create Mesh node t_-2_7_brownstone
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_7_brownstone
+20:09:29 | INFO: Blender create Mesh node t_-2_7_limestone
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_7_limestone
+20:09:29 | INFO: Blender create Mesh node t_-2_7_glass_curtain
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_7_glass_curtain
+20:09:29 | INFO: Blender create Mesh node t_-2_7_concrete
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_7_concrete
+20:09:29 | INFO: Blender create Mesh node t_-2_7_stucco
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_7_stucco
+20:09:29 | INFO: Blender create Mesh node t_-2_7_vinyl_siding
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_7_vinyl_siding
+20:09:29 | INFO: Blender create Mesh node t_-2_7_wood_clapboard
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_7_wood_clapboard
+20:09:29 | INFO: Blender create Mesh node t_-2_7_stone_rubble
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_7_stone_rubble
+20:09:29 | INFO: Blender create Mesh node t_-2_7_metal_panel
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_7_metal_panel
+20:09:29 | INFO: Blender create Mesh node t_-2_7_granite
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_7_granite
+20:09:29 | INFO: Blender create Mesh node t_-2_7_roof_membrane
+20:09:29 INFO glTFImporter Blender create Mesh node t_-2_7_roof_membrane
+20:09:30 | INFO: Blender create Mesh node t_-2_7_tar_roof
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_tar_roof
+20:09:30 | INFO: Blender create Mesh node t_-2_7_red_brick_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_red_brick_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-2_7_brown_brick_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_brown_brick_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-2_7_tan_brick_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_tan_brick_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-2_7_white_glazed_brick_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_white_glazed_brick_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-2_7_brownstone_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_brownstone_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-2_7_limestone_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_limestone_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-2_7_glass_curtain_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_glass_curtain_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-2_7_concrete_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_concrete_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-2_7_stucco_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_stucco_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-2_7_vinyl_siding_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_vinyl_siding_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-2_7_wood_clapboard_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_wood_clapboard_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-2_7_stone_rubble_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_stone_rubble_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-2_7_metal_panel_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_metal_panel_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-2_7_granite_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_granite_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-2_7_roof_membrane_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_roof_membrane_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-2_7_tar_roof_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_tar_roof_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-2_7_red_brick_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_red_brick_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-2_7_brown_brick_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_brown_brick_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-2_7_tan_brick_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_tan_brick_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-2_7_white_glazed_brick_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_white_glazed_brick_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-2_7_brownstone_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_brownstone_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-2_7_limestone_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_limestone_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-2_7_glass_curtain_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_glass_curtain_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-2_7_concrete_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_concrete_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-2_7_stucco_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_stucco_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-2_7_vinyl_siding_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_vinyl_siding_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-2_7_wood_clapboard_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_wood_clapboard_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-2_7_stone_rubble_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_stone_rubble_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-2_7_metal_panel_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_metal_panel_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-2_7_granite_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_granite_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-2_7_roof_membrane_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_roof_membrane_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-2_7_tar_roof_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-2_7_tar_roof_LOD2
+20:09:30 | INFO: glTF import finished in 0.13s
+20:09:30 INFO glTFImporter glTF import finished in 0.13s
+20:09:30 | INFO: Data are loaded, start creating Blender stuff
+20:09:30 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:30 | INFO: Blender create Mesh node t_-3_8_red_brick
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_red_brick
+20:09:30 | INFO: Blender create Mesh node t_-3_8_brown_brick
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_brown_brick
+20:09:30 | INFO: Blender create Mesh node t_-3_8_tan_brick
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_tan_brick
+20:09:30 | INFO: Blender create Mesh node t_-3_8_white_glazed_brick
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_white_glazed_brick
+20:09:30 | INFO: Blender create Mesh node t_-3_8_brownstone
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_brownstone
+20:09:30 | INFO: Blender create Mesh node t_-3_8_limestone
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_limestone
+20:09:30 | INFO: Blender create Mesh node t_-3_8_terracotta
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_terracotta
+20:09:30 | INFO: Blender create Mesh node t_-3_8_glass_curtain
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_glass_curtain
+20:09:30 | INFO: Blender create Mesh node t_-3_8_concrete
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_concrete
+20:09:30 | INFO: Blender create Mesh node t_-3_8_stucco
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_stucco
+20:09:30 | INFO: Blender create Mesh node t_-3_8_wood_clapboard
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_wood_clapboard
+20:09:30 | INFO: Blender create Mesh node t_-3_8_stone_rubble
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_stone_rubble
+20:09:30 | INFO: Blender create Mesh node t_-3_8_metal_panel
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_metal_panel
+20:09:30 | INFO: Blender create Mesh node t_-3_8_granite
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_granite
+20:09:30 | INFO: Blender create Mesh node t_-3_8_roof_membrane
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_roof_membrane
+20:09:30 | INFO: Blender create Mesh node t_-3_8_tar_roof
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_tar_roof
+20:09:30 | INFO: Blender create Mesh node t_-3_8_red_brick_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_red_brick_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_8_brown_brick_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_brown_brick_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_8_tan_brick_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_tan_brick_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_8_white_glazed_brick_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_white_glazed_brick_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_8_brownstone_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_brownstone_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_8_limestone_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_limestone_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_8_terracotta_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_terracotta_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_8_glass_curtain_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_glass_curtain_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_8_concrete_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_concrete_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_8_stucco_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_stucco_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_8_wood_clapboard_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_wood_clapboard_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_8_stone_rubble_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_stone_rubble_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_8_metal_panel_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_metal_panel_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_8_granite_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_granite_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_8_roof_membrane_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_roof_membrane_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_8_tar_roof_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_8_tar_roof_LOD1
+20:09:30 | INFO: glTF import finished in 0.13s
+20:09:30 INFO glTFImporter glTF import finished in 0.13s
+20:09:30 | INFO: Data are loaded, start creating Blender stuff
+20:09:30 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:30 | INFO: Blender create Mesh node t_-3_7_red_brick
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_red_brick
+20:09:30 | INFO: Blender create Mesh node t_-3_7_brown_brick
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_brown_brick
+20:09:30 | INFO: Blender create Mesh node t_-3_7_tan_brick
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_tan_brick
+20:09:30 | INFO: Blender create Mesh node t_-3_7_white_glazed_brick
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_white_glazed_brick
+20:09:30 | INFO: Blender create Mesh node t_-3_7_limestone
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_limestone
+20:09:30 | INFO: Blender create Mesh node t_-3_7_terracotta
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_terracotta
+20:09:30 | INFO: Blender create Mesh node t_-3_7_glass_curtain
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_glass_curtain
+20:09:30 | INFO: Blender create Mesh node t_-3_7_concrete
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_concrete
+20:09:30 | INFO: Blender create Mesh node t_-3_7_stucco
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_stucco
+20:09:30 | INFO: Blender create Mesh node t_-3_7_wood_clapboard
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_wood_clapboard
+20:09:30 | INFO: Blender create Mesh node t_-3_7_stone_rubble
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_stone_rubble
+20:09:30 | INFO: Blender create Mesh node t_-3_7_metal_panel
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_metal_panel
+20:09:30 | INFO: Blender create Mesh node t_-3_7_granite
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_granite
+20:09:30 | INFO: Blender create Mesh node t_-3_7_precast
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_precast
+20:09:30 | INFO: Blender create Mesh node t_-3_7_roof_membrane
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_roof_membrane
+20:09:30 | INFO: Blender create Mesh node t_-3_7_tar_roof
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_tar_roof
+20:09:30 | INFO: Blender create Mesh node t_-3_7_red_brick_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_red_brick_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_7_brown_brick_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_brown_brick_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_7_tan_brick_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_tan_brick_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_7_white_glazed_brick_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_white_glazed_brick_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_7_limestone_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_limestone_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_7_terracotta_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_terracotta_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_7_glass_curtain_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_glass_curtain_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_7_concrete_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_concrete_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_7_stucco_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_stucco_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_7_wood_clapboard_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_wood_clapboard_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_7_stone_rubble_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_stone_rubble_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_7_metal_panel_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_metal_panel_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_7_granite_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_granite_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_7_precast_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_precast_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_7_roof_membrane_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_roof_membrane_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_7_tar_roof_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_tar_roof_LOD1
+20:09:30 | INFO: Blender create Mesh node t_-3_7_red_brick_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_red_brick_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-3_7_brown_brick_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_brown_brick_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-3_7_tan_brick_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_tan_brick_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-3_7_white_glazed_brick_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_white_glazed_brick_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-3_7_limestone_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_limestone_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-3_7_terracotta_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_terracotta_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-3_7_glass_curtain_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_glass_curtain_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-3_7_concrete_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_concrete_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-3_7_stucco_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_stucco_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-3_7_wood_clapboard_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_wood_clapboard_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-3_7_stone_rubble_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_stone_rubble_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-3_7_metal_panel_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_metal_panel_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-3_7_granite_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_granite_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-3_7_precast_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_precast_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-3_7_roof_membrane_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_roof_membrane_LOD2
+20:09:30 | INFO: Blender create Mesh node t_-3_7_tar_roof_LOD2
+20:09:30 INFO glTFImporter Blender create Mesh node t_-3_7_tar_roof_LOD2
+20:09:30 | INFO: glTF import finished in 0.10s
+20:09:30 INFO glTFImporter glTF import finished in 0.10s
+20:09:30 | INFO: Data are loaded, start creating Blender stuff
+20:09:30 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:30 | INFO: Blender create Mesh node terrace
+20:09:30 INFO glTFImporter Blender create Mesh node terrace
+20:09:30 | INFO: Blender create Mesh node terrace_crenels
+20:09:30 INFO glTFImporter Blender create Mesh node terrace_crenels
+20:09:30 | INFO: Blender create Mesh node hall
+20:09:30 INFO glTFImporter Blender create Mesh node hall
+20:09:30 | INFO: Blender create Mesh node hall_band
+20:09:30 INFO glTFImporter Blender create Mesh node hall_band
+20:09:30 | INFO: Blender create Mesh node hall_crenels
+20:09:30 INFO glTFImporter Blender create Mesh node hall_crenels
+20:09:30 | INFO: Blender create Mesh node tower
+20:09:30 INFO glTFImporter Blender create Mesh node tower
+20:09:30 | INFO: Blender create Mesh node tower_belvedere
+20:09:30 INFO glTFImporter Blender create Mesh node tower_belvedere
+20:09:30 | INFO: Blender create Mesh node tower_crenels
+20:09:30 INFO glTFImporter Blender create Mesh node tower_crenels
+20:09:30 | INFO: Blender create Mesh node tower_cap_shell
+20:09:30 INFO glTFImporter Blender create Mesh node tower_cap_shell
+20:09:30 | INFO: Blender create Mesh node turret
+20:09:30 INFO glTFImporter Blender create Mesh node turret
+20:09:30 | INFO: Blender create Mesh node turret_crenels
+20:09:30 INFO glTFImporter Blender create Mesh node turret_crenels
+20:09:30 | INFO: Blender create Mesh node turret_cap_shell
+20:09:30 INFO glTFImporter Blender create Mesh node turret_cap_shell
+20:09:30 | INFO: Blender create Mesh node arch_surrounds
+20:09:30 INFO glTFImporter Blender create Mesh node arch_surrounds
+20:09:30 | INFO: Blender create Mesh node loggia_columns
+20:09:30 INFO glTFImporter Blender create Mesh node loggia_columns
+20:09:30 | INFO: Blender create Mesh node loggia_roof
+20:09:30 INFO glTFImporter Blender create Mesh node loggia_roof
+20:09:30 | INFO: glTF import finished in 0.04s
+20:09:30 INFO glTFImporter glTF import finished in 0.04s
+20:09:30 | INFO: Data are loaded, start creating Blender stuff
+20:09:30 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:30 | INFO: Blender create Mesh node lower_plaza
+20:09:30 INFO glTFImporter Blender create Mesh node lower_plaza
+20:09:30 | INFO: Blender create Mesh node basin_rim
+20:09:30 INFO glTFImporter Blender create Mesh node basin_rim
+20:09:30 | INFO: Blender create Mesh node basin_water
+20:09:30 INFO glTFImporter Blender create Mesh node basin_water
+20:09:30 | INFO: Blender create Mesh node fountain_pedestal
+20:09:30 INFO glTFImporter Blender create Mesh node fountain_pedestal
+20:09:30 | INFO: Blender create Mesh node fountain_upper_basin
+20:09:30 INFO glTFImporter Blender create Mesh node fountain_upper_basin
+20:09:30 | INFO: Blender create Mesh node fountain_stem
+20:09:30 INFO glTFImporter Blender create Mesh node fountain_stem
+20:09:30 | INFO: Blender create Mesh node cherub0
+20:09:30 INFO glTFImporter Blender create Mesh node cherub0
+20:09:30 | INFO: Blender create Mesh node cherub1
+20:09:30 INFO glTFImporter Blender create Mesh node cherub1
+20:09:30 | INFO: Blender create Mesh node cherub2
+20:09:30 INFO glTFImporter Blender create Mesh node cherub2
+20:09:30 | INFO: Blender create Mesh node cherub3
+20:09:30 INFO glTFImporter Blender create Mesh node cherub3
+20:09:30 | INFO: Blender create Mesh node angel_body
+20:09:30 INFO glTFImporter Blender create Mesh node angel_body
+20:09:30 | INFO: Blender create Mesh node angel_wings
+20:09:30 INFO glTFImporter Blender create Mesh node angel_wings
+20:09:30 | INFO: Blender create Mesh node angel_arm
+20:09:30 INFO glTFImporter Blender create Mesh node angel_arm
+20:09:30 | INFO: Blender create Mesh node terrace0
+20:09:30 INFO glTFImporter Blender create Mesh node terrace0
+20:09:30 | INFO: Blender create Mesh node terrace0_bal_rail0
+20:09:30 INFO glTFImporter Blender create Mesh node terrace0_bal_rail0
+20:09:30 | INFO: Blender create Mesh node terrace0_bal_rail1
+20:09:30 INFO glTFImporter Blender create Mesh node terrace0_bal_rail1
+20:09:30 | INFO: Blender create Mesh node terrace0_bal_balusters
+20:09:30 INFO glTFImporter Blender create Mesh node terrace0_bal_balusters
+20:09:30 | INFO: Blender create Mesh node terrace1
+20:09:30 INFO glTFImporter Blender create Mesh node terrace1
+20:09:30 | INFO: Blender create Mesh node terrace1_bal_rail0
+20:09:30 INFO glTFImporter Blender create Mesh node terrace1_bal_rail0
+20:09:30 | INFO: Blender create Mesh node terrace1_bal_rail1
+20:09:30 INFO glTFImporter Blender create Mesh node terrace1_bal_rail1
+20:09:30 | INFO: Blender create Mesh node terrace1_bal_balusters
+20:09:30 INFO glTFImporter Blender create Mesh node terrace1_bal_balusters
+20:09:30 | INFO: Blender create Mesh node stair-1
+20:09:30 INFO glTFImporter Blender create Mesh node stair-1
+20:09:30 | INFO: Blender create Mesh node stair1
+20:09:30 INFO glTFImporter Blender create Mesh node stair1
+20:09:30 | INFO: Blender create Mesh node arcade_walls
+20:09:30 INFO glTFImporter Blender create Mesh node arcade_walls
+20:09:30 | INFO: Blender create Mesh node arcade_floor
+20:09:30 INFO glTFImporter Blender create Mesh node arcade_floor
+20:09:30 | INFO: Blender create Mesh node arcade_ceiling
+20:09:30 INFO glTFImporter Blender create Mesh node arcade_ceiling
+20:09:30 | INFO: Blender create Mesh node arcade_piers
+20:09:30 INFO glTFImporter Blender create Mesh node arcade_piers
+20:09:30 | INFO: glTF import finished in 0.08s
+20:09:30 INFO glTFImporter glTF import finished in 0.08s
+20:09:30 | INFO: Data are loaded, start creating Blender stuff
+20:09:30 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:30 | INFO: Blender create Mesh node deck
+20:09:30 INFO glTFImporter Blender create Mesh node deck
+20:09:30 | INFO: Blender create Mesh node beam
+20:09:30 INFO glTFImporter Blender create Mesh node beam
+20:09:30 | INFO: Blender create Mesh node cast_iron_beams
+20:09:30 INFO glTFImporter Blender create Mesh node cast_iron_beams
+20:09:30 | INFO: Blender create Mesh node balustrade-1
+20:09:30 INFO glTFImporter Blender create Mesh node balustrade-1
+20:09:30 | INFO: Blender create Mesh node balustrade1
+20:09:30 INFO glTFImporter Blender create Mesh node balustrade1
+20:09:30 | INFO: Blender create Mesh node abutment
+20:09:30 INFO glTFImporter Blender create Mesh node abutment
+20:09:30 | INFO: Blender create Mesh node abutment.001
+20:09:30 INFO glTFImporter Blender create Mesh node abutment.001
+20:09:30 | INFO: glTF import finished in 0.03s
+20:09:30 INFO glTFImporter glTF import finished in 0.03s
+20:09:30 | INFO: Data are loaded, start creating Blender stuff
+20:09:30 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:30 | INFO: Blender create Mesh node perimeter_wall
+20:09:30 INFO glTFImporter Blender create Mesh node perimeter_wall
+20:09:30 | INFO: Blender create Mesh node wall_coping
+20:09:30 INFO glTFImporter Blender create Mesh node wall_coping
+20:09:30 | INFO: Blender create Mesh node gate_piers
+20:09:30 INFO glTFImporter Blender create Mesh node gate_piers
+20:09:30 | INFO: glTF import finished in 0.05s
+20:09:30 INFO glTFImporter glTF import finished in 0.05s
+20:09:30 | INFO: Data are loaded, start creating Blender stuff
+20:09:30 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:30 | INFO: Blender create Mesh node c_american_museum_natural_history_LOD1
+20:09:30 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_LOD1
+20:09:30 | INFO: Blender create Mesh node c_american_museum_natural_history_arcade
+20:09:30 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_arcade
+20:09:30 | INFO: Blender create Mesh node c_american_museum_natural_history_main_base_core
+20:09:30 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_main_base_core
+20:09:30 | INFO: Blender create Mesh node c_american_museum_natural_history_main_base_plinth
+20:09:30 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_main_base_plinth
+20:09:30 | INFO: Blender create Mesh node c_american_museum_natural_history_main_mass
+20:09:30 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_main_mass
+20:09:30 | INFO: Blender create Mesh node c_american_museum_natural_history_main_parapet
+20:09:30 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_main_parapet
+20:09:30 | INFO: Blender create Mesh node c_american_museum_natural_history_main_skin
+20:09:30 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_main_skin
+20:09:30 | INFO: Blender create Mesh node c_american_museum_natural_history_north_base_core
+20:09:30 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_north_base_core
+20:09:30 | INFO: Blender create Mesh node c_american_museum_natural_history_north_base_plinth
+20:09:30 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_north_base_plinth
+20:09:30 | INFO: Blender create Mesh node c_american_museum_natural_history_north_mass
+20:09:30 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_north_mass
+20:09:30 | INFO: Blender create Mesh node c_american_museum_natural_history_north_parapet
+20:09:30 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_north_parapet
+20:09:30 | INFO: Blender create Mesh node c_american_museum_natural_history_north_skin
+20:09:30 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_north_skin
+20:09:30 | INFO: Blender create Mesh node c_american_museum_natural_history_roosevelt_memorial
+20:09:30 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_roosevelt_memorial
+20:09:30 | INFO: Blender create Mesh node c_american_museum_natural_history_rose_center
+20:09:30 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_rose_center
+20:09:30 | INFO: Blender create Mesh node c_american_museum_natural_history_turrets
+20:09:30 INFO glTFImporter Blender create Mesh node c_american_museum_natural_history_turrets
+20:09:31 | INFO: glTF import finished in 0.22s
+20:09:31 INFO glTFImporter glTF import finished in 0.22s
+20:09:31 | INFO: Data are loaded, start creating Blender stuff
+20:09:31 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:31 | INFO: Blender create Mesh node c_metropolitan_museum_LOD1
+20:09:31 INFO glTFImporter Blender create Mesh node c_metropolitan_museum_LOD1
+20:09:31 | INFO: Blender create Mesh node c_metropolitan_museum_base_core
+20:09:31 INFO glTFImporter Blender create Mesh node c_metropolitan_museum_base_core
+20:09:31 | INFO: Blender create Mesh node c_metropolitan_museum_base_plinth
+20:09:31 INFO glTFImporter Blender create Mesh node c_metropolitan_museum_base_plinth
+20:09:31 | INFO: Blender create Mesh node c_metropolitan_museum_colonnade
+20:09:31 INFO glTFImporter Blender create Mesh node c_metropolitan_museum_colonnade
+20:09:31 | INFO: Blender create Mesh node c_metropolitan_museum_glass_wings
+20:09:31 INFO glTFImporter Blender create Mesh node c_metropolitan_museum_glass_wings
+20:09:31 | INFO: Blender create Mesh node c_metropolitan_museum_pavilion
+20:09:31 INFO glTFImporter Blender create Mesh node c_metropolitan_museum_pavilion
+20:09:31 | INFO: Blender create Mesh node c_metropolitan_museum_pavilion_front
+20:09:31 INFO glTFImporter Blender create Mesh node c_metropolitan_museum_pavilion_front
+20:09:31 | INFO: Blender create Mesh node c_metropolitan_museum_rear
+20:09:31 INFO glTFImporter Blender create Mesh node c_metropolitan_museum_rear
+20:09:31 | INFO: Blender create Mesh node c_metropolitan_museum_wing_cornice
+20:09:31 INFO glTFImporter Blender create Mesh node c_metropolitan_museum_wing_cornice
+20:09:31 | INFO: Blender create Mesh node c_metropolitan_museum_wings
+20:09:31 INFO glTFImporter Blender create Mesh node c_metropolitan_museum_wings
+20:09:31 | INFO: glTF import finished in 0.20s
+20:09:31 INFO glTFImporter glTF import finished in 0.20s
+20:09:31 | INFO: Data are loaded, start creating Blender stuff
+20:09:31 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:31 | INFO: Blender create Mesh node c_the_dakota_LOD1
+20:09:31 INFO glTFImporter Blender create Mesh node c_the_dakota_LOD1
+20:09:31 | INFO: Blender create Mesh node c_the_dakota_base_core
+20:09:31 INFO glTFImporter Blender create Mesh node c_the_dakota_base_core
+20:09:31 | INFO: Blender create Mesh node c_the_dakota_base_detail
+20:09:31 INFO glTFImporter Blender create Mesh node c_the_dakota_base_detail
+20:09:31 | INFO: Blender create Mesh node c_the_dakota_base_plinth
+20:09:31 INFO glTFImporter Blender create Mesh node c_the_dakota_base_plinth
+20:09:31 | INFO: Blender create Mesh node c_the_dakota_body_mass
+20:09:31 INFO glTFImporter Blender create Mesh node c_the_dakota_body_mass
+20:09:31 | INFO: Blender create Mesh node c_the_dakota_body_skin
+20:09:31 INFO glTFImporter Blender create Mesh node c_the_dakota_body_skin
+20:09:31 | INFO: Blender create Mesh node c_the_dakota_cornice
+20:09:31 INFO glTFImporter Blender create Mesh node c_the_dakota_cornice
+20:09:31 | INFO: Blender create Mesh node c_the_dakota_roof
+20:09:31 INFO glTFImporter Blender create Mesh node c_the_dakota_roof
+20:09:31 | INFO: glTF import finished in 0.13s
+20:09:31 INFO glTFImporter glTF import finished in 0.13s
+20:09:31 | INFO: Data are loaded, start creating Blender stuff
+20:09:31 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:31 | INFO: Blender create Mesh node lamp_cobra_davit
+20:09:31 INFO glTFImporter Blender create Mesh node lamp_cobra_davit
+20:09:31 | INFO: Blender create Mesh node lamp_cobra_davit_LOD1
+20:09:31 INFO glTFImporter Blender create Mesh node lamp_cobra_davit_LOD1
+20:09:31 | INFO: glTF import finished in 0.04s
+20:09:31 INFO glTFImporter glTF import finished in 0.04s
+20:09:31 | INFO: Data are loaded, start creating Blender stuff
+20:09:31 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:31 | INFO: Blender create Mesh node manhole_coned
+20:09:31 INFO glTFImporter Blender create Mesh node manhole_coned
+20:09:31 | INFO: Blender create Mesh node manhole_coned_LOD1
+20:09:31 INFO glTFImporter Blender create Mesh node manhole_coned_LOD1
+20:09:31 | INFO: glTF import finished in 0.03s
+20:09:31 INFO glTFImporter glTF import finished in 0.03s
+20:09:31 | INFO: Data are loaded, start creating Blender stuff
+20:09:31 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:31 | INFO: Blender create Mesh node steam_stack_3m
+20:09:31 INFO glTFImporter Blender create Mesh node steam_stack_3m
+20:09:31 | INFO: Blender create Mesh node steam_stack_3m_LOD1
+20:09:31 INFO glTFImporter Blender create Mesh node steam_stack_3m_LOD1
+20:09:31 | INFO: glTF import finished in 0.02s
+20:09:31 INFO glTFImporter glTF import finished in 0.02s
+20:09:31 | INFO: Data are loaded, start creating Blender stuff
+20:09:31 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:31 | INFO: Blender create Mesh node lamp_bishops_crook
+20:09:31 INFO glTFImporter Blender create Mesh node lamp_bishops_crook
+20:09:31 | INFO: Blender create Mesh node lamp_bishops_crook_LOD1
+20:09:31 INFO glTFImporter Blender create Mesh node lamp_bishops_crook_LOD1
+20:09:31 | INFO: glTF import finished in 0.03s
+20:09:31 INFO glTFImporter glTF import finished in 0.03s
+20:09:31 | INFO: Data are loaded, start creating Blender stuff
+20:09:31 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:31 | INFO: Blender create Mesh node flag_nyc_pole
+20:09:31 INFO glTFImporter Blender create Mesh node flag_nyc_pole
+20:09:31 | INFO: Blender create Mesh node flag_nyc_pole_LOD1
+20:09:31 INFO glTFImporter Blender create Mesh node flag_nyc_pole_LOD1
+20:09:31 | INFO: glTF import finished in 0.08s
+20:09:31 INFO glTFImporter glTF import finished in 0.08s
+20:09:31 | INFO: Data are loaded, start creating Blender stuff
+20:09:31 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:31 | INFO: Blender create Mesh node bench_worlds_fair
+20:09:31 INFO glTFImporter Blender create Mesh node bench_worlds_fair
+20:09:31 | INFO: Blender create Mesh node bench_worlds_fair_LOD1
+20:09:31 INFO glTFImporter Blender create Mesh node bench_worlds_fair_LOD1
+20:09:31 | INFO: glTF import finished in 0.03s
+20:09:31 INFO glTFImporter glTF import finished in 0.03s
+20:09:31 | INFO: Data are loaded, start creating Blender stuff
+20:09:31 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:31 | INFO: Blender create Mesh node win_double_hung_1_1_stone
+20:09:31 INFO glTFImporter Blender create Mesh node win_double_hung_1_1_stone
+20:09:31 | INFO: Blender create Mesh node win_double_hung_1_1_stone_LOD1
+20:09:31 INFO glTFImporter Blender create Mesh node win_double_hung_1_1_stone_LOD1
+20:09:31 | INFO: glTF import finished in 0.05s
+20:09:31 INFO glTFImporter glTF import finished in 0.05s
+20:09:31 | INFO: Data are loaded, start creating Blender stuff
+20:09:31 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:31 | INFO: Blender create Mesh node cornice_pressed_metal_b
+20:09:31 INFO glTFImporter Blender create Mesh node cornice_pressed_metal_b
+20:09:32 | INFO: Blender create Mesh node cornice_pressed_metal_b_LOD1
+20:09:32 INFO glTFImporter Blender create Mesh node cornice_pressed_metal_b_LOD1
+20:09:32 | INFO: glTF import finished in 0.12s
+20:09:32 INFO glTFImporter glTF import finished in 0.12s
+20:09:32 | INFO: Data are loaded, start creating Blender stuff
+20:09:32 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:32 | INFO: Blender create Mesh node string_course_stone_belt
+20:09:32 INFO glTFImporter Blender create Mesh node string_course_stone_belt
+20:09:32 | INFO: Blender create Mesh node string_course_stone_belt_LOD1
+20:09:32 INFO glTFImporter Blender create Mesh node string_course_stone_belt_LOD1
+20:09:32 | INFO: glTF import finished in 0.03s
+20:09:32 INFO glTFImporter glTF import finished in 0.03s
+20:09:32 | INFO: Data are loaded, start creating Blender stuff
+20:09:32 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:32 | INFO: Blender create Mesh node quoin_limestone
+20:09:32 INFO glTFImporter Blender create Mesh node quoin_limestone
+20:09:32 | INFO: Blender create Mesh node quoin_limestone_LOD1
+20:09:32 INFO glTFImporter Blender create Mesh node quoin_limestone_LOD1
+20:09:32 | INFO: glTF import finished in 0.03s
+20:09:32 INFO glTFImporter glTF import finished in 0.03s
+20:09:32 | INFO: Data are loaded, start creating Blender stuff
+20:09:32 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:32 | INFO: Blender create Mesh node bulkhead_stair_brick
+20:09:32 INFO glTFImporter Blender create Mesh node bulkhead_stair_brick
+20:09:32 | INFO: Blender create Mesh node bulkhead_stair_brick_LOD1
+20:09:32 INFO glTFImporter Blender create Mesh node bulkhead_stair_brick_LOD1
+20:09:32 | INFO: glTF import finished in 0.07s
+20:09:32 INFO glTFImporter glTF import finished in 0.07s
+20:09:32 | INFO: Data are loaded, start creating Blender stuff
+20:09:32 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:32 | INFO: Blender create Mesh node entry_apartment_lobby_glass
+20:09:32 INFO glTFImporter Blender create Mesh node entry_apartment_lobby_glass
+20:09:32 | INFO: Blender create Mesh node entry_apartment_lobby_glass_LOD1
+20:09:32 INFO glTFImporter Blender create Mesh node entry_apartment_lobby_glass_LOD1
+20:09:32 | INFO: glTF import finished in 0.06s
+20:09:32 INFO glTFImporter glTF import finished in 0.06s
+20:09:32 | INFO: Data are loaded, start creating Blender stuff
+20:09:32 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:32 | INFO: Blender create Mesh node fire_escape_top_hook
+20:09:32 INFO glTFImporter Blender create Mesh node fire_escape_top_hook
+20:09:32 | INFO: Blender create Mesh node fire_escape_top_hook_LOD1
+20:09:32 INFO glTFImporter Blender create Mesh node fire_escape_top_hook_LOD1
+20:09:32 | INFO: glTF import finished in 0.05s
+20:09:32 INFO glTFImporter glTF import finished in 0.05s
+20:09:32 | INFO: Data are loaded, start creating Blender stuff
+20:09:32 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:32 | INFO: Blender create Mesh node fire_escape_floor_unit
+20:09:32 INFO glTFImporter Blender create Mesh node fire_escape_floor_unit
+20:09:32 | INFO: Blender create Mesh node fire_escape_floor_unit_LOD1
+20:09:32 INFO glTFImporter Blender create Mesh node fire_escape_floor_unit_LOD1
+20:09:32 | INFO: glTF import finished in 0.05s
+20:09:32 INFO glTFImporter glTF import finished in 0.05s
+20:09:32 | INFO: Data are loaded, start creating Blender stuff
+20:09:32 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:32 | INFO: Blender create Mesh node fire_escape_drop_ladder
+20:09:32 INFO glTFImporter Blender create Mesh node fire_escape_drop_ladder
+20:09:32 | INFO: Blender create Mesh node fire_escape_drop_ladder_LOD1
+20:09:32 INFO glTFImporter Blender create Mesh node fire_escape_drop_ladder_LOD1
+20:09:32 | INFO: glTF import finished in 0.08s
+20:09:32 INFO glTFImporter glTF import finished in 0.08s
+20:09:32 | INFO: Data are loaded, start creating Blender stuff
+20:09:32 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:32 | INFO: Blender create Mesh node fire_escape_balcony_top
+20:09:32 INFO glTFImporter Blender create Mesh node fire_escape_balcony_top
+20:09:32 | INFO: Blender create Mesh node fire_escape_balcony_top_LOD1
+20:09:32 INFO glTFImporter Blender create Mesh node fire_escape_balcony_top_LOD1
+20:09:32 | INFO: glTF import finished in 0.05s
+20:09:32 INFO glTFImporter glTF import finished in 0.05s
+20:09:32 | INFO: Data are loaded, start creating Blender stuff
+20:09:32 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:32 | INFO: Blender create Mesh node win_aluminum_slider
+20:09:32 INFO glTFImporter Blender create Mesh node win_aluminum_slider
+20:09:32 | INFO: Blender create Mesh node win_aluminum_slider_LOD1
+20:09:32 INFO glTFImporter Blender create Mesh node win_aluminum_slider_LOD1
+20:09:32 | INFO: glTF import finished in 0.09s
+20:09:32 INFO glTFImporter glTF import finished in 0.09s
+20:09:33 | INFO: Data are loaded, start creating Blender stuff
+20:09:33 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:33 | INFO: Blender create Mesh node entry_lobby_canopy
+20:09:33 INFO glTFImporter Blender create Mesh node entry_lobby_canopy
+20:09:33 | INFO: Blender create Mesh node entry_lobby_canopy_LOD1
+20:09:33 INFO glTFImporter Blender create Mesh node entry_lobby_canopy_LOD1
+20:09:33 | INFO: glTF import finished in 0.05s
+20:09:33 INFO glTFImporter glTF import finished in 0.05s
+20:09:33 | INFO: Data are loaded, start creating Blender stuff
+20:09:33 INFO glTFImporter Data are loaded, start creating Blender stuff
+20:09:33 | INFO: Blender create Mesh node parapet_wall_brick
+20:09:33 INFO glTFImporter Blender create Mesh node parapet_wall_brick
+20:09:33 | INFO: Blender create Mesh node parapet_wall_brick_LOD1
+20:09:33 INFO glTFImporter Blender create Mesh node parapet_wall_brick_LOD1
+20:09:33 | INFO: glTF import finished in 0.07s
+20:09:33 INFO glTFImporter glTF import finished in 0.07s
+20:09:33 INFO nycsim.verify.scene scene built: 889496 triangles in 5.5 s (4 tiles, 7 landmarks, 969 pavement polys, 120 props, 368 kit)
+Fra:1 Mem:229.02M (Peak 229.02M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | verify_terrain
+Fra:1 Mem:233.80M (Peak 233.80M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | verify_pavement
+Fra:1 Mem:239.87M (Peak 239.94M) | Time:00:00.09 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | verify_sun
+Fra:1 Mem:239.87M (Peak 239.94M) | Time:00:00.09 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2204_246
+Fra:1 Mem:244.86M (Peak 244.86M) | Time:00:00.09 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_608_239
+Fra:1 Mem:245.40M (Peak 245.40M) | Time:00:00.09 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_200_230
+Fra:1 Mem:245.44M (Peak 245.44M) | Time:00:00.09 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2000_71
+Fra:1 Mem:245.55M (Peak 245.55M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2002_70
+Fra:1 Mem:245.59M (Peak 245.59M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2003_67
+Fra:1 Mem:246.50M (Peak 246.50M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2005_66
+Fra:1 Mem:246.56M (Peak 246.56M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_600_65
+Fra:1 Mem:246.62M (Peak 246.62M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_2401_38
+Fra:1 Mem:247.30M (Peak 247.30M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_1202_16
+Fra:1 Mem:247.31M (Peak 247.31M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_1002_9
+Fra:1 Mem:247.32M (Peak 247.32M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_803_8
+Fra:1 Mem:247.40M (Peak 247.40M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | kit_209_0
+Fra:1 Mem:247.45M (Peak 247.45M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_bench_worlds_fair_23
+Fra:1 Mem:247.66M (Peak 247.66M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_flag_nyc_pole_21
+Fra:1 Mem:247.72M (Peak 247.72M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_lamp_bishops_crook_19
+Fra:1 Mem:249.91M (Peak 249.91M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_steam_stack_3m_5
+Fra:1 Mem:249.99M (Peak 249.99M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_manhole_coned_1
+Fra:1 Mem:249.33M (Peak 249.99M) | Time:00:00.11 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_brown_brick
+Fra:1 Mem:249.26M (Peak 249.99M) | Time:00:00.11 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | prop_lamp_cobra_davit_0
+Fra:1 Mem:249.36M (Peak 249.99M) | Time:00:00.11 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_the_dakota.6
+Fra:1 Mem:249.64M (Peak 249.99M) | Time:00:00.11 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_the_dakota.5
+Fra:1 Mem:249.68M (Peak 249.99M) | Time:00:00.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_the_dakota.4
+Fra:1 Mem:250.43M (Peak 250.43M) | Time:00:00.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_brownstone
+Fra:1 Mem:255.94M (Peak 255.94M) | Time:00:00.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_cast_iron
+Fra:1 Mem:255.95M (Peak 255.95M) | Time:00:00.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_concrete
+Fra:1 Mem:255.95M (Peak 255.95M) | Time:00:00.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_glass_curtain
+Fra:1 Mem:255.96M (Peak 255.96M) | Time:00:00.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_granite
+Fra:1 Mem:255.98M (Peak 255.98M) | Time:00:00.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_limestone
+Fra:1 Mem:256.53M (Peak 256.53M) | Time:00:00.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_red_brick
+Fra:1 Mem:259.97M (Peak 259.97M) | Time:00:00.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_roof_membrane
+Fra:1 Mem:260.44M (Peak 260.44M) | Time:00:00.12 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_stone_rubble
+Fra:1 Mem:256.51M (Peak 260.44M) | Time:00:00.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_tan_brick
+Fra:1 Mem:256.69M (Peak 260.44M) | Time:00:00.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_tar_roof
+Fra:1 Mem:256.69M (Peak 260.44M) | Time:00:00.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_terracotta
+Fra:1 Mem:256.70M (Peak 260.44M) | Time:00:00.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_8_white_glazed_brick
+Fra:1 Mem:256.74M (Peak 260.44M) | Time:00:00.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_brown_brick
+Fra:1 Mem:256.81M (Peak 260.44M) | Time:00:00.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_brownstone
+Fra:1 Mem:257.44M (Peak 260.44M) | Time:00:00.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_concrete
+Fra:1 Mem:257.59M (Peak 260.44M) | Time:00:00.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_glass_curtain
+Fra:1 Mem:257.69M (Peak 260.44M) | Time:00:00.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_granite
+Fra:1 Mem:257.76M (Peak 260.44M) | Time:00:00.13 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_limestone
+Fra:1 Mem:258.77M (Peak 260.44M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_metal_panel
+Fra:1 Mem:258.77M (Peak 260.44M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_red_brick
+Fra:1 Mem:260.50M (Peak 260.50M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_roof_membrane
+Fra:1 Mem:260.71M (Peak 260.71M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_stone_rubble
+Fra:1 Mem:261.36M (Peak 261.36M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_stucco
+Fra:1 Mem:262.35M (Peak 262.35M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_tar_roof
+Fra:1 Mem:262.36M (Peak 262.36M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_vinyl_siding
+Fra:1 Mem:262.37M (Peak 262.37M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_white_glazed_brick
+Fra:1 Mem:262.51M (Peak 262.51M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-2_7_wood_clapboard
+Fra:1 Mem:262.52M (Peak 262.52M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_brown_brick
+Fra:1 Mem:262.63M (Peak 262.63M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_brownstone
+Fra:1 Mem:263.23M (Peak 263.23M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_concrete
+Fra:1 Mem:265.29M (Peak 267.47M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_the_dakota.3
+Fra:1 Mem:265.31M (Peak 267.47M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_glass_curtain
+Fra:1 Mem:265.38M (Peak 267.47M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_the_dakota.2
+Fra:1 Mem:265.42M (Peak 267.47M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_granite
+Fra:1 Mem:265.42M (Peak 267.47M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_the_dakota.1
+Fra:1 Mem:265.46M (Peak 267.47M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_limestone
+Fra:1 Mem:267.24M (Peak 267.47M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_metal_panel
+Fra:1 Mem:267.27M (Peak 267.47M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_red_brick
+Fra:1 Mem:269.03M (Peak 269.03M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_the_dakota.0
+Fra:1 Mem:269.05M (Peak 269.05M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_metropolitan_museum.8
+Fra:1 Mem:269.07M (Peak 269.07M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_metropolitan_museum.7
+Fra:1 Mem:268.85M (Peak 269.07M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_roof_membrane
+Fra:1 Mem:268.92M (Peak 269.07M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_metropolitan_museum.6
+Fra:1 Mem:269.49M (Peak 269.49M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_metropolitan_museum.5
+Fra:1 Mem:272.07M (Peak 272.07M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_stone_rubble
+Fra:1 Mem:272.49M (Peak 273.80M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_metropolitan_museum.4
+Fra:1 Mem:272.48M (Peak 273.80M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_metropolitan_museum.3
+Fra:1 Mem:272.57M (Peak 273.80M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_tan_brick
+Fra:1 Mem:273.08M (Peak 273.80M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_metropolitan_museum.2
+Fra:1 Mem:273.22M (Peak 273.80M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_tar_roof
+Fra:1 Mem:274.39M (Peak 274.39M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_white_glazed_brick
+Fra:1 Mem:274.41M (Peak 274.41M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_8_wood_clapboard
+Fra:1 Mem:274.42M (Peak 274.42M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_brown_brick
+Fra:1 Mem:274.53M (Peak 274.53M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_concrete
+Fra:1 Mem:274.64M (Peak 274.64M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_glass_curtain
+Fra:1 Mem:274.66M (Peak 274.66M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_granite
+Fra:1 Mem:274.69M (Peak 274.69M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_limestone
+Fra:1 Mem:275.00M (Peak 275.00M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_precast
+Fra:1 Mem:275.01M (Peak 275.01M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_red_brick
+Fra:1 Mem:277.56M (Peak 277.56M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_roof_membrane
+Fra:1 Mem:277.57M (Peak 277.57M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_stone_rubble
+Fra:1 Mem:277.57M (Peak 277.57M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_stucco
+Fra:1 Mem:277.58M (Peak 277.58M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_tan_brick
+Fra:1 Mem:278.30M (Peak 278.30M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_tar_roof
+Fra:1 Mem:278.31M (Peak 278.31M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_terracotta
+Fra:1 Mem:278.34M (Peak 278.34M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_white_glazed_brick
+Fra:1 Mem:278.69M (Peak 278.69M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | t_-3_7_wood_clapboard
+Fra:1 Mem:278.72M (Peak 278.72M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.0
+Fra:1 Mem:279.59M (Peak 279.59M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.1
+Fra:1 Mem:281.80M (Peak 281.80M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.3
+Fra:1 Mem:281.89M (Peak 281.89M) | Time:00:00.17 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.4
+Fra:1 Mem:283.93M (Peak 283.99M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.6
+Fra:1 Mem:283.97M (Peak 283.99M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.7
+Fra:1 Mem:284.97M (Peak 284.97M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.8
+Fra:1 Mem:284.97M (Peak 284.97M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.9
+Fra:1 Mem:285.42M (Peak 285.42M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.11
+Fra:1 Mem:285.46M (Peak 285.46M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.12
+Fra:1 Mem:286.52M (Peak 286.52M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.13
+Fra:1 Mem:286.20M (Peak 286.52M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_belvedere_castle.14
+Fra:1 Mem:282.77M (Peak 286.52M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.0
+Fra:1 Mem:282.78M (Peak 286.52M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.1
+Fra:1 Mem:282.78M (Peak 286.52M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.2
+Fra:1 Mem:285.96M (Peak 286.52M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.3
+Fra:1 Mem:285.96M (Peak 286.52M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.4
+Fra:1 Mem:285.96M (Peak 286.52M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.6
+Fra:1 Mem:285.98M (Peak 286.52M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.7
+Fra:1 Mem:285.99M (Peak 286.52M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.8
+Fra:1 Mem:286.02M (Peak 286.52M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.9
+Fra:1 Mem:286.34M (Peak 286.52M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.10
+Fra:1 Mem:286.34M (Peak 286.52M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.12
+Fra:1 Mem:286.34M (Peak 286.52M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.13
+Fra:1 Mem:286.36M (Peak 286.52M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.15
+Fra:1 Mem:286.37M (Peak 286.52M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.16
+Fra:1 Mem:286.37M (Peak 286.52M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.17
+Fra:1 Mem:287.51M (Peak 287.52M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.19
+Fra:1 Mem:287.55M (Peak 287.55M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.20
+Fra:1 Mem:287.56M (Peak 287.56M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.21
+Fra:1 Mem:287.56M (Peak 287.56M) | Time:00:00.18 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.22
+Fra:1 Mem:289.66M (Peak 289.66M) | Time:00:00.19 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.23
+Fra:1 Mem:289.66M (Peak 289.66M) | Time:00:00.19 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.24
+Fra:1 Mem:288.99M (Peak 291.13M) | Time:00:00.19 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.25
+Fra:1 Mem:288.94M (Peak 291.13M) | Time:00:00.19 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bethesda_terrace.26
+Fra:1 Mem:288.94M (Peak 291.13M) | Time:00:00.20 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bow_bridge.0
+Fra:1 Mem:288.94M (Peak 291.13M) | Time:00:00.20 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bow_bridge.1
+Fra:1 Mem:288.94M (Peak 291.13M) | Time:00:00.20 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bow_bridge.2
+Fra:1 Mem:289.01M (Peak 291.13M) | Time:00:00.20 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bow_bridge.3
+Fra:1 Mem:289.08M (Peak 291.13M) | Time:00:00.20 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bow_bridge.4
+Fra:1 Mem:289.11M (Peak 291.13M) | Time:00:00.20 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bow_bridge.5
+Fra:1 Mem:289.38M (Peak 291.13M) | Time:00:00.20 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_bow_bridge.6
+Fra:1 Mem:289.39M (Peak 291.13M) | Time:00:00.20 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_central_park_walls_gates.0
+Fra:1 Mem:289.56M (Peak 291.13M) | Time:00:00.20 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_central_park_walls_gates.1
+Fra:1 Mem:295.09M (Peak 295.09M) | Time:00:00.20 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_b_central_park_walls_gates.2
+Fra:1 Mem:292.14M (Peak 300.37M) | Time:00:00.21 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_metropolitan_museum.1
+Fra:1 Mem:290.61M (Peak 300.37M) | Time:00:00.21 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_metropolitan_museum.0
+Fra:1 Mem:290.69M (Peak 300.37M) | Time:00:00.21 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.13
+Fra:1 Mem:290.74M (Peak 300.37M) | Time:00:00.21 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.12
+Fra:1 Mem:290.91M (Peak 300.37M) | Time:00:00.21 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.11
+Fra:1 Mem:291.36M (Peak 300.37M) | Time:00:00.22 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.0
+Fra:1 Mem:291.13M (Peak 300.37M) | Time:00:00.22 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.1
+Fra:1 Mem:300.78M (Peak 300.78M) | Time:00:00.22 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.2
+Fra:1 Mem:297.15M (Peak 300.78M) | Time:00:00.23 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.4
+Fra:1 Mem:296.26M (Peak 300.78M) | Time:00:00.23 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.9
+Fra:1 Mem:296.19M (Peak 300.78M) | Time:00:00.23 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.5
+Fra:1 Mem:296.31M (Peak 300.78M) | Time:00:00.23 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.8
+Fra:1 Mem:296.67M (Peak 300.78M) | Time:00:00.23 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.7
+Fra:1 Mem:296.79M (Peak 300.78M) | Time:00:00.23 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | lm_c_american_museum_natural_history.6
+Fra:1 Mem:301.93M (Peak 309.65M) | Time:00:00.26 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:299.25M (Peak 309.65M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_normal.002
+Fra:1 Mem:299.25M (Peak 309.65M) | Time:00:00.27 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Granite002A_1K_roughness
+Fra:1 Mem:307.27M (Peak 311.26M) | Time:00:00.28 | Mem:4.00M, Peak:4.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_orm.002
+Fra:1 Mem:311.27M (Peak 315.28M) | Time:00:00.29 | Mem:8.00M, Peak:8.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_bk11_color.002
+Fra:1 Mem:315.27M (Peak 319.28M) | Time:00:00.30 | Mem:12.00M, Peak:12.00M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_normal.002
+Fra:1 Mem:327.28M (Peak 331.29M) | Time:00:00.31 | Mem:16.00M, Peak:16.00M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_orm.002
+Fra:1 Mem:327.27M (Peak 331.29M) | Time:00:00.32 | Mem:20.00M, Peak:20.00M | Scene, ViewLayer | Updating Images | Loading Granite002A_1K_normal
+Fra:1 Mem:331.27M (Peak 335.28M) | Time:00:00.33 | Mem:24.00M, Peak:24.00M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_bk17_color.002
+Fra:1 Mem:339.28M (Peak 343.29M) | Time:00:00.34 | Mem:28.00M, Peak:28.00M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.003
+Fra:1 Mem:343.28M (Peak 347.29M) | Time:00:00.35 | Mem:32.00M, Peak:32.00M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.003
+Fra:1 Mem:343.27M (Peak 347.29M) | Time:00:00.35 | Mem:36.00M, Peak:36.00M | Scene, ViewLayer | Updating Images | Loading tarred_gravel_1K_color
+Fra:1 Mem:351.28M (Peak 355.29M) | Time:00:00.36 | Mem:40.00M, Peak:40.00M | Scene, ViewLayer | Updating Images | Loading Fabric071_1024_normal
+Fra:1 Mem:351.27M (Peak 355.29M) | Time:00:00.36 | Mem:44.00M, Peak:44.00M | Scene, ViewLayer | Updating Images | Loading tarred_gravel_1K_roughness
+Fra:1 Mem:355.27M (Peak 359.28M) | Time:00:00.38 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Images | Loading tarred_gravel_1K_normal
+Fra:1 Mem:359.27M (Peak 363.28M) | Time:00:00.39 | Mem:52.00M, Peak:52.00M | Scene, ViewLayer | Updating Images | Loading Fabric071_1024_color
+Fra:1 Mem:363.27M (Peak 367.28M) | Time:00:00.40 | Mem:56.00M, Peak:56.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_normal.001
+Fra:1 Mem:371.28M (Peak 375.29M) | Time:00:00.41 | Mem:60.00M, Peak:60.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_orm.001
+Fra:1 Mem:375.28M (Peak 379.29M) | Time:00:00.41 | Mem:64.00M, Peak:64.00M | Scene, ViewLayer | Updating Images | Loading Concrete030_1K_color
+Fra:1 Mem:379.28M (Peak 383.29M) | Time:00:00.42 | Mem:68.00M, Peak:68.00M | Scene, ViewLayer | Updating Images | Loading Concrete030_1K_roughness
+Fra:1 Mem:379.27M (Peak 383.29M) | Time:00:00.42 | Mem:72.00M, Peak:72.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_bk11_color.001
+Fra:1 Mem:383.27M (Peak 387.28M) | Time:00:00.43 | Mem:76.00M, Peak:76.00M | Scene, ViewLayer | Updating Images | Loading interior_card_unlit.001
+Fra:1 Mem:384.27M (Peak 387.28M) | Time:00:00.43 | Mem:77.00M, Peak:77.00M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.002
+Fra:1 Mem:388.27M (Peak 392.28M) | Time:00:00.44 | Mem:81.00M, Peak:81.00M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.002
+Fra:1 Mem:396.28M (Peak 400.29M) | Time:00:00.45 | Mem:85.00M, Peak:85.00M | Scene, ViewLayer | Updating Images | Loading Concrete030_1K_normal
+Fra:1 Mem:396.27M (Peak 400.29M) | Time:00:00.45 | Mem:89.00M, Peak:89.00M | Scene, ViewLayer | Updating Images | Loading Bricks060_1024_normal
+Fra:1 Mem:404.28M (Peak 408.29M) | Time:00:00.46 | Mem:93.00M, Peak:93.00M | Scene, ViewLayer | Updating Images | Loading Bricks060_1024_orm
+Fra:1 Mem:404.28M (Peak 408.29M) | Time:00:00.46 | Mem:97.00M, Peak:97.00M | Scene, ViewLayer | Updating Images | Loading Concrete030_1K_color.001
+Fra:1 Mem:408.28M (Peak 412.28M) | Time:00:00.47 | Mem:101.00M, Peak:101.00M | Scene, ViewLayer | Updating Images | Loading Bricks060_1024_bk11_color
+Fra:1 Mem:412.28M (Peak 416.28M) | Time:00:00.48 | Mem:105.00M, Peak:105.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_normal.003
+Fra:1 Mem:416.28M (Peak 420.28M) | Time:00:00.49 | Mem:109.00M, Peak:109.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm.003
+Fra:1 Mem:428.29M (Peak 432.30M) | Time:00:00.50 | Mem:113.00M, Peak:113.00M | Scene, ViewLayer | Updating Images | Loading Concrete030_1K_roughness.001
+Fra:1 Mem:428.28M (Peak 432.30M) | Time:00:00.50 | Mem:117.00M, Peak:117.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color.003
+Fra:1 Mem:428.28M (Peak 432.30M) | Time:00:00.50 | Mem:121.00M, Peak:121.00M | Scene, ViewLayer | Updating Images | Loading Concrete030_1K_normal.001
+Fra:1 Mem:432.28M (Peak 436.28M) | Time:00:00.51 | Mem:125.00M, Peak:125.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_normal.002
+Fra:1 Mem:440.28M (Peak 444.29M) | Time:00:00.53 | Mem:129.00M, Peak:129.00M | Scene, ViewLayer | Updating Images | Loading tarred_gravel_1K_color.001
+Fra:1 Mem:440.28M (Peak 444.29M) | Time:00:00.54 | Mem:133.00M, Peak:133.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm.002
+Fra:1 Mem:444.28M (Peak 448.29M) | Time:00:00.54 | Mem:137.00M, Peak:137.00M | Scene, ViewLayer | Updating Images | Loading tarred_gravel_1K_roughness.001
+Fra:1 Mem:448.28M (Peak 452.28M) | Time:00:00.55 | Mem:141.00M, Peak:141.00M | Scene, ViewLayer | Updating Images | Loading tarred_gravel_1K_normal.001
+Fra:1 Mem:452.28M (Peak 456.28M) | Time:00:00.55 | Mem:145.00M, Peak:145.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color.002
+Fra:1 Mem:460.28M (Peak 464.29M) | Time:00:00.57 | Mem:149.00M, Peak:149.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_normal.001
+Fra:1 Mem:460.28M (Peak 464.29M) | Time:00:00.57 | Mem:153.00M, Peak:153.00M | Scene, ViewLayer | Updating Images | Loading Granite002A_1K_color.001
+Fra:1 Mem:468.28M (Peak 472.29M) | Time:00:00.59 | Mem:157.00M, Peak:157.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm.001
+Fra:1 Mem:468.28M (Peak 472.29M) | Time:00:00.59 | Mem:161.00M, Peak:161.00M | Scene, ViewLayer | Updating Images | Loading Granite002A_1K_roughness.001
+Fra:1 Mem:472.28M (Peak 476.29M) | Time:00:00.60 | Mem:165.00M, Peak:165.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color.001
+Fra:1 Mem:476.28M (Peak 480.29M) | Time:00:00.62 | Mem:169.00M, Peak:169.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_normal
+Fra:1 Mem:480.28M (Peak 484.29M) | Time:00:00.64 | Mem:173.00M, Peak:173.00M | Scene, ViewLayer | Updating Images | Loading Granite002A_1K_normal.001
+Fra:1 Mem:488.28M (Peak 492.29M) | Time:00:00.69 | Mem:177.00M, Peak:177.00M | Scene, ViewLayer | Updating Images | Loading Travertine005_1K_color
+Fra:1 Mem:492.28M (Peak 492.29M) | Time:00:00.69 | Mem:181.00M, Peak:181.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_orm
+Fra:1 Mem:492.28M (Peak 496.29M) | Time:00:00.69 | Mem:185.00M, Peak:185.00M | Scene, ViewLayer | Updating Images | Loading Travertine005_1K_roughness
+Fra:1 Mem:496.28M (Peak 500.29M) | Time:00:00.71 | Mem:189.00M, Peak:189.00M | Scene, ViewLayer | Updating Images | Loading Paint005_1024_color
+Fra:1 Mem:504.28M (Peak 508.29M) | Time:00:00.72 | Mem:193.00M, Peak:193.00M | Scene, ViewLayer | Updating Images | Loading Travertine005_1K_normal
+Fra:1 Mem:508.28M (Peak 512.29M) | Time:00:00.73 | Mem:197.00M, Peak:197.00M | Scene, ViewLayer | Updating Images | Loading interior_card_lit
+Fra:1 Mem:505.28M (Peak 512.29M) | Time:00:00.73 | Mem:201.00M, Peak:201.00M | Scene, ViewLayer | Updating Images | Loading Rubber004_1K_color
+Fra:1 Mem:509.28M (Peak 512.29M) | Time:00:00.74 | Mem:202.00M, Peak:202.00M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal.001
+Fra:1 Mem:513.28M (Peak 517.29M) | Time:00:00.74 | Mem:206.00M, Peak:206.00M | Scene, ViewLayer | Updating Images | Loading Rubber004_1K_roughness
+Fra:1 Mem:517.28M (Peak 521.29M) | Time:00:00.75 | Mem:210.00M, Peak:210.00M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color.001
+Fra:1 Mem:521.28M (Peak 525.29M) | Time:00:00.76 | Mem:214.00M, Peak:214.00M | Scene, ViewLayer | Updating Images | Loading Rubber004_1K_normal
+Fra:1 Mem:529.28M (Peak 533.29M) | Time:00:00.77 | Mem:218.00M, Peak:218.00M | Scene, ViewLayer | Updating Images | Loading Marble026_1K_color
+Fra:1 Mem:529.28M (Peak 533.29M) | Time:00:00.77 | Mem:222.00M, Peak:222.00M | Scene, ViewLayer | Updating Images | Loading Granite002A_1024_normal
+Fra:1 Mem:537.28M (Peak 541.29M) | Time:00:00.79 | Mem:226.00M, Peak:226.00M | Scene, ViewLayer | Updating Images | Loading Marble026_1K_roughness
+Fra:1 Mem:537.28M (Peak 541.29M) | Time:00:00.79 | Mem:230.00M, Peak:230.00M | Scene, ViewLayer | Updating Images | Loading Granite002A_1024_color
+Fra:1 Mem:549.29M (Peak 553.30M) | Time:00:00.82 | Mem:234.00M, Peak:234.00M | Scene, ViewLayer | Updating Images | Loading Marble026_1K_normal
+Fra:1 Mem:549.28M (Peak 553.30M) | Time:00:00.82 | Mem:238.00M, Peak:238.00M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_normal
+Fra:1 Mem:549.28M (Peak 553.30M) | Time:00:00.82 | Mem:242.00M, Peak:242.00M | Scene, ViewLayer | Updating Images | Loading Metal055A_1K_color
+Fra:1 Mem:553.28M (Peak 557.29M) | Time:00:00.83 | Mem:246.00M, Peak:246.00M | Scene, ViewLayer | Updating Images | Loading Metal039_1024_color
+Fra:1 Mem:557.28M (Peak 561.29M) | Time:00:00.84 | Mem:250.00M, Peak:250.00M | Scene, ViewLayer | Updating Images | Loading Rubber004_1024_normal
+Fra:1 Mem:569.29M (Peak 573.30M) | Time:00:00.85 | Mem:254.00M, Peak:254.00M | Scene, ViewLayer | Updating Images | Loading Metal055A_1K_metalness-Metal055A_1K_roughness
+Fra:1 Mem:569.28M (Peak 573.30M) | Time:00:00.86 | Mem:258.00M, Peak:258.00M | Scene, ViewLayer | Updating Images | Loading Rubber004_1024_orm
+Fra:1 Mem:569.28M (Peak 573.30M) | Time:00:00.86 | Mem:262.00M, Peak:262.00M | Scene, ViewLayer | Updating Images | Loading Metal055A_1K_normal
+Fra:1 Mem:573.28M (Peak 577.29M) | Time:00:00.87 | Mem:266.00M, Peak:266.00M | Scene, ViewLayer | Updating Images | Loading Rubber004_1024_color
+Fra:1 Mem:577.28M (Peak 581.29M) | Time:00:00.88 | Mem:270.00M, Peak:270.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_normal
+Fra:1 Mem:581.28M (Peak 585.29M) | Time:00:00.88 | Mem:274.00M, Peak:274.00M | Scene, ViewLayer | Updating Images | Loading Bricks029_1K_color
+Fra:1 Mem:585.28M (Peak 589.29M) | Time:00:00.89 | Mem:278.00M, Peak:278.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_orm
+Fra:1 Mem:589.28M (Peak 593.29M) | Time:00:00.90 | Mem:282.00M, Peak:282.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_1024_bk11_color
+Fra:1 Mem:593.28M (Peak 597.29M) | Time:00:00.91 | Mem:286.00M, Peak:286.00M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_normal.001
+Fra:1 Mem:597.28M (Peak 601.29M) | Time:00:00.91 | Mem:290.00M, Peak:290.00M | Scene, ViewLayer | Updating Images | Loading Bricks029_1K_roughness
+Fra:1 Mem:597.27M (Peak 601.29M) | Time:00:00.92 | Mem:294.00M, Peak:294.00M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_orm.001
+Fra:1 Mem:609.28M (Peak 613.29M) | Time:00:00.93 | Mem:298.00M, Peak:298.00M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_bk17_color.001
+Fra:1 Mem:609.28M (Peak 613.29M) | Time:00:00.93 | Mem:302.00M, Peak:302.00M | Scene, ViewLayer | Updating Images | Loading Bricks029_1K_normal
+Fra:1 Mem:613.28M (Peak 617.29M) | Time:00:00.94 | Mem:306.00M, Peak:306.00M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_normal.002
+Fra:1 Mem:617.28M (Peak 621.29M) | Time:00:00.95 | Mem:310.00M, Peak:310.00M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_color.002
+Fra:1 Mem:621.28M (Peak 625.29M) | Time:00:00.96 | Mem:314.00M, Peak:314.00M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_normal.001
+Fra:1 Mem:625.27M (Peak 633.29M) | Time:00:00.96 | Mem:322.00M, Peak:322.00M | Scene, ViewLayer | Updating Images | Loading Concrete034_512_color
+Fra:1 Mem:625.78M (Peak 633.29M) | Time:00:00.97 | Mem:322.00M, Peak:322.00M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_color.001
+Fra:1 Mem:629.78M (Peak 633.29M) | Time:00:00.97 | Mem:322.50M, Peak:322.50M | Scene, ViewLayer | Updating Images | Loading Concrete034_512_normal
+Fra:1 Mem:630.28M (Peak 633.29M) | Time:00:00.97 | Mem:323.00M, Peak:323.00M | Scene, ViewLayer | Updating Images | Loading Metal032_512_color
+Fra:1 Mem:635.28M (Peak 636.29M) | Time:00:00.97 | Mem:324.00M, Peak:324.00M | Scene, ViewLayer | Updating Images | Loading Metal032_512_normal
+Fra:1 Mem:636.28M (Peak 637.29M) | Time:00:00.97 | Mem:325.00M, Peak:325.00M | Scene, ViewLayer | Updating Images | Loading light_cone_gradient
+Fra:1 Mem:632.34M (Peak 637.29M) | Time:00:00.97 | Mem:329.00M, Peak:329.00M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_normal
+Fra:1 Mem:644.36M (Peak 644.36M) | Time:00:00.98 | Mem:329.06M, Peak:329.06M | Scene, ViewLayer | Updating Images | Loading Metal041B_512_color
+Fra:1 Mem:642.36M (Peak 646.37M) | Time:00:00.98 | Mem:333.06M, Peak:333.06M | Scene, ViewLayer | Updating Images | Loading Metal032_1024_color
+Fra:1 Mem:645.35M (Peak 646.37M) | Time:00:00.98 | Mem:334.06M, Peak:334.06M | Scene, ViewLayer | Updating Images | Loading Metal041B_512_normal
+Fra:1 Mem:642.34M (Peak 646.37M) | Time:00:00.98 | Mem:338.06M, Peak:338.06M | Scene, ViewLayer | Updating Images | Loading Metal041B_512_color.001
+Fra:1 Mem:643.34M (Peak 646.37M) | Time:00:00.99 | Mem:339.06M, Peak:339.06M | Scene, ViewLayer | Updating Images | Loading Metal041B_512_normal.001
+Fra:1 Mem:648.35M (Peak 649.36M) | Time:00:00.99 | Mem:340.06M, Peak:340.06M | Scene, ViewLayer | Updating Images | Loading light_cone_gradient.001
+Fra:1 Mem:648.41M (Peak 649.36M) | Time:00:00.99 | Mem:340.12M, Peak:340.12M | Scene, ViewLayer | Updating Images | Loading Metal032_512_color.001
+Fra:1 Mem:646.41M (Peak 650.42M) | Time:00:00.99 | Mem:344.12M, Peak:344.12M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_normal
+Fra:1 Mem:650.41M (Peak 651.42M) | Time:00:00.99 | Mem:345.12M, Peak:345.12M | Scene, ViewLayer | Updating Images | Loading Metal032_512_normal.001
+Fra:1 Mem:651.41M (Peak 652.42M) | Time:00:00.99 | Mem:346.12M, Peak:346.12M | Scene, ViewLayer | Updating Images | Loading flag_nyc
+Fra:1 Mem:651.56M (Peak 652.57M) | Time:00:00.99 | Mem:347.12M, Peak:347.12M | Scene, ViewLayer | Updating Images | Loading Metal041B_512_color.002
+Fra:1 Mem:656.57M (Peak 657.58M) | Time:00:01.00 | Mem:348.12M, Peak:348.12M | Scene, ViewLayer | Updating Images | Loading Metal041B_512_normal.002
+Fra:1 Mem:657.57M (Peak 658.58M) | Time:00:01.00 | Mem:349.12M, Peak:349.12M | Scene, ViewLayer | Updating Images | Loading Planks021_512_color
+Fra:1 Mem:654.56M (Peak 658.58M) | Time:00:01.00 | Mem:353.12M, Peak:353.12M | Scene, ViewLayer | Updating Images | Loading Travertine009_1024_color
+Fra:1 Mem:659.73M (Peak 660.74M) | Time:00:01.00 | Mem:354.12M, Peak:354.12M | Scene, ViewLayer | Updating Images | Loading Planks021_512_normal
+Fra:1 Mem:659.56M (Peak 660.74M) | Time:00:01.00 | Mem:355.28M, Peak:355.28M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_bk17_color
+Fra:1 Mem:663.56M (Peak 664.57M) | Time:00:01.01 | Mem:356.28M, Peak:356.28M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_orm
+Fra:1 Mem:671.57M (Peak 675.58M) | Time:00:01.02 | Mem:360.28M, Peak:360.28M | Scene, ViewLayer | Updating Images | Loading Bricks082A_1024_normal
+Fra:1 Mem:675.57M (Peak 679.58M) | Time:00:01.02 | Mem:364.28M, Peak:364.28M | Scene, ViewLayer | Updating Images | Loading PaintedWood007C_1024_color
+Fra:1 Mem:675.56M (Peak 679.58M) | Time:00:01.02 | Mem:368.28M, Peak:368.28M | Scene, ViewLayer | Updating Images | Loading interior_card_unlit
+Fra:1 Mem:676.56M (Peak 680.57M) | Time:00:01.03 | Mem:372.28M, Peak:372.28M | Scene, ViewLayer | Updating Images | Loading PaintedWood007C_1024_orm
+Fra:1 Mem:680.56M (Peak 681.57M) | Time:00:01.03 | Mem:373.28M, Peak:373.28M | Scene, ViewLayer | Updating Images | Loading PaintedWood007C_1024_normal
+Fra:1 Mem:663.78M (Peak 692.58M) | Time:00:01.06 | Mem:385.28M, Peak:385.28M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:663.78M (Peak 692.58M) | Time:00:01.06 | Mem:385.28M, Peak:385.28M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:663.78M (Peak 692.58M) | Time:00:01.06 | Mem:385.28M, Peak:385.28M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:663.78M (Peak 692.58M) | Time:00:01.06 | Mem:385.28M, Peak:385.28M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:663.99M (Peak 692.58M) | Time:00:01.07 | Mem:385.41M, Peak:385.41M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:663.99M (Peak 692.58M) | Time:00:01.07 | Mem:385.41M, Peak:385.41M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:663.99M (Peak 692.58M) | Time:00:01.07 | Mem:385.41M, Peak:385.41M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:663.99M (Peak 692.58M) | Time:00:01.07 | Mem:385.41M, Peak:385.41M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:663.99M (Peak 692.58M) | Time:00:01.07 | Mem:385.41M, Peak:385.41M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:663.99M (Peak 692.58M) | Time:00:01.07 | Mem:385.41M, Peak:385.41M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:664.14M (Peak 692.58M) | Time:00:01.07 | Mem:385.55M, Peak:385.55M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:664.14M (Peak 692.58M) | Time:00:01.07 | Mem:385.55M, Peak:385.55M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:664.14M (Peak 692.58M) | Time:00:01.07 | Mem:385.55M, Peak:385.55M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:674.04M (Peak 692.58M) | Time:00:01.16 | Mem:385.55M, Peak:385.55M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:674.04M (Peak 692.58M) | Time:00:01.17 | Mem:385.55M, Peak:385.55M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:695.49M (Peak 695.49M) | Time:00:01.18 | Mem:385.57M, Peak:385.57M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.18 | Mem:406.94M, Peak:406.94M | Scene, ViewLayer | Updating Geometry BVH parapet_wall_brick 15/14 | Building BVH
+Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.18 | Mem:406.94M, Peak:406.94M | Scene, ViewLayer | Updating Geometry BVH lamp_cobra_davit 2/14 | Building BVH
+Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.18 | Mem:406.94M, Peak:406.94M | Scene, ViewLayer | Updating Geometry BVH lamp_cobra_davit 2/14 | Building BVH 0%
+Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.18 | Mem:406.94M, Peak:406.94M | Scene, ViewLayer | Updating Geometry BVH win_aluminum_slider 14/14 | Building BVH
+Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.18 | Mem:406.95M, Peak:406.95M | Scene, ViewLayer | Updating Geometry BVH manhole_coned 3/14 | Building BVH
+Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.18 | Mem:406.96M, Peak:406.96M | Scene, ViewLayer | Updating Geometry BVH fire_escape_floor_unit 13/14 | Building BVH
+Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.18 | Mem:407.04M, Peak:407.07M | Scene, ViewLayer | Updating Geometry BVH entry_apartment_lobby_glass 12/14 | Building BVH
+Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.18 | Mem:407.19M, Peak:407.21M | Scene, ViewLayer | Updating Geometry BVH steam_stack_3m 4/14 | Building BVH
+Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.18 | Mem:407.30M, Peak:407.31M | Scene, ViewLayer | Updating Geometry BVH lamp_bishops_crook 5/14 | Building BVH
+Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.18 | Mem:407.36M, Peak:407.36M | Scene, ViewLayer | Updating Geometry BVH bulkhead_stair_brick 11/14 | Building BVH
+Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.19 | Mem:407.40M, Peak:407.40M | Scene, ViewLayer | Updating Geometry BVH quoin_limestone 10/14 | Building BVH
+Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.19 | Mem:407.42M, Peak:407.42M | Scene, ViewLayer | Updating Geometry BVH string_course_stone_belt 9/14 | Building BVH
+Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.19 | Mem:407.45M, Peak:407.53M | Scene, ViewLayer | Updating Geometry BVH bench_worlds_fair 6/14 | Building BVH
+Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.19 | Mem:407.57M, Peak:407.63M | Scene, ViewLayer | Updating Geometry BVH win_double_hung_1_1_stone 7/14 | Building BVH
+Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.19 | Mem:407.62M, Peak:407.63M | Scene, ViewLayer | Updating Geometry BVH cornice_pressed_metal_b 8/14 | Building BVH
+Fra:1 Mem:695.43M (Peak 695.49M) | Time:00:01.19 | Mem:407.62M, Peak:407.63M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:695.44M (Peak 695.49M) | Time:00:01.19 | Mem:407.62M, Peak:407.63M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:695.44M (Peak 695.49M) | Time:00:01.32 | Mem:442.78M, Peak:460.43M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:695.44M (Peak 695.49M) | Time:00:01.32 | Mem:442.78M, Peak:460.43M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:722.99M (Peak 722.99M) | Time:00:01.34 | Mem:442.78M, Peak:460.43M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:722.99M (Peak 722.99M) | Time:00:01.34 | Mem:470.33M, Peak:470.33M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:722.99M (Peak 722.99M) | Time:00:01.34 | Mem:470.34M, Peak:470.34M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:722.99M (Peak 722.99M) | Time:00:01.34 | Mem:470.34M, Peak:470.34M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:722.99M (Peak 722.99M) | Time:00:01.34 | Mem:470.34M, Peak:470.34M | Scene, ViewLayer | Updating Images | Loading sky_nishita
+Fra:1 Mem:723.99M (Peak 723.99M) | Time:00:01.58 | Mem:471.34M, Peak:471.34M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:723.99M (Peak 723.99M) | Time:00:01.58 | Mem:471.34M, Peak:471.34M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:723.99M (Peak 723.99M) | Time:00:01.58 | Mem:471.42M, Peak:471.42M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:723.99M (Peak 723.99M) | Time:00:01.58 | Mem:471.42M, Peak:471.42M | Scene, ViewLayer | Updating Lights | Importance map
+Fra:1 Mem:725.00M (Peak 729.49M) | Time:00:01.60 | Mem:472.45M, Peak:474.94M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:725.10M (Peak 729.49M) | Time:00:01.60 | Mem:472.55M, Peak:474.94M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:725.10M (Peak 729.49M) | Time:00:01.60 | Mem:472.55M, Peak:474.94M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:725.10M (Peak 729.49M) | Time:00:01.60 | Mem:472.47M, Peak:474.94M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:725.10M (Peak 729.49M) | Time:00:01.60 | Mem:472.55M, Peak:474.94M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:725.10M (Peak 729.49M) | Time:00:01.60 | Mem:472.55M, Peak:474.94M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:725.12M (Peak 729.49M) | Time:00:01.60 | Mem:472.55M, Peak:474.94M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:725.12M (Peak 729.49M) | Time:00:01.60 | Mem:472.55M, Peak:474.94M | Scene, ViewLayer | Sample 0/24
+Fra:1 Mem:804.39M (Peak 804.39M) | Time:00:08.40 | Remaining:02:36.46 | Mem:551.78M, Peak:551.78M | Scene, ViewLayer | Sample 1/24
