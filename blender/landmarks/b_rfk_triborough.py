@@ -251,7 +251,7 @@ def main() -> None:
     jx, jy, _ = frame.to_local(*JUNCTION_TM)
     ctx = (("water_dark", 0.35, 4200.0, (0.0, 0.0)),
            ("grass", ISLAND_Z, 700.0, (jx - 300.0, jy - 500.0)),
-           ("sidewalk", GROUND, 300.0, (ax.p(-560.0, 0.0).x, ax.p(-560.0, 0.0).y)))
+           ("ground_urban", GROUND, 300.0, (ax.p(-560.0, 0.0).x, ax.p(-560.0, 0.0).y)))
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=400_000, budget_lod1=100_000,
         renders=[

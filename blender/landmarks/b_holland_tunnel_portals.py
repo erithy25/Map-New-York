@@ -110,8 +110,8 @@ def main() -> None:
     nj = frame.to_local(*PORTAL_NJ)
     v1 = frame.to_local(-5487.0, 2950.0)
     ctx = (("water_dark", 0.35, 1400.0, (0.0, 0.0)),
-           ("sidewalk", GROUND_NY, 300.0, (ny[0] + 240.0, ny[1] - 90.0)),
-           ("sidewalk", GROUND_NJ, 300.0, (nj[0] - 240.0, nj[1] + 90.0)))
+           ("ground_urban", GROUND_NY, 300.0, (ny[0] + 240.0, ny[1] - 90.0)),
+           ("ground_urban", GROUND_NJ, 300.0, (nj[0] - 240.0, nj[1] + 90.0)))
     path, _ = tl.tube_path(CFG, frame, CFG.tubes[0])
     i = len(path) // 2
     cam_in = path[i] + bc.Vector((0, 0, 1.5))

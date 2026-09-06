@@ -305,7 +305,7 @@ def main() -> None:
     fp_oc = bc.load_footprint(1089309)
     ocx, ocy = fp_oc.cx - frame.x0, fp_oc.cy - frame.y0
     pa, pb, d = _pool_centres(frame)
-    ctx = (("sidewalk", GRND - 0.05, 700.0, (0.0, 0.0)),)
+    ctx = (("ground_urban", GRND - 0.05, 700.0, (0.0, 0.0)),)
     a = math.radians(bc.heading_to_math_deg(PLAZA_AXIS_DEG))
     n = Vector((-math.sin(a), math.cos(a), 0.0))
     church = (ocx + n.x * 95.0, ocy + n.y * 95.0, GRND + 1.65)

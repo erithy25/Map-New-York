@@ -126,3 +126,10 @@ Context: The coastline-derived sea face from OpenStreetMap claimed a 1,003 km² 
 Decision: OpenStreetMap water is cut against the New York City land boundary, and every remaining body is clipped back to where the elevation surface stands no higher than that body's own level plus 1 m. Planimetric hydrography is surveyed and is never clipped; it remains the authority inside the city.
 
 Consequences: 1,139.7 km² of falsely claimed water removed. The Palisades, the Watchungs, Hoboken, Jersey City, Midtown, Todt Hill and Kennedy Airport read as land; the mid-Hudson, Upper Bay, the Narrows, Newark Bay, Long Island Sound, the Atlantic and Jamaica Bay read as water; the Central Park reservoir reads as water at 34.52 m. Using OpenStreetMap water unclipped would have put the New Jersey skyline under the sea.
+
+## ADR-020 Reference photographs stay tracked in the repository
+Context: The reference set is 519 photographs, 410 MB, under `docs/verification/reference/`. Every file carries its source URL and SHA-256 in the subject's `meta.json`, so the set is exactly re-fetchable and could be git-ignored like the texture downloads, keeping only the 2.8 MB of metadata.
+
+Decision: keep the photographs tracked.
+
+Consequences: the repository carries about 410 MB it could avoid. Against that, these images are not an input the build regenerates — they are the *evidence* the finished work is judged against, and condition 3 of the definition of done is a side-by-side comparison. Wikimedia has already begun refusing original-resolution downloads to unauthenticated clients, so a set that is re-fetchable today may not be next year; a comparison that cannot be reproduced later is not much of a comparison. Textures are different: they are re-derivable inputs with a stable licence and no evidentiary role, which is why ADR-scoped ignoring applies to them and not here.

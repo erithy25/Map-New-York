@@ -187,8 +187,8 @@ def main() -> None:
     fr = fit.frame
     land_bk, land_mn = ax.p(-900.0, 0.0), ax.p(900.0, 0.0)
     ctx = (("water_dark", 0.35, 1500.0, (0.0, 0.0)),
-           ("sidewalk", GROUND, 460.0, (land_bk.x, land_bk.y)),
-           ("sidewalk", GROUND, 460.0, (land_mn.x, land_mn.y)))
+           ("ground_urban", GROUND, 460.0, (land_bk.x, land_bk.y)),
+           ("ground_urban", GROUND, 460.0, (land_mn.x, land_mn.y)))
     washington_st = fr.from_lonlat(-73.98958, 40.70330, GROUND + 1.65)
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=400_000, budget_lod1=90_000,

@@ -40,7 +40,7 @@ import os
 import re
 import sys
 import time
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
 from typing import Any
 
@@ -1174,7 +1174,7 @@ CATALOGUE: list[Item] = [
                                 "manhattanhenge", "sunset", "moynihan"]),
     _it("street_times_square_wet_night", "Times Square on a wet night", "streetscape",
         ['"Times Square" rain night', '"Times Square" rainy night reflections wet'],
-        [["times square"], ["rain", "wet", "rainy", "umbrella", "reflection", "puddle"]],
+        [["times square"], NYC_WORDS, ["rain", "wet", "rainy", "umbrella", "reflection", "puddle"]],
         (40.7568, -73.9862), "Broadway at West 44th Street, roadway centre, looking north up the bowtie",
         azimuth=UPTOWN, geosearch_radius_m=200, night=True, min_year=2012),
     _it("street_brooklyn_snow", "Snow on a Brooklyn street", "streetscape",
@@ -1497,6 +1497,33 @@ def parse_candidate(page: dict[str, Any], provenance: str, geo_hit: bool = False
     )
 
 
+GPS_MAX_KM = 100.0  # a camera farther than this from the subject is not photographing it
+
+
+def camera_gps(item: Item, c: Candidate) -> tuple[tuple[float, float] | None, str]:
+    """The file's camera position, checked against where this subject actually is.
+
+    Two things go wrong with Commons GPS. A file occasionally carries a longitude that lost its
+    western sign (EXIF written without the hemisphere reference); when flipping the sign puts the
+    camera at the subject, that is plainly what was meant, and the correction is recorded. A
+    coordinate that is still far away belongs to somewhere else entirely -- a namesake square in
+    another country, or a stray geotag -- and is discarded. Returns (position or None, note).
+    """
+    if c.gps is None:
+        return None, ""
+    d = haversine_m(c.gps, item.viewpoint)
+    if d <= GPS_MAX_KM * 1000.0:
+        return c.gps, ""
+    flipped = (c.gps[0], -c.gps[1])
+    d_flip = haversine_m(flipped, item.viewpoint)
+    if d_flip <= GPS_MAX_KM * 1000.0:
+        return flipped, (f"The file's longitude is written {c.gps[1]:+.5f} with no western hemisphere sign; read as "
+                         f"{flipped[1]:.5f} it puts the camera {d_flip:.0f} m from the reference position, so the sign "
+                         f"was corrected here.")
+    return None, (f"The file's GPS ({c.gps[0]:.5f}, {c.gps[1]:.5f}) is {d / 1000:.0f} km from this subject, so it is "
+                  f"not a photograph of it.")
+
+
 def evaluate(item: Item, c: Candidate, min_width: int = MIN_USABLE_WIDTH) -> tuple[float | None, str]:
     """Return (score, reason). score None => rejected, reason names the rule."""
     if c.mime != "image/jpeg":
@@ -1521,6 +1548,8 @@ def evaluate(item: Item, c: Candidate, min_width: int = MIN_USABLE_WIDTH) -> tup
     for group in item.keywords:
         if not any(has_term(hay, k) for k in group):
             return None, "keywords"
+    if c.gps is not None and camera_gps(item, c)[0] is None:
+        return None, "wrong_place"
     night_hit = any(has_term(hay, w) for w in NIGHT_WORDS)
     if night_hit and not item.night:
         return None, "night_for_day_item"
@@ -1568,8 +1597,11 @@ def estimate_view(item: Item, c: Candidate) -> dict[str, Any]:
     """Estimated photographer position (WGS84) and azimuth for one photo, with the reasoning."""
     default_az = item.default_azimuth
     subj_txt = f"{item.subject_name} ({item.subject[0]:.5f}, {item.subject[1]:.5f})" if item.subject else None
-    if c.gps is not None:
-        d_vp = haversine_m(c.gps, item.viewpoint)
+    gps, gps_note = camera_gps(item, c)
+    suffix = (" " + gps_note) if gps_note else ""
+    if gps is not None:
+        c = replace(c, gps=gps)
+        d_vp = haversine_m(gps, item.viewpoint)
         if item.subject is not None:
             d_subj = haversine_m(c.gps, item.subject)
             if d_subj < 20.0:
@@ -1578,7 +1610,7 @@ def estimate_view(item: Item, c: Candidate) -> dict[str, Any]:
                     "method": "standard_viewpoint (camera GPS coincides with subject)",
                     "explanation": (f"The file's GPS ({c.gps[0]:.5f}, {c.gps[1]:.5f}) lies within {d_subj:.0f} m of {subj_txt}, so the uploader "
                                     f"geotagged the subject rather than the camera; the viewpoint is therefore the standard photographer position "
-                                    f"for this view ({item.viewpoint_note}) and the azimuth {default_az:.0f} deg is the bearing from there to the subject."),
+                                    f"for this view ({item.viewpoint_note}) and the azimuth {default_az:.0f} deg is the bearing from there to the subject." + suffix),
                 }
             if d_subj <= item.gps_subject_max_m:
                 az = bearing_deg(c.gps, item.subject)
@@ -1586,14 +1618,14 @@ def estimate_view(item: Item, c: Candidate) -> dict[str, Any]:
                     "lat": c.gps[0], "lon": c.gps[1], "azimuth_deg": round(az, 1), "confidence": "high", "method": "camera_gps_to_subject",
                     "explanation": (f"Camera GPS from the Commons file description ({c.gps[0]:.5f}, {c.gps[1]:.5f}) is {d_subj:.0f} m from {subj_txt} "
                                     f"and {d_vp:.0f} m from the standard viewpoint; the azimuth {az:.0f} deg is the initial great-circle bearing from "
-                                    f"that camera position to the subject."),
+                                    f"that camera position to the subject." + suffix),
                 }
             return {
                 "lat": item.viewpoint[0], "lon": item.viewpoint[1], "azimuth_deg": round(default_az, 1), "confidence": "medium",
                 "method": "standard_viewpoint (camera GPS implausibly far)",
                 "explanation": (f"The file carries GPS ({c.gps[0]:.5f}, {c.gps[1]:.5f}) but it is {d_subj / 1000:.1f} km from {subj_txt}, beyond the "
                                 f"{item.gps_subject_max_m / 1000:.1f} km plausibility limit for this view, so it is ignored; the viewpoint is the "
-                                f"standard photographer position ({item.viewpoint_note}) and the azimuth {default_az:.0f} deg is the bearing from there to the subject."),
+                                f"standard photographer position ({item.viewpoint_note}) and the azimuth {default_az:.0f} deg is the bearing from there to the subject." + suffix),
             }
         # explicit-azimuth item (view along a street or a generic subject)
         conf = "low" if item.representative else "medium"
@@ -1602,17 +1634,20 @@ def estimate_view(item: Item, c: Candidate) -> dict[str, Any]:
             "explanation": (f"Camera GPS from the Commons file description ({c.gps[0]:.5f}, {c.gps[1]:.5f}), {d_vp:.0f} m from the reference position "
                             f"({item.viewpoint_note}); this item is a view along a street rather than at a point subject, so the azimuth {default_az:.0f} deg "
                             f"is the street heading of the reference view, not derived from the photo."
-                            + (" The subject is generic, so the position is only representative of where such a photo is taken." if item.representative else "")),
+                            + (" The subject is generic, so the position is only representative of where such a photo is taken." if item.representative else "") + suffix),
         }
     conf = "low" if item.representative else "medium"
     if item.subject is not None:
         why = f"the azimuth {default_az:.0f} deg is the bearing from there to {subj_txt}"
     else:
         why = f"the azimuth {default_az:.0f} deg is the heading of the street/view axis at that position"
+    lead = "No usable camera GPS" if gps_note else "No camera GPS in the file metadata"
     return {
-        "lat": item.viewpoint[0], "lon": item.viewpoint[1], "azimuth_deg": round(default_az, 1), "confidence": conf, "method": "standard_viewpoint",
-        "explanation": (f"No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view ({item.viewpoint_note}) and {why}."
-                        + (" The subject is generic, so this position is representative of the type of scene, not where this specific photo was taken." if item.representative else "")),
+        "lat": item.viewpoint[0], "lon": item.viewpoint[1], "azimuth_deg": round(default_az, 1), "confidence": conf,
+        "method": "standard_viewpoint" + (" (camera GPS discarded)" if gps_note else ""),
+        "explanation": (f"{lead}; the viewpoint is the standard photographer position for this view ({item.viewpoint_note}) and {why}."
+                        + (" The subject is generic, so this position is representative of the type of scene, not where this specific photo was taken."
+                           if item.representative else "") + suffix),
     }
 
 

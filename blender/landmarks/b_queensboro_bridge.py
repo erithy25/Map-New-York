@@ -167,8 +167,8 @@ def main() -> None:
     land_mn, land_qn = ax.p(-820.0, 0.0), ax.p(700.0, 0.0)
     ctx = (("water_dark", 0.35, 1600.0, (0.0, 0.0)),
            ("grass", GROUND, 120.0, (isl.x, isl.y)),
-           ("sidewalk", GROUND, 420.0, (land_mn.x, land_mn.y)),
-           ("sidewalk", GROUND, 420.0, (land_qn.x, land_qn.y)))
+           ("ground_urban", GROUND, 420.0, (land_mn.x, land_mn.y)),
+           ("ground_urban", GROUND, 420.0, (land_qn.x, land_qn.y)))
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=400_000, budget_lod1=90_000,
         renders=[

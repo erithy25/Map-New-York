@@ -373,8 +373,8 @@ Every photograph under `docs/verification/reference/` is from Wikimedia Commons 
 | file | title | author | licence | date taken | camera GPS |
 |---|---|---|---|---|---|
 | [1.jpg](landmark_woolworth_building/1.jpg) | [Woolworth Building April 2022 007.jpg](https://commons.wikimedia.org/wiki/File:Woolworth_Building_April_2022_007.jpg) | Kidfly182 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2022-04-30 13:17:00 | 40.71233, -74.00680 |
-| [2.jpg](landmark_woolworth_building/2.jpg) | [Dülmen, Münsterstraße, Fundamente -- 2016 -- 1851.jpg](https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_M%C3%BCnsterstra%C3%9Fe,_Fundamente_--_2016_--_1851.jpg) | Dietmar Rabich | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2016 | 51.83782, 7.28557 |
-| [3.jpg](landmark_woolworth_building/3.jpg) | [Woolworth Building April 2022 006.jpg](https://commons.wikimedia.org/wiki/File:Woolworth_Building_April_2022_006.jpg) | Kidfly182 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2022-04-30 13:16:58 | 40.71233, -74.00680 |
+| [2.jpg](landmark_woolworth_building/2.jpg) | [Woolworth Building April 2022 006.jpg](https://commons.wikimedia.org/wiki/File:Woolworth_Building_April_2022_006.jpg) | Kidfly182 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2022-04-30 13:16:58 | 40.71233, -74.00680 |
+| [3.jpg](landmark_woolworth_building/3.jpg) | [Woolworth Building, Broadway, Lower Manhattan (J. Zeldman) - Flickr.jpg](https://commons.wikimedia.org/wiki/File:Woolworth_Building,_Broadway,_Lower_Manhattan_(J._Zeldman)_-_Flickr.jpg) | Jeffrey Zeldman from Manhattan, USA | [Public domain](https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain) | 2015-12-28 12:59 | 40.71321, -74.00815 |
 
 ## landmark_city_hall — New York City Hall
 
@@ -1287,7 +1287,7 @@ Every photograph under `docs/verification/reference/` is from Wikimedia Commons 
 | file | title | author | licence | date taken | camera GPS |
 |---|---|---|---|---|---|
 | [1.jpg](street_times_square_wet_night/1.jpg) | [THANK YOU NYC.jpg](https://commons.wikimedia.org/wiki/File:THANK_YOU_NYC.jpg) | Jorge Jaramillo | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2020 | 40.75849, -73.98510 |
-| [2.jpg](street_times_square_wet_night/2.jpg) | [Blue hour in Daqing Times Square after rain 20250531195748.jpg](https://commons.wikimedia.org/wiki/File:Blue_hour_in_Daqing_Times_Square_after_rain_20250531195748.jpg) | TurnOnTheNight | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2025-05-31 19:57:48 | 46.58234, 125.08970 |
+| [2.jpg](street_times_square_wet_night/2.jpg) | [Cyclist riding passengers on a street in the rain at night in New York City, U.S.A.jpg](https://commons.wikimedia.org/wiki/File:Cyclist_riding_passengers_on_a_street_in_the_rain_at_night_in_New_York_City,_U.S.A.jpg) | IIP Photo Archive | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0) | 2019 | — |
 | [3.jpg](street_times_square_wet_night/3.jpg) | [Times Square on a Rainy Night.jpg](https://commons.wikimedia.org/wiki/File:Times_Square_on_a_Rainy_Night.jpg) | Noah Donohue | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2019-11-07 | — |
 
 ## street_brooklyn_snow — Snow on a Brooklyn street

@@ -110,8 +110,8 @@ def main() -> None:
     cam_in = path[i] + bc.Vector((0, 0, 1.5))
     tgt_in = path[min(i + 2, len(path) - 1)] + bc.Vector((0, 0, 1.9))
     ctx = (("water_dark", 0.35, 1100.0, (0.0, 0.0)),
-           ("sidewalk", GROUND_MN, 280.0, (mn[0] - 200.0, mn[1] + 90.0)),
-           ("sidewalk", GROUND_QN, 280.0, (qn[0] + 200.0, qn[1] - 90.0)))
+           ("ground_urban", GROUND_MN, 280.0, (mn[0] - 200.0, mn[1] + 90.0)),
+           ("ground_urban", GROUND_QN, 280.0, (qn[0] + 200.0, qn[1] - 90.0)))
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=250_000, budget_lod1=60_000,
         renders=[

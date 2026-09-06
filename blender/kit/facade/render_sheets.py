@@ -4,6 +4,7 @@
     python3 blender/kit/facade/render_sheets.py --sheet windows      # one contact sheet
     python3 blender/kit/facade/render_sheets.py --list               # sheet names
     python3 blender/kit/facade/render_sheets.py --tenement           # the assembled 5-floor test building
+    python3 blender/kit/facade/render_sheets.py --closeup            # street-distance detail (reveals, trim, cornice)
 
 Contact sheets lay every registered piece of a group out on a grid in front of a brick backdrop, label each with its
 id and triangle count, and render one near-orthographic Cycles CPU still to
@@ -151,11 +152,14 @@ def sheet(group: str, *, samples: int, res_x: int, only: set[str] | None = None)
         # rotated bounding box is not the piece's size
         built.append([piece, ob, lo, hi, tris, (hi0.x - lo0.x, hi0.y - lo0.y, hi0.z - lo0.z)])
 
-    gap_x, gap_z, label_band = 0.55, 0.55, 1.55
-    label_h = 0.185          # cap height of the two-line caption
-    stagger = (0.0, -0.42, -0.84)   # three phases so captions of narrow neighbours cannot overlap
-    target_w = max(9.0, math.sqrt(sum((hi.x - lo.x + gap_x) * (hi.z - lo.z + gap_z + label_band)
+    gap_x, gap_z = 0.55, 0.55
+    target_w = max(9.0, math.sqrt(sum((hi.x - lo.x + gap_x) * (hi.z - lo.z + gap_z + 1.0)
                                       for _, _, lo, hi, _, _ in built) * 1.55))
+    # captions must come out the same size in pixels whatever the sheet's extent, or a wide sheet's labels
+    # shrink to noise: 11 px of cap height at the rendered resolution
+    label_h = max(0.17, 11.0 * target_w / res_x)
+    stagger = (0.0, -2.4 * label_h, -4.8 * label_h)   # three phases so narrow neighbours cannot overlap
+    label_band = 7.6 * label_h + 0.20
     rows, cur, cur_w = [], [], 0.0
     for item in built:
         w = item[3].x - item[2].x + gap_x
@@ -205,6 +209,47 @@ def _place(pid: str, loc, *, mesh_cache: dict = {}) -> bpy.types.Object:
     K.nb.link(ob)
     ob.location = Vector(loc)
     return ob
+
+
+def closeup(*, samples: int, res_x: int) -> Path:
+    """Street-distance close-up of the details that only read at a few metres: the masonry reveal and drip sill of a
+    window, the profiled lintel / sill / keystone / belt course, the brick soldier course, and a bracketed cornice
+    seen from below. This is the frame the second-pass fixes (REPORT.md §4.6) were judged on — a contact sheet at
+    piece scale cannot show a 12 mm drip groove or whether a console is hidden behind its corona."""
+    WALL_T = 0.40
+    win_w, win_h = P.W_OPENING["double_hung_1_1_soldier"]
+    sill_z = 1.30
+    ops = [(-win_w / 2, win_w / 2, sill_z, sill_z + win_h)]
+    m = K.Mesh()
+    xs = sorted({-2.6, 2.6} | {v for o in ops for v in o[:2]})
+    zs = sorted({0.0, 5.4} | {v for o in ops for v in o[2:]})
+    for i in range(len(xs) - 1):
+        for j in range(len(zs) - 1):
+            x0, x1, z0, z1 = xs[i], xs[i + 1], zs[j], zs[j + 1]
+            cx, cz = (x0 + x1) / 2, (z0 + z1) / 2
+            if any(a < cx < b and c < cz < d for a, b, c, d in ops):
+                continue
+            m.box((x0, 0.0, z0), (x1, WALL_T, z1), "red_brick", faces="yY")
+    for a, b, c, d in ops:                          # the piece owns the first 0.26 m of the reveal (see tenement())
+        m.box((a, 0.26, c), (b, WALL_T, d), "red_brick", faces="xXzZ")
+    m.box((-2.6, 0.4, 0.0), (2.6, 3.0, 5.4), "red_brick", faces="Z")     # roof deck behind the cornice
+    m.to_object("closeup_wall")
+
+    _place("win_double_hung_1_1_soldier", (0.0, 0.0, sill_z))
+    _place("trim_lintel_stone", (-1.75, 0.0, sill_z + 1.20))
+    _place("trim_sill_cast_stone", (-1.75, 0.0, sill_z))
+    _place("trim_keystone", (1.80, 0.0, sill_z + 0.95))
+    for k in range(4):
+        _place("string_course_brick_soldier", (-2.1 + k * 1.0, 0.0, 0.62))
+        _place("string_course_stone_belt", (-2.1 + k * 1.0, 0.0, 3.70))
+    for k in range(5):
+        _place("cornice_pressed_metal_a", (-2.0 + k * 1.0, 0.0, 4.48))
+    _ground(-8.0, 8.0, -9.0, 0.0)
+    path = OUT / "facade_closeup_detail.png"
+    K.nb.quick_render(path, camera_location=(3.1, -6.2, 1.25), camera_target=(-0.15, 0.0, 2.75),
+                      fov_deg=48.0, size=(res_x, int(res_x * 0.78)), samples=samples,
+                      sun_azimuth_deg=232.0, sun_elevation_deg=34.0, sun_strength=3.6)
+    return path
 
 
 def tenement(*, samples: int, res_x: int) -> Path:
@@ -310,6 +355,7 @@ def main(argv=None) -> int:
     ap.add_argument("--sheet")
     ap.add_argument("--ids", help="debug: render only these piece ids (comma separated) on the given --sheet")
     ap.add_argument("--tenement", action="store_true")
+    ap.add_argument("--closeup", action="store_true")
     ap.add_argument("--list", action="store_true")
     ap.add_argument("--samples", type=int, default=64)
     ap.add_argument("--res", type=int, default=800)
@@ -325,10 +371,12 @@ def main(argv=None) -> int:
     _clear()
     if a.tenement:
         p = tenement(samples=a.samples, res_x=a.res)
+    elif a.closeup:
+        p = closeup(samples=a.samples, res_x=a.res)
     elif a.sheet:
         p = sheet(a.sheet, samples=a.samples, res_x=a.res, only=set(a.ids.split(",")) if a.ids else None)
     else:
-        ap.error("give --sheet NAME, --tenement or --list")
+        ap.error("give --sheet NAME, --tenement, --closeup or --list")
     print(f"wrote {p} ({p.stat().st_size / 1024:.0f} kB)")
     return 0
 

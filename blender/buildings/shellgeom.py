@@ -95,6 +95,7 @@ class BuildingSpec:
     attrs: dict[str, float] = field(default_factory=dict)
     floors: int = 1
     area: float = 0.0
+    roof_steps: list[tuple[Polygon, float]] | None = None   # (region, z) tiling `polygon` exactly
 
 
 # Fast integer quantisation for the weld grid: `int(v * _Q + _OFF + 0.5) - _OFF` rounds a double
@@ -156,6 +157,12 @@ class TriBuf:
         ia, ib, ic = self.vid(*a), self.vid(*b), self.vid(*c)
         if ia == ib or ib == ic or ia == ic:
             return  # degenerate after welding
+        ax, ay, az = self.pos[ia]
+        ux, uy, uz = self.pos[ib][0] - ax, self.pos[ib][1] - ay, self.pos[ib][2] - az
+        vx, vy, vz = self.pos[ic][0] - ax, self.pos[ic][1] - ay, self.pos[ic][2] - az
+        nx, ny, nz = uy * vz - uz * vy, uz * vx - ux * vz, ux * vy - uy * vx
+        if nx * nx + ny * ny + nz * nz < 4e-18:
+            return  # three collinear points: zero area, contributes nothing but broken edges
         self.tris.append((ia, ib, ic))
         self.uvs.append((uva[0], uva[1], uvb[0], uvb[1], uvc[0], uvc[1]))
         self.mats.append(mat)
@@ -633,7 +640,7 @@ def build_shell(spec: BuildingSpec, lod: int = 0, *, ensure_closed: bool = True)
     flat = BuildingSpec(bin=spec.bin, polygon=spec.polygon, ground_z=spec.ground_z, roof_z=spec.roof_z,
                         roof=RoofSpec(kind=ROOF_FLAT, parapet_h=0.0, source=spec.roof.source + "+unclosed"),
                         mat_wall=spec.mat_wall, mat_roof=spec.mat_roof, facade_heading=spec.facade_heading,
-                        attrs=spec.attrs, floors=spec.floors, area=spec.area)
+                        attrs=spec.attrs, floors=spec.floors, area=spec.area, roof_steps=None)
     buf2 = _build_shell_once(flat, lod, tolerant=True)
     buf2.fallback = "flat_cap"
     if is_closed(len(buf2.pos), buf2.tris):
@@ -660,7 +667,9 @@ def _build_shell_once(spec: BuildingSpec, lod: int, tolerant: bool = False) -> T
     if z1 - z0 < 0.05:
         z1 = z0 + 0.05
     kind = spec.roof.kind
-    if kind in (ROOF_FLAT, ROOF_COMPLEX):
+    if spec.roof_steps and len(spec.roof_steps) >= 2 and lod <= 1:
+        _build_stepped(buf, spec, poly, z0, z1, lod)
+    elif kind in (ROOF_FLAT, ROOF_COMPLEX):
         _build_flat(buf, spec, poly, z0, z1, lod)
     else:
         _build_pitched(buf, spec, poly, z0, z1, lod)
@@ -770,28 +779,50 @@ def _pitched_geometry(spec: BuildingSpec, poly: Polygon, z0: float, z1: float, l
 
 def _build_pitched(buf: TriBuf, spec: BuildingSpec, poly: Polygon, z0: float, z1: float, lod: int) -> None:
     z_eave, pieces, risers = _pitched_geometry(spec, poly, z0, z1, lod)
+    pieces = _cover_shortfall(pieces, poly, z_eave, z1)
+    _build_from_pieces(buf, spec, poly, z0, pieces, pieces, risers)
+
+
+def _cover_shortfall(pieces: list[RoofPiece], poly: Polygon, z_fill: float, z_hi: float) -> list[RoofPiece]:
+    """Patch any part of the footprint the regions missed after the 1 mm snap, flat at ``z_fill``."""
+    if sum(p.poly.area for p in pieces) >= 0.999 * poly.area:
+        return pieces
+    try:
+        rest = poly.difference(shapely.union_all([p.poly for p in pieces]))
+    except Exception:
+        return pieces
+    if rest is None or rest.is_empty:
+        return pieces
+    for rp in _iter_polygons(rest):
+        if rp.area > 1e-4:
+            pieces.append(RoofPiece(shapely.geometry.polygon.orient(rp, 1.0), 0.0, 0.0,
+                                    z_fill, min(z_fill, z_hi), max(z_fill, z_hi)))
+    return pieces
+
+
+def _build_from_pieces(buf: TriBuf, spec: BuildingSpec, poly: Polygon, z0: float,
+                       sample_pieces: Sequence[RoofPiece], cap_pieces: Sequence[RoofPiece],
+                       risers: Sequence[tuple[np.ndarray, np.ndarray, float, float, np.ndarray]]) -> None:
+    """Shared body for every non-trivial roof: caps, outer walls, step/riser faces, floor slab.
+
+    ``sample_pieces`` are the planes that define the *outermost* top surface at each point — they
+    drive the wall tops.  ``cap_pieces`` are the pieces whose cap geometry should be emitted here;
+    they differ from ``sample_pieces`` for a level that has its own parapet, whose cap is emitted by
+    the caller as a coping band plus a recessed deck.
+    """
     ext, holes = ring_coords(poly)
     rings = [ext] + holes
     u_origin = [ring_uv_origin(ext, spec.facade_heading)] + [0] * len(holes)
     bidx = _BoundaryIndex(rings, u_origin)
 
-    if sum(p.poly.area for p in pieces) < 0.999 * poly.area:
-        # numerical shortfall after the 1 mm snap: cover the remainder flat at the eave so the
-        # surface still tiles the footprint and the shell closes.
-        try:
-            rest = poly.difference(shapely.union_all([p.poly for p in pieces]))
-        except Exception:
-            rest = None
-        if rest is not None and not rest.is_empty:
-            for rp in _iter_polygons(rest):
-                if rp.area > 1e-4:
-                    pieces.append(RoofPiece(shapely.geometry.polygon.orient(rp, 1.0), 0.0, 0.0, z_eave, z_eave, z1))
+    for piece in cap_pieces:
+        pe, ph = ring_coords(shapely.geometry.polygon.orient(piece.poly, 1.0))
+        _emit_cap(buf, [pe] + ph, piece.z_at, spec.mat_roof, up=True)
 
     # (ring index, edge index) -> [(t along the edge, x, y, z_roof)]
     samples: dict[tuple[int, int], list[tuple[float, float, float, float]]] = {}
-    for piece in pieces:
+    for piece in sample_pieces:
         pe, ph = ring_coords(shapely.geometry.polygon.orient(piece.poly, 1.0))
-        _emit_cap(buf, [pe] + ph, piece.z_at, spec.mat_roof, up=True)
         for ring in [pe] + ph:
             if len(ring) < 3:
                 continue
@@ -815,8 +846,125 @@ def _build_pitched(buf: TriBuf, spec: BuildingSpec, poly: Polygon, z0: float, z1
     for ri, ring in enumerate(rings):
         _emit_ring_walls(buf, ring, ri, u_origin[ri], samples, z0, spec.mat_wall)
     for p, q, zl, zh, nrm in risers:
-        _emit_riser(buf, p, q, zl, zh, nrm, spec.mat_roof, v_ref=z0)
+        _emit_riser(buf, p, q, zl, zh, nrm, spec.mat_wall, v_ref=z0)
     _emit_cap(buf, rings, z0, spec.mat_wall, up=False)
+
+
+# --------------------------------------------------------------------------- stepped massing
+def _build_stepped(buf: TriBuf, spec: BuildingSpec, poly: Polygon, z0: float, z1: float, lod: int) -> None:
+    """Real stepped massing: one flat level per recovered CityGML roof level, plus step faces.
+
+    ``spec.roof_steps`` holds ``(region, z)`` pairs that tile ``poly`` exactly (they were produced
+    by successive GEOS differences of the same footprint), so adjacent regions share bit-identical
+    boundaries and the vertical step face welds to both level caps.  The tallest level sits at
+    ``roof_z``, so the building's overall height is still the measured one.
+    """
+    steps = [(r, z) for r, z in (spec.roof_steps or []) if r is not None and not r.is_empty]
+    if len(steps) < 2:
+        _build_flat(buf, spec, poly, z0, z1, lod)
+        return
+    main = max(range(len(steps)), key=lambda i: steps[i][0].area)
+
+    sample_pieces: list[RoofPiece] = []
+    cap_pieces: list[RoofPiece] = []
+    risers: list[tuple[np.ndarray, np.ndarray, float, float, np.ndarray]] = []
+
+    for i, (region, z_top) in enumerate(steps):
+        region = shapely.geometry.polygon.orient(region, 1.0)
+        z_top = max(z_top, z0 + 0.05)
+        if i == main and spec.roof.kind not in (ROOF_FLAT, ROOF_COMPLEX):
+            # the pitch, where the data says there is one, goes on the main mass only
+            sub = BuildingSpec(bin=spec.bin, polygon=region, ground_z=z0, roof_z=z_top,
+                               roof=spec.roof, mat_wall=spec.mat_wall, mat_roof=spec.mat_roof,
+                               facade_heading=spec.facade_heading, floors=spec.floors,
+                               area=region.area)
+            z_eave, pcs, rs_ = _pitched_geometry(sub, region, z0, z_top, lod)
+            pcs = _cover_shortfall(pcs, region, z_eave, z_top)
+            cap_pieces.extend(pcs)
+            sample_pieces.extend(pcs)
+            risers.extend(rs_)
+            continue
+        sample_pieces.append(RoofPiece(region, 0.0, 0.0, z_top, z_top, z_top))
+        if _parapet_wanted_for(region.area, z_top - z0, spec.floors, spec.roof.parapet_h, lod):
+            if _emit_parapet(buf, spec, region, z0, z_top):
+                continue                               # coping band + deck emitted, no plain cap
+        cap_pieces.append(RoofPiece(region, 0.0, 0.0, z_top, z_top, z_top))
+
+    risers.extend(_step_risers(steps))
+    _build_from_pieces(buf, spec, poly, z0, sample_pieces, cap_pieces, risers)
+
+
+def _step_risers(steps: Sequence[tuple[Polygon, float]]
+                 ) -> list[tuple[np.ndarray, np.ndarray, float, float, np.ndarray]]:
+    """Vertical faces where a taller level abuts a shorter one.
+
+    Walked from the taller side so each shared edge is emitted exactly once, using the taller
+    region's own vertices at both heights; the shorter region's cap carries the same vertices
+    because the regions came from exact differences of one footprint.
+    """
+    out: list[tuple[np.ndarray, np.ndarray, float, float, np.ndarray]] = []
+    for i, (region, z_hi) in enumerate(steps):
+        ext, holes = ring_coords(shapely.geometry.polygon.orient(region, 1.0))
+        ring_list = [ext] + holes
+        for ring in ring_list:
+            if len(ring) < 3:
+                continue
+            nxt = ring + _edge_vectors(ring)
+            for e in range(len(ring)):
+                p, q = ring[e], nxt[e]
+                dx, dy = q[0] - p[0], q[1] - p[1]
+                seg = math.hypot(dx, dy)
+                if seg < WELD_M:
+                    continue
+                nx, ny = dy / seg, -dx / seg           # outward normal of a CCW ring
+                mx, my = (p[0] + q[0]) / 2 + nx * 0.02, (p[1] + q[1]) / 2 + ny * 0.02
+                probe = shapely.Point(mx, my)
+                for j, (other, z_lo) in enumerate(steps):
+                    if j == i or z_lo >= z_hi - WELD_M:
+                        continue
+                    if other.contains(probe):
+                        out.append((p, q, z_lo, z_hi, np.array([nx, ny])))
+                        break
+    return out
+
+
+def _parapet_wanted_for(area: float, height: float, floors: int, parapet_h: float, lod: int) -> bool:
+    if lod >= 1 or parapet_h <= 0.0:
+        return False
+    return height >= PARAPET_MIN_H_M and area >= PARAPET_MIN_AREA_M2 and floors >= PARAPET_MIN_FLOORS
+
+
+def _emit_parapet(buf: TriBuf, spec: BuildingSpec, region: Polygon, z0: float, z_top: float) -> bool:
+    """Coping band at ``z_top`` plus the inner face and the recessed deck.  False if it does not fit."""
+    try:
+        cand = region.buffer(-PARAPET_T_M, join_style=2, mitre_limit=2.0)
+    except Exception:
+        return False
+    if cand is None or cand.is_empty:
+        return False
+    inner = [p for p in _iter_polygons(cand) if p.area >= 4.0]
+    if not inner or sum(p.area for p in inner) < 0.25 * region.area:
+        return False
+    try:
+        band = region.difference(shapely.union_all(inner))
+    except Exception:
+        return False
+    if band is None or band.is_empty:
+        return False
+    z_deck = z_top - spec.roof.parapet_h
+    for bp in _iter_polygons(band):
+        if bp.area < 1e-4:
+            continue
+        be, bh = ring_coords(shapely.geometry.polygon.orient(bp, 1.0))
+        _emit_cap(buf, [be] + bh, z_top, spec.mat_wall, up=True)
+    for ip in inner:
+        ip = shapely.geometry.polygon.orient(ip, 1.0)
+        ie, ih = ring_coords(ip)
+        _emit_wall_ring(buf, ie[::-1].copy(), z_deck, z_top, 0, spec.mat_wall, v_ref=z0)
+        for h in ih:
+            _emit_wall_ring(buf, h[::-1].copy(), z_deck, z_top, 0, spec.mat_wall, v_ref=z0)
+        _emit_cap(buf, [ie] + ih, z_deck, spec.mat_roof, up=True)
+    return True
 
 
 def _emit_ring_walls(buf: TriBuf, ring: np.ndarray, ri: int, u0: int,
@@ -840,11 +988,31 @@ def _emit_ring_walls(buf: TriBuf, ring: np.ndarray, ri: int, u0: int,
         pts = sorted(samples.get((ri, i), []), key=lambda r: r[0])
         if len(pts) < 2:
             continue
+        # Group the samples by position along the edge.  Two samples at the same position with
+        # different heights are a *step*: the facade has a vertical edge there, and both heights
+        # must stay in the polyline or the jump is left open.  Within such a group the heights are
+        # ordered so the polyline stays connected (nearest to the previous height first).
+        groups: list[list[tuple[float, float, float, float]]] = []
+        for rec in pts:
+            if groups and abs(rec[0] - groups[-1][0][0]) * seg < WELD_M:
+                groups[-1].append(rec)
+            else:
+                groups.append([rec])
         top: list[tuple[float, float, float, float]] = []
-        for t, x, y, z in pts:
-            if top and abs(t - top[-1][0]) * seg < WELD_M:
-                continue
-            top.append((t, x, y, z))
+        prev_z: float | None = None
+        for gi, grp in enumerate(groups):
+            seen: list[tuple[float, float, float, float]] = []
+            for rec in grp:
+                if all(abs(rec[3] - s_[3]) > WELD_M for s_ in seen):
+                    seen.append(rec)
+            if len(seen) > 1:
+                if prev_z is not None:
+                    seen.sort(key=lambda r: abs(r[3] - prev_z))
+                else:
+                    nz = groups[gi + 1][0][3] if gi + 1 < len(groups) else seen[0][3]
+                    seen.sort(key=lambda r: -abs(r[3] - nz))
+            top.extend(seen)
+            prev_z = top[-1][3]
         if len(top) < 2 or top[0][0] > 1e-6 or top[-1][0] < 1.0 - 1e-6:
             continue
         b0 = (p[0], p[1], z0)

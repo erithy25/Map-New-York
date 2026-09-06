@@ -269,21 +269,110 @@ The renders were inspected and the following were corrected before this report:
   and the catalog entry names it in `lod1_mesh`. Both the glTF node and the glTF mesh carry that name.
 * Y-up, metres, origin at the wall/ground contact point: satisfied (see the anchor table above and
   `test_anchor_origin_is_on_the_piece`).
-* **Defect in the foundation, not fixed here:** §13 requires `asset.extras.nycsim`, but
-  `nycsim_bpy.export_glb` sets the metadata as a *scene* custom property, and Blender's glTF exporter writes scene
-  custom properties to `scenes[<i>].extras`, not to `asset.extras`. Every kit glb therefore carries the required
-  JSON blob (schema_version, generator_script, git_commit, exported_at, units, up_axis_blender, kit_id, category,
-  bounds, anchor, nominal_size_m) at `scenes[0].extras.nycsim` and leaves `asset.extras` empty. This affects every
-  Blender stage, so it belongs in `blender/common/nycsim_bpy.py` (or in §13), not in this lane —
-  `tests/test_kit_facade.py::test_nycsim_extras_round_trip` accepts either location so it will keep passing once
-  the foundation is corrected.
+* **Foundation defect reported here, since fixed by the foundation owner.** §13 requires `asset.extras.nycsim`,
+  but `nycsim_bpy.export_glb` originally set the metadata as a *scene* custom property, and Blender's glTF
+  exporter writes those to `scenes[<i>].extras`, not to `asset.extras`. `nycsim_bpy` now post-processes the glb
+  and writes `asset.extras.nycsim` as a JSON **object** (the scene extras still carry the same payload as a JSON
+  *string*). Every kit glb re-exported after that change satisfies §13 directly.
+  `tests/test_kit_facade.py::test_nycsim_extras_round_trip` accepts either location and either shape, so it passes
+  across the transition.
+
+### 4.6 Second pass: the orchestrator's review of `tenement_test.png`
+
+The orchestrator reviewed the assembled tenement and raised three defects, all of them things that only show at
+street distance. Each was reproduced in a dedicated close-up render before being changed, and re-rendered after.
+
+**1. Windows read flat.** Two causes, and the first was not in the kit at all.
+
+* *Harness bug (the visible one).* The test wall cut its opening to the piece's **bounding box** (1.994 m) instead
+  of its **masonry opening** (1.70 m). Every window therefore had 100 mm of open sky above it, and the head threw
+  no shadow because there was no head. Both test scenes now take the hole from
+  `pieces_common.W_OPENING` (published from `facade_params.WINDOW_TYPES`), and the tenement's wall no longer draws
+  its own liner in the first 0.26 m — that is the piece's job, and two liners in the same plane flicker and wash
+  the head out. This is why the first render lied about the geometry; it is fixed in `render_sheets.py`.
+* *Kit changes.* `REVEAL` 115 → **155 mm**, so the sash sits 6 in behind the brick as it does in a real masonry
+  opening. The frame box now runs back to the liner so no daylight leaks in from behind the shell. A parting bead
+  and a sloped wooden sub-sill were added. `stone_sill` gained a **throated drip groove** (12 × 10 mm, 25 mm back
+  from the nose) and a chamfered nose; `STONE_PROJ` 40 → **50 mm** so trim stone actually throws a shadow.
+  `soldier_lintel` is now laid **brick by brick** — 92 mm bricks, 12 mm raked head joints, a mortar bed set 14 mm
+  behind the faces and a 90°-rotated UV so the brick texture runs vertically on bricks laid on end.
+* Measured result, recorded per piece in the catalog as `glazing_setback_m` and asserted by
+  `test_window_glazing_is_recessed`: **152–182 mm** for the 14 masonry windows. Three are excluded with reasons in
+  `NOT_RECESSED` — a bay projects *in front* of the wall (−520 mm), curtain-wall glazing sits in the facade plane
+  (63 mm), a dormer stands out of the roof slope.
+* One more defect surfaced while checking this: the glazing rendered as **flat grey plastic** because
+  `glass_clear` carried a 0.17 diffuse albedo. Glass has essentially none. It is now near-black (0.021) with a 4 %
+  Fresnel specular and 26 % alpha, and the interior "card" became a **sealed 0.30 m room box** with dark returns —
+  a bare card let the sky behind an open building shell light the opening from the back and wash the pane out.
+
+**2. Trim had no profile.** `stone_lintel`, `stone_sill`, `keystone` and the string courses were flat boxes. There
+is now a small moulding library in `pieces_common.py` — `curve()` (line, ovolo, cavetto, cyma recta, cyma reversa,
+bead), `profile()` to chain members, `sweep()` to run a closed section along X — and every one of those pieces is
+built by sweeping a real cut-stone section: chamfered lower arris, plain face, fillet, washed top; the sill with
+its drip throat; the keystone as two splayed frusta with a sunk centre panel and a washed cap. Because all 26
+window pieces call the same helpers, this landed on the whole kit at once, not just on the loose trim pieces.
+
+A note on triangle counts here: the orchestrator suggested a few hundred triangles each. A swept moulding does not
+need them — `trim_lintel_stone` went 12 → **20** triangles, `trim_sill_cast_stone` 12 → **32**, `trim_keystone`
+12 → **36**, `string_course_brick_soldier` 12 → **124**. The extra triangles a correct section needs are few; what
+changed is that the section is now correct, and the before/after close-up is what shows it. Spending 300
+triangles subdividing a flat run would buy nothing. Where extra geometry genuinely bought something — the soldier
+course laid brick by brick — it was spent.
+
+**3. Cornices needed their brackets.** The pieces did have brackets and dentils, but they projected 160 mm under a
+440 mm corona, so from the street they were entirely hidden behind it and the cornice read as a plain box band.
+`pieces_common.pressed_metal_cornice` now builds the whole assembly in one place — frieze board (with optional
+sunk panels), dentil course, cyma-reversa bed mould, **scrolled consoles that project to within 45 mm of the
+corona face** and carry it, corona with a splayed soffit, a listel, a cyma-recta crown and a capping fillet. The
+console gained a shoulder fillet and sunk side panels so it reads as a box, not a plate. `cornice_stone` was
+rebuilt the same way (three-fascia architrave, egg-and-dart bed mould, modillions), and `cornice_return_end`
+mitres the new section. Profiles A/B/C: 208 → **314**, 304 → **374**, 252 → **406** triangles against a 2 500 cap.
+The close-up had to be re-shot from **street level looking up** to judge this at all — the first one looked down
+on the cornice, where the brackets are hidden by the corona in reality too.
+
+**4. Brick tile repeat** (the orchestrator's smaller note). `kitlib._tileable_variation` bakes a seamless
+low-frequency luminance field — sinusoids at *integer* frequencies in both axes, so the tile stays seamless — into
+the kit's 1K colour map for the 16 wall-scale materials, at 8–17 % strength depending on the material. It reads as
+the soot, rain-streaking and patched brick a real New York wall carries, and measures a 28 % spread across
+`red_brick`'s tile. It is baked into the image, so it survives the glTF export.
+**Honest limit:** this makes the repeat far less legible, it does not remove it. The tile is still mathematically
+periodic (`red_brick` measures 3.24 m, so a 7.6 m tenement front is 2.3 repeats). Genuinely breaking that needs
+stochastic/hex-grid detiling in the shader, which is a UE material node and cannot be baked into a single glTF
+texture — recommended for the UE facade material, and noted in §5.
+
+**Where the triangles went.** Per-piece LOD0 counts, before → after the second pass:
+
+| piece | before | after | | piece | before | after |
+|---|---:|---:|---|---|---:|---:|
+| `win_double_hung_1_1_soldier` | 186 | **340** | | `cornice_pressed_metal_a` | 208 | **314** |
+| `win_double_hung_6_6` | 258 | **312** | | `cornice_pressed_metal_b` | 304 | **374** |
+| `win_double_hung_2_2` | 210 | **272** | | `cornice_pressed_metal_c` | 252 | **406** |
+| `win_double_hung_1_1_stone` | 186 | **248** | | `cornice_stone` | 96 | **316** |
+| `win_double_hung_1_1` | 174 | **208** | | `cornice_return_end` | 86 | **240** |
+| `win_chicago_tripartite` | 318 | **354** | | `string_course_brick_soldier` | 12 | **124** |
+| `win_arched_tenement` | 246 | **300** | | `string_course_stone_belt` | 24 | **52** |
+| `win_casement_pair` | 234 | **262** | | `trim_keystone` | 12 | **36** |
+| | | | | `trim_sill_cast_stone` | 12 | **32** |
+| | | | | `trim_lintel_stone` | 12 | **20** |
+
+The tenement's own window nearly doubled (186 → 340) because that is where the reveal, the drip sill and the
+brick-by-brick soldier course landed. Pieces that were already articulated moved little, which is the point: the
+budget was raised so geometry *could* go where it reads, not so every piece would grow.
+
+**Budget deviation, restated.** The window cap went from the brief's 400 to 900 on the orchestrator's explicit
+instruction ("the budget is a cap, not a target"). Category caps for `cornice` (1 200 → 2 500), `string_course`
+(200 → 600), `trim` (200 → 400), `quoin` (300 → 500), `pilaster` (600 → 900) and `window_accessory` (400 → 500)
+were raised with it. Actual spend stayed modest: the kit total went 50,765 → **50,901** triangles (+0.3 %), median
+piece 244, largest 1,720. The caps were raised so that geometry *could* be spent where it reads; it was.
 
 ## 5. Fidelity: what is real and what is not
 
 Every dimension in the kit is a published or measured New York construction dimension, recorded in the source
 next to the number it drives (`pieces_common.py` holds the shared ones): 67.5 mm brick course and 194 mm soldier
-course; 150 mm stone lintels bearing 115 mm each side and projecting 40 mm; 100 mm sills with a 20 mm wash and
-65 mm projection; 45 mm sash stiles, 40 mm meeting rails, 22 mm true-divided-light muntins; 3.05 m tenement and
+course laid at a 92 mm brick with 12 mm raked head joints; 150 mm stone lintels bearing 115 mm each side and
+projecting 50 mm over a chamfered arris; 100 mm sills with a 20 mm wash, 65 mm projection and a 12 × 10 mm
+throated drip groove; a 155 mm masonry reveal to the sash;
+45 mm sash stiles, 40 mm meeting rails, 22 mm true-divided-light muntins; 3.05 m tenement and
 3.20 m New Law floor-to-floor with a 4.20 m commercial ground storey; 0.55 m bulkhead / 2.35 m plate glass /
 transom bar at 2.90 m / 0.80 m sign fascia; 0.95 m deep fire-escape platforms with 0.86 m (34 in) railings,
 0.406 m (16 in) drop ladders at 305 mm rung pitch; 1.07 m (42 in) parapets; 2.44 m (8 ft) sidewalk-shed clear
@@ -298,8 +387,13 @@ cedar water tanks (10 000 / 20 000 US gal); 14.63 × 4.88 m (48 × 16 ft) roofto
 * Ornament is modelled as swept mouldings and stamped members — a cornice is a real member chain (frieze, dentil
   course, bed mould, consoles, corona with a splayed soffit, cyma crown, capping fillet) but the consoles are
   swept S-scrolls rather than cast foliate scrolls, the Ionic pilaster capital is a simplified volute, and
-  terracotta rosettes are stepped blocks. At the triangle budgets the brief sets (a window is 400 triangles) that
-  is the achievable fidelity; finer ornament belongs in normal maps, which the kit does not bake.
+  terracotta rosettes are stepped blocks. At the triangle budgets in force (a window is capped at 900) that is the
+  achievable fidelity; finer ornament belongs in normal maps, which the kit does not bake.
+* **Texture tiling is periodic.** A baked, seamless low-frequency variation (§4.6) makes the repeat much harder to
+  read, but each material is still one tile — `red_brick` covers 3.24 m, so a 7.6 m tenement front is 2.3
+  repeats and a long warehouse wall is many more. Removing the periodicity properly needs stochastic or hex-grid
+  detiling sampled per-pixel in the shader; that is a UE material node and cannot be baked into a single glTF
+  texture. **Recommended for the UE facade/shell material**, where it would also benefit the building shells.
 * Storefront sign bands are a plain painted panel with no lettering. The fascia geometry and its metre UVs are
   there for the signage/props agent to map real signs onto; inventing shop names here would be fabricated data.
 * The interior shells are lit by emissive ceiling planes and flat-coloured stock, not by real fixtures; they are
@@ -310,7 +404,9 @@ cedar water tanks (10 000 / 20 000 US gal); 14.63 × 4.88 m (48 × 16 ft) roofto
   generated materials of its own on top (`chrome`, `fluoro_white`, `foliage_green`, `foliage_green_dry`, `interior_lit`, `interior_unlit`, …).
 * The kit's own `billboard` budget was raised from 1 500 to 2 500 triangles: a 48 × 16 ft bulletin with a real
   lattice back-frame, catwalk and floodlights does not fit in 1 500. The brief fixes no budget for billboards.
-* `blender/common/texture_catalog.json` was edited (two green tints) and `blender/common/textures.py` was not.
+* `blender/common/texture_catalog.json` was edited by this lane, which owns it: two green tints, the `glass_clear`
+  shader parameters (§4.6) and a `breakup` block on the 16 wall-scale materials. `blender/common/textures.py` is
+  unchanged since it was published for the other Blender agents — its `get_texture_set` API is stable.
   `blender/common/nycsim_bpy.py` (foundation) was **not** modified; `render_sheets.py` works around its fixed
   camera setup by pre-setting the Cycles bounce limits and by pulling the camera back for a near-orthographic
   frame.

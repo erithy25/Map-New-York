@@ -100,8 +100,8 @@ def main() -> None:
     fit = ba.bridge_axis(SUPPORTS, ("pier_bk", "pier_qn"), MAIN_SPAN)
     ax = fit.axis
     ctx = (("water_dark", 0.35, 200.0, (0.0, 0.0)),
-           ("sidewalk", GROUND, 320.0, (ax.p(-360.0, 0.0).x, ax.p(-360.0, 0.0).y)),
-           ("sidewalk", GROUND, 320.0, (ax.p(360.0, 0.0).x, ax.p(360.0, 0.0).y)))
+           ("ground_urban", GROUND, 320.0, (ax.p(-360.0, 0.0).x, ax.p(-360.0, 0.0).y)),
+           ("ground_urban", GROUND, 320.0, (ax.p(360.0, 0.0).x, ax.p(360.0, 0.0).y)))
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=250_000, budget_lod1=50_000,
         renders=[

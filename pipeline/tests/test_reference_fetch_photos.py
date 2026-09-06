@@ -478,3 +478,34 @@ def test_force_refetch_can_reuse_the_items_own_photos(tmp_path: Path):
     again = fp.process_item(client, item, tmp_path, fp.DEFAULT_MAX_WIDTH, True, used)  # type: ignore[arg-type]
     assert [p["title"] for p in again["photos"]] == [p["title"] for p in first["photos"]]
     assert (tmp_path / item.slug / "1.jpg").is_file()
+
+
+def test_camera_gps_is_checked_against_the_subject():
+    item = fp.BY_SLUG["street_nyc_street_name_signs"]
+    near = _candidate("File:Street sign in New York City A.jpg", gps=(40.7558, -73.9843))
+    assert fp.camera_gps(item, near) == ((40.7558, -73.9843), "")
+    # a longitude written without its western sign, which lands on the other side of the world
+    flipped = _candidate("File:Street sign in New York City B.jpg", gps=(40.758, 73.9855))
+    pos, note = fp.camera_gps(item, flipped)
+    assert pos == (40.758, -73.9855) and "western hemisphere" in note
+    est = fp.estimate_view(item, flipped)
+    assert est["lon"] == -73.9855 and "sign was corrected" in est["explanation"]
+    # a genuine coordinate somewhere else entirely
+    elsewhere = _candidate("File:Street sign in New York City C.jpg", gps=(46.582342, 125.089697))
+    pos2, note2 = fp.camera_gps(item, elsewhere)
+    assert pos2 is None and "km from this subject" in note2
+    assert fp.evaluate(item, elsewhere)[1] == "wrong_place"
+    # and no GPS at all still falls back cleanly
+    assert fp.camera_gps(item, _candidate("File:Street sign in New York City D.jpg")) == (None, "")
+
+
+def test_every_estimated_viewpoint_lands_in_new_york():
+    """A stored estimate outside the NYC bounding box would mean a wrong-place photograph."""
+    for item in fp.CATALOGUE:
+        for gps in ((None), (40.7558, -73.9843)):
+            c = _candidate("File:X.jpg", gps=gps) if gps else _candidate("File:X.jpg")
+            if gps and fp.camera_gps(item, c)[0] is None:
+                continue
+            e = fp.estimate_view(item, c)
+            assert 40.4 <= e["lat"] <= 41.0 and -74.4 <= e["lon"] <= -73.6, (item.slug, e["lat"], e["lon"])
+            assert 0.0 <= e["azimuth_deg"] < 360.0

@@ -331,8 +331,8 @@ def main() -> None:
     land_bk = ax.p(-800.0, 0.0)
     land_mn = ax.p(900.0, 0.0)
     ctx = (("water_dark", 0.35, 1600.0, (0.0, 0.0)),
-           ("sidewalk", GROUND_BK, 480.0, (land_bk.x, land_bk.y)),
-           ("sidewalk", GROUND_MN, 560.0, (land_mn.x, land_mn.y)))
+           ("ground_urban", GROUND_BK, 480.0, (land_bk.x, land_bk.y)),
+           ("ground_urban", GROUND_MN, 560.0, (land_mn.x, land_mn.y)))
     # 1. Brooklyn Bridge Park, Main Street lawn (40.70345 N, 73.99373 W): 90 m east of the Brooklyn tower
     park = fr.from_lonlat(-73.99373, 40.70345, GROUND_BK + 1.65)
     park_t = ax.p(S_TOWER_BK + 40.0, 0.0, 46.0)

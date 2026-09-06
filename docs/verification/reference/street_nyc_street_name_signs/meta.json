@@ -21,18 +21,19 @@
   "street signs New York City intersection"
  ],
  "geosearch_radius_m": 0,
- "fetched_at": "2026-09-06T13:52:26Z",
+ "fetched_at": "2026-09-06T14:26:29Z",
  "max_width": 1920,
  "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
  "candidates_seen": 130,
- "candidates_eligible": 54,
+ "candidates_eligible": 53,
  "rejections": {
   "excluded": 10,
-  "indoor": 12,
+  "indoor": 11,
   "keywords": 27,
   "too_old": 13,
   "too_small": 5,
   "not_photo": 4,
+  "wrong_place": 2,
   "licence": 5
  },
  "exhausted": false,
@@ -83,11 +84,11 @@
    "score": 10.2,
    "estimated_viewpoint": {
     "lat": 40.758,
-    "lon": 73.9855,
+    "lon": -73.9855,
     "azimuth_deg": 0.0,
     "confidence": "low",
     "method": "camera_gps_with_item_azimuth",
-    "explanation": "Camera GPS from the Commons file description (40.75800, 73.98550), 10391542 m from the reference position (typical Midtown intersection corner (representative; close-up references, not a view)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+    "explanation": "Camera GPS from the Commons file description (40.75800, -73.98550), 357 m from the reference position (typical Midtown intersection corner (representative; close-up references, not a view)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken. The file's longitude is written +73.98550 with no western hemisphere sign; read as -73.98550 it puts the camera 357 m from the reference position, so the sign was corrected here."
    },
    "attribution": "\"Street signs at 47th street and Broadway designating Lloyd Richards Way in Manhattan, New York,.jpg\" by Dizzycheekchewer, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Street_signs_at_47th_street_and_Broadway_designating_Lloyd_Richards_Way_in_Manhattan,_New_York,.jpg"
   },

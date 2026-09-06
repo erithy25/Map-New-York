@@ -140,7 +140,7 @@ def build(lod: int = 0):
 
 
 def main() -> None:
-    ctx = (("sidewalk", -0.7, 600.0, (0.0, 0.0)),)
+    ctx = (("ground_urban", -0.7, 600.0, (0.0, 0.0)),)
     ba.run_landmark(
         ID, TITLE, build, bins=BINS, budget_lod0=250_000, budget_lod1=60_000,
         renders=[

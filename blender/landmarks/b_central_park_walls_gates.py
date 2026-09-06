@@ -200,7 +200,7 @@ def main() -> None:
         renders=[
             dict(view="fifth_avenue_wall", cam=(430.0, -1900.0, GROUND + 1.7 - 20.0),
                  target=(330.0, -1700.0, GROUND - 19.4), fov_deg=62.0,
-                 context=(("sidewalk", -0.45, 2600.0, (0.0, 0.0)),), sun_azimuth_deg=120.0, sun_elevation_deg=40.0),
+                 context=(("ground_urban", -0.45, 2600.0, (0.0, 0.0)),), sun_azimuth_deg=120.0, sun_elevation_deg=40.0),
             dict(view="park_plan", cam=(0.0, -300.0, 2400.0), target=(0.0, 0.0, 0.0), fov_deg=52.0,
                  context=(("grass", -0.5, 2600.0, (0.0, 0.0)),), sun_azimuth_deg=200.0, sun_elevation_deg=60.0),
         ],

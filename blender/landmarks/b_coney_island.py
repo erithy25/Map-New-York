@@ -225,7 +225,7 @@ def main() -> None:
     jring = ba.osm_polygon_local(JUMP_WAY, frame)
     jx = sum(p[0] for p in jring) / len(jring)
     jy = sum(p[1] for p in jring) / len(jring)
-    ctx = (("sidewalk", -0.4, 900.0, (0.0, 0.0)),)
+    ctx = (("ground_urban", -0.4, 900.0, (0.0, 0.0)),)
     ba.run_landmark(
         ID, TITLE, build, bins=BINS, budget_lod0=250_000, budget_lod1=60_000,
         renders=[

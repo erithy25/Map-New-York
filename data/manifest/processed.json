@@ -6721,14 +6721,14 @@
   "landmark_b_brooklyn_bridge_lod0": {
    "artifact_id": "landmark_b_brooklyn_bridge_lod0",
    "bytes": 5722588,
-   "git_commit": "53f1c49152ac",
+   "git_commit": "e99990487d21",
    "landmark_id": "b_brooklyn_bridge",
    "lod": 0,
    "path": "blender_out/landmarks/b_brooklyn_bridge.glb",
-   "produced_at": "2026-09-06T14:23:15Z",
+   "produced_at": "2026-09-06T14:31:36Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "9f0f632fdc590f65b0181a2001f5fe6765700eb18304aaf8f25df742c8744412",
+   "sha256": "bf3acacaf4318408cee667c4d7c22287282539ea2ef19a0457b4f7c1b4c350ea",
    "sources": [
     "osm_bbbike",
     "published_brooklyn_bridge"
@@ -8354,20 +8354,20 @@
   "landmark_glb:c_little_island": {
    "artifact_id": "landmark_glb:c_little_island",
    "bins": [],
-   "bytes": 5899776,
+   "bytes": 5848516,
    "footprint_iou": null,
-   "git_commit": "38976a48e050",
+   "git_commit": "e99990487d21",
    "path": "blender_out/landmarks/c_little_island.glb",
-   "produced_at": "2026-09-06T13:11:38Z",
+   "produced_at": "2026-09-06T14:25:10Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "1fa421aa8b48a355c991864d10cc95bcd9ed70e9af10a77b2238e0ad0c6f87d5",
+   "sha256": "7a7dc3caaae0c273cbb1a47eb1a66ae2eba3a5a1554b3a618281bbce4dc82565",
    "sources": [
     "building_footprints"
    ],
    "stage": "landmarks",
-   "tris_lod0": 9350,
-   "tris_lod1": 1774
+   "tris_lod0": 8661,
+   "tris_lod1": 1085
   },
   "landmark_glb:c_metlife_building": {
    "artifact_id": "landmark_glb:c_metlife_building",
@@ -8809,14 +8809,14 @@
    "bins": [
     1001020
    ],
-   "bytes": 9588848,
+   "bytes": 9590468,
    "footprint_iou": 1.0,
-   "git_commit": "d63f02e8c7ff",
+   "git_commit": "e99990487d21",
    "path": "blender_out/landmarks/federal_hall.glb",
-   "produced_at": "2026-09-06T12:20:17Z",
+   "produced_at": "2026-09-06T14:30:25Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "f0b2c630e54da0ae0ff2b4985008b6be1c2fe5a6bd23cfd5afbe5ee119875f07",
+   "sha256": "32c0d32f131dda0d2c1eb76f63090f8d9d71f3e744757a85d1c81fc7b99907e5",
    "sources": [
     "building_footprints"
    ],

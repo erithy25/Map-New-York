@@ -198,7 +198,7 @@ def build(lod: int = 0):
 def main() -> None:
     fp = bc.load_footprint(BINS[0])
     frame = bc.local_frame(fp, fp.ground_z, bc.footprint_heading(fp))
-    ctx = (("sidewalk", 0.0, 900.0, (0.0, 0.0)),)
+    ctx = (("ground_urban", 0.0, 900.0, (0.0, 0.0)),)
     ba.run_landmark(
         ID, TITLE, build, bins=BINS, budget_lod0=250_000, budget_lod1=50_000,
         renders=[

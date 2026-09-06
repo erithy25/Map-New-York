@@ -124,8 +124,8 @@ def main() -> None:
     ax = _axis(0.0)
     frame = ba.frame_at(CENTRE_TM[0], CENTRE_TM[1], 0.0, HEADING)   # the same frame build() uses
     ctx = (("water_dark", 0.35, 160.0, (ax.p(S_PYLON + MAIN_SPAN / 2, 0.0).x, ax.p(S_PYLON + MAIN_SPAN / 2, 0.0).y)),
-           ("sidewalk", GROUND, 380.0, (ax.p(-430.0, 0.0).x, ax.p(-430.0, 0.0).y)),
-           ("sidewalk", GROUND, 380.0, (ax.p(430.0, 0.0).x, ax.p(430.0, 0.0).y)))
+           ("ground_urban", GROUND, 380.0, (ax.p(-430.0, 0.0).x, ax.p(-430.0, 0.0).y)),
+           ("ground_urban", GROUND, 380.0, (ax.p(430.0, 0.0).x, ax.p(430.0, 0.0).y)))
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=250_000, budget_lod1=50_000,
         renders=[

@@ -91,7 +91,7 @@ def main() -> None:
     ring = ba.osm_polygon_local(WAY, bc.LocalFrame(0.0, 0.0))
     cx = sum(p[0] for p in ring) / len(ring)
     cy = sum(p[1] for p in ring) / len(ring)
-    ctx = (("sidewalk", -0.9, 220.0, (0.0, 0.0)),)
+    ctx = (("ground_urban", -0.9, 220.0, (0.0, 0.0)),)
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=250_000, budget_lod1=40_000,
         renders=[

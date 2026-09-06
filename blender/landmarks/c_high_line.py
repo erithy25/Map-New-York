@@ -85,12 +85,13 @@ def build():
     frame = cc.frame_at(c.x, c.y, 0.0, cc.GRID_ANGLE)
     local = [frame.local_polygon(p) for p in parts]
     objs: list = []
-    b_deck = C.MeshBuilder()
+    deck_parts: list = []
     b_str = C.MeshBuilder()
     ncol = 0
     deck_len = 0.0
 
     for i, poly in enumerate(local):
+        b_deck = C.MeshBuilder()
         ring = C.ring_coords(poly)
         # the deck slab and its precast plank joints
         b_deck.prism(ring, DECK_Z - 0.28, DECK_Z, C.M.pavement, holes=C.hole_coords(poly))
@@ -123,13 +124,17 @@ def build():
                 ncol += 1
                 s += COLUMN_SPACING
             per += L
-    objs.append(C.tag(b_deck.build(f"{ID}_deck"), "base"))
+        # one object per viaduct segment: the engine can stream 2.3 km of deck in pieces, and a verification
+        # render can be framed on a single block instead of on the centre of a 2.3 km bounding box (which is
+        # empty air, and gave a featureless frame)
+        deck_parts.append(C.tag(b_deck.build(f"{ID}_deck_{i:02d}"), "base"))
+    objs.extend(deck_parts)
     objs.append(b_str.build(f"{ID}_structure"))
-    return objs, frame, union, local, ncol, deck_len
+    return objs, frame, union, local, ncol, deck_len, deck_parts
 
 
 def main():
-    objs, frame, union, local, ncol, deck_len = build()
+    objs, frame, union, local, ncol, deck_len, deck_parts = build()
     real_local = shapely.ops.unary_union(local)
     entry = cc.finish(objs, ID, frame, real_footprint=real_local, iou_min=0.90,
                       iou_z=DECK_Z - 0.14,
@@ -154,10 +159,14 @@ def main():
                                   "measured_length_m": round(deck_len, 1), "published_length_m": LENGTH_PUBLISHED, "railing_top_m": round(DECK_Z + RAIL_H, 2),
                                   "osm_relation": OSM_RELATION,
                                   "outline_area_m2": round(real_local.area, 1)})
+    # frame on the single longest segment: the whole 2.3 km ribbon's bounding-box centre is empty air
+    longest = max(deck_parts, key=lambda o: len(o.data.vertices))
     cc.render(ID, [
-        {"view": "chelsea", "azimuth_deg": 250, "elevation_deg": "street", "distance": 70, "fov_deg": 70, "look_up_deg": 8},
-        {"view": "aerial", "azimuth_deg": 250, "elevation_deg": 40},
-    ])
+        {"view": "chelsea", "azimuth_deg": 250, "elevation_deg": "street", "distance": 55, "fov_deg": 70,
+         "target_z": 8.0},
+        {"view": "aerial", "azimuth_deg": 250, "elevation_deg": 34, "distance": 220, "fov_deg": 55,
+         "target_z": 9.0},
+    ], objects=[longest])
     return entry
 
 

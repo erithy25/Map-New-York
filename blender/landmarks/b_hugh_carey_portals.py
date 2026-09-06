@@ -115,8 +115,8 @@ def main() -> None:
     tgt_in = path[min(i + 2, len(path) - 1)] + bc.Vector((0, 0, 1.9))
     ctx = (("water_dark", 0.35, 1900.0, (0.0, 0.0)),
            ("grass", 3.0, 260.0, (gi[0] - 60.0, gi[1] + 60.0)),
-           ("sidewalk", GROUND_MN, 260.0, (mn[0] - 60.0, mn[1] + 190.0)),
-           ("sidewalk", GROUND_BK, 260.0, (bk[0] + 60.0, bk[1] - 190.0)))
+           ("ground_urban", GROUND_MN, 260.0, (mn[0] - 60.0, mn[1] + 190.0)),
+           ("ground_urban", GROUND_BK, 260.0, (bk[0] + 60.0, bk[1] - 190.0)))
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=250_000, budget_lod1=60_000,
         renders=[

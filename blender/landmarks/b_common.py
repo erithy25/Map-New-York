@@ -233,6 +233,9 @@ MATERIALS: dict[str, dict] = {
     "water": dict(base_color=(0.10, 0.20, 0.25, 1), roughness=0.05, metallic=0.2, ref="Memorial pool water"),
     "water_dark": dict(base_color=(0.05, 0.10, 0.14, 1), roughness=0.05, metallic=0.2, ref="Harbour water (render context only)"),
     "grass": dict(base_color=(0.15, 0.30, 0.10, 1), roughness=1.0, ref="Lawn"),
+    "ground_urban": dict(base_color=(0.21, 0.20, 0.19, 1), roughness=0.95,
+                         ref="Built-up ground, render context planes only -- concrete sidewalk (0.62 albedo) is "
+                             "far brighter than granite (0.44) and blows a whole verification frame to white"),
     "foliage": dict(base_color=(0.12, 0.28, 0.08, 1), roughness=0.9, ref="Swamp white oak / London plane canopy"),
     "bark": dict(base_color=(0.30, 0.24, 0.18, 1), roughness=0.95, ref="Tree bark"),
     "paint_white": dict(base_color=(0.85, 0.85, 0.83, 1), roughness=0.5, ref="White-painted timber/steel"),

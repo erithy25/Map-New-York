@@ -874,6 +874,15 @@ def convex_hull_bm(points: np.ndarray | Sequence[Vec3], *, simplify_deg: float =
     return bm
 
 
+def sync() -> None:
+    """Flush pending object-transform edits into ``matrix_world``.
+
+    ``ob.location = ...`` only writes the *local* transform; ``matrix_world`` keeps its stale value until the
+    view layer is evaluated.  Every consumer of world positions (bounds, damage weights, convex hulls) must
+    call this first or it silently measures wheels sitting at z = 0."""
+    bpy.context.view_layer.update()
+
+
 def mesh_points(ob: bpy.types.Object, world: bool = True) -> np.ndarray:
     me = ob.data
     co = np.empty(len(me.vertices) * 3, dtype=np.float64)

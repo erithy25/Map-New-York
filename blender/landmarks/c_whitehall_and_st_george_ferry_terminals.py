@@ -137,9 +137,14 @@ def build():
     p0g, p1g, Lg, tg, ng = C.edge_facing(ring, 0.0)
     b.box_from_to(p0g, p1g, ng, 0.5, 6.0, 12.0, C.M.glass_clear)
     objs.append(C.tag(b.build(f"{ID}_st_george"), "mass"))
+    # NB: the landmark id itself contains "whitehall", so match on the *suffix* after the id — matching the whole
+    # name put every object in both groups, which framed both renders on the full 6 km span and gave empty frames
+    def suffix(o):
+        return o.name[len(ID):] if o.name.startswith(ID) else o.name
+
     return objs, g, {
-        "manhattan": [o for o in objs if o is not None and ("whitehall" in o.name or "bmb" in o.name)],
-        "st_george": [o for o in objs if o is not None and "st_george" in o.name],
+        "manhattan": [o for o in objs if o is not None and ("_whitehall" in suffix(o) or "_bmb" in suffix(o))],
+        "st_george": [o for o in objs if o is not None and "_st_george" in suffix(o)],
     }
 
 
@@ -171,7 +176,8 @@ def main():
               objects=groups["manhattan"])
     cc.render(ID, [{"view": "st_george_harbour", "azimuth_deg": 200, "elevation_deg": 14, "distance": 300,
                     "fov_deg": 48, "target_z": 11.0},
-                   {"view": "st_george_aerial", "azimuth_deg": 230, "elevation_deg": 30}],
+                   {"view": "st_george_aerial", "azimuth_deg": 230, "elevation_deg": 28, "distance": 260,
+                    "fov_deg": 52, "target_z": 10.0}],
               objects=groups["st_george"])
     return entry
 
