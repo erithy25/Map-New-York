@@ -844,30 +844,32 @@ def convex_hull_bm(points: np.ndarray | Sequence[Vec3], *, simplify_deg: float =
         c = pts.mean(axis=0)
         try:
             _u, sv, vt = np.linalg.svd(pts - c, full_matrices=False)
-            if sv[-1] < 1e-3 * max(1e-9, sv[0]):
+            if sv[-1] < 2e-2 * max(1e-9, sv[0]):
                 n = vt[-1]
                 pts = np.concatenate([pts + n * 0.001, pts - n * 0.001])
         except np.linalg.LinAlgError:
             pass
     if ConvexHull is not None and len(pts) >= 4:
         try:
-            hull = ConvexHull(pts, qhull_options="Qt")
+            # "QJ" joggles the input so every facet is simplicial: with the default "Qt" qhull merges
+            # nearly-coplanar facets and the triangulated output can miss a face, leaving an open hull
+            # (seen on the two-wheelers' rear slab).
+            hull = ConvexHull(pts, qhull_options="QJ")
             bm = bmesh.new()
-            used = sorted(set(int(i) for i in hull.vertices))
-            remap = {old: k for k, old in enumerate(used)}
-            verts = [bm.verts.new(tuple(pts[i])) for i in used]
-            centre = pts[used].mean(axis=0)
+            verts = [bm.verts.new(tuple(p)) for p in pts]
             for tri, eq in zip(hull.simplices, hull.equations):
-                a, b, c = (remap[int(i)] for i in tri)
-                n = np.cross(pts[used][b] - pts[used][a], pts[used][c] - pts[used][a])
+                a, b, c = int(tri[0]), int(tri[1]), int(tri[2])
+                n = np.cross(pts[b] - pts[a], pts[c] - pts[a])
                 if np.dot(n, eq[:3]) < 0:                    # keep the winding outward
                     b, c = c, b
                 try:
                     bm.faces.new((verts[a], verts[b], verts[c]))
                 except ValueError:
                     continue
+            bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context='VERTS')
             bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
-            del centre
+            if any(len(e.link_faces) != 2 for e in bm.edges):
+                raise RuntimeError("qhull produced an open hull")
             return bm
         except Exception as exc:                             # degenerate (coplanar) cloud
             log.warning("qhull failed (%s); falling back to bmesh.convex_hull", exc)

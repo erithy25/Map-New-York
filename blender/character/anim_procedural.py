@@ -306,8 +306,9 @@ def relaxed_arms(body: BodyRef) -> dict[str, dict]:
     out = {}
     for side in ("l", "r"):
         sign = 1.0 if side == "l" else -1.0
+        # outboard of the thigh, not across it: a hand hung inboard penetrates the trouser leg
         target = (body.shoulder(side) - UP * (body.arm_length * 0.92)
-                  + body.right * (0.055 * sign) + body.forward * 0.06)
+                  - body.right * (0.016 * sign) + body.forward * 0.055)
         out[f"hand_{side}"] = hand_ik(body, side, target,
                                       finger_dir=(-UP * 0.94 + body.forward * 0.34).normalized(),
                                       back_dir=(body.right * -sign))

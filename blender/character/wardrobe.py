@@ -53,7 +53,7 @@ LAYER_MIN_OFFSET = {LAYER_BASE: 0.006, LAYER_MID: 0.010, LAYER_OUTER: 0.016, LAY
 #: How far a fitted MakeHuman garment is pushed out along its normals so an outer layer clears the one
 #: below it.  MakeHuman fits every garment at its own designed stand-off, so a jacket and a sweater
 #: otherwise interpenetrate.
-LAYER_MH_PUSH = {LAYER_BASE: 0.0, LAYER_MID: 0.005, LAYER_OUTER: 0.014, LAYER_ACCESSORY: 0.0}
+LAYER_MH_PUSH = {LAYER_BASE: 0.0, LAYER_MID: 0.004, LAYER_OUTER: 0.024, LAYER_ACCESSORY: 0.0}
 
 #: How far into the garment (as a fraction of its z span) the hem and cuff cinch back towards the body.
 HEM_FRACTION = 0.06
@@ -476,6 +476,16 @@ def split_loose_parts(obj: bpy.types.Object, keep: str, split_z: float) -> int:
 _TINT_CACHE: dict[tuple[str, tuple[float, float, float]], bpy.types.Image] = {}
 
 
+def _srgb_to_linear(values):
+    import numpy as np  # noqa: PLC0415
+    return np.where(values <= 0.04045, values / 12.92, ((values + 0.055) / 1.055) ** 2.4)
+
+
+def _linear_to_srgb(values):
+    import numpy as np  # noqa: PLC0415
+    return np.where(values <= 0.0031308, values * 12.92, 1.055 * np.power(values, 1.0 / 2.4) - 0.055)
+
+
 def _tinted_image(image: bpy.types.Image, colour: tuple[float, float, float]) -> bpy.types.Image:
     """A copy of ``image`` reduced to luminance and multiplied by ``colour``.
 
@@ -486,7 +496,11 @@ def _tinted_image(image: bpy.types.Image, colour: tuple[float, float, float]) ->
     key = (image.name, tuple(round(c, 5) for c in colour))
     cached = _TINT_CACHE.get(key)
     if cached is not None:
-        return cached
+        try:
+            _ = cached.size[0]        # a datablock from a previous scene has been freed
+            return cached
+        except ReferenceError:
+            _TINT_CACHE.pop(key, None)
     import numpy as np  # noqa: PLC0415
 
     width, height = image.size
@@ -494,17 +508,23 @@ def _tinted_image(image: bpy.types.Image, colour: tuple[float, float, float]) ->
         return image
     buffer = np.empty(width * height * 4, dtype=np.float32)
     image.pixels.foreach_get(buffer)
-    pixels = buffer.reshape(-1, 4)
-    luma = pixels[:, 0] * 0.2126 + pixels[:, 1] * 0.7152 + pixels[:, 2] * 0.0722
-    band = np.clip(0.55 + 0.80 * luma, 0.0, 1.6)
-    out = np.empty_like(pixels)
+    pixels = buffer.reshape(-1, 4).astype(np.float64)
+    srgb = image.colorspace_settings.name == "sRGB"
+    rgb = _srgb_to_linear(pixels[:, :3]) if srgb else pixels[:, :3]
+    luma = rgb[:, 0] * 0.2126 + rgb[:, 1] * 0.7152 + rgb[:, 2] * 0.0722
+    # normalise the map's own brightness away so a dark asset texture does not darken the wardrobe colour
+    mean = float(np.clip(luma.mean(), 1e-4, 1.0))
+    band = np.clip(0.55 + 0.75 * (luma / mean), 0.25, 1.6)
+    linear = np.empty_like(rgb)
     for channel in range(3):
-        out[:, channel] = np.clip(band * colour[channel], 0.0, 1.0)
+        linear[:, channel] = np.clip(band * colour[channel], 0.0, 1.0)
+    out = np.empty_like(pixels)
+    out[:, :3] = _linear_to_srgb(linear) if srgb else linear
     out[:, 3] = pixels[:, 3]
     tinted = bpy.data.images.new(f"{image.name}.tint", width, height, alpha=True,
                                  float_buffer=image.is_float)
     tinted.colorspace_settings.name = image.colorspace_settings.name
-    tinted.pixels.foreach_set(out.reshape(-1))
+    tinted.pixels.foreach_set(out.reshape(-1).astype(np.float32))
     tinted.pack()
     _TINT_CACHE[key] = tinted
     return tinted
@@ -529,12 +549,12 @@ def _texture_node(socket) -> bpy.types.Node | None:
 
 
 def thicken(obj: bpy.types.Object, thickness: float = 0.003) -> None:
-    """Give a MakeHuman garment real fabric thickness.
+    """Solidify a garment shell inwards.
 
-    The CC0 garments are single-sided shells.  Their open boundaries - a cuff, an ankle opening, a waist -
-    render as a ragged tear at grazing angles because the camera sees straight through the surface into the
-    unlit interior.  Solidifying inwards closes that: the boundary becomes a hem edge, and the garment is
-    physically what cloth is - a surface with two faces and a thickness.
+    Not used on the shipped characters: the MakeHuman garments contain loose edges and coincident vertices
+    that make ``bmesh.ops.solidify`` fan out spikes at the shoulder and hip.  Kept because it is the right
+    operation for a clean shell, and because the procedural garments rely on the same bmesh call inside
+    :func:`build_garment`, where the geometry is cut from the body and is manifold.
     """
     bm = bmesh.new()
     bm.from_mesh(obj.data)
@@ -607,7 +627,6 @@ def finish_makehuman(built, item_ids: tuple[str, ...], *, name_prefix: str = "")
             raise RuntimeError(f"MakeHuman asset {garment.mhclo!r} for {item_id!r} was not fitted "
                                f"(have {sorted(by_asset)})")
         removed = split_loose_parts(obj, garment.keep, garment.split_z * height)
-        thicken(obj, 0.003)
         push = LAYER_MH_PUSH.get(garment.layer, 0.0)
         if push > 0.0:
             obj.data.calc_normals_split() if hasattr(obj.data, "calc_normals_split") else None
@@ -623,6 +642,30 @@ def finish_makehuman(built, item_ids: tuple[str, ...], *, name_prefix: str = "")
         log.info("%s: MakeHuman %s, %d verts%s", item_id, garment.mhclo, len(obj.data.vertices),
                  f", {removed} removed by the {garment.keep} split" if removed else "")
     return out
+
+
+def reweight_from_body(built, item_ids: tuple[str, ...], *, name_prefix: str = "") -> list[str]:
+    """Give every MakeHuman garment the body's own skin weights, by nearest vertex.
+
+    MPFB weights a fitted garment by proximity to the base mesh, which is wrong wherever two body parts are
+    close together: in the MakeHuman rest pose the hands hang beside the thighs, so trouser vertices pick up
+    ``hand_*`` and finger weights and the hand tears a hand-shaped hole through the trouser leg as soon as
+    it moves.  Taking each garment vertex's weights from its nearest *body* vertex uses MakeHuman's own
+    anatomically-correct weighting instead, and inherits the 4-influence / sum-to-1 normalisation that
+    ``rig_ue5.convert_to_ue5`` has just applied to the body.
+    """
+    done: list[str] = []
+    for item_id in item_ids:
+        garment = WARDROBE_BY_ID.get(item_id)
+        if garment is None or not garment.is_makehuman:
+            continue
+        obj = built.clothes.get(f"{name_prefix}{item_id}")
+        if obj is None:
+            continue
+        _transfer_weights(built.basemesh, obj)
+        done.append(item_id)
+    log.info("re-weighted %d MakeHuman garments from the body", len(done))
+    return done
 
 
 def dress(built, item_ids: tuple[str, ...], *, name_prefix: str = "") -> dict[str, bpy.types.Object]:

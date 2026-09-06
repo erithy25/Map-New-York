@@ -960,7 +960,7 @@ float TrafficSim::pedestrianConstraint(const Vehicle& v, uint32_t junction_lane,
   if (!ped_probe_.valid()) return kBigDistance;
   const float band = cfg_.stop_line_setback_m - 2.5f;  // centre of the crosswalk band
   float best = kBigDistance;
-  if (junction_lane != kInvalidIndex && dist_to_line < 40.f) {
+  if (junction_lane != kInvalidIndex && dist_to_line < 25.f && (step_ix_ + v.id) % 4u == 0u) {
     const Lane& jl = graph_->lane(junction_lane);
     const Lane& from = graph_->lane(jl.from_lane);
     // 1. our own stop-line crossing
@@ -1005,6 +1005,11 @@ void TrafficSim::considerLaneChange(uint32_t i, float a_current) {
   const Lane& l = graph_->lane(v.lane);
   if (l.is_junction != 0 || v.lc_cooldown > 0.f || v.speed < cfg_.lane_change_min_speed) return;
   if (v.state != DriveState::Driving) return;
+  // Re-evaluated at 4 Hz, staggered across the fleet: MOBIL is the most
+  // expensive thing an agent does and no driver reconsiders twenty times a
+  // second.  A mandatory change still gets 4 chances a second, which is ample
+  // over the 220 m route-pressure ramp.
+  if ((step_ix_ + v.id) % 5u != 0u) return;
   const VehicleClassParams& cp = classParams(v.cls);
   const IdmParams p = idmOf(v);
   const uint32_t* path = pathOf(v.id);
@@ -1321,7 +1326,7 @@ void TrafficSim::decide(uint32_t i) {
           may_enter = false;
         }
       }
-      if (may_enter && dist_to_line < 40.f && pedestrianConstraint(v, jl, dist_to_line) <= dist_to_line + 0.01f)
+      if (may_enter && dist_to_line < 25.f && pedestrianConstraint(v, jl, dist_to_line) <= dist_to_line + 0.01f)
         may_enter = false;  // somebody is in a crossing we would drive over
       if (may_enter) lockJunction(v, jl);
       if (!may_enter) stop_dist = std::min(stop_dist, dist_to_line);
@@ -1414,11 +1419,12 @@ void TrafficSim::decide(uint32_t i) {
 // --------------------------------------------------------------- integrate
 void TrafficSim::integrate(uint32_t i) {
   Vehicle& v = veh_[i];
+  const VehicleClassParams& cp = classParams(v.cls);
   const float dt = cfg_.dt;
   v.accel = new_accel_[i];
   v.speed += v.accel * dt;
   if (v.speed < 0.f) v.speed = 0.f;
-  const float vmax = classParams(v.cls).max_speed_mps;
+  const float vmax = cp.max_speed_mps;
   if (v.speed > vmax) v.speed = vmax;
   v.flags = static_cast<uint8_t>(v.accel < -0.6f ? (v.flags | kVehBrake) : (v.flags & ~kVehBrake));
 
@@ -1441,7 +1447,29 @@ void TrafficSim::integrate(uint32_t i) {
     bool relinked = false;
     if (v.path_pos + 2 < v.path_len) {
       const uint32_t next_road = path[v.path_pos + 2];
-      const uint32_t j = graph_->junctionBetween(to, next_road);
+      uint32_t j = graph_->junctionBetween(to, next_road);
+      if (j == kInvalidIndex && next_road < graph_->laneCount()) {
+        // The route continues on that street but through a different lane of
+        // it: splice in whichever connector reaches the same segment, rather
+        // than throwing the whole route away and asking the router again (a
+        // re-route per lane change is by far the most expensive thing the
+        // simulation can do).
+        const uint32_t want_seg = graph_->lane(next_road).segment;
+        const int8_t want_dir = graph_->lane(next_road).direction;
+        uint32_t ns = 0;
+        const uint32_t* succ = graph_->successors(to, ns);
+        for (uint32_t k = 0; k < ns; ++k) {
+          const Lane& cand = graph_->lane(succ[k]);
+          if (cand.is_junction == 0 || cand.to_lane == kInvalidIndex) continue;
+          const Lane& dest = graph_->lane(cand.to_lane);
+          if (dest.segment != want_seg || dest.direction != want_dir) continue;
+          if (!graph_->laneAllows(succ[k], cp.lane_kinds) || !graph_->laneAllows(cand.to_lane, cp.lane_kinds))
+            continue;
+          j = succ[k];
+          break;
+        }
+        if (j != kInvalidIndex) path[v.path_pos + 2] = graph_->lane(j).to_lane;
+      }
       if (j != kInvalidIndex) {
         path[v.path_pos + 1] = j;
         relinked = true;
@@ -1521,8 +1549,9 @@ void TrafficSim::laneClamp() {
   }
 }
 
-void TrafficSim::resolveOverlaps() {
+void TrafficSim::resolveOverlaps(bool cross_lane) {
   laneClamp();
+  if (!cross_lane) return;
   // Across a lane boundary: the leader may already be on the next lane of the
   // path (entering a junction, leaving one).  leaderAhead() follows the path,
   // so one deficit correction per agent closes that case too.
@@ -1997,7 +2026,7 @@ void TrafficSim::step() {
   const uint32_t n = static_cast<uint32_t>(veh_.size());
   for (uint32_t i = 0; i < n; ++i) decide(i);
   for (uint32_t i = 0; i < n; ++i) integrate(i);
-  resolveOverlaps();
+  resolveOverlaps(false);
   for (uint32_t i = 0; i < n; ++i) {
     Vehicle& v = veh_[i];
     if (!advanceLane(v)) {
@@ -2009,7 +2038,7 @@ void TrafficSim::step() {
   // Lane changes and junction entries move agents between lanes; re-sort and
   // apply the non-overlap constraint again on the lanes they ended up in.
   buildOrder();
-  resolveOverlaps();
+  resolveOverlaps(true);
   for (uint32_t i = 0; i < n; ++i) updatePose(veh_[i]);
   // Impenetrability, relaxed against the final poses until nothing moves
   // (giving way to one neighbour can bring an agent up against another).  This

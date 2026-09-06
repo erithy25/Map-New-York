@@ -48,6 +48,10 @@ MAX_LEVELS = 8
 # vertices closer than this to the footprint boundary are pulled onto it (measured offsets are
 # under 1 cm; the step line itself is not moved).
 BOUNDARY_SNAP_M = 0.05
+# Both the regions and the footprint are finally re-snapped to the stage's own 2 cm footprint grid
+# (`shellgeom.SNAP_M`), which is what makes two regions cut from two different surveys share exact
+# vertices.  Nothing moves further than the tolerance the footprints already carry.
+REGION_GRID_M = 0.02
 
 
 @dataclass
@@ -102,6 +106,20 @@ def recover_levels(tri_xyz: bytes, tri_type: bytes, *, z_tol: float = Z_CLUSTER_
         out.append((float(z[grp].mean()), shapely.union_all(parts)))
     out.sort(key=lambda t: t[0])
     return out
+
+
+def _grid(poly: Polygon | None, grid: float = REGION_GRID_M) -> Polygon | None:
+    """Snap-round a region onto the stage's footprint grid, keeping the largest valid part."""
+    if poly is None or poly.is_empty:
+        return None
+    try:
+        g = shapely.set_precision(poly, grid, mode="valid_output")
+    except Exception:
+        return poly
+    parts = [q for q in _iter_polygons(g) if q.area > 0]
+    if not parts:
+        return None
+    return max(parts, key=lambda q: q.area)
 
 
 def snap_to_boundary(poly: Polygon, footprint: Polygon, tol: float = BOUNDARY_SNAP_M) -> Polygon | None:
@@ -225,6 +243,7 @@ def partition_footprint(footprint: Polygon, levels: list[tuple[float, Polygon]]
             continue
         parts = [snap_to_boundary(p, footprint) for p in _iter_polygons(r)
                  if p.area >= MIN_LEVEL_AREA_M2]
+        parts = [_grid(p) for p in parts if p is not None]
         parts = [p for p in parts if p is not None and p.area >= MIN_LEVEL_AREA_M2]
         if not parts:
             continue
@@ -241,7 +260,8 @@ def partition_footprint(footprint: Polygon, levels: list[tuple[float, Polygon]]
         main_region = footprint.difference(taken)
     except Exception:
         return [], "main region difference failed"
-    main_parts = [p for p in _iter_polygons(main_region) if p.area >= MIN_LEVEL_AREA_M2]
+    main_parts = [_grid(p) for p in _iter_polygons(main_region) if p.area >= MIN_LEVEL_AREA_M2]
+    main_parts = [p for p in main_parts if p is not None and p.area >= MIN_LEVEL_AREA_M2]
     if not main_parts:
         return [], "main region vanished"
 

@@ -132,7 +132,7 @@ struct TrafficConfig {
   float spawn_rate_per_s = 60.f; // cap on spawns per simulated second
   float spawn_headway_m = 12.f;  // minimum clear space at the spawn point
   uint32_t max_routes_per_step = 16;
-  float reroute_block_s = 45.f;  // genuinely stuck, not merely waiting for a phase
+  float reroute_block_s = 90.f;  // genuinely stuck, not merely waiting for a phase
   float reroute_cooldown_s = 45.f;
   bool build_junction_conflicts = true;
 
@@ -337,7 +337,7 @@ class TrafficSim {
   void rebuildSpawnWeights();
   void decide(uint32_t i);
   void integrate(uint32_t i);
-  void resolveOverlaps();
+  void resolveOverlaps(bool cross_lane);
   void laneClamp();
   uint32_t separateBodies();
   bool laneSlotClaimed(uint32_t lane, float s, float half_len) const;

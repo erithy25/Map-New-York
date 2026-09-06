@@ -133,6 +133,7 @@ def build_npc(vector: variety.VarietyVector, index: int) -> NpcBuild:
     mh_build.split_eyes(built)
     # UE5 rig first: everything below inherits the body's (already normalised) weights.
     rig_ue5.convert_to_ue5(built.armature, built.meshes())
+    wardrobe.reweight_from_body(built, outfit, name_prefix=f"{name}.")
 
     wardrobe.dress(built, outfit, name_prefix=f"{name}.")
     if resolved["hair"] in ("buzzcut", "topknot"):

@@ -398,6 +398,93 @@ def test_snap_is_two_centimetres():
     assert np.allclose(coords / 0.02, np.rint(coords / 0.02), atol=1e-6), coords
 
 
+# --------------------------------------------------------------------------- stepped massing
+_STEP_CASES = {
+    "edge wing": (Polygon([(0, 0), (20, 0), (20, 12), (0, 12)]),
+                  [(Polygon([(0, 4), (20, 4), (20, 12), (0, 12)]), 25.0),
+                   (Polygon([(0, 0), (20, 0), (20, 4), (0, 4)]), 18.0)]),
+    "corner wing": (Polygon([(0, 0), (20, 0), (20, 12), (0, 12)]),
+                    [(Polygon([(0, 0), (20, 0), (20, 12), (0, 12)]).difference(
+                        Polygon([(0, 0), (6, 0), (6, 5), (0, 5)])), 25.0),
+                     (Polygon([(0, 0), (6, 0), (6, 5), (0, 5)]), 18.0)]),
+    "central tower": (Polygon([(0, 0), (20, 0), (20, 12), (0, 12)]),
+                      [(Polygon([(5, 3), (15, 3), (15, 9), (5, 9)]), 25.0),
+                       (Polygon([(0, 0), (20, 0), (20, 12), (0, 12)]).difference(
+                           Polygon([(5, 3), (15, 3), (15, 9), (5, 9)])), 16.0)]),
+    "three levels": (Polygon([(0, 0), (20, 0), (20, 12), (0, 12)]),
+                     [(Polygon([(0, 8), (20, 8), (20, 12), (0, 12)]), 25.0),
+                      (Polygon([(0, 4), (20, 4), (20, 8), (0, 8)]), 20.0),
+                      (Polygon([(0, 0), (20, 0), (20, 4), (0, 4)]), 15.0)]),
+    "courtyard": (Polygon([(0, 0), (20, 0), (20, 12), (0, 12)], [[(8, 5), (8, 8), (12, 8), (12, 5)]]),
+                  [(Polygon([(0, 0), (20, 0), (20, 12), (0, 12)],
+                            [[(8, 5), (8, 8), (12, 8), (12, 5)]]).difference(
+                      Polygon([(0, 0), (20, 0), (20, 3), (0, 3)])), 25.0),
+                   (Polygon([(0, 0), (20, 0), (20, 3), (0, 3)]), 17.0)]),
+}
+
+
+@pytest.mark.parametrize("case", sorted(_STEP_CASES))
+@pytest.mark.parametrize("kind", [0, 1, 2, 4])
+@pytest.mark.parametrize("lod", [0, 1])
+def test_stepped_massing_is_a_closed_solid(case, kind, lod):
+    """A stepped building is one closed solid spanning exactly [ground_z, roof_z]."""
+    base, steps = _STEP_CASES[case]
+    spec = sg.BuildingSpec(bin=1, polygon=base, ground_z=10.0, roof_z=25.0,
+                           roof=sg.RoofSpec(kind=kind, parapet_h=sg.PARAPET_H_M),
+                           mat_wall=0, mat_roof=19, facade_heading=180.0, floors=6,
+                           area=base.area, roof_steps=steps)
+    buf = sg._build_shell_once(spec, lod)
+    pos = np.asarray(buf.pos)
+    tris = np.asarray(buf.tris)
+    rep = sg.watertight_report(pos, tris, weld=sg.STEP_WELD_M)
+    assert rep["closed"], f"{case}/lod{lod}: {rep}"
+    assert rep["volume_m3"] > 0
+    assert abs(pos[:, 2].max() - 25.0) < 1e-3 and abs(pos[:, 2].min() - 10.0) < 1e-3
+
+
+def test_stepped_massing_actually_steps():
+    """The lower level must really be lower — not silently flattened to the top height."""
+    base, steps = _STEP_CASES["edge wing"]
+    spec = sg.BuildingSpec(bin=1, polygon=base, ground_z=10.0, roof_z=25.0,
+                           roof=sg.RoofSpec(kind=0, parapet_h=0.0), mat_wall=0, mat_roof=19,
+                           facade_heading=180.0, floors=6, area=base.area, roof_steps=steps)
+    flat = sg.BuildingSpec(bin=1, polygon=base, ground_z=10.0, roof_z=25.0,
+                           roof=sg.RoofSpec(kind=0, parapet_h=0.0), mat_wall=0, mat_roof=19,
+                           facade_heading=180.0, floors=6, area=base.area)
+    v_step = sg.watertight_report(np.asarray(sg._build_shell_once(spec, 0).pos),
+                                  np.asarray(sg._build_shell_once(spec, 0).tris),
+                                  weld=sg.STEP_WELD_M)["volume_m3"]
+    v_flat = sg.watertight_report(np.asarray(sg._build_shell_once(flat, 0).pos),
+                                  np.asarray(sg._build_shell_once(flat, 0).tris))["volume_m3"]
+    # the wing is 20 x 4 m and 7 m lower, so the stepped solid is 560 m3 smaller
+    assert abs((v_flat - v_step) - 560.0) < 1.0, (v_flat, v_step)
+
+
+def test_roofstep_recovery_rejects_disagreeing_levels():
+    """The published-area gate must reject outlines that do not tile the building."""
+    import roofsteps as rsx
+
+    good = [(10.0, Polygon([(0, 0), (10, 0), (10, 5), (0, 5)])),
+            (14.0, Polygon([(0, 5), (10, 5), (10, 10), (0, 10)]))]
+    ok, why, strict = rsx.check_against_published(good, [10.0, 14.0], [50.0, 50.0], 100.0)
+    assert ok, why
+    assert strict
+    bad, why, _ = rsx.check_against_published(good, [10.0, 14.0], [50.0, 50.0], 400.0)
+    assert not bad and "footprint" in why
+
+
+def test_roofstep_partition_tiles_the_footprint():
+    import roofsteps as rsx
+
+    fp = Polygon([(0, 0), (20, 0), (20, 12), (0, 12)])
+    levels = [(18.0, Polygon([(-0.003, -0.004), (20.006, 0.002), (20.001, 4.003), (0.002, 3.997)])),
+              (25.0, Polygon([(0.001, 4.002), (20.004, 3.998), (19.997, 12.005), (-0.002, 11.996)]))]
+    regions, why = rsx.partition_footprint(fp, levels)
+    assert regions, why
+    assert abs(sum(p.area for p, _ in regions) - fp.area) < 0.05
+    assert len({round(z, 2) for _, z in regions}) == 2
+
+
 def test_lod2_is_box_massing():
     poly = _AWKWARD["L"]
     spec = sg.BuildingSpec(bin=1, polygon=poly, ground_z=0.0, roof_z=20.0, roof=sg.RoofSpec(),

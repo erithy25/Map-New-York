@@ -138,6 +138,12 @@ int main(int argc, char** argv) {
   traffic::TrafficConfig tcfg;
   tcfg.max_vehicles = o.vehicles + 500u;
   tcfg.use_player_ring = true;
+  // The protected region around the player still applies; the distance culls do
+  // not, so the benchmark holds the fleet size it is asked to measure.
+  tcfg.spawn_outer_m = 1.0e6f;
+  tcfg.despawn_m = 1.0e6f;
+  tcfg.spawn_rate_per_s = 60.f;   // streaming replaces the fleet, it does not churn it
+  if (std::getenv("NYCSIM_BENCH_NOROUTE") != nullptr) tcfg.max_routes_per_step = 0;
   traffic::TrafficSim tsim;
   const auto t_cfg0 = clock::now();
   if (!tsim.configure(graph, signals, tcfg, o.seed)) {
@@ -152,6 +158,8 @@ int main(int argc, char** argv) {
   peds::PedConfig pcfg;
   pcfg.max_peds = o.peds + 2000u;
   pcfg.use_player_ring = true;
+  pcfg.despawn_m = 1.0e6f;
+  pcfg.spawn_rate_per_s = 200.f;
   peds::PedSim psim;
   if (o.with_peds && !psim.configure(walk, &signals, pcfg, o.seed)) {
     std::fprintf(stderr, "peds configure failed: %s\n", psim.lastError().c_str());

@@ -6721,14 +6721,14 @@
   "landmark_b_brooklyn_bridge_lod0": {
    "artifact_id": "landmark_b_brooklyn_bridge_lod0",
    "bytes": 5722588,
-   "git_commit": "e99990487d21",
+   "git_commit": "d25a557a7b9b",
    "landmark_id": "b_brooklyn_bridge",
    "lod": 0,
    "path": "blender_out/landmarks/b_brooklyn_bridge.glb",
-   "produced_at": "2026-09-06T14:31:36Z",
+   "produced_at": "2026-09-06T14:43:00Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "bf3acacaf4318408cee667c4d7c22287282539ea2ef19a0457b4f7c1b4c350ea",
+   "sha256": "78ae5f369c24fd2a87c655f39ec407122241b31ef3ca25786525b75a96c5f934",
    "sources": [
     "osm_bbbike",
     "published_brooklyn_bridge"
@@ -7231,14 +7231,14 @@
   "landmark_b_manhattan_bridge_lod0": {
    "artifact_id": "landmark_b_manhattan_bridge_lod0",
    "bytes": 3327676,
-   "git_commit": "ca87e1135759",
+   "git_commit": "d25a557a7b9b",
    "landmark_id": "b_manhattan_bridge",
    "lod": 0,
    "path": "blender_out/landmarks/b_manhattan_bridge.glb",
-   "produced_at": "2026-09-06T14:07:45Z",
+   "produced_at": "2026-09-06T14:53:14Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "ddc3375833339e1666d11500219be9434c25d076c390ee23e31a7f9603ad54d1",
+   "sha256": "e9ef48d2f8497a6ad9f87da50d5e79dc55dd92154c5592035d13aeb255995bca",
    "sources": [
     "osm_bbbike",
     "published_manhattan_bridge"
@@ -7897,14 +7897,14 @@
     1083846,
     1090575
    ],
-   "bytes": 13375836,
+   "bytes": 13377432,
    "footprint_iou": 1.0,
-   "git_commit": "3b5d1262beec",
+   "git_commit": "d25a557a7b9b",
    "path": "blender_out/landmarks/c_american_museum_natural_history.glb",
-   "produced_at": "2026-09-06T13:47:09Z",
+   "produced_at": "2026-09-06T14:43:27Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "fc3e7432794de3909081ad3a43471fce27510b2e02b95778c11a03df63b67ff2",
+   "sha256": "226edd0efc78ba571ae002efbc53a4104d2964753e0c0d64885b21c82d888042",
    "sources": [
     "building_footprints"
    ],
@@ -7967,12 +7967,12 @@
    ],
    "bytes": 32862264,
    "footprint_iou": 1.0,
-   "git_commit": "a66b1b3b4bc3",
+   "git_commit": "d25a557a7b9b",
    "path": "blender_out/landmarks/c_billionaires_row.glb",
-   "produced_at": "2026-09-06T14:02:11Z",
+   "produced_at": "2026-09-06T14:46:50Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "e56fbdc02c910e87865ffbf75d5f8b51a5d448e46133062d88fe86f665d980c3",
+   "sha256": "a85c739675d9cf1a9b222b2632a473730cee16feb02b3ade853d4da4bd3441d2",
    "sources": [
     "building_footprints"
    ],
@@ -8207,14 +8207,14 @@
   "landmark_glb:c_high_line": {
    "artifact_id": "landmark_glb:c_high_line",
    "bins": [],
-   "bytes": 8943832,
+   "bytes": 8963828,
    "footprint_iou": null,
-   "git_commit": "53f1c49152ac",
+   "git_commit": "d25a557a7b9b",
    "path": "blender_out/landmarks/c_high_line.glb",
-   "produced_at": "2026-09-06T14:23:34Z",
+   "produced_at": "2026-09-06T14:53:39Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "dd1c8fff0bbac8b94db3624e7fcbe4005ecda3a03d93e472d90742c80dea5f9d",
+   "sha256": "bcbf39250ca48fea187ae4ad9d847074b427568f2758ef5f4df6d7307d1d6efe",
    "sources": [
     "building_footprints"
    ],
@@ -8233,14 +8233,14 @@
     1090274,
     1090391
    ],
-   "bytes": 21381732,
+   "bytes": 21383616,
    "footprint_iou": 0.9593,
-   "git_commit": "b4fc9627fb80",
+   "git_commit": "d25a557a7b9b",
    "path": "blender_out/landmarks/c_hudson_yards.glb",
-   "produced_at": "2026-09-06T13:58:49Z",
+   "produced_at": "2026-09-06T14:49:42Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "92963414c9aa0be64dc19645c2fcbbf6a5ee1be85eb78036386fde51ae9581db",
+   "sha256": "39d4dd68d108ea7d333c47a6005f8b8159da44b341140091763e6e0d8c2219c7",
    "sources": [
     "building_footprints"
    ],
@@ -8653,12 +8653,12 @@
    ],
    "bytes": 14335048,
    "footprint_iou": 1.0,
-   "git_commit": "ca87e1135759",
+   "git_commit": "d25a557a7b9b",
    "path": "blender_out/landmarks/c_whitehall_and_st_george_ferry_terminals.glb",
-   "produced_at": "2026-09-06T14:17:33Z",
+   "produced_at": "2026-09-06T14:55:01Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "16293b917ed93e1b2d021752cfa2ced528f841737e9b0bce4a81eb83926c2e97",
+   "sha256": "e08d2f57d164a937cea972bf8d58dc767d3fbace909c23b764a873c9d6527636",
    "sources": [
     "building_footprints"
    ],
@@ -8891,14 +8891,14 @@
     1081130,
     1087646
    ],
-   "bytes": 10851400,
+   "bytes": 10853176,
    "footprint_iou": 1.0,
-   "git_commit": "d63f02e8c7ff",
+   "git_commit": "d25a557a7b9b",
    "path": "blender_out/landmarks/moma.glb",
-   "produced_at": "2026-09-06T12:23:00Z",
+   "produced_at": "2026-09-06T14:47:40Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "1ac040b35544193f83dc34e347f3ef65526c8c083c216d97dca0a4287dab1817",
+   "sha256": "351e92071ca7139b66a1bc98ff0f419e0a802c6c70c2a864a6ccadb1640ea7ca",
    "sources": [
     "building_footprints"
    ],

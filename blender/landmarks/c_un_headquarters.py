@@ -8,9 +8,12 @@ Dimensions used (source in brackets)
   the published 72 x 287 ft slab (21.9 x 87.5 m) to within 0.6 m — no idealisation was needed.
 * Secretariat [UN; Harrison]: 505 ft = 154.0 m, 39 floors. The broad east and west faces are green-tinted glass
   curtain wall; the two narrow ends are windowless Vermont marble. Floor-to-floor 154.0 / 39 = 3.95 m.
-* General Assembly Building [UN; Harrison/Niemeyer]: 380 ft long with concave sloping side walls that swoop from
-  34.0 m at both ends down to 16.0 m at the waist, and a shallow 23 m dome added in 1952 at the insistence of the US
-  Congress. The north facade is a full-height glass wall over the delegates' entrance.
+* General Assembly Building [UN; Harrison/Niemeyer]: about **50 m wide and 80 m long**, with concave sloping side
+  walls that swoop from 34.0 m at both ends down to 16.0 m at the waist and lean outward as they dip, a warped roof
+  rising 4.5 m to the centre line, and the shallow **23 m dome** added in 1952 at the insistence of the US Congress.
+  The north facade is a full-height glass wall on mullions over the delegates' entrance canopy; the south end is
+  windowless limestone. The building occupies only part of the BIN 1083872 podium polygon — the rest of that
+  polygon is the podium itself and the North Garden.
 * Conference Building [UN]: the four-storey block on the East River side of the plaza, 26.0 m high and 120 m long,
   carrying the three council chambers.
 * Dag Hammarskjold Library [Harrison & Abramovitz 1961]: three storeys, 18.4 m (OTI LiDAR), 65.6 x 24.6 m.
@@ -58,7 +61,10 @@ def build():
     # ---- the raised podium on the real General Assembly polygon (IoU volume) -------------------------------------
     objs.append(C.plinth(f"{ID}_podium", Pga, 0.0, 6.5, C.M.concrete, material_top=C.M.pavement))
     gx0, gy0, gx1, gy1 = Pga.bounds
-    ga = C._clean_polygon(Pga.intersection(C.rect_xy(gx0 - 1, 34.0, 30.0, gy1 + 1)).buffer(0))
+    # The General Assembly Building itself is about 50 m wide and 80 m long [UN; Harrison]; the western half of the
+    # BIN 1083872 polygon is the podium and the North Garden, not the building, so taking the whole of it made the
+    # model a 105 m wide plate instead of a building.
+    ga = C._clean_polygon(Pga.intersection(C.rect_xy(-62.0, 40.0, -12.0, gy1 - 4.0)).buffer(0))
     conf = C._clean_polygon(Pga.intersection(C.rect_xy(30.0, gy0 - 1, gx1 + 1, gy1 + 1)).buffer(0))
 
     # ---- the General Assembly: concave side walls rising to the centre, glass north wall, shallow dome -----------
@@ -88,9 +94,9 @@ def build():
             b.quad((x_side + sgn * la, y_a, za), (x_side + sgn * lb, y_b, zb),
                    (x_side + sgn * (lb + 0.6), y_b, zb - 1.6), (x_side + sgn * (la + 0.6), y_a, za - 1.6),
                    C.M.marble_white)
-            # the warped roof: from the wall top up to a ridge 3.0 m higher on the centre line
+            # the warped roof: from the wall top up to a ridge 4.5 m higher on the centre line
             b.quad((x_side + sgn * la, y_a, za), (x_side + sgn * lb, y_b, zb),
-                   (axc, y_b, zb + 3.0), (axc, y_a, za + 3.0), C.M.roof_grey)
+                   (axc, y_b, zb + 4.5), (axc, y_a, za + 4.5), C.M.roof_grey)
     # the north (First Avenue) elevation: a full-height glass wall on vertical mullions over the delegates' entrance
     b.quad((ax0 + 1.0, ay1, 6.5), (ax1 - 1.0, ay1, 6.5), (ax1 - 1.0, ay1, GA_END),
            (ax0 + 1.0, ay1, GA_END), C.M.glass_clear)
@@ -106,7 +112,7 @@ def build():
     dcx, dcy = axc, ay0 + (ay1 - ay0) * 0.42
     b.lathe([(GA_DOME_D / 2, 0.0), (GA_DOME_D / 2 * 0.94, 1.6), (GA_DOME_D / 2 * 0.7, 4.0),
              (GA_DOME_D / 2 * 0.38, 5.6), (0.0, 6.3)], 40, C.M.steel_nirosta,
-            origin=(dcx, dcy, wall_z(0.42) + 2.6), smooth=True)
+            origin=(dcx, dcy, wall_z(0.42) + 4.1), smooth=True)
     objs.append(C.tag(b.build(f"{ID}_general_assembly"), "mass"))
 
     # ---- the Conference Building on the East River side ------------------------------------------------------------

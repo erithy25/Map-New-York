@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-06 13:58 UTC from commit `7080214f921f` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-06 14:55 UTC from commit `d25a557a7b9b` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -88,7 +88,7 @@ Source of truth: NYC Street Centerline (CSCL) and LION, per ADR-006.
 ## 3. Terrain, water and coastline
 
 - Tiles with a written heightmap: **2,916**
-- USGS 3DEP products ingested: 30 (13, 19, 1m), 4.50 GB
+- USGS 3DEP products ingested: not produced (kinds not recorded), 0.00 GB
 - Elevation range across written tiles: -5.18 m to 210.28 m (NAVD88)
 - Vertical accuracy **0.384 m RMS**, measured against 1,458,592 independent survey and LiDAR ground points (0.291 m against planimetric spot elevations, 0.411 m against building ground grades), median bias −0.037 m after rejecting 0.52 % outliers. The plan assumed 0.15 m; this is the measured figure.
 - Land coverage is 100.000 % in every borough, with 99.97 % or better taken from the 3DEP 1 m product (ADR-017). Tile seams match to 2.8 × 10⁻¹⁴ m across 5,724 adjacent pairs.
@@ -105,19 +105,34 @@ Water: hydrography polygons 2,235 · shoreline lines 413 · structures 2,536 · 
 
 | Group | glTF files | Size |
 |---|---|---|
-| kit | 138 | 140.2 MB |
+| kit | 138 | 140.3 MB |
 | props | 122 | 79.2 MB |
-| vehicles | 93 | 100.2 MB |
-| character | 23 | 515.7 MB |
-| landmarks | 124 | 889.3 MB |
-| tiles | 87 | 406.4 MB |
+| vehicles | 93 | 100.5 MB |
+| character | 2 | 52.4 MB |
+| landmarks | 127 | 920.5 MB |
+| tiles | 369 | 1,529.6 MB |
 
-Catalog entries describing those assets: 383.
+Catalog entries describing those assets: 386.
 
 ## 6. Simulation code and runtime data
 
 - `core/`: 52 headers, 37 sources, 19 test files; registered ctest cases: 11
 - Runtime binaries: `density.nycb` 0.9 MB, `roadgraph.nycb` 104.2 MB, `signals.nycb` 1.7 MB, `transit.nycb` 2.4 MB
+
+### 6.1 Unreal project
+
+- 112 C++ files, 27,909 lines, 3 editor automation scripts, checklists: `COMPILE_CHECKLIST.md`, `COMPILE_CHECKLIST_GAMEPLAY.md`
+
+The project cannot be compiled in this environment (ADR-001), so it is verified by static analysis that the orchestrator re-ran rather than took on trust:
+
+| Check | Exit | Result |
+|---|---|---|
+| `check_gameplay_sources.py` | 0 | files checked: 72 (64 Unreal, 8 adapter), reflected public headers: 29, plain structs holding UObject pointers: 2 |
+| `check_math.py` | 0 | ALL CHECKS PASSED |
+| `check_sources.py` | 0 | ALL 523 CHECKS PASSED |
+| `check_terrain_data.py` | 0 | ALL CHECKS PASSED |
+
+These confirm the reflection macros, module dependencies, include resolution, garbage-collection ownership, declaration-to-definition pairing, console command documentation and the landscape and water mathematics. They do **not** confirm that the project compiles, cooks or runs — that needs a workstation pass following `unreal/README.md`, and no claim is made here that it was done.
 
 ## 7. Data sources and licences
 
@@ -142,11 +157,11 @@ Authored asset licences (textures, fonts, mocap, audio): `docs/ASSET_LICENSES.md
 
 ## 8. Verification status
 
-Reference photographs collected for side-by-side comparison: 495 photos across 172 subjects, each with author and licence metadata.
+Reference photographs collected for side-by-side comparison: 519 photos across 172 subjects, each with author and licence metadata.
 
-Stage reports present: buildings_mesh, character, citygml, core, facade, furniture, kit, live, props, roads, terrain, traffic_density, unreal_gameplay, unreal_world.
+Stage reports present: buildings_mesh, character, citygml, comparison, core, facade, furniture, kit, live, props, reference, roads, terrain, traffic_density, unreal_gameplay, unreal_world.
 
-Stage reports still missing: buildings, landmarks, reference, traffic, vehicles.
+Stage reports still missing: buildings, landmarks, traffic, vehicles.
 
 What is verified in this environment versus on a workstation is defined in `docs/ARCHITECTURE.md` §14. In short: geodesy, tiling, streaming logic, routing, traffic rules, signal phasing, astronomy, time zone handling, weather parsing, data coverage and asset geometry are verified here by tests and Cycles renders. Unreal Engine compilation, cooking, frame rate, vehicle feel and audio are not — no Unreal editor or GPU exists in this environment, and no claim is made that they were tested.
 

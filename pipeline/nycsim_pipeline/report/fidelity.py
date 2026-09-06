@@ -280,6 +280,36 @@ def probe_core() -> dict[str, Any] | None:
     return out
 
 
+def probe_unreal() -> dict[str, Any] | None:
+    root = REPO_ROOT / "unreal" / "NYCSim"
+    if not root.exists():
+        return None
+    src = root / "Source"
+    files = sorted(list(src.rglob("*.cpp")) + list(src.rglob("*.h"))) if src.exists() else []
+    lines = 0
+    for f in files:
+        try:
+            lines += sum(1 for _ in open(f, errors="replace"))
+        except OSError:
+            continue
+    checks: dict[str, Any] = {}
+    for script in sorted((DOCS / "verification").glob("unreal_*/check_*.py")):
+        try:
+            r = subprocess.run(["python3", str(script)], capture_output=True, text=True, timeout=900,
+                               cwd=str(REPO_ROOT))
+            tail = [l for l in r.stdout.strip().splitlines() if l.strip()][-1:] or [""]
+            checks[script.name] = {"exit": r.returncode, "result": tail[0][:120]}
+        except Exception as e:  # noqa: BLE001 — a check that cannot run is itself reportable
+            checks[script.name] = {"exit": None, "result": f"could not run: {e}"}
+    return {
+        "source_files": len(files),
+        "source_lines": lines,
+        "python_editor_scripts": len(list((root / "Content" / "Python").glob("*.py"))) if (root / "Content" / "Python").exists() else 0,
+        "checklists": sorted(f.name for f in (REPO_ROOT / "unreal").glob("COMPILE_CHECKLIST*.md")),
+        "static_checks": checks,
+    }
+
+
 def probe_runtime() -> dict[str, Any] | None:
     d = PROCESSED / "runtime"
     if not d.exists():
@@ -327,6 +357,7 @@ def build_report() -> str:
     rt = _safe(probe_runtime, "runtime")
     dl = _safe(probe_downloads, "downloads")
     ph = _safe(probe_reference_photos, "reference photos")
+    ue = _safe(probe_unreal, "unreal")
     rp = probe_reports()
 
     try:
@@ -505,6 +536,26 @@ def build_report() -> str:
     else:
         A("- Runtime binaries (`*.nycb`): not produced")
     A()
+    if isinstance(ue, dict):
+        A("### 6.1 Unreal project")
+        A()
+        A(f"- {_fmt(ue['source_files'])} C++ files, {_fmt(ue['source_lines'])} lines, "
+          f"{_fmt(ue['python_editor_scripts'])} editor automation scripts, checklists: "
+          + ", ".join(f"`{c}`" for c in ue["checklists"]))
+        A()
+        A("The project cannot be compiled in this environment (ADR-001), so it is verified by static analysis "
+          "that the orchestrator re-ran rather than took on trust:")
+        A()
+        A("| Check | Exit | Result |")
+        A("|---|---|---|")
+        for name, r in sorted(ue["static_checks"].items()):
+            A(f"| `{name}` | {r['exit']} | {r['result']} |")
+        A()
+        A("These confirm the reflection macros, module dependencies, include resolution, garbage-collection "
+          "ownership, declaration-to-definition pairing, console command documentation and the landscape and "
+          "water mathematics. They do **not** confirm that the project compiles, cooks or runs — that needs a "
+          "workstation pass following `unreal/README.md`, and no claim is made here that it was done.")
+        A()
 
     # ---- sources and licences
     A("## 7. Data sources and licences")

@@ -306,22 +306,22 @@ def build(lod: int = 0):
 def main() -> None:
     """Four verification renders, each framed and lit to answer one question.
 
-    0. ``dumbo_pebble_beach`` and ``promenade_reference`` — the two viewpoints the comparison agent recorded for
-       this bridge (``docs/verification/reference/landmark_brooklyn_bridge_from_dumbo`` and
-       ``landmark_brooklyn_bridge_walkway``), used verbatim so this render and the reference photograph are the same
-       shot.  They are skipped when those references are not on disk.
-    1. ``dumbo_main_street_park`` — street level in Brooklyn Bridge Park at the foot of Main Street, the canonical
-       DUMBO view of *this* bridge.  (The famous Washington Street shot, whose real photographic viewpoint is
-       recorded in ``docs/verification/reference/dumbo_washington_st_manhattan_bridge/meta.json`` — camera
-       40.7033 N, 73.98958 W, azimuth 355.6 deg — frames the **Manhattan** Bridge, and is rendered on that model.)
-       Question: does the bridge read correctly at street level and eye height, at the right size and distance?
+    1. ``dumbo_pebble_beach`` — the comparison agent's recorded photographic viewpoint for this bridge
+       (``docs/verification/reference/landmark_brooklyn_bridge_from_dumbo/meta.json``: Pebble Beach at Main Street
+       Park, 40.7040 N / 73.9920 W, looking WNW at the Brooklyn tower), used verbatim so this render and the
+       reference photograph are the same shot.  Question: at the real camera position and bearing, do the tower,
+       the main span and the deck read at the right size and proportion?
+       (The famous *Washington Street* shot, whose viewpoint is recorded in
+       ``docs/verification/reference/dumbo_washington_st_manhattan_bridge/``, frames the **Manhattan** Bridge and is
+       rendered on that model.  An earlier attempt to shoot this bridge from the Main Street lawn was discarded:
+       the Brooklyn anchorage stands between that lawn and the tower and filled the whole frame.)
     2. ``tower_three_quarter`` — the Brooklyn tower from the river, close enough that the whole 84.3 m tower fills
        the frame, with the sun 35 deg up and roughly 60 deg off the tower's face so the 3.0 m string courses, the
        arch reveals and the batter all cast shadow.  Question: are the two pointed arches, the tower's plan and its
        height right, and does the deck pass through the arches at the right level?
-    3. ``promenade`` — deck level on the promenade looking at the Brooklyn tower.  Question: is the promenade
-       5.49 m above the roadway, does it split around the centre pier and pass through both arches, and do the
-       four cables and the diagonal stay fan converge correctly?
+    3. ``promenade`` — deck level on the promenade centreline looking at the Brooklyn tower.  Question: is the
+       promenade 5.49 m above the roadway, does it split around the centre pier and pass through both arches, and
+       do the four cables and the diagonal stay fan converge correctly?
     4. ``elevation_both_towers`` — a long lens from the river with **both** towers and both approaches in frame.
        Question: is the 486.3 m main span, the 39.0 m cable sag, the suspender rhythm and the deck crest right?
     """
@@ -333,9 +333,6 @@ def main() -> None:
     ctx = (("water_dark", 0.35, 1600.0, (0.0, 0.0)),
            ("ground_urban", GROUND_BK, 480.0, (land_bk.x, land_bk.y)),
            ("ground_urban", GROUND_MN, 560.0, (land_mn.x, land_mn.y)))
-    # 1. Brooklyn Bridge Park, Main Street lawn (40.70345 N, 73.99373 W): 90 m east of the Brooklyn tower
-    park = fr.from_lonlat(-73.99373, 40.70345, GROUND_BK + 1.65)
-    park_t = ax.p(S_TOWER_BK + 40.0, 0.0, 46.0)
     # 2. three-quarter of the Brooklyn tower from the river, south-east of it
     tq = ax.p(S_TOWER_BK - 96.0, -122.0, 26.0)
     tq_t = ax.p(S_TOWER_BK, 0.0, 46.0)
@@ -348,17 +345,11 @@ def main() -> None:
     ba.run_landmark(
         ID, TITLE, build, bins=(), budget_lod0=900_000, budget_lod1=140_000,
         renders=[
-            # 1a/3a: the comparison agent's real photographic viewpoints, used verbatim so this render and the
-            # reference photograph are the same shot.  Dropped automatically if the reference is not on disk.
+            # 1. the comparison agent's recorded DUMBO viewpoint, used verbatim so this render and the reference
+            #    photograph are the same shot.  Dropped automatically if the reference is not on disk.
             ba.reference_render("landmark_brooklyn_bridge_from_dumbo", fr, view="dumbo_pebble_beach",
                                 ground_z=GROUND_BK, target_z=46.0, fov_deg=58.0, context=ctx,
                                 sun_azimuth_deg=215.0, sun_elevation_deg=35.0, size=(1280, 720)),
-            ba.reference_render("landmark_brooklyn_bridge_walkway", fr, view="promenade_reference",
-                                ground_z=deck_z(S_TOWER_BK - 120.0) + PROMENADE_DZ, target_z=Z_TOWER_TOP - 14.0,
-                                fov_deg=62.0, context=ctx, sun_azimuth_deg=250.0, sun_elevation_deg=35.0,
-                                size=(1280, 720)),
-            dict(view="dumbo_main_street_park", cam=park, target=park_t, fov_deg=64.0, context=ctx,
-                 sun_azimuth_deg=215.0, sun_elevation_deg=35.0, size=(1280, 720)),
             dict(view="tower_three_quarter", cam=tq, target=tq_t, fov_deg=46.0, context=ctx,
                  sun_azimuth_deg=205.0, sun_elevation_deg=35.0, size=(1280, 720)),
             dict(view="promenade", cam=prom, target=prom_t, fov_deg=62.0, context=ctx,

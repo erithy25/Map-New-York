@@ -57,8 +57,8 @@ def build():
     body_m, polish = C.M.bronze_patina, C.M.bronze
     b = C.MeshBuilder()
 
-    # granite setts under the sculpture (Bowling Green paving), 7 x 5 m
-    b.box((0.0, 0.0, -0.06), (7.0, 5.0, 0.12), C.M.granite_dark)
+    # the Bowling Green paving the sculpture stands on, 7 x 5 m
+    b.box((0.0, 0.0, -0.06), (7.0, 5.0, 0.12), C.M.pavement)
 
     bull = C.MeshBuilder()          # the animal itself, scaled to the published height once it is complete
     L = LENGTH_M
@@ -133,9 +133,9 @@ def main():
                          "position_tm": [TM_X, TM_Y], "position_lonlat": [-74.01344, 40.70552],
                          "ground_z_navd88_m": GROUND_Z})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 200, "elevation_deg": "street", "distance": 9.0, "eye_z": 1.65,
-         "target_z": 1.7, "fov_deg": 55},
-        {"view": "aerial", "azimuth_deg": 240, "elevation_deg": 30, "distance": 14.0, "fov_deg": 50, "target_z": 1.6},
+        {"view": "street", "azimuth_deg": 70, "elevation_deg": "street", "distance": 8.5, "eye_z": 1.60,
+         "target_z": 1.8, "fov_deg": 58},
+        {"view": "aerial", "azimuth_deg": 110, "elevation_deg": 28, "distance": 13.0, "fov_deg": 50, "target_z": 1.7},
     ])
 
 

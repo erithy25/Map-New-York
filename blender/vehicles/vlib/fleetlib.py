@@ -75,6 +75,8 @@ class FleetSpec:
     rear_glass: tuple[float, float, float] | None = None
     side_glass_spans: Sequence[tuple[float, float, int]] = ()
     kerb_side_doors_only: bool = False
+    #: mechanism of the side doors, recorded in the catalog: hinged | sliding | bifold
+    door_mechanism: str = ""
     # interior
     interior: str = "mid"                        # mid | cab | none
     #: driver station for ``interior="cab"``: (seat_x, seat_z, wheel_x, wheel_z, y_driver, column_deg)
@@ -470,8 +472,12 @@ def build_and_export(sp: FleetSpec) -> dict:
                                        "feature_x": {"cowl": sp.x_cowl, "roof_front": sp.x_roof_front,
                                                      "roof_rear": sp.x_roof_rear, "deck": sp.x_deck,
                                                      "door_cuts": list(sp.door_cuts)},
-                                       "door_kind": {"Door_RL": "sliding" if sp.sliding_doors else "hinged",
-                                                     "Door_RR": "sliding" if sp.sliding_doors else "hinged",
+                                       "door_kind": {"Door_FL": sp.door_mechanism or "hinged",
+                                                     "Door_FR": sp.door_mechanism or "hinged",
+                                                     "Door_RL": sp.door_mechanism or
+                                                     ("sliding" if sp.sliding_doors else "hinged"),
+                                                     "Door_RR": sp.door_mechanism or
+                                                     ("sliding" if sp.sliding_doors else "hinged"),
                                                      "Trunk": "rear cargo door" if sp.x_rear_door is not None
                                                      else "boot lid / tailgate"},
                                        "build_timings_s": ctx["timings"]})

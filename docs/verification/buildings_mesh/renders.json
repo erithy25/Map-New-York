@@ -1,6 +1,6 @@
 {
  "engine": "CYCLES CPU",
- "generated_at": "2026-09-06T13:53:03Z",
+ "generated_at": "2026-09-06T14:55:52Z",
  "renders": [
   {
    "camera_m": [
@@ -31,7 +31,7 @@
    ],
    "png": "docs/verification/buildings_mesh/midtown_aerial.png",
    "samples": 24,
-   "seconds": 454.0,
+   "seconds": 394.9,
    "sources": [
     "blender_out/tiles/t_-4_5/tile_buildings.glb",
     "blender_out/tiles/t_-4_4/tile_buildings.glb",

@@ -14,6 +14,15 @@ Pivots (DATA_CONTRACTS §13): the file origin is on the ground under the rear-ax
 ``Trunk`` origins are on their hinge lines, ``Wiper_*`` origins are the spindles, ``SteeringWheel`` origin is on
 the column axis with local +Z along it.
 
+**Door pivot convention, including doors that are not side-hinged.**  A ``Door_*`` node's origin always sits on
+the *forward vertical edge of its own aperture*, and its local +X points rearward along the leaf.  For a
+conventional side-hinged car door that edge is the hinge and the engine simply rotates the node about its local
+Z.  Buses, coaches and school buses use **bifold** or **outward-swinging plug** leaves; those are exported as a
+single node covering the whole doorway, whose origin is on the same forward frame edge — which is the outer
+leaf's hinge — so the engine has a well-defined axis either way.  ``catalog["door_kind"]`` names the mechanism
+per door (``hinged`` / ``sliding`` / ``bifold`` / ``rear cargo door``) so the engine can pick the right
+animation: rotate about the origin for ``hinged`` and ``bifold``, translate along -X for ``sliding``.
+
 Damage regions are exported as glTF custom vertex attributes ``_DMG_FRONT/REAR/LEFT/RIGHT/ROOF`` (float per
 vertex, 0..1) **and** as Blender vertex groups of the same name without the underscore, so the data survives
 both the glb and a .blend round trip.

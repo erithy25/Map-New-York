@@ -45,11 +45,18 @@ bool PedSim::configure(const SidewalkGraph& w, const traffic::SignalTable* sig, 
 
   float minx, miny, maxx, maxy;
   w.bounds(minx, miny, maxx, maxy);
-  hash_.configure(minx - 20.f, miny - 20.f, maxx + 20.f, maxy + 20.f,
-                  std::max(1.0f, cfg_.force.cutoff_m), static_cast<uint32_t>(cap));
+  // Cell size: the hash is rebuilt every step, and a rebuild touches every
+  // cell, so the cell count has to stay proportional to the population rather
+  // than to the area.  Four cells per agent keeps the buckets nearly empty
+  // while bounding the clear-and-prefix-sum cost.
+  const float world_m2 = std::max(1.f, (maxx - minx + 40.f) * (maxy - miny + 40.f));
+  const float per_agent = std::sqrt(world_m2 / std::max(1.f, 4.f * static_cast<float>(cap)));
+  const float cell = clampf(per_agent, std::max(1.0f, cfg_.force.cutoff_m), 40.f);
+  hash_.configure(minx - 20.f, miny - 20.f, maxx + 20.f, maxy + 20.f, cell, static_cast<uint32_t>(cap));
   sig_hash_.configure(minx - 20.f, miny - 20.f, maxx + 20.f, maxy + 20.f,
                       std::max(10.f, cfg_.uniqueness_radius_m), static_cast<uint32_t>(cap));
-  road_hash_.configure(minx - 20.f, miny - 20.f, maxx + 20.f, maxy + 20.f, 4.f, static_cast<uint32_t>(cap));
+  road_hash_.configure(minx - 20.f, miny - 20.f, maxx + 20.f, maxy + 20.f, std::max(8.f, cell),
+                       static_cast<uint32_t>(cap));
   road_ids_.reserve(cap);
 
   // Sidewalk area per NTA and the spawn CDF over walkable edges.
@@ -455,6 +462,7 @@ void PedSim::updateAgent(uint32_t i) {
 
 void PedSim::integrate(uint32_t i) {
   Pedestrian& p = peds_[i];
+  const uint32_t edge_at_entry = p.edge;
   const float dt = cfg_.dt;
   p.prev_x = p.x;
   p.prev_y = p.y;
@@ -491,8 +499,11 @@ void PedSim::integrate(uint32_t i) {
   p.z = q.z;
   // Hard non-penetration: the corridor clamp covers the straight run of a
   // sidewalk, this covers the corners, where the corridors of two edges meet at
-  // an angle and a step could otherwise cut through the building line.
-  if (crossesWall(p.prev_x, p.prev_y, p.x, p.y)) {
+  // an angle and a step could otherwise cut through the building line.  Only
+  // evaluated where it can matter — an agent well inside its corridor and on
+  // the same edge as last step cannot have crossed anything.
+  const bool near_boundary = std::fabs(p.lateral) > half - 0.9f || p.edge != edge_at_entry;
+  if (near_boundary && crossesWall(p.prev_x, p.prev_y, p.x, p.y)) {
     p.x = p.prev_x;
     p.y = p.prev_y;
     p.vx = 0.f;

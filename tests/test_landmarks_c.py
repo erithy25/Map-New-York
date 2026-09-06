@@ -327,12 +327,21 @@ def test_stadium_field_dimensions_are_the_published_ones():
 
 
 def test_high_line_length_matches_the_published_alignment():
+    """Compare like with like: Friends of the High Line's 1.45 mi pre-dates the 2019 Spur, so the Spur's own length
+    is measured separately and excluded before the comparison. The remaining 8 % is the mapped alignment's curve
+    around the West Side Yard, which the round published figure does not follow — see the script's docstring, which
+    also records that the polygon's ends were checked against Gansevoort Street and West 34th Street."""
     _, cat = _exported("c_high_line")
     d = json.loads(cat.read_text())["dimensions"]
     assert abs(d["deck_z_m"] - 9.14) < 1e-6
     assert d["columns"] > 200, "the 2.3 km viaduct needs its column line"
-    assert abs(d["measured_length_m"] - d["published_length_m"]) < 0.15 * d["published_length_m"], \
-        f"measured deck length {d['measured_length_m']} m vs published {d['published_length_m']} m"
+    assert 100.0 < d["spur_length_m"] < 200.0, \
+        f"the 30th Street Spur measured {d['spur_length_m']} m, which is not a plausible branch length"
+    like_for_like = d["measured_length_excl_spur_m"]
+    assert abs(like_for_like - d["published_length_m"]) < 0.10 * d["published_length_m"], \
+        (f"deck length excluding the Spur {like_for_like} m vs published {d['published_length_m']} m "
+         f"({100 * (like_for_like - d['published_length_m']) / d['published_length_m']:.1f} %)")
+    assert d["measured_length_m"] > like_for_like, "the whole-park length must include the Spur"
 
 
 def test_little_island_has_all_132_pots():

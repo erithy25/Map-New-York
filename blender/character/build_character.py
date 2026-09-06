@@ -98,6 +98,7 @@ def build_body(spec: mh_build.HumanSpec, outfit: tuple[str, ...], *, watch: bool
     # The rig is converted before the procedural layer is cut, so its regions and inherited weights are
     # already in UE5 bone names.
     rig_ue5.convert_to_ue5(built.armature, built.meshes())
+    wardrobe.reweight_from_body(built, outfit, name_prefix=prefix)
     if outfit:
         wardrobe.dress(built, outfit, name_prefix=prefix)
     if watch:

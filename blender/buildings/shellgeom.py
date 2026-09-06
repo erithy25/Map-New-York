@@ -71,8 +71,8 @@ MIN_WALL_H_M = 2.2            # eaves never drop below this above ground
 # the shared boundary of two regions cut from them with up to ~7 mm of disagreement.  Stepped
 # buildings are therefore welded and boundary-matched on a 1 cm grid — still half the 2 cm snap the
 # footprints themselves carry, so nothing visible moves.
-STEP_WELD_M = 0.01
-STEP_BOUNDARY_TOL_M = 0.02
+STEP_WELD_M = 0.02
+STEP_BOUNDARY_TOL_M = 0.04
 
 
 @dataclass(frozen=True)
