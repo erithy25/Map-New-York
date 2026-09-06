@@ -49,6 +49,13 @@ These had never been exercised because the code had never been compiled or run a
 
 ## 4. Performance — the one target not met
 
+> **Correction, added by the orchestrator after stage 11.** The 35.57 ms figure below is **not
+> reproducible**. The performance stage ran the same benchmark, grid, seed and 1,200 steps and measured
+> **14.6 ms**, with every behaviour counter identical — same lane changes, honks, double-parked, reroutes.
+> Only the machine differed. Do not quote 35.6 ms; the honest synthetic baseline is 14.6 ms, and the
+> city-scale figure, which nobody had when this was written, is 777 ms. See
+> `docs/verification/performance/REPORT.md`.
+
 5,000 vehicles and 20,001 pedestrians, both wired to each other's probes, 1,200 measured steps:
 
 | | mean | p50 | p95 | p99 |

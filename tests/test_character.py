@@ -508,7 +508,7 @@ def test_wardrobe_covers_the_city(npcs: dict) -> None:
     assert len(items) >= 40, f"{len(items)} wardrobe items"
     tags = {t for item in items for t in item["tags"]}
     for required in ("puffer", "hoodie", "suit", "hijab", "scrubs", "delivery", "hivis", "tourist",
-                     "kids", "sneakers", "jeans", "jacket", "boots", "shorts"):
+                     "kids", "sneakers", "jeans", "jacket", "dress", "work", "shorts"):
         assert required in tags, f"no wardrobe item tagged {required!r}"
     ids = {item["id"] for item in items}
     for item in npcs["variety_contract"]["wardrobe_items_reachable"]:
@@ -544,10 +544,40 @@ def test_npcs_share_one_skeleton_and_the_same_clips(npcs: dict) -> None:
     assert {n["blendshapes"] for n in npcs["npcs"]} == {52}
 
 
+def test_stature_follows_the_simulations_own_height_formula() -> None:
+    """`core/include/nycsim/peds/Variety.h::heightMetres` is the definition; the mesh must match it."""
+    for stature in (0.0, 0.25, 0.5, 0.75, 1.0):
+        adult = [0.5, stature] + [0.5] * 10
+        child = [0.1, stature] + [0.5] * 10
+        assert variety.contract_height_m(adult) == pytest.approx(1.50 + stature * 0.45)
+        assert variety.contract_height_m(child) == pytest.approx((1.50 + stature * 0.45) * 0.72)
+        assert variety.decode(adult).target_height_m == pytest.approx(1.50 + stature * 0.45)
+    # 1.50 m at v=0 and 1.95 m at v=1 for an adult; the child band is 0.72 of that
+    assert variety.contract_height_m([0.5, 0.0] + [0.5] * 10) == pytest.approx(1.50)
+    assert variety.contract_height_m([0.5, 1.0] + [0.5] * 10) == pytest.approx(1.95)
+
+
+def test_npc_statures_hit_the_metres_the_contract_asked_for(npcs: dict) -> None:
+    """The stature dimension is specified in metres and solved for, so it must be delivered in metres."""
+    for npc in npcs["npcs"]:
+        stature = npc["stature"]
+        target = stature["target_m"]
+        assert abs(stature["probe_m"] - target) <= 0.010, (
+            f"{npc['id']}: rest stature {stature['probe_m']:.3f} m against a target of {target:.3f} m")
+        # the shipped measurement is taken in the idle pose, which is a little shorter than the rest pose
+        posed = npc["measurements_m"]["height_m"]
+        assert target - 0.07 <= posed <= target + 0.04, (
+            f"{npc['id']}: posed height {posed:.3f} m against a target of {target:.3f} m")
+
+
 def test_npc_heights_span_a_real_population(npcs: dict) -> None:
     heights = sorted(n["measurements_m"]["height_m"] for n in npcs["npcs"])
-    assert heights[0] < 1.60, f"shortest NPC is {heights[0]:.2f} m - no children or short adults"
+    assert heights[0] < 1.45, f"shortest NPC is {heights[0]:.2f} m - no children"
     assert heights[-1] > 1.80, f"tallest NPC is {heights[-1]:.2f} m"
+    adults = sorted(n["measurements_m"]["height_m"] for n in npcs["npcs"]
+                    if n["resolved"]["age_band"] != "child")
+    assert adults[0] > 1.40, f"shortest adult is {adults[0]:.2f} m - shorter than any adult human"
+    assert adults[-1] < 2.00, f"tallest adult is {adults[-1]:.2f} m - taller than any adult human"
 
 
 # --------------------------------------------------------------------- CMU ASF/AMC parser (no Blender needed)

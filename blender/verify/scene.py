@@ -1101,8 +1101,15 @@ def _tile_kit_header(tile: str) -> dict[int, dict]:
 
 def add_kit(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
             triangle_budget: int = 1_200_000, max_instances: int = 120_000,
-            col: bpy.types.Collection | None = None) -> dict:
-    """Instance facade kit placements inside ``radius_m``, nearest first, under a triangle cap."""
+            col: bpy.types.Collection | None = None,
+            suppress_bins_set: set[int] | None = None) -> dict:
+    """Instance facade kit placements inside ``radius_m``, nearest first, under a triangle cap.
+
+    ``suppress_bins_set`` drops the placements that belong to buildings a landmark model replaces.
+    It has to be the same set the shell loader used: with the shell gone and its kit left behind,
+    the frame shows a wall of windows and air-conditioners floating where the building was, which
+    is exactly what the first Bethesda Terrace frame showed after shell suppression was added.
+    """
     kit_map, why = load_kit_map()
     recs = []
     tiles_read, tiles_missing = [], []
@@ -1145,6 +1152,7 @@ def add_kit(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
     order = np.argsort(d)
 
     placed, tris, capped = 0, 0, None
+    suppressed_kit = 0
     unresolved: dict[int, int] = {}
     per_cat: dict[str, int] = {}
     for idx in order:
@@ -1155,6 +1163,9 @@ def add_kit(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
             capped = f"triangle budget {triangle_budget}"
             break
         r = a[int(idx)]
+        if suppress_bins_set and int(r["bin"]) in suppress_bins_set:
+            suppressed_kit += 1
+            continue
         kid = int(r["kit_id"])
         e = kit_map.get(kid)
         if e is None:
@@ -1181,6 +1192,7 @@ def add_kit(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
         cat = e.get("category", "?")
         per_cat[cat] = per_cat.get(cat, 0) + 1
     return {"records_in_range": int(a.size), "placed": placed, "triangles": tris, "capped": capped,
+            "suppressed_with_landmark_shells": suppressed_kit,
             "per_category": dict(sorted(per_cat.items(), key=lambda kv: -kv[1])),
             "unresolved_ids": {str(k): v for k, v in sorted(unresolved.items())},
             "stale_registry_ids": {str(k): v for k, v in sorted(stale.items())},
@@ -1255,7 +1267,7 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
     left = max(0, left - int(rep.props.get("triangles", 0)))
     if with_kit:
         rep.kit = add_kit(lib, cx, cy, kit_radius_m if kit_radius_m is not None else min(radius_m, 200.0),
-                          triangle_budget=left, col=c_kit)
+                          triangle_budget=left, col=c_kit, suppress_bins_set=landmark_bins())
     else:
         rep.kit = {"placed": 0, "reason": "disabled"}
 

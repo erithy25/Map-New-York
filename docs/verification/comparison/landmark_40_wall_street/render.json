@@ -1,18 +1,19 @@
 {
- "azimuth_reason": "55.9 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 70.0 deg, 14.1 deg away",
+ "azimuth_reason": "70.0 deg as recorded; it agrees with the bearing from the camera position used to 40 Wall Street (Trump Building) (70.1 deg) to 0.1 deg",
  "camera": {
-  "azimuth_deg": 55.9,
+  "azimuth_deg": 70.0,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
-   "chosen_m": 5.02,
-   "max_m": 5.55,
-   "median_m": 5.29,
-   "min_m": 4.94,
+   "chosen_m": 4.06,
+   "max_m": 4.35,
+   "median_m": 4.17,
+   "min_m": 4.02,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 4.11,
    "radius_m": 12.0,
    "samples": 113
   },
@@ -30,16 +31,52 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_40_wall_street",
-  "terrain_z_m": 5.017,
-  "x": -5233.554,
-  "y": 699.782,
-  "z": 6.617
+  "terrain_z_m": 4.061,
+  "x": -5179.848,
+  "y": 698.474,
+  "z": 5.661
  },
- "camera_caption": "camera 40.70629, -74.01193 (NYC_TM -5234, 700) z 6.6 m NAVD88 | azimuth 55.9deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x606",
+ "camera_caption": "camera 40.70629, -74.01193 (NYC_TM -5180, 698) z 5.7 m NAVD88 | azimuth 70.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x606",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.706285,
+  "lon": -74.01193,
+  "offset_from_recorded_m": 1534.5,
+  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 1,535 m away, past the 250 m at which it could still be the same view, so it was rejected as mis-tagged"
+ },
  "clearance": {
-  "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "direction": "onto the nearest roadbed",
+  "min_view_m": 80.0,
+  "moved": true,
+  "nearest_obstruction_m": 20.0,
+  "note": "the recorded viewpoint is rendered as an unusable frame from this eye point, so it is treated as blocked even though no ray test caught it; the camera was moved 52 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 96 m from there",
+  "offset_m": 52.2,
+  "reason": "rendered as an unusable frame from this eye point, so it is treated as blocked even though no ray test caught it",
+  "rule": "pavement snap with a clear view",
+  "view_m": 96.0
+ },
+ "frame": {
+  "mean": 0.1219,
+  "reason": null,
+  "sd": 0.0559,
+  "usable": true
+ },
+ "frame_retry": {
+  "clearance": {
+   "min_view_m": 80.0,
+   "moved": false,
+   "nearest_obstruction": "t_-6_0_limestone",
+   "nearest_obstruction_m": 35.3,
+   "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is t_-6_0_limestone 35.3 m away, and the view azimuth is clear for 150 m",
+   "offset_m": 0.0,
+   "view_m": 150.0
+  },
+  "first_frame": {
+   "mean": 0.0131,
+   "reason": "near-black (mean 0.013)",
+   "sd": 0.0291,
+   "usable": false
+  }
  },
  "group": "landmark",
  "interior": false,
@@ -77,9 +114,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_40_wall_street/render.png",
- "rendered_at": "2026-09-06T17:45:05Z",
+ "rendered_at": "2026-09-06T21:23:58Z",
  "resolution_note": "1280x606; the reference photograph is 1920x909 (2.11:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -90,17 +127,20 @@
     "t_-6_0",
     "t_-6_1"
    ],
+   "landmark_bins_suppressed": 19,
+   "landmark_faces_suppressed": 2992,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-5_0": {
      "lod": 0,
      "objects": 18,
-     "triangles": 11932
+     "triangles": 11872
     },
     "t_-5_1": {
      "lod": 0,
      "objects": 18,
-     "triangles": 42918
+     "triangles": 42654
     },
     "t_-6_-1": {
      "lod": 1,
@@ -110,53 +150,55 @@
     "t_-6_0": {
      "lod": 0,
      "objects": 16,
-     "triangles": 14912
+     "triangles": 12796
     },
     "t_-6_1": {
      "lod": 0,
      "objects": 18,
-     "triangles": 15588
+     "triangles": 15036
     }
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 5,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 5,
    "triangle_budget": 3510000,
-   "triangles": 86662
+   "triangles": 83670
   },
   "centre_tm": [
    -5233.55,
    699.78
   ],
   "kit": {
-   "capped": "triangle budget 2391486",
+   "capped": "triangle budget 2486410",
    "per_category": {
     "antenna": 3,
-    "bulkhead": 13,
-    "cornice": 16,
-    "door_entry": 20,
-    "hvac": 15,
-    "parapet": 17,
-    "pilaster": 32,
-    "quoin": 1,
-    "scaffold": 59,
-    "storefront": 116,
-    "storefront_interior": 18,
-    "string_course": 16,
+    "bulkhead": 15,
+    "cornice": 19,
+    "door_entry": 24,
+    "hvac": 16,
+    "parapet": 19,
+    "pilaster": 36,
+    "quoin": 2,
+    "scaffold": 78,
+    "storefront": 133,
+    "storefront_interior": 21,
+    "string_course": 19,
     "water_tower": 8,
-    "window": 8717,
+    "window": 9130,
     "window_accessory": 1127
    },
-   "placed": 10178,
+   "placed": 10650,
    "radius_m": 120.0,
    "records_in_range": 18999,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 855,
    "tiles_missing": [],
    "tiles_read": [
     "t_-6_0"
    ],
-   "triangles": 2391713,
+   "triangles": 2487155,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -285,6 +327,7 @@
   },
   "props": {
    "capped": null,
+   "impostor_cards_dropped": 8,
    "leaf_off": false,
    "per_kind": {
     "bench": 95,
@@ -313,7 +356,7 @@
     "t_-6_0"
    ],
    "tree_species_substituted": 0,
-   "triangles": 1020536,
+   "triangles": 1020404,
    "unmapped_kinds": {
     "artwork": 6,
     "cooling_tower": 89,
@@ -324,18 +367,22 @@
    }
   },
   "radius_m": 720.7110795832725,
-  "seconds": 59.77,
+  "seconds": 80.57,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 4.805,
-   "triangles": 180000,
-   "water_quads": 25236,
-   "z_max_m": 13.63,
-   "z_min_m": -4.83
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 211,
+   "spacing_m": 2.0,
+   "triangles": 88200,
+   "water_quads": 1624,
+   "z_max_m": 13.49,
+   "z_min_m": -4.11
   },
-  "triangles": 4500227
+  "triangles": 4500745
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -343,9 +390,9 @@
   "radius_m": 720.7110795832725
  },
  "seconds": {
-  "render": 44.5,
-  "scene": 60.9,
-  "total": 105.5
+  "render": 231.2,
+  "scene": 82.9,
+  "total": 314.1
  },
  "slug": "landmark_40_wall_street",
  "status": "rendered",

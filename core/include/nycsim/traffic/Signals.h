@@ -128,14 +128,14 @@ class SignalTable {
 
   VehSignal cachedVehicleState(uint32_t plan, int32_t group) const {
     if (group < 0 || group >= static_cast<int32_t>(kMaxCachedGroups)) return VehSignal::Off;
-    if (plan >= cache_stamp_.size() || cache_stamp_[plan] != cache_epoch_)
-      return vehicleState(plan, group, cache_time_);
+    if (plan >= cache_stamp_.size()) return VehSignal::Off;  // no such plan
+    if (cache_stamp_[plan] != cache_epoch_) return vehicleState(plan, group, cache_time_);
     return static_cast<VehSignal>(veh_cache_[plan * kMaxCachedGroups + static_cast<uint32_t>(group)]);
   }
   PedSignal cachedPedState(uint32_t plan, int32_t group) const {
     if (group < 0 || group >= static_cast<int32_t>(kMaxCachedGroups)) return PedSignal::Off;
-    if (plan >= cache_stamp_.size() || cache_stamp_[plan] != cache_epoch_)
-      return pedState(plan, group, cache_time_);
+    if (plan >= cache_stamp_.size()) return PedSignal::Off;  // no such plan
+    if (cache_stamp_[plan] != cache_epoch_) return pedState(plan, group, cache_time_);
     return static_cast<PedSignal>(ped_cache_[plan * kMaxCachedGroups + static_cast<uint32_t>(group)]);
   }
   double cachedTime() const { return cache_time_; }

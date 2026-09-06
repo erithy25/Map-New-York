@@ -41,6 +41,11 @@ from mathutils import Euler  # noqa: E402
 
 LOG = logging.getLogger("nycsim.verify.camera")
 
+#: Below this much open street along the view azimuth, an eye point in open air is still useless:
+#: the frame is a flat party wall.  Above it, the camera is looking across a street at a facade,
+#: which is a real street-level view and is left alone.
+BOXED_IN_M = 12.0
+
 DEFAULT_EYE_HEIGHT_M = 1.60
 DEFAULT_FOCAL_MM = 35.0
 SENSOR_WIDTH_MM = 36.0
@@ -435,15 +440,38 @@ def _opaque(ob) -> bool:
 
 def view_distance(x: float, y: float, z: float, azimuth_deg: float,
                   probe_m: float = 150.0) -> float:
-    """Open distance along the view azimuth before the first opaque thing, capped at ``probe_m``."""
+    """How far the street runs before a wall closes it, capped at ``probe_m``.
+
+    Only building shells and landmark models count.  A street tree or a lamp standard on the axis
+    is not a closed view -- Washington Street in DUMBO has a zelkova 5 m in front of the lens and
+    the bridge tower 160 m beyond it, and a photographer simply looks past the tree.  Something
+    actually *touching* the lens is a different matter and is caught by
+    :func:`nearest_obstruction`, which does count props.
+    """
     from mathutils import Vector
     dg = bpy.context.evaluated_depsgraph_get()
     a = math.radians(azimuth_deg)
     origin = Vector((x, y, z))
     fwd = Vector((math.sin(a), math.cos(a), 0.0))
-    hit, loc, _, _, ob, _ = bpy.context.scene.ray_cast(dg, origin, fwd, distance=probe_m)
-    if hit and _opaque(ob):
-        return float((Vector(loc) - origin).length)
+    travelled = 0.0
+    here = origin.copy()
+    # Step past props rather than stopping at them: the ray restarts just beyond each one.
+    for _ in range(8):
+        hit, loc, _, _, ob, _ = bpy.context.scene.ray_cast(
+            dg, here, fwd, distance=max(probe_m - travelled, 0.0))
+        if not hit or ob is None:
+            return float(probe_m)
+        step = float((Vector(loc) - here).length)
+        if ob.name.startswith("prop_"):
+            travelled += step + 0.05
+            if travelled >= probe_m:
+                return float(probe_m)
+            here = origin + fwd * travelled
+            continue
+        if _opaque(ob):
+            return travelled + step
+        travelled += step + 0.05
+        here = origin + fwd * travelled
     return float(probe_m)
 
 
@@ -569,7 +597,26 @@ def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 8
     nearest merely-open point is used, and the sheet says which rule was met.  The eye height is
     re-measured from the heightmap at the new point, and the offset is always reported.
     """
+    probe_m = max(min_view_m * 1.2, 60.0)
+    min_clear_m = min(8.0, min_view_m)
     blocked, why = _blocked(placement.x, placement.y, placement.z, placement.azimuth_deg)
+    if not blocked:
+        # An eye point that cannot see is as useless as one inside a wall.  Seventh Avenue at
+        # Garfield Place is the case: the recorded viewpoint stands in open air with a tan-brick
+        # party wall 8.6 m ahead, so the frame is a flat plane -- featureless, but not dark enough
+        # for a luminance gate to catch.  A viewpoint whose azimuth closes off short of what the
+        # subject needs is corrected like any other blocked one.
+        v = view_distance(placement.x, placement.y, placement.z, placement.azimuth_deg,
+                          probe_m=probe_m)
+        # Only a genuinely closed view is corrected.  A camera with 17 m of street in front of it
+        # is looking across a road at the opposite facade, which is a real street-level view; one
+        # with 9 m is looking at a party wall.  The 20 m the search demands of a *candidate* would
+        # churn the first case for nothing, so the threshold for disturbing a viewpoint that is
+        # otherwise in open air is the stricter of the two.
+        if v < min(min_view_m, BOXED_IN_M):
+            blocked = True
+            why = (f"boxed in: the view azimuth is closed off {v:.0f} m ahead, less than the "
+                   f"{min(min_view_m, BOXED_IN_M):.0f} m below which a frame shows nothing but wall")
     if force and not blocked:
         blocked, why = True, ("rendered as an unusable frame from this eye point, so it is treated "
                               "as blocked even though no ray test caught it")
@@ -577,9 +624,6 @@ def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 8
         return _walk_to_parapet(placement)
     rise = placement.z - (placement.terrain_z_m if placement.terrain_z_m is not None else placement.z)
     radius_m = placement.ground_detail.get("radius_m", 5.0)
-
-    probe_m = max(min_view_m * 1.2, 60.0)
-    min_clear_m = min(8.0, min_view_m)
 
     def evaluate(nx: float, ny: float):
         gz, detail = (sampler.ground_z(nx, ny, mode=placement.ground_mode, radius_m=radius_m)

@@ -7,17 +7,18 @@
   "eye_source": "top landing of the TKTS red steps at Duffy Square, 4.6 m above the plaza, plus 1.6 m eye height",
   "focal_mm": 24.0,
   "ground_detail": {
-   "chosen_m": 15.28,
+   "chosen_m": 15.26,
    "max_m": 16.36,
    "median_m": 15.28,
    "min_m": 15.08,
    "mode": "local",
    "percentile": null,
+   "point_m": 15.26,
    "radius_m": 5.0,
    "samples": 16
   },
   "ground_mode": "local",
-  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap median within 5 m is the ground",
+  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap height at the point itself is the ground (the neighbourhood is still measured and printed, because a terrace can stand metres above the plaza 4 m away and a median across that step would put the camera underground)",
   "hfov_deg": 58.688,
   "lat": 40.759086,
   "lon": -73.984856,
@@ -30,10 +31,10 @@
   ],
   "sensor_mm": 36.0,
   "slug": "times_square_duffy_south_night",
-  "terrain_z_m": 15.281,
+  "terrain_z_m": 15.26,
   "x": -2943.268,
   "y": 6562.007,
-  "z": 21.481
+  "z": 21.46
  },
  "camera_caption": "camera 40.75909, -73.98486 (NYC_TM -2943, 6562) z 21.5 m NAVD88 | azimuth 202.2deg pitch +0.0deg | 24 mm on 36 mm (58.7deg horizontal, 73.7deg vertical, portrait) | 904x1206",
  "camera_origin": {
@@ -46,9 +47,19 @@
  "clearance": {
   "min_view_m": 80.0,
   "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "nearest_obstruction": "prop_lamp_cobra_davit_33",
+  "nearest_obstruction_m": 55.2,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_cobra_davit_33 55.2 m away, and the view azimuth is clear for 55 m",
+  "offset_m": 0.0,
+  "view_m": 55.5
  },
+ "frame": {
+  "mean": 0.4481,
+  "reason": null,
+  "sd": 0.208,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "viewpoint",
  "interior": false,
  "lens_reason": "same framing as the daylight view",
@@ -85,7 +96,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/times_square_duffy_south_night/render.png",
- "rendered_at": "2026-09-06T19:37:07Z",
+ "rendered_at": "2026-09-06T20:45:22Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
@@ -99,33 +110,35 @@
     "t_-4_6",
     "t_-4_7"
    ],
+   "landmark_bins_suppressed": 40,
+   "landmark_faces_suppressed": 4872,
    "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-3_5": {
      "lod": 0,
      "objects": 16,
-     "triangles": 49098
+     "triangles": 48780
     },
     "t_-3_6": {
      "lod": 0,
      "objects": 17,
-     "triangles": 30874
+     "triangles": 29970
     },
     "t_-3_7": {
      "lod": 0,
      "objects": 16,
-     "triangles": 23700
+     "triangles": 22888
     },
     "t_-4_5": {
      "lod": 0,
      "objects": 19,
-     "triangles": 45694
+     "triangles": 44562
     },
     "t_-4_6": {
      "lod": 0,
      "objects": 17,
-     "triangles": 66858
+     "triangles": 65152
     },
     "t_-4_7": {
      "lod": 0,
@@ -139,40 +152,41 @@
    "tiles_missing": 0,
    "tiles_wanted": 6,
    "triangle_budget": 3510000,
-   "triangles": 261448
+   "triangles": 256576
   },
   "centre_tm": [
    -2943.27,
    6562.01
   ],
   "kit": {
-   "capped": "triangle budget 2768721",
+   "capped": null,
    "per_category": {
-    "bulkhead": 23,
-    "cornice": 25,
-    "door_entry": 45,
-    "hvac": 17,
-    "parapet": 29,
-    "pilaster": 14,
-    "quoin": 2,
+    "bulkhead": 31,
+    "cornice": 32,
+    "door_entry": 57,
+    "hvac": 14,
+    "parapet": 33,
+    "pilaster": 22,
+    "quoin": 6,
     "scaffold": 77,
-    "storefront": 170,
-    "storefront_interior": 33,
-    "string_course": 21,
-    "water_tower": 7,
-    "window": 14170,
-    "window_accessory": 2
+    "storefront": 178,
+    "storefront_interior": 41,
+    "string_course": 28,
+    "water_tower": 9,
+    "window": 14128,
+    "window_accessory": 4
    },
-   "placed": 14635,
+   "placed": 14660,
    "radius_m": 130.0,
    "records_in_range": 19539,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 4879,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_6",
     "t_-4_6"
    ],
-   "triangles": 2768760,
+   "triangles": 2639740,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -316,7 +330,7 @@
    }
   },
   "radius_m": 800.0,
-  "seconds": 48.12,
+  "seconds": 55.71,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -331,7 +345,7 @@
    "z_max_m": 25.74,
    "z_min_m": 1.54
   },
-  "triangles": 4500039
+  "triangles": 4366147
  },
  "scene_request": {
   "kit_radius_m": 130.0,
@@ -339,9 +353,9 @@
   "radius_m": 800.0
  },
  "seconds": {
-  "render": 231.8,
-  "scene": 49.9,
-  "total": 281.7
+  "render": 245.9,
+  "scene": 59.3,
+  "total": 305.2
  },
  "slug": "times_square_duffy_south_night",
  "status": "rendered",

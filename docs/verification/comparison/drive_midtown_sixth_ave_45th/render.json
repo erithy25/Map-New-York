@@ -7,20 +7,21 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
-   "chosen_m": 17.42,
-   "max_m": 18.98,
-   "median_m": 18.83,
-   "min_m": 15.67,
+   "chosen_m": 18.47,
+   "max_m": 18.87,
+   "median_m": 18.63,
+   "min_m": 18.25,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 18.65,
    "radius_m": 12.0,
    "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
   "hfov_deg": 54.432,
-  "lat": 40.7566,
-  "lon": -73.9822,
+  "lat": 40.756779,
+  "lon": -73.982545,
   "long_side_fov_deg": 54.432,
   "pitch_deg": 0.0,
   "portrait": false,
@@ -30,17 +31,35 @@
   ],
   "sensor_mm": 36.0,
   "slug": "drive_midtown_sixth_ave_45th",
-  "terrain_z_m": 17.424,
-  "x": -2719.095,
-  "y": 6285.853,
-  "z": 19.024
+  "terrain_z_m": 18.473,
+  "x": -2748.22,
+  "y": 6305.742,
+  "z": 20.073
  },
- "camera_caption": "camera 40.75660, -73.98220 (NYC_TM -2719, 6286) z 19.0 m NAVD88 | azimuth 29.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
+ "camera_caption": "camera 40.75678, -73.98255 (NYC_TM -2748, 6306) z 20.1 m NAVD88 | azimuth 29.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.756779,
+  "lon": -73.982545,
+  "offset_from_recorded_m": 35.3,
+  "source": "this photograph's own EXIF camera GPS (40.75678, -73.98255), 35 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
  "clearance": {
+  "min_view_m": 20.0,
   "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "nearest_obstruction": "prop_tree_pin_oak_medium_2",
+  "nearest_obstruction_m": 11.2,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_tree_pin_oak_medium_2 11.2 m away, and the view azimuth is clear for 19 m",
+  "offset_m": 0.0,
+  "view_m": 19.2
  },
+ "frame": {
+  "mean": 0.1088,
+  "reason": null,
+  "sd": 0.0946,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "drive_through",
  "interior": false,
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
@@ -48,14 +67,14 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 860.0,
   "emissive": {
-   "cones_hidden": 1,
-   "lamps_switched_off": 4,
+   "cones_hidden": 2,
+   "lamps_switched_off": 5,
    "night": false,
    "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.0,
   "sky_azimuth_deg": 95.383,
-  "sky_elevation_deg": 43.502,
+  "sky_elevation_deg": 43.501,
   "sun_lamp": true,
   "sun_strength_blender": 1.593,
   "view_transform": "Filmic"
@@ -77,156 +96,155 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_midtown_sixth_ave_45th/render.png",
- "rendered_at": "2026-09-06T16:31:20Z",
+ "rendered_at": "2026-09-06T21:11:09Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 64,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
-    "t_-2_6",
     "t_-3_5",
     "t_-3_6",
     "t_-3_7",
     "t_-4_5",
     "t_-4_6"
    ],
+   "landmark_bins_suppressed": 40,
+   "landmark_faces_suppressed": 4336,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
-    "t_-2_6": {
-     "lod": 1,
-     "objects": 18,
-     "triangles": 22968
-    },
     "t_-3_5": {
      "lod": 0,
      "objects": 16,
-     "triangles": 49098
+     "triangles": 48780
     },
     "t_-3_6": {
      "lod": 0,
      "objects": 17,
-     "triangles": 30874
+     "triangles": 29970
     },
     "t_-3_7": {
      "lod": 1,
      "objects": 16,
-     "triangles": 9960
+     "triangles": 9684
     },
     "t_-4_5": {
      "lod": 0,
      "objects": 19,
-     "triangles": 45694
+     "triangles": 44562
     },
     "t_-4_6": {
      "lod": 0,
      "objects": 17,
-     "triangles": 66858
+     "triangles": 65152
     }
    },
    "tiles_dropped_for_budget": 0,
-   "tiles_imported": 6,
+   "tiles_imported": 5,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
-   "tiles_wanted": 6,
+   "tiles_wanted": 5,
    "triangle_budget": 3510000,
-   "triangles": 225452
+   "triangles": 198148
   },
   "centre_tm": [
-   -2719.09,
-   6285.85
+   -2748.22,
+   6305.74
   ],
   "kit": {
-   "capped": "triangle budget 2406053",
+   "capped": "triangle budget 2539508",
    "per_category": {
     "antenna": 1,
-    "bulkhead": 33,
-    "cornice": 17,
-    "door_entry": 38,
+    "bulkhead": 27,
+    "cornice": 15,
+    "door_entry": 28,
     "fire_escape": 11,
-    "hvac": 15,
-    "parapet": 30,
+    "hvac": 8,
+    "parapet": 21,
     "pilaster": 14,
     "quoin": 4,
-    "scaffold": 18,
-    "storefront": 126,
-    "storefront_interior": 26,
-    "string_course": 17,
+    "scaffold": 3,
+    "storefront": 95,
+    "storefront_interior": 18,
+    "string_course": 14,
     "water_tower": 13,
-    "window": 12695,
-    "window_accessory": 130
+    "window": 13765,
+    "window_accessory": 136
    },
-   "placed": 13188,
+   "placed": 14173,
    "radius_m": 120.0,
-   "records_in_range": 18753,
+   "records_in_range": 18910,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_6"
    ],
-   "triangles": 2406147,
+   "triangles": 2539638,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 357.2,
-     "id": "30_rockefeller_plaza",
-     "lod": 0,
-     "name": "30 Rockefeller Plaza",
-     "triangles": 102530
-    },
-    {
-     "distance_m": 369.5,
+     "distance_m": 343.7,
      "id": "c_times_square",
      "lod": 0,
      "name": "Times Square",
      "triangles": 182310
     },
     {
-     "distance_m": 377.9,
+     "distance_m": 360.6,
+     "id": "30_rockefeller_plaza",
+     "lod": 0,
+     "name": "30 Rockefeller Plaza",
+     "triangles": 102530
+    },
+    {
+     "distance_m": 398.5,
      "id": "new_york_public_library",
      "lod": 0,
      "name": "New York Public Library, Stephen A. Schwarzman Building",
      "triangles": 51785
     },
     {
-     "distance_m": 507.2,
+     "distance_m": 540.8,
      "id": "one_vanderbilt",
      "lod": 0,
      "name": "One Vanderbilt",
      "triangles": 71710
     },
     {
-     "distance_m": 550.5,
+     "distance_m": 570.3,
      "id": "st_patricks_cathedral",
      "lod": 0,
      "name": "St. Patrick's Cathedral",
      "triangles": 6259
     },
     {
-     "distance_m": 579.6,
+     "distance_m": 614.9,
      "id": "c_metlife_building",
      "lod": 0,
      "name": "MetLife Building (200 Park Avenue)",
      "triangles": 105284
     },
     {
-     "distance_m": 600.3,
+     "distance_m": 635.0,
      "id": "grand_central_terminal",
      "lod": 0,
      "name": "Grand Central Terminal",
      "triangles": 29560
     },
     {
-     "distance_m": 677.9,
+     "distance_m": 679.3,
      "id": "moma",
      "lod": 0,
      "name": "Museum of Modern Art",
      "triangles": 23620
     },
     {
-     "distance_m": 1007.6,
+     "distance_m": 1001.2,
      "id": "c_billionaires_row",
      "lod": 0,
      "name": "Billionaires' Row (West 57th Street corridor)",
@@ -241,50 +259,50 @@
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 458,
-    "curb": 909,
-    "median": 112,
-    "parking_lot": 4,
-    "plaza": 89,
-    "roadbed": 406,
-    "sidewalk": 218
+    "crosswalk": 440,
+    "curb": 886,
+    "median": 107,
+    "parking_lot": 5,
+    "plaza": 86,
+    "roadbed": 399,
+    "sidewalk": 210
    },
-   "placed": 2196,
+   "placed": 2133,
    "radius_m": 720.0,
    "tiles_missing": [],
    "tiles_read": [
-    "t_-2_6",
     "t_-3_5",
     "t_-3_6",
     "t_-3_7",
     "t_-4_5",
     "t_-4_6"
    ],
-   "triangles": 153403,
-   "vertices": 157561
+   "triangles": 149096,
+   "vertices": 153130
   },
   "props": {
    "capped": null,
+   "impostor_cards_dropped": 9,
    "leaf_off": false,
    "per_kind": {
-    "bike_rack": 12,
+    "bike_rack": 13,
     "bus_shelter": 3,
-    "bus_stop_sign": 10,
-    "citibike_dock": 4,
-    "flagpole": 3,
-    "hydrant": 43,
-    "linknyc": 2,
+    "bus_stop_sign": 11,
+    "citibike_dock": 3,
+    "flagpole": 2,
+    "hydrant": 45,
+    "linknyc": 1,
     "mailbox": 5,
-    "manhole": 73,
+    "manhole": 71,
     "newsstand": 4,
     "rtpi_sign": 1,
-    "steam_vent": 7,
-    "street_lamp": 83,
+    "steam_vent": 5,
+    "street_lamp": 85,
     "subway_entrance": 14,
     "subway_vent_grate": 10,
-    "tree": 63
+    "tree": 62
    },
-   "placed": 337,
+   "placed": 335,
    "radius_m": 250.0,
    "rows_in_range": 501,
    "tiles_missing": [],
@@ -292,28 +310,33 @@
     "t_-3_6"
    ],
    "tree_species_substituted": 9,
-   "triangles": 741124,
+   "triangles": 731080,
    "unmapped_kinds": {
     "artwork": 1,
-    "cooling_tower": 128,
+    "cooling_tower": 129,
     "curb_ramp": 32,
     "drinking_fountain": 1,
-    "memorial": 2
+    "memorial": 2,
+    "vending_machine": 1
    }
   },
   "radius_m": 720.0,
-  "seconds": 53.2,
+  "seconds": 90.74,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 4.8,
-   "triangles": 180000,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 211,
+   "spacing_m": 2.0,
+   "triangles": 88200,
    "water_quads": 0,
-   "z_max_m": 25.7,
-   "z_min_m": 4.23
+   "z_max_m": 25.74,
+   "z_min_m": 5.2
   },
-  "triangles": 4500094
+  "triangles": 4500130
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -321,9 +344,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 271.3,
-  "scene": 54.6,
-  "total": 325.9
+  "render": 198.4,
+  "scene": 94.5,
+  "total": 292.9
  },
  "slug": "drive_midtown_sixth_ave_45th",
  "status": "rendered",
@@ -332,8 +355,8 @@
   "name": null
  },
  "sun": {
-  "azimuth_deg": 95.38320340718536,
-  "elevation_deg": 43.50155762375766,
+  "azimuth_deg": 95.38312395077213,
+  "elevation_deg": 43.50128081071288,
   "local": "2018-06-21T09:30:00-04:00",
   "time_source": "photograph year only; 21 June 09:30 assumed",
   "utc": "2018-06-21T13:30:00Z"

@@ -35,8 +35,9 @@ struct StepResult {
   uint64_t traffic_hash = 0, ped_hash = 0;
 };
 
-/// The densest 500 m cell of lane-kilometres: where a New York benchmark should
-/// put its camera, chosen from the data rather than from a guess.
+/// The densest 500 m cell of signalised intersections: a dense street grid, not
+/// the expressway that a raw lane-kilometre histogram picks.  Chosen from the
+/// data rather than from a guess.
 void densestPoint(const routing::RoadGraph& g, float& out_x, float& out_y) {
   float minx, miny, maxx, maxy;
   g.bounds(minx, miny, maxx, maxy);
@@ -44,22 +45,101 @@ void densestPoint(const routing::RoadGraph& g, float& out_x, float& out_y) {
   const uint32_t nx = static_cast<uint32_t>((maxx - minx) / cell) + 1u;
   const uint32_t ny = static_cast<uint32_t>((maxy - miny) / cell) + 1u;
   std::vector<float> acc(static_cast<size_t>(nx) * ny, 0.f);
-  for (uint32_t li = 0; li < g.laneCount(); ++li) {
-    const routing::Lane& l = g.lane(li);
-    if (l.is_junction != 0) continue;
-    if (l.kind != routing::LaneKind::Travel && l.kind != routing::LaneKind::Bus) continue;
-    const routing::LanePose p = g.poseAt(li, l.length_m * 0.5f);
-    const uint32_t cx = static_cast<uint32_t>(std::min(std::max((p.pos.x - minx) / cell, 0.f),
+  uint32_t signalised = 0;
+  for (uint32_t ni = 0; ni < g.nodeCount(); ++ni) {
+    if (g.node(ni).control != routing::Control::Signal) continue;
+    ++signalised;
+    const routing::Vec3& p = g.node(ni).pos;
+    const uint32_t cx = static_cast<uint32_t>(std::min(std::max((p.x - minx) / cell, 0.f),
                                                        static_cast<float>(nx - 1u)));
-    const uint32_t cy = static_cast<uint32_t>(std::min(std::max((p.pos.y - miny) / cell, 0.f),
+    const uint32_t cy = static_cast<uint32_t>(std::min(std::max((p.y - miny) / cell, 0.f),
                                                        static_cast<float>(ny - 1u)));
-    acc[static_cast<size_t>(cy) * nx + cx] += l.length_m;
+    acc[static_cast<size_t>(cy) * nx + cx] += 1.f;
+  }
+  if (signalised == 0) {  // synthetic worlds without Control::Signal nodes
+    for (uint32_t li = 0; li < g.laneCount(); ++li) {
+      const routing::Lane& l = g.lane(li);
+      if (l.is_junction != 0) continue;
+      const routing::LanePose p = g.poseAt(li, l.length_m * 0.5f);
+      const uint32_t cx = static_cast<uint32_t>(std::min(std::max((p.pos.x - minx) / cell, 0.f),
+                                                         static_cast<float>(nx - 1u)));
+      const uint32_t cy = static_cast<uint32_t>(std::min(std::max((p.pos.y - miny) / cell, 0.f),
+                                                         static_cast<float>(ny - 1u)));
+      acc[static_cast<size_t>(cy) * nx + cx] += l.length_m;
+    }
   }
   size_t best = 0;
   for (size_t i = 1; i < acc.size(); ++i)
     if (acc[i] > acc[best]) best = i;
   out_x = minx + (static_cast<float>(best % nx) + 0.5f) * cell;
   out_y = miny + (static_cast<float>(best / nx) + 0.5f) * cell;
+}
+
+/// Explicit seeding inside a radius of (x, y).
+///
+/// The production spawner samples a lane from a city-wide CDF and then rejects
+/// it if it falls outside the player's ring, so on the real graph it accepts
+/// roughly one lane in a thousand and can never fill the ring (measured: 86
+/// vehicles against a target of 304,878).  That is a defect of the spawner, not
+/// of the step, and fixing it would change the spawn sequence and therefore the
+/// ring test's counts — so the benchmark seeds the fleet through the public
+/// spawn() API instead, and the report says so.
+uint32_t seedVehiclesNear(traffic::TrafficSim& sim, const routing::RoadGraph& g, float x, float y,
+                          float radius_m, uint32_t want, uint64_t seed) {
+  std::vector<uint32_t> lanes;
+  const float step = 60.f;
+  for (float dy = -radius_m; dy <= radius_m; dy += step) {
+    for (float dx = -radius_m; dx <= radius_m; dx += step) {
+      if (dx * dx + dy * dy > radius_m * radius_m) continue;
+      uint32_t buf[64];
+      const uint32_t n = g.lanesNear(x + dx, y + dy, step, buf, 64, false);
+      for (uint32_t k = 0; k < std::min(n, 64u); ++k) {
+        const routing::Lane& l = g.lane(buf[k]);
+        if (l.is_junction != 0 || l.disabled != 0 || l.kind != routing::LaneKind::Travel) continue;
+        if (l.length_m < 15.f) continue;
+        lanes.push_back(buf[k]);
+      }
+    }
+  }
+  std::sort(lanes.begin(), lanes.end());
+  lanes.erase(std::unique(lanes.begin(), lanes.end()), lanes.end());
+  if (lanes.empty()) return 0;
+  nycsim::Rng rng;
+  rng.reseed(seed);
+  uint32_t made = 0, attempts = 0;
+  while (made < want && attempts < want * 20u + 1000u) {
+    ++attempts;
+    const uint32_t lane = lanes[rng.below(static_cast<uint32_t>(lanes.size()))];
+    const float len = g.lane(lane).length_m;
+    const float s = rng.uniform(2.f, std::max(3.f, len - 2.f));
+    if (sim.spawn(traffic::VehicleClass::Sedan, lane, s, routing::kInvalidIndex, 0.f, true) !=
+        routing::kInvalidIndex)
+      ++made;
+  }
+  return made;
+}
+
+uint32_t seedPedsNear(peds::PedSim& sim, const peds::SidewalkGraph& w, float x, float y, float radius_m,
+                      uint32_t want, uint64_t seed) {
+  std::vector<uint32_t> edges;
+  for (uint32_t e = 0; e < w.edgeCount(); ++e) {
+    const peds::WalkEdge& ed = w.edge(e);
+    const routing::Vec3 mid = w.pointOn(e, ed.length_m * 0.5f, 0.f);
+    const float dx = mid.x - x, dy = mid.y - y;
+    if (dx * dx + dy * dy > radius_m * radius_m) continue;
+    edges.push_back(e);
+  }
+  if (edges.empty()) return 0;
+  nycsim::Rng rng;
+  rng.reseed(seed);
+  uint32_t made = 0, attempts = 0;
+  while (made < want && attempts < want * 20u + 1000u) {
+    ++attempts;
+    const uint32_t e = edges[rng.below(static_cast<uint32_t>(edges.size()))];
+    const float s = rng.uniform(0.f, w.edge(e).length_m);
+    if (sim.spawn(e, s, true) != routing::kInvalidIndex) ++made;
+  }
+  return made;
 }
 
 /// Steps both simulations and collects the distributions.  `player` is moved
@@ -251,10 +331,18 @@ int runCity(Args& args) {
   args.text("--runtime", runtime);
   const bool no_sidewalks = args.flag("--no-sidewalks");
   const bool real_density = !args.flag("--uniform-density");
-  double spawn_outer = 900.0, despawn = 1400.0, signal_window = -1.0;
+  double spawn_outer = 900.0, despawn = 1400.0, signal_window = -1.0, seed_radius = 1000.0;
+  uint32_t max_routes = 8;
   args.number("--spawn-outer", spawn_outer);
   args.number("--despawn", despawn);
   args.number("--signal-window", signal_window);
+  args.number("--seed-radius", seed_radius);
+  args.integer("--max-routes", max_routes);
+  uint32_t max_paths = 96;
+  double ped_cell = 0.0;
+  args.integer("--max-paths", max_paths);
+  args.number("--ped-cell", ped_cell);
+  const bool use_spawner = args.flag("--use-spawner");
   double player_x = 0, player_y = 0;
   const bool have_px = args.number("--player-x", player_x);
   const bool have_py = args.number("--player-y", player_y);
@@ -321,6 +409,7 @@ int runCity(Args& args) {
   tcfg.use_player_ring = true;
   tcfg.spawn_outer_m = static_cast<float>(spawn_outer);
   tcfg.despawn_m = static_cast<float>(despawn);
+  tcfg.max_routes_per_step = max_routes;
   traffic::TrafficSim tsim;
   Stopwatch sw;
   if (!tsim.configure(w.graph, w.signals, tcfg, o.seed)) {
@@ -346,6 +435,8 @@ int runCity(Args& args) {
   pcfg.max_peds = o.peds + 2000u;
   pcfg.use_player_ring = true;
   pcfg.despawn_m = static_cast<float>(despawn);
+  pcfg.max_paths_per_step = max_paths;
+  pcfg.hash_cell_m = static_cast<float>(ped_cell);
   peds::PedSim psim;
   if (o.with_peds) {
     if (!psim.configure(w.walk, &w.signals, pcfg, o.seed)) {
@@ -370,22 +461,38 @@ int runCity(Args& args) {
   if (signal_window > 0.0) {
     const float h = static_cast<float>(signal_window) * 0.5f;
     w.signals.setActiveWindow(px - h, py - h, px + h, py + h);
-    std::printf("  signal window    %.0f m square -> %zu of %zu plans refreshed per step\n",
-                signal_window, static_cast<size_t>(0), w.sizes().signal_plans);
+    std::printf("  signal window    %.0f m square around the camera\n", signal_window);
   }
 
   sw.reset();
-  const uint32_t made_v = tsim.prefill(o.vehicles + 1000u);
-  const uint32_t made_p = o.with_peds ? psim.prefill(o.peds) : 0u;
+  uint32_t made_v = 0, made_p = 0;
+  if (use_spawner) {
+    made_v = tsim.prefill(o.vehicles + 1000u);
+    made_p = o.with_peds ? psim.prefill(o.peds) : 0u;
+  } else {
+    // Seeded explicitly inside `seed_radius` of the camera — see the comment on
+    // seedVehiclesNear() for why the production spawner cannot do this.
+    made_v = seedVehiclesNear(tsim, w.graph, px, py, static_cast<float>(seed_radius), o.vehicles, o.seed);
+    if (o.with_peds)
+      made_p = seedPedsNear(psim, w.walk, px, py, static_cast<float>(seed_radius), o.peds, o.seed);
+  }
   w.times().prefill_ms = sw.lapWallMs();
-  std::printf("  prefill          %u vehicles, %u pedestrians in %.0f ms (target %.0f vehicles)\n", made_v,
-              made_p, w.times().prefill_ms, static_cast<double>(tsim.targetVehicles()));
+  std::printf("  fill             %u vehicles, %u pedestrians in %.0f ms (%s; density target %.0f"
+              " vehicles city-wide)\n",
+              made_v, made_p, w.times().prefill_ms,
+              use_spawner ? "prefill(), city-wide" : "seeded within the radius",
+              static_cast<double>(tsim.targetVehicles()));
+  std::printf("  budgets          %u route queries and %u pedestrian paths per step;"
+              " crowd hash cell %s\n",
+              max_routes, o.with_peds ? max_paths : 0u,
+              ped_cell > 0.01 ? std::to_string(static_cast<int>(ped_cell)).c_str() : "auto");
   std::fflush(stdout);
 
   float minx, miny, maxx, maxy;
   w.graph.bounds(minx, miny, maxx, maxy);
-  const StepResult r = measure(tsim, o.with_peds ? &psim : nullptr, player, tcfg.dt, py - 200.f,
-                               py + 200.f, o);
+  const StepResult r = measure(tsim, o.with_peds ? &psim : nullptr, player, tcfg.dt,
+                               py - static_cast<float>(seed_radius) * 0.5f,
+                               py + static_cast<float>(seed_radius) * 0.5f, o);
   std::printf("  steps measured   %u (after %u warm-up)\n", o.steps, o.warmup);
   report(r);
   if (signal_window > 0.0)

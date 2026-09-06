@@ -181,9 +181,17 @@ def export_character(path: str | Path, objects: Sequence[bpy.types.Object], extr
     for ob in objects:
         ob.select_set(True)
     bpy.context.view_layer.objects.active = objects[0]
+    # `nycsim_bpy.export_glb` is the foundation exporter and is used everywhere else in this repo, but it
+    # ties skins, morph targets and animations to one `export_animations` flag and cannot express what a
+    # character needs: one glTF animation per NLA clip (`export_animation_mode="ACTIONS"` +
+    # `export_nla_strips`), a rest-position armature, unsampled F-curves, and a hard four-influence cap.
+    # So the operator is called directly here, and `patch_asset_extras` below writes the same
+    # `asset.extras.nycsim` block DATA_CONTRACTS section 13 requires and `nycsim_bpy` stamps.
+    # Requested foundation change: let `export_glb` pass extra keyword arguments through to the operator.
     bpy.ops.export_scene.gltf(
         filepath=str(path), export_format="GLB", use_selection=True, export_yup=True,
         export_apply=False, export_texcoords=True, export_normals=True, export_tangents=False,
+        export_attributes=False,
         export_materials="EXPORT", export_image_format="AUTO",
         export_animations=True, export_animation_mode="ACTIONS", export_nla_strips=True,
         export_frame_range=False, export_force_sampling=False, export_bake_animation=False,

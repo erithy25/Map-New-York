@@ -1,29 +1,29 @@
 {
- "azimuth_reason": "27.0 deg, the bearing from this photograph's own GPS position to Bethesda Fountain (Angel of the Waters); heading and position both come from the photograph.  The item's recorded azimuth is 14.2 deg, 12.8 deg away, and belongs to its nominal viewpoint",
+ "azimuth_reason": "14.2 deg as recorded; it agrees with the bearing from the camera position used to Bethesda Fountain (Angel of the Waters) (14.2 deg) to 0.0 deg",
  "camera": {
-  "azimuth_deg": 26.996033865256177,
+  "azimuth_deg": 14.2,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 28.0,
   "ground_detail": {
-   "chosen_m": 23.46,
-   "max_m": 23.49,
-   "median_m": 23.46,
-   "min_m": 23.42,
+   "chosen_m": 22.62,
+   "max_m": 24.03,
+   "median_m": 22.54,
+   "min_m": 21.17,
    "mode": "local",
    "percentile": null,
-   "point_m": 23.46,
+   "point_m": 22.62,
    "radius_m": 5.0,
    "samples": 16
   },
   "ground_mode": "local",
   "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap height at the point itself is the ground (the neighbourhood is still measured and printed, because a terrace can stand metres above the plaza 4 m away and a median across that step would put the camera underground)",
   "hfov_deg": 65.47,
-  "lat": 40.773882,
-  "lon": -73.971046,
+  "lat": 40.7735,
+  "lon": -73.9711,
   "long_side_fov_deg": 65.47,
-  "pitch_deg": 3.94860123221457,
+  "pitch_deg": -2.4909021450832083,
   "portrait": false,
   "resolution": [
    1280,
@@ -31,30 +31,35 @@
   ],
   "sensor_mm": 36.0,
   "slug": "bethesda_terrace_fountain",
-  "terrain_z_m": 23.459,
-  "x": -1780.596,
-  "y": 8187.1,
-  "z": 25.059
+  "terrain_z_m": 22.622,
+  "x": -1778.372,
+  "y": 8173.936,
+  "z": 24.222
  },
- "camera_caption": "camera 40.77388, -73.97105 (NYC_TM -1781, 8187) z 25.1 m NAVD88 | azimuth 27.0deg pitch +3.9deg | 28 mm on 36 mm (65.5deg horizontal) | 1280x854",
+ "camera_caption": "camera 40.77350, -73.97110 (NYC_TM -1778, 8174) z 24.2 m NAVD88 | azimuth 14.2deg pitch -2.5deg | 28 mm on 36 mm (65.5deg horizontal) | 1280x854",
  "camera_origin": {
-  "from_photograph_gps": true,
-  "lat": 40.773882,
-  "lon": -73.971046,
-  "offset_from_recorded_m": 42.7,
-  "source": "this photograph's own EXIF camera GPS (40.77388, -73.97105), 43 m from the item's recorded viewpoint -- the position the picture was taken from"
+  "from_photograph_gps": false,
+  "lat": 40.7735,
+  "lon": -73.9711,
+  "offset_from_recorded_m": 0.0,
+  "photograph_gps_offset_m": 42.7,
+  "source": "the item's recorded viewpoint.  This photograph's own EXIF GPS is 43 m away, but the eye point there is under verify_pavement (1.8 m of ground or paving directly overhead, so the eye point is beneath the walking surface), while the recorded viewpoint is in open air"
  },
  "clearance": {
-  "direction": "onto the nearest roadbed",
+  "direction": "along the view azimuth",
   "min_view_m": 20.0,
   "moved": true,
-  "nearest_obstruction_m": 20.0,
-  "note": "the recorded viewpoint is under verify_pavement (1.8 m of ground or paving directly overhead, so the eye point is beneath the walking surface); the camera was moved 17 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there",
-  "offset_m": 16.9,
-  "reason": "under verify_pavement (1.8 m of ground or paving directly overhead, so the eye point is beneath the walking surface)",
-  "rule": "pavement snap with a clear view",
-  "view_m": 60.0
+  "note": "the eye point stands on the roof of lm_b_bethesda_terrace.26, which the reference viewpoint records as a single lat/lon for the whole deck; the camera was walked 12 m along the view azimuth to the parapet, the last point the roof still supports, which is where the reference photographs are taken",
+  "offset_m": 12.0,
+  "standing_on": "lm_b_bethesda_terrace.26"
  },
+ "frame": {
+  "mean": 0.6982,
+  "reason": null,
+  "sd": 0.1767,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "viewpoint",
  "interior": false,
  "lens_reason": "the terrace, fountain and the Lake behind it need a wide frame from the upper level",
@@ -76,7 +81,7 @@
  },
  "name": "Bethesda Terrace and Fountain",
  "night": false,
- "pitch_reason": "aimed at Bethesda Fountain (Angel of the Waters) 27 m away, at its mid-height (the b_bethesda_terrace model's 8 m height); +3.9 deg from horizontal",
+ "pitch_reason": "aimed at Bethesda Fountain (Angel of the Waters) 69 m away, at its mid-height (the b_bethesda_terrace model's 8 m height); -2.5 deg from horizontal",
  "reference_photo": {
   "author": "Christian David",
   "confidence": "high",
@@ -91,9 +96,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/bethesda_terrace_fountain/render.png",
- "rendered_at": "2026-09-06T20:03:59Z",
+ "rendered_at": "2026-09-06T20:25:04Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 24,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -143,25 +148,17 @@
   ],
   "kit": {
    "capped": null,
-   "per_category": {
-    "bulkhead": 2,
-    "cornice": 9,
-    "door_entry": 3,
-    "fire_escape": 5,
-    "parapet": 6,
-    "quoin": 12,
-    "string_course": 9,
-    "window": 322
-   },
-   "placed": 368,
+   "per_category": {},
+   "placed": 0,
    "radius_m": 120.0,
    "records_in_range": 368,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 368,
    "tiles_missing": [],
    "tiles_read": [
     "t_-2_8"
    ],
-   "triangles": 81198,
+   "triangles": 0,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -277,7 +274,7 @@
    }
   },
   "radius_m": 700.0,
-  "seconds": 5.8,
+  "seconds": 4.6,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -292,7 +289,7 @@
    "z_max_m": 42.39,
    "z_min_m": 9.82
   },
-  "triangles": 889496
+  "triangles": 808298
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -300,9 +297,9 @@
   "radius_m": 700.0
  },
  "seconds": {
-  "render": 85.8,
-  "scene": 6.0,
-  "total": 91.8
+  "render": 118.0,
+  "scene": 4.7,
+  "total": 122.8
  },
  "slug": "bethesda_terrace_fountain",
  "status": "rendered",

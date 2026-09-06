@@ -7,12 +7,13 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
-   "chosen_m": 29.92,
-   "max_m": 30.96,
-   "median_m": 30.16,
-   "min_m": 29.74,
+   "chosen_m": 29.99,
+   "max_m": 31.0,
+   "median_m": 30.22,
+   "min_m": 29.88,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 30.2,
    "radius_m": 12.0,
    "samples": 113
   },
@@ -30,19 +31,37 @@
   ],
   "sensor_mm": 36.0,
   "slug": "drive_bronx_grand_concourse",
-  "terrain_z_m": 29.92,
-  "x": 2646.729,
-  "y": 14659.839,
-  "z": 31.52
+  "terrain_z_m": 29.985,
+  "x": 2644.452,
+  "y": 14662.51,
+  "z": 31.585
  },
- "camera_caption": "camera 40.83200, -73.91860 (NYC_TM 2647, 14660) z 31.5 m NAVD88 | azimuth 25.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x780",
+ "camera_caption": "camera 40.83200, -73.91860 (NYC_TM 2644, 14663) z 31.6 m NAVD88 | azimuth 25.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x780",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.832,
+  "lon": -73.9186,
+  "offset_from_recorded_m": 3604.2,
+  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 3,604 m away, past the 250 m at which it could still be the same view, so it was rejected as mis-tagged"
+ },
  "clearance": {
-  "direction": "to the left",
+  "direction": "onto the nearest roadbed",
+  "min_view_m": 20.0,
   "moved": true,
-  "note": "the recorded viewpoint is inside t_2_14_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 2 m to the left -- the nearest point in open air -- keeping the same eye height above the heightmap",
-  "offset_m": 2.0,
-  "reason": "inside t_2_14_roof_membrane (a ray straight up from the eye point hits its roof)"
+  "nearest_obstruction_m": 20.0,
+  "note": "the recorded viewpoint is inside t_2_14_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 5 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there",
+  "offset_m": 4.9,
+  "reason": "inside t_2_14_roof_membrane (a ray straight up from the eye point hits its roof)",
+  "rule": "pavement snap with a clear view",
+  "view_m": 60.0
  },
+ "frame": {
+  "mean": 0.2909,
+  "reason": null,
+  "sd": 0.1348,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "drive_through",
  "interior": false,
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
@@ -79,9 +98,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_grand_concourse/render.png",
- "rendered_at": "2026-09-06T16:53:29Z",
+ "rendered_at": "2026-09-06T20:52:30Z",
  "resolution_note": "1280x780; the reference photograph is 1920x1171 (1.64:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 64,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -93,12 +112,15 @@
     "t_3_14",
     "t_3_15"
    ],
+   "landmark_bins_suppressed": 2,
+   "landmark_faces_suppressed": 564,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_1_14": {
      "lod": 0,
      "objects": 10,
-     "triangles": 23908
+     "triangles": 23500
     },
     "t_2_13": {
      "lod": 0,
@@ -108,7 +130,7 @@
     "t_2_14": {
      "lod": 0,
      "objects": 14,
-     "triangles": 65392
+     "triangles": 65236
     },
     "t_2_15": {
      "lod": 0,
@@ -128,10 +150,11 @@
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 6,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 6,
    "triangle_budget": 3510000,
-   "triangles": 294144
+   "triangles": 293580
   },
   "centre_tm": [
    2648.54,
@@ -160,6 +183,7 @@
    "radius_m": 120.0,
    "records_in_range": 6596,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
     "t_2_14"
@@ -216,20 +240,21 @@
    "vertices": 196757
   },
   "props": {
-   "capped": "triangle budget 1334071",
+   "capped": "triangle budget 1366398",
+   "impostor_cards_dropped": 16,
    "leaf_off": false,
    "per_kind": {
     "bus_shelter": 2,
     "bus_stop_sign": 3,
     "citibike_dock": 2,
-    "hydrant": 28,
+    "hydrant": 29,
     "manhole": 61,
-    "street_lamp": 62,
+    "street_lamp": 63,
     "subway_entrance": 2,
-    "subway_vent_grate": 26,
-    "tree": 205
+    "subway_vent_grate": 27,
+    "tree": 211
    },
-   "placed": 391,
+   "placed": 400,
    "radius_m": 250.0,
    "rows_in_range": 869,
    "tiles_missing": [],
@@ -237,25 +262,29 @@
     "t_2_14"
    ],
    "tree_species_substituted": 77,
-   "triangles": 1334978,
+   "triangles": 1371360,
    "unmapped_kinds": {
     "cooling_tower": 10,
     "curb_ramp": 81
    }
   },
   "radius_m": 720.0,
-  "seconds": 24.61,
+  "seconds": 26.67,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 4.8,
-   "triangles": 180000,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 211,
+   "spacing_m": 2.0,
+   "triangles": 88200,
    "water_quads": 0,
-   "z_max_m": 36.28,
-   "z_min_m": 2.13
+   "z_max_m": 35.59,
+   "z_min_m": 2.91
   },
-  "triangles": 3723255
+  "triangles": 3667273
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -263,9 +292,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 190.2,
-  "scene": 25.5,
-  "total": 215.7
+  "render": 206.9,
+  "scene": 28.2,
+  "total": 235.1
  },
  "slug": "drive_bronx_grand_concourse",
  "status": "rendered",

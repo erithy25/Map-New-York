@@ -344,7 +344,7 @@ void TrafficSim::rebuildIndex() {
   hash_.begin();
   ev_list_.clear();
   for (uint32_t i = 0; i < veh_.size(); ++i) {
-    hash_.insert(i, veh_[i].pos.x, veh_[i].pos.y);
+    if (!hash_.insert(i, veh_[i].pos.x, veh_[i].pos.y)) ++stats_.hash_drops;
     if ((veh_[i].flags & kVehSiren) != 0) ev_list_.push_back(i);
   }
   hash_.end();
@@ -513,7 +513,10 @@ float TrafficSim::measuredDensity(uint16_t nta) const {
 
 // ------------------------------------------------------------------- routing
 bool TrafficSim::routeAgent(Vehicle& v, uint32_t to_lane, float to_s, uint32_t avoid_lane) {
-  if (router_ == nullptr || !router_->attached() || to_lane == kInvalidIndex) return false;
+  if (router_ == nullptr || !router_->attached() || to_lane == kInvalidIndex) {
+    ++stats_.route_failures;
+    return false;
+  }
   const VehicleClassParams& cp = classParams(v.cls);
   routing::RouteQuery q;
   q.from_lane = v.lane;
@@ -531,7 +534,10 @@ bool TrafficSim::routeAgent(Vehicle& v, uint32_t to_lane, float to_s, uint32_t a
   q.profile.dow = dow_;
   q.profile.avoid_lane = avoid_lane;
   q.profile.avoid_penalty_s = 180.f;  // a detour, not a ban
-  if (!router_->route(q, route_scratch_) || route_scratch_.lanes.empty()) return false;
+  if (!router_->route(q, route_scratch_) || route_scratch_.lanes.empty()) {
+    ++stats_.route_failures;
+    return false;
+  }
   uint32_t* path = pathOf(v.id);
   const size_t n = std::min<size_t>(route_scratch_.lanes.size(), kPathCap);
   for (size_t k = 0; k < n; ++k) path[k] = route_scratch_.lanes[k];
@@ -574,7 +580,10 @@ void TrafficSim::assignBusRoute(Vehicle& v) {
   if (best_route == kInvalidIndex) return;
   v.bus_route = static_cast<uint16_t>(best_route);
   v.bus_next_stop = static_cast<uint16_t>(best_k);
-  advanceBusToNextStop(v);
+  // A bus with a route but no path to its next stop would otherwise wander with
+  // nothing to show for it; the failure is counted (routeAgent) or, when there
+  // is no router at all, counted here.
+  if (!advanceBusToNextStop(v)) ++stats_.route_failures;
 }
 
 bool TrafficSim::advanceBusToNextStop(Vehicle& v) {
@@ -2079,7 +2088,8 @@ void TrafficSim::step() {
   // nothing and the loop ends immediately.
   for (int sweep = 0; sweep < 8; ++sweep) {
     hash_.begin();
-    for (uint32_t i = 0; i < n; ++i) hash_.insert(i, veh_[i].pos.x, veh_[i].pos.y);
+    for (uint32_t i = 0; i < n; ++i)
+      if (!hash_.insert(i, veh_[i].pos.x, veh_[i].pos.y)) ++stats_.hash_drops;
     hash_.end();
     if (separateBodies() == 0) break;
   }

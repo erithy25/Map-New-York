@@ -7,17 +7,18 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 28.0,
   "ground_detail": {
-   "chosen_m": 20.09,
+   "chosen_m": 20.14,
    "max_m": 20.17,
    "median_m": 20.09,
    "min_m": 19.9,
    "mode": "local",
    "percentile": null,
+   "point_m": 20.14,
    "radius_m": 5.0,
    "samples": 16
   },
   "ground_mode": "local",
-  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap median within 5 m is the ground",
+  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap height at the point itself is the ground (the neighbourhood is still measured and printed, because a terrace can stand metres above the plaza 4 m away and a median across that step would put the camera underground)",
   "hfov_deg": 65.47,
   "lat": 40.696158,
   "lon": -73.997781,
@@ -30,10 +31,10 @@
   ],
   "sensor_mm": 36.0,
   "slug": "promenade_lower_manhattan",
-  "terrain_z_m": 20.086,
+  "terrain_z_m": 20.144,
   "x": -4038.468,
   "y": -425.549,
-  "z": 21.686
+  "z": 21.744
  },
  "camera_caption": "camera 40.69616, -73.99778 (NYC_TM -4038, -426) z 21.7 m NAVD88 | azimuth 324.4deg pitch +0.0deg | 28 mm on 36 mm (65.5deg horizontal) | 1208x906",
  "camera_origin": {
@@ -46,9 +47,19 @@
  "clearance": {
   "min_view_m": 80.0,
   "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "nearest_obstruction": null,
+  "nearest_obstruction_m": 60.0,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is further than 60 m, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
  },
+ "frame": {
+  "mean": 0.7005,
+  "reason": null,
+  "sd": 0.1511,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "viewpoint",
  "interior": false,
  "lens_reason": "promenade skyline: the reference photographs carry the whole Lower Manhattan ridge plus the East River foreground, about 65 deg horizontal",
@@ -85,7 +96,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/promenade_lower_manhattan/render.png",
- "rendered_at": "2026-09-06T19:25:16Z",
+ "rendered_at": "2026-09-06T20:36:07Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
@@ -169,6 +180,8 @@
     "t_0_1",
     "t_0_2"
    ],
+   "landmark_bins_suppressed": 30,
+   "landmark_faces_suppressed": 1232,
    "lod_substituted": [
     "t_-1_-5 (LOD2 -> LOD1)",
     "t_-2_-5 (LOD2 -> LOD1)",
@@ -277,19 +290,19 @@
     "t_-2_-3": {
      "lod": 2,
      "objects": 16,
-     "triangles": 30228
+     "triangles": 30208
     },
     "t_-2_-4": {
      "lod": 2,
      "objects": 13,
-     "triangles": 4628
+     "triangles": 4580
     },
     "t_-2_-5": {
      "lod": 1,
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 10,
-     "triangles": 2352
+     "triangles": 2332
     },
     "t_-2_0": {
      "lod": 2,
@@ -299,7 +312,7 @@
     "t_-2_1": {
      "lod": 2,
      "objects": 15,
-     "triangles": 10268
+     "triangles": 10252
     },
     "t_-2_2": {
      "lod": 2,
@@ -324,7 +337,7 @@
     "t_-3_-2": {
      "lod": 1,
      "objects": 17,
-     "triangles": 23068
+     "triangles": 23012
     },
     "t_-3_-3": {
      "lod": 2,
@@ -432,7 +445,7 @@
     "t_-4_4": {
      "lod": 2,
      "objects": 19,
-     "triangles": 15928
+     "triangles": 15908
     },
     "t_-5_-1": {
      "lod": 0,
@@ -471,12 +484,12 @@
     "t_-5_0": {
      "lod": 0,
      "objects": 18,
-     "triangles": 11932
+     "triangles": 11872
     },
     "t_-5_1": {
      "lod": 1,
      "objects": 18,
-     "triangles": 17456
+     "triangles": 17340
     },
     "t_-5_2": {
      "lod": 2,
@@ -491,7 +504,7 @@
     "t_-5_4": {
      "lod": 2,
      "objects": 17,
-     "triangles": 24028
+     "triangles": 24016
     },
     "t_-6_-1": {
      "lod": 1,
@@ -530,12 +543,12 @@
     "t_-6_0": {
      "lod": 1,
      "objects": 16,
-     "triangles": 5410
+     "triangles": 4862
     },
     "t_-6_1": {
      "lod": 1,
      "objects": 18,
-     "triangles": 5636
+     "triangles": 5368
     },
     "t_-6_2": {
      "lod": 2,
@@ -550,7 +563,7 @@
     "t_-6_4": {
      "lod": 2,
      "objects": 6,
-     "triangles": 172
+     "triangles": 152
     },
     "t_-7_-2": {
      "lod": 2,
@@ -567,7 +580,7 @@
     "t_-8_-1": {
      "lod": 2,
      "objects": 3,
-     "triangles": 192
+     "triangles": 164
     },
     "t_-8_-2": {
      "lod": 2,
@@ -642,7 +655,7 @@
    "tiles_missing": 24,
    "tiles_wanted": 100,
    "triangle_budget": 3510000,
-   "triangles": 1436772
+   "triangles": 1435540
   },
   "centre_tm": [
    -4038.47,
@@ -670,6 +683,7 @@
    "radius_m": 70.0,
    "records_in_range": 1246,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
     "t_-4_-1",
@@ -937,7 +951,7 @@
    "vertices": 174907
   },
   "props": {
-   "capped": "triangle budget 514394",
+   "capped": "triangle budget 514825",
    "impostor_cards_dropped": 17,
    "leaf_off": true,
    "per_kind": {
@@ -968,7 +982,7 @@
    }
   },
   "radius_m": 5000.0,
-  "seconds": 176.06,
+  "seconds": 199.51,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -983,7 +997,7 @@
    "z_max_m": 64.7,
    "z_min_m": -3.51
   },
-  "triangles": 3865533
+  "triangles": 3864301
  },
  "scene_request": {
   "kit_radius_m": 70.0,
@@ -991,9 +1005,9 @@
   "radius_m": 5000.0
  },
  "seconds": {
-  "render": 97.2,
-  "scene": 176.7,
-  "total": 274.0
+  "render": 71.0,
+  "scene": 200.3,
+  "total": 271.3
  },
  "slug": "promenade_lower_manhattan",
  "status": "rendered",

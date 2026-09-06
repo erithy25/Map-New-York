@@ -28,7 +28,7 @@ import logging
 import math
 import sys
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 
 import chenv
@@ -64,6 +64,7 @@ class NpcBuild:
     spec: mh_build.HumanSpec
     built: mh_build.BuiltHuman
     resolved: dict
+    stature: dict = field(default_factory=dict)
 
 
 def spec_from_appearance(appearance: variety.PedAppearance, name: str) -> mh_build.HumanSpec:
@@ -92,15 +93,60 @@ def spec_from_appearance(appearance: variety.PedAppearance, name: str) -> mh_bui
     )
 
 
+def solve_height_macro(appearance: variety.PedAppearance, spec: mh_build.HumanSpec, *,
+                       tolerance: float = 0.008, max_iterations: int = 5) -> tuple[float, float, int]:
+    """Find the MakeHuman `height` macro that delivers this appearance's stature. Returns (macro, m, iters).
+
+    The contract specifies stature in metres (``variety.AGE_BANDS[...]["height_m"]``), and the macro that
+    produces a given stature depends not only on the age band and sex but on the weight, muscle and ethnic
+    macros - three more contract dimensions.  A fixed macro-to-metre table is therefore wrong by up to 13 cm,
+    which is how a 1.44 m adult and a 2.05 m pedestrian got generated.  So the macro is *solved for*: a naked
+    probe body (no clothes, no hair, no teeth, no eyes - about 1.5 s) is built, measured, and the macro
+    corrected by the locally estimated slope until the measurement is within ``tolerance`` of the target.
+    Two samples give a secant slope; before that the sweep's 1.05 m per unit of macro is used.
+
+    The caller owns the scene: this resets it on every iteration and leaves the last probe in it, so the real
+    build must reset again.
+    """
+    target = appearance.target_height_m
+    probe = replace(spec, name=f"{spec.name}.probe", hair=None, eyebrows=None, eyelashes=None,
+                    teeth=None, tongue=None, clothes=())
+    macro = float(spec.height)
+    slope = 1.05
+    previous: tuple[float, float] | None = None
+    measured = float("nan")
+    for iteration in range(1, max_iterations + 1):
+        nb.reset_scene()
+        probe.height = min(max(macro, 0.0), 1.0)
+        built = mh_build.build_human(probe, subdiv=0, load_clothes=False)
+        measured = mh_build.measure(built)["height_m"]
+        if abs(measured - target) <= tolerance:
+            return probe.height, measured, iteration
+        if previous is not None and abs(probe.height - previous[0]) > 1e-4:
+            secant = (measured - previous[1]) / (probe.height - previous[0])
+            if 0.3 < secant < 3.0:
+                slope = secant
+        previous = (probe.height, measured)
+        macro = probe.height + (target - measured) / slope
+    log.warning("%s: stature solve stopped at %.3f m against a target of %.3f m after %d builds",
+                spec.name, measured, target, max_iterations)
+    return probe.height, measured, max_iterations
+
+
 def build_npc(appearance: variety.PedAppearance, vector: tuple[float, ...], index: int) -> NpcBuild:
     """Build one pedestrian in the current scene."""
     resolved = appearance.resolve()
     name = f"npc_{index:02d}_{resolved['sex'][0]}_{resolved['age_band']}_{resolved['top_garment']}"
     spec = spec_from_appearance(appearance, name)
+    macro, probe_height, iterations = solve_height_macro(appearance, spec)
+    log.info("%s: stature %.3f m (target %.3f m) at height macro %.4f after %d probe builds", name,
+             probe_height, appearance.target_height_m, macro, iterations)
+    spec.height = macro
     outfit = appearance.outfit()
     colours = appearance.colours()
     prefix = f"{name}."
     spec.clothes = tuple(spec.clothes) + wardrobe.makehuman_assets(outfit)
+    nb.reset_scene()
     built = mh_build.build_human(spec, subdiv=0, load_clothes=bool(spec.clothes))
     wardrobe.finish_makehuman(built, outfit, name_prefix=prefix, colours=colours)
     mh_build.bake_and_load_face_units(built)
@@ -132,8 +178,12 @@ def build_npc(appearance: variety.PedAppearance, vector: tuple[float, ...], inde
     problems = rig_ue5.verify_skeleton(built.armature)
     if problems:
         raise RuntimeError(f"{name}: UE5 skeleton verification failed: {problems}")
-    return NpcBuild(index=index, vector=vector, appearance=appearance, spec=spec, built=built,
-                    resolved=resolved)
+    build = NpcBuild(index=index, vector=vector, appearance=appearance, spec=spec, built=built,
+                     resolved=resolved)
+    build.stature = {"target_m": round(appearance.target_height_m, 4),
+                     "probe_m": round(probe_height, 4), "height_macro": round(macro, 5),
+                     "probe_builds": iterations}
+    return build
 
 
 def apply_gait(clips: list[anim_lib.Clip], appearance: variety.PedAppearance) -> list[anim_lib.Clip]:
@@ -198,6 +248,7 @@ def generate(count: int, *, seed_base: int = 0x4E5943, export_glb: bool = True) 
             "variety_levels": list(appearance.levels),
             "resolved": npc.resolved,
             "measurements_m": {k: round(v, 4) for k, v in measurements.items()},
+            "stature": npc.stature,
             "meshes": {o.name: len(o.data.vertices) for o in npc.built.meshes()},
             "bone_count": len(npc.built.armature.data.bones),
             "blendshapes": len(npc.built.face_units),

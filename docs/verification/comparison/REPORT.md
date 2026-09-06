@@ -192,3 +192,55 @@ triangles, so its curved hood is a faceted dome and its body a plain box, and th
 and no vehicles anywhere in any frame** to give the eye a human reference.
 
 ---
+
+## 2.5 Six black or featureless frames: which of the three causes it was
+
+The orchestrator's sweep found six unusable renders in the first pass, every one of them a
+street-level view: `drive_bronx_arthur_ave` (mean 0.016), `drive_lower_manhattan_broadway_wall_st`
+(0.038), `drive_lower_manhattan_stone_st` (0.001), `drive_midtown_sixth_ave_45th` (sd 0.009),
+`drive_queens_bayside` (sd 0.012) and `landmark_40_wall_street` (0.006). Three causes were
+proposed; here is which one it was.
+
+**Not the datum.** The camera's z is absolute NAVD88, the same datum the shells use: it is the
+heightmap value (`z_min_m + v*z_scale_m`, NAVD88) plus an eye height, and it is printed on every
+sheet. The proof is the Top of the Rock frame: the camera was placed at 281.0 m and came to rest
+1.6 m above the roof of 30 Rockefeller Plaza, whose published deck is 259.1 m above a 20.3 m
+plaza — 279.4 m absolute. Had the z been a height *above ground* the camera would have sat at
+260.7 m absolute, 19 m inside that building, and every frame in the set would have been black
+rather than six.
+
+**It was the camera inside or under geometry.** Every one of the six is a viewpoint that lands
+inside a footprint or under a paved surface, and the ray tests in place at the time did not catch
+all of them:
+
+* the up-ray only counted building shells and landmark models, so a camera under a *pavement*
+  polygon passed. Bethesda Terrace is the extreme case: its plaza polygons bridge the 5.4 m step
+  between the lower plaza and the upper terrace, and the photograph's own GPS lands under that
+  bridged surface, sealing the eye 1.8 m below the paving. That frame rendered pure black twice
+  before the cause was found;
+* the forward test was a single level ray 2 m long, which slips between two piers of the terrace
+  or past the 0.2 m trunk of the street tree that fills the DUMBO frame.
+
+Both are now covered: a ray straight up that hits terrain or pavement is a block (nothing outdoors
+has ground over its head), and a 20-ray fan across 12 deg of bearing and 24 deg of elevation
+rejects any eye point with something solid inside a metre of the lens. Where the photograph's own
+GPS lands in such a place and the item's nominal viewpoint does not, the nominal viewpoint is used
+and the sheet says why. Stone Street went from mean 0.001 to 0.151 and Bethesda Terrace from
+0.000 to 0.698 on those corrections alone.
+
+**Lighting is a contributing cause, not the cause.** Stone Street is a 6 m alley between 25 m
+walls; even correctly placed, at 32 samples with two light bounces, its floor sits at mean 0.151 —
+legitimately dark, and the reference photograph of it is dark too. No exposure change was made to
+flatter it.
+
+**The guard.** `render_subject` now measures every frame's mean and standard deviation the moment
+it is written, against the same thresholds as
+`tests/test_world_integration.py::test_verification_renders_can_actually_serve_as_evidence`
+(mean below 0.06; mean above 0.94 with sd below 0.05; sd below 0.025). A frame that fails is not
+accepted: the clearance correction is *forced* — the eye point is treated as blocked even though
+no ray test caught it, snapped to the nearest real pavement with a clear view, and rendered once
+more. If it still fails, `render.png` and any stale `sheet.png` are deleted and a
+`render_error.txt` is written naming the metrics, the camera, the clearance decision, the free
+distance along the view azimuth, the Sun elevation and the exposure. Nothing that cannot serve as
+evidence is left in the directory looking like evidence. The measured mean and standard deviation
+of every accepted frame are recorded in its `render.json` under `frame`.

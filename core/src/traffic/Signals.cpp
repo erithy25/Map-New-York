@@ -201,6 +201,7 @@ uint32_t SignalTable::addDefaultPlans(const routing::RoadGraph& g, const Default
 }
 
 float SignalTable::cycleTime(uint32_t plan, double t) const {
+  if (plan >= plans_.size()) return 0.f;
   const SignalPlan& p = plans_[plan];
   double tc = std::fmod(t - static_cast<double>(p.offset_s), static_cast<double>(p.cycle_s));
   if (tc < 0.0) tc += static_cast<double>(p.cycle_s);
@@ -208,6 +209,7 @@ float SignalTable::cycleTime(uint32_t plan, double t) const {
 }
 
 bool SignalTable::hasGroup(uint32_t plan, int32_t group) const {
+  if (plan >= plans_.size()) return false;
   const SignalPlan& p = plans_[plan];
   for (uint32_t i = 0; i < p.phase_count; ++i)
     if (phases_[p.first_phase + i].group == group) return true;
@@ -215,6 +217,7 @@ bool SignalTable::hasGroup(uint32_t plan, int32_t group) const {
 }
 
 VehSignal SignalTable::vehicleState(uint32_t plan, int32_t group, double t) const {
+  if (plan >= plans_.size()) return VehSignal::Off;
   const SignalPlan& p = plans_[plan];
   const float tc = cycleTime(plan, t);
   float start = 0.f;
@@ -234,6 +237,7 @@ VehSignal SignalTable::vehicleState(uint32_t plan, int32_t group, double t) cons
 }
 
 PedSignal SignalTable::pedState(uint32_t plan, int32_t group, double t) const {
+  if (plan >= plans_.size()) return PedSignal::Off;
   const SignalPlan& p = plans_[plan];
   const float tc = cycleTime(plan, t);
   float start = 0.f;
@@ -255,6 +259,7 @@ PedSignal SignalTable::pedState(uint32_t plan, int32_t group, double t) const {
 }
 
 float SignalTable::timeToGreen(uint32_t plan, int32_t group, double t) const {
+  if (plan >= plans_.size()) return 0.f;
   const SignalPlan& p = plans_[plan];
   const float tc = cycleTime(plan, t);
   float start = 0.f, best = INFINITY;
@@ -273,6 +278,7 @@ float SignalTable::timeToGreen(uint32_t plan, int32_t group, double t) const {
 }
 
 float SignalTable::greenRemaining(uint32_t plan, int32_t group, double t) const {
+  if (plan >= plans_.size()) return 0.f;
   const SignalPlan& p = plans_[plan];
   const float tc = cycleTime(plan, t);
   float start = 0.f;
@@ -288,6 +294,7 @@ float SignalTable::greenRemaining(uint32_t plan, int32_t group, double t) const 
 }
 
 float SignalTable::redFraction(uint32_t plan, int32_t group) const {
+  if (plan >= plans_.size()) return 0.f;
   const SignalPlan& p = plans_[plan];
   float go = 0.f;
   bool found = false;
@@ -303,6 +310,7 @@ float SignalTable::redFraction(uint32_t plan, int32_t group) const {
 }
 
 float SignalTable::expectedDelay(uint32_t plan, int32_t group) const {
+  if (plan >= plans_.size()) return 0.f;
   const SignalPlan& p = plans_[plan];
   const float r = redFraction(plan, group) * p.cycle_s;
   return r * r / (2.f * p.cycle_s);

@@ -7,12 +7,13 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
-   "chosen_m": 17.77,
-   "max_m": 18.93,
-   "median_m": 18.33,
-   "min_m": 17.13,
+   "chosen_m": 17.75,
+   "max_m": 18.36,
+   "median_m": 17.87,
+   "min_m": 17.66,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 17.81,
    "radius_m": 12.0,
    "samples": 113
   },
@@ -30,19 +31,37 @@
   ],
   "sensor_mm": 36.0,
   "slug": "drive_brooklyn_bed_stuy_stuyvesant_ave",
-  "terrain_z_m": 17.765,
-  "x": 1433.259,
-  "y": -2031.138,
-  "z": 19.365
+  "terrain_z_m": 17.747,
+  "x": 1438.378,
+  "y": -2049.756,
+  "z": 19.347
  },
- "camera_caption": "camera 40.68170, -73.93300 (NYC_TM 1433, -2031) z 19.4 m NAVD88 | azimuth 13.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.68170, -73.93300 (NYC_TM 1438, -2050) z 19.3 m NAVD88 | azimuth 13.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.6817,
+  "lon": -73.933,
+  "offset_from_recorded_m": 256.2,
+  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 256 m away, past the 250 m at which it could still be the same view, so it was rejected as mis-tagged"
+ },
  "clearance": {
-  "direction": "to the left",
+  "direction": "onto the nearest roadbed",
+  "min_view_m": 20.0,
   "moved": true,
-  "note": "the recorded viewpoint is inside t_1_-3_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 4 m to the left -- the nearest point in open air -- keeping the same eye height above the heightmap",
-  "offset_m": 4.0,
-  "reason": "inside t_1_-3_roof_membrane (a ray straight up from the eye point hits its roof)"
+  "nearest_obstruction_m": 10.7,
+  "note": "the recorded viewpoint is inside t_1_-3_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 17 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there",
+  "offset_m": 17.4,
+  "reason": "inside t_1_-3_roof_membrane (a ray straight up from the eye point hits its roof)",
+  "rule": "pavement snap with a clear view",
+  "view_m": 60.0
  },
+ "frame": {
+  "mean": 0.3013,
+  "reason": null,
+  "sd": 0.1038,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "drive_through",
  "interior": false,
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
@@ -79,9 +98,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_bed_stuy_stuyvesant_ave/render.png",
- "rendered_at": "2026-09-06T16:43:05Z",
+ "rendered_at": "2026-09-06T20:55:57Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 64,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -93,6 +112,9 @@
     "t_2_-2",
     "t_2_-3"
    ],
+   "landmark_bins_suppressed": 0,
+   "landmark_faces_suppressed": 0,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_0_-2": {
@@ -128,6 +150,7 @@
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 6,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 6,
    "triangle_budget": 3510000,
@@ -161,6 +184,7 @@
    "radius_m": 120.0,
    "records_in_range": 3537,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
     "t_1_-2",
@@ -203,16 +227,18 @@
    "vertices": 133642
   },
   "props": {
-   "capped": "triangle budget 1244130",
+   "capped": "triangle budget 1276260",
+   "impostor_cards_dropped": 21,
    "leaf_off": false,
    "per_kind": {
+    "bus_stop_sign": 1,
     "hydrant": 17,
     "mailbox": 1,
-    "manhole": 37,
-    "street_lamp": 38,
-    "tree": 164
+    "manhole": 38,
+    "street_lamp": 40,
+    "tree": 169
    },
-   "placed": 257,
+   "placed": 266,
    "radius_m": 250.0,
    "rows_in_range": 719,
    "tiles_missing": [],
@@ -220,26 +246,30 @@
     "t_1_-2",
     "t_1_-3"
    ],
-   "tree_species_substituted": 54,
-   "triangles": 1244768,
+   "tree_species_substituted": 56,
+   "triangles": 1281004,
    "unmapped_kinds": {
     "cooling_tower": 4,
-    "curb_ramp": 35
+    "curb_ramp": 36
    }
   },
   "radius_m": 720.0,
-  "seconds": 18.53,
+  "seconds": 24.02,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 4.8,
-   "triangles": 180000,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 211,
+   "spacing_m": 2.0,
+   "triangles": 88200,
    "water_quads": 0,
-   "z_max_m": 27.4,
-   "z_min_m": 11.16
+   "z_max_m": 26.66,
+   "z_min_m": 12.78
   },
-  "triangles": 3354848
+  "triangles": 3299284
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -247,9 +277,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 173.4,
-  "scene": 19.2,
-  "total": 192.6
+  "render": 180.3,
+  "scene": 25.4,
+  "total": 205.8
  },
  "slug": "drive_brooklyn_bed_stuy_stuyvesant_ave",
  "status": "rendered",

@@ -73,24 +73,36 @@ def distinguishable_appearances() -> int:
 
 
 # ------------------------------------------------------------------------------------------------- tables
-#: MakeHuman's `age` macro is 1 year at 0.0, 25 years at 0.5 and 90 years at 1.0.  ``height_macro`` is the
-#: range of MakeHuman's `height` macro that :data:`STATURES` interpolates for that band, per sex.
+#: MakeHuman's `age` macro is 1 year at 0.0, 25 years at 0.5 and 90 years at 1.0.
 #:
-#: Those ranges are **measured, not guessed**.  A sweep of all 4 x 6 x 2 combinations (quoted in
-#: ``docs/verification/character/REPORT.md``) gave a linear macro-to-stature response per band and sex -
-#: a young adult male is 1.486 m at macro 0.24 and 2.192 m at macro 0.90, i.e. 1.070 m per unit of macro -
-#: and these ranges are that fit inverted onto real anthropometry: adult men 1.60-1.93 m, adult women
-#: 1.48-1.79 m, over-65s 4-7 cm shorter, eight-year-olds 1.13-1.42 m.  Feeding the stature dimension
-#: straight into the macro, as the first version did, put a 1.71 m "child" and a 2.05 m pedestrian on the
-#: street.
+#: ``height_macro`` is a starting guess at the MakeHuman `height` macro; the stature actually delivered is
+#: **the simulation's own** (:func:`contract_height_m`), solved for by
+#: ``npc_generator.solve_height_macro``.  ``anthropometric_m`` is what real anthropometry would give for the
+#: band and sex - it is *not* the target, it is kept so the difference from the contract's formula is
+#: visible and reportable rather than silently applied.
+#:
+#: Stature is specified in metres and *solved for*, not assumed.  A sweep of all 4 x 6 x 2 (band x stature x
+#: sex) combinations showed the macro-to-stature response is linear per band and sex - a young adult male is
+#: 1.486 m at macro 0.24 and 2.192 m at macro 0.90 - but it also depends on the weight, muscle and ethnic
+#: macros, which are three more contract dimensions: at a fixed height macro the generated cast still spread
+#: over 13 cm.  So ``height_macro`` is only the seed, and ``npc_generator.solve_height_macro`` bisects on a
+#: naked probe build until the measured stature is within 8 mm of ``height_m``.  Without that the first runs
+#: produced a 1.71 m "child", a 2.05 m pedestrian and a 1.44 m adult.
+#:
+#: The metre figures are real anthropometry: adult men 1.60-1.93 m, adult women 1.48-1.79 m, over-65s 4-7 cm
+#: shorter (intervertebral disc and vertebral body height loss), eight-year-olds 1.13-1.42 m.
 AGE_BANDS: tuple[dict, ...] = (
     {"id": "child", "age": 0.20, "label": "child, about 8", "years": 8,
+     "anthropometric_m": {"male": (1.15, 1.42), "female": (1.13, 1.40)},
      "height_macro": {"male": (0.203, 0.489), "female": (0.266, 0.552)}},
     {"id": "young_adult", "age": 0.44, "label": "young adult, about 22", "years": 22,
+     "anthropometric_m": {"male": (1.60, 1.93), "female": (1.48, 1.79)},
      "height_macro": {"male": (0.347, 0.655), "female": (0.339, 0.629)}},
     {"id": "middle_aged", "age": 0.62, "label": "middle-aged, about 45", "years": 45,
+     "anthropometric_m": {"male": (1.60, 1.92), "female": (1.48, 1.78)},
      "height_macro": {"male": (0.292, 0.581), "female": (0.287, 0.559)}},
     {"id": "older", "age": 0.84, "label": "older, about 70", "years": 70,
+     "anthropometric_m": {"male": (1.55, 1.86), "female": (1.44, 1.72)},
      "height_macro": {"male": (0.259, 0.540), "female": (0.258, 0.512)}},
 )
 
@@ -209,12 +221,12 @@ BOTTOM_GARMENTS: tuple[dict, ...] = (
 
 #: Six footwear levels - six different MakeHuman shoe meshes, not six colours of one.
 FOOTWEAR: tuple[dict, ...] = (
-    {"id": "sneakers_white", "item": "sneakers_white", "label": "White sneakers"},
-    {"id": "sneakers_black", "item": "sneakers_black", "label": "Black sneakers"},
-    {"id": "work_boots", "item": "boots_work", "label": "Work boots"},
-    {"id": "dress_shoes", "item": "shoes_dress", "label": "Dress shoes"},
-    {"id": "loafers", "item": "shoes_loafer", "label": "Loafers"},
-    {"id": "ankle_boots", "item": "boots_chelsea", "label": "Ankle boots"},
+    {"id": "sneakers_white", "item": "sneakers_white", "label": "White trainers"},
+    {"id": "sneakers_black", "item": "sneakers_black", "label": "Black trainers"},
+    {"id": "running_shoes", "item": "sneakers_running", "label": "Running shoes"},
+    {"id": "dress_shoes", "item": "shoes_dress", "label": "Black oxfords"},
+    {"id": "loafers", "item": "shoes_loafer", "label": "Brown loafers"},
+    {"id": "work_shoes", "item": "shoes_work", "label": "Slip-on work shoes"},
 )
 
 #: Ten accessory levels, of three kinds: nothing, a carried item, or something worn.  ``kind`` says which
@@ -268,11 +280,26 @@ def _linear(hex_code: str) -> tuple[float, float, float]:
     return tuple(lin(int(hex_code[i:i + 2], 16) / 255.0) for i in (0, 2, 4))  # type: ignore[return-value]
 
 
+#: Stature, exactly as ``core/include/nycsim/peds/Variety.h::VarietyVector::heightMetres`` defines it:
+#: dimension 1 mapped linearly onto 1.50-1.95 m, scaled by 0.72 for the child band.  It is used on the raw
+#: float, not on the quantised level, so the mesh is exactly as tall as the simulation believes the agent is.
+HEIGHT_BASE_M = 1.50
+HEIGHT_SPAN_M = 0.45
+HEIGHT_CHILD_SCALE = 0.72
+
+
+def contract_height_m(vector: Sequence[float]) -> float:
+    """The stature the pedestrian simulation itself computes for this vector, in metres."""
+    base = HEIGHT_BASE_M + float(vector[1]) * HEIGHT_SPAN_M
+    return base * HEIGHT_CHILD_SCALE if float(vector[0]) < 0.25 else base
+
+
 @dataclass(frozen=True)
 class PedAppearance:
-    """One pedestrian's decoded appearance: twelve level indices and everything they resolve to."""
+    """One pedestrian's decoded appearance: the twelve floats, their levels, and what they resolve to."""
 
     levels: tuple[int, ...]
+    values: tuple[float, ...] = ()
 
     # -- raw level access -------------------------------------------------------------------------------
     def level(self, dimension: str) -> int:
@@ -307,7 +334,7 @@ class PedAppearance:
         return {
             "gender": self.sex,
             "age": age["age"],
-            "height": _height_macro(age, stature, self.is_male),
+            "height": _interpolate(age, "height_macro", stature, self.is_male),
             "weight": mass["weight"],
             "muscle": mass["muscle"],
             # Children are proportioned differently from adults; MakeHuman's `proportions` macro carries it.
@@ -316,6 +343,27 @@ class PedAppearance:
             "firmness": 0.5 if age["id"] in ("child", "young_adult") else 0.35,
             "african": tone["african"], "asian": tone["asian"], "caucasian": tone["caucasian"],
         }
+
+    @property
+    def target_height_m(self) -> float:
+        """The stature to build, in metres — the **simulation's own** figure for this vector.
+
+        `core/include/nycsim/peds/Variety.h` computes an agent's height from dimension 1 directly, and the
+        simulation uses that number.  A mesh built to a different height than the agent the simulation is
+        stepping would be worse than a crude height model, so this is the contract's formula, on the raw
+        float rather than on the quantised level.  ``macros()["height"]`` is only the seed the solver starts
+        from.  See :attr:`anthropometric_height_m` for what real anthropometry would ask for instead.
+        """
+        if len(self.values) == len(PED_DIMENSIONS):
+            return contract_height_m(self.values)
+        # levels only (a hand-built appearance): use the bin centres
+        centres = [(level + 0.5) / levels for level, (_n, levels) in zip(self.levels, PED_DIMENSIONS)]
+        return contract_height_m(centres)
+
+    @property
+    def anthropometric_height_m(self) -> float:
+        """What real anthropometry would give for this band, sex and stature - reported, not built."""
+        return _interpolate(self.entry("age_band"), "anthropometric_m", self.entry("stature"), self.is_male)
 
     def skin_material(self) -> str:
         """The MakeHuman CC0 skin material for this tone, age band and sex."""
@@ -378,12 +426,13 @@ class PedAppearance:
         out["skin_material"] = self.skin_material()
         out["outfit"] = list(self.outfit())
         out["gait"] = self.gait()["id"]
+        out["target_height_m"] = round(self.target_height_m, 3)
+        out["anthropometric_height_m"] = round(self.anthropometric_height_m, 3)
         return out
 
 
-def _height_macro(age: dict, stature: dict, is_male: bool) -> float:
-    """Interpolate the age band's own measured height-macro range at this stature fraction."""
-    lo, hi = age["height_macro"]["male" if is_male else "female"]
+def _interpolate(band: dict, key: str, stature: dict, is_male: bool) -> float:
+    lo, hi = band[key]["male" if is_male else "female"]
     return lo + (hi - lo) * stature["fraction"]
 
 
@@ -455,6 +504,9 @@ def contract() -> dict:
         "derived": {
             "sex": "hair style's own sex; the two unisex styles use the parity of stature + body mass",
             "gait": "playback rate and spinal lean from age band and body mass (variety.gait_for)",
+            "stature_m": ("core/include/nycsim/peds/Variety.h heightMetres(): "
+                          f"{HEIGHT_BASE_M} + v[1] * {HEIGHT_SPAN_M}, times {HEIGHT_CHILD_SCALE} when "
+                          "v[0] < 0.25; solved for by npc_generator.solve_height_macro"),
         },
         "tables": {
             "age_band": [dict(e) for e in AGE_BANDS],
@@ -491,4 +543,4 @@ def _wardrobe_size() -> int:
 
 def decode(vector: Sequence[float]) -> PedAppearance:
     """The entry point: one contract vector to one buildable appearance."""
-    return PedAppearance(levels=levels_of(vector))
+    return PedAppearance(levels=levels_of(vector), values=tuple(float(v) for v in vector))

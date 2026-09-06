@@ -101,6 +101,7 @@ class Garment:
     hood: bool = False               # attach a procedural hood at the neck
     includes_shirt: bool = False     # the mesh already contains the shirt worn under it (the suit jackets)
     push: float | None = None        # makehuman: override the layer's stand-off (a puffer is padded)
+    flat_colour: bool = False        # ignore the asset's diffuse map: it carries a pattern we do not want
     front_cut: float | None = None   # drop head vertices this far in front of the head joint (hijab)
     layer: int = LAYER_BASE
     tags: tuple[str, ...] = ()
@@ -130,10 +131,12 @@ WARDROBE: tuple[Garment, ...] = (
             colour=_c("9db6cf"), roughness=0.68, tags=("shirt", "office")),
     Garment("sweater_knit", "Charcoal knit sweater", "top", "makehuman", "toigo_fisherman_sweater",
             colour=_c("3a3d42"), roughness=0.88, tags=("knit",)),
-    # `male_casualsuit01` welds its shirt and its jeans into one shell, so the shirt can only be taken off
-    # it with a height cut; the other two packs separate cleanly by connected component.
-    Garment("shirt_oxford", "Oxford button-down", "top", "makehuman", "male_casualsuit01", keep="above",
-            split_z=0.605, colour=_c("8d9aa8"), roughness=0.72, tags=("shirt", "office")),
+    # Both button shirts come off `male_casualsuit03`, whose shirt separates cleanly from its jeans by
+    # connected component.  `male_casualsuit01` was tried first and abandoned: it welds its shirt and its
+    # jeans into one shell, so the shirt can only be taken off it with a height cut, and the raw cut edge
+    # lands above the waistband on a short wearer and tears a gap across the midriff.
+    Garment("shirt_oxford", "Oxford button-down", "top", "makehuman", "male_casualsuit03", keep="upper",
+            colour=_c("8d9aa8"), roughness=0.72, tags=("shirt", "office")),
     Garment("shirt_stripe", "Striped button shirt", "top", "makehuman", "male_casualsuit03", keep="upper",
             colour=_c("b9724f"), roughness=0.74, tags=("shirt",)),
     Garment("longsleeve_navy", "Navy long-sleeve tee", "top", "makehuman", "male_casualsuit02",
@@ -219,7 +222,9 @@ WARDROBE: tuple[Garment, ...] = (
             keep="lower", colour=_c("35373c"), roughness=0.70, tags=("suit", "office")),
     Garment("scrubs_pants", "Hospital scrubs trousers", "bottom", "makehuman", "toigo_wool_pants",
             colour=_c("2f6f6a"), roughness=0.80, tags=("scrubs", "work")),
-    Garment("joggers_grey", "Grey joggers", "bottom", "makehuman", "toigo_harem_pants",
+    # `toigo_harem_pants` carries a large floral print in its diffuse map, and the tint keeps luminance
+    # detail, so tinting it grey produced floral pyjamas.  Joggers are a flat fabric: the map is dropped.
+    Garment("joggers_grey", "Grey joggers", "bottom", "makehuman", "toigo_harem_pants", flat_colour=True,
             colour=_c("6a6c70"), roughness=0.86, tags=("athleisure",)),
     Garment("cargo_olive", "Olive cargo trousers", "bottom", "makehuman", "cortu_cargo_pants",
             colour=_c("5a5d44"), roughness=0.84, tags=("cargo", "work")),
@@ -229,18 +234,21 @@ WARDROBE: tuple[Garment, ...] = (
             colour=_c("41618a"), roughness=0.80, tags=("shorts", "summer")),
 
     # ---------- shoes: real MakeHuman meshes ------------------------------------------------------------
-    Garment("sneakers_white", "White sneakers", "shoes", "makehuman", "shoes05",
+    # What each `shoesNN` asset actually is was checked by fitting all six and rendering the foot, not taken
+    # from the file name: 01 is a slip-on dress shoe, 02 and 06 are trainers, 03 is a chunky slip-on work
+    # shoe, 04 is a lace-up oxford, 05 is a trainer.  Every one comes with its own sock.
+    Garment("sneakers_white", "White trainers", "shoes", "makehuman", "shoes05",
             colour=_c("e9e7e2"), roughness=0.60, layer=LAYER_ACCESSORY, tags=("sneakers",)),
-    Garment("sneakers_black", "Black sneakers", "shoes", "makehuman", "shoes05",
+    Garment("sneakers_black", "Black trainers", "shoes", "makehuman", "shoes05",
             colour=_c("1a1a1c"), roughness=0.62, layer=LAYER_ACCESSORY, tags=("sneakers",)),
-    Garment("boots_work", "Tan work boots", "shoes", "makehuman", "shoes03",
-            colour=_c("7a5228"), roughness=0.66, layer=LAYER_ACCESSORY, tags=("boots", "work")),
-    Garment("shoes_dress", "Black dress shoes", "shoes", "makehuman", "shoes01",
-            colour=_c("141416"), roughness=0.35, layer=LAYER_ACCESSORY, tags=("office",)),
-    Garment("shoes_loafer", "Brown loafers", "shoes", "makehuman", "shoes02",
-            colour=_c("53341d"), roughness=0.42, layer=LAYER_ACCESSORY, tags=("office",)),
-    Garment("boots_chelsea", "Black ankle boots", "shoes", "makehuman", "shoes04",
-            colour=_c("1d1b1a"), roughness=0.48, layer=LAYER_ACCESSORY, tags=("boots",)),
+    Garment("sneakers_running", "Running shoes", "shoes", "makehuman", "shoes06",
+            colour=_c("2f4a72"), roughness=0.58, layer=LAYER_ACCESSORY, tags=("sneakers",)),
+    Garment("shoes_dress", "Black oxfords", "shoes", "makehuman", "shoes04",
+            colour=_c("141416"), roughness=0.35, layer=LAYER_ACCESSORY, tags=("office", "dress")),
+    Garment("shoes_loafer", "Brown loafers", "shoes", "makehuman", "shoes01",
+            colour=_c("53341d"), roughness=0.42, layer=LAYER_ACCESSORY, tags=("office", "dress")),
+    Garment("shoes_work", "Slip-on work shoes", "shoes", "makehuman", "shoes03",
+            colour=_c("2a2622"), roughness=0.66, layer=LAYER_ACCESSORY, tags=("work",)),
 
     # ---------- head ------------------------------------------------------------------------------------
     Garment("hijab_navy", "Navy hijab", "hat", "procedural", bones=NECKHEAD + TORSO, z_lo=0.78, z_hi=1.02,
@@ -667,10 +675,6 @@ def split_loose_parts(obj: bpy.types.Object, keep: str, split_z: float) -> int:
     ``"all"``      keep everything (a t-shirt, a pair of trousers, a shoe pair);
     ``"upper"``    keep every shell whose centroid is above ``split_z`` (jacket *and* the shirt under it);
     ``"lower"``    keep every shell whose centroid is below it (the trousers);
-    ``"above"``    keep only the vertices above ``split_z``, whatever they are connected to.  Needed for
-                   the packs whose shirt and trousers are welded into one shell, where no component split
-                   can separate them; the cut edge becomes the shirt hem;
-    ``"below"``    the same, keeping the vertices below the plane;
     ``"outer"``    keep only the *outermost* upper shell - the jacket without the shirt inside it.  The
                    outermost shell is the one with the largest horizontal footprint: a jacket encloses the
                    shirt, so its bounding box in x/y is strictly the larger of the two.  Shells smaller
@@ -679,22 +683,6 @@ def split_loose_parts(obj: bpy.types.Object, keep: str, split_z: float) -> int:
     """
     if keep == "all":
         return 0
-    if keep in ("above", "below"):
-        bm = bmesh.new()
-        bm.from_mesh(obj.data)
-        bm.verts.ensure_lookup_table()
-        want_above = keep == "above"
-        doomed = [v for v in bm.verts
-                  if ((obj.matrix_world @ v.co).z >= split_z) != want_above]
-        if not doomed or len(doomed) == len(bm.verts):
-            bm.free()
-            return 0
-        bmesh.ops.delete(bm, geom=doomed, context="VERTS")
-        removed = len(doomed)
-        bm.to_mesh(obj.data)
-        bm.free()
-        obj.data.update()
-        return removed
     bm = bmesh.new()
     bm.from_mesh(obj.data)
     bm.verts.ensure_lookup_table()
@@ -847,13 +835,17 @@ def thicken(obj: bpy.types.Object, thickness: float = 0.003) -> None:
 
 
 def tint(obj: bpy.types.Object, colour: tuple[float, float, float], roughness: float,
-         metallic: float = 0.0, name: str = "") -> None:
+         metallic: float = 0.0, name: str = "", flat: bool = False) -> None:
     """Recolour a MakeHuman garment, keeping its texture only as light-and-shade fabric detail.
 
     The garment's own diffuse map already carries the asset author's colour, so multiplying the wardrobe
     colour into it gives muddy hues.  Instead the map is reduced to luminance, remapped into a 0.55-1.35
     shading band and multiplied by the wardrobe colour - baked into a new image, so the colour survives the
     glTF export.  A garment with no texture just gets a flat base colour.
+
+    ``flat`` drops the map entirely.  Luminance detail is fabric detail only when the map *is* fabric
+    detail: `toigo_harem_pants` carries a large floral print, and keeping its luminance turned grey joggers
+    into floral pyjamas.
     """
     for slot in obj.material_slots:
         material = slot.material
@@ -871,6 +863,8 @@ def tint(obj: bpy.types.Object, colour: tuple[float, float, float], roughness: f
         bsdf.inputs["Metallic"].default_value = metallic
         base = bsdf.inputs["Base Color"]
         texture = _texture_node(base)
+        if flat:
+            texture = None
         if texture is not None and texture.image is not None:
             texture.image = _tinted_image(texture.image, colour)
             for link in list(base.links):
@@ -912,7 +906,8 @@ def finish_makehuman(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
         push = garment.push if garment.push is not None else LAYER_MH_PUSH.get(garment.layer, 0.0)
         push_along_normals(obj, push)
         colour = (colours or {}).get(item_id, garment.colour)
-        tint(obj, colour, garment.roughness, garment.metallic, name=f"cloth_{item_id}")
+        tint(obj, colour, garment.roughness, garment.metallic, name=f"cloth_{item_id}",
+             flat=garment.flat_colour)
         old = obj.name
         obj.name = obj.data.name = f"{name_prefix}{item_id}"
         built.clothes.pop(old, None)
@@ -980,7 +975,7 @@ def _layer_key(garment: Garment) -> int:
 
 
 def resolve_layers(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
-                   clearance: float = 0.004, passes: int = 3) -> int:
+                   clearance: float = 0.006, passes: int = 5) -> int:
     """Pull every inner garment back inside the garment layered over it.  Returns vertices moved.
 
     Two garments fitted independently to the same body do not know about each other: MakeHuman gives each
@@ -1014,8 +1009,17 @@ def resolve_layers(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
 
     reach = 0.05
     moved = 0
+
+    # Two constraints, alternated to convergence, because they fight each other: no garment may be inside
+    # the skin, and no inner garment may be outside the layer over it.  Pulling the tee inside the trousers
+    # can push it inside the body; pushing it back out of the body can push it outside the trousers.  Doing
+    # each once, in either order, leaves scraps of skin showing through the seat of the trousers in every
+    # frame of the walk cycle - which is what the first version did.
+    body = built.basemesh
     for _ in range(max(passes, 1)):
         pass_moved = 0
+        for _key, _item_id, garment_obj in ordered:
+            pass_moved += _move_outside(garment_obj, body, clearance, reach=0.035)
         for i, (key_in, _id_in, inner) in enumerate(ordered):
             for key_out, _id_out, outer in ordered[i + 1:]:
                 if key_out <= key_in or not len(outer.data.vertices):
@@ -1024,6 +1028,8 @@ def resolve_layers(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
         moved += pass_moved
         if pass_moved == 0:
             break
+    for _key, _item_id, garment_obj in ordered:            # the skin gets the last word
+        moved += _move_outside(garment_obj, body, clearance, reach=0.035)
 
     # Shoes are the one pair the rule above cannot express: a trouser leg drapes *over* the shoe, but the
     # shoe is a rigid object that must not be dented to make room, so it is the trouser that moves - outward,
@@ -1276,9 +1282,9 @@ BAG_SPECS: dict[str, dict] = {
                  "colour": _c("2b2f36"), "roughness": 0.72},
     "tote": {"size": (0.34, 0.12, 0.38), "bone": "lowerarm_l", "behind": 0.0, "up": -0.14,
              "colour": _c("bfae8c"), "roughness": 0.86},
-    "shoulder_bag": {"size": (0.28, 0.11, 0.22), "bone": "spine_02", "behind": -0.02, "up": -0.06,
-                     "side": 0.17, "colour": _c("4a3423"), "roughness": 0.55},
-    "delivery_box": {"size": (0.40, 0.40, 0.40), "bone": "spine_04", "behind": 0.14, "up": 0.06,
+    "shoulder_bag": {"size": (0.24, 0.10, 0.20), "bone": "spine_02", "behind": -0.02, "up": -0.09,
+                     "side": 1.0, "colour": _c("4a3423"), "roughness": 0.55},
+    "delivery_box": {"size": (0.34, 0.32, 0.34), "bone": "spine_04", "behind": 0.14, "up": 0.06,
                      "colour": _c("d43a2a"), "roughness": 0.60},
     "shopping_bags": {"size": (0.24, 0.12, 0.32), "bone": "hand_r", "behind": 0.0, "up": -0.20,
                       "colour": _c("d8d5cc"), "roughness": 0.88},
@@ -1293,43 +1299,122 @@ HAT_SPECS: dict[str, dict] = {
 
 
 def build_bag(built, kind: str, *, name_prefix: str = "") -> bpy.types.Object:
-    """A carried item rigidly weighted to one bone (backpack to the chest, briefcase to the hand)."""
+    """A carried item, rigidly weighted to one bone and placed against the body it is carried on.
+
+    Two things a naive placement gets wrong, both of which showed in the first NPC line-up:
+
+    * **it does not scale.** A 0.40 m courier box is placed 0.14 m behind an adult's chest bone and clears
+      the chest; on an eight-year-old the same box reaches 0.06 m out of the *front* of the torso. Every
+      dimension and offset here is scaled by the character's own stature.
+    * **it does not know where the body's surface is.** So a torso bag is now placed by ray-casting
+      backwards from the bone through the outermost garment and putting the bag's front face 12 mm behind
+      the surface it finds - the bag sits on the back whatever the wearer's build and whatever they are
+      wearing.
+
+    A bag carried in the hand or on the forearm is built in the **bone's own frame**, not in world axes: in
+    the MakeHuman rest pose the arm points sideways, and a bag authored "below the hand" in world Z ends up
+    horizontal as soon as the arm hangs. Along the bone's axis it hangs correctly in any pose, because the
+    bone axis is what points downwards once the arm is down.
+    """
     spec = BAG_SPECS.get(kind)
     if spec is None:
         raise KeyError(f"unknown bag {kind!r}")
     armature = built.armature
     bones = armature.data.bones
     bone = bones[spec["bone"]]
+    body = built.basemesh
+    height = max((body.matrix_world @ v.co).z for v in body.data.vertices)
+    scale = height / 1.75
+
     forward = bones["ball_l"].tail_local - bones["ball_l"].head_local
     forward.z = 0.0
     forward = forward.normalized() if forward.length > 1e-6 else Vector((0.0, -1.0, 0.0))
     right = forward.cross(Vector((0.0, 0.0, 1.0))).normalized()
-    centre = (bone.head_local + bone.tail_local) * 0.5
-    centre = centre - forward * spec["behind"] + Vector((0.0, 0.0, spec["up"])) \
-        + right * spec.get("side", 0.0)
+    up = Vector((0.0, 0.0, 1.0))
 
-    sx, sy, sz = spec["size"]
+    sx, sy, sz = (v * scale for v in spec["size"])
+    on_arm = spec["bone"].startswith(("hand_", "lowerarm_", "upperarm_"))
+    if on_arm:
+        # the bone's own frame: its axis is "down" once the arm hangs
+        axis = (bone.tail_local - bone.head_local).normalized()
+        side = axis.cross(forward)
+        side = side.normalized() if side.length > 1e-6 else right.copy()
+        depth = side.cross(axis).normalized()
+        centre = bone.head_local + axis * (abs(spec["up"]) * scale + sz * 0.5)
+        ex, ey, ez = side, depth, axis
+    else:
+        centre = (bone.head_local + bone.tail_local) * 0.5 + up * (spec["up"] * scale)
+        outer = _outermost_torso_mesh(built, name_prefix) or body
+        side_offset = spec.get("side", 0.0)
+        if side_offset:
+            # a shoulder bag hangs against the *side* of the body, so find that surface rather than
+            # trusting a fixed 170 mm, which floats clear of a slim wearer and buries itself in a wide one
+            direction = right if side_offset > 0 else -right
+            probe = centre + direction * (0.60 * scale)
+            flank = _first_surface(centre, direction, 0.60 * scale, outer, body)
+            flank = flank if flank is not None else centre + direction * (0.16 * scale)
+            centre = flank + direction * (sx * 0.5 + 0.010 * scale)
+        back = _first_surface(centre, -forward, 0.60 * scale, outer, body)
+        back = back if back is not None else centre - forward * (0.10 * scale)
+        if side_offset:
+            centre = centre - forward * (sy * 0.5)          # a side bag sits level with the body, not behind
+        else:
+            centre = back - forward * (sy * 0.5 + 0.012 * scale)
+        ex, ey, ez = right, forward, up
+
     bm = bmesh.new()
     bmesh.ops.create_cube(bm, size=1.0)
     for vert in bm.verts:
         local = Vector((vert.co.x * sx, vert.co.y * sy, vert.co.z * sz))
-        vert.co = right * local.x + forward * local.y + Vector((0.0, 0.0, local.z)) + centre
-    bmesh.ops.bevel(bm, geom=list(bm.verts) + list(bm.edges) + list(bm.faces), offset=0.012,
-                    segments=2, affect="EDGES")
+        vert.co = ex * local.x + ey * local.y + ez * local.z + centre
+    bmesh.ops.bevel(bm, geom=list(bm.verts) + list(bm.edges) + list(bm.faces),
+                    offset=0.012 * scale, segments=2, affect="EDGES")
     mesh = bpy.data.meshes.new(f"{name_prefix}bag_{kind}")
     bm.to_mesh(mesh)
     bm.free()
     mesh.materials.append(nb.pbr_material(f"bag_{kind}", base_color=(*spec["colour"], 1.0),
                                           roughness=spec["roughness"]))
     obj = bpy.data.objects.new(f"{name_prefix}bag_{kind}", mesh)
-    built.basemesh.users_collection[0].objects.link(obj)
-    obj.matrix_world = built.basemesh.matrix_world.copy()
+    body.users_collection[0].objects.link(obj)
+    obj.matrix_world = body.matrix_world.copy()
     group = obj.vertex_groups.new(name=spec["bone"])
     group.add(list(range(len(mesh.vertices))), 1.0, "REPLACE")
     obj.parent = armature
     obj.modifiers.new("Armature", "ARMATURE").object = armature
     built.clothes[obj.name] = obj
+    log.info("%s: %s bag on %s, %.0f x %.0f x %.0f mm", built.spec.name, kind, spec["bone"],
+             sx * 1000, sy * 1000, sz * 1000)
     return obj
+
+
+def _first_surface(origin: Vector, direction: Vector, reach: float, *candidates):
+    """Cast inwards from ``reach`` out along ``direction`` and return the first surface hit, or None.
+
+    Tries each candidate mesh in turn: a bag placed against a garment must fall back to the skin, because
+    a tank top has no fabric at hip height and a ray that misses would otherwise leave the bag floating a
+    hand's width clear of the body.
+    """
+    start = origin + direction * reach
+    for mesh in candidates:
+        if mesh is None:
+            continue
+        hit, location, _normal, _index = mesh.ray_cast(start, -direction, distance=reach)
+        if hit:
+            return location
+    return None
+
+
+def _outermost_torso_mesh(built, name_prefix: str):
+    """The garment a torso-mounted bag rests against, or None if the character is not dressed there."""
+    best, best_layer = None, -1
+    for obj in built.clothes.values():
+        item_id = obj.name[len(name_prefix):] if obj.name.startswith(name_prefix) else obj.name
+        garment = WARDROBE_BY_ID.get(item_id)
+        if garment is None or garment.slot not in ("top", "outerwear"):
+            continue
+        if garment.layer > best_layer:
+            best, best_layer = obj, garment.layer
+    return best
 
 
 def build_hat(built, kind: str, *, name_prefix: str = "") -> bpy.types.Object | None:

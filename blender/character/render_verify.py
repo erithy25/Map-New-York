@@ -399,6 +399,43 @@ def blendshape_sheet(out: Path, names=("jawOpen", "mouthSmileLeft", "eyeBlinkLef
     return result
 
 
+def lineup_lighting() -> None:
+    """Even lighting for a wide line-up: two suns and a lit world, not the three-point portrait rig.
+
+    The portrait rig puts area lights a couple of metres from one character; across a nine-metre line-up its
+    inverse-square falloff blows out the middle and loses the ends, which is what washed the first line-up
+    out. Sun lamps are directional and distance-independent, so every pedestrian is lit identically and the
+    comparison between them is about the characters rather than about where they are standing.
+    """
+    world = bpy.data.worlds.get("World") or bpy.data.worlds.new("World")
+    bpy.context.scene.world = world
+    world.use_nodes = True
+    background = world.node_tree.nodes.get("Background")
+    background.inputs["Color"].default_value = (0.16, 0.17, 0.19, 1.0)
+    background.inputs["Strength"].default_value = 1.0
+
+    for name, rotation, energy, angle, colour in (
+            ("key_sun", (math.radians(52), 0.0, math.radians(34)), 3.2, math.radians(8),
+             (1.0, 0.97, 0.93)),
+            ("fill_sun", (math.radians(66), 0.0, math.radians(-58)), 1.1, math.radians(20),
+             (0.86, 0.90, 1.0))):
+        light = bpy.data.lights.new(name, "SUN")
+        light.energy = energy
+        light.angle = angle
+        light.color = colour
+        obj = bpy.data.objects.new(name, light)
+        bpy.context.scene.collection.objects.link(obj)
+        obj.rotation_euler = rotation
+
+    mesh = bpy.data.meshes.new("lineup_floor")
+    s = 40.0
+    mesh.from_pydata([(-s, -s, 0.0), (s, -s, 0.0), (s, s, 0.0), (-s, s, 0.0)], [], [(0, 1, 2, 3)])
+    mesh.update()
+    mesh.materials.append(nb.pbr_material("lineup_floor", base_color=(0.20, 0.21, 0.23, 1.0),
+                                          roughness=0.92))
+    bpy.context.scene.collection.objects.link(bpy.data.objects.new("lineup_floor", mesh))
+
+
 def npc_lineup(out: Path, count: int = 12) -> Path:
     """Load each exported NPC glb into one scene and photograph the line-up."""
     from npc_generator import NPC_DIR  # noqa: PLC0415
@@ -407,7 +444,7 @@ def npc_lineup(out: Path, count: int = 12) -> Path:
     if not files:
         raise FileNotFoundError(f"no NPC glb files in {NPC_DIR} - run npc_generator.py first")
     nb.reset_scene()
-    studio_lighting(key_energy=2600.0, size=14.0)
+    lineup_lighting()
     spacing = 0.72
     imported = []
     for i, path in enumerate(files):
@@ -425,7 +462,7 @@ def npc_lineup(out: Path, count: int = 12) -> Path:
     centre = Vector(((lo.x + hi.x) * 0.5, (lo.y + hi.y) * 0.5, (lo.z + hi.z) * 0.5))
     width = hi.x - lo.x
     cam = centre + Vector((0.0, -width * 1.05, 0.25))
-    return render(out, location=cam, target=centre, fov_deg=46.0, size=(1500, 560), samples=32)
+    return render(out, location=cam, target=centre, fov_deg=46.0, size=(1500, 560), samples=48)
 
 
 # --------------------------------------------------------------------------------------------- compositing

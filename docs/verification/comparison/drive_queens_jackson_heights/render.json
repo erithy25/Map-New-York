@@ -7,12 +7,13 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
-   "chosen_m": 18.69,
-   "max_m": 19.38,
-   "median_m": 18.93,
-   "min_m": 18.64,
+   "chosen_m": 18.66,
+   "max_m": 18.92,
+   "median_m": 18.74,
+   "min_m": 18.53,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 18.63,
    "radius_m": 12.0,
    "samples": 113
   },
@@ -30,17 +31,37 @@
   ],
   "sensor_mm": 36.0,
   "slug": "drive_queens_jackson_heights",
-  "terrain_z_m": 18.694,
-  "x": 5658.134,
-  "y": 5776.688,
-  "z": 20.294
+  "terrain_z_m": 18.657,
+  "x": 5677.333,
+  "y": 5783.468,
+  "z": 20.257
  },
- "camera_caption": "camera 40.75200, -73.88300 (NYC_TM 5658, 5777) z 20.3 m NAVD88 | azimuth 165.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.75200, -73.88300 (NYC_TM 5677, 5783) z 20.3 m NAVD88 | azimuth 165.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.752,
+  "lon": -73.883,
+  "offset_from_recorded_m": 419.2,
+  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 419 m away, past the 250 m at which it could still be the same view, so it was rejected as mis-tagged"
+ },
  "clearance": {
-  "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "direction": "onto the nearest sidewalk",
+  "min_view_m": 20.0,
+  "moved": true,
+  "nearest_obstruction_m": 19.0,
+  "note": "the recorded viewpoint is hard against prop_lamp_cobra_davit_1 (0.25 m from the lens in the view cone); the camera was moved 19 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 28 m from there",
+  "offset_m": 19.2,
+  "reason": "hard against prop_lamp_cobra_davit_1 (0.25 m from the lens in the view cone)",
+  "rule": "pavement snap with a clear view",
+  "view_m": 27.9
  },
+ "frame": {
+  "mean": 0.3552,
+  "reason": null,
+  "sd": 0.161,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "drive_through",
  "interior": false,
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
@@ -77,9 +98,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_queens_jackson_heights/render.png",
- "rendered_at": "2026-09-06T16:46:18Z",
+ "rendered_at": "2026-09-06T21:18:43Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 64,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -91,6 +112,9 @@
     "t_6_5",
     "t_6_6"
    ],
+   "landmark_bins_suppressed": 0,
+   "landmark_faces_suppressed": 0,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_4_5": {
@@ -126,6 +150,7 @@
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 6,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 6,
    "triangle_budget": 3510000,
@@ -158,6 +183,7 @@
    "radius_m": 120.0,
    "records_in_range": 6514,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
     "t_5_5"
@@ -199,7 +225,8 @@
    "vertices": 168286
   },
   "props": {
-   "capped": "triangle budget 1290338",
+   "capped": "triangle budget 1322468",
+   "impostor_cards_dropped": 20,
    "leaf_off": false,
    "per_kind": {
     "bus_shelter": 1,
@@ -207,11 +234,11 @@
     "citibike_dock": 1,
     "hydrant": 20,
     "mailbox": 2,
-    "manhole": 60,
+    "manhole": 61,
     "street_lamp": 50,
-    "tree": 169
+    "tree": 174
    },
-   "placed": 308,
+   "placed": 314,
    "radius_m": 250.0,
    "rows_in_range": 724,
    "tiles_missing": [],
@@ -219,25 +246,29 @@
     "t_5_5",
     "t_5_6"
    ],
-   "tree_species_substituted": 66,
-   "triangles": 1293472,
+   "tree_species_substituted": 68,
+   "triangles": 1322910,
    "unmapped_kinds": {
     "curb_ramp": 39
    }
   },
   "radius_m": 720.0,
-  "seconds": 27.02,
+  "seconds": 33.89,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 4.8,
-   "triangles": 180000,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 211,
+   "spacing_m": 2.0,
+   "triangles": 88200,
    "water_quads": 0,
-   "z_max_m": 26.44,
-   "z_min_m": 6.42
+   "z_max_m": 26.27,
+   "z_min_m": 7.14
   },
-  "triangles": 3782983
+  "triangles": 3720621
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -245,9 +276,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 163.2,
-  "scene": 27.8,
-  "total": 190.9
+  "render": 127.8,
+  "scene": 39.0,
+  "total": 166.7
  },
  "slug": "drive_queens_jackson_heights",
  "status": "rendered",

@@ -7,20 +7,21 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
-   "chosen_m": 24.55,
-   "max_m": 24.84,
-   "median_m": 24.55,
-   "min_m": 24.26,
+   "chosen_m": 21.85,
+   "max_m": 21.91,
+   "median_m": 21.81,
+   "min_m": 21.69,
    "mode": "local",
    "percentile": null,
+   "point_m": 21.85,
    "radius_m": 5.0,
    "samples": 16
   },
   "ground_mode": "local",
-  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap median within 5 m is the ground",
+  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap height at the point itself is the ground (the neighbourhood is still measured and printed, because a terrace can stand metres above the plaza 4 m away and a median across that step would put the camera underground)",
   "hfov_deg": 54.432,
-  "lat": 40.7196,
-  "lon": -73.8447,
+  "lat": 40.717607,
+  "lon": -73.844883,
   "long_side_fov_deg": 54.432,
   "pitch_deg": 0.0,
   "portrait": false,
@@ -30,17 +31,35 @@
   ],
   "sensor_mm": 36.0,
   "slug": "drive_queens_forest_hills",
-  "terrain_z_m": 24.555,
-  "x": 8896.875,
-  "y": 2181.88,
-  "z": 26.155
+  "terrain_z_m": 21.847,
+  "x": 8881.678,
+  "y": 1960.542,
+  "z": 23.447
  },
- "camera_caption": "camera 40.71960, -73.84470 (NYC_TM 8897, 2182) z 26.2 m NAVD88 | azimuth 140.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x720",
+ "camera_caption": "camera 40.71761, -73.84488 (NYC_TM 8882, 1961) z 23.4 m NAVD88 | azimuth 140.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x720",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.717607,
+  "lon": -73.844883,
+  "offset_from_recorded_m": 221.9,
+  "source": "this photograph's own EXIF camera GPS (40.71761, -73.84488), 222 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
  "clearance": {
+  "min_view_m": 20.0,
   "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "nearest_obstruction": "prop_tree_honeylocust_large_0",
+  "nearest_obstruction_m": 13.7,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_tree_honeylocust_large_0 13.7 m away, and the view azimuth is clear for 24 m",
+  "offset_m": 0.0,
+  "view_m": 24.0
  },
+ "frame": {
+  "mean": 0.5214,
+  "reason": null,
+  "sd": 0.1601,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "drive_through",
  "interior": false,
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
@@ -48,14 +67,14 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 754.0,
   "emissive": {
-   "cones_hidden": 2,
-   "lamps_switched_off": 5,
+   "cones_hidden": 1,
+   "lamps_switched_off": 1,
    "night": false,
    "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.61,
-  "sky_azimuth_deg": 239.583,
-  "sky_elevation_deg": 28.278,
+  "sky_azimuth_deg": 239.584,
+  "sky_elevation_deg": 28.279,
   "sun_lamp": true,
   "sun_strength_blender": 1.396,
   "view_transform": "Filmic"
@@ -77,9 +96,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_queens_forest_hills/render.png",
- "rendered_at": "2026-09-06T16:48:20Z",
+ "rendered_at": "2026-09-06T21:15:56Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1081 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 64,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -89,6 +108,9 @@
     "t_9_1",
     "t_9_2"
    ],
+   "landmark_bins_suppressed": 0,
+   "landmark_faces_suppressed": 0,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_8_1": {
@@ -114,46 +136,45 @@
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 4,
    "triangle_budget": 3510000,
    "triangles": 240420
   },
   "centre_tm": [
-   8896.87,
-   2181.88
+   8881.68,
+   1960.54
   ],
   "kit": {
    "capped": null,
    "per_category": {
-    "bulkhead": 24,
-    "cornice": 45,
-    "door_entry": 94,
-    "fence": 2,
-    "fire_escape": 13,
-    "hvac": 12,
-    "parapet": 139,
-    "pilaster": 68,
-    "quoin": 42,
-    "scaffold": 86,
-    "storefront": 328,
-    "storefront_interior": 72,
-    "string_course": 77,
-    "vegetation": 3,
-    "water_tower": 4,
-    "window": 2201,
-    "window_accessory": 296
+    "bulkhead": 55,
+    "cornice": 50,
+    "door_entry": 119,
+    "fence": 32,
+    "hvac": 21,
+    "parapet": 199,
+    "scaffold": 11,
+    "storefront": 4,
+    "storefront_interior": 2,
+    "string_course": 16,
+    "vegetation": 55,
+    "window": 1936,
+    "window_accessory": 287
    },
-   "placed": 3506,
+   "placed": 2787,
    "radius_m": 120.0,
-   "records_in_range": 3506,
+   "records_in_range": 2787,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
+    "t_8_1",
     "t_8_2",
-    "t_9_2"
+    "t_9_1"
    ],
-   "triangles": 934556,
+   "triangles": 773100,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -167,15 +188,15 @@
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 531,
-    "curb": 904,
-    "median": 91,
-    "parking_lot": 30,
-    "plaza": 3,
-    "roadbed": 409,
-    "sidewalk": 296
+    "crosswalk": 493,
+    "curb": 877,
+    "median": 81,
+    "parking_lot": 22,
+    "plaza": 2,
+    "roadbed": 426,
+    "sidewalk": 292
    },
-   "placed": 2264,
+   "placed": 2193,
    "radius_m": 720.0,
    "tiles_missing": [],
    "tiles_read": [
@@ -184,33 +205,25 @@
     "t_9_1",
     "t_9_2"
    ],
-   "triangles": 193055,
-   "vertices": 197319
+   "triangles": 190019,
+   "vertices": 194151
   },
   "props": {
-   "capped": "triangle budget 1360283",
+   "capped": null,
+   "impostor_cards_dropped": 14,
    "leaf_off": false,
    "per_kind": {
-    "bench": 9,
-    "bike_rack": 15,
-    "bike_shelter": 1,
-    "bus_shelter": 3,
-    "bus_stop_sign": 1,
-    "citibike_dock": 3,
-    "hydrant": 30,
-    "linknyc": 6,
-    "mailbox": 5,
-    "manhole": 100,
-    "newsstand": 2,
-    "street_lamp": 68,
-    "subway_entrance": 3,
-    "subway_vent_grate": 4,
-    "tree": 167,
-    "waste_basket": 14
+    "bench": 6,
+    "bike_rack": 1,
+    "hydrant": 36,
+    "mailbox": 2,
+    "manhole": 117,
+    "street_lamp": 40,
+    "tree": 96
    },
-   "placed": 431,
+   "placed": 298,
    "radius_m": 250.0,
-   "rows_in_range": 864,
+   "rows_in_range": 386,
    "tiles_missing": [],
    "tiles_read": [
     "t_8_1",
@@ -218,31 +231,32 @@
     "t_9_1",
     "t_9_2"
    ],
-   "tree_species_substituted": 45,
-   "triangles": 1360990,
+   "tree_species_substituted": 58,
+   "triangles": 992272,
    "unmapped_kinds": {
-    "artwork": 1,
-    "billboard": 1,
-    "cooling_tower": 181,
-    "curb_ramp": 77,
-    "misc_structure": 3,
-    "payphone": 2,
-    "vending_machine": 5
+    "cooling_tower": 14,
+    "curb_ramp": 70,
+    "memorial": 1,
+    "vending_machine": 3
    }
   },
   "radius_m": 720.0,
-  "seconds": 27.52,
+  "seconds": 17.62,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 4.8,
-   "triangles": 180000,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 211,
+   "spacing_m": 2.0,
+   "triangles": 88200,
    "water_quads": 0,
-   "z_max_m": 35.31,
-   "z_min_m": 1.54
+   "z_max_m": 40.25,
+   "z_min_m": 3.11
   },
-  "triangles": 2909021
+  "triangles": 2284011
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -250,9 +264,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 91.9,
-  "scene": 28.1,
-  "total": 120.0
+  "render": 114.5,
+  "scene": 18.2,
+  "total": 132.7
  },
  "slug": "drive_queens_forest_hills",
  "status": "rendered",
@@ -261,8 +275,8 @@
   "name": null
  },
  "sun": {
-  "azimuth_deg": 239.5827524557521,
-  "elevation_deg": 28.27801403054314,
+  "azimuth_deg": 239.58351882927133,
+  "elevation_deg": 28.27914126294053,
   "local": "2024-09-26T16:04:15-04:00",
   "time_source": "EXIF DateTimeOriginal",
   "utc": "2024-09-26T20:04:15Z"

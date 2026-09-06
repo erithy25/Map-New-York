@@ -13,6 +13,7 @@
    "min_m": 25.07,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 25.47,
    "radius_m": 12.0,
    "samples": 113
   },
@@ -36,11 +37,29 @@
   "z": 26.905
  },
  "camera_caption": "camera 40.67250, -73.97820 (NYC_TM -2384, -3053) z 26.9 m NAVD88 | azimuth 30.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x720",
- "clearance": {
-  "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.6725,
+  "lon": -73.9782,
+  "offset_from_recorded_m": 737.1,
+  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 737 m away, past the 250 m at which it could still be the same view, so it was rejected as mis-tagged"
  },
+ "clearance": {
+  "min_view_m": 20.0,
+  "moved": false,
+  "nearest_obstruction": "t_-3_-4_tan_brick",
+  "nearest_obstruction_m": 8.6,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is t_-3_-4_tan_brick 8.6 m away, and the view azimuth is clear for 9 m",
+  "offset_m": 0.0,
+  "view_m": 8.6
+ },
+ "frame": {
+  "mean": 0.5162,
+  "reason": null,
+  "sd": 0.0851,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "drive_through",
  "interior": false,
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
@@ -77,9 +96,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_park_slope_7th_ave/render.png",
- "rendered_at": "2026-09-06T16:39:51Z",
+ "rendered_at": "2026-09-06T20:59:25Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 64,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -91,17 +110,20 @@
     "t_-4_-3",
     "t_-4_-4"
    ],
+   "landmark_bins_suppressed": 3,
+   "landmark_faces_suppressed": 1108,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-2_-3": {
      "lod": 0,
      "objects": 16,
-     "triangles": 103640
+     "triangles": 103548
     },
     "t_-2_-4": {
      "lod": 0,
      "objects": 13,
-     "triangles": 19620
+     "triangles": 18604
     },
     "t_-3_-3": {
      "lod": 0,
@@ -126,10 +148,11 @@
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 6,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 6,
    "triangle_budget": 3510000,
-   "triangles": 448688
+   "triangles": 447580
   },
   "centre_tm": [
    -2384.32,
@@ -158,6 +181,7 @@
    "radius_m": 120.0,
    "records_in_range": 3574,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_-3",
@@ -208,21 +232,22 @@
    "vertices": 170221
   },
   "props": {
-   "capped": "triangle budget 1296098",
+   "capped": "triangle budget 1328616",
+   "impostor_cards_dropped": 23,
    "leaf_off": false,
    "per_kind": {
     "bench": 3,
     "bike_rack": 4,
     "bus_stop_sign": 2,
     "citibike_dock": 1,
-    "hydrant": 16,
+    "hydrant": 18,
     "mailbox": 1,
-    "manhole": 37,
-    "street_lamp": 41,
-    "tree": 166,
-    "waste_basket": 8
+    "manhole": 38,
+    "street_lamp": 42,
+    "tree": 170,
+    "waste_basket": 9
    },
-   "placed": 279,
+   "placed": 288,
    "radius_m": 250.0,
    "rows_in_range": 756,
    "tiles_missing": [],
@@ -230,26 +255,30 @@
     "t_-3_-3",
     "t_-3_-4"
    ],
-   "tree_species_substituted": 40,
-   "triangles": 1301554,
+   "tree_species_substituted": 43,
+   "triangles": 1328622,
    "unmapped_kinds": {
-    "cooling_tower": 7,
-    "curb_ramp": 38
+    "cooling_tower": 8,
+    "curb_ramp": 42
    }
   },
   "radius_m": 720.0,
-  "seconds": 27.65,
+  "seconds": 32.31,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 4.8,
-   "triangles": 180000,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 211,
+   "spacing_m": 2.0,
+   "triangles": 88200,
    "water_quads": 0,
-   "z_max_m": 53.16,
-   "z_min_m": 2.61
+   "z_max_m": 53.09,
+   "z_min_m": 3.14
   },
-  "triangles": 3164484
+  "triangles": 3098644
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -257,9 +286,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 176.7,
-  "scene": 28.2,
-  "total": 204.9
+  "render": 173.7,
+  "scene": 33.6,
+  "total": 207.3
  },
  "slug": "drive_brooklyn_park_slope_7th_ave",
  "status": "rendered",

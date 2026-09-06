@@ -357,10 +357,9 @@ def hide_body_under_clothes(built: BuiltHuman, *, reach: float = 0.06) -> int:
     Two guards make the deletion safe:
 
     * only groups whose asset is actually still on the character are honoured;
-    * a marked vertex is deleted only if it is genuinely *inside* a worn garment - the closest point on
-      some garment's surface is within ``reach`` and the vertex is behind that surface - so a suit whose
-      trouser half was split away cannot delete the leg it no longer covers, and no skin disappears from
-      the gap between a sweater hem and a waistband.
+    * a marked vertex is deleted only if a ray along its own normal hits a worn garment within ``reach``,
+      so a suit whose trouser half was split away cannot delete the leg it no longer covers and no skin
+      disappears from the gap between a hem and a waistband.
 
     Returns the number of vertices removed.  Deleting rather than masking is deliberate: the glTF export
     runs with ``export_apply=False``, so a Mask modifier would not reach the engine, and the character
@@ -377,9 +376,15 @@ def hide_body_under_clothes(built: BuiltHuman, *, reach: float = 0.06) -> int:
     for vert in basemesh.data.vertices:
         if not any(g.group in marked and g.weight > 0.0 for g in vert.groups):
             continue
+        # "Covered" means there is cloth *directly above the skin*, so the test is a ray along the vertex's
+        # own normal, not a proximity query.  A proximity query deletes the skin in the gap between a polo
+        # hem and a waistband - the nearest garment point there is the hem edge and the vertex is behind it -
+        # and the gap then shows the backdrop, or whatever the pedestrian is carrying, straight through the
+        # body.  A ray finds nothing above that skin and it survives.
+        origin = vert.co + vert.normal * 0.0005
         for garment in garments:
-            hit, location, normal, _index = garment.closest_point_on_mesh(vert.co, distance=reach)
-            if hit and (vert.co - location).dot(normal) < 0.0:
+            hit, _location, _normal, _index = garment.ray_cast(origin, vert.normal, distance=reach)
+            if hit:
                 doomed.append(vert.index)
                 break
     if not doomed:

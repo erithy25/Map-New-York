@@ -222,6 +222,15 @@ struct TrafficStats {
   uint32_t stopped_at_red = 0, in_junction = 0, double_parked = 0, dwelling = 0;
   uint32_t lane_changes = 0, honks = 0, reroutes = 0, route_calls = 0, red_light_entries = 0;
   uint32_t box_blocks = 0, emergency_yields = 0;
+  // Agents the spatial hash refused because it was at capacity.  Such an agent
+  // is invisible to every proximity query for that step, so this must stay 0;
+  // it was previously an ignored return value (see the error-handling audit in
+  // docs/verification/performance/REPORT.md).
+  uint32_t hash_drops = 0;
+  // Route queries the router could not answer.  Previously the caller simply
+  // discarded the bool, so a bus that never reached its next stop, or an agent
+  // that never got a destination, was invisible.
+  uint32_t route_failures = 0;
   float mean_speed_mps = 0.f;
   float target_vehicles = 0.f;
   double sim_time_s = 0.0;

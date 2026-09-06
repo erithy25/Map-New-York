@@ -51,7 +51,9 @@ bool PedSim::configure(const SidewalkGraph& w, const traffic::SignalTable* sig, 
   // while bounding the clear-and-prefix-sum cost.
   const float world_m2 = std::max(1.f, (maxx - minx + 40.f) * (maxy - miny + 40.f));
   const float per_agent = std::sqrt(world_m2 / std::max(1.f, 4.f * static_cast<float>(cap)));
-  const float cell = clampf(per_agent, std::max(1.0f, cfg_.force.cutoff_m), 40.f);
+  const float cell = cfg_.hash_cell_m > 0.01f
+                         ? std::max(cfg_.hash_cell_m, std::max(1.0f, cfg_.force.cutoff_m))
+                         : clampf(per_agent, std::max(1.0f, cfg_.force.cutoff_m), 40.f);
   hash_.configure(minx - 20.f, miny - 20.f, maxx + 20.f, maxy + 20.f, cell, static_cast<uint32_t>(cap));
   // The uniqueness rule queries a 60 m radius, which is far wider than the
   // crowd hash's cell, so it keeps its own coarse grid: sharing the crowd hash
@@ -633,9 +635,10 @@ void PedSim::rebuildHashes() {
   sig_hash_.begin();
   road_hash_.begin();
   for (uint32_t i = 0; i < peds_.size(); ++i) {
-    hash_.insert(i, peds_[i].x, peds_[i].y);
-    sig_hash_.insert(i, peds_[i].x, peds_[i].y);
-    if ((peds_[i].flags & kPedOnRoad) != 0) road_hash_.insert(i, peds_[i].x, peds_[i].y);
+    if (!hash_.insert(i, peds_[i].x, peds_[i].y)) ++stats_.hash_drops;
+    if (!sig_hash_.insert(i, peds_[i].x, peds_[i].y)) ++stats_.hash_drops;
+    if ((peds_[i].flags & kPedOnRoad) != 0 && !road_hash_.insert(i, peds_[i].x, peds_[i].y))
+      ++stats_.hash_drops;
   }
   hash_.end();
   sig_hash_.end();

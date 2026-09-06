@@ -338,14 +338,15 @@ def configure_cycles(samples: int, threads: int | None) -> None:
 PHOTO_GPS_SANITY_M = 250.0
 
 #: Slugs whose viewpoint is not a fixed place, with the radius their photographs' GPS may sit
-#: inside and the reason.  A Staten Island Ferry viewpoint is a moving vessel: "about 1 nautical
-#: mile south of Whitehall Terminal" is a description of a route, not a position, and the
-#: photograph's own GPS is the only statement of where along it the picture was taken.
-MOVING_VIEWPOINTS: dict[str, tuple[float, str]] = {
-    "staten_island_ferry_lower_manhattan": (
-        1500.0, "the viewpoint is the deck of a moving ferry, so the photograph's own GPS is the "
-                "only record of where along the route it was taken"),
-}
+#: inside and the reason.  Nothing is listed at present.  The Staten Island Ferry viewpoint was
+#: tried here -- the deck of a moving vessel is a route, not a position -- and the result was
+#: worse, not better: the chosen photograph's GPS puts the camera in the Hudson west of Battery
+#: Park City, 699 m from the item's point, and from there Lower Manhattan spreads entirely to the
+#: right of the frame while the reference photograph has the island on both sides of the axis.
+#: The photograph's fix is wrong, or was taken at a different moment of the crossing; the item's
+#: "about 1 nautical mile south of Whitehall Terminal" reproduces the reference and the EXIF fix
+#: does not.  Measured beats assumed only when the measurement is right.
+MOVING_VIEWPOINTS: dict[str, tuple[float, str]] = {}
 
 
 def view_origin(meta: dict, photo: dict | None) -> tuple[float, float, str, float | None, bool]:

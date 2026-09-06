@@ -7,17 +7,18 @@
   "eye_source": "top landing of the TKTS red steps at Duffy Square, 4.6 m above the plaza (Perkins Eastman/Choi Ropiha structure, 16 ft to the top of the glazed stair), plus 1.6 m eye height",
   "focal_mm": 24.0,
   "ground_detail": {
-   "chosen_m": 14.95,
+   "chosen_m": 14.94,
    "max_m": 15.17,
    "median_m": 14.95,
    "min_m": 14.81,
    "mode": "local",
    "percentile": null,
+   "point_m": 14.94,
    "radius_m": 5.0,
    "samples": 16
   },
   "ground_mode": "local",
-  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap median within 5 m is the ground",
+  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap height at the point itself is the ground (the neighbourhood is still measured and printed, because a terrace can stand metres above the plaza 4 m away and a median across that step would put the camera underground)",
   "hfov_deg": 58.688,
   "lat": 40.759122,
   "lon": -73.984725,
@@ -30,12 +31,12 @@
   ],
   "sensor_mm": 36.0,
   "slug": "times_square_duffy_south_day",
-  "terrain_z_m": 14.951,
+  "terrain_z_m": 14.939,
   "x": -2932.205,
   "y": 6566.0,
-  "z": 21.151
+  "z": 21.139
  },
- "camera_caption": "camera 40.75912, -73.98472 (NYC_TM -2932, 6566) z 21.2 m NAVD88 | azimuth 203.6deg pitch +0.0deg | 24 mm on 36 mm (58.7deg horizontal, 73.7deg vertical, portrait) | 904x1206",
+ "camera_caption": "camera 40.75912, -73.98472 (NYC_TM -2932, 6566) z 21.1 m NAVD88 | azimuth 203.6deg pitch +0.0deg | 24 mm on 36 mm (58.7deg horizontal, 73.7deg vertical, portrait) | 904x1206",
  "camera_origin": {
   "from_photograph_gps": true,
   "lat": 40.759122,
@@ -46,9 +47,19 @@
  "clearance": {
   "min_view_m": 80.0,
   "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "nearest_obstruction": "prop_lamp_cobra_davit_10",
+  "nearest_obstruction_m": 23.6,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_cobra_davit_10 23.6 m away, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
  },
+ "frame": {
+  "mean": 0.3919,
+  "reason": null,
+  "sd": 0.1805,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "viewpoint",
  "interior": false,
  "lens_reason": "the bowtie is photographed wide from the TKTS steps; both building walls and One Times Square fit only at 74 deg horizontal",
@@ -85,7 +96,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/times_square_duffy_south_day/render.png",
- "rendered_at": "2026-09-06T19:32:24Z",
+ "rendered_at": "2026-09-06T20:40:15Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
@@ -99,33 +110,35 @@
     "t_-4_6",
     "t_-4_7"
    ],
+   "landmark_bins_suppressed": 40,
+   "landmark_faces_suppressed": 3988,
    "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-3_5": {
      "lod": 0,
      "objects": 16,
-     "triangles": 49098
+     "triangles": 48780
     },
     "t_-3_6": {
      "lod": 0,
      "objects": 17,
-     "triangles": 30874
+     "triangles": 29970
     },
     "t_-3_7": {
      "lod": 0,
      "objects": 16,
-     "triangles": 23700
+     "triangles": 22888
     },
     "t_-4_5": {
      "lod": 1,
      "objects": 19,
-     "triangles": 20038
+     "triangles": 19790
     },
     "t_-4_6": {
      "lod": 0,
      "objects": 17,
-     "triangles": 66858
+     "triangles": 65152
     },
     "t_-4_7": {
      "lod": 0,
@@ -139,40 +152,41 @@
    "tiles_missing": 0,
    "tiles_wanted": 6,
    "triangle_budget": 3510000,
-   "triangles": 235792
+   "triangles": 231804
   },
   "centre_tm": [
    -2932.2,
    6566.0
   ],
   "kit": {
-   "capped": "triangle budget 2719166",
+   "capped": "triangle budget 2723154",
    "per_category": {
-    "bulkhead": 22,
-    "cornice": 23,
-    "door_entry": 43,
-    "hvac": 16,
-    "parapet": 29,
-    "pilaster": 14,
-    "quoin": 1,
+    "bulkhead": 31,
+    "cornice": 32,
+    "door_entry": 61,
+    "hvac": 15,
+    "parapet": 36,
+    "pilaster": 27,
+    "quoin": 7,
     "scaffold": 77,
-    "storefront": 167,
-    "storefront_interior": 32,
-    "string_course": 20,
-    "water_tower": 6,
-    "window": 14175,
-    "window_accessory": 1
+    "storefront": 188,
+    "storefront_interior": 44,
+    "string_course": 28,
+    "water_tower": 9,
+    "window": 15117,
+    "window_accessory": 4
    },
-   "placed": 14626,
+   "placed": 15676,
    "radius_m": 130.0,
    "records_in_range": 20388,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 4536,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_6",
     "t_-4_6"
    ],
-   "triangles": 2719188,
+   "triangles": 2723218,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -324,7 +338,7 @@
    }
   },
   "radius_m": 800.0,
-  "seconds": 56.21,
+  "seconds": 63.32,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -339,7 +353,7 @@
    "z_max_m": 25.74,
    "z_min_m": 5.18
   },
-  "triangles": 4500022
+  "triangles": 4500064
  },
  "scene_request": {
   "kit_radius_m": 130.0,
@@ -347,9 +361,9 @@
   "radius_m": 800.0
  },
  "seconds": {
-  "render": 164.5,
-  "scene": 58.1,
-  "total": 222.6
+  "render": 179.6,
+  "scene": 66.9,
+  "total": 246.5
  },
  "slug": "times_square_duffy_south_day",
  "status": "rendered",

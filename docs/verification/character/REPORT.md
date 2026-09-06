@@ -7,6 +7,158 @@
 
 ---
 
+## 0. Second pass — the body, diagnosed rather than sculpted around
+
+The first pass shipped a head the review accepted and a body it did not: *"the clothing is an inflated shell,
+the arms are fused to the torso, the hands are barely formed, the feet read as flippers, and there is broken
+geometry at the neck join."* The review also asked, correctly, whether the body proxy, hands, feet and
+clothing had come through the MakeHuman pipeline at all or whether this was a fallback mesh. **They had. The
+mesh was never the problem.** Rendering the character one layer at a time settled it in four frames:
+
+| layer | verdict |
+|---|---|
+| bare body | correct — modelled fingers with nails, real feet, clavicles, a shoulder line, an armpit gap |
+| `+ tee_white` | a real tee: hem, neckline, sleeve seams, armpits |
+| `+ hoodie_grey` | a real knitted pullover: ribbed collar, cuffs and hem |
+| `+ jacket_bomber` | **a shapeless sack that swallowed all three** |
+
+Every symptom in the review traced to one of five defects, all of them in the wardrobe and export code, none
+in the body. Each is stated below with the evidence that found it and the fix that closed it.
+
+### 0.1 The "bomber jacket" was never a jacket
+
+`jacket_bomber` was the upper shell of `male_casualsuit02`. Splitting that asset by connected component and
+rendering the halves shows what they are: a **1 250-vertex crude long-sleeve tee** and a pair of jeans. There
+is no jacket in the file. Fitted over a tee and a sweater and pushed out 24 mm it became the balloon in
+`full_body_front.png`, and because it reached past the wrist it was also what buried the hands.
+
+To pick a replacement on evidence rather than on the asset's name, all eleven male MakeHuman suit/jacket
+assets were fitted to the player's body and rendered side by side (audition sheet, 11 frames). What they
+actually contain:
+
+| asset | upper shell really is | vertices |
+|---|---|---|
+| `male_casualsuit01` | button-down shirt **welded to** jeans (one connected component) | 8 426 |
+| `male_casualsuit02` | long-sleeve tee | 1 250 |
+| `male_casualsuit03` | striped button shirt | 1 613 |
+| `male_casualsuit04` | short-sleeve tee | 810 |
+| **`male_casualsuit05`** | **four-pocket field jacket** over a shirt | 1 659 |
+| `male_casualsuit06` | plain tee | 2 822 |
+| `male_worksuit01` | denim overalls over a tee | 2 497 |
+| `male_elegantsuit01` | suit jacket + shirt + tie (one shell) | 6 256 |
+| `toigo_male_suit_3` | pinstripe suit jacket + shirt + tie | 4 256 |
+| `toigo_male_double-breasted_suit` | double-breasted suit jacket | 1 694 |
+| `toigo_male_suit_tie_and_jacket` | suit jacket + tie | — |
+
+MakeHuman's CC0 packs contain **exactly one casual jacket** (`male_casualsuit05`) and four tailored suit
+jackets. So `jacket_field`, `jacket_denim` and `jacket_leather` are the same field-jacket mesh in three
+fabrics — stated here rather than implied — and `male_casualsuit02/03` became what they are: a long-sleeve tee
+and a button shirt in the *tops* slot. A new split mode, `keep="outer"`, takes the outermost shell of a
+multi-shell suit by horizontal footprint, which is how the field jacket comes off without the plaid shirt
+modelled inside it; the suit jackets keep `keep="upper"`, because their shirt and tie are part of the same
+shell and a suit jacket with the shirt cut out of it opens onto nothing. `male_casualsuit01` is unusable: its
+shirt and jeans are one welded component, and a height cut through it leaves a raw edge that tears across the
+midriff of a short wearer (0.7).
+
+### 0.2 The garment re-weighting was inert — every garment still had MPFB's proximity weights
+
+The first pass reported that `reweight_from_body` had replaced MPFB's proximity fit with the body's own
+anatomical weights. It had not. `vertex_groups.new(name=...)` does not overwrite an existing group, it
+creates `spine_05.001` beside `spine_05` — and `.001` matches no bone, so the armature modifier ignores it.
+Dumping the shipped `player.blend` showed every garment carrying **both** sets:
+
+```
+jacket_bomber: 69 vertex groups
+  bone-matching (these drove the deformation): calf_l calf_r foot_l foot_r thumb_01_l thumb_02_l
+      index_metacarpal_l ... spine_01..05 upperarm_l/r ...          <- MPFB proximity fit: a jacket
+                                                                       weighted to the feet and the thumbs
+  ignored by the armature: spine_05.001 upperarm_l.001 lowerarm_l.001 ... <- the correct weights
+sneakers_black: active groups include neck_01, neck_02, spine_01..spine_05   <- shoes weighted to the neck
+```
+
+`_transfer_weights` now removes every existing vertex group before writing, which also drops MakeHuman's
+bookkeeping groups (`Delete.*`, `Left`/`Mid`/`Right`, `body`) that were otherwise propagating into every
+procedural layer cut from a garment.
+
+### 0.3 The 24 mm normal push tore the collar — that is the "broken geometry at the neck join"
+
+The outer layer was stood off with `vert.co += vert.normal * 0.024`. On an **open boundary** — the neck hole,
+the cuffs, the hem — a vertex normal is the average of the faces on one side only, so consecutive boundary
+vertices tilt in alternating directions and the edge comes out as a saw-tooth. That is exactly the jagged
+fringe the review saw around the collar in `face_closeup.png`.
+
+`wardrobe.push_along_normals` replaces it: raw vertex normals are Laplacian-smoothed over the edge graph, and
+the push is tapered to zero across three rings of any open boundary, so the hem, the cuffs and the collar
+stay where the tailor put them and only the panels between them stand off. The outer-layer stand-off also
+came down from 24 mm to 11 mm, which is a jacket over a sweater rather than an inner tube.
+
+### 0.4 The skin was never removed from under the clothes — that is the "flipper" foot
+
+Every MakeClothes asset ships a *delete group* naming the base-mesh vertices it hides, and MPFB imports it as
+`Delete.<asset>` and drives a Mask modifier with it. `strip_helper_geometry` deleted the helper geometry and
+then removed **every** Mask modifier — including the one masking the clothes. So the whole foot stayed inside
+the sneaker and interpenetrated it, which is why `detail.png` showed a torn black shell with a bare foot
+coming out of the back of it.
+
+`mh_build.hide_body_under_clothes` now deletes those vertices, guarded so a suit whose trouser half was split
+away cannot delete a leg it no longer covers: a marked vertex goes only if a ray along **its own normal**
+hits a worn garment within 60 mm. (A proximity query was tried first and deletes the skin in the gap between
+a hem and a waistband, because the nearest garment point there is the hem edge — the gap then shows the
+backdrop straight through the body.) On the player that removes 2 819 of 13 380 body vertices (21 %), which
+is 21 % less skin to skin and to export.
+
+### 0.5 Nothing resolved one garment against another
+
+Two garments fitted independently to the same body do not know about each other, so a tee's shoulder seam can
+sit outside the sweater over it. `wardrobe.resolve_layers` gives the outer layer the last word: for every
+vertex of an inner garment it takes the **closest point on the outer garment's surface** (`closest_point_on_
+mesh`, against the real triangles and their face normals — a coarse outer mesh has vertices whose normals
+point nowhere near the surface being poked through) and, if the inner vertex is outside it, moves it back
+until it is 5 mm inside. Three passes. Two orderings had to be got right and both were visible in a render
+before they were:
+
+* a base top goes *inside* the waistband and the trousers close over it, while a sweater or jacket hangs
+  outside them — with the naive "top over bottom" rule, white scraps of tee stuck through the seat of the
+  trousers;
+* a trouser leg drapes *over* the shoe, but a shoe is rigid and must not be dented to make room, so for that
+  one pair it is the trouser that moves, outward, out of the shoe.
+
+On the player, 2 487 garment vertices move.
+
+### 0.6 Consequences for the review's five points
+
+| review point | cause | state now |
+|---|---|---|
+| clothing is an inflated shell | 0.1 + 0.3 | real tailored meshes; ribbed collar, cuffs and hem visible in `full_body.png` |
+| arms fused to the torso | 0.1 (one shell over tee + sweater + arms) | armpit gap and shoulder line visible front and back |
+| hands barely formed | the crude sleeve reached past the wrist | never a mesh problem — see `detail.png`: knuckles, nails, four modelled fingers and a thumb |
+| feet read as flippers | 0.4 | `detail.png`: a black sneaker with a sole line, toe cap and stitching, no skin through it |
+| broken geometry at the neck join | 0.3 | clean ribbed collar in `face_closeup.png` |
+
+Two further defects were found by the same method and fixed in this pass: the pullover's procedural hood was
+a faceted grey sphere stuck to the back (three shapes were built and judged on the render before one read as
+a hood — see 7.4), and the player's outfit was cut from three MakeHuman torso layers to two, because
+`push_along_normals` can stand one fitted layer off another cleanly but three shells fitted to the same body
+cannot all clear each other and the middle one is the one that shows.
+
+### 0.7 The same method, applied to the NPCs
+
+The line-up was then rendered from the *exported glb files* rather than from the build scene, and read the
+same way — one pedestrian at a time, at portrait size. Six more defects came out of that, all fixed:
+
+| what the render showed | cause | fix |
+|---|---|---|
+| the whole line-up washed out and the ends dark | the three-point *portrait* rig lighting a nine-metre line-up: inverse-square falloff blows out the middle | `render_verify.lineup_lighting` — two suns and a lit world, distance-independent, so every pedestrian is lit identically |
+| a courier's box clipping out of the front of an eight-year-old | bag sizes and offsets were absolute, so a 0.40 m box on a 1.16 m child reaches out of the chest | every bag dimension and offset scales with the wearer's own stature |
+| a shoulder bag floating a hand's width clear of the hip | it was placed at a fixed 170 mm from the spine | placed by ray-casting to the body's actual side surface, falling back from the garment to the skin |
+| a tote hanging horizontally off the forearm | built in world axes, and in MakeHuman's rest pose the arm points sideways | hand and forearm bags are built in the *bone's* frame, whose axis is "down" once the arm hangs |
+| grey joggers with a floral print | `toigo_harem_pants` carries a large floral map, and the tint keeps luminance as fabric detail | `Garment.flat_colour` drops the map for assets whose pattern is not fabric detail |
+| a torn gap across an older woman's midriff | `male_casualsuit01` welds its shirt to its jeans, so the shirt came off by a height cut whose raw edge lands above the waistband on a short wearer | both button shirts come off `male_casualsuit03`, which separates cleanly by connected component; the height-cut split mode is gone |
+| skin missing between a polo hem and a waistband | the "is this skin covered?" test was a proximity query, and near a hem the nearest garment point is the hem edge | the test is now a ray along the skin's own normal: no cloth above it, no deletion |
+| a "loafer" that is a trainer and "boots" that are a slip-on | the shoe assets were assigned from their file names | all six `shoesNN` assets were fitted and rendered at 300 px, and named for what they are (7.5) |
+
+---
+
 ## 1. What was built
 
 | Artefact | Content |
@@ -15,8 +167,8 @@
 | `docs/verification/character/detail.png` | hand and foot close-ups - added after the orchestrator's review, because the two places a body most obviously fails cannot be judged in a full-figure shot |
 | `blender_out/character/player.blend` | the scene the verification renders open (no rebuild) |
 | `blender_out/character/catalog/player.json` | bones, per-clip metadata, measurements, asset licences, driver package |
-| `blender_out/character/npc/npc_*.glb` | 24 pedestrians, one per base body, same skeleton and same clip set |
-| `blender_out/character/npc_variety.json` | the 12-dimensional variety contract, the 40-item wardrobe, the 12 hairstyles, and every generated NPC's vector |
+| `blender_out/character/npc/npc_*.glb` | 24 pedestrians decoded from the pedestrian simulation's 12-dimensional variety contract, same skeleton and same clip set |
+| `blender_out/character/npc_variety.json` | the pedestrian variety contract as this lane consumes it, the 47-item wardrobe, the 12 hairstyles, and every generated NPC's twelve floats |
 | `docs/CHARACTER.md` | the person, his verified address, and the build inventory |
 | `tests/test_character.py` | acceptance tests over the exported artefacts plus unit tests of the ASF/AMC parser |
 
@@ -33,9 +185,10 @@ blender/character/retarget.py         CMU -> UE5 rotation-delta retargeter, gait
 blender/character/anim_lib.py         F-curve baking, NLA/glTF export, asset.extras patching, glb reader
 blender/character/car_ref.py          driver package read out of the vehicles lane's exported Fusion Hybrid
 blender/character/anim_procedural.py  every non-mocap clip
-blender/character/wardrobe.py         40 NYC garments tailored from the body mesh, plus bags, hats, watch
-blender/character/variety.py          the 12-dimensional pedestrian variety vector (contract for core/peds)
-blender/character/npc_generator.py    24 base bodies x variety vector
+blender/character/wardrobe.py         47 NYC garments: MakeHuman tailored meshes, layer stand-off and
+                                      layer resolve, plus the vests, hood, bags, hats and watch
+blender/character/variety.py          decodes the traffic lane's 12-dimensional pedestrian variety vector
+blender/character/npc_generator.py    contract vector -> MakeHuman macros, outfit, tints, gait, glb
 blender/character/build_character.py  the player entry point
 blender/character/render_verify.py    the Cycles verification renders
 ```
@@ -105,10 +258,10 @@ exported `.glb`, whose geometry derives only from the CC0 base mesh and targets.
 
 ---
 
-## 5. Blendshapes — all 52 ARKit channels exist
+## 5. Blendshapes — all 52 ARKit channels exist, and all 52 now move something
 
-The `faceunits01` functional pack contains exactly the ARKit-52 set for the hm08 base mesh, so **all 52** are
-realised as glTF morph targets. There is no gap here:
+The `faceunits01` functional pack contains exactly the ARKit-52 set for the hm08 base mesh, so all 52 are
+realised as glTF morph targets:
 
 ```
 browDownLeft        browDownRight       browInnerUp         browOuterUpLeft     browOuterUpRight
@@ -126,15 +279,34 @@ noseSneerRight      tongueOut
 
 They are loaded onto the body mesh **after** MPFB's macro targets are baked into it
 (`TargetService.bake_targets`), so the exported morph list is these 52 and nothing else — no leaked
-`african-male-young` or height targets. `test_blendshapes_actually_move_vertices` asserts every one of the 52
-displaces at least one vertex, so an empty channel cannot ship silently.
+`african-male-young` or height targets.
+
+### 5.1 `tongueOut` was a dead channel, and the test could not see it
+
+The first pass claimed `test_blendshapes_actually_move_vertices` proved every channel displaces a vertex. It
+proved nothing: it raised `KeyError: 'bufferView'` before reaching the assertion, because **Blender writes
+every morph target as a sparse accessor**. A glTF accessor may omit `bufferView` entirely — the base data is
+then all zeros and the real values live in a `sparse` block of (indices, values) — and a face blendshape that
+moves a few hundred of 14 517 vertices is about fifty times smaller that way. The test's reader now decodes
+sparse accessors (`Glb.accessor` / `Glb._read`), which is a fix to the reader, not to the assertion.
+
+With the reader fixed, a real defect surfaced: **`tongueOut` moved nothing.** MakeHuman's `tongueOut.target`
+displaces base-mesh vertices 13380-13605 — exactly the 226 vertices of the *helper tongue*, proxy geometry
+that only exists so the real `tongue01` mesh can be fitted to it. `strip_helper_geometry` deletes those
+vertices and Blender remaps the shape keys with them, so the channel survived by name with every delta zero.
+
+`mh_build.transfer_tongue_morph` now copies the displacement onto the tongue mesh before the strip, each
+tongue vertex taking the delta of the nearest helper-tongue vertex (the two meshes carry the same 226-vertex
+fitted topology, so "nearest" is exact). **226 of 226 tongue vertices move.** The test now checks the union
+over the file's meshes and asserts specifically that the tongue moves by more than a millimetre; a companion
+test asserts the body still names all 52 channels in ARKit order.
 
 Caveats, stated plainly:
 
 * the four `eyeLook*` families move the **eyelid and periorbital skin only**; the eyeballs are separate
   objects and are rotated by the runtime, not by a morph;
-* `tongueOut` moves the body mesh's mouth region; the tongue is a separate mesh skinned to `head` and does
-  not itself morph;
+* `tongueOut` is carried by the tongue mesh, not by the body — the body's channel of that name is a
+  zero-delta placeholder that keeps the runtime's morph list a single 52-entry set;
 * the targets are Mika Suominen's automatic ARKit derivation on hm08. They are correct in direction and
   usable for lipsync and expression, but they are not a hand-sculpted FACS set and there is no corrective
   shape between combinations.
@@ -180,80 +352,110 @@ on every mesh of every character built.
 
 ## 7. Clothing
 
-**The first pass was wrong and was rebuilt.** Garments were originally generated by offsetting the body mesh
-along its normals. The orchestrator's review of `full_body_front.png` called it correctly: the top read as a
-balloon that swallowed the torso, the arms fused into the chest volume because two offset shells
-interpenetrated at the armpit, the sleeves reached past the wrist and buried the hands, and the shoes were
-smoothed foot-shells that read as flippers.
-
-Before rebuilding, the pipeline was diagnosed to make sure the cause was the wardrobe and not a fallback
-mesh (`/tmp` diagnostic, output quoted here):
-
-```
-basemesh: diag.body 19158 verts, 18486 faces        <- the genuine MakeHuman hm08 base mesh
-materials: ['diag.body'] Principled + TEX_IMAGE     <- the real MakeSkin material, not a placeholder
-vertex groups: 233
-bodyparts: eyes 1064, eyebrows 124, eyelashes 250, teeth 3868, tongue 226, hair 2984
-finger bone groups: 30   verts on fingers: 3934     <- the hands do have modelled fingers
-hand_l verts: 369  foot_l: 529  ball_l: 990         <- so do the feet
-clothes loaded: 37 of 37   MISSING clothes: []      <- every MakeHuman garment fits successfully
-```
-
-So the head looked right because it was untouched skin, and the body looked wrong because the procedural
-shells were covering it. Nothing had fallen back.
+Section 0 is the diagnosis; this is what the wardrobe *is* after it.
 
 ### 7.1 What the wardrobe is now
 
-Every base layer, bottom and shoe is a **real tailored MakeHuman CC0 mesh** with a hem, a collar, sleeve
-seams, an armpit and a waistband, fitted by MPFB through the MakeClothes vertex correspondences so it follows
-every macro target. Three mechanisms make that usable as a 40-item NYC wardrobe:
+47 items in `wardrobe.WARDROBE`. Every top, bottom, jacket and shoe is a **real tailored MakeHuman CC0 mesh**
+with a hem, a collar, sleeve seams, an armpit and a waistband, fitted by MPFB through the MakeClothes vertex
+correspondences so it follows every macro target. Four mechanisms make those assets usable as an NYC
+wardrobe:
 
-* **Suit splitting.** Several `casualsuit`/`elegantsuit` assets are one mesh holding a jacket shell and two
-  trouser shells. `split_loose_parts` separates them by connected component and keeps the half the item wants,
-  which turns one asset into a real jacket *and* a real pair of trousers (e.g. `male_casualsuit02` →
-  1 250-vertex bomber jacket, 886 vertices of trouser removed).
-* **Tinting.** The garment's own diffuse map already carries the author's colour, so multiplying the wardrobe
-  colour into it gives muddy hues. The map is instead reduced to luminance, normalised by its own mean,
-  remapped into a 0.55-1.35 shading band and multiplied by the wardrobe colour - **baked into a new image**,
-  in the image's own colour space. Baking rather than shader-nodding matters: glTF carries a base-colour
-  texture and a factor, so a Mix/MapRange chain is dropped on export and the garment would arrive in the
-  engine in the asset author's colour. The first NPC line-up showed exactly that failure.
-* **Layer stand-off.** MakeHuman fits every garment at its own designed stand-off, so a jacket and a sweater
-  interpenetrate. Each layer is pushed out along its normals: base 0, mid 4 mm, outer 24 mm.
+* **Shell splitting** (`split_loose_parts`). A MakeHuman "suit" is one mesh holding several shells. Three
+  modes: `all`; `upper`/`lower` by connected-component centroid; and `outer`, which keeps only the outermost
+  upper shell (largest horizontal footprint, ignoring shells under a tenth the size of the largest so a
+  collar scrap cannot win) and is how the field jacket comes off `male_casualsuit05` without the plaid shirt
+  inside it. A per-vertex height cut was written for `male_casualsuit01`, whose shirt and jeans are one
+  welded component, and then removed with the asset: the raw cut edge lands above the waistband on a short
+  wearer and tears a gap across the midriff.
+* **Tinting** (`tint`). The garment's own diffuse map carries the author's colour, so multiplying the
+  wardrobe colour into it gives muddy hues. The map is reduced to luminance, normalised by its own mean,
+  remapped into a 0.55-1.35 shading band and multiplied by the wanted colour — **baked into a new image**, in
+  the image's own colour space. Baking rather than shader-nodding matters: glTF carries a base-colour texture
+  and a factor, so a Mix/MapRange chain is dropped on export and the garment arrives in the engine in the
+  asset author's colour. The first NPC line-up showed exactly that failure. The colour is a parameter, not a
+  catalogue constant: the pedestrian variety vector's twelve top colours and twelve bottom colours are passed
+  in per build (`finish_makehuman(..., colours=...)`).
+* **Layer stand-off** (`push_along_normals`, section 0.3). Base 0, mid 4 mm, outer 11 mm, tapered to zero
+  across three rings of every open boundary.
+* **Layer resolve** (`resolve_layers`, section 0.5). The outer layer gets the last word, by closest point on
+  its real surface.
 
 ### 7.2 Weights: taken from the body, not from MPFB's proximity fit
 
-MPFB weights a fitted garment by proximity to the base mesh. That is wrong wherever two body parts are close
-together: in the MakeHuman rest pose the hands hang beside the thighs, so trouser vertices picked up `hand_*`
-and finger weights, and as soon as the hand moved it **tore a hand-shaped hole through the trouser leg**. The
-hole was visible in `detail.png` and was isolated to `jeans_indigo` by rendering each garment separately
-against the bare body.
+MPFB weights a fitted garment by proximity to the base mesh, which is wrong wherever two body parts are close
+together: in the MakeHuman rest pose the hands hang beside the thighs, so trouser vertices pick up `hand_*`
+and finger weights and the hand tears a hand-shaped hole through the trouser leg as soon as it moves.
+`reweight_from_body` gives every garment vertex the weights of its nearest *body* vertex through a KD-tree,
+so garments use MakeHuman's own anatomically-correct weighting and inherit the 4-influence, sum-to-one
+normalisation `convert_to_ue5` has just applied.
 
-`reweight_from_body` now gives every garment vertex the weights of its nearest *body* vertex through a
-KD-tree, so garments use MakeHuman's own anatomically-correct weighting and inherit the 4-influence,
-sum-to-one normalisation `convert_to_ue5` has just applied. The same routine weights the procedural garments.
+**In the first pass this ran but did nothing** — section 0.2. It works now, and the proof is in the file: no
+`*.001` vertex group survives on any garment, and no garment carries a group for a bone that is nowhere near
+it (`sneakers_black` no longer has `neck_01`; `jacket_field` no longer has `foot_l`).
 
 A second, unrelated cause of the same symptom was also fixed: the idle pose hung the hands 55 mm *inboard*,
 which pushed them inside the trouser leg. They now hang 16 mm outboard of the thigh.
 
 ### 7.3 What is still procedural
 
-The items MakeHuman has none of: three puffers and a long puffer, two long coats, the ANSI hi-vis vest, the
-Con-Ed orange vest, the insulated delivery vest, the hijab, the hood on the hoodies, the wristwatch, the two
-extra hairstyles, the bags and the caps. These are cut with the original offset technique - but from **the
-garment already on the body** (the tee or the sweater), not from the bare skin, so they inherit that
-garment's real sleeves, armpit gap and hem instead of fusing the arms to the torso. Vests are torso-only and
-so cannot have the problem at all. The hijab leaves the face open by cutting the head region 35 mm in front
-of the head joint.
+The items MakeHuman has none of *and* which an offset shell can honestly stand in for: the ANSI hi-vis vest,
+the Con-Ed orange vest, the insulated delivery vest, the hijab, the hood on the pullovers, the wristwatch, the
+two extra hairstyles, the bags and the caps. (The puffers and long coats used to be here too; an offset shell
+could not carry them and they are now the field-jacket mesh — section 12, gap 5.)
 
-The player wears `tee_white`, `jeans_indigo`, `hoodie_grey` (with a procedural hood), `jacket_bomber` (the
-upper shell of `male_casualsuit02`) and `sneakers_black`, plus a procedural steel watch on the left wrist
-whose strap radius is measured from his own forearm vertices.
+Each is cut as an offset of an existing surface. A vest covers nothing but the torso, so it is cut from **the
+garment already on the body** — the outermost top or jacket — and inherits that garment's armpit and hem.
+Anything whose region reaches past the torso would be cut from the body instead, because a layer can only be
+as long and as sleeved as the surface it comes off; that rule is what the puffers and coats failed, in both
+directions, before they became a MakeHuman mesh. The hijab leaves the face open by cutting the head region 35 mm in front of
+the head joint.
 
-**Gap:** the garments have no zips, buttons, plackets or cloth simulation, and the procedural outerwear still
-has no seams. `bmesh.ops.solidify` was tried on the MakeHuman garments to give them fabric thickness and had
-to be reverted - the CC0 meshes contain loose edges and coincident vertices that make it fan out spikes at
-the shoulder and hip (`thicken()` is kept in the module, unused, with that recorded).
+### 7.4 The hood, and three attempts at it
+
+MakeHuman's CC0 packs contain no hoodie, so the hood on `hoodie_grey`/`hoodie_black`/`kids_hoodie` is
+procedural. Three shapes were built and each was judged on a rendered close-up of the character's back before
+the next was written:
+
+1. **a half-ellipsoid placed from the neck joint** — the back panel of a fitted sweater is 100-140 mm behind
+   the neck joint, and by a distance that depends on the body, so most of the hood ended up *inside* the
+   sweater and what showed was a faceted grey ball and a few fragments;
+2. **the same ellipsoid projected outwards onto the garment surface** — projecting every vertex flattens the
+   volume away and leaves a crumpled skin-tight patch;
+3. **a swept collar roll**, which is what ships. The collar line is found by ray-casting horizontally inwards
+   at collar height on thirteen directions spanning ±86° from straight back (a *closest point* query from out
+   at the side returns the top of the shoulder, and the roll then spans the shoulders like a yoke), and a
+   tube of 44 mm radius at the nape tapering to 24 mm at the ends is swept along those points, standing off
+   along each point's own surface normal. Its loops take their UVs from the nearest garment vertex, so it is
+   shaded by the same knit texture and needs no material of its own, and it is weighted 55/45 to
+   `neck_01`/`spine_05`.
+
+**Gap:** the garments have no zips, buttons, plackets or cloth simulation, and the vests have no seams. `bmesh.ops.solidify` was tried on the MakeHuman garments to give them fabric thickness and had
+to be reverted — the CC0 meshes contain loose edges and coincident vertices that make it fan out spikes at the
+shoulder and hip (`thicken()` is kept in the module, unused, with that recorded).
+
+### 7.5 The shoes are what the render says they are, not what the file is called
+
+`shoes01`-`shoes06` were fitted to the same foot and rendered at 300 px to see what each one *is*, because
+the first pass took `shoes03` for boots and `shoes02` for loafers on the strength of nothing. They are:
+`01` a slip-on dress shoe, `02` and `06` trainers, `03` a chunky slip-on work shoe, `04` a lace-up oxford,
+`05` a trainer. Every one comes with its own sock, which is why a pedestrian in short trousers shows white
+socks. The six footwear levels are named accordingly.
+
+**Gap:** MakeHuman's CC0 packs contain **no boots**. There is no work boot, no Chelsea boot and no winter
+boot in a city that wears all three; the wardrobe says "slip-on work shoes" rather than pretending.
+
+### 7.6 What the player wears
+
+`tee_white`, `jeans_indigo`, `hoodie_grey` (with the procedural hood down on his back), `sneakers_black`, and
+a procedural steel watch on the left wrist whose strap radius is measured from his own forearm vertices. The
+build removes 2 819 of his 13 380 body vertices as covered skin and moves 2 487 garment vertices in the layer
+resolve.
+
+Two torso layers, not three. `push_along_normals` can stand one fitted layer off another cleanly, but three
+MakeHuman torso shells fitted to the same body cannot all clear each other, and the middle one is the one
+that then shows through the outer one. The field jacket is in the wardrobe and on NPCs; on the player it
+would have been a third shell.
 
 ---
 
@@ -398,43 +600,124 @@ glb is missing, `car_ref` falls back to published Fusion interior dimensions and
 
 ---
 
-## 9. NPC system
+## 9. NPC system — built from the pedestrian simulation's variety contract
 
-* **24 base bodies** (`variety.BODY_PRESETS`) across the MakeHuman macro targets — gender, age (child to
-  old), muscle, weight, height, proportions and the three ethnic axes, distributed to match the ACS profile
-  of New York City (30.9 % White NH, 28.7 % Hispanic, 20.2 % Black, 15.6 % Asian). Every one of the 24 is
-  generated and exported; `test_all_24_base_bodies_are_generated` asserts it.
-* **40 wardrobe items** (`wardrobe.WARDROBE`), 29 of them real tailored MakeHuman CC0 meshes and 11
-  procedural: 11 tops, 3 mid-layer hoodies, 13 outerwear (3 puffers plus a long puffer, 2 long coats,
-  3 tailored jackets, 3 suit jackets, ANSI hi-vis, Con-Ed orange, insulated delivery vest), 8 bottoms
-  (jeans x2, chinos, suit trousers, scrubs, joggers, denim shorts, kid's jeans), 4 shoes and the hijab.
-  Scrubs, hijab, delivery vest, hi-vis, tourist tee and three children's items are all present;
-  `test_wardrobe_has_forty_items` checks the count and the tags.
-* **12 hairstyles**: 10 MakeHuman CC0 card-hair meshes (short01-04, bob01/02, long01, ponytail01, braid01,
-  afro01) plus 2 procedural (`buzzcut` = a scalp shell, `topknot` = bob01 plus a bun).
-* **12-dimensional variety vector** (`variety.py`, published to `blender_out/character/npc_variety.json`):
-  `body_preset, skin_tone, hair, top, bottom, shoes, outerwear, bag, hat, glasses, height_scale, walk_style`
-  — 12 unsigned bytes, each an index into a named table, 255 = absent. `height_scale` maps 0-255 onto a
-  narrow multiplier band. `walk_style` selects one of 8 gaits (relaxed, brisk, hurried, strolling, elderly,
-  phone, umbrella, loaded), each with a clip, a playback rate and a stoop offset applied to the whole clip
-  set at build time.
-  The vector is derived from a spawn seed by `blake2b(seed_le_u64)`; byte *i* is dimension *i* and byte
-  *i*+16 is the absence roll, so the runtime can reproduce any pedestrian's appearance from its id alone.
+The traffic lane finished after the first character pass and **fixed the pedestrian variety vector as a
+contract** (`docs/verification/traffic/REPORT.md` §7): twelve floats in `[0, 1]`, each with a fixed number of
+quantisation levels, in this order.
 
-  **`core/peds` was empty when this stage ran** (`core/include/nycsim/peds/` and `core/src/peds/` contain no
-  files), so there was no existing vector to match. This lane *defines* it and publishes the machine-readable
-  contract; the peds agent should consume `npc_variety.json` rather than invent a second encoding. That is a
-  new inter-stage contract and is flagged here for the orchestrator.
-* **One skeleton, one clip set.** Every NPC carries the same 71 bones, the same 52 blendshapes and the same
-  25 clips including `umbrella_hold` and `phone_walk`;
-  `test_npcs_share_one_skeleton_and_the_same_clips` asserts a single distinct clip set across all 24.
+| # | dimension | levels | # | dimension | levels |
+|---|---|---|---|---|---|
+| 0 | age band | 4 | 6 | top garment | 10 |
+| 1 | stature | 6 | 7 | top colour | 12 |
+| 2 | body mass | 6 | 8 | bottom garment | 8 |
+| 3 | skin tone | 8 | 9 | bottom colour | 12 |
+| 4 | hair style | 10 | 10 | footwear | 6 |
+| 5 | hair colour | 8 | 11 | accessory | 10 |
+
+4·6·6·8·10·8·10·12·8·12·6·10 = **63 700 992 000** distinguishable appearances — the figure the traffic report
+quotes. `variety.py` was rewritten to consume exactly this; the previous, locally-invented 12-byte encoding
+(`body_preset, skin_tone, hair, top, bottom, shoes, outerwear, bag, hat, glasses, height_scale, walk_style`,
+12 uint8 indices into locally-defined tables)
+is gone, and with it the 24 fixed body presets it depended on. `tests/test_character.py` carries its own copy
+of the twelve dimensions and level counts, transcribed from the traffic report, and asserts the module and
+the shipped manifest both match it — so neither side can drift silently.
+
+**Decoding.** `level = clamp(floor(v · levels), 0, levels-1)`. That inverts both encodings a producer might
+reasonably use, `k/(levels-1)` and the bin centre `(k+0.5)/levels`; the test checks both for every level of
+every dimension.
+
+**The two things the vector does not carry, resolved rather than invented.**
+
+* *Sex.* There is no sex dimension. Each of the ten hairstyles carries the sex it is worn by
+  (`variety.HAIR_STYLES`); the two unisex styles (short curly, afro) resolve from the parity of the stature
+  and body-mass levels, so the result is deterministic in the vector alone and both sexes appear.
+* *Gait.* Activity comes from the simulation, so the vector carries no walk style. The playback rate of the
+  shared locomotion clips and a spinal lean come from the age band and the body mass (`variety.gait_for`):
+  ×1.10 for a child down to ×0.78 for the older band (a healthy adult walks about 1.4 m/s, an over-65 about
+  1.1 m/s), further scaled ×1.02 to ×0.88 across the six mass levels, with 1° to 8.5° of forward lean.
+
+**Stature is the simulation's own number, and it is solved for.** `core/include/nycsim/peds/Variety.h`
+does not just carry dimension 1 — it *computes a height from it*: `heightMetres() = 1.50 + v[1] · 0.45`,
+scaled by 0.72 for the child band, on the raw float rather than the quantised level. That is the number the
+simulation steps its agents with, so it is the number the mesh is built to; a pedestrian whose mesh is
+1.60 m while the simulation believes it is 1.85 m would be worse than any independent height model.
+`variety.contract_height_m` implements exactly that formula and
+`test_stature_follows_the_simulations_own_height_formula` pins it against the header.
+
+**Two limitations of the contract's formula are reported, not silently corrected.** It has no sex term (men
+and women of the same stature level come out the same height, where the real difference is 12-13 cm) and it
+does not shorten the older band (real over-65s are 4-7 cm shorter). `variety.AGE_BANDS[...]["anthropometric_m"]`
+carries what real anthropometry would ask for and every NPC's entry in `npc_variety.json` records both
+`target_height_m` (built) and `anthropometric_height_m` (reference), so the difference is visible. **Proposed
+change for the peds agent:** give `heightMetres()` a sex term and an ageing term; this lane will follow it.
+
+**Getting to that height needed a solver, not a table.** Feeding the stature dimension straight into MakeHuman's `height`
+macro produced a **1.71 m "child"** and a **2.05 m pedestrian** in the first generation run. All 4 × 6 × 2 (band × stature × sex) combinations were then built and measured; the MakeHuman
+macro-to-stature response is linear per band and sex:
+
+| band | sex | height at macro 0.24 | height at macro 0.90 | slope (m per unit macro) |
+|---|---|---|---|---|
+| child | M / F | 1.185 / 1.105 m | 1.809 / 1.730 m | 0.945 / 0.947 |
+| young adult | M / F | 1.486 / 1.374 m | 2.192 / 2.080 m | 1.070 / 1.070 |
+| middle-aged | M / F | 1.543 / 1.428 m | 2.272 / 2.156 m | 1.105 / 1.103 |
+| older | M / F | 1.529 / 1.420 m | 2.257 / 2.148 m | 1.103 / 1.103 |
+
+Inverting that table was still not enough: the macro that delivers a given stature also depends on the
+**weight, muscle and ethnic macros**, which are three more contract dimensions, and the next generated cast
+still spread over 13 cm at a fixed macro — a 1.44 m adult among them. So the macro is **solved for**:
+`npc_generator.solve_height_macro` builds a naked probe body (no clothes, hair, teeth or eyes — about 1.5 s),
+measures it, and corrects the macro by a secant slope until the measurement is within 8 mm of the target.
+`test_npc_statures_hit_the_metres_the_contract_asked_for` re-checks every NPC against its own target from the
+shipped manifest, so this cannot drift.
+
+**Wardrobe mapping.** The contract's ten top-garment levels are *looks*, not meshes — a base top plus an
+optional layer over it — because that is what an upper body looks like: tee, tank, polo, button-down, scrubs,
+long-sleeve, knit, hoodie, field jacket over a tee, and a suit jacket (which carries its own shirt and tie in
+the same shell, so no separate top goes under it). Eight bottoms are eight different *cuts* (the colour is a
+dimension of its own), six footwear levels are five different shoe meshes (`shoes05` twice, in white and in
+black), and the ten accessory levels are
+nothing, five carried items, glasses, two hats and the ANSI hi-vis vest. **26 of the 47 wardrobe items are
+reachable** from the contract; the other 21 are colourways the colour dimensions make redundant (`tee_black`,
+`jeans_black`, `hoodie_black`, the second sneakers) plus the items no dimension has a slot for (the Con-Ed
+vest, the insulated delivery vest, the hijab, the tourist tee, the four children's items). They stay in the
+catalogue for the simulation to reach if the contract grows, and `npc_variety.json` lists exactly which are
+reachable so the two sides can see the difference.
+
+**The generated cast covers the space.** A hash of 24 seeds leaves whole levels unused — with 24 draws the
+chance of covering all twelve colours is negligible, and a cast that never wears half the wardrobe is not
+evidence the wardrobe works. `variety.spread_vectors` walks each dimension as its own rotated cycle with a
+stride coprime to its level count, so every level of every dimension appears within the first `levels` draws.
+`test_generated_cast_exercises_every_contract_level` asserts it against the shipped manifest.
+
+**The 24 shipped pedestrians.** 6 per age band, 14 female and 10 male, statures **1.153 m** (an eight-year-old
+girl) to **1.903 m** (a middle-aged man), adults 1.511-1.903 m, all ten top looks, all ten accessory levels
+and all six footwear levels worn at least once. Every one hits its own stature target: the largest error over
+the cast is **8.5 mm**, the mean 3.1 mm, at a mean of 3.0 probe builds. 12-14 meshes and 18 835-30 206
+vertices each; 14.4-31.4 MB per glb, **496 MB** for the cast, which is dominated by the 25 shared animations
+and the 52 morph targets each file carries its own copy of. Across the cast the contract's height formula and
+real anthropometry differ by 64 mm on average and 179 mm at worst, which is the size of the sex and ageing
+terms the formula is missing.
+
+**One skeleton, one clip set.** Every NPC carries the same 71 bones, the same 52 blendshapes and the same 25
+clips including `umbrella_hold` and `phone_walk`; `test_npcs_share_one_skeleton_and_the_same_clips` asserts a
+single distinct clip set across all 24.
+
+**A broken garment can no longer ship.** `wardrobe.verify_outfit` checks every finished garment against the
+body's own bounding box grown by 300 mm and rejects non-finite coordinates, and the build raises if anything
+fails. This was written because the first run of the new generator produced a **2.51 m pedestrian**:
+`bmesh.ops.solidify` on the hi-vis vest, cut from a fitted sweater whose CC0 mesh has coincident vertices and
+inconsistent winding, fanned out spikes 2.3 m tall and 4.0 m deep, and the exported bounding box quietly
+absorbed them. `build_garment` now cleans the cut (remove doubles, dissolve degenerates, drop loose vertices,
+recalculate normals) and compares the bounding box before and after `solidify`; if the mesh grew by more than
+eight times the intended thickness it ships the single-sided shell instead and says so in the log.
 
 ---
 
 ## 10. Verification renders
 
-Cycles CPU, 64 samples for the mandated stills and 32-48 for the contact sheets, three-point area lighting on
-a neutral backdrop (ADR-012). `NYCSIM_RENDER_PREVIEW=1` renders the same compositions at 34 % scale and 10
+Cycles CPU, 64 samples for the mandated stills and 20-48 for the contact sheets, three-point area lighting on
+a neutral backdrop for the portraits and two suns for the line-up (ADR-012). `NYCSIM_RENDER_PREVIEW=1` renders the same compositions at 34 % scale and 10
 samples; framing and pose iterations were done there, and only the final pass at full quality.
 
 | file | what it shows |
@@ -442,13 +725,13 @@ samples; framing and pose iterations were done there, and only the final pass at
 | `face_closeup.png` | three-quarter portrait: subsurface skin, split eyeball/cornea with the tagged iris, `eyelashes02`, `eyebrow006`, the hair cards |
 | `full_body.png` | front and back of the dressed player (the character is turned 180 degrees between the two, so both halves are lit identically) |
 | `walk_strip.png` | eight evenly spaced frames of one retargeted walk cycle, side on |
-| `bend_test.png` | elbow (top row) and knee (bottom row) at 0/45/90/120 degrees, clay-shaded with the clothing hidden |
+| `bend_test.png` | elbow (top row) and knee (bottom row) at 0/45/90/120 degrees, the **dressed** character clay-shaded |
 | `blendshapes.png` | six ARKit face units at full weight |
-| `detail.png` | left hand and left foot at 460 px each: modelled fingers with nails and knuckles, the shoe, and the garment boundaries |
-| `npc_lineup.png` | twelve generated pedestrians side by side |
+| `detail.png` | left hand and left foot at 460 px each: modelled fingers with nails and knuckles, and the sneaker with its sole line, toe cap and stitching |
+| `npc_lineup.png` | twelve of the twenty-four generated pedestrians side by side, imported from their exported `.glb` files rather than from the build scene |
 
-The renders were opened and acted on, not just produced - and after the orchestrator's review, opened again.
-Eleven defects were found this way and fixed:
+The renders were opened and acted on, not just produced - and after each orchestrator review, opened again.
+Eleven defects were found in the first pass this way and fixed:
 
 1. the first idle stood in a mid-stride pose with the legs splayed - the standing posture was being averaged
    over double-support frames only; it now averages a whole gait cycle, levels the head and plants the feet
@@ -481,6 +764,29 @@ The bend test after the rebuild shows a clean elbow and knee through 0/45/90/120
 no collapse, and the limb keeps its volume. There is mild volume loss on the inside of the elbow and behind
 the knee at 120 degrees, which is what four-influence linear blend skinning does without corrective shapes.
 
+### 10.1 The second review pass
+
+The renders were opened again after the orchestrator's second review, and this time the diagnosis came from
+**rendering the character one layer at a time** rather than from staring at the finished frame (section 0).
+Six further defects were found on a render and fixed:
+
+12. the "bomber jacket" was a crude long-sleeve tee shell inflated 24 mm — the balloon (0.1);
+13. every garment was still deforming with MPFB's proximity weights, because the corrected weights had gone
+    into `bone.001` groups the armature ignores (0.2);
+14. the 24 mm stand-off saw-toothed every open boundary, which is the jagged collar (0.3);
+15. the whole foot stayed inside the sneaker, which is the torn "flipper" (0.4);
+16. the hood was a faceted grey sphere on the back; three shapes were built and judged on a close-up before
+    one read (7.4);
+17. the hi-vis vest blew up to 2.3 m tall under `bmesh.ops.solidify` and produced a 2.51 m pedestrian in the
+    first run of the new NPC generator (section 9).
+
+`bend_test.png` now clay-shades the **dressed** character rather than the bare skin: the skin under the
+clothes is deleted at build time, so a skin-only render is full of holes, and what has to bend correctly is
+the sleeve and the trouser leg that ship. Through 0/45/90/120 degrees the sleeve keeps its cuff and creases
+at the elbow and the trouser leg holds volume at the knee with thigh-to-calf contact at 120 degrees; there is
+no candy-wrapping and no collapse. Mild volume loss on the inside of the elbow and behind the knee at 120
+degrees is what four-influence linear blend skinning does without corrective shapes.
+
 ---
 
 ## 11. Tests
@@ -488,15 +794,41 @@ the knee at 120 degrees, which is what four-influence linear blend skinning does
 `python3 -m pytest tests/test_character.py -q`
 
 The suite reads the exported artefacts, not the generator: it parses `player.glb`'s JSON and BIN chunks
-itself and checks the bone set and hierarchy, the seven IK bones, the full finger chain including
-metacarpals, the `asset.extras.nycsim` block required by DATA_CONTRACTS section 13, every required animation
-name, 30 fps key spacing, loop closure, the additive flags, the 52 morph target names, that each morph
-actually moves vertices, that skin weights sum to 1 with at most four influences and reference valid joints,
-the player's measurements, and that his home BIN is residential in `buildings_base.parquet`. The NPC manifest
-is checked for the 12 dimensions, 24 bodies, 40 wardrobe items and the single shared clip set. The ASF/AMC
-parser has its own unit tests (bone-length invariance under FK, the rest pose being a standing human, the
-Euler convention matching Blender's, the Y-up to Z-up swap being a proper rotation) that need neither Blender
-nor the exported assets.
+itself — including **sparse accessors**, which is what morph targets are written as — and checks the bone set
+and hierarchy, the seven IK bones, the full finger chain including metacarpals, the `asset.extras.nycsim`
+block required by DATA_CONTRACTS §13, every required animation name, 30 fps key spacing, loop closure, the
+additive flags, the 52 morph target names, that every channel actually moves vertices somewhere in the file
+and that the tongue really comes out, that skin weights sum to 1 with at most four influences and reference
+valid joints, the player's measurements, and that his home BIN is residential in `buildings_base.parquet`.
+
+The pedestrian contract has its own tests that need neither Blender nor the exported assets, because
+`variety.py` is plain Python (it imports `wardrobe`, and therefore `bpy`, lazily): the twelve dimensions and
+their level counts are transcribed into the test file from `docs/verification/traffic/REPORT.md` §7 and
+checked against the module, the appearance-space size is checked to be 63 700 992 000, quantisation is
+checked to invert both plausible encodings at every level of every dimension, and every level of every
+dimension is decoded and its outfit checked for exactly one bottom, exactly one pair of shoes, no item worn
+twice, no colour override for an item not worn and a plausible gait. Against the shipped manifest it then
+checks that the published contract matches, that the generated cast exercises every level of every
+dimension, that each NPC's twelve floats re-decode to the levels and the outfit that were actually built,
+that all 24 share one skeleton and one clip set, and that their statures span a real population.
+
+The ASF/AMC parser keeps its own unit tests (bone-length invariance under FK, the rest pose being a standing
+human, the Euler convention matching Blender's, the Y-up to Z-up swap being a proper rotation).
+
+### 11.1 The two failures the review reported, and what was actually wrong
+
+**`test_animations_are_30fps_and_non_trivial`** — every glTF key was 0.041667 s apart, i.e. 1/24. Nothing set
+the scene frame rate, so it stayed on Blender's 24 fps default; the clips are baked one key per frame and the
+exporter converts a key's frame number to seconds with the *scene* rate, so a "30 fps" clip shipped 25 % slow
+and every documented ground speed with it. `anim_lib.set_scene_fps` now sets 30 at build time (so the saved
+`.blend` agrees) and again inside `export_character` (so the `.glb` agrees whatever opened the file). Key
+spacing is now 1/30 s to within 1e-6.
+
+**`test_blendshapes_actually_move_vertices`** — `KeyError: 'bufferView'`. Section 5.1: the reader could not
+decode sparse accessors, and behind that failure sat a genuinely dead `tongueOut` channel. Both are fixed;
+neither assertion was relaxed, and the blendshape test is now strictly stronger than before (it additionally
+requires the tongue to move more than a millimetre, and a second test pins the body's channel list to the
+ARKit set in ARKit order).
 
 ---
 
@@ -512,24 +844,46 @@ nor the exported assets.
 2. **`run` is a time-compressed 3.6 m/s run, not a 5 m/s sprint** (8.3), with the numbers in the metadata.
 3. **The idle's motion is authored**, only its posture is mocap (8.4) — there is no idle capture in the
    fourteen downloaded CMU files.
-4. **Garments have no zips, buttons, plackets or cloth simulation**, and the eleven procedural items are
-   still offset shells (section 7.3). The 29 MakeHuman items are properly tailored meshes.
-5. **No facial rig beyond blendshapes.** There are no jaw or eye bones; the eyes are separate objects the
+4. **Garments have no zips, buttons, plackets or cloth simulation.** The wardrobe is 43 real tailored
+   MakeHuman meshes and 4 procedural items (three work vests and the hijab, all torso-only cuts of the
+   garment already on the body).
+5. **MakeHuman's CC0 packs contain one casual jacket and no puffer, no long coat and no hoodie.**
+   `jacket_field`, `jacket_denim`, `jacket_leather`, `puffer_black`, `puffer_olive`, `puffer_red_long`,
+   `coat_wool` and `coat_trench` are therefore all `male_casualsuit05` — a four-pocket field jacket — in
+   eight fabrics, at stand-offs from 11 to 22 mm. They read correctly as jackets and coats at street
+   distance, but **a "long" coat is hip-length, not knee-length**, and a puffer has no quilting.
+   Both alternatives were built and rejected on the render: cut from the tee underneath, a "trench coat"
+   comes out as a beige t-shirt; cut from the skin with sleeves and a hem it comes out as a painted-on
+   body-suit. The hood is procedural and is a bunched collar roll (section 7.4), not a hood you could put up.
+6. **No boots.** MakeHuman's CC0 packs have none, so a city that wears work boots, Chelsea boots and winter
+   boots is shod in trainers, oxfords, loafers and one chunky slip-on work shoe. The six footwear levels are
+   five distinct meshes: `shoes05` appears twice, in white and in black.
+7. **The carried items are bevelled boxes.** A backpack, tote, shoulder bag, courier's box and briefcase are
+   each one box, scaled to the wearer and placed against the body surface by ray-cast, weighted rigidly to
+   one bone. They read at street distance and are wrong close up: no straps, no handles, no soft shape.
+8. **No facial rig beyond blendshapes.** There are no jaw or eye bones; the eyes are separate objects the
    runtime must rotate, and jaw motion is the `jawOpen`/`jawLeft`/`jawRight`/`jawForward` morphs only.
-6. **No LODs and no cloth/hair physics.** One mesh level per part; the player is about 42 k vertices across
-   16 meshes. LOD generation and a UE cloth setup are runtime-side work.
-7. **Subsurface skin is authored, not previewable in glTF.** The Principled subsurface weight and radius are
-   set for Cycles and written into `extras.nycsim.skin` for the UE material; glTF itself has no SSS, so a
-   glTF viewer shows flat diffuse skin.
-8. **The `eyeLook*` blendshapes move only the lids** (5).
-9. **Character forward is -Y in Blender**, recorded as `extras.nycsim.forward_axis_blender`. That is
+9. **No LODs and no cloth/hair physics.** One mesh level per part; the player is about 38 k vertices across
+   15 meshes, an NPC 18-30 k. LOD generation and a UE cloth setup are runtime-side work.
+10. **Subsurface skin is authored, not previewable in glTF.** The Principled subsurface weight and radius are
+    set for Cycles and written into `extras.nycsim.skin` for the UE material; glTF itself has no SSS, so a
+    glTF viewer shows flat diffuse skin.
+11. **The `eyeLook*` blendshapes move only the lids, and `tongueOut` is carried by the tongue mesh** (5).
+12. **The contract's height formula has no sex term and does not shorten the older band** (9). This lane
+    builds to the simulation's number rather than to anthropometry, and reports the difference: 64 mm on
+    average and 179 mm at worst across the shipped cast.
+13. **Two 5 mm scraps of the tee's hem still show through the seat of the player's trousers** on the back
+    view. `resolve_layers` moves 2 487 vertices and leaves those two; a fourth pass clears them but the cast
+    would have to be regenerated to keep the code and the shipped assets in step, so it is recorded rather
+    than half-applied.
+14. **Character forward is -Y in Blender**, recorded as `extras.nycsim.forward_axis_blender`. That is
    MakeHuman's native orientation, kept because rotating a shape-keyed, skinned, multi-mesh character risks
    more than it gains; the UE import must apply the +X convention. This differs from the vehicles lane, which
    exports +X forward, and the orchestrator should make the import script aware of it.
-10. **The car clips assume the exported Fusion Hybrid.** If the vehicles lane re-exports with different
+15. **The car clips assume the exported Fusion Hybrid.** If the vehicles lane re-exports with different
     interior geometry the seated clips need rebuilding; the numbers used are recorded in the catalog so the
     drift is detectable.
-11. **Facial identity is MakeHuman's**, driven only by the macro targets — no custom head sculpt, so the
+16. **Facial identity is MakeHuman's**, driven only by the macro targets — no custom head sculpt, so the
     player's face is a plausible 34-year-old rather than a designed, memorable one.
 
 ---
@@ -543,12 +897,21 @@ nor the exported assets.
   should difference them against `sit_drive_idle`.
 * The seated clips need the character's origin at `extras.nycsim.car_attach.socket_car_local_m` in the car's
   frame — `[1.7537, 0.375, 0.0]` for the Fusion.
-* `blender_out/character/npc_variety.json` is the **pedestrian appearance contract for `core/peds`**: 12
-  uint8 dimensions, the tables they index, and the seed hash. Consume it; do not define a second encoding.
+* `blender_out/character/npc_variety.json` publishes the **pedestrian appearance contract as this lane
+  consumes it**: the twelve dimensions and their level counts exactly as `docs/verification/traffic/
+  REPORT.md` section 7 fixes them, the table each level indexes, which wardrobe items are reachable, and
+  every generated NPC's twelve floats with what they decoded to. The simulation produces the vector; this
+  lane consumes it. The first pass invented its own 12-byte encoding when `core/peds` was empty - that is
+  gone.
+* **Two dimensions the vector does not carry are derived here**: sex from the hairstyle table (with the
+  two unisex styles resolved from the parity of stature + body mass) and the locomotion playback rate
+  from the age band and body mass. If the simulation ever wants to own either, they become dimensions 13
+  and 14 and `variety.py` drops its derivation.
 * Every character is 4-influence skinned with weights summing to exactly 1, so UE's default skinning limit
   needs no re-weighting on import.
 * Rebuild commands:
-  `python3 blender/character/build_character.py` (about 35 s),
-  `python3 blender/character/npc_generator.py --count 24` (about 13 min),
+  `python3 blender/character/build_character.py` (about 20 s),
+  `python3 blender/character/npc_generator.py --count 24` (about 12 min; each NPC costs two to four
+  extra 1.5 s probe builds while its stature is solved for),
   `python3 blender/character/render_verify.py all` (about 50 min at 64 samples on this contended 4-vCPU box;
   set `NYCSIM_RENDER_PREVIEW=1` for a two-minute pass).

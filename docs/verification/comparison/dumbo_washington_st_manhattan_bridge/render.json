@@ -47,9 +47,19 @@
  "clearance": {
   "min_view_m": 80.0,
   "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "nearest_obstruction": "prop_lamp_cobra_davit_1",
+  "nearest_obstruction_m": 2.6,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_cobra_davit_1 2.6 m away, and the view azimuth is clear for 5 m",
+  "offset_m": 0.0,
+  "view_m": 5.4
  },
+ "frame": {
+  "mean": 0.3438,
+  "reason": null,
+  "sd": 0.2297,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "viewpoint",
  "interior": false,
  "lens_reason": "the 102 m Manhattan Bridge tower stands 172 m from the viewpoint, so its top sits 31 deg above a level optical axis: 28 mm is the longest normal lens that still contains it without tilting the camera and skewing the verticals.  The reference photographs are longer (about 60 mm equivalent) and tilted up, so the render frames more of Washington Street than they do",
@@ -86,7 +96,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/dumbo_washington_st_manhattan_bridge/render.png",
- "rendered_at": "2026-09-06T19:57:23Z",
+ "rendered_at": "2026-09-06T20:22:59Z",
  "resolution_note": "784x1394; the reference photograph is 1920x3413 (0.56:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
@@ -183,6 +193,7 @@
    "radius_m": 140.0,
    "records_in_range": 8917,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
     "t_-4_0"
@@ -278,7 +289,7 @@
    }
   },
   "radius_m": 900.0,
-  "seconds": 58.91,
+  "seconds": 67.45,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -301,9 +312,9 @@
   "radius_m": 900.0
  },
  "seconds": {
-  "render": 206.7,
-  "scene": 59.9,
-  "total": 266.6
+  "render": 280.6,
+  "scene": 69.9,
+  "total": 350.5
  },
  "slug": "dumbo_washington_st_manhattan_bridge",
  "status": "rendered",

@@ -103,6 +103,13 @@ struct PedConfig {
   float despawn_m = 900.f;
   bool use_player_ring = true;
   uint32_t max_paths_per_step = 96;
+  // Cell size of the crowd hash, metres.  0 derives it from the world bounds
+  // and `max_peds`, which is right when the crowd fills the world and wrong when
+  // it does not: over the whole city the derived cell is 40 m, and a crowd
+  // streamed into one square kilometre then puts ~10 agents in every cell that
+  // the 3 m repulsion query has to walk.  A host that knows the streamed extent
+  // should set this (docs/verification/performance/REPORT.md).
+  float hash_cell_m = 0.f;
   float ped_per_m2_default = 0.02f;
 };
 
@@ -133,6 +140,9 @@ struct Pedestrian {
 struct PedStats {
   uint32_t peds = 0;
   uint32_t spawned = 0, despawned = 0, spawn_failures = 0;
+  // Agents the crowd hash refused because it was at capacity: they would be
+  // invisible to the repulsion and probe queries, so this must stay 0.
+  uint32_t hash_drops = 0;
   uint32_t crossing = 0, waiting = 0, jaywalking = 0, sitting = 0, jogging = 0;
   uint32_t hailing = 0, cabs_hailed = 0, subway_entries = 0, photographs = 0;
   uint32_t uniqueness_redraws = 0, uniqueness_failures = 0;

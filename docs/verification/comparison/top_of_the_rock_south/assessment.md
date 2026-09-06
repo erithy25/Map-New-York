@@ -4,39 +4,41 @@
 
 **Reference** — File:View-from-Empire-State-Building.jpg by Sebring12Hrs, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2018-10-25 13:05:58, 1920x1440. [Commons page](https://commons.wikimedia.org/wiki/File:View-from-Empire-State-Building.jpg)
 
-**Camera** — camera 40.75930, -73.97890 (NYC_TM -2440, 6586) z 281.0 m NAVD88 | azimuth 205.2deg pitch +0.0deg | 24 mm on 36 mm (73.7deg horizontal) | 1208x906. View direction: 205.2 deg as recorded; it agrees with the bearing from the camera position used to Empire State Building (205.4 deg) to 0.2 deg. Aim: level optical axis (the subject is 1334 m away; anything that far is photographed with a level camera).
+**Camera** — camera 40.75930, -73.97890 (NYC_TM -2440, 6586) z 280.9 m NAVD88 | azimuth 205.2deg pitch +0.0deg | 24 mm on 36 mm (73.7deg horizontal) | 1208x906. View direction: 205.2 deg as recorded; it agrees with the bearing from the camera position used to Empire State Building (205.4 deg) to 0.2 deg. Aim: level optical axis (the subject is 1334 m away; anything that far is photographed with a level camera).
 
 **Sun** — azimuth 187.9°, elevation 36.7° at 2018-10-25T13:05:58-04:00 (EXIF DateTimeOriginal).
 
-**In frame** — 65/83 building tiles (1,174,626 tris), 46 landmark models, 3,371 pavement polygons, 0 props, 0 facade-kit pieces; 3,597,724 triangles; ground mesh 381² at 2.0 m near / 40.0 m far.
+**In frame** — 65/83 building tiles (1,168,378 tris), 46 landmark models, 3,371 pavement polygons, 0 props, 0 facade-kit pieces; 3,591,476 triangles; ground mesh 381² at 2.0 m near / 40.0 m far.
 
-**Verdict — the frame is a picture of a roof: the camera stands 2 m above the shell of 30 Rockefeller Plaza in the middle of its slab, and the parapet hides everything the photograph is of**
+**Verdict — now a real comparison and a good one: the Empire State Building is centred where the photograph puts it, the Midtown carpet below has the right grain and the right relative heights, and 46 landmark models sit in the right places. What is missing is every surface — glass, stone, roof plant, the deck the photographer is standing on — and the far half of the view**
 
 ## What matches
 
-* The eye height is right and its source is published: 259.1 m deck level from blender_out/landmarks/catalog/30_rockefeller_plaza.json (CTBUH 850 ft) plus 1.6 m, giving 281.0 m NAVD88 against the terrain's 20.3 m.
-* The heading is right: 205.2 deg as recorded, and the bearing from the viewpoint to the Empire State Building 1,334 m away is 205.4 deg — 0.2 deg apart.
-* The lens is right for the subject: 24 mm / 73.7 deg horizontal, which is what the reference frame's Midtown-to-Harbour span needs.
-* What can be seen over the parapet is correct in kind: the Midtown towers step down to the south, One Vanderbilt's tapered mass and its spire are at the left of the far ridge, and the low-rise carpet between them has the right grain and the right roof colours (tar, membrane, red brick).
-* 65 of the 83 tiles in the 4.5 km scene now import, 28 of them by falling back from LOD2 to LOD1; before the fallback only 37 tiles came in and half the skyline was missing.
+* The Empire State Building is centred, at the right apparent size for 1,334 m, with its stepped setbacks, mooring mast and antenna all present and correctly proportioned. It is the single strongest match in the whole comparison set.
+* The heading is right (205.2 deg recorded, 205.4 deg to the subject) and the 24 mm lens gives the same 73.7 deg span as the reference frame.
+* The eye height is right and published: 259.1 m deck level from the 30 Rockefeller Plaza catalogue entry (CTBUH 850 ft) plus 1.6 m, over a 20.3 m plaza.
+* The carpet of Midtown between the camera and the Empire State Building has the right grain: block sizes, street rhythm, the rise of the mid-block towers and the drop into the side streets all read like the photograph.
+* Relative heights are right across the frame. The Billionaires' Row slab on the left rises well above everything near it, the Rockefeller Center block on the right cuts the frame at the correct height, and the low-rise between them sits at the right level.
+* 46 landmark models are in the frame, including 30 Rockefeller Plaza, St Patrick's, MoMA, Lever House, the Seagram Building, Carnegie Hall and the MetLife Building. Their shells are suppressed so nothing is drawn twice: 72 BINs and 6,248 faces removed in this scene.
+* 65 of the 83 tiles import, 28 of them by falling back from LOD2 to LOD1 — before that fallback only 37 came in and half the skyline was missing.
 
 ## What does not match
 
-* More than half the frame is the flat white roof the camera is standing on, and the parapet across the middle cuts off everything from the horizon down. The reference photograph is a near-vertical view over Midtown from the deck's edge with the Empire State Building centred, the Hudson on the right and the Harbour beyond; the render shows none of that.
-* The Empire State Building — the named subject, 1,334 m away and 381 m tall, which should stand a third of the way up the frame dead centre — is entirely hidden behind the parapet.
-* The camera-to-parapet correction did not fire. camera.py walks a rooftop eye point forward to the edge of whatever supports it, but it probed only 4 m downward for support; the shell roof here is further below the published deck level than that, so the probe found nothing, concluded the camera was standing on open ground, and left it in the middle of the slab. The probe distance has been raised to 30 m and this subject needs re-rendering.
-* The 30 Rockefeller Plaza landmark model and the tile shell of the same building are both in the scene. 67 of the 93 landmark catalogue entries name 121 BINs that blender_out/tiles also builds, so every one of those buildings is drawn twice.
-* There is no observation deck: no glass screens, no deck floor, no railings, no antennae or radio masts on the roof. The photograph's foreground furniture is entirely absent.
-* The towers are flat pastel solids with no glass and no fenestration, so the mid-distance carpet of Midtown reads as a massing model rather than as a city seen from 260 m.
-* 18 of the 83 tiles have no shell at all, so the New Jersey bank across the Hudson — visible in the reference — is empty.
+* There is no observation deck. The camera stands in mid-air above the 30 Rockefeller Plaza model, which stops at the roof slab: no deck floor, no glass screens, no parapet, no radio masts. The photograph's foreground furniture has no counterpart, and nothing supports the camera.
+* No building has any surface. Every tower is a flat pastel solid; the two towers with visible fenestration owe it to the landmark models, not to the shells. There is no glass, no reflection, no spandrel banding, no stone.
+* No roof carries plant. The reference is full of cooling towers, water tanks, bulkheads, skylights and terraces on every roof in the middle distance; the render's roofs are blank slabs. props.parquet has 120 cooling towers in a comparable Midtown frame and none of them has an exported asset.
+* The far half of the view is gone. The Hudson, the harbour, Lower Manhattan and the New Jersey bank — all present in the reference — wash out into haze because 18 of the 83 tiles have no shell and the rest are LOD1 boxes.
+* The colour palette is wrong in a specific way: too much pale blue and salmon, too little grey and black. Midtown from above is mostly dark glass, grey stone and black tar roofs; the render's per-material base colours read as a pastel massing model.
+* No people, no vehicles on the avenues, no water towers, no antennae, no flags.
+* Props and facade kit are switched off for this scene (eye height above 20 m), which is the right call at 260 m but means the streets below are geometrically bare.
 
 ## Cause of each gap
 
 | gap | cause | class |
 |---|---|---|
-| the frame is a roof slab, not the view | the rooftop parapet walk probed only 4 m for support and missed the shell roof under a deck height taken from the published deck level; fixed in camera.py, this subject needs re-rendering | camera |
-| Empire State Building not visible | consequence of the camera standing in the middle of the roof rather than at the south parapet | camera |
-| 30 Rockefeller Plaza drawn twice | the landmark catalogue names the BINs it replaces (bins: [1076262]) but the shell loader does not suppress them; the same is true for 121 BINs across 67 landmarks | geometry |
-| no observation deck, screens or masts | the deck structure is not modelled by any stage; the landmark model stops at the roof slab | geometry |
-| flat pastel towers | shells carry a per-material base colour only, with no facade texture and no glass BSDF | material |
-| empty New Jersey bank | no tile_buildings.glb is built outside the five boroughs | data |
+| no observation deck, screens or masts | no stage models the deck; the landmark model ends at the roof slab | geometry |
+| flat pastel towers, no glass | shells carry a per-material base colour with no facade texture and no glass BSDF | material |
+| blank roofs | roof plant exists in props.parquet as kinds (cooling_tower, misc_structure) with no exported asset | data |
+| the far half of the view is empty | 18 tiles have no tile_buildings.glb (water, parkland and New Jersey) and the rest are LOD1 | data |
+| pastel palette | the per-material base colours are lighter and more saturated than the real Midtown mix | material |
+| no people or vehicles | no crowd or traffic placement feeds the verification scene | data |
