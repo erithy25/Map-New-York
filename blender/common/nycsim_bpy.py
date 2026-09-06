@@ -224,10 +224,12 @@ def pbr_material(name: str, *, base_color=(0.8, 0.8, 0.8, 1.0), roughness: float
 
 
 # --------------------------------------------------------------------------- export
-def export_glb(path: str | Path, *, objects: Sequence[bpy.types.Object] | None = None, extras: dict | None = None,
+def export_glb(path: str | Path, *, objects: Sequence[bpy.types.Object] | None = None,
+               active: bpy.types.Object | None = None, extras: dict | None = None,
                draco: bool = False, apply_modifiers: bool = True, export_animations: bool = False, texcoords: bool = True,
                tangents: bool = False, export_extras: bool = True, export_attributes: bool = False,
-               export_normals: bool = True) -> Path:
+               export_normals: bool = True, export_skins: bool | None = None, export_morph: bool | None = None,
+               operator_kwargs: dict | None = None) -> Path:
     """Export selected (or all) objects to .glb with NYCSim asset extras (DATA_CONTRACTS §13).
 
     ``export_attributes`` carries custom mesh attributes into the file; the building shell stage needs
@@ -237,6 +239,22 @@ def export_glb(path: str | Path, *, objects: Sequence[bpy.types.Object] | None =
     (``_BIN``, ``_FACADE_CLASS``) — that is the glTF convention for application-specific attributes,
     and Blender's exporter silently drops any custom attribute that does not follow it. ``export_normals`` is exposed so a stage that computes its own normals
     can turn Blender's off.
+
+    Skins, morph targets and animations are three separate things, and a character needs a different
+    combination of them than a building does. ``export_skins`` and ``export_morph`` therefore default to
+    ``None`` meaning "follow ``export_animations``" — which is what every caller before them got — and can
+    each be set independently: a static posed mesh is ``export_animations=False, export_skins=True``.
+
+    ``operator_kwargs`` passes anything else straight to ``bpy.ops.export_scene.gltf`` and is merged last,
+    so it also overrides the arguments computed above. It is what a stage with a genuinely different export
+    shape uses instead of calling the operator itself and re-implementing the ``asset.extras`` stamp: the
+    character stage needs one glTF animation per NLA clip (``export_animation_mode="ACTIONS"``,
+    ``export_nla_strips=True``), a rest-position armature and unsampled F-curves. Keys are checked against
+    the operator's own property set before the export runs, because a property that exists in one Blender
+    release and not the next would otherwise fail after the scene metadata had already been written.
+
+    ``active`` sets the active object, which the exporter needs when the selection is an armature and its
+    children. Left ``None`` the active object is not touched.
     """
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -245,25 +263,55 @@ def export_glb(path: str | Path, *, objects: Sequence[bpy.types.Object] | None =
             "exported_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "units": "metres", "up_axis_blender": "Z"}
     if extras:
         meta.update(extras)
+    use_selection = objects is not None
+    kwargs = dict(filepath=str(path), export_format="GLB", use_selection=use_selection, export_yup=True,
+                  export_apply=apply_modifiers, export_texcoords=texcoords, export_normals=export_normals,
+                  export_tangents=tangents, export_attributes=export_attributes,
+                  export_materials="EXPORT", export_image_format="AUTO", export_draco_mesh_compression_enable=draco,
+                  export_animations=export_animations, export_extras=export_extras,
+                  export_skins=export_animations if export_skins is None else export_skins,
+                  export_morph=export_animations if export_morph is None else export_morph)
+    if operator_kwargs:
+        _check_gltf_kwargs(operator_kwargs)
+        kwargs.update(operator_kwargs)
+
     sc["nycsim"] = json.dumps(meta)
     _pending_asset_extras.clear()
     _pending_asset_extras.update(meta)
     for o in bpy.data.objects:
         o.select_set(False)
-    use_selection = objects is not None
     if use_selection:
         for o in objects:
             o.select_set(True)
-    bpy.ops.export_scene.gltf(filepath=str(path), export_format="GLB", use_selection=use_selection, export_yup=True,
-                              export_apply=apply_modifiers, export_texcoords=texcoords, export_normals=export_normals,
-                              export_tangents=tangents, export_attributes=export_attributes,
-                              export_materials="EXPORT", export_image_format="AUTO", export_draco_mesh_compression_enable=draco,
-                              export_animations=export_animations, export_extras=export_extras, export_skins=export_animations,
-                              export_morph=export_animations)
+    if active is not None:
+        bpy.context.view_layer.objects.active = active
+    bpy.ops.export_scene.gltf(**kwargs)
     if not path.exists() or path.stat().st_size < 100:
         raise RuntimeError(f"glTF export failed: {path}")
     _stamp_asset_extras(path, meta)
     return path
+
+
+def _check_gltf_kwargs(kwargs: dict) -> None:
+    """Reject an operator argument this Blender does not have, before anything has been written.
+
+    Blender raises its own ``TypeError`` for an unrecognised keyword, but only once the operator is
+    already running and after the scene has been mutated; and its message does not say what the caller
+    should have written instead. Unknown keys are reported together, each with the nearest real property
+    names, so a rename between Blender releases is a one-line fix rather than a hunt.
+    """
+    import difflib
+
+    valid = {p.identifier for p in bpy.ops.export_scene.gltf.get_rna_type().properties} - {"rna_type"}
+    unknown = sorted(k for k in kwargs if k not in valid)
+    if not unknown:
+        return
+    lines = []
+    for k in unknown:
+        near = difflib.get_close_matches(k, sorted(valid), n=3, cutoff=0.6)
+        lines.append(f"  {k!r}" + (f" — did you mean {', '.join(repr(n) for n in near)}?" if near else ""))
+    raise ValueError("export_scene.gltf has no such property in Blender "
+                     f"{bpy.app.version_string}:\n" + "\n".join(lines))
 
 
 _pending_asset_extras: dict = {}
