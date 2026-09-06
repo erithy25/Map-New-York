@@ -1,27 +1,28 @@
 {
- "azimuth_reason": "243.0 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 251.7 deg, 8.7 deg away",
+ "azimuth_reason": "243.1 deg, the bearing from this photograph's own GPS position to New York Stock Exchange (11 Broad Street); heading and position both come from the photograph.  The item's recorded azimuth is 251.7 deg, 8.6 deg away, and belongs to its nominal viewpoint",
  "camera": {
-  "azimuth_deg": 243.0,
+  "azimuth_deg": 243.09574674997862,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
-  "focal_mm": 35.0,
+  "focal_mm": 18.0,
   "ground_detail": {
-   "chosen_m": 7.28,
-   "max_m": 9.25,
-   "median_m": 8.31,
-   "min_m": 7.06,
+   "chosen_m": 6.62,
+   "max_m": 9.24,
+   "median_m": 6.96,
+   "min_m": 6.52,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 6.91,
    "radius_m": 12.0,
    "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
-  "hfov_deg": 54.432,
-  "lat": 40.7071,
-  "lon": -74.0104,
-  "long_side_fov_deg": 54.432,
+  "hfov_deg": 90.0,
+  "lat": 40.707158,
+  "lon": -74.010533,
+  "long_side_fov_deg": 90.0,
   "pitch_deg": 0.0,
   "portrait": false,
   "resolution": [
@@ -30,22 +31,40 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_nyse",
-  "terrain_z_m": 7.284,
-  "x": -5106.011,
-  "y": 793.761,
-  "z": 8.884
+  "terrain_z_m": 6.617,
+  "x": -5118.764,
+  "y": 790.239,
+  "z": 8.217
  },
- "camera_caption": "camera 40.70710, -74.01040 (NYC_TM -5106, 794) z 8.9 m NAVD88 | azimuth 243.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
+ "camera_caption": "camera 40.70716, -74.01053 (NYC_TM -5119, 790) z 8.2 m NAVD88 | azimuth 243.1deg pitch +0.0deg | 18 mm on 36 mm (90.0deg horizontal) | 1280x854",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.707158,
+  "lon": -74.010533,
+  "offset_from_recorded_m": 13.0,
+  "source": "this photograph's own EXIF camera GPS (40.70716, -74.01053), 13 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
  "clearance": {
-  "direction": "to the right",
+  "direction": "onto the nearest roadbed",
+  "min_view_m": 31.6,
   "moved": true,
-  "note": "the recorded viewpoint is inside lm_federal_hall.3 (a ray straight up from the eye point hits its roof); the camera was moved 4 m to the right -- the nearest point in open air -- keeping the same eye height above the heightmap",
-  "offset_m": 4.0,
-  "reason": "inside lm_federal_hall.3 (a ray straight up from the eye point hits its roof)"
+  "nearest_obstruction_m": 20.0,
+  "note": "the recorded viewpoint is under verify_terrain (0.2 m of ground or paving directly overhead, so the eye point is beneath the walking surface); the camera was moved 7 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 37 m from there",
+  "offset_m": 7.0,
+  "reason": "under verify_terrain (0.2 m of ground or paving directly overhead, so the eye point is beneath the walking surface)",
+  "rule": "pavement snap with a clear view",
+  "view_m": 37.0
  },
+ "frame": {
+  "mean": 0.1044,
+  "reason": null,
+  "sd": 0.0688,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
- "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lens_reason": "widened from 35 mm to 18 mm (67 deg vertical) so that a level axis contains the subject: the nyse model's published 105 m height stands 100 m above the lens at 63 m, 58 deg above the horizon; held at the 18 mm floor, so the top of the subject is still cut off -- past that point the distortion would stop the two frames being comparable",
  "lighting": {
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 859.9,
@@ -64,7 +83,7 @@
  },
  "name": "New York Stock Exchange",
  "night": false,
- "pitch_reason": "level optical axis (New York Stock Exchange (11 Broad Street) is 71 m away and would need +34 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "pitch_reason": "level optical axis (New York Stock Exchange (11 Broad Street) is 63 m away and would need +37 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
  "reference_photo": {
   "author": "Arild V\u00e5gen",
   "confidence": "high",
@@ -79,9 +98,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_nyse/render.png",
- "rendered_at": "2026-09-06T17:49:38Z",
+ "rendered_at": "2026-09-06T23:20:39Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1282 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -91,138 +110,143 @@
     "t_-6_0",
     "t_-6_1"
    ],
+   "landmark_bins_suppressed": 19,
+   "landmark_faces_suppressed": 2992,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-5_0": {
      "lod": 0,
      "objects": 18,
-     "triangles": 11932
+     "triangles": 11872
     },
     "t_-5_1": {
      "lod": 0,
      "objects": 18,
-     "triangles": 42918
+     "triangles": 42654
     },
     "t_-6_0": {
      "lod": 0,
      "objects": 16,
-     "triangles": 14912
+     "triangles": 12796
     },
     "t_-6_1": {
      "lod": 0,
      "objects": 18,
-     "triangles": 15588
+     "triangles": 15036
     }
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 4,
    "triangle_budget": 3510000,
-   "triangles": 85350
+   "triangles": 82358
   },
   "centre_tm": [
-   -5104.19,
-   790.2
+   -5115.43,
+   796.65
   ],
   "kit": {
-   "capped": "triangle budget 2649506",
+   "capped": "triangle budget 2775797",
    "per_category": {
-    "bulkhead": 11,
-    "cornice": 26,
-    "door_entry": 17,
-    "hvac": 8,
-    "parapet": 3,
-    "pilaster": 20,
-    "quoin": 8,
-    "scaffold": 130,
-    "storefront": 88,
-    "storefront_interior": 12,
-    "string_course": 26,
-    "water_tower": 4,
-    "window": 9300,
-    "window_accessory": 95
+    "bulkhead": 14,
+    "cornice": 13,
+    "door_entry": 12,
+    "hvac": 10,
+    "parapet": 9,
+    "pilaster": 18,
+    "quoin": 2,
+    "scaffold": 133,
+    "storefront": 73,
+    "storefront_interior": 10,
+    "string_course": 13,
+    "water_tower": 6,
+    "window": 10195,
+    "window_accessory": 686
    },
-   "placed": 9748,
+   "placed": 11194,
    "radius_m": 120.0,
-   "records_in_range": 21690,
+   "records_in_range": 21766,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 7176,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_0",
     "t_-6_0"
    ],
-   "triangles": 2649544,
+   "triangles": 2776017,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 29.0,
+     "distance_m": 31.2,
      "id": "federal_hall",
      "lod": 0,
      "name": "Federal Hall National Memorial",
      "triangles": 9070
     },
     {
-     "distance_m": 56.8,
-     "id": "40_wall_street",
-     "lod": 0,
-     "name": "40 Wall Street (Trump Building)",
-     "triangles": 43167
-    },
-    {
-     "distance_m": 68.2,
+     "distance_m": 58.2,
      "id": "nyse",
      "lod": 0,
      "name": "New York Stock Exchange",
      "triangles": 26049
     },
     {
-     "distance_m": 117.9,
+     "distance_m": 69.0,
+     "id": "40_wall_street",
+     "lod": 0,
+     "name": "40 Wall Street (Trump Building)",
+     "triangles": 43167
+    },
+    {
+     "distance_m": 106.6,
      "id": "one_wall_street",
      "lod": 0,
      "name": "One Wall Street (Irving Trust Building)",
      "triangles": 42712
     },
     {
-     "distance_m": 126.2,
+     "distance_m": 119.4,
      "id": "equitable_building",
      "lod": 0,
      "name": "Equitable Building",
      "triangles": 86321
     },
     {
-     "distance_m": 185.6,
+     "distance_m": 172.6,
      "id": "trinity_church",
      "lod": 0,
      "name": "Trinity Church",
      "triangles": 3984
     },
     {
-     "distance_m": 311.1,
+     "distance_m": 305.7,
      "id": "charging_bull",
      "lod": 0,
      "name": "Charging Bull",
      "triangles": 818
     },
     {
-     "distance_m": 547.3,
+     "distance_m": 536.7,
      "id": "b_wtc_site",
      "lod": 0,
      "name": "World Trade Center site",
      "triangles": 136174
     },
     {
-     "distance_m": 1198.2,
+     "distance_m": 1210.1,
      "id": "b_brooklyn_bridge",
      "lod": 0,
      "name": "Brooklyn Bridge",
      "triangles": 121824
     },
     {
-     "distance_m": 1504.7,
+     "distance_m": 1511.2,
      "id": "b_hugh_carey_portals",
      "lod": 0,
      "name": "Hugh L. Carey Tunnel",
@@ -237,16 +261,16 @@
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 404,
-    "curb": 854,
-    "median": 39,
+    "crosswalk": 397,
+    "curb": 833,
+    "median": 34,
     "parking_lot": 4,
-    "plaza": 49,
-    "roadbed": 341,
-    "sidewalk": 172
+    "plaza": 44,
+    "roadbed": 333,
+    "sidewalk": 168
    },
-   "placed": 1863,
-   "radius_m": 513.8560742906606,
+   "placed": 1813,
+   "radius_m": 501.167172287938,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_0",
@@ -254,32 +278,33 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "triangles": 137179,
-   "vertices": 140669
+   "triangles": 134044,
+   "vertices": 137438
   },
   "props": {
    "capped": null,
+   "impostor_cards_dropped": 4,
    "leaf_off": false,
    "per_kind": {
-    "bench": 62,
-    "bike_rack": 21,
+    "bench": 59,
+    "bike_rack": 22,
     "bus_shelter": 1,
     "bus_stop_sign": 12,
     "citibike_dock": 3,
     "flagpole": 5,
-    "hydrant": 76,
-    "manhole": 115,
-    "newsstand": 7,
+    "hydrant": 75,
+    "manhole": 110,
+    "newsstand": 8,
     "steam_vent": 1,
-    "street_lamp": 116,
+    "street_lamp": 115,
     "subway_entrance": 32,
-    "subway_vent_grate": 41,
+    "subway_vent_grate": 52,
     "tree": 18,
-    "waste_basket": 31
+    "waste_basket": 30
    },
-   "placed": 541,
+   "placed": 543,
    "radius_m": 250.0,
-   "rows_in_range": 796,
+   "rows_in_range": 798,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_0",
@@ -288,7 +313,7 @@
     "t_-6_1"
    ],
    "tree_species_substituted": 6,
-   "triangles": 933966,
+   "triangles": 915394,
    "unmapped_kinds": {
     "artwork": 12,
     "cooling_tower": 108,
@@ -297,39 +322,43 @@
     "memorial": 7
    }
   },
-  "radius_m": 513.8560742906606,
-  "seconds": 33.42,
+  "radius_m": 501.167172287938,
+  "seconds": 55.86,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 3.426,
-   "triangles": 180000,
-   "water_quads": 3762,
-   "z_max_m": 12.23,
-   "z_min_m": -4.36
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 199,
+   "spacing_m": 2.0,
+   "triangles": 78408,
+   "water_quads": 34,
+   "z_max_m": 12.11,
+   "z_min_m": -3.81
   },
-  "triangles": 4500038
+  "triangles": 4500220
  },
  "scene_request": {
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
-  "radius_m": 513.8560742906606
+  "radius_m": 501.167172287938
  },
  "seconds": {
-  "render": 67.2,
-  "scene": 34.7,
-  "total": 101.8
+  "render": 255.0,
+  "scene": 58.6,
+  "total": 313.6
  },
  "slug": "landmark_nyse",
  "status": "rendered",
  "subject": {
-  "distance_m": 71.2,
+  "distance_m": 63.2,
   "name": "New York Stock Exchange (11 Broad Street)"
  },
  "sun": {
-  "azimuth_deg": 95.31168051102418,
-  "elevation_deg": 43.47800022561407,
+  "azimuth_deg": 95.31163965520847,
+  "elevation_deg": 43.477894529764974,
   "local": "2017-06-21T09:30:00-04:00",
   "time_source": "photograph year only; 21 June 09:30 assumed",
   "utc": "2017-06-21T13:30:00Z"

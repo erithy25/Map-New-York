@@ -796,7 +796,7 @@ def build_report() -> str:
         for line in body:
             A(("#" + line) if line.startswith("## ") else line)
         A()
-        n = sum(1 for line in body if re.match(r"^\| [A-Z]\d+ ", line))
+        n = sum(1 for line in body if re.match(r"^\| [A-Z]\d+[a-z]? ", line))
         A(f"That is **{n} deviations**, each with the stage report it is drawn from. "
           f"The source document is `docs/DEVIATIONS.md`.")
     else:

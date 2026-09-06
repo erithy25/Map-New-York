@@ -1,28 +1,29 @@
 {
- "azimuth_reason": "261.6 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 292.4 deg, 30.8 deg away",
+ "azimuth_reason": "261.7 deg, the bearing from this photograph's own GPS position to New York Public Library main entrance; heading and position both come from the photograph.  The item's recorded azimuth is 292.4 deg, 30.7 deg away, and belongs to its nominal viewpoint",
  "camera": {
-  "azimuth_deg": 261.6,
+  "azimuth_deg": 261.68960972203445,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
-  "focal_mm": 35.0,
+  "focal_mm": 27.15242767372295,
   "ground_detail": {
-   "chosen_m": 22.85,
-   "max_m": 23.82,
-   "median_m": 23.29,
-   "min_m": 22.68,
+   "chosen_m": 21.78,
+   "max_m": 22.39,
+   "median_m": 22.09,
+   "min_m": 21.57,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 22.06,
    "radius_m": 12.0,
    "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
-  "hfov_deg": 54.432,
-  "lat": 40.7527,
-  "lon": -73.9806,
-  "long_side_fov_deg": 54.432,
-  "pitch_deg": 6.838596792883117,
+  "hfov_deg": 67.083,
+  "lat": 40.75335,
+  "lon": -73.980853,
+  "long_side_fov_deg": 67.083,
+  "pitch_deg": 0.0,
   "portrait": false,
   "resolution": [
    1280,
@@ -30,22 +31,38 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_nypl",
-  "terrain_z_m": 22.846,
-  "x": -2582.157,
-  "y": 5853.005,
-  "z": 24.446
+  "terrain_z_m": 21.784,
+  "x": -2605.476,
+  "y": 5924.902,
+  "z": 23.384
  },
- "camera_caption": "camera 40.75270, -73.98060 (NYC_TM -2582, 5853) z 24.4 m NAVD88 | azimuth 261.6deg pitch +6.8deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x720",
+ "camera_caption": "camera 40.75335, -73.98085 (NYC_TM -2605, 5925) z 23.4 m NAVD88 | azimuth 261.7deg pitch +0.0deg | 27 mm on 36 mm (67.1deg horizontal) | 1280x720",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.75335,
+  "lon": -73.980853,
+  "offset_from_recorded_m": 75.3,
+  "source": "this photograph's own EXIF camera GPS (40.75335, -73.98085), 75 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
  "clearance": {
-  "direction": "backwards",
-  "moved": true,
-  "note": "the recorded viewpoint is inside t_-3_5_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 2 m backwards -- the nearest point in open air -- keeping the same eye height above the heightmap",
-  "offset_m": 2.0,
-  "reason": "inside t_-3_5_roof_membrane (a ray straight up from the eye point hits its roof)"
+  "min_view_m": 57.5,
+  "moved": false,
+  "nearest_obstruction": "prop_lamp_cobra_davit_9",
+  "nearest_obstruction_m": 18.9,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_cobra_davit_9 18.9 m away, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
  },
+ "frame": {
+  "mean": 0.2349,
+  "reason": null,
+  "sd": 0.1184,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
- "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lens_reason": "widened from 35 mm to 27 mm (41 deg vertical) so that a level axis contains the subject: the new_york_public_library model's published 38 m height stands 38 m above the lens at 115 m, 18 deg above the horizon",
  "lighting": {
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 854.3,
@@ -56,7 +73,7 @@
    "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.03,
-  "sky_azimuth_deg": 245.205,
+  "sky_azimuth_deg": 245.204,
   "sky_elevation_deg": 42.372,
   "sun_lamp": true,
   "sun_strength_blender": 1.582,
@@ -64,7 +81,7 @@
  },
  "name": "New York Public Library (Stephen A. Schwarzman Building)",
  "night": false,
- "pitch_reason": "aimed at New York Public Library main entrance 146 m away, at its mid-height (the new_york_public_library model's 38 m height); +6.8 deg from horizontal",
+ "pitch_reason": "level optical axis (New York Public Library main entrance is 115 m away and would need +9 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
  "reference_photo": {
   "author": "ajay_suresh",
   "confidence": "high",
@@ -79,254 +96,251 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_nypl/render.png",
- "rendered_at": "2026-09-06T17:24:29Z",
+ "rendered_at": "2026-09-06T23:15:24Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
-    "t_-2_5",
-    "t_-2_6",
     "t_-3_5",
     "t_-3_6",
     "t_-4_5",
     "t_-4_6"
    ],
+   "landmark_bins_suppressed": 30,
+   "landmark_faces_suppressed": 4060,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
-    "t_-2_5": {
-     "lod": 0,
-     "objects": 14,
-     "triangles": 17092
-    },
-    "t_-2_6": {
-     "lod": 1,
-     "objects": 18,
-     "triangles": 22968
-    },
     "t_-3_5": {
      "lod": 0,
      "objects": 16,
-     "triangles": 49098
+     "triangles": 48780
     },
     "t_-3_6": {
      "lod": 0,
      "objects": 17,
-     "triangles": 30874
+     "triangles": 29970
     },
     "t_-4_5": {
      "lod": 0,
      "objects": 19,
-     "triangles": 45694
+     "triangles": 44562
     },
     "t_-4_6": {
      "lod": 0,
      "objects": 17,
-     "triangles": 66858
+     "triangles": 65152
     }
    },
    "tiles_dropped_for_budget": 0,
-   "tiles_imported": 6,
+   "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
-   "tiles_wanted": 6,
+   "tiles_wanted": 4,
    "triangle_budget": 3510000,
-   "triangles": 232584
+   "triangles": 188464
   },
   "centre_tm": [
-   -2584.14,
-   5852.71
+   -2605.48,
+   5924.9
   ],
   "kit": {
-   "capped": "triangle budget 2538921",
+   "capped": "triangle budget 2828508",
    "per_category": {
     "antenna": 6,
-    "bulkhead": 34,
-    "cornice": 30,
+    "bulkhead": 29,
+    "cornice": 27,
     "door_entry": 42,
-    "hvac": 27,
-    "parapet": 26,
-    "pilaster": 12,
-    "quoin": 4,
-    "scaffold": 85,
-    "storefront": 155,
-    "storefront_interior": 35,
-    "string_course": 31,
-    "water_tower": 16,
-    "window": 12520,
+    "hvac": 28,
+    "parapet": 24,
+    "pilaster": 15,
+    "quoin": 2,
+    "scaffold": 33,
+    "storefront": 175,
+    "storefront_interior": 36,
+    "string_course": 28,
+    "water_tower": 12,
+    "window": 13142,
     "window_accessory": 9
    },
-   "placed": 13032,
+   "placed": 13608,
    "radius_m": 120.0,
-   "records_in_range": 17877,
+   "records_in_range": 15783,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 725,
    "tiles_missing": [],
    "tiles_read": [
-    "t_-3_5"
+    "t_-3_5",
+    "t_-3_6"
    ],
-   "triangles": 2539010,
+   "triangles": 2828518,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 149.5,
+     "distance_m": 118.7,
      "id": "new_york_public_library",
      "lod": 0,
      "name": "New York Public Library, Stephen A. Schwarzman Building",
      "triangles": 51785
     },
     {
-     "distance_m": 175.8,
+     "distance_m": 198.9,
      "id": "one_vanderbilt",
      "lod": 0,
      "name": "One Vanderbilt",
      "triangles": 71710
     },
     {
-     "distance_m": 284.2,
+     "distance_m": 313.1,
      "id": "grand_central_terminal",
      "lod": 0,
      "name": "Grand Central Terminal",
      "triangles": 29560
     },
     {
-     "distance_m": 345.4,
+     "distance_m": 355.0,
      "id": "c_metlife_building",
      "lod": 0,
      "name": "MetLife Building (200 Park Avenue)",
      "triangles": 105284
     },
     {
-     "distance_m": 457.5,
+     "distance_m": 500.9,
      "id": "chrysler",
      "lod": 0,
      "name": "Chrysler Building",
      "triangles": 57851
     },
     {
-     "distance_m": 635.1,
+     "distance_m": 575.7,
      "id": "c_times_square",
      "lod": 0,
      "name": "Times Square",
      "triangles": 182310
     },
     {
-     "distance_m": 638.9,
-     "id": "empire_state",
+     "distance_m": 654.0,
+     "id": "30_rockefeller_plaza",
      "lod": 0,
-     "name": "Empire State Building",
-     "triangles": 107298
+     "name": "30 Rockefeller Plaza",
+     "triangles": 102530
     }
    ],
    "placed": 7,
    "skipped": 0,
    "skipped_detail": [],
-   "triangles": 605798
+   "triangles": 601030
   },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 440,
-    "curb": 793,
-    "median": 69,
+    "crosswalk": 352,
+    "curb": 660,
+    "median": 61,
     "parking_lot": 1,
-    "plaza": 66,
-    "roadbed": 359,
-    "sidewalk": 178
+    "plaza": 54,
+    "roadbed": 293,
+    "sidewalk": 146
    },
-   "placed": 1906,
-   "radius_m": 633.7302028086041,
+   "placed": 1567,
+   "radius_m": 583.9436887824417,
    "tiles_missing": [],
    "tiles_read": [
-    "t_-2_5",
-    "t_-2_6",
     "t_-3_5",
     "t_-3_6",
     "t_-4_5",
     "t_-4_6"
    ],
-   "triangles": 139807,
-   "vertices": 143431
+   "triangles": 114976,
+   "vertices": 117952
   },
   "props": {
    "capped": null,
+   "impostor_cards_dropped": 12,
    "leaf_off": false,
    "per_kind": {
-    "bench": 6,
-    "bike_rack": 16,
-    "bus_shelter": 9,
-    "bus_stop_sign": 25,
+    "bench": 1,
+    "bike_rack": 21,
+    "bus_shelter": 7,
+    "bus_stop_sign": 23,
     "citibike_dock": 3,
-    "flagpole": 16,
-    "hydrant": 56,
-    "linknyc": 3,
+    "flagpole": 13,
+    "hydrant": 52,
+    "linknyc": 4,
     "mailbox": 4,
-    "manhole": 94,
+    "manhole": 82,
     "newsstand": 6,
     "rtpi_sign": 1,
-    "steam_vent": 11,
-    "street_lamp": 96,
+    "steam_vent": 12,
+    "street_lamp": 87,
     "subway_entrance": 9,
-    "subway_vent_grate": 11,
-    "tree": 54,
-    "waste_basket": 17
+    "subway_vent_grate": 9,
+    "tree": 46,
+    "waste_basket": 9
    },
-   "placed": 437,
+   "placed": 389,
    "radius_m": 250.0,
-   "rows_in_range": 649,
+   "rows_in_range": 597,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_5",
     "t_-3_6"
    ],
-   "tree_species_substituted": 3,
-   "triangles": 802890,
+   "tree_species_substituted": 5,
+   "triangles": 685414,
    "unmapped_kinds": {
-    "artwork": 8,
-    "cooling_tower": 120,
-    "curb_ramp": 67,
-    "drinking_fountain": 3,
-    "memorial": 4,
+    "artwork": 7,
+    "cooling_tower": 126,
+    "curb_ramp": 62,
+    "drinking_fountain": 1,
+    "memorial": 6,
     "parks_building": 3,
     "parks_comfort_station": 1,
-    "vending_machine": 6
+    "vending_machine": 2
    }
   },
-  "radius_m": 633.7302028086041,
-  "seconds": 36.96,
+  "radius_m": 583.9436887824417,
+  "seconds": 74.49,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 4.225,
-   "triangles": 180000,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 203,
+   "spacing_m": 2.0,
+   "triangles": 81608,
    "water_quads": 0,
    "z_max_m": 25.72,
-   "z_min_m": 4.31
+   "z_min_m": 7.83
   },
-  "triangles": 4500089
+  "triangles": 4500010
  },
  "scene_request": {
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
-  "radius_m": 633.7302028086041
+  "radius_m": 583.9436887824417
  },
  "seconds": {
-  "render": 54.0,
-  "scene": 38.4,
-  "total": 92.3
+  "render": 161.7,
+  "scene": 78.1,
+  "total": 239.7
  },
  "slug": "landmark_nypl",
  "status": "rendered",
  "subject": {
-  "distance_m": 146.1,
+  "distance_m": 115.0,
   "name": "New York Public Library main entrance"
  },
  "sun": {
-  "azimuth_deg": 245.2051417446611,
-  "elevation_deg": 42.372051963107225,
+  "azimuth_deg": 245.20436533130234,
+  "elevation_deg": 42.37195341513233,
   "local": "2021-08-21T15:52:00-04:00",
   "time_source": "EXIF DateTimeOriginal (minutes)",
   "utc": "2021-08-21T19:52:00Z"

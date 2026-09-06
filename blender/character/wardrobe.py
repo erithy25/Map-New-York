@@ -997,9 +997,8 @@ def hide_covered_garments(built, item_ids: tuple[str, ...], *, name_prefix: str 
     all of its vertices are marked, so the collar, the cuffs, the open front of a jacket and the hem - the
     parts that actually show - survive, and the sandwiched middle does not.
 
-    Shoes count as an outer layer here even though they are excluded from :func:`resolve_layers`' pull-inside
-    pass: a trouser leg terminates *inside* the shoe collar, and the part of the hem inside the shoe is what
-    was passing through the heel counter and coming out behind it.
+    Shoes are handled separately, by :func:`tuck_shoe_shaft_into_bottoms`: they are rigid, and the generic
+    rule above - which is tuned for cloth against cloth - eats a shoe's whole upper.
 
     A garment left with less than 4 % of its faces is removed from the character altogether and logged: it is
     entirely covered, and shipping 40 disconnected scraps of it helps nobody.  The player's white tee under
@@ -1011,8 +1010,8 @@ def hide_covered_garments(built, item_ids: tuple[str, ...], *, name_prefix: str 
     for item_id in item_ids:
         garment = WARDROBE_BY_ID.get(item_id)
         obj = built.clothes.get(f"{name_prefix}{item_id}")
-        if garment is None or obj is None:
-            continue
+        if garment is None or obj is None or garment.slot == "shoes":
+            continue                       # shoes: see tuck_shoe_shaft_into_bottoms
         ordered.append((_layer_key(garment), item_id, obj))
     if len(ordered) < 2:
         return []
@@ -1071,21 +1070,29 @@ def hide_covered_garments(built, item_ids: tuple[str, ...], *, name_prefix: str 
 
 
 def cut_bottoms_at_shoe_collar(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
-                               margin: float = 0.018) -> int:
-    """Terminate every trouser leg at the top of the shoe.  Returns faces removed.
+                               margin: float = 0.018, collar: float = 0.045) -> int:
+    """Terminate every trouser leg inside the shoe, and **cap the cut**.  Returns faces removed.
 
-    A trouser leg is modelled down to the ankle bone and a shoe is modelled around the whole foot, so the two
-    overlap by the depth of the shoe.  Nudging the overlap apart cannot work: the hem is *longer* than the
-    shoe collar, so wherever it is pushed it comes out somewhere - in the first pass it emerged from behind
-    the heel, below the sole, with the heel counter torn open around it.
+    A trouser leg is modelled to the ankle and a shoe around the whole foot, so they overlap by the depth of
+    the shoe.  On this wardrobe the trouser hem (0.068 m on the player) sits *below* the shoe's collar
+    (0.115 m): the hem is inside the shoe, not over it.  Three other orders were tried against the render and
+    none of them holds:
 
-    Real trousers stop inside the shoe.  So does this one: each shoe shell (left and right, found as
-    connected components so the box round one foot never reaches the other) gives a bounding box, and every
-    bottom-garment face entirely inside that box grown by ``margin`` is deleted.  The hem then ends at the
-    collar and the shoe wins, which is the correct precedence for a rigid object against cloth.
+    * nudging the hem out along the shoe's face normals drives it down through the sole and out underneath;
+    * pushing it out horizontally cannot move it past a collar whose rim faces point upward;
+    * cutting the *shoe* instead - the shaft inside the trouser - leaves the trouser hem still inside what
+      remains of the collar, 61 of its 1 019 vertices up to 37 mm deep, and eats the shoe's upper as well.
+
+    So the trouser is cut, which is what the geometry actually supports, and the cut is **capped**: every
+    boundary loop the cut opens is filled with faces, so the leg ends in a closed hem and not in a pipe you
+    can see down.  That was the defect the uncapped version of this shipped.
+
+    The box that defines the cut is each shoe shell's own bounding box, its top clamped to the ankle joint
+    plus ``collar`` - several MakeHuman shoes model a sock half way up the calf, and a box round the whole
+    shell cuts the trouser off at mid-calf.  A face goes when *any* of its vertices is inside: a straddling
+    face leaves a sliver of trouser under the sole.
     """
-    shoes = []
-    bottoms = []
+    shoes, bottoms = [], []
     for item_id in item_ids:
         garment = WARDROBE_BY_ID.get(item_id)
         obj = built.clothes.get(f"{name_prefix}{item_id}")
@@ -1098,14 +1105,10 @@ def cut_bottoms_at_shoe_collar(built, item_ids: tuple[str, ...], *, name_prefix:
     if not shoes or not bottoms:
         return 0
 
-    # The collar height comes from the *rig*, not from the shoe mesh.  Several MakeHuman shoe assets model a
-    # sock that runs half way up the calf, and a box round the whole shell then cuts the trouser off at
-    # mid-calf with a ragged edge.  A shoe collar sits a few centimetres above the ankle joint, so that is
-    # where the box stops and the sock between the hem and the shoe stays visible, as it should be.
     bones = built.armature.data.bones
     ankle = min(bones[f"foot_{side}"].head_local.z for side in ("l", "r") if f"foot_{side}" in bones)
     height = max((built.basemesh.matrix_world @ v.co).z for v in built.basemesh.data.vertices)
-    collar_z = ankle + 0.045 * (height / 1.75)
+    collar_z = ankle + collar * (height / 1.75)
 
     boxes: list[tuple[Vector, Vector]] = []
     for shoe in shoes:
@@ -1122,21 +1125,13 @@ def cut_bottoms_at_shoe_collar(built, item_ids: tuple[str, ...], *, name_prefix:
     removed = 0
     for bottom in bottoms:
         matrix = bottom.matrix_world
-        inside = set()
-        for vert in bottom.data.vertices:
-            world = matrix @ vert.co
-            for lo, hi in boxes:
-                if all(lo[i] <= world[i] <= hi[i] for i in range(3)):
-                    inside.add(vert.index)
-                    break
+        inside = {v.index for v in bottom.data.vertices
+                  if any(all(lo[i] <= (matrix @ v.co)[i] <= hi[i] for i in range(3)) for lo, hi in boxes)}
         if not inside:
             continue
         bm = bmesh.new()
         bm.from_mesh(bottom.data)
         bm.verts.ensure_lookup_table()
-        # *Any* vertex inside, not all of them: a face straddling the box leaves a sliver of trouser
-        # sticking out under the sole, and at the collar it costs one ring of geometry that the shoe
-        # covers anyway.
         doomed = [f for f in bm.faces if any(v.index in inside for v in f.verts)]
         if not doomed or len(doomed) == len(bm.faces):
             bm.free()
@@ -1146,34 +1141,23 @@ def cut_bottoms_at_shoe_collar(built, item_ids: tuple[str, ...], *, name_prefix:
         loose = [v for v in bm.verts if not v.link_faces]
         if loose:
             bmesh.ops.delete(bm, geom=loose, context="VERTS")
+        # cap every hole the cut opened, below the waist: the waistband's own opening is a real hem and
+        # stays open, the cuts at the ankle are closed
+        bm.edges.ensure_lookup_table()
+        rim = [e for e in bm.edges
+               if len(e.link_faces) == 1 and max(v.co.z for v in e.verts) < collar_z + 0.06]
+        capped = 0
+        if rim:
+            filled = bmesh.ops.holes_fill(bm, edges=rim, sides=0)
+            capped = len(filled.get("faces", []))
+        bm.normal_update()
         removed += len(doomed)
         bm.to_mesh(bottom.data)
         bm.free()
         bottom.data.update()
-        log.info("%s: %d faces cut off inside the shoes, %d vertices remain",
-                 bottom.name.split(".")[-1], len(doomed), len(bottom.data.vertices))
+        log.info("%s: %d faces cut off inside the shoes and %d cap faces added, %d vertices remain",
+                 bottom.name.split(".")[-1], len(doomed), capped, len(bottom.data.vertices))
     return removed
-
-
-def _boundary_faces(obj: bpy.types.Object) -> set[int]:
-    """Polygon indices of ``obj`` that touch an open boundary edge - its hems, cuffs and collars."""
-    counts: dict[tuple[int, int], int] = {}
-    for polygon in obj.data.polygons:
-        verts = list(polygon.vertices)
-        for i, a in enumerate(verts):
-            b = verts[(i + 1) % len(verts)]
-            key = (a, b) if a < b else (b, a)
-            counts[key] = counts.get(key, 0) + 1
-    out: set[int] = set()
-    for polygon in obj.data.polygons:
-        verts = list(polygon.vertices)
-        for i, a in enumerate(verts):
-            b = verts[(i + 1) % len(verts)]
-            key = (a, b) if a < b else (b, a)
-            if counts[key] < 2:
-                out.add(polygon.index)
-                break
-    return out
 
 
 def _connected_components(obj: bpy.types.Object) -> list[list[Vector]]:
@@ -1201,14 +1185,38 @@ def _connected_components(obj: bpy.types.Object) -> list[list[Vector]]:
     return [g for g in groups.values() if len(g) > 8]
 
 
+def _boundary_faces(obj: bpy.types.Object) -> set[int]:
+    """Polygon indices of ``obj`` that touch an open boundary edge - its hems, cuffs and collars."""
+    counts: dict[tuple[int, int], int] = {}
+    for polygon in obj.data.polygons:
+        verts = list(polygon.vertices)
+        for i, a in enumerate(verts):
+            b = verts[(i + 1) % len(verts)]
+            key = (a, b) if a < b else (b, a)
+            counts[key] = counts.get(key, 0) + 1
+    out: set[int] = set()
+    for polygon in obj.data.polygons:
+        verts = list(polygon.vertices)
+        for i, a in enumerate(verts):
+            b = verts[(i + 1) % len(verts)]
+            key = (a, b) if a < b else (b, a)
+            if counts[key] < 2:
+                out.add(polygon.index)
+                break
+    return out
+
+
 def _layer_key(garment: Garment) -> int:
-    """Sort key for what is worn over what.
+    """Sort key for what is worn over what: higher means further out.
 
     Two garments with the same :attr:`Garment.layer` still have an order: the base top goes *inside* the
     waistband and the trousers close over it, while a sweater or a jacket hangs outside them.  So a bottom
     ranks one step above a base-layer top and below everything above that.  Without the distinction the tee
     hem and the jeans waistband simply interpenetrate, and the overlap renders as white scraps of tee
     sticking through the seat of the trousers.
+
+    Shoes are not ranked here at all: they are rigid, they only ever meet a trouser hem, and that pair is
+    handled by :func:`cut_bottoms_at_shoe_collar`.
     """
     return garment.layer * 2 + (1 if garment.slot == "bottom" else 0)
 
@@ -1270,9 +1278,9 @@ def resolve_layers(built, item_ids: tuple[str, ...], *, name_prefix: str = "",
     for _key, _item_id, garment_obj in ordered:            # the skin gets the last word
         moved += _move_outside(garment_obj, body, clearance, reach=0.035)
 
-    # Shoes are the one pair the rule above cannot express: a trouser leg drapes *over* the shoe, but the
-    # shoe is a rigid object that must not be dented to make room, so it is the trouser that moves - outward,
-    # out of the shoe - instead of the inner layer moving in.
+    # Shoes are the one pair the loop above cannot express, because the shoe is rigid: it must not be dented
+    # to make room and it must not be pulled inside the trouser either.  What is left of the trouser after
+    # `cut_bottoms_at_shoe_collar` is moved out of the shoe instead.
     for shoe in shoes:
         for bottom in bottoms:
             moved += _move_outside(bottom, shoe, clearance, reach=0.04)

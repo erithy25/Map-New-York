@@ -1,27 +1,28 @@
 {
- "azimuth_reason": "10.5 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 200.0 deg, 170.5 deg away",
+ "azimuth_reason": "10.6 deg, the bearing from this photograph's own GPS position to One Times Square; heading and position both come from the photograph.  The item's recorded azimuth is 200.0 deg, 170.6 deg away, and belongs to its nominal viewpoint",
  "camera": {
-  "azimuth_deg": 10.5,
+  "azimuth_deg": 10.558419907374796,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
-  "focal_mm": 35.0,
+  "focal_mm": 18.0,
   "ground_detail": {
-   "chosen_m": 13.92,
-   "max_m": 14.97,
-   "median_m": 14.49,
-   "min_m": 13.6,
+   "chosen_m": 16.8,
+   "max_m": 17.1,
+   "median_m": 16.95,
+   "min_m": 16.71,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 16.99,
    "radius_m": 12.0,
    "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
-  "hfov_deg": 42.163,
-  "lat": 40.757942,
-  "lon": -73.985757,
-  "long_side_fov_deg": 54.432,
+  "hfov_deg": 73.709,
+  "lat": 40.756008,
+  "lon": -73.986589,
+  "long_side_fov_deg": 90.0,
   "pitch_deg": 0.0,
   "portrait": true,
   "resolution": [
@@ -30,39 +31,59 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_one_times_square",
-  "terrain_z_m": 13.918,
-  "x": -3019.401,
-  "y": 6434.997,
-  "z": 15.518
+  "terrain_z_m": 16.802,
+  "x": -3081.749,
+  "y": 6219.875,
+  "z": 18.402
  },
- "camera_caption": "camera 40.75794, -73.98576 (NYC_TM -3019, 6435) z 15.5 m NAVD88 | azimuth 10.5deg pitch +0.0deg | 35 mm on 36 mm (42.2deg horizontal, 54.4deg vertical, portrait) | 904x1206",
+ "camera_caption": "camera 40.75601, -73.98659 (NYC_TM -3082, 6220) z 18.4 m NAVD88 | azimuth 10.6deg pitch +0.0deg | 18 mm on 36 mm (73.7deg horizontal, 90.0deg vertical, portrait) | 904x1206",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.756008,
+  "lon": -73.986589,
+  "offset_from_recorded_m": 226.0,
+  "source": "this photograph's own EXIF camera GPS (40.75601, -73.98659), 226 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
  "clearance": {
-  "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "direction": "onto the nearest sidewalk",
+  "min_view_m": 23.3,
+  "moved": true,
+  "nearest_obstruction_m": 14.4,
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 3 m ahead, less than the 23 m this frame needs to show its subject; the camera was moved 8 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 38 m from there",
+  "offset_m": 7.7,
+  "reason": "boxed in: the view azimuth is closed off 3 m ahead, less than the 23 m this frame needs to show its subject",
+  "rule": "pavement snap with a clear view",
+  "view_m": 38.3
  },
+ "frame": {
+  "mean": 0.4812,
+  "reason": null,
+  "sd": 0.2146,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
- "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal); widened to the 18 mm floor because the c_times_square model's published 366 m height tops out 363 m above the lens only 47 m away and no normal lens contains it",
  "lighting": {
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 903.7,
   "emissive": {
-   "cones_hidden": 2,
+   "cones_hidden": 1,
    "lamps_switched_off": 3,
    "night": false,
    "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.0,
-  "sky_azimuth_deg": 251.807,
-  "sky_elevation_deg": 54.605,
+  "sky_azimuth_deg": 251.809,
+  "sky_elevation_deg": 54.606,
   "sun_lamp": true,
   "sun_strength_blender": 1.674,
   "view_transform": "Filmic"
  },
  "name": "One Times Square",
  "night": false,
- "pitch_reason": "level optical axis (One Times Square is 180 m away and would need +46 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "pitch_reason": "level optical axis (One Times Square is 47 m away and would need +76 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
  "reference_photo": {
   "author": "Scu ba",
   "confidence": "high",
@@ -77,231 +98,214 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_one_times_square/render.png",
- "rendered_at": "2026-09-06T18:13:56Z",
+ "rendered_at": "2026-09-06T23:29:25Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
     "t_-3_5",
     "t_-3_6",
-    "t_-3_7",
     "t_-4_5",
-    "t_-4_6",
-    "t_-4_7"
+    "t_-4_6"
    ],
+   "landmark_bins_suppressed": 30,
+   "landmark_faces_suppressed": 4060,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-3_5": {
      "lod": 0,
      "objects": 16,
-     "triangles": 49098
+     "triangles": 48780
     },
     "t_-3_6": {
      "lod": 0,
      "objects": 17,
-     "triangles": 30874
-    },
-    "t_-3_7": {
-     "lod": 0,
-     "objects": 16,
-     "triangles": 23700
+     "triangles": 29970
     },
     "t_-4_5": {
      "lod": 0,
      "objects": 19,
-     "triangles": 45694
+     "triangles": 44562
     },
     "t_-4_6": {
      "lod": 0,
      "objects": 17,
-     "triangles": 66858
-    },
-    "t_-4_7": {
-     "lod": 0,
-     "objects": 13,
-     "triangles": 45224
+     "triangles": 65152
     }
    },
    "tiles_dropped_for_budget": 0,
-   "tiles_imported": 6,
+   "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
-   "tiles_wanted": 6,
+   "tiles_wanted": 4,
    "triangle_budget": 3510000,
-   "triangles": 261448
+   "triangles": 188464
   },
   "centre_tm": [
-   -3019.4,
-   6435.0
+   -3089.75,
+   6220.26
   ],
   "kit": {
    "capped": null,
    "per_category": {
-    "bulkhead": 4,
-    "cornice": 10,
-    "door_entry": 25,
-    "fire_escape": 7,
-    "hvac": 13,
-    "parapet": 19,
-    "pilaster": 9,
-    "quoin": 5,
-    "scaffold": 40,
-    "storefront": 93,
-    "storefront_interior": 14,
-    "string_course": 9,
-    "water_tower": 1,
-    "window": 10616,
-    "window_accessory": 2
+    "antenna": 3,
+    "bulkhead": 11,
+    "cornice": 15,
+    "door_entry": 24,
+    "hvac": 17,
+    "parapet": 14,
+    "pilaster": 12,
+    "quoin": 11,
+    "scaffold": 75,
+    "storefront": 82,
+    "storefront_interior": 13,
+    "string_course": 15,
+    "water_tower": 3,
+    "window": 7382,
+    "window_accessory": 62
    },
-   "placed": 10867,
+   "placed": 7739,
    "radius_m": 120.0,
-   "records_in_range": 10867,
+   "records_in_range": 17950,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 10211,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_6",
     "t_-4_6"
    ],
-   "triangles": 1971252,
+   "triangles": 1482634,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 204.2,
+     "distance_m": 22.1,
      "id": "c_times_square",
      "lod": 0,
      "name": "Times Square",
      "triangles": 182310
     },
     {
-     "distance_m": 533.0,
-     "id": "30_rockefeller_plaza",
-     "lod": 0,
-     "name": "30 Rockefeller Plaza",
-     "triangles": 102530
-    },
-    {
-     "distance_m": 604.6,
+     "distance_m": 481.7,
      "id": "new_york_public_library",
      "lod": 0,
      "name": "New York Public Library, Stephen A. Schwarzman Building",
      "triangles": 51785
-    },
-    {
-     "distance_m": 1042.2,
-     "id": "c_billionaires_row",
-     "lod": 0,
-     "name": "Billionaires' Row (West 57th Street corridor)",
-     "triangles": 220910
     }
    ],
-   "placed": 4,
+   "placed": 2,
    "skipped": 0,
    "skipped_detail": [],
-   "triangles": 557535
+   "triangles": 234095
   },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 351,
-    "curb": 782,
-    "median": 117,
-    "parking_lot": 10,
-    "plaza": 66,
-    "roadbed": 324,
-    "sidewalk": 198
+    "crosswalk": 171,
+    "curb": 412,
+    "median": 52,
+    "parking_lot": 4,
+    "plaza": 46,
+    "roadbed": 174,
+    "sidewalk": 105
    },
-   "placed": 1848,
-   "radius_m": 687.7311626350473,
+   "placed": 964,
+   "radius_m": 500.0,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_5",
     "t_-3_6",
-    "t_-3_7",
     "t_-4_5",
-    "t_-4_6",
-    "t_-4_7"
+    "t_-4_6"
    ],
-   "triangles": 122478,
-   "vertices": 125940
+   "triangles": 64866,
+   "vertices": 66672
   },
   "props": {
    "capped": null,
+   "impostor_cards_dropped": 5,
    "leaf_off": false,
    "per_kind": {
-    "bench": 16,
-    "bike_rack": 8,
-    "bus_stop_sign": 3,
-    "flagpole": 2,
-    "hydrant": 50,
-    "linknyc": 7,
-    "mailbox": 1,
-    "manhole": 74,
-    "newsstand": 5,
+    "bench": 14,
+    "bike_rack": 19,
+    "bus_stop_sign": 8,
+    "citibike_dock": 3,
+    "hydrant": 60,
+    "linknyc": 9,
+    "mailbox": 2,
+    "manhole": 79,
+    "newsstand": 8,
     "rtpi_sign": 1,
     "steam_vent": 6,
-    "street_lamp": 85,
-    "subway_emergency_exit": 2,
-    "subway_entrance": 8,
-    "subway_vent_grate": 14,
-    "tree": 20,
-    "waste_basket": 5
+    "street_lamp": 88,
+    "subway_emergency_exit": 1,
+    "subway_entrance": 21,
+    "subway_vent_grate": 33,
+    "tree": 11,
+    "waste_basket": 6
    },
-   "placed": 307,
+   "placed": 369,
    "radius_m": 250.0,
-   "rows_in_range": 519,
+   "rows_in_range": 596,
    "tiles_missing": [],
    "tiles_read": [
+    "t_-3_5",
     "t_-3_6",
+    "t_-4_5",
     "t_-4_6"
    ],
-   "tree_species_substituted": 6,
-   "triangles": 506006,
+   "tree_species_substituted": 2,
+   "triangles": 532322,
    "unmapped_kinds": {
-    "artwork": 3,
-    "cooling_tower": 126,
-    "curb_ramp": 72,
-    "drinking_fountain": 1,
-    "memorial": 1,
-    "misc_structure": 9
+    "artwork": 5,
+    "cooling_tower": 136,
+    "curb_ramp": 73,
+    "drinking_fountain": 3,
+    "misc_structure": 10
    }
   },
-  "radius_m": 687.7311626350473,
-  "seconds": 61.08,
+  "radius_m": 500.0,
+  "seconds": 46.67,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 4.585,
-   "triangles": 180000,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 199,
+   "spacing_m": 2.0,
+   "triangles": 78408,
    "water_quads": 0,
-   "z_max_m": 25.71,
-   "z_min_m": 2.38
+   "z_max_m": 24.88,
+   "z_min_m": 6.82
   },
-  "triangles": 3598719
+  "triangles": 2580789
  },
  "scene_request": {
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
-  "radius_m": 687.7311626350473
+  "radius_m": 500.0
  },
  "seconds": {
-  "render": 127.3,
-  "scene": 62.2,
-  "total": 189.5
+  "render": 166.1,
+  "scene": 51.7,
+  "total": 217.7
  },
  "slug": "landmark_one_times_square",
  "status": "rendered",
  "subject": {
-  "distance_m": 179.8,
+  "distance_m": 46.6,
   "name": "One Times Square"
  },
  "sun": {
-  "azimuth_deg": 251.80687203621773,
-  "elevation_deg": 54.604686584894395,
+  "azimuth_deg": 251.80863692440974,
+  "elevation_deg": 54.60588863292746,
   "local": "2024-06-27T15:26:26-04:00",
   "time_source": "EXIF DateTimeOriginal",
   "utc": "2024-06-27T19:26:26Z"
