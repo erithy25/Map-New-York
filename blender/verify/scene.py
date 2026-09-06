@@ -530,7 +530,7 @@ def _load_prop_assets() -> tuple[dict[str, list[dict]], dict[str, dict]]:
     return by_kind, by_id
 
 
-def _tree_asset_id(species: str, height_m: float) -> tuple[str, bool]:
+def _tree_asset_id(species: str, height_m: float, leaf_off: bool) -> tuple[str, bool]:
     key = TREE_SPECIES_KEYS.get((species or "").strip().lower())
     exact = key is not None
     key = key or TREE_FALLBACK_KEY
@@ -540,13 +540,18 @@ def _tree_asset_id(species: str, height_m: float) -> tuple[str, bool]:
         size = "medium"
     else:
         size = "small"
-    return f"tree_{key}_{size}", exact
+    return f"tree_{key}_{size}{'_bare' if leaf_off else ''}", exact
 
 
 def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
               sampler: TerrainSampler | None = None, triangle_budget: int = 900_000,
-              max_instances: int = 40_000, col: bpy.types.Collection | None = None) -> dict:
-    """Instance ``props.parquet`` rows inside ``radius_m``, nearest first, under a triangle cap."""
+              max_instances: int = 40_000, leaf_off: bool = False,
+              col: bpy.types.Collection | None = None) -> dict:
+    """Instance ``props.parquet`` rows inside ``radius_m``, nearest first, under a triangle cap.
+
+    ``leaf_off`` picks the bare-canopy tree variants the props kit exports, for a reference
+    photograph taken between mid-November and mid-April when NYC street trees carry no leaves.
+    """
     try:
         import pyarrow.parquet as pq
     except Exception as exc:
@@ -607,7 +612,7 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
         if kind_name == "tree":
             h = merged["height_m"][i]
             h = float(h) if h is not None and not (isinstance(h, float) and math.isnan(h)) else 8.0
-            asset_id, exact_species = _tree_asset_id(merged["species"][i] or "", h)
+            asset_id, exact_species = _tree_asset_id(merged["species"][i] or "", h, leaf_off)
             if not exact_species:
                 species_substituted += 1
             entry = by_id.get(asset_id)
@@ -648,6 +653,7 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
         tris += tpl.triangles
         per_kind[kind_name] = per_kind.get(kind_name, 0) + 1
     return {"rows_in_range": int(order.size), "placed": placed, "triangles": tris,
+            "leaf_off": leaf_off,
             "capped": capped_reason, "per_kind": dict(sorted(per_kind.items(), key=lambda kv: -kv[1])),
             "unmapped_kinds": unmapped, "tree_species_substituted": species_substituted,
             "tiles_read": sorted(tiles_read), "tiles_missing": sorted(tiles_missing),
@@ -812,9 +818,10 @@ class SceneReport:
 
 
 def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float | None = None,
-                kit_radius_m: float | None = None, triangle_budget: int = 3_000_000,
+                kit_radius_m: float | None = None, triangle_budget: int = 4_500_000,
                 terrain_max_side: int = 420, lod0_radius_m: float = 1200.0,
-                with_props: bool = True, with_kit: bool = True) -> tuple[SceneReport, TerrainSampler]:
+                with_props: bool = True, with_kit: bool = True,
+                leaf_off: bool = False) -> tuple[SceneReport, TerrainSampler]:
     """Reset the scene and populate it from every artefact available around (cx, cy)."""
     import time
     t0 = time.time()
@@ -838,7 +845,8 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
     left = max(0, triangle_budget - used)
     if with_props:
         rep.props = add_props(lib, cx, cy, prop_radius_m if prop_radius_m is not None else min(radius_m, 400.0),
-                              sampler=sampler, triangle_budget=int(left * 0.45), col=c_props)
+                              sampler=sampler, triangle_budget=int(left * 0.35), leaf_off=leaf_off,
+                              col=c_props)
     else:
         rep.props = {"placed": 0, "reason": "disabled"}
     left = max(0, left - int(rep.props.get("triangles", 0)))
@@ -866,7 +874,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     ap.add_argument("--radius", type=float, default=600.0)
     ap.add_argument("--prop-radius", type=float, default=None)
     ap.add_argument("--kit-radius", type=float, default=None)
-    ap.add_argument("--triangle-budget", type=int, default=3_000_000)
+    ap.add_argument("--triangle-budget", type=int, default=4_500_000)
     ap.add_argument("--no-props", action="store_true")
     ap.add_argument("--no-kit", action="store_true")
     ap.add_argument("--json", default=None, help="write the scene report here ('-' for stdout)")

@@ -451,11 +451,14 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         return record
 
     t0 = time.time()
+    # NYC street trees are bare from about mid-November to mid-April; the props kit exports a
+    # bare-canopy variant of every species, so a winter reference gets winter trees.
+    leaf_off = (when.month, when.day) >= (11, 15) or (when.month, when.day) <= (4, 15)
     rep, sampler = vscene.build_scene(
         x, y, radius, prop_radius_m=prop_r, kit_radius_m=kit_r,
         with_props=prop_r > 0, with_kit=kit_r > 0,
         terrain_max_side=300 if radius <= 1500 else 380,
-        lod0_radius_m=1200.0)
+        lod0_radius_m=1200.0, leaf_off=leaf_off)
     pitch, pitch_why = aim_pitch(slug, meta, x, y,
                                  (sampler.ground_z(x, y)[0] or 0.0) + vcam.eye_rule_for(slug).height_m,
                                  sampler, vscene.load_landmark_catalog())
