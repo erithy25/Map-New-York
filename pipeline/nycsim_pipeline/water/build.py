@@ -38,7 +38,7 @@ import shapely
 from shapely.geometry import box
 from shapely.ops import unary_union
 
-from .. import manifest
+from ..terrain import manifest_safe as manifest
 from ..crs import NYC_TM, SCOPE_XMAX, SCOPE_XMIN, SCOPE_YMAX, SCOPE_YMIN, US_SURVEY_FOOT_M
 from ..paths import PROCESSED, RAW, REPO_ROOT
 from ..tiling import scope_tiles

@@ -1,0 +1,210 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_queensboro_bridge",
+ "name": "Ed Koch Queensboro Bridge",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7576,
+  "lon": -73.9598,
+  "azimuth_deg": 104.1,
+  "note": "Sutton Place Park at East 57th Street, looking east along the span toward Roosevelt Island",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7565,
+  "lon": -73.954,
+  "name": "Queensboro Bridge (west channel span)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Queensboro Bridge\" Sutton Place",
+  "\"Ed Koch Queensboro Bridge\" from Manhattan"
+ ],
+ "geosearch_radius_m": 600,
+ "fetched_at": "2026-09-06T12:46:11Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 110,
+ "candidates_eligible": 64,
+ "rejections": {
+  "not_jpeg": 1,
+  "excluded": 15,
+  "not_photo": 2,
+  "too_old": 6,
+  "licence": 1,
+  "night_for_day_item": 2,
+  "keywords": 19
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Ed Koch Queensboro Bridge, New York City, 20231001 1106 1018.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Ed_Koch_Queensboro_Bridge,_New_York_City,_20231001_1106_1018.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/cb/Ed_Koch_Queensboro_Bridge%2C_New_York_City%2C_20231001_1106_1018.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Ed_Koch_Queensboro_Bridge%2C_New_York_City%2C_20231001_1106_1018.jpg/1920px-Ed_Koch_Queensboro_Bridge%2C_New_York_City%2C_20231001_1106_1018.jpg",
+   "author": "Jakub Hałun",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2023-10-01 11:06:20",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.757164,
+    "lon": -73.957833
+   },
+   "original_width": 3816,
+   "original_height": 4480,
+   "width": 1920,
+   "height": 2254,
+   "bytes": 1185335,
+   "sha256": "3e74ddd9fcac79088fe779091d88d69504ef8d4c8dd82a0e580d0fb06b505ed3",
+   "mean_luminance": 99.1,
+   "description": "Ed Koch Queensboro Bridge, New York City",
+   "categories": [
+    "New York City photographs taken on 2023-10-01",
+    "Self-published work",
+    "Underside of the Queensboro Bridge",
+    "Files with coordinates missing SDC location of creation",
+    "Queensboro Bridge in 2023",
+    "October 2023 in Manhattan, New York City"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 15.7,
+   "estimated_viewpoint": {
+    "lat": 40.757164,
+    "lon": -73.957833,
+    "azimuth_deg": 102.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75716, -73.95783) is 331 m from Queensboro Bridge (west channel span) (40.75650, -73.95400) and 173 m from the standard viewpoint; the azimuth 103 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Ed Koch Queensboro Bridge, New York City, 20231001 1106 1018.jpg\" by Jakub Hałun, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Ed_Koch_Queensboro_Bridge,_New_York_City,_20231001_1106_1018.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Queensborough Oval 2025 jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Queensborough_Oval_2025_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Queensborough_Oval_2025_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Queensborough_Oval_2025_jeh.jpg/1920px-Queensborough_Oval_2025_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 3.0",
+    "url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "template": "cc-by-sa-3.0"
+   },
+   "date_taken": "2025-02-28 20:23:20",
+   "date_source": "DateTime(file)",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.7589,
+    "lon": -73.96
+   },
+   "original_width": 4000,
+   "original_height": 3000,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 976924,
+   "sha256": "bd30dff9baf1b62b7d11f1e914bc65280e353a07327a17767422fa768dc4cf5d",
+   "mean_luminance": 94.5,
+   "description": "Looking north from street at Queensborough Oval",
+   "categories": [
+    "Sutton Place",
+    "58th Street (Manhattan)",
+    "Self-published work",
+    "Underside of the Queensboro Bridge",
+    "NYC Parks in Manhattan",
+    "Tennis courts in the United States",
+    "Files with coordinates missing SDC location of creation",
+    "2025 in the Upper East Side",
+    "Parks in New York City in 2025",
+    "Queensboro Bridge in 2025",
+    "Inflatable buildings in the United States",
+    "February 2025 in Manhattan, New York City",
+    "2025 Manhattan photos by Jim.henderson",
+    "February 2025 photos by Jim.henderson",
+    "Tennis bubbles"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Queensboro Bridge\" Sutton Place",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.7589,
+    "lon": -73.96,
+    "azimuth_deg": 117.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75890, -73.96000) is 572 m from Queensboro Bridge (west channel span) (40.75650, -73.95400) and 146 m from the standard viewpoint; the azimuth 118 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Queensborough Oval 2025 jeh.jpg\" by Jim.henderson, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Queensborough_Oval_2025_jeh.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:2024-05-28 11 33 41 View toward New York State Route 25 (Queensboro Bridge) from the east end of East 58th Street in Manhattan, New York City, New York.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:2024-05-28_11_33_41_View_toward_New_York_State_Route_25_(Queensboro_Bridge)_from_the_east_end_of_East_58th_Street_in_Manhattan,_New_York_City,_New_York.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/9e/2024-05-28_11_33_41_View_toward_New_York_State_Route_25_%28Queensboro_Bridge%29_from_the_east_end_of_East_58th_Street_in_Manhattan%2C_New_York_City%2C_New_York.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/2024-05-28_11_33_41_View_toward_New_York_State_Route_25_%28Queensboro_Bridge%29_from_the_east_end_of_East_58th_Street_in_Manhattan%2C_New_York_City%2C_New_York.jpg/1920px-2024-05-28_11_33_41_View_toward_New_York_State_Route_25_%28Queensboro_Bridge%29_from_the_east_end_of_East_58th_Street_in_Manhattan%2C_New_York_City%2C_New_York.jpg",
+   "author": "Famartin",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024-05-28 11:33:41",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.757788,
+    "lon": -73.959461
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 816084,
+   "sha256": "0d5b866dfec95dd946158da91e3d2bf6e5d33d45f6bbafe2c3dbcd6b3eadc462",
+   "mean_luminance": 118.9,
+   "description": "View toward New York State Route 25 (Queensboro Bridge) from the east end of East 58th Street in Manhattan, New York City, New York",
+   "categories": [
+    "Sutton Place",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Queensboro Bridge in 2024",
+    "New York City photographs taken on 2024-05-28",
+    "May 2024 in Manhattan, New York City",
+    "Views of the Queensboro Bridge from Manhattan",
+    "Famartin's 2024 photos",
+    "Famartin's May 2024 photos"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.757788,
+    "lon": -73.959461,
+    "azimuth_deg": 107.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75779, -73.95946) is 482 m from Queensboro Bridge (west channel span) (40.75650, -73.95400) and 35 m from the standard viewpoint; the azimuth 107 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"2024-05-28 11 33 41 View toward New York State Route 25 (Queensboro Bridge) from the east end of East 58th Street in Manhattan, New York City, New York.jpg\" by Famartin, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:2024-05-28_11_33_41_View_toward_New_York_State_Route_25_(Queensboro_Bridge)_from_the_east_end_of_East_58th_Street_in_Manhattan,_New_York_City,_New_York.jpg"
+  }
+ ]
+}

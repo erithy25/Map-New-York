@@ -37,7 +37,7 @@ from rasterio.transform import Affine
 from rasterio.warp import reproject, transform_bounds
 from rasterio.windows import Window
 
-from .. import manifest
+from . import manifest_safe as manifest
 from ..crs import NYC_TM, SCOPE_XMAX, SCOPE_XMIN, SCOPE_YMAX, SCOPE_YMIN
 from ..paths import PROCESSED, REPO_ROOT
 from .compose import DemStack

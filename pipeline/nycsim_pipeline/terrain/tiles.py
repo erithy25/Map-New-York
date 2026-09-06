@@ -525,7 +525,7 @@ def build_all(tiles: list[Tile], workers: int = 2, overwrite: bool = True, progr
         json.dump(summary, f, indent=1)
     # one manifest entry for the whole tile set: 2,916 x 2 per-file SHA-256 records would swamp the manifest,
     # so the summary (which carries the per-tile counts) is the recorded artefact.
-    from .. import manifest
+    from . import manifest_safe as manifest
     manifest.record_processed("terrain_tiles", out, stage="terrain",
                               sources=["usgs_3dep", "plan_elevation_points", "building_footprints",
                                        "plan_hydrography", "plan_hydro_structures", "plan_shoreline"],

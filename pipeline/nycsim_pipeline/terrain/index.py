@@ -32,7 +32,7 @@ import pyarrow.parquet as pq
 import pyogrio
 import shapely
 
-from .. import manifest
+from . import manifest_safe as manifest
 from ..crs import NYC_TM
 from ..paths import PROCESSED, RAW
 from ..tiling import Tile, scope_tiles

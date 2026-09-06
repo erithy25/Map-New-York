@@ -35,7 +35,7 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 import pyogrio
 
-from .. import manifest
+from . import manifest_safe as manifest
 from ..crs import SCOPE_XMAX, SCOPE_XMIN, SCOPE_YMAX, SCOPE_YMIN, TILE_SIZE_M, US_SURVEY_FOOT_M, transformer
 from ..paths import PROCESSED, RAW
 

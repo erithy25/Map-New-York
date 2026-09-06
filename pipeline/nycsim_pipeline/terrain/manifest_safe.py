@@ -25,6 +25,17 @@ log = logging.getLogger("nycsim.terrain.manifest")
 
 ATTEMPTS = 6
 
+# everything else in the foundation manifest is re-exported unchanged, so a stage can import this module
+# in place of ``nycsim_pipeline.manifest`` without losing the download-side API.
+DOWNLOADS = manifest.DOWNLOADS
+PROCESSED_MANIFEST = manifest.PROCESSED_MANIFEST
+sha256_of = manifest.sha256_of
+git_commit = manifest.git_commit
+get_download = manifest.get_download
+record_download = manifest.record_download
+_load = manifest._load       # noqa: SLF001 — ingest annotates an existing download entry in place
+_save = manifest._save       # noqa: SLF001
+
 
 def record_processed(artifact_id: str, path: Path, **kw) -> dict | None:
     last: Exception | None = None
