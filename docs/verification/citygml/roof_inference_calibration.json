@@ -1,0 +1,370 @@
+{
+ "generated": "2026-09-06T11:31:12Z",
+ "description": "Pitched-roof inference (ADR-013) scored against real OSM roof:shape tags matched to BINs by nearest footprint centroid (<= 6 m). Mapper-selected sample: treat as an order-of-magnitude check, not an unbiased estimate.",
+ "osm_tagged": 4364,
+ "matched_bins": 4038,
+ "osm_pitched_frac": 0.10326894502228826,
+ "confusion": {
+  "tp": 127,
+  "fp": 26,
+  "fn": 290,
+  "tn": 3595
+ },
+ "precision": 0.8300653594771242,
+ "recall": 0.30455635491606714,
+ "accuracy": 0.9217434373452204,
+ "by_borough": {
+  "1": {
+   "n": 2344,
+   "rule_fired": 0,
+   "precision": null,
+   "osm_pitched_frac": 0.024744027303754267
+  },
+  "2": {
+   "n": 14,
+   "rule_fired": 0,
+   "precision": null,
+   "osm_pitched_frac": 0.07142857142857142
+  },
+  "3": {
+   "n": 1482,
+   "rule_fired": 128,
+   "precision": 0.796875,
+   "osm_pitched_frac": 0.19973009446693657
+  },
+  "4": {
+   "n": 176,
+   "rule_fired": 24,
+   "precision": 1.0,
+   "osm_pitched_frac": 0.22727272727272727
+  },
+  "5": {
+   "n": 22,
+   "rule_fired": 1,
+   "precision": 1.0,
+   "osm_pitched_frac": 1.0
+  }
+ },
+ "by_bldg_class": {
+  "": {
+   "n": 13,
+   "osm_pitched_frac": 0.308,
+   "rule_fired": 0
+  },
+  "A1": {
+   "n": 40,
+   "osm_pitched_frac": 0.875,
+   "rule_fired": 31
+  },
+  "A2": {
+   "n": 20,
+   "osm_pitched_frac": 1.0,
+   "rule_fired": 16
+  },
+  "A4": {
+   "n": 43,
+   "osm_pitched_frac": 0.023,
+   "rule_fired": 2
+  },
+  "A5": {
+   "n": 103,
+   "osm_pitched_frac": 0.039,
+   "rule_fired": 4
+  },
+  "A9": {
+   "n": 28,
+   "osm_pitched_frac": 0.286,
+   "rule_fired": 9
+  },
+  "B1": {
+   "n": 100,
+   "osm_pitched_frac": 0.18,
+   "rule_fired": 19
+  },
+  "B2": {
+   "n": 48,
+   "osm_pitched_frac": 0.625,
+   "rule_fired": 22
+  },
+  "B3": {
+   "n": 103,
+   "osm_pitched_frac": 0.369,
+   "rule_fired": 28
+  },
+  "B9": {
+   "n": 57,
+   "osm_pitched_frac": 0.211,
+   "rule_fired": 13
+  },
+  "C0": {
+   "n": 174,
+   "osm_pitched_frac": 0.448,
+   "rule_fired": 0
+  },
+  "C1": {
+   "n": 88,
+   "osm_pitched_frac": 0.034,
+   "rule_fired": 0
+  },
+  "C2": {
+   "n": 51,
+   "osm_pitched_frac": 0.059,
+   "rule_fired": 0
+  },
+  "C3": {
+   "n": 36,
+   "osm_pitched_frac": 0.306,
+   "rule_fired": 0
+  },
+  "C4": {
+   "n": 62,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  },
+  "C5": {
+   "n": 21,
+   "osm_pitched_frac": 0.19,
+   "rule_fired": 0
+  },
+  "C6": {
+   "n": 64,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  },
+  "C7": {
+   "n": 197,
+   "osm_pitched_frac": 0.005,
+   "rule_fired": 0
+  },
+  "C9": {
+   "n": 95,
+   "osm_pitched_frac": 0.032,
+   "rule_fired": 0
+  },
+  "D0": {
+   "n": 12,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  },
+  "D1": {
+   "n": 120,
+   "osm_pitched_frac": 0.008,
+   "rule_fired": 0
+  },
+  "D3": {
+   "n": 148,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  },
+  "D4": {
+   "n": 148,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  },
+  "D5": {
+   "n": 14,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  },
+  "D6": {
+   "n": 124,
+   "osm_pitched_frac": 0.008,
+   "rule_fired": 0
+  },
+  "D7": {
+   "n": 84,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  },
+  "D8": {
+   "n": 20,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  },
+  "D9": {
+   "n": 44,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  },
+  "E7": {
+   "n": 14,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  },
+  "G1": {
+   "n": 11,
+   "osm_pitched_frac": 0.091,
+   "rule_fired": 0
+  },
+  "H3": {
+   "n": 28,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  },
+  "K1": {
+   "n": 124,
+   "osm_pitched_frac": 0.008,
+   "rule_fired": 0
+  },
+  "K2": {
+   "n": 113,
+   "osm_pitched_frac": 0.018,
+   "rule_fired": 0
+  },
+  "K4": {
+   "n": 206,
+   "osm_pitched_frac": 0.005,
+   "rule_fired": 0
+  },
+  "K5": {
+   "n": 11,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  },
+  "K7": {
+   "n": 10,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  },
+  "M1": {
+   "n": 29,
+   "osm_pitched_frac": 0.345,
+   "rule_fired": 0
+  },
+  "O2": {
+   "n": 23,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  },
+  "O3": {
+   "n": 15,
+   "osm_pitched_frac": 0.067,
+   "rule_fired": 0
+  },
+  "O4": {
+   "n": 84,
+   "osm_pitched_frac": 0.024,
+   "rule_fired": 0
+  },
+  "O5": {
+   "n": 99,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  },
+  "O6": {
+   "n": 94,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  },
+  "O7": {
+   "n": 21,
+   "osm_pitched_frac": 0.048,
+   "rule_fired": 0
+  },
+  "O8": {
+   "n": 13,
+   "osm_pitched_frac": 0.154,
+   "rule_fired": 0
+  },
+  "P7": {
+   "n": 26,
+   "osm_pitched_frac": 0.731,
+   "rule_fired": 0
+  },
+  "Q1": {
+   "n": 14,
+   "osm_pitched_frac": 0.357,
+   "rule_fired": 0
+  },
+  "R1": {
+   "n": 11,
+   "osm_pitched_frac": 0.364,
+   "rule_fired": 0
+  },
+  "R3": {
+   "n": 40,
+   "osm_pitched_frac": 0.9,
+   "rule_fired": 5
+  },
+  "R4": {
+   "n": 38,
+   "osm_pitched_frac": 0.026,
+   "rule_fired": 0
+  },
+  "RB": {
+   "n": 13,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  },
+  "RC": {
+   "n": 35,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  },
+  "RM": {
+   "n": 182,
+   "osm_pitched_frac": 0.005,
+   "rule_fired": 0
+  },
+  "S1": {
+   "n": 40,
+   "osm_pitched_frac": 0.1,
+   "rule_fired": 0
+  },
+  "S2": {
+   "n": 114,
+   "osm_pitched_frac": 0.053,
+   "rule_fired": 0
+  },
+  "S3": {
+   "n": 48,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  },
+  "S4": {
+   "n": 30,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  },
+  "S5": {
+   "n": 60,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  },
+  "S9": {
+   "n": 75,
+   "osm_pitched_frac": 0.027,
+   "rule_fired": 0
+  },
+  "W1": {
+   "n": 24,
+   "osm_pitched_frac": 0.042,
+   "rule_fired": 0
+  },
+  "W6": {
+   "n": 13,
+   "osm_pitched_frac": 0.077,
+   "rule_fired": 0
+  },
+  "Y1": {
+   "n": 16,
+   "osm_pitched_frac": 0.062,
+   "rule_fired": 0
+  },
+  "Z4": {
+   "n": 12,
+   "osm_pitched_frac": 0.0,
+   "rule_fired": 0
+  }
+ },
+ "gable_vs_hip": {
+  "n": 347,
+  "gabled_share": 0.6368876080691642,
+  "best_aspect_threshold": {
+   "threshold": 1.2,
+   "accuracy": 0.6167146974063401
+  },
+  "verdict": "footprint aspect ratio does not separate gable from hip: the best threshold does not beat the majority-class baseline, so every inferred pitched roof is emitted as gable"
+ },
+ "elapsed_s": 10.9
+}

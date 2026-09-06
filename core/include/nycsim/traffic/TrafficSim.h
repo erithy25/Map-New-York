@@ -179,6 +179,7 @@ struct Vehicle {
   float dest_s = 0.f;
 
   float state_timer = 0.f;      // seconds in the current DriveState
+  float dwell_timer = 0.f;      // mandatory stop-sign dwell countdown
   float blocked_time = 0.f;     // seconds effectively stopped in traffic
   float honk_cooldown = 0.f;
   float lc_cooldown = 0.f;
@@ -191,7 +192,8 @@ struct Vehicle {
   float claim_time = 0.f;
 
   uint16_t bus_route = 0xFFFFu;
-  uint16_t bus_stop_ix = 0;
+  uint16_t bus_stop_ix = 0xFFFFu;   // stop currently being served
+  uint16_t bus_next_stop = 0;       // index into the route's stop list
   float target_x = 0.f, target_y = 0.f;  // taxi pickup / double-park point
 
   Rng rng;
@@ -338,7 +340,9 @@ class TrafficSim {
   void emitHonk(const Vehicle& v, HonkReason r);
   bool advanceLane(Vehicle& v);
   void extendPath(Vehicle& v);
-  bool routeAgent(Vehicle& v, uint32_t to_lane, float to_s);
+  bool routeAgent(Vehicle& v, uint32_t to_lane, float to_s, uint32_t avoid_lane = routing::kInvalidIndex);
+  void assignBusRoute(Vehicle& v);
+  bool advanceBusToNextStop(Vehicle& v);
   uint32_t sampleSpawnLane(Rng& rng) const;
   VehicleClass sampleClass(Rng& rng, uint16_t nta) const;
   bool laneFreeAt(uint32_t lane, float s, float len) const;
@@ -377,6 +381,7 @@ class TrafficSim {
   uint32_t stamp_ = 0;
 
   SpatialHash hash_;
+  std::vector<uint32_t> ev_list_;  // indices of vehicles running a siren
   std::vector<Conflict> conflicts_;
   std::vector<uint32_t> conflict_first_, conflict_count_;
   std::vector<NodeClaim> claims_;  // kClaimsPerNode per node

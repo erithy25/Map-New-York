@@ -285,7 +285,7 @@ float SignalTable::expectedDelay(uint32_t plan, int32_t group) const {
   return r * r / (2.f * p.cycle_s);
 }
 
-void SignalTable::cacheStates(double t) {
+void SignalTable::cacheStates(double t) const {
   if (veh_cache_.size() != plans_.size() * kMaxCachedGroups) {
     veh_cache_.assign(plans_.size() * kMaxCachedGroups, static_cast<uint8_t>(VehSignal::Off));
     ped_cache_.assign(plans_.size() * kMaxCachedGroups, static_cast<uint8_t>(PedSignal::Off));
@@ -302,7 +302,6 @@ void SignalTable::cacheStates(double t) {
     float start = 0.f;
     for (uint32_t i = 0; i < p.phase_count; ++i) {
       const SignalPhase& ph = phases_[p.first_phase + i];
-      start += 0.f;
       if (ph.group >= 0 && ph.group < static_cast<int32_t>(kMaxCachedGroups)) {
         const float local = tc - start;
         VehSignal vs = VehSignal::Red;

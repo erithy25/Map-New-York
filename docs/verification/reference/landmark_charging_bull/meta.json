@@ -1,0 +1,223 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_charging_bull",
+ "name": "Charging Bull",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7058,
+  "lon": -74.0131,
+  "azimuth_deg": 217.2,
+  "note": "Broadway traffic island at the north tip of Bowling Green, looking south-west at the bull's head",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7055,
+  "lon": -74.0134,
+  "name": "Charging Bull"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Charging Bull\" Bowling Green",
+  "\"Charging Bull\" Wall Street bull sculpture Broadway"
+ ],
+ "geosearch_radius_m": 150,
+ "fetched_at": "2026-09-06T11:27:04Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query list=search / list=geosearch / prop=imageinfo)",
+ "candidates_seen": 50,
+ "candidates_eligible": 13,
+ "rejections": {
+  "keywords": 29,
+  "excluded": 4,
+  "not_photo": 3,
+  "too_small": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Bowling Green NYC Feb 2020 15.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Bowling_Green_NYC_Feb_2020_15.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/bf/Bowling_Green_NYC_Feb_2020_15.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Bowling_Green_NYC_Feb_2020_15.jpg/1920px-Bowling_Green_NYC_Feb_2020_15.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2020-02-05 09:35:51",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": {
+    "lat": 40.705804,
+    "lon": -74.013406
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 762200,
+   "sha256": "0d73eb6f607ac51434009bec467c54602349d94673dcf39dbfe82e53df32bbee",
+   "mean_luminance": 100.5,
+   "description": "Buildings around Bowling Green, Manhattan, New York",
+   "categories": [
+    "Bowling Green Offices Building",
+    "Exterior of the Alexander Hamilton U.S. Custom House",
+    "Bowling Green (New York City)",
+    "1 Broadway",
+    "Exterior of 25 Broadway",
+    "Exterior of 26 Broadway",
+    "De minimis",
+    "Self-published work",
+    "One Battery Park Plaza",
+    "Files with coordinates missing SDC location of creation",
+    "Photographs taken on 2020-02-05",
+    "Financial District, Manhattan in 2020",
+    "Broadway below Canal Street",
+    "February 2020 in Manhattan, New York City",
+    "Photographs by Epicgenius",
+    "Incidental views of the Charging Bull"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Charging Bull\" Bowling Green",
+   "score": 12.75,
+   "estimated_viewpoint": {
+    "lat": 40.705804,
+    "lon": -74.013406,
+    "azimuth_deg": 179.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70580, -74.01341) is 34 m from Charging Bull (40.70550, -74.01340) and 26 m from the standard viewpoint; the azimuth 179 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Bowling Green NYC Feb 2020 15.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Bowling_Green_NYC_Feb_2020_15.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:The Line to be Photographed with the Charging Bull, Broadway, Manhattan, New York (7237048326).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:The_Line_to_be_Photographed_with_the_Charging_Bull,_Broadway,_Manhattan,_New_York_(7237048326).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e1/The_Line_to_be_Photographed_with_the_Charging_Bull%2C_Broadway%2C_Manhattan%2C_New_York_%287237048326%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/The_Line_to_be_Photographed_with_the_Charging_Bull%2C_Broadway%2C_Manhattan%2C_New_York_%287237048326%29.jpg/1920px-The_Line_to_be_Photographed_with_the_Charging_Bull%2C_Broadway%2C_Manhattan%2C_New_York_%287237048326%29.jpg",
+   "author": "Ken Lund from Reno, Nevada, USA",
+   "credit": "The Line to be Photographed with the Charging Bull, Broadway, Manhattan, New York",
+   "license": {
+    "short_name": "CC BY-SA 2.0",
+    "url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "template": "cc-by-sa-2.0"
+   },
+   "date_taken": "2012",
+   "date_source": "DateTimeOriginal",
+   "year": 2012,
+   "camera_gps": {
+    "lat": 40.706034,
+    "lon": -74.013208
+   },
+   "original_width": 4000,
+   "original_height": 3000,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 762770,
+   "sha256": "d6f3a6ef33a5193a503c89e18493d4303938213f4741dfe21a8a7fc9997c5468",
+   "mean_luminance": 114.9,
+   "description": "Charging Bull , which is sometimes referred to as the Wall Street Bull or the Bowling Green Bull, is a 3,200-kilogram (7,100 lb) bronze sculpture by Arturo Di Modica that stands in Bowling Green Park near Wall Street in Manhattan, New York City. Standing 11 feet (3.4 m) tall and measuring 16 feet (4.9 m) long, the oversize sculpture depicts a bull, the symbol of aggressive financial optimism and prosperity, leaning back on its haunches and with its head lowered as if ready to charge. The sculpture is both a popular tourist destination which draws thousands of people a day, as well as \"one of t",
+   "categories": [
+    "Bowling Green Offices Building",
+    "1 Broadway",
+    "Exterior of 25 Broadway",
+    "Images with annotations",
+    "New York City photographs taken on 2012-05-17",
+    "Buses in the Financial District of Manhattan",
+    "Files with coordinates missing SDC location of creation",
+    "Photographs by Ken Lund",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Financial District, Manhattan in 2012",
+    "Broadway below Canal Street",
+    "May 2012 in Manhattan, New York City",
+    "Incidental views of the Charging Bull"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 11.0,
+   "estimated_viewpoint": {
+    "lat": 40.706034,
+    "lon": -74.013208,
+    "azimuth_deg": 195.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70603, -74.01321) is 62 m from Charging Bull (40.70550, -74.01340) and 28 m from the standard viewpoint; the azimuth 195 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"The Line to be Photographed with the Charging Bull, Broadway, Manhattan, New York (7237048326).jpg\" by Ken Lund from Reno, Nevada, USA, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:The_Line_to_be_Photographed_with_the_Charging_Bull,_Broadway,_Manhattan,_New_York_(7237048326).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Bowling Green td (2018-12-13) 07.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Bowling_Green_td_(2018-12-13)_07.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/21/Bowling_Green_td_%282018-12-13%29_07.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Bowling_Green_td_%282018-12-13%29_07.jpg/1920px-Bowling_Green_td_%282018-12-13%29_07.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.705625,
+    "lon": -74.013607
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 529201,
+   "sha256": "3200ecf537e0a6219608b8758c5803af218cfedbb6f22dd6fafae7256b07f01b",
+   "mean_luminance": 91.3,
+   "description": "A Mack cement mixer truck traveling south on Broadway at Morris Street in Bowling Green, Financial District, Manhattan.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "Mack Granite Series",
+    "Bowling Green (New York City)",
+    "De minimis",
+    "Self-published work",
+    "Cement mixer trucks in the United States",
+    "United States photographs taken on 2018-12-13",
+    "Financial District, Manhattan in 2018",
+    "2018 Manhattan photographs by Tdorante10",
+    "Trucks in Manhattan, New York City",
+    "Broadway below Canal Street",
+    "December 2018 in Manhattan, New York City",
+    "Views of New York City from south",
+    "Rigid cement mixer trucks",
+    "Red bus lanes in New York City",
+    "Incidental views of the Charging Bull",
+    "Photographs by Tdorante10 taken on 2018-12-13"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Charging Bull\" Bowling Green",
+   "score": 9.45,
+   "estimated_viewpoint": {
+    "lat": 40.705625,
+    "lon": -74.013607,
+    "azimuth_deg": 128.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70562, -74.01361) is 22 m from Charging Bull (40.70550, -74.01340) and 47 m from the standard viewpoint; the azimuth 129 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Bowling Green td (2018-12-13) 07.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Bowling_Green_td_(2018-12-13)_07.jpg"
+  }
+ ]
+}

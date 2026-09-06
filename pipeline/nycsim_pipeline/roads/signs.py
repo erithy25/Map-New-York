@@ -242,6 +242,7 @@ def _dot_signs(df: pd.DataFrame, sf: _SegmentFrame, nodes: pd.DataFrame, seg: gp
         "node_id": node_id.astype(np.int64),
         "segment_id": segment_id.astype(np.int64),
         "x": df["x"].to_numpy(), "y": df["y"].to_numpy(), "z": z.astype(np.float32),
+        "ground_z": base_z.astype(np.float32),
         "facing_heading": facing.astype(np.float32),
         "mutcd_code": code, "text": text, "arrow": arrow,
         "sign_w_m": w.astype(np.float32), "sign_h_m": h.astype(np.float32),
@@ -348,6 +349,7 @@ def _generated(seg: gpd.GeoDataFrame, nodes: pd.DataFrame, approaches: pd.DataFr
             face = math_to_compass((ah[i] + 90.0) % 360.0)
             w = min(2.40, max(0.60, 0.085 * len(txt) + 0.20))
             rows.append(dict(node_id=int(node), segment_id=int(asid[i]), x=px, y=py, z=float(node_z.get(node, 0.0)) + BLADE_Z_M,
+                             ground_z=float(node_z.get(node, 0.0)),
                              facing_heading=float(face), mutcd_code="D3-1", text=txt, arrow=S.ARROW_NONE,
                              sign_w_m=w, sign_h_m=0.229, support=S.SUPPORT_POLE, source=S.SIGN_SRC_STREETNAME,
                              mutcd_family="D3", on_street=txt, side_of_street="", dot_order_number="",
@@ -368,7 +370,7 @@ def _generated(seg: gpd.GeoDataFrame, nodes: pd.DataFrame, approaches: pd.DataFr
                 px, py = _place(ax[i], ay[i], ah[i], hw + 1.5, aw[i] / 2.0 + CURB_OFFSET_M)
                 face = math_to_compass(ah[i])
                 rows.append(dict(node_id=int(node), segment_id=int(asid[i]), x=px, y=py,
-                                 z=float(az[i]) + POLE_BOTTOM_M + size / 2.0, facing_heading=float(face),
+                                 z=float(az[i]) + POLE_BOTTOM_M + size / 2.0, ground_z=float(az[i]), facing_heading=float(face),
                                  mutcd_code=code, text="STOP" if code == "R1-1" else "YIELD", arrow=S.ARROW_NONE,
                                  sign_w_m=size, sign_h_m=size, support=S.SUPPORT_POLE, source=S.SIGN_SRC_INFERRED,
                                  mutcd_family=fam, on_street=str(aname[i]), side_of_street="R", dot_order_number="",
@@ -394,7 +396,7 @@ def _generated(seg: gpd.GeoDataFrame, nodes: pd.DataFrame, approaches: pd.DataFr
             px, py = _place(ax[i], ay[i], ah[i], hw + 1.0, aw[i] / 2.0 + CURB_OFFSET_M)
             face = math_to_compass((ah[i] + 90.0) % 360.0)
             rows.append(dict(node_id=node, segment_id=int(asid[i]), x=px, y=py, z=float(az[i]) + 2.44,
-                             facing_heading=float(face), mutcd_code="R6-1", text="ONE WAY", arrow=S.ARROW_LEFT,
+                             ground_z=float(az[i]), facing_heading=float(face), mutcd_code="R6-1", text="ONE WAY", arrow=S.ARROW_LEFT,
                              sign_w_m=0.914, sign_h_m=0.305, support=S.SUPPORT_POLE, source=S.SIGN_SRC_INFERRED,
                              mutcd_family="R6", on_street=str(aname[i]), side_of_street="R", dot_order_number="",
                              dot_distance_ft=-1.0, design_voided=False))
@@ -404,7 +406,7 @@ def _generated(seg: gpd.GeoDataFrame, nodes: pd.DataFrame, approaches: pd.DataFr
             px, py = _place(ax[i], ay[i], ah[i], hw + 1.5, aw[i] / 2.0 + CURB_OFFSET_M)
             face = math_to_compass(ah[i])
             rows.append(dict(node_id=node, segment_id=int(asid[i]), x=px, y=py, z=float(az[i]) + POLE_BOTTOM_M + 0.381,
-                             facing_heading=float(face), mutcd_code="R5-1", text="DO NOT ENTER", arrow=S.ARROW_NONE,
+                             ground_z=float(az[i]), facing_heading=float(face), mutcd_code="R5-1", text="DO NOT ENTER", arrow=S.ARROW_NONE,
                              sign_w_m=0.762, sign_h_m=0.762, support=S.SUPPORT_POLE, source=S.SIGN_SRC_INFERRED,
                              mutcd_family="R5", on_street=str(aname[i]), side_of_street="R", dot_order_number="",
                              dot_distance_ft=-1.0, design_voided=False))
@@ -432,7 +434,7 @@ def _generated(seg: gpd.GeoDataFrame, nodes: pd.DataFrame, approaches: pd.DataFr
         px, py = _place(ax[i], ay[i], ah[i], hw + 8.0, aw[i] / 2.0 + CURB_OFFSET_M)
         face = math_to_compass((ah[i] + 180.0) % 360.0)
         rows.append(dict(node_id=node, segment_id=int(asid[i]), x=px, y=py, z=float(az[i]) + POLE_BOTTOM_M + 0.381,
-                         facing_heading=float(face), mutcd_code="R2-1", text=f"SPEED LIMIT {int(aspd[i])}", arrow=S.ARROW_NONE,
+                         ground_z=float(az[i]), facing_heading=float(face), mutcd_code="R2-1", text=f"SPEED LIMIT {int(aspd[i])}", arrow=S.ARROW_NONE,
                          sign_w_m=0.610, sign_h_m=0.762, support=S.SUPPORT_POLE, source=S.SIGN_SRC_INFERRED,
                          mutcd_family="R2", on_street=str(aname[i]), side_of_street="R", dot_order_number="",
                          dot_distance_ft=-1.0, design_voided=False))
@@ -440,11 +442,11 @@ def _generated(seg: gpd.GeoDataFrame, nodes: pd.DataFrame, approaches: pd.DataFr
     st["speed_limit_signs"] = n_speed
 
     if not rows:
-        return pd.DataFrame(columns=["node_id", "segment_id", "x", "y", "z", "facing_heading", "mutcd_code", "text",
+        return pd.DataFrame(columns=["node_id", "segment_id", "x", "y", "z", "ground_z", "facing_heading", "mutcd_code", "text",
                                      "arrow", "sign_w_m", "sign_h_m", "support", "source", "mutcd_family", "on_street",
                                      "side_of_street", "dot_order_number", "dot_distance_ft", "design_voided"]), st
     df = pd.DataFrame(rows)
-    for c, t in (("node_id", np.int64), ("segment_id", np.int64), ("x", np.float64), ("y", np.float64), ("z", np.float32),
+    for c, t in (("node_id", np.int64), ("segment_id", np.int64), ("x", np.float64), ("y", np.float64), ("z", np.float32), ("ground_z", np.float32),
                  ("facing_heading", np.float32), ("arrow", np.int8), ("sign_w_m", np.float32), ("sign_h_m", np.float32),
                  ("support", np.int8), ("source", np.int8), ("dot_distance_ft", np.float32), ("design_voided", bool)):
         df[c] = df[c].astype(t)

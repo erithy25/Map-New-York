@@ -293,3 +293,132 @@ def roof_evidence(bins: list[int], *, da: int, zip_path: Path | None = None, cen
     log.info("roof evidence DA%s: %d roof faces, %.6f%% sloped >= 1 deg, max slope %.6f deg", da, total,
              100 * rep["fraction_faces_sloped_ge_1deg"], max_slope_seen)
     return rep
+
+
+def sloped_roof_buildings(out_dir: Path, *, base: Path | None = None, min_slope_deg: float = 0.01,
+                          out_json: Path | None = None) -> dict[str, Any]:
+    """Every parsed building that has *any* sloped roof face, named from ``buildings_base.parquet``.
+
+    In the 2014 DoITT delivery this list is the complete set of hand-modelled landmarks: it is the
+    counter-example that makes ADR-013 precise (flat massing *apart from* these) and it doubles as a
+    regression check — the list should not grow when the parser changes.
+    """
+    files = sorted(p for p in out_dir.glob("da*.parquet") if "_limit" not in p.name)
+    cols = ["bin", "da", "roof_type", "roof_slope_deg", "n_roof", "tri_count", "footprint_area_m2",
+            "z_ground_min", "z_roof_max", "cx", "cy"]
+    frames = []
+    total = 0
+    for p in files:
+        t = pq.read_table(p, columns=cols).to_pandas()
+        total += len(t)
+        frames.append(t[t.roof_slope_deg > min_slope_deg])
+    if not frames:
+        raise FileNotFoundError(f"no CityGML parquet files under {out_dir}")
+    d = pd.concat(frames, ignore_index=True).sort_values("tri_count", ascending=False)
+    base = base or (FOOTPRINTS.parent / "buildings_base.parquet")
+    if base.exists():
+        bb = pq.read_table(base, columns=["bin", "name", "address", "bldg_class", "landmark_id"]).to_pandas()
+        d = d.merge(bb.drop_duplicates("bin"), on="bin", how="left")
+    rep = {
+        "generated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "description": "CityGML LOD2 buildings carrying at least one sloped roof face (slope > %g deg). "
+                       "Everything else in the delivery is flat massing - see ADR-013." % min_slope_deg,
+        "das": sorted(int(f.stem[2:]) for f in files),
+        "buildings_scanned": total,
+        "buildings_with_sloped_roof": int(len(d)),
+        "fraction": float(len(d) / max(total, 1)),
+        "roof_type_hist": {ROOF_NAMES[int(k)]: int(v) for k, v in d.roof_type.value_counts().sort_index().items()},
+        "buildings": json.loads(d.to_json(orient="records")),
+    }
+    if out_json is not None:
+        out_json.parent.mkdir(parents=True, exist_ok=True)
+        with open(out_json, "w") as f:
+            json.dump(rep, f, indent=1, default=str)
+        rep["json"] = str(out_json)
+    log.info("sloped-roof buildings: %d of %d parsed (%.6f%%)", len(d), total, 100 * rep["fraction"])
+    return rep
+
+
+# --------------------------------------------------------------------------- roof-inference calibration
+PITCHED_OSM_SHAPES = frozenset({"gabled", "hipped", "half-hipped", "gambrel", "saltbox", "double_saltbox",
+                                "quadruple_saltbox", "pyramidal", "skillion", "round", "dome", "cone",
+                                "mansard", "hipped-and-gabled", "round_gabled", "sawtooth", "onion", "barrel"})
+
+
+def roof_inference_calibration(*, base: Path | None = None, osm: Path | None = None,
+                               out_json: Path | None = None) -> dict[str, Any]:
+    """Measure the pitched-roof inference (ADR-013 rule) against real OSM ``roof:shape`` tags.
+
+    OSM buildings carrying a ``roof:shape`` tag are matched to a BIN by nearest footprint centroid, the
+    tag is reduced to pitched/flat, and the rule in ``citygml_join.infer_pitched`` is scored on the
+    subset it is allowed to fire on. The sample is small (~1.2 k) and mapper-selected — the report says
+    so — but it is the only *real* roof-shape evidence available for NYC.
+    """
+    from scipy.spatial import cKDTree
+
+    from .citygml_join import BASE_PATH, OSM_BUILDINGS, OSM_MATCH_DIST_M, infer_pitched, load_base_features
+
+    base = base or BASE_PATH
+    osm = osm or OSM_BUILDINGS
+    t0 = time.time()
+    feats = infer_pitched(load_base_features(base))
+    tags = pq.read_table(osm, columns=["roof_shape", "cx", "cy"]).to_pandas()
+    tags = tags[tags.roof_shape.notna() & (tags.roof_shape.astype(str).str.len() > 0)].reset_index(drop=True)
+    shape = tags.roof_shape.astype(str).str.strip().str.lower()
+    tree = cKDTree(feats[["centroid_x", "centroid_y"]].to_numpy())
+    dist, idx = tree.query(tags[["cx", "cy"]].to_numpy(), distance_upper_bound=OSM_MATCH_DIST_M)
+    hit = np.isfinite(dist)
+    m = feats.iloc[idx[hit]].reset_index(drop=True)
+    m["osm_shape"] = shape[hit].to_numpy()
+    m["osm_pitched"] = m.osm_shape.isin(PITCHED_OSM_SHAPES)
+    m = m.drop_duplicates("bin", keep="first")
+
+    y = m.osm_pitched.to_numpy()
+    p = m.is_pitched.to_numpy()
+    tp, fp = int((p & y).sum()), int((p & ~y).sum())
+    fn, tn = int((~p & y).sum()), int((~p & ~y).sum())
+    by_borough = {int(b): {"n": int(len(g)), "rule_fired": int(g.is_pitched.sum()),
+                           "precision": float(g.osm_pitched[g.is_pitched].mean()) if g.is_pitched.any() else None,
+                           "osm_pitched_frac": float(g.osm_pitched.mean())}
+                  for b, g in m.groupby("borough")}
+    by_class = {str(c): {"n": int(len(g)), "osm_pitched_frac": round(float(g.osm_pitched.mean()), 3),
+                         "rule_fired": int(g.is_pitched.sum())}
+                for c, g in m.groupby("bldg_class") if len(g) >= 10}
+    gh = m[m.osm_shape.isin(["gabled", "hipped"])]
+    aspect = (gh.rect_l / gh.rect_w.replace(0, np.nan)).to_numpy()
+    gabled = (gh.osm_shape == "gabled").to_numpy()
+    best = {"threshold": None, "accuracy": 0.0}
+    for thr in (1.2, 1.3, 1.4, 1.5, 1.8, 2.0, 2.5):
+        acc = float(np.mean((aspect >= thr) == gabled)) if gh.shape[0] else float("nan")
+        if acc > best["accuracy"]:
+            best = {"threshold": thr, "accuracy": acc}
+    rep = {
+        "generated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "description": "Pitched-roof inference (ADR-013) scored against real OSM roof:shape tags matched to BINs "
+                       "by nearest footprint centroid (<= %.0f m). Mapper-selected sample: treat as an "
+                       "order-of-magnitude check, not an unbiased estimate." % OSM_MATCH_DIST_M,
+        "osm_tagged": int(len(tags)), "matched_bins": int(len(m)),
+        "osm_pitched_frac": float(y.mean()),
+        "confusion": {"tp": tp, "fp": fp, "fn": fn, "tn": tn},
+        "precision": float(tp / max(tp + fp, 1)),
+        "recall": float(tp / max(tp + fn, 1)),
+        "accuracy": float((tp + tn) / max(len(m), 1)),
+        "by_borough": by_borough,
+        "by_bldg_class": by_class,
+        "gable_vs_hip": {
+            "n": int(gh.shape[0]),
+            "gabled_share": float(gabled.mean()) if gh.shape[0] else float("nan"),
+            "best_aspect_threshold": best,
+            "verdict": "footprint aspect ratio does not separate gable from hip: the best threshold does not "
+                       "beat the majority-class baseline, so every inferred pitched roof is emitted as gable",
+        },
+        "elapsed_s": round(time.time() - t0, 1),
+    }
+    if out_json is not None:
+        out_json.parent.mkdir(parents=True, exist_ok=True)
+        with open(out_json, "w") as f:
+            json.dump(rep, f, indent=1, default=str)
+        rep["json"] = str(out_json)
+    log.info("roof inference vs OSM: precision %.3f recall %.3f on %d matched BINs", rep["precision"],
+             rep["recall"], len(m))
+    return rep

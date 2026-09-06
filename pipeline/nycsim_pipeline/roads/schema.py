@@ -82,6 +82,28 @@ SCHEMAS = {
 }
 
 
+def _shrink_type(t: pa.DataType) -> pa.DataType:
+    """Map pandas-3 large_* Arrow types back to the 32-bit offset types the contracts validator expects."""
+    if pa.types.is_large_string(t):
+        return pa.string()
+    if pa.types.is_large_binary(t):
+        return pa.binary()
+    if pa.types.is_large_list(t) or pa.types.is_list(t):
+        return pa.list_(_shrink_type(t.value_type))
+    if pa.types.is_struct(t):
+        return pa.struct([pa.field(f.name, _shrink_type(f.type), f.nullable) for f in t])
+    return t
+
+
+def normalize_string_types(table: pa.Table) -> pa.Table:
+    """Cast every large_string/large_binary/large_list column to its 32-bit counterpart, metadata preserved."""
+    fields = [pa.field(f.name, _shrink_type(f.type), f.nullable, f.metadata) for f in table.schema]
+    target = pa.schema(fields, metadata=table.schema.metadata)
+    if target.equals(table.schema):
+        return table
+    return table.cast(target)
+
+
 def write_geoparquet(gdf: gpd.GeoDataFrame, path: Path, schema: str, extra_meta: dict[str, str] | None = None) -> int:
     """GeoParquet (WKB, snappy) with ``nycsim.schema`` metadata. Returns the row count."""
     path = Path(path)
@@ -89,6 +111,7 @@ def write_geoparquet(gdf: gpd.GeoDataFrame, path: Path, schema: str, extra_meta:
     if gdf.crs is None:
         gdf = gdf.set_crs(NYC_TM)
     table = _geopandas_to_arrow(gdf, index=False, geometry_encoding="WKB", schema_version="1.1.0", write_covering_bbox=False)
+    table = normalize_string_types(table)
     meta = {**(table.schema.metadata or {}), b"nycsim.schema": schema.encode(), b"nycsim.schema_version": str(SCHEMA_VERSION).encode()}
     for k, v in (extra_meta or {}).items():
         meta[k.encode()] = str(v).encode()
@@ -103,7 +126,7 @@ def write_geoparquet(gdf: gpd.GeoDataFrame, path: Path, schema: str, extra_meta:
 def write_parquet(df: pd.DataFrame, path: Path, schema: str, extra_meta: dict[str, str] | None = None) -> int:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    table = pa.Table.from_pandas(df, preserve_index=False)
+    table = normalize_string_types(pa.Table.from_pandas(df, preserve_index=False))
     meta = {**(table.schema.metadata or {}), b"nycsim.schema": schema.encode(), b"nycsim.schema_version": str(SCHEMA_VERSION).encode()}
     for k, v in (extra_meta or {}).items():
         meta[k.encode()] = str(v).encode()

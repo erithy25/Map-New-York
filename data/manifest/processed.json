@@ -5714,6 +5714,71 @@
    ],
    "stage": "citygml"
   },
+  "citygml_da16": {
+   "artifact_id": "citygml_da16",
+   "buildings_parsed": 68256,
+   "bytes": 31441908,
+   "counters": {
+    "building_no_bin": 4,
+    "building_placeholder_bin": 1347,
+    "buildings_with_tri_dropped": 861,
+    "collinear_points_removed": 390558,
+    "dup_points_removed": 796729,
+    "roof_face_horizontal": 89663,
+    "roof_flipped_up": 445,
+    "roof_type_flat": 68256,
+    "tri_dropped_f32_degenerate": 1011,
+    "wall_ground_inward": 134,
+    "wall_ground_outward": 605248
+   },
+   "da": 16,
+   "elapsed_s": 252.0,
+   "git_commit": "5fc3b15ee35a",
+   "path": "data/processed/buildings/citygml/da16.parquet",
+   "produced_at": "2026-09-06T11:26:01Z",
+   "rows": 68256,
+   "schema": "citygml_solids_v1",
+   "sha256": "6a1ddf4599386f7ad0dc54e607c692a339338d44e1bf3051cbab35cbe1938e5c",
+   "sources": [
+    "doitt_3d_citygml"
+   ],
+   "stage": "citygml"
+  },
+  "citygml_da17": {
+   "artifact_id": "citygml_da17",
+   "buildings_parsed": 72124,
+   "bytes": 31242935,
+   "counters": {
+    "building_no_bin": 2,
+    "building_placeholder_bin": 2244,
+    "buildings_with_tri_dropped": 991,
+    "collinear_points_removed": 310649,
+    "dup_points_removed": 761588,
+    "duplicate_bin_rows_merged": 5,
+    "ground_flipped_down": 1,
+    "polygon_non_planar": 2,
+    "roof_face_horizontal": 88574,
+    "roof_face_sloped": 1,
+    "roof_flipped_up": 191,
+    "roof_type_flat": 72123,
+    "roof_type_shed": 1,
+    "tri_dropped_f32_degenerate": 1079,
+    "wall_ground_inward": 120,
+    "wall_ground_outward": 575277
+   },
+   "da": 17,
+   "elapsed_s": 254.03,
+   "git_commit": "5fc3b15ee35a",
+   "path": "data/processed/buildings/citygml/da17.parquet",
+   "produced_at": "2026-09-06T11:26:05Z",
+   "rows": 72119,
+   "schema": "citygml_solids_v1",
+   "sha256": "468929933ce11be786c493fbe16ea50921666c52d7bd439ea77c8beac0cad0dc",
+   "sources": [
+    "doitt_3d_citygml"
+   ],
+   "stage": "citygml"
+  },
   "citygml_da18": {
    "artifact_id": "citygml_da18",
    "buildings_parsed": 105486,
@@ -5847,6 +5912,133 @@
    ],
    "stage": "citygml"
   },
+  "citygml_da6": {
+   "artifact_id": "citygml_da6",
+   "buildings_parsed": 53073,
+   "bytes": 22773491,
+   "counters": {
+    "building_placeholder_bin": 3799,
+    "buildings_with_tri_dropped": 214,
+    "collinear_points_removed": 164215,
+    "dup_points_removed": 556260,
+    "duplicate_bin_rows_merged": 9,
+    "roof_face_horizontal": 80256,
+    "roof_flipped_up": 328,
+    "roof_type_flat": 53073,
+    "tri_dropped_f32_degenerate": 230,
+    "wall_ground_inward": 50,
+    "wall_ground_outward": 388979
+   },
+   "da": 6,
+   "elapsed_s": 173.3,
+   "git_commit": "5fc3b15ee35a",
+   "path": "data/processed/buildings/citygml/da6.parquet",
+   "produced_at": "2026-09-06T11:28:55Z",
+   "rows": 53064,
+   "schema": "citygml_solids_v1",
+   "sha256": "6726ace57f442945915c6b61473c0439d59e82f65ae373ed606a8b1846984b4d",
+   "sources": [
+    "doitt_3d_citygml"
+   ],
+   "stage": "citygml"
+  },
+  "citygml_da7": {
+   "artifact_id": "citygml_da7",
+   "buildings_parsed": 71378,
+   "bytes": 29541554,
+   "counters": {
+    "building_placeholder_bin": 3373,
+    "buildings_with_tri_dropped": 372,
+    "collinear_points_removed": 191337,
+    "dup_points_removed": 713260,
+    "roof_face_horizontal": 100325,
+    "roof_flipped_up": 711,
+    "roof_type_flat": 71378,
+    "tri_dropped_f32_degenerate": 385,
+    "wall_ground_inward": 4323,
+    "wall_ground_outward": 503752
+   },
+   "da": 7,
+   "elapsed_s": 222.28,
+   "git_commit": "5fc3b15ee35a",
+   "path": "data/processed/buildings/citygml/da7.parquet",
+   "produced_at": "2026-09-06T11:29:48Z",
+   "rows": 71378,
+   "schema": "citygml_solids_v1",
+   "sha256": "a0aec01a1979cb10a41c5fa9960810751bea4597c3a917e86dab64aba9feca37",
+   "sources": [
+    "doitt_3d_citygml"
+   ],
+   "stage": "citygml"
+  },
+  "citygml_da8": {
+   "artifact_id": "citygml_da8",
+   "buildings_parsed": 66277,
+   "bytes": 28329351,
+   "counters": {
+    "building_no_ground": 1,
+    "building_no_roof": 1,
+    "building_placeholder_bin": 2202,
+    "buildings_with_tri_dropped": 427,
+    "collinear_points_removed": 264458,
+    "dup_points_removed": 689080,
+    "duplicate_bin_rows_merged": 41,
+    "ground_flipped_down": 1,
+    "polygons_with_holes": 1,
+    "roof_face_horizontal": 83873,
+    "roof_flipped_up": 820,
+    "roof_type_flat": 66277,
+    "tri_dropped_f32_degenerate": 455,
+    "wall_ground_inward": 135,
+    "wall_ground_outward": 510035
+   },
+   "da": 8,
+   "elapsed_s": 273.62,
+   "git_commit": "5fc3b15ee35a",
+   "path": "data/processed/buildings/citygml/da8.parquet",
+   "produced_at": "2026-09-06T11:33:29Z",
+   "rows": 66236,
+   "schema": "citygml_solids_v1",
+   "sha256": "2e76fd91e7279dff491d8084828fa2756f732526e60b6cf562ac18aca2e135a6",
+   "sources": [
+    "doitt_3d_citygml"
+   ],
+   "stage": "citygml"
+  },
+  "citygml_da9": {
+   "artifact_id": "citygml_da9",
+   "buildings_parsed": 59234,
+   "bytes": 27265874,
+   "counters": {
+    "building_placeholder_bin": 2038,
+    "buildings_with_tri_dropped": 238,
+    "collinear_points_removed": 297866,
+    "dup_points_removed": 681520,
+    "duplicate_bin_rows_merged": 25,
+    "polygon_non_planar": 22,
+    "roof_face_horizontal": 82001,
+    "roof_face_sloped": 22,
+    "roof_flipped_up": 1707,
+    "roof_type_flat": 59232,
+    "roof_type_gable": 1,
+    "roof_type_hip": 1,
+    "tri_dropped_f32_degenerate": 291,
+    "wall_ground_inward": 218,
+    "wall_ground_outward": 492764
+   },
+   "da": 9,
+   "elapsed_s": 275.58,
+   "git_commit": "5fc3b15ee35a",
+   "path": "data/processed/buildings/citygml/da9.parquet",
+   "produced_at": "2026-09-06T11:34:24Z",
+   "rows": 59209,
+   "schema": "citygml_solids_v1",
+   "sha256": "8bb512aa9cd0d0da3eb3c12b9354b097464d5d8d55fda29763b17794072dac64",
+   "sources": [
+    "doitt_3d_citygml"
+   ],
+   "stage": "citygml"
+  },
   "landmark_b_smoke_test_lod0": {
    "artifact_id": "landmark_b_smoke_test_lod0",
    "bytes": 148460,
@@ -5887,6 +6079,26 @@
     "nta_2020"
    ],
    "stage": "buildings"
+  },
+  "landmark_glb:empire_state": {
+   "artifact_id": "landmark_glb:empire_state",
+   "bins": [
+    1015862
+   ],
+   "bytes": 21514016,
+   "footprint_iou": 1.0,
+   "git_commit": "5fc3b15ee35a",
+   "path": "blender_out/landmarks/empire_state.glb",
+   "produced_at": "2026-09-06T11:34:42Z",
+   "rows": null,
+   "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
+   "sha256": "c9c131d05e50b73bd4e5b7e202034719ee949a5acb9aaa96c5aa7cac7bc59fc8",
+   "sources": [
+    "building_footprints"
+   ],
+   "stage": "landmarks",
+   "tris_lod0": 107298,
+   "tris_lod1": 372
   },
   "landmark_glb:smoke_test": {
    "artifact_id": "landmark_glb:smoke_test",
@@ -6109,6 +6321,23 @@
     "osm_newyork_pbf"
    ],
    "stage": "osm"
+  },
+  "terrain_ground_points": {
+   "artifact_id": "terrain_ground_points",
+   "buildings": 1082459,
+   "bytes": 29143949,
+   "git_commit": "5fc3b15ee35a",
+   "path": "data/processed/terrain/ground_points.parquet",
+   "produced_at": "2026-09-06T11:35:10Z",
+   "rows": 1458592,
+   "schema": "terrain.ground_points/1",
+   "sha256": "a22de99518ffed9496ee6e3a24f572e6ca85ca1eac26e6b5bd37f863a9276bfa",
+   "sources": [
+    "plan_elevation_points",
+    "building_footprints"
+   ],
+   "spot": 376133,
+   "stage": "terrain"
   },
   "terrain_src2m_usgs_3dep_13_n41w074__-1_-2": {
    "artifact_id": "terrain_src2m_usgs_3dep_13_n41w074__-1_-2",
@@ -8218,53 +8447,47 @@
   },
   "water_hydrography": {
    "artifact_id": "water_hydrography",
-   "bytes": 18207534,
-   "git_commit": "80eb5cad0faf",
-   "kinds": {
-    "basin": 20,
-    "bay": 156,
-    "canal": 2,
-    "lake": 61,
-    "marsh": 744,
-    "ocean": 1,
-    "pond": 989,
-    "river": 265
-   },
+   "bytes": 14960789,
+   "git_commit": "5fc3b15ee35a",
+   "levels_finalized": true,
    "path": "data/processed/water/hydrography.parquet",
-   "produced_at": "2026-09-06T11:16:12Z",
-   "rows": 2238,
+   "produced_at": "2026-09-06T11:32:48Z",
+   "rows": 1073,
    "schema": "water.hydrography/1",
-   "sha256": "189a7592eaf2718d7afa89c49597f38c60dbfca76b13be614ea0e8d7f7c1ef41",
+   "sha256": "72c600a80df5540b2cca0dbe38130b51f028a3b3cbe46711371863c4bfc82511",
    "sources": [
     "plan_hydrography",
     "plan_hydro_structures",
     "plan_shoreline",
     "borough_boundaries_water",
-    "osm_newyork_pbf"
+    "osm_newyork_pbf",
+    "plan_elevation_points",
+    "usgs_3dep"
    ],
    "stage": "water"
   },
   "water_shoreline": {
    "artifact_id": "water_shoreline",
-   "bytes": 5902589,
-   "git_commit": "80eb5cad0faf",
+   "bytes": 5902606,
+   "git_commit": "5fc3b15ee35a",
    "path": "data/processed/water/shoreline.parquet",
-   "produced_at": "2026-09-06T11:16:13Z",
+   "produced_at": "2026-09-06T11:32:54Z",
    "rows": 413,
    "schema": "water.shoreline/1",
-   "sha256": "ab3c1e65f832a5d99d27685f29ad3fd4793ec1d7bd680b4069736df30051f01d",
+   "sha256": "86a948f56d940b22370f2a15c73419a97bee147989a2a4d31b6ab8e649cab921",
    "sources": [
     "plan_shoreline",
-    "plan_hydro_structures"
+    "plan_hydro_structures",
+    "usgs_3dep"
    ],
    "stage": "water"
   },
   "water_structures": {
    "artifact_id": "water_structures",
    "bytes": 2500550,
-   "git_commit": "80eb5cad0faf",
+   "git_commit": "5fc3b15ee35a",
    "path": "data/processed/water/structures.parquet",
-   "produced_at": "2026-09-06T11:16:13Z",
+   "produced_at": "2026-09-06T11:32:15Z",
    "rows": 2536,
    "schema": "water.structures/1",
    "sha256": "30a4324012c6d79e8d75f14d32aeb3a9b13859ad64e9a7b839b90be4a3f785ab",
@@ -8275,13 +8498,13 @@
   },
   "water_tiles": {
    "artifact_id": "water_tiles",
-   "bytes": 29433,
-   "git_commit": "80eb5cad0faf",
+   "bytes": 28802,
+   "git_commit": "5fc3b15ee35a",
    "path": "data/processed/water/water_tiles.parquet",
-   "produced_at": "2026-09-06T11:16:13Z",
+   "produced_at": "2026-09-06T11:32:15Z",
    "rows": 2916,
    "schema": "water.water_tiles/1",
-   "sha256": "7fccfb19e5c9d1d401488ad1fd47ca66a2ddd4dd6167a88c4d4ad43463392848",
+   "sha256": "927be0a9bcc8674230ae303406b6b2080d5f814120dda8323ffcc38625b50ed9",
    "sources": [
     "plan_hydrography"
    ],

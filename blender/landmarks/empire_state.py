@@ -91,13 +91,13 @@ def build():
         for k in range(bays):
             a = p0 + t * (k * mod); c = p0 + t * ((k + 1) * mod)
             pier_w = 1.6
-            b.box_from_to(a, a + t * pier_w, n, 0, 0.45, 0.0, 6.0, gran)
+            b.box_from_to(a, a + t * pier_w, n, 0.45, 0.0, 6.0, gran)
             g0 = a + t * pier_w; g1 = c
             if k == bays - 1:
-                b.box_from_to(c - t * pier_w, c, n, 0, 0.45, 0.0, 6.0, gran); g1 = c - t * pier_w
+                b.box_from_to(c - t * pier_w, c, n, 0.45, 0.0, 6.0, gran); g1 = c - t * pier_w
             b.quad((g0[0] + n[0] * 0.05, g0[1] + n[1] * 0.05, 0.0), (g1[0] + n[0] * 0.05, g1[1] + n[1] * 0.05, 0.0),
                    (g1[0] + n[0] * 0.05, g1[1] + n[1] * 0.05, 4.6), (g0[0] + n[0] * 0.05, g0[1] + n[1] * 0.05, 4.6), C.M.glass_clear)
-            b.box_from_to(g0, g1, n, 0, 0.25, 4.6, 6.0, gran)        # storefront head / transom band
+            b.box_from_to(g0, g1, n, 0.25, 4.6, 6.0, gran)        # storefront head / transom band
         # floors 2-5 punched windows in the limestone (window strips start at floor 2)
         fl = [Z[1], Z[2], Z[3], Z[4]]
         C.punched_wall(b, p0, p1, n, 6.0, z5, fl, lime, glass, bays=max(2, int(round(L / 2.7))), window_w=1.35, window_h=2.5,
@@ -108,13 +108,13 @@ def build():
     for dx, w, h, depth, m_ in ((0.0, 15.0, 13.0, 3.0, C.M.steel_nirosta), (0.0, 12.0, 11.0, 3.0, C.M.glass_dark)):
         a = mid - t * (w / 2); c = mid + t * (w / 2)
         C.window_punch(b, a, c, n, 0.0, h, depth, m_ if m_ is not C.M.glass_dark else C.M.steel_nirosta, C.M.glass_dark, sill=0.0)
-    b.box_from_to(mid - t * 9.0, mid + t * 9.0, n, 0, 3.2, 6.0, 6.5, C.M.steel_nirosta)   # canopy
+    b.box_from_to(mid - t * 9.0, mid + t * 9.0, n, 3.2, 6.0, 6.5, C.M.steel_nirosta)   # canopy
     # 33rd / 34th Street entrances (centre of the long edges, 8 m wide, 8 m high)
     for ang in (90.0, -90.0):
         s0, s1, L2, t2, n2 = C.edge_facing(coords, ang)
         m2 = (s0 + s1) / 2
         C.window_punch(b, m2 - t2 * 4.0, m2 + t2 * 4.0, n2, 0.0, 8.0, 2.5, C.M.steel_nirosta, C.M.glass_dark, sill=0.0)
-        b.box_from_to(m2 - t2 * 5.0, m2 + t2 * 5.0, n2, 0, 2.6, 5.5, 6.0, C.M.steel_nirosta)
+        b.box_from_to(m2 - t2 * 5.0, m2 + t2 * 5.0, n2, 2.6, 5.5, 6.0, C.M.steel_nirosta)
     objs.append(b.build(f"{ID}_base_detail"))
     objs.append(C.cornice(f"{ID}_base_cornice", P, z5, [(0.25, 0.0), (0.6, 0.5), (0.6, 0.8), (0.3, 1.0)], lime))
 
@@ -208,9 +208,9 @@ def main():
              tri_budget=C.TRI_BUDGET_LOD0_LARGE,
              material_slots={"ESB_CROWN": "emissive crown lighting (72nd-85th floor spandrels, setback floodlights, mast bands)"})
     C.render_check(ID, [
-        {"view": "street", "azimuth_deg": 150, "elevation_deg": "street", "distance": 95, "target_z": 24, "fov_deg": 65},
-        {"view": "aerial", "azimuth_deg": 215, "elevation_deg": 22},
-        {"view": "skyline", "azimuth_deg": 160, "elevation_deg": 6, "distance": 1400, "fov_deg": 30, "target_z": 200},
+        {"view": "street", "azimuth_deg": 150, "elevation_deg": "street", "distance": 210, "target_z": 150, "fov_deg": 62},
+        {"view": "aerial", "azimuth_deg": 215, "elevation_deg": 24, "distance": 900, "fov_deg": 36, "target_z": 205},
+        {"view": "skyline", "azimuth_deg": 160, "elevation_deg": 6, "distance": 1400, "fov_deg": 26, "target_z": 200},
     ])
 
 

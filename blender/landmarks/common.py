@@ -8,10 +8,13 @@ Public API (stable — other agents depend on it)
 ``load_footprint(key)``            key = landmark id (registered in ``LANDMARK_BINS``/``register``), BIN (int or digit
                                    string) or a building name (case-insensitive, must be unique). Returns a
                                    :class:`Footprint` that also unpacks as ``(polygon, ground_z, height_m, centroid)``.
-                                   Sources, in order: ``data/processed/buildings/landmark_footprints.parquet`` (if it
-                                   exists), ``data/processed/landmarks/candidate_footprints.parquet``,
+                                   Per-BIN geometry sources, in order: ``data/processed/landmarks/candidate_footprints.parquet``,
                                    ``data/processed/buildings/footprints_raw.parquet`` (bin-filtered column read).
 ``load_footprints(bins)``          list of Footprint.
+``landmark_meta(id_or_bin)``       row of ``data/processed/buildings/landmark_footprints.parquet`` (LP number, LiDAR roof
+                                   height, published ``expected_height_m``). That table's geometry is already unioned over
+                                   a landmark's BINs, so it is metadata only — geometry always comes per BIN from the two
+                                   footprint parquets above, which is also what ``tests/test_landmarks_a.py`` compares to.
 ``local_frame(polygon, ground_z)`` :class:`LocalFrame` — origin = footprint centroid rounded to whole metres (NYC_TM),
                                    ``angle_deg`` = direction of the footprint's principal (long) axis from east (CCW),
                                    ``heading_deg`` = compass heading of that same +x axis. Build everything in this
@@ -19,8 +22,14 @@ Public API (stable — other agents depend on it)
                                    parallel to NYC_TM (east, north, up) and its origin at ``origin_tm``.
 ``MeshBuilder``                    fast vertex/face accumulator with per-face materials: quads, boxes, prisms, lofts,
                                    lathes, vertical n-gons; ``.build(name)`` -> Blender object.
-``prism, plinth, tower_tier, facade_grid, cornice, loft, lathe, column, colonnade, pediment, steps, flagpole`` builders.
-``M`` / ``mat(name)``              documented Principled material palette (albedos in the ``PALETTE`` table).
+``prism, plinth, tower_tier, facade_grid, cornice, band, loft, lathe, column, colonnade, entablature, pilaster, pediment,
+gable_roof, hip_roof, pyramid_roof, dome, balustrade, barrel_vault, clock_face, steps, flagpole, arched_opening,
+window_punch, punched_wall`` builders.
+``M`` / ``mat(name)``              documented material palette (``PALETTE``: albedo, roughness, metallic, emission, source).
+                                   Masonry and paving names carry the CC0 PBR maps served by ``blender/common/textures.py``
+                                   (``TEXTURE_NAMES``), tiled in metres over the box-projected UVs that ``MeshBuilder.build``
+                                   writes; the colour map is multiplied by a tint that preserves the documented albedo.
+                                   ``NYCSIM_LANDMARK_TEXTURES=0`` forces flat colours; ``texture_status()`` reports what was used.
 ``finish(objects, landmark_id, bins, frame, ...)``
                                    validates (footprint IoU > 0.9 on base-tagged objects, height within 1 %, triangle
                                    budget, LOD1 <= 20 %), builds ``<id>_LOD1``, rotates to NYC_TM axes, exports
@@ -100,7 +109,8 @@ LANDMARK_BINS: dict[str, list[int]] = {
     "st_patricks_cathedral": [1081150, 1081149, 1082595],
     "grand_central_terminal": [1035381],
     "new_york_public_library": [1034194],
-    "madison_square_garden": [1082908, 1083026],
+    # the arena drum only; BIN 1083026 (Two Penn Plaza, the 1968 office slab north of it) is a separate building
+    "madison_square_garden": [1082908],
     "woolworth": [1087167],
     "municipal_building": [1001394],
     "city_hall": [1079147],
@@ -155,11 +165,18 @@ def _clean_polygon(geom) -> Polygon:
 
 
 def _read_rows(path: Path, *, bins: Sequence[int] | None = None, name: str | None = None) -> list[dict]:
+    """Per-BIN footprint rows from a parquet with the footprint schema (``bin`` + ``geometry``).
+
+    ``landmark_footprints.parquet`` has a different, per-*landmark* schema (``landmark_id``, ``bins`` list, geometry already
+    unioned over the BINs); it is read by :func:`landmark_meta` for LP numbers and published heights, never for per-BIN
+    geometry — the union would otherwise collapse a multi-building landmark into one polygon."""
     import pyarrow.parquet as pq
     if not path.exists():
         return []
     pf = pq.ParquetFile(path)
     have = set(pf.schema_arrow.names)
+    if "bin" not in have:
+        return []
     want = [c for c in ("bin", "name", "height", "ground_z", "cx", "cy", "geometry", "construction_year", "height_roof",
                         "ground_elevation") if c in have]
     filters = None
@@ -207,6 +224,41 @@ def load_footprints(bins: Sequence[int]) -> list[Footprint]:
     if missing:
         raise KeyError(f"BIN(s) {missing} not found in {LANDMARK_FOOTPRINTS_PARQUET.name}, {CANDIDATES_PARQUET.name} or {FOOTPRINTS_RAW_PARQUET.name}")
     return [found[b] for b in bins]
+
+
+_META_CACHE: dict[str, dict] | None = None
+
+
+def _landmark_meta_table() -> dict[str, dict]:
+    """``data/processed/buildings/landmark_footprints.parquet`` keyed by landmark_id *and* by ``bin:<BIN>``."""
+    global _META_CACHE
+    if _META_CACHE is not None:
+        return _META_CACHE
+    out: dict[str, dict] = {}
+    if LANDMARK_FOOTPRINTS_PARQUET.exists():
+        import pyarrow.parquet as pq
+        have = set(pq.ParquetFile(LANDMARK_FOOTPRINTS_PARQUET).schema_arrow.names)
+        cols = [c for c in ("landmark_id", "name", "bins", "height_m", "ground_z", "roof_z", "lp_number",
+                            "expected_height_m", "height_dev_m", "footprint_area", "n_footprints", "lon", "lat",
+                            "centroid_x", "centroid_y", "match_method") if c in have]
+        for r in pq.read_table(LANDMARK_FOOTPRINTS_PARQUET, columns=cols).to_pylist():
+            r["bins"] = [int(b) for b in (r.get("bins") or [])]
+            out[str(r.get("landmark_id"))] = r
+            for b in r["bins"]:
+                out.setdefault(f"bin:{b}", r)
+    _META_CACHE = out
+    return out
+
+
+def landmark_meta(key: str | int) -> dict:
+    """Row of ``landmark_footprints.parquet`` for a landmark_id or a BIN (``{}`` when the landmark is not in that table).
+
+    Use it for LP designation numbers, the LiDAR roof height and the published ``expected_height_m`` cross-check — not for
+    geometry (see :func:`_read_rows`)."""
+    t = _landmark_meta_table()
+    if isinstance(key, (int, np.integer)) or (isinstance(key, str) and str(key).isdigit()):
+        return dict(t.get(f"bin:{int(key)}", {}))
+    return dict(t.get(str(key), {}))
 
 
 def load_footprint(key: str | int) -> Footprint:
@@ -422,6 +474,11 @@ PALETTE: dict[str, tuple] = {
     "limestone_dark":   ((172, 163, 148), 0.8, 0.0, None, 0.0, "weathered/soiled limestone"),
     "limestone_warm":   ((212, 198, 172), 0.72, 0.0, None, 0.0, "Bedford limestone, warm buff (Grand Central, NYPL Vermont marble reads warmer)"),
     "marble_white":     ((228, 224, 216), 0.55, 0.0, None, 0.0, "Vermont/Tuckahoe/Massachusetts white marble"),
+    "marble_tennessee": ((206, 190, 178), 0.4, 0.0, None, 0.0, "Tennessee pink marble (Grand Central concourse floor and walls)"),
+    "limestone_rusticated": ((196, 186, 166), 0.85, 0.0, None, 0.0, "rusticated limestone base courses (deep-jointed ashlar)"),
+    "granite_rusticated":   ((132, 128, 124), 0.8, 0.0, None, 0.0, "rusticated granite base courses"),
+    "plaster_cream":    ((214, 204, 186), 0.9, 0.0, None, 0.0, "cast-plaster interior cornices/soffits"),
+    "brass":            ((178, 142, 72), 0.3, 0.9, None, 0.0, "polished brass (Grand Central clock, handrails, ticket-window grilles)"),
     "granite_grey":     ((138, 134, 130), 0.7, 0.0, None, 0.0, "Deer Isle/Quincy grey granite"),
     "granite_pink":     ((168, 142, 126), 0.7, 0.0, None, 0.0, "Stony Creek/Milford pink granite"),
     "granite_dark":     ((64, 62, 62), 0.6, 0.0, None, 0.0, "dark polished granite base courses"),
@@ -467,17 +524,119 @@ PALETTE: dict[str, tuple] = {
 }
 _MATS: dict[str, bpy.types.Material] = {}
 
+# Palette name -> CC0 PBR set in blender/common/textures.py (AmbientCG / Poly Haven; see assets/textures/*/LICENSE.json).
+# Only surfaces whose *relief* reads at building scale are textured; glass, polished metal, flags, ice and the emissive
+# slots stay flat Principled colours. The colour map is multiplied by a tint that restores the documented albedo below.
+TEXTURE_NAMES: dict[str, str] = {
+    # Indiana limestone and Vermont marble are near-uniform fine-grained ashlar at building scale: the catalog's
+    # "limestone" set (Travertine009) is strongly banded and reads as veneer, so the fine-grained Concrete030 grain is
+    # used for smooth ashlar and the coarse sandstone-block set only where the real wall is rusticated.
+    "limestone": "concrete", "limestone_dark": "concrete", "limestone_warm": "concrete", "marble_white": "concrete",
+    "limestone_rusticated": "limestone_ashlar", "granite_rusticated": "granite_rusticated",
+    "granite_grey": "granite", "granite_pink": "granite", "granite_dark": "granite", "granite_black": "granite",
+    "brownstone": "brownstone", "sandstone_red": "brownstone",
+    "white_brick": "white_glazed_brick", "grey_brick_dark": "white_glazed_brick",
+    "brick_red": "red_brick", "brick_buff": "tan_brick",
+    "terracotta_cream": "terracotta", "terracotta_red": "terracotta",
+    "concrete": "concrete", "concrete_dark": "precast", "pavement": "concrete_sidewalk",
+    "asphalt": "asphalt", "roof_dark": "roof_membrane", "roof_grey": "tar_gravel_roof", "cast_iron": "cast_iron",
+    "marble_tennessee": "terrazzo", "plaster_cream": "stucco",
+}
+TEXTURES_ENABLED = os.environ.get("NYCSIM_LANDMARK_TEXTURES", "1") != "0"
+TEXTURE_RES = os.environ.get("NYCSIM_LANDMARK_TEXTURE_RES", "1K")
+_texture_status: dict[str, str] = {}
+_tex_mean: dict[str, tuple[float, float, float]] = {}
+
+
+def texture_status() -> dict[str, str]:
+    """Per palette name: ``"<set> @<res>"`` when PBR maps were attached, or the reason they were not."""
+    return dict(_texture_status)
+
+
+def _image_mean_rgb(path: str) -> tuple[float, float, float]:
+    """Mean *linear* RGB of a colour map (cached), used to compute the tint that restores the documented albedo."""
+    if path in _tex_mean:
+        return _tex_mean[path]
+    img = bpy.data.images.load(path, check_existing=True)
+    img.colorspace_settings.name = "sRGB"
+    n = img.size[0] * img.size[1] * img.channels
+    buf = np.empty(n, dtype=np.float32)
+    img.pixels.foreach_get(buf)
+    buf = buf.reshape(-1, img.channels)[:, :3]           # Blender gives linear float pixels
+    m = tuple(float(max(v, 1e-3)) for v in buf.mean(axis=0))
+    _tex_mean[path] = m
+    return m
+
+
+def _tint_base_color(material: bpy.types.Material, albedo: tuple[float, float, float, float], color_path: str) -> None:
+    """Insert ``colour map x tint`` before Base Color so the textured surface keeps the documented mean albedo.
+    (glTF reads this as baseColorTexture x baseColorFactor.)"""
+    nt = material.node_tree
+    bsdf = nt.nodes["Principled BSDF"]
+    link = next((l for l in nt.links if l.to_socket is bsdf.inputs["Base Color"]), None)
+    if link is None:
+        return
+    src = link.from_socket
+    mean = _image_mean_rgb(color_path)
+    tint = tuple(min(1.0, albedo[i] / mean[i]) for i in range(3))
+    mix = nt.nodes.new("ShaderNodeMix")
+    mix.data_type = "RGBA"; mix.blend_type = "MULTIPLY"
+    mix.inputs["Factor"].default_value = 1.0
+    nt.links.remove(link)
+    nt.links.new(src, mix.inputs[6])                      # A (colour)
+    mix.inputs[7].default_value = (*tint, 1.0)            # B (constant tint)
+    nt.links.new(mix.outputs[2], bsdf.inputs["Base Color"])
+    bsdf.inputs["Base Color"].default_value = (*tint, 1.0)
+
+
+def _texture_maps(name: str) -> tuple[dict[str, str], float] | None:
+    """({kind: path}, physical tile size in metres) from blender/common/textures.py, or None (reason recorded once)."""
+    if not TEXTURES_ENABLED or name not in TEXTURE_NAMES:
+        return None
+    if _texture_status.get(name, "").startswith("no texture"):
+        return None
+    try:
+        import textures as tx                              # blender/common/textures.py
+        maps = tx.get_texture_set(TEXTURE_NAMES[name], TEXTURE_RES)
+        size = float(tx.get_texture_meta(TEXTURE_NAMES[name]).get("physical_size_m") or 2.0)
+    except Exception as e:                                 # offline / catalog gap -> documented flat colour, recorded
+        _texture_status[name] = f"no texture ({type(e).__name__}: {str(e)[:100]})"
+        log.info("material %s: %s; using the documented Principled albedo", name, _texture_status[name])
+        return None
+    keep = {k: v for k, v in maps.items() if k in ("color", "roughness", "normal", "metallic", "metalness")}
+    if "metalness" in keep:
+        keep["metallic"] = keep.pop("metalness")
+    if "color" not in keep:
+        _texture_status[name] = "no texture (set has no colour map)"
+        return None
+    _texture_status[name] = f"{TEXTURE_NAMES[name]} @{TEXTURE_RES} ({size:g} m tile)"
+    return keep, size
+
 
 def mat(name: str) -> bpy.types.Material:
-    """Palette material by name (created once per scene)."""
+    """Palette material by name (created once per scene). Masonry/paving names get the CC0 PBR maps that
+    ``blender/common/textures.py`` provides, tiled in metres over the box-projected UVs written by ``MeshBuilder.build``;
+    every other name (and every name textures.py cannot serve) is the documented flat Principled albedo."""
     m = bpy.data.materials.get(name)
     if m is not None:
         return m
     if name not in PALETTE:
         raise KeyError(f"unknown palette material {name!r}; add it to PALETTE with its documented albedo")
     rgb, rough, metal, emis, estr, _ = PALETTE[name]
-    return nb.pbr_material(name, base_color=_srgb(*rgb), roughness=rough, metallic=metal,
-                           emission=(emis + (1.0,)) if emis else None, emission_strength=estr)
+    albedo = _srgb(*rgb)
+    tex = None if emis else _texture_maps(name)
+    if tex is None:
+        return nb.pbr_material(name, base_color=albedo, roughness=rough, metallic=metal,
+                               emission=(emis + (1.0,)) if emis else None, emission_strength=estr)
+    maps, size = tex
+    m = nb.pbr_material(name, base_color=albedo, roughness=rough, metallic=metal, textures=maps, uv_scale_m=size)
+    try:
+        _tint_base_color(m, albedo, maps["color"])
+    except Exception as e:                                 # keep the (untinted) textured material rather than failing
+        log.warning("material %s: could not tint the colour map to the documented albedo (%s)", name, e)
+    m["nycsim_texture_set"] = TEXTURE_NAMES[name]
+    m["nycsim_uv_tile_m"] = size
+    return m
 
 
 class _MatProxy:
@@ -499,6 +658,30 @@ def custom_material(name: str, rgb255: tuple[int, int, int], roughness: float = 
 
 
 # =============================================================================================== mesh builder
+def box_uv(me: bpy.types.Mesh, layer: str = "UVMap") -> None:
+    """Box-project UVs **in metres**: every face is projected onto the world plane its normal points along most strongly
+    (x-normal -> (y, z), y-normal -> (x, z), z-normal -> (x, y)). Tiling is then purely physical — a material built by
+    :func:`mat` divides by its texture's ``physical_size_m``, so one tile always covers that many metres of wall."""
+    if not me.polygons:
+        return
+    uv = me.uv_layers.get(layer) or me.uv_layers.new(name=layer)
+    nv = len(me.vertices)
+    co = np.empty(nv * 3, dtype=np.float32); me.vertices.foreach_get("co", co); co = co.reshape(-1, 3)
+    nl = len(me.loops)
+    vidx = np.empty(nl, dtype=np.int32); me.loops.foreach_get("vertex_index", vidx)
+    npoly = len(me.polygons)
+    nrm = np.empty(npoly * 3, dtype=np.float32); me.polygons.foreach_get("normal", nrm)
+    ltot = np.empty(npoly, dtype=np.int32); me.polygons.foreach_get("loop_total", ltot)
+    axis = np.repeat(np.argmax(np.abs(nrm.reshape(-1, 3)), axis=1), ltot)
+    if axis.shape[0] != nl:                                  # non-contiguous loops (should not happen for from_pydata)
+        raise RuntimeError(f"mesh {me.name}: {axis.shape[0]} loop slots for {nl} loops")
+    p = co[vidx]
+    out = np.empty((nl, 2), dtype=np.float32)
+    out[:, 0] = np.where(axis == 0, p[:, 1], p[:, 0])
+    out[:, 1] = np.where(axis == 2, p[:, 1], p[:, 2])
+    uv.data.foreach_set("uv", out.ravel())
+
+
 class MeshBuilder:
     """Accumulates vertices/faces with a material index per face, then builds one Blender object.
 
@@ -563,9 +746,8 @@ class MeshBuilder:
             for a, b, cc, d in ((0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7)):
                 self.face((i[a], i[b], i[cc], i[d]), material)
 
-    def box_from_to(self, p0, p1, normal, width_along, depth, z0, z1, material, *, top=True, bottom=False, material_top=None):
-        """Box spanning the wall segment p0->p1 (2-D), extruded *outward* along ``normal`` by ``depth``, between z0 and z1.
-        (``width_along`` unused placeholder kept for signature stability — use p0/p1.)"""
+    def box_from_to(self, p0, p1, normal, depth, z0, z1, material, *, top=True, bottom=False, material_top=None):
+        """Box spanning the wall segment p0->p1 (2-D), extruded *outward* along ``normal`` by ``depth``, between z0 and z1."""
         p0 = np.asarray(p0, dtype=np.float64); p1 = np.asarray(p1, dtype=np.float64); n = np.asarray(normal, dtype=np.float64)
         q0 = p0 + n * depth; q1 = p1 + n * depth
         i = [self.vert(*p0, z0), self.vert(*p1, z0), self.vert(*q1, z0), self.vert(*q0, z0),
@@ -732,6 +914,7 @@ class MeshBuilder:
             p.use_smooth = s
         me.validate(verbose=False, clean_customdata=False)
         me.update()
+        box_uv(me)
         for m in self.mats:
             me.materials.append(m)
         ob = bpy.data.objects.new(name, me)
@@ -816,7 +999,7 @@ def facade_edge(b: MeshBuilder, p0, p1, normal, z0: float, z1: float, fen: Fenes
     pier_m, span_m, glass_m, mull_m = mat(fen.pier), mat(fen.spandrel), mat(fen.glass), mat(fen.mullion)
     back = -n * fen.recess
     if L < fen.min_edge:
-        b.box_from_to(p0 + back, p1 + back, n, 0, fen.recess, z0, z1, pier_m, top=top_cap)
+        b.box_from_to(p0 + back, p1 + back, n, fen.recess, z0, z1, pier_m, top=top_cap)
         return
     nb_ = int(fen.bays_for(L)) if fen.bays_for else max(1, int(round(L / fen.bay_w)))
     module = L / nb_
@@ -833,7 +1016,7 @@ def facade_edge(b: MeshBuilder, p0, p1, normal, z0: float, z1: float, fen: Fenes
         s0 = 0.0 if k == 0 else k * module - pw / 2
         s1 = L if k == nb_ else k * module + pw / 2
         a = p0 + t * s0 + back; c = p0 + t * s1 + back
-        b.box_from_to(a, c, n, 0, fen.recess, z0, z1, pier_m, top=top_cap)
+        b.box_from_to(a, c, n, fen.recess, z0, z1, pier_m, top=top_cap)
     for k in range(nb_):
         s0 = k * module + pw / 2
         s1 = (k + 1) * module - pw / 2
@@ -847,13 +1030,13 @@ def facade_edge(b: MeshBuilder, p0, p1, normal, z0: float, z1: float, fen: Fenes
             if fen.strip and si == 0:
                 sp = 0.0  # strip starts at the tier base
             if sp > 0:
-                b.box_from_to(a, c, n, 0, proud, zf0, zf0 + sp, span_m, top=True, bottom=True)
+                b.box_from_to(a, c, n, proud, zf0, zf0 + sp, span_m, top=True, bottom=True)
                 if fen.sill > 0 and not fen.strip:
-                    b.box_from_to(a, c, n, 0, min(fen.recess - 0.01, fen.sill), zf0 + sp, zf0 + sp + 0.12, pier_m, top=True, bottom=True)
+                    b.box_from_to(a, c, n, min(fen.recess - 0.01, fen.sill), zf0 + sp, zf0 + sp + 0.12, pier_m, top=True, bottom=True)
             if fen.window_h is not None and not fen.strip:
                 head0 = zf0 + sp + fen.window_h
                 if head0 < zf1 - 0.05:
-                    b.box_from_to(a, c, n, 0, proud, head0, zf1, span_m, top=True, bottom=True)
+                    b.box_from_to(a, c, n, proud, head0, zf1, span_m, top=True, bottom=True)
         if fen.mullions > 0:
             for mk in range(1, fen.mullions + 1):
                 sm = s0 + (s1 - s0) * mk / (fen.mullions + 1)
@@ -873,7 +1056,7 @@ def facade_grid(name: str, poly: Polygon, z0: float, z1: float, fen: Fenestratio
         if sel is not None and i not in sel:
             continue
         if i in blank:
-            b.box_from_to(p0 - n * fen.recess, p1 - n * fen.recess, n, 0, fen.recess, z0, z1, mat(fen.pier), top=top_cap)
+            b.box_from_to(p0 - n * fen.recess, p1 - n * fen.recess, n, fen.recess, z0, z1, mat(fen.pier), top=top_cap)
             continue
         facade_edge(b, p0, p1, n, z0, z1, fen, top_cap=top_cap)
     return b.build(name)
@@ -987,9 +1170,205 @@ def column(b: MeshBuilder, x: float, y: float, z0: float, h: float, r: float, ma
 
 def pilaster(b: MeshBuilder, p0, p1, normal, z0, z1, depth, material, *, cap_h: float = 0.5) -> None:
     """Flat pilaster on a wall segment with a simple capital block."""
-    b.box_from_to(p0, p1, normal, 0, depth, z0, z1 - cap_h, material, top=False)
+    b.box_from_to(p0, p1, normal, depth, z0, z1 - cap_h, material, top=False)
     p0 = np.asarray(p0); p1 = np.asarray(p1); t = (p1 - p0) / np.linalg.norm(p1 - p0)
-    b.box_from_to(p0 - t * 0.12, p1 + t * 0.12, normal, 0, depth + 0.12, z1 - cap_h, z1, material)
+    b.box_from_to(p0 - t * 0.12, p1 + t * 0.12, normal, depth + 0.12, z1 - cap_h, z1, material)
+
+
+def colonnade(b: MeshBuilder, p0, p1, normal, z0: float, h: float, r: float, count: int, material, *,
+              order: str = "corinthian", stand_off: float = 0.0, segments: int = 20, end_margin: float | None = None,
+              engaged: bool = False) -> list[tuple[float, float]]:
+    """``count`` columns of height ``h`` and shaft radius ``r`` evenly spaced along the wall segment p0->p1, their axes
+    ``stand_off`` metres out from that line along ``normal``. ``end_margin`` (default: half a bay) sets the distance from
+    the ends to the first/last column axis; ``engaged`` pulls them back onto the wall (pilaster-like). Returns the axes."""
+    p0 = np.asarray(p0, dtype=np.float64); p1 = np.asarray(p1, dtype=np.float64); n = np.asarray(normal, dtype=np.float64)
+    L = float(np.linalg.norm(p1 - p0))
+    if count < 1 or L < 1e-6:
+        return []
+    t = (p1 - p0) / L
+    margin = (L / (2 * count)) if end_margin is None else float(end_margin)
+    span = L - 2 * margin
+    axes = []
+    off = n * (stand_off - (r if engaged else 0.0))
+    for k in range(count):
+        u = margin + (span * k / (count - 1) if count > 1 else span / 2)
+        q = p0 + t * u + off
+        column(b, float(q[0]), float(q[1]), z0, h, r, material, order=order, segments=segments)
+        axes.append((float(q[0]), float(q[1])))
+    return axes
+
+
+def entablature(b: MeshBuilder, p0, p1, normal, z0: float, h: float, depth: float, material, *, overhang: float = 0.35) -> None:
+    """Architrave / frieze / cornice band over a colonnade: a plain band with a projecting corona at the top."""
+    p0 = np.asarray(p0, dtype=np.float64); p1 = np.asarray(p1, dtype=np.float64); n = np.asarray(normal, dtype=np.float64)
+    t = (p1 - p0) / float(np.linalg.norm(p1 - p0))
+    a = p0 - t * overhang; c = p1 + t * overhang
+    b.box_from_to(a, c, n, depth, z0, z0 + h * 0.72, material, top=False, bottom=True)
+    b.box_from_to(a - t * overhang, c + t * overhang, n, depth + overhang, z0 + h * 0.72, z0 + h, material, top=True, bottom=True)
+
+
+def gable_roof(b: MeshBuilder, ring: Sequence[tuple[float, float]], z_eave: float, rise: float, material, *,
+               ridge_dir_deg: float = 0.0, overhang: float = 0.0, gable_material=None) -> None:
+    """Pitched roof over a convex ring: the ridge runs along ``ridge_dir_deg`` (local math degrees) through the centroid and
+    every eave vertex rises linearly with its distance from the ridge line, so the two slopes meet at the ridge."""
+    pts = [tuple(map(float, p[:2])) for p in ring]
+    c = np.asarray(pts, dtype=np.float64).mean(axis=0)
+    d = np.array([math.cos(math.radians(ridge_dir_deg)), math.sin(math.radians(ridge_dir_deg))])
+    nrm = np.array([-d[1], d[0]])
+    if overhang:
+        pts = offset_ring(pts, overhang)
+    off = [float(np.dot(np.asarray(p) - c, nrm)) for p in pts]
+    hmax = max(abs(o) for o in off) or 1.0
+    for i in range(len(pts)):
+        j = (i + 1) % len(pts)
+        a, e = pts[i], pts[j]
+        za = z_eave + rise * (1.0 - abs(off[i]) / hmax)
+        ze = z_eave + rise * (1.0 - abs(off[j]) / hmax)
+        ua = float(np.dot(np.asarray(a) - c, d)); ue = float(np.dot(np.asarray(e) - c, d))
+        ra = tuple(c + d * ua); re = tuple(c + d * ue)
+        b.face([b.vert(a[0], a[1], z_eave), b.vert(e[0], e[1], z_eave), b.vert(e[0], e[1], ze), b.vert(a[0], a[1], za)],
+               gable_material or material)                                     # fascia between eave and roof plane
+        b.face([b.vert(a[0], a[1], za), b.vert(e[0], e[1], ze), b.vert(re[0], re[1], z_eave + rise),
+                b.vert(ra[0], ra[1], z_eave + rise)], material)                # slope up to the ridge
+
+
+def hip_roof(b: MeshBuilder, ring: Sequence[tuple[float, float]], z_eave: float, rise: float, material, *,
+             inset: float | None = None, overhang: float = 0.0) -> list[tuple[float, float]]:
+    """Hipped roof: the ring is offset inward by ``inset`` (default: half the short side) and lifted by ``rise``.
+    Returns the ridge ring so a cupola or a deck can sit on it."""
+    pts = [tuple(map(float, p[:2])) for p in ring]
+    if overhang:
+        pts = offset_ring(pts, overhang)
+    if inset is None:
+        w, d = Polygon(pts).bounds[2] - Polygon(pts).bounds[0], Polygon(pts).bounds[3] - Polygon(pts).bounds[1]
+        inset = min(w, d) * 0.28
+    top = offset_ring(pts, -inset)
+    b.loft([[(x, y, z_eave) for x, y in pts], [(x, y, z_eave + rise) for x, y in top]], material, cap_bottom=False)
+    return top
+
+
+def pyramid_roof(b: MeshBuilder, ring: Sequence[tuple[float, float]], z0: float, h: float, material, *,
+                 steps_n: int = 1) -> tuple[float, float]:
+    """Pyramid (or stepped pyramid) over a ring; returns the apex xy. ``steps_n`` > 1 makes ``steps_n`` stacked frusta."""
+    pts = [tuple(map(float, p[:2])) for p in ring]
+    c = np.asarray(pts, dtype=np.float64).mean(axis=0)
+    rings = []
+    for k in range(steps_n + 1):
+        s = 1.0 - k / steps_n
+        rings.append([(float(c[0] + (x - c[0]) * s), float(c[1] + (y - c[1]) * s), z0 + h * k / steps_n) for x, y in pts])
+    b.loft(rings[:-1] + [[(float(c[0]), float(c[1]), z0 + h)] * len(pts)], material, cap_bottom=False, cap_top=False)
+    return float(c[0]), float(c[1])
+
+
+def dome_profile(r: float, h: float, *, kind: str = "hemisphere", n: int = 12) -> list[tuple[float, float]]:
+    """(radius, z) profile of a dome of springing radius ``r`` and height ``h``: ``hemisphere`` (elliptical),
+    ``ogee`` (S-curved, as on Beaux-Arts cupolas) or ``cone``."""
+    if kind == "cone":
+        return [(r, 0.0), (0.0, h)]
+    out = []
+    for i in range(n + 1):
+        f = i / n
+        if kind == "ogee":
+            rr = r * (1.0 - f ** 2) ** 0.5 * (1.0 - 0.28 * math.sin(math.pi * f))
+            zz = h * (f ** 1.35)
+        else:
+            a = math.pi / 2 * f
+            rr = r * math.cos(a); zz = h * math.sin(a)
+        out.append((rr, zz))
+    return out
+
+
+def dome(b: MeshBuilder, x: float, y: float, z0: float, r: float, h: float, material, *, kind: str = "hemisphere",
+         segments: int = 32, n: int = 12, finial_h: float = 0.0, finial_material=None) -> None:
+    """Dome on a vertical axis, optionally topped by a ball-and-spike finial."""
+    b.lathe(dome_profile(r, h, kind=kind, n=n), segments, material, origin=(x, y, z0), smooth=True, cap=False)
+    if finial_h > 0:
+        fm = finial_material or material
+        rr = max(0.12, r * 0.09)
+        b.lathe([(0.0, 0.0), (rr, rr * 0.9), (rr * 1.15, rr * 2.0), (rr * 0.6, rr * 3.0), (rr * 0.25, finial_h * 0.7),
+                 (0.0, finial_h)], max(10, segments // 2), fm, origin=(x, y, z0 + h), smooth=True)
+
+
+def balustrade(b: MeshBuilder, ring: Sequence[tuple[float, float]], z0: float, h: float, material, *,
+               spacing: float = 0.75, baluster_r: float = 0.09, rail_t: float = 0.22, plinth_h: float = 0.18) -> None:
+    """Stone balustrade around a ring: bottom plinth, turned balusters at ``spacing``, top rail."""
+    pts = [tuple(map(float, p[:2])) for p in ring]
+    b.prism(pts, z0, z0 + plinth_h, material, holes=[offset_ring(pts, -rail_t)], cap_bottom=False)
+    b.prism(pts, z0 + h - rail_t, z0 + h, material, holes=[offset_ring(pts, -rail_t)], cap_bottom=True)
+    zb0, zb1 = z0 + plinth_h, z0 + h - rail_t
+    prof = [(baluster_r * 0.8, 0.0), (baluster_r * 1.15, (zb1 - zb0) * 0.14), (baluster_r * 0.62, (zb1 - zb0) * 0.42),
+            (baluster_r * 0.95, (zb1 - zb0) * 0.78), (baluster_r * 0.8, zb1 - zb0)]
+    for p0, p1, L, t, nrm in edges_of(pts):
+        k = max(1, int(round(L / spacing)))
+        for i in range(k):
+            q = p0 + t * (L * (i + 0.5) / k) - nrm * rail_t / 2
+            b.lathe(prof, 8, material, origin=(float(q[0]), float(q[1]), zb0), smooth=True)
+
+
+def barrel_vault(b: MeshBuilder, p0, p1, span: float, z_spring: float, rise: float, material, *, segments: int = 24,
+                 thickness: float = 0.0, lunette_material=None, closed_ends: bool = True) -> None:
+    """Elliptical barrel vault whose axis runs p0->p1 (2-D centre line) with the given ``span`` (full width) and ``rise``
+    above the springing line. With ``thickness`` > 0 the soffit is doubled by an extrados shell (a real shell, not a plane).
+    ``closed_ends`` fills the two end lunettes with ``lunette_material``."""
+    p0 = np.asarray(p0, dtype=np.float64); p1 = np.asarray(p1, dtype=np.float64)
+    L = float(np.linalg.norm(p1 - p0))
+    t = (p1 - p0) / L
+    nrm = np.array([t[1], -t[0]])
+    a = span / 2
+
+    def arc(off: float, r_extra: float):
+        pts = []
+        for i in range(segments + 1):
+            th = math.pi * i / segments
+            u = (a + r_extra) * math.cos(th); z = z_spring + (rise + r_extra) * math.sin(th)
+            q = p0 + t * off + nrm * u
+            pts.append((float(q[0]), float(q[1]), float(z)))
+        return pts
+    inner = [arc(0.0, 0.0), arc(L, 0.0)]
+    b.loft(inner, material, cap_top=False, cap_bottom=False, smooth=True, closed=False)
+    if thickness > 0:
+        outer = [arc(0.0, thickness), arc(L, thickness)]
+        b.loft(outer, material, cap_top=False, cap_bottom=False, smooth=True, closed=False)
+        for k in (0, 1):                                     # close the shell along both edges of the barrel
+            for i in range(segments):
+                b.quad(inner[k][i], inner[k][i + 1], outer[k][i + 1], outer[k][i], material)
+    if closed_ends:
+        for k, ring in enumerate(inner):
+            b.ngon_vertical(ring + [(ring[-1][0], ring[-1][1], z_spring), (ring[0][0], ring[0][1], z_spring)],
+                            lunette_material or material, flip=(k == 1))
+
+
+def clock_face(b: MeshBuilder, cx: float, cy: float, z: float, normal, r: float, face_material, hand_material, *,
+               bezel_material=None, hours: int = 12, hour_angle_deg: float = 300.0, minute_angle_deg: float = 60.0,
+               depth: float = 0.12) -> None:
+    """Flat clock dial facing ``normal``: bezel ring, dial, hour ticks and two hands at the given angles (clockwise from 12)."""
+    n = np.asarray(normal, dtype=np.float64)[:2]
+    n = n / float(np.linalg.norm(n))
+    t = np.array([-n[1], n[0]])                              # in-plane horizontal axis
+    bez = bezel_material or hand_material
+
+    def P(u, v, d=0.0):
+        return (cx + t[0] * u + n[0] * d, cy + t[1] * u + n[1] * d, z + v)
+    seg = 36
+    ring_out = [P(r * math.cos(2 * math.pi * i / seg), r * math.sin(2 * math.pi * i / seg), depth) for i in range(seg)]
+    ring_in = [P(r * 0.9 * math.cos(2 * math.pi * i / seg), r * 0.9 * math.sin(2 * math.pi * i / seg), depth) for i in range(seg)]
+    dial = [P(r * 0.9 * math.cos(2 * math.pi * i / seg), r * 0.9 * math.sin(2 * math.pi * i / seg), depth * 0.45) for i in range(seg)]
+    b.ngon_vertical(dial, face_material)
+    for i in range(seg):
+        j = (i + 1) % seg
+        b.quad(ring_in[i], ring_out[i], ring_out[j], ring_in[j], bez)
+        b.quad(dial[i], dial[j], ring_in[j], ring_in[i], bez)
+    for k in range(hours):
+        a = math.pi / 2 - 2 * math.pi * k / hours
+        u0, v0 = r * 0.78 * math.cos(a), r * 0.78 * math.sin(a)
+        u1, v1 = r * 0.88 * math.cos(a), r * 0.88 * math.sin(a)
+        w = r * 0.035
+        b.quad(P(u0 - w, v0, depth * 0.5), P(u1 - w, v1, depth * 0.5), P(u1 + w, v1, depth * 0.5), P(u0 + w, v0, depth * 0.5), hand_material)
+    for ang, length, w in ((hour_angle_deg, r * 0.52, r * 0.055), (minute_angle_deg, r * 0.82, r * 0.038)):
+        a = math.pi / 2 - math.radians(ang)
+        ux, uy = math.cos(a), math.sin(a)
+        b.quad(P(-uy * w, ux * w, depth * 0.6), P(ux * length - uy * w, uy * length + ux * w, depth * 0.6),
+               P(ux * length + uy * w, uy * length - ux * w, depth * 0.6), P(uy * w, -ux * w, depth * 0.6), hand_material)
 
 
 def pediment(b: MeshBuilder, p0, p1, normal, z0: float, rise: float, depth: float, material, *, tympanum=None,
@@ -1026,7 +1405,7 @@ def steps(b: MeshBuilder, p0, p1, normal, z_top: float, n_steps: int, riser: flo
     for k in range(n_steps):
         zt = z_top - k * riser
         depth = (k + 1) * tread
-        b.box_from_to(p0, p1, n, 0, depth, zb, zt, material, top=True, bottom=False)
+        b.box_from_to(p0, p1, n, depth, zb, zt, material, top=True, bottom=False)
 
 
 def flagpole(b: MeshBuilder, x: float, y: float, z0: float, h: float, *, flag: tuple[str, ...] = ("flag_red", "flag_white", "flag_blue"),
@@ -1097,7 +1476,7 @@ def window_punch(b: MeshBuilder, p0, p1, normal, z0: float, z1: float, depth: fl
     b.quad((p0[0], p0[1], z1), (a0[0], a0[1], z1), (a1[0], a1[1], z1), (p1[0], p1[1], z1), material_wall)   # head
     b.quad((p0[0], p0[1], z0), (p1[0], p1[1], z0), (a1[0], a1[1], z0), (a0[0], a0[1], z0), material_wall)   # sill
     if sill > 0:
-        b.box_from_to(p0, p1, nrm, 0, sill, z0 - 0.1, z0, material_wall)
+        b.box_from_to(p0, p1, nrm, sill, z0 - 0.1, z0, material_wall)
 
 
 def punched_wall(b: MeshBuilder, p0, p1, normal, z0: float, z1: float, floor_zs: Sequence[float], material_wall, material_glass, *,
@@ -1118,7 +1497,7 @@ def punched_wall(b: MeshBuilder, p0, p1, normal, z0: float, z1: float, floor_zs:
     strips = [(0.0, xs[0][0])] + [(xs[k][1], xs[k + 1][0]) for k in range(bays - 1)] + [(xs[-1][1], L)]
     for u0, u1 in strips:
         a = p0 + t * u0 + back; c = p0 + t * u1 + back
-        b.box_from_to(a, c, nrm, 0, depth, z0, z1, material_wall, top=False, bottom=False)
+        b.box_from_to(a, c, nrm, depth, z0, z1, material_wall, top=False, bottom=False)
     # horizontal solid bands between windows within each bay column
     for (u0, u1) in xs:
         a = p0 + t * u0 + back; c = p0 + t * u1 + back
@@ -1128,14 +1507,14 @@ def punched_wall(b: MeshBuilder, p0, p1, normal, z0: float, z1: float, floor_zs:
             if wz0 >= z1:
                 break
             if wz0 > zprev:
-                b.box_from_to(a, c, nrm, 0, depth, zprev, wz0, material_wall, top=False, bottom=False)
+                b.box_from_to(a, c, nrm, depth, zprev, wz0, material_wall, top=False, bottom=False)
             if arched_top:
                 arched_opening(b, p0 + t * u0, p0 + t * u1, nrm, wz0, wz1 - window_w / 2, None, depth, material_wall, material_glass, n=8)
             else:
                 window_punch(b, p0 + t * u0, p0 + t * u1, nrm, wz0, wz1, depth, material_wall, material_glass, sill=0.0)
             zprev = wz1
         if zprev < z1:
-            b.box_from_to(a, c, nrm, 0, depth, zprev, z1, material_wall, top=False, bottom=False)
+            b.box_from_to(a, c, nrm, depth, zprev, z1, material_wall, top=False, bottom=False)
 
 
 # =============================================================================================== verification helpers
@@ -1316,6 +1695,7 @@ def make_lod1(objects: Sequence[bpy.types.Object], landmark_id: str, *, lod1_obj
     ob = join_copies(src, f"{landmark_id}_LOD1")
     budget = int(lod0 * max_ratio * 0.95)
     decimate_to(ob, max(budget, 12))
+    box_uv(ob.data)                       # decimation scrambles the inherited UVs; re-project in metres
     ob["nycsim_role"] = "lod1"
     return ob
 

@@ -1,0 +1,260 @@
+{
+ "schema_version": 1,
+ "slug": "promenade_lower_manhattan",
+ "name": "Brooklyn Heights Promenade looking at Lower Manhattan",
+ "group": "viewpoint",
+ "viewpoint": {
+  "lat": 40.696,
+  "lon": -73.9975,
+  "azimuth_deg": 324.3,
+  "note": "Brooklyn Heights Promenade at the Montague Street entrance, standing at the railing",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.71274,
+  "lon": -74.01339,
+  "name": "One World Trade Center"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2014,
+ "wanted": 4,
+ "queries": [
+  "\"Brooklyn Heights Promenade\" Lower Manhattan skyline",
+  "Lower Manhattan skyline from Brooklyn Heights"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T11:34:38Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query list=search / list=geosearch / prop=imageinfo)",
+ "candidates_seen": 206,
+ "candidates_eligible": 46,
+ "rejections": {
+  "keywords": 32,
+  "night_for_day_item": 3,
+  "too_old": 3,
+  "too_small": 16
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Brooklyn Heights Promenade NY1.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Brooklyn_Heights_Promenade_NY1.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Brooklyn_Heights_Promenade_NY1.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Brooklyn_Heights_Promenade_NY1.jpg/1920px-Brooklyn_Heights_Promenade_NY1.jpg",
+   "author": "Acroterion",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2017-07-21",
+   "date_source": "DateTimeOriginal",
+   "year": 2017,
+   "camera_gps": {
+    "lat": 40.696583,
+    "lon": -73.997811
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 767792,
+   "sha256": "f83f5d645da923c405faa5f405515a5f6d1bc196aeacd62e89f73513707382da",
+   "mean_luminance": 105.1,
+   "description": "Looking north along the Brooklyn Heights Promenade, New York, USA",
+   "categories": [
+    "Brooklyn Heights Promenade",
+    "Taken with Canon EOS 6D and Canon EF 17-40mm F4L USM",
+    "New York City photographs taken on 2017-07-21",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Clouds and blue sky in New York City",
+    "2017 in Brooklyn Heights",
+    "Manhattan skylines in 2017",
+    "July 2017 in Brooklyn, New York City",
+    "1939 World's Fair benches in New York City"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 15.8,
+   "estimated_viewpoint": {
+    "lat": 40.696583,
+    "lon": -73.997811,
+    "azimuth_deg": 323.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.69658, -73.99781) is 2225 m from One World Trade Center (40.71274, -74.01339) and 70 m from the standard viewpoint; the azimuth 324 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Brooklyn Heights Promenade NY1.jpg\" by Acroterion, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Brooklyn_Heights_Promenade_NY1.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:2024-05-22 13 06 18 View across the East River towards Lower Manhattan from the Brooklyn Heights Promenade in Brooklyn, New York City, New York.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:2024-05-22_13_06_18_View_across_the_East_River_towards_Lower_Manhattan_from_the_Brooklyn_Heights_Promenade_in_Brooklyn,_New_York_City,_New_York.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/08/2024-05-22_13_06_18_View_across_the_East_River_towards_Lower_Manhattan_from_the_Brooklyn_Heights_Promenade_in_Brooklyn%2C_New_York_City%2C_New_York.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/2024-05-22_13_06_18_View_across_the_East_River_towards_Lower_Manhattan_from_the_Brooklyn_Heights_Promenade_in_Brooklyn%2C_New_York_City%2C_New_York.jpg/1920px-2024-05-22_13_06_18_View_across_the_East_River_towards_Lower_Manhattan_from_the_Brooklyn_Heights_Promenade_in_Brooklyn%2C_New_York_City%2C_New_York.jpg",
+   "author": "Famartin",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024-05-22 13:06:18",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.69543,
+    "lon": -73.998354
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 817975,
+   "sha256": "5a1af6bb3a45605045da3dddc7a8027124e936e4d4bfb363a609d71ea6593980",
+   "mean_luminance": 132.8,
+   "description": "View across the East River towards Lower Manhattan from the Brooklyn Heights Promenade in Brooklyn, New York City, New York",
+   "categories": [
+    "Views from Brooklyn Heights Promenade",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Brooklyn Bridge Park in 2024",
+    "New York City photographs taken on 2024-05-22",
+    "Financial District, Manhattan skylines in 2024",
+    "May 2024 in Brooklyn, New York City",
+    "Furman Street Fan Plant (258 Furman Street)",
+    "Famartin's 2024 photos",
+    "Famartin's May 2024 photos",
+    "New York City Subway in May 2024"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 15.2,
+   "estimated_viewpoint": {
+    "lat": 40.69543,
+    "lon": -73.998354,
+    "azimuth_deg": 326.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.69543, -73.99835) is 2305 m from One World Trade Center (40.71274, -74.01339) and 96 m from the standard viewpoint; the azimuth 327 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"2024-05-22 13 06 18 View across the East River towards Lower Manhattan from the Brooklyn Heights Promenade in Brooklyn, New York City, New York.jpg\" by Famartin, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:2024-05-22_13_06_18_View_across_the_East_River_towards_Lower_Manhattan_from_the_Brooklyn_Heights_Promenade_in_Brooklyn,_New_York_City,_New_York.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Brooklyn Heights Promenade January 2023 006.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Brooklyn_Heights_Promenade_January_2023_006.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/f0/Brooklyn_Heights_Promenade_January_2023_006.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Brooklyn_Heights_Promenade_January_2023_006.jpg/1920px-Brooklyn_Heights_Promenade_January_2023_006.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-01-20 14:33:49",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.696158,
+    "lon": -73.997781
+   },
+   "original_width": 2048,
+   "original_height": 1536,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 438165,
+   "sha256": "a89fb9c2498a53699d1347fd6ce7c05b2a6daf2d442fe6657aa2b4a23e75f332",
+   "mean_luminance": 143.3,
+   "description": "The Lower Manhattan skyline seen from the Brooklyn Heights Promenade",
+   "categories": [
+    "Views from Brooklyn Heights Promenade",
+    "New York City photographs taken on 2023-01-20",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Brooklyn Bridge Park in 2023",
+    "2023 in Brooklyn Heights",
+    "Financial District, Manhattan skylines in 2023",
+    "January 2023 in Brooklyn, New York City",
+    "Pier 3 (Brooklyn Bridge Park)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 15.2,
+   "estimated_viewpoint": {
+    "lat": 40.696158,
+    "lon": -73.997781,
+    "azimuth_deg": 324.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.69616, -73.99778) is 2265 m from One World Trade Center (40.71274, -74.01339) and 29 m from the standard viewpoint; the azimuth 324 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Brooklyn Heights Promenade January 2023 006.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Brooklyn_Heights_Promenade_January_2023_006.jpg"
+  },
+  {
+   "n": 4,
+   "file": "4.jpg",
+   "title": "File:Brooklyn Heights Promenade December 2021 008.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Brooklyn_Heights_Promenade_December_2021_008.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/57/Brooklyn_Heights_Promenade_December_2021_008.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Brooklyn_Heights_Promenade_December_2021_008.jpg/1920px-Brooklyn_Heights_Promenade_December_2021_008.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-12-03 10:18:15",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.695381,
+    "lon": -73.998261
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 672254,
+   "sha256": "8240be6a9d85f2af50062c930c561e6b34b802e5fda1085917169f4c63f69083",
+   "mean_luminance": 130.2,
+   "description": "View of the Lower Manhattan skyline from the Brooklyn Heights Promenade",
+   "categories": [
+    "Views from Brooklyn Heights Promenade",
+    "Brooklyn Heights Promenade",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2021 in Brooklyn Heights",
+    "Financial District, Manhattan skylines in 2021",
+    "December 2021 in Brooklyn, New York City",
+    "Lower Manhattan skylines from Brooklyn Heights"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.9,
+   "estimated_viewpoint": {
+    "lat": 40.695381,
+    "lon": -73.998261,
+    "azimuth_deg": 326.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.69538, -73.99826) is 2313 m from One World Trade Center (40.71274, -74.01339) and 94 m from the standard viewpoint; the azimuth 327 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Brooklyn Heights Promenade December 2021 008.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Brooklyn_Heights_Promenade_December_2021_008.jpg"
+  }
+ ]
+}

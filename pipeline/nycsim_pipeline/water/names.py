@@ -36,8 +36,9 @@ log = logging.getLogger("nycsim.water.names")
 
 LABEL_RES_M = 100.0        # resolution of the nearest-named-body label raster
 MAX_NEAREST_M = 12_000.0   # a sea cell farther than this from any named body stays unnamed
-MIN_PIECE_M2 = 10_000.0    # sea pieces below this are merged back into the largest neighbouring piece
+MIN_PIECE_M2 = 1.0         # a split piece below this is a sliver of the polygonisation, not a water body
 OSM_NAME_MIN_FRAC = 0.5    # overlap fraction required before an OSM name is adopted
+MIN_LABEL_BODY_M2 = 100_000.0  # only bodies >= 10 ha take part in naming the open sea
 
 
 def _osm_names(hydro: gpd.GeoDataFrame, osm_areas: gpd.GeoDataFrame) -> tuple[np.ndarray, np.ndarray]:
@@ -92,8 +93,14 @@ def _label_raster(named: gpd.GeoDataFrame) -> tuple[np.ndarray, Affine]:
 
 
 def _split_sea(hydro: gpd.GeoDataFrame, named: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
-    """Split every unnamed *open-water* polygon along nearest-named-body regions and name the pieces."""
-    unnamed = hydro.index[(hydro["name"].values == "") & hydro["is_open_water"].values]
+    """Split the unnamed coastline-derived sea into nearest-named-body regions and name the pieces.
+
+    Only the OSM sea faces (``source == 'osm'`` with no OSM id, i.e. produced by polygonising the
+    coastline) are split. Named bodies, every planimetric polygon and every identified OSM water area are
+    left exactly as they are — an unnamed pond in a park must never inherit the name of the harbour.
+    """
+    unnamed = hydro.index[(hydro["name"].values == "") & hydro["is_open_water"].values
+                          & (hydro["source"].values == "osm") & (hydro["osm_id"].values == 0)]
     if len(unnamed) == 0 or named.empty:
         return hydro
     lab, tr = _label_raster(named)
@@ -126,14 +133,18 @@ def _split_sea(hydro: gpd.GeoDataFrame, named: gpd.GeoDataFrame) -> gpd.GeoDataF
         covered = shapely.union_all([r["geometry"] for r in produced]) if produced else None
         rest = g.difference(covered) if covered is not None else g
         rest = shapely.union_all([p for p in getattr(rest, "geoms", [rest]) if p.geom_type in ("Polygon", "MultiPolygon")]) if not rest.is_empty else rest
-        if not rest.is_empty and rest.area >= MIN_PIECE_M2:
+        if not rest.is_empty and rest.area >= MIN_PIECE_M2:  # unreachable ocean corner: stays unnamed
             r = dict(base)
             r["geometry"] = rest
             r["name_source"] = "unnamed"
             produced.append(r)
         rows.extend(produced)
     out = pd.concat([hydro[keep], gpd.GeoDataFrame(rows, geometry="geometry", crs=NYC_TM)], ignore_index=True)
-    return gpd.GeoDataFrame(out, geometry="geometry", crs=NYC_TM)
+    out = gpd.GeoDataFrame(out, geometry="geometry", crs=NYC_TM)
+    a0, a1 = float(hydro.geometry.area.sum()), float(out.geometry.area.sum())
+    if abs(a1 - a0) > 1e-3 * max(a0, 1.0):
+        raise ValueError(f"sea split lost area: {a0/1e6:.3f} km2 -> {a1/1e6:.3f} km2")
+    return out
 
 
 def assign_names(hydro: gpd.GeoDataFrame, osm_areas: gpd.GeoDataFrame | None, osm_id_base: int) -> tuple[gpd.GeoDataFrame, dict]:
@@ -149,7 +160,9 @@ def assign_names(hydro: gpd.GeoDataFrame, osm_areas: gpd.GeoDataFrame | None, os
         hydro["name"] = names
         hydro.loc[adopted, "name_source"] = "osm"
         stats["osm_name_transfers"] = int(adopted.sum())
-    named = hydro[(hydro["name"].values != "") & hydro["is_open_water"].values][["name", "kind", "geometry"]].reset_index(drop=True)
+    # only substantial bodies may claim a piece of the open sea (a 2 ha park pond must not name a harbour)
+    named = hydro[(hydro["name"].values != "") & hydro["is_open_water"].values
+                  & (hydro.geometry.area.values >= MIN_LABEL_BODY_M2)][["name", "kind", "geometry"]].reset_index(drop=True)
     before = len(hydro)
     hydro = _split_sea(hydro, named)
     stats["sea_pieces_created"] = len(hydro) - before

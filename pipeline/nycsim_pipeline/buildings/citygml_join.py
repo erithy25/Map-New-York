@@ -7,37 +7,40 @@ table ``buildings/build.py`` consumes to fill the §5 roof columns and the ``ROO
 
 Why ``roof_type`` is not simply the CityGML value
 -------------------------------------------------
-The NYC 3-D Building Model (DoITT, 2014 LiDAR) carries **no sloped roof geometry at all**: every
-``bldg:RoofSurface`` polygon in the 13.8 GB delivery is exactly horizontal (normal (0,0,1), zero z-range)
-in the source EPSG:2263 feet, in every borough. It is a multi-level *flat-massing* model, not a
-roof-shape model — see ``docs/verification/citygml/roof_evidence_da4_queens.json`` and ADR-013.
-Therefore:
+The NYC 3-D Building Model (DoITT, 2014 LiDAR) carries **essentially no sloped roof geometry**: with the
+exception of a handful of hand-modelled landmarks (Statue of Liberty, Brooklyn Museum, Barclays Center,
+Litchfield Villa, ...), every ``bldg:RoofSurface`` polygon in the 13.8 GB delivery is exactly horizontal
+(normal (0,0,1), zero z-range) in the source EPSG:2263 feet, in every borough. It is a multi-level
+*flat-massing* model, not a roof-shape model — see ``docs/verification/citygml/roof_evidence_da4_queens.json``,
+``roof_sloped_buildings.json`` and ADR-013. Therefore:
 
 * ``citygml_match``/``roof_mesh_ref``/``n_roof_levels``/``z_roof_max`` are **real measured** values and
   drive ``ROOF_REAL`` — the LOD2 massing (real roof outline, real stepped levels, real height) is real.
 * ``roof_type`` is *not* measurable from CityGML. It is resolved in this order and always stamped in
   ``roof_type_source``:
-    0 ``citygml``  — CityGML reported a non-flat form (never happens with the 2014 delivery; kept so the
-                     code stays correct if DoITT ever publishes sloped LOD2)
+    0 ``citygml``  — CityGML reported a non-flat form (only the hand-modelled landmarks; also keeps the
+                     code correct if DoITT ever publishes sloped LOD2 for the ordinary stock)
     1 ``osm``      — a real ``roof:shape`` tag on the OSM building whose centroid matches the footprint
     2 ``inferred`` — PLUTO building class + footprint/lot shape say this is detached 1–2-family stock,
                      which in NYC is pitched (rule and measured precision below)
     3 ``default``  — no evidence: flat (the overwhelming majority of NYC roofs really are flat)
   ``roof_inferred`` is True for sources 2 and 3.
 
-Inference rule (source 2), calibrated against the 1,174 OSM-``roof:shape``-tagged buildings that match a
-NYC footprint (``docs/verification/citygml/REPORT.md``):
+Inference rule (source 2), calibrated against the 4,038 OSM-``roof:shape``-tagged buildings that match a
+NYC footprint (reproduce with ``citygml_validate.roof_inference_calibration``; result in
+``docs/verification/citygml/roof_inference_calibration.json``):
 
     bldg_class in PITCHED_CLASSES (one- and two-family dwellings + 1-family condos)
     and bldg_frontage / lot_frontage < 0.80      (a gap beside the house: detached, not a party wall)
     and short side of the minimum rotated rectangle <= 14 m   (a span a domestic roof can cover)
     and floors <= 3 and footprint area <= 400 m^2
 
-Measured on that sample: precision 0.831, recall 0.431 (conservative on purpose — a false pitched roof is
-more visible than a missed one). Gable vs hip is **not** decidable from the available attributes
-(footprint aspect ratio separates OSM ``gabled`` from ``hipped`` at 0.55 accuracy vs a 0.556 majority
-baseline), so every inferred pitched roof is reported as ``gable`` with its ridge along the long axis of
-the minimum rotated rectangle, and that limitation is stated in the report.
+Measured on that sample: precision 0.830, recall 0.305, accuracy 0.922 (conservative on purpose — a false
+pitched roof is more visible than a missed one). Gable vs hip is **not** decidable from the available
+attributes: on the 347 buildings OSM tags ``gabled`` or ``hipped``, the best footprint-aspect threshold
+scores 0.617 accuracy against a 0.637 majority-class baseline, i.e. worse than always saying gable. Every
+inferred pitched roof is therefore reported as ``gable`` with its ridge along the long axis of the
+minimum rotated rectangle, and that limitation is stated in the report.
 
 Geometry of an inferred roof: the LiDAR-derived flat plane at ``z_roof_max`` is the best-fit plane of the
 real roof surface, i.e. approximately the mean of eave and ridge. The inferred roof therefore keeps that
@@ -53,8 +56,8 @@ Required by DATA_CONTRACTS §5 / the buildings stage:
 Appended (documented extension, see DATA_CONTRACTS §5.3 note in the report):
   roof_type_source int8, roof_inferred bool, roof_type_conf float32, roof_pitch_deg float32,
   roof_ridge_deg float32 (compass heading of the ridge line, NaN when not pitched),
-  roof_eave_dz_m float32, roof_ridge_dz_m float32, z_ground_min float32, n_roof_faces int32,
-  tri_count int32, citygml_da int8, citygml_flags uint16
+  roof_eave_dz_m float32, roof_ridge_dz_m float32, z_ground_min float32, tri_count int32,
+  citygml_da int8, citygml_flags uint16
 """
 from __future__ import annotations
 
@@ -101,7 +104,7 @@ FRONT_RATIO_MAX = 0.80        # bldg_frontage / lot_frontage below this = a side
 MAX_SPAN_M = 14.0             # short side of the minimum rotated rectangle a domestic roof can span
 MAX_FLOORS = 3
 MAX_FOOTPRINT_M2 = 400.0
-INFER_PRECISION = 0.831       # measured against the OSM roof:shape sample (n = 1174)
+INFER_PRECISION = 0.830       # measured against the OSM roof:shape sample (n = 4038 matched BINs)
 OSM_CONF = 1.0
 PITCH_DEG = 30.0              # 7:12, the common NYC one/two-family pitch
 RISE_MIN_M = 0.9
@@ -324,7 +327,19 @@ def build_roof_attrs(*, index_path: Path = INDEX_PATH, base_path: Path = BASE_PA
     idx = idx.sort_values(["bin", "tri_count"], ascending=[True, False]).drop_duplicates("bin", keep="first")
     log.info("citygml index: %d rows with a usable BIN from %s", len(idx), index_path)
 
-    df = base.merge(idx, on="bin", how="left", suffixes=("", "_cg"))
+    # BIN is the join key the buildings stage uses, so one row per distinct BIN and nothing else.
+    # buildings_base carries a handful of borough-placeholder BINs (x000000) shared by several
+    # footprints; they cannot key anything, have no CityGML solid, and are dropped here.
+    n_base = len(base)
+    placeholder = (base.bin <= 0) | (base.bin % 1_000_000 == 0)
+    base = base[~placeholder]
+    base = base.sort_values(["bin", "footprint_area"], ascending=[True, False]).drop_duplicates("bin", keep="first")
+    n_dropped_keys = n_base - len(base)
+    if n_dropped_keys:
+        log.info("dropped %d buildings_base rows with a placeholder/duplicate BIN (not a usable join key)",
+                 n_dropped_keys)
+
+    df = base.merge(idx, on="bin", how="left", suffixes=("", "_cg")).reset_index(drop=True)
     match = df.tri_count.notna().to_numpy() & (df.tri_count.fillna(0).to_numpy() > 0)
     df = infer_pitched(df)
 
@@ -359,9 +374,13 @@ def build_roof_attrs(*, index_path: Path = INDEX_PATH, base_path: Path = BASE_PA
     eave_dz = np.where(keep_pitch, df.roof_eave_dz_m.to_numpy(), 0.0).astype(np.float32)
     ridge_dz = np.where(keep_pitch, df.roof_ridge_dz_m.to_numpy(), 0.0).astype(np.float32)
 
-    # the mesh lives in the tile the CityGML solid's own centroid falls in; fall back to the footprint tile
-    tx = df.tx_cg.where(df.tx_cg.notna(), df.tx).fillna(0).to_numpy().astype(np.int64)
-    ty = df.ty_cg.where(df.ty_cg.notna(), df.ty).fillna(0).to_numpy().astype(np.int64)
+    # The roof mesh lives in the same tile as the building row, i.e. the tile buildings_base assigned from
+    # the footprint centroid (the CityGML solid centroid agrees with it to < 1 cm, but a building sitting on
+    # a tile boundary must not end up with its mesh in the neighbouring tile file).
+    tx = df.tx.fillna(df.tx_cg).fillna(0).to_numpy().astype(np.int64)
+    ty = df.ty.fillna(df.ty_cg).fillna(0).to_numpy().astype(np.int64)
+    n_tile_disagree = int((match & ((df.tx_cg.fillna(df.tx).to_numpy() != tx) |
+                                    (df.ty_cg.fillna(df.ty).to_numpy() != ty))).sum())
     bins_arr = df.bin.to_numpy().astype(np.int64)
     mesh_ref = [f"t_{tx[i]}_{ty[i]}/roofs.glb#bin_{bins_arr[i]}" if match[i] else "" for i in range(len(df))]
     z_roof_max = df.z_roof_max.to_numpy(dtype=np.float64)
@@ -394,7 +413,11 @@ def build_roof_attrs(*, index_path: Path = INDEX_PATH, base_path: Path = BASE_PA
     summary: dict[str, Any] = {
         "generated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "rows": int(table.num_rows),
+        "buildings_base_rows": int(n_base),
+        "rows_dropped_placeholder_or_duplicate_bin": int(n_dropped_keys),
+        "citygml_index_rows": int(len(idx)),
         "citygml_match": int(match.sum()),
+        "citygml_tile_differs_from_footprint_tile": n_tile_disagree,
         "citygml_match_rate": float(match.mean()),
         "roof_type_hist": {ROOF_NAMES[i]: int((roof_type == i).sum()) for i in range(len(ROOF_NAMES))},
         "roof_type_source_hist": {SOURCE_NAMES[i]: int((source == i).sum()) for i in range(len(SOURCE_NAMES))},
@@ -435,6 +458,64 @@ def build_roof_attrs(*, index_path: Path = INDEX_PATH, base_path: Path = BASE_PA
              summary["citygml_match"], 100 * summary["citygml_match_rate"], summary["pitched_rows"],
              100 * summary["pitched_frac"], out_path)
     return summary
+
+
+# --------------------------------------------------------------------------- consumption by buildings/build.py
+ATTACHED_COLUMNS = ("roof_type", "roof_mesh_ref")
+
+
+def attach_roof_columns(df: pd.DataFrame, *, roof_attrs: Path = OUT_PATH, set_fidelity: bool = True,
+                        strict: bool = False) -> pd.DataFrame:
+    """Fill ``roof_type`` / ``roof_mesh_ref`` and the ``ROOF_REAL`` fidelity bit on a buildings table.
+
+    This is the whole interface the buildings stage needs — one call, right before it writes
+    ``buildings_base.parquet`` and the per-tile files::
+
+        from .citygml_join import attach_roof_columns
+        df = attach_roof_columns(df)          # adds roof_type + roof_mesh_ref, ORs ROOF_REAL into fidelity
+
+    ``df`` must have a ``bin`` column (and, for ``set_fidelity``, a ``fidelity`` column). Row count and row
+    order are preserved; ``roof_attrs.parquet`` holds exactly one row per BIN so the merge cannot fan out.
+    Buildings with no row there (placeholder BINs, or BINs the CityGML delivery does not cover) get
+    ``roof_type = flat`` and an empty ``roof_mesh_ref`` and keep ``ROOF_REAL`` clear.
+
+    With ``strict`` a missing ``roof_attrs.parquet`` raises; by default the columns are still added with
+    their neutral defaults so the buildings stage can run before the CityGML stage has finished.
+    """
+    from .schema import Fidelity
+
+    if "bin" not in df.columns:
+        raise KeyError("attach_roof_columns needs a 'bin' column")
+    n = len(df)
+    if not roof_attrs.exists():
+        if strict:
+            raise FileNotFoundError(f"{roof_attrs} not found - run `python -m nycsim_pipeline citygml --join`")
+        log.warning("%s not found: roof_type/roof_mesh_ref default to flat/empty and ROOF_REAL stays clear", roof_attrs)
+        out = df.copy()
+        out["roof_type"] = np.full(n, ROOF_FLAT, dtype=np.int8)
+        out["roof_mesh_ref"] = np.full(n, "", dtype=object)
+        return out
+    ra = pq.read_table(roof_attrs, columns=["bin", "roof_type", "roof_mesh_ref", "citygml_match"]).to_pandas()
+    if not ra.bin.is_unique:                       # defensive: the writer guarantees this
+        ra = ra.sort_values(["bin", "citygml_match"], ascending=[True, False]).drop_duplicates("bin", keep="first")
+    out = df.merge(ra, on="bin", how="left", suffixes=("_old", ""))
+    assert len(out) == n, f"roof_attrs join fanned out: {n} -> {len(out)}"
+    for c in ATTACHED_COLUMNS:
+        if c + "_old" in out.columns:
+            out = out.drop(columns=[c + "_old"])
+    out["roof_type"] = out.roof_type.fillna(ROOF_FLAT).astype(np.int8)
+    out["roof_mesh_ref"] = out.roof_mesh_ref.fillna("")
+    real = out.citygml_match.fillna(False).to_numpy().astype(bool)
+    if set_fidelity:
+        if "fidelity" not in out.columns:
+            raise KeyError("attach_roof_columns(set_fidelity=True) needs a 'fidelity' column")
+        fid = out.fidelity.to_numpy().astype(np.uint32)
+        fid[real] |= np.uint32(Fidelity.ROOF_REAL.mask)
+        out["fidelity"] = fid.astype(np.uint16)
+    out = out.drop(columns=["citygml_match"])
+    log.info("attach_roof_columns: %d rows, %d with a CityGML roof mesh (ROOF_REAL %s)", n, int(real.sum()),
+             "set" if set_fidelity else "not set")
+    return out
 
 
 def main(argv: list[str] | None = None) -> int:

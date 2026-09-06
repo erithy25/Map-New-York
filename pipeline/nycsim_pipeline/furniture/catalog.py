@@ -81,6 +81,16 @@ KINDS: tuple[Kind, ...] = (
     Kind(29, "swimming_pool", "landscape", "Swimming pool (planimetric)", ("plan_swimming_pools",), (0.0, 0.0, 0.0), "per-instance footprint", "", ""),
     Kind(30, "misc_structure", "misc", "Planimetric miscellaneous structure (feature code in attrs)", ("plan_misc_structures",), (0.0, 0.0, 0.0),
          "per-instance footprint", "", "sub feature code"),
+    Kind(31, "subway_vent_grate", "transit", "Subway ventilation grate in the sidewalk (planimetric Railroad Structure, feat_code 2470)",
+         ("plan_railroad_structure",), (0.0, 0.0, 0.05),
+         "per-instance footprint from the polygon; grate sits ~0.05 m proud of the sidewalk (nominal)", "",
+         "", extra={"attrs": "source_id, area_m2, footprint_w, footprint_d"}),
+    Kind(32, "subway_emergency_exit", "transit", "Subway emergency exit hatch/grate (planimetric Railroad Structure, feat_code 2480)",
+         ("plan_railroad_structure",), (0.0, 0.0, 0.05), "per-instance footprint from the polygon", "",
+         "", extra={"attrs": "source_id, area_m2"}),
+    Kind(33, "steam_vent", "utility", "Con Edison steam-system vent stack over a manhole (orange/white striped tube) — rule-based, no dataset exists",
+         ("rule:steam_vent",), (0.9, 0.9, 3.5),
+         "nominal: standard Con Edison vent tube ~3.5 m tall, 0.9 m diameter (approximate)", "", ""),
 )
 KIND_BY_NAME: dict[str, Kind] = {k.name: k for k in KINDS}
 KIND_ID: dict[str, int] = {k.name: k.id for k in KINDS}
@@ -89,7 +99,9 @@ SOURCE_DATASET = 0
 SOURCE_RULE = 1
 
 HEIGHT_SOURCE = {"measured": 0, "allometry": 1, "nominal": 2, "none": 3}
-Z_SOURCE = {"terrain": 0, "dataset": 1, "none": 2}
+# 0/1/2 are the original values; 3/4 were added by the furniture build because the per-tile terrain rasters
+# (DATA_CONTRACTS §3) do not exist yet and props are placed on measured survey points instead (elevation.py).
+Z_SOURCE = {"terrain": 0, "dataset": 1, "none": 2, "spot_elev": 3, "spot_elev_far": 4}
 
 
 def catalog_json(counts: dict[str, int] | None = None) -> dict:
@@ -104,9 +116,13 @@ def catalog_json(counts: dict[str, int] | None = None) -> dict:
             "text": "display text (see kinds[].text_meaning)", "source": "int8 0 dataset, 1 rule (inferred placement)",
             "dataset_id": "manifest source id or rule name", "species": "latin name (trees)", "dbh_cm": "float32 trunk diameter (trees)",
             "height_m": "float32 object height", "height_source": "int8 0 measured/tagged, 1 allometry, 2 nominal catalog value, 3 none",
-            "capacity": "int16 docks / bike stands (0 = n/a)", "z_source": "int8 0 terrain sample, 1 dataset elevation, 2 none",
+            "capacity": "int16 docks / bike stands (0 = n/a)",
+            "z_source": "int8 0 terrain sample, 1 dataset elevation, 2 none, 3 planimetric spot elevation + LiDAR "
+                        "building grade (IDW of 4 nearest, nearest <= 80 m), 4 same but nearest > 80 m (extrapolated)",
             "attrs": "JSON string of per-instance attributes (dataset native ids, footprint dims, routes, ...)",
+            "tile": "string t_{tx}_{ty} of the tile file this row lives in", "tx, ty": "int32 tile grid index",
         },
-        "extensions_to_data_contracts_s8": ["height_source", "capacity", "z_source", "attrs"],
+        "extensions_to_data_contracts_s8": ["height_source", "capacity", "z_source", "attrs", "tile", "tx", "ty"],
+        "dedupe": {"radius_m": 1.5, "note": "cross-dataset duplicates removed inside a dedupe group; see build.py DEDUPE_GROUPS"},
         "kinds": [dict(asdict(k), count=counts.get(k.name, 0)) for k in KINDS],
     }

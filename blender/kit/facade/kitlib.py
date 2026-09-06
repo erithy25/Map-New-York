@@ -531,30 +531,35 @@ def make_lod1(ob: bpy.types.Object, pid: str, lod_mesh: Mesh | None = None) -> b
         if evaluated_tris(lod) <= target:
             return _name_data(lod)
         bpy.data.objects.remove(lod, do_unlink=True)
-    # decimate a copy
-    me = ob.data.copy()
-    lod = bpy.data.objects.new(f"{pid}_LOD1", me)
-    nb.link(lod)
-    mod = lod.modifiers.new("dec", "DECIMATE")
-    mod.decimate_type = "COLLAPSE"
-    mod.ratio = min(0.22, target / max(tris0, 1))
-    mod.use_collapse_triangulate = True
-    bpy.context.view_layer.update()
-    if evaluated_tris(lod) <= target and evaluated_tris(lod) >= 2:
-        # apply so the export sees a plain mesh
-        dg = bpy.context.evaluated_depsgraph_get()
-        ev = lod.evaluated_get(dg).to_mesh()
-        new = bpy.data.meshes.new_from_object(lod.evaluated_get(dg))
-        lod.evaluated_get(dg).to_mesh_clear()
-        lod.modifiers.clear()
-        lod.data = new
-        for m in me.materials:
-            if m.name not in [x.name for x in new.materials]:
-                new.materials.append(m)
+    # decimate a copy, tightening the ratio until it fits the 25 % budget
+    ratio = min(0.24, target / max(tris0, 1))
+    for _attempt in range(6):
+        me = ob.data.copy()
+        lod = bpy.data.objects.new(f"{pid}_LOD1", me)
+        nb.link(lod)
+        mod = lod.modifiers.new("dec", "DECIMATE")
+        mod.decimate_type = "COLLAPSE"
+        mod.ratio = ratio
+        mod.use_collapse_triangulate = True
+        bpy.context.view_layer.update()
+        n = evaluated_tris(lod)
+        if 2 <= n <= target:
+            dg = bpy.context.evaluated_depsgraph_get()
+            new_me = bpy.data.meshes.new_from_object(lod.evaluated_get(dg))
+            lod.evaluated_get(dg).to_mesh_clear()
+            lod.modifiers.clear()
+            lod.data = new_me
+            for mm in me.materials:
+                if mm.name not in [x.name for x in new_me.materials]:
+                    new_me.materials.append(mm)
+            bpy.data.meshes.remove(me)
+            return _name_data(lod)
+        bpy.data.objects.remove(lod, do_unlink=True)
         bpy.data.meshes.remove(me)
-        return _name_data(lod)
-    bpy.data.objects.remove(lod, do_unlink=True)
-    bpy.data.meshes.remove(me)
+        if n < 2:
+            break
+        ratio *= 0.55 * target / max(n, 1) if n > target else 0.55
+        ratio = max(ratio, 1e-4)
     # proxy quad(s): street-facing quad of the bounding box
     b = nb.bounds_of([ob])
     lo, hi = Vector(b["min"]), Vector(b["max"])

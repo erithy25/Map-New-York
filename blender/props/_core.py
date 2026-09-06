@@ -46,6 +46,11 @@ TAU = 2.0 * math.pi
 # Embedded texture resolution: 1K for hard-surface props (texel density >= 2 px/mm on a 0.5 m tile), 2K for tree bark.
 PROP_TEX_RES = os.environ.get("NYCSIM_PROPS_TEX_RES", "1K")
 BARK_TEX_RES = os.environ.get("NYCSIM_BARK_TEX_RES", "2K")
+# Every prop glb embeds its own copy of each texture, so the source 1K/2K JPEGs (0.7-8 MB each) are re-encoded
+# once into a shared cache at the pixel size a hand-held-scale object actually needs.
+PROP_TEX_PX = int(os.environ.get("NYCSIM_PROPS_TEX_PX", "512"))
+BARK_TEX_PX = int(os.environ.get("NYCSIM_BARK_TEX_PX", "1024"))
+TEX_RESIZED = TEX_OUT / "resized"
 
 # ----------------------------------------------------------------------------- texture provider (shared -> fallback)
 _TEX_SOURCE = "unresolved"
@@ -72,6 +77,33 @@ def texture_set(name: str, resolution: str = "2K") -> dict[str, str]:
 
 def texture_source() -> str:
     return _TEX_SOURCE
+
+
+def _resized_map(src: str, max_px: int) -> str:
+    """Cache a max_px-wide JPEG copy of one PBR map next to the generated prop textures. Idempotent."""
+    from PIL import Image
+    src_p = Path(src)
+    asset = src_p.parent.name
+    out = TEX_RESIZED / f"{asset}_{max_px}_{src_p.stem.split('_')[-1]}.jpg"
+    if out.exists() and out.stat().st_mtime >= src_p.stat().st_mtime:
+        return str(out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with Image.open(src_p) as im:
+        im = im.convert("RGB")
+        if max(im.size) > max_px:
+            w, h = im.size
+            f = max_px / float(max(w, h))
+            im = im.resize((max(1, round(w * f)), max(1, round(h * f))), Image.LANCZOS)
+        tmp = out.with_suffix(".tmp.jpg")
+        im.save(tmp, "JPEG", quality=88, optimize=True, subsampling=1)
+    os.replace(tmp, out)
+    return str(out)
+
+
+def texture_set_small(name: str, max_px: int, resolution: str = PROP_TEX_RES) -> dict[str, str]:
+    """Texture maps for ``name`` re-encoded to at most ``max_px`` on the long edge (see PROP_TEX_PX)."""
+    maps = texture_set(name, resolution)
+    return {k: _resized_map(v, max_px) for k, v in maps.items() if k in ("color", "normal", "roughness", "metalness")}
 
 
 def texture_license(name: str) -> dict:
@@ -131,20 +163,23 @@ def mat_glass(name: str = "glass_clear", tint: str = "#DDEEF5", alpha: float = 0
 
 
 def mat_textured(name: str, texname: str, uv_scale_m: float, *, tint: str | None = None, roughness: float = 0.6, metallic: float = 0.0,
-                 use_roughness_map: bool = False, normal_strength: float = 1.0, resolution: str | None = None) -> bpy.types.Material:
+                 use_roughness_map: bool = False, normal_strength: float = 1.0, resolution: str | None = None,
+                 max_px: int | None = None) -> bpy.types.Material:
     """PBR material from an AmbientCG set: colour + normal (JPG kept as-is in the glb); roughness constant unless asked.
     ``tint`` multiplies the albedo (used to differentiate species sharing a bark set)."""
     existing = bpy.data.materials.get(name)
     if existing is not None:
         return existing
-    maps = texture_set(texname, resolution or PROP_TEX_RES)
+    src = texture_set(texname, resolution or PROP_TEX_RES)
+    asset_dir = src["color"].split(os.sep)[-2]
+    maps = texture_set_small(texname, max_px or PROP_TEX_PX, resolution or PROP_TEX_RES)
     textures = {"color": maps["color"]}
     if "normal" in maps:
         textures["normal"] = maps["normal"]
     if use_roughness_map and "roughness" in maps:
         textures["roughness"] = maps["roughness"]
     m = nb.pbr_material(name, roughness=roughness, metallic=metallic, textures=textures, uv_scale_m=uv_scale_m, normal_strength=normal_strength)
-    m["nycsim_texture_asset"] = maps["color"].split(os.sep)[-2]
+    m["nycsim_texture_asset"] = asset_dir
     if tint:
         nt = m.node_tree
         bsdf = nt.nodes["Principled BSDF"]
@@ -453,12 +488,90 @@ def prism(name: str, ring_xy: Sequence[Sequence[float]], z0: float, z1: float, *
     return bm_object(name, bm, [material] if material else ())
 
 
+def sweep(name: str, section_xy: Sequence[Sequence[float]], stations: Sequence[Sequence[float]], *, material=None,
+          origin=(0.0, 0.0, 0.0), cap_start: bool = True, cap_end: bool = True, uv_scale: float = 1.0,
+          smooth: bool = False, close: bool = True) -> bpy.types.Object:
+    """Sweep a closed 2-D cross-section along +Z. ``stations`` are ``(z, scale)`` or ``(z, scale_x, scale_y)`` —
+    tapered octagonal poles, fluted cast-iron shafts, U-channel posts, barrier profiles.
+    UV: u = perimeter distance in metres at the widest station, v = z in metres."""
+    bm, uv = _new_bm()
+    sec = [tuple(p[:2]) for p in section_xy]
+    n = len(sec)
+    peri = [0.0]
+    for i in range(1, n + 1):
+        peri.append(peri[-1] + math.dist(sec[i % n], sec[i - 1]))
+    rings = []
+    for st in stations:
+        z = st[0]
+        sx = st[1]
+        sy = st[2] if len(st) > 2 else st[1]
+        rings.append([bm.verts.new((x * sx, y * sy, z)) for x, y in sec])
+    for i in range(len(rings) - 1):
+        a, b = rings[i], rings[i + 1]
+        for k in range(n if close else n - 1):
+            k2 = (k + 1) % n
+            f = bm.faces.new((a[k], a[k2], b[k2], b[k]))
+            f.smooth = smooth
+            for loop, t in zip(f.loops, ((peri[k], stations[i][0]), (peri[k + 1], stations[i][0]),
+                                         (peri[k + 1], stations[i + 1][0]), (peri[k], stations[i + 1][0]))):
+                loop[uv].uv = (t[0] * uv_scale, t[1] * uv_scale)
+    tris = nb.triangulate_2d(sec)
+    for ring, up in ((rings[0], False), (rings[-1], True)):
+        if (up and not cap_end) or (not up and not cap_start):
+            continue
+        for a, b, c in tris:
+            try:
+                f = bm.faces.new((ring[a], ring[b], ring[c]) if up else (ring[c], ring[b], ring[a]))
+            except ValueError:
+                continue
+            for loop in f.loops:
+                loop[uv].uv = (loop.vert.co.x * uv_scale, loop.vert.co.y * uv_scale)
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    bmesh.ops.translate(bm, vec=Vector(origin), verts=bm.verts)
+    return bm_object(name, bm, [material] if material else ())
+
+
+def fluted_section(radius: float, flutes: int = 16, depth: float = 0.10, per_flute: int = 4) -> list[tuple[float, float]]:
+    """Cross-section of a classic fluted cast-iron shaft: ``flutes`` shallow concave grooves cut into a circle."""
+    pts = []
+    for i in range(flutes * per_flute):
+        t = TAU * i / (flutes * per_flute)
+        groove = math.sin(t * flutes) ** 2          # 0 at the fillet, 1 in the middle of a flute
+        pts.append((radius * (1.0 - depth * groove) * math.cos(t), radius * (1.0 - depth * groove) * math.sin(t)))
+    return pts
+
+
+def octagon_section(across_flats: float) -> list[tuple[float, float]]:
+    """NYC DOT street-light pole cross-section: regular octagon given its across-flats dimension."""
+    r = across_flats / 2.0 / math.cos(math.pi / 8)
+    return regular_polygon(8, r, math.pi / 8)
+
+
+def u_channel_section(width: float = 0.070, depth: float = 0.038, web: float = 0.006) -> list[tuple[float, float]]:
+    """Galvanised U-channel sign post (3 lb/ft: 2 3/4 in flange-to-flange, ~1 1/2 in deep), section in the XY plane."""
+    w, d, t = width / 2.0, depth, web
+    return [(-w, 0.0), (w, 0.0), (w - t * 0.7, d * 0.55), (w - t * 1.6, d), (-(w - t * 1.6), d), (-(w - t * 0.7), d * 0.55)]
+
+
+def bezier_points(ctrl: Sequence[Sequence[float]], n: int = 16) -> list[tuple[float, float, float]]:
+    """Uniform samples of a Bezier of any degree (de Casteljau) — davit arms, crook scrolls, bike frames."""
+    pts = []
+    for i in range(n):
+        t = i / (n - 1)
+        cur = [Vector(c) for c in ctrl]
+        while len(cur) > 1:
+            cur = [cur[j] * (1 - t) + cur[j + 1] * t for j in range(len(cur) - 1)]
+        pts.append(tuple(cur[0]))
+    return pts
+
+
 def regular_polygon(n: int, radius: float, rotation: float = 0.0) -> list[tuple[float, float]]:
     return [(radius * math.cos(rotation + TAU * k / n), radius * math.sin(rotation + TAU * k / n)) for k in range(n)]
 
 
 def sign_blank(name: str, shape: str, w: float, h: float, *, thickness: float = 0.002, face_material: bpy.types.Material,
-               back_material: bpy.types.Material, center=(0.0, 0.0, 0.0), facing: str = "+Y") -> bpy.types.Object:
+               back_material: bpy.types.Material, center=(0.0, 0.0, 0.0), facing: str = "+Y",
+               two_sided: bool = False) -> bpy.types.Object:
     """Flat sign blank whose front (+Y) face carries ``face_material`` with UV (0,0)-(1,1) spanning the face's bounding box
     exactly (u to the reader's right, v up). ``shape``: rect | octagon | triangle_down | diamond | pentagon | circle.
     ``center`` is the centre of the face; ``facing`` '+Y' (default) or '-Y' (second face of a two-sided assembly)."""
@@ -491,9 +604,11 @@ def sign_blank(name: str, shape: str, w: float, h: float, *, thickness: float = 
         z = loop.vert.co.z
         loop[uv].uv = ((x + w / 2) / w, (z + h / 2) / h)
     fb = bm.faces.new(back if facing == "+Y" else list(reversed(back)))
-    fb.material_index = 1
+    fb.material_index = 0 if two_sided else 1
     for loop in fb.loops:
-        loop[uv].uv = ((loop.vert.co.x + w / 2) / w, (loop.vert.co.z + h / 2) / h)
+        # two-sided blades carry the same legend on both faces; the back is mirrored so it reads correctly from behind
+        x = (sgn * loop.vert.co.x) if two_sided else loop.vert.co.x
+        loop[uv].uv = ((x + w / 2) / w, (loop.vert.co.z + h / 2) / h)
     for i in range(n):
         f = bm.faces.new((front[i], front[(i + 1) % n], back[(i + 1) % n], back[i]))
         f.material_index = 1
@@ -672,6 +787,30 @@ def depsgraph():
     return bpy.context.evaluated_depsgraph_get()
 
 
+def bounds_excluding(objects: Sequence[bpy.types.Object], exclude_materials: Sequence[str] = ("LIGHT_CONE",)) -> dict:
+    """World-space bounds of the real geometry: polygons whose material is a night-only effect (light cones) are
+    ignored so a prop's recorded size is its physical size, not the size of the light pool it throws."""
+    ex = set(exclude_materials)
+    lo = [math.inf] * 3
+    hi = [-math.inf] * 3
+    for ob in objects:
+        if ob.type != "MESH":
+            continue
+        me = ob.data
+        skip = {i for i, m in enumerate(me.materials) if m and m.name in ex}
+        for poly in me.polygons:
+            if poly.material_index in skip:
+                continue
+            for vi in poly.vertices:
+                w = ob.matrix_world @ me.vertices[vi].co
+                for k in range(3):
+                    lo[k] = min(lo[k], w[k])
+                    hi[k] = max(hi[k], w[k])
+    if not all(map(math.isfinite, lo)):
+        return nb.bounds_of(objects)
+    return {"min": lo, "max": hi}
+
+
 def tri_count(objects: Iterable[bpy.types.Object]) -> int:
     dg = depsgraph()
     n = 0
@@ -799,7 +938,8 @@ def build_and_export(spec: PropSpec, *, out_dir: Path = PROPS_OUT, catalog_dir: 
     else:
         lod1 = built.lod1
     n0, n1 = tri_count(lod0), tri_count(lod1)
-    bounds = nb.bounds_of(lod0)
+    bounds = bounds_excluding(lod0)
+    bounds_all = nb.bounds_of(lod0)
     for o in lod0:
         o["nycsim_lod"] = 0
     for o in lod1:
@@ -816,7 +956,8 @@ def build_and_export(spec: PropSpec, *, out_dir: Path = PROPS_OUT, catalog_dir: 
     add_msft_lod(glb)
     entry = {
         "id": spec.id, "category": spec.category, "dataset_kind": spec.dataset_kind, "glb": str(glb.relative_to(nb.BLENDER_OUT)),
-        "bounds": bounds, "size_m": [round(s, 4) for s in size], "nominal_size_m": list(spec.nominal),
+        "bounds": bounds, "bounds_with_effects": bounds_all, "size_m": [round(s, 4) for s in size],
+        "nominal_size_m": list(spec.nominal),
         "anchor": {"origin": "ground_contact", "up_blender": "+Z", "facing_blender": "+Y", "up_gltf": "+Y", "facing_gltf": "-Z"},
         "polycount": {"lod0_tris": n0, "lod1_tris": n1}, "lod1": True, "lod1_kind": built.lod1_kind,
         "variants": list(spec.variants), "variant_of": spec.variant_of, "tags": list(spec.tags),

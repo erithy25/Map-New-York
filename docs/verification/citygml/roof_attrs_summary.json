@@ -1,11 +1,15 @@
 {
- "generated": "2026-09-06T11:22:30Z",
- "rows": 1083026,
+ "generated": "2026-09-06T11:35:06Z",
+ "rows": 1083016,
+ "buildings_base_rows": 1083026,
+ "rows_dropped_placeholder_or_duplicate_bin": 10,
+ "citygml_index_rows": 15736,
  "citygml_match": 15584,
- "citygml_match_rate": 0.014389312906615354,
+ "citygml_tile_differs_from_footprint_tile": 5,
+ "citygml_match_rate": 0.014389445769960924,
  "roof_type_hist": {
-  "flat": 596374,
-  "gable": 486472,
+  "flat": 596365,
+  "gable": 486471,
   "hip": 147,
   "mansard": 9,
   "shed": 12,
@@ -17,12 +21,12 @@
  "roof_type_source_hist": {
   "citygml": 0,
   "osm": 4038,
-  "inferred": 486232,
-  "default": 592756
+  "inferred": 486231,
+  "default": 592747
  },
- "roof_inferred_rows": 1078988,
- "pitched_rows": 486652,
- "pitched_frac": 0.4493447064059404,
+ "roof_inferred_rows": 1078978,
+ "pitched_rows": 486651,
+ "pitched_frac": 0.449347932071179,
  "dz_vs_footprint_m": {
   "n": 15584,
   "median_abs": 4.76837158203125e-07,
@@ -31,7 +35,7 @@
   "frac_within_1m": 0.9923639630390144
  },
  "n_roof_levels_hist": {
-  "0": 1067442,
+  "0": 1067432,
   "1": 11516,
   "2": 3559,
   "3": 457,
@@ -90,9 +94,9 @@
    0.9,
    3.0
   ],
-  "measured_precision": 0.831,
+  "measured_precision": 0.83,
   "gable_vs_hip": "not decidable from available attributes; every inferred pitched roof is reported as gable"
  },
- "elapsed_s": 12.0,
+ "elapsed_s": 15.8,
  "path": "/tmp/claude-0/-home-user-Map-New-York/acd234fa-9154-5ea7-ad61-034753232ccb/scratchpad/cgtest/roof_attrs.parquet"
 }

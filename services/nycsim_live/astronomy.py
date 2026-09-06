@@ -746,10 +746,14 @@ def moon_position(utc: _dt.datetime, observer: Observer = CENTRAL_PARK, delta_t_
 
 
 # --------------------------------------------------------------------------- Manhattanhenge
-# Manhattan street grid (Commissioners' Plan of 1811). The avenues run 29.0° east of true north, so the
-# numbered cross-streets run 29.0° + 90° = 119.0° (looking east) / 299.0° (looking west). A sunset aligned
-# with the street grid therefore has compass azimuth 299.0°; the grid is rotated 29.0° clockwise from a
-# true east–west line. (Measured values in the literature range 28.9°–29.1°; 29.0° is used here.)
+# Manhattan street grid (Commissioners' Plan of 1811), *derived from the data*, not assumed: the true
+# bearings of every LION centreline segment named "WEST/EAST n STREET" with 14 <= n <= 96 (the regular part
+# of the grid), reprojected EPSG:2263 -> WGS84 and measured as geodesic forward azimuths west-end to
+# east-end, give a length-weighted median of 118.9955° and mean of 118.9997° over 1 812 segments /
+# 292.9 km (quartiles 118.938°–119.069°, 5–95 % 118.702°–119.297°). Per street: 14th 118.957°,
+# 23rd 119.013°, 34th 118.965°, 42nd 118.986°, 57th 118.956°, 79th 119.014°. The grid is therefore rotated
+# 29.00° east of true north and a sunset aligned with the cross-streets has compass azimuth 299.00°.
+# Reproduce with ``python -m nycsim_live.grid_azimuth``.
 MANHATTAN_GRID_ROTATION_DEG: Final = 29.0
 MANHATTAN_STREET_SUNSET_AZIMUTH_DEG: Final = 270.0 + MANHATTAN_GRID_ROTATION_DEG  # 299.0
 MANHATTANHENGE_TOLERANCE_DEG: Final = 0.5
@@ -798,6 +802,12 @@ def time_of_evening_elevation(local_date: _dt.date, elevation_deg: float, observ
             hi = mid
     t = 0.5 * (lo + hi)
     pos = solar_position_jd(timesync.julian_day_from_unix(t), observer, dt_lo)
+    # The SPA switches refraction off below e0 = -(SUN_RADIUS_DEG + atmos_refract), which makes the apparent
+    # elevation discontinuous there: apparent elevations between about -0.22° and -0.83° are never attained
+    # and the bisection would otherwise converge on that jump. Reject any "solution" that does not actually
+    # sit on the requested elevation.
+    if abs(pos.elevation - elevation_deg) > 1e-3:
+        return None
     return SunsetAzimuth(local_date, _dt.datetime.fromtimestamp(t, tz=_dt.timezone.utc), elevation_deg, pos.azimuth, pos.azimuth - MANHATTAN_STREET_SUNSET_AZIMUTH_DEG)
 
 

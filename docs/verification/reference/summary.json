@@ -1,0 +1,32 @@
+{
+ "schema_version": 1,
+ "generated_at": "2026-09-06T11:27:04Z",
+ "items": 1,
+ "items_in_catalogue": 96,
+ "photos": 3,
+ "bytes": 2054171,
+ "items_without_photo": [],
+ "items_partial": [],
+ "http_requests_this_run": 10,
+ "elapsed_s": 39.1,
+ "per_item": [
+  {
+   "slug": "landmark_charging_bull",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2054171,
+   "licences": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 29,
+    "excluded": 4,
+    "not_photo": 3,
+    "too_small": 1
+   }
+  }
+ ]
+}

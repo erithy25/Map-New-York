@@ -174,6 +174,39 @@ def rect_section(width: float, height: float, t0: float = 0.0, z_top: float = 0.
     return [(t0 - width / 2, z_top - height), (t0 + width / 2, z_top - height), (t0 + width / 2, z_top), (t0 - width / 2, z_top)]
 
 
+def sweep_var(name: str, axis: Axis, s_samples: Sequence[float], section_fn: Callable[[float], Sequence[tuple[float, float]]],
+              z_fn: Callable[[float], float], material: str, cap: bool = True) -> bc.bpy.types.Object:
+    """Like :func:`sweep` but the cross-section may change along s (same vertex count at every station).
+
+    Used for decks whose walkway splits around a tower pier, tapering ramps and the tunnel tube transitions.
+    """
+    import bmesh
+    bm = bmesh.new()
+    rings = []
+    k = None
+    for s in s_samples:
+        sec = list(section_fn(s))
+        if k is None:
+            k = len(sec)
+            if k < 3:
+                raise ValueError("sweep_var: section needs >= 3 points")
+        elif len(sec) != k:
+            raise ValueError(f"sweep_var({name}): section vertex count changed ({k} -> {len(sec)}) at s={s}")
+        z = z_fn(s)
+        rings.append([bm.verts.new(axis.p(s) + axis.n * t + Vector((0, 0, z + dz))) for t, dz in sec])
+    for r0, r1 in zip(rings[:-1], rings[1:]):
+        for i in range(k):
+            j = (i + 1) % k
+            bm.faces.new((r0[i], r1[i], r1[j], r0[j]))
+    if cap:
+        for a, b_, c in nb.triangulate_2d(list(section_fn(s_samples[0]))):
+            bm.faces.new((rings[0][a], rings[0][b_], rings[0][c]))
+        for a, b_, c in nb.triangulate_2d(list(section_fn(s_samples[-1]))):
+            bm.faces.new((rings[-1][c], rings[-1][b_], rings[-1][a]))
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    return nb.bmesh_to_object(name, bm, materials=[bc.mat(material)])
+
+
 def samples(s0: float, s1: float, step: float) -> list[float]:
     n = max(int(math.ceil(abs(s1 - s0) / step)), 1)
     return [s0 + (s1 - s0) * i / n for i in range(n + 1)]
@@ -228,6 +261,9 @@ class TowerSpec:
     x_brace: bool = False
     arch_w: float = 10.3          # gothic: arch opening width
     arch_h: float = 35.7          # gothic: arch opening height above roadway
+    arch_gap: float = 8.83        # gothic: |t| of each arch centre (half the pier-to-pier spacing)
+    cornice_w: float = 1.5        # gothic: projection of the crown cornice course
+    batter: float = 0.0           # gothic: half-width lost per metre of height (granite batter)
     pier_w: float = 43.0          # masonry pier (below deck) width t
     pier_d: float = 18.0          # masonry pier depth s
     material: str = "steel_gray"
@@ -244,6 +280,9 @@ class CableSpec:
     suspender_radius: float = 0.03
     suspender_pairs: bool = False # two ropes per hanger (Verrazzano, GWB)
     stays_per_direction: int = 0  # diagonal stays fanning from each tower (Brooklyn: 25 per cable per direction)
+    stay_reach_min: float = 18.0  # horizontal reach of the shortest stay (m from the tower centreline)
+    stay_reach_max: float = 131.0  # horizontal reach of the longest stay
+    stay_head_drop: float = 26.0  # the stay heads occupy this much of the tower below the saddle
     material: str = "steel_silver"
     suspender_material: str = "steel_silver"
     side_spans: bool = True       # suspenders in side spans
@@ -319,29 +358,36 @@ def build_tower(name: str, axis: Axis, s: float, spec: TowerSpec, lod: int = 0) 
     bc.transform(pier, M)
     out.append(pier)
     if spec.kind == "gothic":
-        z0 = spec.z_deck - 0.5
-        H = spec.z_top - z0
+        # The masonry shaft is a single battered block pierced by two pointed arches; the profile is drawn in (t, z)
+        # and extruded along s, so the arch soffits run the full depth of the tower (a real through-passage).
+        z0 = spec.z_deck - 0.5   # below this the tower is the solid granite pier built above
         W = spec.width_t
-        # elevation profile in (t, z) with two pointed arches, roadway at z_deck
-        prof = [(-W / 2, z0), (W / 2, z0), (W / 2, spec.z_top - 6.0), (W / 2 - 1.5, spec.z_top - 6.0), (W / 2 - 1.5, spec.z_top - 3.0),
-                (W / 2, spec.z_top - 3.0), (W / 2, spec.z_top), (-W / 2, spec.z_top), (-W / 2, spec.z_top - 3.0), (-W / 2 + 1.5, spec.z_top - 3.0),
-                (-W / 2 + 1.5, spec.z_top - 6.0), (-W / 2, spec.z_top - 6.0)]
-        gap = spec.arch_w / 2 + 2.6  # arch centres either side of the 5.2 m central pier
+        b = spec.batter
+        w_top = W / 2 - b * (spec.z_top - spec.z_deck)
+        cw = spec.cornice_w
+        prof = [(-W / 2, z0), (W / 2, z0),                                   # base at the water line
+                (W / 2, spec.z_deck), (w_top, spec.z_top - 4.0),             # battered shaft
+                (w_top + cw, spec.z_top - 4.0), (w_top + cw, spec.z_top - 2.6),   # cornice course
+                (w_top + cw * 0.45, spec.z_top - 2.6), (w_top + cw * 0.45, spec.z_top),
+                (-(w_top + cw * 0.45), spec.z_top), (-(w_top + cw * 0.45), spec.z_top - 2.6),
+                (-(w_top + cw), spec.z_top - 2.6), (-(w_top + cw), spec.z_top - 4.0),
+                (-w_top, spec.z_top - 4.0), (-W / 2, spec.z_deck)]
+        gap = spec.arch_gap
         holes = [bc.pointed_arch(spec.arch_w, spec.arch_h, -gap, spec.z_deck), bc.pointed_arch(spec.arch_w, spec.arch_h, gap, spec.z_deck)]
         body = bc.profile_extrude(f"{name}_body", prof, spec.depth_s, spec.material, holes=holes, plane="yz")
         bc.transform(body, M)
         out.append(body)
-        # buttress setbacks (the tower steps back above the arches) and cornice courses
-        for zz, inset in ((spec.z_deck + spec.arch_h + 6.0, 0.6), (spec.z_top - 6.0, 0.9)):
-            band = bc.box(f"{name}_band", (spec.depth_s + inset * 2, W + inset * 2, 1.2), (0, 0, zz), spec.material)
-            bc.transform(band, M)
-            out.append(band)
+        # string course above the arch crowns, where the real towers step back
+        zz = spec.z_deck + spec.arch_h + 3.2
+        w_here = W / 2 - b * (zz - spec.z_deck)
+        band = bc.box(f"{name}_band", (spec.depth_s + 1.0, 2 * w_here + 1.0, 1.0), (0, 0, zz), spec.material)
+        bc.transform(band, M)
+        out.append(band)
         # cable saddles on the tower top (one per cable plane)
         for t in spec.cable_t:
-            sad = bc.box(f"{name}_saddle", (spec.depth_s * 0.5, 2.2, 2.0), (0, t, spec.z_top), "steel_black")
+            sad = bc.box(f"{name}_saddle", (spec.depth_s * 0.5, 2.2, 2.0), (0, t, spec.z_saddle - 2.0), "steel_black")
             bc.transform(sad, M)
             out.append(sad)
-        _ = H
     elif spec.kind in ("portal", "artdeco", "concrete"):
         legs = []
         for side in (-1, 1):
@@ -463,15 +509,19 @@ def build_suspension_cables(name: str, axis: Axis, cs: CableSpec, s_towers: tupl
                         hang_parts.append(bc.cylinder_between(f"{name}_h", axis.p(s, th, zd), axis.p(s, t, zc), cs.suspender_radius, cs.suspender_material, 4))
             s += cs.suspender_spacing
         # diagonal stays (Brooklyn): from below the saddle to deck points fanning out in both directions
+        n_stay = cs.stays_per_direction
         for st_ in (sa, sb):
             for direction in (-1, 1):
-                for i in range(cs.stays_per_direction):
-                    reach = 18.0 + i * (0.42 * (sb - sa) / max(cs.stays_per_direction, 1))
+                for i in range(n_stay):
+                    u = i / max(n_stay - 1, 1)
+                    reach = cs.stay_reach_min + u * (cs.stay_reach_max - cs.stay_reach_min)
                     s_deck = st_ + direction * reach
                     if s_deck < s_a_entry + 5 or s_deck > s_b_entry - 5:
                         continue
-                    z_from = z_saddle - 2.5 - (i % 6) * 0.9
-                    stay_parts.append(bc.cylinder_between(f"{name}_stay", axis.p(st_ + direction * 3.0, t, z_from), axis.p(s_deck, t, deck_z(s_deck) + deck_hanger_dz),
+                    # the stay heads are anchored down the tower shaft: the longest stay leaves from the highest point
+                    z_from = z_saddle - 2.5 - (1.0 - u) * cs.stay_head_drop
+                    stay_parts.append(bc.cylinder_between(f"{name}_stay", axis.p(st_ + direction * 3.2, t, z_from),
+                                                          axis.p(s_deck, t, deck_z(s_deck) + deck_hanger_dz),
                                                           cs.suspender_radius * 1.4, cs.suspender_material, 4))
     if hang_parts:
         # join in chunks to keep object counts sane

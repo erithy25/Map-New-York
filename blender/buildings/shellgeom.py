@@ -61,7 +61,6 @@ STEEP_SLOPE_DEG = 45.0
 SHED_SLOPE_DEG = 12.0
 MANSARD_DECK_FRAC = 0.35      # deck half-width as a fraction of the short half-axis
 SAWTOOTH_PERIOD_M = 6.0
-DOME_BANDS = 6
 BARREL_BANDS = 8
 MAX_RISE_FRAC = 0.55          # a pitched roof never eats more than this fraction of the height
 MIN_WALL_H_M = 2.2            # eaves never drop below this above ground
@@ -102,6 +101,7 @@ class TriBuf:
     tris: list[tuple[int, int, int]] = field(default_factory=list)
     uvs: list[tuple[float, float, float, float, float, float]] = field(default_factory=list)
     mats: list[int] = field(default_factory=list)
+    fallback: str = ""
     _index: dict[tuple[int, int, int], int] = field(default_factory=dict)
 
     def vid(self, x: float, y: float, z: float) -> int:
@@ -350,86 +350,73 @@ def _plane_from_local(c: np.ndarray, axis: np.ndarray, k: float, z_at_zero: floa
     return a, b, d
 
 
-def roof_pieces(poly: Polygon, roof: RoofSpec, z_eave: float, z_top: float) -> tuple[list[RoofPiece], list[tuple[np.ndarray, np.ndarray, float, float]]]:
+def roof_pieces(poly: Polygon, roof: RoofSpec, z_eave: float, z_top: float,
+                band_scale: float = 1.0) -> tuple[list[RoofPiece], list[tuple[np.ndarray, np.ndarray, float, float, np.ndarray]]]:
     """Decompose a pitched roof into planar regions clipped to the footprint.
 
-    Returns ``(pieces, risers)`` where each riser is ``(p, q, z_lo, z_hi)`` — a vertical quad used
-    by the sawtooth profile.  The union of the pieces is the whole footprint, so the resulting
-    surface is a continuous height field and the shell closes.
+    Returns ``(pieces, risers)``.  Each riser is ``(p, q, z_lo, z_hi, outward_normal_xy)`` — the
+    vertical glazing face of a sawtooth profile.  The pieces tile the whole footprint and agree on
+    every shared boundary, so the surface is a continuous height field and the shell closes.
+
+    ``band_scale`` < 1 halves the number of bands for the sawtooth / barrel profiles (LOD1).
+    ``ROOF_DOME`` is generated as a four-sided faceted pyramid (see module docs / REPORT): true
+    domes belong to the hand-scripted landmark models of ARCHITECTURE §4.6, not to the mass shells.
     """
     c, ea, eb, a, b = obb_frame(poly)
     rise = z_top - z_eave
     big = 4.0 * (a + b) + 50.0
     pieces: list[RoofPiece] = []
-    risers: list[tuple[np.ndarray, np.ndarray, float, float]] = []
+    risers: list[tuple[np.ndarray, np.ndarray, float, float, np.ndarray]] = []
     kind = roof.kind
+    if kind == ROOF_DOME:
+        kind = ROOF_HIP
 
     def clip(region: Polygon) -> list[Polygon]:
         try:
             inter = poly.intersection(region)
         except Exception:
             return []
-        return [p for p in _iter_polygons(inter) if p.area > 1e-4]
+        return [p for p in _iter_polygons(inter) if p.area > 1e-7]
+
+    def hip_like(v_off: float, u_off: float, k: float) -> None:
+        """Four slopes falling away from the rectangle |v| <= v_off, |u| <= u_off at ``z_top``."""
+        quads = {
+            "N": [(-u_off, v_off), (u_off, v_off), (u_off + big, v_off + big), (-u_off - big, v_off + big)],
+            "S": [(u_off, -v_off), (-u_off, -v_off), (-u_off - big, -v_off - big), (u_off + big, -v_off - big)],
+            "E": [(u_off, v_off), (u_off + big, v_off + big), (u_off + big, -v_off - big), (u_off, -v_off)],
+            "W": [(-u_off, -v_off), (-u_off - big, -v_off - big), (-u_off - big, v_off + big), (-u_off, v_off)],
+        }
+        axes = {"N": eb, "S": -eb, "E": ea, "W": -ea}
+        offs = {"N": v_off, "S": v_off, "E": u_off, "W": u_off}
+        for key, corners in quads.items():
+            reg = _wedge(c, ea, eb, corners)
+            if not reg.is_valid:
+                reg = shapely.make_valid(reg)
+                if reg.geom_type not in ("Polygon", "MultiPolygon"):
+                    continue
+            pa, pb_, pd = _plane_from_local(c, axes[key], k, z_top + k * offs[key])
+            for q in clip(reg):
+                pieces.append(RoofPiece(q, pa, pb_, pd))
 
     if kind == ROOF_GABLE:
         k = rise / b
         for sign in (1.0, -1.0):
             reg = _wedge(c, ea, eb, [(-big, 0.0), (big, 0.0), (big, sign * big), (-big, sign * big)])
-            if sign < 0:
-                reg = Polygon(list(reg.exterior.coords)[::-1])
             pa, pb_, pd = _plane_from_local(c, eb * sign, k, z_top)
             for q in clip(reg):
                 pieces.append(RoofPiece(q, pa, pb_, pd))
 
     elif kind == ROOF_HIP:
-        k = rise / b
-        r = max(a - b, 0.0)
-        # four regions of z = z_top - k * max(|v|, |u| - (a - b), 0)
-        quads = {
-            "N": [(-r, 0.0), (r, 0.0), (r + big, big), (-r - big, big)],
-            "S": [(r, 0.0), (-r, 0.0), (-r - big, -big), (r + big, -big)],
-            "E": [(r, 0.0), (r + big, big), (r + big, -big)],
-            "W": [(-r, 0.0), (-r - big, -big), (-r - big, big)],
-        }
-        axes = {"N": eb, "S": -eb, "E": ea, "W": -ea}
-        for key, corners in quads.items():
-            reg = _wedge(c, ea, eb, corners)
-            if not reg.is_valid:
-                reg = shapely.make_valid(reg)
-            axis = axes[key]
-            z0_axis = z_top if key in ("N", "S") else z_top + k * r
-            pa, pb_, pd = _plane_from_local(c, axis, k, z0_axis)
-            for q in clip(reg):
-                pieces.append(RoofPiece(q, pa, pb_, pd))
+        hip_like(0.0, max(a - b, 0.0), rise / b)
 
     elif kind == ROOF_MANSARD:
         f = MANSARD_DECK_FRAC
         r = max(a - b, 0.0)
-        deck = _wedge(c, ea, eb, [(-r - f * b, -f * b), (r + f * b, -f * b), (r + f * b, f * b), (-r - f * b, f * b)])
+        v_off, u_off = f * b, r + f * b
+        deck = _wedge(c, ea, eb, [(-u_off, -v_off), (u_off, -v_off), (u_off, v_off), (-u_off, v_off)])
         for q in clip(deck):
             pieces.append(RoofPiece(q, 0.0, 0.0, z_top))
-        k = rise / max(b * (1.0 - f), 1e-6)
-        quads = {
-            "N": [(-r, f * b), (r, f * b), (r + big, big), (-r - big, big)],
-            "S": [(r, -f * b), (-r, -f * b), (-r - big, -big), (r + big, -big)],
-            "E": [(r + f * b, -f * b), (r + f * b, f * b), (r + big, big), (r + big, -big)],
-            "W": [(-r - f * b, f * b), (-r - f * b, -f * b), (-r - big, -big), (-r - big, big)],
-        }
-        axes = {"N": eb, "S": -eb, "E": ea, "W": -ea}
-        offs = {"N": f * b, "S": f * b, "E": r + f * b, "W": r + f * b}
-        for key, corners in quads.items():
-            reg = _wedge(c, ea, eb, corners)
-            if not reg.is_valid:
-                reg = shapely.make_valid(reg)
-            base = deck.buffer(0)
-            try:
-                reg = reg.difference(base)
-            except Exception:
-                pass
-            axis = axes[key]
-            pa, pb_, pd = _plane_from_local(c, axis, k, z_top + k * offs[key])
-            for q in clip(reg):
-                pieces.append(RoofPiece(q, pa, pb_, pd))
+        hip_like(v_off, u_off, rise / max(b * (1.0 - f), 1e-6))
 
     elif kind == ROOF_SHED:
         k = rise / (2.0 * b)
@@ -437,55 +424,48 @@ def roof_pieces(poly: Polygon, roof: RoofSpec, z_eave: float, z_top: float) -> t
         pieces.append(RoofPiece(poly, pa, pb_, pd))
 
     elif kind == ROOF_SAWTOOTH:
-        period = max(SAWTOOTH_PERIOD_M, 2.0 * b / 12.0)
+        # North-light sawtooth: a long monitor slope followed by a short, steep glazing face.
+        # The glazing face is modelled as an 8 %-of-period slope (≈ 80° for a typical tooth)
+        # rather than a true vertical, which keeps the roof a continuous height field — the
+        # property the wall/cap stitching relies on.  At any viewing distance it reads vertical.
+        glaze = 0.08
+        period = max(SAWTOOTH_PERIOD_M / max(band_scale, 1e-3), 2.0 * b / 12.0)
         n_band = max(1, int(math.ceil(2.0 * b / period)))
         period = 2.0 * b / n_band
-        k = rise / period
+        k_up = rise / (period * (1.0 - glaze))
+        k_dn = rise / (period * glaze)
         for i in range(n_band):
             v0 = -b + i * period
             v1 = v0 + period
-            reg = _wedge(c, ea, eb, [(-big, v0), (big, v0), (big, v1), (-big, v1)])
-            pa, pb_, pd = _plane_from_local(c, -eb, k, z_eave - k * v0)
+            if i == n_band - 1:
+                # last tooth runs all the way to the wall so the ridge lands exactly on z_top
+                reg = _wedge(c, ea, eb, [(-big, v0), (big, v0), (big, big), (-big, big)])
+                pa, pb_, pd = _plane_from_local(c, -eb, rise / period, z_eave - (rise / period) * v0)
+                for q in clip(reg):
+                    pieces.append(RoofPiece(q, pa, pb_, pd))
+                continue
+            vm = v0 + period * (1.0 - glaze)
+            reg = _wedge(c, ea, eb, [(-big, v0), (big, v0), (big, vm), (-big, vm)])
+            pa, pb_, pd = _plane_from_local(c, -eb, k_up, z_eave - k_up * v0)
             for q in clip(reg):
                 pieces.append(RoofPiece(q, pa, pb_, pd))
-            if i < n_band - 1:
-                line = shapely.LineString([tuple(c + (-big) * ea + v1 * eb), tuple(c + big * ea + v1 * eb)])
-                inter = poly.intersection(line)
-                for seg in _iter_lines(inter):
-                    coords = np.asarray(seg.coords, dtype=np.float64)
-                    for s in range(len(coords) - 1):
-                        risers.append((coords[s], coords[s + 1], z_eave, z_top))
+            reg = _wedge(c, ea, eb, [(-big, vm), (big, vm), (big, v1), (-big, v1)])
+            pa, pb_, pd = _plane_from_local(c, eb, k_dn, z_top + k_dn * vm)
+            for q in clip(reg):
+                pieces.append(RoofPiece(q, pa, pb_, pd))
 
-    elif kind in (ROOF_DOME, ROOF_BARREL):
-        if kind == ROOF_DOME:
-            rmax = max(a, b)
-            n = DOME_BANDS
-            for i in range(n):
-                t0, t1 = i / n, (i + 1) / n
-                z0b = z_eave + rise * math.sqrt(max(0.0, 1.0 - t1 * t1))
-                z1b = z_eave + rise * math.sqrt(max(0.0, 1.0 - t0 * t0))
-                inner = poly.centroid.buffer(t0 * rmax, quad_segs=8) if t0 > 0 else None
-                outer = poly.centroid.buffer(t1 * rmax, quad_segs=8)
-                reg = outer if inner is None else outer.difference(inner)
-                kk = (z1b - z0b) / max((t1 - t0) * rmax, 1e-6)
-                cc = np.asarray(poly.centroid.coords[0])
-                # radial band approximated by a plane through the band's mean gradient along +x
-                pa, pb_, pd = 0.0, 0.0, (z0b + z1b) / 2.0
-                _ = kk, cc
-                for q in clip(reg):
-                    pieces.append(RoofPiece(q, pa, pb_, pd))
-        else:
-            n = BARREL_BANDS
-            for i in range(n):
-                v0 = -b + 2.0 * b * i / n
-                v1 = -b + 2.0 * b * (i + 1) / n
-                z0b = z_eave + rise * math.sqrt(max(0.0, 1.0 - (v0 / b) ** 2))
-                z1b = z_eave + rise * math.sqrt(max(0.0, 1.0 - (v1 / b) ** 2))
-                k = (z0b - z1b) / (v1 - v0)
-                reg = _wedge(c, ea, eb, [(-big, v0), (big, v0), (big, v1), (-big, v1)])
-                pa, pb_, pd = _plane_from_local(c, eb, k, z0b + k * v0)
-                for q in clip(reg):
-                    pieces.append(RoofPiece(q, pa, pb_, pd))
+    elif kind == ROOF_BARREL:
+        n = max(2, int(round(BARREL_BANDS * band_scale)))
+        for i in range(n):
+            v0 = -b + 2.0 * b * i / n
+            v1 = -b + 2.0 * b * (i + 1) / n
+            z0b = z_eave + rise * math.sqrt(max(0.0, 1.0 - (v0 / b) ** 2))
+            z1b = z_eave + rise * math.sqrt(max(0.0, 1.0 - (v1 / b) ** 2))
+            k = (z0b - z1b) / (v1 - v0)
+            reg = _wedge(c, ea, eb, [(-big, v0), (big, v0), (big, v1), (-big, v1)])
+            pa, pb_, pd = _plane_from_local(c, eb, k, z0b + k * v0)
+            for q in clip(reg):
+                pieces.append(RoofPiece(q, pa, pb_, pd))
     else:
         pieces.append(RoofPiece(poly, 0.0, 0.0, z_top))
     if not pieces:
@@ -541,8 +521,52 @@ class _BoundaryIndex:
 
 
 # --------------------------------------------------------------------------- the builder
-def build_shell(spec: BuildingSpec, lod: int = 0) -> TriBuf:
-    """Closed shell for one building at the requested LOD."""
+def is_closed(n_verts: int, tris: Sequence[Sequence[int]]) -> bool:
+    """Edge-manifold test on an already-welded index buffer (fast; used on every building)."""
+    if not len(tris):
+        return False
+    t = np.asarray(tris, dtype=np.int64)
+    e = np.concatenate([t[:, [0, 1]], t[:, [1, 2]], t[:, [2, 0]]], axis=0)
+    lo = np.minimum(e[:, 0], e[:, 1])
+    hi = np.maximum(e[:, 0], e[:, 1])
+    key = lo * np.int64(n_verts) + hi
+    if len(key) % 2:
+        return False
+    key.sort()
+    a, b = key[0::2], key[1::2]
+    if not np.array_equal(a, b):
+        return False
+    return bool(len(a) < 2 or np.all(b[:-1] != a[1:]))
+
+
+def build_shell(spec: BuildingSpec, lod: int = 0, *, ensure_closed: bool = True) -> TriBuf:
+    """Closed shell for one building at the requested LOD.
+
+    With ``ensure_closed`` (the default) the result is checked for edge-manifoldness and, if a
+    pitched decomposition failed to close on a pathological footprint, the building is rebuilt as
+    a flat-capped extrusion of the same real footprint between the same real ``ground_z`` and
+    ``roof_z``.  ``TriBuf.fallback`` records what happened so the tile manifest can report it.
+    """
+    buf = _build_shell_once(spec, lod)
+    if not ensure_closed or lod >= 2:
+        return buf
+    if is_closed(len(buf.pos), buf.tris):
+        return buf
+    flat = BuildingSpec(bin=spec.bin, polygon=spec.polygon, ground_z=spec.ground_z, roof_z=spec.roof_z,
+                        roof=RoofSpec(kind=ROOF_FLAT, parapet_h=0.0, source=spec.roof.source + "+unclosed"),
+                        mat_wall=spec.mat_wall, mat_roof=spec.mat_roof, facade_heading=spec.facade_heading,
+                        attrs=spec.attrs, floors=spec.floors, area=spec.area)
+    buf2 = _build_shell_once(flat, lod)
+    buf2.fallback = "flat_cap"
+    if is_closed(len(buf2.pos), buf2.tris):
+        return buf2
+    buf3 = TriBuf()
+    _build_massing(buf3, spec)
+    buf3.fallback = "massing"
+    return buf3
+
+
+def _build_shell_once(spec: BuildingSpec, lod: int) -> TriBuf:
     buf = TriBuf()
     if lod >= 2:
         _build_massing(buf, spec)
@@ -659,9 +683,7 @@ def _pitched_geometry(spec: BuildingSpec, poly: Polygon, z0: float, z1: float, l
     z_eave = z1 - rise
     if z_eave <= z0 + 0.3:
         z_eave = z0 + 0.3 * h
-    pieces, risers = roof_pieces(poly, spec.roof, z_eave, z1)
-    if lod >= 1 and len(pieces) > 4:
-        pieces = pieces[:4] if spec.roof.kind not in (ROOF_SAWTOOTH,) else pieces[::2] or pieces[:1]
+    pieces, risers = roof_pieces(poly, spec.roof, z_eave, z1, band_scale=0.5 if lod >= 1 else 1.0)
     _ = c, ea, eb, a
     return z_eave, pieces, risers
 
@@ -672,6 +694,9 @@ def _build_pitched(buf: TriBuf, spec: BuildingSpec, poly: Polygon, z0: float, z1
     rings = [ext] + holes
     u_origin = [ring_uv_origin(ext, spec.facade_heading)] + [0] * len(holes)
     bidx = _BoundaryIndex(rings, u_origin)
+    # every point a roof piece puts on the footprint boundary also has to exist in the bottom cap,
+    # otherwise the wall strip and the cap meet in a T-junction and the shell leaks.
+    splits: list[list[float]] = [[] for _ in rings]
 
     covered_area = 0.0
     for piece in pieces:
@@ -679,7 +704,7 @@ def _build_pitched(buf: TriBuf, spec: BuildingSpec, poly: Polygon, z0: float, z1
         covered_area += piece.poly.area
         _emit_cap(buf, [pe] + ph, piece.z_at, spec.mat_roof, up=True)
         for ring in [pe] + ph:
-            _emit_piece_walls(buf, ring, piece, bidx, z0, spec.mat_wall)
+            _emit_piece_walls(buf, ring, piece, bidx, z0, spec.mat_wall, splits)
     if covered_area < 0.98 * poly.area:
         # numerical shortfall: cover the remainder flat at the eave so the shell still closes
         try:
@@ -695,14 +720,51 @@ def _build_pitched(buf: TriBuf, spec: BuildingSpec, poly: Polygon, z0: float, z1
                 piece = RoofPiece(rp, 0.0, 0.0, z_eave)
                 _emit_cap(buf, [re_] + rh, piece.z_at, spec.mat_roof, up=True)
                 for ring in [re_] + rh:
-                    _emit_piece_walls(buf, ring, piece, bidx, z0, spec.mat_wall)
-    for p, q, zl, zh in risers:
-        _emit_riser(buf, p, q, zl, zh, spec.mat_roof)
-    _emit_cap(buf, rings, z0, spec.mat_wall, up=False)
+                    _emit_piece_walls(buf, ring, piece, bidx, z0, spec.mat_wall, splits)
+    for p, q, zl, zh, nrm in risers:
+        _emit_riser(buf, p, q, zl, zh, nrm, spec.mat_roof)
+    _emit_cap(buf, _subdivide_rings(rings, u_origin, splits), z0, spec.mat_wall, up=False)
+
+
+def _subdivide_rings(rings: Sequence[np.ndarray], u_origin: Sequence[int],
+                     splits: Sequence[Sequence[float]]) -> list[np.ndarray]:
+    """Re-sample each footprint ring so it carries every arc length in ``splits``."""
+    out: list[np.ndarray] = []
+    for ri, ring in enumerate(rings):
+        extra = splits[ri] if ri < len(splits) else []
+        if len(ring) < 3:
+            out.append(ring)
+            continue
+        u = _cumulative_u(ring, u_origin[ri])
+        d = np.roll(ring, -1, axis=0) - ring
+        total = float(np.sum(np.hypot(d[:, 0], d[:, 1])))
+        us = np.concatenate([u, np.asarray(extra, dtype=np.float64) % max(total, 1e-9)]) if extra else u
+        order = np.argsort(us, kind="stable")
+        us = us[order]
+        keep = np.concatenate([[True], np.diff(us) > 1e-4])
+        us = us[keep]
+        pts = _points_at_u(ring, u, us)
+        out.append(pts)
+    return out
+
+
+def _points_at_u(ring: np.ndarray, u: np.ndarray, targets: np.ndarray) -> np.ndarray:
+    """Points on ``ring`` at the given arc lengths (``u`` = per-vertex arc length)."""
+    n = len(ring)
+    d = np.roll(ring, -1, axis=0) - ring
+    seg = np.hypot(d[:, 0], d[:, 1])
+    order = np.argsort(u, kind="stable")          # vertices in arc-length order
+    u_sorted = u[order]
+    idx = np.searchsorted(u_sorted, targets, side="right") - 1
+    idx = np.clip(idx, 0, n - 1)
+    base = order[idx]
+    t = (targets - u_sorted[idx]) / np.maximum(seg[base], 1e-12)
+    t = np.clip(t, 0.0, 1.0)
+    return ring[base] + t[:, None] * d[base]
 
 
 def _emit_piece_walls(buf: TriBuf, ring: np.ndarray, piece: RoofPiece, bidx: _BoundaryIndex,
-                      z0: float, mat: int) -> None:
+                      z0: float, mat: int, splits: Sequence[list[float]] | None = None) -> None:
     """Emit the vertical wall under every edge of a roof piece that lies on the footprint boundary."""
     n = len(ring)
     if n < 3:
@@ -713,7 +775,12 @@ def _emit_piece_walls(buf: TriBuf, ring: np.ndarray, piece: RoofPiece, bidx: _Bo
     on = dist_m < 2e-3
     if not on.any():
         return
-    dist_v, u_v, _ = bidx.locate(ring)
+    dist_v, u_v, kv = bidx.locate(ring)
+    if splits is not None:
+        for i in np.nonzero(dist_v < 2e-3)[0]:
+            ri = int(bidx.ring[kv[i]])
+            if ri < len(splits):
+                splits[ri].append(float(u_v[i]))
     for i in np.nonzero(on)[0]:
         j = (i + 1) % n
         p, q = ring[i], nxt[i]
@@ -740,18 +807,22 @@ def _emit_piece_walls(buf: TriBuf, ring: np.ndarray, piece: RoofPiece, bidx: _Bo
             buf.tri(b1, t0, t1, (uj, 0.0), (ui, zi - z0), (uj, zj - z0), mat)
 
 
-def _emit_riser(buf: TriBuf, p: np.ndarray, q: np.ndarray, z_lo: float, z_hi: float, mat: int) -> None:
-    seg = math.hypot(q[0] - p[0], q[1] - p[1])
+def _emit_riser(buf: TriBuf, p: np.ndarray, q: np.ndarray, z_lo: float, z_hi: float,
+                outward: np.ndarray, mat: int) -> None:
+    """Single-sided vertical face from ``p`` to ``q`` whose normal points along ``outward``."""
+    dx, dy = q[0] - p[0], q[1] - p[1]
+    seg = math.hypot(dx, dy)
     if seg < WELD_M or z_hi - z_lo < WELD_M:
         return
+    if dy * outward[0] - dx * outward[1] < 0.0:   # normal of (p->q) is (dy, -dx)
+        p, q, dx, dy = q, p, -dx, -dy
     a = (p[0], p[1], z_lo)
     b = (q[0], q[1], z_lo)
     c = (q[0], q[1], z_hi)
     d = (p[0], p[1], z_hi)
-    buf.tri(a, b, c, (0.0, 0.0), (seg, 0.0), (seg, z_hi - z_lo), mat)
-    buf.tri(a, c, d, (0.0, 0.0), (seg, z_hi - z_lo), (0.0, z_hi - z_lo), mat)
-    buf.tri(a, c, b, (0.0, 0.0), (seg, z_hi - z_lo), (seg, 0.0), mat)
-    buf.tri(a, d, c, (0.0, 0.0), (0.0, z_hi - z_lo), (seg, z_hi - z_lo), mat)
+    h = z_hi - z_lo
+    buf.tri(a, b, c, (0.0, 0.0), (seg, 0.0), (seg, h), mat)
+    buf.tri(a, c, d, (0.0, 0.0), (seg, h), (0.0, h), mat)
 
 
 def massing_ring(poly: Polygon, max_verts: int = 8) -> np.ndarray:

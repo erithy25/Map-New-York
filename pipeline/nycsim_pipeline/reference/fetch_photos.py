@@ -1,7 +1,7 @@
 """Fetch openly licensed reference photographs from Wikimedia Commons.
 
     python -m nycsim_pipeline.reference.fetch_photos [--only SLUG|GROUP ...] [--force]
-                                                     [--max-width 2000] [--out DIR] [--list]
+                                                     [--max-width 1920] [--out DIR] [--list]
                                                      [--index-only]
 
 For every item in ``CATALOGUE`` (the mandated verification viewpoints, five drive-through areas,
@@ -15,7 +15,8 @@ script
 3. keeps only JPEGs under CC0 / CC BY / CC BY-SA / public domain, rejects non-photographs
    (maps, drawings, postcards, renders), rejects night shots for daylight items (and vice
    versa), rejects anything older than the item's ``min_year`` and prefers >= 2015;
-4. downloads the best-scoring candidates at <= ``--max-width`` px (server-side thumbnail,
+4. downloads the best-scoring candidates at <= ``--max-width`` px (server-side thumbnail at the
+   nearest standard Commons width bucket, or the original,
    verified and if necessary resized locally with Pillow), checks mean luminance so a
    "daylight" item really is daylight, and writes ``<slug>/<n>.jpg``;
 5. writes ``<slug>/meta.json`` (title, page URL, file URL, author, licence short name + URL,
@@ -44,7 +45,7 @@ from pathlib import Path
 from typing import Any
 
 import requests
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, ImageStat
 
 from ..paths import VERIFICATION
 
@@ -58,7 +59,10 @@ CONTACT = os.environ.get("NYCSIM_CONTACT", "https://github.com/erithy25/Map-New-
 USER_AGENT = f"NYCSim-reference-fetch/1.0 ({CONTACT}) python-requests/{requests.__version__}"
 CA_BUNDLE = os.environ.get("REQUESTS_CA_BUNDLE") or os.environ.get("SSL_CERT_FILE") or True
 MIN_INTERVAL_S = 0.5  # <= 2 requests per second, API and file downloads combined
-DEFAULT_MAX_WIDTH = 2000
+DEFAULT_MAX_WIDTH = 1920
+# Standard thumbnail widths served by upload.wikimedia.org; any other width returns HTTP 400.
+THUMB_BUCKETS = (250, 500, 960, 1280, 1920)
+MIN_USABLE_WIDTH = 900  # a reference photo narrower than this is not worth keeping
 MAX_DOWNLOAD_BYTES = 80 << 20
 MAX_INFO_TITLES = 100  # imageinfo lookups per item (2 batches of 50)
 SCHEMA_VERSION = 1
@@ -135,6 +139,31 @@ class Item:
 
 def _it(slug: str, name: str, group: str, queries: list[str], keywords: list[list[str]], vp: tuple[float, float], note: str, **kw: Any) -> Item:
     return Item(slug, name, group, tuple(queries), tuple(tuple(k) for k in keywords), vp, note, **kw)
+
+
+def offset_point(origin: tuple[float, float], bearing: float, dist_m: float) -> tuple[float, float]:
+    """WGS84 point ``dist_m`` metres from ``origin`` on compass ``bearing`` (0 = north).
+
+    Equirectangular step on the WGS84 mean-radius sphere. Over the <= 1.5 km offsets used in the
+    catalogue the deviation from the exact geodesic is under 0.2 m -- three orders of magnitude
+    below the uncertainty of the viewpoint estimate itself.
+    """
+    r = 6371008.8
+    lat = origin[0] + math.degrees(dist_m * math.cos(math.radians(bearing)) / r)
+    lon = origin[1] + math.degrees(dist_m * math.sin(math.radians(bearing)) / (r * math.cos(math.radians(origin[0]))))
+    return (round(lat, 6), round(lon, 6))
+
+
+def _lmk(slug: str, name: str, queries: list[str], keywords: list[list[str]], subject: tuple[float, float],
+         side: float, dist_m: float, note: str, **kw: Any) -> Item:
+    """Landmark item whose photographer position is ``dist_m`` from ``subject`` on bearing ``side``.
+
+    ``side`` is the compass bearing *from the subject to the camera* (which side of the building
+    the photographer stands on); the item's azimuth is then the reverse bearing, computed by
+    ``Item.default_azimuth``. ``note`` must describe that same position in words.
+    """
+    return _it(slug, name, "landmark", queries, keywords, offset_point(subject, side, dist_m), note,
+               subject=subject, subject_name=kw.pop("subject_name", name), **kw)
 
 
 NYC_WORDS = ["new york", "manhattan", "brooklyn", "queens", "bronx", "staten island", "nyc"]
@@ -605,6 +634,461 @@ CATALOGUE: list[Item] = [
         (40.7590, -73.9982), "West 39th Street at Tenth Avenue, looking west at the Manhattan portals",
         subject=(40.7597, -74.0000), subject_name="Lincoln Tunnel Manhattan portals", geosearch_radius_m=400, gps_subject_max_m=1500,
         exclude=AERIAL_WORDS + ["weehawken", "helix", "new jersey", "inside the tunnel", "interior", "1937", "night", "bus terminal"]),
+    # -------------------------------------------- 9b landmarks (rest of docs/LANDMARKS.md)
+    # Group A - civic and downtown towers
+    _lmk("landmark_federal_hall", "Federal Hall National Memorial",
+         ['"Federal Hall" Wall Street', '"Federal Hall National Memorial" exterior columns'],
+         [["federal hall"]], (40.707222, -74.010278), 175.0, 40.0,
+         "Wall Street south sidewalk opposite 26 Wall Street, looking north at the Doric portico and the Washington statue",
+         geosearch_radius_m=150, exclude=AERIAL_WORDS + ["interior", "rotunda", "inside"]),
+    _lmk("landmark_40_wall_street", "40 Wall Street (Trump Building)",
+         ['"40 Wall Street" building', '"Trump Building" 40 Wall Street Manhattan'],
+         [["40 wall", "trump building", "bank of manhattan"]], (40.7069, -74.0097), 250.0, 200.0,
+         "Wall Street at Broad Street, about 200 m west-south-west of the tower, looking east-north-east at the pyramidal crown",
+         geosearch_radius_m=250, exclude=AERIAL_WORDS + ["interior", "lobby", "protest"]),
+    _lmk("landmark_one_wall_street", "One Wall Street (Irving Trust Building)",
+         ['"1 Wall Street" building Manhattan', '"One Wall Street" Irving Trust Building'],
+         [["1 wall street", "one wall street", "irving trust"]], (40.707222, -74.011667), 255.0, 60.0,
+         "Broadway east sidewalk at Wall Street, about 60 m west-south-west of the building, looking east-north-east at the fluted limestone facade",
+         geosearch_radius_m=200, exclude=AERIAL_WORDS + ["interior", "lobby", "red room", "mosaic"]),
+    _lmk("landmark_equitable_building", "Equitable Building (120 Broadway)",
+         ['"Equitable Building" 120 Broadway', '"120 Broadway" Manhattan building'],
+         [["equitable building", "120 broadway"], NYC_WORDS], (40.708333, -74.010278), 265.0, 60.0,
+         "Broadway west sidewalk opposite 120 Broadway, about 60 m from the facade, looking east at the H-plan slab",
+         geosearch_radius_m=200, exclude=AERIAL_WORDS + ["interior", "lobby", "des moines", "atlanta", "portland", "chicago", "1915", "1920"]),
+    _lmk("landmark_moma", "Museum of Modern Art",
+         ['"Museum of Modern Art" New York 53rd Street facade', 'MoMA New York exterior building'],
+         [["museum of modern art", "moma"], NYC_WORDS], (40.7617, -73.9775), 180.0, 30.0,
+         "West 53rd Street south sidewalk between Fifth and Sixth Avenues, looking north at the museum's 53rd Street front",
+         geosearch_radius_m=150, exclude=AERIAL_WORDS + ["interior", "gallery", "exhibition", "san francisco", "sfmoma", "tokyo", "warsaw", "medellin"]),
+    _lmk("landmark_rockefeller_rink", "Rockefeller Center Lower Plaza and rink (Prometheus)",
+         ['"Rockefeller Center" Lower Plaza Prometheus rink', '"Rockefeller Center" skating rink Channel Gardens'],
+         [["rockefeller"], ["rink", "skating", "prometheus", "lower plaza", "channel gardens"]],
+         (40.75873, -73.97865), 80.0, 70.0,
+         "east end of the Channel Gardens promenade above the Lower Plaza, looking west across the rink to Prometheus and 30 Rockefeller Plaza",
+         geosearch_radius_m=180, gps_subject_max_m=600, exclude=AERIAL_WORDS + ["christmas tree lighting", "tree lighting", "interior"]),
+
+    # Group B - bridges, tunnels, WTC, islands, parks, monuments
+    _lmk("landmark_throgs_neck_bridge", "Throgs Neck Bridge",
+         ['"Throgs Neck Bridge"', '"Throgs Neck Bridge" East River span'],
+         [["throgs neck", "throg's neck"]], (40.802, -73.793), 205.0, 1000.0,
+         "Little Bay Park shoreline in Bayside, Queens, about 1 km south-west of the main span, looking north-east along the bridge",
+         geosearch_radius_m=1500, gps_subject_max_m=6000, exclude=["interior", "toll plaza sign"]),
+    _lmk("landmark_bronx_whitestone_bridge", "Bronx-Whitestone Bridge",
+         ['"Bronx-Whitestone Bridge"', '"Whitestone Bridge" East River suspension'],
+         [["whitestone bridge"]], (40.801111, -73.829167), 340.0, 900.0,
+         "Ferry Point Park shoreline in the Bronx, about 900 m north-north-west of the main span, looking south-south-east along the bridge",
+         geosearch_radius_m=1500, gps_subject_max_m=6000, exclude=["interior"]),
+    _lmk("landmark_pulaski_bridge", "Pulaski Bridge",
+         ['"Pulaski Bridge" Newtown Creek', '"Pulaski Bridge" Greenpoint Long Island City'],
+         [["pulaski bridge"]], (40.739167, -73.9525), 160.0, 350.0,
+         "McGuinness Boulevard in Greenpoint, about 350 m south-south-east of the bascule span, looking north-north-west across Newtown Creek",
+         geosearch_radius_m=600, gps_subject_max_m=3000, exclude=["chicago", "pulaski road", "casimir pulaski day", "pulaski skyway"]),
+    _lmk("landmark_kosciuszko_bridge", "Kosciuszko Bridge",
+         ['"Kosciuszko Bridge" cable-stayed', '"Kosciuszko Bridge" Newtown Creek Brooklyn Queens Expressway'],
+         [["kosciuszko", "kosciuszko bridge"]], (40.7277, -73.9291), 200.0, 500.0,
+         "Meeker Avenue in East Williamsburg, about 500 m south-south-west of the main span, looking north-north-east at the cable-stayed tower",
+         geosearch_radius_m=900, gps_subject_max_m=3000, min_year=2017,
+         exclude=["demolition", "implosion", "old bridge", "truss span", "1939"]),
+    _lmk("landmark_roosevelt_island_tram", "Roosevelt Island Tramway",
+         ['"Roosevelt Island Tramway" cabin East River', '"Roosevelt Island Tram" Queensboro Bridge'],
+         [["tram", "tramway", "aerial tramway"], ["roosevelt island"]], (40.7614, -73.964), 120.0, 900.0,
+         "Tramway Plaza on Roosevelt Island, about 900 m east-south-east of the Manhattan station, looking west-north-west at a cabin crossing the East River",
+         geosearch_radius_m=800, gps_subject_max_m=3000, exclude=AERIAL_WORDS + ["interior of the cabin", "portland", "wellington"]),
+    _lmk("landmark_queens_midtown_tunnel_portal", "Queens-Midtown Tunnel Manhattan portal",
+         ['"Queens-Midtown Tunnel" entrance Manhattan', '"Queens Midtown Tunnel" portal toll'],
+         [["queens-midtown tunnel", "queens midtown tunnel", "midtown tunnel"]], (40.7462, -73.9717), 300.0, 120.0,
+         "East 37th Street at Tunnel Exit Street in Murray Hill, about 120 m north-west of the Manhattan portal, looking south-east into the tunnel mouth",
+         geosearch_radius_m=400, gps_subject_max_m=2000, exclude=["inside the tunnel", "tube", "queens portal"]),
+    _lmk("landmark_hugh_carey_tunnel_portal", "Hugh L. Carey (Brooklyn-Battery) Tunnel Manhattan portal",
+         ['"Hugh L. Carey Tunnel" entrance Manhattan', '"Brooklyn-Battery Tunnel" Manhattan portal ventilation building'],
+         [["hugh l. carey tunnel", "hugh carey tunnel", "brooklyn-battery tunnel", "brooklyn battery tunnel"]],
+         (40.7008, -74.0157), 20.0, 150.0,
+         "Battery Place near West Street, about 150 m north-north-east of the Manhattan portal, looking south-south-west at the tunnel mouth and ventilation building",
+         geosearch_radius_m=400, gps_subject_max_m=2500, exclude=["inside the tunnel", "tube", "brooklyn portal", "governors island vent"]),
+    _lmk("landmark_3_world_trade_center", "3 World Trade Center",
+         ['"3 World Trade Center" tower', '"175 Greenwich Street" tower'],
+         [["3 world trade", "three world trade", "175 greenwich"]], (40.710923, -74.011608), 100.0, 130.0,
+         "Church Street opposite Cortlandt Way, about 130 m east of the tower, looking west at 3 World Trade Center",
+         geosearch_radius_m=300, gps_subject_max_m=3000, min_year=2018,
+         exclude=AERIAL_WORDS + ["under construction", "construction", "crane", "rendering", "interior"]),
+    _lmk("landmark_4_world_trade_center", "4 World Trade Center",
+         ['"4 World Trade Center" tower Maki', '"150 Greenwich Street" tower'],
+         [["4 world trade", "four world trade", "150 greenwich"]], (40.7104, -74.0119), 120.0, 150.0,
+         "Church Street at Liberty Street, about 150 m east-south-east of the tower, looking west-north-west at 4 World Trade Center",
+         geosearch_radius_m=300, gps_subject_max_m=3000, min_year=2014,
+         exclude=AERIAL_WORDS + ["under construction", "construction", "crane", "rendering", "interior"]),
+    _lmk("landmark_7_world_trade_center", "7 World Trade Center",
+         ['"7 World Trade Center" tower Greenwich Street', '"250 Greenwich Street" 7 WTC'],
+         [["7 world trade", "seven world trade", "250 greenwich"]], (40.7133, -74.012), 110.0, 150.0,
+         "Church Street at Barclay Street, about 150 m east-south-east of the tower, looking west-north-west at 7 World Trade Center",
+         geosearch_radius_m=300, gps_subject_max_m=3000, min_year=2010,
+         exclude=AERIAL_WORDS + ["collapse", "september 11, 2001", "2001", "destroyed", "rubble", "interior", "lobby"]),
+    _lmk("landmark_ellis_island", "Ellis Island Main Building",
+         ['"Ellis Island" main building immigration station', '"Ellis Island" immigration museum exterior'],
+         [["ellis island"]], (40.699444, -74.039722), 350.0, 250.0,
+         "the ferry basin north of the Main Building, about 250 m from the entrance canopy, looking south at the four-turreted immigration building",
+         geosearch_radius_m=600, gps_subject_max_m=3000,
+         exclude=AERIAL_WORDS + ["interior", "registry room", "great hall", "museum exhibit", "1900", "1910", "1920", "immigrants arriving"]),
+    _lmk("landmark_belvedere_castle", "Belvedere Castle",
+         ['"Belvedere Castle" Central Park', '"Belvedere Castle" Turtle Pond'],
+         [["belvedere castle"]], (40.779447, -73.96906), 120.0, 150.0,
+         "the north shore of Turtle Pond, about 150 m east-south-east of the castle, looking west-north-west at Belvedere Castle on Vista Rock",
+         geosearch_radius_m=250, gps_subject_max_m=800, exclude=AERIAL_WORDS + ["interior", "inside"]),
+    _lmk("landmark_central_park_wall_gates", "Central Park perimeter wall and gates",
+         ['"Central Park" perimeter wall Manhattan schist', "\"Scholars' Gate\" Central Park entrance"],
+         [["central park"], ["perimeter wall", "park wall", "scholars' gate", "merchants' gate", "artists' gate", "gate", "entrance"]],
+         (40.7645, -73.9735), 100.0, 60.0,
+         "Grand Army Plaza at Fifth Avenue and 60th Street, about 60 m east of Scholars' Gate, looking west at the schist perimeter wall and gate piers",
+         geosearch_radius_m=400, gps_subject_max_m=1500,
+         exclude=AERIAL_WORDS + ["gateway arch", "snow", "winter", "1900", "1910", "carriage horse"]),
+    _lmk("landmark_castle_williams", "Castle Williams (Governors Island)",
+         ['"Castle Williams" Governors Island', '"Castle Williams" fort New York Harbor'],
+         [["castle williams"]], (40.692778, -74.019167), 90.0, 200.0,
+         "the Governors Island esplanade about 200 m east of the fort, looking west at the circular red-sandstone casemates",
+         geosearch_radius_m=400, gps_subject_max_m=2000, exclude=AERIAL_WORDS + ["interior", "cell", "prison cell"]),
+    _lmk("landmark_fort_jay", "Fort Jay (Governors Island)",
+         ['"Fort Jay" Governors Island', '"Fort Jay" sally port trophy'],
+         [["fort jay"]], (40.691358, -74.016008), 180.0, 150.0,
+         "the parade ground south of the fort, about 150 m from the sally port, looking north at the Fort Jay gate and its sculpted trophy",
+         geosearch_radius_m=350, gps_subject_max_m=2000, exclude=AERIAL_WORDS + ["interior", "barracks interior"]),
+    _lmk("landmark_grants_tomb", "General Grant National Memorial (Grant's Tomb)",
+         ["\"Grant's Tomb\" Riverside Drive", '"General Grant National Memorial" exterior'],
+         [["grant's tomb", "general grant national memorial", "grant national memorial", "grant memorial"]],
+         (40.813333, -73.963056), 180.0, 120.0,
+         "the Riverside Drive plaza south of the mausoleum, about 120 m from the portico, looking north at the granite dome and colonnade",
+         geosearch_radius_m=300, gps_subject_max_m=1500, exclude=AERIAL_WORDS + ["interior", "crypt", "sarcophagus", "washington, d.c."]),
+    _lmk("landmark_soldiers_sailors_arch", "Soldiers' and Sailors' Memorial Arch (Grand Army Plaza, Brooklyn)",
+         ["\"Soldiers' and Sailors' Memorial Arch\" Brooklyn", '"Grand Army Plaza" Brooklyn arch'],
+         [["soldiers' and sailors'", "soldiers and sailors", "memorial arch"], ["brooklyn", "grand army plaza", "prospect park"]],
+         (40.6738, -73.97), 350.0, 150.0,
+         "the plaza island north of the arch at Grand Army Plaza, about 150 m from it, looking south at the Soldiers' and Sailors' Memorial Arch",
+         geosearch_radius_m=350, gps_subject_max_m=1500, exclude=AERIAL_WORDS + ["hartford", "connecticut", "indianapolis", "interior"]),
+    _lmk("landmark_prospect_park_boathouse", "Prospect Park Boathouse",
+         ['"Prospect Park" Boathouse Lullwater', '"Prospect Park Boathouse" Brooklyn'],
+         [["boathouse"], ["prospect park"]], (40.660833, -73.965278), 120.0, 80.0,
+         "the Lullwater bank about 80 m east-south-east of the Boathouse, looking west-north-west at the terracotta facade above the water",
+         geosearch_radius_m=250, gps_subject_max_m=800, exclude=AERIAL_WORDS + ["interior", "central park", "loeb boathouse"]),
+    _it("landmark_coney_island_boardwalk", "Riegelmann Boardwalk, Coney Island", "landmark",
+        ['"Riegelmann Boardwalk" Coney Island', '"Coney Island" boardwalk amusement'],
+        [["boardwalk"], ["coney island", "brighton beach", "riegelmann"]],
+        (40.5727, -73.9789), "on the Riegelmann Boardwalk at West 12th Street, looking east-north-east along the deck toward the Wonder Wheel and the aquarium",
+        azimuth=70.0, geosearch_radius_m=700, min_year=2014,
+        exclude=AERIAL_WORDS + ["night", "hurricane", "sandy", "damage", "1920", "1930", "1940", "snow"]),
+
+    # Group C - Hudson Yards
+    _lmk("landmark_30_hudson_yards", "30 Hudson Yards",
+         ['"30 Hudson Yards" tower', '"30 Hudson Yards" Edge observation deck exterior'],
+         [["30 hudson yards"]], (40.7541, -74.0008), 120.0, 250.0,
+         "Tenth Avenue at West 30th Street, about 250 m east-south-east of the tower, looking west-north-west at 30 Hudson Yards and the Edge deck",
+         geosearch_radius_m=400, gps_subject_max_m=4000, min_year=2019,
+         exclude=AERIAL_WORDS + ["under construction", "construction", "crane", "rendering", "interior", "from the edge", "view from"]),
+    _lmk("landmark_35_hudson_yards", "35 Hudson Yards",
+         ['"35 Hudson Yards" tower', '"35 Hudson Yards" limestone Hudson Yards'],
+         [["35 hudson yards"]], (40.75455, -74.0024), 90.0, 200.0,
+         "Tenth Avenue at West 33rd Street, about 200 m east of the tower, looking west at 35 Hudson Yards",
+         geosearch_radius_m=400, gps_subject_max_m=4000, min_year=2019,
+         exclude=AERIAL_WORDS + ["under construction", "construction", "crane", "rendering", "interior"]),
+    _lmk("landmark_10_hudson_yards", "10 Hudson Yards",
+         ['"10 Hudson Yards" tower', '"10 Hudson Yards" High Line Coach building'],
+         [["10 hudson yards", "coach tower"]], (40.7525, -74.001), 110.0, 200.0,
+         "West 30th Street at Tenth Avenue, about 200 m east-south-east of the tower, looking west-north-west at 10 Hudson Yards over the High Line",
+         geosearch_radius_m=400, gps_subject_max_m=4000, min_year=2016,
+         exclude=AERIAL_WORDS + ["under construction", "construction", "crane", "rendering", "interior"]),
+    _lmk("landmark_55_hudson_yards", "55 Hudson Yards",
+         ['"55 Hudson Yards" tower', '"55 Hudson Yards" Kohn Pedersen Fox'],
+         [["55 hudson yards"]], (40.755278, -74.001667), 100.0, 200.0,
+         "West 34th Street at Tenth Avenue, about 200 m east of the tower, looking west at 55 Hudson Yards",
+         geosearch_radius_m=400, gps_subject_max_m=4000, min_year=2018,
+         exclude=AERIAL_WORDS + ["under construction", "construction", "crane", "rendering", "interior"]),
+    _lmk("landmark_15_hudson_yards", "15 Hudson Yards",
+         ['"15 Hudson Yards" residential tower', '"15 Hudson Yards" Diller Scofidio'],
+         [["15 hudson yards"]], (40.7535, -74.0032), 100.0, 250.0,
+         "Tenth Avenue at West 30th Street, about 250 m east of the tower, looking west at the curved shaft of 15 Hudson Yards",
+         geosearch_radius_m=400, gps_subject_max_m=4000, min_year=2019,
+         exclude=AERIAL_WORDS + ["under construction", "construction", "crane", "rendering", "interior"]),
+    _lmk("landmark_50_hudson_yards", "50 Hudson Yards",
+         ['"50 Hudson Yards" tower', '"50 Hudson Yards" Foster Partners'],
+         [["50 hudson yards"]], (40.754339, -74.000001), 90.0, 200.0,
+         "Tenth Avenue at West 33rd Street, about 200 m east of the tower, looking west at 50 Hudson Yards",
+         geosearch_radius_m=400, gps_subject_max_m=4000, min_year=2022,
+         exclude=AERIAL_WORDS + ["under construction", "construction", "crane", "rendering", "interior"]),
+    _lmk("landmark_the_shed", "The Shed",
+         ['"The Shed" Hudson Yards building', '"The Shed" Bloomberg Building telescoping shell'],
+         [["the shed"], ["hudson yards", "new york", "manhattan"]], (40.753328, -74.002898), 110.0, 180.0,
+         "the Hudson Yards public square about 180 m east-south-east of the building, looking west-north-west at The Shed and its telescoping shell",
+         geosearch_radius_m=350, gps_subject_max_m=3000, min_year=2019,
+         exclude=AERIAL_WORDS + ["under construction", "construction", "rendering", "interior", "performance"]),
+
+    # Group C - Billionaires' Row and Midtown towers
+    _lmk("landmark_220_central_park_south", "220 Central Park South",
+         ['"220 Central Park South" tower', '"220 Central Park South" Robert A. M. Stern'],
+         [["220 central park south"]], (40.766944, -73.980833), 190.0, 200.0,
+         "Central Park South at Seventh Avenue, about 200 m south of the tower, looking north at 220 Central Park South",
+         geosearch_radius_m=400, gps_subject_max_m=4000, min_year=2019,
+         exclude=AERIAL_WORDS + ["under construction", "construction", "crane", "rendering", "interior"]),
+    _lmk("landmark_53w53", "53W53 (MoMA Tower)",
+         ['"53W53" tower Manhattan', '"53 West 53rd Street" tower Jean Nouvel'],
+         [["53w53", "53 west 53rd", "moma tower", "tower verre"]], (40.761667, -73.978333), 170.0, 150.0,
+         "West 53rd Street at Fifth Avenue, about 150 m south-south-east of the tower, looking north-north-west at the tapering diagrid of 53W53",
+         geosearch_radius_m=400, gps_subject_max_m=4000, min_year=2019,
+         exclude=AERIAL_WORDS + ["under construction", "construction", "crane", "rendering", "interior"]),
+    _lmk("landmark_trump_tower", "Trump Tower (725 Fifth Avenue)",
+         ['"Trump Tower" Fifth Avenue New York', '"Trump Tower" 725 Fifth Avenue exterior'],
+         [["trump tower"], ["new york", "manhattan", "fifth avenue"]], (40.7625, -73.9738), 250.0, 100.0,
+         "Fifth Avenue west sidewalk opposite 725 Fifth Avenue, about 100 m west-south-west of the entrance, looking east-north-east at the sawtooth curtain wall",
+         geosearch_radius_m=300, gps_subject_max_m=3000,
+         exclude=AERIAL_WORDS + ["chicago", "las vegas", "toronto", "istanbul", "manila", "vancouver", "protest", "rally", "demonstration", "interior", "atrium"]),
+    _lmk("landmark_9_west_57th", "9 West 57th Street (Solow Building)",
+         ['"9 West 57th Street" building', '"Solow Building" 9 West 57th Street'],
+         [["9 west 57th", "nine west 57th", "solow building"]], (40.763889, -73.974722), 190.0, 150.0,
+         "West 57th Street at Fifth Avenue, about 150 m south of the tower, looking north at the sloped curtain wall of 9 West 57th Street",
+         geosearch_radius_m=350, gps_subject_max_m=3000,
+         exclude=AERIAL_WORDS + ["interior", "lobby", "sculpture only"]),
+
+    # Group C - Times Square buildings
+    _lmk("landmark_one_times_square", "One Times Square",
+         ['"One Times Square" building', '"One Times Square" ball drop building Times Tower'],
+         [["one times square", "1 times square", "times tower"]], (40.756421, -73.986488), 20.0, 180.0,
+         "the Times Square bowtie at West 45th Street, about 180 m north-north-east of the building, looking south-south-west at One Times Square",
+         geosearch_radius_m=300, gps_subject_max_m=2000, min_year=2014,
+         exclude=AERIAL_WORDS + ["new year", "ball drop", "1904", "1920", "under renovation", "interior"]),
+    _lmk("landmark_two_times_square", "Two Times Square (714 Seventh Avenue)",
+         ['"Two Times Square" building', '"2 Times Square" Seventh Avenue signage'],
+         [["two times square", "2 times square", "714 seventh avenue"]], (40.7597, -73.9848), 200.0, 130.0,
+         "Duffy Square about 130 m south-south-west of the building, looking north-north-east at the wedge of Two Times Square and its signage",
+         geosearch_radius_m=250, gps_subject_max_m=1500, min_year=2012,
+         exclude=AERIAL_WORDS + ["new year", "ball drop", "interior"]),
+    _lmk("landmark_three_times_square", "3 Times Square (Thomson Reuters Building)",
+         ['"3 Times Square" building', '"Thomson Reuters Building" Times Square'],
+         [["3 times square", "three times square", "thomson reuters building", "reuters building"]],
+         (40.756667, -73.986944), 30.0, 150.0,
+         "Seventh Avenue at West 44th Street, about 150 m north-north-east of the tower, looking south-south-west at 3 Times Square",
+         geosearch_radius_m=250, gps_subject_max_m=1500,
+         exclude=AERIAL_WORDS + ["interior", "newsroom", "under construction"]),
+    _lmk("landmark_four_times_square", "4 Times Square (Conde Nast Building)",
+         ['"4 Times Square" building', '"Conde Nast Building" Times Square tower'],
+         [["4 times square", "four times square", "conde nast building", "condé nast building"]],
+         (40.756111, -73.985833), 20.0, 150.0,
+         "Broadway at West 44th Street, about 150 m north-north-east of the tower, looking south-south-west at 4 Times Square",
+         geosearch_radius_m=250, gps_subject_max_m=1500,
+         exclude=AERIAL_WORDS + ["interior", "under construction", "crane"]),
+    _lmk("landmark_tsx_broadway", "TSX Broadway",
+         ['"TSX Broadway" building', '"TSX Broadway" Times Square stage Palace Theatre'],
+         [["tsx broadway", "tsx"], ["times square", "broadway"]], (40.759, -73.984523), 200.0, 130.0,
+         "Duffy Square about 130 m south-south-west of the building, looking north-north-east at the TSX Broadway screen and stage",
+         geosearch_radius_m=250, gps_subject_max_m=1500, min_year=2022,
+         exclude=AERIAL_WORDS + ["under construction", "crane", "rendering", "interior", "new year", "ball drop"]),
+    _lmk("landmark_paramount_building", "Paramount Building (1501 Broadway)",
+         ['"Paramount Building" Times Square 1501 Broadway', '"Paramount Building" clock tower New York'],
+         [["paramount building", "1501 broadway"], ["times square", "broadway", "new york", "manhattan"]],
+         (40.757222, -73.986389), 30.0, 130.0,
+         "Broadway at West 44th Street, about 130 m north-north-east of the building, looking south-south-west at the setback clock tower and globe",
+         geosearch_radius_m=250, gps_subject_max_m=1500,
+         exclude=AERIAL_WORDS + ["los angeles", "hollywood", "studio lot", "oakland", "paramount pictures", "interior", "1930", "1940"]),
+    _lmk("landmark_tkts_booth", "TKTS booth and red steps, Duffy Square",
+         ['"TKTS" Duffy Square red steps', '"TKTS booth" Times Square'],
+         [["tkts"]], (40.759, -73.9847), 190.0, 60.0,
+         "Duffy Square about 60 m south of the booth, looking north at the red glass steps over the TKTS booth",
+         geosearch_radius_m=200, gps_subject_max_m=800, min_year=2010,
+         exclude=AERIAL_WORDS + ["new year", "ball drop", "protest", "london", "leicester square"]),
+    _lmk("landmark_times_square_tower", "Times Square Tower (7 Times Square)",
+         ['"Times Square Tower" 7 Times Square', '"7 Times Square" building'],
+         [["times square tower", "7 times square", "seven times square"]], (40.7555, -73.9867), 20.0, 150.0,
+         "Broadway at West 42nd Street, about 150 m north-north-east of the tower, looking south-south-west at Times Square Tower",
+         geosearch_radius_m=250, gps_subject_max_m=1500,
+         exclude=AERIAL_WORDS + ["interior", "under construction", "crane"]),
+    _lmk("landmark_bank_of_america_tower", "Bank of America Tower at One Bryant Park",
+         ['"Bank of America Tower" "One Bryant Park"', '"One Bryant Park" tower New York'],
+         [["bank of america tower", "one bryant park"], ["new york", "manhattan", "bryant park", "sixth avenue"]],
+         (40.75546, -73.98444), 250.0, 200.0,
+         "Broadway at West 42nd Street, about 200 m west-south-west of the tower, looking east-north-east at the Bank of America Tower's crystalline crown",
+         geosearch_radius_m=400, gps_subject_max_m=4000,
+         exclude=AERIAL_WORDS + ["charlotte", "atlanta", "houston", "dallas", "seattle", "san francisco", "st. louis", "under construction", "interior"]),
+    _lmk("landmark_marriott_marquis", "New York Marriott Marquis",
+         ['"Marriott Marquis" Times Square hotel exterior', '"New York Marriott Marquis" Broadway'],
+         [["marriott marquis"], ["new york", "times square", "broadway", "manhattan"]],
+         (40.758611, -73.986111), 20.0, 150.0,
+         "Broadway at West 47th Street, about 150 m north-north-east of the hotel, looking south-south-west at the Marriott Marquis front",
+         geosearch_radius_m=250, gps_subject_max_m=1500,
+         exclude=AERIAL_WORDS + ["atlanta", "san francisco", "san diego", "houston", "washington", "interior", "atrium", "lobby", "elevator"]),
+    _lmk("landmark_new_york_times_building", "The New York Times Building (620 Eighth Avenue)",
+         ['"New York Times Building" 620 Eighth Avenue', '"New York Times Building" Renzo Piano tower'],
+         [["new york times building", "620 eighth avenue"]], (40.756111, -73.99), 250.0, 150.0,
+         "Eighth Avenue at West 40th Street, about 150 m west-south-west of the tower, looking east-north-east at the ceramic-rod facade",
+         geosearch_radius_m=350, gps_subject_max_m=3000,
+         exclude=AERIAL_WORDS + ["one times square", "times tower", "1913", "interior", "newsroom", "under construction", "climber"]),
+    _lmk("landmark_port_authority_bus_terminal", "Port Authority Bus Terminal",
+         ['"Port Authority Bus Terminal" exterior', '"Port Authority Bus Terminal" Eighth Avenue'],
+         [["port authority bus terminal"]], (40.756667, -73.991111), 250.0, 120.0,
+         "Ninth Avenue at West 41st Street, about 120 m west-south-west of the terminal, looking east-north-east at the Port Authority Bus Terminal",
+         geosearch_radius_m=350, gps_subject_max_m=2500,
+         exclude=AERIAL_WORDS + ["interior", "gate", "concourse", "george washington bridge bus station", "newark"]),
+    _lmk("landmark_hearst_tower", "Hearst Tower",
+         ['"Hearst Tower" New York diagrid', '"Hearst Tower" 300 West 57th Street'],
+         [["hearst tower", "hearst building"], ["new york", "manhattan", "eighth avenue", "57th"]],
+         (40.7666, -73.9836), 200.0, 150.0,
+         "Eighth Avenue at West 56th Street, about 150 m south-south-west of the tower, looking north-north-east at the diagrid above the Art Deco base",
+         geosearch_radius_m=350, gps_subject_max_m=3000,
+         exclude=AERIAL_WORDS + ["charlotte", "interior", "atrium", "lobby", "icefall"]),
+    _lmk("landmark_citigroup_center", "Citigroup Center (601 Lexington Avenue)",
+         ['"Citigroup Center" New York angled roof', '"601 Lexington Avenue" tower Citicorp'],
+         [["citigroup center", "citicorp center", "601 lexington"]], (40.758611, -73.970278), 200.0, 200.0,
+         "Lexington Avenue at East 52nd Street, about 200 m south-south-west of the tower, looking north-north-east at the angled crown of Citigroup Center",
+         geosearch_radius_m=400, gps_subject_max_m=3000,
+         exclude=AERIAL_WORDS + ["chicago", "interior", "atrium", "under construction", "st. peter's interior"]),
+    _lmk("landmark_metlife_building", "MetLife Building (200 Park Avenue)",
+         ['"MetLife Building" Park Avenue', '"Pan Am Building" 200 Park Avenue New York'],
+         [["metlife building", "pan am building", "200 park avenue"]], (40.753333, -73.976667), 190.0, 300.0,
+         "Park Avenue at East 45th Street south of the Helmsley Building, about 300 m south of the tower, looking north up Park Avenue at the MetLife Building",
+         geosearch_radius_m=500, gps_subject_max_m=4000,
+         exclude=AERIAL_WORDS + ["interior", "helicopter crash", "1963", "1970", "stadium"]),
+    _lmk("landmark_lipstick_building", "Lipstick Building (885 Third Avenue)",
+         ['"Lipstick Building" Third Avenue', '"885 Third Avenue" elliptical tower'],
+         [["lipstick building", "885 third avenue"]], (40.757778, -73.968889), 200.0, 130.0,
+         "Third Avenue at East 52nd Street, about 130 m south-south-west of the tower, looking north-north-east at the elliptical setbacks",
+         geosearch_radius_m=300, gps_subject_max_m=2500, exclude=AERIAL_WORDS + ["interior", "lobby"]),
+    _lmk("landmark_seagram_building", "Seagram Building (375 Park Avenue)",
+         ['"Seagram Building" Park Avenue plaza', '"375 Park Avenue" Mies van der Rohe'],
+         [["seagram building", "375 park avenue"]], (40.758611, -73.972222), 250.0, 120.0,
+         "Park Avenue west sidewalk at East 52nd Street, about 120 m west-south-west of the tower, looking east-north-east across the Seagram plaza",
+         geosearch_radius_m=300, gps_subject_max_m=2500,
+         exclude=AERIAL_WORDS + ["interior", "four seasons restaurant", "montreal", "lobby"]),
+    _lmk("landmark_lever_house", "Lever House (390 Park Avenue)",
+         ['"Lever House" Park Avenue', '"Lever House" curtain wall New York'],
+         [["lever house"]], (40.759722, -73.972778), 250.0, 100.0,
+         "Park Avenue west sidewalk at East 54th Street, about 100 m west-south-west of the building, looking east-north-east at the green curtain wall over its plaza",
+         geosearch_radius_m=300, gps_subject_max_m=2500, exclude=AERIAL_WORDS + ["interior", "lobby", "london", "port sunlight"]),
+
+    # Group C - culture, museums, stadiums, outer boroughs
+    _lmk("landmark_carnegie_hall", "Carnegie Hall",
+         ['"Carnegie Hall" exterior Seventh Avenue', '"Carnegie Hall" building 57th Street'],
+         [["carnegie hall"]], (40.7651, -73.9799), 210.0, 100.0,
+         "Seventh Avenue at West 56th Street, about 100 m south-south-west of the building, looking north-north-east at the corner facade and marquee",
+         geosearch_radius_m=250, gps_subject_max_m=2000,
+         exclude=AERIAL_WORDS + ["interior", "auditorium", "stage", "concert", "pittsburgh", "dunfermline", "library"]),
+    _lmk("landmark_st_john_the_divine", "Cathedral of St. John the Divine",
+         ['"Cathedral of St. John the Divine" west front', '"St. John the Divine" Amsterdam Avenue cathedral'],
+         [["john the divine"]], (40.803888, -73.96208), 260.0, 130.0,
+         "Amsterdam Avenue at West 112th Street, about 130 m west of the cathedral, looking east at the west front and rose window",
+         geosearch_radius_m=300, gps_subject_max_m=2000,
+         exclude=AERIAL_WORDS + ["interior", "nave", "crossing", "peacock", "choir"]),
+    _lmk("landmark_riverside_church", "Riverside Church",
+         ['"Riverside Church" tower Riverside Drive', '"Riverside Church" New York exterior'],
+         [["riverside church"]], (40.811944, -73.963056), 250.0, 130.0,
+         "Riverside Drive at West 120th Street, about 130 m west-south-west of the church, looking east-north-east at the carillon tower",
+         geosearch_radius_m=300, gps_subject_max_m=2000, exclude=AERIAL_WORDS + ["interior", "nave", "carillon bell", "organ"]),
+    _lmk("landmark_arthur_ashe_stadium", "Arthur Ashe Stadium",
+         ['"Arthur Ashe Stadium" exterior', '"Arthur Ashe Stadium" USTA Billie Jean King National Tennis Center'],
+         [["arthur ashe"]], (40.749889, -73.847028), 300.0, 250.0,
+         "the plaza north-west of the stadium at the USTA Billie Jean King National Tennis Center, about 250 m from it, looking south-east at Arthur Ashe Stadium",
+         geosearch_radius_m=500, gps_subject_max_m=3000,
+         exclude=AERIAL_WORDS + ["interior", "court", "match", "player", "serve", "trophy", "statue only"]),
+    _lmk("landmark_domino_park", "Domino Park",
+         ['"Domino Park" Williamsburg waterfront', '"Domino Park" East River esplanade Brooklyn'],
+         [["domino park"]], (40.715, -73.967778), 300.0, 120.0,
+         "the East River esplanade at the north end of Domino Park, about 120 m north-west of the park's centre, looking south-east along the elevated walkway",
+         geosearch_radius_m=350, gps_subject_max_m=1500, min_year=2018,
+         exclude=AERIAL_WORDS + ["interior", "night", "under construction"]),
+    _lmk("landmark_kings_theatre", "Kings Theatre (Flatbush)",
+         ['"Kings Theatre" Flatbush Brooklyn', '"Kings Theatre" Flatbush Avenue marquee'],
+         [["kings theatre", "kings theater"], ["brooklyn", "flatbush", "new york"]],
+         (40.6497, -73.9578), 250.0, 60.0,
+         "Flatbush Avenue west sidewalk opposite the theatre, about 60 m from the front, looking east at the marquee and terracotta facade",
+         geosearch_radius_m=250, gps_subject_max_m=1500, min_year=2014,
+         exclude=AERIAL_WORDS + ["london", "hammersmith", "glasgow", "edinburgh", "southsea", "portsmouth", "interior", "auditorium", "lobby"]),
+    _lmk("landmark_brooklyn_museum", "Brooklyn Museum",
+         ['"Brooklyn Museum" Eastern Parkway entrance', '"Brooklyn Museum" building exterior'],
+         [["brooklyn museum"]], (40.671306, -73.96375), 260.0, 130.0,
+         "the Eastern Parkway sidewalk opposite the museum, about 130 m west of the entrance pavilion, looking east at the glass entrance and Beaux-Arts front",
+         geosearch_radius_m=300, gps_subject_max_m=1500,
+         exclude=AERIAL_WORDS + ["interior", "gallery", "exhibition", "mummy", "painting"]),
+    _lmk("landmark_brooklyn_public_library", "Brooklyn Public Library, Central Library",
+         ['"Brooklyn Public Library" Central Library Grand Army Plaza', '"Brooklyn Public Library" gilded entrance Art Deco'],
+         [["brooklyn public library", "central library"], ["brooklyn", "grand army plaza", "eastern parkway"]],
+         (40.6725, -73.9683), 320.0, 120.0,
+         "Grand Army Plaza north-west of the library, about 120 m from the entrance, looking south-east at the gilded Art Deco portal",
+         geosearch_radius_m=300, gps_subject_max_m=1500, exclude=AERIAL_WORDS + ["interior", "reading room", "stacks"]),
+    _lmk("landmark_williamsburgh_savings_bank_tower", "Williamsburgh Savings Bank Tower (One Hanson Place)",
+         ['"Williamsburgh Savings Bank Tower" Brooklyn', '"One Hanson Place" Brooklyn tower clock'],
+         [["williamsburgh savings", "one hanson place", "1 hanson place"]], (40.685556, -73.977778), 200.0, 200.0,
+         "Flatbush Avenue at Fourth Avenue, about 200 m south-south-west of the tower, looking north-north-east at the clock tower and dome",
+         geosearch_radius_m=400, gps_subject_max_m=3000, exclude=AERIAL_WORDS + ["interior", "banking room", "1930", "1929"]),
+    _lmk("landmark_pier_17", "Pier 17, South Street Seaport",
+         ['"Pier 17" South Street Seaport building', '"Pier 17" Seaport rooftop East River'],
+         [["pier 17"], ["seaport", "south street", "new york", "manhattan"]], (40.706, -74.002), 300.0, 150.0,
+         "the South Street Seaport waterfront near Fulton Street, about 150 m north-west of the pier building, looking south-east at Pier 17",
+         geosearch_radius_m=350, gps_subject_max_m=2000, min_year=2018,
+         exclude=AERIAL_WORDS + ["interior", "concert", "1985", "1990", "old pavilion", "demolition"]),
+    _lmk("landmark_whitehall_ferry_terminal", "Staten Island Ferry Whitehall Terminal",
+         ['"Whitehall Terminal" Staten Island Ferry Manhattan', '"Whitehall Ferry Terminal" exterior'],
+         [["whitehall terminal", "whitehall ferry terminal"], ["ferry", "staten island", "manhattan", "new york"]],
+         (40.701409, -74.013131), 20.0, 150.0,
+         "Whitehall Street at South Street, about 150 m north-north-east of the terminal, looking south-south-west at the Whitehall Terminal front",
+         geosearch_radius_m=350, gps_subject_max_m=2000,
+         exclude=AERIAL_WORDS + ["interior", "waiting room", "st. george", "1905", "1950"]),
+    _lmk("landmark_st_george_ferry_terminal", "St. George Ferry Terminal",
+         ['"St. George Terminal" Staten Island ferry', '"St. George Ferry Terminal" exterior Staten Island'],
+         [["st. george terminal", "st george terminal", "st. george ferry", "st george ferry"]],
+         (40.643333, -74.074167), 170.0, 150.0,
+         "Bay Street south of the terminal, about 150 m away, looking north-north-west at the St. George Terminal front",
+         geosearch_radius_m=350, gps_subject_max_m=2000,
+         exclude=AERIAL_WORDS + ["interior", "waiting room", "whitehall", "bermuda", "utah", "grenada"]),
+    _lmk("landmark_ny_state_pavilion", "New York State Pavilion",
+         ['"New York State Pavilion" Flushing Meadows', '"Tent of Tomorrow" New York State Pavilion towers'],
+         [["new york state pavilion", "state pavilion", "tent of tomorrow"], ["flushing meadows", "queens", "world's fair", "new york"]],
+         (40.744028, -73.844417), 200.0, 150.0,
+         "the Flushing Meadows path south-south-west of the pavilion, about 150 m away, looking north-north-east at the Tent of Tomorrow and observation towers",
+         geosearch_radius_m=400, gps_subject_max_m=2000,
+         exclude=AERIAL_WORDS + ["1964", "1965", "world's fair postcard", "interior", "restoration rendering"]),
+    _lmk("landmark_queens_museum", "Queens Museum (New York City Building)",
+         ['"Queens Museum" Flushing Meadows building', '"New York City Building" Flushing Meadows Queens Museum'],
+         [["queens museum"]], (40.745833, -73.846667), 250.0, 120.0,
+         "the Flushing Meadows walkway west-south-west of the museum, about 120 m away, looking east-north-east at the 1939 New York City Building",
+         geosearch_radius_m=350, gps_subject_max_m=2000,
+         exclude=AERIAL_WORDS + ["interior", "panorama", "gallery", "exhibition"]),
+    _lmk("landmark_bronx_county_courthouse", "Bronx County Courthouse",
+         ['"Bronx County Courthouse" Grand Concourse', '"Bronx County Building" courthouse exterior'],
+         [["bronx county courthouse", "bronx county building"]], (40.826111, -73.924167), 250.0, 130.0,
+         "the Grand Concourse at East 161st Street, about 130 m west-south-west of the building, looking east-north-east at the limestone facade and friezes",
+         geosearch_radius_m=350, gps_subject_max_m=2000, exclude=AERIAL_WORDS + ["interior", "courtroom", "lobby"]),
+    _lmk("landmark_little_island", "Little Island at Pier 55",
+         ['"Little Island" Pier 55 Hudson River Park', '"Little Island" Manhattan tulip piles park'],
+         [["little island"], ["pier 55", "hudson river park", "manhattan", "new york", "chelsea"]],
+         (40.742, -74.01), 80.0, 200.0,
+         "the Hudson River Park esplanade near West 13th Street, about 200 m east of the park, looking west at Little Island on its tulip-shaped piles",
+         geosearch_radius_m=400, gps_subject_max_m=2000, min_year=2021,
+         exclude=AERIAL_WORDS + ["under construction", "crane", "rendering", "night"]),
+    _lmk("landmark_pier_57", "Pier 57 (Hudson River Park)",
+         ['"Pier 57" Hudson River Park Manhattan', '"Pier 57" Chelsea Google building rooftop park'],
+         [["pier 57"], ["manhattan", "new york", "hudson river", "chelsea"]], (40.7434, -74.0102), 60.0, 200.0,
+         "the Hudson River Park esplanade near West 16th Street, about 200 m north-east of the pier, looking south-west at the Pier 57 shed",
+         geosearch_radius_m=400, gps_subject_max_m=2000,
+         exclude=AERIAL_WORDS + ["under construction", "crane", "rendering", "interior", "san francisco"]),
+    _lmk("landmark_chelsea_market", "Chelsea Market",
+         ['"Chelsea Market" Ninth Avenue building', '"Chelsea Market" Manhattan exterior brick'],
+         [["chelsea market"]], (40.7425, -74.006111), 190.0, 100.0,
+         "Ninth Avenue at West 15th Street, about 100 m south of the building, looking north at the Chelsea Market brick facade",
+         geosearch_radius_m=300, gps_subject_max_m=1500,
+         exclude=AERIAL_WORDS + ["interior", "concourse", "food hall", "inside", "london", "milan"]),
+    _lmk("landmark_javits_center", "Jacob K. Javits Convention Center",
+         ['"Javits Center" glass exterior Eleventh Avenue', '"Jacob K. Javits Convention Center" building'],
+         [["javits"]], (40.7575, -74.0025), 110.0, 250.0,
+         "Eleventh Avenue at West 36th Street, about 250 m east-south-east of the building, looking west-north-west at the space-frame glass wall",
+         geosearch_radius_m=500, gps_subject_max_m=3000,
+         exclude=AERIAL_WORDS + ["interior", "convention", "comic con", "auto show", "hospital", "vaccination"]),
+    _lmk("landmark_moynihan_train_hall", "Moynihan Train Hall",
+         ['"Moynihan Train Hall" exterior Farley Building', '"Moynihan Train Hall" Eighth Avenue entrance'],
+         [["moynihan"]], (40.751111, -73.995278), 250.0, 130.0,
+         "Ninth Avenue at West 32nd Street, about 130 m west-south-west of the building, looking east-north-east at the Moynihan entrance in the Farley Post Office",
+         geosearch_radius_m=350, gps_subject_max_m=2000, min_year=2021,
+         exclude=AERIAL_WORDS + ["under construction", "rendering", "penn station platform"]),
+    _lmk("landmark_rose_center", "Rose Center for Earth and Space",
+         ['"Rose Center for Earth and Space" glass cube', '"Hayden Planetarium" Rose Center exterior'],
+         [["rose center", "hayden planetarium"]], (40.781536, -73.973247), 290.0, 130.0,
+         "Columbus Avenue at West 81st Street, about 130 m west-north-west of the building, looking east-south-east at the glass cube",
+         geosearch_radius_m=300, gps_subject_max_m=1500,
+         exclude=AERIAL_WORDS + ["interior", "sphere inside", "show", "exhibit", "meteorite"]),
     # ---------------------------------------------------------------- 10 generic streetscapes
     _it("street_tenement_fire_escapes_les", "Tenement with fire escapes (East Village / Lower East Side)", "streetscape",
         ['tenement "fire escape" "Lower East Side"', '"East Village" tenement fire escapes', '"Orchard Street" Lower East Side tenement'],
@@ -665,12 +1149,18 @@ CATALOGUE: list[Item] = [
         (40.6770, -73.9800), "Park Slope side street (5th Street at Seventh Avenue), looking north-east (representative block)",
         azimuth=30.0, representative=True,
         exclude=AERIAL_WORDS + ["night", "prospect park", "1888", "1947", "1996", "coney island", "beach", "bridge"]),
-    _it("street_nyc_street_signs_signals", "NYC street name signs, traffic signals, pedestrian signals (close-ups)", "streetscape",
-        ['New York City street name sign traffic signal pole', '"street sign" Manhattan intersection green', 'New York City traffic light pedestrian signal'],
-        [["street sign", "traffic light", "traffic signal", "pedestrian signal", "walk signal", "street name sign", "one way sign", "signpost"], NYC_WORDS],
+    _it("street_nyc_street_name_signs", "NYC street name signs (close-ups)", "streetscape",
+        ['New York City street name sign green blade', '"street sign" Manhattan intersection green blade'],
+        [["street sign", "street name sign", "street signs", "signpost", "one way sign"], NYC_WORDS],
         (40.7550, -73.9840), "typical Midtown intersection corner (representative; close-up references, not a view)",
         azimuth=0.0, representative=True, want=4,
-        exclude=["night", "1950", "1960", "subway sign", "station sign", "poster", "map", "mural"]),
+        exclude=["night", "1950", "1960", "subway sign", "station sign", "poster", "map", "mural", "traffic light", "protest"]),
+    _it("street_nyc_traffic_signals", "NYC traffic signals and pedestrian signals (close-ups)", "streetscape",
+        ['New York City traffic light signal mast arm', 'New York City pedestrian signal countdown walk'],
+        [["traffic light", "traffic signal", "pedestrian signal", "walk signal", "countdown signal", "signal head"], NYC_WORDS],
+        (40.7550, -73.9840), "typical Midtown intersection corner (representative; close-up references, not a view)",
+        azimuth=0.0, representative=True, want=4,
+        exclude=["night", "1950", "1960", "subway", "station", "poster", "map", "mural", "railway signal", "railroad signal", "protest"]),
     _it("street_fire_hydrant", "NYC fire hydrant (close-up)", "streetscape",
         ['New York City fire hydrant', 'fire hydrant Manhattan sidewalk'],
         [["hydrant"], NYC_WORDS],
@@ -846,6 +1336,20 @@ def thumb_url(original_url: str, width: int) -> str:
     return f"{base}/thumb/{a}/{ab}/{name}/{width}px-{name}"
 
 
+def thumb_widths(max_width: int, original_width: int, min_width: int = 0) -> list[int]:
+    """Thumbnail widths worth requesting for this file, largest first.
+
+    upload.wikimedia.org only renders the standard "bucket" widths and answers any other width
+    with HTTP 400 ("Use thumbnail sizes listed on https://w.wiki/GHai"), so an arbitrary
+    ``--max-width`` has to be rounded down to a bucket. A file already narrower than
+    ``max_width`` needs no rendition at all (empty list => download the original).
+    """
+    if original_width <= max_width:
+        return []
+    usable = [w for w in THUMB_BUCKETS if w <= max_width and w < original_width and w >= min_width]
+    return sorted(usable, reverse=True)
+
+
 def _term_re(term: str) -> re.Pattern[str]:
     return re.compile(r"(?<![a-z0-9])" + re.escape(term.lower()) + r"(?![a-z0-9])")
 
@@ -934,7 +1438,7 @@ def parse_candidate(page: dict[str, Any], provenance: str, geo_hit: bool = False
     )
 
 
-def evaluate(item: Item, c: Candidate, min_width: int = 900) -> tuple[float | None, str]:
+def evaluate(item: Item, c: Candidate, min_width: int = MIN_USABLE_WIDTH) -> tuple[float | None, str]:
     """Return (score, reason). score None => rejected, reason names the rule."""
     if c.mime != "image/jpeg":
         return None, "not_jpeg"
@@ -1125,7 +1629,9 @@ class Client:
             self._wait()
             try:
                 with self.s.get(url, stream=True, timeout=self.timeout, verify=CA_BUNDLE) as r:
-                    if r.status_code == 404:
+                    if r.status_code in (400, 404):
+                        # 404: no such rendition. 400: a thumbnail width the servers refuse to
+                        # render. Both mean "try something else", not "the run is broken".
                         return None
                     if r.status_code in (429, 500, 502, 503, 504):
                         wait = self._retry_after(r, attempt)
@@ -1235,21 +1741,27 @@ def gather_candidates(client: Client, item: Item) -> list[tuple[str, str, bool]]
 # ----------------------------------------------------------------------------------------------
 
 def mean_luminance(im: Image.Image) -> float:
+    """Mean 8-bit luminance of the image, used to sanity-check "daylight" vs "night"."""
     g = im.convert("L").resize((64, 64), Image.BILINEAR)
-    px = list(g.getdata())
-    return sum(px) / len(px)
+    return float(ImageStat.Stat(g).mean[0])
 
 
 def fetch_image(client: Client, c: Candidate, max_width: int) -> tuple[bytes, int, int, float, str] | None:
     """Download <= max_width px wide. Returns (jpeg bytes, width, height, mean luminance, url used) or None."""
-    if c.width <= max_width:
+    data: bytes | None = None
+    url = c.url
+    for w in thumb_widths(max_width, c.width, min_width=MIN_USABLE_WIDTH):
+        url = thumb_url(c.url, w)
+        data = client.get_bytes(url)
+        if data is not None:
+            break
+        log.info("no %dpx rendition for %s", w, c.title)
+    if data is None:
+        if c.bytes > MAX_DOWNLOAD_BYTES:
+            log.warning("no usable rendition and original too large (%d bytes): %s", c.bytes, c.title)
+            return None
         url = c.url
-    else:
-        url = thumb_url(c.url, max_width)
-    data = client.get_bytes(url)
-    if data is None and url != c.url:
-        log.info("thumbnail missing for %s, using original and scaling locally", c.title)
-        url = c.url
+        log.info("falling back to the original of %s (%d px, %d bytes), scaling locally", c.title, c.width, c.bytes)
         data = client.get_bytes(url)
     if data is None:
         return None
@@ -1578,8 +2090,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("-v", "--verbose", action="store_true")
     a = ap.parse_args(argv)
     logging.basicConfig(level=logging.DEBUG if a.verbose else logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
-    if a.max_width < 400 or a.max_width > 2000:
-        ap.error("--max-width must be within 400..2000 (brief: <= 2,000 px wide)")
+    if a.max_width < 250 or a.max_width > 2000:
+        ap.error("--max-width must be within 250..2000 (brief: <= 2,000 px wide)")
     items = select_items(a.only)
     if a.list:
         for i in items:

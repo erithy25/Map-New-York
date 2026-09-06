@@ -106,7 +106,9 @@ class SignalTable {
   bool hasGroup(uint32_t plan, int32_t group) const;
 
   // Per-step cache for hot loops: fills states for groups 0..kMaxCachedGroups-1.
-  void cacheStates(double t);
+  // Logically const (a memoization of the pure time functions above), so the
+  // traffic simulation can hold the table by const reference.
+  void cacheStates(double t) const;
   VehSignal cachedVehicleState(uint32_t plan, int32_t group) const {
     if (group < 0 || group >= static_cast<int32_t>(kMaxCachedGroups)) return VehSignal::Off;
     return static_cast<VehSignal>(veh_cache_[plan * kMaxCachedGroups + static_cast<uint32_t>(group)]);
@@ -122,8 +124,8 @@ class SignalTable {
   std::vector<SignalPlan> plans_;
   std::vector<SignalPhase> phases_;
   std::vector<uint32_t> node_to_plan_;
-  std::vector<uint8_t> veh_cache_, ped_cache_;
-  double cache_time_ = -1.0;
+  mutable std::vector<uint8_t> veh_cache_, ped_cache_;
+  mutable double cache_time_ = -1.0;
   std::string error_;
 };
 

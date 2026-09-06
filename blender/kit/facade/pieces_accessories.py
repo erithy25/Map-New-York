@@ -48,7 +48,7 @@ def _ac_bracket(m: K.Mesh, w: float, out: float) -> None:
         m.box((x - 0.030, 0.0, -0.360), (x + 0.030, 0.030, -0.300), P.GALV)                      # wall plate
 
 
-@K.register("acc_ac_window_small", "window_accessory", nominal_size=(0.47, 0.42, 0.42),
+@K.register("acc_ac_window_small", "window_accessory", anchor="wall_sill_centre", nominal_size=(0.47, 0.42, 0.42),
             description="5 000 BTU through-the-window air conditioner (0.47 x 0.40 x 0.355 m) with its steel support bracket.",
             features=["ac_units"])
 def _acc_ac_small():
@@ -57,7 +57,7 @@ def _acc_ac_small():
     return m
 
 
-@K.register("acc_ac_window_medium", "window_accessory", nominal_size=(0.56, 0.55, 0.44),
+@K.register("acc_ac_window_medium", "window_accessory", anchor="wall_sill_centre", nominal_size=(0.56, 0.55, 0.44),
             description="8 000 BTU through-the-window air conditioner (0.56 x 0.525 x 0.40 m) with its steel support bracket.",
             features=["ac_units"])
 def _acc_ac_medium():
@@ -66,7 +66,7 @@ def _acc_ac_medium():
     return m
 
 
-@K.register("acc_ac_window_large", "window_accessory", nominal_size=(0.66, 0.66, 0.47),
+@K.register("acc_ac_window_large", "window_accessory", anchor="wall_sill_centre", nominal_size=(0.66, 0.66, 0.47),
             description="18 000-24 000 BTU through-the-window air conditioner (0.66 x 0.64 x 0.43 m) with its steel support bracket.",
             features=["ac_units"])
 def _acc_ac_large():
@@ -75,7 +75,7 @@ def _acc_ac_large():
     return m
 
 
-@K.register("acc_ac_bracket", "window_accessory", nominal_size=(0.58, 0.50, 0.40),
+@K.register("acc_ac_bracket", "window_accessory", anchor="wall_sill_centre", nominal_size=(0.58, 0.50, 0.40),
             description="Galvanised window-AC support bracket on its own (two angle arms, diagonal struts and wall plates).",
             features=["ac_units"])
 def _acc_ac_bracket():
@@ -133,7 +133,7 @@ def _acc_guard_security():
     return m
 
 
-@K.register("acc_flower_box", "window_accessory", nominal_size=(0.92, 0.30, 0.42),
+@K.register("acc_flower_box", "window_accessory", anchor="wall_sill_centre", nominal_size=(0.92, 0.30, 0.42),
             description="Painted-wood window flower box on brackets with soil and planting (geranium / ivy mass).",
             features=[])
 def _acc_flower_box():
@@ -193,37 +193,36 @@ def _acc_curtains_closed():
     return m
 
 
-@K.register("acc_blinds_half", "window_accessory", nominal_size=(0.90, 0.05, 1.52),
-            description="Venetian blind at half drop: 25 mm aluminium slats, head rail and cords.",
+@K.register("acc_blinds_half", "window_accessory", anchor="wall_head_centre", nominal_size=(0.89, 0.05, 0.75),
+            description="Venetian blind at half drop, hung from the window head: 25 mm aluminium slats, head rail, bottom rail and cords.",
             features=[])
 def _acc_blinds_half():
     m = K.Mesh()
-    w, h = 0.890, 1.500
+    w = 0.890
     x0, x1 = -w / 2, w / 2
-    m.box((x0, 0.010, h - 0.045), (x1, 0.055, h), P.ALU)                  # head rail
+    m.box((x0, 0.010, -0.045), (x1, 0.055, 0.0), P.ALU)                   # head rail at the opening head
     n = 22
     for k in range(n):
-        z = h - 0.06 - k * 0.031
+        z = -0.060 - k * 0.031
         m.box((x0 + 0.005, 0.014, z - 0.004), (x1 - 0.005, 0.050, z + 0.004), P.ALU)
-    z_bot = h - 0.06 - (n - 1) * 0.031
+    z_bot = -0.060 - (n - 1) * 0.031
     m.box((x0 + 0.005, 0.012, z_bot - 0.020), (x1 - 0.005, 0.052, z_bot - 0.004), P.ALU)   # bottom rail
     for s in (-1, 1):
-        m.cylinder((s * (w / 2 - 0.09), 0.032, z_bot - 0.02), (s * (w / 2 - 0.09), 0.032, h - 0.045), 0.003, "paint_cream", segments=4)
+        m.cylinder((s * (w / 2 - 0.09), 0.032, z_bot - 0.02), (s * (w / 2 - 0.09), 0.032, -0.045), 0.003, "paint_cream", segments=4)
     return m
 
 
-@K.register("acc_roller_shade", "window_accessory", nominal_size=(0.90, 0.06, 1.52),
-            description="Spring roller shade pulled two-thirds down, with the roller, hem bar and ring pull.",
+@K.register("acc_roller_shade", "window_accessory", anchor="wall_head_centre", nominal_size=(0.92, 0.06, 1.01),
+            description="Spring roller shade pulled two-thirds down, hung from the window head, with roller, hem bar and ring pull.",
             features=[])
 def _acc_roller_shade():
     m = K.Mesh()
-    w, h = 0.880, 1.500
+    w, drop = 0.880, 0.930
     x0, x1 = -w / 2, w / 2
-    drop = h * 0.62
-    m.cylinder((x0 - 0.02, 0.038, h - 0.030), (x1 + 0.02, 0.038, h - 0.030), 0.028, "paint_cream", segments=8)
-    m.box((x0, 0.030, h - drop), (x1, 0.034, h - 0.030), "paint_cream", faces="yY")
-    m.box((x0, 0.024, h - drop - 0.022), (x1, 0.042, h - drop), "paint_cream")            # hem bar
-    m.cylinder((0.0, 0.033, h - drop - 0.075), (0.0, 0.033, h - drop - 0.022), 0.004, "paint_cream", segments=4)
+    m.cylinder((x0 - 0.02, 0.038, -0.030), (x1 + 0.02, 0.038, -0.030), 0.028, "paint_cream", segments=8)
+    m.box((x0, 0.030, -drop), (x1, 0.034, -0.030), "paint_cream", faces="yY")
+    m.box((x0, 0.024, -drop - 0.022), (x1, 0.042, -drop), "paint_cream")            # hem bar
+    m.cylinder((0.0, 0.033, -drop - 0.075), (0.0, 0.033, -drop - 0.022), 0.004, "paint_cream", segments=4)
     return m
 
 
@@ -247,20 +246,32 @@ def _acc_card_unlit():
     return m
 
 
-@K.register("acc_satellite_dish", "window_accessory", nominal_size=(0.52, 0.62, 0.62),
-            description="0.46 m Ku-band satellite dish on a J-mount clamped to the window jamb / fire-escape rail.",
+@K.register("acc_satellite_dish", "window_accessory", nominal_size=(0.48, 0.42, 0.86),
+            description="0.46 m Ku-band satellite dish on a J-mount lag-bolted to the jamb or fire-escape rail; "
+                        "offset-fed dish facing the street.",
             features=[])
 def _acc_satellite_dish():
     m = K.Mesh()
-    R = 0.230
-    prof = [(0.0, 0.0)]
-    for i in range(1, 6):
-        r = R * i / 5
-        prof.append((r, -0.085 * (r / R) ** 2))
-    m.lathe(prof, 14, P.ALU, center=(0.0, 0.0), z_off=0.0, smooth=True)
-    m.box((-0.030, -0.030, -0.010), (0.030, 0.030, 0.020), P.BLACK)                # hub
-    P._bar(m, K.Vector((0.0, 0.0, 0.0)), K.Vector((0.0, 0.30, -0.14)), K.Vector((1.0, 0.0, 0.0)), 0.030, 0.030, P.BLACK)
-    m.cylinder((0.0, 0.30, -0.14), (0.0, 0.30, -0.42), 0.020, P.BLACK, segments=8)  # mast
-    m.box((-0.055, 0.26, -0.46), (0.055, 0.36, -0.42), P.BLACK)                     # mount plate
-    m.cylinder((0.0, -0.19, -0.11), (0.0, -0.06, -0.04), 0.026, P.ALU, segments=8)  # LNB arm / feed
+    R, depth = 0.230, 0.085
+    cz = 0.62                                    # dish centre height above the wall plate
+    rings, spokes = 4, 12
+
+    def pt(ir: int, ia: int):
+        r = R * ir / rings
+        a = 2 * math.pi * ia / spokes
+        return (r * math.cos(a), depth * (r / R) ** 2, cz + r * math.sin(a))
+
+    for ir in range(rings):
+        for ia in range(spokes):
+            a0, a1 = ia, (ia + 1) % spokes
+            if ir == 0:
+                m.face([pt(0, 0), pt(1, a1), pt(1, a0)], P.ALU, smooth=True)              # centre fan
+            else:
+                m.face([pt(ir, a0), pt(ir, a1), pt(ir + 1, a1), pt(ir + 1, a0)], P.ALU, smooth=True)
+    m.box((-0.040, depth, cz - 0.040), (0.040, depth + 0.055, cz + 0.040), P.BLACK)       # hub casting
+    P._bar(m, K.Vector((0.0, depth + 0.05, cz)), K.Vector((0.0, 0.31, 0.30)), K.Vector((1.0, 0.0, 0.0)), 0.034, 0.026, P.BLACK)
+    m.box((-0.022, 0.29, 0.030), (0.022, 0.334, 0.32), P.BLACK)                            # mast
+    m.box((-0.060, 0.27, 0.0), (0.060, 0.36, 0.030), P.BLACK)                              # wall plate
+    m.cylinder((0.0, -0.20, cz - 0.19), (0.0, -0.055, cz - 0.075), 0.024, P.ALU, segments=8)   # feed arm + LNB
+    m.box((-0.030, -0.235, cz - 0.235), (0.030, -0.175, cz - 0.155), P.ALU)
     return m

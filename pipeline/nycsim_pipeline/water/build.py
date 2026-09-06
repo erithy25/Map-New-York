@@ -354,29 +354,62 @@ def load_water_elevation_points() -> gpd.GeoDataFrame:
     return g[np.isfinite(g["z_m"])].reset_index(drop=True)
 
 
-def _dem_stats_for_polygon(stack, geom, max_samples: int = 2_000_000) -> tuple[int, float, float, float]:
-    """(n, median, p10, p90) of the composed DEM at lattice samples whose centre lies inside ``geom``."""
+STAT_BLOCK_M = 2000.0        # DEM statistics are gathered in 2 km lattice blocks (1001 x 1001 samples, 4 MB)
+STAT_MAX_BLOCKS = 24         # ... and from at most this many blocks, spread evenly over a large body
+STAT_MAX_SAMPLES = 400_000   # ... keeping at most this many samples in total
+
+
+def _blocks_over(geom, block_m: float, max_blocks: int) -> list[tuple[float, float, float, float]]:
+    """Deterministic, evenly spread list of lattice-aligned block bboxes covering ``geom``."""
+    minx, miny, maxx, maxy = geom.bounds
+    cx0, cx1 = int(np.floor(minx / block_m)), int(np.floor((maxx - 1e-6) / block_m))
+    cy0, cy1 = int(np.floor(miny / block_m)), int(np.floor((maxy - 1e-6) / block_m))
+    cells = [(cx, cy) for cy in range(cy0, cy1 + 1) for cx in range(cx0, cx1 + 1)]
+    if len(cells) > max_blocks:
+        step = len(cells) / max_blocks
+        cells = [cells[int(i * step)] for i in range(max_blocks)]
+    return [(cx * block_m, cy * block_m, (cx + 1) * block_m, (cy + 1) * block_m) for cx, cy in cells]
+
+
+def _dem_stats_for_polygon(stack, geom, max_samples: int = STAT_MAX_SAMPLES) -> tuple[int, float, float, float]:
+    """(n, median, p10, p90) of the composed DEM at lattice samples whose centre lies inside ``geom``.
+
+    Sampling is bounded: a body as large as the Atlantic polygon is read in at most ``STAT_MAX_BLOCKS``
+    2 km blocks spread evenly over its bounding box, never as one scope-sized array.
+    """
     from rasterio.features import rasterize
 
     from ..terrain.grid import NODATA, SPACING_M, lattice_grid
-    minx, miny, maxx, maxy = geom.bounds
-    tr, w, h = lattice_grid(minx - SPACING_M, miny - SPACING_M, maxx + SPACING_M, maxy + SPACING_M)
-    stride = int(np.ceil(np.sqrt(max(1.0, (w * h) / max_samples))))
-    z, _ = stack.read(tr, w, h)
-    mask = rasterize([(geom, 1)], out_shape=(h, w), transform=tr, fill=0, dtype="uint8", all_touched=False).astype(bool)
-    if stride > 1:
-        mask = mask[::stride, ::stride]
-        z = z[::stride, ::stride]
-    vals = z[mask & (z != NODATA)]
-    if vals.size == 0:
-        # tiny pond: use the nearest lattice samples around the representative point
+    parts: list[np.ndarray] = []
+    kept = 0
+    for bx0, by0, bx1, by1 in _blocks_over(geom, STAT_BLOCK_M, STAT_MAX_BLOCKS):
+        piece = geom.intersection(box(bx0, by0, bx1, by1))
+        if piece.is_empty:
+            continue
+        minx, miny, maxx, maxy = piece.bounds
+        tr, w, h = lattice_grid(minx - SPACING_M, miny - SPACING_M, maxx + SPACING_M, maxy + SPACING_M)
+        z, _ = stack.read(tr, w, h)
+        mask = rasterize([(piece, 1)], out_shape=(h, w), transform=tr, fill=0, dtype="uint8", all_touched=False).astype(bool)
+        vals = z[mask & (z != NODATA)]
+        if vals.size == 0:
+            continue
+        if vals.size > max_samples // 4:
+            vals = vals[:: int(np.ceil(vals.size / (max_samples // 4)))]
+        parts.append(vals)
+        kept += vals.size
+        if kept >= max_samples:
+            break
+    if not parts:
+        # tiny pond entirely between lattice points: use the nearest samples around the representative point
         p = geom.representative_point()
         tr2, w2, h2 = lattice_grid(p.x - 2 * SPACING_M, p.y - 2 * SPACING_M, p.x + 2 * SPACING_M, p.y + 2 * SPACING_M)
         z2, _ = stack.read(tr2, w2, h2)
         vals = z2[z2 != NODATA]
         if vals.size == 0:
             return 0, float("nan"), float("nan"), float("nan")
-    return int(vals.size), float(np.median(vals)), float(np.percentile(vals, 10)), float(np.percentile(vals, 90))
+        parts = [vals]
+    v = np.concatenate(parts)
+    return int(v.size), float(np.median(v)), float(np.percentile(v, 10)), float(np.percentile(v, 90))
 
 
 def finalize_levels(stack) -> dict:
@@ -437,50 +470,60 @@ def finalize_levels(stack) -> dict:
     return stats
 
 
-def classify_shoreline_by_dem(stack, rise_m: float = 1.0, reach_m: float = 6.0) -> dict:
-    """Refine 'natural' shoreline parts: a terrain rise >= ``rise_m`` within ``reach_m`` landward = vertical face = bulkhead."""
+def classify_shoreline_by_dem(stack, rise_m: float = 1.0, reach_m: float = 6.0, step_m: float = 10.0) -> dict:
+    """Refine 'natural' shoreline parts: a terrain rise >= ``rise_m`` within ``reach_m`` = vertical face = bulkhead.
+
+    Every part is sampled every ``step_m`` along its length; the sample points are grouped into 500 m
+    lattice blocks so that a 30 km coastline part costs the same per metre as a 50 m one and no part is
+    ever skipped for being too long.
+    """
     from ..terrain.grid import NODATA, SPACING_M, lattice_grid
     t0 = time.time()
     sl = read_geoparquet(SHORE_PATH, SCHEMAS["shoreline"])
-    hydro = read_geoparquet(HYDRO_PATH, SCHEMAS["hydrography"])
-    water = hydro.loc[hydro["is_open_water"], "geometry"].values
-    wtree = shapely.STRtree(water)
     kinds = sl["kind"].values.astype(object)
     src = sl["kind_source"].values.astype(object)
+    r = int(round(reach_m / SPACING_M))
+    pad = (r + 2) * SPACING_M
+    block = 500.0
     n_changed = 0
+    n_sampled = 0
     for i, line in enumerate(sl.geometry.values):
         if src[i] != "default":
             continue
-        # sample points every 10 m along the line; look at the DEM on both sides
-        d = np.arange(5.0, max(line.length, 5.01), 10.0)
-        pts = shapely.line_interpolate_point(line, d)
-        xy = shapely.get_coordinates(pts)
-        if len(xy) == 0:
+        d = np.arange(step_m / 2, max(line.length, step_m / 2 + 1e-6), step_m)
+        if d.size == 0:
             continue
-        minx, miny, maxx, maxy = line.bounds
-        tr, w, h = lattice_grid(minx - reach_m - 2, miny - reach_m - 2, maxx + reach_m + 2, maxy + reach_m + 2)
-        if w * h > 25_000_000:
-            continue  # absurdly long part: keep the default
-        z, _ = stack.read(tr, w, h)
-        cols = np.clip(np.round((xy[:, 0] - (tr.c + SPACING_M / 2)) / SPACING_M).astype(int), 0, w - 1)
-        rows = np.clip(np.round(((tr.f - SPACING_M / 2) - xy[:, 1]) / SPACING_M).astype(int), 0, h - 1)
-        r = int(round(reach_m / SPACING_M))
-        rises = []
-        for c0, r0 in zip(cols, rows):
-            win = z[max(0, r0 - r):r0 + r + 1, max(0, c0 - r):c0 + r + 1]
-            v = win[win != NODATA]
-            if v.size >= 4:
-                rises.append(np.percentile(v, 90) - np.percentile(v, 10))
-        if rises and np.median(rises) >= rise_m:
+        xy = shapely.get_coordinates(shapely.line_interpolate_point(line, d))
+        if xy.size == 0:
+            continue
+        bx = np.floor(xy[:, 0] / block).astype(np.int64)
+        by = np.floor(xy[:, 1] / block).astype(np.int64)
+        rises: list[float] = []
+        for key in np.unique(bx * 1_000_000 + by):
+            sel = (bx * 1_000_000 + by) == key
+            pts = xy[sel]
+            tr, w, h = lattice_grid(pts[:, 0].min() - pad, pts[:, 1].min() - pad, pts[:, 0].max() + pad, pts[:, 1].max() + pad)
+            z, _ = stack.read(tr, w, h)
+            cols = np.clip(np.rint((pts[:, 0] - (tr.c + SPACING_M / 2)) / SPACING_M).astype(int), 0, w - 1)
+            rows = np.clip(np.rint(((tr.f - SPACING_M / 2) - pts[:, 1]) / SPACING_M).astype(int), 0, h - 1)
+            for c0, r0 in zip(cols, rows):
+                win = z[max(0, r0 - r):r0 + r + 1, max(0, c0 - r):c0 + r + 1]
+                v = win[win != NODATA]
+                if v.size >= 4:
+                    rises.append(float(np.percentile(v, 90) - np.percentile(v, 10)))
+        n_sampled += len(rises)
+        if not rises:
+            continue
+        if float(np.median(rises)) >= rise_m:
             kinds[i], src[i] = "bulkhead", "dem_slope"
             n_changed += 1
-        elif rises:
+        else:
             src[i] = "dem_slope"
     sl["kind"] = kinds
     sl["kind_source"] = src
     write_geoparquet(sl, SHORE_PATH, SCHEMAS["shoreline"], "water_shoreline", ["plan_shoreline", "plan_hydro_structures", "usgs_3dep"])
     stats = {"parts": len(sl), "kinds": pd.Series(kinds).value_counts().to_dict(), "kind_sources": pd.Series(src).value_counts().to_dict(),
-             "bulkhead_by_dem": n_changed, "seconds": round(time.time() - t0, 1)}
+             "bulkhead_by_dem": n_changed, "dem_probe_points": n_sampled, "seconds": round(time.time() - t0, 1)}
     _save_summary({"shoreline": stats})
     log.info("shoreline classification: %s", stats)
     return stats
