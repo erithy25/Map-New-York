@@ -63,7 +63,9 @@ class ParquetBatchWriter:
 
     def _open(self) -> pq.ParquetWriter:
         if self._writer is None:
-            self._writer = pq.ParquetWriter(str(self._tmp), self._schema, compression=self._compression)
+            # store_schema=False: pyarrow would otherwise restore the (metadata-less) ARROW:schema serialized at open time
+            # and hide the footer key-value metadata (geo / nycsim.schema) that is only known at close.
+            self._writer = pq.ParquetWriter(str(self._tmp), self._schema, compression=self._compression, store_schema=False)
         return self._writer
 
     def write(self, columns: dict[str, Any]) -> int:

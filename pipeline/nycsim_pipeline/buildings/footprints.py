@@ -81,8 +81,15 @@ def load_footprints(path: Path, boroughs: list[int] | None = None, limit: int | 
         geoms[~valid] = fixed
         log.info("footprints: make_valid applied to %d invalid polygons", n_invalid)
 
-    # explode multipolygons / collections into polygon parts
+    # the OTI export wraps every footprint in a single-part MultiPolygon: unwrap those vectorised
     type_id = shapely.get_type_id(geoms)
+    n_parts = shapely.get_num_geometries(geoms)
+    wrapper = (type_id == 6) & (n_parts == 1)
+    stats["single_part_multipolygon_unwrapped"] = int(wrapper.sum())
+    if wrapper.any():
+        geoms[wrapper] = shapely.get_geometry(geoms[wrapper], 0)
+        type_id = shapely.get_type_id(geoms)
+    # explode genuine multipolygons / collections into polygon parts
     is_poly = type_id == 3
     n_multi = int((~is_poly).sum())
     stats["multipart_rows"] = n_multi

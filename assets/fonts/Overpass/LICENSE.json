@@ -1,0 +1,15 @@
+{
+ "name": "Overpass",
+ "version": "3.0.5",
+ "author": "Delve Fonts (Delve Withrington, Dave Bailey, Thomas Jockin) for Red Hat",
+ "license": "SIL Open Font License 1.1 (fonts) / LGPL 2.1 (alternate)",
+ "license_file": "LICENSE.md",
+ "url": "https://cdn.jsdelivr.net/gh/RedHatOfficial/Overpass@3.0.5/desktop-fonts/overpass/",
+ "why": "Open-source derivative of the US FHWA Series (Highway Gothic) alphabet used on NYC street-name and regulatory signs",
+ "sha256": {
+  "overpass-bold.otf": "5d04725be95f915d102f6ee8ebb6945b9b85c0c2b016d38f579dc1dc1e707dcc",
+  "overpass-regular.otf": "f276ec15ee0417a13481a3661f2a4f4bbe0c0072f25bd0472c500a13753118d7",
+  "overpass-semibold.otf": "a098446d2299dffdf76af9f9b281e171f420dbbd97d7589bc6be3fee969f0a9f"
+ },
+ "downloaded_at": "2026-09-05T19:21:24Z"
+}

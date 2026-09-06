@@ -85,7 +85,7 @@ def join_pluto(attrs: pl.DataFrame, pluto: pl.DataFrame) -> tuple[pl.DataFrame, 
         pl.Series("pluto_joined", joined),
         pl.Series("pluto_join_key", np.where(m_ok, 1, np.where(use_base, 2, 0)).astype(np.int8)),
     ])
-    out = attrs.join(pluto, left_on="_jbbl", right_on="pl_bbl", how="left")
+    out = attrs.join(pluto, left_on="_jbbl", right_on="pl_bbl", how="left", maintain_order="left")
     out = out.sort("_row")
     # final bbl: the key that joined, else mappluto_bbl (falls back to base_bbl if mappluto is unparsable)
     out = out.with_columns([
@@ -112,7 +112,7 @@ def join_pluto(attrs: pl.DataFrame, pluto: pl.DataFrame) -> tuple[pl.DataFrame, 
         .with_columns(pl.int_range(pl.len()).over("bbl").alias("_rank"))
         .select(["_row", "_rank"])
     )
-    out = out.join(rank, on="_row", how="left").sort("_row")
+    out = out.join(rank, on="_row", how="left", maintain_order="left").sort("_row")
     out = out.with_columns((pl.col("_rank") == 0).alias("is_primary_on_lot")).drop(["_rank", "_is_garage", "_jbbl", "_mbbl", "_bbbl"])
     stats = {
         "rows": n,

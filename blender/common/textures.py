@@ -111,8 +111,9 @@ def resolve(name: str) -> dict[str, Any]:
 
 
 def get_texture_meta(name: str) -> dict[str, Any]:
-    """Catalog metadata for a material: asset_id, provider, physical_size_m (metres covered by one tile), roughness_bias,
-    tint (RGB multiplier or null), notes, license (once downloaded also sha256/fetched_at)."""
+    """Catalog metadata for a material: asset_id, provider, physical_size_m (metres covered by one tile), tint (RGB
+    multiplier or absent), color_override (RGB, replaces the colour map), roughness_override / roughness_scale,
+    procedural (shader params for provider 'procedural'), notes, license (once downloaded also the LICENSE.json record)."""
     rec = resolve(name)
     rec.update(CC0)
     lic = TEXTURE_ROOT / rec["asset_id"] / "LICENSE.json"
@@ -120,6 +121,76 @@ def get_texture_meta(name: str) -> dict[str, Any]:
         with open(lic) as f:
             rec["download"] = json.load(f)
     return rec
+
+
+# --------------------------------------------------------------------------- physical size measurement
+# Real repeat lengths (metres) used to turn a counted period into a physical tile size.
+SIZE_RULES: dict[str, tuple[float, str]] = {
+    "brick_course": (0.0675, "vertical"),   # NYC common / modular brick: 3 courses per 8 in = 67.5 mm
+    "lap": (0.1016, "vertical"),            # vinyl "double-4" siding exposure 4 in
+    "plank": (0.140, "vertical"),           # cedar water-tower stave / board width 5.5 in
+    "tile": (0.100, "both"),                # 100 mm ceramic tile
+    "corrugation": (0.068, "horizontal"),   # 2 2/3 in corrugated steel pitch
+}
+
+
+def measure_period_px(color_path: str, axis: str = "vertical") -> tuple[int, float]:
+    """Count the dominant repeat along ``axis`` in an image by autocorrelating the row (or column) mean brightness.
+    Returns (repeats_per_image, confidence 0..1). Pure numpy; works on any JPG/PNG the PIL can open."""
+    import numpy as np
+    from PIL import Image
+    im = Image.open(color_path).convert("L")
+    if max(im.size) > 1024:
+        im = im.resize((1024, int(1024 * im.size[1] / im.size[0])) if im.size[0] >= im.size[1] else (int(1024 * im.size[0] / im.size[1]), 1024))
+    a = np.asarray(im, dtype=np.float64)
+    prof = a.mean(axis=1) if axis == "vertical" else a.mean(axis=0)
+    prof = prof - prof.mean()
+    n = len(prof)
+    spec = np.abs(np.fft.rfft(prof)) ** 2
+    spec[:2] = 0.0  # ignore DC and the 1-cycle term (illumination gradient)
+    k = int(np.argmax(spec[: n // 4]))  # repeats must be ≥ 4 px each
+    conf = float(spec[k] / (spec.sum() + 1e-9))
+    return k, conf
+
+
+def measure_physical_size(name: str, resolution: str = "2K") -> float | None:
+    """Physical tile size (m) for a catalog material with a size_rule, measured from its colour map. None if no rule."""
+    rec = resolve(name)
+    rule = rec.get("size_rule")
+    if not rule or rule not in SIZE_RULES:
+        return None
+    unit_m, axis = SIZE_RULES[rule]
+    maps = get_texture_set(name, resolution)
+    counts = []
+    for ax in (("vertical", "horizontal") if axis == "both" else (axis,)):
+        k, conf = measure_period_px(maps["color"], ax)
+        if k > 0:
+            counts.append((conf, k))
+    if not counts:
+        return None
+    k = max(counts)[1]
+    return round(k * unit_m, 3)
+
+
+def update_catalog_sizes(resolution: str = "2K") -> dict[str, float]:
+    """Measure every material with a size_rule and write physical_size_m back into texture_catalog.json."""
+    cat = _load_catalog()
+    changed: dict[str, float] = {}
+    for n, rec in cat["materials"].items():
+        if not rec.get("size_rule"):
+            continue
+        size = measure_physical_size(n, resolution)
+        if size and 0.3 <= size <= 6.0:
+            rec["physical_size_m"] = size
+            rec["physical_size_source"] = f"measured:{rec['size_rule']}"
+            changed[n] = size
+        else:
+            log.warning("%s: measurement gave %s, keeping %.2f", n, size, rec.get("physical_size_m", 1.0))
+    tmp = CATALOG_PATH.with_suffix(".tmp")
+    with open(tmp, "w") as f:
+        json.dump(cat, f, indent=1)
+    os.replace(tmp, CATALOG_PATH)
+    return changed
 
 
 # --------------------------------------------------------------------------- helpers
@@ -228,17 +299,23 @@ def _merge_license(asset_id: str, new: dict[str, Any], resolution: str, files: d
 def _acg_lookup(asset_id: str) -> dict[str, Any] | None:
     """Fetch the API record for one asset (exact id match) or None when the API is unreachable/unknown."""
     requests = _requests()
-    try:
-        r = requests.get(AMBIENTCG_API, params={"type": "Material", "q": asset_id, "include": "downloadData,imageData", "limit": 50},
-                         timeout=60, headers={"User-Agent": USER_AGENT})
-        if r.status_code >= 400:
-            log.warning("AmbientCG API HTTP %s for %s", r.status_code, asset_id)
-            return None
-        for a in r.json().get("foundAssets", []):
-            if a.get("assetId") == asset_id:
-                return a
-    except (requests.RequestException, ValueError) as e:  # type: ignore[union-attr]
-        log.warning("AmbientCG API failed for %s: %s", asset_id, e)
+    # the search endpoint does not match variant suffixes ("Bricks082A"), so also try the base id ("Bricks082")
+    queries = [asset_id]
+    base = re.sub(r"[A-Z]$", "", asset_id)
+    if base != asset_id:
+        queries.append(base)
+    for q in queries:
+        try:
+            r = requests.get(AMBIENTCG_API, params={"type": "Material", "q": q, "include": "downloadData,imageData", "limit": 100},
+                             timeout=60, headers={"User-Agent": USER_AGENT})
+            if r.status_code >= 400:
+                log.warning("AmbientCG API HTTP %s for %s", r.status_code, q)
+                continue
+            for a in r.json().get("foundAssets", []):
+                if a.get("assetId") == asset_id:
+                    return a
+        except (requests.RequestException, ValueError) as e:  # type: ignore[union-attr]
+            log.warning("AmbientCG API failed for %s: %s", q, e)
     return None
 
 
@@ -356,6 +433,8 @@ def get_texture_set(name: str, resolution: str = "2K") -> dict[str, str]:
     rec = resolve(name)
     asset_id = rec["asset_id"]
     provider = rec.get("provider", "ambientcg")
+    if provider == "procedural":
+        return {}
     have = _existing_set(asset_id, resolution)
     if have:
         return have
@@ -398,6 +477,10 @@ def verify(resolution: str = "2K") -> list[str]:
     for n in list_materials():
         rec = resolve(n)
         aid = rec["asset_id"]
+        if rec.get("provider") == "procedural":
+            if not isinstance(rec.get("procedural"), dict) or "base_color" not in rec["procedural"]:
+                problems.append(f"{n}: procedural entry lacks base_color")
+            continue
         lic = _license_path(aid)
         if not lic.exists():
             problems.append(f"{n} ({aid}): LICENSE.json missing")
@@ -417,6 +500,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--fetch-all", action="store_true")
     ap.add_argument("--fetch", nargs="*", default=None, help="material names or asset ids")
     ap.add_argument("--verify", action="store_true")
+    ap.add_argument("--measure", action="store_true", help="measure physical_size_m for size_rule materials and update the catalog")
     ap.add_argument("--list", action="store_true")
     ap.add_argument("--resolution", default="2K", choices=RESOLUTIONS)
     a = ap.parse_args(argv)
@@ -431,6 +515,9 @@ def main(argv: list[str] | None = None) -> int:
         res = fetch_all(a.resolution, a.fetch if a.fetch else None)
         total = sum(os.path.getsize(p) for maps in res.values() for p in maps.values())
         print(json.dumps({"materials": len(res), "bytes": total, "seconds": round(time.time() - t0, 1)}))
+    if a.measure:
+        changed = update_catalog_sizes(a.resolution)
+        print(json.dumps({"measured": changed}, indent=1))
     if a.verify:
         problems = verify(a.resolution)
         for p in problems:

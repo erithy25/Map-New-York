@@ -1,0 +1,33 @@
+{
+ "asset": "Overpass (typeface)",
+ "version": "3.0.5",
+ "author": "Delve Withrington, Dave Bailey, Thomas Jockin / Red Hat, Inc.",
+ "source_repo": "https://github.com/RedHatOfficial/Overpass",
+ "license": "SIL Open Font License 1.1 (dual-licensed with LGPL 2.1)",
+ "license_file": "LICENSE.md",
+ "purpose": "Highway Gothic-like face for runtime-rendered NYC street-name, parking and storefront signs (UCanvasRenderTarget2D). Overpass is a Highway Gothic derivative under a free licence.",
+ "fetched_at": "2026-09-05T19:22:02Z",
+ "files": {
+  "overpass-bold.otf": {
+   "sha256": "5d04725be95f915d102f6ee8ebb6945b9b85c0c2b016d38f579dc1dc1e707dcc",
+   "bytes": 68804,
+   "url": "https://cdn.jsdelivr.net/gh/RedHatOfficial/Overpass@3.0.5/desktop-fonts/overpass/overpass-bold.otf"
+  },
+  "overpass-regular.otf": {
+   "sha256": "f276ec15ee0417a13481a3661f2a4f4bbe0c0072f25bd0472c500a13753118d7",
+   "bytes": 69712,
+   "url": "https://cdn.jsdelivr.net/gh/RedHatOfficial/Overpass@3.0.5/desktop-fonts/overpass/overpass-regular.otf"
+  },
+  "overpass-semibold.otf": {
+   "sha256": "a098446d2299dffdf76af9f9b281e171f420dbbd97d7589bc6be3fee969f0a9f",
+   "bytes": 65620,
+   "url": "https://cdn.jsdelivr.net/gh/RedHatOfficial/Overpass@3.0.5/desktop-fonts/overpass/overpass-semibold.otf"
+  },
+  "LICENSE.md": {
+   "sha256": "3236e099bead8e30bc7fff46c76728bc59c1c5dc9948b07440f5e62c81d3be54",
+   "bytes": 4422,
+   "url": "https://cdn.jsdelivr.net/gh/RedHatOfficial/Overpass@3.0.5/LICENSE.md"
+  }
+ },
+ "ue_import": "import_assets.py imports overpass-bold.otf as /Game/NYCSim/Fonts/F_Overpass_Bold (offline font, runtime-cached at 64/128 px)"
+}

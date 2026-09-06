@@ -169,3 +169,43 @@ Container format `NYCB`: little-endian; header `{char magic[4]="NYCB"; uint32 ve
 * `runtime/transit.nycb`: `bus_routes` {uint32 name_str; uint32 first_vertex,vertex_count; uint32 first_stop,stop_count; uint16 headway_min[24]}, `bus_stops` {int64 id; float x,y,z; uint32 name_str}, `route_stops` {int64 stop_id}, `vertices`, `strtab`.
 * `runtime/density.nycb`: `cells` {uint32 nta_str; uint8 hour,dow; uint16 pad; float veh_per_km_lane,ped_per_m2,taxi_share,truck_share,bus_share,bike_share}, `nta_polys` (`{uint32 nta_str; uint32 first_vertex,vertex_count}` + `vertices`), `strtab`.
 * `runtime/landmarks.nycb`, `runtime/pois.nycb` (addresses for GPS: `{float x,y; uint32 addr_str}` over PLUTO/PAD addresses).
+
+---
+
+## 5.2 Buildings ingest extension columns — APPENDED by the buildings stage (stage 3 data part)
+
+*Appended section. These columns are written by `pipeline/nycsim_pipeline/buildings/build.py` into
+`buildings/buildings_base.parquet` and every `tiles/{tile}/buildings.parquet` in addition to the §5 columns it derives
+(`bin, bbl, borough, footprint, ground_z, roof_z, height, floors, floor_height, ground_floor_height, year_built,
+bldg_class, land_use, has_storefront, storefront_names, storefront_kinds, has_scaffold, landmark_id, osm_id (0 until the
+OSM stage), name, lit_seed, fidelity, primary_facade_heading, address, tile, tx, ty`). The §5 columns owned by later
+stages (`roof_type, roof_mesh_ref, facade_class, material_*, window_*, has_fire_escape, has_stoop, has_cornice,
+has_water_tower, rooftop_units, awning_text, landmark_model, street_segment_id`) are **absent** from these files and are
+added by the citygml / facade-rules / roads stages. Parquet metadata: `nycsim.schema = "buildings/1"`, GeoParquet 1.1
+`geo` metadata with `primary_column = "footprint"` (CRS NYC_TM as PROJJSON). Rows are sorted by `(tile, bin)`.*
+
+| column | type | meaning |
+|---|---|---|
+| feature_code | int16 | OTI footprint feature code: 2100 building, 5100 building under construction, 5110 garage, 1000–1006 other structure codes as published |
+| footprint_area | float32 | polygon area, m² |
+| centroid_x, centroid_y | float64 | footprint centroid, NYC_TM m (the tile is assigned from this point) |
+| pluto_joined | bool | a MapPLUTO lot record was joined (by `mappluto_bbl`, else `base_bbl`) |
+| n_bldgs_on_lot | int16 | footprints sharing this `bbl` |
+| is_primary_on_lot | bool | largest non-garage footprint on the lot; lot-level PLUTO attributes (`numfloors`, `yearbuilt` fallback, retail evidence) are applied only to it |
+| height_source | int8 | 0 LiDAR `height_roof`, 1 PLUTO floors × class storey height, 2 median of 10 nearest LiDAR heights |
+| floors_source | int8 | 1 PLUTO `numfloors` (consistent with height), 2 derived from height |
+| year_source | int8 | 0 footprint `construction_year`, 1 PLUTO `yearbuilt`, −1 unknown (`year_built` = 0) |
+| ground_source | int8 | 0 LiDAR `ground_elevation`, 3 Building Elevation & Subgrade `z_grade`, 2 median of 10 nearest LiDAR grounds |
+| facade_heading_method | int8 | 0 free (non party-wall) merged edge chosen with lot-position bias, 1 longest free edge (no lot centroid), 2 longest edge (no free edge ≥ 2 m) |
+| first_floor_offset | float32, nullable | first-floor elevation minus grade, m (bsin-59hv `z_floor − z_grade`); NaN unknown |
+| has_subgrade | int8 | bsin-59hv subgrade space flag: 1 yes, 0 no, −1 unknown |
+| lot_frontage, bldg_frontage, bldg_depth | float32, nullable | PLUTO `lotfront/bldgfront/bldgdepth` in metres; NaN unknown |
+| nta | string | NTA 2020 code (bsin-59hv per BIN, else centroid-in-polygon of 9nt8-h7nd); empty if outside all NTAs |
+| hist_district, hist_district_id | string | LPC historic district name and LP number containing the centroid; empty if none |
+| lpc_style, lpc_material | string | LPC building database `STYLE1` / `MATERIAL1` for the BIN (real designation-report typology; input for `MATERIAL_REAL`) |
+| storefront_sources | list<int8> | per `storefront_names` entry: 1 DCWP licence, 2 DOHMH restaurant |
+
+Conventions used for §5 columns in these files: `floor_height` for single-storey buildings is the class storey height
+(the contract formula divides by `floors − 1`); `ground_floor_height` = `height` when `floors` = 1; `year_built` = 0 and
+`bldg_class` = "" / `land_use` = 0 / `address` = "" / `landmark_id` = "" mean unknown; `has_storefront` is set by PLUTO
+class/land-use/retail-area evidence on the primary building or by an attached real business name.
