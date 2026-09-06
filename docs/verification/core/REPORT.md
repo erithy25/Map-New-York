@@ -502,19 +502,26 @@ constant; everything else is `PUBLISHED` or `DERIVED` with the formula stated.
 
 ## 6. Gaps and what the next agents need to know
 
-1. **`traffic` and `peds` suites are red** at the time of writing, in the traffic/pedestrian agent's
-   own files, which were being edited during this build. The library compiles and links cleanly with
-   those lanes enabled.
-2. **`src/traffic/Signals.cpp:81` still rejects every real `signals.nycb`** — it checks
-   `controllers.element_size != 28` but the producer writes `SignalController` at 32 bytes. The
-   field offsets it reads afterwards are already right, so the fix is the single constant
-   `28` -> `32`. See §5.6; that file belongs to the traffic agent and was not edited here.
-3. **The repository placeholder gate**
-   (`tests/test_world_integration.py::test_no_placeholder_markers_in_shipped_source`)
-   has **no hits in `core/`**. It still fails on four lines outside this lane, all of which are
-   legitimate uses of the *word*: `pipeline/nycsim_pipeline/buildings/citygml_join.py:348,349,353`
-   (a variable named `placeholder` for unusable BINs) and `blender/props/_legends.py:3` ("Nothing here
-   is a placeholder"). Those need either an `allow` pattern in the gate or a rename by their owners.
+> **Items 1 to 3 were open when this report was written and are now closed.** The orchestrator
+> re-ran each check rather than marking them fixed on anyone's word; the original wording is kept
+> below each one so the record shows what was found, not only what remains.
+
+1. ~~**`traffic` and `peds` suites are red**~~ — **closed.** `ctest` in `core/build` now runs
+   **11 of 11 suites green**, `traffic` and `peds` among them (`peds` 13.14 s, total 74.57 s). The
+   original note was correct: those files were being edited minute by minute during this build.
+2. ~~**`src/traffic/Signals.cpp:81` rejects every real `signals.nycb`**~~ — **closed.** The check now
+   reads `controllers.element_size != 32 || phases.element_size != 28`, matching the producer's
+   naturally-aligned 32-byte `SignalController`, and the constant carries a comment naming
+   `data/processed/runtime/nycb_layout.json` as the authority. This was a real functional defect: the
+   signal loader rejected every file the pipeline produced, so no signal would ever have loaded.
+3. ~~**The repository placeholder gate fails on four lines**~~ — **closed.** The gate passes. It was
+   the gate that was wrong, not those four lines: it matched the *word* "placeholder" regardless of
+   context, so a variable named `placeholder` for unusable BINs, a line reading "Nothing here is a
+   placeholder", the gate's own source and a test listing the banned words all tripped it. Markers are
+   now case-sensitive, "placeholder" and "stub" need an incompleteness signal on the same line,
+   negated phrasings are exempt, and the gate excludes itself. No source line was renamed to satisfy
+   it — renaming a correctly-named variable to appease a broken check is how a gate stops meaning
+   anything.
 4. **Manhattanhenge dates** are within one day of the AMNH announcement; the azimuth criterion is met
    exactly. See §3.2 for why, and for the sensitivity figures.
 5. **Weather fixtures are a snapshot** (2026-09-06). They are archived so the tests are hermetic and

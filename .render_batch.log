@@ -12679,3 +12679,9 @@ Fra:1 Mem:2183.83M (Peak 2264.94M) | Time:00:05.19 | Mem:1566.14M, Peak:1566.14M
 Fra:1 Mem:2183.83M (Peak 2264.94M) | Time:00:05.19 | Mem:1566.14M, Peak:1566.14M | Scene, ViewLayer | Updating Device | Writing constant memory
 Fra:1 Mem:2183.99M (Peak 2264.94M) | Time:00:05.19 | Mem:1566.14M, Peak:1566.14M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
 Fra:1 Mem:2183.99M (Peak 2264.94M) | Time:00:05.19 | Mem:1566.14M, Peak:1566.14M | Scene, ViewLayer | Sample 0/32
+Fra:1 Mem:2263.36M (Peak 2264.94M) | Time:00:10.35 | Remaining:02:40.09 | Mem:1645.47M, Peak:1645.47M | Scene, ViewLayer | Sample 1/32
+Fra:1 Mem:2263.36M (Peak 2264.94M) | Time:00:26.16 | Remaining:01:53.24 | Mem:1645.47M, Peak:1645.47M | Scene, ViewLayer | Sample 5/32
+Fra:1 Mem:2263.36M (Peak 2264.94M) | Time:01:12.33 | Remaining:01:38.12 | Mem:1645.47M, Peak:1645.47M | Scene, ViewLayer | Sample 13/32
+Fra:1 Mem:2263.36M (Peak 2264.94M) | Time:01:36.84 | Remaining:01:31.65 | Mem:1645.47M, Peak:1645.47M | Scene, ViewLayer | Sample 16/32
+Fra:1 Mem:2263.36M (Peak 2264.94M) | Time:01:54.47 | Remaining:01:05.57 | Mem:1645.47M, Peak:1645.47M | Scene, ViewLayer | Sample 20/32
+Fra:1 Mem:2263.36M (Peak 2264.94M) | Time:02:05.81 | Remaining:00:40.20 | Mem:1645.47M, Peak:1645.47M | Scene, ViewLayer | Sample 24/32
