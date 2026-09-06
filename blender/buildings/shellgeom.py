@@ -1038,22 +1038,29 @@ def _emit_ring_walls(buf: TriBuf, ring: np.ndarray, ri: int, u0: int,
 
 
 def _emit_riser(buf: TriBuf, p: np.ndarray, q: np.ndarray, z_lo: float, z_hi: float,
-                outward: np.ndarray, mat: int, v_ref: float | None = None) -> None:
-    """Single-sided vertical face from ``p`` to ``q`` whose normal points along ``outward``."""
+                outward: np.ndarray, mat: int, v_ref: float | None = None,
+                z_hi_q: float | None = None) -> None:
+    """Single-sided vertical face from ``p`` to ``q`` whose normal points along ``outward``.
+
+    ``z_hi`` is the top at ``p`` and ``z_hi_q`` the top at ``q`` (defaults to ``z_hi``); the two
+    differ where a stepped building's taller level carries a pitched roof, so the step face is a
+    trapezoid whose top edge follows that roof exactly and welds to its cap.
+    """
     dx, dy = q[0] - p[0], q[1] - p[1]
     seg = math.hypot(dx, dy)
-    if seg < WELD_M or z_hi - z_lo < WELD_M:
+    zp, zq = float(z_hi), float(z_hi if z_hi_q is None else z_hi_q)
+    if seg < WELD_M or (zp - z_lo < WELD_M and zq - z_lo < WELD_M):
         return
     if dy * outward[0] - dx * outward[1] < 0.0:   # normal of (p->q) is (dy, -dx)
         p, q, dx, dy = q, p, -dx, -dy
+        zp, zq = zq, zp
+    ref = z_lo if v_ref is None else v_ref
     a = (p[0], p[1], z_lo)
     b = (q[0], q[1], z_lo)
-    c = (q[0], q[1], z_hi)
-    d = (p[0], p[1], z_hi)
-    v0 = z_lo - (z_lo if v_ref is None else v_ref)
-    v1 = z_hi - (z_lo if v_ref is None else v_ref)
-    buf.tri(a, b, c, (0.0, v0), (seg, v0), (seg, v1), mat)
-    buf.tri(a, c, d, (0.0, v0), (seg, v1), (0.0, v1), mat)
+    c = (q[0], q[1], zq)
+    d = (p[0], p[1], zp)
+    buf.tri(a, b, c, (0.0, z_lo - ref), (seg, z_lo - ref), (seg, zq - ref), mat)
+    buf.tri(a, c, d, (0.0, z_lo - ref), (seg, zq - ref), (0.0, zp - ref), mat)
 
 
 def massing_ring(poly: Polygon, max_verts: int = 8) -> np.ndarray:

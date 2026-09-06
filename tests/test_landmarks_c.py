@@ -364,18 +364,30 @@ def test_verification_renders_exist(lid):
 
 @pytest.mark.parametrize("lid", IDS)
 def test_verification_renders_can_serve_as_evidence(lid):
-    """A render only counts if the subject is visible in it: a camera inside geometry gives a black frame and a
-    subject too far away gives a featureless grey one. Same thresholds as
-    tests/test_world_integration.py::test_verification_renders_can_actually_serve_as_evidence."""
+    """A render only counts if the subject is visible in it.
+
+    The first three thresholds are the project's own (see
+    tests/test_world_integration.py::test_verification_renders_can_actually_serve_as_evidence): black, blown out,
+    or no variation at all. The fourth catches the case those three miss — a frame of nothing but sky over ground
+    has a smooth gradient, so its standard deviation can be 0.05 while it shows no building whatsoever. ``busy`` is
+    the fraction of pixels whose 3x3 neighbourhood spans more than 0.02 in luminance: over this lane's 86 renders
+    the six frames that showed nothing scored 0.0001-0.0196 and the worst legitimate frame scored 0.0364."""
     _exported(lid)
     np = pytest.importorskip("numpy")
     Image = pytest.importorskip("PIL.Image", reason="Pillow is needed to inspect the renders")
+    from PIL import ImageFilter
     for p in sorted(VERIFY.glob(f"{lid}_*.png")):
-        a = np.asarray(Image.open(p).convert("L"), dtype=np.float32) / 255.0
+        im = Image.open(p).convert("L")
+        a = np.asarray(im, dtype=np.float32) / 255.0
         mean, sd = float(a.mean()), float(a.std())
+        hi = np.asarray(im.filter(ImageFilter.MaxFilter(3)), dtype=np.float32) / 255.0
+        lo = np.asarray(im.filter(ImageFilter.MinFilter(3)), dtype=np.float32) / 255.0
+        busy = float(((hi - lo) > 0.02).mean())
         assert mean >= 0.06, f"{p.name} is black (mean luminance {mean:.3f}) — camera inside geometry?"
         assert not (mean > 0.94 and sd < 0.025), f"{p.name} is blown out (mean {mean:.3f}, sd {sd:.3f})"
-        assert sd >= 0.025, f"{p.name} is featureless (sd {sd:.3f}) — subject too far away or out of frame?"
+        assert sd >= 0.025, f"{p.name} is featureless (sd {sd:.3f})"
+        assert busy >= 0.030, (f"{p.name}: only {busy * 100:.1f} % of pixels carry local detail — the subject is "
+                               f"not in the frame (sd {sd:.3f} comes from the sky gradient)")
 
 
 def test_canonical_viewpoint_renders_exist():

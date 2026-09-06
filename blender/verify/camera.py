@@ -370,12 +370,14 @@ def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 8
         return _walk_to_parapet(placement)
     a = math.radians(placement.azimuth_deg)
     fwd = (math.sin(a), math.cos(a))
+    # Search radially outward, trying every direction at each distance, so the camera ends up at
+    # the *nearest* open point rather than the first one found along an arbitrary first axis.
     dirs = [("along the view azimuth", fwd), ("backwards", (-fwd[0], -fwd[1])),
             ("to the left", (-fwd[1], fwd[0])), ("to the right", (fwd[1], -fwd[0]))]
     rise = placement.z - (placement.terrain_z_m if placement.terrain_z_m is not None else placement.z)
-    for label, d in dirs:
-        t = step_m
-        while t <= max_m:
+    t = step_m
+    while t <= max_m:
+        for label, d in dirs:
             nx, ny = placement.x + d[0] * t, placement.y + d[1] * t
             gz, detail = (sampler.ground_z(nx, ny, mode=placement.ground_mode,
                                            radius_m=placement.ground_detail.get("radius_m", 5.0))
@@ -391,9 +393,9 @@ def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 8
                 return {"moved": True, "offset_m": round(t, 1), "direction": label,
                         "reason": why,
                         "note": (f"the recorded viewpoint is {why}; the camera was moved {t:.0f} m "
-                                 f"{label} to the first point in open air, keeping the same eye "
+                                 f"{label} -- the nearest point in open air -- keeping the same eye "
                                  f"height above the heightmap")}
-            t += step_m
+        t += step_m
     return {"moved": False, "offset_m": 0.0, "reason": why,
             "note": (f"the recorded viewpoint is {why} and no clear point was found within "
                      f"{max_m:.0f} m, so the frame is rendered from inside the shell and is dark")}

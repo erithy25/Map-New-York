@@ -221,7 +221,7 @@ def closeup(*, samples: int, res_x: int) -> Path:
     sill_z = 1.30
     ops = [(-win_w / 2, win_w / 2, sill_z, sill_z + win_h)]
     m = K.Mesh()
-    xs = sorted({-2.6, 2.6} | {v for o in ops for v in o[:2]})
+    xs = sorted({-3.6, 3.6} | {v for o in ops for v in o[:2]})
     zs = sorted({0.0, 5.4} | {v for o in ops for v in o[2:]})
     for i in range(len(xs) - 1):
         for j in range(len(zs) - 1):
@@ -232,22 +232,24 @@ def closeup(*, samples: int, res_x: int) -> Path:
             m.box((x0, 0.0, z0), (x1, WALL_T, z1), "red_brick", faces="yY")
     for a, b, c, d in ops:                          # the piece owns the first 0.26 m of the reveal (see tenement())
         m.box((a, 0.26, c), (b, WALL_T, d), "red_brick", faces="xXzZ")
-    m.box((-2.6, 0.4, 0.0), (2.6, 3.0, 5.4), "red_brick", faces="Z")     # roof deck behind the cornice
+    m.box((-3.6, 0.4, 0.0), (3.6, 2.4, 5.4), "red_brick", faces="Z")     # roof deck behind the cornice
     m.to_object("closeup_wall")
 
     _place("win_double_hung_1_1_soldier", (0.0, 0.0, sill_z))
     _place("trim_lintel_stone", (-1.75, 0.0, sill_z + 1.20))
     _place("trim_sill_cast_stone", (-1.75, 0.0, sill_z))
     _place("trim_keystone", (1.80, 0.0, sill_z + 0.95))
-    for k in range(4):
-        _place("string_course_brick_soldier", (-2.1 + k * 1.0, 0.0, 0.62))
-        _place("string_course_stone_belt", (-2.1 + k * 1.0, 0.0, 3.70))
-    for k in range(5):
-        _place("cornice_pressed_metal_a", (-2.0 + k * 1.0, 0.0, 4.48))
+    for k in range(6):
+        _place("string_course_brick_soldier", (-2.6 + k * 1.0, 0.0, 0.62))
+        _place("string_course_stone_belt", (-2.6 + k * 1.0, 0.0, 3.70))
+    for k in range(7):
+        _place("cornice_pressed_metal_a", (-3.0 + k * 1.0, 0.0, 4.48))
     _ground(-8.0, 8.0, -9.0, 0.0)
     path = OUT / "facade_closeup_detail.png"
-    K.nb.quick_render(path, camera_location=(3.1, -6.2, 1.25), camera_target=(-0.15, 0.0, 2.75),
-                      fov_deg=48.0, size=(res_x, int(res_x * 0.78)), samples=samples,
+    # Portrait frame from the sidewalk: quick_render applies fov_deg to the larger image dimension, so at 4.6 m
+    # a 55 deg vertical FOV covers z 0.9-5.7 m — sill course, window, belt course and cornice soffit in one shot.
+    K.nb.quick_render(path, camera_location=(1.65, -4.60, 1.95), camera_target=(-0.20, 0.10, 3.25),
+                      fov_deg=55.0, size=(res_x, int(res_x * 1.20)), samples=samples,
                       sun_azimuth_deg=232.0, sun_elevation_deg=34.0, sun_strength=3.6)
     return path
 
