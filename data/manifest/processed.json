@@ -139,7 +139,7 @@
   "buildings_nj_base": {
    "artifact_id": "buildings_nj_base",
    "borough_code": 6,
-   "bytes": 42271192,
+   "bytes": 42263862,
    "columns": [
     "bin",
     "bbl",
@@ -188,13 +188,13 @@
     "ground_source",
     "facade_heading_method"
    ],
-   "git_commit": "9a8775d3f0ed",
+   "git_commit": "d7d0e82f44df",
    "license": "Public domain (US Government work: FEMA / ORNL USA Structures)",
    "path": "data/processed/buildings_nj/buildings_nj_base.parquet",
-   "produced_at": "2026-09-06T22:44:48Z",
-   "rows": 231399,
+   "produced_at": "2026-09-06T23:01:23Z",
+   "rows": 231382,
    "schema": "buildings_nj/1",
-   "sha256": "50c8c392e3ff738b1c91e3fcee8d6b7797b7275e5b0948e8d683733ddceb1131",
+   "sha256": "9d6310b768128b7bd327aa2c36126bc7d49492a78d079556458e45e0c4f3b78a",
    "sources": [
     "usa_structures_nj_hudson"
    ],
@@ -202,13 +202,13 @@
   },
   "buildings_nj_summary": {
    "artifact_id": "buildings_nj_summary",
-   "bytes": 6942,
-   "git_commit": "9a8775d3f0ed",
+   "bytes": 28923,
+   "git_commit": "d7d0e82f44df",
    "path": "data/processed/buildings_nj/buildings_nj_summary.json",
-   "produced_at": "2026-09-06T22:44:48Z",
+   "produced_at": "2026-09-06T23:01:23Z",
    "rows": null,
    "schema": "buildings_nj_summary/1",
-   "sha256": "aca397532c867eba9456223b65a694c3d5aab088d40159d5c3d30b34ba60fb96",
+   "sha256": "da5a331f384f59b41514dcb168b088a453db75d500dbdf66c3a372aad6671c69",
    "sources": [
     "usa_structures_nj_hudson"
    ],
@@ -216,15 +216,15 @@
   },
   "buildings_nj_tiles": {
    "artifact_id": "buildings_nj_tiles",
-   "bytes": 66247,
-   "git_commit": "9a8775d3f0ed",
+   "bytes": 65980,
+   "git_commit": "d7d0e82f44df",
    "license": "Public domain (US Government work: FEMA / ORNL USA Structures)",
-   "n_tiles": 488,
+   "n_tiles": 486,
    "path": "data/processed/buildings_nj/tiles_index.json",
-   "produced_at": "2026-09-06T22:44:48Z",
-   "rows": 231399,
+   "produced_at": "2026-09-06T23:01:23Z",
+   "rows": 231382,
    "schema": "buildings_nj/1",
-   "sha256": "ea95f226638b0cac5819342fcb22a5b938244eaeeaab47661385fada624c35a4",
+   "sha256": "20f03859024caf455baeaed80d4816f00b07b8c0f2ab03d4112b527228d438cd",
    "sources": [
     "usa_structures_nj_hudson"
    ],

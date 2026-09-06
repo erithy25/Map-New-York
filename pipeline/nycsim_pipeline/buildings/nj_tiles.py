@@ -20,10 +20,13 @@ What is real here and what is not
 * **Footprint** — real, FEMA/ORNL USA Structures, public domain.  ``FOOTPRINT_REAL`` is set on every
   row.
 * **Height** — 73.7 % of rows carry a LiDAR-derived ``height_m`` from the source; those get
-  ``HEIGHT_REAL``.  The rest get the median of the ten nearest rows that do have one and
-  ``HEIGHT_INFERRED``.  The source height is measured but it is **not** New York City quality: see
-  ``docs/verification/buildings_nj/`` and :func:`height_report` — the source truncates tall
-  buildings badly and its imagery predates the towers built after 2013.
+  ``HEIGHT_REAL`` and the source value verbatim.  The rest get the median of the ten nearest rows
+  that do have one and ``HEIGHT_INFERRED``.  The source height is measured but it is **not** New
+  York City quality: :func:`height_report` measures it against the independent heights already in
+  this repository and writes the result into ``buildings_nj_summary.json``.  Against reference
+  buildings over 80 m the source runs a median 42.5 m (37.5 %) short, and its imagery predates
+  every Jersey City tower built after 2013.  Nothing here rescales it — the error is reported, not
+  patched.
 * **Ground elevation** — the source column is null on all 231,336 rows, so ground comes from this
   project's own terrain (``terrain/segment_z.sample_z``, seam-continuous, bilinear on the published
   2 m heightmaps), sampled over the footprint outline and taken at its minimum, which is the grade a
@@ -42,6 +45,14 @@ So a New Jersey row is distinguishable from a New York City row four ways over: 
 different ``nycsim.schema``, ``borough = 6`` (the New Jersey code of DATA_CONTRACTS §2, which the
 terrain stage already uses), and a fidelity bitfield that never claims a roof, a floor count, a year
 or a material.
+
+The city boundary wins inside the city
+--------------------------------------
+USA Structures covers Ellis Island and Liberty Island — filled land New Jersey won sovereignty over
+in 1998 — and the New York footprint table already carries those buildings, several of them
+hand-modelled landmarks.  Following ADR-019, which cuts OpenStreetMap water against the city's own
+land boundary, every structure whose centroid falls inside the five boroughs is dropped here and
+counted, so no building is modelled twice.
 """
 from __future__ import annotations
 
@@ -61,7 +72,7 @@ import shapely
 
 from .. import manifest
 from ..crs import NYC_TM
-from ..paths import PROCESSED
+from ..paths import PROCESSED, RAW
 from ..terrain.segment_z import ZSampler
 from ..tiling import tile_index_arrays
 from . import schema as S
@@ -71,6 +82,7 @@ from .infer import neighbour_median
 log = logging.getLogger("nycsim.buildings.nj")
 
 SOURCE_PARQUET = PROCESSED / "nj" / "buildings_nj_usa_structures.parquet"
+BOROUGH_BOUNDARIES = RAW / "nyc_opendata" / "borough_boundaries.geojson"
 SOURCE_ID = "usa_structures_nj_hudson"
 SCHEMA_ID = "buildings_nj/1"
 SCHEMA_VERSION = 1
@@ -78,9 +90,10 @@ TILE_FILENAME = "buildings_nj.parquet"
 BOROUGH_NJ = 6              # DATA_CONTRACTS §2: 1 MN 2 BX 3 BK 4 QN 5 SI 6 NJ 0 water
 LICENSE = "Public domain (US Government work: FEMA / ORNL USA Structures)"
 
-MIN_HEIGHT_M = 2.0
+MIN_INFERRED_HEIGHT_M = 2.0   # floor for a height this stage had to infer; a measured one is published verbatim
 MAX_PLAUSIBLE_HEIGHT_M = 600.0
 GROUND_SAMPLE_MAX_VERTICES = 64     # outline samples per footprint before the ring is decimated
+NYC_OVERLAP_MAX_M2 = 1.0            # footprint area inside the city boundary before the row is the city's
 ROOF_TYPE_FLAT = 0                  # DATA_CONTRACTS §5 roof_type enum
 
 # ---- occupancy typology -------------------------------------------------------------------------------------------
@@ -225,6 +238,19 @@ def arrow_schema(bbox=None, extra_meta: dict[str, str] | None = None) -> pa.Sche
     return pa.schema(fields, metadata=meta)
 
 
+# ---- the city boundary ----------------------------------------------------------------------------------------------
+def _nyc_land() -> object:
+    """Union of the five borough polygons in NYC_TM (the city's own land boundary)."""
+    if not BOROUGH_BOUNDARIES.exists():
+        raise FileNotFoundError(
+            f"{BOROUGH_BOUNDARIES} is required: the New Jersey table is clipped against the city "
+            "boundary so Ellis Island and Liberty Island are not modelled twice")
+    import pyogrio
+
+    gdf = pyogrio.read_dataframe(BOROUGH_BOUNDARIES).to_crs(NYC_TM)
+    return shapely.union_all(np.asarray(gdf.geometry.values, dtype=object))
+
+
 # ---- loading ------------------------------------------------------------------------------------------------------
 def load_source(path: Path = SOURCE_PARQUET, limit: int | None = None) -> tuple[pl.DataFrame, np.ndarray, dict]:
     """Read the ingest output, explode multipolygons, drop degenerate parts, recompute tile keys.
@@ -288,6 +314,29 @@ def load_source(path: Path = SOURCE_PARQUET, limit: int | None = None) -> tuple[
 
     cent = shapely.centroid(geoms)
     cx, cy = shapely.get_x(cent), shapely.get_y(cent)
+
+    # ADR-019 applied to buildings: New York City's own datasets are the authority inside the city
+    # boundary.  USA Structures covers Ellis Island and Liberty Island — filled land New Jersey won
+    # sovereignty over in 1998 — and the New York footprint table already carries those same
+    # buildings, hand-modelled as landmarks.  Keeping both would put two shells on one hospital, so
+    # every row whose centroid falls inside the city is dropped here and counted.
+    nyc = _nyc_land()
+    inside = shapely.contains(nyc, shapely.points(cx, cy))
+    # ... and a structure that only straddles the line counts too: two of the Liberty Island and
+    # Ellis Island buildings sit with their centroid a few metres on the New Jersey side.
+    tree = shapely.STRtree(geoms)
+    for i in tree.query(nyc, predicate="intersects"):
+        if shapely.area(shapely.intersection(geoms[i], nyc)) >= NYC_OVERLAP_MAX_M2:
+            inside[i] = True
+    stats["dropped_inside_nyc_boundary"] = int(inside.sum())
+    if inside.any():
+        log.info("dropping %d structures inside the New York City boundary (Ellis / Liberty Island): "
+                 "the city's own footprint table already models them", int(inside.sum()))
+        keep = ~inside
+        geoms, area, part_index = geoms[keep], area[keep], part_index[keep]
+        cx, cy = cx[keep], cy[keep]
+        df = df.filter(pl.Series(keep))
+
     tx, ty = tile_index_arrays(cx, cy)
     tile = np.char.add(np.char.add(np.char.add("t_", tx.astype(str)), "_"), ty.astype(str))
     df = df.with_columns([
@@ -372,8 +421,12 @@ def resolve_attributes(df: pl.DataFrame, ground: np.ndarray) -> tuple[pl.DataFra
     need = ~h_ok
     if need.any():
         height[need] = neighbour_median(cx, cy, h_src, h_ok, need)
-    height = np.where(np.isfinite(height), height, MIN_HEIGHT_M)
-    height = np.maximum(height, MIN_HEIGHT_M)
+    # A measured height is published exactly as the source states it, however small: 48 rows are
+    # under 2 m and 1 is 0.4 m, and rounding those up would make HEIGHT_REAL a lie.  Only an
+    # inferred height gets a floor, because a neighbour median can come back empty.
+    inferred = np.where(np.isfinite(height), height, MIN_INFERRED_HEIGHT_M)
+    inferred = np.maximum(inferred, MIN_INFERRED_HEIGHT_M)
+    height = np.where(h_ok, h_src, inferred)
     height_source = np.where(h_ok, S.SRC_LIDAR, S.SRC_NEIGHBOURS).astype(np.int8)
     stats["height_source_lidar"] = int(h_ok.sum())
     stats["height_neighbour_median"] = int(need.sum())
@@ -480,10 +533,92 @@ def write_tiles(table: pa.Table, geoms: np.ndarray, tiles_root: Path) -> dict:
         p = d / TILE_FILENAME
         pq.write_table(sl, p, compression="snappy")
         files[str(t)] = {"rows": int(sl.num_rows), "bytes": p.stat().st_size}
+    # A re-run that drops rows must not leave the previous run's file behind claiming buildings that
+    # are no longer published (the Liberty Island clip empties a tile outright).
+    stale = [q for q in tiles_root.glob(f"*/{TILE_FILENAME}") if q.parent.name not in files]
+    for q in stale:
+        log.info("removing %s: this run publishes no buildings for that tile", q)
+        q.unlink()
     return files
 
 
 # ---- height investigation ---------------------------------------------------------------------------------------
+REFERENCE_HEIGHTS = Path(__file__).with_name("nj_reference_heights.json")
+REFERENCE_MATCH_RADIUS_M = 45.0
+
+
+def published_height_report(df: pl.DataFrame, geoms: np.ndarray,
+                            reference: Path | None = None) -> dict:
+    """Compare the source's height against published architectural heights, tower by tower.
+
+    ``nj_reference_heights.json`` carries the 63 tallest buildings of Jersey City with the
+    coordinates and heights the Council on Tall Buildings publishes, retrieved once and recorded
+    with its source.  For each of them the tallest USA Structures footprint within
+    ``REFERENCE_MATCH_RADIUS_M`` of the published point is taken, and the two heights are compared.
+
+    The split that matters is the source's own ``image_date``: a tower finished after the imagery
+    was flown cannot be in it at all, and is a *coverage* gap, not a measurement error.  A tower
+    that already stood is a measurement error, and those are reported separately.
+    """
+    ref_path = reference or REFERENCE_HEIGHTS
+    if not ref_path.exists():
+        return {"available": False, "reason": f"{ref_path} not present"}
+    from ..crs import lonlat_to_tm
+
+    doc = json.loads(ref_path.read_text())
+    cx, cy = df["centroid_x"].to_numpy(), df["centroid_y"].to_numpy()
+    h = df["height_m"].to_numpy().astype(np.float64)
+    area = df["footprint_area"].to_numpy().astype(np.float64)
+    img = df["image_date"].fill_null("").to_numpy().astype(object)
+    tree = shapely.STRtree(shapely.points(cx, cy))
+    rows = []
+    for b in doc["buildings"]:
+        x, y = lonlat_to_tm(b["lon"], b["lat"])
+        hit = tree.query(shapely.buffer(shapely.points(x, y), REFERENCE_MATCH_RADIUS_M),
+                         predicate="contains")
+        rec = {"rank": b["rank"], "name": b["name"], "published_height_m": b["height_m"],
+               "published_floors": b["floors"], "completed": b["year"],
+               "candidates_within_45m": int(len(hit))}
+        if len(hit) == 0:
+            rec["matched"] = False
+            rows.append(rec)
+            continue
+        with_h = hit[np.isfinite(h[hit])]
+        j = int(with_h[np.argmax(h[with_h])]) if len(with_h) else int(hit[np.argmax(area[hit])])
+        rec.update({"matched": True, "build_id": int(df["build_id"][j]),
+                    "source_height_m": None if not np.isfinite(h[j]) else round(float(h[j]), 2),
+                    "source_area_m2": round(float(area[j]), 1),
+                    "source_image_date": str(img[j])})
+        if np.isfinite(h[j]):
+            rec["error_m"] = round(float(h[j]) - b["height_m"], 2)
+            rec["error_pct"] = round(100.0 * (float(h[j]) - b["height_m"]) / b["height_m"], 1)
+        rows.append(rec)
+
+    def _stats(sub: list[dict]) -> dict:
+        e = np.array([r["error_m"] for r in sub if "error_m" in r])
+        p = np.array([r["error_pct"] for r in sub if "error_pct" in r])
+        if not len(e):
+            return {"n": len(sub), "with_a_source_height": 0}
+        return {"n": len(sub), "with_a_source_height": int(len(e)),
+                "median_error_m": round(float(np.median(e)), 2),
+                "median_error_pct": round(float(np.median(p)), 1),
+                "worst_error_m": round(float(e.min()), 2),
+                "n_short_by_over_20m": int((e < -20).sum())}
+
+    imagery_year = 2013     # the Hudson County imagery date the source stamps on these rows
+    stood = [r for r in rows if r["completed"] <= imagery_year]
+    later = [r for r in rows if r["completed"] > imagery_year]
+    return {
+        "available": True,
+        "reference": {"source": doc["source"], "url": doc["source_url"], "retrieved": doc["retrieved"],
+                      "buildings": len(doc["buildings"])},
+        "match_radius_m": REFERENCE_MATCH_RADIUS_M,
+        "already_built_when_the_imagery_was_flown": _stats(stood),
+        "built_after_the_imagery_was_flown": _stats(later),
+        "towers": rows,
+    }
+
+
 def height_report(df: pl.DataFrame, geoms: np.ndarray, osm_path: Path | None = None) -> dict:
     """Measure the source's height error against OpenStreetMap's tagged heights.
 
@@ -605,7 +740,10 @@ def main(argv: list[str] | None = None) -> int:
         tile_files = write_tiles(table, geoms_sorted, tiles_root)
 
     doc = summary(table, src_stats, ground_stats, attr_stats)
-    doc["height_investigation"] = height_report(df, geoms)
+    doc["height_investigation"] = {
+        "against_openstreetmap_height_tags": height_report(df, geoms),
+        "against_published_tower_heights": published_height_report(df, geoms),
+    }
     doc["tiles_written"] = len(tile_files)
     doc["seconds"] = round(time.perf_counter() - t0, 2)
     with open(out_dir / "buildings_nj_summary.json", "w") as f:
