@@ -7051,14 +7051,14 @@
   "landmark_b_high_bridge_lod0": {
    "artifact_id": "landmark_b_high_bridge_lod0",
    "bytes": 761296,
-   "git_commit": "ca87e1135759",
+   "git_commit": "ccecb65d4c79",
    "landmark_id": "b_high_bridge",
    "lod": 0,
    "path": "blender_out/landmarks/b_high_bridge.glb",
-   "produced_at": "2026-09-06T14:09:05Z",
+   "produced_at": "2026-09-06T15:20:04Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "9213ae8647374d528c00baa33d9b442a88accc423a770f1eb388eaefd0f9506a",
+   "sha256": "98b5a629f300eba36310910baba78b220d52790845313bf1be5412b74c9f609e",
    "sources": [
     "osm_bbbike",
     "published_high_bridge"
@@ -9074,14 +9074,14 @@
    "bins": [
     1087167
    ],
-   "bytes": 17458524,
+   "bytes": 17460136,
    "footprint_iou": 1.0,
-   "git_commit": "7681d64744ab",
+   "git_commit": "ccecb65d4c79",
    "path": "blender_out/landmarks/woolworth.glb",
-   "produced_at": "2026-09-06T12:25:16Z",
+   "produced_at": "2026-09-06T15:21:14Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "afb3784ac6766fdc32ecb7a4cc500739659f0380ffb2513f7b27e2f386e82cc9",
+   "sha256": "73d18d8a1975abf424e0d9dd7befef64299da612ddcb3ea2b5b353fcc425fbbd",
    "sources": [
     "building_footprints"
    ],

@@ -1,6 +1,6 @@
 # Hell Gate Bridge
 
-Script: `blender/landmarks/b_hell_gate.py` · agent B · generated 2026-09-06 14:09 UTC
+Script: `blender/landmarks/b_hell_gate.py` · agent B · generated 2026-09-06 15:20 UTC
 
 ## Placement
 
@@ -35,4 +35,9 @@ gusset plates, and the ballast and sleepers (a continuous bed is used instead).
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_hell_gate.glb` — 23,788 triangles, 1.09 MB, bounds min ['-341.3', '-281.3', '-6.0'] max ['284.4', '337.5', '93.7']
-* `blender_out/landmarks/b_hell_gate_lod1.glb` — 6,772 triangles, 0.27 MB, bounds min ['-341.3', '-281.3', '-6.0'] max ['284.4', '337.5', '93.7']
+
+## Verification renders (Cycles CPU, 64 spp)
+
+![astoria_park_reference](astoria_park_reference.png)
+![astoria_park](astoria_park.png)
+![elevation](elevation.png)

@@ -254,6 +254,7 @@ The renders were inspected and the following were corrected before this report:
     render it clean for 9 % more time (2 min 10 s → 2 min 22 s on the two-window test frame). `glass_clear` was
     then simplified in the catalogue to alpha-blended translucency with no ray-traced transmission — the two
     together double-counted and read milky, and alpha blending is what the UE translucent material will use.
+    (§4.6 takes that further: near-black diffuse, 4 % Fresnel specular, 26 % alpha.)
 11. **Decimation fell back to a single bounding quad too eagerly.** `make_lod1` now retries with a tightening
     ratio and rejects a decimated result that has collapsed below four triangles, so the flat-quad proxy is a
     last resort rather than the common case.

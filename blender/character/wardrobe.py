@@ -199,8 +199,8 @@ WARDROBE: tuple[Garment, ...] = (
             colour=_c("2f6f6a"), roughness=0.80, tags=("scrubs", "work")),
     Garment("joggers_grey", "Grey joggers", "bottom", "makehuman", "toigo_harem_pants",
             colour=_c("6a6c70"), roughness=0.86, tags=("athleisure",)),
-    Garment("shorts_denim", "Denim shorts", "bottom", "makehuman", "cortu_jeans_shorts",
-            colour=_c("46618a"), roughness=0.82, tags=("summer", "jeans")),
+    Garment("cargo_olive", "Olive cargo trousers", "bottom", "makehuman", "cortu_cargo_pants",
+            colour=_c("5a5d44"), roughness=0.84, tags=("cargo", "work")),
     Garment("kids_jeans", "Kid's jeans", "bottom", "makehuman", "toigo_wool_pants",
             colour=_c("39506f"), roughness=0.80, tags=("kids", "jeans")),
 
