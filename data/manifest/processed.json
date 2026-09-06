@@ -8609,20 +8609,20 @@
     1083872,
     1083874
    ],
-   "bytes": 15452692,
+   "bytes": 15533464,
    "footprint_iou": 1.0,
-   "git_commit": "3b5d1262beec",
+   "git_commit": "0c9873ef9ce1",
    "path": "blender_out/landmarks/c_un_headquarters.glb",
-   "produced_at": "2026-09-06T13:42:11Z",
+   "produced_at": "2026-09-06T14:42:06Z",
    "rows": null,
    "schema": "blender_out/landmarks/<id>.glb (DATA_CONTRACTS \u00a713)",
-   "sha256": "2f0d5989bd81c94151a0c2abf93eb3af608747b80c2475f6562605353de631ea",
+   "sha256": "73392778c8d835d54b038a78da0d0a3d6e6676ddd101e0457011c7bb12dbfbe1",
    "sources": [
     "building_footprints"
    ],
    "stage": "landmarks",
-   "tris_lod0": 12338,
-   "tris_lod1": 706
+   "tris_lod0": 12898,
+   "tris_lod1": 1266
   },
   "landmark_glb:c_usta_arthur_ashe": {
    "artifact_id": "landmark_glb:c_usta_arthur_ashe",

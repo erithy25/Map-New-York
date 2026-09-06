@@ -985,13 +985,17 @@ def write_report(landmark_id: str, title: str, sections: dict[str, str], lods: d
 
 
 def cli_args(argv: Sequence[str] | None = None) -> dict:
-    """Common CLI: --no-render, --lod0-only, --samples N."""
+    """Common CLI: --no-render, --lod0-only, --samples, --views, --render-scale, --max-views."""
     import argparse
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-render", action="store_true")
     ap.add_argument("--lod0-only", action="store_true")
     ap.add_argument("--samples", type=int, default=64)
     ap.add_argument("--views", default="", help="comma-separated subset of verification views to render")
+    ap.add_argument("--render-scale", type=float, default=1.0,
+                    help="multiply every render's resolution (0.75 turns 1280x720 into 960x540); render cost is "
+                         "quadratic in this, which is the lever for getting a whole sweep done on a saturated box")
+    ap.add_argument("--max-views", type=int, default=0, help="render only the first N views of each landmark (0 = all)")
     a, _ = ap.parse_known_args(argv if argv is not None else sys.argv[1:])
     d = vars(a)
     d["views"] = [v for v in d["views"].split(",") if v]

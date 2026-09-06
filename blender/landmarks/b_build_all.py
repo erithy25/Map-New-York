@@ -52,6 +52,8 @@ def main() -> int:
     ap.add_argument("--only", nargs="*", default=None)
     ap.add_argument("--lod0-only", action="store_true")
     ap.add_argument("--timeout", type=int, default=2400)
+    ap.add_argument("--render-scale", type=float, default=1.0)
+    ap.add_argument("--max-views", type=int, default=0)
     a = ap.parse_args()
     todo = a.only or LANDMARKS
     results = []
@@ -61,7 +63,8 @@ def main() -> int:
             results.append({"id": name, "status": "missing script"})
             print(f"!! {name}: no script", flush=True)
             continue
-        cmd = [sys.executable, str(script), f"--samples={a.samples}"]
+        cmd = [sys.executable, str(script), f"--samples={a.samples}",
+               f"--render-scale={a.render_scale}", f"--max-views={a.max_views}"]
         if not a.render:
             cmd.append("--no-render")
         if a.lod0_only:

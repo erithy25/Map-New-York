@@ -485,13 +485,16 @@ def run_landmark(landmark_id: str, title: str, build_fn, *, bins: Sequence[int] 
     if not args["no_render"]:
         bc.new_scene()
         objs0, _ = build_fn(0)
-        for r in renders:
-            if r is None:                       # a reference viewpoint the comparison agent has not published yet
-                continue
-            if args["views"] and r["view"] not in args["views"]:
-                continue
+        wanted = [r for r in renders if r is not None
+                  and not (args["views"] and r["view"] not in args["views"])]
+        if args["max_views"] > 0:
+            wanted = wanted[: args["max_views"]]
+        scale = max(0.1, float(args["render_scale"]))
+        for r in wanted:
+            w, h = r.get("size", (960, 540))
+            size = (max(160, int(w * scale) // 2 * 2), max(90, int(h * scale) // 2 * 2))
             shots.append(bc.render_check(landmark_id, r["view"], r["cam"], r["target"], fov_deg=r.get("fov_deg", 50.0),
-                                         size=r.get("size", (960, 540)), samples=r.get("samples", args["samples"]),
+                                         size=size, samples=r.get("samples", args["samples"]),
                                          sun_azimuth_deg=r.get("sun_azimuth_deg", 220.0),
                                          sun_elevation_deg=r.get("sun_elevation_deg", 35.0),
                                          sun_strength=r.get("sun_strength", 5.0),

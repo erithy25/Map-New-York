@@ -67,6 +67,12 @@ SAWTOOTH_PERIOD_M = 6.0
 BARREL_BANDS = 8
 MAX_RISE_FRAC = 0.55          # a pitched roof never eats more than this fraction of the height
 MIN_WALL_H_M = 2.2            # eaves never drop below this above ground
+# The 2014 CityGML level outlines and the 2026 OTI footprint are different surveys, and GEOS returns
+# the shared boundary of two regions cut from them with up to ~7 mm of disagreement.  Stepped
+# buildings are therefore welded and boundary-matched on a 1 cm grid — still half the 2 cm snap the
+# footprints themselves carry, so nothing visible moves.
+STEP_WELD_M = 0.01
+STEP_BOUNDARY_TOL_M = 0.02
 
 
 @dataclass(frozen=True)
@@ -118,6 +124,7 @@ class TriBuf:
     mats: list[int] = field(default_factory=list)
     fallback: str = ""
     tolerant: bool = False
+    weld: float = WELD_M
     _index: dict[tuple[int, int, int], int] = field(default_factory=dict)
 
     def vid(self, x: float, y: float, z: float) -> int:
@@ -128,9 +135,10 @@ class TriBuf:
         would then hand out two indices and leave a 1 mm crack in an otherwise closed solid.
         """
         idx = self._index
-        kx = int(x * _Q + 4_000_000.5) - _OFF
-        ky = int(y * _Q + 4_000_000.5) - _OFF
-        kz = int(z * _Q + 4_000_000.5) - _OFF
+        q = 1.0 / self.weld
+        kx = int(x * q + 4_000_000.5) - _OFF
+        ky = int(y * q + 4_000_000.5) - _OFF
+        kz = int(z * q + 4_000_000.5) - _OFF
         key = (kx, ky, kz)
         i = idx.get(key)
         if i is not None:
@@ -144,7 +152,8 @@ class TriBuf:
             j = idx.get((kx + dx, ky + dy, kz + dz))
             if j is not None:
                 px, py, pz = self.pos[j]
-                if abs(px - x) <= WELD_M and abs(py - y) <= WELD_M and abs(pz - z) <= WELD_M:
+                w = self.weld
+                if abs(px - x) <= w and abs(py - y) <= w and abs(pz - z) <= w:
                     idx[key] = j
                     return j
         i = len(self.pos)
@@ -652,7 +661,8 @@ def build_shell(spec: BuildingSpec, lod: int = 0, *, ensure_closed: bool = True)
 
 
 def _build_shell_once(spec: BuildingSpec, lod: int, tolerant: bool = False) -> TriBuf:
-    buf = TriBuf(tolerant=tolerant)
+    stepped = bool(spec.roof_steps) and len(spec.roof_steps) >= 2 and lod <= 1
+    buf = TriBuf(tolerant=tolerant, weld=STEP_WELD_M if stepped else WELD_M)
     if lod >= 2:
         _build_massing(buf, spec)
         return buf
@@ -804,7 +814,7 @@ def _cover_shortfall(pieces: list[RoofPiece], poly: Polygon, z_fill: float, z_hi
 
 def _build_from_pieces(buf: TriBuf, spec: BuildingSpec, poly: Polygon, z0: float,
                        sample_pieces: Sequence[RoofPiece], cap_pieces: Sequence[RoofPiece],
-                       risers: Sequence[tuple[np.ndarray, np.ndarray, float, float, np.ndarray]]) -> None:
+                       risers: Sequence, boundary_tol: float = 2e-3) -> None:
     """Shared body for every non-trivial roof: caps, outer walls, step/riser faces, floor slab.
 
     ``sample_pieces`` are the planes that define the *outermost* top surface at each point — they
@@ -829,7 +839,7 @@ def _build_from_pieces(buf: TriBuf, spec: BuildingSpec, poly: Polygon, z0: float
             if len(ring) < 3:
                 continue
             dist, _, k, tt = bidx.locate(ring)
-            for i in np.nonzero(dist < 2e-3)[0]:
+            for i in np.nonzero(dist < boundary_tol)[0]:
                 seg_i = int(k[i])
                 ri = int(bidx.ring[seg_i])
                 ei = int(bidx.edge[seg_i])
@@ -837,7 +847,7 @@ def _build_from_pieces(buf: TriBuf, spec: BuildingSpec, poly: Polygon, z0: float
                 z = piece.z_pt(x, y)
                 t = float(tt[i])
                 n_edges = len(rings[ri])
-                eps = WELD_M / max(float(bidx.len[seg_i]), 1e-9)
+                eps = max(buf.weld, boundary_tol) / max(float(bidx.len[seg_i]), 1e-9)
                 samples.setdefault((ri, ei), []).append((t, x, y, z))
                 # a vertex sitting on a ring corner belongs to both adjacent edges
                 if t <= eps:
@@ -885,7 +895,8 @@ def _build_stepped(buf: TriBuf, spec: BuildingSpec, poly: Polygon, z0: float, z1
         cap_pieces.append(RoofPiece(region, 0.0, 0.0, z_top, z_top, z_top))
 
     risers.extend(_step_risers(steps, region_pieces))
-    _build_from_pieces(buf, spec, poly, z0, sample_pieces, cap_pieces, risers)
+    _build_from_pieces(buf, spec, poly, z0, sample_pieces, cap_pieces, risers,
+                       boundary_tol=STEP_BOUNDARY_TOL_M)
 
 
 def _step_risers(steps: Sequence[tuple[Polygon, float]], region_pieces: Sequence[tuple[int, RoofPiece]]
@@ -991,7 +1002,7 @@ def _emit_ring_walls(buf: TriBuf, ring: np.ndarray, ri: int, u0: int,
         # ordered so the polyline stays connected (nearest to the previous height first).
         groups: list[list[tuple[float, float, float, float]]] = []
         for rec in pts:
-            if groups and abs(rec[0] - groups[-1][0][0]) * seg < WELD_M:
+            if groups and abs(rec[0] - groups[-1][0][0]) * seg < buf.weld:
                 groups[-1].append(rec)
             else:
                 groups.append([rec])
@@ -1000,7 +1011,7 @@ def _emit_ring_walls(buf: TriBuf, ring: np.ndarray, ri: int, u0: int,
         for gi, grp in enumerate(groups):
             seen: list[tuple[float, float, float, float]] = []
             for rec in grp:
-                if all(abs(rec[3] - s_[3]) > WELD_M for s_ in seen):
+                if all(abs(rec[3] - s_[3]) > buf.weld for s_ in seen):
                     seen.append(rec)
             if len(seen) > 1:
                 if prev_z is not None:
