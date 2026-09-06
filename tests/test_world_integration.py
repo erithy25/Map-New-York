@@ -594,3 +594,81 @@ def test_landmark_models_are_flagged_on_the_buildings_they_replace():
     assert not missing, f"the landmark catalog names {len(missing)} BINs no building has: {missing[:10]}"
     assert b["bits"].get("LANDMARK_MODEL") == len(lm), (
         f"catalog names {len(lm)} BINs but the report flags {b['bits'].get('LANDMARK_MODEL')!r}")
+
+
+# The nine renders that brief §12 condition 3 actually names: seven standard viewpoints, two of which
+# are required in two states (Duffy Square day and night, Fifth Avenue north and south).
+MANDATED_VIEWPOINTS = {
+    "promenade_lower_manhattan": "Brooklyn Heights Promenade looking at Lower Manhattan",
+    "top_of_the_rock_south": "Top of the Rock looking south",
+    "times_square_duffy_south_day": "Duffy Square looking south, day",
+    "times_square_duffy_south_night": "Duffy Square looking south, night",
+    "fifth_ave_42nd_north": "Fifth Avenue at 42nd Street looking north",
+    "fifth_ave_42nd_south": "Fifth Avenue at 42nd Street looking south",
+    "bethesda_terrace_fountain": "Bethesda Terrace and Fountain",
+    "staten_island_ferry_lower_manhattan": "Staten Island Ferry deck looking at Lower Manhattan",
+    "dumbo_washington_st_manhattan_bridge": "Washington Street in DUMBO with the Manhattan Bridge",
+}
+
+# The five drive-through areas the brief names, as the scenes that stand for them.
+DRIVE_AREAS = {
+    "Midtown": ["drive_midtown_sixth_ave_45th"],
+    "Lower Manhattan": ["drive_lower_manhattan_broadway_wall_st", "drive_lower_manhattan_stone_st"],
+    "Brooklyn brownstone block": ["drive_brooklyn_park_slope_7th_ave", "drive_brooklyn_bed_stuy_stuyvesant_ave"],
+    "Queens two-family street": ["drive_queens_forest_hills", "drive_queens_jackson_heights", "drive_queens_bayside"],
+    "Bronx Grand Concourse": ["drive_bronx_grand_concourse", "drive_bronx_arthur_ave"],
+}
+
+
+def _comparison_scene_state(name: str) -> tuple[str, float, float]:
+    """('missing' | 'no render' | 'black' | 'blown' | 'ok', mean, sd) for one comparison scene."""
+    import numpy as np
+    from PIL import Image
+
+    d = VERIFICATION / "comparison" / name
+    if not d.is_dir():
+        return "missing", 0.0, 0.0
+    render = d / "render.png"
+    if not render.exists():
+        return "no render", 0.0, 0.0
+    a = np.asarray(Image.open(render).convert("L"), dtype=np.float32) / 255.0
+    mean, sd = float(a.mean()), float(a.std())
+    if mean < 0.06:
+        return "black", mean, sd
+    if mean > 0.94 and sd < 0.05:
+        return "blown", mean, sd
+    return "ok", mean, sd
+
+
+def test_the_mandated_viewpoints_and_drive_areas_all_have_a_usable_comparison():
+    """Brief §12 condition 3 names seven viewpoints and five drive-through areas specifically.
+
+    The comparison lane renders more scenes than the brief asks for, so a count of usable scenes does
+    not answer whether the *mandated* set is covered — a build could lose Bethesda Terrace and still
+    report fifty-something scenes working. This test asks the question the brief actually asks. It
+    checks that each named scene has a render that is neither black nor blown out, and a sheet and an
+    assessment beside it, because a render nobody compared to the photograph is not a comparison.
+
+    It deliberately does not judge how *well* the render matches: that is what the written assessments
+    are for, and they are candid (the promenade assessment calls its own skyline "a massing study
+    rather than a city"). This test guards coverage, not quality.
+    """
+    problems: list[str] = []
+    for scene, label in MANDATED_VIEWPOINTS.items():
+        state, mean, sd = _comparison_scene_state(scene)
+        if state != "ok":
+            problems.append(f"{label} ({scene}): {state} (mean {mean:.3f}, sd {sd:.3f})")
+            continue
+        for artefact in ("sheet.png", "assessment.md"):
+            if not (VERIFICATION / "comparison" / scene / artefact).exists():
+                problems.append(f"{label} ({scene}): renders but has no {artefact}")
+    assert not problems, "mandated viewpoints without a usable comparison:\n  " + "\n  ".join(problems)
+
+    missing_areas: list[str] = []
+    for area, scenes in DRIVE_AREAS.items():
+        usable = [s for s in scenes if _comparison_scene_state(s)[0] == "ok"]
+        if not usable:
+            states = ", ".join(f"{s}={_comparison_scene_state(s)[0]}" for s in scenes)
+            missing_areas.append(f"{area}: no usable scene ({states})")
+    assert not missing_areas, ("drive-through areas with no usable comparison scene:\n  "
+                              + "\n  ".join(missing_areas))
