@@ -723,6 +723,12 @@ def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 8
     the eye can be *below* the surface it should be standing on, which is a height fault and is
     fixed in place by :func:`deck_underfoot`; and it can be inside or hard against geometry, which
     is a position fault and is fixed by :func:`_move_clear_of_geometry` moving the camera.
+
+    The height fix applies to the recorded eye point only, and deliberately not to the candidates
+    the position search tries.  A candidate that works only once it has been lifted onto a model's
+    own deck is a worse place to stand than one on ground the heightmap and the model agree about,
+    and letting the search take the first of those would move cameras that are already right: at
+    One World Trade Center it swapped a 34 m correction for a 75 m one.
     """
     eye_above_ground = placement.z - (placement.terrain_z_m if placement.terrain_z_m is not None
                                       else placement.z)
@@ -826,14 +832,6 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
         for gz, detail in readings:
             nz = (gz if gz is not None else (placement.terrain_z_m or 0.0)) + rise
             if not _blocked(nx, ny, nz, placement.azimuth_deg)[0]:
-                break
-            # A candidate can land under a landmark's own deck for the same reason the recorded
-            # viewpoint did, and belongs on top of it there too.
-            lifted, deck_why = deck_underfoot(nx, ny, nz, placement.azimuth_deg, rise)
-            if lifted is not None:
-                nz, gz, detail = lifted, lifted - rise, {"mode": "landmark deck",
-                                                         "chosen_m": round(lifted - rise, 2),
-                                                         "note": deck_why}
                 break
         else:
             return None

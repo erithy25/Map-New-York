@@ -198,11 +198,17 @@ def main() -> None:
     ba.run_landmark(
         ID, TITLE, build, budget_lod0=250_000, budget_lod1=60_000,
         renders=[
-            dict(view="fifth_avenue_wall", cam=(430.0, -1900.0, GROUND + 1.7 - 20.0),
-                 target=(330.0, -1700.0, GROUND - 19.4), fov_deg=62.0,
+            # Both of these cameras used to stand where a 1.22 m x 0.46 m wall cannot be seen.  The first was
+            # 224 m from the wall, which puts it three pixels tall on the horizon, and the second was 2,400 m
+            # up, where the wall is 0.12 px wide: the two renders were an empty plane under a sky (sd 0.103)
+            # and a flat green field (sd 0.002).  Neither could answer the question the model is built to
+            # answer.  Both now stand where the coping, the batter and a gate's piers are resolved -- the
+            # positions come from this build's own geometry, off Childrens' Gate and Scholars' Gate.
+            dict(view="fifth_avenue_wall", cam=(-517.5, -1835.3, GROUND + 1.7 - 20.0),
+                 target=(-488.9, -1771.0, GROUND - 19.0), fov_deg=62.0,
                  context=(("ground_urban", -0.45, 2600.0, (0.0, 0.0)),), sun_azimuth_deg=120.0, sun_elevation_deg=40.0),
-            dict(view="park_plan", cam=(0.0, -300.0, 2400.0), target=(0.0, 0.0, 0.0), fov_deg=52.0,
-                 context=(("grass", -0.5, 2600.0, (0.0, 0.0)),), sun_azimuth_deg=200.0, sun_elevation_deg=60.0),
+            dict(view="south_east_corner", cam=(-800.0, -2200.0, 40.0), target=(-300.0, -1700.0, 0.0), fov_deg=52.0,
+                 context=(("grass", -0.5, 2600.0, (0.0, 0.0)),), sun_azimuth_deg=200.0, sun_elevation_deg=45.0),
         ],
         sections={"Published dimensions": __doc__.split("------------------------------------\n")[1].split("\nPlacement:")[0].strip(),
                   "Placement": __doc__.split("Placement:")[1].split("\nNot modelled:")[0].strip(),

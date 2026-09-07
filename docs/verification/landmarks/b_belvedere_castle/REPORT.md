@@ -1,6 +1,6 @@
 # Belvedere Castle
 
-Script: `blender/landmarks/b_belvedere_castle.py` · agent B · generated 2026-09-06 15:54 UTC
+Script: `blender/landmarks/b_belvedere_castle.py` · agent B · generated 2026-09-07 00:55 UTC
 
 ## Published dimensions
 
@@ -29,6 +29,7 @@ schist courses, the pavilion's timber roof structure, and Vista Rock's outcrop a
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_belvedere_castle.glb` — 4,456 triangles, 0.24 MB, bounds min ['-20.6', '-19.9', '-4.0'] max ['21.2', '21.6', '23.8']
+* `blender_out/landmarks/b_belvedere_castle_lod1.glb` — 1,808 triangles, 0.10 MB, bounds min ['-19.8', '-19.9', '-4.0'] max ['21.2', '21.7', '23.8']
 
 ## Verification renders (Cycles CPU, 64 spp)
 

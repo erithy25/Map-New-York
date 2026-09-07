@@ -1,6 +1,6 @@
 # Bethesda Terrace and Fountain
 
-Script: `blender/landmarks/b_bethesda_terrace.py` · agent B · generated 2026-09-06 15:53 UTC
+Script: `blender/landmarks/b_bethesda_terrace.py` · agent B · generated 2026-09-07 00:55 UTC
 
 ## Published dimensions
 
@@ -28,6 +28,7 @@ lamp standards.
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_bethesda_terrace.glb` — 10,808 triangles, 0.56 MB, bounds min ['-48.4', '-105.4', '-1.4'] max ['54.1', '26.0', '8.8']
+* `blender_out/landmarks/b_bethesda_terrace_lod1.glb` — 1,372 triangles, 0.09 MB, bounds min ['-48.4', '-105.4', '-1.4'] max ['54.1', '26.0', '8.8']
 
 ## Verification renders (Cycles CPU, 64 spp)
 

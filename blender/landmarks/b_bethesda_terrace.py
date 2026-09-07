@@ -140,7 +140,11 @@ def main() -> None:
     ba.run_landmark(
         ID, TITLE, build, bins=BINS, budget_lod0=250_000, budget_lod1=50_000,
         renders=[
-            dict(view="from_the_lake", cam=(-14.0, -62.0, 3.0), target=(0.0, 6.0, 6.0), fov_deg=60.0, context=ctx,
+            # The Lake is on the far side of the fountain from the arcade, which this frame builds at +x and
+            # the terrace footprints at -y; (-14, -62) is inside the ``terrace0`` prism itself, which is why
+            # this render was black (a ray straight up from it hit terrace0 5.2 m overhead).  Standing off
+            # the plaza's northern edge puts the fountain in front of the terrace, which is the view.
+            dict(view="from_the_lake", cam=(0.0, 62.0, 2.0), target=(0.0, -20.0, 4.0), fov_deg=60.0, context=ctx,
                  sun_azimuth_deg=190.0, sun_elevation_deg=44.0),
             dict(view="terrace", cam=(52.0, 26.0, 12.0), target=(0.0, 0.0, 5.0), fov_deg=58.0, context=ctx,
                  sun_azimuth_deg=230.0, sun_elevation_deg=40.0),

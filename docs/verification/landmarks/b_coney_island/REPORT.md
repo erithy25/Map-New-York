@@ -1,6 +1,6 @@
 # Coney Island: Cyclone, Wonder Wheel, Parachute Jump and Boardwalk
 
-Script: `blender/landmarks/b_coney_island.py` · agent B · generated 2026-09-06 16:00 UTC
+Script: `blender/landmarks/b_coney_island.py` · agent B · generated 2026-09-07 01:03 UTC
 
 ## Published dimensions
 
@@ -44,6 +44,7 @@ lamp standards and benches.
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_coney_island.glb` — 37,308 triangles, 1.81 MB, bounds min ['-1689.2', '-329.7', '-2.0'] max ['878.1', '121.1', '83.1']
+* `blender_out/landmarks/b_coney_island_lod1.glb` — 9,144 triangles, 0.35 MB, bounds min ['-1689.1', '-329.7', '-2.0'] max ['878.0', '121.1', '83.1']
 
 ## Verification renders (Cycles CPU, 64 spp)
 

@@ -893,10 +893,17 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
                           f"{cam.get('eye_source','')}", f_small))
     if cam.get("eye_datum") != "sea":
         gd = cam.get("ground_detail") or {}
-        caption_lines.append((
-            f"Ground under the camera: {cam.get('terrain_z_m')} m NAVD88 from the 2 m heightmap "
-            f"({gd.get('samples', 0)} samples in {gd.get('radius_m', 0)} m, range "
-            f"{gd.get('min_m')}-{gd.get('max_m')} m) - {cam.get('ground_source','')}", f_small))
+        if gd.get("mode") == "landmark deck":
+            # The height did not come from the heightmap, so do not caption it as if it had.
+            caption_lines.append((
+                f"Ground under the camera: {cam.get('terrain_z_m')} m NAVD88, the landmark model's "
+                f"own deck; the 2 m heightmap under the same point reads "
+                f"{gd.get('heightmap_m')} m - {cam.get('ground_source','')}", f_small))
+        else:
+            caption_lines.append((
+                f"Ground under the camera: {cam.get('terrain_z_m')} m NAVD88 from the 2 m heightmap "
+                f"({gd.get('samples', 0)} samples in {gd.get('radius_m', 0)} m, range "
+                f"{gd.get('min_m')}-{gd.get('max_m')} m) - {cam.get('ground_source','')}", f_small))
     sun = record.get("sun", {})
     lit = record.get("lighting", {})
     caption_lines.append((f"Sun: azimuth {sun.get('azimuth_deg', 0):.1f} deg, elevation "

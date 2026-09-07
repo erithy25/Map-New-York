@@ -286,7 +286,7 @@ into three distinct faults, which is why no single fix cleared them:
 | `landmark_metlife_building` | 0.016 / 0.013 | (-2299, 5636, 17.5) | nearest footprint **0.1 m** | eye hard against a wall |
 | `landmark_new_york_times_building` | 0.035 / 0.007 | (-3519, 6181, 12.7) | nearest footprint **0.2 m** | eye hard against a wall |
 | `landmark_st_patricks_cathedral` | 0.023 / 0.018 | (-2358, 6545, 23.0) | nearest footprint **1.6 m** | eye hard against a wall |
-| `landmark_911_memorial_pools` | no render | (-5293, 1241, 2.9) | nearest footprint 18.1 m, **not** inside anything | eye under the plaza: the DEM records the memorial pool voids and the street ground rule found a pool bottom |
+| `landmark_911_memorial_pools` | 0.000 / 0.001 | (-5293, 1241, 2.9) | nearest footprint 18.1 m, **not** inside anything | eye under the plaza: two separate faults, one in the ground reading and one in the World Trade Center model's own height. Both are in §2.7; the frame now renders at 0.475 / 0.137 |
 
 Every tile these cameras need has its `tile_buildings.glb` on disk (2/2, 1/1 in each case), so none of
 them is a loading failure. Three are viewpoints recorded inside a building, three are recorded
@@ -296,3 +296,82 @@ test for anything solid within a metre of the lens, and the requirement that a c
 subject can see roughly as far as its subject. Where a corrected camera still cannot produce a
 usable frame the render is refused, the PNG is deleted, and the subject is dropped from the sheet
 set with its reason recorded in `render_error.txt`. The gate's thresholds were not touched.
+
+## 2.7 The last black frame: a landmark model standing 3.5 m too high
+
+`landmark_911_memorial_pools` was the only one of the 57 subjects without a usable render, and it
+stayed black through two rounds of corrections. Both of the diagnoses written down before this pass
+were wrong about the object, so this one was settled by measurement.
+
+**What the camera was actually under.** `lm_b_wtc_site.232` — the object a ray straight up from the
+eye point hits — is the World Trade Center model's **plaza**: a two-triangle, four-vertex
+520 x 520 m quad on material `b_sidewalk` whose every vertex sits at exactly **7.000 m NAVD88**.
+Not a roof, and not (as the second diagnosis claimed) an oak canopy: the nearest of the 220 memorial
+oaks is **93.3 m** away and all of them lie between -1.0 deg and +5.7 deg of the horizon from this
+camera. The eye stood at 5.795 m, **1.21 m underneath that quad**, with the South Pool's granite
+wall 0.15 m ahead; **400 of 400 sampled sky directions were blocked**, 113 by the plaza and 287 by
+the pool wall. That is the whole explanation of mean 0.0003.
+
+**Why the plaza is up there.** The 1 m DEM reads **4.26 m NAVD88** at the same point, so the model's
+plaza deck floats **2.74 m** above the ground the camera's eye height was measured from. The cause is
+in `blender/landmarks/b_wtc_site.py`: `GRND = 3.5` is used both as the model's *local* plaza level
+(`bc.ground_plane("plaza", 260.0, GRND, "sidewalk")`, and every tower's `z0`) and as the frame
+origin's NAVD88 z (`bc.local_frame(PLAZA_CENTRE_TM, GRND, ...)`). `blender/landmarks/b_common.py`
+states the contract — "a world point is `origin_tm + local`" — so the plaza level is added twice and
+the **entire World Trade Center site model stands 3.5 m too high**. Checked against the other 92
+catalogue entries, the median |origin z - DEM at the origin| is **0.07 m**: this is one model's
+fault, not the convention. **It is a defect in the landmarks stage and is left there to be fixed;
+nothing in the comparison stage edits the model.** Every scene that contains `b_wtc_site` — 17 of
+the 57 — carries the same 3.5 m error, invisible at distance and decisive at 60 m.
+
+**What the comparison stage does about it.** Three changes, all in `blender/verify/camera.py`:
+
+* **`deck_underfoot`** — an eye point put under a *landmark's own* level deck, within one eye height
+  of it and clear once stood upon, is raised onto that deck, and the sheet says so. A landmark
+  carries ground the heightmap knows nothing about, and where the two disagree the modelled deck is
+  the surface a visitor walks on. Terrain and pavement deliberately keep the old treatment: they are
+  draped on the same heightmap the eye height came from, so an eye under *them* is a fault in the
+  ground reading, which the pavement snap already corrects (Bethesda Terrace). The correction
+  applies to the recorded eye point only and not to the candidates the position search tries: a
+  candidate that works only after being lifted onto a model's deck is a worse place to stand than
+  one on ground the heightmap and the model agree about.
+* **Foliage is not a roof.** The up-ray now steps past trees and reports the first *built* thing
+  overhead. An upward ray cast cannot tell a ceiling from a canopy, and standing under a tree — or
+  an awning, a scaffold shed or a bridge deck — is what a person on a plaza does. Trees are
+  identified by material, not by name: every tree asset exports its canopy on `LEAF_<species>`, its
+  trunk on `bark_<species>` and its billboard on `IMPOSTOR_<species>`, and scanned across all 122
+  prop assets, 127 landmark models, 138 kit pieces and the tile shells those three prefixes appear
+  on tree geometry and on nothing else. This matters because the memorial's 220 oaks are objects
+  *inside* `lm_b_wtc_site` whose names say nothing about what they are — no name list would have
+  caught them. `view_distance` steps past them too, as it already did for `prop_tree_*`.
+* **The parapet walk refuses to move a camera whose supporting surface still carries it at the end
+  of its probe.** That is ground, not a deck with an edge; walking the memorial plaza's 520 m slab
+  to its "edge" would have carried this camera 250 m off the viewpoint.
+
+**And one more impostor card.** §2.3 says the tree impostor cards are dropped. That was true only of
+the props library, where the card is its own `<species>_billboard` object. `b_wtc_site.glb` built its
+oaks through `bc.prop_template`, which **joins** the card into the tree's own mesh: one mesh with
+three material slots (`IMPOSTOR_pin_oak_medium`, `bark_pin_oak`, `LEAF_pin_oak`). Dropping whole
+objects cannot reach that, so all 220 memorial oaks were drawn with two canopies. `scene.py` now
+strips the faces on any `IMPOSTOR_*` slot of a mesh that also carries real geometry, and counts
+them: 12 card faces on 2 template meshes, instanced 220 times.
+
+**Result.** 904x1206 at 64 samples, from the photograph's own GPS at **8.60 m NAVD88**: mean
+**0.475**, sd **0.137**, against a gate of 0.06. **57 of 57 subjects now have a usable render.**
+The remaining gaps in that frame — the plaza plane drawn across both pool openings, so no camera
+anywhere on the plaza can see a pool; the level axis against a photograph tilted 40 deg down the
+parapet; the unbound `MEMORIAL_NAMES` texture — are written up in its `assessment.md`.
+
+**Which other scenes moved.** One: `landmark_911_memorial_pools`, from no render to a usable one.
+Every other clearance decision in the set was re-measured and is unchanged — `bethesda_terrace_fountain`,
+`landmark_moma`, `landmark_hudson_yards_vessel`, `landmark_high_line`, `landmark_oculus`,
+`landmark_one_world_trade_center` and `top_of_the_rock_south` were all rebuilt and re-placed with the
+new code and come out at the same camera to the metre. Two of them, `landmark_oculus` and
+`landmark_one_world_trade_center`, *do* differ from the render.json on disk, but they differed before
+this pass as well: the street-percentile void exclusion committed earlier (§2.6) changes the ground
+read at their subject points, and their shipped sheets predate it. Measured at the code as it stands,
+`landmark_oculus` keeps its camera and moves its pitch from -3.3 deg to -0.3 deg, and
+`landmark_one_world_trade_center` moves from (-5193, 1094, 7.2) to (-5205, 1057, 8.5) with its
+clearance rule falling from "radial search with a clear view" to "open air only". **Both need
+re-rendering and neither has been re-rendered here**; their sheets and assessments are stale by that
+much.

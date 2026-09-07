@@ -233,8 +233,14 @@ def main() -> None:
             ba.reference_render("landmark_coney_island_wonder_wheel", frame, view="wonder_wheel_reference",
                                 ground_z=BOARDWALK_Z - GROUND, target_z=26.0, fov_deg=62.0, size=(1280, 720),
                                 context=ctx, sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
+            # This viewpoint's note is "Riegelmann Boardwalk at West 15th Street": the photographer stood on
+            # the deck, so the eye height is measured from it, as the wonder-wheel entry above already does.
+            # At ground_z=0.0 the camera sat under the boardwalk and the frame was black above the sand.
+            # The recorded subject point is 67 m from this model's Parachute Jump, which at 200 m is 19 deg
+            # of aim -- the tower left the frame -- so the camera is aimed at the tower this model builds.
             ba.reference_render("landmark_coney_island_parachute_jump", frame, view="parachute_jump_reference",
-                                ground_z=0.0, target_z=48.0, fov_deg=54.0, size=(720, 1280),
+                                ground_z=BOARDWALK_Z - GROUND, target_z=48.0, aim=(jx, jy, 48.0),
+                                fov_deg=54.0, size=(720, 1280),
                                 context=ctx, sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
             ba.reference_render("landmark_coney_island_cyclone", frame, view="cyclone_reference",
                                 ground_z=0.0, target_z=18.0, fov_deg=58.0, size=(1280, 720),

@@ -132,7 +132,9 @@ def main() -> None:
     ba.run_landmark(
         ID, TITLE, build, bins=BINS, budget_lod0=250_000, budget_lod1=40_000,
         renders=[
-            dict(view="from_turtle_pond", cam=(-46.0, -38.0, -12.0), target=(0.0, 0.0, 12.0), fov_deg=50.0,
+            # eye height above the pond-side grass plane in ``ctx`` (z -4.1), not below it: at the -12.0 m
+            # this camera used to sit at, it was 7.9 m under that plane and the render was pure black.
+            dict(view="from_turtle_pond", cam=(-46.0, -38.0, -2.4), target=(0.0, 0.0, 12.0), fov_deg=50.0,
                  context=ctx, sun_azimuth_deg=210.0, sun_elevation_deg=40.0),
             dict(view="terrace", cam=(26.0, 22.0, 8.0), target=(0.0, 0.0, 12.0), fov_deg=56.0, context=ctx,
                  sun_azimuth_deg=250.0, sun_elevation_deg=42.0),

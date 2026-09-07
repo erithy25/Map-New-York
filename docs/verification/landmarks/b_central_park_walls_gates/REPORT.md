@@ -1,6 +1,6 @@
 # Central Park perimeter wall and gates
 
-Script: `blender/landmarks/b_central_park_walls_gates.py` · agent B · generated 2026-09-06 15:55 UTC
+Script: `blender/landmarks/b_central_park_walls_gates.py` · agent B · generated 2026-09-07 00:56 UTC
 
 ## Published dimensions
 
@@ -36,8 +36,9 @@ the park.
 ## Polycounts / outputs
 
 * `blender_out/landmarks/b_central_park_walls_gates.glb` — 18,448 triangles, 0.64 MB, bounds min ['-1468.4', '-2122.1', '-0.6'] max ['1330.6', '1858.0', '2.9']
+* `blender_out/landmarks/b_central_park_walls_gates_lod1.glb` — 6,800 triangles, 0.27 MB, bounds min ['-1468.4', '-2118.5', '-0.6'] max ['1330.6', '1858.0', '2.9']
 
 ## Verification renders (Cycles CPU, 64 spp)
 
 ![fifth_avenue_wall](fifth_avenue_wall.png)
-![park_plan](park_plan.png)
+![south_east_corner](south_east_corner.png)
