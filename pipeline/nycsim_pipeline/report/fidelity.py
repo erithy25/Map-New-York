@@ -965,6 +965,23 @@ def build_report() -> str:
           "population and light are not. Deviations B12 through B16 and I13 name each of those causes and "
           "size it.")
         A()
+        A("**The line those verdicts draw is between hand-built and bulk-generated content, and it is "
+          "sharp.** Across the 38 further landmark sheets, 14 verdicts are positive in their own words — "
+          "*\"the best single-building match in the whole set\"* of the Flatiron, whose prow, taper, storey "
+          "count, cornice and position on the traffic island are all called right; *\"one of the best "
+          "landmark models in the set\"* of City Hall; *\"the best brick landmark in the set\"* of the "
+          "Domino refinery; *\"the best bridge model in the set\"* of the Brooklyn Bridge. The hand-scripted "
+          "landmarks are 121 buildings out of 1,083,026, and they are the part of this world that stands "
+          "up to a photograph. What does not is the other 99.99 % — the shells generated from footprint "
+          "and height, which the Times Square assessment describes beside them: the landmark models "
+          "*\"carry real fenestration where the tile shells do not … and the contrast with the flat shells "
+          "beside them is the clearest statement in the set of what a facade treatment is worth\"*.")
+        A()
+        A("That is the honest summary of this project's visual fidelity. Its 1:1 geometry is measured and "
+          "in the right place; what is hand-authored on top of that geometry reads as New York; what is "
+          "generated from attributes reads as a massing model. Deviation B12 is the work that would close "
+          "the distance, and §11 lists it second only to compiling the engine.")
+        A()
 
     A("## 9. Low-fidelity regions — where the data is thinnest")
     A()

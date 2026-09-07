@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-07 07:52 UTC from commit `ba2b3118744c` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-07 07:55 UTC from commit `6b01e21bf230` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -139,7 +139,7 @@ Water: hydrography polygons 2,235 · shoreline lines 413 · structures 2,536 · 
 | vehicles | 93 | 100.2 MB |
 | character | 25 | 512.5 MB |
 | landmarks | 127 | 920.2 MB |
-| tiles | 1,496 | 5,601.0 MB |
+| tiles | 1,496 | 5,601.4 MB |
 
 Catalog entries describing those assets: 386.
 
@@ -224,6 +224,10 @@ Brief §12 condition 3 names seven viewpoints, two of them in two states. All ni
 * **Washington St, DUMBO, with the Manhattan Bridge** — the right street, the right walls and the right bridge in the right place — and the bridge is a plain blue box truss where the photograph is a riveted Beaux-Arts portal, so the one thing the view exists for is the thing least well modelled
 
 One of the nine reads as a success. Two of them — the Fifth Avenue pair — cannot be judged at all, because the reference photographs face a different way than the viewpoint they were collected for; that is a fault in the reference chooser, recorded as deviation I12. The other six are honest about a world whose geometry is in the right place and whose surfaces, population and light are not. Deviations B12 through B16 and I13 name each of those causes and size it.
+
+**The line those verdicts draw is between hand-built and bulk-generated content, and it is sharp.** Across the 38 further landmark sheets, 14 verdicts are positive in their own words — *"the best single-building match in the whole set"* of the Flatiron, whose prow, taper, storey count, cornice and position on the traffic island are all called right; *"one of the best landmark models in the set"* of City Hall; *"the best brick landmark in the set"* of the Domino refinery; *"the best bridge model in the set"* of the Brooklyn Bridge. The hand-scripted landmarks are 121 buildings out of 1,083,026, and they are the part of this world that stands up to a photograph. What does not is the other 99.99 % — the shells generated from footprint and height, which the Times Square assessment describes beside them: the landmark models *"carry real fenestration where the tile shells do not … and the contrast with the flat shells beside them is the clearest statement in the set of what a facade treatment is worth"*.
+
+That is the honest summary of this project's visual fidelity. Its 1:1 geometry is measured and in the right place; what is hand-authored on top of that geometry reads as New York; what is generated from attributes reads as a massing model. Deviation B12 is the work that would close the distance, and §11 lists it second only to compiling the engine.
 
 ## 9. Low-fidelity regions — where the data is thinnest
 

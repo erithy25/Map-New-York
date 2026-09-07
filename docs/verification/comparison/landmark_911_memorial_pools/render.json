@@ -56,9 +56,9 @@
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.4118,
+  "mean": 0.3829,
   "reason": null,
-  "sd": 0.183,
+  "sd": 0.1814,
   "usable": true
  },
  "frame_retry": null,
@@ -98,7 +98,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_911_memorial_pools/render.png",
- "rendered_at": "2026-09-07T02:53:10Z",
+ "rendered_at": "2026-09-07T07:53:51Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
@@ -111,7 +111,7 @@
     "t_-6_1"
    ],
    "landmark_bins_suppressed": 19,
-   "landmark_faces_suppressed": 2992,
+   "landmark_faces_suppressed": 2604,
    "lod_substituted": [],
    "missing": [],
    "new_jersey": [],
@@ -122,7 +122,7 @@
      ],
      "lod": 0,
      "objects": 18,
-     "triangles": 11872
+     "triangles": 13970
     },
     "t_-5_1": {
      "files": [
@@ -130,7 +130,7 @@
      ],
      "lod": 0,
      "objects": 18,
-     "triangles": 42654
+     "triangles": 55134
     },
     "t_-6_0": {
      "files": [
@@ -138,7 +138,7 @@
      ],
      "lod": 0,
      "objects": 16,
-     "triangles": 12796
+     "triangles": 13638
     },
     "t_-6_1": {
      "files": [
@@ -146,7 +146,7 @@
      ],
      "lod": 0,
      "objects": 18,
-     "triangles": 15036
+     "triangles": 18490
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -156,7 +156,7 @@
    "tiles_wanted": 4,
    "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 82358
+   "triangles": 101232
   },
   "centre_tm": [
    -5292.58,
@@ -195,6 +195,8 @@
      "id": "b_wtc_site",
      "lod": 0,
      "name": "World Trade Center site",
+     "own_ground_m2": 33039.3,
+     "own_ground_parts": 1,
      "triangles": 136288
     },
     {
@@ -237,6 +239,8 @@
      "id": "federal_hall",
      "lod": 0,
      "name": "Federal Hall National Memorial",
+     "own_ground_m2": 282.2,
+     "own_ground_parts": 2,
      "triangles": 9070
     },
     {
@@ -258,9 +262,17 @@
      "id": "city_hall",
      "lod": 0,
      "name": "New York City Hall",
+     "own_ground_m2": 72.0,
+     "own_ground_parts": 1,
      "triangles": 44823
     }
    ],
+   "own_ground_from": [
+    "b_wtc_site",
+    "federal_hall",
+    "city_hall"
+   ],
+   "own_ground_m2": 33393.6,
    "placed": 10,
    "skipped": 0,
    "skipped_detail": [],
@@ -286,7 +298,8 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "triangles": 115804,
+   "triangles": 115390,
+   "triangles_cut_for_landmark_ground": 414,
    "vertices": 118882
   },
   "props": {
@@ -327,7 +340,7 @@
    }
   },
   "radius_m": 563.8090218678801,
-  "seconds": 11.24,
+  "seconds": 12.92,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -335,14 +348,42 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 8113,
    "samples": 203,
    "spacing_m": 2.0,
-   "triangles": 81608,
-   "water_quads": 787,
+   "triangles": 65382,
+   "water_bodies": [
+    {
+     "kind": "bay",
+     "name": "North Cove Yacht Harbor",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "South Cove",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "UPPER NEW YORK BAY",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 587,
    "z_max_m": 13.63,
    "z_min_m": -1.81
   },
-  "triangles": 1837640
+  "triangles": 1839874
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -350,9 +391,9 @@
   "radius_m": 563.8090218678801
  },
  "seconds": {
-  "render": 71.8,
-  "scene": 11.5,
-  "total": 83.2
+  "render": 298.7,
+  "scene": 13.2,
+  "total": 311.9
  },
  "slug": "landmark_911_memorial_pools",
  "status": "rendered",
