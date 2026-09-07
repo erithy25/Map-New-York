@@ -249,17 +249,29 @@ def build_snapshot_tool(*, force: bool = False) -> tuple[Path | None, str]:
         if SNAPSHOT_BIN.stat().st_mtime >= newest:
             return SNAPSHOT_BIN, "already built"
     SNAPSHOT_BIN.parent.mkdir(parents=True, exist_ok=True)
-    cmd = ["g++", "-std=c++17", "-O2", "-o", str(SNAPSHOT_BIN),
+    # Compile to a private path and move it into place.  A comparison pass runs several render
+    # processes at once over disjoint slug lists, and every one of them reaches this function on
+    # its first scene; two compilers writing the same output file would leave a truncated binary
+    # that fails silently in one of them.  os.replace is atomic on the same filesystem.
+    tmp = SNAPSHOT_BIN.with_name(f"{SNAPSHOT_BIN.name}.{os.getpid()}")
+    cmd = ["g++", "-std=c++17", "-O2", "-o", str(tmp),
            f"-I{CORE_INCLUDE}", f"-I{ADAPTER_DIR.parent}", *(str(p) for p in srcs)]
     try:
         proc = subprocess.run(cmd, capture_output=True, text=True, timeout=900)
     except FileNotFoundError:
         return None, "no g++ on this machine"
     except subprocess.TimeoutExpired:
+        tmp.unlink(missing_ok=True)
         return None, "compile timed out"
     if proc.returncode != 0:
+        tmp.unlink(missing_ok=True)
         tail = (proc.stderr or "").strip().splitlines()[-4:]
         return None, "compile failed: " + " | ".join(tail)
+    try:
+        os.replace(tmp, SNAPSHOT_BIN)
+    except OSError as exc:
+        tmp.unlink(missing_ok=True)
+        return None, f"could not install the compiled tool: {exc}"
     return SNAPSHOT_BIN, "compiled"
 
 
@@ -325,17 +337,26 @@ def simulation_snapshot(req: SnapshotRequest, *, use_cache: bool = True) -> tupl
         except Exception:
             pass
     SNAPSHOT_CACHE.mkdir(parents=True, exist_ok=True)
-    cmd = [str(tool), "--runtime", str(RUNTIME_DIR), "--out", str(cache), *req.argv()]
+    tmp = cache.with_name(f"{cache.name}.{os.getpid()}")
+    cmd = [str(tool), "--runtime", str(RUNTIME_DIR), "--out", str(tmp), *req.argv()]
     try:
         proc = subprocess.run(cmd, capture_output=True, text=True, timeout=1800, cwd=str(REPO_ROOT))
     except subprocess.TimeoutExpired:
+        tmp.unlink(missing_ok=True)
         return None, "agent_snapshot timed out"
     if proc.returncode != 0:
+        tmp.unlink(missing_ok=True)
         return None, "agent_snapshot failed: " + (proc.stderr or "").strip()[-200:]
     try:
-        return json.loads(cache.read_text()), f"simulated ({note})"
+        snap = json.loads(tmp.read_text())
     except Exception as exc:
+        tmp.unlink(missing_ok=True)
         return None, f"agent_snapshot wrote unreadable JSON: {exc}"
+    try:
+        os.replace(tmp, cache)          # same reason as the compile above
+    except OSError:
+        tmp.unlink(missing_ok=True)
+    return snap, f"simulated ({note})"
 
 
 # --------------------------------------------------------------------------- surfaces
