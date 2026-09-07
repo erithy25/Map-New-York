@@ -189,12 +189,15 @@ Both were identified by projecting `props.parquet` through the recorded camera a
 scene loads it (LOD0 meshes, the glb's own local matrices) against the size its catalogue entry
 publishes. Result: **0 of 122 assets are the wrong size** and 0 fail to load. The only four whose
 imported geometry exceeds `nominal_size_m` are the street lamps, whose extra extent is exactly
-their `bounds_with_effects` — the modelled light cone, which the daylight pass makes transparent.
+their `bounds_with_effects` — the modelled light cone, which the daylight pass was *supposed* to make transparent and did not; see §2.12.
 Guarded by `tests/test_comparison.py::test_every_prop_asset_matches_the_size_its_catalogue_publishes`.
 
 What made those two props read as oversized is not scale but context: `mailbox_usps` is 484
-triangles, so its curved hood is a faceted dome and its body a plain box, and there are **no people
-and no vehicles anywhere in any frame** to give the eye a human reference.
+triangles, so its curved hood is a faceted dome and its body a plain box, and at the time this was
+written there were **no people and no vehicles anywhere in any frame** to give the eye a human
+reference. That is no longer true — every scene now carries a frame of the running simulation
+(§2.12) — so the human reference exists and this paragraph's premise has expired. The prop
+measurement it supports stands: 0 of 122 assets are the wrong size.
 
 ---
 
@@ -632,3 +635,78 @@ within 120 m of their subject and **rejected**: it would swing 10 of them by mor
 model is a multi-building model whose origin is nowhere near the subject. A correct fix needs a
 per-subject aim point — `blender/landmarks/b_align.py: reference_render` already carries one for the
 landmark stage's own renders, for exactly this reason — and that is a pass of its own.
+
+---
+
+## 2.12 Three more faults, found by opening the re-rendered sheets
+
+The shell rebuild, the signage pass and the agents pass all invalidated this set, so it was
+re-rendered. Opening the frames one at a time turned up three faults in the comparison stage — the
+same method as §2 and §2.6, and the same result: none of them was visible in a counter, a test or a
+stage report.
+
+### The daylight light cones were opaque, and a sheet said they were gone
+
+`drive_bronx_arthur_ave` carried two black wedges filling the right quarter of the frame. Its own
+assessment said "the opaque impostor cards that turned every tree into a black cone are gone" — it
+was describing a frame with two black cones in the middle of the road.
+
+They were not tree impostors. Ray-casting the wedge pixels named the object: **143 of 143 sampled
+pixels hit `prop_lamp_cobra_davit_8`, material `LIGHT_CONE`** — the modelled beam under a street
+lamp, which `apply_time_of_day_materials()` is supposed to hide in daylight. It sets the Principled
+BSDF's `Alpha` input to 0, and `mat_light_cone()` **links that socket to the gradient PNG's alpha
+channel**; a linked socket ignores its default. So the cone stayed fully opaque while its emission
+was zeroed, which turned a glowing beam into a solid dark solid — worse than leaving it alone. The
+`blend_method = "BLEND"` beside it did nothing either: that is an EEVEE setting and these are Cycles
+renders.
+
+Fixed by deleting the faces, which is what `blender/props/contact_sheets.py` already does for this
+exact material on daylight prop sheets, and which cannot fail the same way because no material state
+is left to get wrong. Every `render.json` now carries `lighting.emissive.cone_faces_deleted`, so a
+frame that still shows one can be told from a frame that had no lamps. Arthur Avenue reports 8.
+
+### The pedestrian clearance let an NPC become the picture
+
+`drive_midtown_sixth_ave_45th` rendered as one NPC's torso: no street, no buildings, no Sixth Avenue.
+`CAMERA_CLEAR_PED_M` was 1.5 m and it did exactly what it said — nobody stood inside 1.5 m — but that
+threshold answers "is a person inside the lens", which is a rendering question. The nearest
+pedestrian stood at 1 m... which is to say it stood *outside* 1.5 m only in the sense that the
+placement measured to the body origin; at that distance a 1.8 m body subtends **261 % of frame
+height**.
+
+The constant is now **3.5 m**, derived rather than picked. At this set's 1.6 m eye and 38° vertical
+field the frame is `0.69 × d` metres tall, so a person fills all of it at 2.6 m and 74 % of it at
+3.5 m — close, which a street photograph often is, without being the whole picture.
+`CAMERA_CLEAR_PED_BASIS` records the body height, field of view and frame share it came from, and
+`tests/test_agents.py` asserts the constant still matches its own basis and can only ever tighten.
+
+Measured on `drive_bronx_grand_concourse` before the change: one pedestrian at **1.50 m and 27.9° off
+axis**, one centimetre above the old cut-off, and the nearest one actually in frame at **2.57 m,
+21.0°**, with more at 3.39 m and 4.41 m.
+
+### The renders are physically lit; the photographs were metered
+
+On `drive_lower_manhattan_stone_st` the first reading was that the lit shopfront fascias were blowing
+out — a night calibration applied to a daylight alley. The measurement says the opposite:
+
+| | render | photograph |
+|---|---|---|
+| mean luminance | 0.249 | 0.404 |
+| area above 0.95 | **0.02 %** | **14.66 %** |
+| area below 0.20 | 35.61 % | 32.63 % |
+
+Nothing in the render clips. The fascias look brightest because everything around them is dark, and
+the frame is about a stop *under* its photograph. The render places the Sun from the photograph's own
+EXIF instant and applies a fixed 0-stop exposure on Filmic; the photographer's camera metered the
+alley and opened up. A narrow street in shadow under a high sun is where those diverge. Recorded as
+deviation I16 rather than fixed, with the fix named: an auto-exposure that meters the rendered frame,
+recorded beside the 0-stop default so a metered frame can be told from a physical one.
+
+### One thing checked and found sound
+
+The dark line where a wall meets the ground on `drive_brooklyn_park_slope_7th_ave` looked like a
+floating building shell, which would have been a defect on every sloped street in the city. Sampling
+**1,871 buildings across 40 tiles**, each footprint's `ground_z` against the terrain heightmap beneath
+its centroid: median **+0.00 m**, p05 −0.04, p95 +0.02, with 0.3 % more than 0.5 m above and 0.1 %
+more than 0.5 m below. Buildings sit on the ground; the line is a contact shadow. Recorded because a
+negative result from a check worth running is worth keeping.
