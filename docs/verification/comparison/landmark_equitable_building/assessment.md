@@ -14,6 +14,28 @@
 
 **Verdict — the camera was pulled off a lamp standard 3 cm from the lens and put on a crosswalk with 41 m of clear view, and the frame is still a black canyon floor with a lamp in it; the H-plan slab the item exists to test is above the top of the frame and in shadow**
 
+## Re-rendered 2026-09-07 — the darkest frame in the set, and I18 again
+
+Two recorded faults meet in this sheet and both are at their extreme here.
+
+**Exposure (I16).** Mean luminance **0.133 against the photograph's 0.598** — the widest gap measured
+anywhere in the set, a factor of four and a half. Broadway at this point is a slot between towers and
+the render lights it physically while the photograph was metered for it. Nothing is clipping and
+nothing is broken; the two images are answering different questions, and here that produces a frame a
+reader can barely read.
+
+**Framing (I18).** The subject stands 78.1 m away and the lens is already at the **18 mm floor**, so
+the frame cannot contain a 164 m building from that distance with a level axis. What the sheet shows
+is the base of one tower among several.
+
+The pedestrian cull fired once — `pedestrian_over_the_observer: 1` — which is the camera-aware cull
+doing its job on a camera that moved after placement.
+
+**Taken together this sheet is close to unusable, and it is worth saying which part is the world's
+fault: none of it.** 11 landmark models, 240 people and 50 vehicles are correctly placed in a
+correctly built Lower Manhattan street. What fails is the camera rule and the exposure convention,
+both recorded, both with named fixes, neither applied in this pass.
+
 ## What matches
 
 * The in-the-lens test fired and is stated: the recorded viewpoint stood 0.03 m from prop_lamp_bishops_crook_0, and the camera was moved 12 m onto the nearest real crosswalk polygon.
