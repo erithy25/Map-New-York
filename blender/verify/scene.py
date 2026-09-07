@@ -412,6 +412,34 @@ def _is_impostor(ob: bpy.types.Object) -> bool:
     return bool(mats) and all(m.startswith("IMPOSTOR_") for m in mats)
 
 
+def _strip_impostor_faces(mesh: bpy.types.Mesh) -> int:
+    """Delete an impostor card that was *merged into* an asset's real geometry, and count its faces.
+
+    Dropping whole objects (:func:`_is_impostor`) catches the props library, where the card is its
+    own ``<species>_billboard`` mesh.  It does not catch a model that joined the card to the tree
+    before exporting: ``blender_out/landmarks/b_wtc_site.glb`` builds its 220 memorial oaks from
+    ``prop_template("tree_pin_oak_medium")``, and the result is one mesh carrying three material
+    slots -- ``IMPOSTOR_pin_oak_medium``, ``bark_pin_oak`` and ``LEAF_pin_oak``.  The card is then
+    drawn over the branches it was meant to replace, exactly the fault the props sweep found, and
+    every oak on the memorial plaza renders with two canopies.  The faces on an ``IMPOSTOR_*``
+    slot are removed here; the slot itself is left alone because material indices address it.
+    """
+    slots = {i for i, m in enumerate(mesh.materials)
+             if m is not None and m.name.startswith("IMPOSTOR_")}
+    if not slots or len(slots) == len(mesh.materials):
+        return 0                      # nothing to strip, or the whole mesh is a card (dropped above)
+    import bmesh
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    doomed = [f for f in bm.faces if f.material_index in slots]
+    n = len(doomed)
+    if n:
+        bmesh.ops.delete(bm, geom=doomed, context="FACES")
+        bm.to_mesh(mesh)
+    bm.free()
+    return n
+
+
 def _triangles(ob: bpy.types.Object) -> int:
     if ob.type != "MESH":
         return 0
@@ -442,6 +470,7 @@ class AssetLibrary:
         self.templates: dict[str, AssetTemplate] = {}
         self.failed: dict[str, str] = {}
         self.impostors_dropped = 0
+        self.impostor_faces_dropped = 0
         self._hidden = bpy.data.collections.new("verify_templates")
         bpy.context.scene.collection.children.link(self._hidden)
         lc = bpy.context.view_layer.layer_collection.children.get(self._hidden.name)
@@ -475,6 +504,9 @@ class AssetLibrary:
                     # is dropped here and counted, and the real geometry is used at every distance.
                     self.impostors_dropped += 1
                     continue
+                # ... and the same card merged into the tree's own mesh, which dropping whole
+                # objects cannot reach (the memorial oaks inside b_wtc_site.glb are the case).
+                self.impostor_faces_dropped += _strip_impostor_faces(ob.data)
                 parts.append((ob.data, ob.matrix_world.copy()))
                 tris += _triangles(ob)
         for ob in created:
@@ -731,6 +763,8 @@ def add_landmarks(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
                   catalog: Sequence[dict] | None = None) -> dict:
     entries = list(catalog) if catalog is not None else load_landmark_catalog()
     placed, skipped, tris = [], [], 0
+    # The asset library counts impostor cards across the whole scene; report this pass's share.
+    cards0, faces0 = lib.impostors_dropped, lib.impostor_faces_dropped
     for e in entries:
         ox, oy, oz = (float(v) for v in e["origin_tm"])
         # A landmark's mesh can reach far beyond its origin (bridges span kilometres); keep it
@@ -769,7 +803,9 @@ def add_landmarks(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
     placed.sort(key=lambda d: d["distance_m"])
     bpy.context.view_layer.update()
     return {"catalog_entries": len(entries), "placed": len(placed), "skipped": len(skipped),
-            "triangles": tris, "landmarks": placed, "skipped_detail": skipped}
+            "triangles": tris, "landmarks": placed, "skipped_detail": skipped,
+            "impostor_cards_dropped": lib.impostors_dropped - cards0,
+            "impostor_faces_dropped": lib.impostor_faces_dropped - faces0}
 
 
 # --------------------------------------------------------------------------- pavement
@@ -1042,6 +1078,7 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
         per_kind[kind_name] = per_kind.get(kind_name, 0) + 1
     return {"rows_in_range": int(order.size), "placed": placed, "triangles": tris,
             "leaf_off": leaf_off, "impostor_cards_dropped": lib.impostors_dropped,
+            "impostor_faces_dropped": lib.impostor_faces_dropped,
             "capped": capped_reason, "per_kind": dict(sorted(per_kind.items(), key=lambda kv: -kv[1])),
             "unmapped_kinds": unmapped, "tree_species_substituted": species_substituted,
             "tiles_read": sorted(tiles_read), "tiles_missing": sorted(tiles_missing),

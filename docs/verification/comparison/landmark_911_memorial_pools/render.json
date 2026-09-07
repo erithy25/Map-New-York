@@ -7,19 +7,13 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 18.0,
   "ground_detail": {
-   "below_point_excluded": 29,
-   "chosen_m": 4.19,
-   "max_m": 4.55,
-   "median_m": 4.36,
-   "min_m": 0.31,
-   "mode": "street",
-   "percentile": 10.0,
-   "point_m": 4.26,
-   "radius_m": 12.0,
-   "samples": 113
+   "chosen_m": 7.0,
+   "heightmap_m": 4.19,
+   "mode": "landmark deck",
+   "note": "the eye point sat 1.21 m under lm_b_wtc_site.232, the landmark model's own level deck at 7.00 m NAVD88, which stands above the heightmap the eye height was measured from; the camera was raised onto it, so it stands on the surface that is actually drawn under it at 8.60 m NAVD88"
   },
   "ground_mode": "street",
-  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "ground_source": "the eye point sat 1.21 m under lm_b_wtc_site.232, the landmark model's own level deck at 7.00 m NAVD88, which stands above the heightmap the eye height was measured from; the camera was raised onto it, so it stands on the surface that is actually drawn under it at 8.60 m NAVD88",
   "hfov_deg": 73.709,
   "lat": 40.711156,
   "lon": -74.012633,
@@ -32,12 +26,12 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_911_memorial_pools",
-  "terrain_z_m": 4.195,
+  "terrain_z_m": 7.0,
   "x": -5292.577,
   "y": 1240.741,
-  "z": 5.795
+  "z": 8.6
  },
- "camera_caption": "camera 40.71116, -74.01263 (NYC_TM -5293, 1241) z 5.8 m NAVD88 | azimuth 314.3deg pitch +0.0deg | 18 mm on 36 mm (73.7deg horizontal, 90.0deg vertical, portrait) | 904x1206",
+ "camera_caption": "camera 40.71116, -74.01263 (NYC_TM -5293, 1241) z 8.6 m NAVD88 | azimuth 314.3deg pitch +0.0deg | 18 mm on 36 mm (73.7deg horizontal, 90.0deg vertical, portrait) | 904x1206",
  "camera_origin": {
   "from_photograph_gps": true,
   "lat": 40.711156,
@@ -48,26 +42,21 @@
  "clearance": {
   "min_view_m": 51.2,
   "moved": false,
-  "note": "the recorded viewpoint is inside lm_b_wtc_site.232 (a ray straight up from the eye point hits its roof) and no clear point was found within 80 m, so the frame is rendered from inside the shell and is dark",
+  "nearest_obstruction": "lm_b_wtc_site.0",
+  "nearest_obstruction_m": 46.3,
+  "note": "the eye point stands on lm_b_wtc_site.236, which still carries it 250 m along the view azimuth, so it is a ground-level deck rather than a roof with an edge to walk to; the camera was not moved.  The view azimuth is clear for 150 m and the nearest solid thing in the view cone is lm_b_wtc_site.0 46.3 m away",
   "offset_m": 0.0,
-  "reason": "inside lm_b_wtc_site.232 (a ray straight up from the eye point hits its roof)",
-  "rule": "no clear point found"
+  "standing_on": "lm_b_wtc_site.236",
+  "stood_on_deck": "the eye point sat 1.21 m under lm_b_wtc_site.232, the landmark model's own level deck at 7.00 m NAVD88, which stands above the heightmap the eye height was measured from; the camera was raised onto it, so it stands on the surface that is actually drawn under it at 8.60 m NAVD88",
+  "view_m": 150.0
  },
  "frame": {
-  "mean": 0.0003,
-  "reason": "near-black (mean 0.000)",
-  "sd": 0.0011,
-  "usable": false
+  "mean": 0.4755,
+  "reason": null,
+  "sd": 0.1368,
+  "usable": true
  },
- "frame_retry": {
-  "first_frame": {
-   "mean": 0.0003,
-   "reason": "near-black (mean 0.000)",
-   "sd": 0.0011,
-   "usable": false
-  },
-  "note": "no clear eye point was found within 80 m, so the frame stands as it is"
- },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
  "lens_reason": "widened from 35 mm to 18 mm (90 deg vertical) so that a level axis contains the subject: the b_wtc_site model's published 329 m height stands 328 m above the lens at 102 m, 73 deg above the horizon; held at the 18 mm floor, so the top of the subject is still cut off -- past that point the distortion would stop the two frames being comparable",
@@ -104,7 +93,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_911_memorial_pools/render.png",
- "rendered_at": "2026-09-07T00:06:05Z",
+ "rendered_at": "2026-09-07T00:31:24Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -193,13 +182,15 @@
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 12,
    "landmarks": [
     {
      "distance_m": 63.4,
      "id": "b_wtc_site",
      "lod": 0,
      "name": "World Trade Center site",
-     "triangles": 136174
+     "triangles": 134854
     },
     {
      "distance_m": 210.8,
@@ -268,7 +259,7 @@
    "placed": 10,
    "skipped": 0,
    "skipped_detail": [],
-   "triangles": 446215
+   "triangles": 444895
   },
   "pavement": {
    "dropped_polygons": 0,
@@ -296,6 +287,7 @@
   "props": {
    "capped": null,
    "impostor_cards_dropped": 4,
+   "impostor_faces_dropped": 12,
    "leaf_off": false,
    "per_kind": {
     "bench": 95,
@@ -330,7 +322,7 @@
    }
   },
   "radius_m": 563.8090218678801,
-  "seconds": 12.03,
+  "seconds": 9.22,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -345,7 +337,7 @@
    "z_max_m": 13.63,
    "z_min_m": -1.81
   },
-  "triangles": 1837526
+  "triangles": 1836206
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -353,12 +345,12 @@
   "radius_m": 563.8090218678801
  },
  "seconds": {
-  "render": 88.3,
-  "scene": 13.0,
-  "total": 101.3
+  "render": 142.2,
+  "scene": 9.5,
+  "total": 151.7
  },
  "slug": "landmark_911_memorial_pools",
- "status": "rejected_unusable_frame",
+ "status": "rendered",
  "subject": {
   "distance_m": 102.4,
   "name": "the North Pool"

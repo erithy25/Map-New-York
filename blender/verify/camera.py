@@ -55,6 +55,13 @@ REFERENCE_DIR = REPO_ROOT / "docs" / "verification" / "reference"
 #: Objects that count as solid world: tile building shells and placed landmark models.
 _TILE_MESH = re.compile(r"^t_-?\d+_-?\d+_")
 
+#: The materials every tree in this world is made of.  ``blender_out/props`` exports each tree
+#: asset with its canopy cards on ``LEAF_<species>``, its trunk on ``bark_<species>`` and its
+#: distance billboard on ``IMPOSTOR_<species>``.  Scanned over all 122 prop assets, all 127
+#: landmark models, 138 facade-kit pieces and the tile shells, those three prefixes appear on tree
+#: geometry and on nothing else (``b_gold_leaf`` and ``kit_ivy_leaf`` do not begin with them).
+_FOLIAGE_MATERIAL = re.compile(r"^(LEAF|IMPOSTOR|bark)_")
+
 
 @dataclass(frozen=True)
 class EyeRule:
@@ -281,34 +288,87 @@ def place_camera(*, slug: str, lat: float, lon: float, azimuth_deg: float, sampl
                            ground_mode=mode, ground_source=mode_why, ground_detail=ground_detail)
 
 
-def _blocked(x: float, y: float, z: float, azimuth_deg: float) -> tuple[bool, str]:
-    """Is this eye point inside a building shell, or hard against a wall?
+def is_shell(ob) -> bool:
+    """Is this object built fabric the eye could be inside?
 
-    A ray straight up from a street, a park or a promenade hits nothing.  One that hits a shell
-    means the eye is under that building's roof, i.e. inside it -- which happens because the
-    reference viewpoints are recorded to about 0.0001 deg (roughly 10 m) and several of them land
-    on the wrong side of a facade.  A second ray along the view direction catches an eye point
-    that is outside but pressed against a wall.
+    Building shells are named ``t_<tx>_<ty>_<material>`` and landmark models ``lm_<id>``.  Kit and
+    prop instances (a sidewalk shed, a bus shelter) are legitimate things to stand under, and so
+    is a tree: :func:`is_foliage` takes the canopies back out again.
+    """
+    return ob is not None and bool(_TILE_MESH.match(ob.name) or ob.name.startswith("lm_"))
+
+
+def is_foliage(ob) -> bool:
+    """Is this mesh a tree rather than a piece of built fabric?
+
+    Trees reach a frame two ways.  ``blender_out/props`` instances them as ``prop_tree_*``, where
+    the name says what they are.  A landmark model can carry its own, and there the name says
+    nothing: the 9/11 Memorial's 220 plaza oaks are 220 objects called ``lm_b_wtc_site.7`` through
+    ``lm_b_wtc_site.226``, indistinguishable by name from the Oculus or a tower shaft.  The
+    material is what every tree in the world has in common, so that is what this reads -- no name
+    list to fall out of date as models are added.
+    """
+    if ob is None or getattr(ob, "type", None) != "MESH":
+        return False
+    mats = [m.name for m in ob.data.materials if m is not None]
+    return bool(mats) and all(_FOLIAGE_MATERIAL.match(m) for m in mats)
+
+
+def first_solid_above(x: float, y: float, z: float, *, limit_m: float = 400.0,
+                      max_steps: int = 8):
+    """The first thing over the eye that is not foliage: ``(object, z, normal_z)``.
+
+    A ray straight up is how an eye point is tested for being indoors, and on its own it cannot
+    tell a ceiling from a canopy.  Standing under a tree is exactly what a person on a plaza, a
+    park path or a leafy street does -- the memorial plaza carries 220 oaks over a 117 x 124 m
+    grove and its canopy is effectively continuous -- and an awning, a scaffold shed or a bridge
+    deck are the same case.  So the ray is restarted just past every tree it meets and reports the
+    first *built* thing above; if there is none, the eye can see the sky and is outdoors.
     """
     from mathutils import Vector
     dg = bpy.context.evaluated_depsgraph_get()
     sc = bpy.context.scene
-    def is_shell(ob) -> bool:
-        # Building shells are named ``t_<tx>_<ty>_<material>`` and landmarks ``lm_<id>``.  Kit and
-        # prop instances (a sidewalk shed, a bus shelter) are legitimate things to stand under.
-        return ob is not None and (_TILE_MESH.match(ob.name) or ob.name.startswith("lm_"))
+    origin = Vector((x, y, z))
+    up = Vector((0.0, 0.0, 1.0))
+    travelled = 0.0
+    for _ in range(max_steps):
+        hit, loc, nrm, _, ob, _ = sc.ray_cast(dg, origin + up * travelled, up,
+                                              distance=max(limit_m - travelled, 0.0))
+        if not hit or ob is None:
+            return None, None, None
+        if is_foliage(ob):
+            travelled = float(loc.z) - z + 0.05
+            if travelled >= limit_m:
+                return None, None, None
+            continue
+        return ob, float(loc.z), float(nrm.z)
+    return None, None, None
 
-    hit, up_loc, _, _, ob, _ = sc.ray_cast(dg, Vector((x, y, z)), Vector((0.0, 0.0, 1.0)))
-    if hit and is_shell(ob):
+
+def _blocked(x: float, y: float, z: float, azimuth_deg: float) -> tuple[bool, str]:
+    """Is this eye point inside a building shell, or hard against a wall?
+
+    A ray straight up from a street, a park or a promenade hits nothing solid.  One that hits a
+    shell means the eye is under that building's roof, i.e. inside it -- which happens because the
+    reference viewpoints are recorded to about 0.0001 deg (roughly 10 m) and several of them land
+    on the wrong side of a facade.  Foliage overhead is not a roof and is stepped past
+    (:func:`first_solid_above`).  A second ray along the view direction catches an eye point that
+    is outside but pressed against a wall.
+    """
+    from mathutils import Vector
+
+    ob, up_z, _ = first_solid_above(x, y, z)
+    if is_shell(ob):
         return True, f"inside {ob.name} (a ray straight up from the eye point hits its roof)"
     # Ground and pavement overhead mean the eye is under a slab.  The Bethesda Terrace viewpoint
     # is the case: its plaza polygons bridge the 5 m step between the lower plaza and the upper
     # terrace, so a camera standing on the lower level sits in a sealed pocket 1.9 m under the
     # bridged surface and renders black.  Nothing outdoors ever has terrain or pavement above it.
-    if hit and ob is not None and ob.name in ("verify_terrain", "verify_pavement"):
-        d = float((Vector(up_loc) - Vector((x, y, z))).length)
-        return True, (f"under {ob.name} ({d:.1f} m of ground or paving directly overhead, so the "
-                      f"eye point is beneath the walking surface)")
+    if ob is not None and ob.name in ("verify_terrain", "verify_pavement"):
+        return True, (f"under {ob.name} ({up_z - z:.1f} m of ground or paving directly overhead, "
+                      f"so the eye point is beneath the walking surface)")
+    dg = bpy.context.evaluated_depsgraph_get()
+    sc = bpy.context.scene
     a = math.radians(azimuth_deg)
     fwd = Vector((math.sin(a), math.cos(a), 0.0))
     hit, loc, _, _, ob, _ = sc.ray_cast(dg, Vector((x, y, z)), fwd, distance=2.0)
@@ -323,6 +383,46 @@ def _blocked(x: float, y: float, z: float, azimuth_deg: float) -> tuple[bool, st
     if what is not None and near_m < 1.0:
         return True, f"hard against {what} ({near_m:.2f} m from the lens in the view cone)"
     return False, ""
+
+
+def deck_underfoot(x: float, y: float, z: float, azimuth_deg: float,
+                   eye_height_m: float) -> tuple[float | None, str]:
+    """The modelled deck this eye point was put *under* and belongs on top of.
+
+    A landmark model carries its own ground, and that ground does not have to agree with the 1 m
+    DEM the camera's height is measured from.  ``blender_out/landmarks/b_wtc_site.glb`` draws the
+    9/11 Memorial plaza as a flat 520 x 520 m slab and places it at **7.00 m NAVD88**, while the
+    heightmap under the same point reads **4.26 m**; a camera put 1.6 m above the heightmap
+    therefore stands 1.21 m *beneath* the paving every visitor walks on, with a 520 m ceiling over
+    its head, and renders a black frame from a viewpoint that is in the open air in reality.
+
+    Terrain and pavement deliberately do not get this treatment.  They are draped on the same
+    heightmap the eye height was measured from, so an eye under them is a fault in the ground
+    *reading* -- Bethesda Terrace's bridged plaza polygons are the case -- and the pavement snap in
+    :func:`clear_of_geometry` already corrects those by moving sideways.  A landmark deck is
+    independent geometry that can simply disagree with the DEM, and where it does, the deck is the
+    surface the photographer stood on.
+
+    The correction only applies when the deck is within one eye height overhead (any further and
+    the eye is under a building, not below a step), when the surface is level to within about
+    25 deg, and when standing on it actually clears the eye point.  Returns ``(z, why)`` or
+    ``(None, "")``.
+    """
+    ob, deck_z, normal_z = first_solid_above(x, y, z)
+    if ob is None or not ob.name.startswith("lm_"):
+        return None, ""
+    rise = deck_z - z
+    if not 0.0 <= rise <= max(eye_height_m, 0.1):
+        return None, ""
+    if abs(normal_z or 0.0) < 0.9:            # a wall or a soffit, not something to stand on
+        return None, ""
+    nz = deck_z + eye_height_m
+    if _blocked(x, y, nz, azimuth_deg)[0]:
+        return None, ""
+    return nz, (f"the eye point sat {rise:.2f} m under {ob.name}, the landmark model's own level "
+                f"deck at {deck_z:.2f} m NAVD88, which stands above the heightmap the eye height "
+                f"was measured from; the camera was raised onto it, so it stands on the surface "
+                f"that is actually drawn under it at {nz:.2f} m NAVD88")
 
 
 def probe_origin(slug: str, lat: float, lon: float, azimuth_deg: float, sampler,
@@ -343,9 +443,12 @@ def probe_origin(slug: str, lat: float, lon: float, azimuth_deg: float, sampler,
                   else (None, {}))
     base = 0.0 if rule.datum == "sea" else (gz if gz is not None else 0.0)
     z = base + rule.height_m
+    deck_z, deck_why = deck_underfoot(x, y, z, azimuth_deg, rule.height_m)
+    if deck_z is not None:
+        z, gz = deck_z, deck_z - rule.height_m
     blocked, why = _blocked(x, y, z, azimuth_deg)
     return {"x": x, "y": y, "z": z, "ground_z": gz, "ground_detail": detail,
-            "blocked": blocked, "why": why}
+            "blocked": blocked, "why": why, "deck": deck_why or None}
 
 
 def _surface_below(x: float, y: float, top_m: float = 400.0) -> float | None:
@@ -382,7 +485,7 @@ def _standing_on(x: float, y: float, z: float, reach_m: float = 30.0):
     dg = bpy.context.evaluated_depsgraph_get()
     hit, loc, _, _, ob, _ = bpy.context.scene.ray_cast(
         dg, Vector((x, y, z)), Vector((0.0, 0.0, -1.0)), distance=reach_m)
-    if hit and ob is not None and (_TILE_MESH.match(ob.name) or ob.name.startswith("lm_")):
+    if hit and is_shell(ob) and not is_foliage(ob):
         return ob, float(loc.z)
     return None, None
 
@@ -412,14 +515,29 @@ def _walk_to_parapet(placement: "CameraPlacement", max_m: float = 250.0,
                          + f", and the view azimuth is clear for {view_m:.0f} m")}
     a = math.radians(placement.azimuth_deg)
     dx, dy = math.sin(a), math.cos(a)
-    t, last_good = step_m, 0.0
+    t, last_good, ran_out = step_m, 0.0, True
     while t <= max_m:
         nx, ny = placement.x + dx * t, placement.y + dy * t
         on, _ = _standing_on(nx, ny, placement.z)
         if on is None:
+            ran_out = False
             break
         last_good = t
         t += step_m
+    if ran_out:
+        # The surface still carries the eye at the end of the probe, so it is not a deck with a
+        # parapet somewhere ahead: it is ground.  The 9/11 Memorial plaza is the case -- a single
+        # 520 x 520 m slab inside ``lm_b_wtc_site`` -- and walking to its "edge" would carry the
+        # camera a quarter of a kilometre away from the viewpoint the photograph was taken at.
+        return {"moved": False, "offset_m": 0.0, "standing_on": ob.name,
+                "view_m": round(view_m, 1), "nearest_obstruction_m": round(near_m, 1),
+                "nearest_obstruction": near_what,
+                "note": (f"the eye point stands on {ob.name}, which still carries it {max_m:.0f} m "
+                         f"along the view azimuth, so it is a ground-level deck rather than a roof "
+                         f"with an edge to walk to; the camera was not moved.  The view azimuth is "
+                         f"clear for {view_m:.0f} m and the nearest solid thing in the view cone is "
+                         + (f"{near_what} {near_m:.1f} m away" if near_what else
+                            f"further than {near_m:.0f} m"))}
     if last_good < step_m:
         return {"moved": False, "offset_m": 0.0, "standing_on": ob.name,
                 "note": (f"the eye point stands on {ob.name} and is already at its {placement.azimuth_deg:.0f} deg "
@@ -462,8 +580,10 @@ def view_distance(x: float, y: float, z: float, azimuth_deg: float,
 
     Only building shells and landmark models count.  A street tree or a lamp standard on the axis
     is not a closed view -- Washington Street in DUMBO has a zelkova 5 m in front of the lens and
-    the bridge tower 160 m beyond it, and a photographer simply looks past the tree.  Something
-    actually *touching* the lens is a different matter and is caught by
+    the bridge tower 160 m beyond it, and a photographer simply looks past the tree.  A tree that
+    is part of a landmark model rather than a ``prop_*`` instance is stepped past on the same
+    grounds: the 9/11 Memorial's oaks are objects inside ``lm_b_wtc_site`` and a grove is not a
+    wall.  Something actually *touching* the lens is a different matter and is caught by
     :func:`nearest_obstruction`, which does count props.
     """
     from mathutils import Vector
@@ -480,7 +600,7 @@ def view_distance(x: float, y: float, z: float, azimuth_deg: float,
         if not hit or ob is None:
             return float(probe_m)
         step = float((Vector(loc) - here).length)
-        if ob.name.startswith("prop_"):
+        if ob.name.startswith("prop_") or is_foliage(ob):
             travelled += step + 0.05
             if travelled >= probe_m:
                 return float(probe_m)
@@ -597,6 +717,38 @@ def pavement_candidates(x: float, y: float, *, max_m: float = 70.0) -> list[dict
 def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 80.0,
                       step_m: float = 2.0, min_view_m: float = 15.0, force: bool = False,
                       has_subject: bool = False) -> dict:
+    """Correct an unusable eye point and record what was done to it.
+
+    Two things can be wrong with a recorded viewpoint, and they are corrected in this order:
+    the eye can be *below* the surface it should be standing on, which is a height fault and is
+    fixed in place by :func:`deck_underfoot`; and it can be inside or hard against geometry, which
+    is a position fault and is fixed by :func:`_move_clear_of_geometry` moving the camera.
+    """
+    eye_above_ground = placement.z - (placement.terrain_z_m if placement.terrain_z_m is not None
+                                      else placement.z)
+    deck_z, deck_why = deck_underfoot(placement.x, placement.y, placement.z, placement.azimuth_deg,
+                                      eye_above_ground)
+    if deck_z is not None:
+        cam = bpy.context.scene.camera
+        cam.location = (placement.x, placement.y, deck_z)
+        bpy.context.view_layer.update()
+        placement.terrain_z_m = deck_z - eye_above_ground
+        placement.z = deck_z
+        placement.ground_detail = {"mode": "landmark deck",
+                                   "chosen_m": round(deck_z - eye_above_ground, 2),
+                                   "heightmap_m": placement.ground_detail.get("chosen_m"),
+                                   "note": deck_why}
+        placement.ground_source = deck_why
+    out = _move_clear_of_geometry(placement, sampler, max_m=max_m, step_m=step_m,
+                                  min_view_m=min_view_m, force=force, has_subject=has_subject)
+    if deck_why:
+        out["stood_on_deck"] = deck_why
+    return out
+
+
+def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 80.0,
+                            step_m: float = 2.0, min_view_m: float = 15.0, force: bool = False,
+                            has_subject: bool = False) -> dict:
     """Move an eye point that landed inside a building out to the real pavement, and say so.
 
     The camera is only moved when it is demonstrably inside geometry.  Two corrections are tried,
@@ -674,6 +826,14 @@ def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 8
         for gz, detail in readings:
             nz = (gz if gz is not None else (placement.terrain_z_m or 0.0)) + rise
             if not _blocked(nx, ny, nz, placement.azimuth_deg)[0]:
+                break
+            # A candidate can land under a landmark's own deck for the same reason the recorded
+            # viewpoint did, and belongs on top of it there too.
+            lifted, deck_why = deck_underfoot(nx, ny, nz, placement.azimuth_deg, rise)
+            if lifted is not None:
+                nz, gz, detail = lifted, lifted - rise, {"mode": "landmark deck",
+                                                         "chosen_m": round(lifted - rise, 2),
+                                                         "note": deck_why}
                 break
         else:
             return None
