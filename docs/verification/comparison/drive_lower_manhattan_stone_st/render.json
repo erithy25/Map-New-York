@@ -107,31 +107,36 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_lower_manhattan_stone_st/render.png",
- "rendered_at": "2026-09-07T13:33:07Z",
+ "rendered_at": "2026-09-07T14:34:39Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
-   "caption": "Agents: 89 vehicles within 320 m and 363 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 644 vehicles and 4472 people over the whole simulated ring, of which 692 and 3000 were simulated; 3240 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "caption": "Agents: 89 vehicles within 320 m and 378 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 644 vehicles and 4472 people over the whole simulated ring, of which 692 and 3000 were simulated; 3225 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "culled_after_camera_move": {
+    "pedestrian_over_the_observer": 1,
+    "vehicle_over_the_observer": 0
+   },
    "dropped": {
     "pedestrian_in_the_carriageway_not_crossing": 524,
     "pedestrian_inside_building": 19,
     "pedestrian_not_on_walkable_surface": 164,
     "pedestrian_outside_radius": 1284,
-    "pedestrian_triangle_budget": 646,
+    "pedestrian_over_the_observer": 2,
+    "pedestrian_triangle_budget": 630,
     "vehicle_body_has_no_rider": 21,
     "vehicle_not_on_carriageway": 13,
     "vehicle_outside_radius": 357,
     "vehicle_triangle_budget": 212
    },
    "ped_lods": {
-    "LOD0": 2,
+    "LOD0": 1,
     "LOD1": 13,
-    "LOD2": 348
+    "LOD2": 364
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 579496,
+   "pedestrian_triangles": 581013,
    "per_class": {
     "black_car": 4,
     "boro_taxi": 7,
@@ -143,10 +148,10 @@
     "taxi": 6,
     "van": 3
    },
-   "placed_pedestrians": 363,
+   "placed_pedestrians": 377,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 143.46,
+   "seconds": 162.86,
    "snapshot": {
     "building_footprints_tested": 430,
     "density_lane_km": 28.886,
@@ -161,7 +166,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.05,
+     "load_seconds": 2.01,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -169,7 +174,7 @@
      "signal_plans": 19814
     },
     "npc_bodies_imported": 12,
-    "npc_templates_baked": 86,
+    "npc_templates_baked": 85,
     "pavement_polygons_tested": 2019,
     "ped_spawn_radius_m": 220.0,
     "peds_in_snapshot": 3000,
@@ -185,9 +190,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 692
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "simulated (compiled)",
    "triangle_budget": 1125000,
-   "triangles": 1085348,
+   "triangles": 1086865,
    "vehicle_lods": {
     "LOD2": 89
    },
@@ -274,7 +279,7 @@
    457.07
   ],
   "kit": {
-   "capped": "triangle budget 1242184",
+   "capped": "triangle budget 1240667",
    "per_category": {
     "billboard": 1,
     "bulkhead": 22,
@@ -291,10 +296,10 @@
     "string_course": 12,
     "vegetation": 5,
     "water_tower": 4,
-    "window": 5634,
+    "window": 5625,
     "window_accessory": 111
    },
-   "placed": 6324,
+   "placed": 6315,
    "radius_m": 120.0,
    "records_in_range": 13894,
    "stale_registry_ids": {},
@@ -303,7 +308,7 @@
    "tiles_read": [
     "t_-6_0"
    ],
-   "triangles": 1242311,
+   "triangles": 1240673,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -522,7 +527,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 266.95,
+  "seconds": 317.95,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -575,7 +580,7 @@
    "z_max_m": 12.91,
    "z_min_m": -4.3
   },
-  "triangles": 4500127
+  "triangles": 4500006
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -585,9 +590,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 177.9,
-  "scene": 271.2,
-  "total": 449.1
+  "render": 176.3,
+  "scene": 322.6,
+  "total": 499.0
  },
  "slug": "drive_lower_manhattan_stone_st",
  "status": "rendered",
