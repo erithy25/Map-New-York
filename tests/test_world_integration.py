@@ -672,3 +672,47 @@ def test_the_mandated_viewpoints_and_drive_areas_all_have_a_usable_comparison():
             missing_areas.append(f"{area}: no usable scene ({states})")
     assert not missing_areas, ("drive-through areas with no usable comparison scene:\n  "
                               + "\n  ".join(missing_areas))
+
+
+def test_no_comparison_camera_is_placed_underground():
+    """A verification camera below the surface it stands on renders a black frame from inside the shell.
+
+    Two scenes failed this way. Bethesda Terrace was fixed by giving raised viewpoints `mode="local"`,
+    and the 9/11 Memorial Pools by bounding how far the street percentile may reach below the point the
+    camera actually stands on: the two pools are 9 m voids a few metres from the viewpoint, so the 10th
+    percentile inside 10 m came out at 1.17 m against a plaza at 4.31 m and sealed the eye 1.4 m under
+    the paving. This test reads each render record's own camera position back against the terrain and
+    fails if any eye point is at or below the ground, which is the condition that produces the black
+    frame, whatever its cause.
+    """
+    import numpy as np
+
+    from nycsim_pipeline.terrain.segment_z import ZSampler
+
+    records = sorted((VERIFICATION / "comparison").glob("*/render.json"))
+    if not records:
+        pytest.skip("no comparison render records")
+
+    xs, ys, zs, slugs = [], [], [], []
+    for r in records:
+        try:
+            rec = json.loads(r.read_text())
+        except json.JSONDecodeError:
+            continue
+        cam = rec.get("camera") or {}
+        x, y, z = cam.get("x"), cam.get("y"), cam.get("z")
+        if x is None or y is None or z is None:
+            continue
+        xs.append(float(x)); ys.append(float(y)); zs.append(float(z)); slugs.append(r.parent.name)
+    if not xs:
+        pytest.skip("no render record carries a camera position")
+
+    ground = ZSampler().sample(np.asarray(xs), np.asarray(ys))
+    clearance = np.asarray(zs) - ground
+    # A camera on a bridge deck, an observation floor or a terrace is legitimately far above the terrain,
+    # so only the lower bound is asserted. 0.5 m is below any real eye height and well clear of the
+    # sampler's own 0.384 m RMS.
+    underground = [(s, float(c), float(g)) for s, c, g in zip(slugs, clearance, ground)
+                   if np.isfinite(c) and c < 0.5]
+    assert not underground, ("comparison cameras at or below the ground (slug, clearance m, terrain m): "
+                             + ", ".join(f"{s} {c:+.2f} over {g:.2f}" for s, c, g in underground))

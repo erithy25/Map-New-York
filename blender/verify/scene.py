@@ -147,6 +147,15 @@ def tiles_in_radius(cx: float, cy: float, radius_m: float) -> list[tuple[int, in
     return out
 
 
+MAX_STREET_DROP_M = 1.2
+"""How far below its own standing point the street percentile may reach (metres).
+
+A kerb is 0.15 m, a stoop 0.6 m, a sunken forecourt about 1 m; a memorial pool, a basement ramp or a
+subway cut is several metres and is a hole the camera is not standing in. 1.2 m keeps every real
+step-down and rejects every void.
+"""
+
+
 class TerrainSampler:
     """Lazy reader for the per-tile heightmaps, with bilinear sampling in NYC_TM metres."""
 
@@ -257,8 +266,27 @@ class TerrainSampler:
             return None, {"mode": mode, "samples": 0}
         vals = z[ok]
         point = self.z_at(x, y)
+        dropped = 0
         if mode == "street":
-            zz = float(np.percentile(vals, percentile))
+            # The percentile exists to stop a camera being lifted onto a plinth or terrace beside it, so
+            # it only ever needs to look *downward* by about the height of a kerb or a stoop. A
+            # neighbourhood can also contain a hole -- a sunken pool, a ramp down to a basement, a subway
+            # cut -- and a low percentile over one of those puts the eye underground, whereupon the paving
+            # closes over its head and the frame renders black from inside the shell. That is exactly what
+            # happened at the 9/11 Memorial: the two pools are 9 m voids a few metres from the viewpoint,
+            # the 10th percentile inside 10 m came out at 1.17 m against a plaza at 4.31 m, and the render
+            # was black. Samples more than MAX_STREET_DROP_M below the point the camera actually stands on
+            # are therefore not candidates for the surface it stands on.
+            if point is not None:
+                keep = vals >= float(point) - MAX_STREET_DROP_M
+                dropped = int((~keep).sum())
+                if keep.any():
+                    vals_for_pct = vals[keep]
+                else:
+                    vals_for_pct = vals
+            else:
+                vals_for_pct = vals
+            zz = float(np.percentile(vals_for_pct, percentile))
         elif point is not None:
             zz = float(point)
         else:
@@ -268,6 +296,7 @@ class TerrainSampler:
                     "median_m": round(float(np.median(vals)), 2),
                     "point_m": None if point is None else round(float(point), 2),
                     "percentile": percentile if mode == "street" else None,
+                    "below_point_excluded": dropped if mode == "street" else None,
                     "chosen_m": round(zz, 2)}
 
 
