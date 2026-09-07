@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-07 10:21 UTC from commit `bd482dacdf70` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-07 10:23 UTC from commit `a0f93d45c45a` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
