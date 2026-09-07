@@ -501,5 +501,49 @@ touch it because it belongs to the Oculus views and their assessments, and movin
 **One comparison scene loses the landmark.** With the plaza clipped, `b_wtc_site`'s world bounding box comes no
 closer than **524.5 m** to `landmark_municipal_building`'s camera, against that scene's **508.2 m** radius, so it is
 no longer placed there. The World Trade Center is at bearing 260 deg from that camera, which looks at 81.6 deg with
-a 90 deg horizontal field: it was behind the lens before and is absent now, and the re-render confirms the frame is
-unchanged. The other 16 scenes still carry it.
+a 90 deg horizontal field: it was behind the lens before and is absent now. Re-rendered to check: **0.015 %** of
+pixels differ by more than 8/255, maximum 27, scattered as Cycles sampling noise rather than concentrated anywhere,
+and the frame mean moves 0.483 -> 0.484. The other 16 scenes still carry it.
+
+**The plaza deck and the city's pavement overlap within 40 mm.** The memorial plaza is also a `plaza`-kind polygon
+in `data/processed/roads/pavement`, which the comparison scene drapes at heightmap + 0.25 m — 4.44 m here against
+the model deck's 4.40 m. They do not z-fight at these distances, but the two surfaces are drawn one over the other
+across the whole memorial plaza and a downward ray finds the pavement, not the model. Whoever integrates the
+landmark set into the engine has to decide which surface wins; nothing here does.
+
+**The scene draws terrain through the pools.** Cutting the plaza open lets a camera *see* into a pool, but the
+comparison scene's terrain and pavement are not cut with it, so the published heightmap surface — median **1.86 m**
+NAVD88 inside the South Pool square over 841 samples at 2 m, 2.54 m below the deck — is drawn straight across the
+modelled basin, which reaches -4.74 m at the water and -13.74 m in the void. The opening therefore reads as a
+2.5 m depression rather than the 9.14 m fall. That is a comparison-stage gap, not a model one, and it is recorded
+in `docs/verification/comparison/landmark_911_memorial_pools/assessment.md` rather than worked around.
+
+### 12.7 What the 17 re-rendered comparison scenes show
+
+The scenes were found by testing the model's world bounding box against each scene's recorded camera and radius —
+the same test `blender/verify/scene.py: add_landmarks` uses — not by reading the shipped `render.json` landmark
+lists. Seventeen admitted the old bounding box, sixteen admit the clipped one. All seventeen were re-rendered at
+32 samples with `blender/verify/render_sheets.py --slugs`. "Changed" is the share of pixels differing by more than
+8/255 from the shipped render.
+
+| scene | changed | what changed |
+|---|---:|---|
+| `landmark_one_world_trade_center` | 92.9 % | the clearance rule moved the camera 166 m instead of 34 m and the tower is centred in frame for the first time |
+| `landmark_oculus` | 65.3 % | the model 3.5 m lower (2.6 deg at 76 m) plus a 3.0 deg pitch change that predates this pass |
+| `landmark_911_memorial_pools` | 35.2 % | the camera is no longer corrected at all, and the plaza is cut open |
+| `staten_island_ferry_lower_manhattan` | 1.30 % | **not this work** — the New Jersey building stage landed after the sheet was made; 103 tiles import against 68, 37 of them New Jersey |
+| `landmark_woolworth_building` | 0.63 % | 4 WTC's crown in the upper left, 3.5 m lower at 492 m |
+| `promenade_lower_manhattan` | 0.04 % | 15 New Jersey tiles thickening the haze band, plus 1.7 px of skyline |
+| `landmark_municipal_building` | 0.015 % | the landmark is no longer in radius; it was behind the lens |
+| `landmark_charging_bull`, `landmark_one_wall_street`, `landmark_federal_hall`, `landmark_city_hall`, `landmark_equitable_building`, `landmark_trinity_church`, `landmark_nyse`, `landmark_40_wall_street`, `drive_lower_manhattan_broadway_wall_st`, `drive_lower_manhattan_stone_st` | <= 0.009 % | sampling noise; maximum single-pixel difference 21/255 |
+
+**One change was needed in the comparison stage, and it is recorded here because this model caused it.**
+`camera._walk_to_parapet` walks an eye point standing on a landmark deck forward to that deck's edge, because an
+observation-deck viewpoint is recorded as one lat/lon for the whole slab. It left the memorial camera alone only
+because the old plaza was a 520 m slab wider than its 250 m probe; with the plaza clipped it began dragging that
+camera 26 m off the position the photograph's own GPS records. The rule now applies only where its justification
+holds — a *nominal* viewpoint — and is refused when the position came from a photograph's EXIF GPS. Two more
+physical rules were written and measured first and both were rejected, because neither separates this case from
+Bethesda Terrace, which the walk gets right: height above the heightmap (1.33 m at the memorial, 1.6 m at Bethesda)
+and a drop beyond the stopping point (1.10 m against 0.90 m). Bethesda re-renders **bit-identical** to its shipped
+frame under the rule that shipped.
