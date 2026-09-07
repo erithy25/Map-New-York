@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-06 23:29 UTC from commit `9b42bb0ea1af` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-07 01:17 UTC from commit `54e8c62b7c39` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -112,7 +112,7 @@ Water: hydrography polygons 2,235 · shoreline lines 413 · structures 2,536 · 
 | kit | 138 | 140.3 MB |
 | props | 122 | 79.2 MB |
 | vehicles | 93 | 100.2 MB |
-| character | 25 | 512.3 MB |
+| character | 25 | 512.5 MB |
 | landmarks | 127 | 920.5 MB |
 | tiles | 1,496 | 5,523.1 MB |
 
@@ -180,7 +180,7 @@ Stage reports present: buildings, buildings_mesh, character, citygml, comparison
 
 Lanes that split their work wrote more than one: `landmarks` (REPORT_B.md, REPORT_C.md).
 
-Per-subject reports underneath those: comparison 43, facade 1, landmarks 34, reference 2, traffic_density 2.
+Per-subject reports underneath those: comparison 58, facade 1, landmarks 34, reference 2, traffic_density 2.
 
 What is verified in this environment versus on a workstation is defined in `docs/ARCHITECTURE.md` §14. In short: geodesy, tiling, streaming logic, routing, traffic rules, signal phasing, astronomy, time zone handling, weather parsing, data coverage and asset geometry are verified here by tests and Cycles renders. Unreal Engine compilation, cooking, frame rate, vehicle feel and audio are not — no Unreal editor or GPU exists in this environment, and no claim is made that they were tested.
 
@@ -323,7 +323,11 @@ the individual assessments, because together they are the honest answer to "is i
 | I5 | **No interiors anywhere**, except volumes visible from the street through glass. | Scope. | — |
 | I6 | **One reference subject has a single photograph** (Staten Island ranch houses) and seven have 2–3 instead of 3–4. | Commons has essentially no freely licensed street photography of ordinary Staten Island tract housing; the candidate pool was exhausted after licence, date and content filtering, and each `meta.json` records `"exhausted": true` with its rejection histogram. Padding the subject with photographs of something else was rejected. | A different photo corpus. |
 | I7 | **Street-axis subjects carry the subject's azimuth, not the photograph's.** | Nothing in the file metadata gives a camera heading; every such explanation says exactly that. | EXIF that does not exist. |
-| I8 | **Six comparison scenes still render near-black and one fails to render**, so 50 of 57 scenes are usable. The render gate fails on exactly those seven and is left failing. | Under investigation at the time of writing; the evidence points at the camera being inside geometry for some and outside the loaded region for others. | Fix the camera placement, or drop the scene and say so — never ship a black frame or widen the gate. |
+| I8 | ~~Six comparison scenes render near-black and one not at all~~ — **closed. All 57 scenes now have a usable render, a sheet and a written assessment.** The last of them, the 9/11 Memorial Pools, was black for two independent reasons, and both were camera-placement faults rather than anything wrong with the world. | The first: `ground_z(mode="street")` took a low percentile of the terrain in a radius and found the bottom of a memorial pool — a 9 m void a few metres away — putting the eye 1.4 m under the paving. The second: the WTC site model's own plaza slab (I11) covered the camera. Four landmark-stage renders were red for the same class of reason and are also fixed: a camera 7.9 m underground, one inside a terrace prism, one under a boardwalk aimed 19° off, and two wall views too small to read. | — |
+| I9 | **The "is this eye point indoors" test was an upward ray cast**, which cannot tell a ceiling from foliage, an awning, a scaffold shed or a bridge deck — all of which exist in this world and all of which a person stands under. | An upward hit was taken as proof of being inside a shell. | Fixed: the ray now steps past trees and reports the first *built* thing overhead, identifying foliage by material after checking those materials appear on tree geometry and nothing else across 122 props, 127 landmarks, 138 kit pieces and the tile shells. |
+| I10 | **Two comparison sheets are stale.** `landmark_oculus` (pitch −3.3° → −0.3°) and `landmark_one_world_trade_center` (camera moved 39 m and its clearance rule fell to "open air only") were placed under the pre-fix camera code and not re-rendered. | 1WTC's new placement is worse by the search's own criteria, so re-rendering risked replacing a working sheet with a poorer one. Measured and recorded rather than silently left. | Re-render once the placement search is improved, or accept the older, better frame and say which code produced it. |
+| I11 | **The WTC site model stands about 2.6 m too high**, and its plaza is one unbroken 520 × 520 m quad with no openings cut for the two memorial pools — so no camera anywhere on that plaza can see a pool, which is the subject of one of the sheets. It appears in 17 of the 57 scenes. | `GRND = 3.5` is used both as the local datum for all the model's geometry and as the frame origin's NAVD88 z, and the scene places a landmark by adding the origin, so the plaza level is counted twice: the plaza quad measures exactly 7.000 m NAVD88 against a DEM of 4.40 m at the plaza centre. Across the other 92 catalogue entries the median \|origin z − DEM\| is 0.072 m, so the convention is sound and this one model breaks it. | Separate the two uses of `GRND`, cut the pool openings, clip the oversized plaza. **In progress at the time of writing.** |
+| I12 | **The reference metadata has two faults that produce misleading sheets.** The Washington Square Arch sheet compares two different views — its photograph is of skateboarders at the fountain and does not contain the Arch — because the heading came from a camera-GPS-to-subject bearing that assumes a photograph taken *at* a viewpoint is a photograph *of* it. The Williamsburg Bridge camera sits 500 m too far back because a 250 m rule rejected a photograph's own GPS, which was correct at 117 m, in favour of a nominal viewpoint that was not, at 506 m. | Both are in the reference chooser and its distance rule, not in the comparison lane. The chooser also scored one photograph 14.2 on a subject it does not show. | Fix the chooser's subject test and the distance rule; both would move scenes across lanes, so they are documented rather than changed in place. |
 
 ---
 
@@ -344,5 +348,5 @@ Two things, stated so their absence is not mistaken for an oversight:
   struct that made the road graph unreadable to the router, and a character whose garments all carried
   the wrong vertex weights.
 
-That is **68 deviations**, each with the stage report it is drawn from. The source document is `docs/DEVIATIONS.md`.
+That is **72 deviations**, each with the stage report it is drawn from. The source document is `docs/DEVIATIONS.md`.
 
