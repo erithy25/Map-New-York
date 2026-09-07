@@ -1,4 +1,11 @@
 {
+ "agent_request": {
+  "dow": 0,
+  "hour": 16,
+  "local_clock": "2024-09-26 16:04 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
  "azimuth_reason": "140.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
  "camera": {
   "azimuth_deg": 140.0,
@@ -7,6 +14,7 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
+   "below_point_excluded": null,
    "chosen_m": 21.85,
    "max_m": 21.91,
    "median_m": 21.81,
@@ -54,9 +62,9 @@
   "view_m": 24.0
  },
  "frame": {
-  "mean": 0.5214,
+  "mean": 0.4889,
   "reason": null,
-  "sd": 0.1601,
+  "sd": 0.1829,
   "usable": true
  },
  "frame_retry": null,
@@ -67,10 +75,11 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 754.0,
   "emissive": {
+   "cone_faces_deleted": 8,
    "cones_hidden": 1,
    "lamps_switched_off": 1,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.61,
   "sky_azimuth_deg": 239.584,
@@ -96,10 +105,94 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_queens_forest_hills/render.png",
- "rendered_at": "2026-09-06T21:15:56Z",
+ "rendered_at": "2026-09-07T14:48:39Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1081 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "caption": "Agents: 66 vehicles within 320 m and 404 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 479 vehicles and 1399 people over the whole simulated ring, of which 572 and 1488 were simulated; 1590 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 366,
+    "pedestrian_inside_building": 1,
+    "pedestrian_not_on_walkable_surface": 153,
+    "pedestrian_outside_radius": 471,
+    "pedestrian_triangle_budget": 93,
+    "vehicle_body_has_no_rider": 12,
+    "vehicle_not_on_carriageway": 9,
+    "vehicle_outside_radius": 294,
+    "vehicle_triangle_budget": 191
+   },
+   "ped_lods": {
+    "LOD1": 9,
+    "LOD2": 395
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 581921,
+   "per_class": {
+    "black_car": 3,
+    "boro_taxi": 2,
+    "box_truck": 1,
+    "mta_bus": 1,
+    "nypd": 1,
+    "sedan": 32,
+    "suv": 17,
+    "taxi": 3,
+    "van": 6
+   },
+   "placed_pedestrians": 404,
+   "placed_vehicles": 66,
+   "reason": null,
+   "seconds": 64.46,
+   "snapshot": {
+    "building_footprints_tested": 7269,
+    "density_lane_km": 29.388,
+    "density_sidewalk_m2": 36276,
+    "density_target_pedestrians": 1398.9,
+    "density_target_vehicles": 479.2,
+    "dow": 0,
+    "hour": 16,
+    "lanes_considered": 380,
+    "lanes_with_nta": 380,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 2.04,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 74,
+    "pavement_polygons_tested": 4546,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 1488,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 572
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1088028,
+   "vehicle_lods": {
+    "LOD1": 6,
+    "LOD2": 60
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 506107
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
@@ -112,26 +205,39 @@
    "landmark_faces_suppressed": 0,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_8_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 11,
-     "triangles": 82726
+     "triangles": 88244
     },
     "t_8_2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 12,
-     "triangles": 66928
+     "triangles": 71008
     },
     "t_9_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 12,
-     "triangles": 58738
+     "triangles": 62464
     },
     "t_9_2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 10,
-     "triangles": 32028
+     "triangles": 33888
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -139,8 +245,9 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 4,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 240420
+   "triangles": 255604
   },
   "centre_tm": [
    8881.68,
@@ -156,16 +263,16 @@
     "hvac": 21,
     "parapet": 199,
     "scaffold": 11,
-    "storefront": 4,
+    "storefront": 5,
     "storefront_interior": 2,
     "string_course": 16,
     "vegetation": 55,
     "window": 1936,
     "window_accessory": 287
    },
-   "placed": 2787,
+   "placed": 2788,
    "radius_m": 120.0,
-   "records_in_range": 2787,
+   "records_in_range": 2788,
    "stale_registry_ids": {},
    "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
@@ -174,12 +281,16 @@
     "t_8_2",
     "t_9_1"
    ],
-   "triangles": 773100,
+   "triangles": 773032,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
    "placed": 0,
    "skipped": 0,
    "skipped_detail": [],
@@ -206,11 +317,13 @@
     "t_9_2"
    ],
    "triangles": 190019,
+   "triangles_cut_for_landmark_ground": 0,
    "vertices": 194151
   },
   "props": {
    "capped": null,
    "impostor_cards_dropped": 14,
+   "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
     "bench": 6,
@@ -219,11 +332,11 @@
     "mailbox": 2,
     "manhole": 117,
     "street_lamp": 40,
-    "tree": 96
+    "tree": 97
    },
-   "placed": 298,
+   "placed": 299,
    "radius_m": 250.0,
-   "rows_in_range": 386,
+   "rows_in_range": 387,
    "tiles_missing": [],
    "tiles_read": [
     "t_8_1",
@@ -231,8 +344,8 @@
     "t_9_1",
     "t_9_2"
    ],
-   "tree_species_substituted": 58,
-   "triangles": 992272,
+   "tree_species_substituted": 59,
+   "triangles": 999548,
    "unmapped_kinds": {
     "cooling_tower": 14,
     "curb_ramp": 70,
@@ -241,7 +354,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 17.62,
+  "seconds": 117.96,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -249,24 +362,28 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
    "samples": 211,
    "spacing_m": 2.0,
    "triangles": 88200,
+   "water_bodies": [],
    "water_quads": 0,
    "z_max_m": 40.25,
    "z_min_m": 3.11
   },
-  "triangles": 2284011
+  "triangles": 3394431
  },
  "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 114.5,
-  "scene": 18.2,
-  "total": 132.7
+  "render": 118.9,
+  "scene": 119.0,
+  "total": 237.9
  },
  "slug": "drive_queens_forest_hills",
  "status": "rendered",

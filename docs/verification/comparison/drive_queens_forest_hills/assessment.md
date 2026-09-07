@@ -12,6 +12,27 @@
 
 **Verdict — the single clearest demonstration in the set of what a flat-capped extruded footprint costs: Forest Hills Gardens is steep tiled roofs, half-timbering, casements and brick, and the render is white boxes with flat tops**
 
+## Re-rendered 2026-09-07 — the best-composed drive-through frame, with one conspicuous artefact
+
+This is the drive-through frame that reads most like a street: a car at the kerb and a second one
+behind it, two people walking the pavement, a street tree with its trunk in the foreground, houses
+set back behind their front walls, a stoop with an iron railing, and the roofline stepping down the
+block. 66 vehicles and 404 pedestrians are in the scene, and unlike the Bronx frames several of each
+are actually in shot. No agent needed culling — the nearest is well beyond the clearance.
+
+**The ivy is the artefact.** 55 `vegetation` kit pieces are placed, and they are
+`ivy_panel_dense` / `ivy_panel_sparse` — panels 1.947 m wide, 2.0 m tall and **0.185 m deep**,
+intended as ivy climbing a wall. Placed in continuous abutting runs at a uniform height they read as a
+green painted band along the base of every wall rather than as climbing plants: same top edge, same
+bottom edge, no gaps, no variation, and too shallow to catch a shadow. It is the most conspicuously
+unreal thing in the frame, and it is a placement pattern rather than a bad asset — one panel on one
+wall would be fine.
+
+The walls behind them are the facade-class case already recorded on the Bed-Stuy and Park Slope
+sheets: 1,936 window pieces in this frame, rendering as faint rectangles on a flat plane with no
+opening, reveal or glass. The Wall Street canyon frame shows the same kit producing real recessed
+openings, so this is a property of these classes and not of the kit.
+
 ## What matches
 
 * The camera stands on the photograph's own EXIF GPS, 222 m from the item's nominal viewpoint, at 23.4 m NAVD88 on a 21.8 m surface, and the new point-sample ground rule was used because the note names a terrace.
