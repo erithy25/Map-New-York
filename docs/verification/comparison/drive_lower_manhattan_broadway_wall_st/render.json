@@ -105,7 +105,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_lower_manhattan_broadway_wall_st/render.png",
- "rendered_at": "2026-09-07T13:25:36Z",
+ "rendered_at": "2026-09-07T14:26:18Z",
  "resolution_note": "1112x980; the reference photograph is 1920x1693 (1.13:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -143,7 +143,7 @@
    "placed_pedestrians": 212,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 144.43,
+   "seconds": 158.35,
    "snapshot": {
     "building_footprints_tested": 1416,
     "density_lane_km": 30.259,
@@ -182,7 +182,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 563
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -5210_871_13_2_455f589c260ce148_1788782618.json",
    "triangle_budget": 1125000,
    "triangles": 1085134,
    "vehicle_lods": {
@@ -518,7 +518,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 209.24,
+  "seconds": 207.48,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -581,9 +581,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 149.7,
-  "scene": 210.7,
-  "total": 360.4
+  "render": 160.8,
+  "scene": 208.7,
+  "total": 369.5
  },
  "slug": "drive_lower_manhattan_broadway_wall_st",
  "status": "rendered",
