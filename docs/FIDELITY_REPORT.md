@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-07 10:23 UTC from commit `a0f93d45c45a` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-07 10:23 UTC from commit `e2a237fc4206` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -139,7 +139,7 @@ Water: hydrography polygons 2,235 · shoreline lines 413 · structures 2,536 · 
 | vehicles | 93 | 100.2 MB |
 | character | 25 | 512.5 MB |
 | landmarks | 127 | 920.2 MB |
-| tiles | 1,496 | 5,893.5 MB |
+| tiles | 1,496 | 5,893.6 MB |
 
 Catalog entries describing those assets: 422.
 
@@ -449,12 +449,14 @@ That is **82 deviations**, each with the stage report it is drawn from. The sour
 Ordered by what each one buys against what it costs, not by how hard it is. Every one of these is traceable to a numbered deviation in §10, where the measurement behind it is stated.
 
 1. **Compile, cook and run the Unreal project on a workstation** (A1). Everything downstream of it is unknown until it is done: frame rate, vehicle feel, audio, streaming under a real GPU, and the brief's first condition — driving from any address to any other. 112 C++ files and 27,909 lines are authored and statically checked, and nothing is known to be missing, but nothing is proven to build. `unreal/README.md` has the steps; §6.1 lists the four static checks that pass and what they do *not* cover.
-2. **Put a real material set on the building shells** (B12). This is the largest single gain in visual fidelity available without new data: shells carry a per-material base colour and nothing else, so the Lower Manhattan skyline renders as flat pastel solids against a photograph of dark banded glass. A glass BSDF, spandrel banding and an albedo/roughness set keyed on the `facade_class` and `material_primary` already in the data would change every comparison sheet in this report. It needs authoring, not acquisition.
+2. **Finish the material set on the building shells** (B12) — *in progress at the time of writing*, folded into the same shell rebuild as the stepped massing so the 920 tiles are re-exported once rather than twice. This is the largest single gain in visual fidelity available without new data. What is missing is narrower than this report first claimed: the shells already carry per-class roughness and metallic, and what they lack is transmission, IOR and specular — so a curtain wall is a smooth opaque surface rather than glass — plus any variation between two buildings of the same class, and the spandrel band at each floor line. It needs authoring, not acquisition.
 3. **Licensed street-level imagery and a vision model** (A2). The single largest *data* gap: 96.69 % of facades are inferred from real attributes rather than observed. The rule table is deliberately shaped so a real source replaces its rows without a contract change, so this is an ingest, not a rewrite.
 4. **A roof-plane classifier on the raw LiDAR** (A3). 52.43 % of roofs are inferred, gable-versus-hip is undetermined, and about 1 in 5 inferred pitched roofs is wrong. This is the second-largest data gap and the point cloud it needs is public.
 5. **Re-run the terrain stage against the 1 ft city DEM** (A4). No code change: the stage already consumes it, and it was skipped only because 26.6 GB did not fit the disk allowance here. Would take vertical accuracy from a measured 0.384 m RMS toward the 0.15 m the plan assumed.
 6. **A structures stage for what is neither building, road, nor prop** (B13). Promenade decks, park terraces, piers and pedestrian bridges are absent, so a camera standing on the Brooklyn Heights Promenade stands on bare terrain. The planimetric polygons are already downloaded.
-7. **New Jersey heights from OSM** (B11a). The shipped source understates Jersey City's towers by a median 66 m; the OSM extract already in this repository carries 417 `height` tags and 6,199 `levels` for New Jersey. A bounded ingest against data on disk.
+7. **New Jersey heights from OSM** (B11a) — *in progress at the time of writing*. The shipped source understates Jersey City's towers by a median 66 m even among the towers that predate its own imagery; the OSM extract already in this repository carries 417 `height` tags and 6,199 `levels` for New Jersey. A bounded ingest against data already on disk.
+
+Two entries have left this list since it was first written, and **how** they left is the transferable part. **Commercial signage** was closed by finding that the claim behind it was false: the kit report said there is no real source of NYC signage locations here, and there are two — 292 OSM billboard nodes, and MapPLUTO's `C6-7T` zoning district, in which illuminated signage is legally mandatory and whose centroid sits 42 m from Duffy Square. **Stepped roof massing** was closed by finding that the code had been written and applied to 8 tiles of 920, so the city shipped slabs while the feature existed. Neither needed new data or new capability; both needed someone to check the reason the work had been left undone.
 
 Everything above is work this project identified by measuring its own output. None of it is a reconsideration of the plan; the plan is in `docs/ARCHITECTURE.md` and it held.
 
