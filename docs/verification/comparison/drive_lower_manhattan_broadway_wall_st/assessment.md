@@ -12,6 +12,30 @@
 
 **Verdict — a convincing Lower Broadway canyon — right width, right wall heights, real subway entrances, real lamps and litter baskets, deep shadow where the real street has deep shadow — held back only by having no surfaces and no life, and paired with a close-up of a street sign**
 
+## Re-rendered 2026-09-07 — the best frame in the set, and it corrects something I wrote today
+
+This is the first frame in this pass that reads as a photograph of a street rather than as a model of
+one. Broadway looking south into the Wall Street canyon: towers rising out of frame on both sides,
+two ranks of street lamps down the left kerb, three SUBWAY entrance signs with their railings, a
+litter basket, a manhole cover in the roadbed, a crowd of pedestrians moving on both pavements and a
+black sedan on the carriageway. 4,025 kit pieces, 455 props, 14 landmark models, 89 vehicles and 212
+people.
+
+**It corrects a generalisation I made two frames ago.** On the Bed-Stuy and Park Slope sheets I wrote
+that the facade kit models everything except the opening. That is true there and it is not true here:
+the left-hand tower carries deep recessed window openings with visible reveals and real shadow, from
+3,714 window pieces in this frame. Whether a window reads as an opening depends on the facade class,
+not on the kit as a whole, and the earlier wording was broader than the evidence. Both sheets now say
+which case they are.
+
+**What the agent counts mean here.** 212 pedestrians and 89 vehicles are placed, and unlike the Bronx
+frames most of them are visible, because a straight canyon is the one geometry where a 54° wedge is
+not mostly blocked by block faces. The drop record is worth reading: **1,292 pedestrians were dropped
+by the triangle budget** — six times the number placed — along with 1,151 outside the radius, 227
+standing in the carriageway while not crossing, 86 on no walkable surface and **31 inside a
+building**. The crowd you see is the budget's share of a much larger simulated one, not the whole of
+it.
+
 ## What matches
 
 * The canyon is right. Broadway's roadbed width, both sidewalks, the setback line and the way the walls run unbroken for two blocks downtown match the real street closely.

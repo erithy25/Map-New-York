@@ -48,6 +48,8 @@ Two smaller things this frame records. The camera stands about five metres from 
 same camera-placement class as I14. And of the 88 vehicles and 378 pedestrians the simulation put in
 this scene, **not one is in this frame** — the wall fills it.
 
+*Later note, from `drive_lower_manhattan_broadway_wall_st`:* this is not a property of the kit as a whole. On the Wall Street canyon frame the window pieces render as deep recessed openings with real reveals. Whether an opening appears depends on the facade class, and the brownstone classes in this frame are the case where it does not.
+
 ## What matches
 
 * The brownstone block face is genuinely right in kind. The render carries a continuous three-storey brick wall with round-arched window heads, projecting stone lintels and a run of raised stoops with metal railings, which is exactly the Stuyvesant Heights vocabulary and the reason this drive-through area is in the brief.

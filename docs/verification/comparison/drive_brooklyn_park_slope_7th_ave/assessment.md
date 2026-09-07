@@ -42,6 +42,8 @@ What the frame *does* show is the same gap as `drive_brooklyn_bed_stuy_stuyvesan
 HVAC units placed on a wall with no window openings between them. Here it is starker, because there
 is nothing else in the frame.
 
+*Later note:* the same qualification applies here as on the Bed-Stuy sheet — the Wall Street canyon frame shows the window kit producing real recessed openings, so this is a facade-class case rather than a kit-wide one.
+
 ## What matches
 
 * The boxed-in test fired and is stated: the recorded eye point had the view closed off 9 m ahead, and the camera was moved 12 m backwards to a point with 21 m of clear view.
