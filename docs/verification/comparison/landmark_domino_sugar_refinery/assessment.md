@@ -14,6 +14,25 @@
 
 **Verdict — the refinery is the best brick landmark in the set — round-arched window grid, correct red brick, the barrel-vaulted glass roof of the 2023 conversion, and the raw-sugar tanks beside it — but it has no chimney, no steel bracing and no surface, and the esplanade it stands on is a bare plane**
 
+## Re-rendered 2026-09-07 — one of the strongest landmark sheets in the set
+
+The Domino Sugar Refinery is recognisable at 125.7 m, and recognisable for the right reasons: the
+Romanesque arched window grid across the brick mass, the barrel-vaulted glass crown of the residential
+conversion sitting inside the retained shell, the cylindrical brick tanks in front, the elevated
+walkway on its columns. Two landmark models, 78 vehicles including a rank of medallion cabs, 311
+people, `PHARMACY` fascias on the block opposite from the signage stage.
+
+Mean luminance **0.416 against the photograph's 0.386** — one of the closest matches in the set, and
+worth noting after a run of sheets where the gap was large in one direction or the other.
+
+`culled_after_camera_move` removed **5 pedestrians** who stood inside the clearance of the final
+camera position. The frame keeps a couple walking the pavement at a readable distance and a third
+figure at the shopfront, which is what the 3.5 m constant was re-derived to leave.
+
+**What is missing is the same class as everywhere else**: the brickwork is a flat colour with the
+window openings modelled but no reveal, no sill course and no relief in the arches, so the building
+has its shape and its rhythm and not its surface. The roadway and pavement are untextured.
+
 ## What matches
 
 * The Refinery building is recognisably itself: a rectangular brick block with a regular grid of tall round-arched windows over six storeys, at the right footprint and the right height 82 m from the camera.
