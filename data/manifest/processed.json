@@ -6872,14 +6872,14 @@
   "landmark_b_central_park_walls_gates_lod0": {
    "artifact_id": "landmark_b_central_park_walls_gates_lod0",
    "bytes": 643136,
-   "git_commit": "3d9ded693186",
+   "git_commit": "2bdece54525d",
    "landmark_id": "b_central_park_walls_gates",
    "lod": 0,
    "path": "blender_out/landmarks/b_central_park_walls_gates.glb",
-   "produced_at": "2026-09-07T00:55:52Z",
+   "produced_at": "2026-09-07T01:05:22Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "b8d895baa46718a96f07001d18e3dac29cb11a3bbe5450ac2eb641a3fd1ba00b",
+   "sha256": "0c166dae9033a054c0ff4b5108a9471c13fc546a1ccd084a57f76e375ffe9472",
    "sources": [
     "osm_bbbike",
     "published_central_park"
@@ -6890,14 +6890,14 @@
   "landmark_b_central_park_walls_gates_lod1": {
    "artifact_id": "landmark_b_central_park_walls_gates_lod1",
    "bytes": 270748,
-   "git_commit": "3d9ded693186",
+   "git_commit": "2bdece54525d",
    "landmark_id": "b_central_park_walls_gates",
    "lod": 1,
    "path": "blender_out/landmarks/b_central_park_walls_gates_lod1.glb",
-   "produced_at": "2026-09-07T00:55:52Z",
+   "produced_at": "2026-09-07T01:05:22Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "b00c304a1bee69ec1c0327483b4724a18e4ea46ef75dc7f0a7ecc9881196b85a",
+   "sha256": "31c1961b2031f001d44158e320d32afc9f55de84598d5daa7bcf042a70ab32d1",
    "sources": [
     "osm_bbbike",
     "published_central_park"

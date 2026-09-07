@@ -1,6 +1,6 @@
 # Central Park perimeter wall and gates
 
-Script: `blender/landmarks/b_central_park_walls_gates.py` · agent B · generated 2026-09-07 00:56 UTC
+Script: `blender/landmarks/b_central_park_walls_gates.py` · agent B · generated 2026-09-07 01:05 UTC
 
 ## Published dimensions
 
