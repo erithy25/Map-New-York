@@ -32,6 +32,34 @@ boulevard**, and none that this item's rules admit near 165th Street. Choosing b
 of the right street in the wrong place and a photograph of a building on it is a choice between two
 kinds of wrong; the first at least shows the roadway section the drive-through is about.
 
+## The agents, and the two things this frame shows about them
+
+The city is populated now — 89 vehicles and 313 pedestrians from one frame of the running
+simulation — and both halves of what this frame does with them are worth stating.
+
+**It works.** Down the avenue on the left, past the sidewalk shed, a yellow cab and a white box truck
+stand at the kerb line and a pedestrian walks the far pavement. That is the first frame in this set
+where the street reads as a street in use rather than as an empty model.
+
+**And the observer clearance is set for the wrong thing.** The right third of a portrait frame is
+filled with the backs of four people, one of them close enough that an arm and shoulder cross the
+corner. Measured from the simulation snapshot against this camera (42.2° horizontal, azimuth 25.0°):
+
+| distance | off the view axis | |
+|---|---|---|
+| 1.44 m | 85.7° | behind the shoulder, not in frame |
+| 1.50 m | 27.9° | at the frame edge — 1 cm above the cut-off |
+| **2.57 m** | **21.0°** | **the nearest person actually in frame** |
+| 3.39 m | 14.1° | |
+| 4.41 m | 13.5° | |
+
+`agents.py` sets `CAMERA_CLEAR_PED_M = 1.5` and it is doing exactly what it says: nobody stands
+inside 1.5 m. The threshold answers "is a person inside the camera", which is a rendering question.
+The question a comparison sheet needs answered is "does a person dominate the frame", which at a
+1.6 m eye and a 42° lens is a different number — a body at 2.57 m occupies roughly a third of the
+frame height. Recorded as I15 rather than fixed here, because changing it moves agents in all 57
+sheets.
+
 ## What matches
 
 * The photograph's own EXIF GPS was correctly rejected: it is 3,604 m from the item's viewpoint, so the item's recorded position was used and the sheet says so. This is the largest GPS disagreement in the whole set and the sanity gate caught it.
