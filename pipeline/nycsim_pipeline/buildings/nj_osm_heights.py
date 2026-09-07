@@ -119,14 +119,29 @@ MODE_OSM_HEIGHT = 1    # replaced by an OSM ``height`` tag on a matched footprin
 MODE_OSM_LEVELS = 2    # derived from an OSM ``building:levels`` tag x the storey table -> HEIGHT_INFERRED
 
 
+# The columns this module reads, and nothing else.  Naming them here rather than taking whatever the
+# extract happens to hold is deliberate: a height join that quietly read a second, similar column
+# would be impossible to audit afterwards.
+#   geometry    - the outline, matched against the USA Structures footprint
+#   height      - the OSM ``height`` tag, already parsed to metres by osm/extract.parse_length_m
+#                 ("25", "25 m", "80 ft", "80'6\"" all resolve; anything else is NaN)
+#   levels      - the OSM ``building:levels`` tag, parsed to a float by osm/extract.parse_float
+#   min_height  - read only to *count* the matched rows that carry it (see below); never used to
+#                 change a height
+#   osm_id      - written into the published table so the join is auditable per row
+#   name        - used only to name the towers in the unjoined report
+# ``roof_levels``, ``roof_shape``, ``building``, ``start_date`` and the address fields are in the
+# extract and are **not** read here: no rule uses them.
+OSM_COLUMNS = ("osm_id", "name", "height", "levels", "min_height", "geometry")
+
+
 def load_osm_buildings(path: Path | None = None) -> tuple[pl.DataFrame, np.ndarray]:
     """Read the New Jersey OpenStreetMap building extract and return its rows and geometries."""
     p = path or OSM_BUILDINGS_NJ
     if not p.exists():
         raise FileNotFoundError(
             f"{p} is required for the New Jersey height join (deviation B11a); run the osm extract stage")
-    df = pl.read_parquet(p, columns=["osm_id", "osm_type", "name", "building", "height", "levels",
-                                     "min_height", "geometry"])
+    df = pl.read_parquet(p, columns=list(OSM_COLUMNS))
     geoms = shapely.from_wkb(df["geometry"].to_numpy())
     return df.drop("geometry"), geoms
 
@@ -205,12 +220,18 @@ def resolve_heights(source_height: np.ndarray, source_is_real: np.ndarray, osm_r
                     osm_height: np.ndarray, osm_levels: np.ndarray,
                     floor_h: np.ndarray, ground_floor_h: np.ndarray,
                     shortfall_storeys: int = LEVELS_SHORTFALL_STOREYS,
+                    osm_min_height: np.ndarray | None = None,
                     ) -> tuple[np.ndarray, np.ndarray, dict]:
     """Apply the three rules of the module docstring.  Returns ``(height, mode, stats)``.
 
     ``source_height`` is the height the stage would publish without this join (source value where
     the source has one, neighbour median where it does not); ``source_is_real`` marks the former.
     ``osm_height`` / ``osm_levels`` are indexed like ``osm_row`` — the tag arrays of the OSM table.
+
+    ``osm_min_height`` is read but never acted on.  A ``min_height`` tag says the mapped feature
+    starts above the ground, so its ``height`` is still the height above ground and is the right
+    number for a shell that stands on the terrain; the count of matched rows carrying one is
+    returned so the decision is a stated one rather than an oversight.
     """
     n = len(source_height)
     matched = osm_row >= 0
@@ -238,6 +259,12 @@ def resolve_heights(source_height: np.ndarray, source_is_real: np.ndarray, osm_r
     height[use_levels] = derived[use_levels]
     mode[use_levels] = MODE_OSM_LEVELS
 
+    n_min_height = 0
+    if osm_min_height is not None:
+        mh = np.full(n, np.nan)
+        mh[matched] = osm_min_height[osm_row[matched]]
+        n_min_height = int((np.isfinite(mh) & (mode != MODE_SOURCE)).sum())
+
     changed = mode != MODE_SOURCE
     d = height[changed] - source_height[changed]
     stats = {
@@ -245,6 +272,7 @@ def resolve_heights(source_height: np.ndarray, source_is_real: np.ndarray, osm_r
         "matched_with_a_height_tag": int(has_tag_h.sum()),
         "matched_with_a_levels_tag": int(has_tag_l.sum()),
         "matched_with_both_tags": int((has_tag_h & has_tag_l).sum()),
+        "changed_rows_whose_outline_carries_min_height": n_min_height,
         "height_from_osm_tag": int((mode == MODE_OSM_HEIGHT).sum()),
         "height_from_osm_levels": int((mode == MODE_OSM_LEVELS).sum()),
         "height_kept_from_source": int((mode == MODE_SOURCE).sum()),

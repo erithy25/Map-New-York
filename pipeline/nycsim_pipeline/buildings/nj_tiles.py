@@ -510,9 +510,11 @@ def resolve_attributes(df: pl.DataFrame, ground: np.ndarray, geoms: np.ndarray |
         o_height = odf["height"].to_numpy().astype(np.float64)
         o_levels = odf["levels"].to_numpy().astype(np.float64)
         o_id = odf["osm_id"].to_numpy().astype(np.int64)
+        o_min_h = odf["min_height"].to_numpy().astype(np.float64)
         osm_row, osm_iou, match_stats = osmh.match_footprints(geoms, ogeom)
         height, mode, join_stats = osmh.resolve_heights(source_height, h_ok, osm_row,
-                                                        o_height, o_levels, fh, gfh_rule)
+                                                        o_height, o_levels, fh, gfh_rule,
+                                                        osm_min_height=o_min_h)
         m = osm_row >= 0
         osm_id[m] = o_id[osm_row[m]]
         tag_h[m] = o_height[osm_row[m]]
