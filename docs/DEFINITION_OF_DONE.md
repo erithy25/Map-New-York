@@ -14,6 +14,13 @@ updates the Status column only from a verified artefact, never from an agent's a
 | 6 | Every subsystem in brief §3–§11 implemented, tested, working | one `REPORT*.md` per stage under `docs/verification/` | **all 21 stage lanes have delivered a report** (22 top-level reports; the landmarks lane split into REPORT_B and REPORT_C, plus 34 per-landmark and 24 per-comparison-scene reports). Audio is covered inside `unreal_gameplay`; its 65 radio tracks were checked here — all 65 present on disk, all 74 payload files licensed, sha256 verified |
 | 7 | No placeholder, stub, TODO or mock anywhere; every bug found has a verified fix | `test_no_placeholder_markers_in_shipped_source` | **passing** — the gate is green across pipeline, core, blender, services and the Unreal sources |
 
+## The suite, as of this writing
+
+`PYTHONPATH=pipeline python3 -m pytest tests/ pipeline/tests/` — **3,778 passed, 1 skipped, 0 failed**, in
+5 m 38 s. `ctest` in `core/build` — **11 of 11 suites green**. That is the whole repository green at once,
+which it has not been before: the gates that were failing were failing for real reasons, and each was
+closed by fixing the thing rather than the gate.
+
 ## What "verified" means in this build
 
 `docs/ARCHITECTURE.md` §14 draws the line. Everything that can be executed here is executed here:

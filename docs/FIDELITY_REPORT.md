@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-07 03:03 UTC from commit `e7d093bdd6ee` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-07 03:10 UTC from commit `9bcdee042a9d` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -43,6 +43,31 @@ Each bit is counted from the table of the stage that sets it. DATA_CONTRACTS §5
 Buildings whose footprint **and** height are both from measurement: 99.93 %.
 
 Per-tile files with the complete §5 schema: 25 of 25 sampled (920 tiles hold buildings).
+
+### 1.2a New Jersey — a second population, at a lower fidelity
+
+The brief's scope is the five boroughs **plus the New Jersey shoreline**. New Jersey carries **231,382** further buildings across 486 tiles, from FEMA/ORNL USA Structures. They are **not** added to the count above and never should be: that count is the five boroughs, and these buildings are a different source at a different fidelity.
+
+| Flag | New Jersey buildings | Share |
+|---|---|---|
+| `FOOTPRINT_REAL` | 231,382 | 100.00 % |
+| `HEIGHT_REAL` | 170,547 | 73.71 % |
+| `ROOF_REAL` | 0 | 0.00 % |
+| `FLOORS_REAL` | 0 | 0.00 % |
+| `YEAR_REAL` | 0 | 0.00 % |
+| `MATERIAL_REAL` | 0 | 0.00 % |
+| `SIGNAGE_REAL` | 0 | 0.00 % |
+| `LANDMARK_MODEL` | 0 | 0.00 % |
+| `SCAFFOLD_REAL` | 0 | 0.00 % |
+| `GROUND_REAL` | 0 | 0.00 % |
+| `FACADE_INFERRED` | 231,382 | 100.00 % |
+| `ROOF_INFERRED` | 0 | 0.00 % |
+| `HEIGHT_INFERRED` | 60,835 | 26.29 % |
+| `FLOORS_INFERRED` | 231,382 | 100.00 % |
+
+Median height 6.62 m, maximum 107.48 m. The whole table holds **2 distinct fidelity values**, which is the shape of a population where only the footprint and sometimes the height are measured. The maximum matters: the tallest building in Jersey City is really 271 m, and the source's error on towers is quantified in deviation B11a. Nothing was scaled to hide it.
+
+By county: Bergen 93,901, Hudson 64,066, Essex 42,838, Passaic 29,053, Union 1,524.
 
 ### 1.3 Roof geometry (CityGML LOD2)
 

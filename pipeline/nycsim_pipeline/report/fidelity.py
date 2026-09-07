@@ -240,6 +240,40 @@ def probe_buildings() -> dict[str, Any] | None:
     return out
 
 
+def probe_nj_buildings() -> dict[str, Any] | None:
+    """The New Jersey population, kept strictly apart from the New York one.
+
+    New Jersey is in the brief's scope and is built, but from a different source at a much lower
+    fidelity: FEMA/ORNL USA Structures gives a footprint and sometimes a height and nothing else. Adding
+    it to the New York count would produce one number that means two different things, so it is reported
+    on its own, with its own provenance, and the headline count above stays the five boroughs.
+    """
+    import numpy as np
+    import pyarrow.parquet as pq
+
+    p = PROCESSED / "buildings_nj" / "buildings_nj_base.parquet"
+    if not p.exists():
+        return None
+    pf = pq.ParquetFile(p)
+    names = pf.schema_arrow.names
+    cols = [c for c in ("fidelity", "height", "county", "tile") if c in names]
+    t = pf.read(columns=cols)
+    out: dict[str, Any] = {"total": pf.metadata.num_rows, "path": str(p.relative_to(REPO_ROOT))}
+    if "fidelity" in cols:
+        fid = np.asarray(t.column("fidelity")).astype(np.uint32)
+        out["bits"] = {name: int(((fid >> bit) & 1).sum()) for bit, name, _d, _o in FIDELITY_BITS}
+        out["distinct_fidelity_values"] = int(len(np.unique(fid)))
+    if "height" in cols:
+        h = np.asarray(t.column("height"))
+        out |= {"height_median_m": float(np.median(h)), "height_max_m": float(h.max())}
+    if "county" in cols:
+        import collections
+        out["by_county"] = dict(collections.Counter(t.column("county").to_pylist()).most_common(8))
+    if "tile" in cols:
+        out["tiles"] = int(len(set(t.column("tile").to_pylist())))
+    return out
+
+
 def probe_citygml() -> dict[str, Any] | None:
     p = PROCESSED / "buildings" / "citygml" / "progress.json"
     if not p.exists():
@@ -484,6 +518,7 @@ def probe_reports() -> dict[str, Any]:
 def build_report() -> str:
     b = _safe(probe_buildings, "buildings")
     cg = _safe(probe_citygml, "citygml")
+    nj = _safe(probe_nj_buildings, "buildings_nj")
     rd = _safe(probe_roads, "roads")
     tr = _safe(probe_terrain, "terrain")
     wa = _safe(probe_water, "water")
@@ -565,6 +600,31 @@ def build_report() -> str:
         A()
         A(f"Per-tile files with the complete §5 schema: {b.get('tile_schema_full_ok', 'not checked')} of "
           f"{b.get('tile_schema_sampled', 0)} sampled ({b.get('tiles_with_buildings', 0)} tiles hold buildings).")
+        if isinstance(nj, dict):
+            A()
+            A("### 1.2a New Jersey — a second population, at a lower fidelity")
+            A()
+            A(f"The brief's scope is the five boroughs **plus the New Jersey shoreline**. New Jersey carries "
+              f"**{_fmt(nj['total'])}** further buildings across {_fmt(nj.get('tiles'))} tiles, from FEMA/ORNL "
+              f"USA Structures. They are **not** added to the count above and never should be: that count is the "
+              f"five boroughs, and these buildings are a different source at a different fidelity.")
+            A()
+            bits = nj.get("bits") or {}
+            A("| Flag | New Jersey buildings | Share |")
+            A("|---|---|---|")
+            for _bit, name, _desc, _o in FIDELITY_BITS:
+                if name in bits:
+                    A(f"| `{name}` | {_fmt(bits[name])} | {_pct(bits[name], nj['total'])} |")
+            A()
+            A(f"Median height {_fmt(round(nj.get('height_median_m', 0.0), 2), ' m')}, maximum "
+              f"{_fmt(round(nj.get('height_max_m', 0.0), 2), ' m')}. The whole table holds "
+              f"**{nj.get('distinct_fidelity_values', '?')} distinct fidelity values**, which is the shape of a "
+              f"population where only the footprint and sometimes the height are measured. The maximum matters: "
+              f"the tallest building in Jersey City is really 271 m, and the source's error on towers is "
+              f"quantified in deviation B11a. Nothing was scaled to hide it.")
+            if nj.get("by_county"):
+                A()
+                A("By county: " + ", ".join(f"{k or 'unnamed'} {v:,}" for k, v in nj["by_county"].items()) + ".")
         if b.get("tile_schema_first_problem"):
             A(f"First schema gap seen: {b['tile_schema_first_problem']}")
         A()
