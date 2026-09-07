@@ -489,3 +489,118 @@ memorial plaza is both a `plaza` polygon draped at heightmap + 0.25 m (4.44 m he
 deck at 4.40 m. Where a landmark models the ground, its version — built from that place's own
 outline — is the one drawn. Whoever integrates the landmark set into the engine still has to make
 the same decision there; nothing here does it for them.
+
+## 2.10 The two stale sheets, settled
+
+Deviation I10 recorded `landmark_oculus` and `landmark_one_world_trade_center` as placed under an
+older camera code path and never re-rendered. Both have now been rendered twice more — once against
+the corrected World Trade Center model and once again after the Oculus was put on its own footprint's
+axis — and the question each of them was left open on has an answer.
+
+**`landmark_oculus`.** The pitch difference I10 names (−3.3° → −0.3°) was already closed by the
+earlier re-render. What was still wrong was the building: the model laid the 106.7 m ribbed body on
+`PLAZA_AXIS_DEG = 160.6`, and the long axis of BIN 1089309 — the footprint it is centred on —
+measures **128.2°**. From this camera, 93.7 m from the footprint centroid on a bearing of 275.6°, the
+32.4° correction brings the near end from 86.0 m to **56.6 m** and pushes the far end from 126.0 m to
+**141.6 m**, so the body reads as running away from the lens instead of lying across it. **46.7 %** of
+pixels differ from the shipped frame. In plan the body goes from 58.0 % of its area over its own
+footprint (with 231 m² of it inside 3 WTC) to **94.2 %** with no overlap at all.
+`docs/verification/landmarks/REPORT_B.md` §13 has the derivation.
+
+**`landmark_one_world_trade_center`.** I10 recorded that its new placement was worse by the camera
+search's own criteria, and asked whether that was still true now that the World Trade Center
+correction had moved the ground under it. **It is still true, and the frame is shipped anyway.** The
+search still ends in "open air only": no point within 80 m of the recorded eye point has 80 m of open
+air along the view azimuth with nothing inside 8 m of the lens, so the frame closes off 96 m ahead
+and a street lamp stands 7.7 m in front of the camera. What changed is the result rather than the
+score: the failing search moves the camera 166 m and puts One World Trade Center's tapered shaft in
+the centre of the frame at 183 m, cut off by the top edge as the 18 mm floor requires; the frame the
+*passing* search produced showed the glazed base of a neighbouring tower. A sheet that does not
+contain its subject is not evidence about that subject however well its camera scored, so the older
+frame is not kept. The cost is stated on the sheet and in the assessment: 166 m from the
+photographer's recorded position is not testing the viewpoint the item claims.
+
+## 2.11 Reference metadata: a photograph is not of a subject it does not name
+
+Deviation I12 recorded two misleading sheets. Extracting the written verdict from all 57 assessments
+and reading for pairings the assessors themselves called mismatched found **seven**, two of them
+mandated viewpoints:
+
+| sheet | what its own assessment said |
+|---|---|
+| `fifth_ave_42nd_north` (mandated) | "all three photographs collected for it are pictures of the library facade looking west" |
+| `fifth_ave_42nd_south` (mandated) | "the two halves face different streets" |
+| `landmark_washington_square_arch` | "the photograph does not contain the Washington Square Arch: it looks the other way" |
+| `drive_bronx_arthur_ave` | a Parks sign and an apartment block named only for the neighbourhood |
+| `drive_bronx_grand_concourse` | the county courthouse, an expressway interchange, Loew's Paradise Theatre |
+| `drive_brooklyn_bed_stuy_stuyvesant_ave` | two photographs of the Utica Avenue subway platform |
+| `drive_lower_manhattan_stone_st` | the restaurant tables on the street rather than the street |
+
+**One assumption produced all seven.** The chooser's only evidence that a photograph is *of*
+something was textual association with a *place*. That is good enough for a landmark with a
+distinctive name — `woolworth`, `oculus`, `williamsburg bridge` are words a photograph of the thing
+uses and a photograph of its neighbourhood does not — and it fails completely for a view *along* a
+street, where the thing photographed and the place it stands in are the same words. `"stuyvesant"`
+matches inside the category "Bedford-Stuyvesant, Brooklyn"; `"grand concourse"` is the category on
+every building that stands on it; `"washington square"` is 40,000 m² of park.
+
+Four rules now separate them, in `pipeline/nycsim_pipeline/reference/fetch_photos.py`:
+
+* **`subject_terms` is matched against the photograph's title, object name and description — never
+  its categories.** A category records where a photograph *is*; a title records what it is *of*.
+* **`not_of` rejects a photograph whose own title announces a different subject.** Title only, for
+  the same reason: "New York Public Library Exterior" mentions Fifth Avenue in its description and is
+  a picture of the library.
+* **A required term preceded by a house number does not count.** "325 Fifth Avenue" names a building.
+* **A Library of Congress control number marks an archival scan**, whose only recorded date is its
+  digitisation date, so `min_year` cannot see it.
+
+And a fifth, in `estimate_view`: a camera GPS gives a *position*; it gives a *heading* only when the
+photograph is known to be of the subject. Where it is not, the measured position is kept and the
+azimuth falls back to the item's recorded view axis with the confidence lowered and the reason
+written into the explanation.
+
+**Nothing was re-picked silently.** `--revalidate --dry-run` was run over all 172 stored subjects
+before each change; six items were dropped and re-fetched in total and every other photograph in the
+set is untouched. `tests/test_comparison.py::test_no_comparison_scene_silently_changed_which_photograph_it_shows`
+fails while any shipped sheet names a photograph the current chooser would no longer pick, so a
+re-pick cannot land without a re-render.
+
+**What this cannot do**, said plainly: it does not establish a view *direction*. Nothing in Commons
+metadata carries one (deviation I7), so a photograph looking the wrong way along the right street
+still passes, and `drive_bronx_grand_concourse` is the weakest result — Commons has very few free
+photographs looking along that boulevard.
+
+### The distance rule
+
+The other half of I12 is the Williamsburg Bridge camera, 500 m too far back. `PHOTO_GPS_SANITY_M`
+asked how far the photograph's GPS was from the item's *nominal viewpoint* — 389 m, past 250 m — and
+rejected a measurement in favour of an estimate on the strength of their disagreement. The
+photograph's GPS is **117.5 m** from the Brooklyn tower and the nominal viewpoint is **506.5 m** from
+it.
+
+The radius now applies according to what defines the view (§1). A `landmark` item is a view **of** a
+point subject, and its viewpoint is only an estimate of where such a photograph is taken from — the
+catalogue *generates* it as a bearing and a distance from the subject — so a photograph nearer the
+subject than that estimate and on the same side of it (within 45°) is the same view of the same
+thing. A `viewpoint` or `drive_through` item is a view **from** somewhere, and there the recorded
+position *is* the view, so the radius stands.
+
+Measured over all 57 rendered subjects, **exactly one camera moves**: `landmark_williamsburg_bridge`.
+The Staten Island Ferry, whose photograph's GPS is also nearer its aim point, is unaffected, which is
+what the measurement recorded in `MOVING_VIEWPOINTS` requires — from a moving vessel the recorded
+position is the view. The Empire State Building and the MetLife Building stay rejected on the
+same-side and nearer-the-subject tests respectively; 40 Wall Street's photograph, taken from the
+Liberty Island ferry 1,728 m away, stays rejected on both.
+
+### A third fault of the same family, measured and not fixed
+
+The Washington Square Arch sheet now carries a photograph of the Arch and is still aimed 15.8° off
+it, because the item's recorded `subject` coordinate stands **15.0 m** from the
+`b_washington_square_arch` model's own origin and the heading is the bearing to the coordinate. Aiming
+at the nearest landmark model instead was measured across the 43 rendered subjects that have one
+within 120 m of their subject and **rejected**: it would swing 10 of them by more than 10°, including
+**174.8°** for the Hudson Yards Vessel and **174.3°** for the Paramount Building, where the nearest
+model is a multi-building model whose origin is nowhere near the subject. A correct fix needs a
+per-subject aim point — `blender/landmarks/b_align.py: reference_render` already carries one for the
+landmark stage's own renders, for exactly this reason — and that is a pass of its own.
