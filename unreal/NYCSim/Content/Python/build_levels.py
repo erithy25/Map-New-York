@@ -224,6 +224,61 @@ def place_pavement(tile: str) -> int:
     return 1
 
 
+def place_landmarks(tile: str, processed_root: str, index: dict) -> int:
+    """The landmark models that stand in this tile.
+
+    93 landmarks were exported, imported and never spawned: there was no place_landmarks anywhere,
+    because data/processed/landmarks/landmarks.json - which manifest.py has looked for since
+    Stage 12b - was never written by anything. The Empire State Building, the Chrysler Building,
+    Grand Central, the World Trade Center site and the Statue of Liberty were all in the content
+    browser and none of them in the world.
+
+    **Translation only, no rotation.** Every landmark glb carries, in its own asset extras, "model
+    axes parallel to NYC_TM (x east, y north, z up before glTF Y-up conversion); origin_tm is the
+    NYC_TM position of the model origin (ground); no rotation to apply on import". The models are
+    built in a frame aligned to their own footprint's principal axis and rotated back to NYC_TM
+    before export, so the orientation is already in the geometry. The catalogue's heading_deg is the
+    compass heading of that axis, kept as provenance; applying it here would turn every landmark in
+    the city by its own facade angle.
+    """
+    rows = [r for r in index.get("landmarks", []) if r.get("tile") == tile]
+    if not rows:
+        return 0
+    placed = 0
+    for row in rows:
+        stem = str(row.get("stem") or row.get("id") or "")
+        if not stem:
+            continue
+        mesh = None
+        for candidate in (f"{CONTENT_ROOT}/Landmarks/SM_{stem}",
+                          f"{CONTENT_ROOT}/Landmarks/Misc/SM_{stem}"):
+            mesh = load_asset(candidate)
+            if mesh is not None:
+                break
+        if mesh is None:
+            WARN(f"{tile}: landmark {stem} has no imported mesh")
+            continue
+        origin = row.get("origin_tm") or [0.0, 0.0, 0.0]
+        location = nyctm_to_ue(float(origin[0]), float(origin[1]), float(origin[2]))
+        if spawn_mesh(mesh, location, unreal.Rotator(0.0, 0.0, 0.0), f"{tile}_landmark_{stem}") is not None:
+            placed += 1
+    return placed
+
+
+def load_landmarks_index(processed_root: str) -> dict:
+    path = os.path.join(processed_root, "landmarks", "landmarks.json")
+    if not os.path.isfile(path):
+        WARN("landmarks.json is missing; no landmark will be placed "
+             "(run python -m nycsim_pipeline.unreal.landmarks_index)")
+        return {}
+    try:
+        with open(path, "r", encoding="utf-8") as handle:
+            return json.load(handle)
+    except (OSError, json.JSONDecodeError) as exc:
+        WARN(f"landmarks.json unreadable: {exc}")
+        return {}
+
+
 def place_props(tile: str, processed_root: str) -> int:
     """Street furniture from tiles/{tile}/props.json (written by the pipeline for UE's Python, which has no pyarrow).
     Coordinates in that file are tile-local metres."""
@@ -306,14 +361,18 @@ def place_kit(tile: str, processed_root: str, catalog: dict) -> int:
     return placed
 
 
-def build_tile_level(tile: str, tier: str, processed_root: str, catalog: dict, terrain_material) -> dict:
+def build_tile_level(tile: str, tier: str, processed_root: str, catalog: dict, terrain_material,
+                     landmarks_index: dict | None = None) -> dict:
     package = tile_level_path(tile, tier)
     if not new_level(package):
         return {"tile": tile, "tier": tier, "ok": False, "error": "level could not be created"}
 
-    result = {"tile": tile, "tier": tier, "ok": True, "shells": 0, "pavement": 0, "props": 0,
-              "kit": 0, "landscape": False}
+    result = {"tile": tile, "tier": tier, "ok": True, "shells": 0, "pavement": 0, "landmarks": 0,
+              "props": 0, "kit": 0, "landscape": False}
     result["shells"] = place_shells(tile, tier)
+    # Landmarks go in both tiers, like the shells: the Empire State Building is exactly the thing
+    # that has to still be there when its tile is only in the distant tier.
+    result["landmarks"] = place_landmarks(tile, processed_root, landmarks_index or {})
 
     if tier == "L0":
         terrain_dir = os.path.join(processed_root, "tiles")
@@ -451,6 +510,7 @@ def main(argv=None) -> int:
         WARN("M_NYC_Terrain is missing; landscapes are imported with the default material "
              "(run import_assets.py first)")
     catalog = load_catalog(processed_root)
+    landmarks_index = load_landmarks_index(processed_root)
 
     started = time.time()
     summary = {"tiles": [], "skyline": [], "map": None, "manifest": manifest_path, "tile_count": len(tiles)}
@@ -464,7 +524,8 @@ def main(argv=None) -> int:
 
     for tile in tiles:
         for tier in ("L0", "L1"):
-            summary["tiles"].append(build_tile_level(tile, tier, processed_root, catalog, terrain_material))
+            summary["tiles"].append(build_tile_level(tile, tier, processed_root, catalog,
+                                                     terrain_material, landmarks_index))
 
     # Skyline levels: one per 4 km and 16 km parent cell that has a merged mesh in the content tree.
     cells4, cells16 = set(), set()

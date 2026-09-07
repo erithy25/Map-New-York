@@ -568,6 +568,14 @@ class ManifestBuilder:
             for p in sorted(live.glob("*.json")):
                 self._add(f"live:{p.name}", "live_json", p, f"{CONTENT_ROOT}/Live/{p.name}", "json_copy")
                 n += 1
+        # Generated here rather than assumed: this file has been referenced since Stage 12b and
+        # never produced, which is why build_levels.py had nothing to place landmarks from and
+        # 927 MB of models imported into a world that never spawned one of them.
+        try:
+            from .landmarks_index import write_index
+            write_index(self.blender_out, self.processed)
+        except Exception as exc:  # noqa: BLE001
+            self._warn(f"landmarks index could not be written: {exc}")
         lm = self.processed / "landmarks" / "landmarks.json"
         if lm.exists():
             self._add("landmarks:index", "landmarks_index", lm, f"{CONTENT_ROOT}/Runtime/landmarks.json", "json_copy")
