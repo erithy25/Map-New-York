@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-06T16:00:22Z",
+ "generated_at": "2026-09-07T01:53:48Z",
  "rendered": true,
  "samples": 24,
  "results": [
@@ -309,19 +309,19 @@
   },
   {
    "id": "b_wtc_site",
-   "returncode": 1,
-   "seconds": 11.6,
+   "returncode": 0,
+   "seconds": 265.5,
    "lods": {
     "lod0": {
-     "triangles": 136174,
-     "bytes": 2544716
+     "triangles": 136288,
+     "bytes": 2372368
     },
     "lod1": {
-     "triangles": 13594,
-     "bytes": 1381408
+     "triangles": 13708,
+     "bytes": 1283696
     }
    },
-   "stderr_tail": "  File \"/home/user/Map-New-York/blender/landmarks/b_common.py\", line 694, in prop_template\n    if ob is not None and ob.name in bpy.data.objects:\n                          ^^^^^^^\nReferenceError: StructRNA of type Object has been removed"
+   "stderr_tail": ""
   },
   {
    "id": "b_statue_of_liberty",
@@ -547,5 +547,6 @@
    },
    "stderr_tail": ""
   }
- ]
+ ],
+ "note": "build_summary.json holds the last recorded build of each landmark; the timestamp is the most recent run. b_wtc_site was rebuilt on its own after the group run, so its row is that build and the rest are the group run of 2026-09-06."
 }

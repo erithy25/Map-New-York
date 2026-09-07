@@ -40,3 +40,7 @@
 | no paths, fountain, railings or lawn in City Hall Park | park furniture and path geometry are neither buildings nor road polygons, so no stage produces them | geometry |
 | no people, no vehicles | no stage places moving objects into a still verification frame | data |
 | clear pale sky against a deep blue photograph | Nishita atmosphere with no aerosol tuning and no cloud layer; the reference's saturation is a camera and weather property | lighting |
+
+## Re-render note, 2026-09-07
+
+Re-rendered against the corrected `b_wtc_site` model — the World Trade Center site stood 3.5 m too high, its plaza was an unbroken 520 x 520 m quad over both memorial pools, and its 220 oaks each carried a merged impostor card (`docs/verification/landmarks/REPORT_B.md` §12). **0.63 % of the frame changed**, all of it in the upper left, where 4 World Trade Center's crown sits 492 m away at a bearing of 243 deg. The model dropped 3.5 m, which is 0.41 deg at that distance, and the silhouette moved with it. Frame mean and standard deviation are unchanged to three decimals (0.504 / 0.154). Nothing the verdict rests on moved.

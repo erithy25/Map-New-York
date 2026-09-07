@@ -42,3 +42,7 @@
 | no surface on the tower base | shells carry a per-material base colour; the kit supplies openings without glass or mouldings | material |
 | no people, vehicles, signage or markings | no stage places any of them | data |
 | nearly half the facade kit not drawn | the 4.5 M triangle budget is spent before the kit finishes | geometry |
+
+## Re-render note, 2026-09-07
+
+Re-rendered against the corrected `b_wtc_site` model — the World Trade Center site stood 3.5 m too high, its plaza was an unbroken 520 x 520 m quad over both memorial pools, and its 220 oaks each carried a merged impostor card (`docs/verification/landmarks/REPORT_B.md` §12). Measured against the shipped render, **0.000 %** of pixels differ by more than 8/255 and the largest single difference is **1/255**, which is Cycles sampling noise at 32 samples, not content; frame mean and standard deviation are unchanged (0.131 / 0.084). The camera did not move. Nothing in this assessment changes.

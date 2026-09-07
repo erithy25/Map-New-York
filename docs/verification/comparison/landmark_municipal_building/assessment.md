@@ -37,3 +37,7 @@
 | no glazing | neither the model nor the kit supplies glass | material |
 | no people, vehicles or signals | no stage places any of them | data |
 | bare paving | pavement polygons carry a kind but no texture | material |
+
+## Re-render note, 2026-09-07
+
+Re-rendered against the corrected `b_wtc_site` model — the World Trade Center site stood 3.5 m too high, its plaza was an unbroken 520 x 520 m quad over both memorial pools, and its 220 oaks each carried a merged impostor card (`docs/verification/landmarks/REPORT_B.md` §12). **`b_wtc_site` is no longer placed in this scene and the frame is unchanged.** Clipping the memorial plaza from a 520 x 520 m quad to the real 8-acre polygon brings the model's world bounding box no closer than **524.5 m** to this camera, against the scene's **508.2 m** radius, so `add_landmarks` drops it. The World Trade Center is at bearing 260 deg from a camera looking at 81.6 deg with a 90 deg horizontal field — behind the lens. Measured against the shipped render: **0.015 %** of pixels differ by more than 8/255, maximum 27, scattered as Cycles sampling noise rather than concentrated anywhere; frame mean 0.483 -> 0.484.

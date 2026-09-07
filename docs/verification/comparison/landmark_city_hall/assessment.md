@@ -38,3 +38,7 @@
 | no glazing | neither the landmark model nor the kit supplies glass | material |
 | no people or vehicles | no crowd or traffic placement feeds the verification scene | data |
 | bare, faceted foreground | the pavement material is a flat colour and the terrain grid is 2 m here | material |
+
+## Re-render note, 2026-09-07
+
+Re-rendered against the corrected `b_wtc_site` model — the World Trade Center site stood 3.5 m too high, its plaza was an unbroken 520 x 520 m quad over both memorial pools, and its 220 oaks each carried a merged impostor card (`docs/verification/landmarks/REPORT_B.md` §12). Measured against the shipped render, **0.000 %** of pixels differ by more than 8/255 and the largest single difference is **7/255**, which is Cycles sampling noise at 32 samples, not content; frame mean and standard deviation are unchanged (0.495 / 0.195). The camera did not move. Nothing in this assessment changes.

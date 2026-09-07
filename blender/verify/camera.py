@@ -498,7 +498,7 @@ def _standing_on(x: float, y: float, z: float, reach_m: float = 30.0):
 
 
 def _walk_to_parapet(placement: "CameraPlacement", max_m: float = 250.0,
-                     step_m: float = 2.0) -> dict:
+                     step_m: float = 2.0, origin_is_photo: bool = False) -> dict:
     """An eye point standing on a roof belongs at that roof's edge, not in the middle of it.
 
     Observation-deck viewpoints (Top of the Rock, the High Line) are recorded as one lat/lon for
@@ -506,11 +506,29 @@ def _walk_to_parapet(placement: "CameraPlacement", max_m: float = 250.0,
     parapet on the side the view faces.  Left alone the render is a picture of a roof.  This walks
     the eye forward along the view azimuth while the roof still supports it and stops at the last
     supported point -- the parapet.
+
+    **It only applies to a nominal viewpoint.**  The whole justification is that the recorded point
+    is one lat/lon standing for a whole deck; a position taken from a photograph's own EXIF GPS is
+    not that -- it is a measurement of where the photographer stood, and walking it is guessing
+    against evidence.  Bethesda Terrace is the nominal case (its item viewpoint sits in the middle
+    of the upper terrace and the walk finds the balustrade 12 m ahead); the 9/11 Memorial is the
+    photographic case, where the GPS already puts the camera on the South Pool's parapet.
     """
     near_m, near_what = nearest_obstruction(placement.x, placement.y, placement.z,
                                             placement.azimuth_deg, probe_m=60.0)
     view_m = view_distance(placement.x, placement.y, placement.z, placement.azimuth_deg, probe_m=150.0)
     ob, _ = _standing_on(placement.x, placement.y, placement.z)
+    if ob is not None and origin_is_photo:
+        return {"moved": False, "offset_m": 0.0, "standing_on": ob.name,
+                "view_m": round(view_m, 1), "nearest_obstruction_m": round(near_m, 1),
+                "nearest_obstruction": near_what,
+                "note": (f"the eye point stands on {ob.name}, but this camera's position is the "
+                         f"photograph's own EXIF GPS rather than a nominal viewpoint standing for a "
+                         f"whole deck, so there is nothing to walk to and the camera was not moved.  "
+                         f"The view azimuth is clear for {view_m:.0f} m and the nearest solid thing "
+                         f"in the view cone is "
+                         + (f"{near_what} {near_m:.1f} m away" if near_what else
+                            f"further than {near_m:.0f} m"))}
     if ob is None:
         return {"moved": False, "offset_m": 0.0,
                 "view_m": round(view_m, 1), "nearest_obstruction_m": round(near_m, 1),
@@ -533,9 +551,9 @@ def _walk_to_parapet(placement: "CameraPlacement", max_m: float = 250.0,
         t += step_m
     if ran_out:
         # The surface still carries the eye at the end of the probe, so it is not a deck with a
-        # parapet somewhere ahead: it is ground.  The 9/11 Memorial plaza is the case -- a single
-        # 520 x 520 m slab inside ``lm_b_wtc_site`` -- and walking to its "edge" would carry the
-        # camera a quarter of a kilometre away from the viewpoint the photograph was taken at.
+        # parapet somewhere ahead: it is ground.  This used to be what kept the 9/11 Memorial
+        # camera in place, because its plaza was a 520 x 520 m slab wider than the probe; now that
+        # the plaza is the real 8-acre polygon, the photographic-origin test above is what does it.
         return {"moved": False, "offset_m": 0.0, "standing_on": ob.name,
                 "view_m": round(view_m, 1), "nearest_obstruction_m": round(near_m, 1),
                 "nearest_obstruction": near_what,
@@ -723,7 +741,7 @@ def pavement_candidates(x: float, y: float, *, max_m: float = 70.0) -> list[dict
 
 def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 80.0,
                       step_m: float = 2.0, min_view_m: float = 15.0, force: bool = False,
-                      has_subject: bool = False) -> dict:
+                      has_subject: bool = False, origin_is_photo: bool = False) -> dict:
     """Correct an unusable eye point and record what was done to it.
 
     Two things can be wrong with a recorded viewpoint, and they are corrected in this order:
@@ -753,7 +771,8 @@ def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 8
                                    "note": deck_why}
         placement.ground_source = deck_why
     out = _move_clear_of_geometry(placement, sampler, max_m=max_m, step_m=step_m,
-                                  min_view_m=min_view_m, force=force, has_subject=has_subject)
+                                  min_view_m=min_view_m, force=force, has_subject=has_subject,
+                                  origin_is_photo=origin_is_photo)
     if deck_why:
         out["stood_on_deck"] = deck_why
     return out
@@ -761,7 +780,7 @@ def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 8
 
 def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 80.0,
                             step_m: float = 2.0, min_view_m: float = 15.0, force: bool = False,
-                            has_subject: bool = False) -> dict:
+                            has_subject: bool = False, origin_is_photo: bool = False) -> dict:
     """Move an eye point that landed inside a building out to the real pavement, and say so.
 
     The camera is only moved when it is demonstrably inside geometry.  Two corrections are tried,
@@ -811,7 +830,7 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
         blocked, why = True, ("rendered as an unusable frame from this eye point, so it is treated "
                               "as blocked even though no ray test caught it")
     if not blocked:
-        return _walk_to_parapet(placement)
+        return _walk_to_parapet(placement, origin_is_photo=origin_is_photo)
     rise = placement.z - (placement.terrain_z_m if placement.terrain_z_m is not None else placement.z)
     radius_m = placement.ground_detail.get("radius_m", 5.0)
 

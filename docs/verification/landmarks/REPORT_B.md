@@ -1,4 +1,107 @@
+# Landmarks — agent B verification report
+
+Bridges, tunnels, the World Trade Center site, the harbour monuments, park structures and Coney Island. Generated 2026-09-07 01:56 UTC by `blender/landmarks/b_report.py` from the exported `.glb` catalog entries — every number below is read back off disk.
+
+## 1. What was built
+
+**34 landmark assets**, each exported at two levels of detail to `blender_out/landmarks/<id>.glb` and `<id>_lod1.glb`, with a catalog entry in `blender_out/landmarks/catalog/<id>.json` carrying the published dimensions, the alignment source and the fidelity statement.
+
+| id | name | LOD0 tris | LOD1 tris | LOD1/LOD0 | LOD0 size | verification |
+|---|---|---:|---:|---:|---:|---|
+| **Bridges** | | | | | | |
+| `b_brooklyn_bridge` | Brooklyn Bridge | 121,824 | 33,496 | 27 % | 5.72 MB | 1 renders, 625.8 s |
+| `b_manhattan_bridge` | Manhattan Bridge | 80,700 | 28,940 | 36 % | 3.33 MB | 3 renders, 232.1 s |
+| `b_williamsburg_bridge` | Williamsburg Bridge | 84,236 | 26,364 | 31 % | 3.63 MB | 3 renders, 146.7 s |
+| `b_queensboro_bridge` | Ed Koch Queensboro Bridge | 59,736 | 16,164 | 27 % | 2.97 MB | 3 renders, 179.2 s |
+| `b_george_washington_bridge` | George Washington Bridge | 94,736 | 26,032 | 27 % | 4.03 MB | 3 renders, 242.2 s |
+| `b_verrazzano_narrows` | Verrazzano-Narrows Bridge | 117,032 | 28,184 | 24 % | 4.84 MB | 3 renders, 151.7 s |
+| `b_rfk_triborough` | Robert F. Kennedy (Triborough) Bridge | 80,446 | 22,618 | 28 % | 3.71 MB | 2 renders, 201.9 s |
+| `b_throgs_neck` | Throgs Neck Bridge | 50,392 | 10,608 | 21 % | 2.36 MB | 3 renders, 166.1 s |
+| `b_bronx_whitestone` | Bronx-Whitestone Bridge | 44,680 | 10,288 | 23 % | 2.01 MB | 3 renders, 164.2 s |
+| `b_hell_gate` | Hell Gate Bridge | 23,788 | 6,772 | 28 % | 1.09 MB | 3 renders, 131.3 s |
+| `b_high_bridge` | High Bridge | 15,112 | 4,420 | 29 % | 0.76 MB | 3 renders, 190.6 s |
+| `b_pulaski` | Pulaski Bridge | 14,592 | 3,904 | 27 % | 0.71 MB | 3 renders, 200.5 s |
+| `b_kosciuszko` | Kosciuszko Bridge | 33,560 | 6,404 | 19 % | 1.63 MB | 3 renders, 207.9 s |
+| `b_roosevelt_island_tram` | Roosevelt Island Tramway | 5,836 | 1,764 | 30 % | 0.24 MB | 3 renders, 113.5 s |
+| **Tunnels** | | | | | | |
+| `b_lincoln_tunnel_portals` | Lincoln Tunnel | 57,080 | 9,306 | 16 % | 2.55 MB | 3 renders, 229.6 s |
+| `b_holland_tunnel_portals` | Holland Tunnel | 40,892 | 6,654 | 16 % | 1.87 MB | 3 renders, 257.4 s |
+| `b_queens_midtown_portals` | Queens-Midtown Tunnel | 30,888 | 5,110 | 17 % | 1.44 MB | 3 renders, 158.6 s |
+| `b_hugh_carey_portals` | Hugh L. Carey Tunnel | 43,880 | 7,280 | 17 % | 2.04 MB | 3 renders, 181.8 s |
+| **World Trade Center** | | | | | | |
+| `b_one_world_trade_center` | One World Trade Center | 6,044 | 444 | 7 % | 0.36 MB | 3 renders, 76.2 s |
+| `b_wtc_site` | World Trade Center site | 136,288 | 13,708 | 10 % | 2.37 MB | 6 renders, 265.5 s |
+| **Harbour** | | | | | | |
+| `b_statue_of_liberty` | Statue of Liberty | 19,812 | 1,704 | 9 % | 0.47 MB | 3 renders, 139.7 s |
+| `b_ellis_island_main` | Ellis Island Main Immigration Building | 5,992 | 2,602 | 43 % | 0.31 MB | 2 renders, 85.5 s |
+| `b_governors_island` | Governors Island: Castle Williams and Fort Jay | 4,122 | 1,644 | 40 % | 0.24 MB | 2 renders, 54.8 s |
+| **Parks and monuments** | | | | | | |
+| `b_washington_square_arch` | Washington Square Arch | 1,072 | 208 | 19 % | 0.06 MB | 2 renders, 38.1 s |
+| `b_bethesda_terrace` | Bethesda Terrace and Fountain | 10,808 | 1,372 | 13 % | 0.56 MB | 2 renders, 67.6 s |
+| `b_bow_bridge` | Bow Bridge | 2,672 | 1,064 | 40 % | 0.13 MB | 2 renders, 35.7 s |
+| `b_belvedere_castle` | Belvedere Castle | 4,456 | 1,808 | 41 % | 0.24 MB | 2 renders, 38.1 s |
+| `b_central_park_walls_gates` | Central Park perimeter wall and gates | 18,448 | 6,800 | 37 % | 0.64 MB | 2 renders, 37.2 s |
+| `b_unisphere` | Unisphere | 17,236 | 5,848 | 34 % | 0.37 MB | 2 renders, 44.6 s |
+| `b_grants_tomb` | General Grant National Memorial | 10,264 | 3,208 | 31 % | 0.34 MB | 2 renders, 41.3 s |
+| `b_columbus_circle_monument` | Columbus Circle Monument and Deutsche Bank Center | 2,856 | 1,200 | 42 % | 0.18 MB | 2 renders, 46.1 s |
+| `b_soldiers_sailors_arch` | Soldiers' and Sailors' Memorial Arch | 1,252 | 388 | 31 % | 0.06 MB | 2 renders, 40.4 s |
+| `b_prospect_park_boathouse` | Prospect Park Boathouse (Audubon Center) | 6,176 | 828 | 13 % | 0.30 MB | 2 renders, 32.4 s |
+| **Coney Island** | | | | | | |
+| `b_coney_island` | Coney Island: Cyclone, Wonder Wheel, Parachute Jump and Boardwalk | 37,308 | 9,144 | 25 % | 1.81 MB | 3 renders, 91.9 s |
+
+Total LOD0 geometry: **1,284,216 triangles**; total exported bytes (both LODs): **66.2 MB**.
+
+## 2. Published dimension vs. what the model records
+
+| id | dimension | published | model | error | placement source |
+|---|---|---:|---:|---:|---|
+| `b_brooklyn_bridge` | main span | 486.3 | 486.3 | 0.00 % | osm bridge:support ways + published span |
+| `b_manhattan_bridge` | main span | 451.1 | 451.1 | 0.00 % | roads segments.parquet centreline + osm supports + published span |
+| `b_williamsburg_bridge` | main span | 487.68 | 487.68 | 0.00 % | roads segments.parquet centreline (12 vertices, 0.12 deg from the OSM support axis) + osm supports + published span |
+| `b_queensboro_bridge` | longest span | 360.3 | 360.3 | 0.00 % | roads segments.parquet centreline (57 vertices, 0.15 deg from the OSM support axis) + osm supports + published span |
+| `b_george_washington_bridge` | main span | 1066.8 | 1066.8 | 0.00 % | osm bridge:support ways + published span |
+| `b_verrazzano_narrows` | main span | 1298.4 | 1298.4 | 0.00 % | roads segments.parquet centreline (88 vertices, 0.03 deg from the OSM support axis) + osm supports + published span |
+| `b_rfk_triborough` | suspension main span | 420.62 | 420.62 | 0.00 % | roads segments.parquet centreline (42 vertices, 0.67 deg from the OSM support axis) + osm supports + published span |
+| `b_throgs_neck` | main span | 548.64 | 548.64 | 0.00 % | roads segments.parquet centreline (23 vertices, 0.46 deg from the OSM support axis) + osm supports + published span |
+| `b_bronx_whitestone` | main span | 701.04 | 701.04 | 0.00 % | roads segments.parquet centreline (27 vertices, 0.01 deg from the OSM support axis) + osm supports + published span |
+| `b_hell_gate` | arch span (outer faces) | 310.0 | 310.0 | 0.00 % | osm bridge:support ways + published span |
+| `b_high_bridge` | length | 442.0 | 442.0 | 0.00 % | OSM way 60251530 (name=High Bridge, highway=cycleway, bridge=yes) end vertices |
+| `b_pulaski` | bascule span | 53.95 | 53.95 | 0.00 % | roads segments.parquet centreline (16 vertices, 3.43 deg from the OSM support axis) + osm supports + published span |
+| `b_kosciuszko` | main span | 190.2 | 190.2 | 0.00 % | OSM deck polygons 371931262 / 673031781 and BQE deck ways 718450323 / 658193988 |
+| `b_roosevelt_island_tram` | East River span | 360.9 | 360.9 | 0.00 % | OSM way 22886820 (aerialway=cable_car) vertices, used verbatim |
+| `b_lincoln_tunnel_portals` | centre tube | 2504.2 | 2504.2 | 0.00 % | OSM tunnel ways (three bores, nine ways) |
+| `b_holland_tunnel_portals` | north tube | 2608.5 | 2608.5 | 0.00 % | OSM tunnel ways 46613913+415877358 / 22927390+415882710 |
+| `b_queens_midtown_portals` | north tube | 1955.0 | 1955.0 | 0.00 % | OSM tunnel ways 11878036+706015228 / 813727586+658498546 |
+| `b_hugh_carey_portals` | length | 2779.2 | 2779.2 | 0.00 % | OSM tunnel ways 5681925 / 413749473 |
+| `b_one_world_trade_center` | spire tip | 541.3 | 541.3 | 0.00 % | candidate_footprints.parquet |
+| `b_wtc_site` | 3 WTC height | 329.2 | 329.2 | 0.00 % | published |
+| `b_statue_of_liberty` | ground to torch | 92.99 | 92.99 | 0.00 % | published |
+| `b_ellis_island_main` | tower height | 30.5 | 30.5 | 0.00 % | published |
+| `b_governors_island` | Castle Williams diameter | 60.96 | 60.96 | 0.00 % | published |
+| `b_washington_square_arch` | height | 23.47 | 23.47 | 0.00 % | published |
+| `b_bethesda_terrace` | fountain basin | 29.26 | 29.26 | 0.00 % | published |
+| `b_bow_bridge` | length | 26.52 | 26.52 | 0.00 % | published |
+| `b_belvedere_castle` | tower height | 16.5 | 16.5 | 0.00 % | published |
+| `b_central_park_walls_gates` | perimeter | 9656.0 | 9832.5 | 1.83 % | published |
+| `b_unisphere` | height | 42.67 | 42.67 | 0.00 % | published |
+| `b_grants_tomb` | height | 45.72 | 45.72 | 0.00 % | published |
+| `b_columbus_circle_monument` | Deutsche Bank Center | 228.6 | 228.6 | 0.00 % | published |
+| `b_soldiers_sailors_arch` | height | 24.38 | 24.38 | 0.00 % | published |
+| `b_prospect_park_boathouse` | arcade bays | 6 | 6 | 0.00 % | published |
+| `b_coney_island` | Parachute Jump | 79.86 | 79.86 | 0.00 % | published |
+
+`tests/test_landmarks_b.py` goes further than this table: it decodes each `.glb` and **measures** the geometry — the height of the model's highest point, and the centre-to-centre distance between the named tower/pier nodes — against the published figure, with a 1 % tolerance on the primary set.
+
+## 3. Test results
+
+```
+........................................................................ [ 39%]
+........................................................................ [ 79%]
+.....................................                                    [100%]
+181 passed in 28.73s
+```
 <!-- generated-above; hand-written narrative below -->
+
 
 ## 4. How each landmark was placed
 
@@ -123,16 +226,27 @@ The most important admissions across the group:
   found, so they are placed 70 m either side of each measured portal. Holland's four, Queens-Midtown's two and
   three of Hugh L. Carey's four *are* real OSM buildings, built on their real footprints at their OSM-tagged
   heights; Carey's second Manhattan building is published but unmapped and is **not modelled**.
-* **The 9/11 Memorial pool centres are derived, +-15 m** from the OSM memorial-plaza polygon's long axis; no polygon
-  exists for the individual pools. The pools themselves are exact: 61.0 m square (the original towers' footprint),
-  a 9.14 m waterfall, and 152 bronze parapet panels carrying the `MEMORIAL_NAMES` material slot for the 2,983 names.
+* **The 9/11 Memorial pool centres are measured** (corrected 2026-09-07; see section 12). They were derived +-85 m
+  along the memorial-plaza polygon's axis on the claim that "no polygon exists for the individual pools", which was
+  wrong: `data/raw/osm/NewYork.osm.pbf` carries **way 697722178 "Memorial North Pool"** and **way 697722181
+  "Memorial South Pool"**. The pools themselves are exact: 61.0 m square (the original towers' footprint), a 9.14 m
+  waterfall, and 152 bronze parapet panels carrying the `MEMORIAL_NAMES` material slot for the 2,983 names.
+* **The WTC plaza's ground stops at the memorial plaza.** It was a 520 x 520 m quad; it is now the real 8-acre
+  memorial plaza (OSM way 129835611), cut open over both pools. Everything outside that outline is the terrain and
+  pavement stages' ground, not this model's.
+* **The Oculus is 32 degrees off its own footprint.** Found in this pass and **not fixed**: `PLAZA_AXIS_DEG = 160.6`
+  orients the 106.7 m body, while the long axis of its real OTI footprint (BIN 1089309, 110.0 m) runs at
+  **128.2 deg**. The consequence is visible in `site_aerial.png`: the east end of the Oculus body overlaps 3 WTC's
+  footprint. It belongs to the Oculus views and is left for the pass that re-renders them against the reference.
 * **The WTC plaza oaks are the wrong species of oak.** The street-props agent's library landed mid-build, so the
   trees are now real prop assets rather than `b_common.simple_tree`; but `blender_out/props/` has no swamp white
   oak (*Quercus bicolor*), so `tree_pin_oak_medium` (*Quercus palustris* — same genus, same upright habit) stands
   in, collapse-decimated to 520 triangles and instanced 220 times so the whole grove costs one mesh in the glb. The
   Survivor Tree uses `tree_callery_pear_medium`, which **is** the right species. 220 of the published 400+ oaks are
-  placed (70 at LOD1). `b_common.prop_available()` / `prop_template()` / `prop_instance()` are the general helpers,
-  and the build falls back to `simple_tree` and says so in its report if the library is absent.
+  placed (70 at LOD1), drawn with a fixed seed from the 343 grid positions the plaza deck leaves once the two pool
+  openings, the museum pavilion and a 4 m edge margin are taken out, so the grove covers the whole plaza rather than
+  filling one end of it in loop order. `b_common.prop_available()` / `prop_template()` / `prop_instance()` are the
+  general helpers, and the build falls back to `simple_tree` and says so in its report if the library is absent.
 * **Approach viaducts are truncated.** Throgs Neck (320 m each side against a published 1,189 m / 853 m),
   Bronx-Whitestone (260 m), Queensboro (400 m), Verrazzano (300 m), Pulaski (300 m each against a published 856.5 m
   total) and Hell Gate (300 m / 220 m against 810 m / 599 m) all stop short: beyond that they are ordinary elevated
@@ -275,3 +389,117 @@ a futex with every artefact already on disk), so `b_build_all.py` sets `NYCSIM_L
   re-running the landmark; a missing one is skipped, not an error.
 * **Collision.** The tunnel linings are single-sided inward-facing surfaces away from the portals; if the engine
   needs two-sided collision there, generate it from the ribbon meshes rather than expecting a closed solid.
+
+## 12. Correction pass, 2026-09-07: the World Trade Center site
+
+`b_wtc_site` appears in 17 of the 57 comparison scenes, so its faults are visible across a large part of the
+verification set. Four were found and fixed, one more was found and is recorded unfixed. Every figure below was
+measured from the exported `.glb`, the published terrain or the render, not read off the script.
+
+### 12.1 The whole model stood 3.5 m too high
+
+`GRND = 3.5`, documented as "plaza level, NAVD88", was doing two incompatible jobs at once. It was the **local
+datum** every piece of geometry was offset from (`bc.ground_plane("plaza", 260.0, GRND, ...)`, `GRND + 0.15`,
+`GRND - POOL_FALL`, `GRND + 17.5`), and it was the **frame origin's NAVD88 z**
+(`bc.local_frame(PLAZA_CENTRE_TM, GRND, ...)`, exported as `origin_tm[2]`). `blender/verify/scene.py` places a
+landmark with `ob.location = ob.location + origin`, so the plaza level was added twice: the plaza quad's four
+vertices measured **exactly 7.000 m NAVD88** in the shipped glb.
+
+The two are now separate constants — `PLAZA_Z = 4.40` for the frame origin, `GRND = 0.0` for the model-space datum
+— so every `GRND ± x` offset in the file survives unchanged and `ground_z` / the `ground_urban` render context, which
+are in the same space, follow. Measured in the rebuilt glb: `origin_tm = [-5338.0, 1285.0, 4.4]` and the plaza slab
+spans local z −0.300 to 0.000, i.e. **4.10 to 4.40 m NAVD88**.
+
+**Why 4.40 m**, on four independent readings:
+
+| evidence | value |
+|---|---:|
+| `data/processed/tiles/t_-6_1` heightmap, bilinear at `PLAZA_CENTRE_TM` | **4.405 m** |
+| median of the memorial plaza deck (OSM way 129835611 minus the two 61 m pool squares), 6,139 samples at 2 m | 4.341 m |
+| median along the plaza's Greenwich Street frontage / Fulton Street / Liberty Street | 4.56 / 4.88 / 3.47 m |
+| median \|origin z − heightmap at the origin\| over the 93 landmark catalogue entries | 0.072 m |
+
+The plaza is at the grade of Greenwich and Fulton Streets and stands above Liberty Street, which is what the real
+memorial does — the Liberty Street frontage is reached up steps. Taking the heightmap at the frame origin keeps this
+entry inside the convention the other 92 follow: it is now **0.005 m** from the terrain at its origin, against
+0.905 m before (and 2.6 m above the ground once the doubling is counted). 3.5 m was kept from neither reading.
+
+### 12.2 The plaza had no openings, so the pools could not be seen
+
+`bc.ground_plane("plaza", 260.0, GRND, "sidewalk")` was a single unbroken **520 × 520 m** quad — four vertices, two
+triangles — drawn straight across both 61 m pool openings. Every piece of pool geometry (the parapets, the 9.14 m
+waterfall walls, the water, the central void) was modelled and sealed underneath it, so no camera standing anywhere
+on the plaza could see a pool. That is the whole subject of the `landmark_911_memorial_pools` sheet.
+
+The plaza is now the **real memorial plaza outline** — OSM way 129835611, Douglas-Peucker simplified at 0.5 m from
+76 to 20 vertices (33,039 m² against the polygon's own 33,019 m² and the published "eight acres" = 32,375 m²),
+recorded as a constant in the script and cross-checked against `blender_out/landmarks/b_osm/structures.geojson` at
+build time, the same recorded-constant-plus-cross-check the bridge supports use. It is built as a 0.30 m paving
+slab with the two 61 m pool squares cut out of it, reusing the `outer` ring `_pool_rings()` already computes for
+the parapets and walls, so the parapet stands on the edge of the opening as it does in reality.
+
+Measured in the rebuilt glb: the `plaza` mesh carries **116 triangles** (it was 2), and **zero** of them have a
+centroid inside either 61 m pool square. `docs/verification/landmarks/b_wtc_site/memorial_plaza.png` and
+`site_aerial.png` show both openings.
+
+Clipping the plaza is also what takes a 520 m sidewalk-coloured slab off Liberty Street, West Street and the Hudson
+River Greenway. It shrinks the model's bounding box from ±260 m to x [−92.8, 183.6], y [−183.9, 250.2], which drops
+it below the scene radius of one of the 17 comparison scenes (section 12.6).
+
+### 12.3 The pool centres were derived, and wrong
+
+The script said the two pool centres were "derived, ±15 m" from the memorial-plaza polygon's long axis "because
+neither the extract nor Overpass has a polygon for the individual pools". That is false.
+`data/raw/osm/NewYork.osm.pbf` carries **way 697722178 "Memorial North Pool"** and **way 697722181 "Memorial South
+Pool"**, both five-node squares tagged `natural=water`. Measured against them, the derived centres were:
+
+| | derived (local, m) | OSM measured (local, m) | error |
+|---|---|---|---:|
+| North Pool | (−28.23, 80.17) | (−0.35, 64.96) | **31.8 m** |
+| South Pool | (28.23, −80.17) | (7.60, −58.27) | **30.1 m** |
+| separation | 170.0 m | 123.5 m | +37.7 % |
+| square edge heading | 160.6 / 70.6 deg | 29.25 / 119.06 deg | **41.4 deg** |
+
+The measured heading is corroborated by geometry that has nothing to do with OSM water: the real OTI footprints of
+3 WTC and 4 WTC run at 26.5 / 116.5 deg and 29.4 / 119.4 deg — the original towers' grid, which is what the pools
+stand on. The centres and the rotation are now taken from those two ways and recorded as constants
+(`POOL_CENTRES_TM`, `POOL_AXIS_DEG`); the grove's grid was moved onto the same axis. Both 61 m squares now lie
+wholly inside the memorial plaza polygon, where the derived south pool overhung it by 292 m².
+
+### 12.4 Every oak was drawn with two canopies
+
+`b_common.prop_template()` imported the props library's tree glb and **joined every mesh in it**, including the
+six-triangle `<species>_billboard` impostor card on an `IMPOSTOR_*` material. The card is a flat opaque stand-in for
+the crown at distance; merged into the real mesh it is drawn over the branches it replaces, and all 220 memorial
+oaks carried both. `prop_template()` now drops impostor meshes instead of joining them, by the same test
+`blender/verify/scene.py` uses (name `_billboard`, or every material `IMPOSTOR_*`). Measured in the rebuilt glb:
+**no `IMPOSTOR_*` material appears in the file at all**, and the comparison scene that used to strip 12 card faces
+across 2 template meshes now reports `impostor_faces_dropped: 0`. The guard in `scene.py` is left in place — it
+protects against any other asset doing the same thing.
+
+### 12.5 The model had no verification renders, and the reason was a stale template cache
+
+`docs/verification/landmarks/b_wtc_site/` held a `REPORT.md` and no images. `prop_template()` caches its template
+objects in a module-level dict that outlives `bc.new_scene()`, and its liveness test was `ob.name in
+bpy.data.objects` — but touching a **removed** `StructRNA` raises `ReferenceError` rather than returning a name, so
+`run_landmark()`'s third build (the one that populates the scene for the renders) aborted with a traceback for any
+landmark that instances a prop. The cache now catches that and re-imports. The model has six verification renders
+for the first time.
+
+The `memorial_plaza` view was also re-framed and now carries **no context ground plane**: a 1,400 m `ground_urban`
+plane 50 mm under the plaza is drawn straight through both openings, which is a lid over the thing the view exists
+to show. It is taken from 38 m out and 12 m above the plaza, because at 1.65 m the 1.07 m parapet hides the basin —
+the eye-level shot is the reference view.
+
+### 12.6 Also found, not fixed
+
+**The Oculus is 32 degrees off its own footprint.** `PLAZA_AXIS_DEG = 160.6` orients the 106.7 m ribbed body, while
+the long axis of its real OTI footprint (BIN 1089309) measures **128.2 deg** over 110.0 m. The consequence is
+visible in `site_aerial.png`: the east end of the body crosses into 3 WTC's footprint. The memorial pass did not
+touch it because it belongs to the Oculus views and their assessments, and moving it changes a different sheet.
+
+**One comparison scene loses the landmark.** With the plaza clipped, `b_wtc_site`'s world bounding box comes no
+closer than **524.5 m** to `landmark_municipal_building`'s camera, against that scene's **508.2 m** radius, so it is
+no longer placed there. The World Trade Center is at bearing 260 deg from that camera, which looks at 81.6 deg with
+a 90 deg horizontal field: it was behind the lens before and is absent now, and the re-render confirms the frame is
+unchanged. The other 16 scenes still carry it.

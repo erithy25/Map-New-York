@@ -714,7 +714,7 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     # distance; with no subject named, 20 m is enough to be standing in a street rather than in a
     # light well.
     min_view_m = 20.0 if subj_dist is None else max(20.0, min(0.5 * subj_dist, 80.0))
-    clearance = vcam.clear_of_geometry(placement, sampler, min_view_m=min_view_m,
+    clearance = vcam.clear_of_geometry(placement, sampler, min_view_m=min_view_m, origin_is_photo=origin_is_photo,
                                        has_subject=subj_dist is not None)
     clearance["min_view_m"] = round(min_view_m, 1)
     light = setup_world_and_sun(sun["azimuth_deg"], sun["elevation_deg"], night=bool(meta.get("night")))
@@ -737,7 +737,7 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     if not frame["usable"]:
         LOG.warning("%s: first frame is %s; forcing the clearance correction and re-rendering",
                     slug, frame["reason"])
-        forced = vcam.clear_of_geometry(placement, sampler, min_view_m=min_view_m, force=True,
+        forced = vcam.clear_of_geometry(placement, sampler, min_view_m=min_view_m, origin_is_photo=origin_is_photo, force=True,
                                         has_subject=subj_dist is not None)
         forced["min_view_m"] = round(min_view_m, 1)
         if forced.get("moved"):

@@ -7907,41 +7907,41 @@
   },
   "landmark_b_wtc_site_lod0": {
    "artifact_id": "landmark_b_wtc_site_lod0",
-   "bytes": 2544716,
-   "git_commit": "0cd7c3ed1043",
+   "bytes": 2372368,
+   "git_commit": "19d187863237",
    "landmark_id": "b_wtc_site",
    "lod": 0,
    "path": "blender_out/landmarks/b_wtc_site.glb",
-   "produced_at": "2026-09-06T15:47:05Z",
+   "produced_at": "2026-09-07T01:49:28Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "a75684046926c8ad748af9eb08d66a0b605bdf2cd3d1bb3a92c542a41a790fee",
+   "sha256": "e294cc2dd5ba664fda06f98c49f631f2ea3ba3be6ec2fde39eae93dff5dbba39",
    "sources": [
     "building_footprints",
     "osm_bbbike",
     "published_wtc_site"
    ],
    "stage": "landmarks_b",
-   "triangles": 136174
+   "triangles": 136288
   },
   "landmark_b_wtc_site_lod1": {
    "artifact_id": "landmark_b_wtc_site_lod1",
-   "bytes": 1381408,
-   "git_commit": "ca87e1135759",
+   "bytes": 1283696,
+   "git_commit": "19d187863237",
    "landmark_id": "b_wtc_site",
    "lod": 1,
    "path": "blender_out/landmarks/b_wtc_site_lod1.glb",
-   "produced_at": "2026-09-06T14:19:02Z",
+   "produced_at": "2026-09-07T01:49:31Z",
    "rows": null,
    "schema": "glb",
-   "sha256": "1530d6e8da760d3fc426629992130dad7b0ba4fc5173bffa6379a94062af9156",
+   "sha256": "6680627cb3297e13d4ace0a7cd1b8431e1452356be74f3853c8e8802e17f9735",
    "sources": [
     "building_footprints",
     "osm_bbbike",
     "published_wtc_site"
    ],
    "stage": "landmarks_b",
-   "triangles": 13594
+   "triangles": 13708
   },
   "landmark_footprints": {
    "artifact_id": "landmark_footprints",

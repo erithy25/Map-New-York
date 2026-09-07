@@ -7,6 +7,7 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 18.0,
   "ground_detail": {
+   "below_point_excluded": 0,
    "chosen_m": 11.8,
    "max_m": 12.78,
    "median_m": 12.05,
@@ -54,9 +55,9 @@
   "view_m": 49.8
  },
  "frame": {
-  "mean": 0.483,
+  "mean": 0.4845,
   "reason": null,
-  "sd": 0.1835,
+  "sd": 0.1827,
   "usable": true
  },
  "frame_retry": null,
@@ -68,7 +69,7 @@
   "direct_normal_irradiance_w_m2": 907.3,
   "emissive": {
    "cones_hidden": 2,
-   "lamps_switched_off": 4,
+   "lamps_switched_off": 5,
    "night": false,
    "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
@@ -96,7 +97,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_municipal_building/render.png",
- "rendered_at": "2026-09-06T23:07:12Z",
+ "rendered_at": "2026-09-07T02:28:55Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
@@ -111,18 +112,28 @@
    "landmark_faces_suppressed": 876,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_-5_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
      "triangles": 11872
     },
     "t_-5_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
      "triangles": 42654
     },
     "t_-6_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
      "triangles": 15036
@@ -133,6 +144,7 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 3,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
    "triangles": 69562
   },
@@ -171,6 +183,8 @@
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [
     {
      "distance_m": 101.2,
@@ -194,13 +208,6 @@
      "triangles": 47871
     },
     {
-     "distance_m": 719.6,
-     "id": "b_wtc_site",
-     "lod": 0,
-     "name": "World Trade Center site",
-     "triangles": 136174
-    },
-    {
      "distance_m": 1057.4,
      "id": "b_brooklyn_bridge",
      "lod": 0,
@@ -208,10 +215,10 @@
      "triangles": 121824
     }
    ],
-   "placed": 5,
+   "placed": 4,
    "skipped": 0,
    "skipped_detail": [],
-   "triangles": 448517
+   "triangles": 312343
   },
   "pavement": {
    "dropped_polygons": 0,
@@ -236,29 +243,31 @@
    "vertices": 107058
   },
   "props": {
-   "capped": "triangle budget 1329219",
+   "capped": "triangle budget 1376880",
    "impostor_cards_dropped": 8,
+   "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
-    "bench": 164,
-    "bike_rack": 30,
+    "bench": 165,
+    "bike_rack": 31,
     "bus_shelter": 2,
     "bus_stop_sign": 8,
     "citibike_dock": 3,
-    "flagpole": 12,
-    "hydrant": 38,
+    "flagpole": 13,
+    "hydrant": 40,
     "linknyc": 1,
     "mailbox": 3,
-    "manhole": 127,
-    "steam_vent": 7,
-    "street_lamp": 144,
+    "manhole": 129,
+    "newsstand": 1,
+    "steam_vent": 8,
+    "street_lamp": 149,
     "subway_emergency_exit": 1,
     "subway_entrance": 13,
-    "subway_vent_grate": 39,
-    "tree": 58,
-    "waste_basket": 42
+    "subway_vent_grate": 42,
+    "tree": 63,
+    "waste_basket": 43
    },
-   "placed": 692,
+   "placed": 715,
    "radius_m": 250.0,
    "rows_in_range": 1000,
    "tiles_missing": [],
@@ -266,11 +275,11 @@
     "t_-5_1"
    ],
    "tree_species_substituted": 3,
-   "triangles": 1332004,
+   "triangles": 1380688,
    "unmapped_kinds": {
     "artwork": 6,
     "cooling_tower": 41,
-    "curb_ramp": 85,
+    "curb_ramp": 91,
     "drinking_fountain": 3,
     "memorial": 5,
     "misc_structure": 4,
@@ -278,7 +287,7 @@
    }
   },
   "radius_m": 508.23900772940584,
-  "seconds": 31.12,
+  "seconds": 19.1,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -293,7 +302,7 @@
    "z_max_m": 14.5,
    "z_min_m": -1.43
   },
-  "triangles": 2372629
+  "triangles": 2285139
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -301,9 +310,9 @@
   "radius_m": 508.23900772940584
  },
  "seconds": {
-  "render": 250.4,
-  "scene": 31.8,
-  "total": 282.2
+  "render": 86.5,
+  "scene": 19.5,
+  "total": 106.0
  },
  "slug": "landmark_municipal_building",
  "status": "rendered",

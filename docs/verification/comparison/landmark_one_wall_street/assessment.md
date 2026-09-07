@@ -39,3 +39,7 @@
 | no stone texture or glazing | shells carry a per-material base colour; the kit supplies openings without glass | material |
 | no people, vehicles or signage | no stage places any of them | data |
 | bare paving | pavement polygons carry a kind but no texture or markings | material |
+
+## Re-render note, 2026-09-07
+
+Re-rendered against the corrected `b_wtc_site` model — the World Trade Center site stood 3.5 m too high, its plaza was an unbroken 520 x 520 m quad over both memorial pools, and its 220 oaks each carried a merged impostor card (`docs/verification/landmarks/REPORT_B.md` §12). Measured against the shipped render, **0.004 %** of pixels differ by more than 8/255 and the largest single difference is **21/255**, which is Cycles sampling noise at 32 samples, not content; frame mean and standard deviation are unchanged (0.222 / 0.183). The camera did not move. Nothing in this assessment changes.

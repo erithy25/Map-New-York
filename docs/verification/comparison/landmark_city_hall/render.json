@@ -7,6 +7,7 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
+   "below_point_excluded": 0,
    "chosen_m": 11.51,
    "max_m": 12.26,
    "median_m": 11.9,
@@ -56,7 +57,7 @@
  "frame": {
   "mean": 0.4948,
   "reason": null,
-  "sd": 0.1948,
+  "sd": 0.1947,
   "usable": true
  },
  "frame_retry": null,
@@ -96,7 +97,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_city_hall/render.png",
- "rendered_at": "2026-09-06T22:17:08Z",
+ "rendered_at": "2026-09-07T02:10:20Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
@@ -112,23 +113,36 @@
    "landmark_faces_suppressed": 2992,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_-5_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
      "triangles": 11872
     },
     "t_-5_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
      "triangles": 42654
     },
     "t_-6_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
      "triangles": 12796
     },
     "t_-6_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
      "triangles": 15036
@@ -139,6 +153,7 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 4,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
    "triangles": 82358
   },
@@ -178,6 +193,8 @@
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [
     {
      "distance_m": 123.7,
@@ -212,7 +229,7 @@
      "id": "b_wtc_site",
      "lod": 0,
      "name": "World Trade Center site",
-     "triangles": 136174
+     "triangles": 136288
     },
     {
      "distance_m": 534.4,
@@ -260,7 +277,7 @@
    "placed": 11,
    "skipped": 0,
    "skipped_detail": [],
-   "triangles": 623152
+   "triangles": 623266
   },
   "pavement": {
    "dropped_polygons": 0,
@@ -286,8 +303,9 @@
    "vertices": 145009
   },
   "props": {
-   "capped": "triangle budget 1249613",
+   "capped": "triangle budget 1249573",
    "impostor_cards_dropped": 8,
+   "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
     "bench": 123,
@@ -329,7 +347,7 @@
    }
   },
   "radius_m": 602.5756731136107,
-  "seconds": 72.86,
+  "seconds": 61.13,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -344,7 +362,7 @@
    "z_max_m": 14.05,
    "z_min_m": -1.73
   },
-  "triangles": 4331761
+  "triangles": 4331875
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -352,9 +370,9 @@
   "radius_m": 602.5756731136107
  },
  "seconds": {
-  "render": 136.9,
-  "scene": 76.1,
-  "total": 213.0
+  "render": 67.2,
+  "scene": 64.0,
+  "total": 131.3
  },
  "slug": "landmark_city_hall",
  "status": "rendered",

@@ -29,7 +29,7 @@
 * The Whitehall ferry terminal, the Battery Maritime Building, Pier A, the Battery's seawall and the Staten Island Ferry's own slips are all absent; the shoreline is a bare terrain edge with pavement draped over it.
 * Every tower is a flat pastel solid. At 2.5 km the reference still shows glass, vertical banding and window grids on 200 Vesey, 17 State Street and the Blue Tower; the render shows none, so the skyline reads as a study model.
 * The frame is washed out: mean luminance 0.764 against a February photograph with a deep blue sky and strong contrast. The Nishita sky plus the exposure rule opens the shadows further than the reference's.
-* 52 of the 119 tiles have no shell, so the New Jersey bank behind the island is empty.
+* 52 of the 119 tiles had no shell, so the New Jersey bank behind the island was empty. **Superseded by the 2026-09-07 re-render below**: 103 of 120 tiles now import, 37 of them carrying New Jersey shells, and the left third of the skyline is built up.
 * There is no ferry under the camera: the boat is not modelled and the eye floats free at 8 m over the water. The sheet states this.
 
 ## Cause of each gap
@@ -43,5 +43,9 @@
 | no terminal, piers, slips or seawall | waterfront structures are neither building footprints nor props, so no stage builds them | geometry |
 | flat pastel towers | shells carry a per-material base colour with no facade texture or glass | material |
 | washed-out sky and shadows | a clear-sky Nishita atmosphere with an exposure that only opens; the reference's winter contrast is not reproduced | lighting |
-| empty New Jersey bank | no tile_buildings.glb is built outside the five boroughs | data |
+| ~~empty New Jersey bank~~ | was: no `tile_buildings.glb` outside the five boroughs. The New Jersey stage has since produced them and the 2026-09-07 re-render draws 37 tiles of them | data |
 | no ferry under the camera | no vessel geometry exists; the sheet states the camera floats | geometry |
+
+## Re-render note, 2026-09-07
+
+Re-rendered against the corrected `b_wtc_site` model — the World Trade Center site stood 3.5 m too high, its plaza was an unbroken 520 x 520 m quad over both memorial pools, and its 220 oaks each carried a merged impostor card (`docs/verification/landmarks/REPORT_B.md` §12). **1.30 % of the frame changed, and almost none of it is the World Trade Center.** The whole left third of the skyline — empty water with two pier stubs in the shipped sheet — is now built up: the scene imported **103** building tiles against 68, **37** of them carrying `tile_buildings_nj.glb`, because the New Jersey building stage landed on disk after this sheet was first rendered. That is a data change, not a consequence of the World Trade Center fix. The World Trade Center's own contribution is the 3.5 m the model dropped, which at 2,389 m subtends 0.084 deg — about 1.6 px at this focal length. The verdict above is unchanged; the New Jersey shoreline it says is missing is now partly there and should be re-judged by whoever owns that stage.

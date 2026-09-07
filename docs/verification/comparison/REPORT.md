@@ -324,6 +324,16 @@ fault, not the convention. **It is a defect in the landmarks stage and is left t
 nothing in the comparison stage edits the model.** Every scene that contains `b_wtc_site` — 17 of
 the 57 — carries the same 3.5 m error, invisible at distance and decisive at 60 m.
 
+> **Fixed in the landmarks stage on 2026-09-07, and all 17 scenes re-rendered against the corrected
+> model.** `GRND` is now two constants — `PLAZA_Z = 4.40` for the frame origin's NAVD88 z and
+> `GRND = 0.0` for the model-space datum — and the exported plaza measures 4.40 m NAVD88 against a
+> heightmap reading of 4.19 m at the same point. The plaza is also cut open over both pools and the
+> oaks' impostor card is gone from the glb. `docs/verification/landmarks/REPORT_B.md` §12 records
+> what was wrong and what was measured; the three subjects whose frames materially changed
+> (`landmark_911_memorial_pools`, `landmark_one_world_trade_center`, `landmark_oculus`) carry the
+> detail in their own assessments. The `deck_underfoot` correction below is no longer needed by any
+> subject in the set: this camera now stands on ground the heightmap and the model agree about.
+
 **What the comparison stage does about it.** Three changes, all in `blender/verify/camera.py`:
 
 * **`deck_underfoot`** — an eye point put under a *landmark's own* level deck, within one eye height
@@ -355,6 +365,11 @@ three material slots (`IMPOSTOR_pin_oak_medium`, `bark_pin_oak`, `LEAF_pin_oak`)
 objects cannot reach that, so all 220 memorial oaks were drawn with two canopies. `scene.py` now
 strips the faces on any `IMPOSTOR_*` slot of a mesh that also carries real geometry, and counts
 them: 12 card faces on 2 template meshes, instanced 220 times.
+
+> Also fixed at source on 2026-09-07: `bc.prop_template` now drops the card instead of joining it,
+> and the rebuilt `b_wtc_site.glb` carries no `IMPOSTOR_*` material at all
+> (`impostor_faces_dropped: 0` in this subject's `render.json`). The guard in `scene.py` stays —
+> it protects against any other asset doing the same thing.
 
 **Result.** 904x1206 at 64 samples, from the photograph's own GPS at **8.60 m NAVD88**: mean
 **0.475**, sd **0.137**, against a gate of 0.06. **57 of 57 subjects now have a usable render.**

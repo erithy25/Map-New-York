@@ -7,6 +7,7 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
+   "below_point_excluded": 0,
    "chosen_m": 3.83,
    "max_m": 4.21,
    "median_m": 3.98,
@@ -96,7 +97,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_lower_manhattan_stone_st/render.png",
- "rendered_at": "2026-09-06T21:06:16Z",
+ "rendered_at": "2026-09-07T02:31:15Z",
  "resolution_note": "1280x576; the reference photograph is 1920x863 (2.22:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
@@ -114,33 +115,52 @@
    "landmark_faces_suppressed": 2992,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_-5_-1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 11,
      "triangles": 7516
     },
     "t_-5_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
      "triangles": 11872
     },
     "t_-5_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
      "triangles": 42654
     },
     "t_-6_-1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 8,
      "triangles": 3596
     },
     "t_-6_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
      "triangles": 12796
     },
     "t_-6_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
      "triangles": 15036
@@ -151,6 +171,7 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 6,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
    "triangles": 93470
   },
@@ -159,7 +180,7 @@
    484.26
   ],
   "kit": {
-   "capped": "triangle budget 2318825",
+   "capped": "triangle budget 2318711",
    "per_category": {
     "bulkhead": 31,
     "cornice": 42,
@@ -193,6 +214,8 @@
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [
     {
      "distance_m": 292.1,
@@ -262,7 +285,7 @@
      "id": "b_wtc_site",
      "lod": 0,
      "name": "World Trade Center site",
-     "triangles": 136174
+     "triangles": 136288
     },
     {
      "distance_m": 1192.7,
@@ -282,7 +305,7 @@
    "placed": 12,
    "skipped": 0,
    "skipped_detail": [],
-   "triangles": 592954
+   "triangles": 593068
   },
   "pavement": {
    "dropped_polygons": 0,
@@ -310,8 +333,9 @@
    "vertices": 159523
   },
   "props": {
-   "capped": "triangle budget 1249395",
+   "capped": "triangle budget 1249355",
    "impostor_cards_dropped": 15,
+   "impostor_faces_dropped": 0,
    "leaf_off": true,
    "per_kind": {
     "bench": 123,
@@ -351,7 +375,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 75.84,
+  "seconds": 68.14,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -366,7 +390,7 @@
    "z_max_m": 12.91,
    "z_min_m": -3.43
   },
-  "triangles": 4500006
+  "triangles": 4500120
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -374,9 +398,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 106.8,
-  "scene": 79.3,
-  "total": 186.1
+  "render": 68.6,
+  "scene": 70.8,
+  "total": 139.5
  },
  "slug": "drive_lower_manhattan_stone_st",
  "status": "rendered",

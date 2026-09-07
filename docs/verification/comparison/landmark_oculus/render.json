@@ -7,6 +7,7 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
+   "below_point_excluded": 0,
    "chosen_m": 8.0,
    "max_m": 8.6,
    "median_m": 8.1,
@@ -23,7 +24,7 @@
   "lat": 40.71145,
   "lon": -74.0103,
   "long_side_fov_deg": 54.432,
-  "pitch_deg": -3.2688595607821953,
+  "pitch_deg": -0.27679807117224536,
   "portrait": false,
   "resolution": [
    1280,
@@ -36,7 +37,7 @@
   "y": 1273.251,
   "z": 9.604
  },
- "camera_caption": "camera 40.71145, -74.01030 (NYC_TM -5095, 1273) z 9.6 m NAVD88 | azimuth 274.2deg pitch -3.3deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
+ "camera_caption": "camera 40.71145, -74.01030 (NYC_TM -5095, 1273) z 9.6 m NAVD88 | azimuth 274.2deg pitch -0.3deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
  "camera_origin": {
   "from_photograph_gps": true,
   "lat": 40.71145,
@@ -49,14 +50,14 @@
   "moved": false,
   "nearest_obstruction": "prop_lamp_bishops_crook_10",
   "nearest_obstruction_m": 26.2,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_bishops_crook_10 26.2 m away, and the view azimuth is clear for 110 m",
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_bishops_crook_10 26.2 m away, and the view azimuth is clear for 77 m",
   "offset_m": 0.0,
-  "view_m": 110.1
+  "view_m": 76.6
  },
  "frame": {
-  "mean": 0.3691,
+  "mean": 0.3806,
   "reason": null,
-  "sd": 0.151,
+  "sd": 0.1572,
   "usable": true
  },
  "frame_retry": null,
@@ -81,7 +82,7 @@
  },
  "name": "World Trade Center Transportation Hub (Oculus)",
  "night": false,
- "pitch_reason": "aimed at the Oculus 76 m away, at its mid-height (a nominal 10 m subject); -3.3 deg from horizontal",
+ "pitch_reason": "aimed at the Oculus 76 m away, at its mid-height (a nominal 10 m subject); -0.3 deg from horizontal",
  "reference_photo": {
   "author": "Billie Grace Ward from New York, USA",
   "confidence": "high",
@@ -96,7 +97,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_oculus/render.png",
- "rendered_at": "2026-09-06T23:25:46Z",
+ "rendered_at": "2026-09-07T02:02:39Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1281 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
@@ -112,23 +113,36 @@
    "landmark_faces_suppressed": 2992,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_-5_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
      "triangles": 11872
     },
     "t_-5_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
      "triangles": 42654
     },
     "t_-6_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
      "triangles": 12796
     },
     "t_-6_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
      "triangles": 15036
@@ -139,6 +153,7 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 4,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
    "triangles": 82358
   },
@@ -179,6 +194,8 @@
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [
     {
      "distance_m": 200.7,
@@ -192,7 +209,7 @@
      "id": "b_wtc_site",
      "lod": 0,
      "name": "World Trade Center site",
-     "triangles": 136174
+     "triangles": 136288
     },
     {
      "distance_m": 298.2,
@@ -268,7 +285,7 @@
    "placed": 12,
    "skipped": 0,
    "skipped_detail": [],
-   "triangles": 665864
+   "triangles": 665978
   },
   "pavement": {
    "dropped_polygons": 0,
@@ -296,6 +313,7 @@
   "props": {
    "capped": null,
    "impostor_cards_dropped": 5,
+   "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
     "bench": 63,
@@ -334,7 +352,7 @@
    }
   },
   "radius_m": 522.0053551484609,
-  "seconds": 88.87,
+  "seconds": 59.14,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -349,7 +367,7 @@
    "z_max_m": 14.0,
    "z_min_m": -1.63
   },
-  "triangles": 3698131
+  "triangles": 3698245
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -357,9 +375,9 @@
   "radius_m": 522.0053551484609
  },
  "seconds": {
-  "render": 214.9,
-  "scene": 91.6,
-  "total": 306.5
+  "render": 102.2,
+  "scene": 61.1,
+  "total": 163.3
  },
  "slug": "landmark_oculus",
  "status": "rendered",

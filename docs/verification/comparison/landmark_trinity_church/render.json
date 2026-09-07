@@ -7,6 +7,7 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
+   "below_point_excluded": 0,
    "chosen_m": 7.82,
    "max_m": 8.22,
    "median_m": 7.99,
@@ -96,7 +97,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_trinity_church/render.png",
- "rendered_at": "2026-09-07T00:01:30Z",
+ "rendered_at": "2026-09-07T02:24:56Z",
  "resolution_note": "824x1326; the reference photograph is 1920x3089 (0.62:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
@@ -114,33 +115,52 @@
    "landmark_faces_suppressed": 2992,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_-5_-1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 1,
      "objects": 11,
      "triangles": 3260
     },
     "t_-5_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
      "triangles": 11872
     },
     "t_-5_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
      "triangles": 42654
     },
     "t_-6_-1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 1,
      "objects": 8,
      "triangles": 1312
     },
     "t_-6_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
      "triangles": 12796
     },
     "t_-6_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
      "triangles": 15036
@@ -151,6 +171,7 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 6,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
    "triangles": 86930
   },
@@ -159,7 +180,7 @@
    731.64
   ],
   "kit": {
-   "capped": "triangle budget 2324290",
+   "capped": "triangle budget 2324176",
    "per_category": {
     "bulkhead": 13,
     "cornice": 10,
@@ -174,10 +195,10 @@
     "storefront_interior": 10,
     "string_course": 10,
     "water_tower": 5,
-    "window": 9065,
+    "window": 9064,
     "window_accessory": 804
    },
-   "placed": 10186,
+   "placed": 10185,
    "radius_m": 120.0,
    "records_in_range": 22281,
    "stale_registry_ids": {},
@@ -187,11 +208,13 @@
     "t_-5_0",
     "t_-6_0"
    ],
-   "triangles": 2324522,
+   "triangles": 2324274,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [
     {
      "distance_m": 50.8,
@@ -247,7 +270,7 @@
      "id": "b_wtc_site",
      "lod": 0,
      "name": "World Trade Center site",
-     "triangles": 136174
+     "triangles": 136288
     },
     {
      "distance_m": 664.5,
@@ -309,7 +332,7 @@
    "placed": 16,
    "skipped": 0,
    "skipped_detail": [],
-   "triangles": 789517
+   "triangles": 789631
   },
   "pavement": {
    "dropped_polygons": 0,
@@ -339,6 +362,7 @@
   "props": {
    "capped": null,
    "impostor_cards_dropped": 8,
+   "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
     "bench": 53,
@@ -377,7 +401,7 @@
    }
   },
   "radius_m": 811.47877119142,
-  "seconds": 65.81,
+  "seconds": 56.25,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -392,7 +416,7 @@
    "z_max_m": 13.7,
    "z_min_m": -3.6
   },
-  "triangles": 4500232
+  "triangles": 4500098
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -400,9 +424,9 @@
   "radius_m": 811.47877119142
  },
  "seconds": {
-  "render": 152.5,
-  "scene": 68.6,
-  "total": 221.2
+  "render": 110.2,
+  "scene": 58.5,
+  "total": 168.7
  },
  "slug": "landmark_trinity_church",
  "status": "rendered",
