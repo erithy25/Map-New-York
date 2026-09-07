@@ -1,4 +1,11 @@
 {
+ "agent_request": {
+  "dow": 2,
+  "hour": 12,
+  "local_clock": "2022-10-09 12:16 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
  "azimuth_reason": "25.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
  "camera": {
   "azimuth_deg": 25.0,
@@ -57,9 +64,9 @@
   "view_m": 60.0
  },
  "frame": {
-  "mean": 0.2544,
+  "mean": 0.2207,
   "reason": null,
-  "sd": 0.172,
+  "sd": 0.1693,
   "usable": true
  },
  "frame_retry": null,
@@ -99,10 +106,92 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_grand_concourse/render.png",
- "rendered_at": "2026-09-07T09:18:25Z",
+ "rendered_at": "2026-09-07T12:06:45Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "caption": "Agents: 89 vehicles within 320 m and 313 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 322 vehicles and 1726 people over the whole simulated ring, of which 373 and 2022 were simulated; 1993 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 127,
+    "pedestrian_not_on_walkable_surface": 52,
+    "pedestrian_outside_radius": 705,
+    "pedestrian_triangle_budget": 825,
+    "vehicle_body_has_no_rider": 11,
+    "vehicle_not_on_carriageway": 6,
+    "vehicle_outside_radius": 190,
+    "vehicle_triangle_budget": 77
+   },
+   "ped_lods": {
+    "LOD0": 7,
+    "LOD1": 11,
+    "LOD2": 295
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 580808,
+   "per_class": {
+    "black_car": 3,
+    "boro_taxi": 1,
+    "box_truck": 2,
+    "mta_bus": 3,
+    "sedan": 48,
+    "suv": 18,
+    "taxi": 10,
+    "van": 4
+   },
+   "placed_pedestrians": 313,
+   "placed_vehicles": 89,
+   "reason": null,
+   "seconds": 77.34,
+   "snapshot": {
+    "building_footprints_tested": 1467,
+    "density_lane_km": 28.245,
+    "density_sidewalk_m2": 34726,
+    "density_target_pedestrians": 1725.9,
+    "density_target_vehicles": 321.9,
+    "dow": 2,
+    "hour": 12,
+    "lanes_considered": 284,
+    "lanes_with_nta": 284,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.16,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 82,
+    "pavement_polygons_tested": 2845,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 2022,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 373
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1086174,
+   "vehicle_lods": {
+    "LOD2": 89
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 505366
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
@@ -125,7 +214,7 @@
      ],
      "lod": 0,
      "objects": 10,
-     "triangles": 26094
+     "triangles": 26684
     },
     "t_2_13": {
      "files": [
@@ -133,7 +222,7 @@
      ],
      "lod": 0,
      "objects": 12,
-     "triangles": 43882
+     "triangles": 43714
     },
     "t_2_14": {
      "files": [
@@ -141,7 +230,7 @@
      ],
      "lod": 0,
      "objects": 14,
-     "triangles": 69820
+     "triangles": 70944
     },
     "t_2_15": {
      "files": [
@@ -149,7 +238,7 @@
      ],
      "lod": 0,
      "objects": 11,
-     "triangles": 64812
+     "triangles": 66514
     },
     "t_3_14": {
      "files": [
@@ -157,7 +246,7 @@
      ],
      "lod": 0,
      "objects": 12,
-     "triangles": 64000
+     "triangles": 63704
     },
     "t_3_15": {
      "files": [
@@ -165,7 +254,7 @@
      ],
      "lod": 0,
      "objects": 11,
-     "triangles": 50524
+     "triangles": 51472
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -175,32 +264,32 @@
    "tiles_wanted": 6,
    "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 319132
+   "triangles": 323032
   },
   "centre_tm": [
    2648.54,
    14658.99
   ],
   "kit": {
-   "capped": null,
+   "capped": "triangle budget 1429963",
    "per_category": {
     "antenna": 3,
-    "bulkhead": 19,
-    "cornice": 101,
-    "door_entry": 91,
+    "bulkhead": 18,
+    "cornice": 83,
+    "door_entry": 74,
     "fire_escape": 59,
-    "hvac": 19,
-    "parapet": 98,
-    "quoin": 160,
-    "scaffold": 277,
-    "storefront": 416,
-    "storefront_interior": 67,
-    "string_course": 138,
+    "hvac": 18,
+    "parapet": 83,
+    "quoin": 137,
+    "scaffold": 213,
+    "storefront": 329,
+    "storefront_interior": 56,
+    "string_course": 112,
     "water_tower": 5,
-    "window": 4764,
-    "window_accessory": 537
+    "window": 4052,
+    "window_accessory": 453
    },
-   "placed": 6754,
+   "placed": 5695,
    "radius_m": 120.0,
    "records_in_range": 6754,
    "stale_registry_ids": {},
@@ -209,7 +298,7 @@
    "tiles_read": [
     "t_2_14"
    ],
-   "triangles": 1706510,
+   "triangles": 1430040,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -276,7 +365,7 @@
    "vertices": 196757
   },
   "props": {
-   "capped": "triangle budget 1357455",
+   "capped": "triangle budget 1356090",
    "impostor_cards_dropped": 16,
    "impostor_faces_dropped": 0,
    "leaf_off": false,
@@ -306,7 +395,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 32.45,
+  "seconds": 154.34,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -323,17 +412,19 @@
    "z_max_m": 35.59,
    "z_min_m": 2.91
   },
-  "triangles": 3686473
+  "triangles": 4500077
  },
  "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 444.5,
-  "scene": 34.1,
-  "total": 478.6
+  "render": 707.5,
+  "scene": 155.8,
+  "total": 863.3
  },
  "slug": "drive_bronx_grand_concourse",
  "status": "rendered",

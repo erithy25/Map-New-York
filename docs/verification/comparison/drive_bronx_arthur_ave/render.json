@@ -1,4 +1,11 @@
 {
+ "agent_request": {
+  "dow": 2,
+  "hour": 9,
+  "local_clock": "2026-06-21 09:30 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
  "azimuth_reason": "190.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
  "camera": {
   "azimuth_deg": 190.0,
@@ -57,7 +64,7 @@
   "view_m": 40.3
  },
  "frame": {
-  "mean": 0.2651,
+  "mean": 0.2638,
   "reason": null,
   "sd": 0.1856,
   "usable": true
@@ -99,10 +106,89 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_arthur_ave/render.png",
- "rendered_at": "2026-09-07T09:10:26Z",
+ "rendered_at": "2026-09-07T12:14:46Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "caption": "Agents: 89 vehicles within 320 m and 281 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 173 vehicles and 506 people over the whole simulated ring, of which 206 and 623 were simulated; 459 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 50,
+    "pedestrian_not_on_walkable_surface": 22,
+    "pedestrian_outside_radius": 270,
+    "vehicle_body_has_no_rider": 4,
+    "vehicle_outside_radius": 109,
+    "vehicle_triangle_budget": 4
+   },
+   "ped_lods": {
+    "LOD1": 7,
+    "LOD2": 274
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 411107,
+   "per_class": {
+    "black_car": 5,
+    "boro_taxi": 2,
+    "box_truck": 3,
+    "mta_bus": 4,
+    "sedan": 49,
+    "suv": 18,
+    "taxi": 5,
+    "van": 3
+   },
+   "placed_pedestrians": 281,
+   "placed_vehicles": 89,
+   "reason": null,
+   "seconds": 49.74,
+   "snapshot": {
+    "building_footprints_tested": 4239,
+    "density_lane_km": 25.141,
+    "density_sidewalk_m2": 33040,
+    "density_target_pedestrians": 505.5,
+    "density_target_vehicles": 172.9,
+    "dow": 2,
+    "hour": 9,
+    "lanes_considered": 315,
+    "lanes_with_nta": 315,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.23,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 65,
+    "pavement_polygons_tested": 5082,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 623,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 206
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 915985,
+   "vehicle_lods": {
+    "LOD2": 89
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 504878
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
@@ -123,7 +209,7 @@
      ],
      "lod": 0,
      "objects": 13,
-     "triangles": 52766
+     "triangles": 53652
     },
     "t_4_17": {
      "files": [
@@ -131,7 +217,7 @@
      ],
      "lod": 0,
      "objects": 12,
-     "triangles": 80530
+     "triangles": 81416
     },
     "t_5_16": {
      "files": [
@@ -139,7 +225,7 @@
      ],
      "lod": 0,
      "objects": 11,
-     "triangles": 67046
+     "triangles": 67280
     },
     "t_5_17": {
      "files": [
@@ -147,7 +233,7 @@
      ],
      "lod": 0,
      "objects": 12,
-     "triangles": 59080
+     "triangles": 59522
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -157,7 +243,7 @@
    "tiles_wanted": 4,
    "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 259422
+   "triangles": 261870
   },
   "centre_tm": [
    5248.01,
@@ -232,7 +318,7 @@
    "vertices": 191828
   },
   "props": {
-   "capped": "triangle budget 1387733",
+   "capped": "triangle budget 1386876",
    "impostor_cards_dropped": 21,
    "impostor_faces_dropped": 0,
    "leaf_off": false,
@@ -243,9 +329,9 @@
     "mailbox": 1,
     "manhole": 57,
     "street_lamp": 64,
-    "tree": 203
+    "tree": 202
    },
-   "placed": 356,
+   "placed": 355,
    "radius_m": 250.0,
    "rows_in_range": 880,
    "tiles_missing": [],
@@ -255,7 +341,7 @@
     "t_5_17"
    ],
    "tree_species_substituted": 64,
-   "triangles": 1394532,
+   "triangles": 1387256,
    "unmapped_kinds": {
     "cooling_tower": 48,
     "curb_ramp": 82,
@@ -263,7 +349,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 40.98,
+  "seconds": 135.75,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -316,17 +402,19 @@
    "z_max_m": 36.83,
    "z_min_m": 10.98
   },
-  "triangles": 3564731
+  "triangles": 4475888
  },
  "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 280.5,
-  "scene": 43.3,
-  "total": 323.8
+  "render": 271.8,
+  "scene": 139.8,
+  "total": 411.6
  },
  "slug": "drive_bronx_arthur_ave",
  "status": "rendered",
