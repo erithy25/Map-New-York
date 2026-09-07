@@ -331,9 +331,51 @@ def apply_time_of_day_materials(night: bool) -> dict:
             cones += 1
         else:
             lamps += 1
-    return {"night": False, "cones_hidden": cones, "lamps_switched_off": lamps,
-            "note": "daylight frame: modelled light cones made transparent and street-lamp lenses "
-                    "switched off (dusk-to-dawn control); signals and shopfront emissives left on"}
+
+    # Zeroing the Alpha *default* does nothing when that socket is linked, and `mat_light_cone()`
+    # links it to the gradient PNG's alpha channel -- so the cone stayed opaque, and with its
+    # emission zeroed it rendered as a solid dark wedge standing in the street.  It shipped that way:
+    # `drive_bronx_arthur_ave` had two of them filling a quarter of the frame, and the sheet's own
+    # assessment said the black cones were gone.  Deleting the faces is what the props contact sheets
+    # already do (`blender/props/contact_sheets.py:_light_cone_slots`) and it cannot fail the same
+    # way, because there is no material state left to get wrong.
+    cone_faces = _delete_light_cone_faces()
+    return {"night": False, "cones_hidden": cones, "cone_faces_deleted": cone_faces,
+            "lamps_switched_off": lamps,
+            "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is "
+                    "texture-linked, so making the material transparent does not work) and "
+                    "street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront "
+                    "emissives left on"}
+
+
+def _delete_light_cone_faces() -> int:
+    """Remove every polygon whose material is ``LIGHT_CONE`` from every mesh in the scene.
+
+    The beam under a street lamp is a night-time visualisation, not an object, and it has no place
+    in a daylight frame.  Faces rather than objects, because the lamp is one joined mesh: dropping
+    the object would take the pole and the luminaire with it.  The importer suffixes duplicate
+    material names (``LIGHT_CONE.003``), so the match is on the stem.
+    """
+    import bmesh
+    import bpy
+    removed = 0
+    for me in bpy.data.meshes:
+        if not me.materials:
+            continue
+        slots = {i for i, m in enumerate(me.materials)
+                 if m is not None and (m.name or "").split(".")[0].upper() == "LIGHT_CONE"}
+        if not slots:
+            continue
+        bm = bmesh.new()
+        bm.from_mesh(me)
+        doomed = [f for f in bm.faces if f.material_index in slots]
+        if doomed:
+            bmesh.ops.delete(bm, geom=doomed, context="FACES")
+            removed += len(doomed)
+            bm.to_mesh(me)
+            me.update()
+        bm.free()
+    return removed
 
 
 def configure_cycles(samples: int, threads: int | None) -> None:
