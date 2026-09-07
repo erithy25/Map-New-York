@@ -12,6 +12,29 @@
 
 **Verdict — one of the best landmark models in the set: City Hall's portico, colonnade, arcaded wings and green cupola are all present and correctly proportioned, with the Woolworth Building beside it — set on a park that is a blank grey plane where the photograph is entirely blossom, benches and people**
 
+## Re-rendered 2026-09-07 — City Hall behind the trees the park ingest gave it
+
+The frame is a stand of summer trees with City Hall's arcaded ground storey glimpsed between the
+trunks at 126.6 m, its flagpoles carrying the City colours, the park's benches and paving in the
+middle ground. 11 landmark models, 66 vehicles, 251 people, 165 trees in the scene.
+
+**The trees are new and they are not wrong.** Within 150 m of City Hall there are now **208
+OpenStreetMap trees against 15 from the census** — City Hall Park was one of the green spaces that
+held almost nothing before today's ingest. 30 trees to the hectare is if anything conservative for
+that park, and unlike the 9/11 memorial no landmark model plants there, so nothing is duplicated.
+The park is closer to right than it was this morning.
+
+**What the trees exposed is a camera rule that was written when parks were empty.**
+`camera.view_distance` counts only building shells and landmark models when it measures whether a
+viewpoint has a clear view; its own docstring reasons that "a street tree or a lamp standard on the
+axis is not a closed view" because a photographer looks past a tree. That is correct for one tree. It
+is not correct for a grove, and this camera passed its clearance check with a grove between it and
+its subject. Recorded against deviation I17, whose frame-sampling fix covers this case provided
+foliage is counted.
+
+Mean luminance **0.221 against the photograph's 0.405** — I16, deepened here by a closed canopy
+overhead.
+
 ## What matches
 
 * New York City Hall is recognisably itself. The central portico with its columns and pediment, the arcaded ground floor running the width of both wings, the balustraded parapet and the domed cupola with its cornice and green copper roof are all modelled and correctly proportioned against the 37 m published height.

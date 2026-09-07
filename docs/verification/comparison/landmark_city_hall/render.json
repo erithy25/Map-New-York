@@ -1,4 +1,11 @@
 {
+ "agent_request": {
+  "dow": 0,
+  "hour": 12,
+  "local_clock": "2024-05-01 12:33 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
  "azimuth_reason": "42.1 deg, the bearing from this photograph's own GPS position to New York City Hall; heading and position both come from the photograph.  The item's recorded azimuth is 45.9 deg, 3.8 deg away, and belongs to its nominal viewpoint",
  "camera": {
   "azimuth_deg": 42.05810818126913,
@@ -48,16 +55,16 @@
  "clearance": {
   "min_view_m": 63.3,
   "moved": false,
-  "nearest_obstruction": null,
-  "nearest_obstruction_m": 60.0,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is further than 60 m, and the view azimuth is clear for 103 m",
+  "nearest_obstruction": "prop_tree_honeylocust_small_2",
+  "nearest_obstruction_m": 9.2,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_tree_honeylocust_small_2 9.2 m away, and the view azimuth is clear for 103 m",
   "offset_m": 0.0,
   "view_m": 102.7
  },
  "frame": {
-  "mean": 0.4948,
+  "mean": 0.2212,
   "reason": null,
-  "sd": 0.1947,
+  "sd": 0.1888,
   "usable": true
  },
  "frame_retry": null,
@@ -68,10 +75,11 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 928.3,
   "emissive": {
+   "cone_faces_deleted": 16,
    "cones_hidden": 2,
    "lamps_switched_off": 5,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.0,
   "sky_azimuth_deg": 169.069,
@@ -97,10 +105,90 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_city_hall/render.png",
- "rendered_at": "2026-09-07T02:10:20Z",
+ "rendered_at": "2026-09-07T15:55:56Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "caption": "Agents: 66 vehicles within 320 m and 251 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 673 vehicles and 3859 people over the whole simulated ring, of which 705 and 2999 were simulated; 3387 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 562,
+    "pedestrian_inside_building": 12,
+    "pedestrian_not_on_walkable_surface": 139,
+    "pedestrian_outside_radius": 1225,
+    "pedestrian_triangle_budget": 810,
+    "vehicle_body_has_no_rider": 14,
+    "vehicle_not_on_carriageway": 11,
+    "vehicle_outside_radius": 362,
+    "vehicle_triangle_budget": 252
+   },
+   "ped_lods": {
+    "LOD1": 60,
+    "LOD2": 191
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 580408,
+   "per_class": {
+    "boro_taxi": 3,
+    "box_truck": 3,
+    "sedan": 41,
+    "suv": 6,
+    "taxi": 13
+   },
+   "placed_pedestrians": 251,
+   "placed_vehicles": 66,
+   "reason": null,
+   "seconds": 223.32,
+   "snapshot": {
+    "building_footprints_tested": 1416,
+    "density_lane_km": 28.857,
+    "density_sidewalk_m2": 35860,
+    "density_target_pedestrians": 3858.9,
+    "density_target_vehicles": 672.6,
+    "dow": 0,
+    "hour": 12,
+    "lanes_considered": 364,
+    "lanes_with_nta": 364,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 2.15,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 101,
+    "pavement_polygons_tested": 4677,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 2999,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 705
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1085959,
+   "vehicle_lods": {
+    "LOD1": 6,
+    "LOD2": 60
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 505551
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
@@ -110,7 +198,7 @@
     "t_-6_1"
    ],
    "landmark_bins_suppressed": 19,
-   "landmark_faces_suppressed": 2992,
+   "landmark_faces_suppressed": 2796,
    "lod_substituted": [],
    "missing": [],
    "new_jersey": [],
@@ -121,7 +209,7 @@
      ],
      "lod": 0,
      "objects": 18,
-     "triangles": 11872
+     "triangles": 14630
     },
     "t_-5_1": {
      "files": [
@@ -129,7 +217,7 @@
      ],
      "lod": 0,
      "objects": 18,
-     "triangles": 42654
+     "triangles": 57390
     },
     "t_-6_0": {
      "files": [
@@ -137,7 +225,7 @@
      ],
      "lod": 0,
      "objects": 16,
-     "triangles": 12796
+     "triangles": 14752
     },
     "t_-6_1": {
      "files": [
@@ -145,7 +233,7 @@
      ],
      "lod": 0,
      "objects": 18,
-     "triangles": 15036
+     "triangles": 19718
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -155,40 +243,37 @@
    "tiles_wanted": 4,
    "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 82358
+   "triangles": 106490
   },
   "centre_tm": [
    -4816.78,
    1328.92
   ],
   "kit": {
-   "capped": null,
+   "capped": "triangle budget 1218689",
    "per_category": {
-    "bulkhead": 20,
-    "cornice": 25,
-    "door_entry": 28,
-    "fire_escape": 6,
-    "hvac": 28,
-    "parapet": 23,
-    "pilaster": 2,
-    "scaffold": 153,
-    "storefront": 142,
-    "storefront_interior": 23,
-    "string_course": 24,
-    "water_tower": 6,
-    "window": 11031,
-    "window_accessory": 2
+    "bulkhead": 13,
+    "cornice": 17,
+    "door_entry": 18,
+    "hvac": 13,
+    "parapet": 15,
+    "scaffold": 117,
+    "storefront": 182,
+    "storefront_interior": 12,
+    "string_course": 17,
+    "water_tower": 4,
+    "window": 6445
    },
-   "placed": 11513,
+   "placed": 6853,
    "radius_m": 120.0,
-   "records_in_range": 13047,
+   "records_in_range": 13180,
    "stale_registry_ids": {},
-   "suppressed_with_landmark_shells": 1534,
+   "suppressed_with_landmark_shells": 784,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_1"
    ],
-   "triangles": 2150602,
+   "triangles": 1218774,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -201,6 +286,11 @@
      "id": "city_hall",
      "lod": 0,
      "name": "New York City Hall",
+     "own_ground_note": {
+      "above_heightmap_m": -1.11,
+      "heightmap_median_m": 13.61,
+      "reason": "the model's ground stands -1.11 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 44823
     },
     {
@@ -208,6 +298,9 @@
      "id": "woolworth",
      "lod": 0,
      "name": "Woolworth Building",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 47871
     },
     {
@@ -215,6 +308,9 @@
      "id": "municipal_building",
      "lod": 0,
      "name": "Manhattan Municipal Building",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 97825
     },
     {
@@ -222,6 +318,9 @@
      "id": "equitable_building",
      "lod": 0,
      "name": "Equitable Building",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 86321
     },
     {
@@ -229,6 +328,12 @@
      "id": "b_wtc_site",
      "lod": 0,
      "name": "World Trade Center site",
+     "own_ground_m2": 33039.3,
+     "own_ground_note": {
+      "above_heightmap_m": 0.08,
+      "heightmap_median_m": 4.32
+     },
+     "own_ground_parts": 1,
      "triangles": 136288
     },
     {
@@ -236,6 +341,9 @@
      "id": "b_one_world_trade_center",
      "lod": 0,
      "name": "One World Trade Center",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 6044
     },
     {
@@ -243,6 +351,12 @@
      "id": "federal_hall",
      "lod": 0,
      "name": "Federal Hall National Memorial",
+     "own_ground_m2": 282.2,
+     "own_ground_note": {
+      "above_heightmap_m": -0.84,
+      "heightmap_median_m": 9.37
+     },
+     "own_ground_parts": 2,
      "triangles": 9070
     },
     {
@@ -250,6 +364,9 @@
      "id": "40_wall_street",
      "lod": 0,
      "name": "40 Wall Street (Trump Building)",
+     "own_ground_note": {
+      "reason": "every ground polygon is smaller than 25 m2"
+     },
      "triangles": 43167
     },
     {
@@ -257,6 +374,9 @@
      "id": "trinity_church",
      "lod": 0,
      "name": "Trinity Church",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 3984
     },
     {
@@ -264,6 +384,9 @@
      "id": "nyse",
      "lod": 0,
      "name": "New York Stock Exchange",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 26049
     },
     {
@@ -271,9 +394,17 @@
      "id": "b_brooklyn_bridge",
      "lod": 0,
      "name": "Brooklyn Bridge",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 121824
     }
    ],
+   "own_ground_from": [
+    "b_wtc_site",
+    "federal_hall"
+   ],
+   "own_ground_m2": 33321.6,
    "placed": 11,
    "skipped": 0,
    "skipped_detail": [],
@@ -299,55 +430,56 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "triangles": 140935,
+   "triangles": 140522,
+   "triangles_cut_for_landmark_ground": 413,
    "vertices": 145009
   },
   "props": {
-   "capped": "triangle budget 1249573",
-   "impostor_cards_dropped": 8,
+   "capped": "triangle budget 1241585",
+   "impostor_cards_dropped": 7,
    "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
-    "bench": 123,
-    "bike_rack": 36,
+    "bench": 38,
+    "bike_rack": 15,
     "bus_shelter": 2,
-    "bus_stop_sign": 21,
-    "citibike_dock": 3,
-    "flagpole": 18,
-    "hydrant": 58,
-    "mailbox": 4,
-    "manhole": 117,
+    "bus_stop_sign": 12,
+    "citibike_dock": 1,
+    "flagpole": 13,
+    "hydrant": 19,
+    "mailbox": 3,
+    "manhole": 42,
     "newsstand": 1,
-    "steam_vent": 6,
-    "street_lamp": 161,
-    "subway_emergency_exit": 3,
-    "subway_entrance": 24,
-    "subway_vent_grate": 52,
-    "tree": 43,
-    "waste_basket": 56
+    "steam_vent": 1,
+    "street_lamp": 55,
+    "subway_emergency_exit": 1,
+    "subway_entrance": 2,
+    "subway_vent_grate": 13,
+    "tree": 165,
+    "waste_basket": 21
    },
-   "placed": 728,
+   "placed": 404,
    "radius_m": 250.0,
-   "rows_in_range": 978,
+   "rows_in_range": 1294,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_1",
     "t_-6_1"
    ],
-   "tree_species_substituted": 4,
-   "triangles": 1251482,
+   "tree_species_substituted": 151,
+   "triangles": 1242738,
    "unmapped_kinds": {
-    "artwork": 4,
-    "cooling_tower": 55,
-    "curb_ramp": 112,
-    "drinking_fountain": 5,
-    "memorial": 5,
-    "misc_structure": 3,
-    "parks_building": 9
+    "artwork": 1,
+    "cooling_tower": 11,
+    "curb_ramp": 52,
+    "drinking_fountain": 1,
+    "memorial": 2,
+    "misc_structure": 1,
+    "parks_building": 6
    }
   },
   "radius_m": 602.5756731136107,
-  "seconds": 61.13,
+  "seconds": 309.37,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -355,24 +487,39 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 448,
    "samples": 205,
    "spacing_m": 2.0,
-   "triangles": 83232,
-   "water_quads": 11,
+   "triangles": 82336,
+   "water_bodies": [
+    {
+     "kind": "river",
+     "name": "EAST RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "EAST RIVER",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 6,
    "z_max_m": 14.05,
    "z_min_m": -1.73
   },
-  "triangles": 4331875
+  "triangles": 4500085
  },
  "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
   "radius_m": 602.5756731136107
  },
  "seconds": {
-  "render": 67.2,
-  "scene": 64.0,
-  "total": 131.3
+  "render": 156.7,
+  "scene": 311.9,
+  "total": 468.6
  },
  "slug": "landmark_city_hall",
  "status": "rendered",
