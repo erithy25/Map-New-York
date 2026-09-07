@@ -25,6 +25,29 @@ description rather than its categories, and this item requires one of `"stuyvesa
 exclusions also now name the subway, the platform and Utica Avenue directly
 (`docs/verification/comparison/REPORT.md` §2.11).
 
+## Re-rendered 2026-09-07, and what this frame is actually showing
+
+The stoops are the good half: brownstone stoops with their cheek walls, treads and railings, area
+gates at the sidewalk, all at the right height and rhythm for a Bed-Stuy row. They are the most
+convincing piece of hand-scale geometry in the set.
+
+The wall behind them is the other half, and this is the clearest frame in the set for one particular
+gap. Counted from the placement records rather than from the picture: **80 kit pieces stand in the
+30 m wedge in front of this camera, over 4 buildings — 48 of them windows**, plus 13 window
+accessories, 6 entry doors, 5 bulkheads, 4 water towers, 2 fences, 1 cornice, 1 planting. The
+windows *are* placed. What the frame shows is their arched heads and their sills, floating on a flat
+salmon plane with **no opening, no reveal, no frame and no glass between them** — so a row of
+brownstones reads as a coloured wall with white dashes and brown arcs stuck to it.
+
+That is deviation A2 and B12 as they were already written, and the numbers are worth adding to them:
+the gap is not that the facade is bare, it is that everything *except* the opening is modelled. The
+surround without the window is more conspicuous than no surround would be.
+
+Two smaller things this frame records. The camera stands about five metres from the stoop face at a
+1.6 m eye on a 54.4° lens, which is a shopfront distance rather than a drive-through one and is the
+same camera-placement class as I14. And of the 88 vehicles and 378 pedestrians the simulation put in
+this scene, **not one is in this frame** — the wall fills it.
+
 ## What matches
 
 * The brownstone block face is genuinely right in kind. The render carries a continuous three-storey brick wall with round-arched window heads, projecting stone lintels and a run of raised stoops with metal railings, which is exactly the Stuyvesant Heights vocabulary and the reason this drive-through area is in the brief.
