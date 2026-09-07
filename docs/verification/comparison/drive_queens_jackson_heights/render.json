@@ -1,4 +1,11 @@
 {
+ "agent_request": {
+  "dow": 2,
+  "hour": 11,
+  "local_clock": "2022-09-11 11:57 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
  "azimuth_reason": "165.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
  "camera": {
   "azimuth_deg": 165.0,
@@ -7,13 +14,14 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
-   "chosen_m": 18.66,
-   "max_m": 18.92,
-   "median_m": 18.74,
-   "min_m": 18.53,
+   "below_point_excluded": 0,
+   "chosen_m": 18.63,
+   "max_m": 19.04,
+   "median_m": 18.73,
+   "min_m": 18.55,
    "mode": "street",
    "percentile": 10.0,
-   "point_m": 18.63,
+   "point_m": 18.74,
    "radius_m": 12.0,
    "samples": 113
   },
@@ -31,12 +39,12 @@
   ],
   "sensor_mm": 36.0,
   "slug": "drive_queens_jackson_heights",
-  "terrain_z_m": 18.657,
-  "x": 5677.333,
-  "y": 5783.468,
-  "z": 20.257
+  "terrain_z_m": 18.63,
+  "x": 5668.498,
+  "y": 5777.699,
+  "z": 20.23
  },
- "camera_caption": "camera 40.75200, -73.88300 (NYC_TM 5677, 5783) z 20.3 m NAVD88 | azimuth 165.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.75200, -73.88300 (NYC_TM 5668, 5778) z 20.2 m NAVD88 | azimuth 165.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
  "camera_origin": {
   "from_photograph_gps": false,
   "lat": 40.752,
@@ -45,20 +53,20 @@
   "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 419 m away, past the 250 m at which it could still be the same view, so it was rejected as mis-tagged"
  },
  "clearance": {
-  "direction": "onto the nearest sidewalk",
+  "direction": "onto the nearest roadbed",
   "min_view_m": 20.0,
   "moved": true,
-  "nearest_obstruction_m": 19.0,
-  "note": "the recorded viewpoint is hard against prop_lamp_cobra_davit_1 (0.25 m from the lens in the view cone); the camera was moved 19 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 28 m from there",
-  "offset_m": 19.2,
+  "nearest_obstruction_m": 10.4,
+  "note": "the recorded viewpoint is hard against prop_lamp_cobra_davit_1 (0.25 m from the lens in the view cone); the camera was moved 9 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there",
+  "offset_m": 9.3,
   "reason": "hard against prop_lamp_cobra_davit_1 (0.25 m from the lens in the view cone)",
   "rule": "pavement snap with a clear view",
-  "view_m": 27.9
+  "view_m": 60.0
  },
  "frame": {
-  "mean": 0.3552,
+  "mean": 0.3559,
   "reason": null,
-  "sd": 0.161,
+  "sd": 0.2004,
   "usable": true
  },
  "frame_retry": null,
@@ -69,10 +77,11 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 893.8,
   "emissive": {
+   "cone_faces_deleted": 8,
    "cones_hidden": 1,
    "lamps_switched_off": 3,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.0,
   "sky_azimuth_deg": 157.625,
@@ -98,10 +107,96 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_queens_jackson_heights/render.png",
- "rendered_at": "2026-09-06T21:18:43Z",
+ "rendered_at": "2026-09-07T14:53:15Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "caption": "Agents: 77 vehicles within 320 m and 288 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 190 vehicles and 1368 people over the whole simulated ring, of which 226 and 2046 were simulated; 1907 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "culled_after_camera_move": {
+    "pedestrian_over_the_observer": 0,
+    "vehicle_over_the_observer": 1
+   },
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 91,
+    "pedestrian_not_on_walkable_surface": 312,
+    "pedestrian_outside_radius": 988,
+    "pedestrian_triangle_budget": 367,
+    "vehicle_body_has_no_rider": 8,
+    "vehicle_not_on_carriageway": 4,
+    "vehicle_outside_radius": 137,
+    "vehicle_over_the_observer": 1
+   },
+   "ped_lods": {
+    "LOD0": 2,
+    "LOD1": 39,
+    "LOD2": 247
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 581145,
+   "per_class": {
+    "black_car": 3,
+    "boro_taxi": 9,
+    "mta_bus": 1,
+    "sedan": 37,
+    "suv": 21,
+    "taxi": 5,
+    "van": 1
+   },
+   "placed_pedestrians": 288,
+   "placed_vehicles": 76,
+   "reason": null,
+   "seconds": 85.33,
+   "snapshot": {
+    "building_footprints_tested": 11361,
+    "density_lane_km": 24.992,
+    "density_sidewalk_m2": 33175,
+    "density_target_pedestrians": 1368.3,
+    "density_target_vehicles": 189.9,
+    "dow": 2,
+    "hour": 11,
+    "lanes_considered": 223,
+    "lanes_with_nta": 223,
+    "min_leader_gap_m": 0.428,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.99,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 94,
+    "pavement_polygons_tested": 4996,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 2046,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 226
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1044391,
+   "vehicle_lods": {
+    "LOD1": 1,
+    "LOD2": 76
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 463246
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
@@ -116,36 +211,55 @@
    "landmark_faces_suppressed": 0,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_4_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 12,
-     "triangles": 77694
+     "triangles": 83756
     },
     "t_4_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 1,
      "objects": 11,
-     "triangles": 22332
+     "triangles": 22510
     },
     "t_5_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 12,
-     "triangles": 85398
+     "triangles": 94630
     },
     "t_5_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 12,
-     "triangles": 100086
+     "triangles": 105124
     },
     "t_6_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 12,
-     "triangles": 97000
+     "triangles": 106376
     },
     "t_6_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 11,
-     "triangles": 86492
+     "triangles": 94546
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -153,47 +267,51 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 6,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 469002
+   "triangles": 506942
   },
   "centre_tm": [
    5658.13,
    5776.69
   ],
   "kit": {
-   "capped": null,
+   "capped": "triangle budget 1384811",
    "per_category": {
-    "bulkhead": 51,
+    "bulkhead": 41,
     "cornice": 25,
-    "door_entry": 125,
-    "fence": 39,
+    "door_entry": 98,
+    "fence": 31,
     "fire_escape": 11,
-    "hvac": 10,
-    "parapet": 320,
-    "pilaster": 2,
+    "hvac": 7,
+    "parapet": 263,
     "quoin": 38,
-    "storefront": 8,
+    "storefront": 7,
     "storefront_interior": 2,
-    "string_course": 134,
-    "water_tower": 9,
-    "window": 4896,
-    "window_accessory": 844
+    "string_course": 120,
+    "water_tower": 7,
+    "window": 4003,
+    "window_accessory": 708
    },
-   "placed": 6514,
+   "placed": 5361,
    "radius_m": 120.0,
-   "records_in_range": 6514,
+   "records_in_range": 6516,
    "stale_registry_ids": {},
    "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
     "t_5_5"
    ],
-   "triangles": 1676191,
+   "triangles": 1384933,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
    "placed": 0,
    "skipped": 0,
    "skipped_detail": [],
@@ -222,11 +340,13 @@
     "t_6_6"
    ],
    "triangles": 164318,
+   "triangles_cut_for_landmark_ground": 0,
    "vertices": 168286
   },
   "props": {
-   "capped": "triangle budget 1322468",
+   "capped": "triangle budget 1309189",
    "impostor_cards_dropped": 20,
+   "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
     "bus_shelter": 1,
@@ -234,26 +354,26 @@
     "citibike_dock": 1,
     "hydrant": 20,
     "mailbox": 2,
-    "manhole": 61,
+    "manhole": 60,
     "street_lamp": 50,
-    "tree": 174
+    "tree": 173
    },
-   "placed": 314,
+   "placed": 312,
    "radius_m": 250.0,
-   "rows_in_range": 724,
+   "rows_in_range": 731,
    "tiles_missing": [],
    "tiles_read": [
     "t_5_5",
     "t_5_6"
    ],
-   "tree_species_substituted": 68,
-   "triangles": 1322910,
+   "tree_species_substituted": 70,
+   "triangles": 1311338,
    "unmapped_kinds": {
     "curb_ramp": 39
    }
   },
   "radius_m": 720.0,
-  "seconds": 33.89,
+  "seconds": 141.01,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -261,24 +381,28 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
    "samples": 211,
    "spacing_m": 2.0,
    "triangles": 88200,
+   "water_bodies": [],
    "water_quads": 0,
    "z_max_m": 26.27,
    "z_min_m": 7.14
   },
-  "triangles": 3720621
+  "triangles": 4500122
  },
  "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 127.8,
-  "scene": 39.0,
-  "total": 166.7
+  "render": 130.1,
+  "scene": 144.7,
+  "total": 274.8
  },
  "slug": "drive_queens_jackson_heights",
  "status": "rendered",

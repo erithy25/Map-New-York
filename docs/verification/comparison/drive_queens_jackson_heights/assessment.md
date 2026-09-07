@@ -14,6 +14,30 @@
 
 **Verdict — the closest material match in the drive-through set — red brick garden-apartment blocks with window air-conditioners under mature street trees, which is exactly what Jackson Heights is — undone by having no windows, no planting and no ground detail**
 
+## Re-rendered 2026-09-07 — the crowd frame that works, and the first vehicle cull
+
+This is the strongest evidence in the set that the pedestrian simulation produces a plausible
+street. 288 people are placed and they are *distributed*: two in the near foreground on the
+crosswalk, a group on the left pavement at 20-40 m, more on the right, a scatter thinning into the
+distance down a tree-lined block. Nobody is standing on the lens and nobody is clumped. 76 vehicles,
+173 street trees, 50 lamps, 60 manholes, five bus-stop signs.
+
+**The vehicle cull fired here for the first time**: `culled_after_camera_move` reports
+`vehicle_over_the_observer: 1`. A car was inside the 6 m vehicle clearance of the *final* camera
+position and outside it from the scene centre the placement measured against — the same fault the
+pedestrian side showed on Grand Concourse, on the other agent class. The agents lane's own note
+records that the first agent render was "the inside of a black van"; this is that failure mode
+recurring through a different route and being caught.
+
+The drop record is worth reading beside the 288: **988 pedestrians outside the radius, 367 cut by the
+triangle budget, 312 on no walkable surface and 91 standing in the carriageway while not crossing**.
+The crowd in the frame is roughly a sixth of what the simulation had within reach.
+
+**The buildings are the weak half, and it is the facade-class case again** — 4,003 window pieces
+rendering as thin dark dashes on flat red-brown planes, against Jackson Heights' real brick with deep
+reveals, sills and casements. Recorded on the Bed-Stuy sheet and qualified on the Wall Street one,
+where the same kit produces real recessed openings.
+
 ## What matches
 
 * The camera correction fired on the new in-the-lens test: the recorded viewpoint stands 0.25 m from a cobra-head lamp standard, and the camera was moved 19 m onto the nearest real sidewalk polygon with 28 m of clear view.
