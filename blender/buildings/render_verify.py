@@ -102,6 +102,15 @@ VIEWS: dict[str, dict] = {
 }
 
 
+def _rel(p: Path) -> str:
+    """Repo-relative when it can be, absolute otherwise — a comparison render may read a tile tree
+    outside the repository (a `--tiles-root` holding the previous build, for the before frame)."""
+    try:
+        return str(p.relative_to(REPO_ROOT))
+    except ValueError:
+        return str(p)
+
+
 def _ground_z_at(x: float, y: float) -> float:
     """Local grade from the nearest real building ``ground_z`` (LiDAR) in the tile containing (x, y)."""
     import pandas as pd
@@ -474,7 +483,7 @@ def render_view(key: str, *, samples: int = 32, textured: bool = True, out_dir: 
             size_m = 4000.0 if level == 2 else 16000.0
             _place(objs, (cx * size_m, cy * size_m))
             imported += objs
-            sources.append(str(p.relative_to(REPO_ROOT)))
+            sources.append(_rel(p))
         ground_tiles = []
     else:
         for t in spec["tiles"]:
@@ -485,7 +494,7 @@ def render_view(key: str, *, samples: int = 32, textured: bool = True, out_dir: 
             _place(objs, td.tile_origin(t))
             imported += objs
             try:
-                sources.append(str(p.relative_to(REPO_ROOT)))
+                sources.append(_rel(p))
             except ValueError:
                 sources.append(str(p))
         ground_tiles = spec["tiles"]
@@ -513,7 +522,7 @@ def render_view(key: str, *, samples: int = 32, textured: bool = True, out_dir: 
                     sun_azimuth_deg=spec["sun_az"], sun_elevation_deg=spec["sun_el"],
                     sun_strength=float(spec.get("sun_strength", 2.6)))
     try:
-        png_rel = str(out.relative_to(REPO_ROOT))
+        png_rel = _rel(out)
     except ValueError:
         png_rel = str(out)
     info = {"view": key, "title": spec["title"], "png": png_rel,
