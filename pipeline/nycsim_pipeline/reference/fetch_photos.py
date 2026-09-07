@@ -106,12 +106,19 @@ class Item:
     representative: bool = False  # generic subject: viewpoint is a representative block only
     exclude: tuple[str, ...] = ()
     allow: tuple[str, ...] = ()  # INDOOR_WORDS this item is allowed to match (e.g. a rail viaduct street)
-    # Terms by which a photograph names the *subject itself*, as opposed to the place the subject
-    # stands in.  A photograph must match at least one of them to be selected for a point-subject
-    # item, and to have its heading taken as a bearing to that subject.  Empty means the item's
-    # ``keywords`` already name the subject, which is the usual case and leaves behaviour unchanged.
-    # See :func:`subject_named` for why this is a separate field from ``keywords``.
+    # Terms by which a photograph names *what this item is a view of* -- the subject itself, or the
+    # street whose axis the view runs along -- as opposed to the place it stands in.  Matched
+    # against the photograph's title and description only, never its categories.  A photograph must
+    # match at least one to be selected, and to have its heading taken as a bearing to the subject.
+    # Empty leaves behaviour unchanged.  See :func:`subject_named`.
     subject_terms: tuple[str, ...] = ()
+    # The counterpart: terms which, appearing in the photograph's own **title**, say the photograph
+    # is of *that* rather than of this item's subject.  Title only, because a title is the strongest
+    # statement an uploader makes about what a picture is of, while a description mentions context
+    # and a category records place.  A view along a street is what needs it: "New York Public
+    # Library Exterior" and "NYPL main Feb 2017 4" both mention Fifth Avenue in their descriptions
+    # and are pictures of the library, not of the avenue.
+    not_of: tuple[str, ...] = ()
     min_year: int = 2010
     gps_subject_max_m: float = 2500.0  # camera GPS farther than this from the subject is distrusted
     min_luma: float | None = None
@@ -130,8 +137,6 @@ class Item:
             raise ValueError(f"{self.slug}: want must be 1..4")
         if not self.keywords or not self.queries or not self.viewpoint_note:
             raise ValueError(f"{self.slug}: queries, keywords and viewpoint_note are required")
-        if self.subject_terms and self.subject is None:
-            raise ValueError(f"{self.slug}: subject_terms needs a subject to name")
 
     @property
     def default_azimuth(self) -> float:
@@ -175,6 +180,14 @@ def _lmk(slug: str, name: str, queries: list[str], keywords: list[list[str]], su
     return _it(slug, name, "landmark", queries, keywords, offset_point(subject, side, dist_m), note,
                subject=subject, subject_name=kw.pop("subject_name", name), **kw)
 
+
+#: Titles that say a photograph taken on Fifth Avenue is a picture of the New York Public Library
+#: rather than of the avenue.  Both Fifth Avenue items are views *along* the street, and the library
+#: is the building the street runs past: its facade photographs all name the avenue in their
+#: descriptions and carry its category, so nothing short of the title separates them.
+NOT_OF_FIFTH_AVE = ("public library", "nypl", "library", "stavros niarchos", "stavros niarkos",
+                    "patience", "fortitude", "bryant park", "empire state", "flatiron",
+                    "st patrick", "saint patrick", "cathedral", "trump tower", "rockefeller")
 
 NYC_WORDS = ["new york", "manhattan", "brooklyn", "queens", "bronx", "staten island", "nyc"]
 NIGHT_WORDS = ["night", "nighttime", "at night", "dusk", "evening", "sunset", "twilight", "blue hour", "after dark",
@@ -235,15 +248,31 @@ CATALOGUE: list[Item] = [
         subject=(40.7562, -73.9864), subject_name="One Times Square", geosearch_radius_m=120, want=4, night=True, min_year=2016,
         exclude=AERIAL_WORDS + ["new year", "ball drop", "protest", "parade"]),
     _it("fifth_ave_42nd_north", "Fifth Avenue at 42nd Street (NYPL), street view looking north", "viewpoint",
-        ['"Fifth Avenue" "42nd Street" looking north', 'New York Public Library Fifth Avenue street traffic'],
+        ['"Fifth Avenue" "42nd Street" looking north', '"Fifth Avenue" Midtown Manhattan street traffic looking uptown',
+         '"Fifth Avenue" Manhattan street view buses taxis'],
         [["fifth avenue", "5th avenue"], ["42nd", "41st", "40th", "43rd", "public library", "nypl", "bryant park"]],
         (40.7526, -73.9814), "Fifth Avenue west sidewalk in front of the New York Public Library (between 40th and 42nd), looking uptown",
-        azimuth=UPTOWN, geosearch_radius_m=150, exclude=AERIAL_WORDS + ["looking south", "south from", "interior", "reading room", "parade"]),
+        azimuth=UPTOWN, geosearch_radius_m=150,
+        # This is a view *along* Fifth Avenue.  "public library" and "nypl" sit in the second keyword
+        # group beside the cross-street numbers, and "5th Avenue (Manhattan)" is a category on every
+        # photograph of a building on it, so all three photographs collected here were of the
+        # library's facade looking west.  The avenue has to be named by the photograph itself.
+        subject_terms=("fifth avenue", "5th avenue", "fifth ave", "5th ave", "5 av", "5th av"),
+        not_of=NOT_OF_FIFTH_AVE,
+        exclude=AERIAL_WORDS + ["looking south", "south from", "interior", "reading room", "parade"]),
     _it("fifth_ave_42nd_south", "Fifth Avenue at 42nd Street (NYPL), street view looking south", "viewpoint",
-        ['"Fifth Avenue" "42nd Street" looking south', '"Fifth Avenue" 42nd Street Manhattan street'],
+        ['"Fifth Avenue" "42nd Street" looking south', '"Fifth Avenue" 42nd Street Manhattan street',
+         '"Fifth Avenue" Manhattan street view looking downtown'],
         [["fifth avenue", "5th avenue"], ["42nd", "41st", "40th", "43rd", "public library", "nypl", "bryant park"]],
         (40.7538, -73.9806), "Fifth Avenue at 43rd Street, looking downtown past the New York Public Library",
-        azimuth=DOWNTOWN, geosearch_radius_m=150, exclude=AERIAL_WORDS + ["looking north", "north from", "interior", "reading room", "parade"]),
+        azimuth=DOWNTOWN, geosearch_radius_m=150,
+        subject_terms=("fifth avenue", "5th avenue", "fifth ave", "5th ave", "5 av", "5th av"),
+        # ... and a view along the cross street is not a view along the avenue: the photograph this
+        # item shipped with is titled "looking down 42nd", which is what its assessment says is
+        # wrong with the sheet ("the two halves face different streets").
+        not_of=NOT_OF_FIFTH_AVE + ("looking down 42nd", "looking up 42nd", "along 42nd",
+                                   "down 42nd", "up 42nd", "42nd street looking"),
+        exclude=AERIAL_WORDS + ["looking north", "north from", "interior", "reading room", "parade"]),
     _it("bethesda_terrace_fountain", "Bethesda Terrace and Fountain", "viewpoint",
         ['"Bethesda Terrace" fountain Central Park', '"Bethesda Fountain" Central Park Angel of the Waters'],
         [["bethesda"]],
@@ -277,7 +306,8 @@ CATALOGUE: list[Item] = [
         ['"Stone Street" Manhattan', '"Stone Street" Financial District restaurants'],
         [["stone street"]],
         (40.7040, -74.0105), "west end of the Stone Street pedestrian block at William Street, looking east-north-east",
-        azimuth=60.0, geosearch_radius_m=120, exclude=["night", "interior", "inside"]),
+        azimuth=60.0, geosearch_radius_m=120, subject_terms=("stone street",),
+        exclude=["night", "interior", "inside"]),
     _it("drive_brooklyn_park_slope_7th_ave", "Brooklyn brownstone block: Park Slope, Seventh Avenue / Garfield Place", "drive_through",
         ['"Seventh Avenue" "Park Slope"', '"Garfield Place" Brooklyn', '"Park Slope" brownstones street'],
         [["park slope", "garfield place", "seventh avenue"]],
@@ -287,7 +317,13 @@ CATALOGUE: list[Item] = [
         ['"Stuyvesant Avenue" Brooklyn', '"Bedford-Stuyvesant" brownstones street', '"Stuyvesant Heights" brownstones'],
         [["stuyvesant", "bedford"]],
         (40.6817, -73.9330), "Stuyvesant Avenue at Decatur Street, Stuyvesant Heights, roadway centre, looking north",
-        azimuth=13.0, geosearch_radius_m=300, exclude=AERIAL_WORDS + ["night", "interior", "inside", "peter stuyvesant", "stuyvesant town", "stuyvesant high"]),
+        azimuth=13.0, geosearch_radius_m=300,
+        # "stuyvesant" matches inside the category "Bedford-Stuyvesant, Brooklyn", which is on every
+        # photograph taken in the neighbourhood -- including two of the Utica Avenue subway platform.
+        subject_terms=("stuyvesant avenue", "stuyvesant heights", "decatur street", "macdonough",
+                       "bedford-stuyvesant", "bed-stuy"),
+        exclude=AERIAL_WORDS + ["night", "interior", "inside", "peter stuyvesant", "stuyvesant town",
+                                "stuyvesant high", "subway", "platform", "utica avenue"]),
     _it("drive_queens_forest_hills", "Queens residential block: Forest Hills Gardens", "drive_through",
         ['"Forest Hills Gardens" houses', '"Forest Hills" Queens street houses Tudor'],
         [["forest hills"]],
@@ -307,12 +343,25 @@ CATALOGUE: list[Item] = [
         ['"Grand Concourse" Art Deco apartment building', '"Grand Concourse" Bronx street view'],
         [["grand concourse"]],
         (40.8320, -73.9186), "Grand Concourse at East 165th Street, main roadway, looking north toward the 167th Street Art Deco blocks",
-        azimuth=25.0, geosearch_radius_m=500, exclude=AERIAL_WORDS + ["night", "interior", "inside", "subway", "station platform", "1930", "1940"]),
+        azimuth=25.0, geosearch_radius_m=500,
+        # "grand concourse" is the *category* on every building that stands on it, so the three
+        # photographs this item shipped with are the county courthouse, an expressway interchange
+        # and Loew's Paradise Theatre rather than the boulevard.
+        subject_terms=("grand concourse",),
+        # Every building on the boulevard carries its category, and the overpasses carry its name in
+        # their titles while being pictures of the expressway underneath.
+        not_of=("courthouse", "theatre", "theater", "interstate", "expressway", "cross bronx",
+                "fallout shelter", "subway", "yankee stadium", "museum"),
+        exclude=AERIAL_WORDS + ["night", "interior", "inside", "subway", "station platform", "1930", "1940",
+                                "courthouse", "theatre", "theater"]),
     _it("drive_bronx_arthur_ave", "Bronx drive-through: Arthur Avenue (Belmont)", "drive_through",
         ['"Arthur Avenue" Bronx', '"Arthur Avenue" Belmont Little Italy Bronx street'],
         [["arthur avenue", "belmont"]],
         (40.8551, -73.8878), "Arthur Avenue at East 187th Street, roadway centre, looking south",
-        azimuth=190.0, geosearch_radius_m=250, exclude=["night", "interior", "inside", "belmont park", "belmont stakes", "belmont, ma", "belmont shore"]),
+        azimuth=190.0, geosearch_radius_m=250,
+        # "belmont" alone is the neighbourhood, and admitted a Parks sign and an apartment block.
+        subject_terms=("arthur avenue", "arthur ave"),
+        exclude=["night", "interior", "inside", "belmont park", "belmont stakes", "belmont, ma", "belmont shore"]),
     # ---------------------------------------------------------------- 9 landmarks
     _it("landmark_empire_state_building", "Empire State Building", "landmark",
         ['"Empire State Building" from Fifth Avenue street', '"Empire State Building" 34th Street exterior'],
@@ -1471,6 +1520,19 @@ class Candidate:
     def haystack(self) -> str:
         return " | ".join([self.title, self.object_name, self.description, " | ".join(self.categories)]).lower()
 
+    @property
+    def subject_text(self) -> str:
+        """What the uploader says the picture is *of*: its title, object name and description.
+
+        Deliberately without the categories.  A Commons category says where a photograph *is* --
+        "5th Avenue (Manhattan)", "Stone Street (Manhattan)", "Bedford-Stuyvesant, Brooklyn" -- and
+        a photograph of a building on a street, or of a subway platform in a neighbourhood, carries
+        the street's and the neighbourhood's categories exactly as a view along it does.  Using the
+        categories as evidence of subject is what let a picture of the New York Public Library's
+        facade stand in for a view up Fifth Avenue.
+        """
+        return " | ".join([self.title, self.object_name, self.description]).lower()
+
 
 def parse_candidate(page: dict[str, Any], provenance: str, geo_hit: bool = False) -> Candidate | None:
     infos = page.get("imageinfo") or []
@@ -1536,26 +1598,61 @@ def camera_gps(item: Item, c: Candidate) -> tuple[tuple[float, float] | None, st
                   f"not a photograph of it.")
 
 
-def subject_named(item: Item, hay: str) -> bool:
-    """Does this photograph's own text name the item's subject?
+def subject_named(item: Item, text: str) -> bool:
+    """Does the photograph's own title or description name what this item is a view of?
 
-    A photograph taken *at* a place is not a photograph *of* the thing that stands there, and the
-    ``keywords`` groups cannot always tell the two apart because they are written to find candidates,
-    which means they often name the place.  ``landmark_washington_square_arch`` required only
-    ``"washington square"``: every photograph taken anywhere in the park satisfied it, and the three
-    that were selected are of skateboarders at the fountain, a balloon-animal seller and a distant
-    view of 30 Hudson Yards -- none of them contains the Arch.  Worse, each was then *aimed* at the
-    Arch, because a camera GPS 27 m from the subject was read as a bearing to it.
+    The chooser's only evidence that a photograph is *of* something was textual association with a
+    *place*, and that is not the same thing.  It is good enough for a landmark with a distinctive
+    name and it fails completely for a view along a street, where the thing photographed and the
+    place it stands in are the same words.  Measured across the 57 rendered sheets, seven pairings
+    were called mismatched by their own assessors:
 
-    ``subject_terms`` is that missing test, kept separate from ``keywords`` because the two do
-    different jobs: keywords decide what to look at, this decides whether what was found is a
-    picture of the subject.  An item that leaves it empty is unchanged -- its keywords are taken to
-    name the subject already, which is true of most of the catalogue (``woolworth``, ``oculus``,
-    ``williamsburg bridge``).
+    * ``landmark_washington_square_arch`` required only ``"washington square"``, which every
+      photograph taken anywhere in the park satisfies; the three selected are of skateboarders at
+      the fountain, a balloon-animal seller and a distant view of 30 Hudson Yards.  Each was then
+      *aimed* at the Arch, because a camera GPS 27 m from the subject was read as a bearing to it.
+    * ``fifth_ave_42nd_north`` and ``fifth_ave_42nd_south`` are views **along** Fifth Avenue, and
+      all three photographs collected for the first are of the New York Public Library's facade,
+      looking west.  They pass because the second keyword group lists ``"public library"`` and
+      ``"nypl"`` beside the cross-street numbers, and because the *category* "5th Avenue
+      (Manhattan)" is on every photograph of a building on it.
+    * ``drive_brooklyn_bed_stuy_stuyvesant_ave`` required ``"stuyvesant"``, which matches inside the
+      category "Bedford-Stuyvesant, Brooklyn": two of its three photographs are of the Utica Avenue
+      subway platform, a kilometre away and underground.
+    * ``drive_bronx_grand_concourse`` required ``"grand concourse"``, which is the category on every
+      building that stands on it: its three are the Bronx County Courthouse, an expressway
+      interchange and Loew's Paradise Theatre.
+    * ``drive_bronx_arthur_ave`` required ``"arthur avenue"`` **or** ``"belmont"``, and two of its
+      three are a Parks sign and an apartment block named only for the neighbourhood.
+    * ``drive_lower_manhattan_stone_st`` required ``"stone street"``, which is the category; its
+      photographs are of the restaurant tables on it rather than of the street.
+
+    ``subject_terms`` is the missing test, kept separate from ``keywords`` because the two do
+    different jobs: keywords decide what to *look at*, this decides whether what was found is a
+    picture *of* the thing.  It is matched against :attr:`Candidate.subject_text` -- title, object
+    name and description -- and never against the categories, for the reason given there.  An item
+    that leaves it empty is unchanged, which is most of the catalogue: ``woolworth``, ``oculus`` and
+    ``williamsburg bridge`` are names a photograph of the thing uses and a photograph of its
+    neighbourhood does not.
+
+    What this **cannot** do is establish a view *direction*.  Nothing in Commons metadata carries
+    one (deviation I7), so a photograph looking the wrong way along the right street still passes.
+    This test removes the photographs that are of something else; it does not choose between two
+    photographs of the same street.
     """
     if not item.subject_terms:
         return True
-    return any(has_term(hay, t) for t in item.subject_terms)
+    return any(has_term(text, t) for t in item.subject_terms)
+
+
+def titled_as_something_else(item: Item, title: str) -> bool:
+    """Does the photograph's own title say it is a picture of something other than this subject?
+
+    See :attr:`Item.not_of`.  ``subject_terms`` removes a photograph that never names the thing;
+    this removes one that names it *and* announces a different subject in the same breath, which is
+    what a photograph of a building on a street does.
+    """
+    return any(has_term(title.lower(), t) for t in item.not_of)
 
 
 def evaluate(item: Item, c: Candidate, min_width: int = MIN_USABLE_WIDTH) -> tuple[float | None, str]:
@@ -1582,8 +1679,10 @@ def evaluate(item: Item, c: Candidate, min_width: int = MIN_USABLE_WIDTH) -> tup
     for group in item.keywords:
         if not any(has_term(hay, k) for k in group):
             return None, "keywords"
-    if not subject_named(item, hay):
+    if not subject_named(item, c.subject_text):
         return None, "subject_not_named"
+    if titled_as_something_else(item, c.title):
+        return None, "titled_as_another_subject"
     if c.gps is not None and camera_gps(item, c)[0] is None:
         return None, "wrong_place"
     night_hit = any(has_term(hay, w) for w in NIGHT_WORDS)
@@ -1648,7 +1747,7 @@ def estimate_view(item: Item, c: Candidate) -> dict[str, Any]:
                                     f"geotagged the subject rather than the camera; the viewpoint is therefore the standard photographer position "
                                     f"for this view ({item.viewpoint_note}) and the azimuth {default_az:.0f} deg is the bearing from there to the subject." + suffix),
                 }
-            if d_subj <= item.gps_subject_max_m and not subject_named(item, c.haystack):
+            if d_subj <= item.gps_subject_max_m and not subject_named(item, c.subject_text):
                 return {
                     "lat": c.gps[0], "lon": c.gps[1], "azimuth_deg": round(default_az, 1), "confidence": "low",
                     "method": "camera_gps_with_item_azimuth (photograph does not name the subject)",
@@ -2266,8 +2365,10 @@ def revalidate(out_root: Path, items: list[Item], *, dry_run: bool = False) -> l
                 reason = "indoor"
             elif any(not any(has_term(hay, k) for k in group) for group in item.keywords):
                 reason = "keywords"
-            elif not subject_named(item, hay):
+            elif not subject_named(item, " | ".join([ph.get("title", ""), ph.get("description", "")]).lower()):
                 reason = "subject_not_named"
+            elif titled_as_something_else(item, ph.get("title", "")):
+                reason = "titled_as_another_subject"
             if reason:
                 bad.append(f"{ph.get('file')} ({reason}: {ph.get('title')})")
         if bad:

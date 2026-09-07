@@ -97,7 +97,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/bethesda_terrace_fountain/render.png",
- "rendered_at": "2026-09-07T02:54:15Z",
+ "rendered_at": "2026-09-07T08:14:59Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
@@ -110,7 +110,7 @@
     "t_-3_8"
    ],
    "landmark_bins_suppressed": 18,
-   "landmark_faces_suppressed": 2874,
+   "landmark_faces_suppressed": 3092,
    "lod_substituted": [],
    "missing": [],
    "new_jersey": [],
@@ -121,7 +121,7 @@
      ],
      "lod": 0,
      "objects": 16,
-     "triangles": 57268
+     "triangles": 83216
     },
     "t_-2_8": {
      "files": [
@@ -137,7 +137,7 @@
      ],
      "lod": 0,
      "objects": 16,
-     "triangles": 22888
+     "triangles": 30068
     },
     "t_-3_8": {
      "files": [
@@ -155,7 +155,7 @@
    "tiles_wanted": 4,
    "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 159580
+   "triangles": 192708
   },
   "centre_tm": [
    -1776.75,
@@ -186,6 +186,8 @@
      "id": "b_bethesda_terrace",
      "lod": 0,
      "name": "Bethesda Terrace and Fountain",
+     "own_ground_m2": 4286.5,
+     "own_ground_parts": 1,
      "triangles": 10808
     },
     {
@@ -207,6 +209,8 @@
      "id": "b_belvedere_castle",
      "lod": 0,
      "name": "Belvedere Castle",
+     "own_ground_m2": 763.3,
+     "own_ground_parts": 1,
      "triangles": 4456
     },
     {
@@ -214,6 +218,8 @@
      "id": "c_american_museum_natural_history",
      "lod": 0,
      "name": "American Museum of Natural History + Rose Center",
+     "own_ground_m2": 1192.0,
+     "own_ground_parts": 1,
      "triangles": 58762
     },
     {
@@ -221,6 +227,8 @@
      "id": "c_metropolitan_museum",
      "lod": 0,
      "name": "The Metropolitan Museum of Art",
+     "own_ground_m2": 333.1,
+     "own_ground_parts": 1,
      "triangles": 84671
     },
     {
@@ -231,6 +239,13 @@
      "triangles": 18448
     }
    ],
+   "own_ground_from": [
+    "b_bethesda_terrace",
+    "b_belvedere_castle",
+    "c_american_museum_natural_history",
+    "c_metropolitan_museum"
+   ],
+   "own_ground_m2": 6574.9,
    "placed": 7,
    "skipped": 0,
    "skipped_detail": [],
@@ -256,7 +271,8 @@
     "t_-3_7",
     "t_-3_8"
    ],
-   "triangles": 129937,
+   "triangles": 129811,
+   "triangles_cut_for_landmark_ground": 126,
    "vertices": 131445
   },
   "props": {
@@ -292,7 +308,7 @@
    }
   },
   "radius_m": 700.0,
-  "seconds": 4.03,
+  "seconds": 5.37,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -300,14 +316,62 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 1086,
    "samples": 209,
    "spacing_m": 2.0,
-   "triangles": 86528,
-   "water_quads": 0,
+   "triangles": 84356,
+   "water_bodies": [
+    {
+     "kind": "basin",
+     "name": "BOAT BASIN",
+     "water_z_m": 12.16
+    },
+    {
+     "kind": "lake",
+     "name": "THE LAKE",
+     "water_z_m": 16.55
+    },
+    {
+     "kind": "lake",
+     "name": "Turtle Pond",
+     "water_z_m": 30.1
+    },
+    {
+     "kind": "lake",
+     "name": "lake",
+     "water_z_m": 14.44
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 12.78
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 14.07
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 13.12
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 15.35
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 15.35
+    }
+   ],
+   "water_quads": 3737,
    "z_max_m": 42.39,
    "z_min_m": 9.82
   },
-  "triangles": 808298
+  "triangles": 839128
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -315,9 +379,9 @@
   "radius_m": 700.0
  },
  "seconds": {
-  "render": 59.4,
-  "scene": 4.1,
-  "total": 63.6
+  "render": 137.8,
+  "scene": 5.5,
+  "total": 143.4
  },
  "slug": "bethesda_terrace_fountain",
  "status": "rendered",

@@ -42,17 +42,17 @@ Every photograph under `docs/verification/reference/` is from Wikimedia Commons 
 
 | file | title | author | licence | date taken | camera GPS |
 |---|---|---|---|---|---|
-| [1.jpg](fifth_ave_42nd_north/1.jpg) | [NYPL main Feb 2017 4.jpg](https://commons.wikimedia.org/wiki/File:NYPL_main_Feb_2017_4.jpg) | Epicgenius | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2017-02-16 16:24:37 | 40.75266, -73.98159 |
-| [2.jpg](fifth_ave_42nd_north/2.jpg) | [New York Public Library Exterior.jpg](https://commons.wikimedia.org/wiki/File:New_York_Public_Library_Exterior.jpg) | MajesticPegasus | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2024 | 40.75269, -73.98171 |
-| [3.jpg](fifth_ave_42nd_north/3.jpg) | [NYC - 325 Fifth Avenue - panoramio.jpg](https://commons.wikimedia.org/wiki/File:NYC_-_325_Fifth_Avenue_-_panoramio.jpg) | giggel | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) | 2015 | 40.75283, -73.98139 |
+| [1.jpg](fifth_ave_42nd_north/1.jpg) | [43rd St 5th Av td (2018-05-18) 21.jpg](https://commons.wikimedia.org/wiki/File:43rd_St_5th_Av_td_(2018-05-18)_21.jpg) | Tdorante10 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2018 | 40.75416, -73.98056 |
+| [2.jpg](fifth_ave_42nd_north/2.jpg) | [Fifth avenue from 42nd street, looking north LCCN2003680996.jpg](https://commons.wikimedia.org/wiki/File:Fifth_avenue_from_42nd_street,_looking_north_LCCN2003680996.jpg) | Popular Graphic Arts | [Public domain](https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain) | 2018-05-24 00:28:44 | — |
+| [3.jpg](fifth_ave_42nd_north/3.jpg) | [43rd St 5th Av td (2018-05-18) 08.jpg](https://commons.wikimedia.org/wiki/File:43rd_St_5th_Av_td_(2018-05-18)_08.jpg) | Tdorante10 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2018 | 40.75416, -73.98056 |
 
 ## fifth_ave_42nd_south — Fifth Avenue at 42nd Street (NYPL), street view looking south
 
 | file | title | author | licence | date taken | camera GPS |
 |---|---|---|---|---|---|
-| [1.jpg](fifth_ave_42nd_south/1.jpg) | [43rd St 5th Av td (2018-05-18) 13.jpg](https://commons.wikimedia.org/wiki/File:43rd_St_5th_Av_td_(2018-05-18)_13.jpg) | Tdorante10 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2018 | 40.75416, -73.98056 |
-| [2.jpg](fifth_ave_42nd_south/2.jpg) | [01-21-2017 - Women's March on NYC looking down 42nd (10794).jpg](https://commons.wikimedia.org/wiki/File:01-21-2017_-_Women%27s_March_on_NYC_looking_down_42nd_(10794).jpg) | Rhododendrites | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2017-01-21 13:41:20 | 40.75350, -73.98087 |
-| [3.jpg](fifth_ave_42nd_south/3.jpg) | [NYC - 42nd Street – 5th Avenue - panoramio.jpg](https://commons.wikimedia.org/wiki/File:NYC_-_42nd_Street_%E2%80%93_5th_Avenue_-_panoramio.jpg) | Edgar El | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) | 2015 | 40.75349, -73.98088 |
+| [1.jpg](fifth_ave_42nd_south/1.jpg) | [43rd St 5th Av td (2018-05-18) 02.jpg](https://commons.wikimedia.org/wiki/File:43rd_St_5th_Av_td_(2018-05-18)_02.jpg) | Tdorante10 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2018 | 40.75416, -73.98056 |
+| [2.jpg](fifth_ave_42nd_south/2.jpg) | [01-21-2017 - Women's March on NYC looking up 5th Ave (10796).jpg](https://commons.wikimedia.org/wiki/File:01-21-2017_-_Women%27s_March_on_NYC_looking_up_5th_Ave_(10796).jpg) | Rhododendrites | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2017-01-21 13:41:25 | 40.75350, -73.98087 |
+| [3.jpg](fifth_ave_42nd_south/3.jpg) | [McDowell Hi of Marion NC in 5th Av jeh.jpg](https://commons.wikimedia.org/wiki/File:McDowell_Hi_of_Marion_NC_in_5th_Av_jeh.jpg) | Jim.henderson | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2017-11-11 14:21:07 | 40.75403, -73.98028 |
 
 ## bethesda_terrace_fountain — Bethesda Terrace and Fountain
 
@@ -101,9 +101,9 @@ Every photograph under `docs/verification/reference/` is from Wikimedia Commons 
 
 | file | title | author | licence | date taken | camera GPS |
 |---|---|---|---|---|---|
-| [1.jpg](drive_lower_manhattan_stone_st/1.jpg) | [Financial District Manhattan March 2025 107.jpg](https://commons.wikimedia.org/wiki/File:Financial_District_Manhattan_March_2025_107.jpg) | Kidfly182 | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | 2025-03-29 14:00:14 | 40.70435, -74.01035 |
-| [2.jpg](drive_lower_manhattan_stone_st/2.jpg) | [Financial District Jun 2022 84.jpg](https://commons.wikimedia.org/wiki/File:Financial_District_Jun_2022_84.jpg) | Epicgenius | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2022-06-06 11:06:18 | 40.70423, -74.01073 |
-| [3.jpg](drive_lower_manhattan_stone_st/3.jpg) | [Stone Street table settings jeh.jpg](https://commons.wikimedia.org/wiki/File:Stone_Street_table_settings_jeh.jpg) | Jim.henderson | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | 2016 | 40.70431, -74.01111 |
+| [1.jpg](drive_lower_manhattan_stone_st/1.jpg) | [Financial District Manhattan April 2022 008.jpg](https://commons.wikimedia.org/wiki/File:Financial_District_Manhattan_April_2022_008.jpg) | Kidfly182 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2022-04-19 13:45:47 | 40.70410, -74.01070 |
+| [2.jpg](drive_lower_manhattan_stone_st/2.jpg) | [Stone Street table settings jeh.jpg](https://commons.wikimedia.org/wiki/File:Stone_Street_table_settings_jeh.jpg) | Jim.henderson | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | 2016 | 40.70431, -74.01111 |
+| [3.jpg](drive_lower_manhattan_stone_st/3.jpg) | [Stone Street (Manhattan) - Vladimir Kudinov 2015-03-27 (Unsplash L8O h4OgCjM).jpg](https://commons.wikimedia.org/wiki/File:Stone_Street_(Manhattan)_-_Vladimir_Kudinov_2015-03-27_(Unsplash_L8O_h4OgCjM).jpg) | Vladimir Kudinov madbyte | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | 2015-03-27 | 40.70434, -74.01033 |
 
 ## drive_brooklyn_park_slope_7th_ave — Brooklyn brownstone block: Park Slope, Seventh Avenue / Garfield Place
 
@@ -117,9 +117,9 @@ Every photograph under `docs/verification/reference/` is from Wikimedia Commons 
 
 | file | title | author | licence | date taken | camera GPS |
 |---|---|---|---|---|---|
-| [1.jpg](drive_brooklyn_bed_stuy_stuyvesant_ave/1.jpg) | [Utica Avenue Southbound IND Fulton Street Line Platform, January 2026.jpg](https://commons.wikimedia.org/wiki/File:Utica_Avenue_Southbound_IND_Fulton_Street_Line_Platform,_January_2026.jpg) | IliketrainsR211T | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | 2026-01-01 15:44:03 | 40.67952, -73.93201 |
-| [2.jpg](drive_brooklyn_bed_stuy_stuyvesant_ave/2.jpg) | [Utica Avenue Station September 2022 003.jpg](https://commons.wikimedia.org/wiki/File:Utica_Avenue_Station_September_2022_003.jpg) | Kidfly182 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2022-09-27 14:38:22 | 40.67951, -73.93204 |
-| [3.jpg](drive_brooklyn_bed_stuy_stuyvesant_ave/3.jpg) | [Decatur Stuyvesant Heights HD 2.JPG](https://commons.wikimedia.org/wiki/File:Decatur_Stuyvesant_Heights_HD_2.JPG) | Smallbones | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | 2013 | 40.68150, -73.93231 |
+| [1.jpg](drive_brooklyn_bed_stuy_stuyvesant_ave/1.jpg) | [Decatur Stuyvesant Heights HD 2.JPG](https://commons.wikimedia.org/wiki/File:Decatur_Stuyvesant_Heights_HD_2.JPG) | Smallbones | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) | 2013 | 40.68150, -73.93231 |
+| [2.jpg](drive_brooklyn_bed_stuy_stuyvesant_ave/2.jpg) | [Bed-Stuy 20191130 - 27 - Nostrand @ Greene.jpg](https://commons.wikimedia.org/wiki/File:Bed-Stuy_20191130_-_27_-_Nostrand_@_Greene.jpg) | Andre Carrotflower | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2019-11-30 10:22:34 | 40.68831, -73.95130 |
+| [3.jpg](drive_brooklyn_bed_stuy_stuyvesant_ave/3.jpg) | [20190509 freshdirect - transportation location shoot (day 2) 31A7892.jpg](https://commons.wikimedia.org/wiki/File:20190509_freshdirect_-_transportation_location_shoot_(day_2)_31A7892.jpg) | John J. Kelly III | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2019-05-09 11:14:04 | — |
 
 ## drive_queens_forest_hills — Queens residential block: Forest Hills Gardens
 
@@ -149,17 +149,17 @@ Every photograph under `docs/verification/reference/` is from Wikimedia Commons 
 
 | file | title | author | licence | date taken | camera GPS |
 |---|---|---|---|---|---|
-| [1.jpg](drive_bronx_grand_concourse/1.jpg) | [Bronx Courthouse from the intersection.jpg](https://commons.wikimedia.org/wiki/File:Bronx_Courthouse_from_the_intersection.jpg) | JR11288 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2017 | 40.82667, -73.92265 |
-| [2.jpg](drive_bronx_grand_concourse/2.jpg) | [VZ E167 St exchange jeh.jpg](https://commons.wikimedia.org/wiki/File:VZ_E167_St_exchange_jeh.jpg) | Jim.henderson | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | 2012 | 40.83460, -73.91825 |
-| [3.jpg](drive_bronx_grand_concourse/3.jpg) | [Lowes Paradise Theater, The Bronx.jpg](https://commons.wikimedia.org/wiki/File:Lowes_Paradise_Theater,_The_Bronx.jpg) | Paul Lowry | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) | 2025-04-29 19:05:26 | 40.86052, -73.89821 |
+| [1.jpg](drive_bronx_grand_concourse/1.jpg) | [VZ E167 St exchange jeh.jpg](https://commons.wikimedia.org/wiki/File:VZ_E167_St_exchange_jeh.jpg) | Jim.henderson | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | 2012 | 40.83460, -73.91825 |
+| [2.jpg](drive_bronx_grand_concourse/2.jpg) | [Dollar Savings Bank of New York headquarters building, Grand Concourse & East Fordham Road, The Bronx, New York.jpg](https://commons.wikimedia.org/wiki/File:Dollar_Savings_Bank_of_New_York_headquarters_building,_Grand_Concourse_%26_East_Fordham_Road,_The_Bronx,_New_York.jpg) | Deansfa | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2022-10-09 12:16:14 | 40.86261, -73.89708 |
+| [3.jpg](drive_bronx_grand_concourse/3.jpg) | [Macombs Dam Pk td (2019-01-24) 105 - Yankees–East 153rd Street.jpg](https://commons.wikimedia.org/wiki/File:Macombs_Dam_Pk_td_(2019-01-24)_105_-_Yankees%E2%80%93East_153rd_Street.jpg) | Tdorante10 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2019 | 40.82673, -73.92955 |
 
 ## drive_bronx_arthur_ave — Bronx drive-through: Arthur Avenue (Belmont)
 
 | file | title | author | licence | date taken | camera GPS |
 |---|---|---|---|---|---|
 | [1.jpg](drive_bronx_arthur_ave/1.jpg) | [Arthur Avenue 09 - M&G Restaurant.jpg](https://commons.wikimedia.org/wiki/File:Arthur_Avenue_09_-_M%26G_Restaurant.jpg) | Joe Mabel | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2026 | 40.85524, -73.88776 |
-| [2.jpg](drive_bronx_arthur_ave/2.jpg) | [NYC Parks D’Auria-Murphy Triangle IMG 0677 HLG.jpg](https://commons.wikimedia.org/wiki/File:NYC_Parks_D%E2%80%99Auria-Murphy_Triangle_IMG_0677_HLG.jpg) | Hugo L. González | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2019-06-15 15:04:31 | 40.85325, -73.88915 |
-| [3.jpg](drive_bronx_arthur_ave/3.jpg) | [Apartamentos em Belmont.jpg](https://commons.wikimedia.org/wiki/File:Apartamentos_em_Belmont.jpg) | Point00000 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2017-01-26 | 40.85726, -73.88854 |
+| [2.jpg](drive_bronx_arthur_ave/2.jpg) | [Arthur Avenue 10 - Burning Beaks.jpg](https://commons.wikimedia.org/wiki/File:Arthur_Avenue_10_-_Burning_Beaks.jpg) | Joe Mabel | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2026 | 40.85690, -73.88651 |
+| [3.jpg](drive_bronx_arthur_ave/3.jpg) | [Arthur Avenue 12 - D'Bari Funeral Home.jpg](https://commons.wikimedia.org/wiki/File:Arthur_Avenue_12_-_D%27Bari_Funeral_Home.jpg) | Joe Mabel | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2026 | 40.85646, -73.88693 |
 
 ## landmark_empire_state_building — Empire State Building
 
@@ -365,8 +365,8 @@ Every photograph under `docs/verification/reference/` is from Wikimedia Commons 
 | file | title | author | licence | date taken | camera GPS |
 |---|---|---|---|---|---|
 | [1.jpg](landmark_washington_square_arch/1.jpg) | [Washington Square Arch and the Empire State Building, Greenwich Village, Manhattan, New York.jpg](https://commons.wikimedia.org/wiki/File:Washington_Square_Arch_and_the_Empire_State_Building,_Greenwich_Village,_Manhattan,_New_York.jpg) | Christian David | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2026-04-16 18:16:58 | 40.73093, -73.99733 |
-| [2.jpg](landmark_washington_square_arch/2.jpg) | [Washington Square Park November 2024.jpg](https://commons.wikimedia.org/wiki/File:Washington_Square_Park_November_2024.jpg) | Knima04 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2024 | 40.73105, -73.99724 |
-| [3.jpg](landmark_washington_square_arch/3.jpg) | [WSP Vigil for Asian Americans (51057289552).jpg](https://commons.wikimedia.org/wiki/File:WSP_Vigil_for_Asian_Americans_(51057289552).jpg) | Andrew Ratto from Berkeley, USA | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) | 2021-03-20 17:26 | 40.73100, -73.99757 |
+| [2.jpg](landmark_washington_square_arch/2.jpg) | [WS Arch Springtime.jpg](https://commons.wikimedia.org/wiki/File:WS_Arch_Springtime.jpg) | Slywire | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2018-04-19 18:33:48 | 40.73085, -73.99713 |
+| [3.jpg](landmark_washington_square_arch/3.jpg) | [2015 Washington Square Arch from southeast.jpg](https://commons.wikimedia.org/wiki/File:2015_Washington_Square_Arch_from_southeast.jpg) | Beyond My Ken | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2015-04-23 | 40.73080, -73.99708 |
 
 ## landmark_woolworth_building — Woolworth Building
 

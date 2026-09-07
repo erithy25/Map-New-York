@@ -20,18 +20,20 @@
   "\"Grand Concourse\" Bronx street view"
  ],
  "geosearch_radius_m": 500,
- "fetched_at": "2026-09-06T12:17:14Z",
+ "fetched_at": "2026-09-07T08:17:03Z",
  "max_width": 1920,
  "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
  "candidates_seen": 81,
- "candidates_eligible": 32,
+ "candidates_eligible": 23,
  "rejections": {
   "too_small": 3,
-  "too_old": 3,
+  "excluded": 20,
+  "titled_as_another_subject": 5,
   "licence": 4,
+  "subject_not_named": 3,
   "not_photo": 1,
   "keywords": 21,
-  "excluded": 17
+  "too_old": 1
  },
  "exhausted": false,
  "status": "ok",
@@ -39,57 +41,6 @@
   {
    "n": 1,
    "file": "1.jpg",
-   "title": "File:Bronx Courthouse from the intersection.jpg",
-   "page_url": "https://commons.wikimedia.org/wiki/File:Bronx_Courthouse_from_the_intersection.jpg",
-   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/2b/Bronx_Courthouse_from_the_intersection.jpg",
-   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Bronx_Courthouse_from_the_intersection.jpg/1920px-Bronx_Courthouse_from_the_intersection.jpg",
-   "author": "JR11288",
-   "credit": "Own work",
-   "license": {
-    "short_name": "CC BY-SA 4.0",
-    "url": "https://creativecommons.org/licenses/by-sa/4.0",
-    "template": "cc-by-sa-4.0"
-   },
-   "date_taken": "2017",
-   "date_source": "DateTimeOriginal",
-   "year": 2017,
-   "camera_gps": {
-    "lat": 40.826667,
-    "lon": -73.922653
-   },
-   "original_width": 4032,
-   "original_height": 3024,
-   "width": 1920,
-   "height": 1440,
-   "bytes": 696179,
-   "sha256": "11283fdb3825f14c97bdf3eb84638693aedd31f619d6c00699b4fba0e834a609",
-   "mean_luminance": 111.4,
-   "description": "Bronx Courthouse at 161st and Grand Concourse",
-   "categories": [
-    "Bronx County Courthouse",
-    "Self-published work",
-    "Files with coordinates missing SDC location of creation",
-    "United States photographs taken on 2017-03-19",
-    "March 2017 in the Bronx, New York City",
-    "Street signs in New York City for Historic Districts"
-   ],
-   "assessments": "",
-   "restrictions": "",
-   "provenance": "search:\"Grand Concourse\" Bronx street view",
-   "score": 9.3,
-   "estimated_viewpoint": {
-    "lat": 40.826667,
-    "lon": -73.922653,
-    "azimuth_deg": 25.0,
-    "confidence": "medium",
-    "method": "camera_gps_with_item_azimuth",
-    "explanation": "Camera GPS from the Commons file description (40.82667, -73.92265), 684 m from the reference position (Grand Concourse at East 165th Street, main roadway, looking north toward the 167th Street Art Deco blocks); this item is a view along a street rather than at a point subject, so the azimuth 25 deg is the street heading of the reference view, not derived from the photo."
-   },
-   "attribution": "\"Bronx Courthouse from the intersection.jpg\" by JR11288, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Bronx_Courthouse_from_the_intersection.jpg"
-  },
-  {
-   "n": 2,
-   "file": "2.jpg",
    "title": "File:VZ E167 St exchange jeh.jpg",
    "page_url": "https://commons.wikimedia.org/wiki/File:VZ_E167_St_exchange_jeh.jpg",
    "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/VZ_E167_St_exchange_jeh.jpg",
@@ -146,56 +97,118 @@
    "attribution": "\"VZ E167 St exchange jeh.jpg\" by Jim.henderson, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:VZ_E167_St_exchange_jeh.jpg"
   },
   {
-   "n": 3,
-   "file": "3.jpg",
-   "title": "File:Lowes Paradise Theater, The Bronx.jpg",
-   "page_url": "https://commons.wikimedia.org/wiki/File:Lowes_Paradise_Theater,_The_Bronx.jpg",
-   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/88/Lowes_Paradise_Theater%2C_The_Bronx.jpg",
-   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Lowes_Paradise_Theater%2C_The_Bronx.jpg/1920px-Lowes_Paradise_Theater%2C_The_Bronx.jpg",
-   "author": "Paul Lowry",
-   "credit": "https://www.flickr.com/photos/paul_lowry/54486368975/",
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Dollar Savings Bank of New York headquarters building, Grand Concourse & East Fordham Road, The Bronx, New York.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Dollar_Savings_Bank_of_New_York_headquarters_building,_Grand_Concourse_%26_East_Fordham_Road,_The_Bronx,_New_York.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/dc/Dollar_Savings_Bank_of_New_York_headquarters_building%2C_Grand_Concourse_%26_East_Fordham_Road%2C_The_Bronx%2C_New_York.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Dollar_Savings_Bank_of_New_York_headquarters_building%2C_Grand_Concourse_%26_East_Fordham_Road%2C_The_Bronx%2C_New_York.jpg/1920px-Dollar_Savings_Bank_of_New_York_headquarters_building%2C_Grand_Concourse_%26_East_Fordham_Road%2C_The_Bronx%2C_New_York.jpg",
+   "author": "Deansfa",
+   "credit": "Own work",
    "license": {
-    "short_name": "CC BY 2.0",
-    "url": "https://creativecommons.org/licenses/by/2.0",
-    "template": "cc-by-2.0"
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
    },
-   "date_taken": "2025-04-29 19:05:26",
+   "date_taken": "2022-10-09 12:16:14",
    "date_source": "DateTimeOriginal",
-   "year": 2025,
+   "year": 2022,
    "camera_gps": {
-    "lat": 40.860523,
-    "lon": -73.898209
+    "lat": 40.862614,
+    "lon": -73.897081
    },
-   "original_width": 3950,
-   "original_height": 2409,
+   "original_width": 3024,
+   "original_height": 4032,
    "width": 1920,
-   "height": 1171,
-   "bytes": 883203,
-   "sha256": "87909f6b7d90abdfa75dfad699deb69cc0466c04c182f3bc1e343f2be744e27c",
-   "mean_luminance": 134.3,
-   "description": "2403 Grand Concourse, The Bronx, New York, New York cinematreasures.org/theaters/900",
+   "height": 2560,
+   "bytes": 996770,
+   "sha256": "cabfca989c07f399f4d8b2a9ed38068802e79cefa2444f07f106ade693ced912",
+   "mean_luminance": 118.8,
+   "description": "Dollar Savings Bank of New York headquarters building, Grand Concourse and East Fordham Road, The Bronx, New York",
    "categories": [
-    "Loew's Paradise Theatre",
+    "New York City photographs taken on 2022-10-09",
+    "Self-published work",
+    "Images with extracted images",
     "Files with coordinates missing SDC location of creation",
-    "Flickr images reviewed by FlickreviewR 2",
-    "Cinemas in the United States photographed in 2025",
-    "New York City photographs taken on 2025-04-29",
-    "April 2025 in the Bronx, New York City",
-    "Taken with Motorola Moto G (2025)"
+    "October 2022 in the Bronx, New York City",
+    "Files by User:Deansfa",
+    "Dollar Savings Bank, Grand Concourse, Bronx",
+    "Bank buildings in New York City photographed in 2022"
    ],
    "assessments": "",
    "restrictions": "",
    "provenance": "search:\"Grand Concourse\" Bronx street view",
-   "score": 8.2,
+   "score": 8.05,
    "estimated_viewpoint": {
-    "lat": 40.860523,
-    "lon": -73.898209,
+    "lat": 40.862614,
+    "lon": -73.897081,
     "azimuth_deg": 25.0,
     "confidence": "medium",
     "method": "camera_gps_with_item_azimuth",
-    "explanation": "Camera GPS from the Commons file description (40.86052, -73.89821), 3606 m from the reference position (Grand Concourse at East 165th Street, main roadway, looking north toward the 167th Street Art Deco blocks); this item is a view along a street rather than at a point subject, so the azimuth 25 deg is the street heading of the reference view, not derived from the photo."
+    "explanation": "Camera GPS from the Commons file description (40.86261, -73.89708), 3855 m from the reference position (Grand Concourse at East 165th Street, main roadway, looking north toward the 167th Street Art Deco blocks); this item is a view along a street rather than at a point subject, so the azimuth 25 deg is the street heading of the reference view, not derived from the photo."
    },
-   "attribution": "\"Lowes Paradise Theater, The Bronx.jpg\" by Paul Lowry, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Lowes_Paradise_Theater,_The_Bronx.jpg"
+   "attribution": "\"Dollar Savings Bank of New York headquarters building, Grand Concourse & East Fordham Road, The Bronx, New York.jpg\" by Deansfa, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Dollar_Savings_Bank_of_New_York_headquarters_building,_Grand_Concourse_%26_East_Fordham_Road,_The_Bronx,_New_York.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Macombs Dam Pk td (2019-01-24) 105 - Yankees–East 153rd Street.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Macombs_Dam_Pk_td_(2019-01-24)_105_-_Yankees%E2%80%93East_153rd_Street.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/71/Macombs_Dam_Pk_td_%282019-01-24%29_105_-_Yankees%E2%80%93East_153rd_Street.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Macombs_Dam_Pk_td_%282019-01-24%29_105_-_Yankees%E2%80%93East_153rd_Street.jpg/1920px-Macombs_Dam_Pk_td_%282019-01-24%29_105_-_Yankees%E2%80%93East_153rd_Street.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2019",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.826725,
+    "lon": -73.929553
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 473207,
+   "sha256": "ad23ba4bec6d7c6dfaf143780c28fbfa6f0065552231847cd0f07024ba2c78b9",
+   "mean_luminance": 128.8,
+   "description": "The truss bridge overpass leading to the Yankees–East 153rd Street Metro-North station at the south end of Ruppert Plaza and Macombs Dam Park, at the intersection of Ruppert Plaza (Ruppert Place), East 157th Street, and East 153rd Street in Concourse, Bronx. The station was opened in 2009 and would have located next to old Yankee Stadium, but the stadium was closed the year prior. The station's name (East 153rd Street) is deceptive, as it makes it seem far from the stadium (East 161st Street), but East 153rd Street diagonals southeast from here towards Grand Concourse near East 149th Street, t",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "Yankees–East 153rd Street (Metro-North station)",
+    "Truss bridges in New York (state)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "January 2019 in rail transport in the United States",
+    "United States photographs taken on 2019-01-24",
+    "Ruppert Plaza (Bronx)",
+    "Railway photographs taken on 2019-01-24",
+    "Rain in the Bronx, New York City",
+    "2019 Bronx photographs by Tdorante10",
+    "January 2019 in the Bronx, New York City",
+    "Footbridges in the Bronx, New York City",
+    "Macombs Dam Park in 2019",
+    "Metro-North Railroad in 2019",
+    "Photographs by Tdorante10 taken on 2019-01-24"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Grand Concourse\" Bronx street view",
+   "score": 7.6,
+   "estimated_viewpoint": {
+    "lat": 40.826725,
+    "lon": -73.929553,
+    "azimuth_deg": 25.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.82673, -73.92955), 1092 m from the reference position (Grand Concourse at East 165th Street, main roadway, looking north toward the 167th Street Art Deco blocks); this item is a view along a street rather than at a point subject, so the azimuth 25 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Macombs Dam Pk td (2019-01-24) 105 - Yankees–East 153rd Street.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Macombs_Dam_Pk_td_(2019-01-24)_105_-_Yankees%E2%80%93East_153rd_Street.jpg"
   }
  ]
 }

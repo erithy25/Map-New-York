@@ -5,8 +5,9 @@
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
-  "focal_mm": 18.0,
+  "focal_mm": 19.267893386318573,
   "ground_detail": {
+   "below_point_excluded": 0,
    "chosen_m": 8.61,
    "max_m": 9.13,
    "median_m": 8.76,
@@ -19,15 +20,15 @@
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
-  "hfov_deg": 90.0,
+  "hfov_deg": 70.004,
   "lat": 40.730926,
   "lon": -73.997326,
-  "long_side_fov_deg": 90.0,
+  "long_side_fov_deg": 86.103,
   "pitch_deg": 0.0,
-  "portrait": false,
+  "portrait": true,
   "resolution": [
-   1208,
-   906
+   904,
+   1206
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_washington_square_arch",
@@ -36,7 +37,7 @@
   "y": 3435.361,
   "z": 10.212
  },
- "camera_caption": "camera 40.73093, -73.99733 (NYC_TM -3998, 3435) z 10.2 m NAVD88 | azimuth 44.7deg pitch +0.0deg | 18 mm on 36 mm (90.0deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.73093, -73.99733 (NYC_TM -3998, 3435) z 10.2 m NAVD88 | azimuth 44.7deg pitch +0.0deg | 19 mm on 36 mm (70.0deg horizontal, 86.1deg vertical, portrait) | 904x1206",
  "camera_origin": {
   "from_photograph_gps": true,
   "lat": 40.730926,
@@ -54,29 +55,29 @@
   "view_m": 76.5
  },
  "frame": {
-  "mean": 0.6776,
+  "mean": 0.6973,
   "reason": null,
-  "sd": 0.1552,
+  "sd": 0.1289,
   "usable": true
  },
  "frame_retry": null,
  "group": "landmark",
  "interior": false,
- "lens_reason": "widened from 35 mm to 18 mm (74 deg vertical) so that a level axis contains the subject: the b_washington_square_arch model's published 23 m height stands 22 m above the lens at 27 m, 38 deg above the horizon; held at the 18 mm floor, so the top of the subject is still cut off -- past that point the distortion would stop the two frames being comparable",
+ "lens_reason": "widened from 35 mm to 19 mm (86 deg vertical) so that a level axis contains the subject: the b_washington_square_arch model's published 23 m height stands 22 m above the lens at 27 m, 38 deg above the horizon",
  "lighting": {
   "background_strength": 0.25,
-  "direct_normal_irradiance_w_m2": 547.5,
+  "direct_normal_irradiance_w_m2": 542.9,
   "emissive": {
    "cones_hidden": 2,
    "lamps_switched_off": 3,
    "night": false,
    "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
-  "exposure_stops": 1.6,
-  "sky_azimuth_deg": 271.518,
-  "sky_elevation_deg": 14.318,
+  "exposure_stops": 1.61,
+  "sky_azimuth_deg": 271.693,
+  "sky_elevation_deg": 14.113,
   "sun_lamp": true,
-  "sun_strength_blender": 1.014,
+  "sun_strength_blender": 1.005,
   "view_transform": "Filmic"
  },
  "name": "Washington Square Arch",
@@ -85,19 +86,19 @@
  "reference_photo": {
   "author": "Christian David",
   "confidence": "high",
-  "date_taken": "2026-04-16 18:15:53",
+  "date_taken": "2026-04-16 18:16:58",
   "estimated_azimuth_deg": 44.5,
   "file": "1.jpg",
-  "height": 1440,
+  "height": 2560,
   "licence": "CC BY-SA 4.0",
   "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
-  "page_url": "https://commons.wikimedia.org/wiki/File:Skateboarders_at_the_central_fountain,_Washington_Square_Park,_Manhattan,_New_York.jpg",
-  "title": "File:Skateboarders at the central fountain, Washington Square Park, Manhattan, New York.jpg",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Washington_Square_Arch_and_the_Empire_State_Building,_Greenwich_Village,_Manhattan,_New_York.jpg",
+  "title": "File:Washington Square Arch and the Empire State Building, Greenwich Village, Manhattan, New York.jpg",
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_washington_square_arch/render.png",
- "rendered_at": "2026-09-07T00:03:25Z",
- "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "rendered_at": "2026-09-07T08:09:02Z",
+ "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
   "buildings": {
@@ -112,26 +113,39 @@
    "landmark_faces_suppressed": 0,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_-4_2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 19,
-     "triangles": 87836
+     "triangles": 112938
     },
     "t_-4_3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
-     "triangles": 71440
+     "triangles": 100276
     },
     "t_-5_2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
-     "triangles": 53444
+     "triangles": 86250
     },
     "t_-5_3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
-     "triangles": 102634
+     "triangles": 125500
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -139,8 +153,9 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 4,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 315354
+   "triangles": 424964
   },
   "centre_tm": [
    -3997.93,
@@ -178,15 +193,23 @@
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [
     {
      "distance_m": 39.1,
      "id": "b_washington_square_arch",
      "lod": 0,
      "name": "Washington Square Arch",
+     "own_ground_m2": 269.4,
+     "own_ground_parts": 1,
      "triangles": 1072
     }
    ],
+   "own_ground_from": [
+    "b_washington_square_arch"
+   ],
+   "own_ground_m2": 269.4,
    "placed": 1,
    "skipped": 0,
    "skipped_detail": [],
@@ -212,12 +235,14 @@
     "t_-5_2",
     "t_-5_3"
    ],
-   "triangles": 92149,
+   "triangles": 92141,
+   "triangles_cut_for_landmark_ground": 8,
    "vertices": 94387
   },
   "props": {
-   "capped": "triangle budget 1404555",
+   "capped": "triangle budget 1366242",
    "impostor_cards_dropped": 13,
+   "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
     "bench": 392,
@@ -225,13 +250,13 @@
     "citibike_dock": 1,
     "flagpole": 1,
     "hydrant": 19,
-    "manhole": 33,
+    "manhole": 31,
     "steam_vent": 1,
-    "street_lamp": 137,
-    "tree": 77,
-    "waste_basket": 55
+    "street_lamp": 136,
+    "tree": 72,
+    "waste_basket": 54
    },
-   "placed": 717,
+   "placed": 708,
    "radius_m": 250.0,
    "rows_in_range": 1253,
    "tiles_missing": [],
@@ -239,19 +264,19 @@
     "t_-4_3",
     "t_-5_3"
    ],
-   "tree_species_substituted": 5,
-   "triangles": 1407362,
+   "tree_species_substituted": 4,
+   "triangles": 1368974,
    "unmapped_kinds": {
     "artwork": 2,
-    "cooling_tower": 18,
-    "curb_ramp": 38,
+    "cooling_tower": 16,
+    "curb_ramp": 37,
     "drinking_fountain": 9,
     "parks_building": 1,
     "parks_comfort_station": 1
    }
   },
   "radius_m": 500.0,
-  "seconds": 26.26,
+  "seconds": 15.78,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -259,14 +284,16 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 68,
    "samples": 199,
    "spacing_m": 2.0,
-   "triangles": 78408,
+   "triangles": 78272,
+   "water_bodies": [],
    "water_quads": 0,
    "z_max_m": 14.0,
    "z_min_m": 0.11
   },
-  "triangles": 2357850
+  "triangles": 2428928
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -274,9 +301,9 @@
   "radius_m": 500.0
  },
  "seconds": {
-  "render": 86.0,
-  "scene": 27.1,
-  "total": 113.1
+  "render": 142.7,
+  "scene": 16.4,
+  "total": 159.1
  },
  "slug": "landmark_washington_square_arch",
  "status": "rendered",
@@ -285,11 +312,11 @@
   "name": "Washington Square Arch"
  },
  "sun": {
-  "azimuth_deg": 271.51760700141324,
-  "elevation_deg": 14.317569564521078,
-  "local": "2026-04-16T18:15:53-04:00",
+  "azimuth_deg": 271.6931168926991,
+  "elevation_deg": 14.113458997716075,
+  "local": "2026-04-16T18:16:58-04:00",
   "time_source": "EXIF DateTimeOriginal",
-  "utc": "2026-04-16T22:15:53Z"
+  "utc": "2026-04-16T22:16:58Z"
  },
  "viewpoint": {
   "azimuth_deg": 26.8,

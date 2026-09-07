@@ -24,16 +24,16 @@
   "\"Washington Square Park\" arch fountain"
  ],
  "geosearch_radius_m": 200,
- "fetched_at": "2026-09-07T07:09:05Z",
+ "fetched_at": "2026-09-07T08:01:14Z",
  "max_width": 1920,
  "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
- "candidates_seen": 128,
- "candidates_eligible": 43,
+ "candidates_seen": 127,
+ "candidates_eligible": 23,
  "rejections": {
-  "subject_not_named": 42,
-  "too_old": 13,
+  "subject_not_named": 68,
   "excluded": 10,
   "too_small": 11,
+  "too_old": 6,
   "licence": 2,
   "not_photo": 4,
   "keywords": 3
@@ -96,104 +96,104 @@
   {
    "n": 2,
    "file": "2.jpg",
-   "title": "File:Washington Square Park November 2024.jpg",
-   "page_url": "https://commons.wikimedia.org/wiki/File:Washington_Square_Park_November_2024.jpg",
-   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/83/Washington_Square_Park_November_2024.jpg",
-   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Washington_Square_Park_November_2024.jpg/1920px-Washington_Square_Park_November_2024.jpg",
-   "author": "Knima04",
+   "title": "File:WS Arch Springtime.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:WS_Arch_Springtime.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/20/WS_Arch_Springtime.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/WS_Arch_Springtime.jpg/1920px-WS_Arch_Springtime.jpg",
+   "author": "Slywire",
    "credit": "Own work",
    "license": {
     "short_name": "CC BY-SA 4.0",
     "url": "https://creativecommons.org/licenses/by-sa/4.0",
     "template": "cc-by-sa-4.0"
    },
-   "date_taken": "2024",
+   "date_taken": "2018-04-19 18:33:48",
    "date_source": "DateTimeOriginal",
-   "year": 2024,
+   "year": 2018,
    "camera_gps": {
-    "lat": 40.731047,
-    "lon": -73.997244
+    "lat": 40.73085,
+    "lon": -73.997131
    },
    "original_width": 3024,
    "original_height": 4032,
    "width": 1920,
    "height": 2560,
-   "bytes": 1107055,
-   "sha256": "d93ccc9bdbcc33c2fb52b53be0093d2bb0b9d87e025c58ef90c1c8eb182015ce",
-   "mean_luminance": 131.5,
-   "description": "Washington Square Park November 2024",
+   "bytes": 1924724,
+   "sha256": "5a46b655d1e5190805d6a00f3fe08ad2deeb7d304a5df0689ffce92a0940b195",
+   "mean_luminance": 115.0,
+   "description": "Washington Square Arch, Washington Square Park, New York",
    "categories": [
     "Washington Square Arch",
     "Self-published work",
     "Files with coordinates missing SDC location of creation",
-    "New York City photographs taken on 2024-11-26",
-    "Washington Square Park in 2024",
-    "November 2024 in Manhattan, New York City",
-    "Photos from Wikicurious - Capturing the Moment",
-    "Uploaded via Campaign:Wikicurious Capturing the Moment 2024"
+    "Washington Square Park in 2018"
    ],
    "assessments": "",
    "restrictions": "",
    "provenance": "geosearch",
-   "score": 13.2,
+   "score": 12.45,
    "estimated_viewpoint": {
-    "lat": 40.7308,
-    "lon": -73.9973,
-    "azimuth_deg": 26.8,
-    "confidence": "medium",
-    "method": "standard_viewpoint (camera GPS coincides with subject)",
-    "explanation": "The file's GPS (40.73105, -73.99724) lies within 13 m of Washington Square Arch (40.73110, -73.99710), so the uploader geotagged the subject rather than the camera; the viewpoint is therefore the standard photographer position for this view (south rim of the Washington Square fountain, looking north through the Arch up Fifth Avenue) and the azimuth 27 deg is the bearing from there to the subject."
+    "lat": 40.73085,
+    "lon": -73.997131,
+    "azimuth_deg": 5.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.73085, -73.99713) is 28 m from Washington Square Arch (40.73110, -73.99710) and 15 m from the standard viewpoint; the azimuth 5 deg is the initial great-circle bearing from that camera position to the subject."
    },
-   "attribution": "\"Washington Square Park November 2024.jpg\" by Knima04, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Washington_Square_Park_November_2024.jpg"
+   "attribution": "\"WS Arch Springtime.jpg\" by Slywire, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:WS_Arch_Springtime.jpg"
   },
   {
    "n": 3,
    "file": "3.jpg",
-   "title": "File:WSP Vigil for Asian Americans (51057289552).jpg",
-   "page_url": "https://commons.wikimedia.org/wiki/File:WSP_Vigil_for_Asian_Americans_(51057289552).jpg",
-   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/6d/WSP_Vigil_for_Asian_Americans_%2851057289552%29.jpg",
-   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/WSP_Vigil_for_Asian_Americans_%2851057289552%29.jpg/1920px-WSP_Vigil_for_Asian_Americans_%2851057289552%29.jpg",
-   "author": "Andrew Ratto from Berkeley, USA",
-   "credit": "WSP Vigil for Asian Americans",
+   "title": "File:2015 Washington Square Arch from southeast.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:2015_Washington_Square_Arch_from_southeast.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b4/2015_Washington_Square_Arch_from_southeast.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/2015_Washington_Square_Arch_from_southeast.jpg/1920px-2015_Washington_Square_Arch_from_southeast.jpg",
+   "author": "Beyond My Ken",
+   "credit": "Own work",
    "license": {
-    "short_name": "CC BY 2.0",
-    "url": "https://creativecommons.org/licenses/by/2.0",
-    "template": "cc-by-2.0"
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
    },
-   "date_taken": "2021-03-20 17:26",
+   "date_taken": "2015-04-23",
    "date_source": "DateTimeOriginal",
-   "year": 2021,
+   "year": 2015,
    "camera_gps": {
-    "lat": 40.731,
-    "lon": -73.997567
+    "lat": 40.730796,
+    "lon": -73.997081
    },
-   "original_width": 4032,
-   "original_height": 3024,
+   "original_width": 3456,
+   "original_height": 4608,
    "width": 1920,
-   "height": 1440,
-   "bytes": 870746,
-   "sha256": "b406202057ced2f80a7ca473490d7e01b53a27326ea7d8113dd0ea183fdc8763",
-   "mean_luminance": 117.4,
-   "description": "From Asians for Abolition",
+   "height": 2560,
+   "bytes": 1539742,
+   "sha256": "a448970b130b60b4c251bd194e6e3de537be3d61d87b423f69551e2dfb81535c",
+   "mean_luminance": 137.9,
+   "description": "Washington Square Arch from the southeast",
    "categories": [
+    "GFDL",
     "Washington Square Arch",
+    "License migration redundant",
+    "CC-BY-SA-4.0,3.0,2.5,2.0,1.0",
+    "Self-published work",
+    "Images by Beyond My Ken/Below",
     "Files with coordinates missing SDC location of creation",
-    "Flickr images reviewed by FlickreviewR 2",
-    "Vigil for the 2021 Atlanta spa shootings in Washington Square Park"
+    "Washington Square Park in 2015"
    ],
    "assessments": "",
    "restrictions": "",
-   "provenance": "search:\"Washington Square Arch\"",
-   "score": 12.9,
+   "provenance": "geosearch",
+   "score": 12.0,
    "estimated_viewpoint": {
-    "lat": 40.731,
-    "lon": -73.997567,
-    "azimuth_deg": 74.2,
+    "lat": 40.730796,
+    "lon": -73.997081,
+    "azimuth_deg": 357.3,
     "confidence": "high",
     "method": "camera_gps_to_subject",
-    "explanation": "Camera GPS from the Commons file description (40.73100, -73.99757) is 41 m from Washington Square Arch (40.73110, -73.99710) and 32 m from the standard viewpoint; the azimuth 74 deg is the initial great-circle bearing from that camera position to the subject."
+    "explanation": "Camera GPS from the Commons file description (40.73080, -73.99708) is 34 m from Washington Square Arch (40.73110, -73.99710) and 18 m from the standard viewpoint; the azimuth 357 deg is the initial great-circle bearing from that camera position to the subject."
    },
-   "attribution": "\"WSP Vigil for Asian Americans (51057289552).jpg\" by Andrew Ratto from Berkeley, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:WSP_Vigil_for_Asian_Americans_(51057289552).jpg"
+   "attribution": "\"2015 Washington Square Arch from southeast.jpg\" by Beyond My Ken, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:2015_Washington_Square_Arch_from_southeast.jpg"
   }
  ]
 }

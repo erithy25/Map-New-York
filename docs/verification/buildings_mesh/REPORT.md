@@ -387,6 +387,7 @@ each is counted separately per tile:
 | `rejected_plan` | the 2014 solid is not this building (mutual coverage with the footprint below 0.80) | 8 |
 | `rejected_dz` | the two sources disagree on height by more than 20 % of it, or 15 m | 39 |
 | `rejected_partition` | cutting the real footprint by the levels leaves nothing usable | 9 |
+| `rejected_pitch` | a pitched building whose lowered part is under a quarter of the plan — it keeps its roof shape instead | 0 (Bayside `t_14_6`: 177) |
 | `lost_would_not_close` | the stepped solid could not be made watertight, so the flat cap was kept | 137 |
 | `shipped_with_levels_merged` | shipped, but with its smallest levels absorbed into their neighbour | 46 |
 | **`shipped`** | **a real stepped solid is in the file** | **376** |
@@ -410,11 +411,18 @@ checked rather than to raise the number:
   admits are checked by the same invariants as every other: regions inside the footprint (0 outside,
   measured), covering it (worst case 0.9958), and pairwise disjoint.
 
-A third gate was **added**, not widened: every stepped building must now agree in plan with its own
-footprint (0.80 mutual coverage, 0.95 when the height had to be shifted). Mutual coverage is sharply
+Two gates were **added**, not widened. Every stepped building must now agree in plan with its own
+footprint (0.80 mutual coverage, 0.95 when the height had to be shifted); mutual coverage is sharply
 bimodal — its 5th percentile is 0.96-0.999 over three tiles and only 1.1-2.3 % of buildings fall
 below 0.80 — so this removes the ones where the 2014 solid is a different building, which the old
-code would have stepped anyway.
+code would have stepped anyway. And a **pitched** building keeps its roof unless the part being
+lowered is at least a quarter of the plan: `_build_stepped` caps every level flat, so stepping a
+gabled house trades its roof shape for its massing, and on the Bayside tile that was happening to
+275 of 1,474 pitched buildings for a typical gain of a 17 m² porch 3.4 m below a 144 m² two-storey
+house. 177 of the 275 now keep their gable. The 98 that still trade are counted in
+`pitch_traded_for_step`. The proper fix is to pitch the largest region and flat-cap the others,
+which `_emit_riser` already anticipates with its per-end top height; that is a change to
+`_build_stepped`, not a gate, and it was not attempted in this pass.
 
 **What is honestly weaker.** `applied_offset_z` counts buildings whose CityGML top and contract
 `roof_z` differ by more than 3 m (135 of 513 on the Midtown tile). Their plans match to an IoU of

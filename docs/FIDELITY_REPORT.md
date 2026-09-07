@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-07 07:55 UTC from commit `6b01e21bf230` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-07 08:25 UTC from commit `e9f217e8c576` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -139,7 +139,7 @@ Water: hydrography polygons 2,235 · shoreline lines 413 · structures 2,536 · 
 | vehicles | 93 | 100.2 MB |
 | character | 25 | 512.5 MB |
 | landmarks | 127 | 920.2 MB |
-| tiles | 1,496 | 5,601.4 MB |
+| tiles | 1,496 | 5,697.2 MB |
 
 Catalog entries describing those assets: 386.
 
@@ -363,7 +363,8 @@ the individual assessments, because together they are the honest answer to "is i
 
 | # | Deviation | Reason | What would close it |
 |---|---|---|---|
-| F1 | **The 8 ms step budget is not met. Synthetic 14.0 ms; city-scale 777 ms.** | At city scale about 709 ms of the 777 is destination selection over the whole graph rather than the streamed region (ADR-021); the rest is the lane array growing from 470 KB to 85 MB. Synthetically the remaining time is spread thin — nothing left is worth more than about 5 %. | ADR-021's streamed-region fix, then multithreading across tiles, which is the only change reaching 8 ms without touching the models. |
+| F1 | **The 8 ms step budget is still not met, but the city-scale step is no longer the problem it was: 665.3 ms → 38.3 ms.** Synthetic is 15.2 ms. | ADR-021 is implemented. Origins and destinations are drawn from the streamed region, removing **627 of the 665 ms** measured on this machine before it — path finding was 96 % of the step and is now 9.6 %, and a vehicle route query fell from 49.8 ms to 0.46 ms. The lane corrected the published baseline downward in the process: the 777 ms in the earlier report came from a different machine, and it reported the same-machine 665.3 ms rather than claim the larger ratio. What is left is per-agent decision work — 19.1 ms traffic and 15.5 ms pedestrians at 4,549 vehicles and 21,239 pedestrians, plus 3.7 ms routing. The synthetic step *rose* from 13.9 to 15.2 ms, and that is a behaviour change rather than overhead: pedestrians now reach their goals instead of wandering, and with pedestrians disabled the vehicle side is unchanged and its trajectory hash bit-identical. | 2.7 ms is free — call `SignalTable::setActiveWindow` from the loaded-tile set, already built and already verified transparent. Then multithread across tiles, then structure-of-arrays on the pedestrian side, then a cheaper wall test. Genuine cross-city trips additionally need a router hierarchy, which ADR-021 excludes by name. |
+| F6 | **The 262-neighbourhood traffic calibration is applied nowhere but the benchmark.** `DensityTable::assignLaneNtas()` exists, is declared in `Density.h` and defined in `Density.cpp`, and is called in exactly **one** place in the whole repository: `core/bench/bench_world.cpp`. No lane in `roads/lanes.parquet` carries an NTA column, so the assignment has to happen at load time — and any host that does not make that call gets the entire city as a single density cell. | Found while implementing ADR-021, and it is the source of that ADR's absurd 304,878-vehicle target for a 900 m ring: with every lane in one cell the density table cannot distribute anything. Fixed in the benchmark, which now assigns them before measuring. | The Unreal adapter must call `assignLaneNtas()` after loading the road graph. One line, but nothing currently fails if it is forgotten — which is how it came to be missing. Better: carry the NTA on the lane in `lanes.parquet` so the runtime cannot start without it. |
 | F2 | **The jaywalking share (0.30) and box-blocking probability (0.02–0.35) are modelling targets, not measurements.** | No New York field count of signal non-compliance exists here. 0.30 sits inside the 20–50 % range in the literature and is a single exposed constant. | A pedestrian-count stage. |
 | F3 | **Jaywalking is modelled as crossing against the signal at a crosswalk**, not as mid-block crossing with its own geometry. | Modelling choice. | Mid-block crossing geometry. |
 | F4 | **22 of 3,000 sampled frames catch one vehicle pair mid-separation** at a junction entry, each clearing within two or three frames. | The impenetrability projection runs at the end of each step. The two tests that cannot assert an exact zero carry the measured value and the reason in the assertion. | A continuous-collision formulation. |
@@ -439,7 +440,7 @@ Two things, stated so their absence is not mistaken for an oversight:
   struct that made the road graph unreadable to the router, and a character whose garments all carried
   the wrong vertex weights.
 
-That is **79 deviations**, each with the stage report it is drawn from. The source document is `docs/DEVIATIONS.md`.
+That is **80 deviations**, each with the stage report it is drawn from. The source document is `docs/DEVIATIONS.md`.
 
 ## 11. Next steps, in the order I would do them
 

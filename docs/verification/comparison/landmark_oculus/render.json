@@ -50,14 +50,14 @@
   "moved": false,
   "nearest_obstruction": "prop_lamp_bishops_crook_10",
   "nearest_obstruction_m": 26.2,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_bishops_crook_10 26.2 m away, and the view azimuth is clear for 77 m",
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_bishops_crook_10 26.2 m away, and the view azimuth is clear for 66 m",
   "offset_m": 0.0,
-  "view_m": 76.6
+  "view_m": 66.2
  },
  "frame": {
-  "mean": 0.3806,
+  "mean": 0.3684,
   "reason": null,
-  "sd": 0.1572,
+  "sd": 0.1652,
   "usable": true
  },
  "frame_retry": null,
@@ -97,7 +97,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_oculus/render.png",
- "rendered_at": "2026-09-07T02:02:39Z",
+ "rendered_at": "2026-09-07T08:02:02Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1281 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
@@ -110,7 +110,7 @@
     "t_-6_1"
    ],
    "landmark_bins_suppressed": 19,
-   "landmark_faces_suppressed": 2992,
+   "landmark_faces_suppressed": 2604,
    "lod_substituted": [],
    "missing": [],
    "new_jersey": [],
@@ -121,7 +121,7 @@
      ],
      "lod": 0,
      "objects": 18,
-     "triangles": 11872
+     "triangles": 13970
     },
     "t_-5_1": {
      "files": [
@@ -129,7 +129,7 @@
      ],
      "lod": 0,
      "objects": 18,
-     "triangles": 42654
+     "triangles": 55134
     },
     "t_-6_0": {
      "files": [
@@ -137,7 +137,7 @@
      ],
      "lod": 0,
      "objects": 16,
-     "triangles": 12796
+     "triangles": 13638
     },
     "t_-6_1": {
      "files": [
@@ -145,7 +145,7 @@
      ],
      "lod": 0,
      "objects": 18,
-     "triangles": 15036
+     "triangles": 18490
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -155,7 +155,7 @@
    "tiles_wanted": 4,
    "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 82358
+   "triangles": 101232
   },
   "centre_tm": [
    -5095.41,
@@ -209,6 +209,8 @@
      "id": "b_wtc_site",
      "lod": 0,
      "name": "World Trade Center site",
+     "own_ground_m2": 33039.3,
+     "own_ground_parts": 1,
      "triangles": 136288
     },
     {
@@ -230,6 +232,8 @@
      "id": "city_hall",
      "lod": 0,
      "name": "New York City Hall",
+     "own_ground_m2": 72.0,
+     "own_ground_parts": 1,
      "triangles": 44823
     },
     {
@@ -244,6 +248,8 @@
      "id": "federal_hall",
      "lod": 0,
      "name": "Federal Hall National Memorial",
+     "own_ground_m2": 282.2,
+     "own_ground_parts": 2,
      "triangles": 9070
     },
     {
@@ -282,6 +288,12 @@
      "triangles": 121824
     }
    ],
+   "own_ground_from": [
+    "b_wtc_site",
+    "city_hall",
+    "federal_hall"
+   ],
+   "own_ground_m2": 33393.6,
    "placed": 12,
    "skipped": 0,
    "skipped_detail": [],
@@ -307,7 +319,8 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "triangles": 103561,
+   "triangles": 103147,
+   "triangles_cut_for_landmark_ground": 414,
    "vertices": 106557
   },
   "props": {
@@ -352,7 +365,7 @@
    }
   },
   "radius_m": 522.0053551484609,
-  "seconds": 59.14,
+  "seconds": 66.37,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -360,14 +373,27 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 1363,
    "samples": 201,
    "spacing_m": 2.0,
-   "triangles": 80000,
-   "water_quads": 150,
+   "triangles": 77274,
+   "water_bodies": [
+    {
+     "kind": "bay",
+     "name": "North Cove Yacht Harbor",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 0,
    "z_max_m": 14.0,
    "z_min_m": -1.63
   },
-  "triangles": 3698245
+  "triangles": 3713979
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -375,9 +401,9 @@
   "radius_m": 522.0053551484609
  },
  "seconds": {
-  "render": 102.2,
-  "scene": 61.1,
-  "total": 163.3
+  "render": 421.1,
+  "scene": 68.0,
+  "total": 489.1
  },
  "slug": "landmark_oculus",
  "status": "rendered",
