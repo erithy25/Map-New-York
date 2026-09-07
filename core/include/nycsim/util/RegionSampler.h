@@ -23,7 +23,7 @@
 //   * a restricted Region keeps the population's own order, so its cumulative
 //     sums are the same floats the global one would have produced over that
 //     subset;
-//   * reserveRegions() sizes the region buffers once, so refresh() does not
+//   * reserveRegion() sizes a region's buffers once, so refresh() does not
 //     allocate inside a simulation step.
 //
 // An item carries a `reach` (half its length): an item is a candidate when its

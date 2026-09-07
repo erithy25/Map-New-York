@@ -7,6 +7,7 @@
 #include "nycsim/util/Arena.h"
 #include "nycsim/util/FixedStepClock.h"
 #include "nycsim/util/Log.h"
+#include "nycsim/util/RegionSampler.h"
 #include "nycsim/util/Result.h"
 #include "nycsim/util/Span.h"
 
@@ -157,5 +158,123 @@ TEST_SUITE("util") {
     REQUIRE(capture.lines.size() == 2);
     CHECK(capture.lines[0] == "info|test|hello 42");
     CHECK(capture.lines[1] == "warn|test|warn");
+  }
+
+  // ---------------------------------------------------------- RegionSampler
+  // ADR-021: origins and destinations are drawn from the streamed region rather
+  // than the whole city.  The claims that matter are that a disc covering the
+  // whole population reproduces the unrestricted distribution exactly, and that
+  // a restricted one draws only from inside the disc.
+  TEST_CASE("RegionSampler restricted to a covering disc is the unrestricted one") {
+    RegionSampler s;
+    // A 10 x 10 lattice at 100 m spacing, weights 1..100 so the distribution is
+    // far from uniform and a reordering would show up immediately.
+    for (uint32_t i = 0; i < 100; ++i) {
+      const float x = static_cast<float>(i % 10) * 100.f;
+      const float y = static_cast<float>(i / 10) * 100.f;
+      s.add(i, x, y, static_cast<float>(i + 1), 5.f);
+    }
+    s.build();
+    RegionSampler::Region covering, unset;
+    s.reserveRegion(covering);
+    // The lattice spans 900 x 900 m about (450, 450); 10 km covers all of it.
+    CHECK(s.refresh(covering, 450.f, 450.f, 10000.f, 64.f));
+    CHECK(covering.all);
+    CHECK(s.regionSize(covering) == 100u);
+    CHECK_FALSE(s.regionIsRestricted(covering));
+    CHECK_FALSE(s.regionIsRestricted(unset));  // never refreshed: whole population
+    for (uint32_t k = 0; k < 64; ++k) {
+      const float u = static_cast<float>(k) / 64.f;
+      CHECK(s.sample(covering, u) == s.sampleAll(u));
+      CHECK(s.sample(unset, u) == s.sampleAll(u));
+    }
+  }
+
+  TEST_CASE("RegionSampler restricted to a disc draws only from inside it") {
+    RegionSampler s;
+    for (uint32_t i = 0; i < 100; ++i) {
+      const float x = static_cast<float>(i % 10) * 100.f;
+      const float y = static_cast<float>(i / 10) * 100.f;
+      s.add(i, x, y, 1.f, 0.f);
+    }
+    s.build();
+    RegionSampler::Region r;
+    s.reserveRegion(r);
+    // Radius 150 with no slack around (0, 0): the four items at (0,0), (100,0),
+    // (0,100) and (100,100) — the last at 141.4 m — and nothing else.
+    REQUIRE(s.refresh(r, 0.f, 0.f, 150.f, 0.f));
+    CHECK(s.regionIsRestricted(r));
+    CHECK(s.regionSize(r) == 4u);
+    CHECK(s.regionWeight(r) == doctest::Approx(4.f));
+    bool seen[100] = {false};
+    for (uint32_t k = 0; k < 400; ++k) {
+      const uint32_t id = s.sample(r, static_cast<float>(k) / 400.f);
+      REQUIRE(id < 100u);
+      seen[id] = true;
+    }
+    for (uint32_t i = 0; i < 100; ++i) {
+      const float x = static_cast<float>(i % 10) * 100.f;
+      const float y = static_cast<float>(i / 10) * 100.f;
+      CHECK(seen[i] == (x * x + y * y <= 150.f * 150.f));
+    }
+    // An item's reach extends its candidacy: a long lane crossing the boundary
+    // must not be lost.
+    RegionSampler wide;
+    wide.add(7u, 400.f, 0.f, 1.f, 300.f);  // 400 m away, reaches to within 100 m
+    wide.build();
+    RegionSampler::Region wr;
+    REQUIRE(wide.refresh(wr, 0.f, 0.f, 150.f, 0.f));
+    CHECK(wide.regionSize(wr) == 1u);
+  }
+
+  TEST_CASE("RegionSampler rebuilds a region only when the disc stops covering") {
+    RegionSampler s;
+    for (uint32_t i = 0; i < 400; ++i) {
+      const float x = static_cast<float>(i % 20) * 50.f;
+      const float y = static_cast<float>(i / 20) * 50.f;
+      s.add(i, x, y, 1.f, 0.f);
+    }
+    s.build();
+    RegionSampler::Region r;
+    s.reserveRegion(r);
+    REQUIRE(s.refresh(r, 100.f, 100.f, 200.f, 64.f));
+    const float built_cx = r.cx;
+    const size_t built = s.regionSize(r);
+    // Inside the slack: the cached disc still covers the requested one, so
+    // nothing is recomputed and the centre does not move.
+    REQUIRE(s.refresh(r, 130.f, 100.f, 200.f, 64.f));
+    CHECK(r.cx == doctest::Approx(built_cx));
+    CHECK(s.regionSize(r) == built);
+    // Beyond it: rebuilt around the new centre.
+    REQUIRE(s.refresh(r, 400.f, 400.f, 200.f, 64.f));
+    CHECK(r.cx == doctest::Approx(400.f));
+    // A widened radius also forces a rebuild even from the same centre.
+    REQUIRE(s.refresh(r, 400.f, 400.f, 900.f, 64.f));
+    CHECK(s.regionSize(r) > built);
+    // Rebuilding the population invalidates every region derived from it.
+    s.clear();
+    s.build();
+    CHECK_FALSE(s.refresh(r, 400.f, 400.f, 200.f, 64.f));
+    CHECK(s.sample(r, 0.5f) == RegionSampler::kInvalid);
+    CHECK(s.sampleAll(0.5f) == RegionSampler::kInvalid);
+  }
+
+  TEST_CASE("RegionSampler samples in proportion to weight") {
+    RegionSampler s;
+    s.add(0u, 0.f, 0.f, 1.f, 0.f);
+    s.add(1u, 10.f, 0.f, 3.f, 0.f);
+    s.build();
+    // Sweeping u across [0, 1) walks the cumulative distribution exactly, so the
+    // split is the weight ratio to within the one draw that lands on the
+    // boundary between the two items.
+    uint32_t hits[2] = {0u, 0u};
+    for (uint32_t k = 0; k < 4000; ++k) hits[s.sampleAll(static_cast<float>(k) / 4000.f)] += 1u;
+    CHECK(hits[0] + hits[1] == 4000u);
+    CHECK(hits[0] >= 1000u);
+    CHECK(hits[0] <= 1001u);
+    // A region holding nothing draws nothing rather than falling back.
+    RegionSampler::Region far;
+    CHECK_FALSE(s.refresh(far, 5000.f, 5000.f, 100.f, 0.f));
+    CHECK(s.sample(far, 0.5f) == RegionSampler::kInvalid);
   }
 }

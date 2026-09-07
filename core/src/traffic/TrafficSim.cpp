@@ -236,7 +236,12 @@ void TrafficSim::refreshSpawnRegions() {
 // from that region, so a city-wide target would never be reached and the ring
 // would simply fill to max_vehicles at whatever density that happens to be.
 // The region's weights are (lane length x vehicles per lane-km), so their sum
-// divided by 1,000 is the vehicle count the table asks for inside it.
+// divided by 1,000 is the vehicle count the table asks for inside it.  That
+// holds only while every lane carries an NTA: a lane the density polygons never
+// claimed is weighted by its length alone and counts as one vehicle per
+// lane-kilometre.  DensityTable::assignLaneNtas() is what fills that in, and a
+// host must call it — runtime/roadgraph.nycb ships with none of its 220,329
+// travel and bus lanes carrying one.
 float TrafficSim::densityTarget() const {
   if (density_ == nullptr) return 0.f;
   if (spawn_index_.regionIsRestricted(dest_region_))
@@ -2057,7 +2062,7 @@ uint32_t TrafficSim::prefill(uint32_t max_spawns) {
     // The whole streamed region, not just the spawn band: at load time nothing
     // is in view, so the fleet should start spread over the region it will be
     // kept in.  Before ADR-021 this drew from the whole city and the ring kept
-    // 22 of 6,000 vehicles.
+    // 19 of 6,000 vehicles (docs/verification/performance/REPORT.md §5a).
     const uint32_t lane = sampleStreamedLane(rng_);
     if (lane == kInvalidIndex) break;
     const Lane& l = graph_->lane(lane);
