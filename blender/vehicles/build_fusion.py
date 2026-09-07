@@ -279,21 +279,29 @@ def build(detail: str = "high") -> tuple[rig.Vehicle, dict]:
     for s, tag in ((1, "L"), (-1, "R")):
         head.update(P.headlamp_unit("head", s, lib, x=3.752, y=s * 0.512, z=0.848, w=0.300, h=0.140, rake=-22.0))
     v.add(head["LIGHT_HEAD_L"]); v.add(head["LIGHT_HEAD_R"])
-    v.add(head["LIGHT_TURN_FL"]); v.add(head["LIGHT_TURN_FR"])
+    v.add(head["LIGHT_IND_FL"]); v.add(head["LIGHT_IND_FR"])
+    # LIGHT_LOW has no counterpart in NYCVehicleContract.cpp LightSlots() and nothing drives the two
+    # sides apart, so it stays one joined object and is declared as an extra slot. The high beams and
+    # the DRLs are the opposite case: the engine drives each side separately, so joining them - which
+    # is what this line used to do - left four lamps the runtime could not find.
     v.add(g.join([head["_low_L"], head["_low_R"]], "LIGHT_LOW", sharp_angle_deg=50.0))
-    v.add(g.join([head["_high_L"], head["_high_R"]], "LIGHT_HIGH", sharp_angle_deg=50.0))
-    v.add(g.join([head["_drl_L"], head["_drl_R"]], "LIGHT_DRL", sharp_angle_deg=50.0))
+    for tag in ("L", "R"):
+        v.add(head[f"LIGHT_HIGH_{tag}"])
+        v.add(head[f"LIGHT_DRL_{tag}"])
+    # Fog lamps in the lower fascia, one pair, as the SE trim carries them.
+    for s_, tag in ((1, "L"), (-1, "R")):
+        v.add(P.fog_lamp(s_, lib, x=3.735, y=s_ * 0.585, z=0.495))
     tail = {}
     for s in (1, -1):
         tail.update(P.taillamp_unit(s, lib, x=X_REAR + 0.033, y=s * 0.575, z=1.005, w=0.360, h=0.155))
-    for k in ("LIGHT_TAIL_L", "LIGHT_TAIL_R", "LIGHT_BRAKE_L", "LIGHT_BRAKE_R", "LIGHT_TURN_RL", "LIGHT_TURN_RR"):
+    for k in ("LIGHT_TAIL_L", "LIGHT_TAIL_R", "LIGHT_BRAKE_L", "LIGHT_BRAKE_R", "LIGHT_IND_RL", "LIGHT_IND_RR"):
         v.add(tail[k])
     tail["_rev_L"].name = "LIGHT_REVERSE_L"
     tail["_rev_R"].name = "LIGHT_REVERSE_R"
     v.add(tail["_rev_L"]); v.add(tail["_rev_R"])
     v.add(P.plate_light(lib, X_REAR + 0.040, 0.865, 0.0, 0.12))
     # high-mount stop lamp on the boot lid trailing edge
-    chmsl = P.lamp_panel("LIGHT_BRAKE_CHMSL", lib.light_red("LIGHT_BRAKE_CHMSL"),
+    chmsl = P.lamp_panel("LIGHT_BRAKE_C", lib.light_red("LIGHT_BRAKE_C"),
                          [(X_DECK + 0.10, -0.18, bp.z_top(X_DECK + 0.10) + 0.002),
                           (X_DECK + 0.10, 0.18, bp.z_top(X_DECK + 0.10) + 0.002),
                           (X_DECK - 0.02, 0.18, bp.z_top(X_DECK - 0.02) + 0.002),
@@ -422,9 +430,10 @@ EXTERIOR = [
     "Body", "Hood", "Trunk", "Door_FL", "Door_FR", "Door_RL", "Door_RR", "Undertray",
     "Window_WS", "Window_BACK", "Window_FL", "Window_FR", "Window_RL", "Window_RR",
     "Wheel_FL", "Wheel_FR", "Wheel_RL", "Wheel_RR", "WheelWell_FL", "WheelWell_FR", "WheelWell_RL", "WheelWell_RR",
-    "LIGHT_HEAD_L", "LIGHT_HEAD_R", "LIGHT_LOW", "LIGHT_HIGH", "LIGHT_DRL", "LIGHT_TURN_FL", "LIGHT_TURN_FR",
-    "LIGHT_TAIL_L", "LIGHT_TAIL_R", "LIGHT_BRAKE_L", "LIGHT_BRAKE_R", "LIGHT_TURN_RL", "LIGHT_TURN_RR",
-    "LIGHT_REVERSE_L", "LIGHT_REVERSE_R", "LIGHT_PLATE", "LIGHT_BRAKE_CHMSL",
+    "LIGHT_HEAD_L", "LIGHT_HEAD_R", "LIGHT_LOW", "LIGHT_HIGH_L", "LIGHT_HIGH_R",
+    "LIGHT_DRL_L", "LIGHT_DRL_R", "LIGHT_FOG_L", "LIGHT_FOG_R", "LIGHT_IND_FL", "LIGHT_IND_FR",
+    "LIGHT_TAIL_L", "LIGHT_TAIL_R", "LIGHT_BRAKE_L", "LIGHT_BRAKE_R", "LIGHT_IND_RL", "LIGHT_IND_RR",
+    "LIGHT_REVERSE_L", "LIGHT_REVERSE_R", "LIGHT_PLATE", "LIGHT_BRAKE_C",
     "Mirror_L", "Mirror_R", "Wiper_L", "Wiper_R", "Grille", "Handles", "Badges", "Antenna", "Exhaust",
     "Plate_F", "Plate_R", "TAXI_ROOF",
 ]

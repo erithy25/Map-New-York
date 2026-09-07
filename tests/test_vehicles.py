@@ -21,6 +21,34 @@ REPO = Path(__file__).resolve().parents[1]
 OUT = REPO / "blender_out" / "vehicles"
 CATALOG = OUT / "catalog"
 
+
+def _contract():
+    """``blender/vehicles/vlib/contract.py``, loaded by path so no package import is needed.
+
+    It exists precisely so this file does not need Blender to read the contract lists, which is why
+    a hardcoded third copy of them used to live here.
+    """
+    import importlib.util
+
+    path = REPO / "blender" / "vehicles" / "vlib" / "contract.py"
+    if not path.is_file():
+        pytest.skip("blender/vehicles/vlib/contract.py is not present")
+    spec = importlib.util.spec_from_file_location("nycsim_vehicle_contract", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _full_contract() -> tuple[str, ...]:
+    """The exporter's own node contract, imported rather than copied.
+
+    This used to be a hardcoded third copy of the contract, which is how the exporter could ship
+    LIGHT_TURN_* while the engine drove LIGHT_IND_* with two of the three documents in perfect
+    agreement. ``blender/vehicles/vlib/contract.py`` exists so it can be an import: it holds the
+    lists with no ``bpy`` in the module, so pytest can read them without Blender.
+    """
+    return _contract().CONTRACT_FULL
+
 #: dimension tolerance required by the brief
 DIM_TOL_PCT = 2.0
 #: how far a wheel pivot may sit from the published hub centre
@@ -263,28 +291,13 @@ def test_required_nodes_present(vid, glbs):
     assert not missing, f"{vid}: nodes missing from the glb: {sorted(missing)}"
 
 
-def _full_contract() -> tuple[str, ...]:
-    return (
-        "Body", "Wheel_FL", "Wheel_FR", "Wheel_RL", "Wheel_RR",
-        "Door_FL", "Door_FR", "Door_RL", "Door_RR",
-        "SteeringWheel", "Hood", "Trunk", "Wiper_L", "Wiper_R",
-        "Window_WS", "Window_BACK", "Window_FL", "Window_FR", "Window_RL", "Window_RR",
-        "Mirror_L", "Mirror_R", "Interior_Dash", "Shifter", "Pedals", "Plate_F", "Plate_R",
-        "LIGHT_HEAD_L", "LIGHT_HEAD_R", "LIGHT_LOW", "LIGHT_HIGH", "LIGHT_TAIL_L", "LIGHT_TAIL_R",
-        "LIGHT_BRAKE_L", "LIGHT_BRAKE_R", "LIGHT_TURN_FL", "LIGHT_TURN_FR", "LIGHT_TURN_RL", "LIGHT_TURN_RR",
-        "LIGHT_REVERSE_L", "LIGHT_REVERSE_R", "LIGHT_PLATE", "LIGHT_DRL",
-    )
-
-
 @pytest.mark.parametrize("vid", IDS)
 def test_required_material_slots_present(vid, glbs):
     e, glb = _entry(vid), glbs[vid]
     have = glb.material_names()
     waived = set(e.get("contract_waivers", {}))
     if e["contract_profile"] == "full":
-        expect = {s for s in ("MIRROR_GLASS", "GAUGE_SPEED", "GAUGE_RPM", "SCREEN_CENTER", "PLATE_FACE")
-                  if s not in waived}
-        expect |= {s for s in _full_contract() if s.startswith("LIGHT_")} - waived
+        expect = {s for s in _contract().MATERIAL_SLOTS_FULL if s not in waived}
     else:
         expect = {"LIGHT_HEAD_L", "LIGHT_TAIL_L"} - waived
     missing = expect - have

@@ -320,14 +320,22 @@ def build(sp: FleetSpec, lib: M.Library | None = None, *, reset: bool = True) ->
                                     w=sp.head.w, h=sp.head.h, rake=sp.head.rake,
                                     projector_r=min(0.05, sp.head.h * 0.28)))
     v.add(head["LIGHT_HEAD_L"]); v.add(head["LIGHT_HEAD_R"])
-    v.add(head["LIGHT_TURN_FL"]); v.add(head["LIGHT_TURN_FR"])
+    v.add(head["LIGHT_IND_FL"]); v.add(head["LIGHT_IND_FR"])
+    # As on the player car: LIGHT_LOW is one joined object because nothing drives its sides apart,
+    # but the engine drives the high beams and the DRLs as left/right pairs and joining them left
+    # four lamps UNYCVehicleLightsComponent could not find.
     v.add(g.join([head["_low_L"], head["_low_R"]], "LIGHT_LOW", sharp_angle_deg=50.0))
-    v.add(g.join([head["_high_L"], head["_high_R"]], "LIGHT_HIGH", sharp_angle_deg=50.0))
-    v.add(g.join([head["_drl_L"], head["_drl_R"]], "LIGHT_DRL", sharp_angle_deg=50.0))
+    for tag in ("L", "R"):
+        v.add(head[f"LIGHT_HIGH_{tag}"])
+        v.add(head[f"LIGHT_DRL_{tag}"])
+    for s in (1, -1):
+        v.add(P.fog_lamp(s, lib, x=sp.head.x - 0.015, y=s * (sp.head.y + sp.head.w * 0.30),
+                         z=max(0.30, sp.head.z - sp.head.h * 2.4),
+                         r=min(0.045, sp.head.h * 0.30)))
     tail = {}
     for s in (1, -1):
         tail.update(P.taillamp_unit(s, lib, x=sp.tail.x, y=s * sp.tail.y, z=sp.tail.z, w=sp.tail.w, h=sp.tail.h))
-    for k in ("LIGHT_TAIL_L", "LIGHT_TAIL_R", "LIGHT_BRAKE_L", "LIGHT_BRAKE_R", "LIGHT_TURN_RL", "LIGHT_TURN_RR"):
+    for k in ("LIGHT_TAIL_L", "LIGHT_TAIL_R", "LIGHT_BRAKE_L", "LIGHT_BRAKE_R", "LIGHT_IND_RL", "LIGHT_IND_RR"):
         v.add(tail[k])
     tail["_rev_L"].name = "LIGHT_REVERSE_L"
     tail["_rev_R"].name = "LIGHT_REVERSE_R"

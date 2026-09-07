@@ -35,6 +35,7 @@ CONTRACT_H = UE_VEHICLE / "Public" / "Vehicle" / "NYCVehicleContract.h"
 CONTRACT_CPP = UE_VEHICLE / "Private" / "Vehicle" / "NYCVehicleContract.cpp"
 MOVEMENT_CPP = UE_VEHICLE / "Private" / "Vehicle" / "NYCVehicleMovementComponent.cpp"
 RIG_PY = REPO_ROOT / "blender" / "vehicles" / "vlib" / "rig.py"
+CONTRACT_PY = REPO_ROOT / "blender" / "vehicles" / "vlib" / "contract.py"
 
 _NAME_RE = re.compile(r'inline\s+const\s+TCHAR\*\s+const\s+(\w+)\s*=\s*TEXT\("([^"]+)"\)\s*;')
 _PY_TUPLE_RE = re.compile(r"^(\w+)\s*=\s*\(", re.M)
@@ -94,9 +95,9 @@ def test_the_engine_places_the_centre_of_mass_from_the_pivot_the_exporter_actual
     ``(frontMassShare - 0.5) * wheelbase``, which is the answer for an origin at the wheelbase
     midpoint -- 1.425 m too far back, level with the rear axle on a 58 %-front-weighted car.
     """
-    rig = _read(RIG_PY)
-    pivot = re.search(r'PIVOT_CONVENTION\s*=\s*"([^"]+)"', rig)
-    assert pivot is not None, "rig.py no longer declares PIVOT_CONVENTION"
+    text = _read(RIG_PY) + "\n" + _read(CONTRACT_PY)
+    pivot = re.search(r'PIVOT_CONVENTION\s*=\s*"([^"]+)"', text)
+    assert pivot is not None, "neither rig.py nor vlib/contract.py declares PIVOT_CONVENTION"
     assert "rear-axle" in pivot.group(1), (
         f"the exporter's pivot convention changed to {pivot.group(1)!r}; the engine's "
         f"CenterOfMassOverride in {MOVEMENT_CPP.name} is derived from the rear axle and must change with it")
@@ -131,8 +132,9 @@ def test_every_bone_the_engine_requires_is_a_name_the_exporter_writes():
     assert body is not None, "NYCVehicleContract.cpp has no RequiredBones() body"
     required = {bones[i] for i in re.findall(r"NYCVehicleBones::(\w+)", body.group(1)) if i in bones}
     assert required, "RequiredBones() names no bones"
-    emitted = set(py_tuple(rig, "CONTRACT_FULL"))
-    assert emitted, "rig.py declares no CONTRACT_FULL"
+    emitted = (set(py_tuple(rig, "CONTRACT_FULL")) | set(_contract_tuple("CONTRACT_FULL"))
+               | set(_contract_tuple("PART_NODES_FULL")))
+    assert emitted, "neither rig.py nor vlib/contract.py declares the node contract"
     missing = sorted(required - emitted)
     assert not missing, (
         f"{len(missing)} bone(s) the engine requires are never written by the Blender exporter: "
@@ -140,14 +142,6 @@ def test_every_bone_the_engine_requires_is_a_name_the_exporter_writes():
         f"Exporter: {RIG_PY.relative_to(REPO_ROOT)}::CONTRACT_FULL.")
 
 
-@pytest.mark.xfail(strict=True, reason=(
-    "Recorded, not fixed. 15 of the engine's lamp slots have no counterpart in the exporter: the "
-    "exporter writes LIGHT_TURN_FL/FR/RL/RR where the engine drives LIGHT_IND_*, one LIGHT_HIGH and "
-    "one LIGHT_DRL where the engine drives _L/_R pairs, LIGHT_BRAKE_CHMSL for LIGHT_BRAKE_C, and "
-    "nothing at all for LIGHT_FOG_L/R, LIGHT_IND_SL/SR, LIGHT_INTERIOR and LIGHT_DASH. Until the "
-    "exporter is renamed and rebuilt (task 'Stage 26'), UNYCVehicleLightsComponent finds none of "
-    "them and every indicator, high beam and DRL on the car is dead. strict=True so that fixing the "
-    "exporter fails this xfail and forces the marker off rather than letting the record go stale."))
 def test_every_light_slot_the_engine_drives_is_a_material_slot_the_exporter_writes():
     """``LightSlots()`` names must all exist as exporter material slots.
 
@@ -161,8 +155,9 @@ def test_every_light_slot_the_engine_drives_is_a_material_slot_the_exporter_writ
     assert body is not None, "NYCVehicleContract.cpp has no LightSlots() body"
     required = {slots[i] for i in re.findall(r"NYCVehicleSlots::(\w+)", body.group(1)) if i in slots}
     assert required, "LightSlots() names no slots"
-    emitted = set(py_tuple(rig, "MATERIAL_SLOTS_FULL")) | set(py_tuple(rig, "LIGHT_SLOTS_FULL"))
-    assert emitted, "rig.py declares no MATERIAL_SLOTS_FULL"
+    emitted = (set(py_tuple(rig, "MATERIAL_SLOTS_FULL")) | set(py_tuple(rig, "LIGHT_SLOTS_FULL"))
+               | set(_contract_tuple("MATERIAL_SLOTS_FULL")) | set(_contract_tuple("LIGHT_SLOTS_FULL")))
+    assert emitted, "neither rig.py nor vlib/contract.py declares the material slots"
     missing = sorted(required - emitted)
     assert not missing, (
         f"{len(missing)} lamp slot(s) the engine drives are never written by the Blender exporter: "
@@ -191,9 +186,39 @@ def test_every_optional_bone_the_engine_looks_up_is_a_name_the_exporter_writes()
     assert body is not None, "NYCVehicleContract.cpp has no OptionalBones() body"
     optional = {bones[i] for i in re.findall(r"NYCVehicleBones::(\w+)", body.group(1)) if i in bones}
     assert optional, "OptionalBones() names no bones"
-    emitted = set(py_tuple(rig, "CONTRACT_FULL"))
+    emitted = (set(py_tuple(rig, "CONTRACT_FULL")) | set(_contract_tuple("CONTRACT_FULL"))
+               | set(_contract_tuple("PART_NODES_FULL")))
     missing = sorted(optional - emitted)
     assert not missing, (
         f"{len(missing)} optional bone(s) the engine looks up are never written by the Blender "
         f"exporter: {missing}. Engine: {CONTRACT_CPP.relative_to(REPO_ROOT)}::OptionalBones(). "
         f"Exporter: {RIG_PY.relative_to(REPO_ROOT)}::CONTRACT_FULL.")
+
+
+def test_every_instrument_slot_the_engine_drives_is_a_material_slot_the_exporter_writes():
+    """``InstrumentSlots()`` names five surfaces the dashboard component writes to.
+
+    ``UNYCVehicleDashboardComponent`` sets ``GaugeValue`` on ``GAUGE_SPEED`` / ``GAUGE_RPM`` /
+    ``GAUGE_FUEL`` and renders to ``SCREEN_CENTER`` / ``SCREEN_CLUSTER``. The exporter had three of
+    the five; the cluster's own strip display was piano-black trim and there was no fuel gauge face
+    at all, so two of the dashboard's five outputs went nowhere.
+    """
+    h, cpp, rig = _read(CONTRACT_H), _read(CONTRACT_CPP), _read(RIG_PY)
+    slots = namespace_names(h, "NYCVehicleSlots")
+    body = re.search(r"InstrumentSlots\(\)[^{]*\{(.*?)\n\}", cpp, re.S)
+    assert body is not None, "NYCVehicleContract.cpp has no InstrumentSlots() body"
+    required = {slots[i] for i in re.findall(r"NYCVehicleSlots::(\w+)", body.group(1)) if i in slots}
+    assert required, "InstrumentSlots() names no slots"
+    emitted = set(py_tuple(rig, "MATERIAL_SLOTS_FULL")) | set(_contract_tuple("MATERIAL_SLOTS_FULL"))
+    missing = sorted(required - emitted)
+    assert not missing, (
+        f"{len(missing)} instrument slot(s) the engine drives are never written by the Blender "
+        f"exporter: {missing}.")
+
+
+def _contract_tuple(name: str) -> tuple[str, ...]:
+    """The same list read from the bpy-free ``vlib/contract.py``, which is where it now lives."""
+    path = REPO_ROOT / "blender" / "vehicles" / "vlib" / "contract.py"
+    if not path.is_file():
+        return ()
+    return py_tuple(path.read_text(encoding="utf-8", errors="replace"), name)

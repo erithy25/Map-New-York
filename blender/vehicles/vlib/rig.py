@@ -50,25 +50,12 @@ log = env.log
 SCHEMA_VERSION = 1
 
 #: DATA_CONTRACTS §13 pivot convention, stamped into ``asset.extras.nycsim.pivot`` and the catalog entry
-PIVOT_CONVENTION = "ground under rear-axle centre, +X forward, +Y left, +Z up (DATA_CONTRACTS §13)"
-
-LIGHT_SLOTS_FULL = (
-    "LIGHT_HEAD_L", "LIGHT_HEAD_R", "LIGHT_LOW", "LIGHT_HIGH", "LIGHT_TAIL_L", "LIGHT_TAIL_R",
-    "LIGHT_BRAKE_L", "LIGHT_BRAKE_R", "LIGHT_TURN_FL", "LIGHT_TURN_FR", "LIGHT_TURN_RL", "LIGHT_TURN_RR",
-    "LIGHT_REVERSE_L", "LIGHT_REVERSE_R", "LIGHT_PLATE", "LIGHT_DRL",
+# The contract lists live in a bpy-free module so pytest can read them without Blender; see
+# vlib/contract.py for why that matters.
+from .contract import (  # noqa: E402,F401
+    BONES_WITHOUT_GEOMETRY, CONTRACT_FULL, DMG_REGIONS, LIGHT_NODES_FULL, LIGHT_SLOTS_EXTRA,
+    LIGHT_SLOTS_FULL, MATERIAL_SLOTS_FULL, PART_NODES_FULL, PIVOT_CONVENTION,
 )
-
-CONTRACT_FULL = (
-    "Body", "Wheel_FL", "Wheel_FR", "Wheel_RL", "Wheel_RR",
-    "Door_FL", "Door_FR", "Door_RL", "Door_RR",
-    "SteeringWheel", "Hood", "Trunk", "Wiper_L", "Wiper_R",
-    "Window_WS", "Window_BACK", "Window_FL", "Window_FR", "Window_RL", "Window_RR",
-    "Mirror_L", "Mirror_R", "Interior_Dash", "Shifter", "Pedals", "Plate_F", "Plate_R",
-) + LIGHT_SLOTS_FULL
-
-MATERIAL_SLOTS_FULL = ("MIRROR_GLASS", "GAUGE_SPEED", "GAUGE_RPM", "SCREEN_CENTER", "PLATE_FACE") + LIGHT_SLOTS_FULL
-
-DMG_REGIONS = ("FRONT", "REAR", "LEFT", "RIGHT", "ROOF")
 
 
 # --------------------------------------------------------------------------- pivots

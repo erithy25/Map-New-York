@@ -77,15 +77,25 @@ class InteriorSpec:
 
 # --------------------------------------------------------------------------- dash
 def build_dash(sp: InteriorSpec, lib: M.Library) -> object:
-    """The dash moulding plus the instrument binnacle, the centre stack and the vents, as one object whose
-    material slots include ``GAUGE_SPEED``, ``GAUGE_RPM`` and ``SCREEN_CENTER``."""
+    """The dash moulding plus the instrument binnacle, the centre stack and the vents, as one object.
+
+    Its material slots are the five the engine's ``InstrumentSlots()`` names -- ``GAUGE_SPEED``,
+    ``GAUGE_RPM``, ``GAUGE_FUEL``, ``SCREEN_CENTER``, ``SCREEN_CLUSTER`` -- plus ``LIGHT_DASH``, the
+    cluster backlight that ``UNYCVehicleLightsComponent::SetDashBrightness`` drives. Three of those
+    were missing: the cluster's own strip display was piano black, there was no fuel gauge face at
+    all, and nothing was lit at night.
+    """
     speed_img, rpm_img, screen_img = (sp.gauge_images + (None, None, None))[:3]
     mats = [lib.dash_soft(), lib.piano_black(), lib.dash_trim(),
             lib.screen("GAUGE_SPEED", speed_img) if speed_img else M.basic("GAUGE_SPEED", (0.02, 0.02, 0.02), roughness=0.2),
             lib.screen("GAUGE_RPM", rpm_img) if rpm_img else M.basic("GAUGE_RPM", (0.02, 0.02, 0.02), roughness=0.2),
             lib.screen("SCREEN_CENTER", screen_img) if screen_img else M.basic("SCREEN_CENTER", (0.02, 0.02, 0.02), roughness=0.2),
-            lib.black_plastic()]
-    IDX_SOFT, IDX_PIANO, IDX_TRIM, IDX_SPEED, IDX_RPM, IDX_SCREEN, IDX_PLASTIC = range(7)
+            lib.black_plastic(),
+            M.basic("GAUGE_FUEL", (0.02, 0.02, 0.02), roughness=0.2),
+            M.basic("SCREEN_CLUSTER", (0.02, 0.02, 0.02), roughness=0.2),
+            lib.light("LIGHT_DASH", (0.95, 0.62, 0.22), alpha=1.0)]
+    (IDX_SOFT, IDX_PIANO, IDX_TRIM, IDX_SPEED, IDX_RPM, IDX_SCREEN, IDX_PLASTIC,
+     IDX_FUEL, IDX_CLUSTER, IDX_DASHLIGHT) = range(10)
     xd, xc, zf, zb = sp.x_dash, sp.x_cowl, sp.z_floor, sp.z_belt
     yc = sp.y_cabin
     # the dash top pad sits just below the cowl, ~105 mm above the beltline; everything mounted on the
@@ -119,11 +129,24 @@ def build_dash(sp: InteriorSpec, lib: M.Library) -> object:
         ring = g.torus_bm(r * 1.06, 0.006, axis="X", center=tuple(c + n * 0.004), segments=28, ring_segments=6,
                           material_index=IDX_TRIM)
         parts.append(ring)
+    # The strip between the two dials is the cluster's own display, which is what the engine calls
+    # SCREEN_CLUSTER and renders the trip computer to; it had been left as piano black trim.
     lcd_c = Vector((bx - 0.107, ydrv, bz + 0.012))
     n = Vector(face_n).normalized(); up = Vector((0, 0, 1)); up = (up - n * up.dot(n)).normalized(); rt = up.cross(n).normalized()
     parts.append(g.quad_uv01_bm([tuple(lcd_c - rt * 0.055 - up * 0.048), tuple(lcd_c + rt * 0.055 - up * 0.048),
                                  tuple(lcd_c + rt * 0.055 + up * 0.048), tuple(lcd_c - rt * 0.055 + up * 0.048)],
-                                material_index=IDX_PIANO))
+                                material_index=IDX_CLUSTER))
+    # Fuel gauge: a narrow arc face under the speedometer, where the Fusion's is.
+    fuel_c = lcd_c + rt * 0.150 - up * 0.052
+    parts.append(g.quad_uv01_bm([tuple(fuel_c - rt * 0.048 - up * 0.011), tuple(fuel_c + rt * 0.048 - up * 0.011),
+                                 tuple(fuel_c + rt * 0.048 + up * 0.011), tuple(fuel_c - rt * 0.048 + up * 0.011)],
+                                material_index=IDX_FUEL))
+    # The instrument backlight: a thin emissive band along the underside of the binnacle hood, which
+    # is where a cluster's light spills from. SetDashBrightness drives this slot.
+    glow_c = Vector((bx - 0.150, ydrv, bz - 0.052))
+    parts.append(g.quad_uv01_bm([tuple(glow_c + Vector((0.0, -0.205, 0.0))), tuple(glow_c + Vector((0.0, 0.205, 0.0))),
+                                 tuple(glow_c + Vector((0.014, 0.205, 0.006))), tuple(glow_c + Vector((0.014, -0.205, 0.006)))],
+                                material_index=IDX_DASHLIGHT))
 
     # --- centre stack: screen, HVAC panel, vents
     sx = xd - 0.02
@@ -407,6 +430,21 @@ def build_rear_view_mirror(sp: InteriorSpec, lib: M.Library, *, x: float, z: flo
     return g.to_object("Interior_Mirror", g.merge_bm([body, glass, stalk]), mats, smooth=True, sharp_angle_deg=40.0)
 
 
+def build_dome_lamp(sp: InteriorSpec, lib: M.Library, *, x: float, z: float) -> object:
+    """``Interior_DomeLamp``: the courtesy light in the headliner, carrying the ``LIGHT_INTERIOR`` slot.
+
+    ``UNYCVehicleLightsComponent::SetInteriorLight`` drives this slot and there was no geometry
+    wearing it, so the cabin light switch and the door-open courtesy light had nothing to turn on.
+    A shallow lens box in the headliner between the two visors, which is where a Fusion's is.
+    """
+    lens = g.rounded_box_bm((0.115, 0.075, 0.012), 0.008, segments=1, center=(x, 0.0, z), material_index=1)
+    bezel = g.rounded_box_bm((0.145, 0.100, 0.010), 0.010, segments=1, center=(x, 0.0, z + 0.008),
+                             material_index=0)
+    return g.to_object("Interior_DomeLamp", g.merge_bm([bezel, lens]),
+                       [lib.black_plastic(), lib.light("LIGHT_INTERIOR", (0.98, 0.92, 0.80), alpha=0.85)],
+                       smooth=False)
+
+
 def build_visors(sp: InteriorSpec, lib: M.Library, *, x: float, z: float, y_half: float) -> list[object]:
     out = []
     for s, tag in ((1, "L"), (-1, "R")):
@@ -450,4 +488,5 @@ def build_interior(sp: InteriorSpec, lib: M.Library, *, seam_texture=None, three
         out["Interior_Mirror"] = build_rear_view_mirror(sp, lib, x=x_header + 0.10, z=z_header - 0.02)
         for v in build_visors(sp, lib, x=x_header + 0.08, z=z_header, y_half=sp.y_cabin):
             out[v.name] = v
+        out["Interior_DomeLamp"] = build_dome_lamp(sp, lib, x=x_header + 0.30, z=z_header - 0.004)
     return out

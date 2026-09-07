@@ -198,8 +198,16 @@ def lamp_disc(name: str, mat, center: Sequence[float], radius: float, *, axis: s
 def headlamp_unit(prefix: str, side: int, lib: M.Library, *, x: float, y: float, z: float, w: float, h: float,
                   rake: float = 0.0, projector_r: float = 0.045) -> dict[str, object]:
     """One headlamp: the outer lens (``LIGHT_HEAD_L/R``), the low- and high-beam projectors and the DRL bar.
-    Returns the objects keyed by their contract names; the ``LIGHT_LOW``/``LIGHT_HIGH``/``LIGHT_DRL`` pieces are
-    returned per side and joined by the caller into the single contract objects."""
+
+    The engine drives the high beams and the daytime running lights as **pairs** --
+    ``NYCVehicleContract.cpp`` ``LightSlots()`` names ``LIGHT_HIGH_L``/``_R`` and
+    ``LIGHT_DRL_L``/``_R`` -- so each side keeps its own slot and the caller must not join them.
+    Joining was how both ended up as one ``LIGHT_HIGH`` and one ``LIGHT_DRL`` that
+    ``UNYCVehicleLightsComponent`` could not find at all.
+
+    ``LIGHT_LOW`` has no counterpart in the contract; it is a real lamp on the car and is kept as a
+    declared extra, still joined because nothing drives it separately per side.
+    """
     s = 1 if side > 0 else -1
     tag = "L" if s > 0 else "R"
     dx = math.tan(math.radians(rake))
@@ -211,15 +219,26 @@ def headlamp_unit(prefix: str, side: int, lib: M.Library, *, x: float, y: float,
     yh = y - s * w * 0.16
     out[f"_low_{tag}"] = lamp_disc(f"LIGHT_LOW_{tag}", lib.light_white("LIGHT_LOW"), (x + 0.006, yl, z + h * 0.02),
                                    projector_r, axis="X", depth=0.035)
-    out[f"_high_{tag}"] = lamp_disc(f"LIGHT_HIGH_{tag}", lib.light_white("LIGHT_HIGH"), (x + 0.006, yh, z - h * 0.10),
-                                    projector_r * 0.80, axis="X", depth=0.032)
+    out[f"LIGHT_HIGH_{tag}"] = lamp_disc(f"LIGHT_HIGH_{tag}", lib.light_white(f"LIGHT_HIGH_{tag}"),
+                                         (x + 0.006, yh, z - h * 0.10), projector_r * 0.80, axis="X", depth=0.032)
     drl = [(x + 0.008, y - s * w * 0.46, z + h * 0.30), (x + 0.008, y + s * w * 0.46, z + h * 0.30),
            (x + 0.008, y + s * w * 0.46, z + h * 0.42), (x + 0.008, y - s * w * 0.46, z + h * 0.42)]
-    out[f"_drl_{tag}"] = lamp_panel(f"LIGHT_DRL_{tag}", lib.light_white("LIGHT_DRL"), drl, thickness=0.012)
+    out[f"LIGHT_DRL_{tag}"] = lamp_panel(f"LIGHT_DRL_{tag}", lib.light_white(f"LIGHT_DRL_{tag}"), drl, thickness=0.012)
     turn = [(x + 0.006, y + s * w * 0.16, z - h * 0.44), (x + 0.006, y + s * w * 0.48, z - h * 0.44),
             (x + 0.006, y + s * w * 0.48, z - h * 0.28), (x + 0.006, y + s * w * 0.16, z - h * 0.28)]
-    out[f"LIGHT_TURN_F{tag}"] = lamp_panel(f"LIGHT_TURN_F{tag}", lib.light_amber(f"LIGHT_TURN_F{tag}"), turn, thickness=0.02)
+    out[f"LIGHT_IND_F{tag}"] = lamp_panel(f"LIGHT_IND_F{tag}", lib.light_amber(f"LIGHT_IND_F{tag}"), turn, thickness=0.02)
     return out
+
+
+def fog_lamp(side: int, lib: M.Library, *, x: float, y: float, z: float, r: float = 0.042) -> object:
+    """``LIGHT_FOG_L`` / ``LIGHT_FOG_R``: the round lamp in the lower fascia.
+
+    The 2019 Fusion SE carries a pair of them below the main headlamp, and the engine drives them as
+    their own slot pair; without the geometry there is nothing for the fog switch to light.
+    """
+    tag = "L" if side > 0 else "R"
+    return lamp_disc(f"LIGHT_FOG_{tag}", lib.light_white(f"LIGHT_FOG_{tag}"),
+                     (x, y, z), r, axis="X", depth=0.030)
 
 
 def taillamp_unit(side: int, lib: M.Library, *, x: float, y: float, z: float, w: float, h: float,
@@ -236,8 +255,8 @@ def taillamp_unit(side: int, lib: M.Library, *, x: float, y: float, z: float, w:
                                   lib.light(f"LIGHT_TAIL_{tag}", (0.55, 0.02, 0.02), alpha=0.7)),
         f"LIGHT_BRAKE_{tag}": band(h * 0.10, h * 0.44, -w * 0.44, w * 0.20, f"LIGHT_BRAKE_{tag}",
                                    lib.light_red(f"LIGHT_BRAKE_{tag}")),
-        f"LIGHT_TURN_R{tag}": band(-h * 0.44, -h * 0.06, -w * 0.44, w * 0.02, f"LIGHT_TURN_R{tag}",
-                                   lib.light_amber(f"LIGHT_TURN_R{tag}")),
+        f"LIGHT_IND_R{tag}": band(-h * 0.44, -h * 0.06, -w * 0.44, w * 0.02, f"LIGHT_IND_R{tag}",
+                                  lib.light_amber(f"LIGHT_IND_R{tag}")),
     }
     if reverse:
         out[f"_rev_{tag}"] = band(-h * 0.44, -h * 0.10, w * 0.10, w * 0.42, f"LIGHT_REVERSE_{tag}",
@@ -254,10 +273,15 @@ def plate_light(lib: M.Library, x: float, z: float, y: float = 0.0, w: float = 0
 # --------------------------------------------------------------------------- mirrors, wipers, handles
 def mirror(side: int, lib: M.Library, *, x: float, y: float, z: float, w: float = 0.185, h: float = 0.105,
            d: float = 0.085, repeater: bool = True, arm: float = 0.07) -> object:
-    """Door mirror ``Mirror_L``/``Mirror_R`` with a ``MIRROR_GLASS`` slot and (optionally) a turn repeater."""
+    """Door mirror ``Mirror_L``/``Mirror_R`` with a ``MIRROR_GLASS`` slot and (optionally) a turn repeater.
+
+    The repeater in the mirror cap is the car's *side* indicator, which the engine drives as
+    ``LIGHT_IND_SL`` / ``LIGHT_IND_SR``. It had been given the front indicator's slot name, so the
+    two flashed as one lamp in Blender and as none at all in Unreal.
+    """
     s = 1 if side > 0 else -1
     tag = "L" if s > 0 else "R"
-    mats = [lib.black_plastic(), lib.mirror_glass(), lib.light_amber(f"LIGHT_TURN_F{tag}")]
+    mats = [lib.black_plastic(), lib.mirror_glass(), lib.light_amber(f"LIGHT_IND_S{tag}")]
     yo = y + s * (arm + d / 2)
     shell = g.rounded_box_bm((0.135, d, h * 1.05), 0.028, segments=3, center=(x, yo, z), material_index=0)
     g.transform_bm(shell, Matrix.Translation(Vector((x, yo, z))) @ Matrix.Rotation(math.radians(-6 * s), 4, "X")

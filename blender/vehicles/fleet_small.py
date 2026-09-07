@@ -335,9 +335,9 @@ def moped() -> dict:
                        [(-0.258, -0.06, 0.760), (-0.258, 0.06, 0.760), (-0.258, 0.06, 0.800), (-0.258, -0.06, 0.800)],
                        thickness=0.02, inward=(1, 0, 0)))
     for s, tag in ((1, "L"), (-1, "R")):
-        v.add(lamp_slot(f"LIGHT_TURN_F{tag}", lib.light_amber(f"LIGHT_TURN_F{tag}"),
+        v.add(lamp_slot(f"LIGHT_IND_F{tag}", lib.light_amber(f"LIGHT_IND_F{tag}"),
                         (1.205, s * 0.30, 0.905), 0.026))
-        v.add(lamp_slot(f"LIGHT_TURN_R{tag}", lib.light_amber(f"LIGHT_TURN_R{tag}"),
+        v.add(lamp_slot(f"LIGHT_IND_R{tag}", lib.light_amber(f"LIGHT_IND_R{tag}"),
                         (-0.235, s * 0.20, 0.735), 0.024))
     v.add(small_plate(lib, "Plate_R", "5T29B", (-0.268, 0.0, 0.590), (-1, 0, -0.10), w=0.155, h=0.100))
     rig.add_damage_regions(body, d, z_belt=0.70)
