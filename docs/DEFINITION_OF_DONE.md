@@ -4,6 +4,22 @@ Section 12 of the project brief lists seven conditions. This file maps each one 
 artefact or test that proves it, so "done" is checkable rather than claimed. The orchestrator
 updates the Status column only from a verified artefact, never from an agent's assertion.
 
+**All seven rows were audited on 2026-09-07 against the question "does the cited proof actually
+measure the claim?", and four did not.** The failure was the same each time — a real measurement of
+something adjacent to the condition, which therefore had no failing case:
+
+| # | what the proof measured instead | outcome |
+|---|---|---|
+| 1 | *undirected* connectivity, for a question about driving, which is directed | **fixed** — 93.71 % of drivable lanes are strongly connected; 6.29 % are not (C8) |
+| 4 | a red-light count that included the deliberately modelled runners | **fixed** — 0 law-abiding violations, measured on the real city graph (F7) |
+| 6 | that one `REPORT.md` exists per stage, for a claim that subsystems are *tested* | **fixed** — 4,561 Python tests and 149 C++ cases, collected |
+| 7 | a search for the word `TODO`, for "every bug found has a verified fix" | **recorded** — the per-bug record is what stands behind it, and the row now says so |
+
+Conditions 2, 3 and 5 hold up as written: the building count is 1,083,026 rows in and out with the
+per-tile tables summing to exactly that; the seven mandated viewpoints are covered 7 of 7 and their
+verdicts are quoted verbatim rather than summarised; and the time and weather claim rests on tests
+that do bear on it, including the time zone checked against every day from 2007 to 2099.
+
 | # | Brief condition | Proof | Status |
 |---|---|---|---|
 | 1 | Launch, spawn, drive from any real address to any other on real roads without interruption | `runtime/roadgraph.nycb` (104 MB, 122,235 segments); `test_road_network_is_connected_enough_to_drive_across_the_city` (undirected, and see C8 for why that is the weaker claim) plus `test_the_drivable_lane_graph_is_strongly_connected_not_merely_connected` (**93.71 % of drivable lanes mutually reachable; 6.29 % are not**); A* route Fordham Rd to Hylan Blvd 49.38 km across 24 Verrazzano segments; `runtime/pois.nycb` (1,082,160 addresses) and the §15 completeness test in `pipeline/tests/test_roads.py`; `unreal/README.md` workstation run | **data, addressing and routing verified**; the drive itself needs the Unreal pass. **The addressing half was missing until today and nothing said so**: `pois.nycb` had no producer, so the GPS index could offer a street name and a bus stop but not a house number — "any real address" was not reachable. It ships now, and the check is through the consumer rather than the writer: `RoadNetwork::load()` on the real directory returns 1,082,160 addresses, 13,364 bus stops, 65 landmarks and 1,106,225 index entries with no absence notes, and an address search and a landmark search resolve to the same point for the same building |
