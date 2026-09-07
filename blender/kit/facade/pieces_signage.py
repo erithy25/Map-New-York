@@ -106,10 +106,14 @@ SIGN_COLOURS: dict[str, tuple[tuple[int, int, int], tuple[int, int, int]]] = {
     "generic_retail": ((242, 240, 234), (40, 40, 42)),
 }
 
-#: Emission strengths.  A plastic box sign is a lamp behind a diffuser; an LED display is far brighter; bulletin
+#: Emission strengths.  A plastic box sign is a lamp behind a diffuser; an LED display is brighter again; bulletin
 #: vinyl only reflects its floodlights, so it carries the low term the kit already uses for a dim interior card.
+#: The LED figure is set against the reference photographs rather than guessed: a large outdoor display runs at a
+#: luminance comparable to a bright daytime sky and several stops above a night street, so at 3.0 the panel sits
+#: just below the sky in the daylight frame and clips in the night frame, which is what the two photographs show.
+#: Driving it to full white instead put 6.9 % of the daylight frame above 0.90 luma against the photograph's 3.3 %.
 BAND_EMISSION = 2.2
-LED_EMISSION = 7.0
+LED_EMISSION = 3.0
 BULLETIN_EMISSION = 0.55
 
 TEX_PX_PER_M = 280       # sign legends are read at street distance; 280 px/m is one pixel per 3.6 mm

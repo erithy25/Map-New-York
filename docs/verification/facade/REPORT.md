@@ -671,3 +671,45 @@ rooftop bulletins on the roof deck; bands only where `has_storefront`, bulletins
 feature (and at most one per building), LED only on a sign-zone lot; every sign is flagged lit; a `_lit` window piece
 appears exactly where `FLAG_LIT` is set; the band a building gets carries that building's own `awning_text`; and the
 whole stream regenerates byte-identically.
+
+### 14.7 Measured on the frame
+
+A controlled A/B, both frames rendered from the **same tile shells, same camera, same 32 samples**, through the
+shipped `blender/verify/render_sheets.py` path, differing only in the placement stream: "before" is the same stage
+with the signage suppressed and every window on its unlit twin. Luminance is Rec. 709 luma on the display-referred
+PNG; "> 0.90" is the fraction of the frame's area above that luma — the bright-source area an illuminated sign
+occupies. The reference photographs are the licensed Wikimedia Commons frames the comparison lane already uses.
+
+**Night — Duffy Square looking south, 21:00, 3 August**
+
+| | mean | median | p99 | area > 0.70 | **area > 0.90** | area > 0.95 |
+|---|--:|--:|--:|--:|--:|--:|
+| before (no signage, unlit windows) | 0.463 | 0.480 | 0.785 | 14.40 % | **0.34 %** | 0.27 % |
+| after | 0.532 | 0.565 | 0.945 | 23.71 % | **7.02 %** | 0.29 % |
+| reference photograph | 0.253 | 0.151 | 1.000 | 9.70 % | **6.17 %** | 5.07 % |
+
+**Day — the same viewpoint**
+
+| | mean | median | p99 | **area > 0.70** | area > 0.90 |
+|---|--:|--:|--:|--:|--:|
+| before (no signage) | 0.406 | 0.369 | 0.977 | **10.69 %** | 5.64 % |
+| after | 0.434 | 0.381 | 0.977 | **16.06 %** | 5.64 % |
+| reference photograph | 0.404 | 0.395 | 0.986 | **15.73 %** | 3.29 % |
+
+**The emissive content of the night frame went from 0.34 % of the frame to 7.02 %, against a photograph at 6.17 %.**
+In daylight the illuminated-surface fraction went from 10.69 % to 16.06 % against a photograph at 15.73 %, and the
+frame's mean luminance moved from 0.406 to 0.434 against the photograph's 0.404. Within the camera's 130 m kit
+radius the frame now carries **11,337 m² of emissive sign face** (9,752 m² of LED display, 607 m² of ribbon board,
+433 m² of shopfront fascia, 397 m² of blade spectacular, 149 m² of floodlit bulletin) where it carried none, plus
+5,355 of 18,932 windows on their lit twin. The render records 15,471 kit instances placed and **0 unresolved kit
+ids**.
+
+**What the numbers still say is wrong, and it is not the signage.** The night frame's *base level* is far too high:
+median 0.565 against the photograph's 0.151, and only 0.29 % of the frame reaches 0.95 where the photograph clips
+over 5 % of its area. The photograph is a dark street with signs that blow out; the render is a lifted grey street
+with signs that merely glow. That is the night lighting policy in `blender/verify/render_sheets.py`
+(`NIGHT_EXPOSURE_STOPS = 2.0`, `SKY_STRENGTH_NIGHT = 0.5`), not the emissive content, and it is handed to the
+comparison lane rather than compensated for here: raising the sign emission until the render clips would have
+over-brightened the daylight frame, which is exactly what the 7.0 calibration point did (daylight area > 0.90 rose
+to 6.93 % against the photograph's 3.29 %). The shipped LED emission of 3.0 is the value that fits the **daylight**
+photograph, measured, and the night frame's remaining deficit is a base-exposure problem for whoever owns that file.
