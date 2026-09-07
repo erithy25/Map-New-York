@@ -2,15 +2,25 @@
 
 `drive_lower_manhattan_stone_st` · sheet: [`sheet.png`](sheet.png) · render record: [`render.json`](render.json)
 
-**Reference** — File:Financial District Manhattan March 2025 107.jpg by Kidfly182, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), taken 2025-03-29 14:00:14, 1920x863. [Commons page](https://commons.wikimedia.org/wiki/File:Financial_District_Manhattan_March_2025_107.jpg)
+**Reference** — File:Financial District Manhattan April 2022 008.jpg by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2022-04-19 13:45:47, 1920x1440. [Commons page](https://commons.wikimedia.org/wiki/File:Financial_District_Manhattan_April_2022_008.jpg)
 
-**Camera** — camera 40.70435, -74.01035 (NYC_TM -5100, 484) z 5.4 m NAVD88 | azimuth 60.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x576. View direction: 60.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition. Aim: level optical axis (the reference names no subject to aim at).
+**Camera** — camera 40.70410, -74.01070 (NYC_TM -5133, 465) z 4.0 m NAVD88 | azimuth 60.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906. The camera stands on this photograph's own EXIF GPS, 20 m from the item's recorded viewpoint. View direction: 60.0 deg as recorded in meta.json — the item names no subject, so the axis is the block's own heading and not a bearing derived from the image.
 
-**Sun** — azimuth 203.9°, elevation 50.6° at 2025-03-29T14:00:14-04:00 (EXIF DateTimeOriginal).
+**Sun** — azimuth 204.4°, elevation 58.6° at 2022-04-19T13:45:47-04:00 (EXIF DateTimeOriginal).
 
-**In frame** — 6/6 building tiles (93,470 tris), 12 landmark models, 2,070 pavement polygons, 673 props, 11,167 facade-kit pieces; 4,500,006 triangles; ground mesh 211² at 2.0 m near / 40.0 m far.
+**In frame** — 6/6 building tiles (87,260 tris), 12 landmark models, 2,005 pavement polygons, 613 props, 10,813 facade-kit pieces; 4,500,179 triangles; ground mesh 211² at 2.0 m near / 40.0 m far, 4,493 water quads. Frame mean 0.253, sd 0.149.
 
-**Verdict — a real alley of the right width between walls of the right height and colour, rendered legibly at last (mean 0.151 against 0.001 before the camera corrections) — but it is a bare corridor: no cobbles, no tables, no signs, no people, and the two halves face different ways**
+**Verdict — re-rendered 2026-09-07 against a photograph that looks along the street. Both halves now run east-north-east down the Stone Street pedestrian block from its west end at William Street, between brick walls of the right height, with the awning band at the same level on both sides. The alley itself is right and everything that makes it Stone Street is missing: no cobbles, no tables, no umbrellas, no signs, no people**
+
+## What changed, and why
+
+The photograph this sheet used to carry was of the restaurant tables on Stone Street rather than of the
+street, and the assessment's own verdict was "the two halves face different ways". It passed because
+`"stone street"` is the *category* on every photograph taken on the block. The subject test now reads
+the photograph's own title and description instead (`docs/verification/comparison/REPORT.md` §2.11):
+15 candidates were rejected on it, and the chooser returned a view down the block from its west end,
+20 m from the item's recorded viewpoint — so the camera stands on the photograph's own GPS and the two
+halves face the same way for the first time.
 
 ## What matches
 
@@ -22,7 +32,9 @@
 
 ## What does not match
 
-* The frames face different ways. The item looks east-north-east down the alley; the reference is a facade study of the brick block face, shot across the alley and tilted up. The item names no subject and the photograph's direction was assumed, not measured, so nothing in the pipeline could correct it.
+* **The heading is still the block's own axis and not derived from the image.** It agrees with the
+  photograph here — both run east-north-east down the alley — but nothing in the metadata proves it
+  (deviation I7).
 * Stone Street's defining surface — Belgian block cobbles — is a flat dark grey plane. The pavement kind is 'plaza' with a base colour and no texture.
 * The street's other defining feature is missing entirely: the restaurant tables, chairs, umbrellas and heaters that fill it from April to October, and the hanging signs and string lights above them.
 * No people, no bicycles, no delivery carts.
@@ -35,7 +47,7 @@
 
 | gap | cause | class |
 |---|---|---|
-| the two halves face different ways | the item names no subject and the reference stage assigned it the item's own azimuth; the photograph is a facade study | reference |
+| ~~the two halves face different ways~~ | **fixed**: the subject test reads the photograph's own title and description, so a facade study categorised under "Stone Street (Manhattan)" no longer qualifies as a view along it | reference |
 | no cobbles | pavement polygons carry a kind and a base colour, with no texture map | material |
 | no tables, chairs, umbrellas or string lights | no dataset carries outdoor restaurant furniture and props.parquet has no kind for it | data |
 | no people | no crowd placement feeds the verification scene | data |

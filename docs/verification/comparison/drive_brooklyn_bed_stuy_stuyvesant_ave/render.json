@@ -7,6 +7,7 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
+   "below_point_excluded": 0,
    "chosen_m": 17.75,
    "max_m": 18.36,
    "median_m": 17.87,
@@ -41,8 +42,8 @@
   "from_photograph_gps": false,
   "lat": 40.6817,
   "lon": -73.933,
-  "offset_from_recorded_m": 256.2,
-  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 256 m away, past the 250 m at which it could still be the same view, so it was rejected as mis-tagged"
+  "offset_from_recorded_m": 1712.3,
+  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 1,712 m away, past the 250 m at which it could still be the same view, so it was rejected as mis-tagged"
  },
  "clearance": {
   "direction": "onto the nearest roadbed",
@@ -56,9 +57,9 @@
   "view_m": 60.0
  },
  "frame": {
-  "mean": 0.3013,
+  "mean": 0.4084,
   "reason": null,
-  "sd": 0.1038,
+  "sd": 0.1332,
   "usable": true
  },
  "frame_retry": null,
@@ -67,39 +68,39 @@
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
  "lighting": {
   "background_strength": 0.25,
-  "direct_normal_irradiance_w_m2": 844.1,
+  "direct_normal_irradiance_w_m2": 717.7,
   "emissive": {
    "cones_hidden": 1,
-   "lamps_switched_off": 1,
+   "lamps_switched_off": 2,
    "night": false,
    "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
-  "exposure_stops": 0.09,
-  "sky_azimuth_deg": 217.966,
-  "sky_elevation_deg": 40.46,
+  "exposure_stops": 0.8,
+  "sky_azimuth_deg": 159.048,
+  "sky_elevation_deg": 24.86,
   "sun_lamp": true,
-  "sun_strength_blender": 1.563,
+  "sun_strength_blender": 1.329,
   "view_transform": "Filmic"
  },
  "name": "Brooklyn brownstone block: Bed-Stuy, Stuyvesant Avenue",
  "night": false,
  "pitch_reason": "level optical axis (the reference names no subject to aim at)",
  "reference_photo": {
-  "author": "Kidfly182",
+  "author": "Andre Carrotflower",
   "confidence": "medium",
-  "date_taken": "2022-09-27 14:38:22",
+  "date_taken": "2019-11-30 10:22:34",
   "estimated_azimuth_deg": 13.0,
   "file": "2.jpg",
-  "height": 1440,
+  "height": 1439,
   "licence": "CC BY-SA 4.0",
   "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
-  "page_url": "https://commons.wikimedia.org/wiki/File:Utica_Avenue_Station_September_2022_003.jpg",
-  "title": "File:Utica Avenue Station September 2022 003.jpg",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Bed-Stuy_20191130_-_27_-_Nostrand_@_Greene.jpg",
+  "title": "File:Bed-Stuy 20191130 - 27 - Nostrand @ Greene.jpg",
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_bed_stuy_stuyvesant_ave/render.png",
- "rendered_at": "2026-09-06T20:55:57Z",
- "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "rendered_at": "2026-09-07T09:22:53Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1439 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
   "buildings": {
@@ -116,36 +117,55 @@
    "landmark_faces_suppressed": 0,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_0_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 14,
-     "triangles": 113306
+     "triangles": 119520
     },
     "t_0_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 15,
-     "triangles": 120308
+     "triangles": 127848
     },
     "t_1_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 15,
-     "triangles": 125266
+     "triangles": 130316
     },
     "t_1_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 14,
-     "triangles": 71868
+     "triangles": 77262
     },
     "t_2_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 12,
-     "triangles": 117614
+     "triangles": 122796
     },
     "t_2_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 13,
-     "triangles": 85356
+     "triangles": 91706
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -153,8 +173,9 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 6,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 633718
+   "triangles": 669448
   },
   "centre_tm": [
    1437.16,
@@ -173,16 +194,16 @@
     "pilaster": 11,
     "quoin": 31,
     "scaffold": 5,
-    "storefront": 44,
+    "storefront": 70,
     "storefront_interior": 8,
     "string_course": 25,
     "vegetation": 55,
     "window": 2245,
     "window_accessory": 268
    },
-   "placed": 3537,
+   "placed": 3563,
    "radius_m": 120.0,
-   "records_in_range": 3537,
+   "records_in_range": 3563,
    "stale_registry_ids": {},
    "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
@@ -190,12 +211,16 @@
     "t_1_-2",
     "t_1_-3"
    ],
-   "triangles": 1164738,
+   "triangles": 1165914,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
    "placed": 0,
    "skipped": 0,
    "skipped_detail": [],
@@ -224,21 +249,25 @@
     "t_2_-3"
    ],
    "triangles": 131624,
+   "triangles_cut_for_landmark_ground": 0,
    "vertices": 133642
   },
   "props": {
-   "capped": "triangle budget 1276260",
-   "impostor_cards_dropped": 21,
-   "leaf_off": false,
+   "capped": "triangle budget 1263754",
+   "impostor_cards_dropped": 22,
+   "impostor_faces_dropped": 0,
+   "leaf_off": true,
    "per_kind": {
-    "bus_stop_sign": 1,
-    "hydrant": 17,
+    "bus_stop_sign": 2,
+    "citibike_dock": 1,
+    "hydrant": 24,
     "mailbox": 1,
-    "manhole": 38,
-    "street_lamp": 40,
-    "tree": 169
+    "manhole": 52,
+    "street_lamp": 53,
+    "tree": 227,
+    "waste_basket": 1
    },
-   "placed": 266,
+   "placed": 361,
    "radius_m": 250.0,
    "rows_in_range": 719,
    "tiles_missing": [],
@@ -246,15 +275,15 @@
     "t_1_-2",
     "t_1_-3"
    ],
-   "tree_species_substituted": 56,
-   "triangles": 1281004,
+   "tree_species_substituted": 73,
+   "triangles": 1264886,
    "unmapped_kinds": {
     "cooling_tower": 4,
-    "curb_ramp": 36
+    "curb_ramp": 54
    }
   },
   "radius_m": 720.0,
-  "seconds": 24.02,
+  "seconds": 23.86,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -262,14 +291,16 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
    "samples": 211,
    "spacing_m": 2.0,
    "triangles": 88200,
+   "water_bodies": [],
    "water_quads": 0,
    "z_max_m": 26.66,
    "z_min_m": 12.78
   },
-  "triangles": 3299284
+  "triangles": 3320072
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -277,9 +308,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 180.3,
-  "scene": 25.4,
-  "total": 205.8
+  "render": 241.5,
+  "scene": 24.7,
+  "total": 266.2
  },
  "slug": "drive_brooklyn_bed_stuy_stuyvesant_ave",
  "status": "rendered",
@@ -288,11 +319,11 @@
   "name": null
  },
  "sun": {
-  "azimuth_deg": 217.96608847472646,
-  "elevation_deg": 40.459730129104614,
-  "local": "2022-09-27T14:38:22-04:00",
+  "azimuth_deg": 159.048160032243,
+  "elevation_deg": 24.859564174698114,
+  "local": "2019-11-30T10:22:34-05:00",
   "time_source": "EXIF DateTimeOriginal",
-  "utc": "2022-09-27T18:38:22Z"
+  "utc": "2019-11-30T15:22:34Z"
  },
  "viewpoint": {
   "azimuth_deg": 13.0,
