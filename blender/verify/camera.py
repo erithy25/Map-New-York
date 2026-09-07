@@ -314,7 +314,14 @@ def is_foliage(ob) -> bool:
     return bool(mats) and all(_FOLIAGE_MATERIAL.match(m) for m in mats)
 
 
-def first_solid_above(x: float, y: float, z: float, *, limit_m: float = 400.0,
+#: How far up ``first_solid_above`` looks.  It has to clear the tallest roof a camera could be
+#: standing under: One World Trade Center's shell tops out at 542 m and the Billionaires' Row
+#: models at 472 m, so anything short of that would let an eye point inside a supertall read as
+#: open sky.  1,000 m is above every shell in the world and the ray still stops at its first hit.
+UP_RAY_M = 1000.0
+
+
+def first_solid_above(x: float, y: float, z: float, *, limit_m: float = UP_RAY_M,
                       max_steps: int = 8):
     """The first thing over the eye that is not foliage: ``(object, z, normal_z)``.
 
