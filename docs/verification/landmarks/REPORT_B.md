@@ -30,7 +30,7 @@ Bridges, tunnels, the World Trade Center site, the harbour monuments, park struc
 | `b_hugh_carey_portals` | Hugh L. Carey Tunnel | 43,880 | 7,280 | 17 % | 2.04 MB | 3 renders, 181.8 s |
 | **World Trade Center** | | | | | | |
 | `b_one_world_trade_center` | One World Trade Center | 6,044 | 444 | 7 % | 0.36 MB | 3 renders, 76.2 s |
-| `b_wtc_site` | World Trade Center site | 136,288 | 13,708 | 10 % | 2.37 MB | 6 renders, 265.5 s |
+| `b_wtc_site` | World Trade Center site | 136,288 | 13,708 | 10 % | 2.37 MB | 5 renders (§13.3) |
 | **Harbour** | | | | | | |
 | `b_statue_of_liberty` | Statue of Liberty | 19,812 | 1,704 | 9 % | 0.47 MB | 3 renders, 139.7 s |
 | `b_ellis_island_main` | Ellis Island Main Immigration Building | 5,992 | 2,602 | 43 % | 0.31 MB | 2 renders, 85.5 s |

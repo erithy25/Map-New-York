@@ -12,7 +12,7 @@
 
 **Camera clearance** — the eye point stands on the roof of lm_b_bethesda_terrace.26, which the reference viewpoint records as a single lat/lon for the whole deck; the camera was walked 12 m along the view azimuth to the parapet, the last point the roof still supports, which is where the reference photographs are taken
 
-**Verdict — the camera now stands on the right structure — the terrace's own balustrade runs across the frame where the photograph has it — and everything the photograph is actually of is missing: no fountain, no Angel of the Waters, no Lake, no trees, no people, no brick paving**
+**Verdict — the camera stands on the right structure and the Lake is now in the scene, but not in this frame: the water mask was fixed and 3,737 quads of THE LAKE at its own 16.55 m surface are drawn where there were none, and 455 pixels change, because from the upper terrace's parapet the balustrade and the falling ground hide almost all of it. Everything else the photograph is actually of is still missing: no fountain, no Angel of the Waters, no trees, no people, no brick paving**
 
 ## What matches
 
@@ -25,7 +25,18 @@
 ## What does not match
 
 * The Bethesda Fountain is not in the frame at all. Neither the basin, nor the tiered fountain, nor the Angel of the Waters — the named subject, 27 m away — is modelled by any stage, so the centre of the photograph has no counterpart.
-* The Lake is not there. Central Park's water bodies are not in the terrain heightmap's water mask at this location, so the sheet of water that fills the upper third of the reference is dry ground.
+* **The Lake is in the scene and almost none of it is in the frame.** The water mask is fixed
+  (`docs/verification/comparison/REPORT.md` §2.8): a ground sample is water when it is inside a
+  surveyed body in `data/processed/water/hydrography.parquet`, using that body's own level, instead of
+  being below a per-tile scalar that is written as a hard-coded 0.0. This scene now carries **3,737
+  water quads** where the shipped frame carried **0**, THE LAKE among them at its recorded 16.5507 m
+  (the heightmap inside the polygon reads a median 16.55 m, so the terrain stage had already flattened
+  it and only the mask was missing). What changes in the frame is **455 pixels**, in a strip just above
+  the balustrade, darkening from RGB 162/169/176 to 149/157/166 — a sliver of water seen at a grazing
+  angle, reflecting the sky. The reference has the Lake filling its upper third because the
+  photographer stands at the fountain, ten metres lower and twenty metres from the water; this camera
+  is on the upper terrace behind a 1.1 m balustrade, which is the pre-existing camera gap below, not
+  the water mask.
 * There is no vegetation. The reference is a wall of spring foliage across its whole width; the render's park is bare grey-white ground with not one tree, because Central Park's interior planting is not in props.parquet (which carries the street-tree census, not park planting).
 * The lower plaza, its brick paving pattern, the stairs down from the terrace and the arcade below are all absent from the frame; the terrace model stops at the balustrade.
 * There are no people. The reference has roughly eighty visible around the fountain.
@@ -38,7 +49,7 @@
 | gap | cause | class |
 |---|---|---|
 | no fountain and no Angel of the Waters | no stage models park fountains or statuary; props.parquet classes them as 'artwork'/'memorial', kinds with no exported asset | geometry |
-| no Lake | the terrain heightmap's water mask does not cover Central Park's water bodies at this tile | data |
+| ~~no Lake~~ | **fixed**: water is now the surveyed polygon and its own level, not a per-tile scalar; 3,737 water quads here against 0. Only 455 pixels of it are visible from the upper terrace | data |
 | no trees or planting | props.parquet is the street-tree census; park interior planting is not in any dataset the scene reads | data |
 | no lower plaza, stairs or arcade | the b_bethesda_terrace model carries the upper terrace and its balustrade only | geometry |
 | no people | no crowd placement feeds the verification scene | data |
