@@ -71,7 +71,26 @@ DIFFUSE_KEY_W = 90.0
 REFERENCE_KEY_W = 681.0
 SKY_STRENGTH_DAY = 0.25
 SKY_STRENGTH_NIGHT = 0.5
-NIGHT_EXPOSURE_STOPS = 2.0
+# Calibrated against the reference photograph's own histogram, in an A/B where only this constant
+# moved (blender/verify -- times_square_duffy_south_night, the one subject of the 57 whose Sun is
+# below the horizon, so nothing else in the set can move with it).  The measure is the mean gap
+# between the render's and the photograph's luminance CDFs, which is a distance in luma units and
+# not a single statistic that can be gamed.  Sixteen exposures from -3.0 to +2.5 stops: the gap
+# falls from 0.271 at the +2.0 this used to be to a flat minimum of 0.072 between -1.5 and -1.0,
+# reached at -1.25.  The frame's median luminance goes 0.541 -> 0.176 against the photograph's
+# 0.151, and the share of the frame below 0.20 goes 0.132 -> 0.535 against its 0.622.
+#
+# What this does *not* fix, stated because the number moves the wrong way: the photograph clips
+# 5.07 % of its area above 0.95 and the render clips 0.31 % at +2.0 and 0.00 % here.  Stopping
+# down cannot buy highlights.  The render has no clipped highlights because the Filmic shoulder
+# only reaches 1.0 asymptotically and the signage emission is calibrated on the *daylight* frame
+# (deliberately, by the stage that set it), so no lit sign in the frame is bright enough to cross.
+# Getting both would take a different view transform or a night-specific emission, and neither is
+# an exposure.  SKY_STRENGTH_NIGHT was A/B'd in the same pass and is very nearly inert here: 0.5
+# against 0.1 -- a five-fold change -- moves the median by 0.0026 and the CDF gap by 0.002, because
+# at a Sun elevation of -9.5 deg the Nishita sky is dim and this portrait frame is filled with
+# buildings rather than sky.  It is left where it was rather than tuned to no effect.
+NIGHT_EXPOSURE_STOPS = -1.25
 RENDER_WIDTH = 1280
 DEFAULT_SAMPLES = 64
 
