@@ -83,6 +83,7 @@ LOG = logging.getLogger("nycsim.roads.build_pavement")
 
 PROCESSED = Path(os.environ.get("NYCSIM_PROCESSED", REPO_ROOT / "data" / "processed"))
 PAVEMENT_DIR = PROCESSED / "roads" / "pavement"
+SEGMENTS_PARQUET = PROCESSED / "roads" / "segments.parquet"
 TILES_DATA = PROCESSED / "tiles"
 LANDMARK_GROUND = PROCESSED / "landmarks" / "ground_outlines.parquet"
 OUT_ROOT = Path(os.environ.get("NYCSIM_BLENDER_OUT", REPO_ROOT / "blender_out")) / "tiles"
@@ -90,12 +91,27 @@ OUT_ROOT = Path(os.environ.get("NYCSIM_BLENDER_OUT", REPO_ROOT / "blender_out"))
 SCHEMA_VERSION = 1
 GLB_NAME = "tile_pavement.glb"
 MANIFEST_NAME = "pavement_manifest.json"
-#: A triangle is split while the ground at an edge's midpoint is further than this from the straight
-#: line between its endpoints. 30 mm is under a third of the roadbed's own 0.10 m lift, so terrain
-#: cannot reach through the asphalt on the strength of the draping error alone.
-DEFAULT_TOL_M = 0.03
-#: Refinement floor: the heightmap samples every 2 m, so below this there is nothing left to resolve.
-DEFAULT_MIN_EDGE_M = 1.0
+#: A triangle is split while the ground at an edge's midpoint is further than the tolerance from the
+#: straight line between its endpoints. The tolerance is not one number: it is a fraction of the
+#: kind's own lift, because the lift is exactly the budget before the terrain shows through. Half of
+#: it gives the roadbed 50 mm against its 0.10 m lift and the sidewalk 125 mm against its 0.25 m,
+#: which is right - a 100 mm undulation under a kerb is invisible and under an asphalt lane is not.
+#:
+#: A single 50 mm tolerance for everything produced 3.4 GB of pavement for 47 tiles, 221 MB of it in
+#: one Lower Manhattan tile, because it spent the sidewalk's whole subdivision budget resolving
+#: detail nobody can see.
+DEFAULT_TOL_FRACTION = 0.5
+#: Explicit override; 0 means "use the fraction of the lift".
+DEFAULT_TOL_M = 0.0
+#: Refinement floor. The heightmap samples every 2 m (DATA_CONTRACTS 3), so an edge shorter than that
+#: is being split to resolve interpolation rather than terrain: the midpoint error it is chasing is
+#: an artefact of the bilinear read, not a feature of the ground. At 1 m the boundary of a
+#: kilometre-long avenue sidewalk collected 1,700 vertices and, with a wall raised on each, half the
+#: file.
+DEFAULT_MIN_EDGE_M = 2.0
+#: Grid cell the polygons are cut on before anything else. A little above the heightmap's own 2 m
+#: sampling, so a cell spans about one terrain sample and the surface has somewhere to bend.
+DEFAULT_CELL_M = 2.5
 #: Douglas-Peucker tolerance applied to the source rings before anything else. The planimetric
 #: polygons are digitised far finer than their own positional accuracy: one Midtown tile carries
 #: 94,309 ring vertices, and simplifying at 2 cm - a fortieth of a paint stripe, and two orders below
@@ -184,9 +200,10 @@ def _outside(cut, xs: np.ndarray, ys: np.ndarray) -> np.ndarray:
 
 
 def build_tile(tile: str, *, out_root: Path = OUT_ROOT, tol_m: float = DEFAULT_TOL_M,
+               tol_fraction: float = DEFAULT_TOL_FRACTION, cell_m: float = DEFAULT_CELL_M,
                min_edge_m: float = DEFAULT_MIN_EDGE_M, max_edge_m: float = DEFAULT_MAX_EDGE_M,
                simplify_m: float = DEFAULT_SIMPLIFY_M, skirt_kinds=DEFAULT_SKIRT_KINDS,
-               cut_landmark_ground: bool = True) -> dict:
+               cut_landmark_ground: bool = True, road_z: bool = True) -> dict:
     import mapbox_earcut as earcut
     import nycsim_bpy as nb
     import pyarrow.parquet as pq
@@ -206,6 +223,9 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, tol_m: float = DEFAULT_T
     geoms = table.column("geometry").to_pylist()
 
     sampler = LandscapeSampler(TILES_DATA)
+    # The carriageway's own elevation, for the polygons the road network says are not at grade.
+    roads = pvlib.RoadSurface(SEGMENTS_PARQUET, (x0, y0, x0 + TILE_SIZE_M, y0 + TILE_SIZE_M)) \
+        if road_z and SEGMENTS_PARQUET.exists() else None
     cut = load_landmark_ground((x0, y0, x0 + TILE_SIZE_M, y0 + TILE_SIZE_M)) if cut_landmark_ground else []
 
     t_load = time.perf_counter() - t0
@@ -216,6 +236,7 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, tol_m: float = DEFAULT_T
     dropped = {"not_a_polygon": 0, "degenerate_ring": 0, "unknown_kind": 0,
                "no_triangulation": 0, "no_terrain": 0, "landmark_ground": 0}
     cut_polygons = 0
+    elevated_polys = 0
 
     for kind, surface, seed, blob in zip(kinds, surfaces, seeds, geoms):
         k, s = int(kind), int(surface)
@@ -234,31 +255,36 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, tol_m: float = DEFAULT_T
             dropped["not_a_polygon"] += 1
             continue
         name, lift, skirt = pvlib.PAVEMENT_KINDS[k]
+        # A roadbed or a crosswalk on a viaduct is drawn at the viaduct's height, not at the height
+        # of the street it crosses. Everything a pedestrian stands on stays on the ground: a
+        # planimetric kerb beside an elevated road belongs to the street below it, not to the deck.
+        use_road = roads is not None and roads.ok and k in ROAD_Z_KINDS
         for poly in parts:
-            ext = np.asarray(poly.exterior.coords, dtype=np.float64)[:-1, :2]
-            if len(ext) < 3:
+            if len(poly.exterior.coords) < 4:
                 dropped["degenerate_ring"] += 1
                 continue
             if cut and shapely.contains(shapely.union_all(cut), shapely.Point(poly.representative_point())):
                 dropped["landmark_ground"] += 1
                 cut_polygons += 1
                 continue
-            ext = pvlib.orient_ring(ext, ccw=True)
-            holes = [pvlib.orient_ring(np.asarray(r.coords, dtype=np.float64)[:-1, :2], ccw=False)
-                     for r in poly.interiors if len(r.coords) > 3]
-            ring_sizes = [len(ext)] + [len(h) for h in holes]
-            pts = np.vstack([ext, *holes]) if holes else ext
-            try:
-                tris = earcut.triangulate_float64(pts, np.cumsum(ring_sizes)).reshape(-1, 3)
-            except Exception:
+            # Cut on a grid rather than ear-clipped: see pvlib.grid_triangulate for the measurement
+            # that decided it. The cell is a little above the heightmap's own 2 m sampling, so the
+            # refinement below has something left to do only where the ground genuinely bends.
+            pts, tris = pvlib.grid_triangulate(poly, cell_m)
+            if len(tris) == 0:
                 dropped["no_triangulation"] += 1
                 continue
-            if not len(tris):
-                dropped["no_triangulation"] += 1
-                continue
-            pts, tris = pvlib.refine_to_terrain(pts, tris, sampler.height, tol_m=tol_m,
+            line = roads.line_for(poly) if use_road else None
+            elevated = line is not None
+            # The refinement must test against the same surface the drape uses, or it subdivides to
+            # chase a cliff the road does not cross.
+            height_fn = roads.height_on(line) if elevated else sampler.height
+            pts, tris = pvlib.refine_to_terrain(pts, tris, height_fn,
+                                                tol_m=tol_m if tol_m > 0.0 else lift * tol_fraction,
                                                 min_edge_m=min_edge_m, max_edge_m=max_edge_m)
-            z = sampler.height(pts[:, 0], pts[:, 1])
+            if elevated:
+                elevated_polys += 1
+            z = height_fn(pts[:, 0], pts[:, 1])
             if np.isnan(z).all():
                 dropped["no_terrain"] += 1
                 continue
@@ -266,7 +292,8 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, tol_m: float = DEFAULT_T
                 z = np.where(np.isnan(z), float(np.nanmedian(z)), z)
             buf = slabs.setdefault((k, s), pvlib.SlabBuffer(kind=k, surface=s))
             buf.add_polygon(pts - np.array([x0, y0]), z + lift, tris,
-                            skirt if k in skirt_kinds else 0.0)
+                            skirt if k in skirt_kinds else 0.0,
+                            road_line=line if elevated else -1)
             seed_of.setdefault((k, s), []).append(float(int(seed) % 65536) / 65536.0)
             per_kind[name] = per_kind.get(name, 0) + 1
     t_geom = time.perf_counter() - t1
@@ -286,7 +313,8 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, tol_m: float = DEFAULT_T
         mname = pvlib.material_name(k, s)
         pos = np.asarray(buf.verts, dtype=np.float64)
         tri = np.asarray(buf.faces, dtype=np.int64)
-        ob = _make_object(f"{tile}_{mname}", pos, tri, np.asarray(buf.is_top, dtype=bool), mname, {
+        ob = _make_object(f"{tile}_{mname}", pos, tri, np.asarray(buf.is_top, dtype=bool),
+                          np.asarray(buf.road_line, dtype=np.int32), mname, {
             "tile": tile, "kind": k, "kind_name": name, "surface": s,
             "surface_name": pvlib.SURFACE_NAMES.get(s, str(s)),
             "surface_class": cls, "surface_class_name": pvlib.SURFACE_CLASS_NAMES.get(cls, str(cls)),
@@ -327,7 +355,7 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, tol_m: float = DEFAULT_T
         glb.unlink()
     t_export = time.perf_counter() - t3
 
-    residual = _draping_residual(objects, sampler, x0, y0) if objects else {}
+    residual = _draping_residual(objects, sampler, roads, x0, y0) if objects else {}
     size = glb.stat().st_size if glb.exists() else 0
     manifest = {
         "schema_version": SCHEMA_VERSION,
@@ -341,13 +369,20 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, tol_m: float = DEFAULT_T
         "polygons_meshed": sum(b.polygons for b in slabs.values()),
         "polygons_dropped": {k: v for k, v in dropped.items() if v},
         "polygons_cut_for_landmark_ground": cut_polygons,
+        "polygons_at_road_level": elevated_polys,
+        "road_level_source": (str(SEGMENTS_PARQUET.relative_to(REPO_ROOT))
+                              if roads is not None and roads.ok else
+                              (roads.reason if roads is not None else "disabled")),
         "per_kind": dict(sorted(per_kind.items(), key=lambda kv: -kv[1])),
         "triangles": sum(len(b.faces) for b in slabs.values()),
         "top_triangles": sum(b.top_triangles for b in slabs.values()),
         "skirt_triangles": sum(b.skirt_triangles for b in slabs.values()),
         "vertices": sum(len(b.verts) for b in slabs.values()),
         "meshes": mesh_stats,
-        "refinement": {"tol_m": tol_m, "min_edge_m": min_edge_m, "max_edge_m": max_edge_m,
+        "refinement": {"cell_m": cell_m, "tol_m": tol_m, "tol_fraction_of_lift": tol_fraction,
+                       "tol_per_kind_m": {name: round(lift * tol_fraction, 4) if tol_m <= 0.0 else tol_m
+                                          for _k, (name, lift, _s) in pvlib.PAVEMENT_KINDS.items()},
+                       "min_edge_m": min_edge_m, "max_edge_m": max_edge_m,
                        "simplify_m": simplify_m},
         "skirt_kinds": sorted(skirt_kinds),
         "draping_residual_m": residual,
@@ -366,7 +401,29 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, tol_m: float = DEFAULT_T
     return manifest
 
 
-def _draping_residual(objects, sampler: LandscapeSampler, x0: float, y0: float) -> dict:
+#: Kinds whose elevation comes from the road network when the network says the road is not at grade.
+ROAD_Z_KINDS = frozenset({0, 5})
+
+
+def _road_or_ground(roads, sampler):
+    """Road elevation where the network has one, the ground where it does not.
+
+    The fallback matters at the ends of a viaduct: the deck's own polygon runs past the last
+    centreline vertex, and without it those vertices would be NaN and the whole polygon dropped.
+    """
+    def height(x, y):
+        z = roads.height(x, y)
+        missing = ~np.isfinite(z)
+        if missing.any():
+            ground = sampler.height(np.asarray(x)[missing], np.asarray(y)[missing])
+            z = np.array(z, dtype=np.float64)
+            z[missing] = ground
+        return z
+
+    return height
+
+
+def _draping_residual(objects, sampler: LandscapeSampler, roads, x0: float, y0: float) -> dict:
     """How far the shipped top surface sits from the ground it was draped on, sampled inside faces.
 
     Draping only the corners is the defect this stage's refinement exists to remove, so the stage
@@ -377,7 +434,7 @@ def _draping_residual(objects, sampler: LandscapeSampler, x0: float, y0: float) 
     import bmesh
     import bpy
 
-    xs, ys, zs, lifts = [], [], [], []
+    xs, ys, zs, lifts, on_road = [], [], [], [], []
     rng = np.random.default_rng(0x4E5943)
     for ob in objects:
         me = ob.data
@@ -386,6 +443,8 @@ def _draping_residual(objects, sampler: LandscapeSampler, x0: float, y0: float) 
             continue
         flags = np.empty(n, dtype=bool)
         me.attributes["is_top"].data.foreach_get("value", flags)
+        road_flags = np.empty(n, dtype=np.int32)
+        me.attributes["road_line"].data.foreach_get("value", road_flags)
         tops = np.nonzero(flags)[0]
         if tops.size == 0:
             continue
@@ -406,12 +465,24 @@ def _draping_residual(objects, sampler: LandscapeSampler, x0: float, y0: float) 
         ys.append(p[:, 1] + y0)
         zs.append(p[:, 2] - lift)
         lifts.append(np.full(take, lift))
+        on_road.append(road_flags[idx])
     if not xs:
         return {}
     x = np.concatenate(xs)
     y = np.concatenate(ys)
     z = np.concatenate(zs)
+    # Each face is measured against the surface it was draped on, not against the ground: a
+    # carriageway on a viaduct is 17 m above the street and that is the point of it being there.
     ground = sampler.height(x, y)
+    road_face = np.concatenate(on_road)
+    if roads is not None and roads.ok:
+        # Each road face against its own centreline. Grouped by line so one interpolate call serves
+        # every face that shares one.
+        for j in np.unique(road_face[road_face >= 0]):
+            sel = np.nonzero(road_face == j)[0]
+            z_line = roads.height_on(int(j))(x[sel], y[sel])
+            good = np.isfinite(z_line)
+            ground[sel[good]] = z_line[good]
     ok = ~np.isnan(ground)
     if not ok.any():
         return {}
@@ -437,7 +508,7 @@ def _draping_residual(objects, sampler: LandscapeSampler, x0: float, y0: float) 
 
 
 def _make_object(name: str, pos: np.ndarray, tri: np.ndarray, is_top: np.ndarray,
-                 material_name: str, props: dict):
+                 road_line: np.ndarray, material_name: str, props: dict):
     """Mesh from flat arrays, UVs in metres, one material, node extras carrying the surface class."""
     import bpy
 
@@ -465,6 +536,12 @@ def _make_object(name: str, pos: np.ndarray, tri: np.ndarray, is_top: np.ndarray
     # Blender mesh for the duration of this process.
     a = me.attributes.new(name="is_top", type="BOOLEAN", domain="FACE")
     a.data.foreach_set("value", np.ascontiguousarray(is_top, dtype=bool))
+    # Which surface this face was draped on: a centreline index, or -1 for the ground. Without it
+    # the residual check compares an elevated carriageway against the ground 17 m below and reports
+    # a 13 m error that is not an error; with a mere flag it compares it against whichever deck
+    # happens to be nearest and reports the same thing where decks stack.
+    b = me.attributes.new(name="road_line", type="INT", domain="FACE")
+    b.data.foreach_set("value", np.ascontiguousarray(road_line, dtype=np.int32))
     kind = int(props.get("kind", 0))
     _name, _lift, _skirt = pvlib.PAVEMENT_KINDS.get(kind, ("roadbed", 0.10, 0.30))
     me.materials.append(_pavement_material(material_name, kind))
@@ -536,8 +613,10 @@ def run_serial(tiles: list[str], args) -> int:
             continue
         try:
             m = build_tile(tile, out_root=Path(args.out), tol_m=args.tol,
+                           tol_fraction=args.tol_fraction, cell_m=args.cell,
                            min_edge_m=args.min_edge, max_edge_m=args.max_edge,
                            simplify_m=args.simplify, skirt_kinds=_parse_kinds(args.skirt_kinds),
+                           road_z=not args.no_road_z,
                            cut_landmark_ground=not args.no_landmark_cut)
         except Exception as exc:
             LOG.exception("tile %s failed", tile)
@@ -567,10 +646,14 @@ def run_parallel(tiles: list[str], args) -> int:
         listfile.write_text("\n".join(chunk))
         cmd = ["nice", "-n", str(args.nice), sys.executable, str(Path(__file__).resolve()),
                "--tile-list", str(listfile), "--out", str(args.out),
-               "--tol", str(args.tol), "--simplify", str(args.simplify),
+               "--tol", str(args.tol), "--tol-fraction", str(args.tol_fraction),
+               "--cell", str(args.cell),
+               "--simplify", str(args.simplify),
                "--min-edge", str(args.min_edge),
                "--max-edge", str(args.max_edge)]
         cmd += ["--skirt-kinds", args.skirt_kinds]
+        if args.no_road_z:
+            cmd.append("--no-road-z")
         if args.no_landmark_cut:
             cmd.append("--no-landmark-cut")
         if args.skip_existing:
@@ -595,8 +678,12 @@ def main(argv: list[str] | None = None) -> int:
     g.add_argument("--all", action="store_true", help="every tile with a pavement table")
     ap.add_argument("--out", default=str(OUT_ROOT), help="output root (default blender_out/tiles)")
     ap.add_argument("--tol", type=float, default=DEFAULT_TOL_M,
-                    help="draping tolerance in metres: split while the ground at an edge midpoint is "
-                         "further than this from the chord (default 0.03)")
+                    help="draping tolerance in metres, overriding the per-kind fraction; "
+                         "0 (default) means use --tol-fraction of each kind's lift")
+    ap.add_argument("--cell", type=float, default=DEFAULT_CELL_M,
+                    help="grid cell the polygons are cut on, metres; 0 to ear-clip instead (default 2.5)")
+    ap.add_argument("--tol-fraction", type=float, default=DEFAULT_TOL_FRACTION,
+                    help="draping tolerance as a fraction of the kind's lift (default 0.5)")
     ap.add_argument("--simplify", type=float, default=DEFAULT_SIMPLIFY_M,
                     help="Douglas-Peucker tolerance on the source rings in metres (default 0.02)")
     ap.add_argument("--min-edge", type=float, default=DEFAULT_MIN_EDGE_M,
@@ -606,6 +693,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--skirt-kinds", default=",".join(str(k) for k in sorted(DEFAULT_SKIRT_KINDS)),
                     help="pavement kinds that carry a downward skirt; empty for none "
                          "(default 1,2,3,4 = sidewalk, median, plaza, curb)")
+    ap.add_argument("--no-road-z", action="store_true",
+                    help="drape grade-separated roadbeds on the ground as well (they will be drawn "
+                         "on whatever is under the viaduct)")
     ap.add_argument("--no-landmark-cut", action="store_true",
                     help="draw pavement inside a landmark's own ground as well")
     ap.add_argument("--workers", type=int, default=1, help="parallel processes (max 2)")

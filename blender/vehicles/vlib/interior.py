@@ -467,6 +467,12 @@ def build_interior(sp: InteriorSpec, lib: M.Library, *, seam_texture=None, three
                                     headrest=True)
     out["Shifter"] = build_shifter(sp, lib)
     out["Pedals"] = build_pedals(sp, lib, three=three_pedals)
+    # The courtesy light belongs to every cabin, not only to the detailed ones. A truck cab and a bus
+    # both have one, and the engine drives LIGHT_INTERIOR on all of them; building it only for
+    # detail == "full" left every fleet vehicle without the slot.
+    dome_x = (sp.x_roof_front if sp.x_roof_front is not None else sp.x_cowl - 0.08) + 0.30
+    dome_z = (sp.roof_line(dome_x) - 0.075) if sp.roof_line else (sp.z_roof - 0.055)
+    out["Interior_DomeLamp"] = build_dome_lamp(sp, lib, x=dome_x, z=dome_z - 0.004)
     if sp.detail == "cab":
         return out
     if sp.console:
@@ -488,5 +494,4 @@ def build_interior(sp: InteriorSpec, lib: M.Library, *, seam_texture=None, three
         out["Interior_Mirror"] = build_rear_view_mirror(sp, lib, x=x_header + 0.10, z=z_header - 0.02)
         for v in build_visors(sp, lib, x=x_header + 0.08, z=z_header, y_half=sp.y_cabin):
             out[v.name] = v
-        out["Interior_DomeLamp"] = build_dome_lamp(sp, lib, x=x_header + 0.30, z=z_header - 0.004)
     return out

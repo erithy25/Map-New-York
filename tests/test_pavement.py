@@ -228,3 +228,106 @@ def test_the_manifest_routes_pavement_to_its_own_import_settings():
     assert profile.get("collision") == "complex_as_simple", (
         "the wheels line-trace against the road triangles; a simplified hull is not a road")
     assert "SM_Pavement" in tpl, f"unexpected content path template {tpl!r}"
+
+
+# --------------------------------------------------------------------------- triangulation quality
+
+
+def test_the_grid_triangulation_produces_usable_triangles_and_not_slivers():
+    """The measurement that replaced ear clipping.
+
+    Ear clipping a planimetric road polygon is correct and fast and gives long thin triangles that no
+    subsequent refinement repairs. On the largest roadbed polygon of one Lower Manhattan tile --
+    11,446 m2, 2,195 m of perimeter -- it produced 133,004 triangles of which 97.4 % had a shape
+    quality below 0.1, a median quality of 0.001 and a smallest edge of 0.0000 m. Cutting on a grid
+    gives 5,050 triangles at a median quality of 0.866.
+
+    Quality here is ``4*sqrt(3)*area / sum(edge^2)``: 1 for an equilateral triangle, 0 for a sliver.
+    """
+    import shapely
+
+    # A ribbon 8 m wide and 600 m long with a kink: the shape that breaks ear clipping.
+    line = shapely.LineString([(0.0, 0.0), (300.0, 12.0), (600.0, 0.0)])
+    poly = line.buffer(4.0, cap_style="flat")
+    verts, tris = pvlib.grid_triangulate(poly, 2.5)
+    assert len(tris) > 0
+
+    a = np.abs(np.cross(verts[tris[:, 1]] - verts[tris[:, 0]],
+                        verts[tris[:, 2]] - verts[tris[:, 0]])) / 2.0
+    e = np.stack([np.linalg.norm(verts[tris[:, 1]] - verts[tris[:, 0]], axis=1),
+                  np.linalg.norm(verts[tris[:, 2]] - verts[tris[:, 1]], axis=1),
+                  np.linalg.norm(verts[tris[:, 0]] - verts[tris[:, 2]], axis=1)], axis=1)
+    quality = 4.0 * np.sqrt(3.0) * a / np.maximum((e ** 2).sum(axis=1), 1e-12)
+
+    assert a.sum() == pytest.approx(poly.area, rel=1e-6), "the grid cut lost or added surface"
+    assert np.median(quality) > 0.5, (
+        f"median triangle quality {np.median(quality):.3f}; the grid cut is producing slivers")
+    assert float((quality < 0.1).mean()) < 0.25, (
+        f"{100 * float((quality < 0.1).mean()):.0f}% of the triangles are slivers")
+    # Roughly area / cell^2 triangles, not the ear-clipper's arbitrary count.
+    assert len(tris) < 6.0 * poly.area / (2.5 ** 2), f"{len(tris)} triangles for {poly.area:.0f} m2"
+
+
+def test_the_grid_cut_keeps_the_polygon_boundary_exactly():
+    """Every piece is an intersection with the original, so the union is the original."""
+    import shapely
+
+    poly = shapely.Polygon([(0.0, 0.0), (37.3, 0.0), (37.3, 19.1), (18.0, 26.0), (0.0, 19.1)],
+                           [[(8.0, 6.0), (14.0, 6.0), (14.0, 12.0), (8.0, 12.0)]])
+    verts, tris = pvlib.grid_triangulate(poly, 4.0)
+    area = np.abs(np.cross(verts[tris[:, 1]] - verts[tris[:, 0]],
+                           verts[tris[:, 2]] - verts[tris[:, 0]])).sum() / 2.0
+    assert area == pytest.approx(poly.area, rel=1e-9), "the hole or the outline was not preserved"
+
+
+def test_the_carriageway_takes_its_height_from_the_road_and_not_from_the_ground_under_it():
+    """A planimetric roadbed polygon has no elevation, and the ground under a viaduct is not it.
+
+    Over the paved area of one Lower Manhattan tile, 48.2 % sits on polygons spanning more than two
+    metres of terrain -- against 3.0 % in Midtown -- with a maximum span of 12.6 m: the FDR Drive,
+    the Battery Tunnel portals and the Brooklyn Bridge approaches drawn on the street below. The road
+    network already carries a 3D centreline per segment and a z_source saying whether its elevation
+    came from the terrain (0) or from a level or a ramp (1, 2).
+    """
+    segments = REPO_ROOT / "data" / "processed" / "roads" / "segments.parquet"
+    if not segments.is_file():
+        pytest.skip("no road segments in this checkout")
+    surface = pvlib.RoadSurface(segments, (-4000.0, 0.0, -3000.0, 1000.0))
+    if not surface.ok:
+        pytest.skip(surface.reason)
+    assert surface.lines, "no 3D centrelines were loaded"
+    assert any(z != 0 for z in surface.z_source), (
+        "no grade-separated segment near Lower Manhattan; the level information is missing")
+
+    # The rule is narrow on purpose: an at-grade segment's z came from the terrain in the first
+    # place, so using it there could only introduce a way to be wrong.
+    import shapely
+
+    at_grade = next((i for i, z in enumerate(surface.z_source) if z == 0), None)
+    if at_grade is not None:
+        poly = surface.lines[at_grade].buffer(3.0)
+        assert surface.line_for(poly) is None, (
+            "an at-grade road was treated as elevated; its height would move off the terrain that "
+            "produced it")
+
+
+def test_one_polygon_gets_one_centreline():
+    """A per-point lookup tears the surface where two decks pass at different heights."""
+    segments = REPO_ROOT / "data" / "processed" / "roads" / "segments.parquet"
+    if not segments.is_file():
+        pytest.skip("no road segments in this checkout")
+    surface = pvlib.RoadSurface(segments, (-4000.0, 0.0, -3000.0, 1000.0))
+    if not surface.ok:
+        pytest.skip(surface.reason)
+    elevated = next((i for i, z in enumerate(surface.z_source) if z != 0), None)
+    if elevated is None:
+        pytest.skip("no grade-separated segment here")
+    height = surface.height_on(elevated)
+    line = surface.lines[elevated]
+    xs = np.linspace(line.coords[0][0], line.coords[-1][0], 40)
+    ys = np.linspace(line.coords[0][1], line.coords[-1][1], 40)
+    z = height(xs, ys)
+    assert np.isfinite(z).all(), "the bound height function has holes; it must be defined everywhere"
+    # Continuity: a carriageway does not step. Consecutive samples a few metres apart stay close.
+    step = np.abs(np.diff(z))
+    assert step.max() < 3.0, f"the bound surface steps by {step.max():.2f} m along one centreline"

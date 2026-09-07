@@ -71,6 +71,8 @@ class FleetSpec:
     sliding_doors: bool = False
     doors_per_side: int = 2
     x_rear_door: float | None = None
+    #: Height of the centre stop lamp, when the roofline is not the right place for it.
+    chmsl_z: float | None = None
     front_glass: tuple[float, float, float] | None = None
     rear_glass: tuple[float, float, float] | None = None
     side_glass_spans: Sequence[tuple[float, float, int]] = ()
@@ -111,6 +113,25 @@ class FleetSpec:
 
 
 # --------------------------------------------------------------------------- table generators
+#: Vehicles with no centre high-mounted stop lamp, and the reason. Every one of these is above the
+#: 4,536 kg GVWR at which FMVSS 108 stops requiring one, except the LLV, which is below it and older
+#: than the rule.
+NO_CHMSL = {
+    "nova_lfs_mta": "40 ft transit bus, GVWR far above the 4,536 kg at which FMVSS 108 requires a CHMSL",
+    "xd60_sbs": "60 ft articulated transit bus, above the FMVSS 108 CHMSL threshold",
+    "mci_j4500_coach": "45 ft motorcoach, above the FMVSS 108 CHMSL threshold",
+    "school_bus_bluebird": "Type C school bus; its eight-lamp warning system replaces a CHMSL and it has none",
+    "seagrave_engine_fdny": "fire apparatus, above the FMVSS 108 CHMSL threshold",
+    "seagrave_tower_fdny": "fire apparatus, above the FMVSS 108 CHMSL threshold",
+    "ambulance_type1_fdny": "Type I ambulance on an F-450 chassis, GVWR 6,350 kg, above the threshold",
+    "isuzu_npr_box": "medium-duty box truck, GVWR 5,900 kg, above the threshold",
+    "mack_lr_dsny": "refuse truck, above the threshold",
+    "freightliner_stepvan": "MT55 step van, GVWR 8,845 kg, above the threshold",
+    "coned_utility_truck": "F-550 utility body, GVWR 8,165 kg, above the threshold",
+    "usps_llv": "1987 Grumman LLV: below the threshold but built before the 1994 light-truck rule, and has none",
+}
+
+
 def box_table(d: Dimensions, *, z_under: float, z_rocker: float, z_belt: float, z_top: float,
               y_rocker: float, y_max: float, y_belt: float, y_top: float, crown: float,
               x_cowl: float, nose_len: float = 0.35, tail_len: float = 0.25,
@@ -341,6 +362,21 @@ def build(sp: FleetSpec, lib: M.Library | None = None, *, reset: bool = True) ->
     tail["_rev_R"].name = "LIGHT_REVERSE_R"
     v.add(tail["_rev_L"]); v.add(tail["_rev_R"])
     v.add(P.plate_light(lib, d.x_rear + 0.012, sp.tail.z - sp.tail.h * 0.75, 0.0, 0.12))
+    # Centre high-mounted stop lamp. FMVSS 108 has required one on passenger cars since the 1986
+    # model year and on multipurpose vehicles, trucks and buses at or below 4,536 kg GVWR since 1994;
+    # above that line it is not required and these vehicles do not carry one. Which side of the line
+    # each vehicle falls is stated per vehicle in NO_CHMSL rather than guessed from a proxy: a
+    # Sprinter is tall and heavy-looking and has one, an LLV is small and predates the rule.
+    if sp.id in NO_CHMSL:
+        v.contract_waivers.setdefault("LIGHT_BRAKE_C", NO_CHMSL[sp.id])
+    else:
+        chmsl_z = sp.chmsl_z if sp.chmsl_z is not None else bp.z_top(d.x_rear + 0.25) - 0.02
+        chmsl_x = d.x_rear + 0.05
+        half = min(0.20, bp.y_belt(chmsl_x) * 0.45)
+        v.add(P.lamp_panel("LIGHT_BRAKE_C", lib.light_red("LIGHT_BRAKE_C"),
+                           [(chmsl_x, -half, chmsl_z), (chmsl_x, half, chmsl_z),
+                            (chmsl_x, half, chmsl_z + 0.035), (chmsl_x, -half, chmsl_z + 0.035)],
+                           thickness=0.018, inward=(1, 0, 0)))
     t.mark("lamps")
 
     # ---- trim
