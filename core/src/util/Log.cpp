@@ -29,10 +29,19 @@ const char* logLevelName(LogLevel level) {
 
 void logMessage(LogLevel level, const char* module, const char* fmt, ...) {
   if (!g_sink || level < g_level || level == LogLevel::Off) return;
+  if (fmt == nullptr) {
+    // A null format is a message with no text. It used to be handled as `fmt ? fmt : ""`, and an
+    // empty literal in a format position is exactly what -Wformat-zero-length objects to; clang
+    // makes that an error under -Werror, which is how the Unreal module is compiled. The CMake
+    // build never saw it because it does not enable that warning, so this would first have appeared
+    // on the machine doing the engine build.
+    g_sink->write(level, module ? module : "", "");
+    return;
+  }
   char buf[1024];
   va_list ap;
   va_start(ap, fmt);
-  const int n = std::vsnprintf(buf, sizeof buf, fmt ? fmt : "", ap);
+  const int n = std::vsnprintf(buf, sizeof buf, fmt, ap);
   va_end(ap);
   if (n < 0) buf[0] = '\0';
   g_sink->write(level, module ? module : "", buf);

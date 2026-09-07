@@ -423,6 +423,21 @@ def build_skyline_level(cell_km: int, sx: int, sy: int, mesh_path: str) -> dict:
 
 # ------------------------------------------------------------------------------------------------- main map
 
+def build_transition_map() -> dict:
+    """``/Game/NYCSim/Maps/Transition``: an empty level, because DefaultEngine.ini names one.
+
+    ``TransitionMap=/Game/NYCSim/Maps/Transition.Transition`` has been in the config since Stage 12b
+    and nothing created it, so seamless travel would warn on every level change and fall back to a
+    hard load. A transition map is meant to be empty - it is what is resident while the real map is
+    swapped - so an empty level is not a placeholder here, it is the whole asset.
+    """
+    package = f"{MAPS_ROOT}/Transition"
+    if not new_level(package):
+        return {"map": package, "ok": False, "error": "level could not be created"}
+    save_current_level()
+    return {"map": package, "ok": True}
+
+
 def build_main_map(spawn_tile: str | None) -> dict:
     package = f"{MAPS_ROOT}/NYC"
     if not new_level(package):
@@ -520,6 +535,7 @@ def main(argv=None) -> int:
         return 0
 
     if not args.skip_map:
+        summary["transition_map"] = build_transition_map()
         summary["map"] = build_main_map(tiles[0] if tiles else None)
 
     for tile in tiles:
