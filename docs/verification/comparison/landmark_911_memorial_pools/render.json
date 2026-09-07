@@ -7,7 +7,8 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 18.0,
   "ground_detail": {
-   "chosen_m": 1.34,
+   "below_point_excluded": 29,
+   "chosen_m": 4.19,
    "max_m": 4.55,
    "median_m": 4.36,
    "min_m": 0.31,
@@ -31,12 +32,12 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_911_memorial_pools",
-  "terrain_z_m": 1.341,
+  "terrain_z_m": 4.195,
   "x": -5292.577,
   "y": 1240.741,
-  "z": 2.941
+  "z": 5.795
  },
- "camera_caption": "camera 40.71116, -74.01263 (NYC_TM -5293, 1241) z 2.9 m NAVD88 | azimuth 314.3deg pitch +0.0deg | 18 mm on 36 mm (73.7deg horizontal, 90.0deg vertical, portrait) | 904x1206",
+ "camera_caption": "camera 40.71116, -74.01263 (NYC_TM -5293, 1241) z 5.8 m NAVD88 | azimuth 314.3deg pitch +0.0deg | 18 mm on 36 mm (73.7deg horizontal, 90.0deg vertical, portrait) | 904x1206",
  "camera_origin": {
   "from_photograph_gps": true,
   "lat": 40.711156,
@@ -47,9 +48,9 @@
  "clearance": {
   "min_view_m": 51.2,
   "moved": false,
-  "note": "the recorded viewpoint is under verify_terrain (1.3 m of ground or paving directly overhead, so the eye point is beneath the walking surface) and no clear point was found within 80 m, so the frame is rendered from inside the shell and is dark",
+  "note": "the recorded viewpoint is inside lm_b_wtc_site.232 (a ray straight up from the eye point hits its roof) and no clear point was found within 80 m, so the frame is rendered from inside the shell and is dark",
   "offset_m": 0.0,
-  "reason": "under verify_terrain (1.3 m of ground or paving directly overhead, so the eye point is beneath the walking surface)",
+  "reason": "inside lm_b_wtc_site.232 (a ray straight up from the eye point hits its roof)",
   "rule": "no clear point found"
  },
  "frame": {
@@ -103,9 +104,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_911_memorial_pools/render.png",
- "rendered_at": "2026-09-06T22:13:35Z",
+ "rendered_at": "2026-09-07T00:06:05Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -119,23 +120,36 @@
    "landmark_faces_suppressed": 2992,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_-5_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
      "triangles": 11872
     },
     "t_-5_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
      "triangles": 42654
     },
     "t_-6_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
      "triangles": 12796
     },
     "t_-6_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
      "triangles": 15036
@@ -146,6 +160,7 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 4,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
    "triangles": 82358
   },
@@ -315,7 +330,7 @@
    }
   },
   "radius_m": 563.8090218678801,
-  "seconds": 15.45,
+  "seconds": 12.03,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -338,9 +353,9 @@
   "radius_m": 563.8090218678801
  },
  "seconds": {
-  "render": 97.0,
-  "scene": 16.4,
-  "total": 113.5
+  "render": 88.3,
+  "scene": 13.0,
+  "total": 101.3
  },
  "slug": "landmark_911_memorial_pools",
  "status": "rejected_unusable_frame",

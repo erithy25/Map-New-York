@@ -1,27 +1,28 @@
 {
- "azimuth_reason": "273.2 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 257.6 deg, 15.6 deg away",
+ "azimuth_reason": "273.2 deg, the bearing from this photograph's own GPS position to Woolworth Building; heading and position both come from the photograph.  The item's recorded azimuth is 257.6 deg, 15.6 deg away, and belongs to its nominal viewpoint",
  "camera": {
-  "azimuth_deg": 273.2,
+  "azimuth_deg": 273.1815781338388,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
-  "focal_mm": 35.0,
+  "focal_mm": 18.0,
   "ground_detail": {
-   "chosen_m": 12.67,
-   "max_m": 12.73,
-   "median_m": 12.67,
-   "min_m": 12.61,
+   "chosen_m": 12.13,
+   "max_m": 12.2,
+   "median_m": 12.16,
+   "min_m": 12.06,
    "mode": "local",
    "percentile": null,
+   "point_m": 12.13,
    "radius_m": 5.0,
    "samples": 16
   },
   "ground_mode": "local",
   "ground_source": "no surface named in the note; heightmap median within 5 m",
-  "hfov_deg": 42.163,
-  "lat": 40.7127,
-  "lon": -74.0066,
-  "long_side_fov_deg": 54.432,
+  "hfov_deg": 73.709,
+  "lat": 40.712333,
+  "lon": -74.006797,
+  "long_side_fov_deg": 90.0,
   "pitch_deg": 0.0,
   "portrait": true,
   "resolution": [
@@ -30,20 +31,38 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_woolworth_building",
-  "terrain_z_m": 12.673,
-  "x": -4782.669,
-  "y": 1411.853,
-  "z": 14.273
+  "terrain_z_m": 12.129,
+  "x": -4799.342,
+  "y": 1371.109,
+  "z": 13.729
  },
- "camera_caption": "camera 40.71270, -74.00660 (NYC_TM -4783, 1412) z 14.3 m NAVD88 | azimuth 273.2deg pitch +0.0deg | 35 mm on 36 mm (42.2deg horizontal, 54.4deg vertical, portrait) | 904x1206",
+ "camera_caption": "camera 40.71233, -74.00680 (NYC_TM -4799, 1371) z 13.7 m NAVD88 | azimuth 273.2deg pitch +0.0deg | 18 mm on 36 mm (73.7deg horizontal, 90.0deg vertical, portrait) | 904x1206",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.712333,
+  "lon": -74.006797,
+  "offset_from_recorded_m": 44.0,
+  "source": "this photograph's own EXIF camera GPS (40.71233, -74.00680), 44 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
  "clearance": {
+  "min_view_m": 67.8,
   "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "nearest_obstruction": null,
+  "nearest_obstruction_m": 60.0,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is further than 60 m, and the view azimuth is clear for 101 m",
+  "offset_m": 0.0,
+  "view_m": 101.4
  },
+ "frame": {
+  "mean": 0.5038,
+  "reason": null,
+  "sd": 0.1541,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
- "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lens_reason": "widened from 35 mm to 18 mm (90 deg vertical) so that a level axis contains the subject: the woolworth model's published 241 m height stands 238 m above the lens at 136 m, 60 deg above the horizon; held at the 18 mm floor, so the top of the subject is still cut off -- past that point the distortion would stop the two frames being comparable",
  "lighting": {
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 927.1,
@@ -54,7 +73,7 @@
    "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.0,
-  "sky_azimuth_deg": 193.046,
+  "sky_azimuth_deg": 193.045,
   "sky_elevation_deg": 63.703,
   "sun_lamp": true,
   "sun_strength_blender": 1.717,
@@ -62,7 +81,7 @@
  },
  "name": "Woolworth Building",
  "night": false,
- "pitch_reason": "level optical axis (Woolworth Building is 156 m away and would need +37 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "pitch_reason": "level optical axis (Woolworth Building is 136 m away and would need +41 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
  "reference_photo": {
   "author": "Kidfly182",
   "confidence": "high",
@@ -77,266 +96,266 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_woolworth_building/render.png",
- "rendered_at": "2026-09-06T17:13:51Z",
+ "rendered_at": "2026-09-07T00:08:38Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
     "t_-5_0",
     "t_-5_1",
-    "t_-5_2",
     "t_-6_0",
-    "t_-6_1",
-    "t_-6_2"
+    "t_-6_1"
    ],
+   "landmark_bins_suppressed": 19,
+   "landmark_faces_suppressed": 2992,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-5_0": {
      "lod": 0,
      "objects": 18,
-     "triangles": 11932
+     "triangles": 11872
     },
     "t_-5_1": {
      "lod": 0,
      "objects": 18,
-     "triangles": 42918
-    },
-    "t_-5_2": {
-     "lod": 0,
-     "objects": 18,
-     "triangles": 53444
+     "triangles": 42654
     },
     "t_-6_0": {
      "lod": 0,
      "objects": 16,
-     "triangles": 14912
+     "triangles": 12796
     },
     "t_-6_1": {
      "lod": 0,
      "objects": 18,
-     "triangles": 15588
-    },
-    "t_-6_2": {
-     "lod": 1,
-     "objects": 15,
-     "triangles": 3684
+     "triangles": 15036
     }
    },
    "tiles_dropped_for_budget": 0,
-   "tiles_imported": 6,
+   "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
-   "tiles_wanted": 6,
+   "tiles_wanted": 4,
    "triangle_budget": 3510000,
-   "triangles": 142478
+   "triangles": 82358
   },
   "centre_tm": [
-   -4782.67,
-   1411.85
+   -4799.34,
+   1371.11
   ],
   "kit": {
    "capped": null,
    "per_category": {
-    "bulkhead": 7,
-    "cornice": 10,
-    "door_entry": 9,
-    "hvac": 10,
-    "parapet": 7,
-    "pilaster": 2,
-    "quoin": 3,
-    "scaffold": 17,
-    "storefront": 31,
-    "storefront_interior": 4,
-    "string_course": 10,
+    "bulkhead": 6,
+    "cornice": 14,
+    "door_entry": 14,
+    "hvac": 8,
+    "parapet": 13,
+    "scaffold": 93,
+    "storefront": 73,
+    "storefront_interior": 10,
+    "string_course": 14,
     "water_tower": 2,
-    "window": 4691,
-    "window_accessory": 1
+    "window": 5692
    },
-   "placed": 4804,
+   "placed": 5939,
    "radius_m": 120.0,
-   "records_in_range": 4804,
+   "records_in_range": 7231,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 1292,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_1"
    ],
-   "triangles": 995234,
+   "triangles": 1028756,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 52.0,
+     "distance_m": 82.9,
      "id": "city_hall",
      "lod": 0,
      "name": "New York City Hall",
      "triangles": 44823
     },
     {
-     "distance_m": 148.0,
+     "distance_m": 129.3,
      "id": "woolworth",
      "lod": 0,
      "name": "Woolworth Building",
      "triangles": 47871
     },
     {
-     "distance_m": 252.4,
+     "distance_m": 276.3,
      "id": "municipal_building",
      "lod": 0,
      "name": "Manhattan Municipal Building",
      "triangles": 97825
     },
     {
-     "distance_m": 556.5,
+     "distance_m": 544.0,
      "id": "b_one_world_trade_center",
      "lod": 0,
      "name": "One World Trade Center",
      "triangles": 6044
     },
     {
-     "distance_m": 569.6,
+     "distance_m": 545.5,
      "id": "b_wtc_site",
      "lod": 0,
      "name": "World Trade Center site",
      "triangles": 136174
     },
     {
-     "distance_m": 596.4,
+     "distance_m": 553.3,
      "id": "equitable_building",
      "lod": 0,
      "name": "Equitable Building",
      "triangles": 86321
     },
     {
-     "distance_m": 670.9,
+     "distance_m": 627.1,
      "id": "federal_hall",
      "lod": 0,
      "name": "Federal Hall National Memorial",
      "triangles": 9070
     },
     {
-     "distance_m": 683.5,
+     "distance_m": 639.4,
      "id": "40_wall_street",
      "lod": 0,
      "name": "40 Wall Street (Trump Building)",
      "triangles": 43167
     },
     {
-     "distance_m": 1165.2,
+     "distance_m": 661.8,
+     "id": "trinity_church",
+     "lod": 0,
+     "name": "Trinity Church",
+     "triangles": 3984
+    },
+    {
+     "distance_m": 1151.1,
      "id": "b_brooklyn_bridge",
      "lod": 0,
      "name": "Brooklyn Bridge",
      "triangles": 121824
     }
    ],
-   "placed": 9,
+   "placed": 10,
    "skipped": 0,
    "skipped_detail": [],
-   "triangles": 593119
+   "triangles": 597103
   },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 563,
-    "curb": 1032,
-    "median": 86,
-    "parking_lot": 24,
-    "plaza": 59,
-    "roadbed": 463,
-    "sidewalk": 227
+    "crosswalk": 525,
+    "curb": 942,
+    "median": 69,
+    "parking_lot": 19,
+    "plaza": 57,
+    "roadbed": 423,
+    "sidewalk": 196
    },
-   "placed": 2454,
-   "radius_m": 649.1281981840477,
+   "placed": 2231,
+   "radius_m": 617.0520439793352,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_0",
     "t_-5_1",
-    "t_-5_2",
     "t_-6_0",
-    "t_-6_1",
-    "t_-6_2"
+    "t_-6_1"
    ],
-   "triangles": 158938,
-   "vertices": 163578
+   "triangles": 144760,
+   "vertices": 148978
   },
   "props": {
-   "capped": "triangle budget 1198912",
+   "capped": "triangle budget 1257391",
+   "impostor_cards_dropped": 8,
    "leaf_off": false,
    "per_kind": {
-    "bench": 112,
-    "bike_rack": 36,
+    "bench": 127,
+    "bike_rack": 38,
     "bus_shelter": 2,
     "bus_stop_sign": 25,
     "citibike_dock": 3,
-    "flagpole": 13,
-    "hydrant": 50,
+    "flagpole": 17,
+    "hydrant": 53,
     "linknyc": 1,
     "mailbox": 6,
-    "manhole": 117,
-    "newsstand": 2,
-    "steam_vent": 8,
-    "street_lamp": 142,
-    "subway_emergency_exit": 2,
-    "subway_entrance": 15,
-    "subway_vent_grate": 60,
-    "tree": 48,
-    "waste_basket": 51
+    "manhole": 125,
+    "newsstand": 3,
+    "steam_vent": 7,
+    "street_lamp": 159,
+    "subway_emergency_exit": 3,
+    "subway_entrance": 18,
+    "subway_vent_grate": 59,
+    "tree": 41,
+    "waste_basket": 59
    },
-   "placed": 693,
+   "placed": 746,
    "radius_m": 250.0,
-   "rows_in_range": 983,
+   "rows_in_range": 985,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_1",
     "t_-6_1"
    ],
    "tree_species_substituted": 4,
-   "triangles": 1200034,
+   "triangles": 1257738,
    "unmapped_kinds": {
     "artwork": 4,
-    "cooling_tower": 50,
-    "curb_ramp": 111,
-    "drinking_fountain": 4,
+    "cooling_tower": 58,
+    "curb_ramp": 117,
+    "drinking_fountain": 5,
     "memorial": 4,
     "misc_structure": 3,
     "parks_building": 9
    }
   },
-  "radius_m": 649.1281981840477,
-  "seconds": 34.71,
+  "radius_m": 617.0520439793352,
+  "seconds": 36.54,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 4.328,
-   "triangles": 180000,
-   "water_quads": 847,
-   "z_max_m": 14.57,
-   "z_min_m": -1.93
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 205,
+   "spacing_m": 2.0,
+   "triangles": 83232,
+   "water_quads": 10,
+   "z_max_m": 14.07,
+   "z_min_m": -1.78
   },
-  "triangles": 3269803
+  "triangles": 3193947
  },
  "scene_request": {
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
-  "radius_m": 649.1281981840477
+  "radius_m": 617.0520439793352
  },
  "seconds": {
-  "render": 97.9,
-  "scene": 35.4,
-  "total": 133.3
+  "render": 104.5,
+  "scene": 38.3,
+  "total": 142.8
  },
  "slug": "landmark_woolworth_building",
  "status": "rendered",
  "subject": {
-  "distance_m": 155.7,
+  "distance_m": 135.7,
   "name": "Woolworth Building"
  },
  "sun": {
-  "azimuth_deg": 193.04566939068295,
-  "elevation_deg": 63.70266918239719,
+  "azimuth_deg": 193.04541419790286,
+  "elevation_deg": 63.70306028988054,
   "local": "2022-04-30T13:17:00-04:00",
   "time_source": "EXIF DateTimeOriginal",
   "utc": "2022-04-30T17:17:00Z"

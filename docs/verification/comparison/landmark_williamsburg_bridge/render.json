@@ -1,23 +1,24 @@
 {
- "azimuth_reason": "202.4 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 199.4 deg, 3.0 deg away",
+ "azimuth_reason": "199.4 deg as recorded; it agrees with the bearing from the camera position used to Williamsburg Bridge Brooklyn tower (199.5 deg) to 0.1 deg",
  "camera": {
-  "azimuth_deg": 202.4,
+  "azimuth_deg": 199.4,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
-   "chosen_m": 2.66,
+   "chosen_m": 2.67,
    "max_m": 2.85,
    "median_m": 2.66,
    "min_m": 2.57,
    "mode": "local",
    "percentile": null,
+   "point_m": 2.67,
    "radius_m": 5.0,
    "samples": 16
   },
   "ground_mode": "local",
-  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap median within 5 m is the ground",
+  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap height at the point itself is the ground (the neighbourhood is still measured and printed, because a terrace can stand metres above the plaza 4 m away and a median across that step would put the camera underground)",
   "hfov_deg": 54.432,
   "lat": 40.7165,
   "lon": -73.9668,
@@ -30,17 +31,35 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_williamsburg_bridge",
-  "terrain_z_m": 2.663,
+  "terrain_z_m": 2.672,
   "x": -1419.51,
   "y": 1832.432,
-  "z": 4.263
+  "z": 4.272
  },
- "camera_caption": "camera 40.71650, -73.96680 (NYC_TM -1420, 1832) z 4.3 m NAVD88 | azimuth 202.4deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.71650, -73.96680 (NYC_TM -1420, 1832) z 4.3 m NAVD88 | azimuth 199.4deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.7165,
+  "lon": -73.9668,
+  "offset_from_recorded_m": 389.2,
+  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 389 m away, past the 250 m at which it could still be the same view, so it was rejected as mis-tagged"
+ },
  "clearance": {
+  "min_view_m": 80.0,
   "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "nearest_obstruction": "prop_flag_nyc_pole_0",
+  "nearest_obstruction_m": 2.3,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_flag_nyc_pole_0 2.3 m away, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
  },
+ "frame": {
+  "mean": 0.5393,
+  "reason": null,
+  "sd": 0.1855,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
@@ -77,9 +96,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_williamsburg_bridge/render.png",
- "rendered_at": "2026-09-06T18:04:09Z",
+ "rendered_at": "2026-09-07T00:06:14Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -95,6 +114,9 @@
     "t_-3_1",
     "t_-3_2"
    ],
+   "landmark_bins_suppressed": 1,
+   "landmark_faces_suppressed": 52,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-1_0": {
@@ -120,7 +142,7 @@
     "t_-2_1": {
      "lod": 0,
      "objects": 15,
-     "triangles": 26744
+     "triangles": 26692
     },
     "t_-2_2": {
      "lod": 0,
@@ -150,10 +172,11 @@
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 10,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 10,
    "triangle_budget": 3510000,
-   "triangles": 235978
+   "triangles": 235926
   },
   "centre_tm": [
    -1419.51,
@@ -181,6 +204,7 @@
    "radius_m": 120.0,
    "records_in_range": 3936,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
     "t_-2_1"
@@ -239,6 +263,7 @@
   },
   "props": {
    "capped": null,
+   "impostor_cards_dropped": 12,
    "leaf_off": false,
    "per_kind": {
     "bench": 36,
@@ -262,7 +287,7 @@
     "t_-2_2"
    ],
    "tree_species_substituted": 27,
-   "triangles": 895646,
+   "triangles": 895070,
    "unmapped_kinds": {
     "artwork": 1,
     "cooling_tower": 45,
@@ -271,18 +296,22 @@
    }
   },
   "radius_m": 1210.448885472359,
-  "seconds": 35.34,
+  "seconds": 50.82,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 8.07,
-   "triangles": 180000,
-   "water_quads": 27357,
-   "z_max_m": 18.72,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 235,
+   "spacing_m": 2.0,
+   "triangles": 109512,
+   "water_quads": 19424,
+   "z_max_m": 19.24,
    "z_min_m": -1.62
   },
-  "triangles": 2147698
+  "triangles": 2076582
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -290,9 +319,9 @@
   "radius_m": 1210.448885472359
  },
  "seconds": {
-  "render": 69.9,
-  "scene": 35.9,
-  "total": 105.8
+  "render": 116.3,
+  "scene": 52.0,
+  "total": 168.3
  },
  "slug": "landmark_williamsburg_bridge",
  "status": "rendered",
