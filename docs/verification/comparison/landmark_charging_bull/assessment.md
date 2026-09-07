@@ -12,6 +12,28 @@
 
 **Verdict — the bull is modelled and the camera is aimed at it — the subject-bearing rule overrode a recorded azimuth 38 deg out — but the sculpture reads as a small dark lump on an empty plaza, and the near half of the frame is bare ground**
 
+## Re-rendered 2026-09-07 — the subject is a blocked-out mass, and that is the honest choice
+
+Bowling Green is well built: the plaza's kerb line and its raised planting bed, bare winter trees on
+the island, benches, lamp standards, the flagpoles carrying the orange-white-blue of the City flag,
+`COFFEE` fascias on the shopfronts opposite from the signage stage, a sidewalk shed with green netting
+along the left frontage, 322 people and 88 vehicles, 10 landmark models.
+
+**The Charging Bull itself is a bronze lump.** At 33.8 m it reads as a mass of about the right size,
+in the right place, with the right patina, and nothing about it is a bull — no head, no horns, no
+legs, no modelling. That is deviation I1, and it is a deliberate choice rather than a failure: the
+project's rule is that inventing figure geometry would be worse than an honest gap, so sculpture is
+blocked out and flagged.
+
+It is worth separating this from the other sheets that cannot show their subject. `landmark_40_wall_street`
+fails because three sensible camera rules compose badly (I18) and the fix is known. This one fails
+because the subject was never modelled, on purpose, and the sheet is doing its job by making that
+visible. A reader who cannot tell those two apart has been misled by the format rather than by
+either fault.
+
+Mean luminance **0.357 against the photograph's 0.394** — one of the closest matches in the set, and
+the Sun is from EXIF.
+
 ## What matches
 
 * Charging Bull exists as a landmark model and is in the frame at 34 m, at the right size (3 m high) and on the right traffic island at the north tip of Bowling Green.
