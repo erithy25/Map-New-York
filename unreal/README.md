@@ -15,8 +15,15 @@ executed in the authoring container; where a number is an estimate rather than a
 | OS | Windows 10/11 x64 or Linux x64 | Windows 11 + VS 2022 (17.8+) | `DefaultGraphicsRHI_DX12`, `Compiler=VisualStudio2022` in `DefaultEngine.ini` |
 | CPU | 8 cores | 16 cores | UBT and the asset import are both parallel |
 | RAM | 32 GB | 64 GB | Nanite build of the per-tile shells; the streaming budget alone is 8 GB |
-| GPU | RTX 3060 12 GB / RX 6800 | RTX 4070 12 GB or better | Lumen HW ray tracing + virtual shadow maps are on in `DefaultEngine.ini`; the frame budget in ARCHITECTURE §13 is quoted for an RTX 4070 at 1440p |
-| Disk | 250 GB free | 400 GB free SSD | engine 60 GB, `data/processed` up to 60 GB, DDC 40 GB, imported content 60–120 GB, cook 40 GB |
+| GPU | **RTX 3060 Ti 8 GB** | RTX 4070 12 GB or better | `DefaultEngine.ini` is now tuned for 8 GB: software Lumen, ray tracing off, a 1500 MB texture pool, a 2048-page shadow atlas, TSR history at 100 %. On a 12 GB card those can go back up — the lines say what each costs |
+| Disk | **80 GB free** for the first drivable region | 250–400 GB free SSD for the whole city | Engine 38 GB (Win64 only, no editor debug symbols), VS 2022 **Build Tools** 9 GB — not the 25 GB full workload — repo and content package 4 GB, `Intermediate`+`Binaries` 12 GB, DDC 10 GB, imported content 3 GB |
+
+**On the 8 GB target.** Nanite stays on: for 5.6 GB of building shells it is a net VRAM *win* and it
+is the reason a 1:1 city fits on this card at all. What went off is hardware ray tracing (the BVH for
+a Nanite city is hundreds of megabytes and a second-generation RT core does not earn it back), the
+skin cache (it exists to ray-trace skinned meshes), volumetric clouds and real-time sky capture
+(1–2 ms each, until the frame time on the real machine is measured rather than guessed), and the
+three mirror scene-captures on the car, which are the single most expensive feature on it.
 
 Also needed on the workstation: the repository itself (this file lives at `unreal/README.md`) and
 `data/processed/` produced by the pipeline. The UE project reads the pipeline output through
@@ -40,9 +47,12 @@ must stay at `<repo>/unreal/NYCSim`.
 
 ## 3. Build (first time: 25–60 min, incremental: 1–5 min)
 
+The 38 wrapper translation units that pull `core/src` into the `NYCSimCore` module are **committed**,
+so step 1 is a check rather than a prerequisite. Run it after changing anything under `core/src`.
+
 ```bash
-# 1. generate the wrapper translation units that pull core/src into the NYCSimCore module
-python3 unreal/tools/gen_core_unity.py            # ~1 s; re-run whenever a file is added to core/src
+# 1. re-check the wrapper translation units (they are already in the repository)
+python3 unreal/tools/gen_core_unity.py --check    # ~2 min; compiles each one as UBT will
 
 # 2. generate project files
 #    Windows
@@ -242,11 +252,42 @@ Directories to Package* in Project Settings → Packaging (or `+DirectoriesToAlw
 
 ---
 
+## 9b. Getting the world onto this machine
+
+`data/processed/` and `blender_out/` are gitignored — they are tens of gigabytes of derived
+artefacts — so a clone of this repository has all the code and none of the city. The content travels
+as a set of numbered `.tar.gz` parts:
+
+```bash
+python3 tools/package_content.py --tile-list <tiles>.txt --out dist/first-drive   # to build one
+python3 tools/package_content.py --verify dist/first-drive                        # to check one
+cat dist/first-drive/part_*.tar.gz | tar -xzvf - -i -C .                          # to unpack one
+```
+
+`tar` ships with Git for Windows, so nothing extra is installed. The `-i` matters: `cat` of several
+gzip members is a valid stream and `tar` needs telling to read past the first end-of-archive marker.
+
+What goes in is decided by `unreal_manifest.json` rather than by a hand-written list, so a manifest
+that gains an entry gains a file in the package without anyone remembering. The 47-tile Manhattan
+region — Times Square, Midtown, the Empire State Building, Grand Central, the Financial District and
+the World Trade Center site — is **3.5 GB**, of which 1.3 GB is tiles, 0.6 GB the 53 landmarks inside
+it, 0.5 GB the crowd, 0.4 GB terrain and runtime and 0.25 GB the licensed radio.
+
+---
+
 ## 10. Troubleshooting
 
 | Symptom | Cause and fix |
 |---|---|
 | `TileStreaming: world data not ready` | `Content/NYCSim/Runtime/{crs.json,tiles.nycb}` missing — run `-run=NYCImport -stages=stage` |
+| The car is invisible and falls | The physics asset simulates every bone. `import_assets.py` makes all but `Body` kinematic; if the editor's Python refused, it says so in the log — open `PHYS_FusionHybrid`, delete every body except `Body`, save. This is the one step that may need a human |
+| The car has no wheels and no doors move | The skeletal import produced a static mesh. Check `fusion_hybrid.glb` has `skins: 1` (`pytest tests/test_vehicle_rig.py`) and that the Interchange glTF path is enabled |
+| Indicators, high beams or DRLs do nothing | The lamp is found by material-slot name. `pytest tests/test_vehicle_contract_agreement.py` compares the exporter's names against `NYCVehicleContract.cpp` |
+| A door opens the wrong way, or the wheels roll backwards | The **sign**, not the axis. The rig is built with identity rest orientations so the axes survive the Blender → glTF → Unreal conversion, but Blender's +Y is left and Unreal's is right. Flip the sign in `UNYCVehicleAnimInstance`; deviation J6 |
+| The world is bare ground with no roads | `SM_Pavement` did not import or is not placed. Check the manifest lists `tile_pavement.glb` for the tile and that `build_levels.py` ran its `place_pavement` |
+| No landmarks anywhere | `data/processed/landmarks/landmarks.json` is missing — regenerate the manifest, which writes it |
+| No radio, no sirens | The 74 `.ogg` files are in the manifest as kind `sound`; check they were staged and that `Content/NYCSim/Audio/stations.json` exists |
+| Every HUD label is in the engine's default font | The font imported under the wrong name. It must be exactly `/Game/NYCSim/Fonts/F_Overpass` |
 | `crs.json: proj4 … differs from the core's` | the pipeline and the core disagree on the CRS; do not edit either by hand, re-run the pipeline's CRS stage |
 | `level package … does not exist` (once per tile) | that tile's levels have not been built; run `-stages=levels` |
 | Water is grey | `M_NYC_Water` missing — run `-stages=assets`; the actor falls back to the engine default material on purpose |
