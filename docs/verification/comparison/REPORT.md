@@ -22,9 +22,9 @@ gap is named and attributed to one of five causes: **missing data**, **missing g
 
 | layer | source | how it is placed |
 |---|---|---|
-| terrain | `data/processed/tiles/{tile}/terrain.png` + `.json` (16-bit, 501x501 at 2 m, `z = z_min_m + v*z_scale_m`), 2,916 tiles on disk | displaced **graded** grid over the scene square — the heightmap's own 2 m spacing within 150 m of the camera, then coarsening geometrically to at most 40 m at the edge of the scene; PNG row 0 is the north edge so the array is flipped before sampling; quads whose four corners sit on a tile's flattened water surface get a separate water material |
+| terrain | `data/processed/tiles/{tile}/terrain.png` + `.json` (16-bit, 501x501 at 2 m, `z = z_min_m + v*z_scale_m`), 2,916 tiles on disk | displaced **graded** grid over the scene square — the heightmap's own 2 m spacing within 150 m of the camera, then coarsening geometrically to at most 40 m at the edge of the scene; PNG row 0 is the north edge so the array is flipped before sampling; a quad whose four corners lie inside a surveyed water body in `data/processed/water/hydrography.parquet` gets a separate water material (§2.8); no quad is drawn where a landmark supplies its own ground (§2.9) |
 | building shells | `blender_out/tiles/{tile}/tile_buildings.glb` — 920 tiles, 1,083,026 buildings, zero open shells | translated by the tile origin (`tx*1000, ty*1000`). Each glb carries LOD0/LOD1/LOD2 as sibling objects; exactly one LOD is kept per tile (LOD0 inside 1.2 km, LOD1 to 2.5 km, LOD2 beyond) and the rest deleted, otherwise every shell would be drawn two or three times over. Not every tile carries every LOD, so a tile with no mesh at the LOD its distance asks for is drawn at the nearest LOD it *does* have, and the substitution is printed on the sheet |
-| pavement | `data/processed/roads/pavement/{tile}.parquet` (§7) — **617,518 polygons across 972 tiles**, counted from every file's Parquet metadata | roadbed, sidewalk, median, plaza, curb, crosswalk and parking-lot polygons triangulated in plan, every vertex lifted to the heightmap surface plus that kind's own offset, so the pavement follows the real grade and the curb reveal is the real 0.15 m |
+| pavement | `data/processed/roads/pavement/{tile}.parquet` (§7) — **617,518 polygons across 972 tiles**, counted from every file's Parquet metadata | roadbed, sidewalk, median, plaza, curb, crosswalk and parking-lot polygons triangulated in plan, every vertex lifted to the heightmap surface plus that kind's own offset, so the pavement follows the real grade and the curb reveal is the real 0.15 m; no triangle is drawn where a landmark supplies its own ground (§2.9) |
 | landmarks | `blender_out/landmarks/catalog/*.json` — 93 entries | translated to `origin_tm`; the model axes are already parallel to NYC_TM ("no rotation to apply on import"). Two catalogue shapes are handled: `glb` + `bounds_local_m` for the towers, and a `lods` map with `path` + `bounds` for the bridges and monuments. A landmark is kept when its model's *bounding box* touches the scene disc, not just its origin, so a bridge that spans kilometres is not dropped for having a distant origin |
 | props | `data/processed/tiles/{tile}/props.parquet` (§8) — 1,724,589 rows over 1,576 tiles | instanced against `blender_out/props/props_asset_catalog.json` (122 assets), matched on `kind` → `dataset_kind`; trees matched on the census species (`Styphnolobium japonicum` → `tree_sophora_*`) and size class. Yaw is the negated compass heading, because every prop asset is authored facing +Y. **No scale is ever applied** |
 | facade kit | `data/processed/tiles/{tile}/kit_placements.bin` (§6, 40-byte records), 920 tiles | instanced against the tile's own `kit_placements.json` header, which carries the `kit_id → glb` map the placements were written with. Yaw is `yaw_deg + 90` deg (the record holds the wall's outward normal as an angle CCW from east; every kit piece is authored with its wall plane at y=0 and `into_building = +Y`, so its outward direction is local -Y). `scale` is applied to local X only — it is the along-run stretch, not a uniform scale, so a 12x cornice must not become 12x tall |
@@ -40,7 +40,12 @@ printed on the sheet, so a frame never silently omits content.
   of the item's nominal `viewpoint`; otherwise the nominal viewpoint, with the sheet saying the
   photograph's GPS was rejected and by how far. Of the 57 subjects rendered, the photograph's own
   GPS was adopted for **45**, rejected as mis-tagged for **10** (up to 3.6 km away) and absent for
-  **2**.
+  **2**. Beyond that radius the test depends on what defines the view (§2.9): an item that is a
+  view **of** a point subject also accepts the photograph's GPS when it stands *nearer the subject
+  than the recorded viewpoint does* and *on the same side of it* (within 45°), because there the
+  viewpoint is only an estimate of where such a photograph is taken from; an item that is a view
+  **from** somewhere — a ferry deck, a promenade railing, a named block — keeps the radius, because
+  there the recorded position is the view.
 * Heading: the bearing **from the position actually used** to the item's `subject` coordinate.
   When the camera stands on the photograph's own GPS this is used unconditionally — position and
   heading then come from the same measurement. When it stands on the nominal viewpoint the
@@ -390,3 +395,97 @@ read at their subject points, and their shipped sheets predate it. Measured at t
 clearance rule falling from "radial search with a clear view" to "open air only". **Both need
 re-rendering and neither has been re-rendered here**; their sheets and assessments are stale by that
 much.
+
+> **Both were re-rendered on 2026-09-07 in the World Trade Center pass, and again in the pass below.**
+> §2.10 records what the current code produces for each and what the frames show.
+
+---
+
+## 2.8 Inland water rendered dry, everywhere
+
+The Bethesda Terrace sheet is one of the nine the brief mandates, and the Lake that fills the upper
+third of its reference photograph was **bare grey ground** in the render. So were the Central Park
+ponds, the Staten Island reservoirs and the Bronx and Queens lakes.
+
+**The data was never the problem.** `data/processed/water/hydrography.parquet` holds all 2,235
+bodies; 946 non-tidal ones carry a real surface level from −0.55 m to 118.65 m, and Central Park's
+Lake is in it by name, 70,499 m² at **16.5507 m**. The terrain stage had already flattened the
+heightmap to that level: sampled at 4 m inside the polygon, the DEM reads a median of **16.55 m**.
+Only the *mask* was lost.
+
+The loss is at the tile boundary. `pipeline/nycsim_pipeline/terrain/tiles.py` writes
+`"water_level_m": 0.0` as a hard-coded literal, and this module masked water as
+`z <= water_level_m + 0.05`, which on an inland tile selects nothing: `t_-2_8`, which holds the
+Lake, carries `has_water: true`, `water_level_m: 0.0` and a terrain floor of 10.89 m. **121 of the
+1,743 water-bearing tiles carry a water plane below their own lowest ground**, a median 8.01 m below
+and 58.34 m at worst.
+
+**Setting each tile's scalar to its dominant body was measured and rejected.** It resolves for all
+121, but only **30** are safe: on the other 91 the threshold would flood up to **76 m of real
+relief** — `t_-15_-12` would take a pond at 94.58 m and flood ground from 76.65 m. One scalar and a
+height threshold cannot describe a tile holding a pond above a valley, nor a coastal tile holding
+the sea and a pond at once.
+
+**What the scene builder does now** (`scene.py: WaterBodies`): a ground sample is water when it is
+**inside a surveyed body**, and it uses that body's own level. This changes what a sample is made of
+and never where it is, so no hillside can become a lake: the ground mesh still follows the heightmap
+everywhere, and the mask is the surveyed polygon rather than a contour. Measured on the two tiles
+the rejected fix would have flooded, `t_-15_-12` masks 280 of 10,201 samples (2.7 %) with none below
+70 m, and `t_-13_-8` masks 788, the Silver Lake Reservoir at 69.13 m and Goodhue Pond at 25.12 m
+*separately*, on one tile, which a scalar cannot do at all. Querying the whole 2,235-polygon tree
+point by point costs 27 s for a 421² grid, so the candidate set is narrowed by the sample block's
+bounding box first: 0.13 s for the same grid.
+
+Two consequences worth stating:
+
+* **The `has_land` special case is gone.** An all-water tile used to be masked wholesale; the
+  surveyed polygons cover all 622 of them (checked: 2,601 of 2,601 samples on the four sampled), so
+  the special case bought nothing and hid the question.
+* **14 of the 1,173 tiles flagged `has_water: false` hold a water polygon** — between 1 and 32
+  samples each, slivers where a body crosses a tile boundary and the flag was written on the other
+  side. The polygons are right and the flags are approximately right; the mask now follows the
+  polygons.
+
+## 2.9 Terrain drawn straight through a landmark's own ground
+
+Nothing cut terrain or pavement under a landmark's own ground plane. The 9/11 Memorial is the case
+that shows it: the plaza is cut open over two 61 m pools whose basins reach **−4.39 m** at the water
+and **−13.74 m** in the central void, and the heightmap inside the South Pool square reads a median
+**1.98 m** NAVD88 over 961 samples at 2 m. So the published DEM was drawn straight across the
+opening 2.4 m below the deck, and the pool read as a shallow depression instead of a 9.14 m fall.
+
+**The rule.** A landmark model that carries its own ground surface owns the ground inside that
+surface's **outer plan outline, openings included**, and neither the terrain nor the pavement is
+drawn there. An opening in a modelled ground plane is a modelled hole in the ground, and drawing the
+DEM across it hides exactly what the opening exists to show. Outside that outline nothing changes.
+
+**A landmark that supplies no ground changes nothing.** A bridge, a statue, a tower whose model is a
+shell with no deck has no upward horizontal face near its declared ground elevation, so it
+contributes no outline and the terrain and pavement are drawn under it exactly as before — which is
+right, because those things *do* stand on the city's ground and the DEM is the only statement of
+where it is. Measured over all 93 catalogue entries: **40 supply their own ground and 53 do not.**
+The largest are `b_wtc_site` (33,039 m², the real memorial plaza outline), `c_hudson_yards`
+(20,061 m² in 3 parts), `c_pier_17_seaport` (10,586 m²), `c_yankee_stadium` (10,089 m²) and
+`c_citi_field` (10,030 m²); the smallest kept are `charging_bull` (35 m²) and
+`madison_square_garden` (31 m²). `b_one_world_trade_center`, every bridge, and the Statue of Liberty
+contribute nothing.
+
+"Its own ground" is read from the geometry, because no catalogue field declares it: an upward-facing
+horizontal face (normal within 8° of +Z) whose world z is within **1 m** of the entry's
+`origin_tm[2]`. That is not an arbitrary datum — across the 93 entries the median
+|origin z − heightmap at the origin| is **0.07 m**, so the catalogue already uses the origin's z as
+the landmark's ground elevation, and a metre is generous enough for a modelled kerb and tight enough
+to exclude the memorial's 1.07 m parapet coping. Outlines under 25 m² are ignored: a landmark has
+incidental horizontal faces at ground level (the flat base of a tree trunk, the tread of a step) and
+each would punch its own hole, always covered by the face that made it, but not worth the noise.
+
+The order in `build_scene` changes with it: landmarks are placed **before** the terrain and the
+pavement, because they decide where those are not drawn. Nothing in that pass depends on the ground,
+and the triangle allocation is unchanged — buildings still take their fixed 78 % share and props and
+kit still divide what is left.
+
+This also settles, for the comparison stage only, the overlap §12.6 of `REPORT_B.md` records: the
+memorial plaza is both a `plaza` polygon draped at heightmap + 0.25 m (4.44 m here) and a modelled
+deck at 4.40 m. Where a landmark models the ground, its version — built from that place's own
+outline — is the one drawn. Whoever integrates the landmark set into the engine still has to make
+the same decision there; nothing here does it for them.
