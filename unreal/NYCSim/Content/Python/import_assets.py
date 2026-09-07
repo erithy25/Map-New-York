@@ -156,6 +156,106 @@ def create_material(name: str, folder: str = MATERIALS_ROOT):
     return material, True
 
 
+# ------------------------------------------------------------------------------------------------- physical materials
+
+#: nycsim_gameplay::SurfaceClass index -> (asset name, EPhysicalSurface enum member). The index is the
+#: EPhysicalSurface index too: DefaultEngine.ini declares SurfaceType1=Asphalt ... SurfaceType13=Ice in
+#: exactly this order and UNYCVehicleMovementComponent::ToSurfaceClass casts one straight to the other.
+#: Without these assets on the mesh slots every contact resolves to SurfaceClass::Default and the whole
+#: friction table collapses to dry asphalt -- cobblestone, steel plate and painted crosswalk included.
+PHYSICAL_SURFACES = {
+    1: ("PM_NYC_Asphalt", "SURFACE_TYPE1"),
+    2: ("PM_NYC_Concrete", "SURFACE_TYPE2"),
+    3: ("PM_NYC_Cobble", "SURFACE_TYPE3"),
+    4: ("PM_NYC_SteelPlate", "SURFACE_TYPE4"),
+    5: ("PM_NYC_PaintedMarking", "SURFACE_TYPE5"),
+    6: ("PM_NYC_Gravel", "SURFACE_TYPE6"),
+    7: ("PM_NYC_Boardwalk", "SURFACE_TYPE7"),
+    8: ("PM_NYC_Grass", "SURFACE_TYPE8"),
+    9: ("PM_NYC_Sidewalk", "SURFACE_TYPE9"),
+    10: ("PM_NYC_Water", "SURFACE_TYPE10"),
+    11: ("PM_NYC_Metal", "SURFACE_TYPE11"),
+    12: ("PM_NYC_Snow", "SURFACE_TYPE12"),
+    13: ("PM_NYC_Ice", "SURFACE_TYPE13"),
+}
+PHYSICS_ROOT = f"{CONTENT_ROOT}/Physics"
+
+
+def ensure_physical_materials(force: bool = False) -> dict:
+    """Create one ``UPhysicalMaterial`` per declared surface, tagged with its ``EPhysicalSurface``."""
+    made = {}
+    tools = unreal.AssetToolsHelpers.get_asset_tools()
+    for index, (name, enum_member) in sorted(PHYSICAL_SURFACES.items()):
+        path = f"{PHYSICS_ROOT}/{name}"
+        asset = load_asset(path) if asset_exists(path) else None
+        if asset is not None and not force:
+            made[name] = False
+            continue
+        if asset is None:
+            asset = tools.create_asset(name, PHYSICS_ROOT, unreal.PhysicalMaterial,
+                                       unreal.PhysicalMaterialFactoryNew())
+        if asset is None:
+            ERROR(f"could not create physical material {path}")
+            continue
+        try:
+            asset.set_editor_property("surface_type", getattr(unreal.PhysicalSurface, enum_member))
+        except Exception as exc:  # noqa: BLE001
+            WARN(f"{path}: surface_type {enum_member} not settable: {exc}")
+        save_asset(path)
+        made[name] = True
+    return made
+
+
+def assign_physical_materials(asset_path: str, by_material: dict) -> int:
+    """Hang the right ``UPhysicalMaterial`` on every slot of an imported pavement mesh.
+
+    ``by_material`` maps the glTF material name (``pave_roadbed_asphalt``) to a ``SurfaceClass``
+    index. The imported slot keeps that name, so the mapping is a lookup rather than a guess. A slot
+    whose name is not in the map keeps whatever it had and is reported, because a silently
+    unassigned slot is a stretch of road that behaves like dry asphalt in the rain.
+    """
+    mesh = load_asset(asset_path)
+    if mesh is None or not isinstance(mesh, unreal.StaticMesh):
+        return 0
+    assigned = 0
+    try:
+        slots = list(mesh.get_editor_property("static_materials") or [])
+    except Exception as exc:  # noqa: BLE001
+        WARN(f"{asset_path}: material slots unreadable: {exc}")
+        return 0
+    for slot in slots:
+        try:
+            slot_name = str(slot.get_editor_property("material_slot_name"))
+            material = slot.get_editor_property("material_interface")
+        except Exception:  # noqa: BLE001
+            continue
+        index = by_material.get(slot_name)
+        if index is None:
+            # The importer may prefix or suffix the slot name; fall back to a containment match.
+            for key, value in by_material.items():
+                if key and key in slot_name:
+                    index = value
+                    break
+        if index is None:
+            WARN(f"{asset_path}: slot {slot_name!r} has no surface class; it will behave as Default")
+            continue
+        entry = PHYSICAL_SURFACES.get(int(index))
+        if entry is None or material is None:
+            continue
+        pm = load_asset(f"{PHYSICS_ROOT}/{entry[0]}")
+        if pm is None:
+            continue
+        try:
+            material.set_editor_property("phys_material", pm)
+            save_asset(material.get_path_name().split(".")[0])
+            assigned += 1
+        except Exception as exc:  # noqa: BLE001
+            WARN(f"{asset_path}: slot {slot_name!r} physical material failed: {exc}")
+    if assigned:
+        save_asset(asset_path)
+    return assigned
+
+
 def make_parameter_collection(force: bool = False):
     path = f"{MATERIALS_ROOT}/MPC_Weather"
     if asset_exists(path) and not force:
@@ -477,6 +577,7 @@ def ensure_materials(force: bool = False) -> dict:
         "M_NYC_Water": build_water_material(collection, force),
         "M_NYC_StarMap": build_starmap_material(force),
     }
+    result["physical_materials"] = ensure_physical_materials(force)
     return result
 
 
@@ -562,8 +663,8 @@ def apply_texture_settings(asset_path: str, settings: dict) -> None:
 #   terrain (terrain.png + terrain.json)                                -> read by UNYCTerrainImporter in
 #       build_levels.py, which turns them into ALandscape actors rather than textures.
 IMPORTABLE_KINDS = {
-    "shells", "roofs", "tile_mesh", "kit", "prop", "tree", "landmark", "vehicle", "character",
-    "water_mask", "font",
+    "shells", "roofs", "tile_mesh", "pavement", "kit", "prop", "tree", "landmark", "vehicle",
+    "character", "water_mask", "font",
 }
 
 
@@ -598,6 +699,13 @@ def import_entries(manifest: dict, repo_root: str, tiles: set | None, max_tiles:
                     apply_texture_settings(asset_path, meta["settings"])
                 else:
                     apply_mesh_settings(asset_path, meta["settings"])
+                    if meta["settings"].get("physical_materials"):
+                        by_material = (meta.get("entry") or {}).get("physical_materials") or {}
+                        if by_material:
+                            assign_physical_materials(asset_path, by_material)
+                        else:
+                            WARN(f"{asset_path}: pavement imported with no material -> surface class "
+                                 f"map; every wheel contact on it resolves to Default")
         batch.clear()
         batch_meta.clear()
 
@@ -633,7 +741,9 @@ def import_entries(manifest: dict, repo_root: str, tiles: set | None, max_tiles:
             imported += 1
             continue
         batch.append(import_task(source, destination_path, destination_name, force))
-        batch_meta.append({"settings": settings_by_id.get(entry.get("import_settings", ""), {}), "id": entry_id})
+        batch_meta.append({"settings": settings_by_id.get(entry.get("import_settings", ""), {}),
+                           "id": entry_id,
+                           "entry": {"physical_materials": entry.get("physical_materials") or {}}})
         if len(batch) >= 32:
             flush()
     flush()

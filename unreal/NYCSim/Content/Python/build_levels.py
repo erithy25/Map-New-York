@@ -194,6 +194,36 @@ def place_shells(tile: str, tier: str) -> int:
     return placed
 
 
+def place_pavement(tile: str) -> int:
+    """The tile's road surfaces: one static-mesh actor at the tile origin.
+
+    ``blender/roads/build_pavement.py`` exports the real DoITT roadbed, sidewalk, median, plaza,
+    curb, crosswalk and parking-lot polygons draped on the same landscape this level imports, tile
+    local in X/Y and absolute NAVD88 in Z -- the same convention as the building shells, so the same
+    placement serves both.
+
+    Collision is on and it is the point: ``UNYCVehicleMovementComponent`` line-traces from each wheel
+    and resolves the ``EPhysicalSurface`` it hits to a ``SurfaceClass`` for the tyre friction model,
+    so the profile here must be one that blocks the vehicle trace channel. ``NYCTerrain`` is the
+    profile the landscape uses and is the right one: the pavement is ground, not an object on it.
+    """
+    mesh = load_asset(f"{tile_content_dir(tile)}/SM_Pavement")
+    if mesh is None:
+        return 0
+    origin_x, origin_y = tile_origin_m(tile)
+    actor = spawn_mesh(mesh, nyctm_to_ue(origin_x, origin_y, 0.0),
+                       unreal.Rotator(0.0, 0.0, 0.0), f"{tile}_SM_Pavement")
+    if actor is None:
+        return 0
+    try:
+        component = actor.get_editor_property("static_mesh_component")
+        if component is not None:
+            component.set_collision_profile_name("NYCTerrain")
+    except Exception as exc:  # noqa: BLE001
+        WARN(f"{tile}: pavement collision profile not set: {exc}")
+    return 1
+
+
 def place_props(tile: str, processed_root: str) -> int:
     """Street furniture from tiles/{tile}/props.json (written by the pipeline for UE's Python, which has no pyarrow).
     Coordinates in that file are tile-local metres."""
@@ -281,7 +311,8 @@ def build_tile_level(tile: str, tier: str, processed_root: str, catalog: dict, t
     if not new_level(package):
         return {"tile": tile, "tier": tier, "ok": False, "error": "level could not be created"}
 
-    result = {"tile": tile, "tier": tier, "ok": True, "shells": 0, "props": 0, "kit": 0, "landscape": False}
+    result = {"tile": tile, "tier": tier, "ok": True, "shells": 0, "pavement": 0, "props": 0,
+              "kit": 0, "landscape": False}
     result["shells"] = place_shells(tile, tier)
 
     if tier == "L0":
@@ -297,6 +328,8 @@ def build_tile_level(tile: str, tier: str, processed_root: str, catalog: dict, t
             except Exception as exc:  # noqa: BLE001
                 result["landscape_error"] = str(exc)
                 WARN(f"{tile}: landscape result unreadable: {exc}")
+        # L0 only: the road surface is what you drive on, and you are never on a tier-1 tile.
+        result["pavement"] = place_pavement(tile)
         result["props"] = place_props(tile, processed_root)
         result["kit"] = place_kit(tile, processed_root, catalog)
 

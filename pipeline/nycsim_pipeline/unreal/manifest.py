@@ -55,6 +55,13 @@ assert KIT_PLACEMENT_STRUCT.size == 40, KIT_PLACEMENT_STRUCT.size
 # Import-settings ids understood by import_assets.py. Kept here so the pipeline and the editor agree on the vocabulary.
 IMPORT_SETTINGS: dict[str, dict[str, Any]] = {
     "shell_nanite": {"nanite": True, "lods_from_suffix": False, "collision": "complex_as_simple", "generate_lightmap_uvs": False, "combine_meshes": False, "material_master": "M_NYC_Master", "mobility": "static", "notes": "per-tile building shells; one static mesh per (tile, material class) mesh in the glb"},
+    # The road surfaces (blender/roads/build_pavement.py). Nanite for the same reason the shells use
+    # it, complex-as-simple collision because the wheels line-trace against the actual triangles and
+    # a convex hull of a kilometre of asphalt is meaningless, and physical materials because
+    # UNYCVehicleMovementComponent resolves an EPhysicalSurface per wheel contact and feeds it to the
+    # tyre friction table -- without them every surface in the city is SurfaceClass::Default and
+    # cobblestone, steel plate and painted crosswalk all grip like dry asphalt.
+    "pavement_nanite": {"nanite": True, "lods_from_suffix": False, "collision": "complex_as_simple", "generate_lightmap_uvs": False, "combine_meshes": False, "material_master": "M_NYC_Master", "mobility": "static", "physical_materials": True, "notes": "per-tile road surfaces; one static mesh per (kind, surface) in the glb, each carrying the SurfaceClass its material maps to"},
     "roof_nanite": {"nanite": True, "lods_from_suffix": False, "collision": "complex_as_simple", "generate_lightmap_uvs": False, "combine_meshes": False, "material_master": "M_NYC_Master", "mobility": "static"},
     "kit_nanite_lod": {"nanite": True, "lods_from_suffix": True, "collision": "simple_box", "generate_lightmap_uvs": False, "combine_meshes": True, "material_master": "M_NYC_Master", "mobility": "static", "instanced": True},
     "landmark_nanite": {"nanite": True, "lods_from_suffix": True, "collision": "complex_as_simple", "generate_lightmap_uvs": False, "combine_meshes": True, "material_master": "M_NYC_Master", "mobility": "static"},
@@ -78,6 +85,7 @@ IMPORT_SETTINGS: dict[str, dict[str, Any]] = {
 GLB_RULES: list[tuple[re.Pattern[str], str, str, str]] = [
     (re.compile(r"^tiles/(?P<tile>t_-?\d+_-?\d+)/tile_buildings\.glb$"), "shell_nanite", f"{CONTENT_ROOT}/Tiles/{{tile}}/SM_Shells", "shells"),
     (re.compile(r"^tiles/(?P<tile>t_-?\d+_-?\d+)/roofs\.glb$"), "roof_nanite", f"{CONTENT_ROOT}/Tiles/{{tile}}/SM_Roofs", "roofs"),
+    (re.compile(r"^tiles/(?P<tile>t_-?\d+_-?\d+)/tile_pavement\.glb$"), "pavement_nanite", f"{CONTENT_ROOT}/Tiles/{{tile}}/SM_Pavement", "pavement"),
     (re.compile(r"^tiles/(?P<tile>t_-?\d+_-?\d+)/(?P<stem>[^/]+)\.glb$"), "shell_nanite", f"{CONTENT_ROOT}/Tiles/{{tile}}/SM_{{stem}}", "tile_mesh"),
     (re.compile(r"^kit/(?P<stem>[^/]+)\.glb$"), "kit_nanite_lod", f"{CONTENT_ROOT}/Kit/{{category}}/SM_{{stem}}", "kit"),
     (re.compile(r"^kit/(?P<category>[^/]+)/(?P<stem>[^/]+)\.glb$"), "kit_nanite_lod", f"{CONTENT_ROOT}/Kit/{{category}}/SM_{{stem}}", "kit"),
@@ -252,6 +260,17 @@ class ManifestBuilder:
                 "nycsim": extras,
                 "category": category or "Misc",
             }
+            if kind == "pavement":
+                # Lift the material -> SurfaceClass map out of the glb's asset extras and onto the
+                # entry itself, so import_assets.py can hang the right UPhysicalMaterial on each
+                # slot without reopening the file. The index is nycsim_gameplay::SurfaceClass, which
+                # is also the EPhysicalSurface index DefaultEngine.ini declares.
+                by_material = extras.get("surface_class") or {}
+                if isinstance(by_material, dict) and by_material:
+                    extra["physical_materials"] = {str(k): int(v) for k, v in sorted(by_material.items())}
+                else:
+                    self._warn(f"{rel}: no surface_class map in the glb extras; "
+                               f"every wheel contact there will resolve to SurfaceClass::Default")
             id_ = f"glb:{rel}"
             deps: list[str] = []
             self._add(id_, kind, glb, dst, settings, deps=deps, tile=gd.get("tile"), extra=extra)
