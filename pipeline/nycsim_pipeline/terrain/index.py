@@ -201,6 +201,77 @@ def build_table(tiles: list[Tile], terrain: dict[str, dict], previous: pa.Table 
                                         b"nycsim.terrain_columns": json.dumps(list(TERRAIN_COLS)).encode()})
 
 
+def content_counts(tiles_dir: Path | None = None) -> dict[str, dict[str, int]]:
+    """The four content counts per tile, read from the tile's own artefacts.
+
+    ``index.parquet`` has declared ``n_buildings``, ``n_road_segments``, ``n_props`` and ``n_trees``
+    since the schema was written, ``build_table`` carries whatever a previous index held, and
+    ``write_index`` even reports how many it preserved — but no stage has ever filled them, so all
+    four read zero for every one of the 2,916 tiles (deviation D12).  They are not the terrain
+    stage's to own (``nycsim.terrain_columns`` lists the eleven that are), which is exactly why
+    nobody filled them.
+
+    ``n_buildings`` counts both populations, New York and New Jersey, because a tile load
+    instantiates both — the same definition ``runtime/export.py::_tile_row_counts`` already uses, so
+    ``tiles.nycb`` and ``index.parquet`` cannot disagree.  ``n_road_segments`` is the count of
+    segments whose geometry intersects the tile square, which is a road-graph question rather than a
+    per-tile artefact: segments are stored city-wide and a segment can cross a tile boundary, so it
+    is counted in every tile it touches and the column sums to more than 122,235.
+    """
+    from ..crs import TILE_SIZE_M
+
+    tiles_dir = tiles_dir or (PROCESSED / "tiles")
+    out: dict[str, dict[str, int]] = {}
+    for d in sorted(p for p in tiles_dir.iterdir() if p.is_dir() and p.name.startswith("t_")):
+        rec = {c: 0 for c in COUNT_COLS}
+        for stem in ("buildings.parquet", "buildings_nj.parquet"):
+            f = d / stem
+            if f.exists():
+                rec["n_buildings"] += pq.ParquetFile(f).metadata.num_rows
+        pf = d / "props.parquet"
+        if pf.exists():
+            rec["n_props"] = pq.ParquetFile(pf).metadata.num_rows
+            kinds = pq.read_table(pf, columns=["kind"])["kind"].to_numpy(zero_copy_only=False)
+            rec["n_trees"] = int((kinds == 0).sum())
+        out[d.name] = rec
+
+    seg = PROCESSED / "roads" / "segments.parquet"
+    if seg.exists():
+        geom = pq.read_table(seg, columns=["geometry"])["geometry"].to_pylist()
+        lines = shapely.from_wkb([g for g in geom if g])
+        tree = shapely.STRtree(lines)
+        for name, rec in out.items():
+            tx, ty = (int(v) for v in name[2:].split("_"))
+            x0, y0 = tx * TILE_SIZE_M, ty * TILE_SIZE_M
+            box = shapely.box(x0, y0, x0 + TILE_SIZE_M, y0 + TILE_SIZE_M)
+            rec["n_road_segments"] = int(len(tree.query(box, predicate="intersects")))
+    return out
+
+
+def fill_content_counts(tiles_dir: Path | None = None) -> dict:
+    """Write the four content counts into ``index.parquet`` (D12), under the shared lock."""
+    counts = content_counts(tiles_dir)
+    with index_lock():
+        if not INDEX_PARQUET.exists():
+            raise FileNotFoundError(f"{INDEX_PARQUET} does not exist; run the terrain index first")
+        tbl = pq.read_table(INDEX_PARQUET)
+        names = tbl.column("tile").to_pylist()
+        cols = {c: pa.array([np.int32(counts.get(n, {}).get(c, 0)) for n in names], pa.int32())
+                for c in COUNT_COLS}
+        for c, arr in cols.items():
+            tbl = tbl.set_column(tbl.schema.get_field_index(c), c, arr)
+        meta = tbl.schema.metadata or {}
+        tbl = tbl.replace_schema_metadata({**meta, b"nycsim.content_counts": b"filled by terrain.index --counts"})
+        tmp = INDEX_PARQUET.with_suffix(".tmp.parquet")
+        pq.write_table(tbl, tmp, compression="snappy")
+        os.replace(tmp, INDEX_PARQUET)
+    totals = {c: int(sum(int(v[c]) for v in counts.values())) for c in COUNT_COLS}
+    nonzero = {c: int(sum(1 for v in counts.values() if v[c])) for c in COUNT_COLS}
+    summary = {"rows": len(names), "totals": totals, "tiles_nonzero": nonzero, "path": str(INDEX_PARQUET)}
+    log.info("tiles/index.parquet content counts: %s", summary)
+    return summary
+
+
 def write_index(tiles: list[Tile] | None = None) -> dict:
     tiles = tiles or scope_tiles()
     terrain = collect_terrain(tiles)
@@ -227,7 +298,12 @@ def write_index(tiles: list[Tile] | None = None) -> dict:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.parse_args(argv)
+    ap.add_argument("--counts", action="store_true",
+                    help="fill n_buildings / n_road_segments / n_props / n_trees from the tile artefacts (D12)")
+    a = ap.parse_args(argv)
+    if a.counts:
+        print(json.dumps(fill_content_counts(), indent=1))
+        return 0
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     print(json.dumps(write_index(), indent=1))
     return 0

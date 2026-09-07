@@ -950,3 +950,48 @@ def test_every_roof_mesh_reference_points_at_a_file_that_exists():
             f"B6: {n_rows} buildings reference {len(wanted)} roofs.glb files and {len(missing)} of "
             f"them do not exist (e.g. {missing[0]}). The roof shape itself is in the shells; this is "
             f"a broken contract, not absent geometry.")
+
+
+def test_the_tile_index_content_counts_are_filled_and_agree_with_the_artefacts():
+    """`index.parquet`'s four content columns were declared and never written (D12).
+
+    They now are, and the check is against the artefacts themselves rather than against the writer:
+    a count column is only worth having if it says what a tile actually holds. `n_buildings` counts
+    both populations because a tile load instantiates both, which is the definition
+    `runtime/export.py::_tile_row_counts` already uses — so `tiles.nycb` and `index.parquet` cannot
+    drift apart.
+    """
+    idx = PROCESSED / "tiles" / "index.parquet"
+    if not idx.exists():
+        pytest.skip("the tile index has not been produced")
+    t = pq.read_table(idx, columns=["tile", "n_buildings", "n_road_segments", "n_props", "n_trees"])
+    by = {r["tile"]: r for r in t.to_pylist()}
+    for col in ("n_buildings", "n_road_segments", "n_props", "n_trees"):
+        assert sum(r[col] for r in by.values()) > 0, f"{col} is zero for every tile; it was never filled"
+
+    # Sample rather than sweep 2,916 tiles: the point is that the number matches the file.
+    import numpy as np
+    rng = np.random.default_rng(11)
+    have = sorted(n for n, r in by.items() if r["n_props"] or r["n_buildings"])
+    for name in rng.choice(have, size=min(8, len(have)), replace=False):
+        d = TILES / str(name)
+        want_b = 0
+        for stem in ("buildings.parquet", "buildings_nj.parquet"):
+            if (d / stem).exists():
+                want_b += pq.ParquetFile(d / stem).metadata.num_rows
+        assert by[str(name)]["n_buildings"] == want_b, f"{name}: n_buildings disagrees with its parquet"
+        pf = d / "props.parquet"
+        if pf.exists():
+            assert by[str(name)]["n_props"] == pq.ParquetFile(pf).metadata.num_rows, f"{name}: n_props"
+            kinds = pq.read_table(pf, columns=["kind"])["kind"].to_numpy(zero_copy_only=False)
+            assert by[str(name)]["n_trees"] == int((kinds == 0).sum()), f"{name}: n_trees"
+        else:
+            assert by[str(name)]["n_props"] == 0 and by[str(name)]["n_trees"] == 0
+
+    # A segment can cross a tile boundary and is counted in every tile it touches, so the column
+    # sums to more than the segment table holds. Stated as an assertion so the definition is pinned.
+    seg = PROCESSED / "roads" / "segments.parquet"
+    if seg.exists():
+        total = sum(r["n_road_segments"] for r in by.values())
+        assert total >= pq.ParquetFile(seg).metadata.num_rows, (
+            "n_road_segments sums below the segment table, so segments crossing a tile edge are being lost")
