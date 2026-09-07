@@ -775,7 +775,15 @@ class AssetLibrary:
         if lc is not None:
             lc.exclude = True
 
-    def get(self, path: Path, *, key: str | None = None, max_lod: int = 0) -> AssetTemplate | None:
+    def get(self, path: Path, *, key: str | None = None, max_lod: int = 0,
+            keep: "callable | None" = None) -> AssetTemplate | None:
+        """Import ``path`` once and cache it as an instanceable template.
+
+        ``keep`` is an optional predicate on the object name: a part it rejects is not drawn and
+        not counted.  The fleet glbs need it -- every vehicle carries its ``UCX_Body_*`` convex
+        collision proxies beside the visible geometry, and drawing those puts a faceted box over
+        the car.
+        """
         key = key or str(path)
         if key in self.templates:
             return self.templates[key]
@@ -793,6 +801,8 @@ class AssetLibrary:
         parts, tris = [], 0
         for ob in created:
             if ob.type == "MESH" and _lod_of(ob.name) <= max_lod:
+                if keep is not None and not keep(ob.name):
+                    continue
                 if _is_impostor(ob):
                     # Every tree asset carries a six-polygon ``<species>_billboard`` card with an
                     # ``IMPOSTOR_*`` material.  It is meant to stand in for the crown at distance,
@@ -1633,6 +1643,7 @@ class SceneReport:
     landmarks: dict = field(default_factory=dict)
     props: dict = field(default_factory=dict)
     kit: dict = field(default_factory=dict)
+    agents: dict = field(default_factory=dict)
     triangles: int = 0
     seconds: float = 0.0
 
@@ -1641,14 +1652,28 @@ class SceneReport:
                 "radius_m": self.radius_m, "triangles": self.triangles,
                 "seconds": round(self.seconds, 2), "terrain": self.terrain,
                 "pavement": self.pavement, "buildings": self.buildings, "landmarks": self.landmarks,
-                "props": self.props, "kit": self.kit}
+                "props": self.props, "kit": self.kit, "agents": self.agents}
+
+
+#: Share of the whole triangle budget the agents may take.  The facade kit takes everything that is
+#: left after buildings, landmarks and props, so without a reserved share there is nothing for a
+#: crowd; 25 % buys roughly fifty vehicles and two hundred and fifty people at street level, which
+#: is what a Midtown avenue holds, and still leaves the kit the largest share of the frame after
+#: the buildings themselves.
+AGENT_BUDGET_SHARE = 0.25
 
 
 def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float | None = None,
                 kit_radius_m: float | None = None, triangle_budget: int = 4_500_000,
                 terrain_max_side: int = 420, lod0_radius_m: float = 1200.0,
                 with_props: bool = True, with_kit: bool = True, pavement_radius_m: float = 900.0,
-                leaf_off: bool = False) -> tuple[SceneReport, TerrainSampler]:
+                leaf_off: bool = False, with_agents: bool = False,
+                agent_request: "object | None" = None, agent_vehicle_radius_m: float = 320.0,
+                agent_ped_radius_m: float = 200.0, agent_max_vehicles: int = 400,
+                agent_max_peds: int = 900, agent_triangle_budget: int | None = None,
+                agent_npc_archetypes: int = 24, agent_ped_phases: int = 3,
+                agent_place_riderless: bool = False, agent_eye_height_m: float = 1.6,
+                ) -> tuple[SceneReport, TerrainSampler]:
     """Reset the scene and populate it from every artefact available around (cx, cy)."""
     import time
     t0 = time.time()
@@ -1660,6 +1685,7 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
     c_landmark = nb.collection("landmarks", scene_col)
     c_props = nb.collection("props", scene_col)
     c_kit = nb.collection("kit", scene_col)
+    c_agents = nb.collection("agents", scene_col)
 
     sampler = TerrainSampler()
     rep = SceneReport(centre_tm=(cx, cy), radius_m=radius_m)
@@ -1691,6 +1717,34 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
     else:
         rep.props = {"placed": 0, "reason": "disabled"}
     left = max(0, left - int(rep.props.get("triangles", 0)))
+    # Agents come before the facade kit, which takes whatever is left: a frame with no people or
+    # traffic in it understates the city far more than one with a cornice fewer (DEVIATIONS I13).
+    if with_agents:
+        import agents as vagents
+        share = (agent_triangle_budget if agent_triangle_budget is not None
+                 else int(triangle_budget * AGENT_BUDGET_SHARE))
+        share = max(0, min(share, left))
+        req = agent_request
+        if req is None:
+            req = vagents.SnapshotRequest(x=cx, y=cy)
+        snap, note = vagents.simulation_snapshot(req)
+        if snap is None:
+            rep.agents = {"placed_vehicles": 0, "placed_pedestrians": 0, "reason": note,
+                          "triangle_budget": share}
+        else:
+            placement = vagents.add_agents(
+                lib, cx, cy, snap, sampler, vehicle_radius_m=min(agent_vehicle_radius_m, radius_m),
+                ped_radius_m=min(agent_ped_radius_m, radius_m), triangle_budget=share,
+                max_vehicles=agent_max_vehicles, max_peds=agent_max_peds,
+                npc_archetypes=agent_npc_archetypes, ped_phases=agent_ped_phases,
+                place_riderless=agent_place_riderless,
+                camera_eye_height_m=agent_eye_height_m, col=c_agents)
+            rep.agents = placement.as_dict()
+            rep.agents["snapshot_note"] = note
+            rep.agents["caption"] = placement.caption()
+        left = max(0, left - int(rep.agents.get("triangles", 0)))
+    else:
+        rep.agents = {"placed_vehicles": 0, "placed_pedestrians": 0, "reason": "disabled"}
     if with_kit:
         rep.kit = add_kit(lib, cx, cy, kit_radius_m if kit_radius_m is not None else min(radius_m, 200.0),
                           triangle_budget=left, col=c_kit, suppress_bins_set=landmark_bins())
@@ -1701,12 +1755,13 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
     rep.triangles = (int(rep.terrain.get("triangles", 0)) + int(rep.pavement.get("triangles", 0))
                      + rep.buildings["triangles"]
                      + rep.landmarks["triangles"] + int(rep.props.get("triangles", 0))
-                     + int(rep.kit.get("triangles", 0)))
+                     + int(rep.kit.get("triangles", 0)) + int(rep.agents.get("triangles", 0)))
     rep.seconds = time.time() - t0
     LOG.info("scene built: %d triangles in %.1f s (%d tiles, %d landmarks, %d pavement polys, "
-             "%d props, %d kit)", rep.triangles, rep.seconds, rep.buildings["tiles_imported"],
-             rep.landmarks["placed"], rep.pavement.get("placed", 0), rep.props.get("placed", 0),
-             rep.kit.get("placed", 0))
+             "%d props, %d kit, %d vehicles, %d people)", rep.triangles, rep.seconds,
+             rep.buildings["tiles_imported"], rep.landmarks["placed"], rep.pavement.get("placed", 0),
+             rep.props.get("placed", 0), rep.kit.get("placed", 0),
+             rep.agents.get("placed_vehicles", 0), rep.agents.get("placed_pedestrians", 0))
     return rep, sampler
 
 
@@ -1720,6 +1775,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     ap.add_argument("--triangle-budget", type=int, default=4_500_000)
     ap.add_argument("--no-props", action="store_true")
     ap.add_argument("--no-kit", action="store_true")
+    ap.add_argument("--agents", action="store_true",
+                    help="place one frame of the traffic and pedestrian simulations")
+    ap.add_argument("--agent-hour", type=int, default=12)
+    ap.add_argument("--agent-dow", type=int, default=0)
+    ap.add_argument("--agent-seed", type=int, default=20260907)
+    ap.add_argument("--agent-warmup-s", type=float, default=120.0)
     ap.add_argument("--json", default=None, help="write the scene report here ('-' for stdout)")
     ap.add_argument("--audit-props", action="store_true",
                     help="measure every prop asset against its catalogue size and exit")
@@ -1731,9 +1792,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 1 if report.get("bad") or report.get("unloadable") else 0
     from nycsim_pipeline.crs import lonlat_to_tm
     x, y = lonlat_to_tm(a.lon, a.lat)
+    req = None
+    if a.agents:
+        import agents as vagents
+        req = vagents.SnapshotRequest(x=float(x), y=float(y), hour=a.agent_hour, dow=a.agent_dow,
+                                      seed=a.agent_seed, warmup_s=a.agent_warmup_s)
     rep, _ = build_scene(x, y, a.radius, prop_radius_m=a.prop_radius, kit_radius_m=a.kit_radius,
                          triangle_budget=a.triangle_budget, with_props=not a.no_props,
-                         with_kit=not a.no_kit)
+                         with_kit=not a.no_kit, with_agents=a.agents, agent_request=req)
     text = json.dumps(rep.as_dict(), indent=1, sort_keys=True)
     if a.json == "-" or a.json is None:
         print(text)

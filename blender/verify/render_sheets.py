@@ -52,6 +52,18 @@ NY_TZ = "America/New_York"
 # Lighting model constants.  SUN_CALIBRATION and REFERENCE_KEY_W were measured with
 # blender/verify/ test renders of a 0.26-albedo ground: they put a clear-midday sunlit ground at
 # about 150/255 through Filmic, which is where a correctly exposed photograph of concrete sits.
+#: One seed for every agent frame in the set.  The traffic and pedestrian simulations are
+#: deterministic in their seed and inputs, so a fixed seed means a re-render reproduces the same
+#: frame; the seed is printed on every sheet so it can be changed and the frame re-checked.
+AGENT_SEED = 20260907
+#: How far agents are placed.  Beyond these the figures are a few pixels and the triangles are
+#: better spent on the facades behind them.
+AGENT_VEHICLE_RADIUS_M = 320.0
+AGENT_PED_RADIUS_M = 200.0
+#: Distinct NPC bodies imported per frame.  Each import costs about 1.5 s, and the 24 exported
+#: bodies through three walk phases already give more distinct figures than a frame ever holds.
+AGENT_NPC_ARCHETYPES = 12
+
 SOLAR_CONSTANT_W = 1361.0
 ATMOSPHERIC_TRANSMITTANCE = 0.7
 SUN_CALIBRATION = 540.0
@@ -633,7 +645,8 @@ def frame_metrics(path: Path) -> dict:
 
 
 def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | None = None,
-                   width: int = RENDER_WIDTH, dry_run: bool = False) -> dict:
+                   width: int = RENDER_WIDTH, dry_run: bool = False,
+                   with_agents: bool = True) -> dict:
     """Build, aim, light and render one subject.  Returns the record written to render.json."""
     import bpy
     import scene as vscene
@@ -668,6 +681,23 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     eye_height_m = vcam.eye_rule_for(slug).height_m
     if prop_r <= 0.0 and eye_height_m <= 20.0:
         prop_r, kit_r = 150.0, 70.0
+
+    # Agents follow the same rule as the props: they belong at eye level, and from an observation
+    # deck 260 m up a person is a fraction of a pixel.  DEVIATIONS I13 is about street-level
+    # frames, and this is where it is closed.
+    agents_off_reason = None
+    if eye_height_m > 20.0:
+        agent_veh_r = agent_ped_r = 0.0
+        agents_off_reason = (f"the eye stands {eye_height_m:.0f} m above the ground, where a person "
+                             f"is a fraction of a pixel and a car a few, so the simulation's crowd "
+                             f"and traffic are not drawn")
+    elif radius > 1500.0:
+        agent_veh_r, agent_ped_r = 150.0, 120.0
+    else:
+        agent_veh_r, agent_ped_r = AGENT_VEHICLE_RADIUS_M, AGENT_PED_RADIUS_M
+    if not with_agents:
+        agent_veh_r = agent_ped_r = 0.0
+        agents_off_reason = "agents switched off for this render (--no-agents)"
 
     if photo is None:
         return {"slug": slug, "status": "no_reference_photo",
@@ -708,7 +738,8 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
             "confidence": (photo.get("estimated_viewpoint") or {}).get("confidence"),
         },
         "sun": {**sun, "time_source": when_note},
-        "scene_request": {"radius_m": radius, "prop_radius_m": prop_r, "kit_radius_m": kit_r},
+        "scene_request": {"radius_m": radius, "prop_radius_m": prop_r, "kit_radius_m": kit_r,
+                          "agent_vehicle_radius_m": agent_veh_r, "agent_ped_radius_m": agent_ped_r},
         "samples": samples,
         "resolution_note": (f"{width}x{height}; the reference photograph is {pw}x{ph} "
                             f"({aspect:.2f}:1), and the render is held to the same pixel budget as "
@@ -722,11 +753,27 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     # NYC street trees are bare from about mid-November to mid-April; the props kit exports a
     # bare-canopy variant of every species, so a winter reference gets winter trees.
     leaf_off = (when.month, when.day) >= (11, 15) or (when.month, when.day) <= (4, 15)
+    # The simulation frame is taken at the reference photograph's own hour and day class, so the
+    # density table is asked for the traffic and the crowd that neighbourhood has at that time.
+    # It is *that* hour's traffic, not the traffic in the photograph, and the caption says so.
+    import agents as vagents
+    agent_req = vagents.SnapshotRequest(
+        x=float(x), y=float(y), heading_deg=float(vp.get("azimuth_deg") or 0.0),
+        hour=int(when.hour), dow=(0 if when.weekday() <= 4 else (1 if when.weekday() == 5 else 2)),
+        seed=AGENT_SEED, headlights=bool(meta.get("night")))
+    record["agent_request"] = {"hour": agent_req.hour, "dow": agent_req.dow, "seed": agent_req.seed,
+                               "warmup_s": agent_req.warmup_s,
+                               "local_clock": when.strftime("%Y-%m-%d %H:%M %Z")}
     rep, sampler = vscene.build_scene(
         x, y, radius, prop_radius_m=prop_r, kit_radius_m=kit_r,
         with_props=prop_r > 0, with_kit=kit_r > 0,
         terrain_max_side=300 if radius <= 1500 else 380,
-        lod0_radius_m=1200.0, leaf_off=leaf_off)
+        lod0_radius_m=1200.0, leaf_off=leaf_off,
+        with_agents=agent_veh_r > 0 or agent_ped_r > 0, agent_request=agent_req,
+        agent_vehicle_radius_m=agent_veh_r, agent_ped_radius_m=agent_ped_r,
+        agent_npc_archetypes=AGENT_NPC_ARCHETYPES, agent_eye_height_m=eye_height_m)
+    if agents_off_reason and rep.agents.get("reason") == "disabled":
+        rep.agents["reason"] = agents_off_reason
     azimuth, azimuth_why = view_azimuth(slug, meta, photo, cam_lat, cam_lon,
                                         origin_is_photo=origin_is_photo)
     # A hand-held GPS fix is the better *measurement* of where the picture was taken, but it has
@@ -919,6 +966,7 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
     lm = scene.get("landmarks", {})
     pr = scene.get("props", {})
     kt = scene.get("kit", {})
+    ag = scene.get("agents", {})
 
     caption_lines: list[tuple[str, object]] = []
     caption_lines.append((f"Viewpoint: {record['viewpoint'].get('note') or '-'} "
@@ -986,8 +1034,14 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
         + (" (bare-canopy trees)" if pr.get("leaf_off") else "")
         + (f", {pr['impostor_cards_dropped']} opaque impostor cards dropped"
            if pr.get("impostor_cards_dropped") else "")
-        + f", {kt.get('placed', 0)} kit pieces; {scene.get('triangles', 0):,} triangles total",
+        + f", {kt.get('placed', 0)} kit pieces"
+        + f", {ag.get('placed_vehicles', 0)} vehicles, {ag.get('placed_pedestrians', 0)} people"
+        + f"; {scene.get('triangles', 0):,} triangles total",
         f_small))
+    if ag.get("caption"):
+        caption_lines.append((ag["caption"], f_small))
+    elif ag.get("reason") and ag.get("reason") != "disabled":
+        caption_lines.append((f"Agents: none placed - {ag['reason']}", f_small))
     gaps = []
     if b.get("tiles_missing"):
         miss = b["missing"][:8]
@@ -1011,6 +1065,31 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
         gaps.append(f"props not placed: {pr['reason']}")
     if pv.get("reason"):
         gaps.append(f"pavement not placed: {pv['reason']}")
+    if ag.get("reason") and ag.get("reason") != "disabled":
+        gaps.append(f"agents not placed: {ag['reason']}")
+    elif ag.get("reason") == "disabled":
+        gaps.append("no agents in this frame")
+    for key, label in (("vehicle_triangle_budget", "vehicles"),
+                       ("pedestrian_triangle_budget", "people")):
+        n = (ag.get("dropped") or {}).get(key)
+        if n:
+            gaps.append(f"{n} further {label} the simulation has in range were dropped at the "
+                        f"{ag.get('triangle_budget', 0):,}-triangle agent budget")
+    for key, label in (("vehicle_not_on_carriageway",
+                        "vehicles the simulation put where the planimetric data has no roadway"),
+                       ("pedestrian_not_on_walkable_surface",
+                        "people the simulation put where the planimetric data has no sidewalk"),
+                       ("pedestrian_in_the_carriageway_not_crossing",
+                        "people the simulation put in the roadway while not crossing"),
+                       ("vehicle_body_has_no_rider",
+                        "cyclists, e-bikes and pedicabs not drawn because the fleet exports those "
+                        "bodies without a rider"),
+                       ("vehicle_on_a_car_free_park_drive",
+                        "vehicles the road graph put on Central Park's East, West, Terrace or "
+                        "Center Drive, which have carried no private traffic since 2018")):
+        n = (ag.get("dropped") or {}).get(key)
+        if n:
+            gaps.append(f"{n} {label}, dropped rather than drawn")
     if not scene.get("terrain", {}).get("built", True):
         gaps.append("terrain not built: " + str(scene["terrain"].get("reason")))
     if gaps:
@@ -1248,6 +1327,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     ap.add_argument("--skip-existing", action="store_true", help="skip slugs that already have a render.png")
     ap.add_argument("--compose-only", action="store_true", help="rebuild sheets from existing renders")
     ap.add_argument("--dry-run", action="store_true", help="print the plan without rendering")
+    ap.add_argument("--no-agents", action="store_true",
+                    help="do not place the simulation's vehicles and pedestrians")
     ap.add_argument("--coverage", action="store_true",
                     help="report what world data exists per subject and exit")
     ap.add_argument("--write-index", action="store_true",
@@ -1281,7 +1362,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             continue
         try:
             rec = render_subject(slug, samples=a.samples, threads=a.threads, width=a.width,
-                                 dry_run=a.dry_run)
+                                 dry_run=a.dry_run, with_agents=not a.no_agents)
         except Exception as exc:
             LOG.exception("%s failed", slug)
             outdir.mkdir(parents=True, exist_ok=True)
