@@ -57,6 +57,7 @@ Every artefact is recorded in `data/manifest/processed.json` with SHA-256, row c
 | kind | name | count | source | provenance |
 |---:|---|---:|---|---|
 | 0 | tree | 650,516 | dataset | 2015 Street Tree Census `uvpi-gqnh` |
+| 0 | tree | 49,175 | dataset | OpenStreetMap `natural=tree` (added later; see the addendum) |
 | 23 | manhole | 288,174 | 623 OSM + 287,551 rule | OSM `man_made=manhole` + `rule:manhole_40m` |
 | 14 | street_lamp | 273,781 | 16,938 OSM + 256,843 rule | OSM `highway=street_lamp` + `rule:lamp_30_40m_alt` |
 | 9 | curb_ramp | 216,339 | dataset | DOT Pedestrian Ramps `ufzp-rrqu` |
@@ -108,7 +109,7 @@ dimensions **and the source of those dimensions**, the `variant`/`text`/`heading
 | alive rows with `tree_dbh = 0` (`dbh_cm = 0`, height uses the 5 cm sapling default) | 222 |
 | distinct species/genus labels | 133 |
 | duplicate census rows removed by the 1.5 m de-duplication | 1,657 |
-| **trees in `props.parquet`** | **650,516** |
+| **trees in `props.parquet`** | **699,691** (650,516 census + 49,175 OpenStreetMap) |
 
 Top ten species (living street trees):
 
@@ -274,7 +275,7 @@ parsing) plus 6 integration tests that open the real artefacts:
 * `prop_id` is globally unique across all 1,576 files and `prop_id // 10^10 == kind` everywhere;
 * the per-kind counts in `props_catalog.json` equal the counts recomputed from the tile files;
 * every row has provenance and `source == 1` ⇔ `dataset_id` starts with `rule:`;
-* trees: 650,516 rows, every one with a finite allometric height in (1.37 m, 45 m), `height_source = 1`,
+* trees: 650,516 census rows, every one with a finite allometric height in (1.37 m, 45 m), `height_source = 1`,
   `dbh_cm ≥ 0`, and the row count equals `alive_placed − tree dedupe drops` exactly;
 * `bus_routes.parquet` and `bus_stops.parquet` validate against `contracts.CONTRACTS`, headway arrays are 24 long
   with a plausible median, route geometry is inside the NYC_TM scope box and carries GeoParquet `geo` metadata;
@@ -427,3 +428,60 @@ One access note for the record: the URL printed in the Staten Island Ferry datas
 (`https://www.nyc.gov/html/dot/downloads/misc/siferry-gtfs.zip`) is refused with HTTP 403 by nyc.gov's edge from
 this network; the Socrata blob endpoint for the identical file was used instead and is the URL recorded in the
 manifest.
+
+
+---
+
+## Addendum, 2026-09-07: the park trees, and what the census does not cover
+
+This report's counts describe the 2015 Street Tree Census, which is what this stage originally
+consumed. It is a **street** inventory, and nobody had checked what that excludes.
+
+Measured across the city: of 1,916 green polygons of 2 ha or more, **1,756 held not one tree**,
+covering 219.3 km². **Central Park had 70 trees over 341.6 ha** against a published ~18,000. Pelham
+Bay Park, the largest park in the city, had **zero**. Only 0.67 % of the 650,516 trees stood inside a
+park at all. Found by opening the Bethesda Terrace comparison render and measuring: no tree within
+300 m of that camera, in Central Park.
+
+**49,175 OpenStreetMap trees are now placed** from `data/raw/osm/NewYork.osm.pbf`, which had been on
+disk since the first extract and which no stage had read. Total trees **650,516 → 699,691**.
+
+| | before | after |
+|---|---:|---:|
+| Central Park | 70 | **1,566** |
+| Flushing Meadows-Corona Park | 134 | **3,367** |
+| Pelham Bay Park | 0 | **560** |
+| Prospect Park | 0 | **507** |
+| Bronx Park | 83 | 452 |
+| Van Cortlandt Park | 47 | 52 |
+| parks ≥2 ha holding zero | 1,756 | **1,632** |
+
+The dedupe against the census is **5.0 m, measured rather than picked**: for every OSM node, the
+distance to its nearest census tree against a control of the same points displaced 20 m. The excess
+over chance peaks at exactly 5.0 m and the 5.0–5.5 m shell is the first to capture *fewer* pairs than
+chance. It is a cross-source rule between one named pair of datasets — a blanket 5 m over the tree
+group would have deleted about 51,000 real census trees.
+
+**Heights carry a third source now, and the first attempt was wrong.** 98.4 % of the OSM trees have no
+height tag and none has a girth, so the first run fell back to the census's unknown-DBH default of
+**3.88 m** — below the 10th percentile of the 650,307 census trees that do have one, and enough to
+make the OSM population **100 % "small"** against the census's 23.4 %. That fallback is meaningful in
+a census (a street tree with no recorded DBH is usually newly planted) and meaningless in
+OpenStreetMap (a missing `height` means only that no mapper typed one). Each unknown height is now a
+deterministic draw from the census population, seeded from the tree's own NYC_TM position, under
+`height_source = 4`:
+
+| | n | large ≥12 m | medium | small | p50 |
+|---|---:|---:|---:|---:|---:|
+| census, measured DBH | 650,307 | 48.5 % | 28.1 % | 23.4 % | 11.43 m |
+| OSM, drawn | 48,351 | 46.9 % | 28.9 % | 24.1 % | 11.30 m |
+| OSM, own `height` tag | 824 | — | — | — | 7.00 m |
+
+The pool is one inference deep and a draw from it is two — the census records no height either — and
+`height_source = 4` is the only thing separating the honest reading from a false one.
+
+**What this does not fix:** 1,632 parks over 181.3 km² still hold zero trees, Van Cortlandt has 52 for
+460 ha of forest, and Central Park's 1,566 is 8.7 % of its real canopy. And the frame that exposed the
+gap is the frame the fix does not reach: 197 OSM trees now stand within 400 m of the Bethesda camera,
+**zero** inside its own 66° frame, and the re-render differs from the pre-tree one by 0.003 % of
+pixels.
