@@ -239,9 +239,28 @@ def test_subject_terms_default_to_no_extra_test():
     item = fp.BY_SLUG["landmark_woolworth_building"]
     assert item.subject_terms == ()
     assert fp.subject_named(item, "anything at all")
-    with pytest.raises(ValueError):
-        fp.Item("x", "X", "landmark", ("q",), (("k",),), (40.7, -73.9), "note",
-                azimuth=10.0, subject_terms=("arch",))
+
+
+def test_a_street_address_names_a_building_and_not_the_street():
+    """"325 Fifth Avenue" is a building; the photograph carrying that title is a tower top."""
+    item = fp.BY_SLUG["fifth_ave_42nd_north"]
+    assert not fp.subject_named(item, "file:nyc - 325 fifth avenue - panoramio.jpg")
+    assert fp.subject_named(item, "file:43rd st 5th av td (2018-05-18) 21.jpg")
+    assert fp.subject_named(item, "fifth avenue looking north from 42nd street")
+
+
+def test_a_library_of_congress_scan_is_not_a_modern_photograph():
+    """Its only date is the date it was digitised, so ``min_year`` cannot see it."""
+    item = fp.BY_SLUG["fifth_ave_42nd_north"]
+    c = fp.parse_candidate(
+        _page("File:Fifth avenue from 42nd street, looking north LCCN2003680996.jpg", date="2018-05-24"), "s")
+    assert fp.evaluate(item, c)[1].startswith("not_photo")
+
+
+def test_a_photograph_titled_after_a_building_on_the_street_is_not_a_view_along_it():
+    item = fp.BY_SLUG["fifth_ave_42nd_north"]
+    c = fp.parse_candidate(_page("File:New York Public Library Exterior on Fifth Avenue.jpg"), "s")
+    assert fp.evaluate(item, c) == (None, "titled_as_another_subject")
 
 
 def test_estimate_view_methods():

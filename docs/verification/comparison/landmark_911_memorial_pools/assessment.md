@@ -8,7 +8,7 @@
 
 **Sun** — azimuth 254.4°, elevation 23.6° at 2025-09-11T17:01:35-04:00 (EXIF DateTimeOriginal).
 
-**In frame** — 4/4 building tiles, 10 landmark models, 1,649 pavement polygons, 554 props, 264 facade-kit pieces; 1,837,640 triangles; ground mesh 203² at 2.0 m near / 40.0 m far. Frame mean 0.412, sd 0.183.
+**In frame** — 4/4 building tiles, 10 landmark models, 1,649 pavement polygons, 554 props, 264 facade-kit pieces; 1,839,874 triangles; ground mesh 203² at 2.0 m near / 40.0 m far, with **8,113 quads and 414 pavement triangles cut out under the memorial plaza**. Frame mean 0.383, sd 0.181.
 
 **Verdict — the model defect that made this frame black is fixed and the frame is now taken where the photograph was taken: the camera stands at the South Pool's bronze parapet on ground the heightmap and the model agree about, the plaza is cut open over the pool and the opening reads as a void beyond the coping. What is still not there is the water: the level-axis rule cannot see over a 1.07 m parapet into a basin 9.14 m down, and the scene's terrain is drawn across the opening 2.5 m below the deck**
 
@@ -68,13 +68,19 @@ Bethesda 0.90 m — the same). Both would have moved a mandated viewpoint's came
   water cannot be seen from this camera, and would not be seen by a person standing there either. The
   reference photograph solves it the way visitors do, by leaning over the coping and tilting about 40°
   down; the level-axis rule that keeps a render comparable on proportion forbids that.
-* **The scene's terrain is drawn across the opening.** Nothing suppresses terrain under a landmark's
-  *own* ground, so inside the South Pool square the published heightmap surface — median **1.86 m**
-  NAVD88 over 841 samples at 2 m, i.e. 2.54 m below the deck — is drawn straight through the modelled
-  basin, which reaches −4.74 m at the water and −13.74 m in the void. Even a camera that could see over
-  the coping would find a 2.5 m depression rather than the 9.14 m fall. That is a comparison-stage gap
-  (a landmark deck can be cut out of the plaza but not out of the terrain), and it is written up here
-  rather than worked around.
+* ~~**The scene's terrain is drawn across the opening.**~~ **Fixed in the scene builder on 2026-09-07**
+  (`docs/verification/comparison/REPORT.md` §2.9). Where a landmark models its own ground, the terrain
+  and the pavement are no longer drawn inside that surface's outer plan outline, openings included:
+  this frame cuts **8,113 terrain quads and 414 pavement triangles** out of the 33,039 m² memorial
+  plaza outline, and the published heightmap — a median **1.98 m** NAVD88 inside the South Pool square
+  over 961 samples at 2 m, 2.4 m below the deck — no longer crosses the basin.
+  **This changes almost nothing in *this* frame, and the reason is the optics above, not the fix.**
+  Cropped to the pool opening the render differs from the shipped one by 0 % of pixels above 8/255
+  (maximum single-pixel difference 15). From an eye 0.33 m above the coping the sight line into the
+  opening never reaches down to 1.98 m before it meets the far wall, so the terrain that was removed
+  was never visible from here in the first place. It was visible in principle to any camera that could
+  look into the pool, and the landmark's own `memorial_plaza.png` — taken 12 m above the deck with no
+  context ground — is where the basin, the water and the central void can actually be seen.
 * **The frame is aimed at a different pool from the one the photograph shows.** The reference records
   its subject as "the North Pool" at 40.7118, -74.0135, and the azimuth is the bearing from the camera
   to that point. Measured against OSM way 697722178, that recorded point is **46.6 m** from the real
@@ -102,7 +108,7 @@ Bethesda 0.90 m — the same). Both would have moved a mandated viewpoint's came
 |---|---|---|
 | ~~the frame was black from the recorded viewpoint~~ | **fixed in the model**: `GRND` was both the local datum and the frame origin's NAVD88 z, so the plaza level was counted twice. The plaza now measures 4.40 m NAVD88 in the exported glb and the camera is no longer corrected at all | geometry |
 | ~~no pool water, waterfall or void visible from anywhere on the plaza~~ | **fixed in the model**: the plaza is cut open over both pools. What remains is the two entries below | geometry |
-| the opening reads as a shallow inset, not a 9.14 m fall | the scene draws terrain and pavement under a landmark's own ground; the heightmap inside the pool square sits 2.54 m below the deck and occludes the modelled basin | scene assembly |
+| ~~the opening reads as a shallow inset, not a 9.14 m fall~~ | **fixed**: the terrain and pavement are cut out under a landmark's own ground plane, openings included. It makes no visible difference from *this* camera, whose sight line never reaches the depth the terrain was drawn at | scene assembly |
 | no water visible over the parapet | the sight line from a 1.6 m eye over a 1.07 m coping cannot reach 10.19 m down inside a 56.6 m basin; the photograph tilts 40 deg down and the level-axis rule cannot | camera/optics |
 | the frame is aimed at the North Pool while the photograph is of the South Pool | the reference `subject` coordinate, which is 46.6 m from the real North Pool and not what this photograph shows | reference metadata |
 | the parapets carry no names | `MEMORIAL_NAMES` is a material slot for an engine-driven texture; the verification renderer has no texture to bind to it | material |

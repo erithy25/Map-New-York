@@ -43,8 +43,8 @@ Every photograph under `docs/verification/reference/` is from Wikimedia Commons 
 | file | title | author | licence | date taken | camera GPS |
 |---|---|---|---|---|---|
 | [1.jpg](fifth_ave_42nd_north/1.jpg) | [43rd St 5th Av td (2018-05-18) 21.jpg](https://commons.wikimedia.org/wiki/File:43rd_St_5th_Av_td_(2018-05-18)_21.jpg) | Tdorante10 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2018 | 40.75416, -73.98056 |
-| [2.jpg](fifth_ave_42nd_north/2.jpg) | [Fifth avenue from 42nd street, looking north LCCN2003680996.jpg](https://commons.wikimedia.org/wiki/File:Fifth_avenue_from_42nd_street,_looking_north_LCCN2003680996.jpg) | Popular Graphic Arts | [Public domain](https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain) | 2018-05-24 00:28:44 | — |
-| [3.jpg](fifth_ave_42nd_north/3.jpg) | [43rd St 5th Av td (2018-05-18) 08.jpg](https://commons.wikimedia.org/wiki/File:43rd_St_5th_Av_td_(2018-05-18)_08.jpg) | Tdorante10 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2018 | 40.75416, -73.98056 |
+| [2.jpg](fifth_ave_42nd_north/2.jpg) | [43rd St 5th Av td (2018-05-18) 08.jpg](https://commons.wikimedia.org/wiki/File:43rd_St_5th_Av_td_(2018-05-18)_08.jpg) | Tdorante10 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2018 | 40.75416, -73.98056 |
+| [3.jpg](fifth_ave_42nd_north/3.jpg) | [43rd St 5th Av td (2018-05-18) 09.jpg](https://commons.wikimedia.org/wiki/File:43rd_St_5th_Av_td_(2018-05-18)_09.jpg) | Tdorante10 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2018 | 40.75416, -73.98056 |
 
 ## fifth_ave_42nd_south — Fifth Avenue at 42nd Street (NYPL), street view looking south
 

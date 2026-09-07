@@ -1,10 +1,10 @@
 {
  "schema_version": 1,
- "generated_at": "2026-09-07T08:17:03Z",
+ "generated_at": "2026-09-07T08:53:09Z",
  "items": 172,
  "items_in_catalogue": 172,
  "photos": 519,
- "bytes": 426863666,
+ "bytes": 426843392,
  "items_without_photo": [],
  "items_partial": [
   "landmark_central_park_sheep_meadow (2/3)",
@@ -15,8 +15,8 @@
   "street_nyc_traffic_signals (3/4)",
   "street_newsstand (2/3)"
  ],
- "http_requests_this_run": 37,
- "elapsed_s": 285.3,
+ "http_requests_this_run": 12,
+ "elapsed_s": 101.7,
  "per_item": [
   {
    "slug": "promenade_lower_manhattan",
@@ -103,15 +103,18 @@
    "group": "viewpoint",
    "count": 3,
    "wanted": 3,
-   "bytes": 2131494,
+   "bytes": 2111220,
    "licences": [
-    "CC BY-SA 4.0",
-    "Public domain"
+    "CC BY-SA 4.0"
    ],
    "status": "ok",
    "rejections": {
-    "excluded": 1,
-    "keywords": 5
+    "too_old": 1,
+    "keywords": 47,
+    "titled_as_another_subject": 3,
+    "excluded": 2,
+    "subject_not_named": 5,
+    "not_photo": 3
    }
   },
   {

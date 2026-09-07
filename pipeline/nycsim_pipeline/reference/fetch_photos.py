@@ -1652,7 +1652,21 @@ def subject_named(item: Item, text: str) -> bool:
     """
     if not item.subject_terms:
         return True
-    return any(has_term(text, t) for t in item.subject_terms)
+    return any(_names_not_addresses(text, t) for t in item.subject_terms)
+
+
+def _names_not_addresses(text: str, term: str) -> bool:
+    """``term`` appears in ``text`` at least once without a house number in front of it.
+
+    "325 Fifth Avenue" is the name of a *building*, not of the avenue, and a photograph titled with
+    a street address is a photograph of the building at that address: the one that carried this
+    title into ``fifth_ave_42nd_north`` is a telephoto frame of a tower top with no street in it.
+    The same reading applies to every street-axis item -- "85 Stone Street", "2300 Grand Concourse".
+    """
+    for m in _term_re(term).finditer(text.lower()):
+        if not re.search(r"\d[\d\-]*\s+$", text[: m.start()].lower()):
+            return True
+    return False
 
 
 def titled_as_something_else(item: Item, title: str) -> bool:

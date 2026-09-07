@@ -8,22 +8,40 @@
 
 **Sun** — azimuth 94.1°, elevation 26.3° at 2017-08-15T08:32:00-04:00 (EXIF DateTimeOriginal (minutes)).
 
-**In frame** — 4/4 building tiles (82,358 tris), 12 landmark models, 1,588 pavement polygons, 617 props, 8,287 facade-kit pieces; 3,698,245 triangles; ground mesh 201² at 2.0 m near / 40.0 m far. Frame mean 0.381, sd 0.157 (was 0.369 / 0.151).
+**In frame** — 4/4 building tiles, 12 landmark models, 1,588 pavement polygons, 617 props, 8,287 facade-kit pieces; 3,713,979 triangles; ground mesh 201² at 2.0 m near / 40.0 m far. Frame mean 0.368, sd 0.165 (0.381 / 0.157 before this pass; 46.7 % of pixels differ by more than 8/255).
 
-**Verdict — re-rendered 2026-09-07 against the corrected World Trade Center model: the rib cage now stands clear of the top of the frame with sky above its arch, where it used to be cut off. It is still unmistakably the Oculus — white steel ribs rising and curving in the right rhythm — still solid where the real ones enclose a glazed spine, and still standing on a blank grey plane**
+**Verdict — re-rendered 2026-09-07 with the Oculus on its own footprint's axis. The building is now the right shape in plan and is seen the way it is seen from Church Street: end-on, its near end 57 m from the camera and its far end 142 m away, the rib cage running back and away instead of standing across the view. It is still unmistakably the Oculus, still solid where the real one encloses a glazed spine, and still standing on a blank grey plane**
 
 ## What moved in this frame, and why
 
-Two changes of roughly equal size, only one of them from the World Trade Center model:
+**The Oculus was rotated 32.4 deg onto its own footprint.** The model built the 106.7 m ribbed body on
+`PLAZA_AXIS_DEG = 160.6`; the long axis of BIN 1089309, the footprint it is centred on, measures
+**128.2 deg** (minimum rotated rectangle 110.0 × 33.3 m; the polygon's area-weighted principal axis
+gives 128.8 deg). The camera stands 93.7 m from the footprint centroid on bearing 275.6 deg, so the
+rotation is not a subtlety here — it moves both ends of the building:
 
-* **The model dropped 3.5 m.** `b_wtc_site` was built with `GRND = 3.5` doing duty both as its local datum and as its frame origin's NAVD88 z, so `scene.py`'s `world = local + origin` counted the plaza level twice (`docs/verification/landmarks/REPORT_B.md` §12.1). At 76 m, 3.5 m subtends 2.6 deg — the structure sits that much lower in the frame.
-* **The aim moved 3.0 deg.** Pitch goes from -3.3 deg to -0.3 deg. That is the street-percentile void exclusion recorded in `docs/verification/comparison/REPORT.md` §2.6, which changes the ground read at the subject point; it was already pending before this pass and is not a consequence of the model fix. The camera position is identical to the metre.
+| | on 160.6 deg | on 128.2 deg |
+|---|---|---|
+| near end | bearing 241.4 deg, **86.0 m** away | bearing 245.1 deg, **56.6 m** away |
+| far end | bearing 298.2 deg, 126.0 m away | bearing 287.3 deg, **141.6 m** away |
 
-Together they lift the Oculus about 5.6 deg (roughly 130 px) further down the frame, which is why the crown of the near arch and the sky behind it are now in shot. The plaza clip in the same model pass has no effect here: the old 520 m slab stood at 7.00 m NAVD88 and the ground under this camera reads 8.00 m, so it was buried, and the pale paving in both frames comes from `data/processed/roads/pavement`, not from the landmark.
+The body therefore reads as running back and away from the camera rather than lying across the view,
+and the frame's near end is 29 m closer than it was. **46.7 %** of pixels differ from the shipped
+render by more than 8/255. In plan the correction takes the body from **58.0 %** of its area over its
+own footprint (IoU 0.41, both ends about 17 m outside it, 231 m² of the base prism inside 3 WTC's
+footprint) to **94.2 %** (IoU 0.90, no overlap with 3 WTC or 4 WTC at all).
+
+Not all of the change is the Oculus: the building-shell stage rebuilt its stepped massing during the
+same window, and the skyline behind the Oculus moves with it. What is attributable to this pass is
+the geometry above, which is measured from the footprint parquet and the exported glb rather than
+from pixels.
+
+The camera has not moved: it is still the photograph's own EXIF GPS, 30 m from the item's nominal
+viewpoint, at 9.60 m NAVD88, azimuth 274.2 deg, pitch −0.28 deg.
 
 ## What matches
 
-* The Oculus is recognisably itself: the row of tapering white steel ribs, their spacing, their curve away from the spine and the way they meet the ground, all at the right scale 76 m from the camera.
+* The Oculus is recognisably itself: the row of tapering white steel ribs, their spacing, their curve away from the spine and the way they meet the ground, at the right scale for a body whose near end is 57 m from the camera and whose far end is 142 m away.
 * The camera stands on the photograph's own EXIF GPS, 30 m from the item's nominal viewpoint, and the heading (274.2 deg) is the bearing from that point to the structure; the aim rule tilted -0.3 deg.
 * The plaza's kerb line and its sweeping curve are correct, and the pale paving of the WTC plaza reads at the right width against the darker roadbed.
 * 12 landmark models are in range with their shells suppressed, including One World Trade Center and the memorial-side buildings, and the glazed tower behind the Oculus at the right height.
@@ -32,8 +50,8 @@ Together they lift the Oculus about 5.6 deg (roughly 130 px) further down the fr
 ## What does not match
 
 * The ribs are solid white where the real structure is a rib cage over a glazed spine: there is no glass between the ribs, no skylight, and the interior is closed off.
-* **The body is 32 deg off its own footprint.** The model orients the 106.7 m ellipse on `PLAZA_AXIS_DEG = 160.6`, while the long axis of the real OTI footprint it is built on (BIN 1089309, 110.0 m) measures **128.2 deg**. That is not visible as a wrong shape from this viewpoint — the rib rhythm and the arch profile still read — but it is a wrong plan, and it puts the east end of the body inside 3 WTC's footprint. Found and measured in the landmarks pass of 2026-09-07 and deliberately left unfixed there, because it moves this frame and belongs to a pass that re-renders it against the reference.
-* The reference is a near-vertical view along the ribs with One World Trade Center and 7 WTC rising behind; the render's level axis gives a side elevation instead, so the two are not comparable on composition.
+* The body is a swept ellipse of the published 106.7 × 35.1 m on the footprint's axis, not the footprint's own outline, so **6 % of its plan still falls outside BIN 1089309**. That is the remaining approximation in the Oculus's plan; it was 42 % before this pass.
+* The reference is a near-vertical view along the ribs with One World Trade Center and 7 WTC rising behind; the render's level axis gives a ground-level three-quarter view instead, so the two are not comparable on composition — they agree on the structure and not on the framing.
 * The plaza is a bare grey plane: no paving pattern, no benches, no planting, no memorial pools, no security bollards.
 * No people at all, in front of a station used by 250,000 people a day.
 * The glass towers behind have no reflections; the reference's are all reflection.
@@ -44,9 +62,9 @@ Together they lift the Oculus about 5.6 deg (roughly 130 px) further down the fr
 | gap | cause | class |
 |---|---|---|
 | solid ribs, no glazed spine | the oculus landmark model carries the ribs as solid geometry with no glazing between them | geometry |
-| side elevation rather than the reference's upward view | the level-axis rule; the reference is a tilted upward frame | camera |
+| ground-level three-quarter view rather than the reference's upward view | the level-axis rule; the reference is a tilted upward frame | camera |
 | bare plaza | plaza paving, furniture, planting and the memorial pools are in no dataset the scene reads | data |
 | no people | no crowd placement feeds the verification scene | data |
 | no glass reflections | the curtain-wall material is a flat base colour | material |
 | lens not sized to the subject | the reference metadata carries no subject height, so the lens rule fell back to a nominal 10 m subject | data |
-| the body is rotated 32 deg off its real footprint | `b_wtc_site.py` orients the Oculus on `PLAZA_AXIS_DEG = 160.6`; the footprint's long axis is 128.2 deg | geometry |
+| 6 % of the body's plan outside its footprint | the body is a swept ellipse of the published dimensions on the footprint's axis, not the footprint outline | geometry |

@@ -8,7 +8,7 @@
 
 **Sun** — azimuth 257.4°, elevation 18.3° at 2017-09-15T17:23:28-04:00 (EXIF DateTimeOriginal).
 
-**In frame** — 7/8 building tiles, 16 landmark models, 3,756 pavement polygons, 613 props, 4,930 facade-kit pieces; 3,177,476 triangles; ground mesh 221² at 2.0 m near / 40.0 m far. Frame mean 0.393, sd 0.189 (was 0.322 / 0.143).
+**In frame** — 7/8 building tiles, 16 landmark models, 3,756 pavement polygons, 613 props, 4,930 facade-kit pieces; 3,204,326 triangles; ground mesh 221² at 2.0 m near / 40.0 m far. Frame mean 0.386, sd 0.189.
 
 **Camera clearance** — the recorded viewpoint is inside `lm_b_wtc_site.243` (a ray straight up from the eye point hits its roof); the camera was moved **166 m** onto the nearest real roadbed polygon in `data/processed/roads/pavement`, keeping the same eye height above the heightmap. No point within 80 m had 80 m of open air along the view azimuth with nothing inside 8 m of the lens, so the frame is closed off 96 m ahead and `prop_lamp_bishops_crook_312` stands 7.7 m in front of the camera.
 
@@ -36,6 +36,23 @@ terrain.
 from a photographer's recorded position, and a sheet whose camera has to be moved that far is not
 testing the viewpoint it claims to. What it does now test — the shaft's taper and its proportion against
 7 World Trade Center beside it — it could not test before.
+
+**Re-rendered again on 2026-09-07 after the Oculus was put on its own footprint's axis and the scene
+builder stopped drawing terrain under a landmark's own ground.** The question deviation I10 asks —
+whether this placement is still worse by the camera search's own criteria now that the ground under it
+has moved — has a clear answer: **yes, and it is shipped anyway.** The search still ends in "open air
+only": no point within 80 m of the recorded eye point had 80 m of open air along the view azimuth with
+nothing inside 8 m of the lens, so the frame is closed off 96 m ahead and a street lamp stands 7.7 m in
+front of the camera. Those are the criteria and they still fail. What has changed is the *result*: the
+frame the failing search produces contains the subject, centred, where the frame the passing search
+produced did not. The older frame is not better and is not kept; a sheet that shows a neighbouring
+tower's base is not evidence about One World Trade Center however well its camera scored.
+
+The plaza is 33,039 m² of the landmark's own ground here, so the terrain and pavement under it are no
+longer drawn (8,113 quads and 414 triangles in the memorial frame; this scene's own counts are in its
+`render.json`). At 183 m that is invisible in this frame — the plaza deck is 0.08 m from the heightmap
+it replaces — and it is recorded because it is a real change to what was rendered, not because it
+shows.
 
 ## What matches
 

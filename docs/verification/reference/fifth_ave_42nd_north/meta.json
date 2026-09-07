@@ -21,14 +21,18 @@
   "\"Fifth Avenue\" Manhattan street view buses taxis"
  ],
  "geosearch_radius_m": 150,
- "fetched_at": "2026-09-07T08:14:03Z",
+ "fetched_at": "2026-09-07T08:53:09Z",
  "max_width": 1920,
  "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
- "candidates_seen": 12,
- "candidates_eligible": 6,
+ "candidates_seen": 66,
+ "candidates_eligible": 5,
  "rejections": {
-  "excluded": 1,
-  "keywords": 5
+  "too_old": 1,
+  "keywords": 47,
+  "titled_as_another_subject": 3,
+  "excluded": 2,
+  "subject_not_named": 5,
+  "not_photo": 3
  },
  "exhausted": false,
  "status": "ok",
@@ -97,57 +101,6 @@
   {
    "n": 2,
    "file": "2.jpg",
-   "title": "File:Fifth avenue from 42nd street, looking north LCCN2003680996.jpg",
-   "page_url": "https://commons.wikimedia.org/wiki/File:Fifth_avenue_from_42nd_street,_looking_north_LCCN2003680996.jpg",
-   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/12/Fifth_avenue_from_42nd_street%2C_looking_north_LCCN2003680996.jpg",
-   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Fifth_avenue_from_42nd_street%2C_looking_north_LCCN2003680996.jpg/1920px-Fifth_avenue_from_42nd_street%2C_looking_north_LCCN2003680996.jpg",
-   "author": "Popular Graphic Arts",
-   "credit": "Library of Congress Catalog: http://lccn.loc.gov/2003680996 Image download: https://cdn.loc.gov/service/pnp/pga/03000/03039v.jpg Original url: http://hdl.loc.gov/loc.pnp/pga.03039",
-   "license": {
-    "short_name": "Public domain",
-    "url": "https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain",
-    "template": "pd"
-   },
-   "date_taken": "2018-05-24 00:28:44",
-   "date_source": "DateTime(file)",
-   "year": 2018,
-   "camera_gps": null,
-   "original_width": 8046,
-   "original_height": 6316,
-   "width": 1920,
-   "height": 1507,
-   "bytes": 690746,
-   "sha256": "f52f4c7163cf78aff1938259b24bfb94e5ddf8068b0df972bd19b456e475dcc9",
-   "mean_luminance": 178.8,
-   "description": "Title: Fifth avenue from 42nd street, looking north Physical description: 1 print. Notes: This record contains unverified data from PGA shelflist card.; Associated name on shelflist card: Welcke.",
-   "categories": [
-    "Images from the Library of Congress",
-    "5th Avenue (Manhattan)",
-    "PD-old-70-expired",
-    "Images uploaded by Fæ",
-    "Popular Graphic Arts",
-    "CC-PD-Mark",
-    "Lithographs of Manhattan, New York City",
-    "PD-old missing SDC copyright status",
-    "5th Avenue and 42nd Street, Manhattan"
-   ],
-   "assessments": "",
-   "restrictions": "",
-   "provenance": "search:\"Fifth Avenue\" \"42nd Street\" looking north",
-   "score": 8.95,
-   "estimated_viewpoint": {
-    "lat": 40.7526,
-    "lon": -73.9814,
-    "azimuth_deg": 29.0,
-    "confidence": "medium",
-    "method": "standard_viewpoint",
-    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Fifth Avenue west sidewalk in front of the New York Public Library (between 40th and 42nd), looking uptown) and the azimuth 29 deg is the heading of the street/view axis at that position."
-   },
-   "attribution": "\"Fifth avenue from 42nd street, looking north LCCN2003680996.jpg\" by Popular Graphic Arts, Public domain (https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Fifth_avenue_from_42nd_street,_looking_north_LCCN2003680996.jpg"
-  },
-  {
-   "n": 3,
-   "file": "3.jpg",
    "title": "File:43rd St 5th Av td (2018-05-18) 08.jpg",
    "page_url": "https://commons.wikimedia.org/wiki/File:43rd_St_5th_Av_td_(2018-05-18)_08.jpg",
    "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/84/43rd_St_5th_Av_td_%282018-05-18%29_08.jpg",
@@ -206,6 +159,67 @@
     "explanation": "Camera GPS from the Commons file description (40.75416, -73.98056), 187 m from the reference position (Fifth Avenue west sidewalk in front of the New York Public Library (between 40th and 42nd), looking uptown); this item is a view along a street rather than at a point subject, so the azimuth 29 deg is the street heading of the reference view, not derived from the photo."
    },
    "attribution": "\"43rd St 5th Av td (2018-05-18) 08.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:43rd_St_5th_Av_td_(2018-05-18)_08.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:43rd St 5th Av td (2018-05-18) 09.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:43rd_St_5th_Av_td_(2018-05-18)_09.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/71/43rd_St_5th_Av_td_%282018-05-18%29_09.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/43rd_St_5th_Av_td_%282018-05-18%29_09.jpg/1920px-43rd_St_5th_Av_td_%282018-05-18%29_09.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.754156,
+    "lon": -73.980559
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 670472,
+   "sha256": "f89bdcce33823d66fa7f2a681d440a26c9dfd84f67b7d52668caa8f46af3f30b",
+   "mean_luminance": 110.1,
+   "description": "A Midtown–23rd Street-bound BxM6 express bus traveling south on Fifth Avenue at 43rd Street in Midtown Manhattan.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "5th Avenue (Manhattan)",
+    "43rd Street (Manhattan)",
+    "Self-published work",
+    "BM1 (New York City bus)",
+    "Number 3450 on vehicles",
+    "Nissan NV200 taxis in New York City",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2018-05-18",
+    "Midtown Manhattan in 2018",
+    "MTA Regional Bus Operations in 2018",
+    "Buses in Midtown Manhattan",
+    "May 2018 in Manhattan, New York City",
+    "MCI D-Series coaches of MTA Regional Bus Operations",
+    "BxM6 (New York City bus)",
+    "Photographs by Tdorante10 taken on 2018-05-18"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Fifth Avenue\" Manhattan street view buses taxis",
+   "score": 11.45,
+   "estimated_viewpoint": {
+    "lat": 40.754156,
+    "lon": -73.980559,
+    "azimuth_deg": 29.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.75416, -73.98056), 187 m from the reference position (Fifth Avenue west sidewalk in front of the New York Public Library (between 40th and 42nd), looking uptown); this item is a view along a street rather than at a point subject, so the azimuth 29 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"43rd St 5th Av td (2018-05-18) 09.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:43rd_St_5th_Av_td_(2018-05-18)_09.jpg"
   }
  ]
 }
