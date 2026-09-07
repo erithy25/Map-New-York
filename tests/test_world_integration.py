@@ -716,3 +716,65 @@ def test_no_comparison_camera_is_placed_underground():
                    if np.isfinite(c) and c < 0.5]
     assert not underground, ("comparison cameras at or below the ground (slug, clearance m, terrain m): "
                              + ", ".join(f"{s} {c:+.2f} over {g:.2f}" for s, c, g in underground))
+
+
+def test_no_comparison_sheet_is_older_than_the_content_it_shows():
+    """A sheet must not predate geometry that would appear in its own frame.
+
+    Content lands in this world in waves — New Jersey's 231,382 shells arrived long after most sheets
+    were rendered — and a sheet rendered before the geometry it should show is evidence for a world that
+    no longer exists. The check is deliberately narrow: a tile only counts if it is inside the frame's
+    scene radius **and** within 45 degrees of the view axis, because a tile behind the camera is listed
+    in the scene report but changes no pixel. That distinction matters: 26 sheets predate the New Jersey
+    build and not one of them can see New Jersey, so none of them is stale.
+    """
+    import math
+
+    root = VERIFICATION / "comparison"
+    if not root.is_dir():
+        pytest.skip("no comparison sheets")
+
+    shells = {}
+    for pat in ("*/tile_buildings.glb", "*/tile_buildings_nj.glb"):
+        for p in (BLENDER_OUT / "tiles").glob(pat):
+            t = p.parent.name
+            shells[t] = max(shells.get(t, 0.0), p.stat().st_mtime)
+    if not shells:
+        pytest.skip("no tile shells on disk")
+
+    centres = {}
+    for t in shells:
+        try:
+            _, tx, ty = t.split("_")
+            centres[t] = (int(tx) * 1000 + 500, int(ty) * 1000 + 500)
+        except ValueError:
+            continue
+
+    stale: list[str] = []
+    for d in sorted(root.iterdir()):
+        render, rec_path = d / "render.png", d / "render.json"
+        if not (d.is_dir() and render.exists() and rec_path.exists()):
+            continue
+        try:
+            rec = json.loads(rec_path.read_text())
+        except json.JSONDecodeError:
+            continue
+        cam = rec.get("camera") or {}
+        x, y = cam.get("x"), cam.get("y")
+        az = cam.get("azimuth_deg", cam.get("azimuth"))
+        if x is None or y is None or az is None:
+            continue
+        radius = rec.get("radius_m") or (rec.get("scene") or {}).get("radius_m") or 5000.0
+        t_render = render.stat().st_mtime
+        for tile, (cx, cy) in centres.items():
+            if shells[tile] <= t_render:
+                continue
+            dist = math.hypot(cx - x, cy - y)
+            if dist > float(radius):
+                continue
+            bearing = math.degrees(math.atan2(cx - x, cy - y)) % 360.0
+            if abs((bearing - float(az) + 180.0) % 360.0 - 180.0) > 45.0:
+                continue
+            stale.append(f"{d.name}: {tile} rebuilt after the render, {dist:.0f} m away in frame")
+            break
+    assert not stale, "comparison sheets older than geometry in their own frame:\n  " + "\n  ".join(stale)

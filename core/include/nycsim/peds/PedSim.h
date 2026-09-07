@@ -30,6 +30,7 @@
 #include "nycsim/traffic/Random.h"
 #include "nycsim/traffic/Signals.h"
 #include "nycsim/traffic/SpatialHash.h"
+#include "nycsim/util/RegionSampler.h"
 
 namespace nycsim {
 namespace peds {
@@ -103,6 +104,22 @@ struct PedConfig {
   float despawn_m = 900.f;
   bool use_player_ring = true;
   uint32_t max_paths_per_step = 96;
+  // ADR-021.  How far a pedestrian will look for its next destination.  The
+  // activity model used to pick a point of interest uniformly over the whole
+  // city, which put the goal in another borough: the walk-graph A* then settled
+  // a large part of a 452,024-node network for a path that kPathCap could never
+  // hold, at 3.23 ms a query against an 8 ms step.  A goal a few hundred metres
+  // away is both what a pedestrian actually does and what keeps the search
+  // local.  0 restores the city-wide draw.
+  float goal_radius_m = 400.f;
+  // Multiplier on goal_radius_m for the second attempt, where the first found
+  // nothing of any kind in range (an industrial block, a bridge approach).
+  float goal_radius_widen = 3.0f;
+  // Spawn points are drawn from the streamed region rather than city-wide.  The
+  // ring is what the agent is kept inside, so it is what it is created in.
+  // 0 uses despawn_m.  Only applies while use_player_ring is set.
+  float spawn_radius_m = 0.f;
+  float region_slack_m = 64.f;
   // Cell size of the crowd hash, metres.  0 derives it from the world bounds
   // and `max_peds`, which is right when the crowd fills the world and wrong when
   // it does not: over the whole city the derived cell is 40 m, and a crowd
@@ -202,7 +219,12 @@ class PedSim {
   void updateAgent(uint32_t i);
   void integrate(uint32_t i);
   void chooseGoal(Pedestrian& p);
+  // The point of interest a pedestrian at (x, y) heads for, drawn from the
+  // streamed region; kInvalidIndex when nothing of any kind is within reach.
+  uint32_t pickGoalPoi(Pedestrian& p, PoiKind want) const;
   bool pathTo(Pedestrian& p, uint32_t goal_node);
+  uint32_t sampleSpawnEdge(Rng& rng) const;
+  void refreshSpawnRegion();
   uint32_t currentNodeAhead(const Pedestrian& p) const;
   bool mayEnterCrosswalk(const Pedestrian& p, uint32_t edge) const;
   void arriveAtGoal(Pedestrian& p);
@@ -232,8 +254,8 @@ class PedSim {
   std::vector<uint32_t> path_pool_;
   std::vector<uint8_t> fast_zone_;
   std::vector<float> nta_sidewalk_m2_;
-  std::vector<uint32_t> spawn_edges_;
-  std::vector<float> spawn_cdf_;
+  RegionSampler spawn_index_;
+  RegionSampler::Region spawn_region_;
 
   SpatialHash hash_;       // neighbours, cell ≈ the repulsion cutoff
   SpatialHash sig_hash_;   // 60 m cells for the uniqueness rule

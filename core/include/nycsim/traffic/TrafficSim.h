@@ -405,7 +405,6 @@ class TrafficSim {
   bool routeAgent(Vehicle& v, uint32_t to_lane, float to_s, uint32_t avoid_lane = routing::kInvalidIndex);
   void assignBusRoute(Vehicle& v);
   bool advanceBusToNextStop(Vehicle& v);
-  uint32_t sampleSpawnLane(Rng& rng) const;
   // Origins inside the spawn band, destinations inside the streamed region.
   // Both fall back to the whole graph when no player ring is in use.
   uint32_t sampleOriginLane(Rng& rng);

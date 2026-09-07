@@ -71,9 +71,8 @@ bool PedSim::configure(const SidewalkGraph& w, const traffic::SignalTable* sig, 
     if (w.node(n).nta != routing::kNoNta) max_nta = std::max(max_nta, w.node(n).nta);
   nta_sidewalk_m2_.assign(static_cast<size_t>(max_nta) + 2u, 0.f);
   fast_zone_.assign(nta_sidewalk_m2_.size(), 0u);
-  spawn_edges_.clear();
-  spawn_cdf_.clear();
-  float acc = 0.f;
+  spawn_index_.clear();
+  spawn_region_ = RegionSampler::Region{};
   for (uint32_t e = 0; e < w.edgeCount(); ++e) {
     const WalkEdge& ed = w.edge(e);
     if (ed.kind == WalkEdgeKind::Crosswalk) continue;
@@ -81,14 +80,16 @@ bool PedSim::configure(const SidewalkGraph& w, const traffic::SignalTable* sig, 
     const uint16_t nta = w.node(ed.a).nta;
     const size_t slot = nta == routing::kNoNta ? nta_sidewalk_m2_.size() - 1 : nta;
     if (slot < nta_sidewalk_m2_.size()) nta_sidewalk_m2_[slot] += area;
-    acc += area;
-    spawn_edges_.push_back(e);
-    spawn_cdf_.push_back(acc);
+    const Vec3 mid = w.pointOn(e, ed.length_m * 0.5f, 0.f);
+    spawn_index_.add(e, mid.x, mid.y, area, ed.length_m * 0.5f);
   }
-  if (spawn_edges_.empty()) {
+  if (spawn_index_.empty()) {
     error_ = "PedSim: sidewalk graph has no walkable (non-crosswalk) edges";
     return false;
   }
+  spawn_index_.build();
+  // Sized here so refreshing the region inside step() never allocates.
+  spawn_index_.reserveRegion(spawn_region_);
 
   time_s_ = 0.0;
   step_ix_ = 0;
@@ -184,24 +185,53 @@ void PedSim::chooseGoal(Pedestrian& p) {
   } else {
     want = PoiKind::Landmark;
   }
-  uint32_t n = 0;
-  const uint32_t* list = walk_->poisOfKind(want, n);
-  if (n == 0) {
-    list = walk_->poisOfKind(PoiKind::Storefront, n);
-  }
-  if (n == 0) {
-    // No POIs at all: walk to a random node.
-    const uint32_t node = p.rng.below(static_cast<uint32_t>(walk_->nodeCount()));
-    pathTo(p, node);
-    return;
-  }
-  const uint32_t poi_ix = list[p.rng.below(n)];
+  const uint32_t poi_ix = pickGoalPoi(p, want);
+  // Nothing within reach: the agent keeps walking and takes a random
+  // continuation at each node (advanceEdge), which is what it already did
+  // whenever a path could not be built.  It asks again at its next activity.
+  if (poi_ix == kInvalidIndex) return;
   const WalkPoi& poi = walk_->poi(poi_ix);
   if (poi.edge == kInvalidIndex) return;
   const WalkEdge& e = walk_->edge(poi.edge);
   const uint32_t goal_node = poi.s < e.length_m * 0.5f ? e.a : e.b;
   p.goal_poi = poi_ix;
   if (pathTo(p, goal_node)) p.flags |= kPedHasGoal;
+}
+
+// Draws a goal from the streamed region (ADR-021).  The wanted kind first;
+// then any kind, since a pedestrian in a warehouse district still goes
+// somewhere; then the same again over a wider circle.  Exactly one random draw
+// in every branch, so the agent's stream advances the same way whichever
+// branch is taken.
+uint32_t PedSim::pickGoalPoi(Pedestrian& p, PoiKind want) const {
+  if (cfg_.goal_radius_m <= 0.f) {  // city-wide: the pre-ADR-021 behaviour
+    uint32_t n = 0;
+    const uint32_t* list = walk_->poisOfKind(want, n);
+    if (n == 0) list = walk_->poisOfKind(PoiKind::Storefront, n);
+    if (n == 0) return kInvalidIndex;
+    return list[p.rng.below(n)];
+  }
+  const float r = cfg_.goal_radius_m;
+  const float wide = r * std::max(1.f, cfg_.goal_radius_widen);
+  const PoiKind any = PoiKind::Count;
+  float radius = r;
+  PoiKind kind = want;
+  uint32_t n = walk_->poiCountNear(p.x, p.y, radius, kind);
+  if (n == 0) {
+    kind = any;
+    n = walk_->poiCountNear(p.x, p.y, radius, kind);
+  }
+  if (n == 0) {
+    kind = want;
+    radius = wide;
+    n = walk_->poiCountNear(p.x, p.y, radius, kind);
+  }
+  if (n == 0) {
+    kind = any;
+    n = walk_->poiCountNear(p.x, p.y, radius, kind);
+  }
+  if (n == 0) return kInvalidIndex;
+  return walk_->poiNthNear(p.x, p.y, radius, kind, p.rng.below(n));
 }
 
 uint32_t PedSim::currentNodeAhead(const Pedestrian& p) const {

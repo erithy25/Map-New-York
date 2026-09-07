@@ -183,15 +183,18 @@ void TrafficSim::setTimeOfDay(float seconds_since_midnight, uint8_t dow) {
   if (hour != spawn_hour_) rebuildSpawnWeights();
 }
 
-// Precomputes the origin/destination sampling CDF: every travel lane weighted
-// by (lane length × vehicles per lane-km of its NTA at the current hour).
+// Precomputes the origin/destination sampling distribution: every travel lane
+// weighted by (lane length × vehicles per lane-km of its NTA at the current
+// hour), indexed spatially so a draw can be restricted to the streamed region
+// (ADR-021).  Lanes are added in index order, so the cumulative sums are the
+// same floats the flat array carried before the index existed.
 void TrafficSim::rebuildSpawnWeights() {
-  spawn_lanes_.clear();
-  spawn_cdf_.clear();
+  spawn_index_.clear();
+  origin_region_ = RegionSampler::Region{};
+  dest_region_ = RegionSampler::Region{};
   if (graph_ == nullptr) return;
   const uint8_t hour = static_cast<uint8_t>(clampf(tod_s_ / 3600.f, 0.f, 23.f));
   spawn_hour_ = hour;
-  float acc = 0.f;
   for (uint32_t li = 0; li < graph_->laneCount(); ++li) {
     const Lane& l = graph_->lane(li);
     if (l.is_junction != 0 || l.disabled != 0) continue;
@@ -204,10 +207,28 @@ void TrafficSim::rebuildSpawnWeights() {
       const DensityCell& c = density_->get(l.nta, hour, dow_);
       w *= std::max(0.01f, c.veh_per_km_lane);
     }
-    acc += w;
-    spawn_lanes_.push_back(li);
-    spawn_cdf_.push_back(acc);
+    const routing::Vec3 mid = graph_->pointAt(li, 0.5f * l.length_m);
+    spawn_index_.add(li, mid.x, mid.y, w, 0.5f * l.length_m);
   }
+  spawn_index_.build();
+  // Sized once, here, so refreshing a region inside step() never allocates.
+  spawn_index_.reserveRegion(origin_region_);
+  spawn_index_.reserveRegion(dest_region_);
+}
+
+// Re-centres the two sampling regions on the player.  Without a streaming ring
+// there is no region: the whole graph is drawn from, exactly as before.
+void TrafficSim::refreshSpawnRegions() {
+  if (spawn_index_.empty()) return;
+  if (!cfg_.use_player_ring || !player_.valid) {
+    origin_region_.radius = -1.f;
+    dest_region_.radius = -1.f;
+    return;
+  }
+  const float slack = std::max(0.f, cfg_.region_slack_m);
+  spawn_index_.refresh(origin_region_, player_.x, player_.y, std::max(1.f, cfg_.spawn_outer_m), slack);
+  const float dr = cfg_.dest_radius_m > 0.f ? cfg_.dest_radius_m : cfg_.despawn_m;
+  spawn_index_.refresh(dest_region_, player_.x, player_.y, std::max(1.f, dr), slack);
 }
 
 // --------------------------------------------------------- junction conflicts
@@ -1789,14 +1810,12 @@ uint32_t TrafficSim::preferredLaneFor(uint32_t lane, VehicleClass c) const {
   return lane;
 }
 
-uint32_t TrafficSim::sampleSpawnLane(Rng& rng) const {
-  if (spawn_cdf_.empty()) return kInvalidIndex;
-  const float total = spawn_cdf_.back();
-  if (total <= 0.f) return kInvalidIndex;
-  const float pick = rng.uniform() * total;
-  const auto it = std::lower_bound(spawn_cdf_.begin(), spawn_cdf_.end(), pick);
-  const size_t ix = static_cast<size_t>(it - spawn_cdf_.begin());
-  return spawn_lanes_[std::min(ix, spawn_lanes_.size() - 1)];
+uint32_t TrafficSim::sampleOriginLane(Rng& rng) {
+  return spawn_index_.sample(origin_region_, rng.uniform());
+}
+
+uint32_t TrafficSim::sampleDestLane(Rng& rng) {
+  return spawn_index_.sample(dest_region_, rng.uniform());
 }
 
 VehicleClass TrafficSim::sampleClass(Rng& rng, uint16_t nta) const {
@@ -1983,7 +2002,7 @@ void TrafficSim::updateSpawnDespawn() {
     if (fz(veh_.size()) >= target || veh_.size() >= cfg_.max_vehicles) break;
     bool done = false;
     for (int attempt = 0; attempt < 6 && !done; ++attempt) {
-      const uint32_t lane = sampleSpawnLane(rng_);
+      const uint32_t lane = sampleOriginLane(rng_);
       if (lane == kInvalidIndex) return;
       const Lane& l = graph_->lane(lane);
       const float s = rng_.uniform(2.f, std::max(3.f, l.length_m - 2.f));
@@ -2000,7 +2019,7 @@ void TrafficSim::updateSpawnDespawn() {
       uint32_t dest = kInvalidIndex;
       float dest_s = 0.f;
       if (router_ != nullptr && router_->attached() && routes_this_step_ < cfg_.max_routes_per_step) {
-        dest = sampleSpawnLane(rng_);
+        dest = sampleDestLane(rng_);
         if (dest != kInvalidIndex) {
           dest_s = graph_->lane(dest).length_m * 0.5f;
           ++routes_this_step_;
@@ -2020,17 +2039,25 @@ uint32_t TrafficSim::prefill(uint32_t max_spawns) {
     target += nta_lane_km_[nta] * density_->get(nta, hour, dow_).veh_per_km_lane;
   stats_.target_vehicles = target;
   rebuildIndex();
+  refreshSpawnRegions();
   uint32_t made = 0;
   uint32_t attempts = 0;
   const uint32_t want = std::min<uint32_t>(static_cast<uint32_t>(std::max(0.f, target)), cfg_.max_vehicles);
   while (veh_.size() < want && made < max_spawns && attempts < want * 24u + 4096u) {
     ++attempts;
-    const uint32_t lane = sampleSpawnLane(rng_);
+    const uint32_t lane = sampleOriginLane(rng_);
     if (lane == kInvalidIndex) break;
     const Lane& l = graph_->lane(lane);
     const float s = rng_.uniform(2.f, std::max(3.f, l.length_m - 2.f));
     const routing::LanePose pose = graph_->poseAt(lane, s);
     if (inProtectedRegion(pose.pos.x, pose.pos.y)) continue;
+    // The spawn band, exactly as the steady-state spawner applies it: the index
+    // restricts the draw, this decides it.  Before ADR-021 prefill() filled the
+    // whole city and the ring kept 86 of 6,000 vehicles.
+    if (player_.valid && cfg_.use_player_ring) {
+      const float dx = pose.pos.x - player_.x, dy = pose.pos.y - player_.y;
+      if (dx * dx + dy * dy > cfg_.spawn_outer_m * cfg_.spawn_outer_m) continue;
+    }
     const VehicleClass c = sampleClass(rng_, l.nta);
     const uint32_t use_lane = preferredLaneFor(lane, c);
     if (!graph_->laneAllows(use_lane, classParams(c).lane_kinds)) continue;
@@ -2038,7 +2065,7 @@ uint32_t TrafficSim::prefill(uint32_t max_spawns) {
     uint32_t dest = kInvalidIndex;
     float dest_s = 0.f;
     if (router_ != nullptr && router_->attached()) {
-      dest = sampleSpawnLane(rng_);
+      dest = sampleDestLane(rng_);
       if (dest != kInvalidIndex) dest_s = graph_->lane(dest).length_m * 0.5f;
     }
     if (spawn(c, use_lane, s, dest, dest_s) != kInvalidIndex) {
@@ -2059,6 +2086,7 @@ void TrafficSim::step() {
   if (tod_s_ >= 86400.f) tod_s_ -= 86400.f;
   const uint8_t hour = static_cast<uint8_t>(tod_s_ / 3600.f);
   if (hour != spawn_hour_) rebuildSpawnWeights();
+  refreshSpawnRegions();
   if (signals_ != nullptr) const_cast<SignalTable*>(signals_)->cacheStates(time_s_);
 
   rebuildIndex();
@@ -2123,7 +2151,7 @@ void TrafficSim::step() {
       goal_cursor_ = (goal_cursor_ + 1u) % static_cast<uint32_t>(veh_.size());
       Vehicle& v = veh_[goal_cursor_];
       if ((v.flags & kVehHasRoute) != 0 || v.bus_route != 0xFFFFu) continue;
-      const uint32_t dest = sampleSpawnLane(rng_);
+      const uint32_t dest = sampleDestLane(rng_);
       if (dest == kInvalidIndex || dest == v.lane) break;
       ++routes_this_step_;
       routeAgent(v, dest, graph_->lane(dest).length_m * 0.5f);

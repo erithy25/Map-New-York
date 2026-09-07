@@ -224,12 +224,14 @@ def check_against_published(levels: list[tuple[float, Polygon]], pub_z, pub_area
 
     Returns ``(accept, reason, strict_per_level_match)``.
 
-    The gate is that the recovered levels **tile the building**: their areas must sum to the
-    CityGML ground footprint area within ``AREA_TOL_REL``.  That is the comparable quantity —
-    measured over the 623 multi-level buildings of the Midtown tile, recovered-sum / footprint-area
-    has median 1.0000 and recovered-sum / published-sum has median 1.0000, so the totals agree
-    exactly, while a *per-level* comparison disagrees for 17 % of buildings purely because the
-    height clustering here (0.15 m) splits or merges levels differently from the publishing stage.
+    The gate is that the recovered levels **tile the building**: their (disjoint) areas must sum to
+    the CityGML ground footprint area within ``AREA_TOL_REL``.  That is the comparable quantity —
+    measured over the 623 multi-level buildings of the Midtown tile, the union of the recovered
+    levels divided by ``footprint_area_m2`` has median 1.0000 and its 5th percentile is also
+    1.0000, and the union of the *ground* surfaces reproduces the same column just as exactly, so
+    the roof levels really do cover the plan.  A *per-level* comparison disagrees for 17 % of
+    buildings purely because the height clustering here (0.15 m) splits or merges levels
+    differently from the publishing stage.
     The levels reaching this check have already been made disjoint by ``resolve_overlaps``, so a
     sum above the footprint area is no longer an overhang — it means the CityGML plan is genuinely
     larger than the footprint the shell will be cut from, i.e. a different building.  Such a
@@ -245,12 +247,13 @@ def check_against_published(levels: list[tuple[float, Polygon]], pub_z, pub_area
         if rel > AREA_TOL_REL and abs(rec_total - float(footprint_area)) > AREA_TOL_ABS_M2:
             return False, f"levels sum to {rec_total:.1f} m2 vs footprint {footprint_area:.1f} m2", False
     if pub_area is not None:
+        # The published ``roof_level_area`` values are per level *before* overlaps are removed, so
+        # their sum double-counts an overhang and is an upper bound on the disjoint total, never an
+        # equality.  Only an excess is a defect.
         pa = np.asarray(pub_area, dtype=np.float64)
         pub_total = float(pa.sum())
-        if pub_total > 0:
-            rel = abs(rec_total / pub_total - 1.0)
-            if rel > AREA_TOL_REL and abs(rec_total - pub_total) > AREA_TOL_ABS_M2:
-                return False, f"levels sum to {rec_total:.1f} m2 vs published {pub_total:.1f} m2", False
+        if pub_total > 0 and rec_total > pub_total * (1.0 + AREA_TOL_REL) + AREA_TOL_ABS_M2:
+            return False, f"levels sum to {rec_total:.1f} m2 above the published {pub_total:.1f} m2", False
 
     strict = False
     if pub_z is not None and pub_area is not None:
