@@ -902,8 +902,13 @@ def build_report() -> str:
     import glob as _glob
     layers = {
         "terrain heightmaps": len(_glob.glob(str(PROCESSED / "tiles" / "*" / "terrain.json"))),
-        "tiles with buildings": len(_glob.glob(str(PROCESSED / "tiles" / "*" / "buildings.parquet"))),
-        "tiles with a shell mesh": len(_glob.glob(str(BLENDER_OUT / "tiles" / "*" / "tile_buildings.glb"))),
+        "tiles with buildings (five boroughs)": len(_glob.glob(str(PROCESSED / "tiles" / "*" / "buildings.parquet"))),
+        "tiles with a shell mesh (five boroughs)": len(_glob.glob(str(BLENDER_OUT / "tiles" / "*" / "tile_buildings.glb"))),
+        # New Jersey is a separate population in a sibling file (§1.2a). Leaving it out of this table
+        # understated the world by 486 tiles once it was built, in the section whose whole job is to say
+        # that no content layer is orphaned or missing.
+        "tiles with buildings (New Jersey)": len(_glob.glob(str(PROCESSED / "tiles" / "*" / "buildings_nj.parquet"))),
+        "tiles with a shell mesh (New Jersey)": len(_glob.glob(str(BLENDER_OUT / "tiles" / "*" / "tile_buildings_nj.glb"))),
         "tiles with kit placements": len(_glob.glob(str(PROCESSED / "tiles" / "*" / "kit_placements.bin"))),
         "tiles with props": len(_glob.glob(str(PROCESSED / "tiles" / "*" / "props.parquet"))),
         "tiles with pavement": len(_glob.glob(str(PROCESSED / "roads" / "pavement" / "*.parquet"))),

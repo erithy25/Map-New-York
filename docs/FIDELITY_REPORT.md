@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-07 11:13 UTC from commit `9c1141d0bac7` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-07 11:26 UTC from commit `0f1156d877e3` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -139,7 +139,7 @@ Water: hydrography polygons 2,235 · shoreline lines 413 · structures 2,536 · 
 | vehicles | 93 | 100.2 MB |
 | character | 25 | 512.5 MB |
 | landmarks | 127 | 920.2 MB |
-| tiles | 1,496 | 5,899.8 MB |
+| tiles | 1,496 | 5,900.0 MB |
 
 Catalog entries describing those assets: 422.
 
@@ -193,8 +193,10 @@ Reference photographs collected for side-by-side comparison: 519 photos across 1
 | Layer | Tiles |
 |---|---|
 | terrain heightmaps | 2,916 |
-| tiles with buildings | 920 |
-| tiles with a shell mesh | 920 |
+| tiles with buildings (five boroughs) | 920 |
+| tiles with a shell mesh (five boroughs) | 920 |
+| tiles with buildings (New Jersey) | 486 |
+| tiles with a shell mesh (New Jersey) | 486 |
 | tiles with kit placements | 920 |
 | tiles with props | 1,576 |
 | tiles with pavement | 972 |
