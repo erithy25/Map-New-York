@@ -1,0 +1,28 @@
+{
+ "artist": "Adhesion",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 2866784,
+ "duration_s": 162.0,
+ "file": "electronic/adhesionnewfolder_01_flagnebula.ogg",
+ "gain_db": -4.2,
+ "licence": "CC-BY-2.5",
+ "licence_url": "http://creativecommons.org/licenses/by/2.5/",
+ "loudness_lufs": -9.8,
+ "original_filename": "01-FlagNebula.mp3",
+ "recorded_at": "2026-09-06T12:18:48Z",
+ "schema_version": 1,
+ "sha256": "f53e30fc15a1a5ca33396e95c6273a33145bf6192029258d35a72d9bf888b034",
+ "source_page": "https://archive.org/details/AdhesionNewFolder",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/AdhesionNewFolder/01-FlagNebula.mp3",
+ "title": "Flag Nebula",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

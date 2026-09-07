@@ -1,0 +1,204 @@
+{
+ "schema_version": 1,
+ "slug": "street_elevated_broadway_bushwick_j",
+ "name": "Elevated subway street: Broadway (Brooklyn) under the J",
+ "group": "streetscape",
+ "viewpoint": {
+  "lat": 40.6978,
+  "lon": -73.9355,
+  "azimuth_deg": 127.0,
+  "note": "Broadway at Myrtle Avenue, Bushwick, roadway centre under the J/M/Z structure, looking south-east",
+  "representative": false
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Broadway\" Bushwick elevated J train street",
+  "\"Broadway\" Brooklyn elevated BMT Jamaica Line street level"
+ ],
+ "geosearch_radius_m": 600,
+ "fetched_at": "2026-09-06T14:16:10Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 106,
+ "candidates_eligible": 7,
+ "rejections": {
+  "keywords": 83,
+  "indoor": 4,
+  "excluded": 9,
+  "too_small": 1,
+  "not_photo": 1,
+  "not_jpeg": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Myrtle Avenue Jamaica Line 003.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Myrtle_Avenue_Jamaica_Line_003.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/71/Myrtle_Avenue_Jamaica_Line_003.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Myrtle_Avenue_Jamaica_Line_003.jpg/1920px-Myrtle_Avenue_Jamaica_Line_003.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-08-09 16:25:45",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.697147,
+    "lon": -73.935722
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 792022,
+   "sha256": "9b80c041a88c053eecd3cbac58a1ce977c922e6ef8dcb70763d8fb31802a4184",
+   "mean_luminance": 108.9,
+   "description": "View from the Myrtle Avenue Station",
+   "categories": [
+    "New York City photographs taken on 2021-08-09",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Railway photographs taken on 2021-08-09",
+    "2021 in Bushwick, Brooklyn",
+    "2021 in Bedford-Stuyvesant, Brooklyn",
+    "Broadway (BMT Myrtle Avenue Line)",
+    "August 2021 in Brooklyn, New York City",
+    "Views from Myrtle Avenue BMT Jamaica Line station",
+    "Popeyes restaurants in New York City",
+    "New York City Subway in August 2021"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.9,
+   "estimated_viewpoint": {
+    "lat": 40.697147,
+    "lon": -73.935722,
+    "azimuth_deg": 127.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.69715, -73.93572), 75 m from the reference position (Broadway at Myrtle Avenue, Bushwick, roadway centre under the J/M/Z structure, looking south-east); this item is a view along a street rather than at a point subject, so the azimuth 127 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Myrtle Avenue Jamaica Line 003.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Myrtle_Avenue_Jamaica_Line_003.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Myrtle Av bridge vc.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Myrtle_Av_bridge_vc.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/ce/Myrtle_Av_bridge_vc.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Myrtle_Av_bridge_vc.jpg/1920px-Myrtle_Av_bridge_vc.jpg",
+   "author": "Ed from Queens, USA",
+   "credit": "Bushwick 13 Myrtle Avenue station",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2015-06-21 20:43",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.697125,
+    "lon": -73.935487
+   },
+   "original_width": 2448,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1920,
+   "bytes": 614093,
+   "sha256": "094b74f1f42187e97752f21be9524eef9395ad245930be892b6de28a642ba0f8",
+   "mean_luminance": 65.6,
+   "description": "Bushwick 13 Myrtle Avenue station",
+   "categories": [
+    "Flickr images reviewed by FlickreviewR",
+    "Footbridges in Brooklyn, New York City",
+    "Files with coordinates missing SDC location of creation",
+    "Underside of the BMT Myrtle Avenue Line",
+    "New York City Subway footbridges",
+    "Files from Ed Flickr stream",
+    "Myrtle Avenue–Broadway station station house"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.0,
+   "estimated_viewpoint": {
+    "lat": 40.697125,
+    "lon": -73.935487,
+    "azimuth_deg": 127.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.69712, -73.93549), 75 m from the reference position (Broadway at Myrtle Avenue, Bushwick, roadway centre under the J/M/Z structure, looking south-east); this item is a view along a street rather than at a point subject, so the azimuth 127 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Myrtle Av bridge vc.jpg\" by Ed from Queens, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Myrtle_Av_bridge_vc.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Myrtle Avenue Jamaica Line 004.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Myrtle_Avenue_Jamaica_Line_004.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/5f/Myrtle_Avenue_Jamaica_Line_004.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Myrtle_Avenue_Jamaica_Line_004.jpg/1920px-Myrtle_Avenue_Jamaica_Line_004.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-08-09 16:25:56",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.697003,
+    "lon": -73.935586
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 656900,
+   "sha256": "261b813e849599462fbadd04266e1caaf28ce92a34f660da78948e1e544c95de",
+   "mean_luminance": 90.7,
+   "description": "View from the Myrtle Avenue Station",
+   "categories": [
+    "New York City photographs taken on 2021-08-09",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Railway photographs taken on 2021-08-09",
+    "2021 in Bushwick, Brooklyn",
+    "2021 in Bedford-Stuyvesant, Brooklyn",
+    "Broadway (BMT Myrtle Avenue Line)",
+    "August 2021 in Brooklyn, New York City",
+    "Views from Myrtle Avenue BMT Jamaica Line station",
+    "New York City Subway in August 2021",
+    "Myrtle Avenue–Broadway station station house"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.9,
+   "estimated_viewpoint": {
+    "lat": 40.697003,
+    "lon": -73.935586,
+    "azimuth_deg": 127.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.69700, -73.93559), 89 m from the reference position (Broadway at Myrtle Avenue, Bushwick, roadway centre under the J/M/Z structure, looking south-east); this item is a view along a street rather than at a point subject, so the azimuth 127 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Myrtle Avenue Jamaica Line 004.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Myrtle_Avenue_Jamaica_Line_004.jpg"
+  }
+ ]
+}

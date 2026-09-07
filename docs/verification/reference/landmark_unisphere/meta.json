@@ -1,0 +1,193 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_unisphere",
+ "name": "Unisphere",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7452,
+  "lon": -73.8465,
+  "azimuth_deg": 54.9,
+  "note": "fountain-plaza paving west-south-west of the Unisphere, Flushing Meadows-Corona Park, looking north-east",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.746,
+  "lon": -73.845,
+  "name": "Unisphere"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Unisphere\" Flushing Meadows",
+  "\"Unisphere\" Queens fountain"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T12:39:19Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 114,
+ "candidates_eligible": 47,
+ "rejections": {
+  "excluded": 46,
+  "too_old": 9,
+  "keywords": 8,
+  "too_small": 3,
+  "indoor": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Unisphere 2025.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Unisphere_2025.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Unisphere_2025.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Unisphere_2025.jpg/1920px-Unisphere_2025.jpg",
+   "author": "BakedintheHole",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2025-09-29 08:28:52",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.746092,
+    "lon": -73.845542
+   },
+   "original_width": 4080,
+   "original_height": 3072,
+   "width": 1920,
+   "height": 1446,
+   "bytes": 691710,
+   "sha256": "331faa9683fa7be3a257aa50de5491a0c97152de2a427e8a395dece43268b9b1",
+   "mean_luminance": 149.7,
+   "description": "The Unisphere in Queens, NY",
+   "categories": [
+    "CC-Zero",
+    "Unisphere",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Flushing Meadows–Corona Park in 2025"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.746092,
+    "lon": -73.845542,
+    "azimuth_deg": 102.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74609, -73.84554) is 47 m from Unisphere (40.74600, -73.84500) and 128 m from the standard viewpoint; the azimuth 103 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Unisphere 2025.jpg\" by BakedintheHole, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Unisphere_2025.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Unisphere from the west 2025.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Unisphere_from_the_west_2025.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/dc/Unisphere_from_the_west_2025.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Unisphere_from_the_west_2025.jpg/1920px-Unisphere_from_the_west_2025.jpg",
+   "author": "Jeffme",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2025-10-17 14:22:21",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.746403,
+    "lon": -73.845789
+   },
+   "original_width": 3399,
+   "original_height": 2784,
+   "width": 1920,
+   "height": 1573,
+   "bytes": 765118,
+   "sha256": "c0744598f22ce9a3b741b1c79fd2660bc5647435a71f0e697de09de13b630446",
+   "mean_luminance": 116.4,
+   "description": "Unisphere from the west, just in front of the Queens Museum, in 2025",
+   "categories": [
+    "CC-Zero",
+    "Flushing Meadows–Corona Park",
+    "Unisphere",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.746403,
+    "lon": -73.845789,
+    "azimuth_deg": 124.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74640, -73.84579) is 80 m from Unisphere (40.74600, -73.84500) and 147 m from the standard viewpoint; the azimuth 124 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Unisphere from the west 2025.jpg\" by Jeffme, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Unisphere_from_the_west_2025.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:The Unisphere (45899310885).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:The_Unisphere_(45899310885).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/64/The_Unisphere_%2845899310885%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/The_Unisphere_%2845899310885%29.jpg/1920px-The_Unisphere_%2845899310885%29.jpg",
+   "author": "Carine06 from UK",
+   "credit": "The Unisphere",
+   "license": {
+    "short_name": "CC BY-SA 2.0",
+    "url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "template": "cc-by-sa-2.0"
+   },
+   "date_taken": "2018-09-01 10:21",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.746423,
+    "lon": -73.84514
+   },
+   "original_width": 4496,
+   "original_height": 3000,
+   "width": 1920,
+   "height": 1281,
+   "bytes": 398865,
+   "sha256": "b97e224ab8dacdec455ebad086f68188187035625c627742987d71668e1e9bdf",
+   "mean_luminance": 155.5,
+   "description": "Flushing Meadows - Corona Park, New York.",
+   "categories": [
+    "2018 US Open (tennis)",
+    "Unisphere",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Flushing Meadows–Corona Park in 2018"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.45,
+   "estimated_viewpoint": {
+    "lat": 40.746423,
+    "lon": -73.84514,
+    "azimuth_deg": 165.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74642, -73.84514) is 48 m from Unisphere (40.74600, -73.84500) and 178 m from the standard viewpoint; the azimuth 166 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"The Unisphere (45899310885).jpg\" by Carine06 from UK, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:The_Unisphere_(45899310885).jpg"
+  }
+ ]
+}

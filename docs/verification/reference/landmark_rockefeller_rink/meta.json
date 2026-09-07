@@ -1,0 +1,198 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_rockefeller_rink",
+ "name": "Rockefeller Center Lower Plaza and rink (Prometheus)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.758839,
+  "lon": -73.977832,
+  "azimuth_deg": 260.0,
+  "note": "east end of the Channel Gardens promenade above the Lower Plaza, looking west across the rink to Prometheus and 30 Rockefeller Plaza",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.75873,
+  "lon": -73.97865,
+  "name": "Rockefeller Center Lower Plaza and rink (Prometheus)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Rockefeller Center\" Lower Plaza Prometheus rink",
+  "\"Rockefeller Center\" skating rink Channel Gardens"
+ ],
+ "geosearch_radius_m": 180,
+ "fetched_at": "2026-09-06T12:52:11Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 82,
+ "candidates_eligible": 18,
+ "rejections": {
+  "keywords": 55,
+  "not_photo": 3,
+  "too_small": 2,
+  "excluded": 1,
+  "night_for_day_item": 1,
+  "too_old": 1,
+  "indoor": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Prometheus (Manship) photographed in 2024.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Prometheus_(Manship)_photographed_in_2024.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c5/Prometheus_%28Manship%29_photographed_in_2024.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Prometheus_%28Manship%29_photographed_in_2024.jpg/1920px-Prometheus_%28Manship%29_photographed_in_2024.jpg",
+   "author": "Penguinpottery",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2024-04-26 11:57:48",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.758472,
+    "lon": -73.97795
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1332392,
+   "sha256": "c89f012c6c4824e74b18a11c96d87f683ce4c9b7fb5a06a654680639fbad5c3e",
+   "mean_luminance": 127.7,
+   "description": "A picture of Prometheus (Manship) from April 26th, 2024 located in the Channel Gardens of Rockefeller Center in New York City",
+   "categories": [
+    "Prometheus by Paul Manship",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Rockefeller Center in 2024"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 15.2,
+   "estimated_viewpoint": {
+    "lat": 40.758472,
+    "lon": -73.97795,
+    "azimuth_deg": 295.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75847, -73.97795) is 66 m from Rockefeller Center Lower Plaza and rink (Prometheus) (40.75873, -73.97865) and 42 m from the standard viewpoint; the azimuth 296 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Prometheus (Manship) photographed in 2024.jpg\" by Penguinpottery, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Prometheus_(Manship)_photographed_in_2024.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Rockefeller Center June 2022 025.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Rockefeller_Center_June_2022_025.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Rockefeller_Center_June_2022_025.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Rockefeller_Center_June_2022_025.jpg/1920px-Rockefeller_Center_June_2022_025.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-06-02 12:57:03",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.758592,
+    "lon": -73.978225
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 1083916,
+   "sha256": "08840c10439f148311da1a0b2929eb22304088f2cf1aa8a490343bec3431bfe4",
+   "mean_luminance": 112.5,
+   "description": "Rockefeller Center in June 2022",
+   "categories": [
+    "New York City photographs taken on 2022-06-02",
+    "Self-published work",
+    "Channel Gardens",
+    "Files with coordinates missing SDC location of creation",
+    "Rockefeller Center in 2022",
+    "June 2022 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.05,
+   "estimated_viewpoint": {
+    "lat": 40.758592,
+    "lon": -73.978225,
+    "azimuth_deg": 293.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75859, -73.97822) is 39 m from Rockefeller Center Lower Plaza and rink (Prometheus) (40.75873, -73.97865) and 43 m from the standard viewpoint; the azimuth 293 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Rockefeller Center June 2022 025.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Rockefeller_Center_June_2022_025.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Renovating Rockefeller rink 2021 jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Renovating_Rockefeller_rink_2021_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/1f/Renovating_Rockefeller_rink_2021_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Renovating_Rockefeller_rink_2021_jeh.jpg/1920px-Renovating_Rockefeller_rink_2021_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2021-04-30 11:25:53",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.7586,
+    "lon": -73.9782
+   },
+   "original_width": 4402,
+   "original_height": 2475,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 549749,
+   "sha256": "edae450b4f1c213ad6bc2228ee655c5c0a693e37c83b6c7ce4def75f21e55a9c",
+   "mean_luminance": 116.6,
+   "description": "Looking northwest at closed ice rink / dining plaza",
+   "categories": [
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Rockefeller Center ice rink in spring",
+    "Rockefeller Center in 2021",
+    "United States photographs taken on 2021-04-30",
+    "April 2021 in Manhattan, New York City",
+    "2021 Manhattan photos by Jim.henderson",
+    "April 2021 photos by Jim.henderson"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.9,
+   "estimated_viewpoint": {
+    "lat": 40.7586,
+    "lon": -73.9782,
+    "azimuth_deg": 290.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75860, -73.97820) is 41 m from Rockefeller Center Lower Plaza and rink (Prometheus) (40.75873, -73.97865) and 41 m from the standard viewpoint; the azimuth 291 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Renovating Rockefeller rink 2021 jeh.jpg\" by Jim.henderson, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Renovating_Rockefeller_rink_2021_jeh.jpg"
+  }
+ ]
+}

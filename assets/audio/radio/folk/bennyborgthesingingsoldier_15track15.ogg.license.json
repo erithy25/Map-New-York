@@ -1,0 +1,28 @@
+{
+ "artist": "Benny Borg",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 2203433,
+ "duration_s": 164.26,
+ "file": "folk/bennyborgthesingingsoldier_15track15.ogg",
+ "gain_db": 5.6,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/licenses/publicdomain/",
+ "loudness_lufs": -19.6,
+ "original_filename": "15Track15.mp3",
+ "recorded_at": "2026-09-06T12:23:20Z",
+ "schema_version": 1,
+ "sha256": "c8809193b227ef3615296ac8141237aadf8dbd52d3f3f54295471d269ec230a6",
+ "source_page": "https://archive.org/details/BennyBorgTheSingingSoldier",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/BennyBorgTheSingingSoldier/15Track15.mp3",
+ "title": "15 Track 15",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

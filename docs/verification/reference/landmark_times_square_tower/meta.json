@@ -1,0 +1,204 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_times_square_tower",
+ "name": "Times Square Tower (7 Times Square)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.756768,
+  "lon": -73.986091,
+  "azimuth_deg": 200.0,
+  "note": "Broadway at West 42nd Street, about 150 m north-north-east of the tower, looking south-south-west at Times Square Tower",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7555,
+  "lon": -73.9867,
+  "name": "Times Square Tower (7 Times Square)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Times Square Tower\" 7 Times Square",
+  "\"7 Times Square\" building"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T13:16:26Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 84,
+ "candidates_eligible": 29,
+ "rejections": {
+  "night_for_day_item": 2,
+  "too_small": 3,
+  "indoor": 15,
+  "excluded": 1,
+  "too_old": 2,
+  "keywords": 29,
+  "not_photo": 3
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:42nd St Bway 7th Av td (2018-05-18) 03 - 7 Times Square.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:42nd_St_Bway_7th_Av_td_(2018-05-18)_03_-_7_Times_Square.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/cb/42nd_St_Bway_7th_Av_td_%282018-05-18%29_03_-_7_Times_Square.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/42nd_St_Bway_7th_Av_td_%282018-05-18%29_03_-_7_Times_Square.jpg/1920px-42nd_St_Bway_7th_Av_td_%282018-05-18%29_03_-_7_Times_Square.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.755991,
+    "lon": -73.986606
+   },
+   "original_width": 3648,
+   "original_height": 3448,
+   "width": 1920,
+   "height": 1815,
+   "bytes": 684598,
+   "sha256": "f7b006282e67601a2bad776d3468e518de2dab15525104fb715327d57f775e3d",
+   "mean_luminance": 173.1,
+   "description": "Looking up at the Times Square Tower (7 Times Square) at 42nd Street and 7th Avenue / Broadway in Times Square, Midtown Manhattan.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "Times Square Tower",
+    "42nd Street (Manhattan)",
+    "7th Avenue (Manhattan)",
+    "Self-published work",
+    "Views of Manhattan, New York City from below",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2018-05-18",
+    "Broadway from 42nd to 47th Streets",
+    "May 2018 in Times Square",
+    "May 2018 in Manhattan, New York City",
+    "Photographs by Tdorante10 taken on 2018-05-18"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Times Square Tower\" 7 Times Square",
+   "score": 10.45,
+   "estimated_viewpoint": {
+    "lat": 40.755991,
+    "lon": -73.986606,
+    "azimuth_deg": 188.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75599, -73.98661) is 55 m from Times Square Tower (7 Times Square) (40.75550, -73.98670) and 97 m from the standard viewpoint; the azimuth 188 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"42nd St Bway 7th Av td (2018-05-18) 03 - 7 Times Square.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:42nd_St_Bway_7th_Av_td_(2018-05-18)_03_-_7_Times_Square.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:At New York City 2023 111.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:At_New_York_City_2023_111.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/6e/At_New_York_City_2023_111.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/At_New_York_City_2023_111.jpg/1920px-At_New_York_City_2023_111.jpg",
+   "author": "Photograph by Mike Peel ( www.mikepeel.net ).",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-03-12",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.756668,
+    "lon": -73.987073
+   },
+   "original_width": 4640,
+   "original_height": 6960,
+   "width": 1920,
+   "height": 2880,
+   "bytes": 1284746,
+   "sha256": "380ce806c5c7857d2b47d14ca44bdeda5271cd871edbbd9895a4bb9758f2e620",
+   "mean_luminance": 137.6,
+   "description": "",
+   "categories": [
+    "Times Square Tower",
+    "Media lacking a description",
+    "New York City photographs taken on 2023-03-12",
+    "Uploaded with LrMediaWiki",
+    "Files with coordinates missing SDC location of creation",
+    "Office buildings in the United States photographed in 2023",
+    "Midtown Manhattan in 2023",
+    "March 2023 in Manhattan, New York City",
+    "Photos by Mike Peel using a Canon EOS 90D",
+    "Photos by Mike Peel of New York City in 2023"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"7 Times Square\" building",
+   "score": 10.2,
+   "estimated_viewpoint": {
+    "lat": 40.756668,
+    "lon": -73.987073,
+    "azimuth_deg": 166.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75667, -73.98707) is 134 m from Times Square Tower (7 Times Square) (40.75550, -73.98670) and 83 m from the standard viewpoint; the azimuth 166 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"At New York City 2023 111.jpg\" by Photograph by Mike Peel ( www.mikepeel.net )., CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:At_New_York_City_2023_111.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Times Sq Sep 2021 123.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Times_Sq_Sep_2021_123.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/6e/Times_Sq_Sep_2021_123.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Times_Sq_Sep_2021_123.jpg/1920px-Times_Sq_Sep_2021_123.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-09-21 10:42:47",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": null,
+   "original_width": 5184,
+   "original_height": 3456,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 635112,
+   "sha256": "10788f552f80ab3f08f394908d4e705d026269cc36760117c1b924baccebd924",
+   "mean_luminance": 128.7,
+   "description": "The Times Square Tower (7 Times Square) in Manhattan, New York, seen in September 2021.",
+   "categories": [
+    "Times Square Tower",
+    "Self-published work",
+    "United States photographs taken on 2021-09-21",
+    "September 2021 in Times Square",
+    "Photographs by Epicgenius"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Times Square Tower\" 7 Times Square",
+   "score": 8.4,
+   "estimated_viewpoint": {
+    "lat": 40.756768,
+    "lon": -73.986091,
+    "azimuth_deg": 200.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Broadway at West 42nd Street, about 150 m north-north-east of the tower, looking south-south-west at Times Square Tower) and the azimuth 200 deg is the bearing from there to Times Square Tower (7 Times Square) (40.75550, -73.98670)."
+   },
+   "attribution": "\"Times Sq Sep 2021 123.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Times_Sq_Sep_2021_123.jpg"
+  }
+ ]
+}

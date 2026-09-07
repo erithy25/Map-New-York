@@ -1,0 +1,205 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_the_plaza_hotel",
+ "name": "The Plaza Hotel",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7642,
+  "lon": -73.9736,
+  "azimuth_deg": 296.3,
+  "note": "Grand Army Plaza by the Pulitzer Fountain, looking west at the Fifth Avenue front",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7645,
+  "lon": -73.9744,
+  "name": "The Plaza Hotel"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Plaza Hotel\" Fifth Avenue Grand Army Plaza",
+  "\"The Plaza Hotel\" New York exterior"
+ ],
+ "geosearch_radius_m": 200,
+ "fetched_at": "2026-09-06T12:37:09Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 94,
+ "candidates_eligible": 35,
+ "rejections": {
+  "too_old": 22,
+  "keywords": 24,
+  "excluded": 4,
+  "not_photo": 9
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Plaza Hotel New York 001.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Plaza_Hotel_New_York_001.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Plaza_Hotel_New_York_001.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Plaza_Hotel_New_York_001.jpg/1920px-Plaza_Hotel_New_York_001.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-12-14 11:11:39",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.763869,
+    "lon": -73.973717
+   },
+   "original_width": 2048,
+   "original_height": 1536,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 463718,
+   "sha256": "254137a13a17c64a2e0157319a5f4536d9fa3e6409da414552f4b78fdadb55ca",
+   "mean_luminance": 88.4,
+   "description": "The Plaza Hotel in Midtown Manhattan",
+   "categories": [
+    "New York City photographs taken on 2022-12-14",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Midtown Manhattan in 2022",
+    "December 2022 in Manhattan, New York City",
+    "Exterior of the Plaza Hotel"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.763869,
+    "lon": -73.973717,
+    "azimuth_deg": 320.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76387, -73.97372) is 91 m from The Plaza Hotel (40.76450, -73.97440) and 38 m from the standard viewpoint; the azimuth 321 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Plaza Hotel New York 001.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Plaza_Hotel_New_York_001.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:59th St 5th Av td (2018-08-27) 06 - Plaza Hotel.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:59th_St_5th_Av_td_(2018-08-27)_06_-_Plaza_Hotel.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/1a/59th_St_5th_Av_td_%282018-08-27%29_06_-_Plaza_Hotel.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/59th_St_5th_Av_td_%282018-08-27%29_06_-_Plaza_Hotel.jpg/1920px-59th_St_5th_Av_td_%282018-08-27%29_06_-_Plaza_Hotel.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.76447,
+    "lon": -73.973705
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 488731,
+   "sha256": "e981a598aea23c7b807ca3384a20e2d9e890c850f6a68449274e2a9e43c790e7",
+   "mean_luminance": 116.6,
+   "description": "A Literary Landmarks Register plaque for the Plaza Hotel, at the southwest corner of 59th Street (Central Park South) and the Grand Army Plaza street west of Fifth Avenue in Midtown Manhattan.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "Grand Army Plaza (Manhattan)",
+    "59th Street (Manhattan)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2018-08-27",
+    "2018 Manhattan photographs by Tdorante10",
+    "Midtown Manhattan in 2018",
+    "August 2018 in Manhattan, New York City",
+    "Central Park South",
+    "Plaques in Central Park",
+    "Plaques at the Plaza Hotel (New York City)",
+    "Photographs by Tdorante10 taken on 2018-08-27 in New York City",
+    "Exterior of the Plaza Hotel"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.45,
+   "estimated_viewpoint": {
+    "lat": 40.76447,
+    "lon": -73.973705,
+    "azimuth_deg": 273.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76447, -73.97370) is 59 m from The Plaza Hotel (40.76450, -73.97440) and 31 m from the standard viewpoint; the azimuth 273 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"59th St 5th Av td (2018-08-27) 06 - Plaza Hotel.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:59th_St_5th_Av_td_(2018-08-27)_06_-_Plaza_Hotel.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:The PLAZA HOTEL (35291113594).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:The_PLAZA_HOTEL_(35291113594).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/de/The_PLAZA_HOTEL_%2835291113594%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/The_PLAZA_HOTEL_%2835291113594%29.jpg/1920px-The_PLAZA_HOTEL_%2835291113594%29.jpg",
+   "author": "Prayitno / Thank you for (12 millions +) view from Los Angeles, USA",
+   "credit": "The PLAZA HOTEL",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2017",
+   "date_source": "DateTimeOriginal",
+   "year": 2017,
+   "camera_gps": {
+    "lat": 40.764129,
+    "lon": -73.97396
+   },
+   "original_width": 3456,
+   "original_height": 5184,
+   "width": 1920,
+   "height": 2880,
+   "bytes": 1411074,
+   "sha256": "9161c9d728e5538fa88c4d54782218c91d55cc465b323ad863606ee49aae38fd",
+   "mean_luminance": 109.8,
+   "description": "New York City, New York",
+   "categories": [
+    "William Tecumseh Sherman monument by Augustus Saint-Gaudens",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2017-01-06",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Files from prayitnophotography Flickr stream",
+    "Flickr files uploaded by Epicgenius",
+    "Exterior of the Plaza Hotel",
+    "Central Park in January 2017"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.3,
+   "estimated_viewpoint": {
+    "lat": 40.764129,
+    "lon": -73.97396,
+    "azimuth_deg": 318.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76413, -73.97396) is 55 m from The Plaza Hotel (40.76450, -73.97440) and 31 m from the standard viewpoint; the azimuth 318 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"The PLAZA HOTEL (35291113594).jpg\" by Prayitno / Thank you for (12 millions +) view from Los Angeles, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:The_PLAZA_HOTEL_(35291113594).jpg"
+  }
+ ]
+}

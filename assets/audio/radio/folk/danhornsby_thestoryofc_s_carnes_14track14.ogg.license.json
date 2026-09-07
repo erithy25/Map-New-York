@@ -1,0 +1,28 @@
+{
+ "artist": "Dan Hornsby",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 2478852,
+ "duration_s": 192.45,
+ "file": "folk/danhornsby_thestoryofc_s_carnes_14track14.ogg",
+ "gain_db": 3.9,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/licenses/publicdomain/",
+ "loudness_lufs": -17.9,
+ "original_filename": "14Track14.mp3",
+ "recorded_at": "2026-09-06T12:22:47Z",
+ "schema_version": 1,
+ "sha256": "e4b77c66c8cbbcda50eb746c949a5b596da418db5ccef6e87fc970542b48f0df",
+ "source_page": "https://archive.org/details/DanHornsby-TheStoryOfC.S.Carnes",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/DanHornsby-TheStoryOfC.S.Carnes/14Track14.mp3",
+ "title": "14 Track 14",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

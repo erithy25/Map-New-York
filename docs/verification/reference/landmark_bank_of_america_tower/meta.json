@@ -1,0 +1,208 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_bank_of_america_tower",
+ "name": "Bank of America Tower at One Bryant Park",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.754845,
+  "lon": -73.986671,
+  "azimuth_deg": 70.0,
+  "note": "Broadway at West 42nd Street, about 200 m west-south-west of the tower, looking east-north-east at the Bank of America Tower's crystalline crown",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.75546,
+  "lon": -73.98444,
+  "name": "Bank of America Tower at One Bryant Park"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Bank of America Tower\" \"One Bryant Park\"",
+  "\"One Bryant Park\" tower New York"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T13:17:09Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 124,
+ "candidates_eligible": 51,
+ "rejections": {
+  "keywords": 37,
+  "too_small": 21,
+  "excluded": 4,
+  "night_for_day_item": 6,
+  "too_old": 2,
+  "not_photo": 3
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:At New York City 2024 094.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:At_New_York_City_2024_094.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/51/At_New_York_City_2024_094.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/At_New_York_City_2024_094.jpg/1920px-At_New_York_City_2024_094.jpg",
+   "author": "Photograph by Mike Peel ( www.mikepeel.net ).",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.752125,
+    "lon": -73.981675
+   },
+   "original_width": 3243,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1790,
+   "bytes": 1132910,
+   "sha256": "71e212d7a28834ed45a1ad86af028271b1363b74c0aa2c2e07169c71216e426e",
+   "mean_luminance": 104.1,
+   "description": "New York Public Library Main Branch viewed from the corner of 5th Avenue and 40th Street",
+   "categories": [
+    "W. R. Grace Building",
+    "Exterior of the New York Public Library Main Branch",
+    "1095 Avenue of the Americas",
+    "Bank of America Tower (Manhattan)",
+    "Uploaded with LrMediaWiki",
+    "Files with coordinates missing SDC location of creation",
+    "New York City photographs taken on 2024-03-03",
+    "Midtown Manhattan skylines in 2024",
+    "March 2024 in Manhattan, New York City",
+    "Photos by Mike Peel using an iPhone 12 Mini",
+    "New York Public Library Main Branch in 2024",
+    "Photos by Mike Peel of New York City in 2024"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Bank of America Tower\" \"One Bryant Park\"",
+   "score": 12.2,
+   "estimated_viewpoint": {
+    "lat": 40.752125,
+    "lon": -73.981675,
+    "azimuth_deg": 327.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75212, -73.98167) is 438 m from Bank of America Tower at One Bryant Park (40.75546, -73.98444) and 518 m from the standard viewpoint; the azimuth 328 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"At New York City 2024 094.jpg\" by Photograph by Mike Peel ( www.mikepeel.net )., CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:At_New_York_City_2024_094.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Ocean blue mirror dimension.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Ocean_blue_mirror_dimension.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/00/Ocean_blue_mirror_dimension.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Ocean_blue_mirror_dimension.jpg/1920px-Ocean_blue_mirror_dimension.jpg",
+   "author": "Oceanblue27",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.75498,
+    "lon": -73.98442
+   },
+   "original_width": 3154,
+   "original_height": 2345,
+   "width": 1920,
+   "height": 1428,
+   "bytes": 742254,
+   "sha256": "1288b74bdd188e67794b102240d13827c5be148a922aa26ab45beb01a68fc780",
+   "mean_luminance": 142.4,
+   "description": "A different kind of timesquare picture.",
+   "categories": [
+    "1095 Avenue of the Americas",
+    "Bank of America Tower (Manhattan)",
+    "Images with annotations",
+    "New York City photographs taken on 2022-05-28",
+    "Self-published work",
+    "Views of Manhattan, New York City from below",
+    "Files with coordinates missing SDC location of creation",
+    "Clouds and blue sky in New York City",
+    "May 2022 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"One Bryant Park\" tower New York",
+   "score": 12.05,
+   "estimated_viewpoint": {
+    "lat": 40.75498,
+    "lon": -73.98442,
+    "azimuth_deg": 358.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75498, -73.98442) is 53 m from Bank of America Tower at One Bryant Park (40.75546, -73.98444) and 190 m from the standard viewpoint; the azimuth 358 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Ocean blue mirror dimension.jpg\" by Oceanblue27, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Ocean_blue_mirror_dimension.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:View from Empire State Building, New York City, 20231001 1512 1371.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:View_from_Empire_State_Building,_New_York_City,_20231001_1512_1371.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e9/View_from_Empire_State_Building%2C_New_York_City%2C_20231001_1512_1371.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/View_from_Empire_State_Building%2C_New_York_City%2C_20231001_1512_1371.jpg/1920px-View_from_Empire_State_Building%2C_New_York_City%2C_20231001_1512_1371.jpg",
+   "author": "Jakub Hałun",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2023-10-01 15:12:13",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.749001,
+    "lon": -73.985568
+   },
+   "original_width": 5548,
+   "original_height": 3704,
+   "width": 1920,
+   "height": 1282,
+   "bytes": 635378,
+   "sha256": "fb9cef168041d4b8f4b0aaa75a3b3c8c8710b36bc1d09ce0dd198ae7ce981ec2",
+   "mean_luminance": 135.9,
+   "description": "View from Empire State Building, New York City",
+   "categories": [
+    "Bank of America Tower (Manhattan)",
+    "New York City photographs taken on 2023-10-01",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Midtown Manhattan skylines in 2023",
+    "October 2023 in Manhattan, New York City",
+    "Views from the 86th floor of the Empire State Building in 2023",
+    "Views of the Hudson River from Manhattan"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "search:\"Bank of America Tower\" \"One Bryant Park\"",
+   "score": 11.7,
+   "estimated_viewpoint": {
+    "lat": 40.749001,
+    "lon": -73.985568,
+    "azimuth_deg": 7.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74900, -73.98557) is 724 m from Bank of America Tower at One Bryant Park (40.75546, -73.98444) and 656 m from the standard viewpoint; the azimuth 8 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"View from Empire State Building, New York City, 20231001 1512 1371.jpg\" by Jakub Hałun, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:View_from_Empire_State_Building,_New_York_City,_20231001_1512_1371.jpg"
+  }
+ ]
+}

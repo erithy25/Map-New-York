@@ -1,0 +1,191 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_queens_midtown_tunnel_portal",
+ "name": "Queens-Midtown Tunnel Manhattan portal",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.74674,
+  "lon": -73.972934,
+  "azimuth_deg": 120.0,
+  "note": "East 37th Street at Tunnel Exit Street in Murray Hill, about 120 m north-west of the Manhattan portal, looking south-east into the tunnel mouth",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7462,
+  "lon": -73.9717,
+  "name": "Queens-Midtown Tunnel Manhattan portal"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Queens-Midtown Tunnel\" entrance Manhattan",
+  "\"Queens Midtown Tunnel\" portal toll"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T12:56:10Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 47,
+ "candidates_eligible": 7,
+ "rejections": {
+  "excluded": 13,
+  "not_photo": 6,
+  "keywords": 20,
+  "too_old": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Saint Vartan Park, July, Morning (19391466048).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Saint_Vartan_Park,_July,_Morning_(19391466048).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Saint_Vartan_Park%2C_July%2C_Morning_%2819391466048%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Saint_Vartan_Park%2C_July%2C_Morning_%2819391466048%29.jpg/1920px-Saint_Vartan_Park%2C_July%2C_Morning_%2819391466048%29.jpg",
+   "author": "Jeffrey Zeldman from Manhattan, USA",
+   "credit": "Saint Vartan Park, July, Morning",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2015-07-10 09:04",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.745029,
+    "lon": -73.973457
+   },
+   "original_width": 6000,
+   "original_height": 3376,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 788276,
+   "sha256": "8812c9fc3aa396056d2fc20e8f21fe7d89fd29db402ee1c4cb14bb0ef782a7b6",
+   "mean_luminance": 74.3,
+   "description": "Small public park adjoining and partially masking the entrance to the Queens Midtown Tunnel.",
+   "categories": [
+    "St. Vartan Park",
+    "Flickr images reviewed by FlickreviewR",
+    "Files with coordinates missing SDC location of creation",
+    "Overgrowth in New York City",
+    "NYC Parks signs in Manhattan",
+    "Park gates in New York City",
+    "Flickr images missing SDC Flickr photo ID",
+    "Flickr images missing SDC published in"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Queens-Midtown Tunnel\" entrance Manhattan",
+   "score": 13.0,
+   "estimated_viewpoint": {
+    "lat": 40.745029,
+    "lon": -73.973457,
+    "azimuth_deg": 48.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74503, -73.97346) is 197 m from Queens-Midtown Tunnel Manhattan portal (40.74620, -73.97170) and 195 m from the standard viewpoint; the azimuth 49 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Saint Vartan Park, July, Morning (19391466048).jpg\" by Jeffrey Zeldman from Manhattan, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Saint_Vartan_Park,_July,_Morning_(19391466048).jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Saint Vartan Park, July, Morning (19583732951).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Saint_Vartan_Park,_July,_Morning_(19583732951).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/66/Saint_Vartan_Park%2C_July%2C_Morning_%2819583732951%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Saint_Vartan_Park%2C_July%2C_Morning_%2819583732951%29.jpg/1920px-Saint_Vartan_Park%2C_July%2C_Morning_%2819583732951%29.jpg",
+   "author": "Jeffrey Zeldman from Manhattan, USA",
+   "credit": "Saint Vartan Park, July, Morning",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2015-07-10 09:01",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.745029,
+    "lon": -73.973457
+   },
+   "original_width": 6000,
+   "original_height": 3376,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 769736,
+   "sha256": "d834ac93baaae942490ba74fc2e941feb3c3cd3e53a4712d9e21d09f65d72501",
+   "mean_luminance": 78.6,
+   "description": "Small public park adjoining and partially masking the entrance to the Queens Midtown Tunnel.",
+   "categories": [
+    "St. Vartan Park",
+    "Flickr images reviewed by FlickreviewR",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Queens-Midtown Tunnel\" entrance Manhattan",
+   "score": 13.0,
+   "estimated_viewpoint": {
+    "lat": 40.745029,
+    "lon": -73.973457,
+    "azimuth_deg": 48.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74503, -73.97346) is 197 m from Queens-Midtown Tunnel Manhattan portal (40.74620, -73.97170) and 195 m from the standard viewpoint; the azimuth 49 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Saint Vartan Park, July, Morning (19583732951).jpg\" by Jeffrey Zeldman from Manhattan, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Saint_Vartan_Park,_July,_Morning_(19583732951).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Saint Vartan Park, July, Morning (19579404505).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Saint_Vartan_Park,_July,_Morning_(19579404505).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/41/Saint_Vartan_Park%2C_July%2C_Morning_%2819579404505%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Saint_Vartan_Park%2C_July%2C_Morning_%2819579404505%29.jpg/1920px-Saint_Vartan_Park%2C_July%2C_Morning_%2819579404505%29.jpg",
+   "author": "Jeffrey Zeldman from Manhattan, USA",
+   "credit": "Saint Vartan Park, July, Morning",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2015-07-10 09:00",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.745029,
+    "lon": -73.973457
+   },
+   "original_width": 6000,
+   "original_height": 3376,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 638980,
+   "sha256": "cc7d9de3fd5edb0b9b6f1ab05d4d08e42c745dc5b2eb00ec8f548373c008e3db",
+   "mean_luminance": 73.7,
+   "description": "Small public park adjoining and partially masking the entrance to the Queens Midtown Tunnel.",
+   "categories": [
+    "St. Vartan Park",
+    "Flickr images reviewed by FlickreviewR",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Queens-Midtown Tunnel\" entrance Manhattan",
+   "score": 13.0,
+   "estimated_viewpoint": {
+    "lat": 40.745029,
+    "lon": -73.973457,
+    "azimuth_deg": 48.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74503, -73.97346) is 197 m from Queens-Midtown Tunnel Manhattan portal (40.74620, -73.97170) and 195 m from the standard viewpoint; the azimuth 49 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Saint Vartan Park, July, Morning (19579404505).jpg\" by Jeffrey Zeldman from Manhattan, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Saint_Vartan_Park,_July,_Morning_(19579404505).jpg"
+  }
+ ]
+}

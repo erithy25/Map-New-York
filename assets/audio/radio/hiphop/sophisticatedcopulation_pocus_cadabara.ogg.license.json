@@ -1,0 +1,28 @@
+{
+ "artist": "Noyz Boyz",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 3989551,
+ "duration_s": 262.78,
+ "file": "hiphop/sophisticatedcopulation_pocus_cadabara.ogg",
+ "gain_db": -2.7,
+ "licence": "CC-BY-3.0-US",
+ "licence_url": "http://creativecommons.org/licenses/by/3.0/us/",
+ "loudness_lufs": -11.3,
+ "original_filename": "pocus_cadabara.mp3",
+ "recorded_at": "2026-09-06T12:13:53Z",
+ "schema_version": 1,
+ "sha256": "f8e3708fc098b4be145821935a6d69560ce5a82bf7568fb257dc8769d1473ced",
+ "source_page": "https://archive.org/details/sophisticatedcopulation",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/sophisticatedcopulation/pocus_cadabara.mp3",
+ "title": "pocus_cadabara",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

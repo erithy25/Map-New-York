@@ -1,0 +1,202 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_50_hudson_yards",
+ "name": "50 Hudson Yards",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.754339,
+  "lon": -73.997627,
+  "azimuth_deg": 270.0,
+  "note": "Tenth Avenue at West 33rd Street, about 200 m east of the tower, looking west at 50 Hudson Yards",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.754339,
+  "lon": -74.000001,
+  "name": "50 Hudson Yards"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2022,
+ "wanted": 3,
+ "queries": [
+  "50 Hudson Yards Manhattan",
+  "50 Hudson Yards tower"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T14:08:08Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 84,
+ "candidates_eligible": 10,
+ "rejections": {
+  "too_old": 6,
+  "keywords": 58,
+  "excluded": 8,
+  "licence": 1,
+  "indoor": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Plaza between 1 Manhattan West and 2 Manhattan West.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Plaza_between_1_Manhattan_West_and_2_Manhattan_West.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/19/Plaza_between_1_Manhattan_West_and_2_Manhattan_West.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Plaza_between_1_Manhattan_West_and_2_Manhattan_West.jpg/1920px-Plaza_between_1_Manhattan_West_and_2_Manhattan_West.jpg",
+   "author": "Kenneth C. Zirkel",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2024-11-23 16:42:28",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.752426,
+    "lon": -73.998062
+   },
+   "original_width": 3600,
+   "original_height": 2622,
+   "width": 1920,
+   "height": 1398,
+   "bytes": 1254810,
+   "sha256": "e209ab6ede38774a56ccf073a77c054fe17720f03b6a2cbfc7a7560e21569127",
+   "mean_luminance": 99.3,
+   "description": "Plaza between 1 Manhattan West and 2 Manhattan West, across 9th Avenue from the Moynihan Train Hall (Farley Building)",
+   "categories": [
+    "50 Hudson Yards",
+    "Manhattan West",
+    "9th Avenue (Manhattan)",
+    "Westyard Distribution Center",
+    "32nd Street (Manhattan)",
+    "Self-published work",
+    "Images by kzirkel",
+    "Files with coordinates missing SDC location of creation",
+    "New York City photographs taken on 2024-11-23",
+    "Midtown Manhattan in 2024",
+    "November 2024 in Manhattan, New York City",
+    "Privately owned public space in Midtown Manhattan",
+    "Taken with Canon EOS R6 and Canon EF 11-24mm F4L USM"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:50 Hudson Yards Manhattan",
+   "score": 10.2,
+   "estimated_viewpoint": {
+    "lat": 40.752426,
+    "lon": -73.998062,
+    "azimuth_deg": 322.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75243, -73.99806) is 268 m from 50 Hudson Yards (40.75434, -74.00000) and 216 m from the standard viewpoint; the azimuth 322 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Plaza between 1 Manhattan West and 2 Manhattan West.jpg\" by Kenneth C. Zirkel, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Plaza_between_1_Manhattan_West_and_2_Manhattan_West.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:50 Hudson Yards.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:50_Hudson_Yards.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d3/50_Hudson_Yards.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/50_Hudson_Yards.jpg/1280px-50_Hudson_Yards.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-02-18 12:42:25",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.754775,
+    "lon": -74.001114
+   },
+   "original_width": 1536,
+   "original_height": 2048,
+   "width": 1280,
+   "height": 1707,
+   "bytes": 446152,
+   "sha256": "363d44863a8b4213a57dfcc22ae414371ce6b8cf9330362be77cd978763d7e99",
+   "mean_luminance": 91.6,
+   "description": "50 Hudson Yards",
+   "categories": [
+    "50 Hudson Yards",
+    "New York City photographs taken on 2023-02-18",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Hudson Yards in 2023",
+    "February 2023 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:50 Hudson Yards Manhattan",
+   "score": 9.2,
+   "estimated_viewpoint": {
+    "lat": 40.754775,
+    "lon": -74.001114,
+    "azimuth_deg": 117.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75478, -74.00111) is 106 m from 50 Hudson Yards (40.75434, -74.00000) and 298 m from the standard viewpoint; the azimuth 117 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"50 Hudson Yards.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:50_Hudson_Yards.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:50 Hudson Yards (55379880087).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:50_Hudson_Yards_(55379880087).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/4b/50_Hudson_Yards_%2855379880087%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/50_Hudson_Yards_%2855379880087%29.jpg/1920px-50_Hudson_Yards_%2855379880087%29.jpg",
+   "author": "Ajay Suresh",
+   "credit": "50 Hudson Yards",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2026-06-16",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": null,
+   "original_width": 4788,
+   "original_height": 7182,
+   "width": 1920,
+   "height": 2880,
+   "bytes": 1573363,
+   "sha256": "469084dac9879d08dcd080609fc0dfcb7e8b69c392ff130fe0e5197ac66e2e6c",
+   "mean_luminance": 121.7,
+   "description": "New York, NY",
+   "categories": [
+    "50 Hudson Yards",
+    "Images with extracted images",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Hudson Yards in 2026",
+    "June 2026 in Manhattan, New York City",
+    "New York City photographs taken on 2026-06-16",
+    "2026 New York City photographs by ajay suresh",
+    "Office buildings in New York City photographed in 2026"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:50 Hudson Yards Manhattan",
+   "score": 7.7,
+   "estimated_viewpoint": {
+    "lat": 40.754339,
+    "lon": -73.997627,
+    "azimuth_deg": 270.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Tenth Avenue at West 33rd Street, about 200 m east of the tower, looking west at 50 Hudson Yards) and the azimuth 270 deg is the bearing from there to 50 Hudson Yards (40.75434, -74.00000)."
+   },
+   "attribution": "\"50 Hudson Yards (55379880087).jpg\" by Ajay Suresh, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:50_Hudson_Yards_(55379880087).jpg"
+  }
+ ]
+}

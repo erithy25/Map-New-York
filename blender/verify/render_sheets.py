@@ -1,0 +1,1473 @@
+"""Render each reference viewpoint and compose the photograph-vs-simulation comparison sheets.
+
+For every slug under ``docs/verification/reference/`` this script
+
+1. reads the licensed reference photographs and their metadata (viewpoint, azimuth, author,
+   licence, date the photograph was taken);
+2. assembles the world around that viewpoint with :mod:`scene`;
+3. places the camera with :mod:`camera`;
+4. puts the Sun where it actually was at the moment the reference photograph was taken -- the
+   real date and local time run through ``services/nycsim_live/astronomy.py`` (the same SPA
+   implementation the live services use) -- falling back to 09:30 local on the photograph's date
+   (or on the summer solstice when only a year is recorded);
+5. renders 1280 px wide with Cycles on the CPU to
+   ``docs/verification/comparison/<slug>/render.png``;
+6. composes ``docs/verification/comparison/<slug>/sheet.png``: reference left, render right,
+   caption strip underneath naming the subject, the viewpoint, the photograph's author and
+   licence, and the render's camera parameters and scene contents.
+
+Usage::
+
+    python3 blender/verify/render_sheets.py --slugs promenade_lower_manhattan
+    python3 blender/verify/render_sheets.py --group viewpoint --samples 64
+    python3 blender/verify/render_sheets.py --compose-only --slugs top_of_the_rock_south
+"""
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import logging
+import math
+import sys
+import time
+from pathlib import Path
+from typing import Sequence
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+HERE = Path(__file__).resolve().parent
+for p in (str(HERE), str(REPO_ROOT / "blender" / "common"), str(REPO_ROOT / "pipeline"),
+          str(REPO_ROOT / "services"), str(REPO_ROOT)):
+    if p not in sys.path:
+        sys.path.insert(0, p)
+
+LOG = logging.getLogger("nycsim.verify.render")
+
+REFERENCE_DIR = REPO_ROOT / "docs" / "verification" / "reference"
+COMPARISON_DIR = REPO_ROOT / "docs" / "verification" / "comparison"
+FONT_DIR = REPO_ROOT / "assets" / "fonts" / "Overpass"
+
+NY_TZ = "America/New_York"
+
+# Lighting model constants.  SUN_CALIBRATION and REFERENCE_KEY_W were measured with
+# blender/verify/ test renders of a 0.26-albedo ground: they put a clear-midday sunlit ground at
+# about 150/255 through Filmic, which is where a correctly exposed photograph of concrete sits.
+#: One seed for every agent frame in the set.  The traffic and pedestrian simulations are
+#: deterministic in their seed and inputs, so a fixed seed means a re-render reproduces the same
+#: frame; the seed is printed on every sheet so it can be changed and the frame re-checked.
+AGENT_SEED = 20260907
+#: How far agents are placed.  Beyond these the figures are a few pixels and the triangles are
+#: better spent on the facades behind them.
+AGENT_VEHICLE_RADIUS_M = 320.0
+AGENT_PED_RADIUS_M = 200.0
+#: Distinct NPC bodies imported per frame.  Each import costs about 1.5 s, and the 24 exported
+#: bodies through three walk phases already give more distinct figures than a frame ever holds.
+AGENT_NPC_ARCHETYPES = 12
+
+SOLAR_CONSTANT_W = 1361.0
+ATMOSPHERIC_TRANSMITTANCE = 0.7
+SUN_CALIBRATION = 540.0
+DIFFUSE_KEY_W = 90.0
+REFERENCE_KEY_W = 681.0
+SKY_STRENGTH_DAY = 0.25
+SKY_STRENGTH_NIGHT = 0.5
+# Calibrated against the reference photograph's own histogram, in an A/B where only this constant
+# moved (blender/verify -- times_square_duffy_south_night, the one subject of the 57 whose Sun is
+# below the horizon, so nothing else in the set can move with it).  The measure is the mean gap
+# between the render's and the photograph's luminance CDFs, which is a distance in luma units and
+# not a single statistic that can be gamed.  Sixteen exposures from -3.0 to +2.5 stops: the gap
+# falls from 0.271 at the +2.0 this used to be to a flat minimum of 0.072 between -1.5 and -1.0,
+# reached at -1.25.  The frame's median luminance goes 0.541 -> 0.176 against the photograph's
+# 0.151, and the share of the frame below 0.20 goes 0.132 -> 0.535 against its 0.622.
+#
+# What this does *not* fix, stated because the number moves the wrong way: the photograph clips
+# 5.07 % of its area above 0.95 and the render clips 0.31 % at +2.0 and 0.00 % here.  Stopping
+# down cannot buy highlights.  The render has no clipped highlights because the Filmic shoulder
+# only reaches 1.0 asymptotically and the signage emission is calibrated on the *daylight* frame
+# (deliberately, by the stage that set it), so no lit sign in the frame is bright enough to cross.
+# Getting both would take a different view transform or a night-specific emission, and neither is
+# an exposure.  SKY_STRENGTH_NIGHT was A/B'd in the same pass and is very nearly inert here: 0.5
+# against 0.1 -- a five-fold change -- moves the median by 0.0026 and the CDF gap by 0.002, because
+# at a Sun elevation of -9.5 deg the Nishita sky is dim and this portrait frame is filled with
+# buildings rather than sky.  It is left where it was rather than tuned to no effect.
+NIGHT_EXPOSURE_STOPS = -1.25
+RENDER_WIDTH = 1280
+DEFAULT_SAMPLES = 64
+
+#: Slug -> (scene radius m, prop radius m, kit radius m).  A skyline view needs kilometres of
+#: world and no facade detail; a street view needs the opposite.
+RADIUS_OVERRIDES: dict[str, tuple[float, float, float]] = {
+    "promenade_lower_manhattan": (5000.0, 0.0, 0.0),
+    "staten_island_ferry_lower_manhattan": (5500.0, 0.0, 0.0),
+    "top_of_the_rock_south": (4500.0, 0.0, 0.0),
+    "times_square_duffy_south_day": (800.0, 250.0, 130.0),
+    "times_square_duffy_south_night": (800.0, 250.0, 130.0),
+    "fifth_ave_42nd_north": (700.0, 250.0, 140.0),
+    "fifth_ave_42nd_south": (700.0, 250.0, 140.0),
+    "dumbo_washington_st_manhattan_bridge": (900.0, 250.0, 140.0),
+    "bethesda_terrace_fountain": (700.0, 300.0, 120.0),
+}
+
+#: The seven viewpoints the project brief mandates, mapped to the reference slugs that cover them.
+MANDATED_VIEWPOINTS: dict[str, list[str]] = {
+    "Brooklyn Heights Promenade": ["promenade_lower_manhattan"],
+    "Top of the Rock": ["top_of_the_rock_south"],
+    "Times Square from Duffy Square": ["times_square_duffy_south_day", "times_square_duffy_south_night"],
+    "Fifth Avenue at 42nd Street": ["fifth_ave_42nd_north", "fifth_ave_42nd_south"],
+    "Bethesda Terrace": ["bethesda_terrace_fountain"],
+    "Staten Island Ferry deck": ["staten_island_ferry_lower_manhattan"],
+    "Washington Street, DUMBO": ["dumbo_washington_st_manhattan_bridge"],
+}
+
+DRIVE_THROUGH_AREAS: dict[str, list[str]] = {
+    "Midtown Manhattan": ["drive_midtown_sixth_ave_45th"],
+    "Lower Manhattan": ["drive_lower_manhattan_broadway_wall_st", "drive_lower_manhattan_stone_st"],
+    "Brooklyn brownstones": ["drive_brooklyn_park_slope_7th_ave", "drive_brooklyn_bed_stuy_stuyvesant_ave"],
+    "Queens residential": ["drive_queens_jackson_heights", "drive_queens_forest_hills", "drive_queens_bayside"],
+    "The Bronx": ["drive_bronx_grand_concourse", "drive_bronx_arthur_ave"],
+}
+
+
+# --------------------------------------------------------------------------- reference metadata
+
+
+def list_slugs() -> list[str]:
+    out = []
+    for d in sorted(REFERENCE_DIR.iterdir()):
+        if d.is_dir() and (d / "meta.json").exists():
+            out.append(d.name)
+    return out
+
+
+def load_meta(slug: str) -> dict:
+    return json.loads((REFERENCE_DIR / slug / "meta.json").read_text())
+
+
+def pick_reference_photo(meta: dict) -> dict | None:
+    """The photograph that gives the fairest comparison for this item.
+
+    Preference order: the file exists on disk; the Sun at the moment it was taken agrees with
+    whether the item is a day or a night view (a daylight item photographed after sunset would
+    force a black render); a full date *and* time is recorded, so the Sun can be placed from the
+    real instant instead of an assumption; then the estimated-viewpoint confidence and the
+    azimuth error against the item's canonical viewpoint.
+    """
+    slug = meta["slug"]
+    vp = meta["viewpoint"]
+    az = float(vp["azimuth_deg"])
+    night = bool(meta.get("night"))
+    best, best_key = None, None
+    for p in meta.get("photos", []):
+        f = REFERENCE_DIR / slug / p["file"]
+        if not f.exists():
+            continue
+        ev = p.get("estimated_viewpoint") or {}
+        pa = ev.get("azimuth_deg", az)
+        err = abs((float(pa) - az + 180.0) % 360.0 - 180.0)
+        has_time = bool(p.get("date_taken") and len(str(p["date_taken"])) >= 16)
+        conf = {"high": 0, "medium": 1, "low": 2}.get(ev.get("confidence", "low"), 2)
+        when, _ = photo_instant(p)
+        elev = sun_for(vp["lat"], vp["lon"], when)["elevation_deg"]
+        # Hard gate first: a daylight item must not be paired with an after-dark frame, and vice
+        # versa.  Then a real EXIF timestamp, because it fixes the Sun exactly.  Only then the
+        # softer preference for a well-lit hour.
+        if night:
+            lit_bad = 0 if elev < 0.0 else 1
+            lit_tier = 0 if elev <= -6.0 else 1
+        else:
+            lit_bad = 0 if elev > 3.0 else 1
+            lit_tier = 0 if elev >= 12.0 else 1
+        key = (lit_bad, 0 if has_time else 1, lit_tier, conf, err)
+        if best_key is None or key < best_key:
+            best, best_key = p, key
+    return best
+
+
+def photo_instant(photo: dict) -> tuple[dt.datetime, str]:
+    """Local New York datetime for a photo, plus a note on where it came from."""
+    from zoneinfo import ZoneInfo
+    tz = ZoneInfo(NY_TZ)
+    raw = str(photo.get("date_taken") or "").strip()
+    for fmt, note in (("%Y-%m-%d %H:%M:%S", "EXIF DateTimeOriginal"),
+                      ("%Y-%m-%d %H:%M", "EXIF DateTimeOriginal (minutes)"),
+                      ("%Y-%m-%dT%H:%M:%S", "EXIF DateTimeOriginal")):
+        try:
+            return dt.datetime.strptime(raw, fmt).replace(tzinfo=tz), note
+        except ValueError:
+            pass
+    try:
+        d = dt.datetime.strptime(raw, "%Y-%m-%d").date()
+        return dt.datetime.combine(d, dt.time(9, 30), tzinfo=tz), "photograph date, mid-morning 09:30 assumed"
+    except ValueError:
+        pass
+    year = photo.get("year")
+    if isinstance(year, int):
+        return dt.datetime(year, 6, 21, 9, 30, tzinfo=tz), "photograph year only; 21 June 09:30 assumed"
+    return dt.datetime(2024, 6, 21, 9, 30, tzinfo=tz), "no date recorded; 21 June 2024 09:30 assumed"
+
+
+def sun_for(lat: float, lon: float, when_local: dt.datetime, elevation_m: float = 20.0) -> dict:
+    from nycsim_live import astronomy
+    obs = astronomy.Observer(lat, lon, elevation_m)
+    pos = astronomy.solar_position(when_local.astimezone(dt.timezone.utc), obs)
+    return {"azimuth_deg": pos.azimuth, "elevation_deg": pos.elevation,
+            "utc": pos.utc.isoformat().replace("+00:00", "Z"),
+            "local": when_local.isoformat()}
+
+
+# --------------------------------------------------------------------------- rendering
+
+
+def setup_world_and_sun(sun_azimuth_deg: float, sun_elevation_deg: float, *, night: bool) -> dict:
+    """Nishita sky at the real Sun position, a matching directional light, and an exposure.
+
+    The Sun's strength follows the direct normal irradiance for the Sun's actual elevation --
+    1361 W/m2 at the top of the atmosphere, Kasten-Young air mass, 0.7 atmospheric transmittance
+    per air mass -- divided by a single calibration constant so that a clear midday frame lands
+    where a correctly exposed photograph lands (a 0.26-albedo sunlit ground at about 150/255
+    through the Filmic view transform).  The view exposure then opens up by as much as three
+    stops as the light falls off, the way a photographer would; it never stops down, so a bright
+    scene stays bright.
+
+    Below the horizon the sky node is clamped to civil twilight and no directional light is
+    added.  Nothing artificial stands in for street lighting, so a night frame shows exactly how
+    much emissive content the world currently has -- which is the point of the check.
+    """
+    import bpy
+    sc = bpy.context.scene
+    world = bpy.data.worlds.get("World") or bpy.data.worlds.new("World")
+    sc.world = world
+    world.use_nodes = True
+    nt = world.node_tree
+    bg = nt.nodes.get("Background")
+    if bg is None:
+        bg = nt.nodes.new("ShaderNodeBackground")
+        out = nt.nodes.get("World Output") or nt.nodes.new("ShaderNodeOutputWorld")
+        nt.links.new(bg.outputs["Background"], out.inputs["Surface"])
+    sky = nt.nodes.new("ShaderNodeTexSky")
+    sky.sky_type = "NISHITA"
+    sky_elev = max(sun_elevation_deg, -4.0)
+    sky.sun_elevation = math.radians(sky_elev)
+    sky.sun_rotation = math.radians(sun_azimuth_deg)
+    sky.sun_intensity = 0.0
+    sky.altitude = 0.0
+    nt.links.new(sky.outputs["Color"], bg.inputs["Color"])
+    bg.inputs["Strength"].default_value = SKY_STRENGTH_NIGHT if night else SKY_STRENGTH_DAY
+
+    dni = 0.0
+    lamp = None
+    if sun_elevation_deg > 0.5:
+        e = math.radians(sun_elevation_deg)
+        air_mass = 1.0 / (math.sin(e) + 0.50572 * (sun_elevation_deg + 6.07995) ** -1.6364)
+        dni = SOLAR_CONSTANT_W * (ATMOSPHERIC_TRANSMITTANCE ** (air_mass ** 0.678))
+        light = bpy.data.lights.new("verify_sun", "SUN")
+        light.energy = dni / SUN_CALIBRATION
+        light.angle = math.radians(0.53)
+        lamp = bpy.data.objects.new("verify_sun", light)
+        sc.collection.objects.link(lamp)
+        lamp.rotation_euler = (math.radians(90.0 - sun_elevation_deg), 0.0,
+                               math.radians(-sun_azimuth_deg))
+        key = dni * math.sin(e) + DIFFUSE_KEY_W
+        exposure = min(3.0, max(0.0, math.log2(REFERENCE_KEY_W / key)))
+    else:
+        exposure = NIGHT_EXPOSURE_STOPS
+    sc.view_settings.exposure = exposure
+    for want in ("Filmic", "AgX", "Standard"):
+        try:
+            sc.view_settings.view_transform = want
+            break
+        except (TypeError, ValueError):
+            continue
+    return {"sky_elevation_deg": round(sky_elev, 3), "sky_azimuth_deg": round(sun_azimuth_deg, 3),
+            "sun_lamp": lamp is not None,
+            "direct_normal_irradiance_w_m2": round(dni, 1),
+            "sun_strength_blender": round(dni / SUN_CALIBRATION, 3),
+            "background_strength": bg.inputs["Strength"].default_value,
+            "view_transform": sc.view_settings.view_transform,
+            "exposure_stops": round(exposure, 2)}
+
+
+def apply_time_of_day_materials(night: bool) -> dict:
+    """Switch the world's emissive content to match the hour of the reference photograph.
+
+    Three cases, and only the first two change anything:
+
+    * ``LIGHT_CONE`` -- the prop kit models the beam under each street lamp as a cone of emissive
+      geometry.  That is a night-time visualisation, not a physical object, so in a daylight frame
+      it is made fully transparent; left on it hangs a glowing cone under every lamp at noon.
+    * ``LAMP_EMISSIVE`` -- NYC street lighting is dusk-to-dawn, so the lamp lens is off in a
+      daylight frame.  Its authored material is pure emission over a black base, which would
+      render as a black hole once the emission is zeroed, so the base colour is set to a pale
+      diffuser grey at the same time.
+    * everything else (``LED_*`` on traffic signals, lit shopfronts and screens) is left exactly
+      as the kit authored it: those run in daylight too, and a night frame must show the emissive
+      content the world really has.
+    """
+    import bpy
+    if night:
+        return {"night": True, "cones_hidden": 0, "lamps_switched_off": 0,
+                "note": "night frame: every emissive material left as the kit authored it"}
+    cones = lamps = 0
+    for mat in bpy.data.materials:
+        name = (mat.name or "").upper()
+        is_cone = "LIGHT_CONE" in name
+        is_lamp = "LAMP_EMISSIVE" in name
+        if not (is_cone or is_lamp) or not mat.use_nodes:
+            continue
+        for node in mat.node_tree.nodes:
+            if node.type == "EMISSION" and "Strength" in node.inputs:
+                node.inputs["Strength"].default_value = 0.0
+            elif node.type == "BSDF_PRINCIPLED":
+                if "Emission Strength" in node.inputs:
+                    node.inputs["Emission Strength"].default_value = 0.0
+                if is_cone and "Alpha" in node.inputs:
+                    node.inputs["Alpha"].default_value = 0.0
+                if is_lamp and "Base Color" in node.inputs:
+                    c = node.inputs["Base Color"].default_value
+                    if max(c[0], c[1], c[2]) < 0.05:
+                        node.inputs["Base Color"].default_value = (0.62, 0.61, 0.58, 1.0)
+        if is_cone:
+            mat.blend_method = "BLEND"
+            cones += 1
+        else:
+            lamps += 1
+
+    # Zeroing the Alpha *default* does nothing when that socket is linked, and `mat_light_cone()`
+    # links it to the gradient PNG's alpha channel -- so the cone stayed opaque, and with its
+    # emission zeroed it rendered as a solid dark wedge standing in the street.  It shipped that way:
+    # `drive_bronx_arthur_ave` had two of them filling a quarter of the frame, and the sheet's own
+    # assessment said the black cones were gone.  Deleting the faces is what the props contact sheets
+    # already do (`blender/props/contact_sheets.py:_light_cone_slots`) and it cannot fail the same
+    # way, because there is no material state left to get wrong.
+    cone_faces = _delete_light_cone_faces()
+    return {"night": False, "cones_hidden": cones, "cone_faces_deleted": cone_faces,
+            "lamps_switched_off": lamps,
+            "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is "
+                    "texture-linked, so making the material transparent does not work) and "
+                    "street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront "
+                    "emissives left on"}
+
+
+def _delete_light_cone_faces() -> int:
+    """Remove every polygon whose material is ``LIGHT_CONE`` from every mesh in the scene.
+
+    The beam under a street lamp is a night-time visualisation, not an object, and it has no place
+    in a daylight frame.  Faces rather than objects, because the lamp is one joined mesh: dropping
+    the object would take the pole and the luminaire with it.  The importer suffixes duplicate
+    material names (``LIGHT_CONE.003``), so the match is on the stem.
+    """
+    import bmesh
+    import bpy
+    removed = 0
+    for me in bpy.data.meshes:
+        if not me.materials:
+            continue
+        slots = {i for i, m in enumerate(me.materials)
+                 if m is not None and (m.name or "").split(".")[0].upper() == "LIGHT_CONE"}
+        if not slots:
+            continue
+        bm = bmesh.new()
+        bm.from_mesh(me)
+        doomed = [f for f in bm.faces if f.material_index in slots]
+        if doomed:
+            bmesh.ops.delete(bm, geom=doomed, context="FACES")
+            removed += len(doomed)
+            bm.to_mesh(me)
+            me.update()
+        bm.free()
+    return removed
+
+
+def configure_cycles(samples: int, threads: int | None) -> None:
+    import bpy
+    sc = bpy.context.scene
+    sc.render.engine = "CYCLES"
+    sc.cycles.device = "CPU"
+    sc.cycles.samples = samples
+    sc.cycles.use_denoising = True
+    sc.cycles.use_adaptive_sampling = True
+    sc.cycles.adaptive_threshold = 0.03
+    sc.cycles.adaptive_min_samples = max(8, samples // 8)
+    sc.cycles.max_bounces = 2
+    sc.cycles.diffuse_bounces = 2
+    sc.cycles.glossy_bounces = 1
+    sc.cycles.transmission_bounces = 1
+    sc.cycles.transparent_max_bounces = 2
+    sc.cycles.volume_bounces = 0
+    sc.cycles.caustics_reflective = False
+    sc.cycles.caustics_refractive = False
+    sc.render.film_transparent = False
+    sc.render.image_settings.file_format = "PNG"
+    sc.render.image_settings.color_mode = "RGB"
+    if threads:
+        sc.render.threads_mode = "FIXED"
+        sc.render.threads = threads
+
+
+#: How far the chosen photograph's own EXIF GPS may sit from the item's recorded viewpoint before
+#: it is treated as unreliable rather than as the better measurement.  The reference collector
+#: searches Commons within ~120 m of each item, so a photograph whose GPS is a quarter of a
+#: kilometre away is either mis-tagged or is not a picture of that viewpoint at all.
+PHOTO_GPS_SANITY_M = 250.0
+
+#: A view *of* a subject also accepts a photograph's GPS beyond that radius, when the photograph
+#: stands on the same side of the subject to within this many degrees.  See :func:`view_origin`.
+SAME_SIDE_DEG = 45.0
+
+#: Slugs whose viewpoint is not a fixed place, with the radius their photographs' GPS may sit
+#: inside and the reason.  Nothing is listed at present.  The Staten Island Ferry viewpoint was
+#: tried here -- the deck of a moving vessel is a route, not a position -- and the result was
+#: worse, not better: the chosen photograph's GPS puts the camera in the Hudson west of Battery
+#: Park City, 699 m from the item's point, and from there Lower Manhattan spreads entirely to the
+#: right of the frame while the reference photograph has the island on both sides of the axis.
+#: The photograph's fix is wrong, or was taken at a different moment of the crossing; the item's
+#: "about 1 nautical mile south of Whitehall Terminal" reproduces the reference and the EXIF fix
+#: does not.  Measured beats assumed only when the measurement is right.
+MOVING_VIEWPOINTS: dict[str, tuple[float, str]] = {}
+
+
+def view_origin(meta: dict, photo: dict | None) -> tuple[float, float, str, float | None, bool]:
+    """Where the camera stands: (lat, lon, why, metres from the recorded viewpoint, from_photo).
+
+    The item's ``viewpoint`` is a nominal position typed by the reference collector; the chosen
+    photograph usually carries the GPS position its own camera recorded.  Where both exist and
+    agree to within :data:`PHOTO_GPS_SANITY_M`, the photograph's is the measurement and the item's
+    is the estimate, so the render stands where the picture was taken.
+
+    **Beyond that radius the test depends on what defines the view**, because the sanity radius
+    measures the wrong thing for half the catalogue.  A ``landmark`` item is a view *of* something:
+    its viewpoint is only an estimate of where such a photograph is taken from -- the catalogue
+    generates it as a bearing and a distance from the subject -- so a photograph that stands
+    **nearer to the subject** than that estimate, and **on the same side** of it (its bearing to the
+    subject within :data:`SAME_SIDE_DEG` of the recorded view's), is the same view of the same thing
+    and its own GPS is the better position however far it is from the estimate.  A ``viewpoint`` or
+    ``drive_through`` item is a view *from* somewhere -- a ferry deck, a promenade railing, a named
+    block -- and there the recorded position *is* the view, so the radius stands.
+
+    That distinction is what the Williamsburg Bridge sheet needed: its photograph's GPS is 117 m
+    from the Brooklyn tower and the item's viewpoint is 506 m from it, and the 389 m between the two
+    put the camera half a kilometre too far back.  It is also why the Staten Island Ferry keeps its
+    recorded position: that photograph's GPS is nearer the aim point too, but the item is a view
+    from the bow deck of a vessel, and from the photograph's fix Lower Manhattan spreads entirely to
+    one side of the frame while the reference has the island on both sides of the axis (measured
+    when :data:`MOVING_VIEWPOINTS` was tried and left empty).
+
+    Position and heading have to come from the same place.  The earlier version of this module
+    took the *heading* from the photograph's GPS ("camera_gps_to_subject") while leaving the
+    *position* at the item's viewpoint, which for Washington Street in DUMBO aimed a camera 46 m
+    south-east of the photographer along the bearing that only works from the photographer's own
+    spot -- the two halves of the sheet then face different ways, which is exactly the fault this
+    is meant to prevent.
+    """
+    vp = meta["viewpoint"]
+    g = (photo or {}).get("camera_gps") or {}
+    if g.get("lat") is None or g.get("lon") is None:
+        return (float(vp["lat"]), float(vp["lon"]),
+                "the item's recorded viewpoint (this photograph carries no camera GPS)",
+                None, False)
+    from nycsim_pipeline.crs import lonlat_to_tm
+    vx, vy = (float(v) for v in lonlat_to_tm(vp["lon"], vp["lat"]))
+    px, py = (float(v) for v in lonlat_to_tm(g["lon"], g["lat"]))
+    d = math.hypot(px - vx, py - vy)
+    limit, why_limit = MOVING_VIEWPOINTS.get(meta.get("slug", ""), (PHOTO_GPS_SANITY_M, ""))
+    subject_rule = ""
+    if d > limit:
+        subject_rule = _nearer_the_subject(meta, vx, vy, px, py)
+        if not subject_rule:
+            return (float(vp["lat"]), float(vp["lon"]),
+                    (f"the item's recorded viewpoint; this photograph's own EXIF GPS is {d:,.0f} m "
+                     f"away, past the {limit:,.0f} m at which it could still be the same view, so it "
+                     f"was rejected as mis-tagged"), d, False)
+    return (float(g["lat"]), float(g["lon"]),
+            (f"this photograph's own EXIF camera GPS ({g['lat']:.5f}, {g['lon']:.5f}), {d:,.0f} m "
+             f"from the item's recorded viewpoint -- the position the picture was taken from"
+             + (f" ({why_limit})" if why_limit else "") + subject_rule),
+            d, True)
+
+
+def _nearer_the_subject(meta: dict, vx: float, vy: float, px: float, py: float) -> str:
+    """Why a landmark photograph's GPS is kept past the sanity radius, or "" if it is not.
+
+    Only for an item that is a view *of* a point subject.  Two tests, both against the subject
+    rather than against the viewpoint estimate: the photograph must stand no farther from the
+    subject than the estimate does, and on the same side of it.
+    """
+    if str(meta.get("group") or "") != "landmark":
+        return ""
+    subject = meta.get("subject") or {}
+    if subject.get("lat") is None or subject.get("lon") is None:
+        return ""
+    from nycsim_pipeline.crs import lonlat_to_tm
+    sx, sy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
+    d_vp = math.hypot(vx - sx, vy - sy)
+    d_ph = math.hypot(px - sx, py - sy)
+    if d_ph > d_vp:
+        return ""
+    b_vp = math.degrees(math.atan2(sx - vx, sy - vy)) % 360.0
+    b_ph = math.degrees(math.atan2(sx - px, sy - py)) % 360.0
+    delta = abs((b_ph - b_vp + 180.0) % 360.0 - 180.0)
+    if delta > SAME_SIDE_DEG:
+        return ""
+    name = subject.get("name") or "the subject"
+    return (f".  It is past the {PHOTO_GPS_SANITY_M:,.0f} m sanity radius, but this item is a view "
+            f"*of* {name} and the photograph stands {d_ph:,.0f} m from it against the recorded "
+            f"viewpoint's {d_vp:,.0f} m, on the same side to {delta:.1f} deg, so the measurement is "
+            f"kept and the estimate is not")
+
+
+def view_azimuth(slug: str, meta: dict, photo: dict, lat: float, lon: float, *,
+                 origin_is_photo: bool = False) -> tuple[float, str]:
+    """The compass bearing the render should face from (lat, lon), and why.
+
+    Two sources, in order of authority:
+
+    1. the bearing from the camera position actually used to the item's ``subject`` coordinate --
+       the subject is what the photograph is of, so this is measured rather than assumed.  When
+       the camera stands on the photograph's own GPS this bearing is used unconditionally, because
+       position and heading then come from the same measurement; when the camera stands on the
+       item's nominal viewpoint the recorded azimuth is kept unless the subject bearing disagrees
+       with it by more than 20 deg, which means the recorded azimuth points somewhere the subject
+       is not.
+    2. the item's recorded ``azimuth_deg``.
+
+    The bearing is always recomputed from the position the camera ends up at, never copied from
+    the metadata, so heading and position can never come from different places.
+    """
+    recorded = float(meta["viewpoint"]["azimuth_deg"])
+    subject = meta.get("subject") or {}
+    if subject.get("lat") is not None and subject.get("lon") is not None:
+        from nycsim_pipeline.crs import lonlat_to_tm
+        vx, vy = (float(v) for v in lonlat_to_tm(lon, lat))
+        sx, sy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
+        bearing = math.degrees(math.atan2(sx - vx, sy - vy)) % 360.0
+        delta = abs((bearing - recorded + 180.0) % 360.0 - 180.0)
+        name = subject.get("name") or "the subject"
+        if origin_is_photo:
+            return bearing, (f"{bearing:.1f} deg, the bearing from this photograph's own GPS "
+                             f"position to {name}; heading and position both come from the "
+                             f"photograph.  The item's recorded azimuth is {recorded:.1f} deg, "
+                             f"{delta:.1f} deg away, and belongs to its nominal viewpoint")
+        if delta > 20.0:
+            return bearing, (f"{bearing:.1f} deg, the bearing from the camera position used to "
+                             f"{name}; the item's recorded azimuth of {recorded:.1f} deg is "
+                             f"{delta:.0f} deg away from its own subject and was not used")
+        return recorded, (f"{recorded:.1f} deg as recorded; it agrees with the bearing from the "
+                          f"camera position used to {name} ({bearing:.1f} deg) to {delta:.1f} deg")
+    ev = (photo or {}).get("estimated_viewpoint") or {}
+    conf = ev.get("confidence") or "unknown"
+    return recorded, (f"{recorded:.1f} deg as recorded in meta.json.  This item names no subject "
+                      f"and the reference photograph's own view direction was not derived from the "
+                      f"image (confidence: {conf}), so the two halves of this sheet are not "
+                      f"guaranteed to face the same way -- compare them on street width, storey "
+                      f"height and material, not on composition")
+
+
+def subject_top(meta: dict, cam_x: float, cam_y: float, sampler,
+                landmarks: Sequence[dict]) -> tuple[float, float, str] | None:
+    """(distance, height of the subject's top above the camera's own eye level, source).
+
+    The height comes from the landmark model standing at the subject coordinate where there is
+    one, otherwise from a nominal 10 m.  Returns None when the item names no subject.
+    """
+    subject = meta.get("subject") or {}
+    if subject.get("lat") is None or subject.get("lon") is None:
+        return None
+    from nycsim_pipeline.crs import lonlat_to_tm
+    sx, sy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
+    dist = math.hypot(sx - cam_x, sy - cam_y)
+    ground, _ = sampler.ground_z(sx, sy, mode="street", radius_m=15.0) if sampler else (None, {})
+    height, src = 10.0, "a nominal 10 m subject"
+    best = None
+    for e in landmarks:
+        ox, oy = float(e["origin_tm"][0]), float(e["origin_tm"][1])
+        d = math.hypot(ox - sx, oy - sy)
+        h = e.get("height_m") or (e.get("bounds_local_m") or {}).get("max", [0, 0, 0])[2]
+        if d <= 120.0 and h and (best is None or d < best[0]):
+            best = (d, float(h), e["id"])
+    if best is not None:
+        height, src = best[1], f"the {best[2]} model's published {best[1]:.0f} m height"
+    base = ground if ground is not None else 0.0
+    return dist, base + height, src
+
+
+def choose_lens(slug: str, top: tuple[float, float, str] | None, cam_z: float,
+                portrait: bool, aspect: float) -> tuple[float, str]:
+    """The focal length, widened where a level axis cannot otherwise contain the subject.
+
+    The rule that keeps the optical axis level is what makes a render comparable with a
+    photograph on proportion, but held to a 35 mm lens it puts the crown of a 227 m tower 200 m
+    away far above the top of the frame -- and a sheet whose subject is out of shot proves
+    nothing.  A photographer in that position reaches for a wider lens, and so does this: the
+    focal length is reduced until the subject's top sits inside the frame with 12 % headroom,
+    down to a floor of 18 mm (90 deg on the long side), below which the distortion would make the
+    comparison meaningless.  It is never lengthened, and the reason is printed on the sheet.
+    """
+    import camera as vcam
+    base, why = vcam.focal_for(slug)
+    if top is None:
+        return base, why
+    dist, top_z, src = top
+    rise = top_z - cam_z
+    if dist < 1.0 or rise <= 0.0:
+        return base, why
+    theta = math.atan(rise / dist) * 1.12
+    if theta >= math.radians(88.0):
+        return 18.0, (f"{why}; widened to the 18 mm floor because {src} tops out {rise:.0f} m "
+                      f"above the lens only {dist:.0f} m away and no normal lens contains it")
+    # Sensor dimension that maps to the vertical axis of the frame.
+    sensor_v = vcam.SENSOR_WIDTH_MM if portrait else vcam.SENSOR_WIDTH_MM / max(aspect, 1e-6)
+    needed = sensor_v / (2.0 * math.tan(theta))
+    if needed >= base:
+        return base, why
+    f = max(18.0, needed)
+    fov = math.degrees(2.0 * math.atan(sensor_v / (2.0 * f)))
+    note = (f"widened from {base:.0f} mm to {f:.0f} mm ({fov:.0f} deg vertical) so that a level "
+            f"axis contains the subject: {src} stands {rise:.0f} m above the lens at {dist:.0f} m, "
+            f"{math.degrees(theta / 1.12):.0f} deg above the horizon")
+    if f > needed + 0.01:
+        note += ("; held at the 18 mm floor, so the top of the subject is still cut off -- past "
+                 "that point the distortion would stop the two frames being comparable")
+    return f, note
+
+
+def aim_pitch(slug: str, meta: dict, cam_x: float, cam_y: float, cam_z: float,
+              sampler, landmarks: Sequence[dict]) -> tuple[float, str]:
+    """How far the optical axis tilts off horizontal, and why.
+
+    The default is level: a level axis keeps vertical building edges vertical, which is the
+    convention every architectural photograph follows and the only way a render and a photograph
+    can be compared on proportion.  The single exception is a subject standing close to the camera
+    and clearly below or above eye level -- the Bethesda fountain 69 m away and 6 m below the
+    terrace, say -- where a level axis would push it to the edge of the frame.  For a subject
+    inside 250 m the axis is aimed at its mid-height, taken from the landmark model that stands
+    there when there is one; if that aim exceeds 8 deg it is discarded and the axis stays level,
+    because past that point a real photograph would be taken with a wider lens rather than a
+    tilted camera.
+    """
+    subject = meta.get("subject") or {}
+    if subject.get("lat") is None or subject.get("lon") is None:
+        return 0.0, "level optical axis (the reference names no subject to aim at)"
+    from nycsim_pipeline.crs import lonlat_to_tm
+    sx, sy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
+    dist = math.hypot(sx - cam_x, sy - cam_y)
+    if dist > 250.0 or dist < 1.0:
+        return 0.0, (f"level optical axis (the subject is {dist:.0f} m away; anything that far is "
+                     f"photographed with a level camera)")
+    ground, _ = sampler.ground_z(sx, sy, mode="street", radius_m=15.0) if sampler else (None, {})
+    if ground is None:
+        ground = cam_z - 1.6
+    height, src = 10.0, "a nominal 10 m subject"
+    best = None
+    for e in landmarks:
+        ox, oy = float(e["origin_tm"][0]), float(e["origin_tm"][1])
+        d = math.hypot(ox - sx, oy - sy)
+        h = e.get("height_m") or (e.get("bounds_local_m") or {}).get("max", [0, 0, 0])[2]
+        if d <= 120.0 and h and (best is None or d < best[0]):
+            best = (d, float(h), e["id"])
+    if best is not None:
+        height, src = best[1], f"the {best[2]} model's {best[1]:.0f} m height"
+    target_z = ground + height / 2.0
+    pitch = math.degrees(math.atan2(target_z - cam_z, dist))
+    if abs(pitch) > 8.0:
+        return 0.0, (f"level optical axis ({subject.get('name') or 'the subject'} is {dist:.0f} m "
+                     f"away and would need {pitch:+.0f} deg of tilt; a real frame would use a wider "
+                     f"lens instead, and a tilted axis would stop the render being comparable on "
+                     f"proportion)")
+    return pitch, (f"aimed at {subject.get('name') or 'the subject'} {dist:.0f} m away, at its "
+                   f"mid-height ({src}); {pitch:+.1f} deg from horizontal")
+
+
+#: A render that is black, blown out or featureless proves nothing, so it is refused rather than
+#: written to a sheet.  Thresholds match
+#: ``tests/test_world_integration.py::test_verification_renders_can_actually_serve_as_evidence``.
+FRAME_MEAN_MIN = 0.06
+FRAME_MEAN_MAX = 0.94
+FRAME_SD_MIN = 0.025
+FRAME_BLOWN_SD = 0.05
+
+
+def frame_metrics(path: Path) -> dict:
+    """Mean and standard deviation of a rendered frame's luminance, and whether it is evidence."""
+    from PIL import Image
+    import numpy as np
+    try:
+        a = np.asarray(Image.open(path).convert("L"), dtype=np.float32) / 255.0
+    except Exception as exc:
+        return {"mean": None, "sd": None, "usable": False, "reason": f"unreadable ({exc})"}
+    mean, sd = float(a.mean()), float(a.std())
+    reason = None
+    if mean < FRAME_MEAN_MIN:
+        reason = f"near-black (mean {mean:.3f})"
+    elif mean > FRAME_MEAN_MAX and sd < FRAME_BLOWN_SD:
+        reason = f"blown out (mean {mean:.3f}, sd {sd:.3f})"
+    elif sd < FRAME_SD_MIN:
+        reason = f"featureless (sd {sd:.3f})"
+    return {"mean": round(mean, 4), "sd": round(sd, 4), "usable": reason is None, "reason": reason}
+
+
+def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | None = None,
+                   width: int = RENDER_WIDTH, dry_run: bool = False,
+                   with_agents: bool = True) -> dict:
+    """Build, aim, light and render one subject.  Returns the record written to render.json."""
+    import bpy
+    import scene as vscene
+    import camera as vcam
+    from nycsim_pipeline.crs import lonlat_to_tm
+
+    meta = load_meta(slug)
+    vp = meta["viewpoint"]
+    photo = pick_reference_photo(meta)
+    outdir = COMPARISON_DIR / slug
+    outdir.mkdir(parents=True, exist_ok=True)
+
+    cam_lat, cam_lon, origin_why, origin_offset_m, origin_is_photo = view_origin(meta, photo)
+    x, y = (float(v) for v in lonlat_to_tm(cam_lon, cam_lat))
+    subject = meta.get("subject") or {}
+    subj_dist = None
+    if subject.get("lat") is not None and subject.get("lon") is not None:
+        sx, sy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
+        subj_dist = math.hypot(sx - x, sy - y)
+    if slug in RADIUS_OVERRIDES:
+        radius, prop_r, kit_r = RADIUS_OVERRIDES[slug]
+    else:
+        radius = max(500.0, min(3000.0, (subj_dist or 200.0) * 1.6 + 400.0))
+        prop_r = 0.0 if radius > 1500.0 else 250.0
+        kit_r = 0.0 if radius > 1500.0 else 120.0
+    # A skyline scene still has a foreground.  The reference photographs from the Brooklyn Heights
+    # Promenade and Washington Street carry a railing, benches, litter baskets and street trees
+    # inside 60 m of the lens, and a frame that drops them for being part of a 5 km scene is
+    # missing the half of the picture the eye reads first.  Ground-level long-range viewpoints
+    # therefore keep a near-field ring of props and facade kit; from an observation deck 260 m up
+    # the same props are sub-pixel, so the eye height decides.
+    eye_height_m = vcam.eye_rule_for(slug).height_m
+    if prop_r <= 0.0 and eye_height_m <= 20.0:
+        prop_r, kit_r = 150.0, 70.0
+
+    # Agents follow the same rule as the props: they belong at eye level, and from an observation
+    # deck 260 m up a person is a fraction of a pixel.  DEVIATIONS I13 is about street-level
+    # frames, and this is where it is closed.
+    agents_off_reason = None
+    if eye_height_m > 20.0:
+        agent_veh_r = agent_ped_r = 0.0
+        agents_off_reason = (f"the eye stands {eye_height_m:.0f} m above the ground, where a person "
+                             f"is a fraction of a pixel and a car a few, so the simulation's crowd "
+                             f"and traffic are not drawn")
+    elif radius > 1500.0:
+        agent_veh_r, agent_ped_r = 150.0, 120.0
+    else:
+        agent_veh_r, agent_ped_r = AGENT_VEHICLE_RADIUS_M, AGENT_PED_RADIUS_M
+    if not with_agents:
+        agent_veh_r = agent_ped_r = 0.0
+        agents_off_reason = "agents switched off for this render (--no-agents)"
+
+    if photo is None:
+        return {"slug": slug, "status": "no_reference_photo",
+                "reason": "meta.json lists no photograph that exists on disk"}
+
+    when, when_note = photo_instant(photo)
+    sun = sun_for(cam_lat, cam_lon, when)
+
+    # Match the render aspect to the reference photograph so the two halves compare like for like,
+    # under a fixed pixel budget.  A landscape frame renders at the full 1280 px width; a portrait
+    # reference (a quarter of the set, some as tall as 1:2.2) would otherwise cost three times the
+    # samples of a landscape frame for the same content, so its width is reduced to keep the frame
+    # the same size in pixels.  The angle of view is unchanged -- only the sampling density is.
+    pw, ph = int(photo.get("width") or 1600), int(photo.get("height") or 1067)
+    aspect = pw / ph if ph else 1.5
+    budget = width * int(round(width / 1.5))
+    w = min(width, int(round(math.sqrt(budget * aspect))))
+    width = max(480, int(round(w / 2) * 2))
+    height = max(360, int(round(width / aspect / 2) * 2))
+
+    record = {
+        "slug": slug, "name": meta.get("name"), "group": meta.get("group"),
+        "night": bool(meta.get("night")), "interior": bool(meta.get("interior")),
+        "viewpoint": {"lat": vp["lat"], "lon": vp["lon"], "azimuth_deg": vp["azimuth_deg"],
+                      "note": vp.get("note")},
+        "camera_origin": {"lat": cam_lat, "lon": cam_lon, "source": origin_why,
+                          "from_photograph_gps": origin_is_photo,
+                          "offset_from_recorded_m": None if origin_offset_m is None
+                          else round(origin_offset_m, 1)},
+        "subject": {"name": subject.get("name"), "distance_m": None if subj_dist is None else round(subj_dist, 1)},
+        "reference_photo": {
+            "file": photo["file"], "author": photo.get("author"),
+            "licence": (photo.get("license") or {}).get("short_name"),
+            "licence_url": (photo.get("license") or {}).get("url"),
+            "page_url": photo.get("page_url"), "title": photo.get("title"),
+            "date_taken": photo.get("date_taken"), "width": pw, "height": ph,
+            "estimated_azimuth_deg": (photo.get("estimated_viewpoint") or {}).get("azimuth_deg"),
+            "confidence": (photo.get("estimated_viewpoint") or {}).get("confidence"),
+        },
+        "sun": {**sun, "time_source": when_note},
+        "scene_request": {"radius_m": radius, "prop_radius_m": prop_r, "kit_radius_m": kit_r,
+                          "agent_vehicle_radius_m": agent_veh_r, "agent_ped_radius_m": agent_ped_r},
+        "samples": samples,
+        "resolution_note": (f"{width}x{height}; the reference photograph is {pw}x{ph} "
+                            f"({aspect:.2f}:1), and the render is held to the same pixel budget as "
+                            f"a 1280 px landscape frame"),
+    }
+    if dry_run:
+        record["status"] = "dry_run"
+        return record
+
+    t0 = time.time()
+    # NYC street trees are bare from about mid-November to mid-April; the props kit exports a
+    # bare-canopy variant of every species, so a winter reference gets winter trees.
+    leaf_off = (when.month, when.day) >= (11, 15) or (when.month, when.day) <= (4, 15)
+    # The simulation frame is taken at the reference photograph's own hour and day class, so the
+    # density table is asked for the traffic and the crowd that neighbourhood has at that time.
+    # It is *that* hour's traffic, not the traffic in the photograph, and the caption says so.
+    import agents as vagents
+    agent_req = vagents.SnapshotRequest(
+        x=float(x), y=float(y), heading_deg=float(vp.get("azimuth_deg") or 0.0),
+        hour=int(when.hour), dow=(0 if when.weekday() <= 4 else (1 if when.weekday() == 5 else 2)),
+        seed=AGENT_SEED, headlights=bool(meta.get("night")))
+    record["agent_request"] = {"hour": agent_req.hour, "dow": agent_req.dow, "seed": agent_req.seed,
+                               "warmup_s": agent_req.warmup_s,
+                               "local_clock": when.strftime("%Y-%m-%d %H:%M %Z")}
+    rep, sampler = vscene.build_scene(
+        x, y, radius, prop_radius_m=prop_r, kit_radius_m=kit_r,
+        with_props=prop_r > 0, with_kit=kit_r > 0,
+        terrain_max_side=300 if radius <= 1500 else 380,
+        lod0_radius_m=1200.0, leaf_off=leaf_off,
+        with_agents=agent_veh_r > 0 or agent_ped_r > 0, agent_request=agent_req,
+        agent_vehicle_radius_m=agent_veh_r, agent_ped_radius_m=agent_ped_r,
+        agent_npc_archetypes=AGENT_NPC_ARCHETYPES, agent_eye_height_m=eye_height_m)
+    if agents_off_reason and rep.agents.get("reason") == "disabled":
+        rep.agents["reason"] = agents_off_reason
+    azimuth, azimuth_why = view_azimuth(slug, meta, photo, cam_lat, cam_lon,
+                                        origin_is_photo=origin_is_photo)
+    # A hand-held GPS fix is the better *measurement* of where the picture was taken, but it has
+    # metres of error and the world it lands in is not always renderable.  At Bethesda Terrace the
+    # photograph's GPS falls on the lower plaza, where the plaza polygons bridge the 5 m step up
+    # to the upper level and seal the eye 1.6 m beneath the paving; the item's own viewpoint, 43 m
+    # away, is on the upper terrace in open air.  So the photograph's GPS is used unless the eye
+    # point there is blocked and the nominal viewpoint is not.
+    if origin_is_photo:
+        probe = vcam.probe_origin(slug, cam_lat, cam_lon, azimuth, sampler, vp.get("note"))
+        if probe["blocked"]:
+            alt_az, alt_az_why = view_azimuth(slug, meta, photo, float(vp["lat"]), float(vp["lon"]),
+                                              origin_is_photo=False)
+            alt = vcam.probe_origin(slug, float(vp["lat"]), float(vp["lon"]), alt_az, sampler,
+                                    vp.get("note"))
+            if not alt["blocked"]:
+                origin_why = (f"the item's recorded viewpoint.  This photograph's own EXIF GPS is "
+                              f"{origin_offset_m:.0f} m away, but the eye point there is "
+                              f"{probe['why']}, while the recorded viewpoint is in open air")
+                cam_lat, cam_lon = float(vp["lat"]), float(vp["lon"])
+                origin_is_photo = False
+                x, y = alt["x"], alt["y"]
+                azimuth, azimuth_why = alt_az, alt_az_why
+                record["camera_origin"] = {"lat": cam_lat, "lon": cam_lon, "source": origin_why,
+                                           "from_photograph_gps": False,
+                                           "offset_from_recorded_m": 0.0,
+                                           "photograph_gps_offset_m": round(origin_offset_m, 1)}
+    pitch, pitch_why = aim_pitch(slug, meta, x, y,
+                                 (sampler.ground_z(x, y)[0] or 0.0) + vcam.eye_rule_for(slug).height_m,
+                                 sampler, vscene.load_landmark_catalog())
+    eye_z = (sampler.ground_z(x, y)[0] or 0.0) + vcam.eye_rule_for(slug).height_m
+    top = subject_top(meta, x, y, sampler, vscene.load_landmark_catalog())
+    focal_mm, lens_why = choose_lens(slug, top, eye_z, height > width, width / height)
+    placement = vcam.place_camera(slug=slug, lat=cam_lat, lon=cam_lon,
+                                  azimuth_deg=azimuth, sampler=sampler, focal_mm=focal_mm,
+                                  resolution=(width, height), note=vp.get("note"), pitch_deg=pitch)
+    # How much open air the corrected viewpoint has to have along the view azimuth before it is
+    # accepted.  A frame whose subject is 170 m away is worthless from a spot with a wall (or a
+    # street tree) ten metres in front of the lens, so the requirement scales with the subject
+    # distance; with no subject named, 20 m is enough to be standing in a street rather than in a
+    # light well.
+    min_view_m = 20.0 if subj_dist is None else max(20.0, min(0.5 * subj_dist, 80.0))
+    clearance = vcam.clear_of_geometry(placement, sampler, min_view_m=min_view_m, origin_is_photo=origin_is_photo,
+                                       has_subject=subj_dist is not None)
+    clearance["min_view_m"] = round(min_view_m, 1)
+    # The scene, and its agents, were built around the recorded view origin. The camera may have
+    # moved since -- probe_origin can switch to the nominal viewpoint and clear_of_geometry walks the
+    # eye onto the nearest paved surface -- and on 26 of the 57 scenes it did. Cull anything now
+    # standing on the lens, and fold the count into the placement record so a reader sees one number
+    # for agents dropped over the observer rather than two.
+    cam_ob = bpy.context.scene.camera
+    if cam_ob is not None and rep.agents.get("placed_pedestrians"):
+        cam_w = cam_ob.matrix_world.translation
+        culled = vagents.cull_near_camera(bpy.data.collections.get("agents"),
+                                          float(cam_w.x), float(cam_w.y), float(cam_w.z))
+        if any(culled.values()):
+            drop = dict(rep.agents.get("dropped") or {})
+            for k, n in culled.items():
+                if n:
+                    drop[k] = drop.get(k, 0) + n
+            rep.agents["dropped"] = drop
+            rep.agents["placed_pedestrians"] = max(
+                0, int(rep.agents.get("placed_pedestrians", 0)) - culled["pedestrian_over_the_observer"])
+            rep.agents["placed_vehicles"] = max(
+                0, int(rep.agents.get("placed_vehicles", 0)) - culled["vehicle_over_the_observer"])
+            rep.agents["culled_after_camera_move"] = culled
+    light = setup_world_and_sun(sun["azimuth_deg"], sun["elevation_deg"], night=bool(meta.get("night")))
+    light["emissive"] = apply_time_of_day_materials(bool(meta.get("night")))
+    configure_cycles(samples, threads)
+
+    render_path = outdir / "render.png"
+    bpy.context.scene.render.filepath = str(render_path)
+    t1 = time.time()
+    bpy.ops.render.render(write_still=True)
+    t2 = time.time()
+
+    # A frame that is black, blown out or featureless is not evidence of anything.  Measure it
+    # here rather than letting it sit in the directory looking like a result.  The overwhelmingly
+    # likely cause at street level is an eye point the ray tests did not catch -- inside a light
+    # well, under a slab, hard against a wall -- so the first response is to force the same
+    # correction a detected block would get and render once more.
+    frame = frame_metrics(render_path)
+    retry = None
+    if not frame["usable"]:
+        LOG.warning("%s: first frame is %s; forcing the clearance correction and re-rendering",
+                    slug, frame["reason"])
+        forced = vcam.clear_of_geometry(placement, sampler, min_view_m=min_view_m, origin_is_photo=origin_is_photo, force=True,
+                                        has_subject=subj_dist is not None)
+        forced["min_view_m"] = round(min_view_m, 1)
+        if forced.get("moved"):
+            bpy.ops.render.render(write_still=True)
+            t2 = time.time()
+            retry = {"first_frame": frame, "clearance": clearance}
+            clearance = forced
+            frame = frame_metrics(render_path)
+        else:
+            retry = {"first_frame": frame,
+                     "note": "no clear eye point was found within 80 m, so the frame stands as it is"}
+
+    record.update({
+        "status": "rendered" if frame["usable"] else "rejected_unusable_frame",
+        "frame": frame,
+        "frame_retry": retry,
+        "camera": placement.as_dict(),
+        "camera_caption": placement.caption(),
+        "lens_reason": lens_why,
+        "pitch_reason": pitch_why,
+        "azimuth_reason": azimuth_why,
+        "clearance": clearance,
+        "lighting": light,
+        "scene": rep.as_dict(),
+        "render_png": str(render_path.relative_to(REPO_ROOT)),
+        "seconds": {"scene": round(t1 - t0, 1), "render": round(t2 - t1, 1), "total": round(t2 - t0, 1)},
+        "rendered_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
+    })
+    (outdir / "render.json").write_text(json.dumps(record, indent=1, sort_keys=True))
+    err = outdir / "render_error.txt"
+    if frame["usable"]:
+        err.unlink(missing_ok=True)
+        LOG.info("%s rendered in %.0f s (scene %.0f s, %d triangles; frame mean %.3f sd %.3f)",
+                 slug, t2 - t0, t1 - t0, rep.triangles, frame["mean"], frame["sd"])
+    else:
+        # Leave no unusable PNG behind: a black render.png is indistinguishable from evidence in a
+        # directory listing, and the project-wide gate scans every PNG under docs/verification.
+        render_path.unlink(missing_ok=True)
+        (outdir / "sheet.png").unlink(missing_ok=True)
+        err.write_text(
+            f"{slug}: the render cannot serve as evidence -- {frame['reason']}.\n"
+            f"camera: {placement.caption()}\n"
+            f"clearance: {clearance.get('note')}\n"
+            f"view along the azimuth: {clearance.get('view_m')} m; nearest solid thing in the view "
+            f"cone: {clearance.get('nearest_obstruction_m')} m\n"
+            f"sun: elevation {sun['elevation_deg']:.1f} deg, direct normal irradiance "
+            f"{light.get('direct_normal_irradiance_w_m2', 0):.0f} W/m2, exposure "
+            f"{light.get('exposure_stops', 0):+.2f} stops\n"
+            f"retry: {json.dumps(retry)}\n")
+        LOG.error("%s rejected: %s (camera %s)", slug, frame["reason"], placement.caption())
+    return record
+
+
+# --------------------------------------------------------------------------- sheet composition
+
+
+def _font(size: int, bold: bool = False):
+    from PIL import ImageFont
+    name = "overpass-semibold.otf" if bold else "overpass-regular.otf"
+    p = FONT_DIR / name
+    if p.exists():
+        try:
+            return ImageFont.truetype(str(p), size)
+        except Exception:
+            pass
+    return ImageFont.load_default()
+
+
+def _wrap(draw, text: str, font, max_w: int) -> list[str]:
+    words, lines, cur = text.split(), [], ""
+    for w in words:
+        t = f"{cur} {w}".strip()
+        if draw.textlength(t, font=font) <= max_w or not cur:
+            cur = t
+        else:
+            lines.append(cur)
+            cur = w
+    if cur:
+        lines.append(cur)
+    return lines
+
+
+def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
+    """Reference photograph left, render right, caption strip below."""
+    from PIL import Image, ImageDraw
+    outdir = COMPARISON_DIR / slug
+    rec_path = outdir / "render.json"
+    if record is None:
+        if not rec_path.exists():
+            LOG.warning("%s: no render.json, nothing to compose", slug)
+            return None
+        record = json.loads(rec_path.read_text())
+    render_png = outdir / "render.png"
+    if not render_png.exists():
+        LOG.warning("%s: no render.png, nothing to compose", slug)
+        return None
+    ref_png = REFERENCE_DIR / slug / record["reference_photo"]["file"]
+    if not ref_png.exists():
+        LOG.warning("%s: reference photo %s missing", slug, ref_png)
+        return None
+
+    panel_w = RENDER_WIDTH
+    ref = Image.open(ref_png).convert("RGB")
+    ren = Image.open(render_png).convert("RGB")
+    ref_h = int(round(ref.height * panel_w / ref.width))
+    ren_h = int(round(ren.height * panel_w / ren.width))
+    panel_h = max(ref_h, ren_h)
+    ref = ref.resize((panel_w, ref_h), Image.LANCZOS)
+    ren = ren.resize((panel_w, ren_h), Image.LANCZOS)
+
+    gap, margin, label_h = 16, 24, 34
+    sheet_w = margin * 2 + panel_w * 2 + gap
+    header_h = 56
+
+    f_title = _font(26, bold=True)
+    f_label = _font(19, bold=True)
+    f_body = _font(16)
+    f_small = _font(14)
+
+    scene = record.get("scene", {})
+    cam = record.get("camera", {})
+    ph = record.get("reference_photo", {})
+    b = scene.get("buildings", {})
+    lm = scene.get("landmarks", {})
+    pr = scene.get("props", {})
+    kt = scene.get("kit", {})
+    ag = scene.get("agents", {})
+
+    caption_lines: list[tuple[str, object]] = []
+    caption_lines.append((f"Viewpoint: {record['viewpoint'].get('note') or '-'} "
+                          f"({record['viewpoint']['lat']:.5f}, {record['viewpoint']['lon']:.5f}, "
+                          f"azimuth {record['viewpoint']['azimuth_deg']:.1f} deg)", f_body))
+    org = record.get("camera_origin") or {}
+    if org.get("source"):
+        caption_lines.append((f"Camera stands at: {org['source']}", f_body))
+    subj = record.get("subject", {})
+    if subj.get("name"):
+        caption_lines.append((f"Subject: {subj['name']}"
+                              + (f", {subj['distance_m']:.0f} m from the camera" if subj.get("distance_m") else ""), f_body))
+    caption_lines.append((f"Photograph: {ph.get('title') or ph.get('file')} - {ph.get('author')}, "
+                          f"{ph.get('licence')} ({ph.get('licence_url')}), taken {ph.get('date_taken')}; "
+                          f"via Wikimedia Commons {ph.get('page_url')}", f_small))
+    caption_lines.append((f"Render: {record.get('camera_caption', '')}", f_small))
+    caption_lines.append((f"Lens: {record.get('lens_reason','')}", f_small))
+    if record.get("azimuth_reason"):
+        caption_lines.append((f"View direction: {record['azimuth_reason']}", f_small))
+    if record.get("pitch_reason"):
+        caption_lines.append((f"Aim: {record['pitch_reason']}", f_small))
+    cl = record.get("clearance") or {}
+    if cl.get("note"):
+        caption_lines.append((f"Camera clearance: {cl['note']}", f_small))
+    caption_lines.append((f"Eye height: {cam.get('eye_height_m')} m above "
+                          f"{'sea level' if cam.get('eye_datum') == 'sea' else 'the terrain surface'} - "
+                          f"{cam.get('eye_source','')}", f_small))
+    if cam.get("eye_datum") != "sea":
+        gd = cam.get("ground_detail") or {}
+        if gd.get("mode") == "landmark deck":
+            # The height did not come from the heightmap, so do not caption it as if it had.
+            caption_lines.append((
+                f"Ground under the camera: {cam.get('terrain_z_m')} m NAVD88, the landmark model's "
+                f"own deck; the 2 m heightmap under the same point reads "
+                f"{gd.get('heightmap_m')} m - {cam.get('ground_source','')}", f_small))
+        else:
+            caption_lines.append((
+                f"Ground under the camera: {cam.get('terrain_z_m')} m NAVD88 from the 2 m heightmap "
+                f"({gd.get('samples', 0)} samples in {gd.get('radius_m', 0)} m, range "
+                f"{gd.get('min_m')}-{gd.get('max_m')} m) - {cam.get('ground_source','')}", f_small))
+    sun = record.get("sun", {})
+    lit = record.get("lighting", {})
+    caption_lines.append((f"Sun: azimuth {sun.get('azimuth_deg', 0):.1f} deg, elevation "
+                          f"{sun.get('elevation_deg', 0):.1f} deg at {sun.get('local','')} "
+                          f"({sun.get('time_source','')}); direct normal irradiance "
+                          f"{lit.get('direct_normal_irradiance_w_m2', 0):.0f} W/m2, Nishita sky, "
+                          f"{lit.get('view_transform','')} view transform "
+                          f"{lit.get('exposure_stops', 0):+.2f} stops; Cycles CPU, "
+                          f"{record.get('samples')} samples max, adaptive, denoised", f_small))
+    pv = scene.get("pavement", {})
+    tr = scene.get("terrain", {})
+    if tr.get("built"):
+        caption_lines.append((
+            f"Ground mesh: {tr.get('samples', 0)}x{tr.get('samples', 0)} graded grid over "
+            f"{2 * scene.get('radius_m', 0):.0f} m - {tr.get('near_spacing_m', tr.get('spacing_m'))} m "
+            f"spacing within {tr.get('near_m', 0)} m of the viewpoint (the heightmap's own "
+            f"resolution), coarsening to {tr.get('far_spacing_m', '?')} m at the edge of the scene; "
+            f"{tr.get('water_quads', 0):,} quads on the flattened water surface", f_small))
+    caption_lines.append((
+        f"In frame: {b.get('tiles_imported', 0)}/{b.get('tiles_wanted', 0)} building tiles "
+        f"({b.get('triangles', 0):,} tris), {lm.get('placed', 0)} landmarks, "
+        f"{pv.get('placed', 0)} pavement polygons ("
+        + ", ".join(f"{v:,} {k}" for k, v in list((pv.get('per_kind') or {}).items())[:6])
+        + f"), {pr.get('placed', 0)} props"
+        + (" (bare-canopy trees)" if pr.get("leaf_off") else "")
+        + (f", {pr['impostor_cards_dropped']} opaque impostor cards dropped"
+           if pr.get("impostor_cards_dropped") else "")
+        + f", {kt.get('placed', 0)} kit pieces"
+        + f", {ag.get('placed_vehicles', 0)} vehicles, {ag.get('placed_pedestrians', 0)} people"
+        + f"; {scene.get('triangles', 0):,} triangles total",
+        f_small))
+    if ag.get("caption"):
+        caption_lines.append((ag["caption"], f_small))
+    elif ag.get("reason") and ag.get("reason") != "disabled":
+        caption_lines.append((f"Agents: none placed - {ag['reason']}", f_small))
+    gaps = []
+    if b.get("tiles_missing"):
+        miss = b["missing"][:8]
+        gaps.append(f"building shells not built for {b['tiles_missing']} tile(s): " + ", ".join(miss)
+                    + (" ..." if b["tiles_missing"] > len(miss) else ""))
+    if b.get("tiles_lod_substituted"):
+        sub = b["lod_substituted"][:6]
+        gaps.append(f"{b['tiles_lod_substituted']} tile(s) had no mesh at the LOD their distance "
+                    f"asks for and were drawn at the nearest LOD present: " + ", ".join(sub)
+                    + (" ..." if b["tiles_lod_substituted"] > len(sub) else ""))
+    if b.get("tiles_dropped_for_budget"):
+        gaps.append(f"{b['tiles_dropped_for_budget']} of the furthest tiles dropped at the "
+                    f"{b.get('triangle_budget', 0):,}-triangle shell budget")
+    if pr.get("capped"):
+        gaps.append(f"props capped by {pr['capped']}")
+    if kt.get("capped"):
+        gaps.append(f"kit capped by {kt['capped']} ({kt.get('records_in_range',0):,} in range)")
+    if kt.get("reason"):
+        gaps.append(f"kit not placed: {kt['reason']}")
+    if pr.get("reason"):
+        gaps.append(f"props not placed: {pr['reason']}")
+    if pv.get("reason"):
+        gaps.append(f"pavement not placed: {pv['reason']}")
+    if ag.get("reason") and ag.get("reason") != "disabled":
+        gaps.append(f"agents not placed: {ag['reason']}")
+    elif ag.get("reason") == "disabled":
+        gaps.append("no agents in this frame")
+    for key, label in (("vehicle_triangle_budget", "vehicles"),
+                       ("pedestrian_triangle_budget", "people")):
+        n = (ag.get("dropped") or {}).get(key)
+        if n:
+            gaps.append(f"{n} further {label} the simulation has in range were dropped at the "
+                        f"{ag.get('triangle_budget', 0):,}-triangle agent budget")
+    for key, label in (("vehicle_not_on_carriageway",
+                        "vehicles the simulation put where the planimetric data has no roadway"),
+                       ("pedestrian_not_on_walkable_surface",
+                        "people the simulation put where the planimetric data has no sidewalk"),
+                       ("pedestrian_in_the_carriageway_not_crossing",
+                        "people the simulation put in the roadway while not crossing"),
+                       ("vehicle_body_has_no_rider",
+                        "cyclists, e-bikes and pedicabs not drawn because the fleet exports those "
+                        "bodies without a rider"),
+                       ("vehicle_on_a_car_free_park_drive",
+                        "vehicles the road graph put on Central Park's East, West, Terrace or "
+                        "Center Drive, which have carried no private traffic since 2018")):
+        n = (ag.get("dropped") or {}).get(key)
+        if n:
+            gaps.append(f"{n} {label}, dropped rather than drawn")
+    if not scene.get("terrain", {}).get("built", True):
+        gaps.append("terrain not built: " + str(scene["terrain"].get("reason")))
+    if gaps:
+        caption_lines.append(("Gaps: " + "; ".join(gaps), f_small))
+    caption_lines.append((
+        f"This sheet embeds the photograph above and is therefore a derivative work distributed "
+        f"under the same licence ({ph.get('licence')}); the right-hand image is NYCSim output "
+        f"(blender/verify/render_sheets.py).", f_small))
+
+    tmp = Image.new("RGB", (10, 10))
+    d0 = ImageDraw.Draw(tmp)
+    max_w = sheet_w - margin * 2
+    wrapped: list[tuple[str, object]] = []
+    for text, font in caption_lines:
+        for ln in _wrap(d0, text, font, max_w):
+            wrapped.append((ln, font))
+    line_h = 22
+    caption_h = 16 + line_h * len(wrapped) + 12
+    sheet_h = header_h + label_h + panel_h + caption_h + margin
+
+    sheet = Image.new("RGB", (sheet_w, sheet_h), (250, 249, 246))
+    d = ImageDraw.Draw(sheet)
+    d.rectangle([0, 0, sheet_w, header_h], fill=(24, 26, 30))
+    d.text((margin, 15), f"{record.get('name') or slug}", font=f_title, fill=(245, 245, 245))
+    d.text((sheet_w - margin - d.textlength(slug, font=f_small), 22), slug, font=f_small, fill=(160, 165, 175))
+
+    y0 = header_h + label_h
+    d.text((margin, header_h + 8), "REFERENCE PHOTOGRAPH", font=f_label, fill=(40, 44, 52))
+    d.text((margin + panel_w + gap, header_h + 8), "NYCSIM RENDER", font=f_label, fill=(40, 44, 52))
+    sheet.paste(ref, (margin, y0))
+    sheet.paste(ren, (margin + panel_w + gap, y0))
+    d.rectangle([margin - 1, y0 - 1, margin + panel_w, y0 + ref_h], outline=(200, 200, 200))
+    d.rectangle([margin + panel_w + gap - 1, y0 - 1, margin + panel_w * 2 + gap, y0 + ren_h],
+                outline=(200, 200, 200))
+
+    ty = y0 + panel_h + 14
+    d.line([margin, ty - 6, sheet_w - margin, ty - 6], fill=(210, 210, 210))
+    for text, font in wrapped:
+        d.text((margin, ty), text, font=font, fill=(35, 38, 44))
+        ty += line_h
+
+    out = outdir / "sheet.png"
+    sheet.save(out)
+    LOG.info("%s sheet written (%dx%d)", slug, sheet_w, sheet_h)
+    return out
+
+
+# --------------------------------------------------------------------------- index
+
+
+GROUP_ORDER = {"viewpoint": 0, "drive_through": 1, "landmark": 2}
+
+
+def _index_status(slug: str, cov: dict) -> tuple[str, str]:
+    """(status, note) for one subject: what happened, and why if nothing did."""
+    rec_path = COMPARISON_DIR / slug / "render.json"
+    if rec_path.exists():
+        try:
+            rec = json.loads(rec_path.read_text())
+        except Exception as exc:
+            return "error", f"render.json unreadable: {exc}"
+        if rec.get("status") == "rendered":
+            b = rec["scene"]["buildings"]
+            bits = [f"{b['tiles_imported']}/{b['tiles_wanted']} building tiles",
+                    f"{rec['scene']['landmarks']['placed']} landmarks"]
+            if rec["scene"].get("props", {}).get("placed"):
+                bits.append(f"{rec['scene']['props']['placed']} props")
+            if rec["scene"].get("kit", {}).get("placed"):
+                bits.append(f"{rec['scene']['kit']['placed']} kit pieces")
+            return "rendered", ", ".join(bits)
+        return "error", str(rec.get("reason") or rec.get("status"))
+    err = COMPARISON_DIR / slug / "render_error.txt"
+    if err.exists():
+        return "error", err.read_text().strip().splitlines()[0][:160]
+    if cov.get("photos", 0) == 0:
+        return "not rendered", "no licensed reference photograph on disk for this subject"
+    if cov["tiles_built"] == 0 and not cov["landmarks"]:
+        return "not rendered", (f"no world geometry in frame: none of the {cov['tiles_wanted']} "
+                                f"tiles in the {cov['radius_m']:.0f} m radius has a building shell "
+                                f"yet and no landmark model reaches the frame")
+    if cov.get("interior"):
+        return "not rendered", "interior view; no interiors are modelled"
+    return "not rendered", (f"queued: {cov['tiles_built']}/{cov['tiles_wanted']} building tiles and "
+                            f"{len(cov['landmarks'])} landmark model(s) available, not yet rendered")
+
+
+def write_index(slugs: Sequence[str]) -> Path:
+    """Rebuild ``docs/verification/comparison/INDEX.md`` from what is on disk."""
+    rows = []
+    for slug in slugs:
+        cov = coverage(slug)
+        status, note = _index_status(slug, cov)
+        rows.append((cov, status, note))
+    rows.sort(key=lambda r: (GROUP_ORDER.get(r[0]["group"], 9), r[0]["slug"]))
+
+    mandated = {s: name for name, ss in MANDATED_VIEWPOINTS.items() for s in ss}
+    drive = {s: name for name, ss in DRIVE_THROUGH_AREAS.items() for s in ss}
+    done = sum(1 for _, st, _ in rows if st == "rendered")
+    rendered = {cov["slug"] for cov, st, _ in rows if st == "rendered"}
+
+    def covered(groups: dict[str, list[str]]) -> tuple[int, list[str]]:
+        hit = [name for name, ss in groups.items() if any(s in rendered for s in ss)]
+        return len(hit), sorted(set(groups) - set(hit))
+
+    m_done, m_left = covered(MANDATED_VIEWPOINTS)
+    d_done, d_left = covered(DRIVE_THROUGH_AREAS)
+
+    lines = [
+        "# Comparison sheets — index",
+        "",
+        f"Every subject in `docs/verification/reference/` with its comparison status. "
+        f"{done} of {len(rows)} subjects have a sheet at "
+        f"`docs/verification/comparison/<slug>/sheet.png`, each with its own `assessment.md`, "
+        f"the raw `render.png` and the `render.json` that records the camera, the Sun and every "
+        f"piece of world data that went into the frame.",
+        "",
+        f"* **Mandated viewpoints: {m_done} of {len(MANDATED_VIEWPOINTS)} covered.**"
+        + ("" if not m_left else "  Not covered: " + ", ".join(m_left) + "."),
+        f"* **Drive-through areas: {d_done} of {len(DRIVE_THROUGH_AREAS)} covered.**"
+        + ("" if not d_left else "  Not covered: " + ", ".join(d_left) + "."),
+        "",
+        "Generated by `python3 blender/verify/render_sheets.py --write-index`.",
+        "",
+        "| subject | group | status | sheet | assessment | what is in the frame / why not |",
+        "|---|---|---|---|---|---|",
+    ]
+    for cov, status, note in rows:
+        slug = cov["slug"]
+        tag = ""
+        if slug in mandated:
+            tag = f" **[mandated: {mandated[slug]}]**"
+        elif slug in drive:
+            tag = f" *[drive-through: {drive[slug]}]*"
+        sheet = f"[sheet]({slug}/sheet.png)" if status == "rendered" else "—"
+        assessed = ("[assessment]({0}/assessment.md)".format(slug)
+                    if (COMPARISON_DIR / slug / "assessment.md").exists() else "—")
+        name = (cov.get("name") or slug).replace("|", "/")
+        lines.append(f"| [{name}](../reference/{slug}/meta.json){tag} | {cov['group']} | "
+                     f"{status} | {sheet} | {assessed} | {note.replace('|', '/')} |")
+    lines += ["", f"Rebuilt {dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds').replace('+00:00', 'Z')}.", ""]
+    COMPARISON_DIR.mkdir(parents=True, exist_ok=True)
+    out = COMPARISON_DIR / "INDEX.md"
+    out.write_text("\n".join(lines))
+    LOG.info("INDEX.md written: %d subjects, %d rendered", len(rows), done)
+    return out
+
+
+# --------------------------------------------------------------------------- CLI
+
+
+def coverage(slug: str) -> dict:
+    """What world data exists for a subject, without building anything.
+
+    Answers the question the INDEX has to answer: can this viewpoint be rendered at all, and if
+    the answer is "only partly", which tiles of building shells are missing.
+    """
+    import scene as vscene
+    from nycsim_pipeline.crs import lonlat_to_tm
+
+    meta = load_meta(slug)
+    photo0 = pick_reference_photo(meta)
+    cam_lat, cam_lon, _, _, _ = view_origin(meta, photo0)
+    x, y = (float(v) for v in lonlat_to_tm(cam_lon, cam_lat))
+    subject = meta.get("subject") or {}
+    subj_dist = None
+    if subject.get("lat") is not None:
+        sx, sy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
+        subj_dist = math.hypot(sx - x, sy - y)
+    if slug in RADIUS_OVERRIDES:
+        radius = RADIUS_OVERRIDES[slug][0]
+    else:
+        radius = max(500.0, min(3000.0, (subj_dist or 200.0) * 1.6 + 400.0))
+
+    # The near field decides whether a frame is meaningful; count shells within 600 m as well
+    # as over the whole scene radius.
+    def tile_stats(r):
+        want = vscene.tiles_in_radius(x, y, r)
+        built = [t for t in want if (vscene.TILES_GLB / vscene.tile_name(*t) / "tile_buildings.glb").exists()]
+        return len(want), len(built)
+
+    want_all, built_all = tile_stats(radius)
+    want_near, built_near = tile_stats(min(radius, 600.0))
+    terr = vscene.tiles_in_radius(x, y, radius)
+    terr_built = sum(1 for t in terr
+                     if (vscene.TILES_DATA / vscene.tile_name(*t) / "terrain.png").exists())
+
+    lms = []
+    for e in vscene.load_landmark_catalog():
+        ox, oy = float(e["origin_tm"][0]), float(e["origin_tm"][1])
+        b = e.get("bounds_local_m") or {}
+        bmin, bmax = b.get("min", [0, 0, 0]), b.get("max", [0, 0, 0])
+        nx = min(max(x, ox + bmin[0]), ox + bmax[0])
+        ny = min(max(y, oy + bmin[1]), oy + bmax[1])
+        if math.hypot(nx - x, ny - y) <= radius:
+            lms.append(e["id"])
+    photo = photo0
+    return {"slug": slug, "name": meta.get("name"), "group": meta.get("group"),
+            "night": bool(meta.get("night")), "interior": bool(meta.get("interior")),
+            "radius_m": radius, "subject_distance_m": None if subj_dist is None else round(subj_dist, 1),
+            "tiles_wanted": want_all, "tiles_built": built_all,
+            "tiles_wanted_near": want_near, "tiles_built_near": built_near,
+            "terrain_tiles": len(terr), "terrain_built": terr_built,
+            "landmarks": sorted(lms), "photos": len([p for p in meta.get("photos", [])
+                                                     if (REFERENCE_DIR / slug / p["file"]).exists()]),
+            "reference_photo": None if photo is None else photo["file"]}
+
+
+def resolve_slugs(args) -> list[str]:
+    known = list_slugs()
+    if args.slugs:
+        want = [s.strip() for s in args.slugs.split(",") if s.strip()]
+        bad = [s for s in want if s not in known]
+        if bad:
+            raise SystemExit(f"unknown slug(s): {', '.join(bad)}")
+        return want
+    if args.mandated:
+        return [s for v in MANDATED_VIEWPOINTS.values() for s in v if s in known]
+    if args.drive:
+        return [s for v in DRIVE_THROUGH_AREAS.values() for s in v if s in known]
+    if args.group:
+        return [s for s in known if load_meta(s).get("group") == args.group]
+    return known
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--slugs", default=None, help="comma-separated reference slugs")
+    ap.add_argument("--group", default=None, choices=["viewpoint", "drive_through", "landmark"])
+    ap.add_argument("--mandated", action="store_true", help="the seven brief-mandated viewpoints")
+    ap.add_argument("--drive", action="store_true", help="the five drive-through areas")
+    ap.add_argument("--samples", type=int, default=DEFAULT_SAMPLES)
+    ap.add_argument("--width", type=int, default=RENDER_WIDTH)
+    ap.add_argument("--threads", type=int, default=None)
+    ap.add_argument("--limit", type=int, default=None)
+    ap.add_argument("--skip-existing", action="store_true", help="skip slugs that already have a render.png")
+    ap.add_argument("--compose-only", action="store_true", help="rebuild sheets from existing renders")
+    ap.add_argument("--dry-run", action="store_true", help="print the plan without rendering")
+    ap.add_argument("--no-agents", action="store_true",
+                    help="do not place the simulation's vehicles and pedestrians")
+    ap.add_argument("--coverage", action="store_true",
+                    help="report what world data exists per subject and exit")
+    ap.add_argument("--write-index", action="store_true",
+                    help="rebuild docs/verification/comparison/INDEX.md and exit")
+    a = ap.parse_args(argv)
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s",
+                        datefmt="%H:%M:%S")
+    slugs = resolve_slugs(a)
+    if a.limit:
+        slugs = slugs[:a.limit]
+    if a.coverage:
+        print(json.dumps([coverage(s) for s in slugs], indent=1))
+        return 0
+    if a.write_index:
+        write_index(slugs)
+        return 0
+    LOG.info("%d subject(s): %s", len(slugs), ", ".join(slugs))
+
+    done, failed = [], []
+    for slug in slugs:
+        outdir = COMPARISON_DIR / slug
+        if a.compose_only:
+            if compose_sheet(slug) is not None:
+                done.append(slug)
+            else:
+                failed.append(slug)
+            continue
+        if a.skip_existing and (outdir / "render.png").exists() and (outdir / "sheet.png").exists():
+            LOG.info("%s already rendered, skipping", slug)
+            done.append(slug)
+            continue
+        try:
+            rec = render_subject(slug, samples=a.samples, threads=a.threads, width=a.width,
+                                 dry_run=a.dry_run, with_agents=not a.no_agents)
+        except Exception as exc:
+            LOG.exception("%s failed", slug)
+            outdir.mkdir(parents=True, exist_ok=True)
+            (outdir / "render_error.txt").write_text(f"{type(exc).__name__}: {exc}\n")
+            failed.append(slug)
+            continue
+        if a.dry_run:
+            print(json.dumps(rec, indent=1, sort_keys=True))
+            done.append(slug)
+            continue
+        if rec.get("status") != "rendered":
+            failed.append(slug)
+            err = outdir / "render_error.txt"
+            # render_subject writes a diagnostic for a frame it rejected; do not overwrite it.
+            if not err.exists():
+                err.write_text(json.dumps(rec, indent=1))
+            continue
+        compose_sheet(slug, rec)
+        done.append(slug)
+    LOG.info("done: %d, failed: %d%s", len(done), len(failed),
+             (" (" + ", ".join(failed) + ")") if failed else "")
+    return 0 if not failed else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

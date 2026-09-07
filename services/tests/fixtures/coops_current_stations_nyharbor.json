@@ -1,0 +1,4231 @@
+{
+ "count": 169,
+ "stations": [
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3196_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 15.0,
+   "depthType": "B",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3196/harcon.json"
+   },
+   "id": "ACT3196",
+   "name": "Parsonage Point, 1.3 n.mi. ESE of",
+   "lat": 40.9375,
+   "lng": -73.65817,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3196.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3201_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 15.0,
+   "depthType": "S",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3201/harcon.json"
+   },
+   "id": "ACT3201",
+   "name": "Peningo Neck, 0.6 mi. off Parsonage Pt",
+   "lat": 40.93867,
+   "lng": -73.675,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3201.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3211_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 15.0,
+   "depthType": "S",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3211/harcon.json"
+   },
+   "id": "ACT3211",
+   "name": "Matinecock Point, 0.7 mile NNW of",
+   "lat": 40.91333,
+   "lng": -73.64,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3211.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3211_2/currentpredictionoffsets.json"
+   },
+   "currbin": 2,
+   "type": "S",
+   "depth": 40.0,
+   "depthType": "S",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3211/harcon.json"
+   },
+   "id": "ACT3211",
+   "name": "Matinecock Point, 0.7 mile NNW of",
+   "lat": 40.91333,
+   "lng": -73.64,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3211.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3216_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "W",
+   "depth": 15.0,
+   "depthType": "S",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3216/harcon.json"
+   },
+   "id": "ACT3216",
+   "name": "Hempstead Harbor, 0.3 mile north of",
+   "lat": 40.862,
+   "lng": -73.6745,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3216.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3226_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 10.0,
+   "depthType": "S",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3226/harcon.json"
+   },
+   "id": "ACT3226",
+   "name": "Hempstead Harbor, off Glenwood Landing",
+   "lat": 40.828,
+   "lng": -73.65,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3226.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3236_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 15.0,
+   "depthType": "S",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3236/harcon.json"
+   },
+   "id": "ACT3236",
+   "name": "Delancey Point, 1 mile southeast of",
+   "lat": 40.91667,
+   "lng": -73.71217,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3236.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3241_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "W",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3241/harcon.json"
+   },
+   "id": "ACT3241",
+   "name": "Mamaroneck Harbor",
+   "lat": 40.93333,
+   "lng": -73.71667,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3241.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3246_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "W",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3246/harcon.json"
+   },
+   "id": "ACT3246",
+   "name": "Echo Bay entrance",
+   "lat": 40.9,
+   "lng": -73.76667,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3246.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3251_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "W",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3251/harcon.json"
+   },
+   "id": "ACT3251",
+   "name": "Davids Island, channel 0.1 mile east of",
+   "lat": 40.88333,
+   "lng": -73.76667,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3251.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3256_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 15.0,
+   "depthType": "S",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3256/harcon.json"
+   },
+   "id": "ACT3256",
+   "name": "Huckleberry Island, 0.2 mile NW of",
+   "lat": 40.8905,
+   "lng": -73.75717,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3256.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3261_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 15.0,
+   "depthType": "S",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3261/harcon.json"
+   },
+   "id": "ACT3261",
+   "name": "Huckleberry Island, 0.6 mile SE of",
+   "lat": 40.88,
+   "lng": -73.74583,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3261.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3271_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 15.0,
+   "depthType": "S",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3271/harcon.json"
+   },
+   "id": "ACT3271",
+   "name": "Manhasset Bay entrance",
+   "lat": 40.82917,
+   "lng": -73.72967,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3271.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3286_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 15.0,
+   "depthType": "B",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3286/harcon.json"
+   },
+   "id": "ACT3286",
+   "name": "Hart Island, 0.3 n.mi. SSE of",
+   "lat": 40.8405,
+   "lng": -73.76567,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3286.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3296_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 10.0,
+   "depthType": "S",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3296/harcon.json"
+   },
+   "id": "ACT3296",
+   "name": "City Island Bridge",
+   "lat": 40.85783,
+   "lng": -73.79333,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3296.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3301_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 5.0,
+   "depthType": "S",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3301/harcon.json"
+   },
+   "id": "ACT3301",
+   "name": "Eastchester Bay, near Big Tom",
+   "lat": 40.83667,
+   "lng": -73.79533,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3301.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3306_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 5.0,
+   "depthType": "S",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3306/harcon.json"
+   },
+   "id": "ACT3306",
+   "name": "Hutchinson R., Pelham Highway Bridge",
+   "lat": 40.86167,
+   "lng": -73.81667,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3306.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3321_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 15.0,
+   "depthType": "B",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3321/harcon.json"
+   },
+   "id": "ACT3321",
+   "name": "Throgs Neck, 0.3 n.mi. NE of",
+   "lat": 40.81067,
+   "lng": -73.7855,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3321.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3326_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 15.0,
+   "depthType": "S",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3326/harcon.json"
+   },
+   "id": "ACT3326",
+   "name": "Throgs Neck, 0.4 mile south of",
+   "lat": 40.79833,
+   "lng": -73.79083,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3326.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3331_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 15.0,
+   "depthType": "S",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3331/harcon.json"
+   },
+   "id": "ACT3331",
+   "name": "Throgs Neck, 0.2 mile S of (Willets Point)",
+   "lat": 40.802,
+   "lng": -73.79133,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3331.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3341_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3341/harcon.json"
+   },
+   "id": "ACT3341",
+   "name": "Cryders Point, 0.4 mile NNW of",
+   "lat": 40.80030059814453,
+   "lng": -73.79869842529297,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3341.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3346_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 14.0,
+   "depthType": "S",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3346/harcon.json"
+   },
+   "id": "ACT3346",
+   "name": "Bronx-Whitestone Bridge, East of",
+   "lat": 40.801700592041016,
+   "lng": -73.82669830322266,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3346.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3356_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 15.0,
+   "depthType": "B",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3356/harcon.json"
+   },
+   "id": "ACT3356",
+   "name": "College Point Reef, 0.25 n.mi. NW of",
+   "lat": 40.80099868774414,
+   "lng": -73.85469818115234,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3356.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3361_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "W",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3361/harcon.json"
+   },
+   "id": "ACT3361",
+   "name": "Flushing Creek entrance",
+   "lat": 40.765,
+   "lng": -73.845,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3361.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3366_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3366/harcon.json"
+   },
+   "id": "ACT3366",
+   "name": "Rikers I. chan., off La Guardia Field",
+   "lat": 40.78329849243164,
+   "lng": -73.88330078125,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3366.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3371_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "W",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3371/harcon.json"
+   },
+   "id": "ACT3371",
+   "name": "Bronx River (1 mile north of Hunts Pt.)",
+   "lat": 40.815,
+   "lng": -73.875,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3371.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3376_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3376/harcon.json"
+   },
+   "id": "ACT3376",
+   "name": "Hunts Point, southwest of",
+   "lat": 40.79999923706055,
+   "lng": -73.88330078125,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3376.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3381_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 15.0,
+   "depthType": "S",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3381/harcon.json"
+   },
+   "id": "ACT3381",
+   "name": "South Brother Island, NW of",
+   "lat": 40.79669952392578,
+   "lng": -73.90170288085938,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3381.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3386_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3386/harcon.json"
+   },
+   "id": "ACT3386",
+   "name": "Off Winthrop Ave., Astoria",
+   "lat": 40.78670120239258,
+   "lng": -73.91670227050781,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3386.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3406_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3406/harcon.json"
+   },
+   "id": "ACT3406",
+   "name": "Roosevelt Is., west of, off 75th Street",
+   "lat": 40.766700744628906,
+   "lng": -73.94999694824219,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3406.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3411_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3411/harcon.json"
+   },
+   "id": "ACT3411",
+   "name": "Roosevelt Island, east of, off 36th Avenue",
+   "lat": 40.76359939575195,
+   "lng": -73.94550323486328,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3411.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3416_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3416/harcon.json"
+   },
+   "id": "ACT3416",
+   "name": "Roosevelt Is., west of, off 67th Street",
+   "lat": 40.762298583984375,
+   "lng": -73.9540023803711,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3416.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3421_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3421/harcon.json"
+   },
+   "id": "ACT3421",
+   "name": "Roosevelt Is., west of, off 63rd Street",
+   "lat": 40.759700775146484,
+   "lng": -73.95449829101562,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3421.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3426_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3426/harcon.json"
+   },
+   "id": "ACT3426",
+   "name": "Roosevelt Island, east of",
+   "lat": 40.758201599121094,
+   "lng": -73.95130157470703,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3426.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3431_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3431/harcon.json"
+   },
+   "id": "ACT3431",
+   "name": "Manhattan, off 31st Street",
+   "lat": 40.73970031738281,
+   "lng": -73.96949768066406,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3431.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3481_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3481/harcon.json"
+   },
+   "id": "ACT3481",
+   "name": "Willis Ave. Bridge, 0.1 mile NW of",
+   "lat": 40.805,
+   "lng": -73.93,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3481.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3486_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3486/harcon.json"
+   },
+   "id": "ACT3486",
+   "name": "Madison Ave. Bridge",
+   "lat": 40.81330108642578,
+   "lng": -73.93499755859375,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3486.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3491_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3491/harcon.json"
+   },
+   "id": "ACT3491",
+   "name": "Macombs Dam Bridge",
+   "lat": 40.82830047607422,
+   "lng": -73.93499755859375,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3491.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3496_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3496/harcon.json"
+   },
+   "id": "ACT3496",
+   "name": "High Bridge",
+   "lat": 40.84170150756836,
+   "lng": -73.93170166015625,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3496.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3501_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3501/harcon.json"
+   },
+   "id": "ACT3501",
+   "name": "West 207th Street Bridge",
+   "lat": 40.86330032348633,
+   "lng": -73.91500091552734,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3501.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3506_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3506/harcon.json"
+   },
+   "id": "ACT3506",
+   "name": "Broadway Bridge",
+   "lat": 40.87329864501953,
+   "lng": -73.91169738769531,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3506.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3511_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 16.0,
+   "depthType": "S",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3511/harcon.json"
+   },
+   "id": "ACT3511",
+   "name": "Henry Hudson Bridge, 0.7 nmi. SE of",
+   "lat": 40.87670135498047,
+   "lng": -73.92169952392578,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3511.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3551_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3551/harcon.json"
+   },
+   "id": "ACT3551",
+   "name": "Long Beach, inside, between bridges",
+   "lat": 40.595001220703125,
+   "lng": -73.66000366210938,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3551.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3556_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3556/harcon.json"
+   },
+   "id": "ACT3556",
+   "name": "East Rockaway Inlet",
+   "lat": 40.59000015258789,
+   "lng": -73.75499725341797,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3556.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3571_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 15.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3571/harcon.json"
+   },
+   "id": "ACT3571",
+   "name": "Rockaway Point",
+   "lat": 40.53630065917969,
+   "lng": -73.94129943847656,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3571.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3596_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3596/harcon.json"
+   },
+   "id": "ACT3596",
+   "name": "Beach Channel (bridge)",
+   "lat": 40.58330154418945,
+   "lng": -73.81670379638672,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3596.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3601_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3601/harcon.json"
+   },
+   "id": "ACT3601",
+   "name": "Grass Hassock Channel",
+   "lat": 40.61000061035156,
+   "lng": -73.78500366210938,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3601.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3611_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 16.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3611/harcon.json"
+   },
+   "id": "ACT3611",
+   "name": "Norton Point, WSW of",
+   "lat": 40.55500030517578,
+   "lng": -74.02169799804688,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3611.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3621_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 22.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3621/harcon.json"
+   },
+   "id": "ACT3621",
+   "name": "Bay Ridge, west of",
+   "lat": 40.625701904296875,
+   "lng": -74.05400085449219,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3621.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3646_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3646/harcon.json"
+   },
+   "id": "ACT3646",
+   "name": "Statue of Liberty, east of",
+   "lat": 40.689998626708984,
+   "lng": -74.02999877929688,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3646.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3656_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 18.0,
+   "depthType": "S",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3656/harcon.json"
+   },
+   "id": "ACT3656",
+   "name": "Grants Tomb",
+   "lat": 40.808,
+   "lng": -73.96767,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3656.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3671_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3671/harcon.json"
+   },
+   "id": "ACT3671",
+   "name": "Riverdale",
+   "lat": 40.9,
+   "lng": -73.91667,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3671.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3676_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 15.0,
+   "depthType": "S",
+   "timezone_offset": "",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3676/harcon.json"
+   },
+   "id": "ACT3676",
+   "name": "Mount St. Vincent College, SW of",
+   "lat": 40.907,
+   "lng": -73.908,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3676.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3826_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3826/harcon.json"
+   },
+   "id": "ACT3826",
+   "name": "Sandy Hook Chan., 0.4 mi. W of N. Tip",
+   "lat": 40.479801177978516,
+   "lng": -74.02169799804688,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3826.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3841_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3841/harcon.json"
+   },
+   "id": "ACT3841",
+   "name": "New Dorp Beach, 1.2 miles south of",
+   "lat": 40.540000915527344,
+   "lng": -74.0967025756836,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3841.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3846_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3846/harcon.json"
+   },
+   "id": "ACT3846",
+   "name": "Old Orchard Shoal Lt., 1.2 mi. ENE of",
+   "lat": 40.5182991027832,
+   "lng": -74.07330322265625,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3846.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3861_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3861/harcon.json"
+   },
+   "id": "ACT3861",
+   "name": "Coney Island Lt., 1.5 miles SSE of",
+   "lat": 40.551700592041016,
+   "lng": -74.00499725341797,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3861.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3866_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3866/harcon.json"
+   },
+   "id": "ACT3866",
+   "name": "Hoffman Island, 0.2 mile west of",
+   "lat": 40.58330154418945,
+   "lng": -74.06670379638672,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3866.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3876_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3876/harcon.json"
+   },
+   "id": "ACT3876",
+   "name": "Coney Island Channel, west end",
+   "lat": 40.56999969482422,
+   "lng": -74.00830078125,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3876.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3891_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 15.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3891/harcon.json"
+   },
+   "id": "ACT3891",
+   "name": "Raritan Bay Reach Channel",
+   "lat": 40.48929977416992,
+   "lng": -74.1176986694336,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3891.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3901_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3901/harcon.json"
+   },
+   "id": "ACT3901",
+   "name": "Red Bank, 1.4 miles south of",
+   "lat": 40.4817008972168,
+   "lng": -74.20999908447266,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3901.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3906_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 14.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3906/harcon.json"
+   },
+   "id": "ACT3906",
+   "name": "Seguine Point",
+   "lat": 40.50400161743164,
+   "lng": -74.185302734375,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3906.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3906_2/currentpredictionoffsets.json"
+   },
+   "currbin": 2,
+   "type": "S",
+   "depth": 34.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3906/harcon.json"
+   },
+   "id": "ACT3906",
+   "name": "Seguine Point",
+   "lat": 40.50400161743164,
+   "lng": -74.185302734375,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3906.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3911_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 14.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3911/harcon.json"
+   },
+   "id": "ACT3911",
+   "name": "Ward Point, ESE",
+   "lat": 40.48830032348633,
+   "lng": -74.22470092773438,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3911.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3931_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 15.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3931/harcon.json"
+   },
+   "id": "ACT3931",
+   "name": "Tottenville, Arthur Kill River",
+   "lat": 40.513301849365234,
+   "lng": -74.25499725341797,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3931.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3931_2/currentpredictionoffsets.json"
+   },
+   "currbin": 2,
+   "type": "S",
+   "depth": 32.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3931/harcon.json"
+   },
+   "id": "ACT3931",
+   "name": "Tottenville, Arthur Kill River",
+   "lat": 40.513301849365234,
+   "lng": -74.25499725341797,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3931.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3936_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3936/harcon.json"
+   },
+   "id": "ACT3936",
+   "name": "Tufts Point-Smoking Point",
+   "lat": 40.55670166015625,
+   "lng": -74.22329711914062,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3936.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3946_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3946/harcon.json"
+   },
+   "id": "ACT3946",
+   "name": "Elizabethport",
+   "lat": 40.64670181274414,
+   "lng": -74.18170166015625,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3946.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3956_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 15.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3956/harcon.json"
+   },
+   "id": "ACT3956",
+   "name": "Bergen Point, East Reach",
+   "lat": 40.64030075073242,
+   "lng": -74.12470245361328,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3956.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3966_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": 15.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3966/harcon.json"
+   },
+   "id": "ACT3966",
+   "name": "South Reach, Newark Bay",
+   "lat": 40.65599822998047,
+   "lng": -74.13729858398438,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3966.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3971_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3971/harcon.json"
+   },
+   "id": "ACT3971",
+   "name": "Lincoln Highway Bridge, Hackensack River",
+   "lat": 40.733299255371094,
+   "lng": -74.0999984741211,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3971.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3976_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "S",
+   "depth": null,
+   "depthType": "U",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3976/harcon.json"
+   },
+   "id": "ACT3976",
+   "name": "Lincoln Highway Bridge, Passaic River",
+   "lat": 40.733299255371094,
+   "lng": -74.11669921875,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/ACT3976.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/HUR0611_16/currentpredictionoffsets.json"
+   },
+   "currbin": 16,
+   "type": "H",
+   "depth": 14.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/HUR0611/harcon.json"
+   },
+   "id": "HUR0611",
+   "name": "George Washington Bridge",
+   "lat": 40.84958,
+   "lng": -73.94982,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/HUR0611.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/HUR0611_8/currentpredictionoffsets.json"
+   },
+   "currbin": 8,
+   "type": "H",
+   "depth": 40.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/HUR0611/harcon.json"
+   },
+   "id": "HUR0611",
+   "name": "George Washington Bridge",
+   "lat": 40.84958,
+   "lng": -73.94982,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/HUR0611.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/HUR0611_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "H",
+   "depth": 63.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/HUR0611/harcon.json"
+   },
+   "id": "HUR0611",
+   "name": "George Washington Bridge",
+   "lat": 40.84958,
+   "lng": -73.94982,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/HUR0611.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1035_12/currentpredictionoffsets.json"
+   },
+   "currbin": 12,
+   "type": "H",
+   "depth": 10.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1035/harcon.json"
+   },
+   "id": "LIS1035",
+   "name": "Matinecock Point, 1.7 miles northwest of",
+   "lat": 40.92455,
+   "lng": -73.65585,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1035.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1035_6/currentpredictionoffsets.json"
+   },
+   "currbin": 6,
+   "type": "H",
+   "depth": 30.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1035/harcon.json"
+   },
+   "id": "LIS1035",
+   "name": "Matinecock Point, 1.7 miles northwest of",
+   "lat": 40.92455,
+   "lng": -73.65585,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1035.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1035_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "H",
+   "depth": 46.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1035/harcon.json"
+   },
+   "id": "LIS1035",
+   "name": "Matinecock Point, 1.7 miles northwest of",
+   "lat": 40.92455,
+   "lng": -73.65585,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1035.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1036_14/currentpredictionoffsets.json"
+   },
+   "currbin": 14,
+   "type": "H",
+   "depth": 11.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1036/harcon.json"
+   },
+   "id": "LIS1036",
+   "name": "Execution Rocks",
+   "lat": 40.87325,
+   "lng": -73.7334,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1036.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1036_8/currentpredictionoffsets.json"
+   },
+   "currbin": 8,
+   "type": "H",
+   "depth": 50.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1036/harcon.json"
+   },
+   "id": "LIS1036",
+   "name": "Execution Rocks",
+   "lat": 40.87325,
+   "lng": -73.7334,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1036.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1036_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "H",
+   "depth": 96.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1036/harcon.json"
+   },
+   "id": "LIS1036",
+   "name": "Execution Rocks",
+   "lat": 40.87325,
+   "lng": -73.7334,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1036.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1037_14/currentpredictionoffsets.json"
+   },
+   "currbin": 14,
+   "type": "H",
+   "depth": 13.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1037/harcon.json"
+   },
+   "id": "LIS1037",
+   "name": "Hart Island, southeast of",
+   "lat": 40.8432,
+   "lng": -73.76225,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1037.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1037_7/currentpredictionoffsets.json"
+   },
+   "currbin": 7,
+   "type": "H",
+   "depth": 59.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1037/harcon.json"
+   },
+   "id": "LIS1037",
+   "name": "Hart Island, southeast of",
+   "lat": 40.8432,
+   "lng": -73.76225,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1037.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1037_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "H",
+   "depth": 98.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1037/harcon.json"
+   },
+   "id": "LIS1037",
+   "name": "Hart Island, southeast of",
+   "lat": 40.8432,
+   "lng": -73.76225,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1037.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1038_15/currentpredictionoffsets.json"
+   },
+   "currbin": 15,
+   "type": "H",
+   "depth": 14.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1038/harcon.json"
+   },
+   "id": "LIS1038",
+   "name": "Throgs Neck Bridge",
+   "lat": 40.80105,
+   "lng": -73.7921,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1038.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1038_8/currentpredictionoffsets.json"
+   },
+   "currbin": 8,
+   "type": "H",
+   "depth": 36.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1038/harcon.json"
+   },
+   "id": "LIS1038",
+   "name": "Throgs Neck Bridge",
+   "lat": 40.80105,
+   "lng": -73.7921,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1038.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1038_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "H",
+   "depth": 59.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1038/harcon.json"
+   },
+   "id": "LIS1038",
+   "name": "Throgs Neck Bridge",
+   "lat": 40.80105,
+   "lng": -73.7921,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/LIS1038.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1901_9/currentpredictionoffsets.json"
+   },
+   "currbin": 9,
+   "type": "H",
+   "depth": 5.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1901/harcon.json"
+   },
+   "id": "NYH1901",
+   "name": "Sandy Hook Channel, Front Range Light",
+   "lat": 40.48740005493164,
+   "lng": -73.99330139160156,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1901.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1901_6/currentpredictionoffsets.json"
+   },
+   "currbin": 6,
+   "type": "H",
+   "depth": 15.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1901/harcon.json"
+   },
+   "id": "NYH1901",
+   "name": "Sandy Hook Channel, Front Range Light",
+   "lat": 40.48740005493164,
+   "lng": -73.99330139160156,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1901.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1901_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "H",
+   "depth": 31.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1901/harcon.json"
+   },
+   "id": "NYH1901",
+   "name": "Sandy Hook Channel, Front Range Light",
+   "lat": 40.48740005493164,
+   "lng": -73.99330139160156,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1901.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1902_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "H",
+   "depth": 7.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1902/harcon.json"
+   },
+   "id": "NYH1902",
+   "name": "Chapel Hill Channel, South End",
+   "lat": 40.475799560546875,
+   "lng": -74.04969787597656,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1902.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1902_4/currentpredictionoffsets.json"
+   },
+   "currbin": 4,
+   "type": "H",
+   "depth": 18.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1902/harcon.json"
+   },
+   "id": "NYH1902",
+   "name": "Chapel Hill Channel, South End",
+   "lat": 40.475799560546875,
+   "lng": -74.04969787597656,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1902.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1902_5/currentpredictionoffsets.json"
+   },
+   "currbin": 5,
+   "type": "H",
+   "depth": 21.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1902/harcon.json"
+   },
+   "id": "NYH1902",
+   "name": "Chapel Hill Channel, South End",
+   "lat": 40.475799560546875,
+   "lng": -74.04969787597656,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1902.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1903_15/currentpredictionoffsets.json"
+   },
+   "currbin": 15,
+   "type": "H",
+   "depth": 5.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1903/harcon.json"
+   },
+   "id": "NYH1903",
+   "name": "Ambrose Channel",
+   "lat": 40.516700744628906,
+   "lng": -73.97470092773438,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1903.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1903_9/currentpredictionoffsets.json"
+   },
+   "currbin": 9,
+   "type": "H",
+   "depth": 15.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1903/harcon.json"
+   },
+   "id": "NYH1903",
+   "name": "Ambrose Channel",
+   "lat": 40.516700744628906,
+   "lng": -73.97470092773438,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1903.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1903_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "H",
+   "depth": 28.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1903/harcon.json"
+   },
+   "id": "NYH1903",
+   "name": "Ambrose Channel",
+   "lat": 40.516700744628906,
+   "lng": -73.97470092773438,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1903.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1904_11/currentpredictionoffsets.json"
+   },
+   "currbin": 11,
+   "type": "H",
+   "depth": 7.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1904/harcon.json"
+   },
+   "id": "NYH1904",
+   "name": "Rockaway Inlet Jetty, 1 nm SW of",
+   "lat": 40.53300094604492,
+   "lng": -73.96080017089844,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1904.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1904_8/currentpredictionoffsets.json"
+   },
+   "currbin": 8,
+   "type": "H",
+   "depth": 17.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1904/harcon.json"
+   },
+   "id": "NYH1904",
+   "name": "Rockaway Inlet Jetty, 1 nm SW of",
+   "lat": 40.53300094604492,
+   "lng": -73.96080017089844,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1904.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1904_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "H",
+   "depth": 40.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1904/harcon.json"
+   },
+   "id": "NYH1904",
+   "name": "Rockaway Inlet Jetty, 1 nm SW of",
+   "lat": 40.53300094604492,
+   "lng": -73.96080017089844,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1904.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1905_12/currentpredictionoffsets.json"
+   },
+   "currbin": 12,
+   "type": "H",
+   "depth": 5.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1905/harcon.json"
+   },
+   "id": "NYH1905",
+   "name": "Rockaway Inlet Entrance",
+   "lat": 40.562198638916016,
+   "lng": -73.9365005493164,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1905.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1905_6/currentpredictionoffsets.json"
+   },
+   "currbin": 6,
+   "type": "H",
+   "depth": 14.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1905/harcon.json"
+   },
+   "id": "NYH1905",
+   "name": "Rockaway Inlet Entrance",
+   "lat": 40.562198638916016,
+   "lng": -73.9365005493164,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1905.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1905_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "H",
+   "depth": 23.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1905/harcon.json"
+   },
+   "id": "NYH1905",
+   "name": "Rockaway Inlet Entrance",
+   "lat": 40.562198638916016,
+   "lng": -73.9365005493164,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1905.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1906_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "H",
+   "depth": 7.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1906/harcon.json"
+   },
+   "id": "NYH1906",
+   "name": "Ward Point Bend",
+   "lat": 40.493099212646484,
+   "lng": -74.25070190429688,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1906.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1906_3/currentpredictionoffsets.json"
+   },
+   "currbin": 3,
+   "type": "H",
+   "depth": 15.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1906/harcon.json"
+   },
+   "id": "NYH1906",
+   "name": "Ward Point Bend",
+   "lat": 40.493099212646484,
+   "lng": -74.25070190429688,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1906.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1906_7/currentpredictionoffsets.json"
+   },
+   "currbin": 7,
+   "type": "H",
+   "depth": 28.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1906/harcon.json"
+   },
+   "id": "NYH1906",
+   "name": "Ward Point Bend",
+   "lat": 40.493099212646484,
+   "lng": -74.25070190429688,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1906.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1908_8/currentpredictionoffsets.json"
+   },
+   "currbin": 8,
+   "type": "H",
+   "depth": 7.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1908/harcon.json"
+   },
+   "id": "NYH1908",
+   "name": "Tremley Point",
+   "lat": 40.58890151977539,
+   "lng": -74.20600128173828,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1908.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1908_2/currentpredictionoffsets.json"
+   },
+   "currbin": 2,
+   "type": "H",
+   "depth": 27.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1908/harcon.json"
+   },
+   "id": "NYH1908",
+   "name": "Tremley Point",
+   "lat": 40.58890151977539,
+   "lng": -74.20600128173828,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1908.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1909_10/currentpredictionoffsets.json"
+   },
+   "currbin": 10,
+   "type": "H",
+   "depth": 8.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1909/harcon.json"
+   },
+   "id": "NYH1909",
+   "name": "Gulfport, Arthur Kill",
+   "lat": 40.62889862060547,
+   "lng": -74.20320129394531,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1909.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1909_6/currentpredictionoffsets.json"
+   },
+   "currbin": 6,
+   "type": "H",
+   "depth": 21.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1909/harcon.json"
+   },
+   "id": "NYH1909",
+   "name": "Gulfport, Arthur Kill",
+   "lat": 40.62889862060547,
+   "lng": -74.20320129394531,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1909.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1913_11/currentpredictionoffsets.json"
+   },
+   "currbin": 11,
+   "type": "H",
+   "depth": 7.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1913/harcon.json"
+   },
+   "id": "NYH1913",
+   "name": "Middle Reach, Newark Bay",
+   "lat": 40.676300048828125,
+   "lng": -74.13520050048828,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1913.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1913_4/currentpredictionoffsets.json"
+   },
+   "currbin": 4,
+   "type": "H",
+   "depth": 30.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1913/harcon.json"
+   },
+   "id": "NYH1913",
+   "name": "Middle Reach, Newark Bay",
+   "lat": 40.676300048828125,
+   "lng": -74.13520050048828,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1913.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1914_9/currentpredictionoffsets.json"
+   },
+   "currbin": 9,
+   "type": "H",
+   "depth": 9.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1914/harcon.json"
+   },
+   "id": "NYH1914",
+   "name": "Constable Hook Approach",
+   "lat": 40.650699615478516,
+   "lng": -74.06060028076172,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1914.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1914_7/currentpredictionoffsets.json"
+   },
+   "currbin": 7,
+   "type": "H",
+   "depth": 15.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1914/harcon.json"
+   },
+   "id": "NYH1914",
+   "name": "Constable Hook Approach",
+   "lat": 40.650699615478516,
+   "lng": -74.06060028076172,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1914.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1914_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "H",
+   "depth": 35.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1914/harcon.json"
+   },
+   "id": "NYH1914",
+   "name": "Constable Hook Approach",
+   "lat": 40.650699615478516,
+   "lng": -74.06060028076172,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1914.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1915_2/currentpredictionoffsets.json"
+   },
+   "currbin": 2,
+   "type": "H",
+   "depth": 11.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1915/harcon.json"
+   },
+   "id": "NYH1915",
+   "name": "Robbins Reef Light, 0.6 nm E of",
+   "lat": 40.65520095825195,
+   "lng": -74.05069732666016,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1915.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1915_6/currentpredictionoffsets.json"
+   },
+   "currbin": 6,
+   "type": "H",
+   "depth": 24.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1915/harcon.json"
+   },
+   "id": "NYH1915",
+   "name": "Robbins Reef Light, 0.6 nm E of",
+   "lat": 40.65520095825195,
+   "lng": -74.05069732666016,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1915.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1915_10/currentpredictionoffsets.json"
+   },
+   "currbin": 10,
+   "type": "H",
+   "depth": 37.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1915/harcon.json"
+   },
+   "id": "NYH1915",
+   "name": "Robbins Reef Light, 0.6 nm E of",
+   "lat": 40.65520095825195,
+   "lng": -74.05069732666016,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1915.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1917_5/currentpredictionoffsets.json"
+   },
+   "currbin": 5,
+   "type": "H",
+   "depth": 15.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1917/harcon.json"
+   },
+   "id": "NYH1917",
+   "name": "Gowanus Bay Entrance",
+   "lat": 40.662498474121094,
+   "lng": -74.01809692382812,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1917.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1917_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "H",
+   "depth": 28.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1917/harcon.json"
+   },
+   "id": "NYH1917",
+   "name": "Gowanus Bay Entrance",
+   "lat": 40.662498474121094,
+   "lng": -74.01809692382812,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1917.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1918_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "H",
+   "depth": 3.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1918/harcon.json"
+   },
+   "id": "NYH1918",
+   "name": "Red Hook Channel",
+   "lat": 40.672298431396484,
+   "lng": -74.0239028930664,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1918.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1918_6/currentpredictionoffsets.json"
+   },
+   "currbin": 6,
+   "type": "H",
+   "depth": 21.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1918/harcon.json"
+   },
+   "id": "NYH1918",
+   "name": "Red Hook Channel",
+   "lat": 40.672298431396484,
+   "lng": -74.0239028930664,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1918.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1918_9/currentpredictionoffsets.json"
+   },
+   "currbin": 9,
+   "type": "H",
+   "depth": 31.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1918/harcon.json"
+   },
+   "id": "NYH1918",
+   "name": "Red Hook Channel",
+   "lat": 40.672298431396484,
+   "lng": -74.0239028930664,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1918.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1919_3/currentpredictionoffsets.json"
+   },
+   "currbin": 3,
+   "type": "H",
+   "depth": 11.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1919/harcon.json"
+   },
+   "id": "NYH1919",
+   "name": "Dimond Reef",
+   "lat": 40.697898864746094,
+   "lng": -74.02130126953125,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1919.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1919_5/currentpredictionoffsets.json"
+   },
+   "currbin": 5,
+   "type": "H",
+   "depth": 18.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1919/harcon.json"
+   },
+   "id": "NYH1919",
+   "name": "Dimond Reef",
+   "lat": 40.697898864746094,
+   "lng": -74.02130126953125,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1919.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1919_9/currentpredictionoffsets.json"
+   },
+   "currbin": 9,
+   "type": "H",
+   "depth": 31.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1919/harcon.json"
+   },
+   "id": "NYH1919",
+   "name": "Dimond Reef",
+   "lat": 40.697898864746094,
+   "lng": -74.02130126953125,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1919.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1920_12/currentpredictionoffsets.json"
+   },
+   "currbin": 12,
+   "type": "H",
+   "depth": 8.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1920/harcon.json"
+   },
+   "id": "NYH1920",
+   "name": "Brooklyn Bridge",
+   "lat": 40.70600128173828,
+   "lng": -73.9977035522461,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1920.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1920_10/currentpredictionoffsets.json"
+   },
+   "currbin": 10,
+   "type": "H",
+   "depth": 14.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1920/harcon.json"
+   },
+   "id": "NYH1920",
+   "name": "Brooklyn Bridge",
+   "lat": 40.70600128173828,
+   "lng": -73.9977035522461,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1920.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1920_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "H",
+   "depth": 44.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1920/harcon.json"
+   },
+   "id": "NYH1920",
+   "name": "Brooklyn Bridge",
+   "lat": 40.70600128173828,
+   "lng": -73.9977035522461,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1920.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1921_11/currentpredictionoffsets.json"
+   },
+   "currbin": 11,
+   "type": "H",
+   "depth": 7.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1921/harcon.json"
+   },
+   "id": "NYH1921",
+   "name": "Corlears Hook",
+   "lat": 40.70949935913086,
+   "lng": -73.97640228271484,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1921.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1921_8/currentpredictionoffsets.json"
+   },
+   "currbin": 8,
+   "type": "H",
+   "depth": 16.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1921/harcon.json"
+   },
+   "id": "NYH1921",
+   "name": "Corlears Hook",
+   "lat": 40.70949935913086,
+   "lng": -73.97640228271484,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1921.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1921_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "H",
+   "depth": 39.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1921/harcon.json"
+   },
+   "id": "NYH1921",
+   "name": "Corlears Hook",
+   "lat": 40.70949935913086,
+   "lng": -73.97640228271484,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1921.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1922_8/currentpredictionoffsets.json"
+   },
+   "currbin": 8,
+   "type": "H",
+   "depth": 5.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1922/harcon.json"
+   },
+   "id": "NYH1922",
+   "name": "Newtown Creek",
+   "lat": 40.73469924926758,
+   "lng": -73.9656982421875,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1922.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1922_5/currentpredictionoffsets.json"
+   },
+   "currbin": 5,
+   "type": "H",
+   "depth": 15.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1922/harcon.json"
+   },
+   "id": "NYH1922",
+   "name": "Newtown Creek",
+   "lat": 40.73469924926758,
+   "lng": -73.9656982421875,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1922.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1922_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "H",
+   "depth": 28.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1922/harcon.json"
+   },
+   "id": "NYH1922",
+   "name": "Newtown Creek",
+   "lat": 40.73469924926758,
+   "lng": -73.9656982421875,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1922.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1924_9/currentpredictionoffsets.json"
+   },
+   "currbin": 9,
+   "type": "H",
+   "depth": 6.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1924/harcon.json"
+   },
+   "id": "NYH1924",
+   "name": "Hell Gate",
+   "lat": 40.77830123901367,
+   "lng": -73.93830108642578,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1924.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1924_6/currentpredictionoffsets.json"
+   },
+   "currbin": 6,
+   "type": "H",
+   "depth": 15.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1924/harcon.json"
+   },
+   "id": "NYH1924",
+   "name": "Hell Gate",
+   "lat": 40.77830123901367,
+   "lng": -73.93830108642578,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1924.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1924_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "H",
+   "depth": 32.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1924/harcon.json"
+   },
+   "id": "NYH1924",
+   "name": "Hell Gate",
+   "lat": 40.77830123901367,
+   "lng": -73.93830108642578,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1924.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1926_5/currentpredictionoffsets.json"
+   },
+   "currbin": 5,
+   "type": "H",
+   "depth": 5.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1926/harcon.json"
+   },
+   "id": "NYH1926",
+   "name": "Harlem River, south end",
+   "lat": 40.78609848022461,
+   "lng": -73.93689727783203,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1926.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1927_13/currentpredictionoffsets.json"
+   },
+   "currbin": 13,
+   "type": "H",
+   "depth": 7.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1927/harcon.json"
+   },
+   "id": "NYH1927",
+   "name": "Hudson River Entrance",
+   "lat": 40.70759963989258,
+   "lng": -74.02529907226562,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1927.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1927_8/currentpredictionoffsets.json"
+   },
+   "currbin": 8,
+   "type": "H",
+   "depth": 23.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1927/harcon.json"
+   },
+   "id": "NYH1927",
+   "name": "Hudson River Entrance",
+   "lat": 40.70759963989258,
+   "lng": -74.02529907226562,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1927.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1927_2/currentpredictionoffsets.json"
+   },
+   "currbin": 2,
+   "type": "H",
+   "depth": 43.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1927/harcon.json"
+   },
+   "id": "NYH1927",
+   "name": "Hudson River Entrance",
+   "lat": 40.70759963989258,
+   "lng": -74.02529907226562,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1927.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1928_12/currentpredictionoffsets.json"
+   },
+   "currbin": 12,
+   "type": "H",
+   "depth": 6.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1928/harcon.json"
+   },
+   "id": "NYH1928",
+   "name": "Hudson River, Pier 92",
+   "lat": 40.77069854736328,
+   "lng": -74.00279998779297,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1928.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1928_8/currentpredictionoffsets.json"
+   },
+   "currbin": 8,
+   "type": "H",
+   "depth": 19.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1928/harcon.json"
+   },
+   "id": "NYH1928",
+   "name": "Hudson River, Pier 92",
+   "lat": 40.77069854736328,
+   "lng": -74.00279998779297,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1928.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1928_3/currentpredictionoffsets.json"
+   },
+   "currbin": 3,
+   "type": "H",
+   "depth": 35.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1928/harcon.json"
+   },
+   "id": "NYH1928",
+   "name": "Hudson River, Pier 92",
+   "lat": 40.77069854736328,
+   "lng": -74.00279998779297,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1928.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1930_14/currentpredictionoffsets.json"
+   },
+   "currbin": 14,
+   "type": "H",
+   "depth": 9.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1930/harcon.json"
+   },
+   "id": "NYH1930",
+   "name": "Spuyten Duyvil",
+   "lat": 40.877899169921875,
+   "lng": -73.92870330810547,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1930.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1930_8/currentpredictionoffsets.json"
+   },
+   "currbin": 8,
+   "type": "H",
+   "depth": 29.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1930/harcon.json"
+   },
+   "id": "NYH1930",
+   "name": "Spuyten Duyvil",
+   "lat": 40.877899169921875,
+   "lng": -73.92870330810547,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1930.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1930_3/currentpredictionoffsets.json"
+   },
+   "currbin": 3,
+   "type": "H",
+   "depth": 45.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1930/harcon.json"
+   },
+   "id": "NYH1930",
+   "name": "Spuyten Duyvil",
+   "lat": 40.877899169921875,
+   "lng": -73.92870330810547,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1930.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1931_21/currentpredictionoffsets.json"
+   },
+   "currbin": 21,
+   "type": "H",
+   "depth": 6.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1931/harcon.json"
+   },
+   "id": "NYH1931",
+   "name": "Marine Parkway Bridge, Rockaway Inlet",
+   "lat": 40.57149887084961,
+   "lng": -73.88369750976562,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1931.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1931_15/currentpredictionoffsets.json"
+   },
+   "currbin": 15,
+   "type": "H",
+   "depth": 15.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1931/harcon.json"
+   },
+   "id": "NYH1931",
+   "name": "Marine Parkway Bridge, Rockaway Inlet",
+   "lat": 40.57149887084961,
+   "lng": -73.88369750976562,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1931.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1931_6/currentpredictionoffsets.json"
+   },
+   "currbin": 6,
+   "type": "H",
+   "depth": 30.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1931/harcon.json"
+   },
+   "id": "NYH1931",
+   "name": "Marine Parkway Bridge, Rockaway Inlet",
+   "lat": 40.57149887084961,
+   "lng": -73.88369750976562,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1931.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1932_16/currentpredictionoffsets.json"
+   },
+   "currbin": 16,
+   "type": "H",
+   "depth": 3.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1932/harcon.json"
+   },
+   "id": "NYH1932",
+   "name": "Raritan River Entrance, Victory Bridge",
+   "lat": 40.50920104980469,
+   "lng": -74.29060363769531,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1932.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1932_9/currentpredictionoffsets.json"
+   },
+   "currbin": 9,
+   "type": "H",
+   "depth": 14.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1932/harcon.json"
+   },
+   "id": "NYH1932",
+   "name": "Raritan River Entrance, Victory Bridge",
+   "lat": 40.50920104980469,
+   "lng": -74.29060363769531,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1932.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1934_15/currentpredictionoffsets.json"
+   },
+   "currbin": 15,
+   "type": "H",
+   "depth": 5.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1934/harcon.json"
+   },
+   "id": "NYH1934",
+   "name": "Canarsie (midchannel), Jamaica Bay",
+   "lat": 40.62699890136719,
+   "lng": -73.88200378417969,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1934.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1934_9/currentpredictionoffsets.json"
+   },
+   "currbin": 9,
+   "type": "H",
+   "depth": 15.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1934/harcon.json"
+   },
+   "id": "NYH1934",
+   "name": "Canarsie (midchannel), Jamaica Bay",
+   "lat": 40.62699890136719,
+   "lng": -73.88200378417969,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1934.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n01010_8/currentpredictionoffsets.json"
+   },
+   "currbin": 8,
+   "type": "H",
+   "depth": 14.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n01010/harcon.json"
+   },
+   "id": "n01010",
+   "name": "Bergen Point",
+   "lat": 40.6422004699707,
+   "lng": -74.15129852294922,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n01010.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n01010_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "H",
+   "depth": 37.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n01010/harcon.json"
+   },
+   "id": "n01010",
+   "name": "Bergen Point",
+   "lat": 40.6422004699707,
+   "lng": -74.15129852294922,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n01010.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n02010_8/currentpredictionoffsets.json"
+   },
+   "currbin": 8,
+   "type": "H",
+   "depth": 16.0,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n02010/harcon.json"
+   },
+   "id": "n02010",
+   "name": "Bayonne Bridge",
+   "lat": 40.641700744628906,
+   "lng": -74.14330291748047,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n02010.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n03020_9/currentpredictionoffsets.json"
+   },
+   "currbin": 9,
+   "type": "H",
+   "depth": 6.4,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n03020/harcon.json"
+   },
+   "id": "n03020",
+   "name": "The Narrows",
+   "lat": 40.60639953613281,
+   "lng": -74.03800201416016,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n03020.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n03020_7/currentpredictionoffsets.json"
+   },
+   "currbin": 7,
+   "type": "H",
+   "depth": 12.9,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n03020/harcon.json"
+   },
+   "id": "n03020",
+   "name": "The Narrows",
+   "lat": 40.60639953613281,
+   "lng": -74.03800201416016,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n03020.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n03020_2/currentpredictionoffsets.json"
+   },
+   "currbin": 2,
+   "type": "H",
+   "depth": 29.3,
+   "depthType": "B",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n03020/harcon.json"
+   },
+   "id": "n03020",
+   "name": "The Narrows",
+   "lat": 40.60639953613281,
+   "lng": -74.03800201416016,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n03020.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n05010_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "H",
+   "depth": 11.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n05010/harcon.json"
+   },
+   "id": "n05010",
+   "name": "Gowanus Flats LBB 32",
+   "lat": 40.67210006713867,
+   "lng": -74.03990173339844,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n05010.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n05010_6/currentpredictionoffsets.json"
+   },
+   "currbin": 6,
+   "type": "H",
+   "depth": 28.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n05010/harcon.json"
+   },
+   "id": "n05010",
+   "name": "Gowanus Flats LBB 32",
+   "lat": 40.67210006713867,
+   "lng": -74.03990173339844,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n05010.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n05010_11/currentpredictionoffsets.json"
+   },
+   "currbin": 11,
+   "type": "H",
+   "depth": 44.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n05010/harcon.json"
+   },
+   "id": "n05010",
+   "name": "Gowanus Flats LBB 32",
+   "lat": 40.67210006713867,
+   "lng": -74.03990173339844,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n05010.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n06010_1/currentpredictionoffsets.json"
+   },
+   "currbin": 1,
+   "type": "H",
+   "depth": 11.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n06010/harcon.json"
+   },
+   "id": "n06010",
+   "name": "Kill Van Kull LB 14, east of Bayonne Bridge",
+   "lat": 40.64358,
+   "lng": -74.13889,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n06010.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n06010_4/currentpredictionoffsets.json"
+   },
+   "currbin": 4,
+   "type": "H",
+   "depth": 25.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n06010/harcon.json"
+   },
+   "id": "n06010",
+   "name": "Kill Van Kull LB 14, east of Bayonne Bridge",
+   "lat": 40.64358,
+   "lng": -74.13889,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n06010.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n06010_10/currentpredictionoffsets.json"
+   },
+   "currbin": 10,
+   "type": "H",
+   "depth": 41.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n06010/harcon.json"
+   },
+   "id": "n06010",
+   "name": "Kill Van Kull LB 14, east of Bayonne Bridge",
+   "lat": 40.64358,
+   "lng": -74.13889,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n06010.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n07010_2/currentpredictionoffsets.json"
+   },
+   "currbin": 2,
+   "type": "H",
+   "depth": 15.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n07010/harcon.json"
+   },
+   "id": "n07010",
+   "name": "Newark Bay Entrance LB 18",
+   "lat": 40.64708,
+   "lng": -74.1555,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n07010.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n07010_4/currentpredictionoffsets.json"
+   },
+   "currbin": 4,
+   "type": "H",
+   "depth": 22.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n07010/harcon.json"
+   },
+   "id": "n07010",
+   "name": "Newark Bay Entrance LB 18",
+   "lat": 40.64708,
+   "lng": -74.1555,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n07010.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  },
+  {
+   "currentpredictionoffsets": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n07010_7/currentpredictionoffsets.json"
+   },
+   "currbin": 7,
+   "type": "H",
+   "depth": 32.0,
+   "depthType": "S",
+   "timezone_offset": "-5",
+   "harmonicConstituents": {
+    "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n07010/harcon.json"
+   },
+   "id": "n07010",
+   "name": "Newark Bay Entrance LB 18",
+   "lat": 40.64708,
+   "lng": -74.1555,
+   "affiliations": "",
+   "portscode": "",
+   "products": null,
+   "disclaimers": null,
+   "notices": null,
+   "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/n07010.json",
+   "expand": "currentpredictionoffsets,harcon",
+   "tideType": ""
+  }
+ ],
+ "note": "subset of mdapi stations.json?type=currentpredictions filtered to bbox lat 40.45..41.0 lon -74.35..-73.6 (NY Harbor); full response was 3.75 MB / 4430 rows"
+}

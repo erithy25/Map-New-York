@@ -1,0 +1,47 @@
+{
+ "source": "NYC DCP LION street centrelines (data/raw/lion/lion/lion.gdb, layer 'lion')",
+ "selection": "LBoro='1' AND FeatureTyp='0'; names (WEST|EAST) n STREET with 14 <= n <= 96; segment >= 60 m; |bearing-119| <= 12 deg",
+ "segments": 1812,
+ "total_length_km": 292.866,
+ "bearing_mean_deg": 118.9997,
+ "bearing_median_deg": 118.9955,
+ "bearing_q25_deg": 118.9383,
+ "bearing_q75_deg": 119.0692,
+ "bearing_p05_deg": 118.7018,
+ "bearing_p95_deg": 119.2997,
+ "grid_rotation_east_of_north_deg": 28.9955,
+ "sunset_azimuth_deg": 298.9955,
+ "per_street": {
+  "14": {
+   "segments": 38,
+   "length_km": 5.366,
+   "bearing_median_deg": 118.9658
+  },
+  "23": {
+   "segments": 32,
+   "length_km": 5.16,
+   "bearing_median_deg": 119.0129
+  },
+  "34": {
+   "segments": 29,
+   "length_km": 3.864,
+   "bearing_median_deg": 118.9657
+  },
+  "42": {
+   "segments": 28,
+   "length_km": 4.408,
+   "bearing_median_deg": 118.9875
+  },
+  "57": {
+   "segments": 21,
+   "length_km": 3.587,
+   "bearing_median_deg": 118.9746
+  },
+  "79": {
+   "segments": 17,
+   "length_km": 2.724,
+   "bearing_median_deg": 119.0141
+  }
+ },
+ "circular_std_deg": 0.3185
+}

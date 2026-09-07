@@ -1,0 +1,28 @@
+{
+ "artist": "Crystal Dreams",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 6322794,
+ "duration_s": 512.0,
+ "file": "electronic/bof075_02_purple_fiction.ogg",
+ "gain_db": 6.3,
+ "licence": "CC-BY-3.0",
+ "licence_url": "http://creativecommons.org/licenses/by/3.0/",
+ "loudness_lufs": -20.3,
+ "original_filename": "02-Purple_Fiction.ogg",
+ "recorded_at": "2026-09-06T12:18:16Z",
+ "schema_version": 1,
+ "sha256": "74085b4cc850f51fb52cf80b70a43e336973eb90b86c730c20db148bde8554fc",
+ "source_page": "https://archive.org/details/bof075",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/bof075/02-Purple_Fiction.ogg",
+ "title": "Purple Fiction",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "ogg",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

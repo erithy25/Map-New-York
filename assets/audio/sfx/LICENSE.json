@@ -1,0 +1,134 @@
+{
+ "author": "Fupi; Kenney; Nallchen; Techtonic; Work With Sounds / Werstas; rubberduck; xhunterko",
+ "fetched_at": "2026-09-06T12:31:18Z",
+ "files": [
+  {
+   "artist": "rubberduck",
+   "bytes": 1516881,
+   "duration_s": 46.01,
+   "file": "glass_break_1.ogg",
+   "licence": "CC0-1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "sha256": "046989fe576ece7d917d75ebd91702cf1a913e94e88037dc1805080b8f99ad91",
+   "source_page": "https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx",
+   "source_site": "opengameart.org",
+   "source_url": "https://opengameart.org/sites/default/files/bfh1_prev.ogg",
+   "title": "75 CC0 breaking / falling / hit sfx"
+  },
+  {
+   "artist": "Kenney",
+   "bytes": 906695,
+   "duration_s": 66.33,
+   "file": "radio_jingle_1.ogg",
+   "licence": "CC0-1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "sha256": "05e5f8245318df0c9ff7994762162647c2e1de001fe8ec7621e69ecb56a80d89",
+   "source_page": "https://opengameart.org/content/85-short-music-jingles",
+   "source_site": "opengameart.org",
+   "source_url": "https://opengameart.org/sites/default/files/jinglesPreview.ogg",
+   "title": "85 Short music jingles"
+  },
+  {
+   "artist": "Fupi",
+   "bytes": 36858,
+   "duration_s": 3.78,
+   "file": "radio_jingle_2.ogg",
+   "licence": "CC0-1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "sha256": "066d704a58af2bbd293cb9a32488b832be7803e365d3f15a264aa803c238c944",
+   "source_page": "https://opengameart.org/content/win-jingle",
+   "source_site": "opengameart.org",
+   "source_url": "https://opengameart.org/sites/default/files/winfretless.ogg",
+   "title": "Win Jingle"
+  },
+  {
+   "artist": "Fupi",
+   "bytes": 36858,
+   "duration_s": 3.78,
+   "file": "radio_jingle_3.ogg",
+   "licence": "CC0-1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "sha256": "066d704a58af2bbd293cb9a32488b832be7803e365d3f15a264aa803c238c944",
+   "source_page": "https://opengameart.org/content/win-jingle",
+   "source_site": "opengameart.org",
+   "source_url": "https://opengameart.org/sites/default/files/winfretless_0.ogg",
+   "title": "Win Jingle"
+  },
+  {
+   "artist": "xhunterko",
+   "bytes": 298102,
+   "duration_s": 30.0,
+   "file": "radio_static_1.ogg",
+   "licence": "CC0-1.0",
+   "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "sha256": "8f1114d38279a9b044bc2687ab46f52e522065811c1f18ea0e0c2797980e99cb",
+   "source_page": "https://opengameart.org/content/static",
+   "source_site": "opengameart.org",
+   "source_url": "https://opengameart.org/sites/default/files/ScatterNoise1.mp3",
+   "title": "Static"
+  },
+  {
+   "artist": "Nallchen",
+   "bytes": 301347,
+   "duration_s": 49.67,
+   "file": "siren_sample_1.ogg",
+   "licence": "Public Domain",
+   "licence_url": "",
+   "sha256": "f5edb9bb84cb916fad026137703eba4aede998a4754350088da7ff59e4465117",
+   "source_page": "https://commons.wikimedia.org/wiki/File:Motorsirene_-_Feuerwehralarm.ogg",
+   "source_site": "commons.wikimedia.org",
+   "source_url": "https://upload.wikimedia.org/wikipedia/commons/f/f9/Motorsirene_-_Feuerwehralarm.ogg",
+   "title": "Motorsirene - Feuerwehralarm"
+  },
+  {
+   "artist": "Techtonic",
+   "bytes": 637356,
+   "duration_s": 76.32,
+   "file": "siren_sample_2.ogg",
+   "licence": "Public Domain",
+   "licence_url": "",
+   "sha256": "b5b68e742939dc5b493fc4eb3961a1da78076eeac4996d16ae1cb77f5b0455f1",
+   "source_page": "https://commons.wikimedia.org/wiki/File:Civil-defense-siren-waver.ogg",
+   "source_site": "commons.wikimedia.org",
+   "source_url": "https://upload.wikimedia.org/wikipedia/commons/6/69/Civil-defense-siren-waver.ogg",
+   "title": "Civil-defense-siren-waver"
+  },
+  {
+   "artist": "Work With Sounds / Werstas",
+   "bytes": 1144415,
+   "duration_s": 90.0,
+   "file": "traffic_bed_1.ogg",
+   "licence": "CC-BY-4.0",
+   "licence_url": "https://creativecommons.org/licenses/by/4.0",
+   "sha256": "049011984ad6c5d8f469174a313de56e1e01adb5a33d3ac845411089377d5f7b",
+   "source_page": "https://commons.wikimedia.org/wiki/File:WWS_TheStationTunnelOfTheTampereStation.ogg",
+   "source_site": "commons.wikimedia.org",
+   "source_url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/WWS_TheStationTunnelOfTheTampereStation.ogg",
+   "title": "WWS TheStationTunnelOfTheTampereStation"
+  }
+ ],
+ "license": "CC-BY-4.0; CC0-1.0; Public Domain (per file)",
+ "licenses": [
+  "CC-BY-4.0",
+  "CC0-1.0",
+  "Public Domain"
+ ],
+ "name": "NYCSim audio: audio/sfx",
+ "note": "Only CC0 / Public Domain / CC BY files are accepted; share-alike, non-commercial and no-derivatives are rejected by unreal/tools/fetch_radio.py. Per-file provenance is in the matching <file>.license.json.",
+ "schema_version": 1,
+ "sha256": {
+  "glass_break_1.ogg": "046989fe576ece7d917d75ebd91702cf1a913e94e88037dc1805080b8f99ad91",
+  "radio_jingle_1.ogg": "05e5f8245318df0c9ff7994762162647c2e1de001fe8ec7621e69ecb56a80d89",
+  "radio_jingle_2.ogg": "066d704a58af2bbd293cb9a32488b832be7803e365d3f15a264aa803c238c944",
+  "radio_jingle_3.ogg": "066d704a58af2bbd293cb9a32488b832be7803e365d3f15a264aa803c238c944",
+  "radio_static_1.ogg": "8f1114d38279a9b044bc2687ab46f52e522065811c1f18ea0e0c2797980e99cb",
+  "siren_sample_1.ogg": "f5edb9bb84cb916fad026137703eba4aede998a4754350088da7ff59e4465117",
+  "siren_sample_2.ogg": "b5b68e742939dc5b493fc4eb3961a1da78076eeac4996d16ae1cb77f5b0455f1",
+  "traffic_bed_1.ogg": "049011984ad6c5d8f469174a313de56e1e01adb5a33d3ac845411089377d5f7b"
+ },
+ "sources": [
+  "commons.wikimedia.org",
+  "opengameart.org"
+ ],
+ "url": "https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx"
+}

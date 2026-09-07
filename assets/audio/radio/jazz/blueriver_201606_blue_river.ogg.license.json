@@ -1,0 +1,28 @@
+{
+ "artist": "Jean Goldkette & his Orchestra",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 1831338,
+ "duration_s": 206.11,
+ "file": "jazz/blueriver_201606_blue_river.ogg",
+ "gain_db": -3.8,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+ "loudness_lufs": -10.2,
+ "original_filename": "Blue River.mp3",
+ "recorded_at": "2026-09-06T12:11:51Z",
+ "schema_version": 1,
+ "sha256": "7bd81a5d20133c8a239895fa07e7be1ee1c4100ca5a47ce1d1efbcaeb0ffb592",
+ "source_page": "https://archive.org/details/BlueRiver_201606",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/BlueRiver_201606/Blue%20River.mp3",
+ "title": "Blue River",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

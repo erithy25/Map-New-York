@@ -1,0 +1,191 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_grand_central_concourse",
+ "name": "Grand Central Terminal Main Concourse",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7528,
+  "lon": -73.9776,
+  "azimuth_deg": 119.0,
+  "note": "west balcony of the Main Concourse, looking east across the concourse to the east balcony and the Apple Store stair",
+  "representative": false
+ },
+ "subject": null,
+ "night": false,
+ "interior": true,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Grand Central Terminal\" Main Concourse",
+  "\"Grand Central\" concourse interior clock ceiling"
+ ],
+ "geosearch_radius_m": 150,
+ "fetched_at": "2026-09-06T12:14:42Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 116,
+ "candidates_eligible": 79,
+ "rejections": {
+  "night_for_day_item": 1,
+  "keywords": 17,
+  "too_old": 16,
+  "not_photo": 1,
+  "excluded": 1,
+  "too_small": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Grand Central (11).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Grand_Central_(11).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/ed/Grand_Central_%2811%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Grand_Central_%2811%29.jpg/1920px-Grand_Central_%2811%29.jpg",
+   "author": "PortableNYCTours",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2019-09-18 15:46:58",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.752856,
+    "lon": -73.977425
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1180651,
+   "sha256": "18bfe4fed683d5aef12d085a84d4ae16f684d6e93e8b15e271b633b1078d2d7a",
+   "mean_luminance": 92.2,
+   "description": "Grand Central Terminal Address: 89 E 42nd St, New York, NY 10017 Architects: Reed and Stem, Warren & Wetmore Built: 1913",
+   "categories": [
+    "September 2019 in New York City",
+    "Self-published work",
+    "Main Concourse (Grand Central Terminal) ceiling",
+    "Files with coordinates missing SDC location of creation",
+    "Grand Central Terminal in 2019"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.6,
+   "estimated_viewpoint": {
+    "lat": 40.752856,
+    "lon": -73.977425,
+    "azimuth_deg": 119.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.75286, -73.97742), 16 m from the reference position (west balcony of the Main Concourse, looking east across the concourse to the east balcony and the Apple Store stair); this item is a view along a street rather than at a point subject, so the azimuth 119 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Grand Central (11).jpg\" by PortableNYCTours, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Grand_Central_(11).jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Iron workers installing the support system for the metal decking ceiling in the future LIRR passenger concourse. (CM014B, 10-11-2018) (30332290217).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Iron_workers_installing_the_support_system_for_the_metal_decking_ceiling_in_the_future_LIRR_passenger_concourse._(CM014B,_10-11-2018)_(30332290217).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/90/Iron_workers_installing_the_support_system_for_the_metal_decking_ceiling_in_the_future_LIRR_passenger_concourse._%28CM014B%2C_10-11-2018%29_%2830332290217%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Iron_workers_installing_the_support_system_for_the_metal_decking_ceiling_in_the_future_LIRR_passenger_concourse._%28CM014B%2C_10-11-2018%29_%2830332290217%29.jpg/1920px-Iron_workers_installing_the_support_system_for_the_metal_decking_ceiling_in_the_future_LIRR_passenger_concourse._%28CM014B%2C_10-11-2018%29_%2830332290217%29.jpg",
+   "author": "MTA Capital Construction Mega Projects",
+   "credit": "Iron workers installing the support system for the metal decking ceiling in the future LIRR passenger concourse. (CM014B, 10-11-2018)",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2018-10-11 09:55",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.752828,
+    "lon": -73.977556
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 778036,
+   "sha256": "55a08a4efb64d558f3ec3827d092556dea554b8a2174faaf8d31b2f92ab9720e",
+   "mean_luminance": 99.0,
+   "description": "Iron workers installing the support system for the metal decking ceiling in the future LIRR passenger concourse. (CM014B, 10-11-2018)",
+   "categories": [
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Flickr files uploaded by Epicgenius",
+    "Construction of LIRR Concourse (Grand Central Terminal)",
+    "East Side Access construction/2018/10/12"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.45,
+   "estimated_viewpoint": {
+    "lat": 40.752828,
+    "lon": -73.977556,
+    "azimuth_deg": 119.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.75283, -73.97756), 5 m from the reference position (west balcony of the Main Concourse, looking east across the concourse to the east balcony and the Apple Store stair); this item is a view along a street rather than at a point subject, so the azimuth 119 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Iron workers installing the support system for the metal decking ceiling in the future LIRR passenger concourse. (CM014B, 10-11-2018) (30332290217).jpg\" by MTA Capital Construction Mega Projects, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Iron_workers_installing_the_support_system_for_the_metal_decking_ceiling_in_the_future_LIRR_passenger_concourse._(CM014B,_10-11-2018)_(30332290217).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Grand Central main concourse facing Apple.agr.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Grand_Central_main_concourse_facing_Apple.agr.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/af/Grand_Central_main_concourse_facing_Apple.agr.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Grand_Central_main_concourse_facing_Apple.agr.jpg/1920px-Grand_Central_main_concourse_facing_Apple.agr.jpg",
+   "author": "ArnoldReinhold",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2026-02-13 14:31:38",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.75295,
+    "lon": -73.977561
+   },
+   "original_width": 5712,
+   "original_height": 4284,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 948898,
+   "sha256": "dd87e786591f7cc1741a08611b26b67b15e53511816c640604a1f20bac161b9d",
+   "mean_luminance": 92.0,
+   "description": "Grand Central main concourse facing the Apple store",
+   "categories": [
+    "Main Concourse (Grand Central Terminal)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "February 2026 in Manhattan, New York City",
+    "New York City photographs taken on 2026-02-13",
+    "Grand Central Terminal in 2026"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.2,
+   "estimated_viewpoint": {
+    "lat": 40.75295,
+    "lon": -73.977561,
+    "azimuth_deg": 119.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.75295, -73.97756), 17 m from the reference position (west balcony of the Main Concourse, looking east across the concourse to the east balcony and the Apple Store stair); this item is a view along a street rather than at a point subject, so the azimuth 119 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Grand Central main concourse facing Apple.agr.jpg\" by ArnoldReinhold, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Grand_Central_main_concourse_facing_Apple.agr.jpg"
+  }
+ ]
+}

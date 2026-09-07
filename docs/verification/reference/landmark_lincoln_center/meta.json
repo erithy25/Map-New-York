@@ -1,0 +1,201 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_lincoln_center",
+ "name": "Lincoln Center",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.772,
+  "lon": -73.9828,
+  "azimuth_deg": 305.2,
+  "note": "top of the Josie Robertson Plaza steps at Columbus Avenue and West 64th Street, looking west-north-west at the Metropolitan Opera House",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7728,
+  "lon": -73.9843,
+  "name": "Metropolitan Opera House"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Lincoln Center\" plaza Metropolitan Opera House",
+  "\"Lincoln Center for the Performing Arts\" fountain plaza"
+ ],
+ "geosearch_radius_m": 200,
+ "fetched_at": "2026-09-06T13:55:17Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 87,
+ "candidates_eligible": 34,
+ "rejections": {
+  "excluded": 36,
+  "too_old": 8,
+  "too_small": 2,
+  "keywords": 6,
+  "not_photo": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Conversation at Lincoln Center (53668490202).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Conversation_at_Lincoln_Center_(53668490202).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/74/Conversation_at_Lincoln_Center_%2853668490202%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Conversation_at_Lincoln_Center_%2853668490202%29.jpg/1920px-Conversation_at_Lincoln_Center_%2853668490202%29.jpg",
+   "author": "joiseyshowaa",
+   "credit": "Conversation at Lincoln Center",
+   "license": {
+    "short_name": "CC BY-SA 2.0",
+    "url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "template": "cc-by-sa-2.0"
+   },
+   "date_taken": "2023-04-19 19:58",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.772375,
+    "lon": -73.983429
+   },
+   "original_width": 4156,
+   "original_height": 3284,
+   "width": 1920,
+   "height": 1517,
+   "bytes": 396116,
+   "sha256": "be14222b9ffefe5f8d227e60563ea097f5620f3f4a2c5f437a9c3523cd2b9dbe",
+   "mean_luminance": 101.3,
+   "description": "Silhouette against the fountain in the central plaza of Manhattan's Lincoln Center. [Lincoln Center used this photo on their twitter feed. :-) ]",
+   "categories": [
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Flickr files uploaded by Borhan",
+    "Flickr images missing SDC published in"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.772375,
+    "lon": -73.983429,
+    "azimuth_deg": 302.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.77237, -73.98343) is 87 m from Metropolitan Opera House (40.77280, -73.98430) and 67 m from the standard viewpoint; the azimuth 303 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Conversation at Lincoln Center (53668490202).jpg\" by joiseyshowaa, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Conversation_at_Lincoln_Center_(53668490202).jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Lincoln Center August 2022 004.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Lincoln_Center_August_2022_004.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Lincoln_Center_August_2022_004.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Lincoln_Center_August_2022_004.jpg/1920px-Lincoln_Center_August_2022_004.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-08-16 13:46:43",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.771908,
+    "lon": -73.982781
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 593254,
+   "sha256": "a2c65380d96124f1a0ba4bfd650e7932686c90a987424539d5252fa1f62f3cbc",
+   "mean_luminance": 124.7,
+   "description": "Lincoln Center in August 2022",
+   "categories": [
+    "New York City photographs taken on 2022-08-16",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Lincoln Center for the Performing Arts in 2022",
+    "August 2022 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.771908,
+    "lon": -73.982781,
+    "azimuth_deg": 307.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.77191, -73.98278) is 162 m from Metropolitan Opera House (40.77280, -73.98430) and 10 m from the standard viewpoint; the azimuth 308 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Lincoln Center August 2022 004.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Lincoln_Center_August_2022_004.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Lincoln Center grassy plaza 2021 (1) jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Lincoln_Center_grassy_plaza_2021_(1)_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/46/Lincoln_Center_grassy_plaza_2021_%281%29_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Lincoln_Center_grassy_plaza_2021_%281%29_jeh.jpg/1920px-Lincoln_Center_grassy_plaza_2021_%281%29_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2021-05-10 11:35:19",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.7722,
+    "lon": -73.9831
+   },
+   "original_width": 4608,
+   "original_height": 3072,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 696161,
+   "sha256": "ab78cb45fed6084ee6307e7120ce3a92ee5172ea2bdc16e9a0e1d45ec8b03e57",
+   "mean_luminance": 113.7,
+   "description": "Looking west at sod laid in the plaza, Lincoln Center, New York City",
+   "categories": [
+    "COVID-19 pandemic in Manhattan, New York City",
+    "Metropolitan Opera House",
+    "Revson Fountain",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Artificial turf in the United States",
+    "Clouds and blue sky in New York City",
+    "Lincoln Center for the Performing Arts in 2021",
+    "Lawns in New York City",
+    "May 2021 in Manhattan, New York City",
+    "2021 Manhattan photos by Jim.henderson",
+    "May 2021 photos by Jim.henderson",
+    "Josie Robertson Plaza",
+    "Reopenings during the COVID-19 pandemic"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.9,
+   "estimated_viewpoint": {
+    "lat": 40.7722,
+    "lon": -73.9831,
+    "azimuth_deg": 303.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.77220, -73.98310) is 121 m from Metropolitan Opera House (40.77280, -73.98430) and 34 m from the standard viewpoint; the azimuth 303 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Lincoln Center grassy plaza 2021 (1) jeh.jpg\" by Jim.henderson, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Lincoln_Center_grassy_plaza_2021_(1)_jeh.jpg"
+  }
+ ]
+}

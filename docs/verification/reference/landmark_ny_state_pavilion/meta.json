@@ -1,0 +1,201 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_ny_state_pavilion",
+ "name": "New York State Pavilion",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.74276,
+  "lon": -73.845026,
+  "azimuth_deg": 20.0,
+  "note": "the Flushing Meadows path south-south-west of the pavilion, about 150 m away, looking north-north-east at the Tent of Tomorrow and observation towers",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.744028,
+  "lon": -73.844417,
+  "name": "New York State Pavilion"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"New York State Pavilion\" Flushing Meadows",
+  "\"Tent of Tomorrow\" New York State Pavilion towers"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T13:31:41Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 130,
+ "candidates_eligible": 69,
+ "rejections": {
+  "excluded": 17,
+  "not_photo": 4,
+  "too_old": 9,
+  "keywords": 28,
+  "indoor": 3
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:New York State Pavilion August 2021.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:New_York_State_Pavilion_August_2021.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/99/New_York_State_Pavilion_August_2021.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/New_York_State_Pavilion_August_2021.jpg/1920px-New_York_State_Pavilion_August_2021.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-08-27 14:20:31",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.743869,
+    "lon": -73.844939
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 433894,
+   "sha256": "70a43299c655b8af5cc8cbde2dec222c3f3606d55dbc4c2f75d4a34b8382173f",
+   "mean_luminance": 147.4,
+   "description": "The New York State Pavilion in Flushing Meadows Park in August 2021",
+   "categories": [
+    "August 2021 in New York City",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Flushing Meadows–Corona Park in 2021",
+    "Observation Towers (New York State Pavilion)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.9,
+   "estimated_viewpoint": {
+    "lat": 40.743869,
+    "lon": -73.844939,
+    "azimuth_deg": 68.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74387, -73.84494) is 47 m from New York State Pavilion (40.74403, -73.84442) and 124 m from the standard viewpoint; the azimuth 68 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"New York State Pavilion August 2021.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:New_York_State_Pavilion_August_2021.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Flushing Meadows Fair Grounds td (2018-05-26) 028.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Flushing_Meadows_Fair_Grounds_td_(2018-05-26)_028.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b8/Flushing_Meadows_Fair_Grounds_td_%282018-05-26%29_028.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Flushing_Meadows_Fair_Grounds_td_%282018-05-26%29_028.jpg/1920px-Flushing_Meadows_Fair_Grounds_td_%282018-05-26%29_028.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.744584,
+    "lon": -73.844244
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 456376,
+   "sha256": "7d30685191cf16a1136f44683121e9cc5972571b65e5c7cc61300b1971fc3a4b",
+   "mean_luminance": 125.1,
+   "description": "Looking south down the Truman Promenade next to the Queens Theatre in the Park in the former World's Fair grounds of Flushing Meadows–Corona Park, next to the New York State Pavilion at United Nations Avenue South and the Truman Promenade / Avenue of the States near Corona, Queens.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "Self-published work",
+    "Views of New York City from north",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2018-05-26",
+    "Flushing Meadows–Corona Park in 2018",
+    "2018 Queens photographs by Tdorante10",
+    "May 2018 in Queens, New York City",
+    "World's Fair Grounds (Flushing Meadows–Corona Park)",
+    "Trees of Flushing Meadows–Corona Park",
+    "Trails in Flushing Meadows–Corona Park",
+    "Photographs by Tdorante10 taken on 2018-05-26"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.45,
+   "estimated_viewpoint": {
+    "lat": 40.744584,
+    "lon": -73.844244,
+    "azimuth_deg": 193.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74458, -73.84424) is 64 m from New York State Pavilion (40.74403, -73.84442) and 213 m from the standard viewpoint; the azimuth 193 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Flushing Meadows Fair Grounds td (2018-05-26) 028.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Flushing_Meadows_Fair_Grounds_td_(2018-05-26)_028.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:NY State Pavilion.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:NY_State_Pavilion.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a7/NY_State_Pavilion.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/NY_State_Pavilion.jpg/1920px-NY_State_Pavilion.jpg",
+   "author": "Mtam93940",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2015-10-18 11:41:23",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.743499,
+    "lon": -73.844343
+   },
+   "original_width": 2448,
+   "original_height": 3264,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1355401,
+   "sha256": "1a849416a903d0912504a6659709bc6a2e0ae2d510a8484b0d4391c4e0d7df5d",
+   "mean_luminance": 113.7,
+   "description": "New York State Pavilion at Flushing Meadows Corona Park",
+   "categories": [
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Clouds and blue sky in New York City",
+    "Tent of Tomorrow",
+    "Uploaded via Campaign:OHNY",
+    "Open House New York Weekend 2015 at Flushing Meadows–Corona Park"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.0,
+   "estimated_viewpoint": {
+    "lat": 40.743499,
+    "lon": -73.844343,
+    "azimuth_deg": 354.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74350, -73.84434) is 59 m from New York State Pavilion (40.74403, -73.84442) and 100 m from the standard viewpoint; the azimuth 354 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"NY State Pavilion.jpg\" by Mtam93940, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:NY_State_Pavilion.jpg"
+  }
+ ]
+}

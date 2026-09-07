@@ -1,0 +1,28 @@
+{
+ "artist": "St\u00e4dtisches Orchester Berlin, Prof. Walther GMEINDL - Dirigent",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 2641535,
+ "duration_s": 190.63,
+ "file": "classical/01joh_christianbachsinfoniebdur1_satz_01_joh_christian_bach_sinf.ogg",
+ "gain_db": 2.8,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+ "loudness_lufs": -16.8,
+ "original_filename": "01 Joh. Christian Bach Sinfonie B-Dur 1. Satz.mp3",
+ "recorded_at": "2026-09-06T12:21:49Z",
+ "schema_version": 1,
+ "sha256": "515a1bbe8679c8da534ca180679af4b76c2b45324c3cf6b1b3ac70f6480544c1",
+ "source_page": "https://archive.org/details/01joh.christianbachsinfoniebdur1.satz",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/01joh.christianbachsinfoniebdur1.satz/01%20Joh.%20Christian%20Bach%20Sinfonie%20B-Dur%201.%20Satz.mp3",
+ "title": "Johann Christian Bach: Sinfonie B-Dur",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

@@ -1,0 +1,194 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_hudson_yards_vessel",
+ "name": "Hudson Yards and the Vessel",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7535,
+  "lon": -74.001,
+  "azimuth_deg": 288.3,
+  "note": "east side of the Hudson Yards public square, looking west at the Vessel with 30/35 Hudson Yards behind",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7538,
+  "lon": -74.0022,
+  "name": "the Vessel"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2019,
+ "wanted": 3,
+ "queries": [
+  "\"Vessel\" Hudson Yards public square",
+  "Hudson Yards Vessel 30 Hudson Yards exterior"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T12:22:35Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 100,
+ "candidates_eligible": 45,
+ "rejections": {
+  "excluded": 54,
+  "too_small": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:The Vessel January 2023 011.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:The_Vessel_January_2023_011.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/86/The_Vessel_January_2023_011.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/The_Vessel_January_2023_011.jpg/1920px-The_Vessel_January_2023_011.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-01-24 12:40:47",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.753719,
+    "lon": -74.00125
+   },
+   "original_width": 2048,
+   "original_height": 1536,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 548913,
+   "sha256": "d082772d2de691999759cebd80a03d3d48cb08d3c1ed25689d563f301b5d4994",
+   "mean_luminance": 82.1,
+   "description": "The Vessel in Hudson Yards",
+   "categories": [
+    "Vessel (structure)",
+    "New York City photographs taken on 2023-01-24",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Hudson Yards in 2023",
+    "January 2023 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.2,
+   "estimated_viewpoint": {
+    "lat": 40.753719,
+    "lon": -74.00125,
+    "azimuth_deg": 276.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75372, -74.00125) is 81 m from the Vessel (40.75380, -74.00220) and 32 m from the standard viewpoint; the azimuth 276 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"The Vessel January 2023 011.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:The_Vessel_January_2023_011.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:The Vessel April 2022 004.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:The_Vessel_April_2022_004.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/4a/The_Vessel_April_2022_004.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/The_Vessel_April_2022_004.jpg/1920px-The_Vessel_April_2022_004.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-04-18 13:02:07",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.753569,
+    "lon": -74.001367
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 753980,
+   "sha256": "bf4c8518480976ecf9bfbb2e1a4861bb0f343c58fe2ce46707797d20d25db448",
+   "mean_luminance": 101.3,
+   "description": "The Vessel in Hudson Yards seen in April 2022",
+   "categories": [
+    "The Shops & Restaurants at Hudson Yards",
+    "Vessel (structure)",
+    "New York City photographs taken on 2022-04-18",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Hudson Yards in 2022",
+    "April 2022 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.05,
+   "estimated_viewpoint": {
+    "lat": 40.753569,
+    "lon": -74.001367,
+    "azimuth_deg": 290.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75357, -74.00137) is 75 m from the Vessel (40.75380, -74.00220) and 32 m from the standard viewpoint; the azimuth 290 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"The Vessel April 2022 004.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:The_Vessel_April_2022_004.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:The Vessel October 2022 006.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:The_Vessel_October_2022_006.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/ca/The_Vessel_October_2022_006.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/The_Vessel_October_2022_006.jpg/1920px-The_Vessel_October_2022_006.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-10-14 12:16:07",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.753517,
+    "lon": -74.001433
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 721601,
+   "sha256": "393da2639cf7af86dde3df52cea51b5a9d59e27aa8a1629d06c85193d96e5b02",
+   "mean_luminance": 77.0,
+   "description": "The Vessel in Hudson Yards",
+   "categories": [
+    "Vessel (structure)",
+    "New York City photographs taken on 2022-10-14",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Hudson Yards in 2022",
+    "October 2022 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.05,
+   "estimated_viewpoint": {
+    "lat": 40.753517,
+    "lon": -74.001433,
+    "azimuth_deg": 296.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75352, -74.00143) is 72 m from the Vessel (40.75380, -74.00220) and 37 m from the standard viewpoint; the azimuth 296 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"The Vessel October 2022 006.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:The_Vessel_October_2022_006.jpg"
+  }
+ ]
+}

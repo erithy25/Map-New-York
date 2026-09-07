@@ -1,0 +1,28 @@
+{
+ "artist": "Artie SHAW and his Orchestra",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 2699107,
+ "duration_s": 187.12,
+ "file": "jazz/dancinginthedarkshaw_dancing_in_the_dark_shaw.ogg",
+ "gain_db": -0.6,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+ "loudness_lufs": -13.4,
+ "original_filename": "Dancing in the Dark Shaw.mp3",
+ "recorded_at": "2026-09-06T12:11:07Z",
+ "schema_version": 1,
+ "sha256": "d8a4ca65d6e178ad4f4dbb5f27a655447910f17b1a1b94ad999a180d6ace2308",
+ "source_page": "https://archive.org/details/dancinginthedarkshaw",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/dancinginthedarkshaw/Dancing%20in%20the%20Dark%20Shaw.mp3",
+ "title": "Dancing In The Dark Shaw",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

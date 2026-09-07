@@ -1,0 +1,28 @@
+{
+ "artist": "Frieda HEMPEL - Sopran",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 2519575,
+ "duration_s": 170.75,
+ "file": "classical/01hugenottenoglcklichland_01_hugenotten_o_gl_cklich_land.ogg",
+ "gain_db": 4.5,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+ "loudness_lufs": -18.5,
+ "original_filename": "01 Hugenotten O gl\u00fccklich Land.mp3",
+ "recorded_at": "2026-09-06T12:21:58Z",
+ "schema_version": 1,
+ "sha256": "8ffca081e570111a1dae3f02535fa4420ed3216edaa523d138d260e239843288",
+ "source_page": "https://archive.org/details/01HugenottenOGlcklichLand",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/01HugenottenOGlcklichLand/01%20Hugenotten%20O%20gl%C3%BCcklich%20Land.mp3",
+ "title": "Hugenotten O Gl\u00fccklich Land",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

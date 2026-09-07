@@ -1,0 +1,207 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_holland_tunnel_portal",
+ "name": "Holland Tunnel Manhattan portal",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.725,
+  "lon": -74.0068,
+  "azimuth_deg": 309.1,
+  "note": "Canal Street at Hudson Street, looking north-west at the Manhattan entrance plaza",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7258,
+  "lon": -74.0081,
+  "name": "Holland Tunnel Manhattan portal"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Holland Tunnel\" entrance Manhattan Canal Street",
+  "\"Holland Tunnel\" portal New York side"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T12:49:06Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 40,
+ "candidates_eligible": 3,
+ "rejections": {
+  "too_old": 1,
+  "excluded": 6,
+  "not_photo": 1,
+  "keywords": 29
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Canal Park td (2018-11-05) 01.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Canal_Park_td_(2018-11-05)_01.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Canal_Park_td_%282018-11-05%29_01.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Canal_Park_td_%282018-11-05%29_01.jpg/1920px-Canal_Park_td_%282018-11-05%29_01.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.725322,
+    "lon": -74.010607
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 878016,
+   "sha256": "031f45b93d59eddde625050e6ce730fe298b02f1291511edde1c39cbbcc1697b",
+   "mean_luminance": 89.4,
+   "description": "The western entrance into Canal Park, on the east side of West Street and Canal Street near the Holland Tunnel in TriBeCa, Manhattan. The park was designated as parkland in 1686, and developed in 1888 by Calvert Vaux and Samuel B. Parsons Jr. , but was destroyed for the construction of the Holland Tunnel. The 1888 design of the park was restored between 2000 and 2005.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "Canal Park (Manhattan)",
+    "New York City photographs taken on 2018-11-05",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2018-11-05",
+    "2018 Manhattan photographs by Tdorante10",
+    "November 2018 in Manhattan, New York City",
+    "NYC Parks signs in Manhattan",
+    "Park gates in New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Holland Tunnel\" entrance Manhattan Canal Street",
+   "score": 9.45,
+   "estimated_viewpoint": {
+    "lat": 40.725322,
+    "lon": -74.010607,
+    "azimuth_deg": 75.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.72532, -74.01061) is 218 m from Holland Tunnel Manhattan portal (40.72580, -74.00810) and 323 m from the standard viewpoint; the azimuth 76 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Canal Park td (2018-11-05) 01.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Canal_Park_td_(2018-11-05)_01.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Holland Tunnel Entrance - panoramio.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Holland_Tunnel_Entrance_-_panoramio.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/df/Holland_Tunnel_Entrance_-_panoramio.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Holland_Tunnel_Entrance_-_panoramio.jpg/1920px-Holland_Tunnel_Entrance_-_panoramio.jpg",
+   "author": "Idawriter",
+   "credit": "https://web.archive.org/web/20161018020534/http://www.panoramio.com/photo/48311009",
+   "license": {
+    "short_name": "CC BY-SA 3.0",
+    "url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "template": "cc-by-sa-3.0"
+   },
+   "date_taken": "2010",
+   "date_source": "DateTimeOriginal",
+   "year": 2010,
+   "camera_gps": {
+    "lat": 40.724268,
+    "lon": -74.0068
+   },
+   "original_width": 3268,
+   "original_height": 2330,
+   "width": 1920,
+   "height": 1369,
+   "bytes": 769988,
+   "sha256": "95fa9c7be5019878c6b7d0c28a4e26cbd334c64ed90c62b195c3338668fe009c",
+   "mean_luminance": 121.7,
+   "description": "Holland Tunnel Entrance",
+   "categories": [
+    "Holland Tunnel",
+    "Panoramio files uploaded by Panoramio upload bot",
+    "New York City photographs taken on 2010-07-18",
+    "Panoramio images reviewed by trusted users",
+    "Photos from Panoramio",
+    "Files with coordinates missing SDC location of creation",
+    "Media needing category review as of 12 November 2016",
+    "Lower Manhattan in 2010",
+    "2010 in Hudson Square, Manhattan",
+    "July 2010 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 9.0,
+   "estimated_viewpoint": {
+    "lat": 40.724268,
+    "lon": -74.0068,
+    "azimuth_deg": 327.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.72427, -74.00680) is 203 m from Holland Tunnel Manhattan portal (40.72580, -74.00810) and 81 m from the standard viewpoint; the azimuth 327 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Holland Tunnel Entrance - panoramio.jpg\" by Idawriter, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Holland_Tunnel_Entrance_-_panoramio.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Canal Park td (2018-11-05) 02.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Canal_Park_td_(2018-11-05)_02.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Canal_Park_td_%282018-11-05%29_02.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Canal_Park_td_%282018-11-05%29_02.jpg/1920px-Canal_Park_td_%282018-11-05%29_02.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.725322,
+    "lon": -74.010607
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 962435,
+   "sha256": "84b513db0aff08f29dd9e2209f404d923b11a242496f8aeb85f96e5d746285f9",
+   "mean_luminance": 92.0,
+   "description": "The western entrance into Canal Park, on the east side of West Street and Canal Street near the Holland Tunnel in TriBeCa, Manhattan. The park was designated as parkland in 1686, and developed in 1888 by Calvert Vaux and Samuel B. Parsons Jr. , but was destroyed for the construction of the Holland Tunnel. The 1888 design of the park was restored between 2000 and 2005.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "Canal Park (Manhattan)",
+    "New York City photographs taken on 2018-11-05",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2018-11-05",
+    "2018 Manhattan photographs by Tdorante10",
+    "November 2018 in Manhattan, New York City",
+    "Views of New York City from west",
+    "Park gates in New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Holland Tunnel\" entrance Manhattan Canal Street",
+   "score": 9.45,
+   "estimated_viewpoint": {
+    "lat": 40.725322,
+    "lon": -74.010607,
+    "azimuth_deg": 75.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.72532, -74.01061) is 218 m from Holland Tunnel Manhattan portal (40.72580, -74.00810) and 323 m from the standard viewpoint; the azimuth 76 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Canal Park td (2018-11-05) 02.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Canal_Park_td_(2018-11-05)_02.jpg"
+  }
+ ]
+}

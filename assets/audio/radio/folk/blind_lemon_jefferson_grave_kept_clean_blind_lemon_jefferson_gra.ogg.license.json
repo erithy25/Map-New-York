@@ -1,0 +1,28 @@
+{
+ "artist": "Blind Lemon Jefferson",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 1887654,
+ "duration_s": 173.76,
+ "file": "folk/blind_lemon_jefferson_grave_kept_clean_blind_lemon_jefferson_gra.ogg",
+ "gain_db": 8.0,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/licenses/publicdomain/",
+ "loudness_lufs": -22.0,
+ "original_filename": "Blind_Lemon_Jefferson_Grave_Kept_Clean.mp3",
+ "recorded_at": "2026-09-06T12:24:14Z",
+ "schema_version": 1,
+ "sha256": "ce242603052d92c78e0e0ccf8fbce9f6a66ad6df9be7cc411871076e996e9f22",
+ "source_page": "https://archive.org/details/Blind_Lemon_Jefferson_Grave_Kept_Clean",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/Blind_Lemon_Jefferson_Grave_Kept_Clean/Blind_Lemon_Jefferson_Grave_Kept_Clean.mp3",
+ "title": "See That My Grave Is Kept Clean",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

@@ -1,0 +1,204 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_apollo_theater",
+ "name": "Apollo Theater",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.8097,
+  "lon": -73.9503,
+  "azimuth_deg": 37.1,
+  "note": "south sidewalk of West 125th Street opposite the theatre, looking north-east at the marquee",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.81,
+  "lon": -73.95,
+  "name": "Apollo Theater marquee"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Apollo Theater\" Harlem 125th Street",
+  "\"Apollo Theater\" marquee Harlem"
+ ],
+ "geosearch_radius_m": 150,
+ "fetched_at": "2026-09-06T13:57:08Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 74,
+ "candidates_eligible": 29,
+ "rejections": {
+  "too_old": 7,
+  "excluded": 13,
+  "too_small": 5,
+  "keywords": 20
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Apollo Theatre (NYC).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Apollo_Theatre_(NYC).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/2e/Apollo_Theatre_%28NYC%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Apollo_Theatre_%28NYC%29.jpg/1920px-Apollo_Theatre_%28NYC%29.jpg",
+   "author": "AllanMarcus2468",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2020-10-05 13:25:10",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": {
+    "lat": 40.809967,
+    "lon": -73.950792
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 771662,
+   "sha256": "e33ff1a824ce4863e8689fa3e4bbf632b728ad1d365bdd67cdffcab5501ddba4",
+   "mean_luminance": 107.4,
+   "description": "The Apollo Theater is a landmark located in Harlem, Manhattan. It opened in 1914.",
+   "categories": [
+    "Apollo Theater (New York City)",
+    "Images from Wiki Loves Monuments 2020 in the United States",
+    "Images from Wiki Loves Monuments 2020 in New York",
+    "Self-published work",
+    "National Register of Historic Places with known IDs",
+    "Uploaded via Campaign:wlm-us",
+    "Marquees (signage) in New York City",
+    "Images from Wiki Loves Monuments 2020",
+    "2020 in Harlem, Manhattan",
+    "Wiki Loves Monuments 2020 in the United States unreviewed",
+    "October 2020 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.75,
+   "estimated_viewpoint": {
+    "lat": 40.809967,
+    "lon": -73.950792,
+    "azimuth_deg": 86.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.80997, -73.95079) is 67 m from Apollo Theater marquee (40.81000, -73.95000) and 51 m from the standard viewpoint; the azimuth 87 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Apollo Theatre (NYC).jpg\" by AllanMarcus2468, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Apollo_Theatre_(NYC).jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Harlem - Apollo Theater (48555309512).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Harlem_-_Apollo_Theater_(48555309512).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/de/Harlem_-_Apollo_Theater_%2848555309512%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Harlem_-_Apollo_Theater_%2848555309512%29.jpg/1920px-Harlem_-_Apollo_Theater_%2848555309512%29.jpg",
+   "author": "Ajay Suresh from New York, NY, USA",
+   "credit": "Harlem - Apollo Theater",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2019-08-16 18:29",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.810072,
+    "lon": -73.950462
+   },
+   "original_width": 3011,
+   "original_height": 3011,
+   "width": 1920,
+   "height": 1920,
+   "bytes": 1545586,
+   "sha256": "63fee73cef8f78ea0882c9ec00faf3ea89e4a21671b4c34c6ab8992c8017dc0a",
+   "mean_luminance": 140.3,
+   "description": "Harlem, Manhattan, New York City",
+   "categories": [
+    "August 2019 in New York City",
+    "Apollo Theater (New York City)",
+    "Theaters in the United States photographed in 2019",
+    "New York City photographs taken on 2019-08-16",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "2019 in Harlem, Manhattan",
+    "August 2019 in Manhattan, New York City",
+    "2019 New York City photographs by ajay suresh"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.6,
+   "estimated_viewpoint": {
+    "lat": 40.810072,
+    "lon": -73.950462,
+    "azimuth_deg": 101.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.81007, -73.95046) is 40 m from Apollo Theater marquee (40.81000, -73.95000) and 44 m from the standard viewpoint; the azimuth 102 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Harlem - Apollo Theater (48555309512).jpg\" by Ajay Suresh from New York, NY, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Harlem_-_Apollo_Theater_(48555309512).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Prince memorial at Apollo Theater. Harlem, NY. (26902543512).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Prince_memorial_at_Apollo_Theater._Harlem,_NY._(26902543512).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/71/Prince_memorial_at_Apollo_Theater._Harlem%2C_NY._%2826902543512%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Prince_memorial_at_Apollo_Theater._Harlem%2C_NY._%2826902543512%29.jpg/1920px-Prince_memorial_at_Apollo_Theater._Harlem%2C_NY._%2826902543512%29.jpg",
+   "author": "Kathy Drasky from San Francisco, United States",
+   "credit": "Prince memorial at Apollo Theater. Harlem, NY.",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2016-04-24 16:26",
+   "date_source": "DateTimeOriginal",
+   "year": 2016,
+   "camera_gps": {
+    "lat": 40.809733,
+    "lon": -73.95025
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 900738,
+   "sha256": "6a8c455e9ee084046452f48fc2f5ebb2e27e6f5c62e4e58b65bcaf8ec9624aa8",
+   "mean_luminance": 122.8,
+   "description": "Processed with VSCO with acg preset",
+   "categories": [
+    "Prince (musician)",
+    "Apollo Theater (New York City)",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "2016 in Harlem, Manhattan",
+    "April 2016 in Manhattan, New York City",
+    "Floral tributes in the United States"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.15,
+   "estimated_viewpoint": {
+    "lat": 40.809733,
+    "lon": -73.95025,
+    "azimuth_deg": 35.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.80973, -73.95025) is 36 m from Apollo Theater marquee (40.81000, -73.95000) and 6 m from the standard viewpoint; the azimuth 35 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Prince memorial at Apollo Theater. Harlem, NY. (26902543512).jpg\" by Kathy Drasky from San Francisco, United States, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Prince_memorial_at_Apollo_Theater._Harlem,_NY._(26902543512).jpg"
+  }
+ ]
+}

@@ -1,0 +1,189 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_ellis_island",
+ "name": "Ellis Island Main Building",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.701658,
+  "lon": -74.040237,
+  "azimuth_deg": 170.0,
+  "note": "the ferry basin north of the Main Building, about 250 m from the entrance canopy, looking south at the four-turreted immigration building",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.699444,
+  "lon": -74.039722,
+  "name": "Ellis Island Main Building"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Ellis Island\" main building immigration station",
+  "\"Ellis Island\" immigration museum exterior"
+ ],
+ "geosearch_radius_m": 600,
+ "fetched_at": "2026-09-06T12:58:35Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 123,
+ "candidates_eligible": 47,
+ "rejections": {
+  "excluded": 15,
+  "too_old": 19,
+  "too_small": 10,
+  "not_photo": 3,
+  "licence": 13,
+  "keywords": 16
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Ellis Island (New York, New York) (30895062007).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Ellis_Island_(New_York,_New_York)_(30895062007).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Ellis_Island_%28New_York%2C_New_York%29_%2830895062007%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Ellis_Island_%28New_York%2C_New_York%29_%2830895062007%29.jpg/1920px-Ellis_Island_%28New_York%2C_New_York%29_%2830895062007%29.jpg",
+   "author": "JJBers from Willimantic, Connecticut, USA",
+   "credit": "Ellis Island (New York, New York)",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2018-08-08 16:37",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.698429,
+    "lon": -74.040223
+   },
+   "original_width": 5152,
+   "original_height": 3864,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 508767,
+   "sha256": "e4aaed7f240126274c4a8fd8c6cc1acb5379bdc0ede039b3f2684783a75b55ee",
+   "mean_luminance": 119.3,
+   "description": "Ellis Island (New York, New York)",
+   "categories": [
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Ellis Island in 2012",
+    "Files uploaded by SeichanGant"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.45,
+   "estimated_viewpoint": {
+    "lat": 40.698429,
+    "lon": -74.040223,
+    "azimuth_deg": 20.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.69843, -74.04022) is 121 m from Ellis Island Main Building (40.69944, -74.03972) and 359 m from the standard viewpoint; the azimuth 21 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Ellis Island (New York, New York) (30895062007).jpg\" by JJBers from Willimantic, Connecticut, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Ellis_Island_(New_York,_New_York)_(30895062007).jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Ellis Island Immigrant Hospital - Tour.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Ellis_Island_Immigrant_Hospital_-_Tour.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/93/Ellis_Island_Immigrant_Hospital_-_Tour.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Ellis_Island_Immigrant_Hospital_-_Tour.jpg/1920px-Ellis_Island_Immigrant_Hospital_-_Tour.jpg",
+   "author": "Z22",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018-01-01 10:51:29",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.698667,
+    "lon": -74.042153
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 1009413,
+   "sha256": "959614669535104b3e59746350b4a3ef0e5ac10d5b501fe84c4e016e7d741bc3",
+   "mean_luminance": 94.1,
+   "description": "A tour of Ellis Island Immigrant Hospital at the south side of the Ellis Island.",
+   "categories": [
+    "Hospital buildings, Ellis Island",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.45,
+   "estimated_viewpoint": {
+    "lat": 40.698667,
+    "lon": -74.042153,
+    "azimuth_deg": 67.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.69867, -74.04215) is 222 m from Ellis Island Main Building (40.69944, -74.03972) and 370 m from the standard viewpoint; the azimuth 67 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Ellis Island Immigrant Hospital - Tour.jpg\" by Z22, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Ellis_Island_Immigrant_Hospital_-_Tour.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Ellis Island IMG 2003.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Ellis_Island_IMG_2003.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Ellis_Island_IMG_2003.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Ellis_Island_IMG_2003.jpg/1920px-Ellis_Island_IMG_2003.jpg",
+   "author": "Bjoertvedt",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018-06-28 14:45:07",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.698489,
+    "lon": -74.039733
+   },
+   "original_width": 3963,
+   "original_height": 2683,
+   "width": 1920,
+   "height": 1300,
+   "bytes": 536971,
+   "sha256": "e65368f09a08a74843b67ee4152d27eae805ffd61635668d513a6ba4e6526387",
+   "mean_luminance": 139.9,
+   "description": "Ellis Island in the harbour of New York City, USA",
+   "categories": [
+    "Main Building, Ellis Island",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.45,
+   "estimated_viewpoint": {
+    "lat": 40.698489,
+    "lon": -74.039733,
+    "azimuth_deg": 0.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.69849, -74.03973) is 106 m from Ellis Island Main Building (40.69944, -74.03972) and 355 m from the standard viewpoint; the azimuth 1 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Ellis Island IMG 2003.jpg\" by Bjoertvedt, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Ellis_Island_IMG_2003.jpg"
+  }
+ ]
+}

@@ -1,0 +1,194 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_oculus",
+ "name": "World Trade Center Transportation Hub (Oculus)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7113,
+  "lon": -74.01,
+  "azimuth_deg": 282.4,
+  "note": "Church Street at Dey/Fulton Street, east sidewalk, looking west across the plaza",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7115,
+  "lon": -74.0112,
+  "name": "the Oculus"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2016,
+ "wanted": 3,
+ "queries": [
+  "\"Oculus\" World Trade Center Transportation Hub exterior",
+  "World Trade Center Transportation Hub Oculus Calatrava"
+ ],
+ "geosearch_radius_m": 200,
+ "fetched_at": "2026-09-06T12:10:13Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 88,
+ "candidates_eligible": 48,
+ "rejections": {
+  "indoor": 10,
+  "night_for_day_item": 5,
+  "excluded": 4,
+  "keywords": 19,
+  "too_small": 2
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Oculus (36813913993).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Oculus_(36813913993).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Oculus_%2836813913993%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Oculus_%2836813913993%29.jpg/1920px-Oculus_%2836813913993%29.jpg",
+   "author": "Billie Grace Ward from New York, USA",
+   "credit": "Oculus",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2017-08-15 08:32",
+   "date_source": "DateTimeOriginal",
+   "year": 2017,
+   "camera_gps": {
+    "lat": 40.71145,
+    "lon": -74.0103
+   },
+   "original_width": 7952,
+   "original_height": 5304,
+   "width": 1920,
+   "height": 1281,
+   "bytes": 502591,
+   "sha256": "683926fefcb116654c760c5dd40b9d69ae7356f592c7e27214553d191d6556a5",
+   "mean_luminance": 194.8,
+   "description": "A photo by Billie Ward. (This work is licensed under a Creative Commons Attribution 4.0 International License. Please provide attribution and a link back to this web page in a manner that associates the image with the image credit.)",
+   "categories": [
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Photographs by Billie Grace Ward in Manhattan, New York City",
+    "Exterior of the WTC Transportation Hub"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.3,
+   "estimated_viewpoint": {
+    "lat": 40.71145,
+    "lon": -74.0103,
+    "azimuth_deg": 274.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71145, -74.01030) is 76 m from the Oculus (40.71150, -74.01120) and 30 m from the standard viewpoint; the azimuth 274 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Oculus (36813913993).jpg\" by Billie Grace Ward from New York, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Oculus_(36813913993).jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Westfield World Trade Center - The Oculus.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Westfield_World_Trade_Center_-_The_Oculus.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Westfield_World_Trade_Center_-_The_Oculus.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Westfield_World_Trade_Center_-_The_Oculus.jpg/1920px-Westfield_World_Trade_Center_-_The_Oculus.jpg",
+   "author": "Nadia Eimandoust",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.711094,
+    "lon": -74.010865
+   },
+   "original_width": 4032,
+   "original_height": 2688,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 712973,
+   "sha256": "a604748ea4173808f35dd56721b64c216a6ab79114f38924ec3d4cddfa9cfef7",
+   "mean_luminance": 157.3,
+   "description": "Westfield World Trade Center, also known as the Oculus, is a shopping mall at the World Trade Center complex in Manhattan, New York. Opened in 2016, the mall replaced the original shopping center under the World Trade Center, and is currently the largest shopping complex in Manhattan.",
+   "categories": [
+    "New York City photographs taken on 2023-06-05",
+    "Self-published work",
+    "World Trade Center site in 2023",
+    "Files with coordinates missing SDC location of creation",
+    "June 2023 in Manhattan, New York City",
+    "Exterior of the WTC Transportation Hub"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Oculus\" World Trade Center Transportation Hub exterior",
+   "score": 11.2,
+   "estimated_viewpoint": {
+    "lat": 40.711094,
+    "lon": -74.010865,
+    "azimuth_deg": 328.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71109, -74.01086) is 53 m from the Oculus (40.71150, -74.01120) and 76 m from the standard viewpoint; the azimuth 328 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Westfield World Trade Center - The Oculus.jpg\" by Nadia Eimandoust, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Westfield_World_Trade_Center_-_The_Oculus.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Oculus Exterior January 2023.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Oculus_Exterior_January_2023.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/07/Oculus_Exterior_January_2023.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Oculus_Exterior_January_2023.jpg/1920px-Oculus_Exterior_January_2023.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-01-11 14:28:19",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.71085,
+    "lon": -74.010522
+   },
+   "original_width": 2048,
+   "original_height": 1536,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 360408,
+   "sha256": "5c131e2c9589e8d2b2cf853e313a709ece93fa4834b8369cb5bc9922a83dae52",
+   "mean_luminance": 134.3,
+   "description": "Exterior of the Oculus in January 2023",
+   "categories": [
+    "New York City photographs taken on 2023-01-11",
+    "Self-published work",
+    "World Trade Center site in 2023",
+    "Files with coordinates missing SDC location of creation",
+    "January 2023 in Manhattan, New York City",
+    "Exterior of the WTC Transportation Hub"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Oculus\" World Trade Center Transportation Hub exterior",
+   "score": 11.2,
+   "estimated_viewpoint": {
+    "lat": 40.71085,
+    "lon": -74.010522,
+    "azimuth_deg": 321.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71085, -74.01052) is 92 m from the Oculus (40.71150, -74.01120) and 67 m from the standard viewpoint; the azimuth 322 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Oculus Exterior January 2023.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Oculus_Exterior_January_2023.jpg"
+  }
+ ]
+}

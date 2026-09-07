@@ -1,0 +1,28 @@
+{
+ "artist": "Cass Hagan's Hotel Manger Orchestra",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 2037024,
+ "duration_s": 166.64,
+ "file": "jazz/17melancholycharlie_17_melancholy_charlie.ogg",
+ "gain_db": 7.1,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+ "loudness_lufs": -21.1,
+ "original_filename": "17 Melancholy Charlie.mp3",
+ "recorded_at": "2026-09-06T12:11:38Z",
+ "schema_version": 1,
+ "sha256": "4676895bd6621cb9f919c2c8063bbb3f647f59d7b4db36b651afbc58edc4142f",
+ "source_page": "https://archive.org/details/17MelancholyCharlie",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/17MelancholyCharlie/17%20Melancholy%20Charlie.mp3",
+ "title": "Melancholy Charlie",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

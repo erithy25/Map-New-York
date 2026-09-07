@@ -1,0 +1,208 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_woolworth_building",
+ "name": "Woolworth Building",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7127,
+  "lon": -74.0066,
+  "azimuth_deg": 257.6,
+  "note": "City Hall Park by the fountain, looking west-south-west at the Woolworth Building",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7124,
+  "lon": -74.0084,
+  "name": "Woolworth Building"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Woolworth Building\" exterior",
+  "\"Woolworth Building\" City Hall Park Broadway"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T14:26:07Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 117,
+ "candidates_eligible": 18,
+ "rejections": {
+  "excluded": 40,
+  "wrong_place": 5,
+  "too_small": 5,
+  "licence": 1,
+  "not_photo": 9,
+  "too_old": 12,
+  "night_for_day_item": 2,
+  "keywords": 23,
+  "not_jpeg": 1,
+  "indoor": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Woolworth Building April 2022 007.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Woolworth_Building_April_2022_007.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/92/Woolworth_Building_April_2022_007.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Woolworth_Building_April_2022_007.jpg/1920px-Woolworth_Building_April_2022_007.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-04-30 13:17:00",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.712333,
+    "lon": -74.006797
+   },
+   "original_width": 2448,
+   "original_height": 3264,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 896349,
+   "sha256": "17dc860ad0892a1d6b971f8da77ade1d58dbd022359b0d60990374d6c91a674c",
+   "mean_luminance": 133.5,
+   "description": "Woolworth Building in April 2022",
+   "categories": [
+    "New York City photographs taken on 2022-04-30",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Office buildings in the United States photographed in 2022",
+    "2022 in Tribeca, Manhattan",
+    "April 2022 in Manhattan, New York City",
+    "Woolworth Building (New York City)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.712333,
+    "lon": -74.006797,
+    "azimuth_deg": 273.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71233, -74.00680) is 135 m from Woolworth Building (40.71240, -74.00840) and 44 m from the standard viewpoint; the azimuth 273 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Woolworth Building April 2022 007.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Woolworth_Building_April_2022_007.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Woolworth Building April 2022 006.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Woolworth_Building_April_2022_006.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/73/Woolworth_Building_April_2022_006.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Woolworth_Building_April_2022_006.jpg/1920px-Woolworth_Building_April_2022_006.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-04-30 13:16:58",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.712333,
+    "lon": -74.006797
+   },
+   "original_width": 2448,
+   "original_height": 3264,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1044890,
+   "sha256": "328a40411632fd05a1f889d086e448ff511fba38b2d0f3c32e2cddb753984616",
+   "mean_luminance": 134.5,
+   "description": "Woolworth Building in April 2022",
+   "categories": [
+    "New York City photographs taken on 2022-04-30",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Office buildings in the United States photographed in 2022",
+    "2022 in Tribeca, Manhattan",
+    "April 2022 in Manhattan, New York City",
+    "Woolworth Building (New York City)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.712333,
+    "lon": -74.006797,
+    "azimuth_deg": 273.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71233, -74.00680) is 135 m from Woolworth Building (40.71240, -74.00840) and 44 m from the standard viewpoint; the azimuth 273 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Woolworth Building April 2022 006.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Woolworth_Building_April_2022_006.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Woolworth Building, Broadway, Lower Manhattan (J. Zeldman) - Flickr.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Woolworth_Building,_Broadway,_Lower_Manhattan_(J._Zeldman)_-_Flickr.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Woolworth_Building%2C_Broadway%2C_Lower_Manhattan_%28J._Zeldman%29_-_Flickr.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Woolworth_Building%2C_Broadway%2C_Lower_Manhattan_%28J._Zeldman%29_-_Flickr.jpg/1920px-Woolworth_Building%2C_Broadway%2C_Lower_Manhattan_%28J._Zeldman%29_-_Flickr.jpg",
+   "author": "Jeffrey Zeldman from Manhattan, USA",
+   "credit": "Woolworth Building, Broadway, Lower Manhattan",
+   "license": {
+    "short_name": "Public domain",
+    "url": "https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain",
+    "template": "pd"
+   },
+   "date_taken": "2015-12-28 12:59",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.713207,
+    "lon": -74.008154
+   },
+   "original_width": 4000,
+   "original_height": 6000,
+   "width": 1920,
+   "height": 2880,
+   "bytes": 2019212,
+   "sha256": "09ec61066c1e78c96209e8bd75b12d1514c26e0e329dee586c8bb29b6d0c1f9e",
+   "mean_luminance": 110.2,
+   "description": "Woolworth Building, Broadway, Lower Manhattan",
+   "categories": [
+    "Barclay Tower",
+    "30 Park Place",
+    "Transportation Building 225 Broadway",
+    "Images with annotations",
+    "7 World Trade Center (2006)",
+    "250 Broadway",
+    "PD US architecture",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Flickr images imported by User:JWilz12345",
+    "Woolworth Building (New York City)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Woolworth Building\" City Hall Park Broadway",
+   "score": 9.0,
+   "estimated_viewpoint": {
+    "lat": 40.713207,
+    "lon": -74.008154,
+    "azimuth_deg": 193.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71321, -74.00815) is 92 m from Woolworth Building (40.71240, -74.00840) and 143 m from the standard viewpoint; the azimuth 193 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Woolworth Building, Broadway, Lower Manhattan (J. Zeldman) - Flickr.jpg\" by Jeffrey Zeldman from Manhattan, USA, Public domain (https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Woolworth_Building,_Broadway,_Lower_Manhattan_(J._Zeldman)_-_Flickr.jpg"
+  }
+ ]
+}

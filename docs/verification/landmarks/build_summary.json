@@ -1,0 +1,552 @@
+{
+ "generated_at": "2026-09-07T01:53:48Z",
+ "rendered": true,
+ "samples": 24,
+ "results": [
+  {
+   "id": "b_brooklyn_bridge",
+   "returncode": 0,
+   "seconds": 625.8,
+   "lods": {
+    "lod0": {
+     "triangles": 121824,
+     "bytes": 5722588
+    },
+    "lod1": {
+     "triangles": 33496,
+     "bytes": 1401148
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_manhattan_bridge",
+   "returncode": 0,
+   "seconds": 232.1,
+   "lods": {
+    "lod0": {
+     "triangles": 80700,
+     "bytes": 3327676
+    },
+    "lod1": {
+     "triangles": 28940,
+     "bytes": 938708
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_williamsburg_bridge",
+   "returncode": 0,
+   "seconds": 146.7,
+   "lods": {
+    "lod0": {
+     "triangles": 84236,
+     "bytes": 3629204
+    },
+    "lod1": {
+     "triangles": 26364,
+     "bytes": 895088
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_queensboro_bridge",
+   "returncode": 0,
+   "seconds": 179.2,
+   "lods": {
+    "lod0": {
+     "triangles": 59736,
+     "bytes": 2966708
+    },
+    "lod1": {
+     "triangles": 16164,
+     "bytes": 706344
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_george_washington_bridge",
+   "returncode": 0,
+   "seconds": 242.2,
+   "lods": {
+    "lod0": {
+     "triangles": 94736,
+     "bytes": 4034972
+    },
+    "lod1": {
+     "triangles": 26032,
+     "bytes": 783780
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_verrazzano_narrows",
+   "returncode": 0,
+   "seconds": 151.7,
+   "lods": {
+    "lod0": {
+     "triangles": 117032,
+     "bytes": 4838760
+    },
+    "lod1": {
+     "triangles": 28184,
+     "bytes": 751980
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_rfk_triborough",
+   "returncode": 0,
+   "seconds": 201.9,
+   "lods": {
+    "lod0": {
+     "triangles": 80446,
+     "bytes": 3705548
+    },
+    "lod1": {
+     "triangles": 22618,
+     "bytes": 898604
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_throgs_neck",
+   "returncode": 0,
+   "seconds": 166.1,
+   "lods": {
+    "lod0": {
+     "triangles": 50392,
+     "bytes": 2359092
+    },
+    "lod1": {
+     "triangles": 10608,
+     "bytes": 354408
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_bronx_whitestone",
+   "returncode": 0,
+   "seconds": 164.2,
+   "lods": {
+    "lod0": {
+     "triangles": 44680,
+     "bytes": 2006824
+    },
+    "lod1": {
+     "triangles": 10288,
+     "bytes": 320368
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_hell_gate",
+   "returncode": 0,
+   "seconds": 131.3,
+   "lods": {
+    "lod0": {
+     "triangles": 23788,
+     "bytes": 1089404
+    },
+    "lod1": {
+     "triangles": 6772,
+     "bytes": 274684
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_high_bridge",
+   "returncode": 0,
+   "seconds": 190.6,
+   "lods": {
+    "lod0": {
+     "triangles": 15112,
+     "bytes": 761296
+    },
+    "lod1": {
+     "triangles": 4420,
+     "bytes": 192420
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_pulaski",
+   "returncode": 0,
+   "seconds": 200.5,
+   "lods": {
+    "lod0": {
+     "triangles": 14592,
+     "bytes": 712344
+    },
+    "lod1": {
+     "triangles": 3904,
+     "bytes": 136256
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_kosciuszko",
+   "returncode": 0,
+   "seconds": 207.9,
+   "lods": {
+    "lod0": {
+     "triangles": 33560,
+     "bytes": 1630636
+    },
+    "lod1": {
+     "triangles": 6404,
+     "bytes": 254928
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_roosevelt_island_tram",
+   "returncode": 0,
+   "seconds": 113.5,
+   "lods": {
+    "lod0": {
+     "triangles": 5836,
+     "bytes": 235500
+    },
+    "lod1": {
+     "triangles": 1764,
+     "bytes": 93796
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_lincoln_tunnel_portals",
+   "returncode": 0,
+   "seconds": 229.6,
+   "lods": {
+    "lod0": {
+     "triangles": 57080,
+     "bytes": 2547904
+    },
+    "lod1": {
+     "triangles": 9306,
+     "bytes": 552764
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_holland_tunnel_portals",
+   "returncode": 0,
+   "seconds": 257.4,
+   "lods": {
+    "lod0": {
+     "triangles": 40892,
+     "bytes": 1869152
+    },
+    "lod1": {
+     "triangles": 6654,
+     "bytes": 424704
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_queens_midtown_portals",
+   "returncode": 0,
+   "seconds": 158.6,
+   "lods": {
+    "lod0": {
+     "triangles": 30888,
+     "bytes": 1441424
+    },
+    "lod1": {
+     "triangles": 5110,
+     "bytes": 334300
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_hugh_carey_portals",
+   "returncode": 0,
+   "seconds": 181.8,
+   "lods": {
+    "lod0": {
+     "triangles": 43880,
+     "bytes": 2042432
+    },
+    "lod1": {
+     "triangles": 7280,
+     "bytes": 471836
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_one_world_trade_center",
+   "returncode": 0,
+   "seconds": 76.2,
+   "lods": {
+    "lod0": {
+     "triangles": 6044,
+     "bytes": 359260
+    },
+    "lod1": {
+     "triangles": 444,
+     "bytes": 35872
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_wtc_site",
+   "returncode": 0,
+   "seconds": 265.5,
+   "lods": {
+    "lod0": {
+     "triangles": 136288,
+     "bytes": 2372368
+    },
+    "lod1": {
+     "triangles": 13708,
+     "bytes": 1283696
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_statue_of_liberty",
+   "returncode": 0,
+   "seconds": 139.7,
+   "lods": {
+    "lod0": {
+     "triangles": 19812,
+     "bytes": 465468
+    },
+    "lod1": {
+     "triangles": 1704,
+     "bytes": 85624
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_ellis_island_main",
+   "returncode": 0,
+   "seconds": 85.5,
+   "lods": {
+    "lod0": {
+     "triangles": 5992,
+     "bytes": 313376
+    },
+    "lod1": {
+     "triangles": 2602,
+     "bytes": 181144
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_governors_island",
+   "returncode": 0,
+   "seconds": 54.8,
+   "lods": {
+    "lod0": {
+     "triangles": 4122,
+     "bytes": 238380
+    },
+    "lod1": {
+     "triangles": 1644,
+     "bytes": 114700
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_washington_square_arch",
+   "returncode": 0,
+   "seconds": 38.1,
+   "lods": {
+    "lod0": {
+     "triangles": 1072,
+     "bytes": 55992
+    },
+    "lod1": {
+     "triangles": 208,
+     "bytes": 21264
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_bethesda_terrace",
+   "returncode": 0,
+   "seconds": 67.6,
+   "lods": {
+    "lod0": {
+     "triangles": 10808,
+     "bytes": 557320
+    },
+    "lod1": {
+     "triangles": 1372,
+     "bytes": 90544
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_bow_bridge",
+   "returncode": 0,
+   "seconds": 35.7,
+   "lods": {
+    "lod0": {
+     "triangles": 2672,
+     "bytes": 126636
+    },
+    "lod1": {
+     "triangles": 1064,
+     "bytes": 61544
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_belvedere_castle",
+   "returncode": 0,
+   "seconds": 38.1,
+   "lods": {
+    "lod0": {
+     "triangles": 4456,
+     "bytes": 239992
+    },
+    "lod1": {
+     "triangles": 1808,
+     "bytes": 100296
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_central_park_walls_gates",
+   "returncode": 0,
+   "seconds": 37.2,
+   "lods": {
+    "lod0": {
+     "triangles": 18448,
+     "bytes": 643136
+    },
+    "lod1": {
+     "triangles": 6800,
+     "bytes": 270748
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_unisphere",
+   "returncode": 0,
+   "seconds": 44.6,
+   "lods": {
+    "lod0": {
+     "triangles": 17236,
+     "bytes": 369424
+    },
+    "lod1": {
+     "triangles": 5848,
+     "bytes": 127044
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_grants_tomb",
+   "returncode": 0,
+   "seconds": 41.3,
+   "lods": {
+    "lod0": {
+     "triangles": 10264,
+     "bytes": 342344
+    },
+    "lod1": {
+     "triangles": 3208,
+     "bytes": 146688
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_columbus_circle_monument",
+   "returncode": 0,
+   "seconds": 46.1,
+   "lods": {
+    "lod0": {
+     "triangles": 2856,
+     "bytes": 182008
+    },
+    "lod1": {
+     "triangles": 1200,
+     "bytes": 87968
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_soldiers_sailors_arch",
+   "returncode": 0,
+   "seconds": 40.4,
+   "lods": {
+    "lod0": {
+     "triangles": 1252,
+     "bytes": 64112
+    },
+    "lod1": {
+     "triangles": 388,
+     "bytes": 29364
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_prospect_park_boathouse",
+   "returncode": 0,
+   "seconds": 32.4,
+   "lods": {
+    "lod0": {
+     "triangles": 6176,
+     "bytes": 299060
+    },
+    "lod1": {
+     "triangles": 828,
+     "bytes": 58096
+    }
+   },
+   "stderr_tail": ""
+  },
+  {
+   "id": "b_coney_island",
+   "returncode": 0,
+   "seconds": 91.9,
+   "lods": {
+    "lod0": {
+     "triangles": 37308,
+     "bytes": 1805556
+    },
+    "lod1": {
+     "triangles": 9144,
+     "bytes": 346560
+    }
+   },
+   "stderr_tail": ""
+  }
+ ],
+ "note": "build_summary.json holds the last recorded build of each landmark; the timestamp is the most recent run. b_wtc_site was rebuilt on its own after the group run, so its row is that build and the rest are the group run of 2026-09-06."
+}

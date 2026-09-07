@@ -1,0 +1,253 @@
+{
+ "schema_version": 1,
+ "slug": "times_square_duffy_south_day",
+ "name": "Times Square centre: Duffy Square looking south, daylight",
+ "group": "viewpoint",
+ "viewpoint": {
+  "lat": 40.7592,
+  "lon": -73.9847,
+  "azimuth_deg": 203.2,
+  "note": "top of the TKTS red steps at Duffy Square (47th Street), looking down the bowtie toward One Times Square",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7562,
+  "lon": -73.9864,
+  "name": "One Times Square"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2016,
+ "wanted": 4,
+ "queries": [
+  "\"Duffy Square\" Times Square",
+  "\"TKTS\" Times Square looking south"
+ ],
+ "geosearch_radius_m": 120,
+ "fetched_at": "2026-09-06T11:45:30Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query list=search / list=geosearch / prop=imageinfo)",
+ "candidates_seen": 110,
+ "candidates_eligible": 18,
+ "rejections": {
+  "night_for_day_item": 31,
+  "indoor": 2,
+  "too_old": 25,
+  "too_small": 3,
+  "excluded": 8,
+  "not_photo": 2,
+  "keywords": 11
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Times Square 3 2023-05-17.jpeg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Times_Square_3_2023-05-17.jpeg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b8/Times_Square_3_2023-05-17.jpeg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Times_Square_3_2023-05-17.jpeg/1920px-Times_Square_3_2023-05-17.jpeg",
+   "author": "F ASTILY",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-05-12 12:18:49",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.759122,
+    "lon": -73.984725
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1454964,
+   "sha256": "22b289a77079a27e6120870496dea6e4a726cf54463c37392f72a86e7607a655",
+   "mean_luminance": 104.2,
+   "description": "Times Square",
+   "categories": [
+    "May 2023 in Times Square",
+    "Self-published work",
+    "Files by Fastily",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.759122,
+    "lon": -73.984725,
+    "azimuth_deg": 203.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75912, -73.98472) is 354 m from One Times Square (40.75620, -73.98640) and 9 m from the standard viewpoint; the azimuth 203 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Times Square 3 2023-05-17.jpeg\" by F ASTILY, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Times_Square_3_2023-05-17.jpeg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:View of Times Square, May 2023 (2).JPG",
+   "page_url": "https://commons.wikimedia.org/wiki/File:View_of_Times_Square,_May_2023_(2).JPG",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/02/View_of_Times_Square%2C_May_2023_%282%29.JPG",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/View_of_Times_Square%2C_May_2023_%282%29.JPG/1920px-View_of_Times_Square%2C_May_2023_%282%29.JPG",
+   "author": "Benoît Prieur",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2023-05-21 09:53:58",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.759097,
+    "lon": -73.984839
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1380408,
+   "sha256": "34960548593a678dca40d049ff381b2fb552243117498b0ca479b62e9d98949d",
+   "mean_luminance": 108.9,
+   "description": "View of Times Square (May 2023).",
+   "categories": [
+    "CC-Zero",
+    "TKTS Booth",
+    "Images of New York by Benoît Prieur",
+    "Photographs by Benoît Prieur",
+    "May 2023 in Times Square",
+    "New York City photographs taken on 2023-05-21",
+    "Self-published work",
+    "2023 images by Benoît Prieur",
+    "Files with coordinates missing SDC location of creation",
+    "Uploaded with PyCommonist",
+    "Red band barriers",
+    "Queues in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.759097,
+    "lon": -73.984839,
+    "azimuth_deg": 202.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75910, -73.98484) is 348 m from One Times Square (40.75620, -73.98640) and 16 m from the standard viewpoint; the azimuth 202 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"View of Times Square, May 2023 (2).JPG\" by Benoît Prieur, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:View_of_Times_Square,_May_2023_(2).JPG"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:2025-10-19 02.41.42 Choi Kwang-mo Nongshim Shin Ramyun Light Ups New York Times Square with KPop Demon Hunters.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:2025-10-19_02.41.42_Choi_Kwang-mo_Nongshim_Shin_Ramyun_Light_Ups_New_York_Times_Square_with_KPop_Demon_Hunters.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/cf/2025-10-19_02.41.42_Choi_Kwang-mo_Nongshim_Shin_Ramyun_Light_Ups_New_York_Times_Square_with_KPop_Demon_Hunters.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/2025-10-19_02.41.42_Choi_Kwang-mo_Nongshim_Shin_Ramyun_Light_Ups_New_York_Times_Square_with_KPop_Demon_Hunters.jpg/1920px-2025-10-19_02.41.42_Choi_Kwang-mo_Nongshim_Shin_Ramyun_Light_Ups_New_York_Times_Square_with_KPop_Demon_Hunters.jpg",
+   "author": "Choikwangmo25",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2025-10-18 13:41:41",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.758969,
+    "lon": -73.985283
+   },
+   "original_width": 5712,
+   "original_height": 4284,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 920231,
+   "sha256": "8d5b257225d265b6fdedc9f7d62d8ee06c60361c6d9be2a128e91df56ef32b70",
+   "mean_luminance": 93.3,
+   "description": "Choi Kwang-mo at Nongshim Shin Ramyun Light Ups New York Times Square with KPop Demon Hunters",
+   "categories": [
+    "CC-Zero",
+    "Duffy Square",
+    "Coca-Cola sign (Two Times Square)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Nongshim Shin Ramyun Light Ups New York Times Square with KPop Demon Hunters"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Duffy Square\" Times Square",
+   "score": 11.2,
+   "estimated_viewpoint": {
+    "lat": 40.758969,
+    "lon": -73.985283,
+    "azimuth_deg": 197.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75897, -73.98528) is 322 m from One Times Square (40.75620, -73.98640) and 55 m from the standard viewpoint; the azimuth 197 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"2025-10-19 02.41.42 Choi Kwang-mo Nongshim Shin Ramyun Light Ups New York Times Square with KPop Demon Hunters.jpg\" by Choikwangmo25, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:2025-10-19_02.41.42_Choi_Kwang-mo_Nongshim_Shin_Ramyun_Light_Ups_New_York_Times_Square_with_KPop_Demon_Hunters.jpg"
+  },
+  {
+   "n": 4,
+   "file": "4.jpg",
+   "title": "File:Good Riddance Day 2024 21.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Good_Riddance_Day_2024_21.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Good_Riddance_Day_2024_21.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Good_Riddance_Day_2024_21.jpg/1920px-Good_Riddance_Day_2024_21.jpg",
+   "author": "SWinxy",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2024-12-28 12:11:49",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.759164,
+    "lon": -73.985139
+   },
+   "original_width": 4256,
+   "original_height": 2832,
+   "width": 1920,
+   "height": 1278,
+   "bytes": 659091,
+   "sha256": "7678b06708b023e10d7eff75f9139c963527b5da6c221d8e31066a5e93231510",
+   "mean_luminance": 97.0,
+   "description": "People line up for Broadway tickets.",
+   "categories": [
+    "Duffy Square",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Photographs by SWinxy",
+    "Crowds in Times Square",
+    "Good Riddance Day 2024"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search_recent:\"Duffy Square\" Times Square",
+   "score": 11.2,
+   "estimated_viewpoint": {
+    "lat": 40.759164,
+    "lon": -73.985139,
+    "azimuth_deg": 197.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75916, -73.98514) is 346 m from One Times Square (40.75620, -73.98640) and 37 m from the standard viewpoint; the azimuth 198 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Good Riddance Day 2024 21.jpg\" by SWinxy, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Good_Riddance_Day_2024_21.jpg"
+  }
+ ]
+}

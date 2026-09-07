@@ -1,0 +1,452 @@
+{
+ "agent_request": {
+  "dow": 0,
+  "hour": 18,
+  "local_clock": "2025-04-17 18:23 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "130.4 deg, the bearing from this photograph's own GPS position to Barclays Center; heading and position both come from the photograph.  The item's recorded azimuth is 144.8 deg, 14.4 deg away, and belongs to its nominal viewpoint",
+ "camera": {
+  "azimuth_deg": 130.43240032204773,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": 0,
+   "chosen_m": 13.96,
+   "max_m": 14.22,
+   "median_m": 14.08,
+   "min_m": 13.89,
+   "mode": "street",
+   "percentile": 10.0,
+   "point_m": 14.0,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.683866,
+  "lon": -73.977453,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 5.18935571659904,
+  "portrait": false,
+  "resolution": [
+   1280,
+   720
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_barclays_center",
+  "terrain_z_m": 13.959,
+  "x": -2320.764,
+  "y": -1791.285,
+  "z": 15.559
+ },
+ "camera_caption": "camera 40.68387, -73.97745 (NYC_TM -2321, -1791) z 15.6 m NAVD88 | azimuth 130.4deg pitch +5.2deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x720",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.683866,
+  "lon": -73.977453,
+  "offset_from_recorded_m": 57.2,
+  "source": "this photograph's own EXIF camera GPS (40.68387, -73.97745), 57 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
+ "clearance": {
+  "min_view_m": 80.0,
+  "moved": false,
+  "nearest_obstruction": "prop_lamp_cobra_davit_14",
+  "nearest_obstruction_m": 35.8,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_cobra_davit_14 35.8 m away, and the view azimuth is clear for 149 m",
+  "offset_m": 0.0,
+  "view_m": 148.8
+ },
+ "frame": {
+  "mean": 0.5704,
+  "reason": null,
+  "sd": 0.2436,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 521.0,
+  "emissive": {
+   "cone_faces_deleted": 8,
+   "cones_hidden": 1,
+   "lamps_switched_off": 4,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 1.71,
+  "sky_azimuth_deg": 273.082,
+  "sky_elevation_deg": 13.182,
+  "sun_lamp": true,
+  "sun_strength_blender": 0.965,
+  "view_transform": "Filmic"
+ },
+ "name": "Barclays Center",
+ "night": false,
+ "pitch_reason": "aimed at Barclays Center 217 m away, at its mid-height (the c_barclays_center model's 42 m height); +5.2 deg from horizontal",
+ "reference_photo": {
+  "author": "Eden, Janine and Jim from New York City",
+  "confidence": "high",
+  "date_taken": "2025-04-17 18:23",
+  "estimated_azimuth_deg": 130.5,
+  "file": "1.jpg",
+  "height": 1080,
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Barclays_Center_(54458684337).jpg",
+  "title": "File:Barclays Center (54458684337).jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_barclays_center/render.png",
+ "rendered_at": "2026-09-07T15:28:50Z",
+ "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 50 vehicles within 320 m and 234 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 753 vehicles and 2638 people over the whole simulated ring, of which 906 and 2999 were simulated; 3621 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 841,
+    "pedestrian_not_on_walkable_surface": 113,
+    "pedestrian_outside_radius": 928,
+    "pedestrian_over_the_observer": 1,
+    "pedestrian_triangle_budget": 882,
+    "vehicle_body_has_no_rider": 46,
+    "vehicle_not_on_carriageway": 14,
+    "vehicle_outside_radius": 437,
+    "vehicle_triangle_budget": 359
+   },
+   "ped_lods": {
+    "LOD0": 9,
+    "LOD1": 25,
+    "LOD2": 200
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 582524,
+   "per_class": {
+    "black_car": 2,
+    "boro_taxi": 3,
+    "sedan": 29,
+    "suv": 10,
+    "taxi": 5,
+    "van": 1
+   },
+   "placed_pedestrians": 234,
+   "placed_vehicles": 50,
+   "reason": null,
+   "seconds": 115.11,
+   "snapshot": {
+    "building_footprints_tested": 7996,
+    "density_lane_km": 28.097,
+    "density_sidewalk_m2": 31691,
+    "density_target_pedestrians": 2638.3,
+    "density_target_vehicles": 753.1,
+    "dow": 0,
+    "hour": 18,
+    "lanes_considered": 305,
+    "lanes_with_nta": 301,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 2.04,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 85,
+    "pavement_polygons_tested": 4120,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 2999,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 906
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1086254,
+   "vehicle_lods": {
+    "LOD1": 10,
+    "LOD2": 40
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 503730
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-2_-2",
+    "t_-2_-3",
+    "t_-3_-2",
+    "t_-3_-3",
+    "t_-4_-2",
+    "t_-4_-3"
+   ],
+   "landmark_bins_suppressed": 3,
+   "landmark_faces_suppressed": 264,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [],
+   "per_tile": {
+    "t_-2_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 17,
+     "triangles": 83898
+    },
+    "t_-2_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 16,
+     "triangles": 114986
+    },
+    "t_-3_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 17,
+     "triangles": 62160
+    },
+    "t_-3_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 15,
+     "triangles": 121446
+    },
+    "t_-4_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 16,
+     "triangles": 49190
+    },
+    "t_-4_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 13,
+     "triangles": 23076
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 454756
+  },
+  "centre_tm": [
+   -2320.76,
+   -1791.29
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 23,
+    "cornice": 25,
+    "door_entry": 42,
+    "fence": 3,
+    "fire_escape": 31,
+    "hvac": 10,
+    "parapet": 44,
+    "pilaster": 6,
+    "quoin": 30,
+    "scaffold": 9,
+    "storefront": 209,
+    "storefront_interior": 16,
+    "string_course": 23,
+    "water_tower": 1,
+    "window": 3204,
+    "window_accessory": 106
+   },
+   "placed": 3782,
+   "radius_m": 120.0,
+   "records_in_range": 3782,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_-2"
+   ],
+   "triangles": 675009,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 184.6,
+     "id": "c_williamsburgh_savings_bank_tower",
+     "lod": 0,
+     "name": "Williamsburgh Savings Bank Tower (One Hanson Place)",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 40930
+    },
+    {
+     "distance_m": 232.6,
+     "id": "c_barclays_center",
+     "lod": 0,
+     "name": "Barclays Center",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 7058
+    }
+   ],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
+   "placed": 2,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 47988
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 518,
+    "curb": 814,
+    "median": 85,
+    "parking_lot": 63,
+    "plaza": 17,
+    "roadbed": 387,
+    "sidewalk": 234
+   },
+   "placed": 2118,
+   "radius_m": 746.9552510710566,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_-2",
+    "t_-2_-3",
+    "t_-3_-2",
+    "t_-3_-3",
+    "t_-4_-2",
+    "t_-4_-3"
+   ],
+   "triangles": 172799,
+   "triangles_cut_for_landmark_ground": 0,
+   "vertices": 176777
+  },
+  "props": {
+   "capped": "triangle budget 1307099",
+   "impostor_cards_dropped": 20,
+   "impostor_faces_dropped": 0,
+   "leaf_off": false,
+   "per_kind": {
+    "bike_rack": 21,
+    "bus_shelter": 3,
+    "bus_stop_sign": 11,
+    "citibike_dock": 2,
+    "hydrant": 43,
+    "linknyc": 1,
+    "mailbox": 1,
+    "manhole": 74,
+    "newsstand": 1,
+    "street_lamp": 80,
+    "subway_entrance": 9,
+    "subway_vent_grate": 24,
+    "tree": 154,
+    "waste_basket": 4
+   },
+   "placed": 428,
+   "radius_m": 250.0,
+   "rows_in_range": 839,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_-2",
+    "t_-3_-3"
+   ],
+   "tree_species_substituted": 28,
+   "triangles": 1314298,
+   "unmapped_kinds": {
+    "artwork": 1,
+    "cooling_tower": 108,
+    "curb_ramp": 85,
+    "misc_structure": 1
+   }
+  },
+  "radius_m": 746.9552510710566,
+  "seconds": 218.05,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
+   "samples": 213,
+   "spacing_m": 2.0,
+   "triangles": 89888,
+   "water_bodies": [],
+   "water_quads": 0,
+   "z_max_m": 33.36,
+   "z_min_m": 1.35
+  },
+  "triangles": 3840992
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 746.9552510710566
+ },
+ "seconds": {
+  "render": 88.4,
+  "scene": 219.7,
+  "total": 308.0
+ },
+ "slug": "landmark_barclays_center",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 216.8,
+  "name": "Barclays Center"
+ },
+ "sun": {
+  "azimuth_deg": 273.0816609210534,
+  "elevation_deg": 13.182248654298892,
+  "local": "2025-04-17T18:23:00-04:00",
+  "time_source": "EXIF DateTimeOriginal (minutes)",
+  "utc": "2025-04-17T22:23:00Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 144.8,
+  "lat": 40.684,
+  "lon": -73.9768,
+  "note": "north-west corner of Flatbush and Atlantic Avenues, looking south-east at the oculus entrance"
+ }
+}

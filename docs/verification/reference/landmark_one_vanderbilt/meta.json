@@ -1,0 +1,196 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_one_vanderbilt",
+ "name": "One Vanderbilt",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7514,
+  "lon": -73.9779,
+  "azimuth_deg": 340.5,
+  "note": "Pershing Square plaza on Park Avenue at East 41st Street, looking north-north-west past Grand Central",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7529,
+  "lon": -73.9786,
+  "name": "One Vanderbilt"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2020,
+ "wanted": 3,
+ "queries": [
+  "\"One Vanderbilt\" 42nd Street skyscraper",
+  "\"One Vanderbilt\" Grand Central exterior"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T12:21:18Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 37,
+ "candidates_eligible": 5,
+ "rejections": {
+  "keywords": 18,
+  "excluded": 6,
+  "too_small": 7,
+  "licence": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:One Vanderbilt December 2021 001.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:One_Vanderbilt_December_2021_001.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/01/One_Vanderbilt_December_2021_001.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/One_Vanderbilt_December_2021_001.jpg/1920px-One_Vanderbilt_December_2021_001.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-12-07 11:30:44",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.752017,
+    "lon": -73.977372
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 549800,
+   "sha256": "ff374da7af8d16d5407de8e4918748c9bb6c3daccee55fee70163b9f0aa62e5d",
+   "mean_luminance": 148.7,
+   "description": "One Vanderbilt in December 2021",
+   "categories": [
+    "One Vanderbilt",
+    "New York City photographs taken on 2021-12-07",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Midtown Manhattan in 2021",
+    "December 2021 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.9,
+   "estimated_viewpoint": {
+    "lat": 40.752017,
+    "lon": -73.977372,
+    "azimuth_deg": 313.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75202, -73.97737) is 143 m from One Vanderbilt (40.75290, -73.97860) and 82 m from the standard viewpoint; the azimuth 314 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"One Vanderbilt December 2021 001.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:One_Vanderbilt_December_2021_001.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:One Vanderbilt August 2021 002.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:One_Vanderbilt_August_2021_002.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/29/One_Vanderbilt_August_2021_002.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/One_Vanderbilt_August_2021_002.jpg/1920px-One_Vanderbilt_August_2021_002.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-08-19 12:33:58",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.752072,
+    "lon": -73.977792
+   },
+   "original_width": 2448,
+   "original_height": 3264,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1111808,
+   "sha256": "a362ea9e46c1546bf0204346b71e900ed6e6f540a43f6cbea45f6282ce017875",
+   "mean_luminance": 130.4,
+   "description": "One Vanderbilt seen from East 42nd Street",
+   "categories": [
+    "One Vanderbilt",
+    "New York City photographs taken on 2021-08-19",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Midtown Manhattan in 2021",
+    "August 2021 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.9,
+   "estimated_viewpoint": {
+    "lat": 40.752072,
+    "lon": -73.977792,
+    "azimuth_deg": 323.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75207, -73.97779) is 114 m from One Vanderbilt (40.75290, -73.97860) and 75 m from the standard viewpoint; the azimuth 324 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"One Vanderbilt August 2021 002.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:One_Vanderbilt_August_2021_002.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:One Vanderbilt January 2023 005.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:One_Vanderbilt_January_2023_005.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/13/One_Vanderbilt_January_2023_005.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/One_Vanderbilt_January_2023_005.jpg/1280px-One_Vanderbilt_January_2023_005.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-01-25 11:48:51",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.752025,
+    "lon": -73.977767
+   },
+   "original_width": 1536,
+   "original_height": 2048,
+   "width": 1280,
+   "height": 1707,
+   "bytes": 466126,
+   "sha256": "cc724442fe594c25df7574c03e6deae38fa1e17a7743c021b87c7aeff4956194",
+   "mean_luminance": 176.9,
+   "description": "One Vanderbilt in January 2023",
+   "categories": [
+    "One Vanderbilt",
+    "New York City photographs taken on 2023-01-25",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Office buildings in the United States photographed in 2023",
+    "Midtown Manhattan in 2023",
+    "January 2023 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.2,
+   "estimated_viewpoint": {
+    "lat": 40.752025,
+    "lon": -73.977767,
+    "azimuth_deg": 324.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75203, -73.97777) is 120 m from One Vanderbilt (40.75290, -73.97860) and 70 m from the standard viewpoint; the azimuth 324 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"One Vanderbilt January 2023 005.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:One_Vanderbilt_January_2023_005.jpg"
+  }
+ ]
+}

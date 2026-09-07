@@ -1,0 +1,201 @@
+{
+ "schema_version": 1,
+ "slug": "drive_lower_manhattan_stone_st",
+ "name": "Lower Manhattan drive-through: Stone Street",
+ "group": "drive_through",
+ "viewpoint": {
+  "lat": 40.704,
+  "lon": -74.0105,
+  "azimuth_deg": 60.0,
+  "note": "west end of the Stone Street pedestrian block at William Street, looking east-north-east",
+  "representative": false
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Stone Street\" Manhattan",
+  "\"Stone Street\" Financial District restaurants"
+ ],
+ "geosearch_radius_m": 120,
+ "fetched_at": "2026-09-07T07:58:03Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 88,
+ "candidates_eligible": 34,
+ "rejections": {
+  "too_old": 3,
+  "keywords": 20,
+  "subject_not_named": 15,
+  "not_photo": 8,
+  "licence": 1,
+  "excluded": 6,
+  "too_small": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Financial District Manhattan April 2022 008.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Financial_District_Manhattan_April_2022_008.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Financial_District_Manhattan_April_2022_008.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Financial_District_Manhattan_April_2022_008.jpg/1920px-Financial_District_Manhattan_April_2022_008.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-04-19 13:45:47",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.7041,
+    "lon": -74.0107
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 875146,
+   "sha256": "3a3f9ebd8b2fe76764459d9b75ac7a2b90b7fb5729c8dd969a2984d8fa16e2cf",
+   "mean_luminance": 103.0,
+   "description": "Stone Street in the Financial District of Manhattan",
+   "categories": [
+    "Stone Street (Manhattan)",
+    "New York City photographs taken on 2022-04-19",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Financial District, Manhattan in 2022",
+    "April 2022 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Stone Street\" Manhattan",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.7041,
+    "lon": -74.0107,
+    "azimuth_deg": 60.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.70410, -74.01070), 20 m from the reference position (west end of the Stone Street pedestrian block at William Street, looking east-north-east); this item is a view along a street rather than at a point subject, so the azimuth 60 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Financial District Manhattan April 2022 008.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Financial_District_Manhattan_April_2022_008.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Stone Street table settings jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Stone_Street_table_settings_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Stone_Street_table_settings_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Stone_Street_table_settings_jeh.jpg/1920px-Stone_Street_table_settings_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2016",
+   "date_source": "DateTimeOriginal",
+   "year": 2016,
+   "camera_gps": {
+    "lat": 40.704306,
+    "lon": -74.011111
+   },
+   "original_width": 4896,
+   "original_height": 3672,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 831747,
+   "sha256": "c81e8dc4f24660bc6b9fdd540dc4af622ab9b37a2ba63dce9266e18e579d7009",
+   "mean_luminance": 109.9,
+   "description": "Looking northeast towards Mill Lane on a sunny late morning.",
+   "categories": [
+    "CC-Zero",
+    "Stone Street (Manhattan)",
+    "Images with annotations",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2016-06-13",
+    "Picnic tables in New York City",
+    "57 Stone Street (Manhattan)",
+    "3 Hanover Square",
+    "June 2016 in Manhattan, New York City",
+    "June 2016 photos by Jim.henderson",
+    "2016 Manhattan photos by Jim.henderson"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.15,
+   "estimated_viewpoint": {
+    "lat": 40.704306,
+    "lon": -74.011111,
+    "azimuth_deg": 60.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.70431, -74.01111), 62 m from the reference position (west end of the Stone Street pedestrian block at William Street, looking east-north-east); this item is a view along a street rather than at a point subject, so the azimuth 60 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Stone Street table settings jeh.jpg\" by Jim.henderson, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Stone_Street_table_settings_jeh.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Stone Street (Manhattan) - Vladimir Kudinov 2015-03-27 (Unsplash L8O h4OgCjM).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Stone_Street_(Manhattan)_-_Vladimir_Kudinov_2015-03-27_(Unsplash_L8O_h4OgCjM).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/66/Stone_Street_%28Manhattan%29_-_Vladimir_Kudinov_2015-03-27_%28Unsplash_L8O_h4OgCjM%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Stone_Street_%28Manhattan%29_-_Vladimir_Kudinov_2015-03-27_%28Unsplash_L8O_h4OgCjM%29.jpg/1920px-Stone_Street_%28Manhattan%29_-_Vladimir_Kudinov_2015-03-27_%28Unsplash_L8O_h4OgCjM%29.jpg",
+   "author": "Vladimir Kudinov madbyte",
+   "credit": "https://unsplash.com/photos/L8O_h4OgCjM archive copy at the Wayback Machine Image at the Wayback Machine",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2015-03-27",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.70434,
+    "lon": -74.01033
+   },
+   "original_width": 3556,
+   "original_height": 2000,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 887151,
+   "sha256": "5e229d26b7466448853f77a507933629f3640bad2132ebfdbd1cb4720a228c72",
+   "mean_luminance": 78.1,
+   "description": "Stone Street (Manhattan) - Vladimir Kudinov 2015-03-27",
+   "categories": [
+    "March 2015 in New York City",
+    "CC-Zero",
+    "Stone Street (Manhattan)",
+    "Images uploaded by Fæ",
+    "Irish pubs in New York (state)",
+    "Images from Unsplash",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.0,
+   "estimated_viewpoint": {
+    "lat": 40.70434,
+    "lon": -74.01033,
+    "azimuth_deg": 60.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.70434, -74.01033), 40 m from the reference position (west end of the Stone Street pedestrian block at William Street, looking east-north-east); this item is a view along a street rather than at a point subject, so the azimuth 60 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Stone Street (Manhattan) - Vladimir Kudinov 2015-03-27 (Unsplash L8O h4OgCjM).jpg\" by Vladimir Kudinov madbyte, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Stone_Street_(Manhattan)_-_Vladimir_Kudinov_2015-03-27_(Unsplash_L8O_h4OgCjM).jpg"
+  }
+ ]
+}

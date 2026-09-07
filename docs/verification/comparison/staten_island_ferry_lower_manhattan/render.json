@@ -1,0 +1,1509 @@
+{
+ "azimuth_reason": "15.8 deg as recorded; it agrees with the bearing from the camera position used to One World Trade Center (15.9 deg) to 0.1 deg",
+ "camera": {
+  "azimuth_deg": 15.8,
+  "eye_datum": "sea",
+  "eye_height_m": 8.0,
+  "eye_source": "open bow deck of a Molinari/Barberi-class Staten Island Ferry: upper (promenade) deck about 6.4 m above the waterline, plus 1.6 m eye height; the boat is not modelled, so the camera floats free at that height over the Upper Bay",
+  "focal_mm": 28.0,
+  "ground_detail": {
+   "below_point_excluded": null,
+   "chosen_m": -0.0,
+   "max_m": -0.0,
+   "median_m": -0.0,
+   "min_m": -0.0,
+   "mode": "local",
+   "percentile": null,
+   "point_m": -0.0,
+   "radius_m": 5.0,
+   "samples": 16
+  },
+  "ground_mode": "local",
+  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap height at the point itself is the ground (the neighbourhood is still measured and printed, because a terrace can stand metres above the plaza 4 m away and a median across that step would put the camera underground)",
+  "hfov_deg": 65.47,
+  "lat": 40.691,
+  "lon": -74.0215,
+  "long_side_fov_deg": 65.47,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1280,
+   560
+  ],
+  "sensor_mm": 36.0,
+  "slug": "staten_island_ferry_lower_manhattan",
+  "terrain_z_m": -0.0,
+  "x": -6043.672,
+  "y": -996.974,
+  "z": 8.0
+ },
+ "camera_caption": "camera 40.69100, -74.02150 (NYC_TM -6044, -997) z 8.0 m NAVD88 | azimuth 15.8deg pitch +0.0deg | 28 mm on 36 mm (65.5deg horizontal) | 1280x560",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.691,
+  "lon": -74.0215,
+  "offset_from_recorded_m": 699.0,
+  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 699 m away, past the 250 m at which it could still be the same view, so it was rejected as mis-tagged"
+ },
+ "clearance": {
+  "min_view_m": 80.0,
+  "moved": false,
+  "nearest_obstruction": null,
+  "nearest_obstruction_m": 60.0,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is further than 60 m, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
+ },
+ "frame": {
+  "mean": 0.7617,
+  "reason": null,
+  "sd": 0.1238,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "viewpoint",
+ "interior": false,
+ "lens_reason": "ferry-deck skyline, same wide framing as the promenade",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 785.9,
+  "emissive": {
+   "cones_hidden": 1,
+   "lamps_switched_off": 1,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.43,
+  "sky_azimuth_deg": 209.288,
+  "sky_elevation_deg": 31.855,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.455,
+  "view_transform": "Filmic"
+ },
+ "name": "Staten Island Ferry deck view of Lower Manhattan",
+ "night": false,
+ "pitch_reason": "level optical axis (the subject is 2510 m away; anything that far is photographed with a level camera)",
+ "reference_photo": {
+  "author": "King of Hearts",
+  "confidence": "high",
+  "date_taken": "2015-02-15 13:51",
+  "estimated_azimuth_deg": 15.1,
+  "file": "2.jpg",
+  "height": 840,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Lower_Manhattan_from_Staten_Island_Ferry_February_2015_002.jpg",
+  "title": "File:Lower Manhattan from Staten Island Ferry February 2015 002.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/staten_island_ferry_lower_manhattan/render.png",
+ "rendered_at": "2026-09-07T02:39:39Z",
+ "resolution_note": "1280x560; the reference photograph is 1920x840 (2.29:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 32,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-10_-1",
+    "t_-10_-4",
+    "t_-10_-5",
+    "t_-10_0",
+    "t_-10_1",
+    "t_-10_2",
+    "t_-10_3",
+    "t_-11_-1",
+    "t_-11_-2",
+    "t_-11_-3",
+    "t_-11_-4",
+    "t_-11_-5",
+    "t_-11_0",
+    "t_-11_1",
+    "t_-11_2",
+    "t_-12_-1",
+    "t_-12_-2",
+    "t_-12_-3",
+    "t_-12_-4",
+    "t_-12_0",
+    "t_-12_1",
+    "t_-1_-1",
+    "t_-1_-2",
+    "t_-1_-3",
+    "t_-1_-4",
+    "t_-1_0",
+    "t_-1_1",
+    "t_-2_-1",
+    "t_-2_-2",
+    "t_-2_-3",
+    "t_-2_-4",
+    "t_-2_-5",
+    "t_-2_0",
+    "t_-2_1",
+    "t_-2_2",
+    "t_-3_-1",
+    "t_-3_-2",
+    "t_-3_-3",
+    "t_-3_-4",
+    "t_-3_-5",
+    "t_-3_-6",
+    "t_-3_0",
+    "t_-3_1",
+    "t_-3_2",
+    "t_-3_3",
+    "t_-4_-1",
+    "t_-4_-2",
+    "t_-4_-3",
+    "t_-4_-4",
+    "t_-4_-5",
+    "t_-4_-6",
+    "t_-4_-7",
+    "t_-4_0",
+    "t_-4_1",
+    "t_-4_2",
+    "t_-4_3",
+    "t_-4_4",
+    "t_-5_-1",
+    "t_-5_-2",
+    "t_-5_-3",
+    "t_-5_-4",
+    "t_-5_-5",
+    "t_-5_-6",
+    "t_-5_-7",
+    "t_-5_0",
+    "t_-5_1",
+    "t_-5_2",
+    "t_-5_3",
+    "t_-5_4",
+    "t_-6_-1",
+    "t_-6_-2",
+    "t_-6_-3",
+    "t_-6_-4",
+    "t_-6_-5",
+    "t_-6_-6",
+    "t_-6_-7",
+    "t_-6_0",
+    "t_-6_1",
+    "t_-6_2",
+    "t_-6_3",
+    "t_-6_4",
+    "t_-7_-2",
+    "t_-7_-6",
+    "t_-7_-7",
+    "t_-7_1",
+    "t_-7_2",
+    "t_-7_3",
+    "t_-7_4",
+    "t_-8_-1",
+    "t_-8_-2",
+    "t_-8_-7",
+    "t_-8_0",
+    "t_-8_1",
+    "t_-8_2",
+    "t_-8_3",
+    "t_-8_4",
+    "t_-9_-1",
+    "t_-9_-2",
+    "t_-9_0",
+    "t_-9_1",
+    "t_-9_2",
+    "t_-9_3",
+    "t_-9_4"
+   ],
+   "landmark_bins_suppressed": 30,
+   "landmark_faces_suppressed": 1548,
+   "lod_substituted": [
+    "t_-2_-5 (LOD2 -> LOD1)",
+    "t_-3_-5 (LOD2 -> LOD1)",
+    "t_-3_-6 (LOD2 -> LOD1)",
+    "t_-4_-5 (LOD2 -> LOD1)",
+    "t_-4_-6 (LOD2 -> LOD1)",
+    "t_-4_-7 (LOD2 -> LOD1)",
+    "t_-5_-5 (LOD2 -> LOD1)",
+    "t_-5_-6 (LOD2 -> LOD1)",
+    "t_-5_-7 (LOD2 -> LOD1)",
+    "t_-6_-5 (LOD2 -> LOD1)",
+    "t_-6_-6 (LOD2 -> LOD1)",
+    "t_-6_-7 (LOD2 -> LOD1)",
+    "t_-7_-6 (LOD2 -> LOD1)",
+    "t_-7_-7 (LOD2 -> LOD1)",
+    "t_-8_-7 (LOD2 -> LOD1)",
+    "t_-9_-2 (LOD2 -> LOD1)"
+   ],
+   "missing": [
+    "t_-10_-2",
+    "t_-10_-3",
+    "t_-10_-6",
+    "t_-7_-1",
+    "t_-7_-3",
+    "t_-7_-4",
+    "t_-7_-5",
+    "t_-7_0",
+    "t_-8_-3",
+    "t_-8_-4",
+    "t_-8_-5",
+    "t_-8_-6",
+    "t_-9_-3",
+    "t_-9_-4",
+    "t_-9_-5",
+    "t_-9_-6",
+    "t_-9_-7"
+   ],
+   "new_jersey": [
+    "t_-10_-1",
+    "t_-10_-4",
+    "t_-10_-5",
+    "t_-10_0",
+    "t_-10_1",
+    "t_-10_2",
+    "t_-10_3",
+    "t_-11_-1",
+    "t_-11_-2",
+    "t_-11_-3",
+    "t_-11_-4",
+    "t_-11_-5",
+    "t_-11_0",
+    "t_-11_1",
+    "t_-11_2",
+    "t_-12_-1",
+    "t_-12_-2",
+    "t_-12_-3",
+    "t_-12_-4",
+    "t_-12_0",
+    "t_-12_1",
+    "t_-7_1",
+    "t_-7_2",
+    "t_-7_3",
+    "t_-7_4",
+    "t_-8_-1",
+    "t_-8_0",
+    "t_-8_1",
+    "t_-8_2",
+    "t_-8_3",
+    "t_-8_4",
+    "t_-9_-1",
+    "t_-9_0",
+    "t_-9_1",
+    "t_-9_2",
+    "t_-9_3",
+    "t_-9_4"
+   ],
+   "per_tile": {
+    "t_-10_-1": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 5,
+     "triangles": 548
+    },
+    "t_-10_-4": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 2,
+     "triangles": 12
+    },
+    "t_-10_-5": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 2,
+     "triangles": 56
+    },
+    "t_-10_0": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 5,
+     "triangles": 1184
+    },
+    "t_-10_1": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 5,
+     "triangles": 9568
+    },
+    "t_-10_2": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 7,
+     "triangles": 7376
+    },
+    "t_-10_3": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 6,
+     "triangles": 9472
+    },
+    "t_-11_-1": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 4,
+     "triangles": 1080
+    },
+    "t_-11_-2": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 5,
+     "triangles": 1288
+    },
+    "t_-11_-3": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 4,
+     "triangles": 156
+    },
+    "t_-11_-4": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 3,
+     "triangles": 284
+    },
+    "t_-11_-5": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 2,
+     "triangles": 148
+    },
+    "t_-11_0": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 5,
+     "triangles": 11800
+    },
+    "t_-11_1": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 6,
+     "triangles": 12136
+    },
+    "t_-11_2": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 5,
+     "triangles": 14992
+    },
+    "t_-12_-1": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 5,
+     "triangles": 9284
+    },
+    "t_-12_-2": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 5,
+     "triangles": 1056
+    },
+    "t_-12_-3": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 5,
+     "triangles": 388
+    },
+    "t_-12_-4": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 2,
+     "triangles": 344
+    },
+    "t_-12_0": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 5,
+     "triangles": 21944
+    },
+    "t_-12_1": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 5,
+     "triangles": 15848
+    },
+    "t_-1_-1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 13,
+     "triangles": 19040
+    },
+    "t_-1_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 13,
+     "triangles": 35776
+    },
+    "t_-1_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 15,
+     "triangles": 29558
+    },
+    "t_-1_-4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 14,
+     "triangles": 25016
+    },
+    "t_-1_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 12,
+     "triangles": 27996
+    },
+    "t_-1_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 15,
+     "triangles": 24448
+    },
+    "t_-2_-1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 15,
+     "triangles": 18416
+    },
+    "t_-2_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 17,
+     "triangles": 27732
+    },
+    "t_-2_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 16,
+     "triangles": 30208
+    },
+    "t_-2_-4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 13,
+     "triangles": 4580
+    },
+    "t_-2_-5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 10,
+     "triangles": 2332
+    },
+    "t_-2_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 9,
+     "triangles": 7336
+    },
+    "t_-2_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 15,
+     "triangles": 10252
+    },
+    "t_-2_2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 6,
+     "triangles": 620
+    },
+    "t_-3_-1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 13,
+     "triangles": 5184
+    },
+    "t_-3_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 17,
+     "triangles": 19844
+    },
+    "t_-3_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 15,
+     "triangles": 38428
+    },
+    "t_-3_-4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 16,
+     "triangles": 45924
+    },
+    "t_-3_-5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 10,
+     "triangles": 39932
+    },
+    "t_-3_-6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 12,
+     "triangles": 29540
+    },
+    "t_-3_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 13,
+     "triangles": 3020
+    },
+    "t_-3_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 11,
+     "triangles": 2664
+    },
+    "t_-3_2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 13,
+     "triangles": 16572
+    },
+    "t_-3_3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 14,
+     "triangles": 14884
+    },
+    "t_-4_-1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 17,
+     "triangles": 18616
+    },
+    "t_-4_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 16,
+     "triangles": 34104
+    },
+    "t_-4_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 13,
+     "triangles": 17632
+    },
+    "t_-4_-4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 13,
+     "triangles": 30256
+    },
+    "t_-4_-5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 14,
+     "triangles": 25548
+    },
+    "t_-4_-6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 10,
+     "triangles": 1444
+    },
+    "t_-4_-7": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 12,
+     "triangles": 47104
+    },
+    "t_-4_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 16,
+     "triangles": 3452
+    },
+    "t_-4_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 14,
+     "triangles": 14376
+    },
+    "t_-4_2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 19,
+     "triangles": 23520
+    },
+    "t_-4_3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 18,
+     "triangles": 19116
+    },
+    "t_-4_4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 19,
+     "triangles": 15908
+    },
+    "t_-5_-1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 11,
+     "triangles": 3260
+    },
+    "t_-5_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 12,
+     "triangles": 17552
+    },
+    "t_-5_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 13,
+     "triangles": 22136
+    },
+    "t_-5_-4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 9,
+     "triangles": 1332
+    },
+    "t_-5_-5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 12,
+     "triangles": 15088
+    },
+    "t_-5_-6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 13,
+     "triangles": 29304
+    },
+    "t_-5_-7": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 11,
+     "triangles": 66548
+    },
+    "t_-5_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 18,
+     "triangles": 4744
+    },
+    "t_-5_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 18,
+     "triangles": 11156
+    },
+    "t_-5_2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 18,
+     "triangles": 18116
+    },
+    "t_-5_3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 18,
+     "triangles": 29476
+    },
+    "t_-5_4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 17,
+     "triangles": 24016
+    },
+    "t_-6_-1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 8,
+     "triangles": 3596
+    },
+    "t_-6_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 7,
+     "triangles": 5956
+    },
+    "t_-6_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 13,
+     "triangles": 10312
+    },
+    "t_-6_-4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 7,
+     "triangles": 304
+    },
+    "t_-6_-5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 6,
+     "triangles": 488
+    },
+    "t_-6_-6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 13,
+     "triangles": 23532
+    },
+    "t_-6_-7": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 14,
+     "triangles": 61180
+    },
+    "t_-6_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 16,
+     "triangles": 4862
+    },
+    "t_-6_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 18,
+     "triangles": 3356
+    },
+    "t_-6_2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 15,
+     "triangles": 2652
+    },
+    "t_-6_3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 11,
+     "triangles": 1100
+    },
+    "t_-6_4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 2,
+     "objects": 6,
+     "triangles": 152
+    },
+    "t_-7_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 3,
+     "triangles": 620
+    },
+    "t_-7_-6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 10,
+     "triangles": 1064
+    },
+    "t_-7_-7": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 12,
+     "triangles": 18780
+    },
+    "t_-7_1": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 3,
+     "triangles": 136
+    },
+    "t_-7_2": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 6,
+     "triangles": 132
+    },
+    "t_-7_3": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 7,
+     "triangles": 596
+    },
+    "t_-7_4": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 6,
+     "triangles": 2860
+    },
+    "t_-8_-1": {
+     "files": [
+      "tile_buildings.glb",
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 1,
+     "objects": 5,
+     "triangles": 1064
+    },
+    "t_-8_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 2,
+     "triangles": 28
+    },
+    "t_-8_-7": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 7,
+     "triangles": 4556
+    },
+    "t_-8_0": {
+     "files": [
+      "tile_buildings.glb",
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 1,
+     "objects": 6,
+     "triangles": 176
+    },
+    "t_-8_1": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 7,
+     "triangles": 2684
+    },
+    "t_-8_2": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 8,
+     "triangles": 4152
+    },
+    "t_-8_3": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 7,
+     "triangles": 2348
+    },
+    "t_-8_4": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 6,
+     "triangles": 5356
+    },
+    "t_-9_-1": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 3,
+     "triangles": 84
+    },
+    "t_-9_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "lod_requested": 2,
+     "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
+     "objects": 7,
+     "triangles": 152
+    },
+    "t_-9_0": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 2,
+     "triangles": 120
+    },
+    "t_-9_1": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 6,
+     "triangles": 2240
+    },
+    "t_-9_2": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 4,
+     "triangles": 6560
+    },
+    "t_-9_3": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 6,
+     "triangles": 5744
+    },
+    "t_-9_4": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 2,
+     "objects": 5,
+     "triangles": 13688
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 103,
+   "tiles_lod_substituted": 16,
+   "tiles_missing": 17,
+   "tiles_wanted": 120,
+   "tiles_with_new_jersey": 37,
+   "triangle_budget": 3510000,
+   "triangles": 1282700
+  },
+  "centre_tm": [
+   -6043.67,
+   -996.97
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 1,
+    "cornice": 12,
+    "door_entry": 1,
+    "quoin": 22,
+    "string_course": 12,
+    "window": 188
+   },
+   "placed": 236,
+   "radius_m": 70.0,
+   "records_in_range": 236,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
+   "tiles_missing": [
+    "t_-7_-1"
+   ],
+   "tiles_read": [
+    "t_-6_-1",
+    "t_-6_-2",
+    "t_-7_-2"
+   ],
+   "triangles": 65890,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 349.6,
+     "id": "b_governors_island",
+     "lod": 0,
+     "name": "Governors Island: Castle Williams and Fort Jay",
+     "triangles": 4122
+    },
+    {
+     "distance_m": 980.3,
+     "id": "b_hugh_carey_portals",
+     "lod": 0,
+     "name": "Hugh L. Carey Tunnel",
+     "triangles": 43880
+    },
+    {
+     "distance_m": 1324.1,
+     "id": "c_whitehall_and_st_george_ferry_terminals",
+     "lod": 0,
+     "name": "Whitehall, Battery Maritime and St. George ferry terminals",
+     "triangles": 77605
+    },
+    {
+     "distance_m": 1750.4,
+     "id": "charging_bull",
+     "lod": 0,
+     "name": "Charging Bull",
+     "triangles": 818
+    },
+    {
+     "distance_m": 1830.3,
+     "id": "b_ellis_island_main",
+     "lod": 0,
+     "name": "Ellis Island Main Immigration Building",
+     "triangles": 5992
+    },
+    {
+     "distance_m": 1959.2,
+     "id": "b_statue_of_liberty",
+     "lod": 0,
+     "name": "Statue of Liberty",
+     "triangles": 19812
+    },
+    {
+     "distance_m": 1972.3,
+     "id": "one_wall_street",
+     "lod": 0,
+     "name": "One Wall Street (Irving Trust Building)",
+     "triangles": 42712
+    },
+    {
+     "distance_m": 1981.9,
+     "id": "nyse",
+     "lod": 0,
+     "name": "New York Stock Exchange",
+     "triangles": 26049
+    },
+    {
+     "distance_m": 2038.7,
+     "id": "40_wall_street",
+     "lod": 0,
+     "name": "40 Wall Street (Trump Building)",
+     "triangles": 43167
+    },
+    {
+     "distance_m": 2047.7,
+     "id": "trinity_church",
+     "lod": 0,
+     "name": "Trinity Church",
+     "triangles": 3984
+    },
+    {
+     "distance_m": 2048.0,
+     "id": "federal_hall",
+     "lod": 0,
+     "name": "Federal Hall National Memorial",
+     "triangles": 9070
+    },
+    {
+     "distance_m": 2126.9,
+     "id": "equitable_building",
+     "lod": 0,
+     "name": "Equitable Building",
+     "triangles": 86321
+    },
+    {
+     "distance_m": 2332.4,
+     "id": "c_pier_17_seaport",
+     "lod": 0,
+     "name": "Pier 17, South Street Seaport",
+     "triangles": 1350
+    },
+    {
+     "distance_m": 2388.6,
+     "id": "b_wtc_site",
+     "lod": 0,
+     "name": "World Trade Center site",
+     "triangles": 136288
+    },
+    {
+     "distance_m": 2543.3,
+     "id": "b_one_world_trade_center",
+     "lod": 0,
+     "name": "One World Trade Center",
+     "triangles": 6044
+    },
+    {
+     "distance_m": 2629.4,
+     "id": "woolworth",
+     "lod": 0,
+     "name": "Woolworth Building",
+     "triangles": 47871
+    },
+    {
+     "distance_m": 2679.6,
+     "id": "b_brooklyn_bridge",
+     "lod": 0,
+     "name": "Brooklyn Bridge",
+     "triangles": 121824
+    },
+    {
+     "distance_m": 2748.7,
+     "id": "city_hall",
+     "lod": 0,
+     "name": "New York City Hall",
+     "triangles": 44823
+    },
+    {
+     "distance_m": 2868.6,
+     "id": "municipal_building",
+     "lod": 0,
+     "name": "Manhattan Municipal Building",
+     "triangles": 97825
+    },
+    {
+     "distance_m": 3166.1,
+     "id": "b_manhattan_bridge",
+     "lod": 1,
+     "name": "Manhattan Bridge",
+     "triangles": 28940
+    },
+    {
+     "distance_m": 3750.8,
+     "id": "c_williamsburgh_savings_bank_tower",
+     "lod": 1,
+     "name": "Williamsburgh Savings Bank Tower (One Hanson Place)",
+     "triangles": 41846
+    },
+    {
+     "distance_m": 4016.0,
+     "id": "b_holland_tunnel_portals",
+     "lod": 1,
+     "name": "Holland Tunnel",
+     "triangles": 6654
+    },
+    {
+     "distance_m": 4019.5,
+     "id": "c_barclays_center",
+     "lod": 1,
+     "name": "Barclays Center",
+     "triangles": 7270
+    },
+    {
+     "distance_m": 4798.6,
+     "id": "b_soldiers_sailors_arch",
+     "lod": 1,
+     "name": "Soldiers' and Sailors' Memorial Arch",
+     "triangles": 388
+    },
+    {
+     "distance_m": 4867.0,
+     "id": "b_williamsburg_bridge",
+     "lod": 1,
+     "name": "Williamsburg Bridge",
+     "triangles": 26364
+    },
+    {
+     "distance_m": 4920.7,
+     "id": "b_washington_square_arch",
+     "lod": 1,
+     "name": "Washington Square Arch",
+     "triangles": 208
+    },
+    {
+     "distance_m": 4971.1,
+     "id": "c_brooklyn_public_library",
+     "lod": 1,
+     "name": "Brooklyn Public Library, Central Library",
+     "triangles": 10184
+    },
+    {
+     "distance_m": 5268.0,
+     "id": "c_domino_sugar_refinery",
+     "lod": 1,
+     "name": "Domino Sugar Refinery and Domino Park",
+     "triangles": 23466
+    },
+    {
+     "distance_m": 5387.3,
+     "id": "c_brooklyn_museum",
+     "lod": 1,
+     "name": "Brooklyn Museum",
+     "triangles": 24089
+    },
+    {
+     "distance_m": 6488.5,
+     "id": "c_high_line",
+     "lod": 1,
+     "name": "The High Line",
+     "triangles": 30224
+    }
+   ],
+   "placed": 30,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 1019190
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "curb": 314,
+    "median": 11,
+    "parking_lot": 17,
+    "plaza": 1,
+    "roadbed": 90,
+    "sidewalk": 63
+   },
+   "placed": 496,
+   "radius_m": 900.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-6_-1",
+    "t_-6_-2",
+    "t_-7_-1",
+    "t_-7_-2"
+   ],
+   "triangles": 40644,
+   "vertices": 41562
+  },
+  "props": {
+   "capped": null,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "leaf_off": true,
+   "per_kind": {
+    "bench": 9,
+    "bike_rack": 1,
+    "manhole": 20,
+    "steam_vent": 1,
+    "street_lamp": 3,
+    "waste_basket": 2
+   },
+   "placed": 36,
+   "radius_m": 150.0,
+   "rows_in_range": 40,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-6_-1",
+    "t_-6_-2",
+    "t_-7_-1",
+    "t_-7_-2"
+   ],
+   "tree_species_substituted": 0,
+   "triangles": 77164,
+   "unmapped_kinds": {
+    "curb_ramp": 2,
+    "memorial": 1,
+    "vending_machine": 1
+   }
+  },
+  "radius_m": 5500.0,
+  "seconds": 190.22,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.5,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 3.125,
+   "samples": 373,
+   "spacing_m": 3.125,
+   "triangles": 276768,
+   "water_quads": 63627,
+   "z_max_m": 66.03,
+   "z_min_m": -3.79
+  },
+  "triangles": 2762356
+ },
+ "scene_request": {
+  "kit_radius_m": 70.0,
+  "prop_radius_m": 150.0,
+  "radius_m": 5500.0
+ },
+ "seconds": {
+  "render": 22.4,
+  "scene": 190.9,
+  "total": 213.4
+ },
+ "slug": "staten_island_ferry_lower_manhattan",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 2509.6,
+  "name": "One World Trade Center"
+ },
+ "sun": {
+  "azimuth_deg": 209.2884021663215,
+  "elevation_deg": 31.855391735208105,
+  "local": "2015-02-15T13:51:00-05:00",
+  "time_source": "EXIF DateTimeOriginal (minutes)",
+  "utc": "2015-02-15T18:51:00Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 15.8,
+  "lat": 40.691,
+  "lon": -74.0215,
+  "note": "open bow deck of a Manhattan-bound Staten Island Ferry, about 1 nautical mile south of Whitehall Terminal"
+ }
+}

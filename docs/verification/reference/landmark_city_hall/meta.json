@@ -1,0 +1,202 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_city_hall",
+ "name": "New York City Hall",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7117,
+  "lon": -74.0075,
+  "azimuth_deg": 45.9,
+  "note": "south apex of City Hall Park (Broadway at Park Row), looking north-east at the south front",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7128,
+  "lon": -74.006,
+  "name": "New York City Hall"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"New York City Hall\" exterior",
+  "\"City Hall\" Manhattan City Hall Park building"
+ ],
+ "geosearch_radius_m": 200,
+ "fetched_at": "2026-09-06T12:34:12Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 114,
+ "candidates_eligible": 38,
+ "rejections": {
+  "too_old": 20,
+  "licence": 1,
+  "keywords": 24,
+  "excluded": 17,
+  "not_photo": 4,
+  "too_small": 10
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Cherry blossom at City Hall Park, May 1st 2024, Manhattan 03.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Cherry_blossom_at_City_Hall_Park,_May_1st_2024,_Manhattan_03.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/67/Cherry_blossom_at_City_Hall_Park%2C_May_1st_2024%2C_Manhattan_03.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Cherry_blossom_at_City_Hall_Park%2C_May_1st_2024%2C_Manhattan_03.jpg/1920px-Cherry_blossom_at_City_Hall_Park%2C_May_1st_2024%2C_Manhattan_03.jpg",
+   "author": "Deans Charbal",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024-05-01 12:33:28",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.711953,
+    "lon": -74.007003
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 1588298,
+   "sha256": "b59561a0a2f3a7c51b0c340b5384cbfa0a65484d2a22d71f9cd00ce26882b353",
+   "mean_luminance": 103.3,
+   "description": "Cherry blossom at City Hall Park, May 1st 2024, Manhattan",
+   "categories": [
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "New York City photographs taken on 2024-05-01",
+    "May 2024 in Manhattan, New York City",
+    "Files by User:Deansfa",
+    "Prunus in flower in Manhattan, New York City",
+    "City Hall Park (New York City) in 2024"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 15.2,
+   "estimated_viewpoint": {
+    "lat": 40.711953,
+    "lon": -74.007003,
+    "azimuth_deg": 41.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71195, -74.00700) is 127 m from New York City Hall (40.71280, -74.00600) and 50 m from the standard viewpoint; the azimuth 42 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Cherry blossom at City Hall Park, May 1st 2024, Manhattan 03.jpg\" by Deans Charbal, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Cherry_blossom_at_City_Hall_Park,_May_1st_2024,_Manhattan_03.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Manhattan Municipal Building April 2022 006.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Manhattan_Municipal_Building_April_2022_006.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/70/Manhattan_Municipal_Building_April_2022_006.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Manhattan_Municipal_Building_April_2022_006.jpg/1920px-Manhattan_Municipal_Building_April_2022_006.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-04-30 13:13:34",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.711967,
+    "lon": -74.007483
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 814669,
+   "sha256": "5bf90f8775a321915a8ee1444a30a0347cc964cef65c16e21ca7853883084d9e",
+   "mean_luminance": 117.9,
+   "description": "Manhattan Municipal Building seen from City Hall Park",
+   "categories": [
+    "Manhattan Municipal Building",
+    "New York City photographs taken on 2022-04-30",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Office buildings in the United States photographed in 2022",
+    "Civic Center, Manhattan in 2022",
+    "April 2022 in Manhattan, New York City",
+    "City Hall Park (New York City) in 2022"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 15.05,
+   "estimated_viewpoint": {
+    "lat": 40.711967,
+    "lon": -74.007483,
+    "azimuth_deg": 53.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71197, -74.00748) is 156 m from New York City Hall (40.71280, -74.00600) and 30 m from the standard viewpoint; the azimuth 53 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Manhattan Municipal Building April 2022 006.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Manhattan_Municipal_Building_April_2022_006.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:NYC - City Hall Park - Sciurus carolinensis - panoramio.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:NYC_-_City_Hall_Park_-_Sciurus_carolinensis_-_panoramio.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/f7/NYC_-_City_Hall_Park_-_Sciurus_carolinensis_-_panoramio.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/NYC_-_City_Hall_Park_-_Sciurus_carolinensis_-_panoramio.jpg/1920px-NYC_-_City_Hall_Park_-_Sciurus_carolinensis_-_panoramio.jpg",
+   "author": "giggel",
+   "credit": "https://web.archive.org/web/20161101110556/http://www.panoramio.com/photo/127247242",
+   "license": {
+    "short_name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0",
+    "template": "cc-by-3.0"
+   },
+   "date_taken": "2015",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.712014,
+    "lon": -74.007006
+   },
+   "original_width": 3482,
+   "original_height": 1919,
+   "width": 1920,
+   "height": 1058,
+   "bytes": 441327,
+   "sha256": "6969f265ea1106386cb1e01a08c2a12fe12890aef62526def939df4b13a0b3dd",
+   "mean_luminance": 156.6,
+   "description": "NYC - City Hall Park - Sciurus carolinensis",
+   "categories": [
+    "City Hall Park (New York City)",
+    "Panoramio files uploaded by Panoramio upload bot",
+    "New York City photographs taken on 2015-10-30",
+    "Panoramio images reviewed by trusted users",
+    "Photos from Panoramio",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2015-10-30",
+    "Photos from Panoramio ID 1368505"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.0,
+   "estimated_viewpoint": {
+    "lat": 40.712014,
+    "lon": -74.007006,
+    "azimuth_deg": 44.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71201, -74.00701) is 122 m from New York City Hall (40.71280, -74.00600) and 54 m from the standard viewpoint; the azimuth 44 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"NYC - City Hall Park - Sciurus carolinensis - panoramio.jpg\" by giggel, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:NYC_-_City_Hall_Park_-_Sciurus_carolinensis_-_panoramio.jpg"
+  }
+ ]
+}

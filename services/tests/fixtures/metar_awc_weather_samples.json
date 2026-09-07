@@ -1,0 +1,362 @@
+[
+ {
+  "icaoId": "KDAB",
+  "receiptTime": "2026-09-05T19:06:02.620Z",
+  "obsTime": 1788634980,
+  "reportTime": "2026-09-05T19:03:00.000Z",
+  "temp": 24.4,
+  "dewp": 22.8,
+  "wdir": 340,
+  "wspd": 14,
+  "wgst": 28,
+  "visib": 0.5,
+  "altim": 1013.6,
+  "qcField": 12,
+  "wxString": "TSRA FG",
+  "precip": 0.03,
+  "metarType": "SPECI",
+  "rawOb": "SPECI KDAB 051903Z 34014G28KT 1/2SM TSRA FG BKN030 BKN047 OVC100 24/23 A2993 RMK AO2 PK WND 33028/1856 WSHFT 1847 TWR VIS 2 P0003 T02440228 RVRNO $",
+  "lat": 29.1735,
+  "lon": -81.0719,
+  "elev": 8,
+  "name": "Daytona Beach Intl, FL, US",
+  "cover": "OVC",
+  "clouds": [
+   {
+    "cover": "BKN",
+    "base": 3000
+   },
+   {
+    "cover": "BKN",
+    "base": 4700
+   },
+   {
+    "cover": "OVC",
+    "base": 10000
+   }
+  ],
+  "fltCat": "LIFR"
+ },
+ {
+  "icaoId": "CYBG",
+  "receiptTime": "2026-09-05T19:07:13.229Z",
+  "obsTime": 1788634800,
+  "reportTime": "2026-09-05T19:00:00.000Z",
+  "temp": 16,
+  "dewp": 14,
+  "wdir": 130,
+  "wspd": 3,
+  "visib": 15,
+  "altim": 1018,
+  "slp": 1018.4,
+  "qcField": 0,
+  "wxString": "-SHRA",
+  "metarType": "METAR",
+  "rawOb": "METAR CYBG 051900Z 13003KT 15SM -SHRA FEW015 BKN031 OVC070 16/14 A3006 RMK SF2CU3AC3 DENSITY ALT 771FT PCPN VRY LGT SLP184",
+  "lat": 48.331,
+  "lon": -70.989,
+  "elev": 151,
+  "name": "Bagotville, QC, CA",
+  "cover": "OVC",
+  "clouds": [
+   {
+    "cover": "FEW",
+    "base": 1500
+   },
+   {
+    "cover": "BKN",
+    "base": 3100
+   },
+   {
+    "cover": "OVC",
+    "base": 7000
+   }
+  ],
+  "fltCat": "VFR"
+ },
+ {
+  "icaoId": "CYFC",
+  "receiptTime": "2026-09-05T19:07:13.319Z",
+  "obsTime": 1788634800,
+  "reportTime": "2026-09-05T19:00:00.000Z",
+  "temp": 16,
+  "dewp": 12,
+  "wdir": 20,
+  "wspd": 15,
+  "wgst": 28,
+  "visib": 9,
+  "altim": 1010.2,
+  "slp": 1010.5,
+  "qcField": 2,
+  "wxString": "-RA",
+  "metarType": "METAR",
+  "rawOb": "METAR CYFC 051900Z AUTO 02015G28KT 9SM -RA FEW031 SCT041 BKN048 OVC060 16/12 A2983 RMK PCPN 1.5MM PAST HR SLP105 DENSITY ALT 300FT",
+  "lat": 45.873,
+  "lon": -66.539,
+  "elev": 16,
+  "name": "Fredericton Intl, NB, CA",
+  "cover": "OVC",
+  "clouds": [
+   {
+    "cover": "FEW",
+    "base": 3100
+   },
+   {
+    "cover": "SCT",
+    "base": 4100
+   },
+   {
+    "cover": "BKN",
+    "base": 4800
+   },
+   {
+    "cover": "OVC",
+    "base": 6000
+   }
+  ],
+  "fltCat": "VFR"
+ },
+ {
+  "icaoId": "KLCH",
+  "receiptTime": "2026-09-05T19:00:09.064Z",
+  "obsTime": 1788634620,
+  "reportTime": "2026-09-05T18:57:00.000Z",
+  "temp": 25,
+  "dewp": 23.9,
+  "wdir": 120,
+  "wspd": 29,
+  "wgst": 35,
+  "visib": 0.25,
+  "altim": 1015.3,
+  "qcField": 4,
+  "wxString": "+TSRA FG",
+  "precip": 0.23,
+  "metarType": "SPECI",
+  "rawOb": "SPECI KLCH 051857Z 12029G35KT 1/4SM +TSRA FG BKN009 OVC035 25/24 A2998 RMK AO2 PK WND 12035/1856 LTG DSNT E AND SE AND NW PRESRR P0023 T02500239",
+  "lat": 30.1255,
+  "lon": -93.2277,
+  "elev": 2,
+  "name": "Lake Charles Rgnl, LA, US",
+  "cover": "OVC",
+  "clouds": [
+   {
+    "cover": "BKN",
+    "base": 900
+   },
+   {
+    "cover": "OVC",
+    "base": 3500
+   }
+  ],
+  "fltCat": "LIFR"
+ },
+ {
+  "icaoId": "KDLH",
+  "receiptTime": "2026-09-05T18:58:12.778Z",
+  "obsTime": 1788634500,
+  "reportTime": "2026-09-05T19:00:00.000Z",
+  "temp": 18.9,
+  "dewp": 17.2,
+  "wdir": 100,
+  "wspd": 8,
+  "visib": 3,
+  "altim": 1019.7,
+  "slp": 1019.6,
+  "qcField": 12,
+  "wxString": "-DZ BR",
+  "precip": 0.005,
+  "metarType": "METAR",
+  "rawOb": "METAR KDLH 051855Z 10008KT 3SM -DZ BR OVC007 19/17 A3011 RMK AO2 DZB55 CIG 004V009 SLP196 P0000 T01890172 $",
+  "lat": 46.8435,
+  "lon": -92.1866,
+  "elev": 434,
+  "name": "Duluth Intl Arpt, MN, US",
+  "cover": "OVC",
+  "clouds": [
+   {
+    "cover": "OVC",
+    "base": 700
+   }
+  ],
+  "fltCat": "IFR"
+ },
+ {
+  "icaoId": "KATP",
+  "receiptTime": "2026-09-05T18:58:10.057Z",
+  "obsTime": 1788634500,
+  "reportTime": "2026-09-05T19:00:00.000Z",
+  "temp": 30,
+  "dewp": 23,
+  "wdir": 0,
+  "wspd": 0,
+  "visib": 6,
+  "altim": 1014.6,
+  "qcField": 6,
+  "wxString": "HZ",
+  "metarType": "METAR",
+  "rawOb": "METAR KATP 051855Z AUTO 00000KT 6SM HZ SCT025 30/23 A2996 RMK A01",
+  "lat": 27.1956,
+  "lon": -90.0269,
+  "elev": 50,
+  "name": "Green Canyon 787, LA, US",
+  "cover": "SCT",
+  "clouds": [
+   {
+    "cover": "SCT",
+    "base": 2500
+   }
+  ],
+  "fltCat": "VFR"
+ },
+ {
+  "icaoId": "KCSG",
+  "receiptTime": "2026-09-05T18:58:27.693Z",
+  "obsTime": 1788634440,
+  "reportTime": "2026-09-05T18:54:00.000Z",
+  "temp": 24.4,
+  "dewp": 22.8,
+  "wdir": 160,
+  "wspd": 4,
+  "visib": "10+",
+  "altim": 1014.3,
+  "qcField": 4,
+  "wxString": "-TSRA",
+  "precip": 0.005,
+  "metarType": "SPECI",
+  "rawOb": "SPECI KCSG 051854Z 16004KT 10SM -TSRA BKN110 24/23 A2995 RMK AO2 LTG DSNT NE-SE TSB48 P0000 T02440228",
+  "lat": 32.5163,
+  "lon": -84.9422,
+  "elev": 120,
+  "name": "Columbus Arpt, GA, US",
+  "cover": "BKN",
+  "clouds": [
+   {
+    "cover": "BKN",
+    "base": 11000
+   }
+  ],
+  "fltCat": "VFR"
+ },
+ {
+  "icaoId": "KPOE",
+  "receiptTime": "2026-09-05T18:57:17.021Z",
+  "obsTime": 1788634440,
+  "reportTime": "2026-09-05T18:54:00.000Z",
+  "temp": 27,
+  "dewp": 24,
+  "wdir": 230,
+  "wspd": 4,
+  "visib": 4,
+  "altim": 1012.6,
+  "slp": 1012.4,
+  "qcField": 6,
+  "wxString": "VCTS +RA",
+  "metarType": "SPECI",
+  "rawOb": "SPECI KPOE 051854Z AUTO 23004KT 4SM VCTS +RA FEW002 SCT036 OVC060 27/24 A2990 RMK AO2 RAE1755RAB39 SLP124",
+  "lat": 31.047,
+  "lon": -93.194,
+  "elev": 98,
+  "name": "Fort Polk AAF, LA, US",
+  "cover": "OVC",
+  "clouds": [
+   {
+    "cover": "FEW",
+    "base": 200
+   },
+   {
+    "cover": "SCT",
+    "base": 3600
+   },
+   {
+    "cover": "OVC",
+    "base": 6000
+   }
+  ],
+  "fltCat": "MVFR"
+ },
+ {
+  "icaoId": "CYRB",
+  "receiptTime": "2026-09-05T19:08:10.318Z",
+  "obsTime": 1788634800,
+  "reportTime": "2026-09-05T19:00:00.000Z",
+  "temp": -1,
+  "dewp": -3,
+  "wdir": 340,
+  "wspd": 30,
+  "visib": 20,
+  "altim": 1001.8,
+  "slp": 1002.5,
+  "qcField": 0,
+  "wxString": "-SHSN",
+  "metarType": "METAR",
+  "rawOb": "METAR CYRB 051900Z 34030KT 20SM -SHSN OVC011 M01/M03 A2958 RMK ST8 SLP025",
+  "lat": 74.713,
+  "lon": -94.982,
+  "elev": 59,
+  "name": "Resolute Bay Arpt, NU, CA",
+  "cover": "OVC",
+  "clouds": [
+   {
+    "cover": "OVC",
+    "base": 1100
+   }
+  ],
+  "fltCat": "MVFR"
+ },
+ {
+  "icaoId": "CYLT",
+  "receiptTime": "2026-09-05T18:08:13.214Z",
+  "obsTime": 1788631200,
+  "reportTime": "2026-09-05T18:00:00.000Z",
+  "temp": -4,
+  "dewp": -4,
+  "wdir": 360,
+  "wspd": 3,
+  "visib": 3,
+  "altim": 1000.8,
+  "slp": 1000.9,
+  "qcField": 0,
+  "wxString": "-SN BR",
+  "metarType": "METAR",
+  "rawOb": "METAR CYLT 051800Z 36003KT 3SM -SN BR OVC004 M04/M04 A2955 RMK ST8 DENSITY ALT -1691FT VIS HYR N LAST OBS/NXT 061000Z SLP009",
+  "lat": 82.512,
+  "lon": -62.317,
+  "elev": 9,
+  "name": "Alert Arpt, NU, CA",
+  "cover": "OVC",
+  "clouds": [
+   {
+    "cover": "OVC",
+    "base": 400
+   }
+  ],
+  "fltCat": "LIFR"
+ },
+ {
+  "icaoId": "NZSP",
+  "receiptTime": "2026-09-05T18:24:10.453Z",
+  "obsTime": 1788630600,
+  "reportTime": "2026-09-05T18:00:00.000Z",
+  "temp": -44,
+  "wdir": 310,
+  "wspd": 20,
+  "visib": 0.62,
+  "altim": 957.1,
+  "qcField": 0,
+  "wxString": "-SG BLSN BR",
+  "metarType": "METAR",
+  "rawOb": "METAR NZSP 051750Z 31020KT 1000 -SG BLSN BR OVC012 M44/ A2826 RMK CLN AIR 3019KT ALL WNDS GRID",
+  "lat": -89.98,
+  "lon": 180,
+  "elev": 2830,
+  "name": "Amundsen-South Pole, NZ, AQ",
+  "cover": "OVC",
+  "clouds": [
+   {
+    "cover": "OVC",
+    "base": 1200
+   }
+  ],
+  "fltCat": "LIFR"
+ }
+]

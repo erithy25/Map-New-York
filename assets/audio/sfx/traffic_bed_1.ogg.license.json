@@ -1,0 +1,28 @@
+{
+ "artist": "Work With Sounds / Werstas",
+ "attribution_note": "search: city traffic ambience",
+ "bytes": 1144415,
+ "duration_s": 90.0,
+ "file": "sfx/traffic_bed_1.ogg",
+ "gain_db": 12.0,
+ "licence": "CC-BY-4.0",
+ "licence_url": "https://creativecommons.org/licenses/by/4.0",
+ "loudness_lufs": -35.7,
+ "original_filename": "WWS_TheStationTunnelOfTheTampereStation.ogg",
+ "recorded_at": "2026-09-06T12:30:17Z",
+ "schema_version": 1,
+ "sha256": "049011984ad6c5d8f469174a313de56e1e01adb5a33d3ac845411089377d5f7b",
+ "source_page": "https://commons.wikimedia.org/wiki/File:WWS_TheStationTunnelOfTheTampereStation.ogg",
+ "source_site": "commons.wikimedia.org",
+ "source_url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/WWS_TheStationTunnelOfTheTampereStation.ogg",
+ "title": "WWS TheStationTunnelOfTheTampereStation",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "ogg",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": 90.0
+ }
+}

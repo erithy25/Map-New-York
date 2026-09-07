@@ -1,0 +1,160 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_35_hudson_yards",
+ "name": "35 Hudson Yards",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.75455,
+  "lon": -74.000026,
+  "azimuth_deg": 270.0,
+  "note": "Tenth Avenue at West 33rd Street, about 200 m east of the tower, looking west at 35 Hudson Yards",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.75455,
+  "lon": -74.0024,
+  "name": "35 Hudson Yards"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2019,
+ "wanted": 3,
+ "queries": [
+  "\"35 Hudson Yards\" tower",
+  "\"35 Hudson Yards\" limestone Hudson Yards"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T14:00:02Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 40,
+ "candidates_eligible": 2,
+ "rejections": {
+  "too_old": 7,
+  "keywords": 2,
+  "indoor": 29
+ },
+ "exhausted": true,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:35 Hudson Yards 04-2021.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:35_Hudson_Yards_04-2021.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/98/35_Hudson_Yards_04-2021.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/35_Hudson_Yards_04-2021.jpg/1920px-35_Hudson_Yards_04-2021.jpg",
+   "author": "Percival Kestreltail",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 3.0",
+    "url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "template": "cc-by-sa-3.0"
+   },
+   "date_taken": "2021",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.754883,
+    "lon": -74.000839
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1401765,
+   "sha256": "7b72c1fa895374fdce374e052a522f0afd938ecad416bbdb59399e6fa248defc",
+   "mean_luminance": 98.1,
+   "description": "35 Hudson Yards is a 305-meter (1,000 feet) skyscraper in New York City .",
+   "categories": [
+    "35 Hudson Yards",
+    "New York City photographs taken on 2021-04-23",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.9,
+   "estimated_viewpoint": {
+    "lat": 40.754883,
+    "lon": -74.000839,
+    "azimuth_deg": 254.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75488, -74.00084) is 137 m from 35 Hudson Yards (40.75455, -74.00240) and 78 m from the standard viewpoint; the azimuth 254 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"35 Hudson Yards 04-2021.jpg\" by Percival Kestreltail, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:35_Hudson_Yards_04-2021.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Pier 66 and Hudson Yards (01473)p.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Pier_66_and_Hudson_Yards_(01473)p.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/06/Pier_66_and_Hudson_Yards_%2801473%29p.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Pier_66_and_Hudson_Yards_%2801473%29p.jpg/1920px-Pier_66_and_Hudson_Yards_%2801473%29p.jpg",
+   "author": "Rhododendrites",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2019-08-10 15:28:39",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.751218,
+    "lon": -74.010348
+   },
+   "original_width": 8460,
+   "original_height": 3279,
+   "width": 1920,
+   "height": 744,
+   "bytes": 349158,
+   "sha256": "b1885876e0b0f35b13fce820ada37904185764336d64f81e79f892f7397c7d33",
+   "mean_luminance": 127.9,
+   "description": "Pier 66 and Hudson Yards, New York City, New York, US",
+   "categories": [
+    "Featured pictures of New York City",
+    "15 Hudson Yards",
+    "10 Hudson Yards",
+    "Starrett-Lehigh Building",
+    "55 Hudson Yards",
+    "30 Hudson Yards",
+    "35 Hudson Yards",
+    "Frying Pan (ship, 1929)",
+    "Images with annotations",
+    "Pier 66 (Manhattan)",
+    "Self-published work",
+    "Images with 10+ annotations",
+    "Files uploaded by Rhododendrites (all)",
+    "Featured pictures of cityscapes",
+    "Featured pictures by Rhododendrites",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2019-08-10",
+    "Hudson River Park in 2019",
+    "Clouds and blue sky in New York City",
+    "Hudson Yards in 2019",
+    "2019 in Chelsea, Manhattan",
+    "Midtown Manhattan skylines in 2019",
+    "Files by Rhododendrites - 2019-08",
+    "August 2019 in Manhattan, New York City",
+    "Pier 66a (Manhattan)"
+   ],
+   "assessments": "quality|featured",
+   "restrictions": "",
+   "provenance": "search:\"35 Hudson Yards\" tower",
+   "score": 9.1,
+   "estimated_viewpoint": {
+    "lat": 40.751218,
+    "lon": -74.010348,
+    "azimuth_deg": 61.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75122, -74.01035) is 765 m from 35 Hudson Yards (40.75455, -74.00240) and 945 m from the standard viewpoint; the azimuth 61 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Pier 66 and Hudson Yards (01473)p.jpg\" by Rhododendrites, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Pier_66_and_Hudson_Yards_(01473)p.jpg"
+  }
+ ]
+}

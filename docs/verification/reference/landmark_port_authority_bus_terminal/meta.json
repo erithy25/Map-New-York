@@ -1,0 +1,203 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_port_authority_bus_terminal",
+ "name": "Port Authority Bus Terminal",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.756298,
+  "lon": -73.99245,
+  "azimuth_deg": 70.0,
+  "note": "Ninth Avenue at West 41st Street, about 120 m west-south-west of the terminal, looking east-north-east at the Port Authority Bus Terminal",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.756667,
+  "lon": -73.991111,
+  "name": "Port Authority Bus Terminal"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Port Authority Bus Terminal\" exterior",
+  "\"Port Authority Bus Terminal\" Eighth Avenue"
+ ],
+ "geosearch_radius_m": 350,
+ "fetched_at": "2026-09-06T13:19:08Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 81,
+ "candidates_eligible": 16,
+ "rejections": {
+  "too_old": 6,
+  "indoor": 31,
+  "too_small": 4,
+  "not_photo": 2,
+  "keywords": 22
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:View from Port Authority Bus Terminal Ramp - panoramio.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:View_from_Port_Authority_Bus_Terminal_Ramp_-_panoramio.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/59/View_from_Port_Authority_Bus_Terminal_Ramp_-_panoramio.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/View_from_Port_Authority_Bus_Terminal_Ramp_-_panoramio.jpg/1920px-View_from_Port_Authority_Bus_Terminal_Ramp_-_panoramio.jpg",
+   "author": "qwesy qwesy",
+   "credit": "https://web.archive.org/web/20161031124833/http://www.panoramio.com/photo/124011330",
+   "license": {
+    "short_name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0",
+    "template": "cc-by-3.0"
+   },
+   "date_taken": "2015",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.757671,
+    "lon": -73.993471
+   },
+   "original_width": 4598,
+   "original_height": 2297,
+   "width": 1920,
+   "height": 959,
+   "bytes": 566598,
+   "sha256": "c42562eabb7e218029690b303b4384234b71884887887f7eb472e9d4cb999ce1",
+   "mean_luminance": 116.8,
+   "description": "View from Port Authority Bus Terminal Ramp",
+   "categories": [
+    "Panoramio files uploaded by Panoramio upload bot",
+    "41st Street (Manhattan)",
+    "Panoramio images reviewed by trusted users",
+    "Photos from Panoramio",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2015-08-25",
+    "Photos from Panoramio ID 596286"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.0,
+   "estimated_viewpoint": {
+    "lat": 40.757671,
+    "lon": -73.993471,
+    "azimuth_deg": 119.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75767, -73.99347) is 228 m from Port Authority Bus Terminal (40.75667, -73.99111) and 175 m from the standard viewpoint; the azimuth 119 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"View from Port Authority Bus Terminal Ramp - panoramio.jpg\" by qwesy qwesy, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:View_from_Port_Authority_Bus_Terminal_Ramp_-_panoramio.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:MTA New York City Subway downtown A train at 42nd Street-Port Authority Bus Terminal station.jpeg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:MTA_New_York_City_Subway_downtown_A_train_at_42nd_Street-Port_Authority_Bus_Terminal_station.jpeg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/9d/MTA_New_York_City_Subway_downtown_A_train_at_42nd_Street-Port_Authority_Bus_Terminal_station.jpeg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/MTA_New_York_City_Subway_downtown_A_train_at_42nd_Street-Port_Authority_Bus_Terminal_station.jpeg/1920px-MTA_New_York_City_Subway_downtown_A_train_at_42nd_Street-Port_Authority_Bus_Terminal_station.jpeg",
+   "author": "Dough4872",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026-04-08",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.757436,
+    "lon": -73.989814
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 732803,
+   "sha256": "515249e547c113d09051b48419a1cc60c7faba075577ef2e43d07ce22e8cf99b",
+   "mean_luminance": 78.6,
+   "description": "MTA New York City Subway R211A cars on a downtown A train bound for Ozone Park-Lefferts Boulevard station at 42nd Street-Port Authority Bus Terminal station in Manhattan, New York City",
+   "categories": [
+    "A (New York City Subway service)",
+    "42nd Street – Port Authority Bus Terminal (IND Eighth Avenue Line)",
+    "R211 (New York City Subway car)",
+    "Self-published work",
+    "New York City Subway trains at stations",
+    "Files with coordinates missing SDC location of creation",
+    "April 2026 in Manhattan, New York City",
+    "New York City photographs taken on 2026-04-08",
+    "New York City Subway in April 2026"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Port Authority Bus Terminal\" exterior",
+   "score": 10.2,
+   "estimated_viewpoint": {
+    "lat": 40.757436,
+    "lon": -73.989814,
+    "azimuth_deg": 231.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75744, -73.98981) is 139 m from Port Authority Bus Terminal (40.75667, -73.99111) and 256 m from the standard viewpoint; the azimuth 232 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"MTA New York City Subway downtown A train at 42nd Street-Port Authority Bus Terminal station.jpeg\" by Dough4872, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:MTA_New_York_City_Subway_downtown_A_train_at_42nd_Street-Port_Authority_Bus_Terminal_station.jpeg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Stairs to downtown A C E platform at 42nd Street Port Authority Bus Terminal.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Stairs_to_downtown_A_C_E_platform_at_42nd_Street_Port_Authority_Bus_Terminal.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/83/Stairs_to_downtown_A_C_E_platform_at_42nd_Street_Port_Authority_Bus_Terminal.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Stairs_to_downtown_A_C_E_platform_at_42nd_Street_Port_Authority_Bus_Terminal.jpg/1920px-Stairs_to_downtown_A_C_E_platform_at_42nd_Street_Port_Authority_Bus_Terminal.jpg",
+   "author": "4300streetcar",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2025-01-18 11:56:44",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.7572,
+    "lon": -73.9897
+   },
+   "original_width": 5568,
+   "original_height": 3712,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 508390,
+   "sha256": "bf07f0a83ca76f5a0ca39ed3f47251762710622ac4c45f74408390bbddea4ba5",
+   "mean_luminance": 77.7,
+   "description": "The stairs to the downtown A/C/E platform at 42nd Street Port Authority Bus Terminal",
+   "categories": [
+    "42nd Street – Port Authority Bus Terminal (IND Eighth Avenue Line)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Midtown Manhattan in 2025",
+    "New York City photographs taken on 2025-01-18",
+    "January 2025 in Manhattan, New York City",
+    "New York City Subway in January 2025",
+    "Downtown signs in New York City",
+    "Photographs by User:4300streetcar"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Port Authority Bus Terminal\" Eighth Avenue",
+   "score": 10.2,
+   "estimated_viewpoint": {
+    "lat": 40.7572,
+    "lon": -73.9897,
+    "azimuth_deg": 243.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75720, -73.98970) is 133 m from Port Authority Bus Terminal (40.75667, -73.99111) and 252 m from the standard viewpoint; the azimuth 243 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Stairs to downtown A C E platform at 42nd Street Port Authority Bus Terminal.jpg\" by 4300streetcar, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Stairs_to_downtown_A_C_E_platform_at_42nd_Street_Port_Authority_Bus_Terminal.jpg"
+  }
+ ]
+}

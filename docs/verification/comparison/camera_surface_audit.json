@@ -1,0 +1,458 @@
+[
+ {
+  "slug": "bethesda_terrace_fountain",
+  "x": -1778.0,
+  "y": 8174.0,
+  "eye_height_m": 1.6,
+  "surface": "sidewalk",
+  "inside_building": false
+ },
+ {
+  "slug": "drive_bronx_arthur_ave",
+  "x": 5238.0,
+  "y": 17246.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "drive_bronx_grand_concourse",
+  "x": 2644.0,
+  "y": 14663.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "drive_brooklyn_bed_stuy_stuyvesant_ave",
+  "x": 1438.0,
+  "y": -2050.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "drive_brooklyn_park_slope_7th_ave",
+  "x": -2390.0,
+  "y": -3064.0,
+  "eye_height_m": 1.6,
+  "surface": null,
+  "inside_building": false
+ },
+ {
+  "slug": "drive_lower_manhattan_broadway_wall_st",
+  "x": -5210.0,
+  "y": 871.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "drive_lower_manhattan_stone_st",
+  "x": -5133.0,
+  "y": 465.0,
+  "eye_height_m": 1.6,
+  "surface": "sidewalk",
+  "inside_building": false
+ },
+ {
+  "slug": "drive_midtown_sixth_ave_45th",
+  "x": -2748.0,
+  "y": 6306.0,
+  "eye_height_m": 1.6,
+  "surface": "sidewalk",
+  "inside_building": false
+ },
+ {
+  "slug": "drive_queens_bayside",
+  "x": 15028.0,
+  "y": 7047.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "drive_queens_forest_hills",
+  "x": 8882.0,
+  "y": 1961.0,
+  "eye_height_m": 1.6,
+  "surface": null,
+  "inside_building": false
+ },
+ {
+  "slug": "drive_queens_jackson_heights",
+  "x": 5677.0,
+  "y": 5783.0,
+  "eye_height_m": 1.6,
+  "surface": "sidewalk",
+  "inside_building": false
+ },
+ {
+  "slug": "dumbo_washington_st_manhattan_bridge",
+  "x": -3347.0,
+  "y": 341.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "fifth_ave_42nd_north",
+  "x": -2581.0,
+  "y": 6014.0,
+  "eye_height_m": 1.6,
+  "surface": "sidewalk",
+  "inside_building": false
+ },
+ {
+  "slug": "fifth_ave_42nd_south",
+  "x": -2607.0,
+  "y": 5942.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_40_wall_street",
+  "x": -5180.0,
+  "y": 698.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_911_memorial_pools",
+  "x": -5293.0,
+  "y": 1241.0,
+  "eye_height_m": 1.6,
+  "surface": "plaza",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_barclays_center",
+  "x": -2321.0,
+  "y": -1791.0,
+  "eye_height_m": 1.6,
+  "surface": "sidewalk",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_brooklyn_bridge_from_dumbo",
+  "x": -3549.0,
+  "y": 445.0,
+  "eye_height_m": 1.6,
+  "surface": "sidewalk",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_charging_bull",
+  "x": -5358.0,
+  "y": 646.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_chrysler_building",
+  "x": -2274.0,
+  "y": 5564.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_city_hall",
+  "x": -4817.0,
+  "y": 1329.0,
+  "eye_height_m": 1.6,
+  "surface": "sidewalk",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_domino_sugar_refinery",
+  "x": -1473.0,
+  "y": 1454.0,
+  "eye_height_m": 1.6,
+  "surface": "sidewalk",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_empire_state_building",
+  "x": -3254.0,
+  "y": 5155.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_equitable_building",
+  "x": -5163.0,
+  "y": 953.0,
+  "eye_height_m": 1.6,
+  "surface": "crosswalk",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_federal_hall",
+  "x": -5120.0,
+  "y": 781.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_flatiron_building",
+  "x": -3302.0,
+  "y": 4698.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_grand_central_facade",
+  "x": -2346.0,
+  "y": 5788.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_high_line",
+  "x": -4672.0,
+  "y": 5118.0,
+  "eye_height_m": 10.7,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_hudson_yards_vessel",
+  "x": -4364.0,
+  "y": 5966.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_madison_square_garden",
+  "x": -3491.0,
+  "y": 5607.0,
+  "eye_height_m": 1.6,
+  "surface": "sidewalk",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_manhattan_bridge",
+  "x": -3468.0,
+  "y": 451.0,
+  "eye_height_m": 1.6,
+  "surface": null,
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_metlife_building",
+  "x": -2229.0,
+  "y": 5640.0,
+  "eye_height_m": 1.6,
+  "surface": "sidewalk",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_moma",
+  "x": -2379.0,
+  "y": 6823.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_municipal_building",
+  "x": -4630.0,
+  "y": 1413.0,
+  "eye_height_m": 1.6,
+  "surface": "plaza",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_new_york_times_building",
+  "x": -3426.0,
+  "y": 6255.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_nypl",
+  "x": -2605.0,
+  "y": 5925.0,
+  "eye_height_m": 1.6,
+  "surface": "sidewalk",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_nyse",
+  "x": -5119.0,
+  "y": 790.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_oculus",
+  "x": -5095.0,
+  "y": 1273.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_one_times_square",
+  "x": -3082.0,
+  "y": 6220.0,
+  "eye_height_m": 1.6,
+  "surface": "plaza",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_one_vanderbilt",
+  "x": -2345.0,
+  "y": 5778.0,
+  "eye_height_m": 1.6,
+  "surface": "sidewalk",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_one_wall_street",
+  "x": -5283.0,
+  "y": 764.0,
+  "eye_height_m": 1.6,
+  "surface": "sidewalk",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_one_world_trade_center",
+  "x": -5253.0,
+  "y": 1285.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_paramount_building",
+  "x": -3077.0,
+  "y": 6292.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_rockefeller_center",
+  "x": -2331.0,
+  "y": 6530.0,
+  "eye_height_m": 1.6,
+  "surface": null,
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_soldiers_sailors_arch",
+  "x": -1738.0,
+  "y": -2992.0,
+  "eye_height_m": 1.6,
+  "surface": "sidewalk",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_st_patricks_cathedral",
+  "x": -2336.0,
+  "y": 6516.0,
+  "eye_height_m": 1.6,
+  "surface": "sidewalk",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_statue_of_liberty",
+  "x": -7895.0,
+  "y": -1284.0,
+  "eye_height_m": 1.6,
+  "surface": null,
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_tkts_booth",
+  "x": -2960.0,
+  "y": 6496.0,
+  "eye_height_m": 1.6,
+  "surface": "crosswalk",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_trinity_church",
+  "x": -5055.0,
+  "y": 732.0,
+  "eye_height_m": 1.6,
+  "surface": "roadbed",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_washington_square_arch",
+  "x": -3998.0,
+  "y": 3435.0,
+  "eye_height_m": 1.6,
+  "surface": "sidewalk",
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_williamsburg_bridge",
+  "x": -1544.0,
+  "y": 1464.0,
+  "eye_height_m": 1.6,
+  "surface": null,
+  "inside_building": false
+ },
+ {
+  "slug": "landmark_woolworth_building",
+  "x": -4799.0,
+  "y": 1371.0,
+  "eye_height_m": 1.6,
+  "surface": "sidewalk",
+  "inside_building": false
+ },
+ {
+  "slug": "promenade_lower_manhattan",
+  "x": -4038.0,
+  "y": -426.0,
+  "eye_height_m": 1.6,
+  "surface": null,
+  "inside_building": false
+ },
+ {
+  "slug": "staten_island_ferry_lower_manhattan",
+  "x": -6044.0,
+  "y": -997.0,
+  "eye_height_m": 8.0,
+  "surface": null,
+  "inside_building": false
+ },
+ {
+  "slug": "times_square_duffy_south_day",
+  "x": -2932.0,
+  "y": 6566.0,
+  "eye_height_m": 6.199999999999999,
+  "surface": "crosswalk",
+  "inside_building": false
+ },
+ {
+  "slug": "times_square_duffy_south_night",
+  "x": -2943.0,
+  "y": 6562.0,
+  "eye_height_m": 6.199999999999999,
+  "surface": "sidewalk",
+  "inside_building": false
+ },
+ {
+  "slug": "top_of_the_rock_south",
+  "x": -2440.0,
+  "y": 6586.0,
+  "eye_height_m": 260.70000000000005,
+  "surface": "roadbed",
+  "inside_building": false
+ }
+]

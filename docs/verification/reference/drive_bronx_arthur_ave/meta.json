@@ -1,0 +1,209 @@
+{
+ "schema_version": 1,
+ "slug": "drive_bronx_arthur_ave",
+ "name": "Bronx drive-through: Arthur Avenue (Belmont)",
+ "group": "drive_through",
+ "viewpoint": {
+  "lat": 40.8551,
+  "lon": -73.8878,
+  "azimuth_deg": 190.0,
+  "note": "Arthur Avenue at East 187th Street, roadway centre, looking south",
+  "representative": false
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Arthur Avenue\" Bronx",
+  "\"Arthur Avenue\" Belmont Little Italy Bronx street"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-07T08:01:03Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 80,
+ "candidates_eligible": 57,
+ "rejections": {
+  "excluded": 4,
+  "subject_not_named": 11,
+  "too_old": 2,
+  "too_small": 3,
+  "keywords": 3
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Arthur Avenue 09 - M&G Restaurant.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Arthur_Avenue_09_-_M%26G_Restaurant.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Arthur_Avenue_09_-_M%26G_Restaurant.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Arthur_Avenue_09_-_M%26G_Restaurant.jpg/1920px-Arthur_Avenue_09_-_M%26G_Restaurant.jpg",
+   "author": "Joe Mabel",
+   "credit": "Photo by Joe Mabel",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.85524,
+    "lon": -73.88776
+   },
+   "original_width": 6000,
+   "original_height": 4000,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 822660,
+   "sha256": "069161126c929be58a42e89b61bc167512a814fdc66575d3e41fa14b3e77be6a",
+   "mean_luminance": 100.4,
+   "description": "M&G Restaurant, 2390 Arthur Avenue, Bronx, New York.",
+   "categories": [
+    "Taken with Nikon D5200",
+    "Arthur Avenue (Bronx, New York)",
+    "Self-published work",
+    "Taken on missing SDC inception",
+    "Media with estimated locations",
+    "Files with coordinates missing SDC location of creation",
+    "Traffic cones in New York City",
+    "Restaurants in the Bronx, New York City",
+    "New York City photographs taken on 2026-05-31",
+    "Enclosed restaurant entrances in New York City",
+    "May 2026 in the Bronx, New York City",
+    "Restaurants in New York City photographed in 2026"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.85524,
+    "lon": -73.88776,
+    "azimuth_deg": 190.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.85524, -73.88776), 16 m from the reference position (Arthur Avenue at East 187th Street, roadway centre, looking south); this item is a view along a street rather than at a point subject, so the azimuth 190 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Arthur Avenue 09 - M&G Restaurant.jpg\" by Joe Mabel, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Arthur_Avenue_09_-_M%26G_Restaurant.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Arthur Avenue 10 - Burning Beaks.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Arthur_Avenue_10_-_Burning_Beaks.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/97/Arthur_Avenue_10_-_Burning_Beaks.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Arthur_Avenue_10_-_Burning_Beaks.jpg/1920px-Arthur_Avenue_10_-_Burning_Beaks.jpg",
+   "author": "Joe Mabel",
+   "credit": "Photo by Joe Mabel",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.8569,
+    "lon": -73.88651
+   },
+   "original_width": 6000,
+   "original_height": 4000,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 647384,
+   "sha256": "84a33de47600f136e37f87456a1a5a2f5263584aa73fc16248c76e6cbc5ff98a",
+   "mean_luminance": 103.9,
+   "description": "Burning Beaks, 2462 Arthur Avenue, Bronx, New York.",
+   "categories": [
+    "Taken with Nikon D5200",
+    "Arthur Avenue (Bronx, New York)",
+    "Self-published work",
+    "Taken on missing SDC inception",
+    "Media with estimated locations",
+    "White buildings in the United States",
+    "Files with coordinates missing SDC location of creation",
+    "Restaurants in the Bronx, New York City",
+    "New York City photographs taken on 2026-05-31",
+    "Chicken restaurants in New York City",
+    "May 2026 in the Bronx, New York City",
+    "Restaurants in New York City photographed in 2026"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.8569,
+    "lon": -73.88651,
+    "azimuth_deg": 190.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.85690, -73.88651), 228 m from the reference position (Arthur Avenue at East 187th Street, roadway centre, looking south); this item is a view along a street rather than at a point subject, so the azimuth 190 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Arthur Avenue 10 - Burning Beaks.jpg\" by Joe Mabel, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Arthur_Avenue_10_-_Burning_Beaks.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Arthur Avenue 12 - D'Bari Funeral Home.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Arthur_Avenue_12_-_D%27Bari_Funeral_Home.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/f2/Arthur_Avenue_12_-_D%27Bari_Funeral_Home.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Arthur_Avenue_12_-_D%27Bari_Funeral_Home.jpg/1920px-Arthur_Avenue_12_-_D%27Bari_Funeral_Home.jpg",
+   "author": "Joe Mabel",
+   "credit": "Photo by Joe Mabel",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.85646,
+    "lon": -73.88693
+   },
+   "original_width": 6000,
+   "original_height": 4000,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 635702,
+   "sha256": "c4c4daa672336e913e366c85a08823b481d31629980cf38e15930efec2c306b4",
+   "mean_luminance": 112.2,
+   "description": "D'Bari Funeral Home, 605 E 188th St, Bronx, New York (corner of Arthur Avenue).",
+   "categories": [
+    "Taken with Nikon D5200",
+    "Arthur Avenue (Bronx, New York)",
+    "Self-published work",
+    "Taken on missing SDC inception",
+    "Media with estimated locations",
+    "Funeral homes in New York City",
+    "Files with coordinates missing SDC location of creation",
+    "Corner buildings in New York City",
+    "188th Street (Bronx)",
+    "New York City photographs taken on 2026-05-31",
+    "May 2026 in the Bronx, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.85646,
+    "lon": -73.88693,
+    "azimuth_deg": 190.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.85646, -73.88693), 168 m from the reference position (Arthur Avenue at East 187th Street, roadway centre, looking south); this item is a view along a street rather than at a point subject, so the azimuth 190 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Arthur Avenue 12 - D'Bari Funeral Home.jpg\" by Joe Mabel, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Arthur_Avenue_12_-_D%27Bari_Funeral_Home.jpg"
+  }
+ ]
+}

@@ -1,0 +1,218 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_st_george_ferry_terminal",
+ "name": "St. George Ferry Terminal",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.642005,
+  "lon": -74.073858,
+  "azimuth_deg": 350.0,
+  "note": "Bay Street south of the terminal, about 150 m away, looking north-north-west at the St. George Terminal front",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.643333,
+  "lon": -74.074167,
+  "name": "St. George Ferry Terminal"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"St. George Terminal\" Staten Island ferry",
+  "\"St. George Ferry Terminal\" exterior Staten Island"
+ ],
+ "geosearch_radius_m": 350,
+ "fetched_at": "2026-09-06T13:31:13Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 123,
+ "candidates_eligible": 85,
+ "rejections": {
+  "indoor": 9,
+  "excluded": 6,
+  "not_photo": 1,
+  "night_for_day_item": 1,
+  "too_old": 3,
+  "keywords": 17,
+  "not_jpeg": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Lime bikes at St George ferry Bay St jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Lime_bikes_at_St_George_ferry_Bay_St_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Lime_bikes_at_St_George_ferry_Bay_St_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Lime_bikes_at_St_George_ferry_Bay_St_jeh.jpg/1920px-Lime_bikes_at_St_George_ferry_Bay_St_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2019",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.642038,
+    "lon": -74.074988
+   },
+   "original_width": 2961,
+   "original_height": 1666,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 476407,
+   "sha256": "4fee3ea1b04b7c25316f859c73fe10bca248f2f627034ccc3ab9d1b895aebf50",
+   "mean_luminance": 131.5,
+   "description": "Looking north on a sunny late afternoon",
+   "categories": [
+    "February 2019 in New York City",
+    "St. George Terminal",
+    "New York City photographs taken on 2019-02-05",
+    "Self-published work",
+    "Bicycles in New York City",
+    "Files with coordinates missing SDC location of creation",
+    "2019 in St. George, Staten Island",
+    "February 2019 photos by Jim.henderson",
+    "LimeBike vehicles in New York City",
+    "2019 Staten Island photos by Jim.henderson"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.6,
+   "estimated_viewpoint": {
+    "lat": 40.642038,
+    "lon": -74.074988,
+    "azimuth_deg": 25.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.64204, -74.07499) is 160 m from St. George Ferry Terminal (40.64333, -74.07417) and 95 m from the standard viewpoint; the azimuth 26 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Lime bikes at St George ferry Bay St jeh.jpg\" by Jim.henderson, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Lime_bikes_at_St_George_ferry_Bay_St_jeh.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:St. George Terminal td 02 - Station Booth.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:St._George_Terminal_td_02_-_Station_Booth.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/35/St._George_Terminal_td_02_-_Station_Booth.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/St._George_Terminal_td_02_-_Station_Booth.jpg/1920px-St._George_Terminal_td_02_-_Station_Booth.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.644171,
+    "lon": -74.072597
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 472589,
+   "sha256": "77d44e8a4ad9bdf85e5cb9a14deba07fea0e50ceb4b341476cf26d2ed1efd171",
+   "mean_luminance": 97.2,
+   "description": "A New York City Subway-style station booth outside fare control in the St. George Staten Island Railway station, at the St. George Ferry Terminal in St. George, Staten Island.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2018-08-02",
+    "Railway photographs taken on 2018-08-02",
+    "Building interiors in Staten Island, New York City",
+    "Metropolitan Transportation Authority in 2018",
+    "2018 New York City Subway photographs by Tdorante10",
+    "2018 Staten Island photographs by Tdorante10",
+    "2018 in St. George, Staten Island",
+    "Railway ticket counters in the United States",
+    "August 2018 in Staten Island, New York City",
+    "St. George (Staten Island Railway station)",
+    "MetroCard readers",
+    "Photographs by Tdorante10 taken on 2018-08-02",
+    "Interiors of train stations in New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.45,
+   "estimated_viewpoint": {
+    "lat": 40.644171,
+    "lon": -74.072597,
+    "azimuth_deg": 234.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.64417, -74.07260) is 162 m from St. George Ferry Terminal (40.64333, -74.07417) and 263 m from the standard viewpoint; the azimuth 235 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"St. George Terminal td 02 - Station Booth.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:St._George_Terminal_td_02_-_Station_Booth.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:St George Terminal 3 vc.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:St_George_Terminal_3_vc.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e1/St_George_Terminal_3_vc.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/St_George_Terminal_3_vc.jpg/1920px-St_George_Terminal_3_vc.jpg",
+   "author": "Tom Page from London, UK",
+   "credit": "PXL_20220318_184528524",
+   "license": {
+    "short_name": "CC BY-SA 2.0",
+    "url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "template": "cc-by-sa-2.0"
+   },
+   "date_taken": "2022-03-18 14:45",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.643755,
+    "lon": -74.075356
+   },
+   "original_width": 3958,
+   "original_height": 2639,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 752560,
+   "sha256": "82c3962bc755a31e3e6fd8d03b03175a41d500120aa33c59a10e08263b21cc18",
+   "mean_luminance": 74.7,
+   "description": "PXL_20220318_184528524",
+   "categories": [
+    "New York City photographs taken on 2022-03-18",
+    "Number 458 on rail vehicles",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Railway photographs taken on 2022-03-18",
+    "Staten Island Railway in 2022",
+    "2022 in St. George, Staten Island",
+    "March 2022 in Staten Island, New York City",
+    "St. George (Staten Island Railway station)",
+    "Rear views of trains",
+    "R44 (Staten Island Railway car)",
+    "Main Line Local (Staten Island Railway service)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.643755,
+    "lon": -74.075356,
+    "azimuth_deg": 115.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.64375, -74.07536) is 111 m from St. George Ferry Terminal (40.64333, -74.07417) and 232 m from the standard viewpoint; the azimuth 115 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"St George Terminal 3 vc.jpg\" by Tom Page from London, UK, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:St_George_Terminal_3_vc.jpg"
+  }
+ ]
+}

@@ -1,0 +1,424 @@
+{
+ "agent_request": {
+  "dow": 1,
+  "hour": 10,
+  "local_clock": "2019-11-30 10:22 EST",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "13.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
+ "camera": {
+  "azimuth_deg": 13.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": 0,
+   "chosen_m": 17.75,
+   "max_m": 18.36,
+   "median_m": 17.87,
+   "min_m": 17.66,
+   "mode": "street",
+   "percentile": 10.0,
+   "point_m": 17.81,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.6817,
+  "lon": -73.933,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "drive_brooklyn_bed_stuy_stuyvesant_ave",
+  "terrain_z_m": 17.747,
+  "x": 1438.378,
+  "y": -2049.756,
+  "z": 19.347
+ },
+ "camera_caption": "camera 40.68170, -73.93300 (NYC_TM 1438, -2050) z 19.3 m NAVD88 | azimuth 13.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.6817,
+  "lon": -73.933,
+  "offset_from_recorded_m": 1712.3,
+  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 1,712 m away, past the 250 m at which it could still be the same view, so it was rejected as mis-tagged"
+ },
+ "clearance": {
+  "direction": "onto the nearest roadbed",
+  "min_view_m": 20.0,
+  "moved": true,
+  "nearest_obstruction_m": 10.7,
+  "note": "the recorded viewpoint is inside t_1_-3_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 17 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there",
+  "offset_m": 17.4,
+  "reason": "inside t_1_-3_roof_membrane (a ray straight up from the eye point hits its roof)",
+  "rule": "pavement snap with a clear view",
+  "view_m": 60.0
+ },
+ "frame": {
+  "mean": 0.4067,
+  "reason": null,
+  "sd": 0.1323,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "drive_through",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 717.7,
+  "emissive": {
+   "cone_faces_deleted": 8,
+   "cones_hidden": 1,
+   "lamps_switched_off": 2,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.8,
+  "sky_azimuth_deg": 159.048,
+  "sky_elevation_deg": 24.86,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.329,
+  "view_transform": "Filmic"
+ },
+ "name": "Brooklyn brownstone block: Bed-Stuy, Stuyvesant Avenue",
+ "night": false,
+ "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "reference_photo": {
+  "author": "Andre Carrotflower",
+  "confidence": "medium",
+  "date_taken": "2019-11-30 10:22:34",
+  "estimated_azimuth_deg": 13.0,
+  "file": "2.jpg",
+  "height": 1439,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Bed-Stuy_20191130_-_27_-_Nostrand_@_Greene.jpg",
+  "title": "File:Bed-Stuy 20191130 - 27 - Nostrand @ Greene.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/drive_brooklyn_bed_stuy_stuyvesant_ave/render.png",
+ "rendered_at": "2026-09-07T14:15:45Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1439 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 88 vehicles within 320 m and 378 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 253 vehicles and 542 people over the whole simulated ring, of which 303 and 790 were simulated; 627 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 40,
+    "pedestrian_not_on_walkable_surface": 29,
+    "pedestrian_outside_radius": 343,
+    "vehicle_body_has_no_rider": 12,
+    "vehicle_not_on_carriageway": 1,
+    "vehicle_outside_radius": 191,
+    "vehicle_triangle_budget": 11
+   },
+   "ped_lods": {
+    "LOD1": 1,
+    "LOD2": 377
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 519867,
+   "per_class": {
+    "black_car": 3,
+    "boro_taxi": 4,
+    "dsny_truck": 1,
+    "mta_bus": 1,
+    "sedan": 46,
+    "suv": 22,
+    "taxi": 8,
+    "van": 3
+   },
+   "placed_pedestrians": 378,
+   "placed_vehicles": 88,
+   "reason": null,
+   "seconds": 46.81,
+   "snapshot": {
+    "building_footprints_tested": 4688,
+    "density_lane_km": 18.278,
+    "density_sidewalk_m2": 26056,
+    "density_target_pedestrians": 541.5,
+    "density_target_vehicles": 252.8,
+    "dow": 1,
+    "hour": 10,
+    "lanes_considered": 145,
+    "lanes_with_nta": 145,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 2.42,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 62,
+    "pavement_polygons_tested": 1165,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 790,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 303
+   },
+   "snapshot_note": "cached 1437_-2032_10_1_1dfbfd159a04867c_1788782618.json",
+   "triangle_budget": 1125000,
+   "triangles": 1021940,
+   "vehicle_lods": {
+    "LOD2": 88
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 502073
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_0_-2",
+    "t_0_-3",
+    "t_1_-2",
+    "t_1_-3",
+    "t_2_-2",
+    "t_2_-3"
+   ],
+   "landmark_bins_suppressed": 0,
+   "landmark_faces_suppressed": 0,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [],
+   "per_tile": {
+    "t_0_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 14,
+     "triangles": 119408
+    },
+    "t_0_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 15,
+     "triangles": 128866
+    },
+    "t_1_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 15,
+     "triangles": 130392
+    },
+    "t_1_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 14,
+     "triangles": 77462
+    },
+    "t_2_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 12,
+     "triangles": 122694
+    },
+    "t_2_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 13,
+     "triangles": 91750
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 6,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 6,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 670572
+  },
+  "centre_tm": [
+   1437.16,
+   -2032.04
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 134,
+    "cornice": 152,
+    "door_entry": 278,
+    "fence": 92,
+    "fire_escape": 153,
+    "hvac": 9,
+    "parapet": 27,
+    "pilaster": 11,
+    "quoin": 31,
+    "scaffold": 5,
+    "storefront": 70,
+    "storefront_interior": 8,
+    "string_course": 25,
+    "vegetation": 55,
+    "window": 2245,
+    "window_accessory": 268
+   },
+   "placed": 3563,
+   "radius_m": 120.0,
+   "records_in_range": 3563,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_1_-2",
+    "t_1_-3"
+   ],
+   "triangles": 1165914,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
+   "placed": 0,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 0
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 384,
+    "curb": 175,
+    "median": 27,
+    "parking_lot": 50,
+    "plaza": 2,
+    "roadbed": 328,
+    "sidewalk": 172
+   },
+   "placed": 1138,
+   "radius_m": 720.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_0_-2",
+    "t_0_-3",
+    "t_1_-2",
+    "t_1_-3",
+    "t_2_-2",
+    "t_2_-3"
+   ],
+   "triangles": 131624,
+   "triangles_cut_for_landmark_ground": 0,
+   "vertices": 133642
+  },
+  "props": {
+   "capped": "triangle budget 1263361",
+   "impostor_cards_dropped": 22,
+   "impostor_faces_dropped": 0,
+   "leaf_off": true,
+   "per_kind": {
+    "bus_stop_sign": 2,
+    "citibike_dock": 1,
+    "hydrant": 24,
+    "mailbox": 1,
+    "manhole": 52,
+    "street_lamp": 53,
+    "tree": 227,
+    "waste_basket": 1
+   },
+   "placed": 361,
+   "radius_m": 250.0,
+   "rows_in_range": 719,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_1_-2",
+    "t_1_-3"
+   ],
+   "tree_species_substituted": 73,
+   "triangles": 1264886,
+   "unmapped_kinds": {
+    "cooling_tower": 4,
+    "curb_ramp": 54
+   }
+  },
+  "radius_m": 720.0,
+  "seconds": 97.87,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
+   "samples": 211,
+   "spacing_m": 2.0,
+   "triangles": 88200,
+   "water_bodies": [],
+   "water_quads": 0,
+   "z_max_m": 26.66,
+   "z_min_m": 12.78
+  },
+  "triangles": 4343136
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 720.0
+ },
+ "seconds": {
+  "render": 134.9,
+  "scene": 99.0,
+  "total": 233.9
+ },
+ "slug": "drive_brooklyn_bed_stuy_stuyvesant_ave",
+ "status": "rendered",
+ "subject": {
+  "distance_m": null,
+  "name": null
+ },
+ "sun": {
+  "azimuth_deg": 159.048160032243,
+  "elevation_deg": 24.859564174698114,
+  "local": "2019-11-30T10:22:34-05:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2019-11-30T15:22:34Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 13.0,
+  "lat": 40.6817,
+  "lon": -73.933,
+  "note": "Stuyvesant Avenue at Decatur Street, Stuyvesant Heights, roadway centre, looking north"
+ }
+}

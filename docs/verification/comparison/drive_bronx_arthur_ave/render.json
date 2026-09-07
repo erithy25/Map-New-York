@@ -1,0 +1,439 @@
+{
+ "agent_request": {
+  "dow": 2,
+  "hour": 9,
+  "local_clock": "2026-06-21 09:30 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "190.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
+ "camera": {
+  "azimuth_deg": 190.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": 0,
+   "chosen_m": 24.39,
+   "max_m": 24.8,
+   "median_m": 24.48,
+   "min_m": 24.19,
+   "mode": "street",
+   "percentile": 10.0,
+   "point_m": 24.43,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.85524,
+  "lon": -73.88776,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1280,
+   854
+  ],
+  "sensor_mm": 36.0,
+  "slug": "drive_bronx_arthur_ave",
+  "terrain_z_m": 24.387,
+  "x": 5237.771,
+  "y": 17245.927,
+  "z": 25.987
+ },
+ "camera_caption": "camera 40.85524, -73.88776 (NYC_TM 5238, 17246) z 26.0 m NAVD88 | azimuth 190.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.85524,
+  "lon": -73.88776,
+  "offset_from_recorded_m": 15.9,
+  "source": "this photograph's own EXIF camera GPS (40.85524, -73.88776), 16 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
+ "clearance": {
+  "direction": "onto the nearest sidewalk",
+  "min_view_m": 20.0,
+  "moved": true,
+  "nearest_obstruction_m": 20.0,
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 10 m ahead, less than the 12 m this frame needs to show its subject; the camera was moved 11 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 40 m from there",
+  "offset_m": 11.1,
+  "reason": "boxed in: the view azimuth is closed off 10 m ahead, less than the 12 m this frame needs to show its subject",
+  "rule": "pavement snap with a clear view",
+  "view_m": 40.3
+ },
+ "frame": {
+  "mean": 0.2716,
+  "reason": null,
+  "sd": 0.187,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "drive_through",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 860.3,
+  "emissive": {
+   "cone_faces_deleted": 8,
+   "cones_hidden": 1,
+   "lamps_switched_off": 2,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 95.537,
+  "sky_elevation_deg": 43.559,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.593,
+  "view_transform": "Filmic"
+ },
+ "name": "Bronx drive-through: Arthur Avenue (Belmont)",
+ "night": false,
+ "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "reference_photo": {
+  "author": "Joe Mabel",
+  "confidence": "medium",
+  "date_taken": "2026",
+  "estimated_azimuth_deg": 190.0,
+  "file": "1.jpg",
+  "height": 1280,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Arthur_Avenue_09_-_M%26G_Restaurant.jpg",
+  "title": "File:Arthur Avenue 09 - M&G Restaurant.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/drive_bronx_arthur_ave/render.png",
+ "rendered_at": "2026-09-07T14:05:06Z",
+ "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 89 vehicles within 320 m and 281 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 173 vehicles and 506 people over the whole simulated ring, of which 206 and 623 were simulated; 459 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 50,
+    "pedestrian_not_on_walkable_surface": 22,
+    "pedestrian_outside_radius": 270,
+    "vehicle_body_has_no_rider": 4,
+    "vehicle_outside_radius": 109,
+    "vehicle_triangle_budget": 4
+   },
+   "ped_lods": {
+    "LOD1": 7,
+    "LOD2": 274
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 411107,
+   "per_class": {
+    "black_car": 5,
+    "boro_taxi": 2,
+    "box_truck": 3,
+    "mta_bus": 4,
+    "sedan": 49,
+    "suv": 18,
+    "taxi": 5,
+    "van": 3
+   },
+   "placed_pedestrians": 281,
+   "placed_vehicles": 89,
+   "reason": null,
+   "seconds": 46.33,
+   "snapshot": {
+    "building_footprints_tested": 4239,
+    "density_lane_km": 25.141,
+    "density_sidewalk_m2": 33040,
+    "density_target_pedestrians": 505.5,
+    "density_target_vehicles": 172.9,
+    "dow": 2,
+    "hour": 9,
+    "lanes_considered": 315,
+    "lanes_with_nta": 315,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.23,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 65,
+    "pavement_polygons_tested": 5082,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 623,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 206
+   },
+   "snapshot_note": "cached 5248_17241_9_2_2efce787d001752b_1788782618.json",
+   "triangle_budget": 1125000,
+   "triangles": 915985,
+   "vehicle_lods": {
+    "LOD2": 89
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 504878
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_4_16",
+    "t_4_17",
+    "t_5_16",
+    "t_5_17"
+   ],
+   "landmark_bins_suppressed": 0,
+   "landmark_faces_suppressed": 0,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [],
+   "per_tile": {
+    "t_4_16": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 13,
+     "triangles": 53652
+    },
+    "t_4_17": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 12,
+     "triangles": 81416
+    },
+    "t_5_16": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 11,
+     "triangles": 67280
+    },
+    "t_5_17": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 12,
+     "triangles": 59522
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 261870
+  },
+  "centre_tm": [
+   5248.01,
+   17241.21
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 68,
+    "cornice": 110,
+    "door_entry": 189,
+    "fence": 7,
+    "fire_escape": 147,
+    "hvac": 13,
+    "parapet": 171,
+    "pilaster": 77,
+    "quoin": 114,
+    "scaffold": 21,
+    "storefront": 883,
+    "storefront_interior": 122,
+    "string_course": 109,
+    "water_tower": 1,
+    "window": 3904,
+    "window_accessory": 686
+   },
+   "placed": 6622,
+   "radius_m": 120.0,
+   "records_in_range": 6622,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_5_17"
+   ],
+   "triangles": 1635151,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
+   "placed": 0,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 0
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 541,
+    "curb": 958,
+    "median": 76,
+    "parking_lot": 132,
+    "plaza": 26,
+    "roadbed": 395,
+    "sidewalk": 235
+   },
+   "placed": 2363,
+   "radius_m": 720.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_4_16",
+    "t_4_17",
+    "t_5_16",
+    "t_5_17"
+   ],
+   "triangles": 187426,
+   "triangles_cut_for_landmark_ground": 0,
+   "vertices": 191828
+  },
+  "props": {
+   "capped": "triangle budget 1386876",
+   "impostor_cards_dropped": 21,
+   "impostor_faces_dropped": 0,
+   "leaf_off": false,
+   "per_kind": {
+    "citibike_dock": 2,
+    "flagpole": 1,
+    "hydrant": 28,
+    "mailbox": 1,
+    "manhole": 57,
+    "street_lamp": 64,
+    "tree": 202
+   },
+   "placed": 355,
+   "radius_m": 250.0,
+   "rows_in_range": 880,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_4_17",
+    "t_5_16",
+    "t_5_17"
+   ],
+   "tree_species_substituted": 64,
+   "triangles": 1387256,
+   "unmapped_kinds": {
+    "cooling_tower": 48,
+    "curb_ramp": 82,
+    "parks_comfort_station": 1
+   }
+  },
+  "radius_m": 720.0,
+  "seconds": 118.92,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
+   "samples": 211,
+   "spacing_m": 2.0,
+   "triangles": 88200,
+   "water_bodies": [
+    {
+     "kind": "pond",
+     "name": "Cope Lake",
+     "water_z_m": 14.92
+    },
+    {
+     "kind": "pond",
+     "name": "Flamingos",
+     "water_z_m": 19.54
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 19.85
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 17.85
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 15.53
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 15.57
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 27.49
+    }
+   ],
+   "water_quads": 24,
+   "z_max_m": 36.83,
+   "z_min_m": 10.98
+  },
+  "triangles": 4475888
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 720.0
+ },
+ "seconds": {
+  "render": 180.7,
+  "scene": 123.5,
+  "total": 304.2
+ },
+ "slug": "drive_bronx_arthur_ave",
+ "status": "rendered",
+ "subject": {
+  "distance_m": null,
+  "name": null
+ },
+ "sun": {
+  "azimuth_deg": 95.53650604189761,
+  "elevation_deg": 43.55941268305585,
+  "local": "2026-06-21T09:30:00-04:00",
+  "time_source": "photograph year only; 21 June 09:30 assumed",
+  "utc": "2026-06-21T13:30:00Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 190.0,
+  "lat": 40.8551,
+  "lon": -73.8878,
+  "note": "Arthur Avenue at East 187th Street, roadway centre, looking south"
+ }
+}

@@ -1,0 +1,87 @@
+{
+ "schema_version": 1,
+ "slug": "street_staten_island_ranch_houses",
+ "name": "Staten Island ranch houses",
+ "group": "streetscape",
+ "viewpoint": {
+  "lat": 40.548,
+  "lon": -74.145,
+  "azimuth_deg": 0.0,
+  "note": "Great Kills / New Dorp Beach residential street, looking north (representative block)",
+  "representative": true
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 1,
+ "queries": [
+  "Staten Island houses residential street",
+  "Staten Island one-family houses",
+  "Dongan Hills Staten Island house",
+  "Staten Island Tottenville houses"
+ ],
+ "geosearch_radius_m": 0,
+ "fetched_at": "2026-09-06T14:22:32Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 57,
+ "candidates_eligible": 1,
+ "rejections": {
+  "not_photo": 19,
+  "excluded": 21,
+  "too_small": 3,
+  "licence": 9,
+  "too_old": 2,
+  "keywords": 2
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Typical house in Dongan Hills (built in 1960).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Typical_house_in_Dongan_Hills_(built_in_1960).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/0a/Typical_house_in_Dongan_Hills_%28built_in_1960%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Typical_house_in_Dongan_Hills_%28built_in_1960%29.jpg/1280px-Typical_house_in_Dongan_Hills_%28built_in_1960%29.jpg",
+   "author": "MJPlante1",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024-09-27",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": null,
+   "original_width": 1346,
+   "original_height": 716,
+   "width": 1280,
+   "height": 681,
+   "bytes": 242168,
+   "sha256": "d07830dda6aa252be1de8d007341193539d2fbe0f6df1a2ffa2c8edf7638d718",
+   "mean_luminance": 167.2,
+   "description": "A typical one-family house (built in 1960) in Dongan Hills.",
+   "categories": [
+    "New York City in the 1960s",
+    "Self-published work",
+    "Dongan Hills, Staten Island"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:Staten Island one-family houses",
+   "score": 7.7,
+   "estimated_viewpoint": {
+    "lat": 40.548,
+    "lon": -74.145,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Great Kills / New Dorp Beach residential street, looking north (representative block)) and the azimuth 0 deg is the heading of the street/view axis at that position. The subject is generic, so this position is representative of the type of scene, not where this specific photo was taken."
+   },
+   "attribution": "\"Typical house in Dongan Hills (built in 1960).jpg\" by MJPlante1, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Typical_house_in_Dongan_Hills_(built_in_1960).jpg"
+  }
+ ]
+}

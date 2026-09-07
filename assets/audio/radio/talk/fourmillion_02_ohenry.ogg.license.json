@@ -1,0 +1,28 @@
+{
+ "artist": "O. Henry; read by LibriVox volunteers",
+ "attribution_note": "LibriVox recordings are in the public domain; text is public domain (pre-1930 US).",
+ "bytes": 5403528,
+ "duration_s": 769.54,
+ "file": "talk/fourmillion_02_ohenry.ogg",
+ "gain_db": 7.9,
+ "licence": "Public Domain (LibriVox; CC PDM/CC0)",
+ "licence_url": "http://creativecommons.org/licenses/publicdomain/",
+ "loudness_lufs": -23.9,
+ "original_filename": "fourmillion_02_ohenry.mp3",
+ "recorded_at": "2026-09-06T12:25:55Z",
+ "schema_version": 1,
+ "sha256": "93e9268488ac08b59aec6476af33a75bdead68d3d6f8e6f3cd57dc0461d77f49",
+ "source_page": "https://archive.org/details/four_million_librivox",
+ "source_site": "archive.org (LibriVox)",
+ "source_url": "https://archive.org/download/four_million_librivox/fourmillion_02_ohenry.mp3",
+ "title": "The Four Million \u2014 The Gift of the Magi",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": true,
+  "quality": 1.5,
+  "sample_rate": 32000,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

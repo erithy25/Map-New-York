@@ -1,0 +1,262 @@
+{
+ "engine": "CYCLES CPU",
+ "generated_at": "2026-09-07T11:12:20Z",
+ "renders": [
+  {
+   "camera_m": [
+    -3620.0,
+    4260.0,
+    640.0
+   ],
+   "materials": [
+    "brown_brick",
+    "brownstone",
+    "cast_iron",
+    "concrete",
+    "glass_curtain",
+    "granite",
+    "limestone",
+    "metal_panel",
+    "precast",
+    "red_brick",
+    "roof_membrane",
+    "stone_rubble",
+    "stucco",
+    "tan_brick",
+    "tar_roof",
+    "terracotta",
+    "vinyl_siding",
+    "white_glazed_brick",
+    "wood_clapboard"
+   ],
+   "png": "docs/verification/buildings_mesh/midtown_aerial.png",
+   "samples": 24,
+   "seconds": 119.4,
+   "sources": [
+    "blender_out/tiles/t_-4_5/tile_buildings.glb",
+    "blender_out/tiles/t_-4_4/tile_buildings.glb",
+    "blender_out/tiles/t_-3_5/tile_buildings.glb",
+    "blender_out/tiles/t_-3_4/tile_buildings.glb",
+    "blender_out/tiles/t_-4_6/tile_buildings.glb",
+    "blender_out/tiles/t_-3_6/tile_buildings.glb"
+   ],
+   "target_m": [
+    -3011.6,
+    5379.8,
+    170.0
+   ],
+   "title": "Midtown aerial over the Empire State Building (t_-4_5 and neighbours)",
+   "view": "midtown_aerial"
+  },
+  {
+   "camera_m": [
+    -3235.3,
+    5421.4,
+    15.11
+   ],
+   "materials": [
+    "brown_brick",
+    "brownstone",
+    "cast_iron",
+    "concrete",
+    "glass_curtain",
+    "granite",
+    "limestone",
+    "metal_panel",
+    "precast",
+    "red_brick",
+    "roof_membrane",
+    "stone_rubble",
+    "stucco",
+    "tan_brick",
+    "tar_roof",
+    "terracotta",
+    "vinyl_siding",
+    "white_glazed_brick",
+    "wood_clapboard"
+   ],
+   "png": "docs/verification/buildings_mesh/midtown_avenue.png",
+   "samples": 24,
+   "seconds": 146.5,
+   "sources": [
+    "blender_out/tiles/t_-4_5/tile_buildings.glb",
+    "blender_out/tiles/t_-3_5/tile_buildings.glb",
+    "blender_out/tiles/t_-4_6/tile_buildings.glb",
+    "blender_out/tiles/t_-3_6/tile_buildings.glb"
+   ],
+   "target_m": [
+    -3018.0,
+    5844.0,
+    167.98
+   ],
+   "title": "Sixth Avenue looking north from West 33rd Street",
+   "view": "midtown_avenue"
+  },
+  {
+   "camera_m": [
+    -3252.0,
+    5959.0,
+    122.41
+   ],
+   "materials": [
+    "brown_brick",
+    "brownstone",
+    "cast_iron",
+    "concrete",
+    "glass_curtain",
+    "granite",
+    "limestone",
+    "metal_panel",
+    "precast",
+    "red_brick",
+    "roof_membrane",
+    "stone_rubble",
+    "stucco",
+    "tan_brick",
+    "tar_roof",
+    "terracotta",
+    "vinyl_siding",
+    "white_glazed_brick",
+    "wood_clapboard"
+   ],
+   "png": "docs/verification/buildings_mesh/midtown_setbacks.png",
+   "samples": 24,
+   "seconds": 126.3,
+   "sources": [
+    "blender_out/tiles/t_-4_5/tile_buildings.glb",
+    "blender_out/tiles/t_-3_5/tile_buildings.glb",
+    "blender_out/tiles/t_-4_6/tile_buildings.glb",
+    "blender_out/tiles/t_-3_6/tile_buildings.glb"
+   ],
+   "target_m": [
+    -3406.0,
+    5775.0,
+    64.5
+   ],
+   "title": "Midtown setbacks: real multi-level massing recovered from the CityGML LOD2 roof levels",
+   "view": "midtown_setbacks"
+  },
+  {
+   "camera_m": [
+    -2400.0,
+    -2960.0,
+    50.99
+   ],
+   "materials": [
+    "brown_brick",
+    "brownstone",
+    "concrete",
+    "glass_curtain",
+    "granite",
+    "limestone",
+    "metal_panel",
+    "red_brick",
+    "roof_membrane",
+    "stone_rubble",
+    "stucco",
+    "tan_brick",
+    "tar_roof",
+    "terracotta",
+    "vinyl_siding",
+    "white_glazed_brick",
+    "wood_clapboard"
+   ],
+   "png": "docs/verification/buildings_mesh/park_slope_block.png",
+   "samples": 24,
+   "seconds": 90.8,
+   "sources": [
+    "blender_out/tiles/t_-3_-4/tile_buildings.glb",
+    "blender_out/tiles/t_-3_-3/tile_buildings.glb",
+    "blender_out/tiles/t_-2_-4/tile_buildings.glb"
+   ],
+   "target_m": [
+    -2646.5,
+    -3153.3,
+    25.51
+   ],
+   "title": "Park Slope brownstone rows, Carroll Street towards Eighth Avenue (low oblique)",
+   "view": "park_slope_block"
+  },
+  {
+   "camera_m": [
+    14960.0,
+    6620.0,
+    66.59
+   ],
+   "materials": [
+    "brown_brick",
+    "concrete",
+    "glass_curtain",
+    "limestone",
+    "metal_panel",
+    "precast",
+    "red_brick",
+    "roof_membrane",
+    "stucco",
+    "tan_brick",
+    "tar_roof",
+    "vinyl_siding"
+   ],
+   "png": "docs/verification/buildings_mesh/queens_houses.png",
+   "samples": 24,
+   "seconds": 64.7,
+   "sources": [
+    "blender_out/tiles/t_14_6/tile_buildings.glb"
+   ],
+   "target_m": [
+    14600.0,
+    6900.0,
+    27.47
+   ],
+   "title": "Bayside one- and two-family houses: gable, hip and shed roofs (t_14_6)",
+   "view": "queens_houses"
+  },
+  {
+   "camera_m": [
+    -4183.8,
+    -431.9,
+    22.0
+   ],
+   "materials": [
+    "brown_brick",
+    "brownstone",
+    "cast_iron",
+    "concrete",
+    "glass_curtain",
+    "granite",
+    "limestone",
+    "metal_panel",
+    "precast",
+    "red_brick",
+    "roof_membrane",
+    "stone_rubble",
+    "stucco",
+    "tan_brick",
+    "tar_roof",
+    "terracotta",
+    "vinyl_siding",
+    "white_glazed_brick",
+    "wood_clapboard"
+   ],
+   "png": "docs/verification/buildings_mesh/skyline_brooklyn.png",
+   "samples": 24,
+   "seconds": 86.2,
+   "sources": [
+    "blender_out/tiles/_merged/l2/L2_-2_0.glb",
+    "blender_out/tiles/_merged/l2/L2_-2_1.glb",
+    "blender_out/tiles/_merged/l2/L2_-1_0.glb",
+    "blender_out/tiles/_merged/l2/L2_-1_1.glb",
+    "blender_out/tiles/_merged/l2/L2_-2_-1.glb",
+    "blender_out/tiles/_merged/l2/L2_-1_-1.glb"
+   ],
+   "target_m": [
+    -5154.9,
+    823.5,
+    150.0
+   ],
+   "title": "Manhattan skyline from the Brooklyn Heights Promenade (merged L2 cells)",
+   "view": "skyline_brooklyn"
+  }
+ ],
+ "schema_version": 1
+}

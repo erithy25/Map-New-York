@@ -1,0 +1,205 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_new_york_times_building",
+ "name": "The New York Times Building (620 Eighth Avenue)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.75565,
+  "lon": -73.991673,
+  "azimuth_deg": 70.0,
+  "note": "Eighth Avenue at West 40th Street, about 150 m west-south-west of the tower, looking east-north-east at the ceramic-rod facade",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.756111,
+  "lon": -73.99,
+  "name": "The New York Times Building (620 Eighth Avenue)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"New York Times Building\" 620 Eighth Avenue",
+  "\"New York Times Building\" Renzo Piano tower"
+ ],
+ "geosearch_radius_m": 350,
+ "fetched_at": "2026-09-06T13:18:17Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 81,
+ "candidates_eligible": 21,
+ "rejections": {
+  "too_old": 15,
+  "night_for_day_item": 2,
+  "keywords": 21,
+  "not_photo": 3,
+  "too_small": 3,
+  "excluded": 11,
+  "indoor": 5
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:2024-06-17 10 01 23 The front of the New York Times Building along 8th Avenue in Manhattan, New York City, New York.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:2024-06-17_10_01_23_The_front_of_the_New_York_Times_Building_along_8th_Avenue_in_Manhattan,_New_York_City,_New_York.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/46/2024-06-17_10_01_23_The_front_of_the_New_York_Times_Building_along_8th_Avenue_in_Manhattan%2C_New_York_City%2C_New_York.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/2024-06-17_10_01_23_The_front_of_the_New_York_Times_Building_along_8th_Avenue_in_Manhattan%2C_New_York_City%2C_New_York.jpg/1920px-2024-06-17_10_01_23_The_front_of_the_New_York_Times_Building_along_8th_Avenue_in_Manhattan%2C_New_York_City%2C_New_York.jpg",
+   "author": "Famartin",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024-06-17 10:01:23",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.756316,
+    "lon": -73.990567
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 1017390,
+   "sha256": "bf30f4d6f57f801d2a716f9f3f8707d05e937d770b41da060ba11c06dc848b5d",
+   "mean_luminance": 105.1,
+   "description": "The front of the New York Times Building along 8th Avenue in Manhattan, New York City, New York",
+   "categories": [
+    "The New York Times Building",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Office buildings in the United States photographed in 2024",
+    "Midtown Manhattan in 2024",
+    "New York City photographs taken on 2024-06-17",
+    "June 2024 in Manhattan, New York City",
+    "Famartin's 2024 photos",
+    "Famartin's June 2024 photos"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.756316,
+    "lon": -73.990567,
+    "azimuth_deg": 115.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75632, -73.99057) is 53 m from The New York Times Building (620 Eighth Avenue) (40.75611, -73.99000) and 119 m from the standard viewpoint; the azimuth 116 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"2024-06-17 10 01 23 The front of the New York Times Building along 8th Avenue in Manhattan, New York City, New York.jpg\" by Famartin, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:2024-06-17_10_01_23_The_front_of_the_New_York_Times_Building_along_8th_Avenue_in_Manhattan,_New_York_City,_New_York.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Secretary Kerry Confers With His Aide Following an Editorial Board Meeting at the New York Times Headquarters (25978766623).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Secretary_Kerry_Confers_With_His_Aide_Following_an_Editorial_Board_Meeting_at_the_New_York_Times_Headquarters_(25978766623).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/78/Secretary_Kerry_Confers_With_His_Aide_Following_an_Editorial_Board_Meeting_at_the_New_York_Times_Headquarters_%2825978766623%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Secretary_Kerry_Confers_With_His_Aide_Following_an_Editorial_Board_Meeting_at_the_New_York_Times_Headquarters_%2825978766623%29.jpg/1920px-Secretary_Kerry_Confers_With_His_Aide_Following_an_Editorial_Board_Meeting_at_the_New_York_Times_Headquarters_%2825978766623%29.jpg",
+   "author": "U.S. Department of State from United States",
+   "credit": "Secretary Kerry Confers With His Aide Following an Editorial Board Meeting at the New York Times Headquarters",
+   "license": {
+    "short_name": "Public domain",
+    "url": "https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain",
+    "template": "pd"
+   },
+   "date_taken": "2016",
+   "date_source": "DateTimeOriginal",
+   "year": 2016,
+   "camera_gps": {
+    "lat": 40.758115,
+    "lon": -73.989787
+   },
+   "original_width": 4479,
+   "original_height": 2986,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 747739,
+   "sha256": "548ed411c2c25c37869664913b5c6ea317a5a632e93c3004301906c687c539c4",
+   "mean_luminance": 93.0,
+   "description": "U.S. Secretary of State John Kerry confers with aide Christopher Flanagan on April 22, 2016, outside the headquarters of The New York Times in New York, N.Y., following an editorial board meeting during a day in which the Secretary also signed the COP21 Climate Change Agreement on behalf of the United States. [State Department photo/ Public Domain]",
+   "categories": [
+    "April 2016 in New York City",
+    "Taken with Nikon D4S",
+    "PD US DOS",
+    "The New York Times Building",
+    "Images with extracted images",
+    "Flickr images reviewed by FlickreviewR",
+    "Photographs by the U.S. Department of State",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2016-04-22",
+    "The New York Times, 2016",
+    "John Kerry in April 2016"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"New York Times Building\" 620 Eighth Avenue",
+   "score": 9.15,
+   "estimated_viewpoint": {
+    "lat": 40.758115,
+    "lon": -73.989787,
+    "azimuth_deg": 184.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75811, -73.98979) is 224 m from The New York Times Building (620 Eighth Avenue) (40.75611, -73.99000) and 317 m from the standard viewpoint; the azimuth 185 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Secretary Kerry Confers With His Aide Following an Editorial Board Meeting at the New York Times Headquarters (25978766623).jpg\" by U.S. Department of State from United States, Public domain (https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Secretary_Kerry_Confers_With_His_Aide_Following_an_Editorial_Board_Meeting_at_the_New_York_Times_Headquarters_(25978766623).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:New York por NewYork (4689037248).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:New_York_por_NewYork_(4689037248).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/da/New_York_por_NewYork_%284689037248%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/New_York_por_NewYork_%284689037248%29.jpg/1920px-New_York_por_NewYork_%284689037248%29.jpg",
+   "author": "Eneas De Troya from Mexico City, México",
+   "credit": "New York por NewYork",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2010-05-12 20:20",
+   "date_source": "DateTimeOriginal",
+   "year": 2010,
+   "camera_gps": {
+    "lat": 40.756197,
+    "lon": -73.990484
+   },
+   "original_width": 2777,
+   "original_height": 4181,
+   "width": 1920,
+   "height": 2891,
+   "bytes": 1258346,
+   "sha256": "fbe58ad5373a66a703d3b5894c4245e82f335b9ae8d28f1e1c7f254ce97e7ec5",
+   "mean_luminance": 101.8,
+   "description": "The New York Times Building",
+   "categories": [
+    "Taken with Nikon D300s",
+    "The New York Times Building",
+    "Flickr images reviewed by File Upload Bot (Magnus Manske)",
+    "Files with coordinates missing SDC location of creation",
+    "Photographs by Eneas De Troya"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 9.0,
+   "estimated_viewpoint": {
+    "lat": 40.756197,
+    "lon": -73.990484,
+    "azimuth_deg": 103.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75620, -73.99048) is 42 m from The New York Times Building (620 Eighth Avenue) (40.75611, -73.99000) and 117 m from the standard viewpoint; the azimuth 103 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"New York por NewYork (4689037248).jpg\" by Eneas De Troya from Mexico City, México, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:New_York_por_NewYork_(4689037248).jpg"
+  }
+ ]
+}

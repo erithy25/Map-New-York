@@ -1,0 +1,196 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_30_hudson_yards",
+ "name": "30 Hudson Yards",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.752976,
+  "lon": -73.99823,
+  "azimuth_deg": 300.0,
+  "note": "Tenth Avenue at West 30th Street, about 250 m east-south-east of the tower, looking west-north-west at 30 Hudson Yards and the Edge deck",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7541,
+  "lon": -74.0008,
+  "name": "30 Hudson Yards"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2019,
+ "wanted": 3,
+ "queries": [
+  "\"30 Hudson Yards\" tower",
+  "\"30 Hudson Yards\" Edge observation deck exterior"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T13:04:45Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 45,
+ "candidates_eligible": 9,
+ "rejections": {
+  "keywords": 24,
+  "excluded": 9,
+  "too_small": 1,
+  "night_for_day_item": 1,
+  "indoor": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:30 Hudson Yards 2025 040.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:30_Hudson_Yards_2025_040.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/36/30_Hudson_Yards_2025_040.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/30_Hudson_Yards_2025_040.jpg/1920px-30_Hudson_Yards_2025_040.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2025-12-23 14:13:12",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.752278,
+    "lon": -73.997056
+   },
+   "original_width": 2296,
+   "original_height": 4080,
+   "width": 1920,
+   "height": 3412,
+   "bytes": 1099458,
+   "sha256": "c48e3eda3e4a4e3c58f1ee1ca33cf0b15f8b88d0b59b92030ffdb5e2bee253cf",
+   "mean_luminance": 156.8,
+   "description": "30 Hudson Yards in December 2025",
+   "categories": [
+    "30 Hudson Yards",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Hudson Yards in 2025",
+    "New York City photographs taken on 2025-12-23",
+    "December 2025 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.752278,
+    "lon": -73.997056,
+    "azimuth_deg": 302.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75228, -73.99706) is 375 m from 30 Hudson Yards (40.75410, -74.00080) and 126 m from the standard viewpoint; the azimuth 303 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"30 Hudson Yards 2025 040.jpg\" by Kidfly182, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:30_Hudson_Yards_2025_040.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:30 Hudson Yards 2019.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:30_Hudson_Yards_2019.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/6a/30_Hudson_Yards_2019.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/30_Hudson_Yards_2019.jpg/1920px-30_Hudson_Yards_2019.jpg",
+   "author": "Antony-22",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2019-05-07 18:10:22",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.753811,
+    "lon": -73.998842
+   },
+   "original_width": 2448,
+   "original_height": 3264,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1068733,
+   "sha256": "3d21d705d8914a698d547e5b051e8e6756e7570e4bc31069656d9f4f46126d02",
+   "mean_luminance": 79.5,
+   "description": "30 Hudson Yards from the east, with 5 Manhattan West visible at left, in 2019",
+   "categories": [
+    "30 Hudson Yards",
+    "Westyard Distribution Center",
+    "New York City photographs taken on 2019-05-07",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Hudson Yards in 2019",
+    "Media by Antony-22"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.6,
+   "estimated_viewpoint": {
+    "lat": 40.753811,
+    "lon": -73.998842,
+    "azimuth_deg": 281.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75381, -73.99884) is 168 m from 30 Hudson Yards (40.75410, -74.00080) and 106 m from the standard viewpoint; the azimuth 281 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"30 Hudson Yards 2019.jpg\" by Antony-22, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:30_Hudson_Yards_2019.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:30 Hudson Yards March 2022.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:30_Hudson_Yards_March_2022.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/4e/30_Hudson_Yards_March_2022.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/30_Hudson_Yards_March_2022.jpg/1920px-30_Hudson_Yards_March_2022.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-03-11 12:30:51",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.753911,
+    "lon": -73.998986
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 643391,
+   "sha256": "25cfa7ed4c9003028efc889972006e3ec2270df0a760b862fdfdc17f0e307b8d",
+   "mean_luminance": 107.2,
+   "description": "30 Hudson Yards in March 2022",
+   "categories": [
+    "30 Hudson Yards",
+    "New York City photographs taken on 2022-03-11",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Hudson Yards in 2022"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.753911,
+    "lon": -73.998986,
+    "azimuth_deg": 277.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75391, -73.99899) is 154 m from 30 Hudson Yards (40.75410, -74.00080) and 122 m from the standard viewpoint; the azimuth 278 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"30 Hudson Yards March 2022.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:30_Hudson_Yards_March_2022.jpg"
+  }
+ ]
+}

@@ -1,0 +1,222 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_rfk_triborough_bridge",
+ "name": "Robert F. Kennedy (Triborough) Bridge",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7795,
+  "lon": -73.9255,
+  "azimuth_deg": 204.4,
+  "note": "Astoria Park shore path midway between the two bridges, looking south-west at the RFK suspension span",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.777,
+  "lon": -73.927,
+  "name": "RFK Bridge East River suspension span"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Robert F. Kennedy Bridge\" Astoria Park",
+  "\"Triborough Bridge\" suspension span Astoria"
+ ],
+ "geosearch_radius_m": 700,
+ "fetched_at": "2026-09-06T12:47:29Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 73,
+ "candidates_eligible": 40,
+ "rejections": {
+  "too_old": 6,
+  "excluded": 9,
+  "not_jpeg": 1,
+  "too_small": 2,
+  "keywords": 15
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Hell Gate Bridge (84459)p.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Hell_Gate_Bridge_(84459)p.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Hell_Gate_Bridge_%2884459%29p.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Hell_Gate_Bridge_%2884459%29p.jpg/1920px-Hell_Gate_Bridge_%2884459%29p.jpg",
+   "author": "Rhododendrites",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2019-05-18 12:22:03",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.779738,
+    "lon": -73.926552
+   },
+   "original_width": 9410,
+   "original_height": 3274,
+   "width": 1920,
+   "height": 668,
+   "bytes": 334419,
+   "sha256": "be146b5207189a016aa0079e2a1ca091c9edf3e137cb4d07f2093e0c78718ff3",
+   "mean_luminance": 171.3,
+   "description": "Hell Gate Bridge and the East River, viewed from the RFK bridge",
+   "categories": [
+    "Featured pictures of New York City",
+    "May 2019 in New York City",
+    "Hell Gate Bridge",
+    "Randall's Island",
+    "Views from the Triborough Bridge",
+    "Images with annotations",
+    "Spring in New York City",
+    "East River (New York)",
+    "Bridges in the United States photographed in 2019",
+    "Self-published work",
+    "Images with extracted images",
+    "Files uploaded by Rhododendrites (all)",
+    "Featured pictures by Rhododendrites",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2019-05-19",
+    "Clouds and blue sky in New York City",
+    "Files with Assessments template missing SDC Commons valued image assessment",
+    "Files by Rhododendrites - 2019-05",
+    "Photographs taken by Rhododendrites - Randall's Island",
+    "Featured pictures of bridges in the United States"
+   ],
+   "assessments": "quality|featured|valued",
+   "restrictions": "",
+   "provenance": "search:\"Robert F. Kennedy Bridge\" Astoria Park",
+   "score": 15.1,
+   "estimated_viewpoint": {
+    "lat": 40.779738,
+    "lon": -73.926552,
+    "azimuth_deg": 187.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.77974, -73.92655) is 307 m from RFK Bridge East River suspension span (40.77700, -73.92700) and 92 m from the standard viewpoint; the azimuth 187 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Hell Gate Bridge (84459)p.jpg\" by Rhododendrites, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Hell_Gate_Bridge_(84459)p.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:The RFK (Triboro) Bridge at 4 PM EST (Wintertime).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:The_RFK_(Triboro)_Bridge_at_4_PM_EST_(Wintertime).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/10/The_RFK_%28Triboro%29_Bridge_at_4_PM_EST_%28Wintertime%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/The_RFK_%28Triboro%29_Bridge_at_4_PM_EST_%28Wintertime%29.jpg/1920px-The_RFK_%28Triboro%29_Bridge_at_4_PM_EST_%28Wintertime%29.jpg",
+   "author": "Electric2010",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-01-22 17:02:28",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.776208,
+    "lon": -73.925706
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 587285,
+   "sha256": "31529ff7e337198b4cbf5dc224e831fc2b573d97dc02b743bd6c3b7ac62f502b",
+   "mean_luminance": 124.2,
+   "description": "The Robert F. Kennedy (Triboro) Bridge at 4 PM EST (New York City). This bridge was built in the 1930s, and is a beautiful sight to witness. I know this isn't what I usually upload on Wikimedia, but I thought why not upload it.",
+   "categories": [
+    "Association football venues in New York (state)",
+    "Astoria Park",
+    "New York City photographs taken on 2022-01-22",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Metropolitan Transportation Authority in 2022",
+    "2022 in Astoria, Queens",
+    "Parks in New York City in 2022",
+    "January 2022 in Queens, New York City",
+    "Triborough Bridge East River suspension bridge",
+    "Views from parks in New York City",
+    "Views from Queens, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.05,
+   "estimated_viewpoint": {
+    "lat": 40.776208,
+    "lon": -73.925706,
+    "azimuth_deg": 308.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.77621, -73.92571) is 140 m from RFK Bridge East River suspension span (40.77700, -73.92700) and 366 m from the standard viewpoint; the azimuth 309 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"The RFK (Triboro) Bridge at 4 PM EST (Wintertime).jpg\" by Electric2010, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:The_RFK_(Triboro)_Bridge_at_4_PM_EST_(Wintertime).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Triborough Bridge td (2021-06-07) 01 - East River Span.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Triborough_Bridge_td_(2021-06-07)_01_-_East_River_Span.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/73/Triborough_Bridge_td_%282021-06-07%29_01_-_East_River_Span.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Triborough_Bridge_td_%282021-06-07%29_01_-_East_River_Span.jpg/1920px-Triborough_Bridge_td_%282021-06-07%29_01_-_East_River_Span.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-06-07 13:48:49",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.779316,
+    "lon": -73.926264
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 350459,
+   "sha256": "24e23a2fd367ee7333d95e30f01f66ed4d0ab23b6acb1f43418efee6cf18a88b",
+   "mean_luminance": 125.5,
+   "description": "The Queens approach to the East River span of the Triborough Bridge (RFK Bridge) in Astoria, Queens..",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Views from automobiles in Queens, New York City",
+    "Clouds and blue sky in New York City",
+    "2021 Queens photographs by Tdorante10",
+    "2021 in Astoria, Queens",
+    "Grand Central Parkway Triborough Bridge Approach (Interstate 278)",
+    "Triborough Bridge in 2021",
+    "Triborough Bridge East River suspension bridge",
+    "Road sign gantries in Queens, New York City",
+    "Photographs by Tdorante10 taken on 2021-06-07"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.9,
+   "estimated_viewpoint": {
+    "lat": 40.779316,
+    "lon": -73.926264,
+    "azimuth_deg": 193.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.77932, -73.92626) is 265 m from RFK Bridge East River suspension span (40.77700, -73.92700) and 68 m from the standard viewpoint; the azimuth 194 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Triborough Bridge td (2021-06-07) 01 - East River Span.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Triborough_Bridge_td_(2021-06-07)_01_-_East_River_Span.jpg"
+  }
+ ]
+}

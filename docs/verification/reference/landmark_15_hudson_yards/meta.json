@@ -1,0 +1,184 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_15_hudson_yards",
+ "name": "15 Hudson Yards",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.75311,
+  "lon": -74.000277,
+  "azimuth_deg": 280.0,
+  "note": "Tenth Avenue at West 30th Street, about 250 m east of the tower, looking west at the curved shaft of 15 Hudson Yards",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7535,
+  "lon": -74.0032,
+  "name": "15 Hudson Yards"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2019,
+ "wanted": 3,
+ "queries": [
+  "15 Hudson Yards",
+  "15 Hudson Yards Manhattan tower"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T14:07:08Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 94,
+ "candidates_eligible": 48,
+ "rejections": {
+  "keywords": 34,
+  "indoor": 3,
+  "too_old": 1,
+  "too_small": 4,
+  "excluded": 4
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:15 Hudson Yards 077.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:15_Hudson_Yards_077.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/fe/15_Hudson_Yards_077.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/15_Hudson_Yards_077.jpg/1920px-15_Hudson_Yards_077.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2025-01-30 13:08:53",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": null,
+   "original_width": 4608,
+   "original_height": 2072,
+   "width": 1920,
+   "height": 863,
+   "bytes": 256629,
+   "sha256": "9e62ba12a26ae2f1f593de7686075e0acf8681969312c8a6515385799c1819be",
+   "mean_luminance": 124.0,
+   "description": "15 Hudson Yards",
+   "categories": [
+    "15 Hudson Yards",
+    "Self-published work",
+    "Hudson Yards in 2025",
+    "New York City photographs taken on 2025-01-30",
+    "January 2025 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:15 Hudson Yards",
+   "score": 7.7,
+   "estimated_viewpoint": {
+    "lat": 40.75311,
+    "lon": -74.000277,
+    "azimuth_deg": 280.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Tenth Avenue at West 30th Street, about 250 m east of the tower, looking west at the curved shaft of 15 Hudson Yards) and the azimuth 280 deg is the bearing from there to 15 Hudson Yards (40.75350, -74.00320)."
+   },
+   "attribution": "\"15 Hudson Yards 077.jpg\" by Kidfly182, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:15_Hudson_Yards_077.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:15 Hudson Yards 068.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:15_Hudson_Yards_068.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/52/15_Hudson_Yards_068.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/15_Hudson_Yards_068.jpg/1920px-15_Hudson_Yards_068.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2025-01-10 12:32:01",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": null,
+   "original_width": 2072,
+   "original_height": 4608,
+   "width": 1920,
+   "height": 4270,
+   "bytes": 1118726,
+   "sha256": "f4e1f574a81b391cae5f6a401aa7d7fc5e5553619e258b91666604df4bb46651",
+   "mean_luminance": 135.5,
+   "description": "15 Hudson Yards in January 2025",
+   "categories": [
+    "15 Hudson Yards",
+    "Self-published work",
+    "Hudson Yards in 2025",
+    "New York City photographs taken on 2025-01-10",
+    "January 2025 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:15 Hudson Yards",
+   "score": 7.7,
+   "estimated_viewpoint": {
+    "lat": 40.75311,
+    "lon": -74.000277,
+    "azimuth_deg": 280.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Tenth Avenue at West 30th Street, about 250 m east of the tower, looking west at the curved shaft of 15 Hudson Yards) and the azimuth 280 deg is the bearing from there to 15 Hudson Yards (40.75350, -74.00320)."
+   },
+   "attribution": "\"15 Hudson Yards 068.jpg\" by Kidfly182, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:15_Hudson_Yards_068.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:15 Hudson Yards 079.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:15_Hudson_Yards_079.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/38/15_Hudson_Yards_079.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/15_Hudson_Yards_079.jpg/1920px-15_Hudson_Yards_079.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2025-02-21 13:10:44",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": null,
+   "original_width": 2072,
+   "original_height": 4608,
+   "width": 1920,
+   "height": 4270,
+   "bytes": 882345,
+   "sha256": "f1f1d8a06538e8fe871a354206d5cb5438397c70f4a8168b9e57aa777fb3de2c",
+   "mean_luminance": 140.5,
+   "description": "15 Hudson Yards in February 2025",
+   "categories": [
+    "15 Hudson Yards",
+    "Self-published work",
+    "Hudson Yards in 2025",
+    "February 2025 in Manhattan, New York City",
+    "New York City photographs taken on 2025-02-21"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:15 Hudson Yards",
+   "score": 7.7,
+   "estimated_viewpoint": {
+    "lat": 40.75311,
+    "lon": -74.000277,
+    "azimuth_deg": 280.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Tenth Avenue at West 30th Street, about 250 m east of the tower, looking west at the curved shaft of 15 Hudson Yards) and the azimuth 280 deg is the bearing from there to 15 Hudson Yards (40.75350, -74.00320)."
+   },
+   "attribution": "\"15 Hudson Yards 079.jpg\" by Kidfly182, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:15_Hudson_Yards_079.jpg"
+  }
+ ]
+}

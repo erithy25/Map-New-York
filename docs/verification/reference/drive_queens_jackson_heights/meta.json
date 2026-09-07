@@ -1,0 +1,201 @@
+{
+ "schema_version": 1,
+ "slug": "drive_queens_jackson_heights",
+ "name": "Queens residential block: Jackson Heights side street with two-family homes",
+ "group": "drive_through",
+ "viewpoint": {
+  "lat": 40.752,
+  "lon": -73.883,
+  "azimuth_deg": 165.0,
+  "note": "84th Street between 35th and 37th Avenues, Jackson Heights, looking south",
+  "representative": false
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Jackson Heights\" Queens houses residential street",
+  "\"Jackson Heights\" two-family houses"
+ ],
+ "geosearch_radius_m": 500,
+ "fetched_at": "2026-09-06T12:00:14Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query list=search / list=geosearch / prop=imageinfo)",
+ "candidates_seen": 79,
+ "candidates_eligible": 43,
+ "rejections": {
+  "too_old": 2,
+  "too_small": 11,
+  "keywords": 4,
+  "not_jpeg": 6,
+  "excluded": 13
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Jahn's Jackson Heights NYC.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Jahn%27s_Jackson_Heights_NYC.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/2b/Jahn%27s_Jackson_Heights_NYC.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Jahn%27s_Jackson_Heights_NYC.jpg/1920px-Jahn%27s_Jackson_Heights_NYC.jpg",
+   "author": "Transpoman",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2025",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.74962,
+    "lon": -73.88501
+   },
+   "original_width": 3200,
+   "original_height": 2400,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 845038,
+   "sha256": "d09d211202462c194239bd94e3c70e37e53a1ef4e0b2b7989fb89aa3ee4f4671",
+   "mean_luminance": 104.9,
+   "description": "Jahn's Restaurant and Ice Cream Parlor located at 81-04 37th Ave in Jackson Heights, Queens",
+   "categories": [
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Restaurants in the United States photographed in 2025",
+    "2025 in Jackson Heights, Queens",
+    "May 2025 in Queens, New York City",
+    "New York City photographs taken on 2025-05-10",
+    "Restaurants in Jackson Heights, Queens"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.74962,
+    "lon": -73.88501,
+    "azimuth_deg": 165.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.74962, -73.88501), 314 m from the reference position (84th Street between 35th and 37th Avenues, Jackson Heights, looking south); this item is a view along a street rather than at a point subject, so the azimuth 165 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Jahn's Jackson Heights NYC.jpg\" by Transpoman, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Jahn%27s_Jackson_Heights_NYC.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:78-12 35th Avenue (entrance), between 78th and 79th Street, Jackson Heights, Queens, New York.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:78-12_35th_Avenue_(entrance),_between_78th_and_79th_Street,_Jackson_Heights,_Queens,_New_York.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b5/78-12_35th_Avenue_%28entrance%29%2C_between_78th_and_79th_Street%2C_Jackson_Heights%2C_Queens%2C_New_York.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/78-12_35th_Avenue_%28entrance%29%2C_between_78th_and_79th_Street%2C_Jackson_Heights%2C_Queens%2C_New_York.jpg/1920px-78-12_35th_Avenue_%28entrance%29%2C_between_78th_and_79th_Street%2C_Jackson_Heights%2C_Queens%2C_New_York.jpg",
+   "author": "Deans Charbal",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-09-11 11:57:15",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.751411,
+    "lon": -73.887903
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 1023469,
+   "sha256": "e6ae696e2a08c06e80ed8c84d5639fade6087382c3161fbce6676e46b9a56d99",
+   "mean_luminance": 115.3,
+   "description": "78-12 35th Avenue (entrance), between 78th and 79th Street, Jackson Heights, Queens, New York",
+   "categories": [
+    "New York City photographs taken on 2022-09-11",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Entrances in Queens, New York City",
+    "Nature of Queens, New York City",
+    "2022 in Jackson Heights, Queens",
+    "Apartment buildings in the United States photographed in 2022",
+    "September 2022 in Queens, New York City",
+    "Files by User:Deansfa",
+    "Apartment buildings in Jackson Heights, Queens",
+    "35th Avenue (Queens)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.751411,
+    "lon": -73.887903,
+    "azimuth_deg": 165.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.75141, -73.88790), 418 m from the reference position (84th Street between 35th and 37th Avenues, Jackson Heights, looking south); this item is a view along a street rather than at a point subject, so the azimuth 165 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"78-12 35th Avenue (entrance), between 78th and 79th Street, Jackson Heights, Queens, New York.jpg\" by Deans Charbal, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:78-12_35th_Avenue_(entrance),_between_78th_and_79th_Street,_Jackson_Heights,_Queens,_New_York.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Salvation Army Jax Hts jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Salvation_Army_Jax_Hts_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c6/Salvation_Army_Jax_Hts_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Salvation_Army_Jax_Hts_jeh.jpg/1920px-Salvation_Army_Jax_Hts_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018-08-19 19:02:46",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.752287,
+    "lon": -73.88055
+   },
+   "original_width": 4061,
+   "original_height": 2708,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 526168,
+   "sha256": "185a030a10653bd96b9ed88ff227dbf15985b3b798b7b1ff1c6a6ea1f3003a79",
+   "mean_luminance": 132.9,
+   "description": "Looking northeast on a cloudy afternoon",
+   "categories": [
+    "Jackson Heights, Queens",
+    "Churches in Queens, New York City",
+    "Self-published work",
+    "Salvation Army in the United States",
+    "Files with coordinates missing SDC location of creation",
+    "August 2018 in Queens, New York City",
+    "Curved buildings in New York City",
+    "2018 Queens photos by Jim.henderson",
+    "August 2018 photos by Jim.henderson"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.45,
+   "estimated_viewpoint": {
+    "lat": 40.752287,
+    "lon": -73.88055,
+    "azimuth_deg": 165.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.75229, -73.88055), 209 m from the reference position (84th Street between 35th and 37th Avenues, Jackson Heights, looking south); this item is a view along a street rather than at a point subject, so the azimuth 165 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Salvation Army Jax Hts jeh.jpg\" by Jim.henderson, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Salvation_Army_Jax_Hts_jeh.jpg"
+  }
+ ]
+}

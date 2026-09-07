@@ -1,0 +1,203 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_metropolitan_museum",
+ "name": "Metropolitan Museum of Art",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7789,
+  "lon": -73.9622,
+  "azimuth_deg": 303.4,
+  "note": "Fifth Avenue at East 82nd Street, east sidewalk, looking west at the Fifth Avenue facade and steps",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7794,
+  "lon": -73.9632,
+  "name": "Metropolitan Museum of Art Fifth Avenue facade"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Metropolitan Museum of Art\" facade Fifth Avenue",
+  "\"Metropolitan Museum of Art\" exterior steps"
+ ],
+ "geosearch_radius_m": 200,
+ "fetched_at": "2026-09-06T12:25:15Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 77,
+ "candidates_eligible": 42,
+ "rejections": {
+  "excluded": 7,
+  "too_old": 14,
+  "licence": 1,
+  "not_photo": 1,
+  "keywords": 10,
+  "too_small": 2
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Entrance to The Met Fifth Avenue (2022).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Entrance_to_The_Met_Fifth_Avenue_(2022).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Entrance_to_The_Met_Fifth_Avenue_%282022%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Entrance_to_The_Met_Fifth_Avenue_%282022%29.jpg/1920px-Entrance_to_The_Met_Fifth_Avenue_%282022%29.jpg",
+   "author": "PerpetualTraveler",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-05-28 13:34:40",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.778739,
+    "lon": -73.962614
+   },
+   "original_width": 4096,
+   "original_height": 3072,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 666433,
+   "sha256": "245aa1b8f8a9c5aec650ab9c06ffc3531a8d8e1fe00078624f724436ad4df15b",
+   "mean_luminance": 132.9,
+   "description": "Entrance to The Met Fifth Avenue (2022)",
+   "categories": [
+    "Metropolitan Museum of Art - Main Building",
+    "New York City photographs taken on 2022-05-28",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Museums in the United States photographed in 2022",
+    "2022 in the Upper East Side",
+    "May 2022 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.05,
+   "estimated_viewpoint": {
+    "lat": 40.778739,
+    "lon": -73.962614,
+    "azimuth_deg": 326.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.77874, -73.96261) is 89 m from Metropolitan Museum of Art Fifth Avenue facade (40.77940, -73.96320) and 39 m from the standard viewpoint; the azimuth 326 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Entrance to The Met Fifth Avenue (2022).jpg\" by PerpetualTraveler, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Entrance_to_The_Met_Fifth_Avenue_(2022).jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Metropolitan Museum of Art (The Met) - Central Park, NYC.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Metropolitan_Museum_of_Art_(The_Met)_-_Central_Park,_NYC.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/30/Metropolitan_Museum_of_Art_%28The_Met%29_-_Central_Park%2C_NYC.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Metropolitan_Museum_of_Art_%28The_Met%29_-_Central_Park%2C_NYC.jpg/1920px-Metropolitan_Museum_of_Art_%28The_Met%29_-_Central_Park%2C_NYC.jpg",
+   "author": "Hugo Schneider",
+   "credit": "Flickr",
+   "license": {
+    "short_name": "CC BY-SA 2.0",
+    "url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "template": "cc-by-sa-2.0"
+   },
+   "date_taken": "2019-09-09 13:46:08",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.77892,
+    "lon": -73.962215
+   },
+   "original_width": 2666,
+   "original_height": 1488,
+   "width": 1920,
+   "height": 1072,
+   "bytes": 712587,
+   "sha256": "dcdf1337bf0c902bdce536f6de7398ff8e045c0fbe1b8465996843ce18a036ad",
+   "mean_luminance": 139.4,
+   "description": "The Metropolitan Museum of Art (The Met) entrance façade in Upper East Side, Manhattan, New York City",
+   "categories": [
+    "Taken with Hasselblad H6D-100c",
+    "Metropolitan Museum of Art - Main Building",
+    "New York City photographs taken on 2019-09-09",
+    "Facades in New York City",
+    "Exteriors of museums in the United States",
+    "Files with coordinates missing SDC location of creation",
+    "Museums in the United States photographed in 2019",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Reliefs in New York City",
+    "Front views of buildings",
+    "September 2019 in Manhattan, New York City",
+    "Museum entrances",
+    "East entrances"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.6,
+   "estimated_viewpoint": {
+    "lat": 40.77892,
+    "lon": -73.962215,
+    "azimuth_deg": 302.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.77892, -73.96222) is 99 m from Metropolitan Museum of Art Fifth Avenue facade (40.77940, -73.96320) and 3 m from the standard viewpoint; the azimuth 303 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Metropolitan Museum of Art (The Met) - Central Park, NYC.jpg\" by Hugo Schneider, CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Metropolitan_Museum_of_Art_(The_Met)_-_Central_Park,_NYC.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:A phallus in the Met.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:A_phallus_in_the_Met.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/90/A_phallus_in_the_Met.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/A_phallus_in_the_Met.jpg/1920px-A_phallus_in_the_Met.jpg",
+   "author": "Antigng",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018-11-23 15:04:40",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.778664,
+    "lon": -73.962607
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 417074,
+   "sha256": "945b31f45109cfde4c099db8dde9e15225fe903ee12c38821ee3d48568d36d57",
+   "mean_luminance": 129.7,
+   "description": "A phallus in the Met",
+   "categories": [
+    "Self-published work",
+    "Sexuality in ancient Greek pottery",
+    "Files with coordinates missing SDC location of creation",
+    "Ancient Greek pottery in the Metropolitan Museum of Art"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.45,
+   "estimated_viewpoint": {
+    "lat": 40.778664,
+    "lon": -73.962607,
+    "azimuth_deg": 328.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.77866, -73.96261) is 96 m from Metropolitan Museum of Art Fifth Avenue facade (40.77940, -73.96320) and 43 m from the standard viewpoint; the azimuth 329 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"A phallus in the Met.jpg\" by Antigng, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:A_phallus_in_the_Met.jpg"
+  }
+ ]
+}

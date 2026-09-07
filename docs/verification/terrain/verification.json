@@ -1,0 +1,408 @@
+{
+ "generated_at": "2026-09-06T13:46:56Z",
+ "no_void": {
+  "tiles_expected": 2916,
+  "tiles_present": 2916,
+  "missing": [],
+  "n_missing": 0,
+  "bad_shape": [],
+  "non_finite": [],
+  "samples": 731918916,
+  "void_filled_from_tidal_datum_px": 4341,
+  "z_min_m": -5.18,
+  "z_max_m": 210.2775,
+  "tiles_with_land": 2294,
+  "tiles_with_water": 1743,
+  "seconds": 52.8
+ },
+ "extremes": {
+  "tiles": 2916,
+  "min": {
+   "z_m": -5.18,
+   "tile": "t_-6_0",
+   "x": -5626.0,
+   "y": 568.0,
+   "lon": -74.01657,
+   "lat": 40.7051
+  },
+  "max": {
+   "z_m": 210.278,
+   "tile": "t_-26_15",
+   "x": -25838.0,
+   "y": 15618.0,
+   "lon": -74.25636,
+   "lat": 40.84023
+  },
+  "lowest_tiles": [
+   {
+    "tile": "t_-6_0",
+    "z_min_m": -5.18
+   },
+   {
+    "tile": "t_-2_5",
+    "z_min_m": -4.367
+   },
+   {
+    "tile": "t_-5_-3",
+    "z_min_m": -4.0
+   },
+   {
+    "tile": "t_12_-7",
+    "z_min_m": -3.288
+   },
+   {
+    "tile": "t_-1_4",
+    "z_min_m": -2.938
+   },
+   {
+    "tile": "t_-3_5",
+    "z_min_m": -2.598
+   },
+   {
+    "tile": "t_10_-13",
+    "z_min_m": -2.0
+   },
+   {
+    "tile": "t_13_-6",
+    "z_min_m": -1.998
+   },
+   {
+    "tile": "t_-11_-5",
+    "z_min_m": -1.998
+   },
+   {
+    "tile": "t_-2_0",
+    "z_min_m": -1.998
+   }
+  ],
+  "highest_tiles": [
+   {
+    "tile": "t_-26_15",
+    "z_max_m": 210.278
+   },
+   {
+    "tile": "t_-26_16",
+    "z_max_m": 209.0
+   },
+   {
+    "tile": "t_-24_14",
+    "z_max_m": 202.505
+   },
+   {
+    "tile": "t_-23_14",
+    "z_max_m": 202.327
+   },
+   {
+    "tile": "t_-27_14",
+    "z_max_m": 202.215
+   },
+   {
+    "tile": "t_-23_15",
+    "z_max_m": 201.447
+   },
+   {
+    "tile": "t_-24_12",
+    "z_max_m": 201.407
+   },
+   {
+    "tile": "t_-25_17",
+    "z_max_m": 198.625
+   },
+   {
+    "tile": "t_-27_13",
+    "z_max_m": 198.345
+   },
+   {
+    "tile": "t_-25_11",
+    "z_max_m": 197.523
+   }
+  ],
+  "samples_below": {
+   "-1m": 78297,
+   "-2m": 1075,
+   "-5m": 2
+  },
+  "sub_datum": {
+   "px_below_floor": 16243,
+   "px_kept_surveyed": 1454,
+   "px_to_water": 1024,
+   "px_filled_idw": 10642,
+   "px_filled_survey": 3123,
+   "px_filled_datum": 0
+  },
+  "tiles_with_sub_datum": 42,
+  "deepest_source_value": {
+   "z_m": -26.973,
+   "tile": "t_-5_6"
+  },
+  "nyc_five_boroughs": {
+   "z_max": 125.59,
+   "tile_max": "t_-14_-12",
+   "borough": "Staten Island",
+   "z_min": -5.18,
+   "tile_min": "t_-6_0",
+   "borough_min": "Manhattan"
+  },
+  "envelope_m": [
+   -6.0,
+   135.0
+  ],
+  "envelope_scope_m": [
+   -6.0,
+   220.0
+  ],
+  "pass": true,
+  "seconds": 65.5
+ },
+ "seams": {
+  "pairs_checked": 5724,
+  "max_edge_difference_m": 2.842170943040401e-14,
+  "worst_pair": "t_-14_-12|t_-14_-11",
+  "tolerance_m": 0.001,
+  "violations": [],
+  "n_violations": 0,
+  "seconds": 53.6
+ },
+ "known_elevations": {
+  "points": [
+   {
+    "name": "Todt Hill summit, Staten Island",
+    "lon": -74.11479,
+    "lat": 40.60034,
+    "x": -13948.0,
+    "y": -11053.9,
+    "probe_z_m": 125.586,
+    "radius_m": 60.0,
+    "z_min_r": 116.341,
+    "z_max_r": 125.586,
+    "expected_m": [
+     118.0,
+     128.0
+    ],
+    "published": "409.8 ft / 124.9 m \u2014 highest point on the Atlantic seaboard south of Maine (USGS)",
+    "pass": true
+   },
+   {
+    "name": "Battery Park, Manhattan south tip",
+    "lon": -74.017,
+    "lat": 40.7033,
+    "x": -5662.3,
+    "y": 368.6,
+    "probe_z_m": 2.521,
+    "radius_m": 40.0,
+    "z_min_r": 1.573,
+    "z_max_r": 3.175,
+    "expected_m": [
+     1.5,
+     4.0
+    ],
+    "published": "waterfront park 2-3 m above the tidal datum",
+    "pass": true
+   },
+   {
+    "name": "Fort Tryon Park, Linden Terrace",
+    "lon": -73.93331,
+    "lat": 40.86168,
+    "x": 1407.1,
+    "y": 17954.6,
+    "probe_z_m": 77.323,
+    "radius_m": 60.0,
+    "z_min_r": 59.296,
+    "z_max_r": 77.323,
+    "expected_m": [
+     68.0,
+     84.0
+    ],
+    "published": "~250 ft / 76.2 m \u2014 highest ground in Fort Tryon Park (NYC Parks)",
+    "pass": true
+   },
+   {
+    "name": "Bennett Park, Manhattan high point",
+    "lon": -73.93824,
+    "lat": 40.85298,
+    "x": 991.6,
+    "y": 16988.4,
+    "probe_z_m": 81.07,
+    "radius_m": 60.0,
+    "z_min_r": 75.499,
+    "z_max_r": 81.07,
+    "expected_m": [
+     74.0,
+     86.0
+    ],
+    "published": "265 ft / 80.8 m \u2014 highest natural point in Manhattan (NYC Parks marker)",
+    "pass": true
+   },
+   {
+    "name": "Brooklyn Heights Promenade",
+    "lon": -73.99855,
+    "lat": 40.69465,
+    "x": -4103.6,
+    "y": -593.0,
+    "probe_z_m": 17.051,
+    "radius_m": 30.0,
+    "z_min_r": 3.709,
+    "z_max_r": 17.711,
+    "expected_m": [
+     12.0,
+     22.0
+    ],
+    "published": "bluff-top esplanade, ~50-65 ft above the East River",
+    "pass": true
+   },
+   {
+    "name": "Flushing Meadows Corona Park",
+    "lon": -73.8408,
+    "lat": 40.74,
+    "x": 9223.6,
+    "y": 4447.7,
+    "probe_z_m": 1.528,
+    "radius_m": 120.0,
+    "z_min_r": 0.587,
+    "z_max_r": 3.697,
+    "expected_m": [
+     1.0,
+     6.0
+    ],
+    "published": "reclaimed tidal marsh, 3-5 m; Meadow Lake shore at ~1.5 m",
+    "pass": true
+   },
+   {
+    "name": "Central Park reservoir surface",
+    "lon": -73.9625,
+    "lat": 40.7856,
+    "x": -1055.1,
+    "y": 9505.9,
+    "probe_z_m": 34.518,
+    "radius_m": 100.0,
+    "z_min_r": 34.518,
+    "z_max_r": 34.518,
+    "expected_m": [
+     30.0,
+     40.0
+    ],
+    "published": "Jacqueline Kennedy Onassis Reservoir pool, surveyed planimetric water elevation",
+    "pass": true
+   },
+   {
+    "name": "Coney Island beach",
+    "lon": -73.9833,
+    "lat": 40.572,
+    "x": -2819.7,
+    "y": -14213.5,
+    "probe_z_m": 2.993,
+    "radius_m": 50.0,
+    "z_min_r": 0.0,
+    "z_max_r": 3.948,
+    "expected_m": [
+     -0.5,
+     4.0
+    ],
+    "published": "ocean beach",
+    "pass": true
+   }
+  ],
+  "passed": 8,
+  "total": 8
+ },
+ "borough_extremes": {
+  "New Jersey": {
+   "z_max": 210.27749633789062,
+   "tile_max": "t_-26_15",
+   "z_min": -1.997499942779541,
+   "tile_min": "t_-11_-5"
+  },
+  "New York State outside NYC (extension)": {
+   "z_max": 99.49749755859375,
+   "tile_max": "t_6_26",
+   "z_min": -1.9950000047683716,
+   "tile_min": "t_-15_-7"
+  },
+  "Staten Island": {
+   "z_max": 125.58999633789062,
+   "tile_max": "t_-14_-12",
+   "z_min": -1.9950000047683716,
+   "tile_min": "t_-11_-8"
+  },
+  "Queens": {
+   "z_max": 80.6449966430664,
+   "tile_max": "t_19_6",
+   "z_min": -3.2874999046325684,
+   "tile_min": "t_12_-7"
+  },
+  "Brooklyn": {
+   "z_max": 71.39749908447266,
+   "tile_max": "t_5_-2",
+   "z_min": -4.0,
+   "tile_min": "t_-5_-3"
+  },
+  "Manhattan": {
+   "z_max": 81.09249877929688,
+   "tile_max": "t_0_16",
+   "z_min": -5.179999828338623,
+   "tile_min": "t_-6_0"
+  },
+  "Bronx": {
+   "z_max": 89.3949966430664,
+   "tile_max": "t_6_22",
+   "z_min": -1.934999942779541,
+   "tile_min": "t_3_10"
+  }
+ },
+ "water_datum": {
+  "points": 358,
+  "at_datum": 357,
+  "max_abs_m": 0.16741379935588552,
+  "off_datum_examples": [
+   {
+    "x": -20211.0,
+    "y": -8373.0,
+    "z": 0.167
+   }
+  ]
+ },
+ "overview": {
+  "path": "/home/user/Map-New-York/data/processed/terrain/overview_16m.tif",
+  "width": 3376,
+  "height": 3375,
+  "cell_m": 16.0,
+  "valid_px": 11394000,
+  "nan_px": 0,
+  "z_min": -3.9000000953674316,
+  "z_max": 210.20750427246094,
+  "bytes": 19652118,
+  "seconds": 49.5
+ },
+ "hillshade": {
+  "city": {
+   "png": "/home/user/Map-New-York/docs/verification/terrain/hillshade_city.png",
+   "relief": "/home/user/Map-New-York/docs/verification/terrain/relief_city.png",
+   "shape": [
+    2700,
+    2700
+   ],
+   "cell_m": 20.0,
+   "z_min": -3.882499933242798,
+   "z_max": 210.1999969482422,
+   "seconds": 80.1
+  },
+  "manhattan": {
+   "png": "/home/user/Map-New-York/docs/verification/terrain/hillshade_manhattan.png",
+   "relief": "/home/user/Map-New-York/docs/verification/terrain/relief_manhattan.png",
+   "shape": [
+    5500,
+    2750
+   ],
+   "cell_m": 4.0,
+   "window": [
+    -8000.0,
+    -4000.0,
+    3000.0,
+    18000.0
+   ],
+   "z_min": -5.137499809265137,
+   "z_max": 108.55999755859375,
+   "seconds": 85.0
+  }
+ }
+}

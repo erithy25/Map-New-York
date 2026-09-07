@@ -1,0 +1,205 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_one_world_trade_center",
+ "name": "One World Trade Center",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7104,
+  "lon": -74.0121,
+  "azimuth_deg": 337.3,
+  "note": "south-east corner of the 9/11 Memorial plaza (Greenwich and Liberty Streets), looking north-north-west",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.71274,
+  "lon": -74.01339,
+  "name": "One World Trade Center"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2014,
+ "wanted": 3,
+ "queries": [
+  "\"One World Trade Center\" from the memorial plaza",
+  "\"One World Trade Center\" street level exterior"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T12:09:23Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 59,
+ "candidates_eligible": 15,
+ "rejections": {
+  "excluded": 17,
+  "night_for_day_item": 2,
+  "not_photo": 1,
+  "too_old": 1,
+  "too_small": 2,
+  "keywords": 19,
+  "indoor": 2
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:One World Trade Center April 2022 017.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:One_World_Trade_Center_April_2022_017.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b5/One_World_Trade_Center_April_2022_017.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/One_World_Trade_Center_April_2022_017.jpg/1920px-One_World_Trade_Center_April_2022_017.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-04-13 13:41:16",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.710864,
+    "lon": -74.012061
+   },
+   "original_width": 2448,
+   "original_height": 3264,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 516600,
+   "sha256": "191312ca14f2b2a4e660f55e071b87670517330558195a89d7e8da36545e0a92",
+   "mean_luminance": 116.8,
+   "description": "Ne World Trade Center in April 2022",
+   "categories": [
+    "Exterior of One World Trade Center",
+    "New York City photographs taken on 2022-04-13",
+    "Self-published work",
+    "World Trade Center site in 2022",
+    "Files with coordinates missing SDC location of creation",
+    "April 2022 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.710864,
+    "lon": -74.012061,
+    "azimuth_deg": 331.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71086, -74.01206) is 237 m from One World Trade Center (40.71274, -74.01339) and 52 m from the standard viewpoint; the azimuth 332 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"One World Trade Center April 2022 017.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:One_World_Trade_Center_April_2022_017.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Greenwich St Liberty St td (2018-12-13) 07 - One World Trade Center.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Greenwich_St_Liberty_St_td_(2018-12-13)_07_-_One_World_Trade_Center.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/12/Greenwich_St_Liberty_St_td_%282018-12-13%29_07_-_One_World_Trade_Center.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Greenwich_St_Liberty_St_td_%282018-12-13%29_07_-_One_World_Trade_Center.jpg/1920px-Greenwich_St_Liberty_St_td_%282018-12-13%29_07_-_One_World_Trade_Center.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.710039,
+    "lon": -74.012603
+   },
+   "original_width": 3648,
+   "original_height": 5472,
+   "width": 1920,
+   "height": 2880,
+   "bytes": 636230,
+   "sha256": "9ce43f45cf904950b945cf57a5aa31f4d91a0dc36ec6f61ec6a20e46ad0c49d2",
+   "mean_luminance": 119.3,
+   "description": "Looking up and north at One World Trade Center from Greenwich Street and Liberty Street in the Financial District, Manhattan.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "Greenwich Street",
+    "Liberty Street (Manhattan)",
+    "Self-published work",
+    "World Trade Center site in 2018",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2018-12-13",
+    "2018 Manhattan photographs by Tdorante10",
+    "December 2018 in Manhattan, New York City",
+    "Views of New York City from south",
+    "One World Trade Center from National September 11 Memorial",
+    "Photographs by Tdorante10 taken on 2018-12-13"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.45,
+   "estimated_viewpoint": {
+    "lat": 40.710039,
+    "lon": -74.012603,
+    "azimuth_deg": 347.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71004, -74.01260) is 308 m from One World Trade Center (40.71274, -74.01339) and 58 m from the standard viewpoint; the azimuth 348 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Greenwich St Liberty St td (2018-12-13) 07 - One World Trade Center.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Greenwich_St_Liberty_St_td_(2018-12-13)_07_-_One_World_Trade_Center.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:One World Trade Center, top and spire.JPG",
+   "page_url": "https://commons.wikimedia.org/wiki/File:One_World_Trade_Center,_top_and_spire.JPG",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/4c/One_World_Trade_Center%2C_top_and_spire.JPG",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/One_World_Trade_Center%2C_top_and_spire.JPG/1920px-One_World_Trade_Center%2C_top_and_spire.JPG",
+   "author": "Opencooper",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2017-09-15 17:23:28",
+   "date_source": "DateTimeOriginal",
+   "year": 2017,
+   "camera_gps": {
+    "lat": 40.710111,
+    "lon": -74.011636
+   },
+   "original_width": 2128,
+   "original_height": 2972,
+   "width": 1920,
+   "height": 2682,
+   "bytes": 729188,
+   "sha256": "b5a704ba8eb3bbb2feea41749bf55de70cc381cab87a23bc062e6cbec5f1849a",
+   "mean_luminance": 164.2,
+   "description": "Detail of the One World Trade Center in New York City.",
+   "categories": [
+    "Taken with Nikon D3100",
+    "CC-Zero",
+    "Self-published work",
+    "Uploaded with Commonist",
+    "Photographs by Opencooper",
+    "Files with coordinates missing SDC location of creation",
+    "One World Trade Center from immediately beside it"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.3,
+   "estimated_viewpoint": {
+    "lat": 40.710111,
+    "lon": -74.011636,
+    "azimuth_deg": 333.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71011, -74.01164) is 328 m from One World Trade Center (40.71274, -74.01339) and 51 m from the standard viewpoint; the azimuth 333 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"One World Trade Center, top and spire.JPG\" by Opencooper, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:One_World_Trade_Center,_top_and_spire.JPG"
+  }
+ ]
+}

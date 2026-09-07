@@ -1,0 +1,211 @@
+{
+ "schema_version": 1,
+ "slug": "drive_lower_manhattan_broadway_wall_st",
+ "name": "Lower Manhattan drive-through: Broadway at Wall Street",
+ "group": "drive_through",
+ "viewpoint": {
+  "lat": 40.7079,
+  "lon": -74.011,
+  "azimuth_deg": 200.0,
+  "note": "Broadway at Wall Street, roadway centre, looking downtown toward Bowling Green",
+  "representative": false
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Broadway\" \"Wall Street\" Trinity Church street",
+  "Wall Street Broadway intersection Lower Manhattan"
+ ],
+ "geosearch_radius_m": 120,
+ "fetched_at": "2026-09-06T11:53:23Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query list=search / list=geosearch / prop=imageinfo)",
+ "candidates_seen": 126,
+ "candidates_eligible": 34,
+ "rejections": {
+  "too_old": 20,
+  "excluded": 19,
+  "licence": 4,
+  "too_small": 8,
+  "not_photo": 9,
+  "indoor": 4,
+  "keywords": 2
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Wall Street sign & US Flag (May 2023).JPG",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Wall_Street_sign_%26_US_Flag_(May_2023).JPG",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d7/Wall_Street_sign_%26_US_Flag_%28May_2023%29.JPG",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Wall_Street_sign_%26_US_Flag_%28May_2023%29.JPG/1920px-Wall_Street_sign_%26_US_Flag_%28May_2023%29.JPG",
+   "author": "Benoît Prieur",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2023-05-21 13:00:40",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.707828,
+    "lon": -74.011658
+   },
+   "original_width": 3355,
+   "original_height": 2958,
+   "width": 1920,
+   "height": 1693,
+   "bytes": 578440,
+   "sha256": "520967600895bb9d2e68b25daa66b16c4476c2da92a8ab9e3a8f2cef3708bfcf",
+   "mean_luminance": 124.3,
+   "description": "Wall Street sign & US Flag (May 2023).",
+   "categories": [
+    "CC-Zero",
+    "Images of New York by Benoît Prieur",
+    "Photographs by Benoît Prieur",
+    "New York City photographs taken on 2023-05-21",
+    "Self-published work",
+    "2023 images by Benoît Prieur",
+    "Images of flags by Benoît Prieur",
+    "Files with coordinates missing SDC location of creation",
+    "Photographs of flags of the United States in Manhattan, New York City",
+    "Wall Street in 2023",
+    "May 2023 in Manhattan, New York City",
+    "Uploaded with PyCommonist",
+    "Black Wall Street street signs",
+    "Broadway and Wall Street, Manhattan"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.2,
+   "estimated_viewpoint": {
+    "lat": 40.707828,
+    "lon": -74.011658,
+    "azimuth_deg": 200.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.70783, -74.01166), 56 m from the reference position (Broadway at Wall Street, roadway centre, looking downtown toward Bowling Green); this item is a view along a street rather than at a point subject, so the azimuth 200 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Wall Street sign & US Flag (May 2023).JPG\" by Benoît Prieur, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Wall_Street_sign_%26_US_Flag_(May_2023).JPG"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Broadway Street Sign.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Broadway_Street_Sign.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/60/Broadway_Street_Sign.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Broadway_Street_Sign.jpg/1920px-Broadway_Street_Sign.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-04-01 13:04:15",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.707961,
+    "lon": -74.011536
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 298959,
+   "sha256": "1be44e10001865f365a97ad6af6163b020ab0f3e905e1364a24a05b3bcf41227",
+   "mean_luminance": 140.7,
+   "description": "Broadway Street Sign in the Financial District of Manhattan",
+   "categories": [
+    "New York City photographs taken on 2022-04-01",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Financial District, Manhattan in 2022",
+    "April 2022 in Manhattan, New York City",
+    "Black Broadway street signs in the Financial District of Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.707961,
+    "lon": -74.011536,
+    "azimuth_deg": 200.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.70796, -74.01154), 46 m from the reference position (Broadway at Wall Street, roadway centre, looking downtown toward Bowling Green); this item is a view along a street rather than at a point subject, so the azimuth 200 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Broadway Street Sign.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Broadway_Street_Sign.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Trinity Church, Wall Street.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Trinity_Church,_Wall_Street.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/af/Trinity_Church%2C_Wall_Street.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Trinity_Church%2C_Wall_Street.jpg/1920px-Trinity_Church%2C_Wall_Street.jpg",
+   "author": "Prisencolin",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.70795,
+    "lon": -74.011667
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1123909,
+   "sha256": "517f0896bbea7383cfed351234ffe94880e81ae87646eb8ec5894c2f93f55d39",
+   "mean_luminance": 137.1,
+   "description": "This is a photo of a place or building that is listed on the New York City Landmarks Preservation Commission listing in the United States. Its reference number is",
+   "categories": [
+    "Images from Wiki Loves Monuments 2021 in New York",
+    "New York City photographs taken on 2021-10-18",
+    "Images from Wiki Loves Monuments 2021 in the United States",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Churches in the United States photographed in 2021",
+    "Images from Wiki Loves Monuments missing SDC depicts",
+    "Images from Wiki Loves Monuments missing SDC location of creation",
+    "Images from Wiki Loves Monuments 2021",
+    "Images from Wiki Loves Monuments 2021 in New York City",
+    "New York City Designated Landmarks with known IDs",
+    "Trinity Church (Manhattan) in 2021",
+    "October 2021 in Manhattan, New York City",
+    "Wiki Loves Monuments 2021 in the United States unreviewed",
+    "Uploaded via Campaign:wlm-us-nyc"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.9,
+   "estimated_viewpoint": {
+    "lat": 40.70795,
+    "lon": -74.011667,
+    "azimuth_deg": 200.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.70795, -74.01167), 56 m from the reference position (Broadway at Wall Street, roadway centre, looking downtown toward Bowling Green); this item is a view along a street rather than at a point subject, so the azimuth 200 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Trinity Church, Wall Street.jpg\" by Prisencolin, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Trinity_Church,_Wall_Street.jpg"
+  }
+ ]
+}

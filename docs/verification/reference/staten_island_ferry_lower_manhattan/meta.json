@@ -1,0 +1,264 @@
+{
+ "schema_version": 1,
+ "slug": "staten_island_ferry_lower_manhattan",
+ "name": "Staten Island Ferry deck view of Lower Manhattan",
+ "group": "viewpoint",
+ "viewpoint": {
+  "lat": 40.691,
+  "lon": -74.0215,
+  "azimuth_deg": 15.8,
+  "note": "open bow deck of a Manhattan-bound Staten Island Ferry, about 1 nautical mile south of Whitehall Terminal",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.71274,
+  "lon": -74.01339,
+  "name": "One World Trade Center"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2014,
+ "wanted": 4,
+ "queries": [
+  "\"Staten Island Ferry\" Lower Manhattan skyline",
+  "Lower Manhattan from the Staten Island Ferry"
+ ],
+ "geosearch_radius_m": 900,
+ "fetched_at": "2026-09-06T11:50:12Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query list=search / list=geosearch / prop=imageinfo)",
+ "candidates_seen": 116,
+ "candidates_eligible": 42,
+ "rejections": {
+  "keywords": 17,
+  "too_old": 11,
+  "excluded": 20,
+  "night_for_day_item": 6,
+  "too_small": 2,
+  "not_photo": 2
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:View of Manhattan from Staten Island Ferry, NYC, 20231002 1650 1808.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:View_of_Manhattan_from_Staten_Island_Ferry,_NYC,_20231002_1650_1808.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/8c/View_of_Manhattan_from_Staten_Island_Ferry%2C_NYC%2C_20231002_1650_1808.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/View_of_Manhattan_from_Staten_Island_Ferry%2C_NYC%2C_20231002_1650_1808.jpg/1920px-View_of_Manhattan_from_Staten_Island_Ferry%2C_NYC%2C_20231002_1650_1808.jpg",
+   "author": "Jakub Hałun",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2023-10-02 16:50:26",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.6897,
+    "lon": -74.028279
+   },
+   "original_width": 4921,
+   "original_height": 2042,
+   "width": 1920,
+   "height": 797,
+   "bytes": 415736,
+   "sha256": "1dbe0dce07f1e4710e50ce87883149370729001021899cc73d62a54976f85f41",
+   "mean_luminance": 164.9,
+   "description": "View of Manhattan from Staten Island Ferry, New York City",
+   "categories": [
+    "Views from the Staten Island Ferry",
+    "New York City photographs taken on 2023-10-02",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Financial District, Manhattan skylines in 2023",
+    "October 2023 in Manhattan, New York City",
+    "Lower Manhattan skylines from Upper New York Bay"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "search:\"Staten Island Ferry\" Lower Manhattan skyline",
+   "score": 13.7,
+   "estimated_viewpoint": {
+    "lat": 40.6897,
+    "lon": -74.028279,
+    "azimuth_deg": 26.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.68970, -74.02828) is 2853 m from One World Trade Center (40.71274, -74.01339) and 590 m from the standard viewpoint; the azimuth 26 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"View of Manhattan from Staten Island Ferry, NYC, 20231002 1650 1808.jpg\" by Jakub Hałun, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:View_of_Manhattan_from_Staten_Island_Ferry,_NYC,_20231002_1650_1808.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Lower Manhattan from Staten Island Ferry February 2015 002.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Lower_Manhattan_from_Staten_Island_Ferry_February_2015_002.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/3b/Lower_Manhattan_from_Staten_Island_Ferry_February_2015_002.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Lower_Manhattan_from_Staten_Island_Ferry_February_2015_002.jpg/1920px-Lower_Manhattan_from_Staten_Island_Ferry_February_2015_002.jpg",
+   "author": "King of Hearts",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2015-02-15 13:51",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.697,
+    "lon": -74.019
+   },
+   "original_width": 4800,
+   "original_height": 2100,
+   "width": 1920,
+   "height": 840,
+   "bytes": 400780,
+   "sha256": "51996083b54206ca639ee87ead23a7036f01959fc36a62a93948ae3074c11f40",
+   "mean_luminance": 165.7,
+   "description": "Lower Manhattan skyline, viewed from the Staten Island Ferry across a frozen Hudson River , New York City .",
+   "categories": [
+    "February 2015 in New York City",
+    "Taken with Nikon D7000",
+    "Views from the Staten Island Ferry",
+    "Pancake ice",
+    "Uploaded with pattypan",
+    "February 2015 North American cold wave",
+    "New York City photographs taken on 2015-02-15",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Financial District, Manhattan in 2015",
+    "Lower Manhattan skylines from Upper New York Bay",
+    "Frozen North River in New York City"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "search:\"Staten Island Ferry\" Lower Manhattan skyline",
+   "score": 12.5,
+   "estimated_viewpoint": {
+    "lat": 40.697,
+    "lon": -74.019,
+    "azimuth_deg": 15.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.69700, -74.01900) is 1813 m from One World Trade Center (40.71274, -74.01339) and 700 m from the standard viewpoint; the azimuth 15 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Lower Manhattan from Staten Island Ferry February 2015 002.jpg\" by King of Hearts, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Lower_Manhattan_from_Staten_Island_Ferry_February_2015_002.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Ferry Leaving Lower Manhattan (51490415366).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Ferry_Leaving_Lower_Manhattan_(51490415366).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Ferry_Leaving_Lower_Manhattan_%2851490415366%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Ferry_Leaving_Lower_Manhattan_%2851490415366%29.jpg/1920px-Ferry_Leaving_Lower_Manhattan_%2851490415366%29.jpg",
+   "author": "Eden, Janine and Jim from New York City",
+   "credit": "Ferry Leaving Lower Manhattan",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2021-09-18 15:35",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.692755,
+    "lon": -74.016009
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 654772,
+   "sha256": "b3397a26d0fcc4c299ea87a47d0cd3d1ca6e034445abb92fd77a56b898701a88",
+   "mean_luminance": 145.5,
+   "description": "Ferry Leaving Lower Manhattan",
+   "categories": [
+    "New York City photographs taken on 2021-09-18",
+    "Staten Island Ferry boats",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Financial District, Manhattan in 2021",
+    "Clouds and blue sky in New York City",
+    "Battery Park City in 2021",
+    "Governors Island in 2021",
+    "Photographs by Eden, Janine and Jim in Manhattan, New York City",
+    "Lower Manhattan skylines in 2021",
+    "September 2021 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Staten Island Ferry\" Lower Manhattan skyline",
+   "score": 11.9,
+   "estimated_viewpoint": {
+    "lat": 40.692755,
+    "lon": -74.016009,
+    "azimuth_deg": 5.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.69275, -74.01601) is 2233 m from One World Trade Center (40.71274, -74.01339) and 502 m from the standard viewpoint; the azimuth 6 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Ferry Leaving Lower Manhattan (51490415366).jpg\" by Eden, Janine and Jim from New York City, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Ferry_Leaving_Lower_Manhattan_(51490415366).jpg"
+  },
+  {
+   "n": 4,
+   "file": "4.jpg",
+   "title": "File:Lower Manhattan from Manhattan bound Staten Island Ferry.jpeg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Lower_Manhattan_from_Manhattan_bound_Staten_Island_Ferry.jpeg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Lower_Manhattan_from_Manhattan_bound_Staten_Island_Ferry.jpeg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Lower_Manhattan_from_Manhattan_bound_Staten_Island_Ferry.jpeg/1920px-Lower_Manhattan_from_Manhattan_bound_Staten_Island_Ferry.jpeg",
+   "author": "Dough4872",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026-07-20",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.695044,
+    "lon": -74.022531
+   },
+   "original_width": 5712,
+   "original_height": 4284,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 591544,
+   "sha256": "aa16e8c3d45b8cf5b7513dc848b788f59e4d2597412746e6beceb1da700e1dc5",
+   "mean_luminance": 125.7,
+   "description": "Lower Manhattan in Manhattan, New York City looking north from the Manhattan bound Staten Island Ferry in New York City",
+   "categories": [
+    "Views from the Staten Island Ferry",
+    "Creative Commons Attribution-Share Alike missing SDC copyright status",
+    "Self-published work",
+    "Creative Commons Attribution-Share Alike 4.0 missing SDC copyright license",
+    "Self-published work missing SDC copyright license",
+    "Files with coordinates missing SDC location of creation",
+    "Lower Manhattan skylines in 2026",
+    "Lower Manhattan skylines from Upper New York Bay",
+    "July 2026 in Manhattan, New York City",
+    "New York City photographs taken on 2026-07-20"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Staten Island Ferry\" Lower Manhattan skyline",
+   "score": 11.2,
+   "estimated_viewpoint": {
+    "lat": 40.695044,
+    "lon": -74.022531,
+    "azimuth_deg": 21.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.69504, -74.02253) is 2113 m from One World Trade Center (40.71274, -74.01339) and 458 m from the standard viewpoint; the azimuth 21 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Lower Manhattan from Manhattan bound Staten Island Ferry.jpeg\" by Dough4872, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Lower_Manhattan_from_Manhattan_bound_Staten_Island_Ferry.jpeg"
+  }
+ ]
+}

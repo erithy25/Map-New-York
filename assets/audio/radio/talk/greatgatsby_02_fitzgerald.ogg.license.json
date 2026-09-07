@@ -1,0 +1,28 @@
+{
+ "artist": "F. Scott Fitzgerald; read by LibriVox volunteers",
+ "attribution_note": "LibriVox recordings are in the public domain; text is public domain (pre-1930 US).",
+ "bytes": 12778315,
+ "duration_s": 1779.67,
+ "file": "talk/greatgatsby_02_fitzgerald.ogg",
+ "gain_db": 8.2,
+ "licence": "Public Domain (LibriVox; CC PDM/CC0)",
+ "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+ "loudness_lufs": -24.2,
+ "original_filename": "greatgatsby_02_fitzgerald.mp3",
+ "recorded_at": "2026-09-06T12:29:35Z",
+ "schema_version": 1,
+ "sha256": "3cd7886daf960edbc6befbfbd886ce1dc6fa9b7cee0be8a88f1844943879ccb4",
+ "source_page": "https://archive.org/details/greatgatsby_2101_librivox",
+ "source_site": "archive.org (LibriVox)",
+ "source_url": "https://archive.org/download/greatgatsby_2101_librivox/greatgatsby_02_fitzgerald.mp3",
+ "title": "The Great Gatsby \u2014 02 - Chapter 2",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": true,
+  "quality": 1.5,
+  "sample_rate": 32000,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

@@ -1,0 +1,203 @@
+{
+ "schema_version": 1,
+ "slug": "drive_queens_forest_hills",
+ "name": "Queens residential block: Forest Hills Gardens",
+ "group": "drive_through",
+ "viewpoint": {
+  "lat": 40.7196,
+  "lon": -73.8447,
+  "azimuth_deg": 140.0,
+  "note": "Greenway Terrace at Station Square, Forest Hills Gardens, looking south-east",
+  "representative": false
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Forest Hills Gardens\" houses",
+  "\"Forest Hills\" Queens street houses Tudor"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T11:59:16Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query list=search / list=geosearch / prop=imageinfo)",
+ "candidates_seen": 100,
+ "candidates_eligible": 41,
+ "rejections": {
+  "too_small": 3,
+  "excluded": 43,
+  "too_old": 7,
+  "not_photo": 1,
+  "licence": 1,
+  "not_jpeg": 3,
+  "keywords": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Homes in Forest Hills Gardens 05.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Homes_in_Forest_Hills_Gardens_05.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/16/Homes_in_Forest_Hills_Gardens_05.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Homes_in_Forest_Hills_Gardens_05.jpg/1920px-Homes_in_Forest_Hills_Gardens_05.jpg",
+   "author": "XanderAi",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024-09-26 16:04:15",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.717607,
+    "lon": -73.844883
+   },
+   "original_width": 4000,
+   "original_height": 2252,
+   "width": 1920,
+   "height": 1081,
+   "bytes": 924242,
+   "sha256": "d7b75c2d0781933466078d2acab13040cca20e3e97b334f19bd2e8f6af944b6f",
+   "mean_luminance": 97.8,
+   "description": "Homes in Forest Hills Gardens 20240926 160226",
+   "categories": [
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2024 in Forest Hills, Queens",
+    "Houses in the United States photographed in 2024",
+    "New York City photographs taken on 2024-09-26",
+    "September 2024 in Queens, New York City",
+    "Houses in Forest Hills, Queens"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.717607,
+    "lon": -73.844883,
+    "azimuth_deg": 140.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.71761, -73.84488), 222 m from the reference position (Greenway Terrace at Station Square, Forest Hills Gardens, looking south-east); this item is a view along a street rather than at a point subject, so the azimuth 140 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Homes in Forest Hills Gardens 05.jpg\" by XanderAi, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Homes_in_Forest_Hills_Gardens_05.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Queens Bl 71st Rd td (2022-06-29) 08 - The Windsor at Forest Hills (107-24 71st Road).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Queens_Bl_71st_Rd_td_(2022-06-29)_08_-_The_Windsor_at_Forest_Hills_(107-24_71st_Road).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Queens_Bl_71st_Rd_td_%282022-06-29%29_08_-_The_Windsor_at_Forest_Hills_%28107-24_71st_Road%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Queens_Bl_71st_Rd_td_%282022-06-29%29_08_-_The_Windsor_at_Forest_Hills_%28107-24_71st_Road%29.jpg/1920px-Queens_Bl_71st_Rd_td_%282022-06-29%29_08_-_The_Windsor_at_Forest_Hills_%28107-24_71st_Road%29.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-06-29 13:19:14",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.721404,
+    "lon": -73.844004
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 544024,
+   "sha256": "2c13a3fe833b453f86a4f07e156f0230cc53b474c1b0655bdad1fa8dfcb00737",
+   "mean_luminance": 137.9,
+   "description": "The Windsor at Forest Hills apartment tower (107-24 71st Road), at the southeast corner of Queens Boulevard and 71st Road in Forest Hills, Queens.",
+   "categories": [
+    "Taken with Sony DSC-RX100 III",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2022 Queens photographs by Tdorante10",
+    "2022 in Forest Hills, Queens",
+    "Apartment buildings in the United States photographed in 2022",
+    "June 2022 in Queens, New York City",
+    "Photographs by Tdorante10 taken on 2022-06-29",
+    "The Windsor at Forest Hills (107-24 71st Road)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.721404,
+    "lon": -73.844004,
+    "azimuth_deg": 140.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.72140, -73.84400), 209 m from the reference position (Greenway Terrace at Station Square, Forest Hills Gardens, looking south-east); this item is a view along a street rather than at a point subject, so the azimuth 140 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Queens Bl 71st Rd td (2022-06-29) 08 - The Windsor at Forest Hills (107-24 71st Road).jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Queens_Bl_71st_Rd_td_(2022-06-29)_08_-_The_Windsor_at_Forest_Hills_(107-24_71st_Road).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:MTA Bus; NFI New Flyer C40LF CNG 596 on the Q23.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:MTA_Bus;_NFI_New_Flyer_C40LF_CNG_596_on_the_Q23.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/87/MTA_Bus%3B_NFI_New_Flyer_C40LF_CNG_596_on_the_Q23.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/MTA_Bus%3B_NFI_New_Flyer_C40LF_CNG_596_on_the_Q23.jpg/1920px-MTA_Bus%3B_NFI_New_Flyer_C40LF_CNG_596_on_the_Q23.jpg",
+   "author": "LostAlias",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-02-16 15:28:48",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.720875,
+    "lon": -73.844375
+   },
+   "original_width": 4032,
+   "original_height": 2268,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 585994,
+   "sha256": "69aedac4b2c9f693efbb75e86bb971f02eb1ead4d274b4d43eab8f1bda48b13d",
+   "mean_luminance": 123.5,
+   "description": "New Flyer C40LF CNG number 596 on the Q23.",
+   "categories": [
+    "Q23 (New York City bus)",
+    "New York City photographs taken on 2022-02-16",
+    "Self-published work",
+    "Number 596 on buses",
+    "Files with coordinates missing SDC location of creation",
+    "New Flyer C40LF buses of MTA Regional Bus Operations",
+    "2022 in Forest Hills, Queens",
+    "MTA Regional Bus Operations in 2022",
+    "February 2022 in Queens, New York City",
+    "Buses in Forest Hills, Queens",
+    "71st Avenue (Queens)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.720875,
+    "lon": -73.844375,
+    "azimuth_deg": 140.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.72087, -73.84437), 144 m from the reference position (Greenway Terrace at Station Square, Forest Hills Gardens, looking south-east); this item is a view along a street rather than at a point subject, so the azimuth 140 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"MTA Bus; NFI New Flyer C40LF CNG 596 on the Q23.jpg\" by LostAlias, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:MTA_Bus;_NFI_New_Flyer_C40LF_CNG_596_on_the_Q23.jpg"
+  }
+ ]
+}

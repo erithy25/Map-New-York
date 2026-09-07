@@ -1,0 +1,28 @@
+{
+ "artist": "Bailey's Lucky Seven",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 2507059,
+ "duration_s": 182.37,
+ "file": "jazz/baileysluckyseven_youknowyoubelongtosomeoneelse_12track12.ogg",
+ "gain_db": 7.1,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/licenses/publicdomain/",
+ "loudness_lufs": -21.1,
+ "original_filename": "12Track12.mp3",
+ "recorded_at": "2026-09-06T12:09:55Z",
+ "schema_version": 1,
+ "sha256": "60ddbeb17f0c8e585e2096f3366325b27ddc51f7babfc0da66d9ae0b20191b26",
+ "source_page": "https://archive.org/details/BaileysLuckySeven-YouKnowYouBelongToSomeoneElse",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/BaileysLuckySeven-YouKnowYouBelongToSomeoneElse/12Track12.mp3",
+ "title": "12 Track 12",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

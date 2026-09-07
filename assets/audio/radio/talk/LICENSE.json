@@ -1,0 +1,131 @@
+{
+ "author": "F. Scott Fitzgerald; read by LibriVox volunteers; Henry James; read by LibriVox volunteers; Herman Melville; read by LibriVox volunteers; Jacob A. Riis; read by LibriVox volunteers; O. Henry; read by LibriVox volunteers",
+ "fetched_at": "2026-09-06T12:31:18Z",
+ "files": [
+  {
+   "artist": "Herman Melville; read by LibriVox volunteers",
+   "bytes": 10207377,
+   "duration_s": 1357.95,
+   "file": "bartleby_scrivener_01_melville.ogg",
+   "licence": "Public Domain (LibriVox; CC PDM/CC0)",
+   "licence_url": "http://creativecommons.org/licenses/publicdomain/",
+   "sha256": "2318e2ed598b67b6195f7a7f9565d4dccf8d5cd67d4f914ce11423456118ab56",
+   "source_page": "https://archive.org/details/bartleby_scrivener_1107_librivox",
+   "source_site": "archive.org (LibriVox)",
+   "source_url": "https://archive.org/download/bartleby_scrivener_1107_librivox/bartleby_scrivener_01_melville.mp3",
+   "title": "Bartleby the Scrivener \u2014 01"
+  },
+  {
+   "artist": "Herman Melville; read by LibriVox volunteers",
+   "bytes": 8229281,
+   "duration_s": 1096.41,
+   "file": "bartleby_scrivener_02_melville.ogg",
+   "licence": "Public Domain (LibriVox; CC PDM/CC0)",
+   "licence_url": "http://creativecommons.org/licenses/publicdomain/",
+   "sha256": "1087ce687377c1d953e346912aa7221bc39db672f33cedbb40ab255ecdb8cdf1",
+   "source_page": "https://archive.org/details/bartleby_scrivener_1107_librivox",
+   "source_site": "archive.org (LibriVox)",
+   "source_url": "https://archive.org/download/bartleby_scrivener_1107_librivox/bartleby_scrivener_02_melville.mp3",
+   "title": "Bartleby the Scrivener \u2014 02"
+  },
+  {
+   "artist": "O. Henry; read by LibriVox volunteers",
+   "bytes": 7000141,
+   "duration_s": 1004.02,
+   "file": "fourmillion_01_ohenry.ogg",
+   "licence": "Public Domain (LibriVox; CC PDM/CC0)",
+   "licence_url": "http://creativecommons.org/licenses/publicdomain/",
+   "sha256": "4f7c29f0ad598d0364df843cf833f4747c3bddf25404f4731f74cd70cb93282f",
+   "source_page": "https://archive.org/details/four_million_librivox",
+   "source_site": "archive.org (LibriVox)",
+   "source_url": "https://archive.org/download/four_million_librivox/fourmillion_01_ohenry.mp3",
+   "title": "The Four Million \u2014 Tobin's Palm"
+  },
+  {
+   "artist": "O. Henry; read by LibriVox volunteers",
+   "bytes": 5403528,
+   "duration_s": 769.54,
+   "file": "fourmillion_02_ohenry.ogg",
+   "licence": "Public Domain (LibriVox; CC PDM/CC0)",
+   "licence_url": "http://creativecommons.org/licenses/publicdomain/",
+   "sha256": "93e9268488ac08b59aec6476af33a75bdead68d3d6f8e6f3cd57dc0461d77f49",
+   "source_page": "https://archive.org/details/four_million_librivox",
+   "source_site": "archive.org (LibriVox)",
+   "source_url": "https://archive.org/download/four_million_librivox/fourmillion_02_ohenry.mp3",
+   "title": "The Four Million \u2014 The Gift of the Magi"
+  },
+  {
+   "artist": "O. Henry; read by LibriVox volunteers",
+   "bytes": 5590428,
+   "duration_s": 794.02,
+   "file": "fourmillion_03_ohenry.ogg",
+   "licence": "Public Domain (LibriVox; CC PDM/CC0)",
+   "licence_url": "http://creativecommons.org/licenses/publicdomain/",
+   "sha256": "a68726a49c42a6613498d90789168269e9e982731a9c32bf0b07f7535f0cd80f",
+   "source_page": "https://archive.org/details/four_million_librivox",
+   "source_site": "archive.org (LibriVox)",
+   "source_url": "https://archive.org/download/four_million_librivox/fourmillion_03_ohenry.mp3",
+   "title": "The Four Million \u2014 The Cosmopolite in a Cafe"
+  },
+  {
+   "artist": "F. Scott Fitzgerald; read by LibriVox volunteers",
+   "bytes": 12778315,
+   "duration_s": 1779.67,
+   "file": "greatgatsby_02_fitzgerald.ogg",
+   "licence": "Public Domain (LibriVox; CC PDM/CC0)",
+   "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+   "sha256": "3cd7886daf960edbc6befbfbd886ce1dc6fa9b7cee0be8a88f1844943879ccb4",
+   "source_page": "https://archive.org/details/greatgatsby_2101_librivox",
+   "source_site": "archive.org (LibriVox)",
+   "source_url": "https://archive.org/download/greatgatsby_2101_librivox/greatgatsby_02_fitzgerald.mp3",
+   "title": "The Great Gatsby \u2014 02 - Chapter 2"
+  },
+  {
+   "artist": "Jacob A. Riis; read by LibriVox volunteers",
+   "bytes": 7189201,
+   "duration_s": 973.01,
+   "file": "otherhalflives_01_riis.ogg",
+   "licence": "Public Domain (LibriVox; CC PDM/CC0)",
+   "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+   "sha256": "3568ac91d8660347fa2f9770d00ef59eccab944ca6459c6c48c150500a67767d",
+   "source_page": "https://archive.org/details/how_the_other_half_lives_1102_librivox",
+   "source_site": "archive.org (LibriVox)",
+   "source_url": "https://archive.org/download/how_the_other_half_lives_1102_librivox/otherhalflives_01_riis.mp3",
+   "title": "How the Other Half Lives: Studies Among the Tenements of New York \u2014 01 - Genesis of the Tenement"
+  },
+  {
+   "artist": "Henry James; read by LibriVox volunteers",
+   "bytes": 4269921,
+   "duration_s": 583.68,
+   "file": "wash_sq_01_james.ogg",
+   "licence": "Public Domain (LibriVox; CC PDM/CC0)",
+   "licence_url": "http://creativecommons.org/licenses/publicdomain/",
+   "sha256": "837ab4dfe0caacf94c99b4ee0cea320fcf925dc19bf7c76107f9d3f6ee3f1303",
+   "source_page": "https://archive.org/details/washington_square_librivox",
+   "source_site": "archive.org (LibriVox)",
+   "source_url": "https://archive.org/download/washington_square_librivox/wash_sq_01_james.mp3",
+   "title": "Washington Square \u2014 Chapter 1"
+  }
+ ],
+ "license": "Public Domain (LibriVox; CC PDM/CC0)",
+ "licenses": [
+  "Public Domain (LibriVox; CC PDM/CC0)"
+ ],
+ "name": "NYCSim audio: audio/radio/talk",
+ "note": "Only CC0 / Public Domain / CC BY files are accepted; share-alike, non-commercial and no-derivatives are rejected by unreal/tools/fetch_radio.py. Per-file provenance is in the matching <file>.license.json.",
+ "schema_version": 1,
+ "sha256": {
+  "bartleby_scrivener_01_melville.ogg": "2318e2ed598b67b6195f7a7f9565d4dccf8d5cd67d4f914ce11423456118ab56",
+  "bartleby_scrivener_02_melville.ogg": "1087ce687377c1d953e346912aa7221bc39db672f33cedbb40ab255ecdb8cdf1",
+  "fourmillion_01_ohenry.ogg": "4f7c29f0ad598d0364df843cf833f4747c3bddf25404f4731f74cd70cb93282f",
+  "fourmillion_02_ohenry.ogg": "93e9268488ac08b59aec6476af33a75bdead68d3d6f8e6f3cd57dc0461d77f49",
+  "fourmillion_03_ohenry.ogg": "a68726a49c42a6613498d90789168269e9e982731a9c32bf0b07f7535f0cd80f",
+  "greatgatsby_02_fitzgerald.ogg": "3cd7886daf960edbc6befbfbd886ce1dc6fa9b7cee0be8a88f1844943879ccb4",
+  "otherhalflives_01_riis.ogg": "3568ac91d8660347fa2f9770d00ef59eccab944ca6459c6c48c150500a67767d",
+  "wash_sq_01_james.ogg": "837ab4dfe0caacf94c99b4ee0cea320fcf925dc19bf7c76107f9d3f6ee3f1303"
+ },
+ "sources": [
+  "archive.org (LibriVox)"
+ ],
+ "url": "https://archive.org/details/bartleby_scrivener_1107_librivox"
+}

@@ -1,0 +1,152 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_central_park_sheep_meadow",
+ "name": "Central Park: Sheep Meadow with the Midtown skyline",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7722,
+  "lon": -73.9755,
+  "azimuth_deg": 191.2,
+  "note": "north end of Sheep Meadow, looking south at the Central Park South / 57th Street skyline",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7649,
+  "lon": -73.9774,
+  "name": "111 West 57th Street (Billionaires' Row skyline)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2016,
+ "wanted": 3,
+ "queries": [
+  "\"Sheep Meadow\" Central Park skyline",
+  "\"Sheep Meadow\" Central Park Billionaires Row"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T13:58:48Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 36,
+ "candidates_eligible": 2,
+ "rejections": {
+  "too_old": 4,
+  "too_small": 4,
+  "keywords": 22,
+  "excluded": 4
+ },
+ "exhausted": true,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:View from Central Park, New York City, 20231002 1803 1847.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:View_from_Central_Park,_New_York_City,_20231002_1803_1847.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/57/View_from_Central_Park%2C_New_York_City%2C_20231002_1803_1847.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/View_from_Central_Park%2C_New_York_City%2C_20231002_1803_1847.jpg/1920px-View_from_Central_Park%2C_New_York_City%2C_20231002_1803_1847.jpg",
+   "author": "Jakub Hałun",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2023-10-02 18:03:28",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.773393,
+    "lon": -73.975594
+   },
+   "original_width": 4642,
+   "original_height": 3098,
+   "width": 1920,
+   "height": 1281,
+   "bytes": 586167,
+   "sha256": "29dec76ed578f49737e7af50fd2d0b7161b5a0e75ed738de88ecf7c64aa2382a",
+   "mean_luminance": 159.8,
+   "description": "A view from Central Park, New York City",
+   "categories": [
+    "Sheep Meadow",
+    "New York City photographs taken on 2023-10-02",
+    "Self-published work",
+    "Files by Jakub Hałun",
+    "Views of buildings from Central Park",
+    "Files with coordinates missing SDC location of creation",
+    "Central Park in 2023",
+    "Midtown Manhattan skylines in 2023",
+    "October 2023 in Manhattan, New York City",
+    "Central Park South"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Sheep Meadow\" Central Park skyline",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.773393,
+    "lon": -73.975594,
+    "azimuth_deg": 189.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.77339, -73.97559) is 957 m from 111 West 57th Street (Billionaires' Row skyline) (40.76490, -73.97740) and 133 m from the standard viewpoint; the azimuth 189 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"View from Central Park, New York City, 20231002 1803 1847.jpg\" by Jakub Hałun, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:View_from_Central_Park,_New_York_City,_20231002_1803_1847.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:View from Central Park, New York City, 20231002 1803 1850.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:View_from_Central_Park,_New_York_City,_20231002_1803_1850.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/0e/View_from_Central_Park%2C_New_York_City%2C_20231002_1803_1850.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/View_from_Central_Park%2C_New_York_City%2C_20231002_1803_1850.jpg/1920px-View_from_Central_Park%2C_New_York_City%2C_20231002_1803_1850.jpg",
+   "author": "Jakub Hałun",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2023-10-02 18:03:53",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.773264,
+    "lon": -73.975419
+   },
+   "original_width": 3867,
+   "original_height": 3541,
+   "width": 1920,
+   "height": 1758,
+   "bytes": 574561,
+   "sha256": "b4e6304f08550b584b6f8a570b2b3b6338cd8155b3bd3d7bf9cc345f0cb25c79",
+   "mean_luminance": 145.2,
+   "description": "A view from Central Park, New York City",
+   "categories": [
+    "Sheep Meadow",
+    "New York City photographs taken on 2023-10-02",
+    "Self-published work",
+    "Files by Jakub Hałun",
+    "Views of buildings from Central Park",
+    "Files with coordinates missing SDC location of creation",
+    "Central Park in 2023",
+    "Midtown Manhattan skylines in 2023",
+    "October 2023 in Manhattan, New York City",
+    "Central Park South"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Sheep Meadow\" Central Park skyline",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.773264,
+    "lon": -73.975419,
+    "azimuth_deg": 190.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.77326, -73.97542) is 945 m from 111 West 57th Street (Billionaires' Row skyline) (40.76490, -73.97740) and 119 m from the standard viewpoint; the azimuth 190 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"View from Central Park, New York City, 20231002 1803 1850.jpg\" by Jakub Hałun, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:View_from_Central_Park,_New_York_City,_20231002_1803_1850.jpg"
+  }
+ ]
+}

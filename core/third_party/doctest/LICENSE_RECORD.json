@@ -1,0 +1,10 @@
+{
+  "name": "doctest",
+  "version": "2.4.11",
+  "url": "https://cdn.jsdelivr.net/gh/doctest/doctest@2.4.11/doctest/doctest.h",
+  "licence": "MIT",
+  "author": "Viktor Kirilov",
+  "sha256": "44faa038e9c3f9728efbda143748d01124ea0a27f4bf78f35a15d8fab2e039fb",
+  "downloaded_by": "core traffic/routing/peds agent",
+  "downloaded_on": "2026-09-05"
+}

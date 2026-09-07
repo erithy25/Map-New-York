@@ -1,0 +1,262 @@
+{
+ "schema_version": 1,
+ "slug": "vehicle_mta_bus",
+ "name": "MTA New York City Bus",
+ "group": "vehicle",
+ "viewpoint": {
+  "lat": 40.755,
+  "lon": -73.984,
+  "azimuth_deg": 0.0,
+  "note": "Midtown street (representative; vehicle reference, viewpoint not meaningful)",
+  "representative": true
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2014,
+ "wanted": 4,
+ "queries": [
+  "MTA New York City Bus New Flyer XD40",
+  "MTA bus Nova Bus LFS New York City Transit",
+  "MTA New York City Bus street"
+ ],
+ "geosearch_radius_m": 0,
+ "fetched_at": "2026-09-06T13:45:16Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 130,
+ "candidates_eligible": 72,
+ "rejections": {
+  "too_small": 16,
+  "excluded": 34,
+  "too_old": 8
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Feb 23 2026 Blizzard in Manhattan, MTA M103 bus on 3rd Avenue at 94th Street, Yorkville, Upper East Side, New York 06.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Feb_23_2026_Blizzard_in_Manhattan,_MTA_M103_bus_on_3rd_Avenue_at_94th_Street,_Yorkville,_Upper_East_Side,_New_York_06.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/6c/Feb_23_2026_Blizzard_in_Manhattan%2C_MTA_M103_bus_on_3rd_Avenue_at_94th_Street%2C_Yorkville%2C_Upper_East_Side%2C_New_York_06.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Feb_23_2026_Blizzard_in_Manhattan%2C_MTA_M103_bus_on_3rd_Avenue_at_94th_Street%2C_Yorkville%2C_Upper_East_Side%2C_New_York_06.jpg/1920px-Feb_23_2026_Blizzard_in_Manhattan%2C_MTA_M103_bus_on_3rd_Avenue_at_94th_Street%2C_Yorkville%2C_Upper_East_Side%2C_New_York_06.jpg",
+   "author": "Deans Charbal",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026-02-23 09:46:41",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.783692,
+    "lon": -73.950219
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 874173,
+   "sha256": "a8bdeced76aff56883c915b8e54eb7770a3919e00c588d6c7c6113acf80324b6",
+   "mean_luminance": 143.3,
+   "description": "Feb 23 2026 Blizzard in Manhattan, MTA M103 bus on 3rd Avenue at 94th Street, Yorkville, Upper East Side, New York",
+   "categories": [
+    "3rd Avenue (Manhattan)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2026 in the Upper East Side",
+    "MTA Regional Bus Operations in 2026",
+    "Files by User:Deansfa",
+    "M103 (New York City bus)",
+    "New York City photographs taken on 2026-02-23",
+    "February 2026 North American blizzard in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:MTA New York City Bus street",
+   "score": 10.2,
+   "estimated_viewpoint": {
+    "lat": 40.783692,
+    "lon": -73.950219,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.78369, -73.95022), 4275 m from the reference position (Midtown street (representative; vehicle reference, viewpoint not meaningful)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"Feb 23 2026 Blizzard in Manhattan, MTA M103 bus on 3rd Avenue at 94th Street, Yorkville, Upper East Side, New York 06.jpg\" by Deans Charbal, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Feb_23_2026_Blizzard_in_Manhattan,_MTA_M103_bus_on_3rd_Avenue_at_94th_Street,_Yorkville,_Upper_East_Side,_New_York_06.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:MTA New flyer xd40lh bus gk 7 8 23.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:MTA_New_flyer_xd40lh_bus_gk_7_8_23.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/72/MTA_New_flyer_xd40lh_bus_gk_7_8_23.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/MTA_New_flyer_xd40lh_bus_gk_7_8_23.jpg/1920px-MTA_New_flyer_xd40lh_bus_gk_7_8_23.jpg",
+   "author": "GK tramrunner RU",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.598499,
+    "lon": -73.931238
+   },
+   "original_width": 4000,
+   "original_height": 2250,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 679561,
+   "sha256": "4e25d89714c1d0342cd23834d0966d558972a94a404953d5ad24657aca1c165c",
+   "mean_luminance": 120.9,
+   "description": "MTA New flyer xd40lh bus gk 7 8 23",
+   "categories": [
+    "Buses in Brooklyn, New York City",
+    "New York City photographs taken on 2023-07-08",
+    "Self-published work",
+    "Number 7940 on buses",
+    "Uploaded with Mobile/Android",
+    "Out of service buses in New York City",
+    "Files with coordinates missing SDC location of creation",
+    "Buses in the United States photographed in 2023",
+    "Bus stops photographed in 2023",
+    "MTA Regional Bus Operations in 2023",
+    "2023 in Gerritsen Beach, Brooklyn",
+    "July 2023 in Brooklyn, New York City",
+    "New Flyer XD40 buses of MTA RBO (2016 livery)",
+    "Gerritsen Avenue",
+    "Bus stops in Brooklyn, New York City",
+    "B31 (New York City bus)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:MTA New York City Bus street",
+   "score": 10.2,
+   "estimated_viewpoint": {
+    "lat": 40.598499,
+    "lon": -73.931238,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.59850, -73.93124), 17962 m from the reference position (Midtown street (representative; vehicle reference, viewpoint not meaningful)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"MTA New flyer xd40lh bus gk 7 8 23.jpg\" by GK tramrunner RU, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:MTA_New_flyer_xd40lh_bus_gk_7_8_23.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:MTA New Flyer XD40 7366.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:MTA_New_Flyer_XD40_7366.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/ef/MTA_New_Flyer_XD40_7366.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/MTA_New_Flyer_XD40_7366.jpg/1920px-MTA_New_Flyer_XD40_7366.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-03-22 10:37:50",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.700653,
+    "lon": -73.807503
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 480042,
+   "sha256": "dd4bc6a7bf56d665643a4f21d826f5ad5425411d7ad7e39a68c8f251a67bd118",
+   "mean_luminance": 106.0,
+   "description": "MTA New Flyer XD40 7366 on The Q20A in Jamaica, Queens",
+   "categories": [
+    "New York City photographs taken on 2023-03-22",
+    "Self-published work",
+    "Rear views of buses",
+    "Buses in Jamaica, Queens",
+    "Q20 (New York City bus)",
+    "Files with coordinates missing SDC location of creation",
+    "2023 in Jamaica, Queens",
+    "MTA Regional Bus Operations in 2023",
+    "March 2023 in Queens, New York City",
+    "New Flyer XD40 bus of MTA RBO (7366)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:MTA New York City Bus New Flyer XD40",
+   "score": 10.2,
+   "estimated_viewpoint": {
+    "lat": 40.700653,
+    "lon": -73.807503,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.70065, -73.80750), 16053 m from the reference position (Midtown street (representative; vehicle reference, viewpoint not meaningful)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"MTA New Flyer XD40 7366.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:MTA_New_Flyer_XD40_7366.jpg"
+  },
+  {
+   "n": 4,
+   "file": "4.jpg",
+   "title": "File:MTA New York City Bus Nova Bus LFS articulated 5439 on the Bx1 (blue yellow livery).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:MTA_New_York_City_Bus_Nova_Bus_LFS_articulated_5439_on_the_Bx1_(blue_yellow_livery).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/15/MTA_New_York_City_Bus_Nova_Bus_LFS_articulated_5439_on_the_Bx1_%28blue_yellow_livery%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/MTA_New_York_City_Bus_Nova_Bus_LFS_articulated_5439_on_the_Bx1_%28blue_yellow_livery%29.jpg/1920px-MTA_New_York_City_Bus_Nova_Bus_LFS_articulated_5439_on_the_Bx1_%28blue_yellow_livery%29.jpg",
+   "author": "AEMoreira042281",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2020-06-04 14:45:54",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": {
+    "lat": 40.876922,
+    "lon": -73.90336
+   },
+   "original_width": 3600,
+   "original_height": 2400,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 922690,
+   "sha256": "855bc39481fdde5e2675e10a2715f5e01de5f74490b3787b2097c311b709a2f2",
+   "mean_luminance": 117.9,
+   "description": "A driver of an MTA New York City Transit Nova Bus LFS articulated bus, 5439, is preparing to turn left from Bailey Avenue onto Albany Crescent, while operating along the Bx1 Limited in Kingsbridge, due south to Mott Haven.",
+   "categories": [
+    "June 2020 in New York City",
+    "Kingsbridge, Bronx",
+    "Grand Concourse buses",
+    "Buses in the Bronx, New York City",
+    "Self-published work",
+    "Pictures by User:AEMoreira042281",
+    "MTA Regional Bus Operations in 2020",
+    "Files with coordinates missing SDC location of creation",
+    "Nova Bus LFS Articulated buses of MTA RBO (2016 livery)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:MTA bus Nova Bus LFS New York City Transit",
+   "score": 9.75,
+   "estimated_viewpoint": {
+    "lat": 40.876922,
+    "lon": -73.90336,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.87692, -73.90336), 15161 m from the reference position (Midtown street (representative; vehicle reference, viewpoint not meaningful)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"MTA New York City Bus Nova Bus LFS articulated 5439 on the Bx1 (blue yellow livery).jpg\" by AEMoreira042281, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:MTA_New_York_City_Bus_Nova_Bus_LFS_articulated_5439_on_the_Bx1_(blue_yellow_livery).jpg"
+  }
+ ]
+}

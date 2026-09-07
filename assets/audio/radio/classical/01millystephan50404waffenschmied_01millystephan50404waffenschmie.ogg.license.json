@@ -1,0 +1,28 @@
+{
+ "artist": "Milly STEPHAN - Sopran",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 3411062,
+ "duration_s": 230.87,
+ "file": "classical/01millystephan50404waffenschmied_01millystephan50404waffenschmie.ogg",
+ "gain_db": 2.6,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+ "loudness_lufs": -16.6,
+ "original_filename": "01MillyStephan50404WaffenschmiedKorr.mp3",
+ "recorded_at": "2026-09-06T12:20:46Z",
+ "schema_version": 1,
+ "sha256": "430183635adabb5febbc5f0a2efc0fc2037a8be12371b2834c80d1242ceafe7b",
+ "source_page": "https://archive.org/details/01MillyStephan50404Waffenschmied",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/01MillyStephan50404Waffenschmied/01MillyStephan50404WaffenschmiedKorr.mp3",
+ "title": "01 Milly Stephan 50404 Waffenschmied korr",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

@@ -1,0 +1,28 @@
+{
+ "artist": "Thomas Park",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 6909250,
+ "duration_s": 420.52,
+ "file": "hiphop/djiteratecodebeats_beat_1.ogg",
+ "gain_db": 4.8,
+ "licence": "CC-BY-4.0",
+ "licence_url": "http://creativecommons.org/licenses/by/4.0/",
+ "loudness_lufs": -18.8,
+ "original_filename": "Beat_1.mp3",
+ "recorded_at": "2026-09-06T12:12:52Z",
+ "schema_version": 1,
+ "sha256": "88f455a8955334c65cadfbf2f503d64ceaa9ee5de39593602234138f80417e63",
+ "source_page": "https://archive.org/details/DJIterateCodeBeats",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/DJIterateCodeBeats/Beat_1.mp3",
+ "title": "Beat 1",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

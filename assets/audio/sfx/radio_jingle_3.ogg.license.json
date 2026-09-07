@@ -1,0 +1,20 @@
+{
+ "artist": "Fupi",
+ "attribution_note": "",
+ "bytes": 36858,
+ "duration_s": 3.78,
+ "file": "sfx/radio_jingle_3.ogg",
+ "gain_db": 3.9,
+ "licence": "CC0-1.0",
+ "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+ "loudness_lufs": -17.9,
+ "original_filename": "winfretless_0.ogg",
+ "recorded_at": "2026-09-06T12:30:05Z",
+ "schema_version": 1,
+ "sha256": "066d704a58af2bbd293cb9a32488b832be7803e365d3f15a264aa803c238c944",
+ "source_page": "https://opengameart.org/content/win-jingle",
+ "source_site": "opengameart.org",
+ "source_url": "https://opengameart.org/sites/default/files/winfretless_0.ogg",
+ "title": "Win Jingle",
+ "transcode": null
+}

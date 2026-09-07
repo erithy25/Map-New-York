@@ -1,0 +1,197 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_911_memorial_pools",
+ "name": "National September 11 Memorial pools",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7112,
+  "lon": -74.0122,
+  "azimuth_deg": 301.3,
+  "note": "memorial plaza between the two pools on the Greenwich Street side, looking north-west across the North Pool",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7118,
+  "lon": -74.0135,
+  "name": "the North Pool"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2012,
+ "wanted": 3,
+ "queries": [
+  "\"9/11 Memorial\" reflecting pool",
+  "National September 11 Memorial pool waterfall names"
+ ],
+ "geosearch_radius_m": 200,
+ "fetched_at": "2026-09-06T12:10:29Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 71,
+ "candidates_eligible": 40,
+ "rejections": {
+  "too_old": 5,
+  "not_photo": 2,
+  "keywords": 9,
+  "too_small": 4,
+  "excluded": 1,
+  "indoor": 10
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:National September 11 Memorial South Pool - 04.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:National_September_11_Memorial_South_Pool_-_04.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/17/National_September_11_Memorial_South_Pool_-_04.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/National_September_11_Memorial_South_Pool_-_04.jpg/1920px-National_September_11_Memorial_South_Pool_-_04.jpg",
+   "author": "Oleg Yunakov",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2025-09-11 17:01:35",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.711156,
+    "lon": -74.012633
+   },
+   "original_width": 4284,
+   "original_height": 5712,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1108174,
+   "sha256": "00ee74c618a7997434105533da84af526432e026851ed52319f98ff95eda5fe7",
+   "mean_luminance": 103.5,
+   "description": "National September 11 Memorial South Pool",
+   "categories": [
+    "National September 11 Memorial South Pool",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Patriot Day 2025 in New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.2,
+   "estimated_viewpoint": {
+    "lat": 40.711156,
+    "lon": -74.012633,
+    "azimuth_deg": 314.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71116, -74.01263) is 102 m from the North Pool (40.71180, -74.01350) and 37 m from the standard viewpoint; the azimuth 314 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"National September 11 Memorial South Pool - 04.jpg\" by Oleg Yunakov, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:National_September_11_Memorial_South_Pool_-_04.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:National September 11 Memorial North Pool.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:National_September_11_Memorial_North_Pool.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/ef/National_September_11_Memorial_North_Pool.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/National_September_11_Memorial_North_Pool.jpg/1920px-National_September_11_Memorial_North_Pool.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-03-20 13:00:45",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.711042,
+    "lon": -74.012633
+   },
+   "original_width": 2048,
+   "original_height": 1536,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 432162,
+   "sha256": "aefcf43f99277826240e06b8b974795bc3f627af82b6d4953774cfd1086503fe",
+   "mean_luminance": 111.2,
+   "description": "National September 11 Memorial North Pool",
+   "categories": [
+    "National September 11 Memorial North Pool",
+    "New York City photographs taken on 2023-03-20",
+    "Self-published work",
+    "World Trade Center site in 2023",
+    "Files with coordinates missing SDC location of creation",
+    "March 2023 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.2,
+   "estimated_viewpoint": {
+    "lat": 40.711042,
+    "lon": -74.012633,
+    "azimuth_deg": 319.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71104, -74.01263) is 112 m from the North Pool (40.71180, -74.01350) and 41 m from the standard viewpoint; the azimuth 319 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"National September 11 Memorial North Pool.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:National_September_11_Memorial_North_Pool.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:NYC - National September 11 Memorial – South Memorial Pool - panoramio.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:NYC_-_National_September_11_Memorial_%E2%80%93_South_Memorial_Pool_-_panoramio.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/2e/NYC_-_National_September_11_Memorial_%E2%80%93_South_Memorial_Pool_-_panoramio.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/NYC_-_National_September_11_Memorial_%E2%80%93_South_Memorial_Pool_-_panoramio.jpg/1920px-NYC_-_National_September_11_Memorial_%E2%80%93_South_Memorial_Pool_-_panoramio.jpg",
+   "author": "giggel",
+   "credit": "https://web.archive.org/web/20161031130029/http://www.panoramio.com/photo/127269662",
+   "license": {
+    "short_name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0",
+    "template": "cc-by-3.0"
+   },
+   "date_taken": "2015",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.711164,
+    "lon": -74.012583
+   },
+   "original_width": 4000,
+   "original_height": 3000,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 623683,
+   "sha256": "18d792d10d048ab2794484009dcbb85159c2d654b375eb3b49ad57f9d2a03d98",
+   "mean_luminance": 112.0,
+   "description": "NYC - National September 11 Memorial – South Memorial Pool",
+   "categories": [
+    "Panoramio files uploaded by Panoramio upload bot",
+    "New York City photographs taken on 2015-10-30",
+    "Panoramio images reviewed by trusted users",
+    "Photos from Panoramio",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2015-10-30",
+    "National September 11 Memorial South Pool name panel S-57",
+    "Photos from Panoramio ID 1368505"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.0,
+   "estimated_viewpoint": {
+    "lat": 40.711164,
+    "lon": -74.012583,
+    "azimuth_deg": 312.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71116, -74.01258) is 105 m from the North Pool (40.71180, -74.01350) and 33 m from the standard viewpoint; the azimuth 312 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"NYC - National September 11 Memorial – South Memorial Pool - panoramio.jpg\" by giggel, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:NYC_-_National_September_11_Memorial_%E2%80%93_South_Memorial_Pool_-_panoramio.jpg"
+  }
+ ]
+}

@@ -1,0 +1,183 @@
+{
+ "rows": [
+  [
+   "citibike_cruiser",
+   "arrow_ebike",
+   "xd60_sbs",
+   "mci_j4500_coach",
+   "nova_lfs_mta",
+   "school_bus_bluebird",
+   "horse_carriage"
+  ],
+  [
+   "seagrave_tower_fdny",
+   "seagrave_engine_fdny",
+   "ambulance_type1_fdny",
+   "explorer_nypd",
+   "moped_scooter",
+   "pedicab",
+   "camry_black_car",
+   "camry_boro_taxi"
+  ],
+  [
+   "camry_taxi_yellow",
+   "fusion_hybrid",
+   "suburban_black_car",
+   "rav4_fhv",
+   "mack_lr_dsny",
+   "freightliner_stepvan",
+   "coned_utility_truck"
+  ],
+  [
+   "isuzu_npr_box",
+   "dollar_van",
+   "transit_van",
+   "sprinter_van",
+   "nv200_taxi",
+   "usps_llv"
+  ]
+ ],
+ "placement_m": [
+  {
+   "id": "citibike_cruiser",
+   "x": 0.0,
+   "y": 0.884
+  },
+  {
+   "id": "arrow_ebike",
+   "x": 0.0,
+   "y": 2.101
+  },
+  {
+   "id": "xd60_sbs",
+   "x": 0.0,
+   "y": 4.64
+  },
+  {
+   "id": "mci_j4500_coach",
+   "x": 0.0,
+   "y": 8.526
+  },
+  {
+   "id": "nova_lfs_mta",
+   "x": 0.0,
+   "y": 12.412
+  },
+  {
+   "id": "school_bus_bluebird",
+   "x": 0.0,
+   "y": 16.276
+  },
+  {
+   "id": "horse_carriage",
+   "x": 0.0,
+   "y": 19.311
+  },
+  {
+   "id": "seagrave_tower_fdny",
+   "x": -21.093,
+   "y": 2.246
+  },
+  {
+   "id": "seagrave_engine_fdny",
+   "x": -21.093,
+   "y": 6.188
+  },
+  {
+   "id": "ambulance_type1_fdny",
+   "x": -21.093,
+   "y": 9.998
+  },
+  {
+   "id": "explorer_nypd",
+   "x": -21.093,
+   "y": 13.241
+  },
+  {
+   "id": "moped_scooter",
+   "x": -21.093,
+   "y": 15.291
+  },
+  {
+   "id": "pedicab",
+   "x": -21.093,
+   "y": 16.834
+  },
+  {
+   "id": "camry_black_car",
+   "x": -21.093,
+   "y": 19.061
+  },
+  {
+   "id": "camry_boro_taxi",
+   "x": -21.093,
+   "y": 21.719
+  },
+  {
+   "id": "camry_taxi_yellow",
+   "x": -36.093,
+   "y": 1.604
+  },
+  {
+   "id": "fusion_hybrid",
+   "x": -36.093,
+   "y": 4.248
+  },
+  {
+   "id": "suburban_black_car",
+   "x": -36.093,
+   "y": 7.008
+  },
+  {
+   "id": "rav4_fhv",
+   "x": -36.093,
+   "y": 9.787
+  },
+  {
+   "id": "mack_lr_dsny",
+   "x": -36.093,
+   "y": 13.094
+  },
+  {
+   "id": "freightliner_stepvan",
+   "x": -36.093,
+   "y": 16.919
+  },
+  {
+   "id": "coned_utility_truck",
+   "x": -36.093,
+   "y": 20.603
+  },
+  {
+   "id": "isuzu_npr_box",
+   "x": -48.653,
+   "y": 1.96
+  },
+  {
+   "id": "dollar_van",
+   "x": -48.653,
+   "y": 5.245
+  },
+  {
+   "id": "transit_van",
+   "x": -48.653,
+   "y": 8.446
+  },
+  {
+   "id": "sprinter_van",
+   "x": -48.653,
+   "y": 11.627
+  },
+  {
+   "id": "nv200_taxi",
+   "x": -48.653,
+   "y": 14.507
+  },
+  {
+   "id": "usps_llv",
+   "x": -48.653,
+   "y": 17.3
+  }
+ ],
+ "ortho_scale_m": 72.02
+}

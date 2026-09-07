@@ -1,0 +1,28 @@
+{
+ "artist": "Margarete B\u00c4UMER - Sopran, Walter KIRCHHOFF - Tenor",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 2392754,
+ "duration_s": 164.52,
+ "file": "classical/01bumerkirchhoff_01_b_umer_kirchhoff.ogg",
+ "gain_db": 0.4,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+ "loudness_lufs": -14.4,
+ "original_filename": "01 B\u00e4umer Kirchhoff.mp3",
+ "recorded_at": "2026-09-06T12:21:06Z",
+ "schema_version": 1,
+ "sha256": "5e03e9c5c7f6f153e00f143b759a6c5c8d7286b6a61683f475429a8e2d9f13fe",
+ "source_page": "https://archive.org/details/01BumerKirchhoff",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/01BumerKirchhoff/01%20B%C3%A4umer%20Kirchhoff.mp3",
+ "title": "Tristan und Isolde: Liebesduett (4 Parts)",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

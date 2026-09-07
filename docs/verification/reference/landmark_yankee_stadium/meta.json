@@ -1,0 +1,212 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_yankee_stadium",
+ "name": "Yankee Stadium",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.8282,
+  "lon": -73.9265,
+  "azimuth_deg": 3.1,
+  "note": "East 161st Street at River Avenue, under the elevated 4 train, looking north at the Gate 4 facade",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.8296,
+  "lon": -73.9264,
+  "name": "Yankee Stadium (2009)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2009,
+ "wanted": 3,
+ "queries": [
+  "\"Yankee Stadium\" exterior 161st Street",
+  "\"Yankee Stadium\" facade River Avenue limestone"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T12:38:08Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 69,
+ "candidates_eligible": 62,
+ "rejections": {
+  "indoor": 2,
+  "excluded": 2,
+  "too_old": 1,
+  "not_photo": 2
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:161st St River Av td (2019-01-24) 34 - Yankee Stadium.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:161st_St_River_Av_td_(2019-01-24)_34_-_Yankee_Stadium.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/1a/161st_St_River_Av_td_%282019-01-24%29_34_-_Yankee_Stadium.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/161st_St_River_Av_td_%282019-01-24%29_34_-_Yankee_Stadium.jpg/1920px-161st_St_River_Av_td_%282019-01-24%29_34_-_Yankee_Stadium.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2019",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.827996,
+    "lon": -73.926199
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 463035,
+   "sha256": "afca8d1e46a150453b766c0561f1a1f7acf0330a3bd990b6d35c5b805e31969c",
+   "mean_luminance": 126.9,
+   "description": "Looking at the exterior of Yankee Stadium at Gate 6, at the northwest corner of 161st Street and River Avenue in Concourse, Bronx.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "Exterior of Yankee Stadium",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2019-01-24",
+    "Rain in the Bronx, New York City",
+    "2019 Bronx photographs by Tdorante10",
+    "January 2019 in the Bronx, New York City",
+    "Baseball venues in the United States photographed in 2019",
+    "Photographs by Tdorante10 taken on 2019-01-24"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.6,
+   "estimated_viewpoint": {
+    "lat": 40.827996,
+    "lon": -73.926199,
+    "azimuth_deg": 354.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.82800, -73.92620) is 179 m from Yankee Stadium (2009) (40.82960, -73.92640) and 34 m from the standard viewpoint; the azimuth 355 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"161st St River Av td (2019-01-24) 34 - Yankee Stadium.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:161st_St_River_Av_td_(2019-01-24)_34_-_Yankee_Stadium.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Concourse, Bronx, NY, USA - panoramio (1).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Concourse,_Bronx,_NY,_USA_-_panoramio_(1).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/0a/Concourse%2C_Bronx%2C_NY%2C_USA_-_panoramio_%281%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Concourse%2C_Bronx%2C_NY%2C_USA_-_panoramio_%281%29.jpg/1920px-Concourse%2C_Bronx%2C_NY%2C_USA_-_panoramio_%281%29.jpg",
+   "author": "Paulo JC Nogueira",
+   "credit": "https://web.archive.org/web/20161102221038/http://www.panoramio.com/photo/125151110",
+   "license": {
+    "short_name": "CC BY-SA 3.0",
+    "url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "template": "cc-by-sa-3.0"
+   },
+   "date_taken": "2015",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.828257,
+    "lon": -73.926195
+   },
+   "original_width": 2448,
+   "original_height": 3264,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 977938,
+   "sha256": "04bfba723d0ac4d6da5f7523aaef93398dce7b54c84a045f2c85707e5d5ed019",
+   "mean_luminance": 134.1,
+   "description": "Concourse, Bronx, NY, USA",
+   "categories": [
+    "Exterior of Yankee Stadium",
+    "Panoramio files uploaded by Panoramio upload bot",
+    "New York City photographs taken on 2015-10-12",
+    "Panoramio images reviewed by trusted users",
+    "Photos from Panoramio",
+    "Files with coordinates missing SDC location of creation",
+    "Views of the Bronx, New York City from below",
+    "Photos from Panoramio ID 2445474"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.0,
+   "estimated_viewpoint": {
+    "lat": 40.828257,
+    "lon": -73.926195,
+    "azimuth_deg": 353.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.82826, -73.92620) is 150 m from Yankee Stadium (2009) (40.82960, -73.92640) and 26 m from the standard viewpoint; the azimuth 353 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Concourse, Bronx, NY, USA - panoramio (1).jpg\" by Paulo JC Nogueira, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Concourse,_Bronx,_NY,_USA_-_panoramio_(1).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:161st St River Av td (2019-01-24) 26 - IND Vent Grates.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:161st_St_River_Av_td_(2019-01-24)_26_-_IND_Vent_Grates.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/fd/161st_St_River_Av_td_%282019-01-24%29_26_-_IND_Vent_Grates.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/161st_St_River_Av_td_%282019-01-24%29_26_-_IND_Vent_Grates.jpg/1920px-161st_St_River_Av_td_%282019-01-24%29_26_-_IND_Vent_Grates.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2019-01-24 15:42:23",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.827996,
+    "lon": -73.926199
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 691011,
+   "sha256": "a82e55894a0c6414773614a4e0bc7d160882cb5887008a4c83442adf8b484114",
+   "mean_luminance": 121.6,
+   "description": "Looking at vent grates for the IND subway in median of East 161st Street, at 161st Street and River Avenue in Concourse, Bronx.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "Exterior of Yankee Stadium",
+    "Self-published work",
+    "161st Street – Yankee Stadium (IND Concourse Line)",
+    "New York City Subway in January 2019",
+    "Files with coordinates missing SDC location of creation",
+    "Rain in the Bronx, New York City",
+    "2019 Bronx photographs by Tdorante10",
+    "2019 New York City Subway photographs by Tdorante10",
+    "MTA Regional Bus Operations in 2019",
+    "January 2019 in the Bronx, New York City",
+    "Views of New York City from east",
+    "Police stations in the Bronx, New York City",
+    "New York City Subway ventilation grates",
+    "East 161st Street and River Avenue SBS Station",
+    "Baseball venues in the United States photographed in 2019",
+    "Photographs by Tdorante10 taken on 2019-01-24"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Yankee Stadium\" exterior 161st Street",
+   "score": 12.6,
+   "estimated_viewpoint": {
+    "lat": 40.827996,
+    "lon": -73.926199,
+    "azimuth_deg": 354.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.82800, -73.92620) is 179 m from Yankee Stadium (2009) (40.82960, -73.92640) and 34 m from the standard viewpoint; the azimuth 355 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"161st St River Av td (2019-01-24) 26 - IND Vent Grates.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:161st_St_River_Av_td_(2019-01-24)_26_-_IND_Vent_Grates.jpg"
+  }
+ ]
+}

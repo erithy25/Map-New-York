@@ -1,0 +1,388 @@
+{
+ "azimuth_reason": "355.0 deg as recorded; it agrees with the bearing from the camera position used to Federal Hall National Memorial (355.1 deg) to 0.1 deg",
+ "camera": {
+  "azimuth_deg": 355.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 26.3256105501293,
+  "ground_detail": {
+   "below_point_excluded": 0,
+   "chosen_m": 6.57,
+   "max_m": 7.5,
+   "median_m": 6.77,
+   "min_m": 6.41,
+   "mode": "street",
+   "percentile": 10.0,
+   "point_m": 6.65,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 68.724,
+  "lat": 40.706864,
+  "lon": -74.010237,
+  "long_side_fov_deg": 68.724,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_federal_hall",
+  "terrain_z_m": 6.568,
+  "x": -5120.316,
+  "y": 780.976,
+  "z": 8.168
+ },
+ "camera_caption": "camera 40.70686, -74.01024 (NYC_TM -5120, 781) z 8.2 m NAVD88 | azimuth 355.0deg pitch +0.0deg | 26 mm on 36 mm (68.7deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.706864,
+  "lon": -74.010237,
+  "offset_from_recorded_m": 0.0,
+  "photograph_gps_offset_m": 20.0,
+  "source": "the item's recorded viewpoint.  This photograph's own EXIF GPS is 20 m away, but the eye point there is inside t_-6_0_roof_membrane (a ray straight up from the eye point hits its roof), while the recorded viewpoint is in open air"
+ },
+ "clearance": {
+  "direction": "onto the nearest roadbed",
+  "min_view_m": 29.4,
+  "moved": true,
+  "nearest_obstruction_m": 17.8,
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 12 m ahead, less than the 29 m this frame needs to show its subject; the camera was moved 33 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there",
+  "offset_m": 33.0,
+  "reason": "boxed in: the view azimuth is closed off 12 m ahead, less than the 29 m this frame needs to show its subject",
+  "rule": "pavement snap with a clear view",
+  "view_m": 60.0
+ },
+ "frame": {
+  "mean": 0.0986,
+  "reason": null,
+  "sd": 0.063,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "widened from 35 mm to 26 mm (54 deg vertical) so that a level axis contains the subject: the federal_hall model's published 19 m height stands 18 m above the lens at 40 m, 24 deg above the horizon",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 859.8,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 4,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 95.303,
+  "sky_elevation_deg": 43.469,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.592,
+  "view_transform": "Filmic"
+ },
+ "name": "Federal Hall National Memorial",
+ "night": false,
+ "pitch_reason": "level optical axis (Federal Hall National Memorial is 40 m away and would need +12 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "reference_photo": {
+  "author": "Sergei Gussev",
+  "confidence": "high",
+  "date_taken": "2016",
+  "estimated_azimuth_deg": 3.0,
+  "file": "3.jpg",
+  "height": 1440,
+  "licence": "CC BY 3.0",
+  "licence_url": "https://creativecommons.org/licenses/by/3.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Financial_District,_New_York,_NY,_USA_-_panoramio_-_Sergei_Gussev_(34).jpg",
+  "title": "File:Financial District, New York, NY, USA - panoramio - Sergei Gussev (34).jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_federal_hall/render.png",
+ "rendered_at": "2026-09-07T02:19:47Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 32,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-5_0",
+    "t_-5_1",
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "landmark_bins_suppressed": 19,
+   "landmark_faces_suppressed": 2992,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [],
+   "per_tile": {
+    "t_-5_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 18,
+     "triangles": 11872
+    },
+    "t_-5_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 18,
+     "triangles": 42654
+    },
+    "t_-6_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 16,
+     "triangles": 12796
+    },
+    "t_-6_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 18,
+     "triangles": 15036
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 82358
+  },
+  "centre_tm": [
+   -5096.96,
+   745.11
+  ],
+  "kit": {
+   "capped": "triangle budget 2759164",
+   "per_category": {
+    "bulkhead": 8,
+    "cornice": 12,
+    "door_entry": 12,
+    "hvac": 8,
+    "parapet": 10,
+    "pilaster": 13,
+    "quoin": 6,
+    "scaffold": 114,
+    "storefront": 78,
+    "storefront_interior": 9,
+    "string_course": 12,
+    "water_tower": 3,
+    "window": 10594,
+    "window_accessory": 830
+   },
+   "placed": 11709,
+   "radius_m": 120.0,
+   "records_in_range": 23336,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 3470,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_0",
+    "t_-6_0"
+   ],
+   "triangles": 2759204,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 61.3,
+     "id": "40_wall_street",
+     "lod": 0,
+     "name": "40 Wall Street (Trump Building)",
+     "triangles": 43167
+    },
+    {
+     "distance_m": 71.1,
+     "id": "federal_hall",
+     "lod": 0,
+     "name": "Federal Hall National Memorial",
+     "triangles": 9070
+    },
+    {
+     "distance_m": 84.1,
+     "id": "nyse",
+     "lod": 0,
+     "name": "New York Stock Exchange",
+     "triangles": 26049
+    },
+    {
+     "distance_m": 135.0,
+     "id": "one_wall_street",
+     "lod": 0,
+     "name": "One Wall Street (Irving Trust Building)",
+     "triangles": 42712
+    },
+    {
+     "distance_m": 171.7,
+     "id": "equitable_building",
+     "lod": 0,
+     "name": "Equitable Building",
+     "triangles": 86321
+    },
+    {
+     "distance_m": 219.3,
+     "id": "trinity_church",
+     "lod": 0,
+     "name": "Trinity Church",
+     "triangles": 3984
+    },
+    {
+     "distance_m": 294.6,
+     "id": "charging_bull",
+     "lod": 0,
+     "name": "Charging Bull",
+     "triangles": 818
+    },
+    {
+     "distance_m": 591.3,
+     "id": "b_wtc_site",
+     "lod": 0,
+     "name": "World Trade Center site",
+     "triangles": 136288
+    },
+    {
+     "distance_m": 1185.9,
+     "id": "b_brooklyn_bridge",
+     "lod": 0,
+     "name": "Brooklyn Bridge",
+     "triangles": 121824
+    },
+    {
+     "distance_m": 1459.6,
+     "id": "b_hugh_carey_portals",
+     "lod": 0,
+     "name": "Hugh L. Carey Tunnel",
+     "triangles": 43880
+    }
+   ],
+   "placed": 10,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 514113
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 381,
+    "curb": 823,
+    "median": 34,
+    "parking_lot": 4,
+    "plaza": 46,
+    "roadbed": 322,
+    "sidewalk": 158
+   },
+   "placed": 1768,
+   "radius_m": 500.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_0",
+    "t_-5_1",
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "triangles": 130767,
+   "vertices": 134081
+  },
+  "props": {
+   "capped": null,
+   "impostor_cards_dropped": 7,
+   "impostor_faces_dropped": 0,
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 60,
+    "bike_rack": 25,
+    "bus_stop_sign": 9,
+    "citibike_dock": 3,
+    "flagpole": 5,
+    "hydrant": 71,
+    "manhole": 114,
+    "newsstand": 7,
+    "steam_vent": 1,
+    "street_lamp": 108,
+    "subway_entrance": 26,
+    "subway_vent_grate": 27,
+    "tree": 27,
+    "waste_basket": 34
+   },
+   "placed": 517,
+   "radius_m": 250.0,
+   "rows_in_range": 780,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_0",
+    "t_-6_0"
+   ],
+   "tree_species_substituted": 8,
+   "triangles": 935190,
+   "unmapped_kinds": {
+    "artwork": 10,
+    "cooling_tower": 107,
+    "curb_ramp": 135,
+    "drinking_fountain": 3,
+    "memorial": 8
+   }
+  },
+  "radius_m": 500.0,
+  "seconds": 55.53,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 199,
+   "spacing_m": 2.0,
+   "triangles": 78408,
+   "water_quads": 44,
+   "z_max_m": 12.03,
+   "z_min_m": -1.88
+  },
+  "triangles": 4500040
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 500.0
+ },
+ "seconds": {
+  "render": 102.9,
+  "scene": 62.6,
+  "total": 165.6
+ },
+ "slug": "landmark_federal_hall",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 58.7,
+  "name": "Federal Hall National Memorial"
+ },
+ "sun": {
+  "azimuth_deg": 95.3034332120742,
+  "elevation_deg": 43.46863818814788,
+  "local": "2016-06-21T09:30:00-04:00",
+  "time_source": "photograph year only; 21 June 09:30 assumed",
+  "utc": "2016-06-21T13:30:00Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 355.0,
+  "lat": 40.706864,
+  "lon": -74.010237,
+  "note": "Wall Street south sidewalk opposite 26 Wall Street, looking north at the Doric portico and the Washington statue"
+ }
+}

@@ -1,0 +1,28 @@
+{
+ "artist": "MC J-Me",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 3142999,
+ "duration_s": 199.77,
+ "file": "hiphop/go_on_and_get_it_go_on_and_get_it.ogg",
+ "gain_db": 1.3,
+ "licence": "CC-BY-3.0",
+ "licence_url": "http://creativecommons.org/licenses/by/3.0/",
+ "loudness_lufs": -15.3,
+ "original_filename": "Go_On_And_Get_It.mp3",
+ "recorded_at": "2026-09-06T12:13:35Z",
+ "schema_version": 1,
+ "sha256": "1ca4bf16ef53d35f0ca0fac374a2b521b5e00faa1a4bdd88e189356629e78697",
+ "source_page": "https://archive.org/details/go_on_and_get_it",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/go_on_and_get_it/Go_On_And_Get_It.mp3",
+ "title": "Go_On_And_Get_It",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

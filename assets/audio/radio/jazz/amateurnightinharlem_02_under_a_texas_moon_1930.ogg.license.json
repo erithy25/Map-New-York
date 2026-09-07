@@ -1,0 +1,28 @@
+{
+ "artist": "King Nawahi's Hawaiians",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 2797068,
+ "duration_s": 190.07,
+ "file": "jazz/amateurnightinharlem_02_under_a_texas_moon_1930.ogg",
+ "gain_db": 0.0,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+ "loudness_lufs": -14.0,
+ "original_filename": "02  Under a Texas Moon (1930).mp3",
+ "recorded_at": "2026-09-06T12:10:21Z",
+ "schema_version": 1,
+ "sha256": "c3f76fa9e2dd42dca27ccb45590359d5dfff02de209852e9aa4373b0954acd0e",
+ "source_page": "https://archive.org/details/AmateurNightInHarlem",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/AmateurNightInHarlem/02%20%20Under%20a%20Texas%20Moon%20%281930%29.mp3",
+ "title": "Under a Texas Moon (1930)",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

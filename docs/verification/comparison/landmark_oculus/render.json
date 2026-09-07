@@ -1,0 +1,427 @@
+{
+ "azimuth_reason": "274.2 deg, the bearing from this photograph's own GPS position to the Oculus; heading and position both come from the photograph.  The item's recorded azimuth is 282.4 deg, 8.2 deg away, and belongs to its nominal viewpoint",
+ "camera": {
+  "azimuth_deg": 274.2153353147452,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": 0,
+   "chosen_m": 8.0,
+   "max_m": 8.6,
+   "median_m": 8.1,
+   "min_m": 7.91,
+   "mode": "street",
+   "percentile": 10.0,
+   "point_m": 8.03,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.71145,
+  "lon": -74.0103,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": -0.27679807117224536,
+  "portrait": false,
+  "resolution": [
+   1280,
+   854
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_oculus",
+  "terrain_z_m": 8.004,
+  "x": -5095.413,
+  "y": 1273.251,
+  "z": 9.604
+ },
+ "camera_caption": "camera 40.71145, -74.01030 (NYC_TM -5095, 1273) z 9.6 m NAVD88 | azimuth 274.2deg pitch -0.3deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.71145,
+  "lon": -74.0103,
+  "offset_from_recorded_m": 30.3,
+  "source": "this photograph's own EXIF camera GPS (40.71145, -74.01030), 30 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
+ "clearance": {
+  "min_view_m": 38.1,
+  "moved": false,
+  "nearest_obstruction": "prop_lamp_bishops_crook_10",
+  "nearest_obstruction_m": 26.2,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_bishops_crook_10 26.2 m away, and the view azimuth is clear for 66 m",
+  "offset_m": 0.0,
+  "view_m": 66.2
+ },
+ "frame": {
+  "mean": 0.3684,
+  "reason": null,
+  "sd": 0.1652,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 733.9,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 4,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.71,
+  "sky_azimuth_deg": 94.109,
+  "sky_elevation_deg": 26.309,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.359,
+  "view_transform": "Filmic"
+ },
+ "name": "World Trade Center Transportation Hub (Oculus)",
+ "night": false,
+ "pitch_reason": "aimed at the Oculus 76 m away, at its mid-height (a nominal 10 m subject); -0.3 deg from horizontal",
+ "reference_photo": {
+  "author": "Billie Grace Ward from New York, USA",
+  "confidence": "high",
+  "date_taken": "2017-08-15 08:32",
+  "estimated_azimuth_deg": 274.2,
+  "file": "1.jpg",
+  "height": 1281,
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Oculus_(36813913993).jpg",
+  "title": "File:Oculus (36813913993).jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_oculus/render.png",
+ "rendered_at": "2026-09-07T08:02:02Z",
+ "resolution_note": "1280x854; the reference photograph is 1920x1281 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 32,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-5_0",
+    "t_-5_1",
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "landmark_bins_suppressed": 19,
+   "landmark_faces_suppressed": 2604,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [],
+   "per_tile": {
+    "t_-5_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 18,
+     "triangles": 13970
+    },
+    "t_-5_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 18,
+     "triangles": 55134
+    },
+    "t_-6_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 16,
+     "triangles": 13638
+    },
+    "t_-6_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 18,
+     "triangles": 18490
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 101232
+  },
+  "centre_tm": [
+   -5095.41,
+   1273.25
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "antenna": 3,
+    "bulkhead": 14,
+    "cornice": 15,
+    "door_entry": 19,
+    "hvac": 16,
+    "parapet": 14,
+    "pilaster": 15,
+    "quoin": 3,
+    "scaffold": 48,
+    "storefront": 135,
+    "storefront_interior": 14,
+    "string_course": 15,
+    "water_tower": 3,
+    "window": 7973
+   },
+   "placed": 8287,
+   "radius_m": 120.0,
+   "records_in_range": 9211,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 924,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_1",
+    "t_-6_1"
+   ],
+   "triangles": 1726418,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 200.7,
+     "id": "woolworth",
+     "lod": 0,
+     "name": "Woolworth Building",
+     "triangles": 47871
+    },
+    {
+     "distance_m": 242.9,
+     "id": "b_wtc_site",
+     "lod": 0,
+     "name": "World Trade Center site",
+     "own_ground_m2": 33039.3,
+     "own_ground_parts": 1,
+     "triangles": 136288
+    },
+    {
+     "distance_m": 298.2,
+     "id": "b_one_world_trade_center",
+     "lod": 0,
+     "name": "One World Trade Center",
+     "triangles": 6044
+    },
+    {
+     "distance_m": 357.7,
+     "id": "equitable_building",
+     "lod": 0,
+     "name": "Equitable Building",
+     "triangles": 86321
+    },
+    {
+     "distance_m": 392.1,
+     "id": "city_hall",
+     "lod": 0,
+     "name": "New York City Hall",
+     "own_ground_m2": 72.0,
+     "own_ground_parts": 1,
+     "triangles": 44823
+    },
+    {
+     "distance_m": 412.6,
+     "id": "trinity_church",
+     "lod": 0,
+     "name": "Trinity Church",
+     "triangles": 3984
+    },
+    {
+     "distance_m": 457.3,
+     "id": "federal_hall",
+     "lod": 0,
+     "name": "Federal Hall National Memorial",
+     "own_ground_m2": 282.2,
+     "own_ground_parts": 2,
+     "triangles": 9070
+    },
+    {
+     "distance_m": 493.5,
+     "id": "40_wall_street",
+     "lod": 0,
+     "name": "40 Wall Street (Trump Building)",
+     "triangles": 43167
+    },
+    {
+     "distance_m": 493.8,
+     "id": "one_wall_street",
+     "lod": 0,
+     "name": "One Wall Street (Irving Trust Building)",
+     "triangles": 42712
+    },
+    {
+     "distance_m": 496.2,
+     "id": "nyse",
+     "lod": 0,
+     "name": "New York Stock Exchange",
+     "triangles": 26049
+    },
+    {
+     "distance_m": 587.9,
+     "id": "municipal_building",
+     "lod": 0,
+     "name": "Manhattan Municipal Building",
+     "triangles": 97825
+    },
+    {
+     "distance_m": 1341.8,
+     "id": "b_brooklyn_bridge",
+     "lod": 0,
+     "name": "Brooklyn Bridge",
+     "triangles": 121824
+    }
+   ],
+   "own_ground_from": [
+    "b_wtc_site",
+    "city_hall",
+    "federal_hall"
+   ],
+   "own_ground_m2": 33393.6,
+   "placed": 12,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 665978
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 355,
+    "curb": 672,
+    "median": 49,
+    "parking_lot": 8,
+    "plaza": 43,
+    "roadbed": 294,
+    "sidewalk": 167
+   },
+   "placed": 1588,
+   "radius_m": 522.0053551484609,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_0",
+    "t_-5_1",
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "triangles": 103147,
+   "triangles_cut_for_landmark_ground": 414,
+   "vertices": 106557
+  },
+  "props": {
+   "capped": null,
+   "impostor_cards_dropped": 5,
+   "impostor_faces_dropped": 0,
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 63,
+    "bike_rack": 22,
+    "bus_stop_sign": 22,
+    "citibike_dock": 5,
+    "flagpole": 19,
+    "hydrant": 62,
+    "mailbox": 2,
+    "manhole": 103,
+    "newsstand": 5,
+    "steam_vent": 3,
+    "street_lamp": 176,
+    "subway_emergency_exit": 1,
+    "subway_entrance": 41,
+    "subway_vent_grate": 43,
+    "tree": 26,
+    "waste_basket": 24
+   },
+   "placed": 617,
+   "radius_m": 250.0,
+   "rows_in_range": 798,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_1",
+    "t_-6_1"
+   ],
+   "tree_species_substituted": 2,
+   "triangles": 1039930,
+   "unmapped_kinds": {
+    "artwork": 5,
+    "cooling_tower": 68,
+    "curb_ramp": 104,
+    "drinking_fountain": 1,
+    "memorial": 3
+   }
+  },
+  "radius_m": 522.0053551484609,
+  "seconds": 66.37,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 1363,
+   "samples": 201,
+   "spacing_m": 2.0,
+   "triangles": 77274,
+   "water_bodies": [
+    {
+     "kind": "bay",
+     "name": "North Cove Yacht Harbor",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 0,
+   "z_max_m": 14.0,
+   "z_min_m": -1.63
+  },
+  "triangles": 3713979
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 522.0053551484609
+ },
+ "seconds": {
+  "render": 421.1,
+  "scene": 68.0,
+  "total": 489.1
+ },
+ "slug": "landmark_oculus",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 76.3,
+  "name": "the Oculus"
+ },
+ "sun": {
+  "azimuth_deg": 94.10866204366465,
+  "elevation_deg": 26.309143385828072,
+  "local": "2017-08-15T08:32:00-04:00",
+  "time_source": "EXIF DateTimeOriginal (minutes)",
+  "utc": "2017-08-15T12:32:00Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 282.4,
+  "lat": 40.7113,
+  "lon": -74.01,
+  "note": "Church Street at Dey/Fulton Street, east sidewalk, looking west across the plaza"
+ }
+}

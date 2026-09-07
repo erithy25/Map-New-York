@@ -1,0 +1,500 @@
+"""Recover real stepped-roof outlines from the CityGML LOD2 triangles (no ``bpy``).
+
+ADR-013 established that the NYC 3-D Building Model carries **flat multi-level massing**, not roof
+pitch: `roof_level_z` / `roof_level_area` in `buildings/roof_attrs.parquet` say *how high* and *how
+big* each roof level is, but not *where* it is.  The outlines are recoverable, because
+`data/processed/buildings/citygml/da*.parquet` publishes the LOD2 triangle soup per building:
+
+* ``tri_xyz``  — float32, ``(n, 3, 3)``, NYC_TM metres, z in NAVD88 metres.
+* ``tri_type`` — uint8 per triangle: **0 = ground, 1 = wall, 2 = roof** (verified over a 400-row
+  sample by face normal: type 0 and 2 are exactly horizontal — ``1 - |n_z|`` is 0.0 — and type 1
+  exactly vertical.  The row's ``n_ground`` / ``n_wall`` / ``n_roof`` columns count *surfaces*, not
+  triangles, so they are not the check; the triangle bbox reproducing the row's own
+  ``xmin``/``xmax``/``ymin``/``ymax``/``z_ground_min``/``z_roof_max`` to 0.0 m is what pins the
+  blob to NYC_TM.)
+
+Every roof triangle is horizontal, so its 2-D projection *is* the level outline.  Grouping the roof
+triangles by height and unioning each group gives the real per-level polygon, which this module then
+checks against the published `roof_level_area` before anything is built from it.
+
+Nothing here guesses.  A building whose recovered outlines do not reproduce the published areas, or
+whose levels do not tile its footprint, is rejected and falls back to the single-height shell.
+"""
+from __future__ import annotations
+
+import json
+import logging
+from dataclasses import dataclass
+from pathlib import Path
+
+import numpy as np
+import shapely
+from shapely.geometry import Polygon
+
+LOG = logging.getLogger("nycsim.buildings.roofsteps")
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+CITYGML_DIR = REPO_ROOT / "data" / "processed" / "buildings" / "citygml"
+INDEX_PATH = Path(__file__).resolve().parent / "citygml_tile_index.json"
+
+TRI_GROUND, TRI_WALL, TRI_ROOF = 0, 1, 2
+
+Z_CLUSTER_TOL_M = 0.15        # roof faces within this height belong to one level
+MIN_LEVEL_AREA_M2 = 4.0       # a level smaller than this is not a step, it is a bulkhead detail
+MIN_STEP_H_M = 1.0            # a step shallower than this is not worth the triangles
+AREA_TOL_REL = 0.02           # published vs recovered level area (the 2 % measured in the report)
+AREA_TOL_ABS_M2 = 1.5
+MAX_LEFTOVER_FRAC = 0.25      # footprint not covered by any recovered level
+MAX_REGIONS = 24              # disjoint plan regions per building (a triangle-budget guard)
+# The 2014 CityGML outline and the 2026 OTI footprint disagree by a few millimetres, so a step line
+# that should end on a wall stops just short of it and the wall builder never sees the step.  Region
+# vertices closer than this to the footprint boundary are pulled onto it (measured offsets are
+# under 1 cm; the step line itself is not moved).
+BOUNDARY_SNAP_M = 0.05
+# Both the regions and the footprint are finally re-snapped to the stage's own 2 cm footprint grid
+# (`shellgeom.SNAP_M`), which is what makes two regions cut from two different surveys share exact
+# vertices.  Nothing moves further than the tolerance the footprints already carry.
+REGION_GRID_M = 0.02
+# Vertex-insertion tolerance for `node_regions`: small enough that no vertex moves measurably,
+# large enough that a vertex sitting exactly on a neighbour's edge is seen as on it.
+NODE_TOL_M = 1e-7
+
+
+@dataclass
+class StepSet:
+    """Recovered levels for one building, in NYC_TM metres."""
+
+    bin: int
+    levels: list[tuple[float, Polygon]]        # (z of the level, outline), ascending z
+    z_roof_max: float
+    reason: str = "ok"                          # why it was rejected, when levels is empty
+
+    @property
+    def ok(self) -> bool:
+        return len(self.levels) >= 2
+
+
+# --------------------------------------------------------------------------- level recovery
+def recover_levels(tri_xyz: bytes, tri_type: bytes, *, z_tol: float = Z_CLUSTER_TOL_M,
+                   min_area: float = MIN_LEVEL_AREA_M2) -> list[tuple[float, Polygon]]:
+    """Group the roof triangles by height and union each group into a level outline."""
+    if not tri_xyz or not tri_type:
+        return []
+    tri = np.frombuffer(tri_xyz, dtype=np.float32).reshape(-1, 3, 3)
+    typ = np.frombuffer(tri_type, dtype=np.uint8)
+    if len(typ) != len(tri):
+        return []
+    roof = tri[typ == TRI_ROOF]
+    if len(roof) == 0:
+        return []
+    z = roof[:, :, 2].mean(axis=1).astype(np.float64)
+    order = np.argsort(z)
+    zs = z[order]
+    cuts = np.nonzero(np.diff(zs) > z_tol)[0] + 1
+    out: list[tuple[float, Polygon]] = []
+    for grp in np.split(order, cuts):
+        if len(grp) == 0:
+            continue
+        polys = []
+        for i in grp:
+            p = Polygon(roof[i][:, :2].astype(np.float64))
+            if p.is_valid and p.area > 1e-9:
+                polys.append(p)
+        if not polys:
+            continue
+        try:
+            # the roof faces of one level are a triangulation, so they do not overlap:
+            # coverage_union_all is the specialised (and much faster) operator for that
+            merged = shapely.coverage_union_all(polys)
+            if merged is None or merged.is_empty or not merged.is_valid:
+                raise ValueError("coverage union invalid")
+        except Exception:
+            try:
+                merged = shapely.union_all(polys).buffer(0)
+            except Exception:
+                continue
+        parts = [q for q in _iter_polygons(merged) if q.area >= min_area]
+        if not parts:
+            continue
+        out.append((float(z[grp].mean()), shapely.union_all(parts)))
+    out.sort(key=lambda t: t[0])
+    return out
+
+
+def resolve_overlaps(levels: list[tuple[float, Polygon]], *, min_area: float = 1e-9
+                     ) -> tuple[list[tuple[float, Polygon]], bool]:
+    """Make the recovered levels disjoint in plan, tallest first.
+
+    A LOD2 roof is *usually* a height field, so the level outlines are already disjoint — but about
+    one Midtown building in five has an overhang, a canopy or a re-used surface that makes two
+    levels overlap in plan (measured on ``t_-4_5``: median overlap 0.000 of the total roof area,
+    p90 0.065, max 0.416).  Seen from above, the taller surface is the one that is there, so the
+    overlap is removed from the *lower* level.  This is the projection the shell needs and it is
+    also what makes the areas comparable with the published ones: before it, an overlapping
+    building's levels sum to more than its footprint and the area gate rejected it.
+
+    Nothing is thrown away here beyond what the difference itself removes, so after this the level
+    areas sum to the area of their union — which is what the area gate then compares against the
+    published footprint.  Slivers left by the cut are dropped later, by ``partition_footprint``.
+
+    Returns ``(levels, changed)``.
+    """
+    if len(levels) < 2:
+        return levels, False
+    order = sorted(range(len(levels)), key=lambda i: -levels[i][0])
+    taken = None
+    kept: list[tuple[float, Polygon]] = []
+    changed = False
+    for i in order:
+        z, poly = levels[i]
+        if taken is not None:
+            try:
+                cut = poly.difference(taken)
+            except Exception:
+                cut = poly
+            if cut.is_empty:
+                changed = True
+                continue
+            if cut.area < poly.area - 1e-6:
+                changed = True
+            poly = cut
+        parts = [q for q in _iter_polygons(poly) if q.area >= min_area]
+        if not parts:
+            changed = True
+            continue
+        merged = shapely.union_all(parts)
+        kept.append((z, merged))
+        taken = merged if taken is None else shapely.union_all([taken, merged])
+    kept.sort(key=lambda t: t[0])
+    return kept, changed
+
+
+def _grid(poly: Polygon | None, grid: float = REGION_GRID_M) -> Polygon | None:
+    """Snap-round a region onto the stage's footprint grid, keeping the largest valid part."""
+    if poly is None or poly.is_empty:
+        return None
+    try:
+        g = shapely.set_precision(poly, grid, mode="valid_output")
+    except Exception:
+        return poly
+    parts = [q for q in _iter_polygons(g) if q.area > 0]
+    if not parts:
+        return None
+    return max(parts, key=lambda q: q.area)
+
+
+def snap_to_boundary(poly: Polygon, footprint: Polygon, tol: float = BOUNDARY_SNAP_M) -> Polygon | None:
+    """Pull region vertices that sit just off the footprint boundary exactly onto it.
+
+    A **corner** of the footprint is snapped to before its edges are: the 2014 outline and the 2026
+    footprint put the same corner a centimetre or two apart, and projecting the region's vertex onto
+    the nearest point of the *edge* leaves it that centimetre short of the corner.  The wall strip is
+    built on the footprint ring and the level cap on the region ring, so a corner they do not share
+    is a 2 cm slot in the shell — which is what made 43 % of stepped buildings fail to close and
+    silently revert to a flat cap.
+    """
+    from shapely.ops import nearest_points
+
+    bnd = footprint.boundary
+    corners = shapely.get_coordinates(footprint)
+    rings = []
+    for ring in [poly.exterior] + list(poly.interiors):
+        coords = shapely.get_coordinates(ring)
+        pts = shapely.points(coords)
+        d = shapely.distance(pts, bnd)
+        moved = coords.copy()
+        for i in np.nonzero((d >= 0.0) & (d < tol))[0]:
+            dc = np.hypot(corners[:, 0] - coords[i, 0], corners[:, 1] - coords[i, 1])
+            k = int(np.argmin(dc))
+            if dc[k] < tol:
+                moved[i] = corners[k]
+            elif d[i] > 0.0:
+                near = nearest_points(bnd, pts[i])[0]
+                moved[i] = (near.x, near.y)
+        if len(moved) >= 4:
+            moved[-1] = moved[0]
+        rings.append(moved)
+    try:
+        out = Polygon(rings[0], rings[1:])
+    except Exception:
+        return poly
+    if not out.is_valid:
+        out = out.buffer(0)
+        if out.geom_type != "Polygon" or out.is_empty:
+            return poly
+    return out
+
+
+def _iter_polygons(geom):
+    t = geom.geom_type
+    if t == "Polygon":
+        if not geom.is_empty:
+            yield geom
+    elif t in ("MultiPolygon", "GeometryCollection"):
+        for sub in geom.geoms:
+            yield from _iter_polygons(sub)
+
+
+def check_against_published(levels: list[tuple[float, Polygon]], pub_z, pub_area,
+                            footprint_area: float | None) -> tuple[bool, str, bool]:
+    """Validate the recovered outlines against what the CityGML stage published.
+
+    Returns ``(accept, reason, strict_per_level_match)``.
+
+    The gate is that the recovered levels **tile the building**: their (disjoint) areas must sum to
+    the CityGML ground footprint area within ``AREA_TOL_REL``.  That is the comparable quantity —
+    measured over the 623 multi-level buildings of the Midtown tile, the union of the recovered
+    levels divided by ``footprint_area_m2`` has median 1.0000 and its 5th percentile is also
+    1.0000, and the union of the *ground* surfaces reproduces the same column just as exactly, so
+    the roof levels really do cover the plan.  A *per-level* comparison disagrees for 17 % of
+    buildings purely because the height clustering here (0.15 m) splits or merges levels
+    differently from the publishing stage.
+    The levels reaching this check have already been made disjoint by ``resolve_overlaps``, so a
+    sum above the footprint area is no longer an overhang — it means the CityGML plan is genuinely
+    larger than the footprint the shell will be cut from, i.e. a different building.  Such a
+    building, and one whose levels leave a hole (sum < footprint), fails and falls back to the flat
+    cap; nothing is guessed.  ``strict_per_level_match`` reports
+    whether the stricter level-by-level comparison would also have passed, for the record.
+    """
+    if len(levels) < 2:
+        return False, "fewer than two levels recovered", False
+    rec_total = float(sum(p.area for _, p in levels))
+    if footprint_area and footprint_area > 0:
+        rel = abs(rec_total / float(footprint_area) - 1.0)
+        if rel > AREA_TOL_REL and abs(rec_total - float(footprint_area)) > AREA_TOL_ABS_M2:
+            return False, f"levels sum to {rec_total:.1f} m2 vs footprint {footprint_area:.1f} m2", False
+    if pub_area is not None:
+        # The published ``roof_level_area`` values are per level *before* overlaps are removed, so
+        # their sum double-counts an overhang and is an upper bound on the disjoint total, never an
+        # equality.  Only an excess is a defect.
+        pa = np.asarray(pub_area, dtype=np.float64)
+        pub_total = float(pa.sum())
+        if pub_total > 0 and rec_total > pub_total * (1.0 + AREA_TOL_REL) + AREA_TOL_ABS_M2:
+            return False, f"levels sum to {rec_total:.1f} m2 above the published {pub_total:.1f} m2", False
+
+    strict = False
+    if pub_z is not None and pub_area is not None:
+        pz = np.asarray(pub_z, dtype=np.float64)
+        pa = np.asarray(pub_area, dtype=np.float64)
+        if len(pz) == len(pa):
+            keep = pa >= MIN_LEVEL_AREA_M2
+            pz, pa = pz[keep], pa[keep]
+            if len(pz) == len(levels):
+                idx = np.argsort(pz)
+                strict = all(
+                    abs(rz - pz[j]) <= 0.5
+                    and abs(poly.area - pa[j]) <= max(AREA_TOL_ABS_M2, AREA_TOL_REL * pa[j])
+                    for (rz, poly), j in zip(levels, idx))
+    return True, "ok", strict
+
+
+# --------------------------------------------------------------------------- footprint partition
+def partition_footprint(footprint: Polygon, levels: list[tuple[float, Polygon]]
+                        ) -> tuple[list[tuple[Polygon, float]], str]:
+    """Cut the *real OTI footprint* into one region per recovered level.
+
+    The shell's plan stays the real 2026 footprint; the 2014 CityGML levels only say which part of
+    it is lower.  The largest region is computed last, as ``footprint − union(others)``, so the
+    regions tile the footprint exactly and adjacent regions share bit-identical boundaries — which
+    is what lets the step faces weld to the level caps.
+
+    The regions are deliberately *not* snapped to a grid afterwards: GEOS already returns exact
+    shared boundaries here, and snapping displaced the step/footprint crossing points by up to
+    7 mm, past the tolerance the wall builder uses to recognise a vertex as sitting on the ring.
+    """
+    if len(levels) < 2:
+        return [], "fewer than two levels"
+    area = footprint.area
+    if area <= 0:
+        return [], "empty footprint"
+    order = sorted(range(len(levels)), key=lambda i: -levels[i][1].area)
+    main = order[0]
+
+    taken = None
+    others: list[tuple[Polygon, float]] = []
+    for i in sorted(range(len(levels)), key=lambda i: -levels[i][0]):
+        if i == main:
+            continue
+        z, poly = levels[i]
+        try:
+            r = footprint.intersection(poly)
+            if taken is not None:
+                r = r.difference(taken)
+        except Exception:
+            continue
+        parts = [snap_to_boundary(p, footprint) for p in _iter_polygons(r)
+                 if p.area >= MIN_LEVEL_AREA_M2]
+        parts = [_grid(p) for p in parts if p is not None]
+        parts = [p for p in parts if p is not None and p.area >= MIN_LEVEL_AREA_M2]
+        if not parts:
+            continue
+        # each disjoint part is its own region: the shell builder needs single polygons, and two
+        # disconnected wings at the same height are independent steps anyway
+        for part in parts:
+            others.append((part, z))
+        reg = shapely.union_all(parts)
+        taken = reg if taken is None else shapely.union_all([taken, reg])
+
+    if not others:
+        return [], "no secondary level survives the footprint intersection"
+    try:
+        main_region = footprint.difference(taken)
+    except Exception:
+        return [], "main region difference failed"
+    main_parts = [_grid(p) for p in _iter_polygons(main_region) if p.area >= MIN_LEVEL_AREA_M2]
+    main_parts = [p for p in main_parts if p is not None and p.area >= MIN_LEVEL_AREA_M2]
+    if not main_parts:
+        return [], "main region vanished"
+
+    regions = [(p, levels[main][0]) for p in main_parts] + others
+    regions = node_regions(regions, footprint)
+    covered = sum(p.area for p, _ in regions)
+    if covered < (1.0 - MAX_LEFTOVER_FRAC) * area:
+        return [], f"regions cover only {covered / area:.2f} of the footprint"
+    zs = [z for _, z in regions]
+    if max(zs) - min(zs) < MIN_STEP_H_M:
+        return [], f"step of {max(zs) - min(zs):.2f} m is below the {MIN_STEP_H_M} m threshold"
+    if len(regions) > MAX_REGIONS:
+        return [], f"{len(regions)} plan regions exceeds the {MAX_REGIONS} cap"
+    return regions, "ok"
+
+
+def node_regions(regions: list[tuple[Polygon, float]], footprint: Polygon,
+                 tol: float = NODE_TOL_M) -> list[tuple[Polygon, float]]:
+    """Give every region ring the vertices its neighbours and the footprint put on it.
+
+    If a neighbour's corner landed in the middle of this region's edge and this region's ring ran
+    straight past it, the shell would triangulate the level cap on the coarse ring and the step face
+    on the fine one — a T-junction, and an open shell.  In practice GEOS has already noded the
+    regions against each other, because they come out of a cascade of differences of the same
+    footprint: measured over the 568 multi-level buildings of the Midtown tile this inserts **four**
+    vertices in total and changes no building's closure.  It is kept as the guard that makes the
+    invariant hold by construction rather than by trusting the overlay; the tolerance is a micron,
+    so nothing moves, only vertices appear.
+    """
+    if len(regions) < 2:
+        return regions
+    pts = np.vstack([shapely.get_coordinates(p) for p, _ in regions]
+                    + [shapely.get_coordinates(footprint)])
+    key = np.round(pts / max(tol, 1e-12)).astype(np.int64)
+    _, keep = np.unique(key, axis=0, return_index=True)
+    pts = pts[np.sort(keep)]
+    out: list[tuple[Polygon, float]] = []
+    for poly, z in regions:
+        rings = []
+        for ring in [poly.exterior] + list(poly.interiors):
+            co = np.asarray(ring.coords, dtype=np.float64)
+            new = [co[0]]
+            for k in range(len(co) - 1):
+                a, b = co[k], co[k + 1]
+                d = b - a
+                l2 = float(d @ d)
+                if l2 > 1e-18:
+                    t = ((pts - a) @ d) / l2
+                    proj = a + t[:, None] * d
+                    off = np.hypot(pts[:, 0] - proj[:, 0], pts[:, 1] - proj[:, 1])
+                    m = (t > 1e-9) & (t < 1.0 - 1e-9) & (off <= tol)
+                    if m.any():
+                        for pt in pts[m][np.argsort(t[m])]:
+                            new.append(pt)
+                new.append(b)
+            rings.append(np.asarray(new, dtype=np.float64))
+        try:
+            q = Polygon(rings[0], rings[1:])
+        except Exception:
+            q = poly
+        out.append((q if (q.is_valid and not q.is_empty) else poly, z))
+    return out
+
+
+# --------------------------------------------------------------------------- per-tile source access
+def build_tile_index(force: bool = False) -> dict[str, list[list[int]]]:
+    """Map each ``da*.parquet`` to the tiles it contains, so a tile opens one file, not twenty."""
+    if INDEX_PATH.exists() and not force:
+        try:
+            return json.loads(INDEX_PATH.read_text())["files"]
+        except Exception:
+            pass
+    import pyarrow.parquet as pq
+
+    files: dict[str, list[list[int]]] = {}
+    for p in sorted(CITYGML_DIR.glob("da*.parquet")):
+        try:
+            t = pq.read_table(p, columns=["tx", "ty"])
+        except Exception as exc:
+            LOG.warning("cannot index %s: %s", p, exc)
+            continue
+        tx = np.asarray(t.column("tx"))
+        ty = np.asarray(t.column("ty"))
+        pairs = np.unique(np.column_stack([tx, ty]), axis=0)
+        files[p.name] = [[int(a), int(b)] for a, b in pairs]
+    INDEX_PATH.write_text(json.dumps({"schema_version": 1, "files": files}, indent=1, sort_keys=True))
+    LOG.info("citygml tile index written: %d files", len(files))
+    return files
+
+
+_INDEX: dict[tuple[int, int], list[str]] | None = None
+
+
+def _files_for(tx: int, ty: int) -> list[str]:
+    global _INDEX
+    if _INDEX is None:
+        _INDEX = {}
+        for fname, pairs in build_tile_index().items():
+            for a, b in pairs:
+                _INDEX.setdefault((a, b), []).append(fname)
+    return _INDEX.get((tx, ty), [])
+
+
+def load_tile_steps(tile: str, *, min_levels: int = 2) -> tuple[dict[int, StepSet], dict[str, int]]:
+    """Recovered level outlines for every multi-level building in a tile, keyed by BIN."""
+    import pyarrow.compute as pc
+    import pyarrow.parquet as pq
+
+    tx, ty = (int(v) for v in tile[2:].split("_", 1))
+    stats = {"rows": 0, "candidates": 0, "recovered": 0, "rejected_area": 0, "rejected_geom": 0,
+             "strict_per_level_match": 0, "overlap_resolved": 0}
+    out: dict[int, StepSet] = {}
+    for fname in _files_for(tx, ty):
+        path = CITYGML_DIR / fname
+        if not path.exists():
+            continue
+        cols = ["bin", "tri_xyz", "tri_type", "roof_level_z", "roof_level_area",
+                "n_roof_levels", "z_roof_max", "footprint_area_m2"]
+        try:
+            tb = pq.read_table(path, columns=cols,
+                              filters=[("tx", "=", tx), ("ty", "=", ty)])
+        except Exception as exc:
+            LOG.warning("cannot read %s for %s: %s", path, tile, exc)
+            continue
+        _ = pc
+        stats["rows"] += tb.num_rows
+        bins = tb.column("bin").to_pylist()
+        nlev = tb.column("n_roof_levels").to_pylist()
+        zmax = tb.column("z_roof_max").to_pylist()
+        xyz = tb.column("tri_xyz").to_pylist()
+        typ = tb.column("tri_type").to_pylist()
+        lz = tb.column("roof_level_z").to_pylist()
+        la = tb.column("roof_level_area").to_pylist()
+        fa = tb.column("footprint_area_m2").to_pylist()
+        for i, b in enumerate(bins):
+            if (nlev[i] or 0) < min_levels:
+                continue
+            stats["candidates"] += 1
+            levels = recover_levels(xyz[i], typ[i])
+            if len(levels) >= min_levels:
+                levels, overlapped = resolve_overlaps(levels)
+                stats["overlap_resolved"] += int(overlapped)
+            if len(levels) < min_levels:
+                stats["rejected_geom"] += 1
+                out[int(b)] = StepSet(int(b), [], float(zmax[i] or 0.0), "too few levels recovered")
+                continue
+            ok, why, strict = check_against_published(levels, lz[i], la[i], fa[i])
+            if not ok:
+                stats["rejected_area"] += 1
+                out[int(b)] = StepSet(int(b), [], float(zmax[i] or 0.0), why)
+                continue
+            stats["recovered"] += 1
+            stats["strict_per_level_match"] += int(strict)
+            out[int(b)] = StepSet(int(b), levels, float(zmax[i] or levels[-1][0]), "ok")
+    return out, stats

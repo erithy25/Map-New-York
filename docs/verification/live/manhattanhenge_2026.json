@@ -1,0 +1,619 @@
+{
+ "year": 2026,
+ "generated_utc": "2026-09-06T11:50:34Z",
+ "observer": {
+  "latitude_deg": 40.7489,
+  "longitude_deg": -73.9711,
+  "elevation_m": 20.0,
+  "pressure_mbar": 1013.25,
+  "temperature_c": 15.0,
+  "atmos_refract_deg": 0.5667
+ },
+ "grid_azimuth_deg": 299.0,
+ "grid_azimuth_source": "docs/verification/live/manhattan_grid_azimuth.json (LION centrelines)",
+ "full_sun_elevation_deg": 0.5,
+ "half_sun_elevation_deg": 0.23332999999999998,
+ "tolerance_deg": 0.5,
+ "events": [
+  {
+   "kind": "half",
+   "local_date": "2026-05-25",
+   "utc": "2026-05-26T00:12:13.393574Z",
+   "local_time": "20:12:13",
+   "azimuth_deg": 298.6396,
+   "delta_from_grid_deg": -0.3604,
+   "best_in_season": false
+  },
+  {
+   "kind": "full",
+   "local_date": "2026-05-26",
+   "utc": "2026-05-27T00:11:10.158013Z",
+   "local_time": "20:11:10",
+   "azimuth_deg": 298.5715,
+   "delta_from_grid_deg": -0.4285,
+   "best_in_season": false
+  },
+  {
+   "kind": "half",
+   "local_date": "2026-05-26",
+   "utc": "2026-05-27T00:13:03.490907Z",
+   "local_time": "20:13:03",
+   "azimuth_deg": 298.8803,
+   "delta_from_grid_deg": -0.1197,
+   "best_in_season": false
+  },
+  {
+   "kind": "full",
+   "local_date": "2026-05-27",
+   "utc": "2026-05-28T00:11:59.041320Z",
+   "local_time": "20:11:59",
+   "azimuth_deg": 298.8031,
+   "delta_from_grid_deg": -0.1969,
+   "best_in_season": false
+  },
+  {
+   "kind": "half",
+   "local_date": "2026-05-27",
+   "utc": "2026-05-28T00:13:52.616955Z",
+   "local_time": "20:13:52",
+   "azimuth_deg": 299.1125,
+   "delta_from_grid_deg": 0.1125,
+   "best_in_season": true
+  },
+  {
+   "kind": "full",
+   "local_date": "2026-05-28",
+   "utc": "2026-05-29T00:12:46.953805Z",
+   "local_time": "20:12:46",
+   "azimuth_deg": 299.0263,
+   "delta_from_grid_deg": 0.0263,
+   "best_in_season": true
+  },
+  {
+   "kind": "half",
+   "local_date": "2026-05-28",
+   "utc": "2026-05-29T00:14:40.767262Z",
+   "local_time": "20:14:40",
+   "azimuth_deg": 299.3364,
+   "delta_from_grid_deg": 0.3364,
+   "best_in_season": false
+  },
+  {
+   "kind": "full",
+   "local_date": "2026-05-29",
+   "utc": "2026-05-30T00:13:33.824894Z",
+   "local_time": "20:13:33",
+   "azimuth_deg": 299.2409,
+   "delta_from_grid_deg": 0.2409,
+   "best_in_season": false
+  },
+  {
+   "kind": "full",
+   "local_date": "2026-05-30",
+   "utc": "2026-05-31T00:14:19.659404Z",
+   "local_time": "20:14:19",
+   "azimuth_deg": 299.447,
+   "delta_from_grid_deg": 0.447,
+   "best_in_season": false
+  },
+  {
+   "kind": "full",
+   "local_date": "2026-07-12",
+   "utc": "2026-07-13T00:22:17.080367Z",
+   "local_time": "20:22:17",
+   "azimuth_deg": 299.3945,
+   "delta_from_grid_deg": 0.3945,
+   "best_in_season": false
+  },
+  {
+   "kind": "full",
+   "local_date": "2026-07-13",
+   "utc": "2026-07-14T00:21:46.559304Z",
+   "local_time": "20:21:46",
+   "azimuth_deg": 299.1874,
+   "delta_from_grid_deg": 0.1874,
+   "best_in_season": false
+  },
+  {
+   "kind": "half",
+   "local_date": "2026-07-13",
+   "utc": "2026-07-14T00:23:40.445688Z",
+   "local_time": "20:23:40",
+   "azimuth_deg": 299.4974,
+   "delta_from_grid_deg": 0.4974,
+   "best_in_season": false
+  },
+  {
+   "kind": "full",
+   "local_date": "2026-07-14",
+   "utc": "2026-07-15T00:21:14.088346Z",
+   "local_time": "20:21:14",
+   "azimuth_deg": 298.9718,
+   "delta_from_grid_deg": -0.0282,
+   "best_in_season": true
+  },
+  {
+   "kind": "half",
+   "local_date": "2026-07-14",
+   "utc": "2026-07-15T00:23:07.741494Z",
+   "local_time": "20:23:07",
+   "azimuth_deg": 299.2812,
+   "delta_from_grid_deg": 0.2812,
+   "best_in_season": false
+  },
+  {
+   "kind": "full",
+   "local_date": "2026-07-15",
+   "utc": "2026-07-16T00:20:39.697477Z",
+   "local_time": "20:20:39",
+   "azimuth_deg": 298.7479,
+   "delta_from_grid_deg": -0.2521,
+   "best_in_season": false
+  },
+  {
+   "kind": "half",
+   "local_date": "2026-07-15",
+   "utc": "2026-07-16T00:22:33.081940Z",
+   "local_time": "20:22:33",
+   "azimuth_deg": 299.0565,
+   "delta_from_grid_deg": 0.0565,
+   "best_in_season": true
+  },
+  {
+   "kind": "full",
+   "local_date": "2026-07-16",
+   "utc": "2026-07-17T00:20:03.370269Z",
+   "local_time": "20:20:03",
+   "azimuth_deg": 298.5158,
+   "delta_from_grid_deg": -0.4842,
+   "best_in_season": false
+  },
+  {
+   "kind": "half",
+   "local_date": "2026-07-16",
+   "utc": "2026-07-17T00:21:56.511768Z",
+   "local_time": "20:21:56",
+   "azimuth_deg": 298.8237,
+   "delta_from_grid_deg": -0.1763,
+   "best_in_season": false
+  },
+  {
+   "kind": "half",
+   "local_date": "2026-07-17",
+   "utc": "2026-07-18T00:21:18.032690Z",
+   "local_time": "20:21:18",
+   "azimuth_deg": 298.5828,
+   "delta_from_grid_deg": -0.4172,
+   "best_in_season": false
+  }
+ ],
+ "published_nycparks_amnh": {
+  "source": "https://www.nycgovparks.org/highlights/manhattanhenge (AMNH Hayden Planetarium dates)",
+  "events": [
+   {
+    "kind": "half",
+    "local_date": "2026-05-28",
+    "published_local_time": "20:14",
+    "azimuth_deg": 299.2252,
+    "delta_from_grid_deg": 0.2252,
+    "apparent_elevation_deg": 0.3282,
+    "geometric_elevation_deg": -0.1735,
+    "declination_deg": 21.58808
+   },
+   {
+    "kind": "full",
+    "local_date": "2026-05-29",
+    "published_local_time": "20:13",
+    "azimuth_deg": 299.149,
+    "delta_from_grid_deg": 0.149,
+    "apparent_elevation_deg": 0.5802,
+    "geometric_elevation_deg": 0.121,
+    "declination_deg": 21.74071
+   },
+   {
+    "kind": "full",
+    "local_date": "2026-07-11",
+    "published_local_time": "20:20",
+    "azimuth_deg": 299.1438,
+    "delta_from_grid_deg": 0.1438,
+    "apparent_elevation_deg": 0.8964,
+    "geometric_elevation_deg": 0.4836,
+    "declination_deg": 21.99136
+   },
+   {
+    "kind": "half",
+    "local_date": "2026-07-12",
+    "published_local_time": "20:21",
+    "azimuth_deg": 299.1852,
+    "delta_from_grid_deg": 0.1852,
+    "apparent_elevation_deg": 0.6833,
+    "geometric_elevation_deg": 0.2401,
+    "declination_deg": 21.85011
+   }
+  ]
+ },
+ "best_event_declinations": [
+  {
+   "kind": "half",
+   "local_date": "2026-05-27",
+   "declination_deg": 21.4291
+  },
+  {
+   "kind": "full",
+   "local_date": "2026-05-28",
+   "declination_deg": 21.58795
+  },
+  {
+   "kind": "full",
+   "local_date": "2026-07-14",
+   "declination_deg": 21.54912
+  },
+  {
+   "kind": "half",
+   "local_date": "2026-07-15",
+   "declination_deg": 21.38928
+  }
+ ],
+ "sensitivity": [
+  {
+   "elevation_deg": 0.0,
+   "grid_azimuth_deg": 298.9,
+   "season": "spring",
+   "best_date": "2026-05-25",
+   "azimuth_deg": 298.915,
+   "delta_deg": 0.015,
+   "utc": "2026-05-26T00:13:54.073062Z"
+  },
+  {
+   "elevation_deg": 0.0,
+   "grid_azimuth_deg": 298.9,
+   "season": "summer",
+   "best_date": "2026-07-17",
+   "azimuth_deg": 298.857,
+   "delta_deg": -0.043,
+   "utc": "2026-07-18T00:22:58.555556Z"
+  },
+  {
+   "elevation_deg": 0.0,
+   "grid_azimuth_deg": 299.0,
+   "season": "spring",
+   "best_date": "2026-05-25",
+   "azimuth_deg": 298.915,
+   "delta_deg": -0.085,
+   "utc": "2026-05-26T00:13:54.073062Z"
+  },
+  {
+   "elevation_deg": 0.0,
+   "grid_azimuth_deg": 299.0,
+   "season": "summer",
+   "best_date": "2026-07-16",
+   "azimuth_deg": 299.099,
+   "delta_deg": 0.099,
+   "utc": "2026-07-17T00:23:37.265067Z"
+  },
+  {
+   "elevation_deg": 0.0,
+   "grid_azimuth_deg": 299.1,
+   "season": "spring",
+   "best_date": "2026-05-26",
+   "azimuth_deg": 299.156,
+   "delta_deg": 0.056,
+   "utc": "2026-05-27T00:14:44.400830Z"
+  },
+  {
+   "elevation_deg": 0.0,
+   "grid_azimuth_deg": 299.1,
+   "season": "summer",
+   "best_date": "2026-07-16",
+   "azimuth_deg": 299.099,
+   "delta_deg": -0.001,
+   "utc": "2026-07-17T00:23:37.265067Z"
+  },
+  {
+   "elevation_deg": 0.0,
+   "grid_azimuth_deg": 299.2,
+   "season": "spring",
+   "best_date": "2026-05-26",
+   "azimuth_deg": 299.156,
+   "delta_deg": -0.044,
+   "utc": "2026-05-27T00:14:44.400830Z"
+  },
+  {
+   "elevation_deg": 0.0,
+   "grid_azimuth_deg": 299.2,
+   "season": "summer",
+   "best_date": "2026-07-16",
+   "azimuth_deg": 299.099,
+   "delta_deg": -0.101,
+   "utc": "2026-07-17T00:23:37.265067Z"
+  },
+  {
+   "elevation_deg": 0.25,
+   "grid_azimuth_deg": 298.9,
+   "season": "spring",
+   "best_date": "2026-05-26",
+   "azimuth_deg": 298.861,
+   "delta_deg": -0.039,
+   "utc": "2026-05-27T00:12:56.317939Z"
+  },
+  {
+   "elevation_deg": 0.25,
+   "grid_azimuth_deg": 298.9,
+   "season": "summer",
+   "best_date": "2026-07-16",
+   "azimuth_deg": 298.804,
+   "delta_deg": -0.096,
+   "utc": "2026-07-17T00:21:49.371771Z"
+  },
+  {
+   "elevation_deg": 0.25,
+   "grid_azimuth_deg": 299.0,
+   "season": "spring",
+   "best_date": "2026-05-27",
+   "azimuth_deg": 299.093,
+   "delta_deg": 0.093,
+   "utc": "2026-05-28T00:13:45.464991Z"
+  },
+  {
+   "elevation_deg": 0.25,
+   "grid_azimuth_deg": 299.0,
+   "season": "summer",
+   "best_date": "2026-07-15",
+   "azimuth_deg": 299.037,
+   "delta_deg": 0.037,
+   "utc": "2026-07-16T00:22:25.932395Z"
+  },
+  {
+   "elevation_deg": 0.25,
+   "grid_azimuth_deg": 299.1,
+   "season": "spring",
+   "best_date": "2026-05-27",
+   "azimuth_deg": 299.093,
+   "delta_deg": -0.007,
+   "utc": "2026-05-28T00:13:45.464991Z"
+  },
+  {
+   "elevation_deg": 0.25,
+   "grid_azimuth_deg": 299.1,
+   "season": "summer",
+   "best_date": "2026-07-15",
+   "azimuth_deg": 299.037,
+   "delta_deg": -0.063,
+   "utc": "2026-07-16T00:22:25.932395Z"
+  },
+  {
+   "elevation_deg": 0.25,
+   "grid_azimuth_deg": 299.2,
+   "season": "spring",
+   "best_date": "2026-05-27",
+   "azimuth_deg": 299.093,
+   "delta_deg": -0.107,
+   "utc": "2026-05-28T00:13:45.464991Z"
+  },
+  {
+   "elevation_deg": 0.25,
+   "grid_azimuth_deg": 299.2,
+   "season": "summer",
+   "best_date": "2026-07-14",
+   "azimuth_deg": 299.262,
+   "delta_deg": 0.062,
+   "utc": "2026-07-15T00:23:00.552129Z"
+  },
+  {
+   "elevation_deg": 0.5,
+   "grid_azimuth_deg": 298.9,
+   "season": "spring",
+   "best_date": "2026-05-27",
+   "azimuth_deg": 298.803,
+   "delta_deg": -0.097,
+   "utc": "2026-05-28T00:11:59.041320Z"
+  },
+  {
+   "elevation_deg": 0.5,
+   "grid_azimuth_deg": 298.9,
+   "season": "summer",
+   "best_date": "2026-07-14",
+   "azimuth_deg": 298.972,
+   "delta_deg": 0.072,
+   "utc": "2026-07-15T00:21:14.088346Z"
+  },
+  {
+   "elevation_deg": 0.5,
+   "grid_azimuth_deg": 299.0,
+   "season": "spring",
+   "best_date": "2026-05-28",
+   "azimuth_deg": 299.026,
+   "delta_deg": 0.026,
+   "utc": "2026-05-29T00:12:46.953805Z"
+  },
+  {
+   "elevation_deg": 0.5,
+   "grid_azimuth_deg": 299.0,
+   "season": "summer",
+   "best_date": "2026-07-14",
+   "azimuth_deg": 298.972,
+   "delta_deg": -0.028,
+   "utc": "2026-07-15T00:21:14.088346Z"
+  },
+  {
+   "elevation_deg": 0.5,
+   "grid_azimuth_deg": 299.1,
+   "season": "spring",
+   "best_date": "2026-05-28",
+   "azimuth_deg": 299.026,
+   "delta_deg": -0.074,
+   "utc": "2026-05-29T00:12:46.953805Z"
+  },
+  {
+   "elevation_deg": 0.5,
+   "grid_azimuth_deg": 299.1,
+   "season": "summer",
+   "best_date": "2026-07-13",
+   "azimuth_deg": 299.187,
+   "delta_deg": 0.087,
+   "utc": "2026-07-14T00:21:46.559304Z"
+  },
+  {
+   "elevation_deg": 0.5,
+   "grid_azimuth_deg": 299.2,
+   "season": "spring",
+   "best_date": "2026-05-29",
+   "azimuth_deg": 299.241,
+   "delta_deg": 0.041,
+   "utc": "2026-05-30T00:13:33.824894Z"
+  },
+  {
+   "elevation_deg": 0.5,
+   "grid_azimuth_deg": 299.2,
+   "season": "summer",
+   "best_date": "2026-07-13",
+   "azimuth_deg": 299.187,
+   "delta_deg": -0.013,
+   "utc": "2026-07-14T00:21:46.559304Z"
+  },
+  {
+   "elevation_deg": 0.75,
+   "grid_azimuth_deg": 298.9,
+   "season": "spring",
+   "best_date": "2026-05-29",
+   "azimuth_deg": 298.956,
+   "delta_deg": 0.056,
+   "utc": "2026-05-30T00:11:49.032170Z"
+  },
+  {
+   "elevation_deg": 0.75,
+   "grid_azimuth_deg": 298.9,
+   "season": "summer",
+   "best_date": "2026-07-13",
+   "azimuth_deg": 298.903,
+   "delta_deg": 0.003,
+   "utc": "2026-07-14T00:20:01.923509Z"
+  },
+  {
+   "elevation_deg": 0.75,
+   "grid_azimuth_deg": 299.0,
+   "season": "spring",
+   "best_date": "2026-05-29",
+   "azimuth_deg": 298.956,
+   "delta_deg": -0.044,
+   "utc": "2026-05-30T00:11:49.032170Z"
+  },
+  {
+   "elevation_deg": 0.75,
+   "grid_azimuth_deg": 299.0,
+   "season": "summer",
+   "best_date": "2026-07-13",
+   "azimuth_deg": 298.903,
+   "delta_deg": -0.097,
+   "utc": "2026-07-14T00:20:01.923509Z"
+  },
+  {
+   "elevation_deg": 0.75,
+   "grid_azimuth_deg": 299.1,
+   "season": "spring",
+   "best_date": "2026-05-30",
+   "azimuth_deg": 299.162,
+   "delta_deg": 0.062,
+   "utc": "2026-05-31T00:12:34.650025Z"
+  },
+  {
+   "elevation_deg": 0.75,
+   "grid_azimuth_deg": 299.1,
+   "season": "summer",
+   "best_date": "2026-07-12",
+   "azimuth_deg": 299.11,
+   "delta_deg": 0.01,
+   "utc": "2026-07-13T00:20:32.227502Z"
+  },
+  {
+   "elevation_deg": 0.75,
+   "grid_azimuth_deg": 299.2,
+   "season": "spring",
+   "best_date": "2026-05-30",
+   "azimuth_deg": 299.162,
+   "delta_deg": -0.038,
+   "utc": "2026-05-31T00:12:34.650025Z"
+  },
+  {
+   "elevation_deg": 0.75,
+   "grid_azimuth_deg": 299.2,
+   "season": "summer",
+   "best_date": "2026-07-12",
+   "azimuth_deg": 299.11,
+   "delta_deg": -0.09,
+   "utc": "2026-07-13T00:20:32.227502Z"
+  },
+  {
+   "elevation_deg": 1.0,
+   "grid_azimuth_deg": 298.9,
+   "season": "spring",
+   "best_date": "2026-05-30",
+   "azimuth_deg": 298.883,
+   "delta_deg": -0.017,
+   "utc": "2026-05-31T00:10:51.604012Z"
+  },
+  {
+   "elevation_deg": 1.0,
+   "grid_azimuth_deg": 298.9,
+   "season": "summer",
+   "best_date": "2026-07-12",
+   "azimuth_deg": 298.832,
+   "delta_deg": -0.068,
+   "utc": "2026-07-13T00:18:49.337371Z"
+  },
+  {
+   "elevation_deg": 1.0,
+   "grid_azimuth_deg": 299.0,
+   "season": "spring",
+   "best_date": "2026-05-31",
+   "azimuth_deg": 299.079,
+   "delta_deg": 0.079,
+   "utc": "2026-06-01T00:11:35.939775Z"
+  },
+  {
+   "elevation_deg": 1.0,
+   "grid_azimuth_deg": 299.0,
+   "season": "summer",
+   "best_date": "2026-07-11",
+   "azimuth_deg": 299.029,
+   "delta_deg": 0.029,
+   "utc": "2026-07-12T00:19:17.493981Z"
+  },
+  {
+   "elevation_deg": 1.0,
+   "grid_azimuth_deg": 299.1,
+   "season": "spring",
+   "best_date": "2026-05-31",
+   "azimuth_deg": 299.079,
+   "delta_deg": -0.021,
+   "utc": "2026-06-01T00:11:35.939775Z"
+  },
+  {
+   "elevation_deg": 1.0,
+   "grid_azimuth_deg": 299.1,
+   "season": "summer",
+   "best_date": "2026-07-11",
+   "azimuth_deg": 299.029,
+   "delta_deg": -0.071,
+   "utc": "2026-07-12T00:19:17.493981Z"
+  },
+  {
+   "elevation_deg": 1.0,
+   "grid_azimuth_deg": 299.2,
+   "season": "spring",
+   "best_date": "2026-06-01",
+   "azimuth_deg": 299.266,
+   "delta_deg": 0.066,
+   "utc": "2026-06-02T00:12:19.140913Z"
+  },
+  {
+   "elevation_deg": 1.0,
+   "grid_azimuth_deg": 299.2,
+   "season": "summer",
+   "best_date": "2026-07-10",
+   "azimuth_deg": 299.218,
+   "delta_deg": 0.018,
+   "utc": "2026-07-11T00:19:43.720704Z"
+  }
+ ]
+}

@@ -1,0 +1,28 @@
+{
+ "artist": "Kaagootaabaa",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 5308050,
+ "duration_s": 409.05,
+ "file": "rock/bravetruthforce_1_wacksabbath.ogg",
+ "gain_db": -4.8,
+ "licence": "CC-BY-4.0",
+ "licence_url": "http://creativecommons.org/licenses/by/4.0/",
+ "loudness_lufs": -9.2,
+ "original_filename": "1-wackSabbath.mp3",
+ "recorded_at": "2026-09-06T12:15:55Z",
+ "schema_version": 1,
+ "sha256": "fc90dc344e9a9b6e4ab81a63b027f42498bd16936db6e8fc836ea0dbc2fc8eaf",
+ "source_page": "https://archive.org/details/BraveTruthForce",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/BraveTruthForce/1-wackSabbath.mp3",
+ "title": "1-Wack Sabbath",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

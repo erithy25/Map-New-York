@@ -1,0 +1,28 @@
+{
+ "artist": "O. Henry; read by LibriVox volunteers",
+ "attribution_note": "LibriVox recordings are in the public domain; text is public domain (pre-1930 US).",
+ "bytes": 5590428,
+ "duration_s": 794.02,
+ "file": "talk/fourmillion_03_ohenry.ogg",
+ "gain_db": 7.8,
+ "licence": "Public Domain (LibriVox; CC PDM/CC0)",
+ "licence_url": "http://creativecommons.org/licenses/publicdomain/",
+ "loudness_lufs": -23.8,
+ "original_filename": "fourmillion_03_ohenry.mp3",
+ "recorded_at": "2026-09-06T12:26:19Z",
+ "schema_version": 1,
+ "sha256": "a68726a49c42a6613498d90789168269e9e982731a9c32bf0b07f7535f0cd80f",
+ "source_page": "https://archive.org/details/four_million_librivox",
+ "source_site": "archive.org (LibriVox)",
+ "source_url": "https://archive.org/download/four_million_librivox/fourmillion_03_ohenry.mp3",
+ "title": "The Four Million \u2014 The Cosmopolite in a Cafe",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": true,
+  "quality": 1.5,
+  "sample_rate": 32000,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

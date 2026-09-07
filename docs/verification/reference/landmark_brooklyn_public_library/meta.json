@@ -1,0 +1,207 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_brooklyn_public_library",
+ "name": "Brooklyn Public Library, Central Library",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.673327,
+  "lon": -73.969215,
+  "azimuth_deg": 140.0,
+  "note": "Grand Army Plaza north-west of the library, about 120 m from the entrance, looking south-east at the gilded Art Deco portal",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.6725,
+  "lon": -73.9683,
+  "name": "Brooklyn Public Library, Central Library"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Brooklyn Public Library\" Central Library Grand Army Plaza",
+  "\"Brooklyn Public Library\" gilded entrance Art Deco"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T13:28:33Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 130,
+ "candidates_eligible": 58,
+ "rejections": {
+  "too_small": 9,
+  "night_for_day_item": 1,
+  "keywords": 48,
+  "licence": 3,
+  "not_jpeg": 5,
+  "not_photo": 1,
+  "too_old": 2,
+  "excluded": 3
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Brooklyn Public Library (93880p).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Brooklyn_Public_Library_(93880p).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Brooklyn_Public_Library_%2893880p%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Brooklyn_Public_Library_%2893880p%29.jpg/1920px-Brooklyn_Public_Library_%2893880p%29.jpg",
+   "author": "Rhododendrites",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-07-09 17:03:03",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.672759,
+    "lon": -73.968936
+   },
+   "original_width": 7999,
+   "original_height": 4657,
+   "width": 1920,
+   "height": 1118,
+   "bytes": 522075,
+   "sha256": "e9c814259fd934f95e067ba02c689db0b2825ba642bebb86792ec1b4597b11a7",
+   "mean_luminance": 134.4,
+   "description": "Brooklyn Public Library",
+   "categories": [
+    "Exterior of the Central Library (Brooklyn Public Library)",
+    "New York City photographs taken on 2021-07-22",
+    "Self-published work",
+    "Files uploaded by Rhododendrites (all)",
+    "Files with coordinates missing SDC location of creation",
+    "Prospect Park in 2021",
+    "Clouds and blue sky in New York City",
+    "July 2021 in Brooklyn, New York City",
+    "Photographs taken by Rhododendrites - unsorted Brooklyn",
+    "Files by Rhododendrites - 2021-07"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 16.4,
+   "estimated_viewpoint": {
+    "lat": 40.672759,
+    "lon": -73.968936,
+    "azimuth_deg": 118.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.67276, -73.96894) is 61 m from Brooklyn Public Library, Central Library (40.67250, -73.96830) and 67 m from the standard viewpoint; the azimuth 118 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Brooklyn Public Library (93880p).jpg\" by Rhododendrites, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Brooklyn_Public_Library_(93880p).jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Brooklyn Public Library - Central Library - 2026 (55268462423).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Brooklyn_Public_Library_-_Central_Library_-_2026_(55268462423).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/81/Brooklyn_Public_Library_-_Central_Library_-_2026_%2855268462423%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Brooklyn_Public_Library_-_Central_Library_-_2026_%2855268462423%29.jpg/1920px-Brooklyn_Public_Library_-_Central_Library_-_2026_%2855268462423%29.jpg",
+   "author": "ajay_suresh",
+   "credit": "Brooklyn Public Library - Central Library - 2026",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2026-04-23 12:44",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.673177,
+    "lon": -73.969626
+   },
+   "original_width": 6835,
+   "original_height": 3845,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 567180,
+   "sha256": "c59fa917f6ab0f28bec3e7b960fafe26aab5e566f2eb4b945ad023aebe89288c",
+   "mean_luminance": 181.1,
+   "description": "Brooklyn, NY",
+   "categories": [
+    "Exterior of the Central Library (Brooklyn Public Library)",
+    "Flickr images missing SDC inception",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Libraries in the United States photographed in 2026",
+    "April 2026 in Brooklyn, New York City",
+    "New York City photographs taken on 2026-04-23",
+    "Flickr images missing SDC published in",
+    "2026 New York City photographs by ajay suresh"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 15.2,
+   "estimated_viewpoint": {
+    "lat": 40.673177,
+    "lon": -73.969626,
+    "azimuth_deg": 123.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.67318, -73.96963) is 135 m from Brooklyn Public Library, Central Library (40.67250, -73.96830) and 38 m from the standard viewpoint; the azimuth 124 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Brooklyn Public Library - Central Library - 2026 (55268462423).jpg\" by ajay_suresh, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Brooklyn_Public_Library_-_Central_Library_-_2026_(55268462423).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:07132023 Brooklyn Central Library Jay Z Opening Day.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:07132023_Brooklyn_Central_Library_Jay_Z_Opening_Day.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/19/07132023_Brooklyn_Central_Library_Jay_Z_Opening_Day.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/07132023_Brooklyn_Central_Library_Jay_Z_Opening_Day.jpg/1920px-07132023_Brooklyn_Central_Library_Jay_Z_Opening_Day.jpg",
+   "author": "Wil540 art",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-07-13 18:55:13",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.672706,
+    "lon": -73.969178
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 665113,
+   "sha256": "69cebddfa7ee2cf24be021dafb8ceab3b9f5f624832d0a5a09b1546d0ce953f2",
+   "mean_luminance": 126.5,
+   "description": "Brooklyn Central Library during the opening of the Jay-Z Book of Hov exhibit on opening day",
+   "categories": [
+    "Jay-Z",
+    "Exterior of the Central Library (Brooklyn Public Library)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Libraries in the United States photographed in 2023",
+    "United States photographs taken on 2023-07-13",
+    "July 2023 in Brooklyn, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 15.2,
+   "estimated_viewpoint": {
+    "lat": 40.672706,
+    "lon": -73.969178,
+    "azimuth_deg": 107.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.67271, -73.96918) is 78 m from Brooklyn Public Library, Central Library (40.67250, -73.96830) and 69 m from the standard viewpoint; the azimuth 107 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"07132023 Brooklyn Central Library Jay Z Opening Day.jpg\" by Wil540 art, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:07132023_Brooklyn_Central_Library_Jay_Z_Opening_Day.jpg"
+  }
+ ]
+}

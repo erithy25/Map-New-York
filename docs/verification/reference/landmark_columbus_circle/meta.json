@@ -1,0 +1,209 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_columbus_circle",
+ "name": "Columbus Circle",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7686,
+  "lon": -73.981,
+  "azimuth_deg": 258.8,
+  "note": "Merchants' Gate (south-west corner of Central Park), looking south-west across the circle to the twin towers",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7683,
+  "lon": -73.983,
+  "name": "Deutsche Bank Center (formerly Time Warner Center)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Columbus Circle\" Manhattan",
+  "\"Columbus Circle\" Time Warner Center Deutsche Bank Center"
+ ],
+ "geosearch_radius_m": 200,
+ "fetched_at": "2026-09-06T12:28:35Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 130,
+ "candidates_eligible": 49,
+ "rejections": {
+  "excluded": 27,
+  "too_old": 22,
+  "too_small": 15,
+  "not_photo": 1,
+  "indoor": 4,
+  "keywords": 11,
+  "night_for_day_item": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:At New York City 2024 239.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:At_New_York_City_2024_239.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/91/At_New_York_City_2024_239.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/At_New_York_City_2024_239.jpg/1920px-At_New_York_City_2024_239.jpg",
+   "author": "Photograph by Mike Peel ( www.mikepeel.net ).",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.769017,
+    "lon": -73.981407
+   },
+   "original_width": 6960,
+   "original_height": 4640,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 793542,
+   "sha256": "d4856be7c9446443049a9a4812d523ee7be1407591d373108531fd5096121350",
+   "mean_luminance": 119.0,
+   "description": "New York City Fire Department ambulance rounds Columbus Circle in 2024",
+   "categories": [
+    "Columbus Circle",
+    "Ambulances of the New York City Fire Department",
+    "Starbucks Coffee in New York City",
+    "Uploaded with LrMediaWiki",
+    "Vehicles in Manhattan, New York City",
+    "Files with coordinates missing SDC location of creation",
+    "Midtown Manhattan in 2024",
+    "New York City photographs taken on 2024-03-03",
+    "March 2024 in Manhattan, New York City",
+    "Nordstrom stores in New York (state)",
+    "Photos by Mike Peel using a Canon EOS 90D",
+    "Photos by Mike Peel of New York City in 2024"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Columbus Circle\" Manhattan",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.769017,
+    "lon": -73.981407,
+    "azimuth_deg": 239.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76902, -73.98141) is 156 m from Deutsche Bank Center (formerly Time Warner Center) (40.76830, -73.98300) and 58 m from the standard viewpoint; the azimuth 239 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"At New York City 2024 239.jpg\" by Photograph by Mike Peel ( www.mikepeel.net )., CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:At_New_York_City_2024_239.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:NYPD Ford Explorer at Columbus Circle 20240628.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:NYPD_Ford_Explorer_at_Columbus_Circle_20240628.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/4d/NYPD_Ford_Explorer_at_Columbus_Circle_20240628.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/NYPD_Ford_Explorer_at_Columbus_Circle_20240628.jpg/1920px-NYPD_Ford_Explorer_at_Columbus_Circle_20240628.jpg",
+   "author": "VynedJ",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2024-06-28 11:29:04",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.768585,
+    "lon": -73.981672
+   },
+   "original_width": 2705,
+   "original_height": 1922,
+   "width": 1920,
+   "height": 1364,
+   "bytes": 889039,
+   "sha256": "67591467988d392365cbae7e94360c201cf188493fe6df3443b3d69dbe3bc4ee",
+   "mean_luminance": 114.6,
+   "description": "NYPD's Ford Explorer parked at Columbus Circle, Manhattan, New York City.",
+   "categories": [
+    "Columbus Circle",
+    "Self-published work",
+    "Creative Commons Attribution 4.0 missing SDC copyright license",
+    "Creative Commons Attribution missing SDC copyright status",
+    "Self-published work missing SDC copyright license",
+    "Files with coordinates missing SDC location of creation",
+    "New York City photographs taken on 2024-06-28",
+    "June 2024 in Manhattan, New York City",
+    "Parked automobiles in New York City",
+    "Ford Explorer (fifth generation, NYPD)",
+    "Taken with Samsung Galaxy A55 5G",
+    "Images by User:VynedJ"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.768585,
+    "lon": -73.981672,
+    "azimuth_deg": 254.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76859, -73.98167) is 116 m from Deutsche Bank Center (formerly Time Warner Center) (40.76830, -73.98300) and 57 m from the standard viewpoint; the azimuth 254 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"NYPD Ford Explorer at Columbus Circle 20240628.jpg\" by VynedJ, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:NYPD_Ford_Explorer_at_Columbus_Circle_20240628.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:March for our lives march passing Columbus Circle NYC (27123512198).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:March_for_our_lives_march_passing_Columbus_Circle_NYC_(27123512198).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/37/March_for_our_lives_march_passing_Columbus_Circle_NYC_%2827123512198%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/March_for_our_lives_march_passing_Columbus_Circle_NYC_%2827123512198%29.jpg/1920px-March_for_our_lives_march_passing_Columbus_Circle_NYC_%2827123512198%29.jpg",
+   "author": "Paul Wasneski",
+   "credit": "March for our lives march passing Columbus Circle NYC",
+   "license": {
+    "short_name": "Public domain",
+    "url": "https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain",
+    "template": "pd"
+   },
+   "date_taken": "2018-03-24 14:26",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.768555,
+    "lon": -73.981684
+   },
+   "original_width": 6480,
+   "original_height": 4320,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 758371,
+   "sha256": "30bef223b32246a229353615b55e05d3ff1710af791f7e04779d505ee2644a2a",
+   "mean_luminance": 86.6,
+   "description": "March for our lives march passing Columbus Circle NYC",
+   "categories": [
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "March for Our Lives 24 March 2018 in New York City",
+    "PD-author-FlickrPDM",
+    "Files from Paul Wasneski Flickr stream"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.45,
+   "estimated_viewpoint": {
+    "lat": 40.768555,
+    "lon": -73.981684,
+    "azimuth_deg": 255.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76855, -73.98168) is 114 m from Deutsche Bank Center (formerly Time Warner Center) (40.76830, -73.98300) and 58 m from the standard viewpoint; the azimuth 256 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"March for our lives march passing Columbus Circle NYC (27123512198).jpg\" by Paul Wasneski, Public domain (https://commons.wikimedia.org/wiki/Commons:Licensing#Material_in_the_public_domain), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:March_for_our_lives_march_passing_Columbus_Circle_NYC_(27123512198).jpg"
+  }
+ ]
+}

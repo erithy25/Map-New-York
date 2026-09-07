@@ -1,0 +1,172 @@
+{
+ "schema_version": 1,
+ "slug": "street_nyc_traffic_signals",
+ "name": "NYC traffic signals and pedestrian signals (close-ups)",
+ "group": "streetscape",
+ "viewpoint": {
+  "lat": 40.755,
+  "lon": -73.984,
+  "azimuth_deg": 0.0,
+  "note": "typical Midtown intersection corner (representative; close-up references, not a view)",
+  "representative": true
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 4,
+ "queries": [
+  "New York City traffic light signal mast arm",
+  "New York City pedestrian signal countdown walk"
+ ],
+ "geosearch_radius_m": 0,
+ "fetched_at": "2026-09-06T13:42:15Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 4,
+ "candidates_eligible": 3,
+ "rejections": {
+  "keywords": 1
+ },
+ "exhausted": true,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Countdown signal NYC walk symbol 1.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Countdown_signal_NYC_walk_symbol_1.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Countdown_signal_NYC_walk_symbol_1.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Countdown_signal_NYC_walk_symbol_1.jpg/1920px-Countdown_signal_NYC_walk_symbol_1.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 3.0",
+    "url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "template": "cc-by-sa-3.0"
+   },
+   "date_taken": "2013-10-25 12:33:12",
+   "date_source": "DateTimeOriginal",
+   "year": 2013,
+   "camera_gps": null,
+   "original_width": 1936,
+   "original_height": 2592,
+   "width": 1920,
+   "height": 2571,
+   "bytes": 1637670,
+   "sha256": "1b2cecba51443788a074ec9444461a267357165ac37ff2666f928b8a6af80894",
+   "mean_luminance": 96.9,
+   "description": "Dialight countdown signal walk symbol in New York City, NY, in October 2013",
+   "categories": [
+    "Self-published work",
+    "Pedestrian signals in Manhattan, New York City",
+    "Photographs by Epicgenius"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:New York City pedestrian signal countdown walk",
+   "score": 4.5,
+   "estimated_viewpoint": {
+    "lat": 40.755,
+    "lon": -73.984,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (typical Midtown intersection corner (representative; close-up references, not a view)) and the azimuth 0 deg is the heading of the street/view axis at that position. The subject is generic, so this position is representative of the type of scene, not where this specific photo was taken."
+   },
+   "attribution": "\"Countdown signal NYC walk symbol 1.jpg\" by Epicgenius, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Countdown_signal_NYC_walk_symbol_1.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Countdown signal NYC dontwalk symbol 2.JPG",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Countdown_signal_NYC_dontwalk_symbol_2.JPG",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/44/Countdown_signal_NYC_dontwalk_symbol_2.JPG",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Countdown_signal_NYC_dontwalk_symbol_2.JPG/1920px-Countdown_signal_NYC_dontwalk_symbol_2.JPG",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 3.0",
+    "url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "template": "cc-by-sa-3.0"
+   },
+   "date_taken": "2013-10-24 16:25:05",
+   "date_source": "DateTimeOriginal",
+   "year": 2013,
+   "camera_gps": null,
+   "original_width": 1936,
+   "original_height": 2592,
+   "width": 1920,
+   "height": 2571,
+   "bytes": 1320694,
+   "sha256": "a5cdb07279dc437e3d825b56cda21b29e4a544176626ddd1dbf64fcb3edfdda5",
+   "mean_luminance": 118.4,
+   "description": "GE countdown signal don't walk symbol in New York City, NY, in October 2013",
+   "categories": [
+    "Taken with iPad",
+    "Self-published work",
+    "Pedestrian signals in Manhattan, New York City",
+    "Photographs by Epicgenius"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:New York City pedestrian signal countdown walk",
+   "score": 4.5,
+   "estimated_viewpoint": {
+    "lat": 40.755,
+    "lon": -73.984,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (typical Midtown intersection corner (representative; close-up references, not a view)) and the azimuth 0 deg is the heading of the street/view axis at that position. The subject is generic, so this position is representative of the type of scene, not where this specific photo was taken."
+   },
+   "attribution": "\"Countdown signal NYC dontwalk symbol 2.JPG\" by Epicgenius, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Countdown_signal_NYC_dontwalk_symbol_2.JPG"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Countdown signal NYC dontwalk symbol 1.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Countdown_signal_NYC_dontwalk_symbol_1.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/97/Countdown_signal_NYC_dontwalk_symbol_1.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Countdown_signal_NYC_dontwalk_symbol_1.jpg/1920px-Countdown_signal_NYC_dontwalk_symbol_1.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 3.0",
+    "url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "template": "cc-by-sa-3.0"
+   },
+   "date_taken": "2013-10-25 12:39:06",
+   "date_source": "DateTimeOriginal",
+   "year": 2013,
+   "camera_gps": null,
+   "original_width": 1936,
+   "original_height": 2592,
+   "width": 1920,
+   "height": 2571,
+   "bytes": 1480680,
+   "sha256": "25198e115c938e1d43fa5066bacf203823ca3d692643bde8584267a44ff9beaf",
+   "mean_luminance": 102.8,
+   "description": "Dialight countdown signal Don't Walk symbol, New York City, NY in October 2013.",
+   "categories": [
+    "Self-published work",
+    "Ladder crosswalks in New York City",
+    "Pedestrian signals in Manhattan, New York City",
+    "Photographs by Epicgenius"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:New York City pedestrian signal countdown walk",
+   "score": 4.5,
+   "estimated_viewpoint": {
+    "lat": 40.755,
+    "lon": -73.984,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (typical Midtown intersection corner (representative; close-up references, not a view)) and the azimuth 0 deg is the heading of the street/view axis at that position. The subject is generic, so this position is representative of the type of scene, not where this specific photo was taken."
+   },
+   "attribution": "\"Countdown signal NYC dontwalk symbol 1.jpg\" by Epicgenius, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Countdown_signal_NYC_dontwalk_symbol_1.jpg"
+  }
+ ]
+}

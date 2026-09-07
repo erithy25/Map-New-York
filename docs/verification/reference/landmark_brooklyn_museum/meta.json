@@ -1,0 +1,200 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_brooklyn_museum",
+ "name": "Brooklyn Museum",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.671103,
+  "lon": -73.965268,
+  "azimuth_deg": 80.0,
+  "note": "the Eastern Parkway sidewalk opposite the museum, about 130 m west of the entrance pavilion, looking east at the glass entrance and Beaux-Arts front",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.671306,
+  "lon": -73.96375,
+  "name": "Brooklyn Museum"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Brooklyn Museum\" Eastern Parkway entrance",
+  "\"Brooklyn Museum\" building exterior"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T13:28:17Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 130,
+ "candidates_eligible": 53,
+ "rejections": {
+  "indoor": 5,
+  "too_old": 5,
+  "licence": 37,
+  "excluded": 4,
+  "night_for_day_item": 4,
+  "too_small": 5,
+  "keywords": 16,
+  "not_photo": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Brooklyn Botanic Garden New York May 2015 001.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Brooklyn_Botanic_Garden_New_York_May_2015_001.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Brooklyn_Botanic_Garden_New_York_May_2015_001.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Brooklyn_Botanic_Garden_New_York_May_2015_001.jpg/1920px-Brooklyn_Botanic_Garden_New_York_May_2015_001.jpg",
+   "author": "King of Hearts",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 3.0",
+    "url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "template": "cc-by-sa-3.0"
+   },
+   "date_taken": "2015-05-02",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.671455,
+    "lon": -73.965661
+   },
+   "original_width": 4800,
+   "original_height": 3200,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 960273,
+   "sha256": "f3275dcbe8c8ac2a3aa5c75d228d55bb7d3fa6b973d1705784dbfa05cf456032",
+   "mean_luminance": 124.9,
+   "description": "Osborne Garden with the Brooklyn Museum in the background, Brooklyn Botanic Garden , Brooklyn , New York City .",
+   "categories": [
+    "GFDL",
+    "Taken with Nikon D7000",
+    "Exterior of the Brooklyn Museum",
+    "License migration redundant",
+    "Uploaded with VicuñaUploader",
+    "Files with coordinates missing SDC location of creation",
+    "Museums in the United States photographed in 2015",
+    "May 2015 in Brooklyn, New York City",
+    "Osborne Garden (Brooklyn Botanic Garden)"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "search:\"Brooklyn Museum\" building exterior",
+   "score": 13.5,
+   "estimated_viewpoint": {
+    "lat": 40.671455,
+    "lon": -73.965661,
+    "azimuth_deg": 95.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.67146, -73.96566) is 162 m from Brooklyn Museum (40.67131, -73.96375) and 51 m from the standard viewpoint; the azimuth 96 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Brooklyn Botanic Garden New York May 2015 001.jpg\" by King of Hearts, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Brooklyn_Botanic_Garden_New_York_May_2015_001.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Brooklyn Museum Display Fanzinis.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Brooklyn_Museum_Display_Fanzinis.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/cb/Brooklyn_Museum_Display_Fanzinis.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Brooklyn_Museum_Display_Fanzinis.jpg/1920px-Brooklyn_Museum_Display_Fanzinis.jpg",
+   "author": "NDowd2001",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2025",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.671275,
+    "lon": -73.964158
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 984188,
+   "sha256": "b645d494d799a3686bef9134f07bd9d6895dfc4f5547aa2aa3ee0d21293449b2",
+   "mean_luminance": 119.7,
+   "description": "Brooklyn Museum Display Fanzinis",
+   "categories": [
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "New York City photographs taken on 2025-06-07",
+    "June 2025 in Brooklyn, New York City",
+    "Collections of the Brooklyn Museum",
+    "2025 in Prospect Heights, Brooklyn"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.671275,
+    "lon": -73.964158,
+    "azimuth_deg": 84.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.67128, -73.96416) is 35 m from Brooklyn Museum (40.67131, -73.96375) and 96 m from the standard viewpoint; the azimuth 84 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Brooklyn Museum Display Fanzinis.jpg\" by NDowd2001, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Brooklyn_Museum_Display_Fanzinis.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:NYC Architectural Artifacts from the Brooklyn Museum.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:NYC_Architectural_Artifacts_from_the_Brooklyn_Museum.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d3/NYC_Architectural_Artifacts_from_the_Brooklyn_Museum.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/NYC_Architectural_Artifacts_from_the_Brooklyn_Museum.jpg/1920px-NYC_Architectural_Artifacts_from_the_Brooklyn_Museum.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-08-05 15:07:32",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.672069,
+    "lon": -73.964194
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 664486,
+   "sha256": "819945c429d7ca001475b2a0025a2c99a7a54ff894121caf96d3d2863c0c9f67",
+   "mean_luminance": 138.5,
+   "description": "NYC Architectural Artifacts from the Brooklyn Museum",
+   "categories": [
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "NYC Architectural Artifacts from the Brooklyn Museum",
+    "New York City Subway in August 2021"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.9,
+   "estimated_viewpoint": {
+    "lat": 40.672069,
+    "lon": -73.964194,
+    "azimuth_deg": 156.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.67207, -73.96419) is 93 m from Brooklyn Museum (40.67131, -73.96375) and 141 m from the standard viewpoint; the azimuth 156 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"NYC Architectural Artifacts from the Brooklyn Museum.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:NYC_Architectural_Artifacts_from_the_Brooklyn_Museum.jpg"
+  }
+ ]
+}

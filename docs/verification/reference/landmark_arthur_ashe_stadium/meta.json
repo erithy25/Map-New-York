@@ -1,0 +1,202 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_arthur_ashe_stadium",
+ "name": "Arthur Ashe Stadium",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.751013,
+  "lon": -73.849598,
+  "azimuth_deg": 120.0,
+  "note": "the plaza north-west of the stadium at the USTA Billie Jean King National Tennis Center, about 250 m from it, looking south-east at Arthur Ashe Stadium",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.749889,
+  "lon": -73.847028,
+  "name": "Arthur Ashe Stadium"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Arthur Ashe Stadium\" exterior",
+  "\"Arthur Ashe Stadium\" USTA Billie Jean King National Tennis Center"
+ ],
+ "geosearch_radius_m": 500,
+ "fetched_at": "2026-09-06T13:26:09Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 85,
+ "candidates_eligible": 14,
+ "rejections": {
+  "too_old": 6,
+  "excluded": 27,
+  "keywords": 29,
+  "too_small": 8,
+  "licence": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:2021 US Open, Day 21.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:2021_US_Open,_Day_21.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/f1/2021_US_Open%2C_Day_21.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/2021_US_Open%2C_Day_21.jpg/1920px-2021_US_Open%2C_Day_21.jpg",
+   "author": "Curlyrnd",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-08-30 12:57:38",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.749782,
+    "lon": -73.84727
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 1086284,
+   "sha256": "9ccc3e0f3ea344596bb3faab9d922e5d507f17dacf6557284b4eb166f59dc212",
+   "mean_luminance": 107.9,
+   "description": "Day 1 at the US Open, 2021",
+   "categories": [
+    "Arthur Ashe Stadium",
+    "2021 US Open (tennis)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Files uploaded by SeichanGant"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Arthur Ashe Stadium\" USTA Billie Jean King National Tennis Center",
+   "score": 12.9,
+   "estimated_viewpoint": {
+    "lat": 40.749782,
+    "lon": -73.84727,
+    "azimuth_deg": 59.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74978, -73.84727) is 24 m from Arthur Ashe Stadium (40.74989, -73.84703) and 239 m from the standard viewpoint; the azimuth 60 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"2021 US Open, Day 21.jpg\" by Curlyrnd, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:2021_US_Open,_Day_21.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:2021 US Open Armstrong Stadium roof (pano).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:2021_US_Open_Armstrong_Stadium_roof_(pano).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/23/2021_US_Open_Armstrong_Stadium_roof_%28pano%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/2021_US_Open_Armstrong_Stadium_roof_%28pano%29.jpg/1920px-2021_US_Open_Armstrong_Stadium_roof_%28pano%29.jpg",
+   "author": "Beyond My Ken",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-09-07",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.750492,
+    "lon": -73.846886
+   },
+   "original_width": 8310,
+   "original_height": 3692,
+   "width": 1920,
+   "height": 853,
+   "bytes": 605510,
+   "sha256": "e8a5ba2188e878e9379eb05d5733b5ac9b3a077649fd1dfc017cb302adcab6a4",
+   "mean_luminance": 96.3,
+   "description": "A panoramic view of the roof of Arthur Ashe Stadium in the Billie Jean King National Tennis Center in Flushing Meadow, Queen, New York City during the 2021 U. S. Open tournament.",
+   "categories": [
+    "GFDL",
+    "Arthur Ashe Stadium",
+    "2021 US Open (tennis)",
+    "License migration redundant",
+    "CC-BY-SA-4.0,3.0,2.5,2.0,1.0",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Images by Beyond My Ken/Other/Queens",
+    "Images by Beyond My Ken/Other/2021 U.S. Open"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Arthur Ashe Stadium\" USTA Billie Jean King National Tennis Center",
+   "score": 10.9,
+   "estimated_viewpoint": {
+    "lat": 40.750492,
+    "lon": -73.846886,
+    "azimuth_deg": 190.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75049, -73.84689) is 68 m from Arthur Ashe Stadium (40.74989, -73.84703) and 236 m from the standard viewpoint; the azimuth 190 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"2021 US Open Armstrong Stadium roof (pano).jpg\" by Beyond My Ken, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:2021_US_Open_Armstrong_Stadium_roof_(pano).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:USTA Billie Jean King National Tennis Center (48613535076).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:USTA_Billie_Jean_King_National_Tennis_Center_(48613535076).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/0e/USTA_Billie_Jean_King_National_Tennis_Center_%2848613535076%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/USTA_Billie_Jean_King_National_Tennis_Center_%2848613535076%29.jpg/1920px-USTA_Billie_Jean_King_National_Tennis_Center_%2848613535076%29.jpg",
+   "author": "Ajay Suresh from New York, NY, USA",
+   "credit": "USTA Billie Jean King National Tennis Center",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2019-08-23 18:20",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.747887,
+    "lon": -73.845885
+   },
+   "original_width": 4608,
+   "original_height": 2592,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 768075,
+   "sha256": "028905ce93fcf677b0cce9190a89a1ebafae81f93fe2a69b624da1b95a0fc864",
+   "mean_luminance": 135.8,
+   "description": "Flushing Meadows–Corona Park, Queens, NYC",
+   "categories": [
+    "USTA National Tennis Center",
+    "Arthur Ashe Stadium",
+    "New York City photographs taken on 2019-08-24",
+    "On OSM",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Flushing Meadows–Corona Park in 2019",
+    "Freedom of the Human Spirit",
+    "August 2019 in Queens, New York City",
+    "2019 New York City photographs by ajay suresh"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Arthur Ashe Stadium\" USTA Billie Jean King National Tennis Center",
+   "score": 9.6,
+   "estimated_viewpoint": {
+    "lat": 40.747887,
+    "lon": -73.845885,
+    "azimuth_deg": 336.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74789, -73.84588) is 243 m from Arthur Ashe Stadium (40.74989, -73.84703) and 468 m from the standard viewpoint; the azimuth 337 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"USTA Billie Jean King National Tennis Center (48613535076).jpg\" by Ajay Suresh from New York, NY, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:USTA_Billie_Jean_King_National_Tennis_Center_(48613535076).jpg"
+  }
+ ]
+}

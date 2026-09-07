@@ -1,0 +1,193 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_three_times_square",
+ "name": "3 Times Square (Thomson Reuters Building)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.757835,
+  "lon": -73.986054,
+  "azimuth_deg": 210.0,
+  "note": "Seventh Avenue at West 44th Street, about 150 m north-north-east of the tower, looking south-south-west at 3 Times Square",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.756667,
+  "lon": -73.986944,
+  "name": "3 Times Square (Thomson Reuters Building)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"3 Times Square\" building",
+  "\"Thomson Reuters Building\" Times Square"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T13:13:14Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 92,
+ "candidates_eligible": 51,
+ "rejections": {
+  "keywords": 29,
+  "too_old": 4,
+  "too_small": 2,
+  "indoor": 2,
+  "night_for_day_item": 2,
+  "excluded": 2
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Times Sq Sep 2021 76.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Times_Sq_Sep_2021_76.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/79/Times_Sq_Sep_2021_76.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Times_Sq_Sep_2021_76.jpg/1920px-Times_Sq_Sep_2021_76.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-09-21 10:33:19",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": null,
+   "original_width": 5184,
+   "original_height": 3456,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 480553,
+   "sha256": "40ed388b94e00010231420229f6e5316b6828bb3081e17272e291673fb9a53cb",
+   "mean_luminance": 98.1,
+   "description": "South facade of the Thomson Reuters Building at 3 Times Square in Manhattan, New York, seen in September 2021.",
+   "categories": [
+    "3 Times Square",
+    "Self-published work",
+    "United States photographs taken on 2021-09-21",
+    "September 2021 in Times Square",
+    "Photographs by Epicgenius"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"3 Times Square\" building",
+   "score": 9.4,
+   "estimated_viewpoint": {
+    "lat": 40.757835,
+    "lon": -73.986054,
+    "azimuth_deg": 210.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Seventh Avenue at West 44th Street, about 150 m north-north-east of the tower, looking south-south-west at 3 Times Square) and the azimuth 210 deg is the bearing from there to 3 Times Square (Thomson Reuters Building) (40.75667, -73.98694)."
+   },
+   "attribution": "\"Times Sq Sep 2021 76.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Times_Sq_Sep_2021_76.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Chase Bank Times Square (August 2025).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Chase_Bank_Times_Square_(August_2025).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/36/Chase_Bank_Times_Square_%28August_2025%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Chase_Bank_Times_Square_%28August_2025%29.jpg/1920px-Chase_Bank_Times_Square_%28August_2025%29.jpg",
+   "author": "Busition",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2025-08-08 21:36:45",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": null,
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 761713,
+   "sha256": "22870318a38a2900c435e56b4fc9cd6eed84f95be1585dccf752fa8f2d664c6c",
+   "mean_luminance": 89.7,
+   "description": "View of the Chase Bank located at 3 Times Square in Manhattan, New York City on August 8, 2025 21:36 PDT",
+   "categories": [
+    "3 Times Square",
+    "Self-published work",
+    "Creative Commons Attribution 4.0 missing SDC copyright license",
+    "Creative Commons Attribution missing SDC copyright status",
+    "Self-published work missing SDC copyright license",
+    "Chase banks in New York City",
+    "August 2025 in Times Square",
+    "August 2025 in Manhattan, New York City",
+    "Chase Bank (187-15 Union Turnpike)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Thomson Reuters Building\" Times Square",
+   "score": 7.7,
+   "estimated_viewpoint": {
+    "lat": 40.757835,
+    "lon": -73.986054,
+    "azimuth_deg": 210.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Seventh Avenue at West 44th Street, about 150 m north-north-east of the tower, looking south-south-west at 3 Times Square) and the azimuth 210 deg is the bearing from there to 3 Times Square (Thomson Reuters Building) (40.75667, -73.98694)."
+   },
+   "attribution": "\"Chase Bank Times Square (August 2025).jpg\" by Busition, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Chase_Bank_Times_Square_(August_2025).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Reuters Building and Condé Nast spire (Kiah Ankoor) - Flickr.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Reuters_Building_and_Cond%C3%A9_Nast_spire_(Kiah_Ankoor)_-_Flickr.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/be/Reuters_Building_and_Cond%C3%A9_Nast_spire_%28Kiah_Ankoor%29_-_Flickr.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Reuters_Building_and_Cond%C3%A9_Nast_spire_%28Kiah_Ankoor%29_-_Flickr.jpg/1920px-Reuters_Building_and_Cond%C3%A9_Nast_spire_%28Kiah_Ankoor%29_-_Flickr.jpg",
+   "author": "Kiah Ankoor from NYC, U.S.A.",
+   "credit": "THE SPIRES OF MIDTOWN",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2013-04-06 18:19",
+   "date_source": "DateTimeOriginal",
+   "year": 2013,
+   "camera_gps": {
+    "lat": 40.757148,
+    "lon": -73.98969
+   },
+   "original_width": 3000,
+   "original_height": 4000,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1051684,
+   "sha256": "cd6412c1e13e6fc297cc52dad0bea087be5fea1159b96cb2eab3cc366b8ab8df",
+   "mean_luminance": 128.8,
+   "description": "THE SPIRES OF MIDTOWN",
+   "categories": [
+    "4 Times Square",
+    "3 Times Square",
+    "FoP-United States",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Flickr images imported by User:JWilz12345"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"3 Times Square\" building",
+   "score": 7.0,
+   "estimated_viewpoint": {
+    "lat": 40.757148,
+    "lon": -73.98969,
+    "azimuth_deg": 103.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75715, -73.98969) is 237 m from 3 Times Square (Thomson Reuters Building) (40.75667, -73.98694) and 316 m from the standard viewpoint; the azimuth 103 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Reuters Building and Condé Nast spire (Kiah Ankoor) - Flickr.jpg\" by Kiah Ankoor from NYC, U.S.A., CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Reuters_Building_and_Cond%C3%A9_Nast_spire_(Kiah_Ankoor)_-_Flickr.jpg"
+  }
+ ]
+}

@@ -1,0 +1,28 @@
+{
+ "artist": "Harry Levi Cook",
+ "attribution_note": "Category: Audio files of ragtime music",
+ "bytes": 2169179,
+ "duration_s": 176.01,
+ "file": "jazz/fluffy_ruffles_rag_1907_by_harry_l_cook.ogg",
+ "gain_db": 2.5,
+ "licence": "Public Domain",
+ "licence_url": "",
+ "loudness_lufs": -16.5,
+ "original_filename": "%22Fluffy_Ruffles_Rag%22_%281907%29%2C_by_Harry_L._Cook.oga",
+ "recorded_at": "2026-09-06T12:04:15Z",
+ "schema_version": 1,
+ "sha256": "f99f99d9c291a31e93f27b00b94396867adb95c90f9ae4161e937962020f4f8f",
+ "source_page": "https://commons.wikimedia.org/wiki/File:%22Fluffy_Ruffles_Rag%22_(1907),_by_Harry_L._Cook.oga",
+ "source_site": "commons.wikimedia.org",
+ "source_url": "https://upload.wikimedia.org/wikipedia/commons/d/d2/%22Fluffy_Ruffles_Rag%22_%281907%29%2C_by_Harry_L._Cook.oga",
+ "title": "\"Fluffy Ruffles Rag\" (1907), by Harry L. Cook",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "oga",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

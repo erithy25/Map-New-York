@@ -1,0 +1,190 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_moynihan_train_hall",
+ "name": "Moynihan Train Hall",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.750711,
+  "lon": -73.996728,
+  "azimuth_deg": 70.0,
+  "note": "Ninth Avenue at West 32nd Street, about 130 m west-south-west of the building, looking east-north-east at the Moynihan entrance in the Farley Post Office",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.751111,
+  "lon": -73.995278,
+  "name": "Moynihan Train Hall"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2021,
+ "wanted": 3,
+ "queries": [
+  "\"Moynihan Train Hall\" exterior Farley Building",
+  "\"Moynihan Train Hall\" Eighth Avenue entrance"
+ ],
+ "geosearch_radius_m": 350,
+ "fetched_at": "2026-09-06T13:35:16Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 100,
+ "candidates_eligible": 64,
+ "rejections": {
+  "indoor": 6,
+  "keywords": 30
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Moynihan Train Hall Upper Level 2026.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Moynihan_Train_Hall_Upper_Level_2026.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Moynihan_Train_Hall_Upper_Level_2026.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Moynihan_Train_Hall_Upper_Level_2026.jpg/1920px-Moynihan_Train_Hall_Upper_Level_2026.jpg",
+   "author": "Antony-22",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026-04-21 13:12:22",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.751542,
+    "lon": -73.995667
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 898447,
+   "sha256": "75017af4afcb0cdd44d0a56eecb059081ab936307cfbc507fee0ca3470f609e1",
+   "mean_luminance": 92.9,
+   "description": "Upper Level of Moynihan Train Hall looking towards the 33rd Street exit in New York City in 2026",
+   "categories": [
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Media by Antony-22",
+    "Upper level of Moynihan Train Hall"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.751542,
+    "lon": -73.995667,
+    "azimuth_deg": 145.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75154, -73.99567) is 58 m from Moynihan Train Hall (40.75111, -73.99528) and 129 m from the standard viewpoint; the azimuth 146 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Moynihan Train Hall Upper Level 2026.jpg\" by Antony-22, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Moynihan_Train_Hall_Upper_Level_2026.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Moynihan Train Hall 33rd St entrance.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Moynihan_Train_Hall_33rd_St_entrance.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Moynihan_Train_Hall_33rd_St_entrance.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Moynihan_Train_Hall_33rd_St_entrance.jpg/1920px-Moynihan_Train_Hall_33rd_St_entrance.jpg",
+   "author": "Ajho24",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.751672,
+    "lon": -73.996128
+   },
+   "original_width": 2160,
+   "original_height": 3840,
+   "width": 1920,
+   "height": 3413,
+   "bytes": 1796533,
+   "sha256": "18e0d6454c3428f83bbe095ad4fbefd35d6923e8f58f0e9fdd22b92ce8b0721e",
+   "mean_luminance": 115.4,
+   "description": "Moynihan Train Hall, skylight between the 31st St and 33rd St entrances leading to the second floor",
+   "categories": [
+    "Self-published work",
+    "Uploaded with Mobile/Android",
+    "Files with coordinates missing SDC location of creation",
+    "New York City photographs taken on 2026-04-04",
+    "Upper level of Moynihan Train Hall"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.751672,
+    "lon": -73.996128,
+    "azimuth_deg": 131.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75167, -73.99613) is 95 m from Moynihan Train Hall (40.75111, -73.99528) and 118 m from the standard viewpoint; the azimuth 131 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Moynihan Train Hall 33rd St entrance.jpg\" by Ajho24, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Moynihan_Train_Hall_33rd_St_entrance.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Moynihan Train Hall 2025 135.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Moynihan_Train_Hall_2025_135.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Moynihan_Train_Hall_2025_135.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Moynihan_Train_Hall_2025_135.jpg/1920px-Moynihan_Train_Hall_2025_135.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2025-12-23 14:06:03",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.751111,
+    "lon": -73.995278
+   },
+   "original_width": 4080,
+   "original_height": 2296,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 700795,
+   "sha256": "13bb750c4d6e0f795e74bd4250609445aba0ac6c6c53e3f8175ada13b0dbcc10",
+   "mean_luminance": 122.1,
+   "description": "Moynihan Train Hall in December 2025",
+   "categories": [
+    "Self-published work",
+    "Pennsylvania Station in 2025",
+    "Files with coordinates missing SDC location of creation",
+    "New York City photographs taken on 2025-12-23",
+    "December 2025 in Manhattan, New York City",
+    "Photographs showing only the roof of Moynihan Train Hall"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.750711,
+    "lon": -73.996728,
+    "azimuth_deg": 70.0,
+    "confidence": "medium",
+    "method": "standard_viewpoint (camera GPS coincides with subject)",
+    "explanation": "The file's GPS (40.75111, -73.99528) lies within 0 m of Moynihan Train Hall (40.75111, -73.99528), so the uploader geotagged the subject rather than the camera; the viewpoint is therefore the standard photographer position for this view (Ninth Avenue at West 32nd Street, about 130 m west-south-west of the building, looking east-north-east at the Moynihan entrance in the Farley Post Office) and the azimuth 70 deg is the bearing from there to the subject."
+   },
+   "attribution": "\"Moynihan Train Hall 2025 135.jpg\" by Kidfly182, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Moynihan_Train_Hall_2025_135.jpg"
+  }
+ ]
+}

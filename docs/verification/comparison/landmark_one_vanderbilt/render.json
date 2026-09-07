@@ -1,0 +1,344 @@
+{
+ "azimuth_reason": "324.1 deg, the bearing from this photograph's own GPS position to One Vanderbilt; heading and position both come from the photograph.  The item's recorded azimuth is 340.5 deg, 16.4 deg away, and belongs to its nominal viewpoint",
+ "camera": {
+  "azimuth_deg": 324.1152004003049,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 18.0,
+  "ground_detail": {
+   "chosen_m": 16.43,
+   "max_m": 17.13,
+   "median_m": 16.61,
+   "min_m": 16.26,
+   "mode": "street",
+   "percentile": 10.0,
+   "point_m": 16.47,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 73.709,
+  "lat": 40.752025,
+  "lon": -73.977767,
+  "long_side_fov_deg": 90.0,
+  "pitch_deg": 0.0,
+  "portrait": true,
+  "resolution": [
+   904,
+   1206
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_one_vanderbilt",
+  "terrain_z_m": 16.426,
+  "x": -2344.915,
+  "y": 5777.675,
+  "z": 18.026
+ },
+ "camera_caption": "camera 40.75203, -73.97777 (NYC_TM -2345, 5778) z 18.0 m NAVD88 | azimuth 324.1deg pitch +0.0deg | 18 mm on 36 mm (73.7deg horizontal, 90.0deg vertical, portrait) | 904x1206",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.752025,
+  "lon": -73.977767,
+  "offset_from_recorded_m": 70.3,
+  "source": "this photograph's own EXIF camera GPS (40.75203, -73.97777), 70 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
+ "clearance": {
+  "min_view_m": 60.0,
+  "moved": false,
+  "nearest_obstruction": "prop_lamp_bishops_crook_11",
+  "nearest_obstruction_m": 17.8,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_bishops_crook_11 17.8 m away, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
+ },
+ "frame": {
+  "mean": 0.2336,
+  "reason": null,
+  "sd": 0.1634,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "widened from 35 mm to 18 mm (90 deg vertical) so that a level axis contains the subject: the one_vanderbilt model's published 427 m height stands 427 m above the lens at 120 m, 74 deg above the horizon; held at the 18 mm floor, so the top of the subject is still cut off -- past that point the distortion would stop the two frames being comparable",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 771.8,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 5,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.51,
+  "sky_azimuth_deg": 174.71,
+  "sky_elevation_deg": 30.197,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.429,
+  "view_transform": "Filmic"
+ },
+ "name": "One Vanderbilt",
+ "night": false,
+ "pitch_reason": "level optical axis (One Vanderbilt is 120 m away and would need +61 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "reference_photo": {
+  "author": "Kidfly182",
+  "confidence": "high",
+  "date_taken": "2023-01-25 11:48:51",
+  "estimated_azimuth_deg": 324.2,
+  "file": "3.jpg",
+  "height": 1707,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:One_Vanderbilt_January_2023_005.jpg",
+  "title": "File:One Vanderbilt January 2023 005.jpg",
+  "width": 1280
+ },
+ "render_png": "docs/verification/comparison/landmark_one_vanderbilt/render.png",
+ "rendered_at": "2026-09-06T23:32:36Z",
+ "resolution_note": "904x1206; the reference photograph is 1280x1707 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 32,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-2_5",
+    "t_-2_6",
+    "t_-3_5",
+    "t_-3_6"
+   ],
+   "landmark_bins_suppressed": 27,
+   "landmark_faces_suppressed": 2462,
+   "lod_substituted": [],
+   "missing": [],
+   "per_tile": {
+    "t_-2_5": {
+     "lod": 0,
+     "objects": 14,
+     "triangles": 16728
+    },
+    "t_-2_6": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 53068
+    },
+    "t_-3_5": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 48780
+    },
+    "t_-3_6": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 29970
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "triangle_budget": 3510000,
+   "triangles": 148546
+  },
+  "centre_tm": [
+   -2344.92,
+   5777.68
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "antenna": 3,
+    "bulkhead": 13,
+    "cornice": 20,
+    "door_entry": 24,
+    "fire_escape": 11,
+    "hvac": 16,
+    "parapet": 16,
+    "pilaster": 1,
+    "quoin": 2,
+    "scaffold": 75,
+    "storefront": 151,
+    "storefront_interior": 17,
+    "string_course": 20,
+    "water_tower": 5,
+    "window": 11694,
+    "window_accessory": 8
+   },
+   "placed": 12076,
+   "radius_m": 120.0,
+   "records_in_range": 14218,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 2142,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_5"
+   ],
+   "triangles": 2510842,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 90.3,
+     "id": "grand_central_terminal",
+     "lod": 0,
+     "name": "Grand Central Terminal",
+     "triangles": 29560
+    },
+    {
+     "distance_m": 124.3,
+     "id": "one_vanderbilt",
+     "lod": 0,
+     "name": "One Vanderbilt",
+     "triangles": 71710
+    },
+    {
+     "distance_m": 191.0,
+     "id": "c_metlife_building",
+     "lod": 0,
+     "name": "MetLife Building (200 Park Avenue)",
+     "triangles": 105284
+    },
+    {
+     "distance_m": 207.4,
+     "id": "chrysler",
+     "lod": 0,
+     "name": "Chrysler Building",
+     "triangles": 57851
+    },
+    {
+     "distance_m": 399.9,
+     "id": "new_york_public_library",
+     "lod": 0,
+     "name": "New York Public Library, Stephen A. Schwarzman Building",
+     "triangles": 51785
+    },
+    {
+     "distance_m": 1526.0,
+     "id": "b_queens_midtown_portals",
+     "lod": 0,
+     "name": "Queens-Midtown Tunnel",
+     "triangles": 30888
+    }
+   ],
+   "placed": 6,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 347078
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 421,
+    "curb": 739,
+    "median": 58,
+    "parking_lot": 1,
+    "plaza": 48,
+    "roadbed": 339,
+    "sidewalk": 160
+   },
+   "placed": 1766,
+   "radius_m": 591.9346623794053,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-2_5",
+    "t_-2_6",
+    "t_-3_5",
+    "t_-3_6"
+   ],
+   "triangles": 134380,
+   "vertices": 137744
+  },
+  "props": {
+   "capped": null,
+   "impostor_cards_dropped": 15,
+   "leaf_off": true,
+   "per_kind": {
+    "bench": 6,
+    "bike_rack": 7,
+    "bus_shelter": 2,
+    "bus_stop_sign": 15,
+    "citibike_dock": 6,
+    "flagpole": 2,
+    "hydrant": 60,
+    "linknyc": 9,
+    "mailbox": 4,
+    "manhole": 110,
+    "newsstand": 4,
+    "steam_vent": 9,
+    "street_lamp": 111,
+    "subway_entrance": 21,
+    "subway_vent_grate": 22,
+    "tree": 97,
+    "waste_basket": 33
+   },
+   "placed": 518,
+   "radius_m": 250.0,
+   "rows_in_range": 719,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_5",
+    "t_-3_6"
+   ],
+   "tree_species_substituted": 7,
+   "triangles": 1008476,
+   "unmapped_kinds": {
+    "artwork": 1,
+    "cooling_tower": 107,
+    "curb_ramp": 79,
+    "drinking_fountain": 2,
+    "misc_structure": 3,
+    "vending_machine": 9
+   }
+  },
+  "radius_m": 591.9346623794053,
+  "seconds": 59.46,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 205,
+   "spacing_m": 2.0,
+   "triangles": 83232,
+   "water_quads": 0,
+   "z_max_m": 25.4,
+   "z_min_m": 0.82
+  },
+  "triangles": 4232554
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 591.9346623794053
+ },
+ "seconds": {
+  "render": 126.4,
+  "scene": 62.8,
+  "total": 189.2
+ },
+ "slug": "landmark_one_vanderbilt",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 120.0,
+  "name": "One Vanderbilt"
+ },
+ "sun": {
+  "azimuth_deg": 174.7099179237033,
+  "elevation_deg": 30.196581070283468,
+  "local": "2023-01-25T11:48:51-05:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2023-01-25T16:48:51Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 340.5,
+  "lat": 40.7514,
+  "lon": -73.9779,
+  "note": "Pershing Square plaza on Park Avenue at East 41st Street, looking north-north-west past Grand Central"
+ }
+}

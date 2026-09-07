@@ -1,0 +1,199 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_washington_square_arch",
+ "name": "Washington Square Arch",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7308,
+  "lon": -73.9973,
+  "azimuth_deg": 26.8,
+  "note": "south rim of the Washington Square fountain, looking north through the Arch up Fifth Avenue",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7311,
+  "lon": -73.9971,
+  "name": "Washington Square Arch"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Washington Square Arch\"",
+  "\"Washington Square Park\" arch fountain"
+ ],
+ "geosearch_radius_m": 200,
+ "fetched_at": "2026-09-07T08:01:14Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 127,
+ "candidates_eligible": 23,
+ "rejections": {
+  "subject_not_named": 68,
+  "excluded": 10,
+  "too_small": 11,
+  "too_old": 6,
+  "licence": 2,
+  "not_photo": 4,
+  "keywords": 3
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Washington Square Arch and the Empire State Building, Greenwich Village, Manhattan, New York.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Washington_Square_Arch_and_the_Empire_State_Building,_Greenwich_Village,_Manhattan,_New_York.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Washington_Square_Arch_and_the_Empire_State_Building%2C_Greenwich_Village%2C_Manhattan%2C_New_York.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Washington_Square_Arch_and_the_Empire_State_Building%2C_Greenwich_Village%2C_Manhattan%2C_New_York.jpg/1920px-Washington_Square_Arch_and_the_Empire_State_Building%2C_Greenwich_Village%2C_Manhattan%2C_New_York.jpg",
+   "author": "Christian David",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026-04-16 18:16:58",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.730926,
+    "lon": -73.997326
+   },
+   "original_width": 4573,
+   "original_height": 6097,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1311288,
+   "sha256": "a17aade142da0f4c9293d760a924158fc66efb18b2f1aa19035562ce477e35c1",
+   "mean_luminance": 126.7,
+   "description": "The Washington Square Arch (Stanford White, 1892); the Fifth Avenue vista with the Empire State Building visible through the arch. Greenwich Village, Manhattan, New York City.",
+   "categories": [
+    "Washington Square Arch",
+    "5th Avenue (Manhattan)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Remote views of the Empire State Building",
+    "April 2026 in Manhattan, New York City",
+    "Images of the United States by Christian David"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.7,
+   "estimated_viewpoint": {
+    "lat": 40.730926,
+    "lon": -73.997326,
+    "azimuth_deg": 44.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.73093, -73.99733) is 27 m from Washington Square Arch (40.73110, -73.99710) and 14 m from the standard viewpoint; the azimuth 45 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Washington Square Arch and the Empire State Building, Greenwich Village, Manhattan, New York.jpg\" by Christian David, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Washington_Square_Arch_and_the_Empire_State_Building,_Greenwich_Village,_Manhattan,_New_York.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:WS Arch Springtime.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:WS_Arch_Springtime.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/20/WS_Arch_Springtime.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/WS_Arch_Springtime.jpg/1920px-WS_Arch_Springtime.jpg",
+   "author": "Slywire",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018-04-19 18:33:48",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.73085,
+    "lon": -73.997131
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1924724,
+   "sha256": "5a46b655d1e5190805d6a00f3fe08ad2deeb7d304a5df0689ffce92a0940b195",
+   "mean_luminance": 115.0,
+   "description": "Washington Square Arch, Washington Square Park, New York",
+   "categories": [
+    "Washington Square Arch",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Washington Square Park in 2018"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.45,
+   "estimated_viewpoint": {
+    "lat": 40.73085,
+    "lon": -73.997131,
+    "azimuth_deg": 5.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.73085, -73.99713) is 28 m from Washington Square Arch (40.73110, -73.99710) and 15 m from the standard viewpoint; the azimuth 5 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"WS Arch Springtime.jpg\" by Slywire, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:WS_Arch_Springtime.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:2015 Washington Square Arch from southeast.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:2015_Washington_Square_Arch_from_southeast.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b4/2015_Washington_Square_Arch_from_southeast.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/2015_Washington_Square_Arch_from_southeast.jpg/1920px-2015_Washington_Square_Arch_from_southeast.jpg",
+   "author": "Beyond My Ken",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2015-04-23",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.730796,
+    "lon": -73.997081
+   },
+   "original_width": 3456,
+   "original_height": 4608,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1539742,
+   "sha256": "a448970b130b60b4c251bd194e6e3de537be3d61d87b423f69551e2dfb81535c",
+   "mean_luminance": 137.9,
+   "description": "Washington Square Arch from the southeast",
+   "categories": [
+    "GFDL",
+    "Washington Square Arch",
+    "License migration redundant",
+    "CC-BY-SA-4.0,3.0,2.5,2.0,1.0",
+    "Self-published work",
+    "Images by Beyond My Ken/Below",
+    "Files with coordinates missing SDC location of creation",
+    "Washington Square Park in 2015"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.0,
+   "estimated_viewpoint": {
+    "lat": 40.730796,
+    "lon": -73.997081,
+    "azimuth_deg": 357.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.73080, -73.99708) is 34 m from Washington Square Arch (40.73110, -73.99710) and 18 m from the standard viewpoint; the azimuth 357 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"2015 Washington Square Arch from southeast.jpg\" by Beyond My Ken, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:2015_Washington_Square_Arch_from_southeast.jpg"
+  }
+ ]
+}

@@ -1,0 +1,28 @@
+{
+ "artist": "Cold Colours",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 5681215,
+ "duration_s": 404.06,
+ "file": "rock/laconia002_coldcolours_laconia002_coldcolours_01_still_128.ogg",
+ "gain_db": -2.2,
+ "licence": "CC-BY-2.5",
+ "licence_url": "http://creativecommons.org/licenses/by/2.5/",
+ "loudness_lufs": -11.8,
+ "original_filename": "laconia002_coldcolours_01_Still_128.mp3",
+ "recorded_at": "2026-09-06T12:14:50Z",
+ "schema_version": 1,
+ "sha256": "45287911554dcf0aeab8b9dab9fdf1004b45f06e61bf02dee2d60ff3bdb040bc",
+ "source_page": "https://archive.org/details/laconia002_coldcolours",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/laconia002_coldcolours/laconia002_coldcolours_01_Still_128.mp3",
+ "title": "Still",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

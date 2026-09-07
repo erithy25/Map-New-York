@@ -1,0 +1,202 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_brooklyn_bridge_walkway",
+ "name": "Brooklyn Bridge from the pedestrian walkway",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.706,
+  "lon": -73.9968,
+  "azimuth_deg": 318.9,
+  "note": "centre of the elevated pedestrian promenade between the Brooklyn tower and mid-span, looking toward the Manhattan tower",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.708,
+  "lon": -73.9991,
+  "name": "Brooklyn Bridge Manhattan tower"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Brooklyn Bridge\" walkway pedestrian promenade",
+  "\"Brooklyn Bridge\" promenade cables tower boardwalk"
+ ],
+ "geosearch_radius_m": 200,
+ "fetched_at": "2026-09-06T12:12:35Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 106,
+ "candidates_eligible": 30,
+ "rejections": {
+  "keywords": 57,
+  "not_photo": 3,
+  "excluded": 10,
+  "too_small": 1,
+  "too_old": 2,
+  "licence": 3
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:2024-06-15 09 53 30 View from the middle of the Brooklyn Bridge looking northwest along the pedestrian walkway in Manhattan, New York City, New York.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:2024-06-15_09_53_30_View_from_the_middle_of_the_Brooklyn_Bridge_looking_northwest_along_the_pedestrian_walkway_in_Manhattan,_New_York_City,_New_York.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b0/2024-06-15_09_53_30_View_from_the_middle_of_the_Brooklyn_Bridge_looking_northwest_along_the_pedestrian_walkway_in_Manhattan%2C_New_York_City%2C_New_York.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/2024-06-15_09_53_30_View_from_the_middle_of_the_Brooklyn_Bridge_looking_northwest_along_the_pedestrian_walkway_in_Manhattan%2C_New_York_City%2C_New_York.jpg/1920px-2024-06-15_09_53_30_View_from_the_middle_of_the_Brooklyn_Bridge_looking_northwest_along_the_pedestrian_walkway_in_Manhattan%2C_New_York_City%2C_New_York.jpg",
+   "author": "Famartin",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024-06-15 09:53:30",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.705771,
+    "lon": -73.996343
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 912444,
+   "sha256": "b2f152486a72cd5140db3c35856da04a376cfbefc464801fb689c3b494eb7189",
+   "mean_luminance": 116.7,
+   "description": "View from the middle of the Brooklyn Bridge looking northwest along the pedestrian walkway in Manhattan, New York City, New York",
+   "categories": [
+    "Views from the Brooklyn Bridge",
+    "Self-published work",
+    "Brooklyn Bridge promenade",
+    "Files with coordinates missing SDC location of creation",
+    "Brooklyn Bridge in 2024",
+    "New York City photographs taken on 2024-06-15",
+    "June 2024 in Manhattan, New York City",
+    "Famartin's 2024 photos",
+    "Famartin's June 2024 photos"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 15.2,
+   "estimated_viewpoint": {
+    "lat": 40.705771,
+    "lon": -73.996343,
+    "azimuth_deg": 316.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70577, -73.99634) is 340 m from Brooklyn Bridge Manhattan tower (40.70800, -73.99910) and 46 m from the standard viewpoint; the azimuth 317 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"2024-06-15 09 53 30 View from the middle of the Brooklyn Bridge looking northwest along the pedestrian walkway in Manhattan, New York City, New York.jpg\" by Famartin, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:2024-06-15_09_53_30_View_from_the_middle_of_the_Brooklyn_Bridge_looking_northwest_along_the_pedestrian_walkway_in_Manhattan,_New_York_City,_New_York.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Snowy Brooklyn Bridge (Unsplash).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Snowy_Brooklyn_Bridge_(Unsplash).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c0/Snowy_Brooklyn_Bridge_%28Unsplash%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Snowy_Brooklyn_Bridge_%28Unsplash%29.jpg/1920px-Snowy_Brooklyn_Bridge_%28Unsplash%29.jpg",
+   "author": "Emanuel Hahn hahnbo",
+   "credit": "https://unsplash.com/photos/aFOnFFU5wyA Image at the Wayback Machine Gallery at the Wayback Machine",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2017-03-12",
+   "date_source": "DateTimeOriginal",
+   "year": 2017,
+   "camera_gps": {
+    "lat": 40.706086,
+    "lon": -73.996864
+   },
+   "original_width": 5706,
+   "original_height": 3804,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 1060413,
+   "sha256": "109cb2a9497643bf8275b7fcfc9931fae8382515a68326b4e605e032265f0e76",
+   "mean_luminance": 190.9,
+   "description": "Brooklyn Bridge, New York, United States",
+   "categories": [
+    "Snow in New York City",
+    "CC-Zero",
+    "Images uploaded by Fæ",
+    "March 2017 nor'easter",
+    "Images from Unsplash",
+    "Brooklyn Bridge promenade",
+    "Files with coordinates missing SDC location of creation",
+    "Brooklyn Bridge cablework"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.3,
+   "estimated_viewpoint": {
+    "lat": 40.706086,
+    "lon": -73.996864,
+    "azimuth_deg": 318.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70609, -73.99686) is 284 m from Brooklyn Bridge Manhattan tower (40.70800, -73.99910) and 11 m from the standard viewpoint; the azimuth 318 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Snowy Brooklyn Bridge (Unsplash).jpg\" by Emanuel Hahn hahnbo, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Snowy_Brooklyn_Bridge_(Unsplash).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Girl in Brooklyn (Unsplash).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Girl_in_Brooklyn_(Unsplash).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Girl_in_Brooklyn_%28Unsplash%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Girl_in_Brooklyn_%28Unsplash%29.jpg/1920px-Girl_in_Brooklyn_%28Unsplash%29.jpg",
+   "author": "Heather Shevlin thehmstravels",
+   "credit": "https://unsplash.com/photos/KaDO53R3AHw Image at the Wayback Machine Gallery at the Wayback Machine",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2017-01-21",
+   "date_source": "DateTimeOriginal",
+   "year": 2017,
+   "camera_gps": {
+    "lat": 40.706086,
+    "lon": -73.996864
+   },
+   "original_width": 3576,
+   "original_height": 5363,
+   "width": 1920,
+   "height": 2879,
+   "bytes": 1188949,
+   "sha256": "4b80daeea31cde439d2d98086fa2f6257a682edb065462c92e5e8c91f29ad7d6",
+   "mean_luminance": 225.0,
+   "description": "Brooklyn Bridge, New York, United States",
+   "categories": [
+    "CC-Zero",
+    "Images uploaded by Fæ",
+    "Images from Unsplash",
+    "Images from Unsplash (review needed)",
+    "Brooklyn Bridge promenade",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.3,
+   "estimated_viewpoint": {
+    "lat": 40.706086,
+    "lon": -73.996864,
+    "azimuth_deg": 318.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70609, -73.99686) is 284 m from Brooklyn Bridge Manhattan tower (40.70800, -73.99910) and 11 m from the standard viewpoint; the azimuth 318 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Girl in Brooklyn (Unsplash).jpg\" by Heather Shevlin thehmstravels, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Girl_in_Brooklyn_(Unsplash).jpg"
+  }
+ ]
+}

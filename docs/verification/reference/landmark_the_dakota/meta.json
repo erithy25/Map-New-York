@@ -1,0 +1,194 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_the_dakota",
+ "name": "The Dakota",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.776,
+  "lon": -73.9752,
+  "azimuth_deg": 306.3,
+  "note": "Central Park West at West 72nd Street, park side, looking west-north-west at the 72nd Street front",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7765,
+  "lon": -73.9761,
+  "name": "The Dakota"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"The Dakota\" Central Park West",
+  "\"Dakota\" apartment building 72nd Street Manhattan"
+ ],
+ "geosearch_radius_m": 200,
+ "fetched_at": "2026-09-06T12:36:34Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 110,
+ "candidates_eligible": 62,
+ "rejections": {
+  "too_old": 6,
+  "too_small": 7,
+  "not_photo": 4,
+  "night_for_day_item": 1,
+  "excluded": 16,
+  "keywords": 14
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:The Dakota, West 72nd Street, Upper West Side, Manhattan, New York.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:The_Dakota,_West_72nd_Street,_Upper_West_Side,_Manhattan,_New_York.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/68/The_Dakota%2C_West_72nd_Street%2C_Upper_West_Side%2C_Manhattan%2C_New_York.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/The_Dakota%2C_West_72nd_Street%2C_Upper_West_Side%2C_Manhattan%2C_New_York.jpg/1920px-The_Dakota%2C_West_72nd_Street%2C_Upper_West_Side%2C_Manhattan%2C_New_York.jpg",
+   "author": "Christian David",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026-04-18 14:45:42",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.776288,
+    "lon": -73.97636
+   },
+   "original_width": 6545,
+   "original_height": 4909,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 801838,
+   "sha256": "d38301418a1aca14f87b74074f81a1344e13c65b7865eb3303af370531cd3f1a",
+   "mean_luminance": 138.8,
+   "description": "Entrance and carriageway of The Dakota (Henry Janeway Hardenbergh, 1884), 1 West 72nd Street, Central Park West; John Lennon's residence. Upper West Side, Manhattan, New York City.",
+   "categories": [
+    "The Dakota",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "April 2026 in Manhattan, New York City",
+    "Images of the United States by Christian David"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.7,
+   "estimated_viewpoint": {
+    "lat": 40.776288,
+    "lon": -73.97636,
+    "azimuth_deg": 42.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.77629, -73.97636) is 32 m from The Dakota (40.77650, -73.97610) and 103 m from the standard viewpoint; the azimuth 43 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"The Dakota, West 72nd Street, Upper West Side, Manhattan, New York.jpg\" by Christian David, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:The_Dakota,_West_72nd_Street,_Upper_West_Side,_Manhattan,_New_York.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Vchod do budovy The Dakota (Upper West Side, Manhattan).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Vchod_do_budovy_The_Dakota_(Upper_West_Side,_Manhattan).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d4/Vchod_do_budovy_The_Dakota_%28Upper_West_Side%2C_Manhattan%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Vchod_do_budovy_The_Dakota_%28Upper_West_Side%2C_Manhattan%29.jpg/1920px-Vchod_do_budovy_The_Dakota_%28Upper_West_Side%2C_Manhattan%29.jpg",
+   "author": "Ludmila Zellner Rotbauerová",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2025-06-24 17:32:22",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.776242,
+    "lon": -73.976328
+   },
+   "original_width": 4000,
+   "original_height": 2252,
+   "width": 1920,
+   "height": 1081,
+   "bytes": 751511,
+   "sha256": "9dc0d7c578b0a5d6e933524c5e46952fd2fe6b6ef5a965757e964243982b4a2e",
+   "mean_luminance": 124.3,
+   "description": "The main entrance of The Dakota, a historic apartment building on West 72nd Street in Manhattan. This doorway is known as the location where musician John Lennon was shot on December 8, 1980.",
+   "categories": [
+    "The Dakota",
+    "Mark David Chapman",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.776242,
+    "lon": -73.976328,
+    "azimuth_deg": 33.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.77624, -73.97633) is 35 m from The Dakota (40.77650, -73.97610) and 99 m from the standard viewpoint; the azimuth 34 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Vchod do budovy The Dakota (Upper West Side, Manhattan).jpg\" by Ludmila Zellner Rotbauerová, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Vchod_do_budovy_The_Dakota_(Upper_West_Side,_Manhattan).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:The Dakota February 2023 002.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:The_Dakota_February_2023_002.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/12/The_Dakota_February_2023_002.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/The_Dakota_February_2023_002.jpg/1920px-The_Dakota_February_2023_002.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-02-08 14:29:37",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.775822,
+    "lon": -73.976158
+   },
+   "original_width": 2048,
+   "original_height": 1536,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 500045,
+   "sha256": "b6f79491eda9327ba003368349566dac6c3151dea53ca1c26fd5589857a57220",
+   "mean_luminance": 89.3,
+   "description": "The Dakota in February 2023",
+   "categories": [
+    "The Dakota",
+    "New York City photographs taken on 2023-02-08",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2023 in the Upper West Side",
+    "February 2023 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.775822,
+    "lon": -73.976158,
+    "azimuth_deg": 3.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.77582, -73.97616) is 76 m from The Dakota (40.77650, -73.97610) and 83 m from the standard viewpoint; the azimuth 4 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"The Dakota February 2023 002.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:The_Dakota_February_2023_002.jpg"
+  }
+ ]
+}

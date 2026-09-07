@@ -1,0 +1,205 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_george_washington_bridge",
+ "name": "George Washington Bridge",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.8472,
+  "lon": -73.945,
+  "azimuth_deg": 340.4,
+  "note": "Hudson River Greenway in Fort Washington Park just south of the bridge, looking north at the New York tower",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.8506,
+  "lon": -73.9466,
+  "name": "George Washington Bridge New York tower"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"George Washington Bridge\" from Fort Washington Park",
+  "\"George Washington Bridge\" Little Red Lighthouse"
+ ],
+ "geosearch_radius_m": 600,
+ "fetched_at": "2026-09-06T12:45:23Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 129,
+ "candidates_eligible": 87,
+ "rejections": {
+  "night_for_day_item": 1,
+  "excluded": 3,
+  "not_jpeg": 1,
+  "too_old": 9,
+  "licence": 2,
+  "too_small": 7,
+  "keywords": 18,
+  "indoor": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:GWB southeast leg work uncut 2021 jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:GWB_southeast_leg_work_uncut_2021_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e0/GWB_southeast_leg_work_uncut_2021_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/GWB_southeast_leg_work_uncut_2021_jeh.jpg/1920px-GWB_southeast_leg_work_uncut_2021_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2021-04-28 10:52:39",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.850433,
+    "lon": -73.94593
+   },
+   "original_width": 4608,
+   "original_height": 3072,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 791261,
+   "sha256": "4348c11805480a0a3fc5841c6cf304b07b539867978742b0c632c344b33664f5",
+   "mean_luminance": 126.8,
+   "description": "Looking west at bridge from lower Little Red Hill on a mostly sunny midday",
+   "categories": [
+    "April 2021 in New York City",
+    "George Washington Bridge",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2021-04-28",
+    "2021 Manhattan photos by Jim.henderson",
+    "April 2021 photos by Jim.henderson"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.9,
+   "estimated_viewpoint": {
+    "lat": 40.850433,
+    "lon": -73.94593,
+    "azimuth_deg": 288.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.85043, -73.94593) is 59 m from George Washington Bridge New York tower (40.85060, -73.94660) and 368 m from the standard viewpoint; the azimuth 288 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"GWB southeast leg work uncut 2021 jeh.jpg\" by Jim.henderson, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:GWB_southeast_leg_work_uncut_2021_jeh.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:2024-06-17 13 40 06 View north along the northbound lanes of New York State Route 9A (Henry Hudson Parkway) from the George Washington Bridge in Manhattan, New York City, New York.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:2024-06-17_13_40_06_View_north_along_the_northbound_lanes_of_New_York_State_Route_9A_(Henry_Hudson_Parkway)_from_the_George_Washington_Bridge_in_Manhattan,_New_York_City,_New_York.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/81/2024-06-17_13_40_06_View_north_along_the_northbound_lanes_of_New_York_State_Route_9A_%28Henry_Hudson_Parkway%29_from_the_George_Washington_Bridge_in_Manhattan%2C_New_York_City%2C_New_York.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/2024-06-17_13_40_06_View_north_along_the_northbound_lanes_of_New_York_State_Route_9A_%28Henry_Hudson_Parkway%29_from_the_George_Washington_Bridge_in_Manhattan%2C_New_York_City%2C_New_York.jpg/1920px-2024-06-17_13_40_06_View_north_along_the_northbound_lanes_of_New_York_State_Route_9A_%28Henry_Hudson_Parkway%29_from_the_George_Washington_Bridge_in_Manhattan%2C_New_York_City%2C_New_York.jpg",
+   "author": "Famartin",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024-06-17 13:40:06",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.85008,
+    "lon": -73.943251
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 995682,
+   "sha256": "aef905b6e105938fa66e51dc76ef62e5bb79efa2fcad7208fde24b14f7b17b40",
+   "mean_luminance": 137.2,
+   "description": "View north along the northbound lanes of New York State Route 9A (Henry Hudson Parkway) from the George Washington Bridge in Manhattan, New York City, New York",
+   "categories": [
+    "Views from the George Washington Bridge",
+    "Fort Washington Park (Manhattan)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Parks in New York City in 2024",
+    "2024 in Washington Heights, Manhattan",
+    "New York City photographs taken on 2024-06-17",
+    "June 2024 in Manhattan, New York City",
+    "Henry Hudson Parkway (New York State Route 9A) in Manhattan",
+    "Views of New York City from south",
+    "Trees in parks in Manhattan, New York City",
+    "Famartin's 2024 photos",
+    "Famartin's June 2024 photos"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.85008,
+    "lon": -73.943251,
+    "azimuth_deg": 281.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.85008, -73.94325) is 288 m from George Washington Bridge New York tower (40.85060, -73.94660) and 352 m from the standard viewpoint; the azimuth 282 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"2024-06-17 13 40 06 View north along the northbound lanes of New York State Route 9A (Henry Hudson Parkway) from the George Washington Bridge in Manhattan, New York City, New York.jpg\" by Famartin, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:2024-06-17_13_40_06_View_north_along_the_northbound_lanes_of_New_York_State_Route_9A_(Henry_Hudson_Parkway)_from_the_George_Washington_Bridge_in_Manhattan,_New_York_City,_New_York.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:George Washington Bridge suspender rope replacement.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:George_Washington_Bridge_suspender_rope_replacement.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c0/George_Washington_Bridge_suspender_rope_replacement.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/George_Washington_Bridge_suspender_rope_replacement.jpg/1920px-George_Washington_Bridge_suspender_rope_replacement.jpg",
+   "author": "Z22",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-12-09 15:10:22",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.850422,
+    "lon": -73.946525
+   },
+   "original_width": 2353,
+   "original_height": 1765,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 803834,
+   "sha256": "8bd9afd5ac68776a52cab9b6a0ce5f6ea8d99aed51b183d2065a7478f2304355",
+   "mean_luminance": 153.0,
+   "description": "George Washington Bridge suspender rope replacement. Original suspender ropes being replaced on the foreground compared to new ones on the background.",
+   "categories": [
+    "George Washington Bridge",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Bridge cables"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.850422,
+    "lon": -73.946525,
+    "azimuth_deg": 342.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.85042, -73.94652) is 21 m from George Washington Bridge New York tower (40.85060, -73.94660) and 381 m from the standard viewpoint; the azimuth 342 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"George Washington Bridge suspender rope replacement.jpg\" by Z22, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:George_Washington_Bridge_suspender_rope_replacement.jpg"
+  }
+ ]
+}

@@ -1,0 +1,28 @@
+{
+ "artist": "mumble and sigh",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 1221575,
+ "duration_s": 86.5,
+ "file": "electronic/2025_10_29_202602_2025_10_03.ogg",
+ "gain_db": -1.8,
+ "licence": "CC-BY-4.0",
+ "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+ "loudness_lufs": -12.2,
+ "original_filename": "2025-10-03.mp3",
+ "recorded_at": "2026-09-06T12:17:36Z",
+ "schema_version": 1,
+ "sha256": "cf163fe96be8fd6ada02a07fab7be704f981929a3b21ac5767fc32d0e63eac50",
+ "source_page": "https://archive.org/details/2025-10-29_202602",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/2025-10-29_202602/2025-10-03.mp3",
+ "title": "2025-10-03",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

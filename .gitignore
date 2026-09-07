@@ -1,0 +1,49 @@
+# data (manifest-tracked, not committed)
+data/raw/
+data/processed/
+blender_out/
+*.part
+# python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+# build
+core/build/
+unreal/NYCSim/Binaries/
+unreal/NYCSim/Intermediate/
+unreal/NYCSim/DerivedDataCache/
+unreal/NYCSim/Saved/
+unreal/NYCSim/.vs/
+# render scratch
+docs/verification/**/*.exr
+# third-party downloads kept out of git (recorded with licence JSON next to them)
+assets/**/downloads/
+assets/textures/**/*.jpg
+assets/textures/**/*.png
+assets/textures/**/*.zip
+assets/textures/**/*.exr
+assets/audio/**/*.mp3
+assets/audio/**/*.ogg
+assets/audio/**/*.wav
+assets/audio/**/*.flac
+# agent scratch
+/hang_repro.py
+core/build*/
+# Re-fetchable downloaded assets (provenance kept: LICENSE.json / *.license.json are tracked)
+assets/textures/**
+!assets/textures/**/LICENSE.json
+!assets/textures/**/*.license.json
+assets/character/downloads/**
+!assets/character/**/LICENSE*.json
+!assets/character/**/*.license.json
+assets/audio/**/*.mp3
+assets/audio/**/*.ogg
+assets/audio/**/*.wav
+.pytest_cache/
+**/__pycache__/
+
+# Blender stdout from the render batches. 4.5 MB of churn, rewritten continuously by the
+# verification lanes, referenced by no code or report — the provenance of every render lives in
+# its own render.json beside the image. Kept on disk, out of the history.
+.render_batch.log

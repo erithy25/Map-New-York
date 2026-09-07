@@ -1,0 +1,262 @@
+{
+ "schema_version": 1,
+ "slug": "street_nyc_street_name_signs",
+ "name": "NYC street name signs (close-ups)",
+ "group": "streetscape",
+ "viewpoint": {
+  "lat": 40.755,
+  "lon": -73.984,
+  "azimuth_deg": 0.0,
+  "note": "typical Midtown intersection corner (representative; close-up references, not a view)",
+  "representative": true
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 4,
+ "queries": [
+  "New York City street name sign",
+  "Manhattan street corner sign post",
+  "street signs New York City intersection"
+ ],
+ "geosearch_radius_m": 0,
+ "fetched_at": "2026-09-06T14:26:29Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 130,
+ "candidates_eligible": 53,
+ "rejections": {
+  "excluded": 10,
+  "indoor": 11,
+  "keywords": 27,
+  "too_old": 13,
+  "too_small": 5,
+  "not_photo": 4,
+  "wrong_place": 2,
+  "licence": 5
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Street signs at 47th street and Broadway designating Lloyd Richards Way in Manhattan, New York,.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Street_signs_at_47th_street_and_Broadway_designating_Lloyd_Richards_Way_in_Manhattan,_New_York,.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/6e/Street_signs_at_47th_street_and_Broadway_designating_Lloyd_Richards_Way_in_Manhattan%2C_New_York%2C.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Street_signs_at_47th_street_and_Broadway_designating_Lloyd_Richards_Way_in_Manhattan%2C_New_York%2C.jpg/1920px-Street_signs_at_47th_street_and_Broadway_designating_Lloyd_Richards_Way_in_Manhattan%2C_New_York%2C.jpg",
+   "author": "Dizzycheekchewer",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026-03-25",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.758,
+    "lon": 73.9855
+   },
+   "original_width": 5184,
+   "original_height": 3456,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 335676,
+   "sha256": "fe5c5f54c45584519efe885e26f72a8af07c1c78478a13e258b1c5ad63bdfb82",
+   "mean_luminance": 96.7,
+   "description": "Street signs at 47th and Broadway in Manhattan, New York, which was designated Lloyd Richards Way in 2024",
+   "categories": [
+    "47th Street (Manhattan)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Broadway from 42nd to 47th Streets",
+    "2024 in Times Square",
+    "Roads and streets in New York City named after people",
+    "Broadway street signs",
+    "Honorary street name signs in New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:New York City street name sign",
+   "score": 10.2,
+   "estimated_viewpoint": {
+    "lat": 40.758,
+    "lon": -73.9855,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.75800, -73.98550), 357 m from the reference position (typical Midtown intersection corner (representative; close-up references, not a view)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken. The file's longitude is written +73.98550 with no western hemisphere sign; read as -73.98550 it puts the camera 357 m from the reference position, so the sign was corrected here."
+   },
+   "attribution": "\"Street signs at 47th street and Broadway designating Lloyd Richards Way in Manhattan, New York,.jpg\" by Dizzycheekchewer, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Street_signs_at_47th_street_and_Broadway_designating_Lloyd_Richards_Way_in_Manhattan,_New_York,.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Christopher Street Sign 003.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Christopher_Street_Sign_003.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/02/Christopher_Street_Sign_003.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Christopher_Street_Sign_003.jpg/1920px-Christopher_Street_Sign_003.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2025-02-11 13:11:21",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.733723,
+    "lon": -74.002619
+   },
+   "original_width": 4608,
+   "original_height": 2072,
+   "width": 1920,
+   "height": 863,
+   "bytes": 160532,
+   "sha256": "3695dc137b99e369fc2062e25cda5c2b05c8b45eb9183b7612973c1a0bee4960",
+   "mean_luminance": 168.6,
+   "description": "Street sign for Christopher Street in Greenwich Village, Manhattan",
+   "categories": [
+    "Greenwich Village Historic District",
+    "Christopher Street (Manhattan)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2025 in Greenwich Village, Manhattan",
+    "New York City photographs taken on 2025-02-11",
+    "February 2025 in Manhattan, New York City",
+    "Street signs in Manhattan, New York City",
+    "Street signs in New York City for Historic Districts",
+    "Roads and streets in New York City named after people",
+    "3 street signs",
+    "Honorary street name signs in New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:New York City street name sign",
+   "score": 10.2,
+   "estimated_viewpoint": {
+    "lat": 40.733723,
+    "lon": -74.002619,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.73372, -74.00262), 2839 m from the reference position (typical Midtown intersection corner (representative; close-up references, not a view)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"Christopher Street Sign 003.jpg\" by Kidfly182, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Christopher_Street_Sign_003.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Allen Street - Avenue of the Immigrants, New York City.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Allen_Street_-_Avenue_of_the_Immigrants,_New_York_City.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/29/Allen_Street_-_Avenue_of_the_Immigrants%2C_New_York_City.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Allen_Street_-_Avenue_of_the_Immigrants%2C_New_York_City.jpg/1920px-Allen_Street_-_Avenue_of_the_Immigrants%2C_New_York_City.jpg",
+   "author": "Mxn",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2025-06-24 14:45:48",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.719078,
+    "lon": -73.990547
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 662792,
+   "sha256": "2bcbd1b68365f71c6cc5b8d36245c708a12afb97166a6bab7c5bbd58a6ff4dae",
+   "mean_luminance": 83.2,
+   "description": "Signs at a street corner in New York City mark Allen Street, also known as Avenue of the Immigrants.",
+   "categories": [
+    "Allen Street (Manhattan)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Street signs in Manhattan, New York City",
+    "Pedestrian signals in Manhattan, New York City",
+    "Honorary street name signs in New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:New York City street name sign",
+   "score": 10.2,
+   "estimated_viewpoint": {
+    "lat": 40.719078,
+    "lon": -73.990547,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.71908, -73.99055), 4032 m from the reference position (typical Midtown intersection corner (representative; close-up references, not a view)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"Allen Street - Avenue of the Immigrants, New York City.jpg\" by Mxn, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Allen_Street_-_Avenue_of_the_Immigrants,_New_York_City.jpg"
+  },
+  {
+   "n": 4,
+   "file": "4.jpg",
+   "title": "File:Douglaston Parkway sign at northwest intersection with Northern Boulevard, November 8, 2023.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Douglaston_Parkway_sign_at_northwest_intersection_with_Northern_Boulevard,_November_8,_2023.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/3a/Douglaston_Parkway_sign_at_northwest_intersection_with_Northern_Boulevard%2C_November_8%2C_2023.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Douglaston_Parkway_sign_at_northwest_intersection_with_Northern_Boulevard%2C_November_8%2C_2023.jpg/1920px-Douglaston_Parkway_sign_at_northwest_intersection_with_Northern_Boulevard%2C_November_8%2C_2023.jpg",
+   "author": "D. Benjamin Miller",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2023-11-08 14:13:32",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.765404,
+    "lon": -73.744674
+   },
+   "original_width": 8192,
+   "original_height": 5464,
+   "width": 1920,
+   "height": 1281,
+   "bytes": 325976,
+   "sha256": "26df0240c6f0229e0545faf7f9d8b086086cb40cd1e3f82b661421a632612900",
+   "mean_luminance": 123.2,
+   "description": "Douglaston Parkway sign at northwest intersection with Northern Boulevard, November 8, 2023. The sign is in a two-line format, with \"Parkway\" written out and set off to the right. The typeface is mixed-case Clearview. The sign has a horizontal striping pattern.",
+   "categories": [
+    "Taken with Canon EOS R5",
+    "CC-Zero",
+    "Self-published work",
+    "New York City photographs taken on 2023-11-08",
+    "November 2023 in Queens, New York City",
+    "Photographs by D. Benjamin Miller",
+    "Files with coordinates missing SDC location of creation",
+    "2023 in Douglaston, Queens",
+    "Parkway (text)",
+    "Taken with Canon RF 100-500mm f/4.5-7.1L IS USM",
+    "Northern Boulevard (Long Island, New York)",
+    "Street signs in Queens, New York City",
+    "Douglaston Parkway (Queens)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:street signs New York City intersection",
+   "score": 10.2,
+   "estimated_viewpoint": {
+    "lat": 40.765404,
+    "lon": -73.744674,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.76540, -73.74467), 20190 m from the reference position (typical Midtown intersection corner (representative; close-up references, not a view)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"Douglaston Parkway sign at northwest intersection with Northern Boulevard, November 8, 2023.jpg\" by D. Benjamin Miller, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Douglaston_Parkway_sign_at_northwest_intersection_with_Northern_Boulevard,_November_8,_2023.jpg"
+  }
+ ]
+}

@@ -1,0 +1,121 @@
+{
+  "count": 1,
+  "units": null,
+  "stations": [
+    {
+      "project": "New York Harbor 2019 Current Survey",
+      "deployed": "2019-08-13 12:43:00",
+      "retrieved": "2019-10-23 23:59:59",
+      "timezone_offset": "-5",
+      "observedst": true,
+      "project_type": "Survey",
+      "noaachart": null,
+      "deployments": {
+        "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1924/deployments.json"
+      },
+      "bins": {
+        "nbr_of_bins": 9,
+        "max_pics_bin": 9,
+        "units": "meters",
+        "bin_size": 1.0,
+        "center_bin_1_dist": 2.11,
+        "real_time_bin": null,
+        "bins": [
+          {
+            "num": 1,
+            "depth": 9.75,
+            "distance": null,
+            "qc_flag": 1,
+            "ping_int": null,
+            "is_pics": false
+          },
+          {
+            "num": 2,
+            "depth": 8.75,
+            "distance": null,
+            "qc_flag": 1,
+            "ping_int": null,
+            "is_pics": false
+          },
+          {
+            "num": 3,
+            "depth": 7.77,
+            "distance": null,
+            "qc_flag": 1,
+            "ping_int": null,
+            "is_pics": false
+          },
+          {
+            "num": 4,
+            "depth": 6.77,
+            "distance": null,
+            "qc_flag": 1,
+            "ping_int": null,
+            "is_pics": false
+          },
+          {
+            "num": 5,
+            "depth": 5.76,
+            "distance": null,
+            "qc_flag": 1,
+            "ping_int": null,
+            "is_pics": false
+          },
+          {
+            "num": 6,
+            "depth": 4.75,
+            "distance": null,
+            "qc_flag": 1,
+            "ping_int": null,
+            "is_pics": false
+          },
+          {
+            "num": 7,
+            "depth": 3.75,
+            "distance": null,
+            "qc_flag": 1,
+            "ping_int": null,
+            "is_pics": false
+          },
+          {
+            "num": 8,
+            "depth": 2.77,
+            "distance": null,
+            "qc_flag": 1,
+            "ping_int": null,
+            "is_pics": false
+          },
+          {
+            "num": 9,
+            "depth": 1.77,
+            "distance": null,
+            "qc_flag": 1,
+            "ping_int": null,
+            "is_pics": false
+          }
+        ],
+        "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1924/bins.json"
+      },
+      "harmonicConstituents": {
+        "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1924/harcon.json"
+      },
+      "height_from_bottom": 0.5,
+      "center_bin_1_dist": 2.11,
+      "id": "NYH1924",
+      "name": "Hell Gate",
+      "lat": 40.77830123901367,
+      "lng": -73.93830108642578,
+      "affiliations": "",
+      "portscode": "",
+      "products": {
+        "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1924/products.json"
+      },
+      "disclaimers": null,
+      "notices": null,
+      "self": "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/NYH1924.json",
+      "expand": "deployments,bins,harcon",
+      "tideType": ""
+    }
+  ],
+  "self": null
+}

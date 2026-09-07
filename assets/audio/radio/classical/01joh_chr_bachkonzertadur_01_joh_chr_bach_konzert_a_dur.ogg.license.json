@@ -1,0 +1,28 @@
+{
+ "artist": "Li STADELMANN - Cembalo, Helmut WIRTH - Dirigent ",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 3561670,
+ "duration_s": 259.56,
+ "file": "classical/01joh_chr_bachkonzertadur_01_joh_chr_bach_konzert_a_dur.ogg",
+ "gain_db": 2.8,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+ "loudness_lufs": -16.8,
+ "original_filename": "01 Joh.Chr. Bach Konzert A Dur.mp3",
+ "recorded_at": "2026-09-06T12:21:40Z",
+ "schema_version": 1,
+ "sha256": "40ecb57193326bad85cf41fe0109b71cea2fffd08e497a5e034de9314b8ad3b0",
+ "source_page": "https://archive.org/details/01joh.chr.bachkonzertadur",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/01joh.chr.bachkonzertadur/01%20Joh.Chr.%20Bach%20Konzert%20A%20Dur.mp3",
+ "title": "Johann Christian BACH:  Konzert A-Dur f\u00fcr Cembalo",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

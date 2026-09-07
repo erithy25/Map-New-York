@@ -1,0 +1,524 @@
+{
+ "agent_request": {
+  "dow": 0,
+  "hour": 9,
+  "local_clock": "2018-06-21 09:30 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "29.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
+ "camera": {
+  "azimuth_deg": 29.0,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "below_point_excluded": 0,
+   "chosen_m": 18.47,
+   "max_m": 18.87,
+   "median_m": 18.63,
+   "min_m": 18.25,
+   "mode": "street",
+   "percentile": 10.0,
+   "point_m": 18.65,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 54.432,
+  "lat": 40.756779,
+  "lon": -73.982545,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
+  "portrait": false,
+  "resolution": [
+   1280,
+   854
+  ],
+  "sensor_mm": 36.0,
+  "slug": "drive_midtown_sixth_ave_45th",
+  "terrain_z_m": 18.473,
+  "x": -2748.22,
+  "y": 6305.742,
+  "z": 20.073
+ },
+ "camera_caption": "camera 40.75678, -73.98255 (NYC_TM -2748, 6306) z 20.1 m NAVD88 | azimuth 29.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.756779,
+  "lon": -73.982545,
+  "offset_from_recorded_m": 35.3,
+  "source": "this photograph's own EXIF camera GPS (40.75678, -73.98255), 35 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
+ "clearance": {
+  "min_view_m": 20.0,
+  "moved": false,
+  "nearest_obstruction": "prop_tree_pin_oak_medium_2",
+  "nearest_obstruction_m": 11.2,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_tree_pin_oak_medium_2 11.2 m away, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
+ },
+ "frame": {
+  "mean": 0.0887,
+  "reason": null,
+  "sd": 0.0865,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "drive_through",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 860.0,
+  "emissive": {
+   "cone_faces_deleted": 16,
+   "cones_hidden": 2,
+   "lamps_switched_off": 5,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 95.383,
+  "sky_elevation_deg": 43.501,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.593,
+  "view_transform": "Filmic"
+ },
+ "name": "Midtown drive-through: Sixth Avenue at 45th Street",
+ "night": false,
+ "pitch_reason": "level optical axis (the reference names no subject to aim at)",
+ "reference_photo": {
+  "author": "Tdorante10",
+  "confidence": "medium",
+  "date_taken": "2018",
+  "estimated_azimuth_deg": 29.0,
+  "file": "1.jpg",
+  "height": 1280,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:45th_St_6th_Av_td_06_-_1156_Sixth_Avenue.jpg",
+  "title": "File:45th St 6th Av td 06 - 1156 Sixth Avenue.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/drive_midtown_sixth_ave_45th/render.png",
+ "rendered_at": "2026-09-07T14:41:02Z",
+ "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 50 vehicles within 320 m and 209 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 1240 vehicles and 1673 people over the whole simulated ring, of which 1407 and 2129 were simulated; 3277 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 148,
+    "pedestrian_not_on_walkable_surface": 78,
+    "pedestrian_outside_radius": 756,
+    "pedestrian_over_the_observer": 9,
+    "pedestrian_triangle_budget": 929,
+    "vehicle_body_has_no_rider": 22,
+    "vehicle_not_on_carriageway": 16,
+    "vehicle_outside_radius": 983,
+    "vehicle_over_the_observer": 2,
+    "vehicle_triangle_budget": 334
+   },
+   "ped_lods": {
+    "LOD0": 17,
+    "LOD1": 1,
+    "LOD2": 191
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 580376,
+   "per_class": {
+    "black_car": 5,
+    "boro_taxi": 11,
+    "box_truck": 1,
+    "sedan": 14,
+    "suv": 3,
+    "taxi": 14,
+    "van": 2
+   },
+   "placed_pedestrians": 209,
+   "placed_vehicles": 50,
+   "reason": null,
+   "seconds": 110.85,
+   "snapshot": {
+    "building_footprints_tested": 3441,
+    "density_lane_km": 26.727,
+    "density_sidewalk_m2": 24812,
+    "density_target_pedestrians": 1672.9,
+    "density_target_vehicles": 1240.0,
+    "dow": 0,
+    "hour": 9,
+    "lanes_considered": 227,
+    "lanes_with_nta": 227,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.94,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 74,
+    "pavement_polygons_tested": 5668,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 2129,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 1407
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1082924,
+   "vehicle_lods": {
+    "LOD1": 10,
+    "LOD2": 40
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 502548
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-3_5",
+    "t_-3_6",
+    "t_-3_7",
+    "t_-4_5",
+    "t_-4_6"
+   ],
+   "landmark_bins_suppressed": 40,
+   "landmark_faces_suppressed": 4764,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [],
+   "per_tile": {
+    "t_-3_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 16,
+     "triangles": 65920
+    },
+    "t_-3_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 17,
+     "triangles": 39682
+    },
+    "t_-3_7": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 16,
+     "triangles": 13328
+    },
+    "t_-4_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 19,
+     "triangles": 64092
+    },
+    "t_-4_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 17,
+     "triangles": 77988
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 5,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 5,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 261010
+  },
+  "centre_tm": [
+   -2748.22,
+   6305.74
+  ],
+  "kit": {
+   "capped": "triangle budget 1393738",
+   "per_category": {
+    "billboard": 1,
+    "bulkhead": 11,
+    "cornice": 7,
+    "door_entry": 11,
+    "fire_escape": 11,
+    "hvac": 5,
+    "parapet": 5,
+    "pilaster": 9,
+    "quoin": 2,
+    "storefront": 60,
+    "storefront_interior": 6,
+    "string_course": 7,
+    "water_tower": 5,
+    "window": 8057
+   },
+   "placed": 8197,
+   "radius_m": 120.0,
+   "records_in_range": 19036,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_6"
+   ],
+   "triangles": 1393806,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 343.7,
+     "id": "c_times_square",
+     "lod": 0,
+     "name": "Times Square",
+     "own_ground_note": {
+      "above_heightmap_m": -1.54,
+      "heightmap_median_m": 16.53,
+      "reason": "the model's ground stands -1.54 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
+     "triangles": 182310
+    },
+    {
+     "distance_m": 360.6,
+     "id": "30_rockefeller_plaza",
+     "lod": 0,
+     "name": "30 Rockefeller Plaza",
+     "own_ground_m2": 1476.0,
+     "own_ground_note": {
+      "above_heightmap_m": -0.76,
+      "heightmap_median_m": 20.26
+     },
+     "own_ground_parts": 1,
+     "triangles": 102530
+    },
+    {
+     "distance_m": 398.5,
+     "id": "new_york_public_library",
+     "lod": 0,
+     "name": "New York Public Library, Stephen A. Schwarzman Building",
+     "own_ground_note": {
+      "above_heightmap_m": -1.19,
+      "heightmap_median_m": 24.66,
+      "reason": "the model's ground stands -1.19 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
+     "triangles": 51785
+    },
+    {
+     "distance_m": 540.8,
+     "id": "one_vanderbilt",
+     "lod": 0,
+     "name": "One Vanderbilt",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 71710
+    },
+    {
+     "distance_m": 570.3,
+     "id": "st_patricks_cathedral",
+     "lod": 0,
+     "name": "St. Patrick's Cathedral",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 6259
+    },
+    {
+     "distance_m": 614.9,
+     "id": "c_metlife_building",
+     "lod": 0,
+     "name": "MetLife Building (200 Park Avenue)",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 105284
+    },
+    {
+     "distance_m": 635.0,
+     "id": "grand_central_terminal",
+     "lod": 0,
+     "name": "Grand Central Terminal",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 29560
+    },
+    {
+     "distance_m": 679.3,
+     "id": "moma",
+     "lod": 0,
+     "name": "Museum of Modern Art",
+     "own_ground_note": {
+      "reason": "every ground polygon is smaller than 25 m2"
+     },
+     "triangles": 23620
+    },
+    {
+     "distance_m": 1001.2,
+     "id": "c_billionaires_row",
+     "lod": 0,
+     "name": "Billionaires' Row (West 57th Street corridor)",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 220910
+    }
+   ],
+   "own_ground_from": [
+    "30_rockefeller_plaza"
+   ],
+   "own_ground_m2": 1476.0,
+   "placed": 9,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 793968
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 440,
+    "curb": 886,
+    "median": 107,
+    "parking_lot": 5,
+    "plaza": 86,
+    "roadbed": 399,
+    "sidewalk": 210
+   },
+   "placed": 2133,
+   "radius_m": 720.0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_5",
+    "t_-3_6",
+    "t_-3_7",
+    "t_-4_5",
+    "t_-4_6"
+   ],
+   "triangles": 149092,
+   "triangles_cut_for_landmark_ground": 4,
+   "vertices": 153130
+  },
+  "props": {
+   "capped": null,
+   "impostor_cards_dropped": 9,
+   "impostor_faces_dropped": 0,
+   "leaf_off": false,
+   "per_kind": {
+    "bike_rack": 13,
+    "bus_shelter": 3,
+    "bus_stop_sign": 11,
+    "citibike_dock": 3,
+    "flagpole": 2,
+    "hydrant": 45,
+    "linknyc": 1,
+    "mailbox": 5,
+    "manhole": 71,
+    "newsstand": 4,
+    "rtpi_sign": 1,
+    "steam_vent": 5,
+    "street_lamp": 85,
+    "subway_entrance": 14,
+    "subway_vent_grate": 10,
+    "tree": 62
+   },
+   "placed": 335,
+   "radius_m": 250.0,
+   "rows_in_range": 501,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_6"
+   ],
+   "tree_species_substituted": 9,
+   "triangles": 731080,
+   "unmapped_kinds": {
+    "artwork": 1,
+    "cooling_tower": 129,
+    "curb_ramp": 32,
+    "drinking_fountain": 1,
+    "memorial": 2,
+    "vending_machine": 1
+   }
+  },
+  "radius_m": 720.0,
+  "seconds": 202.19,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 6,
+   "samples": 211,
+   "spacing_m": 2.0,
+   "triangles": 88188,
+   "water_bodies": [],
+   "water_quads": 0,
+   "z_max_m": 25.74,
+   "z_min_m": 5.2
+  },
+  "triangles": 4500068
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 720.0
+ },
+ "seconds": {
+  "render": 177.7,
+  "scene": 204.3,
+  "total": 382.0
+ },
+ "slug": "drive_midtown_sixth_ave_45th",
+ "status": "rendered",
+ "subject": {
+  "distance_m": null,
+  "name": null
+ },
+ "sun": {
+  "azimuth_deg": 95.38312395077213,
+  "elevation_deg": 43.50128081071288,
+  "local": "2018-06-21T09:30:00-04:00",
+  "time_source": "photograph year only; 21 June 09:30 assumed",
+  "utc": "2018-06-21T13:30:00Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 29.0,
+  "lat": 40.7566,
+  "lon": -73.9822,
+  "note": "Sixth Avenue at West 45th Street, roadway centre, looking uptown"
+ }
+}

@@ -1,0 +1,208 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_statue_of_liberty",
+ "name": "Statue of Liberty",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.6884,
+  "lon": -74.0434,
+  "azimuth_deg": 315.5,
+  "note": "flagpole plaza on Liberty Island south-east of the pedestal, looking north-west at the statue",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.68925,
+  "lon": -74.0445,
+  "name": "Statue of Liberty"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Statue of Liberty\" Liberty Island",
+  "\"Statue of Liberty\" from the ferry New York Harbor"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T12:11:32Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 130,
+ "candidates_eligible": 65,
+ "rejections": {
+  "too_old": 19,
+  "not_photo": 6,
+  "too_small": 8,
+  "excluded": 17,
+  "night_for_day_item": 5,
+  "licence": 2,
+  "indoor": 1,
+  "keywords": 7
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Statue of Liberty, New York City, 20231003 1511 1972.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Statue_of_Liberty,_New_York_City,_20231003_1511_1972.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/ce/Statue_of_Liberty%2C_New_York_City%2C_20231003_1511_1972.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Statue_of_Liberty%2C_New_York_City%2C_20231003_1511_1972.jpg/1920px-Statue_of_Liberty%2C_New_York_City%2C_20231003_1511_1972.jpg",
+   "author": "Jakub Hałun",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2023-10-03 15:11:01",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.68882,
+    "lon": -74.043686
+   },
+   "original_width": 3384,
+   "original_height": 5069,
+   "width": 1920,
+   "height": 2876,
+   "bytes": 592757,
+   "sha256": "c88d6aa6370e2b70ad71ec11da23851024ab3ebebb989b6698f5d0b4da1b6824",
+   "mean_luminance": 144.3,
+   "description": "Statue of Liberty, New York City",
+   "categories": [
+    "October 2023 in New York City",
+    "Self-published work",
+    "New York City photographs taken on 2023-10-03",
+    "Files with coordinates missing SDC location of creation",
+    "Statue of Liberty in 2023",
+    "Front left views of the Statue of Liberty"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.7,
+   "estimated_viewpoint": {
+    "lat": 40.68882,
+    "lon": -74.043686,
+    "azimuth_deg": 304.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.68882, -74.04369) is 84 m from Statue of Liberty (40.68925, -74.04450) and 53 m from the standard viewpoint; the azimuth 305 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Statue of Liberty, New York City, 20231003 1511 1972.jpg\" by Jakub Hałun, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Statue_of_Liberty,_New_York_City,_20231003_1511_1972.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Statue of Liberty IMG 1967.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Statue_of_Liberty_IMG_1967.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/42/Statue_of_Liberty_IMG_1967.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Statue_of_Liberty_IMG_1967.jpg/1920px-Statue_of_Liberty_IMG_1967.jpg",
+   "author": "Bjoertvedt",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.688725,
+    "lon": -74.043792
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 763235,
+   "sha256": "8f9d55ed4db263a9b861f808c7c6c54648c273d9a682a5263364202bd92022ef",
+   "mean_luminance": 142.8,
+   "description": "Statue of Liberty, NY",
+   "categories": [
+    "June 2018 in New York City",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2018-06-28",
+    "Statue of Liberty in 2018",
+    "Front left views of the Statue of Liberty",
+    "Upshots of the Statue of Liberty"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.45,
+   "estimated_viewpoint": {
+    "lat": 40.688725,
+    "lon": -74.043792,
+    "azimuth_deg": 314.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.68872, -74.04379) is 83 m from Statue of Liberty (40.68925, -74.04450) and 49 m from the standard viewpoint; the azimuth 314 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Statue of Liberty IMG 1967.jpg\" by Bjoertvedt, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Statue_of_Liberty_IMG_1967.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Adk9.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Adk9.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Adk9.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Adk9.jpg/1920px-Adk9.jpg",
+   "author": "Chloeadt",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2017",
+   "date_source": "DateTimeOriginal",
+   "year": 2017,
+   "camera_gps": {
+    "lat": 40.688647,
+    "lon": -74.044014
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 363677,
+   "sha256": "5c0af7ff3bc8a777237f6826a08fbc55696fc24e03aff9f2c0b439475f69bc01",
+   "mean_luminance": 103.5,
+   "description": "Statue of Liberty",
+   "categories": [
+    "Images from Wiki Loves Monuments 2017 in New York",
+    "New York City photographs taken on 2017-09-09",
+    "Self-published work",
+    "Images from Wiki Loves Monuments 2017 in the United States",
+    "Front views of the Statue of Liberty",
+    "Images from Wiki Loves Monuments 2017",
+    "Files with coordinates missing SDC location of creation",
+    "Uploaded via Campaign:wlm-us-other",
+    "United States photographs taken on 2017-09-09",
+    "WLMUS 2017 images of the Statue of Liberty",
+    "Images from Wiki Loves Monuments missing SDC location of creation",
+    "Upshots of the Statue of Liberty",
+    "Wiki Loves Monuments 2017 in the United States unreviewed",
+    "Statue of Liberty in September 2017"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.3,
+   "estimated_viewpoint": {
+    "lat": 40.688647,
+    "lon": -74.044014,
+    "azimuth_deg": 328.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.68865, -74.04401) is 79 m from Statue of Liberty (40.68925, -74.04450) and 59 m from the standard viewpoint; the azimuth 329 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Adk9.jpg\" by Chloeadt, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Adk9.jpg"
+  }
+ ]
+}

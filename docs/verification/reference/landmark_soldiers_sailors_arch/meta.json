@@ -1,0 +1,208 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_soldiers_sailors_arch",
+ "name": "Soldiers' and Sailors' Memorial Arch (Grand Army Plaza, Brooklyn)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.675128,
+  "lon": -73.970309,
+  "azimuth_deg": 170.0,
+  "note": "the plaza island north of the arch at Grand Army Plaza, about 150 m from it, looking south at the Soldiers' and Sailors' Memorial Arch",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.6738,
+  "lon": -73.97,
+  "name": "Soldiers' and Sailors' Memorial Arch (Grand Army Plaza, Brooklyn)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Soldiers' and Sailors' Memorial Arch\" Brooklyn",
+  "\"Grand Army Plaza\" Brooklyn arch"
+ ],
+ "geosearch_radius_m": 350,
+ "fetched_at": "2026-09-06T13:02:35Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 100,
+ "candidates_eligible": 26,
+ "rejections": {
+  "keywords": 46,
+  "licence": 3,
+  "indoor": 2,
+  "too_old": 16,
+  "too_small": 4,
+  "excluded": 1,
+  "not_jpeg": 2
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Soldiers' and Sailors' Arch - Grand Army Plaza (55268471678).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Soldiers%27_and_Sailors%27_Arch_-_Grand_Army_Plaza_(55268471678).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/14/Soldiers%27_and_Sailors%27_Arch_-_Grand_Army_Plaza_%2855268471678%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Soldiers%27_and_Sailors%27_Arch_-_Grand_Army_Plaza_%2855268471678%29.jpg/1920px-Soldiers%27_and_Sailors%27_Arch_-_Grand_Army_Plaza_%2855268471678%29.jpg",
+   "author": "ajay_suresh",
+   "credit": "Soldiers' and Sailors' Arch - Grand Army Plaza",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2026-04-23 12:48",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.672547,
+    "lon": -73.969809
+   },
+   "original_width": 5080,
+   "original_height": 5080,
+   "width": 1920,
+   "height": 1920,
+   "bytes": 1114458,
+   "sha256": "7f14c25304ea2484b4491d61c1594596632b64410324f725f476af1095d73951",
+   "mean_luminance": 166.4,
+   "description": "Brooklyn, NY",
+   "categories": [
+    "Soldiers' and Sailors' Arch",
+    "Creative Commons Attribution 4.0 missing SDC copyright license",
+    "Creative Commons Attribution missing SDC copyright status",
+    "Flickr images missing SDC copyright status",
+    "Flickr images missing SDC creator",
+    "Flickr images missing SDC inception",
+    "Flickr images missing SDC source of file",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Prospect Park in 2026",
+    "April 2026 in Brooklyn, New York City",
+    "New York City photographs taken on 2026-04-23",
+    "Flickr images missing SDC published in",
+    "2026 New York City photographs by ajay suresh"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Grand Army Plaza\" Brooklyn arch",
+   "score": 12.2,
+   "estimated_viewpoint": {
+    "lat": 40.672547,
+    "lon": -73.969809,
+    "azimuth_deg": 353.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.67255, -73.96981) is 140 m from Soldiers' and Sailors' Memorial Arch (Grand Army Plaza, Brooklyn) (40.67380, -73.97000) and 290 m from the standard viewpoint; the azimuth 353 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Soldiers' and Sailors' Arch - Grand Army Plaza (55268471678).jpg\" by ajay_suresh, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Soldiers%27_and_Sailors%27_Arch_-_Grand_Army_Plaza_(55268471678).jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Soldiers and Sailors Arch 002.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Soldiers_and_Sailors_Arch_002.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/eb/Soldiers_and_Sailors_Arch_002.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Soldiers_and_Sailors_Arch_002.jpg/1920px-Soldiers_and_Sailors_Arch_002.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021-08-05 15:31:17",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.672814,
+    "lon": -73.969925
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 554884,
+   "sha256": "b68efcaa402d4d520b950c106cb68f555955c2e8b1cb5a80c00a1721d68f930d",
+   "mean_luminance": 151.8,
+   "description": "The Soldiers and Sailors Arch",
+   "categories": [
+    "August 2021 in New York City",
+    "Grand Army Plaza",
+    "Soldiers' and Sailors' Arch",
+    "Monuments and memorials in Brooklyn",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Prospect Park in 2021"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Grand Army Plaza\" Brooklyn arch",
+   "score": 11.9,
+   "estimated_viewpoint": {
+    "lat": 40.672814,
+    "lon": -73.969925,
+    "azimuth_deg": 356.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.67281, -73.96993) is 110 m from Soldiers' and Sailors' Memorial Arch (Grand Army Plaza, Brooklyn) (40.67380, -73.97000) and 259 m from the standard viewpoint; the azimuth 357 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Soldiers and Sailors Arch 002.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Soldiers_and_Sailors_Arch_002.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Brooklyn, NYC (2020) - 30.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Brooklyn,_NYC_(2020)_-_30.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Brooklyn%2C_NYC_%282020%29_-_30.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Brooklyn%2C_NYC_%282020%29_-_30.jpg/1920px-Brooklyn%2C_NYC_%282020%29_-_30.jpg",
+   "author": "Another Believer",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2020-02-22 14:33:47",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": {
+    "lat": 40.673056,
+    "lon": -73.970556
+   },
+   "original_width": 5312,
+   "original_height": 2988,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 546826,
+   "sha256": "3a0624601b5ed1130ce717ba0da1317c7f1b4b3253e7f38fcb79fc76c0255b2c",
+   "mean_luminance": 140.3,
+   "description": "Brooklyn, NYC (2020)",
+   "categories": [
+    "Soldiers' and Sailors' Arch",
+    "New York City photographs taken on 2020-02-20",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Prospect Park in 2020",
+    "February 2020 in Brooklyn, New York City",
+    "2020 photographs of New York City by Another Believer"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Grand Army Plaza\" Brooklyn arch",
+   "score": 11.75,
+   "estimated_viewpoint": {
+    "lat": 40.673056,
+    "lon": -73.970556,
+    "azimuth_deg": 29.5,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.67306, -73.97056) is 95 m from Soldiers' and Sailors' Memorial Arch (Grand Army Plaza, Brooklyn) (40.67380, -73.97000) and 231 m from the standard viewpoint; the azimuth 30 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Brooklyn, NYC (2020) - 30.jpg\" by Another Believer, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Brooklyn,_NYC_(2020)_-_30.jpg"
+  }
+ ]
+}

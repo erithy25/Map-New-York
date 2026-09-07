@@ -1,0 +1,205 @@
+{
+ "schema_version": 1,
+ "slug": "street_tenement_fire_escapes_les",
+ "name": "Tenement with fire escapes (East Village / Lower East Side)",
+ "group": "streetscape",
+ "viewpoint": {
+  "lat": 40.72,
+  "lon": -73.9887,
+  "azimuth_deg": 29.0,
+  "note": "Orchard Street at Rivington Street, roadway centre, looking north (representative block)",
+  "representative": true
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "tenement \"fire escape\" \"Lower East Side\"",
+  "\"East Village\" tenement fire escapes",
+  "\"Orchard Street\" Lower East Side tenement"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T13:36:19Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 114,
+ "candidates_eligible": 92,
+ "rejections": {
+  "keywords": 13,
+  "too_old": 4,
+  "too_small": 3,
+  "not_photo": 1,
+  "excluded": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Izakaya Feast.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Izakaya_Feast.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/7a/Izakaya_Feast.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Izakaya_Feast.jpg/1920px-Izakaya_Feast.jpg",
+   "author": "Eden, Janine and Jim",
+   "credit": "https://www.flickr.com/photos/edenpictures/54821196310/",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2025",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.719655,
+    "lon": -73.9886
+   },
+   "original_width": 4032,
+   "original_height": 2268,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 525465,
+   "sha256": "ffb6ce5bcd17927c139c6118938f5a23eb013f4ea397d7d6fff3a92a4e04a7f4",
+   "mean_luminance": 128.2,
+   "description": "New York",
+   "categories": [
+    "Ludlow Street (Manhattan)",
+    "Izakaya",
+    "Interiors of restaurants in Manhattan, New York City",
+    "Files with coordinates missing SDC location of creation",
+    "Japanese style restaurants in New York City",
+    "Flickr images reviewed by FlickreviewR 2",
+    "2025 in the Lower East Side",
+    "Photographs by Eden, Janine and Jim in Manhattan, New York City",
+    "September 2025 in Manhattan, New York City",
+    "Interiors of Japanese-style restaurants",
+    "Restaurants in the Lower East Side, Manhattan",
+    "New York City photographs taken on 2025-09-29"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 15.2,
+   "estimated_viewpoint": {
+    "lat": 40.719655,
+    "lon": -73.9886,
+    "azimuth_deg": 29.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.71966, -73.98860), 39 m from the reference position (Orchard Street at Rivington Street, roadway centre, looking north (representative block)); this item is a view along a street rather than at a point subject, so the azimuth 29 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"Izakaya Feast.jpg\" by Eden, Janine and Jim, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Izakaya_Feast.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Economy Candy 2023 jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Economy_Candy_2023_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/80/Economy_Candy_2023_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Economy_Candy_2023_jeh.jpg/1920px-Economy_Candy_2023_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.7199,
+    "lon": -73.9879
+   },
+   "original_width": 4000,
+   "original_height": 3000,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 741878,
+   "sha256": "59a301c2270b5fdefc9a1d4457cf0fc27c0f7e486c8b7fd3bcf1ee943b8e3e4b",
+   "mean_luminance": 92.7,
+   "description": "Economy Candy (candy store in New York City)",
+   "categories": [
+    "Rivington Street (Manhattan)",
+    "Candy stores in New York (state)",
+    "New York City photographs taken on 2023-02-10",
+    "Self-published work",
+    "Uploaded with Mobile/Android",
+    "Files with coordinates missing SDC location of creation",
+    "2023 in the Lower East Side",
+    "Shop signs in New York City",
+    "February 2023 in Manhattan, New York City",
+    "Buildings in the Lower East Side, Manhattan",
+    "1937 establishments in New York City",
+    "2023 Manhattan photos by Jim.henderson"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 15.2,
+   "estimated_viewpoint": {
+    "lat": 40.7199,
+    "lon": -73.9879,
+    "azimuth_deg": 29.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.71990, -73.98790), 68 m from the reference position (Orchard Street at Rivington Street, roadway centre, looking north (representative block)); this item is a view along a street rather than at a point subject, so the azimuth 29 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"Economy Candy 2023 jeh.jpg\" by Jim.henderson, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Economy_Candy_2023_jeh.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Lower East Side March 2023 054.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Lower_East_Side_March_2023_054.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/4e/Lower_East_Side_March_2023_054.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Lower_East_Side_March_2023_054.jpg/1920px-Lower_East_Side_March_2023_054.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-03-24 11:49:44",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.720008,
+    "lon": -73.988472
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 510982,
+   "sha256": "a73201c5f9c06222e3b752f26bcf4fcb265cc0ec4de3cc41f743b74344d71787",
+   "mean_luminance": 121.8,
+   "description": "Lower East Side, Manhattan in March 2023",
+   "categories": [
+    "New York City photographs taken on 2023-03-24",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2023 in the Lower East Side",
+    "March 2023 in Manhattan, New York City",
+    "Corner buildings in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 15.2,
+   "estimated_viewpoint": {
+    "lat": 40.720008,
+    "lon": -73.988472,
+    "azimuth_deg": 29.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.72001, -73.98847), 19 m from the reference position (Orchard Street at Rivington Street, roadway centre, looking north (representative block)); this item is a view along a street rather than at a point subject, so the azimuth 29 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"Lower East Side March 2023 054.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Lower_East_Side_March_2023_054.jpg"
+  }
+ ]
+}

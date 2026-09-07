@@ -1,0 +1,28 @@
+{
+ "artist": "Berta MORENA - Sopran, Fritz FEINHALS - Bariton",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 3276239,
+ "duration_s": 225.61,
+ "file": "classical/01feinhalsmorenaaidaduett1044134_01_feinhals_morena_aida_duett_1.ogg",
+ "gain_db": -0.6,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+ "loudness_lufs": -13.4,
+ "original_filename": "01 Feinhals Morena Aida Duett 1.mp3",
+ "recorded_at": "2026-09-06T12:20:56Z",
+ "schema_version": 1,
+ "sha256": "99b633df9bb79b007623db1302c86faeb623212f3c6d26ea781b22b2f0f2dedc",
+ "source_page": "https://archive.org/details/01FeinhalsMorenaAidaDuett1044134",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/01FeinhalsMorenaAidaDuett1044134/01%20Feinhals%20Morena%20Aida%20Duett%201.mp3",
+ "title": "Feinhals Morena Aida-Duett 1 044134-35",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

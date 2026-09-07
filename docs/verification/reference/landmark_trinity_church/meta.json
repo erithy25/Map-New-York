@@ -1,0 +1,213 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_trinity_church",
+ "name": "Trinity Church",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7065,
+  "lon": -74.0095,
+  "azimuth_deg": 309.1,
+  "note": "Wall Street at William Street, looking west-north-west up Wall Street at the spire",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7081,
+  "lon": -74.0121,
+  "name": "Trinity Church"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Trinity Church\" Wall Street",
+  "\"Trinity Church\" Manhattan Broadway spire"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T13:56:16Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 130,
+ "candidates_eligible": 17,
+ "rejections": {
+  "indoor": 8,
+  "excluded": 10,
+  "not_photo": 18,
+  "too_small": 13,
+  "keywords": 47,
+  "too_old": 12,
+  "licence": 5
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Trinity Church - Wall Street, New York, NY, USA - August 19, 2015 - panoramio.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Trinity_Church_-_Wall_Street,_New_York,_NY,_USA_-_August_19,_2015_-_panoramio.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Trinity_Church_-_Wall_Street%2C_New_York%2C_NY%2C_USA_-_August_19%2C_2015_-_panoramio.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Trinity_Church_-_Wall_Street%2C_New_York%2C_NY%2C_USA_-_August_19%2C_2015_-_panoramio.jpg/1920px-Trinity_Church_-_Wall_Street%2C_New_York%2C_NY%2C_USA_-_August_19%2C_2015_-_panoramio.jpg",
+   "author": "Giorgio Galeotti",
+   "credit": "https://web.archive.org/web/20161102160258/http://www.panoramio.com/photo/129608816",
+   "license": {
+    "short_name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0",
+    "template": "cc-by-3.0"
+   },
+   "date_taken": "2015",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.707402,
+    "lon": -74.011088
+   },
+   "original_width": 2118,
+   "original_height": 5380,
+   "width": 1920,
+   "height": 4877,
+   "bytes": 1497907,
+   "sha256": "3f378e4972230878b68f6e1a2c48cde71b3478d652d4924578237d504aede90f",
+   "mean_luminance": 138.6,
+   "description": "Trinity Church - Wall Street, New York, NY, USA - August 19, 2015",
+   "categories": [
+    "With trademark",
+    "Personality rights warning",
+    "Panoramio files uploaded by Panoramio upload bot",
+    "New York City photographs taken on 2015-08-19",
+    "Panoramio images reviewed by trusted users",
+    "Photos from Panoramio",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2015-08-19",
+    "Wall Street in 2015",
+    "Trinity Church (Manhattan) in 2015",
+    "August 2015 in Manhattan, New York City",
+    "Photos from Panoramio ID 4208745",
+    "Exterior of Trinity Church (Manhattan)"
+   ],
+   "assessments": "",
+   "restrictions": "personality|trademarked",
+   "provenance": "search:\"Trinity Church\" Wall Street",
+   "score": 11.0,
+   "estimated_viewpoint": {
+    "lat": 40.707402,
+    "lon": -74.011088,
+    "azimuth_deg": 312.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70740, -74.01109) is 115 m from Trinity Church (40.70810, -74.01210) and 167 m from the standard viewpoint; the azimuth 312 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Trinity Church - Wall Street, New York, NY, USA - August 19, 2015 - panoramio.jpg\" by Giorgio Galeotti, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Trinity_Church_-_Wall_Street,_New_York,_NY,_USA_-_August_19,_2015_-_panoramio.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Trinity Church Wall St (6217334552).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Trinity_Church_Wall_St_(6217334552).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Trinity_Church_Wall_St_%286217334552%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Trinity_Church_Wall_St_%286217334552%29.jpg/1920px-Trinity_Church_Wall_St_%286217334552%29.jpg",
+   "author": "Tony Hisgett from Birmingham, UK",
+   "credit": "Trinity Church Wall St",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2011-09-16 14:43",
+   "date_source": "DateTimeOriginal",
+   "year": 2011,
+   "camera_gps": {
+    "lat": 40.706573,
+    "lon": -74.009812
+   },
+   "original_width": 2778,
+   "original_height": 4470,
+   "width": 1920,
+   "height": 3089,
+   "bytes": 1321778,
+   "sha256": "d1250d54790b35d36de050553d1f56f5466e067d2796b23c7c5a6f5d4dffe31e",
+   "mean_luminance": 98.8,
+   "description": "Trinity Church Wall St; location given on Flickr: 40.707897, -74.011797 (Trinity Church)",
+   "categories": [
+    "Financial District, Manhattan",
+    "14 Wall Street",
+    "W New York - Downtown",
+    "Images with annotations",
+    "Media with estimated locations",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2011-09-16",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Pages with local camera coordinates and mismatching SDC coordinates",
+    "Photographs by Tony Hisgett",
+    "Wall Street in 2011",
+    "Trinity Church (Manhattan) in 2011",
+    "Trinity Court Building (1927–2015)",
+    "New York Stock Exchange Broad Street facade",
+    "2 Wall Street"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 11.0,
+   "estimated_viewpoint": {
+    "lat": 40.706573,
+    "lon": -74.009812,
+    "azimuth_deg": 311.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70657, -74.00981) is 257 m from Trinity Church (40.70810, -74.01210) and 28 m from the standard viewpoint; the azimuth 311 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Trinity Church Wall St (6217334552).jpg\" by Tony Hisgett from Birmingham, UK, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Trinity_Church_Wall_St_(6217334552).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:NYC, Wall Street & Broadway.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:NYC,_Wall_Street_%26_Broadway.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/3e/NYC%2C_Wall_Street_%26_Broadway.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/NYC%2C_Wall_Street_%26_Broadway.jpg/1920px-NYC%2C_Wall_Street_%26_Broadway.jpg",
+   "author": "Jess Hawsor",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": null,
+   "original_width": 2368,
+   "original_height": 4208,
+   "width": 1920,
+   "height": 3412,
+   "bytes": 1172491,
+   "sha256": "c8f23a6eebe5d7232d7841320d0f53d56d3ced9c74830a7551c7d4923fc665ca",
+   "mean_luminance": 107.6,
+   "description": "NYC, the United States of America",
+   "categories": [
+    "Self-published work",
+    "Uploaded with Mobile/Android",
+    "Photographs taken on 2021-12-21",
+    "Financial District, Manhattan in 2021",
+    "Wall Street in 2021",
+    "Trinity Church (Manhattan) in 2021",
+    "December 2021 in Manhattan, New York City",
+    "Exterior of Trinity Church (Manhattan)"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Trinity Church\" Wall Street",
+   "score": 9.4,
+   "estimated_viewpoint": {
+    "lat": 40.7065,
+    "lon": -74.0095,
+    "azimuth_deg": 309.1,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Wall Street at William Street, looking west-north-west up Wall Street at the spire) and the azimuth 309 deg is the bearing from there to Trinity Church (40.70810, -74.01210)."
+   },
+   "attribution": "\"NYC, Wall Street & Broadway.jpg\" by Jess Hawsor, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:NYC,_Wall_Street_%26_Broadway.jpg"
+  }
+ ]
+}

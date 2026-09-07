@@ -1,0 +1,213 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_metlife_building",
+ "name": "MetLife Building (200 Park Avenue)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.750676,
+  "lon": -73.977285,
+  "azimuth_deg": 10.0,
+  "note": "Park Avenue at East 45th Street south of the Helmsley Building, about 300 m south of the tower, looking north up Park Avenue at the MetLife Building",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.753333,
+  "lon": -73.976667,
+  "name": "MetLife Building (200 Park Avenue)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"MetLife Building\" Park Avenue",
+  "\"Pan Am Building\" 200 Park Avenue New York"
+ ],
+ "geosearch_radius_m": 500,
+ "fetched_at": "2026-09-06T14:14:06Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 122,
+ "candidates_eligible": 39,
+ "rejections": {
+  "too_old": 17,
+  "excluded": 11,
+  "licence": 2,
+  "too_small": 10,
+  "keywords": 17,
+  "night_for_day_item": 6,
+  "not_photo": 20
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:NYC – Park Avenue – Grand Central Terminal - panoramio.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:NYC_%E2%80%93_Park_Avenue_%E2%80%93_Grand_Central_Terminal_-_panoramio.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/2a/NYC_%E2%80%93_Park_Avenue_%E2%80%93_Grand_Central_Terminal_-_panoramio.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/NYC_%E2%80%93_Park_Avenue_%E2%80%93_Grand_Central_Terminal_-_panoramio.jpg/1920px-NYC_%E2%80%93_Park_Avenue_%E2%80%93_Grand_Central_Terminal_-_panoramio.jpg",
+   "author": "giggel",
+   "credit": "https://web.archive.org/web/20161101035800/http://www.panoramio.com/photo/127859623",
+   "license": {
+    "short_name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0",
+    "template": "cc-by-3.0"
+   },
+   "date_taken": "2016",
+   "date_source": "DateTimeOriginal",
+   "year": 2016,
+   "camera_gps": {
+    "lat": 40.748967,
+    "lon": -73.979897
+   },
+   "original_width": 4000,
+   "original_height": 3000,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 868289,
+   "sha256": "79c286d7374410c1a6fe9abc478dc1469a3630360b9916900d912acbbbb27b0e",
+   "mean_luminance": 104.3,
+   "description": "NYC – Park Avenue – Grand Central Terminal",
+   "categories": [
+    "MetLife Building",
+    "Murray Hill, Manhattan",
+    "Panoramio files uploaded by Panoramio upload bot",
+    "Panoramio images reviewed by trusted users",
+    "Photos from Panoramio",
+    "Files with coordinates missing SDC location of creation",
+    "Park Avenue from 32nd to 59th Street",
+    "Photos from Panoramio ID 1368505"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"MetLife Building\" Park Avenue",
+   "score": 9.15,
+   "estimated_viewpoint": {
+    "lat": 40.748967,
+    "lon": -73.979897,
+    "azimuth_deg": 29.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74897, -73.97990) is 557 m from MetLife Building (200 Park Avenue) (40.75333, -73.97667) and 291 m from the standard viewpoint; the azimuth 29 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"NYC – Park Avenue – Grand Central Terminal - panoramio.jpg\" by giggel, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:NYC_%E2%80%93_Park_Avenue_%E2%80%93_Grand_Central_Terminal_-_panoramio.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Park Av Nov 2025 05.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Park_Av_Nov_2025_05.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/68/Park_Av_Nov_2025_05.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Park_Av_Nov_2025_05.jpg/1920px-Park_Av_Nov_2025_05.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2025-11-05 08:45:28",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.758178,
+    "lon": -73.972882
+   },
+   "original_width": 4080,
+   "original_height": 3060,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 837963,
+   "sha256": "839ddf47bd44f9c7c7eb315fd26feb67bb45a804b80897dc0421aba2175197dd",
+   "mean_luminance": 125.1,
+   "description": "Buildings on Park Avenue as seen from the Seagram Building plaza in November 2025",
+   "categories": [
+    "MetLife Building",
+    "Seagram Building",
+    "345 Park Avenue",
+    "Waldorf-Astoria 301 Park Avenue",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Buildings in the United States photographed in 2025",
+    "Midtown Manhattan in 2025",
+    "Towers in the United States photographed in 2025",
+    "New York City photographs taken on 2025-11-04",
+    "November 2025 in Manhattan, New York City",
+    "Park Avenue from 32nd to 59th Street",
+    "Privately owned public space in Midtown Manhattan",
+    "Photographs by Epicgenius"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"MetLife Building\" Park Avenue",
+   "score": 8.2,
+   "estimated_viewpoint": {
+    "lat": 40.758178,
+    "lon": -73.972882,
+    "azimuth_deg": 210.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75818, -73.97288) is 626 m from MetLife Building (200 Park Avenue) (40.75333, -73.97667) and 913 m from the standard viewpoint; the azimuth 211 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Park Av Nov 2025 05.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Park_Av_Nov_2025_05.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Grand Central Terminal MetLife Building Park Ave viaduct Summer Streets.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Grand_Central_Terminal_MetLife_Building_Park_Ave_viaduct_Summer_Streets.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/f5/Grand_Central_Terminal_MetLife_Building_Park_Ave_viaduct_Summer_Streets.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Grand_Central_Terminal_MetLife_Building_Park_Ave_viaduct_Summer_Streets.jpg/1280px-Grand_Central_Terminal_MetLife_Building_Park_Ave_viaduct_Summer_Streets.jpg",
+   "author": "Beyond My Ken",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2012-08-04",
+   "date_source": "DateTimeOriginal",
+   "year": 2012,
+   "camera_gps": {
+    "lat": 40.751496,
+    "lon": -73.978133
+   },
+   "original_width": 1728,
+   "original_height": 2268,
+   "width": 1280,
+   "height": 1680,
+   "bytes": 739131,
+   "sha256": "a1408d18f96c8cf512971de8a299e657d8c2946dceda95db1d2dd897cc1dc89a",
+   "mean_luminance": 117.8,
+   "description": "Grand Central Terminal and the MetLife Building seen from the Park Avenue Viaduct during \"Summer Streets\", when 7 miles of New York City streets are closed to vehicular traffic.",
+   "categories": [
+    "Cycling in New York City",
+    "GFDL",
+    "Exterior of Grand Central Terminal",
+    "MetLife Building",
+    "Views from the Park Avenue Viaduct",
+    "License migration redundant",
+    "CC-BY-SA-4.0,3.0,2.5,2.0,1.0",
+    "Self-published work",
+    "Images by Beyond My Ken/Above",
+    "Files with coordinates missing SDC location of creation",
+    "Grand Central Terminal in 2012"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 8.0,
+   "estimated_viewpoint": {
+    "lat": 40.751496,
+    "lon": -73.978133,
+    "azimuth_deg": 31.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75150, -73.97813) is 239 m from MetLife Building (200 Park Avenue) (40.75333, -73.97667) and 116 m from the standard viewpoint; the azimuth 31 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Grand Central Terminal MetLife Building Park Ave viaduct Summer Streets.jpg\" by Beyond My Ken, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Grand_Central_Terminal_MetLife_Building_Park_Ave_viaduct_Summer_Streets.jpg"
+  }
+ ]
+}

@@ -1,0 +1,28 @@
+{
+ "artist": "unknown",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 1706191,
+ "duration_s": 212.17,
+ "file": "jazz/caravan_249_caravanbunnyberriganhmv68632.ogg",
+ "gain_db": 2.6,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/licenses/publicdomain/",
+ "loudness_lufs": -16.6,
+ "original_filename": "CaravanBunnyBerriganHmv68632.mp3",
+ "recorded_at": "2026-09-06T12:12:10Z",
+ "schema_version": 1,
+ "sha256": "fa6e8851f7ef9f8b5525fc452192c7431fe56cfe27fe82a51d9481b8466d19e3",
+ "source_page": "https://archive.org/details/caravan_249",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/caravan_249/CaravanBunnyBerriganHmv68632.mp3",
+ "title": "CARAVAN bunny berrigan hmv 68632",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

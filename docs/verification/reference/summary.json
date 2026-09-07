@@ -1,0 +1,3373 @@
+{
+ "schema_version": 1,
+ "generated_at": "2026-09-07T08:53:09Z",
+ "items": 172,
+ "items_in_catalogue": 172,
+ "photos": 519,
+ "bytes": 426843392,
+ "items_without_photo": [],
+ "items_partial": [
+  "landmark_central_park_sheep_meadow (2/3)",
+  "landmark_lincoln_tunnel_portal (2/3)",
+  "landmark_kosciuszko_bridge (2/3)",
+  "landmark_35_hudson_yards (2/3)",
+  "landmark_two_times_square (2/3)",
+  "street_nyc_traffic_signals (3/4)",
+  "street_newsstand (2/3)"
+ ],
+ "http_requests_this_run": 12,
+ "elapsed_s": 101.7,
+ "per_item": [
+  {
+   "slug": "promenade_lower_manhattan",
+   "group": "viewpoint",
+   "count": 4,
+   "wanted": 4,
+   "bytes": 2696186,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 32,
+    "night_for_day_item": 3,
+    "too_old": 3,
+    "too_small": 16
+   }
+  },
+  {
+   "slug": "top_of_the_rock_south",
+   "group": "viewpoint",
+   "count": 4,
+   "wanted": 4,
+   "bytes": 3390681,
+   "licences": [
+    "CC BY 3.0",
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 60,
+    "too_old": 6,
+    "night_for_day_item": 21,
+    "too_small": 3,
+    "excluded": 1,
+    "not_photo": 3
+   }
+  },
+  {
+   "slug": "times_square_duffy_south_day",
+   "group": "viewpoint",
+   "count": 4,
+   "wanted": 4,
+   "bytes": 4414694,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0",
+    "CC0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "night_for_day_item": 31,
+    "indoor": 2,
+    "too_old": 25,
+    "too_small": 3,
+    "excluded": 8,
+    "not_photo": 2,
+    "keywords": 11
+   }
+  },
+  {
+   "slug": "times_square_duffy_south_night",
+   "group": "viewpoint",
+   "count": 4,
+   "wanted": 4,
+   "bytes": 4058775,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 40,
+    "too_old": 31,
+    "too_small": 1,
+    "excluded": 2,
+    "not_photo": 1
+   }
+  },
+  {
+   "slug": "fifth_ave_42nd_north",
+   "group": "viewpoint",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2111220,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 1,
+    "keywords": 47,
+    "titled_as_another_subject": 3,
+    "excluded": 2,
+    "subject_not_named": 5,
+    "not_photo": 3
+   }
+  },
+  {
+   "slug": "fifth_ave_42nd_south",
+   "group": "viewpoint",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2433274,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "not_photo": 8,
+    "titled_as_another_subject": 4,
+    "keywords": 27,
+    "subject_not_named": 8,
+    "licence": 3,
+    "excluded": 9,
+    "too_small": 5,
+    "too_old": 2,
+    "indoor": 17,
+    "night_for_day_item": 1
+   }
+  },
+  {
+   "slug": "bethesda_terrace_fountain",
+   "group": "viewpoint",
+   "count": 4,
+   "wanted": 4,
+   "bytes": 3709861,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "indoor": 7,
+    "excluded": 3,
+    "too_old": 29,
+    "too_small": 3,
+    "not_photo": 2,
+    "licence": 1,
+    "night_for_day_item": 1
+   }
+  },
+  {
+   "slug": "staten_island_ferry_lower_manhattan",
+   "group": "viewpoint",
+   "count": 4,
+   "wanted": 4,
+   "bytes": 2062832,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 17,
+    "too_old": 11,
+    "excluded": 20,
+    "night_for_day_item": 6,
+    "too_small": 2,
+    "not_photo": 2
+   }
+  },
+  {
+   "slug": "dumbo_washington_st_manhattan_bridge",
+   "group": "viewpoint",
+   "count": 4,
+   "wanted": 4,
+   "bytes": 6183846,
+   "licences": [
+    "CC BY-SA 4.0",
+    "CC0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 28,
+    "too_old": 3,
+    "not_photo": 1,
+    "night_for_day_item": 1,
+    "too_small": 3,
+    "excluded": 1
+   }
+  },
+  {
+   "slug": "drive_midtown_sixth_ave_45th",
+   "group": "drive_through",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1835430,
+   "licences": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "night_for_day_item": 8,
+    "too_old": 1,
+    "licence": 2,
+    "excluded": 7,
+    "keywords": 21,
+    "not_jpeg": 1,
+    "too_small": 1
+   }
+  },
+  {
+   "slug": "drive_lower_manhattan_broadway_wall_st",
+   "group": "drive_through",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2001308,
+   "licences": [
+    "CC BY-SA 4.0",
+    "CC0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 20,
+    "excluded": 19,
+    "licence": 4,
+    "too_small": 8,
+    "not_photo": 9,
+    "indoor": 4,
+    "keywords": 2
+   }
+  },
+  {
+   "slug": "drive_lower_manhattan_stone_st",
+   "group": "drive_through",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2594044,
+   "licences": [
+    "CC BY-SA 4.0",
+    "CC0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 3,
+    "keywords": 20,
+    "subject_not_named": 15,
+    "not_photo": 8,
+    "licence": 1,
+    "excluded": 6,
+    "too_small": 1
+   }
+  },
+  {
+   "slug": "drive_brooklyn_park_slope_7th_ave",
+   "group": "drive_through",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3746744,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0",
+    "CC0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "not_photo": 12,
+    "indoor": 7,
+    "excluded": 15,
+    "too_small": 2,
+    "too_old": 2,
+    "keywords": 1
+   }
+  },
+  {
+   "slug": "drive_brooklyn_bed_stuy_stuyvesant_ave",
+   "group": "drive_through",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2412505,
+   "licences": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "not_photo": 3,
+    "excluded": 4,
+    "too_old": 1,
+    "too_small": 2,
+    "keywords": 3
+   }
+  },
+  {
+   "slug": "drive_queens_forest_hills",
+   "group": "drive_through",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2054260,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_small": 3,
+    "excluded": 43,
+    "too_old": 7,
+    "not_photo": 1,
+    "licence": 1,
+    "not_jpeg": 3,
+    "keywords": 1
+   }
+  },
+  {
+   "slug": "drive_queens_jackson_heights",
+   "group": "drive_through",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2394675,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 2,
+    "too_small": 11,
+    "keywords": 4,
+    "not_jpeg": 6,
+    "excluded": 13
+   }
+  },
+  {
+   "slug": "drive_queens_bayside",
+   "group": "drive_through",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2948634,
+   "licences": [
+    "CC BY-SA 4.0",
+    "CC0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 15,
+    "too_old": 3,
+    "too_small": 7,
+    "licence": 1,
+    "keywords": 4
+   }
+  },
+  {
+   "slug": "drive_bronx_grand_concourse",
+   "group": "drive_through",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2367661,
+   "licences": [
+    "CC BY-SA 4.0",
+    "CC0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_small": 3,
+    "excluded": 20,
+    "titled_as_another_subject": 5,
+    "licence": 4,
+    "subject_not_named": 3,
+    "not_photo": 1,
+    "keywords": 21,
+    "too_old": 1
+   }
+  },
+  {
+   "slug": "drive_bronx_arthur_ave",
+   "group": "drive_through",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2105746,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 4,
+    "subject_not_named": 11,
+    "too_old": 2,
+    "too_small": 3,
+    "keywords": 3
+   }
+  },
+  {
+   "slug": "landmark_empire_state_building",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3134875,
+   "licences": [
+    "CC BY 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 41,
+    "night_for_day_item": 6,
+    "too_small": 5,
+    "not_photo": 9,
+    "indoor": 2,
+    "too_old": 3,
+    "keywords": 20
+   }
+  },
+  {
+   "slug": "landmark_chrysler_building",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2717992,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 15,
+    "night_for_day_item": 4,
+    "too_small": 7,
+    "keywords": 19,
+    "excluded": 12,
+    "not_photo": 11
+   }
+  },
+  {
+   "slug": "landmark_one_world_trade_center",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1882018,
+   "licences": [
+    "CC BY-SA 4.0",
+    "CC0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 17,
+    "night_for_day_item": 2,
+    "not_photo": 1,
+    "too_old": 1,
+    "too_small": 2,
+    "keywords": 19,
+    "indoor": 2
+   }
+  },
+  {
+   "slug": "landmark_oculus",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1575972,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "indoor": 10,
+    "night_for_day_item": 5,
+    "excluded": 4,
+    "keywords": 19,
+    "too_small": 2
+   }
+  },
+  {
+   "slug": "landmark_911_memorial_pools",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2164019,
+   "licences": [
+    "CC BY 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 5,
+    "not_photo": 2,
+    "keywords": 9,
+    "too_small": 4,
+    "excluded": 1,
+    "indoor": 10
+   }
+  },
+  {
+   "slug": "landmark_statue_of_liberty",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1719669,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 19,
+    "not_photo": 6,
+    "too_small": 8,
+    "excluded": 17,
+    "night_for_day_item": 5,
+    "licence": 2,
+    "indoor": 1,
+    "keywords": 7
+   }
+  },
+  {
+   "slug": "landmark_brooklyn_bridge_from_dumbo",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1911054,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 6,
+    "excluded": 19,
+    "night_for_day_item": 7,
+    "too_small": 3,
+    "keywords": 7,
+    "indoor": 1,
+    "not_jpeg": 1,
+    "not_photo": 2
+   }
+  },
+  {
+   "slug": "landmark_brooklyn_bridge_walkway",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3161806,
+   "licences": [
+    "CC BY-SA 4.0",
+    "CC0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 57,
+    "not_photo": 3,
+    "excluded": 10,
+    "too_small": 1,
+    "too_old": 2,
+    "licence": 3
+   }
+  },
+  {
+   "slug": "landmark_flatiron_building",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3232177,
+   "licences": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_small": 13,
+    "too_old": 14,
+    "excluded": 4,
+    "not_photo": 2,
+    "indoor": 3,
+    "licence": 1,
+    "keywords": 14
+   }
+  },
+  {
+   "slug": "landmark_grand_central_facade",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1954896,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_small": 7,
+    "excluded": 9,
+    "too_old": 11,
+    "keywords": 15,
+    "licence": 1
+   }
+  },
+  {
+   "slug": "landmark_grand_central_concourse",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2907585,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "night_for_day_item": 1,
+    "keywords": 17,
+    "too_old": 16,
+    "not_photo": 1,
+    "excluded": 1,
+    "too_small": 1
+   }
+  },
+  {
+   "slug": "landmark_rockefeller_center",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2673281,
+   "licences": [
+    "CC BY-SA 4.0",
+    "Public domain"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 6,
+    "night_for_day_item": 1,
+    "not_photo": 5,
+    "excluded": 3,
+    "too_small": 4,
+    "keywords": 18
+   }
+  },
+  {
+   "slug": "landmark_st_patricks_cathedral",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3771415,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 10,
+    "keywords": 34,
+    "too_small": 5,
+    "licence": 1,
+    "too_old": 2,
+    "not_photo": 2
+   }
+  },
+  {
+   "slug": "landmark_one_vanderbilt",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2127734,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 18,
+    "excluded": 6,
+    "too_small": 7,
+    "licence": 1
+   }
+  },
+  {
+   "slug": "landmark_hudson_yards_vessel",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2024494,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 54,
+    "too_small": 1
+   }
+  },
+  {
+   "slug": "landmark_high_line",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2214977,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 5,
+    "excluded": 15,
+    "night_for_day_item": 2,
+    "keywords": 21
+   }
+  },
+  {
+   "slug": "landmark_central_park_bow_bridge",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2560967,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 11,
+    "too_small": 4,
+    "not_photo": 2,
+    "keywords": 29,
+    "excluded": 1
+   }
+  },
+  {
+   "slug": "landmark_central_park_sheep_meadow",
+   "group": "landmark",
+   "count": 2,
+   "wanted": 3,
+   "bytes": 1160728,
+   "licences": [
+    "CC BY 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 4,
+    "too_small": 4,
+    "keywords": 22,
+    "excluded": 4
+   }
+  },
+  {
+   "slug": "landmark_metropolitan_museum",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1796094,
+   "licences": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 7,
+    "too_old": 14,
+    "licence": 1,
+    "not_photo": 1,
+    "keywords": 10,
+    "too_small": 2
+   }
+  },
+  {
+   "slug": "landmark_guggenheim",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1139185,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 2.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 24,
+    "excluded": 46,
+    "keywords": 8,
+    "too_small": 8,
+    "not_photo": 1,
+    "indoor": 1
+   }
+  },
+  {
+   "slug": "landmark_amnh",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2747078,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 3,
+    "excluded": 14,
+    "too_small": 2,
+    "licence": 2,
+    "not_photo": 3,
+    "keywords": 13,
+    "indoor": 1
+   }
+  },
+  {
+   "slug": "landmark_columbus_circle",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2440952,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0",
+    "Public domain"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 27,
+    "too_old": 22,
+    "too_small": 15,
+    "not_photo": 1,
+    "indoor": 4,
+    "keywords": 11,
+    "night_for_day_item": 1
+   }
+  },
+  {
+   "slug": "landmark_lincoln_center",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1685531,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 36,
+    "too_old": 8,
+    "too_small": 2,
+    "keywords": 6,
+    "not_photo": 1
+   }
+  },
+  {
+   "slug": "landmark_madison_square_garden",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3018750,
+   "licences": [
+    "CC BY-SA 4.0",
+    "CC0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 7,
+    "too_old": 3,
+    "keywords": 14,
+    "not_photo": 1,
+    "indoor": 3,
+    "too_small": 3,
+    "not_jpeg": 1
+   }
+  },
+  {
+   "slug": "landmark_nypl",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2852566,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 2.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 2,
+    "excluded": 7,
+    "not_photo": 1,
+    "keywords": 22
+   }
+  },
+  {
+   "slug": "landmark_washington_square_arch",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 4775754,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "subject_not_named": 68,
+    "excluded": 10,
+    "too_small": 11,
+    "too_old": 6,
+    "licence": 2,
+    "not_photo": 4,
+    "keywords": 3
+   }
+  },
+  {
+   "slug": "landmark_woolworth_building",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3960451,
+   "licences": [
+    "CC BY-SA 4.0",
+    "Public domain"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 40,
+    "wrong_place": 5,
+    "too_small": 5,
+    "licence": 1,
+    "not_photo": 9,
+    "too_old": 12,
+    "night_for_day_item": 2,
+    "keywords": 23,
+    "not_jpeg": 1,
+    "indoor": 1
+   }
+  },
+  {
+   "slug": "landmark_city_hall",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2844294,
+   "licences": [
+    "CC BY 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 20,
+    "licence": 1,
+    "keywords": 24,
+    "excluded": 17,
+    "not_photo": 4,
+    "too_small": 10
+   }
+  },
+  {
+   "slug": "landmark_municipal_building",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3190587,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "licence": 1,
+    "too_old": 3,
+    "excluded": 5,
+    "indoor": 5,
+    "too_small": 4,
+    "not_photo": 2,
+    "not_jpeg": 1,
+    "keywords": 22
+   }
+  },
+  {
+   "slug": "landmark_charging_bull",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2054171,
+   "licences": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 29,
+    "excluded": 4,
+    "not_photo": 3,
+    "too_small": 1
+   }
+  },
+  {
+   "slug": "landmark_nyse",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2717237,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "not_jpeg": 1,
+    "not_photo": 11,
+    "too_small": 20,
+    "too_old": 7,
+    "excluded": 2,
+    "keywords": 8
+   }
+  },
+  {
+   "slug": "landmark_trinity_church",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3992176,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "indoor": 8,
+    "excluded": 10,
+    "not_photo": 18,
+    "too_small": 13,
+    "keywords": 47,
+    "too_old": 12,
+    "licence": 5
+   }
+  },
+  {
+   "slug": "landmark_the_dakota",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2053394,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 6,
+    "too_small": 7,
+    "not_photo": 4,
+    "night_for_day_item": 1,
+    "excluded": 16,
+    "keywords": 14
+   }
+  },
+  {
+   "slug": "landmark_the_plaza_hotel",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2363523,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 22,
+    "keywords": 24,
+    "excluded": 4,
+    "not_photo": 9
+   }
+  },
+  {
+   "slug": "landmark_apollo_theater",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3217986,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 7,
+    "excluded": 13,
+    "too_small": 5,
+    "keywords": 20
+   }
+  },
+  {
+   "slug": "landmark_yankee_stadium",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2131984,
+   "licences": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "indoor": 2,
+    "excluded": 2,
+    "too_old": 1,
+    "not_photo": 2
+   }
+  },
+  {
+   "slug": "landmark_citi_field",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2190889,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 47,
+    "too_small": 1,
+    "keywords": 7,
+    "too_old": 1,
+    "indoor": 2
+   }
+  },
+  {
+   "slug": "landmark_unisphere",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1855693,
+   "licences": [
+    "CC BY-SA 2.0",
+    "CC0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 46,
+    "too_old": 9,
+    "keywords": 8,
+    "too_small": 3,
+    "indoor": 1
+   }
+  },
+  {
+   "slug": "landmark_coney_island_cyclone",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2572106,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 16,
+    "keywords": 31,
+    "licence": 1,
+    "not_photo": 3,
+    "too_small": 4,
+    "excluded": 2,
+    "night_for_day_item": 1
+   }
+  },
+  {
+   "slug": "landmark_coney_island_wonder_wheel",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2603069,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 10,
+    "night_for_day_item": 1,
+    "excluded": 2,
+    "too_small": 2,
+    "keywords": 24,
+    "not_jpeg": 2,
+    "not_photo": 2
+   }
+  },
+  {
+   "slug": "landmark_coney_island_parachute_jump",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1314060,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 9,
+    "night_for_day_item": 1,
+    "excluded": 5,
+    "keywords": 26,
+    "not_jpeg": 1,
+    "licence": 1,
+    "not_photo": 1,
+    "too_small": 1
+   }
+  },
+  {
+   "slug": "landmark_barclays_center",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1822204,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "indoor": 14,
+    "excluded": 16,
+    "keywords": 8,
+    "not_jpeg": 1,
+    "too_small": 1
+   }
+  },
+  {
+   "slug": "landmark_432_park_avenue",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2588857,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 5,
+    "excluded": 19,
+    "indoor": 1,
+    "not_photo": 2,
+    "too_small": 13,
+    "night_for_day_item": 2,
+    "keywords": 15
+   }
+  },
+  {
+   "slug": "landmark_111_west_57th",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2084569,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "licence": 2,
+    "too_small": 1,
+    "keywords": 32,
+    "too_old": 6,
+    "night_for_day_item": 2,
+    "excluded": 3
+   }
+  },
+  {
+   "slug": "landmark_central_park_tower",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2559292,
+   "licences": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "licence": 1,
+    "excluded": 3,
+    "keywords": 28
+   }
+  },
+  {
+   "slug": "landmark_one57",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3364564,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 10,
+    "night_for_day_item": 1,
+    "indoor": 7,
+    "keywords": 22,
+    "licence": 1,
+    "not_photo": 1
+   }
+  },
+  {
+   "slug": "landmark_united_nations_hq",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3654345,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0",
+    "CC0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_small": 5,
+    "excluded": 9,
+    "keywords": 13,
+    "too_old": 2
+   }
+  },
+  {
+   "slug": "landmark_domino_sugar_refinery",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2212005,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 12,
+    "excluded": 8,
+    "not_photo": 3,
+    "keywords": 17
+   }
+  },
+  {
+   "slug": "landmark_george_washington_bridge",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2590777,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "night_for_day_item": 1,
+    "excluded": 3,
+    "not_jpeg": 1,
+    "too_old": 9,
+    "licence": 2,
+    "too_small": 7,
+    "keywords": 18,
+    "indoor": 1
+   }
+  },
+  {
+   "slug": "landmark_verrazzano_narrows_bridge",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2052647,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_small": 12,
+    "too_old": 14,
+    "not_photo": 3,
+    "night_for_day_item": 2,
+    "excluded": 7,
+    "keywords": 4,
+    "licence": 5,
+    "indoor": 10
+   }
+  },
+  {
+   "slug": "landmark_queensboro_bridge",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2978343,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "not_jpeg": 1,
+    "excluded": 15,
+    "not_photo": 2,
+    "too_old": 6,
+    "licence": 1,
+    "night_for_day_item": 2,
+    "keywords": 19
+   }
+  },
+  {
+   "slug": "landmark_williamsburg_bridge",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1851702,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 3,
+    "night_for_day_item": 5,
+    "not_photo": 1,
+    "too_old": 1,
+    "keywords": 29
+   }
+  },
+  {
+   "slug": "landmark_manhattan_bridge",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1803449,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 8,
+    "too_old": 6,
+    "night_for_day_item": 2,
+    "not_photo": 3,
+    "too_small": 3,
+    "keywords": 19,
+    "indoor": 1,
+    "not_jpeg": 1
+   }
+  },
+  {
+   "slug": "landmark_rfk_triborough_bridge",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1272163,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 6,
+    "excluded": 9,
+    "not_jpeg": 1,
+    "too_small": 2,
+    "keywords": 15
+   }
+  },
+  {
+   "slug": "landmark_hell_gate_bridge",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2308221,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_small": 9,
+    "too_old": 17,
+    "night_for_day_item": 1,
+    "indoor": 2,
+    "excluded": 14,
+    "keywords": 18,
+    "not_jpeg": 2
+   }
+  },
+  {
+   "slug": "landmark_high_bridge",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2318320,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 55,
+    "too_old": 12,
+    "too_small": 9,
+    "licence": 8,
+    "not_photo": 1,
+    "keywords": 2,
+    "not_jpeg": 1
+   }
+  },
+  {
+   "slug": "landmark_holland_tunnel_portal",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2610439,
+   "licences": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 1,
+    "excluded": 6,
+    "not_photo": 1,
+    "keywords": 29
+   }
+  },
+  {
+   "slug": "landmark_lincoln_tunnel_portal",
+   "group": "landmark",
+   "count": 2,
+   "wanted": 3,
+   "bytes": 896350,
+   "licences": [
+    "CC BY 4.0",
+    "Public domain"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 1,
+    "excluded": 1,
+    "keywords": 30
+   }
+  },
+  {
+   "slug": "landmark_federal_hall",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2081658,
+   "licences": [
+    "CC BY 3.0",
+    "CC BY-SA 4.0",
+    "CC0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 16,
+    "not_photo": 9,
+    "licence": 4,
+    "too_small": 7,
+    "keywords": 20,
+    "not_jpeg": 1
+   }
+  },
+  {
+   "slug": "landmark_40_wall_street",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2721541,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 6,
+    "too_old": 24,
+    "keywords": 20,
+    "too_small": 12,
+    "night_for_day_item": 2,
+    "not_photo": 8
+   }
+  },
+  {
+   "slug": "landmark_one_wall_street",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2524831,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 11,
+    "too_old": 21,
+    "too_small": 4,
+    "keywords": 32,
+    "not_photo": 2,
+    "night_for_day_item": 1,
+    "indoor": 1
+   }
+  },
+  {
+   "slug": "landmark_equitable_building",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2108405,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 8,
+    "too_small": 12,
+    "licence": 1,
+    "keywords": 44,
+    "not_photo": 8,
+    "excluded": 26,
+    "night_for_day_item": 1
+   }
+  },
+  {
+   "slug": "landmark_moma",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2331483,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 14,
+    "too_small": 8,
+    "keywords": 28,
+    "not_jpeg": 25,
+    "too_old": 3,
+    "indoor": 1,
+    "not_photo": 3
+   }
+  },
+  {
+   "slug": "landmark_rockefeller_rink",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2966057,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 55,
+    "not_photo": 3,
+    "too_small": 2,
+    "excluded": 1,
+    "night_for_day_item": 1,
+    "too_old": 1,
+    "indoor": 1
+   }
+  },
+  {
+   "slug": "landmark_throgs_neck_bridge",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1660923,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 13,
+    "too_small": 2,
+    "keywords": 4,
+    "night_for_day_item": 1
+   }
+  },
+  {
+   "slug": "landmark_bronx_whitestone_bridge",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2398192,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 12,
+    "too_small": 2,
+    "night_for_day_item": 1,
+    "keywords": 22,
+    "not_photo": 1
+   }
+  },
+  {
+   "slug": "landmark_pulaski_bridge",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1588203,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 5,
+    "keywords": 30,
+    "too_small": 1
+   }
+  },
+  {
+   "slug": "landmark_kosciuszko_bridge",
+   "group": "landmark",
+   "count": 2,
+   "wanted": 3,
+   "bytes": 753790,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 3,
+    "keywords": 28
+   }
+  },
+  {
+   "slug": "landmark_roosevelt_island_tram",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2590335,
+   "licences": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 49,
+    "night_for_day_item": 6,
+    "excluded": 3,
+    "too_small": 2,
+    "too_old": 5,
+    "indoor": 1,
+    "licence": 1,
+    "not_photo": 1
+   }
+  },
+  {
+   "slug": "landmark_queens_midtown_tunnel_portal",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2196992,
+   "licences": [
+    "CC BY 2.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 13,
+    "not_photo": 6,
+    "keywords": 20,
+    "too_old": 1
+   }
+  },
+  {
+   "slug": "landmark_hugh_carey_tunnel_portal",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2160470,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 2,
+    "too_small": 5,
+    "excluded": 1,
+    "keywords": 23,
+    "indoor": 3
+   }
+  },
+  {
+   "slug": "landmark_3_world_trade_center",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2032536,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 3,
+    "too_small": 4,
+    "keywords": 39,
+    "excluded": 13,
+    "not_photo": 1,
+    "night_for_day_item": 3,
+    "indoor": 1
+   }
+  },
+  {
+   "slug": "landmark_4_world_trade_center",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1992428,
+   "licences": [
+    "CC BY 4.0",
+    "CC0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 12,
+    "not_photo": 4,
+    "night_for_day_item": 2,
+    "too_old": 2,
+    "too_small": 1,
+    "keywords": 23,
+    "indoor": 3,
+    "not_jpeg": 1
+   }
+  },
+  {
+   "slug": "landmark_7_world_trade_center",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3369000,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 16,
+    "too_small": 2,
+    "night_for_day_item": 3,
+    "too_old": 11,
+    "keywords": 25,
+    "licence": 2,
+    "indoor": 3
+   }
+  },
+  {
+   "slug": "landmark_ellis_island",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2055151,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 15,
+    "too_old": 19,
+    "too_small": 10,
+    "not_photo": 3,
+    "licence": 13,
+    "keywords": 16
+   }
+  },
+  {
+   "slug": "landmark_belvedere_castle",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2390695,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 16,
+    "too_small": 2,
+    "night_for_day_item": 1,
+    "excluded": 4,
+    "licence": 2,
+    "keywords": 26
+   }
+  },
+  {
+   "slug": "landmark_central_park_wall_gates",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 4371555,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 31,
+    "too_small": 4,
+    "licence": 1,
+    "not_photo": 3,
+    "excluded": 17
+   }
+  },
+  {
+   "slug": "landmark_castle_williams",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2591533,
+   "licences": [
+    "CC BY-SA 4.0",
+    "CC0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 16,
+    "excluded": 8,
+    "too_small": 19,
+    "licence": 3,
+    "not_photo": 6,
+    "keywords": 19,
+    "not_jpeg": 1
+   }
+  },
+  {
+   "slug": "landmark_fort_jay",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1688314,
+   "licences": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 2,
+    "excluded": 6,
+    "not_photo": 3,
+    "too_small": 15,
+    "licence": 1,
+    "keywords": 26
+   }
+  },
+  {
+   "slug": "landmark_grants_tomb",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 4125828,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 12,
+    "not_photo": 6,
+    "too_small": 1,
+    "excluded": 11,
+    "licence": 2,
+    "night_for_day_item": 4,
+    "keywords": 20
+   }
+  },
+  {
+   "slug": "landmark_soldiers_sailors_arch",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2216168,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 46,
+    "licence": 3,
+    "indoor": 2,
+    "too_old": 16,
+    "too_small": 4,
+    "excluded": 1,
+    "not_jpeg": 2
+   }
+  },
+  {
+   "slug": "landmark_prospect_park_boathouse",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3638910,
+   "licences": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 56,
+    "too_old": 5,
+    "too_small": 3,
+    "not_jpeg": 4,
+    "indoor": 3,
+    "night_for_day_item": 1,
+    "excluded": 1,
+    "not_photo": 2
+   }
+  },
+  {
+   "slug": "landmark_coney_island_boardwalk",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1860940,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 19,
+    "not_jpeg": 2,
+    "excluded": 2,
+    "keywords": 23,
+    "too_small": 6,
+    "not_photo": 2
+   }
+  },
+  {
+   "slug": "landmark_30_hudson_yards",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2811582,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 24,
+    "excluded": 9,
+    "too_small": 1,
+    "night_for_day_item": 1,
+    "indoor": 1
+   }
+  },
+  {
+   "slug": "landmark_35_hudson_yards",
+   "group": "landmark",
+   "count": 2,
+   "wanted": 3,
+   "bytes": 1750923,
+   "licences": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 7,
+    "keywords": 2,
+    "indoor": 29
+   }
+  },
+  {
+   "slug": "landmark_10_hudson_yards",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3294444,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 15,
+    "keywords": 23,
+    "too_old": 1,
+    "too_small": 1,
+    "night_for_day_item": 3
+   }
+  },
+  {
+   "slug": "landmark_55_hudson_yards",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2553798,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 12,
+    "keywords": 10,
+    "licence": 1,
+    "indoor": 28,
+    "night_for_day_item": 1
+   }
+  },
+  {
+   "slug": "landmark_15_hudson_yards",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2257700,
+   "licences": [
+    "CC BY 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 34,
+    "indoor": 3,
+    "too_old": 1,
+    "too_small": 4,
+    "excluded": 4
+   }
+  },
+  {
+   "slug": "landmark_50_hudson_yards",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3274325,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 6,
+    "keywords": 58,
+    "excluded": 8,
+    "licence": 1,
+    "indoor": 1
+   }
+  },
+  {
+   "slug": "landmark_the_shed",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1556615,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 68,
+    "excluded": 19,
+    "too_old": 6,
+    "night_for_day_item": 1,
+    "too_small": 1
+   }
+  },
+  {
+   "slug": "landmark_220_central_park_south",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2706377,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 1,
+    "excluded": 11,
+    "night_for_day_item": 1,
+    "indoor": 1,
+    "too_old": 2,
+    "too_small": 1
+   }
+  },
+  {
+   "slug": "landmark_53w53",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1875504,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 2,
+    "keywords": 25,
+    "excluded": 5,
+    "night_for_day_item": 1,
+    "too_small": 2,
+    "not_photo": 1,
+    "indoor": 5
+   }
+  },
+  {
+   "slug": "landmark_trump_tower",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1523758,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 46,
+    "too_small": 7,
+    "excluded": 34,
+    "too_old": 1,
+    "not_photo": 2,
+    "indoor": 1,
+    "night_for_day_item": 6
+   }
+  },
+  {
+   "slug": "landmark_9_west_57th",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2734833,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 2,
+    "not_photo": 2,
+    "too_small": 4,
+    "too_old": 9,
+    "indoor": 1,
+    "keywords": 28,
+    "night_for_day_item": 1
+   }
+  },
+  {
+   "slug": "landmark_one_times_square",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 4124462,
+   "licences": [
+    "CC BY-SA 4.0",
+    "CC0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 13,
+    "not_photo": 11,
+    "excluded": 14,
+    "night_for_day_item": 3,
+    "licence": 1,
+    "too_small": 2,
+    "keywords": 28
+   }
+  },
+  {
+   "slug": "landmark_two_times_square",
+   "group": "landmark",
+   "count": 2,
+   "wanted": 3,
+   "bytes": 1277256,
+   "licences": [
+    "CC BY 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 4,
+    "too_small": 2,
+    "night_for_day_item": 3,
+    "keywords": 26
+   }
+  },
+  {
+   "slug": "landmark_three_times_square",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2293950,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 29,
+    "too_old": 4,
+    "too_small": 2,
+    "indoor": 2,
+    "night_for_day_item": 2,
+    "excluded": 2
+   }
+  },
+  {
+   "slug": "landmark_four_times_square",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 4174078,
+   "licences": [
+    "CC BY 3.0",
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 3,
+    "night_for_day_item": 9,
+    "not_photo": 6,
+    "indoor": 3,
+    "keywords": 26,
+    "too_small": 6,
+    "excluded": 2
+   }
+  },
+  {
+   "slug": "landmark_tsx_broadway",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2008082,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 67,
+    "excluded": 5,
+    "not_photo": 4,
+    "too_old": 1,
+    "indoor": 4,
+    "too_small": 1
+   }
+  },
+  {
+   "slug": "landmark_paramount_building",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3400612,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 75,
+    "too_small": 2,
+    "not_photo": 3,
+    "night_for_day_item": 3,
+    "too_old": 1
+   }
+  },
+  {
+   "slug": "landmark_tkts_booth",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2193125,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0",
+    "Public domain"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 8,
+    "night_for_day_item": 19,
+    "too_small": 5,
+    "excluded": 3,
+    "indoor": 1,
+    "not_photo": 1,
+    "keywords": 23
+   }
+  },
+  {
+   "slug": "landmark_times_square_tower",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2604456,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "night_for_day_item": 2,
+    "too_small": 3,
+    "indoor": 15,
+    "excluded": 1,
+    "too_old": 2,
+    "keywords": 29,
+    "not_photo": 3
+   }
+  },
+  {
+   "slug": "landmark_bank_of_america_tower",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2510542,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 37,
+    "too_small": 21,
+    "excluded": 4,
+    "night_for_day_item": 6,
+    "too_old": 2,
+    "not_photo": 3
+   }
+  },
+  {
+   "slug": "landmark_marriott_marquis",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2562072,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 34,
+    "night_for_day_item": 1,
+    "too_old": 5,
+    "too_small": 3
+   }
+  },
+  {
+   "slug": "landmark_new_york_times_building",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3023475,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0",
+    "Public domain"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 15,
+    "night_for_day_item": 2,
+    "keywords": 21,
+    "not_photo": 3,
+    "too_small": 3,
+    "excluded": 11,
+    "indoor": 5
+   }
+  },
+  {
+   "slug": "landmark_port_authority_bus_terminal",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1807791,
+   "licences": [
+    "CC BY 3.0",
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 6,
+    "indoor": 31,
+    "too_small": 4,
+    "not_photo": 2,
+    "keywords": 22
+   }
+  },
+  {
+   "slug": "landmark_hearst_tower",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1766732,
+   "licences": [
+    "CC BY-SA 4.0",
+    "CC0",
+    "Public domain"
+   ],
+   "status": "ok",
+   "rejections": {
+    "not_photo": 12,
+    "indoor": 2,
+    "keywords": 46,
+    "too_small": 3,
+    "too_old": 4,
+    "excluded": 1
+   }
+  },
+  {
+   "slug": "landmark_citigroup_center",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2226650,
+   "licences": [
+    "CC BY-SA 4.0",
+    "Public domain"
+   ],
+   "status": "ok",
+   "rejections": {
+    "night_for_day_item": 1,
+    "too_old": 1,
+    "too_small": 2,
+    "indoor": 3,
+    "keywords": 26,
+    "not_jpeg": 1
+   }
+  },
+  {
+   "slug": "landmark_metlife_building",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2445383,
+   "licences": [
+    "CC BY 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 17,
+    "excluded": 11,
+    "licence": 2,
+    "too_small": 10,
+    "keywords": 17,
+    "night_for_day_item": 6,
+    "not_photo": 20
+   }
+  },
+  {
+   "slug": "landmark_lipstick_building",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 4184398,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 1,
+    "too_small": 1,
+    "keywords": 17,
+    "indoor": 12,
+    "not_photo": 1
+   }
+  },
+  {
+   "slug": "landmark_seagram_building",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1893649,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_small": 14,
+    "too_old": 5,
+    "keywords": 16,
+    "not_photo": 2
+   }
+  },
+  {
+   "slug": "landmark_lever_house",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2866005,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 6,
+    "too_small": 5,
+    "keywords": 25,
+    "not_photo": 1,
+    "not_jpeg": 1
+   }
+  },
+  {
+   "slug": "landmark_carnegie_hall",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3308505,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "not_photo": 1,
+    "excluded": 3,
+    "night_for_day_item": 3,
+    "too_old": 1,
+    "keywords": 6,
+    "indoor": 24
+   }
+  },
+  {
+   "slug": "landmark_st_john_the_divine",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3083615,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 17,
+    "too_old": 25,
+    "too_small": 1,
+    "keywords": 6,
+    "indoor": 1
+   }
+  },
+  {
+   "slug": "landmark_riverside_church",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2553636,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "night_for_day_item": 1,
+    "excluded": 3,
+    "too_old": 1,
+    "too_small": 4,
+    "not_photo": 1,
+    "not_jpeg": 2,
+    "keywords": 25
+   }
+  },
+  {
+   "slug": "landmark_arthur_ashe_stadium",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2459869,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 6,
+    "excluded": 27,
+    "keywords": 29,
+    "too_small": 8,
+    "licence": 1
+   }
+  },
+  {
+   "slug": "landmark_domino_park",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3023831,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "night_for_day_item": 6,
+    "keywords": 26,
+    "not_photo": 1
+   }
+  },
+  {
+   "slug": "landmark_kings_theatre",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2889421,
+   "licences": [
+    "CC BY 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 93,
+    "not_photo": 1,
+    "licence": 6,
+    "too_old": 3,
+    "too_small": 1,
+    "excluded": 1
+   }
+  },
+  {
+   "slug": "landmark_brooklyn_museum",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2608947,
+   "licences": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "indoor": 5,
+    "too_old": 5,
+    "licence": 37,
+    "excluded": 4,
+    "night_for_day_item": 4,
+    "too_small": 5,
+    "keywords": 16,
+    "not_photo": 1
+   }
+  },
+  {
+   "slug": "landmark_brooklyn_public_library",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1754368,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_small": 9,
+    "night_for_day_item": 1,
+    "keywords": 48,
+    "licence": 3,
+    "not_jpeg": 5,
+    "not_photo": 1,
+    "too_old": 2,
+    "excluded": 3
+   }
+  },
+  {
+   "slug": "landmark_williamsburgh_savings_bank_tower",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1311319,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 25,
+    "too_small": 10,
+    "night_for_day_item": 2,
+    "excluded": 6,
+    "indoor": 3,
+    "not_photo": 1
+   }
+  },
+  {
+   "slug": "landmark_pier_17",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2264477,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_small": 6,
+    "keywords": 95,
+    "too_old": 7,
+    "not_jpeg": 1,
+    "not_photo": 1,
+    "excluded": 9,
+    "night_for_day_item": 1
+   }
+  },
+  {
+   "slug": "landmark_whitehall_ferry_terminal",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1708382,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "not_jpeg": 2,
+    "keywords": 24,
+    "indoor": 22,
+    "too_small": 9,
+    "night_for_day_item": 5,
+    "excluded": 7,
+    "not_photo": 1,
+    "too_old": 15
+   }
+  },
+  {
+   "slug": "landmark_st_george_ferry_terminal",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1701556,
+   "licences": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "indoor": 9,
+    "excluded": 6,
+    "not_photo": 1,
+    "night_for_day_item": 1,
+    "too_old": 3,
+    "keywords": 17,
+    "not_jpeg": 1
+   }
+  },
+  {
+   "slug": "landmark_ny_state_pavilion",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2245671,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 17,
+    "not_photo": 4,
+    "too_old": 9,
+    "keywords": 28,
+    "indoor": 3
+   }
+  },
+  {
+   "slug": "landmark_queens_museum",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2201301,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 4,
+    "indoor": 2,
+    "keywords": 25,
+    "too_small": 11,
+    "not_photo": 3,
+    "excluded": 3
+   }
+  },
+  {
+   "slug": "landmark_bronx_county_courthouse",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2701650,
+   "licences": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0",
+    "CC0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 1,
+    "keywords": 20,
+    "too_small": 2,
+    "indoor": 7
+   }
+  },
+  {
+   "slug": "landmark_little_island",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1565575,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 49,
+    "too_old": 5,
+    "excluded": 9,
+    "indoor": 1
+   }
+  },
+  {
+   "slug": "landmark_pier_57",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2031974,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 71,
+    "indoor": 2
+   }
+  },
+  {
+   "slug": "landmark_chelsea_market",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1923572,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 12,
+    "indoor": 1,
+    "excluded": 2,
+    "keywords": 17
+   }
+  },
+  {
+   "slug": "landmark_javits_center",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1452768,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "night_for_day_item": 2,
+    "keywords": 24,
+    "excluded": 10,
+    "not_photo": 2,
+    "indoor": 2,
+    "too_old": 1
+   }
+  },
+  {
+   "slug": "landmark_moynihan_train_hall",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3395775,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "indoor": 6,
+    "keywords": 30
+   }
+  },
+  {
+   "slug": "landmark_rose_center",
+   "group": "landmark",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1768883,
+   "licences": [
+    "CC BY 3.0",
+    "CC BY-SA 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 3,
+    "night_for_day_item": 4,
+    "too_small": 18,
+    "keywords": 14,
+    "excluded": 3
+   }
+  },
+  {
+   "slug": "street_tenement_fire_escapes_les",
+   "group": "streetscape",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1778325,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 13,
+    "too_old": 4,
+    "too_small": 3,
+    "not_photo": 1,
+    "excluded": 1
+   }
+  },
+  {
+   "slug": "street_soho_cast_iron",
+   "group": "streetscape",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3923483,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_old": 6,
+    "excluded": 2,
+    "too_small": 2,
+    "not_photo": 2,
+    "night_for_day_item": 1
+   }
+  },
+  {
+   "slug": "street_nycha_tower_campus",
+   "group": "streetscape",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2412742,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_small": 14,
+    "too_old": 9,
+    "excluded": 22,
+    "not_photo": 3,
+    "night_for_day_item": 1,
+    "indoor": 2,
+    "not_jpeg": 1,
+    "keywords": 23,
+    "licence": 1
+   }
+  },
+  {
+   "slug": "street_queens_vinyl_siding",
+   "group": "streetscape",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 3337134,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 6,
+    "not_photo": 1,
+    "too_small": 8,
+    "too_old": 1
+   }
+  },
+  {
+   "slug": "street_staten_island_ranch_houses",
+   "group": "streetscape",
+   "count": 1,
+   "wanted": 1,
+   "bytes": 242168,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "not_photo": 19,
+    "excluded": 21,
+    "too_small": 3,
+    "licence": 9,
+    "too_old": 2,
+    "keywords": 2
+   }
+  },
+  {
+   "slug": "street_elevated_roosevelt_ave_7",
+   "group": "streetscape",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1735123,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 31,
+    "excluded": 19,
+    "too_small": 1,
+    "too_old": 2,
+    "licence": 2,
+    "indoor": 1
+   }
+  },
+  {
+   "slug": "street_elevated_broadway_bushwick_j",
+   "group": "streetscape",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2063015,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 83,
+    "indoor": 4,
+    "excluded": 9,
+    "too_small": 1,
+    "not_photo": 1,
+    "not_jpeg": 1
+   }
+  },
+  {
+   "slug": "street_midtown_avenue_rush_hour",
+   "group": "streetscape",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1986699,
+   "licences": [
+    "CC BY-SA 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "not_photo": 2,
+    "too_old": 1,
+    "excluded": 9,
+    "indoor": 1
+   }
+  },
+  {
+   "slug": "street_times_square_wet_night",
+   "group": "streetscape",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1489060,
+   "licences": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 87,
+    "not_photo": 3,
+    "too_old": 6,
+    "too_small": 2,
+    "indoor": 1
+   }
+  },
+  {
+   "slug": "street_brooklyn_snow",
+   "group": "streetscape",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 1451384,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY 3.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_small": 1,
+    "indoor": 1,
+    "too_old": 2
+   }
+  },
+  {
+   "slug": "street_nyc_street_name_signs",
+   "group": "streetscape",
+   "count": 4,
+   "wanted": 4,
+   "bytes": 1484976,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0",
+    "CC0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 10,
+    "indoor": 11,
+    "keywords": 27,
+    "too_old": 13,
+    "too_small": 5,
+    "not_photo": 4,
+    "wrong_place": 2,
+    "licence": 5
+   }
+  },
+  {
+   "slug": "street_nyc_traffic_signals",
+   "group": "streetscape",
+   "count": 3,
+   "wanted": 4,
+   "bytes": 4439044,
+   "licences": [
+    "CC BY-SA 3.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 1
+   }
+  },
+  {
+   "slug": "street_fire_hydrant",
+   "group": "streetscape",
+   "count": 2,
+   "wanted": 2,
+   "bytes": 4094613,
+   "licences": [
+    "CC BY-SA 4.0",
+    "CC0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_small": 5,
+    "keywords": 22,
+    "licence": 1,
+    "too_old": 8,
+    "not_photo": 3,
+    "excluded": 1
+   }
+  },
+  {
+   "slug": "street_linknyc_kiosk",
+   "group": "streetscape",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2998631,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "indoor": 2,
+    "excluded": 5,
+    "keywords": 3
+   }
+  },
+  {
+   "slug": "street_newsstand",
+   "group": "streetscape",
+   "count": 2,
+   "wanted": 3,
+   "bytes": 1105906,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "not_photo": 1,
+    "keywords": 1
+   }
+  },
+  {
+   "slug": "street_sidewalk_shed",
+   "group": "streetscape",
+   "count": 3,
+   "wanted": 3,
+   "bytes": 2208478,
+   "licences": [
+    "CC BY 4.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "indoor": 1
+   }
+  },
+  {
+   "slug": "vehicle_yellow_cab",
+   "group": "vehicle",
+   "count": 4,
+   "wanted": 4,
+   "bytes": 1687536,
+   "licences": [
+    "CC BY-SA 2.0",
+    "CC BY-SA 3.0",
+    "CC0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "keywords": 2,
+    "excluded": 6,
+    "too_old": 1
+   }
+  },
+  {
+   "slug": "vehicle_mta_bus",
+   "group": "vehicle",
+   "count": 4,
+   "wanted": 4,
+   "bytes": 2956466,
+   "licences": [
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "too_small": 16,
+    "excluded": 34,
+    "too_old": 8
+   }
+  },
+  {
+   "slug": "vehicle_nypd_car",
+   "group": "vehicle",
+   "count": 4,
+   "wanted": 4,
+   "bytes": 3773776,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 2,
+    "too_old": 1,
+    "not_photo": 1
+   }
+  },
+  {
+   "slug": "vehicle_fdny_engine",
+   "group": "vehicle",
+   "count": 4,
+   "wanted": 4,
+   "bytes": 2697411,
+   "licences": [
+    "CC BY 2.0",
+    "CC BY-SA 4.0",
+    "CC0"
+   ],
+   "status": "ok",
+   "rejections": {
+    "excluded": 3,
+    "too_old": 3,
+    "too_small": 1,
+    "keywords": 5,
+    "not_photo": 2
+   }
+  }
+ ]
+}

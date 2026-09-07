@@ -1,0 +1,28 @@
+{
+ "artist": "Alfred G. Karnes",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 2251020,
+ "duration_s": 167.23,
+ "file": "folk/alfredg_karnes_whentheyringthegoldenbells_08track8.ogg",
+ "gain_db": 6.7,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/licenses/publicdomain/",
+ "loudness_lufs": -20.7,
+ "original_filename": "08Track8.mp3",
+ "recorded_at": "2026-09-06T12:22:58Z",
+ "schema_version": 1,
+ "sha256": "c852fb983b74f1671cb796fa6d76e430793eeca03951176ee6689a934b1ee45b",
+ "source_page": "https://archive.org/details/AlfredG.Karnes-whenTheyRingTheGoldenBells",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/AlfredG.Karnes-whenTheyRingTheGoldenBells/08Track8.mp3",
+ "title": "08 Track 8",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

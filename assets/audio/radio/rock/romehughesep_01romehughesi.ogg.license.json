@@ -1,0 +1,28 @@
+{
+ "artist": "Captain Missouri and C. Russell Lewis",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 1476494,
+ "duration_s": 174.29,
+ "file": "rock/romehughesep_01romehughesi.ogg",
+ "gain_db": 6.0,
+ "licence": "CC-BY-3.0",
+ "licence_url": "http://creativecommons.org/licenses/by/3.0/",
+ "loudness_lufs": -20.0,
+ "original_filename": "01RomeHughesI.mp3",
+ "recorded_at": "2026-09-06T12:16:22Z",
+ "schema_version": 1,
+ "sha256": "9aff8d4ae792b05b9c9b05541c15e250f4d3e5dfef6bcd815851d48c003ee2ca",
+ "source_page": "https://archive.org/details/RomeHughesEp",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/RomeHughesEp/01RomeHughesI.mp3",
+ "title": "Rome Hughes I",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

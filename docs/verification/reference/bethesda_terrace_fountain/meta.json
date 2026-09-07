@@ -1,0 +1,258 @@
+{
+ "schema_version": 1,
+ "slug": "bethesda_terrace_fountain",
+ "name": "Bethesda Terrace and Fountain",
+ "group": "viewpoint",
+ "viewpoint": {
+  "lat": 40.7735,
+  "lon": -73.9711,
+  "azimuth_deg": 14.2,
+  "note": "upper level of Bethesda Terrace (72nd Street transverse), looking north over the fountain to the Lake",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7741,
+  "lon": -73.9709,
+  "name": "Bethesda Fountain (Angel of the Waters)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 4,
+ "queries": [
+  "\"Bethesda Terrace\" fountain Central Park",
+  "\"Bethesda Fountain\" Central Park Angel of the Waters"
+ ],
+ "geosearch_radius_m": 120,
+ "fetched_at": "2026-09-06T11:48:20Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query list=search / list=geosearch / prop=imageinfo)",
+ "candidates_seen": 149,
+ "candidates_eligible": 54,
+ "rejections": {
+  "indoor": 7,
+  "excluded": 3,
+  "too_old": 29,
+  "too_small": 3,
+  "not_photo": 2,
+  "licence": 1,
+  "night_for_day_item": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Bethesda Fountain and the Lake, Central Park, Manhattan, New York.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Bethesda_Fountain_and_the_Lake,_Central_Park,_Manhattan,_New_York.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/69/Bethesda_Fountain_and_the_Lake%2C_Central_Park%2C_Manhattan%2C_New_York.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Bethesda_Fountain_and_the_Lake%2C_Central_Park%2C_Manhattan%2C_New_York.jpg/1920px-Bethesda_Fountain_and_the_Lake%2C_Central_Park%2C_Manhattan%2C_New_York.jpg",
+   "author": "Christian David",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026-04-18 08:04:45",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.773882,
+    "lon": -73.971046
+   },
+   "original_width": 7299,
+   "original_height": 4866,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 951282,
+   "sha256": "8e6ddbf51fc81151a0c7b9f06a3a8c3de78dd28e9746e38162f321d4d5e67b8b",
+   "mean_luminance": 98.8,
+   "description": "Bethesda Fountain and its terrace beside the Lake in Central Park, crowned by the Angel of the Waters (Emma Stebbins, 1873). Manhattan, New York City.",
+   "categories": [
+    "Bethesda Terrace and Fountain",
+    "Self-published work",
+    "The Lake (Central Park)",
+    "Files with coordinates missing SDC location of creation",
+    "Images of the United States by Christian David",
+    "Central Park in April 2026"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.7,
+   "estimated_viewpoint": {
+    "lat": 40.773882,
+    "lon": -73.971046,
+    "azimuth_deg": 26.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.77388, -73.97105) is 27 m from Bethesda Fountain (Angel of the Waters) (40.77410, -73.97090) and 43 m from the standard viewpoint; the azimuth 27 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Bethesda Fountain and the Lake, Central Park, Manhattan, New York.jpg\" by Christian David, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Bethesda_Fountain_and_the_Lake,_Central_Park,_Manhattan,_New_York.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Bethesda Fountain (81527).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Bethesda_Fountain_(81527).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Bethesda_Fountain_%2881527%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Bethesda_Fountain_%2881527%29.jpg/1920px-Bethesda_Fountain_%2881527%29.jpg",
+   "author": "Rhododendrites",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2017",
+   "date_source": "DateTimeOriginal",
+   "year": 2017,
+   "camera_gps": {
+    "lat": 40.77377,
+    "lon": -73.971059
+   },
+   "original_width": 4433,
+   "original_height": 3456,
+   "width": 1920,
+   "height": 1497,
+   "bytes": 1062119,
+   "sha256": "b45c89a931fd02254b640c78cb21e4e8f82da96e25a3fd727fe7630c63728517",
+   "mean_luminance": 116.3,
+   "description": "Bethesda Fountain and the Lake in Central Park. In the foreground, people make large soap bubbles.",
+   "categories": [
+    "New York City photographs taken on 2017-06-18",
+    "Self-published work",
+    "Bethesda Fountain",
+    "Files uploaded by Rhododendrites (all)",
+    "People in Central Park",
+    "Files with coordinates missing SDC location of creation",
+    "People with soap bubbles",
+    "Photographs taken by Rhododendrites - Central Park",
+    "Central Park in June 2017"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.8,
+   "estimated_viewpoint": {
+    "lat": 40.77377,
+    "lon": -73.971059,
+    "azimuth_deg": 20.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.77377, -73.97106) is 39 m from Bethesda Fountain (Angel of the Waters) (40.77410, -73.97090) and 30 m from the standard viewpoint; the azimuth 20 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Bethesda Fountain (81527).jpg\" by Rhododendrites, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Bethesda_Fountain_(81527).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Bethesda Terrace Arcade, Central Park, New York City, 20231002 184121.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Bethesda_Terrace_Arcade,_Central_Park,_New_York_City,_20231002_184121.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Bethesda_Terrace_Arcade%2C_Central_Park%2C_New_York_City%2C_20231002_184121.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Bethesda_Terrace_Arcade%2C_Central_Park%2C_New_York_City%2C_20231002_184121.jpg/1920px-Bethesda_Terrace_Arcade%2C_Central_Park%2C_New_York_City%2C_20231002_184121.jpg",
+   "author": "Jakub Hałun",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2023-10-02",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.773725,
+    "lon": -73.971277
+   },
+   "original_width": 4000,
+   "original_height": 3000,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 861502,
+   "sha256": "85a340120b08a610910c437f933cfd537327fadd5639c8b738a03cd0bb0b21b7",
+   "mean_luminance": 74.0,
+   "description": "Bethesda Terrace Arcade, Central Park, New York City",
+   "categories": [
+    "New York City photographs taken on 2023-10-02",
+    "Self-published work",
+    "Files by Jakub Hałun",
+    "Files with coordinates missing SDC location of creation",
+    "Central Park in 2023",
+    "October 2023 in Manhattan, New York City",
+    "Bethesda Terrace Arcade"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.773725,
+    "lon": -73.971277,
+    "azimuth_deg": 37.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.77372, -73.97128) is 52 m from Bethesda Fountain (Angel of the Waters) (40.77410, -73.97090) and 29 m from the standard viewpoint; the azimuth 37 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Bethesda Terrace Arcade, Central Park, New York City, 20231002 184121.jpg\" by Jakub Hałun, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Bethesda_Terrace_Arcade,_Central_Park,_New_York_City,_20231002_184121.jpg"
+  },
+  {
+   "n": 4,
+   "file": "4.jpg",
+   "title": "File:Bethesda Terrace and Fountain flood 2021 jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Bethesda_Terrace_and_Fountain_flood_2021_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/7f/Bethesda_Terrace_and_Fountain_flood_2021_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Bethesda_Terrace_and_Fountain_flood_2021_jeh.jpg/1920px-Bethesda_Terrace_and_Fountain_flood_2021_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2021",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.773886,
+    "lon": -73.971031
+   },
+   "original_width": 4000,
+   "original_height": 2250,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 834958,
+   "sha256": "51e7b3655ed4774a3326f2adfddab3ba0046db99ab6f03f7e4d1976645f934e2",
+   "mean_luminance": 115.4,
+   "description": "Looking north at Bethesda Terrace and Fountain in New York City's Central Park, partly still flooded after the waters lowered by some two feet or half a meter.",
+   "categories": [
+    "Floods in New York (state)",
+    "New York City photographs taken on 2021-09-02",
+    "Self-published work",
+    "Uploaded with Mobile/Android",
+    "Files with coordinates missing SDC location of creation",
+    "2021 Manhattan photos by Jim.henderson",
+    "Bethesda Terrace lower terrace",
+    "Central Park photos by Jim.henderson",
+    "Taken with Motorola One 5G Ace",
+    "Effects of Hurricane Ida (2021) in New York City",
+    "Central Park in September 2021"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.9,
+   "estimated_viewpoint": {
+    "lat": 40.773886,
+    "lon": -73.971031,
+    "azimuth_deg": 24.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.77389, -73.97103) is 26 m from Bethesda Fountain (Angel of the Waters) (40.77410, -73.97090) and 43 m from the standard viewpoint; the azimuth 25 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Bethesda Terrace and Fountain flood 2021 jeh.jpg\" by Jim.henderson, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Bethesda_Terrace_and_Fountain_flood_2021_jeh.jpg"
+  }
+ ]
+}

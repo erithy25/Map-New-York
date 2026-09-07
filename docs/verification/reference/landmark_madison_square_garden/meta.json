@@ -1,0 +1,205 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_madison_square_garden",
+ "name": "Madison Square Garden",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7497,
+  "lon": -73.9915,
+  "azimuth_deg": 299.1,
+  "note": "Seventh Avenue at West 32nd Street, east sidewalk, looking west at the arena drum",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7505,
+  "lon": -73.9934,
+  "name": "Madison Square Garden"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Madison Square Garden\" exterior Seventh Avenue",
+  "\"Madison Square Garden\" Pennsylvania Station exterior"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T12:31:08Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 49,
+ "candidates_eligible": 17,
+ "rejections": {
+  "excluded": 7,
+  "too_old": 3,
+  "keywords": 14,
+  "not_photo": 1,
+  "indoor": 3,
+  "too_small": 3,
+  "not_jpeg": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Madison Square Garden Penn Station 7th Ave Entrance 2024.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Madison_Square_Garden_Penn_Station_7th_Ave_Entrance_2024.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/25/Madison_Square_Garden_Penn_Station_7th_Ave_Entrance_2024.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Madison_Square_Garden_Penn_Station_7th_Ave_Entrance_2024.jpg/1920px-Madison_Square_Garden_Penn_Station_7th_Ave_Entrance_2024.jpg",
+   "author": "Richiekim",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2024-05-23 19:25:13",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.749611,
+    "lon": -73.991736
+   },
+   "original_width": 5712,
+   "original_height": 4284,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 984484,
+   "sha256": "5a1d381b775ca3c11c3a03bdb44851b10ed003fa5e0011f21b9d0cac4dc24fb0",
+   "mean_luminance": 102.8,
+   "description": "The Seventh Avenue entrance to Madison Square Garden and Pennsylvania Station, New York City. May 2024",
+   "categories": [
+    "CC-Zero",
+    "Madison Square Garden (exterior)",
+    "Self-published work",
+    "Pennsylvania Station in 2024",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2024-05-23",
+    "May 2024 in Manhattan, New York City",
+    "Two Penn Plaza"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.749611,
+    "lon": -73.991736,
+    "azimuth_deg": 305.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74961, -73.99174) is 172 m from Madison Square Garden (40.75050, -73.99340) and 22 m from the standard viewpoint; the azimuth 305 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Madison Square Garden Penn Station 7th Ave Entrance 2024.jpg\" by Richiekim, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Madison_Square_Garden_Penn_Station_7th_Ave_Entrance_2024.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:33rd St 7th Av td 03.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:33rd_St_7th_Av_td_03.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/2a/33rd_St_7th_Av_td_03.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/33rd_St_7th_Av_td_03.jpg/1920px-33rd_St_7th_Av_td_03.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.750233,
+    "lon": -73.991362
+   },
+   "original_width": 3648,
+   "original_height": 5472,
+   "width": 1920,
+   "height": 2880,
+   "bytes": 1273528,
+   "sha256": "cac228446f3442d608ea124efaad5f85cde5e7d333e9792188aa45766f065bae",
+   "mean_luminance": 107.7,
+   "description": "A Herald Square/34th Street-style wayfinding sign at 7th Avenue and 33rd Street, across from Hotel Pennsylvania and in front of Penn Station and Madison Square Garden in Midtown Manhattan.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "Hotel Pennsylvania",
+    "7th Avenue (Manhattan)",
+    "Self-published work",
+    "Pennsylvania Station (New York City, 1969–present)",
+    "Files with coordinates missing SDC location of creation",
+    "Wayfinding signs in New York City",
+    "United States photographs taken on 2018-04-05",
+    "Ornamental plants in New York City",
+    "2018 Manhattan photographs by Tdorante10",
+    "Midtown Manhattan in 2018",
+    "April 2018 in Manhattan, New York City",
+    "7th Avenue and 33rd Street, Manhattan",
+    "Photographs by Tdorante10 taken on 2018-04-05"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.45,
+   "estimated_viewpoint": {
+    "lat": 40.750233,
+    "lon": -73.991362,
+    "azimuth_deg": 279.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75023, -73.99136) is 174 m from Madison Square Garden (40.75050, -73.99340) and 60 m from the standard viewpoint; the azimuth 280 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"33rd St 7th Av td 03.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:33rd_St_7th_Av_td_03.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Madison Square Garden 112.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Madison_Square_Garden_112.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/81/Madison_Square_Garden_112.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Madison_Square_Garden_112.jpg/1920px-Madison_Square_Garden_112.jpg",
+   "author": "Zakarie Faibis",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018-08-06 17:20:06",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.750272,
+    "lon": -73.991478
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 760738,
+   "sha256": "88b3c7a930f5e5e9ec28f0df0f53dae551b867f4fa64a92addc6f71cde8386e4",
+   "mean_luminance": 92.4,
+   "description": "Madison Square Garden",
+   "categories": [
+    "Madison Square Garden (exterior)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.45,
+   "estimated_viewpoint": {
+    "lat": 40.750272,
+    "lon": -73.991478,
+    "azimuth_deg": 278.9,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75027, -73.99148) is 164 m from Madison Square Garden (40.75050, -73.99340) and 64 m from the standard viewpoint; the azimuth 279 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Madison Square Garden 112.jpg\" by Zakarie Faibis, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Madison_Square_Garden_112.jpg"
+  }
+ ]
+}

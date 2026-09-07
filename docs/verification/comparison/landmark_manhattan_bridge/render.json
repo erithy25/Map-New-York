@@ -1,0 +1,316 @@
+{
+ "azimuth_reason": "66.3 deg, the bearing from this photograph's own GPS position to Manhattan Bridge Brooklyn tower; heading and position both come from the photograph.  The item's recorded azimuth is 74.0 deg, 7.7 deg away, and belongs to its nominal viewpoint",
+ "camera": {
+  "azimuth_deg": 66.29378701636087,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 35.0,
+  "ground_detail": {
+   "chosen_m": 0.0,
+   "max_m": 0.0,
+   "median_m": 0.0,
+   "min_m": 0.0,
+   "mode": "local",
+   "percentile": null,
+   "point_m": 0.0,
+   "radius_m": 5.0,
+   "samples": 16
+  },
+  "ground_mode": "local",
+  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap height at the point itself is the ground (the neighbourhood is still measured and printed, because a terrace can stand metres above the plaza 4 m away and a median across that step would put the camera underground)",
+  "hfov_deg": 54.432,
+  "lat": 40.704053,
+  "lon": -73.991036,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 2.8569256149223947,
+  "portrait": false,
+  "resolution": [
+   1208,
+   906
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_manhattan_bridge",
+  "terrain_z_m": 0.0,
+  "x": -3467.968,
+  "y": 450.888,
+  "z": 1.6
+ },
+ "camera_caption": "camera 40.70405, -73.99104 (NYC_TM -3468, 451) z 1.6 m NAVD88 | azimuth 66.3deg pitch +2.9deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.704053,
+  "lon": -73.991036,
+  "offset_from_recorded_m": 81.7,
+  "source": "this photograph's own EXIF camera GPS (40.70405, -73.99104), 82 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
+ "clearance": {
+  "min_view_m": 61.7,
+  "moved": false,
+  "nearest_obstruction": "prop_lamp_bishops_crook_18",
+  "nearest_obstruction_m": 51.6,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_bishops_crook_18 51.6 m away, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
+ },
+ "frame": {
+  "mean": 0.5464,
+  "reason": null,
+  "sd": 0.197,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 759.1,
+  "emissive": {
+   "cones_hidden": 2,
+   "lamps_switched_off": 4,
+   "night": false,
+   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.58,
+  "sky_azimuth_deg": 178.538,
+  "sky_elevation_deg": 28.815,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.406,
+  "view_transform": "Filmic"
+ },
+ "name": "Manhattan Bridge",
+ "night": false,
+ "pitch_reason": "aimed at Manhattan Bridge Brooklyn tower 123 m away, at its mid-height (a nominal 10 m subject); +2.9 deg from horizontal",
+ "reference_photo": {
+  "author": "Kidfly182",
+  "confidence": "high",
+  "date_taken": "2023-01-18 12:00:51",
+  "estimated_azimuth_deg": 66.2,
+  "file": "3.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:View_from_the_Manhattan_Bridge_012.jpg",
+  "title": "File:View from the Manhattan Bridge 012.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_manhattan_bridge/render.png",
+ "rendered_at": "2026-09-06T22:52:30Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 32,
+ "scene": {
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-3_0",
+    "t_-4_-1",
+    "t_-4_0",
+    "t_-4_1",
+    "t_-5_0"
+   ],
+   "landmark_bins_suppressed": 1,
+   "landmark_faces_suppressed": 60,
+   "lod_substituted": [],
+   "missing": [],
+   "per_tile": {
+    "t_-3_0": {
+     "lod": 0,
+     "objects": 13,
+     "triangles": 11796
+    },
+    "t_-4_-1": {
+     "lod": 0,
+     "objects": 17,
+     "triangles": 59678
+    },
+    "t_-4_0": {
+     "lod": 0,
+     "objects": 16,
+     "triangles": 9892
+    },
+    "t_-4_1": {
+     "lod": 0,
+     "objects": 14,
+     "triangles": 59652
+    },
+    "t_-5_0": {
+     "lod": 0,
+     "objects": 18,
+     "triangles": 11872
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 5,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 5,
+   "triangle_budget": 3510000,
+   "triangles": 152890
+  },
+  "centre_tm": [
+   -3467.97,
+   450.89
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 10,
+    "cornice": 23,
+    "door_entry": 17,
+    "fire_escape": 7,
+    "hvac": 22,
+    "parapet": 11,
+    "pilaster": 4,
+    "quoin": 2,
+    "storefront": 118,
+    "storefront_interior": 13,
+    "string_course": 21,
+    "water_tower": 4,
+    "window": 2242,
+    "window_accessory": 1
+   },
+   "placed": 2495,
+   "radius_m": 120.0,
+   "records_in_range": 2495,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-4_0"
+   ],
+   "triangles": 633459,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "landmarks": [
+    {
+     "distance_m": 326.8,
+     "id": "b_manhattan_bridge",
+     "lod": 0,
+     "name": "Manhattan Bridge",
+     "triangles": 80700
+    },
+    {
+     "distance_m": 483.9,
+     "id": "b_brooklyn_bridge",
+     "lod": 0,
+     "name": "Brooklyn Bridge",
+     "triangles": 121824
+    }
+   ],
+   "placed": 2,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 202524
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 360,
+    "curb": 517,
+    "median": 60,
+    "parking_lot": 28,
+    "plaza": 11,
+    "roadbed": 294,
+    "sidewalk": 116
+   },
+   "placed": 1386,
+   "radius_m": 597.3367680615906,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-3_0",
+    "t_-4_-1",
+    "t_-4_0",
+    "t_-4_1",
+    "t_-5_0"
+   ],
+   "triangles": 108004,
+   "vertices": 110618
+  },
+  "props": {
+   "capped": null,
+   "impostor_cards_dropped": 11,
+   "leaf_off": true,
+   "per_kind": {
+    "bench": 64,
+    "bike_rack": 27,
+    "bus_shelter": 1,
+    "bus_stop_sign": 2,
+    "citibike_dock": 3,
+    "flagpole": 2,
+    "hydrant": 33,
+    "manhole": 120,
+    "steam_vent": 3,
+    "street_lamp": 117,
+    "subway_vent_grate": 7,
+    "tree": 95,
+    "waste_basket": 9
+   },
+   "placed": 483,
+   "radius_m": 250.0,
+   "rows_in_range": 613,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-4_0"
+   ],
+   "tree_species_substituted": 31,
+   "triangles": 979490,
+   "unmapped_kinds": {
+    "cooling_tower": 54,
+    "curb_ramp": 67,
+    "drinking_fountain": 2,
+    "misc_structure": 4,
+    "parks_building": 2,
+    "payphone": 1
+   }
+  },
+  "radius_m": 597.3367680615906,
+  "seconds": 40.65,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 205,
+   "spacing_m": 2.0,
+   "triangles": 83232,
+   "water_quads": 15428,
+   "z_max_m": 24.01,
+   "z_min_m": -1.34
+  },
+  "triangles": 2159599
+ },
+ "scene_request": {
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 597.3367680615906
+ },
+ "seconds": {
+  "render": 199.5,
+  "scene": 41.5,
+  "total": 241.0
+ },
+ "slug": "landmark_manhattan_bridge",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 123.3,
+  "name": "Manhattan Bridge Brooklyn tower"
+ },
+ "sun": {
+  "azimuth_deg": 178.53764228698162,
+  "elevation_deg": 28.81488646486728,
+  "local": "2023-01-18T12:00:51-05:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2023-01-18T17:00:51Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 74.0,
+  "lat": 40.704,
+  "lon": -73.992,
+  "note": "Pebble Beach at Main Street Park (Brooklyn Bridge Park), looking east-north-east at the Brooklyn tower"
+ }
+}

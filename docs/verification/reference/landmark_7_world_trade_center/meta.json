@@ -1,0 +1,223 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_7_world_trade_center",
+ "name": "7 World Trade Center",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.712839,
+  "lon": -74.010328,
+  "azimuth_deg": 290.0,
+  "note": "Church Street at Barclay Street, about 150 m east-south-east of the tower, looking west-north-west at 7 World Trade Center",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7133,
+  "lon": -74.012,
+  "name": "7 World Trade Center"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"7 World Trade Center\" tower Greenwich Street",
+  "\"250 Greenwich Street\" 7 WTC"
+ ],
+ "geosearch_radius_m": 300,
+ "fetched_at": "2026-09-06T12:58:12Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 126,
+ "candidates_eligible": 64,
+ "rejections": {
+  "excluded": 16,
+  "too_small": 2,
+  "night_for_day_item": 3,
+  "too_old": 11,
+  "keywords": 25,
+  "licence": 2,
+  "indoor": 3
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:7 World Trade Center April 2022 001.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:7_World_Trade_Center_April_2022_001.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/cd/7_World_Trade_Center_April_2022_001.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/7_World_Trade_Center_April_2022_001.jpg/1920px-7_World_Trade_Center_April_2022_001.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-04-30 13:02:58",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.712989,
+    "lon": -74.011108
+   },
+   "original_width": 2448,
+   "original_height": 3264,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 907010,
+   "sha256": "d11f3b5d87ce9caa1bbaff12883400f7f42fe909736ff9b5fa19f1238f9dacd7",
+   "mean_luminance": 97.7,
+   "description": "7 World Trade Center in April 2022",
+   "categories": [
+    "7 World Trade Center (2006)",
+    "New York City photographs taken on 2022-04-30",
+    "Self-published work",
+    "World Trade Center site in 2022",
+    "Files with coordinates missing SDC location of creation",
+    "April 2022 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.712989,
+    "lon": -74.011108,
+    "azimuth_deg": 294.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71299, -74.01111) is 83 m from 7 World Trade Center (40.71330, -74.01200) and 68 m from the standard viewpoint; the azimuth 295 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"7 World Trade Center April 2022 001.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:7_World_Trade_Center_April_2022_001.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:One World Trade Center in Winter with Trees.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:One_World_Trade_Center_in_Winter_with_Trees.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/75/One_World_Trade_Center_in_Winter_with_Trees.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/One_World_Trade_Center_in_Winter_with_Trees.jpg/1920px-One_World_Trade_Center_in_Winter_with_Trees.jpg",
+   "author": "aismallard",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 3.0",
+    "url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "template": "cc-by-sa-3.0"
+   },
+   "date_taken": "2018-12-19 13:07:10",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.710406,
+    "lon": -74.013603
+   },
+   "original_width": 3024,
+   "original_height": 4032,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1869050,
+   "sha256": "c8c30b8fc5c015d1941e4c69c76b2e06037fc4ea7a1a9e70d26341fbc6c2db91",
+   "mean_luminance": 115.6,
+   "description": "Vertical photograph of the 1WTC building (and 7WTC partially visible), with some trees in the foreground.",
+   "categories": [
+    "Taken with Google Pixel 2",
+    "7 World Trade Center (2006)",
+    "New York City photographs taken on 2018-12-19",
+    "Self-published work",
+    "World Trade Center site in 2018",
+    "Files with coordinates missing SDC location of creation",
+    "Clouds and blue sky in New York City",
+    "Files uploaded by aismallard",
+    "Photographs by aismallard",
+    "December 2018 in Manhattan, New York City",
+    "Trees in parks in Manhattan, New York City",
+    "One World Trade Center from National September 11 Memorial"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "search:\"250 Greenwich Street\" 7 WTC",
+   "score": 10.95,
+   "estimated_viewpoint": {
+    "lat": 40.710406,
+    "lon": -74.013603,
+    "azimuth_deg": 22.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71041, -74.01360) is 349 m from 7 World Trade Center (40.71330, -74.01200) and 387 m from the standard viewpoint; the azimuth 23 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"One World Trade Center in Winter with Trees.jpg\" by aismallard, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:One_World_Trade_Center_in_Winter_with_Trees.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Brooklyn Bridge and Manhattan, New York City, 20231005 1101 2190.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Brooklyn_Bridge_and_Manhattan,_New_York_City,_20231005_1101_2190.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Brooklyn_Bridge_and_Manhattan%2C_New_York_City%2C_20231005_1101_2190.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Brooklyn_Bridge_and_Manhattan%2C_New_York_City%2C_20231005_1101_2190.jpg/1920px-Brooklyn_Bridge_and_Manhattan%2C_New_York_City%2C_20231005_1101_2190.jpg",
+   "author": "Jakub Hałun",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2023-10-05 11:01:03",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.70579,
+    "lon": -73.991147
+   },
+   "original_width": 5652,
+   "original_height": 3288,
+   "width": 1920,
+   "height": 1117,
+   "bytes": 592940,
+   "sha256": "afeceb6ad8055af0a75b5932d3fd446f6e4fe50d20ca2e434a2e4776a83b32d6",
+   "mean_luminance": 147.5,
+   "description": "Brooklyn Bridge and Lower Manhattan seen from NYC Ferry on the East River, New York City",
+   "categories": [
+    "19 Dutch",
+    "Southbridge Towers",
+    "140 Broadway",
+    "One Liberty Plaza",
+    "Three World Trade Center",
+    "Manhattan Municipal Building",
+    "Millenium Hilton Hotel",
+    "30 Park Place",
+    "195 Broadway",
+    "5 Beekman Street",
+    "Alfred E. Smith Houses",
+    "8 Spruce Street",
+    "200 West Street",
+    "28 Liberty Street",
+    "125 Greenwich Street",
+    "375 Pearl Street",
+    "One Seaport Plaza",
+    "Views of the Brooklyn Bridge",
+    "Images with annotations",
+    "45 Park Place (Manhattan)",
+    "7 World Trade Center (2006)",
+    "New York City photographs taken on 2023-10-05",
+    "Self-published work",
+    "Images with 10+ annotations",
+    "250 Broadway"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "search:\"7 World Trade Center\" tower Greenwich Street",
+   "score": 9.7,
+   "estimated_viewpoint": {
+    "lat": 40.70579,
+    "lon": -73.991147,
+    "azimuth_deg": 295.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70579, -73.99115) is 1946 m from 7 World Trade Center (40.71330, -74.01200) and 1797 m from the standard viewpoint; the azimuth 295 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Brooklyn Bridge and Manhattan, New York City, 20231005 1101 2190.jpg\" by Jakub Hałun, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Brooklyn_Bridge_and_Manhattan,_New_York_City,_20231005_1101_2190.jpg"
+  }
+ ]
+}

@@ -1,0 +1,205 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_queens_museum",
+ "name": "Queens Museum (New York City Building)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.745464,
+  "lon": -73.848006,
+  "azimuth_deg": 70.0,
+  "note": "the Flushing Meadows walkway west-south-west of the museum, about 120 m away, looking east-north-east at the 1939 New York City Building",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.745833,
+  "lon": -73.846667,
+  "name": "Queens Museum (New York City Building)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Queens Museum\" Flushing Meadows building",
+  "\"New York City Building\" Flushing Meadows Queens Museum"
+ ],
+ "geosearch_radius_m": 350,
+ "fetched_at": "2026-09-06T13:32:08Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 79,
+ "candidates_eligible": 31,
+ "rejections": {
+  "too_old": 4,
+  "indoor": 2,
+  "keywords": 25,
+  "too_small": 11,
+  "not_photo": 3,
+  "excluded": 3
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:08132022 WMNYC Wiki Worlds Fair Wikimania Queens Museum.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:08132022_WMNYC_Wiki_Worlds_Fair_Wikimania_Queens_Museum.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e9/08132022_WMNYC_Wiki_Worlds_Fair_Wikimania_Queens_Museum.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/08132022_WMNYC_Wiki_Worlds_Fair_Wikimania_Queens_Museum.jpg/1920px-08132022_WMNYC_Wiki_Worlds_Fair_Wikimania_Queens_Museum.jpg",
+   "author": "Wil540 art",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-08-13 17:03:12",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.745628,
+    "lon": -73.846489
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 510859,
+   "sha256": "d08055a397a8ff1898a6c3905ba5254e6bc7182c7ed57a2dfc2255d128079869",
+   "mean_luminance": 129.2,
+   "description": "User:Pharos displays a t-Shirt design during the t-shirt design contest at the Wiki Worlds Fair 2022, Wikimania Conference, hosted by WikimediaNYC at the Queens Museum",
+   "categories": [
+    "Logos of Wikimedia",
+    "2022 Wiki World's Fair NYC shirt",
+    "Self-published work",
+    "Richard Knipel in 2022",
+    "Files with coordinates missing SDC location of creation",
+    "Clapping people in the United States",
+    "Rajene Hardeman",
+    "Wiki World's Fair NYC 2022 at Queens Museum"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.745628,
+    "lon": -73.846489,
+    "azimuth_deg": 326.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74563, -73.84649) is 27 m from Queens Museum (New York City Building) (40.74583, -73.84667) and 129 m from the standard viewpoint; the azimuth 327 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"08132022 WMNYC Wiki Worlds Fair Wikimania Queens Museum.jpg\" by Wil540 art, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:08132022_WMNYC_Wiki_Worlds_Fair_Wikimania_Queens_Museum.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Queens Museum (48613534751).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Queens_Museum_(48613534751).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/69/Queens_Museum_%2848613534751%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Queens_Museum_%2848613534751%29.jpg/1920px-Queens_Museum_%2848613534751%29.jpg",
+   "author": "Ajay Suresh from New York, NY, USA",
+   "credit": "Queens Museum",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2019-08-23 18:25",
+   "date_source": "DateTimeOriginal",
+   "year": 2019,
+   "camera_gps": {
+    "lat": 40.746275,
+    "lon": -73.846048
+   },
+   "original_width": 4608,
+   "original_height": 2592,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 727359,
+   "sha256": "6510112d91168f7eba5f12b9232117bd99bb9e0d27ae0ce23e247c7cb140417c",
+   "mean_luminance": 109.7,
+   "description": "Flushing Meadows–Corona Park, Queens, NYC",
+   "categories": [
+    "Queens Museum",
+    "New York City photographs taken on 2019-08-24",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Flushing Meadows–Corona Park in 2019",
+    "August 2019 in Queens, New York City",
+    "2019 New York City photographs by ajay suresh"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.6,
+   "estimated_viewpoint": {
+    "lat": 40.746275,
+    "lon": -73.846048,
+    "azimuth_deg": 226.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74627, -73.84605) is 72 m from Queens Museum (New York City Building) (40.74583, -73.84667) and 188 m from the standard viewpoint; the azimuth 227 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Queens Museum (48613534751).jpg\" by Ajay Suresh from New York, NY, USA, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Queens_Museum_(48613534751).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Flushing Meadows Fair Grounds td (2018-05-26) 011 - Queens Museum.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Flushing_Meadows_Fair_Grounds_td_(2018-05-26)_011_-_Queens_Museum.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Flushing_Meadows_Fair_Grounds_td_%282018-05-26%29_011_-_Queens_Museum.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Flushing_Meadows_Fair_Grounds_td_%282018-05-26%29_011_-_Queens_Museum.jpg/1920px-Flushing_Meadows_Fair_Grounds_td_%282018-05-26%29_011_-_Queens_Museum.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2018",
+   "date_source": "DateTimeOriginal",
+   "year": 2018,
+   "camera_gps": {
+    "lat": 40.745198,
+    "lon": -73.845852
+   },
+   "original_width": 5472,
+   "original_height": 3648,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 963083,
+   "sha256": "458e74ba9f0fe8aeb768baaf0fd02f03656bba0b1c358292069b9abd13272892",
+   "mean_luminance": 105.9,
+   "description": "The Queens Museum (former New York City Building) in the former World's Fair grounds of Flushing Meadows–Corona Park, at United Nations Avenue South and Avenue of the States near Corona, Queens. The building is undergoing renovations.",
+   "categories": [
+    "Taken with Sony DSC-RX100",
+    "Queens Museum",
+    "Self-published work",
+    "Museums in the United States photographed in 2018",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2018-05-26",
+    "Construction in Queens, New York City",
+    "Flushing Meadows–Corona Park in 2018",
+    "2018 Queens photographs by Tdorante10",
+    "May 2018 in Queens, New York City",
+    "Photographs by Tdorante10 taken on 2018-05-26"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.45,
+   "estimated_viewpoint": {
+    "lat": 40.745198,
+    "lon": -73.845852,
+    "azimuth_deg": 315.8,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74520, -73.84585) is 98 m from Queens Museum (New York City Building) (40.74583, -73.84667) and 184 m from the standard viewpoint; the azimuth 316 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Flushing Meadows Fair Grounds td (2018-05-26) 011 - Queens Museum.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Flushing_Meadows_Fair_Grounds_td_(2018-05-26)_011_-_Queens_Museum.jpg"
+  }
+ ]
+}

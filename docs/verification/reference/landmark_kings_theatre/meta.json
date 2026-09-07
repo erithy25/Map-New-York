@@ -1,0 +1,191 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_kings_theatre",
+ "name": "Kings Theatre (Flatbush)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.649515,
+  "lon": -73.958468,
+  "azimuth_deg": 69.9,
+  "note": "Flatbush Avenue west sidewalk opposite the theatre, about 60 m from the front, looking east at the marquee and terracotta facade",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.6497,
+  "lon": -73.9578,
+  "name": "Kings Theatre (Flatbush)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2014,
+ "wanted": 3,
+ "queries": [
+  "\"Kings Theatre\" Flatbush Brooklyn",
+  "\"Kings Theatre\" Flatbush Avenue marquee"
+ ],
+ "geosearch_radius_m": 250,
+ "fetched_at": "2026-09-06T13:27:18Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 108,
+ "candidates_eligible": 3,
+ "rejections": {
+  "keywords": 93,
+  "not_photo": 1,
+  "licence": 6,
+  "too_old": 3,
+  "too_small": 1,
+  "excluded": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Kings Theatre Flatbush finished jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Kings_Theatre_Flatbush_finished_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d3/Kings_Theatre_Flatbush_finished_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Kings_Theatre_Flatbush_finished_jeh.jpg/1920px-Kings_Theatre_Flatbush_finished_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0",
+    "template": "cc-by-3.0"
+   },
+   "date_taken": "2015",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.645833,
+    "lon": -73.958194
+   },
+   "original_width": 2350,
+   "original_height": 2454,
+   "width": 1920,
+   "height": 2005,
+   "bytes": 799007,
+   "sha256": "6c719a307f8858ec8c5b7aa155a1139761da044b4d1ee310c205600ba1392e7b",
+   "mean_luminance": 136.1,
+   "description": "Looking northeast at opened Loew's.",
+   "categories": [
+    "Taken with Nikon Coolpix P520",
+    "Flatbush Avenue (Brooklyn)",
+    "New York City photographs taken on 2015-06-16",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Kings Theatre (Brooklyn)",
+    "June 2015 in Brooklyn, New York City",
+    "2015 Brooklyn photos by Jim.henderson",
+    "June 2015 photos by Jim.henderson"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Kings Theatre\" Flatbush Brooklyn",
+   "score": 9.0,
+   "estimated_viewpoint": {
+    "lat": 40.645833,
+    "lon": -73.958194,
+    "azimuth_deg": 4.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.64583, -73.95819) is 431 m from Kings Theatre (Flatbush) (40.64970, -73.95780) and 410 m from the standard viewpoint; the azimuth 4 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Kings Theatre Flatbush finished jeh.jpg\" by Jim.henderson, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Kings_Theatre_Flatbush_finished_jeh.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Kings theatre.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Kings_theatre.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/55/Kings_theatre.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Kings_theatre.jpg/1920px-Kings_theatre.jpg",
+   "author": "Moucheraud",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2015-10-18 14:43:55",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": null,
+   "original_width": 3829,
+   "original_height": 2920,
+   "width": 1920,
+   "height": 1464,
+   "bytes": 1128250,
+   "sha256": "73683dfd8514dfaa1fdb2d44c6385823166525a9e39c6e9ead264545052d0dcc",
+   "mean_luminance": 84.3,
+   "description": "Site : kings theatre flatbush",
+   "categories": [
+    "Self-published work",
+    "Kings Theatre (Brooklyn)",
+    "Uploaded via Campaign:OHNY",
+    "Open House New York Weekend 2015 in Brooklyn"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Kings Theatre\" Flatbush Brooklyn",
+   "score": 8.5,
+   "estimated_viewpoint": {
+    "lat": 40.649515,
+    "lon": -73.958468,
+    "azimuth_deg": 69.9,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Flatbush Avenue west sidewalk opposite the theatre, about 60 m from the front, looking east at the marquee and terracotta facade) and the azimuth 70 deg is the bearing from there to Kings Theatre (Flatbush) (40.64970, -73.95780)."
+   },
+   "attribution": "\"Kings theatre.jpg\" by Moucheraud, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Kings_theatre.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Ceiling kings theatre.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Ceiling_kings_theatre.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/89/Ceiling_kings_theatre.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Ceiling_kings_theatre.jpg/1920px-Ceiling_kings_theatre.jpg",
+   "author": "Moucheraud",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2015-10-18 14:35:27",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": null,
+   "original_width": 3656,
+   "original_height": 2926,
+   "width": 1920,
+   "height": 1537,
+   "bytes": 962164,
+   "sha256": "3db2b7a056c42dd5e7e2d5ebbc6149093e95f39485ae4b92917ac6dad879f46c",
+   "mean_luminance": 81.8,
+   "description": "Site : kings theatre flatbush",
+   "categories": [
+    "Ceilings in New York City",
+    "Self-published work",
+    "Kings Theatre (Brooklyn)",
+    "Uploaded via Campaign:OHNY",
+    "Open House New York Weekend 2015 in Brooklyn"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Kings Theatre\" Flatbush Brooklyn",
+   "score": 8.5,
+   "estimated_viewpoint": {
+    "lat": 40.649515,
+    "lon": -73.958468,
+    "azimuth_deg": 69.9,
+    "confidence": "medium",
+    "method": "standard_viewpoint",
+    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Flatbush Avenue west sidewalk opposite the theatre, about 60 m from the front, looking east at the marquee and terracotta facade) and the azimuth 70 deg is the bearing from there to Kings Theatre (Flatbush) (40.64970, -73.95780)."
+   },
+   "attribution": "\"Ceiling kings theatre.jpg\" by Moucheraud, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Ceiling_kings_theatre.jpg"
+  }
+ ]
+}

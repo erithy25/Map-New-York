@@ -1,0 +1,28 @@
+{
+ "artist": "Shearer",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 3952800,
+ "duration_s": 246.1,
+ "file": "rock/shearer_martyr_shearer_martyr.ogg",
+ "gain_db": -7.0,
+ "licence": "CC-BY-4.0",
+ "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+ "loudness_lufs": -7.0,
+ "original_filename": "SHEARER-Martyr.mp3",
+ "recorded_at": "2026-09-06T12:15:02Z",
+ "schema_version": 1,
+ "sha256": "4191a5f273b0ecc3464b8ad3b5c131ea0a0f3b540c2b29b7dab0a4b6974aec9a",
+ "source_page": "https://archive.org/details/shearer-martyr",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/shearer-martyr/SHEARER-Martyr.mp3",
+ "title": "Martyr",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

@@ -1,0 +1,479 @@
+{
+ "schema_version": 1,
+ "description": "NYCSim material name -> CC0 PBR texture source. Every asset id was checked against the provider API and its preview inspected visually by the facade-kit agent (2026-09-05). physical_size_m = real-world metres covered by one texture tile (Poly Haven publishes it; AmbientCG values are measured from the downloaded colour map with size_rule by `python3 blender/common/textures.py --measure`: brick_course = 67.5 mm NYC/modular course, lap = 101.6 mm vinyl double-4 exposure, plank = 140 mm cedar stave, tile = 100 mm, corrugation = 68 mm (2 2/3 in) pitch). tint multiplies the colour map; color_override replaces it (paint colours); roughness_override / roughness_scale adjust the roughness map. provider 'procedural' entries return {} from get_texture_set and carry their shader parameters in `procedural`. `breakup` bakes a seamless low-frequency luminance variation (soot, rain-streaking, patched brick) into the kit's 1K colour map for wall-scale materials, so the tile repeat stops reading as wallpaper across a facade; it is baked into the image, so it survives the glTF export.",
+ "license": "All entries CC0 1.0 (AmbientCG: Lennart Demes / ambientCG; Poly Haven: authors recorded in LICENSE.json on download).",
+ "aliases": {
+  "brick_red": "red_brick",
+  "brick_brown": "brown_brick",
+  "brick_tan": "tan_brick",
+  "buff_brick": "tan_brick",
+  "white_brick": "white_glazed_brick",
+  "sandstone": "brownstone",
+  "indiana_limestone": "limestone",
+  "glass": "glass_clear",
+  "sidewalk": "concrete_sidewalk",
+  "epdm": "roof_membrane",
+  "galvanized": "steel_galvanized",
+  "aluminum": "aluminum_anodized",
+  "aluminium_anodized": "aluminum_anodized",
+  "bronze": "bronze_anodized",
+  "cedar": "cedar_wood",
+  "awning": "fabric_awning",
+  "green_plywood": "plywood_green",
+  "paint_black": "painted_metal_black",
+  "paint_green": "painted_metal_green",
+  "wood_floor": "interior_wood_floor",
+  "tile": "interior_tile"
+ },
+ "materials": {
+  "red_brick": {
+   "provider": "ambientcg",
+   "asset_id": "Bricks082A",
+   "physical_size_m": 3.24,
+   "size_rule": "brick_course",
+   "notes": "weathered red common brick, light mortar; Old Law tenements, lofts, rowhouses",
+   "physical_size_source": "measured:brick_course",
+   "breakup": {
+    "strength": 0.17,
+    "octaves": 4,
+    "seed": 108
+   }
+  },
+  "red_brick_orange": {
+   "provider": "ambientcg",
+   "asset_id": "Bricks059",
+   "physical_size_m": 1.08,
+   "size_rule": "brick_course",
+   "notes": "cleaner orange-red face brick; 1920s\u201350s apartments, schools",
+   "physical_size_source": "measured:brick_course",
+   "breakup": {
+    "strength": 0.15,
+    "octaves": 4,
+    "seed": 109
+   }
+  },
+  "brown_brick": {
+   "provider": "ambientcg",
+   "asset_id": "Bricks054",
+   "physical_size_m": 1.08,
+   "size_rule": "brick_course",
+   "notes": "medium brown face brick; 1960s\u201380s apartment / office",
+   "physical_size_source": "measured:brick_course",
+   "breakup": {
+    "strength": 0.15,
+    "octaves": 4,
+    "seed": 101
+   }
+  },
+  "dark_brick": {
+   "provider": "ambientcg",
+   "asset_id": "Bricks058",
+   "physical_size_m": 1.08,
+   "size_rule": "brick_course",
+   "notes": "dark grey-black brick; 1980s condos, modern infill",
+   "physical_size_source": "measured:brick_course",
+   "breakup": {
+    "strength": 0.13,
+    "octaves": 4,
+    "seed": 105
+   }
+  },
+  "tan_brick": {
+   "provider": "ambientcg",
+   "asset_id": "Bricks029",
+   "physical_size_m": 2.835,
+   "size_rule": "brick_course",
+   "notes": "buff / tan brick; New Law tenements, 1920s setback offices, Art Deco",
+   "physical_size_source": "measured:brick_course",
+   "breakup": {
+    "strength": 0.16,
+    "octaves": 4,
+    "seed": 112
+   }
+  },
+  "tan_brick_yellow": {
+   "provider": "ambientcg",
+   "asset_id": "Bricks081B",
+   "physical_size_m": 1.62,
+   "size_rule": "brick_course",
+   "notes": "yellow-tan brick; Queens 2-family, 1950s schools",
+   "physical_size_source": "measured:brick_course",
+   "breakup": {
+    "strength": 0.15,
+    "octaves": 4,
+    "seed": 113
+   }
+  },
+  "white_glazed_brick": {
+   "provider": "ambientcg",
+   "asset_id": "Bricks060",
+   "physical_size_m": 1.08,
+   "size_rule": "brick_course",
+   "roughness_scale": 0.55,
+   "notes": "white glazed brick, grey mortar; 1955\u201375 UES apartment towers",
+   "physical_size_source": "measured:brick_course",
+   "breakup": {
+    "strength": 0.11,
+    "octaves": 4,
+    "seed": 115
+   }
+  },
+  "brownstone": {
+   "provider": "ambientcg",
+   "asset_id": "Travertine005",
+   "physical_size_m": 1.5,
+   "tint": [
+    0.78,
+    0.62,
+    0.52
+   ],
+   "roughness_override": 0.85,
+   "notes": "joint-free brown sandstone for monolithic trim: stoops, lintels, sills, quoins, cornice blocks (Portland brownstone tone via tint)"
+  },
+  "brownstone_ashlar": {
+   "provider": "polyhaven",
+   "asset_id": "red_sandstone_wall",
+   "physical_size_m": 2.0,
+   "roughness_override": 0.85,
+   "notes": "dark red-brown sandstone ashlar with joints for whole brownstone facades (shell shader)",
+   "breakup": {
+    "strength": 0.14,
+    "octaves": 4,
+    "seed": 102
+   }
+  },
+  "limestone": {
+   "provider": "ambientcg",
+   "asset_id": "Travertine009",
+   "physical_size_m": 1.5,
+   "roughness_override": 0.8,
+   "notes": "joint-free cream limestone for trim: lintels, sills, string courses, bank columns, cornices (Indiana limestone tone)"
+  },
+  "limestone_ashlar": {
+   "provider": "polyhaven",
+   "asset_id": "large_sandstone_blocks_01",
+   "physical_size_m": 3.0,
+   "roughness_override": 0.85,
+   "notes": "light ashlar blocks with joints for limestone bases and bank facades (shell shader)",
+   "breakup": {
+    "strength": 0.12,
+    "octaves": 4,
+    "seed": 106
+   }
+  },
+  "terracotta": {
+   "provider": "ambientcg",
+   "asset_id": "Marble026",
+   "physical_size_m": 1.5,
+   "roughness_override": 0.38,
+   "tint": [
+    0.95,
+    0.9,
+    0.8
+   ],
+   "notes": "glazed cream architectural terracotta (Flatiron / Woolworth buff); joint-free for moulded ornament"
+  },
+  "cast_iron": {
+   "provider": "ambientcg",
+   "asset_id": "Metal055A",
+   "physical_size_m": 1.0,
+   "roughness_override": 0.45,
+   "notes": "painted grey cast iron (SoHo storefront columns, areaway railings); apply tint for cream/white/green painted fronts"
+  },
+  "glass_curtain": {
+   "provider": "procedural",
+   "asset_id": "procedural_glass_curtain",
+   "physical_size_m": 1.0,
+   "procedural": {
+    "base_color": [
+     0.3,
+     0.4,
+     0.42,
+     1.0
+    ],
+    "roughness": 0.05,
+    "metallic": 0.0,
+    "transmission": 0.0,
+    "specular_ior_level": 0.9,
+    "alpha": 1.0
+   },
+   "notes": "tinted reflective vision/spandrel glass for curtain-wall modules; texture-free (mullions are geometry)"
+  },
+  "glass_clear": {
+   "provider": "procedural",
+   "asset_id": "procedural_glass_clear",
+   "physical_size_m": 1.0,
+   "procedural": {
+    "base_color": [
+     0.021,
+     0.024,
+     0.027,
+     1.0
+    ],
+    "roughness": 0.09,
+    "metallic": 0.0,
+    "transmission": 0.0,
+    "ior": 1.52,
+    "alpha": 0.26
+   },
+   "notes": "clear window / storefront plate glass: near-black diffuse with a 4 % Fresnel specular and 26 % alpha over the interior room box. Glass has essentially no diffuse albedo \u2014 giving it one is what made the first pass read as flat grey plastic in full sun. Roughness is 0.09 rather than mirror-smooth: a razor-sharp lobe on a small pane is a firefly source, and real float glass in an old sash is never optically flat."
+  },
+  "concrete": {
+   "provider": "ambientcg",
+   "asset_id": "Concrete030",
+   "physical_size_m": 2.0,
+   "notes": "cast-in-place concrete with board/form marks; parking garages, NYCHA slab edges, bulkheads",
+   "breakup": {
+    "strength": 0.14,
+    "octaves": 4,
+    "seed": 103
+   }
+  },
+  "precast": {
+   "provider": "ambientcg",
+   "asset_id": "Concrete034",
+   "physical_size_m": 2.0,
+   "notes": "smooth light precast / cast stone; sills, copings, panels",
+   "breakup": {
+    "strength": 0.11,
+    "octaves": 4,
+    "seed": 107
+   }
+  },
+  "concrete_sidewalk": {
+   "provider": "ambientcg",
+   "asset_id": "Concrete036",
+   "physical_size_m": 1.5,
+   "notes": "weathered grey broom-finish concrete; sidewalk flags (joints are geometry / shader), stoop landings",
+   "breakup": {
+    "strength": 0.13,
+    "octaves": 4,
+    "seed": 104
+   }
+  },
+  "stucco": {
+   "provider": "ambientcg",
+   "asset_id": "Plaster001",
+   "physical_size_m": 2.0,
+   "notes": "white rough stucco; Tudor gables, Mediterranean houses, EIFS sign bands",
+   "breakup": {
+    "strength": 0.13,
+    "octaves": 4,
+    "seed": 111
+   }
+  },
+  "vinyl_siding": {
+   "provider": "ambientcg",
+   "asset_id": "WoodSiding009",
+   "physical_size_m": 1.626,
+   "size_rule": "lap",
+   "roughness_override": 0.5,
+   "notes": "clean cream lap siding read as vinyl double-4 (101.6 mm exposure); Queens / Staten Island houses",
+   "physical_size_source": "measured:lap",
+   "breakup": {
+    "strength": 0.08,
+    "octaves": 4,
+    "seed": 114
+   }
+  },
+  "wood_clapboard": {
+   "provider": "ambientcg",
+   "asset_id": "WoodSiding003",
+   "physical_size_m": 2.032,
+   "size_rule": "lap",
+   "notes": "weathered painted wood clapboard; frame rowhouses",
+   "physical_size_source": "measured:lap",
+   "breakup": {
+    "strength": 0.12,
+    "octaves": 4,
+    "seed": 116
+   }
+  },
+  "stone_rubble": {
+   "provider": "ambientcg",
+   "asset_id": "Bricks102",
+   "physical_size_m": 2.0,
+   "notes": "grey-tan rubble ashlar (Manhattan schist / fieldstone) for churches and mansions",
+   "breakup": {
+    "strength": 0.15,
+    "octaves": 4,
+    "seed": 110
+   }
+  },
+  "metal_panel": {
+   "provider": "ambientcg",
+   "asset_id": "Metal032",
+   "physical_size_m": 1.0,
+   "roughness_override": 0.4,
+   "notes": "satin light-grey aluminium / insulated metal panel; hospitals, self-storage, modern infill"
+  },
+  "granite": {
+   "provider": "ambientcg",
+   "asset_id": "Granite002A",
+   "physical_size_m": 1.5,
+   "roughness_override": 0.35,
+   "notes": "light grey speckled granite, honed; bank bases, lobby floors, curbs"
+  },
+  "granite_rusticated": {
+   "provider": "polyhaven",
+   "asset_id": "granite_wall",
+   "physical_size_m": 1.9,
+   "roughness_override": 0.85,
+   "notes": "rock-faced granite blocks for rusticated bases and retaining walls"
+  },
+  "asphalt": {
+   "provider": "ambientcg",
+   "asset_id": "Asphalt025A",
+   "physical_size_m": 3.0,
+   "notes": "worn dark asphalt; roadbed"
+  },
+  "roof_membrane": {
+   "provider": "ambientcg",
+   "asset_id": "Rubber004",
+   "physical_size_m": 2.0,
+   "notes": "black EPDM / modified-bitumen roof membrane"
+  },
+  "tar_roof": {
+   "provider": "ambientcg",
+   "asset_id": "Asphalt018",
+   "physical_size_m": 2.0,
+   "notes": "flaking aluminium-coated tar roof over black asphalt; tenement roofs"
+  },
+  "tar_gravel_roof": {
+   "provider": "polyhaven",
+   "asset_id": "tarred_gravel",
+   "physical_size_m": 2.2,
+   "notes": "built-up tar and gravel roof; lofts, schools"
+  },
+  "corrugated_metal": {
+   "provider": "ambientcg",
+   "asset_id": "CorrugatedSteel005",
+   "physical_size_m": 1.0,
+   "size_rule": "corrugation",
+   "notes": "bare galvanised corrugated steel; sheds, fences, elevated station houses"
+  },
+  "painted_metal_green": {
+   "provider": "ambientcg",
+   "asset_id": "Metal055A",
+   "physical_size_m": 1.0,
+   "color_override": [
+    0.03,
+    0.078,
+    0.046
+   ],
+   "roughness_override": 0.5,
+   "notes": "hunter-green painted steel (fire escapes, lamp posts, sidewalk-shed frames); colour is linear sRGB #2C4B38, roughness/normal from the scuffed-steel map"
+  },
+  "painted_metal_black": {
+   "provider": "ambientcg",
+   "asset_id": "Paint005",
+   "physical_size_m": 1.0,
+   "notes": "matte black painted metal with drips; fire escapes, railings, roll gates, window guards"
+  },
+  "rust": {
+   "provider": "ambientcg",
+   "asset_id": "Rust005",
+   "physical_size_m": 1.0,
+   "notes": "dark rusted steel; water-tower dunnage, old fire-escape ladders, roof hatches"
+  },
+  "cedar_wood": {
+   "provider": "ambientcg",
+   "asset_id": "Planks023B",
+   "physical_size_m": 0.56,
+   "size_rule": "plank",
+   "notes": "weathered grey-brown cedar boards with nail rows; water-tower staves (UV rotated vertical)",
+   "physical_size_source": "measured:plank"
+  },
+  "painted_wood_white": {
+   "provider": "ambientcg",
+   "asset_id": "PaintedWood007C",
+   "physical_size_m": 0.84,
+   "size_rule": "plank",
+   "notes": "cream painted wood; window sash, dormers, trim",
+   "physical_size_source": "measured:plank"
+  },
+  "plywood_green": {
+   "provider": "ambientcg",
+   "asset_id": "PaintedWood002",
+   "physical_size_m": 1.0,
+   "tint": [
+    0.05,
+    0.22,
+    0.1
+   ],
+   "roughness_override": 0.7,
+   "notes": "weathered green painted plywood; NYC sidewalk-shed parapet and construction fence. tint takes the painted-wood map down to hunter green (sRGB ~ #26523A) while keeping the plank grain."
+  },
+  "steel_galvanized": {
+   "provider": "ambientcg",
+   "asset_id": "Metal039",
+   "physical_size_m": 1.0,
+   "roughness_override": 0.45,
+   "notes": "galvanised spangle steel; scaffold pipe, RTU housings, ducts"
+  },
+  "aluminum_anodized": {
+   "provider": "ambientcg",
+   "asset_id": "Metal032",
+   "physical_size_m": 1.0,
+   "roughness_override": 0.35,
+   "notes": "clear anodised aluminium; window frames, sliders, storefront frames, AC units"
+  },
+  "bronze_anodized": {
+   "provider": "ambientcg",
+   "asset_id": "Metal036",
+   "physical_size_m": 1.0,
+   "roughness_override": 0.4,
+   "notes": "dark bronze anodised aluminium; 1970s curtain-wall mullions, 1980s condo windows"
+  },
+  "fabric_awning": {
+   "provider": "ambientcg",
+   "asset_id": "Fabric037",
+   "physical_size_m": 0.5,
+   "roughness_override": 0.9,
+   "notes": "dark green canvas; awnings"
+  },
+  "canvas_striped": {
+   "provider": "ambientcg",
+   "asset_id": "Fabric071",
+   "physical_size_m": 0.5,
+   "roughness_override": 0.9,
+   "notes": "navy/white striped canvas; awnings"
+  },
+  "interior_tile": {
+   "provider": "ambientcg",
+   "asset_id": "Tiles133A",
+   "physical_size_m": 1.2,
+   "size_rule": "tile",
+   "notes": "white 100 mm ceramic tile; bodega / laundromat / pharmacy walls and floors",
+   "physical_size_source": "measured:tile"
+  },
+  "subway_tile": {
+   "provider": "polyhaven",
+   "asset_id": "long_white_tiles",
+   "physical_size_m": 1.27,
+   "notes": "white 3x6 subway tile; deli, pizza, bar walls"
+  },
+  "checker_tile": {
+   "provider": "ambientcg",
+   "asset_id": "Tiles012",
+   "physical_size_m": 0.4,
+   "size_rule": "tile",
+   "notes": "black/white checkerboard floor; pizzeria, diner",
+   "physical_size_source": "measured:tile"
+  },
+  "terrazzo": {
+   "provider": "polyhaven",
+   "asset_id": "terrazzo_tiles",
+   "physical_size_m": 2.0,
+   "roughness_override": 0.3,
+   "notes": "terrazzo; lobby and bank floors"
+  },
+  "interior_wood_floor": {
+   "provider": "ambientcg",
+   "asset_id": "WoodFloor051",
+   "physical_size_m": 1.0,
+   "roughness_override": 0.35,
+   "notes": "oak strip floor; clothing store, bar, residential lobby"
+  }
+ }
+}

@@ -1,0 +1,251 @@
+{
+ "schema_version": 1,
+ "slug": "vehicle_fdny_engine",
+ "name": "FDNY engine (pumper)",
+ "group": "vehicle",
+ "viewpoint": {
+  "lat": 40.755,
+  "lon": -73.984,
+  "azimuth_deg": 0.0,
+  "note": "Midtown street (representative; vehicle reference, viewpoint not meaningful)",
+  "representative": true
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2012,
+ "wanted": 4,
+ "queries": [
+  "FDNY engine Seagrave pumper",
+  "FDNY fire engine Seagrave street",
+  "FDNY Engine Company apparatus"
+ ],
+ "geosearch_radius_m": 0,
+ "fetched_at": "2026-09-06T13:46:25Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 18,
+ "candidates_eligible": 4,
+ "rejections": {
+  "excluded": 3,
+  "too_old": 3,
+  "too_small": 1,
+  "keywords": 5,
+  "not_photo": 2
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:FDNY Engine 21 2025.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:FDNY_Engine_21_2025.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/ce/FDNY_Engine_21_2025.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/FDNY_Engine_21_2025.jpg/1920px-FDNY_Engine_21_2025.jpg",
+   "author": "Transpoman",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2025-12-03 10:31:59",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.7488,
+    "lon": -73.9739
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 724895,
+   "sha256": "51a115cb1d863ed2d61f9804f15896b176e66086989033c2f9cd10745d9471f3",
+   "mean_luminance": 113.2,
+   "description": "The front of FDNY Engine 21 outside the fire station on 40th Street",
+   "categories": [
+    "Billy Burke (firefighter)",
+    "Seagrave Fire Apparatus",
+    "Self-published work",
+    "Fire engines of New York City",
+    "Files with coordinates missing SDC location of creation",
+    "New York City photographs taken on 2025-12-03",
+    "December 2025 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:FDNY fire engine Seagrave street",
+   "score": 9.2,
+   "estimated_viewpoint": {
+    "lat": 40.7488,
+    "lon": -73.9739,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.74880, -73.97390), 1095 m from the reference position (Midtown street (representative; vehicle reference, viewpoint not meaningful)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"FDNY Engine 21 2025.jpg\" by Transpoman, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:FDNY_Engine_21_2025.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:220714-335 CPS (24145100940).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:220714-335_CPS_(24145100940).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/220714-335_CPS_%2824145100940%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/220714-335_CPS_%2824145100940%29.jpg/1920px-220714-335_CPS_%2824145100940%29.jpg",
+   "author": "Chris Sampson",
+   "credit": "220714-335 CPS",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2014-07-22 20:31",
+   "date_source": "DateTimeOriginal",
+   "year": 2014,
+   "camera_gps": {
+    "lat": 40.7607,
+    "lon": -73.987184
+   },
+   "original_width": 6000,
+   "original_height": 4000,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 688509,
+   "sha256": "fc97d5f86b77d8abec052fc6cc627ae0d65ec4738018df299b21e0bae2fd5d53",
+   "mean_luminance": 109.2,
+   "description": "FDNY officers and vehicles at work",
+   "categories": [
+    "Seagrave Fire Apparatus",
+    "Flickr images reviewed by FlickreviewR",
+    "Fire engines of New York City",
+    "Files with coordinates missing SDC location of creation",
+    "Engine 54, Ladder 4, Battalion 9",
+    "Photographs by Chris Sampson"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:FDNY fire engine Seagrave street",
+   "score": 5.0,
+   "estimated_viewpoint": {
+    "lat": 40.7607,
+    "lon": -73.987184,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.76070, -73.98718), 688 m from the reference position (Midtown street (representative; vehicle reference, viewpoint not meaningful)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"220714-335 CPS (24145100940).jpg\" by Chris Sampson, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:220714-335_CPS_(24145100940).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Ladder 5 FDNY on 8th Av 48th St jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Ladder_5_FDNY_on_8th_Av_48th_St_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Ladder_5_FDNY_on_8th_Av_48th_St_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Ladder_5_FDNY_on_8th_Av_48th_St_jeh.jpg/1920px-Ladder_5_FDNY_on_8th_Av_48th_St_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2013-01-15 10:38:10",
+   "date_source": "DateTimeOriginal",
+   "year": 2013,
+   "camera_gps": {
+    "lat": 40.761083,
+    "lon": -73.987191
+   },
+   "original_width": 3000,
+   "original_height": 2000,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 602495,
+   "sha256": "943c06689f5ad69859bbd4cd88cd780730566eb218359ecd4462d5a446c3d7bd",
+   "mean_luminance": 121.1,
+   "description": "Looking southeast at FDNY Ladder 5. However, once the ladder moves out of the way we will see that this firehouse is the home for Ladder 4 . The usual home for Ladder 5 is down in Greenwich Village along with Engine 24 and Battalion 2 .",
+   "categories": [
+    "Taken with Nikon Coolpix AW100",
+    "CC-Zero",
+    "Seagrave Fire Apparatus",
+    "Self-published work",
+    "Fire engines of New York City",
+    "Firehouse, Engine Company 24 Ladder Company 5",
+    "Files with coordinates missing SDC location of creation",
+    "January 2013 in Manhattan, New York City",
+    "January 2013 photos by Jim.henderson",
+    "Engine 54, Ladder 4, Battalion 9",
+    "2013 Manhattan photos by Jim.henderson"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:FDNY fire engine Seagrave street",
+   "score": 5.0,
+   "estimated_viewpoint": {
+    "lat": 40.761083,
+    "lon": -73.987191,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.76108, -73.98719), 728 m from the reference position (Midtown street (representative; vehicle reference, viewpoint not meaningful)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"Ladder 5 FDNY on 8th Av 48th St jeh.jpg\" by Jim.henderson, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Ladder_5_FDNY_on_8th_Av_48th_St_jeh.jpg"
+  },
+  {
+   "n": 4,
+   "file": "4.jpg",
+   "title": "File:220714-334 CPS (23813911353).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:220714-334_CPS_(23813911353).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/96/220714-334_CPS_%2823813911353%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/220714-334_CPS_%2823813911353%29.jpg/1920px-220714-334_CPS_%2823813911353%29.jpg",
+   "author": "Chris Sampson",
+   "credit": "220714-334 CPS",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2014-07-22 20:30",
+   "date_source": "DateTimeOriginal",
+   "year": 2014,
+   "camera_gps": {
+    "lat": 40.760877,
+    "lon": -73.987267
+   },
+   "original_width": 6000,
+   "original_height": 4000,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 681512,
+   "sha256": "270fe73561e05be811ba5f0a1db1ed1041c68e4aadc22f3677c2d6fe449e7ed4",
+   "mean_luminance": 98.8,
+   "description": "FDNY officers and vehicles at work",
+   "categories": [
+    "Flickr images reviewed by FlickreviewR",
+    "Fire engines of New York City",
+    "Files with coordinates missing SDC location of creation",
+    "Engine 54, Ladder 4, Battalion 9",
+    "Photographs by Chris Sampson",
+    "Seagrave Attacker",
+    "Ferrara Ultra"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:FDNY fire engine Seagrave street",
+   "score": 5.0,
+   "estimated_viewpoint": {
+    "lat": 40.760877,
+    "lon": -73.987267,
+    "azimuth_deg": 0.0,
+    "confidence": "low",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.76088, -73.98727), 709 m from the reference position (Midtown street (representative; vehicle reference, viewpoint not meaningful)); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo. The subject is generic, so the position is only representative of where such a photo is taken."
+   },
+   "attribution": "\"220714-334 CPS (23813911353).jpg\" by Chris Sampson, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:220714-334_CPS_(23813911353).jpg"
+  }
+ ]
+}

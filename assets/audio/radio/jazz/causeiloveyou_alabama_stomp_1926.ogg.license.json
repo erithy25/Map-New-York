@@ -1,0 +1,28 @@
+{
+ "artist": "Gus C. Edwards and his Orchestra",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 1198865,
+ "duration_s": 164.47,
+ "file": "jazz/causeiloveyou_alabama_stomp_1926.ogg",
+ "gain_db": 1.1,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+ "loudness_lufs": -15.1,
+ "original_filename": "Alabama Stomp 1926.mp3",
+ "recorded_at": "2026-09-06T12:10:57Z",
+ "schema_version": 1,
+ "sha256": "35c4c9acbfd014a50d58f436e56a9140519868caea20aabf46aa1740a159f593",
+ "source_page": "https://archive.org/details/CauseILoveYou",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/CauseILoveYou/Alabama%20Stomp%201926.mp3",
+ "title": "Alabama Stomp 1926",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

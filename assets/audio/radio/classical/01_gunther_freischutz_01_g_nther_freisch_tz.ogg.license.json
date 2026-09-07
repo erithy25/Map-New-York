@@ -1,0 +1,28 @@
+{
+ "artist": "Carl G\u00dcNTHER - Tenor",
+ "attribution_note": "Internet Archive Netlabels",
+ "bytes": 3698867,
+ "duration_s": 255.87,
+ "file": "classical/01_gunther_freischutz_01_g_nther_freisch_tz.ogg",
+ "gain_db": 5.6,
+ "licence": "Public Domain",
+ "licence_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+ "loudness_lufs": -19.6,
+ "original_filename": "01 G\u00fcnther Freisch\u00fctz.mp3",
+ "recorded_at": "2026-09-06T12:20:30Z",
+ "schema_version": 1,
+ "sha256": "1944f4bacaf7ce46ede956dd2fcd482ec98f450c75636dd620b8d5c040e81618",
+ "source_page": "https://archive.org/details/01-gunther-freischutz",
+ "source_site": "archive.org",
+ "source_url": "https://archive.org/download/01-gunther-freischutz/01%20G%C3%BCnther%20Freisch%C3%BCtz.mp3",
+ "title": "Arie des Max (Carl G\u00fcnther)",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": false,
+  "quality": 4.0,
+  "sample_rate": 44100,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

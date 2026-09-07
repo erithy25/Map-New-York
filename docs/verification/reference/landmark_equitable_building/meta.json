@@ -1,0 +1,202 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_equitable_building",
+ "name": "Equitable Building (120 Broadway)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.708286,
+  "lon": -74.010987,
+  "azimuth_deg": 85.0,
+  "note": "Broadway west sidewalk opposite 120 Broadway, about 60 m from the facade, looking east at the H-plan slab",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.708333,
+  "lon": -74.010278,
+  "name": "Equitable Building (120 Broadway)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Equitable Building\" 120 Broadway",
+  "\"120 Broadway\" Manhattan building"
+ ],
+ "geosearch_radius_m": 200,
+ "fetched_at": "2026-09-06T12:51:09Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 130,
+ "candidates_eligible": 30,
+ "rejections": {
+  "too_old": 8,
+  "too_small": 12,
+  "licence": 1,
+  "keywords": 44,
+  "not_photo": 8,
+  "excluded": 26,
+  "night_for_day_item": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Equitable Building February 2023 001.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Equitable_Building_February_2023_001.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/68/Equitable_Building_February_2023_001.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Equitable_Building_February_2023_001.jpg/1920px-Equitable_Building_February_2023_001.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-02-15 11:34:43",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.708725,
+    "lon": -74.011064
+   },
+   "original_width": 2048,
+   "original_height": 1536,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 553323,
+   "sha256": "d92f75cbae5e9bf55ae132c659e0b78b4e321c2d633dd3f941817bcfeddc11c7",
+   "mean_luminance": 152.6,
+   "description": "The Equitable Building in February 2023",
+   "categories": [
+    "Equitable Building (Manhattan)",
+    "New York City photographs taken on 2023-02-15",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Office buildings in the United States photographed in 2023",
+    "Financial District, Manhattan in 2023",
+    "February 2023 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 15.2,
+   "estimated_viewpoint": {
+    "lat": 40.708725,
+    "lon": -74.011064,
+    "azimuth_deg": 123.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70873, -74.01106) is 79 m from Equitable Building (120 Broadway) (40.70833, -74.01028) and 49 m from the standard viewpoint; the azimuth 123 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Equitable Building February 2023 001.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Equitable_Building_February_2023_001.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Equitable Building April 2022 001.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Equitable_Building_April_2022_001.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Equitable_Building_April_2022_001.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Equitable_Building_April_2022_001.jpg/1920px-Equitable_Building_April_2022_001.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-04-01 13:09:11",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.708686,
+    "lon": -74.011078
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 715503,
+   "sha256": "e58cf3ac889abbb43b62870e25ee1f232ab13852f3de237a9a4b48dab83b5d07",
+   "mean_luminance": 110.9,
+   "description": "The Equitable Building in April 2022",
+   "categories": [
+    "Equitable Building (Manhattan)",
+    "New York City photographs taken on 2022-04-01",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Office buildings in the United States photographed in 2022",
+    "Financial District, Manhattan in 2022",
+    "Broadway below Canal Street",
+    "April 2022 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 15.05,
+   "estimated_viewpoint": {
+    "lat": 40.708686,
+    "lon": -74.011078,
+    "azimuth_deg": 120.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70869, -74.01108) is 78 m from Equitable Building (120 Broadway) (40.70833, -74.01028) and 45 m from the standard viewpoint; the azimuth 120 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Equitable Building April 2022 001.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Equitable_Building_April_2022_001.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Equitable Building June 2022 002.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Equitable_Building_June_2022_002.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Equitable_Building_June_2022_002.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Equitable_Building_June_2022_002.jpg/1920px-Equitable_Building_June_2022_002.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-06-04 14:12:11",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.708778,
+    "lon": -74.010872
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 839579,
+   "sha256": "fadb085e62f4b8d42a301ded8973fd9741aedfafc9e8599f0deab70f53cf1714",
+   "mean_luminance": 118.0,
+   "description": "The Equitable Building in June 2022",
+   "categories": [
+    "Equitable Building (Manhattan)",
+    "New York City photographs taken on 2022-06-04",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Office buildings in the United States photographed in 2022",
+    "Financial District, Manhattan in 2022",
+    "June 2022 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 15.05,
+   "estimated_viewpoint": {
+    "lat": 40.708778,
+    "lon": -74.010872,
+    "azimuth_deg": 134.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.70878, -74.01087) is 70 m from Equitable Building (120 Broadway) (40.70833, -74.01028) and 56 m from the standard viewpoint; the azimuth 135 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Equitable Building June 2022 002.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Equitable_Building_June_2022_002.jpg"
+  }
+ ]
+}

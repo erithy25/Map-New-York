@@ -1,0 +1,197 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_central_park_tower",
+ "name": "Central Park Tower (Billionaires' Row)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7651,
+  "lon": -73.9828,
+  "azimuth_deg": 47.9,
+  "note": "south-west corner of West 57th Street and Broadway, looking north-east at the tower",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7664,
+  "lon": -73.9809,
+  "name": "Central Park Tower"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2020,
+ "wanted": 3,
+ "queries": [
+  "\"Central Park Tower\" 57th Street skyscraper",
+  "\"Central Park Tower\" Nordstrom Tower Broadway"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T12:43:14Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 81,
+ "candidates_eligible": 49,
+ "rejections": {
+  "licence": 1,
+  "excluded": 3,
+  "keywords": 28
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Central Park Tower February 2023 010.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Central_Park_Tower_February_2023_010.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Central_Park_Tower_February_2023_010.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Central_Park_Tower_February_2023_010.jpg/1280px-Central_Park_Tower_February_2023_010.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-02-25 12:14:03",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.765628,
+    "lon": -73.982186
+   },
+   "original_width": 1536,
+   "original_height": 2048,
+   "width": 1280,
+   "height": 1707,
+   "bytes": 381955,
+   "sha256": "f5c4123270500f0504d8f24e78579bfbc4619c1c658304c5a4ba412ab867bdb3",
+   "mean_luminance": 155.1,
+   "description": "Central Park Tower in February 2023",
+   "categories": [
+    "Central Park Tower",
+    "New York City photographs taken on 2023-02-25",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Midtown Manhattan in 2023",
+    "February 2023 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 12.2,
+   "estimated_viewpoint": {
+    "lat": 40.765628,
+    "lon": -73.982186,
+    "azimuth_deg": 51.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.76563, -73.98219) is 138 m from Central Park Tower (40.76640, -73.98090) and 78 m from the standard viewpoint; the azimuth 52 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Central Park Tower February 2023 010.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Central_Park_Tower_February_2023_010.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Central Park Tower April 2021.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Central_Park_Tower_April_2021.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/81/Central_Park_Tower_April_2021.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Central_Park_Tower_April_2021.jpg/1920px-Central_Park_Tower_April_2021.jpg",
+   "author": "Percival Kestreltail",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 3.0",
+    "url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "template": "cc-by-sa-3.0"
+   },
+   "date_taken": "2021",
+   "date_source": "DateTimeOriginal",
+   "year": 2021,
+   "camera_gps": {
+    "lat": 40.7593,
+    "lon": -73.9792
+   },
+   "original_width": 2255,
+   "original_height": 4009,
+   "width": 1920,
+   "height": 3413,
+   "bytes": 929222,
+   "sha256": "31a999db860f16b1f8c2720f136dc4d36b54703cf917f0af591cb97d17dc7a9c",
+   "mean_luminance": 152.7,
+   "description": "Central Park Tower is the second-tallest building in New York and the United States",
+   "categories": [
+    "Central Park Tower",
+    "New York City photographs taken on 2021-04-24",
+    "Self-published work",
+    "FoP-United States",
+    "Files with coordinates missing SDC location of creation",
+    "Midtown Manhattan skylines in 2021"
+   ],
+   "assessments": "valued",
+   "restrictions": "",
+   "provenance": "search:\"Central Park Tower\" 57th Street skyscraper",
+   "score": 9.4,
+   "estimated_viewpoint": {
+    "lat": 40.7593,
+    "lon": -73.9792,
+    "azimuth_deg": 349.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.75930, -73.97920) is 802 m from Central Park Tower (40.76640, -73.98090) and 713 m from the standard viewpoint; the azimuth 350 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Central Park Tower April 2021.jpg\" by Percival Kestreltail, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Central_Park_Tower_April_2021.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Central Park Tower & 220 CPS 2020 (2) jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Central_Park_Tower_%26_220_CPS_2020_(2)_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Central_Park_Tower_%26_220_CPS_2020_%282%29_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Central_Park_Tower_%26_220_CPS_2020_%282%29_jeh.jpg/1920px-Central_Park_Tower_%26_220_CPS_2020_%282%29_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2020-05-04 09:09:04",
+   "date_source": "DateTimeOriginal",
+   "year": 2020,
+   "camera_gps": {
+    "lat": 40.7719,
+    "lon": -73.9772
+   },
+   "original_width": 3072,
+   "original_height": 4608,
+   "width": 1920,
+   "height": 2880,
+   "bytes": 1248115,
+   "sha256": "9c6b3c4d37287e48ba50dabade9605126dae4be92074fe5f7c9871864ec622c3",
+   "mean_luminance": 131.8,
+   "description": "Looking south from West Drive near Tavern on the Green, on a sunny morning",
+   "categories": [
+    "220 Central Park South",
+    "Central Park Tower",
+    "Self-published work",
+    "Views of buildings from Central Park",
+    "Files with coordinates missing SDC location of creation",
+    "May 2020 photos by Jim.henderson",
+    "Central Park photos by Jim.henderson",
+    "2020 Manhattan photos by Jim.henderson",
+    "Central Park in May 2020"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Central Park Tower\" 57th Street skyscraper",
+   "score": 7.75,
+   "estimated_viewpoint": {
+    "lat": 40.7719,
+    "lon": -73.9772,
+    "azimuth_deg": 207.0,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.77190, -73.97720) is 686 m from Central Park Tower (40.76640, -73.98090) and 891 m from the standard viewpoint; the azimuth 207 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Central Park Tower & 220 CPS 2020 (2) jeh.jpg\" by Jim.henderson, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Central_Park_Tower_%26_220_CPS_2020_(2)_jeh.jpg"
+  }
+ ]
+}

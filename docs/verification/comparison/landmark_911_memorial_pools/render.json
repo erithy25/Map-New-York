@@ -1,0 +1,531 @@
+{
+ "agent_request": {
+  "dow": 0,
+  "hour": 17,
+  "local_clock": "2025-09-11 17:01 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "314.3 deg, the bearing from this photograph's own GPS position to the North Pool; heading and position both come from the photograph.  The item's recorded azimuth is 301.3 deg, 13.0 deg away, and belongs to its nominal viewpoint",
+ "camera": {
+  "azimuth_deg": 314.3496980102347,
+  "eye_datum": "terrain",
+  "eye_height_m": 1.6,
+  "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
+  "focal_mm": 18.0,
+  "ground_detail": {
+   "below_point_excluded": 29,
+   "chosen_m": 4.19,
+   "max_m": 4.55,
+   "median_m": 4.36,
+   "min_m": 0.31,
+   "mode": "street",
+   "percentile": 10.0,
+   "point_m": 4.26,
+   "radius_m": 12.0,
+   "samples": 113
+  },
+  "ground_mode": "street",
+  "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
+  "hfov_deg": 73.709,
+  "lat": 40.711156,
+  "lon": -74.012633,
+  "long_side_fov_deg": 90.0,
+  "pitch_deg": 0.0,
+  "portrait": true,
+  "resolution": [
+   904,
+   1206
+  ],
+  "sensor_mm": 36.0,
+  "slug": "landmark_911_memorial_pools",
+  "terrain_z_m": 4.195,
+  "x": -5292.577,
+  "y": 1240.741,
+  "z": 5.795
+ },
+ "camera_caption": "camera 40.71116, -74.01263 (NYC_TM -5293, 1241) z 5.8 m NAVD88 | azimuth 314.3deg pitch +0.0deg | 18 mm on 36 mm (73.7deg horizontal, 90.0deg vertical, portrait) | 904x1206",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.711156,
+  "lon": -74.012633,
+  "offset_from_recorded_m": 36.9,
+  "source": "this photograph's own EXIF camera GPS (40.71116, -74.01263), 37 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
+ "clearance": {
+  "min_view_m": 51.2,
+  "moved": false,
+  "nearest_obstruction": "prop_tree_honeylocust_small_2",
+  "nearest_obstruction_m": 7.0,
+  "note": "the eye point stands on lm_b_wtc_site.233, but this camera's position is the photograph's own EXIF GPS rather than a nominal viewpoint standing for a whole deck, so there is nothing to walk to and the camera was not moved.  The view azimuth is clear for 150 m and the nearest solid thing in the view cone is prop_tree_honeylocust_small_2 7.0 m away",
+  "offset_m": 0.0,
+  "standing_on": "lm_b_wtc_site.233",
+  "view_m": 150.0
+ },
+ "frame": {
+  "mean": 0.245,
+  "reason": null,
+  "sd": 0.1836,
+  "usable": true
+ },
+ "frame_retry": null,
+ "group": "landmark",
+ "interior": false,
+ "lens_reason": "widened from 35 mm to 18 mm (90 deg vertical) so that a level axis contains the subject: the b_wtc_site model's published 329 m height stands 328 m above the lens at 102 m, 73 deg above the horizon; held at the 18 mm floor, so the top of the subject is still cut off -- past that point the distortion would stop the two frames being comparable",
+ "lighting": {
+  "background_strength": 0.25,
+  "direct_normal_irradiance_w_m2": 702.3,
+  "emissive": {
+   "cone_faces_deleted": 8,
+   "cones_hidden": 1,
+   "lamps_switched_off": 1,
+   "night": false,
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+  },
+  "exposure_stops": 0.88,
+  "sky_azimuth_deg": 254.37,
+  "sky_elevation_deg": 23.58,
+  "sun_lamp": true,
+  "sun_strength_blender": 1.301,
+  "view_transform": "Filmic"
+ },
+ "name": "National September 11 Memorial pools",
+ "night": false,
+ "pitch_reason": "level optical axis (the North Pool is 102 m away and would need +58 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "reference_photo": {
+  "author": "Oleg Yunakov",
+  "confidence": "high",
+  "date_taken": "2025-09-11 17:01:35",
+  "estimated_azimuth_deg": 314.4,
+  "file": "1.jpg",
+  "height": 2560,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:National_September_11_Memorial_South_Pool_-_04.jpg",
+  "title": "File:National September 11 Memorial South Pool - 04.jpg",
+  "width": 1920
+ },
+ "render_png": "docs/verification/comparison/landmark_911_memorial_pools/render.png",
+ "rendered_at": "2026-09-07T15:23:40Z",
+ "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 64,
+ "scene": {
+  "agents": {
+   "caption": "Agents: 88 vehicles within 320 m and 423 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 596 vehicles and 2889 people over the whole simulated ring, of which 683 and 3000 were simulated; 3172 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 590,
+    "pedestrian_inside_building": 1,
+    "pedestrian_not_on_walkable_surface": 413,
+    "pedestrian_outside_radius": 1402,
+    "pedestrian_triangle_budget": 171,
+    "vehicle_body_has_no_rider": 27,
+    "vehicle_not_on_carriageway": 2,
+    "vehicle_outside_radius": 329,
+    "vehicle_triangle_budget": 237
+   },
+   "ped_lods": {
+    "LOD1": 1,
+    "LOD2": 422
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 580802,
+   "per_class": {
+    "black_car": 3,
+    "boro_taxi": 7,
+    "sedan": 47,
+    "suv": 16,
+    "taxi": 14,
+    "van": 1
+   },
+   "placed_pedestrians": 423,
+   "placed_vehicles": 88,
+   "reason": null,
+   "seconds": 104.14,
+   "snapshot": {
+    "building_footprints_tested": 1416,
+    "density_lane_km": 24.809,
+    "density_sidewalk_m2": 17857,
+    "density_target_pedestrians": 2889.2,
+    "density_target_vehicles": 595.6,
+    "dow": 0,
+    "hour": 17,
+    "lanes_considered": 339,
+    "lanes_with_nta": 339,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.99,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 73,
+    "pavement_polygons_tested": 4677,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 3000,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 683
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1083849,
+   "vehicle_lods": {
+    "LOD2": 88
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 503047
+  },
+  "buildings": {
+   "dropped_for_budget": [],
+   "imported": [
+    "t_-5_0",
+    "t_-5_1",
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "landmark_bins_suppressed": 19,
+   "landmark_faces_suppressed": 2796,
+   "lod_substituted": [],
+   "missing": [],
+   "new_jersey": [],
+   "per_tile": {
+    "t_-5_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 18,
+     "triangles": 14630
+    },
+    "t_-5_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 18,
+     "triangles": 57390
+    },
+    "t_-6_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 16,
+     "triangles": 14752
+    },
+    "t_-6_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 0,
+     "objects": 18,
+     "triangles": 19718
+    }
+   },
+   "tiles_dropped_for_budget": 0,
+   "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
+   "tiles_missing": 0,
+   "tiles_wanted": 4,
+   "tiles_with_new_jersey": 0,
+   "triangle_budget": 3510000,
+   "triangles": 106490
+  },
+  "centre_tm": [
+   -5292.58,
+   1240.74
+  ],
+  "kit": {
+   "capped": null,
+   "per_category": {
+    "bulkhead": 1,
+    "door_entry": 3,
+    "fence": 1,
+    "parapet": 5,
+    "string_course": 3,
+    "window": 203,
+    "window_accessory": 48
+   },
+   "placed": 264,
+   "radius_m": 120.0,
+   "records_in_range": 4258,
+   "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 3994,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-6_1"
+   ],
+   "triangles": 62815,
+   "unresolved_ids": {}
+  },
+  "landmarks": {
+   "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
+   "landmarks": [
+    {
+     "distance_m": 63.4,
+     "id": "b_wtc_site",
+     "lod": 0,
+     "name": "World Trade Center site",
+     "own_ground_m2": 33039.3,
+     "own_ground_note": {
+      "above_heightmap_m": 0.08,
+      "heightmap_median_m": 4.32
+     },
+     "own_ground_parts": 1,
+     "triangles": 136288
+    },
+    {
+     "distance_m": 210.8,
+     "id": "b_one_world_trade_center",
+     "lod": 0,
+     "name": "One World Trade Center",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 6044
+    },
+    {
+     "distance_m": 348.5,
+     "id": "trinity_church",
+     "lod": 0,
+     "name": "Trinity Church",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 3984
+    },
+    {
+     "distance_m": 370.6,
+     "id": "equitable_building",
+     "lod": 0,
+     "name": "Equitable Building",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 86321
+    },
+    {
+     "distance_m": 391.7,
+     "id": "woolworth",
+     "lod": 0,
+     "name": "Woolworth Building",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 47871
+    },
+    {
+     "distance_m": 450.3,
+     "id": "one_wall_street",
+     "lod": 0,
+     "name": "One Wall Street (Irving Trust Building)",
+     "own_ground_note": {
+      "reason": "every ground polygon is smaller than 25 m2"
+     },
+     "triangles": 42712
+    },
+    {
+     "distance_m": 470.1,
+     "id": "federal_hall",
+     "lod": 0,
+     "name": "Federal Hall National Memorial",
+     "own_ground_m2": 282.2,
+     "own_ground_note": {
+      "above_heightmap_m": -0.84,
+      "heightmap_median_m": 9.37
+     },
+     "own_ground_parts": 2,
+     "triangles": 9070
+    },
+    {
+     "distance_m": 473.4,
+     "id": "nyse",
+     "lod": 0,
+     "name": "New York Stock Exchange",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
+     "triangles": 26049
+    },
+    {
+     "distance_m": 519.9,
+     "id": "40_wall_street",
+     "lod": 0,
+     "name": "40 Wall Street (Trump Building)",
+     "own_ground_note": {
+      "reason": "every ground polygon is smaller than 25 m2"
+     },
+     "triangles": 43167
+    },
+    {
+     "distance_m": 588.9,
+     "id": "city_hall",
+     "lod": 0,
+     "name": "New York City Hall",
+     "own_ground_note": {
+      "above_heightmap_m": -1.11,
+      "heightmap_median_m": 13.61,
+      "reason": "the model's ground stands -1.11 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
+     "triangles": 44823
+    }
+   ],
+   "own_ground_from": [
+    "b_wtc_site",
+    "federal_hall"
+   ],
+   "own_ground_m2": 33321.6,
+   "placed": 10,
+   "skipped": 0,
+   "skipped_detail": [],
+   "triangles": 446329
+  },
+  "pavement": {
+   "dropped_polygons": 0,
+   "per_kind": {
+    "crosswalk": 358,
+    "curb": 701,
+    "median": 64,
+    "parking_lot": 4,
+    "plaza": 34,
+    "roadbed": 309,
+    "sidewalk": 179
+   },
+   "placed": 1649,
+   "radius_m": 563.8090218678801,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-5_0",
+    "t_-5_1",
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "triangles": 115391,
+   "triangles_cut_for_landmark_ground": 413,
+   "vertices": 118882
+  },
+  "props": {
+   "capped": "triangle budget 1318241",
+   "impostor_cards_dropped": 4,
+   "impostor_faces_dropped": 0,
+   "leaf_off": false,
+   "per_kind": {
+    "bench": 53,
+    "flagpole": 1,
+    "hydrant": 3,
+    "manhole": 10,
+    "street_lamp": 35,
+    "subway_entrance": 5,
+    "tree": 273
+   },
+   "placed": 380,
+   "radius_m": 250.0,
+   "rows_in_range": 1498,
+   "tiles_missing": [],
+   "tiles_read": [
+    "t_-6_0",
+    "t_-6_1"
+   ],
+   "tree_species_substituted": 272,
+   "triangles": 1324256,
+   "unmapped_kinds": {
+    "cooling_tower": 3,
+    "curb_ramp": 6,
+    "memorial": 1
+   }
+  },
+  "radius_m": 563.8090218678801,
+  "seconds": 148.02,
+  "terrain": {
+   "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
+   "holes": 0,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 8111,
+   "samples": 203,
+   "spacing_m": 2.0,
+   "triangles": 65386,
+   "water_bodies": [
+    {
+     "kind": "bay",
+     "name": "North Cove Yacht Harbor",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "South Cove",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "UPPER NEW YORK BAY",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 587,
+   "z_max_m": 13.63,
+   "z_min_m": -1.81
+  },
+  "triangles": 3204516
+ },
+ "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
+  "kit_radius_m": 120.0,
+  "prop_radius_m": 250.0,
+  "radius_m": 563.8090218678801
+ },
+ "seconds": {
+  "render": 134.2,
+  "scene": 148.8,
+  "total": 283.1
+ },
+ "slug": "landmark_911_memorial_pools",
+ "status": "rendered",
+ "subject": {
+  "distance_m": 102.4,
+  "name": "the North Pool"
+ },
+ "sun": {
+  "azimuth_deg": 254.37003049108205,
+  "elevation_deg": 23.580457663946778,
+  "local": "2025-09-11T17:01:35-04:00",
+  "time_source": "EXIF DateTimeOriginal",
+  "utc": "2025-09-11T21:01:35Z"
+ },
+ "viewpoint": {
+  "azimuth_deg": 301.3,
+  "lat": 40.7112,
+  "lon": -74.0122,
+  "note": "memorial plaza between the two pools on the Greenwich Street side, looking north-west across the North Pool"
+ }
+}

@@ -1,0 +1,207 @@
+{
+ "schema_version": 1,
+ "slug": "drive_queens_bayside",
+ "name": "Queens residential block: Bayside",
+ "group": "drive_through",
+ "viewpoint": {
+  "lat": 40.763,
+  "lon": -73.772,
+  "azimuth_deg": 0.0,
+  "note": "215th Street near 42nd Avenue, Bayside, looking north",
+  "representative": false
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "Bayside Queens houses residential street",
+  "\"Bayside, Queens\" house"
+ ],
+ "geosearch_radius_m": 800,
+ "fetched_at": "2026-09-06T12:02:09Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query list=search / list=geosearch / prop=imageinfo)",
+ "candidates_seen": 75,
+ "candidates_eligible": 45,
+ "rejections": {
+  "excluded": 15,
+  "too_old": 3,
+  "too_small": 7,
+  "licence": 1,
+  "keywords": 4
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:2024-06-18 14 45 53 View south along Interstate 295 (Clearview Expressway) from the pedestrian overpass at 42nd Avenue in Queens, New York City, New York.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:2024-06-18_14_45_53_View_south_along_Interstate_295_(Clearview_Expressway)_from_the_pedestrian_overpass_at_42nd_Avenue_in_Queens,_New_York_City,_New_York.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/88/2024-06-18_14_45_53_View_south_along_Interstate_295_%28Clearview_Expressway%29_from_the_pedestrian_overpass_at_42nd_Avenue_in_Queens%2C_New_York_City%2C_New_York.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/2024-06-18_14_45_53_View_south_along_Interstate_295_%28Clearview_Expressway%29_from_the_pedestrian_overpass_at_42nd_Avenue_in_Queens%2C_New_York_City%2C_New_York.jpg/1920px-2024-06-18_14_45_53_View_south_along_Interstate_295_%28Clearview_Expressway%29_from_the_pedestrian_overpass_at_42nd_Avenue_in_Queens%2C_New_York_City%2C_New_York.jpg",
+   "author": "Famartin",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024-06-18 14:45:53",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.761519,
+    "lon": -73.778421
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 685153,
+   "sha256": "06d60365437a7dd0e586bf7940165a15e48e4741bc179c223bfb7be0e80314d3",
+   "mean_luminance": 143.5,
+   "description": "View south along Interstate 295 (Clearview Expressway) from the pedestrian overpass at 42nd Avenue in Queens, New York City, New York",
+   "categories": [
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "2024 in Bayside, Queens",
+    "New York City photographs taken on 2024-06-18",
+    "June 2024 in road transport in the United States",
+    "June 2024 in Queens, New York City",
+    "Clearview Expressway (Interstate 295)",
+    "Views from footbridges in New York City",
+    "Famartin's 2024 photos",
+    "Famartin's June 2024 photos",
+    "42nd Avenue Overpass over the Clearview Expressway"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.761519,
+    "lon": -73.778421,
+    "azimuth_deg": 0.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.76152, -73.77842), 565 m from the reference position (215th Street near 42nd Avenue, Bayside, looking north); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"2024-06-18 14 45 53 View south along Interstate 295 (Clearview Expressway) from the pedestrian overpass at 42nd Avenue in Queens, New York City, New York.jpg\" by Famartin, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:2024-06-18_14_45_53_View_south_along_Interstate_295_(Clearview_Expressway)_from_the_pedestrian_overpass_at_42nd_Avenue_in_Queens,_New_York_City,_New_York.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Needs Work - Flickr - JFGryphon.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Needs_Work_-_Flickr_-_JFGryphon.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Needs_Work_-_Flickr_-_JFGryphon.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Needs_Work_-_Flickr_-_JFGryphon.jpg/1920px-Needs_Work_-_Flickr_-_JFGryphon.jpg",
+   "author": "Jim Griffin",
+   "credit": "Needs Work",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2023",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.769662,
+    "lon": -73.769427
+   },
+   "original_width": 2143,
+   "original_height": 2143,
+   "width": 1920,
+   "height": 1920,
+   "bytes": 919295,
+   "sha256": "0245433ddd80c156aaaea7fbe588bb7e579adb8c89b14ce45498c93189369cd9",
+   "mean_luminance": 148.0,
+   "description": "House on 215th Street near 36th Avenue, Bayside, NYC As Bob pointed out in 2022, this house has looked much the same since at least 2007.",
+   "categories": [
+    "CC-Zero",
+    "New York City photographs taken on 2023-10-19",
+    "Houses in Queens, New York City",
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Flickr files uploaded by Red panda bot",
+    "Photos in Flickr Explore",
+    "2023 in Bayside, Queens",
+    "October 2023 in Queens, New York City",
+    "Houses in the United States photographed in 2023",
+    "Buildings in Bayside, Queens",
+    "Decay in New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Bayside, Queens\" house",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.769662,
+    "lon": -73.769427,
+    "azimuth_deg": 0.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.76966, -73.76943), 772 m from the reference position (215th Street near 42nd Avenue, Bayside, looking north); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Needs Work - Flickr - JFGryphon.jpg\" by Jim Griffin, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Needs_Work_-_Flickr_-_JFGryphon.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Lawrence Cemetery Queens HDR 2022 jeh.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Lawrence_Cemetery_Queens_HDR_2022_jeh.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/44/Lawrence_Cemetery_Queens_HDR_2022_jeh.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Lawrence_Cemetery_Queens_HDR_2022_jeh.jpg/1920px-Lawrence_Cemetery_Queens_HDR_2022_jeh.jpg",
+   "author": "Jim.henderson",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.76316,
+    "lon": -73.7666
+   },
+   "original_width": 2304,
+   "original_height": 1728,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 1344186,
+   "sha256": "4016e749bda29c211cab953f47b404488ffaf9c7431495858e504df58b4a9162",
+   "mean_luminance": 84.4,
+   "description": "Lawrence Cemetery (cemetery in Queens, New York City, United States)",
+   "categories": [
+    "Cemeteries in Queens, New York City",
+    "New York City landmarks in Queens",
+    "Self-published work",
+    "Uploaded with Mobile/Android",
+    "Files with coordinates missing SDC location of creation",
+    "United States photographs taken on 2022-05-30",
+    "2022 in Bayside, Queens",
+    "May 2022 in Queens, New York City",
+    "2022 Queens photos by Jim.henderson",
+    "May 2022 photos by Jim.henderson"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.76316,
+    "lon": -73.7666,
+    "azimuth_deg": 0.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.76316, -73.76660), 455 m from the reference position (215th Street near 42nd Avenue, Bayside, looking north); this item is a view along a street rather than at a point subject, so the azimuth 0 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"Lawrence Cemetery Queens HDR 2022 jeh.jpg\" by Jim.henderson, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Lawrence_Cemetery_Queens_HDR_2022_jeh.jpg"
+  }
+ ]
+}

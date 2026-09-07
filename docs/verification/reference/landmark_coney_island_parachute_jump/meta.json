@@ -1,0 +1,208 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_coney_island_parachute_jump",
+ "name": "Coney Island Parachute Jump",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.5729,
+  "lon": -73.9818,
+  "azimuth_deg": 289.8,
+  "note": "Riegelmann Boardwalk at West 15th Street, looking west at the tower",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.5735,
+  "lon": -73.984,
+  "name": "Parachute Jump"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Parachute Jump\" Coney Island",
+  "\"Parachute Jump\" boardwalk Brooklyn tower"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T12:40:24Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 86,
+ "candidates_eligible": 41,
+ "rejections": {
+  "too_old": 9,
+  "night_for_day_item": 1,
+  "excluded": 5,
+  "keywords": 26,
+  "not_jpeg": 1,
+  "licence": 1,
+  "not_photo": 1,
+  "too_small": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Coney Island Boardwalk 1.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Coney_Island_Boardwalk_1.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/0b/Coney_Island_Boardwalk_1.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Coney_Island_Boardwalk_1.jpg/1920px-Coney_Island_Boardwalk_1.jpg",
+   "author": "Rhododendrites",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2016-01-02 13:20:58",
+   "date_source": "DateTimeOriginal",
+   "year": 2016,
+   "camera_gps": {
+    "lat": 40.573038,
+    "lon": -73.980994
+   },
+   "original_width": 4196,
+   "original_height": 1820,
+   "width": 1920,
+   "height": 833,
+   "bytes": 242016,
+   "sha256": "bf0bdcc5ced8a3b2a9962596f40435ae303d1f03222236a728ca28d823a6e784",
+   "mean_luminance": 149.2,
+   "description": "Coney Island's Riegelmann Boardwalk, looking west towards the Parachute Jump.",
+   "categories": [
+    "Thunderbolt (2014 roller coaster)",
+    "Riegelmann Boardwalk",
+    "Parachute Jump",
+    "Self-published work",
+    "Images with extracted images",
+    "National Register of Historic Places with known IDs",
+    "Files uploaded by Rhododendrites (all)",
+    "Files with coordinates missing SDC location of creation",
+    "National Register of Historic Places missing SDC location of creation",
+    "2016 in Coney Island, Brooklyn",
+    "January 2016 in Brooklyn, New York City",
+    "Files by Rhododendrites - 2016-01",
+    "Photographs taken by Rhododendrites - Coney Island"
+   ],
+   "assessments": "quality|valued",
+   "restrictions": "",
+   "provenance": "search:\"Parachute Jump\" Coney Island",
+   "score": 13.65,
+   "estimated_viewpoint": {
+    "lat": 40.573038,
+    "lon": -73.980994,
+    "azimuth_deg": 281.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.57304, -73.98099) is 259 m from Parachute Jump (40.57350, -73.98400) and 70 m from the standard viewpoint; the azimuth 281 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Coney Island Boardwalk 1.jpg\" by Rhododendrites, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Coney_Island_Boardwalk_1.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Parachute Jump - Coney Island, Brooklyn, New York City, New York, USA - October 3, 2023.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Parachute_Jump_-_Coney_Island,_Brooklyn,_New_York_City,_New_York,_USA_-_October_3,_2023.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/78/Parachute_Jump_-_Coney_Island%2C_Brooklyn%2C_New_York_City%2C_New_York%2C_USA_-_October_3%2C_2023.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Parachute_Jump_-_Coney_Island%2C_Brooklyn%2C_New_York_City%2C_New_York%2C_USA_-_October_3%2C_2023.jpg/1920px-Parachute_Jump_-_Coney_Island%2C_Brooklyn%2C_New_York_City%2C_New_York%2C_USA_-_October_3%2C_2023.jpg",
+   "author": "Giorgio Galeotti",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-10-03 13:13:54",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.572831,
+    "lon": -73.982159
+   },
+   "original_width": 5504,
+   "original_height": 8256,
+   "width": 1920,
+   "height": 2880,
+   "bytes": 638773,
+   "sha256": "8f870d9a25fd0c68abb0a12c1c7c773f79fcb6a816e812a9cc140257e67f5bc0",
+   "mean_luminance": 145.0,
+   "description": "Parachute Jump - Coney Island, Brooklyn, New York City, New York, USA",
+   "categories": [
+    "Parachute Jump",
+    "Self-published work",
+    "New York City photographs taken on 2023-10-03",
+    "Files with coordinates missing SDC location of creation",
+    "October 2023 in Brooklyn, New York City",
+    "Towers in the United States photographed in 2023",
+    "Coney Island (Brooklyn park) in 2023"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.572831,
+    "lon": -73.982159,
+    "azimuth_deg": 295.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.57283, -73.98216) is 172 m from Parachute Jump (40.57350, -73.98400) and 31 m from the standard viewpoint; the azimuth 296 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Parachute Jump - Coney Island, Brooklyn, New York City, New York, USA - October 3, 2023.jpg\" by Giorgio Galeotti, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Parachute_Jump_-_Coney_Island,_Brooklyn,_New_York_City,_New_York,_USA_-_October_3,_2023.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Parachute Jump August 2022 001.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Parachute_Jump_August_2022_001.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/bc/Parachute_Jump_August_2022_001.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Parachute_Jump_August_2022_001.jpg/1920px-Parachute_Jump_August_2022_001.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-08-12 13:06:20",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.572856,
+    "lon": -73.983253
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 433271,
+   "sha256": "2ee708895cea8a9fbf5fe8ca2a8c780a3890f433cac70c79e71c5b163c902fce",
+   "mean_luminance": 127.3,
+   "description": "The Parachute Jump in Coney Island",
+   "categories": [
+    "Parachute Jump",
+    "New York City photographs taken on 2022-08-12",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Amusement parks in 2022",
+    "2022 in Coney Island, Brooklyn",
+    "August 2022 in Brooklyn, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.572856,
+    "lon": -73.983253,
+    "azimuth_deg": 318.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.57286, -73.98325) is 95 m from Parachute Jump (40.57350, -73.98400) and 123 m from the standard viewpoint; the azimuth 319 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Parachute Jump August 2022 001.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Parachute_Jump_August_2022_001.jpg"
+  }
+ ]
+}

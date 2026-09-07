@@ -1,0 +1,820 @@
+"""Tests for the visual-comparison stage (`blender/verify/`, `docs/verification/comparison/`).
+
+These cover the parts of the comparison pipeline that can be checked without spending a Cycles
+render: the tile/radius arithmetic, the terrain sampler against the published heightmap contract,
+the binary kit-placement record layout, the camera geometry (position, heading, field of view),
+the Sun placement against the live-services SPA implementation, and the shape of whatever sheets
+have been produced so far.
+
+    PYTHONPATH=pipeline:services pytest tests/test_comparison.py -q
+"""
+from __future__ import annotations
+
+import datetime as dt
+import json
+import math
+import sys
+from pathlib import Path
+
+import pytest
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+VERIFY_DIR = REPO_ROOT / "blender" / "verify"
+REFERENCE_DIR = REPO_ROOT / "docs" / "verification" / "reference"
+COMPARISON_DIR = REPO_ROOT / "docs" / "verification" / "comparison"
+
+for _p in (str(VERIFY_DIR), str(REPO_ROOT / "pipeline"), str(REPO_ROOT / "services"),
+           str(REPO_ROOT / "blender" / "common")):
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
+
+pytest.importorskip("numpy")
+import numpy as np  # noqa: E402
+
+
+def _skip_without_bpy():
+    return pytest.importorskip("bpy", reason="Blender's bpy module is required for the verify scene")
+
+
+# --------------------------------------------------------------------------- tiling arithmetic
+
+
+def test_tiles_in_radius_covers_exactly_the_intersecting_tiles():
+    _skip_without_bpy()
+    import scene as vscene
+
+    # A point in the middle of t_0_0 with a 100 m radius touches only that tile.
+    assert vscene.tiles_in_radius(500.0, 500.0, 100.0) == [(0, 0)]
+    # On the corner of four tiles every one of them is inside the disc.
+    got = set(vscene.tiles_in_radius(1000.0, 1000.0, 50.0))
+    assert got == {(0, 0), (0, 1), (1, 0), (1, 1)}
+    # From the centre of a tile, a 1.2 km radius reaches the neighbours and their diagonals but
+    # not the next ring: the nearest corner of t_2_0 is 1.5 km away.
+    got = set(vscene.tiles_in_radius(500.0, 500.0, 1200.0))
+    assert (1, 0) in got and (-1, 0) in got and (1, 1) in got and (-1, -1) in got
+    assert (2, 0) not in got and (2, 2) not in got
+    for tx, ty in got:
+        nx = min(max(500.0, tx * 1000.0), tx * 1000.0 + 1000.0)
+        ny = min(max(500.0, ty * 1000.0), ty * 1000.0 + 1000.0)
+        assert math.hypot(nx - 500.0, ny - 500.0) <= 1200.0 + 1e-9
+
+
+# --------------------------------------------------------------------------- terrain sampler
+
+
+def _some_terrain_tile() -> tuple[str, dict]:
+    tiles = sorted((REPO_ROOT / "data" / "processed" / "tiles").glob("*/terrain.json"))
+    if not tiles:
+        pytest.skip("no terrain tiles produced yet")
+    for p in tiles:
+        meta = json.loads(p.read_text())
+        if meta.get("has_land") and meta.get("z_max_m", 0) > meta.get("z_min_m", 0):
+            return p.parent.name, meta
+    pytest.skip("no terrain tile with relief produced yet")
+
+
+def test_terrain_sampler_reproduces_the_published_height_range():
+    _skip_without_bpy()
+    import scene as vscene
+
+    tile, meta = _some_terrain_tile()
+    tx, ty = int(meta["tx"]), int(meta["ty"])
+    s = vscene.TerrainSampler()
+    xs, ys = np.meshgrid(np.linspace(tx * 1000.0 + 1.0, tx * 1000.0 + 999.0, 61),
+                         np.linspace(ty * 1000.0 + 1.0, ty * 1000.0 + 999.0, 61))
+    z, water = s.grid(xs, ys)
+    assert not np.isnan(z).any(), f"{tile} sampled to NaN inside its own footprint"
+    lo, hi = float(meta["z_min_m"]), float(meta["z_max_m"])
+    assert z.min() >= lo - 0.01, (z.min(), lo)
+    assert z.max() <= hi + 0.01, (z.max(), hi)
+    assert water.shape == z.shape
+
+
+def test_water_is_the_surveyed_polygon_and_not_the_tile_scalar():
+    """A ground sample is water when it is inside a surveyed body, whatever the tile's level says.
+
+    The tile heightmaps carry ``water_level_m`` as a hard-coded 0.0 and this module used to mask
+    water as "at or below that level", which selects nothing on any tile whose water stands above
+    its own lowest ground: Central Park's Lake sits at 16.55 m on a tile whose floor is 10.89 m and
+    rendered as dry ground, and so did the Staten Island reservoirs and the Bronx and Queens lakes.
+    """
+    _skip_without_bpy()
+    import scene as vscene
+
+    wb = vscene.water_bodies()
+    if not wb.ok:
+        pytest.skip(f"no water polygons on disk: {wb.reason}")
+    s = vscene.TerrainSampler()
+    tile = REPO_ROOT / "data" / "processed" / "tiles" / "t_-2_8" / "terrain.json"
+    if not tile.exists():
+        pytest.skip("t_-2_8 (Central Park's Lake) not built")
+    meta = json.loads(tile.read_text())
+    assert float(meta.get("water_level_m", 0.0)) < float(meta["z_min_m"]), (
+        "the premise of this test is that the tile's scalar water level is below its own terrain")
+    # The Lake's own polygon bounds, from data/processed/water/hydrography.parquet.
+    xs, ys = np.meshgrid(np.linspace(-2010.0, -1600.0, 60), np.linspace(8280.0, 8795.0, 60))
+    z, water = s.grid(xs, ys)
+    assert water.any(), "no sample inside THE LAKE came back as water"
+    lake = z[water]
+    assert float(np.nanmedian(lake)) == pytest.approx(16.55, abs=0.1), float(np.nanmedian(lake))
+    # ... and the mask never lifts the ground: the heights are the heightmap's, untouched.
+    dry = z[~water]
+    assert float(np.nanmax(dry)) > float(np.nanmax(lake)), "the mask flooded ground above the water"
+
+
+def test_the_water_mask_cannot_flood_relief_above_a_body():
+    """`t_-15_-12` holds a pond at 94.58 m over ground from 76.65 m; the pond must not swallow the hill."""
+    _skip_without_bpy()
+    import scene as vscene
+
+    wb = vscene.water_bodies()
+    if not wb.ok:
+        pytest.skip(f"no water polygons on disk: {wb.reason}")
+    if not (REPO_ROOT / "data" / "processed" / "tiles" / "t_-15_-12" / "terrain.json").exists():
+        pytest.skip("t_-15_-12 not built")
+    s = vscene.TerrainSampler()
+    xs, ys = np.meshgrid(np.linspace(-15000.0, -14000.0, 101), np.linspace(-12000.0, -11000.0, 101))
+    z, water = s.grid(xs, ys)
+    assert water.any(), "the ponds on this tile are not masked at all"
+    assert water.mean() < 0.10, f"{water.mean():.0%} of a hillside tile came back as water"
+    lo = float(np.nanmin(z[water]))
+    assert lo > 70.0, f"the mask reaches down to {lo:.1f} m, which is the valley floor, not a pond"
+
+
+def test_terrain_and_pavement_are_not_drawn_under_a_landmark_s_own_ground():
+    """Where a landmark models the ground, the DEM is not drawn across it -- openings included.
+
+    The 9/11 Memorial is the case: the plaza is cut open over two 61 m pools whose basins reach
+    -4.39 m, and the heightmap inside those squares reads about 2.0 m, so the terrain was drawn
+    straight through the pool and the opening read as a 2.4 m depression instead of a 9.14 m fall.
+    """
+    _skip_without_bpy()
+    import scene as vscene
+
+    cat = {e["id"]: e for e in vscene.load_landmark_catalog()}
+    if "b_wtc_site" not in cat:
+        pytest.skip("b_wtc_site is not in the landmark catalogue")
+    import bpy
+    from mathutils import Matrix
+    import nycsim_bpy as nb
+
+    nb.reset_scene()
+    lib = vscene.AssetLibrary()
+    e = cat["b_wtc_site"]
+    rel = Path(e["glb"])
+    glb = rel if rel.is_absolute() else REPO_ROOT / rel
+    if not glb.exists():
+        glb = REPO_ROOT / "blender_out" / "landmarks" / rel.name
+    tpl = lib.get(glb, key="test:b_wtc_site", max_lod=0)
+    assert tpl is not None, f"{glb} did not import"
+    ox, oy, oz = (float(v) for v in e["origin_tm"])
+    obs = tpl.instance("lm_b_wtc_site", Matrix.Translation((ox, oy, oz)), bpy.context.scene.collection)
+    bpy.context.view_layer.update()
+    sampler = vscene.TerrainSampler()
+    rings, area, why = vscene.landmark_ground_outlines(obs, oz, sampler=sampler)
+    assert rings, f"the WTC site model carries a plaza deck and no ground outline was found: {why}"
+    assert abs(why.get("above_heightmap_m", 99.0)) <= vscene.LANDMARK_GROUND_BAND_M, why
+    # The plaza is the real memorial plaza outline: 33,039 m2, and both pool squares are inside it.
+    assert area == pytest.approx(33039.0, rel=0.02), area
+    import shapely
+    for cx, cy in ((-5338.35, 1349.96), (-5330.40, 1226.73)):     # the two measured pool centres
+        assert any(shapely.contains_xy(g, cx, cy) for g in rings), (cx, cy)
+    # A tower shell supplies no ground, so nothing is cut under it.
+    if "b_one_world_trade_center" in cat:
+        nb.reset_scene()
+        lib2 = vscene.AssetLibrary()
+        e2 = cat["b_one_world_trade_center"]
+        rel2 = Path(e2["glb"])
+        glb2 = rel2 if rel2.is_absolute() else REPO_ROOT / rel2
+        if not glb2.exists():
+            glb2 = REPO_ROOT / "blender_out" / "landmarks" / rel2.name
+        t2 = lib2.get(glb2, key="test:1wtc", max_lod=0)
+        if t2 is not None:
+            o2 = (float(v) for v in e2["origin_tm"])
+            ox2, oy2, oz2 = o2
+            obs2 = t2.instance("lm_1wtc", Matrix.Translation((ox2, oy2, oz2)),
+                               bpy.context.scene.collection)
+            bpy.context.view_layer.update()
+            r2, a2, _ = vscene.landmark_ground_outlines(obs2, oz2)
+            assert not r2, f"1 WTC is a tower shell and should supply no ground, got {a2:.0f} m2"
+
+
+def test_a_deck_metres_above_the_heightmap_does_not_cut_the_terrain_under_it():
+    """Hudson Yards' plaza is 20,061 m2 at 7.82 m over a heightmap median of 2.48 m.
+
+    A modelled surface that far above the published ground is a podium standing *on* the ground, not
+    a statement about where the ground is; cutting the terrain under it would leave a 5 m hole where
+    there is real ground, and that scene's own assessment already says the Vessel "hovers on a disc
+    above the plaza with nothing under it".
+    """
+    _skip_without_bpy()
+    import scene as vscene
+
+    cat = {e["id"]: e for e in vscene.load_landmark_catalog()}
+    if "c_hudson_yards" not in cat:
+        pytest.skip("c_hudson_yards is not in the landmark catalogue")
+    import bpy
+    from mathutils import Matrix
+    import nycsim_bpy as nb
+
+    nb.reset_scene()
+    lib = vscene.AssetLibrary()
+    e = cat["c_hudson_yards"]
+    rel = Path(e["glb"])
+    glb = rel if rel.is_absolute() else REPO_ROOT / rel
+    if not glb.exists():
+        glb = REPO_ROOT / "blender_out" / "landmarks" / rel.name
+    tpl = lib.get(glb, key="test:hy", max_lod=0)
+    if tpl is None:
+        pytest.skip(f"{glb} did not import")
+    ox, oy, oz = (float(v) for v in e["origin_tm"])
+    obs = tpl.instance("lm_hy", Matrix.Translation((ox, oy, oz)), bpy.context.scene.collection)
+    bpy.context.view_layer.update()
+    rings, area, why = vscene.landmark_ground_outlines(obs, oz, sampler=vscene.TerrainSampler())
+    assert not rings, f"the Hudson Yards podium cut {area:.0f} m2 of terrain"
+    assert why.get("above_heightmap_m", 0.0) > vscene.LANDMARK_GROUND_BAND_M, why
+    assert "deck on the ground, not" in why.get("reason", "")
+
+
+def test_terrain_sampler_orientation_matches_the_north_first_png_row():
+    """PNG row 0 is the north edge, so sampling near y_max must read the first image row."""
+    _skip_without_bpy()
+    from PIL import Image
+    import scene as vscene
+
+    tile, meta = _some_terrain_tile()
+    tx, ty = int(meta["tx"]), int(meta["ty"])
+    with Image.open(REPO_ROOT / "data" / "processed" / "tiles" / tile / "terrain.png") as im:
+        arr = np.asarray(im).astype(np.float64)
+    z_north_row = float(meta["z_min_m"]) + arr[0, 250] * float(meta["z_scale_m"])
+    z_south_row = float(meta["z_min_m"]) + arr[500, 250] * float(meta["z_scale_m"])
+    s = vscene.TerrainSampler()
+    got_north = s.z_at(tx * 1000.0 + 500.0, ty * 1000.0 + 1000.0)
+    got_south = s.z_at(tx * 1000.0 + 500.0, ty * 1000.0 + 0.0)
+    assert got_north == pytest.approx(z_north_row, abs=0.02)
+    assert got_south == pytest.approx(z_south_row, abs=0.02)
+
+
+def test_terrain_sampler_reports_missing_tiles_instead_of_inventing_ground():
+    _skip_without_bpy()
+    import scene as vscene
+
+    s = vscene.TerrainSampler()
+    # Far outside the project scope: no tile can exist there.
+    z, _ = s.grid(np.array([[900000.0]]), np.array([[900000.0]]))
+    assert np.isnan(z[0, 0])
+    assert s.z_at(900000.0, 900000.0) is None
+    assert s.missing
+
+
+# --------------------------------------------------------------------------- kit record layout
+
+
+def test_kit_record_matches_the_data_contract_header():
+    _skip_without_bpy()
+    import scene as vscene
+
+    assert vscene.KIT_RECORD.itemsize == 40
+    headers = sorted((REPO_ROOT / "data" / "processed" / "tiles").glob("*/kit_placements.json"))
+    if not headers:
+        pytest.skip("no kit placements produced yet")
+    h = json.loads(headers[0].read_text())
+    assert h["record_bytes"] == vscene.KIT_RECORD.itemsize
+    assert h["byte_order"] == "little"
+    assert [f["name"] for f in h["fields"]] == list(vscene.KIT_RECORD.names)
+    binary = headers[0].with_suffix(".bin")
+    a = np.fromfile(binary, dtype=vscene.KIT_RECORD)
+    assert a.size == h["count"], (a.size, h["count"])
+    # Every placement must sit inside the tile it is filed under, +- a piece's own reach.
+    tile = h["tile"]
+    tx, ty = (int(v) for v in tile.split("_")[1:3])
+    assert a["x"].min() >= tx * 1000.0 - 60.0
+    assert a["x"].max() <= tx * 1000.0 + 1060.0
+    assert a["y"].min() >= ty * 1000.0 - 60.0
+    assert a["y"].max() <= ty * 1000.0 + 1060.0
+
+
+def test_kit_ids_resolve_to_files_or_are_reported_as_unresolved():
+    _skip_without_bpy()
+    import scene as vscene
+
+    kit_map, why = vscene.load_kit_map()
+    if not kit_map:
+        pytest.skip(f"kit registry not resolvable yet: {why}")
+    missing = [e["glb"] for e in kit_map.values()
+               if not (REPO_ROOT / "blender_out" / e["glb"]).exists()]
+    assert not missing, f"{len(missing)} registry entries point at files that do not exist: {missing[:5]}"
+
+
+# --------------------------------------------------------------------------- world placement
+
+
+def _built_tiles() -> list[str]:
+    d = REPO_ROOT / "blender_out" / "tiles"
+    if not d.is_dir():
+        return []
+    return sorted(p.parent.name for p in d.glob("*/tile_buildings.glb"))
+
+
+def test_building_shells_land_on_their_published_world_bounds():
+    """A tile glb is stored in tile-local metres; the scene must translate it by the tile origin."""
+    bpy = _skip_without_bpy()
+    import scene as vscene
+    import nycsim_bpy as nb
+
+    tiles = _built_tiles()
+    if not tiles:
+        pytest.skip("no tile_buildings.glb produced yet")
+    tile = tiles[0]
+    manifest = json.loads((REPO_ROOT / "blender_out" / "tiles" / tile / "manifest.json").read_text())
+    want = manifest["bounds_world_m"]
+    tx, ty = (int(v) for v in tile.split("_")[1:3])
+    nb.reset_scene()
+    rep = vscene.add_buildings((tx + 0.5) * 1000.0, (ty + 0.5) * 1000.0, 200.0, lod0_radius_m=1e9)
+    assert rep["tiles_imported"] == 1, rep
+    lo = [float("inf")] * 3
+    hi = [float("-inf")] * 3
+    for ob in bpy.context.scene.objects:
+        if ob.type != "MESH":
+            continue
+        for corner in ob.bound_box:
+            w = ob.matrix_world @ __import__("mathutils").Vector(corner)
+            for k in range(3):
+                lo[k] = min(lo[k], w[k])
+                hi[k] = max(hi[k], w[k])
+    for k, axis in enumerate("xyz"):
+        assert lo[k] == pytest.approx(want["min"][k], abs=0.5), f"{tile} {axis} min {lo[k]} vs {want['min'][k]}"
+        assert hi[k] == pytest.approx(want["max"][k], abs=0.5), f"{tile} {axis} max {hi[k]} vs {want['max'][k]}"
+
+
+def test_a_tile_without_the_requested_lod_is_drawn_at_the_nearest_lod_it_has():
+    """A tile whose shells decimate to nothing at LOD2 must not vanish from a skyline."""
+    _skip_without_bpy()
+    import scene as vscene
+    import nycsim_bpy as nb
+
+    tiles = _built_tiles()
+    if not tiles:
+        pytest.skip("no tile_buildings.glb produced yet")
+    # Find a tile whose glb carries LOD0/LOD1 but no LOD2.  There is no cheap way to read a glb's
+    # node names without importing it, so import candidates until one turns up or the budget runs
+    # out -- most tiles do carry all three LODs.
+    victim = None
+    for tile in tiles[:40]:
+        nb.reset_scene()
+        created = vscene.import_glb(REPO_ROOT / "blender_out" / "tiles" / tile / "tile_buildings.glb")
+        lods = {vscene._lod_of(ob.name) for ob in created if ob.type == "MESH"}
+        if lods and 2 not in lods:
+            victim = tile
+            break
+    if victim is None:
+        pytest.skip("every tile sampled carries a LOD2; nothing to exercise the fallback with")
+    tx, ty = (int(v) for v in victim.split("_")[1:3])
+    # Stand 1 m off the tile centre with both LOD thresholds inside that, so the tile falls in
+    # the LOD2 band and the fallback has to fire.
+    cx, cy = (tx + 0.5) * 1000.0 + 1.0, (ty + 0.5) * 1000.0
+    nb.reset_scene()
+    rep = vscene.add_buildings(cx, cy, 200.0, lod0_radius_m=0.5, lod1_radius_m=0.5)
+    assert victim in rep["imported"], f"{victim} was dropped rather than substituted: {rep['missing']}"
+    assert rep["per_tile"][victim]["lod"] != 2
+    assert rep["per_tile"][victim]["lod_requested"] == 2
+    assert rep["tiles_lod_substituted"] >= 1
+    assert any(victim in line for line in rep["lod_substituted"])
+
+
+def test_a_landmark_model_replaces_the_tile_shell_of_the_same_building():
+    """Both are the same object; drawing both puts two Empire State Buildings in one frame."""
+    _skip_without_bpy()
+    import scene as vscene
+    import nycsim_bpy as nb
+    from nycsim_pipeline.crs import lonlat_to_tm
+
+    bins = vscene.landmark_bins()
+    if not bins:
+        pytest.skip("no landmark catalogue entry names the BINs it replaces")
+    if not _built_tiles():
+        pytest.skip("no tile_buildings.glb produced yet")
+    # Around the Empire State Building, where several catalogued landmarks stand together.
+    x, y = (float(v) for v in lonlat_to_tm(-73.9857, 40.7484))
+    nb.reset_scene()
+    plain = vscene.add_buildings(x, y, 300.0, lod0_radius_m=1e9)
+    nb.reset_scene()
+    thinned = vscene.add_buildings(x, y, 300.0, lod0_radius_m=1e9, suppress_landmark_bins=bins)
+    assert thinned["tiles_imported"] == plain["tiles_imported"]
+    assert thinned["landmark_bins_suppressed"] >= 1, thinned
+    assert thinned["landmark_faces_suppressed"] >= 1
+    assert thinned["triangles"] < plain["triangles"], (
+        "suppressing the shells of catalogued landmarks must remove geometry")
+
+
+def test_landmarks_land_at_their_catalogue_origin_and_published_height():
+    bpy = _skip_without_bpy()
+    import scene as vscene
+    import nycsim_bpy as nb
+
+    entries = {e["id"]: e for e in vscene.load_landmark_catalog()}
+    if "empire_state" not in entries:
+        pytest.skip("Empire State Building not exported yet")
+    e = entries["empire_state"]
+    ox, oy, oz = (float(v) for v in e["origin_tm"])
+    nb.reset_scene()
+    lib = vscene.AssetLibrary()
+    rep = vscene.add_landmarks(lib, ox, oy, 50.0, catalog=[e])
+    assert rep["placed"] == 1, rep
+    zs = []
+    for ob in bpy.context.scene.objects:
+        if ob.type != "MESH":
+            continue
+        for corner in ob.bound_box:
+            zs.append((ob.matrix_world @ __import__("mathutils").Vector(corner)).z)
+    assert zs
+    # The published roof/antenna height is measured from the model origin (street level).
+    top = max(zs) - oz
+    assert 300.0 < top < 460.0, f"Empire State model tops out {top:.1f} m above its origin"
+    if e.get("bounds_local_m"):
+        assert top == pytest.approx(float(e["bounds_local_m"]["max"][2]), abs=1.0)
+
+
+def test_every_prop_asset_matches_the_size_its_catalogue_publishes():
+    """Props are placed by translation and yaw alone, so a wrong on-screen size is a wrong glb."""
+    _skip_without_bpy()
+    import scene as vscene
+    import nycsim_bpy as nb
+
+    if not vscene.PROPS_CATALOG_JSON.exists():
+        pytest.skip("no prop asset catalogue exported yet")
+    nb.reset_scene()
+    rep = vscene.audit_prop_assets()
+    assert rep["checked"] > 0
+    assert rep["unloadable"] == [], f"prop assets that would not import: {rep['unloadable']}"
+    assert rep["bad"] == [], (
+        "prop assets whose glb geometry is bigger than the size their catalogue entry publishes, "
+        f"and not explained by a modelled light cone: {rep['bad']}")
+    # The lamps are the only entries allowed to exceed their nominal size, and only by their cone.
+    for row in rep["with_effects"]:
+        assert row["dataset_kind"] == "street_lamp", row
+
+
+def test_tree_impostor_cards_are_not_drawn_over_the_real_branches():
+    """Every tree glb carries a flat opaque ``*_billboard`` card; drawing it makes a black cone."""
+    _skip_without_bpy()
+    import scene as vscene
+    import nycsim_bpy as nb
+
+    if not vscene.PROPS_CATALOG_JSON.exists():
+        pytest.skip("no prop asset catalogue exported yet")
+    entries = {e["id"]: e for e in json.loads(vscene.PROPS_CATALOG_JSON.read_text())["entries"]}
+    tree = next((e for i, e in entries.items() if i.startswith("tree_")), None)
+    if tree is None:
+        pytest.skip("no tree assets exported yet")
+    nb.reset_scene()
+    created = vscene.import_glb(vscene.BLENDER_OUT / tree["glb"])
+    cards = [ob for ob in created if ob.type == "MESH" and vscene._is_impostor(ob)]
+    assert cards, f"{tree['id']} carries no impostor card; this guard is no longer needed"
+    nb.reset_scene()
+    lib = vscene.AssetLibrary()
+    tpl = lib.get(vscene.BLENDER_OUT / tree["glb"], key="t", max_lod=0)
+    assert tpl is not None
+    assert lib.impostors_dropped >= 1
+    for mesh, _ in tpl.parts:
+        names = [m.name for m in mesh.materials if m is not None]
+        assert not any(n.startswith("IMPOSTOR_") for n in names), (
+            f"{tree['id']} still draws its impostor card at LOD0: {names}")
+
+
+def test_the_ground_mesh_resolves_the_near_field_and_still_reaches_the_horizon():
+    """A uniform grid over a 700 m scene lands one height every 4.7 m; that is a rolling sidewalk."""
+    _skip_without_bpy()
+    import scene as vscene
+
+    xs, grade = vscene.graded_axis(0.0, 700.0, near_m=150.0, near_spacing_m=2.0,
+                                   max_spacing_m=40.0, growth=1.14, max_points=301)
+    assert xs.size <= 301
+    assert xs[0] == pytest.approx(-700.0) and xs[-1] == pytest.approx(700.0)
+    d = np.diff(xs)
+    assert np.all(d > 0.0), "the sample axis must be strictly increasing"
+    near = d[(xs[:-1] >= -140.0) & (xs[:-1] <= 140.0)]
+    assert near.max() <= 2.0 + 1e-6, f"near-field spacing is {near.max():.2f} m, not the heightmap's 2 m"
+    assert d.max() <= 40.0 + 1e-6, f"far-field spacing is {d.max():.2f} m, above the 40 m cap"
+    assert grade["near_spacing_m"] == pytest.approx(2.0)
+    # A 5 km skyline scene still has to fit in its point budget, and still resolve its foreground.
+    xs2, grade2 = vscene.graded_axis(0.0, 5000.0, near_m=150.0, near_spacing_m=2.0,
+                                     max_spacing_m=40.0, growth=1.14, max_points=381)
+    assert xs2.size <= 381
+    d2 = np.diff(xs2)
+    assert d2[(xs2[:-1] >= -140.0) & (xs2[:-1] <= 140.0)].max() <= 4.0
+    assert grade2["far_spacing_m"] <= 40.0 + 1e-6
+
+
+# --------------------------------------------------------------------------- camera
+
+
+def test_focal_length_to_field_of_view():
+    _skip_without_bpy()
+    import camera as vcam
+
+    assert vcam.horizontal_fov_deg(35.0, 36.0) == pytest.approx(54.43, abs=0.02)
+    assert vcam.horizontal_fov_deg(24.0, 36.0) == pytest.approx(73.74, abs=0.02)
+    assert vcam.horizontal_fov_deg(50.0, 36.0) == pytest.approx(39.60, abs=0.02)
+
+
+@pytest.mark.parametrize("azimuth,expect", [
+    (0.0, (0.0, 1.0)),      # north
+    (90.0, (1.0, 0.0)),     # east
+    (180.0, (0.0, -1.0)),   # south
+    (270.0, (-1.0, 0.0)),   # west
+])
+def test_camera_points_along_the_reference_azimuth(azimuth, expect):
+    bpy = _skip_without_bpy()
+    import camera as vcam
+    import nycsim_bpy as nb
+
+    nb.reset_scene()
+    p = vcam.place_camera(slug="_unit_test", lat=40.75, lon=-73.98, azimuth_deg=azimuth,
+                          sampler=None, resolution=(320, 200))
+    cam = bpy.context.scene.camera
+    fwd = cam.matrix_world.to_quaternion() @ __import__("mathutils").Vector((0.0, 0.0, -1.0))
+    assert fwd.x == pytest.approx(expect[0], abs=1e-6)
+    assert fwd.y == pytest.approx(expect[1], abs=1e-6)
+    assert fwd.z == pytest.approx(0.0, abs=1e-6)
+    assert p.hfov_deg == pytest.approx(vcam.horizontal_fov_deg(p.focal_mm), abs=1e-9)
+
+
+def test_camera_sits_at_the_reference_viewpoint_in_nyc_tm():
+    _skip_without_bpy()
+    import camera as vcam
+    import nycsim_bpy as nb
+    from nycsim_pipeline.crs import lonlat_to_tm
+
+    meta = json.loads((REFERENCE_DIR / "fifth_ave_42nd_north" / "meta.json").read_text())
+    vp = meta["viewpoint"]
+    nb.reset_scene()
+    p = vcam.place_camera(slug="fifth_ave_42nd_north", lat=vp["lat"], lon=vp["lon"],
+                          azimuth_deg=vp["azimuth_deg"], sampler=None, resolution=(320, 200))
+    x, y = lonlat_to_tm(vp["lon"], vp["lat"])
+    assert p.x == pytest.approx(x, abs=1e-6)
+    assert p.y == pytest.approx(y, abs=1e-6)
+    assert p.azimuth_deg == pytest.approx(vp["azimuth_deg"])
+
+
+def test_eye_height_is_the_standing_default_unless_the_note_says_otherwise():
+    _skip_without_bpy()
+    import camera as vcam
+
+    # A sidewalk view gets the standing default.
+    assert vcam.eye_rule_for("fifth_ave_42nd_north").height_m == pytest.approx(1.60)
+    # The three viewpoints whose note names a structure or a vessel do not.
+    tall = vcam.eye_rule_for("top_of_the_rock_south")
+    assert tall.height_m > 250.0 and "30 Rockefeller" in tall.source
+    ferry = vcam.eye_rule_for("staten_island_ferry_lower_manhattan")
+    assert ferry.datum == "sea" and 5.0 < ferry.height_m < 15.0
+    steps = vcam.eye_rule_for("times_square_duffy_south_day")
+    assert 5.0 < steps.height_m < 8.0 and "TKTS" in steps.source
+    for rule in vcam.EYE_OVERRIDES.values():
+        assert rule.source.strip(), "every non-default eye height must state where the number came from"
+        assert rule.datum in ("terrain", "sea")
+
+
+# --------------------------------------------------------------------------- sun placement
+
+
+def test_camera_position_and_heading_come_from_the_same_measurement():
+    """Position from the photograph's GPS, heading from that same point to the named subject.
+
+    The failure this guards against is real and was shipped once: the heading was taken from the
+    photograph's own GPS ("camera_gps_to_subject") while the position stayed on the item's nominal
+    viewpoint 35 m away, so the render looked past the subject and the two halves of the sheet
+    faced different ways.
+    """
+    _skip_without_bpy()
+    import render_sheets as rs
+    from nycsim_pipeline.crs import lonlat_to_tm
+
+    # Washington Street in DUMBO: nominal viewpoint, the photograph's own GPS 35 m north-west,
+    # and the Manhattan Bridge Brooklyn tower as the subject.
+    meta = {"viewpoint": {"lat": 40.7030, "lon": -73.9892, "azimuth_deg": 345.8,
+                          "note": "Washington Street, centred on the roadway"},
+            "subject": {"lat": 40.7045, "lon": -73.9897, "name": "Manhattan Bridge Brooklyn tower"}}
+    photo = {"camera_gps": {"lat": 40.703061, "lon": -73.989602}}
+    lat, lon, why, offset, from_photo = rs.view_origin(meta, photo)
+    assert from_photo is True and lat == pytest.approx(40.703061)
+    assert 30.0 < offset < 45.0, offset
+    assert "EXIF camera GPS" in why
+    az, az_why = rs.view_azimuth("x", meta, photo, lat, lon, origin_is_photo=from_photo)
+    vx, vy = (float(v) for v in lonlat_to_tm(lon, lat))
+    sx, sy = (float(v) for v in lonlat_to_tm(meta["subject"]["lon"], meta["subject"]["lat"]))
+    want = math.degrees(math.atan2(sx - vx, sy - vy)) % 360.0
+    assert az == pytest.approx(want, abs=1e-6), "the heading must be measured from the position used"
+    assert "photograph" in az_why
+
+    # A photograph whose GPS is kilometres away is mis-tagged, not a better measurement.
+    far = {"camera_gps": {"lat": 40.7350, "lon": -73.9892}}
+    lat2, lon2, why2, offset2, from_photo2 = rs.view_origin(meta, far)
+    assert from_photo2 is False
+    assert (lat2, lon2) == (40.7030, -73.9892)
+    assert offset2 > rs.PHOTO_GPS_SANITY_M and "rejected" in why2
+    # Falling back to the nominal viewpoint, the recorded azimuth is kept because it agrees with
+    # the bearing to the subject from that point.
+    az2, _ = rs.view_azimuth("x", meta, far, lat2, lon2, origin_is_photo=False)
+    assert az2 == pytest.approx(345.8)
+
+
+def test_a_photographs_own_gps_wins_where_it_is_nearer_the_subject_it_is_of():
+    """The sanity radius measures the wrong thing for a view *of* something.
+
+    The Williamsburg Bridge photograph's GPS is 117 m from the Brooklyn tower and the item's
+    recorded viewpoint is 506 m from it, 389 m apart -- so the 250 m radius rejected the
+    measurement in favour of the estimate and put the camera half a kilometre too far back.  A
+    view *from* a place (a ferry deck, a promenade, a named block) keeps the radius, because there
+    the recorded position is the view.
+    """
+    import render_sheets as rs
+
+    def meta(group, vp, subject):
+        return {"slug": "t", "group": group,
+                "viewpoint": {"lat": vp[0], "lon": vp[1], "azimuth_deg": 0.0},
+                "subject": {"lat": subject[0], "lon": subject[1], "name": "the subject"}}
+
+    def photo(lat, lon):
+        return {"camera_gps": {"lat": lat, "lon": lon}}
+
+    # Williamsburg Bridge, as recorded: viewpoint at Domino Park, subject the Brooklyn tower.
+    vp, subj = (40.7165, -73.9668), (40.7122, -73.9688)
+    ph = photo(40.71318, -73.96827)
+    lat, lon, why, off, from_photo = rs.view_origin(meta("landmark", vp, subj), ph)
+    assert from_photo and off > rs.PHOTO_GPS_SANITY_M
+    assert lat == pytest.approx(40.71318) and "nearer" not in why
+    assert "view *of*" in why and "same side" in why
+    # The same photograph on a view *from* a place keeps the recorded viewpoint.
+    lat2, _, why2, _, from_photo2 = rs.view_origin(meta("viewpoint", vp, subj), ph)
+    assert not from_photo2 and lat2 == pytest.approx(vp[0]) and "rejected as mis-tagged" in why2
+    # Farther from the subject than the estimate: rejected (this is the MetLife case).
+    far = photo(40.7205, -73.9668)
+    _, _, why3, _, from_photo3 = rs.view_origin(meta("landmark", vp, subj), far)
+    assert not from_photo3 and "rejected as mis-tagged" in why3
+    # The other side of the subject: rejected (this is the Empire State case).
+    behind = photo(40.7080, -73.9688)
+    _, _, why4, _, from_photo4 = rs.view_origin(meta("landmark", vp, subj), behind)
+    assert not from_photo4 and "rejected as mis-tagged" in why4
+
+
+def test_no_comparison_scene_silently_changed_which_photograph_it_shows():
+    """Every shipped sheet must name the photograph the current chooser would pick for it.
+
+    A sheet whose reference has been re-picked underneath it compares a render against a
+    photograph nobody chose for it.
+    """
+    import render_sheets as rs
+
+    bad = []
+    for d in sorted(COMPARISON_DIR.iterdir()):
+        rj = d / "render.json"
+        if not d.is_dir() or not rj.exists():
+            continue
+        rec = json.loads(rj.read_text())
+        shipped = (rec.get("reference_photo") or {}).get("title")
+        meta = rs.load_meta(d.name)
+        picked = (rs.pick_reference_photo(meta) or {}).get("title")
+        if shipped and picked and shipped != picked:
+            bad.append(f"{d.name}: sheet shows {shipped!r}, the chooser now picks {picked!r}")
+    assert not bad, "sheets whose reference photograph has moved under them:\n  " + "\n  ".join(bad)
+
+
+def test_sun_position_matches_the_live_services_spa():
+    pytest.importorskip("bpy", reason="render_sheets imports the Blender scene builder")
+    import render_sheets as rs
+    from nycsim_live import astronomy
+
+    when = dt.datetime(2023, 5, 12, 12, 18, 49, tzinfo=dt.timezone.utc).astimezone(
+        __import__("zoneinfo").ZoneInfo("America/New_York"))
+    got = rs.sun_for(40.7592, -73.9847, when)
+    ref = astronomy.solar_position(when.astimezone(dt.timezone.utc),
+                                   astronomy.Observer(40.7592, -73.9847, 20.0))
+    assert got["azimuth_deg"] == pytest.approx(ref.azimuth, abs=1e-9)
+    assert got["elevation_deg"] == pytest.approx(ref.elevation, abs=1e-9)
+
+
+def test_photo_instant_prefers_the_exif_timestamp_and_says_when_it_guessed():
+    pytest.importorskip("bpy", reason="render_sheets imports the Blender scene builder")
+    import render_sheets as rs
+
+    when, note = rs.photo_instant({"date_taken": "2023-05-12 12:18:49"})
+    assert (when.year, when.hour, when.minute) == (2023, 12, 18)
+    assert "EXIF" in note
+    when, note = rs.photo_instant({"date_taken": "2017"})
+    assert when.hour == 9 and "assumed" in note
+    when, note = rs.photo_instant({"date_taken": "", "year": 2019})
+    assert when.year == 2019 and "assumed" in note
+
+
+def test_a_daylight_subject_is_never_paired_with_an_after_dark_photograph():
+    pytest.importorskip("bpy", reason="render_sheets imports the Blender scene builder")
+    import render_sheets as rs
+
+    checked = 0
+    for slug in rs.list_slugs():
+        meta = rs.load_meta(slug)
+        photo = rs.pick_reference_photo(meta)
+        if photo is None:
+            continue
+        when, _ = rs.photo_instant(photo)
+        elev = rs.sun_for(meta["viewpoint"]["lat"], meta["viewpoint"]["lon"], when)["elevation_deg"]
+        others = []
+        for p in meta.get("photos", []):
+            if not (REFERENCE_DIR / slug / p["file"]).exists():
+                continue
+            w, _ = rs.photo_instant(p)
+            others.append(rs.sun_for(meta["viewpoint"]["lat"], meta["viewpoint"]["lon"], w)["elevation_deg"])
+        if not others:
+            continue
+        checked += 1
+        if meta.get("night"):
+            # Only enforceable when at least one candidate really was taken after dark: several
+            # night items carry photographs whose metadata records a year and nothing else, so
+            # every candidate falls back to the mid-morning assumption.
+            if min(others) < 0.0:
+                assert elev < 0.0, f"{slug} picked a daylight frame for a night subject"
+        elif max(others) > 12.0:
+            assert elev > 3.0, f"{slug} picked a photo with the Sun at {elev:.1f} deg"
+    assert checked > 10
+
+
+# --------------------------------------------------------------------------- produced artefacts
+
+
+def _rendered_slugs() -> list[str]:
+    if not COMPARISON_DIR.is_dir():
+        return []
+    return sorted(d.name for d in COMPARISON_DIR.iterdir()
+                  if d.is_dir() and (d / "render.json").exists())
+
+
+def test_every_render_record_names_its_photograph_licence_and_camera():
+    slugs = _rendered_slugs()
+    if not slugs:
+        pytest.skip("no comparison renders produced yet")
+    for slug in slugs:
+        rec = json.loads((COMPARISON_DIR / slug / "render.json").read_text())
+        assert rec["status"] == "rendered", slug
+        ph = rec["reference_photo"]
+        for key in ("file", "author", "licence", "page_url"):
+            assert ph.get(key), f"{slug}: reference photo record is missing {key}"
+        assert (REFERENCE_DIR / slug / ph["file"]).exists(), f"{slug}: {ph['file']} is gone"
+        cam = rec["camera"]
+        for key in ("x", "y", "z", "azimuth_deg", "focal_mm", "hfov_deg", "eye_height_m", "eye_source"):
+            assert cam.get(key) is not None, f"{slug}: camera record is missing {key}"
+        # The camera may face the photograph's own measured bearing rather than the item's
+        # recorded azimuth, but it must always say which it used and why.
+        assert rec.get("azimuth_reason"), f"{slug}: no view-direction justification recorded"
+        assert f"{rec['camera']['azimuth_deg']:.1f}" in rec["azimuth_reason"], slug
+        assert rec["sun"]["elevation_deg"] is not None
+        assert rec["scene"]["triangles"] > 0
+
+
+def test_every_render_has_a_sheet_and_a_written_assessment():
+    slugs = _rendered_slugs()
+    if not slugs:
+        pytest.skip("no comparison renders produced yet")
+    for slug in slugs:
+        d = COMPARISON_DIR / slug
+        assert (d / "render.png").exists(), f"{slug}: render.png missing"
+        assert (d / "sheet.png").exists(), f"{slug}: sheet.png missing"
+        a = d / "assessment.md"
+        assert a.exists(), f"{slug}: assessment.md missing"
+        text = a.read_text()
+        assert len(text) > 400, f"{slug}: assessment is too short to be a real judgement"
+        for heading in ("What matches", "What does not", "Cause"):
+            assert heading.lower() in text.lower(), f"{slug}: assessment has no '{heading}' section"
+
+
+def test_sheet_is_a_two_panel_image_wider_than_it_is_tall_per_panel():
+    pytest.importorskip("PIL")
+    from PIL import Image
+    slugs = _rendered_slugs()
+    if not slugs:
+        pytest.skip("no comparison renders produced yet")
+    for slug in slugs:
+        p = COMPARISON_DIR / slug / "sheet.png"
+        if not p.exists():
+            continue
+        with Image.open(p) as im:
+            w, h = im.size
+        assert w >= 2 * 1280, f"{slug}: sheet is only {w} px wide, expected two 1280 px panels"
+        assert h > 400
+
+
+def test_index_and_report_exist_once_any_sheet_does():
+    slugs = _rendered_slugs()
+    if not slugs:
+        pytest.skip("no comparison renders produced yet")
+    index = COMPARISON_DIR / "INDEX.md"
+    report = COMPARISON_DIR / "REPORT.md"
+    assert index.exists(), "docs/verification/comparison/INDEX.md missing"
+    assert report.exists(), "docs/verification/comparison/REPORT.md missing"
+    idx = index.read_text()
+    for slug in slugs:
+        assert slug in idx, f"{slug} is rendered but not listed in INDEX.md"
+    rep = report.read_text()
+    for name in ("Brooklyn Heights Promenade", "Top of the Rock", "Duffy Square",
+                 "Bethesda Terrace", "Staten Island Ferry", "DUMBO"):
+        assert name in rep, f"REPORT.md does not account for {name}"

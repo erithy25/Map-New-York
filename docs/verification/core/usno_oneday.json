@@ -1,0 +1,1018 @@
+{
+ "2024-02-29": {
+  "_tz_hours": -5,
+  "apiversion": "4.0.1",
+  "geometry": {
+   "coordinates": [
+    -73.9712,
+    40.7831
+   ],
+   "type": "Point"
+  },
+  "properties": {
+   "data": {
+    "closestphase": {
+     "day": 3,
+     "month": 3,
+     "phase": "Last Quarter",
+     "time": "10:23",
+     "year": 2024
+    },
+    "curphase": "Waning Gibbous",
+    "day": 29,
+    "day_of_week": "Thursday",
+    "fracillum": "78%",
+    "isdst": false,
+    "label": null,
+    "month": 2,
+    "moondata": [
+     {
+      "phen": "Upper Transit",
+      "time": "03:21"
+     },
+     {
+      "phen": "Set",
+      "time": "08:36"
+     },
+     {
+      "phen": "Rise",
+      "time": "23:00"
+     }
+    ],
+    "sundata": [
+     {
+      "phen": "Begin Civil Twilight",
+      "time": "06:03"
+     },
+     {
+      "phen": "Rise",
+      "time": "06:31"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "12:08"
+     },
+     {
+      "phen": "Set",
+      "time": "17:47"
+     },
+     {
+      "phen": "End Civil Twilight",
+      "time": "18:14"
+     }
+    ],
+    "tz": -5.0,
+    "year": 2024
+   }
+  },
+  "type": "Feature"
+ },
+ "2026-01-01": {
+  "_tz_hours": -5,
+  "apiversion": "4.0.1",
+  "geometry": {
+   "coordinates": [
+    -73.9712,
+    40.7831
+   ],
+   "type": "Point"
+  },
+  "properties": {
+   "data": {
+    "closestphase": {
+     "day": 3,
+     "month": 1,
+     "phase": "Full Moon",
+     "time": "05:03",
+     "year": 2026
+    },
+    "curphase": "Waxing Gibbous",
+    "day": 1,
+    "day_of_week": "Thursday",
+    "fracillum": "96%",
+    "isdst": false,
+    "label": null,
+    "month": 1,
+    "moondata": [
+     {
+      "phen": "Set",
+      "time": "05:42"
+     },
+     {
+      "phen": "Rise",
+      "time": "14:32"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "22:42"
+     }
+    ],
+    "sundata": [
+     {
+      "phen": "Begin Civil Twilight",
+      "time": "06:49"
+     },
+     {
+      "phen": "Rise",
+      "time": "07:20"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "12:00"
+     },
+     {
+      "phen": "Set",
+      "time": "16:39"
+     },
+     {
+      "phen": "End Civil Twilight",
+      "time": "17:10"
+     }
+    ],
+    "tz": -5.0,
+    "year": 2026
+   }
+  },
+  "type": "Feature"
+ },
+ "2026-02-14": {
+  "_tz_hours": -5,
+  "apiversion": "4.0.1",
+  "geometry": {
+   "coordinates": [
+    -73.9712,
+    40.7831
+   ],
+   "type": "Point"
+  },
+  "properties": {
+   "data": {
+    "closestphase": {
+     "day": 17,
+     "month": 2,
+     "phase": "New Moon",
+     "time": "07:01",
+     "year": 2026
+    },
+    "curphase": "Waning Crescent",
+    "day": 14,
+    "day_of_week": "Saturday",
+    "fracillum": "8%",
+    "isdst": false,
+    "label": null,
+    "month": 2,
+    "moondata": [
+     {
+      "phen": "Rise",
+      "time": "05:26"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "09:55"
+     },
+     {
+      "phen": "Set",
+      "time": "14:30"
+     }
+    ],
+    "sundata": [
+     {
+      "phen": "Begin Civil Twilight",
+      "time": "06:23"
+     },
+     {
+      "phen": "Rise",
+      "time": "06:51"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "12:10"
+     },
+     {
+      "phen": "Set",
+      "time": "17:29"
+     },
+     {
+      "phen": "End Civil Twilight",
+      "time": "17:58"
+     }
+    ],
+    "tz": -5.0,
+    "year": 2026
+   }
+  },
+  "type": "Feature"
+ },
+ "2026-03-08": {
+  "_tz_hours": -4,
+  "apiversion": "4.0.1",
+  "geometry": {
+   "coordinates": [
+    -73.9712,
+    40.7831
+   ],
+   "type": "Point"
+  },
+  "properties": {
+   "data": {
+    "closestphase": {
+     "day": 11,
+     "month": 3,
+     "phase": "Last Quarter",
+     "time": "05:38",
+     "year": 2026
+    },
+    "curphase": "Waning Gibbous",
+    "day": 8,
+    "day_of_week": "Sunday",
+    "fracillum": "75%",
+    "isdst": false,
+    "label": null,
+    "month": 3,
+    "moondata": [
+     {
+      "phen": "Upper Transit",
+      "time": "04:34"
+     },
+     {
+      "phen": "Set",
+      "time": "09:22"
+     }
+    ],
+    "sundata": [
+     {
+      "phen": "Begin Civil Twilight",
+      "time": "06:51"
+     },
+     {
+      "phen": "Rise",
+      "time": "07:19"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "13:07"
+     },
+     {
+      "phen": "Set",
+      "time": "18:55"
+     },
+     {
+      "phen": "End Civil Twilight",
+      "time": "19:22"
+     }
+    ],
+    "tz": -4.0,
+    "year": 2026
+   }
+  },
+  "type": "Feature"
+ },
+ "2026-03-20": {
+  "_tz_hours": -4,
+  "apiversion": "4.0.1",
+  "geometry": {
+   "coordinates": [
+    -73.9712,
+    40.7831
+   ],
+   "type": "Point"
+  },
+  "properties": {
+   "data": {
+    "closestphase": {
+     "day": 18,
+     "month": 3,
+     "phase": "New Moon",
+     "time": "21:23",
+     "year": 2026
+    },
+    "curphase": "Waxing Crescent",
+    "day": 20,
+    "day_of_week": "Friday",
+    "fracillum": "3%",
+    "isdst": false,
+    "label": null,
+    "month": 3,
+    "moondata": [
+     {
+      "phen": "Rise",
+      "time": "07:32"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "14:21"
+     },
+     {
+      "phen": "Set",
+      "time": "21:24"
+     }
+    ],
+    "sundata": [
+     {
+      "phen": "Begin Civil Twilight",
+      "time": "06:32"
+     },
+     {
+      "phen": "Rise",
+      "time": "06:59"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "13:03"
+     },
+     {
+      "phen": "Set",
+      "time": "19:08"
+     },
+     {
+      "phen": "End Civil Twilight",
+      "time": "19:35"
+     }
+    ],
+    "tz": -4.0,
+    "year": 2026
+   }
+  },
+  "type": "Feature"
+ },
+ "2026-04-15": {
+  "_tz_hours": -4,
+  "apiversion": "4.0.1",
+  "geometry": {
+   "coordinates": [
+    -73.9712,
+    40.7831
+   ],
+   "type": "Point"
+  },
+  "properties": {
+   "data": {
+    "closestphase": {
+     "day": 17,
+     "month": 4,
+     "phase": "New Moon",
+     "time": "07:52",
+     "year": 2026
+    },
+    "curphase": "Waning Crescent",
+    "day": 15,
+    "day_of_week": "Wednesday",
+    "fracillum": "5%",
+    "isdst": false,
+    "label": null,
+    "month": 4,
+    "moondata": [
+     {
+      "phen": "Rise",
+      "time": "05:08"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "11:20"
+     },
+     {
+      "phen": "Set",
+      "time": "17:45"
+     }
+    ],
+    "sundata": [
+     {
+      "phen": "Begin Civil Twilight",
+      "time": "05:49"
+     },
+     {
+      "phen": "Rise",
+      "time": "06:17"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "12:56"
+     },
+     {
+      "phen": "Set",
+      "time": "19:35"
+     },
+     {
+      "phen": "End Civil Twilight",
+      "time": "20:04"
+     }
+    ],
+    "tz": -4.0,
+    "year": 2026
+   }
+  },
+  "type": "Feature"
+ },
+ "2026-05-28": {
+  "_tz_hours": -4,
+  "apiversion": "4.0.1",
+  "geometry": {
+   "coordinates": [
+    -73.9712,
+    40.7831
+   ],
+   "type": "Point"
+  },
+  "properties": {
+   "data": {
+    "closestphase": {
+     "day": 31,
+     "month": 5,
+     "phase": "Full Moon",
+     "time": "04:45",
+     "year": 2026
+    },
+    "curphase": "Waxing Gibbous",
+    "day": 28,
+    "day_of_week": "Thursday",
+    "fracillum": "93%",
+    "isdst": false,
+    "label": null,
+    "month": 5,
+    "moondata": [
+     {
+      "phen": "Set",
+      "time": "03:30"
+     },
+     {
+      "phen": "Rise",
+      "time": "18:08"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "23:06"
+     }
+    ],
+    "sundata": [
+     {
+      "phen": "Begin Civil Twilight",
+      "time": "04:56"
+     },
+     {
+      "phen": "Rise",
+      "time": "05:29"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "12:53"
+     },
+     {
+      "phen": "Set",
+      "time": "20:18"
+     },
+     {
+      "phen": "End Civil Twilight",
+      "time": "20:51"
+     }
+    ],
+    "tz": -4.0,
+    "year": 2026
+   }
+  },
+  "type": "Feature"
+ },
+ "2026-06-21": {
+  "_tz_hours": -4,
+  "apiversion": "4.0.1",
+  "geometry": {
+   "coordinates": [
+    -73.9712,
+    40.7831
+   ],
+   "type": "Point"
+  },
+  "properties": {
+   "data": {
+    "closestphase": {
+     "day": 21,
+     "month": 6,
+     "phase": "First Quarter",
+     "time": "17:55",
+     "year": 2026
+    },
+    "curphase": "Waxing Crescent",
+    "day": 21,
+    "day_of_week": "Sunday",
+    "fracillum": "48%",
+    "isdst": false,
+    "label": null,
+    "month": 6,
+    "moondata": [
+     {
+      "phen": "Set",
+      "time": "00:29"
+     },
+     {
+      "phen": "Rise",
+      "time": "12:49"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "18:55"
+     }
+    ],
+    "sundata": [
+     {
+      "phen": "Begin Civil Twilight",
+      "time": "04:51"
+     },
+     {
+      "phen": "Rise",
+      "time": "05:25"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "12:58"
+     },
+     {
+      "phen": "Set",
+      "time": "20:31"
+     },
+     {
+      "phen": "End Civil Twilight",
+      "time": "21:04"
+     }
+    ],
+    "tz": -4.0,
+    "year": 2026
+   }
+  },
+  "type": "Feature"
+ },
+ "2026-07-14": {
+  "_tz_hours": -4,
+  "apiversion": "4.0.1",
+  "geometry": {
+   "coordinates": [
+    -73.9712,
+    40.7831
+   ],
+   "type": "Point"
+  },
+  "properties": {
+   "data": {
+    "closestphase": {
+     "day": 14,
+     "month": 7,
+     "phase": "New Moon",
+     "time": "05:43",
+     "year": 2026
+    },
+    "curphase": "New Moon",
+    "day": 14,
+    "day_of_week": "Tuesday",
+    "fracillum": "0%",
+    "isdst": false,
+    "label": null,
+    "month": 7,
+    "moondata": [
+     {
+      "phen": "Rise",
+      "time": "05:30"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "13:23"
+     },
+     {
+      "phen": "Set",
+      "time": "21:03"
+     }
+    ],
+    "sundata": [
+     {
+      "phen": "Begin Civil Twilight",
+      "time": "05:04"
+     },
+     {
+      "phen": "Rise",
+      "time": "05:37"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "13:02"
+     },
+     {
+      "phen": "Set",
+      "time": "20:27"
+     },
+     {
+      "phen": "End Civil Twilight",
+      "time": "20:59"
+     }
+    ],
+    "tz": -4.0,
+    "year": 2026
+   }
+  },
+  "type": "Feature"
+ },
+ "2026-09-22": {
+  "_tz_hours": -4,
+  "apiversion": "4.0.1",
+  "geometry": {
+   "coordinates": [
+    -73.9712,
+    40.7831
+   ],
+   "type": "Point"
+  },
+  "properties": {
+   "data": {
+    "closestphase": {
+     "day": 18,
+     "month": 9,
+     "phase": "First Quarter",
+     "time": "16:44",
+     "year": 2026
+    },
+    "curphase": "Waxing Gibbous",
+    "day": 22,
+    "day_of_week": "Tuesday",
+    "fracillum": "83%",
+    "isdst": false,
+    "label": null,
+    "month": 9,
+    "moondata": [
+     {
+      "phen": "Set",
+      "time": "02:13"
+     },
+     {
+      "phen": "Rise",
+      "time": "17:02"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "22:06"
+     }
+    ],
+    "sundata": [
+     {
+      "phen": "Begin Civil Twilight",
+      "time": "06:16"
+     },
+     {
+      "phen": "Rise",
+      "time": "06:44"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "12:49"
+     },
+     {
+      "phen": "Set",
+      "time": "18:53"
+     },
+     {
+      "phen": "End Civil Twilight",
+      "time": "19:20"
+     }
+    ],
+    "tz": -4.0,
+    "year": 2026
+   }
+  },
+  "type": "Feature"
+ },
+ "2026-11-01": {
+  "_tz_hours": -5,
+  "apiversion": "4.0.1",
+  "geometry": {
+   "coordinates": [
+    -73.9712,
+    40.7831
+   ],
+   "type": "Point"
+  },
+  "properties": {
+   "data": {
+    "closestphase": {
+     "day": 1,
+     "month": 11,
+     "phase": "Last Quarter",
+     "time": "15:28",
+     "year": 2026
+    },
+    "curphase": "Waning Gibbous",
+    "day": 1,
+    "day_of_week": "Sunday",
+    "fracillum": "52%",
+    "isdst": false,
+    "label": null,
+    "month": 11,
+    "moondata": [
+     {
+      "phen": "Upper Transit",
+      "time": "05:39"
+     },
+     {
+      "phen": "Set",
+      "time": "13:07"
+     },
+     {
+      "phen": "Rise",
+      "time": "23:14"
+     }
+    ],
+    "sundata": [
+     {
+      "phen": "Begin Civil Twilight",
+      "time": "05:58"
+     },
+     {
+      "phen": "Rise",
+      "time": "06:26"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "11:39"
+     },
+     {
+      "phen": "Set",
+      "time": "16:52"
+     },
+     {
+      "phen": "End Civil Twilight",
+      "time": "17:20"
+     }
+    ],
+    "tz": -5.0,
+    "year": 2026
+   }
+  },
+  "type": "Feature"
+ },
+ "2026-11-15": {
+  "_tz_hours": -5,
+  "apiversion": "4.0.1",
+  "geometry": {
+   "coordinates": [
+    -73.9712,
+    40.7831
+   ],
+   "type": "Point"
+  },
+  "properties": {
+   "data": {
+    "closestphase": {
+     "day": 17,
+     "month": 11,
+     "phase": "First Quarter",
+     "time": "06:48",
+     "year": 2026
+    },
+    "curphase": "Waxing Crescent",
+    "day": 15,
+    "day_of_week": "Sunday",
+    "fracillum": "33%",
+    "isdst": false,
+    "label": null,
+    "month": 11,
+    "moondata": [
+     {
+      "phen": "Rise",
+      "time": "12:01"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "16:52"
+     },
+     {
+      "phen": "Set",
+      "time": "21:49"
+     }
+    ],
+    "sundata": [
+     {
+      "phen": "Begin Civil Twilight",
+      "time": "06:14"
+     },
+     {
+      "phen": "Rise",
+      "time": "06:43"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "11:41"
+     },
+     {
+      "phen": "Set",
+      "time": "16:38"
+     },
+     {
+      "phen": "End Civil Twilight",
+      "time": "17:07"
+     }
+    ],
+    "tz": -5.0,
+    "year": 2026
+   }
+  },
+  "type": "Feature"
+ },
+ "2026-12-21": {
+  "_tz_hours": -5,
+  "apiversion": "4.0.1",
+  "geometry": {
+   "coordinates": [
+    -73.9712,
+    40.7831
+   ],
+   "type": "Point"
+  },
+  "properties": {
+   "data": {
+    "closestphase": {
+     "day": 23,
+     "month": 12,
+     "phase": "Full Moon",
+     "time": "20:28",
+     "year": 2026
+    },
+    "curphase": "Waxing Gibbous",
+    "day": 21,
+    "day_of_week": "Monday",
+    "fracillum": "92%",
+    "isdst": false,
+    "label": null,
+    "month": 12,
+    "moondata": [
+     {
+      "phen": "Set",
+      "time": "04:35"
+     },
+     {
+      "phen": "Rise",
+      "time": "14:00"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "21:52"
+     }
+    ],
+    "sundata": [
+     {
+      "phen": "Begin Civil Twilight",
+      "time": "06:46"
+     },
+     {
+      "phen": "Rise",
+      "time": "07:17"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "11:54"
+     },
+     {
+      "phen": "Set",
+      "time": "16:31"
+     },
+     {
+      "phen": "End Civil Twilight",
+      "time": "17:02"
+     }
+    ],
+    "tz": -5.0,
+    "year": 2026
+   }
+  },
+  "type": "Feature"
+ },
+ "2027-03-14": {
+  "_tz_hours": -4,
+  "apiversion": "4.0.1",
+  "geometry": {
+   "coordinates": [
+    -73.9712,
+    40.7831
+   ],
+   "type": "Point"
+  },
+  "properties": {
+   "data": {
+    "closestphase": {
+     "day": 15,
+     "month": 3,
+     "phase": "First Quarter",
+     "time": "12:25",
+     "year": 2027
+    },
+    "curphase": "Waxing Crescent",
+    "day": 14,
+    "day_of_week": "Sunday",
+    "fracillum": "39%",
+    "isdst": false,
+    "label": null,
+    "month": 3,
+    "moondata": [
+     {
+      "phen": "Set",
+      "time": "01:14"
+     },
+     {
+      "phen": "Rise",
+      "time": "10:14"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "18:16"
+     }
+    ],
+    "sundata": [
+     {
+      "phen": "Begin Civil Twilight",
+      "time": "06:42"
+     },
+     {
+      "phen": "Rise",
+      "time": "07:09"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "13:05"
+     },
+     {
+      "phen": "Set",
+      "time": "19:01"
+     },
+     {
+      "phen": "End Civil Twilight",
+      "time": "19:29"
+     }
+    ],
+    "tz": -4.0,
+    "year": 2027
+   }
+  },
+  "type": "Feature"
+ },
+ "2027-08-01": {
+  "_tz_hours": -4,
+  "apiversion": "4.0.1",
+  "geometry": {
+   "coordinates": [
+    -73.9712,
+    40.7831
+   ],
+   "type": "Point"
+  },
+  "properties": {
+   "data": {
+    "closestphase": {
+     "day": 2,
+     "month": 8,
+     "phase": "New Moon",
+     "time": "06:05",
+     "year": 2027
+    },
+    "curphase": "Waning Crescent",
+    "day": 1,
+    "day_of_week": "Sunday",
+    "fracillum": "1%",
+    "isdst": false,
+    "label": null,
+    "month": 8,
+    "moondata": [
+     {
+      "phen": "Rise",
+      "time": "04:36"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "12:20"
+     },
+     {
+      "phen": "Set",
+      "time": "19:51"
+     }
+    ],
+    "sundata": [
+     {
+      "phen": "Begin Civil Twilight",
+      "time": "05:21"
+     },
+     {
+      "phen": "Rise",
+      "time": "05:52"
+     },
+     {
+      "phen": "Upper Transit",
+      "time": "13:02"
+     },
+     {
+      "phen": "Set",
+      "time": "20:12"
+     },
+     {
+      "phen": "End Civil Twilight",
+      "time": "20:42"
+     }
+    ],
+    "tz": -4.0,
+    "year": 2027
+   }
+  },
+  "type": "Feature"
+ }
+}

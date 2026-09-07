@@ -1,0 +1,214 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_castle_williams",
+ "name": "Castle Williams (Governors Island)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.692778,
+  "lon": -74.016795,
+  "azimuth_deg": 270.0,
+  "note": "the Governors Island esplanade about 200 m east of the fort, looking west at the circular red-sandstone casemates",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.692778,
+  "lon": -74.019167,
+  "name": "Castle Williams (Governors Island)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Castle Williams\" Governors Island",
+  "\"Castle Williams\" fort New York Harbor"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T13:01:08Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 101,
+ "candidates_eligible": 29,
+ "rejections": {
+  "too_old": 16,
+  "excluded": 8,
+  "too_small": 19,
+  "licence": 3,
+  "not_photo": 6,
+  "keywords": 19,
+  "not_jpeg": 1
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Castle Williams New York September 2016.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Castle_Williams_New_York_September_2016.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/ed/Castle_Williams_New_York_September_2016.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Castle_Williams_New_York_September_2016.jpg/1920px-Castle_Williams_New_York_September_2016.jpg",
+   "author": "King of Hearts",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2016",
+   "date_source": "DateTimeOriginal",
+   "year": 2016,
+   "camera_gps": {
+    "lat": 40.692011,
+    "lon": -74.020236
+   },
+   "original_width": 4928,
+   "original_height": 3264,
+   "width": 1920,
+   "height": 1272,
+   "bytes": 684568,
+   "sha256": "d0b8074461f15a9a0d867f7bb9720a14b3e8af87de49c9dc1d009ada75b67e51",
+   "mean_luminance": 137.1,
+   "description": "Castle Williams and Manhattan skyline, Governors Island , New York City .",
+   "categories": [
+    "Taken with Nikon D7000",
+    "Castle Williams",
+    "Images from Wiki Loves Monuments 2016 in New York",
+    "Self-published work",
+    "National Register of Historic Places with known IDs",
+    "Images from Wiki Loves Monuments 2016",
+    "Uploaded via Campaign:wlm-us",
+    "Images from Wiki Loves Monuments 2016 in the United States",
+    "WLM 2016 United States unreviewed",
+    "United States photographs taken on 2016-09-17",
+    "Manhattan skylines from Governors Island"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.65,
+   "estimated_viewpoint": {
+    "lat": 40.692011,
+    "lon": -74.020236,
+    "azimuth_deg": 46.6,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.69201, -74.02024) is 124 m from Castle Williams (Governors Island) (40.69278, -74.01917) and 302 m from the standard viewpoint; the azimuth 47 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Castle Williams New York September 2016.jpg\" by King of Hearts, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Castle_Williams_New_York_September_2016.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Castle Williams wall portion in June 2024 (2).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Castle_Williams_wall_portion_in_June_2024_(2).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d9/Castle_Williams_wall_portion_in_June_2024_%282%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Castle_Williams_wall_portion_in_June_2024_%282%29.jpg/1920px-Castle_Williams_wall_portion_in_June_2024_%282%29.jpg",
+   "author": "Kevin Payravi",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2024-06-08 19:24:04",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.693144,
+    "lon": -74.019442
+   },
+   "original_width": 8160,
+   "original_height": 6144,
+   "width": 1920,
+   "height": 1446,
+   "bytes": 1171870,
+   "sha256": "0a423867e8ef9e0cc6a7d26fcc5cc3551808da292846deae66855e0e55727b6a",
+   "mean_luminance": 121.2,
+   "description": "A portion of the exterior wall of Castle Williams on Governors Island .",
+   "categories": [
+    "Castle Williams",
+    "Self-published work",
+    "National Register of Historic Places with known IDs",
+    "Images from Wiki Loves Monuments 2024",
+    "Uploaded via Campaign:wlm-us",
+    "Files with coordinates missing SDC location of creation",
+    "Images from Wiki Loves Monuments missing SDC depicts",
+    "Images from Wiki Loves Monuments missing SDC location of creation",
+    "National Register of Historic Places missing SDC location of creation",
+    "National Register of Historic Places missing SDC depicts",
+    "Governors Island in 2024",
+    "New York City photographs taken on 2024-06-08",
+    "Images from Wiki Loves Monuments 2024 in the United States",
+    "Taken with Google Pixel 8 Pro",
+    "Wiki Loves Monuments 2024 in the United States unreviewed",
+    "Images from Wiki Loves Monuments 2024 in New York",
+    "Images from Wiki Loves Monuments 2024 in New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.693144,
+    "lon": -74.019442,
+    "azimuth_deg": 150.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.69314, -74.01944) is 47 m from Castle Williams (Governors Island) (40.69278, -74.01917) and 227 m from the standard viewpoint; the azimuth 150 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Castle Williams wall portion in June 2024 (2).jpg\" by Kevin Payravi, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Castle_Williams_wall_portion_in_June_2024_(2).jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Castle Williams window.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Castle_Williams_window.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Castle_Williams_window.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Castle_Williams_window.jpg/1920px-Castle_Williams_window.jpg",
+   "author": "Nvss132",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC0",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "template": "cc0"
+   },
+   "date_taken": "2022-09-19 12:04:30",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.692989,
+    "lon": -74.019675
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 735095,
+   "sha256": "9d3a6d9745d2093c3c5195af9ac41f8c6b63ee20b45cfe8efc3dc547d24f0d95",
+   "mean_luminance": 130.7,
+   "description": "Detail of a window at Castle Williams on Governor's Island.",
+   "categories": [
+    "CC-Zero",
+    "Castle Williams",
+    "Creative Commons CC0 1.0 Universal Public Domain Dedication missing SDC copyright license",
+    "Self-published work",
+    "Self-published work missing SDC copyright license",
+    "Files with coordinates missing SDC location of creation"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.692989,
+    "lon": -74.019675,
+    "azimuth_deg": 118.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.69299, -74.01968) is 49 m from Castle Williams (Governors Island) (40.69278, -74.01917) and 244 m from the standard viewpoint; the azimuth 119 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Castle Williams window.jpg\" by Nvss132, CC0 (http://creativecommons.org/publicdomain/zero/1.0/deed.en), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Castle_Williams_window.jpg"
+  }
+ ]
+}

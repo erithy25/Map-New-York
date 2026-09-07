@@ -1,0 +1,28 @@
+{
+ "artist": "Henry James; read by LibriVox volunteers",
+ "attribution_note": "LibriVox recordings are in the public domain; text is public domain (pre-1930 US).",
+ "bytes": 4269921,
+ "duration_s": 583.68,
+ "file": "talk/wash_sq_01_james.ogg",
+ "gain_db": 6.0,
+ "licence": "Public Domain (LibriVox; CC PDM/CC0)",
+ "licence_url": "http://creativecommons.org/licenses/publicdomain/",
+ "loudness_lufs": -22.0,
+ "original_filename": "wash_sq_01_james.mp3",
+ "recorded_at": "2026-09-06T12:28:31Z",
+ "schema_version": 1,
+ "sha256": "837ab4dfe0caacf94c99b4ee0cea320fcf925dc19bf7c76107f9d3f6ee3f1303",
+ "source_page": "https://archive.org/details/washington_square_librivox",
+ "source_site": "archive.org (LibriVox)",
+ "source_url": "https://archive.org/download/washington_square_librivox/wash_sq_01_james.mp3",
+ "title": "Washington Square \u2014 Chapter 1",
+ "transcode": {
+  "codec": "libvorbis",
+  "from": "mp3",
+  "mono": true,
+  "quality": 1.5,
+  "sample_rate": 32000,
+  "tool": "ffmpeg ffmpeg-linux-x86_64-v7.0.2",
+  "trimmed_to_s": null
+ }
+}

@@ -1,0 +1,196 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_williamsburg_bridge",
+ "name": "Williamsburg Bridge",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7165,
+  "lon": -73.9668,
+  "azimuth_deg": 199.4,
+  "note": "north end of Domino Park (Grand Street pier), looking south at the Brooklyn tower",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7122,
+  "lon": -73.9688,
+  "name": "Williamsburg Bridge Brooklyn tower"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Williamsburg Bridge\" from Domino Park",
+  "\"Williamsburg Bridge\" Brooklyn waterfront Kent Avenue"
+ ],
+ "geosearch_radius_m": 600,
+ "fetched_at": "2026-09-06T12:46:31Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 60,
+ "candidates_eligible": 21,
+ "rejections": {
+  "excluded": 3,
+  "night_for_day_item": 5,
+  "not_photo": 1,
+  "too_old": 1,
+  "keywords": 29
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Williamsburg Bridge, New York City, 20231001 1055 0985.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Williamsburg_Bridge,_New_York_City,_20231001_1055_0985.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/99/Williamsburg_Bridge%2C_New_York_City%2C_20231001_1055_0985.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Williamsburg_Bridge%2C_New_York_City%2C_20231001_1055_0985.jpg/1920px-Williamsburg_Bridge%2C_New_York_City%2C_20231001_1055_0985.jpg",
+   "author": "Jakub Hałun",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0",
+    "template": "cc-by-4.0"
+   },
+   "date_taken": "2023-10-01 10:55:23",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.714428,
+    "lon": -73.970774
+   },
+   "original_width": 5136,
+   "original_height": 2401,
+   "width": 1920,
+   "height": 898,
+   "bytes": 417174,
+   "sha256": "bfb3087b87b1201b2ca6ce86ade2b0fba9fd2c78b6c0edf51ae4d515c9161f39",
+   "mean_luminance": 151.1,
+   "description": "Williamsburg Bridge, New York City",
+   "categories": [
+    "New York City photographs taken on 2023-10-01",
+    "Self-published work",
+    "Williamsburg Bridge in 2023",
+    "Files with coordinates missing SDC location of creation",
+    "Lower Manhattan skylines in 2023",
+    "October 2023 in Manhattan, New York City",
+    "Views of the Williamsburg Bridge from Brooklyn"
+   ],
+   "assessments": "quality",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.7,
+   "estimated_viewpoint": {
+    "lat": 40.714428,
+    "lon": -73.970774,
+    "azimuth_deg": 146.1,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71443, -73.97077) is 298 m from Williamsburg Bridge Brooklyn tower (40.71220, -73.96880) and 407 m from the standard viewpoint; the azimuth 146 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Williamsburg Bridge, New York City, 20231001 1055 0985.jpg\" by Jakub Hałun, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Williamsburg_Bridge,_New_York_City,_20231001_1055_0985.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Williamsburg Bridge full view.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Williamsburg_Bridge_full_view.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/7a/Williamsburg_Bridge_full_view.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Williamsburg_Bridge_full_view.jpg/1920px-Williamsburg_Bridge_full_view.jpg",
+   "author": "Praneeth Thalla",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-07-17 20:09:17",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.713503,
+    "lon": -73.967117
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 777492,
+   "sha256": "a6c3773ee21bc928b9f5fa6eb22eb7cb0fcb90a4cbcb46403cd53b60c10ce04a",
+   "mean_luminance": 158.4,
+   "description": "Williamsburg bridge with Manhattan in background and a small yacht underneath",
+   "categories": [
+    "Self-published work",
+    "Williamsburg Bridge in 2022",
+    "Files with coordinates missing SDC location of creation",
+    "Views of the Williamsburg Bridge from Brooklyn"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.713503,
+    "lon": -73.967117,
+    "azimuth_deg": 224.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71350, -73.96712) is 203 m from Williamsburg Bridge Brooklyn tower (40.71220, -73.96880) and 334 m from the standard viewpoint; the azimuth 224 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Williamsburg Bridge full view.jpg\" by Praneeth Thalla, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Williamsburg_Bridge_full_view.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Williamsburg Bridge June 2022 003.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Williamsburg_Bridge_June_2022_003.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Williamsburg_Bridge_June_2022_003.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Williamsburg_Bridge_June_2022_003.jpg/1920px-Williamsburg_Bridge_June_2022_003.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-06-28 13:38:05",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.713178,
+    "lon": -73.968269
+   },
+   "original_width": 3264,
+   "original_height": 2448,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 657036,
+   "sha256": "5a4dbf2b50d39cef6e153627d242712f7ef77b022e3530d1fdbdf690f550c4a0",
+   "mean_luminance": 94.8,
+   "description": "Williamsburg Bridge in June 2022",
+   "categories": [
+    "New York City photographs taken on 2022-06-28",
+    "Self-published work",
+    "Williamsburg Bridge in 2022",
+    "Files with coordinates missing SDC location of creation",
+    "2022 in Williamsburg, Brooklyn",
+    "June 2022 in Brooklyn, New York City",
+    "Views of the Williamsburg Bridge from Brooklyn"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.05,
+   "estimated_viewpoint": {
+    "lat": 40.713178,
+    "lon": -73.968269,
+    "azimuth_deg": 202.4,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.71318, -73.96827) is 118 m from Williamsburg Bridge Brooklyn tower (40.71220, -73.96880) and 390 m from the standard viewpoint; the azimuth 202 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Williamsburg Bridge June 2022 003.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Williamsburg_Bridge_June_2022_003.jpg"
+  }
+ ]
+}

@@ -1,0 +1,205 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_high_line",
+ "name": "High Line",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.7461,
+  "lon": -74.006,
+  "azimuth_deg": 29.0,
+  "note": "on the High Line at West 20th Street (Chelsea Grasslands), centre of the path, looking north",
+  "representative": false
+ },
+ "subject": null,
+ "night": false,
+ "interior": false,
+ "min_year": 2012,
+ "wanted": 3,
+ "queries": [
+  "\"High Line\" park Chelsea walkway planting",
+  "\"High Line\" New York elevated park"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T12:23:15Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 116,
+ "candidates_eligible": 73,
+ "rejections": {
+  "too_old": 5,
+  "excluded": 15,
+  "night_for_day_item": 2,
+  "keywords": 21
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:NYC - The High Line Hotel and vicinity seen from the High Line.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:NYC_-_The_High_Line_Hotel_and_vicinity_seen_from_the_High_Line.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/9e/NYC_-_The_High_Line_Hotel_and_vicinity_seen_from_the_High_Line.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/NYC_-_The_High_Line_Hotel_and_vicinity_seen_from_the_High_Line.jpg/1920px-NYC_-_The_High_Line_Hotel_and_vicinity_seen_from_the_High_Line.jpg",
+   "author": "Joe Mabel",
+   "credit": "Photo by Joe Mabel",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.74577,
+    "lon": -74.00632
+   },
+   "original_width": 6000,
+   "original_height": 4000,
+   "width": 1920,
+   "height": 1280,
+   "bytes": 665124,
+   "sha256": "3898fe7e174114c831464abd604d3e5dcff955ac274027c0651f13100a6ca1c4",
+   "mean_luminance": 103.6,
+   "description": "Looking east from the High Line, Manhattan, New York City to The High Line Hotel, 180 10th Avenue at West 20th Street.",
+   "categories": [
+    "Taken with Nikon D5200",
+    "Views from the High Line (New York City)",
+    "The High Line Hotel",
+    "Edge (observation deck)",
+    "Self-published work",
+    "Media with estimated locations",
+    "Files with coordinates missing SDC location of creation",
+    "Empire State Building in 2026",
+    "High Line (New York City) in 2026",
+    "2026 in Chelsea, Manhattan",
+    "Remote views of the Empire State Building",
+    "Billboards in Manhattan, New York City",
+    "Images with Gaussian blurs of advertisements",
+    "Views of New York City from west",
+    "High Line Section 1",
+    "June 2026 in Manhattan, New York City",
+    "New York City photographs taken on 2026-06-02",
+    "Hotels in New York City photographed in 2026"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.74577,
+    "lon": -74.00632,
+    "azimuth_deg": 29.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.74577, -74.00632), 46 m from the reference position (on the High Line at West 20th Street (Chelsea Grasslands), centre of the path, looking north); this item is a view along a street rather than at a point subject, so the azimuth 29 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"NYC - The High Line Hotel and vicinity seen from the High Line.jpg\" by Joe Mabel, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:NYC_-_The_High_Line_Hotel_and_vicinity_seen_from_the_High_Line.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:High Line looking north past 19th Street Manhattan.jpeg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:High_Line_looking_north_past_19th_Street_Manhattan.jpeg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/9a/High_Line_looking_north_past_19th_Street_Manhattan.jpeg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/High_Line_looking_north_past_19th_Street_Manhattan.jpeg/1920px-High_Line_looking_north_past_19th_Street_Manhattan.jpeg",
+   "author": "Dough4872",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026-04-08",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.745664,
+    "lon": -74.006508
+   },
+   "original_width": 5712,
+   "original_height": 4284,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 853358,
+   "sha256": "2c5427319d58c7d1040af2d18308b91a32c53dcb26bfd25ed124dd7d10411037",
+   "mean_luminance": 94.2,
+   "description": "High Line looking north past 19th Street in Manhattan, New York City",
+   "categories": [
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "High Line (New York City) in 2026",
+    "Rail tracks on the High Line (New York City)",
+    "April 2026 in Manhattan, New York City",
+    "New York City photographs taken on 2026-04-08",
+    "High Line at 20th Street"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.745664,
+    "lon": -74.006508,
+    "azimuth_deg": 29.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.74566, -74.00651), 65 m from the reference position (on the High Line at West 20th Street (Chelsea Grasslands), centre of the path, looking north); this item is a view along a street rather than at a point subject, so the azimuth 29 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"High Line looking north past 19th Street Manhattan.jpeg\" by Dough4872, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:High_Line_looking_north_past_19th_Street_Manhattan.jpeg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:The High Line Hotel 001.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:The_High_Line_Hotel_001.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/7a/The_High_Line_Hotel_001.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/The_High_Line_Hotel_001.jpg/1920px-The_High_Line_Hotel_001.jpg",
+   "author": "Kidfly182",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2023-01-21 13:36:45",
+   "date_source": "DateTimeOriginal",
+   "year": 2023,
+   "camera_gps": {
+    "lat": 40.746078,
+    "lon": -74.005317
+   },
+   "original_width": 2048,
+   "original_height": 1536,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 696495,
+   "sha256": "98eec2b5174948bb3e0676fad67b00b984310c6c5f5222c739db4bd5839d205e",
+   "mean_luminance": 97.2,
+   "description": "The High Line Hotel in Chelsea, Manhattan",
+   "categories": [
+    "The High Line Hotel",
+    "New York City photographs taken on 2023-01-21",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Hotels in the United States photographed in 2023",
+    "2023 in Chelsea, Manhattan",
+    "January 2023 in Manhattan, New York City"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 13.2,
+   "estimated_viewpoint": {
+    "lat": 40.746078,
+    "lon": -74.005317,
+    "azimuth_deg": 29.0,
+    "confidence": "medium",
+    "method": "camera_gps_with_item_azimuth",
+    "explanation": "Camera GPS from the Commons file description (40.74608, -74.00532), 58 m from the reference position (on the High Line at West 20th Street (Chelsea Grasslands), centre of the path, looking north); this item is a view along a street rather than at a point subject, so the azimuth 29 deg is the street heading of the reference view, not derived from the photo."
+   },
+   "attribution": "\"The High Line Hotel 001.jpg\" by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:The_High_Line_Hotel_001.jpg"
+  }
+ ]
+}

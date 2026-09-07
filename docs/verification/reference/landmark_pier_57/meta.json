@@ -1,0 +1,207 @@
+{
+ "schema_version": 1,
+ "slug": "landmark_pier_57",
+ "name": "Pier 57 (Hudson River Park)",
+ "group": "landmark",
+ "viewpoint": {
+  "lat": 40.744299,
+  "lon": -74.008144,
+  "azimuth_deg": 240.0,
+  "note": "the Hudson River Park esplanade near West 16th Street, about 200 m north-east of the pier, looking south-west at the Pier 57 shed",
+  "representative": false
+ },
+ "subject": {
+  "lat": 40.7434,
+  "lon": -74.0102,
+  "name": "Pier 57 (Hudson River Park)"
+ },
+ "night": false,
+ "interior": false,
+ "min_year": 2010,
+ "wanted": 3,
+ "queries": [
+  "\"Pier 57\" Hudson River Park Manhattan",
+  "\"Pier 57\" Chelsea Google building rooftop park"
+ ],
+ "geosearch_radius_m": 400,
+ "fetched_at": "2026-09-06T13:33:23Z",
+ "max_width": 1920,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 130,
+ "candidates_eligible": 57,
+ "rejections": {
+  "keywords": 71,
+  "indoor": 2
+ },
+ "exhausted": false,
+ "status": "ok",
+ "photos": [
+  {
+   "n": 1,
+   "file": "1.jpg",
+   "title": "File:Chelsea Manhattan Apr 2026 105.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Chelsea_Manhattan_Apr_2026_105.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/14/Chelsea_Manhattan_Apr_2026_105.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Chelsea_Manhattan_Apr_2026_105.jpg/1920px-Chelsea_Manhattan_Apr_2026_105.jpg",
+   "author": "Epicgenius",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2026-04-16 18:17:33",
+   "date_source": "DateTimeOriginal",
+   "year": 2026,
+   "camera_gps": {
+    "lat": 40.743573,
+    "lon": -74.008412
+   },
+   "original_width": 4080,
+   "original_height": 3060,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 681947,
+   "sha256": "ecce83faa82a5c8a98d2b4604d8b0713e46a8ad770c6a2f3bda86ffd6029a8c2",
+   "mean_luminance": 111.7,
+   "description": "Pier 57 in Manhattan, New York, seen in April 2026",
+   "categories": [
+    "Pier 57 (Manhattan)",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Buildings in the United States photographed in 2026",
+    "Hudson River Park in 2026",
+    "2026 in Chelsea, Manhattan",
+    "Photographs by Epicgenius",
+    "April 2026 in Manhattan, New York City",
+    "New York City photographs taken on 2026-04-16",
+    "Buildings in New York City photographed in 2026"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 15.2,
+   "estimated_viewpoint": {
+    "lat": 40.743573,
+    "lon": -74.008412,
+    "azimuth_deg": 262.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74357, -74.00841) is 152 m from Pier 57 (Hudson River Park) (40.74340, -74.01020) and 84 m from the standard viewpoint; the azimuth 263 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Chelsea Manhattan Apr 2026 105.jpg\" by Epicgenius, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Chelsea_Manhattan_Apr_2026_105.jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Hudson River Park td (2025-09-18) 054 - Pier 57 Cornerstone.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Hudson_River_Park_td_(2025-09-18)_054_-_Pier_57_Cornerstone.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Hudson_River_Park_td_%282025-09-18%29_054_-_Pier_57_Cornerstone.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Hudson_River_Park_td_%282025-09-18%29_054_-_Pier_57_Cornerstone.jpg/1920px-Hudson_River_Park_td_%282025-09-18%29_054_-_Pier_57_Cornerstone.jpg",
+   "author": "Tdorante10",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2025-09-18 19:02:06",
+   "date_source": "DateTimeOriginal",
+   "year": 2025,
+   "camera_gps": {
+    "lat": 40.743396,
+    "lon": -74.009196
+   },
+   "original_width": 9248,
+   "original_height": 5204,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 582151,
+   "sha256": "3730a929a8184cb5eb66c9f9dbb52b725643214cb6d3f95f9942de4ab998a7a2",
+   "mean_luminance": 161.6,
+   "description": "The cornerstone at the south end of the front (inland) face of Pier 57 in the Meatpacking District section of Hudson River Park, at 15th Street and 11th Avenue (West Side Highway) in the Meatpacking District, Chelsea, Manhattan. As evidenced by this cornerstone dated 1952, Pier 57 along with Pier 40 farther south are two of the newest pier buildings to be constructed on the West Side, erected near the end of the heyday of the marine/industrial West Side. Interestingly, both piers remain while many older pier warehouses have been demolished.",
+   "categories": [
+    "Pier 57 (Manhattan)",
+    "Taken with Samsung Galaxy S21 5G",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Plaques in Manhattan, New York City",
+    "Hudson River Park in 2025",
+    "2025 in Chelsea, Manhattan",
+    "2025 Manhattan photographs by Tdorante10",
+    "Corner stones in New York City",
+    "Plaques referencing 1952 in the United States",
+    "New York City photographs taken on 2025-09-18",
+    "September 2025 in Manhattan, New York City",
+    "Buildings in New York City photographed in 2025"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Pier 57\" Hudson River Park Manhattan",
+   "score": 12.2,
+   "estimated_viewpoint": {
+    "lat": 40.743396,
+    "lon": -74.009196,
+    "azimuth_deg": 270.3,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74340, -74.00920) is 85 m from Pier 57 (Hudson River Park) (40.74340, -74.01020) and 134 m from the standard viewpoint; the azimuth 270 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Hudson River Park td (2025-09-18) 054 - Pier 57 Cornerstone.jpg\" by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Hudson_River_Park_td_(2025-09-18)_054_-_Pier_57_Cornerstone.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
+   "title": "File:Pier 57 (Manhattan) rooftop park 03.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Pier_57_(Manhattan)_rooftop_park_03.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/fd/Pier_57_%28Manhattan%29_rooftop_park_03.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Pier_57_%28Manhattan%29_rooftop_park_03.jpg/1920px-Pier_57_%28Manhattan%29_rooftop_park_03.jpg",
+   "author": "DutchTreat",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2022-07-30",
+   "date_source": "DateTimeOriginal",
+   "year": 2022,
+   "camera_gps": {
+    "lat": 40.74372,
+    "lon": -74.01193
+   },
+   "original_width": 4032,
+   "original_height": 3024,
+   "width": 1920,
+   "height": 1440,
+   "bytes": 767876,
+   "sha256": "d1f9fd9d8e02b6eff401fe64a3524a943c2c957594e693412eec6812fb59b412",
+   "mean_luminance": 133.0,
+   "description": "rooftop park at Pier 57 in Hudson River Park, Manhattan Facing east",
+   "categories": [
+    "Pier 57 (Manhattan) rooftop park",
+    "New York City photographs taken on 2022-07-30",
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Hudson River Park in 2022",
+    "Clouds and blue sky in New York City",
+    "Photos by DutchTreat",
+    "July 2022 in Manhattan, New York City",
+    "Lawns of Hudson River Park"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "search:\"Pier 57\" Hudson River Park Manhattan",
+   "score": 12.05,
+   "estimated_viewpoint": {
+    "lat": 40.74372,
+    "lon": -74.01193,
+    "azimuth_deg": 103.7,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.74372, -74.01193) is 150 m from Pier 57 (Hudson River Park) (40.74340, -74.01020) and 325 m from the standard viewpoint; the azimuth 104 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Pier 57 (Manhattan) rooftop park 03.jpg\" by DutchTreat, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Pier_57_(Manhattan)_rooftop_park_03.jpg"
+  }
+ ]
+}
