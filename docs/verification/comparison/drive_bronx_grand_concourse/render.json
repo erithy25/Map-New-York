@@ -107,7 +107,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_grand_concourse/render.png",
- "rendered_at": "2026-09-07T13:10:13Z",
+ "rendered_at": "2026-09-07T13:56:59Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -144,7 +144,7 @@
    "placed_pedestrians": 313,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 68.09,
+   "seconds": 67.78,
    "snapshot": {
     "building_footprints_tested": 1467,
     "density_lane_km": 28.245,
@@ -396,7 +396,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 121.38,
+  "seconds": 117.04,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -423,9 +423,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 400.5,
-  "scene": 123.4,
-  "total": 523.8
+  "render": 252.0,
+  "scene": 118.5,
+  "total": 370.5
  },
  "slug": "drive_bronx_grand_concourse",
  "status": "rendered",
