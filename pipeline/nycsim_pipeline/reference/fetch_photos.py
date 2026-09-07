@@ -106,6 +106,12 @@ class Item:
     representative: bool = False  # generic subject: viewpoint is a representative block only
     exclude: tuple[str, ...] = ()
     allow: tuple[str, ...] = ()  # INDOOR_WORDS this item is allowed to match (e.g. a rail viaduct street)
+    # Terms by which a photograph names the *subject itself*, as opposed to the place the subject
+    # stands in.  A photograph must match at least one of them to be selected for a point-subject
+    # item, and to have its heading taken as a bearing to that subject.  Empty means the item's
+    # ``keywords`` already name the subject, which is the usual case and leaves behaviour unchanged.
+    # See :func:`subject_named` for why this is a separate field from ``keywords``.
+    subject_terms: tuple[str, ...] = ()
     min_year: int = 2010
     gps_subject_max_m: float = 2500.0  # camera GPS farther than this from the subject is distrusted
     min_luma: float | None = None
@@ -124,6 +130,8 @@ class Item:
             raise ValueError(f"{self.slug}: want must be 1..4")
         if not self.keywords or not self.queries or not self.viewpoint_note:
             raise ValueError(f"{self.slug}: queries, keywords and viewpoint_note are required")
+        if self.subject_terms and self.subject is None:
+            raise ValueError(f"{self.slug}: subject_terms needs a subject to name")
 
     @property
     def default_azimuth(self) -> float:
@@ -461,6 +469,10 @@ CATALOGUE: list[Item] = [
         [["washington square"]],
         (40.7308, -73.9973), "south rim of the Washington Square fountain, looking north through the Arch up Fifth Avenue",
         subject=(40.7311, -73.9971), subject_name="Washington Square Arch", geosearch_radius_m=200, gps_subject_max_m=500,
+        # "washington square" names the park, and the park is 40,000 m2 of photographs that are not of the Arch:
+        # the three this item shipped with are skateboarders at the fountain, a balloon-animal seller and a view
+        # of 30 Hudson Yards from the lawn.  The subject has to be named.
+        subject_terms=("arch", "washington arch"),
         exclude=AERIAL_WORDS + ["night", "protest", "1890", "1895"]),
     _it("landmark_woolworth_building", "Woolworth Building", "landmark",
         ['"Woolworth Building" exterior', '"Woolworth Building" City Hall Park Broadway'],
@@ -1524,6 +1536,28 @@ def camera_gps(item: Item, c: Candidate) -> tuple[tuple[float, float] | None, st
                   f"not a photograph of it.")
 
 
+def subject_named(item: Item, hay: str) -> bool:
+    """Does this photograph's own text name the item's subject?
+
+    A photograph taken *at* a place is not a photograph *of* the thing that stands there, and the
+    ``keywords`` groups cannot always tell the two apart because they are written to find candidates,
+    which means they often name the place.  ``landmark_washington_square_arch`` required only
+    ``"washington square"``: every photograph taken anywhere in the park satisfied it, and the three
+    that were selected are of skateboarders at the fountain, a balloon-animal seller and a distant
+    view of 30 Hudson Yards -- none of them contains the Arch.  Worse, each was then *aimed* at the
+    Arch, because a camera GPS 27 m from the subject was read as a bearing to it.
+
+    ``subject_terms`` is that missing test, kept separate from ``keywords`` because the two do
+    different jobs: keywords decide what to look at, this decides whether what was found is a
+    picture of the subject.  An item that leaves it empty is unchanged -- its keywords are taken to
+    name the subject already, which is true of most of the catalogue (``woolworth``, ``oculus``,
+    ``williamsburg bridge``).
+    """
+    if not item.subject_terms:
+        return True
+    return any(has_term(hay, t) for t in item.subject_terms)
+
+
 def evaluate(item: Item, c: Candidate, min_width: int = MIN_USABLE_WIDTH) -> tuple[float | None, str]:
     """Return (score, reason). score None => rejected, reason names the rule."""
     if c.mime != "image/jpeg":
@@ -1548,6 +1582,8 @@ def evaluate(item: Item, c: Candidate, min_width: int = MIN_USABLE_WIDTH) -> tup
     for group in item.keywords:
         if not any(has_term(hay, k) for k in group):
             return None, "keywords"
+    if not subject_named(item, hay):
+        return None, "subject_not_named"
     if c.gps is not None and camera_gps(item, c)[0] is None:
         return None, "wrong_place"
     night_hit = any(has_term(hay, w) for w in NIGHT_WORDS)
@@ -1611,6 +1647,16 @@ def estimate_view(item: Item, c: Candidate) -> dict[str, Any]:
                     "explanation": (f"The file's GPS ({c.gps[0]:.5f}, {c.gps[1]:.5f}) lies within {d_subj:.0f} m of {subj_txt}, so the uploader "
                                     f"geotagged the subject rather than the camera; the viewpoint is therefore the standard photographer position "
                                     f"for this view ({item.viewpoint_note}) and the azimuth {default_az:.0f} deg is the bearing from there to the subject." + suffix),
+                }
+            if d_subj <= item.gps_subject_max_m and not subject_named(item, c.haystack):
+                return {
+                    "lat": c.gps[0], "lon": c.gps[1], "azimuth_deg": round(default_az, 1), "confidence": "low",
+                    "method": "camera_gps_with_item_azimuth (photograph does not name the subject)",
+                    "explanation": (f"Camera GPS from the Commons file description ({c.gps[0]:.5f}, {c.gps[1]:.5f}) is {d_subj:.0f} m from "
+                                    f"{subj_txt}, but nothing in this file's title, description or categories names the subject, so it is a "
+                                    f"photograph taken *at* that place rather than one *of* it and the bearing to the subject is not its view "
+                                    f"direction. The position is the file's own measurement and is kept; the azimuth {default_az:.0f} deg is the "
+                                    f"item's recorded view axis." + suffix),
                 }
             if d_subj <= item.gps_subject_max_m:
                 az = bearing_deg(c.gps, item.subject)
@@ -2188,13 +2234,17 @@ def write_summary(out_root: Path, metas: list[dict[str, Any]], client: Client | 
 # CLI
 # ----------------------------------------------------------------------------------------------
 
-def revalidate(out_root: Path, items: list[Item]) -> list[str]:
+def revalidate(out_root: Path, items: list[Item], *, dry_run: bool = False) -> list[str]:
     """Drop stored items whose photos no longer pass the current selection rules.
 
     The catalogue's keyword, exclusion and licence rules get tightened as bad matches turn up.
     Re-running the text tests against each stored ``meta.json`` (title + description + categories,
     the same haystack the live filter uses) finds photos accepted under looser rules; the whole
     item directory is removed so the next resumable pass re-fetches it. Returns the slugs dropped.
+
+    ``dry_run`` reports what would be dropped and deletes nothing.  Tightening a rule re-picks
+    photographs, and a re-pick nobody looked at is worse than the bad match it replaced, so the
+    measurement comes first: run with ``--revalidate --dry-run``, read the list, then run for real.
     """
     dropped: list[str] = []
     for item in items:
@@ -2216,13 +2266,17 @@ def revalidate(out_root: Path, items: list[Item]) -> list[str]:
                 reason = "indoor"
             elif any(not any(has_term(hay, k) for k in group) for group in item.keywords):
                 reason = "keywords"
+            elif not subject_named(item, hay):
+                reason = "subject_not_named"
             if reason:
                 bad.append(f"{ph.get('file')} ({reason}: {ph.get('title')})")
         if bad:
-            log.info("revalidate: dropping %s -- %s", item.slug, "; ".join(bad))
-            for f in d.glob("*.jpg"):
-                f.unlink()
-            (d / "meta.json").unlink(missing_ok=True)
+            log.info("revalidate: %s %s -- %s", "would drop" if dry_run else "dropping",
+                     item.slug, "; ".join(bad))
+            if not dry_run:
+                for f in d.glob("*.jpg"):
+                    f.unlink()
+                (d / "meta.json").unlink(missing_ok=True)
             dropped.append(item.slug)
     return dropped
 
@@ -2254,6 +2308,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--index-only", action="store_true", help="regenerate INDEX.md/LICENSES.md/summary.json from existing meta.json files, no network")
     ap.add_argument("--revalidate", action="store_true",
                     help="re-test stored photos against the current rules and re-fetch the items that now fail")
+    ap.add_argument("--dry-run", action="store_true",
+                    help="with --revalidate: report what would be dropped and change nothing (implies no fetch)")
     ap.add_argument("-v", "--verbose", action="store_true")
     a = ap.parse_args(argv)
     logging.basicConfig(level=logging.DEBUG if a.verbose else logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -2271,8 +2327,13 @@ def main(argv: list[str] | None = None) -> int:
     client: Client | None = None
     failures: list[tuple[str, str]] = []
     if a.revalidate:
-        dropped = revalidate(a.out, items)
-        log.info("revalidate: %d item(s) dropped for re-fetch%s", len(dropped), (": " + ", ".join(dropped)) if dropped else "")
+        dropped = revalidate(a.out, items, dry_run=a.dry_run)
+        log.info("revalidate: %d item(s) %s%s", len(dropped),
+                 "would be dropped" if a.dry_run else "dropped for re-fetch",
+                 (": " + ", ".join(dropped)) if dropped else "")
+        if a.dry_run:
+            print(json.dumps({"revalidate_dry_run": dropped}, indent=1))
+            return 0
     if not a.index_only:
         client = Client(min_interval=a.min_interval)
         used: set[str] = set()
