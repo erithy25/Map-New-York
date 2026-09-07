@@ -26,6 +26,35 @@ announces a different subject — for this item, the library beside the avenue *
 cross street** ("looking down 42nd", "along 42nd"). The photograph the chooser now returns is by the
 same photographer, from the same corner, at the same minute, and is titled "**looking up 5th Ave**".
 
+## Re-rendered 2026-09-07 — the best-populated frame in the set
+
+Fifth Avenue at 42nd looking south is the frame where the city reads as being *in use*. Four ranks of
+traffic fill the avenue — yellow medallion cabs, a black sedan, a green boro taxi, a box truck, more
+receding to the horizon — with crowds on both pavements, bare winter street trees on the right,
+shopfront fascias reading BANK along the left frontage, lamp standards and a bus shelter. 52 vehicles
+and 248 people, nine landmark models, and nothing needed culling.
+
+**It is also the control for its own twin.** `fifth_ave_42nd_north` stands on the same corner looking
+the other way and renders at half its photograph's brightness. This one does not:
+
+| | this sheet (south) | its twin (north) |
+|---|---|---|
+| render mean | **0.372** | 0.227 |
+| photograph mean | 0.448 | 0.455 |
+| render median | **0.341** | 0.176 |
+| Sun | **EXIF `DateTimeOriginal`** | *assumed* — "photograph year only; 21 June 09:30" |
+
+The two photographs are within 0.007 of each other in mean luminance, so the difference is on the
+render side. View direction is part of it — a south-facing avenue view under a morning sun catches
+sunlit facades where a north-facing one gets their shadowed backs — but the sheet whose Sun comes
+from the photograph's own instant lands within 17 % of it, and the sheet whose Sun is a guessed
+21 June morning lands at half. That is the sharpest evidence in the set for the second half of
+deviation I16, and it comes from a pair that differ in nothing else.
+
+**What is still weak:** the lower third is bare roadway with no texture or markings, the block faces
+are flat coloured planes with dashed windows (the facade-class case), and the vehicle bodies are
+smooth and untextured at this distance.
+
 ## What matches
 
 * **Both halves look along the same street in the same direction.** That is the change: the photograph
