@@ -22,6 +22,37 @@ the photograph's own title and description instead (`docs/verification/compariso
 20 m from the item's recorded viewpoint — so the camera stands on the photograph's own GPS and the two
 halves face the same way for the first time.
 
+## Re-rendered 2026-09-07, and a first impression the measurement overturned
+
+Stone Street reads well: the narrow bend, the brick walls rising straight out of the paving with no
+kerb, the continuous run of shopfront fascias and hanging blade signs down both sides, awnings, a
+hydrant, a parked car at the far end and pedestrians walking the middle of the street — which is what
+Stone Street is, a pedestrianised alley. 5,634 window pieces, 289 storefronts, 53 storefront
+interiors, 89 vehicles and 363 people.
+
+My first reading of this frame was that the lit fascia bands were blowing out — pure white strips
+dominating a dim scene, with the signage emission calibrated on the Times Square *night* photograph
+and applied unchanged to a daylight alley. **The measurement says the opposite and I was wrong.**
+
+| | render | photograph |
+|---|---|---|
+| mean luminance | **0.249** | **0.404** |
+| median | 0.251 | 0.298 |
+| area above 0.95 | **0.02 %** | **14.66 %** |
+| area above 0.90 | 0.97 % | 15.76 % |
+| area below 0.20 | 35.61 % | 32.63 % |
+
+Nothing in the render is clipping. The fascias look like the brightest thing in the frame because
+everything around them is dark, and the frame as a whole is **about a stop under** the photograph it
+is paired with.
+
+The cause is not a bug but a difference in kind, and it is worth stating because it affects every
+shaded frame in this set. The render is physically lit: the Sun is placed from the photograph's own
+EXIF instant (13:45 on 19 April 2022, elevation 58.6°) and the exposure is a fixed 0 stops on a
+Filmic transform. The photograph was taken by a camera that *metered this alley* and opened up for
+it. A narrow street in shadow under a high sun is exactly where those two diverge. The render is not
+wrong about the light; it is answering a different question from the one the photograph answers.
+
 ## What matches
 
 * The alley section is right. Stone Street's 6 m pedestrian width, the walls rising 25 m either side and the way the block bends to the east all match the real street.
