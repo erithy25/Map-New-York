@@ -463,3 +463,33 @@ def test_placed_agents_stand_on_the_pavement_and_the_counts_add_up(snapshot, sur
 
     # 3. the budget was respected.
     assert rep.triangles <= 400_000 * 1.15, f"{rep.triangles} triangles against a 400,000 budget"
+
+
+def test_the_pedestrian_clearance_is_derived_from_the_frame_not_picked():
+    """`CAMERA_CLEAR_PED_M` must keep a person from *being* the picture, not just out of the lens.
+
+    1.5 m did the second job only, and `drive_midtown_sixth_ave_45th` rendered as one NPC's torso
+    with a pedestrian at 1 m — 261 % of frame height. The constant is now derived from the frame and
+    `CAMERA_CLEAR_PED_BASIS` records what from, so a different lens re-derives it instead of
+    re-guessing.
+    """
+    import math
+
+    import agents as vagents
+
+    body_m, vfov_deg, frac = vagents.CAMERA_CLEAR_PED_BASIS
+    half = math.tan(math.radians(vfov_deg / 2.0))
+
+    def frame_share(d: float) -> float:
+        """Share of frame height a `body_m` person subtends at distance `d`."""
+        return body_m / (2.0 * d * half)
+
+    want = body_m / (2.0 * half * frac)
+    assert abs(vagents.CAMERA_CLEAR_PED_M - want) < 0.05, (
+        f"CAMERA_CLEAR_PED_M is {vagents.CAMERA_CLEAR_PED_M} but its own basis derives {want:.2f}")
+    # At the clearance a person is close but contained; the cases that prompted this are not.
+    assert frame_share(vagents.CAMERA_CLEAR_PED_M) < 0.85
+    assert frame_share(1.0) > 2.0, "a person at 1 m must be far outside the frame, or nothing was fixed"
+    assert frame_share(2.57) > 1.0, "the Grand Concourse case must still be taller than the frame"
+    # And it must remain at least the old value: this can tighten, never loosen.
+    assert vagents.CAMERA_CLEAR_PED_M >= 1.5

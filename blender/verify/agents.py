@@ -157,8 +157,23 @@ VEHICLE_ASSETS: dict[str, tuple[str, str]] = {
 #: within these distances of the eye is not drawn and the count is reported.  The vehicle rule is
 #: skipped when the eye stands higher than the vehicle's roof (the Duffy Square camera is 4.6 m up
 #: on the TKTS steps and looks over the traffic, which is the whole point of that viewpoint).
+#:
+#: The pedestrian radius answers a second question as well, and 1.5 m answered only the first.
+#: 1.5 m keeps a person from being rendered *inside* the lens, which is a rendering question; it
+#: does nothing about a person standing close enough to *be* the picture.  On
+#: ``drive_midtown_sixth_ave_45th`` the nearest pedestrian stood at 1 m and the whole frame was one
+#: NPC's torso -- no street, no buildings, no Sixth Avenue.  The number now comes from the frame
+#: instead: at this set's 1.6 m eye and its 35 mm lens the vertical field is about 38 deg, so the
+#: frame is ``2 * d * tan(19 deg) = 0.69 * d`` metres tall, and a 1.8 m person fills all of it at
+#: 2.6 m.  3.5 m puts that person at 74 % of frame height -- close, which a street photograph often
+#: is, but no longer the entire picture.  It stays a radius rather than a forward wedge because a
+#: pedestrian behind the camera is invisible either way and the placement runs before the final view
+#: azimuth is known (``render_sheets.py`` derives that after ``build_scene``).
 CAMERA_CLEAR_VEHICLE_M = 6.0
-CAMERA_CLEAR_PED_M = 1.5
+CAMERA_CLEAR_PED_M = 3.5
+#: What ``CAMERA_CLEAR_PED_M`` is derived from, kept beside it so the number can be re-derived for a
+#: different lens rather than re-guessed: (body height, vertical field of view, share of frame height).
+CAMERA_CLEAR_PED_BASIS = (1.8, 38.0, 0.74)
 
 #: Where the exported body is not the size the fleet table publishes for that class, with the
 #: measured deviation (length, width, height, per cent) and why.  ``audit_vehicle_assets`` measures
