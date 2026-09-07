@@ -198,6 +198,7 @@ NOT_PHOTO_WORDS = ["map", "painting", "drawing", "engraving", "lithograph", "pos
                    "render", "stereograph", "stereoscopic", "black and white", "black-and-white", "monochrome", "b&w",
                    "sepia", "photochrom", "lego", "miniature", "screenshot", "video game", "cartoon", "clip art",
                    "coat of arms", "flag of", "infrared", "hdr composite", "collage", "montage", "cgi", "artist's impression",
+
                    "diary", "diaries", "manuscript", "clipping", "dpla", "atlas", "broadside", "newspaper clipping",
                    "magazine cover", "newspaper page",
                    "book cover", "book page", "title page", "letterhead", "blueprint", "elevation drawing"]
@@ -1598,6 +1599,15 @@ def camera_gps(item: Item, c: Candidate) -> tuple[tuple[float, float] | None, st
                   f"not a photograph of it.")
 
 
+#: A Library of Congress control number in the file name marks an archival scan.  The picture is a
+#: century old and the only date its metadata carries is the date it was digitised, so ``min_year``
+#: cannot see it: "Fifth avenue from 42nd street, looking north LCCN2003680996" is a c.1900
+#: photochrom that read as 2018 and was collected for a mandated viewpoint.  It cannot go in
+#: ``NOT_PHOTO_WORDS`` because those are matched on word boundaries and the number runs into the
+#: prefix.
+ARCHIVAL_ID = re.compile(r"lccn\s?\d{6,}", re.I)
+
+
 def subject_named(item: Item, text: str) -> bool:
     """Does the photograph's own title or description name what this item is a view of?
 
@@ -1667,6 +1677,8 @@ def evaluate(item: Item, c: Candidate, min_width: int = MIN_USABLE_WIDTH) -> tup
     for w in NOT_PHOTO_WORDS:
         if has_term(hay, w):
             return None, f"not_photo:{w}"
+    if ARCHIVAL_ID.search(hay):
+        return None, "not_photo:archival scan (Library of Congress control number)"
     if any("black and white" in cat.lower() for cat in c.categories):
         return None, "not_photo:b&w category"
     for w in item.exclude:
@@ -2357,7 +2369,7 @@ def revalidate(out_root: Path, items: list[Item], *, dry_run: bool = False) -> l
             reason = ""
             if not licence_ok(ph.get("license", {}).get("short_name"), ph.get("license", {}).get("template")):
                 reason = "licence"
-            elif any(has_term(hay, w) for w in NOT_PHOTO_WORDS):
+            elif any(has_term(hay, w) for w in NOT_PHOTO_WORDS) or ARCHIVAL_ID.search(hay):
                 reason = "not_photo"
             elif any(has_term(hay, w) for w in item.exclude):
                 reason = "excluded"

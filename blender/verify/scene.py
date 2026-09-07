@@ -481,8 +481,9 @@ def _object_ground_faces(ob, ground_z: float, band_m: float) -> list[list[tuple[
     return out
 
 
-def landmark_ground_outlines(objects, ground_z: float, *, band_m: float = LANDMARK_GROUND_BAND_M,
-                             min_area_m2: float = LANDMARK_GROUND_MIN_AREA_M2) -> tuple[list, float]:
+def landmark_ground_outlines(objects, ground_z: float, *, sampler: "TerrainSampler | None" = None,
+                             band_m: float = LANDMARK_GROUND_BAND_M,
+                             min_area_m2: float = LANDMARK_GROUND_MIN_AREA_M2) -> tuple[list, float, dict]:
     """Plan outlines of the ground a landmark supplies itself, with their total area.
 
     **The rule.** A landmark model that carries its own ground surface owns the ground inside that
@@ -504,6 +505,20 @@ def landmark_ground_outlines(objects, ground_z: float, *, band_m: float = LANDMA
     it: an upward-facing horizontal face within ``band_m`` of ``ground_z``, which is the entry's
     ``origin_tm[2]`` -- the elevation the catalogue already uses as the landmark's ground (median
     |origin z - heightmap| 0.07 m over its 93 entries).
+
+    **A deck is not ground, and only ground replaces ground.** The justification above holds only
+    where the model and the heightmap describe the *same* surface.  Where the model's ground plane
+    stands more than ``band_m`` above the heightmap beneath it, it is a podium or a pier standing
+    *on* the ground rather than a statement about where the ground is, and the terrain under it must
+    still be drawn -- cutting it would leave a hole where there is real ground.  Hudson Yards is the
+    case: its plaza is 20,061 m2 at 7.82 m NAVD88 over a heightmap median of 2.48 m, **5.34 m**
+    above it, and its own assessment already says the Vessel "hovers on a disc above the plaza with
+    nothing under it".  Cutting there would make that worse, not better.  The same one metre serves
+    both tests, which is why it is one constant: a face counts as this landmark's ground if it is
+    within a metre of the elevation the catalogue declares, and that elevation counts as *the*
+    ground if it is within a metre of the published terrain.
+
+    Returns ``(outlines, area, detail)``.
     """
     from shapely.geometry import Polygon
     from shapely.ops import unary_union
@@ -511,7 +526,7 @@ def landmark_ground_outlines(objects, ground_z: float, *, band_m: float = LANDMA
     for ob in objects:
         rings.extend(_object_ground_faces(ob, ground_z, band_m))
     if not rings:
-        return [], 0.0
+        return [], 0.0, {"reason": "the model has no upward horizontal face at its declared ground"}
     polys = []
     for r in rings:
         try:
@@ -525,7 +540,7 @@ def landmark_ground_outlines(objects, ground_z: float, *, band_m: float = LANDMA
             if g.area > 0.0:
                 polys.append(g)
     if not polys:
-        return [], 0.0
+        return [], 0.0, {"reason": "no usable ground polygon"}
     merged = unary_union(polys)
     parts = list(merged.geoms) if merged.geom_type == "MultiPolygon" else [merged]
     filled = [Polygon(g.exterior) for g in parts       # the openings are the landmark's ground too
@@ -538,7 +553,38 @@ def landmark_ground_outlines(objects, ground_z: float, *, band_m: float = LANDMA
     for g in filled:
         if not any(o.contains(g) for o in out):
             out.append(g)
-    return out, float(sum(g.area for g in out))
+    if not out:
+        return [], 0.0, {"reason": f"every ground polygon is smaller than {min_area_m2:.0f} m2"}
+    detail: dict = {}
+    if sampler is not None:
+        import shapely
+        zs = []
+        for g in out:
+            bx = g.bounds
+            xs = np.arange(bx[0], bx[2] + 1e-9, 4.0)
+            ys = np.arange(bx[1], bx[3] + 1e-9, 4.0)
+            if xs.size == 0 or ys.size == 0:
+                continue
+            X, Y = np.meshgrid(xs, ys)
+            inside = shapely.contains_xy(g, X, Y)
+            if not inside.any():
+                continue
+            z, _ = sampler.grid(X, Y)
+            v = z[inside]
+            v = v[~np.isnan(v)]
+            if v.size:
+                zs.append(v)
+        if zs:
+            med = float(np.median(np.concatenate(zs)))
+            detail = {"heightmap_median_m": round(med, 2),
+                      "above_heightmap_m": round(ground_z - med, 2)}
+            if abs(ground_z - med) > band_m:
+                detail["reason"] = (f"the model's ground stands {ground_z - med:+.2f} m from the "
+                                    f"heightmap under it, more than the {band_m:.1f} m at which the "
+                                    f"two describe the same surface: it is a deck on the ground, not "
+                                    f"the ground, and the terrain under it is still drawn")
+                return [], 0.0, detail
+    return out, float(sum(g.area for g in out)), detail
 
 
 def _graded_offsets(radius_m: float, near_m: float, near_spacing_m: float,
@@ -1012,7 +1058,8 @@ def load_landmark_catalog() -> list[dict]:
 
 def add_landmarks(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
                   lod0_radius_m: float = 3000.0, col: bpy.types.Collection | None = None,
-                  catalog: Sequence[dict] | None = None) -> dict:
+                  catalog: Sequence[dict] | None = None,
+                  sampler: "TerrainSampler | None" = None) -> dict:
     entries = list(catalog) if catalog is not None else load_landmark_catalog()
     placed, skipped, tris = [], [], 0
     ground: list = []          # plan outlines of the ground the landmarks supply themselves
@@ -1055,11 +1102,13 @@ def add_landmarks(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
         rec = {"id": e.get("id"), "name": e.get("name"), "distance_m": round(dist, 1),
                "lod": lod, "triangles": tpl.triangles}
         bpy.context.view_layer.update()
-        rings, area = landmark_ground_outlines(obs, oz)
+        rings, area, why = landmark_ground_outlines(obs, oz, sampler=sampler)
         if rings:
             ground.extend(rings)
             rec["own_ground_m2"] = round(area, 1)
             rec["own_ground_parts"] = len(rings)
+        if why:
+            rec["own_ground_note"] = why
         placed.append(rec)
     placed.sort(key=lambda d: d["distance_m"])
     bpy.context.view_layer.update()
@@ -1619,7 +1668,7 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
     # pass depends on the ground, and the triangle allocation is unchanged: buildings still take
     # their fixed 78 % share and props and kit still divide what is left after everything else.
     lib = AssetLibrary()
-    rep.landmarks = add_landmarks(lib, cx, cy, radius_m, col=c_landmark)
+    rep.landmarks = add_landmarks(lib, cx, cy, radius_m, col=c_landmark, sampler=sampler)
     own_ground = rep.landmarks.pop("own_ground", [])
     rep.terrain = build_terrain(sampler, cx, cy, radius_m, max_side=terrain_max_side, col=c_terrain,
                                 cut=own_ground)

@@ -170,8 +170,10 @@ def test_terrain_and_pavement_are_not_drawn_under_a_landmark_s_own_ground():
     ox, oy, oz = (float(v) for v in e["origin_tm"])
     obs = tpl.instance("lm_b_wtc_site", Matrix.Translation((ox, oy, oz)), bpy.context.scene.collection)
     bpy.context.view_layer.update()
-    rings, area = vscene.landmark_ground_outlines(obs, oz)
-    assert rings, "the WTC site model carries a plaza deck and no ground outline was found"
+    sampler = vscene.TerrainSampler()
+    rings, area, why = vscene.landmark_ground_outlines(obs, oz, sampler=sampler)
+    assert rings, f"the WTC site model carries a plaza deck and no ground outline was found: {why}"
+    assert abs(why.get("above_heightmap_m", 99.0)) <= vscene.LANDMARK_GROUND_BAND_M, why
     # The plaza is the real memorial plaza outline: 33,039 m2, and both pool squares are inside it.
     assert area == pytest.approx(33039.0, rel=0.02), area
     import shapely
@@ -193,8 +195,45 @@ def test_terrain_and_pavement_are_not_drawn_under_a_landmark_s_own_ground():
             obs2 = t2.instance("lm_1wtc", Matrix.Translation((ox2, oy2, oz2)),
                                bpy.context.scene.collection)
             bpy.context.view_layer.update()
-            r2, a2 = vscene.landmark_ground_outlines(obs2, oz2)
+            r2, a2, _ = vscene.landmark_ground_outlines(obs2, oz2)
             assert not r2, f"1 WTC is a tower shell and should supply no ground, got {a2:.0f} m2"
+
+
+def test_a_deck_metres_above_the_heightmap_does_not_cut_the_terrain_under_it():
+    """Hudson Yards' plaza is 20,061 m2 at 7.82 m over a heightmap median of 2.48 m.
+
+    A modelled surface that far above the published ground is a podium standing *on* the ground, not
+    a statement about where the ground is; cutting the terrain under it would leave a 5 m hole where
+    there is real ground, and that scene's own assessment already says the Vessel "hovers on a disc
+    above the plaza with nothing under it".
+    """
+    _skip_without_bpy()
+    import scene as vscene
+
+    cat = {e["id"]: e for e in vscene.load_landmark_catalog()}
+    if "c_hudson_yards" not in cat:
+        pytest.skip("c_hudson_yards is not in the landmark catalogue")
+    import bpy
+    from mathutils import Matrix
+    import nycsim_bpy as nb
+
+    nb.reset_scene()
+    lib = vscene.AssetLibrary()
+    e = cat["c_hudson_yards"]
+    rel = Path(e["glb"])
+    glb = rel if rel.is_absolute() else REPO_ROOT / rel
+    if not glb.exists():
+        glb = REPO_ROOT / "blender_out" / "landmarks" / rel.name
+    tpl = lib.get(glb, key="test:hy", max_lod=0)
+    if tpl is None:
+        pytest.skip(f"{glb} did not import")
+    ox, oy, oz = (float(v) for v in e["origin_tm"])
+    obs = tpl.instance("lm_hy", Matrix.Translation((ox, oy, oz)), bpy.context.scene.collection)
+    bpy.context.view_layer.update()
+    rings, area, why = vscene.landmark_ground_outlines(obs, oz, sampler=vscene.TerrainSampler())
+    assert not rings, f"the Hudson Yards podium cut {area:.0f} m2 of terrain"
+    assert why.get("above_heightmap_m", 0.0) > vscene.LANDMARK_GROUND_BAND_M, why
+    assert "deck on the ground, not" in why.get("reason", "")
 
 
 def test_terrain_sampler_orientation_matches_the_north_first_png_row():
