@@ -45,6 +45,33 @@ After all four, the item's three photographs are `43rd St 5th Av td (2018-05-18)
 seeds, 5 eligible), which is the honest cost: Commons has few free photographs looking up Fifth Avenue
 and many of the library beside it.
 
+## Re-rendered 2026-09-07 — a mandated viewpoint, and the exposure gap at its worst
+
+Fifth Avenue at 42nd looking north is one of the seven the brief names. The world is there: towers
+stepping away up both sides of the avenue, nine landmark models in the scene, a crowd of 251 people
+walking the right-hand pavement, 51 vehicles with a yellow cab and a black SUV at the kerb, a hydrant,
+lamp standards, the avenue running to a bright gap at the horizon.
+
+**It is also the worst instance of deviation I16 in the set so far**, and the numbers are not close:
+
+| | render | photograph |
+|---|---|---|
+| mean luminance | **0.227** | **0.455** |
+| median | **0.176** | **0.537** |
+| area below 0.20 | **52.3 %** | 22.2 % |
+
+The render is half the brightness of the photograph and its median pixel is three times darker. More
+than half the frame sits below 0.20 where the photograph puts a fifth there. The left-hand block face
+is nearly black.
+
+**Two causes, and the second is specific to this sheet.** The general one is I16: the render is
+physically lit and the photograph was metered by its photographer, and Fifth Avenue between towers at
+a 43.5° sun is deep in its own shadow. The particular one is that **this frame's Sun is an
+assumption, not a measurement** — `time_source` reads *"photograph year only; 21 June 09:30 assumed"*,
+so the shadow pattern is a plausible June morning rather than the photograph's own instant. **5 of
+the 57 scenes** are lit this way; the other 52 take the Sun from EXIF. On a north-facing avenue view
+the assumed hour decides whether the street is lit or in shade, so on this sheet it is not a detail.
+
 ## What matches
 
 * **Both halves face the same way**, which is the point of the change: the photograph looks north up

@@ -1,4 +1,11 @@
 {
+ "agent_request": {
+  "dow": 0,
+  "hour": 9,
+  "local_clock": "2018-06-21 09:30 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
  "azimuth_reason": "29.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
  "camera": {
   "azimuth_deg": 29.0,
@@ -55,9 +62,9 @@
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.2242,
+  "mean": 0.2269,
   "reason": null,
-  "sd": 0.1734,
+  "sd": 0.1685,
   "usable": true
  },
  "frame_retry": null,
@@ -68,10 +75,11 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 860.0,
   "emissive": {
+   "cone_faces_deleted": 16,
    "cones_hidden": 2,
    "lamps_switched_off": 5,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.0,
   "sky_azimuth_deg": 95.382,
@@ -97,10 +105,95 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/fifth_ave_42nd_north/render.png",
- "rendered_at": "2026-09-07T09:00:46Z",
+ "rendered_at": "2026-09-07T15:05:50Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "caption": "Agents: 51 vehicles within 320 m and 251 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 1336 vehicles and 1685 people over the whole simulated ring, of which 1458 and 2200 were simulated; 3356 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 106,
+    "pedestrian_inside_building": 4,
+    "pedestrian_not_on_walkable_surface": 76,
+    "pedestrian_outside_radius": 922,
+    "pedestrian_over_the_observer": 5,
+    "pedestrian_triangle_budget": 836,
+    "vehicle_body_has_no_rider": 36,
+    "vehicle_not_on_carriageway": 9,
+    "vehicle_outside_radius": 807,
+    "vehicle_triangle_budget": 555
+   },
+   "ped_lods": {
+    "LOD0": 1,
+    "LOD1": 57,
+    "LOD2": 193
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 581634,
+   "per_class": {
+    "black_car": 10,
+    "boro_taxi": 8,
+    "box_truck": 6,
+    "mta_bus": 1,
+    "sedan": 6,
+    "suv": 4,
+    "taxi": 15,
+    "van": 1
+   },
+   "placed_pedestrians": 251,
+   "placed_vehicles": 51,
+   "reason": null,
+   "seconds": 155.42,
+   "snapshot": {
+    "building_footprints_tested": 1488,
+    "density_lane_km": 30.431,
+    "density_sidewalk_m2": 24992,
+    "density_target_pedestrians": 1685.0,
+    "density_target_vehicles": 1336.2,
+    "dow": 0,
+    "hour": 9,
+    "lanes_considered": 292,
+    "lanes_with_nta": 292,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 2.02,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 95,
+    "pavement_polygons_tested": 2773,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 2200,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 1458
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1087799,
+   "vehicle_lods": {
+    "LOD1": 10,
+    "LOD2": 41
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 506165
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
@@ -123,7 +216,7 @@
      ],
      "lod": 0,
      "objects": 14,
-     "triangles": 21132
+     "triangles": 21424
     },
     "t_-2_6": {
      "files": [
@@ -131,7 +224,7 @@
      ],
      "lod": 0,
      "objects": 18,
-     "triangles": 69944
+     "triangles": 70466
     },
     "t_-3_5": {
      "files": [
@@ -139,7 +232,7 @@
      ],
      "lod": 0,
      "objects": 16,
-     "triangles": 65668
+     "triangles": 65920
     },
     "t_-3_6": {
      "files": [
@@ -147,7 +240,7 @@
      ],
      "lod": 0,
      "objects": 17,
-     "triangles": 39612
+     "triangles": 39682
     },
     "t_-4_5": {
      "files": [
@@ -155,7 +248,7 @@
      ],
      "lod": 0,
      "objects": 19,
-     "triangles": 63636
+     "triangles": 64092
     },
     "t_-4_6": {
      "files": [
@@ -163,7 +256,7 @@
      ],
      "lod": 0,
      "objects": 17,
-     "triangles": 78856
+     "triangles": 77988
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -173,34 +266,32 @@
    "tiles_wanted": 6,
    "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 338848
+   "triangles": 339572
   },
   "centre_tm": [
    -2580.62,
    6014.4
   ],
   "kit": {
-   "capped": "triangle budget 2545871",
+   "capped": "triangle budget 988278",
    "per_category": {
-    "antenna": 1,
-    "bulkhead": 25,
-    "cornice": 17,
-    "door_entry": 30,
-    "hvac": 32,
-    "parapet": 25,
-    "pilaster": 14,
-    "quoin": 3,
-    "scaffold": 60,
-    "storefront": 143,
-    "storefront_interior": 24,
-    "string_course": 17,
-    "water_tower": 7,
-    "window": 12034,
-    "window_accessory": 28
+    "bulkhead": 5,
+    "cornice": 6,
+    "door_entry": 9,
+    "hvac": 6,
+    "parapet": 8,
+    "pilaster": 3,
+    "quoin": 1,
+    "scaffold": 12,
+    "storefront": 100,
+    "storefront_interior": 6,
+    "string_course": 6,
+    "water_tower": 2,
+    "window": 5067
    },
-   "placed": 12460,
+   "placed": 5231,
    "radius_m": 140.0,
-   "records_in_range": 22690,
+   "records_in_range": 22899,
    "stale_registry_ids": {},
    "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
@@ -208,7 +299,7 @@
     "t_-3_5",
     "t_-3_6"
    ],
-   "triangles": 2545978,
+   "triangles": 988472,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -354,53 +445,50 @@
    "vertices": 166116
   },
   "props": {
-   "capped": null,
-   "impostor_cards_dropped": 13,
+   "capped": "triangle budget 1119104",
+   "impostor_cards_dropped": 11,
    "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
-    "bench": 2,
-    "bike_rack": 25,
-    "bus_shelter": 7,
-    "bus_stop_sign": 21,
-    "citibike_dock": 3,
-    "flagpole": 19,
-    "hydrant": 49,
-    "linknyc": 4,
-    "mailbox": 6,
-    "manhole": 74,
-    "newsstand": 7,
+    "bench": 1,
+    "bike_rack": 19,
+    "bus_shelter": 5,
+    "bus_stop_sign": 13,
+    "citibike_dock": 2,
+    "flagpole": 12,
+    "hydrant": 33,
+    "linknyc": 2,
+    "mailbox": 4,
+    "manhole": 51,
+    "newsstand": 5,
     "rtpi_sign": 1,
-    "steam_vent": 10,
-    "street_lamp": 83,
-    "subway_entrance": 8,
-    "subway_vent_grate": 10,
-    "tree": 47,
-    "waste_basket": 8
+    "steam_vent": 6,
+    "street_lamp": 55,
+    "subway_entrance": 3,
+    "subway_vent_grate": 6,
+    "tree": 156,
+    "waste_basket": 4
    },
-   "placed": 384,
+   "placed": 378,
    "radius_m": 250.0,
-   "rows_in_range": 579,
+   "rows_in_range": 818,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_5",
     "t_-3_6"
    ],
-   "tree_species_substituted": 8,
-   "triangles": 652294,
+   "tree_species_substituted": 130,
+   "triangles": 1121364,
    "unmapped_kinds": {
     "artwork": 7,
-    "cooling_tower": 122,
-    "curb_ramp": 57,
-    "drinking_fountain": 1,
-    "memorial": 3,
-    "parks_building": 2,
-    "parks_comfort_station": 1,
-    "vending_machine": 2
+    "cooling_tower": 88,
+    "curb_ramp": 35,
+    "parks_building": 1,
+    "parks_comfort_station": 1
    }
   },
   "radius_m": 700.0,
-  "seconds": 62.47,
+  "seconds": 238.84,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -417,17 +505,19 @@
    "z_max_m": 25.73,
    "z_min_m": 6.73
   },
-  "triangles": 4500107
+  "triangles": 4500194
  },
  "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
   "kit_radius_m": 140.0,
   "prop_radius_m": 250.0,
   "radius_m": 700.0
  },
  "seconds": {
-  "render": 221.5,
-  "scene": 65.3,
-  "total": 286.8
+  "render": 154.1,
+  "scene": 240.8,
+  "total": 394.9
  },
  "slug": "fifth_ave_42nd_north",
  "status": "rendered",
