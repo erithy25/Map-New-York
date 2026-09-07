@@ -995,3 +995,94 @@ def test_the_tile_index_content_counts_are_filled_and_agree_with_the_artefacts()
         total = sum(r["n_road_segments"] for r in by.values())
         assert total >= pq.ParquetFile(seg).metadata.num_rows, (
             "n_road_segments sums below the segment table, so segments crossing a tile edge are being lost")
+
+
+#: Share of drivable lanes that must sit in one strongly connected component. The brief's first
+#: condition is "drive from any real address to any other without interruption", and that is a
+#: *directed* question: a one-way pocket you can enter and not leave breaks it while leaving the
+#: undirected graph fully connected. Measured at 93.71 % when this was written; the threshold sits
+#: just under so a regression fails and an improvement does not.
+MIN_DRIVABLE_SCC_SHARE = 0.93
+
+
+def test_the_drivable_lane_graph_is_strongly_connected_not_merely_connected():
+    """`test_road_network_is_connected_enough_to_drive_across_the_city` is an *undirected* union-find.
+
+    It passes on a graph where every street is one-way into a cul-de-sac, because ignoring direction
+    makes the city look connected when no car could leave. This measures what the condition actually
+    claims: over travel, bus and turn lanes, how many sit in a single strongly connected component —
+    the set of lanes from which every other is reachable *and* which is reachable from every other.
+    """
+    p = _need(PROCESSED / "roads" / "lanes.parquet", "lane graph")
+    import collections
+
+    import numpy as np
+
+    t = pq.read_table(p, columns=["lane_id", "kind", "successors"])
+    lid = np.asarray(t["lane_id"])
+    kind = np.asarray(t["kind"])
+    succ = t["successors"].to_pylist()
+    # DATA_CONTRACTS §7: kind 0 travel, 1 parking, 2 bike, 3 bus, 4 turn, 5 shoulder. A parking lane
+    # is not a route and each one is its own component, so including them measures nothing.
+    sel = np.nonzero(np.isin(kind, [0, 3, 4]))[0]
+    remap = {int(lid[i]): k for k, i in enumerate(sel)}
+    n = sel.size
+    assert n > 0, "no drivable lanes"
+    adj: list[list[int]] = [[] for _ in range(n)]
+    for k, i in enumerate(sel):
+        for s in (succ[i] or ()):
+            j = remap.get(int(s))
+            if j is not None:
+                adj[k].append(j)
+
+    # Tarjan, iterative: the recursive form overflows the stack on a 221k-node graph.
+    idx = [0] * n
+    low = [0] * n
+    on = bytearray(n)
+    comp = [-1] * n
+    stack: list[int] = []
+    counter = 1
+    ncomp = 0
+    for root in range(n):
+        if idx[root]:
+            continue
+        work = [(root, 0)]
+        while work:
+            v, pi = work[-1]
+            if pi == 0:
+                idx[v] = low[v] = counter
+                counter += 1
+                stack.append(v)
+                on[v] = 1
+            recurse = False
+            for k in range(pi, len(adj[v])):
+                w = adj[v][k]
+                if not idx[w]:
+                    work[-1] = (v, k + 1)
+                    work.append((w, 0))
+                    recurse = True
+                    break
+                if on[w]:
+                    low[v] = min(low[v], idx[w])
+            if recurse:
+                continue
+            if low[v] == idx[v]:
+                while True:
+                    w = stack.pop()
+                    on[w] = 0
+                    comp[w] = ncomp
+                    low[w] = min(low[w], low[v])
+                    if w == v:
+                        break
+                ncomp += 1
+            work.pop()
+            if work:
+                low[work[-1][0]] = min(low[work[-1][0]], low[v])
+
+    sizes = collections.Counter(comp)
+    largest = max(sizes.values())
+    share = largest / n
+    assert share >= MIN_DRIVABLE_SCC_SHARE, (
+        f"only {largest:,} of {n:,} drivable lanes ({100*share:.2f} %) are mutually reachable; "
+        f"a car on the other {n - largest:,} cannot drive to the rest of the city, or cannot be "
+        f"reached from it")
