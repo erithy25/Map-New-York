@@ -831,3 +831,122 @@ def test_every_deviation_reference_in_the_delivered_documents_resolves():
             if ref not in defined:
                 problems.append(f"{rel} cites {ref}, which no deviation defines")
     assert not problems, "dangling deviation references:\n  " + "\n  ".join(problems)
+
+
+# --------------------------------------------------------------------------- orphaned data gate
+#: Processed tables that no code outside their own producing module reads, each with the deviation
+#: that records why. Four of these were found in one afternoon by looking, not by any test, and the
+#: shape was identical every time: a stage gathered real data, wrote it, and nothing ever consumed
+#: it — so nothing failed and the gap stayed invisible until someone opened a render.
+#:
+#: An entry here is a statement that the gap is *known and recorded*, not that it is acceptable.
+#: Adding a row costs a deviation entry; that is the point.
+KNOWN_ORPHANED_TABLES = {
+    # Recorded as deviations. An entry here says the gap is known, not that it is acceptable.
+    "transit/rail_routes.parquet": "D11 — 47 rail routes; transit.nycb has no rail section",
+    "transit/rail_stops.parquet": "D11 — 1,166 rail stops, likewise",
+    "osm/pois.parquet": "H6 — the address source for the pois.nycb that is never written",
+    "osm/water_nj.parquet": "D11 — New Jersey water areas; the water stage never reads them",
+    "osm/signals_stops.parquet": "D11 — duplicate of roads/cache/osm_nodes.parquet, which is what the "
+                                 "signal stage actually uses",
+}
+
+#: Tables whose only reader is inside their own stage package, legitimately: a cache the stage reads
+#: back, or a lookup exposed through a function rather than a path. Each entry names the function, and
+#: the test checks that function still exists — so this cannot become a place to hide a real orphan.
+CONSUMED_WITHIN_STAGE = {
+    "traffic/sidewalk_area.parquet": ("pipeline/nycsim_pipeline/traffic/sidewalks.py",
+                                      "sidewalk_area_by_nta"),
+    "facade/sign_zones.parquet": ("pipeline/nycsim_pipeline/facade/signage.py", "sign_zone_bbls"),
+}
+
+
+def test_no_processed_table_is_written_and_never_read():
+    """Data gathered, written, and consumed by nobody is the failure shape this build hit four times.
+
+    `roofs.glb` (B6) had 1,033,416 rows pointing into a file that was never written; 986 km of rail
+    structure (B13) had one consumer in the whole repository; three contracted runtime files (H6)
+    were never produced at all; and the subway (D11) is 2,120 doorways to nothing. None of them made
+    a test go red, because a table nobody reads cannot fail.
+
+    This test cannot prove a table reaches the shipped world — that needs tracing, not grep. What it
+    can do is force a decision: every table whose name appears nowhere outside its own stage is
+    either recorded as a deviation or listed with the in-stage function that reads it. A new one
+    cannot appear silently, which is the only property that was actually missing.
+    """
+    import subprocess
+
+    if not PROCESSED.exists():
+        pytest.skip("data/processed has not been produced")
+    src_roots = [str(REPO_ROOT / d) for d in ("pipeline", "blender", "core", "services", "unreal", "tests")
+                 if (REPO_ROOT / d).exists()]
+    if not src_roots:
+        pytest.skip("no source trees to search")
+
+    # Top-level stage tables only: per-tile files are opened through a glob on the directory, so a
+    # filename search would report every one of them as an orphan and mean nothing.
+    tables: list[str] = []
+    for stage_dir in sorted(p for p in PROCESSED.iterdir() if p.is_dir()):
+        for f in sorted(stage_dir.iterdir()):
+            if f.is_file() and f.suffix == ".parquet":
+                tables.append(f"{stage_dir.name}/{f.name}")
+
+    orphans: list[str] = []
+    for rel in tables:
+        stage, name = rel.split("/", 1)
+        out = subprocess.run(
+            ["grep", "-rl", "--include=*.py", "--include=*.cpp", "--include=*.h", "--", name, *src_roots],
+            capture_output=True, text=True)
+        readers = {f for f in out.stdout.split() if f and "__pycache__" not in f}
+        # This file names every table it exempts, so it would otherwise count as their consumer and
+        # the act of recording an orphan would hide it.
+        outside = {f for f in readers
+                   if f"/nycsim_pipeline/{stage}/" not in f and not f.endswith(Path(__file__).name)}
+        if not outside:
+            orphans.append(rel)
+
+    accounted = set(KNOWN_ORPHANED_TABLES) | set(CONSUMED_WITHIN_STAGE)
+    unrecorded = sorted(set(orphans) - accounted)
+    assert not unrecorded, (
+        "processed tables whose name appears nowhere outside their own stage, and which are neither "
+        "recorded as a deviation nor listed with an in-stage reader:\n  " + "\n  ".join(unrecorded) +
+        "\nGive the table a consumer, or record it in docs/DEVIATIONS.md and add it to "
+        "KNOWN_ORPHANED_TABLES, or add it to CONSUMED_WITHIN_STAGE naming the function that reads it.")
+
+    # The in-stage exemptions must stay true: the named function has to still exist.
+    for rel, (mod, fn) in sorted(CONSUMED_WITHIN_STAGE.items()):
+        src = REPO_ROOT / mod
+        if not src.exists():
+            continue
+        assert f"def {fn}(" in src.read_text(), (
+            f"{rel} is exempted because {mod}:{fn}() reads it, and that function no longer exists")
+
+    # And the deviation list must not rot: an entry that has since gained a consumer should go, so
+    # the list stays a list of real gaps rather than a graveyard.
+    stale = sorted(t for t in KNOWN_ORPHANED_TABLES
+                   if (PROCESSED / t).exists() and t not in orphans)
+    assert not stale, (
+        "KNOWN_ORPHANED_TABLES lists tables that now have a consumer; remove them:\n  " +
+        "\n  ".join(stale))
+
+
+def test_every_roof_mesh_reference_points_at_a_file_that_exists():
+    """`roof_mesh_ref` names `tiles/{tile}/roofs.glb`, which no stage writes (B6).
+
+    1,033,416 buildings carry one. The column's own test asserts its *format* — non-empty exactly
+    when `citygml_match` — and a format test on a pointer says nothing about the pointer. This test
+    resolves them, and is expected to fail until the roofs stage exists or the column is dropped and
+    DATA_CONTRACTS §5 amended. It is marked xfail rather than deleted so the number stays visible.
+    """
+    base = PROCESSED / "buildings" / "buildings_base.parquet"
+    if not base.exists():
+        pytest.skip("the buildings table has not been produced")
+    refs = pq.read_table(base, columns=["roof_mesh_ref"])["roof_mesh_ref"].to_pylist()
+    wanted = {r.split("#", 1)[0] for r in refs if r}
+    missing = sorted(t for t in wanted if not (BLENDER_OUT / t).exists() and not (PROCESSED / t).exists())
+    n_rows = sum(1 for r in refs if r)
+    if missing:
+        pytest.xfail(
+            f"B6: {n_rows} buildings reference {len(wanted)} roofs.glb files and {len(missing)} of "
+            f"them do not exist (e.g. {missing[0]}). The roof shape itself is in the shells; this is "
+            f"a broken contract, not absent geometry.")
