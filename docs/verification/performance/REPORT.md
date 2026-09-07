@@ -292,6 +292,26 @@ longer bench above; at that rate a session would take three weeks of simulated t
 difference between the two is sampling noise on an 11 MB resident set, not a leak — the spread across all
 180 samples is 0.05 MB, which is smaller than the slope's own extrapolation over the run.
 
+**Re-measured after ADR-021**, the same command run against both binaries back to back:
+
+```
+                       before (a761f35)          after
+churn, vehicles        9,101 / 7,601             5,170 / 4,813
+churn, pedestrians     377,990 / 375,095         103,799 / 97,798
+population at the end  1,500 veh, 2,895 peds     357 veh, 6,001 peds
+RSS samples            11.2 - 11.2 MB            11.2 - 11.3 MB (spread 0.09 MB)
+RSS slope              +0.0023 MB / sim minute   +0.0030 MB / sim minute
+```
+
+The requirement still holds — +0.18 MB per simulated hour on an 11 MB resident set, well inside the
+test's bound — and the churn figures are worth reading rather than skipping. **378,000 pedestrian
+spawns was not throughput, it was waste**: the pedestrian spawner drew an edge city-wide and the ring
+deleted the agent on the same step, which is why the run ended with 2,895 pedestrians when it was asked
+for 6,000. It now creates a third as many and ends with the full crowd. The vehicle population falls
+the other way, from 1,500 to 357, because the fleet is now sized to the streamed region's own density
+rather than to the whole synthetic world (§5a); 357 is what the table asks for inside a 1 km disc of
+that grid.
+
 ## 7. Streaming under load — the real route
 
 The tile catalogue is built from what is actually on disk: 2,916 terrain tiles and 920 building tiles,
