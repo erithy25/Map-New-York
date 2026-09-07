@@ -12,6 +12,29 @@
 
 **Verdict — right place, right footprint, right colour, wrong shape: the arena is a plain banded box where the building is a sculpted weathering-steel shell with a cantilevered canopy and an oculus, and the corner it stands on is empty of everything that fills the photograph**
 
+## Re-rendered 2026-09-07
+
+The arena is recognisable, which is the main thing a landmark sheet has to achieve: the three
+weathered-steel bands wrapping the curved corner, the dark glazing courses between them, the way the
+mass turns from Atlantic Avenue into Flatbush. Subject at 216.8 m, two landmark models in the scene,
+50 vehicles queued at the junction with a yellow cab among them, 234 people on the pavements, a
+LinkNYC kiosk at the kerb, street trees and lamp standards.
+
+**What is missing is the relief.** The real facade is a deep lattice of pre-weathered steel panels,
+each one canted and perforated, and it reads as texture at any distance. Here it is a smooth
+orange-brown plane with faint panel lines scribed on it, so the building has the right silhouette,
+the right colour and none of the surface that makes it that building. The entrance oculus and its
+canopy are absent.
+
+**This frame is brighter than its photograph, not darker** — mean **0.570 against 0.384**. It is one
+of the three in the current pass that go that way, and it is the reason deviation I16 is recorded as
+over-dispersion rather than as a darkening: a constant exposure offset would fix the Wall Street
+canyon and ruin this.
+
+No agent needed culling here. The nearest pedestrian sits at the lower right, close enough to be
+prominent and outside the 3.5 m clearance — which is the behaviour that constant was re-derived to
+produce.
+
 ## What matches
 
 * The camera stands on the photograph's own EXIF GPS, 57 m from the item's nominal viewpoint, and the heading (130.4 deg) is the bearing from there to the arena — heading and position both from the photograph.

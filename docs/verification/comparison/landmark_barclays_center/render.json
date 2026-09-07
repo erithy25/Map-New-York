@@ -1,4 +1,11 @@
 {
+ "agent_request": {
+  "dow": 0,
+  "hour": 18,
+  "local_clock": "2025-04-17 18:23 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
  "azimuth_reason": "130.4 deg, the bearing from this photograph's own GPS position to Barclays Center; heading and position both come from the photograph.  The item's recorded azimuth is 144.8 deg, 14.4 deg away, and belongs to its nominal viewpoint",
  "camera": {
   "azimuth_deg": 130.43240032204773,
@@ -7,6 +14,7 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
+   "below_point_excluded": 0,
    "chosen_m": 13.96,
    "max_m": 14.22,
    "median_m": 14.08,
@@ -54,9 +62,9 @@
   "view_m": 148.8
  },
  "frame": {
-  "mean": 0.6084,
+  "mean": 0.5704,
   "reason": null,
-  "sd": 0.2181,
+  "sd": 0.2436,
   "usable": true
  },
  "frame_retry": null,
@@ -67,10 +75,11 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 521.0,
   "emissive": {
+   "cone_faces_deleted": 8,
    "cones_hidden": 1,
    "lamps_switched_off": 4,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 1.71,
   "sky_azimuth_deg": 273.082,
@@ -96,10 +105,92 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_barclays_center/render.png",
- "rendered_at": "2026-09-06T21:56:19Z",
+ "rendered_at": "2026-09-07T15:28:50Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "caption": "Agents: 50 vehicles within 320 m and 234 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 753 vehicles and 2638 people over the whole simulated ring, of which 906 and 2999 were simulated; 3621 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 841,
+    "pedestrian_not_on_walkable_surface": 113,
+    "pedestrian_outside_radius": 928,
+    "pedestrian_over_the_observer": 1,
+    "pedestrian_triangle_budget": 882,
+    "vehicle_body_has_no_rider": 46,
+    "vehicle_not_on_carriageway": 14,
+    "vehicle_outside_radius": 437,
+    "vehicle_triangle_budget": 359
+   },
+   "ped_lods": {
+    "LOD0": 9,
+    "LOD1": 25,
+    "LOD2": 200
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 582524,
+   "per_class": {
+    "black_car": 2,
+    "boro_taxi": 3,
+    "sedan": 29,
+    "suv": 10,
+    "taxi": 5,
+    "van": 1
+   },
+   "placed_pedestrians": 234,
+   "placed_vehicles": 50,
+   "reason": null,
+   "seconds": 115.11,
+   "snapshot": {
+    "building_footprints_tested": 7996,
+    "density_lane_km": 28.097,
+    "density_sidewalk_m2": 31691,
+    "density_target_pedestrians": 2638.3,
+    "density_target_vehicles": 753.1,
+    "dow": 0,
+    "hour": 18,
+    "lanes_considered": 305,
+    "lanes_with_nta": 301,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 2.04,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 85,
+    "pavement_polygons_tested": 4120,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 2999,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 906
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1086254,
+   "vehicle_lods": {
+    "LOD1": 10,
+    "LOD2": 40
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 503730
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
@@ -114,36 +205,55 @@
    "landmark_faces_suppressed": 264,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_-2_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 17,
-     "triangles": 77806
+     "triangles": 83898
     },
     "t_-2_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
-     "triangles": 103548
+     "triangles": 114986
     },
     "t_-3_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 17,
-     "triangles": 54912
+     "triangles": 62160
     },
     "t_-3_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 15,
-     "triangles": 112416
+     "triangles": 121446
     },
     "t_-4_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 1,
      "objects": 16,
-     "triangles": 40248
+     "triangles": 49190
     },
     "t_-4_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 1,
      "objects": 13,
-     "triangles": 20180
+     "triangles": 23076
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -151,8 +261,9 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 6,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 409110
+   "triangles": 454756
   },
   "centre_tm": [
    -2320.76,
@@ -171,33 +282,38 @@
     "pilaster": 6,
     "quoin": 30,
     "scaffold": 9,
-    "storefront": 129,
+    "storefront": 209,
     "storefront_interior": 16,
     "string_course": 23,
     "water_tower": 1,
     "window": 3204,
     "window_accessory": 106
    },
-   "placed": 3702,
+   "placed": 3782,
    "radius_m": 120.0,
-   "records_in_range": 3702,
+   "records_in_range": 3782,
    "stale_registry_ids": {},
    "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_-2"
    ],
-   "triangles": 670977,
+   "triangles": 675009,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [
     {
      "distance_m": 184.6,
      "id": "c_williamsburgh_savings_bank_tower",
      "lod": 0,
      "name": "Williamsburgh Savings Bank Tower (One Hanson Place)",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 40930
     },
     {
@@ -205,9 +321,14 @@
      "id": "c_barclays_center",
      "lod": 0,
      "name": "Barclays Center",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 7058
     }
    ],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
    "placed": 2,
    "skipped": 0,
    "skipped_detail": [],
@@ -236,11 +357,13 @@
     "t_-4_-3"
    ],
    "triangles": 172799,
+   "triangles_cut_for_landmark_ground": 0,
    "vertices": 176777
   },
   "props": {
-   "capped": "triangle budget 1323075",
+   "capped": "triangle budget 1307099",
    "impostor_cards_dropped": 20,
+   "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
     "bike_rack": 21,
@@ -255,19 +378,19 @@
     "street_lamp": 80,
     "subway_entrance": 9,
     "subway_vent_grate": 24,
-    "tree": 156,
+    "tree": 154,
     "waste_basket": 4
    },
-   "placed": 430,
+   "placed": 428,
    "radius_m": 250.0,
-   "rows_in_range": 834,
+   "rows_in_range": 839,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_-2",
     "t_-3_-3"
    ],
    "tree_species_substituted": 28,
-   "triangles": 1330994,
+   "triangles": 1314298,
    "unmapped_kinds": {
     "artwork": 1,
     "cooling_tower": 108,
@@ -276,7 +399,7 @@
    }
   },
   "radius_m": 746.9552510710566,
-  "seconds": 39.32,
+  "seconds": 218.05,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -284,24 +407,28 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
    "samples": 213,
    "spacing_m": 2.0,
    "triangles": 89888,
+   "water_bodies": [],
    "water_quads": 0,
    "z_max_m": 33.36,
    "z_min_m": 1.35
   },
-  "triangles": 2721756
+  "triangles": 3840992
  },
  "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
   "radius_m": 746.9552510710566
  },
  "seconds": {
-  "render": 81.0,
-  "scene": 40.5,
-  "total": 121.4
+  "render": 88.4,
+  "scene": 219.7,
+  "total": 308.0
  },
  "slug": "landmark_barclays_center",
  "status": "rendered",
