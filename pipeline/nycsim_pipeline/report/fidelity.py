@@ -1095,10 +1095,30 @@ def build_report() -> str:
     A("5. **Re-run the terrain stage against the 1 ft city DEM** (A4). No code change: the stage already "
       "consumes it, and it was skipped only because 26.6 GB did not fit the disk allowance here. Would take "
       "vertical accuracy from a measured 0.384 m RMS toward the 0.15 m the plan assumed.")
-    A("6. **A structures stage for what is neither building, road, nor prop** (B13). Promenade decks, park "
-      "terraces, piers and pedestrian bridges are absent, so a camera standing on the Brooklyn Heights "
-      "Promenade stands on bare terrain. The planimetric polygons are already downloaded.")
-    A("7. **Footprint reconciliation for the New Jersey towers** (B11a). The OSM ingest shipped and moved "
+    A("6. **A structures stage for what is neither building, road, nor prop** (B13), and its input is "
+      "bigger than that entry used to say. Promenade decks, park terraces, piers and pedestrian "
+      "bridges are absent, so a camera on the Brooklyn Heights Promenade stands on bare terrain — and "
+      "so is **the entire elevated rail network**: `transit/rail_structures.parquet` holds 8,341 "
+      "structures and **986.23 km**, of which 492.18 km is elevated, extracted from the planimetric "
+      "and OSM sources and read by exactly one file in the repository. The J over Broadway in "
+      "Bushwick and the 7 over Roosevelt Avenue are open sky, and two of the reference subjects are "
+      "those streets. An elevated line over a street changes the whole character of a block, so this "
+      "is the largest piece of *missing geometry* left, and every polygon it needs is already on "
+      "disk.")
+    A("7. **Write `roofs.glb`, or drop the column and amend the contract** (B6). "
+      "`tiles/{tile}/roofs.glb` is specified in DATA_CONTRACTS §4 and §5, is written for none of the "
+      "1,399 tiles that hold buildings, and **1,033,416 buildings — 95.42 % of the city — carry a "
+      "`roof_mesh_ref` pointing into it**. The roof *shape* is not missing (it is baked into the "
+      "shells, and the stepped massing was recovered from the same CityGML triangles), so this is a "
+      "broken contract rather than absent geometry — which is why it is cheap and why leaving it is "
+      "not an option: a million rows point at a file that was never created.")
+    A("8. **A canopy for the parks** (D10). 49,175 OpenStreetMap trees now stand where there were "
+      "none, and the coverage gap is unchanged by them: **1,632 green polygons of 2 ha or more, over "
+      "181.3 km², still hold not one tree**, Van Cortlandt Park has 52 for 460 ha of forest, and "
+      "Central Park's 1,566 is 8.7 % of its published ~18,000. No per-tree inventory of the park "
+      "forest exists, so closing this means segmenting individual crowns out of the 2017 LiDAR — the "
+      "same point cloud item 4 asks for, which is the argument for doing them together.")
+    A("9. **Footprint reconciliation for the New Jersey towers** (B11a). The OSM ingest shipped and moved "
       "the median error on the 25 paired Jersey City reference towers from −66.41 m to −53.35 m, with the "
       "count within 10 % of published going 0 → 6 — but it stopped where the join does. 99 Hudson Street, "
       "the real tallest at 271 m, is still absent because its OSM outline carries the podium\'s "
@@ -1106,7 +1126,20 @@ def build_report() -> str:
       "footprint at all. A better height rule will not reach them; reconciling the two footprint sets "
       "will. Each of the 24 is listed by name with its overlap.")
     A()
-    A("Four entries have left this list since it was first written, and **how** they left is the "
+    A("**One shape accounts for five of the deviations in §10, and it is worth naming as a finding "
+      "about this build rather than as five coincidences.** A stage gathers real data, writes it, and "
+      "nothing ever consumes it — so nothing fails, and the gap stays invisible until someone opens a "
+      "render or reads a contract. `roofs.glb` was never written and a million rows point into it "
+      "(B6); 986 km of rail structure has one consumer (B13); three §15 runtime files had no producer "
+      "at all, so \"any real address\" was unreachable (H6, now closed); the subway is 2,120 doorways "
+      "to nothing (D11); and eleven columns are declared and never filled, one of them an "
+      "OpenStreetMap join replaced by a literal column of zeros (D12). "
+      "`test_no_processed_table_is_written_and_never_read` now forces a new orphan to be recorded "
+      "before it can be tolerated, and `pipeline/tests/test_roads.py` asserts every file §15 names is "
+      "present. Neither catches the column-level case, which is why D12 is a list rather than a "
+      "test.")
+    A()
+    A("Six entries have left this list since it was first written, and **how** they left is the "
       "transferable part. **Commercial signage** was closed by finding that the claim behind it was false: "
       "the kit report said there is no real source of NYC signage locations here, and there are two — 292 "
       "OSM billboard nodes, and MapPLUTO\'s `C6-7T` zoning district, in which illuminated signage is legally "
@@ -1116,8 +1149,11 @@ def build_report() -> str:
       "overstated the gap once, and the correction is the useful part: the shells were never flat-shaded, "
       "and saying so was worth more than the extra work it appeared to justify. **New Jersey heights** "
       "closed only as far as the join reaches, and left a smaller, sharper problem behind it — which is "
-      "what a next step is supposed to do. None of the four needed new data or new capability; each needed "
-      "someone to check the reason the work had been left undone.")
+      "what a next step is supposed to do. **The three §15 runtime files** were closed by noticing that "
+      "four of seven contracted artefacts existed and three did not, which no test looked at; and "
+      "**`landmarks.nycb`'s missing layout** was closed by reading what the C++ reader already demanded "
+      "rather than by specifying something new — it demanded all of it. None of the six needed new data or "
+      "new capability; each needed someone to check the reason the work had been left undone.")
     A()
     A("Everything above is work this project identified by measuring its own output. None of it is a "
       "reconsideration of the plan; the plan is in `docs/ARCHITECTURE.md` and it held.")
