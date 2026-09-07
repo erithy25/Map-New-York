@@ -208,18 +208,18 @@
   },
   "buildings_nj_shells": {
    "artifact_id": "buildings_nj_shells",
-   "bytes": 190923,
-   "git_commit": "33ff3c48c836",
+   "bytes": 190922,
+   "git_commit": "501b4a825dca",
    "glb": "tile_buildings_nj.glb",
-   "glb_bytes_total": 899039268,
+   "glb_bytes_total": 899272924,
    "glb_root": "blender_out/tiles/{tile}/tile_buildings_nj.glb",
    "license": "Public domain (US Government work: FEMA / ORNL USA Structures)",
    "n_tiles": 486,
    "path": "data/processed/buildings_nj/shells_index.json",
-   "produced_at": "2026-09-06T23:07:24Z",
+   "produced_at": "2026-09-07T11:39:31Z",
    "rows": 231382,
    "schema": "buildings_nj_shells/1",
-   "sha256": "ae9c5f4667d9b6ea6698455b1a214a5b9977ec1ea80d348619d99bb4dfd6dbba",
+   "sha256": "c90000b7363d86e7a69c71fa4f4ee90f7b6e9f376fbc913fd5704170a6f9ea85",
    "sources": [
     "usa_structures_nj_hudson"
    ],
