@@ -1076,13 +1076,15 @@ def build_report() -> str:
       "and statically checked, and nothing is known to be missing, but nothing is proven to build. "
       "`unreal/README.md` has the steps; §6.1 lists the four static checks that pass and what they do *not* "
       "cover.")
-    A("2. **Finish the material set on the building shells** (B12) — *in progress at the time of writing*, "
-      "folded into the same shell rebuild as the stepped massing so the 920 tiles are re-exported once "
-      "rather than twice. This is the largest single gain in visual fidelity available without new data. "
-      "What is missing is narrower than this report first claimed: the shells already carry per-class "
-      "roughness and metallic, and what they lack is transmission, IOR and specular — so a curtain wall is "
-      "a smooth opaque surface rather than glass — plus any variation between two buildings of the same "
-      "class, and the spandrel band at each floor line. It needs authoring, not acquisition.")
+    A("2. **The spandrel band at each floor line** (B12), the half of the shell material pass that a glTF "
+      "file cannot carry. The rest of it shipped: the 920 tiles now export transmission, IOR and specular "
+      "alongside the roughness and metallic they always had, measured on the Midtown aerial at standard "
+      "deviation +44 % and near-black pixels 0.01 % → 1.31 %. Two things remain, and both are engine work "
+      "rather than data. A dark band at each floor line is neither geometry nor a glTF material property; "
+      "`shellmat.floor_band_uv` records the expression to evaluate against the exported `_FLOOR_HEIGHT`. "
+      "And the per-building variation is likewise a shader expression over `_LIT_SEED_HI/LO`, so a "
+      "consumer that renders the material exactly as authored still sees every building of a class at the "
+      "class average.")
     A("3. **Licensed street-level imagery and a vision model** (A2). The single largest *data* gap: 96.69 % "
       "of facades are inferred from real attributes rather than observed. The rule table is deliberately "
       "shaped so a real source replaces its rows without a contract change, so this is an ingest, not a "
@@ -1096,19 +1098,26 @@ def build_report() -> str:
     A("6. **A structures stage for what is neither building, road, nor prop** (B13). Promenade decks, park "
       "terraces, piers and pedestrian bridges are absent, so a camera standing on the Brooklyn Heights "
       "Promenade stands on bare terrain. The planimetric polygons are already downloaded.")
-    A("7. **New Jersey heights from OSM** (B11a) — *in progress at the time of writing*. The shipped source "
-      "understates Jersey City\'s towers by a median 66 m even among the towers that predate its own "
-      "imagery; the OSM extract already in this repository carries 417 `height` tags and 6,199 `levels` "
-      "for New Jersey. A bounded ingest against data already on disk.")
+    A("7. **Footprint reconciliation for the New Jersey towers** (B11a). The OSM ingest shipped and moved "
+      "the median error on the 25 paired Jersey City reference towers from −66.41 m to −53.35 m, with the "
+      "count within 10 % of published going 0 → 6 — but it stopped where the join does. 99 Hudson Street, "
+      "the real tallest at 271 m, is still absent because its OSM outline carries the podium\'s "
+      "`height=27`, and 24 of the 47 New Jersey height tags over 40 m cannot be joined to a USA Structures "
+      "footprint at all. A better height rule will not reach them; reconciling the two footprint sets "
+      "will. Each of the 24 is listed by name with its overlap.")
     A()
-    A("Two entries have left this list since it was first written, and **how** they left is the "
+    A("Four entries have left this list since it was first written, and **how** they left is the "
       "transferable part. **Commercial signage** was closed by finding that the claim behind it was false: "
       "the kit report said there is no real source of NYC signage locations here, and there are two — 292 "
       "OSM billboard nodes, and MapPLUTO\'s `C6-7T` zoning district, in which illuminated signage is legally "
       "mandatory and whose centroid sits 42 m from Duffy Square. **Stepped roof massing** was closed by "
       "finding that the code had been written and applied to 8 tiles of 920, so the city shipped slabs "
-      "while the feature existed. Neither needed new data or new capability; both needed someone to check "
-      "the reason the work had been left undone.")
+      "while the feature existed. **The shell material set** was closed after this report had already "
+      "overstated the gap once, and the correction is the useful part: the shells were never flat-shaded, "
+      "and saying so was worth more than the extra work it appeared to justify. **New Jersey heights** "
+      "closed only as far as the join reaches, and left a smaller, sharper problem behind it — which is "
+      "what a next step is supposed to do. None of the four needed new data or new capability; each needed "
+      "someone to check the reason the work had been left undone.")
     A()
     A("Everything above is work this project identified by measuring its own output. None of it is a "
       "reconsideration of the plan; the plan is in `docs/ARCHITECTURE.md` and it held.")
