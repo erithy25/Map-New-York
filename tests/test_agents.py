@@ -493,3 +493,32 @@ def test_the_pedestrian_clearance_is_derived_from_the_frame_not_picked():
     assert frame_share(2.57) > 1.0, "the Grand Concourse case must still be taller than the frame"
     # And it must remain at least the old value: this can tighten, never loosen.
     assert vagents.CAMERA_CLEAR_PED_M >= 1.5
+
+
+def test_the_clearance_is_applied_to_the_camera_and_not_to_the_scene_origin():
+    """`add_agents` measures its clearance from the scene centre, which is not always the camera.
+
+    `render_sheets.py` builds the scene at the recorded view origin and then may move the eye:
+    `probe_origin` can switch to the nominal viewpoint, `clear_of_geometry` walks onto the nearest
+    paved surface. Measured over the 57 comparison scenes, 26 have the camera away from the scene
+    centre — 5.4 m on `drive_bronx_grand_concourse`, 166 m on `landmark_one_world_trade_center` — and
+    that scene reported no pedestrian dropped over the observer while four stood between 1.44 m and
+    2.57 m of the lens. `cull_near_camera` is what closes that, so it must exist and must use the same
+    radii as the placement.
+    """
+    import inspect
+
+    import agents as vagents
+
+    assert hasattr(vagents, "cull_near_camera"), "the post-camera cull is gone"
+    src = inspect.getsource(vagents.cull_near_camera)
+    assert "CAMERA_CLEAR_PED_M" in src and "CAMERA_CLEAR_VEHICLE_M" in src, (
+        "the cull must use the same radii as add_agents, or the two disagree about what is too close")
+    # It must report under the same keys the placement uses, so a reader sees one number per cause.
+    assert "pedestrian_over_the_observer" in src and "vehicle_over_the_observer" in src
+
+    rs = (Path(__file__).resolve().parents[1] / "blender" / "verify" / "render_sheets.py").read_text()
+    assert "cull_near_camera(" in rs, "render_sheets.py never calls the cull"
+    # And it has to run after the camera is final: the clearance search is what moves the eye.
+    assert rs.index("clear_of_geometry(") < rs.index("cull_near_camera("), (
+        "the cull runs before the camera can move, which is the bug it exists to fix")

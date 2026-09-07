@@ -1198,6 +1198,55 @@ def _point_segment_distance(px: float, py: float, ax: float, ay: float, bx: floa
     return math.hypot(px - (ax + tt * dx), py - (ay + tt * dy))
 
 
+def cull_near_camera(col, cam_x: float, cam_y: float, cam_z: float) -> dict[str, int]:
+    """Remove agents standing within the clearance radii of the *final* camera position.
+
+    ``add_agents`` measures its clearance from the point the scene was built around, and that is not
+    always where the camera ends up: ``render_sheets.py`` builds the scene at the recorded view
+    origin, then ``camera.probe_origin`` may switch to the nominal viewpoint and
+    ``camera.clear_of_geometry`` may walk the eye onto the nearest paved surface.  Measured over the
+    57 comparison scenes, **26 of them have the camera away from the scene centre** -- 5.4 m on
+    `drive_bronx_grand_concourse`, 11 m on `drive_bronx_arthur_ave`, 166 m on
+    `landmark_one_world_trade_center`.  So the clearance was guarding the wrong point, which is why
+    `drive_bronx_grand_concourse` reported *no* pedestrian dropped over the observer while four stood
+    between 1.44 m and 2.57 m of the lens.
+
+    This runs after the camera is final and removes what the placement could not know about.  It is a
+    cull rather than a re-placement: the agents that were never near the camera are already correct,
+    and re-drawing the crowd around the moved eye would need the snapshot and the budget again.
+    """
+    import bpy  # noqa: F401  (imported here so the module stays importable without Blender)
+
+    removed = {"pedestrian_over_the_observer": 0, "vehicle_over_the_observer": 0}
+    if col is None:
+        return removed
+    doomed = []
+    for ob in list(col.all_objects):
+        name = ob.name
+        if name.startswith("agent_ped"):
+            r, key = CAMERA_CLEAR_PED_M, "pedestrian_over_the_observer"
+        elif name.startswith("agent_veh"):
+            r, key = CAMERA_CLEAR_VEHICLE_M, "vehicle_over_the_observer"
+        else:
+            continue
+        px, py, pz = ob.matrix_world.translation
+        if math.hypot(px - cam_x, py - cam_y) >= r:
+            continue
+        # A vehicle the eye stands above is not in the way (the Duffy Square camera is up on the
+        # TKTS steps and looks over the traffic), matching the rule add_agents applies.
+        if key == "vehicle_over_the_observer" and cam_z > pz + 2.2:
+            continue
+        doomed.append((ob, key))
+    seen: set[str] = set()
+    for ob, key in doomed:
+        stem = ob.name.split(".")[0]
+        if stem not in seen:
+            seen.add(stem)
+            removed[key] += 1
+        bpy.data.objects.remove(ob, do_unlink=True)
+    return removed
+
+
 def vehicle_body_clearance(v: dict, cx: float, cy: float) -> float:
     """Plan distance from ``(cx, cy)`` to the vehicle's body, in metres (negative when inside).
 

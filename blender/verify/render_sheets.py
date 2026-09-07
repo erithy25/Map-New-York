@@ -880,6 +880,27 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     clearance = vcam.clear_of_geometry(placement, sampler, min_view_m=min_view_m, origin_is_photo=origin_is_photo,
                                        has_subject=subj_dist is not None)
     clearance["min_view_m"] = round(min_view_m, 1)
+    # The scene, and its agents, were built around the recorded view origin. The camera may have
+    # moved since -- probe_origin can switch to the nominal viewpoint and clear_of_geometry walks the
+    # eye onto the nearest paved surface -- and on 26 of the 57 scenes it did. Cull anything now
+    # standing on the lens, and fold the count into the placement record so a reader sees one number
+    # for agents dropped over the observer rather than two.
+    cam_ob = bpy.context.scene.camera
+    if cam_ob is not None and rep.agents.get("placed_pedestrians"):
+        cam_w = cam_ob.matrix_world.translation
+        culled = vagents.cull_near_camera(bpy.data.collections.get("agents"),
+                                          float(cam_w.x), float(cam_w.y), float(cam_w.z))
+        if any(culled.values()):
+            drop = dict(rep.agents.get("dropped") or {})
+            for k, n in culled.items():
+                if n:
+                    drop[k] = drop.get(k, 0) + n
+            rep.agents["dropped"] = drop
+            rep.agents["placed_pedestrians"] = max(
+                0, int(rep.agents.get("placed_pedestrians", 0)) - culled["pedestrian_over_the_observer"])
+            rep.agents["placed_vehicles"] = max(
+                0, int(rep.agents.get("placed_vehicles", 0)) - culled["vehicle_over_the_observer"])
+            rep.agents["culled_after_camera_move"] = culled
     light = setup_world_and_sun(sun["azimuth_deg"], sun["elevation_deg"], night=bool(meta.get("night")))
     light["emissive"] = apply_time_of_day_materials(bool(meta.get("night")))
     configure_cycles(samples, threads)
