@@ -30,9 +30,10 @@ KINDS: tuple[Kind, ...] = (
     Kind(0, "tree", "vegetation", "Tree from the 2015 Street Tree Census (alive only; species and DBH real, height estimated) or from "
          "the OSM extract's natural=tree nodes (dataset_id tells them apart; the OSM nodes are the only trees inside parks)",
          ("street_trees_2015", "osm_newyork_pbf"), (0.0, 0.0, 0.0),
-         "per-instance: dbh_cm is the measured trunk diameter (0 = the source records none, in which case the height uses the "
-         "5 cm sapling default — true of every OSM tree, which is why height_source must be read with the count); height_m from "
-         "the OSM height tag where there is one (height_source=0) and otherwise estimated by allometry (height_source=1)",
+         "per-instance: dbh_cm is the measured trunk diameter, 0 where the source records none — true of every OSM tree, since "
+         "OSM publishes no trunk diameter in one unit convention. height_m is the OSM height tag where there is one "
+         "(height_source=0), the allometry over a measured census DBH (height_source=1), or, where the source gives neither, a "
+         "deterministic draw from the census height distribution seeded by the tree's own coordinates (height_source=4)",
          "health: 0 Good, 1 Fair, 2 Poor, 3 unknown (OSM records no condition, so every OSM tree is 3)",
          "spc_common (census) / the OSM name tag where a tree has one",
          extra={"attrs": "census: tree_id, curb_loc, sidewalk, nta — OSM: osm_id, genus, taxon, leaf_type, leaf_cycle, "
@@ -107,7 +108,11 @@ KIND_ID: dict[str, int] = {k.name: k.id for k in KINDS}
 SOURCE_DATASET = 0
 SOURCE_RULE = 1
 
-HEIGHT_SOURCE = {"measured": 0, "allometry": 1, "nominal": 2, "none": 3}
+HEIGHT_SOURCE = {"measured": 0, "allometry": 1, "nominal": 2, "none": 3, "census_distribution": 4}
+# 4 was added for the OSM tree nodes, which give neither a height nor a trunk diameter: it is a deterministic
+# draw from the census's own height distribution, seeded by the tree's coordinates (furniture/trees.py
+# CensusHeights). It is kept apart from 1 because 1 means "estimated from this row's own measured trunk" and
+# 4 means "no per-tree evidence at all; this is the population".
 # 0/1/2 are the original values; 3/4 were added by the furniture build because the per-tile terrain rasters
 # (DATA_CONTRACTS §3) do not exist yet and props are placed on measured survey points instead (elevation.py).
 Z_SOURCE = {"terrain": 0, "dataset": 1, "none": 2, "spot_elev": 3, "spot_elev_far": 4}
@@ -124,7 +129,10 @@ def catalog_json(counts: dict[str, int] | None = None) -> dict:
             "heading": "float32 compass degrees, NaN if unknown", "variant": "int16, see kinds[].variant_meaning",
             "text": "display text (see kinds[].text_meaning)", "source": "int8 0 dataset, 1 rule (inferred placement)",
             "dataset_id": "manifest source id or rule name", "species": "latin name (trees)", "dbh_cm": "float32 trunk diameter (trees)",
-            "height_m": "float32 object height", "height_source": "int8 0 measured/tagged, 1 allometry, 2 nominal catalog value, 3 none",
+            "height_m": "float32 object height",
+            "height_source": "int8 0 measured/tagged, 1 allometry over this row's own measured DBH, 2 nominal "
+                             "catalog value, 3 none, 4 deterministic draw from the census height distribution "
+                             "(no per-tree evidence; seeded by the row's own x/y so a re-run is bit-identical)",
             "capacity": "int16 docks / bike stands (0 = n/a)",
             "z_source": "int8 0 terrain sample, 1 dataset elevation, 2 none, 3 planimetric spot elevation + LiDAR "
                         "building grade (IDW of 4 nearest, nearest <= 80 m), 4 same but nearest > 80 m (extrapolated)",

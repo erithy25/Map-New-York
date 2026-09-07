@@ -30,6 +30,7 @@ from ..paths import PROCESSED, RAW
 from . import allometry
 from .catalog import HEIGHT_SOURCE, KIND_BY_NAME, KIND_ID, SOURCE_DATASET
 from .schema import FIELDS, empty_columns
+from .trees import CensusHeights
 from .trees import HEALTH_UNKNOWN as TREE_HEALTH_UNKNOWN
 
 log = logging.getLogger("nycsim.furniture.datasets")
@@ -476,7 +477,7 @@ def load_osm_furniture(path: Path = OSM_FURNITURE) -> dict:
     return _concat(out)
 
 
-def load_osm_trees(path: Path = OSM_TREES) -> dict:
+def load_osm_trees(path: Path = OSM_TREES, *, heights: "CensusHeights") -> dict:
     """``natural=tree`` nodes from the OSM extract (:mod:`..osm.trees`, ODbL) as tree props (kind 0).
 
     These are the park trees the 2015 census cannot have: it is a *street* inventory, so 1,756 of the city's
@@ -489,15 +490,16 @@ def load_osm_trees(path: Path = OSM_TREES) -> dict:
     * ``species`` is set only from the ``species`` tag, or from ``taxon`` when that is a binomial. A ``genus``
       alone is not a species and is left out of the column (it goes to ``attrs`` and is used for the height
       curve, whose own lookup falls back to the genus).
-    * ``height_m`` comes from the ``height`` tag where it parses (``height_source`` 0, measured/tagged) and
-      from the same allometry as the census otherwise (``height_source`` 1).
-    * ``dbh_cm`` is 0 — absent — for every row. OSM has no DBH tag; see :mod:`..osm.trees` for why
-      ``circumference`` and ``diameter`` are carried raw instead of being converted into one.
+    * ``height_m`` comes from the ``height`` tag where it parses (``height_source`` 0, measured/tagged). Where
+      it does not — 98.4 % of nodes — it is a deterministic draw from the census's own height distribution,
+      conditioned on the taxon wherever OSM names one and seeded by the tree's coordinates
+      (``height_source`` 4; :class:`..furniture.trees.CensusHeights` argues the choice). The census's
+      unknown-DBH sapling fallback is deliberately *not* reused: a missing DBH in the census usually means a
+      newly planted tree, but a missing ``height`` tag in OSM means only that nobody measured one, so carrying
+      the fallback across would assert "small" 49,000 times where the source says nothing.
+    * ``dbh_cm`` is 0 — absent — for every row, and nothing is derived backwards from the drawn height. OSM
+      has no DBH tag; see :mod:`..osm.trees` for why ``circumference`` and ``diameter`` are carried raw.
     * ``variant`` is 3, the catalog's "health unknown": OSM records no condition.
-
-    **Consequence, stated rather than hidden:** with no DBH and (98.4 % of the time) no height tag, the
-    allometric curve degenerates to its own unknown-DBH default, so most of these trees are one saplingish
-    height. The build summary counts them.
     """
     if not path.exists():
         raise FileNotFoundError(f"{path} missing; run: python -m nycsim_pipeline.osm.trees")
@@ -523,10 +525,10 @@ def load_osm_trees(path: Path = OSM_TREES) -> dict:
 
     tagged = df["height_m"].to_numpy().astype(np.float64) if n else np.zeros(0)
     ok = np.isfinite(tagged) & (tagged > 0)
-    height = (allometry.height_array(lookup, np.asarray(cols["dbh_cm"], dtype=float)) if n else np.zeros(0))
+    height, from_taxon = heights.draw(cols["x"], cols["y"], lookup)
     height[ok] = tagged[ok]
     cols["height_m"] = height.astype(np.float32)
-    cols["height_source"] = np.where(ok, HEIGHT_SOURCE["measured"], HEIGHT_SOURCE["allometry"]).astype(np.int8)
+    cols["height_source"] = np.where(ok, HEIGHT_SOURCE["measured"], HEIGHT_SOURCE["census_distribution"]).astype(np.int8)
 
     name = _str(df, "name")
     cols["text"] = name
@@ -541,8 +543,10 @@ def load_osm_trees(path: Path = OSM_TREES) -> dict:
                                 _str(df, "ref"), _str(df, "operator"), _str(df, "start_date"),
                                 _str(df, "circumference_raw"), _str(df, "diameter_crown_raw"),
                                 _str(df, "diameter_raw")))])
-    log.info("osm trees: %d (%d with a usable height tag, %d with a species)", n, int(ok.sum()),
-             sum(1 for s in species if s))
+    log.info("osm trees: %d (%d with a usable height tag, %d with a species, %d drawn from a taxon-specific "
+             "census pool, %d from the whole census population)", n, int(ok.sum()), sum(1 for s in species if s),
+             int((from_taxon & ~ok).sum()), int((~from_taxon & ~ok).sum()))
+    cols["_height_from_taxon_pool"] = from_taxon & ~ok
     return cols
 
 

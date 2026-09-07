@@ -25,6 +25,7 @@ import pytest
 import shapely
 
 from nycsim_pipeline.furniture import allometry, catalog, datasets, dedupe
+from nycsim_pipeline.furniture.trees import CensusHeights
 from nycsim_pipeline.osm import trees as osm_trees
 from nycsim_pipeline.paths import PROCESSED
 from scipy.spatial import cKDTree
@@ -104,6 +105,16 @@ def test_the_schemas_name_every_column_the_placement_reads():
 
 # --------------------------------------------------------------------------------------- placement
 
+#: A stand-in census: 300 oaks 20-25 m, 300 cherries 5-10 m, so a taxon-conditioned draw is visible against a
+#: whole-population draw and neither overlaps the census's old 3.88 m unknown-DBH default.
+def _heights(min_pool: int = 30) -> CensusHeights:
+    oak = np.linspace(20.0, 25.0, 300)
+    cherry = np.linspace(5.0, 10.0, 300)
+    return CensusHeights.from_arrays(np.concatenate([oak, cherry]),
+                                     ["Quercus palustris"] * 300 + ["Prunus serrulata"] * 300,
+                                     np.full(600, 12.0), min_pool=min_pool)
+
+
 def _tree_parquet(tmp_path: Path, rows: list[dict]) -> Path:
     """Write a ``trees.parquet`` fixture with the real extraction schema."""
     schema = osm_trees.TREE_SCHEMA
@@ -111,6 +122,7 @@ def _tree_parquet(tmp_path: Path, rows: list[dict]) -> Path:
     for f in schema:
         default = "" if pa.types.is_string(f.type) else (math.nan if pa.types.is_floating(f.type) else 0)
         cols[f.name] = [r.get(f.name, default) for r in rows]
+    tmp_path.mkdir(parents=True, exist_ok=True)
     p = tmp_path / "trees.parquet"
     pq.write_table(pa.table(cols, schema=schema), p)
     return p
@@ -119,7 +131,7 @@ def _tree_parquet(tmp_path: Path, rows: list[dict]) -> Path:
 def test_osm_trees_carry_their_provenance(tmp_path):
     p = _tree_parquet(tmp_path, [{"osm_id": 1, "osm_type": "node", "x": 10.0, "y": 20.0},
                                  {"osm_id": 2, "osm_type": "node", "x": 40.0, "y": 20.0}])
-    cols = datasets.load_osm_trees(p)
+    cols = datasets.load_osm_trees(p, heights=_heights())
     assert list(np.asarray(cols["kind"])) == [TREE_KIND, TREE_KIND]
     assert list(np.asarray(cols["source"])) == [catalog.SOURCE_DATASET, catalog.SOURCE_DATASET]
     assert cols["dataset_id"] == [OSM_DATASET, OSM_DATASET]
@@ -128,33 +140,80 @@ def test_osm_trees_carry_their_provenance(tmp_path):
 
 
 def test_no_dbh_is_invented_from_any_osm_tag(tmp_path):
-    """``circumference`` and ``diameter`` are carried raw and never converted into a trunk diameter."""
+    """``circumference`` and ``diameter`` are carried raw, and nothing is derived backwards from the height."""
     p = _tree_parquet(tmp_path, [{"osm_id": 1, "x": 0.0, "y": 0.0, "circumference_raw": "1.91 m"},
                                  {"osm_id": 2, "x": 9.0, "y": 0.0, "diameter_raw": "115\""},
                                  {"osm_id": 3, "x": 18.0, "y": 0.0}])
-    cols = datasets.load_osm_trees(p)
+    cols = datasets.load_osm_trees(p, heights=_heights())
     assert np.all(np.asarray(cols["dbh_cm"]) == 0.0), "0 means the source records no trunk diameter"
     attrs = [json.loads(a) for a in cols["attrs"]]
     assert attrs[0]["circumference"] == "1.91 m" and attrs[1]["diameter"] == "115\""
 
 
-def test_height_comes_from_the_tag_where_there_is_one_and_from_allometry_otherwise(tmp_path):
+def test_height_comes_from_the_tag_where_there_is_one_and_is_drawn_otherwise(tmp_path):
     p = _tree_parquet(tmp_path, [{"osm_id": 1, "x": 0.0, "y": 0.0, "height_m": 7.0, "height_raw": "7"},
                                  {"osm_id": 2, "x": 9.0, "y": 0.0},
                                  {"osm_id": 3, "x": 18.0, "y": 0.0, "height_raw": "Platanus Platanus",
-                                  "height_m": math.nan},
-                                 {"osm_id": 4, "x": 27.0, "y": 0.0, "species": "Quercus palustris"}])
-    cols = datasets.load_osm_trees(p)
+                                  "height_m": math.nan}])
+    cols = datasets.load_osm_trees(p, heights=_heights())
     hs = np.asarray(cols["height_source"])
     h = np.asarray(cols["height_m"])
     assert hs[0] == catalog.HEIGHT_SOURCE["measured"] and h[0] == pytest.approx(7.0)
-    assert list(hs[1:]) == [catalog.HEIGHT_SOURCE["allometry"]] * 3
-    # the allometric ones are the census's own curve with no DBH to feed it
-    assert h[1] == pytest.approx(allometry.height_m("", 0.0))
-    assert h[3] == pytest.approx(allometry.height_m("Quercus palustris", 0.0))
-    assert h[3] != h[1], "a species OSM does give must reach the height curve"
+    assert list(hs[1:]) == [catalog.HEIGHT_SOURCE["census_distribution"]] * 2
+    # the drawn ones come out of the pool, never off the census's unknown-DBH sapling default
+    pool = set(_heights().all_m.astype(np.float32).tolist())
+    assert set(h[1:].tolist()) <= pool, "a drawn height must be a value the census population actually holds"
+    assert h[1] != pytest.approx(allometry.height_m("", 0.0), abs=1e-3), \
+        "the census's own unknown-DBH fallback must not be reused here"
     # and the unparsable one says so rather than disappearing
     assert json.loads(cols["attrs"][2])["height_tag_unparsed"] == "Platanus Platanus"
+
+
+def test_a_drawn_height_is_seeded_by_the_tree_and_not_by_its_row(tmp_path):
+    """Same tree, same height — whatever else is in the file, and however many times the stage runs."""
+    a = _tree_parquet(tmp_path, [{"osm_id": 1, "x": 12.5, "y": -400.25},
+                                 {"osm_id": 2, "x": 9.0, "y": 0.0},
+                                 {"osm_id": 3, "x": 18.0, "y": 33.0}])
+    b = _tree_parquet(tmp_path / "b", [{"osm_id": 3, "x": 18.0, "y": 33.0},
+                                       {"osm_id": 1, "x": 12.5, "y": -400.25}])
+    ha = dict(zip([json.loads(s)["osm_id"] for s in datasets.load_osm_trees(a, heights=_heights())["attrs"]],
+                  np.asarray(datasets.load_osm_trees(a, heights=_heights())["height_m"])))
+    hb = dict(zip([json.loads(s)["osm_id"] for s in datasets.load_osm_trees(b, heights=_heights())["attrs"]],
+                  np.asarray(datasets.load_osm_trees(b, heights=_heights())["height_m"])))
+    assert ha[1] == hb[1] and ha[3] == hb[3], "row order or file membership must not move a tree's height"
+    assert ha[1] != ha[2] or ha[2] != ha[3], "the draw must vary between trees, not be one constant"
+
+
+def test_the_drawn_population_reproduces_the_census_distribution(tmp_path):
+    """The whole point of a draw over a median: the spread has to survive."""
+    # a single smooth pool, so np.percentile is not interpolating across the bimodal gap in _heights()
+    smooth = CensusHeights.from_arrays(np.linspace(3.0, 30.0, 600), ["Acer rubrum"] * 600, np.full(600, 12.0))
+    rng = np.random.default_rng(0)
+    xs, ys = rng.uniform(-20_000, 20_000, 4000), rng.uniform(-20_000, 20_000, 4000)
+    p = _tree_parquet(tmp_path, [{"osm_id": i, "x": float(x), "y": float(y)} for i, (x, y) in enumerate(zip(xs, ys))])
+    h = np.asarray(datasets.load_osm_trees(p, heights=smooth)["height_m"], dtype=float)
+    pool = smooth.all_m
+    for q in (10, 25, 50, 75, 90):
+        assert abs(np.percentile(h, q) - np.percentile(pool, q)) < 1.0, f"p{q} of the draw is off the pool"
+    assert h.std() > 0.5 * pool.std(), "a draw must not collapse toward one value"
+
+
+def test_the_draw_uses_the_taxon_where_osm_names_one(tmp_path):
+    """A cherry must not be handed an oak's height just because oaks are commoner."""
+    rows = [{"osm_id": i, "x": float(i * 7), "y": 0.0, "species": "Prunus serrulata"} for i in range(200)]
+    rows += [{"osm_id": 1000 + i, "x": float(i * 7), "y": 100.0, "genus": "Quercus"} for i in range(200)]
+    cols = datasets.load_osm_trees(_tree_parquet(tmp_path, rows), heights=_heights())
+    h = np.asarray(cols["height_m"], dtype=float)
+    assert h[:200].max() <= 10.0, "the cherries must come from the cherry pool"
+    assert h[200:].min() >= 20.0, "the oaks must come from the oak pool, reached through the genus"
+
+
+def test_a_taxon_the_census_barely_has_falls_through_to_the_population(tmp_path):
+    p = _tree_parquet(tmp_path, [{"osm_id": 1, "x": 0.0, "y": 0.0, "species": "Prunus serrulata"}])
+    strict = _heights(min_pool=10_000)          # no pool is large enough
+    assert strict.pool_for("Prunus serrulata") is strict.all_m
+    cols = datasets.load_osm_trees(p, heights=strict)
+    assert np.asarray(cols["height_m"])[0] in set(strict.all_m.astype(np.float32))
 
 
 def test_species_is_set_only_where_osm_gives_one(tmp_path):
@@ -162,16 +221,16 @@ def test_species_is_set_only_where_osm_gives_one(tmp_path):
                                  {"osm_id": 2, "x": 9.0, "y": 0.0, "genus": "Prunus"},
                                  {"osm_id": 3, "x": 18.0, "y": 0.0, "taxon": "Ginkgo biloba"},
                                  {"osm_id": 4, "x": 27.0, "y": 0.0}])
-    cols = datasets.load_osm_trees(p)
+    cols = datasets.load_osm_trees(p, heights=_heights())
     assert cols["species"] == ["Quercus bicolor", "", "Ginkgo biloba", ""], "a genus is not a species"
-    # the genus is still recorded, and still reaches the height curve through its own lookup
+    # the genus is still recorded, and still reaches the height draw through its own lookup
     assert json.loads(cols["attrs"][1])["genus"] == "Prunus"
-    assert np.asarray(cols["height_m"])[1] == pytest.approx(allometry.height_m("Prunus", 0.0))
+    assert np.asarray(cols["height_m"])[1] <= 10.0, "the Prunus pool, not the whole population"
 
 
 def test_osm_trees_record_no_health(tmp_path):
     p = _tree_parquet(tmp_path, [{"osm_id": 1, "x": 0.0, "y": 0.0}])
-    cols = datasets.load_osm_trees(p)
+    cols = datasets.load_osm_trees(p, heights=_heights())
     assert np.asarray(cols["variant"])[0] == 3, "variant 3 is the catalog's 'health unknown'"
 
 
@@ -180,7 +239,7 @@ def test_tree_rows_are_never_placed(tmp_path):
     p = _tree_parquet(tmp_path, [{"osm_id": 1, "x": 0.0, "y": 0.0}, {"osm_id": 2, "x": 9.0, "y": 0.0}])
     pq.write_table(pa.table({f.name: [] for f in osm_trees.TREE_ROW_SCHEMA}, schema=osm_trees.TREE_ROW_SCHEMA),
                    tmp_path / "tree_rows.parquet")
-    cols = datasets.load_osm_trees(p)
+    cols = datasets.load_osm_trees(p, heights=_heights())
     assert len(cols["x"]) == 2, "only the node layer becomes props"
     assert datasets.OSM_TREES.name == "trees.parquet"
 
@@ -295,20 +354,45 @@ def test_every_osm_tree_says_which_inventory_it_came_from():
 
 
 @needs_osm_trees
-def test_an_osm_tree_without_a_height_tag_gets_an_allometric_height_and_is_flagged():
+def test_an_osm_tree_without_a_height_tag_gets_a_drawn_height_and_is_flagged():
     osm = TREES["dataset_id"] == OSM_DATASET
     hs = TREES["height_source"][osm]
     h = TREES["height_m"][osm]
-    assert set(np.unique(hs).tolist()) <= {catalog.HEIGHT_SOURCE["measured"], catalog.HEIGHT_SOURCE["allometry"]}
-    allom = hs == catalog.HEIGHT_SOURCE["allometry"]
-    assert allom.any()
-    assert np.all(np.isfinite(h)) and h[allom].min() > allometry.BREAST_HEIGHT_M
-    # with no DBH the census curve degenerates to its own unknown-DBH default; the flag pair says so
-    assert np.all(TREES["dbh_cm"][osm] == 0.0)
-    assert h[allom].max() <= allometry.BREAST_HEIGHT_M + max(p[0] for p in allometry.SPECIES_PARAMS.values())
+    drawn_code = catalog.HEIGHT_SOURCE["census_distribution"]
+    assert set(np.unique(hs).tolist()) <= {catalog.HEIGHT_SOURCE["measured"], drawn_code}
+    drawn = hs == drawn_code
+    assert drawn.any()
+    assert np.all(np.isfinite(h)) and h[drawn].min() > allometry.BREAST_HEIGHT_M
+    assert np.all(TREES["dbh_cm"][osm] == 0.0), "nothing is derived backwards from a drawn height"
     tagged = hs == catalog.HEIGHT_SOURCE["measured"]
     if tagged.any():
         assert h[tagged].min() > 0.0, "a tagged height is carried as tagged, never clamped"
+
+
+@needs_osm_trees
+def test_the_drawn_heights_look_like_the_census_and_not_like_a_sapling():
+    """The failure this replaced: every drawn tree at 3.88 m, below the census's own 10th percentile."""
+    osm = TREES["dataset_id"] == OSM_DATASET
+    drawn = osm & (TREES["height_source"] == catalog.HEIGHT_SOURCE["census_distribution"])
+    census = (TREES["dataset_id"] == CENSUS) & (TREES["dbh_cm"] > 0)
+    if drawn.sum() < 1000 or census.sum() < 1000:
+        pytest.skip("too few rows in this tile subset to compare distributions")
+    a, b = TREES["height_m"][drawn], TREES["height_m"][census]
+    assert len(np.unique(a)) > 100, "a draw, not a constant"
+    assert np.percentile(a, 50) > np.percentile(b, 10), "the median drawn tree must clear the census's 10th percentile"
+    if census.sum() > 600_000:
+        # only citywide are the two populations comparable: the draw is from the whole census, while a tile
+        # subset holds one neighbourhood's trees, whose own distribution is not the city's
+        for q in (10, 25, 50, 75, 90):
+            assert abs(np.percentile(a, q) - np.percentile(b, q)) < 1.5, \
+                f"p{q}: {np.percentile(a, q):.2f} drawn vs {np.percentile(b, q):.2f} census"
+
+
+@needs_osm_trees
+def test_no_census_tree_was_touched():
+    census = TREES["dataset_id"] == CENSUS
+    assert np.all(TREES["height_source"][census] == catalog.HEIGHT_SOURCE["allometry"])
+    assert census.sum() > 600_000 or TILES != PROCESSED / "tiles"
 
 
 @needs_osm_trees

@@ -142,9 +142,13 @@ uint32 kit_id; int64 bin; float32 x, y, z; float32 yaw_deg; float32 scale; uint3
 `prop_id, kind(int16 enum in props_catalog.json), x, y, z, heading, variant, text, source(0 dataset,1 rule), dataset_id, species(for trees), dbh_cm, height_m`
 
 Trees (`kind` 0) come from **two** inventories and `dataset_id` is what separates them: `street_trees_2015` (the
-census — species and DBH real, height allometric) and `osm_newyork_pbf` (the extract's `natural=tree` nodes, the
-only trees inside parks — height from the OSM `height` tag where there is one, `dbh_cm` always 0 because OSM
-publishes no trunk diameter in one unit convention). An OSM tree is never placed within the measured cross-source
+census — species and DBH real, height allometric over the measured DBH, `height_source` 1) and `osm_newyork_pbf`
+(the extract's `natural=tree` nodes, the only trees inside parks — `dbh_cm` always 0 because OSM publishes no
+trunk diameter in one unit convention, and height either from the OSM `height` tag where there is one
+(`height_source` 0) or, where there is not, a deterministic draw from the census height distribution seeded by
+the tree's own coordinates (`height_source` **4**, new). `height_source` 4 is the clean filter for "no per-tree
+evidence of size": it survives anyone later inferring a DBH, which `dbh_cm == 0` would not.
+An OSM tree is never placed within the measured cross-source
 radius of a census tree; the radius and how it was measured are in `props_catalog.json` under `dedupe.cross_source`.
 The point layer behind the second source is `osm/trees.parquet` and the unplaced `natural=tree_row` lines are
 `osm/tree_rows.parquet`, both written by `python -m nycsim_pipeline osm_trees`.

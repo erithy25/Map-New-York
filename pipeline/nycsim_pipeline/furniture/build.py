@@ -77,26 +77,41 @@ def tree_props(tc: T.TreeCensus) -> dict:
     return cols
 
 
+#: LOD size bands ``blender/verify/scene.py::_tree_asset_id`` picks a tree asset with. Reported (never applied)
+#: here so the build summary says what the height rule does to the thing a reader will actually look at.
+SCENE_TREE_BANDS_M = (12.0, 7.0)
+
+
 def osm_tree_report(cols: dict) -> dict:
     """What the OSM tree layer actually carries, counted off the rows about to be placed.
 
-    The point of the last three entries is that they are small: OSM tags a tree's height on 1.6 % of nodes
-    and its species on 0.8 %, so almost every one of these trees gets the allometric height with no DBH to
-    feed it. That is a real limit of the source and is reported rather than filled in.
+    The point of ``with_species`` and ``height_from_osm_tag`` is that they are small: OSM tags a tree's height
+    on 1.6 % of nodes and its species on 0.8 %, and a trunk diameter on none, so almost every one of these
+    trees has its height drawn from the census population instead. That is a real limit of the source, and the
+    counts here are what makes it visible rather than absorbed.
     """
     n = len(cols["x"])
+    from_taxon = cols.pop("_height_from_taxon_pool", None)      # side channel from the loader, not a column
     hs = np.asarray(cols["height_source"], dtype=np.int8)
     h = np.asarray(cols["height_m"], dtype=np.float32)
     species = list(cols["species"])
     rep: dict = {
         "rows": n,
         "height_from_osm_tag": int((hs == HEIGHT_SOURCE["measured"]).sum()),
-        "height_from_allometry": int((hs == HEIGHT_SOURCE["allometry"]).sum()),
+        "height_drawn_from_census_distribution": int((hs == HEIGHT_SOURCE["census_distribution"]).sum()),
         "with_species": sum(1 for s in species if s),
         "dbh_known": int((np.asarray(cols["dbh_cm"], dtype=np.float32) > 0).sum()),
     }
+    if from_taxon is not None and n:
+        ft = np.asarray(from_taxon, dtype=bool)
+        rep["drawn_from_a_taxon_pool"] = int(ft.sum())
+        rep["drawn_from_the_whole_population"] = int(rep["height_drawn_from_census_distribution"] - ft.sum())
     if n:
-        rep["height_m_percentiles"] = {str(q): round(float(np.percentile(h, q)), 2) for q in (5, 50, 95)}
+        rep["height_m_percentiles"] = {str(q): round(float(np.percentile(h, q)), 2)
+                                       for q in (5, 10, 25, 50, 75, 90, 95)}
+        big, mid = SCENE_TREE_BANDS_M
+        rep["scene_size_bands"] = {"thresholds_m": [big, mid], "large": int((h >= big).sum()),
+                                   "medium": int(((h >= mid) & (h < big)).sum()), "small": int((h < mid).sum())}
         tagged = h[hs == HEIGHT_SOURCE["measured"]]
         if tagged.size:
             rep["tagged_height_m_median"] = round(float(np.median(tagged)), 2)
@@ -141,9 +156,11 @@ def collect(use_rules: bool, segments_path: Path, bbox: tuple[float, float, floa
         "distinct_species": len(tc.species_counts),
     }
 
-    osm_trees = clip(D.load_osm_trees(), bbox)
-    parts.append(osm_trees)
+    heights = T.CensusHeights.from_census(tc)
+    report["trees"]["height_distribution_pool"] = heights.report()
+    osm_trees = clip(D.load_osm_trees(heights=heights), bbox)
     report["osm_trees"] = osm_tree_report(osm_trees)
+    parts.append(osm_trees)
 
     loaders = [
         ("hydrants", D.load_hydrants), ("bus_stop_shelters", D.load_bus_shelters), ("linknyc", D.load_linknyc),
