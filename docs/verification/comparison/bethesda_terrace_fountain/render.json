@@ -62,9 +62,9 @@
   "standing_on": "lm_b_bethesda_terrace.26"
  },
  "frame": {
-  "mean": 0.6981,
+  "mean": 0.7188,
   "reason": null,
-  "sd": 0.1769,
+  "sd": 0.1647,
   "usable": true
  },
  "frame_retry": null,
@@ -75,10 +75,11 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 657.2,
   "emissive": {
+   "cone_faces_deleted": 16,
    "cones_hidden": 2,
    "lamps_switched_off": 2,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 1.1,
   "sky_azimuth_deg": 92.934,
@@ -104,7 +105,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/bethesda_terrace_fountain/render.png",
- "rendered_at": "2026-09-07T11:52:21Z",
+ "rendered_at": "2026-09-07T12:31:58Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -130,7 +131,7 @@
    "placed_pedestrians": 10,
    "placed_vehicles": 0,
    "reason": null,
-   "seconds": 11.62,
+   "seconds": 11.82,
    "snapshot": {
     "building_footprints_tested": 2814,
     "car_free_park_drives_matched": 47,
@@ -146,7 +147,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.17,
+     "load_seconds": 2.04,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -170,7 +171,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 96
    },
-   "snapshot_note": "cached -1777_8205_8_1_2d91b76fafb0bd1e_1788781631.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
    "triangles": 24017,
    "vehicle_lods": {},
@@ -406,7 +407,7 @@
    }
   },
   "radius_m": 700.0,
-  "seconds": 17.29,
+  "seconds": 28.24,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -479,9 +480,9 @@
   "radius_m": 700.0
  },
  "seconds": {
-  "render": 285.0,
-  "scene": 17.4,
-  "total": 302.4
+  "render": 75.1,
+  "scene": 28.4,
+  "total": 103.5
  },
  "slug": "bethesda_terrace_fountain",
  "status": "rendered",
