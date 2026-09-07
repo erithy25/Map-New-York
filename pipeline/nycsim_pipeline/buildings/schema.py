@@ -80,6 +80,13 @@ SRC_FOOTPRINT_YEAR = 0   # year from footprint construction_year
 SRC_HEIGHT_TO_FLOORS = 2 # floors from height / class floor height
 SRC_BSIN = 3             # ground from Building Elevation & Subgrade z_grade
 SRC_TERRAIN = 4          # ground sampled from the published terrain surface (terrain/segment_z.sample_z)
+# New Jersey height provenance (buildings/nj_osm_heights.py, deviation B11a).  The USA Structures
+# height is a LiDAR return off 2013 imagery and truncates the Jersey City towers; where an
+# OpenStreetMap footprint matches at IoU >= 0.5 its tags are used instead.  A ``height`` tag is a
+# real height somebody recorded and keeps HEIGHT_REAL; a height computed from ``building:levels``
+# times the occupancy storey height is a derivation and carries HEIGHT_INFERRED, never HEIGHT_REAL.
+SRC_OSM_HEIGHT = 5       # height from an OpenStreetMap ``height`` tag on a matched footprint
+SRC_OSM_LEVELS = 6       # height from an OpenStreetMap ``building:levels`` tag x the class storey height
 SRC_NONE = -1
 
 # Facade heading methods.

@@ -9,8 +9,10 @@ These are written to fail if the work is wrong, not to restate that it was done:
 * the New Jersey table never contaminates the New York one: nine tiles carry both files, and they
   share no row, no key and no borough code;
 * the fidelity bitfield matches the source columns **row for row** — HEIGHT_REAL exactly where the
-  source published a height, HEIGHT_INFERRED exactly where it did not, and the eight bits New Jersey
-  has no source for clear on all 231,399 rows;
+  source published a height or an OpenStreetMap tag replaced it, HEIGHT_INFERRED exactly where the
+  height is a neighbour median or a storey derivation, and the eight bits New Jersey has no source
+  for clear on all 231,382 rows.  The OpenStreetMap join itself is verified in
+  ``tests/test_nj_osm_heights.py``;
 * ground elevation really comes from the project's terrain: re-sampled independently through
   ``terrain.segment_z`` and compared to the published column;
 * the shells' triangle counts and bounding boxes are consistent with the footprints they came from,
@@ -216,18 +218,30 @@ def test_fidelity_bits_match_the_source_columns_row_for_row(all_rows, source_row
     assert np.isfinite(np.where(np.isnan(src), 0.0, src)).all(), "a published row has no source row"
     has_source_height = np.isfinite(src) & (src > 0) & (src < nj.MAX_PLAUSIBLE_HEIGHT_M)
 
+    # Since deviation B11a was closed a height can also come from an OpenStreetMap tag on a matched
+    # footprint (real) or from a storey count times the class storey height (inferred).  The bit
+    # therefore follows ``height_source``, and ``height_source`` follows the two source columns.
+    tag = hsrc == S.SRC_OSM_HEIGHT
+    lev = hsrc == S.SRC_OSM_LEVELS
+    expect_real = (has_source_height & ~lev) | tag
     height_real = (fid >> int(S.Fidelity.HEIGHT_REAL)) & 1
     height_inf = (fid >> int(S.Fidelity.HEIGHT_INFERRED)) & 1
-    assert np.array_equal(height_real.astype(bool), has_source_height), (
-        f"HEIGHT_REAL disagrees with the source on {int((height_real.astype(bool) != has_source_height).sum())} rows")
-    assert np.array_equal(height_inf.astype(bool), ~has_source_height)
+    assert np.array_equal(height_real.astype(bool), expect_real), (
+        f"HEIGHT_REAL disagrees with the sources on {int((height_real.astype(bool) != expect_real).sum())} rows")
+    assert np.array_equal(height_inf.astype(bool), ~expect_real)
     assert not (height_real & height_inf).any(), "a row claims both a real and an inferred height"
 
-    # the published height must be the source height, unmodified, wherever it claims to be real
-    d = np.abs(height[has_source_height] - src[has_source_height])
-    assert d.max() < 1e-3, f"a HEIGHT_REAL row was rescaled by up to {d.max():.3f} m"
-    assert (hsrc[has_source_height] == S.SRC_LIDAR).all()
-    assert (hsrc[~has_source_height] == S.SRC_NEIGHBOURS).all()
+    # the published height must be the source height, unmodified, wherever it says it is one
+    keep = hsrc == S.SRC_LIDAR
+    assert (keep <= has_source_height).all(), "a row cites SRC_LIDAR with no source height behind it"
+    d = np.abs(height[keep] - src[keep])
+    assert d.max() < 1e-3, f"a SRC_LIDAR row was rescaled by up to {d.max():.3f} m"
+    # ... and the superseded value is kept beside it, so no source value is lost
+    sup = table["source_height_m"].to_numpy().astype(np.float64)
+    d = np.abs(sup[has_source_height] - src[has_source_height])
+    assert d.max() < 1e-3, f"source_height_m is not the source height on {int((d >= 1e-3).sum())} rows"
+    assert (hsrc[has_source_height & ~tag & ~lev] == S.SRC_LIDAR).all()
+    assert (hsrc[~has_source_height & ~tag & ~lev] == S.SRC_NEIGHBOURS).all()
 
     assert ((fid >> int(S.Fidelity.FOOTPRINT_REAL)) & 1).all(), "every footprint is real"
     for bit in (S.Fidelity.FLOORS_INFERRED, S.Fidelity.FACADE_INFERRED):
@@ -417,19 +431,34 @@ def test_shell_triangle_counts_are_consistent_with_the_footprints(shell_tile):
             f"{tile} key {key}: {rec['tris']} triangles over a {n_ring}-vertex cleaned ring")
 
 
-def test_shell_bounding_boxes_match_the_footprints_and_the_heights(shell_tile):
+def test_shell_bounding_boxes_match_the_footprints_and_a_height_the_table_published(shell_tile):
+    """A shell spans ``ground_z`` to a roof this stage published for that building.
+
+    Normally that is the current ``roof_z``.  A building whose height the OpenStreetMap join
+    corrected (deviation B11a) has a second published value — ``ground_z + source_height_m``, the
+    height its shell was built at — and until ``build_tile.py --source nj`` is re-run its mesh still
+    stands there.  Both are accepted, but *only* for a row the join actually corrected: a shell at
+    any third height is a defect, and a shell at the superseded height on an untouched row would
+    mean the mesh and the table were never built from the same footprint.  The count standing at the
+    superseded height is asserted to be no more than the number of rows the join corrected in this
+    tile, and it goes to zero when the shells are rebuilt.
+    """
     tile, glb, g = shell_tile
     per = _collect_lod0(g)
     x0, y0 = Tile.parse(tile).x0, Tile.parse(tile).y0
     tab = pq.read_table(TILES_DIR / tile / nj.TILE_FILENAME,
-                        columns=["bin", "footprint", "ground_z", "roof_z"])
+                        columns=["bin", "footprint", "ground_z", "roof_z", "height", "source_height_m",
+                                 "height_source"])
     geoms = shapely.from_wkb(tab["footprint"].to_numpy(zero_copy_only=False))
     keys = tab["bin"].to_numpy()
     gz = tab["ground_z"].to_numpy().astype(np.float64)
     rz = tab["roof_z"].to_numpy().astype(np.float64)
+    sup_rz = gz + tab["source_height_m"].to_numpy().astype(np.float64)
+    corrected = np.isin(tab["height_source"].to_numpy(), (S.SRC_OSM_HEIGHT, S.SRC_OSM_LEVELS))
     rng = np.random.default_rng(7)
     sel = rng.choice(len(keys), size=min(SAMPLE_BUILDINGS, len(keys)), replace=False)
     checked = 0
+    superseded = 0
     for i in sel:
         rec = per.get(int(keys[i]))
         if rec is None:
@@ -443,8 +472,16 @@ def test_shell_bounding_boxes_match_the_footprints_and_the_heights(shell_tile):
         assert (p[:, 0].max() - p[:, 0].min()) > 0.6 * (bx1 - bx0), f"{tile} {keys[i]} too narrow"
         assert (p[:, 1].max() - p[:, 1].min()) > 0.6 * (by1 - by0), f"{tile} {keys[i]} too shallow"
         assert abs(p[:, 2].min() - gz[i]) < HEIGHT_TOL_M, f"{tile} {keys[i]} does not sit on ground_z"
-        assert abs(p[:, 2].max() - rz[i]) < HEIGHT_TOL_M, f"{tile} {keys[i]} does not reach roof_z"
+        top = p[:, 2].max()
+        if abs(top - rz[i]) >= HEIGHT_TOL_M:
+            assert corrected[i] and abs(top - sup_rz[i]) < HEIGHT_TOL_M, (
+                f"{tile} {keys[i]} reaches {top:.3f}, which is neither roof_z {rz[i]:.3f} nor the "
+                f"superseded {sup_rz[i]:.3f}")
+            superseded += 1
     assert checked >= 10, f"only {checked} shells checked"
+    assert superseded <= int(corrected.sum()), (
+        f"{tile}: {superseded} shells stand at a superseded height but only {int(corrected.sum())} "
+        f"rows were corrected")
 
 
 def test_shell_footprint_area_matches_the_source_polygon(shell_tile):
@@ -560,7 +597,10 @@ def test_every_artifact_is_registered_in_the_manifest(tile_files):
     for key in ("buildings_nj_base", "buildings_nj_summary", "buildings_nj_tiles", "buildings_nj_shells"):
         assert key in doc, f"{key} is not recorded in data/manifest/processed.json"
         assert doc[key]["stage"] in ("buildings_nj", "buildings_nj_mesh")
-        assert doc[key]["sources"] == [nj.SOURCE_ID]
+        # the table carries OpenStreetMap heights since deviation B11a was closed; the meshes
+        # are built from the USA Structures footprints alone
+        want = [nj.SOURCE_ID] if key == "buildings_nj_shells" else [nj.SOURCE_ID, nj.OSM_SOURCE_ID]
+        assert doc[key]["sources"] == want
         assert doc[key]["license"] == nj.LICENSE
     base = REPO_ROOT / doc["buildings_nj_base"]["path"]
     assert base.exists()

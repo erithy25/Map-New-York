@@ -19,14 +19,19 @@ What is real here and what is not
 ---------------------------------
 * **Footprint** — real, FEMA/ORNL USA Structures, public domain.  ``FOOTPRINT_REAL`` is set on every
   row.
-* **Height** — 73.7 % of rows carry a LiDAR-derived ``height_m`` from the source; those get
-  ``HEIGHT_REAL`` and the source value verbatim.  The rest get the median of the ten nearest rows
-  that do have one and ``HEIGHT_INFERRED``.  The source height is measured but it is **not** New
-  York City quality: :func:`height_report` measures it against the independent heights already in
-  this repository and writes the result into ``buildings_nj_summary.json``.  Against reference
-  buildings over 80 m the source runs a median 42.5 m (37.5 %) short, and its imagery predates
-  every Jersey City tower built after 2013.  Nothing here rescales it — the error is reported, not
-  patched.
+* **Height** — three provenances, recorded per row in ``height_source`` and in the fidelity
+  bitfield.  73.7 % of rows carry a LiDAR-derived ``height_m`` from the source; the rest get the
+  median of the ten nearest rows that do have one.  The source height is measured but it is **not**
+  New York City quality — it is a return off 2013 imagery and it truncates the Jersey City towers by
+  a median 66.41 m — so where an OpenStreetMap footprint matches at IoU >= 0.5 its ``height`` tag
+  replaces the source value (``HEIGHT_REAL``, ``SRC_OSM_HEIGHT``) and its ``building:levels`` tag
+  replaces it where the source height cannot carry the storeys the tag counts
+  (``HEIGHT_INFERRED``, ``SRC_OSM_LEVELS`` — a derivation, never presented as measured).  The rules
+  and the measurements behind them are in :mod:`nj_osm_heights`; :func:`height_report` and
+  :func:`published_height_report` measure the result against the independent heights already in this
+  repository, before and after, and write both into ``buildings_nj_summary.json``.  Nothing is
+  rescaled: a height either comes from a source that states it or is derived from a storey count
+  that a source states.
 * **Ground elevation** — the source column is null on all 231,336 rows, so ground comes from this
   project's own terrain (``terrain/segment_z.sample_z``, seam-continuous, bilinear on the published
   2 m heightmaps), sampled over the footprint outline and taken at its minimum, which is the grade a
@@ -78,17 +83,25 @@ from ..tiling import tile_index_arrays
 from . import schema as S
 from .footprints import MIN_PART_AREA_M2, _polygonal_parts
 from .infer import neighbour_median
+from . import nj_osm_heights as osmh
 
 log = logging.getLogger("nycsim.buildings.nj")
 
 SOURCE_PARQUET = PROCESSED / "nj" / "buildings_nj_usa_structures.parquet"
 BOROUGH_BOUNDARIES = RAW / "nyc_opendata" / "borough_boundaries.geojson"
 SOURCE_ID = "usa_structures_nj_hudson"
-SCHEMA_ID = "buildings_nj/1"
-SCHEMA_VERSION = 1
+SCHEMA_ID = "buildings_nj/2"     # /2 adds the OpenStreetMap height-join columns (deviation B11a)
+SCHEMA_VERSION = 2
 TILE_FILENAME = "buildings_nj.parquet"
 BOROUGH_NJ = 6              # DATA_CONTRACTS §2: 1 MN 2 BX 3 BK 4 QN 5 SI 6 NJ 0 water
+# The licence of the footprints and of every USA Structures attribute.  Since deviation B11a was
+# closed the ``height`` column can also carry an OpenStreetMap tag or a value derived from one, which
+# is ODbL and carries an attribution and share-alike obligation of its own: that licence travels
+# beside this one in ``nycsim.license.osm`` on every file, and ``height_source`` says per row which
+# of the two a height came from.
 LICENSE = "Public domain (US Government work: FEMA / ORNL USA Structures)"
+OSM_LICENSE = osmh.OSM_LICENSE
+OSM_SOURCE_ID = osmh.OSM_SOURCE_ID
 
 MIN_INFERRED_HEIGHT_M = 2.0   # floor for a height this stage had to infer; a measured one is published verbatim
 MAX_PLAUSIBLE_HEIGHT_M = 600.0
@@ -181,7 +194,7 @@ COLUMNS: list[tuple[str, pa.DataType, bool]] = [
     ("has_storefront", pa.bool_(), True),      # no source: False
     ("has_scaffold", pa.bool_(), True),        # no source: False
     ("landmark_id", pa.string(), True),        # no LPC jurisdiction in New Jersey: ""
-    ("osm_id", pa.int64(), True),              # not matched by this stage: 0
+    ("osm_id", pa.int64(), True),              # the matched OpenStreetMap outline, or 0
     ("name", pa.string(), True),               # USA Structures carries no building name: ""
     ("lit_seed", pa.uint32(), True),
     ("fidelity", pa.uint16(), True),
@@ -210,6 +223,17 @@ COLUMNS: list[tuple[str, pa.DataType, bool]] = [
     ("floors_source", pa.int8(), False),
     ("ground_source", pa.int8(), False),
     ("facade_heading_method", pa.int8(), False),
+    # ---- the OpenStreetMap height join (nj_osm_heights, deviation B11a) ----
+    # The evidence behind ``height`` on this row, kept beside it so a consumer can audit the join
+    # without redoing the geometry.  ``osm_match_iou`` is 0 and the tag columns NaN / 0 where no
+    # OpenStreetMap outline matched; a tag present here was not necessarily used (see the rules).
+    ("osm_match_iou", pa.float32(), False),
+    ("osm_height_m", pa.float32(), False),      # NaN where the matched outline carries no height tag
+    ("osm_levels", pa.int16(), False),          # 0 where it carries no building:levels tag
+    # What this stage would have published without the join: the USA Structures height, or the
+    # neighbour median where the source has none.  Kept so the correction is auditable per row and
+    # so no source value is lost, the convention ADR-018 set for the terrain repairs.
+    ("source_height_m", pa.float32(), False),
 ]
 CONTRACT_COLUMNS = [c for c, _, k in COLUMNS if k]
 EXTENSION_COLUMNS = [c for c, _, k in COLUMNS if not k]
@@ -230,7 +254,9 @@ def arrow_schema(bbox=None, extra_meta: dict[str, str] | None = None) -> pa.Sche
         b"nycsim.schema": SCHEMA_ID.encode(),
         b"nycsim.schema_version": str(SCHEMA_VERSION).encode(),
         b"nycsim.license": LICENSE.encode(),
+        b"nycsim.license.osm": OSM_LICENSE.encode(),
         b"nycsim.source": SOURCE_ID.encode(),
+        b"nycsim.source.osm": OSM_SOURCE_ID.encode(),
         b"nycsim.borough": str(BOROUGH_NJ).encode(),
     }
     if extra_meta:
@@ -406,8 +432,45 @@ def sample_ground(geoms: np.ndarray, cx: np.ndarray, cy: np.ndarray,
 
 
 # ---- attributes ---------------------------------------------------------------------------------------------------
-def resolve_attributes(df: pl.DataFrame, ground: np.ndarray) -> tuple[pl.DataFrame, dict]:
-    """Height, floors, storey heights, material and the fidelity bitfield."""
+def _osm_tag_reach(o_height: np.ndarray, o_levels: np.ndarray, osm_row: np.ndarray,
+                   nj_geoms: np.ndarray, osm_geoms: np.ndarray) -> dict:
+    """How much of the OpenStreetMap tag stock the footprint match actually reaches.
+
+    The OpenStreetMap extract covers a wider slice of New Jersey than the USA Structures table does
+    — Newark, the Bergen suburbs, the Passaic valley — so a tag that never reaches the table is
+    usually not a failed match at all: it is a tag on a building this project does not model.  The
+    two are separated here rather than folded into one comforting number: ``*_over_the_table`` is
+    the honest denominator, the tags that overlap a USA Structures polygon at all.
+    """
+    used = np.zeros(len(o_height), dtype=bool)
+    used[osm_row[osm_row >= 0]] = True
+    h, l = np.isfinite(o_height), np.isfinite(o_levels)
+    tree = shapely.STRtree(nj_geoms)
+    over = np.zeros(len(o_height), dtype=bool)
+    idx = np.nonzero(h | l)[0]
+    li, _ = tree.query(osm_geoms[idx], predicate="intersects")
+    over[idx[np.unique(li)]] = True
+    return {"height_tags": int(h.sum()), "height_tags_over_the_table": int((h & over).sum()),
+            "height_tags_matched": int((h & used).sum()),
+            "levels_tags": int(l.sum()), "levels_tags_over_the_table": int((l & over).sum()),
+            "levels_tags_matched": int((l & used).sum()),
+            "tagged_outlines": int((h | l).sum()),
+            "tagged_outlines_over_the_table": int(((h | l) & over).sum()),
+            "tagged_outlines_matched": int(((h | l) & used).sum())}
+
+
+def resolve_attributes(df: pl.DataFrame, ground: np.ndarray, geoms: np.ndarray | None = None,
+                       osm_path: Path | None = None, *, use_osm: bool = True,
+                       ) -> tuple[pl.DataFrame, dict]:
+    """Height, floors, storey heights, material and the fidelity bitfield.
+
+    ``geoms`` (the footprints, in row order) enables the OpenStreetMap height join of
+    :mod:`nj_osm_heights` — deviation B11a, the reason this stage no longer ships the source height
+    verbatim on every row.  Every attribute derived from height (floors, storey heights, material,
+    ``roof_z``) is computed *after* the join, from the height that is actually published, so the
+    table cannot hold a floor count that disagrees with its own height.  Passing ``use_osm=False``
+    or no geometry reproduces the source-only table exactly.
+    """
     n = df.height
     cx, cy = df["centroid_x"].to_numpy(), df["centroid_y"].to_numpy()
     occ = df["occ_class"].fill_null("Unclassified").to_numpy().astype(object)
@@ -426,16 +489,62 @@ def resolve_attributes(df: pl.DataFrame, ground: np.ndarray) -> tuple[pl.DataFra
     # inferred height gets a floor, because a neighbour median can come back empty.
     inferred = np.where(np.isfinite(height), height, MIN_INFERRED_HEIGHT_M)
     inferred = np.maximum(inferred, MIN_INFERRED_HEIGHT_M)
-    height = np.where(h_ok, h_src, inferred)
-    height_source = np.where(h_ok, S.SRC_LIDAR, S.SRC_NEIGHBOURS).astype(np.int8)
+    source_height = np.where(h_ok, h_src, inferred)
     stats["height_source_lidar"] = int(h_ok.sum())
     stats["height_neighbour_median"] = int(need.sum())
-    stats["height_pct_real"] = round(100.0 * float(h_ok.sum()) / max(n, 1), 3)
-    stats["height_max_m"] = float(height.max())
-    stats["height_median_m"] = float(np.median(height))
+    stats["source_height_pct_real"] = round(100.0 * float(h_ok.sum()) / max(n, 1), 3)
+    stats["source_height_max_m"] = float(source_height.max())
+    stats["source_height_median_m"] = float(np.median(source_height))
 
     fh = np.array([_OCC_FLOORS.get(str(o), _OCC_FLOORS_DEFAULT)[0] for o in occ])
     gfh_rule = np.array([_OCC_FLOORS.get(str(o), _OCC_FLOORS_DEFAULT)[1] for o in occ])
+
+    # ---- the OpenStreetMap height join (deviation B11a) ----------------------------------------
+    osm_row = np.full(n, -1, dtype=np.int64)
+    osm_iou = np.zeros(n)
+    osm_id = np.zeros(n, dtype=np.int64)
+    tag_h = np.full(n, np.nan)
+    tag_l = np.zeros(n, dtype=np.int16)
+    if use_osm and geoms is not None:
+        odf, ogeom = osmh.load_osm_buildings(osm_path)
+        o_height = odf["height"].to_numpy().astype(np.float64)
+        o_levels = odf["levels"].to_numpy().astype(np.float64)
+        o_id = odf["osm_id"].to_numpy().astype(np.int64)
+        osm_row, osm_iou, match_stats = osmh.match_footprints(geoms, ogeom)
+        height, mode, join_stats = osmh.resolve_heights(source_height, h_ok, osm_row,
+                                                        o_height, o_levels, fh, gfh_rule)
+        m = osm_row >= 0
+        osm_id[m] = o_id[osm_row[m]]
+        tag_h[m] = o_height[osm_row[m]]
+        lv = np.where(np.isfinite(o_levels), np.clip(o_levels, 0, 32767), 0).astype(np.int16)
+        tag_l[m] = lv[osm_row[m]]
+        stats["osm_join"] = {"source": str(osmh.OSM_BUILDINGS_NJ), "license": osmh.OSM_LICENSE,
+                             "match": match_stats, "heights": join_stats,
+                             "storey_height_check": osmh.storey_height_check(o_height, o_levels, osm_row, occ),
+                             "tall_tags_the_join_could_not_use":
+                                 osmh.unjoined_tall_tags(geoms, ogeom, odf, osm_row),
+                             "tags_in_the_extract": _osm_tag_reach(o_height, o_levels, osm_row, geoms, ogeom)}
+        log.info("OpenStreetMap height join: %d of %d footprints matched (%.2f %%); "
+                 "%d heights from a tag, %d derived from levels",
+                 match_stats["matched"], n, match_stats["match_rate_pct"],
+                 join_stats["height_from_osm_tag"], join_stats["height_from_osm_levels"])
+    else:
+        height = source_height.copy()
+        mode = np.full(n, osmh.MODE_SOURCE, dtype=np.int8)
+        stats["osm_join"] = {"applied": False}
+
+    # Everything below is derived from the height that is actually *published*, not from the float64
+    # working value: the column is float32, and rounding it afterwards left 185 buildings whose
+    # published floor count could not be recomputed from their published height.
+    height = np.asarray(height, dtype=np.float32).astype(np.float64)
+
+    height_source, h_real = osmh.height_sources(mode, h_ok)
+    stats["height_source_osm_tag"] = int((height_source == S.SRC_OSM_HEIGHT).sum())
+    stats["height_source_osm_levels"] = int((height_source == S.SRC_OSM_LEVELS).sum())
+    stats["height_pct_real"] = round(100.0 * float(h_real.sum()) / max(n, 1), 3)
+    stats["height_max_m"] = float(height.max())
+    stats["height_median_m"] = float(np.median(height))
+
     floors = np.where(height <= gfh_rule + 0.5 * fh, 1, 1 + np.rint((height - gfh_rule) / fh))
     floors = np.clip(floors, 1, 200).astype(np.int16)
     fl = floors.astype(np.float64)
@@ -448,7 +557,7 @@ def resolve_attributes(df: pl.DataFrame, ground: np.ndarray) -> tuple[pl.DataFra
     stats["material_histogram"] = {int(k): int(v) for k, v in zip(*np.unique(material, return_counts=True))}
 
     fid = np.full(n, S.Fidelity.FOOTPRINT_REAL.mask, dtype=np.uint16)
-    fid |= np.where(h_ok, S.Fidelity.HEIGHT_REAL.mask, S.Fidelity.HEIGHT_INFERRED.mask).astype(np.uint16)
+    fid |= np.where(h_real, S.Fidelity.HEIGHT_REAL.mask, S.Fidelity.HEIGHT_INFERRED.mask).astype(np.uint16)
     fid |= np.uint16(S.Fidelity.FLOORS_INFERRED.mask)      # no floor count in the source, ever
     fid |= np.uint16(S.Fidelity.FACADE_INFERRED.mask)      # no material in the source, ever (ADR-004)
     stats["fidelity_histogram"] = {int(k): int(v) for k, v in zip(*np.unique(fid, return_counts=True))}
@@ -465,6 +574,11 @@ def resolve_attributes(df: pl.DataFrame, ground: np.ndarray) -> tuple[pl.DataFra
         pl.Series("floors_source", np.full(n, S.SRC_HEIGHT_TO_FLOORS, dtype=np.int8)),
         pl.Series("ground_source", np.full(n, S.SRC_TERRAIN, dtype=np.int8)),
         pl.Series("fidelity", fid),
+        pl.Series("osm_id", osm_id),
+        pl.Series("osm_match_iou", osm_iou.astype(np.float32)),
+        pl.Series("osm_height_m", tag_h.astype(np.float32)),
+        pl.Series("osm_levels", tag_l),
+        pl.Series("source_height_m", source_height.astype(np.float64)),
     ])
     return out, stats
 
@@ -490,7 +604,6 @@ def assemble_table(df: pl.DataFrame, geoms: np.ndarray, heading: np.ndarray, met
         "has_storefront": pa.array(np.zeros(n, bool), pa.bool_()),
         "has_scaffold": pa.array(np.zeros(n, bool), pa.bool_()),
         "landmark_id": pa.array([""] * n, pa.string()),
-        "osm_id": pa.array(np.zeros(n, np.int64), pa.int64()),
         "name": pa.array([""] * n, pa.string()),
         "lit_seed": pa.array(S.lit_seed(build_id, build_id), pa.uint32()),
     }
@@ -549,12 +662,20 @@ REFERENCE_MATCH_RADIUS_M = 45.0
 
 def published_height_report(df: pl.DataFrame, geoms: np.ndarray,
                             reference: Path | None = None) -> dict:
-    """Compare the source's height against published architectural heights, tower by tower.
+    """Compare the published height against published architectural heights, tower by tower.
 
     ``nj_reference_heights.json`` carries the 63 tallest buildings of Jersey City with the
     coordinates and heights the Council on Tall Buildings publishes, retrieved once and recorded
     with its source.  For each of them the tallest USA Structures footprint within
     ``REFERENCE_MATCH_RADIUS_M`` of the published point is taken, and the two heights are compared.
+
+    This is the acceptance test for deviation B11a, so it is **paired**: the footprint is chosen
+    once, by the rule the source-only report used — the tallest polygon within the radius that
+    carries a source height — and both the source height and the published height are then read off
+    that same polygon.  A rule that changed the polygon between the two runs could show an
+    improvement that is only a different choice of building.  ``reselected_by_published_height``
+    repeats the "after" figures with the polygon re-chosen by the published height, because that is
+    what a consumer reading the table actually sees.
 
     The split that matters is the source's own ``image_date``: a tower finished after the imagery
     was flown cannot be in it at all, and is a *coverage* gap, not a measurement error.  A tower
@@ -567,9 +688,13 @@ def published_height_report(df: pl.DataFrame, geoms: np.ndarray,
 
     doc = json.loads(ref_path.read_text())
     cx, cy = df["centroid_x"].to_numpy(), df["centroid_y"].to_numpy()
-    h = df["height_m"].to_numpy().astype(np.float64)
+    src_h = df["height_m"].to_numpy().astype(np.float64)          # the raw USA Structures column
     area = df["footprint_area"].to_numpy().astype(np.float64)
     img = df["image_date"].fill_null("").to_numpy().astype(object)
+    pub_h = df["height"].to_numpy().astype(np.float64) if "height" in df.columns else src_h
+    h_src_code = df["height_source"].to_numpy() if "height_source" in df.columns else np.zeros(df.height, np.int8)
+    osm_h = df["osm_height_m"].to_numpy().astype(np.float64) if "osm_height_m" in df.columns else np.full(df.height, np.nan)
+    osm_l = df["osm_levels"].to_numpy() if "osm_levels" in df.columns else np.zeros(df.height, np.int16)
     tree = shapely.STRtree(shapely.points(cx, cy))
     rows = []
     for b in doc["buildings"]:
@@ -583,49 +708,93 @@ def published_height_report(df: pl.DataFrame, geoms: np.ndarray,
             rec["matched"] = False
             rows.append(rec)
             continue
-        with_h = hit[np.isfinite(h[hit])]
-        j = int(with_h[np.argmax(h[with_h])]) if len(with_h) else int(hit[np.argmax(area[hit])])
+        with_h = hit[np.isfinite(src_h[hit])]
+        j = int(with_h[np.argmax(src_h[with_h])]) if len(with_h) else int(hit[np.argmax(area[hit])])
         rec.update({"matched": True, "build_id": int(df["build_id"][j]),
-                    "source_height_m": None if not np.isfinite(h[j]) else round(float(h[j]), 2),
+                    "source_height_m": None if not np.isfinite(src_h[j]) else round(float(src_h[j]), 2),
+                    "published_table_height_m": round(float(pub_h[j]), 2),
+                    "height_source": int(h_src_code[j]),
+                    "osm_height_tag_m": None if not np.isfinite(osm_h[j]) else round(float(osm_h[j]), 2),
+                    "osm_levels_tag": int(osm_l[j]) or None,
                     "source_area_m2": round(float(area[j]), 1),
                     "source_image_date": str(img[j])})
-        if np.isfinite(h[j]):
-            rec["error_m"] = round(float(h[j]) - b["height_m"], 2)
-            rec["error_pct"] = round(100.0 * (float(h[j]) - b["height_m"]) / b["height_m"], 1)
+        if np.isfinite(src_h[j]):
+            rec["error_m"] = round(float(src_h[j]) - b["height_m"], 2)
+            rec["error_pct"] = round(100.0 * (float(src_h[j]) - b["height_m"]) / b["height_m"], 1)
+            rec["error_after_m"] = round(float(pub_h[j]) - b["height_m"], 2)
+            rec["error_after_pct"] = round(100.0 * (float(pub_h[j]) - b["height_m"]) / b["height_m"], 1)
+        # what a consumer sees: the tallest published footprint near the point, whichever it is
+        k = int(hit[np.argmax(pub_h[hit])])
+        rec["reselected_height_m"] = round(float(pub_h[k]), 2)
+        rec["reselected_error_m"] = round(float(pub_h[k]) - b["height_m"], 2)
+        rec["reselected_error_pct"] = round(100.0 * (float(pub_h[k]) - b["height_m"]) / b["height_m"], 1)
         rows.append(rec)
 
-    def _stats(sub: list[dict]) -> dict:
-        e = np.array([r["error_m"] for r in sub if "error_m" in r])
-        p = np.array([r["error_pct"] for r in sub if "error_pct" in r])
+    def _stats(sub: list[dict], key_m: str = "error_m", key_pct: str = "error_pct") -> dict:
+        e = np.array([r[key_m] for r in sub if key_m in r])
+        p = np.array([r[key_pct] for r in sub if key_pct in r])
         if not len(e):
             return {"n": len(sub), "with_a_source_height": 0}
         return {"n": len(sub), "with_a_source_height": int(len(e)),
                 "median_error_m": round(float(np.median(e)), 2),
                 "median_error_pct": round(float(np.median(p)), 1),
                 "worst_error_m": round(float(e.min()), 2),
-                "n_short_by_over_20m": int((e < -20).sum())}
+                "n_short_by_over_20m": int((e < -20).sum()),
+                "n_within_10_pct": int((np.abs(p) <= 10).sum())}
 
     imagery_year = 2013     # the Hudson County imagery date the source stamps on these rows
     stood = [r for r in rows if r["completed"] <= imagery_year]
     later = [r for r in rows if r["completed"] > imagery_year]
+    paired = [r for r in rows if "error_m" in r]
+    improved = [r for r in paired if abs(r["error_after_m"]) < abs(r["error_m"]) - 1e-9]
+    worsened = [r for r in paired if abs(r["error_after_m"]) > abs(r["error_m"]) + 1e-9]
     return {
         "available": True,
         "reference": {"source": doc["source"], "url": doc["source_url"], "retrieved": doc["retrieved"],
                       "buildings": len(doc["buildings"])},
         "match_radius_m": REFERENCE_MATCH_RADIUS_M,
-        "already_built_when_the_imagery_was_flown": _stats(stood),
-        "built_after_the_imagery_was_flown": _stats(later),
+        "paired_on_the_same_footprints": True,
+        "before_source_height": {
+            "already_built_when_the_imagery_was_flown": _stats(stood),
+            "built_after_the_imagery_was_flown": _stats(later),
+            "all_towers_with_a_source_height": _stats(paired),
+        },
+        "after_osm_join": {
+            "already_built_when_the_imagery_was_flown": _stats(stood, "error_after_m", "error_after_pct"),
+            "built_after_the_imagery_was_flown": _stats(later, "error_after_m", "error_after_pct"),
+            "all_towers_with_a_source_height": _stats(paired, "error_after_m", "error_after_pct"),
+        },
+        "reselected_by_published_height": {
+            "already_built_when_the_imagery_was_flown": _stats(stood, "reselected_error_m", "reselected_error_pct"),
+            "built_after_the_imagery_was_flown": _stats(later, "reselected_error_m", "reselected_error_pct"),
+        },
+        "towers_improved": len(improved),
+        "towers_unchanged": len(paired) - len(improved) - len(worsened),
+        "towers_made_worse": len(worsened),
+        "made_worse": [{"name": r["name"], "published_height_m": r["published_height_m"],
+                        "before_m": r["source_height_m"], "after_m": r["published_table_height_m"],
+                        "height_source": r["height_source"]} for r in worsened],
         "towers": rows,
     }
 
 
 def height_report(df: pl.DataFrame, geoms: np.ndarray, osm_path: Path | None = None) -> dict:
-    """Measure the source's height error against OpenStreetMap's tagged heights.
+    """Measure the height error against OpenStreetMap's tagged heights, before and after the join.
 
-    OpenStreetMap is used here as an **instrument**, not as an input: nothing it says reaches the
-    published table.  It is the only independent height source already ingested in this repository
-    (``data/processed/osm/buildings_nj.parquet``, ODbL), and its ``height`` tags on the Hudson County
-    towers come from published architectural figures.
+    Before the join OpenStreetMap was an **instrument** here and nothing it said reached the table;
+    that is no longer true (deviation B11a), so this report is careful about which half of it is
+    still independent:
+
+    * ``source`` — the USA Structures column against the tags.  Unchanged, and still the diagnosis:
+      the source runs 4.7 % short below 20 m and 37.5 % short above 80 m.
+    * ``published_where_the_tag_was_not_used`` — the shipped height against the tags on the rows
+      whose height did **not** come from a tag (no accepted footprint match, or the levels rule).
+      This is the part that is still an independent check, and it is the one that matters: it says
+      what is left of the error after the join, on the buildings the join could not reach.
+
+    The pairing here is looser than the acceptance test's: a New Jersey centroid inside the
+    OpenStreetMap outline, largest footprint wins.  It is a population-level cross-check, not the
+    one-to-one match the join itself requires.
     """
     osm_path = osm_path or (PROCESSED / "osm" / "buildings_nj.parquet")
     if not osm_path.exists():
@@ -636,6 +805,8 @@ def height_report(df: pl.DataFrame, geoms: np.ndarray, osm_path: Path | None = N
     cx, cy = df["centroid_x"].to_numpy(), df["centroid_y"].to_numpy()
     area = df["footprint_area"].to_numpy()
     h = df["height_m"].to_numpy().astype(np.float64)
+    pub = df["height"].to_numpy().astype(np.float64) if "height" in df.columns else h
+    hs = df["height_source"].to_numpy() if "height_source" in df.columns else np.zeros(df.height, np.int8)
     names = osm["name"].fill_null("").to_list()
     oh = osm["height"].to_numpy().astype(np.float64)
     tree = shapely.STRtree(shapely.points(cx, cy))
@@ -648,22 +819,37 @@ def height_report(df: pl.DataFrame, geoms: np.ndarray, osm_path: Path | None = N
         if not np.isfinite(h[j]):
             continue
         pairs.append({"name": names[i], "osm_height_m": float(oh[i]), "usa_height_m": float(h[j]),
+                      "published_height_m": float(pub[j]), "height_source": int(hs[j]),
                       "err_m": float(h[j] - oh[i]), "err_pct": float(100.0 * (h[j] - oh[i]) / oh[i]),
+                      "err_after_m": float(pub[j] - oh[i]),
+                      "err_after_pct": float(100.0 * (pub[j] - oh[i]) / oh[i]),
                       "usa_area_m2": float(area[j])})
     if not pairs:
         return {"available": True, "matched": 0}
     p = pl.DataFrame(pairs)
-    bands = {}
-    for lo, hi in ((0, 20), (20, 40), (40, 80), (80, 400)):
-        s = p.filter((pl.col("osm_height_m") >= lo) & (pl.col("osm_height_m") < hi))
-        if s.height:
-            bands[f"{lo}-{hi}m"] = {"n": s.height,
-                                    "median_err_m": round(float(s["err_m"].median()), 2),
-                                    "median_err_pct": round(float(s["err_pct"].median()), 1)}
+
+    def _bands(frame: pl.DataFrame, col_m: str, col_pct: str) -> dict:
+        bands = {}
+        for lo, hi in ((0, 20), (20, 40), (40, 80), (80, 400)):
+            sub = frame.filter((pl.col("osm_height_m") >= lo) & (pl.col("osm_height_m") < hi))
+            if sub.height:
+                bands[f"{lo}-{hi}m"] = {"n": sub.height,
+                                        "median_err_m": round(float(sub[col_m].median()), 2),
+                                        "median_err_pct": round(float(sub[col_pct].median()), 1)}
+        return bands
+
+    independent = p.filter(pl.col("height_source") != S.SRC_OSM_HEIGHT)
     return {"available": True, "matched": p.height,
             "source": "data/processed/osm/buildings_nj.parquet (ODbL, OpenStreetMap contributors)",
-            "by_reference_height_band": bands,
-            "worst_20": p.sort("err_m").head(20).to_dicts()}
+            "note": ("the tags are an input to the published height since deviation B11a was closed; "
+                     "only the rows whose height did not come from a tag are an independent check"),
+            "source_by_reference_height_band": _bands(p, "err_m", "err_pct"),
+            "published_where_the_tag_was_used": int(p.height - independent.height),
+            "published_where_the_tag_was_not_used": {
+                "n": independent.height,
+                "source_by_band": _bands(independent, "err_m", "err_pct"),
+                "published_by_band": _bands(independent, "err_after_m", "err_after_pct")},
+            "worst_20": p.sort("err_after_m").head(20).to_dicts()}
 
 
 # ---- shell meshes ---------------------------------------------------------------------------------------------------
@@ -723,6 +909,7 @@ def summary(table: pa.Table, source_stats: dict, ground_stats: dict, attr_stats:
     df = pl.from_arrow(table.select(["borough", "height", "ground_z", "roof_z", "floors", "fidelity",
                                      "county", "city", "occ_class", "tile", "height_source"]))
     fid = df["fidelity"].to_numpy()
+    hsrc = df["height_source"].to_numpy()
     n = df.height
     pct = lambda x: round(100.0 * float(x) / max(n, 1), 3)  # noqa: E731
     by_county = {r["county"]: r["len"] for r in df.group_by("county").len().sort("len", descending=True).to_dicts()}
@@ -744,6 +931,9 @@ def summary(table: pa.Table, source_stats: dict, ground_stats: dict, attr_stats:
         "pct_footprint_real": pct(int(((fid >> int(S.Fidelity.FOOTPRINT_REAL)) & 1).sum())),
         "pct_height_real": pct(int(((fid >> int(S.Fidelity.HEIGHT_REAL)) & 1).sum())),
         "pct_height_inferred": pct(int(((fid >> int(S.Fidelity.HEIGHT_INFERRED)) & 1).sum())),
+        "height_by_source": {name: int((hsrc == code).sum()) for name, code in
+                             (("usa_structures_lidar", S.SRC_LIDAR), ("neighbour_median", S.SRC_NEIGHBOURS),
+                              ("osm_height_tag", S.SRC_OSM_HEIGHT), ("osm_levels_derived", S.SRC_OSM_LEVELS))},
         "n_roof_real": int(((fid >> int(S.Fidelity.ROOF_REAL)) & 1).sum()),
         "n_floors_real": int(((fid >> int(S.Fidelity.FLOORS_REAL)) & 1).sum()),
         "n_year_real": int(((fid >> int(S.Fidelity.YEAR_REAL)) & 1).sum()),
@@ -764,6 +954,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--limit", type=int, default=None, help="first N source rows (development subset, never recorded)")
     ap.add_argument("--no-tiles", action="store_true", help="compute everything but write no per-tile files")
     ap.add_argument("--no-manifest", action="store_true", help="skip the manifest write")
+    ap.add_argument("--no-osm", action="store_true",
+                    help="skip the OpenStreetMap height join (deviation B11a) and publish the "
+                         "USA Structures height on every row, as this stage did before it was closed")
     ap.add_argument("--shells-index", action="store_true",
                     help="only aggregate and register the shell meshes built by "
                          "blender/buildings/build_tile.py --source nj, then exit")
@@ -788,7 +981,7 @@ def main(argv: list[str] | None = None) -> int:
 
     df, geoms, src_stats = load_source(limit=a.limit)
     ground, ground_stats = sample_ground(geoms, df["centroid_x"].to_numpy(), df["centroid_y"].to_numpy())
-    df, attr_stats = resolve_attributes(df, ground)
+    df, attr_stats = resolve_attributes(df, ground, geoms, use_osm=not a.no_osm)
 
     from .facade_heading import facade_headings
     nan = np.full(df.height, np.nan)
@@ -815,28 +1008,29 @@ def main(argv: list[str] | None = None) -> int:
         json.dump(doc, f, indent=1, sort_keys=True, default=str)
 
     if not subset and not a.no_manifest:
-        manifest.record_processed("buildings_nj_base", base_path, stage="buildings_nj", sources=[SOURCE_ID],
+        manifest.record_processed("buildings_nj_base", base_path, stage="buildings_nj", sources=[SOURCE_ID, OSM_SOURCE_ID],
                                   rows=table.num_rows, schema=SCHEMA_ID,
-                                  extra={"license": LICENSE, "columns": [c for c, _, _ in COLUMNS],
-                                         "borough_code": BOROUGH_NJ})
+                                  extra={"license": LICENSE, "license_osm": OSM_LICENSE,
+                                         "columns": [c for c, _, _ in COLUMNS], "borough_code": BOROUGH_NJ})
         manifest.record_processed("buildings_nj_summary", out_dir / "buildings_nj_summary.json",
-                                  stage="buildings_nj", sources=[SOURCE_ID], schema="buildings_nj_summary/1",
-                                  extra={"license": LICENSE})
+                                  stage="buildings_nj", sources=[SOURCE_ID, OSM_SOURCE_ID],
+                                  schema="buildings_nj_summary/2",
+                                  extra={"license": LICENSE, "license_osm": OSM_LICENSE})
         if tile_files:
             for t, v in tile_files.items():
                 v["sha256"] = manifest.sha256_of(tiles_root / t / TILE_FILENAME)
             index_path = out_dir / "tiles_index.json"
             with open(index_path, "w") as f:
-                json.dump({"schema_version": 1, "filename": TILE_FILENAME, "tiles": tile_files}, f,
+                json.dump({"schema_version": SCHEMA_VERSION, "filename": TILE_FILENAME, "tiles": tile_files}, f,
                           indent=1, sort_keys=True)
-            manifest.record_processed("buildings_nj_tiles", index_path, stage="buildings_nj", sources=[SOURCE_ID],
+            manifest.record_processed("buildings_nj_tiles", index_path, stage="buildings_nj", sources=[SOURCE_ID, OSM_SOURCE_ID],
                                       rows=int(sum(v["rows"] for v in tile_files.values())), schema=SCHEMA_ID,
-                                      extra={"license": LICENSE, "n_tiles": len(tile_files),
-                                             "tile_filename": TILE_FILENAME})
+                                      extra={"license": LICENSE, "license_osm": OSM_LICENSE,
+                                             "n_tiles": len(tile_files), "tile_filename": TILE_FILENAME})
 
     print(json.dumps({k: doc[k] for k in ("buildings", "tiles", "height_median_m", "height_max_m",
-                                          "pct_height_real", "pct_height_inferred", "n_roof_real",
-                                          "n_floors_real", "n_ground_real", "seconds")}, indent=1))
+                                          "pct_height_real", "pct_height_inferred", "height_by_source",
+                                          "n_roof_real", "n_floors_real", "n_ground_real", "seconds")}, indent=1))
     return 0
 
 
