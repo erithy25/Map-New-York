@@ -684,6 +684,21 @@ Measured on `drive_bronx_grand_concourse` before the change: one pedestrian at *
 axis**, one centimetre above the old cut-off, and the nearest one actually in frame at **2.57 m,
 21.0°**, with more at 3.39 m and 4.41 m.
 
+Raising the constant turned out to be half of it, and the re-render is what said so: the frame came
+back **bit-identical**, still with four people inside 2.6 m, and still reporting *no* pedestrian
+dropped over the observer. `add_agents` measures its clearance from the point the scene was built
+around, and `render_sheets.py` moves the camera after that — `probe_origin` can switch to the nominal
+viewpoint and `clear_of_geometry` walks the eye onto the nearest paved surface. **26 of the 57 scenes
+have the camera away from the scene centre**: 5.39 m here, 11 m on Arthur Avenue, 166 m on One World
+Trade Center. `agents.cull_near_camera` now runs after the camera is final and removes what the
+placement could not know about.
+
+**A reporting note that hid it, and that a reader of any of these sheets needs.** The `dropped` map in
+`render.json` is *sparse*: a reason appears only when it fired at least once. So an absent
+`pedestrian_over_the_observer` means "nobody was dropped for this" — which is indistinguishable from
+"this rule never got a chance to fire", and here it was the second. When reading a drop record, an
+absent key is not evidence that a rule is working.
+
 ### The renders are physically lit; the photographs were metered
 
 On `drive_lower_manhattan_stone_st` the first reading was that the lit shopfront fascias were blowing
