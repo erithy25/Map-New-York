@@ -94,9 +94,18 @@ def build_index(blender_out: Path = BLENDER_OUT, processed: Path = PROCESSED) ->
     }
 
 
-def write_index(blender_out: Path = BLENDER_OUT, processed: Path = PROCESSED) -> Path:
+def write_index(blender_out: Path = BLENDER_OUT, processed: Path = PROCESSED) -> Path | None:
+    """Write the index, or return ``None`` when there is no catalogue to write one from.
+
+    An index with zero landmarks is not an index; writing one anyway would make every consumer -- the
+    manifest included -- report a file it should not have, which is how a checkout with no landmarks
+    built ends up listing a landmark asset.
+    """
     doc = build_index(blender_out, processed)
     out = Path(processed) / "landmarks" / "landmarks.json"
+    if doc["count"] == 0:
+        log.info("no landmark catalogue under %s; no index written", Path(blender_out) / "landmarks")
+        return None
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(doc, indent=2, sort_keys=True) + "\n")
     log.info("landmarks index: %d entries -> %s", doc["count"], out)
@@ -113,6 +122,9 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s %(message)s")
     out = write_index(args.blender_out, args.processed)
+    if out is None:
+        print("no landmark catalogue found; no index written")
+        return 1
     doc = json.loads(out.read_text())
     print(f"{doc['count']} landmarks, {len(doc['skipped'])} skipped -> {out}")
     return 0

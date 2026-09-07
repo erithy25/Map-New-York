@@ -166,17 +166,31 @@ bool UNYCRadioSubsystem::LoadStations()
 				Track.DurationSeconds = static_cast<float>(TrackObject->GetNumberField(TEXT("duration_s")));
 				Track.GainDb = static_cast<float>(TrackObject->GetNumberField(TEXT("gain_db")));
 
-				// "jazz/fluffy_ruffles_rag.ogg" -> /Game/NYCSim/Audio/Radio/jazz/fluffy_ruffles_rag
-				const FString RelativeFile = TrackObject->GetStringField(TEXT("file"));
-				FString Directory;
-				FString FileName;
-				if (!RelativeFile.Split(TEXT("/"), &Directory, &FileName))
+				// The import manifest writes the content path it actually assigned into the index as
+				// "sound_path", and that is the one to use. Deriving it here as well is how the two
+				// disagreed: the manifest's safe_asset_name puts an underscore in front of a leading
+				// digit, because a UE asset name may not begin with one, so "01_gunther_freischutz.ogg"
+				// imports as _01_gunther_freischutz while the rule below looks for 01_gunther_freischutz.
+				// The fallback stays for an index written before the manifest carried the field.
+				FString ResolvedPath;
+				if (TrackObject->TryGetStringField(TEXT("sound_path"), ResolvedPath) && !ResolvedPath.IsEmpty())
 				{
-					Directory = Station.Id;
-					FileName = RelativeFile;
+					Track.SoundPath = ResolvedPath;
 				}
-				const FString Stem = FPaths::GetBaseFilename(FileName);
-				Track.SoundPath = FString::Printf(TEXT("%s/%s/%s.%s"), *ContentRoot, *Directory, *Stem, *Stem);
+				else
+				{
+					// "jazz/fluffy_ruffles_rag.ogg" -> /Game/NYCSim/Audio/Radio/jazz/fluffy_ruffles_rag
+					const FString RelativeFile = TrackObject->GetStringField(TEXT("file"));
+					FString Directory;
+					FString FileName;
+					if (!RelativeFile.Split(TEXT("/"), &Directory, &FileName))
+					{
+						Directory = Station.Id;
+						FileName = RelativeFile;
+					}
+					const FString Stem = FPaths::GetBaseFilename(FileName);
+					Track.SoundPath = FString::Printf(TEXT("%s/%s/%s.%s"), *ContentRoot, *Directory, *Stem, *Stem);
+				}
 				Station.Tracks.Add(MoveTemp(Track));
 			}
 		}

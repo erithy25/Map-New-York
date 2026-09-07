@@ -62,6 +62,10 @@ IMPORT_SETTINGS: dict[str, dict[str, Any]] = {
     # tyre friction table -- without them every surface in the city is SurfaceClass::Default and
     # cobblestone, steel plate and painted crosswalk all grip like dry asphalt.
     "pavement_nanite": {"nanite": True, "lods_from_suffix": False, "collision": "complex_as_simple", "generate_lightmap_uvs": False, "combine_meshes": False, "material_master": "M_NYC_Master", "mobility": "static", "physical_materials": True, "notes": "per-tile road surfaces; one static mesh per (kind, surface) in the glb, each carrying the SurfaceClass its material maps to"},
+    # The merged distant skyline (blender/buildings/build_lod_merged.py): one mesh per 4 km cell at
+    # level 2 and per 16 km cell at level 3. No collision - you never touch it, it is what the city
+    # looks like from a mile away - and Nanite, which is what makes 838 MB of it affordable.
+    "skyline_nanite": {"nanite": True, "lods_from_suffix": False, "collision": "none", "generate_lightmap_uvs": False, "combine_meshes": False, "material_master": "M_NYC_Master", "mobility": "static", "notes": "merged skyline cell; build_levels.py spawns one actor per cell in its own level"},
     "roof_nanite": {"nanite": True, "lods_from_suffix": False, "collision": "complex_as_simple", "generate_lightmap_uvs": False, "combine_meshes": False, "material_master": "M_NYC_Master", "mobility": "static"},
     "kit_nanite_lod": {"nanite": True, "lods_from_suffix": True, "collision": "simple_box", "generate_lightmap_uvs": False, "combine_meshes": True, "material_master": "M_NYC_Master", "mobility": "static", "instanced": True},
     "landmark_nanite": {"nanite": True, "lods_from_suffix": True, "collision": "complex_as_simple", "generate_lightmap_uvs": False, "combine_meshes": True, "material_master": "M_NYC_Master", "mobility": "static"},
@@ -78,6 +82,14 @@ IMPORT_SETTINGS: dict[str, dict[str, Any]] = {
     "texture_mask": {"texture": True, "srgb": False, "compression": "Grayscale", "mip_gen": "NoMipmaps", "address": "Clamp", "notes": "8-bit water/shoreline mask, 1 texel = 2 m"},
     "raw_copy": {"copy": True, "notes": "copied verbatim under Content/NYCSim/Runtime (staged as UFS)"},
     "json_copy": {"copy": True, "notes": "small JSON copied verbatim"},
+    # 74 licensed .ogg files - 7 radio stations and the vehicle/world SFX - had no import rule at
+    # all, so the manifest never listed them and the car had no radio and no sound effects. Ogg
+    # Vorbis imports to USoundWave; streaming is on for the radio because a station's tracks are
+    # minutes long and there is no reason to hold them resident.
+    "sound_wave": {"sound": True, "streaming": False, "compression_quality": 70, "looping": False,
+                   "notes": "ogg -> USoundWave"},
+    "sound_wave_stream": {"sound": True, "streaming": True, "compression_quality": 60, "looping": False,
+                          "notes": "ogg -> USoundWave, streamed; radio tracks run for minutes"},
     "font": {"font": True, "hinting": "Default", "loading_policy": "LazyLoad", "notes": "OTF -> UFont (offline cache 64/128 px) for UCanvasRenderTarget2D sign text"},
 }
 
@@ -87,6 +99,12 @@ GLB_RULES: list[tuple[re.Pattern[str], str, str, str]] = [
     (re.compile(r"^tiles/(?P<tile>t_-?\d+_-?\d+)/roofs\.glb$"), "roof_nanite", f"{CONTENT_ROOT}/Tiles/{{tile}}/SM_Roofs", "roofs"),
     (re.compile(r"^tiles/(?P<tile>t_-?\d+_-?\d+)/tile_pavement\.glb$"), "pavement_nanite", f"{CONTENT_ROOT}/Tiles/{{tile}}/SM_Pavement", "pavement"),
     (re.compile(r"^tiles/(?P<tile>t_-?\d+_-?\d+)/(?P<stem>[^/]+)\.glb$"), "shell_nanite", f"{CONTENT_ROOT}/Tiles/{{tile}}/SM_{{stem}}", "tile_mesh"),
+    # The merged skyline. build_levels.build_skyline_level looks for SM_S4_<x>_<y> (4 km cells) and
+    # SM_S16_<x>_<y> (16 km), with a negative index written as 'm<n>' -- which is exactly what
+    # safe_asset_name produces. 90 of these files had no rule at all, so the manifest skipped all
+    # 838 MB of them with a warning and the city had nothing beyond the streamed tiles.
+    (re.compile(r"^tiles/_merged/l2/L2_(?P<sx>-?\d+)_(?P<sy>-?\d+)\.glb$"), "skyline_nanite", f"{CONTENT_ROOT}/Skyline/SM_S4_{{sx}}_{{sy}}", "skyline"),
+    (re.compile(r"^tiles/_merged/l3/L3_(?P<sx>-?\d+)_(?P<sy>-?\d+)\.glb$"), "skyline_nanite", f"{CONTENT_ROOT}/Skyline/SM_S16_{{sx}}_{{sy}}", "skyline"),
     (re.compile(r"^kit/(?P<stem>[^/]+)\.glb$"), "kit_nanite_lod", f"{CONTENT_ROOT}/Kit/{{category}}/SM_{{stem}}", "kit"),
     (re.compile(r"^kit/(?P<category>[^/]+)/(?P<stem>[^/]+)\.glb$"), "kit_nanite_lod", f"{CONTENT_ROOT}/Kit/{{category}}/SM_{{stem}}", "kit"),
     (re.compile(r"^landmarks/(?P<stem>[^/]+)\.glb$"), "landmark_nanite", f"{CONTENT_ROOT}/Landmarks/SM_{{stem}}", "landmark"),
@@ -94,10 +112,20 @@ GLB_RULES: list[tuple[re.Pattern[str], str, str, str]] = [
     (re.compile(r"^props/trees?/(?P<stem>[^/]+)\.glb$"), "tree_lod", f"{CONTENT_ROOT}/Trees/SM_{{stem}}", "tree"),
     (re.compile(r"^props/(?P<stem>[^/]+)\.glb$"), "prop_lod", f"{CONTENT_ROOT}/Props/{{category}}/SM_{{stem}}", "prop"),
     (re.compile(r"^props/(?P<category>[^/]+)/(?P<stem>[^/]+)\.glb$"), "prop_lod", f"{CONTENT_ROOT}/Props/{{category}}/SM_{{stem}}", "prop"),
-    (re.compile(r"^vehicles/(?P<stem>[^/]+)\.glb$"), "vehicle_skeletal", f"{CONTENT_ROOT}/Vehicles/{{stem}}/SK_{{stem}}", "vehicle"),
-    (re.compile(r"^vehicles/(?P<category>[^/]+)/(?P<stem>[^/]+)\.glb$"), "vehicle_skeletal", f"{CONTENT_ROOT}/Vehicles/{{category}}/SK_{{stem}}", "vehicle"),
-    (re.compile(r"^character/(?P<stem>[^/]+)\.glb$"), "character_skeletal", f"{CONTENT_ROOT}/Character/{{stem}}/SK_{{stem}}", "character"),
-    (re.compile(r"^character/(?P<category>[^/]+)/(?P<stem>[^/]+)\.glb$"), "character_skeletal", f"{CONTENT_ROOT}/Character/{{category}}/SK_{{stem}}", "character"),
+    # The four content paths below are the ones the ENGINE names, not the ones this file found
+    # convenient. UNYCGameplaySettings hardcodes /Game/NYCSim/Vehicles/Player/SK_FusionHybrid,
+    # /Game/NYCSim/Vehicles/Fleet, /Game/NYCSim/Characters/Player/SK_Player and
+    # /Game/NYCSim/Characters/Crowd -- note Characters, plural. The manifest used to write
+    # Vehicles/fusion_hybrid/SK_fusion_hybrid and Character/npc/SK_npc_00_*, so the player's car,
+    # the player's body, the traffic fleet and the crowd would each have imported to a path nothing
+    # ever looks in. The specific rules must precede the generic ones.
+    (re.compile(r"^vehicles/fusion_hybrid\.glb$"), "vehicle_skeletal", f"{CONTENT_ROOT}/Vehicles/Player/SK_FusionHybrid", "vehicle"),
+    (re.compile(r"^vehicles/(?P<stem>[^/]+)\.glb$"), "vehicle_skeletal", f"{CONTENT_ROOT}/Vehicles/Fleet/SK_{{stem}}", "vehicle"),
+    (re.compile(r"^vehicles/(?P<category>[^/]+)/(?P<stem>[^/]+)\.glb$"), "vehicle_skeletal", f"{CONTENT_ROOT}/Vehicles/Fleet/SK_{{stem}}", "vehicle"),
+    (re.compile(r"^character/player\.glb$"), "character_skeletal", f"{CONTENT_ROOT}/Characters/Player/SK_Player", "character"),
+    (re.compile(r"^character/npc/(?P<stem>[^/]+)\.glb$"), "character_skeletal", f"{CONTENT_ROOT}/Characters/Crowd/SK_{{stem}}", "character"),
+    (re.compile(r"^character/(?P<stem>[^/]+)\.glb$"), "character_skeletal", f"{CONTENT_ROOT}/Characters/{{stem}}/SK_{{stem}}", "character"),
+    (re.compile(r"^character/(?P<category>[^/]+)/(?P<stem>[^/]+)\.glb$"), "character_skeletal", f"{CONTENT_ROOT}/Characters/{{category}}/SK_{{stem}}", "character"),
 ]
 
 _ASSET_NAME_RE = re.compile(r"[^A-Za-z0-9_]")
@@ -111,12 +139,47 @@ def safe_asset_name(s: str) -> str:
     return s
 
 
+#: Template fields that are already asset-safe and must be passed through verbatim. A tile name and a
+#: skyline cell index both carry their own convention for a negative number ('m1', not '-1'), and
+#: safe_asset_name would additionally put an underscore in front of a positive one because it starts
+#: with a digit -- turning SM_S16_0_1 into SM_S16__0__1, which is not the asset build_levels.py loads.
+_LITERAL_FIELDS = ("tile", "sx", "sy")
+
+
+def cell_part(value: int | str) -> str:
+    """A skyline cell index the way ``build_levels.build_skyline_level`` writes it: ``-1`` -> ``m1``."""
+    v = int(value)
+    return f"m{-v}" if v < 0 else str(v)
+
+
 def content_path(template: str, **kw: str) -> str:
-    kw = {k: (v if k == "tile" else safe_asset_name(v)) for k, v in kw.items()}
+    kw = {k: (v if k in _LITERAL_FIELDS else safe_asset_name(v)) for k, v in kw.items()}
     kw.setdefault("category", "Misc")
     if "tile" in kw:
         kw["tile"] = safe_asset_name(kw["tile"])
     return template.format(**kw)
+
+
+def resolve_glb(rel: str, *, category: str | None = None, stem: str | None = None):
+    """``(content path, import-settings id, kind)`` for a ``blender_out``-relative glb path.
+
+    The single place that turns a rule into a destination. It exists because the test that checks the
+    engine and the pipeline agree about where an asset lands must not reimplement the rule it is
+    checking -- that is how a check ends up passing against its own copy of the bug.
+    """
+    rule = next(((rx, st, tpl, kind) for rx, st, tpl, kind in GLB_RULES if rx.match(rel)), None)
+    if rule is None:
+        return None
+    rx, settings, tpl, kind = rule
+    gd = rx.match(rel).groupdict()
+    fields = {k: (v or "") for k, v in gd.items()}
+    for axis in ("sx", "sy"):
+        if fields.get(axis):
+            fields[axis] = cell_part(fields[axis])
+    fields.update(tile=gd.get("tile", ""),
+                  stem=stem or gd.get("stem") or Path(rel).stem,
+                  category=category or gd.get("category") or "Misc")
+    return content_path(tpl, **fields), settings, kind
 
 
 def _sha256(path: Path) -> str:
@@ -135,12 +198,19 @@ def _rel(path: Path, root: Path) -> str:
 
 
 class ManifestBuilder:
-    def __init__(self, processed: Path, blender_out: Path, repo_root: Path = REPO_ROOT, *, hash_files: bool = True, with_lanes: bool = False):
+    def __init__(self, processed: Path, blender_out: Path, repo_root: Path = REPO_ROOT, *,
+                 hash_files: bool = True, with_lanes: bool = False, tiles: set[str] | None = None):
         self.processed = Path(processed)
         self.blender_out = Path(blender_out)
         self.repo_root = Path(repo_root)
         self.hash_files = hash_files
         self.with_lanes = with_lanes
+        #: When given, only these tiles are listed and only their per-tile files are written. A full
+        #: run writes a water_mask.png and a props.json for each of 2,916 tiles, which is both slow
+        #: and, on a machine with a few gigabytes free, impossible. Everything that is not per-tile -
+        #: the vehicles, the character, the kit, the props, the landmarks, the runtime, the audio -
+        #: is listed regardless, because none of it is a tile's to own.
+        self.tiles_filter = set(tiles) if tiles else None
         self.entries: list[dict[str, Any]] = []
         self.tiles: dict[str, dict[str, Any]] = {}
         self.warnings: list[str] = []
@@ -236,6 +306,8 @@ class ManifestBuilder:
             m = rx.match(rel)
             assert m is not None
             gd = m.groupdict()
+            if self.tiles_filter is not None and gd.get("tile") and gd["tile"] not in self.tiles_filter:
+                continue
             try:
                 summary = glb_summary(glb)
             except GlbError as e:
@@ -250,7 +322,9 @@ class ManifestBuilder:
             if kind == "prop" and not category:
                 cat = self.props_catalog.get(_kit_id_from(extras, stem))
                 category = (cat or {}).get("category")
-            dst = content_path(tpl, tile=gd.get("tile", ""), stem=stem, category=category or "Misc") if "{tile}" not in tpl else content_path(tpl, tile=gd["tile"], stem=stem, category=category or "Misc")
+            resolved = resolve_glb(rel, category=category, stem=stem)
+            assert resolved is not None      # the rule matched above
+            dst = resolved[0]
             if kind == "tree":
                 settings = "tree_lod"
             if kind in ("kit", "prop") and summary["has_lod1"] is False and settings.endswith("_lod"):
@@ -288,6 +362,8 @@ class ManifestBuilder:
         index_rows = self._read_tile_index()
         for td in sorted(p for p in tiles_dir.iterdir() if p.is_dir() and _TILE_RE.match(p.name)):
             tile = td.name
+            if self.tiles_filter is not None and tile not in self.tiles_filter:
+                continue
             t = Tile.parse(tile)
             info = self.tiles.setdefault(tile, {"assets": []})
             info.update({"tx": t.tx, "ty": t.ty, "x0": t.x0, "y0": t.y0, "size_m": TILE_SIZE_M})
@@ -371,6 +447,8 @@ class ManifestBuilder:
             r["x"], r["y"] = float(r["x"]) - t.x0, float(r["y"]) - t.y0  # tile-local
             per_tile.setdefault(t.name, []).append(_jsonable(r))
         for tile, rows in per_tile.items():
+            if self.tiles_filter is not None and tile not in self.tiles_filter:
+                continue
             td = self._tile_dir(tile)
             if not td.is_dir():
                 continue
@@ -403,6 +481,8 @@ class ManifestBuilder:
             r["pts"] = [[round(c[0] - t.x0, 3), round(c[1] - t.y0, 3), round(c[2] if len(c) > 2 else 0.0, 3)] for c in coords]
             per_tile.setdefault(t.name, []).append(_jsonable(r))
         for tile, rows in per_tile.items():
+            if self.tiles_filter is not None and tile not in self.tiles_filter:
+                continue
             td = self._tile_dir(tile)
             if not td.is_dir():
                 continue
@@ -471,6 +551,11 @@ class ManifestBuilder:
         shore_tree = STRtree(shoreline) if shoreline else None
         px_per_m = (TERRAIN_SAMPLES - 1) / TILE_SIZE_M
         n_masks = 0
+        if self.tiles_filter is not None:
+            # Rasterising a 501x501 mask for every tile that touches water is 1,760 PNGs; on a subset
+            # run those are 1,760 files nothing will import and, on a machine with a couple of
+            # gigabytes free, the run itself does not fit.
+            tile_names = [t for t in tile_names if t in self.tiles_filter]
         for tile in tile_names:
             t = Tile.parse(tile)
             tb = box(*t.bounds)
@@ -546,6 +631,111 @@ class ManifestBuilder:
         return self._load_polys(p)
 
     # ------------------------------------------------------------------ runtime + live + misc
+    def add_audio(self) -> int:
+        """The radio stations, the sound effects and the index that names them.
+
+        ``UNYCRadioSubsystem`` turns a track's ``file`` field into a content path by the rule its own
+        source states -- ``"jazz/fluffy_ruffles_rag.ogg"`` becomes
+        ``/Game/NYCSim/Audio/Radio/jazz/fluffy_ruffles_rag`` -- and ``UNYCGameplaySettings`` names
+        ``/Game/NYCSim/Audio/Radio`` and ``/Game/NYCSim/Audio/SFX`` as the two roots. None of the 74
+        files had a manifest rule, so none of them was ever listed, imported or cooked: no radio, no
+        siren, no horn, no engine sample. The paths below are the engine's, derived from those two
+        settings and that rule rather than chosen here.
+        """
+        audio = self.repo_root / "assets" / "audio"
+        if not audio.is_dir():
+            return 0
+        n = 0
+        radio = audio / "radio"
+        for p in sorted(radio.rglob("*.ogg")):
+            rel = p.relative_to(radio)
+            if len(rel.parts) != 2:
+                self._warn(f"radio track {rel.as_posix()} is not <genre>/<file>.ogg; skipped")
+                continue
+            genre, stem = rel.parts[0], p.stem
+            self._add(f"audio:radio:{genre}/{stem}", "sound", p,
+                      f"{CONTENT_ROOT}/Audio/Radio/{genre}/{safe_asset_name(stem)}",
+                      "sound_wave_stream",
+                      extra=self._licence_of(p))
+            n += 1
+        sfx = audio / "sfx"
+        for p in sorted(sfx.glob("*.ogg")):
+            self._add(f"audio:sfx:{p.stem}", "sound", p,
+                      f"{CONTENT_ROOT}/Audio/SFX/{safe_asset_name(p.stem)}", "sound_wave",
+                      extra=self._licence_of(p))
+            n += 1
+        stations = radio / "stations.json"
+        if stations.is_file():
+            # The index is rewritten with the content path this manifest actually assigned to each
+            # track, rather than left for the engine to derive. UNYCRadioSubsystem derives
+            # "<root>/<genre>/<stem>" from the file name; safe_asset_name puts an underscore in front
+            # of a leading digit, because a UE asset name may not start with one. So a track called
+            # 01_gunther_freischutz.ogg imports as _01_gunther_freischutz and the radio looks for
+            # 01_gunther_freischutz and finds silence. Two derivations of the same string in two
+            # languages will drift; one of them stating the answer will not.
+            resolved = self._stations_with_paths(stations, radio)
+            if resolved is not None:
+                self._add("audio:stations", "audio_index", resolved,
+                          "Content/NYCSim/Audio/stations.json", "json_copy",
+                          extra={"note": "rewritten from assets/audio/radio/stations.json with the "
+                                         "content path this manifest assigned to each track",
+                                 "source": _rel(stations, self.repo_root)})
+                n += 1
+        elif n:
+            self._warn("assets/audio/radio/stations.json is missing; the radio has tracks but no "
+                       "station list and UNYCRadioSubsystem will find no stations")
+        log.info("audio: %d", n)
+        return n
+
+    def _stations_with_paths(self, stations: Path, radio: Path) -> Path | None:
+        """``data/processed/audio/stations.json``: the fetcher's index plus a ``sound_path`` per track."""
+        try:
+            doc = json.loads(stations.read_text())
+        except Exception as exc:  # noqa: BLE001
+            self._warn(f"stations.json unreadable: {exc}")
+            return None
+        by_src = {e["src"]: e["dst"] for e in self.entries if e["kind"] == "sound"}
+        resolved, unresolved = 0, []
+        for station in doc.get("stations", []):
+            for track in station.get("tracks", []):
+                rel = str(track.get("file", ""))
+                src = _rel(radio / rel, self.repo_root)
+                dst = by_src.get(src)
+                if dst is None:
+                    unresolved.append(rel)
+                    continue
+                track["sound_path"] = f"{dst}.{dst.rsplit('/', 1)[-1]}"
+                resolved += 1
+        if unresolved:
+            self._warn(f"{len(unresolved)} radio track(s) named in stations.json have no imported "
+                       f"asset: {unresolved[:5]}")
+        doc["sound_path_note"] = ("sound_path is the exact content path this manifest assigned; "
+                                  "prefer it over deriving one from `file`")
+        doc["resolved_tracks"] = resolved
+        out = self.processed / "audio" / "stations.json"
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(json.dumps(doc, indent=1, sort_keys=True) + "\n")
+        return out
+
+    @staticmethod
+    def _licence_of(p: Path) -> dict[str, Any]:
+        """The per-file licence record the fetcher wrote beside the track, carried into the manifest.
+
+        Every one of these files was fetched with a machine-checked licence and the provenance is the
+        reason they may ship at all; a manifest entry that drops it is a delivery with no receipt.
+        """
+        rec = p.with_suffix(p.suffix + ".license.json")
+        if not rec.is_file():
+            return {}
+        try:
+            doc = json.loads(rec.read_text())
+        except Exception:
+            return {}
+        return {"licence": doc.get("licence") or doc.get("license"),
+                "licence_url": doc.get("licence_url") or doc.get("license_url"),
+                "source_url": doc.get("source_url"),
+                "licence_record": _rel(rec, REPO_ROOT)}
+
     def add_runtime(self) -> int:
         n = 0
         crs = self.processed / "crs.json"
@@ -589,22 +779,45 @@ class ManifestBuilder:
                     break
         fonts = self.repo_root / "unreal" / "assets" / "fonts" / "Overpass"
         if fonts.is_dir():
+            # One UFont called F_Overpass with the three weights as typefaces, because that is the
+            # asset the engine names: UNYCGameplaySettings::HudFont is
+            # /Game/NYCSim/Fonts/F_Overpass.F_Overpass. Left to safe_asset_name, "overpass-bold"
+            # became "overpass_mbold" (the '-' -> 'm' rule that keeps tile names unambiguous) and the
+            # font landed at F_overpassmbold, so every piece of HUD text would have fallen back to
+            # the engine default with nothing to notice.
+            faces = {"regular": "Regular", "semibold": "SemiBold", "bold": "Bold"}
+            sources = []
             for p in sorted(fonts.glob("*.otf")):
-                self._add(f"font:{p.stem}", "font", p, f"{CONTENT_ROOT}/Fonts/F_{safe_asset_name(p.stem)}", "font",
-                          extra={"license": "SIL OFL 1.1 / LGPL 2.1", "license_record": _rel(fonts / "LICENSE_RECORD.json", self.repo_root)})
+                weight = p.stem.split("-")[-1].lower()
+                sources.append({"file": _rel(p, self.repo_root), "typeface": faces.get(weight, weight.title()),
+                                "bytes": p.stat().st_size,
+                                "sha256": _sha256(p) if self.hash_files else ""})
+            if sources:
+                primary = fonts / "overpass-regular.otf"
+                if not primary.exists():
+                    primary = Path(self.repo_root / sources[0]["file"])
+                self._add("font:F_Overpass", "font", primary, f"{CONTENT_ROOT}/Fonts/F_Overpass", "font",
+                          extra={"license": "SIL OFL 1.1 / LGPL 2.1",
+                                 "license_record": _rel(fonts / "LICENSE_RECORD.json", self.repo_root),
+                                 "typefaces": sources,
+                                 "note": ("one UFont with three typefaces; the engine names "
+                                          "F_Overpass and nothing else")})
                 n += 1
         return n
 
     # ------------------------------------------------------------------ order + write
     def import_order(self) -> list[str]:
-        rank = {"crs": 0, "font": 1, "catalog": 2, "runtime_nycb": 3, "live_json": 3, "landmarks_index": 3, "water": 4,
+        rank = {"crs": 0, "font": 1, "catalog": 2, "runtime_nycb": 3, "live_json": 3, "landmarks_index": 3,
+                "audio_index": 3, "water": 4, "sound": 5,
                 "kit": 10, "prop": 11, "tree": 11, "landmark": 12, "vehicle": 13, "character": 13,
+                "skyline": 33,
                 "terrain": 20, "water_mask": 21, "shells": 30, "roofs": 31, "tile_mesh": 32}
         return [e["id"] for e in sorted(self.entries, key=lambda e: (rank.get(e["kind"], 99), e.get("tile") or "", e["id"]))]
 
     def build(self) -> dict[str, Any]:
         self.load_catalogs()
         self.add_runtime()
+        self.add_audio()
         self.add_glbs()
         self.add_tiles()
         self.add_water()
@@ -689,15 +902,29 @@ def _parquet_to_json(src: Path, dst: Path, columns: list[str], *, tile_origin: t
     return len(rows)
 
 
+#: DATA_CONTRACTS §15 header, laid out as a C++17 compiler lays it out: 4 bytes of padding after
+#: ``section_count`` so ``index_offset`` is 8-aligned, giving ``sizeof == 24``. This reader used to
+#: unpack it as ``"<IIQ"`` -- 20 bytes, no padding -- so it took ``index_offset`` from the padding and
+#: the four bytes after it, seeked to nonsense, and declared every container invalid. All seven
+#: runtime files were reported "not a valid NYCB container" and dropped from the manifest: the road
+#: graph the traffic simulation drives on, the signals, the POIs the GPS searches, the tile index,
+#: the transit, the density. 130 MB of the world, silently not shipped.
+#:
+#: ``pipeline/nycsim_pipeline/runtime/nycb.py`` is the writer and asserts ``itemsize == 24``; this is
+#: the same layout, and ``tests/test_unreal_pipeline_paths.py`` now reads a real container through it.
+_NYCB_HEADER = struct.Struct("<4sII4xQ")
+assert _NYCB_HEADER.size == 24, _NYCB_HEADER.size
+
+
 def _nycb_header(p: Path) -> dict[str, Any] | None:
     """DATA_CONTRACTS §15: header {magic[4]='NYCB'; u32 version; u32 section_count; u64 index_offset}; index entries
     {char name[16]; u64 offset; u64 size; u32 element_size; u32 element_count}."""
     try:
         with open(p, "rb") as f:
-            head = f.read(20)
-            if len(head) < 20 or head[:4] != b"NYCB":
+            head = f.read(_NYCB_HEADER.size)
+            if len(head) < _NYCB_HEADER.size or head[:4] != b"NYCB":
                 return None
-            version, section_count, index_offset = struct.unpack("<IIQ", head[4:20])
+            magic, version, section_count, index_offset = _NYCB_HEADER.unpack(head)
             f.seek(index_offset)
             sections = []
             entry = struct.Struct("<16sQQII")
@@ -720,9 +947,9 @@ def write_manifest(doc: dict[str, Any], out: Path) -> Path:
     return out
 
 
-def generate(processed: Path = PROCESSED, blender_out: Path = BLENDER_OUT, out: Path | None = None, *, repo_root: Path = REPO_ROOT, hash_files: bool = True, with_lanes: bool = False, record: bool = True) -> tuple[Path, dict[str, Any]]:
+def generate(processed: Path = PROCESSED, blender_out: Path = BLENDER_OUT, out: Path | None = None, *, repo_root: Path = REPO_ROOT, hash_files: bool = True, with_lanes: bool = False, record: bool = True, tiles: set[str] | None = None) -> tuple[Path, dict[str, Any]]:
     out = out or (Path(processed) / "unreal_manifest.json")
-    b = ManifestBuilder(Path(processed), Path(blender_out), Path(repo_root), hash_files=hash_files, with_lanes=with_lanes)
+    b = ManifestBuilder(Path(processed), Path(blender_out), Path(repo_root), hash_files=hash_files, with_lanes=with_lanes, tiles=tiles)
     doc = b.build()
     write_manifest(doc, out)
     if record:
@@ -741,9 +968,17 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--with-lanes", action="store_true", help="also export per-tile lanes_debug.json")
     ap.add_argument("--no-hash", action="store_true", help="skip SHA-256 of every asset (faster)")
     ap.add_argument("--no-record", action="store_true", help="do not write data/manifest/processed.json")
+    ap.add_argument("--tiles", default="", help="comma separated tile names; only these are listed "
+                                                "and only their per-tile files are written")
+    ap.add_argument("--tile-list", type=Path, default=None, help="file with one tile name per line")
     a = ap.parse_args(argv)
+    tiles: set[str] | None = None
+    if a.tile_list:
+        tiles = {t.strip() for t in a.tile_list.read_text().split("\n") if t.strip()}
+    elif a.tiles:
+        tiles = {t.strip() for t in a.tiles.split(",") if t.strip()}
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
-    out, doc = generate(a.processed, a.blender_out, a.out, hash_files=not a.no_hash, with_lanes=a.with_lanes, record=not a.no_record)
+    out, doc = generate(a.processed, a.blender_out, a.out, hash_files=not a.no_hash, with_lanes=a.with_lanes, record=not a.no_record, tiles=tiles)
     print(json.dumps({"manifest": str(out), "counts": doc["counts"], "warnings": len(doc["warnings"])}, indent=1))
     return 0
 

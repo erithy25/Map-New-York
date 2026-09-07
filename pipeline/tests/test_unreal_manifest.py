@@ -74,14 +74,26 @@ def world(tmp_path: Path) -> tuple[Path, Path, Path]:
     pq.write_table(pa.table({"kind": ["pier"], "geometry": [Polygon([(x0 + 500, y0 + 400), (x0 + 560, y0 + 400), (x0 + 560, y0 + 410), (x0 + 500, y0 + 410)]).wkb]}), processed / "water" / "structures.parquet")
     (processed / "live").mkdir()
     (processed / "live" / "tides.json").write_text(json.dumps({"station": "NYH1927", "current_speed_mps": 1.2, "current_dir_deg": 35.0, "water_level_m": 0.3, "predicted_at": "2026-09-05T18:00:00Z"}))
-    # runtime nycb with one section
+    # A runtime container with one section, written by the REAL writer.
+    #
+    # This fixture used to hand-assemble the bytes with struct.pack("<IIQ", ...) - a 20-byte header
+    # with no padding - and the manifest's reader unpacked exactly the same 20 bytes, so the two
+    # agreed with each other and with nothing else. The actual format (DATA_CONTRACTS 15,
+    # runtime/nycb.py, which asserts it) has 4 bytes of padding before the 8-aligned index_offset and
+    # is 24 bytes, so every real container in data/processed/runtime failed to parse and all seven
+    # were dropped from the manifest with a warning nobody read. Building the fixture through the
+    # writer means the format has one definition and this test cannot pass against a private copy.
     (processed / "runtime").mkdir()
-    payload = struct.pack("<iiffIIBBH", -3, 7, -2.1, 61.0, 120, 800, 7, 1, 0)
-    index = struct.pack("<16sQQII", b"tiles", 20, len(payload), len(payload), 1)
-    with open(processed / "runtime" / "tiles.nycb", "wb") as f:
-        f.write(b"NYCB" + struct.pack("<IIQ", 1, 1, 20 + len(payload)))
-        f.write(payload)
-        f.write(index)
+    from nycsim_pipeline.runtime.nycb import NycbWriter
+
+    tiles_dtype = np.dtype([("tx", "<i4"), ("ty", "<i4"), ("min_z_m", "<f4"), ("max_z_m", "<f4"),
+                            ("n_buildings", "<u4"), ("n_road_segments", "<u4"),
+                            ("borough", "u1"), ("flags", "u1")], align=True)
+    rows = np.zeros(1, dtype=tiles_dtype)
+    rows[0] = (-3, 7, -2.1, 61.0, 120, 800, 7, 1)
+    writer = NycbWriter()
+    writer.add_array("tiles", rows)
+    writer.write(processed / "runtime" / "tiles.nycb")
     # blender outputs
     _write_glb(blender_out / "tiles" / tile / "tile_buildings.glb", _glb_doc(["shell_brick", "shell_glass"], {"tile": tile, "category": "shells"}, tris=5000))
     _write_glb(blender_out / "kit" / "window_dh_1over1.glb", _glb_doc(["window_dh_1over1", "window_dh_1over1_LOD1"], {"kit_id": 7, "category": "windows"}))

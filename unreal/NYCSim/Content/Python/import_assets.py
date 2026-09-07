@@ -340,6 +340,125 @@ def build_master_material(collection, force: bool = False) -> bool:
     return True
 
 
+def build_vehicle_material(collection, force: bool = False) -> bool:
+    """``M_NYC_Vehicle``: every parameter name in ``NYCVehicleParams``, on one master.
+
+    ``IMPORT_SETTINGS`` has named ``M_NYC_Vehicle`` as the vehicle master since Stage 12b and
+    ``ensure_materials`` never built it. So every ``SetScalarParameterValue`` and
+    ``SetVectorParameterValue`` the vehicle components make -- the lamps' ``EmissiveScale``, the
+    gauges' ``GaugeValue``, the paint's ``PaintColor``, the windows' ``WindowDown``, the damage
+    system's ``DentAmount`` and ``CrackAmount`` -- was called on a material that has no such
+    parameter, which in Unreal is silent. The lamps would not have lit even with the slot names
+    fixed.
+
+    One master serves body paint, glass, lamps and screens: the imported mesh gives each slot its own
+    dynamic instance, and a parameter a given slot does not use simply stays at its default.
+    """
+    material, created = create_material("M_NYC_Vehicle")
+    if material is None or (not created and not force):
+        return created
+    b = MaterialBuilder(material)
+    paint = b.expr(unreal.MaterialExpressionVectorParameter, -1000, -400,
+                   parameter_name="PaintColor", default_value=unreal.LinearColor(0.05, 0.05, 0.06, 1.0))
+    dirt = b.expr(unreal.MaterialExpressionScalarParameter, -1000, -100, parameter_name="Dirt", default_value=0.0)
+    dent = b.expr(unreal.MaterialExpressionScalarParameter, -1000, 0, parameter_name="DentAmount", default_value=0.0)
+    crack = b.expr(unreal.MaterialExpressionScalarParameter, -1000, 100, parameter_name="CrackAmount", default_value=0.0)
+    broken = b.expr(unreal.MaterialExpressionScalarParameter, -1000, 200, parameter_name="Broken", default_value=0.0)
+    gauge = b.expr(unreal.MaterialExpressionScalarParameter, -1000, 300, parameter_name="GaugeValue", default_value=0.0)
+    window = b.expr(unreal.MaterialExpressionScalarParameter, -1000, 400, parameter_name="WindowDown", default_value=0.0)
+    emissive_scale = b.expr(unreal.MaterialExpressionScalarParameter, -1000, 500,
+                            parameter_name="EmissiveScale", default_value=0.0)
+    emissive_colour = b.expr(unreal.MaterialExpressionVectorParameter, -1000, 600,
+                             parameter_name="EmissiveColor", default_value=unreal.LinearColor(1.0, 0.95, 0.85, 1.0))
+    # Textures the components swap in at runtime: the centre screen, the number plate, the mirror.
+    b.expr(unreal.MaterialExpressionTextureSampleParameter2D, -1000, 700, parameter_name="ScreenTexture")
+    b.expr(unreal.MaterialExpressionTextureSampleParameter2D, -1000, 820, parameter_name="PlateTexture")
+    b.expr(unreal.MaterialExpressionTextureSampleParameter2D, -1000, 940, parameter_name="MirrorTexture")
+    # Wetness is BOTH a world value and a per-vehicle one: the weather subsystem drives the
+    # collection, and UNYCVehicleBodyComponent writes NYCVehicleParams::Wetness on this material for
+    # a car that has just been through a puddle or a wash. A material with only the collection
+    # version would swallow the second write in silence, so it has its own scalar and takes the
+    # larger of the two.
+    world_wet = collection_scalar(b, collection, "Wetness", -1000, -300)
+    own_wet = b.expr(unreal.MaterialExpressionScalarParameter, -1000, -200, parameter_name="Wetness",
+                     default_value=0.0)
+    wetness = b.expr(unreal.MaterialExpressionMax, -820, -250)
+    b.connect(world_wet, "", wetness, "A")
+    b.connect(own_wet, "", wetness, "B")
+
+    # Dirt greys the paint; wet paint darkens like everything else in the world does.
+    dirt_colour = b.expr(unreal.MaterialExpressionConstant3Vector, -800, -250,
+                         constant=unreal.LinearColor(0.28, 0.26, 0.23, 1.0))
+    dirty = b.expr(unreal.MaterialExpressionLinearInterpolate, -600, -400)
+    b.connect(paint, "", dirty, "A")
+    b.connect(dirt_colour, "", dirty, "B")
+    b.connect(dirt, "", dirty, "Alpha")
+    wet_dark = b.expr(unreal.MaterialExpressionLinearInterpolate, -600, -200, const_a=1.0, const_b=0.62)
+    b.connect(wetness, "", wet_dark, "Alpha")
+    colour = b.expr(unreal.MaterialExpressionMultiply, -400, -400)
+    b.connect(dirty, "", colour, "A")
+    b.connect(wet_dark, "", colour, "B")
+
+    # Emissive: colour x scale, and a broken lens emits nothing.
+    intact = b.expr(unreal.MaterialExpressionOneMinus, -800, 200)
+    b.connect(broken, "", intact, "")
+    lit = b.expr(unreal.MaterialExpressionMultiply, -600, 500)
+    b.connect(emissive_scale, "", lit, "A")
+    b.connect(intact, "", lit, "B")
+    emissive = b.expr(unreal.MaterialExpressionMultiply, -400, 550)
+    b.connect(emissive_colour, "", emissive, "A")
+    b.connect(lit, "", emissive, "B")
+
+    # Clear coat over car paint: the roughness a body panel actually has, roughened by dirt and by
+    # the dents the damage system adds.
+    base_rough = b.expr(unreal.MaterialExpressionScalarParameter, -800, 0, parameter_name="Roughness", default_value=0.22)
+    dent_rough = b.expr(unreal.MaterialExpressionMultiply, -600, 50, const_b=0.45)
+    b.connect(dent, "", dent_rough, "A")
+    rough_sum = b.expr(unreal.MaterialExpressionAdd, -400, 0)
+    b.connect(base_rough, "", rough_sum, "A")
+    b.connect(dent_rough, "", rough_sum, "B")
+    rough = b.expr(unreal.MaterialExpressionClamp, -200, 0, min_default=0.02, max_default=1.0)
+    b.connect(rough_sum, "", rough, "")
+
+    metal = b.expr(unreal.MaterialExpressionScalarParameter, -800, 100, parameter_name="Metallic", default_value=0.0)
+    b.to_property(colour, "", unreal.MaterialProperty.MP_BASE_COLOR)
+    b.to_property(rough, "", unreal.MaterialProperty.MP_ROUGHNESS)
+    b.to_property(metal, "", unreal.MaterialProperty.MP_METALLIC)
+    b.to_property(emissive, "", unreal.MaterialProperty.MP_EMISSIVE_COLOR)
+    # CrackAmount is authored as a normal-map strength on glass; with no crack texture yet it is
+    # declared so the parameter exists and the component's writes land somewhere real.
+    b.finish("M_NYC_Vehicle")
+    save_asset(f"{MATERIALS_ROOT}/M_NYC_Vehicle")
+    return True
+
+
+def build_character_material(collection, force: bool = False) -> bool:
+    """``M_NYC_Character``: skin, cloth and eyes on one master, named by the manifest since Stage 12b
+    and, like ``M_NYC_Vehicle``, never built."""
+    material, created = create_material("M_NYC_Character")
+    if material is None or (not created and not force):
+        return created
+    b = MaterialBuilder(material)
+    tex = b.expr(unreal.MaterialExpressionTextureSampleParameter2D, -900, -300, parameter_name="BaseColorMap")
+    tint = b.expr(unreal.MaterialExpressionVectorParameter, -900, -100, parameter_name="Tint",
+                  default_value=unreal.LinearColor(1.0, 1.0, 1.0, 1.0))
+    rough = b.expr(unreal.MaterialExpressionScalarParameter, -900, 100, parameter_name="Roughness", default_value=0.62)
+    spec = b.expr(unreal.MaterialExpressionScalarParameter, -900, 200, parameter_name="Specular", default_value=0.35)
+    wetness = collection_scalar(b, collection, "Wetness", -900, 300)
+    colour = b.expr(unreal.MaterialExpressionMultiply, -600, -200)
+    b.connect(tex, "RGB", colour, "A")
+    b.connect(tint, "", colour, "B")
+    wet_rough = b.expr(unreal.MaterialExpressionLinearInterpolate, -400, 100, const_b=0.30)
+    b.connect(rough, "", wet_rough, "A")
+    b.connect(wetness, "", wet_rough, "Alpha")
+    b.to_property(colour, "", unreal.MaterialProperty.MP_BASE_COLOR)
+    b.to_property(wet_rough, "", unreal.MaterialProperty.MP_ROUGHNESS)
+    b.to_property(spec, "", unreal.MaterialProperty.MP_SPECULAR)
+    b.finish("M_NYC_Character")
+    save_asset(f"{MATERIALS_ROOT}/M_NYC_Character")
+    return True
+
+
 def build_foliage_material(collection, force: bool = False) -> bool:
     material, created = create_material("M_NYC_Foliage")
     if material is None or (not created and not force):
@@ -575,6 +694,8 @@ def ensure_materials(force: bool = False) -> dict:
         "M_NYC_Foliage": build_foliage_material(collection, force),
         "M_NYC_Terrain": build_terrain_material(collection, force),
         "M_NYC_Water": build_water_material(collection, force),
+        "M_NYC_Vehicle": build_vehicle_material(collection, force),
+        "M_NYC_Character": build_character_material(collection, force),
         "M_NYC_StarMap": build_starmap_material(force),
     }
     result["physical_materials"] = ensure_physical_materials(force)
@@ -583,7 +704,24 @@ def ensure_materials(force: bool = False) -> dict:
 
 # ------------------------------------------------------------------------------------------------- importing
 
-def import_task(filename: str, destination_path: str, destination_name: str, replace: bool):
+def import_task(filename: str, destination_path: str, destination_name: str, replace: bool,
+                settings: dict | None = None):
+    """One ``AssetImportTask``, with the options its settings ask for actually attached.
+
+    The task used to be built with no options at all, so ``"skeletal": True`` in the manifest was a
+    string in a JSON file and nothing more: whether a vehicle or a character came in as a
+    ``USkeletalMesh`` was left entirely to the importer's own guess from the file. It happens that a
+    glTF with a skin does produce a skeletal mesh either way, so this was not what broke the vehicle
+    -- that was the missing skin -- but leaving the intent unexpressed means the next file that needs
+    it has no way to say so, and it is the difference between a pipeline that states what it wants
+    and one that hopes.
+
+    UE 5.4 can route a ``.glb`` through either the Interchange framework or the legacy
+    ``GLTFImporter``, and the two take different options objects. Neither is constructed here by
+    class name, because a name that does not exist in the running editor raises and would take the
+    whole import down with it; instead the options object the factory offers is asked for the
+    properties we care about and told about the ones it has. What it does not have is reported.
+    """
     task = unreal.AssetImportTask()
     task.set_editor_property("filename", filename)
     task.set_editor_property("destination_path", destination_path)
@@ -591,7 +729,57 @@ def import_task(filename: str, destination_path: str, destination_name: str, rep
     task.set_editor_property("automated", True)
     task.set_editor_property("replace_existing", replace)
     task.set_editor_property("save", True)
+    if settings:
+        options = _gltf_import_options(settings)
+        if options is not None:
+            try:
+                task.set_editor_property("options", options)
+            except Exception as exc:  # noqa: BLE001
+                WARN(f"{destination_name}: import options not accepted: {exc}")
     return task
+
+
+#: Manifest setting -> the property name to set on whichever glTF options object the editor gives us.
+#: Every one of these is looked up on the live object before it is set, so a rename between engine
+#: versions is a warning and not a crashed import.
+_GLTF_OPTION_PROPERTIES = {
+    "skeletal": ("import_as_skeletal", "import_skeletal_mesh"),
+    "import_animations": ("import_animations", "import_animation"),
+    "import_morph_targets": ("import_morph_targets", "import_morph_target"),
+}
+
+
+def _gltf_import_options(settings: dict):
+    """Build the options object for a glTF import, or ``None`` when the editor exposes none."""
+    factory = None
+    for class_name in ("InterchangeGenericAssetsPipeline", "GLTFImportOptions"):
+        cls = getattr(unreal, class_name, None)
+        if cls is None:
+            continue
+        try:
+            factory = cls()
+        except Exception:  # noqa: BLE001
+            continue
+        break
+    if factory is None:
+        return None
+    applied, missing = [], []
+    for key, candidates in _GLTF_OPTION_PROPERTIES.items():
+        if key not in settings:
+            continue
+        for prop in candidates:
+            try:
+                factory.set_editor_property(prop, bool(settings[key]))
+                applied.append(prop)
+                break
+            except Exception:  # noqa: BLE001
+                continue
+        else:
+            missing.append(key)
+    if missing:
+        WARN(f"glTF import options: {missing} not exposed by {type(factory).__name__}; "
+             f"the importer's own defaults decide those")
+    return factory if applied else None
 
 
 def run_tasks(tasks) -> list:
@@ -608,9 +796,74 @@ def run_tasks(tasks) -> list:
     return imported
 
 
+#: Bones a vehicle physics asset may simulate. Everything else is kinematic - see
+#: apply_skeletal_settings for why.
+VEHICLE_SIMULATED_BONES = {"Body"}
+
+
+def apply_skeletal_settings(asset_path: str, settings: dict) -> dict:
+    """Fix the physics asset of an imported vehicle or character.
+
+    ``AWheeledVehiclePawn`` cannot simulate without a physics asset, and Unreal's auto-generated one
+    puts a *simulated* body on every bone it finds - including the four wheels, which Chaos drives
+    through its own suspension and must not also be rigid bodies. On a 39-bone rig that is 38 bodies
+    too many: the car would fall apart on the first frame.
+
+    ``physics_asset: True`` in the manifest's import settings had been read by nothing at all. This
+    walks the generated asset and makes every body except ``Body`` kinematic with its collision off,
+    which is the shape Chaos wants. If the running editor will not let Python touch
+    ``skeletal_body_setups`` it says so and names the manual step, rather than reporting a success it
+    did not achieve - that is the failure mode this project has hit most often.
+    """
+    result = {"asset": asset_path, "bodies": 0, "made_kinematic": 0, "ok": False}
+    mesh = load_asset(asset_path)
+    if mesh is None or not isinstance(mesh, unreal.SkeletalMesh):
+        return result
+    if not settings.get("physics_asset"):
+        return result
+    try:
+        physics = mesh.get_editor_property("physics_asset")
+    except Exception as exc:  # noqa: BLE001
+        WARN(f"{asset_path}: physics asset unreadable: {exc}")
+        return result
+    if physics is None:
+        WARN(f"{asset_path}: no physics asset was generated; the pawn cannot simulate. Create one in "
+             f"the editor (right-click the mesh -> Create -> Physics Asset) and keep only the Body.")
+        return result
+    try:
+        bodies = list(physics.get_editor_property("skeletal_body_setups") or [])
+    except Exception as exc:  # noqa: BLE001
+        WARN(f"{asset_path}: physics bodies unreadable ({exc}). Manual step: open the physics asset, "
+             f"delete every body except Body, save.")
+        return result
+    result["bodies"] = len(bodies)
+    for body in bodies:
+        try:
+            bone = str(body.get_editor_property("bone_name"))
+        except Exception:  # noqa: BLE001
+            continue
+        if bone in VEHICLE_SIMULATED_BONES:
+            continue
+        try:
+            body.set_editor_property("physics_type", unreal.PhysicsType.PHYS_KINEMATIC)
+            result["made_kinematic"] += 1
+        except Exception as exc:  # noqa: BLE001
+            WARN(f"{asset_path}: body {bone} could not be made kinematic ({exc}). Manual step: open "
+                 f"the physics asset, delete every body except Body, save.")
+            return result
+    result["ok"] = True
+    save_asset(physics.get_path_name().split(".")[0])
+    LOG(f"{asset_path}: physics asset has {result['bodies']} bodies, "
+        f"{result['made_kinematic']} made kinematic (only Body simulates)")
+    return result
+
+
 def apply_mesh_settings(asset_path: str, settings: dict) -> None:
     mesh = load_asset(asset_path)
     if mesh is None or not isinstance(mesh, unreal.StaticMesh):
+        # Nanite, collision trace flags and lightmap UVs are all StaticMesh properties, so this early
+        # return is right - but a skeletal mesh still has work of its own to do.
+        apply_skeletal_settings(asset_path, settings)
         return
     changed = False
     if settings.get("nanite"):
@@ -633,6 +886,31 @@ def apply_mesh_settings(asset_path: str, settings: dict) -> None:
                 changed = True
     except Exception as exc:  # noqa: BLE001
         WARN(f"{asset_path}: collision settings failed: {exc}")
+    if changed:
+        save_asset(asset_path)
+
+
+def apply_sound_settings(asset_path: str, settings: dict) -> None:
+    """Streaming and compression on an imported ``USoundWave``.
+
+    The radio's tracks run for minutes each, so they stream; the SFX are short and stay resident.
+    Anything the running engine does not expose is warned about rather than assumed, because a
+    silently ignored property here is a car with no radio and no way to tell.
+    """
+    sound = load_asset(asset_path)
+    if sound is None or not isinstance(sound, unreal.SoundWave):
+        return
+    changed = False
+    for prop, key, cast in (("streaming", "streaming", bool),
+                            ("compression_quality", "compression_quality", int),
+                            ("looping", "looping", bool)):
+        if key not in settings:
+            continue
+        try:
+            sound.set_editor_property(prop, cast(settings[key]))
+            changed = True
+        except Exception as exc:  # noqa: BLE001
+            WARN(f"{asset_path}: sound property {prop} not settable: {exc}")
     if changed:
         save_asset(asset_path)
 
@@ -664,7 +942,7 @@ def apply_texture_settings(asset_path: str, settings: dict) -> None:
 #       build_levels.py, which turns them into ALandscape actors rather than textures.
 IMPORTABLE_KINDS = {
     "shells", "roofs", "tile_mesh", "pavement", "kit", "prop", "tree", "landmark", "vehicle",
-    "character", "water_mask", "font",
+    "character", "water_mask", "font", "sound",
 }
 
 
@@ -697,6 +975,8 @@ def import_entries(manifest: dict, repo_root: str, tiles: set | None, max_tiles:
                 asset_path = object_path.split(".")[0]
                 if meta["settings"].get("texture"):
                     apply_texture_settings(asset_path, meta["settings"])
+                elif meta["settings"].get("sound"):
+                    apply_sound_settings(asset_path, meta["settings"])
                 else:
                     apply_mesh_settings(asset_path, meta["settings"])
                     if meta["settings"].get("physical_materials"):
@@ -740,7 +1020,8 @@ def import_entries(manifest: dict, repo_root: str, tiles: set | None, max_tiles:
             LOG(f"[dry run] import {source} -> {full}")
             imported += 1
             continue
-        batch.append(import_task(source, destination_path, destination_name, force))
+        batch.append(import_task(source, destination_path, destination_name, force,
+                                 settings_by_id.get(entry.get("import_settings", ""), {})))
         batch_meta.append({"settings": settings_by_id.get(entry.get("import_settings", ""), {}),
                            "id": entry_id,
                            "entry": {"physical_materials": entry.get("physical_materials") or {}}})
