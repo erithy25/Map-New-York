@@ -107,7 +107,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_bed_stuy_stuyvesant_ave/render.png",
- "rendered_at": "2026-09-07T13:15:17Z",
+ "rendered_at": "2026-09-07T14:15:45Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1439 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -142,7 +142,7 @@
    "placed_pedestrians": 378,
    "placed_vehicles": 88,
    "reason": null,
-   "seconds": 48.64,
+   "seconds": 46.81,
    "snapshot": {
     "building_footprints_tested": 4688,
     "density_lane_km": 18.278,
@@ -371,7 +371,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 102.15,
+  "seconds": 97.87,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -398,9 +398,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 199.0,
-  "scene": 103.5,
-  "total": 302.5
+  "render": 134.9,
+  "scene": 99.0,
+  "total": 233.9
  },
  "slug": "drive_brooklyn_bed_stuy_stuyvesant_ave",
  "status": "rendered",

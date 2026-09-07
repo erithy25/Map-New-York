@@ -64,9 +64,9 @@
   "view_m": 60.0
  },
  "frame": {
-  "mean": 0.2207,
+  "mean": 0.2395,
   "reason": null,
-  "sd": 0.1693,
+  "sd": 0.1719,
   "usable": true
  },
  "frame_retry": null,
@@ -107,16 +107,21 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_grand_concourse/render.png",
- "rendered_at": "2026-09-07T13:56:59Z",
+ "rendered_at": "2026-09-07T14:11:49Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
    "caption": "Agents: 89 vehicles within 320 m and 313 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 322 vehicles and 1726 people over the whole simulated ring, of which 373 and 2022 were simulated; 1993 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "culled_after_camera_move": {
+    "pedestrian_over_the_observer": 6,
+    "vehicle_over_the_observer": 0
+   },
    "dropped": {
     "pedestrian_in_the_carriageway_not_crossing": 127,
     "pedestrian_not_on_walkable_surface": 52,
     "pedestrian_outside_radius": 705,
+    "pedestrian_over_the_observer": 6,
     "pedestrian_triangle_budget": 825,
     "vehicle_body_has_no_rider": 11,
     "vehicle_not_on_carriageway": 6,
@@ -141,10 +146,10 @@
     "taxi": 10,
     "van": 4
    },
-   "placed_pedestrians": 313,
+   "placed_pedestrians": 307,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 67.78,
+   "seconds": 77.68,
    "snapshot": {
     "building_footprints_tested": 1467,
     "density_lane_km": 28.245,
@@ -396,7 +401,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 117.04,
+  "seconds": 125.87,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -423,9 +428,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 252.0,
-  "scene": 118.5,
-  "total": 370.5
+  "render": 205.3,
+  "scene": 128.7,
+  "total": 334.0
  },
  "slug": "drive_bronx_grand_concourse",
  "status": "rendered",

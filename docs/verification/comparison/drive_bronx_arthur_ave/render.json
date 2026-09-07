@@ -107,7 +107,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_arthur_ave/render.png",
- "rendered_at": "2026-09-07T13:49:39Z",
+ "rendered_at": "2026-09-07T14:05:06Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -141,7 +141,7 @@
    "placed_pedestrians": 281,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 49.24,
+   "seconds": 46.33,
    "snapshot": {
     "building_footprints_tested": 4239,
     "density_lane_km": 25.141,
@@ -350,7 +350,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 128.4,
+  "seconds": 118.92,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -413,9 +413,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 179.7,
-  "scene": 132.2,
-  "total": 311.8
+  "render": 180.7,
+  "scene": 123.5,
+  "total": 304.2
  },
  "slug": "drive_bronx_arthur_ave",
  "status": "rendered",
