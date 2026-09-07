@@ -734,21 +734,40 @@ def test_no_comparison_sheet_is_older_than_the_content_it_shows():
     if not root.is_dir():
         pytest.skip("no comparison sheets")
 
-    shells = {}
+    # Two kinds of geometry can go stale under a sheet, and both must be checked: the tile shells, and
+    # the hand-built landmark models. The WTC site and the Oculus were both rebuilt after most sheets
+    # were rendered, and a test that looked only at tiles would have called those sheets current.
+    content: dict[str, tuple[float, float, float]] = {}   # key -> (x, y, mtime)
     for pat in ("*/tile_buildings.glb", "*/tile_buildings_nj.glb"):
         for p in (BLENDER_OUT / "tiles").glob(pat):
             t = p.parent.name
-            shells[t] = max(shells.get(t, 0.0), p.stat().st_mtime)
-    if not shells:
-        pytest.skip("no tile shells on disk")
+            try:
+                _, tx, ty = t.split("_")
+                x, y = int(tx) * 1000 + 500, int(ty) * 1000 + 500
+            except ValueError:
+                continue
+            prev = content.get(t)
+            m = p.stat().st_mtime
+            content[t] = (x, y, max(prev[2], m) if prev else m)
 
-    centres = {}
-    for t in shells:
-        try:
-            _, tx, ty = t.split("_")
-            centres[t] = (int(tx) * 1000 + 500, int(ty) * 1000 + 500)
-        except ValueError:
-            continue
+    cat = BLENDER_OUT / "landmarks" / "catalog"
+    if cat.is_dir():
+        for f in sorted(cat.glob("*.json")):
+            try:
+                entry = json.loads(f.read_text())
+            except (OSError, json.JSONDecodeError):
+                continue
+            origin = entry.get("origin_tm")
+            glb = BLENDER_OUT / "landmarks" / f"{f.stem}.glb"
+            if not origin or len(origin) < 2 or not glb.exists():
+                continue
+            content[f"landmark:{f.stem}"] = (float(origin[0]), float(origin[1]), glb.stat().st_mtime)
+
+    if not content:
+        pytest.skip("no tile shells or landmark models on disk")
+
+    centres = {k: (v[0], v[1]) for k, v in content.items()}
+    shells = {k: v[2] for k, v in content.items()}
 
     stale: list[str] = []
     for d in sorted(root.iterdir()):
