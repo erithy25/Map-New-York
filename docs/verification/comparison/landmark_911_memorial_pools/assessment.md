@@ -41,6 +41,30 @@ deck within 2 m of the heightmap is ground (the memorial reads 1.33 m and Bethes
 they do not separate), and a parapet needs a drop beyond its edge (the memorial reads 1.10 m and
 Bethesda 0.90 m — the same). Both would have moved a mandated viewpoint's camera.
 
+## Re-rendered 2026-09-07 — the frame that was black now works, and it exposed a defect I caused
+
+This scene was one of the six that rendered near-black (I8) and the last to be fixed. It now shows
+what it is a picture of: the north pool's bronze parapet running across the foreground with the
+void's dark opening cut through it at the lower left, the plaza paving beyond, the oak grove filling
+the middle distance, benches along the right, and the towers of the rebuilt site behind. 88 vehicles
+and 427 people are in the scene, 10 landmark models including `b_wtc_site` and One World Trade Center.
+
+**And the grove is roughly 670 trees where the real one is about 400, because of work I did today.**
+`b_wtc_site` has planted 220 swamp white oaks on this plaza since the landmarks stage. The
+OpenStreetMap tree ingest added **449 more within 130 m of the site origin**, and the 5.0 m
+cross-source dedupe could not stop it: that rule compares OSM trees against the *census*, and there is
+not a single census tree on this plaza to compare against. The duplication is against the landmark
+model, a boundary the dedupe was never designed to cover.
+
+I made it worse by mis-reading it. In deviation D10 I wrote that the memorial's oak grove "appears for
+the first time" because 415 of the OSM nodes carry `Quercus bicolor`. The model's own docstring says
+it plants the grove, and I did not read it. Both the claim and the defect are now recorded in D10.
+
+The pool geometry itself is the corrected version (I11, I11a): plaza at 4.10–4.40 m NAVD88 rather than
+7.000 m, both 61 m openings cut, the pool centres measured from OpenStreetMap ways 697722178 and
+697722181 rather than derived. Mean luminance 0.245 against the photograph's 0.406 — the exposure gap
+of I16, milder here than in the Wall Street canyon.
+
 ## What matches
 
 * **The camera is where the photographer stood, at the parapet.** In the pool's own axes it sits
