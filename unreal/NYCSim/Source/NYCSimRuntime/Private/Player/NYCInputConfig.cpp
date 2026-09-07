@@ -70,6 +70,9 @@ void UNYCInputConfig::Resolve()
 	MakeAction(ENYCInputAction::Interact, Boolean, TEXT("IA_Interact"));
 	MakeAction(ENYCInputAction::ToggleMap, Boolean, TEXT("IA_ToggleMap"));
 	MakeAction(ENYCInputAction::SearchDestination, Boolean, TEXT("IA_SearchDestination"));
+	MakeAction(ENYCInputAction::Menu, Boolean, TEXT("IA_Menu"));
+	MakeAction(ENYCInputAction::QuickSave, Boolean, TEXT("IA_QuickSave"));
+	MakeAction(ENYCInputAction::QuickLoad, Boolean, TEXT("IA_QuickLoad"));
 
 	// Contexts: prefer the authored assets when the import commandlet has produced them.
 	const UNYCGameplaySettings& Settings = UNYCGameplaySettings::Get();
@@ -194,6 +197,11 @@ void UNYCInputConfig::BuildDefaultContexts()
 	// ---- common --------------------------------------------------------------------------------------------
 	Pressed(Map(CommonContext, GetAction(ENYCInputAction::ToggleMap), EKeys::M));
 	Pressed(Map(CommonContext, GetAction(ENYCInputAction::SearchDestination), EKeys::Tab));
+	// The menu is on the common context so it opens in the car and on foot alike.
+	Pressed(Map(CommonContext, GetAction(ENYCInputAction::Menu), EKeys::Escape));
+	Pressed(Map(CommonContext, GetAction(ENYCInputAction::Menu), EKeys::Gamepad_Special_Right));
+	Pressed(Map(CommonContext, GetAction(ENYCInputAction::QuickSave), EKeys::F5));
+	Pressed(Map(CommonContext, GetAction(ENYCInputAction::QuickLoad), EKeys::F9));
 }
 
 UNYCInputConfig* UNYCInputConfig::Get(const UObject* WorldContext)

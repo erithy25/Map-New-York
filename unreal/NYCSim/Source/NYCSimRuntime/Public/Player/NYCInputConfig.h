@@ -68,6 +68,11 @@ enum class ENYCInputAction : uint8
 	// Common
 	ToggleMap,
 	SearchDestination,
+	/** Escape / Start. The binding table in this file's header has documented a "Menu Escape" row
+	    since Stage 12b and no such action existed, so there was no way to open anything. */
+	Menu,
+	QuickSave,
+	QuickLoad,
 	Count UMETA(Hidden)
 };
 

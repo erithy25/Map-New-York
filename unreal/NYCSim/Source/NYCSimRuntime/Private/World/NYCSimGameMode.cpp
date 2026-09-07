@@ -1,4 +1,5 @@
 #include "World/NYCSimGameMode.h"
+#include "Player/NYCPlayerController.h"
 #include "UI/NYCSimHUD.h"
 #include "World/NYCSimWorldSettings.h"
 #include "World/NYCWorldSubsystem.h"
@@ -15,7 +16,7 @@
 ANYCSimGameMode::ANYCSimGameMode()
 {
 	DefaultPawnClass = ADefaultPawn::StaticClass();
-	PlayerControllerClass = APlayerController::StaticClass();
+	PlayerControllerClass = ANYCPlayerController::StaticClass();
 	// The header has always said the HUD class is resolved here; until now nothing set it, so
 	// AHUD's default was used and every widget in Source/*/UI stayed off the screen.
 	HUDClass = ANYCSimHUD::StaticClass();
