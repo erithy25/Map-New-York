@@ -778,3 +778,37 @@ def test_no_comparison_sheet_is_older_than_the_content_it_shows():
             stale.append(f"{d.name}: {tile} rebuilt after the render, {dist:.0f} m away in frame")
             break
     assert not stale, "comparison sheets older than geometry in their own frame:\n  " + "\n  ".join(stale)
+
+
+def test_every_deviation_reference_in_the_delivered_documents_resolves():
+    """A fidelity report that cites a deviation which does not exist is not evidence, it is a footnote
+    to nothing.
+
+    The report, the definition of done and the deviations list cross-reference each other by id (A1,
+    B11a, I13). Those ids are written by hand, the list is edited constantly as lanes close things, and
+    a renumbering or a deletion would leave a citation pointing nowhere — in the one document whose whole
+    purpose is that every claim is traceable to the thing that established it.
+    """
+    import re as _re
+
+    dev_path = REPO_ROOT / "docs" / "DEVIATIONS.md"
+    if not dev_path.exists():
+        pytest.skip("docs/DEVIATIONS.md not produced")
+    dev = dev_path.read_text()
+    defined = set(_re.findall(r"^\| ([A-Z]\d+[a-z]?) \|", dev, _re.M))
+    assert defined, "no deviation ids found; the table's shape must have changed"
+
+    # An id-shaped token, but not one inside a word, a path or a hyphenated name (ADR-021, LOD2, t_-4_10).
+    token = _re.compile(r"(?<![A-Za-z0-9_/-])([A-I]\d{1,2}[a-d]?)(?![A-Za-z0-9_-])")
+    problems: list[str] = []
+    for rel in ("docs/FIDELITY_REPORT.md", "docs/DEFINITION_OF_DONE.md", "docs/DEVIATIONS.md"):
+        p = REPO_ROOT / rel
+        if not p.exists():
+            continue
+        text = p.read_text()
+        # Blank the deviations table's own id column so a definition is not read as a reference.
+        body = _re.sub(r"^\| [A-Z]\d+[a-z]? \|", "| |", text, flags=_re.M)
+        for ref in sorted(set(token.findall(body))):
+            if ref not in defined:
+                problems.append(f"{rel} cites {ref}, which no deviation defines")
+    assert not problems, "dangling deviation references:\n  " + "\n  ".join(problems)
