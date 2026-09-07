@@ -1,9 +1,11 @@
-"""Map the processed road artefacts onto the NYCB runtime containers of DATA_CONTRACTS §15.
+"""Map the processed road, building and tile artefacts onto the NYCB runtime containers of DATA_CONTRACTS §15.
 
-    python -m nycsim_pipeline.runtime.export [--roads-dir DIR] [--out-dir DIR]
+    python -m nycsim_pipeline.runtime.export [--roads-dir DIR] [--buildings-dir DIR] [--tiles-dir DIR] [--out-dir DIR]
 
-Produces ``data/processed/runtime/roadgraph.nycb`` and ``signals.nycb`` plus ``nycb_layout.json`` (the exact
-field offsets so ``core/io/NycbReader.h`` can be checked mechanically against this writer).
+Produces ``data/processed/runtime/roadgraph.nycb``, ``signals.nycb``, ``pois.nycb``, ``tiles.nycb`` and
+``landmarks.nycb`` plus ``nycb_layout.json`` (the exact field offsets so ``core/io/NycbReader.h`` can be checked
+mechanically against this writer). ``transit.nycb`` and ``density.nycb`` are the transit and traffic stages' own
+outputs; between the seven that is all of §15.
 
 Section record layouts are declared as naturally aligned numpy dtypes, which reproduce byte for byte what a
 C++17 compiler lays out for the structs in §15 on any LP64 little-endian target. Every field order, type and
@@ -16,6 +18,15 @@ Shared indices
 * ``lane_links`` is the concatenation of the lanes' successor lists; ``lanes.first_succ``/``succ_count`` index
   into it. ``yield_links`` does the same for ``junction_lanes.yield_to``.
 * ``strtab`` is the NUL-separated UTF-8 blob; ``segments.name_str`` is a byte offset into it.
+
+Point sections (``pois``, ``points``)
+* The point is the **footprint centroid** already carried by the buildings tables as ``centroid_x``/``centroid_y``
+  (§5.2), not a recomputed one: it is the same point the buildings stage assigns the tile from, so a searched address
+  and its building agree on which tile they belong to by construction. Storing it as float32 costs at most 1 mm over
+  the NYC_TM extent (|x|,|y| < 26 km), far below the precision of the source geometry.
+* A row with no name/address is not emitted. Nothing is synthesised to fill one: ``RoadNetwork::loadPois`` and
+  ``loadLandmarks`` skip an empty label anyway, so an invented string would be the only way such a row could ever
+  reach a player.
 """
 from __future__ import annotations
 
@@ -73,21 +84,37 @@ PHASE_DTYPE = aligned_dtype([
     ("group", "<i4"), ("green_s", "<f4"), ("yellow_s", "<f4"), ("allred_s", "<f4"),
     ("ped_walk_s", "<f4"), ("ped_flash_s", "<f4"), ("lpi_s", "<f4"),
 ])
+POI_DTYPE = aligned_dtype([("x", "<f4"), ("y", "<f4"), ("addr_str", "<u4")])
+TILE_DTYPE = aligned_dtype([
+    ("tx", "<i4"), ("ty", "<i4"), ("z_min", "<f4"), ("z_max", "<f4"),
+    ("n_buildings", "<u4"), ("n_props", "<u4"),
+    ("flags", "u1"), ("borough_mask", "u1"), ("pad", "<u2"),
+])
+# landmarks.nycb `points`: the same record as `pois` under the name RoadNetwork::loadLandmarks() looks for.
+LANDMARK_DTYPE = aligned_dtype([("x", "<f4"), ("y", "<f4"), ("name_str", "<u4")])
 
 EXPECTED_SIZEOF = {
     "nodes": 24, "segments": 48, "vertices": 12, "lanes": 48, "lane_links": 8,
     "junction_lanes": 48, "yield_links": 8, "controllers": 32, "phases": 28,
+    "pois": 12, "tiles": 28, "points": 12,
 }
 ROADGRAPH_DTYPES = {"nodes": NODE_DTYPE, "segments": SEGMENT_DTYPE, "vertices": VERTEX_DTYPE, "lanes": LANE_DTYPE,
                     "lane_links": LANE_LINK_DTYPE, "junction_lanes": JUNCTION_DTYPE, "yield_links": YIELD_LINK_DTYPE}
 SIGNAL_DTYPES = {"controllers": CONTROLLER_DTYPE, "phases": PHASE_DTYPE}
-ALL_DTYPES = {**ROADGRAPH_DTYPES, **SIGNAL_DTYPES}
+POI_DTYPES = {"pois": POI_DTYPE}
+TILE_DTYPES = {"tiles": TILE_DTYPE}
+LANDMARK_DTYPES = {"points": LANDMARK_DTYPE}
+ALL_DTYPES = {**ROADGRAPH_DTYPES, **SIGNAL_DTYPES, **POI_DTYPES, **TILE_DTYPES, **LANDMARK_DTYPES}
 for _n, _d in ALL_DTYPES.items():
     if _d.itemsize != EXPECTED_SIZEOF[_n]:
         raise AssertionError(f"NYCB section {_n!r}: sizeof {_d.itemsize} != contract {EXPECTED_SIZEOF[_n]}")
 
 SIG_NONE = 255
 NO_SIGNAL_GROUP = -1
+# tiles.flags, per §15 and FNYCTileRecord in unreal/.../CoreAdapter/NYCNycb.h.
+FLAG_HAS_TERRAIN = 1
+FLAG_HAS_WATER = 2
+FLAG_HAS_LAND = 4
 
 
 def _flatten(geoms: np.ndarray, base: int) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
@@ -247,6 +274,171 @@ def export_signals(roads_dir: Path, out_path: Path) -> dict:
     return st
 
 
+def _point_section(x: np.ndarray, y: np.ndarray, labels: list, dtype: np.dtype, str_field: str,
+                   w: NycbWriter) -> tuple[np.ndarray, dict]:
+    """Build a ``{float x, float y, uint32 <str_field>}`` array, dropping unlabelled rows and exact duplicates.
+
+    A duplicate is an identical ``(label, x, y)`` triple *after* the float32 narrowing that the record stores, so
+    two rows that only the parquet's float64 can tell apart are still one point on disk and are collapsed to one
+    record. Distinct positions sharing a label are kept: they are different buildings that really do carry the same
+    address or name, and dropping them would delete real geometry from the index.
+    """
+    total = len(labels)
+    has_label = np.array([bool(s) for s in labels], dtype=bool)
+    x32 = np.nan_to_num(np.asarray(x, dtype=np.float64), nan=0.0).astype(np.float32)
+    y32 = np.nan_to_num(np.asarray(y, dtype=np.float64), nan=0.0).astype(np.float32)
+    finite = np.isfinite(np.asarray(x, dtype=np.float64)) & np.isfinite(np.asarray(y, dtype=np.float64))
+    keep = has_label & finite
+    idx = np.flatnonzero(keep)
+    seen: set[tuple] = set()
+    rows: list[int] = []
+    dup = 0
+    for i in idx.tolist():
+        key = (labels[i], float(x32[i]), float(y32[i]))
+        if key in seen:
+            dup += 1
+            continue
+        seen.add(key)
+        rows.append(i)
+    sel = np.asarray(rows, dtype=np.int64)
+    out = np.zeros(len(sel), dtype=dtype)
+    if len(sel):
+        out["x"] = x32[sel]
+        out["y"] = y32[sel]
+        out[str_field] = w.strings.add_many(labels[i] for i in sel.tolist())
+    dropped = {"no_label": int(total - int(has_label.sum())),
+               "non_finite_point": int(np.count_nonzero(has_label & ~finite)),
+               "duplicate_label_and_point": dup}
+    return out, dropped
+
+
+def export_pois(buildings_dir: Path, out_path: Path) -> dict:
+    """§15 ``runtime/pois.nycb``: one address point per building that has an address.
+
+    Source is ``buildings/buildings_base.parquet`` — the PLUTO/PAD address the buildings stage joined onto each
+    footprint (§5.2) — at the footprint centroid the same table carries. Buildings with ``address == ""`` (unknown,
+    per §5.2) are simply absent; there is no address to write for them and none is made up.
+    """
+    t0 = time.time()
+    t = pq.read_table(buildings_dir / "buildings_base.parquet", columns=["address", "centroid_x", "centroid_y"])
+    addrs = t.column("address").to_pylist()
+    w = NycbWriter()
+    pois, dropped = _point_section(t.column("centroid_x").to_numpy(zero_copy_only=False),
+                                   t.column("centroid_y").to_numpy(zero_copy_only=False),
+                                   addrs, POI_DTYPE, "addr_str", w)
+    w.add_array("pois", pois)
+    w.add_strtab()
+    w.write(out_path)
+    st = {"path": str(out_path), "bytes": out_path.stat().st_size, "sections": w.section_names(),
+          "counts": {"pois": len(pois), "strtab_bytes": len(w.strings)},
+          "source_rows": t.num_rows, "dropped": dropped, "seconds": round(time.time() - t0, 2)}
+    log.info("pois.nycb: %d of %d buildings, dropped %s", len(pois), t.num_rows, dropped)
+    return st
+
+
+def _tile_row_counts(tiles_dir: Path, name: str) -> tuple[int, int]:
+    """(buildings, props) actually present for one tile, from the parquet footers of its own artefacts.
+
+    ``tiles/index.parquet`` declares ``n_buildings``/``n_props`` columns (§2) but the terrain stage that writes the
+    index does not own them (its ``nycsim.terrain_columns`` metadata lists the eleven columns it does own) and they
+    are zero for every tile, so the counts are taken from the per-tile artefacts instead. ``buildings.parquet`` is
+    the NYC footprint set and ``buildings_nj.parquet`` the New Jersey one; a tile's building count is what a tile
+    load would actually instantiate, which is both.
+    """
+    d = tiles_dir / name
+    n_b = 0
+    for stem in ("buildings.parquet", "buildings_nj.parquet"):
+        p = d / stem
+        if p.exists():
+            n_b += pq.ParquetFile(p).metadata.num_rows
+    p = d / "props.parquet"
+    n_p = pq.ParquetFile(p).metadata.num_rows if p.exists() else 0
+    return n_b, n_p
+
+
+def export_tiles(tiles_dir: Path, out_path: Path) -> dict:
+    """§15 ``runtime/tiles.nycb``: the streaming subsystem's tile table, one record per row of ``tiles/index.parquet``.
+
+    Every tile in the index is written, New Jersey included. The tile table is what
+    ``NYCTileStreamingSubsystem`` uses to decide a tile exists at all ("not present in tiles.nycb" = never streamed),
+    ``FNYCTilesTable`` reserves a ``borough_mask`` bit for NJ (code 6), and the NJ tiles carry real content: terrain
+    for all of them, props, and the ``buildings_nj.parquet`` footprints that are visible across the Hudson from
+    Manhattan's west side. Excluding them would make real, shipped geometry unloadable.
+    """
+    t0 = time.time()
+    t = pq.read_table(tiles_dir / "index.parquet",
+                      columns=["tile", "tx", "ty", "z_min", "z_max", "has_terrain", "has_water", "has_land",
+                               "borough_codes"])
+    names = t.column("tile").to_pylist()
+    rec = np.zeros(t.num_rows, dtype=TILE_DTYPE)
+    rec["tx"] = t.column("tx").to_numpy(zero_copy_only=False).astype(np.int32)
+    rec["ty"] = t.column("ty").to_numpy(zero_copy_only=False).astype(np.int32)
+    rec["z_min"] = np.nan_to_num(t.column("z_min").to_numpy(zero_copy_only=False).astype(np.float32), nan=0.0)
+    rec["z_max"] = np.nan_to_num(t.column("z_max").to_numpy(zero_copy_only=False).astype(np.float32), nan=0.0)
+
+    ter = t.column("has_terrain").to_numpy(zero_copy_only=False).astype(bool)
+    wat = t.column("has_water").to_numpy(zero_copy_only=False).astype(bool)
+    lnd = t.column("has_land").to_numpy(zero_copy_only=False).astype(bool)
+    rec["flags"] = (ter * FLAG_HAS_TERRAIN + wat * FLAG_HAS_WATER + lnd * FLAG_HAS_LAND).astype(np.uint8)
+
+    codes = t.column("borough_codes").to_pylist()
+    mask = np.zeros(t.num_rows, dtype=np.uint8)
+    for i, cl in enumerate(codes):
+        m = 0
+        for c in (cl or []):
+            c = int(c)
+            if not 0 <= c <= 7:
+                raise ValueError(f"tile {names[i]}: borough code {c} does not fit the uint8 borough_mask")
+            m |= 1 << c
+        mask[i] = m
+    rec["borough_mask"] = mask
+
+    n_b = np.zeros(t.num_rows, dtype=np.uint32)
+    n_p = np.zeros(t.num_rows, dtype=np.uint32)
+    for i, name in enumerate(names):
+        b, p = _tile_row_counts(tiles_dir, name)
+        n_b[i] = b
+        n_p[i] = p
+    rec["n_buildings"] = n_b
+    rec["n_props"] = n_p
+
+    w = NycbWriter()
+    w.add_array("tiles", rec)
+    w.write(out_path)
+    st = {"path": str(out_path), "bytes": out_path.stat().st_size, "sections": w.section_names(),
+          "counts": {"tiles": len(rec)},
+          "totals": {"buildings": int(n_b.sum()), "props": int(n_p.sum()),
+                     "tiles_with_buildings": int((n_b > 0).sum()), "tiles_with_props": int((n_p > 0).sum()),
+                     "tiles_with_nj": int(((mask & (1 << 6)) != 0).sum())},
+          "seconds": round(time.time() - t0, 2)}
+    log.info("tiles.nycb: %s %s", st["counts"], st["totals"])
+    return st
+
+
+def export_landmarks(buildings_dir: Path, out_path: Path) -> dict:
+    """§15 ``runtime/landmarks.nycb``: the named-landmark point set for the GPS index.
+
+    Layout is not a choice: ``RoadNetwork::loadLandmarks()`` reads a section named ``points`` (falling back to
+    ``landmarks``) of ``{float x, float y, uint32 name_str}`` and requires a ``strtab``, and says exactly that in the
+    note it logs when it cannot. Source is ``buildings/landmark_footprints.parquet`` — the landmark stage's matched
+    footprints, which carry the canonical designation name, the LPC ``lp_number`` and a centroid (§11's shape).
+    """
+    t0 = time.time()
+    t = pq.read_table(buildings_dir / "landmark_footprints.parquet", columns=["name", "centroid_x", "centroid_y"])
+    w = NycbWriter()
+    pts, dropped = _point_section(t.column("centroid_x").to_numpy(zero_copy_only=False),
+                                  t.column("centroid_y").to_numpy(zero_copy_only=False),
+                                  t.column("name").to_pylist(), LANDMARK_DTYPE, "name_str", w)
+    w.add_array("points", pts)
+    w.add_strtab()
+    w.write(out_path)
+    st = {"path": str(out_path), "bytes": out_path.stat().st_size, "sections": w.section_names(),
+          "counts": {"points": len(pts), "strtab_bytes": len(w.strings)},
+          "source_rows": t.num_rows, "dropped": dropped, "seconds": round(time.time() - t0, 2)}
+    log.info("landmarks.nycb: %d of %d landmarks, dropped %s", len(pts), t.num_rows, dropped)
+    return st
+
+
 # --------------------------------------------------------------------------- readers (round-trip tests)
 def read_roadgraph(path: Path) -> dict:
     """Read ``roadgraph.nycb`` back into numpy arrays plus the decoded segment names."""
@@ -262,6 +454,28 @@ def read_roadgraph(path: Path) -> dict:
 def read_signals(path: Path) -> dict:
     r = NycbReader(path)
     return {"controllers": r.read("controllers", CONTROLLER_DTYPE), "phases": r.read("phases", PHASE_DTYPE), "reader": r}
+
+
+def read_pois(path: Path) -> dict:
+    """Read ``pois.nycb`` back, decoding every address the way ``RoadNetwork::loadPois`` does."""
+    r = NycbReader(path)
+    pois = r.read("pois", POI_DTYPE)
+    blob = r.strings()
+    return {"pois": pois, "strtab": blob,
+            "addresses": [r.string_at(int(o), blob) for o in pois["addr_str"]], "reader": r}
+
+
+def read_tiles(path: Path) -> dict:
+    r = NycbReader(path)
+    return {"tiles": r.read("tiles", TILE_DTYPE), "reader": r}
+
+
+def read_landmarks(path: Path) -> dict:
+    r = NycbReader(path)
+    pts = r.read("points", LANDMARK_DTYPE)
+    blob = r.strings()
+    return {"points": pts, "strtab": blob,
+            "names": [r.string_at(int(o), blob) for o in pts["name_str"]], "reader": r}
 
 
 def segment_polyline(rg: dict, i: int) -> np.ndarray:
@@ -280,9 +494,43 @@ def junction_yields(rg: dict, i: int) -> np.ndarray:
     return rg["yield_links"]["lane_id"][int(j["first_yield"]): int(j["first_yield"]) + int(j["yield_count"])]
 
 
+# --------------------------------------------------------------------------- manifest
+# artefact id -> (file, manifest sources, key in `st` holding the row count, schema). Every §15 file this module
+# writes is listed; ``record_manifest`` records the ones actually exported in this run.
+MANIFEST_ENTRIES = {
+    "roadgraph": ("runtime_roadgraph", "roadgraph.nycb",
+                  ["roads_segments", "roads_nodes", "roads_lanes", "roads_junction_lanes"],
+                  "segments", "nycb.roadgraph/1"),
+    "signals": ("runtime_signals", "signals.nycb", ["roads_signals"], "controllers", "nycb.signals/1"),
+    "pois": ("runtime_pois", "pois.nycb", ["buildings_base"], "pois", "nycb.pois/1"),
+    "tiles": ("runtime_tiles", "tiles.nycb", ["tiles_index"], "tiles", "nycb.tiles/1"),
+    "landmarks": ("runtime_landmarks", "landmarks.nycb", ["landmark_footprints"], "points", "nycb.landmarks/1"),
+}
+
+
+def record_manifest(out_dir: Path, st: dict) -> list[str]:
+    """Record every exported artefact in ``data/manifest/processed.json``. Returns the artefact ids written."""
+    from .. import manifest
+    written = []
+    for key, (artifact_id, filename, sources, count_key, schema) in MANIFEST_ENTRIES.items():
+        if key not in st:
+            continue
+        s = st[key]
+        extra = {k: s[k] for k in ("counts", "totals", "dropped", "source_rows") if k in s}
+        manifest.record_processed(artifact_id, out_dir / filename, stage="runtime.export", sources=sources,
+                                  rows=s["counts"][count_key], schema=schema, extra=extra)
+        written.append(artifact_id)
+    manifest.record_processed("runtime_nycb_layout", out_dir / "nycb_layout.json", stage="runtime.export",
+                              sources=[], schema="nycb.layout/1")
+    written.append("runtime_nycb_layout")
+    return written
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--roads-dir", type=Path, default=PROCESSED / "roads")
+    ap.add_argument("--buildings-dir", type=Path, default=PROCESSED / "buildings")
+    ap.add_argument("--tiles-dir", type=Path, default=PROCESSED / "tiles")
     ap.add_argument("--out-dir", type=Path, default=PROCESSED / "runtime")
     ap.add_argument("--no-manifest", action="store_true", help="do not record the artefacts in data/manifest/processed.json")
     ap.add_argument("-v", "--verbose", action="store_true")
@@ -292,20 +540,14 @@ def main(argv: list[str] | None = None) -> int:
     a.out_dir.mkdir(parents=True, exist_ok=True)
     from .nycb import write_layout
     st = {"roadgraph": export_roadgraph(a.roads_dir, a.out_dir / "roadgraph.nycb"),
-          "signals": export_signals(a.roads_dir, a.out_dir / "signals.nycb")}
+          "signals": export_signals(a.roads_dir, a.out_dir / "signals.nycb"),
+          "pois": export_pois(a.buildings_dir, a.out_dir / "pois.nycb"),
+          "tiles": export_tiles(a.tiles_dir, a.out_dir / "tiles.nycb"),
+          "landmarks": export_landmarks(a.buildings_dir, a.out_dir / "landmarks.nycb")}
     write_layout(a.out_dir / "nycb_layout.json", ALL_DTYPES)
     st["layout"] = str(a.out_dir / "nycb_layout.json")
     if not a.no_manifest and a.out_dir == PROCESSED / "runtime":
-        from .. import manifest
-        manifest.record_processed("runtime_roadgraph", a.out_dir / "roadgraph.nycb", stage="runtime.export",
-                                  sources=["roads_segments", "roads_nodes", "roads_lanes", "roads_junction_lanes"],
-                                  rows=st["roadgraph"]["counts"]["segments"], schema="nycb.roadgraph/1",
-                                  extra={"counts": st["roadgraph"]["counts"]})
-        manifest.record_processed("runtime_signals", a.out_dir / "signals.nycb", stage="runtime.export",
-                                  sources=["roads_signals"], rows=st["signals"]["counts"]["controllers"],
-                                  schema="nycb.signals/1", extra={"counts": st["signals"]["counts"]})
-        manifest.record_processed("runtime_nycb_layout", a.out_dir / "nycb_layout.json", stage="runtime.export",
-                                  sources=[], schema="nycb.layout/1")
+        record_manifest(a.out_dir, st)
     print(json.dumps(st, indent=1))
     return 0
 

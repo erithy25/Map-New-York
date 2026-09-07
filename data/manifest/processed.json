@@ -9701,16 +9701,64 @@
    "vertices": 21051,
    "written": true
   },
+  "runtime_landmarks": {
+   "artifact_id": "runtime_landmarks",
+   "bytes": 2504,
+   "counts": {
+    "points": 65,
+    "strtab_bytes": 1615
+   },
+   "dropped": {
+    "duplicate_label_and_point": 0,
+    "no_label": 0,
+    "non_finite_point": 0
+   },
+   "git_commit": "6e6232b7a029",
+   "path": "data/processed/runtime/landmarks.nycb",
+   "produced_at": "2026-09-07T12:12:56Z",
+   "rows": 65,
+   "schema": "nycb.landmarks/1",
+   "sha256": "ff1203b8be44f09114238b09c8abb6d982282eb79bc30ca2035c3c24ac2756da",
+   "source_rows": 65,
+   "sources": [
+    "landmark_footprints"
+   ],
+   "stage": "runtime.export"
+  },
   "runtime_nycb_layout": {
    "artifact_id": "runtime_nycb_layout",
-   "bytes": 8746,
-   "git_commit": "3b5d1262beec",
+   "bytes": 10548,
+   "git_commit": "6e6232b7a029",
    "path": "data/processed/runtime/nycb_layout.json",
-   "produced_at": "2026-09-06T13:47:14Z",
+   "produced_at": "2026-09-07T12:12:56Z",
    "rows": null,
    "schema": "nycb.layout/1",
-   "sha256": "1b7fcceca7ccb04fb6e3ca9cf88d51e53069dfab79987dedac6a0cfa91139b23",
+   "sha256": "6f6249223af4905224c8d34ddd2211e05df8aa62a48629655af3072afb871aef",
    "sources": [],
+   "stage": "runtime.export"
+  },
+  "runtime_pois": {
+   "artifact_id": "runtime_pois",
+   "bytes": 27807376,
+   "counts": {
+    "pois": 1082160,
+    "strtab_bytes": 14821351
+   },
+   "dropped": {
+    "duplicate_label_and_point": 0,
+    "no_label": 866,
+    "non_finite_point": 0
+   },
+   "git_commit": "6e6232b7a029",
+   "path": "data/processed/runtime/pois.nycb",
+   "produced_at": "2026-09-07T12:12:56Z",
+   "rows": 1082160,
+   "schema": "nycb.pois/1",
+   "sha256": "2ccc767be93a7476ab10babf90f15fad4d70b6bf77aea924b77052e45f1161c2",
+   "source_rows": 1083026,
+   "sources": [
+    "buildings_base"
+   ],
    "stage": "runtime.export"
   },
   "runtime_roadgraph": {
@@ -9757,6 +9805,30 @@
     "roads_signals"
    ],
    "stage": "runtime.export"
+  },
+  "runtime_tiles": {
+   "artifact_id": "runtime_tiles",
+   "bytes": 81712,
+   "counts": {
+    "tiles": 2916
+   },
+   "git_commit": "6e6232b7a029",
+   "path": "data/processed/runtime/tiles.nycb",
+   "produced_at": "2026-09-07T12:12:56Z",
+   "rows": 2916,
+   "schema": "nycb.tiles/1",
+   "sha256": "d92f9b18479075994dfa68d1026873b20d9f9b7162f899074e195deababb97fa",
+   "sources": [
+    "tiles_index"
+   ],
+   "stage": "runtime.export",
+   "totals": {
+    "buildings": 1314408,
+    "props": 1724589,
+    "tiles_with_buildings": 1399,
+    "tiles_with_nj": 1022,
+    "tiles_with_props": 1576
+   }
   },
   "runtime_transit_nycb": {
    "artifact_id": "runtime_transit_nycb",

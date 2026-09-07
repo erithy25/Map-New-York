@@ -2,6 +2,8 @@
 
 #include "nycb_expected.h"
 
+#include <algorithm>
+#include <cmath>
 #include <cstdio>
 #include <cstring>
 #include <string>
@@ -744,5 +746,107 @@ TEST_SUITE("io") {
       }
     }
 #endif
+  }
+
+  TEST_CASE("the real pois.nycb and tiles.nycb decode into the records their consumers read") {
+    // Reader-side verification of the two §15 files the GPS destination index and the tile streaming
+    // subsystem consume. RoadNetwork::loadPois reads {float x, float y, uint32 addr_str} at offsets
+    // 0/4/8 and resolves addr_str against "strtab"; FNYCTilesTable reads the 28-byte TileRecord. This
+    // decodes the *shipped* files the same way and reports what a player would be able to search for.
+    const std::string root = std::string(NYCSIM_REPO_ROOT) + "/data/processed/runtime/";
+
+    auto po = NycbReader::fromFile((root + "pois.nycb").c_str());
+    if (!po) {
+      MESSAGE("real pois.nycb not readable - skipped: " << po.error().message);
+    } else {
+      const auto pois = po->view<Poi>("pois");
+      REQUIRE(pois.ok());
+      CHECK(pois.value().size() > 0);
+      // Every address must resolve to a non-empty string: loadPois silently drops an entry whose
+      // label is empty, so an unresolvable offset would cost a destination without any error.
+      uint64_t unresolved = 0, empty = 0, outOfRange = 0;
+      float minX = 0.f, maxX = 0.f, minY = 0.f, maxY = 0.f;
+      bool first = true;
+      for (const Poi& p : pois.value()) {
+        const auto s = po->string(p.addrStr);
+        if (!s.ok()) {
+          ++unresolved;
+          continue;
+        }
+        if (s.value().empty()) ++empty;
+        if (!std::isfinite(p.x) || !std::isfinite(p.y)) ++outOfRange;
+        if (first) {
+          minX = maxX = p.x;
+          minY = maxY = p.y;
+          first = false;
+        }
+        minX = std::min(minX, p.x);
+        maxX = std::max(maxX, p.x);
+        minY = std::min(minY, p.y);
+        maxY = std::max(maxY, p.y);
+      }
+      CHECK(unresolved == 0);
+      CHECK(empty == 0);
+      CHECK(outOfRange == 0);
+      MESSAGE("real pois.nycb: " << pois.value().size() << " addresses, all resolving, x ["
+                                 << minX << ", " << maxX << "] y [" << minY << ", " << maxY
+                                 << "] m, " << po->sizeBytes() << " bytes; first = \""
+                                 << po->string(pois.value()[0].addrStr).value() << "\"");
+    }
+
+    auto tl = NycbReader::fromFile((root + "tiles.nycb").c_str());
+    if (!tl) {
+      MESSAGE("real tiles.nycb not readable - skipped: " << tl.error().message);
+    } else {
+      const auto tiles = tl->view<TileRecord>("tiles");
+      REQUIRE(tiles.ok());
+      CHECK(tiles.value().size() > 0);
+      uint64_t buildings = 0, props = 0, withTerrain = 0, nj = 0, badZ = 0;
+      int32_t minTx = 0, maxTx = 0, minTy = 0, maxTy = 0;
+      bool first = true;
+      for (const TileRecord& t : tiles.value()) {
+        buildings += t.nBuildings;
+        props += t.nProps;
+        if (t.flags & 1u) ++withTerrain;
+        if (t.boroughMask & (1u << 6)) ++nj;
+        if (!std::isfinite(t.zMin) || !std::isfinite(t.zMax) || t.zMin > t.zMax) ++badZ;
+        if (first) {
+          minTx = maxTx = t.tx;
+          minTy = maxTy = t.ty;
+          first = false;
+        }
+        minTx = std::min(minTx, t.tx);
+        maxTx = std::max(maxTx, t.tx);
+        minTy = std::min(minTy, t.ty);
+        maxTy = std::max(maxTy, t.ty);
+      }
+      CHECK(badZ == 0);
+      CHECK(nj > 0);  // the NJ tiles are in the table; see export_tiles()
+      MESSAGE("real tiles.nycb: " << tiles.value().size() << " tiles, tx [" << minTx << ", " << maxTx
+                                  << "] ty [" << minTy << ", " << maxTy << "], " << buildings
+                                  << " buildings, " << props << " props, " << withTerrain
+                                  << " with terrain, " << nj << " carrying New Jersey");
+    }
+
+    // landmarks.nycb is the same point record under the name RoadNetwork::loadLandmarks() looks for.
+    auto lm = NycbReader::fromFile((root + "landmarks.nycb").c_str());
+    if (!lm) {
+      MESSAGE("real landmarks.nycb not readable - skipped: " << lm.error().message);
+    } else {
+      const NycbSection* pts = lm->find("points");
+      REQUIRE(pts != nullptr);
+      CHECK(pts->elementSize == sizeof(Poi));  // {float x, float y, uint32 str}
+      REQUIRE(lm->find(kNycbStrtab) != nullptr);
+      const auto points = lm->view<Poi>("points");
+      REQUIRE(points.ok());
+      uint64_t named = 0;
+      for (const Poi& p : points.value()) {
+        const auto s = lm->string(p.addrStr);
+        if (s.ok() && !s.value().empty()) ++named;
+      }
+      CHECK(named == points.value().size());
+      MESSAGE("real landmarks.nycb: " << points.value().size() << " points, all named; first = \""
+                                      << lm->string(points.value()[0].addrStr).value() << "\"");
+    }
   }
 }

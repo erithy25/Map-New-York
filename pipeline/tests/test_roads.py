@@ -805,6 +805,136 @@ def test_signals_binary_matches_the_parquet():
         assert float(a["ped_flash_s"]) == pytest.approx(float(b["ped_flash_s"]), abs=1e-2)
 
 
+# --------------------------------------------------------------------------- §15 completeness
+# Every file DATA_CONTRACTS §15 names, with the section names and record sizes it specifies. This table is the
+# contract restated: if §15 gains a file or changes a record, it changes here too and the test below says so.
+#
+# Unlike the per-artefact tests in this file, these two do NOT skip when a file is absent. A missing runtime binary
+# is exactly the defect they exist to catch -- pois.nycb, tiles.nycb and landmarks.nycb went unproduced precisely
+# because every test that touched them skipped instead of failing.
+CONTRACT_15_FILES: dict[str, dict[str, int]] = {
+    "roadgraph.nycb": {"nodes": 24, "segments": 48, "vertices": 12, "lanes": 48, "lane_links": 8,
+                       "junction_lanes": 48, "yield_links": 8, "strtab": 1},
+    "signals.nycb": {"controllers": 32, "phases": 28},
+    "tiles.nycb": {"tiles": 28},
+    "transit.nycb": {"bus_routes": 68, "bus_stops": 24, "route_stops": 8, "vertices": 12, "strtab": 1},
+    "density.nycb": {"cells": 32, "nta_polys": 12, "vertices": 12, "strtab": 1},
+    "landmarks.nycb": {"points": 12, "strtab": 1},
+    "pois.nycb": {"pois": 12, "strtab": 1},
+}
+
+
+def test_every_runtime_file_data_contracts_15_names_is_shipped():
+    missing = [name for name in sorted(CONTRACT_15_FILES) if not (RUNTIME / name).exists()]
+    assert not missing, (f"DATA_CONTRACTS §15 names these runtime binaries but {RUNTIME} does not hold them: "
+                         f"{missing}. Run `python -m nycsim_pipeline.runtime.export` (roadgraph, signals, pois, "
+                         f"tiles, landmarks), the transit stage (transit.nycb) or the traffic stage (density.nycb).")
+
+
+@pytest.mark.parametrize("filename", sorted(CONTRACT_15_FILES))
+def test_shipped_runtime_file_parses_with_the_sections_and_record_sizes_of_15(filename):
+    path = RUNTIME / filename
+    assert path.exists(), f"{path} is missing; DATA_CONTRACTS §15 requires it"
+    r = NycbReader(path)                       # raises NycbError on a bad magic, version or index
+    assert r.version == 1
+    for section, element_size in CONTRACT_15_FILES[filename].items():
+        assert section in r.sections, f"{filename}: §15 section {section!r} absent; have {sorted(r.sections)}"
+        info = r.sections[section]
+        assert info.element_size == element_size, f"{filename}/{section}: {info.element_size} != §15's {element_size}"
+        assert info.element_size * info.element_count == info.size
+        assert info.offset % 8 == 0, f"{filename}/{section}: offset {info.offset} is not 8-byte aligned"
+        assert info.offset + info.size <= path.stat().st_size
+
+
+def test_point_section_layouts_match_the_cpp_readers():
+    # RoadNetwork::loadPois / loadLandmarks read x, y, str at offsets 0, 4, 8; core's Poi and TileRecord and the
+    # Unreal FNYCTileRecord fix the rest.
+    for dt, str_field in ((E.POI_DTYPE, "addr_str"), (E.LANDMARK_DTYPE, "name_str")):
+        assert dt.itemsize == 12
+        assert [dt.fields[f][1] for f in ("x", "y", str_field)] == [0, 4, 8]
+    assert E.TILE_DTYPE.itemsize == 28
+    assert [E.TILE_DTYPE.fields[f][1] for f in ("tx", "ty", "z_min", "z_max", "n_buildings", "n_props",
+                                                "flags", "borough_mask", "pad")] == [0, 4, 8, 12, 16, 20, 24, 25, 26]
+    assert (E.FLAG_HAS_TERRAIN, E.FLAG_HAS_WATER, E.FLAG_HAS_LAND) == (1, 2, 4)
+
+
+# --------------------------------------------------------------------------- pois / tiles / landmarks
+def test_pois_binary_matches_the_buildings_table():
+    p = RUNTIME / "pois.nycb"
+    src = PROCESSED / "buildings" / "buildings_base.parquet"
+    if not p.exists() or not src.exists():
+        pytest.skip("pois.nycb not produced yet")
+    po = E.read_pois(p)
+    t = pq.read_table(src, columns=["address", "centroid_x", "centroid_y"])
+    addr = t.column("address").to_pylist()
+    want = [a for a in addr if a]
+    # every building that has an address is indexed, and no other row is
+    assert len(po["pois"]) == len(want)
+    assert all(a for a in po["addresses"]), "an empty address reached pois.nycb; loadPois would drop it"
+    assert set(po["addresses"]) == set(want)
+    # the point is the footprint centroid the table already carries, narrowed to float32
+    cx = t.column("centroid_x").to_numpy(zero_copy_only=False)
+    cy = t.column("centroid_y").to_numpy(zero_copy_only=False)
+    keep = np.array([bool(a) for a in addr])
+    assert np.allclose(po["pois"]["x"], cx[keep].astype(np.float32), atol=1e-3)
+    assert np.allclose(po["pois"]["y"], cy[keep].astype(np.float32), atol=1e-3)
+
+
+def test_tiles_binary_matches_the_index_and_the_per_tile_artefacts():
+    p = RUNTIME / "tiles.nycb"
+    src = PROCESSED / "tiles" / "index.parquet"
+    if not p.exists() or not src.exists():
+        pytest.skip("tiles.nycb not produced yet")
+    rec = E.read_tiles(p)["tiles"]
+    t = pq.read_table(src, columns=["tile", "tx", "ty", "z_min", "z_max", "has_terrain", "has_water", "has_land",
+                                    "borough_codes"])
+    assert len(rec) == t.num_rows
+    assert (rec["tx"] == t.column("tx").to_numpy(zero_copy_only=False)).all()
+    assert (rec["ty"] == t.column("ty").to_numpy(zero_copy_only=False)).all()
+    assert np.allclose(rec["z_min"], t.column("z_min").to_numpy(zero_copy_only=False), atol=1e-3)
+    ter = t.column("has_terrain").to_numpy(zero_copy_only=False).astype(bool)
+    assert ((rec["flags"] & E.FLAG_HAS_TERRAIN) != 0).tolist() == ter.tolist()
+    # borough_mask sets bit b per borough code b, so an NJ tile (code 6) is present and marked
+    names = t.column("tile").to_pylist()
+    for i, codes in enumerate(t.column("borough_codes").to_pylist()):
+        assert int(rec["borough_mask"][i]) == sum(1 << int(c) for c in set(codes or []))
+    assert int(((rec["borough_mask"] & (1 << 6)) != 0).sum()) > 0, "no New Jersey tile reached tiles.nycb"
+    # counts come from the tile's own artefacts; check a sample against the parquet footers
+    for i in (0, len(rec) // 3, len(rec) // 2, len(rec) - 1):
+        n_b, n_p = E._tile_row_counts(PROCESSED / "tiles", names[i])
+        assert int(rec["n_buildings"][i]) == n_b
+        assert int(rec["n_props"][i]) == n_p
+    # and in total against the tables they are drawn from
+    assert int(rec["n_buildings"].sum()) > 0 and int(rec["n_props"].sum()) > 0
+
+
+def test_landmarks_binary_matches_the_landmark_footprints():
+    p = RUNTIME / "landmarks.nycb"
+    src = PROCESSED / "buildings" / "landmark_footprints.parquet"
+    if not p.exists() or not src.exists():
+        pytest.skip("landmarks.nycb not produced yet")
+    lm = E.read_landmarks(p)
+    t = pq.read_table(src, columns=["name", "centroid_x", "centroid_y"])
+    want = [n for n in t.column("name").to_pylist() if n]
+    assert len(lm["points"]) == len(want)
+    assert set(lm["names"]) == set(want)
+    assert all(n for n in lm["names"]), "an empty name reached landmarks.nycb; loadLandmarks would drop it"
+    # the section loadLandmarks looks for first, and the strtab it requires
+    assert "points" in lm["reader"].sections and "strtab" in lm["reader"].sections
+
+
+def test_point_section_drops_unlabelled_rows_and_exact_duplicates():
+    w = NycbWriter()
+    x = np.array([1.0, 1.0, 2.0, 3.0, np.nan], dtype=np.float64)
+    y = np.array([5.0, 5.0, 6.0, 7.0, 1.0], dtype=np.float64)
+    labels = ["350 5 AVENUE", "350 5 AVENUE", "350 5 AVENUE", "", "1 CENTRE STREET"]
+    out, dropped = E._point_section(x, y, labels, E.POI_DTYPE, "addr_str", w)
+    # the exact repeat is collapsed; the same address at a different point is kept; "" and NaN are dropped
+    assert len(out) == 2
+    assert dropped == {"no_label": 1, "non_finite_point": 1, "duplicate_label_and_point": 1}
+    assert list(out["x"]) == [1.0, 2.0]
+
+
 def test_nycb_layout_json_documents_the_cpp_structs():
     p = RUNTIME / "nycb_layout.json"
     if not p.exists():

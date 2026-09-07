@@ -269,6 +269,12 @@ def write_real_counts() -> None:
         "signals": {"controllers": "roads/signals"},
         "transit": {},
         "density": {},
+        # `tiles` is one record per row of the tile index, so it cross-checks against the parquet. `pois` and
+        # `points` deliberately do not: a building with no address and a landmark with no name have no record
+        # (§15), so their counts are below the parquet's and are checked by the exporter's own tests instead.
+        "tiles": {"tiles": "tiles/index"},
+        "pois": {},
+        "landmarks": {},
     }
     out: dict = {"schema_version": 1, "files": {}}
     for stem, parquet_map in parquet_maps.items():
