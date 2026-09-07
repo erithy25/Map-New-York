@@ -230,6 +230,25 @@ void TrafficSim::refreshSpawnRegions() {
   spawn_index_.refresh(dest_region_, player_.x, player_.y, std::max(1.f, cfg_.despawn_m), slack);
 }
 
+// The signal cache costs O(refreshed plans x 8) and the real table holds 19,814
+// plans, all but a few hundred of them at intersections nowhere near the player.
+// The streamed region is the despawn disc -- an agent outside it is recycled --
+// so that disc is also the only place a plan can be asked for, and restricting
+// the refresh to it is transparent: SignalTable falls back to the pure time
+// function for a plan it did not memoize, so the value a caller sees does not
+// change.  Measured on this machine at 2.7 ms a step.
+//
+// This lives in step() rather than in the host because a host that forgets it
+// loses the saving silently, and nothing fails -- the same failure mode that
+// left DensityTable::assignLaneNtas() uncalled everywhere but one benchmark.
+void TrafficSim::applySignalWindow() const {
+  if (signals_ == nullptr) return;
+  if (!cfg_.signal_window_from_ring) return;  // the host manages the window
+  if (!cfg_.use_player_ring || !player_.valid) return;  // no ring: the whole city
+  const float r = std::max(1.f, cfg_.despawn_m);
+  signals_->setActiveWindow(player_.x - r, player_.y - r, player_.x + r, player_.y + r);
+}
+
 // How many vehicles the density table asks for.  Without a streaming ring this
 // is the whole city, summed over NTA lane-kilometres exactly as before.  With
 // one, it has to be the streamed region's own share: the spawner now draws only
@@ -2098,7 +2117,10 @@ void TrafficSim::step() {
   const uint8_t hour = static_cast<uint8_t>(tod_s_ / 3600.f);
   if (hour != spawn_hour_) rebuildSpawnWeights();
   refreshSpawnRegions();
-  if (signals_ != nullptr) const_cast<SignalTable*>(signals_)->cacheStates(time_s_);
+  if (signals_ != nullptr) {
+    applySignalWindow();
+    const_cast<SignalTable*>(signals_)->cacheStates(time_s_);
+  }
 
   rebuildIndex();
   updateEmergencyField();

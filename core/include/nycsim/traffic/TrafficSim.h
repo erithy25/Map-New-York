@@ -116,6 +116,16 @@ struct TrafficConfig {
   float player_swerve_m = 1.1f;          // in-lane lateral swerve
   float player_person_stop_m = 6.0f;     // stop this far short of a person
   bool use_player_ring = true;
+  // The signal cache is a memoization over every plan in the city (Signals.h).
+  // With this set, step() restricts it to the streamed region -- the despawn
+  // disc, which is what ADR-021 calls the streamed region -- before refreshing
+  // it, so the 19,814-plan table costs what the few hundred plans near the
+  // player cost.  It is transparent by construction: a plan outside the window
+  // is simply not memoized and the accessors fall back to the pure time
+  // function, so every caller sees the same value.  A host that wants to manage
+  // the window itself -- the step benchmark does, to measure the effect of
+  // having one -- clears this and calls SignalTable::setActiveWindow directly.
+  bool signal_window_from_ring = true;
 
   // --- buses -------------------------------------------------------------
   float bus_dwell_min_s = 15.f;
@@ -413,6 +423,8 @@ class TrafficSim {
   uint32_t sampleOriginLane(Rng& rng);
   uint32_t sampleStreamedLane(Rng& rng);
   void refreshSpawnRegions();
+  /// Restrict the signal cache to the streamed region before it is refreshed.
+  void applySignalWindow() const;
   // Vehicles the density table asks for.  Over the streamed region while a ring
   // restricts the draw, over the whole city otherwise.
   float densityTarget() const;

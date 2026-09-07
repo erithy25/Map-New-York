@@ -713,7 +713,10 @@ void PedSim::step() {
   time_s_ += static_cast<double>(cfg_.dt);
   tod_s_ += cfg_.dt;
   if (tod_s_ >= 86400.f) tod_s_ -= 86400.f;
-  if (signals_ != nullptr) signals_->cacheStates(time_s_);
+  if (signals_ != nullptr) {
+    applySignalWindow();
+    signals_->cacheStates(time_s_);
+  }
 
   rebuildHashes();
   const uint32_t n = static_cast<uint32_t>(peds_.size());
@@ -832,6 +835,17 @@ bool PedSim::despawn(uint32_t id, bool ignore_player_ring) {
 // Spawn points come from the streamed region: a pedestrian created city-wide is
 // removed by the ring on the same step it appeared, which is how a soak run
 // reached 431,990 pedestrian spawns without ever populating the ring.
+// See TrafficSim::applySignalWindow.  Both simulations share one SignalTable and
+// each refreshes it once a step, so each restricts it to its own ring; the
+// pedestrian despawn disc is the smaller of the two.
+void PedSim::applySignalWindow() const {
+  if (signals_ == nullptr) return;
+  if (!cfg_.signal_window_from_ring) return;
+  if (!cfg_.use_player_ring || !player_.valid) return;
+  const float r = std::max(1.f, cfg_.despawn_m);
+  signals_->setActiveWindow(player_.x - r, player_.y - r, player_.x + r, player_.y + r);
+}
+
 void PedSim::refreshSpawnRegion() {
   if (spawn_index_.empty()) return;
   if (!cfg_.use_player_ring || !player_.valid) {

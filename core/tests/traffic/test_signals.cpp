@@ -205,3 +205,90 @@ TEST_CASE("no right on red holds even with a fleet of red-light runners") {
 }
 
 }  // TEST_SUITE
+
+// --------------------------------------------------------------------------
+// The signal cache is a memoization over every plan in the city.  On the real
+// table that is 19,814 plans a step, all but a few hundred of them at
+// intersections nowhere near the player.  TrafficSim::step() and PedSim::step()
+// now restrict the refresh to the streamed region -- the despawn disc, which is
+// what ADR-021 calls the streamed region -- and these two cases are the whole
+// contract: it must actually restrict, and it must change nothing a caller
+// sees.
+//
+// Written because the same saving already existed as SignalTable::
+// setActiveWindow and was called from nowhere but two benchmarks.  A host that
+// has to remember to call it is a host that will forget, which is exactly how
+// DensityTable::assignLaneNtas() came to be missing.
+TEST_CASE("stepping with a player ring restricts the signal refresh to it") {
+  GridWorld w;
+  // 12 avenues x 40 streets at Manhattan spacing is 3.08 x 3.12 km -- large
+  // enough that a ring cannot cover it, which is the point.
+  REQUIRE(w.build(midtownSpec(12, 40), 40.f));
+  REQUIRE(w.signals.planCount() > 0);
+
+  TrafficConfig cfg;
+  cfg.use_player_ring = true;
+  cfg.despawn_m = 300.f;  // a 600 m square, well inside the 3 km grid
+  TrafficSim sim;
+  REQUIRE_MESSAGE(sim.configure(w.graph, w.signals, cfg, 4321u), sim.lastError());
+  sim.setDensityTable(&w.density);
+
+  const uint32_t all_plans = static_cast<uint32_t>(w.signals.planCount());
+
+  SUBCASE("no player means the whole city, exactly as before") {
+    sim.step();
+    CHECK(w.signals.cachedPlanCount() == all_plans);
+  }
+
+  SUBCASE("a player ring restricts it, and every state is unchanged") {
+    traffic::PlayerProxy p;
+    p.valid = true;
+    p.x = 0.f;
+    p.y = 0.f;
+    p.heading_rad = 0.f;
+    sim.setPlayer(p);
+    sim.step();
+
+    const uint32_t restricted = w.signals.cachedPlanCount();
+    CHECK(restricted > 0u);
+    CHECK(restricted < all_plans);
+
+    // Transparency: read every plan and group through the cached accessors,
+    // then compare against the pure time functions at the same instant.  The
+    // plans inside the window are memoized and the ones outside fall back, and
+    // a caller must not be able to tell which is which.
+    const double t = w.signals.cachedTime();
+    uint32_t compared = 0, outside = 0;
+    for (uint32_t pi = 0; pi < all_plans; ++pi) {
+      for (int32_t g = 0; g < 8; ++g) {
+        CHECK(w.signals.cachedVehicleState(pi, g) == w.signals.vehicleState(pi, g, t));
+        CHECK(w.signals.cachedPedState(pi, g) == w.signals.pedState(pi, g, t));
+        ++compared;
+      }
+    }
+    outside = all_plans - restricted;
+    CHECK(compared == all_plans * 8u);
+    CHECK(outside > 0u);  // otherwise the comparison proved nothing
+  }
+
+  SUBCASE("a host that manages the window itself keeps it") {
+    TrafficConfig own = cfg;
+    own.signal_window_from_ring = false;
+    sim.setConfig(own);
+    traffic::PlayerProxy p;
+    p.valid = true;
+    p.x = 0.f;
+    p.y = 0.f;
+    sim.setPlayer(p);
+    // A window the simulation would never choose: one grid cell at the far
+    // corner.  If step() overrode it this count would be the ring's instead.
+    w.signals.setActiveWindow(2000.f, 2000.f, 2400.f, 2400.f);
+    const uint32_t chosen = [&] {
+      w.signals.cacheStates(0.0);
+      return w.signals.cachedPlanCount();
+    }();
+    sim.step();
+    CHECK(w.signals.cachedPlanCount() == chosen);
+    CHECK(w.signals.cachedPlanCount() < all_plans);
+  }
+}

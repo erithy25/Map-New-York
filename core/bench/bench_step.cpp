@@ -535,6 +535,19 @@ int runCity(Args& args) {
   tsim.setPlayer(player);
   if (o.with_peds) psim.setPlayer(player);
 
+  // This benchmark exists to measure what the signal window is worth, so it
+  // takes the window away from the simulations and sets it itself -- otherwise
+  // step() would apply its own every step and there would be no baseline to
+  // measure against.  Every other host leaves the default on.
+  {
+    traffic::TrafficConfig tc = tsim.config();
+    tc.signal_window_from_ring = false;
+    tsim.setConfig(tc);
+    peds::PedConfig pc = psim.config();
+    pc.signal_window_from_ring = false;
+    psim.setConfig(pc);
+  }
+
   if (signal_window > 0.0) {
     const float h = static_cast<float>(signal_window) * 0.5f;
     w.signals.setActiveWindow(px - h, py - h, px + h, py + h);

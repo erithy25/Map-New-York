@@ -103,6 +103,10 @@ struct PedConfig {
   float spawn_rate_per_s = 200.f;
   float despawn_m = 900.f;
   bool use_player_ring = true;
+  // As TrafficConfig::signal_window_from_ring.  Both simulations refresh the
+  // same signal cache, so both restrict it; the pedestrian ring is smaller, and
+  // whichever steps last decides the window for its own refresh.
+  bool signal_window_from_ring = true;
   uint32_t max_paths_per_step = 96;
   // ADR-021.  How far a pedestrian will look for its next destination.  The
   // activity model used to pick a point of interest uniformly over the whole
@@ -233,6 +237,8 @@ class PedSim {
   bool pathTo(Pedestrian& p, uint32_t goal_node);
   uint32_t sampleSpawnEdge(Rng& rng) const;
   void refreshSpawnRegion();
+  /// Restrict the signal cache to the streamed region before it is refreshed.
+  void applySignalWindow() const;
   uint32_t currentNodeAhead(const Pedestrian& p) const;
   bool mayEnterCrosswalk(const Pedestrian& p, uint32_t edge) const;
   void arriveAtGoal(Pedestrian& p);
