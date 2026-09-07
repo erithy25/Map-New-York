@@ -14,6 +14,34 @@
 
 **Verdict — the camera was rescued from a nine-metre wall and put in front of a twenty-metre one: the item's own azimuth points across Seventh Avenue at the opposite block face, so the frame is two party walls and a strip of sidewalk, and the brownstone street the item exists to test is off to the left**
 
+## Re-rendered 2026-09-07, and a defect I went looking for and did not find
+
+This is the weakest frame in the drive-through set. The camera stands at a 1.6 m eye on a 54.4° lens
+with the nearest building 28 m dead ahead and every other building within 60 m *behind* it (116-175°
+off the view axis), so the frame is two large blank wall planes carrying sill bars and three
+window-unit air conditioners, over a featureless ground plane. Nothing in it can be compared with a
+photograph of a Park Slope shopping street except the wall colour.
+
+The dark line where the wall meets the ground looked like a floating building, so I measured it
+rather than writing it up. **It is not one.** Sampling 1,871 buildings across 40 tiles and comparing
+each footprint's `ground_z` against the terrain heightmap beneath its centroid:
+
+| | value |
+|---|---|
+| median `ground_z` − terrain | **+0.00 m** |
+| p05 / p95 | −0.04 m / +0.02 m |
+| more than 0.5 m above the terrain | 0.3 % |
+| more than 0.5 m below | 0.1 % |
+
+Buildings sit on the ground. The line is a contact shadow, not a gap, and the city-wide check that
+would have caught a systematic problem says there is not one. Recorded because a negative result from
+a check worth running is worth keeping — the next person to see that line should not have to measure
+it again.
+
+What the frame *does* show is the same gap as `drive_brooklyn_bed_stuy_stuyvesant_ave`: sills and
+HVAC units placed on a wall with no window openings between them. Here it is starker, because there
+is nothing else in the frame.
+
 ## What matches
 
 * The boxed-in test fired and is stated: the recorded eye point had the view closed off 9 m ahead, and the camera was moved 12 m backwards to a point with 21 m of clear view.

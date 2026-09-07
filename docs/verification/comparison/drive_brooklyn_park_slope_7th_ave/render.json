@@ -1,4 +1,11 @@
 {
+ "agent_request": {
+  "dow": 0,
+  "hour": 13,
+  "local_clock": "2026-04-23 13:09 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
  "azimuth_reason": "30.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
  "camera": {
   "azimuth_deg": 30.0,
@@ -7,6 +14,7 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
+   "below_point_excluded": 0,
    "chosen_m": 25.35,
    "max_m": 25.86,
    "median_m": 25.54,
@@ -49,16 +57,16 @@
   "min_view_m": 20.0,
   "moved": true,
   "nearest_obstruction_m": 20.0,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 9 m ahead, less than the 12 m below which a frame shows nothing but wall; the camera was moved 12 m backwards -- the nearest point in open air -- keeping the same eye height above the heightmap.  The view azimuth is clear for 21 m from there",
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 9 m ahead, less than the 12 m this frame needs to show its subject; the camera was moved 12 m backwards -- the nearest point in open air -- keeping the same eye height above the heightmap.  The view azimuth is clear for 21 m from there",
   "offset_m": 12.0,
-  "reason": "boxed in: the view azimuth is closed off 9 m ahead, less than the 12 m below which a frame shows nothing but wall",
+  "reason": "boxed in: the view azimuth is closed off 9 m ahead, less than the 12 m this frame needs to show its subject",
   "rule": "radial search with a clear view",
   "view_m": 20.6
  },
  "frame": {
-  "mean": 0.5634,
+  "mean": 0.566,
   "reason": null,
-  "sd": 0.0676,
+  "sd": 0.0666,
   "usable": true
  },
  "frame_retry": null,
@@ -69,10 +77,11 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 923.0,
   "emissive": {
+   "cone_faces_deleted": 8,
    "cones_hidden": 1,
    "lamps_switched_off": 2,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.0,
   "sky_azimuth_deg": 187.678,
@@ -98,10 +107,91 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_park_slope_7th_ave/render.png",
- "rendered_at": "2026-09-06T21:48:50Z",
+ "rendered_at": "2026-09-07T13:19:35Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "caption": "Agents: 89 vehicles within 320 m and 414 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 390 vehicles and 993 people over the whole simulated ring, of which 497 and 1750 were simulated; 1744 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 96,
+    "pedestrian_inside_building": 1,
+    "pedestrian_not_on_walkable_surface": 82,
+    "pedestrian_outside_radius": 646,
+    "pedestrian_triangle_budget": 511,
+    "vehicle_body_has_no_rider": 14,
+    "vehicle_outside_radius": 280,
+    "vehicle_triangle_budget": 114
+   },
+   "ped_lods": {
+    "LOD1": 3,
+    "LOD2": 411
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 581334,
+   "per_class": {
+    "black_car": 2,
+    "boro_taxi": 3,
+    "box_truck": 2,
+    "mta_bus": 1,
+    "sedan": 47,
+    "suv": 19,
+    "taxi": 10,
+    "van": 5
+   },
+   "placed_pedestrians": 414,
+   "placed_vehicles": 89,
+   "reason": null,
+   "seconds": 51.81,
+   "snapshot": {
+    "building_footprints_tested": 5479,
+    "density_lane_km": 17.24,
+    "density_sidewalk_m2": 22231,
+    "density_target_pedestrians": 993.3,
+    "density_target_vehicles": 389.5,
+    "dow": 0,
+    "hour": 13,
+    "lanes_considered": 133,
+    "lanes_with_nta": 133,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.26,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 65,
+    "pavement_polygons_tested": 1992,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 1750,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 497
+   },
+   "snapshot_note": "cached -2384_-3053_13_0_fd1123b98b2820f9_1788782618.json",
+   "triangle_budget": 1125000,
+   "triangles": 1086217,
+   "vehicle_lods": {
+    "LOD2": 89
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 504883
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
@@ -113,39 +203,58 @@
     "t_-4_-4"
    ],
    "landmark_bins_suppressed": 3,
-   "landmark_faces_suppressed": 1108,
+   "landmark_faces_suppressed": 716,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_-2_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
-     "triangles": 103548
+     "triangles": 114986
     },
     "t_-2_-4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 13,
-     "triangles": 18604
+     "triangles": 21840
     },
     "t_-3_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 15,
-     "triangles": 112416
+     "triangles": 121446
     },
     "t_-3_-4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
-     "triangles": 158592
+     "triangles": 169726
     },
     "t_-4_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 1,
      "objects": 13,
-     "triangles": 20180
+     "triangles": 23076
     },
     "t_-4_-4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 1,
      "objects": 13,
-     "triangles": 34240
+     "triangles": 41060
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -153,8 +262,9 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 6,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 447580
+   "triangles": 492134
   },
   "centre_tm": [
    -2384.32,
@@ -163,6 +273,7 @@
   "kit": {
    "capped": null,
    "per_category": {
+    "billboard": 2,
     "bulkhead": 93,
     "cornice": 68,
     "door_entry": 194,
@@ -172,16 +283,16 @@
     "parapet": 104,
     "quoin": 56,
     "scaffold": 31,
-    "storefront": 107,
+    "storefront": 162,
     "storefront_interior": 31,
     "string_course": 68,
     "vegetation": 1,
     "window": 2337,
     "window_accessory": 276
    },
-   "placed": 3574,
+   "placed": 3631,
    "radius_m": 120.0,
-   "records_in_range": 3574,
+   "records_in_range": 3631,
    "stale_registry_ids": {},
    "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
@@ -189,20 +300,32 @@
     "t_-3_-3",
     "t_-3_-4"
    ],
-   "triangles": 1066069,
+   "triangles": 1068905,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [
     {
      "distance_m": 703.6,
      "id": "b_soldiers_sailors_arch",
      "lod": 0,
      "name": "Soldiers' and Sailors' Memorial Arch",
+     "own_ground_m2": 416.3,
+     "own_ground_note": {
+      "above_heightmap_m": -0.02,
+      "heightmap_median_m": 43.02
+     },
+     "own_ground_parts": 1,
      "triangles": 1252
     }
    ],
+   "own_ground_from": [
+    "b_soldiers_sailors_arch"
+   ],
+   "own_ground_m2": 416.3,
    "placed": 1,
    "skipped": 0,
    "skipped_detail": [],
@@ -230,12 +353,14 @@
     "t_-4_-3",
     "t_-4_-4"
    ],
-   "triangles": 166921,
+   "triangles": 166914,
+   "triangles_cut_for_landmark_ground": 7,
    "vertices": 170221
   },
   "props": {
-   "capped": "triangle budget 1328616",
+   "capped": "triangle budget 1313030",
    "impostor_cards_dropped": 23,
+   "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
     "bench": 3,
@@ -246,10 +371,10 @@
     "mailbox": 1,
     "manhole": 38,
     "street_lamp": 42,
-    "tree": 170,
+    "tree": 168,
     "waste_basket": 9
    },
-   "placed": 288,
+   "placed": 286,
    "radius_m": 250.0,
    "rows_in_range": 756,
    "tiles_missing": [],
@@ -257,15 +382,15 @@
     "t_-3_-3",
     "t_-3_-4"
    ],
-   "tree_species_substituted": 43,
-   "triangles": 1328622,
+   "tree_species_substituted": 42,
+   "triangles": 1316022,
    "unmapped_kinds": {
     "cooling_tower": 8,
     "curb_ramp": 42
    }
   },
   "radius_m": 720.0,
-  "seconds": 32.75,
+  "seconds": 117.63,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -273,24 +398,28 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 8,
    "samples": 211,
    "spacing_m": 2.0,
-   "triangles": 88200,
+   "triangles": 88184,
+   "water_bodies": [],
    "water_quads": 0,
    "z_max_m": 53.09,
    "z_min_m": 3.14
   },
-  "triangles": 3098644
+  "triangles": 4219628
  },
  "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 151.1,
-  "scene": 39.0,
-  "total": 190.0
+  "render": 129.5,
+  "scene": 127.6,
+  "total": 257.1
  },
  "slug": "drive_brooklyn_park_slope_7th_ave",
  "status": "rendered",
