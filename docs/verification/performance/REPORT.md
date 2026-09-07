@@ -191,7 +191,8 @@ This is the half of ADR-021 that matters more than the frame time: before it, th
 filled at all. Measured with the production spawner rather than the benchmark's seeding hack:
 
 ```sh
-nice -n 10 ./core/build/bench/nycsim_bench city --steps 120 --warmup 30 --seed-radius 1000     --use-spawner --signal-window 3000
+nice -n 10 ./core/build/bench/nycsim_bench city --steps 120 --warmup 30 --seed-radius 1000 \
+    --use-spawner --signal-window 3000
 ```
 
 | | before (`a761f35`) | after |
