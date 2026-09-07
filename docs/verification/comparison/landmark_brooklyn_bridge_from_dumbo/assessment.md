@@ -12,6 +12,24 @@
 
 **Verdict — the best bridge model in the set: the Brooklyn tower's twin Gothic arches, the main cables, the suspenders and the deck truss are all there in the right proportions — but it is bare grey where the real tower is coursed granite, and the park it stands in is a blank plane**
 
+## Re-rendered 2026-09-07
+
+A winter frame, correctly: the reference photograph's own date puts `leaf_off` on, so all 282 trees
+in this scene carry the kit's bare-canopy variants and the long low shadows they cast across the
+plaza are the right shape for the season. The Brooklyn Bridge crosses the middle distance with its
+suspension cables and deck reading clearly, the DUMBO block faces sit under it, three landmark models
+are placed, and 89 vehicles and 427 people are in the scene.
+
+**Two things work against the subject.** The item names the Brooklyn tower at 285.9 m, and the near
+field is a stand of bare trunks — the closest of them a couple of metres from the lens — which screen
+a good part of the left of the frame where that tower stands. In leaf-on season they would hide it
+entirely. And the foreground is roughly the lower third of the image as untextured pale ground: this
+is Brooklyn Bridge Park, whose promenade decks and paving are the structures deviation B13 records as
+absent, so what should be timber decking, granite setts and planting beds is one flat surface.
+
+Mean luminance **0.483 against the photograph's 0.390** — brighter, like Barclays and Bethesda, and
+another instance of I16 running in the opposite direction from the Manhattan canyons.
+
 ## What matches
 
 * The Brooklyn tower is recognisably itself: two pointed Gothic arches, the correct pier proportions, the saddle at the top and the main cables running down to the deck on both sides.
