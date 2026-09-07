@@ -14,6 +14,27 @@
 
 **Verdict — the lens rule now gets the tower's base and Federal Hall's colonnade into shot at 18 mm, and the crown the item exists to test is still above the top of the frame; the pairing is hopeless anyway, because the only photograph collected is a harbour panorama taken 1.5 km away**
 
+## Re-rendered 2026-09-07 — the sheet cannot show the building it is named after
+
+Two faults meet in this frame and both are measured rather than described.
+
+**The subject is above the frame (deviation I18).** 40 Wall Street's top stands at 292 m; the camera
+is 200.4 m away at an eye height of 5.66 m, so seeing it requires **55.0° of elevation** and the frame
+reaches **25.3°**. The lens is already at the 18 mm floor at a 90° horizontal, and the reference
+photograph's own 1280×606 letterbox cuts the vertical field to 50.7°, so a level axis reaches half
+what the subject needs. The frame shows the bases of the Wall Street canyon and 13 landmark models,
+and none of them is recognisably the building the sheet is named after.
+
+**And the exposure gap is at its most extreme here (I16).** Mean luminance **0.147 against the
+photograph's 0.689** — the render is a fifth as bright — with **25.4 % of the frame below 0.10**. The
+Sun is from EXIF and correct: 16:27 on 3 October, elevation 22.4°, which puts a north-south Manhattan
+canyon in near-total shadow with one wedge of late sun on the pavement. The render is right about the
+light and unusable as a comparison.
+
+What the frame does contain is worth recording: 403 pedestrians and 81 vehicles, a crowd along the
+kerb line reading as a Financial District pavement at the end of the working day, and Federal Hall's
+colonnade legible on the left.
+
 ## What matches
 
 * The lens rule fired and is stated on the sheet: 35 mm widened to the 18 mm floor because the 282 m tower stands 284 m above the lens only 200 m away, 55 deg above the horizon. That brought the tower's base, the street and Federal Hall into the frame where a 35 mm level axis had shown only a dark corner.
