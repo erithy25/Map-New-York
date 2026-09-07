@@ -12,6 +12,30 @@
 
 **Verdict — the right street, the right walls and the right bridge in the right place — and the bridge is a plain blue box truss where the photograph is a riveted Beaux-Arts portal, so the one thing the view exists for is the thing least well modelled**
 
+## Re-rendered 2026-09-07 — a mandated viewpoint, and it is recognisable
+
+Washington Street framing the Manhattan Bridge's Brooklyn tower is one of the seven viewpoints the
+brief names, and this frame is the thing it is a picture of. The tower stands centred in the gap
+between the warehouse blocks at its recorded 160 m, with the truss, the portal bracing and the
+suspender cables reading correctly; `b_manhattan_bridge` and `b_brooklyn_bridge` are both in the
+scene. The brick blocks flank it with their fire escapes zig-zagging down, a sidewalk shed runs along
+the left frontage, a white van stands at the far kerb and a hydrant beside it. 28 mm on a portrait
+frame, azimuth 357.1° — very nearly due north, which is what Washington Street runs.
+
+The street trees are **bare**, correctly: `leaf_off` is set from the reference photograph's own date,
+so the 223 trees here carry the kit's winter variants.
+
+**What is weak is the bottom half of the frame.** The eye is 1.6 m over a roadway at z 5.07 m and
+the lens is portrait, so roughly the lower 45 % is empty asphalt with no texture and no markings.
+The real photograph of this view is famous partly for the cobbled street leading the eye to the
+tower; here the street is a flat grey plane. That is the pavement-material gap, not a camera fault.
+
+**And a correction to something I wrote an hour ago.** In deviation I17 I said the 2.6 m object in
+this camera's view cone was a zelkova, taking the example from `view_distance`'s docstring rather
+than from this scene's own record. It is `prop_lamp_cobra_davit_1`, a lamp standard. Both are stepped
+past by the same rule — it counts only building shells and landmark models — but the record says
+which, and I should have read it.
+
 ## What matches
 
 * The camera stands on the photograph's own EXIF GPS, 35 m from the item's nominal viewpoint, which is what put it on Washington Street's roadbed rather than on Water Street. Before that correction this frame was a picture of a brick wall.
