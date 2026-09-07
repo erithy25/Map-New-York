@@ -11,7 +11,10 @@ Dimensions used (source in brackets)
   between the two 350 ft arches a **330 ft = 100.6 m operable skylight** runs the length of the building; the
   concourse is column-free and 11,500 tons of structural steel were used [Calatrava, PANYNJ, explorewtc.com].
   This model builds **2 x 56 = 112 ribs** — the rib count is *inferred* from the published 350 ft length and the
-  photographed rib pitch (about 1.9 m), not from a published figure.
+  photographed rib pitch (about 1.9 m), not from a published figure.  The body's **long axis is measured from its
+  own footprint** (BIN 1089309) at build time, not assumed: the minimum rotated rectangle of that polygon is
+  110.0 x 33.3 m with its long edge on **128.2 deg**, and an area-weighted principal axis of the same polygon gives
+  128.8 deg.
 * **3 World Trade Center** (Rogers Stirk Harbour, 2018): **329.2 m** (1,079 ft), 80 storeys; **4 World Trade Center**
   (Maki, 2013): **297.7 m** (977 ft), 72 storeys; **7 World Trade Center** (SOM, 2006): **226.1 m** (741.7 ft), 52
   storeys, a parallelogram plan over a Con Edison substation podium.
@@ -32,9 +35,11 @@ Dimensions used (source in brackets)
   seed so the grove covers the whole plaza instead of filling one end of it.  If the props library is absent the
   build falls back to ``b_common.simple_tree`` and the report says so.
 
-Placement: every building uses its **real OTI footprint**: 3 WTC BIN **1088797** (9,219 m2, LiDAR height 324.3 m),
-4 WTC BIN **1088795** (7,966 m2, 298.2 m), 7 WTC BIN **1086510** (3,019 m2, 226.7 m), the Oculus BIN **1089309**
-(5,048 m2) and the memorial museum pavilion BIN **1088798** (1,382 m2).  The two pool centres and the pool squares'
+Placement: every building uses its **real OTI footprint**: 3 WTC BIN **1088797** (5,292 m2, LiDAR height 324.3 m),
+4 WTC BIN **1088795** (4,573 m2, 298.2 m), 7 WTC BIN **1086510** (3,019 m2, 226.7 m), the Oculus BIN **1089309**
+(2,897 m2) and the memorial museum pavilion BIN **1088798** (1,382 m2).  Those areas are the NYC_TM polygons' own,
+measured here; the source table's ``shape_area`` column reads 1.744x the polygon area for every row sampled from it,
+so it is not in square metres and the figures quoted before this pass mixed the two.  The two pool centres and the pool squares'
 rotation are **measured**, from OSM ways ``697722178`` ("Memorial North Pool") and ``697722181`` ("Memorial South
 Pool") in ``data/raw/osm/NewYork.osm.pbf``.  The memorial plaza's outline is OSM way ``129835611``.
 
@@ -58,9 +63,26 @@ ground beyond the memorial plaza is the terrain and pavement stages' work, not t
 8-acre memorial plaza and stops there, where it used to be a 520 x 520 m quad reaching a quarter of a kilometre
 past the site and standing over Liberty Street and the Hudson River Greenway.
 
-Known wrong, not fixed here: ``PLAZA_AXIS_DEG = 160.6`` orients the Oculus, whose real OTI footprint (BIN 1089309)
-has its 110.0 m long axis on **128.2 deg** — the body is 32 deg off its own footprint.  That belongs to the Oculus
-views, not to the memorial, and is left for the pass that re-renders them against the reference.
+Axes
+----
+One constant, ``PLAZA_AXIS_DEG = 160.6``, used to orient the Oculus, carry the frame's informational heading and
+aim the Oculus verification cameras.  It measured none of those things.  160.6 deg is the heading of the line
+between the two *derived* pool centres the earlier build placed at local (-28.23, 80.17) and (28.23, -80.17) — a
+figure the pool correction replaced with measured centres whose line runs 176.3 deg — so after that correction
+nothing in this model had that axis.  It is now three separate things, each measured:
+
+* ``OCULUS_AXIS_DEG`` — the Oculus's long axis, **taken from BIN 1089309's own footprint at build time** and
+  cross-checked against the recorded 128.2 deg.  At 160.6 deg the modelled body stood 32.4 deg off its footprint:
+  only 58 % of its plan lay over BIN 1089309 (IoU 0.41), both ends of the 106.7 m body were about 17 m outside that
+  footprint, and the south-east end sat **inside 3 WTC's footprint** (231 m2 of the base prism overlapped it).
+  On the measured axis 94 % of the body lies over its own footprint (IoU 0.90) and it overlaps neither 3 WTC nor
+  4 WTC at all.
+* ``SITE_AXIS_DEG`` — the frame's informational ``heading_deg``: the original towers' grid, which is what the
+  memorial pools, 3 WTC and 4 WTC all stand on (pool square edges 29.2 deg measured from OSM ways 697722178 /
+  697722181; 3 WTC's footprint 26.5 deg, 4 WTC's 29.4 deg).  The memorial plaza polygon has no usable axis of its
+  own — its minimum rotated rectangle runs 15.5 deg while its area-weighted principal axis runs 172.0 deg, 23 deg
+  apart, because the plaza is not a rectangle.
+* the pools keep ``POOL_AXIS_DEG``, measured, which they already did.
 """
 from __future__ import annotations
 
@@ -97,8 +119,13 @@ OAK_PROP_H = 18.4                   # measured from the prop's glTF accessor bou
 PEAR_PROP = "tree_callery_pear_medium"   # the Survivor Tree is a Callery pear (Pyrus calleryana)
 PEAR_PROP_H = 9.31
 SURVIVOR_TREE_INDEX = 96            # one tree of the grid stands in for the Survivor Tree
-PLAZA_AXIS_DEG = 160.6              # the Oculus's long axis in this model (its real footprint runs at 128.2 deg)
 PLAZA_CENTRE_TM = (-5338.0, 1285.0)
+
+#: The Oculus's long axis, compass degrees.  Recorded from BIN 1089309's own OTI footprint -- minimum rotated
+#: rectangle 110.0 x 33.3 m with its long edge on 128.21 deg, area-weighted principal axis 128.79 deg -- and
+#: re-derived from that same polygon at build time by :func:`_oculus`, which warns if the two disagree.  See the
+#: "Axes" note in the module docstring for what the 160.6 deg this replaces actually was.
+OCULUS_AXIS_DEG = 128.2
 
 # The two pools, measured rather than derived.  ``data/raw/osm/NewYork.osm.pbf`` (BBBike, ODbL, (c) OpenStreetMap
 # contributors) carries **way 697722178 "Memorial North Pool"** and **way 697722181 "Memorial South Pool"**, both
@@ -108,6 +135,11 @@ PLAZA_CENTRE_TM = (-5338.0, 1285.0)
 # 3 WTC (26.5 / 116.5 deg) and 4 WTC (29.4 / 119.4 deg); the centres are 123.5 m apart.
 POOL_CENTRES_TM = ((-5338.35, 1349.96), (-5330.40, 1226.73))    # north, south
 POOL_AXIS_DEG = 29.2                # heading of a pool square's edges
+
+#: The site's principal axis, exported as the catalogue's informational ``heading_deg``: the original towers' grid,
+#: which the pools stand on and which 3 WTC (26.5 deg) and 4 WTC (29.4 deg) are built to.  It is the pools' measured
+#: edge heading, so it is one measurement rather than a second constant.
+SITE_AXIS_DEG = POOL_AXIS_DEG
 
 # Two different things that must not be the same constant.  ``PLAZA_Z`` is the frame origin's NAVD88 elevation --
 # what the catalogue exports as ``origin_tm[2]`` and what blender/verify/scene.py adds to every vertex when it
@@ -241,11 +273,33 @@ def _tower(objs, name, bin_, frame, height, material, taper=0.0, lod=0, storey=3
     return fp
 
 
+def oculus_axis_deg(fp) -> float:
+    """The Oculus's long axis in compass degrees, measured from its own OTI footprint.
+
+    The building is a 110 m ellipse; the long edge of its footprint's minimum rotated rectangle *is* its axis,
+    which is what :func:`b_common.footprint_heading` returns.  The recorded :data:`OCULUS_AXIS_DEG` is the same
+    measurement written down so the disagreement is visible if the footprint table ever changes under this model
+    -- the recorded-constant-plus-cross-check the plaza outline and the bridge supports already use, except that
+    here the polygon is loaded anyway (its centroid places the building), so the measurement is what is used.
+    """
+    got = bc.footprint_heading(fp)
+    if abs((got - OCULUS_AXIS_DEG + 90.0) % 180.0 - 90.0) > 1.0:
+        bc.log.warning("Oculus axis: BIN 1089309's footprint now measures %.2f deg against the recorded %.1f deg; "
+                       "the measurement is used, re-record the constant", got, OCULUS_AXIS_DEG)
+    else:
+        bc.log.info("Oculus axis: %.2f deg from BIN 1089309's footprint (recorded %.1f deg)", got, OCULUS_AXIS_DEG)
+    return got
+
+
 def _oculus(objs, frame, lod):
-    """Calatrava's ribbed ellipse: two 350 ft arches flanking the skylight, with ribs springing from each."""
+    """Calatrava's ribbed ellipse: two 350 ft arches flanking the skylight, with ribs springing from each.
+
+    The body is laid out on the long axis of its *own* footprint (:func:`oculus_axis_deg`), not on the site's.
+    Built on the plaza's 160.6 deg it stood 32.4 deg off that footprint and its south-east end lay inside 3 WTC.
+    """
     fp = bc.load_footprint(1089309)
     cx, cy = fp.cx - frame.x0, fp.cy - frame.y0
-    a = math.radians(bc.heading_to_math_deg(PLAZA_AXIS_DEG))
+    a = math.radians(bc.heading_to_math_deg(oculus_axis_deg(fp)))
     u = Vector((math.cos(a), math.sin(a), 0.0))          # along the building (350 ft)
     v = Vector((-u.y, u.x, 0.0))                          # across (115 ft)
     c = Vector((cx, cy, GRND))
@@ -327,7 +381,7 @@ def _pool(objs, name, centre: Vector, d: Vector, lod: int, rings):
 
 def build(lod: int = 0):
     from shapely.geometry import Point, Polygon
-    frame = bc.local_frame(PLAZA_CENTRE_TM, PLAZA_Z, PLAZA_AXIS_DEG)
+    frame = bc.local_frame(PLAZA_CENTRE_TM, PLAZA_Z, SITE_AXIS_DEG)
     objs: list = []
     # the pool squares are needed before the plaza: they are what the deck is cut open with
     pa, pb, d = _pool_centres(frame)
@@ -389,7 +443,7 @@ def build(lod: int = 0):
         objs += trees          # linked duplicates: joining them would copy the mesh 220 times
 
     extras = {
-        "origin_tm": frame.origin_tm, "heading_deg": PLAZA_AXIS_DEG, "height_m": WTC3_M, "name": TITLE,
+        "origin_tm": frame.origin_tm, "heading_deg": SITE_AXIS_DEG, "height_m": WTC3_M, "name": TITLE,
         "wtc3_m": WTC3_M, "wtc4_m": WTC4_M, "wtc7_m": WTC7_M,
         "oculus_length_m": OCULUS_L, "oculus_width_m": OCULUS_W, "oculus_apex_m": OCULUS_APEX,
         "oculus_canopy_tip_m": OCULUS_TIP, "oculus_skylight_m": SKYLIGHT_L, "oculus_ribs": 2 * N_RIBS_PER_SIDE,
@@ -409,7 +463,9 @@ def build(lod: int = 0):
         "fidelity_statement": (
             "Exact to published values: 3 WTC 329.2 m, 4 WTC 297.7 m and 7 WTC 226.1 m on their real OTI footprints "
             "(BINs 1088797 / 1088795 / 1086510); the Oculus 106.7 x 35.1 m with a 29.3 m apex, 51.2 m canopy tips "
-            "and a 100.6 m skylight on its real footprint (BIN 1089309); the memorial museum pavilion on BIN "
+            "and a 100.6 m skylight, centred on its real footprint (BIN 1089309) and laid out on that footprint's "
+            "own long axis, measured from the polygon at build time (128.2 deg; 94 % of the modelled body lies "
+            "over that footprint, IoU 0.90, and it overlaps neither 3 WTC nor 4 WTC); the memorial museum pavilion on BIN "
             "1088798; two 61.0 m memorial pools with the published 9.14 m waterfall and 152 bronze parapet panels "
             "carrying the MEMORIAL_NAMES slot for the 2,983 names. Measured, not derived: the pool centres and the "
             "rotation of their squares, from OSM ways 697722178 and 697722181 (the earlier build derived them "
@@ -422,8 +478,9 @@ def build(lod: int = 0):
             "height. Gaps: 220 swamp white oaks are placed of the "
             "published 400+, and the species is substituted — blender_out/props/ has no swamp white oak, so the "
             "pin oak prop tree_pin_oak_medium is instanced at 11 m; the Survivor Tree uses the correct Callery "
-            "pear prop. Wrong and known wrong: the Oculus is built on PLAZA_AXIS_DEG = 160.6 while its real OTI "
-            "footprint's long axis runs at 128.2 deg. Not modelled: the PATH platforms, the "
+            "pear prop; and the body is a swept ellipse of the published dimensions on the footprint's axis rather "
+            "than the footprint's own outline, so 6 % of its plan falls outside BIN 1089309 (it was 42 % when the "
+            "body stood on the plaza's 160.6 deg, with its south-east end inside 3 WTC). Not modelled: the PATH platforms, the "
             "museum's underground galleries, 2 WTC, Liberty Park and St Nicholas church, curtain-wall panes, the "
             "Oculus's marble floor."),
     }
@@ -446,7 +503,7 @@ def main() -> None:
     4. ``site_aerial`` — the whole superblock.  Question: are 3, 4 and 7 WTC on their real footprints at
        329.2 / 297.7 / 226.1 m, and are the two pools and the plaza oaks in the right places?
     """
-    frame = bc.local_frame(PLAZA_CENTRE_TM, PLAZA_Z, PLAZA_AXIS_DEG)
+    frame = bc.local_frame(PLAZA_CENTRE_TM, PLAZA_Z, SITE_AXIS_DEG)
     fp_oc = bc.load_footprint(1089309)
     ocx, ocy = fp_oc.cx - frame.x0, fp_oc.cy - frame.y0
     pa, pb, d = _pool_centres(frame)

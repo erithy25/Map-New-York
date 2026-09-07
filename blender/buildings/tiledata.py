@@ -280,6 +280,11 @@ STEP_DZ_EXACT_M = 3.0         # |dz| at or below this: the two sources agree on 
 STEP_DZ_FRAC = 0.20           # beyond it, |dz| may not exceed this fraction of the building height
 STEP_DZ_MAX_M = 15.0          # ... nor this, whatever the height
 STEP_PLAN_AGREE = 0.95        # ... and the CityGML plan and the footprint must cover each other
+# Whatever the height agreement, the two plans have to be the same building.  Mutual coverage
+# between the CityGML level union and the cleaned OTI footprint is sharply bimodal — measured over
+# three tiles its 5th percentile is 0.96-0.999 and only 1.1-2.3 % of buildings fall below 0.80 —
+# so 0.80 separates "same building, surveyed twice" from "the 2014 solid is something else".
+STEP_PLAN_MIN = 0.80
 
 
 def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: str = "clamp",
@@ -350,7 +355,8 @@ def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: 
                                   "rejected_geom": 0, "strict_per_level_match": 0,
                                   "overlap_resolved": 0, "applied": 0, "applied_exact_z": 0,
                                   "applied_offset_z": 0, "rejected_partition": 0, "rejected_dz": 0,
-                                  "rejected_multipart": 0, "pitch_traded_for_step": 0}
+                                  "rejected_plan": 0, "rejected_multipart": 0,
+                                  "pitch_traded_for_step": 0}
     if roof_steps == "auto":
         try:
             step_sets, st = rsx.load_tile_steps(tile)
@@ -424,7 +430,8 @@ def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: 
             if ss is not None and ss.ok and len(parts) == 1:
                 steps_local, why = _steps_for(ss, part, z_top, z0, x0, y0)
                 if steps_local is None:
-                    step_stats["rejected_dz" if why == "dz" else "rejected_partition"] += 1
+                    step_stats[{"dz": "rejected_dz", "plan": "rejected_plan"}.get(
+                        why, "rejected_partition")] += 1
                 else:
                     step_stats["applied"] += 1
                     step_stats["applied_offset_z" if why == "ok_offset" else "applied_exact_z"] += 1
@@ -466,15 +473,15 @@ def _steps_for(ss: rsx.StepSet, footprint_world, z_top: float, z_ground: float,
         height = max(z_top - z_ground, 1.0)
         if abs(dz) > STEP_DZ_MAX_M or abs(dz) > STEP_DZ_FRAC * height:
             return None, "dz"
-        # a big offset is only a re-measurement of the same building if the plans agree
-        try:
-            lvl = shapely.union_all([p for _, p in ss.levels])
-            inter = footprint_world.intersection(lvl).area
-        except Exception:
-            return None, "dz"
-        if (inter < STEP_PLAN_AGREE * footprint_world.area
-                or inter < STEP_PLAN_AGREE * lvl.area):
-            return None, "dz"
+    # the 2014 solid has to be *this* building, or its steps land on someone else's plan
+    try:
+        lvl = shapely.union_all([p for _, p in ss.levels])
+        inter = footprint_world.intersection(lvl).area
+    except Exception:
+        return None, "plan"
+    need = STEP_PLAN_MIN if exact else STEP_PLAN_AGREE
+    if inter < need * footprint_world.area or inter < need * lvl.area:
+        return None, "plan"
     regions, why = rsx.partition_footprint(footprint_world, ss.levels)
     if not regions:
         return None, why

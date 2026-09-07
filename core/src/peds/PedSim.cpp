@@ -819,7 +819,26 @@ bool PedSim::despawn(uint32_t id, bool ignore_player_ring) {
   return true;
 }
 
+// Spawn points come from the streamed region: a pedestrian created city-wide is
+// removed by the ring on the same step it appeared, which is how a soak run
+// reached 431,990 pedestrian spawns without ever populating the ring.
+void PedSim::refreshSpawnRegion() {
+  if (spawn_index_.empty()) return;
+  if (!cfg_.use_player_ring || !player_.valid) {
+    spawn_region_.radius = -1.f;
+    return;
+  }
+  const float r = cfg_.spawn_radius_m > 0.f ? cfg_.spawn_radius_m : cfg_.despawn_m;
+  spawn_index_.refresh(spawn_region_, player_.x, player_.y, std::max(1.f, r),
+                       std::max(0.f, cfg_.region_slack_m));
+}
+
+uint32_t PedSim::sampleSpawnEdge(Rng& rng) const {
+  return spawn_index_.sample(spawn_region_, rng.uniform());
+}
+
 void PedSim::updateSpawnDespawn() {
+  refreshSpawnRegion();
   if (player_.valid && cfg_.use_player_ring) {
     for (uint32_t i = 0; i < peds_.size();) {
       const Pedestrian& p = peds_[i];
@@ -843,10 +862,8 @@ void PedSim::updateSpawnDespawn() {
     if (fz(peds_.size()) >= target || peds_.size() >= cfg_.max_peds) break;
     bool done = false;
     for (int attempt = 0; attempt < 4 && !done; ++attempt) {
-      const float pick = rng_.uniform() * spawn_cdf_.back();
-      const auto it = std::lower_bound(spawn_cdf_.begin(), spawn_cdf_.end(), pick);
-      const size_t ix = std::min(static_cast<size_t>(it - spawn_cdf_.begin()), spawn_edges_.size() - 1);
-      const uint32_t edge = spawn_edges_[ix];
+      const uint32_t edge = sampleSpawnEdge(rng_);
+      if (edge == RegionSampler::kInvalid) break;
       const float s = rng_.uniform(0.f, walk_->edge(edge).length_m);
       done = spawn(edge, s) != kInvalidIndex;
     }
@@ -855,17 +872,16 @@ void PedSim::updateSpawnDespawn() {
 }
 
 uint32_t PedSim::prefill(uint32_t count) {
-  if (walk_ == nullptr || spawn_cdf_.empty()) return 0;
+  if (walk_ == nullptr || spawn_index_.empty()) return 0;
+  refreshSpawnRegion();
   uint32_t made = 0;
   uint32_t attempts = 0;
   const uint32_t saved_budget = cfg_.max_paths_per_step;
   cfg_.max_paths_per_step = 0xFFFFFFFFu;  // load time: no per-step budget
   while (made < count && peds_.size() < cfg_.max_peds && attempts < count * 8u + 512u) {
     ++attempts;
-    const float pick = rng_.uniform() * spawn_cdf_.back();
-    const auto it = std::lower_bound(spawn_cdf_.begin(), spawn_cdf_.end(), pick);
-    const size_t ix = std::min(static_cast<size_t>(it - spawn_cdf_.begin()), spawn_edges_.size() - 1);
-    const uint32_t edge = spawn_edges_[ix];
+    const uint32_t edge = sampleSpawnEdge(rng_);
+    if (edge == RegionSampler::kInvalid) break;
     const float s = rng_.uniform(0.f, walk_->edge(edge).length_m);
     if (spawn(edge, s) != kInvalidIndex) {
       ++made;

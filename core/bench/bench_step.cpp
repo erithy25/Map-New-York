@@ -198,6 +198,52 @@ StepResult measure(traffic::TrafficSim& tsim, peds::PedSim* psim, traffic::Playe
   return r;
 }
 
+/// Crowd concentration and activity mix: the numbers that say whether the ring
+/// is populated and how the agents inside it are distributed.  A step cost that
+/// grows while the population does not is a clustering problem, and only a
+/// spatial histogram shows it.
+void reportCrowd(const traffic::TrafficSim& tsim, const peds::PedSim* psim, float px, float py,
+                 float ring_m) {
+  uint32_t in_ring = 0;
+  for (size_t i = 0; i < tsim.vehicleCount(); ++i) {
+    const traffic::Vehicle& v = tsim.vehicle(i);
+    const float dx = v.pos.x - px, dy = v.pos.y - py;
+    if (dx * dx + dy * dy <= ring_m * ring_m) ++in_ring;
+  }
+  std::printf("  vehicles in ring %u of %zu within %.0f m of the camera\n", in_ring,
+              tsim.vehicleCount(), static_cast<double>(ring_m));
+  const traffic::TrafficStats& ts = tsim.stats();
+  std::printf("  traffic counters %u spawned, %u despawned, %u spawn failures, %u route calls,"
+              " %u route failures, %u red-light entries, %u hash drops\n",
+              ts.spawned, ts.despawned, ts.spawn_failures, ts.route_calls, ts.route_failures,
+              ts.red_light_entries, ts.hash_drops);
+  if (psim == nullptr) return;
+  const peds::PedStats& ps = psim->stats();
+  std::printf("  ped counters     %u spawned, %u despawned, %u paths built, %u path failures,"
+              " %u crossing, %u waiting, %u jaywalking, %u hash drops\n",
+              ps.spawned, ps.despawned, ps.paths_built, ps.path_failures, ps.crossing, ps.waiting,
+              ps.jaywalking, ps.hash_drops);
+  // Densest 10 m cell: what the crowd hash actually has to walk.
+  std::vector<uint32_t> hist;
+  const float cell = 10.f;
+  const int span = 400;  // +-4 km around the camera, enough for any streamed ring
+  hist.assign(static_cast<size_t>(2 * span) * static_cast<size_t>(2 * span), 0u);
+  uint32_t worst = 0;
+  for (size_t i = 0; i < psim->pedCount(); ++i) {
+    const peds::Pedestrian& p = psim->ped(i);
+    const int gx = static_cast<int>(std::floor((p.x - px) / cell)) + span;
+    const int gy = static_cast<int>(std::floor((p.y - py) / cell)) + span;
+    if (gx < 0 || gy < 0 || gx >= 2 * span || gy >= 2 * span) continue;
+    const uint32_t c = ++hist[static_cast<size_t>(gy) * static_cast<size_t>(2 * span) + static_cast<size_t>(gx)];
+    worst = std::max(worst, c);
+  }
+  uint32_t occupied = 0;
+  for (uint32_t c : hist)
+    if (c > 0) ++occupied;
+  std::printf("  crowd            %zu pedestrians over %u occupied 10 m cells; densest holds %u\n",
+              psim->pedCount(), occupied, worst);
+}
+
 void report(const StepResult& r) {
   std::printf("  fleet            %u vehicles, %u pedestrians\n", r.vehicles, r.peds);
   printDist("traffic (wall)", r.traffic_wall);
@@ -495,6 +541,8 @@ int runCity(Args& args) {
                                py + static_cast<float>(seed_radius) * 0.5f, o);
   std::printf("  steps measured   %u (after %u warm-up)\n", o.steps, o.warmup);
   report(r);
+  reportCrowd(tsim, o.with_peds ? &psim : nullptr, tsim.player().x, tsim.player().y,
+              tcfg.spawn_outer_m);
   if (signal_window > 0.0)
     std::printf("  signal refresh   %u of %zu plans per step\n", w.signals.cachedPlanCount(),
                 w.sizes().signal_plans);
