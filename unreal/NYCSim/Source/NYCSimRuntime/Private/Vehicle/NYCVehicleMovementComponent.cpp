@@ -98,12 +98,18 @@ void UNYCVehicleMovementComponent::ConfigureFromSpec()
 	DragCoefficient = S.dragCoefficient;
 	DownforceCoefficient = 0.3f;
 	bEnableCenterOfMassOverride = true;
-	// Longitudinal centre of gravity from the 57/43 front weight distribution: it sits (frontShare - 0.5) of the
-	// wheelbase forward of the wheelbase midpoint, i.e. 20 cm forward for this car. The mesh origin is at the
-	// wheelbase midpoint by the Blender export contract (+X forward), so the offset is used directly.
+	// Longitudinal centre of gravity from the static front weight distribution. Measured from the REAR AXLE, the
+	// CoG sits frontMassShare of the wheelbase forward -- 0.58 x 2.850 m = 1.653 m for this car -- because the
+	// front axle carries frontMassShare of the mass and moments about the rear axle must balance.
+	//
+	// The mesh origin is the ground under the rear-axle centre, not the wheelbase midpoint: that is what
+	// DATA_CONTRACTS 13 states, what blender/vehicles/vlib/rig.py PIVOT_CONVENTION stamps into every catalogue
+	// entry, what tests/test_vehicles.py::test_origin_is_ground_under_rear_axle enforces, and what the shipped
+	// asset does (fusion_hybrid.glb has Wheel_RL/RR at x = 0 and Wheel_FL/FR at x = 2.850). An earlier comment
+	// here asserted the midpoint and subtracted half a wheelbase for it, which put the centre of mass 1.425 m
+	// behind where it belongs -- level with the rear axle on a 58 %-front-weighted car.
 	const float WheelbaseCm = S.wheelbaseM * kCmPerMetre;
-	CenterOfMassOverride =
-		FVector((S.frontMassShare - 0.5f) * WheelbaseCm, 0.f, S.cogHeightM * kCmPerMetre);
+	CenterOfMassOverride = FVector(S.frontMassShare * WheelbaseCm, 0.f, S.cogHeightM * kCmPerMetre);
 
 	bMechanicalSimEnabled = true;
 	bSuspensionEnabled = true;
