@@ -448,13 +448,15 @@ def test_every_prop_has_provenance():
 
 @needs_props
 def test_trees_carry_species_and_measured_dbh():
+    """The census half of the tree layer. The OSM half is covered by ``test_osm_trees.py``."""
     tree_id = catalog.KIND_ID["tree"]
     n = 0
     n_unknown_dbh = 0
     for p in props_files:
-        t = pq.read_table(p, columns=["kind", "dbh_cm", "height_m", "height_source", "species"])
+        t = pq.read_table(p, columns=["kind", "dbh_cm", "height_m", "height_source", "species", "dataset_id"])
         k = t.column("kind").to_numpy(zero_copy_only=False)
-        m = k == tree_id
+        ds = np.asarray(t.column("dataset_id").to_pylist(), dtype=object)
+        m = (k == tree_id) & (ds == "street_trees_2015")
         if not m.any():
             continue
         n += int(m.sum())
@@ -468,7 +470,8 @@ def test_trees_carry_species_and_measured_dbh():
         assert (np.asarray(t.column("species").to_pylist())[m] != "").sum() > 0
     assert n > 600_000, "the 2015 census has ~652k living trees"
     summary = json.loads((PROCESSED / "furniture" / "build_summary.json").read_text())
-    dropped = sum(p["count"] for p in summary["dedupe"]["by_pair"] if p["group"] == "tree")
+    dropped = sum(p["count"] for p in summary["dedupe"]["by_pair"]
+                  if p["group"] == "tree" and p["dropped_dataset"] == "street_trees_2015")
     assert n == summary["trees"]["alive_placed"] - dropped, "every living census tree is placed exactly once"
     assert 0 < n_unknown_dbh <= summary["trees"]["alive_without_dbh_treated_as_5cm"]
 

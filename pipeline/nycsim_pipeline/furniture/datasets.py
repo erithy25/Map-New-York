@@ -27,13 +27,16 @@ import shapely
 
 from ..crs import US_SURVEY_FOOT_M, transformer
 from ..paths import PROCESSED, RAW
+from . import allometry
 from .catalog import HEIGHT_SOURCE, KIND_BY_NAME, KIND_ID, SOURCE_DATASET
 from .schema import FIELDS, empty_columns
+from .trees import HEALTH_UNKNOWN as TREE_HEALTH_UNKNOWN
 
 log = logging.getLogger("nycsim.furniture.datasets")
 
 OPEN = RAW / "nyc_opendata"
 OSM_FURNITURE = PROCESSED / "osm" / "street_furniture_osm.parquet"
+OSM_TREES = PROCESSED / "osm" / "trees.parquet"
 CITIBIKE = RAW / "furniture" / "citibike_gbfs_stations.json"
 
 INCH_M = 0.0254
@@ -471,6 +474,76 @@ def load_osm_furniture(path: Path = OSM_FURNITURE) -> dict:
         out.append(cols)
         log.info("osm %s: %d", kind_name, idx.size)
     return _concat(out)
+
+
+def load_osm_trees(path: Path = OSM_TREES) -> dict:
+    """``natural=tree`` nodes from the OSM extract (:mod:`..osm.trees`, ODbL) as tree props (kind 0).
+
+    These are the park trees the 2015 census cannot have: it is a *street* inventory, so 1,756 of the city's
+    1,916 green polygons of 2 ha or more hold no census tree at all (DEVIATIONS D10). They carry the same
+    ``kind`` as the census trees and are told apart by ``dataset_id``; the duplicates the two sources share
+    are removed by the cross-source rule in :mod:`.dedupe`, not here.
+
+    What is taken from OSM and what is not:
+
+    * ``species`` is set only from the ``species`` tag, or from ``taxon`` when that is a binomial. A ``genus``
+      alone is not a species and is left out of the column (it goes to ``attrs`` and is used for the height
+      curve, whose own lookup falls back to the genus).
+    * ``height_m`` comes from the ``height`` tag where it parses (``height_source`` 0, measured/tagged) and
+      from the same allometry as the census otherwise (``height_source`` 1).
+    * ``dbh_cm`` is 0 — absent — for every row. OSM has no DBH tag; see :mod:`..osm.trees` for why
+      ``circumference`` and ``diameter`` are carried raw instead of being converted into one.
+    * ``variant`` is 3, the catalog's "health unknown": OSM records no condition.
+
+    **Consequence, stated rather than hidden:** with no DBH and (98.4 % of the time) no height tag, the
+    allometric curve degenerates to its own unknown-DBH default, so most of these trees are one saplingish
+    height. The build summary counts them.
+    """
+    if not path.exists():
+        raise FileNotFoundError(f"{path} missing; run: python -m nycsim_pipeline.osm.trees")
+    t = pq.read_table(path, columns=["osm_id", "x", "y", "species", "genus", "taxon", "leaf_type", "leaf_cycle",
+                                     "denotation", "name", "ref", "start_date", "operator", "height_m",
+                                     "height_raw", "circumference_raw", "diameter_crown_raw", "diameter_raw"])
+    df = pl.from_arrow(t)
+    n = df.height
+    cols = _new("tree", n, "osm_newyork_pbf")
+    cols["x"] = df["x"].to_numpy().astype(np.float64)
+    cols["y"] = df["y"].to_numpy().astype(np.float64)
+    cols["dbh_cm"] = np.zeros(n, dtype=np.float32)          # 0 = the source records no trunk diameter
+    cols["variant"] = np.full(n, TREE_HEALTH_UNKNOWN, dtype=np.int16)
+
+    species = _str(df, "species")
+    genus = _str(df, "genus")
+    taxon = _str(df, "taxon")
+    # a taxon that names a species (a binomial) is a species; a taxon that names only a genus is not
+    species = [s or (tx if " " in tx else "") for s, tx in zip(species, taxon)]
+    cols["species"] = species
+    # the height curve may use the genus even where the species column stays empty
+    lookup = [s or g for s, g in zip(species, genus)]
+
+    tagged = df["height_m"].to_numpy().astype(np.float64) if n else np.zeros(0)
+    ok = np.isfinite(tagged) & (tagged > 0)
+    height = (allometry.height_array(lookup, np.asarray(cols["dbh_cm"], dtype=float)) if n else np.zeros(0))
+    height[ok] = tagged[ok]
+    cols["height_m"] = height.astype(np.float32)
+    cols["height_source"] = np.where(ok, HEIGHT_SOURCE["measured"], HEIGHT_SOURCE["allometry"]).astype(np.int8)
+
+    name = _str(df, "name")
+    cols["text"] = name
+    osm_id = df["osm_id"].to_numpy()
+    height_raw = _str(df, "height_raw")
+    cols["attrs"] = _attrs([{"osm_id": int(osm_id[i]), "genus": genus[i], "taxon": taxon[i],
+                             "leaf_type": lt, "leaf_cycle": lc, "denotation": dn, "ref": rf, "operator": op,
+                             "start_date": sd, "circumference": ci, "diameter_crown": dc, "diameter": di,
+                             "height_tag_unparsed": ("" if (ok[i] or not height_raw[i]) else height_raw[i])}
+                            for i, (lt, lc, dn, rf, op, sd, ci, dc, di) in enumerate(zip(
+                                _str(df, "leaf_type"), _str(df, "leaf_cycle"), _str(df, "denotation"),
+                                _str(df, "ref"), _str(df, "operator"), _str(df, "start_date"),
+                                _str(df, "circumference_raw"), _str(df, "diameter_crown_raw"),
+                                _str(df, "diameter_raw")))])
+    log.info("osm trees: %d (%d with a usable height tag, %d with a species)", n, int(ok.sum()),
+             sum(1 for s in species if s))
+    return cols
 
 
 # --------------------------------------------------------------------------------------- polygon datasets

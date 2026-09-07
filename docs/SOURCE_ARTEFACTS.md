@@ -20,6 +20,10 @@ gunzip -k data/raw/nyc_opendata/<name>.gz     # -k keeps the archive
 Every one is also re-downloadable by its manifest id against the SHA-256 recorded in
 `data/manifest/downloads.json`.
 
+Two of them no longer need even the `gunzip`: the furniture stage reads `street_trees_2015.csv.gz` through
+polars and `plan_elevation_points.geojson.gz` through GDAL's `/vsigzip/`, falling back to the archive when the
+plain file is absent. Re-running that stage therefore costs no scratch disk at all.
+
 | File | Consuming stage (complete) |
 |---|---|
 | `building_footprints.geojson.gz` | buildings — the 1,083,026-row base table |

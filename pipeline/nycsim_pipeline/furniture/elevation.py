@@ -69,15 +69,22 @@ def load_elevation_points(path: Path = ELEVATION_POINTS, sub_codes: tuple[str, .
     Streaming through pyogrio/GDAL keeps peak RSS around 450 MB; the whole file never exists as Python objects.
     Elevations are published in feet (US survey foot) and are converted to metres here.
     """
+    src = str(path)
     if not path.exists():
-        raise FileNotFoundError(f"{path} missing; run: python -m nycsim_pipeline.download --id plan_elevation_points")
+        # spent sources are gzipped in place to free disk (data/raw/nyc_opendata/README_COMPRESSED.md);
+        # GDAL reads the archive through /vsigzip/, so the stage does not need 330 MB of scratch to re-run.
+        gz = path.with_suffix(path.suffix + ".gz")
+        if not gz.exists():
+            raise FileNotFoundError(f"{path} missing; run: python -m nycsim_pipeline.download --id plan_elevation_points")
+        log.info("%s is gzipped; reading %s through /vsigzip/", path.name, gz.name)
+        src = f"/vsigzip/{gz}"
     tr = transformer("WGS84", "NYC_TM")
     xs: list[np.ndarray] = []
     ys: list[np.ndarray] = []
     zs: list[np.ndarray] = []
     cs: list[np.ndarray] = []
     kept = total = 0
-    with pyogrio.open_arrow(path, columns=["elevation", "sub_code"], batch_size=batch_size) as (_meta, stream):
+    with pyogrio.open_arrow(src, columns=["elevation", "sub_code"], batch_size=batch_size) as (_meta, stream):
         reader = pa.RecordBatchReader.from_stream(stream)
         for batch in reader:
             total += batch.num_rows

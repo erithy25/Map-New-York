@@ -1,12 +1,15 @@
 """Furniture stage: every street prop and street tree -> ``tiles/{tile}/props.parquet`` + ``props_catalog.json``.
 
     python -m nycsim_pipeline furniture [--out-dir DIR] [--tiles-root DIR] [--no-rules] [--no-manifest]
+                                        [--bbox X0 Y0 X1 Y1]   # dev subset, refuses to write the real tiles
 
 Pipeline:
  1. load every dataset (:mod:`.datasets`, :mod:`.trees`) and the MTA subway entrances (:mod:`..transit.entrances`);
+    trees come from two sources — the 2015 Street Tree Census and the ``natural=tree`` nodes of the OSM extract
+    (:mod:`..osm.trees`), which are the only park trees in the build;
  2. add the rule-based fill against the real road geometry (:mod:`.rules`), skipped with a recorded reason when
     ``roads/segments.parquet`` does not exist yet;
- 3. de-duplicate across datasets within 1.5 m (:mod:`.dedupe`);
+ 3. de-duplicate across datasets within 1.5 m, plus the measured cross-source radii (:mod:`.dedupe`);
  4. sample the ground elevation from surveyed points (:mod:`.elevation`);
  5. assign ``prop_id = kind * 10^10 + rank within kind (sorted by x, y)`` and the tile, and write one
     ``props.parquet`` per tile plus ``furniture/props_catalog.json`` and ``furniture/build_summary.json``.
@@ -36,7 +39,7 @@ from . import datasets as D
 from . import dedupe as dd
 from . import rules as R
 from . import trees as T
-from .catalog import KINDS, KIND_BY_NAME, catalog_json
+from .catalog import HEIGHT_SOURCE, KINDS, KIND_BY_NAME, catalog_json
 from .elevation import GroundModel
 from .schema import arrow_schema, empty_columns
 
@@ -74,13 +77,61 @@ def tree_props(tc: T.TreeCensus) -> dict:
     return cols
 
 
-def collect(use_rules: bool, segments_path: Path) -> tuple[dict, dict]:
-    """Load every source into one column dict. Returns (columns, per-source report)."""
+def osm_tree_report(cols: dict) -> dict:
+    """What the OSM tree layer actually carries, counted off the rows about to be placed.
+
+    The point of the last three entries is that they are small: OSM tags a tree's height on 1.6 % of nodes
+    and its species on 0.8 %, so almost every one of these trees gets the allometric height with no DBH to
+    feed it. That is a real limit of the source and is reported rather than filled in.
+    """
+    n = len(cols["x"])
+    hs = np.asarray(cols["height_source"], dtype=np.int8)
+    h = np.asarray(cols["height_m"], dtype=np.float32)
+    species = list(cols["species"])
+    rep: dict = {
+        "rows": n,
+        "height_from_osm_tag": int((hs == HEIGHT_SOURCE["measured"]).sum()),
+        "height_from_allometry": int((hs == HEIGHT_SOURCE["allometry"]).sum()),
+        "with_species": sum(1 for s in species if s),
+        "dbh_known": int((np.asarray(cols["dbh_cm"], dtype=np.float32) > 0).sum()),
+    }
+    if n:
+        rep["height_m_percentiles"] = {str(q): round(float(np.percentile(h, q)), 2) for q in (5, 50, 95)}
+        tagged = h[hs == HEIGHT_SOURCE["measured"]]
+        if tagged.size:
+            rep["tagged_height_m_median"] = round(float(np.median(tagged)), 2)
+    summary = PROCESSED / "osm" / "tree_extract_summary.json"
+    if summary.exists():
+        doc = json.loads(summary.read_text())
+        rep["extract"] = {"counts": doc.get("counts", {}), "layers": doc.get("layers", {}),
+                          "tag_coverage_of_tree_nodes": doc.get("tag_coverage_of_tree_nodes", {})}
+        rep["tree_rows_not_placed"] = doc.get("layers", {}).get("tree_rows", 0)
+    return rep
+
+
+def clip(cols: dict, bbox: tuple[float, float, float, float] | None) -> dict:
+    """Keep only the rows inside an NYC_TM box. Used by ``--bbox`` to develop on a handful of tiles."""
+    if bbox is None:
+        return cols
+    x = np.asarray(cols["x"], dtype=np.float64)
+    y = np.asarray(cols["y"], dtype=np.float64)
+    idx = np.flatnonzero((x >= bbox[0]) & (x <= bbox[2]) & (y >= bbox[1]) & (y <= bbox[3]))
+    return {k: ([v[i] for i in idx] if isinstance(v, list) else np.asarray(v)[idx]) for k, v in cols.items()}
+
+
+def collect(use_rules: bool, segments_path: Path, bbox: tuple[float, float, float, float] | None = None) -> tuple[dict, dict]:
+    """Load every source into one column dict. Returns (columns, per-source report).
+
+    ``bbox`` (NYC_TM x0 y0 x1 y1) clips each source as it is loaded, so a subset run never has to hold the
+    whole city in memory. It is a development aid: the artefacts it writes cover only those tiles.
+    """
     report: dict = {"sources": [], "rules": {}}
     parts: list[dict] = []
+    if bbox is not None:
+        report["bbox_tm"] = list(bbox)
 
     tc = T.load_trees()
-    parts.append(tree_props(tc))
+    parts.append(clip(tree_props(tc), bbox))
     report["trees"] = {
         "rows_in_census": tc.n_total, "alive_placed": tc.n_alive, "dead_excluded": tc.n_dead,
         "stumps_excluded": tc.n_stump, "status_other_excluded": tc.n_status_blank,
@@ -89,6 +140,10 @@ def collect(use_rules: bool, segments_path: Path) -> tuple[dict, dict]:
         "top_species": [{"latin": a, "common": b, "count": c} for a, b, c in tc.species_counts[:10]],
         "distinct_species": len(tc.species_counts),
     }
+
+    osm_trees = clip(D.load_osm_trees(), bbox)
+    parts.append(osm_trees)
+    report["osm_trees"] = osm_tree_report(osm_trees)
 
     loaders = [
         ("hydrants", D.load_hydrants), ("bus_stop_shelters", D.load_bus_shelters), ("linknyc", D.load_linknyc),
@@ -101,17 +156,17 @@ def collect(use_rules: bool, segments_path: Path) -> tuple[dict, dict]:
     ]
     for source_id, fn in loaders:
         t = time.perf_counter()
-        cols = fn()
+        cols = clip(fn(), bbox)
         parts.append(cols)
         report["sources"].append({"source_id": source_id, "rows": int(len(cols["x"])),
                                   "seconds": round(time.perf_counter() - t, 1)})
 
     ent = load_subway_entrances()
-    parts.append(D.load_subway_entrance_props(ent))
+    parts.append(clip(D.load_subway_entrance_props(ent), bbox))
     report["sources"].append({"source_id": "subway_entrances", "rows": int(len(ent))})
 
     if BUS_STOPS.exists():
-        cols = D.load_bus_stop_signs(BUS_STOPS)
+        cols = clip(D.load_bus_stop_signs(BUS_STOPS), bbox)
         parts.append(cols)
         report["sources"].append({"source_id": "gtfs_bus", "rows": int(len(cols["x"]))})
     else:
@@ -129,7 +184,7 @@ def collect(use_rules: bool, segments_path: Path) -> tuple[dict, dict]:
         rule_parts, rule_report = R.build_rule_props(existing, segments_path)
         report["rules"] = rule_report
         if rule_parts:
-            cols = D.concat([cols] + rule_parts)
+            cols = D.concat([cols] + [clip(p, bbox) for p in rule_parts])
     else:
         report["rules"] = {"skipped": True, "reason": "--no-rules"}
     return cols, report
@@ -209,6 +264,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--segments", default=str(R.SEGMENTS))
     ap.add_argument("--no-rules", action="store_true")
     ap.add_argument("--no-manifest", action="store_true")
+    ap.add_argument("--bbox", type=float, nargs=4, metavar=("X0", "Y0", "X1", "Y1"),
+                    help="restrict to an NYC_TM box (dev subset: writes only the tiles it covers)")
     a = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
     t0 = time.perf_counter()
@@ -216,7 +273,11 @@ def main(argv: list[str] | None = None) -> int:
     out.mkdir(parents=True, exist_ok=True)
     tiles_root = Path(a.tiles_root)
 
-    cols, report = collect(not a.no_rules, Path(a.segments))
+    bbox = tuple(a.bbox) if a.bbox else None
+    if bbox is not None and (Path(a.tiles_root) == TILES or Path(a.out_dir) == OUT):
+        log.error("--bbox writes a partial city; point --tiles-root and --out-dir somewhere other than %s / %s", TILES, OUT)
+        return 2
+    cols, report = collect(not a.no_rules, Path(a.segments), bbox)
     log.info("collected %d prop rows", len(cols["x"]))
     t = time.perf_counter()
     keep, dedupe_report = dd.dedupe(cols, KIND_NAME_BY_ID)

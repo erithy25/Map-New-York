@@ -141,6 +141,14 @@ uint32 kit_id; int64 bin; float32 x, y, z; float32 yaw_deg; float32 scale; uint3
 ## 8. Furniture — `tiles/{tile}/props.parquet`
 `prop_id, kind(int16 enum in props_catalog.json), x, y, z, heading, variant, text, source(0 dataset,1 rule), dataset_id, species(for trees), dbh_cm, height_m`
 
+Trees (`kind` 0) come from **two** inventories and `dataset_id` is what separates them: `street_trees_2015` (the
+census — species and DBH real, height allometric) and `osm_newyork_pbf` (the extract's `natural=tree` nodes, the
+only trees inside parks — height from the OSM `height` tag where there is one, `dbh_cm` always 0 because OSM
+publishes no trunk diameter in one unit convention). An OSM tree is never placed within the measured cross-source
+radius of a census tree; the radius and how it was measured are in `props_catalog.json` under `dedupe.cross_source`.
+The point layer behind the second source is `osm/trees.parquet` and the unplaced `natural=tree_row` lines are
+`osm/tree_rows.parquet`, both written by `python -m nycsim_pipeline osm_trees`.
+
 ## 9. Transit
 `transit/bus_routes.parquet` (route_id, short_name, long_name, borough, shape geometry, headway by hour list<int16>), `transit/bus_stops.parquet` (stop_id, x, y, z, name, routes list, has_shelter), `transit/rail_structures.parquet` (elevated/embankment/open-cut segments with track geometry and deck height), `transit/ferry_routes.parquet`, `transit/subway_entrances.parquet` (entrance_id, x, y, z, lines list<string>, kind(stair, escalator, elevator), has_globe(0 none,1 green,2 red)).
 

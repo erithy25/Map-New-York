@@ -9401,6 +9401,36 @@
    ],
    "stage": "osm"
   },
+  "osm/tree_rows": {
+   "artifact_id": "osm/tree_rows",
+   "bytes": 40139,
+   "git_commit": "52388676e272",
+   "license": "ODbL 1.0, \u00a9 OpenStreetMap contributors",
+   "path": "data/processed/osm/tree_rows.parquet",
+   "produced_at": "2026-09-07T12:17:41Z",
+   "rows": 436,
+   "schema": "nycsim.osm.tree_rows.v1",
+   "sha256": "e5940c817557b726618cce04d3bd970d2c600fa245dca83efbd9f083c6d76bfb",
+   "sources": [
+    "osm_newyork_pbf"
+   ],
+   "stage": "osm_trees"
+  },
+  "osm/trees": {
+   "artifact_id": "osm/trees",
+   "bytes": 1840342,
+   "git_commit": "52388676e272",
+   "license": "ODbL 1.0, \u00a9 OpenStreetMap contributors",
+   "path": "data/processed/osm/trees.parquet",
+   "produced_at": "2026-09-07T12:17:41Z",
+   "rows": 69338,
+   "schema": "nycsim.osm.trees.v1",
+   "sha256": "43fe7937bb6a680700f168b0ebb701174ac92140e4310bcfe6de17ee6796a2ee",
+   "sources": [
+    "osm_newyork_pbf"
+   ],
+   "stage": "osm_trees"
+  },
   "osm/water_nj": {
    "artifact_id": "osm/water_nj",
    "bytes": 878492,

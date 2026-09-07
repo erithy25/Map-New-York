@@ -8,6 +8,8 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
 
+from .dedupe import CROSS_SOURCE_RULES
+
 
 @dataclass(frozen=True)
 class Kind:
@@ -25,10 +27,16 @@ class Kind:
 
 
 KINDS: tuple[Kind, ...] = (
-    Kind(0, "tree", "vegetation", "Street tree from the 2015 Street Tree Census (alive only); species, DBH real; height estimated (allometry.py)",
-         ("street_trees_2015",), (0.0, 0.0, 0.0), "per-instance: dbh_cm is the measured trunk diameter (0 = the census recorded none, "
-         "in which case the height uses the 5 cm sapling default); height_m estimated by allometry (height_source=1)",
-         "health: 0 Good, 1 Fair, 2 Poor, 3 unknown", "spc_common"),
+    Kind(0, "tree", "vegetation", "Tree from the 2015 Street Tree Census (alive only; species and DBH real, height estimated) or from "
+         "the OSM extract's natural=tree nodes (dataset_id tells them apart; the OSM nodes are the only trees inside parks)",
+         ("street_trees_2015", "osm_newyork_pbf"), (0.0, 0.0, 0.0),
+         "per-instance: dbh_cm is the measured trunk diameter (0 = the source records none, in which case the height uses the "
+         "5 cm sapling default — true of every OSM tree, which is why height_source must be read with the count); height_m from "
+         "the OSM height tag where there is one (height_source=0) and otherwise estimated by allometry (height_source=1)",
+         "health: 0 Good, 1 Fair, 2 Poor, 3 unknown (OSM records no condition, so every OSM tree is 3)",
+         "spc_common (census) / the OSM name tag where a tree has one",
+         extra={"attrs": "census: tree_id, curb_loc, sidewalk, nta — OSM: osm_id, genus, taxon, leaf_type, leaf_cycle, "
+                         "denotation, circumference, diameter_crown, diameter (raw tag strings, never converted into dbh_cm)"}),
     Kind(1, "hydrant", "utility", "DEP fire hydrant", ("hydrants",), (0.30, 0.30, 0.75),
          "nominal: NYC DEP hydrant ~0.75 m above grade (typical; DEP does not publish a single standard)", "", "unitid"),
     Kind(2, "bus_shelter", "transit", "DOT/JCDecaux bus stop shelter", ("bus_stop_shelters",), (4.3, 1.6, 2.7),
@@ -124,6 +132,8 @@ def catalog_json(counts: dict[str, int] | None = None) -> dict:
             "tile": "string t_{tx}_{ty} of the tile file this row lives in", "tx, ty": "int32 tile grid index",
         },
         "extensions_to_data_contracts_s8": ["height_source", "capacity", "z_source", "attrs", "tile", "tx", "ty"],
-        "dedupe": {"radius_m": 1.5, "note": "cross-dataset duplicates removed inside a dedupe group; see build.py DEDUPE_GROUPS"},
+        "dedupe": {"radius_m": 1.5, "note": "cross-dataset duplicates removed inside a dedupe group; see build.py DEDUPE_GROUPS",
+                   "cross_source": [{"group": r.group, "kept_dataset": r.keep_dataset, "dropped_dataset": r.drop_dataset,
+                                     "radius_m": r.radius_m, "basis": r.basis} for r in CROSS_SOURCE_RULES]},
         "kinds": [dict(asdict(k), count=counts.get(k.name, 0)) for k in KINDS],
     }

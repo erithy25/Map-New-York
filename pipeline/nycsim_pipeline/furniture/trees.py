@@ -50,7 +50,13 @@ class TreeCensus:
 
 def load_trees(path: Path = CSV) -> TreeCensus:
     if not path.exists():
-        raise FileNotFoundError(f"{path} missing; run: python -m nycsim_pipeline.download --id {SOURCE_ID}")
+        # spent sources are gzipped in place to free disk (data/raw/nyc_opendata/README_COMPRESSED.md);
+        # polars reads the archive directly, so the stage does not need 330 MB of scratch to re-run.
+        gz = path.with_suffix(path.suffix + ".gz")
+        if not gz.exists():
+            raise FileNotFoundError(f"{path} missing; run: python -m nycsim_pipeline.download --id {SOURCE_ID}")
+        log.info("%s is gzipped; reading %s directly", path.name, gz.name)
+        path = gz
     df = pl.read_csv(path, columns=COLUMNS, infer_schema_length=0)
     n_total = df.height
     status = df["status"].fill_null("").str.strip_chars()

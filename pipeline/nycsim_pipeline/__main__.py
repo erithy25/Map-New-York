@@ -14,6 +14,7 @@ STAGES = {
     "furniture": "nycsim_pipeline.furniture.build",
     "transit": "nycsim_pipeline.transit.build",
     "osm": "nycsim_pipeline.osm.extract",
+    "osm_trees": "nycsim_pipeline.osm.trees",
     "traffic": "nycsim_pipeline.traffic.build",
     "tiles": "nycsim_pipeline.tiles.index",
     "report": "nycsim_pipeline.report.fidelity",
