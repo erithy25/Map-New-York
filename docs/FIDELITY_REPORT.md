@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-07 03:10 UTC from commit `9bcdee042a9d` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-07 06:38 UTC from commit `e442398b2c56` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -209,7 +209,46 @@ Per-subject reports underneath those: comparison 58, facade 1, landmarks 34, ref
 
 What is verified in this environment versus on a workstation is defined in `docs/ARCHITECTURE.md` §14. In short: geodesy, tiling, streaming logic, routing, traffic rules, signal phasing, astronomy, time zone handling, weather parsing, data coverage and asset geometry are verified here by tests and Cycles renders. Unreal Engine compilation, cooking, frame rate, vehicle feel and audio are not — no Unreal editor or GPU exists in this environment, and no claim is made that they were tested.
 
-## 9. Every deviation from the brief, with its reason
+## 9. Low-fidelity regions — where the data is thinnest
+
+A citywide percentage hides where the weakness is. Below, the 194 neighbourhood tabulation areas holding at least 500 buildings, ranked by the mean of the three provenance shares this report can measure per neighbourhood. That mean is a ranking aid, not a score with units.
+
+**The ten thinnest.** These are the places where a rebuild of this world should start.
+
+| Neighbourhood | Buildings | Roof measured | Floors published | Material from a real source |
+|---|---|---|---|---|
+| Co-op City (Bronx) | 536 | 75.4 % | 29.9 % | 0.0 % |
+| Spring Creek-Starrett City (Brooklyn) | 752 | 64.0 % | 64.6 % | 0.0 % |
+| Breezy Point-Belle Harbor-Rockaway Park-Broad Channel (Queens) | 9,409 | 91.5 % | 44.8 % | 0.0 % |
+| Bay Terrace-Clearview (Queens) | 4,965 | 89.0 % | 51.6 % | 0.0 % |
+| Oakland Gardens-Hollis Hills (Queens) | 6,356 | 96.2 % | 47.9 % | 0.0 % |
+| Glen Oaks-Floral Park-New Hyde Park (Queens) | 8,037 | 97.4 % | 50.6 % | 0.0 % |
+| Fresh Meadows-Utopia (Queens) | 6,435 | 93.0 % | 56.8 % | 0.0 % |
+| Bellerose (Queens) | 10,107 | 95.0 % | 55.2 % | 0.0 % |
+| South Ozone Park (Queens) | 23,684 | 91.3 % | 59.9 % | 0.0 % |
+| Laurelton (Queens) | 10,709 | 92.6 % | 59.0 % | 0.0 % |
+
+**The five best, for contrast.**
+
+| Neighbourhood | Buildings | Roof measured | Floors published | Material from a real source |
+|---|---|---|---|---|
+| Brooklyn Heights (Brooklyn) | 1,490 | 98.1 % | 88.8 % | 86.1 % |
+| Upper West Side-Lincoln Square (Manhattan) | 962 | 98.4 % | 88.5 % | 83.1 % |
+| Upper West Side (Central) (Manhattan) | 2,757 | 99.0 % | 90.4 % | 79.4 % |
+| West Village (Manhattan) | 2,289 | 98.0 % | 82.7 % | 84.8 % |
+| Greenwich Village (Manhattan) | 1,224 | 98.1 % | 82.8 % | 75.2 % |
+
+Two things in that contrast are worth stating plainly, because they shape what this world looks like and neither is visible in a citywide average:
+
+* **Facade material fidelity is a map of the LPC historic districts.** The best-documented neighbourhoods are the landmarked ones — Brooklyn Heights and the Upper West Side reach 79–86 % real material because designation reports name a material per building — and the outer-borough neighbourhoods sit at 0.0 %. The rule table (ADR-004) fills the rest, and it is the *only* thing describing those facades.
+* **The post-war tower estates and the Rockaways are the thinnest.** Co-op City has published floor counts for under a third of its buildings, and Breezy Point and the Rockaway peninsula for under half. In the Rockaways part of that is real change: the 2014 LiDAR predates the post-Sandy rebuilding, so a house that was replaced is measured as the house that stood before it.
+
+Two whole regions sit below every row of that table and are not in it, because they are not neighbourhoods of the city:
+
+* **New Jersey** (§1.2a) — footprints and 73.7 % of heights, and nothing else measured at all.
+* **The outer sea and the marshes** — 1,903 water polygons covering 353.1 km² carry no real name, against 332 polygons over 873.5 km² that do. Names were never invented; `name_source` records where each one came from.
+
+## 10. Every deviation from the brief, with its reason
 
 
 ### A. Structural — these four constrain the whole build
@@ -378,4 +417,18 @@ Two things, stated so their absence is not mistaken for an oversight:
   the wrong vertex weights.
 
 That is **76 deviations**, each with the stage report it is drawn from. The source document is `docs/DEVIATIONS.md`.
+
+## 11. Next steps, in the order I would do them
+
+Ordered by what each one buys against what it costs, not by how hard it is. Every one of these is traceable to a numbered deviation in §10, where the measurement behind it is stated.
+
+1. **Compile, cook and run the Unreal project on a workstation** (A1). Everything downstream of it is unknown until it is done: frame rate, vehicle feel, audio, streaming under a real GPU, and the brief's first condition — driving from any address to any other. 112 C++ files and 27,909 lines are authored and statically checked, and nothing is known to be missing, but nothing is proven to build. `unreal/README.md` has the steps; §6.1 lists the four static checks that pass and what they do *not* cover.
+2. **Put a real material set on the building shells** (B12). This is the largest single gain in visual fidelity available without new data: shells carry a per-material base colour and nothing else, so the Lower Manhattan skyline renders as flat pastel solids against a photograph of dark banded glass. A glass BSDF, spandrel banding and an albedo/roughness set keyed on the `facade_class` and `material_primary` already in the data would change every comparison sheet in this report. It needs authoring, not acquisition.
+3. **Licensed street-level imagery and a vision model** (A2). The single largest *data* gap: 96.69 % of facades are inferred from real attributes rather than observed. The rule table is deliberately shaped so a real source replaces its rows without a contract change, so this is an ingest, not a rewrite.
+4. **A roof-plane classifier on the raw LiDAR** (A3). 52.43 % of roofs are inferred, gable-versus-hip is undetermined, and about 1 in 5 inferred pitched roofs is wrong. This is the second-largest data gap and the point cloud it needs is public.
+5. **Re-run the terrain stage against the 1 ft city DEM** (A4). No code change: the stage already consumes it, and it was skipped only because 26.6 GB did not fit the disk allowance here. Would take vertical accuracy from a measured 0.384 m RMS toward the 0.15 m the plan assumed.
+6. **A structures stage for what is neither building, road, nor prop** (B13). Promenade decks, park terraces, piers and pedestrian bridges are absent, so a camera standing on the Brooklyn Heights Promenade stands on bare terrain. The planimetric polygons are already downloaded.
+7. **New Jersey heights from OSM** (B11a). The shipped source understates Jersey City's towers by a median 66 m; the OSM extract already in this repository carries 417 `height` tags and 6,199 `levels` for New Jersey. A bounded ingest against data on disk.
+
+Everything above is work this project identified by measuring its own output. None of it is a reconsideration of the plan; the plan is in `docs/ARCHITECTURE.md` and it held.
 

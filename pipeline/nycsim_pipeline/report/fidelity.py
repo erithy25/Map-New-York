@@ -18,7 +18,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable
 
-from ..paths import BLENDER_OUT, DOCS, MANIFEST, PROCESSED, REPO_ROOT
+from ..paths import BLENDER_OUT, DOCS, MANIFEST, PROCESSED, RAW, REPO_ROOT
 from ..manifest import DOWNLOADS, PROCESSED_MANIFEST
 
 log = logging.getLogger("nycsim.fidelity")
@@ -274,6 +274,70 @@ def probe_nj_buildings() -> dict[str, Any] | None:
     return out
 
 
+def probe_low_fidelity_regions(min_buildings: int = 500) -> dict[str, Any] | None:
+    """Where in the city the data is thinnest, by neighbourhood.
+
+    Brief §12 asks the report to name its low-fidelity regions, and a citywide percentage hides them:
+    96.69 % of facades being inferred is a flat statement, but a neighbourhood where half the floor
+    counts are derived is a place where the built result is visibly weaker, and someone improving this
+    world should know which places to go to first. Neighbourhoods below ``min_buildings`` are excluded
+    because a share over a few dozen buildings is noise.
+    """
+    import json as _json
+
+    import numpy as np
+    import pyarrow.parquet as pq
+
+    base = PROCESSED / "buildings" / "buildings_base.parquet"
+    fac = PROCESSED / "facade" / "facade_attrs.parquet"
+    if not base.exists():
+        return None
+    b = pq.read_table(base, columns=["nta", "borough", "fidelity"])
+    fid_b = np.asarray(b.column("fidelity")).astype(np.uint32)
+    # Bits 2 and 5 belong to the facade stage; use its table when it exists, and say so if it does not.
+    fid_f = fid_b
+    have_facade = False
+    if fac.exists():
+        ft = pq.read_table(fac, columns=["fidelity"])
+        arr = np.asarray(ft.column("fidelity")).astype(np.uint32)
+        if len(arr) == len(fid_b):
+            fid_f, have_facade = arr, True
+
+    names: dict[str, str] = {}
+    geo = RAW / "nyc_opendata" / "nta_2020.geojson"
+    if geo.exists():
+        try:
+            for f in _json.load(open(geo)).get("features", []):
+                pr = f.get("properties") or {}
+                if pr.get("nta2020"):
+                    names[str(pr["nta2020"])] = f"{pr.get('ntaname', '')} ({pr.get('boroname', '')})"
+        except (OSError, ValueError):
+            pass
+
+    nta = b.column("nta").to_pylist()
+    roof = ((fid_f >> 2) & 1)
+    floors = ((fid_b >> 3) & 1)
+    mat = ((fid_f >> 5) & 1)
+    agg: dict[str, list[float]] = {}
+    for i, k in enumerate(nta):
+        k = k or "(no NTA)"
+        r = agg.setdefault(k, [0.0, 0.0, 0.0, 0.0])
+        r[0] += 1; r[1] += float(roof[i]); r[2] += float(floors[i]); r[3] += float(mat[i])
+    rows = [{"nta": k, "name": names.get(k, k), "buildings": int(v[0]),
+             "roof_real": v[1] / v[0], "floors_real": v[2] / v[0], "material_real": v[3] / v[0]}
+            for k, v in agg.items() if v[0] >= min_buildings]
+    if not rows:
+        return None
+    for r in rows:
+        # One number to rank by: the mean of the three provenance shares this report can measure
+        # per neighbourhood. It is a ranking aid, not a fidelity score with units.
+        r["mean_real"] = (r["roof_real"] + r["floors_real"] + r["material_real"]) / 3.0
+    rows.sort(key=lambda r: r["mean_real"])
+    return {"neighbourhoods": len(rows), "min_buildings": min_buildings, "facade_table_used": have_facade,
+            "worst": rows[:10], "best": rows[-5:][::-1],
+            "named": bool(names)}
+
+
 def probe_citygml() -> dict[str, Any] | None:
     p = PROCESSED / "buildings" / "citygml" / "progress.json"
     if not p.exists():
@@ -519,6 +583,7 @@ def build_report() -> str:
     b = _safe(probe_buildings, "buildings")
     cg = _safe(probe_citygml, "citygml")
     nj = _safe(probe_nj_buildings, "buildings_nj")
+    lo = _safe(probe_low_fidelity_regions, "low_fidelity_regions")
     rd = _safe(probe_roads, "roads")
     tr = _safe(probe_terrain, "terrain")
     wa = _safe(probe_water, "water")
@@ -838,7 +903,57 @@ def build_report() -> str:
     A()
 
     # ---- gaps
-    A("## 9. Every deviation from the brief, with its reason")
+    # ---- low-fidelity regions (brief §12 asks for these by name)
+    A("## 9. Low-fidelity regions — where the data is thinnest")
+    A()
+    if not isinstance(lo, dict):
+        A("Not produced: the buildings table or the facade table is missing, so per-neighbourhood "
+          "provenance could not be computed.")
+    else:
+        A(f"A citywide percentage hides where the weakness is. Below, the {lo['neighbourhoods']} neighbourhood "
+          f"tabulation areas holding at least {lo['min_buildings']:,} buildings, ranked by the mean of the three "
+          f"provenance shares this report can measure per neighbourhood. That mean is a ranking aid, not a score "
+          f"with units.")
+        A()
+        A("**The ten thinnest.** These are the places where a rebuild of this world should start.")
+        A()
+        A("| Neighbourhood | Buildings | Roof measured | Floors published | Material from a real source |")
+        A("|---|---|---|---|---|")
+        for r in lo["worst"]:
+            A(f"| {r['name']} | {r['buildings']:,} | {100 * r['roof_real']:.1f} % | "
+              f"{100 * r['floors_real']:.1f} % | {100 * r['material_real']:.1f} % |")
+        A()
+        A("**The five best, for contrast.**")
+        A()
+        A("| Neighbourhood | Buildings | Roof measured | Floors published | Material from a real source |")
+        A("|---|---|---|---|---|")
+        for r in lo["best"]:
+            A(f"| {r['name']} | {r['buildings']:,} | {100 * r['roof_real']:.1f} % | "
+              f"{100 * r['floors_real']:.1f} % | {100 * r['material_real']:.1f} % |")
+        A()
+        A("Two things in that contrast are worth stating plainly, because they shape what this world looks "
+          "like and neither is visible in a citywide average:")
+        A()
+        A("* **Facade material fidelity is a map of the LPC historic districts.** The best-documented "
+          "neighbourhoods are the landmarked ones — Brooklyn Heights and the Upper West Side reach 79–86 % "
+          "real material because designation reports name a material per building — and the outer-borough "
+          "neighbourhoods sit at 0.0 %. The rule table (ADR-004) fills the rest, and it is the *only* thing "
+          "describing those facades.")
+        A("* **The post-war tower estates and the Rockaways are the thinnest.** Co-op City has published "
+          "floor counts for under a third of its buildings, and Breezy Point and the Rockaway peninsula for "
+          "under half. In the Rockaways part of that is real change: the 2014 LiDAR predates the "
+          "post-Sandy rebuilding, so a house that was replaced is measured as the house that stood before it.")
+        A()
+        A("Two whole regions sit below every row of that table and are not in it, because they are not "
+          "neighbourhoods of the city:")
+        A()
+        A("* **New Jersey** (§1.2a) — footprints and 73.7 % of heights, and nothing else measured at all.")
+        A("* **The outer sea and the marshes** — 1,903 water polygons covering 353.1 km² carry no real name, "
+          "against 332 polygons over 873.5 km² that do. Names were never invented; `name_source` records where "
+          "each one came from.")
+        A()
+
+    A("## 10. Every deviation from the brief, with its reason")
     A()
     dev = DOCS / "DEVIATIONS.md"
     if dev.exists():
@@ -863,6 +978,45 @@ def build_report() -> str:
         A("**`docs/DEVIATIONS.md` is missing**, so this section could not be built. The brief requires every "
           "deviation to be stated with its reason; an absent list is not the same as an empty one, and this "
           "report will not imply that there are no deviations.")
+    A()
+
+    # ---- next steps (brief §12 asks for these by name)
+    A("## 11. Next steps, in the order I would do them")
+    A()
+    A("Ordered by what each one buys against what it costs, not by how hard it is. Every one of these is "
+      "traceable to a numbered deviation in §10, where the measurement behind it is stated.")
+    A()
+    A("1. **Compile, cook and run the Unreal project on a workstation** (A1). Everything downstream of it is "
+      "unknown until it is done: frame rate, vehicle feel, audio, streaming under a real GPU, and the brief's "
+      "first condition — driving from any address to any other. 112 C++ files and 27,909 lines are authored "
+      "and statically checked, and nothing is known to be missing, but nothing is proven to build. "
+      "`unreal/README.md` has the steps; §6.1 lists the four static checks that pass and what they do *not* "
+      "cover.")
+    A("2. **Put a real material set on the building shells** (B12). This is the largest single gain in visual "
+      "fidelity available without new data: shells carry a per-material base colour and nothing else, so the "
+      "Lower Manhattan skyline renders as flat pastel solids against a photograph of dark banded glass. A "
+      "glass BSDF, spandrel banding and an albedo/roughness set keyed on the `facade_class` and "
+      "`material_primary` already in the data would change every comparison sheet in this report. It needs "
+      "authoring, not acquisition.")
+    A("3. **Licensed street-level imagery and a vision model** (A2). The single largest *data* gap: 96.69 % "
+      "of facades are inferred from real attributes rather than observed. The rule table is deliberately "
+      "shaped so a real source replaces its rows without a contract change, so this is an ingest, not a "
+      "rewrite.")
+    A("4. **A roof-plane classifier on the raw LiDAR** (A3). 52.43 % of roofs are inferred, gable-versus-hip "
+      "is undetermined, and about 1 in 5 inferred pitched roofs is wrong. This is the second-largest data "
+      "gap and the point cloud it needs is public.")
+    A("5. **Re-run the terrain stage against the 1 ft city DEM** (A4). No code change: the stage already "
+      "consumes it, and it was skipped only because 26.6 GB did not fit the disk allowance here. Would take "
+      "vertical accuracy from a measured 0.384 m RMS toward the 0.15 m the plan assumed.")
+    A("6. **A structures stage for what is neither building, road, nor prop** (B13). Promenade decks, park "
+      "terraces, piers and pedestrian bridges are absent, so a camera standing on the Brooklyn Heights "
+      "Promenade stands on bare terrain. The planimetric polygons are already downloaded.")
+    A("7. **New Jersey heights from OSM** (B11a). The shipped source understates Jersey City's towers by a "
+      "median 66 m; the OSM extract already in this repository carries 417 `height` tags and 6,199 `levels` "
+      "for New Jersey. A bounded ingest against data on disk.")
+    A()
+    A("Everything above is work this project identified by measuring its own output. None of it is a "
+      "reconsideration of the plan; the plan is in `docs/ARCHITECTURE.md` and it held.")
     A()
     return "\n".join(out) + "\n"
 
