@@ -14,6 +14,26 @@
 
 **Verdict — rescued from a black frame to a legible one — the boxed-in test moved the camera off a wall 13 m ahead and the lens rule opened to 18 mm — and the Chrysler Building is still not in it, because from a Lexington Avenue sidewalk the tower is behind the block in front of you**
 
+## Re-rendered 2026-09-07 — the clearest case of I18: the sheet shows no Chrysler Building
+
+This is what deviation I18 looks like in a picture. The subject stands 72.1 m away and its top is at
+331 m, so containing it needs **77.1° of elevation**; this frame reaches **36.9°**, and the lens is
+already at the 18 mm floor. What the sheet shows is the base of a dark tower on the right, the
+Lexington Avenue canyon receding, a queue of cars, a street tree, a LinkNYC kiosk and 392 people —
+an anonymous Midtown street. The Chrysler Building is in the frame in the sense that its first few
+storeys are; nothing that identifies it is.
+
+The frame is also dark: mean luminance **0.182 against the photograph's 0.325**, which is I16 in a
+canyon again.
+
+`culled_after_camera_move` reports **one vehicle** removed, the second time the vehicle half of the
+cull has fired.
+
+There is nothing wrong with the world here. Every element in the frame is correctly placed and the
+camera is where the rules put it; the sheet fails because a level axis, an 18 mm floor and a
+photograph-derived aspect ratio cannot together contain a 331 m subject at 72 m. It is the strongest
+argument in the set for allowing the camera to tilt and saying on the sheet that it did.
+
 ## What matches
 
 * The camera correction is the story of this sheet and it is fully stated: the recorded viewpoint had the view closed off 13 m ahead against the 36 m this subject needs, so the camera was moved 21 m onto the nearest real roadbed polygon with 60 m of clear view. Before that the frame was mean 0.096, effectively black.
