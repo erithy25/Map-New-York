@@ -14,6 +14,25 @@
 
 **Verdict — the camera stands on the right structure and the Lake is now in the scene, but not in this frame: the water mask was fixed and 3,737 quads of THE LAKE at its own 16.55 m surface are drawn where there were none, and 455 pixels change, because from the upper terrace's parapet the balustrade and the falling ground hide almost all of it. Everything else the photograph is actually of is still missing: no fountain, no Angel of the Waters, no trees, no people, no brick paving**
 
+## The park trees, and why this frame does not show them
+
+This is the frame that exposed the park-tree gap — there was no tree within 300 m of this camera, in
+Central Park — and it is the frame the fix does not reach. 49,175 OpenStreetMap trees were placed
+citywide and Central Park went from 70 to 1,566. Within 400 m of this camera there are now **197 of
+them where there were none**. Inside this camera's own 66° frame there are **zero**, at every radius
+out to 400 m, and the render is unchanged: **0.003 % of pixels differ** from the frame taken before
+the trees existed.
+
+The camera looks north at 14.2° from the upper terrace parapet, across the Lake toward Belvedere
+Castle. OpenStreetMap's coverage of Central Park is dense where a mapper walked — the paths, the
+Ramble, the perimeter — and this sight line crosses none of it. 43 trees are placed in the scene out
+of 195 rows in range; none of them is in front of the lens.
+
+The honest reading is that the fix was real, was measured, and is invisible here. Reporting it as
+though this sheet improved would be the fabrication the brief forbids, and reporting it as though
+nothing changed would be equally wrong: it changed 1,566 trees in this park and 49,175 in this city,
+and it changed nothing you can see from this parapet.
+
 ## What matches
 
 * The Bethesda Terrace model is placed and the camera stands on it. The balustrade with its turned balusters runs across the middle of the frame at the right height and the right position relative to the viewpoint, and it is recognisably the terrace's own parapet.

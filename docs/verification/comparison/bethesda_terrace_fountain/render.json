@@ -64,7 +64,7 @@
  "frame": {
   "mean": 0.7188,
   "reason": null,
-  "sd": 0.1647,
+  "sd": 0.1648,
   "usable": true
  },
  "frame_retry": null,
@@ -105,7 +105,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/bethesda_terrace_fountain/render.png",
- "rendered_at": "2026-09-07T12:31:58Z",
+ "rendered_at": "2026-09-07T13:01:28Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -131,7 +131,7 @@
    "placed_pedestrians": 10,
    "placed_vehicles": 0,
    "reason": null,
-   "seconds": 11.82,
+   "seconds": 12.52,
    "snapshot": {
     "building_footprints_tested": 2814,
     "car_free_park_drives_matched": 47,
@@ -171,7 +171,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 96
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -1777_8205_8_1_2d91b76fafb0bd1e_1788782618.json",
    "triangle_budget": 1125000,
    "triangles": 24017,
    "vehicle_lods": {},
@@ -376,7 +376,7 @@
   },
   "props": {
    "capped": null,
-   "impostor_cards_dropped": 0,
+   "impostor_cards_dropped": 3,
    "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
@@ -384,19 +384,20 @@
     "flagpole": 1,
     "manhole": 50,
     "steam_vent": 3,
-    "street_lamp": 48
+    "street_lamp": 48,
+    "tree": 43
    },
-   "placed": 120,
+   "placed": 163,
    "radius_m": 300.0,
-   "rows_in_range": 152,
+   "rows_in_range": 195,
    "tiles_missing": [],
    "tiles_read": [
     "t_-2_7",
     "t_-2_8",
     "t_-3_8"
    ],
-   "tree_species_substituted": 0,
-   "triangles": 231628,
+   "tree_species_substituted": 43,
+   "triangles": 484160,
    "unmapped_kinds": {
     "artwork": 10,
     "cooling_tower": 2,
@@ -407,7 +408,7 @@
    }
   },
   "radius_m": 700.0,
-  "seconds": 28.24,
+  "seconds": 18.37,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -470,7 +471,7 @@
    "z_max_m": 42.39,
    "z_min_m": 9.82
   },
-  "triangles": 901629
+  "triangles": 1154161
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -480,9 +481,9 @@
   "radius_m": 700.0
  },
  "seconds": {
-  "render": 75.1,
-  "scene": 28.4,
-  "total": 103.5
+  "render": 69.5,
+  "scene": 18.5,
+  "total": 88.0
  },
  "slug": "bethesda_terrace_fountain",
  "status": "rendered",
