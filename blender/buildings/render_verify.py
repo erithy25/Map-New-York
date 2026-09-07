@@ -466,7 +466,7 @@ def render_view(key: str, *, samples: int = 32, textured: bool = True, out_dir: 
     if "merged" in spec:
         level = spec["merged"]["level"]
         for cx, cy in spec["merged"]["cells"]:
-            p = REPO_ROOT / "blender_out" / "tiles" / "_merged" / f"l{level}" / f"L{level}_{cx}_{cy}.glb"
+            p = tiles_out / "_merged" / f"l{level}" / f"L{level}_{cx}_{cy}.glb"
             if not p.exists():
                 LOG.warning("missing merged cell %s", p)
                 continue

@@ -363,13 +363,14 @@ def node_regions(regions: list[tuple[Polygon, float]], footprint: Polygon,
                  tol: float = NODE_TOL_M) -> list[tuple[Polygon, float]]:
     """Give every region ring the vertices its neighbours and the footprint put on it.
 
-    The regions already tile the footprint, but each keeps only the vertices *its own* cut produced:
-    where a neighbour's corner lands in the middle of this region's edge, this region's ring runs
-    straight past it.  The shell then triangulates the level cap on the coarse ring and the step
-    face on the fine one, which is a T-junction and leaves the shell open — it was the single
-    largest cause of stepped buildings falling back to a flat cap.  Snapping each region against the
-    union of all the boundaries inserts the missing vertices; the tolerance is a micron, so nothing
-    moves, only vertices appear.
+    If a neighbour's corner landed in the middle of this region's edge and this region's ring ran
+    straight past it, the shell would triangulate the level cap on the coarse ring and the step face
+    on the fine one — a T-junction, and an open shell.  In practice GEOS has already noded the
+    regions against each other, because they come out of a cascade of differences of the same
+    footprint: measured over the 568 multi-level buildings of the Midtown tile this inserts **four**
+    vertices in total and changes no building's closure.  It is kept as the guard that makes the
+    invariant hold by construction rather than by trusting the overlay; the tolerance is a micron,
+    so nothing moves, only vertices appear.
     """
     if len(regions) < 2:
         return regions

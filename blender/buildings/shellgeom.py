@@ -961,7 +961,9 @@ def _fill_uncovered_edges(rings: Sequence[np.ndarray],
     the 2 cm grid can lose a vertex that was collinear in *its* ring while the footprint still has a
     corner there, so an edge in the middle of one flat level can end up with none.  The level above
     that edge still says exactly how high its wall is, so the sample is read from the piece
-    covering each end rather than the edge being dropped.
+    covering each end rather than the edge being dropped.  This is rare — one building in the 183
+    that were failing on the Midtown tile — but the failure it prevents is a guaranteed hole, and
+    the check costs one dict lookup per footprint edge.
     """
     if not pieces:
         return
@@ -1046,13 +1048,13 @@ def _step_risers(steps: Sequence[tuple[Polygon, float]], region_pieces: Sequence
     """Vertical faces where a taller level abuts a shorter one.
 
     Built from the **exact shared boundary** of each (taller, shorter) region pair rather than by
-    walking the taller region's own edges.  Walking the edges was wrong in two ways that only show
-    up once a building has more than two levels, and 43 % of them do: one edge of the tall region
-    can border *several* lower regions, and the naive walk gave the whole edge the height of
-    whichever one happened to sit under the edge midpoint; and the lower region's ring can carry
-    vertices in the middle of that edge, which the single quad then bridged, leaving a T-junction.
-    ``A.boundary ∩ B.boundary`` is nodded by GEOS, so it returns exactly the overlapping run
-    carrying the vertices of *both* rings — which is what the riser has to weld to on each side.
+    walking the taller region's own edges.  Walking the edges gave a whole edge the height of
+    whichever lower region happened to sit under its midpoint, which is wrong as soon as one edge
+    borders two of them; ``A.boundary ∩ B.boundary`` is noded by GEOS, so it returns the overlapping
+    run carrying the vertices of *both* rings — what the riser has to weld to on each side.
+    Measured on the Midtown tile this change alone did not move the number of shells that close: the
+    regions coming out of the difference cascade are already mutually noded, so the two forms agree
+    on almost every building.  It is kept because it is right by construction rather than by luck.
 
     The top edge follows the taller region's own piece, so it stays welded to a sloping cap as well
     as a flat one.  Each pair is visited once, from the taller side.
