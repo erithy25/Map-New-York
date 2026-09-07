@@ -86,7 +86,8 @@ LANDMARKS: dict[str, dict] = {
     "b_queens_midtown_portals": dict(budget=BUDGET_OTHER, max_z=(3.0 + 33.3 + 5.4, 8.0), spans=[]),
     "b_hugh_carey_portals": dict(budget=BUDGET_OTHER, max_z=(3.0 + 32.8 + 5.4, 8.0), spans=[]),
     "b_one_world_trade_center": dict(budget=BUDGET_OTHER, max_z=(541.3, 1.0), spans=[]),
-    "b_wtc_site": dict(budget=BUDGET_OTHER, max_z=(3.5 + 329.2 + 1.4, 1.0), spans=[]),
+    # the plaza is the model's local datum at 0.0; its NAVD88 elevation lives in origin_tm[2], not in the geometry
+    "b_wtc_site": dict(budget=BUDGET_OTHER, max_z=(329.2 + 1.4, 1.0), spans=[]),
     "b_statue_of_liberty": dict(budget=BUDGET_OTHER, max_z=(3.0 + 92.99, 1.0), spans=[]),
     "b_ellis_island_main": dict(budget=BUDGET_OTHER, max_z=(30.5, 1.0, "tower0_cornice"), spans=[]),
     "b_governors_island": dict(budget=BUDGET_OTHER, max_z=(12.19, 1.0, "castle_williams_wall"), spans=[]),

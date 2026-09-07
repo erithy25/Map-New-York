@@ -18,6 +18,7 @@ import json
 import logging
 import math
 import os
+import re
 import sys
 import time
 from dataclasses import dataclass, field
@@ -675,6 +676,20 @@ def simple_tree(name: str, base, height: float = 9.0, crown_r: float = 3.5, trun
 
 _PROP_TEMPLATES: dict[tuple[str, int], "bpy.types.Object"] = {}
 
+#: Camera-facing impostor cards the props library exports alongside an asset's real geometry, as their own
+#: ``<species>_billboard`` mesh with an ``IMPOSTOR_*`` material.  The card is a distance stand-in for the crown;
+#: joined into the real mesh it is drawn *over* the branches it was meant to replace and every tree renders with
+#: two canopies.  :func:`prop_template` therefore drops it rather than joining it.
+_IMPOSTOR_NAME = re.compile(r"_billboard(\.\d+)?$", re.IGNORECASE)
+
+
+def _is_impostor(ob: "bpy.types.Object") -> bool:
+    """Is this imported mesh an impostor card rather than the asset's real geometry?"""
+    if _IMPOSTOR_NAME.search(ob.name):
+        return True
+    mats = [m.name for m in ob.data.materials if m is not None]
+    return bool(mats) and all(m.startswith("IMPOSTOR_") for m in mats)
+
 
 def prop_available(prop_id: str) -> bool:
     """True when ``blender_out/props/<prop_id>.glb`` exists (the street-props agent's library)."""
@@ -688,11 +703,23 @@ def prop_template(prop_id: str, max_tris: int = 0) -> "bpy.types.Object":
     trunk base at the local origin.  ``max_tris`` > 0 collapse-decimates the template, which is what makes a real prop
     affordable at hundreds of instances.  The template is hidden and must not be handed to :func:`finish`; make copies
     with :func:`prop_instance`, which share its mesh data so the exported glb stores the geometry exactly once.
+
+    An asset's impostor card (:data:`_IMPOSTOR_NAME`) is **dropped, not joined**: joining it merges a flat opaque
+    billboard into the real geometry, where it is drawn over the crown it was meant to replace at distance.
     """
     key = (prop_id, int(max_tris))
     ob = _PROP_TEMPLATES.get(key)
-    if ob is not None and ob.name in bpy.data.objects:
-        return ob
+    if ob is not None:
+        # The cache outlives new_scene(), which removes the datablock underneath it; touching a removed
+        # StructRNA raises rather than returning a falsy name, so the liveness test has to catch that.
+        # run_landmark() builds LOD0, LOD1 and then LOD0 again for the renders, so the third pass hits
+        # exactly this and used to abort the whole render stage of any landmark that instances a prop.
+        try:
+            if ob.name in bpy.data.objects:
+                return ob
+        except ReferenceError:
+            pass
+        _PROP_TEMPLATES.pop(key, None)
     path = PROPS / f"{prop_id}.glb"
     if not path.is_file():
         raise FileNotFoundError(f"prop_template: {path} does not exist")
@@ -702,11 +729,19 @@ def prop_template(prop_id: str, max_tris: int = 0) -> "bpy.types.Object":
     meshes = [o for o in made if o.type == "MESH"]
     if not meshes:
         raise ValueError(f"prop_template({prop_id}): the glb carries no mesh")
+    cards = [o for o in meshes if _is_impostor(o)]
+    meshes = [o for o in meshes if o not in cards]
+    if cards:
+        log.info("prop %s: dropped %d impostor card(s) (%s) -- the real geometry is used at every distance",
+                 prop_id, len(cards), ", ".join(o.name for o in cards))
+    if not meshes:
+        raise ValueError(f"prop_template({prop_id}): the glb carries nothing but impostor cards")
     for o in meshes:                       # the importer parents meshes to an empty; bake that out before joining
         o.matrix_world = o.matrix_world.copy()
         o.parent = None
-    leftovers = [o.name for o in made if o.type != "MESH"]     # the importer's empties, by name: join() invalidates
-    ob = join(meshes, f"prop_{prop_id}") if len(meshes) > 1 else meshes[0]   # the pointers it consumed
+    # the importer's empties and the impostor cards, by name: join() invalidates the pointers it consumed
+    leftovers = [o.name for o in made if o.type != "MESH"] + [o.name for o in cards]
+    ob = join(meshes, f"prop_{prop_id}") if len(meshes) > 1 else meshes[0]
     ob.name = f"prop_{prop_id}"
     for nm in leftovers:
         o = bpy.data.objects.get(nm)
