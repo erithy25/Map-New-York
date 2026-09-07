@@ -285,6 +285,13 @@ STEP_PLAN_AGREE = 0.95        # ... and the CityGML plan and the footprint must 
 # three tiles its 5th percentile is 0.96-0.999 and only 1.1-2.3 % of buildings fall below 0.80 —
 # so 0.80 separates "same building, surveyed twice" from "the 2014 solid is something else".
 STEP_PLAN_MIN = 0.80
+# A pitched roof and stepped massing are mutually exclusive in this shell: `_build_stepped` caps
+# every level flat, so stepping a gabled house trades its roof shape for its steps.  Measured on the
+# Bayside tile, 275 of 1,474 pitched buildings have a recovered step, and the typical one is a
+# 17 m2 porch 3.4 m below a 144 m2 two-storey house — the step is real, but it is worth far less
+# than the gable over the main mass.  So a pitched building keeps its roof unless the part being
+# lowered is a substantial share of the plan, in which case the massing is the bigger fact about it.
+STEP_PITCH_MIN_FRAC = 0.25
 
 
 def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: str = "clamp",
@@ -356,7 +363,7 @@ def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: 
                                   "overlap_resolved": 0, "applied": 0, "applied_exact_z": 0,
                                   "applied_offset_z": 0, "rejected_partition": 0, "rejected_dz": 0,
                                   "rejected_plan": 0, "rejected_multipart": 0,
-                                  "pitch_traded_for_step": 0}
+                                  "rejected_pitch": 0, "pitch_traded_for_step": 0}
     if roof_steps == "auto":
         try:
             step_sets, st = rsx.load_tile_steps(tile)
@@ -428,10 +435,11 @@ def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: 
             area = float(area_col[i]) if area_col is not None else float(part.area)
             steps_local = None
             if ss is not None and ss.ok and len(parts) == 1:
-                steps_local, why = _steps_for(ss, part, z_top, z0, x0, y0)
+                steps_local, why = _steps_for(ss, part, z_top, z0, x0, y0,
+                                              pitched=kind != sg.ROOF_FLAT)
                 if steps_local is None:
-                    step_stats[{"dz": "rejected_dz", "plan": "rejected_plan"}.get(
-                        why, "rejected_partition")] += 1
+                    step_stats[{"dz": "rejected_dz", "plan": "rejected_plan",
+                                "pitch": "rejected_pitch"}.get(why, "rejected_partition")] += 1
                 else:
                     step_stats["applied"] += 1
                     step_stats["applied_offset_z" if why == "ok_offset" else "applied_exact_z"] += 1
@@ -456,7 +464,7 @@ def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: 
 
 
 def _steps_for(ss: rsx.StepSet, footprint_world, z_top: float, z_ground: float,
-               x0: float, y0: float):
+               x0: float, y0: float, pitched: bool = False):
     """Level regions for one building in tile-local metres, or ``(None, reason)``.
 
     The recovered CityGML heights are shifted so the tallest level lands on the contract ``roof_z``
@@ -485,6 +493,11 @@ def _steps_for(ss: rsx.StepSet, footprint_world, z_top: float, z_ground: float,
     regions, why = rsx.partition_footprint(footprint_world, ss.levels)
     if not regions:
         return None, why
+    if pitched:
+        z_hi = max(z for _, z in regions)
+        lowered = sum(p.area for p, z in regions if z < z_hi - 0.05)
+        if lowered < STEP_PITCH_MIN_FRAC * footprint_world.area:
+            return None, "pitch"
     out = []
     for poly, z in regions:
         local = shapely.transform(poly, lambda c: c - np.array([x0, y0]))
