@@ -77,10 +77,11 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 854.3,
   "emissive": {
+   "cone_faces_deleted": 8,
    "cones_hidden": 1,
    "lamps_switched_off": 3,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.03,
   "sky_azimuth_deg": 171.022,
@@ -106,7 +107,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_grand_concourse/render.png",
- "rendered_at": "2026-09-07T12:06:45Z",
+ "rendered_at": "2026-09-07T13:10:13Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -143,7 +144,7 @@
    "placed_pedestrians": 313,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 77.34,
+   "seconds": 68.09,
    "snapshot": {
     "building_footprints_tested": 1467,
     "density_lane_km": 28.245,
@@ -158,7 +159,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.16,
+     "load_seconds": 2.05,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -182,7 +183,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 373
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached 2649_14659_12_2_7cbdec742e72ef46_1788782618.json",
    "triangle_budget": 1125000,
    "triangles": 1086174,
    "vehicle_lods": {
@@ -382,12 +383,12 @@
    },
    "placed": 398,
    "radius_m": 250.0,
-   "rows_in_range": 869,
+   "rows_in_range": 872,
    "tiles_missing": [],
    "tiles_read": [
     "t_2_14"
    ],
-   "tree_species_substituted": 77,
+   "tree_species_substituted": 78,
    "triangles": 1358408,
    "unmapped_kinds": {
     "cooling_tower": 10,
@@ -395,7 +396,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 154.34,
+  "seconds": 121.38,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -422,9 +423,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 707.5,
-  "scene": 155.8,
-  "total": 863.3
+  "render": 400.5,
+  "scene": 123.4,
+  "total": 523.8
  },
  "slug": "drive_bronx_grand_concourse",
  "status": "rendered",
