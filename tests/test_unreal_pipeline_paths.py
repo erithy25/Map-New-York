@@ -335,3 +335,126 @@ def test_the_manifest_has_no_unroutable_asset_left():
             unrouted.append(rel)
     assert not unrouted, (
         f"{len(unrouted)} exported mesh(es) have no import rule and are skipped: {unrouted[:8]}")
+
+
+# --------------------------------------------------------------------------------------------
+# The two id spaces the level builder places from, and the assets they have to land on.
+#
+# Both were broken in the same way and neither could fail visibly: kit_placements.bin stores an
+# integer kit id and props.parquet an int16 kind, build_levels.py rebuilt an asset path out of each,
+# and the paths it built existed nowhere. 5,713,269 kit instances and 129,828 props in the
+# first-drive region alone resolved to nothing, so the import ran clean and the city came up with
+# bare shells and empty sidewalks.
+
+MANIFESTS = ("unreal_manifest.json", "unreal_manifest_firstdrive.json")
+
+
+def _manifest():
+    import json
+    for name in MANIFESTS:
+        p = REPO_ROOT / "data" / "processed" / name
+        if p.is_file():
+            return json.loads(p.read_text())
+    pytest.skip("no generated manifest in this checkout")
+
+
+def test_every_placed_kit_id_resolves_to_a_mesh_the_manifest_imports():
+    import json
+
+    doc = _manifest()
+    catalog_path = REPO_ROOT / "data" / "processed" / "kit_catalog.json"
+    if not catalog_path.is_file():
+        pytest.skip("no kit_catalog.json; run the manifest stage")
+    catalog = {int(e["kit_id"]): e for e in json.loads(catalog_path.read_text())["entries"]}
+    imported = {e["dst"] for e in doc["entries"]}
+
+    placed, missing, unimported = 0, set(), set()
+    for tile, info in doc.get("tiles", {}).items():
+        kp = info.get("kit_placements")
+        if not kp:
+            continue
+        placed += kp["count"]
+        for kit_id in kp["kit_ids"]:
+            entry = catalog.get(int(kit_id))
+            if entry is None:
+                missing.add(int(kit_id))
+            elif entry["content_path"] not in imported:
+                unimported.add(entry["content_path"])
+    if placed == 0:
+        pytest.skip("no kit placements in this manifest")
+    assert not missing, f"{len(missing)} placed kit ids are not in kit_catalog.json: {sorted(missing)[:8]}"
+    assert not unimported, f"kit catalog names {len(unimported)} content paths nothing imports: {sorted(unimported)[:5]}"
+
+
+def test_the_kit_catalog_agrees_with_the_ids_the_placements_were_written_from():
+    """kit_catalog.json must be the same id space as data/processed/facade/kit_ids.json.
+
+    That file states the formula the placement writer used. If the two disagree the placements point
+    at the wrong pieces, which is worse than pointing at none: every window becomes some other window.
+    """
+    import json
+
+    ids_path = REPO_ROOT / "data" / "processed" / "facade" / "kit_ids.json"
+    catalog_path = REPO_ROOT / "data" / "processed" / "kit_catalog.json"
+    if not (ids_path.is_file() and catalog_path.is_file()):
+        pytest.skip("kit id map or catalog absent")
+    want = {int(p["kit_id"]): p["catalog_id"] for p in json.loads(ids_path.read_text())["pieces"]}
+    got = {int(e["kit_id"]): e["catalog_id"] for e in json.loads(catalog_path.read_text())["entries"]}
+    disagree = {k: (want[k], got[k]) for k in want.keys() & got.keys() if want[k] != got[k]}
+    assert not disagree, f"kit ids map to different pieces: {list(disagree.items())[:5]}"
+    assert not (want.keys() - got.keys()), (
+        f"{len(want.keys() - got.keys())} pieces lost their content path: "
+        f"{sorted(want.keys() - got.keys())[:8]}")
+
+
+def test_every_prop_row_carries_a_resolved_asset_or_a_named_reason():
+    """A props.json row either names an imported asset or its kind is one with no asset at all.
+
+    The kinds with no asset are a short, deliberate list -- a curb ramp is built into the pavement, a
+    billboard is a sign -- and the manifest reports it. A row that falls outside both cases is a prop
+    the import will drop without saying so.
+    """
+    import json
+    import sys as _sys
+
+    _sys.path.insert(0, str(REPO_ROOT / "pipeline"))
+    from nycsim_pipeline.furniture.assets import PROP_KIND_ALIASES
+
+    doc = _manifest()
+    imported = {e["dst"] for e in doc["entries"]}
+    no_asset_by_design = {k for k, v in PROP_KIND_ALIASES.items() if v is None}
+
+    checked = 0
+    for tile, info in sorted(doc.get("tiles", {}).items()):
+        props = info.get("props")
+        if not props:
+            continue
+        p = REPO_ROOT / props["path"]
+        if not p.is_file():
+            continue
+        tile_doc = json.loads(p.read_text())
+        assets = tile_doc.get("assets")
+        assert isinstance(assets, list), f"{tile}: props.json has no resolved asset list"
+        stray = [a for a in assets if a not in imported]
+        assert not stray, f"{tile}: props reference {len(stray)} paths nothing imports: {stray[:3]}"
+        for reason, count in (tile_doc.get("unresolved") or {}).items():
+            assert reason in no_asset_by_design, (
+                f"{tile}: {count} prop rows unresolved for a reason that is not a declared gap: {reason}")
+        key = tile_doc.get("asset_key", "a")
+        for row in tile_doc["rows"]:
+            if key in row:
+                assert 0 <= int(row[key]) < len(assets), f"{tile}: prop row asset index out of range"
+        checked += 1
+    if checked == 0:
+        pytest.skip("no props.json in this checkout")
+
+
+def test_the_level_builder_reads_the_catalogues_the_pipeline_writes():
+    """build_levels.py must look for kit_catalog.json where the manifest puts it, and read prop
+    assets from the resolved list rather than rebuilding a path out of the row's kind."""
+    src = (REPO_ROOT / "unreal" / "NYCSim" / "Content" / "Python" / "build_levels.py").read_text()
+    assert 'os.path.join(processed_root, "kit_catalog.json")' in src, \
+        "build_levels.py does not read the kit catalog the manifest writes"
+    assert 'entry["content_path"]' in src, "place_kit still rebuilds a content path"
+    assert 'document.get("assets")' in src, "place_props does not read the resolved asset list"
+    assert 'SM_{kind}' not in src, "place_props still builds a mesh name out of the prop kind"

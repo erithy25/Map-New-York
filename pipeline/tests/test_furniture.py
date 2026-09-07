@@ -565,3 +565,73 @@ def test_transit_nycb_round_trip():
     ids = set(stops["id"].tolist())
     assert set(rstops["stop_id"].tolist()) <= ids
     assert np.isfinite(verts["x"]).all() and np.abs(verts["x"]).max() < 40000
+
+
+# --------------------------------------------------------------------------------------------
+# Rooftop props (furniture/rooftop.py)
+
+
+def test_lift_puts_a_rooftop_prop_on_its_buildings_roof():
+    """A planimetric cooling tower is digitised on a roof; a ground elevation buries it."""
+    import numpy as np
+
+    from nycsim_pipeline.furniture import rooftop
+
+    kind = np.array([28, 28, 0], dtype=np.int16)
+    z = np.array([10.0, 10.0, 10.0], dtype=np.float32)
+    z_source = np.array([3, 3, 3], dtype=np.int8)
+    attrs = ['{"bin":1000001}', '{"bin":9999999}', '{"bin":1000001}']
+    stats = rooftop.lift(kind, z, z_source, attrs, {1000001: 55.5})
+
+    assert stats == {"rooftop_rows": 2, "lifted": 1, "unmatched": 1,
+                     "rise_m": {"min": 45.5, "median": 45.5, "max": 45.5}, "below_ground": 0}
+    assert z[0] == pytest.approx(55.5)
+    assert z_source[0] == rooftop.Z_SOURCE_ROOF
+    assert z[1] == pytest.approx(10.0), "a BIN with no measured roof keeps the surveyed ground z"
+    assert z_source[1] == 3
+    assert z[2] == pytest.approx(10.0), "a street tree is not a rooftop prop"
+
+
+def test_lift_is_idempotent():
+    import numpy as np
+
+    from nycsim_pipeline.furniture import rooftop
+
+    kind = np.array([28], dtype=np.int16)
+    z = np.array([10.0], dtype=np.float32)
+    z_source = np.array([3], dtype=np.int8)
+    attrs = ['{"bin":7}']
+    rooftop.lift(kind, z, z_source, attrs, {7: 30.0})
+    again = rooftop.lift(kind, z, z_source, attrs, {7: 30.0})
+    assert z[0] == pytest.approx(30.0)
+    assert again["rise_m"]["median"] == pytest.approx(0.0)
+
+
+@needs_props
+def test_every_surveyed_cooling_tower_stands_on_a_roof_or_says_why_not():
+    """No cooling tower may still carry a ground z_source once the stage has run.
+
+    All 81,684 of them did: the ground model is right for the other 33 kinds and wrong for this one,
+    and nothing said so, because nothing placed them either.
+    """
+    import json as _json
+
+    from nycsim_pipeline.furniture import rooftop
+
+    lifted = ground = 0
+    for p in props_files[:120]:
+        t = pq.read_table(p, columns=["kind", "z_source", "attrs"])
+        k = t.column("kind").to_numpy(zero_copy_only=False)
+        zs = t.column("z_source").to_numpy(zero_copy_only=False)
+        at = t.column("attrs").to_pylist()
+        for i in np.nonzero(np.isin(k, rooftop.ROOFTOP_KINDS))[0]:
+            if int(zs[i]) == rooftop.Z_SOURCE_ROOF:
+                lifted += 1
+            else:
+                ground += 1
+                bin_ = _json.loads(at[i] or "{}").get("bin")
+                assert bin_ is not None, "a rooftop prop with neither a roof z nor a BIN to find one"
+    if lifted + ground == 0:
+        pytest.skip("no rooftop props in the sampled tiles")
+    assert lifted / (lifted + ground) > 0.9, (
+        f"only {lifted} of {lifted + ground} sampled cooling towers stand on a roof")

@@ -217,6 +217,9 @@ class ManifestBuilder:
         self._ids: set[str] = set()
         self.kit_catalog: dict[int, dict[str, Any]] = {}
         self.props_catalog: dict[int, dict[str, Any]] = {}
+        #: Prop kinds whose rows resolve to no exported asset, and how many rows that is. Filled by
+        #: ``add_tiles``; reported in the manifest so the gap is counted rather than assumed empty.
+        self.prop_kinds_without_an_asset: dict[str, int] = {}
 
     # ------------------------------------------------------------------ helpers
     def _add(self, id_: str, kind: str, src: Path, dst: str, settings: str, *, deps: Iterable[str] = (), tile: str | None = None, extra: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -250,8 +253,33 @@ class ManifestBuilder:
 
     # ------------------------------------------------------------------ catalogs
     def load_catalogs(self) -> None:
-        self.kit_catalog = self._load_catalog(["kit_catalog.json", "kit/kit_catalog.json"], "kit/catalog", "kit_id")
+        self.kit_catalog = self._load_kit_catalog()
         self.props_catalog = self._load_catalog(["props_catalog.json", "props/props_catalog.json"], "props/catalog", "kind")
+
+    def _load_kit_catalog(self) -> dict[int, dict[str, Any]]:
+        """The facade kit keyed by the integer ``kit_id`` that ``kit_placements.bin`` stores.
+
+        ``blender_out/kit/catalog/*.json`` -- what this used to read -- carries a **string** ``id``
+        (``win_aluminum_slider``) and no ``kit_id`` at all, so every entry was hashed into the uint32
+        space and no placement could ever match one: all 5,713,269 kit instances of the first-drive
+        region were reported missing from the catalogue, and every kit glb lost its category and was
+        filed under ``Misc``.  ``data/processed/facade/kit_ids.json`` is the file that holds the
+        mapping -- it is written from the same catalogue by the facade stage and states the id
+        formula -- and until now nothing read it.
+        """
+        p = self.processed / "facade" / "kit_ids.json"
+        if p.is_file():
+            doc = json.loads(p.read_text())
+            pieces = doc.get("pieces") or []
+            out: dict[int, dict[str, Any]] = {}
+            for piece in pieces:
+                try:
+                    out[int(piece["kit_id"])] = piece
+                except (KeyError, TypeError, ValueError):
+                    self._warn(f"{p}: piece without a usable kit_id: {piece.get('catalog_id')}")
+            log.info("catalog %s: %d entries", p, len(out))
+            return out
+        return self._load_catalog(["kit_catalog.json", "kit/kit_catalog.json"], "kit/catalog", "kit_id")
 
     def _load_catalog(self, merged_candidates: list[str], entries_dir: str, key: str) -> dict[int, dict[str, Any]]:
         for cand in merged_candidates:
@@ -352,6 +380,60 @@ class ManifestBuilder:
         log.info("glbs: %d", n)
         return n
 
+    # ------------------------------------------------------------------ resolved catalogues
+    def resolve_catalogs(self) -> int:
+        """Write the two id -> content path tables the editor's Python needs, from the entries above.
+
+        ``kit_placements.bin`` stores an integer ``kit_id`` and ``props.parquet`` an int16 ``kind``.
+        Neither is the name of an asset, and ``build_levels.py`` was rebuilding one anyway --
+        ``/Game/NYCSim/Kit/{piece category}/SM_{stem}`` for the kit, ``/Game/NYCSim/Props/{kind}/SM_{kind}``
+        for the props -- from vocabularies the import does not use.  The kit imports under the glb's
+        folder (``Kit/facade/``), not the piece's category (``window``), and a prop's ``kind`` is the
+        integer 14, not ``street_lamp`` and not ``lamp_cobra_davit``.  So nothing resolved and nothing
+        was placed.
+
+        The path an asset imports to is decided here, in ``add_glbs``, so this joins on it directly:
+        no name is reconstructed anywhere, and a rule change in ``GLB_RULES`` moves both tables with
+        it.  Props are resolved per row in ``add_tiles`` against the same index.
+        """
+        by_src = {e["src"]: e for e in self.entries if e["kind"] in ("kit", "prop", "tree")}
+        pieces, missing = [], []
+        for kit_id, piece in sorted(self.kit_catalog.items()):
+            glb = piece.get("glb")
+            entry = by_src.get(_rel(self.blender_out / glb, self.repo_root)) if glb else None
+            if entry is None:
+                missing.append({"kit_id": kit_id, "catalog_id": piece.get("catalog_id"), "glb": glb})
+                continue
+            pieces.append({"kit_id": kit_id, "catalog_id": piece.get("catalog_id"),
+                           "category": piece.get("category"), "glb": glb,
+                           "content_path": entry["dst"]})
+        if missing and self.kit_catalog:
+            self._warn(f"{len(missing)} kit pieces have no imported mesh "
+                       f"(first: {[m['catalog_id'] for m in missing[:5]]}); their placements cannot be spawned")
+        if not pieces:
+            # No kit in this world: writing an empty catalogue would put a file in the package that
+            # tells the editor there is nothing to place, which is not the same as not shipping one.
+            return 0
+        doc = {"schema_version": SCHEMA_VERSION, "generated_at": _now(),
+               "source": "data/processed/facade/kit_ids.json + this manifest's kit entries",
+               "content_root": CONTENT_ROOT, "count": len(pieces), "entries": pieces,
+               "without_a_mesh": missing}
+        out = self.processed / "kit_catalog.json"
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(json.dumps(doc, indent=1))
+        self._add("catalog:kit_catalog.json", "catalog", out, f"{CONTENT_ROOT}/Runtime/kit_catalog.json", "json_copy")
+        return len(pieces)
+
+    def _prop_asset_index(self) -> tuple[Any, dict[str, str]]:
+        """The prop resolver and the ``blender_out``-relative glb -> content path map it feeds."""
+        from ..furniture import assets as prop_assets
+        by_src = {e["src"]: e["dst"] for e in self.entries}
+        paths = {}
+        for rel, dst in ((k[len("blender_out/"):], v) for k, v in by_src.items()
+                         if k.startswith("blender_out/")):
+            paths[rel] = dst
+        return prop_assets.load(self.processed, self.blender_out), paths
+
     # ------------------------------------------------------------------ tiles
     def add_tiles(self) -> int:
         tiles_dir = self.processed / "tiles"
@@ -360,6 +442,8 @@ class ManifestBuilder:
             return 0
         n = 0
         index_rows = self._read_tile_index()
+        prop_assets, asset_paths = self._prop_asset_index()
+        unmapped: dict[str, int] = {}
         for td in sorted(p for p in tiles_dir.iterdir() if p.is_dir() and _TILE_RE.match(p.name)):
             tile = td.name
             if self.tiles_filter is not None and tile not in self.tiles_filter:
@@ -390,11 +474,23 @@ class ManifestBuilder:
             pp = td / "props.parquet"
             if pp.exists():
                 out = td / "props.json"
-                cnt = _parquet_to_json(pp, out, PROPS_COLUMNS, tile_origin=(t.x0, t.y0))
+                cnt, tile_unmapped = _parquet_to_json(
+                    pp, out, PROPS_COLUMNS, tile_origin=(t.x0, t.y0),
+                    prop_assets=prop_assets, asset_paths=asset_paths)
+                for k, v in tile_unmapped.items():
+                    unmapped[k] = unmapped.get(k, 0) + v
                 info["props"] = {"path": _rel(out, self.repo_root), "count": cnt}
             bp = td / "buildings.parquet"
             if bp.exists():
                 info["buildings"] = {"path": _rel(bp, self.repo_root), "count": _parquet_rows(bp)}
+        if unmapped:
+            # Not a failure: a dozen prop kinds have no exported asset on purpose (a curb ramp is
+            # built into the pavement, a billboard is a sign). Counted so the number is a statement
+            # rather than a silence, and so a kind that loses its asset shows up as a jump here.
+            self.prop_kinds_without_an_asset = dict(sorted(unmapped.items(), key=lambda kv: -kv[1]))
+            log.info("props: %d rows in %d kinds have no exported asset (%s)",
+                     sum(unmapped.values()), len(unmapped),
+                     ", ".join(f"{k}={v}" for k, v in list(self.prop_kinds_without_an_asset.items())[:6]))
         # per-tile signs / lanes from the borough-wide road tables
         self._export_signs()
         if self.with_lanes:
@@ -770,8 +866,12 @@ class ManifestBuilder:
         if lm.exists():
             self._add("landmarks:index", "landmarks_index", lm, f"{CONTENT_ROOT}/Runtime/landmarks.json", "json_copy")
             n += 1
-        for name in ("kit_catalog.json", "props_catalog.json", "facade_classes.json"):
-            for base in (self.processed, self.blender_out, self.blender_out / "kit", self.blender_out / "props"):
+        # kit_catalog.json is not copied here: resolve_catalogs writes it from this run's own kit
+        # entries, after the glbs are known, and adds it itself. Copying a stale one from a previous
+        # run would both duplicate the id and ship content paths that no longer exist.
+        for name in ("props_catalog.json", "facade_classes.json"):
+            for base in (self.processed, self.processed / "facade", self.processed / "furniture",
+                         self.blender_out, self.blender_out / "kit", self.blender_out / "props"):
                 p = base / name
                 if p.exists():
                     self._add(f"catalog:{name}", "catalog", p, f"{CONTENT_ROOT}/Runtime/{name}", "json_copy")
@@ -819,6 +919,7 @@ class ManifestBuilder:
         self.add_runtime()
         self.add_audio()
         self.add_glbs()
+        self.resolve_catalogs()
         self.add_tiles()
         self.add_water()
         by_kind: dict[str, int] = {}
@@ -837,6 +938,7 @@ class ManifestBuilder:
             "counts": {"entries": len(self.entries), "tiles": len(self.tiles), "by_kind": by_kind},
             "kit_catalog_entries": len(self.kit_catalog),
             "props_catalog_entries": len(self.props_catalog),
+            "prop_kinds_without_an_asset": self.prop_kinds_without_an_asset,
             "tiles": self.tiles,
             "entries": self.entries,
             "import_order": self.import_order(),
@@ -887,19 +989,55 @@ def _parquet_rows(p: Path) -> int:
         return -1
 
 
-def _parquet_to_json(src: Path, dst: Path, columns: list[str], *, tile_origin: tuple[float, float] | None = None) -> int:
+def _parquet_to_json(src: Path, dst: Path, columns: list[str], *,
+                     tile_origin: tuple[float, float] | None = None,
+                     prop_assets: Any = None,
+                     asset_paths: dict[str, str] | None = None) -> Any:
+    """Re-export a parquet as the JSON the editor's Python can read (UE 5.4 has no pyarrow).
+
+    With ``prop_assets`` this also resolves every row to the asset it is: ``props.parquet`` stores
+    ``kind`` as an int16 code and ``build_levels.py`` cannot turn that into a mesh -- the vocabulary
+    it needs (a tree's species and height, ``utility_pole`` being exported as ``sign_post``) lives in
+    the pipeline. The paths go out as a deduplicated ``assets`` list with a per-row index, because
+    writing the full path on each of the city's 2.6 M prop rows would be a hundred megabytes of the
+    same forty strings.
+    """
     import pyarrow.parquet as pq
     names = pq.read_schema(src).names
     cols = [c for c in columns if c in names]
     tbl = pq.read_table(src, columns=cols)
     rows = []
+    assets: list[str] = []
+    asset_index: dict[str, int] = {}
+    unmapped: dict[str, int] = {}
     for r in tbl.to_pylist():
         if tile_origin is not None and r.get("x") is not None and r.get("y") is not None:
             r["x"] = float(r["x"]) - tile_origin[0]
             r["y"] = float(r["y"]) - tile_origin[1]
+        if prop_assets is not None and r.get("kind") is not None:
+            entry, why = prop_assets.resolve(r["kind"], variant=r.get("variant"),
+                                             species=r.get("species") or "", height_m=r.get("height_m"))
+            path = (asset_paths or {}).get((entry or {}).get("glb", ""))
+            if path is None:
+                key = why if entry is None else f"{why}:no imported mesh for {entry.get('id')}"
+                unmapped[key] = unmapped.get(key, 0) + 1
+            else:
+                i = asset_index.get(path)
+                if i is None:
+                    i = asset_index[path] = len(assets)
+                    assets.append(path)
+                r["a"] = i
         rows.append(_jsonable(r))
-    dst.write_text(json.dumps({"schema_version": SCHEMA_VERSION, "source": src.name, "origin_local": tile_origin is not None, "columns": cols, "count": len(rows), "rows": rows}, separators=(",", ":")))
-    return len(rows)
+    doc = {"schema_version": SCHEMA_VERSION, "source": src.name, "origin_local": tile_origin is not None,
+           "columns": cols, "count": len(rows), "rows": rows}
+    if prop_assets is not None:
+        doc["assets"] = assets
+        doc["asset_key"] = "a"
+        doc["unresolved"] = dict(sorted(unmapped.items(), key=lambda kv: -kv[1]))
+    dst.write_text(json.dumps(doc, separators=(",", ":")))
+    if prop_assets is None:
+        return len(rows)
+    return len(rows), unmapped
 
 
 #: DATA_CONTRACTS §15 header, laid out as a C++17 compiler lays it out: 4 bytes of padding after

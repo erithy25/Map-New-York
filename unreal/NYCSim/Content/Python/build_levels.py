@@ -292,23 +292,35 @@ def place_props(tile: str, processed_root: str) -> int:
         WARN(f"{tile}: props.json unreadable: {exc}")
         return 0
     origin_x, origin_y = tile_origin_m(tile)
-    by_kind: dict[str, list] = {}
+    # The manifest resolves every row to the asset it is and writes the content paths as a
+    # deduplicated list with a per-row index. This used to read the row's `kind` -- the int16 code of
+    # the props catalogue -- as if it were a mesh name and look for /Game/NYCSim/Props/14/SM_14; and
+    # since `str(row.get("kind") or "")` is empty for kind 0, every street tree in the city was
+    # dropped before the lookup even ran.
+    assets = document.get("assets")
+    if not isinstance(assets, list):
+        WARN(f"{tile}: props.json has no resolved asset list; regenerate the manifest")
+        return 0
+    key = document.get("asset_key") or "a"
+    by_asset = {}
     for row in document.get("rows", []):
-        kind = str(row.get("kind") or "").strip()
-        if not kind or row.get("x") is None or row.get("y") is None:
+        index = row.get(key)
+        if index is None or row.get("x") is None or row.get("y") is None:
             continue
-        by_kind.setdefault(kind, []).append(row)
+        try:
+            path_index = int(index)
+        except (TypeError, ValueError):
+            continue
+        if 0 <= path_index < len(assets):
+            by_asset.setdefault(assets[path_index], []).append(row)
 
     placed = 0
-    for kind, rows in sorted(by_kind.items()):
-        mesh = None
-        for candidate in (f"{CONTENT_ROOT}/Props/Misc/SM_{kind}", f"{CONTENT_ROOT}/Props/{kind}/SM_{kind}",
-                          f"{CONTENT_ROOT}/Trees/SM_{kind}"):
-            mesh = load_asset(candidate)
-            if mesh is not None:
-                break
+    for content_path, rows in sorted(by_asset.items()):
+        mesh = load_asset(content_path)
         if mesh is None:
+            WARN(f"{tile}: {len(rows)} props reference {content_path}, which did not import")
             continue
+        label = content_path.rsplit("/", 1)[-1]
         transforms = []
         for row in rows:
             x = origin_x + float(row["x"])
@@ -317,12 +329,19 @@ def place_props(tile: str, processed_root: str) -> int:
             yaw = heading_to_yaw(float(row.get("heading") or 0.0))
             transforms.append(unreal.Transform(
                 nyctm_to_ue(x, y, z), unreal.Rotator(0.0, 0.0, yaw), unreal.Vector(1.0, 1.0, 1.0)))
-        placed += spawn_instances(mesh, transforms, f"{tile}_props_{kind}", "NYCBuildingShell")
+        placed += spawn_instances(mesh, transforms, f"{tile}_props_{label}", "NYCBuildingShell")
     return placed
 
 
 def place_kit(tile: str, processed_root: str, catalog: dict) -> int:
-    """Facade kit instances from tiles/{tile}/kit_placements.bin (§6): one HISM per kit id."""
+    """Facade kit instances from tiles/{tile}/kit_placements.bin (§6): one HISM per kit id.
+
+    ``catalog`` is ``kit_catalog.json``, which the manifest writes from its own kit entries, so the
+    content path comes out of it verbatim. This used to rebuild the path as
+    ``Kit/{piece category}/SM_{stem}`` from a catalogue keyed by string ids, which agreed with
+    neither the placements (integer kit ids) nor the import (which files a piece under its glb's
+    folder, ``Kit/facade/``), so no kit instance in the city was ever spawned.
+    """
     path = os.path.join(processed_root, "tiles", tile, "kit_placements.bin")
     if not os.path.isfile(path) or not catalog:
         return 0
@@ -330,7 +349,7 @@ def place_kit(tile: str, processed_root: str, catalog: dict) -> int:
     if size % KIT_PLACEMENT.size:
         WARN(f"{tile}: kit_placements.bin size {size} is not a multiple of {KIT_PLACEMENT.size}")
     origin_x, origin_y = tile_origin_m(tile)
-    by_kit: dict[int, list] = {}
+    by_kit = {}
     with open(path, "rb") as handle:
         while True:
             record = handle.read(KIT_PLACEMENT.size)
@@ -340,14 +359,16 @@ def place_kit(tile: str, processed_root: str, catalog: dict) -> int:
             by_kit.setdefault(kit_id, []).append((x, y, z, yaw, scale))
 
     placed = 0
+    unknown = []
     for kit_id, rows in sorted(by_kit.items()):
-        entry = catalog.get(str(kit_id)) or catalog.get(kit_id)
+        entry = catalog.get(kit_id)
         if not entry:
+            unknown.append(kit_id)
             continue
-        stem = entry.get("id_str") or entry.get("name") or entry.get("id") or str(kit_id)
-        category = entry.get("category") or "Misc"
-        mesh = load_asset(f"{CONTENT_ROOT}/Kit/{category}/SM_{stem}")
+        stem = entry.get("catalog_id") or str(kit_id)
+        mesh = load_asset(entry["content_path"])
         if mesh is None:
+            unknown.append(kit_id)
             continue
         transforms = []
         for (x, y, z, yaw, scale) in rows:
@@ -358,6 +379,8 @@ def place_kit(tile: str, processed_root: str, catalog: dict) -> int:
                 unreal.Vector(factor, factor, factor)))
         # Kit pieces are decoration on the shell, which already carries the collision.
         placed += spawn_instances(mesh, transforms, f"{tile}_kit_{stem}", "NoCollision")
+    if unknown:
+        WARN(f"{tile}: {len(unknown)} kit ids have no mesh (first: {unknown[:5]})")
     return placed
 
 
@@ -468,21 +491,34 @@ def default_manifest_path() -> str:
 
 
 def load_catalog(processed_root: str) -> dict:
-    for candidate in ("kit_catalog.json", os.path.join("kit", "kit_catalog.json")):
-        path = os.path.join(processed_root, candidate)
-        if os.path.isfile(path):
-            try:
-                with open(path, "r", encoding="utf-8") as handle:
-                    document = json.load(handle)
-            except (OSError, json.JSONDecodeError) as exc:
-                WARN(f"kit catalog {path} unreadable: {exc}")
-                return {}
-            entries = document.get("entries", document) if isinstance(document, dict) else document
-            if isinstance(entries, list):
-                return {str(e.get("kit_id", e.get("id"))): e for e in entries}
-            if isinstance(entries, dict):
-                return {str(k): v for k, v in entries.items()}
-    return {}
+    """``kit_catalog.json``: integer kit id -> the piece and the content path it imported to.
+
+    The manifest writes this file from its own kit entries. It used to be looked for and never
+    found -- nothing wrote it -- so ``place_kit`` saw an empty dict and returned zero for every tile
+    in the city.
+    """
+    path = os.path.join(processed_root, "kit_catalog.json")
+    if not os.path.isfile(path):
+        WARN(f"no kit catalog at {path}; no facade kit will be placed")
+        return {}
+    try:
+        with open(path, "r", encoding="utf-8") as handle:
+            document = json.load(handle)
+    except (OSError, json.JSONDecodeError) as exc:
+        WARN(f"kit catalog {path} unreadable: {exc}")
+        return {}
+    catalog = {}
+    for entry in document.get("entries", []):
+        try:
+            kit_id = int(entry["kit_id"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if entry.get("content_path"):
+            catalog[kit_id] = entry
+    missing = document.get("without_a_mesh") or []
+    if missing:
+        WARN(f"kit catalog: {len(missing)} pieces have no imported mesh")
+    return catalog
 
 
 def main(argv=None) -> int:

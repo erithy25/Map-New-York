@@ -115,7 +115,10 @@ HEIGHT_SOURCE = {"measured": 0, "allometry": 1, "nominal": 2, "none": 3, "census
 # 4 means "no per-tree evidence at all; this is the population".
 # 0/1/2 are the original values; 3/4 were added by the furniture build because the per-tile terrain rasters
 # (DATA_CONTRACTS §3) do not exist yet and props are placed on measured survey points instead (elevation.py).
-Z_SOURCE = {"terrain": 0, "dataset": 1, "none": 2, "spot_elev": 3, "spot_elev_far": 4}
+# 5 is the roof of the building the survey digitised the feature against: the planimetric cooling towers
+# stand on roofs, and a ground elevation -- however well surveyed -- puts every one of them inside the
+# building it sits on top of. furniture/rooftop.py joins their BIN against buildings_base.roof_z.
+Z_SOURCE = {"terrain": 0, "dataset": 1, "none": 2, "spot_elev": 3, "spot_elev_far": 4, "building_roof": 5}
 
 
 def catalog_json(counts: dict[str, int] | None = None) -> dict:
@@ -135,7 +138,8 @@ def catalog_json(counts: dict[str, int] | None = None) -> dict:
                              "(no per-tree evidence; seeded by the row's own x/y so a re-run is bit-identical)",
             "capacity": "int16 docks / bike stands (0 = n/a)",
             "z_source": "int8 0 terrain sample, 1 dataset elevation, 2 none, 3 planimetric spot elevation + LiDAR "
-                        "building grade (IDW of 4 nearest, nearest <= 80 m), 4 same but nearest > 80 m (extrapolated)",
+                        "building grade (IDW of 4 nearest, nearest <= 80 m), 4 same but nearest > 80 m (extrapolated), "
+                        "5 measured roof of the building the survey names in attrs.bin (buildings_base.roof_z)",
             "attrs": "JSON string of per-instance attributes (dataset native ids, footprint dims, routes, ...)",
             "tile": "string t_{tx}_{ty} of the tile file this row lives in", "tx, ty": "int32 tile grid index",
         },

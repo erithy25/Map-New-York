@@ -52,6 +52,7 @@ import bpy  # noqa: E402
 from mathutils import Euler, Matrix, Vector  # noqa: E402
 
 import nycsim_bpy as nb  # noqa: E402
+from nycsim_pipeline.furniture import assets as prop_assets  # noqa: E402
 
 LOG = logging.getLogger("nycsim.verify.scene")
 
@@ -83,51 +84,14 @@ _LOD_SUFFIX = re.compile(r"_LOD(\d+)$", re.IGNORECASE)
 #: importer suffixes duplicate names with ".001", so the trailing index has to be tolerated.
 _IMPOSTOR_NAME = re.compile(r"_billboard(\.\d+)?$", re.IGNORECASE)
 
-#: Prop ``kind`` name -> ``dataset_kind`` of the exported asset catalogue.  The two vocabularies
-#: agree for most kinds; the entries here are the ones that do not spell the same.
-PROP_KIND_ALIASES = {
-    "waste_basket": "waste_basket",
-    "street_lamp": "street_lamp",
-    "bus_stop_sign": "road_sign",
-    "rtpi_sign": "road_sign",
-    "utility_pole": "sign_post",
-    "billboard": None,          # no exported billboard prop asset
-    "curb_ramp": None,          # modelled by the road stage, not a prop asset
-    "artwork": None,
-    "memorial": None,
-    "drinking_fountain": None,
-    "payphone": None,
-    "vending_machine": None,
-    "bike_shelter": "bus_shelter",
-    "parks_comfort_station": None,
-    "parks_recreation_center": None,
-    "parks_building": None,
-    "cooling_tower": None,
-    "swimming_pool": None,
-    "misc_structure": None,
-    "subway_emergency_exit": "subway_vent_grate",
-    "steam_vent": "steam_vent",
-}
-
-#: Street-tree species key used in the exported asset ids, keyed by the lower-cased Latin genus
-#: or species found in ``props.parquet``.
-TREE_SPECIES_KEYS = {
-    "styphnolobium japonicum": "sophora",
-    "sophora japonica": "sophora",
-    "zelkova serrata": "zelkova",
-    "gleditsia triacanthos": "honeylocust",
-    "gleditsia triacanthos var. inermis": "honeylocust",
-    "platanus x acerifolia": "planetree",
-    "platanus acerifolia": "planetree",
-    "pyrus calleryana": "callery_pear",
-    "quercus palustris": "pin_oak",
-    "acer platanoides": "norway_maple",
-    "acer rubrum": "red_maple",
-    "tilia cordata": "littleleaf_linden",
-    "ginkgo biloba": "ginkgo",
-}
-#: Fallback when the census species has no modelled asset: the commonest NYC street tree.
-TREE_FALLBACK_KEY = "honeylocust"
+#: Prop ``kind`` name -> ``dataset_kind``, the tree species keys, and the fallback species used to
+#: live here.  ``build_levels.py`` needed the same answers to put props into the game and had none of
+#: them, so the tables moved to :mod:`nycsim_pipeline.furniture.assets`, which has no ``bpy`` in it
+#: and is read by the renderer, the manifest and the editor alike.  They are re-exported under their
+#: old names because this module's callers and tests know them by those names.
+PROP_KIND_ALIASES = prop_assets.PROP_KIND_ALIASES
+TREE_SPECIES_KEYS = prop_assets.TREE_SPECIES_KEYS
+TREE_FALLBACK_KEY = prop_assets.TREE_FALLBACK_KEY
 
 
 # --------------------------------------------------------------------------- terrain
@@ -1283,29 +1247,8 @@ def add_pavement(cx: float, cy: float, radius_m: float, sampler: TerrainSampler,
 # --------------------------------------------------------------------------- props
 
 
-def _load_prop_assets() -> tuple[dict[str, list[dict]], dict[str, dict]]:
-    if not PROPS_CATALOG_JSON.exists():
-        return {}, {}
-    cat = json.loads(PROPS_CATALOG_JSON.read_text())
-    by_kind: dict[str, list[dict]] = {}
-    by_id: dict[str, dict] = {}
-    for e in cat.get("entries", []):
-        by_id[e["id"]] = e
-        by_kind.setdefault(e.get("dataset_kind") or "", []).append(e)
-    return by_kind, by_id
-
-
 def _tree_asset_id(species: str, height_m: float, leaf_off: bool) -> tuple[str, bool]:
-    key = TREE_SPECIES_KEYS.get((species or "").strip().lower())
-    exact = key is not None
-    key = key or TREE_FALLBACK_KEY
-    if height_m >= 12.0:
-        size = "large"
-    elif height_m >= 7.0:
-        size = "medium"
-    else:
-        size = "small"
-    return f"tree_{key}_{size}{'_bare' if leaf_off else ''}", exact
+    return prop_assets.tree_asset_id(species, height_m, leaf_off)
 
 
 def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
@@ -1321,13 +1264,9 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
         import pyarrow.parquet as pq
     except Exception as exc:
         return {"placed": 0, "reason": f"pyarrow unavailable: {exc}"}
-    by_kind, by_id = _load_prop_assets()
-    if not by_id:
+    assets_index = prop_assets.load(PROCESSED, BLENDER_OUT)
+    if not assets_index.by_id:
         return {"placed": 0, "reason": f"no prop asset catalogue at {PROPS_CATALOG_JSON}"}
-    kinds = {}
-    if PROP_KINDS_JSON.exists():
-        kinds = {k["id"]: k["name"] for k in json.loads(PROP_KINDS_JSON.read_text()).get("kinds", [])}
-
     cols = ["kind", "x", "y", "z", "heading", "variant", "species", "height_m"]
     rows = []
     tiles_read, tiles_missing = [], []
@@ -1372,30 +1311,17 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
             break
         i = int(idx)
         kind_id = int(merged["kind"][i])
-        kind_name = kinds.get(kind_id, str(kind_id))
-        exact_species = True
-        if kind_name == "tree":
-            h = merged["height_m"][i]
-            h = float(h) if h is not None and not (isinstance(h, float) and math.isnan(h)) else 8.0
-            asset_id, exact_species = _tree_asset_id(merged["species"][i] or "", h, leaf_off)
-            if not exact_species:
-                species_substituted += 1
-            entry = by_id.get(asset_id)
-        else:
-            alias = PROP_KIND_ALIASES.get(kind_name, kind_name)
-            if alias is None:
-                unmapped[kind_name] = unmapped.get(kind_name, 0) + 1
-                continue
-            choices = by_kind.get(alias) or []
-            if not choices:
-                unmapped[kind_name] = unmapped.get(kind_name, 0) + 1
-                continue
-            v = merged["variant"][i]
-            v = int(v) if v is not None else 0
-            entry = choices[v % len(choices)]
+        kind_name = assets_index.name_of(kind_id)
+        # One resolver for the renderer, the manifest and the editor: which asset a row is was
+        # answered three different ways and two of them answered "none" for every row in the city.
+        entry, why = assets_index.resolve(kind_id, variant=merged["variant"][i],
+                                          species=merged["species"][i] or "",
+                                          height_m=merged["height_m"][i], leaf_off=leaf_off)
         if entry is None:
             unmapped[kind_name] = unmapped.get(kind_name, 0) + 1
             continue
+        if why == "species_substituted":
+            species_substituted += 1
         tpl = lib.get(BLENDER_OUT / entry["glb"], key=f"prop:{entry['id']}", max_lod=0)
         if tpl is None:
             unmapped[kind_name] = unmapped.get(kind_name, 0) + 1

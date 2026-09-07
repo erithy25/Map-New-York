@@ -40,6 +40,7 @@ from . import dedupe as dd
 from . import rules as R
 from . import trees as T
 from .catalog import HEIGHT_SOURCE, KINDS, KIND_BY_NAME, catalog_json
+from . import rooftop
 from .elevation import GroundModel
 from .schema import arrow_schema, empty_columns
 
@@ -218,6 +219,15 @@ def finalise(cols: dict, ground: GroundModel) -> tuple[pa.Table, dict]:
         zz, ss = ground.sample(x[need], y[need])
         z[need] = zz.astype(np.float32)
         z_src[need] = ss
+    # The one kind the ground model gets wrong on purpose: a planimetric cooling tower is digitised
+    # on a roof, so its surveyed ground elevation puts it inside the building. lift() joins the BIN
+    # in its attrs against the measured roof.
+    try:
+        roof_stats = rooftop.lift(kind_of := np.asarray(cols["kind"], dtype=np.int16), z, z_src,
+                                  list(cols["attrs"]), rooftop.roof_heights())
+    except FileNotFoundError as exc:
+        roof_stats = {"skipped": f"no buildings table: {exc}"}
+    del kind_of
     cols["z"] = z
     cols["z_source"] = z_src
 
@@ -250,6 +260,7 @@ def finalise(cols: dict, ground: GroundModel) -> tuple[pa.Table, dict]:
         "z_extrapolated_far": int((z_src == 4).sum()),
         "z_from_dataset": int((z_src == 1).sum()),
         "z_missing": int((~np.isfinite(z)).sum()),
+        "z_lifted_to_roof": roof_stats,
     }
     return table, stats
 
