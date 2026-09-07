@@ -105,7 +105,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_queens_bayside/render.png",
- "rendered_at": "2026-09-07T13:42:12Z",
+ "rendered_at": "2026-09-07T14:44:41Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -136,7 +136,7 @@
    "placed_pedestrians": 263,
    "placed_vehicles": 73,
    "reason": null,
-   "seconds": 48.63,
+   "seconds": 54.51,
    "snapshot": {
     "building_footprints_tested": 7915,
     "density_lane_km": 28.728,
@@ -151,7 +151,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.0,
+     "load_seconds": 2.08,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -346,7 +346,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 104.69,
+  "seconds": 112.59,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -373,9 +373,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 105.2,
-  "scene": 105.4,
-  "total": 210.6
+  "render": 104.5,
+  "scene": 113.3,
+  "total": 217.8
  },
  "slug": "drive_queens_bayside",
  "status": "rendered",

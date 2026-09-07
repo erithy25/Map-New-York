@@ -14,6 +14,26 @@
 
 **Verdict — the frame is legible for the first time — the new under-the-paving test caught an eye point 1.5 m beneath the ground surface and moved it onto a real roadbed — but what it shows is a low commercial strip against a photograph of the Clearview Expressway from an overpass 567 m away**
 
+## Re-rendered 2026-09-07 — a frame that passed every camera check and shows a blank wall
+
+The clearance record for this camera reads: *"the viewpoint is in open air on the ground and the
+camera was not moved; the nearest solid thing in the view cone is `t_15_7_vinyl_siding` 23.6 m away,
+and the view azimuth is clear for 150 m."* Every check passed. The frame is the blank side wall of a
+vinyl-sided house filling the upper third, over an untextured ground plane, and **not one of the 73
+vehicles and 263 pedestrians the simulation placed here is visible**, nor any of the 182 trees.
+
+**The clearance test measures a ray, and a frame is not a ray.** `view_distance` casts a single line
+along the view azimuth at eye height and reports how far it travels before a building shell stops it.
+Here it travels the full 150 m probe — the camera is looking down a gap between houses — while the
+rest of the frame is a wall. A ray being clear says nothing about what fills the other of the image,
+which is why this sheet can satisfy `min_view_m` and still be unusable. Recorded as deviation I17.
+
+That is separate from the two faults already recorded against this set: the camera is on a residential
+street with the item's nominal azimuth of 0.0° and no named subject to aim at (I12), and it stands
+where the search put it rather than where a photographer would (I14). Bayside's houses *are* the
+subject, so a vinyl-sided wall is not the wrong content — it is the wrong framing of the right
+content.
+
 ## What matches
 
 * The camera correction worked and is stated: the recorded viewpoint sits 1.5 m *under* the terrain surface, and the camera was moved 35 m onto the nearest real roadbed polygon with 37 m of clear view. Before this test existed the frame was featureless (sd 0.012) and the orchestrator's sweep flagged it.
