@@ -146,6 +146,36 @@ class Glb:
             out[name] = (w.min(axis=0), w.max(axis=0))
         return out
 
+    def joint_indices(self) -> dict[str, int]:
+        """``{bone name: node index}`` for the skin's joints.
+
+        This has to exist because a rigged vehicle carries two nodes called ``Wheel_FL``: the mesh
+        node and the joint node. Since Blender exports a skinned mesh's node at identity, a lookup by
+        name that happens to find the mesh node reports every pivot in the car as (0, 0, 0) -- which
+        is exactly what it did the first time this rig was checked. The joint list is unambiguous.
+        """
+        skins = self.json.get("skins", [])
+        if not skins:
+            return {}
+        nodes = self.nodes()
+        return {nodes[j].get("name", f"node{j}"): j for j in skins[0].get("joints", [])}
+
+    def joint_world(self) -> dict[str, np.ndarray]:
+        """World rest matrix of every joint, by bone name."""
+        wm = self.world_matrices()
+        return {name: wm[i] for name, i in self.joint_indices().items()}
+
+    def pivot_of(self, name: str) -> np.ndarray | None:
+        """World translation of the bone (or, on an unrigged file, of the mesh node) called ``name``."""
+        joints = self.joint_world()
+        if name in joints:
+            return joints[name][:3, 3]
+        wm = self.world_matrices()
+        for i, n in enumerate(self.nodes()):
+            if n.get("name") == name:
+                return wm[i][:3, 3]
+        return None
+
     def triangles(self, skip=("UCX_",)) -> int:
         """Rendered triangles: mesh nodes whose name does not start with one of ``skip`` (the ``UCX_``
         collision proxies are not drawn and do not count against a LOD budget)."""
@@ -306,38 +336,52 @@ def test_origin_is_ground_under_rear_axle(vid, glbs):
 # --------------------------------------------------------------------------- wheels
 @pytest.mark.parametrize("vid", IDS)
 def test_wheel_pivots_at_hub_centres(vid, glbs):
+    """Each wheel's pivot is its hub centre, a tyre radius above the ground, and its geometry is
+    centred on that pivot.
+
+    On a rigged vehicle the pivot is the **bone**, not the mesh node: Blender exports a skinned mesh's
+    node at identity and leaves the placement to the joint hierarchy, so a lookup that finds the mesh
+    node reports every pivot in the car as the origin. ``Glb.pivot_of`` prefers the joint and falls
+    back to the node, so this reads the same thing on a rigged and an unrigged file. For the same
+    reason the mesh bounds are already in armature space and are compared against the pivot rather
+    than against zero.
+    """
     e, glb = _entry(vid), glbs[vid]
     wm = glb.world_matrices()
-    by_name = {n.get("name", ""): i for i, n in enumerate(glb.nodes())}
+    by_name = {n.get("name", ""): i for i, n in enumerate(glb.nodes()) if "mesh" in n}
+    rigged = bool(glb.joint_indices())
     diam = e.get("wheel_diameters_mm", {})
     checked = 0
     for name, pivot in e["wheel_pivots"].items():
         # a carriage has smaller front wheels than rear, so the catalog records each wheel's own diameter
         r = diam.get(name, e["published_dimensions_mm"]["wheel_diameter_mm"]) / 2000.0
-        assert name in by_name, f"{vid}: {name} not in the glb"
-        i = by_name[name]
-        t = wm[i][:3, 3]
+        t = glb.pivot_of(name)
+        assert t is not None, f"{vid}: {name} is neither a bone nor a node in the glb"
         # glTF Y-up: (x, z, -y) of the Blender/vehicle frame
         got = np.array([t[0], -t[2], t[1]])
         want = np.asarray(pivot, dtype=np.float64)
         assert np.allclose(got, want, atol=PIVOT_TOL_M), \
-            f"{vid}: {name} node translation {got} != catalog pivot {want}"
+            f"{vid}: {name} pivot {got} != catalog pivot {want}"
         assert abs(got[2] - r) < max(PIVOT_TOL_M, 0.02 * r), \
             f"{vid}: {name} hub is {got[2]:.4f} m above the ground, tyre radius is {r:.4f} m"
-        node = glb.nodes()[i]
-        lo, hi = glb.mesh_bounds_local(node["mesh"])
-        # the wheel geometry must be centred on its own origin and have the published diameter
+        assert name in by_name, f"{vid}: {name} has no mesh node"
+        i = by_name[name]
+        lo, hi = glb.mesh_bounds_local(glb.nodes()[i]["mesh"])
         centre = 0.5 * (lo + hi)
-        assert np.max(np.abs(centre)) < max(0.01, 0.05 * r), \
-            f"{vid}: {name} geometry is not centred on its pivot (centre {centre})"
-        dia = max(hi[0] - lo[0], hi[1] - lo[1])
-        assert abs(dia - 2 * r) <= 0.02 * 2 * r, \
-            f"{vid}: {name} diameter {dia * 1000:.0f} mm vs published {2 * r * 1000:.0f} mm"
+        origin = wm[i][:3, 3] if not rigged else np.zeros(3)
+        # the wheel geometry must be centred on its own pivot and have the published diameter
+        ref = np.array([t[0], t[1], t[2]]) - origin if rigged else np.zeros(3)
+        assert np.allclose(centre, ref, atol=0.02), \
+            f"{vid}: {name} geometry centre {centre} is not on its pivot {ref}"
+        size = hi - lo
+        got_d = max(size[0], size[1])
+        assert abs(got_d - 2 * r) < max(0.02, 0.03 * 2 * r), \
+            f"{vid}: {name} is {got_d * 1000:.0f} mm across, published {2 * r * 1000:.0f} mm"
         checked += 1
     assert checked >= 2, f"{vid}: only {checked} wheels checked"
 
 
-# --------------------------------------------------------------------------- LODs
+
 @pytest.mark.parametrize("vid", IDS)
 def test_lods_present_and_within_budget(vid):
     e = _entry(vid)
@@ -511,47 +555,69 @@ def test_plate_face_uvs_are_unit(vid, glbs):
 # --------------------------------------------------------------------------- pivots of opening panels
 @pytest.mark.parametrize("vid", [i for i in IDS if _entry(i)["contract_profile"] == "full"])
 def test_door_pivots_on_the_hinge_edge(vid, glbs):
-    """Each door's origin must lie on its own leading (hinge) edge, not at the vehicle origin."""
+    """Each door's pivot must lie on its own leading (hinge) edge, not at the vehicle origin.
+
+    Reads the bone on a rigged file for the reason given on the wheel test; the mesh bounds are in
+    armature space there, so the hinge test compares the panel's forward edge against the pivot.
+    """
     e, glb = _entry(vid), glbs[vid]
     wm = glb.world_matrices()
     waived = set(e.get("contract_waivers", {}))
+    rigged = bool(glb.joint_indices())
+    # A rigged file names the bonnet and boot bones Door_Hood / Door_Trunk after the engine contract;
+    # only the four swinging doors have a vertical hinge on their leading edge.
+    swing = ("Door_FL", "Door_FR", "Door_RL", "Door_RR")
     checked = 0
     for i, n in enumerate(glb.nodes()):
         name = n.get("name", "")
-        if not name.startswith("Door_") or "mesh" not in n or name in waived:
+        if name not in swing or "mesh" not in n or name in waived:
             continue
-        t = wm[i][:3, 3]
+        t = glb.pivot_of(name)
+        assert t is not None, f"{vid}: {name} has no pivot"
         pivot = np.array([t[0], -t[2], t[1]])
         lo, hi = glb.mesh_bounds_local(n["mesh"])
-        # the hinge is the panel's forward edge: local x_max must be ~0 (origin on the leading edge)
-        assert abs(hi[0]) < 0.06, f"{vid}: {name} origin is {hi[0]:.3f} m from its leading edge"
+        # the hinge is the panel's forward edge: its x_max must be at the pivot
+        front = hi[0] - (t[0] if rigged else 0.0)
+        assert abs(front) < 0.06, f"{vid}: {name} pivot is {front:.3f} m from its leading edge"
         assert abs(pivot[1]) > 0.2, f"{vid}: {name} hinge is on the centreline (y = {pivot[1]:.3f})"
         checked += 1
-    have = len([n for n in glb.node_names() if n.startswith("Door_") and n not in waived])
+    have = len([n for n in glb.node_names() if n in swing and n not in waived])
     assert checked == have and checked >= 1, f"{vid}: checked {checked} of {have} doors"
+
 
 
 @pytest.mark.parametrize("vid", [i for i in IDS if _entry(i)["contract_profile"] == "full"])
 def test_steering_wheel_axis(vid, glbs):
+    """The steering column is raked like a car's, and the bone turns about it.
+
+    ``NYCVehicleContract.h`` puts the steering wheel's rotation on its bone's local **X**, so on a
+    rigged file that is what this measures: column 0 of the joint's world matrix. On an unrigged file
+    the orientation lived in the mesh node's own frame, where the object's Blender-local +Z became
+    the node's local +Y under the Y-up conversion; both are checked the same way afterwards.
+    """
     e, glb = _entry(vid), glbs[vid]
     if "SteeringWheel" in e.get("contract_waivers", {}):
         pytest.skip("SteeringWheel waived")
-    wm = glb.world_matrices()
-    by_name = {n.get("name", ""): i for i, n in enumerate(glb.nodes())}
-    i = by_name["SteeringWheel"]
-    m = wm[i]
-    # export_yup rewrites every local frame by C = [[1,0,0],[0,0,1],[0,-1,0]], so the object's Blender-local
-    # +Z (the column axis) becomes the glTF node's local +Y, i.e. column 1 of its world matrix.
-    axis = m[:3, 1] / np.linalg.norm(m[:3, 1])
+    joints = glb.joint_world()
+    if "SteeringWheel" in joints:
+        m = joints["SteeringWheel"]
+        axis = m[:3, 0] / np.linalg.norm(m[:3, 0])
+    else:
+        wm = glb.world_matrices()
+        i = {n.get("name", ""): k for k, n in enumerate(glb.nodes())}["SteeringWheel"]
+        axis = wm[i][:3, 1] / np.linalg.norm(wm[i][:3, 1])
     # the column must point forward and downward: +X and -Y in glTF (Y-up)
     assert axis[0] > 0.1, f"{vid}: steering column axis {axis} does not point forward"
     assert axis[1] < -0.1, f"{vid}: steering column axis {axis} does not tilt downward"
     tilt = math.degrees(math.atan2(-axis[1], axis[0]))
     # a car's column is ~20-25 deg below horizontal, a bus or a cab-over truck 55-70 deg
     assert 12.0 <= tilt <= 80.0, f"{vid}: steering column is {tilt:.1f} deg below horizontal"
-    lo, hi = glb.mesh_bounds_local(glb.nodes()[i]["mesh"])
-    dia = max(hi[0] - lo[0], hi[1] - lo[1])
+    mesh_i = {n.get("name", ""): k for k, n in enumerate(glb.nodes()) if "mesh" in n}["SteeringWheel"]
+    lo, hi = glb.mesh_bounds_local(glb.nodes()[mesh_i]["mesh"])
+    size = np.sort(hi - lo)[::-1]
+    dia = size[0]
     assert 0.30 <= dia <= 0.52, f"{vid}: steering wheel diameter {dia * 1000:.0f} mm is not road-car sized"
+
 
 
 # --------------------------------------------------------------------------- fleet completeness

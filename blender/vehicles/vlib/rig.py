@@ -41,7 +41,7 @@ import bpy
 import numpy as np
 from mathutils import Matrix, Vector
 
-from . import env, geom as g, materials as M
+from . import env, geom as g, skel, materials as M
 from .blueprint import Dimensions
 
 nb = env.nb
@@ -196,19 +196,43 @@ def is_convex(ob: bpy.types.Object, tol: float = 1e-3) -> bool:
 
 
 # --------------------------------------------------------------------------- export
-def export_glb(path: str | Path, objects: Sequence[bpy.types.Object], *, extras: dict | None = None) -> Path:
+def export_glb(path: str | Path, objects: Sequence[bpy.types.Object], *, extras: dict | None = None,
+               armature: bpy.types.Object | None = None) -> Path:
     """Export a vehicle through the foundation helper ``nycsim_bpy.export_glb``.
 
     ``export_attributes=True`` carries the ``_DMG_*`` damage weights into the file, and the helper stamps the
     NYCSim metadata into the file's ``asset.extras`` block as DATA_CONTRACTS §13 requires.  The only
     vehicle-specific addition is the ``pivot`` string, which travels with the rest of the extras.
+
+    When ``armature`` is given the file is written with a skin.  That is not a detail: without one,
+    Unreal's glTF importer produces a ``UStaticMesh``, ``AWheeledVehiclePawn`` has no skeleton to
+    find ``Wheel_FL`` on, and the player vehicle is an invisible physics body.  ``export_skins`` is
+    what puts the joints in the file; ``export_def_bones`` stays **off** so the non-deforming
+    ``SKT_*`` leaf bones -- which are how this project ships sockets, since
+    ``USkeletalMeshComponent::GetSocketTransform`` resolves bones too -- are kept rather than culled.
+    ``apply_modifiers`` must be off for a skinned export, or the armature modifier is baked into the
+    mesh and the skin is lost; the vehicle build has no other modifiers by the time it exports.
     """
     meta = {"pivot": PIVOT_CONVENTION}
     if extras:
         meta.update(extras)
-    return nb.export_glb(path, objects=list(objects), extras=meta, draco=False, apply_modifiers=True,
-                         export_animations=False, texcoords=True, tangents=False, export_extras=True,
-                         export_attributes=True, export_normals=True)
+    if armature is None:
+        return nb.export_glb(path, objects=list(objects), extras=meta, draco=False, apply_modifiers=True,
+                             export_animations=False, texcoords=True, tangents=False, export_extras=True,
+                             export_attributes=True, export_normals=True)
+    prev = armature.data.pose_position
+    armature.data.pose_position = "REST"
+    try:
+        return nb.export_glb(path, objects=[armature, *objects], active=armature, extras=meta,
+                             draco=False, apply_modifiers=False, export_animations=False,
+                             texcoords=True, tangents=False, export_extras=True,
+                             export_attributes=True, export_normals=True, export_skins=True,
+                             operator_kwargs={"export_def_bones": False,
+                                              "export_rest_position_armature": True,
+                                              "export_influence_nb": 4,
+                                              "export_all_influences": False})
+    finally:
+        armature.data.pose_position = prev
 
 
 def glb_json(path: Path) -> dict:
@@ -237,6 +261,34 @@ def glb_triangles(path: Path, skip=("UCX_",)) -> int:
 
 
 # --------------------------------------------------------------------------- LODs
+def _reskin(copies: Sequence[bpy.types.Object], armature, *, merge_to_body: bool) -> None:
+    """Re-attach decimated copies to the one shared armature.
+
+    ``_decimate_copy`` bakes its modifiers, which removes the armature modifier along with the
+    decimate one, and joining for LOD2 collapses the vertex groups of every part into one object.
+    Both are put back here rather than left to chance: a LOD whose vertices are not weighted binds to
+    nothing and disappears at range.
+    """
+    from . import skel
+
+    for c in copies:
+        if c.type != "MESH":
+            continue
+        if merge_to_body:
+            for vg in list(c.vertex_groups):
+                c.vertex_groups.remove(vg)
+            vg = c.vertex_groups.new(name=skel.ROOT_BONE)
+            vg.add(list(range(len(c.data.vertices))), 1.0, "REPLACE")
+        c.parent = armature
+        c.matrix_parent_inverse = armature.matrix_world.inverted()
+        for mod in list(c.modifiers):
+            if mod.type == "ARMATURE":
+                c.modifiers.remove(mod)
+        mod = c.modifiers.new("Armature", "ARMATURE")
+        mod.object = armature
+        mod.use_vertex_groups = True
+
+
 def _decimate_copy(objects: Sequence[bpy.types.Object], ratio: float, merge_name: str | None) -> list[bpy.types.Object]:
     copies: list[bpy.types.Object] = []
     for o in objects:
@@ -262,7 +314,8 @@ def _decimate_copy(objects: Sequence[bpy.types.Object], ratio: float, merge_name
 
 
 def export_lods(base_path: Path, lod0_objects: Sequence[bpy.types.Object], lod1_objects: Sequence[bpy.types.Object],
-                budgets: tuple[int, int], extras: dict) -> list[dict]:
+                budgets: tuple[int, int], extras: dict,
+                armature: bpy.types.Object | None = None) -> list[dict]:
     """Write ``<id>_LOD1.glb`` (same node names, exterior only) and ``<id>_LOD2.glb`` (single merged ``Body``).
 
     LODs live in sibling files rather than inside the LOD0 glb: glTF has no LOD concept that Blender exports,
@@ -285,8 +338,13 @@ def export_lods(base_path: Path, lod0_objects: Sequence[bpy.types.Object], lod1_
                 c.name = saved[o]
         else:
             copies[0].name = "Body"
-        p = base_path.with_name(f"{base_path.stem}_LOD{level}.glb")
-        export_glb(p, copies, extras={**extras, "lod": level})
+        if armature is not None:
+            # All three LODs must share one skeleton or Unreal creates three USkeleton assets and the
+            # LOD chain will not bind. The decimated copies keep their source's vertex groups, so the
+            # weights survive; LOD2 is a single merged object and every vertex of it rides Body.
+            _reskin(copies, armature, merge_to_body=(merge is not None))
+        export_glb(p := base_path.with_name(f"{base_path.stem}_LOD{level}.glb"), copies,
+                   extras={**extras, "lod": level}, armature=armature)
         tris = glb_triangles(p)
         out.append({"level": level, "path": str(p.relative_to(nb.BLENDER_OUT.parent)), "triangles": tris,
                     "budget": budget, "nodes": sorted(c.name for c in copies)})
@@ -429,11 +487,16 @@ def finalise(v: Vehicle, *, lod_budgets: tuple[int, int] = (60_000, 8_000),
     path = env.OUT_DIR / f"{v.id}.glb"
     extras = {"vehicle_id": v.id, "vehicle_class": v.vclass, "livery": v.livery,
               "contract_profile": v.contract_profile}
-    export_glb(path, objs, extras=extras)
+    # The armature is built here, after the geometry is final and before anything is exported: every
+    # bone head is the origin of the part it moves, and those origins are only in their final places
+    # once hinge_door / pivot_bottom_centre have run.
+    rig_report, armature = skel.rig_vehicle(v)
+    g.sync()
+    export_glb(path, objs, extras=extras, armature=armature)
     ext_names = exterior_names or [o.name for o in body_objs
                                    if not o.name.startswith(("Interior_", "Seat_", "Pedals", "Shifter", "SteeringWheel"))]
     lod_src = [v.objects[n] for n in ext_names if n in v.objects and v.objects[n].type == "MESH"]
-    lods = export_lods(path, body_objs, lod_src, lod_budgets, extras)
+    lods = export_lods(path, body_objs, lod_src, lod_budgets, extras, armature=armature)
     tri_lod0 = lods[0]["triangles"]
     entry = {
         "schema_version": SCHEMA_VERSION,
@@ -453,6 +516,7 @@ def finalise(v: Vehicle, *, lod_budgets: tuple[int, int] = (60_000, 8_000),
         "wheel_diameter_mm": pub["wheel_diameter_mm"],
         "wheel_diameters_mm": v.wheel_diameters(),
         "nodes": sorted(o.name for o in objs),
+        "rig": rig_report,
         "materials": sorted(v.material_names()),
         "light_slots": sorted(s for s in v.material_names() if s.startswith("LIGHT_")),
         "collision_proxies": sorted(o.name for o in ucx),
