@@ -616,6 +616,38 @@ def test_shipped_stepped_shells_close_and_remove_volume(step_tile):
     assert shipped >= len(sample) // 2, f"only {shipped} of {len(sample)} sampled buildings shipped stepped"
 
 
+def test_stepped_shells_span_exactly_ground_to_roof(step_tile):
+    """A stepped solid must still be exactly as tall as the flat one it replaces.
+
+    The merge fallback absorbs a small level into the neighbour that surrounds it.  If the level it
+    absorbed were the *highest* one, the building would stop below its measured ``roof_z`` — the
+    steps would have quietly changed the building's height, which is the one thing this stage
+    guarantees about every solid.  This checks the built mesh, not the spec.
+    """
+    load, _ = step_tile
+    stepped = [s for s in load.specs if s.roof_steps and len(s.roof_steps) >= 2]
+    assert len(stepped) > 100
+    worst = 0.0
+    for spec in stepped[:: max(len(stepped) // 60, 1)]:
+        buf = sg.build_shell(spec, 0)
+        z = np.asarray(buf.pos)[:, 2]
+        worst = max(worst, abs(float(z.max()) - spec.roof_z),
+                    abs(float(z.min()) - spec.ground_z))
+    assert worst <= 0.01, f"stepped shell z-extent is off by {worst:.4f} m"
+
+
+def test_step_merging_never_absorbs_the_top_level():
+    """The highest level survives every stage of the merge ladder."""
+    base = Polygon([(0, 0), (30, 0), (30, 20), (0, 20)])
+    steps = [(Polygon([(0, 0), (30, 0), (30, 18), (0, 18)]), 20.0),
+             (Polygon([(0, 18), (28, 18), (28, 20), (0, 20)]), 12.0),
+             (Polygon([(28, 18), (30, 18), (30, 20), (28, 20)]), 26.0)]   # a 4 m2 penthouse
+    for reduced in (sg._merge_small_steps(steps, 200.0), sg._merge_to_count(steps, 2)):
+        assert reduced, "the ladder emptied the step set"
+        assert abs(max(z for _, z in reduced) - 26.0) < 1e-9, \
+            f"the 26 m penthouse was absorbed: {sorted(z for _, z in reduced)}"
+
+
 def test_manifest_step_counts_are_consistent():
     """``shipped`` is what closed; it can never exceed what was applied, or applied what was found."""
     import json

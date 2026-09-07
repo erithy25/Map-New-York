@@ -702,10 +702,17 @@ def _merge_small_steps(steps: Sequence[tuple[Polygon, float]], min_area: float
     which is exactly what the whole-building flat fallback would have done to *every* level.  The
     neighbour with the longest shared boundary is the level that physically surrounds the patch, so
     the choice is determined by the geometry, not by a preference.
+
+    The **highest** level is never absorbed.  Absorbing it would hand its area to a lower
+    neighbour, and the building would then stop below its measured ``roof_z`` — the shell would no
+    longer span exactly ``[ground_z, roof_z]``, which is the one thing every solid in this stage
+    guarantees.  A small penthouse is therefore kept even when it is the region that made the shell
+    hard to close; if that leaves nothing to merge, the flat cap takes over instead.
     """
     cur = [(p, z) for p, z in steps]
     for _ in range(len(cur)):
-        small = [i for i, (p, _) in enumerate(cur) if p.area < min_area]
+        z_top = max(z for _, z in cur)
+        small = [i for i, (p, z) in enumerate(cur) if p.area < min_area and z < z_top - 1e-6]
         if not small or len(cur) < 3:
             break
         i = min(small, key=lambda k: cur[k][0].area)
@@ -733,11 +740,17 @@ def _merge_small_steps(steps: Sequence[tuple[Polygon, float]], min_area: float
 
 
 def _merge_to_count(steps: Sequence[tuple[Polygon, float]], n: int) -> list[tuple[Polygon, float]]:
-    """Absorb the smallest regions, one at a time, until at most ``n`` remain."""
+    """Absorb the smallest regions, one at a time, until at most ``n`` remain.
+
+    The highest level is not a candidate, for the reason given in :func:`_merge_small_steps`.
+    """
     cur = list(steps)
     while len(cur) > max(int(n), 2):
-        smallest = min(p.area for p, _ in cur)
-        nxt = _merge_small_steps(cur, smallest * 1.000001)
+        z_top = max(z for _, z in cur)
+        eligible = [p.area for p, z in cur if z < z_top - 1e-6]
+        if not eligible:
+            break
+        nxt = _merge_small_steps(cur, min(eligible) * 1.000001)
         if len(nxt) >= len(cur):
             break
         cur = nxt
