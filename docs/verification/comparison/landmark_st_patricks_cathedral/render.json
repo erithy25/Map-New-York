@@ -1,27 +1,28 @@
 {
- "azimuth_reason": "106.5 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 111.2 deg, 4.7 deg away",
+ "azimuth_reason": "106.5 deg, the bearing from this photograph's own GPS position to St. Patrick's Cathedral; heading and position both come from the photograph.  The item's recorded azimuth is 111.2 deg, 4.7 deg away, and belongs to its nominal viewpoint",
  "camera": {
-  "azimuth_deg": 106.5,
+  "azimuth_deg": 106.45847568896079,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
-  "focal_mm": 35.0,
+  "focal_mm": 18.87791377660797,
   "ground_detail": {
-   "chosen_m": 21.35,
-   "max_m": 21.77,
-   "median_m": 21.53,
-   "min_m": 21.24,
+   "chosen_m": 21.72,
+   "max_m": 22.16,
+   "median_m": 21.83,
+   "min_m": 21.66,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 21.76,
    "radius_m": 12.0,
    "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
-  "hfov_deg": 42.163,
-  "lat": 40.759,
-  "lon": -73.9779,
-  "long_side_fov_deg": 54.432,
+  "hfov_deg": 71.109,
+  "lat": 40.758811,
+  "lon": -73.977586,
+  "long_side_fov_deg": 87.273,
   "pitch_deg": 0.0,
   "portrait": true,
   "resolution": [
@@ -30,22 +31,40 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_st_patricks_cathedral",
-  "terrain_z_m": 21.351,
-  "x": -2358.173,
-  "y": 6544.576,
-  "z": 22.951
+  "terrain_z_m": 21.72,
+  "x": -2336.029,
+  "y": 6516.226,
+  "z": 23.32
  },
- "camera_caption": "camera 40.75900, -73.97790 (NYC_TM -2358, 6545) z 23.0 m NAVD88 | azimuth 106.5deg pitch +0.0deg | 35 mm on 36 mm (42.2deg horizontal, 54.4deg vertical, portrait) | 904x1206",
+ "camera_caption": "camera 40.75881, -73.97759 (NYC_TM -2336, 6516) z 23.3 m NAVD88 | azimuth 106.5deg pitch +0.0deg | 19 mm on 36 mm (71.1deg horizontal, 87.3deg vertical, portrait) | 904x1206",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.758811,
+  "lon": -73.977586,
+  "offset_from_recorded_m": 33.8,
+  "source": "this photograph's own EXIF camera GPS (40.75881, -73.97759), 34 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
  "clearance": {
-  "direction": "to the right",
+  "direction": "onto the nearest sidewalk",
+  "min_view_m": 61.0,
   "moved": true,
-  "note": "the recorded viewpoint is inside t_-3_6_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 8 m to the right -- the nearest point in open air -- keeping the same eye height above the heightmap",
-  "offset_m": 8.0,
-  "reason": "inside t_-3_6_roof_membrane (a ray straight up from the eye point hits its roof)"
+  "nearest_obstruction_m": 18.8,
+  "note": "the recorded viewpoint is inside t_-3_6_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 16 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 73 m from there",
+  "offset_m": 16.0,
+  "reason": "inside t_-3_6_roof_membrane (a ray straight up from the eye point hits its roof)",
+  "rule": "pavement snap with a clear view",
+  "view_m": 73.2
  },
+ "frame": {
+  "mean": 0.2215,
+  "reason": null,
+  "sd": 0.1749,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
- "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lens_reason": "widened from 35 mm to 19 mm (87 deg vertical) so that a level axis contains the subject: the st_patricks_cathedral model's published 101 m height stands 99 m above the lens at 122 m, 39 deg above the horizon",
  "lighting": {
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 920.9,
@@ -56,7 +75,7 @@
    "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.0,
-  "sky_azimuth_deg": 171.931,
+  "sky_azimuth_deg": 171.932,
   "sky_elevation_deg": 60.912,
   "sun_lamp": true,
   "sun_strength_blender": 1.705,
@@ -64,7 +83,7 @@
  },
  "name": "St. Patrick's Cathedral",
  "night": false,
- "pitch_reason": "level optical axis (St. Patrick's Cathedral is 154 m away and would need +18 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "pitch_reason": "level optical axis (St. Patrick's Cathedral is 122 m away and would need +22 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
  "reference_photo": {
   "author": "Kidfly182",
   "confidence": "high",
@@ -79,9 +98,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_st_patricks_cathedral/render.png",
- "rendered_at": "2026-09-06T17:27:07Z",
+ "rendered_at": "2026-09-06T23:53:27Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -90,15 +109,17 @@
     "t_-2_7",
     "t_-3_5",
     "t_-3_6",
-    "t_-3_7",
-    "t_-4_6"
+    "t_-3_7"
    ],
+   "landmark_bins_suppressed": 34,
+   "landmark_faces_suppressed": 2910,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-2_6": {
      "lod": 0,
      "objects": 18,
-     "triangles": 53944
+     "triangles": 53068
     },
     "t_-2_7": {
      "lod": 1,
@@ -108,270 +129,230 @@
     "t_-3_5": {
      "lod": 0,
      "objects": 16,
-     "triangles": 49098
+     "triangles": 48780
     },
     "t_-3_6": {
      "lod": 0,
      "objects": 17,
-     "triangles": 30874
+     "triangles": 29970
     },
     "t_-3_7": {
      "lod": 0,
      "objects": 16,
-     "triangles": 23700
-    },
-    "t_-4_6": {
-     "lod": 0,
-     "objects": 17,
-     "triangles": 66858
+     "triangles": 22888
     }
    },
    "tiles_dropped_for_budget": 0,
-   "tiles_imported": 6,
+   "tiles_imported": 5,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
-   "tiles_wanted": 6,
+   "tiles_wanted": 5,
    "triangle_budget": 3510000,
-   "triangles": 248838
+   "triangles": 179070
   },
   "centre_tm": [
-   -2355.9,
-   6552.25
+   -2329.39,
+   6531.25
   ],
   "kit": {
-   "capped": "triangle budget 1906872",
+   "capped": "triangle budget 2167168",
    "per_category": {
-    "antenna": 5,
-    "bulkhead": 17,
-    "cornice": 6,
-    "door_entry": 29,
-    "hvac": 22,
-    "parapet": 51,
-    "pilaster": 8,
-    "storefront": 148,
-    "storefront_interior": 20,
-    "string_course": 17,
+    "antenna": 3,
+    "bulkhead": 20,
+    "cornice": 11,
+    "door_entry": 30,
+    "hvac": 21,
+    "parapet": 50,
+    "pilaster": 7,
+    "storefront": 161,
+    "storefront_interior": 21,
+    "string_course": 24,
     "water_tower": 7,
-    "window": 7849,
-    "window_accessory": 65
+    "window": 8999,
+    "window_accessory": 123
    },
-   "placed": 8244,
+   "placed": 9477,
    "radius_m": 120.0,
-   "records_in_range": 9508,
+   "records_in_range": 10651,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 353,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_6"
    ],
-   "triangles": 1907082,
+   "triangles": 2167312,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 149.3,
-     "id": "30_rockefeller_plaza",
-     "lod": 0,
-     "name": "30 Rockefeller Plaza",
-     "triangles": 102530
-    },
-    {
-     "distance_m": 153.1,
+     "distance_m": 121.5,
      "id": "st_patricks_cathedral",
      "lod": 0,
      "name": "St. Patrick's Cathedral",
      "triangles": 6259
     },
     {
-     "distance_m": 289.9,
+     "distance_m": 179.1,
+     "id": "30_rockefeller_plaza",
+     "lod": 0,
+     "name": "30 Rockefeller Plaza",
+     "triangles": 102530
+    },
+    {
+     "distance_m": 309.8,
      "id": "moma",
      "lod": 0,
      "name": "Museum of Modern Art",
      "triangles": 23620
     },
     {
-     "distance_m": 430.3,
+     "distance_m": 408.2,
      "id": "c_lever_house",
      "lod": 0,
      "name": "Lever House",
      "triangles": 31044
     },
     {
-     "distance_m": 504.5,
+     "distance_m": 475.7,
      "id": "c_seagram_building",
      "lod": 0,
      "name": "Seagram Building",
      "triangles": 34356
     },
     {
-     "distance_m": 617.2,
+     "distance_m": 592.5,
      "id": "c_metlife_building",
      "lod": 0,
      "name": "MetLife Building (200 Park Avenue)",
      "triangles": 105284
     },
     {
-     "distance_m": 662.4,
-     "id": "c_billionaires_row",
-     "lod": 0,
-     "name": "Billionaires' Row (West 57th Street corridor)",
-     "triangles": 220910
-    },
-    {
-     "distance_m": 671.5,
-     "id": "one_vanderbilt",
-     "lod": 0,
-     "name": "One Vanderbilt",
-     "triangles": 71710
-    },
-    {
-     "distance_m": 672.4,
-     "id": "c_the_plaza",
-     "lod": 0,
-     "name": "The Plaza Hotel",
-     "triangles": 26492
-    },
-    {
-     "distance_m": 675.5,
+     "distance_m": 647.2,
      "id": "c_citigroup_center",
      "lod": 0,
      "name": "Citigroup Center (601 Lexington Avenue)",
      "triangles": 76574
     },
     {
-     "distance_m": 688.1,
-     "id": "c_carnegie_hall",
+     "distance_m": 682.8,
+     "id": "c_billionaires_row",
      "lod": 0,
-     "name": "Carnegie Hall",
-     "triangles": 19122
+     "name": "Billionaires' Row (West 57th Street corridor)",
+     "triangles": 220910
     },
     {
-     "distance_m": 698.5,
-     "id": "grand_central_terminal",
-     "lod": 0,
-     "name": "Grand Central Terminal",
-     "triangles": 29560
-    },
-    {
-     "distance_m": 741.5,
-     "id": "new_york_public_library",
-     "lod": 0,
-     "name": "New York Public Library, Stephen A. Schwarzman Building",
-     "triangles": 51785
-    },
-    {
-     "distance_m": 793.3,
+     "distance_m": 810.0,
      "id": "c_times_square",
      "lod": 0,
      "name": "Times Square",
      "triangles": 182310
-    },
-    {
-     "distance_m": 2973.1,
-     "id": "b_central_park_walls_gates",
-     "lod": 0,
-     "name": "Central Park perimeter wall and gates",
-     "triangles": 18448
     }
    ],
-   "placed": 15,
+   "placed": 9,
    "skipped": 0,
    "skipped_detail": [],
-   "triangles": 1000004
+   "triangles": 782887
   },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 412,
-    "curb": 741,
-    "median": 70,
+    "crosswalk": 346,
+    "curb": 609,
+    "median": 47,
     "parking_lot": 2,
-    "plaza": 78,
-    "roadbed": 349,
-    "sidewalk": 187
+    "plaza": 57,
+    "roadbed": 298,
+    "sidewalk": 147
    },
-   "placed": 1839,
-   "radius_m": 646.2628510762248,
+   "placed": 1506,
+   "radius_m": 595.2400634523692,
    "tiles_missing": [],
    "tiles_read": [
     "t_-2_6",
     "t_-2_7",
     "t_-3_5",
     "t_-3_6",
-    "t_-3_7",
-    "t_-4_6"
+    "t_-3_7"
    ],
-   "triangles": 136794,
-   "vertices": 140288
+   "triangles": 116397,
+   "vertices": 119269
   },
   "props": {
-   "capped": "triangle budget 1027027",
+   "capped": "triangle budget 1168444",
+   "impostor_cards_dropped": 6,
    "leaf_off": false,
    "per_kind": {
-    "bike_rack": 2,
-    "bus_shelter": 5,
-    "bus_stop_sign": 13,
-    "citibike_dock": 4,
-    "flagpole": 85,
-    "hydrant": 43,
-    "linknyc": 5,
-    "manhole": 58,
+    "bike_rack": 7,
+    "bus_shelter": 7,
+    "bus_stop_sign": 20,
+    "citibike_dock": 5,
+    "flagpole": 88,
+    "hydrant": 57,
+    "linknyc": 7,
+    "manhole": 74,
     "rtpi_sign": 1,
-    "steam_vent": 7,
-    "street_lamp": 66,
-    "subway_entrance": 3,
-    "subway_vent_grate": 13,
-    "tree": 140
+    "steam_vent": 8,
+    "street_lamp": 82,
+    "subway_entrance": 2,
+    "subway_vent_grate": 19,
+    "tree": 150,
+    "waste_basket": 1
    },
-   "placed": 445,
+   "placed": 528,
    "radius_m": 250.0,
-   "rows_in_range": 784,
+   "rows_in_range": 777,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_6"
    ],
-   "tree_species_substituted": 0,
-   "triangles": 1027492,
+   "tree_species_substituted": 2,
+   "triangles": 1171246,
    "unmapped_kinds": {
     "artwork": 7,
-    "cooling_tower": 91,
-    "curb_ramp": 66,
+    "cooling_tower": 100,
+    "curb_ramp": 88,
     "memorial": 2
    }
   },
-  "radius_m": 646.2628510762248,
-  "seconds": 43.25,
+  "radius_m": 595.2400634523692,
+  "seconds": 48.97,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 4.308,
-   "triangles": 180000,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 205,
+   "spacing_m": 2.0,
+   "triangles": 83232,
    "water_quads": 0,
-   "z_max_m": 24.71,
-   "z_min_m": 0.91
+   "z_max_m": 23.96,
+   "z_min_m": 7.66
   },
-  "triangles": 4500210
+  "triangles": 4500144
  },
  "scene_request": {
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
-  "radius_m": 646.2628510762248
+  "radius_m": 595.2400634523692
  },
  "seconds": {
-  "render": 111.5,
-  "scene": 44.4,
-  "total": 155.9
+  "render": 159.7,
+  "scene": 52.1,
+  "total": 211.9
  },
  "slug": "landmark_st_patricks_cathedral",
  "status": "rendered",
  "subject": {
-  "distance_m": 153.9,
+  "distance_m": 122.0,
   "name": "St. Patrick's Cathedral"
  },
  "sun": {
-  "azimuth_deg": 171.93104486066136,
-  "elevation_deg": 60.9117190688342,
+  "azimuth_deg": 171.93162535072997,
+  "elevation_deg": 60.911939505587966,
   "local": "2021-08-21T12:42:57-04:00",
   "time_source": "EXIF DateTimeOriginal",
   "utc": "2021-08-21T16:42:57Z"

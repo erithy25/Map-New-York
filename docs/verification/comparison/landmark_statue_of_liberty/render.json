@@ -1,11 +1,11 @@
 {
- "azimuth_reason": "304.9 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 315.5 deg, 10.6 deg away",
+ "azimuth_reason": "315.5 deg as recorded; it agrees with the bearing from the camera position used to Statue of Liberty (315.5 deg) to 0.0 deg",
  "camera": {
-  "azimuth_deg": 304.9,
+  "azimuth_deg": 315.5,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
-  "focal_mm": 35.0,
+  "focal_mm": 21.263811777597333,
   "ground_detail": {
    "chosen_m": 0.0,
    "max_m": 0.0,
@@ -13,15 +13,16 @@
    "min_m": 0.0,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 0.0,
    "radius_m": 12.0,
    "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
-  "hfov_deg": 37.877,
+  "hfov_deg": 58.914,
   "lat": 40.6884,
   "lon": -74.0434,
-  "long_side_fov_deg": 54.432,
+  "long_side_fov_deg": 80.496,
   "pitch_deg": 0.0,
   "portrait": true,
   "resolution": [
@@ -35,15 +36,34 @@
   "y": -1283.962,
   "z": 1.6
  },
- "camera_caption": "camera 40.68840, -74.04340 (NYC_TM -7895, -1284) z 1.6 m NAVD88 | azimuth 304.9deg pitch +0.0deg | 35 mm on 36 mm (37.9deg horizontal, 54.4deg vertical, portrait) | 854x1280",
- "clearance": {
-  "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+ "camera_caption": "camera 40.68840, -74.04340 (NYC_TM -7895, -1284) z 1.6 m NAVD88 | azimuth 315.5deg pitch +0.0deg | 21 mm on 36 mm (58.9deg horizontal, 80.5deg vertical, portrait) | 854x1280",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.6884,
+  "lon": -74.0434,
+  "offset_from_recorded_m": 0.0,
+  "photograph_gps_offset_m": 52.5,
+  "source": "the item's recorded viewpoint.  This photograph's own EXIF GPS is 53 m away, but the eye point there is under verify_pavement (1.8 m of ground or paving directly overhead, so the eye point is beneath the walking surface), while the recorded viewpoint is in open air"
  },
+ "clearance": {
+  "min_view_m": 41.9,
+  "moved": false,
+  "nearest_obstruction": null,
+  "nearest_obstruction_m": 60.0,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is further than 60 m, and the view azimuth is clear for 92 m",
+  "offset_m": 0.0,
+  "view_m": 92.2
+ },
+ "frame": {
+  "mean": 0.5797,
+  "reason": null,
+  "sd": 0.1395,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
- "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
+ "lens_reason": "widened from 35 mm to 21 mm (80 deg vertical) so that a level axis contains the subject: the b_statue_of_liberty model's published 93 m height stands 96 m above the lens at 132 m, 36 deg above the horizon",
  "lighting": {
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 804.1,
@@ -77,9 +97,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_statue_of_liberty/render.png",
- "rendered_at": "2026-09-06T17:17:42Z",
+ "rendered_at": "2026-09-06T23:54:15Z",
  "resolution_note": "854x1280; the reference photograph is 1920x2876 (0.67:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -88,6 +108,9 @@
     "t_-8_-2",
     "t_-9_-2"
    ],
+   "landmark_bins_suppressed": 1,
+   "landmark_faces_suppressed": 1724,
+   "lod_substituted": [],
    "missing": [
     "t_-9_-1"
    ],
@@ -95,7 +118,7 @@
     "t_-8_-1": {
      "lod": 0,
      "objects": 3,
-     "triangles": 4680
+     "triangles": 2956
     },
     "t_-8_-2": {
      "lod": 0,
@@ -110,46 +133,49 @@
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 3,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 1,
    "tiles_wanted": 4,
    "triangle_budget": 3510000,
-   "triangles": 5056
+   "triangles": 3332
   },
   "centre_tm": [
-   -7895.12,
-   -1283.96
+   -7919.24,
+   -1237.3
   ],
   "kit": {
    "capped": null,
    "per_category": {
-    "bulkhead": 1,
-    "hvac": 1,
-    "window": 456
+    "bulkhead": 2,
+    "hvac": 10,
+    "water_tower": 1,
+    "window": 1040
    },
-   "placed": 458,
+   "placed": 1053,
    "radius_m": 120.0,
-   "records_in_range": 458,
+   "records_in_range": 1053,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
     "t_-8_-2",
     "t_-9_-2"
    ],
-   "triangles": 142736,
+   "triangles": 328082,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 143.3,
+     "distance_m": 94.1,
      "id": "b_statue_of_liberty",
      "lod": 0,
      "name": "Statue of Liberty",
      "triangles": 19812
     },
     {
-     "distance_m": 2922.8,
+     "distance_m": 2922.1,
      "id": "c_whitehall_and_st_george_ferry_terminals",
      "lod": 0,
      "name": "Whitehall, Battery Maritime and St. George ferry terminals",
@@ -168,7 +194,7 @@
     "sidewalk": 5
    },
    "placed": 8,
-   "radius_m": 611.994847171691,
+   "radius_m": 534.0043736737133,
    "tiles_missing": [],
    "tiles_read": [
     "t_-8_-1",
@@ -181,60 +207,66 @@
   },
   "props": {
    "capped": null,
+   "impostor_cards_dropped": 0,
    "leaf_off": false,
    "per_kind": {
-    "manhole": 13,
+    "manhole": 16,
     "steam_vent": 1,
-    "street_lamp": 14,
-    "waste_basket": 10
+    "street_lamp": 18,
+    "waste_basket": 14
    },
-   "placed": 38,
+   "placed": 49,
    "radius_m": 250.0,
-   "rows_in_range": 40,
+   "rows_in_range": 51,
    "tiles_missing": [],
    "tiles_read": [
+    "t_-8_-1",
     "t_-8_-2",
     "t_-9_-2"
    ],
    "tree_species_substituted": 0,
-   "triangles": 64176,
+   "triangles": 81612,
    "unmapped_kinds": {
     "artwork": 2
    }
   },
-  "radius_m": 611.994847171691,
-  "seconds": 1.63,
+  "radius_m": 534.0043736737133,
+  "seconds": 3.13,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 4.08,
-   "triangles": 180000,
-   "water_quads": 86125,
-   "z_max_m": 5.91,
-   "z_min_m": -0.45
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 201,
+   "spacing_m": 2.0,
+   "triangles": 80000,
+   "water_quads": 30834,
+   "z_max_m": 6.02,
+   "z_min_m": -0.2
   },
-  "triangles": 489778
+  "triangles": 590836
  },
  "scene_request": {
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
-  "radius_m": 611.994847171691
+  "radius_m": 534.0043736737133
  },
  "seconds": {
-  "render": 49.5,
-  "scene": 1.7,
-  "total": 51.2
+  "render": 43.8,
+  "scene": 3.4,
+  "total": 47.2
  },
  "slug": "landmark_statue_of_liberty",
  "status": "rendered",
  "subject": {
-  "distance_m": 132.5,
+  "distance_m": 83.8,
   "name": "Statue of Liberty"
  },
  "sun": {
-  "azimuth_deg": 225.77147669699465,
-  "elevation_deg": 34.20730635778407,
+  "azimuth_deg": 225.77098308456982,
+  "elevation_deg": 34.20716891474881,
   "local": "2023-10-03T15:11:01-04:00",
   "time_source": "EXIF DateTimeOriginal",
   "utc": "2023-10-03T19:11:01Z"

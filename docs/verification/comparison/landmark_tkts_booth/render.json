@@ -1,5 +1,5 @@
 {
- "azimuth_reason": "10.0 deg as recorded; it agrees with the bearing to TKTS booth and red steps, Duffy Square (10.1 deg) to 0.1 deg",
+ "azimuth_reason": "10.0 deg as recorded; it agrees with the bearing from the camera position used to TKTS booth and red steps, Duffy Square (10.1 deg) to 0.1 deg",
  "camera": {
   "azimuth_deg": 10.0,
   "eye_datum": "terrain",
@@ -7,22 +7,23 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
-   "chosen_m": 14.52,
-   "max_m": 14.6,
-   "median_m": 14.52,
-   "min_m": 14.42,
+   "chosen_m": 14.32,
+   "max_m": 14.57,
+   "median_m": 14.42,
+   "min_m": 14.33,
    "mode": "local",
    "percentile": null,
+   "point_m": 14.32,
    "radius_m": 5.0,
    "samples": 16
   },
   "ground_mode": "local",
-  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap median within 5 m is the ground",
+  "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap height at the point itself is the ground (the neighbourhood is still measured and printed, because a terrace can stand metres above the plaza 4 m away and a median across that step would put the camera underground)",
   "hfov_deg": 54.432,
   "lat": 40.758469,
   "lon": -73.984824,
   "long_side_fov_deg": 54.432,
-  "pitch_deg": 3.3238486222455097,
+  "pitch_deg": 3.3000890690065137,
   "portrait": false,
   "resolution": [
    1280,
@@ -30,17 +31,37 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_tkts_booth",
-  "terrain_z_m": 14.525,
-  "x": -2940.593,
-  "y": 6493.489,
-  "z": 16.125
+  "terrain_z_m": 14.318,
+  "x": -2960.287,
+  "y": 6495.741,
+  "z": 15.918
  },
- "camera_caption": "camera 40.75847, -73.98482 (NYC_TM -2941, 6493) z 16.1 m NAVD88 | azimuth 10.0deg pitch +3.3deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
+ "camera_caption": "camera 40.75847, -73.98482 (NYC_TM -2960, 6496) z 15.9 m NAVD88 | azimuth 10.0deg pitch +3.3deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
+ "camera_origin": {
+  "from_photograph_gps": false,
+  "lat": 40.758469,
+  "lon": -73.984824,
+  "offset_from_recorded_m": null,
+  "source": "the item's recorded viewpoint (this photograph carries no camera GPS)"
+ },
  "clearance": {
-  "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "direction": "onto the nearest crosswalk",
+  "min_view_m": 29.9,
+  "moved": true,
+  "nearest_obstruction_m": 20.0,
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 12 m ahead, less than the 30 m this frame needs to show its subject; the camera was moved 18 m onto the nearest real crosswalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there",
+  "offset_m": 18.3,
+  "reason": "boxed in: the view azimuth is closed off 12 m ahead, less than the 30 m this frame needs to show its subject",
+  "rule": "pavement snap with a clear view",
+  "view_m": 60.0
  },
+ "frame": {
+  "mean": 0.2756,
+  "reason": null,
+  "sd": 0.1667,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
@@ -77,9 +98,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_tkts_booth/render.png",
- "rendered_at": "2026-09-06T18:17:21Z",
+ "rendered_at": "2026-09-06T23:57:48Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1281 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -89,35 +110,39 @@
     "t_-4_5",
     "t_-4_6"
    ],
+   "landmark_bins_suppressed": 30,
+   "landmark_faces_suppressed": 4060,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-3_5": {
      "lod": 0,
      "objects": 16,
-     "triangles": 49098
+     "triangles": 48780
     },
     "t_-3_6": {
      "lod": 0,
      "objects": 17,
-     "triangles": 30874
+     "triangles": 29970
     },
     "t_-4_5": {
      "lod": 0,
      "objects": 19,
-     "triangles": 45694
+     "triangles": 44562
     },
     "t_-4_6": {
      "lod": 0,
      "objects": 17,
-     "triangles": 66858
+     "triangles": 65152
     }
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 4,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 4,
    "triangle_budget": 3510000,
-   "triangles": 192524
+   "triangles": 188464
   },
   "centre_tm": [
    -2940.59,
@@ -126,32 +151,33 @@
   "kit": {
    "capped": null,
    "per_category": {
-    "bulkhead": 30,
+    "bulkhead": 29,
     "cornice": 32,
-    "door_entry": 63,
+    "door_entry": 55,
     "fire_escape": 21,
-    "hvac": 25,
-    "parapet": 42,
-    "pilaster": 21,
+    "hvac": 22,
+    "parapet": 36,
+    "pilaster": 19,
     "quoin": 11,
     "scaffold": 77,
-    "storefront": 199,
-    "storefront_interior": 43,
+    "storefront": 161,
+    "storefront_interior": 38,
     "string_course": 28,
     "water_tower": 9,
-    "window": 12457,
+    "window": 8121,
     "window_accessory": 14
    },
-   "placed": 13072,
+   "placed": 8673,
    "radius_m": 120.0,
    "records_in_range": 13072,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 4399,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_6",
     "t_-4_6"
    ],
-   "triangles": 2634185,
+   "triangles": 1696305,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -209,6 +235,7 @@
   },
   "props": {
    "capped": null,
+   "impostor_cards_dropped": 7,
    "leaf_off": false,
    "per_kind": {
     "bench": 15,
@@ -238,7 +265,7 @@
     "t_-4_6"
    ],
    "tree_species_substituted": 5,
-   "triangles": 581664,
+   "triangles": 581496,
    "unmapped_kinds": {
     "artwork": 4,
     "cooling_tower": 135,
@@ -249,18 +276,22 @@
    }
   },
   "radius_m": 500.0,
-  "seconds": 46.0,
+  "seconds": 53.28,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 3.333,
-   "triangles": 180000,
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 199,
+   "spacing_m": 2.0,
+   "triangles": 78408,
    "water_quads": 0,
    "z_max_m": 21.91,
-   "z_min_m": 5.92
+   "z_min_m": 7.56
   },
-  "triangles": 4158334
+  "triangles": 3114634
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -268,9 +299,9 @@
   "radius_m": 500.0
  },
  "seconds": {
-  "render": 154.4,
-  "scene": 47.3,
-  "total": 201.6
+  "render": 150.0,
+  "scene": 60.9,
+  "total": 210.9
  },
  "slug": "landmark_tkts_booth",
  "status": "rendered",

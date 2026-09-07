@@ -1,26 +1,27 @@
 {
- "azimuth_reason": "311.4 deg, the bearing from this photograph's own camera GPS to the subject (camera_gps_to_subject); the item's recorded azimuth is 309.1 deg, 2.3 deg away",
+ "azimuth_reason": "311.3 deg, the bearing from this photograph's own GPS position to Trinity Church; heading and position both come from the photograph.  The item's recorded azimuth is 309.1 deg, 2.2 deg away, and belongs to its nominal viewpoint",
  "camera": {
-  "azimuth_deg": 311.4,
+  "azimuth_deg": 311.2909368538353,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
-   "chosen_m": 7.89,
-   "max_m": 8.46,
-   "median_m": 8.13,
-   "min_m": 7.55,
+   "chosen_m": 7.82,
+   "max_m": 8.22,
+   "median_m": 7.99,
+   "min_m": 7.71,
    "mode": "street",
    "percentile": 10.0,
+   "point_m": 7.89,
    "radius_m": 12.0,
    "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
   "hfov_deg": 35.446,
-  "lat": 40.7065,
-  "lon": -74.0095,
+  "lat": 40.706573,
+  "lon": -74.009812,
   "long_side_fov_deg": 54.432,
   "pitch_deg": 0.0,
   "portrait": true,
@@ -30,17 +31,35 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_trinity_church",
-  "terrain_z_m": 7.886,
-  "x": -5028.184,
-  "y": 723.516,
-  "z": 9.486
+  "terrain_z_m": 7.817,
+  "x": -5054.545,
+  "y": 731.64,
+  "z": 9.417
  },
- "camera_caption": "camera 40.70650, -74.00950 (NYC_TM -5028, 724) z 9.5 m NAVD88 | azimuth 311.4deg pitch +0.0deg | 35 mm on 36 mm (35.4deg horizontal, 54.4deg vertical, portrait) | 824x1326",
+ "camera_caption": "camera 40.70657, -74.00981 (NYC_TM -5055, 732) z 9.4 m NAVD88 | azimuth 311.3deg pitch +0.0deg | 35 mm on 36 mm (35.4deg horizontal, 54.4deg vertical, portrait) | 824x1326",
+ "camera_origin": {
+  "from_photograph_gps": true,
+  "lat": 40.706573,
+  "lon": -74.009812,
+  "offset_from_recorded_m": 27.6,
+  "source": "this photograph's own EXIF camera GPS (40.70657, -74.00981), 28 m from the item's recorded viewpoint -- the position the picture was taken from"
+ },
  "clearance": {
+  "min_view_m": 80.0,
   "moved": false,
-  "note": "the recorded viewpoint is in open air on the ground; the camera was not moved",
-  "offset_m": 0.0
+  "nearest_obstruction": "prop_lamp_bishops_crook_20",
+  "nearest_obstruction_m": 53.6,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_bishops_crook_20 53.6 m away, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
  },
+ "frame": {
+  "mean": 0.1251,
+  "reason": null,
+  "sd": 0.0855,
+  "usable": true
+ },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
@@ -49,12 +68,12 @@
   "direct_normal_irradiance_w_m2": 863.6,
   "emissive": {
    "cones_hidden": 2,
-   "lamps_switched_off": 5,
+   "lamps_switched_off": 4,
    "night": false,
    "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.0,
-  "sky_azimuth_deg": 220.933,
+  "sky_azimuth_deg": 220.932,
   "sky_elevation_deg": 44.251,
   "sun_lamp": true,
   "sun_strength_blender": 1.599,
@@ -62,7 +81,7 @@
  },
  "name": "Trinity Church",
  "night": false,
- "pitch_reason": "level optical axis (the subject is 283 m away; anything that far is photographed with a level camera)",
+ "pitch_reason": "level optical axis (the subject is 257 m away; anything that far is photographed with a level camera)",
  "reference_photo": {
   "author": "Tony Hisgett from Birmingham, UK",
   "confidence": "high",
@@ -77,9 +96,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_trinity_church/render.png",
- "rendered_at": "2026-09-06T17:16:47Z",
+ "rendered_at": "2026-09-07T00:01:30Z",
  "resolution_note": "824x1326; the reference photograph is 1920x3089 (0.62:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 40,
+ "samples": 32,
  "scene": {
   "buildings": {
    "dropped_for_budget": [],
@@ -91,6 +110,9 @@
     "t_-6_0",
     "t_-6_1"
    ],
+   "landmark_bins_suppressed": 19,
+   "landmark_faces_suppressed": 2992,
+   "lod_substituted": [],
    "missing": [],
    "per_tile": {
     "t_-5_-1": {
@@ -101,12 +123,12 @@
     "t_-5_0": {
      "lod": 0,
      "objects": 18,
-     "triangles": 11932
+     "triangles": 11872
     },
     "t_-5_1": {
      "lod": 0,
      "objects": 18,
-     "triangles": 42918
+     "triangles": 42654
     },
     "t_-6_-1": {
      "lod": 1,
@@ -116,166 +138,168 @@
     "t_-6_0": {
      "lod": 0,
      "objects": 16,
-     "triangles": 14912
+     "triangles": 12796
     },
     "t_-6_1": {
      "lod": 0,
      "objects": 18,
-     "triangles": 15588
+     "triangles": 15036
     }
    },
    "tiles_dropped_for_budget": 0,
    "tiles_imported": 6,
+   "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 6,
    "triangle_budget": 3510000,
-   "triangles": 89922
+   "triangles": 86930
   },
   "centre_tm": [
-   -5028.18,
-   723.52
+   -5054.54,
+   731.64
   ],
   "kit": {
-   "capped": "triangle budget 2101035",
+   "capped": "triangle budget 2324290",
    "per_category": {
-    "bulkhead": 11,
-    "cornice": 11,
-    "door_entry": 16,
+    "bulkhead": 13,
+    "cornice": 10,
+    "door_entry": 15,
     "fire_escape": 11,
-    "hvac": 9,
-    "parapet": 15,
+    "hvac": 11,
+    "parapet": 18,
     "pilaster": 12,
-    "quoin": 4,
-    "scaffold": 135,
-    "storefront": 86,
-    "storefront_interior": 11,
-    "string_course": 12,
+    "quoin": 8,
+    "scaffold": 114,
+    "storefront": 80,
+    "storefront_interior": 10,
+    "string_course": 10,
     "water_tower": 5,
-    "window": 8227,
-    "window_accessory": 511
+    "window": 9065,
+    "window_accessory": 804
    },
-   "placed": 9076,
+   "placed": 10186,
    "radius_m": 120.0,
-   "records_in_range": 22476,
+   "records_in_range": 22281,
    "stale_registry_ids": {},
+   "suppressed_with_landmark_shells": 1342,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_0",
     "t_-6_0"
    ],
-   "triangles": 2101172,
+   "triangles": 2324522,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
    "landmarks": [
     {
-     "distance_m": 61.8,
+     "distance_m": 50.8,
      "id": "40_wall_street",
      "lod": 0,
      "name": "40 Wall Street (Trump Building)",
      "triangles": 43167
     },
     {
-     "distance_m": 111.8,
+     "distance_m": 91.9,
      "id": "federal_hall",
      "lod": 0,
      "name": "Federal Hall National Memorial",
      "triangles": 9070
     },
     {
-     "distance_m": 155.6,
+     "distance_m": 128.2,
      "id": "nyse",
      "lod": 0,
      "name": "New York Stock Exchange",
      "triangles": 26049
     },
     {
-     "distance_m": 206.9,
+     "distance_m": 179.4,
      "id": "one_wall_street",
      "lod": 0,
      "name": "One Wall Street (Irving Trust Building)",
      "triangles": 42712
     },
     {
-     "distance_m": 210.7,
+     "distance_m": 193.7,
      "id": "equitable_building",
      "lod": 0,
      "name": "Equitable Building",
      "triangles": 86321
     },
     {
-     "distance_m": 286.1,
+     "distance_m": 260.3,
      "id": "trinity_church",
      "lod": 0,
      "name": "Trinity Church",
      "triangles": 3984
     },
     {
-     "distance_m": 350.3,
+     "distance_m": 328.1,
      "id": "charging_bull",
      "lod": 0,
      "name": "Charging Bull",
      "triangles": 818
     },
     {
-     "distance_m": 641.3,
+     "distance_m": 621.7,
      "id": "b_wtc_site",
      "lod": 0,
      "name": "World Trade Center site",
      "triangles": 136174
     },
     {
-     "distance_m": 668.0,
+     "distance_m": 664.5,
      "id": "woolworth",
      "lod": 0,
      "name": "Woolworth Building",
      "triangles": 47871
     },
     {
-     "distance_m": 676.1,
+     "distance_m": 672.1,
      "id": "c_whitehall_and_st_george_ferry_terminals",
      "lod": 0,
      "name": "Whitehall, Battery Maritime and St. George ferry terminals",
      "triangles": 77605
     },
     {
-     "distance_m": 678.9,
+     "distance_m": 706.2,
      "id": "c_pier_17_seaport",
      "lod": 0,
      "name": "Pier 17, South Street Seaport",
      "triangles": 1350
     },
     {
-     "distance_m": 755.4,
+     "distance_m": 758.8,
      "id": "city_hall",
      "lod": 0,
      "name": "New York City Hall",
      "triangles": 44823
     },
     {
-     "distance_m": 786.7,
+     "distance_m": 769.1,
      "id": "b_one_world_trade_center",
      "lod": 0,
      "name": "One World Trade Center",
      "triangles": 6044
     },
     {
-     "distance_m": 872.3,
+     "distance_m": 881.0,
      "id": "municipal_building",
      "lod": 0,
      "name": "Manhattan Municipal Building",
      "triangles": 97825
     },
     {
-     "distance_m": 1115.4,
+     "distance_m": 1142.4,
      "id": "b_brooklyn_bridge",
      "lod": 0,
      "name": "Brooklyn Bridge",
      "triangles": 121824
     },
     {
-     "distance_m": 1440.1,
+     "distance_m": 1447.0,
      "id": "b_hugh_carey_portals",
      "lod": 0,
      "name": "Hugh L. Carey Tunnel",
@@ -290,16 +314,16 @@
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 716,
-    "curb": 1454,
-    "median": 115,
-    "parking_lot": 17,
-    "plaza": 77,
-    "roadbed": 588,
-    "sidewalk": 263
+    "crosswalk": 683,
+    "curb": 1338,
+    "median": 106,
+    "parking_lot": 13,
+    "plaza": 76,
+    "roadbed": 535,
+    "sidewalk": 249
    },
-   "placed": 3230,
-   "radius_m": 852.1083270185936,
+   "placed": 3000,
+   "radius_m": 811.47877119142,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_-1",
@@ -309,83 +333,86 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "triangles": 219622,
-   "vertices": 225702
+   "triangles": 208995,
+   "vertices": 214633
   },
   "props": {
    "capped": null,
+   "impostor_cards_dropped": 8,
    "leaf_off": false,
    "per_kind": {
-    "bench": 64,
-    "bike_rack": 19,
-    "bus_shelter": 1,
-    "bus_stop_sign": 7,
-    "citibike_dock": 5,
-    "flagpole": 4,
-    "hydrant": 81,
-    "linknyc": 1,
+    "bench": 53,
+    "bike_rack": 22,
+    "bus_stop_sign": 6,
+    "citibike_dock": 4,
+    "flagpole": 3,
+    "hydrant": 78,
     "mailbox": 1,
-    "manhole": 117,
-    "newsstand": 8,
-    "steam_vent": 3,
-    "street_lamp": 126,
-    "subway_entrance": 23,
-    "subway_vent_grate": 32,
-    "tree": 53,
-    "waste_basket": 35
+    "manhole": 116,
+    "newsstand": 6,
+    "steam_vent": 1,
+    "street_lamp": 115,
+    "subway_entrance": 24,
+    "subway_vent_grate": 28,
+    "tree": 35,
+    "waste_basket": 34
    },
-   "placed": 580,
+   "placed": 526,
    "radius_m": 250.0,
-   "rows_in_range": 849,
+   "rows_in_range": 792,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_0",
     "t_-6_0"
    ],
-   "tree_species_substituted": 12,
-   "triangles": 1119904,
+   "tree_species_substituted": 8,
+   "triangles": 998676,
    "unmapped_kinds": {
-    "artwork": 8,
-    "cooling_tower": 107,
-    "curb_ramp": 145,
+    "artwork": 9,
+    "cooling_tower": 109,
+    "curb_ramp": 136,
     "drinking_fountain": 3,
-    "memorial": 4,
+    "memorial": 7,
     "vending_machine": 2
    }
   },
-  "radius_m": 852.1083270185936,
-  "seconds": 49.15,
+  "radius_m": 811.47877119142,
+  "seconds": 65.81,
   "terrain": {
    "built": true,
+   "far_spacing_m": 40.0,
+   "grading_growth": 1.14,
    "holes": 0,
-   "samples": 301,
-   "spacing_m": 5.681,
-   "triangles": 180000,
-   "water_quads": 28223,
-   "z_max_m": 14.43,
-   "z_min_m": -4.59
+   "near_m": 150.0,
+   "near_spacing_m": 2.0,
+   "samples": 215,
+   "spacing_m": 2.0,
+   "triangles": 91592,
+   "water_quads": 1854,
+   "z_max_m": 13.7,
+   "z_min_m": -3.6
   },
-  "triangles": 4500137
+  "triangles": 4500232
  },
  "scene_request": {
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
-  "radius_m": 852.1083270185936
+  "radius_m": 811.47877119142
  },
  "seconds": {
-  "render": 123.1,
-  "scene": 50.1,
-  "total": 173.2
+  "render": 152.5,
+  "scene": 68.6,
+  "total": 221.2
  },
  "slug": "landmark_trinity_church",
  "status": "rendered",
  "subject": {
-  "distance_m": 282.6,
+  "distance_m": 257.2,
   "name": "Trinity Church"
  },
  "sun": {
-  "azimuth_deg": 220.9325659114471,
-  "elevation_deg": 44.251231702832,
+  "azimuth_deg": 220.93214188161878,
+  "elevation_deg": 44.251331452948605,
   "local": "2011-09-16T14:43:00-04:00",
   "time_source": "EXIF DateTimeOriginal (minutes)",
   "utc": "2011-09-16T18:43:00Z"
