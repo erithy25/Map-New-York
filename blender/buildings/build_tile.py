@@ -60,6 +60,7 @@ sys.path.insert(0, str(REPO_ROOT / "blender" / "common"))
 sys.path.insert(0, str(_HERE))
 
 import shellgeom as sg  # noqa: E402
+import shellmat as sm  # noqa: E402
 import tiledata as td  # noqa: E402
 
 LOG = logging.getLogger("nycsim.buildings.build_tile")
@@ -96,22 +97,13 @@ ATTR_BY_LOD = {
     2: ("_bin", "_lit_seed_hi", "_lit_seed_lo"),
 }
 
-# Base colours for the shell materials.  These are *shell* materials: flat PBR, no textures, so the
-# .glb stays at shell size (ADR-003).  The engine swaps in the facade master material by name; the
-# Cycles verification renders in render_verify.py bind the real AmbientCG PBR sets by the same name.
-MAT_COLOR: dict[str, tuple[float, float, float]] = {
-    "red_brick": (0.42, 0.16, 0.12), "brown_brick": (0.31, 0.20, 0.15), "tan_brick": (0.62, 0.51, 0.37),
-    "white_glazed_brick": (0.80, 0.79, 0.74), "brownstone": (0.34, 0.22, 0.15), "limestone": (0.72, 0.68, 0.58),
-    "terracotta": (0.60, 0.33, 0.22), "cast_iron": (0.16, 0.17, 0.17), "glass_curtain": (0.16, 0.22, 0.27),
-    "concrete": (0.55, 0.54, 0.51), "stucco": (0.72, 0.68, 0.60), "vinyl_siding": (0.70, 0.70, 0.66),
-    "wood_clapboard": (0.60, 0.56, 0.48), "stone_rubble": (0.45, 0.43, 0.39), "metal_panel": (0.48, 0.50, 0.52),
-    "granite": (0.40, 0.39, 0.38), "precast": (0.63, 0.62, 0.59), "roof_membrane": (0.30, 0.30, 0.31),
-    "tar_roof": (0.13, 0.13, 0.13), "corrugated_metal": (0.45, 0.46, 0.47),
-}
-MAT_ROUGH: dict[str, float] = {"glass_curtain": 0.12, "cast_iron": 0.45, "metal_panel": 0.38,
-                               "corrugated_metal": 0.45, "granite": 0.40, "limestone": 0.65}
-MAT_METAL: dict[str, float] = {"glass_curtain": 0.0, "cast_iron": 0.85, "metal_panel": 0.8,
-                               "corrugated_metal": 0.8}
+# The shell materials themselves live in ``shellmat`` — one analytic PBR set per material class,
+# no textures, so the .glb stays at shell size (ADR-003).  The engine swaps in the facade master
+# material by name; the Cycles verification renders in render_verify.py bind the real AmbientCG PBR
+# sets by the same name and add the per-building variation on top.
+MAT_COLOR = {k: v.base_color for k, v in sm.MATERIALS.items()}
+MAT_ROUGH = {k: v.roughness for k, v in sm.MATERIALS.items()}
+MAT_METAL = {k: v.metallic for k, v in sm.MATERIALS.items()}
 
 
 # --------------------------------------------------------------------------- geometry accumulation
@@ -145,7 +137,7 @@ def accumulate(specs, lods, attrs_by_lod) -> tuple[dict[tuple[int, int], Bucket]
     """Build every LOD of every building and sort the triangles into (lod, material) buckets."""
     buckets: dict[tuple[int, int], Bucket] = {}
     stats = {"fallback_flat_cap": 0, "fallback_massing": 0, "open_shells": 0, "buildings": 0,
-             "lod1_massing": 0}
+             "lod1_massing": 0, "stepped_lod0": 0, "stepped_merged_lod0": 0, "steps_lost_lod0": 0}
     for spec in specs:
         rows = {lod: np.array([spec.attrs.get(a[1:], 0.0) for a in attrs_by_lod[lod]], dtype=np.float32)
                 for lod in lods}
@@ -166,6 +158,16 @@ def accumulate(specs, lods, attrs_by_lod) -> tuple[dict[tuple[int, int], Bucket]
                 stats["fallback_flat_cap"] += 1
             elif buf.fallback == "massing":
                 stats["fallback_massing"] += 1
+            if lod == 0 and spec.roof_steps and len(spec.roof_steps) >= 2:
+                # what actually shipped, not what was assigned: a stepped solid that would not
+                # close is rebuilt without its steps, and that must not be counted as delivered
+                if not buf.fallback:
+                    stats["stepped_lod0"] += 1
+                elif str(buf.fallback).startswith("steps_merged"):
+                    stats["stepped_lod0"] += 1
+                    stats["stepped_merged_lod0"] += 1
+                else:
+                    stats["steps_lost_lod0"] += 1
             if not buf.tris:
                 continue
             pos = np.asarray(buf.pos, dtype=np.float64)
@@ -185,20 +187,8 @@ def accumulate(specs, lods, attrs_by_lod) -> tuple[dict[tuple[int, int], Bucket]
 
 # --------------------------------------------------------------------------- Blender assembly
 def _material(name: str):
-    import bpy
-
-    key = f"NYCSIM_{name}"
-    mat = bpy.data.materials.get(key)
-    if mat is not None:
-        return mat
-    mat = bpy.data.materials.new(key)
-    mat.use_nodes = True
-    bsdf = mat.node_tree.nodes["Principled BSDF"]
-    r, g, b = MAT_COLOR.get(name, (0.6, 0.6, 0.6))
-    bsdf.inputs["Base Color"].default_value = (r, g, b, 1.0)
-    bsdf.inputs["Roughness"].default_value = MAT_ROUGH.get(name, 0.72)
-    bsdf.inputs["Metallic"].default_value = MAT_METAL.get(name, 0.0)
-    return mat
+    """One material per class, as ARCHITECTURE §4.3 requires; ``shellmat`` owns what it looks like."""
+    return sm.build_bpy_material(name)
 
 
 def _make_object(name: str, pos: np.ndarray, tri: np.ndarray, uv: np.ndarray, att: np.ndarray,
@@ -352,7 +342,13 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, lods=(0, 1, 2), attrs_mo
         "origin_m": [load.x0, load.y0, 0.0],
         "materials": mat_stats,
         "sources": load.sources,
-        "roof_steps": {"mode": roof_steps, **load.steps},
+        # ``applied`` is what the recovery *assigned*; ``shipped`` is what actually closed and is
+        # in the file.  A stepped solid that does not close is rebuilt flat, so the two differ and
+        # only the second one is a delivery.
+        "roof_steps": {"mode": roof_steps, **load.steps,
+                       "shipped": int(stats.get("stepped_lod0", 0)),
+                       "shipped_with_levels_merged": int(stats.get("stepped_merged_lod0", 0)),
+                       "lost_would_not_close": int(stats.get("steps_lost_lod0", 0))},
         "ridge_mode": ridge_mode,
         "attributes": {str(k): v for k, v in attrs_by_lod.items()},
         "glb": {"path": _rel(glb) if glb.exists() else "",
@@ -432,7 +428,7 @@ def run_serial(tiles: list[str], args) -> int:
             _purge()
         ok += 1
         print(f"[{i}/{len(tiles)}] {tile} buildings={m['buildings']['solids']} "
-              f"tris={m['triangles'].get('lod0', 0)} steps={m['roof_steps'].get('applied', 0)} "
+              f"tris={m['triangles'].get('lod0', 0)} steps={m['roof_steps'].get('shipped', 0)} "
               f"bytes={m['glb']['bytes']} t={m['seconds']['total']}s", flush=True)
     return 0 if ok == len(tiles) else 1
 

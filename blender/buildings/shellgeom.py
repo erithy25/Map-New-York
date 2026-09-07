@@ -72,6 +72,11 @@ MIN_WALL_H_M = 2.2            # eaves never drop below this above ground
 # buildings are therefore welded and boundary-matched on a 1 cm grid — still half the 2 cm snap the
 # footprints themselves carry, so nothing visible moves.
 STEP_WELD_M = 0.02
+RISER_PROBE_M = 1e-3          # how far off a shared boundary the riser's outward side is tested
+#: Ladder of step-set reductions tried, in order, when a stepped shell will not close.  A float is
+#: "absorb every region below this many m2"; an int is "absorb the smallest regions until this many
+#: remain".  It stops at two, which is still a real setback; below that the flat cap takes over.
+STEP_MERGE_LADDER: tuple = (12.0, 40.0, 4)
 STEP_BOUNDARY_TOL_M = 0.04
 
 
@@ -646,6 +651,28 @@ def build_shell(spec: BuildingSpec, lod: int = 0, *, ensure_closed: bool = True)
     buf_t = _build_shell_once(spec, lod, tolerant=True)
     if is_closed(len(buf_t.pos), buf_t.tris):
         return buf_t
+    # A stepped building that will not close is nearly always a *busy* one: the failures carry a
+    # median of 8 plan regions against 2 for the ones that close, and the offenders are small
+    # slivers of level — a bulkhead ledge, a light well shoulder — whose outlines the two surveys
+    # disagree about.  Losing every step because of them is far worse than losing the sliver, so the
+    # smallest regions are merged into the level that surrounds them (the neighbour sharing the most
+    # boundary with them) and the build retried.  The building keeps its real setbacks; what it
+    # loses is named in ``TriBuf.fallback`` as ``steps_merged_<n>`` so the manifest can count it.
+    if spec.roof_steps and len(spec.roof_steps) >= 2:
+        steps = spec.roof_steps
+        n0 = len(steps)
+        for stage in STEP_MERGE_LADDER:
+            steps = (_merge_small_steps(steps, stage) if isinstance(stage, float)
+                     else _merge_to_count(steps, stage))
+            if len(steps) < 2:
+                break
+            if len(steps) == n0:
+                continue
+            trial = _replace_steps(spec, steps)
+            b = _build_shell_once(trial, lod, tolerant=True)
+            if is_closed(len(b.pos), b.tris):
+                b.fallback = f"steps_merged_{n0 - len(steps)}"
+                return b
     flat = BuildingSpec(bin=spec.bin, polygon=spec.polygon, ground_z=spec.ground_z, roof_z=spec.roof_z,
                         roof=RoofSpec(kind=ROOF_FLAT, parapet_h=0.0, source=spec.roof.source + "+unclosed"),
                         mat_wall=spec.mat_wall, mat_roof=spec.mat_roof, facade_heading=spec.facade_heading,
@@ -658,6 +685,63 @@ def build_shell(spec: BuildingSpec, lod: int = 0, *, ensure_closed: bool = True)
     _build_massing(buf3, spec)
     buf3.fallback = "massing"
     return buf3
+
+
+def _replace_steps(spec: BuildingSpec, steps: list[tuple[Polygon, float]]) -> BuildingSpec:
+    return BuildingSpec(bin=spec.bin, polygon=spec.polygon, ground_z=spec.ground_z,
+                        roof_z=spec.roof_z, roof=spec.roof, mat_wall=spec.mat_wall,
+                        mat_roof=spec.mat_roof, facade_heading=spec.facade_heading,
+                        attrs=spec.attrs, floors=spec.floors, area=spec.area, roof_steps=steps)
+
+
+def _merge_small_steps(steps: Sequence[tuple[Polygon, float]], min_area: float
+                       ) -> list[tuple[Polygon, float]]:
+    """Absorb every region below ``min_area`` into the region that shares the most boundary with it.
+
+    The absorbed patch takes its neighbour's height, so its own (real, but tiny) level is lost —
+    which is exactly what the whole-building flat fallback would have done to *every* level.  The
+    neighbour with the longest shared boundary is the level that physically surrounds the patch, so
+    the choice is determined by the geometry, not by a preference.
+    """
+    cur = [(p, z) for p, z in steps]
+    for _ in range(len(cur)):
+        small = [i for i, (p, _) in enumerate(cur) if p.area < min_area]
+        if not small or len(cur) < 3:
+            break
+        i = min(small, key=lambda k: cur[k][0].area)
+        best, best_len = -1, 0.0
+        for j, (q, _) in enumerate(cur):
+            if j == i:
+                continue
+            try:
+                shared = cur[i][0].boundary.intersection(q.boundary).length
+            except Exception:
+                shared = 0.0
+            if shared > best_len:
+                best, best_len = j, shared
+        if best < 0 or best_len <= 0.0:
+            break
+        try:
+            merged = shapely.union_all([cur[best][0], cur[i][0]])
+        except Exception:
+            break
+        if merged.geom_type != "Polygon" or merged.is_empty:
+            break
+        cur[best] = (merged, cur[best][1])
+        cur.pop(i)
+    return cur
+
+
+def _merge_to_count(steps: Sequence[tuple[Polygon, float]], n: int) -> list[tuple[Polygon, float]]:
+    """Absorb the smallest regions, one at a time, until at most ``n`` remain."""
+    cur = list(steps)
+    while len(cur) > max(int(n), 2):
+        smallest = min(p.area for p, _ in cur)
+        nxt = _merge_small_steps(cur, smallest * 1.000001)
+        if len(nxt) >= len(cur):
+            break
+        cur = nxt
+    return cur
 
 
 def _build_shell_once(spec: BuildingSpec, lod: int, tolerant: bool = False) -> TriBuf:
@@ -855,13 +939,71 @@ def _build_from_pieces(buf: TriBuf, spec: BuildingSpec, poly: Polygon, z0: float
                 elif t >= 1.0 - eps:
                     samples.setdefault((ri, (ei + 1) % n_edges), []).append((0.0, x, y, z))
 
+    _fill_uncovered_edges(rings, samples, sample_pieces)
     for ri, ring in enumerate(rings):
         _emit_ring_walls(buf, ring, ri, u_origin[ri], samples, z0, spec.mat_wall)
     for r in risers:
         p, q, zl, zh, nrm = r[0], r[1], r[2], r[3], r[4]
         _emit_riser(buf, p, q, zl, zh, nrm, spec.mat_wall, v_ref=z0,
-                    z_hi_q=(r[5] if len(r) > 5 else None))
+                    z_hi_q=(r[5] if len(r) > 5 else None),
+                    splits_p=(r[6] if len(r) > 6 else ()),
+                    splits_q=(r[7] if len(r) > 7 else ()))
     _emit_cap(buf, rings, z0, spec.mat_wall, up=False)
+
+
+def _fill_uncovered_edges(rings: Sequence[np.ndarray],
+                          samples: dict[tuple[int, int], list[tuple[float, float, float, float]]],
+                          pieces: Sequence[RoofPiece]) -> None:
+    """Give every footprint edge the two wall-top samples it needs, from the roof above it.
+
+    ``_emit_ring_walls`` skips an edge with fewer than two samples, which leaves a hole.  Normally
+    every edge gets its samples from the roof regions' own ring vertices, but a region snapped onto
+    the 2 cm grid can lose a vertex that was collinear in *its* ring while the footprint still has a
+    corner there, so an edge in the middle of one flat level can end up with none.  The level above
+    that edge still says exactly how high its wall is, so the sample is read from the piece
+    covering each end rather than the edge being dropped.
+    """
+    if not pieces:
+        return
+    for ri, ring in enumerate(rings):
+        n = len(ring)
+        if n < 3:
+            continue
+        for ei in range(n):
+            pts = samples.get((ri, ei), [])
+            if len(pts) >= 2:
+                continue
+            p, q = ring[ei], ring[(ei + 1) % n]
+            dx, dy = q[0] - p[0], q[1] - p[1]
+            seg = math.hypot(dx, dy)
+            if seg < WELD_M:
+                continue
+            nx, ny = -dy / seg, dx / seg          # inward normal of a CCW ring
+            for t in (0.0, 1.0):
+                if any(abs(r[0] - t) < 1e-6 for r in pts):
+                    continue
+                x, y = p[0] + dx * t, p[1] + dy * t
+                # step just inside the footprint and just off the corner, so the probe lands in the
+                # piece that actually covers this end of the edge
+                tt = 0.02 if t == 0.0 else 0.98
+                piece = _piece_at(pieces, p[0] + dx * tt + nx * 0.01, p[1] + dy * tt + ny * 0.01)
+                if piece is None:
+                    continue
+                samples.setdefault((ri, ei), []).append((t, x, y, piece.z_pt(x, y)))
+
+
+def _piece_at(pieces: Sequence[RoofPiece], x: float, y: float) -> RoofPiece | None:
+    """The roof piece covering ``(x, y)``, else the nearest one."""
+    pt = shapely.Point(x, y)
+    best = None
+    best_d = math.inf
+    for piece in pieces:
+        if piece.poly.contains(pt):
+            return piece
+        d = piece.poly.distance(pt)
+        if d < best_d:
+            best, best_d = piece, d
+    return best if best_d < 0.5 else None
 
 
 # --------------------------------------------------------------------------- stepped massing
@@ -903,37 +1045,70 @@ def _step_risers(steps: Sequence[tuple[Polygon, float]], region_pieces: Sequence
                  ) -> list[tuple[np.ndarray, np.ndarray, float, float, np.ndarray, float]]:
     """Vertical faces where a taller level abuts a shorter one.
 
-    Walked from the taller side, over the *pieces* that define its top surface rather than over the
-    region outline, so each riser's top edge carries the exact vertices and heights of the cap it
-    has to weld to — flat for a flat level, sloping for a level whose main mass is pitched.  Each
-    shared edge is visited once from each side and emitted only from the taller one.
+    Built from the **exact shared boundary** of each (taller, shorter) region pair rather than by
+    walking the taller region's own edges.  Walking the edges was wrong in two ways that only show
+    up once a building has more than two levels, and 43 % of them do: one edge of the tall region
+    can border *several* lower regions, and the naive walk gave the whole edge the height of
+    whichever one happened to sit under the edge midpoint; and the lower region's ring can carry
+    vertices in the middle of that edge, which the single quad then bridged, leaving a T-junction.
+    ``A.boundary ∩ B.boundary`` is nodded by GEOS, so it returns exactly the overlapping run
+    carrying the vertices of *both* rings — which is what the riser has to weld to on each side.
+
+    The top edge follows the taller region's own piece, so it stays welded to a sloping cap as well
+    as a flat one.  Each pair is visited once, from the taller side.
     """
-    out: list[tuple[np.ndarray, np.ndarray, float, float, np.ndarray, float]] = []
-    for ridx, piece in region_pieces:
-        ext, holes = ring_coords(shapely.geometry.polygon.orient(piece.poly, 1.0))
-        for ring in [ext] + holes:
-            if len(ring) < 3:
+    out: list = []
+    pieces = dict(region_pieces)
+    # every level whose outline passes through a corner puts a vertex there, and every vertical
+    # face meeting that corner has to carry all of them or it T-junctions against its neighbour
+    corner_z: dict[tuple[int, int], set[float]] = {}
+    for poly, z in steps:
+        for xy in shapely.get_coordinates(poly):
+            corner_z.setdefault((round(xy[0] / STEP_WELD_M), round(xy[1] / STEP_WELD_M)),
+                                set()).add(float(z))
+
+    def _at(v) -> tuple[float, ...]:
+        return tuple(corner_z.get((round(v[0] / STEP_WELD_M), round(v[1] / STEP_WELD_M)), ()))
+
+    for i, (hi_poly, z_hi) in enumerate(steps):
+        piece = pieces.get(i)
+        hi_b = hi_poly.boundary
+        for j, (lo_poly, z_lo) in enumerate(steps):
+            if i == j or z_lo >= z_hi - WELD_M:
                 continue
-            nxt = ring + _edge_vectors(ring)
-            for e in range(len(ring)):
-                p, q = ring[e], nxt[e]
-                dx, dy = q[0] - p[0], q[1] - p[1]
-                seg = math.hypot(dx, dy)
-                if seg < WELD_M:
-                    continue
-                nx, ny = dy / seg, -dx / seg           # outward normal of a CCW ring
-                zp = piece.z_pt(p[0], p[1])
-                zq = piece.z_pt(q[0], q[1])
-                mx = (p[0] + q[0]) / 2 + nx * 0.02
-                my = (p[1] + q[1]) / 2 + ny * 0.02
-                probe = shapely.Point(mx, my)
-                for j, (other, z_lo) in enumerate(steps):
-                    if j == ridx or z_lo >= max(zp, zq) - WELD_M:
+            try:
+                shared = hi_b.intersection(lo_poly.boundary)
+            except Exception:
+                continue
+            if shared.is_empty:
+                continue
+            for line in _iter_linestrings(shared):
+                co = np.asarray(line.coords, dtype=np.float64)
+                for k in range(len(co) - 1):
+                    p, q = co[k], co[k + 1]
+                    dx, dy = q[0] - p[0], q[1] - p[1]
+                    seg = math.hypot(dx, dy)
+                    if seg < WELD_M:
                         continue
-                    if other.contains(probe):
-                        out.append((p, q, z_lo, zp, np.array([nx, ny]), zq))
-                        break
+                    nx, ny = dy / seg, -dx / seg
+                    mx = (p[0] + q[0]) / 2 + nx * RISER_PROBE_M
+                    my = (p[1] + q[1]) / 2 + ny * RISER_PROBE_M
+                    if hi_poly.contains(shapely.Point(mx, my)):
+                        nx, ny = -nx, -ny            # outward is away from the taller mass
+                    zp = piece.z_pt(p[0], p[1]) if piece is not None else z_hi
+                    zq = piece.z_pt(q[0], q[1]) if piece is not None else z_hi
+                    out.append((p, q, z_lo, zp, np.array([nx, ny]), zq, _at(p), _at(q)))
     return out
+
+
+def _iter_linestrings(geom):
+    t = geom.geom_type
+    if t == "LineString":
+        if not geom.is_empty and len(geom.coords) >= 2:
+            yield geom
+    elif t in ("MultiLineString", "GeometryCollection"):
+        for sub in geom.geoms:
+            yield from _iter_linestrings(sub)
 
 
 def _parapet_wanted_for(area: float, height: float, floors: int, parapet_h: float, lod: int) -> bool:
@@ -1011,7 +1186,12 @@ def _emit_ring_walls(buf: TriBuf, ring: np.ndarray, ri: int, u0: int,
         for gi, grp in enumerate(groups):
             seen: list[tuple[float, float, float, float]] = []
             for rec in grp:
-                if all(abs(rec[3] - s_[3]) > buf.weld for s_ in seen):
+                # keep a sample that differs from the ones already taken either in height *or* in
+                # position: two roof vertices a centimetre apart at the same height are a sliver of
+                # the level outline, and dropping one of them left the cap carrying an edge the
+                # wall top did not have — an open shell
+                if all(abs(rec[3] - s_[3]) > buf.weld
+                       or math.hypot(rec[1] - s_[1], rec[2] - s_[2]) > buf.weld for s_ in seen):
                     seen.append(rec)
             if len(seen) > 1:
                 if prev_z is not None:
@@ -1021,8 +1201,17 @@ def _emit_ring_walls(buf: TriBuf, ring: np.ndarray, ri: int, u0: int,
                     seen.sort(key=lambda r: -abs(r[3] - nz))
             top.extend(seen)
             prev_z = top[-1][3]
-        if len(top) < 2 or top[0][0] > 1e-6 or top[-1][0] < 1.0 - 1e-6:
+        if len(top) < 2:
             continue
+        # The strip has to span the whole edge or the corner is left open.  A roof that stops just
+        # short of a footprint corner (the two surveys disagree by a centimetre there) is carried
+        # out to it at its own height rather than dropping the wall.
+        if top[0][0] > 1e-6:
+            t0, _, _, z_first = top[0]
+            top.insert(0, (0.0, float(p[0]), float(p[1]), z_first))
+        if top[-1][0] < 1.0 - 1e-6:
+            _, _, _, z_last = top[-1]
+            top.append((1.0, float(q[0]), float(q[1]), z_last))
         b0 = (p[0], p[1], z0)
         b1 = (q[0], q[1], z0)
         uv_b0 = (u[i], 0.0)
@@ -1038,12 +1227,19 @@ def _emit_ring_walls(buf: TriBuf, ring: np.ndarray, ri: int, u0: int,
 
 def _emit_riser(buf: TriBuf, p: np.ndarray, q: np.ndarray, z_lo: float, z_hi: float,
                 outward: np.ndarray, mat: int, v_ref: float | None = None,
-                z_hi_q: float | None = None) -> None:
+                z_hi_q: float | None = None, splits_p: Sequence[float] = (),
+                splits_q: Sequence[float] = ()) -> None:
     """Single-sided vertical face from ``p`` to ``q`` whose normal points along ``outward``.
 
     ``z_hi`` is the top at ``p`` and ``z_hi_q`` the top at ``q`` (defaults to ``z_hi``); the two
     differ where a stepped building's taller level carries a pitched roof, so the step face is a
     trapezoid whose top edge follows that roof exactly and welds to its cap.
+
+    ``splits_p`` / ``splits_q`` are extra heights to place on the two *vertical* edges.  They are
+    what keeps a step face welded where three levels meet: at such a corner one face spans
+    ``[z_low, z_high]`` in a single edge while the two faces on the other side span
+    ``[z_low, z_mid]`` and ``[z_mid, z_high]``, and without the middle vertex that is a T-junction
+    and the shell is open.  Every level whose outline passes through the corner contributes one.
     """
     dx, dy = q[0] - p[0], q[1] - p[1]
     seg = math.hypot(dx, dy)
@@ -1053,13 +1249,25 @@ def _emit_riser(buf: TriBuf, p: np.ndarray, q: np.ndarray, z_lo: float, z_hi: fl
     if dy * outward[0] - dx * outward[1] < 0.0:   # normal of (p->q) is (dy, -dx)
         p, q, dx, dy = q, p, -dx, -dy
         zp, zq = zq, zp
+        splits_p, splits_q = splits_q, splits_p
     ref = z_lo if v_ref is None else v_ref
-    a = (p[0], p[1], z_lo)
-    b = (q[0], q[1], z_lo)
-    c = (q[0], q[1], zq)
-    d = (p[0], p[1], zp)
-    buf.tri(a, b, c, (0.0, z_lo - ref), (seg, z_lo - ref), (seg, zq - ref), mat)
-    buf.tri(a, c, d, (0.0, z_lo - ref), (seg, zq - ref), (0.0, zp - ref), mat)
+
+    def _side(z_top: float, extra: Sequence[float]) -> list[float]:
+        zs = [z_lo]
+        for z in sorted(float(v) for v in extra):
+            if z_lo + WELD_M < z < z_top - WELD_M and z - zs[-1] > WELD_M:
+                zs.append(z)
+        zs.append(z_top)
+        return zs
+
+    left = _side(zp, splits_p)
+    right = _side(zq, splits_q)
+    # one convex planar polygon: up the p side, across the top, down the q side
+    ring = [((p[0], p[1], z), (0.0, z - ref)) for z in left]
+    ring += [((q[0], q[1], z), (seg, z - ref)) for z in reversed(right)]
+    for i in range(1, len(ring) - 1):
+        (a, ua), (b, ub), (c, uc) = ring[0], ring[i + 1], ring[i]
+        buf.tri(a, b, c, ua, ub, uc, mat)
 
 
 def massing_ring(poly: Polygon, max_verts: int = 8) -> np.ndarray:

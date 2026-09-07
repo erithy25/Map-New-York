@@ -55,6 +55,9 @@ BOUNDARY_SNAP_M = 0.05
 # (`shellgeom.SNAP_M`), which is what makes two regions cut from two different surveys share exact
 # vertices.  Nothing moves further than the tolerance the footprints already carry.
 REGION_GRID_M = 0.02
+# Vertex-insertion tolerance for `node_regions`: small enough that no vertex moves measurably,
+# large enough that a vertex sitting exactly on a neighbour's edge is seen as on it.
+NODE_TOL_M = 1e-7
 
 
 @dataclass
@@ -181,19 +184,33 @@ def _grid(poly: Polygon | None, grid: float = REGION_GRID_M) -> Polygon | None:
 
 
 def snap_to_boundary(poly: Polygon, footprint: Polygon, tol: float = BOUNDARY_SNAP_M) -> Polygon | None:
-    """Pull region vertices that sit just off the footprint boundary exactly onto it."""
+    """Pull region vertices that sit just off the footprint boundary exactly onto it.
+
+    A **corner** of the footprint is snapped to before its edges are: the 2014 outline and the 2026
+    footprint put the same corner a centimetre or two apart, and projecting the region's vertex onto
+    the nearest point of the *edge* leaves it that centimetre short of the corner.  The wall strip is
+    built on the footprint ring and the level cap on the region ring, so a corner they do not share
+    is a 2 cm slot in the shell — which is what made 43 % of stepped buildings fail to close and
+    silently revert to a flat cap.
+    """
     from shapely.ops import nearest_points
 
     bnd = footprint.boundary
+    corners = shapely.get_coordinates(footprint)
     rings = []
     for ring in [poly.exterior] + list(poly.interiors):
         coords = shapely.get_coordinates(ring)
         pts = shapely.points(coords)
         d = shapely.distance(pts, bnd)
         moved = coords.copy()
-        for i in np.nonzero((d > 0.0) & (d < tol))[0]:
-            near = nearest_points(bnd, pts[i])[0]
-            moved[i] = (near.x, near.y)
+        for i in np.nonzero((d >= 0.0) & (d < tol))[0]:
+            dc = np.hypot(corners[:, 0] - coords[i, 0], corners[:, 1] - coords[i, 1])
+            k = int(np.argmin(dc))
+            if dc[k] < tol:
+                moved[i] = corners[k]
+            elif d[i] > 0.0:
+                near = nearest_points(bnd, pts[i])[0]
+                moved[i] = (near.x, near.y)
         if len(moved) >= 4:
             moved[-1] = moved[0]
         rings.append(moved)
@@ -330,6 +347,7 @@ def partition_footprint(footprint: Polygon, levels: list[tuple[float, Polygon]]
         return [], "main region vanished"
 
     regions = [(p, levels[main][0]) for p in main_parts] + others
+    regions = node_regions(regions, footprint)
     covered = sum(p.area for p, _ in regions)
     if covered < (1.0 - MAX_LEFTOVER_FRAC) * area:
         return [], f"regions cover only {covered / area:.2f} of the footprint"
@@ -339,6 +357,53 @@ def partition_footprint(footprint: Polygon, levels: list[tuple[float, Polygon]]
     if len(regions) > MAX_REGIONS:
         return [], f"{len(regions)} plan regions exceeds the {MAX_REGIONS} cap"
     return regions, "ok"
+
+
+def node_regions(regions: list[tuple[Polygon, float]], footprint: Polygon,
+                 tol: float = NODE_TOL_M) -> list[tuple[Polygon, float]]:
+    """Give every region ring the vertices its neighbours and the footprint put on it.
+
+    The regions already tile the footprint, but each keeps only the vertices *its own* cut produced:
+    where a neighbour's corner lands in the middle of this region's edge, this region's ring runs
+    straight past it.  The shell then triangulates the level cap on the coarse ring and the step
+    face on the fine one, which is a T-junction and leaves the shell open — it was the single
+    largest cause of stepped buildings falling back to a flat cap.  Snapping each region against the
+    union of all the boundaries inserts the missing vertices; the tolerance is a micron, so nothing
+    moves, only vertices appear.
+    """
+    if len(regions) < 2:
+        return regions
+    pts = np.vstack([shapely.get_coordinates(p) for p, _ in regions]
+                    + [shapely.get_coordinates(footprint)])
+    key = np.round(pts / max(tol, 1e-12)).astype(np.int64)
+    _, keep = np.unique(key, axis=0, return_index=True)
+    pts = pts[np.sort(keep)]
+    out: list[tuple[Polygon, float]] = []
+    for poly, z in regions:
+        rings = []
+        for ring in [poly.exterior] + list(poly.interiors):
+            co = np.asarray(ring.coords, dtype=np.float64)
+            new = [co[0]]
+            for k in range(len(co) - 1):
+                a, b = co[k], co[k + 1]
+                d = b - a
+                l2 = float(d @ d)
+                if l2 > 1e-18:
+                    t = ((pts - a) @ d) / l2
+                    proj = a + t[:, None] * d
+                    off = np.hypot(pts[:, 0] - proj[:, 0], pts[:, 1] - proj[:, 1])
+                    m = (t > 1e-9) & (t < 1.0 - 1e-9) & (off <= tol)
+                    if m.any():
+                        for pt in pts[m][np.argsort(t[m])]:
+                            new.append(pt)
+                new.append(b)
+            rings.append(np.asarray(new, dtype=np.float64))
+        try:
+            q = Polygon(rings[0], rings[1:])
+        except Exception:
+            q = poly
+        out.append((q if (q.is_valid and not q.is_empty) else poly, z))
+    return out
 
 
 # --------------------------------------------------------------------------- per-tile source access
