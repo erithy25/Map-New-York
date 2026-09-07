@@ -64,9 +64,9 @@
   "view_m": 40.3
  },
  "frame": {
-  "mean": 0.2638,
+  "mean": 0.2716,
   "reason": null,
-  "sd": 0.1856,
+  "sd": 0.187,
   "usable": true
  },
  "frame_retry": null,
@@ -77,10 +77,11 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 860.3,
   "emissive": {
+   "cone_faces_deleted": 8,
    "cones_hidden": 1,
    "lamps_switched_off": 2,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.0,
   "sky_azimuth_deg": 95.537,
@@ -106,7 +107,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_arthur_ave/render.png",
- "rendered_at": "2026-09-07T12:14:46Z",
+ "rendered_at": "2026-09-07T12:30:14Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -140,7 +141,7 @@
    "placed_pedestrians": 281,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 49.74,
+   "seconds": 48.05,
    "snapshot": {
     "building_footprints_tested": 4239,
     "density_lane_km": 25.141,
@@ -179,7 +180,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 206
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached 5248_17241_9_2_2efce787d001752b_1788782618.json",
    "triangle_budget": 1125000,
    "triangles": 915985,
    "vehicle_lods": {
@@ -349,7 +350,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 135.75,
+  "seconds": 121.77,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -412,9 +413,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 271.8,
-  "scene": 139.8,
-  "total": 411.6
+  "render": 303.8,
+  "scene": 126.0,
+  "total": 429.8
  },
  "slug": "drive_bronx_arthur_ave",
  "status": "rendered",
