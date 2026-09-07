@@ -65,5 +65,5 @@ which, and I should have read it.
 | wider, level framing than the reference | a level optical axis is required to compare proportion; the reference is a tilted long lens. Stated on the sheet | camera |
 | untextured brick, unglazed windows | shells carry a per-material base colour; no facade texture, no glazing, no sill or lintel geometry | material |
 | tree reads as a solid cone | the leaf-off branch model is dense and untextured | material |
-| no cars, no people, no signs | no traffic, crowd or street-sign placement feeds the verification scene | data |
+| ~~no cars, no people, no signs~~ superseded | agents are placed now (357 people, 88 vehicles); what remains is framing and occlusion, not absence | reporting |
 | featureless asphalt | the pavement material is a flat colour per kind with no texture map and no markings | material |

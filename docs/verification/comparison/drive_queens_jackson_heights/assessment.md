@@ -52,7 +52,7 @@ where the same kit produces real recessed openings.
 * There is not one window opening on the near block face. The wall is a flat brick-coloured plane with air-conditioners and string courses on it but no fenestration at all, where the reference's block face is 40 % window by area.
 * No entrance. The reference's subject is a stone-framed doorway with a moulded architrave and a glazed door; the render's ground floor is blank.
 * No planting. Jackson Heights garden apartments are named for their planted forecourts; the reference foreground is entirely hydrangea, hosta and a brick path, and the render has bare grey ground up to the wall.
-* No cars, no people, no rubbish bins.
+* ~~No cars, no people, no rubbish bins.~~ — **partly superseded 2026-09-07.** The people and vehicles are placed now; the rest of this bullet — traffic signals, street signs, wayfinding kiosks and the like — is **still true**, and those are street furniture rather than agents.
 * The roadway and sidewalks are flat untextured planes with no markings and no joint pattern.
 * The pairing is again unrelated in direction: the item looks south along 84th Street, the photograph is a courtyard entrance study.
 * Props were capped by the triangle budget at 314 placed.
@@ -64,6 +64,6 @@ where the same kit produces real recessed openings.
 | no windows on the near facade | the facade kit placed 6,514 pieces but this facade class carries no window piece on the visible run; the kit's residential vocabulary is the thinnest part of it | geometry |
 | no entrance or door surround | the kit has a door_entry piece but none was placed on this frontage | geometry |
 | no planting or forecourt | no dataset the scene reads carries residential planting | data |
-| no cars, people or bins | no traffic, crowd or refuse placement feeds the verification scene | data |
+| ~~no cars, people or bins~~ superseded | agents are placed now (288 people, 76 vehicles); what remains is framing and occlusion, not absence | reporting |
 | untextured ground | flat colour per pavement kind, no texture, no markings | material |
 | the two halves face different ways | the item names no subject and the reference stage assigned it the item's own azimuth | reference |

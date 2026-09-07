@@ -82,5 +82,5 @@ this scene, **not one is in this frame** — the wall fills it.
 | camera 5 m from a wall | the clearance rule tests the view azimuth and a narrow cone, not the frame as a whole; the nearest roadbed polygon put the camera against the block face | camera |
 | no glass, frames or doors | the facade kit's window and door pieces carry openings and reveals but no glazing or joinery | material |
 | no cornice, banding or per-house colour | shells carry one material per class over a whole run; the kit has no cornice or string course for this facade class here | geometry |
-| no cars, people or bins | no traffic, crowd or refuse placement feeds the verification scene | data |
+| ~~no cars, people or bins~~ superseded | agents are placed now (378 people, 88 vehicles); what remains is framing and occlusion, not absence | reporting |
 | untextured ground | flat colour per pavement kind, no texture | material |

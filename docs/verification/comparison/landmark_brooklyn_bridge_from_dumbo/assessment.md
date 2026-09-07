@@ -44,7 +44,7 @@ another instance of I16 running in the opposite direction from the Manhattan can
 * The tower has no masonry. It is a single pale grey surface where the real tower is coursed limestone and granite with deep joints, a rough face and strong tonal variation — the entire subject of the reference photograph.
 * The framing is much wider than the reference. The photograph is taken from directly under the bridge looking up the tower with a long lens; the render's level 35 mm axis puts the tower a third of the way up the frame with half of Brooklyn Bridge Park in shot. That is the level-axis rule working as designed but it means the two frames are not of the same thing.
 * Brooklyn Bridge Park is a blank grey plane: no Pebble Beach shingle, no railings, no benches, no planting, no Jane's Carousel, no paths.
-* No people anywhere, on a waterfront that is never empty.
+* ~~No people anywhere, on a waterfront that is never empty.~~ — **superseded 2026-09-07.** **427 people and 89 vehicles are in this scene** from one frame of the running simulation; what the reference still has and the render does not is recorded in the section above.
 * The bridge carries no traffic and no pedestrians on the promenade.
 * The buildings across the river are flat pastel solids with no glass.
 * The foreground is a large untextured plane with visible triangulation from the graded terrain grid.
@@ -56,6 +56,6 @@ another instance of I16 running in the opposite direction from the Manhattan can
 | no masonry on the tower | the b_brooklyn_bridge model carries geometry but a flat base colour; there is no stone texture | material |
 | framing much wider than the reference | a level optical axis at 35 mm is required to compare proportion; the reference is a tilted long lens from beneath | camera |
 | the park is a blank plane | park surfacing, planting, railings and structures are in no dataset the scene reads | geometry |
-| no people or traffic | no crowd or traffic placement feeds the verification scene | data |
+| ~~no people or traffic~~ superseded | agents are placed now (427 people, 89 vehicles); what remains is framing and occlusion, not absence | reporting |
 | flat buildings across the river | shells carry a per-material base colour with no glass | material |
 | untextured, faceted foreground | the terrain material is a flat colour and the graded grid is 2 m here | material |

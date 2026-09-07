@@ -49,7 +49,7 @@ openings, so this is a property of these classes and not of the kit.
 * No half-timbering, no bargeboards, no rainwater goods, no lamp brackets, no front doors.
 * The green band along the boundary is a kit hedge rendered as a flat green pattern rather than planting.
 * The reference's foreground — a stone garden wall with a planter and two chairs — has no counterpart; there is no garden furniture, no planting and no wall in any dataset the scene reads.
-* No cars, no people.
+* ~~No cars, no people.~~ — **superseded 2026-09-07.** **404 people and 66 vehicles are in this scene** from one frame of the running simulation; what the reference still has and the render does not is recorded in the section above.
 
 ## Cause of each gap
 
@@ -60,4 +60,4 @@ openings, so this is a property of these classes and not of the kit.
 | no windows, sills or doors | the facade kit placed 2,787 pieces in this scene but the visible faces carry none; low-rise residential facade classes are the thinnest part of the kit | geometry |
 | hedge reads as a flat pattern | the kit hedge piece is an untextured card | material |
 | no garden walls, planting or furniture | no dataset the scene reads carries residential lot furniture | data |
-| no cars or people | no traffic or crowd placement feeds the verification scene | data |
+| ~~no cars or people~~ superseded | agents are placed now (404 people, 66 vehicles); what remains is framing and occlusion, not absence | reporting |

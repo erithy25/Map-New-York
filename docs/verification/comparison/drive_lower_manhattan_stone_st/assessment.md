@@ -68,7 +68,7 @@ wrong about the light; it is answering a different question from the one the pho
   (deviation I7).
 * Stone Street's defining surface — Belgian block cobbles — is a flat dark grey plane. The pavement kind is 'plaza' with a base colour and no texture.
 * The street's other defining feature is missing entirely: the restaurant tables, chairs, umbrellas and heaters that fill it from April to October, and the hanging signs and string lights above them.
-* No people, no bicycles, no delivery carts.
+* ~~No people, no bicycles, no delivery carts.~~ — **superseded 2026-09-07.** **377 people and 89 vehicles are in this scene** from one frame of the running simulation; what the reference still has and the render does not is recorded in the section above.
 * The walls have no window openings visible along the near run, no sills, no lintels, no fire escapes, where the reference's block face carries a fire escape, six window bays, stone lintels and a cornice.
 * There is no glass anywhere: the shopfront band is a flat coloured strip with a light behind it, not a window.
 * The near foreground is a large pale faceted plane where the graded terrain grid meets the pavement, with visible triangulation and no texture.
@@ -81,7 +81,7 @@ wrong about the light; it is answering a different question from the one the pho
 | ~~the two halves face different ways~~ | **fixed**: the subject test reads the photograph's own title and description, so a facade study categorised under "Stone Street (Manhattan)" no longer qualifies as a view along it | reference |
 | no cobbles | pavement polygons carry a kind and a base colour, with no texture map | material |
 | no tables, chairs, umbrellas or string lights | no dataset carries outdoor restaurant furniture and props.parquet has no kind for it | data |
-| no people | no crowd placement feeds the verification scene | data |
+| ~~no people~~ superseded | agents are placed now (377 people, 89 vehicles); what remains is framing and occlusion, not absence | reporting |
 | no windows, sills or fire escapes on the near walls | the facade kit was capped by the triangle budget before it reached this run of wall | geometry |
 | no glass | the kit's storefront and window pieces carry no glazing material | material |
 | faceted, untextured ground | the terrain material is a flat colour and the graded grid is 2 m here | material |

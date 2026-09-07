@@ -95,8 +95,8 @@ the assumed hour decides whether the street is lit or in shade, so on this sheet
 * **The heading is still assumed, not measured.** The item names no subject, so the azimuth is the
   avenue's own uptown heading rather than anything derived from the image (deviation I7). It happens to
   agree here; nothing in the metadata proves it.
-* No people. The reference has about forty, including a group crossing the frame at 8 m; the render has none, so the near-foreground crosswalk reads as empty grey.
-* No vehicles anywhere on the avenue.
+* ~~No people. The reference has about forty, including a group crossing the frame at 8 m; the render has none, so the near-foreground crosswalk reads as empty grey.~~ — **superseded 2026-09-07.** **251 people and 51 vehicles are in this scene** from one frame of the running simulation; what the reference still has and the render does not is recorded in the section above.
+* ~~No vehicles anywhere on the avenue.~~ — **superseded 2026-09-07.** **251 people and 51 vehicles are in this scene** from one frame of the running simulation; what the reference still has and the render does not is recorded in the section above.
 * No road markings. The crosswalk in the reference is a broad zebra with a stop bar and lane lines; the render's crosswalk polygons are flat light-grey rectangles with no stripes.
 * The bare street trees are still near-solid dark cones. The opaque impostor cards are dropped (12 in this frame) but the branch geometry itself reads as a mass rather than as winter branches, and there are eleven of them lining the avenue.
 * A street lamp column stands about 1.5 m from the lens and runs the full height of the frame. That is where props.parquet puts a lamp and where the photograph's own GPS puts the camera, but a photographer would have stepped around it.
@@ -109,7 +109,7 @@ the assumed hour decides whether the street is lit or in shade, so on this sheet
 |---|---|---|
 | ~~the two halves face different ways~~ | **fixed**: the chooser now requires the photograph's own title or description to name the street, rejects one titled after a building on it, rejects a street address as a street name, and rejects archival scans | reference |
 | the render is too dark to compare on tone | the file records only a year, so the Sun falls back to 21 June 09:30 and a north-facing canyon is in shadow | lighting |
-| no people, no vehicles | no crowd or traffic placement feeds the verification scene | data |
+| ~~no people, no vehicles~~ superseded | agents are placed now (251 people, 51 vehicles); what remains is framing and occlusion, not absence | reporting |
 | no road markings | pavement polygons carry a kind but no stripe geometry and no texture | material |
 | trees read as solid cones | the leaf-off branch model is dense and untextured | material |
 | a lamp column across the lens | the photograph's GPS puts the camera within 1.5 m of a real lamp post; nothing moves an unblocked camera off one | camera |

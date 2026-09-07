@@ -46,7 +46,7 @@ sidewalk. Of the 50 vehicles the simulation placed here, none is visible.
 * The pairing is wrong again: the item looks uptown along Sixth Avenue, the photograph is a square-on study of the shopfronts at 1156 Sixth Avenue.
 * The reference is dominated by things the model has none of: a Citi Bike dock with twenty bikes in it, Wells Fargo and La Bleu Optique shopfront signs, plate glass with interiors behind it, a poster in a window, a fire hydrant with its chain, and painted road markings.
 * The Citi Bike dock is the sharpest single miss. props.parquet carries citibike_dock rows and the props kit exports citibike_dock_unit, citibike_kiosk and citibike_bike assets, so the data and the assets both exist, yet no dock is visible in this frame.
-* No people, no vehicles, no traffic signals visible.
+* ~~No people, no vehicles, no traffic signals visible.~~ — **partly superseded 2026-09-07.** The people and vehicles are placed now; the rest of this bullet — traffic signals, street signs, wayfinding kiosks and the like — is **still true**, and those are street furniture rather than agents.
 * The facade kit was capped by the triangle budget at 14,173 of 18,910 records in range.
 * The photograph carries no time, only a year, so the sheet's Sun is an assumption rather than a measurement. That is stated on the sheet but it makes this pair unusable for any judgement about light.
 
@@ -58,5 +58,5 @@ sidewalk. Of the 50 vehicles the simulation placed here, none is visible.
 | the two halves are of different subjects | the item names no subject and the reference stage assigned it the item's own azimuth | reference |
 | no shopfront glass, signs or interiors | kit storefronts carry openings without glazing, lettering or interiors | material |
 | no Citi Bike dock in a frame whose data has one | the dock rows are outside the 250 m prop radius or lost to the prop triangle cap; the assets exist | data |
-| no people, vehicles or road markings | no traffic or crowd placement, and pavement polygons carry no stripe geometry | data |
+| ~~no people, vehicles or road markings~~ superseded | agents are placed now (209 people, 50 vehicles); what remains is framing and occlusion, not absence | reporting |
 | a quarter of the facade kit not drawn | the 4.5 M triangle budget is spent before the kit finishes | geometry |

@@ -48,7 +48,7 @@ argument in the set for allowing the camera to tilt and saying on the sheet that
 * The Chrysler Building is not in the frame. The item exists to test its stainless-steel crown and the render shows the street it stands on. From a sidewalk 205 m away on a canyon street the tower is behind the block in front of the camera, and no lens choice can recover it — only a different viewpoint can.
 * The frame is still dark, mean 0.222, because Lexington Avenue at 40th at a 36 deg October Sun is in shadow at street level.
 * No building has any surface: the near walls are flat grey-blue and pale planes with unglazed openings, where the reference's own foreground buildings carry limestone, deep reveals and bronze spandrels.
-* No people, no vehicles, no traffic signals, no signage.
+* ~~No people, no vehicles, no traffic signals, no signage.~~ — **partly superseded 2026-09-07.** The people and vehicles are placed now; the rest of this bullet — traffic signals, street signs, wayfinding kiosks and the like — is **still true**, and those are street furniture rather than agents.
 * The reference is a dramatic upward view of the crown against a deep blue sky with the eagle gargoyles and the sunburst spire; there is no counterpart to any of it.
 * Both props and kit were capped by the triangle budget (12,474 of 16,473 kit records in range).
 
@@ -59,5 +59,5 @@ argument in the set for allowing the camera to tilt and saying on the sheet that
 | the tower is not in the frame | the recorded viewpoint is on a canyon sidewalk 205 m from the subject with a block in between; the item needs a viewpoint with a line of sight | reference |
 | frame still dark | a Midtown canyon at a 36 deg Sun with two light bounces | lighting |
 | no surface on any building | shells carry a per-material base colour; the kit supplies openings without glazing | material |
-| no people, vehicles, signals or signage | no stage places any of them | data |
+| ~~no people, vehicles, signals or signage~~ superseded | agents are placed now (392 people, 80 vehicles); what remains is framing and occlusion, not absence | reporting |
 | a quarter of the facade kit not drawn | the 4.5 M triangle budget is spent before the kit finishes | geometry |

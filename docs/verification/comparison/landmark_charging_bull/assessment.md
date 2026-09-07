@@ -47,8 +47,8 @@ the Sun is from EXIF.
 
 * The bull has no surface and no form to speak of at this distance: it is a dark rounded mass where the reference's own subject is polished bronze with modelled musculature, horns and a raised tail.
 * The lower 45 % of the frame is bare grey ground with no texture, no granite security blocks, no bike lane, no road markings and no kerb detail — the reference's foreground is all of those.
-* No people. The reference has perhaps thirty, several of them beside the bull, which is what gives the sculpture its scale.
-* No vehicles, no traffic signals on their mast arms, no street signs, no wayfinding kiosk — all present and prominent in the reference.
+* ~~No people. The reference has perhaps thirty, several of them beside the bull, which is what gives the sculpture its scale.~~ — **superseded 2026-09-07.** **322 people and 88 vehicles are in this scene** from one frame of the running simulation; what the reference still has and the render does not is recorded in the section above.
+* ~~No vehicles, no traffic signals on their mast arms, no street signs, no wayfinding kiosk — all present and prominent in the reference.~~ — **partly superseded 2026-09-07.** The people and vehicles are placed now; the rest of this bullet — traffic signals, street signs, wayfinding kiosks and the like — is **still true**, and those are street furniture rather than agents.
 * The buildings are flat pale solids: the reference's Cunard Building and 26 Broadway carry rusticated stone, deep window reveals and cornices, and the render has none.
 * The facade kit was capped by the triangle budget at 9,253 of 13,758 records in range.
 
@@ -58,8 +58,8 @@ the Sun is from EXIF.
 |---|---|---|
 | the bull has no surface | the charging_bull model is a coarse form with a flat base colour and no bronze material | material |
 | bare foreground | pavement polygons carry a kind but no texture, markings or kerb detail, and there is no dataset of security blocks or bike-lane paint | material |
-| no people | no crowd placement feeds the verification scene | data |
-| no vehicles, signals or signs | no traffic or signage placement feeds the verification scene | data |
+| ~~no people~~ superseded | agents are placed now (322 people, 88 vehicles); what remains is framing and occlusion, not absence | reporting |
+| ~~no vehicles, signals or signs~~ superseded | agents are placed now (322 people, 88 vehicles); what remains is framing and occlusion, not absence | reporting |
 | flat stone buildings | shells carry a per-material base colour with no texture or mouldings | material |
 | a third of the facade kit not drawn | the 4.5 M triangle budget is spent before the kit finishes | geometry |
 

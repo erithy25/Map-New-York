@@ -48,7 +48,7 @@ overhead.
 * City Hall Park does not exist. The reference is a spring park: cherry and redbud in blossom, mature planes, iron benches, the Delacorte fountain, railings, planting beds and forty people. The render's park is one flat grey plane with a single tree and a bench on it.
 * The stone has no surface: City Hall's marble and brownstone read as one uniform grey, without joints, tonal variation or weathering.
 * There is no glass in any of City Hall's openings, and the windows behind the arcade are dark rectangles.
-* No people anywhere, no vehicles on Park Row, no fountain, no flagpoles in front of the building.
+* ~~No people anywhere, no vehicles on Park Row, no fountain, no flagpoles in front of the building.~~ — **superseded 2026-09-07.** **251 people and 66 vehicles are in this scene** from one frame of the running simulation; what the reference still has and the render does not is recorded in the section above.
 * The foreground half of the frame is bare paving with no texture and visible facets from the graded terrain grid.
 * Props were capped by the triangle budget at 728 placed.
 
@@ -59,7 +59,7 @@ overhead.
 | no park: no planting, blossom, benches, fountain or railings | park planting and furniture are in no dataset the verification scene reads; props.parquet is the street-tree census | data |
 | no stone surface | the landmark model carries a flat base colour per material with no texture | material |
 | no glazing | neither the landmark model nor the kit supplies glass | material |
-| no people or vehicles | no crowd or traffic placement feeds the verification scene | data |
+| ~~no people or vehicles~~ superseded | agents are placed now (251 people, 66 vehicles); what remains is framing and occlusion, not absence | reporting |
 | bare, faceted foreground | the pavement material is a flat colour and the terrain grid is 2 m here | material |
 
 ## Re-render note, 2026-09-07

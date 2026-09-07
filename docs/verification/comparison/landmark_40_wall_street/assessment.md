@@ -50,7 +50,7 @@ colonnade legible on the left.
 * The reference photograph is of somewhere else entirely: the whole Lower Manhattan skyline from the Liberty Island ferry, 1.5 km out. Nothing in it corresponds to anything in the render.
 * The frame is still very dark, mean 0.131. Wall Street at Broad is a 12 m canyon between 60-100 m walls under a 22 deg October Sun; the geometry is right and it genuinely is that dark, but nothing can be judged from it.
 * The tower's base has no surface: a flat pale plane with unglazed window dashes where the real building is limestone with deep-set bronze-framed windows and a rusticated base.
-* No people, no vehicles, no signage, no road markings.
+* ~~No people, no vehicles, no signage, no road markings.~~ — **partly superseded 2026-09-07.** The people and vehicles are placed now; the rest of this bullet — traffic signals, street signs, wayfinding kiosks and the like — is **still true**, and those are street furniture rather than agents.
 * The facade kit was capped by the triangle budget at 10,650 of 18,999 records in range.
 
 ## Cause of each gap
@@ -61,7 +61,7 @@ colonnade legible on the left.
 | the reference is a photograph of somewhere else | no photograph of 40 Wall Street from its own viewpoint was collected | reference |
 | frame too dark to read | a 12 m canyon between 60-100 m walls at a 22 deg Sun with two light bounces | lighting |
 | no surface on the tower base | shells carry a per-material base colour; the kit supplies openings without glass or mouldings | material |
-| no people, vehicles, signage or markings | no stage places any of them | data |
+| ~~no people, vehicles, signage or markings~~ superseded | agents are placed now (403 people, 81 vehicles); what remains is framing and occlusion, not absence | reporting |
 | nearly half the facade kit not drawn | the 4.5 M triangle budget is spent before the kit finishes | geometry |
 
 ## Re-render note, 2026-09-07

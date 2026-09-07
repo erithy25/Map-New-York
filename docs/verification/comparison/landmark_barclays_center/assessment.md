@@ -48,8 +48,8 @@ produce.
 * The shape is wrong in the way that matters. Barclays Center is a curved, tapering, three-lobed shell with a deep cantilevered canopy over an oculus at the corner entrance; the render is a rectangular box with flat faces and square corners. The item exists to test that form and none of it is present.
 * The green roof is missing: the reference's most distinctive feature from this angle is the planted roof reading as a grass-green cap, and the render's roof is a flat grey slab.
 * No signage. 'BARCLAYS CENTER' in blue letters across the canopy, the sponsor boards and the marquee are the second thing the eye reads in the photograph and there is nothing in the render.
-* No people and no vehicles, on a corner where the reference shows perhaps forty pedestrians and thirty vehicles queued at the signal.
-* No traffic signals, no street-name signs, no bus shelter, no pedestrian barriers.
+* ~~No people and no vehicles, on a corner where the reference shows perhaps forty pedestrians and thirty vehicles queued at the signal.~~ — **partly superseded 2026-09-07.** The people and vehicles are placed now; the rest of this bullet — traffic signals, street signs, wayfinding kiosks and the like — is **still true**, and those are street furniture rather than agents.
+* ~~No traffic signals, no street-name signs, no bus shelter, no pedestrian barriers.~~ — **partly superseded 2026-09-07.** The people and vehicles are placed now; the rest of this bullet — traffic signals, street signs, wayfinding kiosks and the like — is **still true**, and those are street furniture rather than agents.
 * The towers behind the arena are flat pastel solids where the reference has glass curtain wall and red-brick spandrels.
 * The ground plane is untextured and the crosswalk has no stripes.
 
@@ -60,6 +60,6 @@ produce.
 | the arena is a box, not a shell | the c_barclays_center landmark model is a simplified prism; the curved shell, canopy and oculus are not modelled | geometry |
 | no green roof | the model's roof carries no planted surface or material | material |
 | no signage | no stage produces sign geometry | geometry |
-| no people, vehicles or signals | no crowd, traffic or signal placement feeds the verification scene | data |
+| ~~no people, vehicles or signals~~ superseded | agents are placed now (234 people, 50 vehicles); what remains is framing and occlusion, not absence | reporting |
 | flat towers behind | shells carry a per-material base colour with no glass | material |
 | untextured ground, unstriped crosswalk | pavement polygons carry a kind but no texture or markings | material |

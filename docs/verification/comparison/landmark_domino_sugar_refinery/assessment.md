@@ -49,7 +49,7 @@ has its shape and its rhythm and not its surface. The roadway and pavement are u
 * The brick has no texture: no courses, no mortar, no weathering, no blocked-up openings. The reference is 150 years of soot and repair.
 * No glass in the arched openings: they are dark recesses.
 * Domino Park is a flat grey plane. The reference's foreground is mature planting, a lawn and the park's own steel structures; the render has bare ground and a handful of trees rendered as dark silhouettes because they are backlit at a 70 deg June Sun.
-* No people on an esplanade that is never empty, and no vehicles.
+* ~~No people on an esplanade that is never empty, and no vehicles.~~ — **superseded 2026-09-07.** **311 people and 78 vehicles are in this scene** from one frame of the running simulation; what the reference still has and the render does not is recorded in the section above.
 * The pitch rule kept the axis level and stated why: the subject is 82 m away and would need +19 deg of tilt, so the render frames more foreground and less building than the reference does.
 
 ## Cause of each gap
@@ -61,5 +61,5 @@ has its shape and its rhythm and not its surface. The roadway and pavement are u
 | no brick texture | shells and landmark models carry a flat base colour per material | material |
 | no glass in the arches | the kit supplies openings without glazing | material |
 | no park, no planting | park surfacing and planting are in no dataset the scene reads | data |
-| no people or vehicles | no crowd or traffic placement feeds the verification scene | data |
+| ~~no people or vehicles~~ superseded | agents are placed now (311 people, 78 vehicles); what remains is framing and occlusion, not absence | reporting |
 | backlit trees read as silhouettes | the canopy is untextured geometry with no translucency | material |

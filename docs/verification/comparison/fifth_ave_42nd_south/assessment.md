@@ -85,8 +85,8 @@ smooth and untextured at this distance.
 | gap | cause | class |
 |---|---|---|
 | ~~the two halves face different streets~~ | **fixed**: the subject test now reads the photograph's own title and description rather than its categories, and `not_of` rejects a title announcing a view along the cross street | reference |
-| no people | no crowd placement feeds the verification scene | data |
-| no vehicles | no traffic placement feeds the verification scene | data |
+| ~~no people~~ superseded | agents are placed now (248 people, 52 vehicles); what remains is framing and occlusion, not absence | reporting |
+| ~~no vehicles~~ superseded | agents are placed now (248 people, 52 vehicles); what remains is framing and occlusion, not absence | reporting |
 | no road markings | pavement polygons carry a kind but no stripe geometry or texture | material |
 | flat facades, no glazing, no signs | shells carry a per-material base colour; the facade kit supplies openings without glass, mullions or sign faces | material |
 | trees read as solid cones | the leaf-off branch model is dense and untextured | material |

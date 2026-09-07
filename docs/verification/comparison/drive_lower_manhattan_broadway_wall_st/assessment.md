@@ -52,7 +52,7 @@ it.
 * No facade has any surface. The near wall is a flat grey plane with unglazed window openings; the reference's own facade is rusticated limestone with moulded architraves, balustrades, and glass with reflections.
 * No signage anywhere: no street-name signs, no subway roundels, no shopfront lettering, no flags. The photograph is entirely a sign and a flag.
 * The street trees read as dark cones here. The same tree assets render correctly in the sunlit Arthur Avenue frame, so this is shading rather than geometry: an untextured branch mass in full shadow collapses to a silhouette.
-* No vehicles and no people on a street that in the reference's background carries both.
+* ~~No vehicles and no people on a street that in the reference's background carries both.~~ — **superseded 2026-09-07.** **212 people and 89 vehicles are in this scene** from one frame of the running simulation; what the reference still has and the render does not is recorded in the section above.
 * No road markings, no crosswalk stripes, no manhole detail on the visible roadway.
 * The facade kit was capped by the triangle budget at 8,734 of 15,653 records in range, so nearly half the wall detail within 120 m is not drawn.
 
@@ -64,7 +64,7 @@ it.
 | flat facades, no glass or stone | shells carry a per-material base colour; the kit supplies openings without glazing or mouldings | material |
 | no signage of any kind | no stage produces street-name signs, subway roundels or shopfront lettering | geometry |
 | trees collapse to silhouettes in shadow | the tree canopy is untextured geometry with no translucency | material |
-| no vehicles or people | no traffic or crowd placement feeds the verification scene | data |
+| ~~no vehicles or people~~ superseded | agents are placed now (212 people, 89 vehicles); what remains is framing and occlusion, not absence | reporting |
 | no road markings | pavement polygons carry a kind but no stripe geometry or texture | material |
 | nearly half the facade kit not drawn | the 4.5 M triangle budget is spent before the kit finishes; the cap is on the sheet | geometry |
 

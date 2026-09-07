@@ -47,7 +47,7 @@ content.
 
 * The pairing is meaningless: the item is a residential block on 215th Street; the photograph looks south along Interstate 295 from a pedestrian overpass. Nothing in one has a counterpart in the other.
 * There are no houses. Bayside at this location is detached and semi-detached two-family homes with front gardens, driveways, garages, porches and fences; the render's blocks are commercial masses. The frame is 35 m from the recorded viewpoint after the correction, which is enough to leave the residential street entirely.
-* No vehicles anywhere, in a frame whose reference is 90 % roadway and traffic.
+* ~~No vehicles anywhere, in a frame whose reference is 90 % roadway and traffic.~~ — **superseded 2026-09-07.** **263 people and 73 vehicles are in this scene** from one frame of the running simulation; what the reference still has and the render does not is recorded in the section above.
 * No road markings: the reference's lane lines, edge lines and the yellow median stripe are the whole subject of its lower half, and the render's roadbed is uniform grey.
 * No front gardens, hedges, fences, driveways or parked cars — the vocabulary of a Queens residential block.
 * The buildings have no window glazing, no shopfront signage and no texture.
@@ -59,7 +59,7 @@ content.
 |---|---|---|
 | the two halves are unrelated | the item names no subject, the photograph is a highway view 567 m away and its direction was assumed | reference |
 | no houses in a residential item | the correction moved the camera 35 m to the nearest roadbed polygon, off the residential street the item names | camera |
-| no vehicles | no traffic placement feeds the verification scene | data |
+| ~~no vehicles~~ superseded | agents are placed now (263 people, 73 vehicles); what remains is framing and occlusion, not absence | reporting |
 | no road markings | pavement polygons carry a kind but no stripe geometry or texture | material |
 | no gardens, fences or driveways | no dataset the scene reads carries residential lot furniture | data |
 | no glazing or signage | kit windows and storefronts carry openings without glass or lettering | material |

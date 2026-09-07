@@ -71,6 +71,6 @@ and it changed nothing you can see from this parapet.
 | ~~no Lake~~ | **fixed**: water is now the surveyed polygon and its own level, not a per-tile scalar; 3,737 water quads here against 0. Only 455 pixels of it are visible from the upper terrace | data |
 | no trees or planting | props.parquet is the street-tree census; park interior planting is not in any dataset the scene reads | data |
 | no lower plaza, stairs or arcade | the b_bethesda_terrace model carries the upper terrace and its balustrade only | geometry |
-| no people | no crowd placement feeds the verification scene | data |
+| ~~no people~~ superseded | agents are placed now (10 people, 0 vehicles); what remains is framing and occlusion, not absence | reporting |
 | untextured, faceted ground | the terrain material is a flat base colour and the graded grid is 2 m here; no paving texture exists | material |
 | the fountain is below the parapet and out of frame | a level optical axis is required to compare proportion; the reference leans over the parapet | camera |

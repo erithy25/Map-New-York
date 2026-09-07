@@ -28,7 +28,7 @@
 * The 90 m displacement is itself a significant caveat: the render is not taken from the viewpoint the item records, and the sheet says so.
 * The reference is a single tower filling the frame in a tight upward perspective with 86 storeys of limestone piers and steel spandrels. There is nothing in the render at that scale to compare it with.
 * No facade in the render has glazing, texture or mouldings.
-* No people, no vehicles, no signage.
+* ~~No people, no vehicles, no signage.~~ — **superseded 2026-09-07.** **412 people and 88 vehicles are in this scene** from one frame of the running simulation; what the reference still has and the render does not is recorded in the section above.
 * The facade kit was capped by the triangle budget at 11,344 of 14,550 records in range.
 
 ## Cause of each gap
@@ -38,5 +38,5 @@
 | the tower is not in the frame | the recorded viewpoint has no line of sight to the subject, and the clearance test measures free distance along the azimuth rather than visibility of the subject itself | camera |
 | camera 90 m from the recorded viewpoint | the search takes the nearest point that satisfies the clear-view test; in a dense block that can be far | camera |
 | no glazing, texture or mouldings | shells carry a per-material base colour; the kit supplies openings without glass | material |
-| no people, vehicles or signage | no stage places any of them | data |
+| ~~no people, vehicles or signage~~ superseded | agents are placed now (412 people, 88 vehicles); what remains is framing and occlusion, not absence | reporting |
 | a fifth of the facade kit not drawn | the 4.5 M triangle budget is spent before the kit finishes | geometry |
