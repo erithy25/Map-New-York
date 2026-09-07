@@ -71,12 +71,12 @@ MIN_WALL_H_M = 2.2            # eaves never drop below this above ground
 # the shared boundary of two regions cut from them with up to ~7 mm of disagreement.  Stepped
 # buildings are therefore welded and boundary-matched on a 1 cm grid — still half the 2 cm snap the
 # footprints themselves carry, so nothing visible moves.
-STEP_WELD_M = 0.02
+STEP_WELD_M = 0.01
 RISER_PROBE_M = 1e-3          # how far off a shared boundary the riser's outward side is tested
 #: Ladder of step-set reductions tried, in order, when a stepped shell will not close.  A float is
 #: "absorb every region below this many m2"; an int is "absorb the smallest regions until this many
 #: remain".  It stops at two, which is still a real setback; below that the flat cap takes over.
-STEP_MERGE_LADDER: tuple = (12.0, 40.0, 4)
+STEP_MERGE_LADDER: tuple = (12.0, 40.0, 6, 3, 2)
 STEP_BOUNDARY_TOL_M = 0.04
 
 
