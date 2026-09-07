@@ -7,6 +7,7 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
+   "below_point_excluded": 0,
    "chosen_m": 21.84,
    "max_m": 22.14,
    "median_m": 21.95,
@@ -26,8 +27,8 @@
   "pitch_deg": 0.0,
   "portrait": false,
   "resolution": [
-   1280,
-   776
+   1208,
+   906
   ],
   "sensor_mm": 36.0,
   "slug": "fifth_ave_42nd_south",
@@ -36,7 +37,7 @@
   "y": 5942.116,
   "z": 23.442
  },
- "camera_caption": "camera 40.75350, -73.98087 (NYC_TM -2607, 5942) z 23.4 m NAVD88 | azimuth 209.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x776",
+ "camera_caption": "camera 40.75350, -73.98087 (NYC_TM -2607, 5942) z 23.4 m NAVD88 | azimuth 209.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
  "camera_origin": {
   "from_photograph_gps": true,
   "lat": 40.753505,
@@ -54,9 +55,9 @@
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.3829,
+  "mean": 0.3903,
   "reason": null,
-  "sd": 0.1663,
+  "sd": 0.1766,
   "usable": true
  },
  "frame_retry": null,
@@ -65,7 +66,7 @@
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
  "lighting": {
   "background_strength": 0.25,
-  "direct_normal_irradiance_w_m2": 727.5,
+  "direct_normal_irradiance_w_m2": 727.4,
   "emissive": {
    "cones_hidden": 2,
    "lamps_switched_off": 5,
@@ -73,8 +74,8 @@
    "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.75,
-  "sky_azimuth_deg": 204.61,
-  "sky_elevation_deg": 25.727,
+  "sky_azimuth_deg": 204.631,
+  "sky_elevation_deg": 25.721,
   "sun_lamp": true,
   "sun_strength_blender": 1.347,
   "view_transform": "Filmic"
@@ -85,19 +86,19 @@
  "reference_photo": {
   "author": "Rhododendrites",
   "confidence": "medium",
-  "date_taken": "2017-01-21 13:41:20",
+  "date_taken": "2017-01-21 13:41:25",
   "estimated_azimuth_deg": 209.0,
   "file": "2.jpg",
-  "height": 1163,
+  "height": 1440,
   "licence": "CC BY-SA 4.0",
   "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
-  "page_url": "https://commons.wikimedia.org/wiki/File:01-21-2017_-_Women%27s_March_on_NYC_looking_down_42nd_(10794).jpg",
-  "title": "File:01-21-2017 - Women's March on NYC looking down 42nd (10794).jpg",
+  "page_url": "https://commons.wikimedia.org/wiki/File:01-21-2017_-_Women%27s_March_on_NYC_looking_up_5th_Ave_(10796).jpg",
+  "title": "File:01-21-2017 - Women's March on NYC looking up 5th Ave (10796).jpg",
   "width": 1920
  },
  "render_png": "docs/verification/comparison/fifth_ave_42nd_south/render.png",
- "rendered_at": "2026-09-06T21:42:35Z",
- "resolution_note": "1280x776; the reference photograph is 1920x1163 (1.65:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "rendered_at": "2026-09-07T09:05:01Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
   "buildings": {
@@ -111,39 +112,58 @@
     "t_-4_6"
    ],
    "landmark_bins_suppressed": 39,
-   "landmark_faces_suppressed": 4660,
+   "landmark_faces_suppressed": 5192,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_-2_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 14,
-     "triangles": 16728
+     "triangles": 21132
     },
     "t_-2_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 1,
      "objects": 18,
-     "triangles": 22732
+     "triangles": 30740
     },
     "t_-3_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
-     "triangles": 48780
+     "triangles": 65668
     },
     "t_-3_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 17,
-     "triangles": 29970
+     "triangles": 39612
     },
     "t_-4_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 19,
-     "triangles": 44562
+     "triangles": 63636
     },
     "t_-4_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 17,
-     "triangles": 65152
+     "triangles": 78856
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -151,53 +171,77 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 6,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 227924
+   "triangles": 299644
   },
   "centre_tm": [
    -2607.24,
    5942.12
   ],
   "kit": {
-   "capped": "triangle budget 2698785",
+   "capped": "triangle budget 2627083",
    "per_category": {
     "antenna": 6,
+    "billboard": 1,
     "bulkhead": 23,
-    "cornice": 22,
-    "door_entry": 38,
+    "cornice": 20,
+    "door_entry": 35,
     "hvac": 23,
-    "parapet": 23,
+    "parapet": 21,
     "pilaster": 12,
-    "quoin": 3,
-    "scaffold": 25,
-    "storefront": 159,
-    "storefront_interior": 32,
-    "string_course": 23,
+    "quoin": 2,
+    "scaffold": 17,
+    "storefront": 239,
+    "storefront_interior": 28,
+    "string_course": 21,
     "water_tower": 9,
-    "window": 12810,
+    "window": 9732,
     "window_accessory": 9
    },
-   "placed": 13217,
+   "placed": 10198,
    "radius_m": 140.0,
-   "records_in_range": 19975,
-   "stale_registry_ids": {},
-   "suppressed_with_landmark_shells": 642,
+   "records_in_range": 20149,
+   "stale_registry_ids": {
+    "1618": "header storefront_sign_band vs registry storefront_sign_projecting",
+    "201": "header win_aluminum_slider_lit vs registry win_arched_tenement",
+    "202": "header win_arched_tenement vs registry win_bay_window",
+    "203": "header win_arched_tenement_lit vs registry win_casement_pair",
+    "206": "header win_casement_pair vs registry win_dormer",
+    "207": "header win_casement_pair_lit vs registry win_double_hung_1_1",
+    "208": "header win_chicago_tripartite vs registry win_double_hung_1_1_soldier",
+    "209": "header win_chicago_tripartite_lit vs registry win_double_hung_1_1_stone",
+    "210": "header win_curtain_wall_module vs registry win_double_hung_2_2",
+    "211": "header win_curtain_wall_module_lit vs registry win_double_hung_6_6",
+    "214": "header win_double_hung_1_1 vs registry win_punched_office",
+    "215": "header win_double_hung_1_1_lit vs registry win_ribbon_strip",
+    "216": "header win_double_hung_1_1_soldier vs registry win_steel_industrial_4x5",
+    "217": "header win_double_hung_1_1_soldier_lit vs registry win_through_wall_ac_sleeve"
+   },
+   "suppressed_with_landmark_shells": 540,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_5",
     "t_-3_6"
    ],
-   "triangles": 2698838,
+   "triangles": 2627224,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [
     {
      "distance_m": 120.7,
      "id": "new_york_public_library",
      "lod": 0,
      "name": "New York Public Library, Stephen A. Schwarzman Building",
+     "own_ground_note": {
+      "above_heightmap_m": -1.19,
+      "heightmap_median_m": 24.66,
+      "reason": "the model's ground stands -1.19 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 51785
     },
     {
@@ -205,6 +249,9 @@
      "id": "one_vanderbilt",
      "lod": 0,
      "name": "One Vanderbilt",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 71710
     },
     {
@@ -212,6 +259,9 @@
      "id": "grand_central_terminal",
      "lod": 0,
      "name": "Grand Central Terminal",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 29560
     },
     {
@@ -219,6 +269,9 @@
      "id": "c_metlife_building",
      "lod": 0,
      "name": "MetLife Building (200 Park Avenue)",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 105284
     },
     {
@@ -226,6 +279,9 @@
      "id": "chrysler",
      "lod": 0,
      "name": "Chrysler Building",
+     "own_ground_note": {
+      "reason": "every ground polygon is smaller than 25 m2"
+     },
      "triangles": 57851
     },
     {
@@ -233,6 +289,11 @@
      "id": "c_times_square",
      "lod": 0,
      "name": "Times Square",
+     "own_ground_note": {
+      "above_heightmap_m": -1.54,
+      "heightmap_median_m": 16.53,
+      "reason": "the model's ground stands -1.54 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 182310
     },
     {
@@ -240,6 +301,12 @@
      "id": "30_rockefeller_plaza",
      "lod": 0,
      "name": "30 Rockefeller Plaza",
+     "own_ground_m2": 1476.0,
+     "own_ground_note": {
+      "above_heightmap_m": -0.76,
+      "heightmap_median_m": 20.26
+     },
+     "own_ground_parts": 1,
      "triangles": 102530
     },
     {
@@ -247,6 +314,9 @@
      "id": "st_patricks_cathedral",
      "lod": 0,
      "name": "St. Patrick's Cathedral",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 6259
     },
     {
@@ -254,9 +324,20 @@
      "id": "empire_state",
      "lod": 0,
      "name": "Empire State Building",
+     "own_ground_m2": 45.0,
+     "own_ground_note": {
+      "above_heightmap_m": -0.09,
+      "heightmap_median_m": 15.33
+     },
+     "own_ground_parts": 1,
      "triangles": 107298
     }
    ],
+   "own_ground_from": [
+    "30_rockefeller_plaza",
+    "empire_state"
+   ],
+   "own_ground_m2": 1521.0,
    "placed": 9,
    "skipped": 0,
    "skipped_detail": [],
@@ -284,12 +365,14 @@
     "t_-4_5",
     "t_-4_6"
    ],
-   "triangles": 162250,
+   "triangles": 162246,
+   "triangles_cut_for_landmark_ground": 4,
    "vertices": 166504
   },
   "props": {
    "capped": null,
    "impostor_cards_dropped": 11,
+   "impostor_faces_dropped": 0,
    "leaf_off": true,
    "per_kind": {
     "bench": 1,
@@ -333,7 +416,7 @@
    }
   },
   "radius_m": 700.0,
-  "seconds": 70.82,
+  "seconds": 66.06,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -341,14 +424,16 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 7,
    "samples": 209,
    "spacing_m": 2.0,
-   "triangles": 86528,
+   "triangles": 86514,
+   "water_bodies": [],
    "water_quads": 0,
    "z_max_m": 25.74,
    "z_min_m": 7.43
   },
-  "triangles": 4500053
+  "triangles": 4500141
  },
  "scene_request": {
   "kit_radius_m": 140.0,
@@ -356,9 +441,9 @@
   "radius_m": 700.0
  },
  "seconds": {
-  "render": 147.6,
-  "scene": 74.3,
-  "total": 221.9
+  "render": 186.0,
+  "scene": 68.1,
+  "total": 254.1
  },
  "slug": "fifth_ave_42nd_south",
  "status": "rendered",
@@ -367,11 +452,11 @@
   "name": null
  },
  "sun": {
-  "azimuth_deg": 204.61032981341936,
-  "elevation_deg": 25.727328571174738,
-  "local": "2017-01-21T13:41:20-05:00",
+  "azimuth_deg": 204.63083327738522,
+  "elevation_deg": 25.72077712764779,
+  "local": "2017-01-21T13:41:25-05:00",
   "time_source": "EXIF DateTimeOriginal",
-  "utc": "2017-01-21T18:41:20Z"
+  "utc": "2017-01-21T18:41:25Z"
  },
  "viewpoint": {
   "azimuth_deg": 209.0,
