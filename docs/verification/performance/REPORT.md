@@ -51,6 +51,21 @@ measurement; the wall clock is the weather.
 The signal window was verified transparent: **0 of 39,628 plan states differ** between the windowed
 and whole-table paths.
 
+> **Addendum, 2026-09-07.** This row measured a saving that *was not being taken*. `setActiveWindow`
+> was called from nowhere in the repository except two benchmarks, so every real host — the Unreal
+> adapter included — refreshed all 19,814 plans every step and the 1.57 ms stayed on the table.
+> `TrafficSim::step()` and `PedSim::step()` now set the window from their own despawn disc, which is
+> what ADR-021 calls the streamed region, so no host can forget it; a host that wants to manage the
+> window itself clears `signal_window_from_ring`, and the step benchmark does exactly that so its own
+> A/B still has a baseline. Re-measured end to end with `nycsim_bench city --steps 120 --warmup 20`,
+> with and without: **433 of 19,814 plans refreshed per step**, traffic 22.029 → 20.991 ms,
+> pedestrians 15.287 → 14.598 ms, **combined 37.316 → 35.589 ms**. That is **1.73 ms, not the 2.7 ms**
+> this report's next-steps list had claimed, and the deviation is corrected to match. The isolated
+> refresh measures 42.3× (0.815 → 0.019 ms). The stronger transparency evidence is the city A/B
+> rather than the plan-state comparison: **both trajectory hashes come back bit-identical**
+> (`dedc1863de1e83bd` traffic, `e6d5dd6607e663d6` pedestrians), so the simulation is unchanged and
+> only the cost moved.
+
 `tests/test_performance.py` re-measures the `cacheStates` window against the shipped signal table on
 every run, so the figure above is reproducible rather than a one-off reading:
 
