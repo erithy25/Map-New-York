@@ -1,6 +1,6 @@
 {
  "engine": "CYCLES CPU",
- "generated_at": "2026-09-06T15:38:17Z",
+ "generated_at": "2026-09-07T11:12:20Z",
  "renders": [
   {
    "camera_m": [
@@ -31,7 +31,7 @@
    ],
    "png": "docs/verification/buildings_mesh/midtown_aerial.png",
    "samples": 24,
-   "seconds": 394.9,
+   "seconds": 119.4,
    "sources": [
     "blender_out/tiles/t_-4_5/tile_buildings.glb",
     "blender_out/tiles/t_-4_4/tile_buildings.glb",
@@ -77,7 +77,7 @@
    ],
    "png": "docs/verification/buildings_mesh/midtown_avenue.png",
    "samples": 24,
-   "seconds": 496.3,
+   "seconds": 146.5,
    "sources": [
     "blender_out/tiles/t_-4_5/tile_buildings.glb",
     "blender_out/tiles/t_-3_5/tile_buildings.glb",
@@ -121,7 +121,7 @@
    ],
    "png": "docs/verification/buildings_mesh/midtown_setbacks.png",
    "samples": 24,
-   "seconds": 419.1,
+   "seconds": 126.3,
    "sources": [
     "blender_out/tiles/t_-4_5/tile_buildings.glb",
     "blender_out/tiles/t_-3_5/tile_buildings.glb",
@@ -163,7 +163,7 @@
    ],
    "png": "docs/verification/buildings_mesh/park_slope_block.png",
    "samples": 24,
-   "seconds": 307.9,
+   "seconds": 90.8,
    "sources": [
     "blender_out/tiles/t_-3_-4/tile_buildings.glb",
     "blender_out/tiles/t_-3_-3/tile_buildings.glb",
@@ -199,7 +199,7 @@
    ],
    "png": "docs/verification/buildings_mesh/queens_houses.png",
    "samples": 24,
-   "seconds": 208.1,
+   "seconds": 64.7,
    "sources": [
     "blender_out/tiles/t_14_6/tile_buildings.glb"
    ],
@@ -240,7 +240,7 @@
    ],
    "png": "docs/verification/buildings_mesh/skyline_brooklyn.png",
    "samples": 24,
-   "seconds": 312.4,
+   "seconds": 86.2,
    "sources": [
     "blender_out/tiles/_merged/l2/L2_-2_0.glb",
     "blender_out/tiles/_merged/l2/L2_-2_1.glb",

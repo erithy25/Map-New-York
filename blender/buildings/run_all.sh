@@ -5,13 +5,14 @@
 #   WORKERS=4 bash blender/buildings/run_all.sh    # on a machine that is not shared
 #   LODS=0 bash blender/buildings/run_all.sh       # LOD0 only (about 55 % of the bytes)
 #
-# Measured cost (this container, 4 vCPU shared with seven other agents, load average ~25):
-#   920 tiles / 1,083,026 buildings
-#   CPU        ~2.1 h geometry + ~0.5 h load, mesh assembly and glTF export  = ~2.6 CPU-hours
-#   Wall clock ~1.4 h with 2 workers on an idle box; 3-5 h at the load levels measured here
-#   Disk       ~5.4 kB per building at LOD0+LOD1+LOD2 with the full attribute set = ~5.9 GB
-#              (LOD0 only: ~2.9 kB/building = ~3.2 GB)
-#   Merged     L2 (4 km cells) + L3 (16 km cells, >= 40 m) add ~7 min and ~120 MB
+# Measured cost, whole city with stepped massing (this container, 4 vCPU shared with other agents):
+#   920 tiles / 1,083,026 buildings, 844 at --lod 0,1 and 76 at --lod 0,1,2
+#   CPU        7,517 worker-seconds = 2.09 CPU-hours
+#   Wall clock ~63 min with 2 workers
+#   Disk       3.8 kB per building = 4.12 GB (the earlier 5.4 kB/building was measured on a
+#              76-tile, LOD0+LOD1+LOD2, Manhattan-weighted subset; the city is mostly houses)
+#   Merged     L2 (4 km cells) + L3 (16 km cells, >= 40 m) add ~18 min and ~844 MB
+#   Steps      184,373 buildings ship real stepped massing; 0 open shells at LOD0
 #
 # The run is resumable: --skip-existing leaves any tile that already has both
 # tile_buildings.glb and manifest.json alone, so re-running after an interruption continues.

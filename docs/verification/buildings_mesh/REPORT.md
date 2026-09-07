@@ -217,6 +217,29 @@ the start of this session — seven other agents are writing concurrently) and t
 run, checks free space before starting, warns below 8 GB, is resumable (`--skip-existing`) and
 prints the same summary; `LODS=0 bash blender/buildings/run_all.sh` produces the 3.2 GB variant.
 
+### 4.5 The whole city, rebuilt with stepped massing and the new materials
+
+The whole city has since been built, twice: once by the orchestrator with `--lod 0,1`, and again in
+the stepped-massing pass, which rebuilt **every one of the 920 tiles in place** (844 at `--lod 0,1`
+and the 76 that already carried LOD2 at `--lod 0,1,2`, so no tile lost a LOD it had). Measured over
+the whole run, not extrapolated from a subset:
+
+| | measured over 920 tiles / 1,083,026 buildings |
+|---|---|
+| triangles | **38,606,666** LOD0 (35.6 per building), 20,009,642 LOD1, 981,066 LOD2 (the 76 tiles that carry it) |
+| storage | **4.12 GB**, 3,800 B/building |
+| compute | 7,517 worker-seconds = **2.09 CPU-hours**, about 63 min wall clock with 2 workers |
+| open shells at LOD0 | **0** |
+| flat-cap fallbacks | 16,788 LOD-instances (of which 8,792 are stepped buildings at LOD0 that would not close) |
+| tiles that failed | **0** — every tile has a manifest newer than the start of the run |
+
+The 3,790 B/building is below the 5,266 B/building of §4.4 because that figure was measured on a
+76-tile, LOD0+LOD1+LOD2, Manhattan-weighted subset; the city is mostly two-storey houses on
+`--lod 0,1`. **ADR-003's shell budget should be restated as about 4.1 GB for the city at
+`--lod 0,1` with stepped massing** — the steps cost about 8 % on top of the pre-step library
+(`blender_out/tiles` went from 5.2 GB to 5.6 GB including the New Jersey shells and the merged
+cells), which is well inside what the LOD chain and the vertex attributes already cost.
+
 ---
 
 ## 5. Verification renders (Cycles CPU, ADR-012)
@@ -244,15 +267,28 @@ compares files rather than shaders.
 | `docs/verification/buildings_mesh/queens_houses.png` | Bayside one/two-family houses, low oblique from 48 m — the roof-shape check. |
 | `docs/verification/buildings_mesh/skyline_brooklyn.png` | Lower Manhattan from the Brooklyn Heights Promenade, built from the merged **L2** cells, over a flat water plane at 0.0 m NAVD88. |
 | `docs/verification/buildings_mesh/midtown_setbacks.png` | A setback tower and its neighbours from 240 m, the frame the stepped massing exists for. |
+| `docs/verification/buildings_mesh/midtown_aerial_glb.png` | The same Midtown aerial with the glTF material rendered exactly as the file carries it (`--flat`) — what a plain glTF consumer sees. |
+| `docs/verification/buildings_mesh/skyline_brooklyn_glb.png` | The same skyline, `--flat`. |
 
-Three of those have a matched **before** frame, rendered from the same camera with the same
-materials so the pair isolates one change each:
+Four of them have a matched **before** frame from the same camera, each pair isolating one change.
+The massing pairs are rendered with the *same* materials on both halves (the before frame is built
+from the same tiles with `--roof-steps off`), and the material pairs are rendered `--flat` on both
+halves, so each pair shows one thing changing and not two:
 
-| pair | what differs | what to look at |
-|---|---|---|
-| `midtown_setbacks.png` vs `midtown_setbacks_no_steps.png` | stepped massing only (identical materials) | the ziggurat profile: five plateaus against the sky where the "before" is one flat top |
-| `midtown_aerial.png` vs `midtown_aerial_no_steps.png` | stepped massing only | roof lines across the whole frame, not just one tower |
-| `skyline_brooklyn.png` vs `skyline_brooklyn_before_materials.png` | shell materials only (the merged L2 cells are LOD2 massing, which carries no steps either way) | the towers going from pale flat solids to dark glass with sky in them |
+| pair | what differs | measured difference | what to look at |
+|---|---|---|---|
+| `midtown_setbacks.png` vs `midtown_setbacks_no_steps.png` | stepped massing only | 15.1 % of pixels changed | the ziggurat: five stepped plateaus with their own parapets and recessed decks, where the "before" is one flat top |
+| `midtown_aerial.png` vs `midtown_aerial_no_steps.png` | stepped massing only | 11.0 % of pixels changed | roof lines across the whole frame, not one tower |
+| `midtown_aerial_glb.png` vs `midtown_aerial_glb_before.png` | shell materials only, glTF material as shipped | tonal range (p01-p99) **0.511 -> 0.615**, s.d. **+44 %**, pixels below 0.10 luminance **0.01 % -> 1.31 %**, 41.5 % of pixels changed | the pale-blue slabs becoming dark glass with near-black shadow faces and sky in them |
+| `skyline_brooklyn_glb.png` vs `skyline_brooklyn_glb_before.png` | shell materials only (the merged L2 cells are LOD2 massing, so they carry no steps either way — this pair cannot be anything but materials) | tonal range **0.676 -> 0.757**, s.d. **+15 %**, pixels below 0.10 luminance **0.20 % -> 1.40 %**, 35.9 % of pixels changed | the Lower Manhattan cluster the comparison lane called "flat pastel solids: pale pink, pale blue, white" |
+
+The material figures are the answer to the comparison lane's Brooklyn Heights Promenade assessment,
+which recorded that the towers rendered as flat pastel solids against a photograph with "a wide
+tonal range from near-black to specular white". The range is measurably wider and there is now a
+near-black end where there was none — 1.28 % of the aerial frame is below 0.10 luminance against
+0.01 % before. What the pair does **not** show is the vertical banding the
+same assessment named: that needs a spandrel band at each floor line, which is not delivered — see
+§7.
 
 Camera positions, targets, sample counts, source files and render times are in `renders.json`.
 
@@ -296,8 +332,8 @@ The renders were looked at and four real defects were found and fixed before thi
 
 ## 6. Tests
 
-`python3 -m pytest tests/test_building_shells.py -q` -> **149 passed** (16.9 s), run against the
-shipped `blender_out/tiles/t_-4_5/tile_buildings.glb`.
+`python3 -m pytest tests/test_building_shells.py -q` -> **203 passed** (51 s), run against the
+shipped `blender_out/tiles/t_-4_5/tile_buildings.glb` and the real CityGML rows behind it.
 
 * `test_glb_loads_and_has_lod_chain` — loads with `pygltflib`; LOD0/LOD1/LOD2 all present; mesh
   names prefixed by the tile; `asset.extras.nycsim` carries tile, CRS, origin, schema version, LODs.
@@ -325,8 +361,8 @@ shipped `blender_out/tiles/t_-4_5/tile_buildings.glb`.
   outward-oriented and span exactly `[ground_z, roof_z]`.
 * Plus footprint-cleaning tests (holes kept, winding, 2 cm snap) and an LOD2 massing test.
 
-Stepped massing and materials add nine more, written so they fail if the steps are *wrong* rather
-than restating what was built — six of them run against the real CityGML rows and the real shipped
+Stepped massing and materials add eleven more, written so they fail if the steps are *wrong* rather
+than restating what was built — seven of them run against the real CityGML rows and the real shipped
 tile, not against fixtures:
 
 * `test_recovered_levels_are_disjoint_and_tile_the_plan` — after the overlap resolution no two
@@ -347,6 +383,9 @@ tile, not against fixtures:
 * `test_shipped_glb_carries_the_stepped_geometry` — counts buildings in the exported `.glb` whose
   LOD0 mesh has two or more up-facing roof plateaus more than 1 m apart, and requires at least as
   many as the manifest claims. A manifest that counted assignments rather than deliveries fails.
+* `test_stepped_shells_span_exactly_ground_to_roof` and
+  `test_step_merging_never_absorbs_the_top_level` — the merge fallback must not change the
+  building's height. These exist because it did: see §7.
 * `test_material_variation_is_deterministic_and_in_range` — the per-building tint is reproducible,
   stays in [-1, 1], is not biased light or dark, and never drives a colour or roughness out of range.
 * `test_glass_curtain_ships_as_a_dark_reflective_material` — reads the exported glTF material:
@@ -373,24 +412,31 @@ about 5.7 GB (with the LOD chain), and record Draco as a workstation-side packag
 build-time one.
 
 **Stepped massing is built, and where it is not, that is counted.** 307,735 buildings (28 % of the
-city, in 891 of the 920 tiles) carry more than one CityGML roof level. The recovery and the geometry
-are described in §2; what follows is what it costs and what it misses, measured over the whole
-rebuild and reported per tile in `manifest.json` under `roof_steps`.
+city, in 891 of the 920 tiles) carry more than one CityGML roof level, and **184,373 of them now
+ship a real stepped solid** — 60 % of the multi-level stock, 17 % of every building in New York,
+spread over 872 tiles.
+The recovery and the geometry are described in §2; what follows is what it costs and what it
+misses, measured over the whole rebuild and reported per tile in `manifest.json` under `roof_steps`.
 
-Of the multi-level buildings the recovery is offered, a building drops out at one of five gates, and
-each is counted separately per tile:
+A multi-level building drops out at one of six gates, each counted separately per tile:
 
-| gate | what it means | Midtown tile `t_-4_5` |
-|---|---|---|
-| `candidates` | `n_roof_levels >= 2` in the CityGML table | 623 |
-| `rejected_area` | the recovered levels do not tile the CityGML plan | 5 |
-| `rejected_plan` | the 2014 solid is not this building (mutual coverage with the footprint below 0.80) | 8 |
-| `rejected_dz` | the two sources disagree on height by more than 20 % of it, or 15 m | 39 |
-| `rejected_partition` | cutting the real footprint by the levels leaves nothing usable | 9 |
-| `rejected_pitch` | a pitched building whose lowered part is under a quarter of the plan — it keeps its roof shape instead | 0 (Bayside `t_14_6`: 177) |
-| `lost_would_not_close` | the stepped solid could not be made watertight, so the flat cap was kept | 137 |
-| `shipped_with_levels_merged` | shipped, but with its smallest levels absorbed into their neighbour | 46 |
-| **`shipped`** | **a real stepped solid is in the file** | **376** |
+| counter | what it means | whole city | Midtown `t_-4_5` |
+|---|---|---|---|
+| `candidates` | `n_roof_levels >= 2` in the CityGML table | 307,735 | 623 |
+| `rejected_area` | the recovered levels do not tile the CityGML plan | 1,114 | 5 |
+| `rejected_geom` | fewer than two levels survive the triangle grouping | 74 | 0 |
+| `rejected_pitch` | a pitched building whose lowered part is under a quarter of the plan — it keeps its roof shape instead | 92,448 | 0 |
+| `rejected_dz` | the two sources disagree on height by more than 20 % of it, or 15 m | 12,097 | 39 |
+| `rejected_plan` | the 2014 solid is not this building (mutual coverage with the footprint below 0.80) | 2,009 | 8 |
+| `rejected_partition` | cutting the real footprint by the levels leaves nothing usable | 405 | 9 |
+| `lost_would_not_close` | the stepped solid could not be made watertight, so the flat cap was kept | 8,792 | 137 |
+| `shipped_with_levels_merged` | shipped, but with its smallest levels absorbed into their neighbour | 5,823 | 49 |
+| `applied_offset_z` | shipped, but its altitude carries a height-source offset (see below) | 9,431 | 135 |
+| **`shipped`** | **a real stepped solid is in the file** | **184,373** | **376** |
+
+A further **6,423** buildings have a recovered step set that no tile row could be matched to — the
+CityGML BIN is not a single-part footprint in that tile's `buildings.parquet`. They keep their
+slabs and are not counted as a rejection because nothing about their steps was judged.
 
 Two of those gates were widened in this pass, and both were widened for a reason that can be
 checked rather than to raise the number:
@@ -425,14 +471,17 @@ which `_emit_riser` already anticipates with its per-end top height; that is a c
 `_build_stepped`, not a gate, and it was not attempted in this pass.
 
 **What is honestly weaker.** `applied_offset_z` counts buildings whose CityGML top and contract
-`roof_z` differ by more than 3 m (135 of 513 on the Midtown tile). Their plans match to an IoU of
+`roof_z` differ by more than 3 m — 9,431 city-wide, 5.1 % of what shipped, and 135 of 513 on the
+Midtown tile. Their plans match to an IoU of
 1.000, so they are the same building measured twice, and the quantity taken from CityGML — the depth
 of each step below the top — is unaffected by a height offset. But the *altitude* of such a step
 carries that offset, and it is counted separately for exactly that reason.
 
-**The largest remaining defect in this feature: 137 of 513 assigned buildings on the Midtown tile
-(27 %) lose their steps because the stepped solid will not close.** They are the busy ones — a
-median of 8 plan regions against 2 for those that close. Each candidate fix was measured on its own
+**The largest remaining defect in this feature: 8,792 of the 193,165 buildings that were assigned
+steps (4.6 %) lose them because the stepped solid will not close**, and it is far worse in Midtown
+(137 of 513, 27 %) than anywhere else. They are the busy ones — a median of 8 plan regions against
+2 for those that close, which is exactly what a setback tower looks like, so the failures are
+concentrated on the buildings this feature exists for. Each candidate fix was measured on its own
 rather than assumed, and only three of six moved the number: snapping a region vertex onto a
 footprint **corner** before its edges (294 -> 306 closed of 513), keeping two roof samples that
 differ in position as well as in height and carrying the wall strip out to both ends of its edge
@@ -449,6 +498,19 @@ tagging each triangle with the routine that emitted it — and were not diagnose
 pass. They keep their single-height shell and are counted in
 `lost_would_not_close`; **`shipped` is what is in the file, and it is the only number in the
 manifest that should be read as a delivery.**
+
+**A defect this pass produced, and how it was caught.** The first whole-city rebuild finished and
+then `test_height_matches_source_within_1cm` — a test that predates this work — failed on it: one
+sampled building's mesh was **0.84 m shorter than its `height` column**. The cause was in the new
+fallback that merges small levels when a stepped solid will not close. It picks the smallest region
+and hands it to the neighbour that surrounds it, and nothing stopped it picking a small *penthouse*;
+absorbing the highest level gives its area to a lower one, so the shell stopped below the measured
+`roof_z`. The whole city was rebuilt a second time after the fix, which is why the delivered library
+is the 10:43Z one. Two tests now guard it: one checks the built mesh's z-extent against `ground_z`
+and `roof_z` over a sample of the real stepped specs, and one puts a 4 m² penthouse on a synthetic
+building and requires it to survive every stage of the merge ladder. **The lesson is the reason the
+manifest separates `applied` from `shipped`:** a stage that counts what it *decided* rather than
+what it *built* cannot catch this class of defect at all.
 
 **Stepped massing is LOD0 and LOD1 only.** LOD2 is the convex-hull massing of ARCHITECTURE §4.3 and
 the merged L2/L3 skyline cells are built from it, so a setback tower is a single block at distance.
