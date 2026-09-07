@@ -6,9 +6,12 @@ big* each roof level is, but not *where* it is.  The outlines are recoverable, b
 `data/processed/buildings/citygml/da*.parquet` publishes the LOD2 triangle soup per building:
 
 * ``tri_xyz``  — float32, ``(n, 3, 3)``, NYC_TM metres, z in NAVD88 metres.
-* ``tri_type`` — uint8 per triangle: **0 = ground, 1 = wall, 2 = roof** (verified against the
-  ``n_ground`` / ``n_wall`` / ``n_roof`` counts and the face normals: type 0 and 2 are exactly
-  horizontal, type 1 exactly vertical).
+* ``tri_type`` — uint8 per triangle: **0 = ground, 1 = wall, 2 = roof** (verified over a 400-row
+  sample by face normal: type 0 and 2 are exactly horizontal — ``1 - |n_z|`` is 0.0 — and type 1
+  exactly vertical.  The row's ``n_ground`` / ``n_wall`` / ``n_roof`` columns count *surfaces*, not
+  triangles, so they are not the check; the triangle bbox reproducing the row's own
+  ``xmin``/``xmax``/``ymin``/``ymax``/``z_ground_min``/``z_roof_max`` to 0.0 m is what pins the
+  blob to NYC_TM.)
 
 Every roof triangle is horizontal, so its 2-D projection *is* the level outline.  Grouping the roof
 triangles by height and unioning each group gives the real per-level polygon, which this module then
@@ -42,7 +45,7 @@ MIN_STEP_H_M = 1.0            # a step shallower than this is not worth the tria
 AREA_TOL_REL = 0.02           # published vs recovered level area (the 2 % measured in the report)
 AREA_TOL_ABS_M2 = 1.5
 MAX_LEFTOVER_FRAC = 0.25      # footprint not covered by any recovered level
-MAX_LEVELS = 8
+MAX_REGIONS = 24              # disjoint plan regions per building (a triangle-budget guard)
 # The 2014 CityGML outline and the 2026 OTI footprint disagree by a few millimetres, so a step line
 # that should end on a wall stops just short of it and the wall builder never sees the step.  Region
 # vertices closer than this to the footprint boundary are pulled onto it (measured offsets are
@@ -113,6 +116,50 @@ def recover_levels(tri_xyz: bytes, tri_type: bytes, *, z_tol: float = Z_CLUSTER_
         out.append((float(z[grp].mean()), shapely.union_all(parts)))
     out.sort(key=lambda t: t[0])
     return out
+
+
+def resolve_overlaps(levels: list[tuple[float, Polygon]], *, min_area: float = MIN_LEVEL_AREA_M2
+                     ) -> tuple[list[tuple[float, Polygon]], bool]:
+    """Make the recovered levels disjoint in plan, tallest first.
+
+    A LOD2 roof is *usually* a height field, so the level outlines are already disjoint — but about
+    one Midtown building in five has an overhang, a canopy or a re-used surface that makes two
+    levels overlap in plan (measured on ``t_-4_5``: median overlap 0.000 of the total roof area,
+    p90 0.065, max 0.416).  Seen from above, the taller surface is the one that is there, so the
+    overlap is removed from the *lower* level.  This is the projection the shell needs and it is
+    also what makes the areas comparable with the published ones: before it, an overlapping
+    building's levels sum to more than its footprint and the area gate rejected it.
+
+    Returns ``(levels, changed)``.
+    """
+    if len(levels) < 2:
+        return levels, False
+    order = sorted(range(len(levels)), key=lambda i: -levels[i][0])
+    taken = None
+    kept: list[tuple[float, Polygon]] = []
+    changed = False
+    for i in order:
+        z, poly = levels[i]
+        if taken is not None:
+            try:
+                cut = poly.difference(taken)
+            except Exception:
+                cut = poly
+            if cut.is_empty:
+                changed = True
+                continue
+            if cut.area < poly.area - 1e-6:
+                changed = True
+            poly = cut
+        parts = [q for q in _iter_polygons(poly) if q.area >= min_area]
+        if not parts:
+            changed = True
+            continue
+        merged = shapely.union_all(parts)
+        kept.append((z, merged))
+        taken = merged if taken is None else shapely.union_all([taken, merged])
+    kept.sort(key=lambda t: t[0])
+    return kept, changed
 
 
 def _grid(poly: Polygon | None, grid: float = REGION_GRID_M) -> Polygon | None:
@@ -279,8 +326,8 @@ def partition_footprint(footprint: Polygon, levels: list[tuple[float, Polygon]]
     zs = [z for _, z in regions]
     if max(zs) - min(zs) < MIN_STEP_H_M:
         return [], f"step of {max(zs) - min(zs):.2f} m is below the {MIN_STEP_H_M} m threshold"
-    if len(regions) > MAX_LEVELS:
-        return [], f"{len(regions)} levels exceeds the {MAX_LEVELS} cap"
+    if len(regions) > MAX_REGIONS:
+        return [], f"{len(regions)} plan regions exceeds the {MAX_REGIONS} cap"
     return regions, "ok"
 
 
