@@ -16,10 +16,17 @@ updates the Status column only from a verified artefact, never from an agent's a
 
 ## The suite, as of this writing
 
-`PYTHONPATH=pipeline python3 -m pytest tests/ pipeline/tests/` — **3,778 passed, 1 skipped, 0 failed**, in
-5 m 38 s. `ctest` in `core/build` — **11 of 11 suites green**. That is the whole repository green at once,
-which it has not been before: the gates that were failing were failing for real reasons, and each was
-closed by fixing the thing rather than the gate.
+`PYTHONPATH=pipeline python3 -m pytest tests/ pipeline/tests/` reached **3,778 passed, 1 skipped, 0
+failed** in 5 m 38 s, and `ctest` in `core/build` **11 of 11 suites green** — the whole repository green
+at once, which it had not been before. Every gate that was red got there by catching something real, and
+each was closed by fixing the thing rather than the gate.
+
+**One test is red as this is written, and it should be.**
+`test_no_comparison_sheet_is_older_than_the_content_it_shows` flags 27 of the 57 comparison sheets,
+because a rebuild of the tile shells — stepped roof massing and a real material set — is in progress and
+those frames now show geometry that has been replaced. The sheets are genuinely stale; the test is
+reporting the truth, and it clears when the rebuild finishes and the affected scenes are re-rendered.
+A green suite that hid this would be worth less than a red one that names it.
 
 ## What "verified" means in this build
 

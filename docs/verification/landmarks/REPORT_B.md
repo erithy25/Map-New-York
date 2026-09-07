@@ -547,3 +547,77 @@ physical rules were written and measured first and both were rejected, because n
 Bethesda Terrace, which the walk gets right: height above the heightmap (1.33 m at the memorial, 1.6 m at Bethesda)
 and a drop beyond the stopping point (1.10 m against 0.90 m). Bethesda re-renders **bit-identical** to its shipped
 frame under the rule that shipped.
+
+---
+
+## 13. Correction pass, 2026-09-07 (second): the Oculus's axis
+
+§12.6 recorded that the Oculus stood 32 degrees off its own footprint and left it, because moving it changes the
+Oculus sheets. This pass moves it. Every figure below is measured from the footprint parquet, the exported `.glb`
+or the render.
+
+### 13.1 `PLAZA_AXIS_DEG = 160.6` measured nothing
+
+The constant did three jobs — it oriented the 106.7 m Oculus body, it carried the frame's informational
+`heading_deg`, and it aimed the Oculus verification cameras — and it was not the axis of any of them.
+
+Its origin is now clear. The earlier build derived the two pool centres at local **(−28.23, 80.17)** and
+**(28.23, −80.17)**; the line between those two points runs **160.6 deg**. §12.3 replaced those centres with the
+measured OSM ones, whose line runs **176.3 deg**, so after that correction the constant described nothing in the
+model at all. It survived because nothing measured it again.
+
+It is now three separate constants, each with its own measurement:
+
+| what | value | how it is measured |
+|---|---:|---|
+| `OCULUS_AXIS_DEG` — the Oculus's long axis | **128.2 deg** | BIN 1089309's own OTI footprint: minimum rotated rectangle 110.0 × 33.3 m with its long edge on 128.21 deg; area-weighted principal axis of the same polygon 128.79 deg. `_oculus()` re-derives it from the polygon at build time (the polygon is loaded anyway — its centroid places the building) and warns if it moves more than 1 deg from the recorded value |
+| `SITE_AXIS_DEG` — the frame's `heading_deg` | **29.2 deg** | the original towers' grid: the pools' measured edge heading (OSM ways 697722178 / 697722181), corroborated by 3 WTC's footprint at 26.5 deg and 4 WTC's at 29.4 deg |
+| `POOL_AXIS_DEG` — the pool squares | 29.2 deg | unchanged; measured in §12.3 |
+
+**The memorial plaza has no axis of its own to keep.** Its polygon's minimum rotated rectangle runs 15.5 deg while
+its area-weighted principal axis runs 172.0 deg — 23 deg apart, because the plaza is an irregular eight-acre
+polygon and not a rectangle. Neither is 160.6 deg. That is why the frame heading is taken from the site grid,
+which three independent footprints agree on, rather than from the plaza.
+
+### 13.2 What 32.4 degrees of error was doing
+
+Measured in plan against BIN 1089309, with the modelled body as the 106.7 × 35.1 m ellipse the ribs sweep:
+
+| | on 160.6 deg | on the measured 128.2 deg |
+|---|---:|---:|
+| share of the body over its own footprint | **58.0 %** | **94.2 %** |
+| IoU with BIN 1089309 | 0.413 | 0.902 |
+| overlap with 3 WTC's footprint (base prism) | **231 m²** | **0 m²** |
+| overlap with 4 WTC's footprint | 0 m² | 0 m² |
+| distance of each end of the body from its own footprint | 16.3 m and 17.8 m **outside** it | both **inside** it |
+
+So the fidelity statement's claim that the Oculus stands "on its real footprint (BIN 1089309)" was true of its
+centre and false of everything else. It now reads what is true, including the 6 % of the body's plan that still
+falls outside the polygon — the model is a swept ellipse of the published dimensions on the footprint's axis, not
+the footprint's own outline, and that is the remaining approximation.
+
+### 13.3 The verification renders
+
+`oculus_church_street_reference` (the comparison lane's recorded Church Street viewpoint, used verbatim) now shows
+the Oculus presenting its **end** to Church Street with the rib cage sweeping away on both sides, standing clear of
+3 WTC. That is what the real building does: its long axis runs 128.2 deg and Church Street runs 26.3 deg, so the
+street faces its entrance end, not its flank. On 160.6 deg the body lay across the street's line of sight.
+
+`oculus_close` is replaced by **`oculus_broadside`** — square on to the corrected long axis at 78 m with a 72 deg
+lens, which is the narrowest frame that contains all 106.7 m of the body (2 × 78 × tan 36° = 113 m across the
+axis). It answers the dimensional question the old view could not: length, width, the 29.3 m apex, the 51.2 m
+canopy tips, the two 350 ft arches and the skylight between them, all in one frame.
+
+**`oculus_from_church_street` is removed rather than re-aimed.** It was a fixed offset along the *perpendicular to
+the axis*, so on the corrected axis it landed 21 m from the building's south-east tip and filled the frame with
+ribs; and at the offset where it did work it was the same shot as `oculus_church_street_reference`. One honest view
+of Church Street rather than two, one of them wrong. The model has five verification renders.
+
+### 13.4 Also corrected here
+
+The module docstring quoted the footprint areas from the source table's `shape_area` column as if it were square
+metres. It is not: sampled over 300 rows of `candidate_footprints.parquet`, `shape_area` is **1.744 ×** the
+polygon's own area in NYC_TM for every row (median 1.7445, range 1.735–1.752), so it is in some other unit or
+projection. The docstring had mixed the two — 7 WTC and the museum pavilion were quoted from the polygon, 3 WTC,
+4 WTC and the Oculus from `shape_area`. All five now quote the measured polygon area, and the discrepancy is
+named. Nothing in the model was built from those numbers; only the prose was wrong.

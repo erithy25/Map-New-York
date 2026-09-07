@@ -307,6 +307,48 @@ def test_catalog_entry(landmark_id: str) -> None:
     assert entry.get("fidelity_statement")
 
 
+def test_the_oculus_stands_on_its_own_footprint_and_not_on_the_plazas_axis() -> None:
+    """The Oculus body must lie on BIN 1089309's own long axis, measured from the exported glb.
+
+    It was built on ``PLAZA_AXIS_DEG = 160.6``, which was the heading of the *derived* pool-centre
+    line an earlier correction had already replaced.  At 32.4 deg off its footprint only 58 % of
+    the modelled body lay over BIN 1089309 and its south-east end sat inside 3 WTC's footprint.
+    """
+    pq = pytest.importorskip("pyarrow.parquet")
+    shapely = pytest.importorskip("shapely")
+    from shapely import wkb
+
+    src = REPO / "data" / "processed" / "landmarks" / "candidate_footprints.parquet"
+    if not src.exists():
+        pytest.skip("candidate_footprints.parquet not built")
+    g = _glb("b_wtc_site")
+    ox, oy = (float(v) for v in g.extras()["origin_tm"][:2])
+    ribs = {k: v for k, v in g.node_positions().items() if k.startswith("oculus_rib")}
+    assert ribs, "the exported model carries no oculus_ribs node"
+    pts = np.vstack(list(ribs.values()))
+    world = np.column_stack([pts[:, 0] + ox, pts[:, 1] + oy])
+    # Principal axis of the rib cage in plan, as a compass heading in [0, 180).
+    c = world - world.mean(axis=0)
+    vecs = np.linalg.eigh(np.cov(c.T))[1][:, -1]
+    body = math.degrees(math.atan2(vecs[0], vecs[1])) % 180.0
+
+    row = pq.read_table(src, columns=["bin", "geometry"], filters=[("bin", "==", 1089309)]).to_pylist()[0]
+    fp = wkb.loads(row["geometry"])
+    mrr = list(fp.minimum_rotated_rectangle.exterior.coords)
+    edge = max(((math.hypot(x1 - x0, y1 - y0), math.degrees(math.atan2(x1 - x0, y1 - y0)) % 180.0)
+                for (x0, y0), (x1, y1) in zip(mrr[:-1], mrr[1:])))
+    assert abs((body - edge[1] + 90.0) % 180.0 - 90.0) < 2.0, (
+        f"the modelled Oculus runs {body:.1f} deg, its footprint's long axis {edge[1]:.1f} deg")
+
+    # ... and the body is over its own footprint rather than over 3 WTC's.
+    hull = shapely.convex_hull(shapely.multipoints(world))
+    assert hull.intersection(fp).area / hull.area > 0.85, (
+        f"only {hull.intersection(fp).area / hull.area:.0%} of the body lies over BIN 1089309")
+    w3 = wkb.loads(pq.read_table(src, columns=["bin", "geometry"],
+                                 filters=[("bin", "==", 1088797)]).to_pylist()[0]["geometry"])
+    assert hull.intersection(w3).area < 1.0, "the Oculus body overlaps 3 WTC's footprint"
+
+
 def test_every_b_script_has_a_landmark_entry() -> None:
     """Every ``blender/landmarks/b_<name>.py`` that is a landmark script is covered by this test module."""
     lib = {"b_common", "b_bridge_lib", "b_tunnel_lib", "b_park_lib", "b_align", "b_osm_extract", "b_build_all",
