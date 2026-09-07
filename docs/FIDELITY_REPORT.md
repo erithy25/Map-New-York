@@ -1,6 +1,6 @@
 # Fidelity Report
 
-Generated 2026-09-07 06:52 UTC from commit `552cc1108360` by `pipeline/nycsim_pipeline/report/fidelity.py`.
+Generated 2026-09-07 07:49 UTC from commit `960f9e34cb8d` by `pipeline/nycsim_pipeline/report/fidelity.py`.
 
 Every figure below is read from an artefact on disk at generation time. Where an artefact does not exist, the row says **not produced** rather than showing a zero. Nothing in this report is an estimate unless it is labelled as one.
 
@@ -139,7 +139,7 @@ Water: hydrography polygons 2,235 · shoreline lines 413 · structures 2,536 · 
 | vehicles | 93 | 100.2 MB |
 | character | 25 | 512.5 MB |
 | landmarks | 127 | 920.2 MB |
-| tiles | 1,496 | 5,523.1 MB |
+| tiles | 1,496 | 5,599.6 MB |
 
 Catalog entries describing those assets: 386.
 
@@ -208,6 +208,22 @@ Lanes that split their work wrote more than one: `landmarks` (REPORT_B.md, REPOR
 Per-subject reports underneath those: comparison 58, facade 1, landmarks 34, reference 2, traffic_density 2.
 
 What is verified in this environment versus on a workstation is defined in `docs/ARCHITECTURE.md` §14. In short: geodesy, tiling, streaming logic, routing, traffic rules, signal phasing, astronomy, time zone handling, weather parsing, data coverage and asset geometry are verified here by tests and Cycles renders. Unreal Engine compilation, cooking, frame rate, vehicle feel and audio are not — no Unreal editor or GPU exists in this environment, and no claim is made that they were tested.
+
+### 8.2 The nine mandated comparisons, in their own words
+
+Brief §12 condition 3 names seven viewpoints, two of them in two states. All nine have a render, a sheet and a written assessment — that is coverage, and it is met. Quality is a different question and this report will not let the first stand in for the second, so each assessment's own verdict is reproduced here verbatim and unedited:
+
+* **Brooklyn Heights Promenade → Lower Manhattan** — the Lower Manhattan silhouette is right and One World Trade Center is where it belongs; everything below the skyline — the promenade the photographer is standing on, Brooklyn Bridge Park, the piers, the river surface — is a blank grey plane
+* **Top of the Rock looking south** — now a real comparison and a good one: the Empire State Building is centred where the photograph puts it, the Midtown carpet below has the right grain and the right relative heights, and 46 landmark models sit in the right places. What is missing is every surface — glass, stone, roof plant, the deck the photographer is standing on — and the far half of the view
+* **Duffy Square looking south, day** — the street is right and Times Square is absent: correct canyon, correct roadbed and sidewalk widths, correct sidewalk sheds — and not one illuminated sign, not one person, not one vehicle, in the one place in New York that is nothing but signs, people and traffic
+* **Duffy Square looking south, night** — an honest measurement of how much light the world emits: at 21:00 on an August night Times Square renders as a grey canyon lit by six street lamps and a twilight sky opened two stops. No screens, no lit windows, no shopfront glow, no headlights — the emissive content of the model city is close to zero
+* **Fifth Avenue at 42nd, north** — the two halves face different ways and cannot be compared on composition — the item says 'looking north up Fifth Avenue' and all three photographs collected for it are pictures of the library facade looking west. What the render can be judged on — street width, storey height, kerb line, furniture — is right; everything that makes the photograph a photograph is missing
+* **Fifth Avenue at 42nd, south** — the two halves face different streets, and the one thing the pairing does demonstrate is total: the photograph is ten thousand people filling 42nd Street and the render is an empty grey avenue with nothing alive in it at all
+* **Bethesda Terrace and Fountain** — the camera now stands on the right structure — the terrace's own balustrade runs across the frame where the photograph has it — and everything the photograph is actually of is missing: no fountain, no Angel of the Waters, no Lake, no trees, no people, no brick paving
+* **Staten Island Ferry → Lower Manhattan** — the island is in the right place, the right order and the right proportion, and it is a pale grey massing model floating on a mirror; below the skyline the frame has nothing in it at all
+* **Washington St, DUMBO, with the Manhattan Bridge** — the right street, the right walls and the right bridge in the right place — and the bridge is a plain blue box truss where the photograph is a riveted Beaux-Arts portal, so the one thing the view exists for is the thing least well modelled
+
+One of the nine reads as a success. Two of them — the Fifth Avenue pair — cannot be judged at all, because the reference photographs face a different way than the viewpoint they were collected for; that is a fault in the reference chooser, recorded as deviation I12. The other six are honest about a world whose geometry is in the right place and whose surfaces, population and light are not. Deviations B12 through B16 and I13 name each of those causes and size it.
 
 ## 9. Low-fidelity regions — where the data is thinnest
 

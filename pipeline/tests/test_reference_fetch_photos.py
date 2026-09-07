@@ -202,6 +202,48 @@ def test_evaluate_rules():
     assert fp.evaluate(nitem, tn)[1] == "ok"
 
 
+def test_a_photograph_that_does_not_name_the_subject_is_neither_chosen_nor_aimed():
+    """Washington Square Arch: "washington square" names the park, not the Arch.
+
+    The three photographs this item shipped with are of skateboarders at the fountain, a
+    balloon-animal seller and a distant view of 30 Hudson Yards. Each passed the keyword test and
+    each was then aimed at the Arch, because a camera GPS 27 m from the subject was read as a
+    bearing to it.
+    """
+    item = fp.BY_SLUG["landmark_washington_square_arch"]
+    assert item.subject_terms, "the item must declare how a photograph names the Arch"
+    gps = (40.730926, -73.997326)
+    park = fp.parse_candidate(
+        _page("File:Skateboarders at the central fountain, Washington Square Park, Manhattan, New York.jpg",
+              gps=gps), "geosearch", geo_hit=True)
+    assert fp.evaluate(item, park) == (None, "subject_not_named")
+    # ... and even if it were somehow selected, its GPS gives a position and not a heading.
+    ev = fp.estimate_view(item, park)
+    assert ev["lat"] == pytest.approx(gps[0]) and ev["lon"] == pytest.approx(gps[1])
+    assert ev["method"].startswith("camera_gps_with_item_azimuth")
+    assert ev["confidence"] == "low"
+    assert ev["azimuth_deg"] == pytest.approx(item.default_azimuth, abs=0.1)
+    assert "taken *at* that place rather than one *of* it" in ev["explanation"]
+    # A photograph that does name it keeps both.
+    arch = fp.parse_candidate(
+        _page("File:Washington Square Arch and the Empire State Building, Greenwich Village, Manhattan, New York.jpg",
+              gps=gps), "geosearch", geo_hit=True)
+    sc, why = fp.evaluate(item, arch)
+    assert why == "ok" and sc is not None
+    ev2 = fp.estimate_view(item, arch)
+    assert ev2["method"] == "camera_gps_to_subject" and ev2["confidence"] == "high"
+
+
+def test_subject_terms_default_to_no_extra_test():
+    """An item that declares none is unchanged: its keywords are taken to name the subject."""
+    item = fp.BY_SLUG["landmark_woolworth_building"]
+    assert item.subject_terms == ()
+    assert fp.subject_named(item, "anything at all")
+    with pytest.raises(ValueError):
+        fp.Item("x", "X", "landmark", ("q",), (("k",),), (40.7, -73.9), "note",
+                azimuth=10.0, subject_terms=("arch",))
+
+
 def test_estimate_view_methods():
     item = fp.BY_SLUG["promenade_lower_manhattan"]
     with_gps = fp.parse_candidate(_page("File:A.jpg", gps=(40.6965, -73.9970)), "s")

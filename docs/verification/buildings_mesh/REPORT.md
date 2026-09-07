@@ -236,6 +236,16 @@ shows up immediately. 1280 x 720, 24 samples, OIDN denoised, AgX view transform.
 | `docs/verification/buildings_mesh/park_slope_block.png` | Park Slope brownstone rows, Carroll Street towards Eighth Avenue, low oblique from 26 m. |
 | `docs/verification/buildings_mesh/queens_houses.png` | Bayside one/two-family houses, low oblique from 48 m — the roof-shape check. |
 | `docs/verification/buildings_mesh/skyline_brooklyn.png` | Lower Manhattan from the Brooklyn Heights Promenade, built from the merged **L2** cells, over a flat water plane at 0.0 m NAVD88. |
+| `docs/verification/buildings_mesh/midtown_setbacks.png` | A setback tower and its neighbours from 240 m, the frame the stepped massing exists for. |
+
+Three of those have a matched **before** frame, rendered from the same camera with the same
+materials so the pair isolates one change each:
+
+| pair | what differs | what to look at |
+|---|---|---|
+| `midtown_setbacks.png` vs `midtown_setbacks_no_steps.png` | stepped massing only (identical materials) | the ziggurat profile: five plateaus against the sky where the "before" is one flat top |
+| `midtown_aerial.png` vs `midtown_aerial_no_steps.png` | stepped massing only | roof lines across the whole frame, not just one tower |
+| `skyline_brooklyn.png` vs `skyline_brooklyn_before_materials.png` | shell materials only (the merged L2 cells are LOD2 massing, which carries no steps either way) | the towers going from pale flat solids to dark glass with sky in them |
 
 Camera positions, targets, sample counts, source files and render times are in `renders.json`.
 
@@ -327,29 +337,89 @@ list depends on. **Proposed ADR amendment:** restate ADR-003's shell budget as a
 about 5.7 GB (with the LOD chain), and record Draco as a workstation-side packaging step, not a
 build-time one.
 
-**Stepped massing is not built — this is the largest remaining gap in this stage.** The orchestrator
-asked for it and the data to do it *almost* exists. `data/processed/buildings/roof_attrs.parquet`
-and `data/processed/buildings/citygml/da*.parquet` now cover all 1,083,281 buildings and report
-**301,311-307,735 buildings with `n_roof_levels >= 2`** (28 % of the city), median step **4.44 m**,
-p90 7.43 m. I verified that the published `roof_level_area` values **partition** the footprint
-(they sum to `footprint_area_m2` within 2 % for 94.6 % of multi-level buildings), so each level is a
-disjoint part of the plan at its own height — real stepped massing. What is missing is *where* each
-level is: the tables publish level height and level **area**, not the level **outline**. Splitting
-the footprint by area alone requires guessing which limb is the low one, and a 4.4 m step on the
-wrong side of a house is a visible error dressed up as measured data, so it was not shipped. The
-cost of the gap is visible in `midtown_aerial.png`: setback towers are single slabs (the Empire
-State Building among them — that one is replaced by `blender/landmarks/empire_state.py` per ADR-003,
-but its neighbours are not).
+**Stepped massing is built, and where it is not, that is counted.** 307,735 buildings (28 % of the
+city, in 891 of the 920 tiles) carry more than one CityGML roof level. The recovery and the geometry
+are described in §2; what follows is what it costs and what it misses, measured over the whole
+rebuild and reported per tile in `manifest.json` under `roof_steps`.
 
-*Exact input needed:* a per-level outline in `roof_attrs.parquet` — the CityGML `RoofSurface` rings
-grouped by level, which are already present as `tri_xyz`/`tri_type` in `citygml/da*.parquet`
-(verified: `np.frombuffer(tri_xyz, np.float32).reshape(-1, 3, 3)` is in NYC_TM and matches the
-row's own `xmin/xmax/ymin/ymax/z_ground_min/z_roof_max` exactly) and only need to be grouped by z
-and unioned. *Exact change needed here:* `tiledata._resolve_roof` populates a
-`BuildingSpec.roof_steps` list of `(polygon, z)`; `shellgeom` already models a roof as planar
-regions plus vertical riser faces (`RoofPiece` + `_emit_riser` + `_emit_ring_walls`), which is
-exactly the shape of a stepped solid, so the geometry side is a small addition rather than a new
-mechanism. Estimated half a day; recommended as the next task in this lane.
+Of the multi-level buildings the recovery is offered, a building drops out at one of five gates, and
+each is counted separately per tile:
+
+| gate | what it means | Midtown tile `t_-4_5` |
+|---|---|---|
+| `candidates` | `n_roof_levels >= 2` in the CityGML table | 623 |
+| `rejected_area` | the recovered levels do not tile the CityGML plan | 5 |
+| `rejected_plan` | the 2014 solid is not this building (mutual coverage with the footprint below 0.80) | 8 |
+| `rejected_dz` | the two sources disagree on height by more than 20 % of it, or 15 m | 39 |
+| `rejected_partition` | cutting the real footprint by the levels leaves nothing usable | 9 |
+| `lost_would_not_close` | the stepped solid could not be made watertight, so the flat cap was kept | 137 |
+| `shipped_with_levels_merged` | shipped, but with its smallest levels absorbed into their neighbour | 46 |
+| **`shipped`** | **a real stepped solid is in the file** | **376** |
+
+Two of those gates were widened in this pass, and both were widened for a reason that can be
+checked rather than to raise the number:
+
+* **Overlapping levels.** About one Midtown building in five has an overhang, so two level outlines
+  overlap in plan and their *areas* sum above the footprint. The gate compared that sum to the
+  published `roof_level_area` sum as an equality and rejected 131 of 623. It is now resolved
+  top-down first — seen from above the taller surface is the one that is there — and the published
+  sum is treated as the upper bound it actually is. **What makes this safe rather than permissive:**
+  the union of the recovered levels reproduces `footprint_area_m2` for 100 % of candidates (5th
+  percentile 1.000), the union of the CityGML *ground* surfaces reproduces the same column just as
+  exactly, and after the change 99.75 % of the shipped step heights still land within 0.5 m of a
+  published `roof_level_z` (median error 0.000 m). A building admitted by the change is one whose
+  levels tile its plan and whose heights are the published ones.
+* **The region cap.** A cap of 8 *plan regions* rejected 74 more on this tile — a level split into
+  several disjoint patches counts several times, so the cap was rejecting buildings for having a
+  light well rather than for anything about their steps. It is now 24 regions. The buildings this
+  admits are checked by the same invariants as every other: regions inside the footprint (0 outside,
+  measured), covering it (worst case 0.9958), and pairwise disjoint.
+
+A third gate was **added**, not widened: every stepped building must now agree in plan with its own
+footprint (0.80 mutual coverage, 0.95 when the height had to be shifted). Mutual coverage is sharply
+bimodal — its 5th percentile is 0.96-0.999 over three tiles and only 1.1-2.3 % of buildings fall
+below 0.80 — so this removes the ones where the 2014 solid is a different building, which the old
+code would have stepped anyway.
+
+**What is honestly weaker.** `applied_offset_z` counts buildings whose CityGML top and contract
+`roof_z` differ by more than 3 m (135 of 513 on the Midtown tile). Their plans match to an IoU of
+1.000, so they are the same building measured twice, and the quantity taken from CityGML — the depth
+of each step below the top — is unaffected by a height offset. But the *altitude* of such a step
+carries that offset, and it is counted separately for exactly that reason.
+
+**The largest remaining defect in this feature: 137 of 513 assigned buildings on the Midtown tile
+(27 %) lose their steps because the stepped solid will not close.** They are the busy ones — a
+median of 8 plan regions against 2 for those that close. Each candidate fix was measured on its own
+rather than assumed, and only three of six moved the number: snapping a region vertex onto a
+footprint **corner** before its edges (294 -> 306 closed of 513), keeping two roof samples that
+differ in position as well as in height and carrying the wall strip out to both ends of its edge
+(306 -> 319), and splitting a step face at every level height present at its corners, which is the
+T-junction where three levels meet (319 -> 330). Rebuilding the step faces from the exact shared
+boundary of each region pair, filling a footprint edge that lost its wall-top samples, and noding
+the regions against each other each closed nothing or one building on their own; they are kept
+because they are right by construction, and their docstrings say so. A finer vertex weld (2 cm ->
+1 cm, which was collapsing centimetre slivers into degenerate triangles) closes 330 on the *first*
+attempt instead of 299. Finally the smallest levels are merged into the level that surrounds them
+and the build retried, which recovers a further 46 buildings that would otherwise have lost every
+step. The remainder still fail, in the caps and step faces rather than in the walls — attributed by
+tagging each triangle with the routine that emitted it — and were not diagnosed further in this
+pass. They keep their single-height shell and are counted in
+`lost_would_not_close`; **`shipped` is what is in the file, and it is the only number in the
+manifest that should be read as a delivery.**
+
+**Stepped massing is LOD0 and LOD1 only.** LOD2 is the convex-hull massing of ARCHITECTURE §4.3 and
+the merged L2/L3 skyline cells are built from it, so a setback tower is a single block at distance.
+That is a pre-existing LOD decision, not a new one, but it means the *skyline* renders do not show
+the setbacks that the street and aerial renders do.
+
+**The shell materials are shading, not measurement.** The reflectance values in `shellmat.py` were
+authored to make a curtain wall read as glass; no reflectance was measured for any NYC building, and
+which material class a building is in is ADR-004's inference with its own `MATERIAL_REAL` bit. Two
+parts of the gap are **not** closed: the spandrel band at each floor line is not in the geometry or
+in the shipped material (`shellmat.floor_band_uv` states the expression an engine should use over
+the metre UVs the shell already carries), and the per-building variation is a shader expression, so
+a consumer that renders the glTF material as authored sees the class average rather than the
+variation. Both are stated in DATA_CONTRACTS §13.
 
 **LOD ratios.** The brief asks for about 35 % at LOD1 and about 8 % at LOD2. Measured over the
 subset: LOD1 **42.6 %**, LOD2 **31.1 %** (dense masonry tiles reach 0.36/0.20; the Bayside

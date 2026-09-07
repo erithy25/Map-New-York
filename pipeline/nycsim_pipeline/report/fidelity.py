@@ -338,6 +338,44 @@ def probe_low_fidelity_regions(min_buildings: int = 500) -> dict[str, Any] | Non
             "named": bool(names)}
 
 
+#: The nine renders brief §12 condition 3 names: seven viewpoints, two of them in two states.
+MANDATED_VIEWPOINTS = {
+    "promenade_lower_manhattan": "Brooklyn Heights Promenade → Lower Manhattan",
+    "top_of_the_rock_south": "Top of the Rock looking south",
+    "times_square_duffy_south_day": "Duffy Square looking south, day",
+    "times_square_duffy_south_night": "Duffy Square looking south, night",
+    "fifth_ave_42nd_north": "Fifth Avenue at 42nd, north",
+    "fifth_ave_42nd_south": "Fifth Avenue at 42nd, south",
+    "bethesda_terrace_fountain": "Bethesda Terrace and Fountain",
+    "staten_island_ferry_lower_manhattan": "Staten Island Ferry → Lower Manhattan",
+    "dumbo_washington_st_manhattan_bridge": "Washington St, DUMBO, with the Manhattan Bridge",
+}
+
+
+def probe_mandated_verdicts() -> list[dict] | None:
+    """The written verdict of each of the nine mandated comparisons, quoted verbatim.
+
+    Coverage and quality are different questions and this report must not let the first stand in for
+    the second. Every mandated viewpoint has a render, a sheet and an assessment — and the assessments
+    say, in their own words, that most of them do not resemble their photographs. Those sentences are
+    the most direct evidence in this report of what was actually achieved, so they are reproduced here
+    rather than summarised, and they are not edited.
+    """
+    d = DOCS / "verification" / "comparison"
+    if not d.is_dir():
+        return None
+    out = []
+    for slug, label in MANDATED_VIEWPOINTS.items():
+        a = d / slug / "assessment.md"
+        verdict = None
+        if a.exists():
+            m = re.search(r"\*\*Verdict\s*[—-]\s*(.+?)\*\*", a.read_text(), re.S)
+            if m:
+                verdict = " ".join(m.group(1).split())
+        out.append({"slug": slug, "label": label, "verdict": verdict})
+    return out
+
+
 def probe_citygml() -> dict[str, Any] | None:
     p = PROCESSED / "buildings" / "citygml" / "progress.json"
     if not p.exists():
@@ -584,6 +622,7 @@ def build_report() -> str:
     cg = _safe(probe_citygml, "citygml")
     nj = _safe(probe_nj_buildings, "buildings_nj")
     lo = _safe(probe_low_fidelity_regions, "low_fidelity_regions")
+    mv = _safe(probe_mandated_verdicts, "mandated_verdicts")
     rd = _safe(probe_roads, "roads")
     tr = _safe(probe_terrain, "terrain")
     wa = _safe(probe_water, "water")
@@ -904,6 +943,29 @@ def build_report() -> str:
 
     # ---- gaps
     # ---- low-fidelity regions (brief §12 asks for these by name)
+    # ---- what the mandated comparisons actually say
+    A("### 8.2 The nine mandated comparisons, in their own words")
+    A()
+    if not mv:
+        A("Not produced: no comparison assessments were found.")
+    else:
+        A("Brief §12 condition 3 names seven viewpoints, two of them in two states. All nine have a render, "
+          "a sheet and a written assessment — that is coverage, and it is met. Quality is a different "
+          "question and this report will not let the first stand in for the second, so each assessment's "
+          "own verdict is reproduced here verbatim and unedited:")
+        A()
+        for e in mv:
+            v = e["verdict"] or "**no verdict line in the assessment**"
+            A(f"* **{e['label']}** — {v}")
+        A()
+        A("One of the nine reads as a success. Two of them — the Fifth Avenue pair — cannot be judged at "
+          "all, because the reference photographs face a different way than the viewpoint they were "
+          "collected for; that is a fault in the reference chooser, recorded as deviation I12. The other "
+          "six are honest about a world whose geometry is in the right place and whose surfaces, "
+          "population and light are not. Deviations B12 through B16 and I13 name each of those causes and "
+          "size it.")
+        A()
+
     A("## 9. Low-fidelity regions — where the data is thinnest")
     A()
     if not isinstance(lo, dict):

@@ -580,6 +580,67 @@ def test_camera_position_and_heading_come_from_the_same_measurement():
     assert az2 == pytest.approx(345.8)
 
 
+def test_a_photographs_own_gps_wins_where_it_is_nearer_the_subject_it_is_of():
+    """The sanity radius measures the wrong thing for a view *of* something.
+
+    The Williamsburg Bridge photograph's GPS is 117 m from the Brooklyn tower and the item's
+    recorded viewpoint is 506 m from it, 389 m apart -- so the 250 m radius rejected the
+    measurement in favour of the estimate and put the camera half a kilometre too far back.  A
+    view *from* a place (a ferry deck, a promenade, a named block) keeps the radius, because there
+    the recorded position is the view.
+    """
+    import render_sheets as rs
+
+    def meta(group, vp, subject):
+        return {"slug": "t", "group": group,
+                "viewpoint": {"lat": vp[0], "lon": vp[1], "azimuth_deg": 0.0},
+                "subject": {"lat": subject[0], "lon": subject[1], "name": "the subject"}}
+
+    def photo(lat, lon):
+        return {"camera_gps": {"lat": lat, "lon": lon}}
+
+    # Williamsburg Bridge, as recorded: viewpoint at Domino Park, subject the Brooklyn tower.
+    vp, subj = (40.7165, -73.9668), (40.7122, -73.9688)
+    ph = photo(40.71318, -73.96827)
+    lat, lon, why, off, from_photo = rs.view_origin(meta("landmark", vp, subj), ph)
+    assert from_photo and off > rs.PHOTO_GPS_SANITY_M
+    assert lat == pytest.approx(40.71318) and "nearer" not in why
+    assert "view *of*" in why and "same side" in why
+    # The same photograph on a view *from* a place keeps the recorded viewpoint.
+    lat2, _, why2, _, from_photo2 = rs.view_origin(meta("viewpoint", vp, subj), ph)
+    assert not from_photo2 and lat2 == pytest.approx(vp[0]) and "rejected as mis-tagged" in why2
+    # Farther from the subject than the estimate: rejected (this is the MetLife case).
+    far = photo(40.7205, -73.9668)
+    _, _, why3, _, from_photo3 = rs.view_origin(meta("landmark", vp, subj), far)
+    assert not from_photo3 and "rejected as mis-tagged" in why3
+    # The other side of the subject: rejected (this is the Empire State case).
+    behind = photo(40.7080, -73.9688)
+    _, _, why4, _, from_photo4 = rs.view_origin(meta("landmark", vp, subj), behind)
+    assert not from_photo4 and "rejected as mis-tagged" in why4
+
+
+def test_no_comparison_scene_silently_changed_which_photograph_it_shows():
+    """Every shipped sheet must name the photograph the current chooser would pick for it.
+
+    A sheet whose reference has been re-picked underneath it compares a render against a
+    photograph nobody chose for it.
+    """
+    import render_sheets as rs
+
+    bad = []
+    for d in sorted(COMPARISON_DIR.iterdir()):
+        rj = d / "render.json"
+        if not d.is_dir() or not rj.exists():
+            continue
+        rec = json.loads(rj.read_text())
+        shipped = (rec.get("reference_photo") or {}).get("title")
+        meta = rs.load_meta(d.name)
+        picked = (rs.pick_reference_photo(meta) or {}).get("title")
+        if shipped and picked and shipped != picked:
+            bad.append(f"{d.name}: sheet shows {shipped!r}, the chooser now picks {picked!r}")
+    assert not bad, "sheets whose reference photograph has moved under them:\n  " + "\n  ".join(bad)
+
+
 def test_sun_position_matches_the_live_services_spa():
     pytest.importorskip("bpy", reason="render_sheets imports the Blender scene builder")
     import render_sheets as rs
