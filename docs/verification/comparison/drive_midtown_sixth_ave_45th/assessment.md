@@ -12,6 +12,25 @@
 
 **Verdict — the geometry is all there and none of it can be seen: a correct Sixth Avenue canyon with 14,173 kit pieces and 335 props, rendered at mean luminance 0.11 from under a pin oak in a shadowed canyon at a Sun position guessed from a year with no month or day**
 
+## Re-rendered 2026-09-07 — this frame is why the agent clearance changed
+
+**Before this pass it was one NPC's torso.** A pedestrian stood 1 m from the lens, which at a 1.6 m
+eye and this set's 38° vertical field is **261 % of frame height**, so the picture was a woman in a
+yellow top and nothing of Sixth Avenue. The clearance was 1.5 m and answered only "is a person inside
+the lens".
+
+It is now 3.5 m, derived from the frame — a 1.8 m body fills all of it at 2.6 m and 74 % of it at
+3.5 m. **9 pedestrians were dropped over the observer** here, against 2 before, and **25.26 % of the
+frame changed**. What was a torso is a group of people walking a sidewalk under the plane trees, with
+the block face on the left and the avenue behind them.
+
+**It is still a weak sheet, and for reasons the clearance does not touch.** The camera stands on the
+pavement under a closed tree canopy: mean luminance **0.089**, which is deviation I16 (the render is
+physically lit from the photograph's EXIF instant while the photograph was metered by its
+photographer) compounded by foliage overhead. Sixth Avenue itself — the roadway, the traffic, the
+storefronts the item names — is behind the trees and the crowd, so what the sheet compares is a
+sidewalk. Of the 50 vehicles the simulation placed here, none is visible.
+
 ## What matches
 
 * The camera stands on the photograph's own EXIF GPS, 35 m from the item's nominal viewpoint, on the roadway at 20.1 m NAVD88.

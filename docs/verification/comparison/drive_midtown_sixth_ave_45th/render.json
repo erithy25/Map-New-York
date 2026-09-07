@@ -62,9 +62,9 @@
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.1045,
+  "mean": 0.0887,
   "reason": null,
-  "sd": 0.0975,
+  "sd": 0.0865,
   "usable": true
  },
  "frame_retry": null,
@@ -105,18 +105,18 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_midtown_sixth_ave_45th/render.png",
- "rendered_at": "2026-09-07T13:38:41Z",
+ "rendered_at": "2026-09-07T14:41:02Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
    "caption": "Agents: 50 vehicles within 320 m and 209 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 1240 vehicles and 1673 people over the whole simulated ring, of which 1407 and 2129 were simulated; 3277 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "dropped": {
-    "pedestrian_in_the_carriageway_not_crossing": 149,
+    "pedestrian_in_the_carriageway_not_crossing": 148,
     "pedestrian_not_on_walkable_surface": 78,
     "pedestrian_outside_radius": 756,
-    "pedestrian_over_the_observer": 2,
-    "pedestrian_triangle_budget": 935,
+    "pedestrian_over_the_observer": 9,
+    "pedestrian_triangle_budget": 929,
     "vehicle_body_has_no_rider": 22,
     "vehicle_not_on_carriageway": 16,
     "vehicle_outside_radius": 983,
@@ -125,11 +125,12 @@
    },
    "ped_lods": {
     "LOD0": 17,
-    "LOD2": 192
+    "LOD1": 1,
+    "LOD2": 191
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 582850,
+   "pedestrian_triangles": 580376,
    "per_class": {
     "black_car": 5,
     "boro_taxi": 11,
@@ -142,7 +143,7 @@
    "placed_pedestrians": 209,
    "placed_vehicles": 50,
    "reason": null,
-   "seconds": 98.57,
+   "seconds": 110.85,
    "snapshot": {
     "building_footprints_tested": 3441,
     "density_lane_km": 26.727,
@@ -157,7 +158,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.12,
+     "load_seconds": 1.94,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -165,7 +166,7 @@
      "signal_plans": 19814
     },
     "npc_bodies_imported": 12,
-    "npc_templates_baked": 75,
+    "npc_templates_baked": 74,
     "pavement_polygons_tested": 5668,
     "ped_spawn_radius_m": 220.0,
     "peds_in_snapshot": 2129,
@@ -183,7 +184,7 @@
    },
    "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1085398,
+   "triangles": 1082924,
    "vehicle_lods": {
     "LOD1": 10,
     "LOD2": 40
@@ -262,7 +263,7 @@
    6305.74
   ],
   "kit": {
-   "capped": "triangle budget 1391264",
+   "capped": "triangle budget 1393738",
    "per_category": {
     "billboard": 1,
     "bulkhead": 11,
@@ -273,13 +274,13 @@
     "parapet": 5,
     "pilaster": 9,
     "quoin": 2,
-    "storefront": 58,
+    "storefront": 60,
     "storefront_interior": 6,
     "string_course": 7,
     "water_tower": 5,
-    "window": 8049
+    "window": 8057
    },
-   "placed": 8187,
+   "placed": 8197,
    "radius_m": 120.0,
    "records_in_range": 19036,
    "stale_registry_ids": {},
@@ -288,7 +289,7 @@
    "tiles_read": [
     "t_-3_6"
    ],
-   "triangles": 1391278,
+   "triangles": 1393806,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -470,7 +471,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 187.98,
+  "seconds": 202.19,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -487,7 +488,7 @@
    "z_max_m": 25.74,
    "z_min_m": 5.2
   },
-  "triangles": 4500014
+  "triangles": 4500068
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -497,9 +498,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 143.1,
-  "scene": 190.0,
-  "total": 333.1
+  "render": 177.7,
+  "scene": 204.3,
+  "total": 382.0
  },
  "slug": "drive_midtown_sixth_ave_45th",
  "status": "rendered",
