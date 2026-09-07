@@ -118,7 +118,7 @@ def recover_levels(tri_xyz: bytes, tri_type: bytes, *, z_tol: float = Z_CLUSTER_
     return out
 
 
-def resolve_overlaps(levels: list[tuple[float, Polygon]], *, min_area: float = MIN_LEVEL_AREA_M2
+def resolve_overlaps(levels: list[tuple[float, Polygon]], *, min_area: float = 1e-9
                      ) -> tuple[list[tuple[float, Polygon]], bool]:
     """Make the recovered levels disjoint in plan, tallest first.
 
@@ -129,6 +129,10 @@ def resolve_overlaps(levels: list[tuple[float, Polygon]], *, min_area: float = M
     overlap is removed from the *lower* level.  This is the projection the shell needs and it is
     also what makes the areas comparable with the published ones: before it, an overlapping
     building's levels sum to more than its footprint and the area gate rejected it.
+
+    Nothing is thrown away here beyond what the difference itself removes, so after this the level
+    areas sum to the area of their union — which is what the area gate then compares against the
+    published footprint.  Slivers left by the cut are dropped later, by ``partition_footprint``.
 
     Returns ``(levels, changed)``.
     """
@@ -226,8 +230,11 @@ def check_against_published(levels: list[tuple[float, Polygon]], pub_z, pub_area
     has median 1.0000 and recovered-sum / published-sum has median 1.0000, so the totals agree
     exactly, while a *per-level* comparison disagrees for 17 % of buildings purely because the
     height clustering here (0.15 m) splits or merges levels differently from the publishing stage.
-    A building whose levels overlap in plan (sum > footprint) or leave a hole (sum < footprint)
-    fails and falls back to the flat cap; nothing is guessed.  ``strict_per_level_match`` reports
+    The levels reaching this check have already been made disjoint by ``resolve_overlaps``, so a
+    sum above the footprint area is no longer an overhang — it means the CityGML plan is genuinely
+    larger than the footprint the shell will be cut from, i.e. a different building.  Such a
+    building, and one whose levels leave a hole (sum < footprint), fails and falls back to the flat
+    cap; nothing is guessed.  ``strict_per_level_match`` reports
     whether the stricter level-by-level comparison would also have passed, for the record.
     """
     if len(levels) < 2:
@@ -377,7 +384,7 @@ def load_tile_steps(tile: str, *, min_levels: int = 2) -> tuple[dict[int, StepSe
 
     tx, ty = (int(v) for v in tile[2:].split("_", 1))
     stats = {"rows": 0, "candidates": 0, "recovered": 0, "rejected_area": 0, "rejected_geom": 0,
-             "strict_per_level_match": 0}
+             "strict_per_level_match": 0, "overlap_resolved": 0}
     out: dict[int, StepSet] = {}
     for fname in _files_for(tx, ty):
         path = CITYGML_DIR / fname
@@ -406,6 +413,9 @@ def load_tile_steps(tile: str, *, min_levels: int = 2) -> tuple[dict[int, StepSe
                 continue
             stats["candidates"] += 1
             levels = recover_levels(xyz[i], typ[i])
+            if len(levels) >= min_levels:
+                levels, overlapped = resolve_overlaps(levels)
+                stats["overlap_resolved"] += int(overlapped)
             if len(levels) < min_levels:
                 stats["rejected_geom"] += 1
                 out[int(b)] = StepSet(int(b), [], float(zmax[i] or 0.0), "too few levels recovered")

@@ -268,7 +268,18 @@ def available_tiles(filename: str = TABLE_NYC) -> list[str]:
     return sorted(p.parent.name for p in TILES_DIR.glob(f"*/{filename}"))
 
 
-MAX_CITYGML_DZ_M = 3.0        # CityGML z_roof_max vs the contract roof_z; beyond this it is a different building
+# The 2014 CityGML solid and the contract ``roof_z`` (LiDAR-derived, DATA_CONTRACTS §5) usually
+# agree exactly — median |dz| is 0.20 m over the multi-level buildings of the Midtown tile — but a
+# quarter of them differ by more than 3 m while their *plans* still match to an IoU of 1.000, i.e.
+# the same building measured twice.  The quantity the shell needs from CityGML is the **depth of
+# each step below the top**, which a height offset does not change, so those buildings keep their
+# steps: every level is shifted by ``dz`` so the tallest lands on the contract ``roof_z`` and the
+# building's overall height stays the measured one.  The shift is only trusted while it is small
+# against the building itself, and only when the two plans really are the same building.
+STEP_DZ_EXACT_M = 3.0         # |dz| at or below this: the two sources agree on the height outright
+STEP_DZ_FRAC = 0.20           # beyond it, |dz| may not exceed this fraction of the building height
+STEP_DZ_MAX_M = 15.0          # ... nor this, whatever the height
+STEP_PLAN_AGREE = 0.95        # ... and the CityGML plan and the footprint must cover each other
 
 
 def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: str = "clamp",
@@ -337,13 +348,14 @@ def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: 
     step_sets: dict[int, rsx.StepSet] = {}
     step_stats: dict[str, int] = {"candidates": 0, "recovered": 0, "rejected_area": 0,
                                   "rejected_geom": 0, "strict_per_level_match": 0,
-                                  "applied": 0, "rejected_partition": 0, "rejected_dz": 0,
-                                  "pitch_traded_for_step": 0}
+                                  "overlap_resolved": 0, "applied": 0, "applied_exact_z": 0,
+                                  "applied_offset_z": 0, "rejected_partition": 0, "rejected_dz": 0,
+                                  "rejected_multipart": 0, "pitch_traded_for_step": 0}
     if roof_steps == "auto":
         try:
             step_sets, st = rsx.load_tile_steps(tile)
             for k in ("candidates", "recovered", "rejected_area", "rejected_geom",
-                      "strict_per_level_match"):
+                      "strict_per_level_match", "overlap_resolved"):
                 step_stats[k] = st.get(k, 0)
         except Exception as exc:
             LOG.warning("roof-step recovery unavailable for %s: %s", tile, exc)
@@ -410,13 +422,17 @@ def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: 
             area = float(area_col[i]) if area_col is not None else float(part.area)
             steps_local = None
             if ss is not None and ss.ok and len(parts) == 1:
-                steps_local, why = _steps_for(ss, part, z_top, x0, y0)
+                steps_local, why = _steps_for(ss, part, z_top, z0, x0, y0)
                 if steps_local is None:
                     step_stats["rejected_dz" if why == "dz" else "rejected_partition"] += 1
                 else:
                     step_stats["applied"] += 1
+                    step_stats["applied_offset_z" if why == "ok_offset" else "applied_exact_z"] += 1
                     if kind != sg.ROOF_FLAT:
                         step_stats["pitch_traded_for_step"] += 1
+            elif ss is not None and ss.ok and len(parts) > 1:
+                if part is parts[0]:
+                    step_stats["rejected_multipart"] += 1
             specs.append(sg.BuildingSpec(
                 bin=int(bins[i]), polygon=local, ground_z=z0, roof_z=z_top,
                 roof=sg.RoofSpec(kind=kind, slope_deg=slope, rise_m=rise,
@@ -432,17 +448,33 @@ def load_tile(tile: str, *, roof_attrs: pd.DataFrame | None = None, ridge_mode: 
                     {"roof": src_roof, "material": src_mat}, mats_used, df_index, step_stats)
 
 
-def _steps_for(ss: rsx.StepSet, footprint_world, z_top: float, x0: float, y0: float):
+def _steps_for(ss: rsx.StepSet, footprint_world, z_top: float, z_ground: float,
+               x0: float, y0: float):
     """Level regions for one building in tile-local metres, or ``(None, reason)``.
 
     The recovered CityGML heights are shifted so the tallest level lands on the contract ``roof_z``
     (``z_top``): the building's overall height stays the measured LiDAR one, and only the *depth*
-    of each step comes from the 2014 model.
+    of each step comes from the 2014 model.  Returns ``(regions, "ok")`` when the two sources agree
+    on the height outright and ``(regions, "ok_offset")`` when the shift had to absorb a
+    disagreement — the caller counts the two separately so the report can state how many steps sit
+    at a measured altitude and how many only have a measured depth.
     """
     z_cg_max = max(z for z, _ in ss.levels)
-    if abs(z_cg_max - z_top) > MAX_CITYGML_DZ_M:
-        return None, "dz"
     dz = z_top - z_cg_max
+    exact = abs(dz) <= STEP_DZ_EXACT_M
+    if not exact:
+        height = max(z_top - z_ground, 1.0)
+        if abs(dz) > STEP_DZ_MAX_M or abs(dz) > STEP_DZ_FRAC * height:
+            return None, "dz"
+        # a big offset is only a re-measurement of the same building if the plans agree
+        try:
+            lvl = shapely.union_all([p for _, p in ss.levels])
+            inter = footprint_world.intersection(lvl).area
+        except Exception:
+            return None, "dz"
+        if (inter < STEP_PLAN_AGREE * footprint_world.area
+                or inter < STEP_PLAN_AGREE * lvl.area):
+            return None, "dz"
     regions, why = rsx.partition_footprint(footprint_world, ss.levels)
     if not regions:
         return None, why
@@ -452,7 +484,7 @@ def _steps_for(ss: rsx.StepSet, footprint_world, z_top: float, x0: float, y0: fl
         out.append((local, float(z + dz)))
     if len({round(z, 3) for _, z in out}) < 2:
         return None, "levels collapse to one height"
-    return out, "ok"
+    return out, ("ok" if exact else "ok_offset")
 
 
 def _f(arr, i) -> float:

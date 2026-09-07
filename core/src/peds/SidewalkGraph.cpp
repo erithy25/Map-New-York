@@ -171,12 +171,64 @@ bool SidewalkGraph::finalize() {
     acc += n;
   }
 
+  buildPoiIndex();
+
   gscore_.assign(nodes_.size(), 0.f);
   came_.assign(nodes_.size(), kInvalidIndex);
   stamp_.assign(nodes_.size(), 0u);
   stamp_counter_ = 0;
   finalized_ = true;
   return true;
+}
+
+// Coarse grid over the POIs, for "a goal within walking distance".  100 m cells
+// rather than the 25 m of the edge grid: a goal query has a radius of hundreds
+// of metres, so a fine grid would scan thousands of empty cells, and over the
+// real city a 25 m grid would also cost 13 MB of cell offsets for 46 x 45 km.
+void SidewalkGraph::buildPoiIndex() {
+  pcell_ = 100.f;
+  px0_ = minx_ - 5.f;
+  py0_ = miny_ - 5.f;
+  pnx_ = std::max(1u, static_cast<uint32_t>((maxx_ - minx_ + 10.f) / pcell_) + 1u);
+  pny_ = std::max(1u, static_cast<uint32_t>((maxy_ - miny_ + 10.f) / pcell_) + 1u);
+  const size_t nc = static_cast<size_t>(pnx_) * pny_;
+  pgrid_start_.assign(nc + 1, 0u);
+  pgrid_items_.clear();
+  // Only POIs that snapped onto an edge are reachable, and they are the only
+  // ones poisOfKind() lists, so the two views agree.
+  for (const WalkPoi& p : pois_) {
+    if (p.edge == kInvalidIndex) continue;
+    const size_t cell = static_cast<size_t>(poiCellY(p.pos.y)) * pnx_ + static_cast<size_t>(poiCellX(p.pos.x));
+    ++pgrid_start_[cell + 1];
+  }
+  for (size_t i = 0; i < nc; ++i) pgrid_start_[i + 1] += pgrid_start_[i];
+  pgrid_items_.assign(pgrid_start_[nc], 0u);
+  std::vector<uint32_t> cur(pgrid_start_.begin(), pgrid_start_.end() - 1);
+  for (uint32_t i = 0; i < pois_.size(); ++i) {
+    if (pois_[i].edge == kInvalidIndex) continue;
+    const size_t cell =
+        static_cast<size_t>(poiCellY(pois_[i].pos.y)) * pnx_ + static_cast<size_t>(poiCellX(pois_[i].pos.x));
+    pgrid_items_[cur[cell]++] = i;
+  }
+}
+
+uint32_t SidewalkGraph::poiCountNear(float x, float y, float radius, PoiKind kind) const {
+  uint32_t n = 0;
+  forEachPoiNear(x, y, radius, kind, [&](uint32_t) {
+    ++n;
+    return true;
+  });
+  return n;
+}
+
+uint32_t SidewalkGraph::poiNthNear(float x, float y, float radius, PoiKind kind, uint32_t n) const {
+  uint32_t seen = 0, found = kInvalidIndex;
+  forEachPoiNear(x, y, radius, kind, [&](uint32_t pi) {
+    if (seen++ != n) return true;
+    found = pi;
+    return false;
+  });
+  return found;
 }
 
 void SidewalkGraph::buildSpatialIndex() {

@@ -44,6 +44,7 @@
 #include "nycsim/traffic/Signals.h"
 #include "nycsim/traffic/SpatialHash.h"
 #include "nycsim/traffic/VehicleClass.h"
+#include "nycsim/util/RegionSampler.h"
 
 namespace nycsim {
 namespace traffic {
@@ -131,6 +132,20 @@ struct TrafficConfig {
   float despawn_m = 1400.f;      // beyond this the agent is recycled
   float spawn_rate_per_s = 60.f; // cap on spawns per simulated second
   float spawn_headway_m = 12.f;  // minimum clear space at the spawn point
+  // ADR-021.  Origins are drawn from the spawn band and destinations from the
+  // streamed region, both through a spatial index over the spawn distribution,
+  // rather than from a city-wide distribution that is then rejected against the
+  // ring.  City-wide sampling accepted about one lane in a thousand — the ring
+  // could not be filled — and sent an agent in Brooklyn to Staten Island, which
+  // made a route query cost 49.8 ms instead of 0.1 ms.
+  //   dest_radius_m  0 -> despawn_m: no point routing to somewhere the agent is
+  //                  recycled before reaching.
+  //   region_slack_m the extra radius a rebuild takes, so a moving player
+  //                  rebuilds the index every few seconds instead of every step.
+  // The restriction applies only while a player ring is in use; without one the
+  // whole graph is the region and the draws are exactly what they always were.
+  float dest_radius_m = 0.f;
+  float region_slack_m = 64.f;
   uint32_t max_routes_per_step = 8;   // routing is amortized across steps
   float reroute_block_s = 90.f;  // genuinely stuck, not merely waiting for a phase
   float reroute_cooldown_s = 45.f;
@@ -391,6 +406,11 @@ class TrafficSim {
   void assignBusRoute(Vehicle& v);
   bool advanceBusToNextStop(Vehicle& v);
   uint32_t sampleSpawnLane(Rng& rng) const;
+  // Origins inside the spawn band, destinations inside the streamed region.
+  // Both fall back to the whole graph when no player ring is in use.
+  uint32_t sampleOriginLane(Rng& rng);
+  uint32_t sampleDestLane(Rng& rng);
+  void refreshSpawnRegions();
   uint32_t preferredLaneFor(uint32_t lane, VehicleClass c) const;
   VehicleClass sampleClass(Rng& rng, uint16_t nta) const;
   bool laneFreeAt(uint32_t lane, float s, float len) const;
@@ -447,8 +467,8 @@ class TrafficSim {
   std::vector<uint32_t> straddle_head_, straddle_stamp_, straddle_next_;
   std::vector<NodeClaim> claims_;  // kClaimsPerNode per node
   std::vector<float> nta_lane_km_;
-  std::vector<uint32_t> spawn_lanes_;
-  std::vector<float> spawn_cdf_;
+  RegionSampler spawn_index_;
+  RegionSampler::Region origin_region_, dest_region_;
   std::vector<HonkEvent> honks_;
   uint32_t honk_count_ = 0;
   std::vector<float> new_accel_, new_swerve_;
