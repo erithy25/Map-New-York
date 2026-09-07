@@ -33,6 +33,7 @@ def collect(tiles_root: Path) -> dict:
     materials = Counter()
     roof_src = Counter()
     mat_src = Counter()
+    steps = Counter()
     per_tile = []
     for p in mans:
         m = json.loads(p.read_text())
@@ -55,6 +56,12 @@ def collect(tiles_root: Path) -> dict:
             materials[name] += rec["triangles"]
         roof_src.update(m["sources"]["roof"])
         mat_src.update(m["sources"]["material"])
+        rs = m.get("roof_steps") or {}
+        for k, v in rs.items():
+            if isinstance(v, int):
+                steps[k] += v
+        if rs.get("shipped", 0) > 0:
+            steps["tiles_with_stepped_buildings"] += 1
         per_tile.append({"tile": m["tile"], "buildings": b["solids"],
                          "lod0": m["triangles"]["lod0"], "lod1": m["triangles"].get("lod1", 0),
                          "lod2": m["triangles"].get("lod2", 0), "bytes": m["glb"]["bytes"],
@@ -62,7 +69,9 @@ def collect(tiles_root: Path) -> dict:
                          "bounds_world_m": m["bounds_world_m"]})
     return {"totals": dict(tot), "seconds": dict(seconds), "materials": dict(materials.most_common()),
             "roof_sources": dict(roof_src.most_common()), "material_sources": dict(mat_src.most_common()),
-            "per_tile": per_tile}
+            # `shipped` is the delivery: a stepped solid that would not close is rebuilt flat and
+            # counted in `lost_would_not_close`, not here
+            "roof_steps": dict(sorted(steps.items())), "per_tile": per_tile}
 
 
 def project_city(summary: dict) -> dict:

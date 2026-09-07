@@ -221,13 +221,20 @@ prints the same summary; `LODS=0 bash blender/buildings/run_all.sh` produces the
 
 ## 5. Verification renders (Cycles CPU, ADR-012)
 
-Every render imports the exported `.glb` back into Blender — what is shown is the shipped file, not
-a rebuild. LOD1/LOD2 objects are hidden, the flat shell materials are swapped for the real
-AmbientCG CC0 PBR sets by material name via `blender/common/textures.py` (19 of 20 material names
-resolve; `glass_curtain` is procedural in the catalogue and renders as flat colour), and a ground
-surface is interpolated from the buildings' own LiDAR `ground_z` values (inverse-distance over the
-6 nearest footprint centroids on a 12 m grid) so that a building sitting proud of or sunk into grade
-shows up immediately. 1280 x 720, 24 samples, OIDN denoised, AgX view transform.
+Every render imports the exported `.glb` back into Blender — the **geometry** shown is the shipped
+file, not a rebuild. LOD1/LOD2 objects are hidden and a ground surface is interpolated from the
+buildings' own LiDAR `ground_z` values (inverse-distance over the 6 nearest footprint centroids on a
+12 m grid) so that a building sitting proud of or sunk into grade shows up immediately. 1600 x 900,
+24 samples, OIDN denoised, AgX view transform.
+
+The **materials** are rebuilt from `shellmat` rather than read out of the file: the class's albedo
+map from `blender/common/textures.py` where a CC0 set exists (19 of 20 names resolve), its
+reflectance from `shellmat.MATERIALS`, and the per-building tint and roughness offset evaluated as
+Cycles nodes over the shell's own `_LIT_SEED_HI` / `_LIT_SEED_LO` attributes. That is what an engine
+implementing the documented expression will show. `--flat` skips all of it and renders the glTF
+material exactly as the file carries it, which is what a plain glTF consumer — the comparison lane
+among them — sees; the material before/after pair below uses that mode for both halves, so it
+compares files rather than shaders.
 
 | render | what it shows |
 |---|---|
@@ -317,6 +324,34 @@ shipped `blender_out/tiles/t_-4_5/tile_buildings.glb`.
   awkward footprints (rectangle, L, courtyard-with-hole, triangle, 3 m sliver); each must be closed,
   outward-oriented and span exactly `[ground_z, roof_z]`.
 * Plus footprint-cleaning tests (holes kept, winding, 2 cm snap) and an LOD2 massing test.
+
+Stepped massing and materials add nine more, written so they fail if the steps are *wrong* rather
+than restating what was built — six of them run against the real CityGML rows and the real shipped
+tile, not against fixtures:
+
+* `test_recovered_levels_are_disjoint_and_tile_the_plan` — after the overlap resolution no two
+  recovered levels share plan area. This is the claim the feature rests on.
+* `test_step_regions_are_inside_the_footprint_and_cover_it` — every region cut from the footprint
+  lies inside it (0 outside, worst case 0.0000 m²), covers at least 99 % of it, and does not
+  overlap its siblings.
+* `test_step_heights_come_from_the_published_roof_levels` — undo the height shift and every step
+  must land within 0.5 m of a `roof_level_z` the CityGML stage published. Median error 0.000 m,
+  99.75 % within 0.5 m. **This is the test that separates a measured step from an invented one**:
+  it would fail if the levels were split by area, or the footprint cut by a guess.
+* `test_shipped_stepped_shells_close_and_remove_volume` — a stepped shell is closed, has a sane
+  triangle count, and encloses *less* volume than the flat slab it replaces.
+* `test_step_merging_keeps_the_partition` — the fallback that merges small levels still tiles the
+  footprint exactly.
+* `test_manifest_step_counts_are_consistent` — `shipped <= applied <= recovered <= candidates`, and
+  `shipped + lost_would_not_close == applied`, on every rebuilt tile.
+* `test_shipped_glb_carries_the_stepped_geometry` — counts buildings in the exported `.glb` whose
+  LOD0 mesh has two or more up-facing roof plateaus more than 1 m apart, and requires at least as
+  many as the manifest claims. A manifest that counted assignments rather than deliveries fails.
+* `test_material_variation_is_deterministic_and_in_range` — the per-building tint is reproducible,
+  stays in [-1, 1], is not biased light or dark, and never drives a colour or roughness out of range.
+* `test_glass_curtain_ships_as_a_dark_reflective_material` — reads the exported glTF material:
+  luminance below 0.20, roughness below 0.20, metallic above 0.2, `KHR_materials_ior` present, and
+  masonry still above 0.5 roughness.
 
 ---
 
