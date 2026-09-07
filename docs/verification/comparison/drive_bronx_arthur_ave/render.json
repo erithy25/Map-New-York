@@ -7,56 +7,59 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
-   "chosen_m": 25.02,
-   "max_m": 25.25,
-   "median_m": 25.13,
-   "min_m": 24.92,
+   "below_point_excluded": 0,
+   "chosen_m": 24.39,
+   "max_m": 24.8,
+   "median_m": 24.48,
+   "min_m": 24.19,
    "mode": "street",
    "percentile": 10.0,
-   "point_m": 25.16,
+   "point_m": 24.43,
    "radius_m": 12.0,
    "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
   "hfov_deg": 54.432,
-  "lat": 40.853253,
-  "lon": -73.889153,
+  "lat": 40.85524,
+  "lon": -73.88776,
   "long_side_fov_deg": 54.432,
   "pitch_deg": 0.0,
   "portrait": false,
   "resolution": [
-   1208,
-   906
+   1280,
+   854
   ],
   "sensor_mm": 36.0,
   "slug": "drive_bronx_arthur_ave",
-  "terrain_z_m": 25.023,
-  "x": 5130.711,
-  "y": 17020.465,
-  "z": 26.623
+  "terrain_z_m": 24.387,
+  "x": 5237.771,
+  "y": 17245.927,
+  "z": 25.987
  },
- "camera_caption": "camera 40.85325, -73.88915 (NYC_TM 5131, 17020) z 26.6 m NAVD88 | azimuth 190.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.85524, -73.88776 (NYC_TM 5238, 17246) z 26.0 m NAVD88 | azimuth 190.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
  "camera_origin": {
   "from_photograph_gps": true,
-  "lat": 40.853253,
-  "lon": -73.889153,
-  "offset_from_recorded_m": 234.7,
-  "source": "this photograph's own EXIF camera GPS (40.85325, -73.88915), 235 m from the item's recorded viewpoint -- the position the picture was taken from"
+  "lat": 40.85524,
+  "lon": -73.88776,
+  "offset_from_recorded_m": 15.9,
+  "source": "this photograph's own EXIF camera GPS (40.85524, -73.88776), 16 m from the item's recorded viewpoint -- the position the picture was taken from"
  },
  "clearance": {
+  "direction": "onto the nearest sidewalk",
   "min_view_m": 20.0,
-  "moved": false,
-  "nearest_obstruction": "prop_tree_callery_pear_medium_3",
-  "nearest_obstruction_m": 16.3,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_tree_callery_pear_medium_3 16.3 m away, and the view azimuth is clear for 30 m",
-  "offset_m": 0.0,
-  "view_m": 30.1
+  "moved": true,
+  "nearest_obstruction_m": 20.0,
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 10 m ahead, less than the 12 m this frame needs to show its subject; the camera was moved 11 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 40 m from there",
+  "offset_m": 11.1,
+  "reason": "boxed in: the view azimuth is closed off 10 m ahead, less than the 12 m this frame needs to show its subject",
+  "rule": "pavement snap with a clear view",
+  "view_m": 40.3
  },
  "frame": {
-  "mean": 0.3812,
+  "mean": 0.2651,
   "reason": null,
-  "sd": 0.2447,
+  "sd": 0.1856,
   "usable": true
  },
  "frame_retry": null,
@@ -65,7 +68,7 @@
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
  "lighting": {
   "background_strength": 0.25,
-  "direct_normal_irradiance_w_m2": 913.3,
+  "direct_normal_irradiance_w_m2": 860.3,
   "emissive": {
    "cones_hidden": 1,
    "lamps_switched_off": 2,
@@ -73,31 +76,31 @@
    "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.0,
-  "sky_azimuth_deg": 246.782,
-  "sky_elevation_deg": 57.925,
+  "sky_azimuth_deg": 95.537,
+  "sky_elevation_deg": 43.559,
   "sun_lamp": true,
-  "sun_strength_blender": 1.691,
+  "sun_strength_blender": 1.593,
   "view_transform": "Filmic"
  },
  "name": "Bronx drive-through: Arthur Avenue (Belmont)",
  "night": false,
  "pitch_reason": "level optical axis (the reference names no subject to aim at)",
  "reference_photo": {
-  "author": "Hugo L. Gonz\u00e1lez",
+  "author": "Joe Mabel",
   "confidence": "medium",
-  "date_taken": "2019-06-15 15:04:31",
+  "date_taken": "2026",
   "estimated_azimuth_deg": 190.0,
-  "file": "2.jpg",
-  "height": 1440,
+  "file": "1.jpg",
+  "height": 1280,
   "licence": "CC BY-SA 4.0",
   "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
-  "page_url": "https://commons.wikimedia.org/wiki/File:NYC_Parks_D%E2%80%99Auria-Murphy_Triangle_IMG_0677_HLG.jpg",
-  "title": "File:NYC Parks D\u2019Auria-Murphy Triangle IMG 0677 HLG.jpg",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Arthur_Avenue_09_-_M%26G_Restaurant.jpg",
+  "title": "File:Arthur Avenue 09 - M&G Restaurant.jpg",
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_arthur_ave/render.png",
- "rendered_at": "2026-09-06T20:48:34Z",
- "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "rendered_at": "2026-09-07T09:10:26Z",
+ "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
   "buildings": {
@@ -112,26 +115,39 @@
    "landmark_faces_suppressed": 0,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_4_16": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 13,
-     "triangles": 45976
+     "triangles": 52766
     },
     "t_4_17": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 12,
-     "triangles": 72158
+     "triangles": 80530
     },
     "t_5_16": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 11,
-     "triangles": 60840
+     "triangles": 67046
     },
     "t_5_17": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 12,
-     "triangles": 53204
+     "triangles": 59080
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -139,49 +155,53 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 4,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 232178
+   "triangles": 259422
   },
   "centre_tm": [
-   5130.71,
-   17020.47
+   5248.01,
+   17241.21
   ],
   "kit": {
    "capped": null,
    "per_category": {
-    "bulkhead": 46,
-    "cornice": 95,
-    "door_entry": 152,
-    "fence": 10,
-    "fire_escape": 89,
-    "hvac": 15,
-    "parapet": 134,
-    "pilaster": 63,
-    "quoin": 91,
-    "scaffold": 65,
-    "storefront": 427,
-    "storefront_interior": 92,
-    "string_course": 86,
+    "bulkhead": 68,
+    "cornice": 110,
+    "door_entry": 189,
+    "fence": 7,
+    "fire_escape": 147,
+    "hvac": 13,
+    "parapet": 171,
+    "pilaster": 77,
+    "quoin": 114,
+    "scaffold": 21,
+    "storefront": 883,
+    "storefront_interior": 122,
+    "string_course": 109,
     "water_tower": 1,
-    "window": 2720,
-    "window_accessory": 412
+    "window": 3904,
+    "window_accessory": 686
    },
-   "placed": 4498,
+   "placed": 6622,
    "radius_m": 120.0,
-   "records_in_range": 4498,
+   "records_in_range": 6622,
    "stale_registry_ids": {},
    "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
-    "t_5_16",
     "t_5_17"
    ],
-   "triangles": 1210932,
+   "triangles": 1635151,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
    "placed": 0,
    "skipped": 0,
    "skipped_detail": [],
@@ -190,15 +210,15 @@
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 537,
-    "curb": 995,
-    "median": 72,
-    "parking_lot": 144,
-    "plaza": 14,
-    "roadbed": 409,
-    "sidewalk": 230
+    "crosswalk": 541,
+    "curb": 958,
+    "median": 76,
+    "parking_lot": 132,
+    "plaza": 26,
+    "roadbed": 395,
+    "sidewalk": 235
    },
-   "placed": 2401,
+   "placed": 2363,
    "radius_m": 720.0,
    "tiles_missing": [],
    "tiles_read": [
@@ -207,43 +227,43 @@
     "t_5_16",
     "t_5_17"
    ],
-   "triangles": 193644,
-   "vertices": 198142
+   "triangles": 187426,
+   "triangles_cut_for_landmark_ground": 0,
+   "vertices": 191828
   },
   "props": {
-   "capped": "triangle budget 1395092",
-   "impostor_cards_dropped": 23,
+   "capped": "triangle budget 1387733",
+   "impostor_cards_dropped": 21,
+   "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
-    "bike_rack": 2,
-    "bus_stop_sign": 2,
     "citibike_dock": 2,
-    "hydrant": 25,
+    "flagpole": 1,
+    "hydrant": 28,
     "mailbox": 1,
-    "manhole": 58,
-    "street_lamp": 55,
-    "tree": 209
+    "manhole": 57,
+    "street_lamp": 64,
+    "tree": 203
    },
-   "placed": 354,
+   "placed": 356,
    "radius_m": 250.0,
-   "rows_in_range": 742,
+   "rows_in_range": 880,
    "tiles_missing": [],
    "tiles_read": [
-    "t_4_16",
     "t_4_17",
     "t_5_16",
     "t_5_17"
    ],
-   "tree_species_substituted": 94,
-   "triangles": 1395768,
+   "tree_species_substituted": 64,
+   "triangles": 1394532,
    "unmapped_kinds": {
-    "cooling_tower": 30,
-    "curb_ramp": 80,
-    "drinking_fountain": 1
+    "cooling_tower": 48,
+    "curb_ramp": 82,
+    "parks_comfort_station": 1
    }
   },
   "radius_m": 720.0,
-  "seconds": 34.75,
+  "seconds": 40.98,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -251,14 +271,52 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
    "samples": 211,
    "spacing_m": 2.0,
    "triangles": 88200,
-   "water_quads": 0,
-   "z_max_m": 37.01,
-   "z_min_m": 10.42
+   "water_bodies": [
+    {
+     "kind": "pond",
+     "name": "Cope Lake",
+     "water_z_m": 14.92
+    },
+    {
+     "kind": "pond",
+     "name": "Flamingos",
+     "water_z_m": 19.54
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 19.85
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 17.85
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 15.53
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 15.57
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 27.49
+    }
+   ],
+   "water_quads": 24,
+   "z_max_m": 36.83,
+   "z_min_m": 10.98
   },
-  "triangles": 3120722
+  "triangles": 3564731
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -266,9 +324,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 154.7,
-  "scene": 36.0,
-  "total": 190.7
+  "render": 280.5,
+  "scene": 43.3,
+  "total": 323.8
  },
  "slug": "drive_bronx_arthur_ave",
  "status": "rendered",
@@ -277,11 +335,11 @@
   "name": null
  },
  "sun": {
-  "azimuth_deg": 246.7816158681265,
-  "elevation_deg": 57.92465049867828,
-  "local": "2019-06-15T15:04:31-04:00",
-  "time_source": "EXIF DateTimeOriginal",
-  "utc": "2019-06-15T19:04:31Z"
+  "azimuth_deg": 95.53650604189761,
+  "elevation_deg": 43.55941268305585,
+  "local": "2026-06-21T09:30:00-04:00",
+  "time_source": "photograph year only; 21 June 09:30 assumed",
+  "utc": "2026-06-21T13:30:00Z"
  },
  "viewpoint": {
   "azimuth_deg": 190.0,

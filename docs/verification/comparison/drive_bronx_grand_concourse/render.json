@@ -7,6 +7,7 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
+   "below_point_excluded": 0,
    "chosen_m": 29.99,
    "max_m": 31.0,
    "median_m": 30.22,
@@ -19,15 +20,15 @@
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
-  "hfov_deg": 54.432,
+  "hfov_deg": 42.163,
   "lat": 40.832,
   "lon": -73.9186,
   "long_side_fov_deg": 54.432,
   "pitch_deg": 0.0,
-  "portrait": false,
+  "portrait": true,
   "resolution": [
-   1280,
-   780
+   904,
+   1206
   ],
   "sensor_mm": 36.0,
   "slug": "drive_bronx_grand_concourse",
@@ -36,13 +37,13 @@
   "y": 14662.51,
   "z": 31.585
  },
- "camera_caption": "camera 40.83200, -73.91860 (NYC_TM 2644, 14663) z 31.6 m NAVD88 | azimuth 25.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x780",
+ "camera_caption": "camera 40.83200, -73.91860 (NYC_TM 2644, 14663) z 31.6 m NAVD88 | azimuth 25.0deg pitch +0.0deg | 35 mm on 36 mm (42.2deg horizontal, 54.4deg vertical, portrait) | 904x1206",
  "camera_origin": {
   "from_photograph_gps": false,
   "lat": 40.832,
   "lon": -73.9186,
-  "offset_from_recorded_m": 3604.2,
-  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 3,604 m away, past the 250 m at which it could still be the same view, so it was rejected as mis-tagged"
+  "offset_from_recorded_m": 3853.7,
+  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 3,854 m away, past the 250 m at which it could still be the same view, so it was rejected as mis-tagged"
  },
  "clearance": {
   "direction": "onto the nearest roadbed",
@@ -56,9 +57,9 @@
   "view_m": 60.0
  },
  "frame": {
-  "mean": 0.2909,
+  "mean": 0.2544,
   "reason": null,
-  "sd": 0.1348,
+  "sd": 0.172,
   "usable": true
  },
  "frame_retry": null,
@@ -67,39 +68,39 @@
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
  "lighting": {
   "background_strength": 0.25,
-  "direct_normal_irradiance_w_m2": 342.4,
+  "direct_normal_irradiance_w_m2": 854.3,
   "emissive": {
    "cones_hidden": 1,
    "lamps_switched_off": 3,
    "night": false,
    "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
-  "exposure_stops": 2.34,
-  "sky_azimuth_deg": 283.256,
-  "sky_elevation_deg": 7.399,
+  "exposure_stops": 0.03,
+  "sky_azimuth_deg": 171.022,
+  "sky_elevation_deg": 42.359,
   "sun_lamp": true,
-  "sun_strength_blender": 0.634,
+  "sun_strength_blender": 1.582,
   "view_transform": "Filmic"
  },
  "name": "Bronx drive-through: Grand Concourse Art Deco apartments",
  "night": false,
  "pitch_reason": "level optical axis (the reference names no subject to aim at)",
  "reference_photo": {
-  "author": "Paul Lowry",
+  "author": "Deansfa",
   "confidence": "medium",
-  "date_taken": "2025-04-29 19:05:26",
+  "date_taken": "2022-10-09 12:16:14",
   "estimated_azimuth_deg": 25.0,
-  "file": "3.jpg",
-  "height": 1171,
-  "licence": "CC BY 2.0",
-  "licence_url": "https://creativecommons.org/licenses/by/2.0",
-  "page_url": "https://commons.wikimedia.org/wiki/File:Lowes_Paradise_Theater,_The_Bronx.jpg",
-  "title": "File:Lowes Paradise Theater, The Bronx.jpg",
+  "file": "2.jpg",
+  "height": 2560,
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Dollar_Savings_Bank_of_New_York_headquarters_building,_Grand_Concourse_%26_East_Fordham_Road,_The_Bronx,_New_York.jpg",
+  "title": "File:Dollar Savings Bank of New York headquarters building, Grand Concourse & East Fordham Road, The Bronx, New York.jpg",
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_grand_concourse/render.png",
- "rendered_at": "2026-09-06T20:52:30Z",
- "resolution_note": "1280x780; the reference photograph is 1920x1171 (1.64:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "rendered_at": "2026-09-07T09:18:25Z",
+ "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 32,
  "scene": {
   "buildings": {
@@ -116,36 +117,55 @@
    "landmark_faces_suppressed": 564,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_1_14": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 10,
-     "triangles": 23500
+     "triangles": 26094
     },
     "t_2_13": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 12,
-     "triangles": 41374
+     "triangles": 43882
     },
     "t_2_14": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 14,
-     "triangles": 65236
+     "triangles": 69820
     },
     "t_2_15": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 11,
-     "triangles": 59584
+     "triangles": 64812
     },
     "t_3_14": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 12,
-     "triangles": 57946
+     "triangles": 64000
     },
     "t_3_15": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 11,
-     "triangles": 45940
+     "triangles": 50524
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -153,8 +173,9 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 6,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 293580
+   "triangles": 319132
   },
   "centre_tm": [
    2648.54,
@@ -172,33 +193,40 @@
     "parapet": 98,
     "quoin": 160,
     "scaffold": 277,
-    "storefront": 258,
+    "storefront": 416,
     "storefront_interior": 67,
     "string_course": 138,
     "water_tower": 5,
     "window": 4764,
     "window_accessory": 537
    },
-   "placed": 6596,
+   "placed": 6754,
    "radius_m": 120.0,
-   "records_in_range": 6596,
+   "records_in_range": 6754,
    "stale_registry_ids": {},
    "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
     "t_2_14"
    ],
-   "triangles": 1699910,
+   "triangles": 1706510,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [
     {
      "distance_m": 718.8,
      "id": "c_yankee_stadium",
      "lod": 0,
      "name": "Yankee Stadium",
+     "own_ground_note": {
+      "above_heightmap_m": 1.98,
+      "heightmap_median_m": 4.42,
+      "reason": "the model's ground stands +1.98 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 10604
     },
     {
@@ -206,9 +234,16 @@
      "id": "c_bronx_county_courthouse",
      "lod": 0,
      "name": "Bronx County Courthouse (Mario Merola Building)",
+     "own_ground_note": {
+      "above_heightmap_m": -4.47,
+      "heightmap_median_m": 23.37,
+      "reason": "the model's ground stands -4.47 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 11360
     }
    ],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
    "placed": 2,
    "skipped": 0,
    "skipped_detail": [],
@@ -237,11 +272,13 @@
     "t_3_15"
    ],
    "triangles": 192259,
+   "triangles_cut_for_landmark_ground": 0,
    "vertices": 196757
   },
   "props": {
-   "capped": "triangle budget 1366398",
+   "capped": "triangle budget 1357455",
    "impostor_cards_dropped": 16,
+   "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
     "bus_shelter": 2,
@@ -252,9 +289,9 @@
     "street_lamp": 63,
     "subway_entrance": 2,
     "subway_vent_grate": 27,
-    "tree": 211
+    "tree": 209
    },
-   "placed": 400,
+   "placed": 398,
    "radius_m": 250.0,
    "rows_in_range": 869,
    "tiles_missing": [],
@@ -262,14 +299,14 @@
     "t_2_14"
    ],
    "tree_species_substituted": 77,
-   "triangles": 1371360,
+   "triangles": 1358408,
    "unmapped_kinds": {
     "cooling_tower": 10,
     "curb_ramp": 81
    }
   },
   "radius_m": 720.0,
-  "seconds": 26.67,
+  "seconds": 32.45,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -277,14 +314,16 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
    "samples": 211,
    "spacing_m": 2.0,
    "triangles": 88200,
+   "water_bodies": [],
    "water_quads": 0,
    "z_max_m": 35.59,
    "z_min_m": 2.91
   },
-  "triangles": 3667273
+  "triangles": 3686473
  },
  "scene_request": {
   "kit_radius_m": 120.0,
@@ -292,9 +331,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 206.9,
-  "scene": 28.2,
-  "total": 235.1
+  "render": 444.5,
+  "scene": 34.1,
+  "total": 478.6
  },
  "slug": "drive_bronx_grand_concourse",
  "status": "rendered",
@@ -303,11 +342,11 @@
   "name": null
  },
  "sun": {
-  "azimuth_deg": 283.25589880446165,
-  "elevation_deg": 7.398868047866967,
-  "local": "2025-04-29T19:05:26-04:00",
+  "azimuth_deg": 171.0219939844269,
+  "elevation_deg": 42.359138023208,
+  "local": "2022-10-09T12:16:14-04:00",
   "time_source": "EXIF DateTimeOriginal",
-  "utc": "2025-04-29T23:05:26Z"
+  "utc": "2022-10-09T16:16:14Z"
  },
  "viewpoint": {
   "azimuth_deg": 25.0,
