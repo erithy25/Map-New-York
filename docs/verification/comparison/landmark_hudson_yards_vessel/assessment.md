@@ -14,6 +14,26 @@
 
 **Verdict — the Vessel's interlocking stair lattice is modelled and unmistakable — the best sculptural landmark in the set — and it hovers on a disc above the plaza with nothing under it, seen from a camera that had to be moved 30 m out of a building shell**
 
+## Re-render note, 2026-09-07
+
+Re-rendered against the scene builder's new rule that terrain and pavement are not drawn where a
+landmark supplies its own ground (`docs/verification/comparison/REPORT.md` §2.9). **This scene is
+where that rule was tested against a case it was not designed for, and it correctly does nothing
+here.** The Hudson Yards plaza is 20,061 m² of modelled ground at 7.82 m NAVD88 over a heightmap
+median of 2.48 m — **5.34 m above it** — so it is a podium standing on the ground rather than a
+statement about where the ground is, and cutting the terrain under it would have turned the hovering
+disc this assessment already describes into a hovering disc over a hole. The refusal and its measured
+offset are recorded in `render.json` under the landmark's `own_ground_note`.
+
+What is cut in this frame is `c_moynihan_train_hall`, whose ground is **0.01 m** from the heightmap:
+37 pavement triangles and **no terrain quads at all**. `b_lincoln_tunnel_portals` is refused for the
+opposite reason — its roadway is 9.68 m *below* the heightmap over it, which is what a tunnel mouth
+is. `c_javits_center` has no upward horizontal face at its declared ground and `c_high_line`'s are
+under 25 m², so neither contributes.
+
+The disc still hovers. That is the landmark model's own gap, unchanged by this pass, and it is
+recorded below.
+
 ## What matches
 
 * The Vessel is recognisably itself: the honeycomb of interlocking flights, the hexagonal landings stacked in eight tiers, the outward taper and the copper-brown steel colour are all correct and read at a glance.

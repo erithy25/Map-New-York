@@ -436,6 +436,18 @@ the rejected fix would have flooded, `t_-15_-12` masks 280 of 10,201 samples (2.
 point by point costs 27 s for a 421² grid, so the candidate set is narrowed by the sample block's
 bounding box first: 0.13 s for the same grid.
 
+**What this does *not* do is change these sheets.** Measured across all 57 rendered scenes, exactly
+**one** camera faces a real inland water body: Bethesda Terrace, with THE LAKE 317 m away and 29° off
+its axis. (The only others inside a 90° front cone are two 0.02 ha wetlands at Brooklyn Bridge Park.)
+And from that camera the terrace's own balustrade and the falling ground hide all but a sliver: the
+scene carries **3,737 water quads where it carried 0**, and **455 pixels** change, darkening from RGB
+162/169/176 to 149/157/166 — water seen at a grazing angle, reflecting the sky. The reference
+photograph has the Lake filling its upper third because the photographer stands at the fountain, ten
+metres lower and twenty metres from the water. Top of the Rock gains the Reservoir, the Lake, the
+Pond, the Pool, Harlem Meer and Turtle Pond and shows none of them, because it looks south. The fault
+was real and general — 121 tiles could produce no water surface at all — and the comparison set
+happens to contain almost no camera pointed at one. Both halves of that belong in the record.
+
 Two consequences worth stating:
 
 * **The `has_land` special case is gone.** An all-water tile used to be masked wholesale; the
@@ -478,6 +490,22 @@ the landmark's ground elevation, and a metre is generous enough for a modelled k
 to exclude the memorial's 1.07 m parapet coping. Outlines under 25 m² are ignored: a landmark has
 incidental horizontal faces at ground level (the flat base of a tree trunk, the tread of a step) and
 each would punch its own hole, always covered by the face that made it, but not worth the noise.
+
+**A deck is not ground, and only ground replaces ground.** The justification above holds only where
+the model and the heightmap describe the *same* surface. Where the model's ground plane stands more
+than the same one metre from the heightmap beneath it, it is a structure standing *on* the ground
+rather than a statement about where the ground is, and the terrain under it must still be drawn.
+`landmark_hudson_yards_vessel` is the case the rule was tested against, and it is not the one it was
+designed against: the Hudson Yards plaza is **20,061 m² at 7.82 m NAVD88 over a heightmap median of
+2.48 m — 5.34 m above it**, and that scene's own assessment already says the Vessel "hovers on a disc
+above the plaza with nothing under it". Cutting there would have turned a hovering disc into a
+hovering disc over a hole. The test is symmetric and catches the other sign too:
+`b_lincoln_tunnel_portals`' roadway is **9.68 m below** the heightmap over it, which is what a tunnel
+mouth is. Every refusal is recorded per landmark in the scene's `render.json` with its measured
+offset and the reason. In that scene, the outcome is: `c_moynihan_train_hall` cuts (+0.01 m,
+2,316 m²), `c_hudson_yards` refused (+5.34 m), `b_lincoln_tunnel_portals` refused (−9.68 m),
+`c_javits_center` has no ground face at all, `c_high_line`'s ground polygons are under 25 m² — 0
+terrain quads and 37 pavement triangles cut, and no hole anywhere.
 
 The order in `build_scene` changes with it: landmarks are placed **before** the terrain and the
 pavement, because they decide where those are not drawn. Nothing in that pass depends on the ground,
