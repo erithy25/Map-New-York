@@ -1425,7 +1425,10 @@ void TrafficSim::decide(uint32_t i) {
       if (!may_enter) stop_dist = std::min(stop_dist, dist_to_line);
     }
     gate_open = may_enter;
-    if (entered_on_red && dist_to_line < 1.5f) ++stats_.red_light_entries;
+    if (entered_on_red && dist_to_line < 1.5f) {
+      ++stats_.red_light_entries;
+      if (v.flags & kVehLawAbiding) ++stats_.red_light_entries_law_abiding;
+    }
     if (!may_enter && v.speed < 0.5f && dist_to_line < 3.f)
       v.state = signalized ? DriveState::StoppedAtLine : DriveState::WaitingRow;
     else if (v.state != DriveState::Driving)

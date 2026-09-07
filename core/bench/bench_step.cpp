@@ -243,6 +243,11 @@ void reportCrowd(const traffic::TrafficSim& tsim, const peds::PedSim* psim, floa
   std::printf("  vehicles in ring %u of %zu within %.0f m of the camera\n",
               vehiclesInRing(tsim, px, py, ring_m), tsim.vehicleCount(), static_cast<double>(ring_m));
   const traffic::TrafficStats& ts = tsim.stats();
+  // The law-abiding split is the invariant; the raw total counts the modelled runners too and is
+  // legitimately non-zero on the real graph.  Printing only the total is what let a city-scale claim
+  // rest on a number that cannot fail.
+  std::printf("  red-light entries by a law-abiding driver: %u (invariant: 0)\n",
+              tsim.stats().red_light_entries_law_abiding);
   std::printf("  traffic counters %u spawned, %u despawned, %u spawn failures, %u route calls,"
               " %u route failures, %u red-light entries, %u hash drops\n",
               ts.spawned, ts.despawned, ts.spawn_failures, ts.route_calls, ts.route_failures,

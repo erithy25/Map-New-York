@@ -171,6 +171,12 @@ TEST_CASE("law-abiding drivers never enter on red, and nobody turns right on red
   CHECK(mon.entries > 500u);
   CHECK(mon.red_entries_law_abiding == 0u);
   CHECK(mon.right_on_red == 0u);
+  // The same invariant read from the simulation's own counter rather than from the monitor beside
+  // it.  The monitor is test-only; `red_light_entries_law_abiding` ships, so it is what a host or a
+  // city-scale benchmark can assert -- and until it existed, the only city-wide number available was
+  // `red_light_entries`, which counts the modelled runners too and therefore cannot fail.
+  CHECK(sim.stats().red_light_entries_law_abiding == 0u);
+  CHECK(sim.stats().red_light_entries >= mon.red_entries_total);
   // The red-light runners in the fleet do exist (2 % of sedans, 10 % of taxis).
   CHECK(mon.green_entries > mon.red_entries_total);
   CHECK(sim.stats().vehicles > 100u);

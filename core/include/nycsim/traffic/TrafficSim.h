@@ -247,6 +247,13 @@ struct TrafficStats {
   uint32_t spawned = 0, despawned = 0, spawn_failures = 0;
   uint32_t stopped_at_red = 0, in_junction = 0, double_parked = 0, dwelling = 0;
   uint32_t lane_changes = 0, honks = 0, reroutes = 0, route_calls = 0, red_light_entries = 0;
+  /// Of those, the ones by a driver carrying kVehLawAbiding -- which must never happen.
+  /// `red_light_entries` counts every entry on red *including* the modelled runners (2 % of
+  /// sedans, 10 % of taxis), so on the real city graph it is legitimately non-zero and says
+  /// nothing about compliance. This is the number that is an invariant. The synthetic-grid
+  /// suite has always separated the two through its own monitor; nothing did on the city
+  /// graph, where the benchmark printed only the undifferentiated total.
+  uint32_t red_light_entries_law_abiding = 0;
   uint32_t box_blocks = 0, emergency_yields = 0;
   // Agents the spatial hash refused because it was at capacity.  Such an agent
   // is invisible to every proximity query for that step, so this must stay 0;
