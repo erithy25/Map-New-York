@@ -41,9 +41,21 @@ RUNTIME = REPO / "data" / "processed" / "runtime"
 
 # Recorded from the verified run in docs/verification/performance/REPORT.md.
 # seed 20260906, 14 x 28 grid, 5,000 vehicles, 20,000 pedestrians, 200 warm-up.
+#
+# Re-baselined when ADR-021 was implemented.  The previous pair
+# (traffic aa5259411c39445a, peds f6dda9215d7698a0) was the behaviour in which a
+# pedestrian drew its next destination uniformly over every point of interest in
+# the city: almost every resulting path exceeded the 24-node cap or the per-step
+# budget, so the agent fell back to wandering.  Pedestrians now choose a goal
+# within walking distance and actually reach it, which moves the pedestrian hash;
+# the traffic hash moves with it because drivers yield to pedestrians through the
+# probe, so a different crossing is a different vehicle trajectory.  The vehicle
+# spawner is unchanged *here* by construction — the synthetic grid is smaller
+# than its 1,000 km ring, so the streamed region covers the whole graph and the
+# lane draws are bit-identical.
 EXPECTED_HASHES = {
-    "traffic": "aa5259411c39445a",
-    "peds": "f6dda9215d7698a0",
+    "traffic": "6a24b0a24a962b4c",
+    "peds": "fd8d5b12f37af8ea",
 }
 
 

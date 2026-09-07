@@ -364,9 +364,9 @@ Every photograph under `docs/verification/reference/` is from Wikimedia Commons 
 
 | file | title | author | licence | date taken | camera GPS |
 |---|---|---|---|---|---|
-| [1.jpg](landmark_washington_square_arch/1.jpg) | [Skateboarders at the central fountain, Washington Square Park, Manhattan, New York.jpg](https://commons.wikimedia.org/wiki/File:Skateboarders_at_the_central_fountain,_Washington_Square_Park,_Manhattan,_New_York.jpg) | Christian David | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2026-04-16 18:15:53 | 40.73093, -73.99733 |
-| [2.jpg](landmark_washington_square_arch/2.jpg) | [Balloon animal guy in Washington Square Park (00947).jpg](https://commons.wikimedia.org/wiki/File:Balloon_animal_guy_in_Washington_Square_Park_(00947).jpg) | Rhododendrites | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2017-06-10 17:08:44 | 40.73092, -73.99744 |
-| [3.jpg](landmark_washington_square_arch/3.jpg) | [30 Hudson Yards From Washington Square Park November 2024.jpg](https://commons.wikimedia.org/wiki/File:30_Hudson_Yards_From_Washington_Square_Park_November_2024.jpg) | BruceSchaff | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2024-11-26 16:14:24 | 40.73108, -73.99720 |
+| [1.jpg](landmark_washington_square_arch/1.jpg) | [Washington Square Arch and the Empire State Building, Greenwich Village, Manhattan, New York.jpg](https://commons.wikimedia.org/wiki/File:Washington_Square_Arch_and_the_Empire_State_Building,_Greenwich_Village,_Manhattan,_New_York.jpg) | Christian David | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2026-04-16 18:16:58 | 40.73093, -73.99733 |
+| [2.jpg](landmark_washington_square_arch/2.jpg) | [Washington Square Park November 2024.jpg](https://commons.wikimedia.org/wiki/File:Washington_Square_Park_November_2024.jpg) | Knima04 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2024 | 40.73105, -73.99724 |
+| [3.jpg](landmark_washington_square_arch/3.jpg) | [WSP Vigil for Asian Americans (51057289552).jpg](https://commons.wikimedia.org/wiki/File:WSP_Vigil_for_Asian_Americans_(51057289552).jpg) | Andrew Ratto from Berkeley, USA | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) | 2021-03-20 17:26 | 40.73100, -73.99757 |
 
 ## landmark_woolworth_building — Woolworth Building
 

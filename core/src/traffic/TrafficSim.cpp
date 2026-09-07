@@ -227,8 +227,25 @@ void TrafficSim::refreshSpawnRegions() {
   }
   const float slack = std::max(0.f, cfg_.region_slack_m);
   spawn_index_.refresh(origin_region_, player_.x, player_.y, std::max(1.f, cfg_.spawn_outer_m), slack);
-  const float dr = cfg_.dest_radius_m > 0.f ? cfg_.dest_radius_m : cfg_.despawn_m;
-  spawn_index_.refresh(dest_region_, player_.x, player_.y, std::max(1.f, dr), slack);
+  spawn_index_.refresh(dest_region_, player_.x, player_.y, std::max(1.f, cfg_.despawn_m), slack);
+}
+
+// How many vehicles the density table asks for.  Without a streaming ring this
+// is the whole city, summed over NTA lane-kilometres exactly as before.  With
+// one, it has to be the streamed region's own share: the spawner now draws only
+// from that region, so a city-wide target would never be reached and the ring
+// would simply fill to max_vehicles at whatever density that happens to be.
+// The region's weights are (lane length x vehicles per lane-km), so their sum
+// divided by 1,000 is the vehicle count the table asks for inside it.
+float TrafficSim::densityTarget() const {
+  if (density_ == nullptr) return 0.f;
+  if (spawn_index_.regionIsRestricted(dest_region_))
+    return spawn_index_.regionWeight(dest_region_) * 0.001f;
+  const uint8_t hour = static_cast<uint8_t>(clampf(tod_s_ / 3600.f, 0.f, 23.f));
+  float target = 0.f;
+  for (uint16_t nta = 0; nta < density_->ntaCount() && nta < nta_lane_km_.size(); ++nta)
+    target += nta_lane_km_[nta] * density_->get(nta, hour, dow_).veh_per_km_lane;
+  return target;
 }
 
 // --------------------------------------------------------- junction conflicts
@@ -1814,7 +1831,7 @@ uint32_t TrafficSim::sampleOriginLane(Rng& rng) {
   return spawn_index_.sample(origin_region_, rng.uniform());
 }
 
-uint32_t TrafficSim::sampleDestLane(Rng& rng) {
+uint32_t TrafficSim::sampleStreamedLane(Rng& rng) {
   return spawn_index_.sample(dest_region_, rng.uniform());
 }
 
@@ -1968,12 +1985,7 @@ void TrafficSim::updateSpawnDespawn() {
   }
 
   // Spawn towards the density target.
-  float target = 0.f;
-  if (density_ != nullptr) {
-    const uint8_t hour = static_cast<uint8_t>(clampf(tod_s_ / 3600.f, 0.f, 23.f));
-    for (uint16_t nta = 0; nta < density_->ntaCount() && nta < nta_lane_km_.size(); ++nta)
-      target += nta_lane_km_[nta] * density_->get(nta, hour, dow_).veh_per_km_lane;
-  }
+  const float target = densityTarget();
   stats_.target_vehicles = target;
   if (density_ == nullptr) return;
 
@@ -2019,7 +2031,7 @@ void TrafficSim::updateSpawnDespawn() {
       uint32_t dest = kInvalidIndex;
       float dest_s = 0.f;
       if (router_ != nullptr && router_->attached() && routes_this_step_ < cfg_.max_routes_per_step) {
-        dest = sampleDestLane(rng_);
+        dest = sampleStreamedLane(rng_);
         if (dest != kInvalidIndex) {
           dest_s = graph_->lane(dest).length_m * 0.5f;
           ++routes_this_step_;
@@ -2033,31 +2045,25 @@ void TrafficSim::updateSpawnDespawn() {
 
 uint32_t TrafficSim::prefill(uint32_t max_spawns) {
   if (graph_ == nullptr || density_ == nullptr) return 0;
-  const uint8_t hour = static_cast<uint8_t>(clampf(tod_s_ / 3600.f, 0.f, 23.f));
-  float target = 0.f;
-  for (uint16_t nta = 0; nta < density_->ntaCount() && nta < nta_lane_km_.size(); ++nta)
-    target += nta_lane_km_[nta] * density_->get(nta, hour, dow_).veh_per_km_lane;
-  stats_.target_vehicles = target;
   rebuildIndex();
   refreshSpawnRegions();
+  const float target = densityTarget();
+  stats_.target_vehicles = target;
   uint32_t made = 0;
   uint32_t attempts = 0;
   const uint32_t want = std::min<uint32_t>(static_cast<uint32_t>(std::max(0.f, target)), cfg_.max_vehicles);
   while (veh_.size() < want && made < max_spawns && attempts < want * 24u + 4096u) {
     ++attempts;
-    const uint32_t lane = sampleOriginLane(rng_);
+    // The whole streamed region, not just the spawn band: at load time nothing
+    // is in view, so the fleet should start spread over the region it will be
+    // kept in.  Before ADR-021 this drew from the whole city and the ring kept
+    // 22 of 6,000 vehicles.
+    const uint32_t lane = sampleStreamedLane(rng_);
     if (lane == kInvalidIndex) break;
     const Lane& l = graph_->lane(lane);
     const float s = rng_.uniform(2.f, std::max(3.f, l.length_m - 2.f));
     const routing::LanePose pose = graph_->poseAt(lane, s);
     if (inProtectedRegion(pose.pos.x, pose.pos.y)) continue;
-    // The spawn band, exactly as the steady-state spawner applies it: the index
-    // restricts the draw, this decides it.  Before ADR-021 prefill() filled the
-    // whole city and the ring kept 86 of 6,000 vehicles.
-    if (player_.valid && cfg_.use_player_ring) {
-      const float dx = pose.pos.x - player_.x, dy = pose.pos.y - player_.y;
-      if (dx * dx + dy * dy > cfg_.spawn_outer_m * cfg_.spawn_outer_m) continue;
-    }
     const VehicleClass c = sampleClass(rng_, l.nta);
     const uint32_t use_lane = preferredLaneFor(lane, c);
     if (!graph_->laneAllows(use_lane, classParams(c).lane_kinds)) continue;
@@ -2065,7 +2071,7 @@ uint32_t TrafficSim::prefill(uint32_t max_spawns) {
     uint32_t dest = kInvalidIndex;
     float dest_s = 0.f;
     if (router_ != nullptr && router_->attached()) {
-      dest = sampleDestLane(rng_);
+      dest = sampleStreamedLane(rng_);
       if (dest != kInvalidIndex) dest_s = graph_->lane(dest).length_m * 0.5f;
     }
     if (spawn(c, use_lane, s, dest, dest_s) != kInvalidIndex) {
@@ -2151,7 +2157,7 @@ void TrafficSim::step() {
       goal_cursor_ = (goal_cursor_ + 1u) % static_cast<uint32_t>(veh_.size());
       Vehicle& v = veh_[goal_cursor_];
       if ((v.flags & kVehHasRoute) != 0 || v.bus_route != 0xFFFFu) continue;
-      const uint32_t dest = sampleDestLane(rng_);
+      const uint32_t dest = sampleStreamedLane(rng_);
       if (dest == kInvalidIndex || dest == v.lane) break;
       ++routes_this_step_;
       routeAgent(v, dest, graph_->lane(dest).length_m * 0.5f);

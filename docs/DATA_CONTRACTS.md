@@ -163,6 +163,17 @@ Array of `{id, name, bins[], lp_number, script, footprint_source, height_m, heig
 
 Level-of-detail meshes may be shipped either as extra meshes named `<id>_LOD1` inside the parent file or as sibling files `<id>_LOD1.glb`, `<id>_LOD2.glb`; both forms are covered by the parent's single catalog entry, which lists the LODs it owns. Importers resolve a sibling by stripping the `_LOD<n>` suffix, matched case-insensitively (`_LOD1` is the canonical spelling; `_lod1` is accepted).
 
+**Building-shell materials.** One glTF material per material class, named `NYCSIM_<class>` for the 20 classes
+of §5.1 — one mesh per (tile, LOD, material class), as ARCHITECTURE §4.3 requires. Each carries the analytic
+PBR set authored in `blender/buildings/shellmat.py`: `baseColorFactor`, `metallicFactor`, `roughnessFactor`
+plus `KHR_materials_specular` and `KHR_materials_ior`. No textures and no `COLOR_0`. **Per-building variation
+lives in the shader, not in the file**: `k = fract(sin(_LIT_SEED_HI·12.9898 + _LIT_SEED_LO·78.233)·43758.5453)·2 − 1`
+scales the base colour by `1 + tone_amp·k` and offsets roughness by `rough_amp·k`, with the two amplitudes
+per class in `shellmat.MATERIALS`. An engine master material that ignores it gets the class average, which is
+what a plain glTF viewer shows. The spandrel band a curtain wall needs is **not** in the geometry either;
+`shellmat.floor_band_uv` states the expression an engine should use over the metre UV `v` (height above
+`ground_z`) with `_FLOOR_HEIGHT` / `_GROUND_FLOOR_HEIGHT`.
+
 Each `.glb` carries `asset.extras.nycsim = {"generator_script": ..., "git_commit": ..., "schema_version": 1}`.
 
 ## 14. UE import manifest — `unreal_manifest.json`
@@ -256,6 +267,17 @@ applies it with one call: `df = citygml_join.attach_roof_columns(df)`.*
 The LOD2 solids themselves stay in `buildings/citygml/da{n}.parquet` (schema `citygml_solids_v1`: per-BIN
 `tri_xyz` float32 blob + `tri_type`), with `buildings/citygml/index.parquet` (`citygml_index_v1`) as the
 city-wide per-BIN index. A later Blender stage turns the solids into `tiles/{tile}/roofs.glb`.
+
+**Per-level roof outlines are derived, not stored (consumer note).** `n_roof_levels`, `roof_level_z` and
+`roof_level_area` say how high and how big each roof level is but not *where* it is, and the outline is what
+stepped massing needs. It is recovered directly from `da{n}.parquet`: every `tri_type == 2` (roof) triangle is
+exactly horizontal, so grouping the roof triangles by z and unioning each group **is** the level outline.
+`blender/buildings/roofsteps.py` does this at build time — the outlines are **not** materialised into
+`roof_attrs.parquet`, because they are ~10× the size of the table that would carry them, they are cheap to
+recompute (about 2 s per tile), and the triangles they come from are already a published contract. The only
+new file is `blender/buildings/citygml_tile_index.json`, a derived `da*.parquet → [tx, ty]` index so a tile
+opens one delivery-area file instead of twenty; it is rebuilt by `roofsteps.build_tile_index(force=True)`.
+Consumers that need the outlines should call `roofsteps.load_tile_steps(tile)` rather than re-deriving them.
 
 ---
 

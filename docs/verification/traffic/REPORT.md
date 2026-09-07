@@ -39,10 +39,10 @@ These had never been exercised because the code had never been compiled or run a
 | Saturation flow | **1,708.6 veh/h/lane**, inside the 1,700–1,900 target from the Highway Capacity Manual |
 | Bus dwell | 6 dwells, every one inside 15–45 s, over 8.3 km of route |
 | Emergency yielding | 3 vehicles pulled right by 1.4 m |
-| Spawn and despawn ring | 910 spawns, 909 despawns, **none inside the protected region around the player** |
+| Spawn and despawn ring | 193 spawns, 198 despawns, **none inside the protected region around the player** (910/909 before ADR-021 — §4a) |
 | Player reaction | stops 6.83 m short of a stalled player car, 10.69 m short of a person on foot |
 | Pedestrian wall containment | **zero** corridor violations and zero wall crossings over 1,500 pedestrians × 1,200 steps |
-| Crossing compliance | 651 entries, 515 on the walk phase, **zero law-abiding violations**; jaywalker share 0.301 |
+| Crossing compliance | 526 entries, 428 on the walk phase, **zero law-abiding violations**; jaywalker share 0.3005 (651/515 before ADR-021 — §4a) |
 | Appearance uniqueness | **zero** duplicates among 900 pedestrians within 60 m, checked by brute force |
 | Walking speed | 1.4024 m/s overall, 1.6024 m/s in Midtown |
 | Density convergence | target 1,165.4 vehicles, 1,166 present; halving the calibration table gives 486 |
@@ -55,6 +55,12 @@ These had never been exercised because the code had never been compiled or run a
 > Only the machine differed. Do not quote 35.6 ms; the honest synthetic baseline is 14.6 ms, and the
 > city-scale figure, which nobody had when this was written, is 777 ms. See
 > `docs/verification/performance/REPORT.md`.
+>
+> **Second update, after ADR-021 was implemented.** On the real 122,235-segment graph the step is now
+> **38.3 ms**, down from 665.3 ms measured here on the same machine — 94 % of it gone — and 14.5 ms
+> with the density-correct fleet the fixed spawner produces. The synthetic step is 15.2 ms, about 10 %
+> more than before, because pedestrians now reach their goals instead of wandering. The 8 ms budget is
+> still not met and `docs/verification/performance/REPORT.md` §8 says exactly what is left.
 
 5,000 vehicles and 20,001 pedestrians, both wired to each other's probes, 1,200 measured steps:
 
@@ -85,6 +91,28 @@ One related item for the city-scale run: `SignalTable::cacheStates` is O(plans �
 3,000 operations on the synthetic grid but **158,000 on the real 19,814-plan table**. It should be
 restricted to loaded tiles before the city is stepped.
 
+### 4a. Two counters in §3 moved when ADR-021 was implemented
+
+ADR-021 said in advance that they would, which is why it is an ADR and not a patch. Both are numbers
+this report *states*; neither is a number the suite *asserts*, and every assertion around them still
+passes.
+
+* **Spawn and despawn ring: 910 / 909 → 193 / 198.** The spawner used to sample a lane from a city-wide
+  distribution and then reject it for falling outside the player's ring, so it churned through draws
+  without ever reaching the density target; it now draws from the ring, reaches the target and stops.
+  Fewer spawns is the fix working, not the ring being exercised less: the test still drives the player
+  4,000 steps across the network, and **both violation counts are still zero**.
+* **Crossing compliance: 651 entries / 515 on WALK → 526 / 428.** A pedestrian used to pick its next
+  destination uniformly over every point of interest in the city; almost every resulting path exceeded
+  the 24-node cap, so the agent wandered at random and met more crossings than a person with somewhere
+  to go. The jaywalker share is 0.3005 against 0.301, and **law-abiding violations are still zero**.
+
+Everything else in §3 is bit-for-bit what it was: saturation flow 1,708.61 veh/h/lane, junction entries
+1,601 with 1,508 green / 83 yellow / 10 red, zero right-on-red, 22 residual overlap frames of 3,000,
+6 bus dwells, 3 emergency yields, walking speed 1.4024 and 1.6024 m/s, zero pedestrian wall crossings
+and corridor violations, zero duplicate appearances, and density convergence at 1,166 against a target
+of 1,165.4.
+
 ## 5. Calibration constants and their sources
 
 Car-following is the Intelligent Driver Model with δ = 4 (Treiber, Hennecke and Helbing, 2000), car
@@ -108,7 +136,9 @@ B = 0.3 m (Helbing and Molnár, 1995) and the contact term from Helbing, Farkas 
 
 ## 6. Stated gaps
 
-1. **The 8 ms performance target is not met** (§4).
+1. **The 8 ms performance target is not met** (§4). City scale is 38.3 ms after ADR-021, down from
+   665.3 ms; synthetic is 15.2 ms. What is left, and in what order to attack it, is
+   `docs/verification/performance/REPORT.md` §8.
 2. **The jaywalking share of 0.30 is a modelling target, not a measurement.** No New York field count
    of signal non-compliance exists in this repository. The figure sits inside the 20–50 % range in the
    literature and is a single exposed constant for a future pedestrian-count stage to replace.

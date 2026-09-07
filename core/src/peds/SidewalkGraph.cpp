@@ -411,7 +411,7 @@ uint32_t SidewalkGraph::edgeBetween(uint32_t a, uint32_t b) const {
 }
 
 uint32_t SidewalkGraph::path(uint32_t from_node, uint32_t to_node, uint32_t* out, uint32_t cap,
-                             float cross_penalty_m) const {
+                             float cross_penalty_m, float max_cost_m) const {
   if (!finalized_ || from_node >= nodes_.size() || to_node >= nodes_.size() || cap == 0) return 0;
   if (from_node == to_node) {
     out[0] = from_node;
@@ -477,6 +477,15 @@ uint32_t SidewalkGraph::path(uint32_t from_node, uint32_t to_node, uint32_t* out
       const uint32_t v = e.a == u ? e.b : e.a;
       const float w = e.length_m + (e.kind == WalkEdgeKind::Crosswalk ? cross_penalty_m : 0.f);
       const float g = gscore_[u] + w;
+      // Cost bound.  The heuristic is the straight-line distance and every edge
+      // is at least as long as the straight line between its ends, so h is
+      // consistent and g + h is a lower bound on any route through v: a node
+      // whose bound already exceeds max_cost_m cannot be on a route that cheap,
+      // and pruning it loses nothing.  Without this, a goal that is close by but
+      // on a disconnected piece of pavement — the far side of an expressway, a
+      // rail cut, a pier — makes the search settle the whole 452,024-node
+      // component, which measured 107 ms in a single step (ADR-021).
+      if (max_cost_m > 0.f && g + heuristic(v) > max_cost_m) continue;
       if (stamp_[v] == stamp_counter_ && gscore_[v] <= g) continue;
       stamp_[v] = stamp_counter_;
       gscore_[v] = g;

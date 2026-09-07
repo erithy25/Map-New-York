@@ -493,3 +493,244 @@ def test_lod2_is_box_massing():
     lod2 = sg.build_shell(spec, 2)
     assert len(lod2.tris) < len(lod0.tris)
     assert len(lod2.pos) <= 16, "LOD2 outline should be a simplified hull"
+
+
+# --------------------------------------------------------------------------- stepped massing, real data
+@pytest.fixture(scope="session")
+def step_tile():
+    """Real specs for the fixture tile, with the recovered levels beside them."""
+    import roofsteps as rsx
+
+    load = td.load_tile(FIXTURE_TILE)
+    sets, _ = rsx.load_tile_steps(FIXTURE_TILE)
+    return load, sets
+
+
+@pytest.fixture(scope="session")
+def published_levels():
+    """``roof_level_z`` / ``z_roof_max`` straight out of the CityGML table, per BIN."""
+    import pyarrow.parquet as pq
+
+    import roofsteps as rsx
+
+    tx, ty = (int(v) for v in FIXTURE_TILE[2:].split("_", 1))
+    out: dict[int, tuple[np.ndarray, float]] = {}
+    for fname in rsx._files_for(tx, ty):
+        path = rsx.CITYGML_DIR / fname
+        if not path.exists():
+            continue
+        t = pq.read_table(path, columns=["bin", "roof_level_z", "z_roof_max", "footprint_area_m2"],
+                          filters=[("tx", "=", tx), ("ty", "=", ty)])
+        for b, lz, zm in zip(t.column("bin").to_pylist(), t.column("roof_level_z").to_pylist(),
+                             t.column("z_roof_max").to_pylist()):
+            out[int(b)] = (np.asarray(lz or [], dtype=float), float(zm or 0.0))
+    return out
+
+
+def test_recovered_levels_are_disjoint_and_tile_the_plan(step_tile):
+    """Each level is a disjoint part of the plan, and together they cover it.
+
+    This is the claim the whole feature rests on: if the levels overlapped, or left the plan
+    uncovered, the regions cut from them would put a step on the wrong part of the building.
+    """
+    _, sets = step_tile
+    assert sets, "no CityGML step sets for the fixture tile"
+    checked = 0
+    for ss in sets.values():
+        if not ss.ok:
+            continue
+        checked += 1
+        polys = [p for _, p in ss.levels]
+        total = sum(p.area for p in polys)
+        overlap = sum(polys[i].intersection(polys[j]).area
+                      for i in range(len(polys)) for j in range(i + 1, len(polys)))
+        assert overlap <= 1e-6 * max(total, 1.0), f"bin {ss.bin}: levels overlap by {overlap:.3f} m2"
+    assert checked > 100, f"only {checked} multi-level buildings recovered"
+
+
+def test_step_regions_are_inside_the_footprint_and_cover_it(step_tile):
+    """The regions the shell is cut into are a partition of the real footprint."""
+    load, _ = step_tile
+    checked = 0
+    for spec in load.specs:
+        steps = spec.roof_steps
+        if not steps or len(steps) < 2:
+            continue
+        checked += 1
+        fp = spec.polygon
+        union = shapely.union_all([p for p, _ in steps])
+        outside = union.difference(fp.buffer(sg.SNAP_M * 2)).area
+        assert outside < 0.05, f"bin {spec.bin}: {outside:.3f} m2 of level outline outside the footprint"
+        assert union.area >= 0.99 * fp.area, f"bin {spec.bin}: levels cover only {union.area / fp.area:.3f}"
+        overlap = sum(steps[i][0].intersection(steps[j][0]).area
+                      for i in range(len(steps)) for j in range(i + 1, len(steps)))
+        assert overlap < 0.5, f"bin {spec.bin}: regions overlap by {overlap:.3f} m2"
+    assert checked > 100, f"only {checked} buildings carry steps"
+
+
+def test_step_heights_come_from_the_published_roof_levels(step_tile, published_levels):
+    """Undo the height shift and every step must land on a level the CityGML stage published.
+
+    This is what separates a measured step from an invented one: the shell may move the whole
+    profile so its top meets the contract ``roof_z``, but the *depth* of each step has to be one
+    the source reports.
+    """
+    load, _ = step_tile
+    errs: list[float] = []
+    for spec in load.specs:
+        steps = spec.roof_steps
+        if not steps or len(steps) < 2:
+            continue
+        pz, zmax = published_levels.get(spec.bin, (np.array([]), 0.0))
+        if not len(pz):
+            continue
+        dz = spec.roof_z - zmax
+        for _, z in steps:
+            errs.append(float(np.min(np.abs(pz - (z - dz)))))
+    assert len(errs) > 300, f"only {len(errs)} step heights to check"
+    e = np.asarray(errs)
+    assert np.median(e) < 0.05, f"median step-height error {np.median(e):.3f} m"
+    assert (e < 0.5).mean() > 0.99, f"only {(e < 0.5).mean():.3f} of steps within 0.5 m of a published level"
+
+
+def test_shipped_stepped_shells_close_and_remove_volume(step_tile):
+    """A stepped shell must be closed, and must be *smaller* than the slab it replaces."""
+    import dataclasses
+
+    load, _ = step_tile
+    stepped = [s for s in load.specs if s.roof_steps and len(s.roof_steps) >= 2]
+    assert len(stepped) > 100
+    sample = stepped[:: max(len(stepped) // 40, 1)]
+    shipped = 0
+    for spec in sample:
+        buf = sg.build_shell(spec, 0)
+        rep = sg.watertight_report(np.asarray(buf.pos), np.asarray(buf.tris), weld=sg.STEP_WELD_M)
+        assert rep["closed"], f"bin {spec.bin}: open shell {rep}"
+        if buf.fallback and not str(buf.fallback).startswith("steps_merged"):
+            continue                      # reverted to a flat cap: counted, not shipped as stepped
+        shipped += 1
+        flat = sg.build_shell(dataclasses.replace(spec, roof_steps=None), 0)
+        v_flat = sg.watertight_report(np.asarray(flat.pos), np.asarray(flat.tris))["volume_m3"]
+        assert rep["volume_m3"] < v_flat + 1.0, f"bin {spec.bin}: stepped solid is not below the slab"
+        assert 12 <= len(buf.tris) <= 4000, f"bin {spec.bin}: {len(buf.tris)} triangles is not a shell"
+    assert shipped >= len(sample) // 2, f"only {shipped} of {len(sample)} sampled buildings shipped stepped"
+
+
+def test_manifest_step_counts_are_consistent():
+    """``shipped`` is what closed; it can never exceed what was applied, or applied what was found."""
+    import json
+
+    import build_tile as bt
+
+    seen = 0
+    for p in sorted(bt.OUT_ROOT.glob("*/manifest.json")):
+        m = json.loads(p.read_text())
+        rs = m.get("roof_steps") or {}
+        if "shipped" not in rs:
+            continue
+        seen += 1
+        assert rs["shipped"] <= rs["applied"] <= rs["recovered"] <= rs["candidates"], (p.name, rs)
+        assert rs["shipped"] + rs["lost_would_not_close"] == rs["applied"], (p.name, rs)
+        assert rs["applied_exact_z"] + rs["applied_offset_z"] == rs["applied"], (p.name, rs)
+        assert rs["shipped_with_levels_merged"] <= rs["shipped"], (p.name, rs)
+    assert seen > 0, "no rebuilt tile manifest carries step counts"
+
+
+def test_step_merging_keeps_the_partition(step_tile):
+    """The fallback that merges small levels must still tile the footprint exactly."""
+    load, _ = step_tile
+    busy = [s for s in load.specs if s.roof_steps and len(s.roof_steps) >= 4]
+    assert busy, "no building with four or more regions on the fixture tile"
+    for spec in busy[:20]:
+        merged = sg._merge_small_steps(spec.roof_steps, 30.0)
+        assert len(merged) <= len(spec.roof_steps)
+        if len(merged) < 2:
+            continue
+        before = shapely.union_all([p for p, _ in spec.roof_steps])
+        after = shapely.union_all([p for p, _ in merged])
+        assert abs(after.area - before.area) < 0.05, f"bin {spec.bin}: merging changed the plan"
+        ov = sum(merged[i][0].intersection(merged[j][0]).area
+                 for i in range(len(merged)) for j in range(i + 1, len(merged)))
+        assert ov < 0.5, f"bin {spec.bin}: merged regions overlap"
+
+
+# --------------------------------------------------------------------------- shell materials
+def test_material_variation_is_deterministic_and_in_range():
+    import shellmat as sm
+
+    vals = [sm.variation(h, lo) for h in range(60) for lo in range(60)]
+    assert all(-1.0 <= v <= 1.0 for v in vals)
+    assert sm.variation(7, 11) == sm.variation(7, 11)
+    assert len({round(v, 6) for v in vals}) > 3000, "the per-building tint barely varies"
+    assert abs(float(np.mean(vals))) < 0.05, "the tint is biased light or dark"
+    for name in sm.MATERIALS:
+        for k in (-1.0, 0.0, 1.0):
+            col, rough = sm.shaded(name, k)
+            assert all(0.0 <= c <= 1.0 for c in col), (name, k, col)
+            assert 0.0 < rough <= 1.0, (name, k, rough)
+
+
+def test_glass_curtain_ships_as_a_dark_reflective_material(tile_glb):
+    """The gap this closes: a curtain wall that renders as a pale flat solid."""
+    import json
+
+    path, _ = tile_glb
+    raw = path.read_bytes()
+    n = struct.unpack("<I", raw[12:16])[0]
+    doc = json.loads(raw[20:20 + n])
+    mats = {m["name"]: m for m in doc.get("materials", [])}
+    glass = mats.get("NYCSIM_glass_curtain")
+    assert glass is not None, sorted(mats)
+    pbr = glass["pbrMetallicRoughness"]
+    rgb = pbr["baseColorFactor"][:3]
+    lum = 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]
+    assert lum < 0.20, f"glass base colour luminance {lum:.3f} is not dark glass"
+    assert pbr["roughnessFactor"] < 0.20, pbr
+    assert pbr["metallicFactor"] > 0.2, pbr
+    ext = glass.get("extensions", {})
+    assert "KHR_materials_ior" in ext, ext
+    for name in ("NYCSIM_red_brick", "NYCSIM_brownstone"):
+        if name in mats:
+            assert mats[name]["pbrMetallicRoughness"]["roughnessFactor"] > 0.5, name
+
+
+def test_shipped_glb_carries_the_stepped_geometry(gltf, tile_glb):
+    """The steps must be in the *file*, not only in the manifest.
+
+    Counts buildings whose LOD0 mesh has two or more up-facing roof plateaus more than 1 m apart,
+    and requires at least as many as the manifest claims it shipped.  A manifest that counted
+    assignments rather than deliveries would fail here.
+    """
+    import json
+
+    path, tile = tile_glb
+    man = json.loads((path.parent / "manifest.json").read_text())
+    rs = man.get("roof_steps") or {}
+    if "shipped" not in rs:
+        pytest.skip("tile predates the stepped-massing build")
+    per_bin = _collect(gltf, 0)
+    stepped = 0
+    for rec in per_bin.values():
+        pos = np.asarray(rec["pos"])
+        tri = np.asarray(rec["tri"])
+        v = pos[tri]
+        nrm = np.cross(v[:, 1] - v[:, 0], v[:, 2] - v[:, 0])
+        ln = np.linalg.norm(nrm, axis=1)
+        ok = ln > 1e-9
+        up = ok & (nrm[:, 2] > 0.99 * np.where(ok, ln, 1.0))
+        if not up.any():
+            continue
+        area = 0.5 * ln[up]
+        z = v[up][:, :, 2].mean(axis=1)
+        order = np.argsort(z)
+        z, area = z[order], area[order]
+        plateaus = []
+        for zz, aa in zip(z, area):
+            if plateaus and zz - plateaus[-1][0] < 1.0:
+                plateaus[-1] = (zz, plateaus[-1][1] + aa)
+            else:
+                plateaus.append((zz, aa))
+        if len([p for p in plateaus if p[1] >= sg.MIN_PART_AREA_M2]) >= 2:
+            stepped += 1
+    assert stepped >= rs["shipped"], (
+        f"{tile}: manifest claims {rs['shipped']} stepped buildings, the glb shows {stepped}")

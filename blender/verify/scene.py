@@ -5,7 +5,11 @@ invented geometry:
 
 * terrain   -- ``data/processed/tiles/{tile}/terrain.png`` + ``terrain.json`` (16-bit,
                501x501 at 2 m, ``z = z_min_m + value * z_scale_m``) displaced onto a regular
-               grid, with the water surface split off as its own material.
+               grid, with the water surface split off as its own material.  Which samples are
+               water comes from ``data/processed/water/hydrography.parquet`` -- the surveyed
+               polygons, each with its own level -- and not from the tile's scalar
+               ``water_level_m`` (:class:`WaterBodies`).  Terrain is not drawn where a landmark
+               supplies its own ground (:func:`landmark_ground_outlines`).
 * buildings -- ``blender_out/tiles/{tile}/tile_buildings.glb`` and, where the tile reaches into
                New Jersey, ``tile_buildings_nj.glb`` beside it; each file carries LOD0/LOD1/LOD2
                as sibling objects (``_LOD1`` / ``_LOD2`` suffixes) so exactly one LOD per tile
@@ -53,6 +57,9 @@ LOG = logging.getLogger("nycsim.verify.scene")
 
 PROCESSED = REPO_ROOT / "data" / "processed"
 TILES_DATA = PROCESSED / "tiles"
+#: The surveyed water bodies (DATA_CONTRACTS: the water stage), 2,235 polygons each carrying its own
+#: ``water_z_m``.  This is what decides whether a ground sample is water; see :class:`WaterBodies`.
+HYDROGRAPHY = PROCESSED / "water" / "hydrography.parquet"
 BLENDER_OUT = REPO_ROOT / "blender_out"
 TILES_GLB = BLENDER_OUT / "tiles"
 #: Per-tile shell files, in import order: the New York City shells and, where the tile reaches into
@@ -156,6 +163,107 @@ step-down and rejects every void.
 """
 
 
+class WaterBodies:
+    """The surveyed water polygons, used to decide which ground samples are water.
+
+    The tile heightmaps carry a per-tile scalar ``water_level_m`` and this module used to mask water
+    as "every sample at or below that level".  One scalar and a height threshold cannot describe a
+    tile, and inland it describes nothing at all: ``water_level_m`` is written as a hard-coded 0.0,
+    so on the 121 tiles whose water stands above their own lowest ground the mask selected **no**
+    samples -- Central Park's Lake (``t_-2_8``, surface 16.55 m, tile floor 10.89 m), the Staten
+    Island reservoirs, the Bronx and Queens lakes all rendered as dry ground.  Setting the scalar to
+    each tile's dominant body is worse, not better: on 91 of those 121 tiles the threshold would then
+    flood real relief -- ``t_-15_-12`` holds a pond at 94.58 m over ground from 76.65 m -- because a
+    tile can hold a pond above a valley, or the sea and a pond at once.
+
+    A polygon does not have that problem: ``data/processed/water/hydrography.parquet`` holds all
+    2,235 bodies with their own surface level, and a sample is water when it is **inside one of
+    them**.  This changes what a sample is made of and never where it is, so no hillside can be
+    flooded by it: the ground mesh still follows the heightmap everywhere.  (It does not need to move
+    it either -- the terrain stage already flattens each body on the DEM: inside THE LAKE the
+    heightmap reads a median 16.551 m against the polygon's recorded 16.5507 m.)
+    """
+
+    def __init__(self, path: Path = HYDROGRAPHY) -> None:
+        self.path = Path(path)
+        self.ok = False
+        self.reason = ""
+        self._geoms = None
+        self._tree = None
+        self._level: list[float | None] = []
+        self._name: list[str] = []
+        self._kind: list[str] = []
+        try:
+            import pyarrow.parquet as pq
+            import shapely
+        except Exception as exc:
+            self.reason = f"pyarrow/shapely unavailable: {exc}"
+            return
+        if not self.path.exists():
+            self.reason = f"no water polygons at {self.path}"
+            return
+        try:
+            t = pq.read_table(self.path, columns=["name", "kind", "water_z_m", "geometry"])
+            self._geoms = shapely.from_wkb(t.column("geometry").to_pylist())
+            shapely.prepare(self._geoms)
+            self._tree = shapely.STRtree(self._geoms)
+            self._level = [None if v is None else float(v) for v in t.column("water_z_m").to_pylist()]
+            self._name = [str(v or "") for v in t.column("name").to_pylist()]
+            self._kind = [str(v or "") for v in t.column("kind").to_pylist()]
+            self.ok = True
+        except Exception as exc:
+            self.reason = f"{self.path.name} unreadable: {exc}"
+
+    def mask(self, xs: np.ndarray, ys: np.ndarray) -> np.ndarray:
+        """True where the sample lies inside a surveyed water body.
+
+        The candidate set is narrowed by the sample block's own bounding box first: querying the
+        whole 2,235-polygon tree point by point costs 27 s for a 421x421 grid, and the same grid
+        against the dozen bodies its box touches costs 0.13 s.
+        """
+        out = np.zeros(np.shape(xs), dtype=bool)
+        if not self.ok or xs.size == 0:
+            return out
+        import shapely
+        fx, fy = np.ravel(xs), np.ravel(ys)
+        box = shapely.box(float(np.nanmin(fx)), float(np.nanmin(fy)),
+                          float(np.nanmax(fx)), float(np.nanmax(fy)))
+        flat = np.zeros(fx.size, dtype=bool)
+        for i in self._tree.query(box):
+            flat |= shapely.contains_xy(self._geoms[i], fx, fy)
+        return flat.reshape(np.shape(xs))
+
+    def bodies_in(self, cx: float, cy: float, radius_m: float) -> list[dict]:
+        """The bodies touching a scene square, for the sheet: name, kind and their own surface level."""
+        if not self.ok:
+            return []
+        import shapely
+        box = shapely.box(cx - radius_m, cy - radius_m, cx + radius_m, cy + radius_m)
+        out = []
+        for i in self._tree.query(box):
+            if not shapely.intersects(self._geoms[i], box):
+                continue
+            out.append({"name": self._name[i] or self._kind[i], "kind": self._kind[i],
+                        "water_z_m": None if self._level[i] is None else round(self._level[i], 2)})
+        out.sort(key=lambda d: (d["kind"], d["name"]))
+        return out
+
+
+#: One shared water layer: the parquet is 21 MB and the tree costs ~0.9 s to build, and every
+#: TerrainSampler in a run wants the same one.
+_WATER: "WaterBodies | None" = None
+
+
+def water_bodies() -> WaterBodies:
+    global _WATER
+    if _WATER is None:
+        _WATER = WaterBodies()
+        if not _WATER.ok:
+            LOG.warning("water polygons unavailable (%s); no ground sample will be drawn as water",
+                        _WATER.reason)
+    return _WATER
+
+
 class TerrainSampler:
     """Lazy reader for the per-tile heightmaps, with bilinear sampling in NYC_TM metres."""
 
@@ -228,12 +336,9 @@ class TerrainSampler:
             zz = (g[i0, j0] * (1 - fu) * (1 - fv) + g[i0, j1] * fu * (1 - fv)
                   + g[i1, j0] * (1 - fu) * fv + g[i1, j1] * fu * fv)
             z[sel] = zz
-            if meta.get("has_water"):
-                wl = float(meta.get("water_level_m", 0.0))
-                if not meta.get("has_land"):
-                    water[sel] = True
-                else:
-                    water[sel] = zz <= wl + 0.05
+        # Water is decided by the surveyed polygons, not by the tile's scalar level (:class:`WaterBodies`).
+        if xs.size:
+            water = water_bodies().mask(xs, ys) & ~np.isnan(z)
         return z, water
 
     def z_at(self, x: float, y: float) -> float | None:
@@ -300,6 +405,142 @@ class TerrainSampler:
                     "chosen_m": round(zz, 2)}
 
 
+#: How far a landmark's own horizontal surface may sit from the elevation its catalogue entry declares
+#: as that landmark's ground -- ``origin_tm[2]`` -- and still be read as its ground plane.  The
+#: catalogue holds that convention tightly: across the 93 entries the median |origin z - heightmap at
+#: the origin| is 0.07 m, so a metre is generous and still excludes a coping (the memorial parapets
+#: stand at +1.07 m) or a plinth.
+LANDMARK_GROUND_BAND_M = 1.0
+
+#: Ground planes smaller than this are not treated as ground.  A landmark has incidental horizontal
+#: faces at ground level -- the flat base of a tree trunk, the tread of a step -- and each one would
+#: punch its own hole in the terrain.  The hole is always covered by the face that made it, so this is
+#: a tidiness threshold rather than a correctness one; 25 m2 is six terrain quads at the 2 m spacing.
+LANDMARK_GROUND_MIN_AREA_M2 = 25.0
+
+#: A face counts as horizontal at this dot product with +Z (about 8 deg of slope).
+_GROUND_FACE_COS = 0.99
+
+
+def _outside_cut(xs: np.ndarray, ys: np.ndarray, cut: "Sequence[object]") -> np.ndarray:
+    """Boolean array, False where the point falls inside one of the ``cut`` plan polygons."""
+    keep = np.ones(np.shape(xs), dtype=bool)
+    if not len(cut):
+        return keep
+    import shapely
+    fx, fy = np.ravel(xs), np.ravel(ys)
+    flat = np.ones(fx.size, dtype=bool)
+    for g in cut:
+        flat &= ~shapely.contains_xy(g, fx, fy)
+    return flat.reshape(np.shape(xs))
+
+
+def _object_ground_faces(ob, ground_z: float, band_m: float) -> list[list[tuple[float, float]]]:
+    """Plan rings of the upward-facing horizontal faces of ``ob`` lying within ``band_m`` of ``ground_z``.
+
+    Read with ``foreach_get`` and numpy: a landmark can carry a hundred thousand polygons and walking
+    them one at a time in Python costs seconds per model.
+    """
+    me = getattr(ob, "data", None)
+    if me is None or not getattr(me, "polygons", None):
+        return []
+    n = len(me.polygons)
+    if n == 0:
+        return []
+    m = np.array(ob.matrix_world, dtype=np.float64).reshape(4, 4)
+    rot, off = m[:3, :3], m[:3, 3]
+    nor = np.empty(n * 3, dtype=np.float32)
+    cen = np.empty(n * 3, dtype=np.float32)
+    me.polygons.foreach_get("normal", nor)
+    me.polygons.foreach_get("center", cen)
+    wn = nor.reshape(n, 3).astype(np.float64) @ rot.T
+    ln = np.linalg.norm(wn, axis=1)
+    ln[ln == 0.0] = 1.0
+    wz = (cen.reshape(n, 3).astype(np.float64) @ rot.T + off)[:, 2]
+    sel = np.nonzero((wn[:, 2] / ln > _GROUND_FACE_COS) & (np.abs(wz - ground_z) <= band_m))[0]
+    if sel.size == 0:
+        return []
+    nv = len(me.vertices)
+    co = np.empty(nv * 3, dtype=np.float32)
+    me.vertices.foreach_get("co", co)
+    world = co.reshape(nv, 3).astype(np.float64) @ rot.T + off
+    nl = len(me.loops)
+    vidx = np.empty(nl, dtype=np.int32)
+    me.loops.foreach_get("vertex_index", vidx)
+    starts = np.empty(n, dtype=np.int32)
+    totals = np.empty(n, dtype=np.int32)
+    me.polygons.foreach_get("loop_start", starts)
+    me.polygons.foreach_get("loop_total", totals)
+    out = []
+    for i in sel:
+        loops = vidx[starts[i]: starts[i] + totals[i]]
+        if loops.size < 3:
+            continue
+        pts = world[loops][:, :2]
+        out.append([(float(a), float(b)) for a, b in pts])
+    return out
+
+
+def landmark_ground_outlines(objects, ground_z: float, *, band_m: float = LANDMARK_GROUND_BAND_M,
+                             min_area_m2: float = LANDMARK_GROUND_MIN_AREA_M2) -> tuple[list, float]:
+    """Plan outlines of the ground a landmark supplies itself, with their total area.
+
+    **The rule.** A landmark model that carries its own ground surface owns the ground inside that
+    surface's outer plan outline, *including the openings cut in it*, and neither the terrain nor the
+    pavement is drawn there.  An opening in a modelled ground plane is a modelled hole in the ground
+    -- the 9/11 Memorial's two 61 m pools are exactly that -- and drawing the 1 m DEM across it hides
+    the thing the opening exists to show: inside the South Pool square the heightmap reads a median
+    1.98 m NAVD88 against a basin whose water sits at -4.39 m and whose void reaches -13.74 m, so the
+    opening read as a 2.4 m depression instead of a 9.14 m fall.  Outside that outline nothing
+    changes, because outside it the landmark is standing on the city's ground like everything else.
+
+    **A landmark that supplies no ground changes nothing.** A bridge, a statue, a tower whose model
+    is a shell with no deck has no upward horizontal face near its declared ground elevation, so the
+    outline set is empty and the terrain and pavement are drawn under it exactly as before.  That is
+    the right answer for those: they *do* stand on the city's ground, and the DEM is the only
+    statement of where it is.
+
+    "Its own ground" is read from the geometry rather than declared, because no catalogue field says
+    it: an upward-facing horizontal face within ``band_m`` of ``ground_z``, which is the entry's
+    ``origin_tm[2]`` -- the elevation the catalogue already uses as the landmark's ground (median
+    |origin z - heightmap| 0.07 m over its 93 entries).
+    """
+    from shapely.geometry import Polygon
+    from shapely.ops import unary_union
+    rings = []
+    for ob in objects:
+        rings.extend(_object_ground_faces(ob, ground_z, band_m))
+    if not rings:
+        return [], 0.0
+    polys = []
+    for r in rings:
+        try:
+            g = Polygon(r)
+        except Exception:
+            continue
+        if g.is_valid and g.area > 0.0:
+            polys.append(g)
+        elif not g.is_valid:
+            g = g.buffer(0)
+            if g.area > 0.0:
+                polys.append(g)
+    if not polys:
+        return [], 0.0
+    merged = unary_union(polys)
+    parts = list(merged.geoms) if merged.geom_type == "MultiPolygon" else [merged]
+    filled = [Polygon(g.exterior) for g in parts       # the openings are the landmark's ground too
+              if g.geom_type == "Polygon" and Polygon(g.exterior).area >= min_area_m2]
+    # Filling the openings can swallow a smaller part whole: the memorial pools' basin rims are
+    # separate rings inside the plaza deck's own opening, and counting them again would report
+    # 39,447 m2 of ground where the deck outline is 33,039 m2.
+    filled.sort(key=lambda g: -g.area)
+    out: list = []
+    for g in filled:
+        if not any(o.contains(g) for o in out):
+            out.append(g)
+    return out, float(sum(g.area for g in out))
+
+
 def _graded_offsets(radius_m: float, near_m: float, near_spacing_m: float,
                     max_spacing_m: float, growth: float) -> list[float]:
     """Distances 0 .. radius_m: ``near_spacing_m`` apart out to ``near_m``, then coarsening."""
@@ -345,13 +586,17 @@ def graded_axis(centre: float, radius_m: float, *, near_m: float, near_spacing_m
 def build_terrain(sampler: TerrainSampler, cx: float, cy: float, radius_m: float, *,
                   max_side: int = 300, near_m: float = 150.0,
                   near_spacing_m: float = TERRAIN_SPACING_M, max_spacing_m: float = 40.0,
-                  growth: float = 1.14, col: bpy.types.Collection | None = None) -> dict:
+                  growth: float = 1.14, col: bpy.types.Collection | None = None,
+                  cut: "Sequence[object]" = ()) -> dict:
     """Displaced grid over the square of half-width ``radius_m`` centred on (cx, cy).
 
     The grid is graded rather than uniform (see :func:`graded_axis`): the heightmap's own 2 m
     spacing within ``near_m`` of the centre, coarsening to at most ``max_spacing_m`` at the edge.
     The camera can be moved up to 80 m out of a building shell or walked as far as 250 m to a
     parapet after the terrain is built, so ``near_m`` has to cover that displacement too.
+
+    ``cut`` is the set of plan polygons where a landmark supplies its own ground
+    (:func:`landmark_ground_outlines`); no quad is drawn inside one.
     """
     xs1, grade = graded_axis(cx, radius_m, near_m=near_m, near_spacing_m=near_spacing_m,
                              max_spacing_m=max_spacing_m, growth=growth, max_points=max_side + 1)
@@ -369,9 +614,14 @@ def build_terrain(sampler: TerrainSampler, cx: float, cy: float, radius_m: float
     z = np.where(np.isnan(z), fill, z)
 
     verts = [(float(xs[i, j]), float(ys[i, j]), float(z[i, j])) for i in range(n) for j in range(n)]
+    keep = _outside_cut((xs[:-1, :-1] + xs[1:, 1:]) * 0.5, (ys[:-1, :-1] + ys[1:, 1:]) * 0.5, cut)
     faces, mats = [], []
+    cut_quads = 0
     for i in range(n - 1):
         for j in range(n - 1):
+            if not keep[i, j]:
+                cut_quads += 1
+                continue
             a = i * n + j
             faces.append((a, a + 1, a + n + 1, a + n))
             quad_water = water[i, j] and water[i, j + 1] and water[i + 1, j] and water[i + 1, j + 1]
@@ -384,8 +634,10 @@ def build_terrain(sampler: TerrainSampler, cx: float, cy: float, radius_m: float
     return {"built": True, "samples": n, "spacing_m": grade["near_spacing_m"],
             "near_spacing_m": grade["near_spacing_m"], "near_m": round(float(near_m), 1),
             "far_spacing_m": grade["far_spacing_m"], "grading_growth": grade["growth"],
-            "triangles": 2 * (n - 1) * (n - 1), "holes": holes,
+            "triangles": 2 * len(faces), "holes": holes,
             "water_quads": int(sum(1 for m in mats if m == 1)),
+            "quads_cut_for_landmark_ground": cut_quads,
+            "water_bodies": water_bodies().bodies_in(cx, cy, radius_m),
             "z_min_m": round(float(z.min()), 2), "z_max_m": round(float(z.max()), 2)}
 
 
@@ -763,6 +1015,7 @@ def add_landmarks(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
                   catalog: Sequence[dict] | None = None) -> dict:
     entries = list(catalog) if catalog is not None else load_landmark_catalog()
     placed, skipped, tris = [], [], 0
+    ground: list = []          # plan outlines of the ground the landmarks supply themselves
     # The asset library counts impostor cards across the whole scene; report this pass's share.
     cards0, faces0 = lib.impostors_dropped, lib.impostor_faces_dropped
     for e in entries:
@@ -796,16 +1049,27 @@ def add_landmarks(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
             skipped.append({"id": e.get("id"),
                             "reason": lib.failed.get(f"landmark:{e['id']}:lod0", "unavailable")})
             continue
-        tpl.instance(f"lm_{e['id']}", Matrix.Translation((ox, oy, oz)), col or bpy.context.scene.collection)
+        obs = tpl.instance(f"lm_{e['id']}", Matrix.Translation((ox, oy, oz)),
+                           col or bpy.context.scene.collection)
         tris += tpl.triangles
-        placed.append({"id": e.get("id"), "name": e.get("name"), "distance_m": round(dist, 1),
-                       "lod": lod, "triangles": tpl.triangles})
+        rec = {"id": e.get("id"), "name": e.get("name"), "distance_m": round(dist, 1),
+               "lod": lod, "triangles": tpl.triangles}
+        bpy.context.view_layer.update()
+        rings, area = landmark_ground_outlines(obs, oz)
+        if rings:
+            ground.extend(rings)
+            rec["own_ground_m2"] = round(area, 1)
+            rec["own_ground_parts"] = len(rings)
+        placed.append(rec)
     placed.sort(key=lambda d: d["distance_m"])
     bpy.context.view_layer.update()
     return {"catalog_entries": len(entries), "placed": len(placed), "skipped": len(skipped),
             "triangles": tris, "landmarks": placed, "skipped_detail": skipped,
             "impostor_cards_dropped": lib.impostors_dropped - cards0,
-            "impostor_faces_dropped": lib.impostor_faces_dropped - faces0}
+            "impostor_faces_dropped": lib.impostor_faces_dropped - faces0,
+            "own_ground": ground,
+            "own_ground_m2": round(sum(g.area for g in ground), 1),
+            "own_ground_from": [d["id"] for d in placed if d.get("own_ground_m2")]}
 
 
 # --------------------------------------------------------------------------- pavement
@@ -829,7 +1093,7 @@ PAVEMENT_KINDS = {
 
 def add_pavement(cx: float, cy: float, radius_m: float, sampler: TerrainSampler, *,
                  col: bpy.types.Collection | None = None,
-                 triangle_budget: int = 900_000) -> dict:
+                 triangle_budget: int = 900_000, cut: "Sequence[object]" = ()) -> dict:
     """Drape the real paved surfaces over the terrain.
 
     ``data/processed/roads/pavement/{tile}.parquet`` (DATA_CONTRACTS s7) holds the DoITT
@@ -839,6 +1103,12 @@ def add_pavement(cx: float, cy: float, radius_m: float, sampler: TerrainSampler,
     is the largest single difference at eye level.  Each polygon is triangulated in plan and every
     vertex is lifted to the heightmap surface plus the kind's own offset, so the pavement follows
     the real grade and the curb reveal is the real 0.15 m.
+
+    ``cut`` is the set of plan polygons where a landmark supplies its own ground
+    (:func:`landmark_ground_outlines`); no triangle is drawn inside one.  The city's pavement and a
+    landmark's own deck are two statements about the same surface -- the memorial plaza is both a
+    ``plaza`` polygon draped at heightmap + 0.25 m and a modelled deck at 4.40 m -- and where the
+    landmark models the ground, its version is the one built from that place's own outline.
     """
     try:
         import pyarrow.parquet as pq
@@ -926,9 +1196,20 @@ def add_pavement(cx: float, cy: float, radius_m: float, sampler: TerrainSampler,
                     faces.append((base + a, base + b, base + c))
                     face_kind.append(k)
                 per_kind[PAVEMENT_KINDS[k][0]] = per_kind.get(PAVEMENT_KINDS[k][0], 0) + 1
+    cut_tris = 0
+    if faces and len(cut):
+        vx = np.array([v[0] for v in verts], dtype=np.float64)
+        vy = np.array([v[1] for v in verts], dtype=np.float64)
+        fa = np.asarray(faces, dtype=np.int64)
+        keep = _outside_cut(vx[fa].mean(axis=1), vy[fa].mean(axis=1), cut)
+        cut_tris = int((~keep).sum())
+        if cut_tris:
+            faces = [f for f, k in zip(faces, keep) if k]
+            face_kind = [k for k, ok in zip(face_kind, keep) if ok]
     if not faces:
         return {"placed": 0, "reason": "no pavement polygons in range",
-                "tiles_missing": sorted(tiles_missing)}
+                "tiles_missing": sorted(tiles_missing),
+                "triangles_cut_for_landmark_ground": cut_tris}
     ob = nb.mesh_object("verify_pavement", verts, faces, col=col, materials=mat_list, smooth=False)
     for poly, k in zip(ob.data.polygons, face_kind):
         poly.material_index = mat_index[k]
@@ -936,6 +1217,7 @@ def add_pavement(cx: float, cy: float, radius_m: float, sampler: TerrainSampler,
     return {"placed": sum(per_kind.values()), "triangles": len(faces), "vertices": len(verts),
             "per_kind": dict(sorted(per_kind.items(), key=lambda kv: -kv[1])),
             "dropped_polygons": dropped, "tiles_read": sorted(tiles_read),
+            "triangles_cut_for_landmark_ground": cut_tris,
             "tiles_missing": sorted(tiles_missing), "radius_m": radius_m}
 
 
@@ -1332,17 +1614,23 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
 
     sampler = TerrainSampler()
     rep = SceneReport(centre_tm=(cx, cy), radius_m=radius_m)
-    rep.terrain = build_terrain(sampler, cx, cy, radius_m, max_side=terrain_max_side, col=c_terrain)
-    rep.pavement = add_pavement(cx, cy, min(radius_m, pavement_radius_m), sampler, col=c_pave)
+    # Landmarks go in first, because a landmark that carries its own ground decides where the
+    # terrain and the pavement are *not* drawn (:func:`landmark_ground_outlines`).  Nothing in this
+    # pass depends on the ground, and the triangle allocation is unchanged: buildings still take
+    # their fixed 78 % share and props and kit still divide what is left after everything else.
+    lib = AssetLibrary()
+    rep.landmarks = add_landmarks(lib, cx, cy, radius_m, col=c_landmark)
+    own_ground = rep.landmarks.pop("own_ground", [])
+    rep.terrain = build_terrain(sampler, cx, cy, radius_m, max_side=terrain_max_side, col=c_terrain,
+                                cut=own_ground)
+    rep.pavement = add_pavement(cx, cy, min(radius_m, pavement_radius_m), sampler, col=c_pave,
+                                cut=own_ground)
     # A landmark model and the tile shell of the same building are two versions of one object.
     # The catalogue names the BINs each model was built from, so those shells are removed from the
     # merged per-material meshes before anything else is placed.
     rep.buildings = add_buildings(cx, cy, radius_m, lod0_radius_m=lod0_radius_m,
                                   triangle_budget=int(triangle_budget * 0.78), col=c_build,
                                   suppress_landmark_bins=landmark_bins())
-
-    lib = AssetLibrary()
-    rep.landmarks = add_landmarks(lib, cx, cy, radius_m, col=c_landmark)
 
     used = (int(rep.terrain.get("triangles", 0)) + int(rep.pavement.get("triangles", 0))
             + rep.buildings["triangles"] + rep.landmarks["triangles"])

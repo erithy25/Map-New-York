@@ -75,7 +75,9 @@ def build_cell(level: int, cell: tuple[int, int], tiles: list[str], *, out_root:
     hi = np.array([-math.inf] * 3)
     for tile in tiles:
         try:
-            load = td.load_tile(tile, roof_attrs=roof_attrs)
+            # LOD2 is the convex-hull massing and ignores `roof_steps`, so recovering the CityGML
+            # step outlines here would cost about 8 s per tile and change nothing in the output
+            load = td.load_tile(tile, roof_attrs=roof_attrs, roof_steps="off")
         except FileNotFoundError:
             continue
         n_in += load.rows_in

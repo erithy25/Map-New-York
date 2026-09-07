@@ -236,13 +236,115 @@ def _textured_material(name: str, resolution: str = "2K"):
                      "(set NYCSIM_TEXTURES_FETCH=1 to download)", name)
     except Exception as exc:
         LOG.info("no texture set for %s (%s); using flat colour", name, exc)
-    import build_tile as bt
+    import shellmat as sm
 
-    r, g, b = bt.MAT_COLOR.get(name, (0.6, 0.6, 0.6))
+    m = sm.spec(name)
+    r, g, b = m.base_color
     keep = {k: v for k, v in (tex or {}).items() if k in ("color", "roughness", "normal", "metallic")}
-    return nb.pbr_material(key, base_color=(r, g, b, 1.0), roughness=bt.MAT_ROUGH.get(name, 0.72),
-                           metallic=bt.MAT_METAL.get(name, 0.0), textures=keep or None,
-                           uv_scale_m=uv_scale)
+    mat = nb.pbr_material(key, base_color=(r, g, b, 1.0), roughness=m.roughness,
+                          metallic=m.metallic, textures=keep or None, uv_scale_m=uv_scale)
+    _apply_reflectance(mat, m)
+    _apply_variation(mat, m)
+    return mat
+
+
+def _variation_socket(nt):
+    """``shellmat.variation`` as Cycles nodes, reading the shell's own ``_LIT_SEED`` attributes.
+
+    The same expression the engine master material is expected to evaluate, so what this renders is
+    what the runtime will show rather than a look authored only for the render.
+    """
+    import shellmat as sm
+
+    def _attr(name: str):
+        n = nt.nodes.new("ShaderNodeAttribute")
+        n.attribute_type = "GEOMETRY"
+        n.attribute_name = name
+        return n.outputs["Fac"]
+
+    def _math(op: str, a, b=None, c=None):
+        n = nt.nodes.new("ShaderNodeMath")
+        n.operation = op
+        for i, v in enumerate((a, b, c)):
+            if v is None:
+                continue
+            if hasattr(v, "is_output"):
+                nt.links.new(v, n.inputs[i])
+            else:
+                n.inputs[i].default_value = float(v)
+        return n.outputs[0]
+
+    hi = _math("MULTIPLY", _attr("_LIT_SEED_HI"), sm.VAR_A)
+    lo = _math("MULTIPLY", _attr("_LIT_SEED_LO"), sm.VAR_B)
+    s = _math("MULTIPLY", _math("SINE", _math("ADD", hi, lo)), sm.VAR_C)
+    return _math("MULTIPLY_ADD", _math("FRACT", s), 2.0, -1.0)
+
+
+def _principled(mat):
+    for n in mat.node_tree.nodes:
+        if n.type == "BSDF_PRINCIPLED":
+            return n
+    return None
+
+
+def _apply_reflectance(mat, m) -> None:
+    """Put the class's specular level and IOR on the Principled BSDF."""
+    bsdf = _principled(mat)
+    if bsdf is None:
+        return
+    for socket, value in (("Specular IOR Level", m.specular), ("IOR", m.ior)):
+        if socket in bsdf.inputs:
+            bsdf.inputs[socket].default_value = float(value)
+
+
+def _apply_variation(mat, m) -> None:
+    """Drive base-colour value and roughness from the per-building seed."""
+    if m.tone_amp <= 0.0 and m.rough_amp <= 0.0:
+        return
+    bsdf = _principled(mat)
+    if bsdf is None:
+        return
+    nt = mat.node_tree
+    k = _variation_socket(nt)
+    if m.tone_amp > 0.0:
+        scale = nt.nodes.new("ShaderNodeMath")
+        scale.operation = "MULTIPLY_ADD"
+        nt.links.new(k, scale.inputs[0])
+        scale.inputs[1].default_value = float(m.tone_amp)
+        scale.inputs[2].default_value = 1.0
+        hsv = nt.nodes.new("ShaderNodeHueSaturation")
+        links = list(bsdf.inputs["Base Color"].links)
+        if links:
+            src = links[0].from_socket
+            nt.links.remove(links[0])
+            nt.links.new(src, hsv.inputs["Color"])
+        else:
+            hsv.inputs["Color"].default_value = bsdf.inputs["Base Color"].default_value
+        nt.links.new(scale.outputs[0], hsv.inputs["Value"])
+        nt.links.new(hsv.outputs["Color"], bsdf.inputs["Base Color"])
+    if m.rough_amp > 0.0:
+        off = nt.nodes.new("ShaderNodeMath")
+        off.operation = "MULTIPLY_ADD"
+        nt.links.new(k, off.inputs[0])
+        off.inputs[1].default_value = float(m.rough_amp)
+        off.inputs[2].default_value = float(m.roughness)
+        off.use_clamp = True
+        links = list(bsdf.inputs["Roughness"].links)
+        if links:
+            src = links[0].from_socket
+            nt.links.remove(links[0])
+            mix = nt.nodes.new("ShaderNodeMath")
+            mix.operation = "MULTIPLY"
+            nt.links.new(src, mix.inputs[0])
+            two = nt.nodes.new("ShaderNodeMath")
+            two.operation = "DIVIDE"
+            nt.links.new(off.outputs[0], two.inputs[0])
+            two.inputs[1].default_value = max(float(m.roughness), 1e-3)
+            nt.links.new(two.outputs[0], mix.inputs[1])
+            mix.use_clamp = True
+            nt.links.new(mix.outputs[0], bsdf.inputs["Roughness"])
+        else:
+            nt.links.new(off.outputs[0], bsdf.inputs["Roughness"])
 
 
 def _swap_materials(objects, textured: bool) -> list[str]:

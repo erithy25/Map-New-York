@@ -337,6 +337,10 @@ def configure_cycles(samples: int, threads: int | None) -> None:
 #: kilometre away is either mis-tagged or is not a picture of that viewpoint at all.
 PHOTO_GPS_SANITY_M = 250.0
 
+#: A view *of* a subject also accepts a photograph's GPS beyond that radius, when the photograph
+#: stands on the same side of the subject to within this many degrees.  See :func:`view_origin`.
+SAME_SIDE_DEG = 45.0
+
 #: Slugs whose viewpoint is not a fixed place, with the radius their photographs' GPS may sit
 #: inside and the reason.  Nothing is listed at present.  The Staten Island Ferry viewpoint was
 #: tried here -- the deck of a moving vessel is a route, not a position -- and the result was
@@ -357,6 +361,24 @@ def view_origin(meta: dict, photo: dict | None) -> tuple[float, float, str, floa
     agree to within :data:`PHOTO_GPS_SANITY_M`, the photograph's is the measurement and the item's
     is the estimate, so the render stands where the picture was taken.
 
+    **Beyond that radius the test depends on what defines the view**, because the sanity radius
+    measures the wrong thing for half the catalogue.  A ``landmark`` item is a view *of* something:
+    its viewpoint is only an estimate of where such a photograph is taken from -- the catalogue
+    generates it as a bearing and a distance from the subject -- so a photograph that stands
+    **nearer to the subject** than that estimate, and **on the same side** of it (its bearing to the
+    subject within :data:`SAME_SIDE_DEG` of the recorded view's), is the same view of the same thing
+    and its own GPS is the better position however far it is from the estimate.  A ``viewpoint`` or
+    ``drive_through`` item is a view *from* somewhere -- a ferry deck, a promenade railing, a named
+    block -- and there the recorded position *is* the view, so the radius stands.
+
+    That distinction is what the Williamsburg Bridge sheet needed: its photograph's GPS is 117 m
+    from the Brooklyn tower and the item's viewpoint is 506 m from it, and the 389 m between the two
+    put the camera half a kilometre too far back.  It is also why the Staten Island Ferry keeps its
+    recorded position: that photograph's GPS is nearer the aim point too, but the item is a view
+    from the bow deck of a vessel, and from the photograph's fix Lower Manhattan spreads entirely to
+    one side of the frame while the reference has the island on both sides of the axis (measured
+    when :data:`MOVING_VIEWPOINTS` was tried and left empty).
+
     Position and heading have to come from the same place.  The earlier version of this module
     took the *heading* from the photograph's GPS ("camera_gps_to_subject") while leaving the
     *position* at the item's viewpoint, which for Washington Street in DUMBO aimed a camera 46 m
@@ -375,16 +397,49 @@ def view_origin(meta: dict, photo: dict | None) -> tuple[float, float, str, floa
     px, py = (float(v) for v in lonlat_to_tm(g["lon"], g["lat"]))
     d = math.hypot(px - vx, py - vy)
     limit, why_limit = MOVING_VIEWPOINTS.get(meta.get("slug", ""), (PHOTO_GPS_SANITY_M, ""))
+    subject_rule = ""
     if d > limit:
-        return (float(vp["lat"]), float(vp["lon"]),
-                (f"the item's recorded viewpoint; this photograph's own EXIF GPS is {d:,.0f} m "
-                 f"away, past the {limit:,.0f} m at which it could still be the same view, so it "
-                 f"was rejected as mis-tagged"), d, False)
+        subject_rule = _nearer_the_subject(meta, vx, vy, px, py)
+        if not subject_rule:
+            return (float(vp["lat"]), float(vp["lon"]),
+                    (f"the item's recorded viewpoint; this photograph's own EXIF GPS is {d:,.0f} m "
+                     f"away, past the {limit:,.0f} m at which it could still be the same view, so it "
+                     f"was rejected as mis-tagged"), d, False)
     return (float(g["lat"]), float(g["lon"]),
             (f"this photograph's own EXIF camera GPS ({g['lat']:.5f}, {g['lon']:.5f}), {d:,.0f} m "
              f"from the item's recorded viewpoint -- the position the picture was taken from"
-             + (f" ({why_limit})" if why_limit else "")),
+             + (f" ({why_limit})" if why_limit else "") + subject_rule),
             d, True)
+
+
+def _nearer_the_subject(meta: dict, vx: float, vy: float, px: float, py: float) -> str:
+    """Why a landmark photograph's GPS is kept past the sanity radius, or "" if it is not.
+
+    Only for an item that is a view *of* a point subject.  Two tests, both against the subject
+    rather than against the viewpoint estimate: the photograph must stand no farther from the
+    subject than the estimate does, and on the same side of it.
+    """
+    if str(meta.get("group") or "") != "landmark":
+        return ""
+    subject = meta.get("subject") or {}
+    if subject.get("lat") is None or subject.get("lon") is None:
+        return ""
+    from nycsim_pipeline.crs import lonlat_to_tm
+    sx, sy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
+    d_vp = math.hypot(vx - sx, vy - sy)
+    d_ph = math.hypot(px - sx, py - sy)
+    if d_ph > d_vp:
+        return ""
+    b_vp = math.degrees(math.atan2(sx - vx, sy - vy)) % 360.0
+    b_ph = math.degrees(math.atan2(sx - px, sy - py)) % 360.0
+    delta = abs((b_ph - b_vp + 180.0) % 360.0 - 180.0)
+    if delta > SAME_SIDE_DEG:
+        return ""
+    name = subject.get("name") or "the subject"
+    return (f".  It is past the {PHOTO_GPS_SANITY_M:,.0f} m sanity radius, but this item is a view "
+            f"*of* {name} and the photograph stands {d_ph:,.0f} m from it against the recorded "
+            f"viewpoint's {d_vp:,.0f} m, on the same side to {delta:.1f} deg, so the measurement is "
+            f"kept and the estimate is not")
 
 
 def view_azimuth(slug: str, meta: dict, photo: dict, lat: float, lon: float, *,

@@ -85,6 +85,11 @@ bool World::loadCity(const std::string& runtime_dir, std::string& error) {
     error = "cannot read " + dn;
     return false;
   }
+  // The road graph carries no NTA on any lane — measured: 0 of 220,329 travel
+  // and bus lanes — so without this every lane falls into the "no NTA" bucket
+  // and the whole 262-neighbourhood calibration collapses onto one cell.  The
+  // table ships the polygons for exactly this (Density.h assignLaneNtas).
+  lanes_with_nta = density.assignLaneNtas(graph);
   times_.density_ms = sw.lapWallMs();
 
   const std::string tn = runtime_dir + "/transit.nycb";

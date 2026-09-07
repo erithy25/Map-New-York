@@ -138,13 +138,14 @@ struct TrafficConfig {
   // ring.  City-wide sampling accepted about one lane in a thousand — the ring
   // could not be filled — and sent an agent in Brooklyn to Staten Island, which
   // made a route query cost 49.8 ms instead of 0.1 ms.
-  //   dest_radius_m  0 -> despawn_m: no point routing to somewhere the agent is
-  //                  recycled before reaching.
-  //   region_slack_m the extra radius a rebuild takes, so a moving player
-  //                  rebuilds the index every few seconds instead of every step.
+  // The streamed region is the despawn disc: an agent outside it is recycled, so
+  // there is no point routing to a destination there, and it is also the region
+  // whose density decides how many agents there should be — with the draw
+  // restricted, a city-wide target would simply fill the ring to max_vehicles.
+  // `region_slack_m` is the extra radius a rebuild takes, so a moving player
+  // rebuilds the index every few seconds instead of every step.
   // The restriction applies only while a player ring is in use; without one the
   // whole graph is the region and the draws are exactly what they always were.
-  float dest_radius_m = 0.f;
   float region_slack_m = 64.f;
   uint32_t max_routes_per_step = 8;   // routing is amortized across steps
   float reroute_block_s = 90.f;  // genuinely stuck, not merely waiting for a phase
@@ -405,11 +406,16 @@ class TrafficSim {
   bool routeAgent(Vehicle& v, uint32_t to_lane, float to_s, uint32_t avoid_lane = routing::kInvalidIndex);
   void assignBusRoute(Vehicle& v);
   bool advanceBusToNextStop(Vehicle& v);
-  // Origins inside the spawn band, destinations inside the streamed region.
-  // Both fall back to the whole graph when no player ring is in use.
+  // A lane from the spawn band (steady-state origins) and a lane from the
+  // streamed region (destinations, and prefill origins — at load time nothing
+  // is in view, so there is no reason to confine the fleet to the band).  Both
+  // fall back to the whole graph when no player ring is in use.
   uint32_t sampleOriginLane(Rng& rng);
-  uint32_t sampleDestLane(Rng& rng);
+  uint32_t sampleStreamedLane(Rng& rng);
   void refreshSpawnRegions();
+  // Vehicles the density table asks for.  Over the streamed region while a ring
+  // restricts the draw, over the whole city otherwise.
+  float densityTarget() const;
   uint32_t preferredLaneFor(uint32_t lane, VehicleClass c) const;
   VehicleClass sampleClass(Rng& rng, uint16_t nta) const;
   bool laneFreeAt(uint32_t lane, float s, float len) const;

@@ -88,6 +88,8 @@ class World {
 
   bool has_transit = false;
   uint16_t uniform_nta = 0xFFFFu;
+  /// Lanes the density polygons claimed (loadCity only).
+  uint32_t lanes_with_nta = 0;
 
  private:
   void measure();

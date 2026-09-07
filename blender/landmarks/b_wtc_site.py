@@ -490,13 +490,20 @@ def build(lod: int = 0):
 def main() -> None:
     """Four verification renders, each framed to answer one question.
 
-    1. ``oculus_from_church_street`` — from Church Street on the east side of the site, the viewpoint every
-       photograph of the Oculus is taken from, 95 m from the building.  Question: is the ribbed elliptical body
-       106.7 m long and 35.1 m wide, 29.3 m to the apex with the canopy rib tips at 51.2 m, and does the rib
-       rhythm read?
-    2. ``oculus_close`` — half the distance and a longer lens, sun 35 deg up and raking along the ribs.
-       Question: do the 112 ribs spring from the two 350 ft arches and rise as a pair of canopies, with the
-       100.6 m skylight between them?
+    1. ``oculus_church_street_reference`` — the comparison lane's recorded Church Street viewpoint, used verbatim,
+       which is where every photograph of the Oculus is taken from.  Because the building's long axis runs
+       128.2 deg and Church Street runs 26.3 deg, the street is off the building's **end**, not its side — which
+       is why the entrance hall faces it.  Question: does the Oculus present its end to Church Street with the
+       ribs sweeping away on both sides, and does it stand clear of 3 WTC?  On the old 160.6 deg it did neither:
+       the body lay across the street's line of sight and its south-east end was inside 3 WTC's footprint.
+       (There was a second, hand-placed ``oculus_from_church_street`` here.  It was a fixed offset along the
+       *perpendicular to the axis*, so on the corrected axis it landed 21 m from the building's south-east tip
+       and filled the frame with ribs — and where it did work it was the same shot as this one.  One honest view
+       of Church Street rather than two, one of them wrong.)
+    2. ``oculus_broadside`` — square on to the long axis at 78 m with a 72 deg lens, which is the narrowest frame
+       that contains all 106.7 m of it.  Question: is the ribbed elliptical body 106.7 m long and 35.1 m wide,
+       29.3 m to the apex with the canopy rib tips at 51.2 m, do the 112 ribs spring from the two 350 ft arches,
+       and does the 100.6 m skylight run between them?
     3. ``memorial_plaza`` — the north pool from 38 m out and 12 m above the plaza, with no context ground plane.
        Question: is the plaza actually cut open over the pool, is the pool the published 61.0 m square with a
        9.14 m fall to the void, and do the bronze name parapets ring the opening?
@@ -509,11 +516,14 @@ def main() -> None:
     pa, pb, d = _pool_centres(frame)
     # the render context plane is in model space too: GRND is the plaza, the frame carries the NAVD88 offset
     ctx = (("ground_urban", GRND - 0.05, 700.0, (0.0, 0.0)),)
-    a = math.radians(bc.heading_to_math_deg(PLAZA_AXIS_DEG))
-    n = Vector((-math.sin(a), math.cos(a), 0.0))
+    a = math.radians(bc.heading_to_math_deg(oculus_axis_deg(fp_oc)))
+    u = Vector((math.cos(a), math.sin(a), 0.0))          # along the Oculus
+    n = Vector((-u.y, u.x, 0.0))                          # square on to it
     npool = Vector((-d.y, d.x, 0.0))
-    church = (ocx + n.x * 95.0, ocy + n.y * 95.0, GRND + 1.65)
-    close = (ocx + n.x * 52.0 + d.x * 34.0, ocy + n.y * 52.0 + d.y * 34.0, GRND + 1.65)
+    # Square on to the long axis, on the side away from 3 WTC.  78 m with the 72 deg lens below spans
+    # 2 * 78 * tan(36 deg) = 113 m across the axis, so all 106.7 m of the body is in the frame.
+    side = 1.0 if (n.y * (ocy - pa.y) + n.x * (ocx - pa.x)) > 0 else -1.0
+    broadside = (ocx + n.x * 78.0 * side, ocy + n.y * 78.0 * side, GRND + 1.65)
     # The north pool from 38 m out and 12 m up, on the plaza's west side.  It is deliberately not eye level: the
     # parapet is 1.07 m high and the water 9.14 m down, so from 1.65 m the parapet hides the pool, which is why the
     # eye-level shot is the reference view and this one is raised until the whole basin is in it.  It also carries
@@ -530,9 +540,7 @@ def main() -> None:
             ba.reference_render("landmark_911_memorial_pools", frame, view="memorial_pools_reference",
                                 ground_z=GRND, target_z=GRND - 3.0, fov_deg=66.0, size=(1280, 720), context=ctx,
                                 sun_azimuth_deg=200.0, sun_elevation_deg=48.0),
-            dict(view="oculus_from_church_street", cam=church, target=(ocx, ocy, 24.0), fov_deg=66.0,
-                 size=(1280, 720), context=ctx, sun_azimuth_deg=250.0, sun_elevation_deg=35.0),
-            dict(view="oculus_close", cam=close, target=(ocx, ocy, 26.0), fov_deg=62.0, size=(1280, 720),
+            dict(view="oculus_broadside", cam=broadside, target=(ocx, ocy, 22.0), fov_deg=72.0, size=(1280, 720),
                  context=ctx, sun_azimuth_deg=215.0, sun_elevation_deg=35.0),
             dict(view="memorial_plaza", cam=plaza_cam,
                  target=(pa.x, pa.y, GRND - POOL_FALL + 0.35), fov_deg=72.0, size=(1280, 720), context=(),

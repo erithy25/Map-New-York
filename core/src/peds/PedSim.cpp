@@ -255,7 +255,17 @@ bool PedSim::pathTo(Pedestrian& p, uint32_t goal_node) {
     return false;
   }
   ++paths_this_step_;
-  const uint32_t n = walk_->path(from, goal_node, path, kPathCap);
+  // Bound the search by what the goal can plausibly cost to walk to.  See
+  // PedConfig::goal_detour.
+  float bound = 0.f;
+  if (cfg_.goal_radius_m > 0.f) {
+    const routing::Vec3& a = walk_->node(from).pos;
+    const routing::Vec3& b = walk_->node(goal_node).pos;
+    const float dx = b.x - a.x, dy = b.y - a.y;
+    bound = std::max(1.f, cfg_.goal_detour) * std::sqrt(dx * dx + dy * dy) +
+            std::max(0.f, cfg_.goal_detour_margin_m);
+  }
+  const uint32_t n = walk_->path(from, goal_node, path, kPathCap, 12.f, bound);
   ++stats_.paths_built;
   if (n == 0 || n > kPathCap) {
     ++stats_.path_failures;

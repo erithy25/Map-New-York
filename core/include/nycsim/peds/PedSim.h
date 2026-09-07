@@ -115,6 +115,14 @@ struct PedConfig {
   // Multiplier on goal_radius_m for the second attempt, where the first found
   // nothing of any kind in range (an industrial block, a bridge approach).
   float goal_radius_widen = 3.0f;
+  // How far the walk-graph search may look for a goal, as a multiple of the
+  // straight-line distance to it plus a margin.  A goal a short walk away in a
+  // straight line can be unreachable on foot — the far side of an expressway, a
+  // rail cut, a pier — and an unbounded A* then settles the whole 452,024-node
+  // component before admitting it.  Only applied when goal_radius_m > 0, so the
+  // city-wide draw keeps exactly the search it had.
+  float goal_detour = 3.0f;
+  float goal_detour_margin_m = 200.f;
   // Spawn points are drawn from the streamed region rather than city-wide.  The
   // ring is what the agent is kept inside, so it is what it is created in.
   // 0 uses despawn_m.  Only applies while use_player_ring is set.

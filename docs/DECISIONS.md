@@ -141,3 +141,26 @@ Context: Measured against the real 122,235-segment graph, a simulation step cost
 Decision: both the vehicle spawner and the pedestrian goal chooser must draw from the streamed region rather than from the whole city, using a spatial index over the spawn distribution restricted to the ring. Genuine long trips need a hierarchy in the router and are a separate piece of work.
 
 Consequences: about 709 ms of the 777 ms step disappears, and the player's surroundings can actually be populated. This **changes behaviour**: agents no longer take cross-city trips, and the sequence and order of lanes drawn changes, which moves the spawn counts the traffic suite asserts (910 spawns, 909 despawns) and the trajectory hashes locked in `tests/test_performance.py`. That is why it is an ADR and not a patch — the performance stage deliberately left it undone rather than silently altering behaviour under the banner of optimisation. Whoever implements it must re-baseline those tests in the same commit and say so.
+
+### ADR-021 addendum — implemented, and what it measured
+*Evidence: `docs/verification/performance/REPORT.md` §5, §5a, §5b and §8; `docs/verification/traffic/REPORT.md` §4a.*
+
+**Status: implemented.** `RegionSampler` (`core/include/nycsim/util/RegionSampler.h`) indexes the spawn distribution on a 250 m grid and re-derives a cumulative distribution over the disc around the player; `TrafficSim` draws origins from the spawn band and destinations from the streamed region through it, `PedSim` draws its spawn edges the same way, and `SidewalkGraph` gained a coarse point-of-interest index so a pedestrian's goal comes from within walking distance. A region whose disc covers the whole population is flagged and samples the unrestricted distribution, so a host with no streaming ring keeps exactly the draws it had — verified: with pedestrians disabled the synthetic trajectory hash is bit-identical across the change (`01d503a271a21d41`).
+
+Measured on one machine with the benchmark rebuilt from `a761f35` and run beside the new one, same command, seed, camera and seeding:
+
+* **The city-scale step: 665.3 ms → 38.3 ms**, 94.2 % of it gone against the 91 % predicted here. A vehicle route query costs **0.46 ms instead of 49.8 ms**; a pedestrian path no longer registers against a 3.23 ms baseline. Path finding was 96 % of the step and is now 9.6 %.
+* **The ring can be populated: 19 vehicles → 1,021**, against that ring's own density target of **1,066** (95.8 %); the shortfall is the protected region the spawner may not fill. `prefill()` went from **604,604 ms to 512 ms**.
+* **The 8 ms budget is still not met.** The remaining 38.3 ms is per-agent decision work — 19.1 ms of traffic, 15.5 ms of pedestrians, 3.7 ms of routing — plus 2.7 ms of whole-table signal caching that a host recovers for free by calling `setActiveWindow` from the loaded-tile set. The next levers are unchanged and listed in the performance report §8.
+
+Three things had to change together, and only the first is what this ADR asked for:
+
+1. **The draw is restricted.** As decided above.
+2. **The fleet is sized to the region it is drawn from.** With the draw restricted but the target still city-wide, the spawner fills the ring to `max_vehicles` at whatever density that implies — measured at 3,882 vehicles in a ring calibrated for 1,066. `TrafficSim` now sums the density table over the streamed region while a ring restricts the draw, and over the whole city when it does not, so the density-convergence behaviour without a ring is untouched (target 1,165.4, present 1,166, unchanged).
+3. **The walk-graph search is bounded.** Restricting the goal is not sufficient on its own: a goal a few hundred metres away in a straight line can be unreachable on foot, and an unbounded A* then settles all 452,024 nodes of the component — measured at 107 ms in a single step. `SidewalkGraph::path` takes a cost bound; the heuristic is straight-line distance and every edge is at least as long as the straight line between its ends, so the bound prunes nothing that could have been on a route that cheap.
+
+Re-baselined in the same change, as this ADR required: the trajectory hashes in `tests/test_performance.py` (`aa5259411c39445a`/`f6dda9215d7698a0` → `6a24b0a24a962b4c`/`fd8d5b12f37af8ea`), the spawn/despawn ring counts reported in the traffic report (910/909 → 193/198) and its crossing entries (651/515 → 526/428). Those two are reported figures, not assertions; every assertion around them still passes, and the behaviour invariants were re-confirmed rather than assumed — saturation flow 1,708.61 veh/h/lane, 1,508/83/10 green/yellow/red junction entries with none by a law-abiding driver, zero pedestrian wall crossings, zero spawns or despawns inside the protected region.
+
+**A host-side defect this exposed, worth acting on outside `core/`:** the road graph carries no NTA on any lane — 0 of 220,329 travel and bus lanes — and nothing was calling `DensityTable::assignLaneNtas()`, so the entire 262-neighbourhood calibration collapsed onto a single cell. That is where the 304,878 city-wide target quoted above came from. The benchmark now calls it (848,116 lanes claimed, 312 ms at load); the Unreal adapter must too.
+
+Still not done, and deliberately so: **genuine long trips need a hierarchy in the router**, which this ADR excluded and which was not started.

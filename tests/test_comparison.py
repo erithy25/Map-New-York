@@ -88,8 +88,113 @@ def test_terrain_sampler_reproduces_the_published_height_range():
     assert z.min() >= lo - 0.01, (z.min(), lo)
     assert z.max() <= hi + 0.01, (z.max(), hi)
     assert water.shape == z.shape
-    if not meta.get("has_water"):
-        assert not water.any()
+
+
+def test_water_is_the_surveyed_polygon_and_not_the_tile_scalar():
+    """A ground sample is water when it is inside a surveyed body, whatever the tile's level says.
+
+    The tile heightmaps carry ``water_level_m`` as a hard-coded 0.0 and this module used to mask
+    water as "at or below that level", which selects nothing on any tile whose water stands above
+    its own lowest ground: Central Park's Lake sits at 16.55 m on a tile whose floor is 10.89 m and
+    rendered as dry ground, and so did the Staten Island reservoirs and the Bronx and Queens lakes.
+    """
+    _skip_without_bpy()
+    import scene as vscene
+
+    wb = vscene.water_bodies()
+    if not wb.ok:
+        pytest.skip(f"no water polygons on disk: {wb.reason}")
+    s = vscene.TerrainSampler()
+    tile = REPO_ROOT / "data" / "processed" / "tiles" / "t_-2_8" / "terrain.json"
+    if not tile.exists():
+        pytest.skip("t_-2_8 (Central Park's Lake) not built")
+    meta = json.loads(tile.read_text())
+    assert float(meta.get("water_level_m", 0.0)) < float(meta["z_min_m"]), (
+        "the premise of this test is that the tile's scalar water level is below its own terrain")
+    # The Lake's own polygon bounds, from data/processed/water/hydrography.parquet.
+    xs, ys = np.meshgrid(np.linspace(-2010.0, -1600.0, 60), np.linspace(8280.0, 8795.0, 60))
+    z, water = s.grid(xs, ys)
+    assert water.any(), "no sample inside THE LAKE came back as water"
+    lake = z[water]
+    assert float(np.nanmedian(lake)) == pytest.approx(16.55, abs=0.1), float(np.nanmedian(lake))
+    # ... and the mask never lifts the ground: the heights are the heightmap's, untouched.
+    dry = z[~water]
+    assert float(np.nanmax(dry)) > float(np.nanmax(lake)), "the mask flooded ground above the water"
+
+
+def test_the_water_mask_cannot_flood_relief_above_a_body():
+    """`t_-15_-12` holds a pond at 94.58 m over ground from 76.65 m; the pond must not swallow the hill."""
+    _skip_without_bpy()
+    import scene as vscene
+
+    wb = vscene.water_bodies()
+    if not wb.ok:
+        pytest.skip(f"no water polygons on disk: {wb.reason}")
+    if not (REPO_ROOT / "data" / "processed" / "tiles" / "t_-15_-12" / "terrain.json").exists():
+        pytest.skip("t_-15_-12 not built")
+    s = vscene.TerrainSampler()
+    xs, ys = np.meshgrid(np.linspace(-15000.0, -14000.0, 101), np.linspace(-12000.0, -11000.0, 101))
+    z, water = s.grid(xs, ys)
+    assert water.any(), "the ponds on this tile are not masked at all"
+    assert water.mean() < 0.10, f"{water.mean():.0%} of a hillside tile came back as water"
+    lo = float(np.nanmin(z[water]))
+    assert lo > 70.0, f"the mask reaches down to {lo:.1f} m, which is the valley floor, not a pond"
+
+
+def test_terrain_and_pavement_are_not_drawn_under_a_landmark_s_own_ground():
+    """Where a landmark models the ground, the DEM is not drawn across it -- openings included.
+
+    The 9/11 Memorial is the case: the plaza is cut open over two 61 m pools whose basins reach
+    -4.39 m, and the heightmap inside those squares reads about 2.0 m, so the terrain was drawn
+    straight through the pool and the opening read as a 2.4 m depression instead of a 9.14 m fall.
+    """
+    _skip_without_bpy()
+    import scene as vscene
+
+    cat = {e["id"]: e for e in vscene.load_landmark_catalog()}
+    if "b_wtc_site" not in cat:
+        pytest.skip("b_wtc_site is not in the landmark catalogue")
+    import bpy
+    from mathutils import Matrix
+    import nycsim_bpy as nb
+
+    nb.reset_scene()
+    lib = vscene.AssetLibrary()
+    e = cat["b_wtc_site"]
+    rel = Path(e["glb"])
+    glb = rel if rel.is_absolute() else REPO_ROOT / rel
+    if not glb.exists():
+        glb = REPO_ROOT / "blender_out" / "landmarks" / rel.name
+    tpl = lib.get(glb, key="test:b_wtc_site", max_lod=0)
+    assert tpl is not None, f"{glb} did not import"
+    ox, oy, oz = (float(v) for v in e["origin_tm"])
+    obs = tpl.instance("lm_b_wtc_site", Matrix.Translation((ox, oy, oz)), bpy.context.scene.collection)
+    bpy.context.view_layer.update()
+    rings, area = vscene.landmark_ground_outlines(obs, oz)
+    assert rings, "the WTC site model carries a plaza deck and no ground outline was found"
+    # The plaza is the real memorial plaza outline: 33,039 m2, and both pool squares are inside it.
+    assert area == pytest.approx(33039.0, rel=0.02), area
+    import shapely
+    for cx, cy in ((-5338.35, 1349.96), (-5330.40, 1226.73)):     # the two measured pool centres
+        assert any(shapely.contains_xy(g, cx, cy) for g in rings), (cx, cy)
+    # A tower shell supplies no ground, so nothing is cut under it.
+    if "b_one_world_trade_center" in cat:
+        nb.reset_scene()
+        lib2 = vscene.AssetLibrary()
+        e2 = cat["b_one_world_trade_center"]
+        rel2 = Path(e2["glb"])
+        glb2 = rel2 if rel2.is_absolute() else REPO_ROOT / rel2
+        if not glb2.exists():
+            glb2 = REPO_ROOT / "blender_out" / "landmarks" / rel2.name
+        t2 = lib2.get(glb2, key="test:1wtc", max_lod=0)
+        if t2 is not None:
+            o2 = (float(v) for v in e2["origin_tm"])
+            ox2, oy2, oz2 = o2
+            obs2 = t2.instance("lm_1wtc", Matrix.Translation((ox2, oy2, oz2)),
+                               bpy.context.scene.collection)
+            bpy.context.view_layer.update()
+            r2, a2 = vscene.landmark_ground_outlines(obs2, oz2)
+            assert not r2, f"1 WTC is a tower shell and should supply no ground, got {a2:.0f} m2"
 
 
 def test_terrain_sampler_orientation_matches_the_north_first_png_row():

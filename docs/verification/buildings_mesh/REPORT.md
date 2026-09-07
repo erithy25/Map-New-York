@@ -68,6 +68,31 @@ rows) and the roof is generated as a continuous planar height field clipped to t
 The roof pitch uses the measured `roof_ridge_dz_m - roof_eave_dz_m` from `roof_attrs.parquet` when
 available (median rise 2.05 m on the Bayside tile), else `roof_pitch_deg`, else a class default.
 
+**Stepped massing** (`blender/buildings/roofsteps.py`, `shellgeom._build_stepped`). A setback tower
+is not a slab, and 307,735 buildings — 28 % of the city — carry more than one roof level. The level
+*outline* is recovered from the CityGML LOD2 triangle soup rather than guessed: every `tri_type == 2`
+roof triangle is exactly horizontal (verified: `1 - |n_z|` is 0.0 over a 400-row sample), so grouping
+the roof triangles by z within 0.15 m and unioning each group **is** the outline of that level. The
+levels are then made disjoint in plan — about one Midtown building in five has an overhang, and seen
+from above the taller surface is the one that is there — and checked against the publishing stage:
+their union must reproduce `footprint_area_m2` within 2 %, which it does for 100 % of candidates
+(the union of the *ground* surfaces reproduces the same column just as exactly, so the roof levels
+really do cover the plan). The real 2026 OTI footprint is then cut into one region per level, the
+whole profile is shifted so its top lands on the contract `roof_z`, and `shellgeom` builds one flat
+cap per region plus a vertical step face on every shared boundary. Nothing is inferred: a building
+whose recovered levels disagree with the published areas, whose plan does not match its footprint,
+or whose height cannot be reconciled, keeps its single-height shell and is counted as such.
+
+**Shell materials** (`blender/buildings/shellmat.py`). One analytic PBR set per material class —
+base colour, roughness, metallic, specular level and IOR — exported as `KHR_materials_specular` and
+`KHR_materials_ior`, so a curtain wall ships as a dark, low-roughness, part-metallic surface whose
+brightness comes from what it reflects rather than as a pale flat colour. Per-building variation is
+a shader expression over the `_LIT_SEED_HI` / `_LIT_SEED_LO` attributes the shells already carry
+(`shellmat.variation`), which costs no bytes and no draw calls; `render_verify.py` evaluates it as
+Cycles nodes so the verification renders show what an engine implementing the same expression will
+show. These are shading choices, not measurements — no reflectance was measured for any NYC
+building, and which class a building is in is governed by ADR-004 and its `MATERIAL_REAL` bit.
+
 **Closure.** Every building is a closed solid: outer walls, courtyard walls, roof surface, parapet
 coping and inner face, and a floor slab at `ground_z`. Vertices are welded per building on a 1 mm
 grid; the roof regions are snapped to the same grid before use (`shapely.set_precision`), which is

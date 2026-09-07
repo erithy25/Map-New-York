@@ -149,8 +149,11 @@ class SidewalkGraph {
 
   // A* over the walk graph (metres, crosswalks penalized by `cross_penalty_m`).
   // Writes the node sequence, returns the count (0 = no path, > cap = truncated).
+  // `max_cost_m` > 0 abandons routes that would cost more than that, which
+  // bounds the search: the alternative is settling the whole connected
+  // component whenever the goal cannot be reached at all.  0 = no bound.
   uint32_t path(uint32_t from_node, uint32_t to_node, uint32_t* out, uint32_t cap,
-                float cross_penalty_m = 12.f) const;
+                float cross_penalty_m = 12.f, float max_cost_m = 0.f) const;
   uint32_t edgeBetween(uint32_t a, uint32_t b) const;
   uint32_t otherEnd(uint32_t edge, uint32_t n) const {
     return edges_[edge].a == n ? edges_[edge].b : edges_[edge].a;

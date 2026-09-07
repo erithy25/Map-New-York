@@ -198,20 +198,50 @@ StepResult measure(traffic::TrafficSim& tsim, peds::PedSim* psim, traffic::Playe
   return r;
 }
 
+/// The density table's own target for the lanes inside `radius` of (x, y), in
+/// vehicles.  Same filter TrafficSim uses for its city-wide target: travel and
+/// bus lanes only, junction lanes excluded, "vehicles per lane-km" from the
+/// lane's NTA at `hour` (DATA_CONTRACTS §10).  This is what "the ring can be
+/// populated" has to be measured against — the city-wide target of 304,878 is
+/// the whole of New York, not the player's surroundings.
+double ringTarget(const routing::RoadGraph& g, const traffic::DensityTable& d, float x, float y,
+                  float radius, uint8_t hour, uint8_t dow, double& lane_km_out) {
+  double target = 0.0, lane_km = 0.0;
+  for (uint32_t li = 0; li < g.laneCount(); ++li) {
+    const routing::Lane& l = g.lane(li);
+    if (l.is_junction != 0) continue;
+    if (l.kind != routing::LaneKind::Travel && l.kind != routing::LaneKind::Bus) continue;
+    const routing::Vec3 mid = g.pointAt(li, 0.5f * l.length_m);
+    const float dx = mid.x - x, dy = mid.y - y;
+    if (dx * dx + dy * dy > radius * radius) continue;
+    const double km = static_cast<double>(l.length_m) * 0.001;
+    lane_km += km;
+    if (l.nta != routing::kNoNta)
+      target += km * static_cast<double>(d.get(l.nta, hour, dow).veh_per_km_lane);
+  }
+  lane_km_out = lane_km;
+  return target;
+}
+
+/// Vehicles within `radius` of (x, y).
+uint32_t vehiclesInRing(const traffic::TrafficSim& sim, float x, float y, float radius) {
+  uint32_t n = 0;
+  for (size_t i = 0; i < sim.vehicleCount(); ++i) {
+    const traffic::Vehicle& v = sim.vehicle(i);
+    const float dx = v.pos.x - x, dy = v.pos.y - y;
+    if (dx * dx + dy * dy <= radius * radius) ++n;
+  }
+  return n;
+}
+
 /// Crowd concentration and activity mix: the numbers that say whether the ring
 /// is populated and how the agents inside it are distributed.  A step cost that
 /// grows while the population does not is a clustering problem, and only a
 /// spatial histogram shows it.
 void reportCrowd(const traffic::TrafficSim& tsim, const peds::PedSim* psim, float px, float py,
                  float ring_m) {
-  uint32_t in_ring = 0;
-  for (size_t i = 0; i < tsim.vehicleCount(); ++i) {
-    const traffic::Vehicle& v = tsim.vehicle(i);
-    const float dx = v.pos.x - px, dy = v.pos.y - py;
-    if (dx * dx + dy * dy <= ring_m * ring_m) ++in_ring;
-  }
-  std::printf("  vehicles in ring %u of %zu within %.0f m of the camera\n", in_ring,
-              tsim.vehicleCount(), static_cast<double>(ring_m));
+  std::printf("  vehicles in ring %u of %zu within %.0f m of the camera\n",
+              vehiclesInRing(tsim, px, py, ring_m), tsim.vehicleCount(), static_cast<double>(ring_m));
   const traffic::TrafficStats& ts = tsim.stats();
   std::printf("  traffic counters %u spawned, %u despawned, %u spawn failures, %u route calls,"
               " %u route failures, %u red-light entries, %u hash drops\n",
@@ -409,8 +439,9 @@ int runCity(Args& args) {
               w.sizes().lane_km);
   std::printf("  signals          %zu plans%s\n", w.sizes().signal_plans,
               w.signals.lastError().empty() ? "" : (" [" + w.signals.lastError() + "]").c_str());
-  std::printf("  density          %zu polygons, %u NTAs;  transit %zu bus routes\n",
-              w.sizes().density_cells, w.density.ntaCount(), w.sizes().bus_routes);
+  std::printf("  density          %zu polygons, %u NTAs, %u lanes assigned to an NTA;"
+              "  transit %zu bus routes\n",
+              w.sizes().density_cells, w.density.ntaCount(), w.lanes_with_nta, w.sizes().bus_routes);
   std::printf("  load times       read %.0f ms, graph %.0f ms, signals %.0f ms, density %.0f ms,"
               " transit %.0f ms\n",
               w.times().read_ms, w.times().graph_ms, w.times().signals_ms, w.times().density_ms,
@@ -524,14 +555,27 @@ int runCity(Args& args) {
   }
   w.times().prefill_ms = sw.lapWallMs();
   std::printf("  fill             %u vehicles, %u pedestrians in %.0f ms (%s; density target %.0f"
-              " vehicles city-wide)\n",
+              " vehicles)\n",
               made_v, made_p, w.times().prefill_ms,
-              use_spawner ? "prefill(), city-wide" : "seeded within the radius",
+              use_spawner ? "prefill() over the streamed region" : "seeded within the radius",
               static_cast<double>(tsim.targetVehicles()));
   std::printf("  budgets          %u route queries and %u pedestrian paths per step;"
               " crowd hash cell %s\n",
               max_routes, o.with_peds ? max_paths : 0u,
               ped_cell > 0.01 ? std::to_string(static_cast<int>(ped_cell)).c_str() : "auto");
+  {
+    double ring_lane_km = 0.0;
+    const double ring_want =
+        ringTarget(w.graph, w.density, px, py, tcfg.spawn_outer_m,
+                   static_cast<uint8_t>(tsim.timeOfDay() / 3600.f), tsim.dow(), ring_lane_km);
+    const uint32_t ring_have = vehiclesInRing(tsim, px, py, tcfg.spawn_outer_m);
+    std::printf("  ring after fill  %u vehicles inside %.0f m of the camera; the density table wants"
+                " %.0f there over %.1f lane-km (whole streamed region %.0f)\n",
+                ring_have, static_cast<double>(tcfg.spawn_outer_m), ring_want, ring_lane_km,
+                static_cast<double>(tsim.targetVehicles()));
+    if (o.with_peds)
+      std::printf("  peds after fill  %zu pedestrians\n", psim.pedCount());
+  }
   std::fflush(stdout);
 
   float minx, miny, maxx, maxy;

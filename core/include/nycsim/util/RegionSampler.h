@@ -201,6 +201,16 @@ class RegionSampler {
   /// Items a region holds; size() when it covers the whole population.
   size_t regionSize(const Region& r) const { return r.all ? ids_.size() : r.items.size(); }
 
+  /// Total weight inside a region — what a caller that reads weights as a
+  /// quantity (vehicles per lane-km x lane length) needs in order to size a
+  /// population to the region instead of to the whole city.
+  float regionWeight(const Region& r) const {
+    if (r.all || r.radius < 0.f) return cdf_.empty() ? 0.f : cdf_.back();
+    return r.cdf.empty() ? 0.f : r.cdf.back();
+  }
+  /// True while `r` is restricted to less than the whole population.
+  bool regionIsRestricted(const Region& r) const { return !(r.all || r.radius < 0.f); }
+
  private:
   size_t cellOf(float x, float y) const {
     return static_cast<size_t>(clampRow(y)) * nx_ + static_cast<size_t>(clampCol(x));
