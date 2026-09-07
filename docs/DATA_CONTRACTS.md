@@ -387,3 +387,23 @@ so a consumer never has to guess.*
   the kit picks weathering, glass tint and gate state from it. The whole file is a deterministic function of the
   inputs — the same inputs regenerate the same bytes.
 * Records are sorted by `(bin, kit_id)`.
+
+### 6.1.1 Sign faces — where the words come from
+
+*Appended by the facade stage.* A kit piece whose catalog entry declares a `sign_face_slot` carries a
+**runtime-swappable face**: one material slot whose name begins with `SIGN_FACE`, with UV 0..1 covering the visible
+panel exactly (u to the reader's right, v upwards). The placement record carries the surface; the **text is never in
+the placement stream**. Each family binds differently, and every tile's `kit_placements.json` header repeats this in
+its `sign_face_binding` block:
+
+| piece family | what its face carries |
+|---|---|
+| `storefront_sign_band` | blank. The legend for an instance is `awning_text` of the **same `bin`** in `tiles/{tile}/buildings.parquet`; `awning_real` says whether that string is a real business name (DCWP / DOHMH / OSM) or the generic New York trade wording for the storefront kind. Placed on the buildings whose `awning_text` is a real business name. |
+| `storefront_sign_band_<kind>` | the generic trade wording for that storefront kind, baked. Placed only where `awning_real` is false and `awning_text` is exactly that wording. |
+| `sign_led_*` | the LED pixel matrix and **no content at all**: the face models the display hardware. Placed only where the lot's MapPLUTO `zonedist1`..`zonedist4` is `C6-7T` (the Times Square core of the Special Midtown District, 59 lots city-wide). |
+| `billboard_wall_mounted`, `billboard_rooftop` | blank floodlit vinyl. No source in this environment records what any New York bulletin carries, so the model states that a bulletin is mounted, never what it advertises. |
+
+`flags` bit 0 (lit at night) is set on every sign placement and on the windows whose `lit_seed` draw put their lights
+on. Because a glTF instance cannot switch a material from a flag, the kit exports a `win_<type>_lit` twin of every
+window that has an interior card, and a lit window is placed as that piece; the two window types with no interior
+card (`gothic_arched`, `through_wall_ac_sleeve`) keep the plain id.

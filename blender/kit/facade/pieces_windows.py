@@ -27,11 +27,11 @@ def _op(name: str):
 @K.register("win_double_hung_1_1", "window", nominal_size=(0.99, 0.63, 1.755),
             description="One-over-one double-hung sash in a plain brick opening (post-1930 tenement replacement sash).",
             features=["sills"], variants=["lit", "unlit"])
-def _win_1_1():
+def _win_1_1(lit: bool = False):
     m = K.Mesh()
     x0, x1, z0, z1 = _op("double_hung_1_1")
     P.reveal(m, x0, x1, z0, z1, P.REVEAL + 0.10, "red_brick")
-    P.double_hung(m, x0, x1, z0, z1, lit=False)
+    P.double_hung(m, x0, x1, z0, z1, lit=lit)
     m.box((x0 - 0.02, -0.020, z0 - 0.055), (x1 + 0.02, P.WYTHE, z0), "precast")   # flush cast-stone sill
     return m
 
@@ -40,11 +40,11 @@ def _win_1_1():
 @K.register("win_double_hung_1_1_stone", "window", nominal_size=(1.18, 0.675, 1.95),
             description="One-over-one with a projecting limestone lintel and washed stone sill (brownstone / limestone-trimmed brick).",
             features=["lintels", "sills"], variants=["limestone", "brownstone"])
-def _win_1_1_stone():
+def _win_1_1_stone(lit: bool = False):
     m = K.Mesh()
     x0, x1, z0, z1 = _op("double_hung_1_1_stone")
     P.reveal(m, x0, x1, z0, z1, P.REVEAL + 0.10, "red_brick")
-    P.double_hung(m, x0, x1, z0, z1, lit=False)
+    P.double_hung(m, x0, x1, z0, z1, lit=lit)
     P.stone_lintel(m, x0, x1, z1, "limestone")
     P.stone_sill(m, x0, x1, z0 - P.SILL_H, "limestone")
     return m
@@ -54,11 +54,11 @@ def _win_1_1_stone():
 @K.register("win_double_hung_1_1_soldier", "window", nominal_size=(1.06, 0.66, 1.994),
             description="One-over-one with a brick soldier-course lintel and cast-stone sill (New Law tenement, 1901-1929).",
             features=["lintels", "sills"])
-def _win_1_1_soldier():
+def _win_1_1_soldier(lit: bool = False):
     m = K.Mesh()
     x0, x1, z0, z1 = _op("double_hung_1_1_soldier")
     P.reveal(m, x0, x1, z0, z1, P.REVEAL + 0.10, "red_brick")
-    P.double_hung(m, x0, x1, z0, z1, lit=False)
+    P.double_hung(m, x0, x1, z0, z1, lit=lit)
     P.soldier_lintel(m, x0, x1, z1, "red_brick")
     P.stone_sill(m, x0, x1, z0 - P.SILL_H, "precast", ear=0.055, proj=0.050)
     return m
@@ -68,11 +68,11 @@ def _win_1_1_soldier():
 @K.register("win_double_hung_2_2", "window", nominal_size=(1.18, 0.675, 2.05),
             description="Two-over-two double-hung with a vertical muntin per sash and brownstone lintel/sill (Italianate rowhouse 1860-1890).",
             features=["lintels", "sills"])
-def _win_2_2():
+def _win_2_2(lit: bool = False):
     m = K.Mesh()
     x0, x1, z0, z1 = _op("double_hung_2_2")
     P.reveal(m, x0, x1, z0, z1, P.REVEAL + 0.10, "brownstone")
-    P.double_hung(m, x0, x1, z0, z1, lights_x=2, lit=False)
+    P.double_hung(m, x0, x1, z0, z1, lights_x=2, lit=lit)
     P.stone_lintel(m, x0, x1, z1, "brownstone")
     P.stone_sill(m, x0, x1, z0 - P.SILL_H, "brownstone")
     return m
@@ -82,11 +82,11 @@ def _win_2_2():
 @K.register("win_double_hung_6_6", "window", nominal_size=(1.01, 0.675, 1.894),
             description="Six-over-six true-divided-light double-hung with a splayed brick flat arch (Federal / Greek Revival rowhouse).",
             features=["lintels", "sills"])
-def _win_6_6():
+def _win_6_6(lit: bool = False):
     m = K.Mesh()
     x0, x1, z0, z1 = _op("double_hung_6_6")
     P.reveal(m, x0, x1, z0, z1, P.REVEAL + 0.10, "red_brick")
-    P.double_hung(m, x0, x1, z0, z1, lights_x=3, lights_z=2, lit=False)
+    P.double_hung(m, x0, x1, z0, z1, lights_x=3, lights_z=2, lit=lit)
     m.box((x0 - 0.055, -0.012, z1), (x1 + 0.055, P.WYTHE, z1 + P.BRICK_LEN), "red_brick")   # flat gauged arch
     P.stone_sill(m, x0, x1, z0 - P.SILL_H, "brownstone", ear=0.055)
     return m
@@ -96,7 +96,7 @@ def _win_6_6():
 @K.register("win_casement_pair", "window", nominal_size=(1.21, 0.675, 1.7),
             description="Pair of side-hinged steel casements with a three-light grid each and a cast-stone sill (prewar apartment 1920-1940).",
             features=["sills"])
-def _win_casement():
+def _win_casement(lit: bool = False):
     m = K.Mesh()
     x0, x1, z0, z1 = _op("casement_pair")
     P.reveal(m, x0, x1, z0, z1, P.REVEAL + 0.10, "tan_brick")
@@ -106,7 +106,7 @@ def _win_casement():
     P.sash(m, fx0, mid - 0.012, fz0, fz1, P.REVEAL, lights_z=3, frame_mat=P.BLACK, stile=0.032, thick=0.035)
     P.sash(m, mid + 0.012, fx1, fz0, fz1, P.REVEAL, lights_z=3, frame_mat=P.BLACK, stile=0.032, thick=0.035)
     m.box((mid - 0.016, P.REVEAL - 0.010, fz0), (mid + 0.016, P.REVEAL + 0.045, fz1), P.BLACK)   # mullion
-    P.interior_card(m, fx0, fx1, fz0, fz1, P.REVEAL + 0.155, False)
+    P.interior_card(m, fx0, fx1, fz0, fz1, P.REVEAL + 0.155, lit)
     P.stone_sill(m, x0, x1, z0 - P.SILL_H, "precast", ear=0.055)
     return m
 
@@ -115,7 +115,7 @@ def _win_casement():
 @K.register("win_steel_industrial_4x5", "window", nominal_size=(1.62, 0.655, 2.44),
             description="Steel-sash industrial window, 4 x 5 lights with a centre-pivot vent, in a loft opening with a steel lintel angle.",
             features=["lintels"])
-def _win_steel():
+def _win_steel(lit: bool = False):
     m = K.Mesh()
     x0, x1, z0, z1 = _op("steel_industrial_4x5")
     P.reveal(m, x0, x1, z0, z1, P.REVEAL + 0.08, "red_brick")
@@ -130,7 +130,7 @@ def _win_steel():
         w = 0.020 if j == 2 else 0.012                    # heavier bar at the pivot vent head
         m.box((gx0, y + 0.006, z - w / 2), (gx1, y + 0.034, z + w / 2), P.BLACK)
     m.glass_pane(gx0, gx1, gz0, gz1, y + 0.020, P.GLASS)
-    P.interior_card(m, gx0, gx1, gz0, gz1, y + 0.155, False)
+    P.interior_card(m, gx0, gx1, gz0, gz1, y + 0.155, lit)
     m.box((x0 - 0.06, -0.030, z1), (x1 + 0.06, 0.010, z1 + 0.090), P.GALV)          # lintel angle
     m.box((x0 - 0.02, -0.045, z0 - 0.050), (x1 + 0.02, P.WYTHE, z0), "precast")     # sill
     return m
@@ -140,7 +140,7 @@ def _win_steel():
 @K.register("win_punched_office", "window", nominal_size=(1.62, 0.665, 2.29),
             description="Aluminium punched office window, fixed light over a hopper vent, in a precast surround (1960-1990 office / hospital).",
             features=["sills"])
-def _win_punched():
+def _win_punched(lit: bool = False):
     m = K.Mesh()
     x0, x1, z0, z1 = _op("punched_office")
     P.reveal(m, x0, x1, z0, z1, P.REVEAL + 0.08, "precast")
@@ -152,7 +152,7 @@ def _win_punched():
     m.box(((gx0 + gx1) / 2 - 0.026, y + 0.004, split + 0.030), ((gx0 + gx1) / 2 + 0.026, y + 0.056, gz1), P.ALU)
     m.glass_pane(gx0, gx1, gz0, split - 0.030, y + 0.030, "glass_curtain")
     m.glass_pane(gx0, gx1, split + 0.030, gz1, y + 0.030, "glass_curtain")
-    P.interior_card(m, gx0, gx1, gz0, gz1, y + 0.155, False)
+    P.interior_card(m, gx0, gx1, gz0, gz1, y + 0.155, lit)
     m.box((x0 - 0.06, -0.055, z0 - 0.090), (x1 + 0.06, P.WYTHE, z0), "precast")
     return m
 
@@ -162,7 +162,7 @@ def _win_punched():
             description="Unitised curtain-wall module 1.5 m wide x 3.9 m floor-to-floor: vision glass, shadow-box spandrel, "
                         "snap-on mullion covers and a slab-edge anchor.",
             features=["curtain_wall"], budget=900)
-def _win_curtain():
+def _win_curtain(lit: bool = False):
     m = K.Mesh()
     w, h = W["curtain_wall_module"]
     x0, x1 = -w / 2, w / 2
@@ -179,7 +179,7 @@ def _win_curtain():
     m.glass_pane(x0 + 0.075, x1 - 0.075, vision_top + 0.050, h - 0.050, y + 0.075, "glass_curtain", 0.024)
     m.box((x0 + 0.075, y + 0.100, 0.050), (x1 - 0.075, y + 0.130, vision_bot), "metal_panel")           # shadow box back pan
     m.box((x0, y + 0.180, 0.050), (x1, y + 0.260, 0.420), "concrete")                                   # slab edge
-    P.interior_card(m, x0 + 0.08, x1 - 0.08, vision_bot, vision_top, y + 0.20, False)
+    P.interior_card(m, x0 + 0.08, x1 - 0.08, vision_bot, vision_top, y + 0.20, lit)
     return m
 
 
@@ -188,7 +188,7 @@ def _win_curtain():
             description="Three-sided projecting bay, 2.40 m wide x 0.62 m deep, with three 1/1 sashes, a panelled brownstone apron, "
                         "moulded sill and head bands and a lead-clad roof (Brooklyn / Queens rowhouse).",
             features=["bay_windows"], budget=1600)
-def _win_bay():
+def _win_bay(lit: bool = False):
     m = K.Mesh()
     w, h = W["bay_window"]
     x0, x1 = -w / 2, w / 2
@@ -240,7 +240,7 @@ def _win_bay():
         m.face([(rx0, ry0, apron + 0.02), (rx1, ry1, apron + 0.02), (rx1, ry1, head - 0.02), (rx0, ry0, head - 0.02)], P.GLASS)
         m.face([(rx0 + nx * 0.16, ry0 + ny * 0.16, apron), (rx0 + nx * 0.16, ry0 + ny * 0.16, head),
                 (rx1 + nx * 0.16, ry1 + ny * 0.16, head), (rx1 + nx * 0.16, ry1 + ny * 0.16, apron)],
-               "interior_unlit", uvs=[(0, 0), (0, 2), (2, 2), (2, 0)])
+               "interior_lit" if lit else "interior_unlit", uvs=[(0, 0), (0, 2), (2, 2), (2, 0)])
         for t, ww in ((0.0, 0.055), (1.0, 0.055)):             # sash stiles
             sx = rx0 + (rx1 - rx0) * t
             sy = ry0 + (ry1 - ry0) * t
@@ -265,11 +265,11 @@ def _win_bay():
 @K.register("win_arched_tenement", "window", nominal_size=(1.133, 0.675, 2.361),
             description="Segmental-arched brick-headed opening with a 1/1 sash and a bluestone sill (Old Law tenement, pre-1901).",
             features=["arched_windows", "sills"])
-def _win_arched():
+def _win_arched(lit: bool = False):
     m = K.Mesh()
     x0, x1, z0, z1 = _op("arched_tenement")
     P.reveal(m, x0, x1, z0, z1, P.REVEAL + 0.10, "red_brick")
-    P.double_hung(m, x0, x1, z0, z1, lit=False)
+    P.double_hung(m, x0, x1, z0, z1, lit=lit)
     P.segmental_arch(m, x0, x1, z1, (x1 - x0) / 8.0, "red_brick")
     P.stone_sill(m, x0, x1, z0 - P.SILL_H, "granite", ear=0.055)
     return m
@@ -280,7 +280,7 @@ def _win_arched():
             description="Gable dormer with a 6/6 sash, clapboard cheeks and a standing-seam roof; sits on a mansard or pitched "
                         "roof plane, its front wall built as a frame round the sash opening.",
             features=["dormers"], budget=1200)
-def _win_dormer():
+def _win_dormer(lit: bool = False):
     m = K.Mesh()
     ow, oh = W["dormer"]
     x0, x1 = -0.73, 0.73
@@ -302,7 +302,7 @@ def _win_dormer():
                 (s * (x1 + 0.09), depth, wall_h + 0.02), (0.0, depth, ridge + 0.05)], "metal_panel", flip=(s < 0))
     m.box((x0 - 0.09, -0.09, wall_h - 0.05), (x1 + 0.09, depth, wall_h + 0.02), "metal_panel", faces="yz")   # eaves fascia
     P.reveal(m, ax0, ax1, oz0, oz1, 0.10, P.SASH_WHITE)
-    P.double_hung(m, ax0, ax1, oz0, oz1, lights_x=3, lights_z=2, reveal_depth=0.10, lit=False)
+    P.double_hung(m, ax0, ax1, oz0, oz1, lights_x=3, lights_z=2, reveal_depth=0.10, lit=lit)
     m.box((ax0 - 0.07, -0.045, oz0 - 0.06), (ax1 + 0.07, 0.09, oz0), P.SASH_WHITE)   # sill
     return m
 
@@ -311,7 +311,7 @@ def _win_dormer():
 @K.register("win_aluminum_slider", "window", nominal_size=(1.31, 0.66, 1.475),
             description="Post-war aluminium horizontal slider with a fixed and a sliding light, in a white-glazed-brick opening (NYCHA / 1960s infill).",
             features=["sills"])
-def _win_slider():
+def _win_slider(lit: bool = False):
     m = K.Mesh()
     x0, x1, z0, z1 = _op("aluminum_slider")
     P.reveal(m, x0, x1, z0, z1, P.REVEAL + 0.08, "white_glazed_brick")
@@ -323,7 +323,7 @@ def _win_slider():
     m.frame(mid - 0.020, gx1, gz0, gz1, y + 0.028, y + 0.050, 0.032, P.ALU)      # sliding light (outboard track)
     m.glass_pane(gx0 + 0.032, mid - 0.012, gz0 + 0.032, gz1 - 0.032, y + 0.015, P.GLASS)
     m.glass_pane(mid + 0.012, gx1 - 0.032, gz0 + 0.032, gz1 - 0.032, y + 0.039, P.GLASS)
-    P.interior_card(m, gx0, gx1, gz0, gz1, y + 0.155, False)
+    P.interior_card(m, gx0, gx1, gz0, gz1, y + 0.155, lit)
     m.box((x0 - 0.055, -0.050, z0 - 0.075), (x1 + 0.055, P.WYTHE, z0), "precast")
     return m
 
@@ -333,7 +333,7 @@ def _win_slider():
             description="1950s picture window: a wide fixed centre light with narrow double-hung flankers and an aluminium sill "
                         "(Queens / Staten Island detached house).",
             features=["sills"])
-def _win_picture():
+def _win_picture(lit: bool = False):
     m = K.Mesh()
     x0, x1, z0, z1 = _op("picture_window")
     P.reveal(m, x0, x1, z0, z1, P.REVEAL + 0.08, "vinyl_siding")
@@ -346,7 +346,7 @@ def _win_picture():
     m.glass_pane(a + 0.028, b - 0.028, fz0, fz1, y + 0.028, P.GLASS)
     P.sash(m, fx0, a - 0.028, fz0, fz1, y + 0.006, frame_mat=P.SASH_WHITE, stile=0.036, thick=0.040)
     P.sash(m, b + 0.028, fx1, fz0, fz1, y + 0.006, frame_mat=P.SASH_WHITE, stile=0.036, thick=0.040)
-    P.interior_card(m, fx0, fx1, fz0, fz1, y + 0.155, False)
+    P.interior_card(m, fx0, fx1, fz0, fz1, y + 0.155, lit)
     m.box((x0 - 0.06, -0.055, z0 - 0.060), (x1 + 0.06, P.WYTHE, z0), P.ALU)
     return m
 
@@ -397,7 +397,7 @@ def _win_gothic():
             description="Continuous horizontal ribbon window band, 3 m long, aluminium frame with four fixed lights and hopper vents "
                         "(1960s school / garage / modern infill).",
             features=[])
-def _win_ribbon():
+def _win_ribbon(lit: bool = False):
     m = K.Mesh()
     ow, oh = W["ribbon_strip"]
     x0, x1, z0, z1 = -ow / 2, ow / 2, 0.0, oh
@@ -412,7 +412,7 @@ def _win_ribbon():
     m.box((gx0, y + 0.002, zt - 0.028), (gx1, y + 0.053, zt + 0.028), P.ALU)
     m.glass_pane(gx0, gx1, gz0, zt, y + 0.028, "glass_curtain")
     m.glass_pane(gx0, gx1, zt, gz1, y + 0.028, "glass_curtain")
-    P.interior_card(m, gx0, gx1, gz0, gz1, y + 0.155, False)
+    P.interior_card(m, gx0, gx1, gz0, gz1, y + 0.155, lit)
     m.box((x0 - 0.05, -0.060, z0 - 0.100), (x1 + 0.05, P.WYTHE, z0), "precast")
     return m
 
@@ -422,7 +422,7 @@ def _win_ribbon():
             description="Chicago window: a wide fixed centre light between narrow 1/1 double-hung flankers, cast-stone lintel and sill "
                         "(1895-1915 loft / early office).",
             features=["lintels", "sills"], budget=1100)
-def _win_chicago():
+def _win_chicago(lit: bool = False):
     m = K.Mesh()
     ow, oh = W["chicago_tripartite"]
     x0, x1, z0, z1 = -ow / 2, ow / 2, 0.0, oh
@@ -438,7 +438,7 @@ def _win_chicago():
         mid = (fz0 + fz1) / 2
         P.sash(m, sx0, sx1, mid, fz1, y + 0.030, frame_mat=P.SASH_WHITE, stile=0.038, thick=0.038)
         P.sash(m, sx0, sx1, fz0, mid, y - 0.008, frame_mat=P.SASH_WHITE, stile=0.038, thick=0.038)
-    P.interior_card(m, fx0, fx1, fz0, fz1, y + 0.155, False)
+    P.interior_card(m, fx0, fx1, fz0, fz1, y + 0.155, lit)
     P.stone_lintel(m, x0, x1, z1, "precast", h=0.180, ear=0.100)
     P.stone_sill(m, x0, x1, z0 - 0.110, "precast", h=0.110, ear=0.075)
     return m
@@ -461,3 +461,38 @@ def _win_ac_sleeve():
     m.box((x0 - 0.075, -0.020, z1), (x1 + 0.075, P.WYTHE, z1 + 0.100), "precast")
     m.box((x0 - 0.075, -0.045, z0 - 0.070), (x1 + 0.075, P.WYTHE, z0), "precast")
     return m
+
+
+# --------------------------------------------------------------------------- lit variants
+# A city at night is lit windows before it is anything else, and ``lit_seed`` (DATA_CONTRACTS §5.2) exists so which
+# units have their lights on is deterministic per building.  The placement record already carries that decision in
+# flags bit 0, but a glTF instance cannot switch a material from a flag, so the kit exports a second copy of every
+# window whose interior card is emissive.  The pipeline picks the ``_lit`` id for exactly the windows it already
+# flagged, so this costs no extra placement records at all - only the geometry, which is instanced either way.
+_LIT_VARIANTS: dict[str, object] = {
+    "win_double_hung_1_1": _win_1_1,
+    "win_double_hung_1_1_stone": _win_1_1_stone,
+    "win_double_hung_1_1_soldier": _win_1_1_soldier,
+    "win_double_hung_2_2": _win_2_2,
+    "win_double_hung_6_6": _win_6_6,
+    "win_casement_pair": _win_casement,
+    "win_steel_industrial_4x5": _win_steel,
+    "win_punched_office": _win_punched,
+    "win_curtain_wall_module": _win_curtain,
+    "win_bay_window": _win_bay,
+    "win_arched_tenement": _win_arched,
+    "win_dormer": _win_dormer,
+    "win_aluminum_slider": _win_slider,
+    "win_picture_window": _win_picture,
+    "win_ribbon_strip": _win_ribbon,
+    "win_chicago_tripartite": _win_chicago,
+}
+
+for _base, _builder in _LIT_VARIANTS.items():
+    _piece = K.REGISTRY[_base]
+    K.register(f"{_base}_lit", "window", anchor=_piece.anchor, nominal_size=_piece.nominal_size,
+               description=_piece.description + " Lit variant: the interior card behind the glass is the emissive "
+                                                "one, for the windows lit_seed says have their lights on at night.",
+               features=list(_piece.features), variants=["lit"], budget=_piece.budget,
+               extra={**_piece.extra, "interior_card": "lit", "unlit_piece": _base})(
+        lambda _f=_builder: _f(True))

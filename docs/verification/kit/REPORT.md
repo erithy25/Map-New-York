@@ -6,7 +6,9 @@ facade_classes.json}`).
 
 ## 1. What was built
 
-**138 production kit pieces** (brief asked for ≥ 120), each exported as
+**174 production kit pieces** (brief asked for ≥ 120) — 138 in the first pass and **36 added by the signage pass of
+2026-09-07, documented in the addendum at the end of this report**; everything above that addendum describes the
+original 138 unless it says otherwise. Each is exported as
 `blender_out/kit/facade/<id>.glb` with a per-piece catalog entry written through
 `nycsim_bpy.write_catalog_entry` to `blender_out/kit/catalog/<id>.json`, plus the machine-readable enum contract
 `blender_out/kit/facade_params.json`.
@@ -627,3 +629,68 @@ sh blender/kit/facade/render_all.sh 64 800              # every verification ren
 | `win_ribbon_strip` | window | 134 | 4 | 900 | 3.10 x 0.67 x 1.60 | wall_bottom_centre | concrete, aluminum_anodized, glass_curtain, interior_unlit, interior_room_dark, precast |
 | `win_steel_industrial_4x5` | window | 178 | 4 | 900 | 1.62 x 0.66 x 2.44 | wall_bottom_centre | red_brick, painted_metal_black, glass_clear, interior_unlit, interior_room_dark, steel_galvanized, precast |
 | `win_through_wall_ac_sleeve` | window | 126 | 22 | 500 | 0.81 x 0.34 x 0.59 | wall_bottom_centre | tan_brick, steel_galvanized, aluminum_anodized, precast |
+
+
+---
+
+# Addendum — illuminated signage (2026-09-07)
+
+The comparison lane measured the consequence of a kit that models bulletins but no *lit* sign surface: the Times
+Square daylight frame carries "no signage of any kind — not a screen, not a billboard, not a shopfront sign, not a
+lit letter", and the night frame renders "a grey canyon lit by six street lamps" with "the emissive content of the
+model city close to zero" (deviation B15). This addendum adds the pieces that were missing and states exactly what
+each of them is allowed to say.
+
+## Pieces added (36)
+
+| piece(s) | category | what it is |
+|---|---|---|
+| `storefront_sign_band` | storefront | internally-lit shopfront fascia box sign, 3.60 × 0.24 × 0.80 m: aluminium can, retainer frame, **blank** acrylic face on the runtime-swappable `SIGN_FACE` slot (UV 0..1 over the face) |
+| `storefront_sign_band_<kind>` × 16 | storefront | the same can, with the generic New York trade wording for one storefront kind baked on the face — `GROCERY - DELI - BEER`, `DELI GROCERY`, `PHARMACY`, `RESTAURANT`, `BAR`, `NAILS & SPA`, `LAUNDROMAT`, `BANK`, `CLOTHING`, `ELECTRONICS`, `SUPERMARKET`, `HARDWARE`, `COFFEE`, `PIZZA`, `DRY CLEANERS`, `OPEN` |
+| `sign_led_panel_wall` | billboard | 6.10 × 3.05 m modular LED display at 16 mm pixel pitch on a galvanised standoff frame; tiles edge to edge to clad a frontage |
+| `sign_led_blade_tall` | billboard | 3.05 × 7.32 m vertical spectacular blade |
+| `sign_led_ribbon` | billboard | 12.19 × 1.22 m horizontal ribbon board |
+| `win_<type>_lit` × 16 | window | a second copy of every window whose interior card can be emissive, with the lit card behind the glass |
+
+Two window types have no lit twin because they have no interior card at all: `win_gothic_arched` (a traceried church
+window, glazed to `glass_curtain`) and `win_through_wall_ac_sleeve` (a sleeve opening, not a room).
+
+Two existing pieces changed: `billboard_wall_mounted` and `billboard_rooftop` now carry their vinyl face on
+`SIGN_FACE_BULLETIN` (near-white, emission 0.55 — floodlit vinyl) instead of `metal_panel`. Their geometry is
+unchanged.
+
+## The materials, and what they are allowed to carry
+
+| slot | content | emission |
+|---|---|---|
+| `SIGN_FACE` | **blank**. Used where the building carries a *real* business name; the runtime binds the name from `awning_text` on the same `bin`. | 2.2 |
+| `SIGN_FACE_<KIND>` × 16 | the generic trade wording the pipeline already writes into `awning_text` for storefronts with no known business name (`awning_real = false`), drawn in SIL-OFL Overpass Bold on an ordinary shopfront colour scheme | 2.2 |
+| `SIGN_FACE_LED_{PANEL,BLADE,RIBBON}` | the LED pixel matrix on its black substrate, drawn one texel block per physical pixel at 16 mm pitch — the display *hardware*, carrying no imagery and no text | 7.0 |
+| `SIGN_FACE_BULLETIN` | blank white vinyl | 0.55 |
+
+**No brand, logo, product or slogan is baked anywhere in the kit**, and no real business name is baked either.
+`pipeline/tests/test_facade_signage.py` is the gate: it asserts that every catalog entry declaring a `legend`
+carries either the empty string or one of the fifteen generic strings the pipeline publishes, that the two tables
+(`pieces_signage.GENERIC_SIGN_TEXT` and `facade.derive.GENERIC_AWNING`) are identical, and that the blank band
+carries no legend.
+
+**Known limitation, stated rather than worked around.** An instanced glTF kit carries one texture per piece, so the
+30,381 shopfronts with a real business name render as *lit blank panels* in the offline verification frames. The name
+is in the data (`awning_text`, `awning_real`, fidelity bit 6 `SIGNAGE_REAL`) and the contract says where a runtime
+binds it (DATA_CONTRACTS §6.1.1), but it is not in the picture. Closing that needs per-instance texture binding,
+which is a runtime feature, not a kit one.
+
+## Verification
+
+`tests/test_kit_facade.py` — **1 462 tests, all passing** against the exported artefacts, the 36 new pieces
+included: LOD1 within a quarter of LOD0, measured bounds within 5 % of nominal, anchors on their datum, textures
+embedded, UV tiling in metres. `NOT_RECESSED` now exempts a `win_*_lit` variant wherever it exempts its unlit twin
+(the geometry is the same mesh).
+
+| piece | LOD0 tris | LOD1 | budget | measured size (m) |
+|---|--:|--:|--:|---|
+| `storefront_sign_band` (and each `_<kind>`) | 60 | 2 | 6000 | 3.60 × 0.24 × 0.80 |
+| `sign_led_panel_wall` | 120 | 2 | 2500 | 6.10 × 0.50 × 3.05 |
+| `sign_led_blade_tall` | 108 | 2 | 2500 | 3.05 × 0.50 × 7.32 |
+| `sign_led_ribbon` | 144 | 2 | 2500 | 12.19 × 0.50 × 1.22 |
+| `win_<type>_lit` | identical to its unlit twin | | 900 | identical |

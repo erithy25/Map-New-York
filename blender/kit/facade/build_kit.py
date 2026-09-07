@@ -29,7 +29,7 @@ import facade_params as fp    # noqa: E402
 log = logging.getLogger("nycsim.kit.facade.build")
 
 PIECE_MODULES = ("pieces_windows", "pieces_accessories", "pieces_entries", "pieces_trim",
-                 "pieces_storefront", "pieces_interiors", "pieces_roof", "pieces_street")
+                 "pieces_signage", "pieces_storefront", "pieces_interiors", "pieces_roof", "pieces_street")
 
 
 def load_pieces() -> None:

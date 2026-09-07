@@ -54,6 +54,12 @@ TANK_LARGE_ROOF_AREA_M2 = 1200.0
 #: facade classes that never carry a rooftop tank (no habitable water demand or an all-mechanical crown).
 NO_TANK_CLASSES = frozenset({16, 17, 18, 19, 22, 38, 41, 42, 46, 47, 48, 55})
 
+#: Classes that carry the ``billboard`` typology feature but cannot carry a *rooftop* bulletin: a 48-sheet board is
+#: an 8.6 m steel structure standing on a roof deck.  A gas-station canopy (48) is a fuel canopy over the pumps with
+#: nothing to stand on, and a one- or two-storey corner taxpayer (37) carries its advertising on the wall and the
+#: shopfront fascia, not on a rooftop frame.  Both remain eligible for a wall bulletin where the wall can hold one.
+NO_ROOF_BILLBOARD_CLASSES = frozenset({37, 48})
+
 #: The 1968 NYC Building Code replaced the fire escape with two enclosed means of egress for new construction.
 FIRE_ESCAPE_MAX_YEAR = 1968
 FIRE_ESCAPE_MIN_FLOORS = 3

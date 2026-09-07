@@ -48,6 +48,13 @@ ROLE_TO_CATALOG: dict[tuple[str, str], str] = {
         "casement_pair", "steel_industrial_4x5", "punched_office", "curtain_wall_module", "bay_window",
         "arched_tenement", "dormer", "aluminum_slider", "picture_window", "gothic_arched", "ribbon_strip",
         "chicago_tripartite", "through_wall_ac_sleeve")},
+    # The lit twin of every window whose interior card can be emissive. A glTF instance cannot switch a material
+    # from the record's FLAG_LIT bit, so the kit exports a second copy and the placer names it directly; the two
+    # window types with no interior card (the church window, the AC sleeve) have no lit twin and keep the plain id.
+    **{("window", f"{n}_lit"): f"win_{n}_lit" for n in
+       ("double_hung_1_1", "double_hung_1_1_stone", "double_hung_1_1_soldier", "double_hung_2_2", "double_hung_6_6",
+        "casement_pair", "steel_industrial_4x5", "punched_office", "curtain_wall_module", "bay_window",
+        "arched_tenement", "dormer", "aluminum_slider", "picture_window", "ribbon_strip", "chicago_tripartite")},
     ("window_accessory", "ac_unit_window"): "acc_ac_window_medium",
     ("window_accessory", "ac_unit_window_small"): "acc_ac_window_small",
     ("window_accessory", "ac_unit_window_large"): "acc_ac_window_large",
@@ -116,7 +123,14 @@ ROLE_TO_CATALOG: dict[tuple[str, str], str] = {
     ("storefront", "awning_3_6"): "storefront_awning_36",
     ("storefront", "awning_4_8"): "storefront_awning_48",
     ("storefront", "awning_6_0"): "storefront_awning_60",
-    ("storefront", "sign_band"): "storefront_sign_projecting",
+    # Illuminated shopfront signage. The blank band carries the runtime-swappable SIGN_FACE slot and is used where
+    # the building has a real business name; the worded bands carry the generic NYC trade wording the pipeline
+    # already writes into awning_text where no name is known.
+    ("storefront", "sign_band_blank"): "storefront_sign_band",
+    **{("storefront", f"sign_band_{k}"): f"storefront_sign_band_{k}"
+       for k in ("bodega", "deli", "pharmacy", "restaurant", "bar", "nail_hair", "laundromat", "bank", "clothing",
+                 "electronics", "grocery", "hardware", "coffee", "pizza", "dry_cleaner", "generic_retail")},
+    ("storefront", "projecting_sign"): "storefront_sign_projecting",
     ("storefront", "loading_dock_door"): "entry_loft_roll_gate",
     **{("storefront_interior", n): f"storefront_interior_{n}" for n in
        ("bodega", "deli", "pharmacy", "restaurant", "bar", "nail_hair", "laundromat", "bank", "generic_retail",
@@ -152,6 +166,9 @@ ROLE_TO_CATALOG: dict[tuple[str, str], str] = {
     ("antenna", "roof_satellite_dish"): "antenna_satellite_dish_roof",
     ("billboard", "billboard_wall"): "billboard_wall_mounted",
     ("billboard", "billboard_roof"): "billboard_rooftop",
+    ("billboard", "led_panel"): "sign_led_panel_wall",
+    ("billboard", "led_blade"): "sign_led_blade_tall",
+    ("billboard", "led_ribbon"): "sign_led_ribbon",
     ("scaffold", "sidewalk_shed_bay"): "sidewalk_shed_module",
     ("scaffold", "sidewalk_shed_end"): "sidewalk_shed_corner",
     ("scaffold", "pipe_scaffold_bay"): "scaffold_pipe_bay",

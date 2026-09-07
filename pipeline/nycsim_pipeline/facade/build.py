@@ -40,6 +40,7 @@ from . import enums as E
 from . import osm_match
 from . import placements as P
 from . import roofs as RF
+from . import signage as SG
 from . import rules as R
 from . import schema as FS
 from .kit_ids import write_registry
@@ -783,7 +784,14 @@ def _placements_for_tile(base_tbl: pa.Table, a: pl.DataFrame, e: pl.DataFrame) -
         "rooftop_units": a["rooftop_units"].to_numpy().astype(np.int32),
         "storefront_kind_primary": a["storefront_kind_primary"].to_numpy().astype(np.int64),
         "roof_type": a["roof_type"].to_numpy().astype(np.int64),
+        # Signage evidence, all of it already in the data: the fascia legend follows the building's own
+        # ``awning_text``, the bulletin follows the class's ``billboard`` feature, and the Times Square LED field
+        # follows MapPLUTO's ``C6-7T`` zoning district on the lot (facade/signage.py states each source).
+        "awning_real": a["awning_real"].to_numpy().astype(bool),
+        "sign_band_kind": SG.band_kinds(a["awning_text"].to_list(), a["awning_real"].to_numpy()),
+        "sign_zone": SG.sign_zone_of(base_tbl["bbl"].to_numpy(zero_copy_only=False)),
     }
+    b["has_billboard"] = SG.has_billboard(b["facade_class"])
     runs = {
         "bidx": e["row"].to_numpy().astype(np.int64),
         "x0": e["x0"].to_numpy(), "y0": e["y0"].to_numpy(), "x1": e["x1"].to_numpy(), "y1": e["y1"].to_numpy(),

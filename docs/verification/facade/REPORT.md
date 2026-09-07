@@ -486,13 +486,20 @@ the nearest class is 50 `condo_midrise_2010_glass_brick`. They get a residential
 cladding rather than an industrial or frame class (the test asserts they never get siding), but the limestone is not
 there. A class 58 `condo_tower_2005_limestone` would fix it.
 
-**G-5 — 53 of the 138 exported kit pieces are never placed.** They are detail pieces the placer does not yet call
+**G-5 — 54 of the 174 exported kit pieces are never placed.** They are detail pieces the placer does not yet call
 for: window guards and blinds, curtains, most trim profiles (keystones, water tables, datestones, corner beads), the
 half/closed roll-gate and grille states (the runtime animates the open one instead), `parapet_balustrade`,
-`fire_escape_corner_return`, `hvac_condenser_bank`, the antenna variants, both billboards and both ivy panels. Adding
-them is placement policy, not new geometry. Wall billboards in particular are **deliberately not placed**: there is no
-real source of NYC billboard locations in this environment, and inventing advertising copy would be exactly the kind
-of fabrication the brief forbids.
+`fire_escape_corner_return`, `hvac_condenser_bank`, the antenna variants and one ivy panel. Adding them is placement
+policy, not new geometry. One of the 54 is a sign band: `storefront_sign_band_hardware` is unplaced because the string
+"HARDWARE" never occurs in `awning_text` anywhere in the city — no facade class lists `hardware` among its typical
+storefront kinds and no licence matched one.
+
+*Superseded, 2026-09-07 (§14).* This entry previously read "53 of the 138 exported kit pieces" and said that **both
+billboards are deliberately not placed** because "there is no real source of NYC billboard locations in this
+environment". The second half of that was too broad and is corrected in §14: the *content* of a bulletin still has no
+source and is still left blank, but the *presence* of one is inferred from the `billboard` typology feature of the
+building's own `facade_class`, which is the same ADR-004 mechanism every other class feature uses. Both billboards
+are now placed, with blank faces.
 
 **G-6 — placements are 1.68 GB, not the "< 1 GB" ADR-003 estimated.** 42,068,609 records × 40 bytes. That estimate
 predates the placement policy; 38.8 pieces per building is *modest* for New York (a five-storey tenement with two free
@@ -503,8 +510,10 @@ ADR-003's storage line: "≈ 1.3 GB shells + ≈ 1.7 GB placements".**
 
 **G-7 — awning text is generic where no business name is known.** 30,381 of 80,261 storefronts carry a real DCWP /
 DOHMH / OSM business name (those buildings already have `SIGNAGE_REAL`, bit 6). The other 49,880 get the standard NYC
-wording for their kind ("DELI GROCERY", "NAILS & SPA", "DRY CLEANERS"). The `awning_real` column marks which is which,
-per building.
+wording for their kind ("DELI GROCERY", "NAILS & SPA", "DRY CLEANERS"); 48,021 of those resolve to one of the fifteen
+generic strings and 1,859 are empty (a lobby, a garage door, a vacant unit). The `awning_real` column marks which is
+which, per building. As of §14 that text reaches geometry: a generic string is baked on the sign band, and a real name
+is **not** — it gets a blank lit panel that the runtime fills from `awning_text` on the same `bin`.
 
 **G-8 — corner and street-facing logic depends on the roads stage.** It ran with `roads/segments.parquet` present, so
 both are derived from real CSCL centrelines. A rebuild that ran the facade stage before roads would fall back to
@@ -554,3 +563,111 @@ Data terms, recorded in `data/manifest/downloads.json` by the stages that fetche
 (`osm/buildings.parquet`) — **ODbL 1.0, © OpenStreetMap contributors** — used for `building:material`,
 `building:colour`, `roof:shape` and the `osm_id` match. This stage's own artefacts are recorded in
 `data/manifest/processed.json` under stage `facade`.
+
+---
+
+## 14. Illuminated signage (2026-09-07)
+
+The comparison lane recorded deviation **B15**: the Times Square daylight frame has "no signage of any kind — not a
+screen, not a billboard, not a shopfront sign, not a lit letter", against a photograph that is "60 % illuminated
+advertising by area", and the night frame renders "a grey canyon lit by six street lamps" with "the emissive content
+of the model city close to zero". This section is what was done about it and, just as importantly, what was not.
+
+### 14.1 What each sign is evidence of
+
+`facade/signage.py` keeps three questions apart, because they have three different sources.
+
+| question | source | is it real? |
+|---|---|---|
+| does this shopfront have a sign? | `has_storefront` (MapPLUTO `retailarea`/`comarea`, DCWP licences, DOHMH permits, OSM `shop`) and a non-empty `awning_text` | **real** |
+| what does it say? | `awning_text` + `awning_real` — a real DCWP/DOHMH/OSM business name for 30,381, the generic NYC trade wording for 48,021, empty for 1,859 | **real name for 30,381; the rest is generic wording, flagged** |
+| does this building carry a bulletin? | the `billboard` typology feature of its `facade_class` | **inferred** (ADR-004, `FACADE_INFERRED`) |
+| does this frontage carry a screen? | MapPLUTO `zonedist1`..`zonedist4` = **`C6-7T`** — 59 lots in the whole city, all of them in the Times Square bowtie | **real, per lot** |
+
+**`C6-7T` is the find that made an honest Times Square possible.** The `T` suffix in the Special Midtown District is
+the Times Square core, where illuminated signage is mandatory rather than merely permitted, and MapPLUTO carries it
+per lot. Measured on the shipped extract: 56 lots as `zonedist1`, 3 more as `zonedist2`, and every one of the 59 lies
+inside latitude 40.7565–40.7616, longitude −73.9867 to −73.9828 — a 570 × 320 m box on Broadway and Seventh Avenue
+between 42nd and 50th Streets. No hand-drawn polygon, no guessed boundary: a published per-lot attribute of a dataset
+that was already in this repository.
+
+`test_the_sign_zone_lots_are_all_in_times_square` asserts that every building the zone claims is within 400 m of
+Duffy Square, so a future PLUTO refresh that put `C6-7T` somewhere else would fail rather than light the wrong city.
+
+### 14.2 What is placed
+
+**42,546,790 placements** across 920 tiles (1.702 GB), up from 42,068,609 (1.683 GB) — **+478,181 records, +1.1 %**.
+920/920 tiles validated, 0 problems, 120 distinct kit ids in use (was 85).
+
+| piece | records | placed where |
+|---|--:|---|
+| `storefront_sign_band` (blank lit fascia) | **279,624** | shopfront runs of the buildings whose `awning_text` is a **real business name** — the panel is lit and blank, and the runtime binds the name from `awning_text` on the same `bin` |
+| `storefront_sign_band_<kind>` (15 of 16 used) | **305,082** | shopfront runs whose `awning_text` is the generic wording for that kind. `storefront_sign_band_hardware` is never placed: "HARDWARE" occurs nowhere in `awning_text` |
+| `storefront_sign_projecting` (blade sign) | **56,214** | 35 % of shopfront runs that carry a fascia band |
+| `billboard_wall_mounted` (blank vinyl) | **1,161** | street facade of a `billboard`-class building whose primary run is ≥ 13.6 m and whose wall clears 6.75 m above the shopfront storey |
+| `billboard_rooftop` (blank vinyl) | **6,269** | roof of a `billboard`-class building of ≤ 4 floors and ≥ 300 m² whose footprint can actually contain the 14.95 m board (both ends tested inside the polygon) |
+| `sign_led_panel_wall` / `_blade_tall` / `_ribbon` | **1,036 / 41 / 56** | street-facing frontages of the buildings on a `C6-7T` lot, from the top of the shopfront storey to 30 m, one 6.10 × 3.05 m module at a time |
+| `win_<type>_lit` | **9,048,881** of 30,435,823 windows (**29.7 %**) | the windows the existing `lit_seed` draw already flagged `FLAG_LIT` — no extra records at all, the id changes instead |
+
+**34,102 buildings** carry the `billboard` class feature; **7,430 of them (21.8 %)** get a bulletin, because the rest
+have no wall long or tall enough and no roof big enough. Two classes carry the feature but never get a *rooftop*
+board (`derive.NO_ROOF_BILLBOARD_CLASSES`): a gas-station canopy has no roof deck to stand an 8.6 m steel frame on,
+and a one- or two-storey corner taxpayer advertises on its wall and its fascia, not on a rooftop bulletin. Both stay
+eligible for the wall board.
+
+**57 buildings** stand on the 59 `C6-7T` lots and carry the 1,133 LED modules between them.
+
+### 14.3 What the night city emits now
+
+`flags` bit 0 already said which windows have their lights on; nothing consumed it, because a glTF instance cannot
+switch a material from a flag. The kit now exports a `win_<type>_lit` twin of every window that has an interior card
+and the placer names it directly — so **9.05 M windows changed from the unlit interior card (emission 0.85) to the
+lit one (1.6) at a cost of zero extra records and zero extra bytes**. Every sign placement carries `FLAG_LIT`, and
+the sign faces are emissive in the kit: 2.2 for an internally-lit shopfront box sign, 7.0 for an LED display, 0.55
+for floodlit bulletin vinyl.
+
+### 14.4 What was refused
+
+* **No invented advertising copy, anywhere.** ADR-004 and deviation B5 are unchanged in substance: there is still no
+  source that says what any New York bulletin or screen carries, so every bulletin face is blank vinyl and every LED
+  face carries the pixel matrix of the display hardware and nothing else. `test_every_shipped_sign_legend_is_generic_
+  wording_or_blank` is the gate: a kit piece may declare a legend only if that string is one of the fifteen generic
+  trade strings the pipeline itself writes into `awning_text`, or the empty string.
+* **No real business name is baked into geometry.** The 30,381 shopfronts with a real name get a *blank lit panel*.
+  The name is in the data and the contract says where a runtime binds it (DATA_CONTRACTS §6.1.1), but an instanced
+  kit carries one texture per piece and the offline verification frames therefore show those fascias unlettered.
+  This is a stated gap, not a solved problem: closing it needs per-instance texture binding at runtime.
+* **The Times Square screens show nothing.** Placing a screen where the zoning says a screen must be is inference of
+  the same kind as every other class feature. Painting an advertisement on it would be fabrication, so the face is
+  the LED matrix on its black substrate: unmistakably a display, asserting nothing about content.
+
+### 14.5 Correction to an earlier claim in this report
+
+G-5 said wall billboards were unplaced because "there is no real source of NYC billboard locations in this
+environment". That was too broad and is corrected here. Two sources exist and both are now used:
+
+* the `billboard` class feature — inference, flagged, blank-faced;
+* **292 OSM `advertising=billboard` nodes** in the city extract, which the *furniture* stage already places as
+  free-standing props (`furniture.catalog` kind 15). None of them is within 1 km of Times Square, and this stage
+  does not duplicate them.
+
+### 14.6 Verification
+
+```
+python -m nycsim_pipeline.facade.build emit      920 tiles, 42,546,790 placements, 1,701,871,600 bytes, 149 s,
+                                                 peak RSS 1,182 MB, 920/920 schema-validated, 0 problems
+python -m nycsim_pipeline.facade.validate_placements
+                                                 920 tiles checked, 0 with problems, 120 distinct kit ids,
+                                                 all registered, 54 catalog entries never placed
+PYTHONPATH=pipeline pytest pipeline/tests/test_facade.py pipeline/tests/test_facade_signage.py -q   55 passed
+python3 -m pytest tests/test_kit_facade.py -q                                                     1462 passed
+```
+
+`pipeline/tests/test_facade_signage.py` adds **19 tests**: the two generic-wording tables agree between the kit and
+the pipeline; no shipped legend is anything but generic wording or blank; no real business name is baked; the sign
+zone is the published district and every one of its lots is in the bowtie; every placed kit id resolves to an
+exported `.glb`; signs lie inside their own building's footprint; wall signs sit between pavement and roof and
+rooftop bulletins on the roof deck; bands only where `has_storefront`, bulletins only where the class carries the
+feature (and at most one per building), LED only on a sign-zone lot; every sign is flagged lit; a `_lit` window piece
+appears exactly where `FLAG_LIT` is set; the band a building gets carries that building's own `awning_text`; and the
+whole stream regenerates byte-identically.

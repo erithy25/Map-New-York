@@ -582,7 +582,7 @@ def _billboard_roof():
     z0 = 3.000                       # bottom of the face above the roof deck
     z1 = z0 + H
     x0, x1 = -W / 2, W / 2
-    m.box((x0, -0.030, z0), (x1, 0.030, z1), "metal_panel", faces="yY")                       # face
+    m.box((x0, -0.030, z0), (x1, 0.030, z1), "SIGN_FACE_BULLETIN", faces="yY")                # blank vinyl face
     m.box((x0 - 0.16, -0.09, z0 - 0.16), (x1 + 0.16, 0.09, z0), "metal_panel")                # bottom moulding
     m.box((x0 - 0.16, -0.09, z1), (x1 + 0.16, 0.09, z1 + 0.16), "metal_panel")
     for s in (-1, 1):
@@ -620,7 +620,7 @@ def _billboard_wall():
     m = K.Mesh()
     W, H = 12.190, 6.100
     x0, x1 = -W / 2, W / 2
-    m.box((x0, -0.42, 0.0), (x1, -0.36, H), "metal_panel", faces="yY")
+    m.box((x0, -0.42, 0.0), (x1, -0.36, H), "SIGN_FACE_BULLETIN", faces="yY")   # blank vinyl face
     for e, (a, b) in enumerate(((x0 - 0.10, x0), (x1, x1 + 0.10))):
         m.box((a, -0.46, -0.10), (b, -0.32, H + 0.10), "metal_panel")
     m.box((x0 - 0.10, -0.46, H), (x1 + 0.10, -0.32, H + 0.10), "metal_panel")

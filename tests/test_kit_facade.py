@@ -306,8 +306,15 @@ NOT_RECESSED = {
     "win_curtain_wall_module": "curtain-wall glazing sits in the facade plane by construction",
     "win_dormer": "a dormer stands out of the roof slope, not in a masonry reveal",
 }
+
+
+def _recess_key(pid: str) -> str:
+    """A ``win_*_lit`` variant is the same geometry as its unlit twin, so it inherits its reveal exemption."""
+    return pid[:-4] if pid.endswith("_lit") else pid
+
+
 _RECESSED = [e for e in ENTRIES
-             if e["category"] == "window" and "glazing_setback_m" in e and e["id"] not in NOT_RECESSED]
+             if e["category"] == "window" and "glazing_setback_m" in e and _recess_key(e["id"]) not in NOT_RECESSED]
 
 
 @pytest.mark.parametrize("entry", _RECESSED, ids=[e["id"] for e in _RECESSED])

@@ -33,8 +33,9 @@ import numpy as np
 import shapely
 
 from . import enums as E
-from .derive import CLASS, SALT_AC_UNIT, SALT_GATE, SALT_STOREFRONT_BAY, SALT_VARIANT, SALT_WINDOW_LIT, TANK_PIECE
-from .kit_ids import FLAG_ANIMATED, FLAG_INTERIOR, FLAG_LIT, kit_id
+from .derive import CLASS, NO_ROOF_BILLBOARD_CLASSES, SALT_AC_UNIT, SALT_GATE, SALT_STOREFRONT_BAY, SALT_VARIANT, SALT_WINDOW_LIT, TANK_PIECE
+from .kit_ids import FLAG_ANIMATED, FLAG_INTERIOR, FLAG_LIT, has_piece, kit_id, piece_size
+from .signage import BAND_BLANK, BAND_NONE, SIGN_ZONE_TIMES_SQUARE
 
 log = logging.getLogger("nycsim.facade.placements")
 
@@ -71,8 +72,36 @@ MAX_PLACEMENTS_PER_BUILDING = 2500
 ROOF_INSET_FRACTION = 0.28    # roof equipment sits this fraction of sqrt(area) from the roof anchor
 MAX_RUN_SCALE = 12.0          # a run piece is split into segments rather than stretched further than this
 
+# --- signage (see facade/signage.py for what each of these is evidence for) --------------------------------------------
+SIGN_BAND_NOMINAL_W_M = 3.6   # the kit's fascia band module: one 12 ft shopfront bay
+SIGN_BAND_H_M = 0.80
+PROJECTING_SIGN_SHARE = 0.35  # share of shopfront runs that also hang a blade sign off the pier
+PROJECTING_SIGN_Z_M = 2.95    # bracket height above the pavement, above the awning and below the fascia
+BULLETIN_CLEAR_ABOVE_GROUND_M = 1.2   # a wall bulletin starts this far above the shopfront storey
+BULLETIN_MIN_RUN_MARGIN_M = 1.2       # the run must be at least this much longer than the board
+ROOF_BULLETIN_MAX_FLOORS = 4          # a rooftop bulletin sits on a low taxpayer, not on a tower
+ROOF_BULLETIN_MIN_ROOF_AREA_M2 = 300.0
+LED_BAND_BOTTOM_ABOVE_GROUND_M = 0.5  # the LED field starts just above the shopfront storey
+LED_MAX_HEIGHT_ABOVE_GROUND_M = 30.0  # and stops here: Times Square signage is a base-of-building band
+LED_MAX_PANELS_PER_BUILDING = 60
+LED_MIN_RUN_M = 6.5
+
 _CURTAIN_WALL = E.WINDOW_TYPE_INDEX["curtain_wall_module"]
 _THROUGH_WALL = E.WINDOW_TYPE_INDEX["through_wall_ac_sleeve"]
+
+
+def _window_kids() -> tuple[np.ndarray, np.ndarray]:
+    """``(unlit, lit)`` kit ids indexed by window type.
+
+    ``flags`` bit 0 already says which windows have their lights on at night, but a glTF instance cannot switch its
+    interior card from a flag, so the kit exports a lit twin of every window that has one and the placer names it.
+    A window type with no lit twin (the church window, the through-wall sleeve) keeps its plain id, so the lit
+    stream never references a piece that does not exist.
+    """
+    unlit = np.asarray([kit_id("window", n) for n in E.WINDOW_TYPE_NAMES], dtype=np.uint32)
+    lit = np.asarray([kit_id("window", f"{n}_lit") if has_piece("window", f"{n}_lit") else kit_id("window", n)
+                      for n in E.WINDOW_TYPE_NAMES], dtype=np.uint32)
+    return unlit, lit
 
 
 @dataclass
@@ -221,7 +250,8 @@ def build_placements(b: dict[str, np.ndarray], runs: dict[str, np.ndarray], geom
         # ``through_wall_ac_sleeve`` names the sleeve opening, not a window: the 2000s infill type really has a
         # normal one-over-one sash with the sleeve punched underneath, so place both.
         wt_place = np.where(wt[wb] == _THROUGH_WALL, E.WINDOW_TYPE_INDEX["double_hung_1_1"], wt[wb])
-        kid = np.asarray([kit_id("window", n) for n in E.WINDOW_TYPE_NAMES], dtype=np.uint32)[wt_place]
+        w_unlit, w_lit = _window_kids()
+        kid = np.where(lit, w_lit[wt_place], w_unlit[wt_place]).astype(np.uint32)
         wscale = np.where(curtain, np.minimum(step[w_bay] / np.maximum(bay_w[wb], 0.5), 2.0), 1.0)
         acc.add(kid, b["bin"][wb], wx, wy, wz, wyaw, wscale.astype(np.float32), vseed,
                 np.where(lit, FLAG_LIT, 0).astype(np.uint32))
@@ -239,7 +269,7 @@ def build_placements(b: dict[str, np.ndarray], runs: dict[str, np.ndarray], geom
                     (wz[tw] - 0.55), wyaw[tw], np.float32(1.0), vseed[tw], np.uint32(0))
 
     # ---- ground floor: storefront / stoop+door / lobby / garage --------------------------------------------------------
-    _ground_floor(acc, b, nb, r_b, r_len, r_x0, r_y0, r_ux, r_uy, r_yaw, r_free, r_street, prim, gz, gfh, fh,
+    _ground_floor(acc, b, nb, r_b, r_len, r_x0, r_y0, r_ux, r_uy, r_yaw, r_free, r_street, prim, gz, gfh, fh, rz,
                   bay_w, wt, fc, seed, is_garage, residential, office_like, cls1)
 
     # ---- fire escapes ---------------------------------------------------------------------------------------------------
@@ -371,6 +401,10 @@ def build_placements(b: dict[str, np.ndarray], runs: dict[str, np.ndarray], geom
     # ---- roof: water tower, bulkheads, HVAC, antennas -----------------------------------------------------------------
     _roof_equipment(acc, b, geoms, fc, floors, rz, seed, nb)
 
+    # ---- bulletins and Times Square LED displays -------------------------------------------------------------------------
+    _signage(acc, b, geoms, r_b, r_len, r_x0, r_y0, r_ux, r_uy, r_yaw, r_free, r_street, r_idx, prim,
+             fc, floors, gz, gfh, rz, seed)
+
     # a brick chimney on the pitched-roof house stock (roof_type 1 gable, 2 hip, 3 mansard)
     chim = np.nonzero(np.isin(b["roof_type"], [1, 2, 3]) & (b["footprint_area"] >= 35.0))[0]
     if len(chim):
@@ -407,7 +441,7 @@ def _primary_run(r_b: np.ndarray, r_len: np.ndarray, r_free: np.ndarray, r_stree
 
 
 def _ground_floor(acc: Accum, b, nb, r_b, r_len, r_x0, r_y0, r_ux, r_uy, r_yaw, r_free, r_street, prim,
-                  gz, gfh, fh, bay_w, wt, fc, seed, is_garage, residential, office_like, cls1) -> None:
+                  gz, gfh, fh, rz, bay_w, wt, fc, seed, is_garage, residential, office_like, cls1) -> None:
     """Ground-floor treatment: storefront bays, stoop and entrance, lobby door, garage door, ground windows."""
     r_idx = np.arange(len(r_b), dtype=np.int64)
     has_sf = b["has_storefront"].astype(bool)
@@ -433,13 +467,24 @@ def _ground_floor(acc: Accum, b, nb, r_b, r_len, r_x0, r_y0, r_ux, r_uy, r_yaw, 
         pick = np.argmin(np.abs(step[:, None] - sf_bay_w[None, :]), axis=1)
         acc.add(sf_bay_kids[pick], b["bin"][sb], sx, sy, gz[sb], r_yaw[rep], (step / sf_bay_w[pick]).astype(np.float32),
                 vs, np.uint32(FLAG_LIT))
-        # sign band above the glass: segments of at most MAX_RUN_SCALE nominal widths along the shopfront
-        bseg, bt, blen = _split_run(sf_runs, r_len[sf_runs], 3.6)
-        bb2 = r_b[bseg]
-        acc.add(np.uint32(kit_id("storefront", "sign_band")), b["bin"][bb2],
-                r_x0[bseg] + r_ux[bseg] * bt, r_y0[bseg] + r_uy[bseg] * bt,
-                (gz[bb2] + np.minimum(gfh[bb2], 4.5) - 0.85), r_yaw[bseg], (blen / 3.6).astype(np.float32),
-                _seed_mix(seed[bb2], bseg, bt.astype(np.int64), salt=SALT_STOREFRONT_BAY + 1), np.uint32(FLAG_LIT))
+        # Internally-lit fascia sign band across the top of the shopfront storey, in whole 3.6 m modules so the
+        # legend is never stretched across a whole frontage. Which band a building gets is decided by the
+        # ``awning_text`` it already carries: a real business name -> the blank runtime-swappable panel, the generic
+        # NYC trade wording -> the band that carries exactly that wording, an empty string -> no band at all.
+        _sign_bands(acc, b, sf_runs, r_b, r_len, r_x0, r_y0, r_ux, r_uy, r_yaw, gz, gfh, rz, seed)
+        # A blade sign hung off the pier on a share of the shopfronts, the way a New York side street reads.
+        pv = _seed_mix(seed[r_b[sf_runs]], sf_runs, salt=SALT_STOREFRONT_BAY + 2)
+        band_kind = b.get("sign_band_kind")
+        pj = sf_runs[(E.rand_unit(pv, SALT_GATE + 2) < PROJECTING_SIGN_SHARE)
+                     & (band_kind[r_b[sf_runs]] != BAND_NONE if band_kind is not None
+                        else np.zeros(len(sf_runs), dtype=bool))]
+        if len(pj):
+            pb = r_b[pj]
+            pt = np.minimum(r_len[pj] * 0.5, r_len[pj] - 0.9)
+            pz = gz[pb] + np.clip(np.minimum(PROJECTING_SIGN_Z_M, rz[pb] - gz[pb] - 0.25), 1.0, PROJECTING_SIGN_Z_M)
+            acc.add(np.uint32(kit_id("storefront", "projecting_sign")), b["bin"][pb],
+                    r_x0[pj] + r_ux[pj] * pt, r_y0[pj] + r_uy[pj] * pt, pz, r_yaw[pj],
+                    np.float32(1.0), _seed_mix(seed[pb], pj, salt=SALT_STOREFRONT_BAY + 3), np.uint32(FLAG_LIT))
         # roll-down gate on a share of the bays (the runtime lowers them at night: FLAG_ANIMATED)
         gate_kids = np.asarray([kit_id("storefront", n) for n in
                                 ("roll_gate_open_3_6", "roll_gate_open_4_8", "roll_gate_open_6_0")], dtype=np.uint32)
@@ -531,10 +576,162 @@ def _ground_floor(acc: Accum, b, nb, r_b, r_len, r_x0, r_y0, r_ux, r_uy, r_yaw, 
         curtain = wt[bi] == _CURTAIN_WALL
         z = np.where(curtain, gz[bi], gz[bi] + GROUND_SILL_M + np.maximum(entry_z[bi] - gz[bi] - 0.6, 0.0))
         vseed = _seed_mix(seed[bi], run[rep], k, salt=SALT_VARIANT + 7)
-        kid = np.asarray([kit_id("window", n) for n in E.WINDOW_TYPE_NAMES], dtype=np.uint32)[wt[bi]]
         lit = E.rand_unit(vseed, SALT_WINDOW_LIT) < LIT_SHARE_RESIDENTIAL
+        g_unlit, g_lit = _window_kids()
+        kid = np.where(lit, g_lit[wt[bi]], g_unlit[wt[bi]]).astype(np.uint32)
         acc.add(kid, b["bin"][bi], gx, gy, z, r_yaw[run[rep]], np.float32(1.0), vseed,
                 np.where(lit, FLAG_LIT, 0).astype(np.uint32))
+
+
+def _sign_bands(acc: Accum, b, sf_runs, r_b, r_len, r_x0, r_y0, r_ux, r_uy, r_yaw, gz, gfh, rz, seed) -> None:
+    """Lit fascia sign bands along the shopfront runs, one 3.6 m module at a time.
+
+    ``b["sign_band_kind"]`` comes from :func:`facade.signage.band_kinds`, which reads the building's own
+    ``awning_text``: ``BAND_NONE`` for a shopfront with no wording (a lobby, a garage door, a vacant unit),
+    ``BAND_BLANK`` where a real business name is known and the runtime binds it, otherwise the storefront-kind index
+    whose generic wording the text is.  Nothing here decides what a sign says; it only decides that a lit surface
+    is there.
+    """
+    kind = b.get("sign_band_kind")
+    if kind is None:
+        return
+    runs = sf_runs[kind[r_b[sf_runs]] != BAND_NONE]
+    if not len(runs):
+        return
+    blank_kid = np.uint32(kit_id("storefront", "sign_band_blank"))
+    by_kind = np.full(len(E.STOREFRONT_KINDS), blank_kid, dtype=np.uint32)
+    for i, name in enumerate(E.STOREFRONT_KINDS):
+        if has_piece("storefront", f"sign_band_{name}"):
+            by_kind[i] = kit_id("storefront", f"sign_band_{name}")
+    n_mod = np.clip(np.rint(r_len[runs] / SIGN_BAND_NOMINAL_W_M).astype(np.int64), 1, MAX_STOREFRONT_BAYS)
+    rep = np.repeat(runs, n_mod)
+    k = _index_within(n_mod)
+    step = r_len[rep] / np.repeat(n_mod, n_mod)
+    t = (k + 0.5) * step
+    bb = r_b[rep]
+    kk = kind[bb]
+    kid = np.where(kk == BAND_BLANK, blank_kid, by_kind[np.maximum(kk, 0)]).astype(np.uint32)
+    # the band sits under the head of the shopfront storey, with its 0.80 m face inside that storey and never
+    # standing above the building's own roof (a one-storey taxpayer can be shorter than a nominal shop front)
+    head = np.minimum(np.clip(gfh[bb], 3.2, 5.4), np.maximum(rz[bb] - gz[bb], SIGN_BAND_H_M + 0.15))
+    z = gz[bb] + np.maximum(head - SIGN_BAND_H_M - 0.05, 0.10)
+    acc.add(kid, b["bin"][bb], r_x0[rep] + r_ux[rep] * t, r_y0[rep] + r_uy[rep] * t, z, r_yaw[rep],
+            (step / SIGN_BAND_NOMINAL_W_M).astype(np.float32),
+            _seed_mix(seed[bb], rep, k, salt=SALT_STOREFRONT_BAY + 1), np.uint32(FLAG_LIT))
+
+
+def _signage(acc: Accum, b, geoms, r_b, r_len, r_x0, r_y0, r_ux, r_uy, r_yaw, r_free, r_street, r_idx, prim,
+             fc, floors, gz, gfh, rz, seed) -> None:
+    """Bulletin billboards and Times Square LED displays.
+
+    Two sources, both real, neither of which says a word about content:
+
+    * the ``billboard`` feature of the building's ``facade_class`` - the seven New York typologies that carry
+      bulletins - places a **blank** vinyl bulletin, on the street wall where the wall can hold one and on the roof
+      of a low taxpayer where the roof can;
+    * ``sign_zone == SIGN_ZONE_TIMES_SQUARE``, which is MapPLUTO's own ``C6-7T`` zoning district (56 lots, all of
+      them the Times Square core of the Special Midtown District), clads the frontage in LED display modules whose
+      faces carry the pixel matrix and no imagery.
+    """
+    bins = b["bin"]
+    bill = b.get("has_billboard")
+    if bill is None:
+        bill = CLASS.has_billboard[fc]
+    wall_w, _, wall_h = piece_size(kit_id("billboard", "billboard_wall"))
+    roof_w, _, roof_h = piece_size(kit_id("billboard", "billboard_roof"))
+
+    # ---- wall bulletin on the street facade -----------------------------------------------------------------------
+    cand = np.nonzero(bill & (prim >= 0))[0]
+    if len(cand):
+        run = prim[cand]
+        z0 = gz[cand] + gfh[cand] + BULLETIN_CLEAR_ABOVE_GROUND_M
+        fits = (r_len[run] >= wall_w + BULLETIN_MIN_RUN_MARGIN_M) & ((rz[cand] - z0) >= wall_h)
+        w = cand[fits]
+        if len(w):
+            rw = prim[w]
+            t = r_len[rw] * 0.5
+            acc.add(np.uint32(kit_id("billboard", "billboard_wall")), bins[w],
+                    r_x0[rw] + r_ux[rw] * t, r_y0[rw] + r_uy[rw] * t,
+                    (gz[w] + gfh[w] + BULLETIN_CLEAR_ABOVE_GROUND_M), r_yaw[rw], np.float32(1.0),
+                    _seed_mix(seed[w], rw, salt=SALT_VARIANT + 20), np.uint32(FLAG_LIT))
+        wall_done = np.zeros(len(bill), dtype=bool)
+        wall_done[w] = True
+    else:
+        wall_done = np.zeros(len(bill), dtype=bool)
+
+    # ---- rooftop bulletin on a low building with a roof big enough to carry one -------------------------------------
+    roof_cand = np.nonzero(bill & ~wall_done & (prim >= 0) & (floors <= ROOF_BULLETIN_MAX_FLOORS)
+                           & ~np.isin(fc, list(NO_ROOF_BILLBOARD_CLASSES))
+                           & (b["footprint_area"] >= ROOF_BULLETIN_MIN_ROOF_AREA_M2))[0]
+    if len(roof_cand):
+        run = prim[roof_cand]
+        anchor = shapely.get_coordinates(shapely.point_on_surface(geoms[roof_cand]))
+        ax, ay = anchor[:, 0], anchor[:, 1]
+        half = roof_w * 0.5
+        ex0, ey0 = ax - r_ux[run] * half, ay - r_uy[run] * half
+        ex1, ey1 = ax + r_ux[run] * half, ay + r_uy[run] * half
+        inside = shapely.contains_xy(geoms[roof_cand], ex0, ey0) & shapely.contains_xy(geoms[roof_cand], ex1, ey1)
+        sel = np.nonzero(inside)[0]
+        if len(sel):
+            acc.add(np.uint32(kit_id("billboard", "billboard_roof")), bins[roof_cand][sel], ax[sel], ay[sel],
+                    rz[roof_cand][sel], r_yaw[run][sel], np.float32(1.0),
+                    _seed_mix(seed[roof_cand][sel], run[sel], salt=SALT_VARIANT + 21), np.uint32(FLAG_LIT))
+
+    # ---- Times Square: LED display modules across the frontage ------------------------------------------------------
+    zone = b.get("sign_zone")
+    if zone is None:
+        return
+    ts = np.asarray(zone) == SIGN_ZONE_TIMES_SQUARE
+    if not ts.any():
+        return
+    panel_w, _, panel_h = piece_size(kit_id("billboard", "led_panel"))
+    ribbon_w, _, ribbon_h = piece_size(kit_id("billboard", "led_ribbon"))
+    blade_w, _, blade_h = piece_size(kit_id("billboard", "led_blade"))
+    runs = r_idx[ts[r_b] & r_free & (r_len >= LED_MIN_RUN_M) & (r_street | (r_idx == prim[r_b]))]
+    if not len(runs):
+        return
+    rb = r_b[runs]
+    z_base = gz[rb] + gfh[rb] + LED_BAND_BOTTOM_ABOVE_GROUND_M
+    z_top = np.minimum(rz[rb] - 1.0, gz[rb] + LED_MAX_HEIGHT_ABOVE_GROUND_M)
+    ncol = np.clip(np.floor(r_len[runs] / panel_w).astype(np.int64), 0, 12)
+    nrow = np.clip(np.floor((z_top - z_base) / panel_h).astype(np.int64), 0, 8)
+    per_run = np.minimum(ncol * nrow, LED_MAX_PANELS_PER_BUILDING)
+    keep = per_run > 0
+    if keep.any():
+        sel = np.nonzero(keep)[0]
+        cols, rows = ncol[sel], nrow[sel]
+        cnt = cols * rows
+        rep = np.repeat(sel, cnt)
+        idx = _index_within(cnt)
+        col = idx % np.repeat(cols, cnt)
+        row = idx // np.repeat(cols, cnt)
+        rr = runs[rep]
+        bb = r_b[rr]
+        step = r_len[rr] / np.repeat(cols, cnt)
+        t = (col + 0.5) * step
+        z = z_base[rep] + row * panel_h
+        acc.add(np.uint32(kit_id("billboard", "led_panel")), b["bin"][bb],
+                r_x0[rr] + r_ux[rr] * t, r_y0[rr] + r_uy[rr] * t, z, r_yaw[rr],
+                (step / panel_w).astype(np.float32), _seed_mix(seed[bb], rr, idx, salt=SALT_VARIANT + 22),
+                np.uint32(FLAG_LIT))
+    # a ribbon board immediately above the shopfront storey, and a vertical blade at the end of the frontage
+    rib = runs[r_len[runs] >= ribbon_w * 0.6]
+    if len(rib):
+        rbb = r_b[rib]
+        t = r_len[rib] * 0.5
+        acc.add(np.uint32(kit_id("billboard", "led_ribbon")), b["bin"][rbb],
+                r_x0[rib] + r_ux[rib] * t, r_y0[rib] + r_uy[rib] * t,
+                (gz[rbb] + gfh[rbb] - ribbon_h - 0.1), r_yaw[rib],
+                np.minimum(r_len[rib] / ribbon_w, MAX_RUN_SCALE).astype(np.float32),
+                _seed_mix(seed[rbb], rib, salt=SALT_VARIANT + 23), np.uint32(FLAG_LIT))
+    blade = runs[(r_len[runs] >= blade_w + 2.0) & ((rz[r_b[runs]] - gz[r_b[runs]]) >= blade_h + 10.0)]
+    if len(blade):
+        bbb = r_b[blade]
+        t = np.maximum(r_len[blade] - blade_w * 0.6, blade_w * 0.6)
+        acc.add(np.uint32(kit_id("billboard", "led_blade")), b["bin"][bbb],
+                r_x0[blade] + r_ux[blade] * t, r_y0[blade] + r_uy[blade] * t,
+                (gz[bbb] + gfh[bbb] + LED_BAND_BOTTOM_ABOVE_GROUND_M), r_yaw[blade], np.float32(1.0),
+                _seed_mix(seed[bbb], blade, salt=SALT_VARIANT + 24), np.uint32(FLAG_LIT))
 
 
 def _roof_equipment(acc: Accum, b, geoms: np.ndarray, fc, floors, rz, seed, nb) -> None:
@@ -666,6 +863,18 @@ def write_tile(rec: np.ndarray, tile: str, out_dir: Path, extra: dict | None = N
             {"name": "flags", "type": "uint32", "bits": {"0": "lit at night", "1": "animated", "2": "interior-visible"}},
         ],
         "sorted_by": ["bin", "kit_id"],
+        # Signage: the geometry is here, the words are in the buildings table. A piece whose catalog entry declares
+        # a ``sign_face_slot`` named SIGN_FACE* carries a runtime-swappable face with UV 0..1 over the panel; for a
+        # storefront sign band the legend for an instance is ``awning_text`` of the same ``bin`` in
+        # ``tiles/{tile}/buildings.parquet``, and ``awning_real`` says whether that text is a real business name or
+        # the generic New York trade wording for the kind. An LED display face carries no content at all.
+        "sign_face_binding": {
+            "slot_prefix": "SIGN_FACE",
+            "storefront_sign_band": "buildings.parquet awning_text of the same bin (awning_real says if it is a "
+                                    "real business name)",
+            "sign_led_*": "no content: the face models the display hardware",
+            "billboard_*": "blank vinyl: no source in this environment says what a New York bulletin carries",
+        },
         # ``kit_ids`` is the plain id list the cross-stage catalog check reads; the breakdown sits next to it.
         "kit_ids": [int(k) for k in kid],
         "kit_id_counts": [{**piece_info(int(k)), "count": int(c)} for k, c in zip(kid, cnt)],
