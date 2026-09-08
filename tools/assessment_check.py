@@ -49,12 +49,33 @@ def haystack(slug: str) -> str:
     return "\n".join(parts)
 
 
+def hay_numbers(hay: str) -> list[float]:
+    """Every number in the artefacts, so a rounded quotation can be matched against its source."""
+    out = []
+    for m in re.findall(r"-?\d+\.?\d*(?:[eE][-+]?\d+)?", hay):
+        try:
+            out.append(float(m))
+        except ValueError:
+            pass
+    return out
+
+
+def rounds_from(value: float, decimals: int, pool: list[float]) -> bool:
+    """True when some recorded number rounds to ``value`` at the precision it was quoted to.
+
+    Without this the checker flags every rounded figure -- a sun elevation quoted as 43.6 against a
+    record holding 43.55941268305585 -- and 172 assessments of noise is a checker nobody reads.
+    """
+    return any(round(v, decimals) == value for v in pool)
+
+
 def unsourced(slug: str) -> list[tuple[str, str]]:
     md = COMPARISON / slug / "assessment.md"
     if not md.is_file():
         return []
     text = md.read_text()
     hay = haystack(slug)
+    pool = hay_numbers(hay)
     out = []
     for n in sorted(set(re.findall(r"(?<![\w.])(\d[\d,]*\.?\d*)", text)), key=len, reverse=True):
         if BOILERPLATE.match(n.replace(",", "")):
@@ -63,6 +84,14 @@ def unsourced(slug: str) -> list[tuple[str, str]]:
         trimmed = plain.rstrip("0").rstrip(".") if "." in plain else plain
         if plain in hay or n in hay or (trimmed and trimmed in hay):
             continue
+        try:
+            value = float(plain)
+        except ValueError:
+            value = None
+        if value is not None:
+            decimals = len(plain.split(".")[1]) if "." in plain else 0
+            if rounds_from(value, decimals, pool):
+                continue
         line = next((l.strip() for l in text.splitlines() if n in l), "")
         out.append((n, line))
     return out
@@ -74,8 +103,14 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--context", action="store_true")
     a = ap.parse_args(argv)
     slugs = a.slugs or sorted(p.parent.name for p in COMPARISON.glob("*/assessment.md"))
-    bad = 0
+    bad = stale = 0
     for slug in slugs:
+        md = COMPARISON / slug / "assessment.md"
+        rec = COMPARISON / slug / "render.json"
+        if md.is_file() and rec.is_file() and md.stat().st_mtime < rec.stat().st_mtime:
+            stale += 1
+            print(f"STALE {slug}: the assessment is older than the render it describes")
+            continue
         rows = unsourced(slug)
         if not rows:
             print(f"ok    {slug}")
@@ -84,8 +119,9 @@ def main(argv: list[str] | None = None) -> int:
         print(f"CHECK {slug}: {len(rows)} figure(s) not in the record")
         for n, line in rows:
             print(f"        {n}" + (f"   {line[:120]}" if a.context else ""))
-    print(f"\n{len(slugs)} assessments, {bad} with figures that need a source in the prose")
-    return 1 if bad else 0
+    print(f"\n{len(slugs)} assessments, {stale} older than their own render, "
+          f"{bad} with figures that need a source in the prose")
+    return 1 if (bad or stale) else 0
 
 
 if __name__ == "__main__":
