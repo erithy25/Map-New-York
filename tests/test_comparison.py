@@ -1486,3 +1486,46 @@ def test_a_photographic_texture_does_not_set_the_citys_brightness():
             assert alb["scale"] <= 4.0 + 1e-9 and alb["scale"] >= 0.25 - 1e-9, (d.name, base, alb)
             if alb.get("capped_at"):
                 assert "residual" in alb and "note" in alb, (d.name, base, alb)
+
+
+def test_the_sky_delivers_the_diffuse_light_the_exposure_model_assumes():
+    """The sun-to-sky ratio decides how much contrast a frame has, and it was a bare constant.
+
+    ``setup_world_and_sun`` computes its exposure from ``dni * sin(elevation) + DIFFUSE_KEY_W``,
+    so the model states that diffuse light is 90 W/m2 against roughly 880 direct at a high Sun --
+    near 10:1. It then set the sky to ``SKY_STRENGTH_DAY = 0.25``, which measures out at 0.63:1 at
+    69.5 deg and 0.04:1 at 5 deg: every daylight frame lit like an overcast day, with 95th
+    percentiles half the photographs' while the 5th percentiles matched (docs/DEVIATIONS.md J67).
+
+    This holds the two halves of the function to each other. It does not check a photograph.
+    """
+    rs = _skip_without_render_sheets()
+    assert not hasattr(rs, "SKY_STRENGTH_DAY"), \
+        "the uncalibrated day constant is back; the sky strength is derived, not chosen"
+    tbl = rs.SKY_IRRADIANCE_AT_UNIT_STRENGTH
+    assert len(tbl) >= 6 and all(0.0 <= e <= 90.0 and v > 0.0 for e, v in tbl)
+    assert [e for e, _ in tbl] == sorted(e for e, _ in tbl), "the table must be in elevation order"
+
+    import math
+
+    want = rs.DIFFUSE_KEY_W / rs.SUN_CALIBRATION
+    for elev, unit in tbl:
+        got = rs.sky_strength_for(elev) * unit
+        assert abs(got - want) < 1e-9, (
+            f"at {elev} deg the sky delivers {got:.5f} where the exposure model assumes {want:.5f}")
+        # ...and the resulting direct-to-diffuse ratio has to be physical: a clear sky at a high
+        # Sun is 8-11 to 1, and the balance tips to the sky only as the beam attenuates.
+        e = math.radians(elev)
+        air_mass = 1.0 / (math.sin(e) + 0.50572 * (elev + 6.07995) ** -1.6364)
+        dni = rs.SOLAR_CONSTANT_W * (rs.ATMOSPHERIC_TRANSMITTANCE ** (air_mass ** 0.678))
+        ratio = (dni / rs.SUN_CALIBRATION) * math.sin(e) / got
+        if elev >= 60.0:
+            assert 8.0 <= ratio <= 11.5, f"{elev} deg: direct:diffuse {ratio:.2f}:1"
+        if elev <= 10.0:
+            assert ratio < 1.5, f"{elev} deg: direct:diffuse {ratio:.2f}:1 with the Sun on the horizon"
+    # Interpolation between the measured points, and clamping outside them.
+    mid = rs.sky_strength_for((tbl[0][0] + tbl[1][0]) / 2.0)
+    assert min(rs.sky_strength_for(tbl[0][0]), rs.sky_strength_for(tbl[1][0])) <= mid <= \
+        max(rs.sky_strength_for(tbl[0][0]), rs.sky_strength_for(tbl[1][0]))
+    assert rs.sky_strength_for(-20.0) == rs.sky_strength_for(0.0)
+    assert rs.sky_strength_for(89.0) == rs.sky_strength_for(tbl[-1][0])

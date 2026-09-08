@@ -893,6 +893,11 @@ def _normalise_albedo(mat, target_rgb) -> dict | None:
     links = [l for l in img_node.outputs["Color"].links]
     mix = nt.nodes.new("ShaderNodeMixRGB")
     mix.blend_type = "MULTIPLY"
+    # An albedo above 1 would have the surface return more light than reaches it.  Measured over
+    # the twenty maps, clamping costs almost nothing: only white_glazed_brick (5.62 % of texels)
+    # and tan_brick (2.88 %) reach it at all, and a white glazed brick's highlights genuinely sit
+    # at unity.  Every other surface is under 1 % (J66).
+    mix.use_clamp = True
     mix.inputs["Fac"].default_value = 1.0
     mix.inputs["Color2"].default_value = (k, k, k, 1.0)
     nt.links.new(img_node.outputs["Color"], mix.inputs["Color1"])

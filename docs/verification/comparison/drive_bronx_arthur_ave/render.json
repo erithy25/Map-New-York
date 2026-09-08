@@ -34,8 +34,8 @@
   "pitch_deg": 0.0,
   "portrait": false,
   "resolution": [
-   1280,
-   854
+   480,
+   360
   ],
   "sensor_mm": 36.0,
   "slug": "drive_bronx_arthur_ave",
@@ -44,7 +44,7 @@
   "y": 17277.668,
   "z": 25.898
  },
- "camera_caption": "camera 40.85524, -73.88776 (NYC_TM 5255, 17278) z 25.9 m NAVD88 | azimuth 190.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
+ "camera_caption": "camera 40.85524, -73.88776 (NYC_TM 5255, 17278) z 25.9 m NAVD88 | azimuth 190.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 480x360",
  "camera_origin": {
   "from_photograph_gps": true,
   "lat": 40.85524,
@@ -59,26 +59,26 @@
   "nearest_agent": "agent_ped_545.6",
   "nearest_agent_at_deg": [
    -9.1,
-   -9.5
+   -10.5
   ],
   "nearest_agent_m": 4.6,
   "nearest_agent_probe_m": 20.0,
   "nearest_obstruction": "prop_tree_sophora_small_9",
   "nearest_obstruction_at_deg": [
    -27.2,
-   9.5
+   10.5
   ],
-  "nearest_obstruction_m": 18.8,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 10 m ahead, less than the 12 m this frame needs to show its subject; the camera was moved 36 m onto the nearest real crosswalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 45 m from there, and the nearest built thing in the frame is prop_tree_sophora_small_9 18.8 m away at -27 deg yaw, +9 deg pitch, and the nearest simulated agent is agent_ped_545.6 4.6 m away",
+  "nearest_obstruction_m": 19.2,
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 10 m ahead, less than the 12 m this frame needs to show its subject; the camera was moved 36 m onto the nearest real crosswalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 45 m from there, and the nearest built thing in the frame is prop_tree_sophora_small_9 19.2 m away at -27 deg yaw, +11 deg pitch, and the nearest simulated agent is agent_ped_545.6 4.6 m away",
   "offset_m": 35.7,
   "reason": "boxed in: the view azimuth is closed off 10 m ahead, less than the 12 m this frame needs to show its subject",
   "rule": "pavement snap with a clear frame",
   "view_m": 45.4
  },
  "frame": {
-  "mean": 0.2242,
+  "mean": 0.2428,
   "reason": null,
-  "sd": 0.1664,
+  "sd": 0.1693,
   "usable": true
  },
  "frame_retry": null,
@@ -119,9 +119,9 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_arthur_ave/render.png",
- "rendered_at": "2026-09-08T14:48:06Z",
- "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 64,
+ "rendered_at": "2026-09-08T15:26:31Z",
+ "resolution_note": "480x360; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "samples": 8,
  "scene": {
   "agents": {
    "caption": "Agents: 89 vehicles within 320 m and 275 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 173 vehicles and 506 people over the whole simulated ring, of which 206 and 623 were simulated; 465 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
@@ -153,7 +153,7 @@
    "placed_pedestrians": 275,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 99.66,
+   "seconds": 95.84,
    "snapshot": {
     "building_footprints_tested": 4239,
     "density_lane_km": 25.141,
@@ -310,6 +310,11 @@
   "materials": {
    "dressed": {
     "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
      "asset_id": "Asphalt025A",
      "maps": [
       "color",
@@ -320,6 +325,11 @@
      "resolution": "2K"
     },
     "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
      "asset_id": "Bricks054",
      "maps": [
       "color",
@@ -331,6 +341,14 @@
      "resolution": "2K"
     },
     "concrete": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.135,
+      "scale": 4.0,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.1174
+     },
      "asset_id": "Concrete030",
      "maps": [
       "color",
@@ -342,6 +360,11 @@
      "resolution": "2K"
     },
     "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
      "asset_id": "Concrete036",
      "maps": [
       "color",
@@ -352,6 +375,11 @@
      "resolution": "2K"
     },
     "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
      "asset_id": "Travertine009",
      "maps": [
       "color",
@@ -363,6 +391,11 @@
      "resolution": "2K"
     },
     "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
      "asset_id": "Metal032",
      "maps": [
       "color",
@@ -374,6 +407,11 @@
      "resolution": "2K"
     },
     "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
      "asset_id": "Concrete034",
      "maps": [
       "color",
@@ -385,6 +423,11 @@
      "resolution": "2K"
     },
     "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
      "asset_id": "Bricks082A",
      "maps": [
       "color",
@@ -396,6 +439,14 @@
      "resolution": "2K"
     },
     "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
      "asset_id": "Rubber004",
      "maps": [
       "color",
@@ -407,6 +458,11 @@
      "resolution": "2K"
     },
     "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
      "asset_id": "Bricks102",
      "maps": [
       "color",
@@ -418,6 +474,11 @@
      "resolution": "2K"
     },
     "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
      "asset_id": "Bricks029",
      "maps": [
       "color",
@@ -429,6 +490,11 @@
      "resolution": "2K"
     },
     "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
      "asset_id": "Asphalt018",
      "maps": [
       "color",
@@ -440,6 +506,11 @@
      "resolution": "2K"
     },
     "terracotta": {
+     "albedo": {
+      "scale": 0.945,
+      "target_albedo": 0.3833,
+      "texture_albedo": 0.4055
+     },
      "asset_id": "Marble026",
      "maps": [
       "color",
@@ -451,6 +522,11 @@
      "resolution": "2K"
     },
     "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
      "asset_id": "WoodSiding009",
      "maps": [
       "color",
@@ -529,7 +605,7 @@
    }
   },
   "radius_m": 735.9087944963435,
-  "seconds": 174.87,
+  "seconds": 169.77,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -597,9 +673,9 @@
   "radius_m": 735.9087944963435
  },
  "seconds": {
-  "render": 153.6,
-  "scene": 190.0,
-  "total": 343.6
+  "render": 15.0,
+  "scene": 185.0,
+  "total": 200.1
  },
  "sightline": {
   "subject_note": "the item names no point subject",

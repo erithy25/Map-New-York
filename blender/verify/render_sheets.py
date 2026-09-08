@@ -78,8 +78,47 @@ ATMOSPHERIC_TRANSMITTANCE = 0.7
 SUN_CALIBRATION = 540.0
 DIFFUSE_KEY_W = 90.0
 REFERENCE_KEY_W = 681.0
-SKY_STRENGTH_DAY = 0.25
 SKY_STRENGTH_NIGHT = 0.5
+
+#: Horizontal irradiance a **strength 1.0** Nishita sky delivers, in the same Blender units the Sun
+#: lamp uses, by Sun elevation.  Measured rather than assumed: a 0.18-albedo lambertian plane, sky
+#: only, no bounces, Standard view transform, four stops down so nothing clips, and the irradiance
+#: read back as ``mean * pi / albedo``.  The Sun path checks out against the same method to four
+#: decimal places, which is what makes the sky reading trustworthy.
+SKY_IRRADIANCE_AT_UNIT_STRENGTH: tuple[tuple[float, float], ...] = (
+    (5.0, 3.8359), (10.0, 5.7250), (20.0, 7.7634), (30.0, 8.8130),
+    (45.0, 9.6758), (60.0, 10.1528), (69.5, 10.3250), (80.0, 10.4308))
+
+
+def sky_strength_for(sun_elevation_deg: float) -> float:
+    """Sky strength that delivers ``DIFFUSE_KEY_W`` of diffuse light, as the exposure model assumes.
+
+    This was the constant ``SKY_STRENGTH_DAY = 0.25``, and it was carrying no calibration while
+    setting the one thing that decides how much contrast a frame has.  Measured on a white plane,
+    the renderer was configuring a **direct-to-diffuse ratio of 0.63 : 1** at a 69.5 deg Sun and
+    **0.04 : 1** at 5 deg -- every daylight frame in the project lit like an overcast day, with no
+    highlights and shadows the sky filled in from every direction.
+
+    The correct number is not a matter of taste and it is not fitted to a photograph: two lines
+    above, the exposure this same function computes reads ``key = dni * sin(elevation) +
+    DIFFUSE_KEY_W`` with ``DIFFUSE_KEY_W = 90`` W/m2 -- so the model already states that diffuse
+    light is 90 W/m2 against roughly 880 direct at high Sun, a ratio near 10 : 1, and the sky was
+    delivering 1.6 times the Sun instead.  This makes the sky deliver what the rest of the function
+    already assumes it delivers (docs/DEVIATIONS.md J67).
+    """
+    e = max(0.0, float(sun_elevation_deg))
+    tbl = SKY_IRRADIANCE_AT_UNIT_STRENGTH
+    if e <= tbl[0][0]:
+        unit = tbl[0][1]
+    elif e >= tbl[-1][0]:
+        unit = tbl[-1][1]
+    else:
+        unit = tbl[-1][1]
+        for (e0, v0), (e1, v1) in zip(tbl, tbl[1:]):
+            if e0 <= e <= e1:
+                unit = v0 + (v1 - v0) * (e - e0) / (e1 - e0)
+                break
+    return (DIFFUSE_KEY_W / SUN_CALIBRATION) / unit
 # Calibrated against the reference photograph's own histogram, in an A/B where only this constant
 # moved (blender/verify -- times_square_duffy_south_night, the one subject of the 57 whose Sun is
 # below the horizon, so nothing else in the set can move with it).  The measure is the mean gap
@@ -310,7 +349,8 @@ def setup_world_and_sun(sun_azimuth_deg: float, sun_elevation_deg: float, *, nig
     sky.sun_intensity = 0.0
     sky.altitude = 0.0
     nt.links.new(sky.outputs["Color"], bg.inputs["Color"])
-    bg.inputs["Strength"].default_value = SKY_STRENGTH_NIGHT if night else SKY_STRENGTH_DAY
+    bg.inputs["Strength"].default_value = (SKY_STRENGTH_NIGHT if night
+                                          else sky_strength_for(sun_elevation_deg))
 
     dni = 0.0
     lamp = None
