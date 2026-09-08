@@ -48,6 +48,14 @@ def facts(slug: str) -> dict:
                       for k in ("file", "author", "licence", "license", "date_taken", "width",
                                 "height", "confidence", "estimated_azimuth_deg")},
         "subject": d.get("subject"),
+        # The two questions an assessment must not have to guess at: can this camera see the thing
+        # the sheet is a comparison of, and what is standing in its frame.  Both are measurements
+        # the render already took (docs/DEVIATIONS.md J49, J54, J55, J57) and neither was reaching
+        # the writer, so an assessment could describe a frame it had no numbers for.
+        "sightline": d.get("sightline"),
+        "clearance": d.get("clearance"),
+        "camera_origin": d.get("camera_origin"),
+        "azimuth_reason": d.get("azimuth_reason"),
         "triangles": sc.get("triangles"),
         "buildings": {"tiles": len(b.get("imported") or []), "triangles": b.get("triangles"),
                       "missing": b.get("missing"), "lod_substituted": b.get("lod_substituted"),
