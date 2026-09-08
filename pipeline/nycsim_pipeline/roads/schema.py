@@ -79,6 +79,7 @@ SCHEMAS = {
     "signals": f"roads.signals.v{SCHEMA_VERSION}",
     "signs": f"roads.signs.v{SCHEMA_VERSION}",
     "pavement": f"roads.pavement.v{SCHEMA_VERSION}",
+    "markings": f"roads.markings.v{SCHEMA_VERSION}",
 }
 
 

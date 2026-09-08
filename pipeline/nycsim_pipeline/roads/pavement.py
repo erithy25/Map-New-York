@@ -46,8 +46,12 @@ def _tile_name(tx: int, ty: int) -> str:
     return f"t_{int(tx)}_{int(ty)}"
 
 
-def _clip_to_tiles(geoms: np.ndarray, attrs: dict[str, np.ndarray]) -> tuple[np.ndarray, dict[str, np.ndarray], np.ndarray, np.ndarray]:
-    """Split every geometry at the 1 km grid. Returns (geoms, attrs, tx, ty)."""
+def clip_to_tiles(geoms: np.ndarray, attrs: dict[str, np.ndarray]) -> tuple[np.ndarray, dict[str, np.ndarray], np.ndarray, np.ndarray]:
+    """Split every geometry at the 1 km grid. Returns (geoms, attrs, tx, ty).
+
+    Public because :mod:`markings` writes to the same tile grid and must split its paint exactly
+    where the pavement under it is split, not by a second implementation of the same rule.
+    """
     bounds = shapely.bounds(geoms)
     tx0 = np.floor(bounds[:, 0] / TILE_SIZE_M).astype(np.int32)
     ty0 = np.floor(bounds[:, 1] / TILE_SIZE_M).astype(np.int32)
@@ -159,7 +163,7 @@ def _add_polygon_source(acc: Accumulator, path: Path, kind: int, surface_val: in
     parts, src_id, feat = parts[ok], src_id[ok], feat[ok]
     parts2, src2 = _explode(gpd.GeoDataFrame(geometry=parts, crs=NYC_TM))
     src_id, feat = src_id[src2], feat[src2]
-    g, at, tx, ty = _clip_to_tiles(parts2, {"src_id": src_id, "feat": feat})
+    g, at, tx, ty = clip_to_tiles(parts2, {"src_id": src_id, "feat": feat})
     acc.add(g, kind, np.full(len(g), surface_val, dtype=np.int8), at["src_id"], at["feat"], PAV_SRC_PLANIMETRIC, tx, ty)
     stats[label] = {"features": int(len(gdf)), "parts": int(len(parts2)), "tile_pieces": int(len(g)),
                     "seconds": round(time.time() - t0, 1)}
@@ -229,7 +233,7 @@ def build(inputs, seg: gpd.GeoDataFrame, nodes: pd.DataFrame, approaches: pd.Dat
         parts2, s2 = _explode(gpd.GeoDataFrame(geometry=parts, crs=NYC_TM))
         src_id, feat = src_id[s2], feat[s2]
         surf = _roadbed_surface(parts2, seg)
-        g, at, tx, ty = _clip_to_tiles(parts2, {"src_id": src_id, "feat": feat, "surf": surf})
+        g, at, tx, ty = clip_to_tiles(parts2, {"src_id": src_id, "feat": feat, "surf": surf})
         acc.add(g, S.PAV_ROADBED, at["surf"], at["src_id"], at["feat"], PAV_SRC_PLANIMETRIC, tx, ty)
         stats["sources"]["roadbed"] = {"features": int(len(gdf)), "parts": int(len(parts2)), "tile_pieces": int(len(g)),
                                        "surface_counts": {int(k): int(v) for k, v in zip(*np.unique(at["surf"], return_counts=True))},
@@ -257,7 +261,7 @@ def build(inputs, seg: gpd.GeoDataFrame, nodes: pd.DataFrame, approaches: pd.Dat
         feat = pd.to_numeric(gdf["feat_code"], errors="coerce").fillna(0).astype(np.int32).to_numpy()[src]
         buf = shapely.buffer(parts, CURB_WIDTH_M / 2.0, quad_segs=1, cap_style="flat", join_style="mitre")
         buf = shapely.make_valid(buf)
-        g, at, tx, ty = _clip_to_tiles(buf, {"src_id": src_id, "feat": feat})
+        g, at, tx, ty = clip_to_tiles(buf, {"src_id": src_id, "feat": feat})
         acc.add(g, S.PAV_CURB, np.full(len(g), S.SURF_CONCRETE, dtype=np.int8), at["src_id"], at["feat"], PAV_SRC_PLANIMETRIC, tx, ty)
         stats["sources"]["curb"] = {"features": int(len(gdf)), "parts": int(len(parts)), "tile_pieces": int(len(g)),
                                     "buffer_m": CURB_WIDTH_M, "seconds": round(time.time() - ts, 1)}
@@ -269,7 +273,7 @@ def build(inputs, seg: gpd.GeoDataFrame, nodes: pd.DataFrame, approaches: pd.Dat
     xw, xw_ids = _crosswalks(nodes, approaches)
     n_xw_pieces = 0
     if len(xw):
-        gx, at, tx, ty = _clip_to_tiles(xw, {"src_id": xw_ids, "feat": np.zeros(len(xw), dtype=np.int32)})
+        gx, at, tx, ty = clip_to_tiles(xw, {"src_id": xw_ids, "feat": np.zeros(len(xw), dtype=np.int32)})
         acc.add(gx, S.PAV_CROSSWALK, np.full(len(gx), S.SURF_ASPHALT, dtype=np.int8), at["src_id"], at["feat"], PAV_SRC_DERIVED, tx, ty)
         n_xw_pieces = int(len(gx))
     stats["sources"]["crosswalk"] = {"features": int(len(xw)), "tile_pieces": n_xw_pieces,

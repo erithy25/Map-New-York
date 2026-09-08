@@ -83,6 +83,7 @@ LOG = logging.getLogger("nycsim.roads.build_pavement")
 
 PROCESSED = Path(os.environ.get("NYCSIM_PROCESSED", REPO_ROOT / "data" / "processed"))
 PAVEMENT_DIR = PROCESSED / "roads" / "pavement"
+MARKINGS_DIR = PROCESSED / "roads" / "markings"
 SEGMENTS_PARQUET = PROCESSED / "roads" / "segments.parquet"
 TILES_DATA = PROCESSED / "tiles"
 LANDMARK_GROUND = PROCESSED / "landmarks" / "ground_outlines.parquet"
@@ -361,6 +362,22 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, tol_m: float = DEFAULT_T
     seeds = table.column("roughness_seed").to_pylist()
     geoms = table.column("geometry").to_pylist()
 
+    # The paint (J52).  A separate table because it is derived from the measured lane cross-section
+    # rather than surveyed, and it is appended here rather than merged upstream so the planimetric
+    # file stays exactly what DoITT published.  Its ``colour`` becomes a pavement kind; its surface
+    # is the asphalt underneath, which is what ``surface_class`` needs to resolve PaintedMarking.
+    n_markings = 0
+    mk = MARKINGS_DIR / f"{tile}.parquet"
+    if mk.exists():
+        mt = pq.read_table(mk, columns=["colour", "geometry"])
+        colours = mt.column("colour").to_pylist()
+        mgeoms = mt.column("geometry").to_pylist()
+        n_markings = len(colours)
+        kinds = list(kinds) + [pvlib.MARKING_KIND_OF_COLOUR.get(int(c), 10) for c in colours]
+        surfaces = list(surfaces) + [0] * n_markings
+        seeds = list(seeds) + [0] * n_markings
+        geoms = list(geoms) + list(mgeoms)
+
     sampler = LandscapeSampler(TILES_DATA)
     # The carriageway's own elevation, for the polygons the road network says are not at grade.
     roads = pvlib.RoadSurface(SEGMENTS_PARQUET, (x0, y0, x0 + TILE_SIZE_M, y0 + TILE_SIZE_M)) \
@@ -537,7 +554,10 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, tol_m: float = DEFAULT_T
         "git_commit": nb.git_commit(),
         "generator": "blender/roads/build_pavement.py",
         "source": str((PAVEMENT_DIR / f"{tile}.parquet").relative_to(REPO_ROOT)),
+        "markings_source": (str((MARKINGS_DIR / f"{tile}.parquet").relative_to(REPO_ROOT))
+                            if n_markings else None),
         "rows_in": len(kinds),
+        "marking_rows_in": n_markings,
         "polygons_meshed": sum(b.polygons for b in slabs.values()),
         "polygons_dropped": {k: v for k, v in dropped.items() if v},
         "polygons_cut_for_landmark_ground": cut_polygons,
@@ -737,13 +757,17 @@ _LOOK = {
     2: ((0.30, 0.30, 0.29, 1.0), 0.88),
     3: ((0.33, 0.31, 0.30, 1.0), 0.80),
     4: ((0.42, 0.42, 0.41, 1.0), 0.80),
-    5: ((0.62, 0.62, 0.60, 1.0), 0.75),
+    # The crossing area is asphalt: since J52 the paint on it is the bars, kinds 10 and 11.
+    5: ((0.058, 0.058, 0.061, 1.0), 0.85),
     6: ((0.075, 0.075, 0.078, 1.0), 0.85),
     7: ((0.075, 0.075, 0.078, 1.0), 0.85),
     # A curb ramp is the same concrete as the sidewalk it is cut into, a little lighter where it is
     # newer than what is around it, and its detectable warning surface is a separate material the
     # kit does not have yet -- so the ramp is one flat concrete for now (DEVIATIONS J21).
     8: ((0.46, 0.455, 0.44, 1.0), 0.86),
+    # Thermoplastic: brighter and glossier than the asphalt it is laid on (J52).
+    10: ((0.80, 0.80, 0.78, 1.0), 0.62),
+    11: ((0.74, 0.60, 0.13, 1.0), 0.62),
 }
 
 

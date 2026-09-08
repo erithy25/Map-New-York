@@ -32,7 +32,10 @@ PAVEMENT_KINDS: dict[int, tuple[str, float, float]] = {
     2: ("median", 0.25, 0.40),
     3: ("plaza", 0.25, 0.40),
     4: ("curb", 0.25, 0.40),
-    5: ("crosswalk", 0.115, 0.02),
+    # The crossing area, not the paint on it: since J52 the paint is a pattern of bars (kinds 10/11)
+    # and this is the asphalt they are laid on, 5 mm proud of the roadbed so the two do not fight
+    # for the same depth.
+    5: ("crosswalk", 0.105, 0.02),
     6: ("parking_lot", 0.10, 0.30),
     7: ("driveway", 0.10, 0.30),
     # A curb ramp is not a planimetric class -- the pavement survey has no ramp polygon. It is
@@ -40,7 +43,18 @@ PAVEMENT_KINDS: dict[int, tuple[str, float, float]] = {
     # and running slope, and it is the one pavement kind whose lift is not constant: it descends from
     # the sidewalk's 0.25 m to the roadbed's 0.10 m over the run that its own slope implies.
     8: ("curb_ramp", 0.10, 0.35),
+    # Paint.  Not a planimetric class either: the marking polygons are derived from the measured
+    # lane cross-section by ``nycsim_pipeline.roads.markings`` (J52).  White and yellow are separate
+    # kinds rather than one kind with a colour column, because the mesh name -- and therefore the
+    # material slot Unreal gets -- is built from ``(kind, surface)``, and a lane line and a centre
+    # line are two different colours of paint on the same asphalt.  They sit 15 mm above the
+    # roadbed, which is what a thermoplastic marking stands, and carry no skirt: paint has no edge.
+    10: ("marking_white", 0.115, 0.0),
+    11: ("marking_yellow", 0.115, 0.0),
 }
+
+#: The two pavement kinds that are paint, by the ``colour`` column of the markings table.
+MARKING_KIND_OF_COLOUR = {0: 10, 1: 11}
 
 #: ``surface`` -> name (``pipeline/nycsim_pipeline/roads/schema.py``).
 SURFACE_NAMES = {0: "asphalt", 1: "concrete", 2: "cobble", 3: "steel", 4: "gravel", 5: "boardwalk"}
@@ -55,7 +69,11 @@ SURFACE_TO_CLASS = {0: 1, 1: 2, 2: 3, 3: 4, 4: 6, 5: 7}
 #: made of: a crosswalk is paint on top of asphalt (``PaintedMarking``, µ 0.60 wet against asphalt's
 #: 0.70), and a sidewalk is concrete the car is not supposed to be on (``Sidewalk``, which the
 #: friction table gives its own entry).
-KIND_FORCES_CLASS = {1: 9, 5: 5, 8: 9}
+#:
+#: The crossing *area* is no longer one of them.  It used to be drawn as a solid painted rectangle
+#: across the whole carriageway and forced ``PaintedMarking``; since J52 the paint is the bars laid
+#: on it, so the area is asphalt like the road it is part of and the bars carry the paint class.
+KIND_FORCES_CLASS = {1: 9, 8: 9, 10: 5, 11: 5}
 
 #: Names of ``SurfaceClass``, for the manifest and the physical-material assets.
 SURFACE_CLASS_NAMES = {0: "Default", 1: "Asphalt", 2: "Concrete", 3: "Cobble", 4: "SteelPlate",

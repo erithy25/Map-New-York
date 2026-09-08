@@ -54,6 +54,9 @@ from mathutils import Euler, Matrix, Vector  # noqa: E402
 import nycsim_bpy as nb  # noqa: E402
 from nycsim_pipeline.furniture import assets as prop_assets  # noqa: E402
 
+sys.path.insert(0, str(REPO_ROOT / "blender" / "roads"))
+import pvlib  # noqa: E402  (the road-surface stage's kind table, so the two cannot drift)
+
 LOG = logging.getLogger("nycsim.verify.scene")
 
 PROCESSED = REPO_ROOT / "data" / "processed"
@@ -1122,6 +1125,7 @@ def add_landmarks(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
 
 
 PAVEMENT_DIR = PROCESSED / "roads" / "pavement"
+MARKINGS_DIR = PROCESSED / "roads" / "markings"
 
 #: ``kind`` -> (name, lift above the terrain in metres, base colour, roughness).  The lift keeps the
 #: pavement clear of the terrain grid it is draped on and reproduces the real 0.15 m curb reveal:
@@ -1132,9 +1136,39 @@ PAVEMENT_KINDS = {
     2: ("median", 0.25, (0.30, 0.30, 0.29, 1.0), 0.88),
     3: ("plaza", 0.25, (0.33, 0.31, 0.30, 1.0), 0.80),
     4: ("curb", 0.25, (0.42, 0.42, 0.41, 1.0), 0.80),
-    5: ("crosswalk", 0.115, (0.62, 0.62, 0.60, 1.0), 0.75),
+    # The crossing area is asphalt.  It was one solid painted rectangle across the whole
+    # carriageway until J52; the paint is now the bars laid on it (kinds 10 and 11), and this is
+    # what they are laid on, 5 mm proud of the roadbed so the two do not fight for the same depth.
+    5: ("crosswalk", 0.105, (0.058, 0.058, 0.061, 1.0), 0.85),
     6: ("parking_lot", 0.10, (0.075, 0.075, 0.078, 1.0), 0.85),
+    # Paint, from data/processed/roads/markings (J52).  Thermoplastic is brighter and glossier than
+    # the asphalt it sits on and it stands about 15 mm above it.  White is the ordinary line and
+    # yellow separates opposing directions (MUTCD 2009 §3A.05).
+    10: ("marking_white", 0.115, (0.80, 0.80, 0.78, 1.0), 0.62),
+    11: ("marking_yellow", 0.115, (0.74, 0.60, 0.13, 1.0), 0.62),
 }
+
+
+def _marking_rows(tname: str) -> list[tuple[int, bytes]]:
+    """``(pavement kind, wkb)`` for the paint on one tile, or nothing if the tile has none.
+
+    The markings are a separate table from the pavement because they are *derived* from the lane
+    cross-section rather than surveyed (``nycsim_pipeline.roads.markings``, J52), and mixing a
+    derivation into a planimetric file would lose that distinction.  They are drawn by the same
+    code, so ``colour`` becomes the pavement kind here and nowhere else.
+    """
+    import pyarrow.parquet as pq
+
+    p = MARKINGS_DIR / f"{tname}.parquet"
+    if not p.exists():
+        return []
+    try:
+        t = pq.read_table(p, columns=["kind", "colour", "geometry"])
+    except Exception as exc:                                  # a half-written tile is not evidence
+        LOG.warning("markings tile %s unreadable: %s", tname, exc)
+        return []
+    return [(pvlib.MARKING_KIND_OF_COLOUR.get(int(c), 10), blob)
+            for c, blob in zip(t.column("colour").to_pylist(), t.column("geometry").to_pylist())]
 
 
 def add_pavement(cx: float, cy: float, radius_m: float, sampler: TerrainSampler, *,
@@ -1188,9 +1222,9 @@ def add_pavement(cx: float, cy: float, radius_m: float, sampler: TerrainSampler,
             tiles_missing.append(tname)
             continue
         tiles_read.append(tname)
-        kinds = t.column("kind").to_pylist()
-        geoms = t.column("geometry").to_pylist()
-        for kind, blob in zip(kinds, geoms):
+        rows = list(zip(t.column("kind").to_pylist(), t.column("geometry").to_pylist()))
+        rows.extend(_marking_rows(tname))
+        for kind, blob in rows:
             if len(faces) >= triangle_budget:
                 dropped += 1
                 continue

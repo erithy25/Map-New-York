@@ -43,6 +43,7 @@ from . import junctions as junctions_mod
 from . import lanes as lanes_mod
 from . import lion as lion_mod
 from . import osm as osm_mod
+from . import markings as markings_mod
 from . import pavement as pavement_mod
 from . import schema as S
 from . import segments as segments_mod
@@ -195,6 +196,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--borough", type=int, action="append", default=[], help="restrict CSCL to borough code(s) 1-5 (dev subset)")
     ap.add_argument("--out-dir", type=Path, default=None, help="output directory (required for subset runs)")
     ap.add_argument("--no-pavement", action="store_true", help="skip the per-tile pavement polygons")
+    ap.add_argument("--no-markings", action="store_true", help="skip the per-tile road markings")
     ap.add_argument("--no-signs", action="store_true", help="skip the sign layer")
     ap.add_argument("--no-runtime", action="store_true", help="skip the §15 runtime binaries")
     ap.add_argument("--force-osm", action="store_true", help="rebuild the OSM caches even if present")
@@ -334,6 +336,16 @@ def main(argv: list[str] | None = None) -> int:
     else:
         stats["pavement"] = pavement_mod.build(inputs, seg, nodes, approaches, out_dir / "pavement")
     T.lap("pavement")
+
+    # ---------------------------------------------------------------- markings
+    # The paint: derived from the lane cross-section written above and from the crosswalk polygons
+    # the pavement stage just wrote, so it runs after both and never before either (J52).
+    if a.no_pavement or a.no_markings:
+        stats["markings"] = {"skipped": True}
+    else:
+        stats["markings"] = markings_mod.build(seg, lanes, nodes, out_dir / "pavement",
+                                               out_dir / "markings")
+    T.lap("markings")
 
     # ---------------------------------------------------------------- runtime binaries
     if a.no_runtime:

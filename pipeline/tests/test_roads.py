@@ -277,7 +277,7 @@ def test_every_required_crossing_has_a_pattern():
 # --------------------------------------------------------------------------- pavement
 def test_clip_to_tiles_splits_and_conserves_area():
     poly = shapely.box(-10.0, -10.0, 1500.0, 900.0)          # spans t_-1_-1, t_0_-1, t_-1_0, t_0_0, t_1_0
-    g, attrs, tx, ty = PV._clip_to_tiles(np.array([poly], dtype=object), {"src": np.array(["a"])})
+    g, attrs, tx, ty = PV.clip_to_tiles(np.array([poly], dtype=object), {"src": np.array(["a"])})
     assert len(g) >= 4
     assert sum(shapely.area(g)) == pytest.approx(poly.area, rel=1e-9)
     for gi, x, y in zip(g, tx, ty):
@@ -289,7 +289,7 @@ def test_clip_to_tiles_splits_and_conserves_area():
 
 def test_clip_to_tiles_leaves_a_single_tile_polygon_untouched():
     poly = shapely.box(100.0, 100.0, 200.0, 200.0)
-    g, _, tx, ty = PV._clip_to_tiles(np.array([poly], dtype=object), {"src": np.array(["a"])})
+    g, _, tx, ty = PV.clip_to_tiles(np.array([poly], dtype=object), {"src": np.array(["a"])})
     assert len(g) == 1 and int(tx[0]) == 0 and int(ty[0]) == 0
     assert g[0].equals(poly)
 
@@ -1020,3 +1020,142 @@ def test_every_section_of_every_runtime_file_is_described_by_a_layout():
         + "; ".join(f"{k}: {v}" for k, v in missing.items())
         + f". Layouts read: {sorted(described)}. The field offsets the C++ casts to have to be "
           "written down by the stage that writes the data, or nothing can compare the two.")
+
+
+# --------------------------------------------------------------------------- markings (J52)
+def _lane_rows(spec):
+    """``spec`` is a list of ``(offset, width, kind, direction)`` across one segment."""
+    import pandas as pd
+
+    return pd.DataFrame([{"segment_id": 1, "offset_m": o, "width_m": w, "kind": k, "direction": d}
+                         for o, w, k, d in spec])
+
+
+def test_a_two_way_street_is_marked_yellow_down_the_middle_and_a_one_way_street_is_not():
+    from nycsim_pipeline.roads import markings as MK
+    from nycsim_pipeline.roads import schema as S
+
+    two_way = MK.boundaries(_lane_rows([(-1.85, 3.7, S.LANE_TRAVEL, -1), (1.85, 3.7, S.LANE_TRAVEL, 1)]))
+    assert [b.kind for b in two_way] == [MK.MARK_CENTRE_LINE]
+    assert two_way[0].colour == MK.MARK_YELLOW
+    assert two_way[0].offset_m == pytest.approx(0.0, abs=1e-9)
+
+    one_way = MK.boundaries(_lane_rows([(-1.85, 3.7, S.LANE_TRAVEL, 1), (1.85, 3.7, S.LANE_TRAVEL, 1)]))
+    assert [b.kind for b in one_way] == [MK.MARK_LANE_LINE]
+    assert one_way[0].colour == MK.MARK_WHITE
+
+
+def test_nothing_is_painted_between_a_travel_lane_and_a_parking_lane():
+    """New York does not mark that edge.  A line invented there would be the most visible
+    falsehood this module could tell, so the rule is checked rather than assumed."""
+    from nycsim_pipeline.roads import markings as MK
+    from nycsim_pipeline.roads import schema as S
+
+    got = MK.boundaries(_lane_rows([(-5.05, 2.7, S.LANE_PARKING, -1), (-1.85, 3.7, S.LANE_TRAVEL, -1),
+                                    (1.85, 3.7, S.LANE_TRAVEL, 1), (5.05, 2.7, S.LANE_PARKING, 1)]))
+    assert [b.kind for b in got] == [MK.MARK_CENTRE_LINE], \
+        "only the centre line: the two parking edges must carry nothing"
+
+
+def test_a_bike_lane_gets_a_solid_white_line_and_a_turn_lane_gets_the_double_yellow_pair():
+    from nycsim_pipeline.roads import markings as MK
+    from nycsim_pipeline.roads import schema as S
+
+    bike = MK.boundaries(_lane_rows([(-1.85, 3.7, S.LANE_TRAVEL, -1), (2.45, 1.5, S.LANE_BIKE, -1)]))
+    assert [(b.kind, b.colour) for b in bike] == [(MK.MARK_BIKE_LANE_LINE, MK.MARK_WHITE)]
+
+    turn = MK.boundaries(_lane_rows([(-1.85, 3.7, S.LANE_TRAVEL, -1), (1.85, 3.7, S.LANE_TURN, 0)]))
+    assert [(b.kind, b.colour, b.toward) for b in turn] == [(MK.MARK_TWLTL_LINE, MK.MARK_YELLOW, 1)]
+
+
+def test_a_lane_line_is_broken_and_a_centre_line_is_a_solid_pair():
+    """The pattern is the marking's identity: MUTCD gives the broken line a 10 ft paint and a
+    30 ft gap, and the centre line two solid lines 4 in apart."""
+    import numpy as np
+    import shapely
+    from nycsim_pipeline.roads import markings as MK
+    from nycsim_pipeline.roads.geom import offset_vectors
+
+    coords = np.array([[0.0, 0.0], [200.0, 0.0]])
+    vecs = offset_vectors(coords)
+
+    dashes = MK.marking_polys(coords, vecs, MK.Boundary(0.0, MK.MARK_LANE_LINE, MK.MARK_WHITE))
+    assert len(dashes) >= 15, f"200 m of broken line should be about 16 dashes, got {len(dashes)}"
+    lengths = sorted(shapely.length(np.asarray(dashes, dtype=object)) / 2.0 - MK.LINE_W_M)
+    assert lengths[len(lengths) // 2] == pytest.approx(MK.DASH_PAINT_M, abs=0.05)
+    gaps = [dashes[i + 1].bounds[0] - dashes[i].bounds[2] for i in range(len(dashes) - 1)]
+    assert min(gaps) == pytest.approx(MK.DASH_GAP_M, abs=0.05)
+
+    pair = MK.marking_polys(coords, vecs, MK.Boundary(0.0, MK.MARK_CENTRE_LINE, MK.MARK_YELLOW))
+    assert len(pair) == 2, "a centre line is two solid lines, not one"
+    for poly in pair:
+        x0, y0, x1, y1 = poly.bounds
+        assert x1 - x0 == pytest.approx(200.0, abs=0.01), "each line runs the whole segment"
+        assert y1 - y0 == pytest.approx(MK.LINE_W_M, abs=1e-6)
+    inner = abs(pair[0].bounds[1] - pair[1].bounds[3])
+    outer = abs(pair[1].bounds[1] - pair[0].bounds[3])
+    assert min(inner, outer) == pytest.approx(MK.DOUBLE_GAP_M, abs=1e-6), \
+        "the two yellow lines stand 4 in apart"
+
+
+def test_the_turn_lane_line_is_solid_on_the_traffic_side_and_broken_on_the_turn_side():
+    import numpy as np
+    from nycsim_pipeline.roads import markings as MK
+    from nycsim_pipeline.roads.geom import offset_vectors
+
+    coords = np.array([[0.0, 0.0], [200.0, 0.0]])
+    vecs = offset_vectors(coords)
+    polys = MK.marking_polys(coords, vecs, MK.Boundary(0.0, MK.MARK_TWLTL_LINE, MK.MARK_YELLOW, toward=1))
+    solid = [p for p in polys if p.bounds[2] - p.bounds[0] > 100.0]
+    broken = [p for p in polys if p.bounds[2] - p.bounds[0] < 10.0]
+    assert len(solid) == 1 and len(broken) >= 15
+    # ``toward=1`` means the turn lane is the one at the greater offset, and ``offset_vectors``
+    # points to the right of the digitisation direction -- so on a segment running east the turn
+    # lane is to the south and the broken line must lie south of the solid one.  Which side the
+    # broken line takes is the whole content of MUTCD 3B.01; getting it backwards would draw a
+    # centre turn lane the wrong way round on every one of them.
+    where_offset_plus_one_lands = MK._at(coords, vecs, 1.0)[0, 1]
+    assert where_offset_plus_one_lands < 0.0, "a positive offset is to the right of forward"
+    assert broken[0].bounds[3] < solid[0].bounds[1], "the broken half must face the turn lane"
+
+
+def test_a_crossing_is_a_pattern_of_bars_with_asphalt_showing_between_them():
+    import numpy as np
+    import shapely
+    from nycsim_pipeline.roads import markings as MK
+
+    # a 12 m wide crossing, 3.66 m deep, axis-aligned
+    rect = shapely.box(-6.0, -MK.CROSSWALK_DEPTH_M / 2.0, 6.0, MK.CROSSWALK_DEPTH_M / 2.0)
+    bars, ids = MK.crosswalk_bars(np.array([rect], dtype=object), np.array(["xw:1:2"], dtype=object))
+    assert len(bars) >= 15, f"a 12 m crossing at a 0.61 m pitch is about 19 bars, got {len(bars)}"
+    assert len(set(ids)) == len(ids)
+    painted = float(shapely.area(bars).sum())
+    assert painted < 0.6 * rect.area, "the bars must leave asphalt between them, not repaint the slab"
+    for bar in bars:
+        x0, y0, x1, y1 = bar.bounds
+        assert x1 - x0 == pytest.approx(MK.CROSSWALK_BAR_W_M, abs=1e-6)
+        assert y1 - y0 == pytest.approx(MK.CROSSWALK_DEPTH_M, abs=1e-6), \
+            "a bar runs the full depth of the crossing, along the direction of traffic"
+    assert shapely.area(shapely.union_all(bars)) == pytest.approx(painted, rel=1e-9), \
+        "the bars must not overlap each other"
+
+
+def test_every_marking_kind_has_a_name_a_colour_and_a_pavement_kind():
+    """A marking that reaches the mesh with no kind of its own is a marking drawn as a roadbed."""
+    import sys
+
+    from nycsim_pipeline.roads import markings as MK
+
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "blender" / "roads"))
+    import pvlib
+
+    assert set(MK.MARK_NAMES) == {MK.MARK_LANE_LINE, MK.MARK_CENTRE_LINE, MK.MARK_BIKE_LANE_LINE,
+                                  MK.MARK_STOP_BAR, MK.MARK_CROSSWALK_BAR, MK.MARK_TWLTL_LINE}
+    for colour in (MK.MARK_WHITE, MK.MARK_YELLOW):
+        kind = pvlib.MARKING_KIND_OF_COLOUR[colour]
+        assert kind in pvlib.PAVEMENT_KINDS
+        assert pvlib.surface_class(kind, 0) == 5, "paint must resolve to SurfaceClass::PaintedMarking"
+        assert pvlib.PAVEMENT_KINDS[kind][1] > pvlib.PAVEMENT_KINDS[0][1], \
+            "paint must sit above the roadbed it is painted on"
+    assert pvlib.surface_class(5, 0) == 1, \
+        "the crossing area is asphalt now; the paint on it is the bars (J52)"
