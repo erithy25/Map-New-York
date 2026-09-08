@@ -60,19 +60,19 @@
   "nearest_agent": null,
   "nearest_agent_m": null,
   "nearest_agent_probe_m": 60.0,
-  "nearest_obstruction": "prop_lamp_cobra_davit_6",
+  "nearest_obstruction": "prop_lamp_park_twin_6",
   "nearest_obstruction_at_deg": [
-   0.0,
-   0.0
+   21.8,
+   -23.2
   ],
-  "nearest_obstruction_m": 2.2,
-  "note": "the eye point stands on the roof of lm_b_bethesda_terrace.26, which the reference viewpoint records as a single lat/lon for the whole deck; the camera was walked 12 m along the view azimuth to the parapet, the last point the roof still supports, which is where the reference photographs are taken.  From there the view azimuth is clear for 80 m and the nearest built thing in the frame is prop_lamp_cobra_davit_6 2.2 m away, and no simulated agent stands within 60 m of it",
+  "nearest_obstruction_m": 3.2,
+  "note": "the eye point stands on the roof of lm_b_bethesda_terrace.26, which the reference viewpoint records as a single lat/lon for the whole deck; the camera was walked 12 m along the view azimuth to the parapet, the last point the roof still supports, which is where the reference photographs are taken.  From there the view azimuth is clear for 80 m and the nearest built thing in the frame is prop_lamp_park_twin_6 3.2 m away, and no simulated agent stands within 60 m of it",
   "offset_m": 12.0,
   "standing_on": "lm_b_bethesda_terrace.26",
   "view_m": 79.7
  },
  "frame": {
-  "mean": 0.7217,
+  "mean": 0.7216,
   "reason": null,
   "sd": 0.1651,
   "usable": true
@@ -85,7 +85,7 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 657.2,
   "emissive": {
-   "cone_faces_deleted": 16,
+   "cone_faces_deleted": 24,
    "cones_hidden": 2,
    "lamps_switched_off": 2,
    "night": false,
@@ -115,7 +115,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/bethesda_terrace_fountain/render.png",
- "rendered_at": "2026-09-08T10:13:44Z",
+ "rendered_at": "2026-09-08T10:58:03Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -141,7 +141,7 @@
    "placed_pedestrians": 11,
    "placed_vehicles": 0,
    "reason": null,
-   "seconds": 10.88,
+   "seconds": 10.13,
    "snapshot": {
     "building_footprints_tested": 2814,
     "car_free_park_drives_matched": 46,
@@ -411,7 +411,7 @@
     "t_-3_8"
    ],
    "tree_species_substituted": 43,
-   "triangles": 485048,
+   "triangles": 506616,
    "unmapped_kinds": {
     "artwork": 10,
     "drinking_fountain": 7,
@@ -421,7 +421,7 @@
    }
   },
   "radius_m": 700.0,
-  "seconds": 17.77,
+  "seconds": 16.62,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -484,7 +484,7 @@
    "z_max_m": 42.39,
    "z_min_m": 9.82
   },
-  "triangles": 1167082
+  "triangles": 1188650
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -494,20 +494,20 @@
   "radius_m": 700.0
  },
  "seconds": {
-  "render": 85.2,
-  "scene": 18.0,
-  "total": 103.2
+  "render": 82.2,
+  "scene": 16.8,
+  "total": 99.0
  },
  "sightline": {
   "subject_aimed_at": "the subject's own top",
-  "subject_blocked_at_m": 2.4,
-  "subject_blocked_by": "prop_lamp_cobra_davit_6",
+  "subject_blocked_at_m": null,
+  "subject_blocked_by": null,
   "subject_fan_half_angle_deg": 5.52,
   "subject_fan_m": 12.0,
   "subject_range_m": 62.1,
   "subject_rays": 5,
-  "subject_rays_clear": 0,
-  "subject_visible": false
+  "subject_rays_clear": 5,
+  "subject_visible": true
  },
  "slug": "bethesda_terrace_fountain",
  "status": "rendered",

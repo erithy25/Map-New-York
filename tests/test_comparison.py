@@ -1047,32 +1047,52 @@ def test_the_clearance_record_names_the_agent_it_used_to_be_silent_about():
 
 
 def test_the_record_says_whether_the_camera_can_see_its_own_subject():
-    """Every other check asks whether the camera stands somewhere sensible.  None asked the question
-    the sheet exists to answer.  Bethesda Terrace is what that costs: 69 m from its fountain, the
-    fountain inside the frame's cone, the model in the scene with 10,808 triangles 51 m away, and
-    the terrace's own arcade wall between the two."""
+    """Three states, not two: something in the way, the subject there and seen, or nothing there.
+
+    The first version of this probe asked only "does anything block the line to the subject's
+    coordinate", so a ray through empty air came back clear and the record said the subject was
+    visible.  That is how the Bethesda sheet reported its fountain visible, 5 rays of 5, over a
+    frame that shows almost none of it: the item's coordinate stood 24.6 m from the fountain and
+    the rays met nothing at all (docs/DEVIATIONS.md J57).  The test below used to assert exactly
+    that behaviour on an empty scene, which is why it never caught it.
+    """
     bpy = _skip_without_bpy()
     import camera as vcam
     import nycsim_bpy as nb
 
+    # 1. Nothing anywhere.  The line is open and the subject is not on it.
     nb.reset_scene()
+    empty = vcam.subject_sightline(0.0, 0.0, 1.6, 0.0, 40.0, 3.0)
+    assert empty["subject_visible"] is False, "an empty scene is not a view of the subject"
+    assert empty["subject_range_m"] == pytest.approx(40.02, abs=0.1)
+    assert empty["subject_blocked_by"] is None
+    assert empty["subject_lands_on"] is None
+    assert empty["subject_rays_into_nothing"] == empty["subject_rays"]
+    assert "nothing stands within" in empty["subject_note"]
+
+    # 2. The subject is there and nothing is in front of it.
+    nb.reset_scene()
+    _cube("lm_b_subject", 0.0, 40.0, 3.0, size=6.0)
     clear = vcam.subject_sightline(0.0, 0.0, 1.6, 0.0, 40.0, 3.0)
     assert clear["subject_visible"] is True
-    assert clear["subject_range_m"] == pytest.approx(40.02, abs=0.1)
     assert clear["subject_blocked_by"] is None
-    assert clear["subject_rays_clear"] == clear["subject_rays"]
+    assert clear["subject_lands_on"] == "lm_b_subject"
+    assert clear["subject_rays_on_subject"] == clear["subject_rays"]
+    assert "subject_note" not in clear
 
-    _cube("t_0_0_limestone", 0.0, 12.0, 2.0, size=6.0)      # a wall across the whole fan
+    # 3. A wall across the whole fan.
+    _cube("t_0_0_limestone", 0.0, 12.0, 2.0, size=6.0)
     blocked = vcam.subject_sightline(0.0, 0.0, 1.6, 0.0, 40.0, 3.0)
     assert blocked["subject_visible"] is False
     assert blocked["subject_rays_clear"] == 0
     assert blocked["subject_blocked_by"] == "t_0_0_limestone"
     assert 8.0 < blocked["subject_blocked_at_m"] < 12.0
 
-    # A pole is not a wall.  One ray through a lamp standard says "not visible" of a subject
+    # 4. A pole is not a wall.  One ray through a lamp standard says "not visible" of a subject
     # standing wide open beside it -- which is what the first version of this probe reported at
     # Bethesda Terrace, and it would have been a false statement dressed as a measurement.
     nb.reset_scene()
+    _cube("lm_b_subject", 0.0, 40.0, 3.0, size=6.0)
     # 1.68 m is where the axis passes at 2.4 m out, so the pole is squarely on the centre ray.
     _cube("prop_lamp_cobra_davit_6", 0.0, 2.4, 1.684, size=0.2)
     past_pole = vcam.subject_sightline(0.0, 0.0, 1.6, 0.0, 40.0, 3.0)
@@ -1084,10 +1104,22 @@ def test_the_record_says_whether_the_camera_can_see_its_own_subject():
     # at 2.4 m, so this same pole would take all five rays and the probe would lie again.
     assert past_pole["subject_fan_half_angle_deg"] == pytest.approx(8.53, abs=0.1)
 
-    # A tree is not a wall for the *view distance* rule, but a canopy across the whole fan is for
+    # 5. A tree is not a wall for the *view distance* rule, but a canopy across the whole fan is for
     # the subject: a photograph of the Flatiron taken through a plane tree is not one of the Flatiron.
     nb.reset_scene()
+    _cube("lm_b_subject", 0.0, 40.0, 3.0, size=6.0)
     _cube("prop_tree_zelkova_large_3", 0.0, 6.0, 3.0, size=4.0)
     through = vcam.subject_sightline(0.0, 0.0, 1.6, 0.0, 40.0, 3.0)
     assert through["subject_visible"] is False
     assert through["subject_blocked_by"].startswith("prop_tree")
+
+    # 6. The Bethesda shape: nothing at the coordinate, an open line, and something far beyond it.
+    # The record must name what the ray actually found and say the subject was not on the line.
+    nb.reset_scene()
+    _cube("t_0_0_far_wall", 0.0, 200.0, 8.0, size=20.0)
+    past = vcam.subject_sightline(0.0, 0.0, 1.6, 0.0, 40.0, 3.0)
+    assert past["subject_visible"] is False, "a clear line to nothing is not a view of the subject"
+    assert past["subject_blocked_by"] is None, "the far wall is behind the subject, not in front"
+    assert past["subject_lands_on"] == "t_0_0_far_wall"
+    assert past["subject_lands_at_m"] > past["subject_range_m"] + past["subject_reach_m"]
+    assert "t_0_0_far_wall" in past["subject_note"]

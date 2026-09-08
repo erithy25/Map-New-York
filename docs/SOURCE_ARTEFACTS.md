@@ -58,8 +58,20 @@ products and 4.50 GB of source data behind a mosaic that no longer exists.
 
 ## What was considered and not removed
 
-* `data/raw/character_assets/mh_data` (508 MB) — unpacked from zips that are still present, so it is
-  reconstructible, but a character rebuild needs it and the disk pressure never justified the risk.
+* ~~`data/raw/character_assets/mh_data` (508 MB) — unpacked from zips that are still present, so it is
+  reconstructible, but a character rebuild needs it and the disk pressure never justified the risk.~~
+  **Both went, and the zips were not "still present" when it mattered.** A later pass removed the
+  whole `data/raw/character_assets` directory — the 508 MB tree *and* the fourteen archives — leaving
+  MPFB2's user-data symlinks dangling, so `chenv.enable_mpfb` failed with all eight asset directories
+  missing and the character stage could not be run at all. Worse, **the step that built `mh_data`
+  from those archives had never been in the repository**, and the packs were not in
+  `nycsim_pipeline.sources` either, so `python -m nycsim_pipeline.download --id mh_bodyparts01`
+  answered *unknown source id*. Recovery existed only as 14 URLs and hashes recorded in
+  `data/manifest/downloads.json` after the fact. `tools/unpack_character_assets.py` closes that: it
+  reads the manifest, fetches each pack against its recorded SHA-256, and merges the archives into
+  the tree — 939 files, 508 MB, verified by rebuilding it and baking twelve NPCs from it. One pack
+  does not merge: `faceunits01` goes to `mh_data/faceunits_pack/`, because `mh_build.FACEUNITS_DIR`
+  expects it there and that path was the only surviving record of the original layout.
 * `data/raw/doitt_3d/DA_WISE_GML.zip` (874 MB) — the CityGML source. Spent (all 21 delivery-area
   parquet outputs exist) but already compressed, so only deletion would free anything, and it is an
   874 MB download.
@@ -86,6 +98,8 @@ copy:
 | `traffic_volume_auto.csv` | `.gz`, recoverable in place | `.gz` present, claim holds |
 | `dot_signs.csv` | `.gz`, recoverable in place | `.gz` present, claim holds |
 | `pedestrian_ramps.csv` | *not listed* | **was gone**, re-downloaded |
+| `character_assets/*.zip` (14 packs, 442.5 MB) | *listed as "still present"* | **was gone**, re-downloaded, unpacked, removed again |
+| `character_assets/mh_data` (508 MB) | *listed as not removed* | **was gone**, rebuilt by `tools/unpack_character_assets.py`, removed again |
 | `plan_cooling_towers.geojson` | *not listed* | **was gone**, re-downloaded |
 
 **Nothing is lost, and that was tested rather than asserted.** The three the furniture stage needs

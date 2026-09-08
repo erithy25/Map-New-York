@@ -65,11 +65,23 @@ def classify(doc: dict) -> dict:
     return {"count": len(bodies), "warm": warm, "summer": summer, "detail": detail}
 
 
+#: Widest mask the header can hold.  A 64-bit type, and a hard limit rather than a wrap: the cast
+#: grew from 24 bodies to 36 the moment the cold-weather ones were baked, and a ``uint32_t`` mask
+#: silently dropped archetypes 32 to 35 -- ``0xFFF409024u`` is 36 bits wide and does not fit the type
+#: it was written into (docs/DEVIATIONS.md J53).  Past 64 this file needs a different shape, and it
+#: must say so rather than truncate.
+MASK_BITS = 64
+
+
 def _mask(indices: list[int]) -> str:
+    over = [i for i in indices if i >= MASK_BITS]
+    if over:
+        raise SystemExit(f"archetypes {over} are past bit {MASK_BITS - 1}; the mask cannot hold them "
+                         f"-- widen the header's type before baking more bodies")
     value = 0
     for i in indices:
         value |= 1 << i
-    return f"0x{value:08X}u"
+    return f"0x{value:016X}uLL"
 
 
 def render(info: dict) -> str:
@@ -95,29 +107,29 @@ def render(info: dict) -> str:
         "namespace nycsim_gameplay",
         "{",
         f"/// Bodies wearing a coat, a puffer or a jacket: archetypes {warm}.",
-        f"inline constexpr uint32_t kPedWarmArchetypes = {_mask(info['warm'])};",
+        f"inline constexpr uint64_t kPedWarmArchetypes = {_mask(info['warm'])};",
         f"/// Bodies in summer dress and no outer layer: archetypes {summer}.",
-        f"inline constexpr uint32_t kPedSummerArchetypes = {_mask(info['summer'])};",
+        f"inline constexpr uint64_t kPedSummerArchetypes = {_mask(info['summer'])};",
         f"/// Archetypes the table covers; a bit above this is not a body.",
         f"inline constexpr uint32_t kPedWardrobeArchetypes = {info['count']}u;",
         "",
         "/// One of the archetypes in `mask`, drawn from `roll` (any 32-bit value); "
         "`fallback` when the mask is empty.",
-        "inline uint8_t pickArchetype(uint32_t mask, uint32_t roll, uint8_t fallback)",
+        "inline uint8_t pickArchetype(uint64_t mask, uint32_t roll, uint8_t fallback)",
         "{",
-        "\tif (mask == 0u)",
+        "\tif (mask == 0uLL)",
         "\t{",
         "\t\treturn fallback;",
         "\t}",
         "\tuint32_t n = 0u;",
-        "\tfor (uint32_t m = mask; m != 0u; m &= m - 1u)",
+        "\tfor (uint64_t m = mask; m != 0uLL; m &= m - 1uLL)",
         "\t{",
         "\t\t++n;",
         "\t}",
         "\tuint32_t want = roll % n;",
-        "\tfor (uint32_t i = 0u; i < 32u; ++i)",
+        f"\tfor (uint32_t i = 0u; i < {MASK_BITS}u; ++i)",
         "\t{",
-        "\t\tif ((mask & (1u << i)) == 0u)",
+        "\t\tif ((mask & (1uLL << i)) == 0uLL)",
         "\t\t{",
         "\t\t\tcontinue;",
         "\t\t}",

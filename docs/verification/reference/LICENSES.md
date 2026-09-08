@@ -1096,9 +1096,9 @@ Every photograph under `docs/verification/reference/` is from Wikimedia Commons 
 
 | file | title | author | licence | date taken | camera GPS |
 |---|---|---|---|---|---|
-| [1.jpg](landmark_kings_theatre/1.jpg) | [Kings Theatre Flatbush finished jeh.jpg](https://commons.wikimedia.org/wiki/File:Kings_Theatre_Flatbush_finished_jeh.jpg) | Jim.henderson | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) | 2015 | 40.64583, -73.95819 |
-| [2.jpg](landmark_kings_theatre/2.jpg) | [Kings theatre.jpg](https://commons.wikimedia.org/wiki/File:Kings_theatre.jpg) | Moucheraud | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2015-10-18 14:43:55 | — |
-| [3.jpg](landmark_kings_theatre/3.jpg) | [Ceiling kings theatre.jpg](https://commons.wikimedia.org/wiki/File:Ceiling_kings_theatre.jpg) | Moucheraud | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2015-10-18 14:35:27 | — |
+| [1.jpg](landmark_kings_theatre/1.jpg) | [After the Paul Weller Show (53978243532).jpg](https://commons.wikimedia.org/wiki/File:After_the_Paul_Weller_Show_(53978243532).jpg) | Eden, Janine and Jim from New York City | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) | 2024-09-07 22:59 | 40.64604, -73.95731 |
+| [2.jpg](landmark_kings_theatre/2.jpg) | [Kings Theatre Exterior 01.jpg](https://commons.wikimedia.org/wiki/File:Kings_Theatre_Exterior_01.jpg) | Alexandra Silversmith | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 2015-10-18 13:45:32 | 40.64601, -73.95806 |
+| [3.jpg](landmark_kings_theatre/3.jpg) | [Kings Theatre Flatbush finished jeh.jpg](https://commons.wikimedia.org/wiki/File:Kings_Theatre_Flatbush_finished_jeh.jpg) | Jim.henderson | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) | 2015 | 40.64583, -73.95819 |
 
 ## landmark_brooklyn_museum — Brooklyn Museum
 

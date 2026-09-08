@@ -525,13 +525,42 @@ def test_generated_cast_exercises_every_contract_level(npcs: dict) -> None:
 
 
 def test_npc_vectors_are_twelve_floats_that_decode_to_what_was_built(npcs: dict) -> None:
+    """The vector plus the season it was baked for must reproduce the outfit on disk.
+
+    The season is part of the input, not of the vector: the same twelve floats give a tank top in
+    July and the same tank top under a denim jacket in January (``variety.COLD_OUTER_BY_TOP``).  A
+    body baked before ``--season`` existed carries no ``season`` field and is a mild one, which is
+    why the default is read from the record rather than assumed for every body.
+    """
+    seasons = {npc.get("season", "mild") for npc in npcs["npcs"]}
+    assert seasons <= {"mild", "cold"}, f"unknown seasons in the cast: {sorted(seasons)}"
     for npc in npcs["npcs"]:
         vector = npc["variety_vector"]
         assert len(vector) == 12
         assert all(0.0 <= v <= 1.0 for v in vector)
-        appearance = variety.decode(vector)
+        season = npc.get("season", "mild")
+        appearance = variety.decode(vector, season=season)
         assert list(appearance.levels) == npc["variety_levels"], f"{npc['id']} does not re-decode"
-        assert appearance.resolve()["outfit"] == npc["resolved"]["outfit"]
+        assert appearance.resolve()["outfit"] == npc["resolved"]["outfit"], \
+            f"{npc['id']} ({season}) does not re-dress from its own vector"
+
+
+def test_the_cold_cast_wears_the_coats_the_wardrobe_declares(npcs: dict) -> None:
+    """J53's remaining half: the garments existed and nobody wore them.
+
+    Before the cold bodies were baked, 12 of the 15 outerwear garments were worn by nobody and
+    every genuinely cold-weather one was among them -- both coats and all three puffers.
+    """
+    outer = {g["id"] for g in npcs["wardrobe"] if g.get("slot") == "outerwear"}
+    worn = {g for npc in npcs["npcs"] for g in npc["resolved"]["outfit"]}
+    cold = {"coat_wool", "coat_trench", "puffer_black", "puffer_olive", "puffer_red_long"}
+    assert cold <= outer, "the wardrobe no longer declares the cold-weather garments as outerwear"
+    missing = sorted(cold - worn)
+    assert not missing, f"no baked body wears {missing}"
+    unworn = sorted(outer - worn)
+    # Recorded rather than asserted away: four remain, and they are work and formal layers, not warmth.
+    assert set(unworn) <= {"suit_jacket_db", "suit_jacket_womens", "vest_conedison", "vest_delivery"}, \
+        f"outerwear worn by nobody has grown: {unworn}"
 
 
 def test_npcs_share_one_skeleton_and_the_same_clips(npcs: dict) -> None:

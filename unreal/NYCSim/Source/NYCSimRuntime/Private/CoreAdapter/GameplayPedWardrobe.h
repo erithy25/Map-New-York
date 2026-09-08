@@ -16,29 +16,29 @@
 
 namespace nycsim_gameplay
 {
-/// Bodies wearing a coat, a puffer or a jacket: archetypes 2, 5, 12, 15, 22.
-inline constexpr uint32_t kPedWarmArchetypes = 0x00409024u;
+/// Bodies wearing a coat, a puffer or a jacket: archetypes 2, 5, 12, 15, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35.
+inline constexpr uint64_t kPedWarmArchetypes = 0x0000000FFF409024uLL;
 /// Bodies in summer dress and no outer layer: archetypes 1, 11, 21.
-inline constexpr uint32_t kPedSummerArchetypes = 0x00200802u;
+inline constexpr uint64_t kPedSummerArchetypes = 0x0000000000200802uLL;
 /// Archetypes the table covers; a bit above this is not a body.
-inline constexpr uint32_t kPedWardrobeArchetypes = 24u;
+inline constexpr uint32_t kPedWardrobeArchetypes = 36u;
 
 /// One of the archetypes in `mask`, drawn from `roll` (any 32-bit value); `fallback` when the mask is empty.
-inline uint8_t pickArchetype(uint32_t mask, uint32_t roll, uint8_t fallback)
+inline uint8_t pickArchetype(uint64_t mask, uint32_t roll, uint8_t fallback)
 {
-	if (mask == 0u)
+	if (mask == 0uLL)
 	{
 		return fallback;
 	}
 	uint32_t n = 0u;
-	for (uint32_t m = mask; m != 0u; m &= m - 1u)
+	for (uint64_t m = mask; m != 0uLL; m &= m - 1uLL)
 	{
 		++n;
 	}
 	uint32_t want = roll % n;
-	for (uint32_t i = 0u; i < 32u; ++i)
+	for (uint32_t i = 0u; i < 64u; ++i)
 	{
-		if ((mask & (1u << i)) == 0u)
+		if ((mask & (1uLL << i)) == 0uLL)
 		{
 			continue;
 		}

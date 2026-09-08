@@ -574,14 +574,18 @@ void PedSim::assignAppearance(Ped& p, float x, float y)
 	// 281 people sharing five of them would be a worse artefact than the one being fixed; as more
 	// warm bodies are baked the mask grows and this code needs no change.  The half-and-half split
 	// is a stated rule, not a measurement of what New Yorkers wear at 8 degrees.
+	// 64 bits, not 32: the cast is 36 bodies and a uint32_t mask cannot hold archetypes 32 to 35.
+	// It did not fail loudly either -- 0xFFF409024 is 36 bits wide and silently lost its top four
+	// when it was written into a uint32_t, so the four newest cold-weather bodies could never be
+	// drawn.  The generator now refuses to emit a mask past bit 63 rather than truncate again.
 	const bool wantsCoat = config_.temperatureC < 12.f;
-	const uint32_t allMask = kArchetypeCount >= 32 ? 0xFFFFFFFFu : ((1u << kArchetypeCount) - 1u);
-	uint32_t mask = allMask;
+	const uint64_t allMask = kArchetypeCount >= 64 ? ~0uLL : ((1uLL << kArchetypeCount) - 1uLL);
+	uint64_t mask = allMask;
 	if (wantsCoat)
 	{
-		const uint32_t warm = kPedWarmArchetypes & allMask;
-		const uint32_t notSummer = allMask & ~kPedSummerArchetypes;
-		mask = (warm != 0u && p.rng.chance(0.5f)) ? warm : (notSummer != 0u ? notSummer : allMask);
+		const uint64_t warm = kPedWarmArchetypes & allMask;
+		const uint64_t notSummer = allMask & ~kPedSummerArchetypes;
+		mask = (warm != 0uLL && p.rng.chance(0.5f)) ? warm : (notSummer != 0uLL ? notSummer : allMask);
 	}
 
 	// ARCHITECTURE §10: no duplicate (archetype, variant) pair within 60 m. Eight draws are enough in practice;

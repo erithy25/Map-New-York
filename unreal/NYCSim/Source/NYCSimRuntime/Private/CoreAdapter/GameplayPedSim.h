@@ -15,6 +15,7 @@
 #include <string>
 #include <vector>
 
+#include "CoreAdapter/GameplayPedWardrobe.h"
 #include "CoreAdapter/GameplayRoadNetwork.h"
 #include "CoreAdapter/GameplayTrafficSim.h"
 #include "nycsim/traffic/Random.h"
@@ -96,7 +97,11 @@ struct PedStats
 class PedSim
 {
 public:
-	static constexpr uint8_t kArchetypeCount = 24;
+	/// How many pedestrian bodies the kit has, taken from the generated wardrobe table rather than
+	/// written here.  It said 24 while the generator said 36, so the twelve cold-weather bodies
+	/// baked for J53 existed on disk, were named in the wardrobe mask, and could never be drawn.
+	/// A count that has to be edited by hand to follow the cast is a count that will not.
+	static constexpr uint8_t kArchetypeCount = static_cast<uint8_t>(kPedWardrobeArchetypes);
 	/// Sidewalk centreline offset from the kerb line (kerb sits at width_m / 2 from the centreline).
 	static constexpr float kSidewalkOffsetM = 1.9f;
 
