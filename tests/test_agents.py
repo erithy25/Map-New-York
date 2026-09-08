@@ -396,6 +396,49 @@ def test_agents_stand_on_the_same_surfaces_the_scene_draws():
             f"+{vagents.PAVEMENT_LIFT_M[k]} m")
 
 
+def test_importing_a_rigged_vehicle_yields_only_the_meshes_the_file_declares():
+    """The importer creates objects the file does not contain, and one of them used to be drawn.
+
+    Blender's glTF importer builds a mesh object called ``Icosphere`` for any rigged file and gives
+    it to every imported bone as a ``custom_shape`` -- a viewport display helper. ``import_glb``
+    asked ``bpy.data.objects`` what had appeared rather than asking what the file declared, so the
+    helper came back with the car and ``AssetLibrary`` instanced its mesh: an untextured 2 m sphere
+    at every rigged vehicle's rear axle, reaching a metre below the road. It is the same shape of
+    fault as the rest of this repository's expensive ones -- a correct answer to a question next to
+    the one being asked -- and it is caught here by counting: a glb with one mesh must import as one
+    mesh.
+    """
+    bpy = pytest.importorskip("bpy")
+    sys.path.insert(0, str(REPO_ROOT / "blender" / "verify"))
+    import scene as vscene  # noqa: E402
+    import json as _json
+    import struct as _struct
+
+    path = REPO_ROOT / "blender_out" / "vehicles" / "fusion_hybrid_LOD2.glb"
+    if not path.is_file():
+        pytest.skip(f"{path.name} has not been built")
+    data = path.read_bytes()
+    off, doc = 12, None
+    while off < len(data):
+        clen, ctype = _struct.unpack("<I4s", data[off:off + 8])
+        if ctype == b"JSON":
+            doc = _json.loads(data[off + 8:off + 8 + clen])
+            break
+        off += 8 + clen + (-clen % 4)
+    declared = sum(1 for n in doc["nodes"] if "mesh" in n)
+    assert declared > 0, "the fixture glb declares no mesh"
+
+    bpy.ops.wm.read_factory_settings(use_empty=True)
+    got = vscene.import_glb(path)
+    meshes = [ob for ob in got if ob.type == "MESH"]
+    assert len(meshes) == declared, (
+        f"{path.name} declares {declared} mesh node(s) and import_glb returned {len(meshes)}: "
+        f"{[ob.name for ob in meshes]}")
+    stray = [ob.name for ob in bpy.data.objects
+             if ob.type == "MESH" and ob.data.name.startswith("Icosphere")]
+    assert not stray, f"the importer's bone display shape was left in the file: {stray}"
+
+
 # --------------------------------------------------------------------------- end to end, in Blender
 def test_placed_agents_stand_on_the_pavement_and_the_counts_add_up(snapshot, surfaces):
     """Build the agents into a real Blender scene and measure where their geometry ends up.

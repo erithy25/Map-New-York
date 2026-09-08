@@ -12500,26 +12500,43 @@
    ],
    "stage": "transit"
   },
+  "unreal_manifest": {
+   "artifact_id": "unreal_manifest",
+   "bytes": 1682574,
+   "git_commit": "7625e6673688",
+   "path": "data/processed/unreal_manifest.json",
+   "produced_at": "2026-09-07T21:49:17Z",
+   "rows": 891,
+   "schema": "unreal_manifest/1",
+   "sha256": "d70b888fa92695bf73ec4c94aeda0ebe858ac661e39b3a3882dce0713f21aeed",
+   "sources": [
+    "blender_out",
+    "tiles",
+    "water",
+    "runtime"
+   ],
+   "stage": "unreal"
+  },
   "vehicles/ambulance_type1_fdny": {
    "artifact_id": "vehicles/ambulance_type1_fdny",
-   "bytes": 1595100,
+   "bytes": 16119064,
    "catalog": "blender_out/vehicles/catalog/ambulance_type1_fdny.json",
    "dimension_deviation_pct": {
     "height_pct": 0.0,
     "length_pct": 0.349,
     "width_pct": 0.164
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "60404334a1b9",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/ambulance_type1_fdny.glb",
-     "triangles": 36322
+     "triangles": 37512
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/ambulance_type1_fdny_LOD1.glb",
-     "triangles": 27363
+     "triangles": 27539
     },
     {
      "level": 2,
@@ -12528,7 +12545,7 @@
     }
    ],
    "path": "blender_out/vehicles/ambulance_type1_fdny.glb",
-   "produced_at": "2026-09-06T19:31:49Z",
+   "produced_at": "2026-09-08T05:09:51Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 1120,
     "ground_clearance_mm": 230,
@@ -12546,23 +12563,23 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "b82eb1ee386150afa2238a43be50adad5cc96fb784b47933521bfd348efce2a4",
+   "sha256": "0e9f1e628be01ed320748b120e7f23c35480259f9d425d22794a24bf6a5c6da7",
    "sources": [
     "Ford F-450 chassis cab published dimensions; Type I ambulance module 96 in wide"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 36322
+   "triangles_lod0": 37512
   },
   "vehicles/arrow_ebike": {
    "artifact_id": "vehicles/arrow_ebike",
-   "bytes": 273256,
+   "bytes": 45197188,
    "catalog": "blender_out/vehicles/catalog/arrow_ebike.json",
    "dimension_deviation_pct": {
     "height_pct": -0.182,
     "length_pct": 1.622,
     "width_pct": 1.151
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "4c668505e7be",
    "lods": [
     {
      "level": 0,
@@ -12581,7 +12598,7 @@
     }
    ],
    "path": "blender_out/vehicles/arrow_ebike.glb",
-   "produced_at": "2026-09-06T19:32:09Z",
+   "produced_at": "2026-09-08T05:10:49Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 330,
     "ground_clearance_mm": 245,
@@ -12599,7 +12616,7 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "9368c6596d308aea0d2991bcca81a1cf8851d0f67ce894ebd17e9355114f87b8",
+   "sha256": "dfdc879509f0b4cae9c9752ad10e5672f28dc338e304996f4cfe55fba1326ba1",
    "sources": [
     "Arrow class-2 delivery e-bike published specification"
    ],
@@ -12608,24 +12625,24 @@
   },
   "vehicles/camry_black_car": {
    "artifact_id": "vehicles/camry_black_car",
-   "bytes": 1617620,
+   "bytes": 51768892,
    "catalog": "blender_out/vehicles/catalog/camry_black_car.json",
    "dimension_deviation_pct": {
     "height_pct": 0.0,
     "length_pct": -0.0,
     "width_pct": 0.0
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "60404334a1b9",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/camry_black_car.glb",
-     "triangles": 38540
+     "triangles": 39742
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/camry_black_car_LOD1.glb",
-     "triangles": 27477
+     "triangles": 27665
     },
     {
      "level": 2,
@@ -12634,7 +12651,7 @@
     }
    ],
    "path": "blender_out/vehicles/camry_black_car.glb",
-   "produced_at": "2026-09-06T19:31:22Z",
+   "produced_at": "2026-09-08T05:08:49Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 1000,
     "ground_clearance_mm": 145,
@@ -12652,42 +12669,42 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "e56d9e4e3c3d9d7b49291b71af2d2fdb5a930a831d2a5da143f9f9b810575af3",
+   "sha256": "cd6080381b9d00ca2dcf084c94267f520aba21fe436bc2e82490029ccc19a833",
    "sources": [
     "Toyota Camry XV70 published dimensions"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 38540
+   "triangles_lod0": 39742
   },
   "vehicles/camry_boro_taxi": {
    "artifact_id": "vehicles/camry_boro_taxi",
-   "bytes": 1642728,
+   "bytes": 51801628,
    "catalog": "blender_out/vehicles/catalog/camry_boro_taxi.json",
    "dimension_deviation_pct": {
     "height_pct": 0.0,
     "length_pct": -0.0,
     "width_pct": 0.0
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "60404334a1b9",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/camry_boro_taxi.glb",
-     "triangles": 38652
+     "triangles": 39854
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/camry_boro_taxi_LOD1.glb",
-     "triangles": 27571
+     "triangles": 27759
     },
     {
      "level": 2,
      "path": "blender_out/vehicles/camry_boro_taxi_LOD2.glb",
-     "triangles": 5722
+     "triangles": 5721
     }
    ],
    "path": "blender_out/vehicles/camry_boro_taxi.glb",
-   "produced_at": "2026-09-06T19:31:25Z",
+   "produced_at": "2026-09-08T05:08:55Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 1000,
     "ground_clearance_mm": 145,
@@ -12705,42 +12722,42 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "b1df515e98b9e9f02aef0f8e596c15339541ed1dc067024445bfef545b7897f2",
+   "sha256": "35dff5e9c34f6ab070f12409dea1567d1946ecec05e5a99481d6b281ea586f27",
    "sources": [
     "Toyota Camry XV70 published dimensions"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 38652
+   "triangles_lod0": 39854
   },
   "vehicles/camry_taxi_yellow": {
    "artifact_id": "vehicles/camry_taxi_yellow",
-   "bytes": 1637416,
+   "bytes": 51793520,
    "catalog": "blender_out/vehicles/catalog/camry_taxi_yellow.json",
    "dimension_deviation_pct": {
     "height_pct": 0.0,
     "length_pct": -0.0,
     "width_pct": 0.0
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "60404334a1b9",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/camry_taxi_yellow.glb",
-     "triangles": 38652
+     "triangles": 39854
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/camry_taxi_yellow_LOD1.glb",
-     "triangles": 27571
+     "triangles": 27759
     },
     {
      "level": 2,
      "path": "blender_out/vehicles/camry_taxi_yellow_LOD2.glb",
-     "triangles": 5722
+     "triangles": 5721
     }
    ],
    "path": "blender_out/vehicles/camry_taxi_yellow.glb",
-   "produced_at": "2026-09-06T19:31:20Z",
+   "produced_at": "2026-09-08T05:08:43Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 1000,
     "ground_clearance_mm": 145,
@@ -12758,23 +12775,23 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "a7c036540a981db5b6632188d5e9562bcad17a13845315b2317dc0d90e26b9e7",
+   "sha256": "beb43ef5ac17ce2eb0e4d9691962dcb501ff4ca37ddfb16e8c60d8464bb6de0a",
    "sources": [
     "Toyota Camry XV70 published dimensions"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 38652
+   "triangles_lod0": 39854
   },
   "vehicles/citibike_cruiser": {
    "artifact_id": "vehicles/citibike_cruiser",
-   "bytes": 272688,
+   "bytes": 45194136,
    "catalog": "blender_out/vehicles/catalog/citibike_cruiser.json",
    "dimension_deviation_pct": {
     "height_pct": -0.0,
     "length_pct": -0.526,
     "width_pct": 1.151
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "4c668505e7be",
    "lods": [
     {
      "level": 0,
@@ -12793,7 +12810,7 @@
     }
    ],
    "path": "blender_out/vehicles/citibike_cruiser.glb",
-   "produced_at": "2026-09-06T19:32:09Z",
+   "produced_at": "2026-09-08T05:10:44Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 350,
     "ground_clearance_mm": 250,
@@ -12811,7 +12828,7 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "2fcc0c21d938cc0a63b9bcb63868522e8d8ebc6cb4b247e1a0a15419701b8e9f",
+   "sha256": "1f74e9ff4e7693c6763e08a57930e8391ed79a2499858fac3ed07738d19a0f66",
    "sources": [
     "Citi Bike (Lyft) classic bike published dimensions"
    ],
@@ -12820,33 +12837,33 @@
   },
   "vehicles/coned_utility_truck": {
    "artifact_id": "vehicles/coned_utility_truck",
-   "bytes": 1669768,
+   "bytes": 51825404,
    "catalog": "blender_out/vehicles/catalog/coned_utility_truck.json",
    "dimension_deviation_pct": {
     "height_pct": -0.0,
     "length_pct": 0.0,
     "width_pct": 0.984
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "4c668505e7be",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/coned_utility_truck.glb",
-     "triangles": 37740
+     "triangles": 38930
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/coned_utility_truck_LOD1.glb",
-     "triangles": 26989
+     "triangles": 27165
     },
     {
      "level": 2,
      "path": "blender_out/vehicles/coned_utility_truck_LOD2.glb",
-     "triangles": 5237
+     "triangles": 5236
     }
    ],
    "path": "blender_out/vehicles/coned_utility_truck.glb",
-   "produced_at": "2026-09-06T19:32:06Z",
+   "produced_at": "2026-09-08T05:10:34Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 1120,
     "ground_clearance_mm": 240,
@@ -12864,33 +12881,33 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "c750a5b14869cd8bcab208e336d6bef2002326d9600e770fc55ef667aab807b4",
+   "sha256": "8c1a2b4fd133f21086b1fe8af2e17982ec6b08d8c99c6537799ea8ff69fdb980",
    "sources": [
     "Ford F-550 chassis cab published dimensions; 11 ft utility body"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 37740
+   "triangles_lod0": 38930
   },
   "vehicles/dollar_van": {
    "artifact_id": "vehicles/dollar_van",
-   "bytes": 1639328,
+   "bytes": 51802140,
    "catalog": "blender_out/vehicles/catalog/dollar_van.json",
    "dimension_deviation_pct": {
-    "height_pct": 0.0,
+    "height_pct": 0.545,
     "length_pct": 0.0,
     "width_pct": 0.534
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "4c668505e7be",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/dollar_van.glb",
-     "triangles": 39714
+     "triangles": 40916
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/dollar_van_LOD1.glb",
-     "triangles": 27729
+     "triangles": 27917
     },
     {
      "level": 2,
@@ -12899,7 +12916,7 @@
     }
    ],
    "path": "blender_out/vehicles/dollar_van.glb",
-   "produced_at": "2026-09-06T19:32:00Z",
+   "produced_at": "2026-09-08T05:10:18Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 960,
     "ground_clearance_mm": 180,
@@ -12917,42 +12934,42 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "6d2c8bc4626db2d48d17181be8475046bf10c061d41d250d0571857743c39fc5",
+   "sha256": "1bf59e3f3851dfce04c0a0cead7d8a99475298dd0b9bd94bf28b6af533ee007b",
    "sources": [
     "Ford Transit 350 XLT 15-passenger published dimensions"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 39714
+   "triangles_lod0": 40916
   },
   "vehicles/explorer_nypd": {
    "artifact_id": "vehicles/explorer_nypd",
-   "bytes": 1678352,
+   "bytes": 51846352,
    "catalog": "blender_out/vehicles/catalog/explorer_nypd.json",
    "dimension_deviation_pct": {
     "height_pct": 0.0,
     "length_pct": 0.0,
     "width_pct": 0.036
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "60404334a1b9",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/explorer_nypd.glb",
-     "triangles": 39264
+     "triangles": 40466
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/explorer_nypd_LOD1.glb",
-     "triangles": 28057
+     "triangles": 28245
     },
     {
      "level": 2,
      "path": "blender_out/vehicles/explorer_nypd_LOD2.glb",
-     "triangles": 5722
+     "triangles": 5721
     }
    ],
    "path": "blender_out/vehicles/explorer_nypd.glb",
-   "produced_at": "2026-09-06T19:31:32Z",
+   "produced_at": "2026-09-08T05:09:14Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 1000,
     "ground_clearance_mm": 195,
@@ -12970,33 +12987,33 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "b40c4f4b624ac61fac24268bd37ae232bc9213ff4835ff0af7753838ead743be",
+   "sha256": "09a9cd1bf8d6d13b89377a37f97dad8b4fe593a3d1a50224e2a62cfdfd0c5f5b",
    "sources": [
     "Ford Explorer / Police Interceptor Utility 2020 published dimensions"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 39264
+   "triangles_lod0": 40466
   },
   "vehicles/freightliner_stepvan": {
    "artifact_id": "vehicles/freightliner_stepvan",
-   "bytes": 1538356,
+   "bytes": 16044360,
    "catalog": "blender_out/vehicles/catalog/freightliner_stepvan.json",
    "dimension_deviation_pct": {
     "height_pct": 0.0,
     "length_pct": 0.123,
     "width_pct": 0.164
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "4c668505e7be",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/freightliner_stepvan.glb",
-     "triangles": 35296
+     "triangles": 36486
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/freightliner_stepvan_LOD1.glb",
-     "triangles": 26499
+     "triangles": 26675
     },
     {
      "level": 2,
@@ -13005,7 +13022,7 @@
     }
    ],
    "path": "blender_out/vehicles/freightliner_stepvan.glb",
-   "produced_at": "2026-09-06T19:32:02Z",
+   "produced_at": "2026-09-08T05:10:21Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 1200,
     "ground_clearance_mm": 230,
@@ -13023,33 +13040,33 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "ee04365efa2a4eb2cd25a6c333bd9e923b153c6a06a288c480580f16841b94f5",
+   "sha256": "90cbda810ecbfd909270ed0dfd4847746c23f731c462d617758a311868e462fc",
    "sources": [
     "Freightliner MT55 published dimensions; 25 ft walk-in body"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 35296
+   "triangles_lod0": 36486
   },
   "vehicles/fusion_black_car": {
    "artifact_id": "vehicles/fusion_black_car",
-   "bytes": 4208408,
+   "bytes": 54975980,
    "catalog": "blender_out/vehicles/catalog/fusion_black_car.json",
    "dimension_deviation_pct": {
     "height_pct": -0.004,
     "length_pct": -0.0,
     "width_pct": 0.0
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "60404334a1b9",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/fusion_black_car.glb",
-     "triangles": 84786
+     "triangles": 85976
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/fusion_black_car_LOD1.glb",
-     "triangles": 58280
+     "triangles": 58342
     },
     {
      "level": 2,
@@ -13058,7 +13075,7 @@
     }
    ],
    "path": "blender_out/vehicles/fusion_black_car.glb",
-   "produced_at": "2026-09-06T19:31:15Z",
+   "produced_at": "2026-09-08T05:08:31Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 990.0,
     "ground_clearance_mm": 130.0,
@@ -13076,33 +13093,33 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "dc54f026c651499165e42e68255b009d1aaa72359eb3081e29e4ec325830031f",
+   "sha256": "d8cd1e0858b570a9f6ad258a5264b95c4b75d6495c03899ebabb2237ba2fed59",
    "sources": [
     "Ford 2019 Fusion published dimensions (ADR-009)"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 84786
+   "triangles_lod0": 85976
   },
   "vehicles/fusion_green_boro_taxi": {
    "artifact_id": "vehicles/fusion_green_boro_taxi",
-   "bytes": 4245832,
+   "bytes": 55018504,
    "catalog": "blender_out/vehicles/catalog/fusion_green_boro_taxi.json",
    "dimension_deviation_pct": {
     "height_pct": -0.004,
     "length_pct": -0.0,
     "width_pct": 0.0
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "60404334a1b9",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/fusion_green_boro_taxi.glb",
-     "triangles": 84898
+     "triangles": 86088
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/fusion_green_boro_taxi_LOD1.glb",
-     "triangles": 58275
+     "triangles": 58342
     },
     {
      "level": 2,
@@ -13111,7 +13128,7 @@
     }
    ],
    "path": "blender_out/vehicles/fusion_green_boro_taxi.glb",
-   "produced_at": "2026-09-06T19:31:18Z",
+   "produced_at": "2026-09-08T05:08:37Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 990.0,
     "ground_clearance_mm": 130.0,
@@ -13129,33 +13146,33 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "8b55cd6ed1326a9489a021c78f823ce45702bd162f0ce0a801b65bb6ff524c26",
+   "sha256": "2e3e2c4e68c43d65dacda6414bf0c36e1d09ec22fda3e608f5dd35bb229e4f49",
    "sources": [
     "Ford 2019 Fusion published dimensions (ADR-009)"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 84898
+   "triangles_lod0": 86088
   },
   "vehicles/fusion_hybrid": {
    "artifact_id": "vehicles/fusion_hybrid",
-   "bytes": 4210536,
+   "bytes": 54978104,
    "catalog": "blender_out/vehicles/catalog/fusion_hybrid.json",
    "dimension_deviation_pct": {
     "height_pct": -0.004,
     "length_pct": -0.0,
     "width_pct": 0.0
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "60404334a1b9",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/fusion_hybrid.glb",
-     "triangles": 84786
+     "triangles": 85976
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/fusion_hybrid_LOD1.glb",
-     "triangles": 58280
+     "triangles": 58342
     },
     {
      "level": 2,
@@ -13164,7 +13181,7 @@
     }
    ],
    "path": "blender_out/vehicles/fusion_hybrid.glb",
-   "produced_at": "2026-09-06T19:31:11Z",
+   "produced_at": "2026-09-08T05:08:20Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 990.0,
     "ground_clearance_mm": 130.0,
@@ -13182,33 +13199,33 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "b53bb4808166a2315931cc15784b424af23071f01cfb91d8d7385867979d4799",
+   "sha256": "53be01e788d6442c0c2e5be589b94c110ca0dbc360e89f570b20e8a65a603f66",
    "sources": [
     "Ford 2019 Fusion published dimensions (ADR-009)"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 84786
+   "triangles_lod0": 85976
   },
   "vehicles/fusion_yellow_taxi": {
    "artifact_id": "vehicles/fusion_yellow_taxi",
-   "bytes": 4246528,
+   "bytes": 55019192,
    "catalog": "blender_out/vehicles/catalog/fusion_yellow_taxi.json",
    "dimension_deviation_pct": {
     "height_pct": -0.004,
     "length_pct": -0.0,
     "width_pct": 0.0
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "60404334a1b9",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/fusion_yellow_taxi.glb",
-     "triangles": 84898
+     "triangles": 86088
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/fusion_yellow_taxi_LOD1.glb",
-     "triangles": 58275
+     "triangles": 58342
     },
     {
      "level": 2,
@@ -13217,7 +13234,7 @@
     }
    ],
    "path": "blender_out/vehicles/fusion_yellow_taxi.glb",
-   "produced_at": "2026-09-06T19:31:13Z",
+   "produced_at": "2026-09-08T05:08:25Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 990.0,
     "ground_clearance_mm": 130.0,
@@ -13235,23 +13252,23 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "fbfaff550d374a21666ac9946c6e67ab844cae4ce0c58113c88d3ca913f6c6ec",
+   "sha256": "eab037d2649efbe1b37c68e0e9ae1986bba1591501cbc8c99fbadc268725d7c7",
    "sources": [
     "Ford 2019 Fusion published dimensions (ADR-009)"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 84898
+   "triangles_lod0": 86088
   },
   "vehicles/horse_carriage": {
    "artifact_id": "vehicles/horse_carriage",
-   "bytes": 567748,
+   "bytes": 27146332,
    "catalog": "blender_out/vehicles/catalog/horse_carriage.json",
    "dimension_deviation_pct": {
     "height_pct": -0.0,
     "length_pct": 0.222,
     "width_pct": -0.0
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "4c668505e7be",
    "lods": [
     {
      "level": 0,
@@ -13270,7 +13287,7 @@
     }
    ],
    "path": "blender_out/vehicles/horse_carriage.glb",
-   "produced_at": "2026-09-06T19:32:11Z",
+   "produced_at": "2026-09-08T05:11:06Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 800,
     "ground_clearance_mm": 380,
@@ -13288,7 +13305,7 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "79810f0da91d607949d1ace54c0bf0ecd79bfd977f978466cce22537de506019",
+   "sha256": "4663d0874c790bebc1b69c0f5173a49b827e4ea8abe00dcc605fa52edd89299b",
    "sources": [
     "NYC DCWP horse-drawn cab rules; typical vis-a-vis carriage dimensions"
    ],
@@ -13297,33 +13314,33 @@
   },
   "vehicles/isuzu_npr_box": {
    "artifact_id": "vehicles/isuzu_npr_box",
-   "bytes": 1504916,
+   "bytes": 16010792,
    "catalog": "blender_out/vehicles/catalog/isuzu_npr_box.json",
    "dimension_deviation_pct": {
     "height_pct": 0.0,
     "length_pct": 0.016,
     "width_pct": 0.188
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "60404334a1b9",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/isuzu_npr_box.glb",
-     "triangles": 35308
+     "triangles": 36498
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/isuzu_npr_box_LOD1.glb",
-     "triangles": 26489
+     "triangles": 26666
     },
     {
      "level": 2,
      "path": "blender_out/vehicles/isuzu_npr_box_LOD2.glb",
-     "triangles": 4751
+     "triangles": 4752
     }
    ],
    "path": "blender_out/vehicles/isuzu_npr_box.glb",
-   "produced_at": "2026-09-06T19:31:51Z",
+   "produced_at": "2026-09-08T05:09:54Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 1130,
     "ground_clearance_mm": 210,
@@ -13341,33 +13358,33 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "6c66ed1d7bf2dfb9e65225e974b19decd716f7f03a0df3c3835ffc70e36d3593",
+   "sha256": "a656df6ec92e2c4cd99b63b4c9a498533e3fdc8a14542ff75f62a8d98e7a0712",
    "sources": [
     "Isuzu NPR-HD published dimensions; 16 ft dry-freight body"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 35308
+   "triangles_lod0": 36498
   },
   "vehicles/mack_lr_dsny": {
    "artifact_id": "vehicles/mack_lr_dsny",
-   "bytes": 1577440,
+   "bytes": 16120960,
    "catalog": "blender_out/vehicles/catalog/mack_lr_dsny.json",
    "dimension_deviation_pct": {
     "height_pct": 0.0,
     "length_pct": 0.126,
     "width_pct": 0.116
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "60404334a1b9",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/mack_lr_dsny.glb",
-     "triangles": 36816
+     "triangles": 38006
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/mack_lr_dsny_LOD1.glb",
-     "triangles": 27695
+     "triangles": 27871
     },
     {
      "level": 2,
@@ -13376,7 +13393,7 @@
     }
    ],
    "path": "blender_out/vehicles/mack_lr_dsny.glb",
-   "produced_at": "2026-09-06T19:31:53Z",
+   "produced_at": "2026-09-08T05:09:58Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 1600,
     "ground_clearance_mm": 260,
@@ -13394,33 +13411,33 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "98351e25d11f63981138eb67f756c5b7bc6346a443e9753b94a4b9ce7e8885ae",
+   "sha256": "44f391378ef64038f3a82931a9c37fa55025fc0a190029fd71990c6b89c29adc",
    "sources": [
     "Mack LR published dimensions; DSNY rear-loader configuration"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 36816
+   "triangles_lod0": 38006
   },
   "vehicles/mci_j4500_coach": {
    "artifact_id": "vehicles/mci_j4500_coach",
-   "bytes": 1910972,
+   "bytes": 29112768,
    "catalog": "blender_out/vehicles/catalog/mci_j4500_coach.json",
    "dimension_deviation_pct": {
     "height_pct": 0.0,
     "length_pct": 0.026,
     "width_pct": 1.351
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "60404334a1b9",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/mci_j4500_coach.glb",
-     "triangles": 45244
+     "triangles": 46434
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/mci_j4500_coach_LOD1.glb",
-     "triangles": 34874
+     "triangles": 35050
     },
     {
      "level": 2,
@@ -13429,7 +13446,7 @@
     }
    ],
    "path": "blender_out/vehicles/mci_j4500_coach.glb",
-   "produced_at": "2026-09-06T19:31:42Z",
+   "produced_at": "2026-09-08T05:09:36Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 2050,
     "ground_clearance_mm": 280,
@@ -13447,23 +13464,23 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "17238174fda75db04ae6d9ec4f782598a7d4193979d5abff989ce2bcabf279f1",
+   "sha256": "05deb90f597584246c2a92681c285f3ce0e3c1eedd64028447371e78d623d323",
    "sources": [
     "MCI J4500 published dimensions"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 45244
+   "triangles_lod0": 46434
   },
   "vehicles/moped_scooter": {
    "artifact_id": "vehicles/moped_scooter",
-   "bytes": 261680,
+   "bytes": 45173548,
    "catalog": "blender_out/vehicles/catalog/moped_scooter.json",
    "dimension_deviation_pct": {
     "height_pct": -0.175,
     "length_pct": -0.839,
     "width_pct": 0.913
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "4c668505e7be",
    "lods": [
     {
      "level": 0,
@@ -13482,7 +13499,7 @@
     }
    ],
    "path": "blender_out/vehicles/moped_scooter.glb",
-   "produced_at": "2026-09-06T19:32:10Z",
+   "produced_at": "2026-09-08T05:10:55Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 250,
     "ground_clearance_mm": 160,
@@ -13500,7 +13517,7 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "3552730df17ca9b730306abbaca96318e021834e43f9f029964278413546f7f8",
+   "sha256": "12d9d33c100ab4b5d1b115bbd769dcd4bdc2605129e1b7d16685ffd3e14985a6",
    "sources": [
     "Piaggio Vespa Primavera 150 published dimensions"
    ],
@@ -13509,24 +13526,24 @@
   },
   "vehicles/nova_lfs_mta": {
    "artifact_id": "vehicles/nova_lfs_mta",
-   "bytes": 1806312,
+   "bytes": 31470600,
    "catalog": "blender_out/vehicles/catalog/nova_lfs_mta.json",
    "dimension_deviation_pct": {
     "height_pct": 0.313,
     "length_pct": 0.113,
     "width_pct": 0.116
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "60404334a1b9",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/nova_lfs_mta.glb",
-     "triangles": 39830
+     "triangles": 41020
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/nova_lfs_mta_LOD1.glb",
-     "triangles": 28912
+     "triangles": 29088
     },
     {
      "level": 2,
@@ -13535,7 +13552,7 @@
     }
    ],
    "path": "blender_out/vehicles/nova_lfs_mta.glb",
-   "produced_at": "2026-09-06T19:31:36Z",
+   "produced_at": "2026-09-08T05:09:26Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 2700,
     "ground_clearance_mm": 180,
@@ -13553,33 +13570,33 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "2e3a39f792259ea43a70da520aafe650bacf8ac35c266fe37116eb78d7e83663",
+   "sha256": "06c319f914424f92d7c0e05a27f3e6359b1b8b55c81124dde7f81353ab631f65",
    "sources": [
     "Nova Bus LFS published dimensions; MTA NYCT 40-foot bus fleet"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 39830
+   "triangles_lod0": 41020
   },
   "vehicles/nv200_taxi": {
    "artifact_id": "vehicles/nv200_taxi",
-   "bytes": 1605924,
+   "bytes": 51746452,
    "catalog": "blender_out/vehicles/catalog/nv200_taxi.json",
    "dimension_deviation_pct": {
-    "height_pct": 0.0,
+    "height_pct": 0.801,
     "length_pct": -0.0,
     "width_pct": 0.006
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "60404334a1b9",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/nv200_taxi.glb",
-     "triangles": 38430
+     "triangles": 39632
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/nv200_taxi_LOD1.glb",
-     "triangles": 27379
+     "triangles": 27567
     },
     {
      "level": 2,
@@ -13588,7 +13605,7 @@
     }
    ],
    "path": "blender_out/vehicles/nv200_taxi.glb",
-   "produced_at": "2026-09-06T19:31:29Z",
+   "produced_at": "2026-09-08T05:09:08Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 900,
     "ground_clearance_mm": 155,
@@ -13606,23 +13623,23 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "668b81fe57beff0b5acb8d4e0418212532e7f83ac142bf132912716168055fbf",
+   "sha256": "c9dcbfa443b09087b5e0b2b293521de726721d9cc8df1960bc6956511f2d5e36",
    "sources": [
     "Nissan NV200 Taxi published dimensions (NYC TLC Taxi of Tomorrow)"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 38430
+   "triangles_lod0": 39632
   },
   "vehicles/pedicab": {
    "artifact_id": "vehicles/pedicab",
-   "bytes": 330436,
+   "bytes": 45284448,
    "catalog": "blender_out/vehicles/catalog/pedicab.json",
    "dimension_deviation_pct": {
     "height_pct": -0.286,
     "length_pct": 1.552,
     "width_pct": -0.461
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "4c668505e7be",
    "lods": [
     {
      "level": 0,
@@ -13641,7 +13658,7 @@
     }
    ],
    "path": "blender_out/vehicles/pedicab.glb",
-   "produced_at": "2026-09-06T19:32:10Z",
+   "produced_at": "2026-09-08T05:11:00Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 400,
     "ground_clearance_mm": 200,
@@ -13659,7 +13676,7 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "deb2a3245e58fc0784ee4b1f0447bd2ed7498639a55d556f223fb34391e3fbb1",
+   "sha256": "9f28432b937d11e7debde580ac45eaa4f24ce58dd4df8a39ae32a67b1cfbe5b5",
    "sources": [
     "NYC Administrative Code \u00a720-250 pedicab dimensions; typical licensed vehicle"
    ],
@@ -13668,24 +13685,24 @@
   },
   "vehicles/rav4_fhv": {
    "artifact_id": "vehicles/rav4_fhv",
-   "bytes": 1637344,
+   "bytes": 51797696,
    "catalog": "blender_out/vehicles/catalog/rav4_fhv.json",
    "dimension_deviation_pct": {
     "height_pct": 0.0,
     "length_pct": 0.0,
     "width_pct": 0.028
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "60404334a1b9",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/rav4_fhv.glb",
-     "triangles": 38876
+     "triangles": 40078
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/rav4_fhv_LOD1.glb",
-     "triangles": 27763
+     "triangles": 27951
     },
     {
      "level": 2,
@@ -13694,7 +13711,7 @@
     }
    ],
    "path": "blender_out/vehicles/rav4_fhv.glb",
-   "produced_at": "2026-09-06T19:31:27Z",
+   "produced_at": "2026-09-08T05:09:02Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 1000,
     "ground_clearance_mm": 203,
@@ -13712,33 +13729,33 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "c9ae4b98932152808d8ca03219e4a49ca9180897e285e4d6532d926299a136e2",
+   "sha256": "7ee0038cd0551eeba57df41d231d9412dd0eda99078f8abe635972be449b0d1f",
    "sources": [
     "Toyota RAV4 XA50 published dimensions"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 38876
+   "triangles_lod0": 40078
   },
   "vehicles/school_bus_bluebird": {
    "artifact_id": "vehicles/school_bus_bluebird",
-   "bytes": 1658800,
+   "bytes": 16217348,
    "catalog": "blender_out/vehicles/catalog/school_bus_bluebird.json",
    "dimension_deviation_pct": {
     "height_pct": 0.0,
     "length_pct": -0.0,
     "width_pct": 0.164
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "4c668505e7be",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/school_bus_bluebird.glb",
-     "triangles": 38052
+     "triangles": 39242
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/school_bus_bluebird_LOD1.glb",
-     "triangles": 28576
+     "triangles": 28752
     },
     {
      "level": 2,
@@ -13747,7 +13764,7 @@
     }
    ],
    "path": "blender_out/vehicles/school_bus_bluebird.glb",
-   "produced_at": "2026-09-06T19:32:08Z",
+   "produced_at": "2026-09-08T05:10:38Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 2134,
     "ground_clearance_mm": 280,
@@ -13765,33 +13782,33 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "a73fb4fb2b7c17dfbe5b17867c3b2b259f581284b168f925a57c83620cd024ae",
+   "sha256": "7cc29ae7a735de86913eb333151ee7ba69874a9d609583e0d238fce01fc99b6d",
    "sources": [
     "Blue Bird Vision published dimensions; NY State Type C school bus configuration"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 38052
+   "triangles_lod0": 39242
   },
   "vehicles/seagrave_engine_fdny": {
    "artifact_id": "vehicles/seagrave_engine_fdny",
-   "bytes": 1663524,
+   "bytes": 28752164,
    "catalog": "blender_out/vehicles/catalog/seagrave_engine_fdny.json",
    "dimension_deviation_pct": {
     "height_pct": 0.0,
     "length_pct": 0.171,
     "width_pct": 1.853
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "60404334a1b9",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/seagrave_engine_fdny.glb",
-     "triangles": 37936
+     "triangles": 39126
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/seagrave_engine_fdny_LOD1.glb",
-     "triangles": 28733
+     "triangles": 28909
     },
     {
      "level": 2,
@@ -13800,7 +13817,7 @@
     }
    ],
    "path": "blender_out/vehicles/seagrave_engine_fdny.glb",
-   "produced_at": "2026-09-06T19:31:44Z",
+   "produced_at": "2026-09-08T05:09:42Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 1900,
     "ground_clearance_mm": 250,
@@ -13818,33 +13835,33 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "2c41c2ea74feecedc3370754b2066c4098b8f2238203e10a7a17b945e77bfb33",
+   "sha256": "6e57741c4f50776594d529577739e6bd24fbfcef75a106ba2f8c706d10e71d71",
    "sources": [
     "Seagrave Marauder II published dimensions; FDNY engine company configuration"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 37936
+   "triangles_lod0": 39126
   },
   "vehicles/seagrave_tower_fdny": {
    "artifact_id": "vehicles/seagrave_tower_fdny",
-   "bytes": 1847896,
+   "bytes": 16552184,
    "catalog": "blender_out/vehicles/catalog/seagrave_tower_fdny.json",
    "dimension_deviation_pct": {
     "height_pct": 0.0,
     "length_pct": 0.103,
     "width_pct": 0.039
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "60404334a1b9",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/seagrave_tower_fdny.glb",
-     "triangles": 44384
+     "triangles": 45574
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/seagrave_tower_fdny_LOD1.glb",
-     "triangles": 34039
+     "triangles": 34215
     },
     {
      "level": 2,
@@ -13853,7 +13870,7 @@
     }
    ],
    "path": "blender_out/vehicles/seagrave_tower_fdny.glb",
-   "produced_at": "2026-09-06T19:31:47Z",
+   "produced_at": "2026-09-08T05:09:46Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 2050,
     "ground_clearance_mm": 250,
@@ -13871,42 +13888,42 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "5498732ba34e63915b5855079efb122851d22e1d65a44436927007ef900ac7d9",
+   "sha256": "07bac7f70bc7962c49d2c77ca3830f58786d76a339d9636d78d2a0101da7798c",
    "sources": [
     "Seagrave Aerialscope 75 ft published dimensions; FDNY ladder company configuration"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 44384
+   "triangles_lod0": 45574
   },
   "vehicles/sprinter_van": {
    "artifact_id": "vehicles/sprinter_van",
-   "bytes": 1586424,
+   "bytes": 51715772,
    "catalog": "blender_out/vehicles/catalog/sprinter_van.json",
    "dimension_deviation_pct": {
-    "height_pct": -0.0,
+    "height_pct": 0.532,
     "length_pct": 0.0,
     "width_pct": 0.495
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "60404334a1b9",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/sprinter_van.glb",
-     "triangles": 37972
+     "triangles": 39174
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/sprinter_van_LOD1.glb",
-     "triangles": 27825
+     "triangles": 28013
     },
     {
      "level": 2,
      "path": "blender_out/vehicles/sprinter_van_LOD2.glb",
-     "triangles": 5236
+     "triangles": 5237
     }
    ],
    "path": "blender_out/vehicles/sprinter_van.glb",
-   "produced_at": "2026-09-06T19:31:55Z",
+   "produced_at": "2026-09-08T05:10:05Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 990,
     "ground_clearance_mm": 180,
@@ -13924,42 +13941,42 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "17cb8ff530f0f149bd3c314c352efd178322dbeae13897bf5d1a05caaceb40b2",
+   "sha256": "2e9dbe7eab47e7073de8d12f9f9c8bfcd6126a888e9b660ef4122f461825b1fa",
    "sources": [
     "Mercedes-Benz Sprinter 2500 published dimensions"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 37972
+   "triangles_lod0": 39174
   },
   "vehicles/suburban_black_car": {
    "artifact_id": "vehicles/suburban_black_car",
-   "bytes": 1715368,
+   "bytes": 51914596,
    "catalog": "blender_out/vehicles/catalog/suburban_black_car.json",
    "dimension_deviation_pct": {
     "height_pct": 0.0,
     "length_pct": 0.0,
     "width_pct": 0.0
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "60404334a1b9",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/suburban_black_car.glb",
-     "triangles": 40612
+     "triangles": 41814
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/suburban_black_car_LOD1.glb",
-     "triangles": 28863
+     "triangles": 29051
     },
     {
      "level": 2,
      "path": "blender_out/vehicles/suburban_black_car_LOD2.glb",
-     "triangles": 5721
+     "triangles": 5722
     }
    ],
    "path": "blender_out/vehicles/suburban_black_car.glb",
-   "produced_at": "2026-09-06T19:31:34Z",
+   "produced_at": "2026-09-08T05:09:21Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 1000,
     "ground_clearance_mm": 203,
@@ -13977,42 +13994,42 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "4d0443b5b5418eb8bdf1169258f4f1aaa0d9f090d5ef37f316508b016d8ca183",
+   "sha256": "2da07b935b6203bc7eedbed73edae607c0e12b0aaacae5dccd9c1f3eb0853910",
    "sources": [
     "Chevrolet Suburban 2021 published dimensions"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 40612
+   "triangles_lod0": 41814
   },
   "vehicles/transit_van": {
    "artifact_id": "vehicles/transit_van",
-   "bytes": 1582976,
+   "bytes": 51716068,
    "catalog": "blender_out/vehicles/catalog/transit_van.json",
    "dimension_deviation_pct": {
-    "height_pct": 0.0,
+    "height_pct": 0.591,
     "length_pct": 0.0,
     "width_pct": 0.534
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "60404334a1b9",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/transit_van.glb",
-     "triangles": 38504
+     "triangles": 39706
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/transit_van_LOD1.glb",
-     "triangles": 27824
+     "triangles": 28012
     },
     {
      "level": 2,
      "path": "blender_out/vehicles/transit_van_LOD2.glb",
-     "triangles": 5237
+     "triangles": 5236
     }
    ],
    "path": "blender_out/vehicles/transit_van.glb",
-   "produced_at": "2026-09-06T19:31:57Z",
+   "produced_at": "2026-09-08T05:10:11Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 960,
     "ground_clearance_mm": 180,
@@ -14030,42 +14047,42 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "3f35fc0b7b4898404211b8d09fe2576e94072ea49a5b4b89ddfb9bcbc49c11df",
+   "sha256": "0a76555655a957673233bf291a4b863764af1743c842940e0b8006f468f57dfe",
    "sources": [
     "Ford Transit 250 published dimensions"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 38504
+   "triangles_lod0": 39706
   },
   "vehicles/usps_llv": {
    "artifact_id": "vehicles/usps_llv",
-   "bytes": 1504908,
+   "bytes": 51606052,
    "catalog": "blender_out/vehicles/catalog/usps_llv.json",
    "dimension_deviation_pct": {
     "height_pct": 0.0,
     "length_pct": 0.0,
     "width_pct": 0.214
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "4c668505e7be",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/usps_llv.glb",
-     "triangles": 36060
+     "triangles": 37250
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/usps_llv_LOD1.glb",
-     "triangles": 26196
+     "triangles": 26372
     },
     {
      "level": 2,
      "path": "blender_out/vehicles/usps_llv_LOD2.glb",
-     "triangles": 4752
+     "triangles": 4751
     }
    ],
    "path": "blender_out/vehicles/usps_llv.glb",
-   "produced_at": "2026-09-06T19:32:04Z",
+   "produced_at": "2026-09-08T05:10:27Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 780,
     "ground_clearance_mm": 175,
@@ -14083,42 +14100,42 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "bd9eb621adc870d76642485974d6e5a177c84adb151e9e4c20f37f2f98634b1e",
+   "sha256": "2b3f0b195f8539ac74736e80a7f451a25d353b90dc7455e8695bf2f3b35dbd6e",
    "sources": [
     "Grumman LLV published dimensions"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 36060
+   "triangles_lod0": 37250
   },
   "vehicles/xd60_sbs": {
    "artifact_id": "vehicles/xd60_sbs",
-   "bytes": 2153300,
+   "bytes": 16945180,
    "catalog": "blender_out/vehicles/catalog/xd60_sbs.json",
    "dimension_deviation_pct": {
     "height_pct": 0.313,
     "length_pct": 0.229,
     "width_pct": 0.116
    },
-   "git_commit": "08eeef65f5ef",
+   "git_commit": "60404334a1b9",
    "lods": [
     {
      "level": 0,
      "path": "blender_out/vehicles/xd60_sbs.glb",
-     "triangles": 50746
+     "triangles": 51936
     },
     {
      "level": 1,
      "path": "blender_out/vehicles/xd60_sbs_LOD1.glb",
-     "triangles": 38845
+     "triangles": 38901
     },
     {
      "level": 2,
      "path": "blender_out/vehicles/xd60_sbs_LOD2.glb",
-     "triangles": 5606
+     "triangles": 5608
     }
    ],
    "path": "blender_out/vehicles/xd60_sbs.glb",
-   "produced_at": "2026-09-06T19:31:39Z",
+   "produced_at": "2026-09-08T05:09:31Z",
    "published_dimensions_mm": {
     "front_overhang_mm": 2650,
     "ground_clearance_mm": 180,
@@ -14136,12 +14153,12 @@
    },
    "rows": null,
    "schema": "DATA_CONTRACTS \u00a713 vehicle glb",
-   "sha256": "94de224e860d02c0ac936dcad1f1e8a06f1249e4a39a0c12389ee780676eeb56",
+   "sha256": "cf55c2d4540b249d7b589d1814f64f587ed177dca5486b23135e3d73a6efa6cb",
    "sources": [
     "New Flyer Xcelsior XD60 published dimensions; MTA Select Bus Service livery"
    ],
    "stage": "vehicles",
-   "triangles_lod0": 50746
+   "triangles_lod0": 51936
   },
   "water_hydrography": {
    "artifact_id": "water_hydrography",

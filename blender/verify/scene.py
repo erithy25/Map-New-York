@@ -660,10 +660,33 @@ def _lod_of(name: str) -> int:
 
 
 def import_glb(path: Path) -> list[bpy.types.Object]:
-    """Import a glb and return the objects it created (mesh objects and their empties)."""
+    """Import a glb and return the objects it put **in the scene**.
+
+    Not everything the importer creates is content. Blender's glTF importer builds one mesh object
+    called ``Icosphere`` per rigged file and hands it to every imported bone as its
+    ``custom_shape`` -- a viewport display helper that belongs to no collection, is not in the
+    file, and is never meant to be drawn. This used to return it with the rest, because it asked
+    ``bpy.data.objects`` what appeared rather than asking the scene what arrived, and
+    :meth:`AssetLibrary.get` then instanced its mesh: **every rigged vehicle in every verification
+    render carried an untextured 2 m sphere at its rear axle**, 19 of them in the 98-agent scene
+    the tests build, each reaching a metre below the car it belonged to. The glb declares one mesh
+    for a LOD2 body and the importer produced two objects; only one of them was the car.
+
+    The helper is identified by what it is *for* rather than by its name: it is the object some
+    imported bone names as its ``custom_shape``. That is exactly the set of objects an armature
+    uses to draw itself and never geometry, so it is safe to drop and it stays right if Blender
+    renames the sphere.
+    """
     before = set(bpy.data.objects)
     bpy.ops.import_scene.gltf(filepath=str(path))
-    return [ob for ob in bpy.data.objects if ob not in before]
+    created = [ob for ob in bpy.data.objects if ob not in before]
+    shapes = {b.custom_shape for ob in created if ob.type == "ARMATURE"
+              for b in ob.pose.bones if b.custom_shape is not None}
+    content = [ob for ob in created if ob not in shapes]
+    for ob in created:
+        if ob in shapes:
+            bpy.data.objects.remove(ob, do_unlink=True)
+    return content
 
 
 def _is_impostor(ob: bpy.types.Object) -> bool:
