@@ -36,6 +36,7 @@ import argparse
 import json
 import logging
 import math
+import os
 import re
 import sys
 from dataclasses import dataclass, field
@@ -78,6 +79,14 @@ KIT_IDS_JSON = PROCESSED / "facade" / "kit_ids.json"
 PROP_KINDS_JSON = PROCESSED / "furniture" / "props_catalog.json"
 
 TILE_SIZE_M = 1000.0
+
+#: Resolve the tile materials' names against the shared texture catalogue on import.  Off puts the
+#: sixteen flat colours the files carry back (DEVIATIONS J63); it is here so a before/after pair can
+#: be rendered from one build.
+CITY_TEXTURES = os.environ.get("NYCSIM_CITY_TEXTURES", "1") != "0"
+#: 2K is what is on disk for all eighteen city surfaces, 251.7 MB in total.  A street scene touches
+#: eight to twelve of them, and the material is shared across every tile, so the images load once.
+CITY_TEXTURE_RES = os.environ.get("NYCSIM_CITY_TEXTURE_RES", "2K")
 TERRAIN_SAMPLES = 501
 TERRAIN_SPACING_M = 2.0
 
@@ -662,6 +671,190 @@ def _lod_of(name: str) -> int:
     return int(m.group(1)) if m else 0
 
 
+#: A shell material as the tile exporter names it, with Blender's import suffix (``.001``) if the
+#: same name arrived from more than one file.  ``build_tile.py`` writes one of sixteen of these per
+#: tile and the name is the whole material: the file carries a flat base colour and no image.
+_CITY_MATERIAL = re.compile(r"^NYCSIM_([a-z0-9_]+?)(?:\.\d{3})?$")
+
+#: The road surface names its own material too, but in its own scheme (``pave_<kind>_<surface>``)
+#: and its UVs are "metres, planar XY in NYC_TM", written by ``build_pavement.py`` for precisely
+#: this.  The mapping is spelled out rather than derived from the suffix, because the suffix would
+#: be actively wrong twice: ``pave_marking_white_asphalt`` and ``pave_marking_yellow_asphalt`` are
+#: **paint**, and giving them the asphalt they are painted on would erase every lane line, stop bar
+#: and crosswalk bar the road-markings stage draws (J52).  A kind with no entry keeps its colour.
+_PAVEMENT_MATERIAL = {
+    "pave_roadbed_asphalt": "asphalt",
+    "pave_crosswalk_asphalt": "asphalt",          # the bars are separate marking polygons (J52)
+    "pave_parking_lot_asphalt": "asphalt",
+    "pave_roadbed_concrete": "concrete",
+    "pave_sidewalk_concrete": "concrete_sidewalk",
+    "pave_median_concrete": "concrete_sidewalk",
+    "pave_plaza_concrete": "concrete_sidewalk",
+    "pave_curb_concrete": "concrete_sidewalk",
+    "pave_curb_ramp_concrete": "concrete_sidewalk",
+    # Deliberately absent, and each for its own reason:
+    #   pave_roadbed_cobble        -- the catalogue has no cobble, and the nearest brick is not it
+    #   pave_marking_white/yellow  -- paint, see above
+    #   struct_*                   -- nothing in this build says what a pier deck or a seawall is
+    #                                 clad in, and choosing would be invention rather than survey
+    #   park_*                     -- grass, court acrylic, infield dirt, pool water: DEVIATIONS J40
+}
+
+#: A pavement material with Blender's import suffix.
+_PAVE_MATERIAL = re.compile(r"^(pave_[a-z0-9_]+?)(?:\.\d{3})?$")
+
+#: Maps worth loading for a city surface.  ``ao`` is baked into the colour at export and
+#: ``displacement`` would subdivide a million-triangle shell, so neither is asked for; both are
+#: no-ops in ``pbr_material`` anyway and would only cost the image load.
+_CITY_MAPS = ("color", "roughness", "normal", "metallic")
+
+#: Filled by :func:`dress_city_materials`: base name -> the shared material's *name*, or None when
+#: the catalogue has no texture set for it.  One datablock across every tile, so the images are
+#: loaded once however many tiles the scene imports.
+#:
+#: Names rather than datablocks on purpose.  ``nycsim_bpy.reset_scene`` wipes the Blender file, and
+#: a cached datablock reference outlives the thing it points at: the next use raises "StructRNA of
+#: type Material has been removed" about a material that was valid a moment earlier.  A name is
+#: re-resolved against ``bpy.data`` on every call and rebuilt when the file no longer holds it.
+_CITY_DRESSED: dict[str, str | None] = {}
+#: What happened, for the render record.
+CITY_MATERIAL_REPORT: dict[str, object] = {"dressed": {}, "flat": {}, "slots": 0}
+
+
+def _shellmat_spec(name: str):
+    """``blender/buildings/shellmat.py``'s authored spec for one shell material, or None.
+
+    Loaded by path rather than by putting ``blender/buildings`` on ``sys.path``: that directory
+    holds a ``summary`` and a ``render_verify`` and this module has no business importing either.
+    """
+    mod = globals().get("_SHELLMAT_MODULE")
+    if mod is None:
+        import importlib.util
+
+        spec = importlib.util.spec_from_file_location(
+            "nycsim_shellmat", REPO_ROOT / "blender" / "buildings" / "shellmat.py")
+        if spec is None or spec.loader is None:
+            globals()["_SHELLMAT_MODULE"] = False
+            return None
+        mod = importlib.util.module_from_spec(spec)
+        # ``@dataclass`` looks the defining module up in ``sys.modules`` while the class is being
+        # created, so the module has to be registered *before* it is executed or every dataclass
+        # in it raises "'NoneType' object has no attribute '__dict__'".
+        sys.modules[spec.name] = mod
+        try:
+            spec.loader.exec_module(mod)
+        except Exception as exc:                       # pragma: no cover - a broken sibling stage
+            LOG.warning("shellmat unavailable (%s); shell roughness falls back to the default", exc)
+            sys.modules.pop(spec.name, None)
+            globals()["_SHELLMAT_MODULE"] = False
+            return None
+        globals()["_SHELLMAT_MODULE"] = mod
+    if mod is False:
+        return None
+    try:
+        return mod.spec(name)
+    except Exception:
+        return None
+
+
+def _city_material(base: str):
+    """The shared textured material for shell material ``base``, built once.
+
+    The exported tiles carry sixteen flat base colours and no image at all -- 12.71 GB of geometry
+    and 15,891 materials over the buildings, the roadway, the elevated structures and the park
+    ground, against a texture catalogue that already holds every one of those names, already
+    downloaded and CC0, and already used by the landmarks and the facade kit.  The file's job is to
+    carry the material *name*; resolving the name to a surface is the consumer's, which is what
+    happens here (docs/DEVIATIONS.md J63).
+
+    Returns None when the catalogue has no usable set, in which case the imported flat material is
+    left exactly as it is: a wrong texture reads worse than an honest colour.
+    """
+    if base in _CITY_DRESSED:
+        cached = _CITY_DRESSED[base]
+        if cached is None:
+            return None
+        alive = bpy.data.materials.get(cached)
+        if alive is not None:
+            return alive                       # still in this file
+        del _CITY_DRESSED[base]                # the file was reset under us; build it again
+    import textures as tx
+
+    mat = None
+    try:
+        rec = tx.resolve(base)
+        have = tx._existing_set(rec["asset_id"], CITY_TEXTURE_RES) or {}
+        maps = {k: v for k, v in have.items() if k in _CITY_MAPS and v and os.path.exists(v)}
+        if "color" not in maps:
+            raise KeyError(f"no colour map on disk for {base} at {CITY_TEXTURE_RES}")
+        shell = _shellmat_spec(base)
+        rgb = tuple(shell.base_color) if shell is not None else (0.8, 0.8, 0.8)
+        mat = nb.pbr_material(
+            f"NYCSIM_TEX_{base}", base_color=(rgb[0], rgb[1], rgb[2], 1.0),
+            roughness=float(getattr(shell, "roughness", 0.72)),
+            metallic=float(getattr(shell, "metallic", 0.0)),
+            textures=maps, uv_scale_m=float(rec.get("physical_size_m") or 3.0))
+        # A freshly created material has no users, and giving an imported material's slot away
+        # drops that one to no users too -- which is when Blender collects, and it collects every
+        # unused datablock it finds, including the shared materials built for the bases not
+        # assigned yet.  The symptom is "StructRNA of type Material has been removed" on a
+        # material created four lines earlier.  A fake user is exactly the thing that stops it.
+        mat.use_fake_user = True
+        CITY_MATERIAL_REPORT["dressed"][base] = {
+            "asset_id": rec.get("asset_id"), "maps": sorted(maps),
+            "physical_size_m": rec.get("physical_size_m"), "resolution": CITY_TEXTURE_RES}
+    except Exception as exc:
+        CITY_MATERIAL_REPORT["flat"][base] = str(exc)
+        LOG.info("no city texture for %s (%s); the flat colour the tile carries is kept", base, exc)
+    _CITY_DRESSED[base] = mat.name if mat is not None else None
+    return mat
+
+
+def dress_city_materials(objects: Sequence[bpy.types.Object]) -> int:
+    """Give each ``NYCSIM_*`` slot the photographic material its own name declares.
+
+    A slot that already carries an image is left alone -- that is a hand-authored asset, not a
+    generated city surface.  Returns the number of slots replaced.
+    """
+    if not CITY_TEXTURES:
+        return 0
+    # Three passes, and the order is the whole of the correctness here.  Replacing a slot's
+    # material drops the imported one's last user, Blender frees the datablock, and any Python
+    # reference to it or to a sibling slot then goes stale -- "StructRNA of type Material has been
+    # removed", or a segfault outright when the reference was into ``mesh.materials``.  So: read
+    # names only, then build every shared material, then assign by index, holding nothing stale.
+    plan: list[tuple[object, int, str]] = []
+    for ob in objects:
+        if getattr(ob, "type", None) != "MESH":
+            continue
+        for i, slot in enumerate(ob.material_slots):
+            m = slot.material
+            if m is None:
+                continue
+            hit = _CITY_MATERIAL.match(m.name)
+            if hit:
+                base = hit.group(1)
+            else:
+                pave = _PAVE_MATERIAL.match(m.name)
+                base = _PAVEMENT_MATERIAL.get(pave.group(1)) if pave else None
+            if base is None:
+                continue
+            if m.use_nodes and any(n.type == "TEX_IMAGE" for n in m.node_tree.nodes):
+                continue                      # already dressed, or an asset that brought its own
+            plan.append((ob, i, base))
+    if not plan:
+        return 0
+    CITY_MATERIAL_REPORT["slots"] += len(plan)
+    built = {base: _city_material(base) for _, _, base in plan}
+    done = 0
+    for ob, i, base in plan:
+        dressed = built.get(base)
+        if dressed is not None:
+            ob.material_slots[i].material = dressed
+            done += 1
+    return done
+
+
 def import_glb(path: Path) -> list[bpy.types.Object]:
     """Import a glb and return the objects it put **in the scene**.
 
@@ -689,6 +882,7 @@ def import_glb(path: Path) -> list[bpy.types.Object]:
     for ob in created:
         if ob in shapes:
             bpy.data.objects.remove(ob, do_unlink=True)
+    dress_city_materials(content)
     return content
 
 
@@ -1725,6 +1919,9 @@ class SceneReport:
     props: dict = field(default_factory=dict)
     kit: dict = field(default_factory=dict)
     agents: dict = field(default_factory=dict)
+    #: Which city surfaces resolved their name to a photographic material and which stayed a flat
+    #: colour, so a sheet says what its walls and its roadway are made of (DEVIATIONS J63).
+    materials: dict = field(default_factory=dict)
     triangles: int = 0
     seconds: float = 0.0
 
@@ -1733,7 +1930,8 @@ class SceneReport:
                 "radius_m": self.radius_m, "triangles": self.triangles,
                 "seconds": round(self.seconds, 2), "terrain": self.terrain,
                 "pavement": self.pavement, "buildings": self.buildings, "landmarks": self.landmarks,
-                "props": self.props, "kit": self.kit, "agents": self.agents}
+                "props": self.props, "kit": self.kit, "agents": self.agents,
+                "materials": self.materials}
 
 
 #: Share of the whole triangle budget the agents may take.  The facade kit takes everything that is
@@ -1775,6 +1973,14 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
     # terrain and the pavement are *not* drawn (:func:`landmark_ground_outlines`).  Nothing in this
     # pass depends on the ground, and the triangle allocation is unchanged: buildings still take
     # their fixed 78 % share and props and kit still divide what is left after everything else.
+    # The dressing tally is per scene, not per process: one run renders many sheets and each must
+    # report the surfaces its own frame reached, not the union of everything built before it.  The
+    # cache of built materials is deliberately *not* cleared -- it is keyed by name and re-resolved
+    # against bpy.data, so it survives a reset and never reloads an image the file still holds.
+    CITY_MATERIAL_REPORT["dressed"] = {}
+    CITY_MATERIAL_REPORT["flat"] = {}
+    CITY_MATERIAL_REPORT["slots"] = 0
+
     lib = AssetLibrary()
     rep.landmarks = add_landmarks(lib, cx, cy, radius_m, col=c_landmark, sampler=sampler)
     own_ground = rep.landmarks.pop("own_ground", [])
@@ -1835,6 +2041,10 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
         rep.kit = {"placed": 0, "reason": "disabled"}
 
     bpy.context.view_layer.update()
+    rep.materials = {"dressed": dict(CITY_MATERIAL_REPORT["dressed"]),
+                     "flat": dict(CITY_MATERIAL_REPORT["flat"]),
+                     "slots": CITY_MATERIAL_REPORT["slots"],
+                     "resolution": CITY_TEXTURE_RES, "enabled": CITY_TEXTURES}
     rep.triangles = (int(rep.terrain.get("triangles", 0)) + int(rep.pavement.get("triangles", 0))
                      + rep.buildings["triangles"]
                      + rep.landmarks["triangles"] + int(rep.props.get("triangles", 0))

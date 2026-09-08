@@ -1351,6 +1351,18 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
         + f", {ag.get('placed_vehicles', 0)} vehicles, {ag.get('placed_pedestrians', 0)} people"
         + f"; {scene.get('triangles', 0):,} triangles total",
         f_small))
+    ma = scene.get("materials") or {}
+    if ma.get("dressed"):
+        worn = ", ".join(f"{k} ({v.get('asset_id')}, {v.get('physical_size_m')} m)"
+                         for k, v in sorted(ma["dressed"].items()))
+        line = (f"City surfaces: {ma.get('slots', 0)} material slots on the shells and the roadway "
+                f"resolved their own name against the shared CC0 texture catalogue at "
+                f"{ma.get('resolution')} -- {worn}. The tile files carry the material name and a "
+                f"flat colour; the surface is resolved on import (docs/DEVIATIONS.md J63)")
+        if ma.get("flat"):
+            line += (". Left as the flat colour the tile carries: "
+                     + ", ".join(f"{k} ({v})" for k, v in sorted(ma["flat"].items())))
+        caption_lines.append((line, f_small))
     if ag.get("caption"):
         caption_lines.append((ag["caption"], f_small))
     elif ag.get("reason") and ag.get("reason") != "disabled":

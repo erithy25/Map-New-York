@@ -1345,3 +1345,73 @@ def test_the_verification_render_can_draw_every_body_the_wardrobe_bakes():
             f"{d.name}: drew its crowd from {snap['npc_archetypes_available']} of {cast} bodies")
         assert not snap.get("npc_archetypes_folded"), (
             f"{d.name}: folded archetypes onto other people: {snap['npc_archetypes_folded']}")
+
+
+def test_the_city_surfaces_resolve_their_own_material_names():
+    """12.71 GB of city geometry ships sixteen flat colours and no image at all.
+
+    ``tile_buildings`` is 920 files and 8,722 materials with zero base-colour textures;
+    ``tile_pavement`` 546 files and 5,177 materials, likewise zero. Everything authored by hand --
+    landmarks, props, the facade kit, the characters -- is textured, and everything generated at
+    city scale is a solid RGB. The exported file's job is to carry the material *name*; resolving
+    the name to a surface belongs to whoever reads it, which is what this checks
+    (docs/DEVIATIONS.md J63).
+    """
+    sys.path.insert(0, str(REPO_ROOT / "blender" / "common"))
+    import textures as tx
+
+    src = (VERIFY_DIR / "scene.py").read_text()
+    assert "def dress_city_materials(" in src
+
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("_j63_scene_src", VERIFY_DIR / "scene.py")
+    assert spec is not None
+
+    # The sixteen shell material names the tile exporter writes, read off a built tile rather than
+    # copied here, so a new material class cannot be added without this noticing.
+    tile = REPO_ROOT / "blender_out" / "tiles" / "t_-6_0" / "tile_buildings.glb"
+    if not tile.is_file():
+        pytest.skip("no built tiles in this checkout")
+    import struct
+    with tile.open("rb") as f:
+        f.read(12)
+        ln, _ = struct.unpack("<II", f.read(8))
+        doc = json.loads(f.read(ln))
+    shell_names = sorted(m["name"] for m in doc.get("materials", []))
+    assert shell_names, "the tile declares no materials"
+
+    # Every one of them must resolve in the shared catalogue, and its texture set must be on disk.
+    # glass_curtain is the one deliberate exception: it resolves to a procedural entry with no
+    # maps, because glass is authored analytically in shellmat rather than photographed.
+    missing = []
+    for full in shell_names:
+        base = full[len("NYCSIM_"):] if full.startswith("NYCSIM_") else full
+        try:
+            rec = tx.resolve(base)
+        except Exception as exc:
+            missing.append(f"{full}: not in the catalogue ({exc})")
+            continue
+        assert rec.get("physical_size_m"), f"{full}: no measured physical size to scale the UVs by"
+        have = tx._existing_set(rec["asset_id"], "2K") or {}
+        if "color" not in have and not str(rec["asset_id"]).startswith("procedural_"):
+            missing.append(f"{full}: {rec['asset_id']} has no colour map on disk at 2K")
+    assert not missing, "city surfaces that cannot be dressed:\n  " + "\n  ".join(missing)
+
+    # The pavement map must never texture paint: giving a marking the asphalt it is painted on
+    # would erase every lane line, stop bar and crosswalk bar the road-markings stage draws.
+    for line in src.splitlines():
+        if "pave_marking" in line and ":" in line and not line.strip().startswith("#"):
+            pytest.fail(f"a road marking is mapped to a surface texture: {line.strip()}")
+
+    # A sheet rendered since the fix must report what it dressed, and must not report a city
+    # surface it silently left flat for a reason other than the procedural glass.
+    for d in sorted(COMPARISON_DIR.iterdir()):
+        rj = d / "render.json"
+        if not d.is_dir() or not rj.exists():
+            continue
+        rec = ((json.loads(rj.read_text()).get("scene") or {}).get("materials") or {})
+        if not rec:
+            continue
+        assert rec.get("dressed"), f"{d.name}: reports a materials block that dressed nothing"
+        for base, why in (rec.get("flat") or {}).items():
+            assert base == "glass_curtain", f"{d.name}: {base} stayed flat -- {why}"
