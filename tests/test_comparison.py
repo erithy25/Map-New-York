@@ -1044,3 +1044,33 @@ def test_the_clearance_record_names_the_agent_it_used_to_be_silent_about():
                                  pitches_deg=(0.0,), yaw_steps=1)
     assert vcam.clearance_fields(quiet)["nearest_agent"] is None
     assert "no simulated agent stands within 30 m" in vcam.clearance_sentence(quiet)
+
+
+def test_the_record_says_whether_the_camera_can_see_its_own_subject():
+    """Every other check asks whether the camera stands somewhere sensible.  None asked the question
+    the sheet exists to answer.  Bethesda Terrace is what that costs: 69 m from its fountain, the
+    fountain inside the frame's cone, the model in the scene with 10,808 triangles 51 m away, and
+    the terrace's own arcade wall between the two."""
+    bpy = _skip_without_bpy()
+    import camera as vcam
+    import nycsim_bpy as nb
+
+    nb.reset_scene()
+    clear = vcam.subject_sightline(0.0, 0.0, 1.6, 0.0, 40.0, 3.0)
+    assert clear["subject_visible"] is True
+    assert clear["subject_range_m"] == pytest.approx(40.02, abs=0.1)
+    assert clear["subject_blocked_by"] is None
+
+    _cube("t_0_0_limestone", 0.0, 12.0, 2.0, size=6.0)      # a wall between the two
+    blocked = vcam.subject_sightline(0.0, 0.0, 1.6, 0.0, 40.0, 3.0)
+    assert blocked["subject_visible"] is False
+    assert blocked["subject_blocked_by"] == "t_0_0_limestone"
+    assert 8.0 < blocked["subject_blocked_at_m"] < 12.0
+
+    # A tree is not a wall for the *view distance* rule, but it is for the subject: a photograph of
+    # the Flatiron taken through a plane tree is not a photograph of the Flatiron.
+    nb.reset_scene()
+    _cube("prop_tree_zelkova_large_3", 0.0, 6.0, 3.0, size=4.0)
+    through = vcam.subject_sightline(0.0, 0.0, 1.6, 0.0, 40.0, 3.0)
+    assert through["subject_visible"] is False
+    assert through["subject_blocked_by"].startswith("prop_tree")

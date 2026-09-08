@@ -989,6 +989,24 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
             else:
                 clearance.pop("nearest_agent_at_deg", None)
             clearance["nearest_agent_measured"] = "after the cull over the observer"
+    # Can the camera see the thing this sheet is a comparison *of*?  Every other check asks whether
+    # the camera is somewhere sensible; none asked whether the subject is in the picture, and
+    # Bethesda Terrace is what that costs -- 69 m from its fountain, the fountain inside the frame's
+    # cone, the model in the scene, and the terrace's own arcade wall between the two.  One ray.
+    if subject.get("lat") is not None and subject.get("lon") is not None:
+        ssx, ssy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
+        sgz = sampler.ground_z(ssx, ssy)[0]
+        # Aim at the subject's own top where the item declares one, else 2 m above its ground: a
+        # ray at ground level grazes the pavement in front of everything.
+        stop = (placement.z + top[1]) if top and top[1] is not None else None
+        sz = stop if stop is not None else ((sgz if sgz is not None else placement.z) + 2.0)
+        sight = vcam.subject_sightline(placement.x, placement.y, placement.z, ssx, ssy, float(sz))
+        sight["subject_aimed_at"] = ("the subject's own top" if stop is not None
+                                     else "2 m above the subject's ground")
+        record_subject = sight
+    else:
+        record_subject = {"subject_visible": None, "subject_note": "the item names no point subject"}
+
     light = setup_world_and_sun(sun["azimuth_deg"], sun["elevation_deg"], night=bool(meta.get("night")))
     light["emissive"] = apply_time_of_day_materials(bool(meta.get("night")))
     configure_cycles(samples, threads)
@@ -1032,6 +1050,7 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         "pitch_reason": pitch_why,
         "azimuth_reason": azimuth_why,
         "clearance": clearance,
+        "sightline": record_subject,
         "lighting": light,
         "scene": rep.as_dict(),
         "render_png": str(render_path.relative_to(REPO_ROOT)),

@@ -739,6 +739,39 @@ def frame_clearance(x: float, y: float, z: float, azimuth_deg: float, *, probe_m
             "probe_m": float(probe_m)}
 
 
+def subject_sightline(x: float, y: float, z: float, sx: float, sy: float, sz: float) -> dict:
+    """Can the camera see the thing the sheet is a comparison *of*?
+
+    Every check this pass runs asks whether the camera is somewhere sensible -- is it on its street
+    (J48), is its frame clear (J47), is an agent standing on the lens (J49).  None of them asks the
+    question the sheet exists to answer: **is the subject in the picture.**  Bethesda Terrace is
+    what that costs.  Its viewpoint stands 69 m from the Bethesda Fountain, the fountain is well
+    inside the frame's cone, the model is in the scene with 10,808 triangles 51 m away -- and the
+    render is a grey slab and a balustrade, because the terrace's own arcade wall is between the
+    two.  Every number on that sheet is right and the sheet is not evidence of anything.
+
+    So the ray is cast: from the eye to the subject, stepping past everything that is not built
+    fabric, and what it hits first is recorded.  ``visible`` is false when something built stands
+    closer than the subject.  It is a statement about *this* frame's geometry and it costs one ray.
+    """
+    from mathutils import Vector
+
+    dg = bpy.context.evaluated_depsgraph_get()
+    origin = Vector((x, y, z))
+    to = Vector((sx, sy, sz)) - origin
+    span = float(to.length)
+    if span < 1e-3:
+        return {"subject_range_m": 0.0, "subject_visible": None,
+                "subject_note": "the subject is at the camera"}
+    got = _ray_past(dg, origin, to.normalized(), span, _opaque)
+    if got is None:
+        return {"subject_range_m": round(span, 1), "subject_visible": True,
+                "subject_blocked_by": None, "subject_blocked_at_m": None}
+    dist, ob = got
+    return {"subject_range_m": round(span, 1), "subject_visible": False,
+            "subject_blocked_by": ob.name, "subject_blocked_at_m": round(dist, 1)}
+
+
 def clearance_fields(got: dict) -> dict:
     """The clearance numbers a render record carries, from a :func:`frame_clearance` reading."""
     out = {"nearest_obstruction_m": round(got["near_m"], 1),
