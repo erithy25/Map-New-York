@@ -4,95 +4,77 @@
 
 **Reference** — File:Dollar Savings Bank of New York headquarters building, Grand Concourse & East Fordham Road, The Bronx, New York.jpg by Deansfa, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2022-10-09 12:16:14, 1920x2560. [Commons page](https://commons.wikimedia.org/wiki/File:Dollar_Savings_Bank_of_New_York_headquarters_building,_Grand_Concourse_%26_East_Fordham_Road,_The_Bronx,_New_York.jpg)
 
-**Camera** — camera 40.83200, -73.91860 (NYC_TM 2644, 14663) z 31.6 m NAVD88 | azimuth 25.0deg pitch +0.0deg | 35 mm on 36 mm (42.2deg horizontal, 54.4deg vertical, portrait) | 904x1206. The camera stands on the item's recorded viewpoint: this photograph's own EXIF GPS is 3,854 m away, past the 250 m at which it could still be the same view, so it was rejected as mis-tagged. View direction: 25.0 deg as recorded in meta.json; the item names no subject and the photograph's own view direction was not derived from the image.
+**Camera** — camera 40.83200, -73.91860 (NYC_TM 2644, 14663) z 31.6 m NAVD88 | azimuth 25.0deg pitch +0.0deg | 35 mm on 36 mm (42.2deg horizontal, 54.4deg vertical, portrait) | 904x1206. Moved 4.9 m onto the nearest roadbed polygon because the recorded eye point was inside `t_2_14_roof_membrane`.
 
 **Sun** — azimuth 171.0°, elevation 42.4° at 2022-10-09T12:16:14-04:00 (EXIF DateTimeOriginal).
 
-**In frame** — 6/6 building tiles (319,132 tris), 2 landmark models, 2,433 pavement polygons, 398 props, 6,754 facade-kit pieces; 3,686,473 triangles; ground mesh 211² at 2.0 m near / 40.0 m far; props capped by the triangle budget. Frame mean 0.254, sd 0.172.
+**In frame** — 6/6 building tiles (323,032 tris), 2 landmarks (Yankee Stadium, Bronx County Courthouse), 2,433 pavement polygons, 407 props, 5,695 kit pieces, 89 vehicles, 307 people; **4,500,226 triangles**, which is the scene's 4.5 M ceiling reached exactly. Props capped at 407 of 872, kit capped at 5,695. Frame mean 0.2395, sd 0.1719.
 
-**Camera clearance** — the recorded viewpoint is inside `t_2_14_roof_membrane` (a ray straight up from the eye point hits its roof); the camera was moved 5 m onto the nearest real roadbed polygon, keeping the same eye height above the heightmap. The view azimuth is clear for 60 m from there.
+**Verdict — this sheet compares nothing, for two independent reasons, and the second one is new. Its reference is a building 3.9 km away on a different part of the Concourse, which was already recorded. And the right half of the render is a building face about five metres from the lens, because the clearance probe that declared the view "clear for 60 m" looks at 5 % of the frame**
 
-**Verdict — the reference improved and the render did not. The photograph is now a Grand Concourse view: the boulevard's balustraded median wall in the foreground, the service road and main roadway receding, the Dollar Savings Bank tower above — which is the section this drive-through exists to test. The render is still a building wall two metres from the lens with air-conditioner units on it, because the camera search moved the recorded viewpoint 5 m and stopped there. This is the weakest sheet of the seven the reference pass touched**
+## Why the render shows a wall
 
-## What changed, and why
+The recorded eye point was inside a roof membrane, so the camera was moved 4.9 m onto the nearest
+real roadbed polygon and the axis re-checked: `view_m: 60.0`, `nearest_obstruction_m: 20.0`. Both
+numbers are true. Looking up the Concourse on 25°, the axis is clear.
 
-The three photographs this item shipped with were the Bronx County Courthouse, an expressway
-interchange and Loew's Paradise Theatre — every one a *building on* the Grand Concourse rather than
-the boulevard, admitted because `"grand concourse"` is the category on all of them. The subject test
-now reads the photograph's own title and description rather than its categories, and `not_of` rejects
-a title naming a courthouse, a theatre, an expressway or a fallout shelter
-(`docs/verification/comparison/REPORT.md` §2.11): 21 candidates were rejected on keywords, 20 on the
-exclusions, 5 on the title test and 3 on the subject test.
+What the caption then says is "the nearest solid thing in the view cone", and the cone is
+`_nearest_opaque`'s default **half-angle of 6°**. This frame is 42.2° wide and 54.4° high, so the
+probe covers 28 % of its width, 22 % of its height and **5.2 % of its solid angle**. The building
+face that fills the right of the picture — close enough to read its air-conditioners, with a
+pedestrian's back at about 3.9 m in front of it — lies between +6° and +21° off-axis, which is
+exactly where the probe does not look. Recorded as J47.
 
-What came back is better and still not right. The chosen photograph does show the Concourse's own
-section — its median balustrade, service road and main roadway — but it was taken at **East Fordham
-Road, 3,854 m north** of the item's viewpoint at East 165th Street, so its GPS is rejected and the
-camera stays where the item puts it. **Commons has very few free photographs looking along this
-boulevard**, and none that this item's rules admit near 165th Street. Choosing between a photograph
-of the right street in the wrong place and a photograph of a building on it is a choice between two
-kinds of wrong; the first at least shows the roadway section the drive-through is about.
+So the clearance number is not wrong; it answers a narrower question than the caption puts it to.
+The camera is standing on a roadbed hard against a block face, and the picture is mostly that face.
 
-## The agents, and the two things this frame shows about them
+## What the left third does show, and it is worth reading
 
-The city is populated now — 89 vehicles and 313 pedestrians from one frame of the running
-simulation — and both halves of what this frame does with them are worth stating.
+The part of the frame that is not wall is the strongest evidence on this sheet:
 
-**It works.** Down the avenue on the left, past the sidewalk shed, a yellow cab and a white box truck
-stand at the kerb line and a pedestrian walks the far pavement. That is the first frame in this set
-where the street reads as a street in use rather than as an empty model.
-
-**And the observer clearance is set for the wrong thing.** The right third of a portrait frame is
-filled with the backs of four people, one of them close enough that an arm and shoulder cross the
-corner. Measured from the simulation snapshot against this camera (42.2° horizontal, azimuth 25.0°):
-
-| distance | off the view axis | |
-|---|---|---|
-| 1.44 m | 85.7° | behind the shoulder, not in frame |
-| 1.50 m | 27.9° | at the frame edge — 1 cm above the cut-off |
-| **2.57 m** | **21.0°** | **the nearest person actually in frame** |
-| 3.39 m | 14.1° | |
-| 4.41 m | 13.5° | |
-
-`agents.py` sets `CAMERA_CLEAR_PED_M = 1.5` and it is doing exactly what it says: nobody stands
-inside 1.5 m. The threshold answers "is a person inside the camera", which is a rendering question.
-The question a comparison sheet needs answered is "does a person dominate the frame", which at a
-1.6 m eye and a 42° lens is a different number — a body at 2.57 m occupies roughly a third of the
-frame height. Recorded as I15 rather than fixed here, because changing it moves agents in all 57
-sheets.
-
-## What matches
-
-* The photograph's own EXIF GPS was correctly rejected: it is 3,604 m from the item's viewpoint, so the item's recorded position was used and the sheet says so. This is the largest GPS disagreement in the whole set and the sanity gate caught it.
-* The camera was corrected out of a building: the recorded viewpoint sits inside t_2_14_roof_membrane and was snapped 5 m onto the nearest real roadbed polygon, with 60 m of clear view along the azimuth from there.
-* The street trees are correct for late April: full canopies, right heights, planted at the kerb, with 16 opaque impostor cards dropped.
-* The street section is right for the Grand Concourse's side streets: roadbed, both sidewalks, kerb reveal, and 2,433 pavement polygons including 601 crosswalk and 88 parking-lot polygons.
-* Sidewalk sheds with green netting run along the west frontage, and the building masses behind them are the right height for the Concourse's six-storey Art Deco apartment blocks.
-* The Sun is from the photograph's own EXIF instant (2022-10-09 12:16:14 EDT, elevation 42.4 deg, azimuth 171.0 deg) — a midday October sun, which is what both frames show.
+* A red-brick block with a continuous green awning band recedes up the left, with street trees in
+  full October canopy at the kerb — **208 of the 407 props are trees**, and the props are capped at
+  407 of 872 in range by a 1,356,090-triangle budget.
+* The street furniture the Concourse actually carries is placed and countable: 63 street lamps,
+  61 manholes, 29 hydrants, **27 subway vent grates and 2 subway entrances**, 2 bus shelters,
+  3 bus-stop signs, 2 Citi Bike docks, 10 rooftop cooling towers.
+* 2,433 pavement polygons — 923 curb, 601 crosswalk, 408 roadbed, 251 sidewalk, 143 median,
+  88 parking-lot, 19 plaza. The Concourse's median is in the data and in the frame.
+* 5,695 kit pieces including 4,052 windows, 453 window accessories, **213 scaffold pieces**,
+  137 quoins, 112 string courses, 83 cornices, 83 parapets and 59 fire escapes. The scaffold count
+  is high because this stretch of the Concourse is genuinely sheathed in it.
+* Yankee Stadium and the Bronx County Courthouse are both loaded, though neither is in this frame.
+* A yellow taxi and a white van stand at the far end of the street; 89 vehicles and 307 people are
+  placed — 48 sedans, 18 SUVs, 10 taxis, 4 vans, 3 MTA buses, 3 black cars, 2 box trucks, 1 boro
+  taxi.
 
 ## What does not match
 
-* The composition is spoiled by proximity. A street-lamp column stands about 2 m from the lens and a building wall about 5 m to the right, so half the frame is a featureless plane. The clearance rule checks the view azimuth, not the whole cone, so a camera can be accepted with a wall beside it.
-* **The photograph is of the Grand Concourse 3.9 km north of the render.** Its own GPS is 3,854 m from
-  the item's viewpoint, so it is rejected and the camera stays at East 165th Street while the
-  photograph is at East Fordham Road. The two halves are of the same boulevard and not of the same
-  place on it.
-* **The render does not show the boulevard at all.** The photograph's whole subject is the Concourse's
-  section — median balustrade, service road, main roadway — and the render is a wall two metres away.
-  The camera search moved the recorded viewpoint 5 m onto the nearest roadbed and stopped; the
-  clearance rule tests the view azimuth and a 12 deg cone, so a wall beside the lens passes.
-* Nothing in the render is Art Deco. The blocks are plain masses with no string courses, no polychrome brick, no corner windows, no rounded balconies and no cornice — the features the item exists to test.
-* No signage, no shopfront glass, no lettering, no marquee anywhere.
-* No parked cars on a street that in reality is parked solid on both sides, and no people.
-* The roadway has no markings and no texture.
-* Props were capped by the triangle budget at 400 placed.
+* **The reference is 3.9 km away.** The photograph is the Dollar Savings Bank at East Fordham Road;
+  the viewpoint is the Concourse at East 165th Street. Commons has essentially nothing free looking
+  along the boulevard near 165th, and the item names no subject from which a bearing could be taken.
+  This is the third fault recorded under I12 and it is unchanged.
+* **The frame is half wall** (J47, above).
+* **The scene is at its ceiling.** 4,500,226 triangles is the 4.5 M budget reached exactly, with the
+  props capped at 407 of 872 and the kit capped as well. What is missing from the far end of the
+  street is missing because the budget ran out before it got there, not because the data is absent.
+* 825 people and 77 vehicles the simulation had in range were dropped at the 1,125,000-triangle
+  agent budget, 705 more people and 190 more vehicles for being outside the radius, 127 for standing
+  in the carriageway without crossing, 52 for not being on a walkable surface, 11 vehicles for being
+  a body with no rider, 6 for not being on a carriageway.
+* The Art Deco the item is named for is not visible: no setbacks, no banding, no brickwork relief,
+  no casement rhythm. The blocks in frame are flat planes with window openings and no reveal.
+* The roadway is untextured, as everywhere.
+* `curb_ramp: 81` still appears under `unmapped_kinds`; those rows are built into the pavement and
+  the label is stale by minutes (the resolver learned to say `built_elsewhere` after this render).
 
 ## Cause of each gap
 
 | gap | cause | class |
 |---|---|---|
-| a lamp column and a wall inside 5 m of the lens | the clearance rule tests the view azimuth and a 12 deg cone, not the whole frame; a camera snapped to the nearest roadbed can end up beside a wall | camera |
-| the photograph is of the right boulevard 3.9 km away | Commons has very few free photographs looking along the Grand Concourse and none this item's rules admit near East 165th Street | reference |
-| no Art Deco detail | shells are extruded footprints with a per-material colour; the facade kit has no Art Deco vocabulary | geometry |
-| no signage or shopfront glass | no stage produces signage; kit storefronts carry no glazing | material |
-| no parked cars, no people | no traffic or crowd placement feeds the verification scene | data |
-| featureless roadway | flat colour per pavement kind, no texture, no markings | material |
+| the reference is 3.9 km from the viewpoint | Commons has no free photograph looking along the Concourse near 165th Street, and the item names no subject | reference |
+| the right half of the frame is a wall five metres away | the clearance probe is a 6° cone in a 42.2° frame and reports its answer as the frame's (J47) | verification |
+| props and kit both capped | 4.5 M triangles reached; 465 props and the far end of the kit never placed | budget |
+| no Art Deco relief, setbacks or banding | building shells carry massing and a flat window grid; the kit has no Deco vocabulary | geometry |
+| untextured roadway | pavement is a flat colour per kind with no surface texture | material |
+| `curb_ramp: 81` shown as unmapped | rendered minutes before the resolver said `built_elsewhere`; the ramps are in the pavement | reporting |
