@@ -4,60 +4,49 @@
 
 **Reference** — File:Homes in Forest Hills Gardens 05.jpg by XanderAi, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2024-09-26 16:04:15, 1920x1081. [Commons page](https://commons.wikimedia.org/wiki/File:Homes_in_Forest_Hills_Gardens_05.jpg)
 
-**Camera** — camera 40.71761, -73.84488 (NYC_TM 8882, 1961) z 23.4 m NAVD88 | azimuth 140.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x720. View direction: 140.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition. Aim: level optical axis (the reference names no subject to aim at).
+**Camera** — 40.71761, -73.84488 (NYC_TM 8882, 1961) at z 23.4 m NAVD88 | azimuth 140.0°, pitch +0.0° | 35 mm on 36 mm (54.4° horizontal) | 1280x720. The camera stands on **this photograph's own EXIF GPS**, 221.9 m from the item's recorded viewpoint, and was **not moved**: the viewpoint is in open air on the ground, the view azimuth is clear for 24.0 m, the nearest built thing in the frame is `prop_tree_honeylocust_medium_0` 10.4 m away and the nearest simulated agent is `agent_ped_87.8` 15.7 m away.
 
-**Sun** — azimuth 239.6°, elevation 28.3° at 2024-09-26T16:04:15-04:00 (EXIF DateTimeOriginal).
+**Sun** — azimuth 239.6°, elevation 28.3° at 2024-09-26T16:04:15−04:00, from the photograph's own **EXIF DateTimeOriginal**; 754.0 W/m² direct normal, sky at strength 0.0365, Filmic, **+0.61 stops**. That date is a **Thursday** and the crowd was drawn for **a weekday**.
 
-**In frame** — 4/4 building tiles (240,420 tris), 0 landmark models, 2,193 pavement polygons, 298 props, 2,787 facade-kit pieces; 2,284,011 triangles; ground mesh 211² at 2.0 m near / 40.0 m far.
+**In the scene**, within 900.0 m of the camera and not all of it in frame — 6/6 building tiles (321,776 tris), 0 landmark models, 27,707 pavement polygons (12,707 white marking, 4,666 roadbed, 4,562 sidewalk, 3,619 curb, 801 crosswalk, 784 yellow marking, 459 median, 106 parking lot, 3 plaza), 428 props of the 2,161 in range, 4,911 kit pieces, 65 vehicles and 407 people; 4,500,101 triangles. Ground mesh 96,800 triangles, 0 holes. 14 city surfaces are dressed from the shared photographic catalogue.
 
-**Verdict — the single clearest demonstration in the set of what a flat-capped extruded footprint costs: Forest Hills Gardens is steep tiled roofs, half-timbering, casements and brick, and the render is white boxes with flat tops**
+## Verdict — the brightness matches and the colour does not, and that separates two faults that usually hide each other
 
-## Re-rendered 2026-09-07 — the best-composed drive-through frame, with one conspicuous artefact
+**This is the closest luminance match in the set: mean 0.3508 against the photograph's 0.3791, a ratio of 0.925, with the tonal spread at 0.768.** The clock is the photograph's own EXIF `DateTimeOriginal`, the camera stands on its EXIF GPS, and the exposure opened +0.61 stops for a 28.3° late-afternoon Sun. Nothing about the light on this sheet is assumed.
 
-This is the drive-through frame that reads most like a street: a car at the kerb and a second one
-behind it, two people walking the pavement, a street tree with its trunk in the foreground, houses
-set back behind their front walls, a stoop with an iron railing, and the roofline stepping down the
-block. 66 vehicles and 404 pedestrians are in the scene, and unlike the Bronx frames several of each
-are actually in shot. No agent needed culling — the nearest is well beyond the clearance.
+**Which is why its chroma reading is the most damning in the set: 0.0302 against 0.1191, a ratio of 0.254.** On every other sheet the colour gap can be argued down to exposure — a camera stops down, this renderer never does. Here the brightness already agrees to within eight per cent, so exposure explains nothing. **The render simply has a quarter of the colour of the street it stands for.**
 
-**The ivy is the artefact.** 55 `vegetation` kit pieces are placed, and they are
-`ivy_panel_dense` / `ivy_panel_sparse` — panels 1.947 m wide, 2.0 m tall and **0.185 m deep**,
-intended as ivy climbing a wall. Placed in continuous abutting runs at a uniform height they read as a
-green painted band along the base of every wall rather than as climbing plants: same top edge, same
-bottom edge, no gaps, no variation, and too shallow to catch a shadow. It is the most conspicuously
-unreal thing in the frame, and it is a placement pattern rather than a bad asset — one panel on one
-wall would be fine.
-
-The walls behind them are the facade-class case already recorded on the Bed-Stuy and Park Slope
-sheets: 1,936 window pieces in this frame, rendering as faint rectangles on a flat plane with no
-opening, reveal or glass. The Wall Street canyon frame shows the same kit producing real recessed
-openings, so this is a property of these classes and not of the kit.
+**Look at the two halves and the cause is not subtle.** The photograph is a Forest Hills Gardens house in variegated clinker brick — orange, red, purple and tan in the same wall — under a **terracotta tile roof**, with half-timbering, leaded casements in dark timber frames and a wrought-iron balcony. The render is a **grey stucco block with a grey pitched roof**. The classifier was right about what it is: the nearest houses carry `queens_tudor_1930` — *"Tudor Revival attached house, brick and stucco with half-timbering"*, pitched roof, casement windows — and the massing and roof pitch follow it. What does not follow is the polychrome brick and the tile, because the class declares `stucco` and `red_brick` as its two materials and **no source in this build records what an individual house is faced with**.
 
 ## What matches
 
-* The camera stands on the photograph's own EXIF GPS, 222 m from the item's nominal viewpoint, at 23.4 m NAVD88 on a 21.8 m surface, and the new point-sample ground rule was used because the note names a terrace.
-* The block layout is right: detached and semi-detached houses set back behind a continuous front boundary, with a narrow roadway and generous verges, which is the Forest Hills Gardens plan.
-* A brick chimney stack rises above the roofline at the right scale, and a hedge line runs along the front boundary — both are real features of this street.
-* A large street tree stands at the kerb with a correct trunk and canopy, 14 impostor cards dropped.
-* 2,193 pavement polygons place the roadway, both verges and 493 crosswalk polygons at the right widths.
+* **The reference is genuinely of the item**, which is not true of every sheet in this set: an item asking for Forest Hills Gardens houses is shown a photograph titled *Homes in Forest Hills Gardens*.
+* **The building type is right.** Two-storey attached and semi-detached houses with steeply pitched roofs, deep eaves and chimney stacks; **3,382 windows, 494 window accessories, 200 entry doors, 92 bulkheads, 75 cornices, 67 vegetation pieces and 51 fence pieces** stand in the scene out of 4,911. The classifier assigned `queens_tudor_1930` with a pitched roof to the houses nearest the camera, which is the right typology for this district.
+* **The luminance and the contrast are the closest in the set** — mean **0.925×** and standard deviation **0.768×** — and the shadows fall the way a 28.3° Sun at 16:04 puts them: long, low and to the left, across the roadway and up the stucco.
+* **The garages are garages.** Two of the buildings in the cone are detached back-yard garages on their houses' lots; each carries a single garage door and a borough-and-era-appropriate wall material, and neither is given windows.
+* **The road is a road with real markings**: 4,666 roadbed, 3,619 curb and 4,562 sidewalk polygons, with **12,707 white and 784 yellow marking polygons** and 801 crosswalk polygons in range (J52).
+* **The trees are at their measured height**: all 154 scaled, mean **0.895**, none outside the declared band (J70).
+* Nothing was dropped for being missing: 6 of 6 building tiles, 0 LOD substitutions, 0 pavement polygons dropped, 0 holes in the ground.
 
 ## What does not match
 
-* Not one roof is pitched. Every building in the render is a flat-topped extrusion; the reference is a steeply pitched clay-tile roof with three gables, a catslide over the entry and a dormer. This is the defining feature of the neighbourhood and none of it is present.
-* No brick. The walls are flat white and pale pink; the reference is a warm variegated brick with a stone plinth, timber framing to the gable and a stone-mullioned bay.
-* No windows of any kind on the visible faces: no casements, no leaded lights, no sills, no reveals. The render's openings are a handful of pale dashes.
-* No half-timbering, no bargeboards, no rainwater goods, no lamp brackets, no front doors.
-* The green band along the boundary is a kit hedge rendered as a flat green pattern rather than planting.
-* The reference's foreground — a stone garden wall with a planter and two chairs — has no counterpart; there is no garden furniture, no planting and no wall in any dataset the scene reads.
-* ~~No cars, no people.~~ — **superseded 2026-09-07.** **404 people and 66 vehicles are in this scene** from one frame of the running simulation; what the reference still has and the render does not is recorded in the section above.
+* **The colour, and it is the whole gap.** Chroma **0.0302** against **0.1191** — **0.254×**, the lowest ratio in the set — with the brightness already matching. The photograph's wall is four brick colours at once and its roof is terracotta; the render's is one stucco grey under a grey roof.
+* **There is no tile roof in the frame and no half-timbering.** The class's own name says *"brick and stucco with half-timbering"* and its features list `dormers`; the kit places neither timbering nor a dormer here.
+* **The two halves are at very different range.** The photograph is a close-up of one house from across a garden wall; the render is a street view with parked cars filling its lower half. The item names no subject and the photograph's direction was never derived from the image (confidence **medium**), so this is a property of the pairing.
+* **Of the 2,161 props in range only 428 were placed**, the largest shortfall in the set, at a triangle budget of 1,313,553 — along with part of the kit (cap 1,356,184) and 22 opaque impostor cards.
+* **347 pedestrians were dropped for standing in the carriageway without crossing**, 179 for not being on a walkable surface and 90 for the triangle budget; 188 vehicles went to the budget too. Only 6 of the 65 vehicles are at LOD1 and none at LOD0.
+* **70 of the 154 trees are species-substituted.** They are drawn at the height their own rows record; the species they are drawn *as* is the nearest by size and taxon.
+* **Two surfaces sit at the albedo cap with the wrong source material behind them** — `concrete` and `roof_membrane` (J66).
+* **5 point props have no asset at all**: 4 vending machines and 1 memorial (J22, J23).
 
 ## Cause of each gap
 
 | gap | cause | class |
 |---|---|---|
-| flat roofs where the neighbourhood is pitched | the shell builder caps footprints flat where it has no roof form; the tile manifest records fallback_flat_cap counts for exactly this | geometry |
-| no brick, no timber framing | shells carry one flat base colour per material class with no texture | material |
-| no windows, sills or doors | the facade kit placed 2,787 pieces in this scene but the visible faces carry none; low-rise residential facade classes are the thinnest part of the kit | geometry |
-| hedge reads as a flat pattern | the kit hedge piece is an untextured card | material |
-| no garden walls, planting or furniture | no dataset the scene reads carries residential lot furniture | data |
-| ~~no cars or people~~ superseded | agents are placed now (404 people, 66 vehicles); what remains is framing and occlusion, not absence | reporting |
+| chroma 0.254× with the brightness matching at 0.925× | the facade class declares two materials for the whole typology and no source records what an individual house is faced with; the photograph's wall is four brick colours at once under a terracotta roof | **material — the whole gap on this sheet, and exposure cannot be blamed for it** |
+| no tile roof, no half-timbering, no dormer | the class names all three and the kit carries none of them; the shell takes the class's roof *pitch* and its material list, not its ornament | geometry |
+| the two halves are at different range | the item names no subject and the photograph's direction was never derived from the image (confidence medium) | reference |
+| 428 of 2,161 props placed | triangle budget 1,313,553, declared on the sheet; this is the largest prop shortfall in the set | performance |
+| 347 people dropped in the carriageway, 188 vehicles to the budget | the pedestrian rule refuses to stand a person in a live carriageway unless crossing, and the vehicle budget capped at LOD2 | performance |
+| 70 of 154 trees species-substituted | no modelled species matched exactly; the nearest by size and taxon was used | data |
+| 5 point props unplaced | vending machines and memorials have no asset (J22, J23) | geometry |
