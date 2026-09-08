@@ -2,62 +2,45 @@
 
 `landmark_chrysler_building` · sheet: [`sheet.png`](sheet.png) · render record: [`render.json`](render.json)
 
-**Reference** — File:Chrysler Building October 2022 001.jpg by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2022-10-08 14:36:16, 1920x1440. [Commons page](https://commons.wikimedia.org/wiki/File:Chrysler_Building_October_2022_001.jpg)
+**Reference** — File:Chrysler Building October 2022 001.jpg by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2022-10-08 14:36:16, 1920x1440. [Commons page](https://commons.wikimedia.org/wiki/File:Chrysler_Building_October_2022_001.jpg) — the photograph's own view direction is derived from the image at **high** confidence.
 
-**Camera** — camera 40.75000, -73.97670 (NYC_TM -2274, 5564) z 16.5 m NAVD88 | azimuth 29.6deg pitch +0.0deg | 18 mm on 36 mm (90.0deg horizontal) | 1208x906. View direction: 29.6 deg as recorded; it agrees with the bearing from the camera position used to Chrysler Building (29.7 deg) to 0.1 deg. Aim: level optical axis (Chrysler Building is 205 m away and would need +37 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion).
+**Camera** — 40.75, -73.9767 (NYC_TM -2278, 5560) at z 16.7 m NAVD88 | azimuth 29.6°, pitch **+20.8°** | **18 mm** on 36 mm (90.0° horizontal) | 1208x906. The camera stands on the item's recorded viewpoint — this photograph's own EXIF GPS is 136.8 m away and the eye point there is **inside** `t_-3_5_roof_membrane`, so it was not used — and was then **moved 22.9 m onto the nearest crosswalk**, because the recorded viewpoint is boxed in: the view azimuth is closed off 13 m ahead, less than the 80 m this frame needs. From the new point the view azimuth is clear for 96 m, the nearest built thing in the frame is `prop_lamp_cobra_davit_209` 9.0 m away and the nearest simulated agent is `agent_veh_camry_black_car_478` 4.0 m away.
 
-**Sun** — azimuth 215.8°, elevation 36.5° at 2022-10-08T14:36:16-04:00 (EXIF DateTimeOriginal).
+**Sun** — from 2022-10-08T14:36:16−04:00, the photograph's own **EXIF DateTimeOriginal**. That date is a **Saturday** and the crowd was drawn for one.
 
-**In frame** — 4/4 building tiles (148,546 tris), 6 landmark models, 1,591 pavement polygons, 540 props, 12,474 facade-kit pieces; 4,500,209 triangles; ground mesh 201² at 2.0 m near / 40.0 m far.
+**In the scene** — 20 city surfaces are dressed from the shared photographic catalogue; the subject is 210.9 m from the camera and the sightline is closed at 24.0 m.
 
-**Camera clearance** — the recorded viewpoint is boxed in: the view azimuth is closed off 13 m ahead, less than the 36 m this frame needs to show its subject; the camera was moved 21 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there
+## Verdict — the Chrysler Building is not in this frame, and the model is not why
 
-**Verdict — rescued from a black frame to a legible one — the boxed-in test moved the camera off a wall 13 m ahead and the lens rule opened to 18 mm — and the Chrysler Building is still not in it, because from a Lexington Avenue sidewalk the tower is behind the block in front of you**
+**The photograph is the crown**: the stainless-steel arch tiers, the triangular windows, the spire, filling the frame against a deep blue October sky. **The render is a canyon of curtain-wall slabs with no Chrysler Building in it at all.**
 
-## Re-rendered 2026-09-07 — the clearest case of I18: the sheet shows no Chrysler Building
+**The model is not the reason.** `chrysler` is among the most detailed entries in the catalogue and its fidelity statement is specific: *"real footprint, setbacks at floors 16/24/31/61/71, tip 318.9 m, crown top 282.0 m, a 71st-floor observation deck, seven Nirosta arch tiers with triangular windows, 31st-floor hubcap frieze with corner radiator-cap gargoyles, eight 61st-floor eagles, white-glazed-brick walls with dark grey brick trim."* The height probe confirms the model is standing where the subject is: **17 of 17 rays** land on built fabric at the subject's coordinate and the highest is `lm_chrysler.2` at **280.22 m** above the ground there, against the catalogue's published 318.9 m to the tip — the difference being the spire above the point the rays meet (J74).
 
-This is what deviation I18 looks like in a picture. The subject stands 72.1 m away and its top is at
-331 m, so containing it needs **77.1° of elevation**; this frame reaches **36.9°**, and the lens is
-already at the 18 mm floor. What the sheet shows is the base of a dark tower on the right, the
-Lexington Avenue canyon receding, a queue of cars, a street tree, a LinkNYC kiosk and 392 people —
-an anonymous Midtown street. The Chrysler Building is in the frame in the sense that its first few
-storeys are; nothing that identifies it is.
+**The reason is the camera placement, and it is a fault in the rule rather than in this sheet.** The walk moved the camera onto a crosswalk and accepted it because *the view azimuth is clear for 96 m* — a probe that looks **level**. The subject is 249.8 m away and **20.8° up**, so the ray that matters climbs into a building the level probe passes under: the sightline is closed at **24.0 m** by `t_-3_5_glass_curtain`, whose face fills the near frame. The clearance the placement optimised is not the clearance the frame needed. Measured across the nine v15 sheets that name a subject, **seven report a blocked sightline and six of those had a clearance probe reporting more than twice the blocker's distance as clear** (docs/DEVIATIONS.md J79).
 
-The frame is also dark: mean luminance **0.182 against the photograph's 0.325**, which is I16 in a
-canyon again.
-
-`culled_after_camera_move` reports **one vehicle** removed, the second time the vehicle half of the
-cull has fired.
-
-There is nothing wrong with the world here. Every element in the frame is correctly placed and the
-camera is where the rules put it; the sheet fails because a level axis, an 18 mm floor and a
-photograph-derived aspect ratio cannot together contain a 331 m subject at 72 m. It is the strongest
-argument in the set for allowing the camera to tilt and saying on the sheet that it did.
+**Nothing below should be read as a comparison of the Chrysler Building.** What the sheet does compare is Midtown fabric, and it compares it in deep shadow.
 
 ## What matches
 
-* The camera correction is the story of this sheet and it is fully stated: the recorded viewpoint had the view closed off 13 m ahead against the 36 m this subject needs, so the camera was moved 21 m onto the nearest real roadbed polygon with 60 m of clear view. Before that the frame was mean 0.096, effectively black.
-* The lens rule fired too: 35 mm widened to the 18 mm floor because the 319 m tower stands 312 m above the lens at 205 m, 57 deg above the horizon.
-* What the frame does show is a correct Midtown canyon: Lexington Avenue's roadbed and sidewalk widths, the setback towers stepping away, a kerb line with the right reveal, and aerial perspective washing the far end out at the right rate.
-* The street furniture is right and well modelled: a LinkNYC kiosk with its lit screen at the correct 2.9 m height, a bus shelter, planters with hedging, street trees in full October leaf, a hydrant, cobra-head lamps on davits.
-* There are road markings — white directional arrows and lane markings on the roadbed — the only frame in the set that shows any.
-* 1,591 pavement polygons and 540 props are placed, with 15 opaque impostor cards dropped.
+* **The model is present, complete and correctly placed.** The probe lands 17 of 17 rays on it and reads 280 m of building at the subject's own coordinate. Nothing about this sheet is evidence against the Chrysler model; the sheet simply does not point at it.
+* **The instant is the photograph's own**, to the second, and the crowd was drawn for the Saturday that date is.
+* **The rejection of the photograph's GPS is correct behaviour and is declared**: the eye point there is inside a building, and the record says which one and how it was tested.
+* **The street is a Midtown street** — a canyon of setback towers with cars at the kerb, a street tree, LinkNYC kiosks and a cobra-head lamp, all in their right places.
 
 ## What does not match
 
-* The Chrysler Building is not in the frame. The item exists to test its stainless-steel crown and the render shows the street it stands on. From a sidewalk 205 m away on a canyon street the tower is behind the block in front of the camera, and no lens choice can recover it — only a different viewpoint can.
-* The frame is still dark, mean 0.222, because Lexington Avenue at 40th at a 36 deg October Sun is in shadow at street level.
-* No building has any surface: the near walls are flat grey-blue and pale planes with unglazed openings, where the reference's own foreground buildings carry limestone, deep reveals and bronze spandrels.
-* ~~No people, no vehicles, no traffic signals, no signage.~~ — **partly superseded 2026-09-07.** The people and vehicles are placed now; the rest of this bullet — traffic signals, street signs, wayfinding kiosks and the like — is **still true**, and those are street furniture rather than agents.
-* The reference is a dramatic upward view of the crown against a deep blue sky with the eagle gargoyles and the sunburst spire; there is no counterpart to any of it.
-* Both props and kit were capped by the triangle budget (12,474 of 16,473 kit records in range).
+* **The subject is absent from the frame.** Not simplified, not distant — absent. A curtain-wall tower 24 m from the lens stands between the camera and it.
+* **The frame is a third of the photograph's brightness and carries an eighth of its colour**: mean **0.1089** against **0.3247** (**0.335×**), standard deviation **0.11** against **0.245** (**0.449×**), chroma **0.0295** against **0.2208** (**0.134×**), 95th percentile **0.3422** against **0.9363**, 5th percentile **0.0076** against **0.0773**. The photograph is a sunlit steel crown against deep blue sky; the render is a shaded canyon floor with a strip of sky at the top. The chroma ratio is the lowest in the set so far and this sheet cannot apportion it between the pairing and J66, because the two halves have almost no surface in common.
+* **The verticals converge by 20.8°** and the lens is at the **18 mm** floor. The sheet declares both: past that floor a level axis cannot contain a subject this tall this close, so the frame is **not comparable with the photograph on proportion**. Here it buys nothing, because the tilt aims at a wall.
+* **`subject_visible` is `false` with 1 of 5 rays clear and 0 landing on the subject** — and on this sheet, unlike DUMBO, the boolean is **right**. The blocker is a building, not a lamp taking rays from an over-wide fan.
+* **The photograph's whole content — the arch tiers, the triangular windows, the eagles, the hubcap frieze — is untestable from this frame.** The sheet proves nothing about the one part of this build that was modelled to a published description.
 
 ## Cause of each gap
 
 | gap | cause | class |
 |---|---|---|
-| the tower is not in the frame | the recorded viewpoint is on a canyon sidewalk 205 m from the subject with a block in between; the item needs a viewpoint with a line of sight | reference |
-| frame still dark | a Midtown canyon at a 36 deg Sun with two light bounces | lighting |
-| no surface on any building | shells carry a per-material base colour; the kit supplies openings without glazing | material |
-| ~~no people, vehicles, signals or signage~~ superseded | agents are placed now (392 people, 80 vehicles); what remains is framing and occlusion, not absence | reporting |
-| a quarter of the facade kit not drawn | the 4.5 M triangle budget is spent before the kit finishes | geometry |
+| the subject is not in the frame | the camera walk scores candidates on eye-level azimuth clearance and never on the subject's own sightline; the axis is 20.8° up and a curtain-wall tower 24 m away closes it | **verification — open, DEVIATIONS J79** |
+| mean 0.335×, chroma 0.134× | a sunlit steel crown against deep blue sky versus a shaded canyon floor; the two halves share almost no surface, so this sheet cannot apportion the gap between the pairing and J66 | reference |
+| verticals converge by 20.8° | the subject tops out far above a level 18 mm frame at 250 m; past the lens floor the axis must tilt and the sheet declares it (I18) | stated choice |
+| the crown, the tiers, the eagles are untestable | they are modelled and the frame does not reach them; this is not evidence about the model | verification |
+| the photograph's GPS was not used | the eye point there is inside `t_-3_5_roof_membrane`; the record names the test and the building | verification — correct behaviour |

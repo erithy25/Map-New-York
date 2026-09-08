@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_domino_sugar_refinery",
+ "rendered_at": "2026-09-08T23:34:48Z",
+ "reference_file": "2.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.1579,
+  "sd": 0.1225,
+  "p05": 0.016,
+  "p95": 0.3919,
+  "chroma": 0.0402
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.317,
+  "sd": 0.2293,
+  "p05": 0.0577,
+  "p95": 0.8115,
+  "chroma": 0.1416
+ },
+ "render_over_reference": {
+  "mean": 0.498,
+  "sd": 0.534,
+  "chroma": 0.284
+ }
+}
