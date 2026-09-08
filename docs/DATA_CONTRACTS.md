@@ -138,6 +138,27 @@ uint32 kit_id; int64 bin; float32 x, y, z; float32 yaw_deg; float32 scale; uint3
 
 `roads/pavement/{tile}.parquet`: polygons `kind(0 roadbed,1 sidewalk,2 median,3 plaza,4 curb,5 crosswalk,6 parking lot,7 driveway)`, `surface`, `roughness_seed`.
 
+### 7.1 `roads/markings/{tile}.parquet` — the paint on the carriageway
+
+Polygons `kind(0 lane line,1 centre line,2 bike lane line,3 stop bar,4 crosswalk bar,5 two-way
+left-turn line)`, `colour(0 white,1 yellow)`, `area_m2`, `source_id`.
+
+**Derived, not surveyed**, and kept in its own file for that reason: the planimetric survey has no
+marking layer, so every position here comes from the measured lane cross-section in
+`roads/lanes.parquet` — each lane's signed `offset_m`, its `width_m`, its `direction` and its
+`kind` — and the boundary between two lanes is where one lane's edge meets the next one's. Which
+boundary carries which marking is the MUTCD's rule (§3B.01–3B.04, §3B.16, §3B.18): opposing
+directions get the double yellow centre line, the same direction gets the broken white lane line, a
+bike lane gets a solid white one, a two-way left-turn lane gets solid outside and broken on its own
+side, and the edge against a parking lane gets nothing, because New York paints nothing there. The
+crosswalk bars are cut out of the crosswalk polygons in `roads/pavement`, so the paint cannot drift
+from the crossing it belongs to, and the crossing area under them is asphalt.
+
+Widths and patterns are the standard's; where the standard gives a range the value chosen inside it
+is a choice and is written down as one in `nycsim_pipeline.roads.markings`. City-wide: 3,305,578
+pieces over 927 tiles, 4,496,954 m² of paint. Consumers lift it 4 mm above the roadbed — extruded
+thermoplastic is laid 90 to 125 mil — and resolve it to `SurfaceClass::PaintedMarking`.
+
 ## 8. Furniture — `tiles/{tile}/props.parquet`
 `prop_id, kind(int16 enum in props_catalog.json), x, y, z, heading, variant, text, source(0 dataset,1 rule), dataset_id, species(for trees), dbh_cm, height_m`
 
