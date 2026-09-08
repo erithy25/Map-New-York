@@ -53,3 +53,7 @@
 | uniform facade materials | one material family per block face; per-building paint and shopfront colour are in no source | material |
 | no legible sign or awning text | shopfront signage carries real business names as data but nothing resolves them to geometry at this distance (B15a) | geometry |
 | Sun on an assumed instant | the photograph carries a year and nothing finer | reference |
+
+---
+
+*Re-checked against the v15 render of 2026-09-08T21:39:02Z. This sheet names no subject, so nothing J74, J75 or J76 changed reaches it: the scene is identical to the render this was written against — the same tiles, the same pavement counts, the same props, kit, trees, tree scales, species substitutions, vehicles and people, and the same frame statistics to four decimals. What did change is that the statistics are now measured by the render that made the sheet rather than by hand afterwards (J77). The render half was viewed again beside the photograph and shows what is written above.*

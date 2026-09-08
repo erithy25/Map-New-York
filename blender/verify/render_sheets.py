@@ -1575,7 +1575,36 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
     out = outdir / "sheet.png"
     sheet.save(out)
     LOG.info("%s sheet written (%dx%d)", slug, sheet_w, sheet_h)
+    write_frame_stats(slug, outdir)
     return out
+
+
+def write_frame_stats(slug: str, outdir: Path) -> None:
+    """Measure both halves of the sheet **now**, beside the sheet this call just wrote.
+
+    ``frame_stats.json`` holds the two comparisons every assessment reaches for first -- how much
+    darker the render is than its photograph, how much less colour it carries -- and it used to be
+    written only when somebody ran ``tools/frame_stats.py`` by hand.  A re-render left it in place
+    with its old numbers and its old ``rendered_at``, and because ``tools/assessment_check.py``
+    checks a quoted figure against it, an assessment could quote the luminance of a **previous
+    image** and pass (docs/DEVIATIONS.md J77).  Measuring it here makes one render and one
+    measurement the same event.
+    """
+    try:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "nycsim_frame_stats", str(REPO_ROOT / "tools" / "frame_stats.py"))
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        doc = mod.measure(slug)
+        if "error" in doc:
+            LOG.warning("%s frame_stats not written: %s", slug, doc["error"])
+            return
+        (outdir / "frame_stats.json").write_text(json.dumps(doc, indent=1) + "\n")
+        LOG.info("%s frame_stats written (render mean %s, reference mean %s)", slug,
+                 (doc.get("render") or {}).get("mean"), (doc.get("reference") or {}).get("mean"))
+    except Exception as exc:                       # a sheet is still evidence without its statistics
+        LOG.warning("%s frame_stats not written: %s", slug, exc)
 
 
 # --------------------------------------------------------------------------- index

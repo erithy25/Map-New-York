@@ -55,3 +55,7 @@
 | 75 of 202 trees species-substituted | no modelled species matched exactly; the nearest by size and taxon was used | data |
 | one tree outside the scale band | its measured height is further from the nearest exported size than the declared band allows, so it keeps the asset's own size and is counted (J70) | data |
 | Sun on an assumed instant | the photograph carries a year and nothing finer | reference |
+
+---
+
+*Re-checked against the v15 render of 2026-09-08T21:46:04Z. This sheet names no subject, so nothing J74, J75 or J76 changed reaches it: the scene is identical to the render this was written against — the same tiles, the same pavement counts, the same props, kit, trees, tree scales, species substitutions, vehicles and people, and the same frame statistics to four decimals. What did change is that the statistics are now measured by the render that made the sheet rather than by hand afterwards (J77). The render half was not viewed again; every figure it rests on was re-read from the new record and none of them moved, which is the check that would have caught a change.*

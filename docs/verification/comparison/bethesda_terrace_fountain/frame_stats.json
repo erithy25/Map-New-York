@@ -1,17 +1,17 @@
 {
  "slug": "bethesda_terrace_fountain",
- "rendered_at": "2026-09-08T18:05:53Z",
+ "rendered_at": "2026-09-08T21:34:54Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 854,
-  "mean": 0.5359,
+  "mean": 0.5356,
   "sd": 0.1195,
   "p05": 0.3269,
   "p95": 0.6704,
-  "chroma": 0.0604
+  "chroma": 0.061
  },
  "reference": {
   "width": 1920,
@@ -23,8 +23,8 @@
   "chroma": 0.1435
  },
  "render_over_reference": {
-  "mean": 1.371,
+  "mean": 1.37,
   "sd": 0.572,
-  "chroma": 0.421
+  "chroma": 0.425
  }
 }

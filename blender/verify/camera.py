@@ -980,6 +980,11 @@ def subject_sightline(x: float, y: float, z: float, sx: float, sy: float, sz: fl
     # the fan was not sized to anything.
     if subject_height_m and subject_height_m > spread_m:
         spread_m, fan_from = float(subject_height_m), "the subject's own measured height (J74)"
+    elif subject_height_m:
+        # Measured, and smaller than the floor.  Saying "not measured" here would be a second
+        # kind of wrong answer in the field that exists to stop the first.
+        fan_from = (f"the {spread_m:.0f} m floor: the subject measures {float(subject_height_m):.1f} m, "
+                    f"which is under it, so the fan is the floor rather than the subject")
     else:
         fan_from = (f"the default {spread_m:.0f} m: the subject's height was not measured here, "
                     f"so the fan is not sized to it")

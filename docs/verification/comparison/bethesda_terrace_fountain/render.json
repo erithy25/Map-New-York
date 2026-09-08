@@ -31,7 +31,7 @@
   "lat": 40.7735,
   "lon": -73.9711,
   "long_side_fov_deg": 65.47,
-  "pitch_deg": -1.9016194294900215,
+  "pitch_deg": -1.6825319946265882,
   "portrait": false,
   "resolution": [
    1280,
@@ -44,7 +44,7 @@
   "y": 8173.951,
   "z": 24.222
  },
- "camera_caption": "camera 40.77350, -73.97110 (NYC_TM -1778, 8174) z 24.2 m NAVD88 | azimuth 13.9deg pitch -1.9deg | 28 mm on 36 mm (65.5deg horizontal) | 1280x854",
+ "camera_caption": "camera 40.77350, -73.97110 (NYC_TM -1778, 8174) z 24.2 m NAVD88 | azimuth 13.9deg pitch -1.7deg | 28 mm on 36 mm (65.5deg horizontal) | 1280x854",
  "camera_origin": {
   "from_photograph_gps": false,
   "lat": 40.7735,
@@ -72,9 +72,9 @@
   "view_m": 80.8
  },
  "frame": {
-  "mean": 0.5343,
+  "mean": 0.534,
   "reason": null,
-  "sd": 0.1196,
+  "sd": 0.1197,
   "usable": true
  },
  "frame_retry": null,
@@ -100,7 +100,7 @@
  },
  "name": "Bethesda Terrace and Fountain",
  "night": false,
- "pitch_reason": "aimed at Bethesda Fountain (Angel of the Waters) 93 m away, at its mid-height (the b_bethesda_terrace model's 8 m height); -1.9 deg from horizontal",
+ "pitch_reason": "aimed at Bethesda Fountain (Angel of the Waters) 93 m away, at its mid-height (the top of lm_b_bethesda_terrace.2, the built thing standing at the subject's coordinate, 9 m above the ground there); -1.7 deg from horizontal",
  "reference_photo": {
   "author": "Christian David",
   "confidence": "high",
@@ -115,7 +115,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/bethesda_terrace_fountain/render.png",
- "rendered_at": "2026-09-08T19:55:52Z",
+ "rendered_at": "2026-09-08T21:34:54Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -141,7 +141,7 @@
    "placed_pedestrians": 11,
    "placed_vehicles": 0,
    "reason": null,
-   "seconds": 17.45,
+   "seconds": 13.4,
    "snapshot": {
     "building_footprints_tested": 2814,
     "car_free_park_drives_matched": 46,
@@ -799,7 +799,7 @@
    }
   },
   "radius_m": 742.6651793355627,
-  "seconds": 36.29,
+  "seconds": 30.07,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -877,15 +877,16 @@
   "radius_m": 742.6651793355627
  },
  "seconds": {
-  "render": 35.9,
-  "scene": 36.6,
-  "total": 72.5
+  "render": 26.1,
+  "scene": 30.3,
+  "total": 56.4
  },
  "sightline": {
-  "subject_aimed_at": "the subject's mid-height, 3.9 m above its ground",
+  "subject_aimed_at": "the subject's mid-height, 4.3 m above its ground",
   "subject_blocked_at_m": 14.7,
   "subject_blocked_by": "lm_b_bethesda_terrace.20",
-  "subject_fan_half_angle_deg": 4.21,
+  "subject_fan_from": "the default 12 m: the subject's height was not measured here, so the fan is not sized to it",
+  "subject_fan_half_angle_deg": 4.22,
   "subject_fan_m": 12.0,
   "subject_lands_at_m": 80.8,
   "subject_lands_on": "lm_b_bethesda_terrace.1",
@@ -902,6 +903,20 @@
  "subject": {
   "distance_from": "the placed camera, after the clearance walk",
   "distance_m": 81.4,
+  "height_probe": {
+   "ground_z_m": 17.16,
+   "height_above_ground_m": 8.64,
+   "nearest_catalogue_origin": {
+    "distance_m": 0.1,
+    "height_m": 7.92,
+    "id": "b_bethesda_terrace",
+    "within_120_m": true
+   },
+   "object": "lm_b_bethesda_terrace.2",
+   "rays_cast": 17,
+   "rays_on_built_fabric": 17,
+   "z": 25.8
+  },
   "name": "Bethesda Fountain (Angel of the Waters)",
   "origin_distance_m": 93.4,
   "rejected_origin_distance_m": 51.4

@@ -1,17 +1,17 @@
 {
  "slug": "dumbo_washington_st_manhattan_bridge",
- "rendered_at": "2026-09-08T20:42:07Z",
+ "rendered_at": "2026-09-08T21:30:04Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 784,
   "height": 1394,
-  "mean": 0.1965,
-  "sd": 0.16,
-  "p05": 0.0588,
+  "mean": 0.1993,
+  "sd": 0.1601,
+  "p05": 0.0639,
   "p95": 0.5397,
-  "chroma": 0.0501
+  "chroma": 0.053
  },
  "reference": {
   "width": 1920,
@@ -23,8 +23,8 @@
   "chroma": 0.1791
  },
  "render_over_reference": {
-  "mean": 0.357,
-  "sd": 0.638,
-  "chroma": 0.28
+  "mean": 0.362,
+  "sd": 0.639,
+  "chroma": 0.296
  }
 }

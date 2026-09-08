@@ -1762,3 +1762,33 @@ def test_every_sightline_says_what_its_fan_was_sized_from():
         if sight.get("subject_visible") is None:
             continue                      # no sightline was tested, and the record says why
         assert sight.get("subject_fan_from"), f"{rec.parent.name}: a fan with no stated source"
+
+
+def test_a_sheets_statistics_are_measured_by_the_render_that_made_it():
+    """`frame_stats.json` holds the two comparisons every assessment reaches for first -- how much
+    darker the render is than its photograph, how much less colour it carries -- and it used to be
+    written only when somebody ran `tools/frame_stats.py` by hand. A re-render left it in place
+    with its old numbers and its own stale `rendered_at`, and `tools/assessment_check.py` treats it
+    as a source, so an assessment could quote the luminance of a previous image and pass (J77)."""
+    src = (VERIFY_DIR / "render_sheets.py").read_text()
+    assert "def write_frame_stats(" in src, "the renderer no longer measures its own sheet"
+    assert "write_frame_stats(slug, outdir)" in src, "the measurement is defined and never called"
+    checker = (REPO_ROOT / "tools" / "assessment_check.py").read_text()
+    assert "def stale_frame_stats(" in checker, "the checker would source figures from a stale file"
+    assert "skip = {\"frame_stats.json\"} if stale_frame_stats(slug)" in checker
+
+
+def test_no_sheets_statistics_describe_a_previous_image():
+    """The staleness this guards against is detectable from the files themselves, so detect it."""
+    import json
+
+    behind = []
+    for fs in sorted(COMPARISON_DIR.glob("*/frame_stats.json")):
+        rec = fs.parent / "render.json"
+        if not rec.is_file():
+            continue
+        a = json.loads(fs.read_text()).get("rendered_at")
+        b = json.loads(rec.read_text()).get("rendered_at")
+        if a != b:
+            behind.append(f"   {fs.parent.name}: statistics of {a}, render of {b}")
+    assert not behind, ("frame_stats.json describing a previous image:\n" + "\n".join(behind))

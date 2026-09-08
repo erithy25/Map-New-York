@@ -55,3 +55,7 @@
 | 667 props and part of the kit dropped | triangle budgets 1,291,418 and 1,316,574, declared on the sheet | performance |
 | 48 of 204 trees species-substituted | no modelled species matched exactly; the nearest by size and taxon was used | data |
 | Sun on an assumed instant | the photograph carries a year and nothing finer | reference |
+
+---
+
+*Re-checked against the v15 render of 2026-09-08T21:50:09Z. This sheet names no subject, so nothing J74, J75 or J76 changed reaches it: the scene is identical to the render this was written against — the same tiles, the same pavement counts, the same props, kit, trees, tree scales, species substitutions, vehicles and people, and the same frame statistics to four decimals. What did change is that the statistics are now measured by the render that made the sheet rather than by hand afterwards (J77). The render half was viewed again beside the photograph and shows what is written above.*

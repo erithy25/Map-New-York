@@ -55,3 +55,7 @@
 | 83 of 234 trees species-substituted | no modelled species matched exactly; the nearest by size and taxon was used | data |
 | sidewalk sheds of the wrong decade | the shed source is DOB permits active on 2026-09-05 and the photograph is from 2012; the city is built to today's permits | reference |
 | Sun on an assumed instant | the photograph carries a year and nothing finer | reference |
+
+---
+
+*Re-checked against the v15 render of 2026-09-08T21:42:56Z. This sheet names no subject, so nothing J74, J75 or J76 changed reaches it: the scene is identical to the render this was written against — the same tiles, the same pavement counts, the same props, kit, trees, tree scales, species substitutions, vehicles and people, and the same frame statistics to four decimals. What did change is that the statistics are now measured by the render that made the sheet rather than by hand afterwards (J77). The render half was not viewed again; every figure it rests on was re-read from the new record and none of them moved, which is the check that would have caught a change.*

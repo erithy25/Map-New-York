@@ -42,14 +42,39 @@ def facts(slug: str) -> str:
     return r.stdout or ""
 
 
+def stale_frame_stats(slug: str) -> str | None:
+    """Why this slug's ``frame_stats.json`` may not be quoted from, or ``None`` if it may.
+
+    It carries its own ``rendered_at``, copied from the render it measured.  When that does not
+    match the render sitting beside it, the file describes a **previous image** -- and because
+    this checker treats it as a source, an assessment could quote the luminance of a picture that
+    no longer exists and pass.  It went stale on every re-render for as long as it was written
+    only by hand (docs/DEVIATIONS.md J77), so a mismatch is refused rather than trusted.
+    """
+    fs, rec = COMPARISON / slug / "frame_stats.json", COMPARISON / slug / "render.json"
+    if not fs.is_file() or not rec.is_file():
+        return None
+    try:
+        got, want = json.loads(fs.read_text()), json.loads(rec.read_text())
+    except ValueError as exc:
+        return f"frame_stats.json is unreadable ({exc})"
+    a, b = got.get("rendered_at"), want.get("rendered_at")
+    if a != b:
+        return (f"frame_stats.json measures the render of {a}, and the render beside it is "
+                f"from {b}: it describes a previous image")
+    return None
+
+
 def haystack(slug: str) -> str:
     parts = [facts(slug)]
     # ``frame_stats.json`` is part of the record too: the renderer measures its own frame and
     # nothing measures the photograph, so the two comparisons an assessment reaches for first --
     # how much darker, how much greyer -- had no source until tools/frame_stats.py wrote one.
+    # It is left out when it is stale, so its numbers cannot silently source a quotation.
+    skip = {"frame_stats.json"} if stale_frame_stats(slug) else set()
     for p in (COMPARISON / slug / "render.json", COMPARISON / slug / "frame_stats.json",
               REFERENCE / slug / "meta.json"):
-        if p.is_file():
+        if p.is_file() and p.name not in skip:
             parts.append(p.read_text())
     return "\n".join(parts)
 
@@ -108,10 +133,14 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--context", action="store_true")
     a = ap.parse_args(argv)
     slugs = a.slugs or sorted(p.parent.name for p in COMPARISON.glob("*/assessment.md"))
-    bad = stale = 0
+    bad = stale = measured_elsewhere = 0
     for slug in slugs:
         md = COMPARISON / slug / "assessment.md"
         rec = COMPARISON / slug / "render.json"
+        why = stale_frame_stats(slug)
+        if why:
+            measured_elsewhere += 1
+            print(f"STATS  {slug}: {why}; its figures are not a source until it is re-measured")
         if md.is_file() and rec.is_file() and md.stat().st_mtime < rec.stat().st_mtime:
             stale += 1
             print(f"STALE {slug}: the assessment is older than the render it describes")
@@ -125,8 +154,9 @@ def main(argv: list[str] | None = None) -> int:
         for n, line in rows:
             print(f"        {n}" + (f"   {line[:120]}" if a.context else ""))
     print(f"\n{len(slugs)} assessments, {stale} older than their own render, "
-          f"{bad} with figures that need a source in the prose")
-    return 1 if (bad or stale) else 0
+          f"{bad} with figures that need a source in the prose, "
+          f"{measured_elsewhere} whose frame_stats.json measures a previous image")
+    return 1 if (bad or stale or measured_elsewhere) else 0
 
 
 if __name__ == "__main__":

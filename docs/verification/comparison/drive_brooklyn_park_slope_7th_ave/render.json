@@ -112,7 +112,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_park_slope_7th_ave/render.png",
- "rendered_at": "2026-09-08T20:13:24Z",
+ "rendered_at": "2026-09-08T21:50:09Z",
  "resolution_note": "1054x1036; the reference photograph is 1920x1887 (1.02:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -148,7 +148,7 @@
    "placed_pedestrians": 364,
    "placed_vehicles": 88,
    "reason": null,
-   "seconds": 108.06,
+   "seconds": 101.48,
    "snapshot": {
     "building_footprints_tested": 7692,
     "density_lane_km": 17.58,
@@ -749,7 +749,7 @@
    "unmapped_kinds": {}
   },
   "radius_m": 756.607777663774,
-  "seconds": 168.38,
+  "seconds": 160.63,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -776,9 +776,9 @@
   "radius_m": 756.607777663774
  },
  "seconds": {
-  "render": 83.9,
-  "scene": 170.5,
-  "total": 254.4
+  "render": 79.7,
+  "scene": 162.7,
+  "total": 242.4
  },
  "sightline": {
   "subject_note": "the item names no point subject",
