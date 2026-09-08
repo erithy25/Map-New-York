@@ -971,6 +971,24 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
             rep.agents["placed_vehicles"] = max(
                 0, int(rep.agents.get("placed_vehicles", 0)) - culled["vehicle_over_the_observer"])
             rep.agents["culled_after_camera_move"] = culled
+            # The clearance record was written before this cull, so its ``nearest_agent`` can name
+            # somebody the cull has just removed -- on Grand Concourse it named a pedestrian 1.5 m
+            # from the lens who is not in the frame.  A true measurement of a state that no longer
+            # holds is the fault J49 exists to record, so the reading is taken again against the
+            # crowd the render will actually contain.
+            h_half, pitches, yaws = vcam.frame_fan(placement)
+            again = vcam.frame_clearance(placement.x, placement.y, placement.z,
+                                         placement.azimuth_deg,
+                                         probe_m=float(clearance.get("nearest_agent_probe_m")
+                                                       or max(min_view_m, 20.0)),
+                                         half_angle_deg=h_half, pitches_deg=pitches, yaw_steps=yaws)
+            clearance["nearest_agent"] = again["agent_what"]
+            clearance["nearest_agent_m"] = (round(again["agent_m"], 1) if again["agent_what"] else None)
+            if again["agent_what"]:
+                clearance["nearest_agent_at_deg"] = [round(v, 1) for v in again["agent_at"]]
+            else:
+                clearance.pop("nearest_agent_at_deg", None)
+            clearance["nearest_agent_measured"] = "after the cull over the observer"
     light = setup_world_and_sun(sun["azimuth_deg"], sun["elevation_deg"], night=bool(meta.get("night")))
     light["emissive"] = apply_time_of_day_materials(bool(meta.get("night")))
     configure_cycles(samples, threads)

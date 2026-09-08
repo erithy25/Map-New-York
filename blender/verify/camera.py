@@ -733,7 +733,10 @@ def clearance_fields(got: dict) -> dict:
            "nearest_obstruction": got["near_what"],
            "nearest_obstruction_at_deg": [round(v, 1) for v in got["near_at"]],
            "nearest_agent_m": round(got["agent_m"], 1) if got.get("agent_what") else None,
-           "nearest_agent": got.get("agent_what")}
+           "nearest_agent": got.get("agent_what"),
+           # How far the probe looked, so a reader knows what "no agent" covers and so the reading
+           # can be repeated identically after the cull over the observer (render_sheets.py).
+           "nearest_agent_probe_m": round(float(got.get("probe_m", 0.0)), 1)}
     if got.get("agent_what"):
         out["nearest_agent_at_deg"] = [round(v, 1) for v in got["agent_at"]]
     return out
