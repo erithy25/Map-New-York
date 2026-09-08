@@ -105,7 +105,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/dumbo_washington_st_manhattan_bridge/render.png",
- "rendered_at": "2026-09-07T14:59:13Z",
+ "rendered_at": "2026-09-08T06:30:22Z",
  "resolution_note": "784x1394; the reference photograph is 1920x3413 (0.56:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -130,7 +130,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 580440,
+   "pedestrian_triangles": 580407,
    "per_class": {
     "black_car": 6,
     "boro_taxi": 4,
@@ -144,7 +144,7 @@
    "placed_pedestrians": 357,
    "placed_vehicles": 88,
    "reason": null,
-   "seconds": 142.04,
+   "seconds": 103.01,
    "snapshot": {
     "building_footprints_tested": 1945,
     "density_lane_km": 32.566,
@@ -159,7 +159,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.09,
+     "load_seconds": 2.17,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -185,13 +185,13 @@
    },
    "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1082026,
+   "triangles": 1081992,
    "vehicle_lods": {
     "LOD2": 88
    },
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
-   "vehicle_triangles": 501586
+   "vehicle_triangles": 501585
   },
   "buildings": {
    "dropped_for_budget": [],
@@ -290,7 +290,7 @@
    340.67
   ],
   "kit": {
-   "capped": "triangle budget 1367904",
+   "capped": "triangle budget 1370218",
    "per_category": {
     "bulkhead": 21,
     "cornice": 48,
@@ -301,14 +301,14 @@
     "pilaster": 20,
     "quoin": 12,
     "scaffold": 35,
-    "storefront": 387,
+    "storefront": 389,
     "storefront_interior": 27,
     "string_course": 48,
     "water_tower": 9,
-    "window": 4064,
+    "window": 4073,
     "window_accessory": 117
    },
-   "placed": 4864,
+   "placed": 4875,
    "radius_m": 140.0,
    "records_in_range": 9266,
    "stale_registry_ids": {},
@@ -317,7 +317,7 @@
    "tiles_read": [
     "t_-4_0"
    ],
-   "triangles": 1367956,
+   "triangles": 1370466,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -387,31 +387,33 @@
    "capped": "triangle budget 1320493",
    "impostor_cards_dropped": 14,
    "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 82
+   },
    "leaf_off": true,
    "per_kind": {
-    "bench": 31,
+    "bench": 30,
     "bike_rack": 28,
     "citibike_dock": 2,
+    "cooling_tower": 53,
     "flagpole": 1,
-    "hydrant": 38,
-    "manhole": 108,
-    "street_lamp": 78,
+    "hydrant": 37,
+    "manhole": 105,
+    "street_lamp": 74,
     "subway_vent_grate": 7,
-    "tree": 223,
+    "tree": 221,
     "waste_basket": 6
    },
-   "placed": 522,
+   "placed": 564,
    "radius_m": 250.0,
    "rows_in_range": 1089,
    "tiles_missing": [],
    "tiles_read": [
     "t_-4_0"
    ],
-   "tree_species_substituted": 142,
-   "triangles": 1322908,
+   "tree_species_substituted": 141,
+   "triangles": 1320628,
    "unmapped_kinds": {
-    "cooling_tower": 55,
-    "curb_ramp": 85,
     "drinking_fountain": 2,
     "misc_structure": 4,
     "parks_building": 1,
@@ -419,7 +421,7 @@
    }
   },
   "radius_m": 900.0,
-  "seconds": 232.0,
+  "seconds": 173.78,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -482,7 +484,7 @@
    "z_max_m": 27.91,
    "z_min_m": -1.62
   },
-  "triangles": 4500052
+  "triangles": 4500248
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -492,9 +494,9 @@
   "radius_m": 900.0
  },
  "seconds": {
-  "render": 122.9,
-  "scene": 234.0,
-  "total": 356.9
+  "render": 111.2,
+  "scene": 175.0,
+  "total": 286.2
  },
  "slug": "dumbo_washington_st_manhattan_bridge",
  "status": "rendered",
