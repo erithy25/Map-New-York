@@ -13,6 +13,8 @@ import json
 import math
 import struct
 import time
+import sys
+import re
 from pathlib import Path
 
 import pytest
@@ -1315,3 +1317,36 @@ def test_no_prop_kind_is_drawn_by_an_asset_of_the_wrong_size():
         if name not in found:
             wrong.append(f"{name}: now within size -- remove it from WRONG_SIZED_PROP_ASSETS and J58")
     assert not wrong, "prop asset sizes moved:\n   " + "\n   ".join(wrong)
+
+
+def test_the_plugin_source_that_can_be_compiled_here_is_compiled_here():
+    """A review record is weaker evidence than a compiler, and the compiler can run on much of this.
+
+    DEFINITION_OF_DONE says Unreal compilation cannot be executed in this container and the plugin
+    is therefore "authored as complete source with a per-file review record".  That is true of the
+    code that includes ``CoreMinimal.h``; it was being said of all of it.  Measured, 41 of the 101
+    translation units are plain C++ -- the ``nycsim_gameplay`` adapter layer and the generated
+    ``CoreUnity`` stubs that wrap ``core/src`` -- and a system compiler builds every one of them
+    with ``-Wall -Wextra`` and no Unreal present.  ``GameplayPedSim.cpp`` is among them, which is
+    what turned J53's 64-bit archetype mask from an argument into a compile.
+    """
+    import shutil
+    import subprocess
+
+    tool = REPO_ROOT / "unreal" / "tools" / "syntax_check.py"
+    if not tool.is_file():
+        pytest.skip("the syntax checker is absent")
+    if shutil.which("g++") is None:
+        pytest.skip("no C++ compiler in this environment")
+    r = subprocess.run([sys.executable, str(tool)], capture_output=True, text=True, timeout=900)
+    tail = (r.stdout or "").strip().splitlines()[-1:] or [""]
+    assert r.returncode == 0, f"plugin source failed to compile:\n{r.stdout[-3000:]}"
+    m = re.search(r"(\d+) translation units: (\d+) compile clean here, (\d+) fail, (\d+) need Unreal",
+                  r.stdout)
+    assert m, f"the checker's summary line changed: {tail[0]!r}"
+    total, ok, failed, unreal = (int(g) for g in m.groups())
+    assert failed == 0
+    # A floor, not an equality: new plain-C++ files should raise it and new Unreal files should not
+    # lower it.  If this fails downward, something that used to compile here has stopped.
+    assert ok >= 41, f"only {ok} of {total} translation units compile here; it was 41"
+    assert total == ok + failed + unreal

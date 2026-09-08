@@ -102,9 +102,21 @@ data coverage, geodesy, tiling and streaming logic, routing, traffic rules, sign
 astronomy, time-zone handling, weather parsing, asset geometry, and Cycles renders compared against
 licensed photographs. Unreal Engine compilation, cooking, frame rate, vehicle feel and audio cannot
 be executed here — there is no Unreal editor and no GPU in this environment — and no claim is made
-that they were. They are authored as complete source with a per-file review record in
-`unreal/COMPILE_CHECKLIST.md` and `unreal/COMPILE_CHECKLIST_GAMEPLAY.md`, and the workstation steps
-are in `unreal/README.md`.
+that they were.
+
+**That was said of the whole plugin, and it is only true of part of it.** Measured on 2026-09-08:
+of the **101 translation units** in `unreal/NYCSim/Source`, **41 are plain C++ that the system
+compiler builds with `-Wall -Wextra` and no Unreal present** — the `nycsim_gameplay` adapter layer
+and the generated `CoreUnity` stubs that wrap `core/src`. All 41 compile clean; **0 fail**.
+`unreal/tools/syntax_check.py` runs them, `test_the_plugin_source_that_can_be_compiled_here_is_compiled_here`
+holds the floor at 41, and a review record is weaker evidence than a compiler wherever the compiler
+can run. It is what turned J53's 64-bit archetype mask from an argument into a compile.
+
+The remaining **60 reach `CoreMinimal.h`** — directly or through their own headers, which is how a
+first version of that checker called 58 files broken when most were simply not ours to build — and
+those are what is authored as complete source with a per-file review record in
+`unreal/COMPILE_CHECKLIST.md` and `unreal/COMPILE_CHECKLIST_GAMEPLAY.md`. The workstation steps are
+in `unreal/README.md`.
 
 A condition is marked done only when its proof artefact exists **and** the orchestrator has opened
 it. An agent reporting success is not proof — four of the defects found so far were reported as
