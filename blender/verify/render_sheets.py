@@ -525,8 +525,10 @@ def view_origin(meta: dict, photo: dict | None) -> tuple[float, float, str, floa
         if not subject_rule:
             return (float(vp["lat"]), float(vp["lon"]),
                     (f"the item's recorded viewpoint; this photograph's own EXIF GPS is {d:,.0f} m "
-                     f"away, past the {limit:,.0f} m at which it could still be the same view, so it "
-                     f"was rejected as mis-tagged"), d, False)
+                     f"away, past the {limit:,.0f} m at which it could still be the same view, so "
+                     f"the camera was not stood on it.  That is a statement about this pairing and "
+                     f"not about the photograph: a fix this far out is usually correct and simply "
+                     f"of somewhere else"), d, False)
     return (float(g["lat"]), float(g["lon"]),
             (f"this photograph's own EXIF camera GPS ({g['lat']:.5f}, {g['lon']:.5f}), {d:,.0f} m "
              f"from the item's recorded viewpoint -- the position the picture was taken from"
