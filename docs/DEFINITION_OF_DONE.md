@@ -30,6 +30,37 @@ that do bear on it, including the time zone checked against every day from 2007 
 | 6 | Every subsystem in brief §3–§11 implemented, tested, working | one `REPORT*.md` per stage under `docs/verification/` — **which proves reports exist, not that subsystems are tested**, so the test counts are the evidence for the middle word: **4,561 Python tests** (3,835 cross-cutting in `tests/`, 382 pipeline, 344 services) and **149 C++ cases** carrying 249,249 assertions in `core` | **all 21 stage lanes have delivered a report** (22 top-level reports; the landmarks lane split into REPORT_B and REPORT_C, plus 34 per-landmark and 24 per-comparison-scene reports). Audio is covered inside `unreal_gameplay`; its 65 radio tracks were checked here — all 65 present on disk, all 74 payload files licensed, sha256 verified |
 | 7 | No placeholder, stub, TODO or mock anywhere; every bug found has a verified fix | `test_no_placeholder_markers_in_shipped_source`; and, for the second half, the fix and its verification named per bug in `docs/DEVIATIONS.md` and the stage reports | **first half passing** — the marker gate is green across pipeline, core, blender, services and the Unreal sources. **The second half is not something that gate tests, and saying so is the point**: it checks for the *word* TODO, not for whether a bug was fixed. What stands behind it is the per-bug record. Today's, as the pattern: the daylight light cones rendered opaque — ray-cast to `LIGHT_CONE`, fixed by deleting the faces, verified by re-rendering the frame that exposed it and by `cone_faces_deleted` in every `render.json`; the pedestrian clearance let a body at 1 m fill 261 % of frame height — re-derived from the frame, verified by `test_the_pedestrian_clearance_is_derived_from_the_frame_not_picked`, which also forbids it loosening; the OSM park trees were placed at a sapling default below the 10th percentile of the real population — replaced by a seeded draw, verified reproducible from scratch at `sha256 5df79f612578fc44`; the signal cache refreshed all 19,814 plans every step — fixed in `step()` so no host can forget, verified by bit-identical trajectory hashes across the A/B. Five bugs of a different kind — data written and never read — are recorded rather than fixed, and `test_no_processed_table_is_written_and_never_read` now forces the next one to be recorded before it can be tolerated. |
 
+## What changed after the first delivery
+
+This document was written when the world was a set of tables and a `unreal/` tree nobody had
+compiled. Two things have happened since, and both belong here because they change what "done"
+means.
+
+**The first drivable region is delivered.** 48 parts, 2.15 GB packed and 4.09 GB unpacked, 1,041
+files across 47 tiles of Manhattan, on the branch `dist/first-drive` with an `index.json` naming
+every file and its SHA-256. `unreal/README.md` §9b has the five commands that put it on a
+workstation. Until it is compiled and driven there, the brief's first condition remains unproven —
+that has not changed — but the content half of it is no longer a thing the reader has to build.
+
+**A defect shape was found twelve times and closed eleven.** A stage gathers real data, writes it,
+and nothing ever consumes it. Nothing fails, no test goes red, and the gap is invisible until
+somebody opens a render or follows a reference. The largest of them was **5,713,269 facade kit
+instances and 129,828 props in the first-drive region alone resolving to no asset at all** — every
+window, cornice, storefront, fire escape, water tower and street tree, with the import reporting no
+error because there was no error to report. The others are in `docs/DEVIATIONS.md` §J: 986 km of
+rail structure with one consumer, 1,285 surveyed stations in the survey and in nothing else, 81,684
+rooftop cooling towers standing at street level inside the buildings they sit on, 1,033,416
+buildings pointing at a `roofs.glb` nobody wrote, 13,851 surveyed curb ramps that the pavement had
+no kind for, and every vehicle in the city with untextured tyres and seats.
+
+**What that says about the standard below.** "A condition is marked done only when its proof
+artefact exists and the orchestrator has opened it" was the right rule and it was not enough: each
+of these had a proof artefact that existed and was correct. The kit *was* exported. The rail
+structures *were* measured. The tests that passed were testing the producer. What none of them
+tested was whether anything downstream could resolve what the producer wrote — so the rule now has a
+second half, and the tests that enforce it are named in each entry: **a producer is not done until
+something consumes its output and a test fails when the join breaks.**
+
 ## The suite, as of this writing
 
 `PYTHONPATH=pipeline python3 -m pytest tests/ pipeline/tests/` stands at **4,135 passed, 1 skipped, 1
