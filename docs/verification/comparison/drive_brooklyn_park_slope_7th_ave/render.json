@@ -69,9 +69,9 @@
   "view_m": 38.7
  },
  "frame": {
-  "mean": 0.2435,
+  "mean": 0.1976,
   "reason": null,
-  "sd": 0.1269,
+  "sd": 0.1615,
   "usable": true
  },
  "frame_retry": null,
@@ -79,7 +79,7 @@
  "interior": false,
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
  "lighting": {
-  "background_strength": 0.25,
+  "background_strength": 0.03281363472342491,
   "direct_normal_irradiance_w_m2": 860.0,
   "emissive": {
    "cone_faces_deleted": 8,
@@ -92,7 +92,7 @@
   "sky_azimuth_deg": 95.304,
   "sky_elevation_deg": 43.51,
   "sun_lamp": true,
-  "sun_strength_blender": 1.593,
+  "sun_strength_blender": 3.007,
   "view_transform": "Filmic"
  },
  "name": "Brooklyn brownstone block: Park Slope, Seventh Avenue / Garfield Place",
@@ -112,7 +112,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_park_slope_7th_ave/render.png",
- "rendered_at": "2026-09-08T15:04:41Z",
+ "rendered_at": "2026-09-08T16:13:22Z",
  "resolution_note": "1054x1036; the reference photograph is 1920x1887 (1.02:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -148,7 +148,7 @@
    "placed_pedestrians": 364,
    "placed_vehicles": 88,
    "reason": null,
-   "seconds": 116.99,
+   "seconds": 118.46,
    "snapshot": {
     "building_footprints_tested": 7692,
     "density_lane_km": 17.58,
@@ -188,7 +188,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 445
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -2321_-3057_9_0_20a246ef06b10a2e_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 1080934,
    "vehicle_lods": {
@@ -351,6 +351,11 @@
   "materials": {
    "dressed": {
     "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
      "asset_id": "Asphalt025A",
      "maps": [
       "color",
@@ -361,6 +366,11 @@
      "resolution": "2K"
     },
     "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
      "asset_id": "Bricks054",
      "maps": [
       "color",
@@ -372,6 +382,11 @@
      "resolution": "2K"
     },
     "brownstone": {
+     "albedo": {
+      "scale": 2.682,
+      "target_albedo": 0.2367,
+      "texture_albedo": 0.0882
+     },
      "asset_id": "Travertine005",
      "maps": [
       "color",
@@ -383,6 +398,14 @@
      "resolution": "2K"
     },
     "concrete": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.135,
+      "scale": 4.0,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.1174
+     },
      "asset_id": "Concrete030",
      "maps": [
       "color",
@@ -394,6 +417,11 @@
      "resolution": "2K"
     },
     "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
      "asset_id": "Concrete036",
      "maps": [
       "color",
@@ -404,6 +432,11 @@
      "resolution": "2K"
     },
     "granite": {
+     "albedo": {
+      "scale": 0.859,
+      "target_albedo": 0.39,
+      "texture_albedo": 0.4542
+     },
      "asset_id": "Granite002A",
      "maps": [
       "color",
@@ -415,6 +448,11 @@
      "resolution": "2K"
     },
     "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
      "asset_id": "Travertine009",
      "maps": [
       "color",
@@ -426,6 +464,11 @@
      "resolution": "2K"
     },
     "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
      "asset_id": "Metal032",
      "maps": [
       "color",
@@ -437,6 +480,11 @@
      "resolution": "2K"
     },
     "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
      "asset_id": "Concrete034",
      "maps": [
       "color",
@@ -448,6 +496,11 @@
      "resolution": "2K"
     },
     "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
      "asset_id": "Bricks082A",
      "maps": [
       "color",
@@ -459,6 +512,14 @@
      "resolution": "2K"
     },
     "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
      "asset_id": "Rubber004",
      "maps": [
       "color",
@@ -470,6 +531,11 @@
      "resolution": "2K"
     },
     "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
      "asset_id": "Bricks102",
      "maps": [
       "color",
@@ -481,6 +547,11 @@
      "resolution": "2K"
     },
     "stucco": {
+     "albedo": {
+      "scale": 1.0,
+      "target_albedo": 0.6667,
+      "texture_albedo": 0.6543
+     },
      "asset_id": "Plaster001",
      "maps": [
       "color",
@@ -492,6 +563,11 @@
      "resolution": "2K"
     },
     "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
      "asset_id": "Bricks029",
      "maps": [
       "color",
@@ -503,6 +579,11 @@
      "resolution": "2K"
     },
     "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
      "asset_id": "Asphalt018",
      "maps": [
       "color",
@@ -514,6 +595,11 @@
      "resolution": "2K"
     },
     "terracotta": {
+     "albedo": {
+      "scale": 0.945,
+      "target_albedo": 0.3833,
+      "texture_albedo": 0.4055
+     },
      "asset_id": "Marble026",
      "maps": [
       "color",
@@ -525,6 +611,11 @@
      "resolution": "2K"
     },
     "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
      "asset_id": "WoodSiding009",
      "maps": [
       "color",
@@ -536,6 +627,11 @@
      "resolution": "2K"
     },
     "white_glazed_brick": {
+     "albedo": {
+      "scale": 1.13,
+      "target_albedo": 0.7767,
+      "texture_albedo": 0.6874
+     },
      "asset_id": "Bricks060",
      "maps": [
       "color",
@@ -547,6 +643,14 @@
      "resolution": "2K"
     },
     "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 3.498,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0391
+     },
      "asset_id": "WoodSiding003",
      "maps": [
       "color",
@@ -626,7 +730,7 @@
    "unmapped_kinds": {}
   },
   "radius_m": 756.607777663774,
-  "seconds": 199.74,
+  "seconds": 191.32,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -653,9 +757,9 @@
   "radius_m": 756.607777663774
  },
  "seconds": {
-  "render": 136.2,
-  "scene": 201.8,
-  "total": 338.0
+  "render": 98.9,
+  "scene": 193.6,
+  "total": 292.5
  },
  "sightline": {
   "subject_note": "the item names no point subject",

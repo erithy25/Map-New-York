@@ -1,17 +1,17 @@
 {
  "slug": "drive_brooklyn_bed_stuy_stuyvesant_ave",
- "rendered_at": "2026-09-08T14:58:59Z",
+ "rendered_at": "2026-09-08T16:08:26Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.1963,
-  "sd": 0.095,
-  "p05": 0.0524,
-  "p95": 0.3244,
-  "chroma": 0.0286
+  "mean": 0.1466,
+  "sd": 0.1117,
+  "p05": 0.0213,
+  "p95": 0.3277,
+  "chroma": 0.0241
  },
  "reference": {
   "width": 1920,
@@ -23,8 +23,8 @@
   "chroma": 0.1381
  },
  "render_over_reference": {
-  "mean": 0.492,
-  "sd": 0.317,
-  "chroma": 0.207
+  "mean": 0.367,
+  "sd": 0.373,
+  "chroma": 0.175
  }
 }
