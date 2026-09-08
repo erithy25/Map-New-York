@@ -1146,3 +1146,29 @@ def test_the_new_jersey_water_gap_is_the_size_it_is_recorded_as():
     assert 7.0e6 < inside < 8.6e6, \
         f"the dry-inside-a-tile area moved to {inside / 1e6:.3f} km2; DEVIATIONS D11 says 7.812"
     assert 550 <= n_inside <= 660, f"{n_inside} polygons; DEVIATIONS D11 says 607"
+
+
+def test_the_architecture_does_not_claim_a_train_that_does_not_run():
+    """ARCHITECTURE.md said "trains run on GTFS schedules".  Nothing runs on rails in this build.
+
+    A gap in a document is one thing; a false statement in it is another, and this was the second.
+    The test holds the correction against the artefact rather than against the prose: if a rail
+    section ever appears in ``transit.nycb``, this fails and the architecture has to be rewritten to
+    match -- which is the right way round.
+    """
+    from nycsim_pipeline.runtime.nycb import NycbReader
+
+    arch = (Path(__file__).resolve().parents[1] / "docs" / "ARCHITECTURE.md").read_text()
+    assert "trains run on GTFS schedules" not in arch or "~~Trains run on GTFS schedules.~~" in arch, \
+        "ARCHITECTURE.md claims trains run; measure transit.nycb before saying so"
+    assert "rail in this build is surface features only" in arch.lower() or \
+           "rail in this build is surface features only" in arch, \
+        "the architecture must state the rail scope rather than leave it implied"
+
+    p = PROCESSED / "runtime" / "transit.nycb"
+    if not p.is_file():
+        pytest.skip("the transit runtime has not been built in this working copy")
+    sections = set(NycbReader(p).sections)
+    assert sections == {"bus_routes", "bus_stops", "route_stops", "vertices", "strtab"}, \
+        (f"transit.nycb sections changed to {sorted(sections)}; if rail is now simulated, "
+         "ARCHITECTURE.md and DEVIATIONS D11 both have to say so")
