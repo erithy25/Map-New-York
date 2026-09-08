@@ -1101,11 +1101,10 @@ def build_report() -> str:
     A("6. **Re-run the terrain stage against the 1 ft city DEM** (A4). No code change: the stage already "
       "consumes it, and it was skipped only because 26.6 GB did not fit the disk allowance here. Would take "
       "vertical accuracy from a measured 0.384 m RMS toward the 0.15 m the plan assumed.")
-    A("7. **Cut the surveyed curb ramps into the pavement** (J21). 13,851 DOT pedestrian ramps in the "
-      "first-drive region alone, and the pavement carries seven surface kinds of which none is a ramp: "
-      "the kerb is a uniform 0.15 m lift along every sidewalk edge, so every one of the city's surveyed "
-      "ramps is absent geometry. It is the most visible thing left at a driver's eye height, and the "
-      "dataset publishes a per-instance ramp width. The cost is a pavement rebuild.")
+    A("7. **A ground surface class for the parks** (D10). Lawn, forest floor, beach and marsh are one "
+      "terrain colour, and the terrain is the only thing under a park: 181.3 km\u00b2 of green polygon that "
+      "the renderer draws as the same material as a vacant lot. The polygons are surveyed and on "
+      "disk; what is missing is a per-class material and a stage that assigns one.")
     A("8. **Footprint reconciliation for the New Jersey towers** (B11a). The OSM ingest shipped and moved "
       "the median error on the 25 paired Jersey City reference towers from −66.41 m to −53.35 m, with the "
       "count within 10 % of published going 0 → 6 — but it stopped where the join does. 99 Hudson Street, "
