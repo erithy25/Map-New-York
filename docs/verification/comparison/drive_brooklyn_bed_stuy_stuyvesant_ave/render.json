@@ -112,7 +112,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_bed_stuy_stuyvesant_ave/render.png",
- "rendered_at": "2026-09-08T12:14:05Z",
+ "rendered_at": "2026-09-08T12:52:35Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1439 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -149,7 +149,7 @@
    "placed_pedestrians": 308,
    "placed_vehicles": 81,
    "reason": null,
-   "seconds": 56.18,
+   "seconds": 53.37,
    "snapshot": {
     "building_footprints_tested": 4688,
     "density_lane_km": 18.037,
@@ -188,7 +188,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 301
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached 1539_-2039_10_1_4e21a03c28524075_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 1066704,
    "vehicle_lods": {
@@ -382,7 +382,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 111.43,
+  "seconds": 100.7,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -409,9 +409,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 123.9,
-  "scene": 113.2,
-  "total": 237.1
+  "render": 115.4,
+  "scene": 102.4,
+  "total": 217.8
  },
  "sightline": {
   "subject_note": "the item names no point subject",

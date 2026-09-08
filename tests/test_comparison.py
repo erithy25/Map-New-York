@@ -32,6 +32,24 @@ pytest.importorskip("numpy")
 import numpy as np  # noqa: E402
 
 
+def _skip_without_render_sheets():
+    """Import render_sheets without Blender: only its photograph chooser is under test here."""
+    import importlib.util
+    import sys as _sys
+    import types
+
+    _sys.modules.setdefault("bpy", types.ModuleType("bpy"))
+    _sys.path.insert(0, str(REPO_ROOT / "pipeline"))
+    spec = importlib.util.spec_from_file_location(
+        "rs_for_tests", REPO_ROOT / "blender" / "verify" / "render_sheets.py")
+    mod = importlib.util.module_from_spec(spec)
+    try:
+        spec.loader.exec_module(mod)
+    except Exception as exc:  # pragma: no cover - environment without the pipeline package
+        pytest.skip(f"render_sheets is not importable here: {exc}")
+    return mod
+
+
 def _skip_without_bpy():
     return pytest.importorskip("bpy", reason="Blender's bpy module is required for the verify scene")
 
@@ -1123,3 +1141,45 @@ def test_the_record_says_whether_the_camera_can_see_its_own_subject():
     assert past["subject_lands_on"] == "t_0_0_far_wall"
     assert past["subject_lands_at_m"] > past["subject_range_m"] + past["subject_reach_m"]
     assert "t_0_0_far_wall" in past["subject_note"]
+
+
+def test_a_drive_through_uses_a_photograph_of_its_own_block():
+    """A drive-through sheet compares one block, so the photograph has to be of that block.
+
+    The chooser's key had no distance term at all.  For ``drive_bronx_grand_concourse`` that meant
+    a photograph of the Dollar Savings Bank at East Fordham Road, **3,854 m** up the same avenue,
+    outranked every photograph of Grand Concourse at East 165th Street because it carried a full
+    EXIF timestamp; and for ``drive_brooklyn_bed_stuy_stuyvesant_ave`` a FreshDirect delivery truck
+    with no GPS at all beat a photograph taken **46 m** from the viewpoint (docs/DEVIATIONS.md J60).
+
+    The test asserts the chooser takes the best band available to each item -- not that every item
+    has a near photograph, which is not in this project's gift.
+    """
+    import json as _json
+
+    rs = _skip_without_render_sheets()
+    ref = REPO_ROOT / "docs" / "verification" / "reference"
+    if not ref.is_dir():
+        pytest.skip("no reference items on disk")
+    checked = 0
+    for meta_path in sorted(ref.glob("*/meta.json")):
+        meta = _json.loads(meta_path.read_text())
+        if str(meta.get("group") or "") != "drive_through":
+            continue
+        photos = [p for p in meta.get("photos", []) if (ref / meta["slug"] / p["file"]).is_file()]
+        if len(photos) < 2:
+            continue
+        vp = meta["viewpoint"]
+
+        def band(p):
+            off = rs._photo_offset_m(vp, p)
+            return (rs.DRIVE_THROUGH_PHOTO_UNKNOWN_BAND if off is None
+                    else sum(1 for e in rs.DRIVE_THROUGH_PHOTO_BANDS_M if off > e))
+
+        got = rs.pick_reference_photo(meta)
+        assert got is not None, meta["slug"]
+        best = min(band(p) for p in photos)
+        assert band(got) == best, (
+            f"{meta['slug']} took photo #{got['n']} in band {band(got)} when band {best} was available")
+        checked += 1
+    assert checked >= 8, f"only {checked} drive-through items were checked"

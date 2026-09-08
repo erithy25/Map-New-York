@@ -143,6 +143,41 @@ def load_meta(slug: str) -> dict:
     return json.loads((REFERENCE_DIR / slug / "meta.json").read_text())
 
 
+#: Distance bands, in metres, for choosing a ``drive_through`` item's reference photograph.
+#:
+#: A drive-through sheet is a comparison of *one block*, and the chooser's key had no distance term
+#: at all -- so a photograph 3,854 m up the same avenue, of the Dollar Savings Bank at East Fordham
+#: Road, outranked every photograph of Grand Concourse at East 165th Street because it carried a
+#: full EXIF timestamp.  A binary gate does not fix that on its own: all three of that item's
+#: photographs are beyond any sane radius, so the gate ties them and the timestamp decides again.
+#:
+#: So the distance is **graded**, and the band ranks above the timestamp for this group.  That is a
+#: stated judgement: a photograph of the wrong block cannot be repaired by a precise clock, while an
+#: assumed hour is an approximation the sheet already declares.  The first edge, 250 m, is the same
+#: ``PHOTO_GPS_SANITY_M`` the render uses to decide a GPS fix is too far to stand the camera on, so
+#: there is one definition of "the same view" rather than two (docs/DEVIATIONS.md J60).
+DRIVE_THROUGH_PHOTO_BANDS_M = (250.0, 600.0, 1500.0)
+
+#: Band for a photograph that carries no GPS at all.  **Not 0.** An unknown position is not evidence
+#: of nearness, and scoring it as though it were picked a FreshDirect delivery truck over a
+#: photograph taken 46 m from the Stuyvesant Avenue viewpoint, purely because the truck had a full
+#: EXIF timestamp and the streetscape carried only a year.  Ranking it third of four says what is
+#: true: worse than a photograph known to be on the block, better than one known to be a mile away.
+DRIVE_THROUGH_PHOTO_UNKNOWN_BAND = 2
+
+
+def _photo_offset_m(vp: dict, photo: dict) -> float | None:
+    """Metres from a photograph's own EXIF GPS to the item's viewpoint, or None when it carries no fix."""
+    g = (photo or {}).get("camera_gps") or {}
+    if g.get("lat") is None or g.get("lon") is None:
+        return None
+    from nycsim_pipeline.crs import lonlat_to_tm
+
+    vx, vy = (float(v) for v in lonlat_to_tm(vp["lon"], vp["lat"]))
+    px, py = (float(v) for v in lonlat_to_tm(g["lon"], g["lat"]))
+    return math.hypot(px - vx, py - vy)
+
+
 def pick_reference_photo(meta: dict) -> dict | None:
     """The photograph that gives the fairest comparison for this item.
 
@@ -177,7 +212,21 @@ def pick_reference_photo(meta: dict) -> dict | None:
         else:
             lit_bad = 0 if elev > 3.0 else 1
             lit_tier = 0 if elev >= 12.0 else 1
-        key = (lit_bad, 0 if has_time else 1, lit_tier, conf, err)
+        # A drive-through sheet is a comparison of *this block*, and the key above has no distance
+        # term at all -- so a photograph 3,854 m up the same avenue, of the Dollar Savings Bank at
+        # East Fordham Road, outranked every photograph of Grand Concourse at East 165th Street
+        # because it carried a better timestamp.  Distance is a *gate* rather than another sort
+        # term, and only for the group where it means something: a landmark is legitimately
+        # photographed from 1.8 km and a fire hydrant from anywhere in the city, so those groups
+        # keep the old ordering exactly (docs/DEVIATIONS.md J60).
+        # A landmark is legitimately photographed from 1.8 km and a fire hydrant from anywhere in
+        # the city, so every other group keeps the old ordering exactly.
+        band = 0
+        if str(meta.get("group") or "") == "drive_through":
+            off = _photo_offset_m(vp, p)
+            band = (DRIVE_THROUGH_PHOTO_UNKNOWN_BAND if off is None
+                    else sum(1 for edge in DRIVE_THROUGH_PHOTO_BANDS_M if off > edge))
+        key = (lit_bad, band, 0 if has_time else 1, lit_tier, conf, err)
         if best_key is None or key < best_key:
             best, best_key = p, key
     return best
