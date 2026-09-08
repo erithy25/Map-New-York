@@ -577,3 +577,53 @@ def test_the_clearance_is_applied_to_the_camera_and_not_to_the_scene_origin():
     # And it has to run after the camera is final: the clearance search is what moves the eye.
     assert rs.index("clear_of_geometry(") < rs.index("cull_near_camera("), (
         "the cull runs before the camera can move, which is the bug it exists to fix")
+
+
+def test_a_cold_crowd_is_dressed_differently_from_a_warm_one():
+    """J53: ``assignAppearance`` set ``kPedCoat`` below 12 degrees and then drew the body uniformly
+    over all 24 archetypes, so the flag changed nothing a photographer could see.  The evidence that
+    the link now exists is the crowd itself: run the same corner at 5 and at 25 degrees and the mix
+    of bodies has to move, with no summer body left in the cold frame."""
+    _skip_without_runtime()
+    tool, note = vagents.build_snapshot_tool()
+    if tool is None:
+        pytest.skip(f"agent_snapshot cannot be built here: {note}")
+    import json as _json
+    import sys as _sys
+
+    _sys.path.insert(0, str(REPO_ROOT / "unreal" / "tools"))
+    import gen_ped_wardrobe as gw
+
+    variety = REPO_ROOT / "blender_out" / "character" / "npc_variety.json"
+    if not variety.is_file():
+        pytest.skip("npc_variety.json not generated in this checkout")
+    info = gw.classify(_json.loads(variety.read_text()))
+    summer = set(info["summer"])
+    warm = set(info["warm"])
+    assert summer and warm, "the cast has no summer or no warm bodies to tell apart"
+
+    def crowd(temperature_c: float) -> list[int]:
+        req = vagents.SnapshotRequest(x=PROBE_X, y=PROBE_Y, heading_deg=203.6, hour=PROBE_HOUR,
+                                      dow=PROBE_DOW, seed=PROBE_SEED, warmup_s=40.0,
+                                      temperature_c=temperature_c)
+        snap, why = vagents.simulation_snapshot(req)
+        if snap is None:
+            pytest.skip(f"agent_snapshot produced nothing: {why}")
+        return [int(p["archetype"]) for p in snap["pedestrians"]]
+
+    cold = crowd(5.0)
+    warm_day = crowd(25.0)
+    assert len(cold) > 50 and len(warm_day) > 50, "too few pedestrians to compare the two crowds"
+
+    in_summer_cold = sum(1 for a in cold if a in summer)
+    assert in_summer_cold == 0, (
+        f"{in_summer_cold} of {len(cold)} people are in summer dress at 5 degrees")
+    in_summer_warm = sum(1 for a in warm_day if a in summer)
+    assert in_summer_warm > 0, (
+        "nobody is in summer dress at 25 degrees either, so the cold frame proves nothing")
+
+    coats_cold = sum(1 for a in cold if a in warm) / len(cold)
+    coats_warm = sum(1 for a in warm_day if a in warm) / len(warm_day)
+    assert coats_cold > coats_warm + 0.10, (
+        f"{coats_cold:.0%} of the cold crowd is in a coat against {coats_warm:.0%} of the warm one; "
+        f"the draw is not following the flag")

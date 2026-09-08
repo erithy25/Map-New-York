@@ -1,4 +1,5 @@
 #include "CoreAdapter/GameplayPedSim.h"
+#include "CoreAdapter/GameplayPedWardrobe.h"
 
 #include <algorithm>
 #include <chrono>
@@ -562,11 +563,33 @@ void PedSim::updatePed(Ped& p)
 
 void PedSim::assignAppearance(Ped& p, float x, float y)
 {
+	// Which bodies are dressed for this weather.  The flags below say who *should* be in a coat;
+	// until this table existed the body was drawn uniformly over all 24 archetypes three lines from
+	// the flag that had just been computed, so a November crowd wore July clothes (DEVIATIONS J53).
+	// kPedWarmArchetypes and kPedSummerArchetypes are generated from the pedestrian generator's own
+	// published contract by unreal/tools/gen_ped_wardrobe.py.
+	//
+	// Below 12 degrees the draw prefers a warm body and never takes a summer one.  It *prefers*
+	// rather than requires because the kit has only a handful of warm bodies today and a crowd of
+	// 281 people sharing five of them would be a worse artefact than the one being fixed; as more
+	// warm bodies are baked the mask grows and this code needs no change.  The half-and-half split
+	// is a stated rule, not a measurement of what New Yorkers wear at 8 degrees.
+	const bool wantsCoat = config_.temperatureC < 12.f;
+	const uint32_t allMask = kArchetypeCount >= 32 ? 0xFFFFFFFFu : ((1u << kArchetypeCount) - 1u);
+	uint32_t mask = allMask;
+	if (wantsCoat)
+	{
+		const uint32_t warm = kPedWarmArchetypes & allMask;
+		const uint32_t notSummer = allMask & ~kPedSummerArchetypes;
+		mask = (warm != 0u && p.rng.chance(0.5f)) ? warm : (notSummer != 0u ? notSummer : allMask);
+	}
+
 	// ARCHITECTURE §10: no duplicate (archetype, variant) pair within 60 m. Eight draws are enough in practice;
 	// the last draw is accepted so spawning never fails on appearance alone.
 	for (int attempt = 0; attempt < 8; ++attempt)
 	{
-		const uint8_t archetype = static_cast<uint8_t>(p.rng.below(kArchetypeCount));
+		const uint8_t archetype = pickArchetype(mask, p.rng.below(1u << 24),
+		                                        static_cast<uint8_t>(p.rng.below(kArchetypeCount)));
 		const uint8_t variant = static_cast<uint8_t>(p.rng.below(256u));
 		bool clash = false;
 		pedHash_.query(x, y, 60.f, [&](uint32_t idx) {

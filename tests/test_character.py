@@ -674,3 +674,57 @@ def test_verification_artefacts_exist(name: str) -> None:
     path = REPO_ROOT / "docs" / "verification" / "character" / name
     assert path.exists(), f"{path} missing"
     assert path.stat().st_size > 2000, f"{path} is suspiciously small"
+
+
+# --------------------------------------------------------------------------- wardrobe table (J53)
+def test_the_generated_wardrobe_table_agrees_with_the_variety_contract():
+    """``GameplayPedWardrobe.h`` is derived from ``npc_variety.json``; a stale header would dress
+    the crowd from a cast that no longer exists."""
+    import subprocess
+    import sys as _sys
+
+    repo = Path(__file__).resolve().parents[1]
+    if not (repo / "blender_out" / "character" / "npc_variety.json").is_file():
+        pytest.skip("npc_variety.json not generated in this checkout")
+    got = subprocess.run([_sys.executable, str(repo / "unreal" / "tools" / "gen_ped_wardrobe.py"),
+                          "--check"], capture_output=True, text=True)
+    assert got.returncode == 0, (
+        "GameplayPedWardrobe.h is out of date; run unreal/tools/gen_ped_wardrobe.py\n" + got.stderr)
+
+
+def test_a_work_vest_is_not_warm_clothing():
+    """The rule this table encodes, checked rather than assumed: a hi-vis or delivery vest goes over
+    whatever the wearer already has on, so it says nothing about the temperature."""
+    import json as _json
+    import sys as _sys
+
+    repo = Path(__file__).resolve().parents[1]
+    variety = repo / "blender_out" / "character" / "npc_variety.json"
+    if not variety.is_file():
+        pytest.skip("npc_variety.json not generated in this checkout")
+    _sys.path.insert(0, str(repo / "unreal" / "tools"))
+    import gen_ped_wardrobe as gw
+
+    doc = _json.loads(variety.read_text())
+    info = gw.classify(doc)
+    wardrobe = {g["id"]: g for g in doc["wardrobe"]}
+    for row in info["detail"]:
+        for gid in row["outerwear"]:
+            tags = wardrobe[gid].get("tags") or []
+            assert not any(t in gw.WORK_LAYERS for t in tags), (
+                f"{row['id']} counts as warm because of {gid}, which is a work layer")
+        assert not (row["warm"] and row["summer"]), f"{row['id']} is both warm and summer dress"
+    assert info["count"] == len(info["detail"])
+    assert info["warm"], "no body in the cast wears a coat, a puffer or a jacket"
+
+
+def test_the_cold_weather_draw_is_wired_into_the_simulation():
+    """The flag existed and nothing read it (J53).  This checks the link is there in the source the
+    adapter actually compiles, not only in the generated table beside it."""
+    repo = Path(__file__).resolve().parents[1]
+    src = (repo / "unreal" / "NYCSim" / "Source" / "NYCSimRuntime" / "Private" / "CoreAdapter"
+           / "GameplayPedSim.cpp").read_text()
+    assert "GameplayPedWardrobe.h" in src, "the adapter does not include the wardrobe table"
+    assert "kPedWarmArchetypes" in src and "kPedSummerArchetypes" in src, \
+        "assignAppearance does not consult the wardrobe table"
+    assert "pickArchetype(" in src, "the body is still drawn uniformly over every archetype"
