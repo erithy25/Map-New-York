@@ -817,7 +817,7 @@
   "pedestrian_ramps": {
    "attribution": "City of New York, NYC Open Data",
    "bytes": 42057860,
-   "downloaded_at": "2026-09-05T19:17:52Z",
+   "downloaded_at": "2026-09-08T10:37:40Z",
    "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
    "notes": "Pedestrian ramp (curb cut) locations",
    "path": "data/raw/nyc_opendata/pedestrian_ramps.csv",
@@ -839,7 +839,7 @@
   "plan_cooling_towers": {
    "attribution": "City of New York, NYC Open Data",
    "bytes": 35433370,
-   "downloaded_at": "2026-09-05T19:23:43Z",
+   "downloaded_at": "2026-09-08T10:37:50Z",
    "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
    "notes": "Planimetric cooling towers (rooftop)",
    "path": "data/raw/nyc_opendata/plan_cooling_towers.geojson",
@@ -1103,7 +1103,7 @@
   "street_trees_2015": {
    "attribution": "City of New York, NYC Open Data",
    "bytes": 220354362,
-   "downloaded_at": "2026-09-05T19:19:09Z",
+   "downloaded_at": "2026-09-08T10:33:01Z",
    "license": "NYC Open Data Terms of Use (public domain-equivalent; attribution requested)",
    "notes": "2015 Street Tree Census: 683,788 trees with species, DBH, coordinates",
    "path": "data/raw/nyc_opendata/street_trees_2015.csv",
