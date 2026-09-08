@@ -1172,3 +1172,86 @@ def test_the_architecture_does_not_claim_a_train_that_does_not_run():
     assert sections == {"bus_routes", "bus_stops", "route_stops", "vertices", "strtab"}, \
         (f"transit.nycb sections changed to {sorted(sections)}; if rail is now simulated, "
          "ARCHITECTURE.md and DEVIATIONS D11 both have to say so")
+
+
+#: Prop kinds that place exactly one of their several assets, and why that is where it stands today.
+#: An entry says the collapse is known and priced, not that it is right (docs/DEVIATIONS.md J58).
+#: The number is the placements the single asset receives, so a silent change fails either way.
+COLLAPSED_PROP_KINDS = {
+    "manhole": (288_174, "no source in this build says which cover belongs to which utility; the "
+                         "rows are rule-placed, so a DEP/Con Edison split would be invented"),
+    "bus_stop_sign": (13_341, "drawn as sign_nyc_parking_18, a different object; needs an MTA blade"),
+    "waste_basket": (5_611, "all Better Bin; DSNY replaced only part of the wire-basket stock"),
+    "citibike_dock": (2_507, "the bikes without their dock rail or kiosk"),
+    "flagpole": (1_655, "all the city flag; nothing in the data says which pole flies which"),
+    "steam_vent": (1_402, "all the 3 m stack; the 6 m is used where the plume must clear traffic"),
+    "utility_pole": (924, "all the 2 m u-channel post"),
+    "rtpi_sign": (491, "drawn as sign_nyc_parking_18, a different object"),
+}
+
+
+def test_no_prop_kind_quietly_collapses_onto_one_of_its_assets():
+    """Which asset a prop resolves to, not merely whether it resolves to one.
+
+    ``prop_kinds_without_an_asset`` is 0 for all eight kinds below, because one asset always
+    resolves -- and an id-sorted candidate list makes "wrong" look like "chosen".  That is how
+    288,174 manholes became Con Edison covers and 13,832 bus stop signs became parking plates
+    (docs/DEVIATIONS.md J56, J58).
+
+    The test fails in both directions.  A kind that starts collapsing is new damage; a kind that
+    stops has been fixed and its entry has to go, so the deviation record cannot drift away from
+    the artefacts.
+    """
+    import collections
+
+    cat_path = BLENDER_OUT / "props" / "props_asset_catalog.json"
+    tiles = sorted((PROCESSED / "tiles").glob("*/props.json")) if (PROCESSED / "tiles").is_dir() else []
+    if not cat_path.is_file() or not tiles:
+        pytest.skip("the prop catalogue or the tile manifests have not been built")
+
+    from nycsim_pipeline.furniture import assets as A
+    from nycsim_pipeline.furniture.catalog import KINDS
+
+    by_dk = collections.defaultdict(list)
+    for e in json.loads(cat_path.read_text())["entries"]:
+        by_dk[str(e.get("dataset_kind") or "")].append(e["id"])
+
+    placed = collections.Counter()
+    for f in tiles:
+        d = json.loads(f.read_text())
+        names = d.get("assets") or []
+        key = d.get("asset_key", "a")
+        for i, n in collections.Counter(r.get(key) for r in d.get("rows") or []).items():
+            if isinstance(i, int) and 0 <= i < len(names):
+                placed[str(names[i]).split("/")[-1].removeprefix("SM_")] += n
+
+    # Counted per *kind*, from its own rows -- not per asset.  bus_stop_sign and rtpi_sign both
+    # alias to road_sign and therefore share one asset, so an asset-side tally attributes all
+    # 13,832 placements to each of them and neither number means anything.
+    rows = collections.Counter()
+    for f in sorted(TILES.glob("*/props.parquet")):
+        t = pq.read_table(f, columns=["kind"])
+        for k in t.column("kind").to_pylist():
+            rows[int(k)] += 1
+
+    found, wrong = {}, []
+    for kind in KINDS:
+        dk = A.PROP_KIND_ALIASES.get(kind.name, kind.name)
+        ids = by_dk.get(dk or "", [])
+        # Trees are chosen by species and height, not by variant, and there are 60 of them.
+        if dk == "tree" or len(ids) < 2:
+            continue
+        used = {i for i in ids if placed.get(i, 0)}
+        if len(used) == 1 and rows.get(kind.id, 0):
+            found[kind.name] = rows[kind.id]
+    for name, n in sorted(found.items()):
+        if name not in COLLAPSED_PROP_KINDS:
+            wrong.append(f"{name}: {n:,} placements now collapse onto one asset and J58 does not list it")
+        elif COLLAPSED_PROP_KINDS[name][0] != n:
+            wrong.append(f"{name}: {n:,} placements, J58 records {COLLAPSED_PROP_KINDS[name][0]:,}")
+    for name in COLLAPSED_PROP_KINDS:
+        if name not in found:
+            wrong.append(f"{name}: no longer collapsed -- remove it from COLLAPSED_PROP_KINDS and J58")
+    total = sum(n for n, _ in COLLAPSED_PROP_KINDS.values())
+    assert total == 314_105, f"the recorded total moved to {total:,}; J58 says 314,105"
+    assert not wrong, "prop asset selection moved:\n   " + "\n   ".join(wrong)
