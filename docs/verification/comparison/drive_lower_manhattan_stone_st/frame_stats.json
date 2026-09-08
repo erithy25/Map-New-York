@@ -1,0 +1,30 @@
+{
+ "slug": "drive_lower_manhattan_stone_st",
+ "rendered_at": "2026-09-08T18:36:11Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.1145,
+  "sd": 0.0652,
+  "p05": 0.0118,
+  "p95": 0.1897,
+  "chroma": 0.0174
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.4021,
+  "sd": 0.3019,
+  "p05": 0.0832,
+  "p95": 1.0,
+  "chroma": 0.0469
+ },
+ "render_over_reference": {
+  "mean": 0.285,
+  "sd": 0.216,
+  "chroma": 0.371
+ }
+}

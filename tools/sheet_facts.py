@@ -187,6 +187,12 @@ def facts(slug: str) -> dict:
                   "built_elsewhere": props.get("kinds_built_elsewhere"),
                   "impostor_cards_dropped": props.get("impostor_cards_dropped"),
                   "tree_species_substituted": props.get("tree_species_substituted"),
+                  # J70: a tree is drawn at the height its own row records, not at the height the
+                  # kit exported its size class at.  A sheet that says how dense its canopy is has
+                  # to be able to say what sized it.
+                  "tree_instances_scaled": props.get("tree_instances_scaled"),
+                  "tree_mean_scale": props.get("tree_mean_scale"),
+                  "tree_scale_out_of_band": props.get("tree_scale_out_of_band"),
                   "radius_m": props.get("radius_m")},
         "kit": {"total": sum((kit.get("per_category") or {}).values()) or None,
                 "per_category": kit.get("per_category"), "capped": kit.get("capped")},

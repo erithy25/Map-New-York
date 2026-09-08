@@ -1,0 +1,30 @@
+{
+ "slug": "drive_queens_bayside",
+ "rendered_at": "2026-09-08T18:39:29Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.2944,
+  "sd": 0.1389,
+  "p05": 0.0356,
+  "p95": 0.4863,
+  "chroma": 0.0517
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.5632,
+  "sd": 0.2367,
+  "p05": 0.113,
+  "p95": 0.8745,
+  "chroma": 0.1111
+ },
+ "render_over_reference": {
+  "mean": 0.523,
+  "sd": 0.587,
+  "chroma": 0.465
+ }
+}

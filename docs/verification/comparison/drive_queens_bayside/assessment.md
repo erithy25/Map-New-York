@@ -4,62 +4,48 @@
 
 **Reference** — File:2024-06-18 14 45 53 View south along Interstate 295 (Clearview Expressway) from the pedestrian overpass at 42nd Avenue in Queens, New York City, New York.jpg by Famartin, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2024-06-18 14:45:53, 1920x1440. [Commons page](https://commons.wikimedia.org/wiki/File:2024-06-18_14_45_53_View_south_along_Interstate_295_(Clearview_Expressway)_from_the_pedestrian_overpass_at_42nd_Avenue_in_Queens,_New_York_City,_New_York.jpg)
 
-**Camera** — camera 40.76300, -73.77200 (NYC_TM 15028, 7047) z 25.0 m NAVD88 | azimuth 0.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906. View direction: 0.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition. Aim: level optical axis (the reference names no subject to aim at).
+**Camera** — 40.76300, -73.77200 (NYC_TM 15026, 7044) at z 25.2 m NAVD88 | azimuth 0.0°, pitch +0.0° | 35 mm on 36 mm (54.4° horizontal) | 1208x906. The camera stands on **the item's recorded viewpoint** — the photograph's own EXIF GPS is **566.6 m** away, far past the 250 m band, so it was not stood on — and was then **moved 32.2 m onto the nearest sidewalk**, because the recorded viewpoint is hard against `t_15_7_struct_station_house`, 0.1 m ahead along the view azimuth. From the new point the view is clear for 60 m and the nearest built thing in frame is `prop_tree_honeylocust_large_24` 18.6 m away.
 
-**Sun** — azimuth 241.3°, elevation 61.3° at 2024-06-18T14:45:53-04:00 (EXIF DateTimeOriginal).
+**Sun** — azimuth 241.3°, elevation 61.3° at 2024-06-18T14:45:53−04:00, from the photograph's own **EXIF DateTimeOriginal**; 921.7 W/m² direct normal, sky at strength 0.0309, Filmic, +0.00 stops. That date is a **Tuesday** and the crowd was drawn for **a weekday**.
 
-**In frame** — 4/4 building tiles (200,672 tris), 0 landmark models, 2,044 pavement polygons, 337 props, 2,325 facade-kit pieces; 2,368,463 triangles; ground mesh 211² at 2.0 m near / 40.0 m far.
+**In the scene**, within 720.0 m of the camera and not all of it in frame — 4/4 building tiles (212,356 tris), 0 landmark models, 21,221 pavement polygons (7,333 white marking, 4,286 sidewalk, 4,237 roadbed, 3,062 curb, 858 parking lot, 622 yellow marking, 446 crosswalk, 376 median, 1 plaza), 453 props of the 639 in range, 2,445 kit pieces, 73 vehicles and 265 people; 3,172,448 triangles. Ground mesh 88,200 triangles, 0 holes. 15 city surfaces are dressed from the shared photographic catalogue.
 
-**Camera clearance** — the recorded viewpoint is under verify_terrain (1.5 m of ground or paving directly overhead, so the eye point is beneath the walking surface); the camera was moved 35 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 37 m from there
+## Verdict — the reference is a photograph of something else, and it is not the chooser's fault
 
-**Verdict — the frame is legible for the first time — the new under-the-paving test caught an eye point 1.5 m beneath the ground surface and moved it onto a real roadbed — but what it shows is a low commercial strip against a photograph of the Clearview Expressway from an overpass 567 m away**
+**The item asked for a residential street and its reference is a six-lane Interstate.** The fetch recorded its own queries — *"Bayside Queens houses residential street"* and *"Bayside, Queens" house* — and the three photographs it kept are **Interstate 295 seen from a pedestrian overpass**, a Flickr picture titled *"Needs Work"*, and *Lawrence Cemetery*. None of them is a residential street. The chooser can only rank what the fetch kept, and it ranked the only one with a real EXIF timestamp and GPS to the top. That the GPS is **566.6 m** away is recorded and the camera was correctly not moved to it (J60); what is not yet caught anywhere is that the photograph is of a different *kind of place* (docs/DEVIATIONS.md J71).
 
-## Re-rendered 2026-09-07 — a frame that passed every camera check and shows a blank wall
-
-The clearance record for this camera reads: *"the viewpoint is in open air on the ground and the
-camera was not moved; the nearest solid thing in the view cone is `t_15_7_vinyl_siding` 23.6 m away,
-and the view azimuth is clear for 150 m."* Every check passed. The frame is the blank side wall of a
-vinyl-sided house filling the upper third, over an untextured ground plane, and **not one of the 73
-vehicles and 263 pedestrians the simulation placed here is visible**, nor any of the 182 trees.
-
-**The clearance test measures a ray, and a frame is not a ray.** `view_distance` casts a single line
-along the view azimuth at eye height and reports how far it travels before a building shell stops it.
-Here it travels the full 150 m probe — the camera is looking down a gap between houses — while the
-rest of the frame is a wall. A ray being clear says nothing about what fills the other of the image,
-which is why this sheet can satisfy `min_view_m` and still be unusable. Recorded as deviation I17.
-
-That is separate from the two faults already recorded against this set: the camera is on a residential
-street with the item's nominal azimuth of 0.0° and no named subject to aim at (I12), and it stands
-where the search put it rather than where a photographer would (I14). Bayside's houses *are* the
-subject, so a vinyl-sided wall is not the wrong content — it is the wrong framing of the right
-content.
+**Nothing below is a comparison of two views.** The photograph is a sunken interstate under a clear sky from 6 m up; the render is a Queens commercial strip at eye level. What the render can be judged on is whether it is a plausible Queens street, and it is.
 
 ## What matches
 
-* The camera correction worked and is stated: the recorded viewpoint sits 1.5 m *under* the terrain surface, and the camera was moved 35 m onto the nearest real roadbed polygon with 37 m of clear view. Before this test existed the frame was featureless (sd 0.012) and the orchestrator's sweep flagged it.
-* The photograph's own EXIF GPS was rejected as mis-tagged at 567 m, so the item's viewpoint was used; the sheet says so.
-* The built form is right for outer Queens: two- and three-storey flat-roofed blocks with parapets, set back behind wide sidewalks, with roof-mounted plant and no towers anywhere in the frame.
-* Street trees in full June leaf are planted along the kerb with correct canopies, and 21 opaque impostor cards were dropped.
-* 2,044 pavement polygons place a wide roadbed, deep sidewalks, 352 crosswalk and 99 parking-lot polygons — the correct proportions for a Queens arterial.
-* The New York City flag and cobra-head lamps on davits are modelled at the right sizes.
+* **It is recognisably outer-borough Queens.** Two- and three-storey brick and stucco taxpayers with continuous shopfronts under awnings, a wide roadway with kerbside parking on both sides, low parapets, and a rooftop plant. **325 storefront and 38 storefront-interior** pieces stand in the scene out of 2,445, with 1,448 windows, 291 window accessories, 131 parapets, 117 entry doors and 89 rooftop cooling towers.
+* **The New York City flag is the New York City flag.** A flagpole in the middle of the frame flies the blue-white-orange municipal flag with its seal — the right one of the two variants, which it was not before J58.
+* **The clock is the photograph's own.** The Sun is placed from EXIF `DateTimeOriginal` — 18 June 2024 at 14:45:53, a Tuesday, elevation 61.3°, 921.7 W/m² — so the light is not assumed, and it shows: hard shadows under the parked cars, sunlit stucco on the west side, a lit brick elevation on the east.
+* **The road is a road with real markings**: 4,237 roadbed, 3,062 curb and 4,286 sidewalk polygons, **858 parking-lot polygons** — the strip-mall aprons Queens is full of — and 7,333 white and 622 yellow marking polygons in range (J52).
+* **This is the closest colour match in the set so far**: chroma **0.0517** against the photograph's **0.1111**, a ratio of **0.465**, and mean **0.2944** against **0.5632** (**0.523×**).
+* **The trees are at their measured height**: all 196 scaled, mean **0.928**, none outside the declared band (J70).
+* **Nothing was capped away except props**: 0 tiles missing, 0 LOD substitutions, 0 pavement polygons dropped, 0 holes, no kit cap, and no pedestrian or vehicle dropped for the triangle budget.
 
 ## What does not match
 
-* The pairing is meaningless: the item is a residential block on 215th Street; the photograph looks south along Interstate 295 from a pedestrian overpass. Nothing in one has a counterpart in the other.
-* There are no houses. Bayside at this location is detached and semi-detached two-family homes with front gardens, driveways, garages, porches and fences; the render's blocks are commercial masses. The frame is 35 m from the recorded viewpoint after the correction, which is enough to leave the residential street entirely.
-* ~~No vehicles anywhere, in a frame whose reference is 90 % roadway and traffic.~~ — **superseded 2026-09-07.** **263 people and 73 vehicles are in this scene** from one frame of the running simulation; what the reference still has and the render does not is recorded in the section above.
-* No road markings: the reference's lane lines, edge lines and the yellow median stripe are the whole subject of its lower half, and the render's roadbed is uniform grey.
-* No front gardens, hedges, fences, driveways or parked cars — the vocabulary of a Queens residential block.
-* The buildings have no window glazing, no shopfront signage and no texture.
-* Props were capped by the triangle budget at 337 placed.
+* **The two halves are of different kinds of place**, for the reason the verdict gives. Street width, storey height, material and framing are all incomparable here.
+* **The item is named "residential block" and the render is a commercial strip.** The recorded viewpoint is *215th Street near 42nd Avenue, looking north*, and 32.2 m of clearance walking put the camera on a shopfront block. The move is correct behaviour — the viewpoint was 0.1 m from a station house — but the sheet no longer stands where the item's own note says.
+* **The frame is about half the photograph's brightness**: mean **0.2944** against **0.5632**, 95th percentile **0.4863** against **0.8745**, 5th percentile **0.0356** against **0.1130**. The photograph is a sunlit open highway with sky filling its upper third; the render is a street with buildings filling its upper half. A camera stops down on the first and this renderer never does.
+* **The facades carry no cornice line worth the name** — 11 cornices and 11 string courses across 2,445 pieces. Queens taxpayers carry brick corbel courses and pressed-metal cornices, and the classifier has no source for them.
+* **186 props in range were not placed** — triangle budget 1,398,827 — and **24 opaque impostor cards were dropped**.
+* **70 of the 196 trees are species-substituted.** They are drawn at the height their own rows record; the species they are drawn *as* is the nearest by size and taxon.
+* **Three surfaces sit at the albedo cap with the wrong source material behind them** — `concrete`, `roof_membrane` and `wood_clapboard` (J66).
+* **Every one of the 265 people is at LOD2** and every one of the 73 vehicles too; nothing in this frame is at close-up fidelity.
 
 ## Cause of each gap
 
 | gap | cause | class |
 |---|---|---|
-| the two halves are unrelated | the item names no subject, the photograph is a highway view 567 m away and its direction was assumed | reference |
-| no houses in a residential item | the correction moved the camera 35 m to the nearest roadbed polygon, off the residential street the item names | camera |
-| ~~no vehicles~~ superseded | agents are placed now (263 people, 73 vehicles); what remains is framing and occlusion, not absence | reporting |
-| no road markings | pavement polygons carry a kind but no stripe geometry or texture | material |
-| no gardens, fences or driveways | no dataset the scene reads carries residential lot furniture | data |
-| no glazing or signage | kit windows and storefronts carry openings without glass or lettering | material |
+| the reference is a photograph of an Interstate | the fetch kept three photographs for a "residential street" query, none of which is one; the chooser ranks what was kept and cannot reject a subject it has no test for | **reference — open, DEVIATIONS J71** |
+| the camera stands on a commercial strip, not a residential block | the recorded viewpoint is 0.1 m from `t_15_7_struct_station_house`, so the camera was walked 32.2 m onto the nearest sidewalk | verification |
+| mean 0.523× and 95th percentile 0.486 against 0.875 | a sunlit open highway with sky filling its upper third against a street with buildings filling its upper half, plus a renderer that never stops down | reference + stated choice |
+| chroma 0.465× | `concrete`, `roof_membrane` and `wood_clapboard` at the albedo cap with the wrong source material (J66) | material |
+| no cornice line | 11 cornices and 11 string courses across 2,445 kit pieces; the classifier has no source for a Queens taxpayer's corbel course or pressed-metal cornice | geometry |
+| 186 props not placed and 24 impostor cards dropped | triangle budget 1,398,827, declared on the sheet | performance |
+| 70 of 196 trees species-substituted | no modelled species matched exactly; the nearest by size and taxon was used | data |
+| everything at LOD2 | the LOD selector keys off distance and nothing in this frame is near enough for LOD0 | performance |
