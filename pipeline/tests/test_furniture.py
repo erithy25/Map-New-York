@@ -662,3 +662,182 @@ def test_a_kind_another_stage_builds_is_not_counted_as_a_missing_asset():
     assert entry is None
     assert not A.is_built_elsewhere(why), "a payphone has no asset anywhere; that is a real gap"
     assert why == "payphone", "a real gap names the kind so the report can list it"
+
+
+# --- street lamp fixtures (J56) ------------------------------------------------------------
+
+def test_a_declared_variant_map_beats_the_position_of_the_asset_in_a_sorted_list():
+    """``variant`` is an enum the catalogue writes on the asset; it is not a list index.
+
+    ``resolve`` used to return ``choices[v % len(choices)]`` over the id-sorted assets of a kind.
+    For ``street_lamp`` that is right for 1 and 3 by coincidence of the alphabet and wrong for the
+    other two: variant 2 is declared ``lamp_bishops_crook`` and the modulo returns ``lamp_highmast``,
+    variant 4 is declared ``lamp_highmast`` and wraps round to ``lamp_bishops_crook``.
+    """
+    from nycsim_pipeline.furniture import assets as A
+
+    entries = [{"id": "lamp_bishops_crook", "dataset_kind": "street_lamp", "tags": ["variant:2"]},
+               {"id": "lamp_cobra_davit", "dataset_kind": "street_lamp", "tags": ["variant:1"]},
+               {"id": "lamp_highmast", "dataset_kind": "street_lamp", "tags": ["variant:4"]},
+               {"id": "lamp_park_twin", "dataset_kind": "street_lamp", "tags": ["variant:3"]}]
+    by_kind = {"street_lamp": sorted(entries, key=lambda e: e["id"])}
+    index = A.PropAssets(by_id={e["id"]: e for e in entries}, by_kind=by_kind,
+                         kind_names={14: "street_lamp"}, kit_by_id={},
+                         variants_by_kind={"street_lamp": A.declared_variants(entries)})
+
+    for variant, want in ((1, "lamp_cobra_davit"), (2, "lamp_bishops_crook"),
+                          (3, "lamp_park_twin"), (4, "lamp_highmast")):
+        entry, why = index.resolve(14, variant=variant)
+        assert entry["id"] == want, f"variant {variant} resolved to {entry['id']}, not {want}"
+        assert why == "ok"
+
+    # The list-position rule would have wrapped 4 to index 0.
+    assert by_kind["street_lamp"][4 % 4]["id"] == "lamp_bishops_crook"
+
+
+def test_an_unknown_lamp_variant_takes_the_citywide_default_and_says_so():
+    """0 means "nothing in the data said"; it must not silently become whichever id sorts first.
+
+    14,690 of the 16,971 OSM lamp nodes tag nothing about their fixture. Under the old rule they all
+    became Bishop's Crooks -- a restored historic fixture NYC has a few thousand of. The default is
+    a rule and the reason string has to admit it.
+    """
+    from nycsim_pipeline.furniture import assets as A
+
+    entries = [{"id": "lamp_bishops_crook", "dataset_kind": "street_lamp", "tags": ["variant:2"]},
+               {"id": "lamp_cobra_davit", "dataset_kind": "street_lamp", "tags": ["variant:1"]}]
+    index = A.PropAssets(by_id={e["id"]: e for e in entries},
+                         by_kind={"street_lamp": sorted(entries, key=lambda e: e["id"])},
+                         kind_names={14: "street_lamp"}, kit_by_id={},
+                         variants_by_kind={"street_lamp": A.declared_variants(entries)})
+    assert A.DEFAULT_VARIANT["street_lamp"] == 1
+    for bad in (0, 9, None, "x"):
+        entry, why = index.resolve(14, variant=bad)
+        assert entry["id"] == "lamp_cobra_davit", f"variant {bad!r} -> {entry['id']}"
+        assert why.startswith("variant_default:"), why
+
+
+def test_a_kind_that_declares_no_variant_map_still_resolves_and_does_not_wrap():
+    from nycsim_pipeline.furniture import assets as A
+
+    entries = [{"id": "bench_a", "dataset_kind": "bench"}, {"id": "bench_b", "dataset_kind": "bench"}]
+    index = A.PropAssets(by_id={e["id"]: e for e in entries}, by_kind={"bench": entries},
+                         kind_names={5: "bench"}, kit_by_id={})
+    assert index.resolve(5, variant=0)[0]["id"] == "bench_a"
+    assert index.resolve(5, variant=1)[0]["id"] == "bench_b"
+    entry, why = index.resolve(5, variant=2)
+    assert entry["id"] == "bench_a" and why == "variant_out_of_range:2", why
+
+
+def test_the_lamp_fixture_comes_from_the_tag_that_describes_the_mast():
+    """``lamp_mount`` says what the fixture is; ``lamp_type`` says what the bulb is.
+
+    The lookup this replaces searched ``support + subtype`` for "cobra", "bishop", "historic" and
+    "pedestrian". Measured against the real extract, none of those four strings occurs on any of the
+    16,971 lamp nodes, so every one of them fell through to variant 0.
+    """
+    from nycsim_pipeline.furniture.datasets import lamp_variant
+
+    assert lamp_variant({"lamp_mount": "bent_mast"}) == (1, "lamp_mount=bent_mast")
+    assert lamp_variant({"lamp_mount": "straight_mast"})[0] == 1
+    assert lamp_variant({"lamp_mount": "angled_mast"})[0] == 1
+    assert lamp_variant({"lamp_mount": "high_mast"}) == (4, "lamp_mount=high_mast")
+    assert lamp_variant({"lamp_mount": "lamppost"}) == (3, "lamp_mount=lamppost")
+    assert lamp_variant({"light:mount": "bent_mast"})[0] == 1
+    assert lamp_variant({"light_source": "lantern"}) == (3, "light_source=lantern")
+    assert lamp_variant({"lamp_mount": "BENT_MAST"})[0] == 1, "OSM values are not case-normalised"
+
+    # A light source is not a mast: led/electric/fluorescent say nothing about the pole.
+    for t in ({"lamp_type": "led"}, {"lamp_type": "electric"}, {"support": "pole"}, {}):
+        assert lamp_variant(t) == (0, ""), t
+
+    # A mount the catalogue has no mesh for is recorded as such, not guessed into a pole variant.
+    v, why = lamp_variant({"lamp_mount": "bollard"})
+    assert v == 0 and why.startswith("no_asset:"), (v, why)
+
+
+def test_the_park_post_rule_leaves_a_measurement_and_a_parkway_alone():
+    """A rule may fill a gap; it may not overwrite what the data actually says.
+
+    Central Park's drives carry a cast-iron post-top lantern and the road rule stamps a DOT cobra
+    head on every pole it places. The parkways that run through park land -- Belt, Grand Central,
+    Cross Island, Richmond -- are lit with cobra heads and must keep them.
+    """
+    import json as _json
+
+    import numpy as np
+    import shapely
+    from nycsim_pipeline.furniture import park_lamps as PL
+
+    square = shapely.geometry.box(0.0, 0.0, 100.0, 100.0)
+    tree = shapely.STRtree([square])
+    real_park_ground = PL.park_ground
+    PL.park_ground = lambda: (tree, np.array(["Test Park"]))
+    try:
+        cols = {
+            "kind": np.array([14, 14, 14, 14, 14, 3], dtype=np.int16),
+            "variant": np.array([1, 1, 3, 4, 1, 0], dtype=np.int16),
+            "x": np.array([50.0, 50.0, 50.0, 50.0, 500.0, 50.0]),
+            "y": np.array([50.0, 60.0, 70.0, 80.0, 50.0, 50.0]),
+            "dataset_id": ["rule:lamp_30_40m_alt"] * 5 + ["osm_newyork_pbf"],
+            "attrs": [_json.dumps({"rw_type": 1}), _json.dumps({"rw_type": 2}), "", "", "", ""],
+        }
+        hw, unknown = PL.highway_mask_from_attrs(cols["attrs"])
+        rep = PL.apply(cols, 14, highway_mask=hw)
+    finally:
+        PL.park_ground = real_park_ground
+
+    got = list(cols["variant"])
+    assert got[0] == PL.PARK_VARIANT, "a rule-placed pole on a park street becomes a park post"
+    assert got[1] == 1, "a pole on a parkway keeps its cobra head"
+    assert got[2] == 3 and got[3] == 4, "a measured fixture is not overwritten by a rule"
+    assert got[4] == 1, "a pole outside the park is untouched"
+    assert got[5] == 0, "a row that is not a lamp is untouched"
+    assert rep["moved"] == 1 and rep["road_class_excluded"] == 1
+    assert unknown == 4
+    assert PL.RULE_ID in cols["dataset_id"][0], "the row has to name the rule that re-fixtured it"
+    assert cols["dataset_id"][1] == "rule:lamp_30_40m_alt", "an untouched row keeps its provenance"
+
+
+def test_the_lamp_rule_records_the_road_class_it_placed_against():
+    """:mod:`.park_lamps` must not have to ask "which segment is nearest" afterwards.
+
+    That question has a different answer from "which segment put this pole here" -- the pole sits
+    half a carriageway plus 0.6 m off its own centreline, which on a park drive beside a parkway is
+    nearer the parkway.
+    """
+    import json as _json
+
+    import numpy as np
+    import shapely
+    from nycsim_pipeline.furniture import rules as R
+
+    seg = {"rw_type": np.array([1, 2], dtype=np.int8),
+           "width_m": np.array([12.0, 20.0]),
+           "segment_id": np.array([11, 22], dtype=np.int64),
+           "geometry": [shapely.LineString([(0, 0), (0, 200)]),
+                        shapely.LineString([(300, 0), (300, 200)])]}
+    cols = R.street_lamps(seg, np.empty((0, 2)))
+    assert len(cols["x"]) > 0
+    got = {int(_json.loads(a)["rw_type"]) for a in cols["attrs"]}
+    assert got == {1, 2}, got
+    assert set(np.asarray(cols["variant"])) == {1}, "the road rule still places the DOT cobra head"
+
+
+def test_an_avenue_mall_is_not_park_interior():
+    """NYC Parks owns the Broadway and Park Avenue malls, so they arrive as ``park_ground``.
+
+    A lamp standing on the Park Avenue mall is lighting Park Avenue. The separator is the polygon's
+    own short side: measured, the named malls run 2.1 to 10.1 m across and the parks 27.4 to 46.4 m.
+    """
+    import shapely
+    from nycsim_pipeline.furniture import park_lamps as PL
+
+    assert PL.short_side_m(shapely.geometry.box(0, 0, 400, 7.2)) == pytest.approx(7.2)
+    assert PL.short_side_m(shapely.geometry.box(0, 0, 400, 7.2)) < PL.MIN_PARK_WIDTH_M
+    assert PL.short_side_m(shapely.geometry.box(0, 0, 800, 34.1)) > PL.MIN_PARK_WIDTH_M
+    # A rotated strip is measured across its own short side, not its bounding box.
+    strip = shapely.affinity.rotate(shapely.geometry.box(0, 0, 400, 6.7), 37.0)
+    assert PL.short_side_m(strip) == pytest.approx(6.7, abs=1e-6)
+    # Degenerate geometry is never park interior.
+    assert PL.short_side_m(shapely.Point(1, 1)) == 0.0

@@ -24,6 +24,7 @@ re-run produces byte-identical output, and no lamp/manhole is ever placed where 
 """
 from __future__ import annotations
 
+import json
 import logging
 from pathlib import Path
 
@@ -152,6 +153,10 @@ def street_lamps(seg: dict, existing_lamp_xy: np.ndarray) -> dict:
     xs: list[np.ndarray] = []
     ys: list[np.ndarray] = []
     hs: list[np.ndarray] = []
+    # The road class each pole was placed against, carried into ``attrs`` so a later rule can tell a
+    # park drive from the parkway that runs through the same grass (:mod:`.park_lamps`).  Asking
+    # "which segment is nearest this pole" afterwards would answer a different question.
+    rws: list[np.ndarray] = []
     r = _hash01(seg["segment_id"])
     for i in idx:
         line = seg["geometry"][i]
@@ -172,14 +177,18 @@ def street_lamps(seg: dict, existing_lamp_xy: np.ndarray) -> dict:
         ys.append(p[:, 1] + side * off * ny)
         # the lamp head overhangs the roadway: it faces the centreline, i.e. opposite the offset direction
         hs.append((head + np.where(side > 0, 270.0, 90.0)) % 360.0)
+        rws.append(np.full(len(p), int(seg["rw_type"][i]), dtype=np.int16))
     if not xs:
         return _rows("street_lamp", np.empty(0), np.empty(0), np.empty(0), "rule:lamp_30_40m_alt")
     x, y, h = np.concatenate(xs), np.concatenate(ys), np.concatenate(hs)
+    rw = np.concatenate(rws)
     m = _suppress(x, y, existing_lamp_xy, LAMP_COVER_M)
     log.info("street lamp rule: %d generated, %d suppressed near a mapped lamp, %d kept",
              len(x), int((~m).sum()), int(m.sum()))
     # variant 1 = cobra head (the NYC DOT standard pole this rule represents)
-    return _rows("street_lamp", x[m], y[m], h[m], "rule:lamp_30_40m_alt", np.ones(int(m.sum()), dtype=np.int16))
+    cols = _rows("street_lamp", x[m], y[m], h[m], "rule:lamp_30_40m_alt", np.ones(int(m.sum()), dtype=np.int16))
+    cols["attrs"] = [json.dumps({"rw_type": int(v)}, separators=(",", ":")) for v in rw[m]]
+    return cols
 
 
 def manholes_and_steam(seg: dict, existing_manhole_xy: np.ndarray) -> tuple[dict, dict]:

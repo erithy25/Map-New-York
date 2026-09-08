@@ -25,7 +25,8 @@ from __future__ import annotations
 
 import json
 import math
-from dataclasses import dataclass
+import re
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -149,6 +150,34 @@ def clean_height(value: Any) -> float:
     return h
 
 
+#: ``dataset_kind`` -> the variant code a row falls back to when its own code names no asset.
+#:
+#: This is a **rule, not a measurement**.  For ``street_lamp`` it is 1, the NYC DOT standard
+#: octagonal pole with a cobra head on a davit arm, because that is the fixture the city puts on
+#: an ordinary street and 14,690 of the 16,971 OSM lamp nodes say nothing at all about what they
+#: carry (docs/DEVIATIONS.md J56).  It used to be whatever sorted first, which for lamps was the
+#: ornamental Bishop's Crook -- a fixture NYC has a few thousand of, on named historic blocks.
+DEFAULT_VARIANT: dict[str, int] = {"street_lamp": 1}
+
+
+#: Tag an exported asset carries to declare which ``variant`` code it *is*, e.g. ``variant:2``.
+VARIANT_TAG = re.compile(r"variant:(\d+)")
+
+
+def declared_variants(entries: list[dict]) -> dict[int, str]:
+    """``{variant code: asset id}`` from the ``variant:N`` tags a kind's assets carry.
+
+    Empty where a kind declares nothing, which is every kind but ``street_lamp`` today.
+    """
+    out: dict[int, str] = {}
+    for e in entries:
+        for tag in e.get("tags") or []:
+            m = VARIANT_TAG.fullmatch(str(tag))
+            if m:
+                out[int(m.group(1))] = str(e["id"])
+    return out
+
+
 @dataclass(frozen=True)
 class PropAssets:
     """The exported prop assets, indexed the two ways a lookup needs them."""
@@ -158,6 +187,9 @@ class PropAssets:
     kind_names: dict[int, str]
     #: ``catalog_id`` -> kit piece, for the kinds whose asset is a facade kit piece.
     kit_by_id: dict[str, dict]
+    #: ``dataset_kind`` -> ``{variant code: asset id}``, read from the assets' own ``variant:N``
+    #: tags.  Empty for a kind that declares none, which is every kind but ``street_lamp`` today.
+    variants_by_kind: dict[str, dict[int, str]] = field(default_factory=dict)
 
     def name_of(self, kind_id: int) -> str:
         return self.kind_names.get(int(kind_id), str(int(kind_id)))
@@ -193,7 +225,27 @@ class PropAssets:
             v = int(variant)
         except (TypeError, ValueError):
             v = 0
-        return choices[v % len(choices)], "ok"
+        declared = self.variants_by_kind.get(alias) or {}
+        if declared:
+            asset_id = declared.get(v)
+            if asset_id is not None:
+                entry = self.by_id.get(asset_id)
+                if entry is not None:
+                    return entry, "ok"
+            # The code is outside the declared set -- 0 "unknown" for a kind whose assets all name
+            # a real fixture, or a code no asset claims.  Fall back to the kind's own default and
+            # say so, rather than let a modulo pick whichever id happens to sort into that slot.
+            fallback = DEFAULT_VARIANT.get(alias)
+            entry = self.by_id.get(declared.get(fallback, "")) if fallback is not None else None
+            if entry is not None:
+                return entry, f"variant_default:{v}"
+            return choices[0], f"variant_unmapped:{v}"
+        # No kind but street_lamp declares a map today; position in the id-sorted list is all
+        # there is to go on, and it is only ever right by coincidence -- so it is not a modulo any
+        # more either: a code past the end is reported, not wrapped.
+        if 0 <= v < len(choices):
+            return choices[v], "ok"
+        return choices[0], f"variant_out_of_range:{v}"
 
 
 def load(processed: Path, blender_out: Path) -> PropAssets:
@@ -208,6 +260,8 @@ def load(processed: Path, blender_out: Path) -> PropAssets:
             by_kind.setdefault(str(e.get("dataset_kind") or ""), []).append(e)
     for entries in by_kind.values():
         entries.sort(key=lambda e: e["id"])
+    variants_by_kind = {k: declared_variants(v) for k, v in by_kind.items()}
+    variants_by_kind = {k: v for k, v in variants_by_kind.items() if v}
     kind_names: dict[int, str] = {}
     kinds_path = Path(processed) / "furniture" / "props_catalog.json"
     if kinds_path.is_file():
@@ -221,4 +275,5 @@ def load(processed: Path, blender_out: Path) -> PropAssets:
             if cid:
                 kit_by_id[str(cid)] = {"id": cid, "glb": piece.get("glb"),
                                        "category": piece.get("category"), "source": "kit"}
-    return PropAssets(by_id=by_id, by_kind=by_kind, kind_names=kind_names, kit_by_id=kit_by_id)
+    return PropAssets(by_id=by_id, by_kind=by_kind, kind_names=kind_names, kit_by_id=kit_by_id,
+                      variants_by_kind=variants_by_kind)

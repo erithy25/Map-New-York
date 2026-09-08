@@ -40,6 +40,7 @@ from . import dedupe as dd
 from . import rules as R
 from . import trees as T
 from .catalog import HEIGHT_SOURCE, KINDS, KIND_BY_NAME, catalog_json
+from . import park_lamps
 from . import rooftop
 from .elevation import GroundModel
 from .schema import arrow_schema, empty_columns
@@ -307,12 +308,24 @@ def main(argv: list[str] | None = None) -> int:
         return 2
     cols, report = collect(not a.no_rules, Path(a.segments), bbox)
     log.info("collected %d prop rows", len(cols["x"]))
+    # What the OSM lamp nodes' own tags said about their fixture, so the census is in the summary
+    # and not only in a log line (docs/DEVIATIONS.md J56).
+    report["osm_lamp_fixtures"] = dict(sorted(D.LAMP_FIXTURE_TALLY.items(), key=lambda kv: -kv[1]))
     t = time.perf_counter()
     keep, dedupe_report = dd.dedupe(cols, KIND_NAME_BY_ID)
     idx = np.flatnonzero(keep)
     cols = {k: (np.asarray(v)[idx] if not isinstance(v, list) else [v[i] for i in idx]) for k, v in cols.items()}
     report["dedupe"] = dedupe_report
     report["timings_s"] = {"dedupe": round(time.perf_counter() - t, 1)}
+
+    # After the dedupe, so a pole that loses to a surveyed one is not re-fixtured on its way out.
+    t = time.perf_counter()
+    hw, hw_unknown = park_lamps.highway_mask_from_attrs(list(cols["attrs"]))
+    park_report = park_lamps.apply(cols, KIND_BY_NAME["street_lamp"].id, highway_mask=hw)
+    park_report["road_class_unknown"] = int(hw_unknown)
+    report["rules"] = dict(report.get("rules") or {})
+    report["rules"]["park_post_lamp"] = park_report
+    report["timings_s"]["park_lamps"] = round(time.perf_counter() - t, 1)
 
     t = time.perf_counter()
     ground = GroundModel.build()

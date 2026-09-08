@@ -16,6 +16,7 @@ from __future__ import annotations
 import json
 import logging
 import re
+from collections import Counter
 from pathlib import Path
 
 import numpy as np
@@ -418,7 +419,69 @@ OSM_KIND_MAP: dict[tuple[str, str], str] = {
 
 BIKE_PARKING_VARIANT = {"stands": 1, "bollard": 1, "wall_loops": 2, "rack": 2, "wide_stands": 1, "anchors": 1,
                         "shed": 3, "lockers": 3, "building": 3, "informal": 0}
-LAMP_VARIANT = {"cobra": 1, "bishop": 2, "historic": 2, "pedestrian": 3}
+#: What the last :func:`load_osm_furniture` call read out of the lamp nodes' tags, by tag,
+#: so :mod:`.build` can put the fixture census in the build summary instead of only in a log line.
+LAMP_FIXTURE_TALLY: "Counter[str]" = Counter()
+
+
+def _tags(raw: str) -> dict:
+    """One node's ``tags`` column as a dict; a malformed or absent value is an empty one."""
+    try:
+        t = json.loads(raw or "{}")
+    except (TypeError, ValueError):
+        return {}
+    return t if isinstance(t, dict) else {}
+
+
+#: OSM ``lamp_mount`` / ``light:mount`` value -> ``street_lamp`` variant code.
+#:
+#: This is the tag that says what the fixture *is*.  The lookup it replaces searched the ``support``
+#: and ``subtype`` columns for the words "cobra", "bishop", "historic" and "pedestrian"; measured
+#: against the extract, not one of those four strings occurs on any of the 16,971 OSM lamp nodes, so
+#: every one of them fell through to 0 (docs/DEVIATIONS.md J56).  ``lamp_type`` was the wrong column
+#: to read as well: its values are ``led`` / ``electric`` / ``fluorescent``, the light *source*, not
+#: the mast.
+#:
+#: A mast arm of any bend is the DOT davit -- OSM has no tag anywhere in this extract that tells a
+#: Bishop's Crook from a cobra head, so variant 2 is placed nowhere and that is recorded rather than
+#: guessed at.
+LAMP_MOUNT_VARIANT = {
+    "bent_mast": 1, "straight_mast": 1, "angled_mast": 1, "mast_arm": 1, "mast": 1,
+    "high_mast": 4,
+    "lamppost": 3, "post_top": 3, "pole_top": 3,
+}
+
+#: ``lamp_mount`` values that name a fixture the prop catalogue has no mesh for: a light in the
+#: ground, on a bollard, on a wall, hung from a catenary.  They are counted in the build summary and
+#: left at variant 0, which the asset resolver turns into the kind's default pole -- a substitution,
+#: recorded as one.
+LAMP_MOUNT_NO_ASSET = ("ground", "grounded", "ground1", "ground_t", "bollard", "wall",
+                       "suspended", "catenary", "ceiling", "bridge")
+
+#: ``light_source`` value that implies a post-top lantern where no mount is tagged.
+LAMP_SOURCE_VARIANT = {"lantern": 3}
+
+
+def lamp_variant(tags: dict) -> tuple[int, str]:
+    """``(variant code, the tag it came from)`` for one OSM ``highway=street_lamp`` node.
+
+    ``""`` as the second element means nothing in the node's tags describes the fixture, and the
+    row keeps variant 0 for the resolver's default to pick up.
+    """
+    for key in ("lamp_mount", "light:mount"):
+        raw = str(tags.get(key) or "").strip().lower()
+        if not raw:
+            continue
+        v = LAMP_MOUNT_VARIANT.get(raw)
+        if v is not None:
+            return v, f"{key}={raw}"
+        if raw in LAMP_MOUNT_NO_ASSET:
+            return 0, f"no_asset:{key}={raw}"
+    src = str(tags.get("light_source") or "").strip().lower()
+    v = LAMP_SOURCE_VARIANT.get(src)
+    if v is not None:
+        return v, f"light_source={src}"
+    return 0, ""
 
 
 def load_osm_furniture(path: Path = OSM_FURNITURE) -> dict:
@@ -445,6 +508,7 @@ def load_osm_furniture(path: Path = OSM_FURNITURE) -> dict:
     material = df["material"].fill_null("").to_list()
     operator = df["operator"].fill_null("").to_list()
     ref = df["ref"].fill_null("").to_list()
+    raw_tags = df["tags"].fill_null("{}").to_list() if "tags" in df.columns else ["{}"] * len(df)
     osm_id = df["osm_id"].to_numpy()
     for kind_name in sorted(set(m for m in mapped if m)):
         idx = np.flatnonzero(mapped == kind_name)
@@ -464,8 +528,12 @@ def load_osm_furniture(path: Path = OSM_FURNITURE) -> dict:
             cols["capacity"] = np.clip(capacity[idx], 0, 32767).astype(np.int16)
             cols["variant"] = np.array([BIKE_PARKING_VARIANT.get(subtype[i], 0) for i in idx], dtype=np.int16)
         elif kind_name == "street_lamp":
-            cols["variant"] = np.array([next((v for k, v in LAMP_VARIANT.items() if k in (support[i] + subtype[i]).lower()), 0)
-                                        for i in idx], dtype=np.int16)
+            got = [lamp_variant(_tags(raw_tags[i])) for i in idx]
+            cols["variant"] = np.array([v for v, _ in got], dtype=np.int16)
+            seen: Counter[str] = Counter(why or "untagged" for _, why in got)
+            log.info("osm street_lamp fixtures: %s", dict(sorted(seen.items())))
+            LAMP_FIXTURE_TALLY.clear()
+            LAMP_FIXTURE_TALLY.update(seen)
         elif kind_name == "bench":
             cols["variant"] = np.array([1 if backrest[i] == "yes" else (2 if backrest[i] == "no" else 0) for i in idx],
                                        dtype=np.int16)
