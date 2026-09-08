@@ -866,6 +866,11 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     }
     if dry_run:
         record["status"] = "dry_run"
+        # The containment tilt is decided from the built scene -- it needs the subject's measured
+        # top and the terrain under the lens -- and a dry run deliberately builds no scene. So the
+        # plan carries no pitch rather than a zero that the real run would quietly overrule.
+        record["pitch_note"] = ("undecided: the containment tilt is measured from the built scene, "
+                                "which a dry run does not build")
         return record
 
     t0 = time.time()

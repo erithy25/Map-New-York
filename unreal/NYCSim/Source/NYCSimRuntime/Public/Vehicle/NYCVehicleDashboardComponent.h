@@ -132,6 +132,9 @@ private:
 	TObjectPtr<UMaterialInstanceDynamic> GaugeFuelMaterial;
 
 	UPROPERTY(Transient)
+	TObjectPtr<UMaterialInstanceDynamic> GaugeTempMaterial;
+
+	UPROPERTY(Transient)
 	TObjectPtr<UMaterialInstanceDynamic> ScreenCentreMaterial;
 
 	UPROPERTY(Transient)

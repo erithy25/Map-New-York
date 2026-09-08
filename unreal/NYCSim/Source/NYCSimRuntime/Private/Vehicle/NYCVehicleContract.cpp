@@ -103,6 +103,7 @@ const TArray<FName>& FNYCVehicleContract::InstrumentSlots()
 {
 	static const TArray<FName> Slots = {
 		FName(NYCVehicleSlots::GaugeSpeed), FName(NYCVehicleSlots::GaugeRpm), FName(NYCVehicleSlots::GaugeFuel),
+		FName(NYCVehicleSlots::GaugeTemp),
 		FName(NYCVehicleSlots::ScreenCentre), FName(NYCVehicleSlots::ScreenCluster),
 	};
 	return Slots;

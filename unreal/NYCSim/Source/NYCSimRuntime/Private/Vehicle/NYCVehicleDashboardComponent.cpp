@@ -55,6 +55,7 @@ void UNYCVehicleDashboardComponent::Initialise(UMeshComponent* InMesh, UNYCVehic
 	GaugeSpeedMaterial = MakeMaterial(NYCVehicleSlots::GaugeSpeed);
 	GaugeRpmMaterial = MakeMaterial(NYCVehicleSlots::GaugeRpm);
 	GaugeFuelMaterial = MakeMaterial(NYCVehicleSlots::GaugeFuel);
+	GaugeTempMaterial = MakeMaterial(NYCVehicleSlots::GaugeTemp);
 	ScreenCentreMaterial = MakeMaterial(NYCVehicleSlots::ScreenCentre);
 	ScreenClusterMaterial = MakeMaterial(NYCVehicleSlots::ScreenCluster);
 }
@@ -182,6 +183,11 @@ void UNYCVehicleDashboardComponent::UpdateGaugeMaterials()
 	{
 		GaugeFuelMaterial->SetScalarParameterValue(ValueParam, FuelNeedle);
 		GaugeFuelMaterial->SetScalarParameterValue(EmissiveParam, Backlight);
+	}
+	if (GaugeTempMaterial != nullptr)
+	{
+		GaugeTempMaterial->SetScalarParameterValue(ValueParam, TempNeedle);
+		GaugeTempMaterial->SetScalarParameterValue(EmissiveParam, Backlight);
 	}
 	if (ScreenCentreMaterial != nullptr)
 	{

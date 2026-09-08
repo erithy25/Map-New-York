@@ -149,6 +149,10 @@ namespace NYCVehicleSlots
 	inline const TCHAR* const GaugeSpeed = TEXT("GAUGE_SPEED");
 	inline const TCHAR* const GaugeRpm = TEXT("GAUGE_RPM");
 	inline const TCHAR* const GaugeFuel = TEXT("GAUGE_FUEL");
+	// The coolant gauge. Needle_Temp was always in OptionalBones() and the dashboard has always
+	// computed TempNeedle, but there was no face for either to act on, so the one gauge the engine
+	// knew the value of was the one it could not show.
+	inline const TCHAR* const GaugeTemp = TEXT("GAUGE_TEMP");
 	inline const TCHAR* const ScreenCentre = TEXT("SCREEN_CENTER");
 	inline const TCHAR* const ScreenCluster = TEXT("SCREEN_CLUSTER");
 	inline const TCHAR* const DestinationSign = TEXT("SIGN_DEST");
