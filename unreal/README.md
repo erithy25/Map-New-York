@@ -255,13 +255,34 @@ Directories to Package* in Project Settings → Packaging (or `+DirectoriesToAlw
 ## 9b. Getting the world onto this machine
 
 `data/processed/` and `blender_out/` are gitignored — they are tens of gigabytes of derived
-artefacts — so a clone of this repository has all the code and none of the city. The content travels
-as a set of numbered `.tar.gz` parts:
+artefacts — so a clone of this repository has all the code and none of the city.
+
+**The first-drive region is already built and pushed.** It is on the branch `dist/first-drive`, as
+48 numbered `.tar.gz` parts totalling **2.15 GB packed / 4.09 GB unpacked**, 1,041 files across the
+47-tile Manhattan region. Three commands from the repository root:
 
 ```bash
-python3 tools/package_content.py --tile-list <tiles>.txt --out dist/first-drive   # to build one
+git fetch origin dist/first-drive
+git checkout dist/first-drive -- dist/first-drive
+cat dist/first-drive/part_*.tar.gz | tar -xzvf - -i -C .
+```
+
+Then the update pack, which carries the 165 files that changed after the snapshot was cut — the
+1,053 elevated station placements the stations stage added to the per-tile structure files, and the
+manifest regenerated over them (8.4 MB):
+
+```bash
+git checkout dist/first-drive -- dist/first-drive/update-01
+cat dist/first-drive/update-01/part_*.tar.gz | tar -xzvf - -i -C .
+```
+
+`dist/first-drive/index.json` names every file and its SHA-256, and `UNPACK.md` beside it repeats
+these commands. To check what arrived, or to build a package for another region:
+
+```bash
 python3 tools/package_content.py --verify dist/first-drive                        # to check one
-cat dist/first-drive/part_*.tar.gz | tar -xzvf - -i -C .                          # to unpack one
+python3 tools/package_content.py --tile-list <tiles>.txt --out dist/<region>      # to build one
+cat dist/<region>/part_*.tar.gz | tar -xzvf - -i -C .                            # to unpack one
 ```
 
 `tar` ships with Git for Windows, so nothing extra is installed. The `-i` matters: `cat` of several
@@ -270,8 +291,10 @@ gzip members is a valid stream and `tar` needs telling to read past the first en
 What goes in is decided by `unreal_manifest.json` rather than by a hand-written list, so a manifest
 that gains an entry gains a file in the package without anyone remembering. The 47-tile Manhattan
 region — Times Square, Midtown, the Empire State Building, Grand Central, the Financial District and
-the World Trade Center site — is **3.5 GB**, of which 1.3 GB is tiles, 0.6 GB the 53 landmarks inside
-it, 0.5 GB the crowd, 0.4 GB terrain and runtime and 0.25 GB the licensed radio.
+the World Trade Center site — is **4.09 GB unpacked**, of which 1.88 GB is tiles (shells, pavement
+and the elevated structures), 0.64 GB the 53 landmarks inside the region, 0.51 GB the crowd, 0.42 GB
+processed data, 0.25 GB the licensed radio, 0.17 GB the facade kit, 0.14 GB the vehicles and 0.08 GB
+the props. It packs to 2.15 GB.
 
 ---
 
