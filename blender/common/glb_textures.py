@@ -103,6 +103,30 @@ def read_glb(path: str | Path) -> Glb:
     return Glb(json=js, bin=binary)
 
 
+def read_glb_json(path: str | Path) -> dict:
+    """Just the JSON chunk.  A sweep over 2,839 tile files that only needs the ``images`` array
+    has no business reading 13 GB of geometry to get at it."""
+    with open(path, "rb") as f:
+        head = f.read(12)
+        if len(head) < 12:
+            raise GlbError(f"{path}: shorter than a GLB header")
+        magic, version, _total = struct.unpack("<III", head)
+        if magic != GLB_MAGIC:
+            raise GlbError(f"{path}: not a GLB (magic {magic:#x})")
+        if version != GLB_VERSION:
+            raise GlbError(f"{path}: GLB version {version}, expected {GLB_VERSION}")
+        header = f.read(8)
+        if len(header) < 8:
+            raise GlbError(f"{path}: no JSON chunk")
+        length, kind = struct.unpack("<II", header)
+        if kind != CHUNK_JSON:
+            raise GlbError(f"{path}: first chunk is {kind:#x}, not JSON")
+        body = f.read(length)
+    if len(body) != length:
+        raise GlbError(f"{path}: JSON chunk claims {length} bytes, {len(body)} present")
+    return json.loads(body.decode("utf-8"))
+
+
 def write_glb(path: str | Path, glb: Glb) -> Path:
     """Write ``glb`` as a GLB.  The JSON chunk is padded with spaces and the binary chunk with
     zeros, which is what glTF 2.0 §4.4.2 requires -- a chunk padded with the wrong filler is a
@@ -231,7 +255,8 @@ def externalise(glb: Glb, *, directory: str = "textures") -> tuple[Glb, dict[str
         view["byteOffset"] = len(binary)
         binary += payload
         new_views.append(view)
-    out.json["bufferViews"] = new_views
+    binary += b"\0" * (-len(binary) % 4)   # the container pads the chunk anyway; owning the
+    out.json["bufferViews"] = new_views    # padding keeps buffer.byteLength exactly the chunk length
     out.bin = bytes(binary)
     buffers = out.json.get("buffers") or [{}]
     buffers[0]["byteLength"] = len(out.bin)
@@ -268,8 +293,15 @@ def verify(before: Glb, after: Glb, files: dict[str, bytes]) -> None:
         if old != new:
             raise GlbError(f"accessor {index} reads {len(new)} bytes, was {len(old)}")
     before_images = {i: payload for i, payload, _, _ in embedded_images(before)}
+    after_images = {i: payload for i, payload, _, _ in embedded_images(after)}
     for index, image in enumerate(after.json.get("images", [])):
         if index not in before_images:
+            continue
+        if index in after_images:
+            # Left embedded on purpose -- something other than an image reads its buffer view --
+            # so what has to hold is that its bytes did not move.
+            if after_images[index] != before_images[index]:
+                raise GlbError(f"image {index} stayed embedded and its bytes changed")
             continue
         uri = image.get("uri")
         if not uri:
@@ -277,9 +309,6 @@ def verify(before: Glb, after: Glb, files: dict[str, bytes]) -> None:
         name = uri.rsplit("/", 1)[-1]
         if files.get(name) != before_images[index]:
             raise GlbError(f"image {index} ({uri}) does not match the bytes it replaced")
-    for index, _, _, _ in embedded_images(after):
-        if index in before_images:
-            raise GlbError(f"image {index} is still embedded")
 
 
 def rewrite_file(path: str | Path, *, directory: str = "textures") -> dict:
@@ -313,3 +342,53 @@ def rewrite_file(path: str | Path, *, directory: str = "textures") -> dict:
     record["images"] = len(files)
     record["bytes_after"] = path.stat().st_size
     return record
+
+
+def sweep(root: str | Path, *, directory: str = "textures", pattern: str = "**/*.glb") -> dict:
+    """Externalise every ``.glb`` under ``root``.  Returns totals and the per-file records.
+
+    Written to be re-runnable: a file whose images already name their own directory is untouched,
+    and an image another file has already written is reused rather than rewritten, so a sweep that
+    stops half way can simply be run again.
+    """
+    root = Path(root)
+    records, before, after = [], 0, 0
+    for path in sorted(root.glob(pattern)):
+        try:
+            record = rewrite_file(path, directory=directory)
+        except GlbError as exc:
+            records.append({"path": str(path), "error": str(exc)})
+            continue
+        before += record["bytes_before"]
+        after += record["bytes_after"]
+        if record["images"]:
+            records.append(record)
+    written = sorted({name for r in records for name in r.get("written", ())})
+    return {"root": str(root), "files": len(records), "images_written": len(written),
+            "bytes_before": before, "bytes_after": after, "records": records,
+            "errors": [r for r in records if "error" in r]}
+
+
+def main(argv: list[str] | None = None) -> int:
+    import argparse
+
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("root", help="directory to sweep, e.g. blender_out/vehicles")
+    ap.add_argument("--pattern", default="**/*.glb")
+    ap.add_argument("--directory", default="textures",
+                    help="name of the sibling directory the images are written to")
+    ap.add_argument("--report", type=Path, default=None, help="write the full record here as JSON")
+    a = ap.parse_args(argv)
+    out = sweep(a.root, directory=a.directory, pattern=a.pattern)
+    if a.report:
+        a.report.parent.mkdir(parents=True, exist_ok=True)
+        a.report.write_text(json.dumps(out, indent=1))
+    print(f"{out['files']} file(s) rewritten, {out['images_written']} image(s) written, "
+          f"{out['bytes_before'] / 1e9:.2f} GB -> {out['bytes_after'] / 1e9:.2f} GB")
+    for bad in out["errors"]:
+        print(f"  ! {bad['path']}: {bad['error']}")
+    return 1 if out["errors"] else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

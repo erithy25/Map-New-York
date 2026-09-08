@@ -14,7 +14,9 @@ and an ``UNPACK.md`` with the two commands that put it back.
 already names every asset the import needs and where it goes; this walks its entries, adds the
 per-tile files the manifest references by path rather than as entries (the heightmaps, the props and
 signs JSON the editor's Python reads because UE has no pyarrow, the kit placement records, the water
-masks) and adds nothing else. If a file is not needed to import and run, it is not in the package,
+masks), adds the image files each ``.glb`` names in its ``sidecars`` list -- a ``.glb`` stopped being
+self-contained when 2.61 GB of duplicate image data was moved out of the binary chunks into
+``textures/`` directories -- and adds nothing else. If a file is not needed to import and run, it is not in the package,
 and if the manifest gains an entry the package gains a file without anyone remembering to add it.
 
 Parts are written one at a time and the caller may push and delete each one before the next is
@@ -61,11 +63,18 @@ def collect(manifest_path: Path, tiles: set[str] | None) -> tuple[list[Path], di
             missing.append(rel)
 
     add(str(manifest_path.resolve().relative_to(REPO_ROOT)))
+    sidecars = 0
     for entry in doc.get("entries", []):
         tile = entry.get("tile")
         if tiles is not None and tile and tile not in tiles:
             continue
         add(entry["src"])
+        # A .glb is no longer self-contained: since the duplicate images were moved out of the
+        # binary chunks it names them as files in a textures/ directory beside it. Ship the .glb
+        # without them and the import produces an untextured mesh and no error to say so.
+        for rel in entry.get("sidecars") or ():
+            add(rel)
+            sidecars += 1
     for tile in sorted(doc.get("tiles", {})):
         if tiles is not None and tile not in tiles:
             continue
@@ -98,12 +107,17 @@ def collect(manifest_path: Path, tiles: set[str] | None) -> tuple[list[Path], di
     else:
         note_landmarks = {"kept": "all", "dropped_files": 0}
 
-    for extra in ("data/processed/audio/stations.json", "data/processed/crs.json"):
+    for extra in ("data/processed/audio/stations.json", "data/processed/crs.json",
+                  # The package now carries third-party CC0 texture files as files rather than as
+                  # bytes inside a .glb, so it carries the record of where they came from too.
+                  "docs/ASSET_LICENSES.md"):
         if (REPO_ROOT / extra).is_file():
             add(extra)
 
     files = [wanted[k] for k in sorted(wanted)]
     return files, {"missing": missing, "manifest_entries": len(doc.get("entries", [])),
+                   "sidecar_references": sidecars,
+                   "sidecar_files": len({k for k in wanted if "/textures/" in k}),
                    "landmarks": note_landmarks}
 
 

@@ -194,3 +194,39 @@ def test_empty_world(tmp_path: Path) -> None:
     assert doc["counts"]["entries"] == 1  # unreal_water.json with no bodies is still produced
     assert any("crs.json missing" in w for w in doc["warnings"])
     assert json.loads((processed / "unreal_water.json").read_text())["bodies"] == []
+
+
+def test_a_glb_that_names_its_images_carries_them_as_sidecars(world) -> None:
+    """A ``.glb`` stopped being self-contained when the duplicate images were moved out of the
+    binary chunks. The manifest is the only list of what the import needs, so it has to name the
+    files too, or the package ships meshes with nothing on them and says nothing about it."""
+    repo, processed, blender_out = world
+    doc = _glb_doc(["Body"])
+    doc["images"] = [{"name": "Leather026_2K_normal", "uri": "textures/Leather026_2K_normal-abc123def456.jpg"},
+                     {"name": "gone", "uri": "textures/not_written.png"}]
+    _write_glb(blender_out / "props" / "bench_wood.glb", doc)
+    tex = blender_out / "props" / "textures"
+    tex.mkdir(parents=True, exist_ok=True)
+    (tex / "Leather026_2K_normal-abc123def456.jpg").write_bytes(b"\xff\xd8\xff\xe0jpeg")
+
+    _out, doc_out = um.generate(processed, blender_out, repo_root=repo, record=False)
+    entry = next(e for e in doc_out["entries"] if e["src"].endswith("props/bench_wood.glb"))
+    assert entry["sidecars"] == ["blender_out/props/textures/Leather026_2K_normal-abc123def456.jpg"]
+    assert any("not_written.png" in w for w in doc_out["warnings"]), \
+        "an image the glb names and disk does not have must be a warning, not a silence"
+    counts = doc_out["counts"]
+    assert counts["sidecar_references"] >= 1 and counts["sidecar_files"] >= 1
+
+
+def test_an_image_uri_may_not_climb_out_of_its_own_directory(world) -> None:
+    """The URIs this project writes descend into ``textures/``; a ``../`` path would resolve
+    against whatever the packager happened to have around it, so it is refused rather than
+    followed."""
+    repo, processed, blender_out = world
+    doc = _glb_doc(["Body"])
+    doc["images"] = [{"uri": "../../etc/passwd"}]
+    _write_glb(blender_out / "props" / "bench_stone.glb", doc)
+    _out, doc_out = um.generate(processed, blender_out, repo_root=repo, record=False)
+    entry = next(e for e in doc_out["entries"] if e["src"].endswith("props/bench_stone.glb"))
+    assert "sidecars" not in entry
+    assert any("passwd" in w for w in doc_out["warnings"])

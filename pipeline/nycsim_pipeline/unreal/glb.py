@@ -90,8 +90,29 @@ def glb_summary(path: Path) -> dict[str, Any]:
         "triangles": tri_estimate,
         "lod_nodes": lod_names,
         "has_lod1": any(n.endswith("_LOD1") or "_LOD1" in n for n in names),
+        "image_uris": image_uris(doc),
         "extras": nycsim_extras(doc),
     }
+
+
+def image_uris(doc: dict[str, Any]) -> list[str]:
+    """Every file this glTF names instead of embedding, in file order.
+
+    ``blender/common/glb_textures`` moves each distinct image out of the binary chunk into a
+    ``textures/`` directory beside the ``.glb`` and points ``images[i].uri`` at it, because
+    forty-one vehicles embedding the same 2 K leather map is 2.61 GB of duplicate bytes and, once
+    imported, one ``UTexture2D`` per reference.  The consequence for everything downstream is that
+    a ``.glb`` is no longer self-contained: these files have to travel with it, or the import
+    silently produces an untextured mesh.  Anything that copies or packages a ``.glb`` reads this.
+    """
+    out: list[str] = []
+    for image in doc.get("images") or []:
+        uri = image.get("uri")
+        if not uri or uri.startswith("data:"):
+            continue
+        if uri not in out:
+            out.append(uri)
+    return out
 
 
 def _node_matrix(node: dict[str, Any]):

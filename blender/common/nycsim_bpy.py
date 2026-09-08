@@ -229,7 +229,7 @@ def export_glb(path: str | Path, *, objects: Sequence[bpy.types.Object] | None =
                draco: bool = False, apply_modifiers: bool = True, export_animations: bool = False, texcoords: bool = True,
                tangents: bool = False, export_extras: bool = True, export_attributes: bool = False,
                export_normals: bool = True, export_skins: bool | None = None, export_morph: bool | None = None,
-               operator_kwargs: dict | None = None) -> Path:
+               operator_kwargs: dict | None = None, external_images: bool = True) -> Path:
     """Export selected (or all) objects to .glb with NYCSim asset extras (DATA_CONTRACTS §13).
 
     ``export_attributes`` carries custom mesh attributes into the file; the building shell stage needs
@@ -255,6 +255,15 @@ def export_glb(path: str | Path, *, objects: Sequence[bpy.types.Object] | None =
 
     ``active`` sets the active object, which the exporter needs when the selection is an armature and its
     children. Left ``None`` the active object is not touched.
+
+    ``external_images`` moves the images the exporter embedded out into a ``textures/`` directory
+    beside the file, as ``images[i].uri``. A GLB has one binary chunk, so Blender must write every
+    image a material references into it in full -- and measured across the 541 non-tile files this
+    project exports, 2.61 GB of 2.95 GB of image data was a byte-for-byte duplicate of another
+    file's, because forty-one vehicles share one 2 K leather normal map. Unreal carries that
+    duplication into the cooked build, one ``UTexture2D`` per reference. See
+    :mod:`glb_textures`, which verifies every accessor's bytes before it replaces the file, and
+    :mod:`nycsim_pipeline.unreal.manifest`, which travels the sidecar files with the ``.glb``.
     """
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -289,6 +298,11 @@ def export_glb(path: str | Path, *, objects: Sequence[bpy.types.Object] | None =
     if not path.exists() or path.stat().st_size < 100:
         raise RuntimeError(f"glTF export failed: {path}")
     _stamp_asset_extras(path, meta)
+    if external_images:
+        # This module is imported by path (see the header), so a sibling is not necessarily importable.
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        import glb_textures
+        glb_textures.rewrite_file(path)
     return path
 
 

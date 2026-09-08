@@ -31,6 +31,7 @@ import logging
 import math
 import os
 import re
+from urllib.parse import unquote
 import struct
 import sys
 import time
@@ -251,6 +252,34 @@ class ManifestBuilder:
         self.entries.append(e)
         return e
 
+    def _sidecars(self, glb: Path, uris: Iterable[str]) -> tuple[list[str], list[str]]:
+        """``(repo-relative files that must travel with this glb, the ones that are missing)``.
+
+        A ``.glb`` used to be self-contained.  Since ``blender/common/glb_textures`` moved each
+        distinct image out of the binary chunk -- 2.61 GB of the 2.95 GB embedded across this
+        project's files was a byte-for-byte duplicate, and Unreal makes one ``UTexture2D`` per
+        reference -- it names its images as relative files instead.  A package that shipped only the
+        entries' ``src`` paths would deliver meshes with no textures on them and no error to say so,
+        which is why the missing ones are a warning here and a test failure in the packager.
+
+        The URIs this project writes are plain descending paths, but a glTF URI is percent-encoded
+        by specification, so they are decoded before they become paths, and a path that climbs out
+        of the ``.glb``'s own directory is refused rather than followed.
+        """
+        found: list[str] = []
+        absent: list[str] = []
+        for uri in uris:
+            rel_uri = unquote(uri)
+            target = (glb.parent / rel_uri).resolve()
+            try:
+                target.relative_to(glb.parent.resolve())
+            except ValueError:
+                absent.append(uri)
+                continue
+            (found if target.is_file() else absent).append(
+                _rel(target, self.repo_root) if target.is_file() else uri)
+        return sorted(set(found)), sorted(set(absent))
+
     def _warn(self, msg: str) -> None:
         log.warning(msg)
         self.warnings.append(msg)
@@ -380,6 +409,12 @@ class ManifestBuilder:
                 else:
                     self._warn(f"{rel}: no surface_class map in the glb extras; "
                                f"every wheel contact there will resolve to SurfaceClass::Default")
+            sidecars, absent = self._sidecars(glb, summary.get("image_uris") or [])
+            if absent:
+                self._warn(f"{rel}: names {len(absent)} image file(s) that are not on disk "
+                           f"({', '.join(absent[:3])}); the import would produce an untextured mesh")
+            if sidecars:
+                extra["sidecars"] = sidecars
             id_ = f"glb:{rel}"
             deps: list[str] = []
             self._add(id_, kind, glb, dst, settings, deps=deps, tile=gd.get("tile"), extra=extra)
@@ -953,7 +988,8 @@ class ManifestBuilder:
             "tile_size_m": TILE_SIZE_M,
             "terrain_samples": TERRAIN_SAMPLES,
             "import_settings": IMPORT_SETTINGS,
-            "counts": {"entries": len(self.entries), "tiles": len(self.tiles), "by_kind": by_kind},
+            "counts": {"entries": len(self.entries), "tiles": len(self.tiles), "by_kind": by_kind,
+                       **_sidecar_counts(self.entries)},
             "kit_catalog_entries": len(self.kit_catalog),
             "props_catalog_entries": len(self.props_catalog),
             "prop_kinds_without_an_asset": self.prop_kinds_without_an_asset,
@@ -966,6 +1002,20 @@ class ManifestBuilder:
 
 
 # ------------------------------------------------------------------------------------------------- module helpers
+def _sidecar_counts(entries: list[dict[str, Any]]) -> dict[str, int]:
+    """How many image files travel with the glbs, and how many distinct ones they are.
+
+    The gap between the two is the point of externalising them: 2,847 references to 486 files.
+    """
+    refs = 0
+    distinct: set[str] = set()
+    for e in entries:
+        for rel in e.get("sidecars") or ():
+            refs += 1
+            distinct.add(rel)
+    return {"sidecar_references": refs, "sidecar_files": len(distinct)}
+
+
 _TILE_RE = re.compile(r"^t_-?\d+_-?\d+$")
 PROPS_COLUMNS = ["prop_id", "kind", "x", "y", "z", "heading", "variant", "text", "source", "dataset_id", "species", "dbh_cm", "height_m"]
 SIGN_COLUMNS = ["sign_id", "node_id", "segment_id", "x", "y", "z", "facing_heading", "mutcd_code", "text", "arrow", "sign_w_m", "sign_h_m", "support", "source"]

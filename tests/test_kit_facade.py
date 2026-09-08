@@ -13,6 +13,7 @@ import os
 import struct
 import sys
 from pathlib import Path
+from urllib.parse import unquote
 
 import pytest
 
@@ -223,19 +224,41 @@ def test_anchor_origin_is_on_the_piece(entry):
         assert abs(lo[0] + hi[0]) <= 0.25 * max(hi[0] - lo[0], 1e-6) + 0.05, f"{entry['id']}: piece not centred on x"
 
 
+#: The first bytes of the two image formats glTF 2.0 requires a client to read.
+_IMAGE_MAGIC = (b"\xff\xd8\xff", b"\x89PNG\r\n\x1a\n")
+
+
 @pytest.mark.parametrize("entry", ENTRIES, ids=IDS)
-def test_materials_reference_embedded_textures(entry):
-    """Every glTF image must be embedded in the binary chunk (no external URIs), and any material that uses a
-    catalogued texture set must carry a base-colour texture."""
+def test_materials_reference_textures_that_exist(entry):
+    """Every glTF image must resolve to real image bytes, and any material that uses a catalogued
+    texture set must carry a base-colour texture.
+
+    This used to require every image to be *embedded* in the binary chunk.  That was a proxy for
+    "the reference resolves", true while it was true and no longer the rule: 2.61 GB of the 2.95 GB
+    embedded across this project's files was a byte-for-byte duplicate of another file's, so each
+    distinct image is now written once into a ``textures/`` directory beside the ``.glb`` and named
+    by ``images[i].uri`` (J50).  What has to hold is what the old assertion stood for -- that
+    nothing points at bytes which are not there -- so the file is opened and its magic checked,
+    which the embedded form was never asked for.
+    """
     pid = entry["id"]
     g = _gltf(pid)
+    glb = GLB_DIR / f"{pid}.glb"
     assert g.materials, f"{pid}: no materials"
     for img in g.images:
-        assert img.uri is None, f"{pid}: image {img.name} is external ({img.uri})"
-        assert img.bufferView is not None, f"{pid}: image {img.name} has no bufferView"
-        assert img.mimeType in ("image/jpeg", "image/png"), f"{pid}: image {img.name} mimeType {img.mimeType}"
+        if img.uri is None:
+            assert img.bufferView is not None, f"{pid}: image {img.name} has neither a uri nor a bufferView"
+            assert img.mimeType in ("image/jpeg", "image/png"), f"{pid}: image {img.name} mimeType {img.mimeType}"
+            continue
+        assert not img.uri.startswith("data:"), f"{pid}: image {img.name} is a data: uri, which no longer happens"
+        target = (glb.parent / unquote(img.uri)).resolve()
+        assert target.is_relative_to(glb.parent.resolve()), \
+            f"{pid}: image {img.name} points outside its own directory ({img.uri})"
+        assert target.is_file(), f"{pid}: image {img.name} names {img.uri}, which is not on disk"
+        assert target.read_bytes()[:8].startswith(_IMAGE_MAGIC), \
+            f"{pid}: {img.uri} is not a JPEG or a PNG"
     if entry["texture_assets"]:
-        assert g.images, f"{pid}: uses texture assets {entry['texture_assets']} but embeds no image"
+        assert g.images, f"{pid}: uses texture assets {entry['texture_assets']} but names no image"
         assert g.textures and g.samplers is not None
         textured = [m for m in g.materials
                     if m.pbrMetallicRoughness is not None and m.pbrMetallicRoughness.baseColorTexture is not None]
