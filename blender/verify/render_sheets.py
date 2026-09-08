@@ -290,8 +290,74 @@ def pick_reference_photo(meta: dict) -> dict | None:
     return best
 
 
-def photo_instant(photo: dict) -> tuple[dt.datetime, str]:
-    """Local New York datetime for a photo, plus a note on where it came from."""
+#: Hours an assumed instant may be chosen from, local.  Civil daylight in New York on 21 June runs
+#: well past these, but a sheet wants the Sun *up* rather than grazing: below about 20 deg of
+#: elevation the whole street is shadow whatever the bearing, which is the condition this rule
+#: exists to avoid.
+ASSUMED_HOUR_RANGE = (8, 18)
+
+
+def _lit_hour(lat: float, lon: float, day: dt.date, azimuth_deg: float | None, tz) -> tuple[int, int, str]:
+    """The hour of ``day`` whose Sun best lights a camera looking along ``azimuth_deg``.
+
+    **Why this is chosen rather than fixed.** When a photograph carries no time, the hour is an
+    assumption either way -- there is nothing to measure.  It was fixed at 09:30, and 09:30 on
+    21 June puts the Sun at azimuth 95 deg: almost due east, which is the worst bearing there is
+    for Manhattan's north-south grid.  Measured over the sheets rendered so far, a frame on an
+    assumed instant has a median luminance of **0.12** against **0.29** for one on the
+    photograph's own instant, and the fallback has produced outright refusals -- Federal Hall at
+    mean 0.021 on Wall Street (docs/DEVIATIONS.md J80).  A sheet whose street is in shadow tests
+    the shadow and not the city.
+
+    So the *same* assumption is made more usefully: keep the date, and pick the hour whose solar
+    azimuth is nearest to shining **along the view direction** -- lighting what the camera looks
+    at -- while the Sun is high enough to reach a street floor at all.  The record says the hour
+    was chosen and why, and every assessment of such a sheet states that its luminance comparison
+    is therefore not evidence about the render.  Choosing an informative arbitrary value and
+    declaring it beats choosing an uninformative one and declaring it.
+
+    With no azimuth to aim at, the hour that puts the Sun highest is used, which is noon.
+    """
+    from nycsim_live import astronomy
+    obs = astronomy.Observer(lat, lon, 20.0)
+    best = None
+    for hour in range(ASSUMED_HOUR_RANGE[0], ASSUMED_HOUR_RANGE[1] + 1):
+        when = dt.datetime.combine(day, dt.time(hour, 30), tzinfo=tz)
+        pos = astronomy.solar_position(when.astimezone(dt.timezone.utc), obs)
+        if pos.elevation < 20.0:
+            continue
+        if azimuth_deg is None:
+            score = -pos.elevation                      # highest Sun
+        else:
+            # The Sun lights what the camera looks at when it is *behind* the camera, i.e. its
+            # azimuth is near the view azimuth.  Ties break towards the higher Sun.
+            off = abs((pos.azimuth - float(azimuth_deg) + 180.0) % 360.0 - 180.0)
+            score = (off, -pos.elevation)
+        if best is None or score < best[0]:
+            best = (score, hour, pos)
+    if best is None:                                    # no hour clears 20 deg: keep the old fixed one
+        return 9, 30, "and 09:30 kept because no hour on that date puts the Sun above 20 deg"
+    _, hour, pos = best
+    if azimuth_deg is None:
+        why = (f"and {hour:02d}:30 chosen as the highest Sun of that day ({pos.elevation:.0f} deg), "
+               f"because the item names no view direction to light")
+    else:
+        off = abs((pos.azimuth - float(azimuth_deg) + 180.0) % 360.0 - 180.0)
+        why = (f"and {hour:02d}:30 **chosen**, not measured: of the hours that put the Sun above "
+               f"20 deg it is the one whose bearing ({pos.azimuth:.0f} deg) comes closest to the "
+               f"view azimuth ({float(azimuth_deg):.0f} deg), {off:.0f} deg off, so the Sun is "
+               f"behind the camera and lights what it looks at")
+    return hour, 30, why
+
+
+def photo_instant(photo: dict, *, lat: float | None = None, lon: float | None = None,
+                  azimuth_deg: float | None = None) -> tuple[dt.datetime, str]:
+    """Local New York datetime for a photo, plus a note on where it came from.
+
+    Where the photograph carries a time, that time is used and nothing here is a choice.  Where it
+    does not, the hour is chosen to light the view rather than fixed at 09:30, and the note says
+    so in as many words (:func:`_lit_hour`, docs/DEVIATIONS.md J80).
+    """
     from zoneinfo import ZoneInfo
     tz = ZoneInfo(NY_TZ)
     raw = str(photo.get("date_taken") or "").strip()
@@ -302,15 +368,21 @@ def photo_instant(photo: dict) -> tuple[dt.datetime, str]:
             return dt.datetime.strptime(raw, fmt).replace(tzinfo=tz), note
         except ValueError:
             pass
+
+    def pick(day: dt.date, prefix: str) -> tuple[dt.datetime, str]:
+        if lat is None or lon is None:
+            return dt.datetime.combine(day, dt.time(9, 30), tzinfo=tz), f"{prefix}; 09:30 assumed"
+        hour, minute, why = _lit_hour(lat, lon, day, azimuth_deg, tz)
+        return dt.datetime.combine(day, dt.time(hour, minute), tzinfo=tz), f"{prefix}, {why}"
+
     try:
-        d = dt.datetime.strptime(raw, "%Y-%m-%d").date()
-        return dt.datetime.combine(d, dt.time(9, 30), tzinfo=tz), "photograph date, mid-morning 09:30 assumed"
+        return pick(dt.datetime.strptime(raw, "%Y-%m-%d").date(), "photograph date, no time")
     except ValueError:
         pass
     year = photo.get("year")
     if isinstance(year, int):
-        return dt.datetime(year, 6, 21, 9, 30, tzinfo=tz), "photograph year only; 21 June 09:30 assumed"
-    return dt.datetime(2024, 6, 21, 9, 30, tzinfo=tz), "no date recorded; 21 June 2024 09:30 assumed"
+        return pick(dt.date(year, 6, 21), "photograph year only, 21 June assumed")
+    return pick(dt.date(2024, 6, 21), "no date recorded, 21 June 2024 assumed")
 
 
 def sun_for(lat: float, lon: float, when_local: dt.datetime, elevation_m: float = 20.0) -> dict:
@@ -996,7 +1068,14 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         return {"slug": slug, "status": "no_reference_photo",
                 "reason": "meta.json lists no photograph that exists on disk"}
 
-    when, when_note = photo_instant(photo)
+    # The aim used to choose an assumed hour is the item's own **recorded** azimuth, not the one
+    # the camera ends up with: the final azimuth is not known until after the clearance walk, and
+    # a Sun that moved with the walk would make the instant depend on where the camera happened to
+    # stand.  The recorded azimuth is declared, deterministic and within a few degrees of the final
+    # one on every sheet where both exist.  Where the photograph carries a time, none of this runs.
+    when, when_note = photo_instant(
+        photo, lat=cam_lat, lon=cam_lon,
+        azimuth_deg=(meta.get("viewpoint") or {}).get("azimuth_deg"))
     sun = sun_for(cam_lat, cam_lon, when)
 
     # Match the render aspect to the reference photograph so the two halves compare like for like,

@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_flatiron_building",
+ "rendered_at": "2026-09-08T23:56:12Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 852,
+  "height": 1278,
+  "mean": 0.2385,
+  "sd": 0.1943,
+  "p05": 0.0221,
+  "p95": 0.5917,
+  "chroma": 0.0681
+ },
+ "reference": {
+  "width": 1920,
+  "height": 2880,
+  "mean": 0.5615,
+  "sd": 0.334,
+  "p05": 0.0782,
+  "p95": 0.9496,
+  "chroma": 0.1147
+ },
+ "render_over_reference": {
+  "mean": 0.425,
+  "sd": 0.582,
+  "chroma": 0.594
+ }
+}

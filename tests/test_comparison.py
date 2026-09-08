@@ -1828,3 +1828,59 @@ def test_the_assessment_header_reproduces_a_written_headers_own_figures():
                    "88,200 triangles"):
         assert figure in out.stdout, f"the generated header is missing {figure!r}"
         assert figure in written, f"the hand-written header does not carry {figure!r} either"
+
+
+# ------------------------------------------- an assumed instant is chosen to light the view (J80)
+
+
+def _lit_hour_fn():
+    """`_lit_hour` without importing Blender: it is arithmetic over a solar position."""
+    import datetime as dt
+
+    src = (VERIFY_DIR / "render_sheets.py").read_text()
+    start = src.index("ASSUMED_HOUR_RANGE = (8, 18)")
+    end = src.index("def photo_instant(")
+    ns: dict = {}
+    exec("import datetime as dt\n" + src[start:end], ns)      # noqa: S102 - this module's own source
+    return ns["_lit_hour"], ns["ASSUMED_HOUR_RANGE"]
+
+
+def test_an_assumed_hour_is_chosen_to_light_the_view_and_never_a_constant():
+    """Where a photograph carries no time the hour is an assumption either way, and it was fixed at
+    09:30 -- which on 21 June puts the Sun at azimuth 95 deg, across every north-south street in
+    the city. 42 of the 172 items take that fallback and their frames render at 41 % of the
+    luminance of ones on a measured instant (J80)."""
+    import datetime as dt
+    from zoneinfo import ZoneInfo
+
+    lit_hour, rng = _lit_hour_fn()
+    tz = ZoneInfo("America/New_York")
+    day = dt.date(2016, 6, 21)
+
+    # A southward view on the solstice can be lit almost exactly: the Sun passes due south.
+    hour, minute, why = lit_hour(40.85, -73.89, day, 190.0, tz)
+    assert 12 <= hour <= 15, f"a southward view should be lit around midday, got {hour}:{minute}"
+    assert "chosen" in why and "not measured" in why, "the sheet must say the hour was chosen"
+
+    # A northward view cannot be lit well on any date -- the Sun never passes north of about
+    # 58 deg or 302 deg here -- and the rule must still beat the old constant rather than pretend.
+    north_hour, _, _ = lit_hour(40.7069, -74.0102, day, 355.0, tz)
+    assert north_hour != 9, "the northward case is exactly the one the fixed 09:30 handled worst"
+    assert rng[0] <= north_hour <= rng[1]
+
+    # With nothing to aim at, the highest Sun is used and the record says which case it is.
+    _, _, why_none = lit_hour(40.7069, -74.0102, day, None, tz)
+    assert "highest Sun" in why_none and "names no view direction" in why_none
+
+
+def test_a_photograph_that_carries_its_own_time_is_never_second_guessed():
+    """The rule applies only where there is nothing to measure. A sheet with an EXIF timestamp
+    must use it unchanged, or the instant stops being evidence."""
+    src = (VERIFY_DIR / "render_sheets.py").read_text()
+    body = src[src.index("def photo_instant("):]
+    body = body[:body.index("\ndef ", 1)]
+    # The EXIF branch returns before any choosing happens.
+    exif = body.index("EXIF DateTimeOriginal")
+    choose = body.index("def pick(")
+    assert exif < choose, "the chosen-hour path must sit after the EXIF path, not before it"
+    assert "return dt.datetime.strptime(raw, fmt).replace(tzinfo=tz), note" in body
