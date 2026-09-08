@@ -139,7 +139,7 @@ SPECS = [
                "MUTCD R2-1 SPEED LIMIT, 24 x 30 in (0.610 x 0.762 m); the baked legend is the NYC citywide default of "
                "25 mph, replaced per instance from roads/segments.parquet posted_speed_mph.",
                variants=SIGN_VARIANTS, tags=["mutcd:R2-1"], tolerance=0.05),
-    C.PropSpec("sign_mta_bus_stop", "signs", "bus_stop_sign", build_mta_bus_stop, (0.305, 0.070, 3.05),
+    C.PropSpec("sign_mta_bus_stop", "signs", "bus_stop_sign", build_mta_bus_stop, (0.305, 0.039, 3.05),
                "MTA bus stop sign: a 12 x 42 in blue blade with a bus pictogram and BUS STOP, on a "
                "10 ft galvanised U-channel post, blade bottom 2.0 m above grade. Route numbers are "
                "not drawn -- they differ per stop and this build has no per-stop artwork "

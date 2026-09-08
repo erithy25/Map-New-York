@@ -55,7 +55,7 @@
  "clearance": {
   "min_view_m": 20.0,
   "moved": false,
-  "nearest_agent": "agent_ped_1557.2",
+  "nearest_agent": "agent_ped_1557.3",
   "nearest_agent_at_deg": [
    0.0,
    0.0
@@ -68,14 +68,14 @@
    -12.2
   ],
   "nearest_obstruction_m": 6.8,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_manhole_coned_3 6.8 m away, and the nearest simulated agent is agent_ped_1557.2 39.2 m away, and the view azimuth is clear for 59 m",
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_manhole_coned_3 6.8 m away, and the nearest simulated agent is agent_ped_1557.3 39.2 m away, and the view azimuth is clear for 59 m",
   "offset_m": 0.0,
   "view_m": 59.3
  },
  "frame": {
-  "mean": 0.389,
+  "mean": 0.3797,
   "reason": null,
-  "sd": 0.1868,
+  "sd": 0.1974,
   "usable": true
  },
  "frame_retry": null,
@@ -116,18 +116,18 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_lower_manhattan_broadway_wall_st/render.png",
- "rendered_at": "2026-09-08T13:02:29Z",
+ "rendered_at": "2026-09-08T14:24:44Z",
  "resolution_note": "1112x980; the reference photograph is 1920x1693 (1.13:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
-   "caption": "Agents: 89 vehicles within 320 m and 229 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 493 vehicles and 5659 people over the whole simulated ring, of which 563 and 2999 were simulated; 3244 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "caption": "Agents: 89 vehicles within 320 m and 242 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 493 vehicles and 5659 people over the whole simulated ring, of which 563 and 2999 were simulated; 3231 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "dropped": {
     "pedestrian_in_the_carriageway_not_crossing": 242,
     "pedestrian_inside_building": 29,
     "pedestrian_not_on_walkable_surface": 88,
     "pedestrian_outside_radius": 1166,
-    "pedestrian_triangle_budget": 1245,
+    "pedestrian_triangle_budget": 1232,
     "vehicle_body_has_no_rider": 12,
     "vehicle_inside_building": 5,
     "vehicle_outside_radius": 388,
@@ -135,12 +135,12 @@
    },
    "ped_lods": {
     "LOD0": 7,
-    "LOD1": 35,
-    "LOD2": 187
+    "LOD1": 38,
+    "LOD2": 197
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 582854,
+   "pedestrian_triangles": 579360,
    "per_class": {
     "black_car": 3,
     "boro_taxi": 10,
@@ -151,10 +151,10 @@
     "taxi": 12,
     "van": 4
    },
-   "placed_pedestrians": 229,
+   "placed_pedestrians": 242,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 147.87,
+   "seconds": 299.61,
    "snapshot": {
     "building_footprints_tested": 1416,
     "density_lane_km": 30.259,
@@ -176,8 +176,9 @@
      "segments": 122235,
      "signal_plans": 19814
     },
-    "npc_bodies_imported": 12,
-    "npc_templates_baked": 93,
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 36,
+    "npc_templates_baked": 159,
     "pavement_polygons_tested": 4677,
     "ped_spawn_radius_m": 220.0,
     "peds_in_snapshot": 2999,
@@ -195,7 +196,7 @@
    },
    "snapshot_note": "cached -5210_871_13_2_455f589c260ce148_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 1088209,
+   "triangles": 1084715,
    "vehicle_lods": {
     "LOD2": 89
    },
@@ -264,7 +265,7 @@
    871.11
   ],
   "kit": {
-   "capped": "triangle budget 1111039",
+   "capped": "triangle budget 1110261",
    "per_category": {
     "bulkhead": 9,
     "cornice": 15,
@@ -278,10 +279,10 @@
     "storefront_interior": 10,
     "string_course": 15,
     "water_tower": 4,
-    "window": 3604,
+    "window": 3601,
     "window_accessory": 4
    },
-   "placed": 3905,
+   "placed": 3902,
    "radius_m": 176.17658167829075,
    "records_in_range": 37613,
    "stale_registry_ids": {},
@@ -291,7 +292,7 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "triangles": 1111180,
+   "triangles": 1110436,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -462,6 +463,204 @@
    "skipped_detail": [],
    "triangles": 690456
   },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K"
+    },
+    "brown_brick": {
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K"
+    },
+    "brownstone": {
+     "asset_id": "Travertine005",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K"
+    },
+    "cast_iron": {
+     "asset_id": "Metal055A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K"
+    },
+    "concrete": {
+     "asset_id": "Concrete030",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "concrete_sidewalk": {
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K"
+    },
+    "granite": {
+     "asset_id": "Granite002A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K"
+    },
+    "limestone": {
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K"
+    },
+    "metal_panel": {
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K"
+    },
+    "red_brick": {
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K"
+    },
+    "roof_membrane": {
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "stone_rubble": {
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "tan_brick": {
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K"
+    },
+    "tar_roof": {
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "terracotta": {
+     "asset_id": "Marble026",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K"
+    },
+    "white_glazed_brick": {
+     "asset_id": "Bricks060",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K"
+    },
+    "wood_clapboard": {
+     "asset_id": "WoodSiding003",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K"
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it",
+    "precast": "analytic: the catalogue has no photographic set for it",
+    "stucco": "analytic: the catalogue has no photographic set for it",
+    "vinyl_siding": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 210
+  },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
@@ -526,7 +725,7 @@
     "t_-6_1"
    ],
    "tree_species_substituted": 116,
-   "triangles": 1185548,
+   "triangles": 1189820,
    "unmapped_kinds": {
     "artwork": 7,
     "drinking_fountain": 2,
@@ -534,7 +733,7 @@
    }
   },
   "radius_m": 776.1765816782907,
-  "seconds": 194.08,
+  "seconds": 356.21,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -587,7 +786,7 @@
    "z_max_m": 13.51,
    "z_min_m": -4.11
   },
-  "triangles": 4500141
+  "triangles": 4500175
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -597,9 +796,9 @@
   "radius_m": 776.1765816782907
  },
  "seconds": {
-  "render": 143.5,
-  "scene": 195.8,
-  "total": 339.2
+  "render": 260.7,
+  "scene": 358.5,
+  "total": 619.2
  },
  "sightline": {
   "subject_note": "the item names no point subject",

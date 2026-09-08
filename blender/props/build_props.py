@@ -94,6 +94,8 @@ def _write_asset_catalog() -> int:
     exported, catalogued per asset, and still absent from the aggregate the placer reads
     (docs/DEVIATIONS.md J58).  Written on every run, including a partial one.
     """
+    import _core as C
+
     entries = []
     for f in sorted(C.CATALOG_DIR.glob("*.json")):
         try:

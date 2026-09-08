@@ -1182,13 +1182,14 @@ def test_the_architecture_does_not_claim_a_train_that_does_not_run():
 COLLAPSED_PROP_KINDS = {
     "manhole": (288_174, "no source in this build says which cover belongs to which utility; the "
                          "rows are rule-placed, so a DEP/Con Edison split would be invented"),
-    "bus_stop_sign": (13_341, "drawn as sign_nyc_parking_18, a different object; needs an MTA blade"),
     "waste_basket": (5_611, "all Better Bin; DSNY replaced only part of the wire-basket stock"),
     "citibike_dock": (2_507, "the bikes without their dock rail or kiosk"),
-    "flagpole": (1_655, "all the city flag; nothing in the data says which pole flies which"),
     "steam_vent": (1_402, "all the 3 m stack; the 6 m is used where the plume must clear traffic"),
-    "utility_pole": (924, "all the 2 m u-channel post"),
-    "rtpi_sign": (491, "drawn as sign_nyc_parking_18, a different object"),
+    # Left this register on 2026-09-08 and each says how:
+    #   bus_stop_sign  13,341  now sign_mta_bus_stop, its own asset (J58)
+    #   flagpole        1,655  now 812 US and 843 city poles, split on the OSM subtype (J58)
+    #   utility_pole      924  now unplaced; an 11 m pole has no asset and a sign post is not one
+    #   rtpi_sign         491  now unplaced, likewise
 }
 
 
@@ -1254,20 +1255,22 @@ def test_no_prop_kind_quietly_collapses_onto_one_of_its_assets():
     for name in COLLAPSED_PROP_KINDS:
         if name not in found:
             wrong.append(f"{name}: no longer collapsed -- remove it from COLLAPSED_PROP_KINDS and J58")
+    # 314,105 when J58 was written; 297,694 after 2026-09-08 took bus_stop_sign (13,341),
+    # flagpole (1,655), utility_pole (924) and rtpi_sign (491) out of it.  The figure is asserted so
+    # that the register and the deviation cannot drift apart in either direction.
     total = sum(n for n, _ in COLLAPSED_PROP_KINDS.values())
-    assert total == 314_105, f"the recorded total moved to {total:,}; J58 says 314,105"
+    assert total == 297_694, f"the recorded total moved to {total:,}; J58 says 297,694"
     assert not wrong, "prop asset selection moved:\n   " + "\n   ".join(wrong)
 
 
 #: Kinds whose chosen asset is more than twice or less than half the height the kind declares, and
 #: why (docs/DEVIATIONS.md J58). The catalogue states each kind's real dimensions and each asset's
 #: measured ones, so this was checkable from the day both existed and nothing compared them.
-WRONG_SIZED_PROP_ASSETS = {
-    "utility_pole": (11.0, 2.44, "an 11 m wooden power/telecom pole drawn as a 2 m u-channel sign "
-                                 "post; the sign_post alias is the fault, not the variant"),
-    "bus_stop_sign": (3.0, 0.46, "an MTA bus stop blade drawn as an 18 in parking regulation plate"),
-    "rtpi_sign": (3.0, 0.46, "a real-time passenger information sign, likewise"),
-}
+#: Empty since 2026-09-08.  All three entries left it on the same day: ``bus_stop_sign`` got its own
+#: 3.05 m asset, and ``utility_pole`` and ``rtpi_sign`` are unplaced rather than drawn as a 0.46 m
+#: parking plate and a 2.44 m sign post (docs/DEVIATIONS.md J58).  Kept as an empty register rather
+#: than deleted: the test below is what refuses the next one.
+WRONG_SIZED_PROP_ASSETS: dict[str, tuple[float, float, str]] = {}
 
 
 def test_no_prop_kind_is_drawn_by_an_asset_of_the_wrong_size():
