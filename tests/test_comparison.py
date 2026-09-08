@@ -1529,3 +1529,21 @@ def test_the_sky_delivers_the_diffuse_light_the_exposure_model_assumes():
         max(rs.sky_strength_for(tbl[0][0]), rs.sky_strength_for(tbl[1][0]))
     assert rs.sky_strength_for(-20.0) == rs.sky_strength_for(0.0)
     assert rs.sky_strength_for(89.0) == rs.sky_strength_for(tbl[-1][0])
+
+
+def test_the_sun_constant_still_meets_the_target_its_docstring_states():
+    """SUN_CALIBRATION exists to put a 0.26-albedo sunlit ground at 150/255 through Filmic.
+
+    It read 540, solved when the sky was delivering 1.6 times the Sun's light. With the sky
+    corrected (J67) that put the patch at 118/255 and the whole city two stops under, so it was
+    solved again against the same stated target and is now 286. This holds the constant to the
+    range that solve produced, so a future change to the sky or the exposure cannot move it
+    silently -- the two are calibrated together and one may not drift without the other.
+    """
+    rs = _skip_without_render_sheets()
+    assert 250.0 <= rs.SUN_CALIBRATION <= 330.0, (
+        f"SUN_CALIBRATION is {rs.SUN_CALIBRATION}; the solve against a 0.26 sunlit ground at "
+        f"150/255 gave 286, and moving it without re-solving changes the exposure of all 172 sheets")
+    # The night path is a separate calibration and must not have been dragged along with the day.
+    assert rs.SKY_STRENGTH_NIGHT == 0.5
+    assert rs.NIGHT_EXPOSURE_STOPS == -1.25

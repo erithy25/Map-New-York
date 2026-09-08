@@ -75,7 +75,17 @@ AGENT_NPC_ARCHETYPES: int | None = None
 
 SOLAR_CONSTANT_W = 1361.0
 ATMOSPHERIC_TRANSMITTANCE = 0.7
-SUN_CALIBRATION = 540.0
+#: Divides the direct normal irradiance to put a clear midday frame where a correctly exposed
+#: photograph lands -- the docstring of :func:`setup_world_and_sun` states the target as a
+#: 0.26-albedo sunlit ground at about 150/255 through Filmic, and that target has not changed.
+#:
+#: It read 540 and had been solved with the sky delivering 1.6 times the Sun's light (J67).  With
+#: the sky corrected, 540 puts that patch at **118/255** and the whole city two stops under.  Solved
+#: again against the same target, with Sun and sky exactly as the renderer now configures them:
+#: 540 -> 118, 300 -> 147, 200 -> 167, 140 -> 183, 100 -> 197, 70 -> 211, 50 -> 221, crossing
+#: 150/255 at **286**.  The sky strength is derived from this constant, so the direct-to-diffuse
+#: ratio is unchanged by the re-solve -- only the overall level moves.
+SUN_CALIBRATION = 286.0
 DIFFUSE_KEY_W = 90.0
 REFERENCE_KEY_W = 681.0
 SKY_STRENGTH_NIGHT = 0.5
