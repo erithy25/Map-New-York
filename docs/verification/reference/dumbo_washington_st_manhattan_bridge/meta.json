@@ -6,14 +6,19 @@
  "viewpoint": {
   "lat": 40.703,
   "lon": -73.9892,
-  "azimuth_deg": 345.8,
+  "azimuth_deg": 352.8,
   "note": "Washington Street between Front and Water Streets, DUMBO, centred on the roadway",
-  "representative": false
+  "representative": false,
+  "azimuth_deg_was": 345.8,
+  "azimuth_source": "the bearing from this viewpoint to the corrected subject coordinate; the azimuth this replaces pointed at the coordinate corrected above, to within 0.1 deg, which is how the two were found to share one error (J75)"
  },
  "subject": {
-  "lat": 40.7045,
-  "lon": -73.9897,
-  "name": "Manhattan Bridge Brooklyn tower"
+  "lat": 40.70505,
+  "lon": -73.98954,
+  "name": "Manhattan Bridge Brooklyn tower",
+  "lat_was": 40.7045,
+  "lon_was": -73.9897,
+  "source": "the tower centre of b_manhattan_bridge, 1.9 m from the Manhattan Bridge's own carriageway in segments.parquet; the coordinate this replaces (40.70450, -73.98970) stood 29.7 m off that carriageway and 62 m from the tower, and Washington Street's centreline bears 2.6 deg from the photograph's own GPS while that coordinate bears 357.1 deg (docs/DEVIATIONS.md J75)"
  },
  "night": false,
  "interior": false,

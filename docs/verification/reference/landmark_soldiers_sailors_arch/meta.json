@@ -11,9 +11,12 @@
   "representative": false
  },
  "subject": {
-  "lat": 40.6738,
-  "lon": -73.97,
-  "name": "Soldiers' and Sailors' Memorial Arch (Grand Army Plaza, Brooklyn)"
+  "lat": 40.67299,
+  "lon": -73.96991,
+  "name": "Soldiers' and Sailors' Memorial Arch (Grand Army Plaza, Brooklyn)",
+  "lat_was": 40.6738,
+  "lon_was": -73.97,
+  "source": "the plan centre of b_soldiers_sailors_arch, which is built on the arch's own OSM footprint (way 20679503); the coordinate this replaces stood 90.1 m north of it, and OSM's 'Grand Army Plaza & Plaza St West' station sits at 40.67298 -- the model's latitude, not the old subject's 40.67380 (docs/DEVIATIONS.md J75). The viewpoint is left where it is: its own note says 'about 150 m' from the arch and it is 240 m from the corrected position, so the item was authored around the displaced point, and nothing independent says where the photographer stood. The recorded azimuth of 170.0 deg agrees with the bearing to the corrected arch (171.8 deg) to 1.8 deg and is therefore unchanged."
  },
  "night": false,
  "interior": false,

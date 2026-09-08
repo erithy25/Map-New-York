@@ -6,14 +6,19 @@
  "viewpoint": {
   "lat": 40.704,
   "lon": -73.992,
-  "azimuth_deg": 74.0,
+  "azimuth_deg": 60.7,
   "note": "Pebble Beach at Main Street Park (Brooklyn Bridge Park), looking east-north-east at the Brooklyn tower",
-  "representative": false
+  "representative": false,
+  "azimuth_deg_was": 74.0,
+  "azimuth_source": "the bearing from this viewpoint to the corrected subject coordinate; the azimuth this replaces pointed at the coordinate corrected above, to within 0.1 deg, which is how the two were found to share one error (J75)"
  },
  "subject": {
-  "lat": 40.7045,
-  "lon": -73.9897,
-  "name": "Manhattan Bridge Brooklyn tower"
+  "lat": 40.70505,
+  "lon": -73.98954,
+  "name": "Manhattan Bridge Brooklyn tower",
+  "lat_was": 40.7045,
+  "lon_was": -73.9897,
+  "source": "the tower centre of b_manhattan_bridge, 1.9 m from the Manhattan Bridge's own carriageway in segments.parquet; the coordinate this replaces (40.70450, -73.98970) stood 29.7 m off it and 62 m from the tower (docs/DEVIATIONS.md J75)"
  },
  "night": false,
  "interior": false,
@@ -49,7 +54,7 @@
    "page_url": "https://commons.wikimedia.org/wiki/File:Manhattan_Bridge_and_One_Manhattan_Square,_New_York_City,_20231002_0849_1558.jpg",
    "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/4d/Manhattan_Bridge_and_One_Manhattan_Square%2C_New_York_City%2C_20231002_0849_1558.jpg",
    "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Manhattan_Bridge_and_One_Manhattan_Square%2C_New_York_City%2C_20231002_0849_1558.jpg/1920px-Manhattan_Bridge_and_One_Manhattan_Square%2C_New_York_City%2C_20231002_0849_1558.jpg",
-   "author": "Jakub Hałun",
+   "author": "Jakub Ha\u0142un",
    "credit": "Own work",
    "license": {
     "short_name": "CC BY 4.0",
@@ -93,7 +98,7 @@
     "method": "camera_gps_to_subject",
     "explanation": "Camera GPS from the Commons file description (40.70468, -73.99218) is 210 m from Manhattan Bridge Brooklyn tower (40.70450, -73.98970) and 77 m from the standard viewpoint; the azimuth 95 deg is the initial great-circle bearing from that camera position to the subject."
    },
-   "attribution": "\"Manhattan Bridge and One Manhattan Square, New York City, 20231002 0849 1558.jpg\" by Jakub Hałun, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Manhattan_Bridge_and_One_Manhattan_Square,_New_York_City,_20231002_0849_1558.jpg"
+   "attribution": "\"Manhattan Bridge and One Manhattan Square, New York City, 20231002 0849 1558.jpg\" by Jakub Ha\u0142un, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Manhattan_Bridge_and_One_Manhattan_Square,_New_York_City,_20231002_0849_1558.jpg"
   },
   {
    "n": 2,

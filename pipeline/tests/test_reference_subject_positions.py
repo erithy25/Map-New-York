@@ -118,3 +118,84 @@ def test_the_bethesda_subject_is_in_the_fountain_basin():
     x, y = got["bethesda_terrace_fountain"]
     d = min(math.hypot(px - x, py - y) for px, py in cands)
     assert d < 14.63, f"the subject stands {d:.1f} m from the fountain, outside its own basin"
+
+
+# ------------------------------------------------------- a bridge subject stands on its bridge (J75)
+
+#: Slug -> the fragment of ``street_name`` that names that bridge's own carriageway in
+#: ``segments.parquet``. Written out rather than matched, for the reason the module docstring gives:
+#: a fuzzy matcher in the audit that exists to catch fuzzy matching is how J57 nearly slipped
+#: through. Only bridges whose deck carries a named roadway are here -- Hell Gate is a rail bridge
+#: and the High Bridge an aqueduct, so neither has a carriageway to stand on and neither is claimed.
+BRIDGE_CARRIAGEWAY = {
+    "dumbo_washington_st_manhattan_bridge": "MANHATTAN BR",
+    "landmark_manhattan_bridge": "MANHATTAN BR",
+    "landmark_williamsburg_bridge": "WILLIAMSBURG BR",
+    "landmark_brooklyn_bridge_from_dumbo": "BROOKLYN BR",
+    "landmark_brooklyn_bridge_walkway": "BROOKLYN BR",
+    "landmark_bronx_whitestone_bridge": "WHITESTONE",
+    "landmark_george_washington_bridge": "GEORGE WASHINGTON",
+    "landmark_kosciuszko_bridge": "KOSCIUSZKO",
+    "landmark_queensboro_bridge": "QUEENSBORO",
+    "landmark_throgs_neck_bridge": "THROGS NECK",
+}
+
+#: A bridge tower is a couple of lanes wide and the carriageway centreline runs between its legs,
+#: so a correct coordinate lands within a few metres. The six that were already right measured
+#: 0.9 to 6.5 m; the three that were wrong measured 24.2, 29.7 and 47.5 m. 15 m sits in the gap
+#: and is a **choice**, not a tolerance anything derives.
+BRIDGE_MAX_M = 15.0
+
+SEGMENTS = PROCESSED / "roads" / "segments.parquet"
+
+
+@pytest.mark.skipif(not SEGMENTS.is_file(), reason="the road network has not been built")
+def test_a_subject_that_names_a_bridge_stands_on_that_bridges_own_carriageway():
+    """The same defect as J57, found by a different measurement.
+
+    Three subject coordinates named a bridge tower and stood off the bridge: the Manhattan
+    Bridge's Brooklyn tower 29.7 m off its own carriageway, the Williamsburg's 24.2 m, the Throgs
+    Neck's 47.5 m. Nothing caught them, because the item's recorded azimuth pointed at the wrong
+    coordinate too -- to within 0.1 deg on all three -- so every check that compared the two agreed
+    with itself. The road network is the independent source: a bridge tower stands on the bridge.
+    """
+    import geopandas as gpd
+    from shapely.geometry import Point
+
+    rd = gpd.read_parquet(SEGMENTS, columns=["street_name", "geometry"])
+    names = rd["street_name"].astype(str).str.upper()
+    subjects = {slug: (x, y) for slug, _n, x, y in _items()}
+
+    off = []
+    for slug, frag in BRIDGE_CARRIAGEWAY.items():
+        if slug not in subjects:
+            continue
+        sel = rd[names.str.contains(frag, na=False)]
+        assert len(sel), f"no segment carries {frag!r}; the audit lost its reach for {slug}"
+        d = float(sel.geometry.distance(Point(*subjects[slug])).min())
+        if d > BRIDGE_MAX_M:
+            off.append((d, slug, frag))
+    assert not off, "bridge subjects standing off their own carriageway:\n" + "\n".join(
+        f"   {d:7.1f} m  {slug:44} ({frag})" for d, slug, frag in sorted(off, reverse=True))
+
+
+@pytest.mark.skipif(not SEGMENTS.is_file(), reason="the road network has not been built")
+def test_a_corrected_subject_says_what_it_was_and_why():
+    """A coordinate that moved has to carry its own evidence, or the next reader cannot check it."""
+    moved_the_azimuth_too = ("dumbo_washington_st_manhattan_bridge", "landmark_manhattan_bridge",
+                             "landmark_williamsburg_bridge", "landmark_throgs_neck_bridge")
+    for slug in moved_the_azimuth_too + ("landmark_soldiers_sailors_arch",):
+        doc = json.loads((REFERENCE / slug / "meta.json").read_text())
+        sub, vp = doc["subject"], doc["viewpoint"]
+        assert sub.get("lat_was") is not None and sub.get("lon_was") is not None, \
+            f"{slug}: the coordinate moved without recording what it was"
+        assert "J75" in str(sub.get("source", "")), f"{slug}: the move carries no reason"
+        if slug in moved_the_azimuth_too:
+            assert vp.get("azimuth_deg_was") is not None, \
+                f"{slug}: the subject moved and the azimuth derived from it did not"
+        else:
+            # The arch's recorded azimuth already agrees with the corrected subject to 1.8 deg, so
+            # it is left alone -- and the reason has to be written down, or the next reader will
+            # take the missing `azimuth_deg_was` for an oversight.
+            assert "unchanged" in str(sub.get("source", "")), \
+                f"{slug}: an azimuth left alone beside a moved subject, with no reason given"

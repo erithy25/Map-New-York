@@ -352,6 +352,138 @@ def first_solid_above(x: float, y: float, z: float, *, limit_m: float = UP_RAY_M
     return None, None, None
 
 
+#: How far out from a subject's own coordinate the height probe looks, and how many rays it casts.
+#: A recorded subject coordinate is a single lat/lon for something with width -- a bridge tower is
+#: about 40 m across at its base, a booth about 5 m -- and a single ray straight down can fall
+#: through a gap in a truss or between two roof planes and land on the water.  So the probe casts a
+#: small ring of rays and keeps the **highest** built thing any of them found.  6 m is wide enough
+#: to survive a gap in an open steel tower and narrow enough that it cannot walk onto the building
+#: next door: at 6 m the probe is still inside every subject in the reference set.
+SUBJECT_PROBE_RINGS = (0.0, 3.0, 6.0)
+SUBJECT_PROBE_SPOKES = 8
+#: The probe starts here and falls.  One World Trade Center's shell tops out at 542 m, so this is
+#: above every built thing in the world and the ray still stops at its first hit.
+SUBJECT_PROBE_TOP_M = 1000.0
+
+
+#: How far out the diagnosis looks when the vertical probe finds nothing, and at what heights.
+#: 120 m is a block; past that the answer stops being about this subject.
+SUBJECT_MISS_REACH_M = 120.0
+SUBJECT_MISS_HEIGHTS = (2.0, 20.0)
+SUBJECT_MISS_SPOKES = 16
+
+
+def _nearest_built_to(sx: float, sy: float, ground_z: float) -> dict:
+    """The nearest built thing to a subject's coordinate, when nothing stands on the coordinate.
+
+    A bare "nothing is there" is a true statement that a reader cannot act on.  This turns it into
+    a diagnosis: the Manhattan Bridge's Brooklyn tower is recorded at a lat/lon **32 m** off the
+    model's steel, and the sheet can only say so if something measures the 32 m.  A fan of rays at
+    two heights is enough -- it is not a nearest-surface computation and does not claim to be.
+    """
+    from mathutils import Vector
+    dg = bpy.context.evaluated_depsgraph_get()
+    sc = bpy.context.scene
+    counts = lambda ob: is_shell(ob) and not is_foliage(ob)      # noqa: E731
+    best = None
+    for h in SUBJECT_MISS_HEIGHTS:
+        origin = Vector((sx, sy, ground_z + h))
+        for k in range(SUBJECT_MISS_SPOKES):
+            az = 2.0 * math.pi * k / SUBJECT_MISS_SPOKES
+            d = Vector((math.sin(az), math.cos(az), 0.0))
+            got = _ray_past(dg, origin, d, SUBJECT_MISS_REACH_M, counts)
+            if got is None:
+                continue
+            # `_ray_past` returns the distance travelled along the ray, and the ray is horizontal,
+            # so that distance *is* the plan distance from the subject's coordinate.
+            dist, ob = float(got[0]), got[1]
+            if best is None or dist < best[0]:
+                best = (dist, ob.name, math.degrees(az) % 360.0)
+    if best is None:
+        return {"object": None, "reach_m": SUBJECT_MISS_REACH_M,
+                "note": f"nothing built within {SUBJECT_MISS_REACH_M:.0f} m of the coordinate either"}
+    return {"object": best[1], "distance_m": round(best[0], 1), "bearing_deg": round(best[2], 1),
+            "reach_m": SUBJECT_MISS_REACH_M}
+
+
+def subject_height_probe(sx: float, sy: float, ground_z: float) -> dict:
+    """The top of the built thing that actually stands at a subject's coordinate.
+
+    This exists because the height a sheet aims and frames by used to come from a *proxy* for the
+    subject rather than from the subject: the nearest landmark model **origin** within 120 m.  An
+    origin is a model's own centre, so for anything long or wide it is nowhere near the part of it
+    a photograph is of.  The Manhattan Bridge's Brooklyn tower is 281 m from ``b_manhattan_bridge``'s
+    origin and 0 m from its steel; the same is true of 38 of the 138 reference items that name a
+    subject (docs/DEVIATIONS.md J74).  Widening the radius does not fix it and makes it worse --
+    ``b_brooklyn_bridge``'s bounding box *contains* the Manhattan Bridge's tower, and
+    ``c_times_square``'s contains the TKTS booth, so a box test would hand a 5 m kiosk 365.8 m.
+
+    So this measures instead of matching.  Rays fall from above onto a small ring about the
+    subject's own coordinate and the highest **built** surface any of them finds is the answer:
+    building shells and landmark models count, foliage is stepped past, and props, agents, terrain
+    and pavement are not built fabric a photograph has as its subject and are never counted.
+
+    The return names what was hit, because the honest reading of this number is "the top of
+    ``lm_b_manhattan_bridge.71``, which is what stands at the coordinate the item calls the
+    Manhattan Bridge Brooklyn tower" -- and a reader who can see the object's name can tell when
+    the coordinate is on the wrong thing.  ``{"z": None}`` when nothing built stands there.
+    """
+    from mathutils import Vector
+    dg = bpy.context.evaluated_depsgraph_get()
+    sc = bpy.context.scene
+    down = Vector((0.0, 0.0, -1.0))
+    best_z, best_ob, hits, cast = None, None, 0, 0
+    for ring in SUBJECT_PROBE_RINGS:
+        spokes = 1 if ring <= 0.0 else SUBJECT_PROBE_SPOKES
+        for k in range(spokes):
+            ang = 2.0 * math.pi * k / spokes
+            px = sx + ring * math.cos(ang)
+            py = sy + ring * math.sin(ang)
+            cast += 1
+            travelled = 0.0
+            for _ in range(8):
+                start_z = SUBJECT_PROBE_TOP_M - travelled
+                # 100 m past zero: NAVD88 is not the seabed and a few subjects (the tunnel
+                # portals, the bridge decks over the water) have geometry below datum zero.
+                hit, loc, _n, _i, ob, _m = sc.ray_cast(
+                    dg, Vector((px, py, start_z)), down, distance=start_z + 100.0)
+                if not hit or ob is None:
+                    break
+                step = SUBJECT_PROBE_TOP_M - float(loc.z) + 0.05
+                if is_foliage(ob) or _is_agent(ob) or not is_shell(ob):
+                    if step <= travelled:
+                        break
+                    travelled = step
+                    continue
+                hits += 1
+                if best_z is None or float(loc.z) > best_z:
+                    best_z, best_ob = float(loc.z), ob.name
+                break
+    if best_z is not None and best_z <= ground_z + 2.0:
+        # Something built is there and it is not a subject a frame can be aimed at: a tunnel
+        # portal's roadway, a bridge deck below its own datum.  Say which case this is rather
+        # than reporting it as an empty coordinate.
+        return {"z": None, "object": best_ob, "rays_cast": cast, "rays_on_built_fabric": hits,
+                "ground_z_m": round(float(ground_z), 2),
+                "highest_built_z_m": round(float(best_z), 2),
+                "note": (f"the highest built thing at the subject's coordinate is {best_ob}, "
+                         f"{best_z - ground_z:.1f} m above the ground there -- below the 2 m at "
+                         f"which a subject has a height worth aiming or framing by")}
+    if best_z is None:
+        near = _nearest_built_to(sx, sy, ground_z)
+        note = (f"nothing built stands within {max(SUBJECT_PROBE_RINGS):.0f} m of the subject's "
+                f"coordinate")
+        if near.get("object"):
+            note += (f"; the nearest built thing is {near['object']}, {near['distance_m']:.0f} m "
+                     f"away at bearing {near['bearing_deg']:.0f} deg, so the coordinate the item "
+                     f"records is that far off the fabric it names")
+        return {"z": None, "object": None, "rays_cast": cast, "rays_on_built_fabric": hits,
+                "ground_z_m": round(float(ground_z), 2), "nearest_built": near, "note": note}
+    return {"z": round(best_z, 2), "object": best_ob, "rays_cast": cast,
+            "rays_on_built_fabric": hits, "ground_z_m": round(float(ground_z), 2),
+            "height_above_ground_m": round(best_z - float(ground_z), 2)}
+
+
 #: Rays cast in a cone about vertical to measure how much sky an eye point has over it, and how
 #: far each one looks.  35 deg is roughly the half-angle of the sky a canyon or a canopy leaves;
 #: 120 m clears every street tree and every low shed without reaching for the towers a block away,
@@ -780,7 +912,8 @@ def frame_clearance(x: float, y: float, z: float, azimuth_deg: float, *, probe_m
 
 
 def subject_sightline(x: float, y: float, z: float, sx: float, sy: float, sz: float, *,
-                      spread_m: float = 12.0, rays: int = 5, reach_m: float = 25.0,
+                      spread_m: float = 12.0, subject_height_m: float | None = None,
+                      rays: int = 5, reach_m: float = 25.0,
                       overshoot_m: float = 400.0) -> dict:
     """Can the camera see the thing the sheet is a comparison *of*?
 
@@ -831,11 +964,25 @@ def subject_sightline(x: float, y: float, z: float, sx: float, sy: float, sz: fl
     # 0.2 m pole takes **all five** rays and the lie is unchanged.
     #
     # So the fan is defined by a width **at the subject**: ``spread_m`` metres across, which is an
-    # angle that shrinks with range.  12 m is a building-scale subject and is a **choice**, not a
-    # measurement of anything -- the item's own metadata does not carry the subject's width.  What it
-    # buys is the right answer to the question actually being asked: a pole 2.4 m from the lens
-    # spans 2.4 deg of a 5.5 deg fan at 62 m and takes some of the rays, and the subject behind it is
-    # still there; a wall across the street takes all of them and it is not.
+    # angle that shrinks with range.  What it buys is the right answer to the question actually
+    # being asked: a pole 2.4 m from the lens spans 2.4 deg of a 5.5 deg fan at 62 m and takes some
+    # of the rays, and the subject behind it is still there; a wall across the street takes all of
+    # them and it is not.
+    #
+    # The width itself used to be a flat 12 m for every subject in the city, and that is a choice
+    # rather than a measurement -- one that is far too narrow for a tall subject.  The Manhattan
+    # Bridge's Brooklyn tower is **107.4 m** of steel at 226 m, and a 12 m fan spans 1.52 deg of
+    # it: 0.30 m at the 5.6 m where a cobra-head lamp standard stands, so the lamp took all five
+    # rays and the record said the tower was not visible over a frame with the tower in the middle
+    # of it (docs/DEVIATIONS.md J76).  Since J74 the subject's height is **measured** off the
+    # geometry standing at its coordinate, so the caller passes it and the fan spans the subject
+    # rather than a constant.  Where nothing was measured, 12 m still applies and the record says
+    # the fan was not sized to anything.
+    if subject_height_m and subject_height_m > spread_m:
+        spread_m, fan_from = float(subject_height_m), "the subject's own measured height (J74)"
+    else:
+        fan_from = (f"the default {spread_m:.0f} m: the subject's height was not measured here, "
+                    f"so the fan is not sized to it")
     half_angle_deg = math.degrees(math.atan2(max(spread_m, 0.1) / 2.0, span))
     half_angle_deg = min(15.0, max(0.5, half_angle_deg))
     up = Vector((0.0, 0.0, 1.0))
@@ -878,6 +1025,7 @@ def subject_sightline(x: float, y: float, z: float, sx: float, sy: float, sz: fl
     nothing_there = on_subject <= n // 2
     out = {"subject_range_m": round(span, 1),
            "subject_fan_m": round(spread_m, 1),
+           "subject_fan_from": fan_from,
            "subject_fan_half_angle_deg": round(half_angle_deg, 2),
            "subject_reach_m": round(reach_m, 1),
            "subject_rays": n,

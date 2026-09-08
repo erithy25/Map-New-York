@@ -6,14 +6,19 @@
  "viewpoint": {
   "lat": 40.7165,
   "lon": -73.9668,
-  "azimuth_deg": 199.4,
+  "azimuth_deg": 208.0,
   "note": "north end of Domino Park (Grand Street pier), looking south at the Brooklyn tower",
-  "representative": false
+  "representative": false,
+  "azimuth_deg_was": 199.4,
+  "azimuth_source": "the bearing from this viewpoint to the corrected subject coordinate; the azimuth this replaces pointed at the coordinate corrected above, to within 0.1 deg, which is how the two were found to share one error (J75)"
  },
  "subject": {
-  "lat": 40.7122,
-  "lon": -73.9688,
-  "name": "Williamsburg Bridge Brooklyn tower"
+  "lat": 40.71269,
+  "lon": -73.96946,
+  "name": "Williamsburg Bridge Brooklyn tower",
+  "lat_was": 40.7122,
+  "lon_was": -73.9688,
+  "source": "the tower centre of b_williamsburg_bridge, 0.8 m from the Williamsburg Bridge's own carriageway in segments.parquet; the coordinate this replaces stood 24.2 m off it and 78 m from the tower (docs/DEVIATIONS.md J75)"
  },
  "night": false,
  "interior": false,
@@ -46,7 +51,7 @@
    "page_url": "https://commons.wikimedia.org/wiki/File:Williamsburg_Bridge,_New_York_City,_20231001_1055_0985.jpg",
    "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/99/Williamsburg_Bridge%2C_New_York_City%2C_20231001_1055_0985.jpg",
    "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Williamsburg_Bridge%2C_New_York_City%2C_20231001_1055_0985.jpg/1920px-Williamsburg_Bridge%2C_New_York_City%2C_20231001_1055_0985.jpg",
-   "author": "Jakub Hałun",
+   "author": "Jakub Ha\u0142un",
    "credit": "Own work",
    "license": {
     "short_name": "CC BY 4.0",
@@ -89,7 +94,7 @@
     "method": "camera_gps_to_subject",
     "explanation": "Camera GPS from the Commons file description (40.71443, -73.97077) is 298 m from Williamsburg Bridge Brooklyn tower (40.71220, -73.96880) and 407 m from the standard viewpoint; the azimuth 146 deg is the initial great-circle bearing from that camera position to the subject."
    },
-   "attribution": "\"Williamsburg Bridge, New York City, 20231001 1055 0985.jpg\" by Jakub Hałun, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Williamsburg_Bridge,_New_York_City,_20231001_1055_0985.jpg"
+   "attribution": "\"Williamsburg Bridge, New York City, 20231001 1055 0985.jpg\" by Jakub Ha\u0142un, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Williamsburg_Bridge,_New_York_City,_20231001_1055_0985.jpg"
   },
   {
    "n": 2,

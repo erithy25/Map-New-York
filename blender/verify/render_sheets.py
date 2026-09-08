@@ -673,7 +673,7 @@ def view_azimuth(slug: str, meta: dict, photo: dict, lat: float, lon: float, *,
 
 
 def subject_top(meta: dict, cam_x: float, cam_y: float, sampler,
-                landmarks: Sequence[dict]) -> tuple[float, float, str] | None:
+                landmarks: Sequence[dict], out: dict | None = None) -> tuple[float, float, str] | None:
     """(distance, **absolute NYC_TM elevation** of the subject's top, source).
 
     The second element is a world z, not a height above the camera: ``choose_lens`` reads it as one
@@ -681,41 +681,70 @@ def subject_top(meta: dict, cam_x: float, cam_y: float, sampler,
     level", and the sightline probe believed it and added the camera's elevation to an absolute one
     (docs/DEVIATIONS.md J57).
 
-    The height comes from the landmark model standing at the subject coordinate, and **only** from
-    there.  It used to fall back to "a nominal 10 m subject" when no model was found, and that
-    number then set the lens, the optical axis and the sightline probe's aim point: the Manhattan
-    Bridge's Brooklyn tower, 106.68 m of steel, was aimed at **4.8 m above the water**, the rays met
-    a street lamp 1.2 m from the lens, and the record said the subject was not visible over a frame
-    with the tower plainly in the middle of it (docs/DEVIATIONS.md J72).
+    The height is **measured off the thing that stands there**, by dropping rays onto a small ring
+    about the subject's own coordinate (:func:`camera.subject_height_probe`).  Two rules preceded
+    that and both are recorded, because each was a correct measurement of something other than the
+    subject:
 
-    Matching the subject to a model by *name* instead was tried and is worse: the catalogue's
-    93 entries include district and site models, so "Central Park Tower" matches
-    ``b_central_park_walls_gates`` -- a **3 m** park wall 2,368 m away -- and "Queens Museum"
-    matches ``c_brooklyn_museum`` in another borough. A confident wrong height is worse than none.
+    * a nominal 10 m where no model was found, which aimed the Manhattan Bridge's Brooklyn tower --
+      106.68 m of steel -- at 4.8 m above the water and reported it invisible over a frame with the
+      tower in the middle of it (J72);
+    * the height published by the nearest landmark model **origin** within 120 m, which is a
+      model's own centre and so is nowhere near the part of a long or wide model a photograph is
+      of.  38 of the 138 reference items that name a subject have no origin within 120 m while
+      standing inside the model's own **bounding box**; for at least 19 of them a model's actual
+      mesh is within 60 m (J74).
 
-    So where no model stands at the subject's coordinate this returns ``None`` for the height and
-    every caller says so rather than working from a number nobody measured.  Returns ``None``
-    outright when the item names no subject at all.
+    Matching by *name* was tried and is worse: the catalogue's 93 entries include district and site
+    models, so "Central Park Tower" matches ``b_central_park_walls_gates`` -- a **3 m** park wall
+    2,368 m away -- and "Queens Museum" matches ``c_brooklyn_museum`` in another borough.  Matching
+    by *bounding box* is worse still: ``b_brooklyn_bridge``'s box contains the Manhattan Bridge's
+    tower and ``c_times_square``'s contains the TKTS booth, which would hand a 5 m kiosk 365.8 m.
+    A confident wrong height is worse than none.
+
+    Where nothing built stands at the coordinate this returns ``None`` for the height and every
+    caller says so rather than working from a number nobody measured.  Returns ``None`` outright
+    when the item names no subject at all.  ``out``, when given, is filled with the probe's own
+    record -- what it hit, how many rays found built fabric, and what the landmark catalogue would
+    have said -- so the sheet can publish the measurement rather than only its conclusion.
     """
     subject = meta.get("subject") or {}
     if subject.get("lat") is None or subject.get("lon") is None:
         return None
+    import camera as vcam
     from nycsim_pipeline.crs import lonlat_to_tm
     sx, sy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
     dist = math.hypot(sx - cam_x, sy - cam_y)
     ground, _ = sampler.ground_z(sx, sy, mode="street", radius_m=15.0) if sampler else (None, {})
-    best = None
+    base = ground if ground is not None else 0.0
+    probe = vcam.subject_height_probe(sx, sy, base)
+    # What the old origin rule would have said, kept beside the measurement rather than used.  A
+    # reader comparing the two can see for themselves which of the 38 items J74 names this is.
+    nearest = None
     for e in landmarks:
         ox, oy = float(e["origin_tm"][0]), float(e["origin_tm"][1])
         d = math.hypot(ox - sx, oy - sy)
         h = e.get("height_m") or (e.get("bounds_local_m") or {}).get("max", [0, 0, 0])[2]
-        if d <= 120.0 and h and (best is None or d < best[0]):
-            best = (d, float(h), e["id"])
-    if best is None:
-        return dist, None, ("no landmark model stands within 120 m of the subject's coordinate, so "
-                            "its height is not known here")
-    base = ground if ground is not None else 0.0
-    return dist, base + best[1], f"the {best[2]} model's published {best[1]:.0f} m height"
+        if h and (nearest is None or d < nearest[0]):
+            nearest = (d, float(h), e["id"])
+    if out is not None:
+        out.update(probe)
+        if nearest is not None:
+            out["nearest_catalogue_origin"] = {
+                "id": nearest[2], "distance_m": round(nearest[0], 1), "height_m": round(nearest[1], 2),
+                "within_120_m": bool(nearest[0] <= 120.0),
+            }
+            if probe.get("z") is not None and nearest[0] > 120.0:
+                out["note_origin_rule"] = (
+                    f"the nearest landmark model origin is {nearest[0]:.0f} m away, past the 120 m "
+                    f"the old rule looked in, so this height comes from the geometry and not from "
+                    f"the catalogue (J74)")
+    if probe.get("z") is None:
+        return dist, None, (f"nothing built stands within {vcam.SUBJECT_PROBE_RINGS[-1]:.0f} m of "
+                            f"the subject's coordinate, so its height is not measured here")
+    return dist, float(probe["z"]), (
+        f"the top of {probe['object']}, the built thing standing at the subject's coordinate, "
+        f"{probe['height_above_ground_m']:.0f} m above the ground there")
 
 
 def choose_lens(slug: str, top: tuple[float, float, str] | None, cam_z: float,
@@ -825,7 +854,7 @@ def containment_pitch(top: "tuple[float, float, str] | None", cam_z: float, foca
 
 
 def aim_pitch(slug: str, meta: dict, cam_x: float, cam_y: float, cam_z: float,
-              sampler, landmarks: Sequence[dict]) -> tuple[float, str]:
+              top: "tuple[float, float, str] | None", ground_z: float | None) -> tuple[float, str]:
     """How far the optical axis tilts off horizontal, and why.
 
     The default is level: a level axis keeps vertical building edges vertical, which is the
@@ -833,46 +862,33 @@ def aim_pitch(slug: str, meta: dict, cam_x: float, cam_y: float, cam_z: float,
     can be compared on proportion.  The single exception is a subject standing close to the camera
     and clearly below or above eye level -- the Bethesda fountain 69 m away and 6 m below the
     terrace, say -- where a level axis would push it to the edge of the frame.  For a subject
-    inside 250 m the axis is aimed at its mid-height, taken from the landmark model that stands
-    there when there is one; if that aim exceeds 8 deg it is discarded and the axis stays level,
-    because past that point a real photograph would be taken with a wider lens rather than a
-    tilted camera.
+    inside 250 m the axis is aimed at its mid-height, taken from :func:`subject_top`'s measurement
+    of what actually stands there; if that aim exceeds 8 deg it is discarded and the axis stays
+    level, because past that point a real photograph would be taken with a wider lens rather than
+    a tilted camera.
     """
     subject = meta.get("subject") or {}
-    if subject.get("lat") is None or subject.get("lon") is None:
+    name = subject.get("name") or "the subject"
+    if top is None:
         return 0.0, "level optical axis (the reference names no subject to aim at)"
-    from nycsim_pipeline.crs import lonlat_to_tm
-    sx, sy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
-    dist = math.hypot(sx - cam_x, sy - cam_y)
+    dist, top_z, _src = top
     if dist > 250.0 or dist < 1.0:
         return 0.0, (f"level optical axis (the subject is {dist:.0f} m away; anything that far is "
                      f"photographed with a level camera)")
-    ground, _ = sampler.ground_z(sx, sy, mode="street", radius_m=15.0) if sampler else (None, {})
-    if ground is None:
-        ground = cam_z - 1.6
-    best = None
-    for e in landmarks:
-        ox, oy = float(e["origin_tm"][0]), float(e["origin_tm"][1])
-        d = math.hypot(ox - sx, oy - sy)
-        h = e.get("height_m") or (e.get("bounds_local_m") or {}).get("max", [0, 0, 0])[2]
-        if d <= 120.0 and h and (best is None or d < best[0]):
-            best = (d, float(h), e["id"])
-    if best is None:
-        # The axis is tilted only to hold a subject whose height is *known*.  Tilting it towards
+    if top_z is None:
+        # The axis is tilted only to hold a subject whose height is *measured*.  Tilting towards
         # half of an invented 10 m aimed the Manhattan Bridge's Brooklyn tower at the water (J72).
-        return 0.0, (f"level optical axis (no landmark model stands within 120 m of "
-                     f"{subject.get('name') or 'the subject'}, so its mid-height is not known and "
-                     f"there is nothing to tilt towards)")
-    height, src = best[1], f"the {best[2]} model's {best[1]:.0f} m height"
-    target_z = ground + height / 2.0
+        return 0.0, (f"level optical axis (nothing built stands at {name}'s coordinate, so its "
+                     f"mid-height is not known and there is nothing to tilt towards)")
+    ground = ground_z if ground_z is not None else cam_z - 1.6
+    target_z = (ground + float(top_z)) / 2.0
     pitch = math.degrees(math.atan2(target_z - cam_z, dist))
     if abs(pitch) > 8.0:
-        return 0.0, (f"level optical axis ({subject.get('name') or 'the subject'} is {dist:.0f} m "
-                     f"away and would need {pitch:+.0f} deg of tilt; a real frame would use a wider "
-                     f"lens instead, and a tilted axis would stop the render being comparable on "
-                     f"proportion)")
-    return pitch, (f"aimed at {subject.get('name') or 'the subject'} {dist:.0f} m away, at its "
-                   f"mid-height ({src}); {pitch:+.1f} deg from horizontal")
+        return 0.0, (f"level optical axis ({name} is {dist:.0f} m away and would need "
+                     f"{pitch:+.0f} deg of tilt; a real frame would use a wider lens instead, and "
+                     f"a tilted axis would stop the render being comparable on proportion)")
+    return pitch, (f"aimed at {name} {dist:.0f} m away, at its mid-height ({_src}); "
+                   f"{pitch:+.1f} deg from horizontal")
 
 
 #: A render that is black, blown out or featureless proves nothing, so it is refused rather than
@@ -1092,11 +1108,19 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         if abs(moved - subj_dist) > 0.05:
             record["subject"]["rejected_origin_distance_m"] = round(subj_dist, 1)
             subj_dist = moved
-    pitch, pitch_why = aim_pitch(slug, meta, x, y,
-                                 (sampler.ground_z(x, y)[0] or 0.0) + vcam.eye_rule_for(slug).height_m,
-                                 sampler, vscene.load_landmark_catalog())
     eye_z = (sampler.ground_z(x, y)[0] or 0.0) + vcam.eye_rule_for(slug).height_m
-    top = subject_top(meta, x, y, sampler, vscene.load_landmark_catalog())
+    # The subject's height is measured once, off the geometry standing at its coordinate, and the
+    # aim, the lens and the sightline all read that one measurement.  Before J74 the aim and the
+    # lens each ran their own copy of a *proxy* for it -- the nearest catalogue origin within
+    # 120 m -- which for 38 of the 138 items that name a subject is nowhere near the model.
+    height_probe: dict = {}
+    top = subject_top(meta, x, y, sampler, vscene.load_landmark_catalog(), out=height_probe)
+    subject_ground = None
+    if top is not None and height_probe.get("ground_z_m") is not None:
+        subject_ground = float(height_probe["ground_z_m"])
+    pitch, pitch_why = aim_pitch(slug, meta, x, y, eye_z, top, subject_ground)
+    if height_probe:
+        record.setdefault("subject", {})["height_probe"] = height_probe
     focal_mm, lens_why = choose_lens(slug, top, eye_z, height > width, width / height)
     # The lens is widened first, because a level axis is what makes the two frames comparable on
     # proportion. Only where the widest lens this build will use still cannot contain the subject
@@ -1195,7 +1219,11 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
                               + "; no sightline was tested"}
         else:
             sz = (base + stop) * 0.5
-            sight = vcam.subject_sightline(placement.x, placement.y, placement.z, ssx, ssy, float(sz))
+            # The fan is sized to the subject's own measured height (J74/J76), so a 107 m tower
+            # is not declared invisible because a lamp standard 5.6 m from the lens covers the
+            # 0.30 m a flat 12 m fan spans there.
+            sight = vcam.subject_sightline(placement.x, placement.y, placement.z, ssx, ssy, float(sz),
+                                           subject_height_m=(float(stop) - base) if stop else None)
             sight["subject_aimed_at"] = f"the subject's mid-height, {sz - base:.1f} m above its ground"
             record_subject = sight
     else:

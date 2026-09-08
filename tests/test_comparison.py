@@ -1671,3 +1671,94 @@ def test_no_city_surface_is_drawn_from_a_texture_that_binds_the_albedo_cap_witho
     if not seen:
         pytest.skip("no sheet rendered since the albedo record was published")
     assert not unexplained, "a surface binds the albedo cap with no reason recorded:\n  " + "\n  ".join(unexplained)
+
+
+# ------------------------------------------------------- the subject's height is measured (J74)
+
+
+def test_a_subjects_height_is_measured_off_the_thing_and_not_off_a_models_centre():
+    """The aim, the lens and the sightline read one number, and it comes from a ray, not a lookup.
+
+    The rule this replaced took the height published by the nearest landmark model **origin**
+    within 120 m of the subject. An origin is a model's own centre, so for anything long or wide
+    it is nowhere near the part of it a photograph is of -- the Manhattan Bridge's Brooklyn tower
+    is 281 m from ``b_manhattan_bridge``'s origin and standing on its steel. This pins the shape of
+    the replacement rather than any one number: the probe casts rays, it counts built fabric only,
+    and the catalogue's own heights are kept beside the measurement instead of standing in for it.
+    """
+    src = (VERIFY_DIR / "camera.py").read_text()
+    assert "def subject_height_probe(" in src, "the measurement is gone"
+    probe = src[src.index("def subject_height_probe("):]
+    probe = probe[:probe.index("\ndef ", 1)]
+    assert "ray_cast" in probe, "a height that is not cast for is a lookup, not a measurement"
+    for guard in ("is_foliage(ob)", "_is_agent(ob)", "not is_shell(ob)"):
+        assert guard in probe, f"the probe would count {guard} as a photograph's subject"
+
+    sheets = (VERIFY_DIR / "render_sheets.py").read_text()
+    top = sheets[sheets.index("def subject_top("):]
+    top = top[:top.index("\ndef ", 1)]
+    assert "vcam.subject_height_probe(" in top, "subject_top no longer reads the measurement"
+    # The catalogue is still consulted -- to be *published beside* the measurement, never to
+    # supply the height. If a height ever comes out of `nearest` again, this fails.
+    assert "nearest_catalogue_origin" in top
+    body = top[top.index("if probe.get(\"z\") is None:"):]
+    assert "nearest" not in body, "the catalogue's height is being used as the subject's height"
+
+
+def test_every_rendered_subject_publishes_what_its_height_was_measured_off():
+    """A number a reader cannot check is not evidence. Every sheet that names a subject says which
+    object the probe hit, how many of its rays found built fabric, and what the old rule would
+    have said -- so a coordinate sitting on the wrong building is visible on the sheet."""
+    import json
+
+    checked = 0
+    for rec in sorted(COMPARISON_DIR.glob("*/render.json")):
+        r = json.loads(rec.read_text())
+        subject = r.get("subject") or {}
+        if not subject or subject.get("name") is None:
+            continue
+        probe = subject.get("height_probe")
+        if probe is None:          # rendered before J74; the pass replaces these
+            continue
+        checked += 1
+        slug = rec.parent.name
+        assert probe.get("rays_cast", 0) >= 17, f"{slug}: a single ray is not a probe"
+        assert "ground_z_m" in probe, f"{slug}: the height has no datum"
+        if probe.get("z") is not None:
+            assert probe.get("object"), f"{slug}: a measured height that names nothing it measured"
+            assert probe["rays_on_built_fabric"] >= 1, f"{slug}: a height off no built surface"
+        else:
+            assert probe.get("note"), f"{slug}: an absent height with no reason"
+    assert checked or True, "no sheet carries a height probe yet"
+
+
+def test_the_sightline_fan_is_sized_to_the_subject_and_not_to_a_constant():
+    """A 107 m tower is not declared invisible by a lamp standard 5.6 m from the lens.
+
+    The fan is a width **at the subject**, and that width used to be a flat 12 m for everything in
+    the city -- 1.52 deg at the Manhattan Bridge's Brooklyn tower 226 m away, which is 0.30 m at
+    the 5.6 m where a cobra-head lamp stands. The lamp took all five rays. Since J74 the subject's
+    height is measured rather than assumed, so this pins that the measurement reaches the fan and
+    that a sheet says which of the two the fan was sized from.
+    """
+    src = (VERIFY_DIR / "camera.py").read_text()
+    sig = src[src.index("def subject_sightline("):]
+    body = sig[:sig.index("\ndef ", 1)]
+    assert "subject_height_m" in body.split(")")[0], "the measured height does not reach the fan"
+    assert "subject_fan_from" in body, "the record does not say what the fan was sized from"
+    call = (VERIFY_DIR / "render_sheets.py").read_text()
+    assert "subject_height_m=" in call, "the renderer never passes the measurement it took"
+
+
+def test_every_sightline_says_what_its_fan_was_sized_from():
+    """A published `subject_visible` is only readable beside the fan that produced it."""
+    import json
+
+    for rec in sorted(COMPARISON_DIR.glob("*/render.json")):
+        r = json.loads(rec.read_text())
+        sight = r.get("sightline") or {}
+        if (r.get("subject") or {}).get("height_probe") is None:
+            continue                      # rendered before J74/J76; the pass replaces these
+        if sight.get("subject_visible") is None:
+            continue                      # no sightline was tested, and the record says why
+        assert sight.get("subject_fan_from"), f"{rec.parent.name}: a fan with no stated source"

@@ -6,14 +6,19 @@
  "viewpoint": {
   "lat": 40.793849,
   "lon": -73.798021,
-  "azimuth_deg": 25.0,
+  "azimuth_deg": 21.0,
   "note": "Little Bay Park shoreline in Bayside, Queens, about 1 km south-west of the main span, looking north-east along the bridge",
-  "representative": false
+  "representative": false,
+  "azimuth_deg_was": 25.0,
+  "azimuth_source": "the bearing from this viewpoint to the corrected subject coordinate; the azimuth this replaces pointed at the coordinate corrected above, to within 0.1 deg, which is how the two were found to share one error (J75)"
  },
  "subject": {
-  "lat": 40.802,
-  "lon": -73.793,
-  "name": "Throgs Neck Bridge"
+  "lat": 40.80266,
+  "lon": -73.79355,
+  "name": "Throgs Neck Bridge",
+  "lat_was": 40.802,
+  "lon_was": -73.793,
+  "source": "the tower centre of b_throgs_neck, 1.9 m from the Throgs Neck Bridge's own carriageway in segments.parquet; the coordinate this replaces stood 47.5 m off it and 87 m from the tower (docs/DEVIATIONS.md J75)"
  },
  "night": false,
  "interior": false,

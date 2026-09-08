@@ -6,9 +6,9 @@
   "seed": 20260907,
   "warmup_s": 120.0
  },
- "azimuth_reason": "357.1 deg, the bearing from this photograph's own GPS position to Manhattan Bridge Brooklyn tower; heading and position both come from the photograph.  The item's recorded azimuth is 345.8 deg, 11.3 deg away, and belongs to its nominal viewpoint",
+ "azimuth_reason": "1.4 deg, the bearing from this photograph's own GPS position to Manhattan Bridge Brooklyn tower; heading and position both come from the photograph.  The item's recorded azimuth is 352.8 deg, 8.6 deg away, and belongs to its nominal viewpoint",
  "camera": {
-  "azimuth_deg": 357.05897899898247,
+  "azimuth_deg": 1.3847349949484031,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
@@ -31,7 +31,7 @@
   "lat": 40.703061,
   "lon": -73.989602,
   "long_side_fov_deg": 65.47,
-  "pitch_deg": 1.2696241486026225,
+  "pitch_deg": 0.0,
   "portrait": true,
   "resolution": [
    784,
@@ -44,7 +44,7 @@
   "y": 340.673,
   "z": 5.068
  },
- "camera_caption": "camera 40.70306, -73.98960 (NYC_TM -3347, 341) z 5.1 m NAVD88 | azimuth 357.1deg pitch +1.3deg | 28 mm on 36 mm (39.8deg horizontal, 65.5deg vertical, portrait) | 784x1394",
+ "camera_caption": "camera 40.70306, -73.98960 (NYC_TM -3347, 341) z 5.1 m NAVD88 | azimuth 1.4deg pitch +0.0deg | 28 mm on 36 mm (39.8deg horizontal, 65.5deg vertical, portrait) | 784x1394",
  "camera_origin": {
   "from_photograph_gps": true,
   "lat": 40.703061,
@@ -55,27 +55,23 @@
  "clearance": {
   "min_view_m": 80.0,
   "moved": false,
-  "nearest_agent": "agent_veh_camry_boro_taxi_1160.34",
-  "nearest_agent_at_deg": [
-   19.9,
-   0.0
-  ],
-  "nearest_agent_m": 15.0,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
   "nearest_agent_probe_m": 60.0,
   "nearest_obstruction": "prop_lamp_cobra_davit_1",
   "nearest_obstruction_at_deg": [
    -19.9,
    0.0
   ],
-  "nearest_obstruction_m": 1.2,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_lamp_cobra_davit_1 1.2 m away, and the nearest simulated agent is agent_veh_camry_boro_taxi_1160.34 15.0 m away, and the view azimuth is clear for 150 m",
+  "nearest_obstruction_m": 1.5,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_lamp_cobra_davit_1 1.5 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 150 m",
   "offset_m": 0.0,
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.1998,
+  "mean": 0.1994,
   "reason": null,
-  "sd": 0.1622,
+  "sd": 0.1602,
   "usable": true
  },
  "frame_retry": null,
@@ -101,7 +97,7 @@
  },
  "name": "Washington Street in DUMBO with the Manhattan Bridge",
  "night": false,
- "pitch_reason": "aimed at Manhattan Bridge Brooklyn tower 160 m away, at its mid-height (a nominal 10 m subject); +1.3 deg from horizontal",
+ "pitch_reason": "level optical axis (Manhattan Bridge Brooklyn tower is 221 m away and would need +12 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
  "reference_photo": {
   "author": "David Kernan",
   "confidence": "high",
@@ -116,7 +112,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/dumbo_washington_st_manhattan_bridge/render.png",
- "rendered_at": "2026-09-08T18:54:02Z",
+ "rendered_at": "2026-09-08T21:30:04Z",
  "resolution_note": "784x1394; the reference photograph is 1920x3413 (0.56:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -154,7 +150,7 @@
    "placed_pedestrians": 376,
    "placed_vehicles": 85,
    "reason": null,
-   "seconds": 205.81,
+   "seconds": 186.94,
    "snapshot": {
     "building_footprints_tested": 1945,
     "density_lane_km": 32.566,
@@ -169,7 +165,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.05,
+     "load_seconds": 1.81,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -401,7 +397,8 @@
       "roughness"
      ],
      "physical_size_m": 3.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "brown_brick": {
      "albedo": {
@@ -417,7 +414,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.08,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "brownstone": {
      "albedo": {
@@ -433,7 +431,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.5,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "cast_iron": {
      "albedo": {
@@ -449,18 +448,16 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "concrete": {
      "albedo": {
-      "capped_at": 4.0,
-      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
-      "residual": 1.135,
-      "scale": 4.0,
+      "scale": 1.799,
       "target_albedo": 0.5333,
-      "texture_albedo": 0.1174
+      "texture_albedo": 0.2965
      },
-     "asset_id": "Concrete030",
+     "asset_id": "Concrete037",
      "maps": [
       "color",
       "normal",
@@ -468,7 +465,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "concrete_sidewalk": {
      "albedo": {
@@ -483,7 +481,8 @@
       "roughness"
      ],
      "physical_size_m": 1.5,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "granite": {
      "albedo": {
@@ -499,7 +498,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.5,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "limestone": {
      "albedo": {
@@ -515,7 +515,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.5,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "metal_panel": {
      "albedo": {
@@ -531,7 +532,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "precast": {
      "albedo": {
@@ -547,7 +549,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 2.0
     },
     "red_brick": {
      "albedo": {
@@ -563,7 +566,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 3.24,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "roof_membrane": {
      "albedo": {
@@ -582,7 +586,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "stone_rubble": {
      "albedo": {
@@ -598,7 +603,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 2.0
     },
     "stucco": {
      "albedo": {
@@ -614,7 +620,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "tan_brick": {
      "albedo": {
@@ -630,7 +637,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.835,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "tar_roof": {
      "albedo": {
@@ -646,7 +654,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "terracotta": {
      "albedo": {
@@ -662,7 +671,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.5,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "vinyl_siding": {
      "albedo": {
@@ -678,7 +688,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.626,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 2.0
     },
     "white_glazed_brick": {
      "albedo": {
@@ -694,18 +705,19 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.08,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "wood_clapboard": {
      "albedo": {
       "capped_at": 4.0,
       "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
-      "residual": 3.498,
+      "residual": 1.384,
       "scale": 4.0,
       "target_albedo": 0.5467,
-      "texture_albedo": 0.0391
+      "texture_albedo": 0.0988
      },
-     "asset_id": "WoodSiding003",
+     "asset_id": "WoodSiding013",
      "maps": [
       "color",
       "normal",
@@ -713,7 +725,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.032,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     }
    },
    "enabled": true,
@@ -794,7 +807,7 @@
    }
   },
   "radius_m": 934.6424375215793,
-  "seconds": 293.08,
+  "seconds": 269.68,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -872,19 +885,19 @@
   "radius_m": 934.6424375215793
  },
  "seconds": {
-  "render": 96.3,
-  "scene": 295.3,
-  "total": 391.6
+  "render": 122.8,
+  "scene": 271.8,
+  "total": 394.7
  },
  "sightline": {
-  "subject_aimed_at": "the subject's mid-height, 4.8 m above its ground",
-  "subject_blocked_at_m": 4.6,
+  "subject_aimed_at": "the subject's mid-height, 53.7 m above its ground",
+  "subject_blocked_at_m": 5.6,
   "subject_blocked_by": "prop_lamp_cobra_davit_1",
-  "subject_fan_half_angle_deg": 2.15,
+  "subject_fan_half_angle_deg": 1.52,
   "subject_fan_m": 12.0,
   "subject_lands_at_m": null,
   "subject_lands_on": null,
-  "subject_range_m": 160.1,
+  "subject_range_m": 226.2,
   "subject_rays": 5,
   "subject_rays_clear": 0,
   "subject_rays_into_nothing": 0,
@@ -896,9 +909,24 @@
  "status": "rendered",
  "subject": {
   "distance_from": "the placed camera, after the clearance walk",
-  "distance_m": 160.0,
+  "distance_m": 220.9,
+  "height_probe": {
+   "ground_z_m": 0.0,
+   "height_above_ground_m": 107.38,
+   "nearest_catalogue_origin": {
+    "distance_m": 226.3,
+    "height_m": 106.68,
+    "id": "b_manhattan_bridge",
+    "within_120_m": false
+   },
+   "note_origin_rule": "the nearest landmark model origin is 226 m away, past the 120 m the old rule looked in, so this height comes from the geometry and not from the catalogue (J74)",
+   "object": "lm_b_manhattan_bridge.214",
+   "rays_cast": 17,
+   "rays_on_built_fabric": 17,
+   "z": 107.38
+  },
   "name": "Manhattan Bridge Brooklyn tower",
-  "origin_distance_m": 160.0
+  "origin_distance_m": 220.9
  },
  "sun": {
   "azimuth_deg": 218.36780642220293,
@@ -908,7 +936,7 @@
   "utc": "2024-11-23T19:17:56Z"
  },
  "viewpoint": {
-  "azimuth_deg": 345.8,
+  "azimuth_deg": 352.8,
   "lat": 40.703,
   "lon": -73.9892,
   "note": "Washington Street between Front and Water Streets, DUMBO, centred on the roadway"
