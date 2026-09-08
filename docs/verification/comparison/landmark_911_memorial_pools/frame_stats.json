@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_911_memorial_pools",
+ "rendered_at": "2026-09-08T23:05:55Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 904,
+  "height": 1206,
+  "mean": 0.1284,
+  "sd": 0.0934,
+  "p05": 0.0028,
+  "p95": 0.3113,
+  "chroma": 0.0334
+ },
+ "reference": {
+  "width": 1920,
+  "height": 2560,
+  "mean": 0.4068,
+  "sd": 0.2388,
+  "p05": 0.1088,
+  "p95": 0.7841,
+  "chroma": 0.1162
+ },
+ "render_over_reference": {
+  "mean": 0.316,
+  "sd": 0.391,
+  "chroma": 0.287
+ }
+}

@@ -12,7 +12,7 @@
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
-  "focal_mm": 18.0,
+  "focal_mm": 35.0,
   "ground_detail": {
    "below_point_excluded": 29,
    "chosen_m": 4.19,
@@ -27,11 +27,11 @@
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
-  "hfov_deg": 73.709,
+  "hfov_deg": 42.163,
   "lat": 40.711156,
   "lon": -74.012633,
-  "long_side_fov_deg": 90.0,
-  "pitch_deg": 33.048931347688814,
+  "long_side_fov_deg": 54.432,
+  "pitch_deg": 0.0,
   "portrait": true,
   "resolution": [
    904,
@@ -44,7 +44,7 @@
   "y": 1240.741,
   "z": 5.795
  },
- "camera_caption": "camera 40.71116, -74.01263 (NYC_TM -5293, 1241) z 5.8 m NAVD88 | azimuth 314.3deg pitch +33.0deg | 18 mm on 36 mm (73.7deg horizontal, 90.0deg vertical, portrait) | 904x1206",
+ "camera_caption": "camera 40.71116, -74.01263 (NYC_TM -5293, 1241) z 5.8 m NAVD88 | azimuth 314.3deg pitch +0.0deg | 35 mm on 36 mm (42.2deg horizontal, 54.4deg vertical, portrait) | 904x1206",
  "camera_origin": {
   "from_photograph_gps": true,
   "lat": 40.711156,
@@ -60,25 +60,25 @@
   "nearest_agent_probe_m": 60.0,
   "nearest_obstruction": "lm_b_wtc_site.233",
   "nearest_obstruction_at_deg": [
-   0.0,
-   -45.0
+   -14.1,
+   -27.2
   ],
-  "nearest_obstruction_m": 0.4,
-  "note": "the eye point stands on lm_b_wtc_site.233, but this camera's position is the photograph's own EXIF GPS rather than a nominal viewpoint standing for a whole deck, so there is nothing to walk to and the camera was not moved.  The view azimuth is clear for 150 m and the nearest built thing in the frame is lm_b_wtc_site.233 0.4 m away, and no simulated agent stands within 60 m of it",
+  "nearest_obstruction_m": 0.7,
+  "note": "the eye point stands on lm_b_wtc_site.233, but this camera's position is the photograph's own EXIF GPS rather than a nominal viewpoint standing for a whole deck, so there is nothing to walk to and the camera was not moved.  The view azimuth is clear for 150 m and the nearest built thing in the frame is lm_b_wtc_site.233 0.7 m away, and no simulated agent stands within 60 m of it",
   "offset_m": 0.0,
   "standing_on": "lm_b_wtc_site.233",
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.2342,
+  "mean": 0.1277,
   "reason": null,
-  "sd": 0.184,
+  "sd": 0.0936,
   "usable": true
  },
  "frame_retry": null,
  "group": "landmark",
  "interior": false,
- "lens_reason": "widened from 35 mm to 18 mm (90 deg vertical) so that a level axis contains the subject: the b_wtc_site model's published 329 m height stands 328 m above the lens at 102 m, 73 deg above the horizon; held at the 18 mm floor, so the top of the subject is still cut off -- past that point the distortion would stop the two frames being comparable",
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal); nothing built stands within 6 m of the subject's coordinate, so its height is not measured here, so the lens was not widened to contain it",
  "lighting": {
   "background_strength": 0.03866290673613548,
   "direct_normal_irradiance_w_m2": 702.3,
@@ -98,7 +98,7 @@
  },
  "name": "National September 11 Memorial pools",
  "night": false,
- "pitch_reason": "tilted +33.0 deg to contain the subject: the b_wtc_site model's published 329 m height tops out 328 m above the lens 102 m away, 73 deg above the horizon, and the frame is only 90 deg tall at 18 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
+ "pitch_reason": "level optical axis (nothing built stands at the North Pool's coordinate, so its mid-height is not known and there is nothing to tilt towards)",
  "reference_photo": {
   "author": "Oleg Yunakov",
   "confidence": "high",
@@ -113,7 +113,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_911_memorial_pools/render.png",
- "rendered_at": "2026-09-08T21:01:37Z",
+ "rendered_at": "2026-09-08T23:05:55Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -148,7 +148,7 @@
    "placed_pedestrians": 438,
    "placed_vehicles": 88,
    "reason": null,
-   "seconds": 123.04,
+   "seconds": 131.92,
    "snapshot": {
     "building_footprints_tested": 1416,
     "density_lane_km": 24.809,
@@ -826,7 +826,7 @@
    }
   },
   "radius_m": 600.7229376618243,
-  "seconds": 168.14,
+  "seconds": 187.29,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -879,32 +879,34 @@
   "radius_m": 600.7229376618243
  },
  "seconds": {
-  "render": 40.4,
-  "scene": 169.4,
-  "total": 209.8
+  "render": 58.3,
+  "scene": 188.6,
+  "total": 247.0
  },
  "sightline": {
-  "subject_aimed_at": "the subject's mid-height, 164.6 m above its ground",
-  "subject_blocked_at_m": null,
-  "subject_blocked_by": null,
-  "subject_fan_half_angle_deg": 1.78,
-  "subject_fan_m": 12.0,
-  "subject_lands_at_m": null,
-  "subject_lands_on": null,
-  "subject_note": "nothing stands within 25 m of the subject's recorded coordinate: the clear rays meet nothing at all out to 593 m.  The line is open and the subject is not on it, which is a fault in the item's coordinate or in the model, not in the camera",
-  "subject_range_m": 192.6,
-  "subject_rays": 5,
-  "subject_rays_clear": 5,
-  "subject_rays_into_nothing": 5,
-  "subject_rays_on_subject": 0,
-  "subject_reach_m": 25.0,
-  "subject_visible": false
+  "subject_note": "nothing built stands within 6 m of the subject's coordinate, so its height is not measured here; no sightline was tested",
+  "subject_visible": null
  },
  "slug": "landmark_911_memorial_pools",
  "status": "rendered",
  "subject": {
   "distance_from": "the placed camera, after the clearance walk",
   "distance_m": 102.4,
+  "height_probe": {
+   "ground_z_m": 4.33,
+   "highest_built_z_m": 4.4,
+   "nearest_catalogue_origin": {
+    "distance_m": 39.0,
+    "height_m": 329.2,
+    "id": "b_wtc_site",
+    "within_120_m": true
+   },
+   "note": "the highest built thing at the subject's coordinate is lm_b_wtc_site.232, 0.1 m above the ground there -- below the 2 m at which a subject has a height worth aiming or framing by",
+   "object": "lm_b_wtc_site.232",
+   "rays_cast": 17,
+   "rays_on_built_fabric": 16,
+   "z": null
+  },
   "name": "the North Pool",
   "origin_distance_m": 102.4
  },

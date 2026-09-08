@@ -740,8 +740,14 @@ def subject_top(meta: dict, cam_x: float, cam_y: float, sampler,
                     f"the old rule looked in, so this height comes from the geometry and not from "
                     f"the catalogue (J74)")
     if probe.get("z") is None:
-        return dist, None, (f"nothing built stands within {vcam.SUBJECT_PROBE_RINGS[-1]:.0f} m of "
-                            f"the subject's coordinate, so its height is not measured here")
+        # The probe distinguishes two ways of having no usable height and so must this: nothing
+        # built at the coordinate at all, or something built that is too low to aim or frame by --
+        # the 9/11 memorial pools are the second, where 16 of 17 rays land on the plaza deck 0.1 m
+        # above its own ground.  Saying "nothing built stands here" of a pool's own coping would
+        # be false about the world rather than honest about the measurement.
+        return dist, None, (probe.get("note")
+                            or f"nothing built stands within {vcam.SUBJECT_PROBE_RINGS[-1]:.0f} m "
+                               f"of the subject's coordinate, so its height is not measured here")
     return dist, float(probe["z"]), (
         f"the top of {probe['object']}, the built thing standing at the subject's coordinate, "
         f"{probe['height_above_ground_m']:.0f} m above the ground there")

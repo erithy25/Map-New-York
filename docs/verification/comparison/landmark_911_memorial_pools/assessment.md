@@ -2,141 +2,53 @@
 
 `landmark_911_memorial_pools` · sheet: [`sheet.png`](sheet.png) · render record: [`render.json`](render.json)
 
-**Reference** — File:National September 11 Memorial South Pool - 04.jpg by Oleg Yunakov, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2025-09-11 17:01:35, 1920x2560. [Commons page](https://commons.wikimedia.org/wiki/File:National_September_11_Memorial_South_Pool_-_04.jpg)
+**Reference** — File:National September 11 Memorial South Pool - 04.jpg by Oleg Yunakov, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2025-09-11 17:01:35, 1920x2560. [Commons page](https://commons.wikimedia.org/wiki/File:National_September_11_Memorial_South_Pool_-_04.jpg) — the photograph's own view direction is derived from the image at **high** confidence.
 
-**Camera** — camera 40.71116, -74.01263 (NYC_TM -5293, 1241) z 5.8 m NAVD88 | azimuth 314.3deg pitch +0.0deg | 18 mm on 36 mm (73.7deg horizontal, 90.0deg vertical, portrait) | 904x1206. View direction: 314.3 deg, the bearing from this photograph's own GPS position to the North Pool as the reference metadata records it; heading and position both come from the photograph, 37 m from the item's recorded viewpoint. Aim: level optical axis; the lens was widened from 35 mm to the 18 mm floor and the top of the subject is still cut off. **The camera was not moved** — it stands on the memorial plaza at the height the heightmap gives (4.195 m + 1.6 m eye).
+**Camera** — 40.711156, -74.012633 (NYC_TM -5293, 1241) at z 5.8 m NAVD88 | azimuth 314.3°, pitch +0.0° | 35 mm on 36 mm (42.2° horizontal, portrait) | 904x1206. The camera stands on **this photograph's own EXIF GPS**, 36.9 m from the item's recorded viewpoint, and was **not moved**. The eye point stands on `lm_b_wtc_site.233` — the memorial plaza's own deck — and because this position is the photograph's own rather than a nominal viewpoint standing for a whole structure, there is nothing to walk to and nothing was walked. The view azimuth is clear for 150 m and no simulated agent stands within 60 m.
 
-**Sun** — azimuth 254.4°, elevation 23.6° at 2025-09-11T17:01:35-04:00 (EXIF DateTimeOriginal).
+**Sun** — azimuth 254.4°, elevation 23.6° at 2025-09-11T17:01:35−04:00, from the photograph's own **EXIF DateTimeOriginal**. That date is a **Thursday** and the crowd was drawn for a weekday. Both the instant and the position on this sheet are the photograph's own, and the instant is the anniversary itself.
 
-**In frame** — 4/4 building tiles, 10 landmark models, 1,649 pavement polygons, 554 props, 264 facade-kit pieces; 1,839,874 triangles; ground mesh 203² at 2.0 m near / 40.0 m far, with **8,113 quads and 414 pavement triangles cut out under the memorial plaza**. Frame mean 0.383, sd 0.181.
+**In the scene**, within 600.7 m of the camera and not all of it in frame — 4 building tiles (106,490 tris), 10 landmark models of which **1 can fall inside the 42.2° frame**, 22,728 pavement polygons (8,296 white marking, 3,994 plaza, 3,649 roadbed, 3,192 sidewalk, 2,585 curb, 454 crosswalk, 321 median, 142 yellow marking, 95 parking lot), 413 props of the 1,932 in range, 1,826 kit pieces, 88 vehicles and 438 people; 3,510,212 triangles. Ground mesh 67,010 triangles, 0 holes. 20 city surfaces are dressed from the shared photographic catalogue.
 
-**Verdict — the model defect that made this frame black is fixed and the frame is now taken where the photograph was taken: the camera stands at the South Pool's bronze parapet on ground the heightmap and the model agree about, the plaza is cut open over the pool and the opening reads as a void beyond the coping. What is still not there is the water: the level-axis rule cannot see over a 1.07 m parapet into a basin 9.14 m down, and the scene's terrain is drawn across the opening 2.5 m below the deck**
+## Verdict — the subject is a void and a bronze parapet with the names on it, and the model has neither
 
-## What changed since the last sheet, and why
+**The memorial is the one thing on this plaza that the build does not contain, and the record says so in a number rather than leaving it to be noticed.** The height probe casts 17 rays at the North Pool's own coordinate; **16 of them land on built fabric** and the highest is `lm_b_wtc_site.232` at **0.1 m** above the ground there. That is the plaza deck. There is no basin, no thirty-foot drop, no falling water, no bronze parapet and no incised names: at the pool's coordinate the world is flat. The record refuses to give the subject a height on that basis — *"below the 2 m at which a subject has a height worth aiming or framing by"* — and refuses to report a sightline, which is the correct output and is why this sheet carries `subject_visible: null` rather than a verdict.
 
-The previous sheet of this subject was made after the comparison stage worked around three faults in
-`blender/landmarks/b_wtc_site.py` rather than fixing them. All three are now fixed in the model
-(`docs/verification/landmarks/REPORT_B.md` §12) and this frame was re-rendered against it.
+**The photograph is entirely made of the things that are missing.** It is a close view along the parapet: black granite and bronze, the names of the dead incised through it, roses and a small flag pushed into the letters by people who came on the anniversary, the pool's black water and the reflection of a tower in it. Not one of those five things exists in this build.
 
-| was | now | measured |
-|---|---|---|
-| the plaza deck stood at **7.000 m NAVD88** where the heightmap reads 4.19 m, so the recorded eye point sat 1.21 m *underneath* it and the frame was black until the camera was raised 2.81 m onto the model's own deck | the deck is at **4.40 m** — 0.21 m above the heightmap — and the camera stands on it at the eye height the heightmap gives, **not moved at all** | camera z 8.60 m → **5.795 m** |
-| the plaza was one unbroken 520 × 520 m quad drawn across both 61 m pool openings, so no camera anywhere on the plaza could see a pool | the plaza is the real 8-acre memorial plaza with both pool squares cut out of it | the `plaza` mesh carries 116 triangles, **none** of them inside either pool square |
-| all 220 memorial oaks carried a merged impostor card and were drawn with two canopies; `scene.py` stripped 12 card faces on 2 template meshes at import | the glb carries no `IMPOSTOR_*` material at all | `impostor_cards_dropped: 0`, `impostor_faces_dropped: 0` |
-| the pool centres were derived ±85 m along the plaza polygon's axis | they are measured from OSM ways 697722178 / 697722181 | the derived centres were **31.8 m** and **30.1 m** out, with the squares **41.4 deg** out of rotation |
-
-One consequence needed a change in this stage rather than in the model. `camera._walk_to_parapet`
-treated the memorial plaza as ground only because the old 520 × 520 m slab still carried the eye at the
-end of a 250 m probe; once the plaza was clipped to its real outline the walk started dragging this
-camera **26 m** off the photographer's position and into a frame of benches and street trees. The rule
-now asks what it actually depends on: the parapet walk exists because an observation-deck viewpoint is
-*one nominal lat/lon standing for a whole deck*, so it is applied only when the camera position is that
-— and refused when the position came from the photograph's own EXIF GPS, which is a measurement of
-where the photographer stood and not a point to be guessed away from. This camera is the photographic
-case (`camera_origin.from_photograph_gps: true`) and stays put; Bethesda Terrace is the nominal case
-and still walks 12 m to its balustrade, re-rendered to a bit-identical frame to check that.
-
-Two rules that looked more principled were tried against both scenes and rejected on measurement: a
-deck within 2 m of the heightmap is ground (the memorial reads 1.33 m and Bethesda's terrace 1.6 m —
-they do not separate), and a parapet needs a drop beyond its edge (the memorial reads 1.10 m and
-Bethesda 0.90 m — the same). Both would have moved a mandated viewpoint's camera.
-
-## Re-rendered 2026-09-07 — the frame that was black now works, and it exposed a defect I caused
-
-This scene was one of the six that rendered near-black (I8) and the last to be fixed. It now shows
-what it is a picture of: the north pool's bronze parapet running across the foreground with the
-void's dark opening cut through it at the lower left, the plaza paving beyond, the oak grove filling
-the middle distance, benches along the right, and the towers of the rebuilt site behind. 88 vehicles
-and 427 people are in the scene, 10 landmark models including `b_wtc_site` and One World Trade Center.
-
-**And the grove is roughly 670 trees where the real one is about 400, because of work I did today.**
-`b_wtc_site` has planted 220 swamp white oaks on this plaza since the landmarks stage. The
-OpenStreetMap tree ingest added **449 more within 130 m of the site origin**, and the 5.0 m
-cross-source dedupe could not stop it: that rule compares OSM trees against the *census*, and there is
-not a single census tree on this plaza to compare against. The duplication is against the landmark
-model, a boundary the dedupe was never designed to cover.
-
-I made it worse by mis-reading it. In deviation D10 I wrote that the memorial's oak grove "appears for
-the first time" because 415 of the OSM nodes carry `Quercus bicolor`. The model's own docstring says
-it plants the grove, and I did not read it. Both the claim and the defect are now recorded in D10.
-
-The pool geometry itself is the corrected version (I11, I11a): plaza at 4.10–4.40 m NAVD88 rather than
-7.000 m, both 61 m openings cut, the pool centres measured from OpenStreetMap ways 697722178 and
-697722181 rather than derived. Mean luminance 0.245 against the photograph's 0.406 — the exposure gap
-of I16, milder here than in the Wall Street canyon.
+**What the render does contain is the plaza around the hole.** The swamp white oak grove, the benches, the lamps, the paving and the surrounding towers are all there, in the right places, in the evening light of the photograph's own instant. Read as a comparison of the memorial it shows nothing; read as a comparison of the site the memorial stands in it holds up.
 
 ## What matches
 
-* **The camera is where the photographer stood, at the parapet.** In the pool's own axes it sits
-  30.68 m along the square's edge direction and 26.18 m across from the South Pool's measured centre —
-  **0.18 m outside the 61 m square**, i.e. standing at the coping, which is exactly what the
-  photograph's own GPS describes. Nothing raised, walked or searched for it.
-* **The plaza is open and the opening is in the frame.** The South Pool's bronze `MEMORIAL_NAMES`
-  parapet runs away from the lens down the left of the frame with its 2.3 m panel joints visible, and
-  beyond it the plaza stops: the dark wedge in the lower left is the cut, not a shadow. The far corner
-  of the same opening projects to (287, 618) at 55 m, in frame.
-* **The memorial oaks are single-canopied.** They read as the dark green band across the middle of the
-  frame with sky and tower behind, rather than the solid cones the impostor card used to draw.
-* 3, 4 and 7 World Trade Center stand behind the grove at the right relative heights, and the memorial
-  museum pavilion's canted glass mass fills the right of the frame.
-* The Sun is placed from the photograph's own timestamp — 11 September 2025 at 17:01, elevation 23.6°,
-  azimuth 254.4° — so both frames are lit from the west-south-west late in the afternoon.
+* **The grove is the grove.** 294 trees stand within 286.9 m — the memorial plaza's oaks are planted in a grid and the render's canopy reads as one, receding along the pool's long side exactly as the reference's does above the parapet.
+* **The plaza is paved as a plaza**: 3,994 plaza polygons and 3,192 sidewalk polygons carry concrete from their own material names, and the pool's coping runs away from the camera as a continuous low edge in the right place.
+* **The furniture is the memorial's furniture** — 57 benches and 38 lamps, which is what the plaza carries and what the photograph shows in its middle distance.
+* **The instant is the photograph's own**, down to the second, and it is the anniversary: 11 September, 17:01. The low evening light raking across the plaza is the light the reference was taken in.
+* **The camera stands where the photograph was taken**, on its own EXIF GPS, and was not moved — which is the best case this pipeline has.
+* **The World Trade Center site model is the one landmark that can fall inside the frame**, at 63.4 m and 0.1° off axis. The nine others in the scene are behind or beside the camera and the record distinguishes the two (J61).
+* Nothing was dropped for being missing: 4 building tiles, 0 LOD substitutions, 0 pavement polygons dropped, 0 holes in the ground, and the kit was not capped.
 
 ## What does not match
 
-* **There is still no water and no waterfall, and this is geometry, not a missing model.** The basin is
-  modelled (parapet 0.15–1.07 m, walls to −9.14 m, water at −8.79 m, the central void to −18.14 m, all
-  measured in the glb). From an eye 1.6 m above the deck standing at a 1.07 m coping, the sight line
-  that grazes the coping's inner edge falls **0.137 m per metre**, so it needs **74.6 m** of run to
-  reach water **10.19 m** below the eye — and the basin is **56.6 m** across inside the parapet. The
-  water cannot be seen from this camera, and would not be seen by a person standing there either. The
-  reference photograph solves it the way visitors do, by leaning over the coping and tilting about 40°
-  down; the level-axis rule that keeps a render comparable on proportion forbids that.
-* ~~**The scene's terrain is drawn across the opening.**~~ **Fixed in the scene builder on 2026-09-07**
-  (`docs/verification/comparison/REPORT.md` §2.9). Where a landmark models its own ground, the terrain
-  and the pavement are no longer drawn inside that surface's outer plan outline, openings included:
-  this frame cuts **8,113 terrain quads and 414 pavement triangles** out of the 33,039 m² memorial
-  plaza outline, and the published heightmap — a median **1.98 m** NAVD88 inside the South Pool square
-  over 961 samples at 2 m, 2.4 m below the deck — no longer crosses the basin.
-  **This changes almost nothing in *this* frame, and the reason is the optics above, not the fix.**
-  Cropped to the pool opening the render differs from the shipped one by 0 % of pixels above 8/255
-  (maximum single-pixel difference 15). From an eye 0.33 m above the coping the sight line into the
-  opening never reaches down to 1.98 m before it meets the far wall, so the terrain that was removed
-  was never visible from here in the first place. It was visible in principle to any camera that could
-  look into the pool, and the landmark's own `memorial_plaza.png` — taken 12 m above the deck with no
-  context ground — is where the basin, the water and the central void can actually be seen.
-* **The frame is aimed at a different pool from the one the photograph shows.** The reference records
-  its subject as "the North Pool" at 40.7118, -74.0135, and the azimuth is the bearing from the camera
-  to that point. Measured against OSM way 697722178, that recorded point is **46.6 m** from the real
-  North Pool's centre; and the photograph itself is titled, categorised and framed as the *South Pool*,
-  which is at the photographer's feet at bearing 249.7°, behind the lens. The North Pool the render is
-  aimed at is 118.4 m away at bearing 337.3°, 23° right of the frame centre and edge-on. The subject
-  coordinate is reference metadata, not photographic evidence, and it has not been edited here.
-* **The framing is not the photograph's framing**, for the same reason as before: the reference is a
-  close-up tilted down the coping with the incised names, roses and flags legible; the render's level
-  axis shows the coping as tan plates seen from 0.28 m above them.
-* **The names are not there.** `MEMORIAL_NAMES` is a material slot for an engine texture and the
-  verification renderer does not drive it, so the parapets are plain bronze. The photograph's subject is
-  the lettering.
-* **No flowers, no flags, no people.** The photograph is a 9/11 anniversary picture: roses on every
-  name, small flags, and a crowd along the far parapet.
-* The towers are flat pale-blue and white massing with no glass reflectance, no spandrel banding and no
-  visible fenestration.
-* The museum pavilion renders as a large near-white translucent mass; its `b_glass_clear` material is
-  alpha-blended with a 0.5 base alpha, which reads as frosted plastic rather than glass.
-* The paved plaza is one flat tone: no granite paving pattern, no joints, no kerb line around the pools.
+* **There is no pool.** No basin, no thirty-foot walls, no water, no falling sheet, no void. The probe's 0.1 m is the measurement of that.
+* **There is no parapet and there are no names.** The memorial's subject — the bronze band carrying the name of every person killed — is the photograph's whole foreground and is absent from the model. `memorial` is one of the prop kinds with **no asset at all**, and the record counts it: 1 unplaced memorial in this scene (J23).
+* **There are no flowers and no flags**, which is what the photograph is a picture of on this date. The build has no notion of what people leave on an anniversary.
+* **The frame is a third of the photograph's brightness and carries under a third of its colour**: mean **0.1284** against **0.4068** (**0.316×**), standard deviation **0.0934** against **0.2388** (**0.391×**), chroma **0.0334** against **0.1162** (**0.287×**), 95th percentile **0.3113** against **0.7841**, 5th percentile **0.0028** against **0.1088**. Three things are in that and they are not the same: the photograph's frame is filled at close range by a sunlit bronze slab and coloured flowers, the render's by shaded paving and dark canopy; the render's darkest pixels reach almost pure black where the photograph's floor is 0.109; and the canopy over this camera is dense.
+* **293 of the 294 trees are species-substituted** and the mean scale is **0.708** — the lowest on any sheet so far, meaning the memorial's oaks are drawn at seven tenths of the height the census records for them — with **3 outside the declared scale band**, drawn at their asset's own size and counted (J70).
+* **413 props of the 1,932 in range were placed**, and the rest were not — triangle budget 1,301,459 — along with 4 opaque impostor cards.
+* **608 pedestrians were dropped for standing in the carriageway without crossing** and 412 more for not being on a walkable surface. The memorial plaza on 11 September is one of the most crowded places in the city and the render carries 438 people, none of them at the parapet.
+* **The reference is 1920x2560 and the render is 904x1206.** The aspect is matched; the resolution is not, and no claim here rests on fine detail.
 
 ## Cause of each gap
 
 | gap | cause | class |
 |---|---|---|
-| ~~the frame was black from the recorded viewpoint~~ | **fixed in the model**: `GRND` was both the local datum and the frame origin's NAVD88 z, so the plaza level was counted twice. The plaza now measures 4.40 m NAVD88 in the exported glb and the camera is no longer corrected at all | geometry |
-| ~~no pool water, waterfall or void visible from anywhere on the plaza~~ | **fixed in the model**: the plaza is cut open over both pools. What remains is the two entries below | geometry |
-| ~~the opening reads as a shallow inset, not a 9.14 m fall~~ | **fixed**: the terrain and pavement are cut out under a landmark's own ground plane, openings included. It makes no visible difference from *this* camera, whose sight line never reaches the depth the terrain was drawn at | scene assembly |
-| no water visible over the parapet | the sight line from a 1.6 m eye over a 1.07 m coping cannot reach 10.19 m down inside a 56.6 m basin; the photograph tilts 40 deg down and the level-axis rule cannot | camera/optics |
-| the frame is aimed at the North Pool while the photograph is of the South Pool | the reference `subject` coordinate, which is 46.6 m from the real North Pool and not what this photograph shows | reference metadata |
-| the parapets carry no names | `MEMORIAL_NAMES` is a material slot for an engine-driven texture; the verification renderer has no texture to bind to it | material |
-| no roses, flags or people | no stage places people or temporary objects into a still verification frame | data |
-| flat pale towers, no glass | building and landmark shells carry a per-material base colour only | material |
-| the museum pavilion reads as frosted plastic | `b_glass_clear` is an alpha-blended 0.5-alpha material with no transmission or roughness model | material |
-| plain paved plaza with no granite pattern or joints | pavement and landmark paving carry a flat per-kind base colour with no texture | material |
+| no pool, no void, no water | the memorial's basins are not modelled; at the subject's coordinate the plaza deck is the highest built thing, 0.1 m above its own ground | **geometry — the subject of the sheet** |
+| no parapet, no incised names | `memorial` has no prop asset and the landmark model carries the site rather than its monuments; it stays unplaced rather than become the wrong object (J23) | geometry |
+| no flowers, no flags | the build has no notion of what people leave on an anniversary; nothing in any source records it | data — no source exists |
+| mean 0.316×, 5th percentile 0.003 against 0.109 | the photograph is filled at close range by sunlit bronze and flowers, the render by shaded paving under a dense canopy; the renderer opens no stops and Filmic maps the darkest of it to black | reference + stated choice |
+| chroma 0.287× | the photograph's colour is flowers and a flag a metre from the lens; the render's surfaces are concrete, granite and leaf, and one material family is stated per facade class (J66) | reference + material |
+| 293 of 294 trees species-substituted, mean scale 0.708 | no modelled species matched exactly; the nearest by size and taxon was used, and the memorial's oaks are drawn well under their measured height | data |
+| 3 trees outside the scale band | their measured height is further from the nearest exported size than the declared band allows, so they keep the asset's own size and are counted (J70) | data |
+| most of the props in range unplaced | triangle budget 1,301,459, declared on the sheet | performance |
+| pedestrians dropped in their hundreds, and none at the parapet | the placement rules — not in the carriageway, on a walkable surface — each named in the record; nothing draws a crowd to a monument | verification + data |
