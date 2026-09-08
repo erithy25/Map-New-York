@@ -80,7 +80,11 @@ TILE_SIZE_M = 1000.0
 #: actually has rather than on the bare heightmap.  Duplicated from ``scene.PAVEMENT_KINDS``
 #: deliberately: ``tests/test_agents.py`` asserts the two agree, so a change to one is a test
 #: failure rather than a silent 0.15 m float.
-PAVEMENT_LIFT_M = {0: 0.10, 1: 0.25, 2: 0.25, 3: 0.25, 4: 0.25, 5: 0.115, 6: 0.10}
+#: The paint (kinds 10 and 11) is deliberately **not** here.  It is 4 mm of thermoplastic laid on
+#: a surface that is in this table, not a surface of its own: a car crossing a lane line is on the
+#: roadbed and a walker on a crossing bar is on the crossing.  Listing it would make an agent that
+#: happened to stand over a line "not on a walkable surface" and drop it.
+PAVEMENT_LIFT_M = {0: 0.10, 1: 0.25, 2: 0.25, 3: 0.25, 4: 0.25, 5: 0.101, 6: 0.10}
 PAVEMENT_NAME = {0: "roadbed", 1: "sidewalk", 2: "median", 3: "plaza", 4: "curb", 5: "crosswalk",
                  6: "parking_lot"}
 #: A vehicle belongs on the carriageway: the roadbed, the crosswalk painted across it, or a

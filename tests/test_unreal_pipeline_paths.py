@@ -418,11 +418,16 @@ def test_every_prop_row_carries_a_resolved_asset_or_a_named_reason():
     import sys as _sys
 
     _sys.path.insert(0, str(REPO_ROOT / "pipeline"))
-    from nycsim_pipeline.furniture.assets import PROP_KIND_ALIASES
+    from nycsim_pipeline.furniture.assets import BUILT_ELSEWHERE, PROP_KIND_ALIASES
 
     doc = _manifest()
     imported = {e["dst"] for e in doc["entries"]}
     no_asset_by_design = {k for k, v in PROP_KIND_ALIASES.items() if v is None}
+    # A kind that is built somewhere else is a stronger statement than a declared gap: the thing is
+    # in the world, it is simply not a prop.  A curb ramp is cut into the pavement mesh (J21), so
+    # the row resolves to ``built_elsewhere:curb_ramp`` and must not be read as a missing asset.
+    built_elsewhere = {f"built_elsewhere:{k}" for k in BUILT_ELSEWHERE}
+    assert built_elsewhere, "nothing is declared as built elsewhere; the prefix has been removed"
 
     checked = 0
     for tile, info in sorted(doc.get("tiles", {}).items()):
@@ -438,8 +443,9 @@ def test_every_prop_row_carries_a_resolved_asset_or_a_named_reason():
         stray = [a for a in assets if a not in imported]
         assert not stray, f"{tile}: props reference {len(stray)} paths nothing imports: {stray[:3]}"
         for reason, count in (tile_doc.get("unresolved") or {}).items():
-            assert reason in no_asset_by_design, (
-                f"{tile}: {count} prop rows unresolved for a reason that is not a declared gap: {reason}")
+            assert reason in no_asset_by_design or reason in built_elsewhere, (
+                f"{tile}: {count} prop rows unresolved for a reason that is neither a declared gap "
+                f"nor a kind built elsewhere: {reason}")
         key = tile_doc.get("asset_key", "a")
         for row in tile_doc["rows"]:
             if key in row:

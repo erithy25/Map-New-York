@@ -389,8 +389,20 @@ def test_agents_stand_on_the_same_surfaces_the_scene_draws():
                 isinstance(t, ast.Name) and t.id == "PAVEMENT_KINDS" for t in node.targets):
             kinds = ast.literal_eval(node.value)
     assert kinds, "scene.py no longer defines PAVEMENT_KINDS"
-    assert set(kinds) == set(vagents.PAVEMENT_LIFT_M), "the two tables cover different surfaces"
+    # The scene draws the paint (J52); an agent does not stand on it.  Everything the scene draws
+    # and an agent can stand on has to agree on its height, and the paint has to be in neither the
+    # vehicle nor the pedestrian surface list -- a walker over a crossing bar who counted as
+    # standing on the bar would be dropped as "not on a walkable surface".
+    paint = {10, 11}
+    assert set(kinds) - paint == set(vagents.PAVEMENT_LIFT_M), \
+        "the two tables cover different surfaces"
+    assert paint <= set(kinds), "scene.py no longer draws the road markings"
+    assert not (paint & set(vagents.VEHICLE_SURFACES)), "a car does not stand on paint, it drives over it"
+    assert not (paint & set(vagents.PED_SURFACES)), "a walker does not stand on paint"
+    assert not (paint & set(vagents.PED_ROAD_SURFACES))
     for k, entry in kinds.items():
+        if k in paint:
+            continue
         assert abs(entry[1] - vagents.PAVEMENT_LIFT_M[k]) < 1e-9, (
             f"surface {k} ({entry[0]}) is drawn at +{entry[1]} m and agents are placed at "
             f"+{vagents.PAVEMENT_LIFT_M[k]} m")

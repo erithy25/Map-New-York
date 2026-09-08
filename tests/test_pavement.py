@@ -129,10 +129,22 @@ def test_the_curb_reveal_is_the_real_fifteen_centimetres():
         assert pvlib.PAVEMENT_KINDS[kind][1] - roadbed == pytest.approx(0.15), (
             f"kind {kind} ({pvlib.PAVEMENT_KINDS[kind][0]}) sits "
             f"{pvlib.PAVEMENT_KINDS[kind][1] - roadbed:.3f} m above the roadbed, not 0.15")
+    # The crossing *area* stopped being paint at J52: it is the asphalt the bars are laid on, and
+    # only has to win the surface it shares with the roadbed rather than stand on it.
     crosswalk = pvlib.PAVEMENT_KINDS[5][1] - roadbed
-    assert 0.005 <= crosswalk <= 0.03, (
-        f"the crosswalk stands {crosswalk * 1000:.0f} mm proud of the roadbed; thermoplastic is "
-        f"a few millimetres, and anything a car can feel is wrong")
+    assert 0.0005 <= crosswalk <= 0.005, (
+        f"the crossing area stands {crosswalk * 1000:.1f} mm proud of the roadbed; it is asphalt "
+        f"now, so it needs a millimetre to disambiguate the surface and nothing more")
+    # The paint is the thing that stands on the road.  Extruded thermoplastic is laid 90 to 125 mil
+    # (2.3 to 3.2 mm); at 15 mm a crossing bar three metres from the lens read as a raised slab
+    # casting its own shadow, which is what the first markings render showed.
+    for kind in (10, 11):
+        paint = pvlib.PAVEMENT_KINDS[kind][1] - roadbed
+        assert 0.002 <= paint <= 0.006, (
+            f"{pvlib.PAVEMENT_KINDS[kind][0]} stands {paint * 1000:.1f} mm above the roadbed; "
+            f"thermoplastic is 2.3 to 3.2 mm and anything a car can feel is wrong")
+        assert paint > crosswalk, "the paint must sit above the crossing area it is laid on"
+        assert pvlib.PAVEMENT_KINDS[kind][2] == 0.0, "paint has no edge, so it carries no skirt"
 
 
 def test_the_curb_carries_a_skirt_deep_enough_to_reach_the_roadbed():
@@ -202,10 +214,21 @@ def test_every_surface_the_pavement_stage_emits_is_a_class_the_tyre_model_knows(
                 f"{pvlib.SURFACE_CLASS_NAMES.get(cls)!r} in pvlib")
 
 
-def test_the_two_kinds_that_override_their_material_do_it_for_a_reason():
-    """A sidewalk is not simply concrete and a crosswalk is not simply asphalt."""
+def test_the_kinds_that_override_their_material_do_it_for_a_reason():
+    """A sidewalk is not simply concrete, and paint is not the asphalt under it.
+
+    The crossing area used to be one of these overrides, because it *was* the paint: a solid
+    painted rectangle across the whole carriageway.  Since J52 the paint is the bars laid on it
+    (kinds 10 and 11) and the area under them is asphalt, so a wheel there meets the road until it
+    meets a bar.
+    """
     assert pvlib.surface_class(1, 1) == 9, "a concrete sidewalk must resolve to Sidewalk, not Concrete"
-    assert pvlib.surface_class(5, 0) == 5, "an asphalt crosswalk must resolve to PaintedMarking"
+    assert pvlib.surface_class(8, 1) == 9, "a curb ramp is a sidewalk a car should not be on"
+    for kind in (10, 11):
+        assert pvlib.surface_class(kind, 0) == 5, (
+            f"{pvlib.PAVEMENT_KINDS[kind][0]} must resolve to PaintedMarking, which is the wet "
+            f"friction the vehicle model uses for paint")
+    assert pvlib.surface_class(5, 0) == 1, "the crossing area is asphalt now; the paint on it is the bars"
     assert pvlib.surface_class(0, 1) == 2, "a concrete roadbed is concrete"
     assert pvlib.surface_class(0, 2) == 3, "a cobbled roadbed is cobble"
 
