@@ -320,6 +320,8 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, rail_path: Path = RAIL,
         geoms = np.asarray(shapely.from_wkb(table.column("geometry").to_pylist()), dtype=object)
         base = table.column("base_z").to_pylist()
         roof = table.column("roof_z").to_pylist()
+        deck = table.column("deck_z").to_pylist()
+        gnd = table.column("ground_z").to_pylist()
         covered = np.asarray(table.column("in_a_building_footprint"), dtype=bool)
         hit = shapely.STRtree(geoms).query(box, predicate="intersects")
         for h in hit:
@@ -335,7 +337,12 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, rail_path: Path = RAIL,
             for ring in _clip_rings(geoms[j], box):
                 local = ring - np.array([x0, y0])
                 if str(kinds[j]) == "elevated_station":
-                    station_columns += stlib.station(buf("platform"), buf("canopy"), local, b, r)
+                    # What the platform stands on: the deck of the railway under it where there is
+                    # one, the ground where the survey put a station on no built structure.
+                    sup = deck[j] if (deck[j] is not None and math.isfinite(deck[j])) else gnd[j]
+                    if sup is None or not math.isfinite(sup):
+                        sup = None
+                    station_columns += stlib.station(buf("platform"), buf("canopy"), local, b, r, sup)
                     built = True
                 elif stlib.station_house(buf("station_house"), local, b, r):
                     built = True

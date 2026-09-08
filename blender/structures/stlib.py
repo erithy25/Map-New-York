@@ -412,12 +412,19 @@ def ear_clip(ring: np.ndarray) -> np.ndarray:
 
 
 def station(platform_buf: "MeshBuffer", canopy_buf: "MeshBuffer", ring: np.ndarray,
-            base_z: float, roof_z: float) -> int:
+            base_z: float, roof_z: float, support_z: float | None = None) -> int:
     """An elevated station: a platform slab, a canopy roof over it, and the columns between.
 
     The survey digitises the **roof outline**, "delineated to include any underlying stairways"
     (Capture Rules, RAILROAD STRUCTURE), so the polygon is the canopy and the platform under it is
-    the same plan. Returns the number of columns placed.
+    the same plan.
+
+    ``support_z`` is what the platform stands on -- the deck of the railway under it, or the ground
+    where no built structure is there. The platform surface is 1.143 m above the rail, so a slab
+    alone would float that far over the deck; the same column grid that carries the canopy is run
+    down from the platform to ``support_z``, which is the framing that gap really contains.
+
+    Returns the number of columns placed.
     """
     tris = ear_clip(ring)
     if not len(tris):
@@ -427,10 +434,16 @@ def station(platform_buf: "MeshBuffer", canopy_buf: "MeshBuffer", ring: np.ndarr
     canopy_buf.add_prism(ring, roof_z - CANOPY_THICKNESS_M, roof_z, tris)
     canopy_buf.pieces += 1
     posts = pile_grid(ring, CANOPY_COLUMN_SPACING_M, inset_m=CANOPY_COLUMN_INSET_M)
+    under = (support_z is not None and base_z - PLATFORM_THICKNESS_M - support_z > 0.2)
     for px, py in posts:
         canopy_buf.add_box(px, py, base_z, roof_z - CANOPY_THICKNESS_M,
                            CANOPY_COLUMN_SIDE_M, CANOPY_COLUMN_SIDE_M)
+        if under:
+            platform_buf.add_box(px, py, support_z, base_z - PLATFORM_THICKNESS_M,
+                                 CANOPY_COLUMN_SIDE_M * 1.5, CANOPY_COLUMN_SIDE_M * 1.5)
     canopy_buf.pieces += len(posts)
+    if under:
+        platform_buf.pieces += len(posts)
     return len(posts)
 
 
