@@ -104,7 +104,11 @@ def load_segments(path: Path = SEGMENTS):
     """Read the road segments the rules need. Returns ``None`` when the roads stage has not produced them."""
     if not path.exists():
         return None
-    t = pq.read_table(path, columns=["segment_id", "geometry", "rw_type", "width_m", "borough"])
+    cols = ["segment_id", "geometry", "rw_type", "width_m", "borough"]
+    # Older segment tables predate the column; read it when it is there and default to "" when it is
+    # not, so a rule that needs it degrades to the road-class test rather than failing to load.
+    has_nonped = "nonped" in pq.read_schema(path).names
+    t = pq.read_table(path, columns=cols + (["nonped"] if has_nonped else []))
     geoms = shapely.from_wkb(t.column("geometry").to_pylist())
     return {
         "segment_id": t.column("segment_id").to_numpy(zero_copy_only=False).astype(np.int64),
@@ -112,6 +116,10 @@ def load_segments(path: Path = SEGMENTS):
         "rw_type": t.column("rw_type").to_numpy(zero_copy_only=False).astype(np.int8),
         "width_m": t.column("width_m").to_numpy(zero_copy_only=False).astype(np.float64),
         "borough": t.column("borough").to_numpy(zero_copy_only=False).astype(np.int8),
+        # Whether a person may walk on the segment this pole is placed against; :mod:`.park_lamps`
+        # needs it to tell a park drive from a parkway mainline that CSCL types as a street.
+        "nonped": (np.asarray(t.column("nonped").to_pylist(), dtype=object) if has_nonped
+                   else np.full(t.num_rows, "", dtype=object)),
     }
 
 
@@ -155,8 +163,12 @@ def street_lamps(seg: dict, existing_lamp_xy: np.ndarray) -> dict:
     hs: list[np.ndarray] = []
     # The road class each pole was placed against, carried into ``attrs`` so a later rule can tell a
     # park drive from the parkway that runs through the same grass (:mod:`.park_lamps`).  Asking
-    # "which segment is nearest this pole" afterwards would answer a different question.
+    # "which segment is nearest this pole" afterwards would answer a different question.  ``nonped``
+    # goes with it because ``rw_type`` alone does not separate the two: 1,384 segments CSCL types as
+    # *street* are flagged vehicles-only, among them the Belt, Grand Central and Cross Island
+    # Parkway mainlines.
     rws: list[np.ndarray] = []
+    nps: list[list[str]] = []
     r = _hash01(seg["segment_id"])
     for i in idx:
         line = seg["geometry"][i]
@@ -178,16 +190,19 @@ def street_lamps(seg: dict, existing_lamp_xy: np.ndarray) -> dict:
         # the lamp head overhangs the roadway: it faces the centreline, i.e. opposite the offset direction
         hs.append((head + np.where(side > 0, 270.0, 90.0)) % 360.0)
         rws.append(np.full(len(p), int(seg["rw_type"][i]), dtype=np.int16))
+        nps.append([str(seg["nonped"][i] if "nonped" in seg else "")] * len(p))
     if not xs:
         return _rows("street_lamp", np.empty(0), np.empty(0), np.empty(0), "rule:lamp_30_40m_alt")
     x, y, h = np.concatenate(xs), np.concatenate(ys), np.concatenate(hs)
     rw = np.concatenate(rws)
+    np_flag = np.array([v for part in nps for v in part], dtype=object)
     m = _suppress(x, y, existing_lamp_xy, LAMP_COVER_M)
     log.info("street lamp rule: %d generated, %d suppressed near a mapped lamp, %d kept",
              len(x), int((~m).sum()), int(m.sum()))
     # variant 1 = cobra head (the NYC DOT standard pole this rule represents)
     cols = _rows("street_lamp", x[m], y[m], h[m], "rule:lamp_30_40m_alt", np.ones(int(m.sum()), dtype=np.int16))
-    cols["attrs"] = [json.dumps({"rw_type": int(v)}, separators=(",", ":")) for v in rw[m]]
+    cols["attrs"] = [json.dumps({"rw_type": int(v), "nonped": str(n)}, separators=(",", ":"))
+                     for v, n in zip(rw[m], np_flag[m])]
     return cols
 
 

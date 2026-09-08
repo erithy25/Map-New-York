@@ -841,3 +841,46 @@ def test_an_avenue_mall_is_not_park_interior():
     assert PL.short_side_m(strip) == pytest.approx(6.7, abs=1e-6)
     # Degenerate geometry is never park interior.
     assert PL.short_side_m(shapely.Point(1, 1)) == 0.0
+
+
+def test_a_parkway_mainline_typed_as_a_street_still_keeps_its_cobra_head():
+    """``rw_type`` alone lets the parkways through, so the rule reads ``nonped`` as well.
+
+    Measured over the real segments: **1,384 vehicles-only segments carry ``rw_type`` 1, plain
+    street**, and the ten commonest names among all 10,160 of them are Long Island Expy, Belt Pkwy,
+    Cross Bronx Expy, Grand Central Pkwy, BQE, Van Wyck, Gowanus, FDR Drive, Bruckner and Major
+    Deegan. Before this the Grand Central Parkway mainline was getting park lamps where it crosses
+    its own parkland.
+    """
+    import json as _json
+
+    from nycsim_pipeline.furniture import park_lamps as PL
+
+    rows = [_json.dumps({"rw_type": 1, "nonped": ""}),      # an ordinary park street
+            _json.dumps({"rw_type": 1, "nonped": "V"}),     # Grand Central Pkwy, typed as street
+            _json.dumps({"rw_type": 1, "nonped": "D"}),     # Hudson River Greenway
+            _json.dumps({"rw_type": 2, "nonped": ""}),      # highway class
+            _json.dumps({"rw_type": 1}),                    # written before nonped was carried
+            ""]                                              # an OSM node: no road at all
+    mask, unknown = PL.highway_mask_from_attrs(rows)
+    assert list(mask) == [False, True, False, True, False, False]
+    assert unknown == 1, "only the row with no rw_type at all is unknown"
+    assert PL.NONPED_VEHICLES_ONLY == "V"
+
+
+def test_the_lamp_rule_carries_both_the_road_class_and_the_pedestrian_flag():
+    import json as _json
+
+    import numpy as np
+    import shapely
+    from nycsim_pipeline.furniture import rules as R
+
+    seg = {"rw_type": np.array([1, 1], dtype=np.int8),
+           "width_m": np.array([12.0, 20.0]),
+           "segment_id": np.array([11, 22], dtype=np.int64),
+           "nonped": np.array(["", "V"], dtype=object),
+           "geometry": [shapely.LineString([(0, 0), (0, 200)]),
+                        shapely.LineString([(300, 0), (300, 200)])]}
+    cols = R.street_lamps(seg, np.empty((0, 2)))
+    got = {(int(d["rw_type"]), str(d["nonped"])) for d in (_json.loads(a) for a in cols["attrs"])}
+    assert got == {(1, ""), (1, "V")}, got

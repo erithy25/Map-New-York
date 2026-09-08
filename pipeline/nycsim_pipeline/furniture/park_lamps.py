@@ -107,6 +107,21 @@ def short_side_m(geom) -> float:
 #: ramp are named for completeness, not because a pole exists on one today.
 HIGHWAY_RW_TYPES = (S.RW_HIGHWAY, S.RW_BRIDGE, S.RW_TUNNEL, S.RW_RAMP)
 
+#: CSCL ``nonped`` value for a segment pedestrians are prohibited from.
+#:
+#: ``rw_type`` alone lets the parkway mainlines through: measured, **1,384 vehicles-only segments are
+#: typed as plain street**, and the ten commonest names among all 10,160 of them are Long Island
+#: Expy, Belt Pkwy, Cross Bronx Expy, Grand Central Pkwy, BQE, Van Wyck Expy, Gowanus Expy, FDR
+#: Drive, Bruckner Expy and Major Deegan Expy -- 10,159 of the 10,160 drivable.  So this flag is
+#: read as the physical question the rule is actually asking: may a person walk here?
+#:
+#: The other non-empty value, ``D`` (3,983 segments, 2,558 of them not drivable), is the opposite
+#: signal and is deliberately *not* excluded: Clove Lakes Park Path, the Hudson River Greenway,
+#: the Randalls Island and Bronx River Greenways, the East River Esplanade and Central Park's West
+#: Drive are all ``D``.  Neither meaning is taken from a data dictionary this build does not hold --
+#: both are read off the segments that carry them.
+NONPED_VEHICLES_ONLY = "V"
+
 
 def highway_mask_from_attrs(attrs) -> tuple[np.ndarray, int]:
     """``(mask, rows with no road class recorded)`` from the ``attrs`` JSON of every row.
@@ -123,11 +138,14 @@ def highway_mask_from_attrs(attrs) -> tuple[np.ndarray, int]:
             d = _json.loads(raw or "{}")
         except (TypeError, ValueError):
             d = {}
-        rw = d.get("rw_type") if isinstance(d, dict) else None
+        if not isinstance(d, dict):
+            d = {}
+        rw = d.get("rw_type")
         if rw is None:
             unknown += 1
             continue
-        mask[i] = int(rw) in HIGHWAY_RW_TYPES
+        mask[i] = (int(rw) in HIGHWAY_RW_TYPES
+                   or str(d.get("nonped") or "").upper() == NONPED_VEHICLES_ONLY)
     return mask, unknown
 
 
@@ -135,7 +153,7 @@ def apply(cols: dict, lamp_kind_id: int, *, highway_mask: np.ndarray | None = No
     """Re-fixture the park lamps in ``cols`` in place; returns what it did, for the build summary.
 
     ``highway_mask`` is a per-row boolean, True where the lamp was placed against a road of highway
-    or bridge class and must keep its cobra head.  ``None`` means no road class was carried through,
+    or bridge class, or one pedestrians are prohibited from, and must keep its cobra head.  ``None`` means no road class was carried through,
     in which case nothing is excluded on that ground and the report says so.
     """
     from shapely import points
@@ -180,11 +198,21 @@ def apply(cols: dict, lamp_kind_id: int, *, highway_mask: np.ndarray | None = No
         ds[int(i)] = f"{ds[int(i)]}+{RULE_ID}"
     cols["dataset_id"] = ds
     report["moved"] = int(target.size)
+    # Counted over the rows the rule actually moved, not over the polygon hits: the parkways run
+    # through park land and their lamps are inside these polygons but excluded by road class, so a
+    # tally taken before the exclusion would name Belt Parkway under a rule that never touched it.
+    moved_set = set(int(i) for i in target)
+    first: dict[int, int] = {}
+    for a, b in zip(hit[0], hit[1]):
+        first.setdefault(int(cand[int(a)]), int(b))
     seen: dict[str, int] = {}
-    for j, i in zip(hit[0], hit[1]):
-        n = str(names[int(i)]) or "(unnamed)"
+    for row, gi in first.items():
+        if row not in moved_set:
+            continue
+        n = str(names[gi]) or "(unnamed)"
         seen[n] = seen.get(n, 0) + 1
     report["by_park"] = dict(sorted(seen.items(), key=lambda kv: -kv[1])[:20])
+    report["by_park_note"] = "counted over the lamps this rule moved, after the road-class exclusion"
     log.info("park post lamp rule: %d lamps overridable, %d inside walkable park ground, "
              "%d excluded by road class, %d moved to variant %d",
              cand.size, inside.size, report["road_class_excluded"], report["moved"], PARK_VARIANT)
