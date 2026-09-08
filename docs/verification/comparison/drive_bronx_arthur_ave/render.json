@@ -78,7 +78,7 @@
  "frame": {
   "mean": 0.2322,
   "reason": null,
-  "sd": 0.1716,
+  "sd": 0.1715,
   "usable": true
  },
  "frame_retry": null,
@@ -119,7 +119,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_arthur_ave/render.png",
- "rendered_at": "2026-09-08T12:04:45Z",
+ "rendered_at": "2026-09-08T12:43:49Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -153,7 +153,7 @@
    "placed_pedestrians": 275,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 42.15,
+   "seconds": 43.35,
    "snapshot": {
     "building_footprints_tested": 4239,
     "density_lane_km": 25.141,
@@ -263,35 +263,35 @@
    17241.21
   ],
   "kit": {
-   "capped": null,
+   "capped": "triangle budget 1651952",
    "per_category": {
     "bulkhead": 68,
-    "cornice": 110,
-    "door_entry": 189,
+    "cornice": 114,
+    "door_entry": 191,
     "fence": 7,
     "fire_escape": 147,
     "hvac": 13,
     "parapet": 171,
     "pilaster": 77,
-    "quoin": 114,
+    "quoin": 115,
     "scaffold": 21,
-    "storefront": 883,
+    "storefront": 890,
     "storefront_interior": 122,
     "string_course": 109,
     "water_tower": 1,
-    "window": 3904,
-    "window_accessory": 686
+    "window": 3950,
+    "window_accessory": 695
    },
-   "placed": 6622,
-   "radius_m": 120.0,
-   "records_in_range": 6622,
+   "placed": 6691,
+   "radius_m": 135.90879449634346,
+   "records_in_range": 8607,
    "stale_registry_ids": {},
    "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
     "t_5_17"
    ],
-   "triangles": 1635151,
+   "triangles": 1652261,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -309,18 +309,18 @@
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 541,
-    "curb": 958,
-    "marking_white": 11211,
-    "marking_yellow": 382,
-    "median": 76,
-    "parking_lot": 132,
+    "crosswalk": 551,
+    "curb": 977,
+    "marking_white": 11437,
+    "marking_yellow": 403,
+    "median": 77,
+    "parking_lot": 134,
     "plaza": 26,
-    "roadbed": 395,
-    "sidewalk": 235
+    "roadbed": 403,
+    "sidewalk": 241
    },
-   "placed": 13956,
-   "radius_m": 720.0,
+   "placed": 14249,
+   "radius_m": 735.9087944963435,
    "tiles_missing": [],
    "tiles_read": [
     "t_4_16",
@@ -328,12 +328,12 @@
     "t_5_16",
     "t_5_17"
    ],
-   "triangles": 211589,
+   "triangles": 215863,
    "triangles_cut_for_landmark_ground": 0,
-   "vertices": 239177
+   "vertices": 244033
   },
   "props": {
-   "capped": "triangle budget 1378419",
+   "capped": "triangle budget 1376923",
    "impostor_cards_dropped": 21,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -348,11 +348,11 @@
     "mailbox": 1,
     "manhole": 53,
     "street_lamp": 61,
-    "tree": 200
+    "tree": 199
    },
-   "placed": 392,
-   "radius_m": 250.0,
-   "rows_in_range": 880,
+   "placed": 391,
+   "radius_m": 265.9087944963435,
+   "rows_in_range": 984,
    "tiles_missing": [],
    "tiles_read": [
     "t_4_17",
@@ -360,13 +360,13 @@
     "t_5_17"
    ],
    "tree_species_substituted": 62,
-   "triangles": 1384308,
+   "triangles": 1377032,
    "unmapped_kinds": {
     "parks_comfort_station": 1
    }
   },
-  "radius_m": 720.0,
-  "seconds": 105.61,
+  "radius_m": 735.9087944963435,
+  "seconds": 111.96,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -379,6 +379,11 @@
    "spacing_m": 2.0,
    "triangles": 88200,
    "water_bodies": [
+    {
+     "kind": "marsh",
+     "name": "marsh",
+     "water_z_m": null
+    },
     {
      "kind": "pond",
      "name": "Cope Lake",
@@ -415,23 +420,23 @@
      "water_z_m": 27.49
     }
    ],
-   "water_quads": 24,
-   "z_max_m": 36.83,
-   "z_min_m": 10.98
+   "water_quads": 21,
+   "z_max_m": 37.53,
+   "z_min_m": 11.04
   },
-  "triangles": 4486201
+  "triangles": 4500309
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
   "agent_vehicle_radius_m": 320.0,
-  "kit_radius_m": 120.0,
-  "prop_radius_m": 250.0,
-  "radius_m": 720.0
+  "kit_radius_m": 135.90879449634346,
+  "prop_radius_m": 265.9087944963435,
+  "radius_m": 735.9087944963435
  },
  "seconds": {
-  "render": 154.7,
-  "scene": 120.9,
-  "total": 275.6
+  "render": 158.3,
+  "scene": 129.0,
+  "total": 287.3
  },
  "sightline": {
   "subject_note": "the item names no point subject",
