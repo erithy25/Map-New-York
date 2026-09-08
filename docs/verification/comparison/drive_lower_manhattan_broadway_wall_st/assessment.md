@@ -41,8 +41,6 @@ curb ramps are counted as built elsewhere - in the pavement mesh, not as props.
 * **No vehicle carries a sphere at its rear axle.** The dark sedan in mid-frame sits on its four
   wheels on the roadbed with clean tail lights and mirrors, and nothing untextured hangs beneath it -
   J44, closed and confirmed in the picture rather than in a test.
-* The crossing is painted: broad white bands lie across the carriageway where the crosswalk polygons
-  are, 596 of them in range, with the pedestrians waiting at their edge.
 * Two subway entrances stand on the left pavement with green railings and **legible SUBWAY
   lettering**, a third on the right; 23 subway entrance props are placed.
 * The ground-floor shopfront on the right is real: thin mullions, dark glazed panels between them,
@@ -53,8 +51,10 @@ curb ramps are counted as built elsewhere - in the pavement mesh, not as props.
 * The crowd is dense where a Financial District lunchtime would be: 212 people, 186 of them at LOD2,
   with rucksacks, hi-vis vests and summer clothing, on both pavements.
 * The light is right and, unusually for this set, so is the exposure. A 69.5 deg May sun almost down
-  the canyon throws the street floor into shade and leaves a bright wedge at the vanishing point, and
-  the frame mean is 0.4062 against the photograph's 124.3 of 255, so I16 barely bites here.
+  the canyon (azimuth 185.4 deg, from the photograph's own EXIF instant) leaves the near left wall in
+  its own deep shade while the carriageway stays the brightest large surface in the frame, with a
+  bright wedge at the vanishing point. The frame mean is 0.4062 and the render record marks the frame
+  usable, so I16 - which bites hardest on shaded frames - barely bites here.
 * Small furniture is visible and correct: a green litter basket, red hydrants on both pavements, a
   manhole cover in the roadbed, a cobra-head mast down the right kerb.
 
@@ -70,11 +70,17 @@ curb ramps are counted as built elsewhere - in the pavement mesh, not as props.
   limestone with rusticated bands, a canted corner bay, arched openings with keystones, stone
   balustrades and a heavy cornice; the render's nearest wall is dark grey with a vertical streak and
   no cornice, string course, balustrade or carving anywhere on it.
-* The upper windows are unglazed voids while the shopfront below them is glazed - the same wall is
-  inconsistent with itself about whether glass exists.
+* The two sides of the street disagree about whether glass exists. The near left facade's windows are
+  unglazed voids all the way up and its ground floor is blank dark grey down to the pavement, carrying
+  no shopfront anywhere in frame; the right-hand building carries a mullioned, glazed shopfront under
+  a lit fascia.
 * The lit fascia band is blank white. No wording, no blade sign, no roundel.
 * The lamp standards are the right pattern and the wrong finish: bishop's-crook posts with ovoid
   globes, carrying a mottled white-and-rust shaft rather than painted dark cast iron.
+* The crossing ahead is one solid painted slab spanning the carriageway kerb to kerb, not the
+  continental bars a New York crossing carries, and no other marking - centre line, lane line, stop
+  bar - appears on any of the 451 roadbed polygons in frame. 596 crosswalk polygons are in range and
+  none of them is a bar pattern (J52, open).
 * No tree canopy appears anywhere in the frame although 117 tree props are placed within 250 m, and
   112 of them are species substitutions.
 * 4,044 kit pieces of 15,836 records in range means roughly three quarters of the facade detail
@@ -94,12 +100,13 @@ curb ramps are counted as built elsewhere - in the pavement mesh, not as props.
 | the two halves show different subjects | the chooser matches a photograph to a place, never to a direction, and this item names no subject | reference |
 | no street-name sign, no flag in the render | no stage produces street-name signage, and flagpoles carry no flag geometry | data |
 | dark grey wall against cream limestone; no cornice, balustrade or carving | facade material and trim are inferred from a rule table, not observed (A2), and the shell carries massing plus a kit, not mouldings | material |
-| unglazed upper windows over a glazed shopfront | the kit supplies openings without glazing for this facade class while the storefront piece carries its own glass | geometry |
+| unglazed voids on the left facade, a glazed shopfront on the right | the kit supplies openings without glazing for the left wall's facade class, while the storefront piece placed on the right carries its own glass | geometry |
 | blank fascia band | fascia geometry ships lit but this frame's storefronts carry no resolved wording (B15, B4) | data |
 | lamp shaft finish reads as corroded metal | the prop's texture is a generic weathered metal rather than the painted standard | material |
-| no tree canopy in frame | trees are placed within 250 m but none falls in this 54.4 deg wedge | budget |
+| one solid crosswalk slab and no other road marking | the pavement stage builds seven surface kinds and no markings at all, and a crossing is a single 3.66 m rectangle (`pavement.CROSSWALK_DEPTH_M`) rather than a bar pattern (J52) | geometry |
+| no tree canopy in frame | trees are placed within 250 m but none falls in this 54.4 deg wedge | camera |
 | three quarters of the facade kit undrawn | the 1,140,528-triangle kit budget is spent before the records in range are | budget |
 | 14 prop rows resolve to no asset | memorials, artworks and drinking fountains have no modelled asset (J23) | data |
 | camera in live traffic | the camera search has no rule about what a photographer can stand on (I14) | verification |
 | clearance note claims the frame and measures the built city only | this render predates the J49 probe and caption fix | reporting |
-| shading depth is authored, not measured | reflectance constants hang off the inferred facade class (B12) | material |
+| a figure on the left pavement in nothing but dark briefs | garment choice is not conditioned on the hour, the weather or the neighbourhood, and the CC0 wardrobe it draws from is thin (E4) | data |
