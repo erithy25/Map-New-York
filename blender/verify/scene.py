@@ -1576,40 +1576,22 @@ def _tile_kit_header(tile: str) -> dict[int, dict]:
     return {int(e["kit_id"]): e for e in d.get("kit_id_counts", []) if isinstance(e, dict)}
 
 
-#: Categories whose piece models a *punched opening* -- a masonry reveal running back from the wall
-#: plane to a sash or a shopfront behind it.  Nothing else is moved out of the wall.
-_OPENING_CATEGORIES = ("window", "door_entry", "storefront")
-#: How far the glazing is left standing in front of the wall once the piece is mounted.
-_MOUNT_PROUD_M = 0.02
-#: Above this the piece would read as a projecting bay rather than a window, so it is not moved
-#: further and the deviation says so.
-_MOUNT_MAX_M = 0.30
-
 _MOUNT_CACHE: dict[str, float] = {}
 
 
 def kit_mount_offset(entry: dict) -> float:
-    """How far out of the wall a kit piece has to be mounted for its opening to be visible.
+    """How far out of the wall this kit piece is mounted, from the registry's own field.
 
-    Every window, glazed door and shopfront in this kit models the whole punched opening: a
-    masonry reveal liner running from the wall plane at ``y = 0`` back to a sash at
-    ``glazing_setback_m``, and an interior behind that.  It is authored for a wall with a **hole**
-    in it.  The shells have no hole -- and cutting 32.1 million of them costs about 449 million
-    triangles and 48 GB, measured in J51 -- so the wall plane occludes everything from ``y = 0``
-    inward and only the 50-65 mm of frame that stands proud of it is visible.  That is what the
-    Bed-Stuy sheet showed: a blank wall carrying a grid of small pale bars.
-
-    Mounting the piece its own glazing setback further out puts the whole opening -- reveal, sash
-    and glass -- in front of the wall instead of behind it, so it reads as a window rather than as
-    a lintel floating on a plane.  It is **not** the same thing as a punched opening: the reveal
-    projects from the wall rather than being cut into it, and J51 records that.
-
-    The distance is the piece's own measured ``glazing_setback_m`` from its catalogue entry, not a
-    constant, because it ranges from 0.063 m to 0.28 m across the kit.
+    The rule and the reason live in :func:`nycsim_pipeline.facade.kit_ids.mount_offset_m` -- the
+    kit's windows, glazed doors and shopfronts model a punched opening the shells have no hole for
+    (J51), so the whole opening is mounted in front of the wall rather than behind it.  A registry
+    written before that field existed is read through the same function against the piece's own
+    catalogue entry, so the render does not silently fall back to the old flat facade.
     """
-    cat = entry.get("category")
-    if cat not in _OPENING_CATEGORIES:
-        return 0.0
+    from nycsim_pipeline.facade.kit_ids import mount_offset_m
+
+    if "mount_offset_m" in entry:
+        return float(entry["mount_offset_m"])
     cid = str(entry.get("catalog_id") or entry.get("name") or "")
     if cid in _MOUNT_CACHE:
         return _MOUNT_CACHE[cid]
@@ -1620,7 +1602,7 @@ def kit_mount_offset(entry: dict) -> float:
             setback = json.loads(path.read_text()).get("glazing_setback_m")
         except Exception:                                    # a piece with no catalogue is not moved
             setback = None
-    offset = 0.0 if setback is None else min(max(float(setback), 0.0) + _MOUNT_PROUD_M, _MOUNT_MAX_M)
+    offset = mount_offset_m(entry.get("category"), setback)
     _MOUNT_CACHE[cid] = offset
     return offset
 

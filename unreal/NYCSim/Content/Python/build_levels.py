@@ -428,11 +428,21 @@ def place_kit(tile: str, processed_root: str, catalog: dict) -> int:
         if mesh is None:
             unknown.append(kit_id)
             continue
+        # How far this piece stands out of the wall.  A window, glazed door or shopfront models the
+        # whole punched opening -- reveal liner, sash, interior -- and the shells have no hole for
+        # it to sit in, so the opening is mounted in front of the wall instead of behind it (J51).
+        # ``yaw`` is the wall run's outward normal as an angle counter-clockwise from east, so the
+        # offset is along (cos yaw, sin yaw) in NYC_TM metres.  The value comes from the registry;
+        # a registry written before the field existed leaves every piece where it was.
+        mount = float(entry.get("mount_offset_m") or 0.0)
         transforms = []
         for (x, y, z, yaw, scale) in rows:
             factor = scale or 1.0
+            out = math.radians(yaw)          # the record stores yaw in degrees, like scene.py reads it
+            mx = x + mount * math.cos(out)
+            my = y + mount * math.sin(out)
             transforms.append(unreal.Transform(
-                nyctm_to_ue(origin_x + x, origin_y + y, z),
+                nyctm_to_ue(origin_x + mx, origin_y + my, z),
                 unreal.Rotator(0.0, 0.0, math_angle_to_yaw(yaw)),
                 unreal.Vector(factor, factor, factor)))
         # Kit pieces are decoration on the shell, which already carries the collision.

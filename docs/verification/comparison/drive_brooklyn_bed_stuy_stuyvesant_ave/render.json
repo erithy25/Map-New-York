@@ -55,16 +55,22 @@
  "clearance": {
   "min_view_m": 20.0,
   "moved": false,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
   "nearest_obstruction": "t_1_-3_red_brick",
+  "nearest_obstruction_at_deg": [
+   27.2,
+   0.0
+  ],
   "nearest_obstruction_m": 20.6,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the frame is t_1_-3_red_brick 20.6 m away, and the view azimuth is clear for 150 m",
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is t_1_-3_red_brick 20.6 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 150 m",
   "offset_m": 0.0,
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.5446,
+  "mean": 0.4992,
   "reason": null,
-  "sd": 0.1833,
+  "sd": 0.1916,
   "usable": true
  },
  "frame_retry": null,
@@ -105,7 +111,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_bed_stuy_stuyvesant_ave/render.png",
- "rendered_at": "2026-09-08T06:59:31Z",
+ "rendered_at": "2026-09-08T08:57:02Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1439 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -142,7 +148,7 @@
    "placed_pedestrians": 308,
    "placed_vehicles": 77,
    "reason": null,
-   "seconds": 56.16,
+   "seconds": 46.64,
    "snapshot": {
     "building_footprints_tested": 4688,
     "density_lane_km": 18.037,
@@ -181,7 +187,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 301
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached 1539_-2039_10_1_4e21a03c28524075_1788844608.json",
    "triangle_budget": 1125000,
    "triangles": 1084275,
    "vehicle_lods": {
@@ -271,12 +277,12 @@
    -2038.68
   ],
   "kit": {
-   "capped": "triangle budget 1263213",
+   "capped": "triangle budget 1253983",
    "per_category": {
-    "bulkhead": 113,
-    "cornice": 180,
-    "door_entry": 268,
-    "fence": 88,
+    "bulkhead": 112,
+    "cornice": 179,
+    "door_entry": 267,
+    "fence": 87,
     "fire_escape": 135,
     "hvac": 6,
     "parapet": 37,
@@ -284,12 +290,12 @@
     "quoin": 53,
     "storefront": 105,
     "storefront_interior": 15,
-    "string_course": 39,
+    "string_course": 38,
     "vegetation": 55,
-    "window": 2458,
+    "window": 2429,
     "window_accessory": 336
    },
-   "placed": 3891,
+   "placed": 3857,
    "radius_m": 120.0,
    "records_in_range": 3956,
    "stale_registry_ids": {},
@@ -299,7 +305,7 @@
     "t_1_-2",
     "t_1_-3"
    ],
-   "triangles": 1263314,
+   "triangles": 1254993,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -319,13 +325,15 @@
    "per_kind": {
     "crosswalk": 361,
     "curb": 167,
+    "marking_white": 6647,
+    "marking_yellow": 178,
     "median": 28,
     "parking_lot": 52,
     "plaza": 2,
     "roadbed": 309,
     "sidewalk": 166
    },
-   "placed": 1085,
+   "placed": 7910,
    "radius_m": 720.0,
    "tiles_missing": [],
    "tiles_read": [
@@ -336,12 +344,12 @@
     "t_2_-2",
     "t_2_-3"
    ],
-   "triangles": 127350,
+   "triangles": 141552,
    "triangles_cut_for_landmark_ground": 0,
-   "vertices": 129262
+   "vertices": 157114
   },
   "props": {
-   "capped": "triangle budget 1264857",
+   "capped": "triangle budget 1259886",
    "impostor_cards_dropped": 21,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -355,10 +363,10 @@
     "mailbox": 1,
     "manhole": 49,
     "street_lamp": 54,
-    "tree": 236,
+    "tree": 235,
     "waste_basket": 1
    },
-   "placed": 364,
+   "placed": 363,
    "radius_m": 250.0,
    "rows_in_range": 634,
    "tiles_missing": [],
@@ -367,13 +375,13 @@
     "t_1_-3"
    ],
    "tree_species_substituted": 87,
-   "triangles": 1266390,
+   "triangles": 1261418,
    "unmapped_kinds": {
     "parks_comfort_station": 1
    }
   },
   "radius_m": 720.0,
-  "seconds": 108.2,
+  "seconds": 80.36,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -390,7 +398,7 @@
    "z_max_m": 27.86,
    "z_min_m": 11.16
   },
-  "triangles": 4500101
+  "triangles": 4501010
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -400,9 +408,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 110.2,
-  "scene": 109.2,
-  "total": 219.5
+  "render": 108.8,
+  "scene": 81.8,
+  "total": 190.6
  },
  "slug": "drive_brooklyn_bed_stuy_stuyvesant_ave",
  "status": "rendered",

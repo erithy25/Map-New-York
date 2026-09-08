@@ -401,3 +401,54 @@ def test_facade_params_contract_written():
     import facade_params as fp
     assert doc["materials"] == list(fp.MATERIALS)
     assert len(doc["window_types"]) == len(fp.WINDOW_TYPES)
+
+
+# --------------------------------------------------------------------------- mounting (J51)
+def test_every_glazed_piece_is_mounted_clear_of_the_wall_and_nothing_else_is_moved():
+    """J51: the kit's windows, glazed doors and shopfronts model a punched opening -- reveal liner,
+    sash, interior -- and the building shells have no hole for one.  Left at the wall plane, every
+    one of them renders as the 50-65 mm of frame that stands proud of it, which is what the
+    Bed-Stuy sheet showed.  The rule that mounts them clear is checked here against each piece's
+    own measured glazing setback."""
+    sys.path.insert(0, str(REPO / "pipeline"))
+    from nycsim_pipeline.facade.kit_ids import (MOUNT_MAX_M, MOUNT_PROUD_M, OPENING_CATEGORIES,
+                                                mount_offset_m)
+
+    moved = 0
+    for entry in ENTRIES:
+        setback = entry.get("glazing_setback_m")
+        got = mount_offset_m(entry["category"], setback)
+        if entry["category"] not in OPENING_CATEGORIES or setback is None:
+            assert got == 0.0, f"{entry['id']}: {entry['category']} must not be moved out of the wall"
+            continue
+        assert 0.0 < got <= MOUNT_MAX_M, f"{entry['id']}: mount offset {got}"
+        assert got == pytest.approx(min(max(setback, 0.0) + MOUNT_PROUD_M, MOUNT_MAX_M), abs=5e-4)
+        moved += 1
+    assert moved >= 30, f"only {moved} pieces are mounted clear of the wall; the kit has 42 glazed ones"
+
+
+def test_a_mounted_window_puts_its_glass_in_front_of_the_wall():
+    """The point of the offset, stated as the thing a photographer would see: after mounting, the
+    outermost glazing polygon is in front of the wall plane rather than behind it."""
+    sys.path.insert(0, str(REPO / "pipeline"))
+    from nycsim_pipeline.facade.kit_ids import MOUNT_PROUD_M, mount_offset_m
+
+    glazed = [e for e in ENTRIES if e["category"] == "window" and e.get("glazing_setback_m") is not None]
+    assert glazed, "no glazed window piece in the catalogue"
+    for entry in glazed:
+        setback = float(entry["glazing_setback_m"])
+        after = setback - mount_offset_m(entry["category"], setback)
+        assert after <= -MOUNT_PROUD_M + 1e-6, \
+            f"{entry['id']}: glazing still sits {after:+.3f} m from the wall plane after mounting"
+
+
+def test_the_registry_ships_the_mount_offset_so_the_engine_gets_it_too():
+    """A fix that lives only in the verification renderer is a fix that is not in the game."""
+    registry = REPO / "data" / "processed" / "facade" / "kit_ids.json"
+    if not registry.is_file():
+        pytest.skip("kit registry not generated in this checkout")
+    pieces = json.loads(registry.read_text())["pieces"]
+    assert pieces, "empty registry"
+    assert all("mount_offset_m" in p for p in pieces), \
+        "every registry entry must carry mount_offset_m; build_levels.py reads it"
+    assert sum(1 for p in pieces if p["mount_offset_m"] > 0.0) >= 30

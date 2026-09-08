@@ -15,13 +15,13 @@
   "focal_mm": 25.75375693214617,
   "ground_detail": {
    "below_point_excluded": 0,
-   "chosen_m": 5.82,
-   "max_m": 6.81,
-   "median_m": 5.91,
-   "min_m": 5.59,
+   "chosen_m": 5.83,
+   "max_m": 7.14,
+   "median_m": 5.95,
+   "min_m": 5.74,
    "mode": "street",
    "percentile": 10.0,
-   "point_m": 5.82,
+   "point_m": 5.89,
    "radius_m": 12.0,
    "samples": 113
   },
@@ -31,7 +31,7 @@
   "lat": 40.713183,
   "lon": -73.967742,
   "long_side_fov_deg": 69.901,
-  "pitch_deg": 0.0,
+  "pitch_deg": 0.3556712565019886,
   "portrait": false,
   "resolution": [
    1208,
@@ -39,12 +39,12 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_domino_sugar_refinery",
-  "terrain_z_m": 5.822,
-  "x": -1473.332,
-  "y": 1453.692,
-  "z": 7.422
+  "terrain_z_m": 5.825,
+  "x": -1462.619,
+  "y": 1481.289,
+  "z": 7.425
  },
- "camera_caption": "camera 40.71318, -73.96774 (NYC_TM -1473, 1454) z 7.4 m NAVD88 | azimuth 9.4deg pitch +0.0deg | 26 mm on 36 mm (69.9deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.71318, -73.96774 (NYC_TM -1463, 1481) z 7.4 m NAVD88 | azimuth 9.4deg pitch +0.4deg | 26 mm on 36 mm (69.9deg horizontal) | 1208x906",
  "camera_origin": {
   "from_photograph_gps": true,
   "lat": 40.713183,
@@ -56,17 +56,28 @@
   "direction": "onto the nearest sidewalk",
   "min_view_m": 62.9,
   "moved": true,
-  "nearest_obstruction_m": 20.0,
-  "note": "the recorded viewpoint is inside t_-2_1_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 28 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 75 m from there",
-  "offset_m": 27.8,
+  "nearest_agent": "agent_ped_1194.3",
+  "nearest_agent_at_deg": [
+   35.0,
+   0.0
+  ],
+  "nearest_agent_m": 1.3,
+  "nearest_obstruction": "t_-2_1_glass_curtain",
+  "nearest_obstruction_at_deg": [
+   35.0,
+   27.7
+  ],
+  "nearest_obstruction_m": 10.3,
+  "note": "the recorded viewpoint is inside t_-2_1_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 39 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 75 m from there, and the nearest built thing in the frame is t_-2_1_glass_curtain 10.3 m away at +35 deg yaw, +28 deg pitch, and the nearest simulated agent is agent_ped_1194.3 1.3 m away",
+  "offset_m": 39.2,
   "reason": "inside t_-2_1_roof_membrane (a ray straight up from the eye point hits its roof)",
-  "rule": "pavement snap with a clear view",
+  "rule": "pavement snap with a clear frame",
   "view_m": 75.4
  },
  "frame": {
-  "mean": 0.4159,
+  "mean": 0.3302,
   "reason": null,
-  "sd": 0.2056,
+  "sd": 0.1982,
   "usable": true
  },
  "frame_retry": null,
@@ -92,7 +103,7 @@
  },
  "name": "Domino Sugar Refinery",
  "night": false,
- "pitch_reason": "level optical axis (Domino Sugar Refinery is 126 m away and would need +12 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "pitch_reason": "tilted +0.4 deg to contain the subject: the c_domino_sugar_refinery model's published 60 m height tops out 58 m above the lens 126 m away, 25 deg above the horizon, and the frame is only 55 deg tall at 26 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
  "reference_photo": {
   "author": "Kidfly182",
   "confidence": "high",
@@ -107,14 +118,14 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_domino_sugar_refinery/render.png",
- "rendered_at": "2026-09-07T16:02:47Z",
+ "rendered_at": "2026-09-08T08:12:15Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
-   "caption": "Agents: 78 vehicles within 320 m and 316 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 289 vehicles and 1971 people over the whole simulated ring, of which 362 and 2236 were simulated; 2204 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "caption": "Agents: 77 vehicles within 320 m and 316 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 289 vehicles and 1971 people over the whole simulated ring, of which 362 and 2236 were simulated; 2205 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "culled_after_camera_move": {
-    "pedestrian_over_the_observer": 5,
+    "pedestrian_over_the_observer": 1,
     "vehicle_over_the_observer": 0
    },
    "dropped": {
@@ -122,13 +133,13 @@
     "pedestrian_inside_building": 39,
     "pedestrian_not_on_walkable_surface": 297,
     "pedestrian_outside_radius": 583,
-    "pedestrian_over_the_observer": 5,
+    "pedestrian_over_the_observer": 1,
     "pedestrian_triangle_budget": 680,
     "vehicle_body_has_no_rider": 15,
     "vehicle_inside_building": 10,
     "vehicle_not_on_carriageway": 40,
     "vehicle_outside_radius": 131,
-    "vehicle_triangle_budget": 88
+    "vehicle_triangle_budget": 89
    },
    "ped_lods": {
     "LOD1": 38,
@@ -136,20 +147,20 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 580731,
+   "pedestrian_triangles": 580702,
    "per_class": {
     "black_car": 3,
     "boro_taxi": 1,
-    "box_truck": 5,
+    "box_truck": 4,
     "sedan": 41,
     "suv": 16,
     "taxi": 10,
     "van": 2
    },
-   "placed_pedestrians": 311,
-   "placed_vehicles": 78,
+   "placed_pedestrians": 315,
+   "placed_vehicles": 77,
    "reason": null,
-   "seconds": 166.37,
+   "seconds": 78.06,
    "snapshot": {
     "building_footprints_tested": 746,
     "density_lane_km": 17.004,
@@ -164,7 +175,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.04,
+     "load_seconds": 1.98,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -190,14 +201,14 @@
    },
    "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1086670,
+   "triangles": 1082454,
    "vehicle_lods": {
     "LOD1": 3,
-    "LOD2": 75
+    "LOD2": 74
    },
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
-   "vehicle_triangles": 505939
+   "vehicle_triangles": 501752
   },
   "buildings": {
    "dropped_for_budget": [],
@@ -365,12 +376,16 @@
    "capped": null,
    "impostor_cards_dropped": 19,
    "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 68
+   },
    "leaf_off": false,
    "per_kind": {
     "bench": 42,
     "bike_rack": 7,
     "bus_stop_sign": 4,
     "citibike_dock": 2,
+    "cooling_tower": 53,
     "hydrant": 36,
     "linknyc": 2,
     "manhole": 131,
@@ -379,7 +394,7 @@
     "tree": 119,
     "waste_basket": 12
    },
-   "placed": 498,
+   "placed": 551,
    "radius_m": 250.0,
    "rows_in_range": 627,
    "tiles_missing": [],
@@ -387,17 +402,15 @@
     "t_-2_1"
    ],
    "tree_species_substituted": 46,
-   "triangles": 1231828,
+   "triangles": 1255360,
    "unmapped_kinds": {
     "artwork": 2,
-    "cooling_tower": 53,
-    "curb_ramp": 68,
     "drinking_fountain": 4,
     "misc_structure": 2
    }
   },
   "radius_m": 601.1443958987674,
-  "seconds": 268.95,
+  "seconds": 138.09,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -435,7 +448,7 @@
    "z_max_m": 17.9,
    "z_min_m": -1.62
   },
-  "triangles": 3576044
+  "triangles": 3595360
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -445,9 +458,9 @@
   "radius_m": 601.1443958987674
  },
  "seconds": {
-  "render": 134.5,
-  "scene": 274.9,
-  "total": 409.5
+  "render": 107.6,
+  "scene": 146.5,
+  "total": 254.1
  },
  "slug": "landmark_domino_sugar_refinery",
  "status": "rendered",

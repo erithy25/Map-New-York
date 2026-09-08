@@ -318,6 +318,42 @@ def unmapped_roles() -> list[dict]:
     return out
 
 
+#: Categories whose piece models a *punched opening* -- a masonry reveal running back from the wall
+#: plane to a sash or a shopfront behind it.  Nothing else is mounted out of the wall.
+OPENING_CATEGORIES = ("window", "door_entry", "storefront")
+#: How far the glazing is left standing in front of the wall once the piece is mounted.
+MOUNT_PROUD_M = 0.02
+#: Beyond this the piece would read as a projecting bay rather than a window, so it is not moved
+#: further.  Nothing in the kit reaches it: the deepest glazing setback is 0.28 m.
+MOUNT_MAX_M = 0.30
+
+
+def mount_offset_m(category: str | None, glazing_setback_m: float | None) -> float:
+    """How far out of the wall a kit piece has to be mounted for its opening to be visible.
+
+    Every window, glazed door and shopfront in this kit models the whole punched opening: a masonry
+    reveal liner running from the wall plane at ``y = 0`` back to a sash at ``glazing_setback_m``,
+    and an interior behind that.  It is authored for a wall with a **hole** in it.  The building
+    shells have no hole, so the wall plane occludes everything from ``y = 0`` inward and only the
+    50 to 65 mm of frame that stands proud of it is visible -- which is why the Bed-Stuy comparison
+    sheet showed a blank plane carrying a grid of small pale bars over a record that said 2,458
+    window pieces were placed (J51).
+
+    Cutting the holes is the correct fix and is not affordable: 32.1 M openings at a measured 4
+    triangles of face plus 10 of reveal is 449 M triangles against the shells' 38.6 M, and at the
+    shells' own 106.6 bytes per triangle that is 48 GB.
+
+    Mounting each piece its own glazing setback further out puts the whole opening -- reveal, sash
+    and glass -- in front of the wall instead of behind it.  **It is not the same thing as a punched
+    opening**: the reveal projects from the wall rather than being cut into it, and J51 says so.
+    The distance is the piece's own measured setback, not a constant: it ranges from 0.063 m to
+    0.28 m across the kit.
+    """
+    if category not in OPENING_CATEGORIES or glazing_setback_m is None:
+        return 0.0
+    return round(min(max(float(glazing_setback_m), 0.0) + MOUNT_PROUD_M, MOUNT_MAX_M), 4)
+
+
 def registry() -> dict:
     """The machine-readable registry written to ``data/processed/facade/kit_ids.json``."""
     cat = catalog()
@@ -336,6 +372,7 @@ def registry() -> dict:
             "name": cid,
             "glb": e.get("glb", ""),
             "nominal_size_m": list(e.get("nominal_size_m") or e.get("measured_size_m") or [0.0, 0.0, 0.0]),
+            "mount_offset_m": mount_offset_m(e.get("category"), e.get("glazing_setback_m")),
             "roles": sorted(roles.get(cid, [])),
         })
     return {
