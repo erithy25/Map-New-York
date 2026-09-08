@@ -818,3 +818,70 @@ def test_index_and_report_exist_once_any_sheet_does():
     for name in ("Brooklyn Heights Promenade", "Top of the Rock", "Duffy Square",
                  "Bethesda Terrace", "Staten Island Ferry", "DUMBO"):
         assert name in rep, f"REPORT.md does not account for {name}"
+
+
+# --------------------------------------------------------------------------- the camera tilt (I18)
+
+
+def _tilt_functions():
+    """``containment_pitch`` and ``vertical_half_fov_deg`` without importing bpy.
+
+    ``render_sheets`` imports Blender at module level, so the two pure functions are read out of the
+    source. They are pure arithmetic over a focal length and a subject, which is exactly the part
+    worth testing without spending a render.
+    """
+    src = (VERIFY_DIR / "render_sheets.py").read_text()
+    start = src.index("TILT_HEADROOM = 0.88")
+    end = src.index("def aim_pitch(")
+    body = src[start:end].replace("import camera as vcam", "").replace("vcam.SENSOR_WIDTH_MM", "36.0")
+    ns: dict = {}
+    exec("import math\n" + body, ns)          # noqa: S102 - reading this module's own source
+    return ns["containment_pitch"], ns["vertical_half_fov_deg"]
+
+
+def test_a_subject_that_fits_the_frame_is_not_tilted_towards():
+    """A level axis is what makes a render and a photograph comparable on proportion; it is only
+    given up when the alternative is a frame with no subject in it."""
+    containment_pitch, _ = _tilt_functions()
+    pitch, why = containment_pitch((60.0, 10.0, "a 10 m subject"), 1.6, 35.0, False, 1280 / 853)
+    assert pitch == 0.0 and why == ""
+
+
+def test_the_chrysler_building_sheet_now_contains_the_chrysler_building():
+    """72 m away and 319 m tall: 77 deg of elevation, against a level 18 mm frame's 45 deg."""
+    containment_pitch, half_fov = _tilt_functions()
+    top = (72.0, 319.0, "the b_chrysler_building model")
+    pitch, why = containment_pitch(top, 1.6, 18.0, True, 1280 / 853)
+    need = math.degrees(math.atan((319.0 - 1.6) / 72.0))
+    half = half_fov(18.0, True, 1280 / 853)
+    assert pitch > 0.0, "the subject is above a level frame and the camera did not tilt"
+    assert need - pitch <= half, "the subject's top is still outside the frame after the tilt"
+    assert "verticals converge" in why, "the sheet has to say the frame is no longer comparable"
+
+
+def test_the_tilt_is_the_minimum_that_contains_the_subject():
+    """Tilting further than necessary would throw away comparability it did not have to."""
+    containment_pitch, half_fov = _tilt_functions()
+    for dist, height, focal in ((72.0, 319.0, 18.0), (200.0, 381.0, 18.0), (60.0, 87.0, 24.0)):
+        pitch, _ = containment_pitch((dist, height, "x"), 1.6, focal, True, 1280 / 853)
+        need = math.degrees(math.atan((height - 1.6) / dist))
+        half = half_fov(focal, True, 1280 / 853)
+        assert pitch == pytest.approx(min(70.0, need - half * 0.88), abs=1e-6)
+        assert pitch <= 70.0
+
+
+def test_the_tilt_is_capped_and_says_so():
+    """The cap binds only on a long lens; at the 18 mm floor the 90 deg frame reaches everything."""
+    containment_pitch, _ = _tilt_functions()
+    pitch, why = containment_pitch((5.0, 400.0, "something almost overhead"), 1.6, 200.0, True, 1280 / 853)
+    assert pitch == 70.0
+    assert "cap" in why
+    wide, _ = containment_pitch((5.0, 400.0, "the same thing"), 1.6, 18.0, True, 1280 / 853)
+    assert wide < 70.0, "an 18 mm frame is 90 deg tall and needs no cap"
+
+
+def test_the_renderer_prefers_a_wider_lens_before_it_tilts():
+    src = (VERIFY_DIR / "render_sheets.py").read_text()
+    i_lens = src.index("focal_mm, lens_why = choose_lens(")
+    i_tilt = src.index("tilt, tilt_why = containment_pitch(")
+    assert i_lens < i_tilt, "the tilt must be computed from the lens that was chosen, not before it"

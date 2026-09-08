@@ -630,6 +630,59 @@ def choose_lens(slug: str, top: tuple[float, float, str] | None, cam_z: float,
     return f, note
 
 
+#: Fraction of the frame's half-height the subject's top is placed inside when the camera has to
+#: tilt to contain it. 0.88 leaves 12 % headroom, the same margin :func:`choose_lens` uses when it
+#: widens the lens instead.
+TILT_HEADROOM = 0.88
+
+#: The most the optical axis will tilt, degrees. Past 70 deg the frame is looking at sky and the
+#: subject's own base is so far outside it that the picture stops being a comparison of anything.
+MAX_TILT_DEG = 70.0
+
+
+def vertical_half_fov_deg(focal_mm: float, portrait: bool, aspect: float) -> float:
+    """Half the frame's vertical field of view, for the sensor fit :func:`camera.place_camera` uses."""
+    import camera as vcam
+
+    sensor_v = vcam.SENSOR_WIDTH_MM if portrait else vcam.SENSOR_WIDTH_MM / max(aspect, 1e-6)
+    return math.degrees(math.atan(sensor_v / (2.0 * max(focal_mm, 1e-6))))
+
+
+def containment_pitch(top: "tuple[float, float, str] | None", cam_z: float, focal_mm: float,
+                      portrait: bool, aspect: float) -> tuple[float, str]:
+    """The tilt needed to put the subject's top inside the frame, and why -- 0 if it already is.
+
+    Three individually sensible rules composed into a sheet that could not contain its own subject:
+    a level optical axis for proportional comparability, an 18 mm lens floor against distortion, and
+    an aspect ratio taken from the reference photograph. Twelve of the twenty landmark sheets that
+    can be matched to a catalogue entry failed on it -- the Chrysler Building at 72 m needs 77.1 deg
+    of elevation and a level frame reaches 36.9, so that sheet showed an anonymous Midtown street.
+
+    So the camera does what the photographer does: it tilts up, past the 18 mm floor's reach, and
+    the sheet says the verticals converge and that the frame is therefore not comparable on
+    proportion. A frame that shows its subject with a caveat beats a frame that does not show it.
+    """
+    if top is None:
+        return 0.0, ""
+    dist, top_z, src = top
+    rise = top_z - cam_z
+    if dist < 1.0 or rise <= 0.0:
+        return 0.0, ""
+    half = vertical_half_fov_deg(focal_mm, portrait, aspect)
+    need = math.degrees(math.atan(rise / dist))
+    if need <= half * TILT_HEADROOM:
+        return 0.0, ""
+    pitch = min(MAX_TILT_DEG, need - half * TILT_HEADROOM)
+    note = (f"tilted {pitch:+.1f} deg to contain the subject: {src} tops out {rise:.0f} m above the "
+            f"lens {dist:.0f} m away, {need:.0f} deg above the horizon, and the frame is only "
+            f"{2 * half:.0f} deg tall at {focal_mm:.0f} mm. **The verticals converge, so this frame "
+            f"is not comparable with the photograph on proportion** -- it is here to show the "
+            f"subject at all")
+    if pitch >= MAX_TILT_DEG - 1e-6:
+        note += (f"; held at the {MAX_TILT_DEG:.0f} deg tilt cap, so the top is still cut off")
+    return pitch, note
+
+
 def aim_pitch(slug: str, meta: dict, cam_x: float, cam_y: float, cam_z: float,
               sampler, landmarks: Sequence[dict]) -> tuple[float, str]:
     """How far the optical axis tilts off horizontal, and why.
@@ -868,6 +921,12 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     eye_z = (sampler.ground_z(x, y)[0] or 0.0) + vcam.eye_rule_for(slug).height_m
     top = subject_top(meta, x, y, sampler, vscene.load_landmark_catalog())
     focal_mm, lens_why = choose_lens(slug, top, eye_z, height > width, width / height)
+    # The lens is widened first, because a level axis is what makes the two frames comparable on
+    # proportion. Only where the widest lens this build will use still cannot contain the subject
+    # does the camera tilt -- and then the sheet says so (I18).
+    tilt, tilt_why = containment_pitch(top, eye_z, focal_mm, height > width, width / height)
+    if tilt > 0.0:
+        pitch, pitch_why = tilt, tilt_why
     placement = vcam.place_camera(slug=slug, lat=cam_lat, lon=cam_lon,
                                   azimuth_deg=azimuth, sampler=sampler, focal_mm=focal_mm,
                                   resolution=(width, height), note=vp.get("note"), pitch_deg=pitch)
