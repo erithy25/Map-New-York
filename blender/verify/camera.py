@@ -514,8 +514,11 @@ def _walk_to_parapet(placement: "CameraPlacement", max_m: float = 250.0,
     of the upper terrace and the walk finds the balustrade 12 m ahead); the 9/11 Memorial is the
     photographic case, where the GPS already puts the camera on the South Pool's parapet.
     """
+    _h_half, _pitches, _yaws = frame_fan(placement)
     near_m, near_what = nearest_obstruction(placement.x, placement.y, placement.z,
-                                            placement.azimuth_deg, probe_m=60.0)
+                                            placement.azimuth_deg, probe_m=60.0,
+                                            half_angle_deg=_h_half, pitches_deg=_pitches,
+                                            yaw_steps=_yaws)
     view_m = view_distance(placement.x, placement.y, placement.z, placement.azimuth_deg, probe_m=150.0)
     ob, _ = _standing_on(placement.x, placement.y, placement.z)
     if ob is not None and origin_is_photo:
@@ -526,7 +529,7 @@ def _walk_to_parapet(placement: "CameraPlacement", max_m: float = 250.0,
                          f"photograph's own EXIF GPS rather than a nominal viewpoint standing for a "
                          f"whole deck, so there is nothing to walk to and the camera was not moved.  "
                          f"The view azimuth is clear for {view_m:.0f} m and the nearest solid thing "
-                         f"in the view cone is "
+                         f"anywhere in the frame is "
                          + (f"{near_what} {near_m:.1f} m away" if near_what else
                             f"further than {near_m:.0f} m"))}
     if ob is None:
@@ -534,7 +537,7 @@ def _walk_to_parapet(placement: "CameraPlacement", max_m: float = 250.0,
                 "view_m": round(view_m, 1), "nearest_obstruction_m": round(near_m, 1),
                 "nearest_obstruction": near_what,
                 "note": (f"the viewpoint is in open air on the ground and the camera was not moved; "
-                         f"the nearest solid thing in the view cone is "
+                         f"the nearest solid thing in the frame is "
                          + (f"{near_what} {near_m:.1f} m away" if near_what else
                             f"further than {near_m:.0f} m")
                          + f", and the view azimuth is clear for {view_m:.0f} m")}
@@ -560,7 +563,7 @@ def _walk_to_parapet(placement: "CameraPlacement", max_m: float = 250.0,
                 "note": (f"the eye point stands on {ob.name}, which still carries it {max_m:.0f} m "
                          f"along the view azimuth, so it is a ground-level deck rather than a roof "
                          f"with an edge to walk to; the camera was not moved.  The view azimuth is "
-                         f"clear for {view_m:.0f} m and the nearest solid thing in the view cone is "
+                         f"clear for {view_m:.0f} m and the nearest solid thing in the frame is "
                          + (f"{near_what} {near_m:.1f} m away" if near_what else
                             f"further than {near_m:.0f} m"))}
     if last_good < step_m:
@@ -641,7 +644,7 @@ def view_distance(x: float, y: float, z: float, azimuth_deg: float,
 def nearest_obstruction(x: float, y: float, z: float, azimuth_deg: float, *,
                         probe_m: float = 60.0, half_angle_deg: float = 6.0,
                         pitches_deg: tuple[float, ...] = (0.0, 8.0, 16.0, 24.0),
-                        yaw_steps: int = 5) -> tuple[float, str | None]:
+                        yaw_steps: int = 5, with_angle: bool = False):
     """Closest opaque thing inside a narrow cone about the view axis, and what it is.
 
     A single axis ray is not enough to tell whether the lens is clear: the trunk of the street
@@ -658,7 +661,7 @@ def nearest_obstruction(x: float, y: float, z: float, azimuth_deg: float, *,
                 for i in range(yaw_steps)]
     else:
         yaws = [0.0]
-    best, what = float(probe_m), None
+    best, what, at = float(probe_m), None, (0.0, 0.0)
     for dyaw in yaws:
         a = a0 + dyaw
         for pdeg in pitches_deg:
@@ -668,8 +671,29 @@ def nearest_obstruction(x: float, y: float, z: float, azimuth_deg: float, *,
             if hit and _opaque(ob):
                 dist = float((Vector(loc) - origin).length)
                 if dist < best:
-                    best, what = dist, ob.name
+                    best, what, at = dist, ob.name, (math.degrees(dyaw), pdeg)
+    if with_angle:
+        return best, what, at
     return best, what
+
+
+def frame_fan(placement: "CameraPlacement", *, yaw_steps: int = 7,
+              pitch_steps: int = 5) -> tuple[float, tuple[float, ...], int]:
+    """The yaw half-angle and pitch fan that cover **this camera's frame**, not a fixed cone.
+
+    ``nearest_obstruction``'s default is a half-angle of 6 deg and four upward pitches, which was
+    written to catch a street tree in front of the lens and does that well. Used as a *clearance*
+    test it answers a much narrower question than the one the caption puts it to: a drive frame is
+    42.2 deg wide by 54.4 deg high, so a 6 deg cone constrains 28 % of its width, 22 % of its height
+    and 5.2 % of its solid angle -- and two of the first twelve sheets of the 2026-09-08 pass
+    rendered a building face that sat entirely outside it (J47). This returns the frame's own
+    half-angles so the probe is asked about the picture.
+    """
+    w, h = placement.resolution
+    h_half = 0.5 * float(placement.hfov_deg)
+    v_half = math.degrees(math.atan(math.tan(math.radians(h_half)) * (h / w))) if w else h_half
+    pitches = tuple(-v_half + 2.0 * v_half * i / (pitch_steps - 1) for i in range(pitch_steps))
+    return h_half, pitches, yaw_steps
 
 
 def pavement_candidates(x: float, y: float, *, max_m: float = 70.0) -> list[dict]:
@@ -862,10 +886,15 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
         else:
             return None
         view_m = view_distance(nx, ny, nz, placement.azimuth_deg, probe_m=probe_m)
-        near_m, near_what = nearest_obstruction(nx, ny, nz, placement.azimuth_deg,
-                                                probe_m=max(min_clear_m * 2.0, 20.0))
+        # The probe covers this camera's own frame, not a fixed 6 deg cone. A candidate that can see
+        # 60 m up the street and has a facade four metres off to the right is not a viewpoint, and
+        # the axis cannot tell the two apart (J47).
+        h_half, pitches, yaws = frame_fan(placement)
+        near_m, near_what, near_at = nearest_obstruction(
+            nx, ny, nz, placement.azimuth_deg, probe_m=max(min_clear_m * 2.0, 20.0),
+            half_angle_deg=h_half, pitches_deg=pitches, yaw_steps=yaws, with_angle=True)
         return {"z": nz, "gz": gz, "detail": detail, "view_m": view_m,
-                "near_m": near_m, "near_what": near_what,
+                "near_m": near_m, "near_what": near_what, "near_at": near_at,
                 "sees": view_m >= min_view_m and near_m >= min_clear_m}
 
     def commit(nx: float, ny: float, got: dict) -> None:
@@ -888,11 +917,21 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
             commit(cand["x"], cand["y"], got)
             return {"moved": True, "offset_m": round(cand["distance_m"], 1),
                     "direction": f"onto the nearest {cand['kind']}", "reason": why,
-                    "rule": "pavement snap with a clear view",
+                    "rule": "pavement snap with a clear frame",
                     "view_m": round(got["view_m"], 1), "nearest_obstruction_m": round(got["near_m"], 1),
+                    "nearest_obstruction": got["near_what"],
+                    "nearest_obstruction_at_deg": [round(v, 1) for v in got["near_at"]],
                     "note": (f"the recorded viewpoint is {why}; {desc}.  The view azimuth is clear "
-                             f"for {got['view_m']:.0f} m from there")}
-        if fallback is None or got["view_m"] > fallback[2]["view_m"]:
+                             f"for {got['view_m']:.0f} m from there, and the nearest solid thing "
+                             f"anywhere in the frame is "
+                             + (f"{got['near_what']} {got['near_m']:.1f} m away at "
+                                f"{got['near_at'][0]:+.0f} deg yaw, {got['near_at'][1]:+.0f} deg pitch"
+                                if got["near_what"] else f"further than {got['near_m']:.0f} m"))}
+        # Rank the fallback on how much of the *frame* is open, then on the axis. Ranking on the
+        # axis alone is what let a camera hard against a block face win: it could see 60 m up the
+        # street past the corner of the building filling the rest of its picture.
+        key = (got["near_m"], got["view_m"])
+        if fallback is None or key > (fallback[2]["near_m"], fallback[2]["view_m"]):
             fallback = (cand["x"], cand["y"], got, round(cand["distance_m"], 1),
                         f"onto the nearest {cand['kind']}", desc)
 
@@ -914,12 +953,19 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
             if got["sees"]:
                 commit(nx, ny, got)
                 return {"moved": True, "offset_m": round(t, 1), "direction": label, "reason": why,
-                        "rule": "radial search with a clear view",
+                        "rule": "radial search with a clear frame",
                         "view_m": round(got["view_m"], 1),
                         "nearest_obstruction_m": round(got["near_m"], 1),
+                        "nearest_obstruction": got["near_what"],
+                        "nearest_obstruction_at_deg": [round(v, 1) for v in got["near_at"]],
                         "note": (f"the recorded viewpoint is {why}; {desc}.  The view azimuth is "
-                                 f"clear for {got['view_m']:.0f} m from there")}
-            if fallback is None or got["view_m"] > fallback[2]["view_m"]:
+                                 f"clear for {got['view_m']:.0f} m from there, and the nearest "
+                                 f"solid thing anywhere in the frame is "
+                                 + (f"{got['near_what']} {got['near_m']:.1f} m away"
+                                    if got["near_what"] else
+                                    f"further than {got['near_m']:.0f} m"))}
+            if fallback is None or (got["near_m"], got["view_m"]) > (fallback[2]["near_m"],
+                                                                    fallback[2]["view_m"]):
                 fallback = (nx, ny, got, round(t, 1), label, desc)
         t += step_m
 
