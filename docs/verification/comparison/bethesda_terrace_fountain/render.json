@@ -115,7 +115,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/bethesda_terrace_fountain/render.png",
- "rendered_at": "2026-09-08T09:48:10Z",
+ "rendered_at": "2026-09-08T10:13:44Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -141,7 +141,7 @@
    "placed_pedestrians": 11,
    "placed_vehicles": 0,
    "reason": null,
-   "seconds": 10.05,
+   "seconds": 10.88,
    "snapshot": {
     "building_footprints_tested": 2814,
     "car_free_park_drives_matched": 46,
@@ -421,7 +421,7 @@
    }
   },
   "radius_m": 700.0,
-  "seconds": 16.8,
+  "seconds": 17.77,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -494,9 +494,20 @@
   "radius_m": 700.0
  },
  "seconds": {
-  "render": 85.8,
-  "scene": 17.0,
-  "total": 102.8
+  "render": 85.2,
+  "scene": 18.0,
+  "total": 103.2
+ },
+ "sightline": {
+  "subject_aimed_at": "the subject's own top",
+  "subject_blocked_at_m": 2.4,
+  "subject_blocked_by": "prop_lamp_cobra_davit_6",
+  "subject_fan_half_angle_deg": 5.52,
+  "subject_fan_m": 12.0,
+  "subject_range_m": 62.1,
+  "subject_rays": 5,
+  "subject_rays_clear": 0,
+  "subject_visible": false
  },
  "slug": "bethesda_terrace_fountain",
  "status": "rendered",
