@@ -224,6 +224,34 @@ def place_pavement(tile: str) -> int:
     return 1
 
 
+def place_parkground(tile: str) -> int:
+    """The tile's open-space ground: one static-mesh actor at the tile origin.
+
+    27,493 surveyed polygons -- park boundary, greenstreet, court, ball field, pool, running track,
+    skating rink, cemetery and vacant ground, 130 km2 of it. Before this the terrain was the only
+    thing under a park, and three entries of the friction model -- Grass, Water and Ice -- were
+    unreachable because no surface in the world produced them.
+
+    Collision on the same NYCTerrain profile the pavement and the structures use, so a wheel trace
+    resolves a lawn as grass and a rink as ice.
+    """
+    mesh = load_asset(f"{tile_content_dir(tile)}/SM_ParkGround")
+    if mesh is None:
+        return 0
+    origin_x, origin_y = tile_origin_m(tile)
+    actor = spawn_mesh(mesh, nyctm_to_ue(origin_x, origin_y, 0.0),
+                       unreal.Rotator(0.0, 0.0, 0.0), f"{tile}_SM_ParkGround")
+    if actor is None:
+        return 0
+    try:
+        component = actor.get_editor_property("static_mesh_component")
+        if component is not None:
+            component.set_collision_profile_name("NYCTerrain")
+    except Exception as exc:  # noqa: BLE001
+        WARN(f"{tile}: park ground collision profile not set: {exc}")
+    return 1
+
+
 def place_structures(tile: str) -> int:
     """The tile's elevated railways and waterfront: one static-mesh actor at the tile origin.
 
@@ -420,7 +448,7 @@ def build_tile_level(tile: str, tier: str, processed_root: str, catalog: dict, t
     if not new_level(package):
         return {"tile": tile, "tier": tier, "ok": False, "error": "level could not be created"}
 
-    result = {"tile": tile, "tier": tier, "ok": True, "shells": 0, "pavement": 0, "structures": 0, "landmarks": 0,
+    result = {"tile": tile, "tier": tier, "ok": True, "shells": 0, "pavement": 0, "structures": 0, "parkground": 0, "landmarks": 0,
               "props": 0, "kit": 0, "landscape": False}
     result["shells"] = place_shells(tile, tier)
     # Landmarks go in both tiers, like the shells: the Empire State Building is exactly the thing
@@ -443,6 +471,7 @@ def build_tile_level(tile: str, tier: str, processed_root: str, catalog: dict, t
         # L0 only: the road surface is what you drive on, and you are never on a tier-1 tile.
         result["pavement"] = place_pavement(tile)
         result["structures"] = place_structures(tile)
+        result["parkground"] = place_parkground(tile)
         result["props"] = place_props(tile, processed_root)
         result["kit"] = place_kit(tile, processed_root, catalog)
 
