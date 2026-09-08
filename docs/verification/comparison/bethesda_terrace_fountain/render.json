@@ -115,7 +115,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/bethesda_terrace_fountain/render.png",
- "rendered_at": "2026-09-08T15:52:03Z",
+ "rendered_at": "2026-09-08T18:05:53Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -141,7 +141,7 @@
    "placed_pedestrians": 11,
    "placed_vehicles": 0,
    "reason": null,
-   "seconds": 18.38,
+   "seconds": 18.01,
    "snapshot": {
     "building_footprints_tested": 2814,
     "car_free_park_drives_matched": 46,
@@ -768,8 +768,11 @@
     "t_-3_7",
     "t_-3_8"
    ],
+   "tree_instances_scaled": 76,
+   "tree_mean_scale": 0.946,
+   "tree_scale_out_of_band": 0,
    "tree_species_substituted": 76,
-   "triangles": 735492,
+   "triangles": 673140,
    "unmapped_kinds": {
     "artwork": 11,
     "drinking_fountain": 9,
@@ -779,7 +782,7 @@
    }
   },
   "radius_m": 742.6651793355627,
-  "seconds": 36.66,
+  "seconds": 35.58,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -847,7 +850,7 @@
    "z_max_m": 42.39,
    "z_min_m": 9.16
   },
-  "triangles": 1697014
+  "triangles": 1634662
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -857,9 +860,9 @@
   "radius_m": 742.6651793355627
  },
  "seconds": {
-  "render": 79.9,
-  "scene": 37.1,
-  "total": 117.0
+  "render": 28.3,
+  "scene": 35.8,
+  "total": 64.1
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 3.9 m above its ground",

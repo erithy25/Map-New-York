@@ -73,9 +73,9 @@
   "view_m": 59.3
  },
  "frame": {
-  "mean": 0.2981,
+  "mean": 0.3003,
   "reason": null,
-  "sd": 0.1638,
+  "sd": 0.1167,
   "usable": true
  },
  "frame_retry": null,
@@ -83,7 +83,7 @@
  "interior": false,
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
  "lighting": {
-  "background_strength": 0.25,
+  "background_strength": 0.030480163171887398,
   "direct_normal_irradiance_w_m2": 937.5,
   "emissive": {
    "cone_faces_deleted": 8,
@@ -96,7 +96,7 @@
   "sky_azimuth_deg": 185.36,
   "sky_elevation_deg": 69.459,
   "sun_lamp": true,
-  "sun_strength_blender": 1.736,
+  "sun_strength_blender": 3.278,
   "view_transform": "Filmic"
  },
  "name": "Lower Manhattan drive-through: Broadway at Wall Street",
@@ -116,7 +116,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_lower_manhattan_broadway_wall_st/render.png",
- "rendered_at": "2026-09-08T15:11:49Z",
+ "rendered_at": "2026-09-08T16:19:47Z",
  "resolution_note": "1112x980; the reference photograph is 1920x1693 (1.13:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -154,7 +154,7 @@
    "placed_pedestrians": 242,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 259.98,
+   "seconds": 246.71,
    "snapshot": {
     "building_footprints_tested": 1416,
     "density_lane_km": 30.259,
@@ -466,6 +466,11 @@
   "materials": {
    "dressed": {
     "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
      "asset_id": "Asphalt025A",
      "maps": [
       "color",
@@ -476,6 +481,11 @@
      "resolution": "2K"
     },
     "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
      "asset_id": "Bricks054",
      "maps": [
       "color",
@@ -487,6 +497,11 @@
      "resolution": "2K"
     },
     "brownstone": {
+     "albedo": {
+      "scale": 2.682,
+      "target_albedo": 0.2367,
+      "texture_albedo": 0.0882
+     },
      "asset_id": "Travertine005",
      "maps": [
       "color",
@@ -498,6 +513,11 @@
      "resolution": "2K"
     },
     "cast_iron": {
+     "albedo": {
+      "scale": 0.323,
+      "target_albedo": 0.1667,
+      "texture_albedo": 0.5157
+     },
      "asset_id": "Metal055A",
      "maps": [
       "color",
@@ -509,6 +529,14 @@
      "resolution": "2K"
     },
     "concrete": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.135,
+      "scale": 4.0,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.1174
+     },
      "asset_id": "Concrete030",
      "maps": [
       "color",
@@ -520,6 +548,11 @@
      "resolution": "2K"
     },
     "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
      "asset_id": "Concrete036",
      "maps": [
       "color",
@@ -530,6 +563,11 @@
      "resolution": "2K"
     },
     "granite": {
+     "albedo": {
+      "scale": 0.859,
+      "target_albedo": 0.39,
+      "texture_albedo": 0.4542
+     },
      "asset_id": "Granite002A",
      "maps": [
       "color",
@@ -541,6 +579,11 @@
      "resolution": "2K"
     },
     "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
      "asset_id": "Travertine009",
      "maps": [
       "color",
@@ -552,6 +595,11 @@
      "resolution": "2K"
     },
     "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
      "asset_id": "Metal032",
      "maps": [
       "color",
@@ -563,6 +611,11 @@
      "resolution": "2K"
     },
     "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
      "asset_id": "Concrete034",
      "maps": [
       "color",
@@ -574,6 +627,11 @@
      "resolution": "2K"
     },
     "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
      "asset_id": "Bricks082A",
      "maps": [
       "color",
@@ -585,6 +643,14 @@
      "resolution": "2K"
     },
     "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
      "asset_id": "Rubber004",
      "maps": [
       "color",
@@ -596,6 +662,11 @@
      "resolution": "2K"
     },
     "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
      "asset_id": "Bricks102",
      "maps": [
       "color",
@@ -607,6 +678,11 @@
      "resolution": "2K"
     },
     "stucco": {
+     "albedo": {
+      "scale": 1.0,
+      "target_albedo": 0.6667,
+      "texture_albedo": 0.6543
+     },
      "asset_id": "Plaster001",
      "maps": [
       "color",
@@ -618,6 +694,11 @@
      "resolution": "2K"
     },
     "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
      "asset_id": "Bricks029",
      "maps": [
       "color",
@@ -629,6 +710,11 @@
      "resolution": "2K"
     },
     "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
      "asset_id": "Asphalt018",
      "maps": [
       "color",
@@ -640,6 +726,11 @@
      "resolution": "2K"
     },
     "terracotta": {
+     "albedo": {
+      "scale": 0.945,
+      "target_albedo": 0.3833,
+      "texture_albedo": 0.4055
+     },
      "asset_id": "Marble026",
      "maps": [
       "color",
@@ -651,6 +742,11 @@
      "resolution": "2K"
     },
     "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
      "asset_id": "WoodSiding009",
      "maps": [
       "color",
@@ -662,6 +758,11 @@
      "resolution": "2K"
     },
     "white_glazed_brick": {
+     "albedo": {
+      "scale": 1.13,
+      "target_albedo": 0.7767,
+      "texture_albedo": 0.6874
+     },
      "asset_id": "Bricks060",
      "maps": [
       "color",
@@ -673,6 +774,14 @@
      "resolution": "2K"
     },
     "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 3.498,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0391
+     },
      "asset_id": "WoodSiding003",
      "maps": [
       "color",
@@ -763,7 +872,7 @@
    }
   },
   "radius_m": 776.1765816782907,
-  "seconds": 315.89,
+  "seconds": 301.43,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -826,9 +935,9 @@
   "radius_m": 776.1765816782907
  },
  "seconds": {
-  "render": 107.7,
-  "scene": 317.5,
-  "total": 425.2
+  "render": 78.2,
+  "scene": 303.2,
+  "total": 381.4
  },
  "sightline": {
   "subject_note": "the item names no point subject",

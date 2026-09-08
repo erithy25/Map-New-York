@@ -73,9 +73,9 @@
   "view_m": 60.0
  },
  "frame": {
-  "mean": 0.1777,
+  "mean": 0.1109,
   "reason": null,
-  "sd": 0.0933,
+  "sd": 0.0639,
   "usable": true
  },
  "frame_retry": null,
@@ -83,7 +83,7 @@
  "interior": false,
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
  "lighting": {
-  "background_strength": 0.25,
+  "background_strength": 0.03113112598657608,
   "direct_normal_irradiance_w_m2": 915.1,
   "emissive": {
    "cone_faces_deleted": 24,
@@ -96,7 +96,7 @@
   "sky_azimuth_deg": 204.365,
   "sky_elevation_deg": 58.603,
   "sun_lamp": true,
-  "sun_strength_blender": 1.695,
+  "sun_strength_blender": 3.2,
   "view_transform": "Filmic"
  },
  "name": "Lower Manhattan drive-through: Stone Street",
@@ -116,12 +116,12 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_lower_manhattan_stone_st/render.png",
- "rendered_at": "2026-09-08T13:09:17Z",
+ "rendered_at": "2026-09-08T16:26:52Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
-   "caption": "Agents: 89 vehicles within 320 m and 373 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 644 vehicles and 4472 people over the whole simulated ring, of which 692 and 2999 were simulated; 3229 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "caption": "Agents: 89 vehicles within 320 m and 381 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 644 vehicles and 4472 people over the whole simulated ring, of which 692 and 2999 were simulated; 3221 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "culled_after_camera_move": {
     "pedestrian_over_the_observer": 1,
     "vehicle_over_the_observer": 0
@@ -132,7 +132,7 @@
     "pedestrian_not_on_walkable_surface": 164,
     "pedestrian_outside_radius": 1271,
     "pedestrian_over_the_observer": 2,
-    "pedestrian_triangle_budget": 655,
+    "pedestrian_triangle_budget": 647,
     "vehicle_body_has_no_rider": 21,
     "vehicle_not_on_carriageway": 10,
     "vehicle_outside_radius": 359,
@@ -141,11 +141,11 @@
    "ped_lods": {
     "LOD0": 1,
     "LOD1": 13,
-    "LOD2": 359
+    "LOD2": 367
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 582335,
+   "pedestrian_triangles": 578117,
    "per_class": {
     "black_car": 4,
     "boro_taxi": 6,
@@ -157,10 +157,10 @@
     "taxi": 5,
     "van": 3
    },
-   "placed_pedestrians": 372,
+   "placed_pedestrians": 380,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 129.45,
+   "seconds": 208.96,
    "snapshot": {
     "building_footprints_tested": 430,
     "density_lane_km": 28.886,
@@ -182,8 +182,9 @@
      "segments": 122235,
      "signal_plans": 19814
     },
-    "npc_bodies_imported": 12,
-    "npc_templates_baked": 83,
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 36,
+    "npc_templates_baked": 176,
     "pavement_polygons_tested": 2019,
     "ped_spawn_radius_m": 220.0,
     "peds_in_snapshot": 2999,
@@ -201,7 +202,7 @@
    },
    "snapshot_note": "cached -5130_457_13_0_7a9f5509044aac37_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 1088185,
+   "triangles": 1083967,
    "vehicle_lods": {
     "LOD2": 89
    },
@@ -288,27 +289,27 @@
    457.07
   ],
   "kit": {
-   "capped": "triangle budget 1225315",
+   "capped": "triangle budget 1210738",
    "per_category": {
     "billboard": 1,
     "bulkhead": 22,
-    "cornice": 25,
-    "door_entry": 65,
+    "cornice": 24,
+    "door_entry": 64,
     "fire_escape": 6,
     "hvac": 12,
     "parapet": 33,
     "pilaster": 24,
     "quoin": 2,
-    "scaffold": 22,
-    "storefront": 286,
-    "storefront_interior": 51,
-    "string_course": 12,
+    "scaffold": 17,
+    "storefront": 283,
+    "storefront_interior": 50,
+    "string_course": 11,
     "vegetation": 5,
     "water_tower": 4,
-    "window": 5567,
+    "window": 5523,
     "window_accessory": 105
    },
-   "placed": 6242,
+   "placed": 6186,
    "radius_m": 140.2236867562105,
    "records_in_range": 22332,
    "stale_registry_ids": {},
@@ -318,7 +319,7 @@
     "t_-5_0",
     "t_-6_0"
    ],
-   "triangles": 1225346,
+   "triangles": 1210801,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -469,20 +470,357 @@
    "skipped_detail": [],
    "triangles": 593068
   },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.056,
+      "texture_albedo": 0.0605
+     },
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K"
+    },
+    "brown_brick": {
+     "albedo": {
+      "scale": 0.926,
+      "target_albedo": 0.22,
+      "texture_albedo": 0.2375
+     },
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K"
+    },
+    "brownstone": {
+     "albedo": {
+      "scale": 2.682,
+      "target_albedo": 0.2367,
+      "texture_albedo": 0.0882
+     },
+     "asset_id": "Travertine005",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K"
+    },
+    "cast_iron": {
+     "albedo": {
+      "scale": 0.323,
+      "target_albedo": 0.1667,
+      "texture_albedo": 0.5157
+     },
+     "asset_id": "Metal055A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K"
+    },
+    "concrete": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 1.135,
+      "scale": 4.0,
+      "target_albedo": 0.5333,
+      "texture_albedo": 0.1174
+     },
+     "asset_id": "Concrete030",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "concrete_sidewalk": {
+     "albedo": {
+      "scale": 1.153,
+      "target_albedo": 0.3317,
+      "texture_albedo": 0.2876
+     },
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K"
+    },
+    "granite": {
+     "albedo": {
+      "scale": 0.859,
+      "target_albedo": 0.39,
+      "texture_albedo": 0.4542
+     },
+     "asset_id": "Granite002A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K"
+    },
+    "limestone": {
+     "albedo": {
+      "scale": 1.128,
+      "target_albedo": 0.66,
+      "texture_albedo": 0.5853
+     },
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K"
+    },
+    "metal_panel": {
+     "albedo": {
+      "scale": 2.006,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.2492
+     },
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K"
+    },
+    "precast": {
+     "albedo": {
+      "scale": 1.273,
+      "target_albedo": 0.6133,
+      "texture_albedo": 0.4818
+     },
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "red_brick": {
+     "albedo": {
+      "scale": 1.411,
+      "target_albedo": 0.2333,
+      "texture_albedo": 0.1654
+     },
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K"
+    },
+    "roof_membrane": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 2.852,
+      "scale": 4.0,
+      "target_albedo": 0.3033,
+      "texture_albedo": 0.0266
+     },
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "stone_rubble": {
+     "albedo": {
+      "scale": 2.415,
+      "target_albedo": 0.4233,
+      "texture_albedo": 0.1753
+     },
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "stucco": {
+     "albedo": {
+      "scale": 1.0,
+      "target_albedo": 0.6667,
+      "texture_albedo": 0.6543
+     },
+     "asset_id": "Plaster001",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "tan_brick": {
+     "albedo": {
+      "scale": 1.575,
+      "target_albedo": 0.5,
+      "texture_albedo": 0.3174
+     },
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K"
+    },
+    "tar_roof": {
+     "albedo": {
+      "scale": 1.881,
+      "target_albedo": 0.13,
+      "texture_albedo": 0.0691
+     },
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "terracotta": {
+     "albedo": {
+      "scale": 0.945,
+      "target_albedo": 0.3833,
+      "texture_albedo": 0.4055
+     },
+     "asset_id": "Marble026",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K"
+    },
+    "vinyl_siding": {
+     "albedo": {
+      "scale": 1.402,
+      "target_albedo": 0.6867,
+      "texture_albedo": 0.4898
+     },
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K"
+    },
+    "white_glazed_brick": {
+     "albedo": {
+      "scale": 1.13,
+      "target_albedo": 0.7767,
+      "texture_albedo": 0.6874
+     },
+     "asset_id": "Bricks060",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K"
+    },
+    "wood_clapboard": {
+     "albedo": {
+      "capped_at": 4.0,
+      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
+      "residual": 3.498,
+      "scale": 4.0,
+      "target_albedo": 0.5467,
+      "texture_albedo": 0.0391
+     },
+     "asset_id": "WoodSiding003",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K"
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 267
+  },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 455,
-    "curb": 943,
+    "crosswalk": 563,
+    "curb": 3443,
     "marking_white": 8502,
     "marking_yellow": 212,
-    "median": 58,
-    "parking_lot": 7,
-    "plaza": 52,
-    "roadbed": 351,
-    "sidewalk": 187
+    "median": 393,
+    "parking_lot": 13,
+    "plaza": 987,
+    "roadbed": 5392,
+    "sidewalk": 4263
    },
-   "placed": 10767,
+   "placed": 23768,
    "radius_m": 740.2236867562106,
    "tiles_missing": [],
    "tiles_read": [
@@ -493,12 +831,12 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "triangles": 172046,
-   "triangles_cut_for_landmark_ground": 297,
-   "vertices": 193591
+   "triangles": 197269,
+   "triangles_cut_for_landmark_ground": 315,
+   "vertices": 244964
   },
   "props": {
-   "capped": "triangle budget 1246021",
+   "capped": "triangle budget 1237192",
    "impostor_cards_dropped": 11,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -518,13 +856,13 @@
     "manhole": 76,
     "newsstand": 4,
     "steam_vent": 2,
-    "street_lamp": 74,
+    "street_lamp": 73,
     "subway_entrance": 2,
     "subway_vent_grate": 34,
-    "tree": 133,
+    "tree": 131,
     "waste_basket": 30
    },
-   "placed": 615,
+   "placed": 612,
    "radius_m": 270.2236867562105,
    "rows_in_range": 1281,
    "tiles_missing": [],
@@ -532,8 +870,8 @@
     "t_-5_0",
     "t_-6_0"
    ],
-   "tree_species_substituted": 89,
-   "triangles": 1246560,
+   "tree_species_substituted": 87,
+   "triangles": 1240132,
    "unmapped_kinds": {
     "artwork": 1,
     "memorial": 3,
@@ -541,7 +879,7 @@
    }
   },
   "radius_m": 740.2236867562106,
-  "seconds": 231.76,
+  "seconds": 307.19,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -594,7 +932,7 @@
    "z_max_m": 12.91,
    "z_min_m": -4.3
   },
-  "triangles": 4500031
+  "triangles": 4500063
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -604,9 +942,9 @@
   "radius_m": 740.2236867562106
  },
  "seconds": {
-  "render": 159.8,
-  "scene": 243.9,
-  "total": 403.8
+  "render": 103.9,
+  "scene": 317.9,
+  "total": 421.8
  },
  "sightline": {
   "subject_note": "the item names no point subject",
