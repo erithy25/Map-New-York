@@ -44,7 +44,7 @@ from typing import Iterable, Sequence
 
 import numpy as np
 
-from . import env, geom as g
+from . import contract, env, geom as g
 
 bpy = env.bpy
 log = env.log
@@ -367,12 +367,22 @@ def _measured_x_axis(bone: str, objects: dict, ob):
             axis = -axis
         return axis
     if bone.startswith("Needle_"):
-        gauge = {"Needle_Speed": "GAUGE_SPEED", "Needle_RPM": "GAUGE_RPM"}.get(bone)
+        # All four, not the two round dials only: the fuel and coolant needles sweep over their own
+        # faces and had no axis at all, so they would have been left in the vehicle frame and swept
+        # about the car's forward axis instead of about the face they sit on.
+        gauge = contract.GAUGE_OF_NEEDLE.get(bone)
         dash = objects.get("Interior_Dash")
         if gauge and dash is not None:
             got = _material_face_frame(dash, gauge)
             if got is not None:
-                return got[1]
+                # Point it forward, away from the driver, exactly as the steering column above and
+                # as ``interior.needle_axis`` does. The gauge face itself looks *at* the driver, so
+                # its normal is the other way round; taking it unflipped gave a bone axis
+                # antiparallel to the axis the needle geometry was built around, and a needle whose
+                # rest peg is at eight o'clock sweeping the wrong way reads its scale backwards --
+                # a gauge that lies, which is worse than a gauge that does not move.
+                axis = np.asarray(got[1], dtype=np.float64)
+                return -axis if axis[0] < 0.0 else axis
     return None
 
 

@@ -273,6 +273,102 @@ def test_the_steering_bone_turns_about_the_real_column(player):
     assert 15.0 <= tilt <= 35.0, f"a car's column rakes 20-25 degrees; this one is {tilt:.1f}"
 
 
+def _sweeps() -> dict[str, float]:
+    """``GAUGE_SWEEP_DEG`` out of the exporter's contract module, read as text."""
+    path = REPO_ROOT / "blender" / "vehicles" / "vlib" / "contract.py"
+    if not path.is_file():
+        pytest.skip("vlib/contract.py is not present")
+    text = path.read_text(encoding="utf-8", errors="replace")
+    m = re.search(r"^GAUGE_SWEEP_DEG\s*=\s*\{([^}]*)\}", text, re.M)
+    assert m is not None, "vlib/contract.py declares no GAUGE_SWEEP_DEG"
+    return {k: float(v) for k, v in re.findall(r'"([^"]+)"\s*:\s*([0-9.]+)', m.group(1))}
+
+
+def _gauge_of_needle() -> dict[str, str]:
+    path = REPO_ROOT / "blender" / "vehicles" / "vlib" / "contract.py"
+    text = path.read_text(encoding="utf-8", errors="replace")
+    m = re.search(r"^GAUGE_OF_NEEDLE\s*=\s*\{([^}]*)\}", text, re.M)
+    assert m is not None, "vlib/contract.py declares no GAUGE_OF_NEEDLE"
+    return dict(re.findall(r'"([^"]+)"\s*:\s*"([^"]+)"', m.group(1)))
+
+
+def test_every_gauge_needle_stands_at_its_rest_peg(player):
+    """The four needles ``UNYCVehicleAnimInstance`` drives every frame, measured off the file.
+
+    Three separate things have to be true for a needle to read correctly, and none of them is
+    visible from the fact that the bone exists:
+
+    * it has to turn about the **face it sits on**, not about the car's forward axis;
+    * that axis has to point **away from the driver**, because the runtime adds a positive angle and
+      a right-handed turn about an axis pointing at the viewer runs the other way -- the first build
+      of this got it backwards, took the gauge face's own normal, and would have shipped four
+      needles sweeping anticlockwise down their scales;
+    * and the blade has to start at **zero**, which is half the sweep back from twelve o'clock,
+      because the reference pose is the rest peg and the engine only ever adds to it.
+
+    So this reads the bone's local X and the needle's own vertices out of the exported binary and
+    checks the angle between the blade and the face's vertical. A needle at the wrong peg is a gauge
+    that reads wrong at every speed, which no import check and no eye on a still render would catch.
+    """
+    js, bins = player
+    world, joints = _world(js), _joints(js)
+    sweeps, gauges = _sweeps(), _gauge_of_needle()
+    mesh_of = {}
+    for i, n in enumerate(js["nodes"]):
+        if "mesh" in n and n.get("name", "") in gauges:
+            mesh_of.setdefault(n["name"], i)
+    assert set(gauges) <= set(joints), f"needle bones missing: {sorted(set(gauges) - set(joints))}"
+    assert set(gauges) <= set(mesh_of), f"needle meshes missing: {sorted(set(gauges) - set(mesh_of))}"
+    for needle, slot in sorted(gauges.items()):
+        w = world[joints[needle]]
+        axis = w[:3, 0] / np.linalg.norm(w[:3, 0])
+        assert axis[0] > 0.5, (
+            f"{needle}'s local X {np.round(axis, 3)} does not point forward, away from the driver; "
+            "the engine's positive sweep would run backwards down the scale")
+        mi = mesh_of[needle]
+        mesh = js["meshes"][js["nodes"][mi]["mesh"]]
+        pts = np.vstack([_accessor(js, bins, pr["attributes"]["POSITION"]).astype(np.float64)
+                         for pr in mesh["primitives"]])
+        pts = pts @ world[mi][:3, :3].T + world[mi][:3, 3]
+        rel = pts - w[:3, 3]
+        rel = rel - np.outer(rel @ axis, axis)          # into the dial's own plane
+        radius = np.linalg.norm(rel, axis=1)
+        tip = rel[int(np.argmax(radius))]
+        tip = tip / np.linalg.norm(tip)
+        up = np.array([0.0, 1.0, 0.0])                  # glTF is Y-up
+        up = up - axis * (up @ axis)
+        up = up / np.linalg.norm(up)
+        angle = np.degrees(np.arctan2(float(np.cross(up, tip) @ axis), float(up @ tip)))
+        want = -0.5 * sweeps[slot]
+        assert abs(angle - want) < 1.0, (
+            f"{needle} rests at {angle:+.1f} deg from vertical; its {slot} sweeps "
+            f"{sweeps[slot]:.0f} deg so the peg is {want:+.1f}. The needle would read "
+            f"{abs(angle - want) / sweeps[slot] * 100:.0f} % of full scale with the car stopped.")
+        assert radius.max() < 0.09, f"{needle} is {radius.max() * 1000:.0f} mm long; no dial is"
+
+
+def test_the_column_stalks_are_bones_of_their_own(player):
+    """``Stalk_Turn`` and ``Stalk_Wiper``: geometry that existed and could not be moved.
+
+    Both stalks were modelled from the first build -- they were merged into ``Interior_Column``, so
+    the cabin looked right -- and the engine still found nothing, because a lump of another object's
+    mesh is not a bone. They are separate objects now, one each side of the column.
+    """
+    js, _ = player
+    world, joints = _world(js), _joints(js)
+    for name in ("Stalk_Turn", "Stalk_Wiper"):
+        assert name in joints, f"{name} is not a bone"
+    a = world[joints["Stalk_Turn"]][:3, 3]
+    b = world[joints["Stalk_Wiper"]][:3, 3]
+    wheel = world[joints["SteeringWheel"]][:3, 3]
+    assert np.linalg.norm(a - b) < 0.02, (
+        f"the two stalks pivot {np.linalg.norm(a - b) * 1000:.0f} mm apart; both mount on the same "
+        "column boss")
+    assert np.linalg.norm(a - wheel) < 0.20, (
+        f"the stalks sit {np.linalg.norm(a - wheel) * 1000:.0f} mm from the steering wheel; they "
+        "mount on its column")
+
+
 def test_all_three_lods_share_one_skeleton():
     """Different skeletons across LODs give three USkeleton assets and a chain that will not bind."""
     base = _joints(_glb(VEHICLES / f"{PLAYER_ID}.glb")[0]) if (VEHICLES / f"{PLAYER_ID}.glb").is_file() else None

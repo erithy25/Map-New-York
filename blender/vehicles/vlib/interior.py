@@ -25,7 +25,7 @@ import bmesh
 import numpy as np
 from mathutils import Matrix, Vector
 
-from . import env, geom as g, materials as M, textures as TX
+from . import contract as C, env, geom as g, materials as M, textures as TX
 
 log = env.log
 TAU = 2.0 * math.pi
@@ -75,6 +75,185 @@ class InteriorSpec:
         return abs(self.seats[0].y) if self.seats else 0.38
 
 
+# --------------------------------------------------------------------------- instrument cluster
+#: Which needle bone reads which gauge face, and how far each gauge sweeps. Both come from
+#: ``vlib/contract.py``, which is the exporter's single copy of the engine's contract -- the sweep
+#: decides where the rest peg is, so a second copy of it here would be a second chance to build a
+#: needle that starts in the wrong place.
+NEEDLE_OF_GAUGE = {v: k for k, v in C.GAUGE_OF_NEEDLE.items()}
+GAUGE_SWEEP_DEG = C.GAUGE_SWEEP_DEG
+
+
+@dataclass(frozen=True)
+class Dial:
+    """One gauge face: where it is, how big it is, and which material -- and therefore needle -- it is."""
+
+    slot: str
+    centre: Vector
+    radius: float
+
+    @property
+    def needle(self) -> str:
+        return NEEDLE_OF_GAUGE[self.slot]
+
+    @property
+    def sweep_deg(self) -> float:
+        return GAUGE_SWEEP_DEG[self.slot]
+
+
+@dataclass(frozen=True)
+class ClusterLayout:
+    """The binnacle's own frame and the four dials in it.
+
+    The dash and the needles are built from this one object rather than from two copies of the same
+    coordinates, because a needle that does not sit on its dial is worse than no needle: it is a
+    gauge that reads wrong, and it would be nobody's job to notice.
+    """
+
+    bx: float
+    bz: float
+    centre: Vector
+    normal: Vector
+    up: Vector
+    right: Vector
+    dials: tuple
+
+
+def cluster_layout(sp: InteriorSpec) -> ClusterLayout:
+    """Where the instruments are, in the vehicle frame.
+
+    The face is raked back 12.4 deg from vertical (``normal``) so the driver looks at it square; the
+    ``up`` and ``right`` vectors are that face's own, so everything on it is placed in two numbers.
+    """
+    zb = sp.z_belt
+    bz = zb + 0.040
+    bx = sp.x_dash - 0.005
+    ydrv = sp.y_driver if sp.left_hand_drive else -sp.y_driver
+    sgn = 1.0 if sp.left_hand_drive else -1.0
+    n = Vector((-1.0, 0.0, 0.22)).normalized()
+    up = Vector((0.0, 0.0, 1.0))
+    up = (up - n * up.dot(n)).normalized()
+    rt = up.cross(n).normalized()
+    centre = Vector((bx - 0.108, ydrv, bz + 0.012))
+    big = 0.070
+    small = 0.023
+    dials = (
+        Dial("GAUGE_SPEED", centre - rt * (0.128 * sgn), big),
+        Dial("GAUGE_RPM", centre + rt * (0.128 * sgn), big),
+        # The two small gauges sit side by side under the strip display, clear of it and of the big
+        # dials' inner edges. A real cluster puts fuel and coolant temperature wherever the model's
+        # layout leaves room; this is the layout this parametric cluster has room for.
+        Dial("GAUGE_FUEL", centre - rt * 0.026 - up * 0.052, small),
+        Dial("GAUGE_TEMP", centre + rt * 0.026 - up * 0.052, small),
+    )
+    return ClusterLayout(bx=bx, bz=bz, centre=centre, normal=n, up=up, right=rt, dials=dials)
+
+
+def needle_axis(layout: ClusterLayout) -> Vector:
+    """The bone's local X: the gauge face normal, pointed forward, away from the driver.
+
+    ``skel._measured_x_axis`` flips the measured normal the same way, so the axis the geometry is
+    built around and the axis the rig writes are the same vector and not two conventions that happen
+    to agree today.
+    """
+    ax = Vector(layout.normal)
+    return -ax if ax.x < 0.0 else ax
+
+
+def rest_direction(layout: ClusterLayout, sweep_deg: float) -> Vector:
+    """Which way a needle points at zero.
+
+    Half the sweep **counter-clockwise from twelve o'clock as the driver sees it**, so that the
+    engine's positive delta sweeps it clockwise across the face and the far end of the scale lands
+    the same distance the other side of twelve. A 240 deg speedometer therefore rests at eight
+    o'clock, which is where a speedometer's zero peg is.
+
+    The sign is not a guess: the bone rotates about ``needle_axis``, which points away from the
+    driver, and a right-handed rotation about an axis pointing away from the viewer turns clockwise
+    on screen.
+    """
+    return (Matrix.Rotation(math.radians(-0.5 * sweep_deg), 3, needle_axis(layout))
+            @ Vector(layout.up))
+
+
+def build_gauge_needles(sp: InteriorSpec, lib: M.Library) -> dict[str, object]:
+    """``Needle_Speed`` / ``Needle_RPM`` / ``Needle_Fuel`` / ``Needle_Temp``, one object each.
+
+    ``UNYCVehicleAnimInstance::Add(NeedleBone[i], ...)`` runs for all four every frame and got
+    ``INDEX_NONE`` for all four, because the cluster had gauge *faces* and no needles: the
+    speedometer read zero at every speed. Each needle is its own object so that
+    ``skel.bone_specs`` can give it a bone -- the origin is the dial centre, which is where the
+    bone's head goes, and the blade is authored at the rest peg.
+    """
+    lay = cluster_layout(sp)
+    n, ax = lay.normal, needle_axis(lay)
+    red = M.basic("NEEDLE", (0.62, 0.05, 0.03), roughness=0.32)
+    hub_mat = lib.black_plastic()
+    out: dict[str, object] = {}
+    for dial in lay.dials:
+        r = dial.radius
+        blade = r * 0.86                      # tip just inside the bezel
+        tail = r * 0.22                       # counterweight the other side of the hub
+        half = max(0.0016, r * 0.045)         # half width at the hub
+        thick = max(0.0008, r * 0.022)
+        d = rest_direction(lay, dial.sweep_deg)
+        side = d.cross(ax).normalized()       # in the face plane, across the needle
+        base = Vector(dial.centre) + n * (r * 0.10)
+        # The blade is drawn flat in its own frame -- along +Y, across +X, thickness along +Z -- and
+        # then carried onto the dial by one matrix, rather than by writing every corner out in
+        # vehicle coordinates and hoping the plane comes out right.
+        poly = [(half, 0.0), (0.0, blade), (-half, 0.0),
+                (-half * 0.62, -tail), (half * 0.62, -tail)]
+        bm = g.prism_bm(poly, 0.0, thick, material_index=0)
+        g.transform_bm(bm, Matrix(((side.x, d.x, ax.x, base.x),
+                                   (side.y, d.y, ax.y, base.y),
+                                   (side.z, d.z, ax.z, base.z),
+                                   (0.0, 0.0, 0.0, 1.0))))
+        parts = [bm, g.cylinder_bm(r * 0.13, r * 0.16, axis=tuple(ax), center=tuple(base), segments=14,
+                                   material_index=1)]
+        ob = g.to_object(dial.needle, g.merge_bm(parts), [red, hub_mat],
+                         smooth=False, sharp_angle_deg=None)
+        g.set_origin(ob, tuple(dial.centre))
+        out[dial.needle] = ob
+    return out
+
+
+def build_column_stalks(sp: InteriorSpec, lib: M.Library) -> dict[str, object]:
+    """``Stalk_Turn`` and ``Stalk_Wiper``: the two levers on the steering column.
+
+    The geometry already existed -- ``build_column`` merged both stalks into ``Interior_Column`` --
+    which is why the cabin looked right and the contract still reported them missing: the engine
+    finds a bone, and a lump of another object's mesh is not one. They are their own objects now,
+    with the origin at the column boss where each pivots.
+
+    Which side is which follows the car: the indicator stalk is on the driver's outboard side of the
+    column -- left in a left-hand-drive car, right in a right-hand-drive one -- and the wiper stalk
+    faces it.  The contract's axis table does not name the stalks, so both keep the vehicle frame,
+    in which a flick up or down is a rotation about local X.
+    """
+    axis = Vector(column_basis(sp.column_deg).col[2][:3]).normalized()
+    boss = Vector(sp.wheel_center) + axis * 0.075
+    turn_side = 1.0 if sp.left_hand_drive else -1.0
+    out: dict[str, object] = {}
+    for name, s in (("Stalk_Turn", turn_side), ("Stalk_Wiper", -turn_side)):
+        end = boss + Vector((0.0, s * 0.115, -0.012))
+        parts = [g.tube_bm([tuple(boss), tuple(end)], (0.0125, 0.0092), segments=10,
+                           material_index=0)]
+        # the collar at the boss and the ribbed knob on the end, which is what makes a stalk read as
+        # a control rather than a rod
+        parts.append(g.cylinder_bm(0.017, 0.020, axis=(0.0, 1.0, 0.0),
+                                   center=tuple(boss + Vector((0.0, s * 0.012, -0.001))), segments=12,
+                                   material_index=0))
+        parts.append(g.cylinder_bm(0.0105, 0.026, axis=(0.0, 1.0, 0.0),
+                                   center=tuple(end - Vector((0.0, s * 0.010, 0.0))), segments=12,
+                                   material_index=1))
+        ob = g.to_object(name, g.merge_bm(parts), [lib.black_plastic(), lib.dash_trim()],
+                         smooth=True, sharp_angle_deg=40.0)
+        g.set_origin(ob, tuple(boss))
+        out[name] = ob
+    return out
+
+
 # --------------------------------------------------------------------------- dash
 def build_dash(sp: InteriorSpec, lib: M.Library) -> object:
     """The dash moulding plus the instrument binnacle, the centre stack and the vents, as one object.
@@ -93,9 +272,10 @@ def build_dash(sp: InteriorSpec, lib: M.Library) -> object:
             lib.black_plastic(),
             M.basic("GAUGE_FUEL", (0.02, 0.02, 0.02), roughness=0.2),
             M.basic("SCREEN_CLUSTER", (0.02, 0.02, 0.02), roughness=0.2),
-            lib.light("LIGHT_DASH", (0.95, 0.62, 0.22), alpha=1.0)]
+            lib.light("LIGHT_DASH", (0.95, 0.62, 0.22), alpha=1.0),
+            M.basic("GAUGE_TEMP", (0.02, 0.02, 0.02), roughness=0.2)]
     (IDX_SOFT, IDX_PIANO, IDX_TRIM, IDX_SPEED, IDX_RPM, IDX_SCREEN, IDX_PLASTIC,
-     IDX_FUEL, IDX_CLUSTER, IDX_DASHLIGHT) = range(10)
+     IDX_FUEL, IDX_CLUSTER, IDX_DASHLIGHT, IDX_TEMP) = range(11)
     xd, xc, zf, zb = sp.x_dash, sp.x_cowl, sp.z_floor, sp.z_belt
     yc = sp.y_cabin
     # the dash top pad sits just below the cowl, ~105 mm above the beltline; everything mounted on the
@@ -109,38 +289,29 @@ def build_dash(sp: InteriorSpec, lib: M.Library) -> object:
     parts = [body]
 
     ydrv = sp.y_driver if sp.left_hand_drive else -sp.y_driver
-    sgn = 1.0 if sp.left_hand_drive else -1.0
 
-    # --- instrument binnacle: hood + two round gauges + a strip LCD, facing the driver
-    bz = zb + 0.040
-    bx = xd - 0.005
+    # --- instrument binnacle: hood + four gauges + a strip LCD, facing the driver
+    lay = cluster_layout(sp)
+    bz, bx, n, up, rt = lay.bz, lay.bx, lay.normal, lay.up, lay.right
     hood = g.rounded_box_bm((0.20, 0.44, 0.135), 0.030, segments=2, center=(bx - 0.06, ydrv, bz + 0.02), material_index=IDX_SOFT)
     parts.append(hood)
-    face_n = (-1.0, 0.0, 0.22)
-    for k, (slot, idx) in enumerate((("GAUGE_SPEED", IDX_SPEED), ("GAUGE_RPM", IDX_RPM))):
-        gy = ydrv + (0.105 if k == 0 else -0.105) * sgn
-        r = 0.072
-        c = Vector((bx - 0.108, gy, bz + 0.012))
-        n = Vector(face_n).normalized()
-        up = Vector((0, 0, 1)); up = (up - n * up.dot(n)).normalized()
-        rt = up.cross(n).normalized()
+    slot_index = {"GAUGE_SPEED": IDX_SPEED, "GAUGE_RPM": IDX_RPM,
+                  "GAUGE_FUEL": IDX_FUEL, "GAUGE_TEMP": IDX_TEMP}
+    for dial in lay.dials:
+        c, r = dial.centre, dial.radius
         quad = [c - rt * r - up * r, c + rt * r - up * r, c + rt * r + up * r, c - rt * r + up * r]
-        parts.append(g.quad_uv01_bm([tuple(p) for p in quad], material_index=idx))
-        ring = g.torus_bm(r * 1.06, 0.006, axis="X", center=tuple(c + n * 0.004), segments=28, ring_segments=6,
-                          material_index=IDX_TRIM)
-        parts.append(ring)
-    # The strip between the two dials is the cluster's own display, which is what the engine calls
-    # SCREEN_CLUSTER and renders the trip computer to; it had been left as piano black trim.
-    lcd_c = Vector((bx - 0.107, ydrv, bz + 0.012))
-    n = Vector(face_n).normalized(); up = Vector((0, 0, 1)); up = (up - n * up.dot(n)).normalized(); rt = up.cross(n).normalized()
-    parts.append(g.quad_uv01_bm([tuple(lcd_c - rt * 0.055 - up * 0.048), tuple(lcd_c + rt * 0.055 - up * 0.048),
-                                 tuple(lcd_c + rt * 0.055 + up * 0.048), tuple(lcd_c - rt * 0.055 + up * 0.048)],
+        parts.append(g.quad_uv01_bm([tuple(v) for v in quad], material_index=slot_index[dial.slot]))
+        parts.append(g.torus_bm(r * 1.06, r * 0.085, axis=tuple(n), center=tuple(c + n * 0.004),
+                                segments=28 if r > 0.04 else 20, ring_segments=6, material_index=IDX_TRIM))
+    # The strip between the two big dials is the cluster's own display, which is what the engine
+    # calls SCREEN_CLUSTER and renders the trip computer to; it had been left as piano black trim.
+    # Its half-width used to be 55 mm against dials whose inner edge stood 33 mm from the centre, so
+    # the two coplanar faces overlapped by 22 mm and fought for the same pixels; the layout below
+    # keeps every face clear of its neighbour.
+    lcd_c = lay.centre + up * 0.014
+    parts.append(g.quad_uv01_bm([tuple(lcd_c - rt * 0.050 - up * 0.034), tuple(lcd_c + rt * 0.050 - up * 0.034),
+                                 tuple(lcd_c + rt * 0.050 + up * 0.034), tuple(lcd_c - rt * 0.050 + up * 0.034)],
                                 material_index=IDX_CLUSTER))
-    # Fuel gauge: a narrow arc face under the speedometer, where the Fusion's is.
-    fuel_c = lcd_c + rt * 0.150 - up * 0.052
-    parts.append(g.quad_uv01_bm([tuple(fuel_c - rt * 0.048 - up * 0.011), tuple(fuel_c + rt * 0.048 - up * 0.011),
-                                 tuple(fuel_c + rt * 0.048 + up * 0.011), tuple(fuel_c - rt * 0.048 + up * 0.011)],
-                                material_index=IDX_FUEL))
     # The instrument backlight: a thin emissive band along the underside of the binnacle hood, which
     # is where a cluster's light spills from. SetDashBrightness drives this slot.
     glow_c = Vector((bx - 0.150, ydrv, bz - 0.052))
@@ -215,15 +386,12 @@ def column_basis(column_deg: float) -> Matrix:
 
 
 def build_column(sp: InteriorSpec, lib: M.Library) -> object:
+    """The column shroud only. The two stalks on it are their own objects -- see
+    :func:`build_column_stalks` -- because the engine drives each of them as a bone."""
     axis = Vector(column_basis(sp.column_deg).col[2][:3]).normalized()
     c = Vector(sp.wheel_center)
     bm = g.cylinder_bm(0.042, 0.30, axis=tuple(axis), center=tuple(c + axis * 0.19), segments=16)
-    stalks = [bm]
-    for s in (1, -1):
-        st = g.tube_bm([tuple(c + axis * 0.075), tuple(c + axis * 0.075 + Vector((0, s * 0.115, -0.012)))], 0.010,
-                       segments=8)
-        stalks.append(st)
-    return g.to_object("Interior_Column", g.merge_bm(stalks), [lib.black_plastic()], smooth=True, sharp_angle_deg=40.0)
+    return g.to_object("Interior_Column", bm, [lib.black_plastic()], smooth=True, sharp_angle_deg=40.0)
 
 
 # --------------------------------------------------------------------------- seats
@@ -460,8 +628,10 @@ def build_interior(sp: InteriorSpec, lib: M.Library, *, seam_texture=None, three
     """Build the whole cabin; returns ``{object_name: object}``."""
     out: dict[str, object] = {}
     out["Interior_Dash"] = build_dash(sp, lib)
+    out.update(build_gauge_needles(sp, lib))
     out["SteeringWheel"] = build_steering_wheel(sp, lib)
     out["Interior_Column"] = build_column(sp, lib)
+    out.update(build_column_stalks(sp, lib))
     for spot in sp.seats:
         out[spot.name] = build_seat(spot, lib, detail=sp.detail, seam_texture=seam_texture,
                                     headrest=True)

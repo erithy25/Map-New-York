@@ -35,6 +35,7 @@ CONTRACT_H = UE_VEHICLE / "Public" / "Vehicle" / "NYCVehicleContract.h"
 CONTRACT_CPP = UE_VEHICLE / "Private" / "Vehicle" / "NYCVehicleContract.cpp"
 MOVEMENT_CPP = UE_VEHICLE / "Private" / "Vehicle" / "NYCVehicleMovementComponent.cpp"
 RIG_PY = REPO_ROOT / "blender" / "vehicles" / "vlib" / "rig.py"
+SKEL_PY = REPO_ROOT / "blender" / "vehicles" / "vlib" / "skel.py"
 CONTRACT_PY = REPO_ROOT / "blender" / "vehicles" / "vlib" / "contract.py"
 
 _NAME_RE = re.compile(r'inline\s+const\s+TCHAR\*\s+const\s+(\w+)\s*=\s*TEXT\("([^"]+)"\)\s*;')
@@ -165,34 +166,67 @@ def test_every_light_slot_the_engine_drives_is_a_material_slot_the_exporter_writ
         f"Exporter: {RIG_PY.relative_to(REPO_ROOT)}::LIGHT_SLOTS_FULL.")
 
 
-@pytest.mark.xfail(strict=True, reason=(
-    "Recorded, not fixed. 12 of the engine's 22 optional bones are names the exporter never writes. "
-    "Three are pure renames -- the exporter says Hood, Trunk, Shifter where the engine says "
-    "Door_Hood, Door_Trunk, GearSelector -- and nine are geometry that does not exist yet: the four "
-    "instrument needles, the interior mirror, both column stalks, the rear wiper and the fuel flap. "
-    "Optional means the vehicle still imports; it does not mean the dashboard works. Fixed in task "
-    "'Stage 26'. strict=True so the marker cannot outlive the defect."))
-def test_every_optional_bone_the_engine_looks_up_is_a_name_the_exporter_writes():
-    """``OptionalBones()`` names the engine will look up on an imported mesh.
-
-    A missing optional bone is not an import failure, which is exactly why it survives unnoticed:
-    ``UNYCVehicleDashboardComponent`` asks for ``Needle_Speed`` every frame, gets ``INDEX_NONE``, and
-    the speedometer needle simply never moves.
-    """
-    h, cpp, rig = _read(CONTRACT_H), _read(CONTRACT_CPP), _read(RIG_PY)
+def _optional_bones() -> set[str]:
+    """The bone names ``OptionalBones()`` lists, resolved through ``NYCVehicleBones``."""
+    h, cpp = _read(CONTRACT_H), _read(CONTRACT_CPP)
     bones = namespace_names(h, "NYCVehicleBones")
     assert bones, "NYCVehicleContract.h declares no NYCVehicleBones names"
     body = re.search(r"OptionalBones\(\)[^{]*\{(.*?)\n\}", cpp, re.S)
     assert body is not None, "NYCVehicleContract.cpp has no OptionalBones() body"
     optional = {bones[i] for i in re.findall(r"NYCVehicleBones::(\w+)", body.group(1)) if i in bones}
     assert optional, "OptionalBones() names no bones"
-    emitted = (set(py_tuple(rig, "CONTRACT_FULL")) | set(_contract_tuple("CONTRACT_FULL"))
-               | set(_contract_tuple("PART_NODES_FULL")))
-    missing = sorted(optional - emitted)
+    return optional
+
+
+def test_every_optional_bone_the_engine_looks_up_is_a_name_the_exporter_writes():
+    """``OptionalBones()`` names the engine will look up on an imported mesh.
+
+    A missing optional bone is not an import failure, which is exactly why it survives unnoticed:
+    ``UNYCVehicleDashboardComponent`` asks for ``Needle_Speed`` every frame, gets ``INDEX_NONE``, and
+    the speedometer needle simply never moves.
+
+    **What this compares, and what it used to compare.** The exporter's *object* names and its *bone*
+    names are not the same list -- ``skel.BONE_OF_OBJECT`` renames four of them on purpose, because
+    the engine looks up ``Door_Hood`` where the Blender build has always written ``Hood`` -- and this
+    test used to read the object tuples. So it reported ``Door_Hood`` missing while every exported
+    rig had that exact bone, and it would equally have missed a bone that the map dropped. It reads
+    the map now, which is the authority for what the rig actually writes: the same class of mistake
+    as the one the module exists to catch, made inside the check itself.
+    """
+    missing = sorted(_optional_bones() - set(_bone_names()))
     assert not missing, (
         f"{len(missing)} optional bone(s) the engine looks up are never written by the Blender "
         f"exporter: {missing}. Engine: {CONTRACT_CPP.relative_to(REPO_ROOT)}::OptionalBones(). "
-        f"Exporter: {RIG_PY.relative_to(REPO_ROOT)}::CONTRACT_FULL.")
+        f"Exporter: {SKEL_PY.relative_to(REPO_ROOT)}::BONE_OF_OBJECT.")
+
+
+def test_every_needle_the_engine_drives_has_a_gauge_face_and_the_sweep_the_engine_uses():
+    """A needle built for the wrong sweep is a gauge that reads wrong, which no other test sees.
+
+    ``vlib/contract.py`` decides where each needle's rest peg goes -- half its sweep back from twelve
+    o'clock -- so those four numbers have to be the engine's own. They are read out of
+    ``NYCVehicleDashboardComponent.h``'s defaults here rather than trusted.
+    """
+    dash_h = _read(UE_VEHICLE / "Public" / "Vehicle" / "NYCVehicleDashboardComponent.h")
+    engine = {}
+    for prop, slot in (("SpeedoSweepDeg", "GAUGE_SPEED"), ("TachoSweepDeg", "GAUGE_RPM"),
+                       ("SmallGaugeSweepDeg", "GAUGE_FUEL")):
+        m = re.search(rf"\b{prop}\s*=\s*([0-9.]+)f?\s*;", dash_h)
+        assert m is not None, f"{prop} has no default in NYCVehicleDashboardComponent.h"
+        engine[slot] = float(m.group(1))
+    engine["GAUGE_TEMP"] = engine["GAUGE_FUEL"]      # one small-gauge sweep drives both
+    ours = _contract_mapping("GAUGE_SWEEP_DEG")
+    assert {k: float(v) for k, v in ours.items()} == engine, (
+        f"gauge sweeps disagree: exporter {ours}, engine {engine}. "
+        f"The rest peg is half the sweep, so a mismatch puts every needle's zero in the wrong place.")
+
+    # and every needle the engine drives must have a face to sweep over
+    gauges = _contract_mapping("GAUGE_OF_NEEDLE")
+    needles = {b for b in _optional_bones() if b.startswith("Needle_")}
+    assert needles <= set(gauges), f"needles with no gauge face declared: {sorted(needles - set(gauges))}"
+    slots = set(py_tuple(_read(RIG_PY), "MATERIAL_SLOTS_FULL")) | set(_contract_tuple("MATERIAL_SLOTS_FULL"))
+    missing = sorted(set(gauges.values()) - slots)
+    assert not missing, f"gauge faces named by GAUGE_OF_NEEDLE that no material slot writes: {missing}"
 
 
 def test_every_instrument_slot_the_engine_drives_is_a_material_slot_the_exporter_writes():
@@ -214,6 +248,52 @@ def test_every_instrument_slot_the_engine_drives_is_a_material_slot_the_exporter
     assert not missing, (
         f"{len(missing)} instrument slot(s) the engine drives are never written by the Blender "
         f"exporter: {missing}.")
+
+
+_PY_DICT_RE = re.compile(r'"([^"]+)"\s*:\s*("([^"]*)"|[0-9.]+)')
+
+
+def _contract_mapping(name: str) -> dict[str, str]:
+    """A top-level ``NAME = { "a": "b", ... }`` mapping in ``vlib/contract.py``, read as text."""
+    text = _read(CONTRACT_PY)
+    m = re.search(rf"^{re.escape(name)}\s*=\s*\{{", text, re.M)
+    if m is None:
+        return {}
+    depth, start = 0, m.end() - 1
+    for j in range(start, len(text)):
+        if text[j] == "{":
+            depth += 1
+        elif text[j] == "}":
+            depth -= 1
+            if depth == 0:
+                body = text[start + 1:j]
+                return {k: (v3 if v3 is not None and v2.startswith('"') else v2)
+                        for k, v2, v3 in _PY_DICT_RE.findall(body)}
+    return {}
+
+
+def _bone_names() -> tuple[str, ...]:
+    """Every bone name the rig can write: the values of ``skel.BONE_OF_OBJECT``.
+
+    ``skel.py`` imports ``bpy``, so this reads it as text like the rest of this module. It is the
+    authority the engine actually meets -- the objects keep the names the Blender build has always
+    used and the *bone* carries the engine's name -- so it, and not the object tuples, is what an
+    ``OptionalBones()`` entry has to appear in.
+    """
+    text = _read(SKEL_PY)
+    m = re.search(r"^BONE_OF_OBJECT\s*:?[^=]*=\s*\{", text, re.M)
+    if m is None:
+        return ()
+    depth, start = 0, m.end() - 1
+    for j in range(start, len(text)):
+        if text[j] == "{":
+            depth += 1
+        elif text[j] == "}":
+            depth -= 1
+            if depth == 0:
+                return tuple(v for _k, v in re.findall(r'"([^"]+)"\s*:\s*"([^"]+)"',
+                                                       text[start + 1:j]))
+    return ()
 
 
 def _contract_tuple(name: str) -> tuple[str, ...]:
