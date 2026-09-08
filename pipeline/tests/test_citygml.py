@@ -552,3 +552,24 @@ def test_attach_roof_columns_needs_bin_and_fidelity(tmp_path):
         J.attach_roof_columns(pd.DataFrame({"bin": [1]}), roof_attrs=ra)
     out = J.attach_roof_columns(pd.DataFrame({"bin": [1]}), roof_attrs=ra, set_fidelity=False)
     assert out.roof_type.iloc[0] == R.ROOF_FLAT
+
+
+def test_every_roof_reference_names_a_file_that_exists():
+    """``roof_mesh_ref`` pointed 1,033,416 buildings at ``tiles/{tile}/roofs.glb``, which nothing
+    writes and nothing will: every CityGML roof triangle is horizontal, so that file would carry the
+    level outlines ``roofsteps.py`` already recovers and builds into the tile shells. The reference
+    now names the shard that really holds the triangles."""
+    import collections
+    import os
+
+    import pyarrow.parquet as pq
+
+    base = PROCESSED / "buildings" / "buildings_base.parquet"
+    if not base.is_file():
+        pytest.skip("no buildings table in this checkout")
+    refs = pq.read_table(base, columns=["roof_mesh_ref"]).column("roof_mesh_ref").to_pylist()
+    targets = collections.Counter(r.split("#")[0] for r in refs if r)
+    assert targets, "no building carries a roof reference at all"
+    missing = [t for t in targets if not (PROCESSED / t).is_file()]
+    assert not missing, f"{sum(targets[t] for t in missing)} buildings point at files that do not exist: {missing[:4]}"
+    assert not any("roofs.glb" in t for t in targets), "the withdrawn roofs.glb reference is back"

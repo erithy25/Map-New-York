@@ -172,7 +172,8 @@ def _schema_doc(extra: dict[str, Any] | None = None) -> dict[str, Any]:
         "crs": "z metres NAVD88; ridge azimuth in compass degrees (0 = north, clockwise)",
         "roof_type": dict(enumerate(ROOF_NAMES)),
         "roof_type_source": dict(enumerate(SOURCE_NAMES)),
-        "roof_mesh_ref": "'t_{tx}_{ty}/roofs.glb#bin_{bin}' when a CityGML LOD2 solid exists, else ''",
+        "roof_mesh_ref": "'buildings/citygml/{shard}.parquet#bin_{bin}' -- the LOD2 triangle shard "
+                         "this building's roof surfaces are in -- when a CityGML solid exists, else ''",
         "inference_rule": {
             "classes": sorted(PITCHED_CLASSES), "front_ratio_max": FRONT_RATIO_MAX, "max_span_m": MAX_SPAN_M,
             "max_floors": MAX_FLOORS, "max_footprint_m2": MAX_FOOTPRINT_M2, "pitch_deg": PITCH_DEG,
@@ -400,7 +401,18 @@ def build_roof_attrs(*, index_path: Path = INDEX_PATH, base_path: Path = BASE_PA
     n_tile_disagree = int((match & ((df.tx_cg.fillna(df.tx).to_numpy() != tx) |
                                     (df.ty_cg.fillna(df.ty).to_numpy() != ty))).sum())
     bins_arr = df.bin.to_numpy().astype(np.int64)
-    mesh_ref = [f"t_{tx[i]}_{ty[i]}/roofs.glb#bin_{bins_arr[i]}" if match[i] else "" for i in range(len(df))]
+    # The reference names the shard that holds this building's LOD2 triangles, not a
+    # ``tiles/{tile}/roofs.glb``. The contract used to specify the latter and a Blender stage that
+    # would write it; that stage was never written, and once the solids were opened it became clear
+    # it should not be: every CityGML roof triangle is horizontal, so a roofs.glb would carry level
+    # outlines and nothing else -- and ``blender/buildings/roofsteps.py`` already recovers those
+    # outlines from these same triangles and builds them into the tile shells. Pointing a million
+    # rows at a file nobody will write is a placeholder in the data; this points them at the file
+    # that really has the geometry. ``nycsim_pipeline.buildings.roof_ref`` repairs a table written
+    # before this change.
+    da_arr = df.da.fillna(0).to_numpy().astype(np.int64)
+    mesh_ref = [f"buildings/citygml/da{da_arr[i]}.parquet#bin_{bins_arr[i]}" if match[i] else ""
+                for i in range(len(df))]
     z_roof_max = df.z_roof_max.to_numpy(dtype=np.float64)
     fp_roof = (df.ground_z.to_numpy(dtype=np.float64) + df.height.to_numpy(dtype=np.float64))
     dz = np.where(match, z_roof_max - fp_roof, np.nan)

@@ -53,7 +53,7 @@ Length unit everywhere: metres. Angles: degrees, 0 = east, counter-clockwise (ma
 | bldg_class | string(2) | PLUTO `bldgclass` e.g. `C1`, `D4`, `O4`, `A1` |
 | land_use | int8 | PLUTO landuse 1–11 |
 | roof_type | int8 | 0 flat, 1 gable, 2 hip, 3 mansard, 4 shed, 5 sawtooth, 6 complex(CityGML mesh), 7 dome, 8 barrel |
-| roof_mesh_ref | string | CityGML-derived roof mesh id in `tiles/{tile}/roofs.glb` or empty |
+| roof_mesh_ref | string | The CityGML LOD2 shard holding this building's roof surfaces, `buildings/citygml/da{N}.parquet#bin_{bin}`, or empty. **This used to name `tiles/{tile}/roofs.glb`; there is no such file and there will not be** — see §5 below. |
 | facade_class | int16 | see `facade_classes.json` |
 | material_primary | int8 | 0 red brick 1 brown brick 2 tan brick 3 white glazed brick 4 brownstone 5 limestone 6 terracotta 7 cast iron 8 glass curtain 9 concrete 10 stucco 11 vinyl siding 12 wood clapboard 13 stone rubble 14 metal panel 15 granite 16 precast |
 | material_secondary | int8 | same enum, trim |
@@ -168,7 +168,7 @@ Array of `{id, name, bins[], lp_number, script, footprint_source, height_m, heig
 `tides.json`: `{station, current_speed_mps, current_dir_deg, water_level_m, predicted_at}`
 
 ## 13. Blender exports — `blender_out/`
-`kit/{kit_id}.glb` (Y-up, metres, origin at ground contact / wall contact point, `extras.nycsim = {kit_id, category, bounds}`), `landmarks/{id}.glb` (tile-local origin recorded in extras), `vehicles/{id}.glb` (origin at ground under rear-axle centre, +X forward in Blender before export), `character/{id}.glb` (rig + animations as glTF animations), `tiles/{tile}/tile_buildings.glb`, `tiles/{tile}/roofs.glb`.
+`kit/{kit_id}.glb` (Y-up, metres, origin at ground contact / wall contact point, `extras.nycsim = {kit_id, category, bounds}`), `landmarks/{id}.glb` (tile-local origin recorded in extras), `vehicles/{id}.glb` (origin at ground under rear-axle centre, +X forward in Blender before export), `character/{id}.glb` (rig + animations as glTF animations), `tiles/{tile}/tile_buildings.glb`, `tiles/{tile}/tile_pavement.glb`, `tiles/{tile}/tile_structures.glb`.
 **Door pivots and mechanisms (§13a).** A `Door_*` node's origin sits on the **forward vertical edge of its aperture**, with local +X running rearward along the leaf. This holds for a bifold or plug door too: it is one node on that same edge, at the outer leaf's hinge, and both the coach and the school bus satisfy it geometrically without a waiver. The mechanism itself is named per panel in the catalog under `door_kind`, one of `hinged`, `sliding`, `bifold`, `rear cargo door`, `boot lid` or `front-hinged bonnet`, so the engine knows whether to rotate, translate or fold about that edge.
 
 **Per-vertex custom attributes.** glTF names application-specific attributes with a leading underscore, and Blender's exporter drops any that do not follow it, so a building shell ships `_BIN`, `_FACADE_CLASS`, `_FLOORS`, `_FLOOR_HEIGHT`, `_GROUND_FLOOR_HEIGHT`, `_IS_STOREFRONT` and the lighting seed split as `_LIT_SEED_HI`/`_LIT_SEED_LO` (value = `hi × 65536 + lo`, because glTF stores attributes as float32 and a uint32 seed cannot round-trip). Note also that glTF flips V, so height above grade in a wall UV is `1 − V`, not `V`.
@@ -262,7 +262,7 @@ applies it with one call: `df = citygml_join.attach_roof_columns(df)`.*
 | roof_level_area | list&lt;float32&gt; | horizontal area of each level, m² |
 | roof_slope_deg | float32 | area-weighted mean slope of the sloped roof faces (0 where the roof is all plates); NaN when no match |
 | z_roof_max | float32 | highest CityGML roof vertex, m NAVD88; NaN when no match |
-| roof_mesh_ref | string | `t_{tx}_{ty}/roofs.glb#bin_{bin}` when a LOD2 solid exists, else `""` (tile = the footprint tile from `buildings_base`) |
+| roof_mesh_ref | string | `buildings/citygml/da{N}.parquet#bin_{bin}` when a LOD2 solid exists, else `""`. The shard is the one `blender/buildings/roofsteps.py` reads, so following the reference reaches the triangles. |
 | citygml_match | bool | a CityGML LOD2 solid exists for this BIN — **this is the `ROOF_REAL` bit** |
 | dz_vs_footprint_m | float32 | `z_roof_max − (ground_z + height)`; NaN when no match |
 | roof_type_source | int8 | 0 citygml, 1 osm `roof:shape`, 2 inferred (PLUTO class + footprint/lot shape), 3 default flat |
@@ -279,7 +279,16 @@ applies it with one call: `df = citygml_join.attach_roof_columns(df)`.*
 
 The LOD2 solids themselves stay in `buildings/citygml/da{n}.parquet` (schema `citygml_solids_v1`: per-BIN
 `tri_xyz` float32 blob + `tri_type`), with `buildings/citygml/index.parquet` (`citygml_index_v1`) as the
-city-wide per-BIN index. A later Blender stage turns the solids into `tiles/{tile}/roofs.glb`.
+city-wide per-BIN index.
+
+**`tiles/{tile}/roofs.glb` was specified here and is withdrawn.** The stage that would have written
+it was never built, and opening the solids showed it should not be: *every* CityGML roof triangle is
+horizontal — the NYC 3-D Building Model is flat multi-level massing, not roof pitch — so the file
+would have carried level outlines and nothing else. `blender/buildings/roofsteps.py` recovers those
+same outlines from these same triangles and builds them into `tiles/{tile}/tile_buildings.glb`
+(Stage 16), which is where the roof geometry is. `roof_mesh_ref` now names the shard rather than the
+file that was never written; `nycsim_pipeline.buildings.roof_ref` repairs a table written before
+that change.
 
 **Per-level roof outlines are derived, not stored (consumer note).** `n_roof_levels`, `roof_level_z` and
 `roof_level_area` say how high and how big each roof level is but not *where* it is, and the outline is what
