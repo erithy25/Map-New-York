@@ -1255,3 +1255,63 @@ def test_no_prop_kind_quietly_collapses_onto_one_of_its_assets():
     total = sum(n for n, _ in COLLAPSED_PROP_KINDS.values())
     assert total == 314_105, f"the recorded total moved to {total:,}; J58 says 314,105"
     assert not wrong, "prop asset selection moved:\n   " + "\n   ".join(wrong)
+
+
+#: Kinds whose chosen asset is more than twice or less than half the height the kind declares, and
+#: why (docs/DEVIATIONS.md J58). The catalogue states each kind's real dimensions and each asset's
+#: measured ones, so this was checkable from the day both existed and nothing compared them.
+WRONG_SIZED_PROP_ASSETS = {
+    "utility_pole": (11.0, 2.44, "an 11 m wooden power/telecom pole drawn as a 2 m u-channel sign "
+                                 "post; the sign_post alias is the fault, not the variant"),
+    "bus_stop_sign": (3.0, 0.46, "an MTA bus stop blade drawn as an 18 in parking regulation plate"),
+    "rtpi_sign": (3.0, 0.46, "a real-time passenger information sign, likewise"),
+}
+
+
+def test_no_prop_kind_is_drawn_by_an_asset_of_the_wrong_size():
+    """The kind declares its dimensions and the asset carries its measured ones. Compare them.
+
+    Nothing did, and the result is 924 eleven-metre utility poles drawn as 2.44 m sign posts and
+    13,832 bus stop signs drawn as a 0.46 m parking plate. A height ratio is a blunt instrument and
+    it is enough: it separates "a slightly different bench" from "a different object".
+    """
+    import collections
+
+    cat_path = BLENDER_OUT / "props" / "props_asset_catalog.json"
+    if not cat_path.is_file():
+        pytest.skip("the prop catalogue has not been built")
+    from nycsim_pipeline.furniture import assets as A
+    from nycsim_pipeline.furniture.catalog import KINDS
+
+    by_dk = collections.defaultdict(list)
+    for e in json.loads(cat_path.read_text())["entries"]:
+        by_dk[str(e.get("dataset_kind") or "")].append(e)
+
+    found, wrong = {}, []
+    for kind in KINDS:
+        dk = A.PROP_KIND_ALIASES.get(kind.name, kind.name)
+        if dk is None or dk == "tree":
+            continue
+        ents = sorted(by_dk.get(dk, []), key=lambda e: e["id"])
+        if not ents or not kind.dims_m or not kind.dims_m[2]:
+            continue
+        dims = ents[0].get("dims_m") or ents[0].get("size_m")
+        if not dims:
+            continue
+        kh, ah = float(kind.dims_m[2]), float(dims[2])
+        if not kh:
+            continue
+        ratio = ah / kh
+        if ratio < 0.5 or ratio > 2.0:
+            found[kind.name] = (kh, ah)
+    for name, (kh, ah) in sorted(found.items()):
+        if name not in WRONG_SIZED_PROP_ASSETS:
+            wrong.append(f"{name}: declares {kh:.2f} m and is drawn by a {ah:.2f} m asset, unrecorded")
+        else:
+            want_k, want_a, _why = WRONG_SIZED_PROP_ASSETS[name]
+            if abs(want_k - kh) > 0.01 or abs(want_a - ah) > 0.01:
+                wrong.append(f"{name}: {kh:.2f} m vs {ah:.2f} m, J58 records {want_k:.2f} vs {want_a:.2f}")
+    for name in WRONG_SIZED_PROP_ASSETS:
+        if name not in found:
+            wrong.append(f"{name}: now within size -- remove it from WRONG_SIZED_PROP_ASSETS and J58")
+    assert not wrong, "prop asset sizes moved:\n   " + "\n   ".join(wrong)
