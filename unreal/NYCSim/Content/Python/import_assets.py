@@ -60,6 +60,9 @@ MPC_VECTORS = [
 
 ENGINE_NOISE_TEXTURE = "/Engine/EngineMaterials/Good64x64TilingNoiseHighFreq.Good64x64TilingNoiseHighFreq"
 ENGINE_FLAT_NORMAL = "/Engine/EngineMaterials/DefaultNormal.DefaultNormal"
+#: A 1x1 white texture, so a material instance that sets no map behaves exactly as it did
+#: before the city-surface parameters existed.
+ENGINE_WHITE_TEXTURE = "/Engine/EngineResources/WhiteSquareTexture.WhiteSquareTexture"
 ENGINE_GREY_TEXTURE = "/Engine/EngineResources/WhiteSquareTexture.WhiteSquareTexture"
 
 
@@ -256,6 +259,68 @@ def assign_physical_materials(asset_path: str, by_material: dict) -> int:
     return assigned
 
 
+def assign_city_surface_materials(asset_path: str, bindings: dict) -> dict:
+    """Point every ``NYCSIM_*`` / ``pave_*`` slot on an imported mesh at its city-surface instance.
+
+    The exported tile names its materials and carries no images.  Without this the importer hands
+    each slot the master material at its defaults -- a flat 0.55 grey -- and the streamed city is
+    the untextured extrusion J63 measured.
+
+    A slot whose binding names no surface is **left exactly as it is** and counted.  Those are the
+    lane markings (paint, not the asphalt under them), the structures and the park ground, and
+    each carries its reason in the manifest.  Giving them the nearest concrete would be inventing a
+    survey, so the silence is the correct output and is reported rather than hidden.
+    """
+    mesh = load_asset(asset_path)
+    if mesh is None or not isinstance(mesh, unreal.StaticMesh):
+        return {"assigned": 0, "unbound": 0, "unknown": []}
+    try:
+        slots = list(mesh.get_editor_property("static_materials") or [])
+    except Exception as exc:                        # noqa: BLE001
+        WARN(f"{asset_path}: material slots unreadable: {exc}")
+        return {"assigned": 0, "unbound": 0, "unknown": []}
+
+    assigned, unbound, unknown = 0, 0, []
+    changed = False
+    for i, slot in enumerate(slots):
+        try:
+            slot_name = str(slot.get_editor_property("material_slot_name"))
+        except Exception:                           # noqa: BLE001
+            continue
+        bnd = bindings.get(slot_name)
+        if bnd is None:
+            # The importer may prefix or suffix a slot name; fall back to containment, longest
+            # key first so `pave_roadbed_asphalt` is not matched by `pave_roadbed`.
+            for key in sorted(bindings, key=len, reverse=True):
+                if key and key in slot_name:
+                    bnd = bindings[key]
+                    break
+        if bnd is None:
+            unknown.append(slot_name)
+            continue
+        inst_name = bnd.get("instance")
+        if not inst_name:
+            unbound += 1
+            continue
+        inst = load_asset(f"{CITY_INSTANCE_FOLDER}/{inst_name}")
+        if inst is None:
+            unknown.append(f"{slot_name} -> {inst_name} (instance missing)")
+            continue
+        try:
+            slot.set_editor_property("material_interface", inst)
+            changed = True
+            assigned += 1
+        except Exception as exc:                    # noqa: BLE001
+            WARN(f"{asset_path}: slot {slot_name!r} could not take {inst_name} ({exc})")
+    if changed:
+        try:
+            mesh.set_editor_property("static_materials", slots)
+            save_asset(asset_path)
+        except Exception as exc:                    # noqa: BLE001
+            WARN(f"{asset_path}: material slots not written back ({exc})")
+    return {"assigned": assigned, "unbound": unbound, "unknown": unknown}
+
+
 def make_parameter_collection(force: bool = False):
     path = f"{MATERIALS_ROOT}/MPC_Weather"
     if asset_exists(path) and not force:
@@ -309,6 +374,99 @@ def build_master_material(collection, force: bool = False) -> bool:
                   parameter_name="BaseColor", default_value=unreal.LinearColor(0.55, 0.53, 0.5, 1.0))
     rough = b.expr(unreal.MaterialExpressionScalarParameter, -900, 100, parameter_name="Roughness", default_value=0.75)
     metal = b.expr(unreal.MaterialExpressionScalarParameter, -900, 200, parameter_name="Metallic", default_value=0.0)
+
+    # --- the city's own surfaces (DEVIATIONS J63, engine half) -----------------------------------
+    #
+    # The streamed city carries material *names* and no images, and the consumer resolves the name.
+    # Until this existed there was nothing on the master to resolve a name *to*, so every material
+    # instance would have been a flat colour and a player saw nineteen solid RGB values where the
+    # comparison sheets show brick, limestone and asphalt.
+    #
+    # Every parameter here defaults to the value that reproduces the old behaviour exactly: a white
+    # colour texture, ColorTextureStrength 0, a flat normal and RoughnessFromTexture 0.  So the
+    # hundreds of props, vehicles and kit pieces that already use this master are untouched, and
+    # only the instances the city surfaces get are different.
+    #
+    # UVs are metres.  A shell's U is arc length along the facade and its V is height above ground;
+    # a pavement's are planar XY in NYC_TM.  So the tiling is 1/physical_size_m across and
+    # 1/(physical_size_m * TileAspect) up -- the aspect because three of these scans are 2:1 and
+    # tiling one as if it were square draws its content at twice its height (J73).
+    uv = b.expr(unreal.MaterialExpressionTextureCoordinate, -1500, 500, coordinate_index=0)
+    size = b.expr(unreal.MaterialExpressionScalarParameter, -1500, 620,
+                  parameter_name="SurfaceSizeM", default_value=1.0)
+    aspect = b.expr(unreal.MaterialExpressionScalarParameter, -1500, 700,
+                    parameter_name="TileAspect", default_value=1.0)
+    inv_u = b.expr(unreal.MaterialExpressionDivide, -1300, 620, const_a=1.0)
+    b.connect(size, "", inv_u, "B")
+    size_v = b.expr(unreal.MaterialExpressionMultiply, -1300, 700)
+    b.connect(size, "", size_v, "A")
+    b.connect(aspect, "", size_v, "B")
+    inv_v = b.expr(unreal.MaterialExpressionDivide, -1150, 700, const_a=1.0)
+    b.connect(size_v, "", inv_v, "B")
+    scale = b.expr(unreal.MaterialExpressionAppendVector, -1000, 660)
+    b.connect(inv_u, "", scale, "A")
+    b.connect(inv_v, "", scale, "B")
+    surface_uv = b.expr(unreal.MaterialExpressionMultiply, -850, 560)
+    b.connect(uv, "", surface_uv, "A")
+    b.connect(scale, "", surface_uv, "B")
+
+    white = load_asset(ENGINE_WHITE_TEXTURE)
+    flat_normal = load_asset(ENGINE_FLAT_NORMAL)
+    colour_tex = b.expr(unreal.MaterialExpressionTextureSampleParameter2D, -650, 400,
+                        parameter_name="ColorTexture")
+    if white is not None:
+        try:
+            colour_tex.set_editor_property("texture", white)
+        except Exception as exc:                    # noqa: BLE001
+            b.failures.append(f"city colour texture default: {exc}")
+    b.connect(surface_uv, "", colour_tex, "UVs")
+    # AlbedoScale takes the scan's own exposure to the albedo the surface's stage authored.  A
+    # photographer's exposure is a choice, not a measurement, and taking it whole is what made
+    # every daylight street render at half its photograph's brightness (J66).  Clamped, because an
+    # albedo above 1 would have the surface return more light than reaches it.
+    albedo_scale = b.expr(unreal.MaterialExpressionScalarParameter, -650, 560,
+                          parameter_name="AlbedoScale", default_value=1.0)
+    scaled = b.expr(unreal.MaterialExpressionMultiply, -480, 440)
+    b.connect(colour_tex, "RGB", scaled, "A")
+    b.connect(albedo_scale, "", scaled, "B")
+    clamped = b.expr(unreal.MaterialExpressionClamp, -360, 440, min=0.0, max=1.0)
+    b.connect(scaled, "", clamped, "Input")
+    # ColorTextureStrength 0 -> the flat class colour, exactly as before; 1 -> the photograph.
+    tex_strength = b.expr(unreal.MaterialExpressionScalarParameter, -650, 640,
+                          parameter_name="ColorTextureStrength", default_value=0.0)
+    tinted = b.expr(unreal.MaterialExpressionMultiply, -240, 380)
+    b.connect(base, "", tinted, "A")
+    b.connect(clamped, "", tinted, "B")
+    base_mixed = b.expr(unreal.MaterialExpressionLinearInterpolate, -120, 380)
+    b.connect(base, "", base_mixed, "A")
+    b.connect(tinted, "", base_mixed, "B")
+    b.connect(tex_strength, "", base_mixed, "Alpha")
+
+    rough_tex = b.expr(unreal.MaterialExpressionTextureSampleParameter2D, -650, 860,
+                       parameter_name="RoughnessTexture")
+    if white is not None:
+        try:
+            rough_tex.set_editor_property("texture", white)
+        except Exception as exc:                    # noqa: BLE001
+            b.failures.append(f"city roughness texture default: {exc}")
+    b.connect(surface_uv, "", rough_tex, "UVs")
+    rough_strength = b.expr(unreal.MaterialExpressionScalarParameter, -650, 1000,
+                            parameter_name="RoughnessFromTexture", default_value=0.0)
+    rough_mixed = b.expr(unreal.MaterialExpressionLinearInterpolate, -400, 900)
+    b.connect(rough, "", rough_mixed, "A")
+    b.connect(rough_tex, "R", rough_mixed, "B")
+    b.connect(rough_strength, "", rough_mixed, "Alpha")
+
+    normal_tex = b.expr(unreal.MaterialExpressionTextureSampleParameter2D, -650, 1150,
+                        parameter_name="NormalTexture")
+    if flat_normal is not None:
+        try:
+            normal_tex.set_editor_property("texture", flat_normal)
+            normal_tex.set_editor_property("sampler_type", unreal.MaterialSamplerType.SAMPLERTYPE_NORMAL)
+        except Exception as exc:                    # noqa: BLE001
+            b.failures.append(f"city normal texture default: {exc}")
+    b.connect(surface_uv, "", normal_tex, "UVs")
+    b.to_property(normal_tex, "RGB", unreal.MaterialProperty.MP_NORMAL)
     snow_colour = b.expr(unreal.MaterialExpressionConstant3Vector, -900, -100,
                          constant=unreal.LinearColor(0.86, 0.88, 0.92, 1.0))
     wetness = collection_scalar(b, collection, "Wetness", -900, 300)
@@ -318,7 +476,7 @@ def build_master_material(collection, force: bool = False) -> bool:
     wet_dark = b.expr(unreal.MaterialExpressionLinearInterpolate, -600, -300, const_a=1.0, const_b=0.55)
     b.connect(wetness, "", wet_dark, "Alpha")
     darkened = b.expr(unreal.MaterialExpressionMultiply, -400, -300)
-    b.connect(base, "", darkened, "A")
+    b.connect(base_mixed, "", darkened, "A")
     b.connect(wet_dark, "", darkened, "B")
     colour = b.expr(unreal.MaterialExpressionLinearInterpolate, -200, -300)
     b.connect(darkened, "", colour, "A")
@@ -326,7 +484,7 @@ def build_master_material(collection, force: bool = False) -> bool:
     b.connect(snow_cover, "", colour, "Alpha")
 
     wet_rough = b.expr(unreal.MaterialExpressionLinearInterpolate, -400, 100, const_b=0.12)
-    b.connect(rough, "", wet_rough, "A")
+    b.connect(rough_mixed, "", wet_rough, "A")
     b.connect(wetness, "", wet_rough, "Alpha")
     snow_rough = b.expr(unreal.MaterialExpressionLinearInterpolate, -200, 100, const_b=0.55)
     b.connect(wet_rough, "", snow_rough, "A")
@@ -702,6 +860,159 @@ def ensure_materials(force: bool = False) -> dict:
     return result
 
 
+# ------------------------------------------------------------------- the city's own surfaces (J63)
+
+CITY_INSTANCE_FOLDER = f"{MATERIALS_ROOT}/City"
+
+
+def build_city_surface_instances(manifest: dict, force: bool = False) -> dict:
+    """One ``MI_NYC_<surface>`` per city surface, from the manifest's own contract.
+
+    The streamed city carries material **names** and no images -- ``NYCSIM_red_brick``, and nothing
+    else -- and the consumer resolves the name.  The comparison renderer has done so since J63.
+    Unreal did not: no material instance anywhere named a surface, so a player saw nineteen solid
+    RGB values where the sheets show brick, limestone and asphalt.
+
+    Everything an instance is set to comes from ``manifest["city_surfaces"]``, which the pipeline
+    computes from the same catalogue and the same arithmetic the renderer uses -- the authored
+    albedo the scan is scaled to, the measured tile size, the 2:1 aspect three of these scans have.
+    Nothing is chosen here.
+
+    Surfaces the contract marks untextured are still given an instance: it carries the class colour,
+    roughness and metallic and leaves ``ColorTextureStrength`` at 0, which is exactly what the tile
+    looked like before.  ``glass_curtain`` is the deliberate case -- a photograph of a curtain wall
+    is a photograph of what it reflects -- and a missing colour map is the accidental one, and the
+    two are distinguished in the returned report rather than blurred together.
+    """
+    block = manifest.get("city_surfaces") or {}
+    surfaces = block.get("surfaces") or {}
+    if not surfaces:
+        WARN("manifest carries no city_surfaces block; the city keeps its flat colours (J63)")
+        return {"built": 0, "textured": 0, "flat": [], "missing_textures": []}
+    master = load_asset(f"{MATERIALS_ROOT}/{block.get('material_master', 'M_NYC_Master')}")
+    if master is None:
+        ERROR("M_NYC_Master is missing; city surface instances cannot be built")
+        return {"built": 0, "textured": 0, "flat": [], "missing_textures": []}
+
+    # One instance per (surface, surface class) pair, which is what the manifest publishes.  Five
+    # pavement names resolve to concrete_sidewalk and they do not share a class -- a curb ramp and
+    # a sidewalk are class 9, a median, a plaza and a curb are class 2 -- so a single instance per
+    # surface would carry one phys_material for both and give one of those groups the other's tyre
+    # friction.
+    wanted = block.get("instances") or {
+        f"{block.get('instance_prefix', 'MI_NYC_')}{n}": {"surface": n, "surface_class": None}
+        for n in surfaces}
+    built, textured, flat, missing = 0, 0, [], []
+    for inst_name in sorted(wanted):
+        spec = wanted[inst_name]
+        name = spec.get("surface")
+        surf = surfaces.get(name) or {}
+        path = f"{CITY_INSTANCE_FOLDER}/{inst_name}"
+        inst = load_asset(path)
+        if inst is None:
+            inst = tools.create_asset(inst_name, CITY_INSTANCE_FOLDER,
+                                      unreal.MaterialInstanceConstant,
+                                      unreal.MaterialInstanceConstantFactoryNew())
+            if inst is None:
+                ERROR(f"could not create {path}")
+                continue
+        elif not force:
+            built += 1
+            continue
+        lib = unreal.MaterialEditingLibrary
+        try:
+            lib.set_material_instance_parent(inst, master)
+        except Exception as exc:                    # noqa: BLE001
+            ERROR(f"{path}: could not parent to the master ({exc})")
+            continue
+
+        shading = surf.get("shading") or {}
+        rgb = shading.get("base_color") or [0.55, 0.53, 0.5]
+        _set_vector(inst, "BaseColor", rgb)
+        _set_scalar(inst, "Roughness", shading.get("roughness"))
+        _set_scalar(inst, "Metallic", shading.get("metallic"))
+        _set_scalar(inst, "SurfaceSizeM", surf.get("physical_size_m") or 1.0)
+        _set_scalar(inst, "TileAspect", surf.get("tile_aspect") or 1.0)
+        _set_scalar(inst, "AlbedoScale", ((surf.get("albedo") or {}).get("scale")) or 1.0)
+
+        dst = surf.get("dst") or {}
+        colour = load_asset(dst["color"]) if dst.get("color") else None
+        if colour is not None:
+            _set_texture(inst, "ColorTexture", colour)
+            _set_scalar(inst, "ColorTextureStrength", 1.0)
+            textured += 1
+        else:
+            _set_scalar(inst, "ColorTextureStrength", 0.0)
+            if surf.get("textured"):
+                # The contract says there is a map and the asset is not in the project: that is a
+                # broken import, not a stated absence, and it must not read as one.
+                missing.append(name)
+            else:
+                flat.append(name)
+        rough = load_asset(dst["roughness"]) if dst.get("roughness") else None
+        if rough is not None:
+            _set_texture(inst, "RoughnessTexture", rough)
+            _set_scalar(inst, "RoughnessFromTexture", 1.0)
+        normal = load_asset(dst["normal"]) if dst.get("normal") else None
+        if normal is not None:
+            _set_texture(inst, "NormalTexture", normal)
+
+        # The tyre friction table resolves an EPhysicalSurface per wheel contact, so the class the
+        # instance was keyed on has to be on it.  Without this every surface in the city is
+        # SurfaceClass::Default and cobblestone, steel plate and painted crosswalk all grip like
+        # dry asphalt.
+        sc = spec.get("surface_class")
+        if sc is not None:
+            entry = PHYSICAL_SURFACES.get(int(sc))
+            pm = load_asset(f"{PHYSICS_ROOT}/{entry[0]}") if entry else None
+            if pm is not None:
+                try:
+                    inst.set_editor_property("phys_material", pm)
+                except Exception as exc:            # noqa: BLE001
+                    WARN(f"{path}: phys_material {entry[0]} failed ({exc})")
+            else:
+                WARN(f"{path}: no physical material for surface class {sc}; it will grip as Default")
+        try:
+            lib.update_material_instance(inst)
+        except Exception as exc:                    # noqa: BLE001
+            WARN(f"{path}: update_material_instance failed ({exc})")
+        save_asset(path)
+        built += 1
+
+    report = {"built": built, "textured": textured, "flat": sorted(set(flat)),
+              "missing_textures": sorted(set(missing)),
+              "folder": CITY_INSTANCE_FOLDER,
+              "bindings": len(block.get("slot_bindings") or {})}
+    if missing:
+        ERROR(f"city surfaces whose colour map is in the manifest but not in the project: "
+              f"{', '.join(sorted(missing))} -- these draw flat and the sheets do not")
+    return report
+
+
+def _set_scalar(inst, name: str, value) -> None:
+    if value is None:
+        return
+    try:
+        unreal.MaterialEditingLibrary.set_material_instance_scalar_parameter_value(inst, name, float(value))
+    except Exception as exc:                        # noqa: BLE001
+        WARN(f"{name}: {exc}")
+
+
+def _set_vector(inst, name: str, rgb) -> None:
+    try:
+        unreal.MaterialEditingLibrary.set_material_instance_vector_parameter_value(
+            inst, name, unreal.LinearColor(float(rgb[0]), float(rgb[1]), float(rgb[2]), 1.0))
+    except Exception as exc:                        # noqa: BLE001
+        WARN(f"{name}: {exc}")
+
+
+def _set_texture(inst, name: str, texture) -> None:
+    try:
+        unreal.MaterialEditingLibrary.set_material_instance_texture_parameter_value(inst, name, texture)
+    except Exception as exc:                        # noqa: BLE001
+        WARN(f"{name}: {exc}")
+
+
 # ------------------------------------------------------------------------------------------------- importing
 
 def import_task(filename: str, destination_path: str, destination_name: str, replace: bool,
@@ -943,6 +1254,9 @@ def apply_texture_settings(asset_path: str, settings: dict) -> None:
 IMPORTABLE_KINDS = {
     "shells", "roofs", "tile_mesh", "pavement", "kit", "prop", "tree", "landmark", "vehicle",
     "character", "water_mask", "font", "sound",
+    # The city's own surface textures: 20 of them for the whole streamed city, not one set per
+    # tile (DEVIATIONS J63, engine half).
+    "city_surface",
 }
 
 
@@ -953,6 +1267,10 @@ def import_entries(manifest: dict, repo_root: str, tiles: set | None, max_tiles:
     order = manifest.get("import_order") or list(entries.keys())
 
     seen_tiles: list[str] = []
+    # Every static mesh this run created, so the city-surface pass can bind its slots once the
+    # instances exist.  The instances cannot be built earlier: they point at the UTexture2D assets
+    # the same run imports (J63, engine half).
+    mesh_assets: list[str] = []
     imported, skipped, failed = 0, 0, 0
     reasons: list[str] = []
     batch = []
@@ -979,6 +1297,7 @@ def import_entries(manifest: dict, repo_root: str, tiles: set | None, max_tiles:
                     apply_sound_settings(asset_path, meta["settings"])
                 else:
                     apply_mesh_settings(asset_path, meta["settings"])
+                    mesh_assets.append(asset_path)
                     if meta["settings"].get("physical_materials"):
                         by_material = (meta.get("entry") or {}).get("physical_materials") or {}
                         if by_material:
@@ -1031,6 +1350,7 @@ def import_entries(manifest: dict, repo_root: str, tiles: set | None, max_tiles:
     return {
         "imported": imported, "skipped": skipped, "failed": failed,
         "tiles": len(seen_tiles), "reasons": reasons[:50],
+        "mesh_assets": mesh_assets,
     }
 
 
@@ -1071,6 +1391,27 @@ def main(argv=None) -> int:
     tiles = {t.strip() for t in args.tiles.split(",") if t.strip()} or None
     result = import_entries(manifest, repo_root, tiles, args.max_tiles, args.force, args.dry_run)
     result["materials"] = materials
+    # After the textures are imported and before anything is placed: the instances point at the
+    # UTexture2D assets the entries above just created (J63, engine half).
+    if not args.skip_materials and not args.dry_run:
+        result["city_surfaces"] = build_city_surface_instances(manifest, args.force)
+        bindings = (manifest.get("city_surfaces") or {}).get("slot_bindings") or {}
+        bound = {"meshes": 0, "slots": 0, "left_alone": 0, "unknown": []}
+        for asset_path in result.pop("mesh_assets", []):
+            got = assign_city_surface_materials(asset_path, bindings)
+            if got["assigned"]:
+                bound["meshes"] += 1
+            bound["slots"] += got["assigned"]
+            bound["left_alone"] += got["unbound"]
+            for u in got["unknown"]:
+                if u not in bound["unknown"] and len(bound["unknown"]) < 40:
+                    bound["unknown"].append(u)
+        result["city_surfaces"]["bound"] = bound
+        if bound["unknown"]:
+            WARN(f"material slots the manifest does not name: {', '.join(bound['unknown'][:12])}"
+                 f"{' ...' if len(bound['unknown']) > 12 else ''}")
+    else:
+        result.pop("mesh_assets", None)
     result["seconds"] = round(time.time() - started, 1)
     result["manifest"] = manifest_path
     LOG("import_assets: " + json.dumps(result, indent=1))

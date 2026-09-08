@@ -55,6 +55,12 @@ assert KIT_PLACEMENT_STRUCT.size == 40, KIT_PLACEMENT_STRUCT.size
 
 # Import-settings ids understood by import_assets.py. Kept here so the pipeline and the editor agree on the vocabulary.
 IMPORT_SETTINGS: dict[str, dict[str, Any]] = {
+    # The city's own surfaces (DEVIATIONS J63, engine half).  The tiles carry material *names* and
+    # no images; the consumer resolves the name.  These are the only textures the manifest ships
+    # for the streamed city, one set for the whole of it rather than one per tile: 20 surfaces at
+    # 2K against 1,554 tile files is the difference between 250 MB and 388 GB.
+    "city_surface_color": {"texture": True, "srgb": True, "notes": "base colour of a city surface; sRGB because it is a photograph"},
+    "city_surface_linear": {"texture": True, "srgb": False, "notes": "roughness, metalness or normal of a city surface; linear data, not a picture"},
     "shell_nanite": {"nanite": True, "lods_from_suffix": False, "collision": "complex_as_simple", "generate_lightmap_uvs": False, "combine_meshes": False, "material_master": "M_NYC_Master", "mobility": "static", "notes": "per-tile building shells; one static mesh per (tile, material class) mesh in the glb"},
     # The road surfaces (blender/roads/build_pavement.py). Nanite for the same reason the shells use
     # it, complex-as-simple collision because the wheels line-trace against the actual triangles and
@@ -960,12 +966,61 @@ class ManifestBuilder:
 
     # ------------------------------------------------------------------ order + write
     def import_order(self) -> list[str]:
-        rank = {"crs": 0, "font": 1, "catalog": 2, "runtime_nycb": 3, "live_json": 3, "landmarks_index": 3,
+        rank = {"crs": 0, "font": 1, "catalog": 2, "city_surface": 2, "runtime_nycb": 3, "live_json": 3, "landmarks_index": 3,
                 "audio_index": 3, "water": 4, "sound": 5,
                 "kit": 10, "prop": 11, "tree": 11, "landmark": 12, "vehicle": 13, "character": 13,
                 "skyline": 33,
                 "terrain": 20, "water_mask": 21, "shells": 30, "roofs": 31, "tile_mesh": 32}
         return [e["id"] for e in sorted(self.entries, key=lambda e: (rank.get(e["kind"], 99), e.get("tile") or "", e["id"]))]
+
+    def add_city_surfaces(self) -> None:
+        """Ship the city's surface textures once, and the contract that binds them to the tiles.
+
+        The exported tiles name their materials and carry no images -- ``NYCSIM_red_brick`` and
+        nothing else -- and until now the manifest carried no texture entry at all, so Unreal had
+        nothing to resolve the name *to* and a player saw nineteen solid RGB values where the
+        comparison sheets show brick, limestone and asphalt (docs/DEVIATIONS.md J63, engine half).
+
+        One set for the whole city, not one per tile.  J50's sidecar rule writes each image beside
+        its own ``.glb``, which for 20 surfaces across 1,554 tile files would be 388 GB; these go to
+        ``/Game/NYCSim/Textures/City`` once and every tile's material instance points at them.
+        """
+        from . import city_surfaces as csm
+
+        # The surface class each pavement material carries, read off the entries this run already
+        # built.  It is what keys an instance together with the surface: five pavement names
+        # resolve to concrete_sidewalk across two different classes, and one shared instance would
+        # give a curb ramp a median's tyre friction.
+        surface_class: dict[str, int] = {}
+        for e in self.entries:
+            for name, idx in (e.get("physical_materials") or {}).items():
+                surface_class.setdefault(str(name), int(idx))
+        block = csm.build(self.repo_root, self.blender_out / "tiles", surface_class=surface_class)
+        shipped = 0
+        for name, surf in sorted(block.get("surfaces", {}).items()):
+            for kind, path in sorted((surf.get("maps") or {}).items()):
+                src = Path(path)
+                if not src.exists():
+                    continue
+                settings = "city_surface_color" if kind == "color" else "city_surface_linear"
+                e = self._add(f"city_surface:{name}:{kind}", "city_surface", src,
+                              f"{CONTENT_ROOT}/Textures/City/T_{name}_{kind}", settings)
+                surf.setdefault("dst", {})[kind] = e["dst"]
+                shipped += 1
+            # The engine reads `dst`, not the build machine's absolute paths.
+            surf.pop("maps", None)
+        block["counts"]["textures_shipped"] = shipped
+        unbound = block["counts"].get("unbound_slots", 0)
+        if unbound:
+            self.warnings.append(
+                f"{unbound} tile material slots resolve to no city surface and are shipped as "
+                f"refusals with their reasons (markings are paint, structures and park ground have "
+                f"no survey saying what they are made of); see city_surfaces.slot_bindings")
+        flat = sorted(n for n, v in block["surfaces"].items()
+                      if not v.get("textured") and n not in csm.ANALYTIC)
+        if flat:
+            self.warnings.append(f"city surfaces with no colour map on disk: {', '.join(flat)}")
+        self.city_surfaces = block
 
     def build(self) -> dict[str, Any]:
         self.load_catalogs()
@@ -975,6 +1030,7 @@ class ManifestBuilder:
         self.resolve_catalogs()
         self.add_tiles()
         self.add_water()
+        self.add_city_surfaces()
         by_kind: dict[str, int] = {}
         for e in self.entries:
             by_kind[e["kind"]] = by_kind.get(e["kind"], 0) + 1
@@ -994,6 +1050,7 @@ class ManifestBuilder:
             "props_catalog_entries": len(self.props_catalog),
             "prop_kinds_without_an_asset": self.prop_kinds_without_an_asset,
             "prop_kinds_built_elsewhere": self.prop_kinds_built_elsewhere,
+            "city_surfaces": getattr(self, "city_surfaces", None),
             "tiles": self.tiles,
             "entries": self.entries,
             "import_order": self.import_order(),

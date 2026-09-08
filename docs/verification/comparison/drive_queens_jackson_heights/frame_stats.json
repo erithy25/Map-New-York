@@ -1,6 +1,6 @@
 {
  "slug": "drive_queens_jackson_heights",
- "rendered_at": "2026-09-08T20:36:06Z",
+ "rendered_at": "2026-09-08T22:37:50Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",

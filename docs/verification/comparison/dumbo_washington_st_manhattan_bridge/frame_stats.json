@@ -1,6 +1,6 @@
 {
  "slug": "dumbo_washington_st_manhattan_bridge",
- "rendered_at": "2026-09-08T21:30:04Z",
+ "rendered_at": "2026-09-08T22:44:09Z",
  "reference_file": "2.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",

@@ -112,7 +112,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/dumbo_washington_st_manhattan_bridge/render.png",
- "rendered_at": "2026-09-08T21:30:04Z",
+ "rendered_at": "2026-09-08T22:44:09Z",
  "resolution_note": "784x1394; the reference photograph is 1920x3413 (0.56:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -150,7 +150,7 @@
    "placed_pedestrians": 376,
    "placed_vehicles": 85,
    "reason": null,
-   "seconds": 186.94,
+   "seconds": 195.74,
    "snapshot": {
     "building_footprints_tested": 1945,
     "density_lane_km": 32.566,
@@ -190,7 +190,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 953
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -3347_341_14_1_e7c93a37fe98fd7c_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 1082143,
    "vehicle_lods": {
@@ -807,7 +807,7 @@
    }
   },
   "radius_m": 934.6424375215793,
-  "seconds": 269.68,
+  "seconds": 275.74,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -885,16 +885,17 @@
   "radius_m": 934.6424375215793
  },
  "seconds": {
-  "render": 122.8,
-  "scene": 271.8,
-  "total": 394.7
+  "render": 97.4,
+  "scene": 278.1,
+  "total": 375.5
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 53.7 m above its ground",
-  "subject_blocked_at_m": 5.6,
+  "subject_blocked_at_m": 3.8,
   "subject_blocked_by": "prop_lamp_cobra_davit_1",
-  "subject_fan_half_angle_deg": 1.52,
-  "subject_fan_m": 12.0,
+  "subject_fan_from": "the subject's own measured height (J74)",
+  "subject_fan_half_angle_deg": 13.35,
+  "subject_fan_m": 107.4,
   "subject_lands_at_m": null,
   "subject_lands_on": null,
   "subject_range_m": 226.2,

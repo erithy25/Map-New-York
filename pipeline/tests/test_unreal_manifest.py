@@ -230,3 +230,117 @@ def test_an_image_uri_may_not_climb_out_of_its_own_directory(world) -> None:
     entry = next(e for e in doc_out["entries"] if e["src"].endswith("props/bench_stone.glb"))
     assert "sidecars" not in entry
     assert any("passwd" in w for w in doc_out["warnings"])
+
+
+# --------------------------------------------------------- the city's own surfaces (J63, engine half)
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+
+
+def _city_surfaces_module():
+    from nycsim_pipeline.unreal import city_surfaces
+    return city_surfaces
+
+
+def test_the_engine_is_given_a_surface_for_every_name_the_tiles_carry():
+    """The tiles name their materials and carry no images, and the consumer resolves the name.
+
+    The comparison renderer has held up its half since J63. Unreal had nothing to resolve a name
+    *to*: no material instance named a surface and the manifest carried no texture entry at all.
+    This pins that every name a tile carries either resolves to a surface or is refused with a
+    reason -- never silently left out, because an engine that guessed a pier deck's cladding would
+    be inventing a survey.
+    """
+    cs = _city_surfaces_module()
+    for name in cs.PAVEMENT_SURFACE:
+        assert name not in cs.UNRESOLVED_REASON, f"{name} is both bound and refused"
+    for name, why in cs.UNRESOLVED_REASON.items():
+        assert len(why) > 20, f"{name}'s refusal is not a reason"
+    # The two markings must stay refused: giving them the asphalt under them erases every lane
+    # line and stop bar in the city (J52).
+    for paint in ("pave_marking_white_asphalt", "pave_marking_yellow_asphalt"):
+        assert paint in cs.UNRESOLVED_REASON and "paint" in cs.UNRESOLVED_REASON[paint]
+        assert paint not in cs.PAVEMENT_SURFACE
+
+
+def test_a_city_surface_instance_is_keyed_on_its_surface_class_as_well_as_its_surface():
+    """Five pavement names resolve to `concrete_sidewalk` and they do not share a surface class:
+    a curb ramp and a sidewalk are class 9, a median, a plaza and a curb are class 2. One instance
+    per surface carries one `phys_material`, so it would have given one of those groups the other's
+    tyre friction -- every curb ramp in the city gripping like a median."""
+    cs = _city_surfaces_module()
+    by_surface = {}
+    for name, surface in cs.PAVEMENT_SURFACE.items():
+        by_surface.setdefault(surface, set()).add(name)
+    assert len(by_surface["concrete_sidewalk"]) >= 4, \
+        "the case this test exists for has gone; check the mapping rather than deleting the test"
+
+    surface_class = {"pave_curb_concrete": 2, "pave_median_concrete": 2, "pave_plaza_concrete": 2,
+                     "pave_curb_ramp_concrete": 9, "pave_sidewalk_concrete": 9,
+                     "pave_roadbed_asphalt": 1, "pave_crosswalk_asphalt": 1,
+                     "pave_parking_lot_asphalt": 1, "pave_roadbed_concrete": 2}
+    names = {f"NYCSIM_red_brick": 3, **{k: 1 for k in surface_class}}
+
+    import types
+    from pathlib import Path
+    real = cs.tile_material_names
+    cs.tile_material_names = lambda root: dict(names)          # noqa: ARG005
+    try:
+        block = cs.build(Path(__file__).resolve().parents[2], Path("/nonexistent"),
+                         surface_class=surface_class)
+    finally:
+        cs.tile_material_names = real
+
+    insts = block["instances"]
+    assert "MI_NYC_concrete_sidewalk_sc2" in insts and "MI_NYC_concrete_sidewalk_sc9" in insts, \
+        f"concrete_sidewalk did not split by surface class: {sorted(insts)}"
+    assert set(insts["MI_NYC_concrete_sidewalk_sc9"]["from_material_names"]) == \
+        {"pave_curb_ramp_concrete", "pave_sidewalk_concrete"}
+    # A shell surface has no class and keeps a plain name.
+    assert insts["MI_NYC_red_brick"]["surface_class"] is None
+
+
+def test_a_city_surfaces_level_is_the_one_its_own_stage_authored():
+    """A scan's exposure is a photographer's choice, not a measurement, and taking it whole is what
+    made every daylight street render at half its photograph's brightness (J66). The engine gets
+    the same scalar the renderer publishes, capped the same way with the residual stated."""
+    cs = _city_surfaces_module()
+    assert cs.ALBEDO_SCALE_CAP == 4.0
+    # A scan twice as dark as the authored level is corrected by 2.0 and says so.
+    got = cs.albedo_correction(0.10, (0.20, 0.20, 0.20))
+    assert got["scale"] == pytest.approx(2.0, abs=1e-3) and "capped_at" not in got
+    # A scan fourteen times too dark is the wrong material, not the wrong exposure: capped, and the
+    # residual is published rather than hidden.
+    got = cs.albedo_correction(0.02, (0.28, 0.28, 0.28))
+    assert got["scale"] == cs.ALBEDO_SCALE_CAP
+    assert got["residual"] == pytest.approx(0.28 / (0.02 * 4.0), abs=1e-3)
+    assert "wrong material" in got["note"]
+    # Already right: no correction, and no pretence of one.
+    assert cs.albedo_correction(0.20, (0.20, 0.20, 0.20))["scale"] == 1.0
+
+
+def test_the_master_material_still_draws_an_untextured_asset_exactly_as_before():
+    """Hundreds of props, vehicles and kit pieces already use M_NYC_Master. Every city-surface
+    parameter added to it defaults to the value that reproduces the old behaviour -- a white colour
+    map, no texture strength, a flat normal -- so an instance that sets none of them is unchanged."""
+    src = (REPO_ROOT / "unreal" / "NYCSim" / "Content" / "Python" / "import_assets.py").read_text()
+    body = src[src.index("def build_master_material("):]
+    body = body[:body.index("\ndef ", 1)]
+    for default in ('parameter_name="ColorTextureStrength", default_value=0.0',
+                    'parameter_name="RoughnessFromTexture", default_value=0.0',
+                    'parameter_name="AlbedoScale", default_value=1.0',
+                    'parameter_name="SurfaceSizeM", default_value=1.0',
+                    'parameter_name="TileAspect", default_value=1.0'):
+        assert default in body, f"missing a neutral default: {default}"
+    assert "ENGINE_WHITE_TEXTURE" in body, "the colour sampler has no white default"
+    assert "MaterialProperty.MP_NORMAL" in body, "the normal map is never connected"
+
+
+def test_an_unbound_slot_is_left_alone_and_counted_rather_than_guessed():
+    """Markings, structures and park ground resolve to no surface. Giving them the nearest concrete
+    would be inventing a survey, so the assignment pass must skip them and say how many."""
+    src = (REPO_ROOT / "unreal" / "NYCSim" / "Content" / "Python" / "import_assets.py").read_text()
+    body = src[src.index("def assign_city_surface_materials("):]
+    body = body[:body.index("\ndef ", 1)]
+    assert 'if not inst_name:' in body and 'unbound += 1' in body
+    assert "material_interface" in body, "the pass never sets a slot's material"

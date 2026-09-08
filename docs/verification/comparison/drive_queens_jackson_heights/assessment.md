@@ -55,3 +55,9 @@
 | 65 of 179 trees species-substituted | no modelled species matched exactly; the nearest by size and taxon was used | data |
 | two trees outside the scale band | their measured heights are further from the nearest exported size than the declared band allows, so they keep their assets' own size and are counted (J70) | data |
 | sidewalk sheds of the wrong year | the shed source is DOB permits active on 2026-09-05 and the photograph is from 2018 | reference |
+
+---
+
+*Re-checked against the v15 render of 2026-09-08T22:37:50Z. This sheet names no subject, so nothing J74, J75 or J76 changed reaches it: the scene is identical to the render this was written against — the same 317 props of 2,470, the same 179 trees at a mean scale of 0.929 with two outside the band, and the same frame statistics to four decimals. What did change is that the statistics are now measured by the render that made the sheet rather than by hand afterwards (J77).*
+
+*This is the one sheet in the set whose render carries **more** colour than its photograph — chroma **0.0457** against **0.0329**, a ratio of **1.389** — and it is worth saying why that is not a success. The reference is a flat, near-monochrome overcast frame with a blown white sky at the 95th percentile (**0.995**); the render is a sunlit brick street. The two are not photographs of the same weather, so the colour comparison this sheet supports is not a comparison of materials.*
