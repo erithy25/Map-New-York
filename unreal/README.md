@@ -276,11 +276,28 @@ git checkout dist/first-drive -- dist/first-drive/update-01
 cat dist/first-drive/update-01/part_*.tar.gz | tar -xzvf - -i -C .
 ```
 
-`dist/first-drive/index.json` names every file and its SHA-256, and `UNPACK.md` beside it repeats
-these commands. To check what arrived, or to build a package for another region:
+Then **update-02**, which is much larger — 38 parts, **1.96 GB packed / 2.72 GB raw**, the 349 files
+of the 1,084 that changed after update-01. It carries the surveyed curb ramps cut into the pavement
+of every tile in the region, the open-space ground (park lawn, court, ball field, pool, track and
+rink surfaces), the elevated structures and station platforms standing on measured ground, the
+rooftop plant lifted onto the roofs it was surveyed on, real tyre, seat, carpet and trim textures on
+every vehicle, and a `pois.nycb` carrying the 85,023 named places the GPS can search:
 
 ```bash
-python3 tools/package_content.py --verify dist/first-drive                        # to check one
+git checkout dist/first-drive -- dist/first-drive/update-02
+cat dist/first-drive/update-02/part_*.tar.gz | tar -xzvf - -i -C .
+```
+
+**Order matters**: the base package, then update-01, then update-02. Each replaces files in place,
+so applying them out of order leaves older content on top of newer.
+
+Each package has an `index.json` naming every file and every part's SHA-256, and an `UNPACK.md`
+beside it repeating its own commands. To check what arrived, or to build a package for another
+region:
+
+```bash
+python3 tools/package_content.py --verify dist/first-drive                        # the base
+python3 tools/package_content.py --verify dist/first-drive/update-02              # an update
 python3 tools/package_content.py --tile-list <tiles>.txt --out dist/<region>      # to build one
 cat dist/<region>/part_*.tar.gz | tar -xzvf - -i -C .                            # to unpack one
 ```
