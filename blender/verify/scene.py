@@ -1139,13 +1139,15 @@ PAVEMENT_KINDS = {
     # The crossing area is asphalt.  It was one solid painted rectangle across the whole
     # carriageway until J52; the paint is now the bars laid on it (kinds 10 and 11), and this is
     # what they are laid on, 5 mm proud of the roadbed so the two do not fight for the same depth.
-    5: ("crosswalk", 0.105, (0.058, 0.058, 0.061, 1.0), 0.85),
+    5: ("crosswalk", 0.101, (0.058, 0.058, 0.061, 1.0), 0.85),
     6: ("parking_lot", 0.10, (0.075, 0.075, 0.078, 1.0), 0.85),
     # Paint, from data/processed/roads/markings (J52).  Thermoplastic is brighter and glossier than
-    # the asphalt it sits on and it stands about 15 mm above it.  White is the ordinary line and
-    # yellow separates opposing directions (MUTCD 2009 §3A.05).
-    10: ("marking_white", 0.115, (0.80, 0.80, 0.78, 1.0), 0.62),
-    11: ("marking_yellow", 0.115, (0.74, 0.60, 0.13, 1.0), 0.62),
+    # the asphalt it sits on and stands 2.3-3.2 mm above it (90-125 mil extruded); 4 mm here, which
+    # separates the two surfaces without the bar reading as a slab.  The first render of these put
+    # them at 15 mm and a crossing three metres from the lens cast its own shadow.  White is the
+    # ordinary line and yellow separates opposing directions (MUTCD 2009 §3A.05).
+    10: ("marking_white", 0.104, (0.80, 0.80, 0.78, 1.0), 0.62),
+    11: ("marking_yellow", 0.104, (0.74, 0.60, 0.13, 1.0), 0.62),
 }
 
 
@@ -1574,6 +1576,55 @@ def _tile_kit_header(tile: str) -> dict[int, dict]:
     return {int(e["kit_id"]): e for e in d.get("kit_id_counts", []) if isinstance(e, dict)}
 
 
+#: Categories whose piece models a *punched opening* -- a masonry reveal running back from the wall
+#: plane to a sash or a shopfront behind it.  Nothing else is moved out of the wall.
+_OPENING_CATEGORIES = ("window", "door_entry", "storefront")
+#: How far the glazing is left standing in front of the wall once the piece is mounted.
+_MOUNT_PROUD_M = 0.02
+#: Above this the piece would read as a projecting bay rather than a window, so it is not moved
+#: further and the deviation says so.
+_MOUNT_MAX_M = 0.30
+
+_MOUNT_CACHE: dict[str, float] = {}
+
+
+def kit_mount_offset(entry: dict) -> float:
+    """How far out of the wall a kit piece has to be mounted for its opening to be visible.
+
+    Every window, glazed door and shopfront in this kit models the whole punched opening: a
+    masonry reveal liner running from the wall plane at ``y = 0`` back to a sash at
+    ``glazing_setback_m``, and an interior behind that.  It is authored for a wall with a **hole**
+    in it.  The shells have no hole -- and cutting 32.1 million of them costs about 449 million
+    triangles and 48 GB, measured in J51 -- so the wall plane occludes everything from ``y = 0``
+    inward and only the 50-65 mm of frame that stands proud of it is visible.  That is what the
+    Bed-Stuy sheet showed: a blank wall carrying a grid of small pale bars.
+
+    Mounting the piece its own glazing setback further out puts the whole opening -- reveal, sash
+    and glass -- in front of the wall instead of behind it, so it reads as a window rather than as
+    a lintel floating on a plane.  It is **not** the same thing as a punched opening: the reveal
+    projects from the wall rather than being cut into it, and J51 records that.
+
+    The distance is the piece's own measured ``glazing_setback_m`` from its catalogue entry, not a
+    constant, because it ranges from 0.063 m to 0.28 m across the kit.
+    """
+    cat = entry.get("category")
+    if cat not in _OPENING_CATEGORIES:
+        return 0.0
+    cid = str(entry.get("catalog_id") or entry.get("name") or "")
+    if cid in _MOUNT_CACHE:
+        return _MOUNT_CACHE[cid]
+    setback = None
+    path = BLENDER_OUT / "kit" / "catalog" / f"{cid}.json"
+    if path.exists():
+        try:
+            setback = json.loads(path.read_text()).get("glazing_setback_m")
+        except Exception:                                    # a piece with no catalogue is not moved
+            setback = None
+    offset = 0.0 if setback is None else min(max(float(setback), 0.0) + _MOUNT_PROUD_M, _MOUNT_MAX_M)
+    _MOUNT_CACHE[cid] = offset
+    return offset
+
+
 def add_kit(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
             triangle_budget: int = 1_200_000, max_instances: int = 120_000,
             col: bpy.types.Collection | None = None,
@@ -1651,6 +1702,7 @@ def add_kit(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
             unresolved[kid] = unresolved.get(kid, 0) + 1
             continue
         s = float(r["scale"]) or 1.0
+        mount = kit_mount_offset(e)
         # ``yaw_deg`` is the wall run's outward normal as an angle counter-clockwise from east
         # (pipeline/nycsim_pipeline/facade/placements.py::_yaw).  Every kit piece is authored
         # with its wall plane at y = 0 and ``into_building = +Y``, so its outward direction is
@@ -1660,6 +1712,7 @@ def add_kit(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
         # cornice proportionally taller and thicker as well.
         m = (Matrix.Translation((float(r["x"]), float(r["y"]), float(r["z"])))
              @ Euler((0.0, 0.0, math.radians(float(r["yaw_deg"]) + 90.0))).to_matrix().to_4x4()
+             @ Matrix.Translation((0.0, -mount, 0.0))
              @ Matrix.Diagonal((s, 1.0, 1.0, 1.0)))
         tpl.instance(f"kit_{kid}_{placed}", m, col or bpy.context.scene.collection)
         placed += 1

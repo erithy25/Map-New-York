@@ -18,8 +18,9 @@ import numpy as np
 #: The lifts are the ones the verification renderer has been drawing since Stage 12 and that every
 #: comparison sheet was judged against (``blender/verify/scene.py`` ``PAVEMENT_KINDS``): the roadbed
 #: at +0.10, everything a pedestrian walks on at +0.25, so the curb reveal between them is the real
-#: 0.15 m, and the crosswalk 15 mm proud of the roadbed because that is what a thermoplastic marking
-#: is.
+#: 0.15 m.  The paint stands **4 mm** above the roadbed: extruded thermoplastic is laid 90 to 125 mil
+#: (2.3 to 3.2 mm) thick, and the first render of the markings put it at 15 mm, where a crossing bar
+#: three metres from the lens read as a raised slab casting its own shadow rather than as paint.
 #:
 #: The skirt is new here and has two jobs.  It gives the curb an actual vertical face -- in the
 #: renders the pavement is a zero-thickness sheet, so the 0.15 m step reads only as a silhouette and
@@ -33,9 +34,9 @@ PAVEMENT_KINDS: dict[int, tuple[str, float, float]] = {
     3: ("plaza", 0.25, 0.40),
     4: ("curb", 0.25, 0.40),
     # The crossing area, not the paint on it: since J52 the paint is a pattern of bars (kinds 10/11)
-    # and this is the asphalt they are laid on, 5 mm proud of the roadbed so the two do not fight
-    # for the same depth.
-    5: ("crosswalk", 0.105, 0.02),
+    # and this is the asphalt they are laid on, 1 mm proud of the roadbed so the two do not fight
+    # for the same surface.
+    5: ("crosswalk", 0.101, 0.02),
     6: ("parking_lot", 0.10, 0.30),
     7: ("driveway", 0.10, 0.30),
     # A curb ramp is not a planimetric class -- the pavement survey has no ramp polygon. It is
@@ -49,8 +50,8 @@ PAVEMENT_KINDS: dict[int, tuple[str, float, float]] = {
     # material slot Unreal gets -- is built from ``(kind, surface)``, and a lane line and a centre
     # line are two different colours of paint on the same asphalt.  They sit 15 mm above the
     # roadbed, which is what a thermoplastic marking stands, and carry no skirt: paint has no edge.
-    10: ("marking_white", 0.115, 0.0),
-    11: ("marking_yellow", 0.115, 0.0),
+    10: ("marking_white", 0.104, 0.0),
+    11: ("marking_yellow", 0.104, 0.0),
 }
 
 #: The two pavement kinds that are paint, by the ``colour`` column of the markings table.
