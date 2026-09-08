@@ -49,3 +49,7 @@
 | 186 props not placed and 24 impostor cards dropped | triangle budget 1,398,827, declared on the sheet | performance |
 | 70 of 196 trees species-substituted | no modelled species matched exactly; the nearest by size and taxon was used | data |
 | everything at LOD2 | the LOD selector keys off distance and nothing in this frame is near enough for LOD0 | performance |
+
+---
+
+*Re-checked against the v15 render of 2026-09-08T22:04:39Z. This sheet names no subject, so nothing J74, J75 or J76 changed reaches it: the scene is identical to the render this was written against — the same 453 props of 639, 2,445 kit pieces, 73 vehicles and 265 people, and the same frame statistics to four decimals. What did change is that the statistics are now measured by the render that made the sheet rather than by hand afterwards (J77), and the header above was re-derived from the record by `tools/assessment_header.py` rather than re-read by eye. The render half was not viewed again; every figure it rests on was checked against the new record and none of them moved.*

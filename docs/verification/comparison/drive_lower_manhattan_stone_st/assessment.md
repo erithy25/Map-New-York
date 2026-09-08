@@ -50,3 +50,7 @@
 | 98 of 145 trees species-substituted | no modelled species matched exactly; the nearest by size and taxon was used | data |
 | one tree outside the scale band | its measured height is further from the nearest exported size than the declared band allows, so it keeps the asset's own size and is counted (J70) | data |
 | 6 point props unplaced | memorials, artworks and vending machines have no asset (J22, J23) | geometry |
+
+---
+
+*Re-checked against the v15 render of 2026-09-08T22:01:35Z. This sheet names no subject, so nothing J74, J75 or J76 changed reaches it: the scene is identical to the render this was written against — the same 23,768 pavement polygons, the same 669 props of 1,281, 6,193 kit pieces, 89 vehicles and 380 people, the same 145 trees at a mean scale of 0.871 with one outside the band, and the same frame statistics to four decimals. What did change is that the statistics are now measured by the render that made the sheet rather than by hand afterwards (J77), and the header above was re-derived from the record by `tools/assessment_header.py` rather than re-read by eye. The render half was not viewed again; every figure it rests on was checked against the new record and none of them moved.*
