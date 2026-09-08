@@ -9,8 +9,9 @@ An assessment is prose written about a picture, which is exactly the kind of doc
 with figures nobody can check.  An adversarial pass over the first seven of them found between one
 and six unsupported claims each and one plain factual error -- a sheet described as "Monday" that
 was a Saturday.  So the numbers are checked mechanically against the artefacts they are supposed to
-come from: ``render.json``, the fact sheet ``tools/sheet_facts.py`` builds from it, and the
-reference item's own ``meta.json``.
+come from: ``render.json``, the fact sheet ``tools/sheet_facts.py`` builds from it, the frame statistics
+``tools/frame_stats.py`` measures off both halves of the sheet, and the reference item's own
+``meta.json``.
 
 This does not check that a sentence is *true*.  It checks that every figure in it exists in the
 record, which is the half a machine can do; the other half is reading the picture.  A number that is
@@ -43,7 +44,11 @@ def facts(slug: str) -> str:
 
 def haystack(slug: str) -> str:
     parts = [facts(slug)]
-    for p in (COMPARISON / slug / "render.json", REFERENCE / slug / "meta.json"):
+    # ``frame_stats.json`` is part of the record too: the renderer measures its own frame and
+    # nothing measures the photograph, so the two comparisons an assessment reaches for first --
+    # how much darker, how much greyer -- had no source until tools/frame_stats.py wrote one.
+    for p in (COMPARISON / slug / "render.json", COMPARISON / slug / "frame_stats.json",
+              REFERENCE / slug / "meta.json"):
         if p.is_file():
             parts.append(p.read_text())
     return "\n".join(parts)

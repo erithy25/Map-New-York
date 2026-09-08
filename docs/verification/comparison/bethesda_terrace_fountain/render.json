@@ -72,9 +72,9 @@
   "view_m": 80.8
  },
  "frame": {
-  "mean": 0.7228,
+  "mean": 0.7312,
   "reason": null,
-  "sd": 0.1663,
+  "sd": 0.1562,
   "usable": true
  },
  "frame_retry": null,
@@ -115,7 +115,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/bethesda_terrace_fountain/render.png",
- "rendered_at": "2026-09-08T12:38:59Z",
+ "rendered_at": "2026-09-08T14:42:20Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -136,12 +136,12 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 25149,
+   "pedestrian_triangles": 25966,
    "per_class": {},
    "placed_pedestrians": 11,
    "placed_vehicles": 0,
    "reason": null,
-   "seconds": 13.9,
+   "seconds": 16.81,
    "snapshot": {
     "building_footprints_tested": 2814,
     "car_free_park_drives_matched": 46,
@@ -164,7 +164,8 @@
      "segments": 122235,
      "signal_plans": 19814
     },
-    "npc_bodies_imported": 8,
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 11,
     "npc_templates_baked": 11,
     "pavement_polygons_tested": 3725,
     "ped_spawn_radius_m": 220.0,
@@ -183,7 +184,7 @@
    },
    "snapshot_note": "cached -1777_8205_8_1_10e969708121647f_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 25149,
+   "triangles": 25966,
    "vehicle_lods": {},
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
@@ -378,20 +379,248 @@
    "skipped_detail": [],
    "triangles": 421535
   },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K"
+    },
+    "brown_brick": {
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K"
+    },
+    "brownstone": {
+     "asset_id": "Travertine005",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K"
+    },
+    "cast_iron": {
+     "asset_id": "Metal055A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K"
+    },
+    "concrete": {
+     "asset_id": "Concrete030",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "concrete_sidewalk": {
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K"
+    },
+    "granite": {
+     "asset_id": "Granite002A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K"
+    },
+    "limestone": {
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K"
+    },
+    "metal_panel": {
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K"
+    },
+    "precast": {
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "red_brick": {
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K"
+    },
+    "roof_membrane": {
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "stone_rubble": {
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "stucco": {
+     "asset_id": "Plaster001",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "tan_brick": {
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K"
+    },
+    "tar_roof": {
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "terracotta": {
+     "asset_id": "Marble026",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K"
+    },
+    "vinyl_siding": {
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K"
+    },
+    "white_glazed_brick": {
+     "asset_id": "Bricks060",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K"
+    },
+    "wood_clapboard": {
+     "asset_id": "WoodSiding003",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K"
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 158
+  },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 229,
-    "curb": 522,
+    "crosswalk": 230,
+    "curb": 1334,
     "marking_white": 5686,
     "marking_yellow": 164,
-    "median": 68,
-    "parking_lot": 7,
-    "plaza": 4,
-    "roadbed": 181,
-    "sidewalk": 143
+    "median": 141,
+    "parking_lot": 29,
+    "plaza": 26,
+    "roadbed": 1957,
+    "sidewalk": 5224
    },
-   "placed": 7004,
+   "placed": 14791,
    "radius_m": 742.6651793355627,
    "tiles_missing": [],
    "tiles_read": [
@@ -400,9 +629,9 @@
     "t_-3_7",
     "t_-3_8"
    ],
-   "triangles": 156311,
+   "triangles": 167387,
    "triangles_cut_for_landmark_ground": 126,
-   "vertices": 170005
+   "vertices": 196857
   },
   "props": {
    "capped": null,
@@ -441,7 +670,7 @@
    }
   },
   "radius_m": 742.6651793355627,
-  "seconds": 24.41,
+  "seconds": 34.92,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -509,7 +738,7 @@
    "z_max_m": 42.39,
    "z_min_m": 9.16
   },
-  "triangles": 1685121
+  "triangles": 1697014
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -519,9 +748,9 @@
   "radius_m": 742.6651793355627
  },
  "seconds": {
-  "render": 57.2,
-  "scene": 24.7,
-  "total": 81.9
+  "render": 51.9,
+  "scene": 35.2,
+  "total": 87.1
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 3.9 m above its ground",

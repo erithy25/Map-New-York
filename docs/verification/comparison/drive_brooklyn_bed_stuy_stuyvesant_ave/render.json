@@ -1,8 +1,8 @@
 {
  "agent_request": {
-  "dow": 1,
-  "hour": 10,
-  "local_clock": "2019-11-30 10:22 EST",
+  "dow": 0,
+  "hour": 9,
+  "local_clock": "2013-06-21 09:30 EDT",
   "seed": 20260907,
   "warmup_s": 120.0
  },
@@ -15,21 +15,21 @@
   "focal_mm": 35.0,
   "ground_detail": {
    "below_point_excluded": 0,
-   "chosen_m": 18.46,
-   "max_m": 18.67,
-   "median_m": 18.52,
-   "min_m": 18.41,
+   "chosen_m": 18.23,
+   "max_m": 18.73,
+   "median_m": 18.37,
+   "min_m": 18.13,
    "mode": "street",
    "percentile": 10.0,
-   "point_m": 18.61,
+   "point_m": 18.35,
    "radius_m": 12.0,
-   "samples": 112
+   "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
   "hfov_deg": 54.432,
-  "lat": 40.68164,
-  "lon": -73.93179,
+  "lat": 40.6815,
+  "lon": -73.932306,
   "long_side_fov_deg": 54.432,
   "pitch_deg": 0.0,
   "portrait": false,
@@ -39,18 +39,18 @@
   ],
   "sensor_mm": 36.0,
   "slug": "drive_brooklyn_bed_stuy_stuyvesant_ave",
-  "terrain_z_m": 18.463,
-  "x": 1539.45,
-  "y": -2038.681,
-  "z": 20.063
+  "terrain_z_m": 18.235,
+  "x": 1495.831,
+  "y": -2054.236,
+  "z": 19.835
  },
- "camera_caption": "camera 40.68164, -73.93179 (NYC_TM 1539, -2039) z 20.1 m NAVD88 | azimuth 351.4deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.68150, -73.93231 (NYC_TM 1496, -2054) z 19.8 m NAVD88 | azimuth 351.4deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
  "camera_origin": {
-  "from_photograph_gps": false,
-  "lat": 40.68164,
-  "lon": -73.93179,
-  "offset_from_recorded_m": 1808.0,
-  "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 1,808 m away, past the 250 m at which it could still be the same view, so it was rejected as mis-tagged"
+  "from_photograph_gps": true,
+  "lat": 40.6815,
+  "lon": -73.932306,
+  "offset_from_recorded_m": 46.3,
+  "source": "this photograph's own EXIF camera GPS (40.68150, -73.93231), 46 m from the item's recorded viewpoint -- the position the picture was taken from"
  },
  "clearance": {
   "min_view_m": 20.0,
@@ -58,20 +58,20 @@
   "nearest_agent": null,
   "nearest_agent_m": null,
   "nearest_agent_probe_m": 60.0,
-  "nearest_obstruction": "t_1_-3_red_brick",
+  "nearest_obstruction": "prop_tree_ginkgo_large_2",
   "nearest_obstruction_at_deg": [
    27.2,
-   0.0
+   10.5
   ],
-  "nearest_obstruction_m": 20.6,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is t_1_-3_red_brick 20.6 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 150 m",
+  "nearest_obstruction_m": 15.6,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_tree_ginkgo_large_2 15.6 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 23 m",
   "offset_m": 0.0,
-  "view_m": 150.0
+  "view_m": 23.2
  },
  "frame": {
-  "mean": 0.4988,
+  "mean": 0.1965,
   "reason": null,
-  "sd": 0.1916,
+  "sd": 0.0952,
   "usable": true
  },
  "frame_retry": null,
@@ -80,7 +80,7 @@
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
  "lighting": {
   "background_strength": 0.25,
-  "direct_normal_irradiance_w_m2": 717.7,
+  "direct_normal_irradiance_w_m2": 860.2,
   "emissive": {
    "cone_faces_deleted": 8,
    "cones_hidden": 1,
@@ -88,94 +88,94 @@
    "night": false,
    "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
-  "exposure_stops": 0.8,
-  "sky_azimuth_deg": 159.049,
-  "sky_elevation_deg": 24.86,
+  "exposure_stops": 0.0,
+  "sky_azimuth_deg": 95.345,
+  "sky_elevation_deg": 43.543,
   "sun_lamp": true,
-  "sun_strength_blender": 1.329,
+  "sun_strength_blender": 1.593,
   "view_transform": "Filmic"
  },
  "name": "Brooklyn brownstone block: Bed-Stuy, Stuyvesant Avenue",
  "night": false,
  "pitch_reason": "level optical axis (the reference names no subject to aim at)",
  "reference_photo": {
-  "author": "Andre Carrotflower",
+  "author": "Smallbones",
   "confidence": "medium",
-  "date_taken": "2019-11-30 10:22:34",
+  "date_taken": "2013",
   "estimated_azimuth_deg": 13.0,
-  "file": "2.jpg",
-  "height": 1439,
-  "licence": "CC BY-SA 4.0",
-  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
-  "page_url": "https://commons.wikimedia.org/wiki/File:Bed-Stuy_20191130_-_27_-_Nostrand_@_Greene.jpg",
-  "title": "File:Bed-Stuy 20191130 - 27 - Nostrand @ Greene.jpg",
+  "file": "1.jpg",
+  "height": 1440,
+  "licence": "CC BY-SA 3.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Decatur_Stuyvesant_Heights_HD_2.JPG",
+  "title": "File:Decatur Stuyvesant Heights HD 2.JPG",
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_bed_stuy_stuyvesant_ave/render.png",
- "rendered_at": "2026-09-08T12:52:35Z",
- "resolution_note": "1208x906; the reference photograph is 1920x1439 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
+ "rendered_at": "2026-09-08T14:58:59Z",
+ "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
-   "caption": "Agents: 81 vehicles within 320 m and 308 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 249 vehicles and 520 people over the whole simulated ring, of which 301 and 755 were simulated; 667 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "caption": "Agents: 89 vehicles within 320 m and 301 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 331 vehicles and 562 people over the whole simulated ring, of which 378 and 775 were simulated; 763 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "dropped": {
-    "pedestrian_in_the_carriageway_not_crossing": 18,
-    "pedestrian_not_on_walkable_surface": 16,
-    "pedestrian_outside_radius": 413,
-    "vehicle_body_has_no_rider": 7,
-    "vehicle_not_on_carriageway": 6,
-    "vehicle_outside_radius": 191,
-    "vehicle_over_the_observer": 2,
-    "vehicle_triangle_budget": 14
+    "pedestrian_in_the_carriageway_not_crossing": 19,
+    "pedestrian_not_on_walkable_surface": 31,
+    "pedestrian_outside_radius": 423,
+    "pedestrian_over_the_observer": 1,
+    "vehicle_body_has_no_rider": 10,
+    "vehicle_not_on_carriageway": 1,
+    "vehicle_outside_radius": 238,
+    "vehicle_triangle_budget": 40
    },
    "ped_lods": {
-    "LOD0": 4,
-    "LOD1": 22,
-    "LOD2": 282
+    "LOD1": 10,
+    "LOD2": 291
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 561318,
+   "pedestrian_triangles": 438653,
    "per_class": {
-    "black_car": 3,
+    "black_car": 6,
     "boro_taxi": 4,
-    "box_truck": 2,
-    "dsny_truck": 1,
-    "mta_bus": 1,
-    "sedan": 39,
-    "suv": 24,
-    "taxi": 7
+    "box_truck": 4,
+    "mta_bus": 3,
+    "sedan": 41,
+    "suv": 20,
+    "taxi": 9,
+    "van": 2
    },
-   "placed_pedestrians": 308,
-   "placed_vehicles": 81,
+   "placed_pedestrians": 301,
+   "placed_vehicles": 89,
    "reason": null,
-   "seconds": 53.37,
+   "seconds": 97.51,
    "snapshot": {
     "building_footprints_tested": 4688,
-    "density_lane_km": 18.037,
-    "density_sidewalk_m2": 25010,
-    "density_target_pedestrians": 519.7,
-    "density_target_vehicles": 249.1,
-    "dow": 1,
-    "hour": 10,
-    "lanes_considered": 145,
-    "lanes_with_nta": 145,
+    "density_lane_km": 18.882,
+    "density_sidewalk_m2": 26474,
+    "density_target_pedestrians": 562.0,
+    "density_target_vehicles": 330.8,
+    "dow": 0,
+    "hour": 9,
+    "lanes_considered": 150,
+    "lanes_with_nta": 150,
     "min_leader_gap_m": 0.05,
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.44,
+     "load_seconds": 2.42,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
      "segments": 122235,
      "signal_plans": 19814
     },
-    "npc_bodies_imported": 12,
-    "npc_templates_baked": 81,
+    "npc_archetypes_available": 36,
+    "npc_bodies_imported": 36,
+    "npc_templates_baked": 142,
     "pavement_polygons_tested": 1165,
     "ped_spawn_radius_m": 220.0,
-    "peds_in_snapshot": 755,
+    "peds_in_snapshot": 775,
     "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
     "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
     "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
@@ -186,18 +186,17 @@
     "synthetic_network": false,
     "unsafe_crossing_starts": 0,
     "vehicle_spawn_radius_m": 420.0,
-    "vehicles_in_snapshot": 301
+    "vehicles_in_snapshot": 378
    },
-   "snapshot_note": "cached 1539_-2039_10_1_4e21a03c28524075_1788868452.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1066704,
+   "triangles": 943045,
    "vehicle_lods": {
-    "LOD1": 2,
-    "LOD2": 79
+    "LOD2": 89
    },
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
-   "vehicle_triangles": 505386
+   "vehicle_triangles": 504392
   },
   "buildings": {
    "dropped_for_budget": [],
@@ -274,31 +273,31 @@
    "triangles": 670572
   },
   "centre_tm": [
-   1539.45,
-   -2038.68
+   1495.83,
+   -2054.24
   ],
   "kit": {
-   "capped": "triangle budget 1271554",
+   "capped": "triangle budget 1364135",
    "per_category": {
-    "bulkhead": 114,
-    "cornice": 181,
-    "door_entry": 271,
-    "fence": 89,
-    "fire_escape": 135,
-    "hvac": 6,
-    "parapet": 37,
-    "pilaster": 3,
-    "quoin": 53,
+    "bulkhead": 129,
+    "cornice": 180,
+    "door_entry": 275,
+    "fence": 87,
+    "fire_escape": 170,
+    "hvac": 5,
+    "parapet": 59,
+    "pilaster": 10,
+    "quoin": 57,
     "storefront": 105,
     "storefront_interior": 15,
-    "string_course": 39,
-    "vegetation": 55,
-    "window": 2477,
+    "string_course": 46,
+    "vegetation": 43,
+    "window": 2794,
     "window_accessory": 337
    },
-   "placed": 3917,
-   "radius_m": 120.0,
-   "records_in_range": 3956,
+   "placed": 4312,
+   "radius_m": 166.3096114080006,
+   "records_in_range": 7015,
    "stale_registry_ids": {},
    "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
@@ -306,7 +305,7 @@
     "t_1_-2",
     "t_1_-3"
    ],
-   "triangles": 1271567,
+   "triangles": 1364329,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -321,21 +320,227 @@
    "skipped_detail": [],
    "triangles": 0
   },
+  "materials": {
+   "dressed": {
+    "asphalt": {
+     "asset_id": "Asphalt025A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 3.0,
+     "resolution": "2K"
+    },
+    "brown_brick": {
+     "asset_id": "Bricks054",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K"
+    },
+    "brownstone": {
+     "asset_id": "Travertine005",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K"
+    },
+    "concrete": {
+     "asset_id": "Concrete030",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "concrete_sidewalk": {
+     "asset_id": "Concrete036",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "physical_size_m": 1.5,
+     "resolution": "2K"
+    },
+    "granite": {
+     "asset_id": "Granite002A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K"
+    },
+    "limestone": {
+     "asset_id": "Travertine009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.5,
+     "resolution": "2K"
+    },
+    "metal_panel": {
+     "asset_id": "Metal032",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.0,
+     "resolution": "2K"
+    },
+    "precast": {
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "red_brick": {
+     "asset_id": "Bricks082A",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 3.24,
+     "resolution": "2K"
+    },
+    "roof_membrane": {
+     "asset_id": "Rubber004",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "stone_rubble": {
+     "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "stucco": {
+     "asset_id": "Plaster001",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "tan_brick": {
+     "asset_id": "Bricks029",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.835,
+     "resolution": "2K"
+    },
+    "tar_roof": {
+     "asset_id": "Asphalt018",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "vinyl_siding": {
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K"
+    },
+    "white_glazed_brick": {
+     "asset_id": "Bricks060",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.08,
+     "resolution": "2K"
+    },
+    "wood_clapboard": {
+     "asset_id": "WoodSiding003",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.032,
+     "resolution": "2K"
+    }
+   },
+   "enabled": true,
+   "flat": {
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
+   },
+   "resolution": "2K",
+   "slots": 166
+  },
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 361,
-    "curb": 167,
-    "marking_white": 6647,
-    "marking_yellow": 178,
-    "median": 28,
-    "parking_lot": 52,
-    "plaza": 2,
-    "roadbed": 309,
-    "sidewalk": 166
+    "crosswalk": 451,
+    "curb": 2895,
+    "marking_white": 7648,
+    "marking_yellow": 192,
+    "median": 63,
+    "parking_lot": 212,
+    "plaza": 23,
+    "roadbed": 3340,
+    "sidewalk": 4326
    },
-   "placed": 7910,
-   "radius_m": 720.0,
+   "placed": 19150,
+   "radius_m": 766.3096114080006,
    "tiles_missing": [],
    "tiles_read": [
     "t_0_-2",
@@ -345,44 +550,40 @@
     "t_2_-2",
     "t_2_-3"
    ],
-   "triangles": 141552,
+   "triangles": 180078,
    "triangles_cut_for_landmark_ground": 0,
-   "vertices": 157114
+   "vertices": 218160
   },
   "props": {
-   "capped": "triangle budget 1259886",
-   "impostor_cards_dropped": 21,
+   "capped": "triangle budget 1245811",
+   "impostor_cards_dropped": 17,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
-    "curb_ramp": 40
+    "curb_ramp": 30
    },
-   "leaf_off": true,
+   "leaf_off": false,
    "per_kind": {
     "citibike_dock": 1,
-    "cooling_tower": 1,
-    "hydrant": 21,
+    "hydrant": 16,
     "mailbox": 1,
-    "manhole": 49,
-    "street_lamp": 54,
-    "tree": 235,
-    "waste_basket": 1
+    "manhole": 36,
+    "street_lamp": 39,
+    "tree": 168
    },
-   "placed": 363,
-   "radius_m": 250.0,
-   "rows_in_range": 634,
+   "placed": 261,
+   "radius_m": 296.3096114080006,
+   "rows_in_range": 958,
    "tiles_missing": [],
    "tiles_read": [
     "t_1_-2",
     "t_1_-3"
    ],
-   "tree_species_substituted": 87,
-   "triangles": 1261418,
-   "unmapped_kinds": {
-    "parks_comfort_station": 1
-   }
+   "tree_species_substituted": 67,
+   "triangles": 1252282,
+   "unmapped_kinds": {}
   },
-  "radius_m": 720.0,
-  "seconds": 100.7,
+  "radius_m": 766.3096114080006,
+  "seconds": 156.83,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -391,27 +592,27 @@
    "near_m": 150.0,
    "near_spacing_m": 2.0,
    "quads_cut_for_landmark_ground": 0,
-   "samples": 211,
+   "samples": 213,
    "spacing_m": 2.0,
-   "triangles": 88200,
+   "triangles": 89888,
    "water_bodies": [],
    "water_quads": 0,
-   "z_max_m": 27.86,
-   "z_min_m": 11.16
+   "z_max_m": 28.63,
+   "z_min_m": 13.1
   },
-  "triangles": 4500013
+  "triangles": 4500194
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
   "agent_vehicle_radius_m": 320.0,
-  "kit_radius_m": 120.0,
-  "prop_radius_m": 250.0,
-  "radius_m": 720.0
+  "kit_radius_m": 166.3096114080006,
+  "prop_radius_m": 296.3096114080006,
+  "radius_m": 766.3096114080006
  },
  "seconds": {
-  "render": 115.4,
-  "scene": 102.4,
-  "total": 217.8
+  "render": 119.7,
+  "scene": 158.6,
+  "total": 278.3
  },
  "sightline": {
   "subject_note": "the item names no point subject",
@@ -424,11 +625,11 @@
   "name": null
  },
  "sun": {
-  "azimuth_deg": 159.049335287075,
-  "elevation_deg": 24.85994770831207,
-  "local": "2019-11-30T10:22:34-05:00",
-  "time_source": "EXIF DateTimeOriginal",
-  "utc": "2019-11-30T15:22:34Z"
+  "azimuth_deg": 95.34503654131618,
+  "elevation_deg": 43.542937617935,
+  "local": "2013-06-21T09:30:00-04:00",
+  "time_source": "photograph year only; 21 June 09:30 assumed",
+  "utc": "2013-06-21T13:30:00Z"
  },
  "viewpoint": {
   "azimuth_deg": 351.4,
