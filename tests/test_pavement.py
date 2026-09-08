@@ -331,3 +331,88 @@ def test_one_polygon_gets_one_centreline():
     # Continuity: a carriageway does not step. Consecutive samples a few metres apart stay close.
     step = np.abs(np.diff(z))
     assert step.max() < 3.0, f"the bound surface steps by {step.max():.2f} m along one centreline"
+
+
+# --------------------------------------------------------------------------------- curb ramps (J21)
+
+
+def test_a_ramps_run_comes_from_its_measured_slope():
+    """The DOT inventory publishes each ramp's running slope; the run is the kerb over the slope."""
+    import pvlib
+
+    assert pvlib.RAMP_DROP_M == pytest.approx(0.15), "the kerb reveal is the sidewalk lift minus the roadbed's"
+    assert pvlib.ramp_run_m(8.33) == pytest.approx(0.15 / 0.0833, rel=1e-6), "the ADA maximum"
+    assert pvlib.ramp_run_m(11.6) < pvlib.ramp_run_m(5.5), "a steeper ramp is a shorter one"
+    # The file's slopes reach under 1 % and over 20 %; both ends are clamped rather than believed.
+    assert pvlib.ramp_run_m(0.4) == pytest.approx(pvlib.RAMP_RUN_M[1])
+    assert pvlib.ramp_run_m(40.0) == pytest.approx(pvlib.RAMP_RUN_M[0])
+    assert pvlib.ramp_run_m(None) == pytest.approx(pvlib.ramp_run_m(pvlib.RAMP_DEFAULT_SLOPE_PCT))
+
+
+def test_a_ramp_descends_from_the_sidewalk_to_the_roadbed():
+    import numpy as np
+    import pvlib
+
+    run, width = 2.73, 1.24
+    ring, (dx, dy) = pvlib.ramp_rect(0.0, 0.0, 1.0, 0.0, width, run)
+    assert ring is not None and (dx, dy) == (1.0, 0.0)
+    lift = pvlib.ramp_lift(np.asarray(ring), 0.0, 0.0, dx, dy, run)
+    assert lift[0] == pytest.approx(pvlib.PAVEMENT_KINDS[1][1]), "the uphill end is the sidewalk"
+    assert lift[2] == pytest.approx(pvlib.PAVEMENT_KINDS[0][1]), "the kerb end is the roadbed"
+    # and it is a plane, not a step: halfway along, halfway down
+    mid = pvlib.ramp_lift(np.array([[0.0, 0.0]]), 0.0, 0.0, dx, dy, run)
+    assert mid[0] == pytest.approx((pvlib.PAVEMENT_KINDS[0][1] + pvlib.PAVEMENT_KINDS[1][1]) / 2.0)
+
+
+def test_a_ramp_is_the_right_size_and_squared_to_its_own_direction():
+    import numpy as np
+    import pvlib
+
+    ring, _ = pvlib.ramp_rect(10.0, 20.0, 0.0, 1.0, 1.5, 2.0)
+    r = np.asarray(ring)
+    assert r[:, 0].max() - r[:, 0].min() == pytest.approx(1.5), "width is across the descent"
+    assert r[:, 1].max() - r[:, 1].min() == pytest.approx(2.0), "run is along it"
+
+
+def test_a_ramp_walks_on_the_sidewalk_not_on_the_road():
+    """`SurfaceClass::Sidewalk`, like the sidewalk it is cut into, not the asphalt it descends to."""
+    import pvlib
+
+    assert pvlib.surface_class(8, 1) == 9
+    assert pvlib.material_name(8, 1) == "pave_curb_ramp_concrete"
+
+
+def test_the_ramps_reached_the_built_tiles():
+    """Every ramp in a built tile is built, or the manifest says which and why not."""
+    import json
+
+    manifests = sorted((REPO_ROOT / "blender_out" / "tiles").glob("*/pavement_manifest.json"))
+    with_ramps = []
+    for p in manifests:
+        d = json.loads(p.read_text())
+        r = d.get("curb_ramps")
+        if r and r.get("ramps"):
+            with_ramps.append((p.parent.name, r))
+    if not with_ramps:
+        pytest.skip("no tile has been built since the ramps were added")
+    total = sum(r["ramps"] for _t, r in with_ramps)
+    built = sum(r["built"] for _t, r in with_ramps)
+    assert built / total > 0.9, f"only {built} of {total} surveyed ramps were built"
+    for tile, r in with_ramps:
+        assert r["built"] + r["no_roadbed"] + r["no_triangulation"] + r["no_terrain"] == r["ramps"], (
+            f"{tile}: the ramp counts do not add up: {r}")
+
+
+def test_the_ramp_is_left_out_of_the_draping_residual_and_says_so():
+    """Its lift is not a constant, so a metric that subtracts one lift per object cannot read it."""
+    import json
+
+    for p in sorted((REPO_ROOT / "blender_out" / "tiles").glob("*/pavement_manifest.json")):
+        d = json.loads(p.read_text())
+        if not (d.get("curb_ramps") or {}).get("built"):
+            continue
+        res = d.get("draping_residual_m") or {}
+        assert any("curb_ramp" in n for n in res.get("excluded_variable_lift", [])), (
+            f"{p.parent.name}: the ramp mesh is in the residual, which reads its slope as error")
+        return
+    pytest.skip("no tile with ramps has been built")

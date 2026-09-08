@@ -5,6 +5,8 @@ skirts -- can be tested without Blender.  Nothing here imports ``bpy``.
 """
 from __future__ import annotations
 
+import math
+
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -33,6 +35,11 @@ PAVEMENT_KINDS: dict[int, tuple[str, float, float]] = {
     5: ("crosswalk", 0.115, 0.02),
     6: ("parking_lot", 0.10, 0.30),
     7: ("driveway", 0.10, 0.30),
+    # A curb ramp is not a planimetric class -- the pavement survey has no ramp polygon. It is
+    # generated from the DOT pedestrian-ramp inventory, which publishes each ramp's *measured* width
+    # and running slope, and it is the one pavement kind whose lift is not constant: it descends from
+    # the sidewalk's 0.25 m to the roadbed's 0.10 m over the run that its own slope implies.
+    8: ("curb_ramp", 0.10, 0.35),
 }
 
 #: ``surface`` -> name (``pipeline/nycsim_pipeline/roads/schema.py``).
@@ -48,7 +55,7 @@ SURFACE_TO_CLASS = {0: 1, 1: 2, 2: 3, 3: 4, 4: 6, 5: 7}
 #: made of: a crosswalk is paint on top of asphalt (``PaintedMarking``, µ 0.60 wet against asphalt's
 #: 0.70), and a sidewalk is concrete the car is not supposed to be on (``Sidewalk``, which the
 #: friction table gives its own entry).
-KIND_FORCES_CLASS = {1: 9, 5: 5}
+KIND_FORCES_CLASS = {1: 9, 5: 5, 8: 9}
 
 #: Names of ``SurfaceClass``, for the manifest and the physical-material assets.
 SURFACE_CLASS_NAMES = {0: "Default", 1: "Asphalt", 2: "Concrete", 3: "Cobble", 4: "SteelPlate",
@@ -67,6 +74,76 @@ def material_name(kind: int, surface: int) -> str:
     k = PAVEMENT_KINDS.get(int(kind), ("unknown", 0.0, 0.0))[0]
     s = SURFACE_NAMES.get(int(surface), f"surface{int(surface)}")
     return f"pave_{k}_{s}"
+
+
+# --------------------------------------------------------------------------- curb ramps
+
+#: The kerb reveal a ramp has to descend, metres: the sidewalk's lift minus the roadbed's.
+RAMP_DROP_M = PAVEMENT_KINDS[1][1] - PAVEMENT_KINDS[0][1]
+
+#: Bounds on a ramp's measured width, metres. The DOT inventory's median is 1.24 m and its 90th
+#: percentile 1.54, which is the ADA minimum of 36 in plus a flare; the maximum in the file is
+#: 25.38 m, which is a blended corner recorded as one ramp rather than a ramp. Clamping is stated
+#: rather than silent: the count outside the band is reported per tile.
+RAMP_WIDTH_M = (0.90, 4.00)
+
+#: Bounds on the run a ramp's slope implies, metres. ADA allows 1:12 (8.33 %), which over a 0.15 m
+#: kerb is 1.8 m; the file's slopes run from under 1 % to over 20 %, and a 1 % ramp would imply a
+#: 15 m run that no New York corner has.
+RAMP_RUN_M = (0.60, 4.00)
+
+#: Default running slope where the inventory records none, per cent. The ADA maximum, which is what
+#: a ramp built to the standard is.
+RAMP_DEFAULT_SLOPE_PCT = 8.33
+
+#: How far the ramp's lip reaches past the kerb face into the roadway, metres. A ramp meets the
+#: gutter flush; a lip that stops exactly at the kerb line would leave a hairline step where the two
+#: surfaces meet. Measured against the survey: the DOT ramp point sits a median 0.76 m back from the
+#: roadbed edge, on the sidewalk, so the rectangle is anchored on the **edge** rather than centred on
+#: the point -- which puts the ramp where the kerb is instead of 0.76 m behind it.
+RAMP_TOE_M = 0.10
+
+
+def ramp_rect(px: float, py: float, dx: float, dy: float, width_m: float, run_m: float):
+    """The four corners of a ramp, and the unit descent direction, in NYC_TM.
+
+    Returned counter-clockwise starting at the uphill left corner, so the first two vertices are the
+    sidewalk end and the last two the kerb end -- which is the order :func:`ramp_lift` expects.
+    """
+    n = math.hypot(dx, dy)
+    if n < 1e-9:
+        return None, (0.0, 0.0)
+    dx, dy = dx / n, dy / n
+    nx, ny = -dy, dx
+    hw, hr = width_m / 2.0, run_m / 2.0
+    up = (px - dx * hr, py - dy * hr)
+    dn = (px + dx * hr, py + dy * hr)
+    ring = [(up[0] + nx * hw, up[1] + ny * hw),
+            (up[0] - nx * hw, up[1] - ny * hw),
+            (dn[0] - nx * hw, dn[1] - ny * hw),
+            (dn[0] + nx * hw, dn[1] + ny * hw)]
+    return ring, (dx, dy)
+
+
+def ramp_lift(pts, px: float, py: float, dx: float, dy: float, run_m: float):
+    """Per-vertex lift over a ramp: the sidewalk's at the uphill end, the roadbed's at the kerb.
+
+    Linear in the descent direction and clamped at both ends, so a triangle that the refinement put
+    outside the rectangle still lands on one of the two surfaces the ramp joins rather than
+    extrapolating past them.
+    """
+    import numpy as _np
+
+    rel = ((_np.asarray(pts)[:, 0] - px) * dx + (_np.asarray(pts)[:, 1] - py) * dy)
+    t = _np.clip(rel / max(run_m, 1e-6) + 0.5, 0.0, 1.0)
+    return PAVEMENT_KINDS[1][1] - t * RAMP_DROP_M
+
+
+def ramp_run_m(slope_pct: float) -> float:
+    """How long a ramp is, from the kerb it descends and the slope the inventory measured."""
+    s = float(slope_pct) if slope_pct and math.isfinite(float(slope_pct)) and float(slope_pct) > 0 \
+        else RAMP_DEFAULT_SLOPE_PCT
+    return min(RAMP_RUN_M[1], max(RAMP_RUN_M[0], RAMP_DROP_M / (s / 100.0)))
 
 
 # --------------------------------------------------------------------------- triangulation

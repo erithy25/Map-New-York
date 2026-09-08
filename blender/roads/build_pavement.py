@@ -199,11 +199,150 @@ def _outside(cut, xs: np.ndarray, ys: np.ndarray) -> np.ndarray:
 # --------------------------------------------------------------------------- one tile
 
 
+# --------------------------------------------------------------------------- curb ramps
+
+#: The props table, which is where the DOT pedestrian-ramp inventory lands (furniture kind 9).
+PROPS_DIR = PROCESSED / "tiles"
+
+#: Prop kind of a DOT pedestrian ramp.
+RAMP_KIND = 9
+
+#: How far outside the tile a ramp may sit and still be built into it: a ramp on the boundary has
+#: half its rectangle in each tile, and drawing it twice is better than drawing half of it.
+RAMP_MARGIN_M = 6.0
+
+#: How far a ramp may be from a roadbed edge and still be given that edge's direction, metres.
+#: A ramp is at a kerb by definition; one with no roadbed within this is in a plaza or a parking
+#: lot the pavement survey did not connect, and it is dropped rather than pointed somewhere.
+RAMP_ROADBED_SEARCH_M = 12.0
+
+
+def load_ramps(tile: str, bounds: tuple[float, float, float, float]) -> list[dict]:
+    """The surveyed pedestrian ramps of this tile and the strip of its neighbours around it.
+
+    Each row carries the DOT inventory's own ``width_m`` and ``running_slope_pct``, which is what
+    makes the ramp a measurement rather than a shape: the run is the kerb reveal divided by the
+    measured slope, and the width is the measured width.
+    """
+    import pyarrow.parquet as pq
+
+    x0, y0, x1, y1 = bounds
+    out: list[dict] = []
+    tx, ty = parse_tile(tile)
+    for dx in (-1, 0, 1):
+        for dy in (-1, 0, 1):
+            path = PROPS_DIR / f"t_{tx + dx}_{ty + dy}" / "props.parquet"
+            if not path.is_file():
+                continue
+            try:
+                t = pq.read_table(path, columns=["kind", "x", "y", "attrs"])
+            except Exception as exc:  # noqa: BLE001
+                LOG.warning("%s: props unreadable: %s", path, exc)
+                continue
+            kind = np.asarray(t.column("kind").to_numpy(zero_copy_only=False))
+            idx = np.nonzero(kind == RAMP_KIND)[0]
+            if not len(idx):
+                continue
+            xs = np.asarray(t.column("x").to_numpy(zero_copy_only=False))
+            ys = np.asarray(t.column("y").to_numpy(zero_copy_only=False))
+            attrs = t.column("attrs").to_pylist()
+            for i in idx:
+                px, py = float(xs[i]), float(ys[i])
+                if not (x0 - RAMP_MARGIN_M <= px <= x1 + RAMP_MARGIN_M
+                        and y0 - RAMP_MARGIN_M <= py <= y1 + RAMP_MARGIN_M):
+                    continue
+                try:
+                    a = json.loads(attrs[i] or "{}")
+                except (TypeError, json.JSONDecodeError):
+                    a = {}
+                out.append({"x": px, "y": py,
+                            "width_m": a.get("width_m"), "slope_pct": a.get("running_slope_pct"),
+                            "ramp_id": a.get("ramp_id"), "dws": a.get("dws")})
+    return out
+
+
+def ramp_slabs(ramps, roadbeds, sampler, x0: float, y0: float, cell_m: float,
+               min_edge_m: float, max_edge_m: float):
+    """``(SlabBuffer, cut polygons, report)`` for the ramps of one tile.
+
+    The direction a ramp descends is not in the inventory -- every row's ``heading`` is NaN -- so it
+    is taken from the pavement itself: the nearest point on a roadbed polygon's boundary is where
+    the kerb is, and the ramp runs at it. A ramp with no roadbed within
+    :data:`RAMP_ROADBED_SEARCH_M` is dropped rather than pointed in a guessed direction.
+    """
+    import shapely
+
+    buf = pvlib.SlabBuffer(kind=8, surface=1)
+    rects = []
+    rep = {"ramps": len(ramps), "built": 0, "no_roadbed": 0, "no_triangulation": 0,
+           "no_terrain": 0, "width_clamped": 0, "slope_missing": 0}
+    if not ramps or not roadbeds:
+        rep["no_roadbed"] = len(ramps)
+        return buf, rects, rep
+    tree = shapely.STRtree(roadbeds)
+    for r in ramps:
+        pt = shapely.Point(r["x"], r["y"])
+        near = tree.query(shapely.buffer(pt, RAMP_ROADBED_SEARCH_M), predicate="intersects")
+        if not len(near):
+            rep["no_roadbed"] += 1
+            continue
+        j = int(min(near, key=lambda k: shapely.distance(pt, roadbeds[int(k)])))
+        edge = shapely.get_exterior_ring(roadbeds[j])
+        q = shapely.line_interpolate_point(edge, shapely.line_locate_point(edge, pt))
+        dx, dy = float(q.x - r["x"]), float(q.y - r["y"])
+        if math.hypot(dx, dy) < 1e-6:
+            rep["no_roadbed"] += 1
+            continue
+        w = r["width_m"]
+        try:
+            w = float(w)
+        except (TypeError, ValueError):
+            w = None
+        if w is None or not math.isfinite(w):
+            w = pvlib.RAMP_WIDTH_M[0]
+        wc = min(pvlib.RAMP_WIDTH_M[1], max(pvlib.RAMP_WIDTH_M[0], w))
+        if abs(wc - w) > 1e-6:
+            rep["width_clamped"] += 1
+        if r["slope_pct"] in (None, ""):
+            rep["slope_missing"] += 1
+        run = pvlib.ramp_run_m(r["slope_pct"])
+        # Anchor the ramp on the kerb, not on the survey point: the point is a median 0.76 m back
+        # from the roadbed edge, so a rectangle centred on it would sit that far up the sidewalk.
+        n = math.hypot(dx, dy)
+        ux0, uy0 = dx / n, dy / n
+        cx = float(q.x) - ux0 * (run / 2.0 - pvlib.RAMP_TOE_M)
+        cy = float(q.y) - uy0 * (run / 2.0 - pvlib.RAMP_TOE_M)
+        ring, (ux, uy) = pvlib.ramp_rect(cx, cy, dx, dy, wc, run)
+        if ring is None:
+            rep["no_roadbed"] += 1
+            continue
+        poly = shapely.Polygon(ring)
+        pts, tris = pvlib.grid_triangulate(poly, min(cell_m, 0.6))
+        if len(tris) == 0:
+            rep["no_triangulation"] += 1
+            continue
+        pts, tris = pvlib.refine_to_terrain(pts, tris, sampler.height, tol_m=0.02,
+                                            min_edge_m=0.25, max_edge_m=min(max_edge_m, 1.5))
+        z = sampler.height(pts[:, 0], pts[:, 1])
+        if np.isnan(z).all():
+            rep["no_terrain"] += 1
+            continue
+        if np.isnan(z).any():
+            z = np.where(np.isnan(z), float(np.nanmedian(z)), z)
+        lift = pvlib.ramp_lift(pts, cx, cy, ux, uy, run)
+        buf.add_polygon(pts - np.array([x0, y0]), z + lift, tris,
+                        pvlib.PAVEMENT_KINDS[8][2], road_line=-1)
+        rects.append(poly)
+        rep["built"] += 1
+    return buf, rects, rep
+
+
 def build_tile(tile: str, *, out_root: Path = OUT_ROOT, tol_m: float = DEFAULT_TOL_M,
                tol_fraction: float = DEFAULT_TOL_FRACTION, cell_m: float = DEFAULT_CELL_M,
                min_edge_m: float = DEFAULT_MIN_EDGE_M, max_edge_m: float = DEFAULT_MAX_EDGE_M,
                simplify_m: float = DEFAULT_SIMPLIFY_M, skirt_kinds=DEFAULT_SKIRT_KINDS,
-               cut_landmark_ground: bool = True, road_z: bool = True) -> dict:
+               cut_landmark_ground: bool = True, road_z: bool = True,
+               with_ramps: bool = True) -> dict:
     import mapbox_earcut as earcut
     import nycsim_bpy as nb
     import pyarrow.parquet as pq
@@ -228,6 +367,25 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, tol_m: float = DEFAULT_T
         if road_z and SEGMENTS_PARQUET.exists() else None
     cut = load_landmark_ground((x0, y0, x0 + TILE_SIZE_M, y0 + TILE_SIZE_M)) if cut_landmark_ground else []
 
+    # The surveyed pedestrian ramps, and the roadbed polygons that say which way each one descends.
+    # Built before the main loop because the kerb has to be cut where a ramp crosses it: a ramp that
+    # runs down to a 0.15 m step at the bottom is not a ramp.
+    ramps = load_ramps(tile, (x0, y0, x0 + TILE_SIZE_M, y0 + TILE_SIZE_M)) if with_ramps else []
+    roadbeds = []
+    if ramps:
+        for kind, blob in zip(kinds, geoms):
+            if int(kind) != 0:
+                continue
+            try:
+                g = shapely.from_wkb(blob)
+            except Exception:  # noqa: BLE001
+                continue
+            roadbeds.extend(list(g.geoms) if g.geom_type == "MultiPolygon"
+                            else ([g] if g.geom_type == "Polygon" else []))
+    ramp_buf, ramp_rects, ramp_report = ramp_slabs(
+        ramps, roadbeds, sampler, x0, y0, cell_m, min_edge_m, max_edge_m) if ramps else (None, [], {})
+    ramp_cut = shapely.union_all(ramp_rects) if ramp_rects else None
+
     t_load = time.perf_counter() - t0
     t1 = time.perf_counter()
     slabs: dict[tuple[int, int], pvlib.SlabBuffer] = {}
@@ -250,6 +408,11 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, tol_m: float = DEFAULT_T
             continue
         if simplify_m > 0.0:
             g = shapely.simplify(g, simplify_m, preserve_topology=True)
+        if ramp_cut is not None and k == 4:
+            # The kerb is the 0.15 m step; a ramp is the place there is no step. Cutting the kerb
+            # polygon rather than drawing the ramp over it keeps the two from fighting over the same
+            # surface, and leaves a real opening at the bottom of the ramp.
+            g = shapely.difference(g, ramp_cut)
         parts = list(g.geoms) if g.geom_type == "MultiPolygon" else ([g] if g.geom_type == "Polygon" else [])
         if not parts:
             dropped["not_a_polygon"] += 1
@@ -296,6 +459,10 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, tol_m: float = DEFAULT_T
                             road_line=line if elevated else -1)
             seed_of.setdefault((k, s), []).append(float(int(seed) % 65536) / 65536.0)
             per_kind[name] = per_kind.get(name, 0) + 1
+    if ramp_buf is not None and ramp_buf.faces:
+        slabs[(8, 1)] = ramp_buf
+        seed_of.setdefault((8, 1), []).append(0.5)
+        per_kind["curb_ramp"] = ramp_report.get("built", 0)
     t_geom = time.perf_counter() - t1
 
     # ---- Blender assembly ----------------------------------------------------------------------
@@ -319,6 +486,11 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, tol_m: float = DEFAULT_T
             "surface_name": pvlib.SURFACE_NAMES.get(s, str(s)),
             "surface_class": cls, "surface_class_name": pvlib.SURFACE_CLASS_NAMES.get(cls, str(cls)),
             "lift_m": lift, "skirt_m": skirt if k in skirt_kinds else 0.0,
+            # A curb ramp's lift is not a constant -- it descends from the sidewalk's 0.25 m to the
+            # roadbed's 0.10 m over its measured run -- so the draping residual, which subtracts one
+            # lift per object, cannot read it. It is excluded there rather than reported as a
+            # 150 mm error that is the ramp doing its job.
+            "variable_lift": k == 8,
             "origin_m": [x0, y0, 0.0],
         })
         objects.append(ob)
@@ -385,6 +557,7 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, tol_m: float = DEFAULT_T
                        "min_edge_m": min_edge_m, "max_edge_m": max_edge_m,
                        "simplify_m": simplify_m},
         "skirt_kinds": sorted(skirt_kinds),
+        "curb_ramps": ramp_report,
         "draping_residual_m": residual,
         "bounds_local_m": {"min": _fin(lo), "max": _fin(hi)},
         "origin_m": [x0, y0, 0.0],
@@ -436,7 +609,11 @@ def _draping_residual(objects, sampler: LandscapeSampler, roads, x0: float, y0: 
 
     xs, ys, zs, lifts, on_road = [], [], [], [], []
     rng = np.random.default_rng(0x4E5943)
+    excluded = []
     for ob in objects:
+        if ob.get("variable_lift"):
+            excluded.append(ob.name)
+            continue
         me = ob.data
         n = len(me.polygons)
         if n == 0:
@@ -467,7 +644,7 @@ def _draping_residual(objects, sampler: LandscapeSampler, roads, x0: float, y0: 
         lifts.append(np.full(take, lift))
         on_road.append(road_flags[idx])
     if not xs:
-        return {}
+        return {"excluded_variable_lift": excluded}
     x = np.concatenate(xs)
     y = np.concatenate(ys)
     z = np.concatenate(zs)
@@ -504,7 +681,8 @@ def _draping_residual(objects, sampler: LandscapeSampler, roads, x0: float, y0: 
             "note": ("sampled at random points inside the shipped top faces. abs_* is |draped top - "
                      "landscape| with the lift removed, the draping error itself. pierced_* is "
                      "landscape - top surface: positive means bare terrain rises through the "
-                     "pavement, which is the only side of the error that is visible.")}
+                     "pavement, which is the only side of the error that is visible."),
+            "excluded_variable_lift": excluded}
 
 
 def _make_object(name: str, pos: np.ndarray, tri: np.ndarray, is_top: np.ndarray,
@@ -562,6 +740,10 @@ _LOOK = {
     5: ((0.62, 0.62, 0.60, 1.0), 0.75),
     6: ((0.075, 0.075, 0.078, 1.0), 0.85),
     7: ((0.075, 0.075, 0.078, 1.0), 0.85),
+    # A curb ramp is the same concrete as the sidewalk it is cut into, a little lighter where it is
+    # newer than what is around it, and its detectable warning surface is a separate material the
+    # kit does not have yet -- so the ramp is one flat concrete for now (DEVIATIONS J21).
+    8: ((0.46, 0.455, 0.44, 1.0), 0.86),
 }
 
 
