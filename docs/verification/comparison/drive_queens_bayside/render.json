@@ -56,11 +56,16 @@
   "direction": "onto the nearest sidewalk",
   "min_view_m": 20.0,
   "moved": true,
-  "nearest_obstruction_m": 14.9,
-  "note": "the recorded viewpoint is hard against t_15_7_struct_station_house (0.1 m ahead along the view azimuth); the camera was moved 32 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there",
+  "nearest_obstruction": "prop_tree_honeylocust_large_24",
+  "nearest_obstruction_at_deg": [
+   27.2,
+   21.1
+  ],
+  "nearest_obstruction_m": 18.8,
+  "note": "the recorded viewpoint is hard against t_15_7_struct_station_house (0.1 m ahead along the view azimuth); the camera was moved 32 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there, and the nearest solid thing anywhere in the frame is prop_tree_honeylocust_large_24 18.8 m away at +27 deg yaw, +21 deg pitch",
   "offset_m": 32.2,
   "reason": "hard against t_15_7_struct_station_house (0.1 m ahead along the view azimuth)",
-  "rule": "pavement snap with a clear view",
+  "rule": "pavement snap with a clear frame",
   "view_m": 60.0
  },
  "frame": {
@@ -107,7 +112,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_queens_bayside/render.png",
- "rendered_at": "2026-09-08T06:18:17Z",
+ "rendered_at": "2026-09-08T07:21:33Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -138,7 +143,7 @@
    "placed_pedestrians": 263,
    "placed_vehicles": 73,
    "reason": null,
-   "seconds": 39.22,
+   "seconds": 32.8,
    "snapshot": {
     "building_footprints_tested": 7915,
     "density_lane_km": 28.728,
@@ -177,7 +182,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 191
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached 15030_7011_14_0_b99e22c6e0d5c6e0_1788844608.json",
    "triangle_budget": 1125000,
    "triangles": 766598,
    "vehicle_lods": {
@@ -348,7 +353,7 @@
    "unmapped_kinds": {}
   },
   "radius_m": 720.0,
-  "seconds": 85.96,
+  "seconds": 58.61,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -375,9 +380,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 105.0,
-  "scene": 86.7,
-  "total": 191.7
+  "render": 83.7,
+  "scene": 59.3,
+  "total": 143.0
  },
  "slug": "drive_queens_bayside",
  "status": "rendered",
