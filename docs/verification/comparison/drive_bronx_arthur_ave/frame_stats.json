@@ -1,0 +1,30 @@
+{
+ "slug": "drive_bronx_arthur_ave",
+ "rendered_at": "2026-09-08T14:48:06Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 854,
+  "mean": 0.2258,
+  "sd": 0.1654,
+  "p05": 0.0,
+  "p95": 0.4721,
+  "chroma": 0.05
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1280,
+  "mean": 0.392,
+  "sd": 0.2686,
+  "p05": 0.0519,
+  "p95": 0.875,
+  "chroma": 0.0921
+ },
+ "render_over_reference": {
+  "mean": 0.576,
+  "sd": 0.616,
+  "chroma": 0.543
+ }
+}

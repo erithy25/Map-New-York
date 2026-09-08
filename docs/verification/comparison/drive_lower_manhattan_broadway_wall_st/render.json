@@ -73,9 +73,9 @@
   "view_m": 59.3
  },
  "frame": {
-  "mean": 0.3797,
+  "mean": 0.2981,
   "reason": null,
-  "sd": 0.1974,
+  "sd": 0.1638,
   "usable": true
  },
  "frame_retry": null,
@@ -116,7 +116,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_lower_manhattan_broadway_wall_st/render.png",
- "rendered_at": "2026-09-08T14:24:44Z",
+ "rendered_at": "2026-09-08T15:11:49Z",
  "resolution_note": "1112x980; the reference photograph is 1920x1693 (1.13:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -154,7 +154,7 @@
    "placed_pedestrians": 242,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 299.61,
+   "seconds": 259.98,
    "snapshot": {
     "building_footprints_tested": 1416,
     "density_lane_km": 30.259,
@@ -265,7 +265,7 @@
    871.11
   ],
   "kit": {
-   "capped": "triangle budget 1110261",
+   "capped": "triangle budget 1097248",
    "per_category": {
     "bulkhead": 9,
     "cornice": 15,
@@ -279,20 +279,20 @@
     "storefront_interior": 10,
     "string_course": 15,
     "water_tower": 4,
-    "window": 3601,
+    "window": 3557,
     "window_accessory": 4
    },
-   "placed": 3902,
+   "placed": 3858,
    "radius_m": 176.17658167829075,
    "records_in_range": 37613,
    "stale_registry_ids": {},
-   "suppressed_with_landmark_shells": 4821,
+   "suppressed_with_landmark_shells": 4769,
    "tiles_missing": [],
    "tiles_read": [
     "t_-6_0",
     "t_-6_1"
    ],
-   "triangles": 1110436,
+   "triangles": 1097298,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -562,6 +562,17 @@
      "physical_size_m": 1.0,
      "resolution": "2K"
     },
+    "precast": {
+     "asset_id": "Concrete034",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
     "red_brick": {
      "asset_id": "Bricks082A",
      "maps": [
@@ -586,6 +597,17 @@
     },
     "stone_rubble": {
      "asset_id": "Bricks102",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 2.0,
+     "resolution": "2K"
+    },
+    "stucco": {
+     "asset_id": "Plaster001",
      "maps": [
       "color",
       "normal",
@@ -628,6 +650,17 @@
      "physical_size_m": 1.5,
      "resolution": "2K"
     },
+    "vinyl_siding": {
+     "asset_id": "WoodSiding009",
+     "maps": [
+      "color",
+      "normal",
+      "roughness"
+     ],
+     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
+     "physical_size_m": 1.626,
+     "resolution": "2K"
+    },
     "white_glazed_brick": {
      "asset_id": "Bricks060",
      "maps": [
@@ -653,10 +686,7 @@
    },
    "enabled": true,
    "flat": {
-    "glass_curtain": "analytic: the catalogue has no photographic set for it",
-    "precast": "analytic: the catalogue has no photographic set for it",
-    "stucco": "analytic: the catalogue has no photographic set for it",
-    "vinyl_siding": "analytic: the catalogue has no photographic set for it"
+    "glass_curtain": "analytic: the catalogue has no photographic set for it"
    },
    "resolution": "2K",
    "slots": 210
@@ -664,17 +694,17 @@
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 642,
-    "curb": 1258,
+    "crosswalk": 755,
+    "curb": 3852,
     "marking_white": 12518,
     "marking_yellow": 290,
-    "median": 97,
-    "parking_lot": 13,
-    "plaza": 78,
-    "roadbed": 493,
-    "sidewalk": 252
+    "median": 376,
+    "parking_lot": 34,
+    "plaza": 787,
+    "roadbed": 4534,
+    "sidewalk": 5222
    },
-   "placed": 15641,
+   "placed": 28368,
    "radius_m": 776.1765816782907,
    "tiles_missing": [],
    "tiles_read": [
@@ -683,12 +713,12 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "triangles": 229282,
-   "triangles_cut_for_landmark_ground": 413,
-   "vertices": 260611
+   "triangles": 253823,
+   "triangles_cut_for_landmark_ground": 786,
+   "vertices": 311105
   },
   "props": {
-   "capped": "triangle budget 1184678",
+   "capped": "triangle budget 1176089",
    "impostor_cards_dropped": 5,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
@@ -711,10 +741,10 @@
     "subway_emergency_exit": 1,
     "subway_entrance": 25,
     "subway_vent_grate": 53,
-    "tree": 122,
+    "tree": 120,
     "waste_basket": 18
    },
-   "placed": 537,
+   "placed": 535,
    "radius_m": 306.17658167829075,
    "rows_in_range": 1594,
    "tiles_missing": [],
@@ -724,16 +754,16 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "tree_species_substituted": 116,
-   "triangles": 1189820,
+   "tree_species_substituted": 115,
+   "triangles": 1178292,
    "unmapped_kinds": {
-    "artwork": 7,
+    "artwork": 6,
     "drinking_fountain": 2,
     "memorial": 7
    }
   },
   "radius_m": 776.1765816782907,
-  "seconds": 356.21,
+  "seconds": 315.89,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -786,7 +816,7 @@
    "z_max_m": 13.51,
    "z_min_m": -4.11
   },
-  "triangles": 4500175
+  "triangles": 4500050
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -796,9 +826,9 @@
   "radius_m": 776.1765816782907
  },
  "seconds": {
-  "render": 260.7,
-  "scene": 358.5,
-  "total": 619.2
+  "render": 107.7,
+  "scene": 317.5,
+  "total": 425.2
  },
  "sightline": {
   "subject_note": "the item names no point subject",

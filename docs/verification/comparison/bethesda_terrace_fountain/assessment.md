@@ -16,7 +16,9 @@
 
 This is a **camera-placement failure, not a content failure**, and the cause is recorded rather than inferred. The item's recorded viewpoint is a single lat/lon for a two-level structure, and the eye landed on the upper roof of the terrace model, 93.4 m from the fountain. The photograph's own EXIF GPS is 42.7 m away from that point and **51.4 m from the fountain** — very close to where this picture was actually taken — and the render **rejected** it, for a stated and, in isolation, correct reason: at that position the eye point is under `verify_pavement`, with 1.8 m of ground or paving directly overhead. That is the terrace's *lower arcade*. The photographer was standing on the *upper* deck above it, and the rule that decides an eye height has no way to say "the deck, not the vault under it". So the render discarded the right position because it could only see the wrong storey of it, and fell back to a viewpoint on the roof.
 
-## What the record confirms, in a frame that is otherwise not evidence
+## What matches
+
+**Nothing in the picture does.** The render and the photograph have no object, no surface and no framing in common, for the reason the verdict gives. What follows is what the *record* confirms about the world the frame was drawn from — which is worth stating, and is not the same claim.
 
 * **Every city surface resolves its own material.** 20 photographic surfaces are dressed from the shared CC0 catalogue — asphalt, concrete, concrete_sidewalk, granite, limestone, precast, stucco, vinyl_siding, the four bricks, brownstone, terracotta, cast iron, metal panel, stone rubble, wood clapboard, roof membrane, tar roof — and one, `glass_curtain`, stays analytic by design. This is the first sheet rendered with J63 closed.
 * **The crowd is drawn from the whole cast.** `npc_archetypes_available` is **36** and `npc_archetypes_folded` is absent: no person in this frame stands in for another. Before J62 the renderer drew from twelve bodies.
@@ -24,7 +26,7 @@ This is a **camera-placement failure, not a content failure**, and the cause is 
 * **The day is a Saturday** — 2026-04-18, spelled out in the record rather than left as the day-type code `1` a reader would transcribe as Monday.
 * Nothing was dropped for being missing: 4 of 4 tiles, 0 LOD substitutions, 0 pavement polygons dropped, 0 holes in the ground.
 
-## What is wrong, beyond the viewpoint
+## What does not match, beyond the viewpoint
 
 * **The frame is far too bright and far too pale.** Measured off both halves of the sheet (`frame_stats.json`, written by `tools/frame_stats.py`): mean luminance **0.7329** against the photograph's **0.391** — **1.874×** — and mean chroma **0.0644** against **0.1435**, a ratio of **0.449**, under half the colour variation of the scene it stands for. Tonal spread is short too: sd **0.1561** against **0.2089**, and the render's 5th percentile is **0.5113** where the photograph's is **0.0933** — there is nothing dark anywhere in this frame, and a picture with the Ramble in it has deep shadow all through it. Part of that is the exposure: **+1.10 stops** were opened for a low sun at 20.3° elevation, and the frame it opened is dominated by a pale concrete deck.
 * **There is no water and no canopy where the picture has both.** The scene knows about the Lake — the terrain record names `THE LAKE`, `Turtle Pond`, `The Pond` and `BOAT BASIN` among its water bodies — and the camera is aimed over the parapet rather than at them.

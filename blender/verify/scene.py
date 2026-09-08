@@ -700,6 +700,13 @@ _PAVEMENT_MATERIAL = {
     #   park_*                     -- grass, court acrylic, infield dirt, pool water: DEVIATIONS J40
 }
 
+#: Albedo the road surfaces are normalised to.  ``shellmat`` knows the sixteen shell classes and
+#: returns its 0.6 grey DEFAULT for anything else, so asking it about asphalt would brighten the
+#: road six-fold.  These come from ``PAVEMENT_KINDS`` -- the same numbers the renderer paints an
+#: undressed road with, and sensible albedos in their own right (J66).
+_PAVEMENT_ALBEDO = {"asphalt": (0.055, 0.055, 0.058),
+                    "concrete_sidewalk": (0.34, 0.335, 0.32)}
+
 #: A pavement material with Blender's import suffix.
 _PAVE_MATERIAL = re.compile(r"^(pave_[a-z0-9_]+?)(?:\.\d{3})?$")
 
@@ -804,6 +811,105 @@ def _shellmat_spec(name: str):
         return None
 
 
+#: How far a colour map's level may be scaled to reach the albedo its stage declares.  Four is
+#: two stops, which is as wrong as a photographic exposure plausibly gets; past it the scan is a
+#: different material and scaling only bleaches it (J66).
+ALBEDO_SCALE_CAP = 4.0
+
+#: Mean **linear** albedo of a colour map, by file path.  Reading a 2 K jpeg costs about 50 ms and
+#: there are twenty of them, so it is cached for the process.
+_ALBEDO_CACHE: dict[str, float] = {}
+
+
+def _texture_albedo(path: str) -> float | None:
+    """The mean linear-light value of a colour map, or None if it cannot be read."""
+    if path in _ALBEDO_CACHE:
+        return _ALBEDO_CACHE[path]
+    try:
+        from PIL import Image
+    except ImportError:                                    # pragma: no cover
+        return None
+    try:
+        im = Image.open(path).convert("RGB")
+    except (OSError, ValueError):
+        return None
+    im.thumbnail((256, 256))
+    a = np.asarray(im, dtype=np.float64) / 255.0
+    lin = np.where(a <= 0.04045, a / 12.92, ((a + 0.055) / 1.055) ** 2.4)
+    v = float(lin.mean())
+    _ALBEDO_CACHE[path] = v
+    return v
+
+
+def _normalise_albedo(mat, target_rgb) -> dict | None:
+    """Scale a dressed material's colour map so its mean albedo is the one the stage authored.
+
+    A photographic scan's exposure is a photographer's choice, not a measurement: over the twenty
+    city surfaces the AmbientCG colour maps average **half** the albedo the material's own stage
+    declares, and nine of the twenty are more than twice off -- ``wood_clapboard`` at **0.07x**, a
+    painted clapboard house rendered at seven per cent of its albedo, ``roof_membrane`` at 0.09,
+    ``concrete`` at 0.22, ``cast_iron`` at 3.09 the other way.  Taking the scan's level whole is
+    what made every daylight street render at **0.37 to 0.58** of its reference photograph's mean
+    (docs/DEVIATIONS.md J66).
+
+    So the photograph supplies the *texture* -- grain, mortar lines, the variation between one
+    brick and the next, and its own hue -- and the stage's authored colour supplies the *level*.
+    The scale is a single scalar, deliberately: a per-channel correction would force the scan's
+    hue to the class hue and throw away the one thing about colour the photograph does measure.
+
+    Returns what it did, for the record, or None if the material carries no colour map.
+    """
+    nt = getattr(mat, "node_tree", None)
+    if nt is None:
+        return None
+    img_node = None
+    for n in nt.nodes:
+        if n.type != "TEX_IMAGE" or n.image is None:
+            continue
+        if n.image.colorspace_settings.name == "sRGB":
+            img_node = n
+            break
+    if img_node is None or not img_node.image.filepath:
+        return None
+    path = bpy.path.abspath(img_node.image.filepath)
+    have = _texture_albedo(path)
+    if not have or have <= 1e-6:
+        return None
+    want = float(sum(target_rgb[:3])) / 3.0
+    k = want / have
+    # A scan's exposure can be a stop or two out. It cannot be four stops out and still be a
+    # photograph *of that material*: WoodSiding003 wants 14.0x to reach a painted clapboard's
+    # albedo and Rubber004 wants 11.4x to reach a roof membrane's, which says those two are the
+    # wrong material rather than the wrong exposure. Multiplying an sRGB image by fourteen clips
+    # most of it to white and destroys the grain the texture was fetched for, so the correction is
+    # capped and the residual is published instead of hidden (J66).
+    capped = False
+    if k > ALBEDO_SCALE_CAP:
+        k, capped = ALBEDO_SCALE_CAP, True
+    elif k < 1.0 / ALBEDO_SCALE_CAP:
+        k, capped = 1.0 / ALBEDO_SCALE_CAP, True
+    if abs(k - 1.0) < 0.02:
+        return {"texture_albedo": round(have, 4), "target_albedo": round(want, 4), "scale": 1.0}
+    links = [l for l in img_node.outputs["Color"].links]
+    mix = nt.nodes.new("ShaderNodeMixRGB")
+    mix.blend_type = "MULTIPLY"
+    mix.inputs["Fac"].default_value = 1.0
+    mix.inputs["Color2"].default_value = (k, k, k, 1.0)
+    nt.links.new(img_node.outputs["Color"], mix.inputs["Color1"])
+    for l in links:
+        to_socket = l.to_socket
+        nt.links.remove(l)
+        nt.links.new(mix.outputs["Color"], to_socket)
+    out = {"texture_albedo": round(have, 4), "target_albedo": round(want, 4), "scale": round(k, 3)}
+    if capped:
+        out["capped_at"] = ALBEDO_SCALE_CAP
+        out["residual"] = round(want / (have * k), 3)
+        out["note"] = ("the catalogue's texture for this class is the wrong material, not the wrong "
+                       "exposure; the level is corrected as far as it can be without destroying "
+                       "the grain and the remaining factor is stated")
+    return out
+
+
 def _city_material(base: str):
     """The shared textured material for shell material ``base``, built once.
 
@@ -844,10 +950,13 @@ def _city_material(base: str):
             _CITY_DRESSED[base] = mat.name
             has_image = mat.use_nodes and any(n.type == "TEX_IMAGE" for n in mat.node_tree.nodes)
             if has_image:
+                shell = _shellmat_spec(base)
+                norm = _normalise_albedo(mat, tuple(getattr(shell, "base_color", (0.5, 0.5, 0.5))))
                 CITY_MATERIAL_REPORT["dressed"][base] = {
                     "asset_id": rec.get("asset_id"), "maps": ["color", "normal", "roughness"],
                     "physical_size_m": rec.get("physical_size_m"),
                     "resolution": CITY_TEXTURE_RES,
+                    "albedo": norm,
                     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)"}
             else:
                 CITY_MATERIAL_REPORT["flat"][base] = (
@@ -874,8 +983,9 @@ def _city_material(base: str):
         # assigned yet.  The symptom is "StructRNA of type Material has been removed" on a
         # material created four lines earlier.  A fake user is exactly the thing that stops it.
         mat.use_fake_user = True
+        norm = _normalise_albedo(mat, _PAVEMENT_ALBEDO.get(base, rgb))
         CITY_MATERIAL_REPORT["dressed"][base] = {
-            "asset_id": rec.get("asset_id"), "maps": sorted(maps),
+            "asset_id": rec.get("asset_id"), "maps": sorted(maps), "albedo": norm,
             "physical_size_m": rec.get("physical_size_m"), "resolution": CITY_TEXTURE_RES}
     except Exception as exc:
         CITY_MATERIAL_REPORT["flat"][base] = str(exc)

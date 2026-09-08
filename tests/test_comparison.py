@@ -1417,3 +1417,72 @@ def test_the_city_surfaces_resolve_their_own_material_names():
             # and part-metallic by design. A surface whose texture is simply not on disk may not:
             # that is how the texture trim silently un-dressed precast, stucco and vinyl_siding.
             assert "analytic" in str(why), f"{d.name}: {base} stayed flat -- {why}"
+
+
+def test_a_photographic_texture_does_not_set_the_citys_brightness():
+    """A scan's exposure is a photographer's choice; the class albedo is the stage's statement.
+
+    J63 pointed every shell material at a photographic colour map and took the scan's own level
+    with it. Over the twenty city surfaces those maps average 0.52 of the albedo the material's own
+    stage declares -- ``wood_clapboard`` 0.07, ``roof_membrane`` 0.09, ``concrete`` 0.22, and
+    ``cast_iron`` 3.09 the other way -- and the first four drive-throughs of the pass rendered at
+    0.37 to 0.58 of their reference photograph's mean luminance (docs/DEVIATIONS.md J66).
+
+    The correction is a single scalar on the colour map so its mean linear albedo is the authored
+    one, capped where the scan is plainly a different material rather than a different exposure.
+    """
+    sys.path.insert(0, str(REPO_ROOT / "blender" / "common"))
+    sys.path.insert(0, str(REPO_ROOT / "tools"))
+    import textures as tx
+    import trim_texture_cache as ttc
+
+    src = (VERIFY_DIR / "scene.py").read_text()
+    assert "def _normalise_albedo(" in src
+    assert "ALBEDO_SCALE_CAP" in src
+
+    names = ttc.city_surface_names() | {"asphalt", "concrete_sidewalk"}
+    if not names:
+        pytest.skip("no built tiles in this checkout")
+
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "_j66_shellmat", REPO_ROOT / "blender" / "buildings" / "shellmat.py")
+    sm = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = sm
+    spec.loader.exec_module(sm)
+
+    # Every surface the renderer dresses must have an albedo to normalise *to*: a shell class in
+    # shellmat, or an entry in the renderer's own pavement table. A new material class with neither
+    # would be scaled to shellmat's 0.6 grey DEFAULT, which is how asphalt would end up six times
+    # too bright.
+    pavement = {"asphalt", "concrete_sidewalk"}
+    unanchored = []
+    for n in sorted(names):
+        if n in pavement:
+            assert f'"{n}": (' in src, f"{n} has no entry in _PAVEMENT_ALBEDO"
+            continue
+        if sm.spec(n) is sm.DEFAULT:
+            unanchored.append(n)
+    assert not unanchored, (
+        "city surfaces with no authored albedo, which would be normalised to shellmat's DEFAULT: "
+        + ", ".join(unanchored))
+
+    # And every shipped sheet must report what it did, so the residual on a capped surface is on
+    # the record rather than in a frame nobody measured.
+    for d in sorted(COMPARISON_DIR.iterdir()):
+        rj = d / "render.json"
+        if not d.is_dir() or not rj.exists():
+            continue
+        dressed = (((json.loads(rj.read_text()).get("scene") or {}).get("materials") or {})
+                   .get("dressed") or {})
+        if not dressed:
+            continue
+        for base, rec in dressed.items():
+            if "albedo" not in rec:
+                continue                      # rendered before the correction existed
+            alb = rec["albedo"]
+            if alb is None:
+                continue
+            assert alb["scale"] <= 4.0 + 1e-9 and alb["scale"] >= 0.25 - 1e-9, (d.name, base, alb)
+            if alb.get("capped_at"):
+                assert "residual" in alb and "note" in alb, (d.name, base, alb)
