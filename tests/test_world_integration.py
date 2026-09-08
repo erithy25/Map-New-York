@@ -846,7 +846,9 @@ KNOWN_ORPHANED_TABLES = {
     "transit/rail_routes.parquet": "D11 — 47 rail routes; transit.nycb has no rail section",
     "transit/rail_stops.parquet": "D11 — 1,166 rail stops, likewise",
 
-    "osm/water_nj.parquet": "D11 — New Jersey water areas; the water stage never reads them",
+    "osm/water_nj.parquet": "D11 — New Jersey water areas; the water stage never reads them, and "
+                            "7.812 km2 of what they hold is dry land in the built tiles "
+                            "(test_the_new_jersey_water_gap_is_the_size_it_is_recorded_as)",
     "osm/signals_stops.parquet": "D11 — duplicate of roads/cache/osm_nodes.parquet, which is what the "
                                  "signal stage actually uses",
 }
@@ -1091,3 +1093,56 @@ def test_the_drivable_lane_graph_is_strongly_connected_not_merely_connected():
         f"only {largest:,} of {n:,} drivable lanes ({100*share:.2f} %) are mutually reachable; "
         f"a car on the other {n - largest:,} cannot drive to the rest of the city, or cannot be "
         f"reached from it")
+
+
+def test_the_new_jersey_water_gap_is_the_size_it_is_recorded_as():
+    """D11 says the New Jersey water extract is wasted, not a gap.  It is a gap; this is its size.
+
+    The claim was asserted for weeks and never measured.  Measured: the water model covers 93.46 %
+    of the 130.21 km2 in ``osm/water_nj.parquet`` -- every large body, Upper New York Bay, Newark
+    Bay and the Kill Van Kull among them -- and **7.812 km2 in 607 polygons falls inside tiles this
+    build has generated and is dry land there**: Cedar Grove Reservoir, Packanack Lake, Orange
+    Reservoir, Great Notch Reservoir, Lincoln Park Lake and 602 more.
+
+    The test does not require the gap to be closed -- closing it needs a 4.67 GB re-download of the
+    USGS products before the water stage can compute a level for each new body.  It requires the
+    number in DEVIATIONS to keep matching the artefacts, in both directions: a gap that grows
+    silently and a gap that is quietly closed without the entry being corrected are the same fault.
+    """
+    import numpy as np
+    import pandas as pd
+    from shapely import STRtree, wkb
+
+    nj_path = PROCESSED / "osm" / "water_nj.parquet"
+    hyd_path = PROCESSED / "water" / "hydrography.parquet"
+    if not nj_path.is_file() or not hyd_path.is_file():
+        pytest.skip("the osm and water stages have not both been run in this working copy")
+    tiles = {p.name for p in (PROCESSED / "tiles").glob("t_*")} if (PROCESSED / "tiles").is_dir() else set()
+    if not tiles:
+        pytest.skip("no tiles on disk")
+
+    hyd = pd.read_parquet(hyd_path, columns=["geometry"])
+    tree = STRtree([wkb.loads(b) if isinstance(b, (bytes, bytearray)) else b for b in hyd["geometry"]])
+    nj = pd.read_parquet(nj_path, columns=["area_m2", "geometry"])
+    from nycsim_pipeline.tiling import TILE_SIZE_M
+
+    covered = inside = 0.0
+    n_inside = 0
+    for a, blob in zip(nj["area_m2"].astype(float), nj["geometry"]):
+        g = wkb.loads(blob) if isinstance(blob, (bytes, bytearray)) else blob
+        c = g.representative_point()
+        if len(tree.query(c, predicate="within")):
+            covered += a
+            continue
+        tx, ty = int(np.floor(c.x / TILE_SIZE_M)), int(np.floor(c.y / TILE_SIZE_M))
+        if f"t_{tx}_{ty}" in tiles:
+            inside += a
+            n_inside += 1
+    total = float(nj["area_m2"].astype(float).sum())
+    share = 100.0 * covered / total
+    print(f"\nNJ water: {total / 1e6:.2f} km2 extracted, {covered / 1e6:.2f} km2 ({share:.2f} %) in the "
+          f"water model, {inside / 1e6:.3f} km2 in {n_inside} polygons dry inside a built tile")
+    assert 92.0 < share < 95.0, f"the covered share moved to {share:.2f} %; DEVIATIONS D11 says 93.46 %"
+    assert 7.0e6 < inside < 8.6e6, \
+        f"the dry-inside-a-tile area moved to {inside / 1e6:.3f} km2; DEVIATIONS D11 says 7.812"
+    assert 550 <= n_inside <= 660, f"{n_inside} polygons; DEVIATIONS D11 says 607"
