@@ -55,7 +55,7 @@
  },
  "clearance": {
   "direction": "along the view azimuth",
-  "min_view_m": 25.7,
+  "min_view_m": 46.7,
   "moved": true,
   "nearest_agent": null,
   "nearest_agent_m": null,
@@ -115,7 +115,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/bethesda_terrace_fountain/render.png",
- "rendered_at": "2026-09-08T12:00:07Z",
+ "rendered_at": "2026-09-08T12:33:00Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -141,7 +141,7 @@
    "placed_pedestrians": 11,
    "placed_vehicles": 0,
    "reason": null,
-   "seconds": 12.17,
+   "seconds": 12.87,
    "snapshot": {
     "building_footprints_tested": 2814,
     "car_free_park_drives_matched": 46,
@@ -421,7 +421,7 @@
    }
   },
   "radius_m": 700.0,
-  "seconds": 19.45,
+  "seconds": 20.22,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -494,9 +494,9 @@
   "radius_m": 700.0
  },
  "seconds": {
-  "render": 46.0,
-  "scene": 19.6,
-  "total": 65.6
+  "render": 59.6,
+  "scene": 20.5,
+  "total": 80.1
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 3.9 m above its ground",
@@ -517,8 +517,11 @@
  "slug": "bethesda_terrace_fountain",
  "status": "rendered",
  "subject": {
-  "distance_m": 51.4,
-  "name": "Bethesda Fountain (Angel of the Waters)"
+  "distance_from": "the placed camera, after the clearance walk",
+  "distance_m": 81.4,
+  "name": "Bethesda Fountain (Angel of the Waters)",
+  "origin_distance_m": 93.4,
+  "rejected_origin_distance_m": 51.4
  },
  "sun": {
   "azimuth_deg": 92.93412658489092,

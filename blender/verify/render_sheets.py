@@ -930,6 +930,21 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
                                            "from_photograph_gps": False,
                                            "offset_from_recorded_m": 0.0,
                                            "photograph_gps_offset_m": round(origin_offset_m, 1)}
+    # The distance to the subject has to be re-measured from wherever the camera ended up.
+    #
+    # It was taken at the top of this function from the origin `view_origin` first returned, and the
+    # block above can reject that origin and fall back to the item's own viewpoint -- 43 m away at
+    # Bethesda Terrace.  Nothing re-measured, so the record and the caption printed 51 m, which is
+    # the distance from the *photograph's* GPS to the fountain and from nowhere the camera stood,
+    # while the aim line five rows below printed 93 m from the position actually used.  It also fed
+    # `min_view_m`, so the frame was required to be clear for half of the wrong distance
+    # (docs/DEVIATIONS.md J54, J59).
+    if subj_dist is not None:
+        sx0, sy0 = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
+        moved = math.hypot(sx0 - x, sy0 - y)
+        if abs(moved - subj_dist) > 0.05:
+            record["subject"]["rejected_origin_distance_m"] = round(subj_dist, 1)
+            subj_dist = moved
     pitch, pitch_why = aim_pitch(slug, meta, x, y,
                                  (sampler.ground_z(x, y)[0] or 0.0) + vcam.eye_rule_for(slug).height_m,
                                  sampler, vscene.load_landmark_catalog())
@@ -955,6 +970,17 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     clearance = vcam.clear_of_geometry(placement, sampler, min_view_m=min_view_m, origin_is_photo=origin_is_photo,
                                        has_subject=subj_dist is not None)
     clearance["min_view_m"] = round(min_view_m, 1)
+    # "N m from the camera" has to mean the camera in the picture.  `subj_dist` is measured from the
+    # origin the aim was decided at, and `clear_of_geometry` has just walked the eye onto the nearest
+    # paved surface -- 12 m at Bethesda Terrace -- mutating `placement` as it goes.  So the record
+    # carries both, each labelled, instead of one number that matches neither position.  The first
+    # attempt at this fix measured before the call and labelled the result "after the clearance
+    # walk", which is the same fault it exists to correct (docs/DEVIATIONS.md J54, J59).
+    if subj_dist is not None:
+        sx1, sy1 = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
+        record["subject"]["distance_m"] = round(math.hypot(sx1 - placement.x, sy1 - placement.y), 1)
+        record["subject"]["distance_from"] = "the placed camera, after the clearance walk"
+        record["subject"]["origin_distance_m"] = round(subj_dist, 1)
     # The scene, and its agents, were built around the recorded view origin. The camera may have
     # moved since -- probe_origin can switch to the nominal viewpoint and clear_of_geometry walks the
     # eye onto the nearest paved surface -- and on 26 of the 57 scenes it did. Cull anything now
