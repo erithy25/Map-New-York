@@ -64,9 +64,14 @@ AGENT_SEED = 20260907
 #: better spent on the facades behind them.
 AGENT_VEHICLE_RADIUS_M = 320.0
 AGENT_PED_RADIUS_M = 200.0
-#: Distinct NPC bodies imported per frame.  Each import costs about 1.5 s, and the 24 exported
-#: bodies through three walk phases already give more distinct figures than a frame ever holds.
-AGENT_NPC_ARCHETYPES = 12
+#: Distinct NPC bodies imported per frame.  ``None`` means every body the wardrobe baked.
+#:
+#: This read 12, under the reasoning that "the 24 exported bodies through three walk phases already
+#: give more distinct figures than a frame ever holds".  Both halves were wrong.  The wardrobe bakes
+#: **36** bodies, not 24, and a frame holds **229 people**, not 36: at 12 bodies each one stands in
+#: the same frame about nineteen times, two of the twelve wear medical scrubs, and archetypes 12 to
+#: 35 -- including every coat the J53 fix added -- could not appear at all (DEVIATIONS J62).
+AGENT_NPC_ARCHETYPES: int | None = None
 
 SOLAR_CONSTANT_W = 1361.0
 ATMOSPHERIC_TRANSMITTANCE = 0.7

@@ -1752,7 +1752,7 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
                 agent_request: "object | None" = None, agent_vehicle_radius_m: float = 320.0,
                 agent_ped_radius_m: float = 200.0, agent_max_vehicles: int = 400,
                 agent_max_peds: int = 900, agent_triangle_budget: int | None = None,
-                agent_npc_archetypes: int = 24, agent_ped_phases: int = 3,
+                agent_npc_archetypes: int | None = None, agent_ped_phases: int = 3,
                 agent_place_riderless: bool = False, agent_eye_height_m: float = 1.6,
                 ) -> tuple[SceneReport, TerrainSampler]:
     """Reset the scene and populate it from every artefact available around (cx, cy)."""

@@ -645,7 +645,11 @@ def _npc_polygons() -> dict[int, dict[str, int]]:
 
 
 def npc_archetype_assets() -> list[Path]:
-    """The 24 NPC bodies, indexed by ``PedSnapshot.archetype``."""
+    """Every baked NPC body, indexed by ``PedSnapshot.archetype``.
+
+    The count is whatever ``npc_variety.json`` published, never a literal.  It was a literal 24
+    until the cast grew to 36 and twelve coats became unrenderable (docs/DEVIATIONS.md J62).
+    """
     if not NPC_VARIETY.exists():
         return sorted(NPC_DIR.glob("npc_*.glb"))
     try:
@@ -754,15 +758,38 @@ class PedLibrary:
     crowd and the assets ship no LOD of their own.  No geometry is authored here.
     """
 
-    def __init__(self, *, archetypes: int = 24, phases: int = 3) -> None:
-        self.archetypes = max(1, min(24, int(archetypes)))
-        self.phases = max(1, int(phases))
+    def __init__(self, *, archetypes: int | None = None, phases: int = 3) -> None:
         self._paths = npc_archetype_assets()
+        # The cast is however many bodies were baked, not a number written here.  This clamp read
+        # ``min(24, ...)`` while the wardrobe baked 36, so archetypes 24 to 35 -- every trench
+        # coat, wool coat, puffer, leather, denim and field jacket the J53 fix added -- folded onto
+        # bodies 0 to 11 and could not appear in any comparison render, while those twelve bodies
+        # were drawn at twice the rate of the rest.  The simulation emits all 36: 989 of the 2,999
+        # people in the Broadway/Wall St snapshot carry one of the twelve (docs/DEVIATIONS.md J62).
+        available = len(self._paths) or 1
+        want = available if archetypes is None else int(archetypes)
+        self.archetypes = max(1, min(available, want))
+        self.phases = max(1, int(phases))
         self._sources: dict[int, dict] = {}
         self._templates: dict[tuple[int, str, int, int], object] = {}
         self.failed: dict[str, str] = {}
+        #: Archetypes the snapshot asked for that this library has no body for.  A fold is a
+        #: silent substitution of one person for another, so it is counted and published rather
+        #: than left to be discovered in a rendered frame.
+        self.folded: dict[int, int] = {}
         self.imported = 0
         self.baked = 0
+
+    def body_for(self, arch: int) -> int:
+        """The body index used for snapshot archetype ``arch``, counting any substitution.
+
+        Call this once per *placed* person.  ``built`` and ``template`` take an index this has
+        already returned, so folding again there would count one person several times.
+        """
+        arch = int(arch)
+        if arch >= self.archetypes or arch < 0:
+            self.folded[arch] = self.folded.get(arch, 0) + 1
+        return arch % self.archetypes
 
     def estimate(self, arch: int, lod: int) -> int:
         """Triangles one baked template will cost, before it is built.
@@ -933,7 +960,8 @@ def _instance(parts, name: str, matrix, col) -> None:
 def add_agents(lib, cx: float, cy: float, snapshot: dict, sampler, *,
                vehicle_radius_m: float = 320.0, ped_radius_m: float = 200.0,
                triangle_budget: int = 900_000, max_vehicles: int = 400, max_peds: int = 900,
-               npc_archetypes: int = 24, ped_phases: int = 3, place_riderless: bool = False,
+               npc_archetypes: int | None = None, ped_phases: int = 3,
+               place_riderless: bool = False,
                camera_eye_height_m: float = 1.6, col=None) -> AgentPlacement:
     """Place one simulation frame's vehicles and pedestrians, nearest to the camera first.
 
@@ -1091,7 +1119,7 @@ def add_agents(lib, cx: float, cy: float, snapshot: dict, sampler, *,
         if len(ped_plan) >= max_peds:
             drop["pedestrian_instance_cap"] = drop.get("pedestrian_instance_cap", 0) + 1
             continue
-        arch = int(p.get("archetype", 0)) % peds.archetypes
+        arch = peds.body_for(p.get("archetype", 0))
         lod = 0 if dist < PED_LOD_M[0] else (1 if dist < PED_LOD_M[1] else 2)
         cost = peds.estimate(arch, lod)
         if lod < 2 and est_p_near + cost > ped_budget * NEAR_BAND_SHARE and ped_plan:
@@ -1178,6 +1206,11 @@ def add_agents(lib, cx: float, cy: float, snapshot: dict, sampler, *,
         rep.ped_lods[f"LOD{lod}"] = rep.ped_lods.get(f"LOD{lod}", 0) + 1
     if peds.failed:
         rep.snapshot["npc_failures"] = peds.failed
+    rep.snapshot["npc_archetypes_available"] = peds.archetypes
+    if peds.folded:
+        # A fold means the snapshot asked for a person this library cannot draw and someone else
+        # was drawn instead.  It is never acceptable silently.
+        rep.snapshot["npc_archetypes_folded"] = {str(k): v for k, v in sorted(peds.folded.items())}
     if car_free.active:
         rep.snapshot["car_free_park_drives_matched"] = car_free.matched
     rep.snapshot["npc_bodies_imported"] = peds.imported

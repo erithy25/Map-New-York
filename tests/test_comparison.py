@@ -1278,3 +1278,70 @@ def test_the_day_the_crowd_was_drawn_for_is_spelled_out_not_left_as_a_code():
         if cc and cc.get("disagrees"):
             bad.append(f"{d.name}: {cc['disagrees']}")
     assert not bad, "sheets whose crowd was drawn for the wrong kind of day:\n  " + "\n  ".join(bad)
+
+
+def test_the_verification_render_can_draw_every_body_the_wardrobe_bakes():
+    """The comparison renders drew their whole crowd from twelve bodies out of thirty-six.
+
+    ``render_sheets.AGENT_NPC_ARCHETYPES`` read 12 and ``PedLibrary`` clamped to ``min(24, ...)``,
+    while ``npc_variety.json`` bakes 36 bodies and the simulation emits all 36 -- 989 of the 2,999
+    people in the Broadway/Wall St snapshot carry archetype 24 or above.  Every one of those was
+    folded onto bodies 0 to 11, so archetypes 12 to 35 could not appear in any sheet, the twelve
+    that could appeared about nineteen times each in a 229-person frame, and every coat the J53 fix
+    added was unrenderable by the only stage that proves anything (docs/DEVIATIONS.md J62).
+    """
+    variety = REPO_ROOT / "blender_out" / "character" / "npc_variety.json"
+    if not variety.is_file():
+        pytest.skip("no baked NPC wardrobe in this checkout")
+    baked = json.loads(variety.read_text())
+    cast = len(baked["npcs"])
+    assert cast == baked["count"] and cast >= 24
+
+    # The constant must not name a number smaller than the cast.  None means "all of them".
+    rs = _skip_without_render_sheets()
+    limit = getattr(rs, "AGENT_NPC_ARCHETYPES")
+    assert limit is None or limit >= cast, (
+        f"the renderer draws its crowd from {limit} of the {cast} baked bodies")
+
+    # ...and the library must not clamp below the cast either.  ``agents`` imports Blender only
+    # inside the methods that need it, so the library can be built and questioned here.
+    import agents as vagents
+
+    lib = vagents.PedLibrary()
+    assert lib.archetypes == cast, (
+        f"PedLibrary draws from {lib.archetypes} of the {cast} baked bodies")
+    assert lib.archetypes == len(vagents.npc_archetype_assets())
+
+    # A fold substitutes one person for another.  It must still be possible -- a snapshot from a
+    # newer simulation must not crash a render -- but it must be counted, never silent.
+    assert lib.folded == {}
+    assert lib.body_for(0) == 0 and lib.folded == {}
+    assert lib.body_for(cast) == 0 and lib.folded == {cast: 1}
+    assert lib.body_for(cast) == 0 and lib.folded == {cast: 2}
+    assert lib.body_for(cast + 3) == 3 and lib.folded[cast + 3] == 1
+
+    # An explicit smaller cast is still honoured -- that is what makes the default meaningful.
+    assert vagents.PedLibrary(archetypes=4).archetypes == 4
+    assert vagents.PedLibrary(archetypes=cast + 99).archetypes == cast
+
+    # Every baked body must have a glb the renderer can find, or the cap is real again by another
+    # route: a missing file folds just as silently as a small constant.
+    npc_dir = REPO_ROOT / "blender_out" / "character" / "npc"
+    missing = [n["id"] for n in baked["npcs"] if not (npc_dir / f"{n['id']}.glb").is_file()]
+    assert not missing, f"baked bodies with no glb on disk: {missing}"
+
+    # Any sheet rendered since the fix must report the full cast and no folds.
+    checked = 0
+    for d in sorted(COMPARISON_DIR.iterdir()):
+        rj = d / "render.json"
+        if not d.is_dir() or not rj.exists():
+            continue
+        snap = ((json.loads(rj.read_text()).get("scene") or {})
+                .get("agents") or {}).get("snapshot") or {}
+        if "npc_archetypes_available" not in snap:
+            continue          # rendered before the record carried the figure
+        checked += 1
+        assert snap["npc_archetypes_available"] == cast, (
+            f"{d.name}: drew its crowd from {snap['npc_archetypes_available']} of {cast} bodies")
+        assert not snap.get("npc_archetypes_folded"), (
+            f"{d.name}: folded archetypes onto other people: {snap['npc_archetypes_folded']}")
