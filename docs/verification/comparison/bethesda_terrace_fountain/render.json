@@ -57,9 +57,19 @@
   "direction": "along the view azimuth",
   "min_view_m": 20.0,
   "moved": true,
-  "note": "the eye point stands on the roof of lm_b_bethesda_terrace.26, which the reference viewpoint records as a single lat/lon for the whole deck; the camera was walked 12 m along the view azimuth to the parapet, the last point the roof still supports, which is where the reference photographs are taken",
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_probe_m": 60.0,
+  "nearest_obstruction": "prop_lamp_cobra_davit_6",
+  "nearest_obstruction_at_deg": [
+   0.0,
+   0.0
+  ],
+  "nearest_obstruction_m": 2.2,
+  "note": "the eye point stands on the roof of lm_b_bethesda_terrace.26, which the reference viewpoint records as a single lat/lon for the whole deck; the camera was walked 12 m along the view azimuth to the parapet, the last point the roof still supports, which is where the reference photographs are taken.  From there the view azimuth is clear for 80 m and the nearest built thing in the frame is prop_lamp_cobra_davit_6 2.2 m away, and no simulated agent stands within 60 m of it",
   "offset_m": 12.0,
-  "standing_on": "lm_b_bethesda_terrace.26"
+  "standing_on": "lm_b_bethesda_terrace.26",
+  "view_m": 79.7
  },
  "frame": {
   "mean": 0.7217,
@@ -105,7 +115,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/bethesda_terrace_fountain/render.png",
- "rendered_at": "2026-09-08T09:45:26Z",
+ "rendered_at": "2026-09-08T09:48:10Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -131,7 +141,7 @@
    "placed_pedestrians": 11,
    "placed_vehicles": 0,
    "reason": null,
-   "seconds": 10.01,
+   "seconds": 10.05,
    "snapshot": {
     "building_footprints_tested": 2814,
     "car_free_park_drives_matched": 46,
@@ -171,7 +181,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 96
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -1777_8205_8_1_2d91b76fafb0bd1e_1788859513.json",
    "triangle_budget": 1125000,
    "triangles": 25149,
    "vehicle_lods": {},
@@ -411,7 +421,7 @@
    }
   },
   "radius_m": 700.0,
-  "seconds": 27.62,
+  "seconds": 16.8,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -484,9 +494,9 @@
   "radius_m": 700.0
  },
  "seconds": {
-  "render": 86.0,
-  "scene": 27.8,
-  "total": 113.8
+  "render": 85.8,
+  "scene": 17.0,
+  "total": 102.8
  },
  "slug": "bethesda_terrace_fountain",
  "status": "rendered",

@@ -56,12 +56,14 @@
   "direction": "onto the nearest roadbed",
   "min_view_m": 20.0,
   "moved": true,
-  "nearest_agent": "agent_ped_1913.1",
+  "nearest_agent": "agent_ped_1043.10",
   "nearest_agent_at_deg": [
-   21.1,
-   -13.6
+   14.1,
+   0.0
   ],
-  "nearest_agent_m": 1.5,
+  "nearest_agent_m": 4.4,
+  "nearest_agent_measured": "after the cull over the observer",
+  "nearest_agent_probe_m": 20.0,
   "nearest_obstruction": "prop_tree_honeylocust_large_1",
   "nearest_obstruction_at_deg": [
    14.1,
@@ -118,7 +120,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_grand_concourse/render.png",
- "rendered_at": "2026-09-08T09:37:36Z",
+ "rendered_at": "2026-09-08T10:01:50Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -160,7 +162,7 @@
    "placed_pedestrians": 296,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 52.31,
+   "seconds": 48.21,
    "snapshot": {
     "building_footprints_tested": 1467,
     "density_lane_km": 28.245,
@@ -199,7 +201,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 374
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached 2649_14659_12_2_7cbdec742e72ef46_1788859513.json",
    "triangle_budget": 1125000,
    "triangles": 1086745,
    "vehicle_lods": {
@@ -415,7 +417,7 @@
    "unmapped_kinds": {}
   },
   "radius_m": 720.0,
-  "seconds": 101.65,
+  "seconds": 87.21,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -442,9 +444,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 368.0,
-  "scene": 104.7,
-  "total": 472.6
+  "render": 346.1,
+  "scene": 92.3,
+  "total": 438.5
  },
  "slug": "drive_bronx_grand_concourse",
  "status": "rendered",
