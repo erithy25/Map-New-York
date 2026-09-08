@@ -564,7 +564,12 @@ def view_azimuth(slug: str, meta: dict, photo: dict, lat: float, lon: float, *,
 
 def subject_top(meta: dict, cam_x: float, cam_y: float, sampler,
                 landmarks: Sequence[dict]) -> tuple[float, float, str] | None:
-    """(distance, height of the subject's top above the camera's own eye level, source).
+    """(distance, **absolute NYC_TM elevation** of the subject's top, source).
+
+    The second element is a world z, not a height above the camera: ``choose_lens`` reads it as one
+    (``rise = top_z - cam_z``) and always has.  This line used to say "above the camera's own eye
+    level", and the sightline probe believed it and added the camera's elevation to an absolute one
+    (docs/DEVIATIONS.md J57).
 
     The height comes from the landmark model standing at the subject coordinate where there is
     one, otherwise from a nominal 10 m.  Returns None when the item names no subject.
@@ -996,13 +1001,22 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     if subject.get("lat") is not None and subject.get("lon") is not None:
         ssx, ssy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
         sgz = sampler.ground_z(ssx, ssy)[0]
-        # Aim at the subject's own top where the item declares one, else 2 m above its ground: a
-        # ray at ground level grazes the pavement in front of everything.
-        stop = (placement.z + top[1]) if top and top[1] is not None else None
-        sz = stop if stop is not None else ((sgz if sgz is not None else placement.z) + 2.0)
+        # Aim at the subject's **mid-height**, in absolute NYC_TM elevation.
+        #
+        # Two corrections in one line.  ``subject_top`` returns an absolute z -- its own docstring
+        # said "above the camera's own eye level" and ``choose_lens`` has always read it as absolute
+        # (``rise = top_z - cam_z``) -- so adding ``placement.z`` to it aimed the rays 25 m above the
+        # Bethesda fountain, into open sky, and the probe reported nothing at the subject's
+        # coordinate over a scene that has the fountain exactly there.  And aiming at the *top* is
+        # wrong even with the right datum: a ray sent at the highest point of a subject grazes it, so
+        # a 7.92 m fountain with a 2.44 m angel on a thin stem is missed by a ray that is a
+        # centimetre high.  Mid-height is what ``aim_pitch`` already uses for the camera's own tilt.
+        base = sgz if sgz is not None else placement.z
+        stop = float(top[1]) if top and top[1] is not None else None
+        sz = ((base + stop) * 0.5) if stop is not None else (base + 2.0)
         sight = vcam.subject_sightline(placement.x, placement.y, placement.z, ssx, ssy, float(sz))
-        sight["subject_aimed_at"] = ("the subject's own top" if stop is not None
-                                     else "2 m above the subject's ground")
+        sight["subject_aimed_at"] = (f"the subject's mid-height, {sz - base:.1f} m above its ground"
+                                     if stop is not None else "2 m above the subject's ground")
         record_subject = sight
     else:
         record_subject = {"subject_visible": None, "subject_note": "the item names no point subject"}

@@ -6,9 +6,9 @@
   "seed": 20260907,
   "warmup_s": 120.0
  },
- "azimuth_reason": "14.2 deg as recorded; it agrees with the bearing from the camera position used to Bethesda Fountain (Angel of the Waters) (14.2 deg) to 0.0 deg",
+ "azimuth_reason": "13.9 deg as recorded; it agrees with the bearing from the camera position used to Bethesda Fountain (Angel of the Waters) (13.9 deg) to 0.0 deg",
  "camera": {
-  "azimuth_deg": 14.2,
+  "azimuth_deg": 13.9,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
@@ -31,7 +31,7 @@
   "lat": 40.7735,
   "lon": -73.9711,
   "long_side_fov_deg": 65.47,
-  "pitch_deg": -2.4909021450832083,
+  "pitch_deg": -1.9016194294900215,
   "portrait": false,
   "resolution": [
    1280,
@@ -40,11 +40,11 @@
   "sensor_mm": 36.0,
   "slug": "bethesda_terrace_fountain",
   "terrain_z_m": 22.622,
-  "x": -1778.372,
-  "y": 8173.936,
+  "x": -1778.433,
+  "y": 8173.951,
   "z": 24.222
  },
- "camera_caption": "camera 40.77350, -73.97110 (NYC_TM -1778, 8174) z 24.2 m NAVD88 | azimuth 14.2deg pitch -2.5deg | 28 mm on 36 mm (65.5deg horizontal) | 1280x854",
+ "camera_caption": "camera 40.77350, -73.97110 (NYC_TM -1778, 8174) z 24.2 m NAVD88 | azimuth 13.9deg pitch -1.9deg | 28 mm on 36 mm (65.5deg horizontal) | 1280x854",
  "camera_origin": {
   "from_photograph_gps": false,
   "lat": 40.7735,
@@ -55,26 +55,26 @@
  },
  "clearance": {
   "direction": "along the view azimuth",
-  "min_view_m": 20.0,
+  "min_view_m": 25.7,
   "moved": true,
   "nearest_agent": null,
   "nearest_agent_m": null,
   "nearest_agent_probe_m": 60.0,
   "nearest_obstruction": "prop_lamp_park_twin_6",
   "nearest_obstruction_at_deg": [
-   21.8,
-   -23.2
+   32.7,
+   -11.6
   ],
-  "nearest_obstruction_m": 3.2,
-  "note": "the eye point stands on the roof of lm_b_bethesda_terrace.26, which the reference viewpoint records as a single lat/lon for the whole deck; the camera was walked 12 m along the view azimuth to the parapet, the last point the roof still supports, which is where the reference photographs are taken.  From there the view azimuth is clear for 80 m and the nearest built thing in the frame is prop_lamp_park_twin_6 3.2 m away, and no simulated agent stands within 60 m of it",
+  "nearest_obstruction_m": 3.3,
+  "note": "the eye point stands on the roof of lm_b_bethesda_terrace.26, which the reference viewpoint records as a single lat/lon for the whole deck; the camera was walked 12 m along the view azimuth to the parapet, the last point the roof still supports, which is where the reference photographs are taken.  From there the view azimuth is clear for 81 m and the nearest built thing in the frame is prop_lamp_park_twin_6 3.3 m away, and no simulated agent stands within 60 m of it",
   "offset_m": 12.0,
   "standing_on": "lm_b_bethesda_terrace.26",
-  "view_m": 79.7
+  "view_m": 80.8
  },
  "frame": {
-  "mean": 0.7216,
+  "mean": 0.7237,
   "reason": null,
-  "sd": 0.1651,
+  "sd": 0.1654,
   "usable": true
  },
  "frame_retry": null,
@@ -100,12 +100,12 @@
  },
  "name": "Bethesda Terrace and Fountain",
  "night": false,
- "pitch_reason": "aimed at Bethesda Fountain (Angel of the Waters) 69 m away, at its mid-height (the b_bethesda_terrace model's 8 m height); -2.5 deg from horizontal",
+ "pitch_reason": "aimed at Bethesda Fountain (Angel of the Waters) 93 m away, at its mid-height (the b_bethesda_terrace model's 8 m height); -1.9 deg from horizontal",
  "reference_photo": {
   "author": "Christian David",
   "confidence": "high",
   "date_taken": "2026-04-18 08:04:45",
-  "estimated_azimuth_deg": 26.9,
+  "estimated_azimuth_deg": 20.3,
   "file": "1.jpg",
   "height": 1280,
   "licence": "CC BY-SA 4.0",
@@ -115,7 +115,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/bethesda_terrace_fountain/render.png",
- "rendered_at": "2026-09-08T10:58:03Z",
+ "rendered_at": "2026-09-08T11:58:35Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -141,7 +141,7 @@
    "placed_pedestrians": 11,
    "placed_vehicles": 0,
    "reason": null,
-   "seconds": 10.13,
+   "seconds": 12.1,
    "snapshot": {
     "building_footprints_tested": 2814,
     "car_free_park_drives_matched": 46,
@@ -157,7 +157,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.95,
+     "load_seconds": 3.55,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -181,7 +181,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 96
    },
-   "snapshot_note": "cached -1777_8205_8_1_2d91b76fafb0bd1e_1788859513.json",
+   "snapshot_note": "cached -1777_8205_8_1_10e969708121647f_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 25149,
    "vehicle_lods": {},
@@ -421,7 +421,7 @@
    }
   },
   "radius_m": 700.0,
-  "seconds": 16.62,
+  "seconds": 19.86,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -494,25 +494,30 @@
   "radius_m": 700.0
  },
  "seconds": {
-  "render": 82.2,
-  "scene": 16.8,
-  "total": 99.0
+  "render": 44.9,
+  "scene": 20.1,
+  "total": 64.9
  },
  "sightline": {
-  "subject_aimed_at": "the subject's own top",
-  "subject_blocked_at_m": null,
-  "subject_blocked_by": null,
-  "subject_fan_half_angle_deg": 5.52,
+  "subject_aimed_at": "the subject's mid-height, 3.9 m above its ground",
+  "subject_blocked_at_m": 14.7,
+  "subject_blocked_by": "lm_b_bethesda_terrace.20",
+  "subject_fan_half_angle_deg": 4.21,
   "subject_fan_m": 12.0,
-  "subject_range_m": 62.1,
+  "subject_lands_at_m": 80.8,
+  "subject_lands_on": "lm_b_bethesda_terrace.1",
+  "subject_range_m": 81.4,
   "subject_rays": 5,
-  "subject_rays_clear": 5,
-  "subject_visible": true
+  "subject_rays_clear": 2,
+  "subject_rays_into_nothing": 1,
+  "subject_rays_on_subject": 1,
+  "subject_reach_m": 25.0,
+  "subject_visible": false
  },
  "slug": "bethesda_terrace_fountain",
  "status": "rendered",
  "subject": {
-  "distance_m": 27.2,
+  "distance_m": 51.4,
   "name": "Bethesda Fountain (Angel of the Waters)"
  },
  "sun": {
@@ -523,7 +528,7 @@
   "utc": "2026-04-18T12:04:45Z"
  },
  "viewpoint": {
-  "azimuth_deg": 14.2,
+  "azimuth_deg": 13.9,
   "lat": 40.7735,
   "lon": -73.9711,
   "note": "upper level of Bethesda Terrace (72nd Street transverse), looking north over the fountain to the Lake"
