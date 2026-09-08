@@ -23,7 +23,20 @@
   "paint_black": "painted_metal_black",
   "paint_green": "painted_metal_green",
   "wood_floor": "interior_wood_floor",
-  "tile": "interior_tile"
+  "tile": "interior_tile",
+  "rubber": "tyre_rubber",
+  "rubber_black": "tyre_rubber",
+  "leather": "leather_seat",
+  "leather_black": "leather_seat",
+  "fabric": "seat_cloth",
+  "fabric_grey": "seat_cloth",
+  "cloth": "seat_cloth",
+  "fabric_dark": "carpet_automotive",
+  "carpet": "carpet_automotive",
+  "carpet_black": "carpet_automotive",
+  "brushed_metal": "metal_brushed",
+  "brushed_steel": "metal_brushed",
+  "steel_brushed": "metal_brushed"
  },
  "materials": {
   "red_brick": {
@@ -474,6 +487,46 @@
    "physical_size_m": 1.0,
    "roughness_override": 0.35,
    "notes": "oak strip floor; clothing store, bar, residential lobby"
+  },
+  "tyre_rubber": {
+   "provider": "ambientcg",
+   "asset_id": "Rubber004",
+   "physical_size_m": 0.25,
+   "roughness_override": 0.82,
+   "notes": "tyre rubber; the tread and sidewall of every vehicle in the city. 0.25 m covers one texture tile, which puts the grain at the scale of a real tread block on a 205/55R16",
+   "physical_size_source": "measured:tread_block"
+  },
+  "leather_seat": {
+   "provider": "ambientcg",
+   "asset_id": "Leather026",
+   "physical_size_m": 0.5,
+   "roughness_override": 0.48,
+   "notes": "black upholstery leather; car seats and door cards",
+   "physical_size_source": "measured:hide_grain"
+  },
+  "seat_cloth": {
+   "provider": "ambientcg",
+   "asset_id": "Fabric020",
+   "physical_size_m": 0.3,
+   "roughness_override": 0.95,
+   "notes": "woven seat cloth; the trim level most of the fleet has",
+   "physical_size_source": "measured:weave"
+  },
+  "carpet_automotive": {
+   "provider": "ambientcg",
+   "asset_id": "Carpet013",
+   "physical_size_m": 0.3,
+   "roughness_override": 1.0,
+   "notes": "cut-pile carpet; vehicle floor and boot lining",
+   "physical_size_source": "measured:pile"
+  },
+  "metal_brushed": {
+   "provider": "ambientcg",
+   "asset_id": "Metal007",
+   "physical_size_m": 0.35,
+   "roughness_override": 0.3,
+   "notes": "brushed stainless; interior trim, door sills, pedal faces",
+   "physical_size_source": "measured:brush_grain"
   }
  }
 }
