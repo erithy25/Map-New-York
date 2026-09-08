@@ -1,12 +1,20 @@
 {
+ "agent_request": {
+  "dow": 0,
+  "hour": 12,
+  "local_clock": "2023-05-12 12:18 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
  "azimuth_reason": "203.6 deg, the bearing from this photograph's own GPS position to One Times Square; heading and position both come from the photograph.  The item's recorded azimuth is 203.2 deg, 0.4 deg away, and belongs to its nominal viewpoint",
  "camera": {
   "azimuth_deg": 203.57530159209415,
   "eye_datum": "terrain",
   "eye_height_m": 6.199999999999999,
   "eye_source": "top landing of the TKTS red steps at Duffy Square, 4.6 m above the plaza (Perkins Eastman/Choi Ropiha structure, 16 ft to the top of the glazed stair), plus 1.6 m eye height",
-  "focal_mm": 24.0,
+  "focal_mm": 18.0,
   "ground_detail": {
+   "below_point_excluded": null,
    "chosen_m": 14.94,
    "max_m": 15.17,
    "median_m": 14.95,
@@ -19,10 +27,10 @@
   },
   "ground_mode": "local",
   "ground_source": "the viewpoint note names the raised surface the photographer stood on, so the heightmap height at the point itself is the ground (the neighbourhood is still measured and printed, because a terrace can stand metres above the plaza 4 m away and a median across that step would put the camera underground)",
-  "hfov_deg": 58.688,
+  "hfov_deg": 73.709,
   "lat": 40.759122,
   "lon": -73.984725,
-  "long_side_fov_deg": 73.74,
+  "long_side_fov_deg": 90.0,
   "pitch_deg": 0.0,
   "portrait": true,
   "resolution": [
@@ -36,7 +44,7 @@
   "y": 6566.0,
   "z": 21.139
  },
- "camera_caption": "camera 40.75912, -73.98472 (NYC_TM -2932, 6566) z 21.1 m NAVD88 | azimuth 203.6deg pitch +0.0deg | 24 mm on 36 mm (58.7deg horizontal, 73.7deg vertical, portrait) | 904x1206",
+ "camera_caption": "camera 40.75912, -73.98472 (NYC_TM -2932, 6566) z 21.1 m NAVD88 | azimuth 203.6deg pitch +0.0deg | 18 mm on 36 mm (73.7deg horizontal, 90.0deg vertical, portrait) | 904x1206",
  "camera_origin": {
   "from_photograph_gps": true,
   "lat": 40.759122,
@@ -54,23 +62,24 @@
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.3919,
+  "mean": 0.433,
   "reason": null,
-  "sd": 0.1805,
+  "sd": 0.2313,
   "usable": true
  },
  "frame_retry": null,
  "group": "viewpoint",
  "interior": false,
- "lens_reason": "the bowtie is photographed wide from the TKTS steps; both building walls and One Times Square fit only at 74 deg horizontal",
+ "lens_reason": "widened from 24 mm to 18 mm (90 deg vertical) so that a level axis contains the subject: the c_times_square model's published 366 m height stands 361 m above the lens at 354 m, 46 deg above the horizon; held at the 18 mm floor, so the top of the subject is still cut off -- past that point the distortion would stop the two frames being comparable",
  "lighting": {
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 932.2,
   "emissive": {
+   "cone_faces_deleted": 16,
    "cones_hidden": 2,
    "lamps_switched_off": 5,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.0,
   "sky_azimuth_deg": 159.868,
@@ -96,10 +105,92 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/times_square_duffy_south_day/render.png",
- "rendered_at": "2026-09-06T20:40:15Z",
+ "rendered_at": "2026-09-07T23:34:38Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "caption": "Agents: 49 vehicles within 320 m and 227 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 1218 vehicles and 3119 people over the whole simulated ring, of which 1501 and 3000 were simulated; 4225 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 326,
+    "pedestrian_not_on_walkable_surface": 158,
+    "pedestrian_outside_radius": 1029,
+    "pedestrian_triangle_budget": 1260,
+    "vehicle_body_has_no_rider": 40,
+    "vehicle_not_on_carriageway": 31,
+    "vehicle_outside_radius": 729,
+    "vehicle_triangle_budget": 652
+   },
+   "ped_lods": {
+    "LOD0": 12,
+    "LOD1": 19,
+    "LOD2": 196
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 581142,
+   "per_class": {
+    "black_car": 5,
+    "boro_taxi": 9,
+    "box_truck": 2,
+    "sedan": 9,
+    "suv": 1,
+    "taxi": 21,
+    "van": 2
+   },
+   "placed_pedestrians": 227,
+   "placed_vehicles": 49,
+   "reason": null,
+   "seconds": 130.23,
+   "snapshot": {
+    "building_footprints_tested": 1656,
+    "density_lane_km": 25.445,
+    "density_sidewalk_m2": 25656,
+    "density_target_pedestrians": 3119.1,
+    "density_target_vehicles": 1218.0,
+    "dow": 0,
+    "hour": 12,
+    "lanes_considered": 208,
+    "lanes_with_nta": 208,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 1.99,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 97,
+    "pavement_polygons_tested": 2894,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 3000,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 1501
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1082786,
+   "vehicle_lods": {
+    "LOD1": 10,
+    "LOD2": 39
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 501644
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
@@ -111,39 +202,58 @@
     "t_-4_7"
    ],
    "landmark_bins_suppressed": 40,
-   "landmark_faces_suppressed": 3988,
+   "landmark_faces_suppressed": 4548,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_-3_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
-     "triangles": 48780
+     "triangles": 65920
     },
     "t_-3_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 17,
-     "triangles": 29970
+     "triangles": 39682
     },
     "t_-3_7": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
-     "triangles": 22888
+     "triangles": 30666
     },
     "t_-4_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 1,
      "objects": 19,
-     "triangles": 19790
+     "triangles": 28012
     },
     "t_-4_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 17,
-     "triangles": 65152
+     "triangles": 77988
     },
     "t_-4_7": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 13,
-     "triangles": 45224
+     "triangles": 54098
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -151,52 +261,61 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 6,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 231804
+   "triangles": 296366
   },
   "centre_tm": [
    -2932.2,
    6566.0
   ],
   "kit": {
-   "capped": "triangle budget 2723154",
+   "capped": "triangle budget 1531540",
    "per_category": {
-    "bulkhead": 31,
-    "cornice": 32,
-    "door_entry": 61,
-    "hvac": 15,
-    "parapet": 36,
-    "pilaster": 27,
-    "quoin": 7,
+    "billboard": 297,
+    "bulkhead": 17,
+    "cornice": 20,
+    "door_entry": 32,
+    "hvac": 10,
+    "parapet": 19,
+    "pilaster": 12,
+    "quoin": 1,
     "scaffold": 77,
-    "storefront": 188,
-    "storefront_interior": 44,
-    "string_course": 28,
-    "water_tower": 9,
-    "window": 15117,
-    "window_accessory": 4
+    "storefront": 166,
+    "storefront_interior": 23,
+    "string_course": 17,
+    "water_tower": 5,
+    "window": 7935,
+    "window_accessory": 1
    },
-   "placed": 15676,
+   "placed": 8632,
    "radius_m": 130.0,
-   "records_in_range": 20388,
+   "records_in_range": 21136,
    "stale_registry_ids": {},
-   "suppressed_with_landmark_shells": 4536,
+   "suppressed_with_landmark_shells": 4590,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_6",
     "t_-4_6"
    ],
-   "triangles": 2723218,
+   "triangles": 1531721,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [
     {
      "distance_m": 358.6,
      "id": "c_times_square",
      "lod": 0,
      "name": "Times Square",
+     "own_ground_note": {
+      "above_heightmap_m": -1.54,
+      "heightmap_median_m": 16.53,
+      "reason": "the model's ground stands -1.54 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 182310
     },
     {
@@ -204,6 +323,12 @@
      "id": "30_rockefeller_plaza",
      "lod": 0,
      "name": "30 Rockefeller Plaza",
+     "own_ground_m2": 1476.0,
+     "own_ground_note": {
+      "above_heightmap_m": -0.76,
+      "heightmap_median_m": 20.26
+     },
+     "own_ground_parts": 1,
      "triangles": 102530
     },
     {
@@ -211,6 +336,9 @@
      "id": "moma",
      "lod": 0,
      "name": "Museum of Modern Art",
+     "own_ground_note": {
+      "reason": "every ground polygon is smaller than 25 m2"
+     },
      "triangles": 23620
     },
     {
@@ -218,6 +346,11 @@
      "id": "new_york_public_library",
      "lod": 0,
      "name": "New York Public Library, Stephen A. Schwarzman Building",
+     "own_ground_note": {
+      "above_heightmap_m": -1.19,
+      "heightmap_median_m": 24.66,
+      "reason": "the model's ground stands -1.19 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 51785
     },
     {
@@ -225,6 +358,9 @@
      "id": "st_patricks_cathedral",
      "lod": 0,
      "name": "St. Patrick's Cathedral",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 6259
     },
     {
@@ -232,6 +368,9 @@
      "id": "c_carnegie_hall",
      "lod": 0,
      "name": "Carnegie Hall",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 19122
     },
     {
@@ -239,6 +378,9 @@
      "id": "c_hearst_tower",
      "lod": 0,
      "name": "Hearst Tower",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 13818
     },
     {
@@ -246,6 +388,9 @@
      "id": "one_vanderbilt",
      "lod": 0,
      "name": "One Vanderbilt",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 71710
     },
     {
@@ -253,6 +398,9 @@
      "id": "c_billionaires_row",
      "lod": 0,
      "name": "Billionaires' Row (West 57th Street corridor)",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 220910
     },
     {
@@ -260,9 +408,16 @@
      "id": "b_central_park_walls_gates",
      "lod": 1,
      "name": "Central Park perimeter wall and gates",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 6800
     }
    ],
+   "own_ground_from": [
+    "30_rockefeller_plaza"
+   ],
+   "own_ground_m2": 1476.0,
    "placed": 10,
    "skipped": 0,
    "skipped_detail": [],
@@ -290,12 +445,14 @@
     "t_-4_6",
     "t_-4_7"
    ],
-   "triangles": 172772,
+   "triangles": 172768,
+   "triangles_cut_for_landmark_ground": 4,
    "vertices": 177280
   },
   "props": {
    "capped": null,
-   "impostor_cards_dropped": 9,
+   "impostor_cards_dropped": 10,
+   "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
     "bench": 14,
@@ -315,19 +472,19 @@
     "subway_emergency_exit": 1,
     "subway_entrance": 8,
     "subway_vent_grate": 15,
-    "tree": 31,
+    "tree": 38,
     "waste_basket": 4
    },
-   "placed": 339,
+   "placed": 346,
    "radius_m": 250.0,
-   "rows_in_range": 569,
+   "rows_in_range": 576,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_6",
     "t_-4_6"
    ],
-   "tree_species_substituted": 5,
-   "triangles": 581814,
+   "tree_species_substituted": 12,
+   "triangles": 626122,
    "unmapped_kinds": {
     "artwork": 4,
     "cooling_tower": 128,
@@ -338,7 +495,7 @@
    }
   },
   "radius_m": 800.0,
-  "seconds": 63.32,
+  "seconds": 213.56,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -346,24 +503,34 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 19,
    "samples": 215,
    "spacing_m": 2.0,
-   "triangles": 91592,
+   "triangles": 91554,
+   "water_bodies": [
+    {
+     "kind": "lake",
+     "name": "The Pond",
+     "water_z_m": 9.17
+    }
+   ],
    "water_quads": 0,
    "z_max_m": 25.74,
    "z_min_m": 5.18
   },
-  "triangles": 4500064
+  "triangles": 4500181
  },
  "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
   "kit_radius_m": 130.0,
   "prop_radius_m": 250.0,
   "radius_m": 800.0
  },
  "seconds": {
-  "render": 179.6,
-  "scene": 66.9,
-  "total": 246.5
+  "render": 200.4,
+  "scene": 215.8,
+  "total": 416.1
  },
  "slug": "times_square_duffy_south_day",
  "status": "rendered",

@@ -1,12 +1,20 @@
 {
+ "agent_request": {
+  "dow": 1,
+  "hour": 12,
+  "local_clock": "2021-08-21 12:42 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
  "azimuth_reason": "106.5 deg, the bearing from this photograph's own GPS position to St. Patrick's Cathedral; heading and position both come from the photograph.  The item's recorded azimuth is 111.2 deg, 4.7 deg away, and belongs to its nominal viewpoint",
  "camera": {
   "azimuth_deg": 106.45847568896079,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
-  "focal_mm": 18.87791377660797,
+  "focal_mm": 18.81082948103637,
   "ground_detail": {
+   "below_point_excluded": 0,
    "chosen_m": 21.72,
    "max_m": 22.16,
    "median_m": 21.83,
@@ -19,10 +27,10 @@
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
-  "hfov_deg": 71.109,
+  "hfov_deg": 71.302,
   "lat": 40.758811,
   "lon": -73.977586,
-  "long_side_fov_deg": 87.273,
+  "long_side_fov_deg": 87.476,
   "pitch_deg": 0.0,
   "portrait": true,
   "resolution": [
@@ -36,7 +44,7 @@
   "y": 6516.226,
   "z": 23.32
  },
- "camera_caption": "camera 40.75881, -73.97759 (NYC_TM -2336, 6516) z 23.3 m NAVD88 | azimuth 106.5deg pitch +0.0deg | 19 mm on 36 mm (71.1deg horizontal, 87.3deg vertical, portrait) | 904x1206",
+ "camera_caption": "camera 40.75881, -73.97759 (NYC_TM -2336, 6516) z 23.3 m NAVD88 | azimuth 106.5deg pitch +0.0deg | 19 mm on 36 mm (71.3deg horizontal, 87.5deg vertical, portrait) | 904x1206",
  "camera_origin": {
   "from_photograph_gps": true,
   "lat": 40.758811,
@@ -56,9 +64,9 @@
   "view_m": 73.2
  },
  "frame": {
-  "mean": 0.2215,
+  "mean": 0.2482,
   "reason": null,
-  "sd": 0.1749,
+  "sd": 0.1824,
   "usable": true
  },
  "frame_retry": null,
@@ -69,10 +77,11 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 920.9,
   "emissive": {
+   "cone_faces_deleted": 8,
    "cones_hidden": 1,
    "lamps_switched_off": 3,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.0,
   "sky_azimuth_deg": 171.932,
@@ -98,10 +107,98 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_st_patricks_cathedral/render.png",
- "rendered_at": "2026-09-06T23:53:27Z",
+ "rendered_at": "2026-09-07T22:42:23Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "caption": "Agents: 50 vehicles within 320 m and 322 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 891 vehicles and 3102 people over the whole simulated ring, of which 1001 and 3000 were simulated; 3629 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "culled_after_camera_move": {
+    "pedestrian_over_the_observer": 0,
+    "vehicle_over_the_observer": 1
+   },
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 176,
+    "pedestrian_not_on_walkable_surface": 37,
+    "pedestrian_outside_radius": 1245,
+    "pedestrian_triangle_budget": 1220,
+    "vehicle_body_has_no_rider": 22,
+    "vehicle_not_on_carriageway": 1,
+    "vehicle_outside_radius": 628,
+    "vehicle_over_the_observer": 1,
+    "vehicle_triangle_budget": 300
+   },
+   "ped_lods": {
+    "LOD0": 5,
+    "LOD1": 16,
+    "LOD2": 301
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 584577,
+   "per_class": {
+    "black_car": 7,
+    "boro_taxi": 11,
+    "box_truck": 1,
+    "mta_bus": 1,
+    "sedan": 5,
+    "suv": 5,
+    "taxi": 19,
+    "van": 1
+   },
+   "placed_pedestrians": 322,
+   "placed_vehicles": 49,
+   "reason": null,
+   "seconds": 108.16,
+   "snapshot": {
+    "building_footprints_tested": 1602,
+    "density_lane_km": 27.034,
+    "density_sidewalk_m2": 23827,
+    "density_target_pedestrians": 3101.5,
+    "density_target_vehicles": 891.3,
+    "dow": 1,
+    "hour": 12,
+    "lanes_considered": 271,
+    "lanes_with_nta": 271,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 2.03,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 83,
+    "pavement_polygons_tested": 2633,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 3000,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 1001
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1088713,
+   "vehicle_lods": {
+    "LOD1": 10,
+    "LOD2": 40
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 504136
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
@@ -112,34 +209,50 @@
     "t_-3_7"
    ],
    "landmark_bins_suppressed": 34,
-   "landmark_faces_suppressed": 2910,
+   "landmark_faces_suppressed": 3688,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_-2_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
-     "triangles": 53068
+     "triangles": 70466
     },
     "t_-2_7": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 1,
      "objects": 16,
-     "triangles": 24364
+     "triangles": 35276
     },
     "t_-3_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
-     "triangles": 48780
+     "triangles": 65920
     },
     "t_-3_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 17,
-     "triangles": 29970
+     "triangles": 39682
     },
     "t_-3_7": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
-     "triangles": 22888
+     "triangles": 30666
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -147,50 +260,53 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 5,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 179070
+   "triangles": 242010
   },
   "centre_tm": [
    -2329.39,
    6531.25
   ],
   "kit": {
-   "capped": "triangle budget 2167168",
+   "capped": "triangle budget 1035955",
    "per_category": {
-    "antenna": 3,
-    "bulkhead": 20,
-    "cornice": 11,
-    "door_entry": 30,
-    "hvac": 21,
-    "parapet": 50,
-    "pilaster": 7,
-    "storefront": 161,
-    "storefront_interior": 21,
-    "string_course": 24,
-    "water_tower": 7,
-    "window": 8999,
-    "window_accessory": 123
+    "bulkhead": 5,
+    "cornice": 4,
+    "door_entry": 10,
+    "parapet": 22,
+    "storefront": 103,
+    "storefront_interior": 8,
+    "string_course": 11,
+    "water_tower": 2,
+    "window": 4185,
+    "window_accessory": 2
    },
-   "placed": 9477,
+   "placed": 4352,
    "radius_m": 120.0,
-   "records_in_range": 10651,
+   "records_in_range": 10794,
    "stale_registry_ids": {},
-   "suppressed_with_landmark_shells": 353,
+   "suppressed_with_landmark_shells": 140,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_6"
    ],
-   "triangles": 2167312,
+   "triangles": 1035986,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [
     {
      "distance_m": 121.5,
      "id": "st_patricks_cathedral",
      "lod": 0,
      "name": "St. Patrick's Cathedral",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 6259
     },
     {
@@ -198,6 +314,12 @@
      "id": "30_rockefeller_plaza",
      "lod": 0,
      "name": "30 Rockefeller Plaza",
+     "own_ground_m2": 1476.0,
+     "own_ground_note": {
+      "above_heightmap_m": -0.76,
+      "heightmap_median_m": 20.26
+     },
+     "own_ground_parts": 1,
      "triangles": 102530
     },
     {
@@ -205,6 +327,9 @@
      "id": "moma",
      "lod": 0,
      "name": "Museum of Modern Art",
+     "own_ground_note": {
+      "reason": "every ground polygon is smaller than 25 m2"
+     },
      "triangles": 23620
     },
     {
@@ -212,6 +337,12 @@
      "id": "c_lever_house",
      "lod": 0,
      "name": "Lever House",
+     "own_ground_m2": 2762.7,
+     "own_ground_note": {
+      "above_heightmap_m": 0.29,
+      "heightmap_median_m": 15.87
+     },
+     "own_ground_parts": 1,
      "triangles": 31044
     },
     {
@@ -219,6 +350,11 @@
      "id": "c_seagram_building",
      "lod": 0,
      "name": "Seagram Building",
+     "own_ground_note": {
+      "above_heightmap_m": -2.24,
+      "heightmap_median_m": 16.57,
+      "reason": "the model's ground stands -2.24 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 34356
     },
     {
@@ -226,6 +362,9 @@
      "id": "c_metlife_building",
      "lod": 0,
      "name": "MetLife Building (200 Park Avenue)",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 105284
     },
     {
@@ -233,6 +372,9 @@
      "id": "c_citigroup_center",
      "lod": 0,
      "name": "Citigroup Center (601 Lexington Avenue)",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 76574
     },
     {
@@ -240,6 +382,9 @@
      "id": "c_billionaires_row",
      "lod": 0,
      "name": "Billionaires' Row (West 57th Street corridor)",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 220910
     },
     {
@@ -247,9 +392,19 @@
      "id": "c_times_square",
      "lod": 0,
      "name": "Times Square",
+     "own_ground_note": {
+      "above_heightmap_m": -1.54,
+      "heightmap_median_m": 16.53,
+      "reason": "the model's ground stands -1.54 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 182310
     }
    ],
+   "own_ground_from": [
+    "30_rockefeller_plaza",
+    "c_lever_house"
+   ],
+   "own_ground_m2": 4238.7,
    "placed": 9,
    "skipped": 0,
    "skipped_detail": [],
@@ -276,48 +431,48 @@
     "t_-3_6",
     "t_-3_7"
    ],
-   "triangles": 116397,
+   "triangles": 116391,
+   "triangles_cut_for_landmark_ground": 6,
    "vertices": 119269
   },
   "props": {
-   "capped": "triangle budget 1168444",
+   "capped": "triangle budget 1146704",
    "impostor_cards_dropped": 6,
+   "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
-    "bike_rack": 7,
-    "bus_shelter": 7,
-    "bus_stop_sign": 20,
+    "bike_rack": 2,
+    "bus_shelter": 5,
+    "bus_stop_sign": 14,
     "citibike_dock": 5,
-    "flagpole": 88,
-    "hydrant": 57,
-    "linknyc": 7,
-    "manhole": 74,
+    "flagpole": 86,
+    "hydrant": 43,
+    "linknyc": 5,
+    "manhole": 57,
     "rtpi_sign": 1,
     "steam_vent": 8,
-    "street_lamp": 82,
-    "subway_entrance": 2,
-    "subway_vent_grate": 19,
-    "tree": 150,
-    "waste_basket": 1
+    "street_lamp": 63,
+    "subway_vent_grate": 9,
+    "tree": 162
    },
-   "placed": 528,
+   "placed": 460,
    "radius_m": 250.0,
-   "rows_in_range": 777,
+   "rows_in_range": 805,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_6"
    ],
-   "tree_species_substituted": 2,
-   "triangles": 1171246,
+   "tree_species_substituted": 28,
+   "triangles": 1151630,
    "unmapped_kinds": {
     "artwork": 7,
-    "cooling_tower": 100,
-    "curb_ramp": 88,
+    "cooling_tower": 85,
+    "curb_ramp": 74,
     "memorial": 2
    }
   },
   "radius_m": 595.2400634523692,
-  "seconds": 48.97,
+  "seconds": 162.43,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -325,24 +480,28 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 409,
    "samples": 205,
    "spacing_m": 2.0,
-   "triangles": 83232,
+   "triangles": 82414,
+   "water_bodies": [],
    "water_quads": 0,
    "z_max_m": 23.96,
    "z_min_m": 7.66
   },
-  "triangles": 4500144
+  "triangles": 4500031
  },
  "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
   "radius_m": 595.2400634523692
  },
  "seconds": {
-  "render": 159.7,
-  "scene": 52.1,
-  "total": 211.9
+  "render": 228.8,
+  "scene": 164.1,
+  "total": 392.8
  },
  "slug": "landmark_st_patricks_cathedral",
  "status": "rendered",

@@ -1,4 +1,11 @@
 {
+ "agent_request": {
+  "dow": 1,
+  "hour": 15,
+  "local_clock": "2021-08-21 15:18 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
  "azimuth_reason": "24.6 deg, the bearing from this photograph's own GPS position to Museum of Modern Art; heading and position both come from the photograph.  The item's recorded azimuth is 0.0 deg, 24.6 deg away, and belongs to its nominal viewpoint",
  "camera": {
   "azimuth_deg": 24.611322150481055,
@@ -7,6 +14,7 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 18.0,
   "ground_detail": {
+   "below_point_excluded": 0,
    "chosen_m": 19.76,
    "max_m": 20.15,
    "median_m": 19.91,
@@ -56,9 +64,9 @@
   "view_m": 37.0
  },
  "frame": {
-  "mean": 0.079,
+  "mean": 0.0779,
   "reason": null,
-  "sd": 0.0789,
+  "sd": 0.0783,
   "usable": true
  },
  "frame_retry": null,
@@ -69,10 +77,11 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 880.1,
   "emissive": {
+   "cone_faces_deleted": 16,
    "cones_hidden": 2,
    "lamps_switched_off": 5,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.0,
   "sky_azimuth_deg": 236.494,
@@ -98,10 +107,97 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_moma/render.png",
- "rendered_at": "2026-09-06T23:02:29Z",
+ "rendered_at": "2026-09-07T21:22:30Z",
  "resolution_note": "1044x1044; the reference photograph is 1920x1920 (1.00:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "caption": "Agents: 65 vehicles within 320 m and 312 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 1079 vehicles and 3688 people over the whole simulated ring, of which 1191 and 2999 were simulated; 3813 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "culled_after_camera_move": {
+    "pedestrian_over_the_observer": 0,
+    "vehicle_over_the_observer": 1
+   },
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 149,
+    "pedestrian_not_on_walkable_surface": 29,
+    "pedestrian_outside_radius": 1280,
+    "pedestrian_over_the_observer": 6,
+    "pedestrian_triangle_budget": 1223,
+    "vehicle_body_has_no_rider": 27,
+    "vehicle_not_on_carriageway": 2,
+    "vehicle_outside_radius": 798,
+    "vehicle_over_the_observer": 2,
+    "vehicle_triangle_budget": 298
+   },
+   "ped_lods": {
+    "LOD0": 1,
+    "LOD1": 31,
+    "LOD2": 280
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 580941,
+   "per_class": {
+    "black_car": 7,
+    "boro_taxi": 16,
+    "mta_bus": 1,
+    "sedan": 10,
+    "suv": 4,
+    "taxi": 27
+   },
+   "placed_pedestrians": 312,
+   "placed_vehicles": 64,
+   "reason": null,
+   "seconds": 104.29,
+   "snapshot": {
+    "building_footprints_tested": 3013,
+    "density_lane_km": 27.903,
+    "density_sidewalk_m2": 24596,
+    "density_target_pedestrians": 3687.6,
+    "density_target_vehicles": 1078.9,
+    "dow": 1,
+    "hour": 15,
+    "lanes_considered": 253,
+    "lanes_with_nta": 253,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 3.0,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 89,
+    "pavement_polygons_tested": 4795,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 2999,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 1191
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1086833,
+   "vehicle_lods": {
+    "LOD1": 6,
+    "LOD2": 59
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 505892
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
@@ -111,29 +207,42 @@
     "t_-3_7"
    ],
    "landmark_bins_suppressed": 29,
-   "landmark_faces_suppressed": 2592,
+   "landmark_faces_suppressed": 3370,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_-2_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
-     "triangles": 53068
+     "triangles": 70466
     },
     "t_-2_7": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
-     "triangles": 57268
+     "triangles": 81298
     },
     "t_-3_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 17,
-     "triangles": 29970
+     "triangles": 39682
     },
     "t_-3_7": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
-     "triangles": 22888
+     "triangles": 30666
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -141,51 +250,57 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 4,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 163194
+   "triangles": 222112
   },
   "centre_tm": [
    -2342.99,
    6806.32
   ],
   "kit": {
-   "capped": null,
+   "capped": "triangle budget 1273889",
    "per_category": {
-    "bulkhead": 19,
-    "cornice": 12,
-    "door_entry": 34,
-    "fire_escape": 30,
-    "hvac": 13,
-    "parapet": 43,
-    "pilaster": 11,
-    "quoin": 10,
-    "storefront": 58,
-    "storefront_interior": 19,
-    "string_course": 15,
-    "water_tower": 7,
-    "window": 13572,
-    "window_accessory": 419
+    "bulkhead": 13,
+    "cornice": 7,
+    "door_entry": 28,
+    "fire_escape": 15,
+    "hvac": 12,
+    "parapet": 28,
+    "pilaster": 5,
+    "quoin": 7,
+    "storefront": 60,
+    "storefront_interior": 16,
+    "string_course": 10,
+    "water_tower": 5,
+    "window": 7586,
+    "window_accessory": 305
    },
-   "placed": 14262,
+   "placed": 8097,
    "radius_m": 120.0,
-   "records_in_range": 18120,
+   "records_in_range": 18161,
    "stale_registry_ids": {},
-   "suppressed_with_landmark_shells": 3858,
+   "suppressed_with_landmark_shells": 3869,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_6"
    ],
-   "triangles": 2273351,
+   "triangles": 1273985,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [
     {
      "distance_m": 37.0,
      "id": "moma",
      "lod": 0,
      "name": "Museum of Modern Art",
+     "own_ground_note": {
+      "reason": "every ground polygon is smaller than 25 m2"
+     },
      "triangles": 23620
     },
     {
@@ -193,6 +308,12 @@
      "id": "30_rockefeller_plaza",
      "lod": 0,
      "name": "30 Rockefeller Plaza",
+     "own_ground_m2": 1476.0,
+     "own_ground_note": {
+      "above_heightmap_m": -0.76,
+      "heightmap_median_m": 20.26
+     },
+     "own_ground_parts": 1,
      "triangles": 102530
     },
     {
@@ -200,6 +321,9 @@
      "id": "st_patricks_cathedral",
      "lod": 0,
      "name": "St. Patrick's Cathedral",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 6259
     },
     {
@@ -207,6 +331,9 @@
      "id": "c_billionaires_row",
      "lod": 0,
      "name": "Billionaires' Row (West 57th Street corridor)",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 220910
     },
     {
@@ -214,6 +341,9 @@
      "id": "c_the_plaza",
      "lod": 0,
      "name": "The Plaza Hotel",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 26492
     },
     {
@@ -221,6 +351,9 @@
      "id": "c_carnegie_hall",
      "lod": 0,
      "name": "Carnegie Hall",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 19122
     },
     {
@@ -228,6 +361,12 @@
      "id": "c_lever_house",
      "lod": 0,
      "name": "Lever House",
+     "own_ground_m2": 2762.7,
+     "own_ground_note": {
+      "above_heightmap_m": 0.29,
+      "heightmap_median_m": 15.87
+     },
+     "own_ground_parts": 1,
      "triangles": 31044
     },
     {
@@ -235,6 +374,11 @@
      "id": "c_seagram_building",
      "lod": 0,
      "name": "Seagram Building",
+     "own_ground_note": {
+      "above_heightmap_m": -2.24,
+      "heightmap_median_m": 16.57,
+      "reason": "the model's ground stands -2.24 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 34356
     },
     {
@@ -242,9 +386,17 @@
      "id": "b_central_park_walls_gates",
      "lod": 0,
      "name": "Central Park perimeter wall and gates",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 18448
     }
    ],
+   "own_ground_from": [
+    "30_rockefeller_plaza",
+    "c_lever_house"
+   ],
+   "own_ground_m2": 4238.7,
    "placed": 9,
    "skipped": 0,
    "skipped_detail": [],
@@ -270,51 +422,53 @@
     "t_-3_6",
     "t_-3_7"
    ],
-   "triangles": 80637,
+   "triangles": 80631,
+   "triangles_cut_for_landmark_ground": 6,
    "vertices": 82403
   },
   "props": {
-   "capped": "triangle budget 1293243",
+   "capped": "triangle budget 1272657",
    "impostor_cards_dropped": 14,
+   "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
     "bike_rack": 10,
     "bus_shelter": 6,
     "bus_stop_sign": 16,
     "citibike_dock": 7,
-    "flagpole": 19,
-    "hydrant": 52,
+    "flagpole": 18,
+    "hydrant": 51,
     "linknyc": 3,
     "mailbox": 3,
-    "manhole": 77,
+    "manhole": 73,
     "newsstand": 2,
     "steam_vent": 3,
-    "street_lamp": 89,
+    "street_lamp": 85,
     "subway_emergency_exit": 2,
-    "subway_entrance": 6,
-    "subway_vent_grate": 31,
+    "subway_entrance": 4,
+    "subway_vent_grate": 30,
     "tree": 183,
     "waste_basket": 2
    },
-   "placed": 511,
+   "placed": 498,
    "radius_m": 250.0,
-   "rows_in_range": 696,
+   "rows_in_range": 707,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_6",
     "t_-3_7"
    ],
-   "tree_species_substituted": 39,
-   "triangles": 1293602,
+   "tree_species_substituted": 42,
+   "triangles": 1275442,
    "unmapped_kinds": {
     "artwork": 7,
-    "cooling_tower": 90,
-    "curb_ramp": 61,
+    "cooling_tower": 88,
+    "curb_ramp": 59,
     "misc_structure": 1
    }
   },
   "radius_m": 500.0,
-  "seconds": 84.57,
+  "seconds": 205.43,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -322,24 +476,34 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 48,
    "samples": 199,
    "spacing_m": 2.0,
-   "triangles": 78408,
-   "water_quads": 0,
+   "triangles": 78312,
+   "water_bodies": [
+    {
+     "kind": "lake",
+     "name": "The Pond",
+     "water_z_m": 9.17
+    }
+   ],
+   "water_quads": 1,
    "z_max_m": 25.56,
    "z_min_m": 9.16
   },
-  "triangles": 4371973
+  "triangles": 4500096
  },
  "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
   "radius_m": 500.0
  },
  "seconds": {
-  "render": 171.1,
-  "scene": 157.4,
-  "total": 328.5
+  "render": 178.3,
+  "scene": 225.8,
+  "total": 404.1
  },
  "slug": "landmark_moma",
  "status": "rendered",

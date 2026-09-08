@@ -1,4 +1,11 @@
 {
+ "agent_request": {
+  "dow": 0,
+  "hour": 12,
+  "local_clock": "2021-08-25 12:41 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
  "azimuth_reason": "4.1 deg, the bearing from this photograph's own GPS position to Paramount Building (1501 Broadway); heading and position both come from the photograph.  The item's recorded azimuth is 210.0 deg, 154.1 deg away, and belongs to its nominal viewpoint",
  "camera": {
   "azimuth_deg": 4.096643031924162,
@@ -7,6 +14,7 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 18.0,
   "ground_detail": {
+   "below_point_excluded": 0,
    "chosen_m": 15.76,
    "max_m": 16.12,
    "median_m": 15.92,
@@ -54,9 +62,9 @@
   "view_m": 47.5
  },
  "frame": {
-  "mean": 0.2712,
+  "mean": 0.261,
   "reason": null,
-  "sd": 0.1181,
+  "sd": 0.1258,
   "usable": true
  },
  "frame_retry": null,
@@ -67,10 +75,11 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 917.5,
   "emissive": {
+   "cone_faces_deleted": 8,
    "cones_hidden": 1,
    "lamps_switched_off": 3,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.0,
   "sky_azimuth_deg": 171.886,
@@ -96,10 +105,95 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_paramount_building/render.png",
- "rendered_at": "2026-09-06T23:44:15Z",
+ "rendered_at": "2026-09-07T22:24:12Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "caption": "Agents: 50 vehicles within 320 m and 238 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 1314 vehicles and 2999 people over the whole simulated ring, of which 1548 and 3000 were simulated; 4260 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 248,
+    "pedestrian_not_on_walkable_surface": 113,
+    "pedestrian_outside_radius": 980,
+    "pedestrian_over_the_observer": 1,
+    "pedestrian_triangle_budget": 1420,
+    "vehicle_body_has_no_rider": 24,
+    "vehicle_not_on_carriageway": 36,
+    "vehicle_outside_radius": 796,
+    "vehicle_over_the_observer": 7,
+    "vehicle_triangle_budget": 635
+   },
+   "ped_lods": {
+    "LOD0": 7,
+    "LOD1": 38,
+    "LOD2": 193
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 580628,
+   "per_class": {
+    "black_car": 6,
+    "boro_taxi": 8,
+    "box_truck": 1,
+    "dsny_truck": 1,
+    "mta_bus": 1,
+    "sedan": 10,
+    "suv": 4,
+    "taxi": 19
+   },
+   "placed_pedestrians": 238,
+   "placed_vehicles": 50,
+   "reason": null,
+   "seconds": 90.87,
+   "snapshot": {
+    "building_footprints_tested": 3441,
+    "density_lane_km": 27.521,
+    "density_sidewalk_m2": 24672,
+    "density_target_pedestrians": 2999.4,
+    "density_target_vehicles": 1314.5,
+    "dow": 0,
+    "hour": 12,
+    "lanes_considered": 209,
+    "lanes_with_nta": 209,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 2.14,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 96,
+    "pavement_polygons_tested": 5668,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 3000,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 1548
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1085393,
+   "vehicle_lods": {
+    "LOD1": 10,
+    "LOD2": 40
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 504765
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
@@ -109,29 +203,42 @@
     "t_-4_6"
    ],
    "landmark_bins_suppressed": 30,
-   "landmark_faces_suppressed": 4060,
+   "landmark_faces_suppressed": 4402,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_-3_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
-     "triangles": 48780
+     "triangles": 65920
     },
     "t_-3_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 17,
-     "triangles": 29970
+     "triangles": 39682
     },
     "t_-4_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 19,
-     "triangles": 44562
+     "triangles": 64092
     },
     "t_-4_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 17,
-     "triangles": 65152
+     "triangles": 77988
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -139,8 +246,9 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 4,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 188464
+   "triangles": 247682
   },
   "centre_tm": [
    -3077.3,
@@ -149,6 +257,7 @@
   "kit": {
    "capped": null,
    "per_category": {
+    "billboard": 80,
     "bulkhead": 9,
     "cornice": 16,
     "door_entry": 21,
@@ -158,34 +267,41 @@
     "pilaster": 10,
     "quoin": 15,
     "scaffold": 28,
-    "storefront": 66,
+    "storefront": 116,
     "storefront_interior": 12,
     "string_course": 16,
     "water_tower": 2,
     "window": 4556,
     "window_accessory": 6
    },
-   "placed": 4797,
+   "placed": 4927,
    "radius_m": 120.0,
-   "records_in_range": 14526,
+   "records_in_range": 14672,
    "stale_registry_ids": {},
-   "suppressed_with_landmark_shells": 9729,
+   "suppressed_with_landmark_shells": 9745,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_6",
     "t_-4_6"
    ],
-   "triangles": 852566,
+   "triangles": 864866,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [
     {
      "distance_m": 51.0,
      "id": "c_times_square",
      "lod": 0,
      "name": "Times Square",
+     "own_ground_note": {
+      "above_heightmap_m": -1.54,
+      "heightmap_median_m": 16.53,
+      "reason": "the model's ground stands -1.54 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 182310
     },
     {
@@ -193,9 +309,16 @@
      "id": "new_york_public_library",
      "lod": 0,
      "name": "New York Public Library, Stephen A. Schwarzman Building",
+     "own_ground_note": {
+      "above_heightmap_m": -1.19,
+      "heightmap_median_m": 24.66,
+      "reason": "the model's ground stands -1.19 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 51785
     }
    ],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
    "placed": 2,
    "skipped": 0,
    "skipped_detail": [],
@@ -222,11 +345,13 @@
     "t_-4_6"
    ],
    "triangles": 64776,
+   "triangles_cut_for_landmark_ground": 0,
    "vertices": 66596
   },
   "props": {
    "capped": null,
-   "impostor_cards_dropped": 6,
+   "impostor_cards_dropped": 7,
+   "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
     "bench": 7,
@@ -244,19 +369,19 @@
     "subway_emergency_exit": 1,
     "subway_entrance": 13,
     "subway_vent_grate": 26,
-    "tree": 14,
+    "tree": 32,
     "waste_basket": 5
    },
-   "placed": 317,
+   "placed": 335,
    "radius_m": 250.0,
-   "rows_in_range": 531,
+   "rows_in_range": 549,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_6",
     "t_-4_6"
    ],
-   "tree_species_substituted": 5,
-   "triangles": 476264,
+   "tree_species_substituted": 23,
+   "triangles": 568064,
    "unmapped_kinds": {
     "artwork": 3,
     "cooling_tower": 136,
@@ -266,7 +391,7 @@
    }
   },
   "radius_m": 500.8207989155892,
-  "seconds": 47.76,
+  "seconds": 173.62,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -274,24 +399,28 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
    "samples": 199,
    "spacing_m": 2.0,
    "triangles": 78408,
+   "water_bodies": [],
    "water_quads": 0,
    "z_max_m": 25.14,
    "z_min_m": 7.06
   },
-  "triangles": 1894573
+  "triangles": 3143284
  },
  "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
   "radius_m": 500.8207989155892
  },
  "seconds": {
-  "render": 217.0,
-  "scene": 49.2,
-  "total": 266.2
+  "render": 227.9,
+  "scene": 174.8,
+  "total": 402.7
  },
  "slug": "landmark_paramount_building",
  "status": "rendered",

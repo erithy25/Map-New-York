@@ -1,28 +1,36 @@
 {
- "azimuth_reason": "315.5 deg as recorded; it agrees with the bearing from the camera position used to Statue of Liberty (315.5 deg) to 0.0 deg",
+ "agent_request": {
+  "dow": 0,
+  "hour": 15,
+  "local_clock": "2023-10-03 15:11 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
+ "azimuth_reason": "304.8 deg, the bearing from this photograph's own GPS position to Statue of Liberty; heading and position both come from the photograph.  The item's recorded azimuth is 315.5 deg, 10.7 deg away, and belongs to its nominal viewpoint",
  "camera": {
-  "azimuth_deg": 315.5,
+  "azimuth_deg": 304.82120961713355,
   "eye_datum": "terrain",
   "eye_height_m": 1.6,
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
-  "focal_mm": 21.263811777597333,
+  "focal_mm": 18.0,
   "ground_detail": {
-   "chosen_m": 0.0,
-   "max_m": 0.0,
-   "median_m": 0.0,
+   "below_point_excluded": 40,
+   "chosen_m": 3.01,
+   "max_m": 3.87,
+   "median_m": 3.25,
    "min_m": 0.0,
    "mode": "street",
    "percentile": 10.0,
-   "point_m": 0.0,
+   "point_m": 3.42,
    "radius_m": 12.0,
    "samples": 113
   },
   "ground_mode": "street",
   "ground_source": "the viewpoint note places the photographer on the traffic surface, so the 10th percentile of the heightmap within 12 m is used -- the 1 m DEM carries building grades and raised plinths that would otherwise lift the camera off the street",
-  "hfov_deg": 58.914,
-  "lat": 40.6884,
-  "lon": -74.0434,
-  "long_side_fov_deg": 80.496,
+  "hfov_deg": 67.421,
+  "lat": 40.68882,
+  "lon": -74.043686,
+  "long_side_fov_deg": 90.0,
   "pitch_deg": 0.0,
   "portrait": true,
   "resolution": [
@@ -31,47 +39,47 @@
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_statue_of_liberty",
-  "terrain_z_m": 0.0,
-  "x": -7895.118,
-  "y": -1283.962,
-  "z": 1.6
+  "terrain_z_m": 3.011,
+  "x": -7919.244,
+  "y": -1237.296,
+  "z": 4.611
  },
- "camera_caption": "camera 40.68840, -74.04340 (NYC_TM -7895, -1284) z 1.6 m NAVD88 | azimuth 315.5deg pitch +0.0deg | 21 mm on 36 mm (58.9deg horizontal, 80.5deg vertical, portrait) | 854x1280",
+ "camera_caption": "camera 40.68882, -74.04369 (NYC_TM -7919, -1237) z 4.6 m NAVD88 | azimuth 304.8deg pitch +0.0deg | 18 mm on 36 mm (67.4deg horizontal, 90.0deg vertical, portrait) | 854x1280",
  "camera_origin": {
-  "from_photograph_gps": false,
-  "lat": 40.6884,
-  "lon": -74.0434,
-  "offset_from_recorded_m": 0.0,
-  "photograph_gps_offset_m": 52.5,
-  "source": "the item's recorded viewpoint.  This photograph's own EXIF GPS is 53 m away, but the eye point there is under verify_pavement (1.8 m of ground or paving directly overhead, so the eye point is beneath the walking surface), while the recorded viewpoint is in open air"
+  "from_photograph_gps": true,
+  "lat": 40.68882,
+  "lon": -74.043686,
+  "offset_from_recorded_m": 52.5,
+  "source": "this photograph's own EXIF camera GPS (40.68882, -74.04369), 53 m from the item's recorded viewpoint -- the position the picture was taken from"
  },
  "clearance": {
   "min_view_m": 41.9,
   "moved": false,
-  "nearest_obstruction": null,
-  "nearest_obstruction_m": 60.0,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is further than 60 m, and the view azimuth is clear for 92 m",
+  "nearest_obstruction": "lm_b_statue_of_liberty.4",
+  "nearest_obstruction_m": 46.1,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is lm_b_statue_of_liberty.4 46.1 m away, and the view azimuth is clear for 47 m",
   "offset_m": 0.0,
-  "view_m": 92.2
+  "view_m": 47.4
  },
  "frame": {
-  "mean": 0.5797,
+  "mean": 0.6219,
   "reason": null,
-  "sd": 0.1395,
+  "sd": 0.0641,
   "usable": true
  },
  "frame_retry": null,
  "group": "landmark",
  "interior": false,
- "lens_reason": "widened from 35 mm to 21 mm (80 deg vertical) so that a level axis contains the subject: the b_statue_of_liberty model's published 93 m height stands 96 m above the lens at 132 m, 36 deg above the horizon",
+ "lens_reason": "widened from 35 mm to 18 mm (90 deg vertical) so that a level axis contains the subject: the b_statue_of_liberty model's published 93 m height stands 93 m above the lens at 84 m, 48 deg above the horizon; held at the 18 mm floor, so the top of the subject is still cut off -- past that point the distortion would stop the two frames being comparable",
  "lighting": {
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 804.1,
   "emissive": {
+   "cone_faces_deleted": 8,
    "cones_hidden": 1,
    "lamps_switched_off": 1,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.33,
   "sky_azimuth_deg": 225.771,
@@ -82,7 +90,7 @@
  },
  "name": "Statue of Liberty",
  "night": false,
- "pitch_reason": "level optical axis (Statue of Liberty is 132 m away and would need +21 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "pitch_reason": "level optical axis (Statue of Liberty is 84 m away and would need +29 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
  "reference_photo": {
   "author": "Jakub Ha\u0142un",
   "confidence": "high",
@@ -97,47 +105,127 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_statue_of_liberty/render.png",
- "rendered_at": "2026-09-06T23:54:15Z",
+ "rendered_at": "2026-09-07T22:44:04Z",
  "resolution_note": "854x1280; the reference photograph is 1920x2876 (0.67:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "caption": "Agents: none placed - the simulation frame is empty here",
+   "dropped": {},
+   "ped_lods": {},
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 0,
+   "per_class": {},
+   "placed_pedestrians": 0,
+   "placed_vehicles": 0,
+   "reason": "the simulation frame is empty here",
+   "seconds": 0.02,
+   "snapshot": {
+    "building_footprints_tested": 21,
+    "density_lane_km": 0.0,
+    "density_sidewalk_m2": 0,
+    "density_target_pedestrians": 0.0,
+    "density_target_vehicles": 0.0,
+    "dow": 0,
+    "hour": 15,
+    "lanes_considered": 0,
+    "lanes_with_nta": 0,
+    "min_leader_gap_m": 1000000.0,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 2.13,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 0,
+    "npc_templates_baked": 0,
+    "pavement_polygons_tested": 16,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 0,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 0
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 0,
+   "vehicle_lods": {},
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 0
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
     "t_-8_-1",
     "t_-8_-2",
+    "t_-9_-1",
     "t_-9_-2"
    ],
    "landmark_bins_suppressed": 1,
    "landmark_faces_suppressed": 1724,
    "lod_substituted": [],
-   "missing": [
+   "missing": [],
+   "new_jersey": [
+    "t_-8_-1",
     "t_-9_-1"
    ],
    "per_tile": {
     "t_-8_-1": {
+     "files": [
+      "tile_buildings.glb",
+      "tile_buildings_nj.glb"
+     ],
      "lod": 0,
-     "objects": 3,
-     "triangles": 2956
+     "objects": 5,
+     "triangles": 2988
     },
     "t_-8_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 2,
      "triangles": 100
     },
+    "t_-9_-1": {
+     "files": [
+      "tile_buildings_nj.glb"
+     ],
+     "lod": 0,
+     "objects": 3,
+     "triangles": 136
+    },
     "t_-9_-2": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 7,
-     "triangles": 276
+     "triangles": 296
     }
    },
    "tiles_dropped_for_budget": 0,
-   "tiles_imported": 3,
+   "tiles_imported": 4,
    "tiles_lod_substituted": 0,
-   "tiles_missing": 1,
+   "tiles_missing": 0,
    "tiles_wanted": 4,
+   "tiles_with_new_jersey": 2,
    "triangle_budget": 3510000,
-   "triangles": 3332
+   "triangles": 3520
   },
   "centre_tm": [
    -7919.24,
@@ -166,12 +254,17 @@
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [
     {
      "distance_m": 94.1,
      "id": "b_statue_of_liberty",
      "lod": 0,
      "name": "Statue of Liberty",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 19812
     },
     {
@@ -179,9 +272,14 @@
      "id": "c_whitehall_and_st_george_ferry_terminals",
      "lod": 0,
      "name": "Whitehall, Battery Maritime and St. George ferry terminals",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 77605
     }
    ],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
    "placed": 2,
    "skipped": 0,
    "skipped_detail": [],
@@ -203,35 +301,38 @@
     "t_-9_-2"
    ],
    "triangles": 393,
+   "triangles_cut_for_landmark_ground": 0,
    "vertices": 407
   },
   "props": {
    "capped": null,
-   "impostor_cards_dropped": 0,
+   "impostor_cards_dropped": 3,
+   "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
     "manhole": 16,
     "steam_vent": 1,
     "street_lamp": 18,
+    "tree": 227,
     "waste_basket": 14
    },
-   "placed": 49,
+   "placed": 276,
    "radius_m": 250.0,
-   "rows_in_range": 51,
+   "rows_in_range": 278,
    "tiles_missing": [],
    "tiles_read": [
     "t_-8_-1",
     "t_-8_-2",
     "t_-9_-2"
    ],
-   "tree_species_substituted": 0,
-   "triangles": 81612,
+   "tree_species_substituted": 227,
+   "triangles": 1287872,
    "unmapped_kinds": {
     "artwork": 2
    }
   },
   "radius_m": 534.0043736737133,
-  "seconds": 3.13,
+  "seconds": 10.71,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -239,24 +340,39 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
    "samples": 201,
    "spacing_m": 2.0,
    "triangles": 80000,
-   "water_quads": 30834,
+   "water_bodies": [
+    {
+     "kind": "bay",
+     "name": "UPPER NEW YORK BAY",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "UPPER NEW YORK BAY",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 31395,
    "z_max_m": 6.02,
    "z_min_m": -0.2
   },
-  "triangles": 590836
+  "triangles": 1797284
  },
  "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
   "radius_m": 534.0043736737133
  },
  "seconds": {
-  "render": 43.8,
-  "scene": 3.4,
-  "total": 47.2
+  "render": 87.6,
+  "scene": 10.9,
+  "total": 98.5
  },
  "slug": "landmark_statue_of_liberty",
  "status": "rendered",

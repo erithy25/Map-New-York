@@ -107,12 +107,12 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_bed_stuy_stuyvesant_ave/render.png",
- "rendered_at": "2026-09-07T14:15:45Z",
+ "rendered_at": "2026-09-08T05:35:00Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1439 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
-   "caption": "Agents: 88 vehicles within 320 m and 378 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 253 vehicles and 542 people over the whole simulated ring, of which 303 and 790 were simulated; 627 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "caption": "Agents: 87 vehicles within 320 m and 378 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 253 vehicles and 542 people over the whole simulated ring, of which 303 and 790 were simulated; 628 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "dropped": {
     "pedestrian_in_the_carriageway_not_crossing": 40,
     "pedestrian_not_on_walkable_surface": 29,
@@ -120,7 +120,7 @@
     "vehicle_body_has_no_rider": 12,
     "vehicle_not_on_carriageway": 1,
     "vehicle_outside_radius": 191,
-    "vehicle_triangle_budget": 11
+    "vehicle_triangle_budget": 12
    },
    "ped_lods": {
     "LOD1": 1,
@@ -128,21 +128,21 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 519867,
+   "pedestrian_triangles": 519845,
    "per_class": {
     "black_car": 3,
     "boro_taxi": 4,
     "dsny_truck": 1,
     "mta_bus": 1,
     "sedan": 46,
-    "suv": 22,
+    "suv": 21,
     "taxi": 8,
     "van": 3
    },
    "placed_pedestrians": 378,
-   "placed_vehicles": 88,
+   "placed_vehicles": 87,
    "reason": null,
-   "seconds": 46.81,
+   "seconds": 39.28,
    "snapshot": {
     "building_footprints_tested": 4688,
     "density_lane_km": 18.278,
@@ -157,7 +157,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.42,
+     "load_seconds": 2.16,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -181,15 +181,15 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 303
    },
-   "snapshot_note": "cached 1437_-2032_10_1_1dfbfd159a04867c_1788782618.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1021940,
+   "triangles": 1023150,
    "vehicle_lods": {
-    "LOD2": 88
+    "LOD2": 87
    },
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
-   "vehicle_triangles": 502073
+   "vehicle_triangles": 503305
   },
   "buildings": {
    "dropped_for_budget": [],
@@ -348,6 +348,7 @@
    "per_kind": {
     "bus_stop_sign": 2,
     "citibike_dock": 1,
+    "cooling_tower": 4,
     "hydrant": 24,
     "mailbox": 1,
     "manhole": 52,
@@ -355,7 +356,7 @@
     "tree": 227,
     "waste_basket": 1
    },
-   "placed": 361,
+   "placed": 365,
    "radius_m": 250.0,
    "rows_in_range": 719,
    "tiles_missing": [],
@@ -364,14 +365,13 @@
     "t_1_-3"
    ],
    "tree_species_substituted": 73,
-   "triangles": 1264886,
+   "triangles": 1266662,
    "unmapped_kinds": {
-    "cooling_tower": 4,
     "curb_ramp": 54
    }
   },
   "radius_m": 720.0,
-  "seconds": 97.87,
+  "seconds": 95.14,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -388,7 +388,7 @@
    "z_max_m": 26.66,
    "z_min_m": 12.78
   },
-  "triangles": 4343136
+  "triangles": 4346122
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -398,9 +398,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 134.9,
-  "scene": 99.0,
-  "total": 233.9
+  "render": 127.9,
+  "scene": 96.3,
+  "total": 224.2
  },
  "slug": "drive_brooklyn_bed_stuy_stuyvesant_ave",
  "status": "rendered",

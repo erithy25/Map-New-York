@@ -64,9 +64,9 @@
   "view_m": 40.3
  },
  "frame": {
-  "mean": 0.2716,
+  "mean": 0.2679,
   "reason": null,
-  "sd": 0.187,
+  "sd": 0.1878,
   "usable": true
  },
  "frame_retry": null,
@@ -107,19 +107,19 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_arthur_ave/render.png",
- "rendered_at": "2026-09-07T14:05:06Z",
+ "rendered_at": "2026-09-08T05:26:00Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
-   "caption": "Agents: 89 vehicles within 320 m and 281 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 173 vehicles and 506 people over the whole simulated ring, of which 206 and 623 were simulated; 459 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "caption": "Agents: 88 vehicles within 320 m and 281 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 173 vehicles and 506 people over the whole simulated ring, of which 206 and 623 were simulated; 460 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "dropped": {
     "pedestrian_in_the_carriageway_not_crossing": 50,
     "pedestrian_not_on_walkable_surface": 22,
     "pedestrian_outside_radius": 270,
     "vehicle_body_has_no_rider": 4,
     "vehicle_outside_radius": 109,
-    "vehicle_triangle_budget": 4
+    "vehicle_triangle_budget": 5
    },
    "ped_lods": {
     "LOD1": 7,
@@ -127,21 +127,21 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 411107,
+   "pedestrian_triangles": 411091,
    "per_class": {
     "black_car": 5,
     "boro_taxi": 2,
     "box_truck": 3,
     "mta_bus": 4,
-    "sedan": 49,
+    "sedan": 48,
     "suv": 18,
     "taxi": 5,
     "van": 3
    },
    "placed_pedestrians": 281,
-   "placed_vehicles": 89,
+   "placed_vehicles": 88,
    "reason": null,
-   "seconds": 46.33,
+   "seconds": 38.11,
    "snapshot": {
     "building_footprints_tested": 4239,
     "density_lane_km": 25.141,
@@ -156,7 +156,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.23,
+     "load_seconds": 2.0,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -180,15 +180,15 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 206
    },
-   "snapshot_note": "cached 5248_17241_9_2_2efce787d001752b_1788782618.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 915985,
+   "triangles": 917291,
    "vehicle_lods": {
-    "LOD2": 89
+    "LOD2": 88
    },
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
-   "vehicle_triangles": 504878
+   "vehicle_triangles": 506200
   },
   "buildings": {
    "dropped_for_budget": [],
@@ -325,14 +325,15 @@
    "leaf_off": false,
    "per_kind": {
     "citibike_dock": 2,
+    "cooling_tower": 48,
     "flagpole": 1,
-    "hydrant": 28,
+    "hydrant": 26,
     "mailbox": 1,
-    "manhole": 57,
-    "street_lamp": 64,
-    "tree": 202
+    "manhole": 54,
+    "street_lamp": 61,
+    "tree": 200
    },
-   "placed": 355,
+   "placed": 393,
    "radius_m": 250.0,
    "rows_in_range": 880,
    "tiles_missing": [],
@@ -341,16 +342,15 @@
     "t_5_16",
     "t_5_17"
    ],
-   "tree_species_substituted": 64,
-   "triangles": 1387256,
+   "tree_species_substituted": 62,
+   "triangles": 1387352,
    "unmapped_kinds": {
-    "cooling_tower": 48,
-    "curb_ramp": 82,
+    "curb_ramp": 81,
     "parks_comfort_station": 1
    }
   },
   "radius_m": 720.0,
-  "seconds": 118.92,
+  "seconds": 106.94,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -403,7 +403,7 @@
    "z_max_m": 36.83,
    "z_min_m": 10.98
   },
-  "triangles": 4475888
+  "triangles": 4477290
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -413,9 +413,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 180.7,
-  "scene": 123.5,
-  "total": 304.2
+  "render": 217.1,
+  "scene": 109.1,
+  "total": 326.2
  },
  "slug": "drive_bronx_arthur_ave",
  "status": "rendered",

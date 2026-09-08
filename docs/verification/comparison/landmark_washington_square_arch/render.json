@@ -1,4 +1,11 @@
 {
+ "agent_request": {
+  "dow": 0,
+  "hour": 18,
+  "local_clock": "2026-04-16 18:16 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
  "azimuth_reason": "44.7 deg, the bearing from this photograph's own GPS position to Washington Square Arch; heading and position both come from the photograph.  The item's recorded azimuth is 26.8 deg, 17.9 deg away, and belongs to its nominal viewpoint",
  "camera": {
   "azimuth_deg": 44.68651784182192,
@@ -48,16 +55,16 @@
  "clearance": {
   "min_view_m": 20.0,
   "moved": false,
-  "nearest_obstruction": "prop_lamp_bishops_crook_2",
+  "nearest_obstruction": "prop_lamp_bishops_crook_3",
   "nearest_obstruction_m": 17.2,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_bishops_crook_2 17.2 m away, and the view azimuth is clear for 77 m",
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_bishops_crook_3 17.2 m away, and the view azimuth is clear for 77 m",
   "offset_m": 0.0,
   "view_m": 76.5
  },
  "frame": {
-  "mean": 0.6973,
+  "mean": 0.5711,
   "reason": null,
-  "sd": 0.1289,
+  "sd": 0.2076,
   "usable": true
  },
  "frame_retry": null,
@@ -68,10 +75,11 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 542.9,
   "emissive": {
-   "cones_hidden": 2,
-   "lamps_switched_off": 3,
+   "cone_faces_deleted": 8,
+   "cones_hidden": 1,
+   "lamps_switched_off": 1,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 1.61,
   "sky_azimuth_deg": 271.693,
@@ -97,10 +105,88 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_washington_square_arch/render.png",
- "rendered_at": "2026-09-07T08:09:02Z",
+ "rendered_at": "2026-09-07T23:03:10Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "caption": "Agents: 88 vehicles within 320 m and 422 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 504 vehicles and 3734 people over the whole simulated ring, of which 560 and 2999 were simulated; 3049 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 218,
+    "pedestrian_inside_building": 20,
+    "pedestrian_not_on_walkable_surface": 181,
+    "pedestrian_outside_radius": 1141,
+    "pedestrian_triangle_budget": 1017,
+    "vehicle_body_has_no_rider": 12,
+    "vehicle_outside_radius": 288,
+    "vehicle_triangle_budget": 172
+   },
+   "ped_lods": {
+    "LOD2": 422
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 580492,
+   "per_class": {
+    "black_car": 7,
+    "boro_taxi": 9,
+    "mta_bus": 1,
+    "sedan": 31,
+    "suv": 12,
+    "taxi": 28
+   },
+   "placed_pedestrians": 422,
+   "placed_vehicles": 88,
+   "reason": null,
+   "seconds": 57.04,
+   "snapshot": {
+    "building_footprints_tested": 3222,
+    "density_lane_km": 23.535,
+    "density_sidewalk_m2": 28239,
+    "density_target_pedestrians": 3733.9,
+    "density_target_vehicles": 504.1,
+    "dow": 0,
+    "hour": 18,
+    "lanes_considered": 264,
+    "lanes_with_nta": 264,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 2.07,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 70,
+    "pavement_polygons_tested": 3199,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 2999,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 560
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1086232,
+   "vehicle_lods": {
+    "LOD2": 88
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 505740
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
@@ -121,7 +207,7 @@
      ],
      "lod": 0,
      "objects": 19,
-     "triangles": 112938
+     "triangles": 113526
     },
     "t_-4_3": {
      "files": [
@@ -129,7 +215,7 @@
      ],
      "lod": 0,
      "objects": 18,
-     "triangles": 100276
+     "triangles": 100572
     },
     "t_-5_2": {
      "files": [
@@ -137,7 +223,7 @@
      ],
      "lod": 0,
      "objects": 18,
-     "triangles": 86250
+     "triangles": 85418
     },
     "t_-5_3": {
      "files": [
@@ -145,7 +231,7 @@
      ],
      "lod": 0,
      "objects": 18,
-     "triangles": 125500
+     "triangles": 126174
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -155,7 +241,7 @@
    "tiles_wanted": 4,
    "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 424964
+   "triangles": 425690
   },
   "centre_tm": [
    -3997.93,
@@ -164,6 +250,7 @@
   "kit": {
    "capped": null,
    "per_category": {
+    "billboard": 1,
     "bulkhead": 2,
     "cornice": 18,
     "door_entry": 21,
@@ -172,15 +259,15 @@
     "parapet": 25,
     "pilaster": 3,
     "quoin": 1,
-    "storefront": 10,
+    "storefront": 18,
     "storefront_interior": 2,
     "string_course": 18,
     "window": 2275,
     "window_accessory": 80
    },
-   "placed": 2457,
+   "placed": 2466,
    "radius_m": 120.0,
-   "records_in_range": 2457,
+   "records_in_range": 2466,
    "stale_registry_ids": {},
    "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
@@ -188,7 +275,7 @@
     "t_-4_3",
     "t_-5_3"
    ],
-   "triangles": 463505,
+   "triangles": 464233,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -202,6 +289,10 @@
      "lod": 0,
      "name": "Washington Square Arch",
      "own_ground_m2": 269.4,
+     "own_ground_note": {
+      "above_heightmap_m": -0.39,
+      "heightmap_median_m": 8.39
+     },
      "own_ground_parts": 1,
      "triangles": 1072
     }
@@ -240,43 +331,39 @@
    "vertices": 94387
   },
   "props": {
-   "capped": "triangle budget 1366242",
-   "impostor_cards_dropped": 13,
+   "capped": "triangle budget 1365988",
+   "impostor_cards_dropped": 7,
    "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
-    "bench": 392,
-    "bike_rack": 1,
-    "citibike_dock": 1,
+    "bench": 207,
     "flagpole": 1,
-    "hydrant": 19,
-    "manhole": 31,
-    "steam_vent": 1,
-    "street_lamp": 136,
-    "tree": 72,
-    "waste_basket": 54
+    "hydrant": 5,
+    "manhole": 6,
+    "street_lamp": 71,
+    "tree": 162,
+    "waste_basket": 30
    },
-   "placed": 708,
+   "placed": 482,
    "radius_m": 250.0,
-   "rows_in_range": 1253,
+   "rows_in_range": 1571,
    "tiles_missing": [],
    "tiles_read": [
     "t_-4_3",
     "t_-5_3"
    ],
-   "tree_species_substituted": 4,
-   "triangles": 1368974,
+   "tree_species_substituted": 149,
+   "triangles": 1368052,
    "unmapped_kinds": {
     "artwork": 2,
-    "cooling_tower": 16,
-    "curb_ramp": 37,
-    "drinking_fountain": 9,
+    "curb_ramp": 8,
+    "drinking_fountain": 7,
     "parks_building": 1,
     "parks_comfort_station": 1
    }
   },
   "radius_m": 500.0,
-  "seconds": 15.78,
+  "seconds": 106.52,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -293,17 +380,19 @@
    "z_max_m": 14.0,
    "z_min_m": 0.11
   },
-  "triangles": 2428928
+  "triangles": 3515692
  },
  "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
   "radius_m": 500.0
  },
  "seconds": {
-  "render": 142.7,
-  "scene": 16.4,
-  "total": 159.1
+  "render": 160.6,
+  "scene": 107.5,
+  "total": 268.2
  },
  "slug": "landmark_washington_square_arch",
  "status": "rendered",

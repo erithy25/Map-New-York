@@ -1,4 +1,11 @@
 {
+ "agent_request": {
+  "dow": 0,
+  "hour": 17,
+  "local_clock": "2026-04-17 17:39 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
  "azimuth_reason": "198.5 deg, the bearing from this photograph's own GPS position to Flatiron Building; heading and position both come from the photograph.  The item's recorded azimuth is 206.3 deg, 7.8 deg away, and belongs to its nominal viewpoint",
  "camera": {
   "azimuth_deg": 198.5416684232172,
@@ -7,6 +14,7 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 26.548668516781024,
   "ground_detail": {
+   "below_point_excluded": 0,
    "chosen_m": 12.41,
    "max_m": 12.7,
    "median_m": 12.52,
@@ -47,16 +55,16 @@
  "clearance": {
   "min_view_m": 72.6,
   "moved": false,
-  "nearest_obstruction": "prop_newsstand_stainless_25",
-  "nearest_obstruction_m": 46.8,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_newsstand_stainless_25 46.8 m away, and the view azimuth is clear for 110 m",
+  "nearest_obstruction": null,
+  "nearest_obstruction_m": 60.0,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is further than 60 m, and the view azimuth is clear for 150 m",
   "offset_m": 0.0,
-  "view_m": 110.1
+  "view_m": 150.0
  },
  "frame": {
-  "mean": 0.4751,
+  "mean": 0.4429,
   "reason": null,
-  "sd": 0.229,
+  "sd": 0.2549,
   "usable": true
  },
  "frame_retry": null,
@@ -67,10 +75,11 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 672.4,
   "emissive": {
+   "cone_faces_deleted": 8,
    "cones_hidden": 1,
    "lamps_switched_off": 4,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 1.03,
   "sky_azimuth_deg": 265.859,
@@ -96,10 +105,92 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_flatiron_building/render.png",
- "rendered_at": "2026-09-06T22:35:03Z",
+ "rendered_at": "2026-09-07T20:42:42Z",
  "resolution_note": "852x1278; the reference photograph is 1920x2880 (0.67:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "caption": "Agents: 53 vehicles within 320 m and 206 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 598 vehicles and 4965 people over the whole simulated ring, of which 685 and 3000 were simulated; 3426 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 319,
+    "pedestrian_not_on_walkable_surface": 32,
+    "pedestrian_outside_radius": 868,
+    "pedestrian_over_the_observer": 4,
+    "pedestrian_triangle_budget": 1571,
+    "vehicle_body_has_no_rider": 37,
+    "vehicle_not_on_carriageway": 21,
+    "vehicle_outside_radius": 350,
+    "vehicle_over_the_observer": 4,
+    "vehicle_triangle_budget": 220
+   },
+   "ped_lods": {
+    "LOD0": 16,
+    "LOD2": 190
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 581134,
+   "per_class": {
+    "black_car": 8,
+    "boro_taxi": 9,
+    "mta_bus": 3,
+    "sedan": 8,
+    "suv": 4,
+    "taxi": 21
+   },
+   "placed_pedestrians": 206,
+   "placed_vehicles": 53,
+   "reason": null,
+   "seconds": 52.95,
+   "snapshot": {
+    "building_footprints_tested": 3863,
+    "density_lane_km": 26.842,
+    "density_sidewalk_m2": 30252,
+    "density_target_pedestrians": 4964.8,
+    "density_target_vehicles": 598.4,
+    "dow": 0,
+    "hour": 17,
+    "lanes_considered": 267,
+    "lanes_with_nta": 262,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 3.55,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 79,
+    "pavement_polygons_tested": 5418,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 3000,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 685
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1085150,
+   "vehicle_lods": {
+    "LOD1": 9,
+    "LOD2": 44
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 504016
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
@@ -109,29 +200,42 @@
     "t_-4_5"
    ],
    "landmark_bins_suppressed": 9,
-   "landmark_faces_suppressed": 1782,
+   "landmark_faces_suppressed": 1614,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_-3_4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 15,
-     "triangles": 63422
+     "triangles": 74954
     },
     "t_-3_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
-     "triangles": 48780
+     "triangles": 65920
     },
     "t_-4_4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 19,
-     "triangles": 61210
+     "triangles": 90310
     },
     "t_-4_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 19,
-     "triangles": 44562
+     "triangles": 64092
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -139,8 +243,9 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 4,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 217974
+   "triangles": 295276
   },
   "centre_tm": [
    -3301.96,
@@ -158,36 +263,43 @@
     "pilaster": 42,
     "quoin": 4,
     "scaffold": 61,
-    "storefront": 155,
+    "storefront": 265,
     "storefront_interior": 29,
     "string_course": 36,
     "water_tower": 7,
     "window": 3416,
     "window_accessory": 3
    },
-   "placed": 3873,
+   "placed": 3983,
    "radius_m": 120.0,
-   "records_in_range": 3980,
+   "records_in_range": 4092,
    "stale_registry_ids": {},
-   "suppressed_with_landmark_shells": 107,
+   "suppressed_with_landmark_shells": 109,
    "tiles_missing": [],
    "tiles_read": [
     "t_-4_4"
    ],
-   "triangles": 976233,
+   "triangles": 981233,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [
     {
      "distance_m": 149.7,
      "id": "flatiron",
      "lod": 0,
      "name": "Flatiron Building",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 38253
     }
    ],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
    "placed": 1,
    "skipped": 0,
    "skipped_detail": [],
@@ -214,53 +326,54 @@
     "t_-4_5"
    ],
    "triangles": 147697,
+   "triangles_cut_for_landmark_ground": 0,
    "vertices": 151305
   },
   "props": {
-   "capped": null,
-   "impostor_cards_dropped": 16,
+   "capped": "triangle budget 1376865",
+   "impostor_cards_dropped": 8,
+   "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
-    "bench": 38,
-    "bike_rack": 39,
-    "bus_shelter": 7,
-    "bus_stop_sign": 16,
-    "citibike_dock": 2,
+    "bench": 35,
+    "bike_rack": 21,
+    "bus_shelter": 4,
+    "bus_stop_sign": 12,
+    "citibike_dock": 1,
     "flagpole": 1,
-    "hydrant": 47,
-    "linknyc": 6,
-    "mailbox": 5,
-    "manhole": 84,
-    "newsstand": 2,
-    "steam_vent": 7,
-    "street_lamp": 94,
-    "subway_entrance": 8,
-    "subway_vent_grate": 23,
-    "tree": 81,
+    "hydrant": 22,
+    "linknyc": 1,
+    "mailbox": 4,
+    "manhole": 42,
+    "newsstand": 1,
+    "steam_vent": 3,
+    "street_lamp": 49,
+    "subway_entrance": 7,
+    "subway_vent_grate": 16,
+    "tree": 204,
     "waste_basket": 17
    },
-   "placed": 477,
+   "placed": 440,
    "radius_m": 250.0,
-   "rows_in_range": 723,
+   "rows_in_range": 918,
    "tiles_missing": [],
    "tiles_read": [
     "t_-4_4"
    ],
-   "tree_species_substituted": 26,
-   "triangles": 886172,
+   "tree_species_substituted": 186,
+   "triangles": 1377450,
    "unmapped_kinds": {
-    "artwork": 18,
-    "cooling_tower": 123,
-    "curb_ramp": 89,
+    "artwork": 4,
+    "cooling_tower": 66,
+    "curb_ramp": 55,
     "drinking_fountain": 2,
-    "memorial": 8,
-    "misc_structure": 1,
+    "memorial": 7,
     "parks_building": 2,
     "vending_machine": 3
    }
   },
   "radius_m": 632.3485736119845,
-  "seconds": 37.64,
+  "seconds": 114.6,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -268,24 +381,28 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
    "samples": 207,
    "spacing_m": 2.0,
    "triangles": 84872,
+   "water_bodies": [],
    "water_quads": 0,
    "z_max_m": 21.11,
    "z_min_m": 1.55
   },
-  "triangles": 2351201
+  "triangles": 4009931
  },
  "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
   "radius_m": 632.3485736119845
  },
  "seconds": {
-  "render": 91.6,
-  "scene": 38.8,
-  "total": 130.4
+  "render": 120.2,
+  "scene": 115.6,
+  "total": 235.8
  },
  "slug": "landmark_flatiron_building",
  "status": "rendered",

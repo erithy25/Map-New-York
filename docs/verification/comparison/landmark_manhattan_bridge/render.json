@@ -1,4 +1,11 @@
 {
+ "agent_request": {
+  "dow": 0,
+  "hour": 12,
+  "local_clock": "2023-01-18 12:00 EST",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
  "azimuth_reason": "66.3 deg, the bearing from this photograph's own GPS position to Manhattan Bridge Brooklyn tower; heading and position both come from the photograph.  The item's recorded azimuth is 74.0 deg, 7.7 deg away, and belongs to its nominal viewpoint",
  "camera": {
   "azimuth_deg": 66.29378701636087,
@@ -7,6 +14,7 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
+   "below_point_excluded": null,
    "chosen_m": 0.0,
    "max_m": 0.0,
    "median_m": 0.0,
@@ -23,7 +31,7 @@
   "lat": 40.704053,
   "lon": -73.991036,
   "long_side_fov_deg": 54.432,
-  "pitch_deg": 2.8569256149223947,
+  "pitch_deg": 3.2823669525984975,
   "portrait": false,
   "resolution": [
    1208,
@@ -36,7 +44,7 @@
   "y": 450.888,
   "z": 1.6
  },
- "camera_caption": "camera 40.70405, -73.99104 (NYC_TM -3468, 451) z 1.6 m NAVD88 | azimuth 66.3deg pitch +2.9deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.70405, -73.99104 (NYC_TM -3468, 451) z 1.6 m NAVD88 | azimuth 66.3deg pitch +3.3deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
  "camera_origin": {
   "from_photograph_gps": true,
   "lat": 40.704053,
@@ -47,16 +55,16 @@
  "clearance": {
   "min_view_m": 61.7,
   "moved": false,
-  "nearest_obstruction": "prop_lamp_bishops_crook_18",
-  "nearest_obstruction_m": 51.6,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_bishops_crook_18 51.6 m away, and the view azimuth is clear for 150 m",
+  "nearest_obstruction": "prop_tree_honeylocust_large_bare_7",
+  "nearest_obstruction_m": 21.8,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_tree_honeylocust_large_bare_7 21.8 m away, and the view azimuth is clear for 150 m",
   "offset_m": 0.0,
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.5464,
+  "mean": 0.4918,
   "reason": null,
-  "sd": 0.197,
+  "sd": 0.1969,
   "usable": true
  },
  "frame_retry": null,
@@ -67,10 +75,11 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 759.1,
   "emissive": {
+   "cone_faces_deleted": 16,
    "cones_hidden": 2,
-   "lamps_switched_off": 4,
+   "lamps_switched_off": 3,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.58,
   "sky_azimuth_deg": 178.538,
@@ -81,7 +90,7 @@
  },
  "name": "Manhattan Bridge",
  "night": false,
- "pitch_reason": "aimed at Manhattan Bridge Brooklyn tower 123 m away, at its mid-height (a nominal 10 m subject); +2.9 deg from horizontal",
+ "pitch_reason": "aimed at Manhattan Bridge Brooklyn tower 123 m away, at its mid-height (a nominal 10 m subject); +3.3 deg from horizontal",
  "reference_photo": {
   "author": "Kidfly182",
   "confidence": "high",
@@ -96,10 +105,94 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_manhattan_bridge/render.png",
- "rendered_at": "2026-09-06T22:52:30Z",
+ "rendered_at": "2026-09-07T21:09:56Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "caption": "Agents: 89 vehicles within 320 m and 375 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 709 vehicles and 2655 people over the whole simulated ring, of which 750 and 3000 were simulated; 3286 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 444,
+    "pedestrian_inside_building": 12,
+    "pedestrian_not_on_walkable_surface": 313,
+    "pedestrian_outside_radius": 1574,
+    "pedestrian_triangle_budget": 282,
+    "vehicle_body_has_no_rider": 54,
+    "vehicle_inside_building": 8,
+    "vehicle_not_on_carriageway": 61,
+    "vehicle_outside_radius": 331,
+    "vehicle_triangle_budget": 207
+   },
+   "ped_lods": {
+    "LOD1": 20,
+    "LOD2": 355
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 581335,
+   "per_class": {
+    "black_car": 4,
+    "boro_taxi": 2,
+    "box_truck": 4,
+    "dsny_truck": 1,
+    "mta_bus": 1,
+    "sedan": 51,
+    "suv": 17,
+    "taxi": 7,
+    "van": 2
+   },
+   "placed_pedestrians": 375,
+   "placed_vehicles": 89,
+   "reason": null,
+   "seconds": 104.5,
+   "snapshot": {
+    "building_footprints_tested": 229,
+    "density_lane_km": 29.528,
+    "density_sidewalk_m2": 30502,
+    "density_target_pedestrians": 2654.7,
+    "density_target_vehicles": 709.4,
+    "dow": 0,
+    "hour": 12,
+    "lanes_considered": 431,
+    "lanes_with_nta": 379,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 2.09,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 86,
+    "pavement_polygons_tested": 1100,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 3000,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 750
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1085731,
+   "vehicle_lods": {
+    "LOD2": 89
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 504396
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
@@ -113,31 +206,47 @@
    "landmark_faces_suppressed": 60,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_-3_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 13,
-     "triangles": 11796
+     "triangles": 14550
     },
     "t_-4_-1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 17,
-     "triangles": 59678
+     "triangles": 75244
     },
     "t_-4_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
-     "triangles": 9892
+     "triangles": 12480
     },
     "t_-4_1": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 14,
-     "triangles": 59652
+     "triangles": 70014
     },
     "t_-5_0": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 18,
-     "triangles": 11872
+     "triangles": 14630
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -145,8 +254,9 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 5,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 152890
+   "triangles": 186918
   },
   "centre_tm": [
    -3467.97,
@@ -163,33 +273,40 @@
     "parapet": 11,
     "pilaster": 4,
     "quoin": 2,
-    "storefront": 118,
+    "storefront": 213,
     "storefront_interior": 13,
     "string_course": 21,
     "water_tower": 4,
     "window": 2242,
     "window_accessory": 1
    },
-   "placed": 2495,
+   "placed": 2590,
    "radius_m": 120.0,
-   "records_in_range": 2495,
+   "records_in_range": 2590,
    "stale_registry_ids": {},
    "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
     "t_-4_0"
    ],
-   "triangles": 633459,
+   "triangles": 638199,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [
     {
      "distance_m": 326.8,
      "id": "b_manhattan_bridge",
      "lod": 0,
      "name": "Manhattan Bridge",
+     "own_ground_note": {
+      "above_heightmap_m": -18.53,
+      "heightmap_median_m": 18.53,
+      "reason": "the model's ground stands -18.53 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 80700
     },
     {
@@ -197,9 +314,14 @@
      "id": "b_brooklyn_bridge",
      "lod": 0,
      "name": "Brooklyn Bridge",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 121824
     }
    ],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
    "placed": 2,
    "skipped": 0,
    "skipped_detail": [],
@@ -227,47 +349,45 @@
     "t_-5_0"
    ],
    "triangles": 108004,
+   "triangles_cut_for_landmark_ground": 0,
    "vertices": 110618
   },
   "props": {
-   "capped": null,
+   "capped": "triangle budget 1371762",
    "impostor_cards_dropped": 11,
+   "impostor_faces_dropped": 0,
    "leaf_off": true,
    "per_kind": {
-    "bench": 64,
-    "bike_rack": 27,
-    "bus_shelter": 1,
+    "bench": 39,
+    "bike_rack": 19,
     "bus_stop_sign": 2,
-    "citibike_dock": 3,
-    "flagpole": 2,
-    "hydrant": 33,
-    "manhole": 120,
-    "steam_vent": 3,
-    "street_lamp": 117,
+    "citibike_dock": 1,
+    "flagpole": 1,
+    "hydrant": 17,
+    "manhole": 42,
+    "street_lamp": 47,
     "subway_vent_grate": 7,
-    "tree": 95,
-    "waste_basket": 9
+    "tree": 291,
+    "waste_basket": 6
    },
-   "placed": 483,
+   "placed": 472,
    "radius_m": 250.0,
-   "rows_in_range": 613,
+   "rows_in_range": 972,
    "tiles_missing": [],
    "tiles_read": [
     "t_-4_0"
    ],
-   "tree_species_substituted": 31,
-   "triangles": 979490,
+   "tree_species_substituted": 261,
+   "triangles": 1373226,
    "unmapped_kinds": {
-    "cooling_tower": 54,
-    "curb_ramp": 67,
+    "cooling_tower": 28,
+    "curb_ramp": 36,
     "drinking_fountain": 2,
-    "misc_structure": 4,
-    "parks_building": 2,
-    "payphone": 1
+    "parks_building": 2
    }
   },
   "radius_m": 597.3367680615906,
-  "seconds": 40.65,
+  "seconds": 185.2,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -275,24 +395,69 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
    "samples": 205,
    "spacing_m": 2.0,
    "triangles": 83232,
-   "water_quads": 15428,
+   "water_bodies": [
+    {
+     "kind": "pond",
+     "name": "Pier 1 Wetlands",
+     "water_z_m": 2.28
+    },
+    {
+     "kind": "pond",
+     "name": "Pier 1 Wetlands",
+     "water_z_m": 2.67
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "EAST RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "EAST RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "EAST RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "river",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "river",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 15653,
    "z_max_m": 24.01,
    "z_min_m": -1.34
   },
-  "triangles": 2159599
+  "triangles": 3677834
  },
  "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
   "radius_m": 597.3367680615906
  },
  "seconds": {
-  "render": 199.5,
-  "scene": 41.5,
-  "total": 241.0
+  "render": 144.7,
+  "scene": 186.1,
+  "total": 330.8
  },
  "slug": "landmark_manhattan_bridge",
  "status": "rendered",

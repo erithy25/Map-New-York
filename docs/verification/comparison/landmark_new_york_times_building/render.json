@@ -1,4 +1,11 @@
 {
+ "agent_request": {
+  "dow": 0,
+  "hour": 10,
+  "local_clock": "2024-06-17 10:01 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
  "azimuth_reason": "115.5 deg, the bearing from this photograph's own GPS position to The New York Times Building (620 Eighth Avenue); heading and position both come from the photograph.  The item's recorded azimuth is 70.0 deg, 45.5 deg away, and belongs to its nominal viewpoint",
  "camera": {
   "azimuth_deg": 115.455582992521,
@@ -7,6 +14,7 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
+   "below_point_excluded": 0,
    "chosen_m": 12.71,
    "max_m": 13.15,
    "median_m": 12.88,
@@ -54,9 +62,9 @@
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.2635,
+  "mean": 0.2619,
   "reason": null,
-  "sd": 0.1247,
+  "sd": 0.1246,
   "usable": true
  },
  "frame_retry": null,
@@ -67,10 +75,11 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 886.0,
   "emissive": {
+   "cone_faces_deleted": 8,
    "cones_hidden": 1,
    "lamps_switched_off": 4,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.0,
   "sky_azimuth_deg": 101.609,
@@ -96,10 +105,95 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_new_york_times_building/render.png",
- "rendered_at": "2026-09-06T23:11:24Z",
+ "rendered_at": "2026-09-07T21:33:44Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "caption": "Agents: 89 vehicles within 320 m and 238 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 1217 vehicles and 2174 people over the whole simulated ring, of which 1321 and 2171 were simulated; 3165 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 142,
+    "pedestrian_inside_building": 2,
+    "pedestrian_not_on_walkable_surface": 53,
+    "pedestrian_outside_radius": 1026,
+    "pedestrian_triangle_budget": 710,
+    "vehicle_body_has_no_rider": 20,
+    "vehicle_inside_building": 5,
+    "vehicle_not_on_carriageway": 13,
+    "vehicle_outside_radius": 875,
+    "vehicle_triangle_budget": 319
+   },
+   "ped_lods": {
+    "LOD0": 6,
+    "LOD1": 40,
+    "LOD2": 192
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 582464,
+   "per_class": {
+    "black_car": 4,
+    "boro_taxi": 8,
+    "box_truck": 5,
+    "dsny_truck": 1,
+    "mta_bus": 1,
+    "sedan": 28,
+    "suv": 15,
+    "taxi": 25,
+    "van": 2
+   },
+   "placed_pedestrians": 238,
+   "placed_vehicles": 89,
+   "reason": null,
+   "seconds": 96.45,
+   "snapshot": {
+    "building_footprints_tested": 1953,
+    "density_lane_km": 36.051,
+    "density_sidewalk_m2": 27584,
+    "density_target_pedestrians": 2173.6,
+    "density_target_vehicles": 1216.7,
+    "dow": 0,
+    "hour": 10,
+    "lanes_considered": 399,
+    "lanes_with_nta": 399,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 2.11,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 97,
+    "pavement_polygons_tested": 2895,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 2171,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 1321
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1085889,
+   "vehicle_lods": {
+    "LOD2": 89
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 503425
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
@@ -109,29 +203,42 @@
     "t_-4_6"
    ],
    "landmark_bins_suppressed": 30,
-   "landmark_faces_suppressed": 4060,
+   "landmark_faces_suppressed": 4402,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_-3_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
-     "triangles": 48780
+     "triangles": 65920
     },
     "t_-3_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 17,
-     "triangles": 29970
+     "triangles": 39682
     },
     "t_-4_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 19,
-     "triangles": 44562
+     "triangles": 64092
     },
     "t_-4_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 17,
-     "triangles": 65152
+     "triangles": 77988
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -139,8 +246,9 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 4,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 188464
+   "triangles": 247682
   },
   "centre_tm": [
    -3425.65,
@@ -149,42 +257,50 @@
   "kit": {
    "capped": null,
    "per_category": {
+    "billboard": 1,
     "bulkhead": 26,
     "cornice": 8,
     "door_entry": 32,
     "fire_escape": 25,
     "hvac": 13,
-    "parapet": 38,
+    "parapet": 36,
     "pilaster": 11,
     "quoin": 2,
     "scaffold": 52,
-    "storefront": 127,
+    "storefront": 208,
     "storefront_interior": 21,
     "string_course": 5,
     "water_tower": 4,
     "window": 7256,
     "window_accessory": 39
    },
-   "placed": 7659,
+   "placed": 7739,
    "radius_m": 120.0,
-   "records_in_range": 9880,
+   "records_in_range": 9974,
    "stale_registry_ids": {},
-   "suppressed_with_landmark_shells": 2221,
+   "suppressed_with_landmark_shells": 2235,
    "tiles_missing": [],
    "tiles_read": [
     "t_-4_6"
    ],
-   "triangles": 1238616,
+   "triangles": 1242972,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [
     {
      "distance_m": 339.9,
      "id": "c_times_square",
      "lod": 0,
      "name": "Times Square",
+     "own_ground_note": {
+      "above_heightmap_m": -1.54,
+      "heightmap_median_m": 16.53,
+      "reason": "the model's ground stands -1.54 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 182310
     },
     {
@@ -192,9 +308,16 @@
      "id": "b_lincoln_tunnel_portals",
      "lod": 0,
      "name": "Lincoln Tunnel",
+     "own_ground_note": {
+      "above_heightmap_m": -9.68,
+      "heightmap_median_m": 9.68,
+      "reason": "the model's ground stands -9.68 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 57080
     }
    ],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
    "placed": 2,
    "skipped": 0,
    "skipped_detail": [],
@@ -221,11 +344,13 @@
     "t_-4_6"
    ],
    "triangles": 80009,
+   "triangles_cut_for_landmark_ground": 0,
    "vertices": 82669
   },
   "props": {
    "capped": null,
    "impostor_cards_dropped": 12,
+   "impostor_faces_dropped": 0,
    "leaf_off": false,
    "per_kind": {
     "bike_rack": 7,
@@ -259,7 +384,7 @@
    }
   },
   "radius_m": 500.0,
-  "seconds": 46.74,
+  "seconds": 174.11,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -267,24 +392,28 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
    "samples": 199,
    "spacing_m": 2.0,
    "triangles": 78408,
+   "water_bodies": [],
    "water_quads": 0,
    "z_max_m": 20.66,
    "z_min_m": -1.34
   },
-  "triangles": 2476653
+  "triangles": 3626116
  },
  "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
   "radius_m": 500.0
  },
  "seconds": {
-  "render": 201.2,
-  "scene": 49.0,
-  "total": 250.2
+  "render": 181.2,
+  "scene": 175.9,
+  "total": 357.1
  },
  "slug": "landmark_new_york_times_building",
  "status": "rendered",

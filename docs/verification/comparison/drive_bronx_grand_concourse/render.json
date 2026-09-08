@@ -66,7 +66,7 @@
  "frame": {
   "mean": 0.2395,
   "reason": null,
-  "sd": 0.1719,
+  "sd": 0.1718,
   "usable": true
  },
  "frame_retry": null,
@@ -107,12 +107,12 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_grand_concourse/render.png",
- "rendered_at": "2026-09-07T14:11:49Z",
+ "rendered_at": "2026-09-08T05:31:12Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
-   "caption": "Agents: 89 vehicles within 320 m and 313 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 322 vehicles and 1726 people over the whole simulated ring, of which 373 and 2022 were simulated; 1993 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "caption": "Agents: 87 vehicles within 320 m and 313 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 322 vehicles and 1726 people over the whole simulated ring, of which 373 and 2022 were simulated; 1995 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "culled_after_camera_move": {
     "pedestrian_over_the_observer": 6,
     "vehicle_over_the_observer": 0
@@ -126,7 +126,7 @@
     "vehicle_body_has_no_rider": 11,
     "vehicle_not_on_carriageway": 6,
     "vehicle_outside_radius": 190,
-    "vehicle_triangle_budget": 77
+    "vehicle_triangle_budget": 79
    },
    "ped_lods": {
     "LOD0": 7,
@@ -135,21 +135,21 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 580808,
+   "pedestrian_triangles": 580771,
    "per_class": {
     "black_car": 3,
     "boro_taxi": 1,
-    "box_truck": 2,
+    "box_truck": 1,
     "mta_bus": 3,
     "sedan": 48,
-    "suv": 18,
+    "suv": 17,
     "taxi": 10,
     "van": 4
    },
    "placed_pedestrians": 307,
-   "placed_vehicles": 89,
+   "placed_vehicles": 87,
    "reason": null,
-   "seconds": 77.68,
+   "seconds": 54.18,
    "snapshot": {
     "building_footprints_tested": 1467,
     "density_lane_km": 28.245,
@@ -164,7 +164,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.05,
+     "load_seconds": 2.06,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -188,15 +188,15 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 373
    },
-   "snapshot_note": "cached 2649_14659_12_2_7cbdec742e72ef46_1788782618.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1086174,
+   "triangles": 1082621,
    "vehicle_lods": {
-    "LOD2": 89
+    "LOD2": 87
    },
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
-   "vehicle_triangles": 505366
+   "vehicle_triangles": 501850
   },
   "buildings": {
    "dropped_for_budget": [],
@@ -277,7 +277,7 @@
    14658.99
   ],
   "kit": {
-   "capped": "triangle budget 1429963",
+   "capped": "triangle budget 1433328",
    "per_category": {
     "antenna": 3,
     "bulkhead": 18,
@@ -288,14 +288,14 @@
     "parapet": 83,
     "quoin": 137,
     "scaffold": 213,
-    "storefront": 329,
+    "storefront": 330,
     "storefront_interior": 56,
     "string_course": 112,
     "water_tower": 5,
-    "window": 4052,
-    "window_accessory": 453
+    "window": 4065,
+    "window_accessory": 454
    },
-   "placed": 5695,
+   "placed": 5710,
    "radius_m": 120.0,
    "records_in_range": 6754,
    "stale_registry_ids": {},
@@ -304,7 +304,7 @@
    "tiles_read": [
     "t_2_14"
    ],
-   "triangles": 1430040,
+   "triangles": 1433414,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -379,14 +379,15 @@
     "bus_shelter": 2,
     "bus_stop_sign": 3,
     "citibike_dock": 2,
+    "cooling_tower": 10,
     "hydrant": 29,
     "manhole": 61,
     "street_lamp": 63,
     "subway_entrance": 2,
     "subway_vent_grate": 27,
-    "tree": 209
+    "tree": 208
    },
-   "placed": 398,
+   "placed": 407,
    "radius_m": 250.0,
    "rows_in_range": 872,
    "tiles_missing": [],
@@ -394,14 +395,13 @@
     "t_2_14"
    ],
    "tree_species_substituted": 78,
-   "triangles": 1358408,
+   "triangles": 1358596,
    "unmapped_kinds": {
-    "cooling_tower": 10,
     "curb_ramp": 81
    }
   },
   "radius_m": 720.0,
-  "seconds": 125.87,
+  "seconds": 113.01,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -418,7 +418,7 @@
    "z_max_m": 35.59,
    "z_min_m": 2.91
   },
-  "triangles": 4500077
+  "triangles": 4500086
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -428,9 +428,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 205.3,
-  "scene": 128.7,
-  "total": 334.0
+  "render": 193.7,
+  "scene": 115.5,
+  "total": 309.2
  },
  "slug": "drive_bronx_grand_concourse",
  "status": "rendered",

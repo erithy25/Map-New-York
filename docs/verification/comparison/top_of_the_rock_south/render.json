@@ -1,4 +1,11 @@
 {
+ "agent_request": {
+  "dow": 0,
+  "hour": 13,
+  "local_clock": "2018-10-25 13:05 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
  "azimuth_reason": "205.2 deg as recorded; it agrees with the bearing from the camera position used to Empire State Building (205.4 deg) to 0.2 deg",
  "camera": {
   "azimuth_deg": 205.2,
@@ -55,9 +62,9 @@
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.6665,
+  "mean": 0.6652,
   "reason": null,
-  "sd": 0.2679,
+  "sd": 0.2687,
   "usable": true
  },
  "frame_retry": null,
@@ -68,10 +75,11 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 821.2,
   "emissive": {
+   "cone_faces_deleted": 0,
    "cones_hidden": 0,
    "lamps_switched_off": 0,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.23,
   "sky_azimuth_deg": 187.927,
@@ -97,10 +105,15 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/top_of_the_rock_south/render.png",
- "rendered_at": "2026-09-07T09:36:50Z",
+ "rendered_at": "2026-09-07T23:46:35Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "placed_pedestrians": 0,
+   "placed_vehicles": 0,
+   "reason": "the eye stands 261 m above the ground, where a person is a fraction of a pixel and a car a few, so the simulation's crowd and traffic are not drawn"
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
@@ -189,7 +202,7 @@
     "t_2_7"
    ],
    "landmark_bins_suppressed": 72,
-   "landmark_faces_suppressed": 7018,
+   "landmark_faces_suppressed": 6966,
    "lod_substituted": [
     "t_-1_10 (LOD2 -> LOD1)",
     "t_-1_8 (LOD2 -> LOD1)",
@@ -250,7 +263,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 12,
-     "triangles": 7146
+     "triangles": 7004
     },
     "t_-1_2": {
      "files": [
@@ -282,7 +295,7 @@
      ],
      "lod": 1,
      "objects": 10,
-     "triangles": 5566
+     "triangles": 5570
     },
     "t_-1_6": {
      "files": [
@@ -290,7 +303,7 @@
      ],
      "lod": 1,
      "objects": 12,
-     "triangles": 9684
+     "triangles": 9402
     },
     "t_-1_7": {
      "files": [
@@ -298,7 +311,7 @@
      ],
      "lod": 1,
      "objects": 15,
-     "triangles": 35962
+     "triangles": 35990
     },
     "t_-1_8": {
      "files": [
@@ -308,7 +321,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 16,
-     "triangles": 55944
+     "triangles": 56206
     },
     "t_-1_9": {
      "files": [
@@ -318,7 +331,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 18,
-     "triangles": 30646
+     "triangles": 30530
     },
     "t_-2_10": {
      "files": [
@@ -328,7 +341,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 14,
-     "triangles": 33908
+     "triangles": 34434
     },
     "t_-2_11": {
      "files": [
@@ -338,7 +351,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 13,
-     "triangles": 34074
+     "triangles": 34200
     },
     "t_-2_2": {
      "files": [
@@ -362,7 +375,7 @@
      ],
      "lod": 1,
      "objects": 7,
-     "triangles": 1112
+     "triangles": 1024
     },
     "t_-2_5": {
      "files": [
@@ -370,7 +383,7 @@
      ],
      "lod": 1,
      "objects": 14,
-     "triangles": 9514
+     "triangles": 9570
     },
     "t_-2_6": {
      "files": [
@@ -378,7 +391,7 @@
      ],
      "lod": 0,
      "objects": 18,
-     "triangles": 69944
+     "triangles": 70466
     },
     "t_-2_7": {
      "files": [
@@ -386,7 +399,7 @@
      ],
      "lod": 1,
      "objects": 16,
-     "triangles": 35860
+     "triangles": 35276
     },
     "t_-2_8": {
      "files": [
@@ -394,7 +407,7 @@
      ],
      "lod": 1,
      "objects": 15,
-     "triangles": 13096
+     "triangles": 12886
     },
     "t_-2_9": {
      "files": [
@@ -404,7 +417,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 13,
-     "triangles": 24320
+     "triangles": 24336
     },
     "t_-3_10": {
      "files": [
@@ -414,7 +427,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 12,
-     "triangles": 12866
+     "triangles": 12652
     },
     "t_-3_11": {
      "files": [
@@ -446,7 +459,7 @@
      ],
      "lod": 1,
      "objects": 15,
-     "triangles": 32322
+     "triangles": 32792
     },
     "t_-3_5": {
      "files": [
@@ -454,7 +467,7 @@
      ],
      "lod": 0,
      "objects": 16,
-     "triangles": 65668
+     "triangles": 65920
     },
     "t_-3_6": {
      "files": [
@@ -462,7 +475,7 @@
      ],
      "lod": 0,
      "objects": 17,
-     "triangles": 39612
+     "triangles": 39682
     },
     "t_-3_7": {
      "files": [
@@ -470,7 +483,7 @@
      ],
      "lod": 0,
      "objects": 16,
-     "triangles": 30068
+     "triangles": 30666
     },
     "t_-3_8": {
      "files": [
@@ -478,7 +491,7 @@
      ],
      "lod": 1,
      "objects": 16,
-     "triangles": 38696
+     "triangles": 38180
     },
     "t_-3_9": {
      "files": [
@@ -488,14 +501,14 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 15,
-     "triangles": 45418
+     "triangles": 45480
     },
     "t_-4_10": {
      "files": [
       "tile_buildings_nj.glb"
      ],
      "lod": 2,
-     "objects": 4,
+     "objects": 5,
      "triangles": 372
     },
     "t_-4_11": {
@@ -528,7 +541,7 @@
      ],
      "lod": 1,
      "objects": 19,
-     "triangles": 39644
+     "triangles": 39772
     },
     "t_-4_5": {
      "files": [
@@ -536,7 +549,7 @@
      ],
      "lod": 1,
      "objects": 19,
-     "triangles": 27770
+     "triangles": 28012
     },
     "t_-4_6": {
      "files": [
@@ -544,7 +557,7 @@
      ],
      "lod": 0,
      "objects": 17,
-     "triangles": 78856
+     "triangles": 77988
     },
     "t_-4_7": {
      "files": [
@@ -552,7 +565,7 @@
      ],
      "lod": 1,
      "objects": 13,
-     "triangles": 23852
+     "triangles": 23584
     },
     "t_-4_8": {
      "files": [
@@ -560,7 +573,7 @@
      ],
      "lod": 1,
      "objects": 10,
-     "triangles": 5872
+     "triangles": 5774
     },
     "t_-4_9": {
      "files": [
@@ -610,7 +623,7 @@
      ],
      "lod": 1,
      "objects": 16,
-     "triangles": 17026
+     "triangles": 16968
     },
     "t_-5_6": {
      "files": [
@@ -618,7 +631,7 @@
      ],
      "lod": 1,
      "objects": 10,
-     "triangles": 3382
+     "triangles": 3302
     },
     "t_-5_7": {
      "files": [
@@ -737,7 +750,7 @@
       "tile_buildings_nj.glb"
      ],
      "lod": 2,
-     "objects": 6,
+     "objects": 7,
      "triangles": 4004
     },
     "t_-7_6": {
@@ -745,7 +758,7 @@
       "tile_buildings_nj.glb"
      ],
      "lod": 2,
-     "objects": 6,
+     "objects": 7,
      "triangles": 4260
     },
     "t_-7_7": {
@@ -780,7 +793,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 16,
-     "triangles": 33792
+     "triangles": 34090
     },
     "t_0_2": {
      "files": [
@@ -790,7 +803,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 13,
-     "triangles": 46772
+     "triangles": 46866
     },
     "t_0_3": {
      "files": [
@@ -800,7 +813,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 10,
-     "triangles": 10300
+     "triangles": 10304
     },
     "t_0_4": {
      "files": [
@@ -810,7 +823,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 12,
-     "triangles": 4312
+     "triangles": 4340
     },
     "t_0_5": {
      "files": [
@@ -820,7 +833,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 14,
-     "triangles": 14038
+     "triangles": 14062
     },
     "t_0_6": {
      "files": [
@@ -830,7 +843,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 11,
-     "triangles": 15320
+     "triangles": 15474
     },
     "t_0_7": {
      "files": [
@@ -840,7 +853,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 13,
-     "triangles": 7722
+     "triangles": 7614
     },
     "t_0_8": {
      "files": [
@@ -850,7 +863,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 13,
-     "triangles": 27932
+     "triangles": 27884
     },
     "t_0_9": {
      "files": [
@@ -860,7 +873,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 13,
-     "triangles": 22712
+     "triangles": 22444
     },
     "t_1_3": {
      "files": [
@@ -870,7 +883,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 9,
-     "triangles": 3232
+     "triangles": 3208
     },
     "t_1_4": {
      "files": [
@@ -880,7 +893,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 11,
-     "triangles": 9790
+     "triangles": 9852
     },
     "t_1_5": {
      "files": [
@@ -890,7 +903,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 11,
-     "triangles": 9980
+     "triangles": 9886
     },
     "t_1_6": {
      "files": [
@@ -900,7 +913,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 11,
-     "triangles": 31196
+     "triangles": 31174
     },
     "t_1_7": {
      "files": [
@@ -910,7 +923,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 11,
-     "triangles": 29838
+     "triangles": 29804
     },
     "t_1_8": {
      "files": [
@@ -920,7 +933,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 9,
-     "triangles": 11190
+     "triangles": 11226
     },
     "t_1_9": {
      "files": [
@@ -930,7 +943,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 6,
-     "triangles": 2016
+     "triangles": 2006
     },
     "t_2_5": {
      "files": [
@@ -950,7 +963,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 11,
-     "triangles": 52350
+     "triangles": 52388
     },
     "t_2_7": {
      "files": [
@@ -960,7 +973,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 12,
-     "triangles": 51886
+     "triangles": 51966
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -970,7 +983,7 @@
    "tiles_wanted": 83,
    "tiles_with_new_jersey": 18,
    "triangle_budget": 3510000,
-   "triangles": 1574732
+   "triangles": 1574780
   },
   "centre_tm": [
    -2440.33,
@@ -1546,7 +1559,7 @@
    "reason": "disabled"
   },
   "radius_m": 4500.0,
-  "seconds": 151.55,
+  "seconds": 152.96,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -1774,17 +1787,19 @@
    "z_max_m": 80.15,
    "z_min_m": -2.61
   },
-  "triangles": 3997018
+  "triangles": 3997066
  },
  "scene_request": {
+  "agent_ped_radius_m": 0.0,
+  "agent_vehicle_radius_m": 0.0,
   "kit_radius_m": 0.0,
   "prop_radius_m": 0.0,
   "radius_m": 4500.0
  },
  "seconds": {
-  "render": 61.7,
-  "scene": 152.2,
-  "total": 213.9
+  "render": 72.9,
+  "scene": 153.5,
+  "total": 226.4
  },
  "slug": "top_of_the_rock_south",
  "status": "rendered",

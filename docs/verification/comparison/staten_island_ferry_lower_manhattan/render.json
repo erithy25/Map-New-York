@@ -1,4 +1,11 @@
 {
+ "agent_request": {
+  "dow": 2,
+  "hour": 13,
+  "local_clock": "2015-02-15 13:51 EST",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
  "azimuth_reason": "15.8 deg as recorded; it agrees with the bearing from the camera position used to One World Trade Center (15.9 deg) to 0.1 deg",
  "camera": {
   "azimuth_deg": 15.8,
@@ -55,9 +62,9 @@
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.7617,
+  "mean": 0.7577,
   "reason": null,
-  "sd": 0.1238,
+  "sd": 0.1368,
   "usable": true
  },
  "frame_retry": null,
@@ -68,10 +75,11 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 785.9,
   "emissive": {
+   "cone_faces_deleted": 8,
    "cones_hidden": 1,
    "lamps_switched_off": 1,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.43,
   "sky_azimuth_deg": 209.288,
@@ -97,10 +105,84 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/staten_island_ferry_lower_manhattan/render.png",
- "rendered_at": "2026-09-07T02:39:39Z",
+ "rendered_at": "2026-09-07T23:27:41Z",
  "resolution_note": "1280x560; the reference photograph is 1920x840 (2.29:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "caption": "Agents: 53 vehicles within 150 m and 6 people within 120 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 217 vehicles and 208 people over the whole simulated ring, of which 228 and 226 were simulated; 395 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 49,
+    "pedestrian_not_on_walkable_surface": 21,
+    "pedestrian_outside_radius": 150,
+    "vehicle_outside_radius": 173,
+    "vehicle_triangle_budget": 2
+   },
+   "ped_lods": {
+    "LOD2": 6
+   },
+   "ped_radius_m": 120.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 9374,
+   "per_class": {
+    "dsny_truck": 1,
+    "sedan": 40,
+    "suv": 10,
+    "van": 2
+   },
+   "placed_pedestrians": 6,
+   "placed_vehicles": 53,
+   "reason": null,
+   "seconds": 54.15,
+   "snapshot": {
+    "building_footprints_tested": 138,
+    "density_lane_km": 7.451,
+    "density_sidewalk_m2": 12498,
+    "density_target_pedestrians": 208.2,
+    "density_target_vehicles": 216.9,
+    "dow": 2,
+    "hour": 13,
+    "lanes_considered": 83,
+    "lanes_with_nta": 83,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 2.13,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 5,
+    "npc_templates_baked": 6,
+    "pavement_polygons_tested": 504,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 226,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 228
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 514461,
+   "vehicle_lods": {
+    "LOD1": 9,
+    "LOD2": 44
+   },
+   "vehicle_radius_m": 150.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 505087
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
@@ -209,7 +291,7 @@
     "t_-9_4"
    ],
    "landmark_bins_suppressed": 30,
-   "landmark_faces_suppressed": 1548,
+   "landmark_faces_suppressed": 1626,
    "lod_substituted": [
     "t_-2_-5 (LOD2 -> LOD1)",
     "t_-3_-5 (LOD2 -> LOD1)",
@@ -340,7 +422,7 @@
       "tile_buildings_nj.glb"
      ],
      "lod": 2,
-     "objects": 6,
+     "objects": 7,
      "triangles": 9472
     },
     "t_-11_-1": {
@@ -543,7 +625,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 10,
-     "triangles": 2332
+     "triangles": 2916
     },
     "t_-2_0": {
      "files": [
@@ -591,7 +673,7 @@
      ],
      "lod": 2,
      "objects": 15,
-     "triangles": 38428
+     "triangles": 38426
     },
     "t_-3_-4": {
      "files": [
@@ -609,7 +691,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 10,
-     "triangles": 39932
+     "triangles": 48624
     },
     "t_-3_-6": {
      "files": [
@@ -619,7 +701,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 12,
-     "triangles": 29540
+     "triangles": 32726
     },
     "t_-3_0": {
      "files": [
@@ -643,7 +725,7 @@
      ],
      "lod": 2,
      "objects": 13,
-     "triangles": 16572
+     "triangles": 16570
     },
     "t_-3_3": {
      "files": [
@@ -693,7 +775,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 14,
-     "triangles": 25548
+     "triangles": 29396
     },
     "t_-4_-6": {
      "files": [
@@ -703,7 +785,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 10,
-     "triangles": 1444
+     "triangles": 1750
     },
     "t_-4_-7": {
      "files": [
@@ -713,7 +795,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 12,
-     "triangles": 47104
+     "triangles": 58658
     },
     "t_-4_0": {
      "files": [
@@ -729,7 +811,7 @@
      ],
      "lod": 2,
      "objects": 14,
-     "triangles": 14376
+     "triangles": 14374
     },
     "t_-4_2": {
      "files": [
@@ -761,7 +843,7 @@
      ],
      "lod": 1,
      "objects": 11,
-     "triangles": 3260
+     "triangles": 4080
     },
     "t_-5_-2": {
      "files": [
@@ -769,7 +851,7 @@
      ],
      "lod": 1,
      "objects": 12,
-     "triangles": 17552
+     "triangles": 21704
     },
     "t_-5_-3": {
      "files": [
@@ -777,7 +859,7 @@
      ],
      "lod": 1,
      "objects": 13,
-     "triangles": 22136
+     "triangles": 26322
     },
     "t_-5_-4": {
      "files": [
@@ -795,7 +877,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 12,
-     "triangles": 15088
+     "triangles": 17116
     },
     "t_-5_-6": {
      "files": [
@@ -805,7 +887,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 13,
-     "triangles": 29304
+     "triangles": 34586
     },
     "t_-5_-7": {
      "files": [
@@ -815,7 +897,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 11,
-     "triangles": 66548
+     "triangles": 78600
     },
     "t_-5_0": {
      "files": [
@@ -823,7 +905,7 @@
      ],
      "lod": 1,
      "objects": 18,
-     "triangles": 4744
+     "triangles": 6706
     },
     "t_-5_1": {
      "files": [
@@ -831,7 +913,7 @@
      ],
      "lod": 2,
      "objects": 18,
-     "triangles": 11156
+     "triangles": 11154
     },
     "t_-5_2": {
      "files": [
@@ -863,7 +945,7 @@
      ],
      "lod": 0,
      "objects": 8,
-     "triangles": 3596
+     "triangles": 4068
     },
     "t_-6_-2": {
      "files": [
@@ -871,7 +953,7 @@
      ],
      "lod": 0,
      "objects": 7,
-     "triangles": 5956
+     "triangles": 6252
     },
     "t_-6_-3": {
      "files": [
@@ -879,7 +961,7 @@
      ],
      "lod": 1,
      "objects": 13,
-     "triangles": 10312
+     "triangles": 12236
     },
     "t_-6_-4": {
      "files": [
@@ -897,7 +979,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 6,
-     "triangles": 488
+     "triangles": 694
     },
     "t_-6_-6": {
      "files": [
@@ -907,7 +989,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 13,
-     "triangles": 23532
+     "triangles": 29378
     },
     "t_-6_-7": {
      "files": [
@@ -917,7 +999,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 14,
-     "triangles": 61180
+     "triangles": 72074
     },
     "t_-6_0": {
      "files": [
@@ -925,7 +1007,7 @@
      ],
      "lod": 1,
      "objects": 16,
-     "triangles": 4862
+     "triangles": 6042
     },
     "t_-6_1": {
      "files": [
@@ -965,7 +1047,7 @@
      ],
      "lod": 0,
      "objects": 3,
-     "triangles": 620
+     "triangles": 734
     },
     "t_-7_-6": {
      "files": [
@@ -975,7 +1057,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 10,
-     "triangles": 1064
+     "triangles": 1214
     },
     "t_-7_-7": {
      "files": [
@@ -985,14 +1067,14 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 12,
-     "triangles": 18780
+     "triangles": 22582
     },
     "t_-7_1": {
      "files": [
       "tile_buildings_nj.glb"
      ],
      "lod": 2,
-     "objects": 3,
+     "objects": 4,
      "triangles": 136
     },
     "t_-7_2": {
@@ -1044,7 +1126,7 @@
      "lod_requested": 2,
      "lod_substituted": "the tile glb has no LOD2; LOD1 used instead",
      "objects": 7,
-     "triangles": 4556
+     "triangles": 5304
     },
     "t_-8_0": {
      "files": [
@@ -1084,7 +1166,7 @@
       "tile_buildings_nj.glb"
      ],
      "lod": 2,
-     "objects": 6,
+     "objects": 8,
      "triangles": 5356
     },
     "t_-9_-1": {
@@ -1118,7 +1200,7 @@
       "tile_buildings_nj.glb"
      ],
      "lod": 2,
-     "objects": 6,
+     "objects": 7,
      "triangles": 2240
     },
     "t_-9_2": {
@@ -1153,7 +1235,7 @@
    "tiles_wanted": 120,
    "tiles_with_new_jersey": 37,
    "triangle_budget": 3510000,
-   "triangles": 1282700
+   "triangles": 1366976
   },
   "centre_tm": [
    -6043.67,
@@ -1195,6 +1277,11 @@
      "id": "b_governors_island",
      "lod": 0,
      "name": "Governors Island: Castle Williams and Fort Jay",
+     "own_ground_note": {
+      "above_heightmap_m": 1.38,
+      "heightmap_median_m": 2.62,
+      "reason": "the model's ground stands +1.38 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 4122
     },
     {
@@ -1202,6 +1289,11 @@
      "id": "b_hugh_carey_portals",
      "lod": 0,
      "name": "Hugh L. Carey Tunnel",
+     "own_ground_note": {
+      "above_heightmap_m": -3.2,
+      "heightmap_median_m": 3.2,
+      "reason": "the model's ground stands -3.20 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 43880
     },
     {
@@ -1209,6 +1301,9 @@
      "id": "c_whitehall_and_st_george_ferry_terminals",
      "lod": 0,
      "name": "Whitehall, Battery Maritime and St. George ferry terminals",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 77605
     },
     {
@@ -1216,6 +1311,11 @@
      "id": "charging_bull",
      "lod": 0,
      "name": "Charging Bull",
+     "own_ground_note": {
+      "above_heightmap_m": -1.4,
+      "heightmap_median_m": 6.89,
+      "reason": "the model's ground stands -1.40 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 818
     },
     {
@@ -1223,6 +1323,9 @@
      "id": "b_ellis_island_main",
      "lod": 0,
      "name": "Ellis Island Main Immigration Building",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 5992
     },
     {
@@ -1230,6 +1333,9 @@
      "id": "b_statue_of_liberty",
      "lod": 0,
      "name": "Statue of Liberty",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 19812
     },
     {
@@ -1237,6 +1343,9 @@
      "id": "one_wall_street",
      "lod": 0,
      "name": "One Wall Street (Irving Trust Building)",
+     "own_ground_note": {
+      "reason": "every ground polygon is smaller than 25 m2"
+     },
      "triangles": 42712
     },
     {
@@ -1244,6 +1353,9 @@
      "id": "nyse",
      "lod": 0,
      "name": "New York Stock Exchange",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 26049
     },
     {
@@ -1251,6 +1363,9 @@
      "id": "40_wall_street",
      "lod": 0,
      "name": "40 Wall Street (Trump Building)",
+     "own_ground_note": {
+      "reason": "every ground polygon is smaller than 25 m2"
+     },
      "triangles": 43167
     },
     {
@@ -1258,6 +1373,9 @@
      "id": "trinity_church",
      "lod": 0,
      "name": "Trinity Church",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 3984
     },
     {
@@ -1265,6 +1383,12 @@
      "id": "federal_hall",
      "lod": 0,
      "name": "Federal Hall National Memorial",
+     "own_ground_m2": 282.2,
+     "own_ground_note": {
+      "above_heightmap_m": -0.84,
+      "heightmap_median_m": 9.37
+     },
+     "own_ground_parts": 2,
      "triangles": 9070
     },
     {
@@ -1272,6 +1396,9 @@
      "id": "equitable_building",
      "lod": 0,
      "name": "Equitable Building",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 86321
     },
     {
@@ -1279,6 +1406,11 @@
      "id": "c_pier_17_seaport",
      "lod": 0,
      "name": "Pier 17, South Street Seaport",
+     "own_ground_note": {
+      "above_heightmap_m": 1.4,
+      "heightmap_median_m": 2.26,
+      "reason": "the model's ground stands +1.40 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 1350
     },
     {
@@ -1286,6 +1418,12 @@
      "id": "b_wtc_site",
      "lod": 0,
      "name": "World Trade Center site",
+     "own_ground_m2": 33039.3,
+     "own_ground_note": {
+      "above_heightmap_m": 0.08,
+      "heightmap_median_m": 4.32
+     },
+     "own_ground_parts": 1,
      "triangles": 136288
     },
     {
@@ -1293,6 +1431,9 @@
      "id": "b_one_world_trade_center",
      "lod": 0,
      "name": "One World Trade Center",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 6044
     },
     {
@@ -1300,6 +1441,9 @@
      "id": "woolworth",
      "lod": 0,
      "name": "Woolworth Building",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 47871
     },
     {
@@ -1307,6 +1451,9 @@
      "id": "b_brooklyn_bridge",
      "lod": 0,
      "name": "Brooklyn Bridge",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 121824
     },
     {
@@ -1314,6 +1461,11 @@
      "id": "city_hall",
      "lod": 0,
      "name": "New York City Hall",
+     "own_ground_note": {
+      "above_heightmap_m": -1.11,
+      "heightmap_median_m": 13.61,
+      "reason": "the model's ground stands -1.11 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 44823
     },
     {
@@ -1321,6 +1473,9 @@
      "id": "municipal_building",
      "lod": 0,
      "name": "Manhattan Municipal Building",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 97825
     },
     {
@@ -1328,6 +1483,11 @@
      "id": "b_manhattan_bridge",
      "lod": 1,
      "name": "Manhattan Bridge",
+     "own_ground_note": {
+      "above_heightmap_m": -18.53,
+      "heightmap_median_m": 18.53,
+      "reason": "the model's ground stands -18.53 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 28940
     },
     {
@@ -1335,6 +1495,9 @@
      "id": "c_williamsburgh_savings_bank_tower",
      "lod": 1,
      "name": "Williamsburgh Savings Bank Tower (One Hanson Place)",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 41846
     },
     {
@@ -1342,6 +1505,11 @@
      "id": "b_holland_tunnel_portals",
      "lod": 1,
      "name": "Holland Tunnel",
+     "own_ground_note": {
+      "above_heightmap_m": -2.96,
+      "heightmap_median_m": 2.96,
+      "reason": "the model's ground stands -2.96 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 6654
     },
     {
@@ -1349,6 +1517,9 @@
      "id": "c_barclays_center",
      "lod": 1,
      "name": "Barclays Center",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 7270
     },
     {
@@ -1356,6 +1527,12 @@
      "id": "b_soldiers_sailors_arch",
      "lod": 1,
      "name": "Soldiers' and Sailors' Memorial Arch",
+     "own_ground_m2": 416.3,
+     "own_ground_note": {
+      "above_heightmap_m": -0.02,
+      "heightmap_median_m": 43.02
+     },
+     "own_ground_parts": 1,
      "triangles": 388
     },
     {
@@ -1363,6 +1540,9 @@
      "id": "b_williamsburg_bridge",
      "lod": 1,
      "name": "Williamsburg Bridge",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 26364
     },
     {
@@ -1370,6 +1550,12 @@
      "id": "b_washington_square_arch",
      "lod": 1,
      "name": "Washington Square Arch",
+     "own_ground_m2": 262.8,
+     "own_ground_note": {
+      "above_heightmap_m": -0.45,
+      "heightmap_median_m": 8.45
+     },
+     "own_ground_parts": 1,
      "triangles": 208
     },
     {
@@ -1377,6 +1563,9 @@
      "id": "c_brooklyn_public_library",
      "lod": 1,
      "name": "Brooklyn Public Library, Central Library",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 10184
     },
     {
@@ -1384,6 +1573,12 @@
      "id": "c_domino_sugar_refinery",
      "lod": 1,
      "name": "Domino Sugar Refinery and Domino Park",
+     "own_ground_m2": 4733.5,
+     "own_ground_note": {
+      "above_heightmap_m": -0.26,
+      "heightmap_median_m": 4.23
+     },
+     "own_ground_parts": 1,
      "triangles": 23466
     },
     {
@@ -1391,6 +1586,11 @@
      "id": "c_brooklyn_museum",
      "lod": 1,
      "name": "Brooklyn Museum",
+     "own_ground_note": {
+      "above_heightmap_m": -2.12,
+      "heightmap_median_m": 48.14,
+      "reason": "the model's ground stands -2.12 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 24089
     },
     {
@@ -1398,9 +1598,20 @@
      "id": "c_high_line",
      "lod": 1,
      "name": "The High Line",
+     "own_ground_note": {
+      "reason": "every ground polygon is smaller than 25 m2"
+     },
      "triangles": 30224
     }
    ],
+   "own_ground_from": [
+    "federal_hall",
+    "b_wtc_site",
+    "b_soldiers_sailors_arch",
+    "b_washington_square_arch",
+    "c_domino_sugar_refinery"
+   ],
+   "own_ground_m2": 38734.3,
    "placed": 30,
    "skipped": 0,
    "skipped_detail": [],
@@ -1426,11 +1637,12 @@
     "t_-7_-2"
    ],
    "triangles": 40644,
+   "triangles_cut_for_landmark_ground": 0,
    "vertices": 41562
   },
   "props": {
    "capped": null,
-   "impostor_cards_dropped": 0,
+   "impostor_cards_dropped": 3,
    "impostor_faces_dropped": 0,
    "leaf_off": true,
    "per_kind": {
@@ -1439,11 +1651,12 @@
     "manhole": 20,
     "steam_vent": 1,
     "street_lamp": 3,
+    "tree": 80,
     "waste_basket": 2
    },
-   "placed": 36,
+   "placed": 116,
    "radius_m": 150.0,
-   "rows_in_range": 40,
+   "rows_in_range": 120,
    "tiles_missing": [],
    "tiles_read": [
     "t_-6_-1",
@@ -1451,8 +1664,8 @@
     "t_-7_-1",
     "t_-7_-2"
    ],
-   "tree_species_substituted": 0,
-   "triangles": 77164,
+   "tree_species_substituted": 80,
+   "triangles": 378156,
    "unmapped_kinds": {
     "curb_ramp": 2,
     "memorial": 1,
@@ -1460,7 +1673,7 @@
    }
   },
   "radius_m": 5500.0,
-  "seconds": 190.22,
+  "seconds": 220.47,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -1468,24 +1681,359 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 3.125,
+   "quads_cut_for_landmark_ground": 25,
    "samples": 373,
    "spacing_m": 3.125,
-   "triangles": 276768,
-   "water_quads": 63627,
+   "triangles": 276718,
+   "water_bodies": [
+    {
+     "kind": "basin",
+     "name": "4 ST. BASIN",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "basin",
+     "name": "6 ST. BASIN",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "basin",
+     "name": "7 ST. BASIN",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "basin",
+     "name": "ERIE BASIN",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "basin",
+     "name": "HENRY ST BASIN",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "basin",
+     "name": "NAVY YARD BASIN",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "BUSHWICK INLET",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "BUTTERMILK CHANNEL",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "BUTTERMILK CHANNEL",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "BUTTERMILK CHANNEL",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "GOWANUS BAY",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "Newark Bay",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "North Cove Yacht Harbor",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "South Cove",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "The Narrows",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "UPPER NEW YORK BAY",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "UPPER NEW YORK BAY",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "UPPER NEW YORK BAY",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "UPPER NEW YORK BAY",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "UPPER NEW YORK BAY",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "bay",
+     "name": "WALLABOUT CHANNEL",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "canal",
+     "name": "GOWANUS CANAL",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "canal",
+     "name": "Morris Canal Basin",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "lake",
+     "name": "PROSPECT LAKE",
+     "water_z_m": 19.21
+    },
+    {
+     "kind": "lake",
+     "name": "lake",
+     "water_z_m": 22.46
+    },
+    {
+     "kind": "marsh",
+     "name": "marsh",
+     "water_z_m": null
+    },
+    {
+     "kind": "pond",
+     "name": "Ambergill Pond",
+     "water_z_m": 33.86
+    },
+    {
+     "kind": "pond",
+     "name": "Binnen Water",
+     "water_z_m": 25.37
+    },
+    {
+     "kind": "pond",
+     "name": "Crescent Water",
+     "water_z_m": 28.07
+    },
+    {
+     "kind": "pond",
+     "name": "Dell Water",
+     "water_z_m": 25.7
+    },
+    {
+     "kind": "pond",
+     "name": "Duck and Waterfowl",
+     "water_z_m": 26.58
+    },
+    {
+     "kind": "pond",
+     "name": "Pier 1 Wetlands",
+     "water_z_m": 2.28
+    },
+    {
+     "kind": "pond",
+     "name": "Pier 1 Wetlands",
+     "water_z_m": 2.67
+    },
+    {
+     "kind": "pond",
+     "name": "Sylvan Water",
+     "water_z_m": 5.99
+    },
+    {
+     "kind": "pond",
+     "name": "UPPER NEW YORK BAY",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "pond",
+     "name": "Upper Pool",
+     "water_z_m": 35.97
+    },
+    {
+     "kind": "pond",
+     "name": "Valley Water",
+     "water_z_m": 21.25
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 38.19
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 30.13
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 27.08
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 27.4
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 25.99
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 39.74
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 42.96
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 37.73
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "Binnen Water",
+     "water_z_m": null
+    },
+    {
+     "kind": "river",
+     "name": "EAST RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "EAST RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "EAST RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "EAST RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "EAST RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "KILL VAN KULL",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "KILL VAN KULL",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "NEWTOWN CREEK",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "river",
+     "water_z_m": null
+    },
+    {
+     "kind": "river",
+     "name": "river",
+     "water_z_m": null
+    },
+    {
+     "kind": "river",
+     "name": "river",
+     "water_z_m": null
+    },
+    {
+     "kind": "river",
+     "name": "river",
+     "water_z_m": null
+    },
+    {
+     "kind": "river",
+     "name": "river",
+     "water_z_m": null
+    },
+    {
+     "kind": "river",
+     "name": "river",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "river",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 64657,
    "z_max_m": 66.03,
    "z_min_m": -3.79
   },
-  "triangles": 2762356
+  "triangles": 3662035
  },
  "scene_request": {
+  "agent_ped_radius_m": 120.0,
+  "agent_vehicle_radius_m": 150.0,
   "kit_radius_m": 70.0,
   "prop_radius_m": 150.0,
   "radius_m": 5500.0
  },
  "seconds": {
-  "render": 22.4,
-  "scene": 190.9,
-  "total": 213.4
+  "render": 37.9,
+  "scene": 221.1,
+  "total": 259.0
  },
  "slug": "staten_island_ferry_lower_manhattan",
  "status": "rendered",

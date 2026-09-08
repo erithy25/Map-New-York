@@ -1,4 +1,11 @@
 {
+ "agent_request": {
+  "dow": 0,
+  "hour": 13,
+  "local_clock": "2022-06-28 13:38 EDT",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
  "azimuth_reason": "202.5 deg, the bearing from this photograph's own GPS position to Williamsburg Bridge Brooklyn tower; heading and position both come from the photograph.  The item's recorded azimuth is 199.4 deg, 3.1 deg away, and belongs to its nominal viewpoint",
  "camera": {
   "azimuth_deg": 202.4595787840037,
@@ -55,9 +62,9 @@
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.5231,
+  "mean": 0.5235,
   "reason": null,
-  "sd": 0.2046,
+  "sd": 0.2054,
   "usable": true
  },
  "frame_retry": null,
@@ -68,10 +75,11 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 939.4,
   "emissive": {
+   "cone_faces_deleted": 16,
    "cones_hidden": 2,
    "lamps_switched_off": 3,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.0,
   "sky_azimuth_deg": 208.004,
@@ -97,10 +105,93 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_williamsburg_bridge/render.png",
- "rendered_at": "2026-09-07T08:12:34Z",
+ "rendered_at": "2026-09-07T23:07:47Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "caption": "Agents: 89 vehicles within 320 m and 423 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 268 vehicles and 1634 people over the whole simulated ring, of which 345 and 2207 were simulated; 2040 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 295,
+    "pedestrian_inside_building": 43,
+    "pedestrian_not_on_walkable_surface": 274,
+    "pedestrian_outside_radius": 832,
+    "pedestrian_over_the_observer": 2,
+    "pedestrian_triangle_budget": 338,
+    "vehicle_body_has_no_rider": 9,
+    "vehicle_inside_building": 1,
+    "vehicle_not_on_carriageway": 2,
+    "vehicle_outside_radius": 229,
+    "vehicle_triangle_budget": 15
+   },
+   "ped_lods": {
+    "LOD1": 2,
+    "LOD2": 421
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 583126,
+   "per_class": {
+    "black_car": 3,
+    "boro_taxi": 4,
+    "box_truck": 3,
+    "sedan": 40,
+    "suv": 23,
+    "taxi": 11,
+    "van": 5
+   },
+   "placed_pedestrians": 423,
+   "placed_vehicles": 89,
+   "reason": null,
+   "seconds": 77.8,
+   "snapshot": {
+    "building_footprints_tested": 746,
+    "density_lane_km": 15.686,
+    "density_sidewalk_m2": 28007,
+    "density_target_pedestrians": 1633.6,
+    "density_target_vehicles": 268.3,
+    "dow": 0,
+    "hour": 13,
+    "lanes_considered": 168,
+    "lanes_with_nta": 144,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 2.04,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 73,
+    "pavement_polygons_tested": 815,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 2207,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 345
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1088312,
+   "vehicle_lods": {
+    "LOD2": 89
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 505186
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
@@ -122,7 +213,7 @@
      ],
      "lod": 0,
      "objects": 15,
-     "triangles": 85222
+     "triangles": 85258
     },
     "t_-2_0": {
      "files": [
@@ -130,7 +221,7 @@
      ],
      "lod": 0,
      "objects": 9,
-     "triangles": 25988
+     "triangles": 25756
     },
     "t_-2_1": {
      "files": [
@@ -138,7 +229,7 @@
      ],
      "lod": 0,
      "objects": 15,
-     "triangles": 35140
+     "triangles": 35338
     },
     "t_-2_2": {
      "files": [
@@ -146,7 +237,7 @@
      ],
      "lod": 0,
      "objects": 6,
-     "triangles": 3350
+     "triangles": 3520
     },
     "t_-3_1": {
      "files": [
@@ -154,7 +245,7 @@
      ],
      "lod": 0,
      "objects": 11,
-     "triangles": 16704
+     "triangles": 16722
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -164,7 +255,7 @@
    "tiles_wanted": 5,
    "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 166404
+   "triangles": 166594
   },
   "centre_tm": [
    -1543.71,
@@ -173,6 +264,7 @@
   "kit": {
    "capped": null,
    "per_category": {
+    "billboard": 1,
     "bulkhead": 6,
     "cornice": 6,
     "door_entry": 25,
@@ -181,22 +273,22 @@
     "parapet": 33,
     "pilaster": 30,
     "quoin": 6,
-    "storefront": 98,
+    "storefront": 182,
     "storefront_interior": 11,
     "string_course": 6,
     "window": 3815,
     "window_accessory": 24
    },
-   "placed": 4089,
+   "placed": 4174,
    "radius_m": 120.0,
-   "records_in_range": 4089,
+   "records_in_range": 4174,
    "stale_registry_ids": {},
    "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
     "t_-2_1"
    ],
-   "triangles": 643148,
+   "triangles": 648948,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -210,6 +302,10 @@
      "lod": 0,
      "name": "Domino Sugar Refinery and Domino Park",
      "own_ground_m2": 4733.5,
+     "own_ground_note": {
+      "above_heightmap_m": -0.26,
+      "heightmap_median_m": 4.23
+     },
      "own_ground_parts": 1,
      "triangles": 20932
     },
@@ -218,6 +314,9 @@
      "id": "b_williamsburg_bridge",
      "lod": 0,
      "name": "Williamsburg Bridge",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 84236
     }
    ],
@@ -291,7 +390,7 @@
    }
   },
   "radius_m": 588.0143488218414,
-  "seconds": 30.93,
+  "seconds": 147.31,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -329,17 +428,19 @@
    "z_max_m": 17.94,
    "z_min_m": -1.62
   },
-  "triangles": 2137334
+  "triangles": 3231636
  },
  "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
   "radius_m": 588.0143488218414
  },
  "seconds": {
-  "render": 178.8,
-  "scene": 31.7,
-  "total": 210.5
+  "render": 127.0,
+  "scene": 148.6,
+  "total": 275.6
  },
  "slug": "landmark_williamsburg_bridge",
  "status": "rendered",

@@ -1,4 +1,11 @@
 {
+ "agent_request": {
+  "dow": 1,
+  "hour": 13,
+  "local_clock": "2023-01-21 13:36 EST",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
  "azimuth_reason": "29.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition",
  "camera": {
   "azimuth_deg": 29.0,
@@ -7,6 +14,7 @@
   "eye_source": "High Line deck, 30 ft (9.1 m) above the street on the West Side Line viaduct, plus 1.6 m eye height",
   "focal_mm": 35.0,
   "ground_detail": {
+   "below_point_excluded": null,
    "chosen_m": 2.89,
    "max_m": 3.09,
    "median_m": 2.91,
@@ -54,9 +62,9 @@
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.5518,
+  "mean": 0.5299,
   "reason": null,
-  "sd": 0.1992,
+  "sd": 0.2177,
   "usable": true
  },
  "frame_retry": null,
@@ -67,10 +75,11 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 730.3,
   "emissive": {
+   "cone_faces_deleted": 8,
    "cones_hidden": 1,
    "lamps_switched_off": 4,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.73,
   "sky_azimuth_deg": 203.455,
@@ -96,10 +105,94 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_high_line/render.png",
- "rendered_at": "2026-09-06T22:42:37Z",
+ "rendered_at": "2026-09-07T20:54:11Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "caption": "Agents: 69 vehicles within 320 m and 247 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 564 vehicles and 3072 people over the whole simulated ring, of which 618 and 2999 were simulated; 3301 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 165,
+    "pedestrian_inside_building": 4,
+    "pedestrian_not_on_walkable_surface": 128,
+    "pedestrian_outside_radius": 1161,
+    "pedestrian_triangle_budget": 1294,
+    "vehicle_body_has_no_rider": 16,
+    "vehicle_not_on_carriageway": 11,
+    "vehicle_outside_radius": 265,
+    "vehicle_triangle_budget": 257
+   },
+   "ped_lods": {
+    "LOD0": 4,
+    "LOD1": 47,
+    "LOD2": 196
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 582067,
+   "per_class": {
+    "black_car": 7,
+    "boro_taxi": 8,
+    "box_truck": 2,
+    "nypd": 1,
+    "sedan": 22,
+    "suv": 10,
+    "taxi": 18,
+    "van": 1
+   },
+   "placed_pedestrians": 247,
+   "placed_vehicles": 69,
+   "reason": null,
+   "seconds": 90.51,
+   "snapshot": {
+    "building_footprints_tested": 2227,
+    "density_lane_km": 26.69,
+    "density_sidewalk_m2": 25256,
+    "density_target_pedestrians": 3072.4,
+    "density_target_vehicles": 564.5,
+    "dow": 1,
+    "hour": 13,
+    "lanes_considered": 285,
+    "lanes_with_nta": 285,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 2.38,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 94,
+    "pavement_polygons_tested": 2784,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 2999,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 618
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1083797,
+   "vehicle_lods": {
+    "LOD1": 5,
+    "LOD2": 64
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 501730
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
@@ -114,36 +207,55 @@
    "landmark_faces_suppressed": 896,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_-4_4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 1,
      "objects": 19,
-     "triangles": 27226
+     "triangles": 39772
     },
     "t_-4_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 1,
      "objects": 19,
-     "triangles": 19790
+     "triangles": 28012
     },
     "t_-5_4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 17,
-     "triangles": 81616
+     "triangles": 102762
     },
     "t_-5_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
-     "triangles": 31456
+     "triangles": 39482
     },
     "t_-6_4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 6,
-     "triangles": 600
+     "triangles": 594
     },
     "t_-6_5": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 2,
-     "triangles": 288
+     "triangles": 574
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -151,8 +263,9 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 6,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 160976
+   "triangles": 211196
   },
   "centre_tm": [
    -4671.92,
@@ -161,6 +274,7 @@
   "kit": {
    "capped": null,
    "per_category": {
+    "billboard": 3,
     "bulkhead": 56,
     "cornice": 56,
     "door_entry": 110,
@@ -171,7 +285,7 @@
     "pilaster": 27,
     "quoin": 59,
     "scaffold": 119,
-    "storefront": 234,
+    "storefront": 390,
     "storefront_interior": 36,
     "string_course": 39,
     "vegetation": 5,
@@ -179,9 +293,9 @@
     "window": 4151,
     "window_accessory": 303
    },
-   "placed": 5448,
+   "placed": 5607,
    "radius_m": 120.0,
-   "records_in_range": 5448,
+   "records_in_range": 5607,
    "stale_registry_ids": {},
    "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
@@ -189,17 +303,22 @@
     "t_-5_4",
     "t_-5_5"
    ],
-   "triangles": 1368128,
+   "triangles": 1377848,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [
     {
      "distance_m": 223.4,
      "id": "c_high_line",
      "lod": 0,
      "name": "The High Line",
+     "own_ground_note": {
+      "reason": "every ground polygon is smaller than 25 m2"
+     },
      "triangles": 27316
     },
     {
@@ -207,6 +326,9 @@
      "id": "c_chelsea_market",
      "lod": 0,
      "name": "Chelsea Market (National Biscuit Company complex)",
+     "own_ground_note": {
+      "reason": "every ground polygon is smaller than 25 m2"
+     },
      "triangles": 40256
     },
     {
@@ -214,6 +336,9 @@
      "id": "c_pier_57",
      "lod": 0,
      "name": "Pier 57",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 1996
     },
     {
@@ -221,6 +346,9 @@
      "id": "c_little_island",
      "lod": 0,
      "name": "Little Island (Pier 55)",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 8661
     },
     {
@@ -228,9 +356,16 @@
      "id": "c_hudson_yards",
      "lod": 0,
      "name": "Hudson Yards (Eastern Yard)",
+     "own_ground_note": {
+      "above_heightmap_m": 5.34,
+      "heightmap_median_m": 2.48,
+      "reason": "the model's ground stands +5.34 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 103450
     }
    ],
+   "own_ground_from": [],
+   "own_ground_m2": 0,
    "placed": 5,
    "skipped": 0,
    "skipped_detail": [],
@@ -259,42 +394,44 @@
     "t_-6_5"
    ],
    "triangles": 109309,
+   "triangles_cut_for_landmark_ground": 0,
    "vertices": 112341
   },
   "props": {
-   "capped": "triangle budget 1385942",
+   "capped": "triangle budget 1368365",
    "impostor_cards_dropped": 24,
+   "impostor_faces_dropped": 0,
    "leaf_off": true,
    "per_kind": {
     "bench": 3,
-    "bike_rack": 12,
+    "bike_rack": 11,
     "bus_shelter": 3,
     "bus_stop_sign": 9,
     "citibike_dock": 3,
-    "hydrant": 50,
+    "hydrant": 49,
     "linknyc": 1,
-    "manhole": 77,
+    "manhole": 74,
     "newsstand": 1,
     "rtpi_sign": 1,
-    "steam_vent": 12,
-    "street_lamp": 88,
-    "tree": 264,
+    "steam_vent": 11,
+    "street_lamp": 86,
+    "tree": 262,
     "waste_basket": 1
    },
-   "placed": 525,
+   "placed": 515,
    "radius_m": 250.0,
-   "rows_in_range": 767,
+   "rows_in_range": 772,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_4",
     "t_-5_5"
    ],
-   "tree_species_substituted": 55,
-   "triangles": 1387510,
+   "tree_species_substituted": 57,
+   "triangles": 1368862,
    "unmapped_kinds": {
     "artwork": 2,
-    "cooling_tower": 141,
-    "curb_ramp": 50,
+    "cooling_tower": 139,
+    "curb_ramp": 49,
     "drinking_fountain": 2,
     "misc_structure": 4,
     "parks_building": 1,
@@ -303,7 +440,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 62.53,
+  "seconds": 201.88,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -311,24 +448,44 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 0,
    "samples": 211,
    "spacing_m": 2.0,
    "triangles": 88200,
-   "water_quads": 2287,
+   "water_bodies": [
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    },
+    {
+     "kind": "river",
+     "name": "HUDSON RIVER",
+     "water_z_m": 0.0
+    }
+   ],
+   "water_quads": 2158,
    "z_max_m": 13.85,
    "z_min_m": -1.96
   },
-  "triangles": 3295802
+  "triangles": 4420891
  },
  "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 180.4,
-  "scene": 64.2,
-  "total": 244.6
+  "render": 175.6,
+  "scene": 203.0,
+  "total": 378.6
  },
  "slug": "landmark_high_line",
  "status": "rendered",

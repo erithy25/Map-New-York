@@ -1,4 +1,11 @@
 {
+ "agent_request": {
+  "dow": 1,
+  "hour": 14,
+  "local_clock": "2020-02-22 14:33 EST",
+  "seed": 20260907,
+  "warmup_s": 120.0
+ },
  "azimuth_reason": "29.7 deg, the bearing from this photograph's own GPS position to Soldiers' and Sailors' Memorial Arch (Grand Army Plaza, Brooklyn); heading and position both come from the photograph.  The item's recorded azimuth is 170.0 deg, 140.3 deg away, and belongs to its nominal viewpoint",
  "camera": {
   "azimuth_deg": 29.65248592118902,
@@ -7,6 +14,7 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
+   "below_point_excluded": 0,
    "chosen_m": 41.98,
    "max_m": 42.84,
    "median_m": 42.23,
@@ -54,9 +62,9 @@
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.7266,
+  "mean": 0.6522,
   "reason": null,
-  "sd": 0.1626,
+  "sd": 0.2201,
   "usable": true
  },
  "frame_retry": null,
@@ -67,10 +75,11 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 763.1,
   "emissive": {
+   "cone_faces_deleted": 16,
    "cones_hidden": 2,
    "lamps_switched_off": 4,
    "night": false,
-   "note": "daylight frame: modelled light cones made transparent and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
+   "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
   "exposure_stops": 0.56,
   "sky_azimuth_deg": 221.641,
@@ -96,10 +105,92 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_soldiers_sailors_arch/render.png",
- "rendered_at": "2026-09-06T23:49:54Z",
+ "rendered_at": "2026-09-07T22:35:50Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
- "samples": 32,
+ "samples": 64,
  "scene": {
+  "agents": {
+   "caption": "Agents: 50 vehicles within 320 m and 380 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 425 vehicles and 1383 people over the whole simulated ring, of which 538 and 2290 were simulated; 2398 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "dropped": {
+    "pedestrian_in_the_carriageway_not_crossing": 695,
+    "pedestrian_not_on_walkable_surface": 34,
+    "pedestrian_outside_radius": 641,
+    "pedestrian_triangle_budget": 540,
+    "vehicle_body_has_no_rider": 31,
+    "vehicle_not_on_carriageway": 23,
+    "vehicle_outside_radius": 185,
+    "vehicle_triangle_budget": 249
+   },
+   "ped_lods": {
+    "LOD0": 1,
+    "LOD1": 9,
+    "LOD2": 370
+   },
+   "ped_radius_m": 200.0,
+   "pedestrian_triangle_budget": 618750,
+   "pedestrian_triangles": 581218,
+   "per_class": {
+    "black_car": 1,
+    "boro_taxi": 1,
+    "box_truck": 1,
+    "mta_bus": 5,
+    "sedan": 25,
+    "suv": 8,
+    "taxi": 9
+   },
+   "placed_pedestrians": 380,
+   "placed_vehicles": 50,
+   "reason": null,
+   "seconds": 69.73,
+   "snapshot": {
+    "building_footprints_tested": 7692,
+    "density_lane_km": 21.279,
+    "density_sidewalk_m2": 30540,
+    "density_target_pedestrians": 1382.8,
+    "density_target_vehicles": 424.9,
+    "dow": 1,
+    "hour": 14,
+    "lanes_considered": 232,
+    "lanes_with_nta": 232,
+    "min_leader_gap_m": 0.05,
+    "network": {
+     "junction_lanes": 469754,
+     "lanes_with_nta": 848116,
+     "load_seconds": 2.16,
+     "nodes": 79291,
+     "nta_cells": 262,
+     "road_lanes": 381971,
+     "segments": 122235,
+     "signal_plans": 19814
+    },
+    "npc_bodies_imported": 12,
+    "npc_templates_baked": 77,
+    "pavement_polygons_tested": 3390,
+    "ped_spawn_radius_m": 220.0,
+    "peds_in_snapshot": 2290,
+    "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
+    "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
+    "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
+    "red_light_entries": 0,
+    "runtime_dir": "/home/user/Map-New-York/data/processed/runtime",
+    "seed": 20260907,
+    "sim_seconds": 120.0,
+    "synthetic_network": false,
+    "unsafe_crossing_starts": 0,
+    "vehicle_spawn_radius_m": 420.0,
+    "vehicles_in_snapshot": 538
+   },
+   "snapshot_note": "simulated (already built)",
+   "triangle_budget": 1125000,
+   "triangles": 1084365,
+   "vehicle_lods": {
+    "LOD1": 10,
+    "LOD2": 40
+   },
+   "vehicle_radius_m": 320.0,
+   "vehicle_triangle_budget": 506250,
+   "vehicle_triangles": 503147
+  },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
@@ -109,29 +200,42 @@
     "t_-3_-4"
    ],
    "landmark_bins_suppressed": 3,
-   "landmark_faces_suppressed": 1108,
+   "landmark_faces_suppressed": 716,
    "lod_substituted": [],
    "missing": [],
+   "new_jersey": [],
    "per_tile": {
     "t_-2_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
-     "triangles": 103548
+     "triangles": 114986
     },
     "t_-2_-4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 13,
-     "triangles": 18604
+     "triangles": 21840
     },
     "t_-3_-3": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 15,
-     "triangles": 112416
+     "triangles": 121446
     },
     "t_-3_-4": {
+     "files": [
+      "tile_buildings.glb"
+     ],
      "lod": 0,
      "objects": 16,
-     "triangles": 158592
+     "triangles": 169726
     }
    },
    "tiles_dropped_for_budget": 0,
@@ -139,8 +243,9 @@
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
    "tiles_wanted": 4,
+   "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 393160
+   "triangles": 427998
   },
   "centre_tm": [
    -1738.0,
@@ -158,16 +263,16 @@
     "parapet": 27,
     "quoin": 29,
     "scaffold": 64,
-    "storefront": 31,
+    "storefront": 57,
     "storefront_interior": 5,
     "string_course": 23,
     "water_tower": 5,
     "window": 2149,
     "window_accessory": 476
    },
-   "placed": 2955,
+   "placed": 2981,
    "radius_m": 120.0,
-   "records_in_range": 3163,
+   "records_in_range": 3189,
    "stale_registry_ids": {},
    "suppressed_with_landmark_shells": 208,
    "tiles_missing": [],
@@ -175,17 +280,25 @@
     "t_-2_-3",
     "t_-2_-4"
    ],
-   "triangles": 826451,
+   "triangles": 827691,
    "unresolved_ids": {}
   },
   "landmarks": {
    "catalog_entries": 93,
+   "impostor_cards_dropped": 0,
+   "impostor_faces_dropped": 0,
    "landmarks": [
     {
      "distance_m": 55.7,
      "id": "b_soldiers_sailors_arch",
      "lod": 0,
      "name": "Soldiers' and Sailors' Memorial Arch",
+     "own_ground_m2": 416.3,
+     "own_ground_note": {
+      "above_heightmap_m": -0.02,
+      "heightmap_median_m": 43.02
+     },
+     "own_ground_parts": 1,
      "triangles": 1252
     },
     {
@@ -193,6 +306,9 @@
      "id": "c_brooklyn_public_library",
      "lod": 0,
      "name": "Brooklyn Public Library, Central Library",
+     "own_ground_note": {
+      "reason": "the model has no upward horizontal face at its declared ground"
+     },
      "triangles": 8956
     },
     {
@@ -200,9 +316,18 @@
      "id": "c_brooklyn_museum",
      "lod": 0,
      "name": "Brooklyn Museum",
+     "own_ground_note": {
+      "above_heightmap_m": -2.12,
+      "heightmap_median_m": 48.14,
+      "reason": "the model's ground stands -2.12 m from the heightmap under it, more than the 1.0 m at which the two describe the same surface: it is a deck on the ground, not the ground, and the terrain under it is still drawn"
+     },
      "triangles": 22569
     }
    ],
+   "own_ground_from": [
+    "b_soldiers_sailors_arch"
+   ],
+   "own_ground_m2": 416.3,
    "placed": 3,
    "skipped": 0,
    "skipped_detail": [],
@@ -228,51 +353,52 @@
     "t_-3_-3",
     "t_-3_-4"
    ],
-   "triangles": 95023,
+   "triangles": 95016,
+   "triangles_cut_for_landmark_ground": 7,
    "vertices": 96583
   },
   "props": {
-   "capped": "triangle budget 1364101",
-   "impostor_cards_dropped": 23,
+   "capped": "triangle budget 1351983",
+   "impostor_cards_dropped": 21,
+   "impostor_faces_dropped": 0,
    "leaf_off": true,
    "per_kind": {
-    "bench": 37,
+    "bench": 33,
     "bike_rack": 5,
     "bus_shelter": 2,
     "bus_stop_sign": 4,
     "citibike_dock": 2,
-    "hydrant": 27,
+    "hydrant": 20,
     "mailbox": 3,
-    "manhole": 96,
+    "manhole": 86,
     "rtpi_sign": 1,
-    "street_lamp": 88,
+    "street_lamp": 71,
     "subway_emergency_exit": 2,
-    "subway_entrance": 1,
-    "subway_vent_grate": 8,
-    "tree": 208,
-    "waste_basket": 2
+    "subway_vent_grate": 5,
+    "tree": 230,
+    "waste_basket": 1
    },
-   "placed": 486,
+   "placed": 465,
    "radius_m": 250.0,
-   "rows_in_range": 769,
+   "rows_in_range": 839,
    "tiles_missing": [],
    "tiles_read": [
     "t_-2_-3",
     "t_-2_-4"
    ],
-   "tree_species_substituted": 74,
-   "triangles": 1365720,
+   "tree_species_substituted": 128,
+   "triangles": 1355232,
    "unmapped_kinds": {
-    "artwork": 13,
-    "cooling_tower": 9,
-    "curb_ramp": 95,
+    "artwork": 12,
+    "cooling_tower": 5,
+    "curb_ramp": 82,
     "drinking_fountain": 2,
     "misc_structure": 1,
     "parks_building": 3
    }
   },
   "radius_m": 552.0912712515469,
-  "seconds": 32.83,
+  "seconds": 143.58,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -280,24 +406,39 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
+   "quads_cut_for_landmark_ground": 105,
    "samples": 203,
    "spacing_m": 2.0,
-   "triangles": 81608,
+   "triangles": 81398,
+   "water_bodies": [
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 42.96
+    },
+    {
+     "kind": "pond",
+     "name": "pond",
+     "water_z_m": 37.73
+    }
+   ],
    "water_quads": 0,
    "z_max_m": 60.52,
    "z_min_m": 18.08
   },
-  "triangles": 2794739
+  "triangles": 3904477
  },
  "scene_request": {
+  "agent_ped_radius_m": 200.0,
+  "agent_vehicle_radius_m": 320.0,
   "kit_radius_m": 120.0,
   "prop_radius_m": 250.0,
   "radius_m": 552.0912712515469
  },
  "seconds": {
-  "render": 54.4,
-  "scene": 33.9,
-  "total": 88.3
+  "render": 93.2,
+  "scene": 144.7,
+  "total": 237.9
  },
  "slug": "landmark_soldiers_sailors_arch",
  "status": "rendered",
