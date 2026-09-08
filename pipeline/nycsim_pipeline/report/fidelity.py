@@ -376,6 +376,29 @@ def probe_mandated_verdicts() -> list[dict] | None:
     return out
 
 
+def quote_from_assessments(phrase: str) -> str | None:
+    """``phrase`` if some comparison assessment still contains it, otherwise ``None``.
+
+    §8.2 quotes assessments by hand.  A hand-typed quotation is a number that stands for a
+    measurement: it was true of the assessments that existed when it was typed, and after those are
+    rewritten it stands for nothing.  Rather than delete the quotations -- they are the most direct
+    evidence in this report -- every one is looked up in the assessments before it is printed, and a
+    quotation that can no longer be found is reported as missing instead of repeated.
+    """
+    d = DOCS / "verification" / "comparison"
+    if not d.is_dir():
+        return None
+    needle = " ".join(phrase.split()).lower()
+    for a in sorted(d.glob("*/assessment.md")):
+        try:
+            text = " ".join(a.read_text().split()).lower()
+        except OSError:
+            continue
+        if needle in text:
+            return phrase
+    return None
+
+
 def probe_citygml() -> dict[str, Any] | None:
     p = PROCESSED / "buildings" / "citygml" / "progress.json"
     if not p.exists():
@@ -970,17 +993,26 @@ def build_report() -> str:
           "population and light are not. Deviations B12 through B16 and I13 name each of those causes and "
           "size it.")
         A()
+        wanted = ["the best single-building match in the whole set",
+                  "one of the best landmark models in the set",
+                  "the best brick landmark in the set",
+                  "the best bridge model in the set"]
+        found = [q for q in wanted if quote_from_assessments(q)]
+        gone = [q for q in wanted if q not in found]
         A("**The line those verdicts draw is between hand-built and bulk-generated content, and it is "
-          "sharp.** Across the 38 further landmark sheets, 14 verdicts are positive in their own words — "
-          "*\"the best single-building match in the whole set\"* of the Flatiron, whose prow, taper, storey "
-          "count, cornice and position on the traffic island are all called right; *\"one of the best "
-          "landmark models in the set\"* of City Hall; *\"the best brick landmark in the set\"* of the "
-          "Domino refinery; *\"the best bridge model in the set\"* of the Brooklyn Bridge. The hand-scripted "
-          "landmarks are 121 buildings out of 1,083,026, and they are the part of this world that stands "
-          "up to a photograph. What does not is the other 99.99 % — the shells generated from footprint "
-          "and height, which the Times Square assessment describes beside them: the landmark models "
-          "*\"carry real fenestration where the tile shells do not … and the contrast with the flat shells "
-          "beside them is the clearest statement in the set of what a facade treatment is worth\"*.")
+          "sharp.** Across the further landmark sheets a number of verdicts are positive in their own "
+          "words. Each phrase below was looked up in the assessments before it was printed, so a "
+          "quotation that no longer exists is named as missing rather than repeated:")
+        A()
+        for q in found:
+            A(f"* *\u201c{q}\u201d* — still in the set.")
+        for q in gone:
+            A(f"* *\u201c{q}\u201d* — **no longer in any assessment**; the sheets have been "
+              f"rewritten since this sentence was.")
+        A()
+        A("The hand-scripted landmarks are 121 buildings out of 1,083,026, and they are the part of "
+          "this world that stands up to a photograph. What does not is the other 99.99 % — the shells "
+          "generated from footprint and height.")
         A()
         A("That is the honest summary of this project's visual fidelity. Its 1:1 geometry is measured and "
           "in the right place; what is hand-authored on top of that geometry reads as New York; what is "
