@@ -770,13 +770,45 @@ def _rendered_slugs() -> list[str]:
                   if d.is_dir() and (d / "render.json").exists())
 
 
+def test_a_record_the_renderer_refused_to_publish_says_so_and_says_why():
+    """A rejected frame is a stated outcome, not a missing one, and it has to look like one.
+
+    The renderer measures every frame it draws and refuses to publish one that cannot serve as
+    evidence -- near-black, blown out or featureless -- deleting the PNG so a black image cannot
+    sit in a directory listing looking like a comparison (`FRAME_MEAN_MIN` and its neighbours in
+    `render_sheets.py`).  `drive_midtown_sixth_ave_45th` is the case: mean 0.037, and no sheet
+    (docs/DEVIATIONS.md J69).  What must never happen is a sheet going missing *quietly*, so a
+    rejected record has to carry the status, the measurement that rejected it and a written
+    reason beside it.  That the Midtown drive-through then has no comparison at all is a real
+    gap, and it is `test_the_mandated_viewpoints_and_drive_areas_all_have_a_usable_comparison`
+    that fails on it -- deliberately, and not dissolved here.
+    """
+    slugs = _rendered_slugs()
+    if not slugs:
+        pytest.skip("no comparison renders produced yet")
+    for slug in slugs:
+        d = COMPARISON_DIR / slug
+        rec = json.loads((d / "render.json").read_text())
+        if rec["status"] == "rendered":
+            continue
+        assert rec["status"] == "rejected_unusable_frame", f"{slug}: unknown status {rec['status']}"
+        assert rec["frame"]["usable"] is False, f"{slug}: rejected but the frame reads usable"
+        assert rec["frame"].get("reason"), f"{slug}: rejected with no reason recorded"
+        assert (d / "render_error.txt").is_file(), f"{slug}: rejected with no render_error.txt"
+        assert rec["frame"]["reason"] in (d / "render_error.txt").read_text(), (
+            f"{slug}: render_error.txt does not carry the reason the record gives")
+        assert not (d / "render.png").exists(), (
+            f"{slug}: rejected but render.png is still there; an unusable frame must not be left "
+            f"where a reader would take it for evidence")
+
+
 def test_every_render_record_names_its_photograph_licence_and_camera():
     slugs = _rendered_slugs()
     if not slugs:
         pytest.skip("no comparison renders produced yet")
     for slug in slugs:
         rec = json.loads((COMPARISON_DIR / slug / "render.json").read_text())
-        assert rec["status"] == "rendered", slug
+        assert rec["status"] in ("rendered", "rejected_unusable_frame"), slug
         ph = rec["reference_photo"]
         for key in ("file", "author", "licence", "page_url"):
             assert ph.get(key), f"{slug}: reference photo record is missing {key}"
@@ -798,6 +830,8 @@ def test_every_render_has_a_sheet_and_a_written_assessment():
         pytest.skip("no comparison renders produced yet")
     for slug in slugs:
         d = COMPARISON_DIR / slug
+        if json.loads((d / "render.json").read_text())["status"] != "rendered":
+            continue          # a frame the renderer refused to publish; the test above covers it
         assert (d / "render.png").exists(), f"{slug}: render.png missing"
         assert (d / "sheet.png").exists(), f"{slug}: sheet.png missing"
         a = d / "assessment.md"

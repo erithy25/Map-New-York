@@ -1,17 +1,17 @@
 {
  "slug": "drive_bronx_grand_concourse",
- "rendered_at": "2026-09-08T16:04:33Z",
+ "rendered_at": "2026-09-08T18:15:26Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1158,
   "height": 944,
-  "mean": 0.1286,
-  "sd": 0.1315,
-  "p05": 0.0064,
-  "p95": 0.4675,
-  "chroma": 0.039
+  "mean": 0.1727,
+  "sd": 0.1336,
+  "p05": 0.0227,
+  "p95": 0.4706,
+  "chroma": 0.0509
  },
  "reference": {
   "width": 1920,
@@ -23,8 +23,8 @@
   "chroma": 0.1352
  },
  "render_over_reference": {
-  "mean": 0.208,
-  "sd": 0.495,
-  "chroma": 0.288
+  "mean": 0.28,
+  "sd": 0.503,
+  "chroma": 0.376
  }
 }

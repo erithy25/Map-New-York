@@ -58,20 +58,20 @@
   "nearest_agent": null,
   "nearest_agent_m": null,
   "nearest_agent_probe_m": 60.0,
-  "nearest_obstruction": "prop_tree_ginkgo_large_2",
+  "nearest_obstruction": "prop_tree_sophora_large_3",
   "nearest_obstruction_at_deg": [
-   27.2,
-   10.5
+   -27.2,
+   21.1
   ],
-  "nearest_obstruction_m": 15.6,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_tree_ginkgo_large_2 15.6 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 23 m",
+  "nearest_obstruction_m": 14.9,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_tree_sophora_large_3 14.9 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 23 m",
   "offset_m": 0.0,
   "view_m": 23.2
  },
  "frame": {
-  "mean": 0.1471,
+  "mean": 0.1273,
   "reason": null,
-  "sd": 0.1119,
+  "sd": 0.1003,
   "usable": true
  },
  "frame_retry": null,
@@ -112,7 +112,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_bed_stuy_stuyvesant_ave/render.png",
- "rendered_at": "2026-09-08T16:08:26Z",
+ "rendered_at": "2026-09-08T18:19:14Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -148,7 +148,7 @@
    "placed_pedestrians": 301,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 98.21,
+   "seconds": 86.92,
    "snapshot": {
     "building_footprints_tested": 4688,
     "density_lane_km": 18.882,
@@ -277,27 +277,27 @@
    -2054.24
   ],
   "kit": {
-   "capped": "triangle budget 1364135",
+   "capped": "triangle budget 1370215",
    "per_category": {
-    "bulkhead": 129,
-    "cornice": 180,
-    "door_entry": 275,
-    "fence": 87,
+    "bulkhead": 131,
+    "cornice": 181,
+    "door_entry": 284,
+    "fence": 91,
     "fire_escape": 170,
     "hvac": 5,
-    "parapet": 59,
+    "parapet": 61,
     "pilaster": 10,
-    "quoin": 57,
+    "quoin": 58,
     "storefront": 105,
     "storefront_interior": 15,
-    "string_course": 46,
+    "string_course": 47,
     "vegetation": 43,
-    "window": 2794,
-    "window_accessory": 337
+    "window": 2734,
+    "window_accessory": 339
    },
-   "placed": 4312,
+   "placed": 4274,
    "radius_m": 166.3096114080006,
-   "records_in_range": 7015,
+   "records_in_range": 6888,
    "stale_registry_ids": {},
    "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
@@ -305,7 +305,7 @@
     "t_1_-2",
     "t_1_-3"
    ],
-   "triangles": 1364329,
+   "triangles": 1370463,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -655,21 +655,23 @@
   },
   "props": {
    "capped": "triangle budget 1245811",
-   "impostor_cards_dropped": 17,
+   "impostor_cards_dropped": 23,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
-    "curb_ramp": 30
+    "curb_ramp": 37
    },
    "leaf_off": false,
    "per_kind": {
     "citibike_dock": 1,
-    "hydrant": 16,
+    "cooling_tower": 4,
+    "hydrant": 19,
     "mailbox": 1,
-    "manhole": 36,
-    "street_lamp": 39,
-    "tree": 168
+    "manhole": 42,
+    "street_lamp": 48,
+    "tree": 202,
+    "waste_basket": 1
    },
-   "placed": 261,
+   "placed": 318,
    "radius_m": 296.3096114080006,
    "rows_in_range": 958,
    "tiles_missing": [],
@@ -677,12 +679,15 @@
     "t_1_-2",
     "t_1_-3"
    ],
-   "tree_species_substituted": 67,
-   "triangles": 1252282,
+   "tree_instances_scaled": 201,
+   "tree_mean_scale": 0.937,
+   "tree_scale_out_of_band": 1,
+   "tree_species_substituted": 75,
+   "triangles": 1246202,
    "unmapped_kinds": {}
   },
   "radius_m": 766.3096114080006,
-  "seconds": 148.96,
+  "seconds": 133.9,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -699,7 +704,7 @@
    "z_max_m": 28.63,
    "z_min_m": 13.1
   },
-  "triangles": 4500194
+  "triangles": 4500248
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -709,9 +714,9 @@
   "radius_m": 766.3096114080006
  },
  "seconds": {
-  "render": 79.2,
-  "scene": 150.8,
-  "total": 230.0
+  "render": 89.4,
+  "scene": 135.5,
+  "total": 224.9
  },
  "sightline": {
   "subject_note": "the item names no point subject",
