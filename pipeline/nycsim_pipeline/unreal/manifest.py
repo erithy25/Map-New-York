@@ -995,7 +995,17 @@ class ManifestBuilder:
         for e in self.entries:
             for name, idx in (e.get("physical_materials") or {}).items():
                 surface_class.setdefault(str(name), int(idx))
-        block = csm.build(self.repo_root, self.blender_out / "tiles", surface_class=surface_class)
+        try:
+            block = csm.build(self.repo_root, self.blender_out / "tiles",
+                              surface_class=surface_class)
+        except Exception as exc:                    # noqa: BLE001
+            # A manifest can legitimately be built over a tree that has no `blender/` sources --
+            # the tests do exactly that.  A missing contract is a stated absence, not a crash: the
+            # engine then falls back to the flat class colours it had before J63's engine half.
+            self.warnings.append(f"city surfaces not computed ({exc}); the streamed city keeps "
+                                 f"its flat class colours in the engine (J63, engine half)")
+            self.city_surfaces = None
+            return
         shipped = 0
         for name, surf in sorted(block.get("surfaces", {}).items()):
             for kind, path in sorted((surf.get("maps") or {}).items()):

@@ -2,116 +2,54 @@
 
 `fifth_ave_42nd_north` · sheet: [`sheet.png`](sheet.png) · render record: [`render.json`](render.json)
 
-**Reference** — File:43rd St 5th Av td (2018-05-18) 21.jpg by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2018, 1920x1280. [Commons page](https://commons.wikimedia.org/wiki/File:43rd_St_5th_Av_td_(2018-05-18)_21.jpg)
+**Reference** — File:43rd St 5th Av td (2018-05-18) 21.jpg by Tdorante10, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), 2018, 1920x1280. [Commons page](https://commons.wikimedia.org/wiki/File:43rd_St_5th_Av_td_(2018-05-18)_21.jpg) — the photograph's own view direction was **not** derived from the image (confidence medium).
 
-**Camera** — camera 40.75416, -73.98056 (NYC_TM -2581, 6014) z 22.2 m NAVD88 | azimuth 29.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854. View direction: 29.0 deg as recorded in meta.json — the avenue's uptown heading. Aim: level optical axis.
+**Camera** — 40.754156, -73.980559 (NYC_TM -2581, 6014) at z 22.2 m NAVD88 | azimuth 29.0°, pitch +0.0° | 35 mm on 36 mm (54.4° horizontal) | 1280x854. The camera stands on **this photograph's own EXIF GPS** and was **not moved**: the viewpoint is in open air on the ground, the view azimuth is clear for 150 m, the nearest built thing in the frame is `prop_sign_mta_bus_stop_5` 17.5 m away and the nearest simulated agent is `agent_ped_748.10` 3.3 m away. That GPS is **186.8 m** from the item's recorded viewpoint — inside the 250 m at which it can still be the same view, and far enough that the two are not the same corner.
 
-**Sun** — azimuth 95.4°, elevation 43.5° at 2018-06-21T09:30:00-04:00 (photograph year only; 21 June 09:30 assumed).
+**Sun** — azimuth 95.4°, elevation 43.5° at 2018-06-21T09:30−04:00; 860.0 W/m² direct normal, sky at strength 0.0328, Filmic, **+0.00 stops**. The photograph carries a **year only**, so 21 June 09:30 is assumed. That date is a **Thursday** and the crowd was drawn for a weekday. **This is the weakest input on the sheet and it decides most of what follows.**
 
-**In frame** — 6/6 building tiles (338,848 tris), 9 landmark models, 2,218 pavement polygons, 384 props, 12,460 facade-kit pieces; 4,500,107 triangles; ground mesh 209² at 2.0 m near / 40.0 m far; kit capped by the triangle budget (22,690 in range, 12,460 placed). Frame mean 0.224, sd 0.173.
+**In the scene**, within 886.8 m of the camera and not all of it in frame — 6 building tiles (339,572 tris), 13 landmark models of which **6 can fall inside the 54.4° frame**, 36,632 pavement polygons (20,683 white marking, 5,800 sidewalk, 4,522 roadbed, 3,981 curb, 927 crosswalk, 324 median, 282 plaza, 100 yellow marking, 13 parking lot), 436 props of the 2,477 in range, 3,903 kit pieces, 54 vehicles and 250 people; 4,500,130 triangles. Ground mesh 95,026 triangles, 0 holes. 20 city surfaces are dressed from the shared photographic catalogue.
 
-**Verdict — this sheet now compares two views of the same street in the same direction, which it did not before. Both halves look north up Fifth Avenue from the west side near 43rd Street: the avenue recedes between towers on the right and a continuous wall on the left in both. What the render still cannot show is what makes the photograph a photograph — no vehicles, no people, no markings, no shopfronts — and it is far too dark, because the file records only a year and the Sun falls back to a June morning that puts the whole canyon in shadow**
+## Verdict — the street is populated, marked and textured, and it is rendered at a quarter of the photograph's brightness because the file records only a year
 
-## What changed, and why
+**Both halves look north up Fifth Avenue between the same kind of walls, and the render is no longer the empty slab this sheet used to show.** A continental crosswalk runs across the foreground with pedestrians on it — a man in a tan coat mid-stride, a child, a figure in a hi-vis vest at the kerb — a red hydrant stands on the near sidewalk, a scaffold shed runs along the left frontage, an MTA bus-stop sign stands at the right kerb, and vehicles are drawn up at the far kerb where the avenue recedes between towers. An earlier version of this assessment said the frame had "no vehicles, no people, no markings, no shopfronts". Every one of those four is now false, and the record says by how much: **20,683 white and 100 yellow marking polygons**, **54 vehicles and 250 people**, **72 storefront pieces**, **927 crosswalk polygons**.
 
-Every one of the three photographs this item shipped with was of the **New York Public Library's
-facade, looking west**; the item is a view **along** Fifth Avenue, looking north. Its own assessment
-said so, and the assessment of `fifth_ave_42nd_south` said the same of that sheet. Two of the nine
-viewpoints brief §12 condition 3 names could therefore not be judged at all.
-
-They passed the chooser for two reasons, both now fixed
-(`pipeline/nycsim_pipeline/reference/fetch_photos.py`):
-
-* the item's second keyword group listed `"public library"` and `"nypl"` beside the cross-street
-  numbers, and the *category* "5th Avenue (Manhattan)" sits on every photograph of a building on the
-  avenue — so a library facade satisfied the test that was meant to find the street. The subject test
-  is now matched against a photograph's **title and description only**, never its categories, because
-  a category records where a photograph *is* and not what it is *of*;
-* nothing rejected a photograph whose own title announces a different subject. `not_of` does: a title
-  naming the library, Bryant Park, the Empire State Building or St Patrick's is a photograph of that
-  building, whatever else it mentions.
-
-Two further rules came out of the re-fetch, and both are general rather than about this item:
-
-* **"325 Fifth Avenue" is a building, not the avenue.** The first re-fetch picked a telephoto frame of
-  a tower top titled with a street address, which satisfied `"fifth avenue"`. A required term now only
-  counts where it is not preceded by a house number.
-* **A Library of Congress control number marks an archival scan.** "Fifth avenue from 42nd street,
-  looking north LCCN2003680996" is a c.1900 photochrom whose only recorded date is its digitisation
-  date, so `min_year = 2010` could not see it.
-
-After all four, the item's three photographs are `43rd St 5th Av td (2018-05-18)` numbers 21, 08 and
-09 — street-level views along the avenue at 43rd Street. The pool is thinner than before (66 search
-seeds, 5 eligible), which is the honest cost: Commons has few free photographs looking up Fifth Avenue
-and many of the library beside it.
-
-## Re-rendered 2026-09-07 — a mandated viewpoint, and the exposure gap at its worst
-
-Fifth Avenue at 42nd looking north is one of the seven the brief names. The world is there: towers
-stepping away up both sides of the avenue, nine landmark models in the scene, a crowd of 251 people
-walking the right-hand pavement, 51 vehicles with a yellow cab and a black SUV at the kerb, a hydrant,
-lamp standards, the avenue running to a bright gap at the horizon.
-
-**It is also the worst instance of deviation I16 in the set so far**, and the numbers are not close:
-
-| | render | photograph |
-|---|---|---|
-| mean luminance | **0.227** | **0.455** |
-| median | **0.176** | **0.537** |
-| area below 0.20 | **52.3 %** | 22.2 % |
-
-The render is half the brightness of the photograph and its median pixel is three times darker. More
-than half the frame sits below 0.20 where the photograph puts a fifth there. The left-hand block face
-is nearly black.
-
-**Two causes, and the second is specific to this sheet.** The general one is I16: the render is
-physically lit and the photograph was metered by its photographer, and Fifth Avenue between towers at
-a 43.5° sun is deep in its own shadow. The particular one is that **this frame's Sun is an
-assumption, not a measurement** — `time_source` reads *"photograph year only; 21 June 09:30 assumed"*,
-so the shadow pattern is a plausible June morning rather than the photograph's own instant. **5 of
-the 57 scenes** are lit this way; the other 52 take the Sun from EXIF. On a north-facing avenue view
-the assumed hour decides whether the street is lit or in shade, so on this sheet it is not a detail.
+**The frame is a quarter of the photograph's brightness — mean 0.113 against 0.4557 — and the cause is one stated choice.** The photograph carries a year and nothing finer, so the Sun falls back to 21 June at 09:30, bearing **95.4°**. Fifth Avenue runs 29°. A morning sun almost due east puts the whole west-side canyon this camera stands in into its own shadow, and the reference was taken under a bright overcast that has no shadow anywhere. The render is not dark because the city is dark; it is dark because the instant is assumed and the assumed instant is the wrong one for this view.
 
 ## What matches
 
-* **Both halves face the same way**, which is the point of the change: the photograph looks north up
-  Fifth Avenue from the corner of 43rd Street and the render looks north up Fifth Avenue on the
-  recorded 29.0 deg uptown heading. They can now be compared on street width, storey height, kerb line
-  and massing, which is what this sheet is for.
-* The camera stands on the photograph's own EXIF GPS, 187 m from the item's nominal viewpoint, at 22.2 m NAVD88.
-* The street section is right. Fifth Avenue's roadbed width, the west and east sidewalk widths, the kerb reveal and the crosswalk positions all match the photograph's foreground where the two overlap.
-* Storey heights and setback lines up the avenue are plausible: the block faces step from six to twelve storeys with the right rhythm and the towers behind them are at the right distance.
-* The New York Public Library model is placed and 81.6 m from the camera, along with seven other landmark models (One Vanderbilt at 259 m, Grand Central at 368 m, the Chrysler Building at 538 m, the Empire State Building at 582 m). The earlier report that the library was missing no longer holds.
-* Real street furniture in real places: 383 props including 49 hydrants, 79 manhole covers, 22 bus-stop signs, 9 bus shelters and 17 flagpoles; 11,520 facade-kit pieces including 188 storefronts and 52 scaffold bays.
-* The Sun is placed from the photograph's own EXIF instant (2017-02-16 16:24:37 EST, elevation 11.2 deg, azimuth 243.3 deg) and the low winter light and long shadows in the render match the reference's.
+* **The street type is right.** A wide avenue between a continuous masonry wall on the left and setback towers on the right, receding to a bright slot of sky. That is Fifth Avenue north of 42nd Street and it is what both halves show.
+* **The crossing is drawn as a crossing.** Bold separate white bars with asphalt between them — a continental crosswalk, not a painted slab — with **927 crosswalk polygons** in range and pedestrians standing on it.
+* **The sidewalk shed is there and it is in the photograph too.** A dark green scaffold band runs along the left frontage at ground level in both halves; the reference's carries Urban Outfitters signage over the same structure.
+* **The crowd is the simulation's own** — 250 people at 09:30 on a weekday, 5 at LOD0, 44 at LOD1 and 201 at LOD2, with 105 dropped for standing in the carriageway without crossing and 830 for the triangle budget.
+* **The fleet is a Midtown fleet**: 13 yellow taxis, 12 boro taxis, 9 black cars, 9 sedans, 5 box trucks, 4 SUVs, an MTA bus and a van.
+* **The street furniture is the right street furniture**: 53 street lamps, 33 hydrants, 12 bus-stop signs, 12 flagpoles, 5 bus shelters, 5 newsstands, 19 bike racks, 2 LinkNYC kiosks, 3 subway entrances, 6 steam vents and 86 rooftop cooling towers.
+* **Six landmark models can fall inside the frame** — 30 Rockefeller Plaza at 554 m, St Patrick's at 608 m, MoMA at 853 m, the Seagram Building at 856 m, Lever House at 888.5 m and the Billionaires' Row corridor at 1,166 m. The count on the caption is a scene count and the record distinguishes the two (J61).
+* Nothing was dropped for being missing: 6 building tiles, 0 LOD substitutions, 0 pavement polygons dropped, 0 holes in the ground.
 
 ## What does not match
 
-* **The render is much too dark** — frame mean 0.224 against a photograph taken in flat daylight. The
-  file records only the year 2018, so the Sun falls back to 21 June at 09:30, azimuth 95.4 deg: an
-  early-morning sun almost due east, with a north-facing avenue between 100 m towers entirely in
-  shadow. The photograph was taken in May in the middle of the day. This is a lighting mismatch caused
-  by missing EXIF, not by the world, and the sheet states the fallback.
-* **The heading is still assumed, not measured.** The item names no subject, so the azimuth is the
-  avenue's own uptown heading rather than anything derived from the image (deviation I7). It happens to
-  agree here; nothing in the metadata proves it.
-* ~~No people. The reference has about forty, including a group crossing the frame at 8 m; the render has none, so the near-foreground crosswalk reads as empty grey.~~ — **superseded 2026-09-07.** **251 people and 51 vehicles are in this scene** from one frame of the running simulation; what the reference still has and the render does not is recorded in the section above.
-* ~~No vehicles anywhere on the avenue.~~ — **superseded 2026-09-07.** **251 people and 51 vehicles are in this scene** from one frame of the running simulation; what the reference still has and the render does not is recorded in the section above.
-* No road markings. The crosswalk in the reference is a broad zebra with a stop bar and lane lines; the render's crosswalk polygons are flat light-grey rectangles with no stripes.
-* The bare street trees are still near-solid dark cones. The opaque impostor cards are dropped (12 in this frame) but the branch geometry itself reads as a mass rather than as winter branches, and there are eleven of them lining the avenue.
-* A street lamp column stands about 1.5 m from the lens and runs the full height of the frame. That is where props.parquet puts a lamp and where the photograph's own GPS puts the camera, but a photographer would have stepped around it.
-* The buildings have unglazed window dashes and no cornice, sill or reveal shadow — the storefront band on the right is a flat green stripe with no glass, no lettering and no awning.
-* The bottom 40 % of the frame is bare grey sidewalk and roadbed with no texture, no expansion joints, no gratings, no litter and no tonal variation.
+* **The frame is four times darker than the photograph and the assumed instant is why**: mean **0.113** against **0.4557** (**0.248×**), standard deviation **0.117** against **0.236** (**0.496×**), 5th percentile **0.016** against **0.0625**, 95th percentile **0.4136** against **0.7463**. The photograph is a bright overcast with no shadow in it; the render is a 43.5° sun bearing 95.4° down an avenue running 29°, which is grazing incidence on the wall that fills the left half and full shadow on the pavement the camera stands on. **No part of this gap is a claim about the city's materials** — it is a claim about a date nobody recorded.
+* **Chroma is the closest of any sheet in the set and still short**: **0.0303** against **0.0432**, a ratio of **0.701**. The photograph is itself nearly colourless — a grey overcast over grey stone — which is why the ratio flatters here; on a sunlit reference the same surfaces read far lower.
+* **The camera is 186.8 m from the item's recorded viewpoint.** It stands where the photograph's own GPS says the picture was taken, which is the better of the two, but 187 m up Fifth Avenue is a different block: the reference looks across 42nd Street at the library's corner and the render looks up the avenue from nearer 43rd.
+* **No vehicle stands in the near foreground.** The photograph's subject is effectively a yellow taxi crossing the frame at ten metres; the render's 54 vehicles are all further up the avenue. Placement is city-wide and the frame is not.
+* **2,041 props in range were not placed** — triangle budget 953,045 — along with part of the kit (cap 683,120) and 9 opaque impostor cards. **10 point props have no asset at all**: 7 artworks, a parks building, a comfort station and an RTPI sign.
+* **114 of the 137 trees are species-substituted**, drawn at the height their own rows record (mean scale **0.926**, none outside the band) but as the nearest species by size and taxon.
+* **The facades are flatter than the avenue is.** 3,903 kit pieces stand in range and only 3 cornices, 6 parapets and 3 string courses among them: the towers on the right are extrusions with windows, where the photograph's masonry carries a cornice, a belt course and a modelled shopfront band.
+* **No sign, awning text or shop name is legible**, and the photograph's own middle ground is a shopfront band under a shed with lettering across it.
+* **The two halves are not guaranteed to face the same way.** The item names no subject and the photograph's direction was never derived from the image, so this sheet supports a comparison of street width, storey height and material — not of composition.
 
 ## Cause of each gap
 
 | gap | cause | class |
 |---|---|---|
-| ~~the two halves face different ways~~ | **fixed**: the chooser now requires the photograph's own title or description to name the street, rejects one titled after a building on it, rejects a street address as a street name, and rejects archival scans | reference |
-| the render is too dark to compare on tone | the file records only a year, so the Sun falls back to 21 June 09:30 and a north-facing canyon is in shadow | lighting |
-| ~~no people, no vehicles~~ superseded | agents are placed now (251 people, 51 vehicles); what remains is framing and occlusion, not absence | reporting |
-| no road markings | pavement polygons carry a kind but no stripe geometry and no texture | material |
-| trees read as solid cones | the leaf-off branch model is dense and untextured | material |
-| a lamp column across the lens | the photograph's GPS puts the camera within 1.5 m of a real lamp post; nothing moves an unblocked camera off one | camera |
-| flat facades, no glass or lettering | shells carry a per-material base colour and the kit supplies openings without glazing, mullions or signage | material |
-| featureless pavement | the pavement material is a flat base colour per kind with no texture map | material |
+| mean 0.248×, 5th percentile 0.016 against 0.0625 | the photograph carries a year and nothing finer, so the Sun is assumed at 21 June 09:30 bearing 95.4°, which puts an avenue running 29° into its own shadow; the reference is a shadowless overcast | **reference — the largest single cause on this sheet** |
+| chroma 0.701× | one material family is stated per facade class, and the reference is itself nearly colourless so the ratio flatters (J66) | material |
+| camera 186.8 m from the recorded viewpoint | it stands on the photograph's own EXIF GPS, which is the better of the two positions and is a different block | reference |
+| no vehicle in the near foreground | placement is city-wide and the frame is not; none of the 54 falls in the near carriageway | verification |
+| 2,041 props and part of the kit unplaced | triangle budgets 953,045 and 683,120, declared on the sheet | performance |
+| 10 point props with no asset | artworks, a parks building, a comfort station and an RTPI sign have no modelled asset; they stay unplaced rather than become the wrong object (J22, J23) | geometry |
+| 114 of 137 trees species-substituted | no modelled species matched exactly; the nearest by size and taxon was used | data |
+| flat facades, almost no cornice or belt course | the shell is extruded from a footprint and the kit's cornice is a generic profile; the classifier has no source for a modelled one | geometry |
+| no legible signage | shopfront signage carries real business names as data but nothing resolves them to geometry at this distance (B15a) | geometry |
+| the two halves may not face the same way | the item names no subject and the photograph's direction was never derived from the image (confidence medium) | reference |

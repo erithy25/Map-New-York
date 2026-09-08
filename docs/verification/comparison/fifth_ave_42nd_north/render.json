@@ -116,7 +116,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/fifth_ave_42nd_north/render.png",
- "rendered_at": "2026-09-08T20:47:39Z",
+ "rendered_at": "2026-09-08T22:50:07Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -155,7 +155,7 @@
    "placed_pedestrians": 250,
    "placed_vehicles": 54,
    "reason": null,
-   "seconds": 162.61,
+   "seconds": 165.06,
    "snapshot": {
     "building_footprints_tested": 1488,
     "density_lane_km": 30.431,
@@ -907,7 +907,7 @@
    }
   },
   "radius_m": 886.8186107381778,
-  "seconds": 216.78,
+  "seconds": 238.49,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -934,9 +934,9 @@
   "radius_m": 886.8186107381778
  },
  "seconds": {
-  "render": 109.5,
-  "scene": 218.6,
-  "total": 328.1
+  "render": 112.9,
+  "scene": 240.7,
+  "total": 353.5
  },
  "sightline": {
   "subject_note": "the item names no point subject",

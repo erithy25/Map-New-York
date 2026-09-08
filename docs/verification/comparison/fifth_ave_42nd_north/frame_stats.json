@@ -1,0 +1,30 @@
+{
+ "slug": "fifth_ave_42nd_north",
+ "rendered_at": "2026-09-08T22:50:07Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 854,
+  "mean": 0.113,
+  "sd": 0.117,
+  "p05": 0.016,
+  "p95": 0.4136,
+  "chroma": 0.0303
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1280,
+  "mean": 0.4557,
+  "sd": 0.236,
+  "p05": 0.0625,
+  "p95": 0.7463,
+  "chroma": 0.0432
+ },
+ "render_over_reference": {
+  "mean": 0.248,
+  "sd": 0.496,
+  "chroma": 0.701
+ }
+}

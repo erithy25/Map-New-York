@@ -12502,13 +12502,13 @@
   },
   "unreal_manifest": {
    "artifact_id": "unreal_manifest",
-   "bytes": 14065468,
-   "git_commit": "ca7075b8bee7",
+   "bytes": 14122861,
+   "git_commit": "67ee6a63bcd0",
    "path": "data/processed/unreal_manifest.json",
-   "produced_at": "2026-09-08T18:04:37Z",
-   "rows": 8171,
+   "produced_at": "2026-09-08T22:59:10Z",
+   "rows": 8234,
    "schema": "unreal_manifest/1",
-   "sha256": "3085c5242e7e61ca8a4d43c17bb4f503efafd34f178dbd05833b1ebded5e1050",
+   "sha256": "20d21cd03ab00115a9ee5d8b520a0dc6c61a5757e2dc5745cc00e66b8338fe72",
    "sources": [
     "blender_out",
     "tiles",
