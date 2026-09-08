@@ -50,3 +50,9 @@
 | 347 people dropped in the carriageway, 188 vehicles to the budget | the pedestrian rule refuses to stand a person in a live carriageway unless crossing, and the vehicle budget capped at LOD2 | performance |
 | 70 of 154 trees species-substituted | no modelled species matched exactly; the nearest by size and taxon was used | data |
 | 5 point props unplaced | vending machines and memorials have no asset (J22, J23) | geometry |
+
+---
+
+*Re-checked against the v15 render of 2026-09-08T22:33:45Z. This sheet names no subject, so nothing J74, J75 or J76 changed reaches it: the scene is identical to the render this was written against — the same 428 props of 2,161, 4,911 kit pieces, 65 vehicles and 407 people, the same 154 trees at a mean scale of 0.895 with none outside the band, and the same frame statistics to four decimals. What did change is that the statistics are now measured by the render that made the sheet rather than by hand afterwards (J77).*
+
+*This sheet carries the measurement J66's second amendment rests on and it is unchanged here: the frame matches the photograph on brightness — mean **0.3508** against **0.3791**, a ratio of **0.925** — while carrying **0.254** of its colour, chroma **0.0302** against **0.1191**. When a frame is within eight per cent of the photograph's luminance and holds a quarter of its colour, no amount of stopping down accounts for the difference, and only `roof_membrane` still binds the albedo cap on this sheet. What is left is that one material family is stated per facade class while a Forest Hills Gardens wall carries four brick colours at once — and for nineteen buildings in twenty there is no source that would say which, which is counted in docs/DEVIATIONS.md J66 rather than here.*

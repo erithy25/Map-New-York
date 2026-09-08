@@ -116,7 +116,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_queens_forest_hills/render.png",
- "rendered_at": "2026-09-08T20:32:40Z",
+ "rendered_at": "2026-09-08T22:33:45Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1081 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -153,7 +153,7 @@
    "placed_pedestrians": 407,
    "placed_vehicles": 65,
    "reason": null,
-   "seconds": 108.51,
+   "seconds": 150.38,
    "snapshot": {
     "building_footprints_tested": 7269,
     "density_lane_km": 29.388,
@@ -647,7 +647,7 @@
    }
   },
   "radius_m": 941.859275796482,
-  "seconds": 172.27,
+  "seconds": 295.75,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -680,9 +680,9 @@
   "radius_m": 941.859275796482
  },
  "seconds": {
-  "render": 63.8,
-  "scene": 174.1,
-  "total": 237.9
+  "render": 74.2,
+  "scene": 298.2,
+  "total": 372.5
  },
  "sightline": {
   "subject_note": "the item names no point subject",
