@@ -36,7 +36,7 @@
 * **Of the 2,161 props in range only 428 were placed**, the largest shortfall in the set, at a triangle budget of 1,313,553 — along with part of the kit (cap 1,356,184) and 22 opaque impostor cards.
 * **347 pedestrians were dropped for standing in the carriageway without crossing**, 179 for not being on a walkable surface and 90 for the triangle budget; 188 vehicles went to the budget too. Only 6 of the 65 vehicles are at LOD1 and none at LOD0.
 * **70 of the 154 trees are species-substituted.** They are drawn at the height their own rows record; the species they are drawn *as* is the nearest by size and taxon.
-* **Two surfaces sit at the albedo cap with the wrong source material behind them** — `concrete` and `roof_membrane` (J66).
+* **One surface still sits at the albedo cap** — `roof_membrane` (J66). `concrete` was moved to a scan that does not bind it and **this frame did not change at all** when it was, which is the sharpest evidence on this sheet that the colour gap is not a texture-level fault.
 * **5 point props have no asset at all**: 4 vending machines and 1 memorial (J22, J23).
 
 ## Cause of each gap

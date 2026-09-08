@@ -38,7 +38,7 @@
 * **Of the 2,470 props in range only 317 were placed** — the largest shortfall in the set — at a triangle budget of 1,242,963, along with part of the kit (cap 1,226,602) and 22 opaque impostor cards.
 * **422 pedestrians were dropped for not being on a walkable surface**, the highest such count in the set, along with 174 to the triangle budget and 100 for standing in the carriageway without crossing.
 * **179 trees stand within 459.3 m and 65 are species-substituted**; 177 are drawn at the height their own rows record, at a mean scale of **0.929**, and **two fell outside the declared scale band** and keep their assets' own size (J70).
-* **Three surfaces sit at the albedo cap with the wrong source material behind them** — `concrete`, `roof_membrane` and `wood_clapboard` (J66).
+* **Two surfaces still sit at the albedo cap** — `roof_membrane` and `wood_clapboard` (J66). `concrete` was moved to a scan that does not bind it, and **this frame's statistics did not change when it was**; the frame in the set that did move is Broadway at Wall Street, which is the only one made mostly of stone and concrete.
 * **50 sidewalk-shed pieces are in the scene**, from DOB permits active on 2026-09-05, against a photograph from 2018.
 
 ## Cause of each gap

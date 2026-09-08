@@ -34,7 +34,7 @@
 * **The facades carry no cornice line worth the name** — 11 cornices and 11 string courses across 2,445 pieces. Queens taxpayers carry brick corbel courses and pressed-metal cornices, and the classifier has no source for them.
 * **186 props in range were not placed** — triangle budget 1,398,827 — and **24 opaque impostor cards were dropped**.
 * **70 of the 196 trees are species-substituted.** They are drawn at the height their own rows record; the species they are drawn *as* is the nearest by size and taxon.
-* **Three surfaces sit at the albedo cap with the wrong source material behind them** — `concrete`, `roof_membrane` and `wood_clapboard` (J66).
+* **Two surfaces still sit at the albedo cap** — `roof_membrane` and `wood_clapboard` (J66). `concrete` was moved to a scan that does not bind it, and **this frame's statistics did not change when it was**; the frame in the set that did move is Broadway at Wall Street, which is the only one made mostly of stone and concrete.
 * **Every one of the 265 people is at LOD2** and every one of the 73 vehicles too; nothing in this frame is at close-up fidelity.
 
 ## Cause of each gap
@@ -44,7 +44,7 @@
 | the reference is a photograph of an Interstate | the fetch kept three photographs for a "residential street" query, none of which is one; the chooser ranks what was kept and cannot reject a subject it has no test for | **reference — open, DEVIATIONS J71** |
 | the camera stands on a commercial strip, not a residential block | the recorded viewpoint is 0.1 m from `t_15_7_struct_station_house`, so the camera was walked 32.2 m onto the nearest sidewalk | verification |
 | mean 0.523× and 95th percentile 0.486 against 0.875 | a sunlit open highway with sky filling its upper third against a street with buildings filling its upper half, plus a renderer that never stops down | reference + stated choice |
-| chroma 0.465× | `concrete`, `roof_membrane` and `wood_clapboard` at the albedo cap with the wrong source material (J66) | material |
+| chroma 0.465× | not the capped textures — replacing one of the three moved this frame by nothing. `shellmat` scales all three channels by one factor, so it varies a building's tone and never its hue, and every building of a class is one colour at different brightnesses (J66, second half) | **data — no source exists** |
 | no cornice line | 11 cornices and 11 string courses across 2,445 kit pieces; the classifier has no source for a Queens taxpayer's corbel course or pressed-metal cornice | geometry |
 | 186 props not placed and 24 impostor cards dropped | triangle budget 1,398,827, declared on the sheet | performance |
 | 70 of 196 trees species-substituted | no modelled species matched exactly; the nearest by size and taxon was used | data |

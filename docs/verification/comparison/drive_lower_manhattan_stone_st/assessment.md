@@ -28,9 +28,9 @@
 
 ## What does not match
 
-* **The photograph is aimed up and the render is level.** The reference's upper third is blown white sky at a 95th percentile of exactly **1.0**; the render's is brick, at **0.1897**. Comparing the two frames' means compares a picture of sky with a picture of a wall.
-* **The frame is the flattest in the set**: standard deviation **0.0652** against **0.3019**, a ratio of **0.216**, and mean **0.1145** against **0.4021** (**0.285×**). Part of that is the pitch above; part is that a 6 m alley between six-storey walls sees very little sky, which is a true fact about Stone Street and not a fault. But nothing in this frame is *lit*, and at a 58.6° Sun something should be.
-* **The chroma gap is smaller here than elsewhere and still real**: **0.0174** against **0.0469**, a ratio of **0.371**. The photograph itself is a low-chroma picture — grey overcast on brown brick — which is why the ratio flatters this sheet relative to the others. Three surfaces sit at the albedo cap with the wrong source material behind them (`concrete`, `roof_membrane`, `wood_clapboard`, J66).
+* **The photograph is aimed up and the render is level.** The reference's upper third is blown white sky at a 95th percentile of exactly **1.0**; the render's is brick, at **0.1899**. Comparing the two frames' means compares a picture of sky with a picture of a wall.
+* **The frame is the flattest in the set**: standard deviation **0.0650** against **0.3019**, a ratio of **0.215**, and mean **0.1148** against **0.4021** (**0.286×**). Part of that is the pitch above; part is that a 6 m alley between six-storey walls sees very little sky, which is a true fact about Stone Street and not a fault. But nothing in this frame is *lit*, and at a 58.6° Sun something should be.
+* **The chroma gap is smaller here than elsewhere and still real**: **0.0175** against **0.0469**, a ratio of **0.373**. The photograph itself is a low-chroma picture — grey overcast on brown brick — which is why the ratio flatters this sheet relative to the others. Two surfaces still bind the albedo cap (`roof_membrane`, `wood_clapboard`); `concrete` was moved to a scan that does not, and this frame did not change when it was (J66).
 * **The facades are plainer than the photograph's.** The reference carries iron balconies, arched window heads, a stone pediment over a doorway, wall-mounted lanterns and hanging signs. The render has 5,528 windows and **2 quoins, 6 fire escapes and 11 string courses** across the whole scene; the classifier has no source for an individual building's ironwork or door surround.
 * **No awning text or shop name is legible**, and the photograph carries three — a bar sign, two branded event canopies.
 * **647 pedestrians and 213 vehicles were dropped for the triangle budget**, and of the 1,281 props in range only **669** were placed (cap 1,237,192), along with part of the kit (cap 1,212,714) and 9 opaque impostor cards. A further 517 pedestrians were dropped for standing in the carriageway without crossing.
@@ -42,8 +42,8 @@
 | gap | cause | class |
 |---|---|---|
 | the photograph is aimed up and the render is level | the item names no subject to aim at, so the optical axis is level; the reference is tilted up and its upper third is blown white sky at a 95th percentile of 1.0 | reference + stated choice |
-| standard deviation 0.216× and mean 0.285× | the pitch above, plus a 6 m alley between six-storey walls that genuinely sees little sky, plus a renderer that never stops down | reference + stated choice |
-| chroma 0.371× | `concrete`, `roof_membrane` and `wood_clapboard` sit at the albedo cap with the wrong source material behind them (J66) | material |
+| standard deviation 0.215× and mean 0.286× | the pitch above, plus a 6 m alley between six-storey walls that genuinely sees little sky, plus a renderer that never stops down | reference + stated choice |
+| chroma 0.373× | not the capped textures — replacing one of the three moved this frame by nothing. `shellmat` scales all three channels by one factor, so it varies a building's tone and never its hue, and every building of a class is one colour at different brightnesses (J66, second half) | **data — no source exists** |
 | plainer facades than the reference | 2 quoins, 6 fire escapes and 11 string courses across 6,193 kit pieces; the classifier has no source for an individual building's ironwork, balconies or door surrounds | geometry |
 | no legible awning or shop sign | shopfront signage carries real business names as data but nothing resolves them to geometry at this distance (B15a) | geometry |
 | 647 people, 213 vehicles and part of the props and kit dropped | triangle budgets 1,237,192 and 1,212,714, declared on the sheet | performance |

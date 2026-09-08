@@ -1,6 +1,6 @@
 {
  "slug": "drive_queens_forest_hills",
- "rendered_at": "2026-09-08T18:43:40Z",
+ "rendered_at": "2026-09-08T20:32:40Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
