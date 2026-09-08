@@ -1,0 +1,30 @@
+{
+ "slug": "drive_queens_jackson_heights",
+ "rendered_at": "2026-09-08T18:47:28Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1280,
+  "height": 854,
+  "mean": 0.1998,
+  "sd": 0.0867,
+  "p05": 0.0493,
+  "p95": 0.3447,
+  "chroma": 0.0457
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1280,
+  "mean": 0.5224,
+  "sd": 0.2958,
+  "p05": 0.0476,
+  "p95": 0.995,
+  "chroma": 0.0329
+ },
+ "render_over_reference": {
+  "mean": 0.382,
+  "sd": 0.293,
+  "chroma": 1.389
+ }
+}

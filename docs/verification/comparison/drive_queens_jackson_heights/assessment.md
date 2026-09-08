@@ -2,68 +2,56 @@
 
 `drive_queens_jackson_heights` · sheet: [`sheet.png`](sheet.png) · render record: [`render.json`](render.json)
 
-**Reference** — File:78-12 35th Avenue (entrance), between 78th and 79th Street, Jackson Heights, Queens, New York.jpg by Deans Charbal, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2022-09-11 11:57:15, 1920x1440. [Commons page](https://commons.wikimedia.org/wiki/File:78-12_35th_Avenue_(entrance),_between_78th_and_79th_Street,_Jackson_Heights,_Queens,_New_York.jpg)
+**Reference** — File:Salvation Army Jax Hts jeh.jpg by Jim.henderson, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2018-08-19 19:02:46, 1920x1280. [Commons page](https://commons.wikimedia.org/wiki/File:Salvation_Army_Jax_Hts_jeh.jpg)
 
-**Camera** — camera 40.75200, -73.88300 (NYC_TM 5677, 5783) z 20.3 m NAVD88 | azimuth 165.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906. View direction: 165.0 deg as recorded in meta.json.  This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way -- compare them on street width, storey height and material, not on composition. Aim: level optical axis (the reference names no subject to aim at).
+**Camera** — 40.75229, -73.88055 (NYC_TM 5865, 5809) at z 20.9 m NAVD88 | azimuth 165.0°, pitch +0.0° | 35 mm on 36 mm (54.4° horizontal) | 1280x854. The camera stands on **this photograph's own EXIF GPS**, 209.3 m from the item's recorded viewpoint, and was **not moved**: the viewpoint is in open air on the ground, the view azimuth is clear for 29.6 m, and the nearest built thing in the frame is `t_5_5_red_brick` 20.5 m away. The nearest simulated agent is **`agent_veh_rav4_fhv_157.47` 8.1 m away, dead ahead**.
 
-**Sun** — azimuth 157.6°, elevation 51.6° at 2022-09-11T11:57:15-04:00 (EXIF DateTimeOriginal).
+**Sun** — azimuth 280.2°, elevation **7.6°** at 2018-08-19T19:02:46−04:00, from the photograph's own **EXIF DateTimeOriginal**; 348.9 W/m² direct normal, sky at strength 0.0655, Filmic, **+2.32 stops**. That is the lowest Sun and the largest exposure correction of any sheet in the set. That date is a **Sunday** and the crowd was drawn for one.
 
-**In frame** — 6/6 building tiles (469,002 tris), 0 landmark models, 2,099 pavement polygons, 314 props, 6,514 facade-kit pieces; 3,720,621 triangles; ground mesh 211² at 2.0 m near / 40.0 m far.
+**In the scene**, within 900.0 m of the camera and not all of it in frame — 8/8 building tiles (546,910 tris), 0 landmark models, 27,433 pavement polygons (14,278 white marking, 4,154 roadbed, 3,994 sidewalk, 3,306 curb, 827 crosswalk, 538 yellow marking, 177 parking lot, 90 median, 69 plaza), 317 props of the 2,470 in range, 5,278 kit pieces, 69 vehicles and 361 people; 4,500,055 triangles. Ground mesh 96,800 triangles, 0 holes. 16 city surfaces are dressed from the shared photographic catalogue.
 
-**Camera clearance** — the recorded viewpoint is hard against prop_lamp_cobra_davit_1 (0.25 m from the lens in the view cone); the camera was moved 19 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 28 m from there
+## Verdict — a photograph of a 1932 citadel for an item that asked for a side street, and a parked car filling the frame
 
-**Verdict — the closest material match in the drive-through set — red brick garden-apartment blocks with window air-conditioners under mature street trees, which is exactly what Jackson Heights is — undone by having no windows, no planting and no ground detail**
+**Two things make this sheet unreadable as a comparison, and both are stated rather than hidden.**
 
-## Re-rendered 2026-09-07 — the crowd frame that works, and the first vehicle cull
+**First, the reference is of a different kind of thing.** The item is *"Jackson Heights side street with two-family homes"*; the photograph is **The Salvation Army's 1932 Art Moderne citadel** — limestone ashlar, curved glass-block bays, a bronze crest and lettering — seen head-on from its own forecourt. It is a Jackson Heights building and it is not a side street of houses. This is the same class of fault as `drive_queens_bayside`: the fetch screens on keywords and a geosearch radius, the chooser ranks on light, EXIF, Sun height, azimuth error and distance band, and **nothing in either asks what the photograph is a picture of** (docs/DEVIATIONS.md J71).
 
-This is the strongest evidence in the set that the pedestrian simulation produces a plausible
-street. 288 people are placed and they are *distributed*: two in the near foreground on the
-crosswalk, a group on the left pavement at 20-40 m, more on the right, a scatter thinning into the
-distance down a tree-lined block. Nobody is standing on the lens and nobody is clumped. 76 vehicles,
-173 street trees, 50 lamps, 60 manholes, five bus-stop signs.
+**Second, an SUV stands 8.1 m from the lens, dead ahead, and fills about a third of the frame.** That is the cost of a rule the project holds deliberately: a viewpoint must never move because a simulated agent happened to be there on this seed, or the same slug would render from a different place on every run and the sheet would stop being a comparison of one view (J49). The record names the vehicle and its distance so a reader knows what they are looking at.
 
-**The vehicle cull fired here for the first time**: `culled_after_camera_move` reports
-`vehicle_over_the_observer: 1`. A car was inside the 6 m vehicle clearance of the *final* camera
-position and outside it from the scene centre the placement measured against — the same fault the
-pedestrian side showed on Grand Concourse, on the other agent class. The agents lane's own note
-records that the first agent render was "the inside of a black van"; this is that failure mode
-recurring through a different route and being caught.
-
-The drop record is worth reading beside the 288: **988 pedestrians outside the radius, 367 cut by the
-triangle budget, 312 on no walkable surface and 91 standing in the carriageway while not crossing**.
-The crowd in the frame is roughly a sixth of what the simulation had within reach.
-
-**The buildings are the weak half, and it is the facade-class case again** — 4,003 window pieces
-rendering as thin dark dashes on flat red-brown planes, against Jackson Heights' real brick with deep
-reveals, sills and casements. Recorded on the Bed-Stuy sheet and qualified on the Wall Street one,
-where the same kit produces real recessed openings.
+**What can still be read is the fabric behind it**, and it is right: four-storey red brick with punched openings, projecting sills, window air-conditioners and a yellow centre line down the carriageway. That is a Jackson Heights street.
 
 ## What matches
 
-* The camera correction fired on the new in-the-lens test: the recorded viewpoint stands 0.25 m from a cobra-head lamp standard, and the camera was moved 19 m onto the nearest real sidewalk polygon with 28 m of clear view.
-* The photograph's own EXIF GPS was rejected as mis-tagged at 419 m; the item's viewpoint was used and the sheet says so.
-* The building material is right: a continuous run of red-brown brick garden-apartment blocks at five or six storeys with flat roofs and parapets, which is the Jackson Heights historic-district vocabulary and matches the reference's own block.
-* Window air-conditioner units project from the facade at the right rhythm and the right height — a small detail that is genuinely characteristic and genuinely present.
-* The street trees are mature and in full September leaf with correct canopies and trunks; 20 impostor cards were dropped.
-* 2,099 pavement polygons place the roadway, both sidewalks, 475 crosswalk and 30 parking-lot polygons at the right widths, and a manhole cover sits proud in the roadway.
+* **The building stock is the right stock.** 3,913 windows, **723 window accessories** — the window air-conditioners that decide whether a Queens street reads as one — 298 parapets, 134 entry doors, 52 bulkheads, 37 string courses and 31 fence pieces stand in the scene out of 5,278.
+* **The clock is the photograph's own**, and it is the hardest clock in the set: 19:02:46 on 19 August 2018, a Sunday, with the Sun at **7.6°** and only **348.9 W/m²** of direct normal irradiance. The renderer opened **+2.32 stops** for it, the largest correction on any sheet, and the frame still reads.
+* **This is the only sheet in the set that carries more colour than its photograph**: chroma **0.0457** against **0.0329**, a ratio of **1.389**. The photograph is limestone under a flat white overcast; the render is red brick in the last of a low Sun.
+* **The road is a road with real markings**: 4,154 roadbed, 3,306 curb and 3,994 sidewalk polygons, with **14,278 white and 538 yellow marking polygons** and 827 crosswalk polygons in range — the highest marking count in the set (J52).
+* **The crowd and the fleet are the simulation's own**: 361 people and 69 vehicles at 19:02 on a Sunday, 1 at LOD0, 22 at LOD1 and 338 at LOD2, drawn from all **36** baked bodies with none folded (J62). The fleet is 32 sedans, 14 SUVs, 9 yellow taxis, **8 boro taxis**, 3 black cars, 1 box truck, 1 van and 1 MTA bus — a plausible outer-Queens mix.
+* Nothing was dropped for being missing: 8 of 8 building tiles, 0 LOD substitutions, 0 pavement polygons dropped, 0 holes in the ground, and **no prop kind unplaced**.
 
 ## What does not match
 
-* There is not one window opening on the near block face. The wall is a flat brick-coloured plane with air-conditioners and string courses on it but no fenestration at all, where the reference's block face is 40 % window by area.
-* No entrance. The reference's subject is a stone-framed doorway with a moulded architrave and a glazed door; the render's ground floor is blank.
-* No planting. Jackson Heights garden apartments are named for their planted forecourts; the reference foreground is entirely hydrangea, hosta and a brick path, and the render has bare grey ground up to the wall.
-* ~~No cars, no people, no rubbish bins.~~ — **partly superseded 2026-09-07.** The people and vehicles are placed now; the rest of this bullet — traffic signals, street signs, wayfinding kiosks and the like — is **still true**, and those are street furniture rather than agents.
-* The roadway and sidewalks are flat untextured planes with no markings and no joint pattern.
-* The pairing is again unrelated in direction: the item looks south along 84th Street, the photograph is a courtyard entrance study.
-* Props were capped by the triangle budget at 314 placed.
+* **The reference is a photograph of a single institutional building** and the render is a street. Composition, framing, storey height, material and street width are all incomparable here by construction.
+* **A parked SUV occupies the middle of the frame** from 8.1 m. Correct behaviour under J49 and a real cost to this sheet.
+* **The frame is well under half the photograph's brightness and under a third of its contrast**: mean **0.1998** against **0.5224** (**0.382×**), standard deviation **0.0867** against **0.2958** (**0.293×**), 95th percentile **0.3447** against **0.9950**, 5th percentile **0.0493** against **0.0476**. The photograph is a pale limestone elevation under a blown-out white overcast — its 95th percentile is 0.995 — and the render is red brick at a 7.6° Sun. The two are lit by different weather at the same instant.
+* **There is no cornice line at all.** **2 cornices** across 5,278 kit pieces. Jackson Heights' brick blocks carry corbelled brick cornices and terracotta banding, and the classifier has no source for either.
+* **Of the 2,470 props in range only 317 were placed** — the largest shortfall in the set — at a triangle budget of 1,242,963, along with part of the kit (cap 1,226,602) and 22 opaque impostor cards.
+* **422 pedestrians were dropped for not being on a walkable surface**, the highest such count in the set, along with 174 to the triangle budget and 100 for standing in the carriageway without crossing.
+* **179 trees stand within 459.3 m and 65 are species-substituted**; 177 are drawn at the height their own rows record, at a mean scale of **0.929**, and **two fell outside the declared scale band** and keep their assets' own size (J70).
+* **Three surfaces sit at the albedo cap with the wrong source material behind them** — `concrete`, `roof_membrane` and `wood_clapboard` (J66).
+* **50 sidewalk-shed pieces are in the scene**, from DOB permits active on 2026-09-05, against a photograph from 2018.
 
 ## Cause of each gap
 
 | gap | cause | class |
 |---|---|---|
-| no windows on the near facade | the facade kit placed 6,514 pieces but this facade class carries no window piece on the visible run; the kit's residential vocabulary is the thinnest part of it | geometry |
-| no entrance or door surround | the kit has a door_entry piece but none was placed on this frontage | geometry |
-| no planting or forecourt | no dataset the scene reads carries residential planting | data |
-| ~~no cars, people or bins~~ superseded | agents are placed now (288 people, 76 vehicles); what remains is framing and occlusion, not absence | reporting |
-| untextured ground | flat colour per pavement kind, no texture, no markings | material |
-| the two halves face different ways | the item names no subject and the reference stage assigned it the item's own azimuth | reference |
+| the reference is a 1932 citadel and the item asked for a side street of houses | the fetch screens on keywords and a geosearch radius, the chooser ranks on properties of the photograph as a photograph; neither tests what it is a picture of | **reference — open, DEVIATIONS J71** |
+| an SUV 8.1 m from the lens fills a third of the frame | a simulated agent must never move a viewpoint, or the sheet stops being a comparison of one view (J49); the record names the vehicle and its distance instead | stated choice |
+| mean 0.382× and 95th percentile 0.345 against 0.995 | a pale limestone elevation under a blown-out white overcast against red brick at a 7.6° Sun; the same instant, different weather | reference |
+| standard deviation 0.293× | a 7.6° Sun puts almost nothing in this frame in direct light, and +2.32 stops of exposure lifts the whole frame rather than separating it | stated choice |
+| no cornice line | 2 cornices across 5,278 kit pieces; the classifier has no source for a Queens brick block's corbel course or terracotta banding | geometry |
+| 317 of 2,470 props placed | triangle budget 1,242,963, declared on the sheet; the largest prop shortfall in the set | performance |
+| 422 pedestrians dropped as not on a walkable surface | the crowd is placed city-wide and this frame's radius reaches 900 m of rooftops, rail and water that carry no walkable surface | verification |
+| 65 of 179 trees species-substituted | no modelled species matched exactly; the nearest by size and taxon was used | data |
+| two trees outside the scale band | their measured heights are further from the nearest exported size than the declared band allows, so they keep their assets' own size and are counted (J70) | data |
+| sidewalk sheds of the wrong year | the shed source is DOB permits active on 2026-09-05 and the photograph is from 2018 | reference |
