@@ -968,3 +968,79 @@ def test_a_roadway_viewpoint_stands_on_its_street_and_looks_along_it():
                        f"street within 60 m")
     assert not bad, ("viewpoints that say 'roadway centre' and look across the roadway instead of "
                      "along it:\n  " + "\n  ".join(bad))
+
+
+def _cube(name: str, x: float, y: float, z: float, size: float = 1.0):
+    """A solid box named ``name`` centred on (x, y, z), in the current scene."""
+    import bmesh
+    import bpy
+
+    mesh = bpy.data.meshes.new(name)
+    bm = bmesh.new()
+    bmesh.ops.create_cube(bm, size=size)
+    bm.to_mesh(mesh)
+    bm.free()
+    ob = bpy.data.objects.new(name, mesh)
+    ob.location = (x, y, z)
+    bpy.context.scene.collection.objects.link(ob)
+    bpy.context.view_layer.update()
+    return ob
+
+
+def test_a_pedestrian_at_the_lens_does_not_hide_the_wall_behind_them():
+    """J49: ``ray_cast`` stops at the first hit, so a predicate applied to its result answers
+    "is the nearest object of any kind one that counts?".  With Stage 21's traffic and crowd in
+    the scene that is not the question the clearance probe is asking, and a person between the
+    lens and a wall made the wall unmeasurable."""
+    bpy = _skip_without_bpy()
+    import camera as vcam
+    import nycsim_bpy as nb
+
+    nb.reset_scene()
+    _cube("t_0_0_red_brick", 0.0, 10.0, 1.6, size=4.0)   # a wall 10 m north
+    _cube("agent_ped_7", 0.0, 2.0, 1.6, size=0.5)        # a person 2 m north, on the same axis
+
+    built_m, built_what = vcam.nearest_obstruction(0.0, 0.0, 1.6, 0.0, probe_m=30.0,
+                                                   half_angle_deg=1.0, pitches_deg=(0.0,),
+                                                   yaw_steps=1)
+    assert built_what == "t_0_0_red_brick", f"the probe found {built_what}, not the wall"
+    assert built_m == pytest.approx(8.0, abs=0.2), f"the wall is at {built_m:.2f} m, expected 8.0"
+
+    agent_m, agent_what = vcam.nearest_obstruction(0.0, 0.0, 1.6, 0.0, probe_m=30.0,
+                                                   half_angle_deg=1.0, pitches_deg=(0.0,),
+                                                   yaw_steps=1, counts=vcam._is_agent)
+    assert agent_what == "agent_ped_7"
+    assert agent_m == pytest.approx(1.75, abs=0.1)
+
+    # And the street does not read as open to the horizon because a crowd stands in it.
+    assert vcam.view_distance(0.0, 0.0, 1.6, 0.0, probe_m=150.0) == pytest.approx(8.0, abs=0.2)
+
+
+def test_the_clearance_record_names_the_agent_it_used_to_be_silent_about():
+    """The note said "the nearest solid thing anywhere in the frame" and meant "the nearest
+    *built* thing"; on Arthur Avenue it named a tree 18.8 m away with two people at the lens."""
+    bpy = _skip_without_bpy()
+    import camera as vcam
+    import nycsim_bpy as nb
+
+    nb.reset_scene()
+    _cube("t_0_0_red_brick", 0.0, 10.0, 1.6, size=4.0)
+    _cube("agent_ped_7", 0.0, 2.0, 1.6, size=0.5)
+    reading = vcam.frame_clearance(0.0, 0.0, 1.6, 0.0, probe_m=30.0, half_angle_deg=1.0,
+                                   pitches_deg=(0.0,), yaw_steps=1)
+    fields = vcam.clearance_fields(reading)
+    assert fields["nearest_obstruction"] == "t_0_0_red_brick"
+    assert fields["nearest_agent"] == "agent_ped_7"
+    assert fields["nearest_agent_m"] < fields["nearest_obstruction_m"]
+    sentence = vcam.clearance_sentence(reading)
+    assert "nearest built thing" in sentence
+    assert "agent_ped_7" in sentence
+    assert "solid thing" not in sentence
+
+    # With nothing but built fabric in the scene the sentence says so rather than staying silent.
+    nb.reset_scene()
+    _cube("t_0_0_red_brick", 0.0, 10.0, 1.6, size=4.0)
+    quiet = vcam.frame_clearance(0.0, 0.0, 1.6, 0.0, probe_m=30.0, half_angle_deg=1.0,
+                                 pitches_deg=(0.0,), yaw_steps=1)
+    assert vcam.clearance_fields(quiet)["nearest_agent"] is None
+    assert "no simulated agent stands within 30 m" in vcam.clearance_sentence(quiet)

@@ -515,31 +515,24 @@ def _walk_to_parapet(placement: "CameraPlacement", max_m: float = 250.0,
     photographic case, where the GPS already puts the camera on the South Pool's parapet.
     """
     _h_half, _pitches, _yaws = frame_fan(placement)
-    near_m, near_what = nearest_obstruction(placement.x, placement.y, placement.z,
-                                            placement.azimuth_deg, probe_m=60.0,
-                                            half_angle_deg=_h_half, pitches_deg=_pitches,
-                                            yaw_steps=_yaws)
+    reading = frame_clearance(placement.x, placement.y, placement.z, placement.azimuth_deg,
+                              probe_m=60.0, half_angle_deg=_h_half, pitches_deg=_pitches,
+                              yaw_steps=_yaws)
     view_m = view_distance(placement.x, placement.y, placement.z, placement.azimuth_deg, probe_m=150.0)
     ob, _ = _standing_on(placement.x, placement.y, placement.z)
     if ob is not None and origin_is_photo:
         return {"moved": False, "offset_m": 0.0, "standing_on": ob.name,
-                "view_m": round(view_m, 1), "nearest_obstruction_m": round(near_m, 1),
-                "nearest_obstruction": near_what,
+                "view_m": round(view_m, 1), **clearance_fields(reading),
                 "note": (f"the eye point stands on {ob.name}, but this camera's position is the "
                          f"photograph's own EXIF GPS rather than a nominal viewpoint standing for a "
                          f"whole deck, so there is nothing to walk to and the camera was not moved.  "
-                         f"The view azimuth is clear for {view_m:.0f} m and the nearest solid thing "
-                         f"anywhere in the frame is "
-                         + (f"{near_what} {near_m:.1f} m away" if near_what else
-                            f"further than {near_m:.0f} m"))}
+                         f"The view azimuth is clear for {view_m:.0f} m and "
+                         + clearance_sentence(reading, with_angle=False))}
     if ob is None:
         return {"moved": False, "offset_m": 0.0,
-                "view_m": round(view_m, 1), "nearest_obstruction_m": round(near_m, 1),
-                "nearest_obstruction": near_what,
-                "note": (f"the viewpoint is in open air on the ground and the camera was not moved; "
-                         f"the nearest solid thing in the frame is "
-                         + (f"{near_what} {near_m:.1f} m away" if near_what else
-                            f"further than {near_m:.0f} m")
+                "view_m": round(view_m, 1), **clearance_fields(reading),
+                "note": ("the viewpoint is in open air on the ground and the camera was not moved; "
+                         + clearance_sentence(reading, with_angle=False)
                          + f", and the view azimuth is clear for {view_m:.0f} m")}
     a = math.radians(placement.azimuth_deg)
     dx, dy = math.sin(a), math.cos(a)
@@ -558,14 +551,12 @@ def _walk_to_parapet(placement: "CameraPlacement", max_m: float = 250.0,
         # camera in place, because its plaza was a 520 x 520 m slab wider than the probe; now that
         # the plaza is the real 8-acre polygon, the photographic-origin test above is what does it.
         return {"moved": False, "offset_m": 0.0, "standing_on": ob.name,
-                "view_m": round(view_m, 1), "nearest_obstruction_m": round(near_m, 1),
-                "nearest_obstruction": near_what,
+                "view_m": round(view_m, 1), **clearance_fields(reading),
                 "note": (f"the eye point stands on {ob.name}, which still carries it {max_m:.0f} m "
                          f"along the view azimuth, so it is a ground-level deck rather than a roof "
                          f"with an edge to walk to; the camera was not moved.  The view azimuth is "
-                         f"clear for {view_m:.0f} m and the nearest solid thing in the frame is "
-                         + (f"{near_what} {near_m:.1f} m away" if near_what else
-                            f"further than {near_m:.0f} m"))}
+                         f"clear for {view_m:.0f} m and "
+                         + clearance_sentence(reading, with_angle=False))}
     if last_good < step_m:
         return {"moved": False, "offset_m": 0.0, "standing_on": ob.name,
                 "note": (f"the eye point stands on {ob.name} and is already at its {placement.azimuth_deg:.0f} deg "
@@ -602,6 +593,14 @@ def _opaque(ob) -> bool:
                                    or ob.name.startswith("prop_"))
 
 
+def _is_agent(ob) -> bool:
+    """Is this a vehicle or a person the simulations put in the frame, rather than built fabric?
+
+    ``add_agents`` names everything it places ``agent_veh_*`` or ``agent_ped_*``.
+    """
+    return ob is not None and ob.name.startswith(("agent_veh", "agent_ped"))
+
+
 def view_distance(x: float, y: float, z: float, azimuth_deg: float,
                   probe_m: float = 150.0) -> float:
     """How far the street runs before a wall closes it, capped at ``probe_m``.
@@ -619,39 +618,39 @@ def view_distance(x: float, y: float, z: float, azimuth_deg: float,
     a = math.radians(azimuth_deg)
     origin = Vector((x, y, z))
     fwd = Vector((math.sin(a), math.cos(a), 0.0))
-    travelled = 0.0
-    here = origin.copy()
-    # Step past props rather than stopping at them: the ray restarts just beyond each one.
-    for _ in range(8):
-        hit, loc, _, _, ob, _ = bpy.context.scene.ray_cast(
-            dg, here, fwd, distance=max(probe_m - travelled, 0.0))
-        if not hit or ob is None:
-            return float(probe_m)
-        step = float((Vector(loc) - here).length)
-        if ob.name.startswith("prop_") or is_foliage(ob):
-            travelled += step + 0.05
-            if travelled >= probe_m:
-                return float(probe_m)
-            here = origin + fwd * travelled
-            continue
-        if _opaque(ob):
-            return travelled + step
-        travelled += step + 0.05
-        here = origin + fwd * travelled
-    return float(probe_m)
+    # Step past props rather than stopping at them: the ray restarts just beyond each one.  The
+    # budget of eight steps this had was written for a scene with nothing moving in it; a street
+    # with 89 vehicles and 281 people on it can spend all eight on their front and back faces and
+    # then report the whole 150 m open with a wall 20 m ahead (J49).
+    got = _ray_past(dg, origin, fwd, float(probe_m), _closes_view, max_steps=48)
+    return float(probe_m) if got is None else got[0]
+
+
+def _closes_view(ob) -> bool:
+    """Does this object end the street, as opposed to standing in it?
+
+    Built fabric and landmark models do; a prop -- a tree, a lamp standard, a newspaper box --
+    does not, and neither does a tree that is part of a landmark model.  This is exactly the
+    rule :func:`view_distance` has always applied, named so the ray can carry it.
+    """
+    return _opaque(ob) and not ob.name.startswith("prop_") and not is_foliage(ob)
 
 
 def nearest_obstruction(x: float, y: float, z: float, azimuth_deg: float, *,
                         probe_m: float = 60.0, half_angle_deg: float = 6.0,
                         pitches_deg: tuple[float, ...] = (0.0, 8.0, 16.0, 24.0),
-                        yaw_steps: int = 5, with_angle: bool = False):
-    """Closest opaque thing inside a narrow cone about the view axis, and what it is.
+                        yaw_steps: int = 5, with_angle: bool = False, counts=None):
+    """Closest thing of the asked-for kind inside a cone about the view axis, and what it is.
+
+    ``counts`` defaults to :func:`_opaque` -- building shells, landmark models and props.  Pass
+    :func:`_is_agent` to ask the same question about the simulation's traffic and crowd.
 
     A single axis ray is not enough to tell whether the lens is clear: the trunk of the street
     tree that fills the DUMBO frame is 0.2 m across at eye height and a level ray passes beside
     it while its canopy blocks everything above.  A short fan -- five bearings across 12 deg,
     four elevations up to 24 deg -- catches the thing that is actually in front of the camera.
     """
+    counts = _opaque if counts is None else counts
     from mathutils import Vector
     dg = bpy.context.evaluated_depsgraph_get()
     origin = Vector((x, y, z))
@@ -667,14 +666,94 @@ def nearest_obstruction(x: float, y: float, z: float, azimuth_deg: float, *,
         for pdeg in pitches_deg:
             pr = math.radians(pdeg)
             d = Vector((math.sin(a) * math.cos(pr), math.cos(a) * math.cos(pr), math.sin(pr)))
-            hit, loc, _, _, ob, _ = bpy.context.scene.ray_cast(dg, origin, d, distance=probe_m)
-            if hit and _opaque(ob):
-                dist = float((Vector(loc) - origin).length)
-                if dist < best:
-                    best, what, at = dist, ob.name, (math.degrees(dyaw), pdeg)
+            got = _ray_past(dg, origin, d, float(probe_m), counts)
+            if got is not None and got[0] < best:
+                best, what, at = got[0], got[1].name, (math.degrees(dyaw), pdeg)
     if with_angle:
         return best, what, at
     return best, what
+
+
+def _ray_past(dg, origin, direction, distance: float, counts, *, max_steps: int = 24):
+    """The nearest thing along this ray that ``counts``, stepping past everything that does not.
+
+    ``Scene.ray_cast`` returns the first hit and nothing else, so a predicate applied to its
+    result answers "is the nearest object of any kind one that counts?" -- not "what is the
+    nearest object that counts?".  The two questions had the same answer often enough not to
+    show, until Stage 21 put the simulation's traffic and crowd into these scenes: a pedestrian
+    standing between the lens and a wall makes the wall invisible to the probe, and the frame
+    reads as clear (J49).  Restarting the ray a millimetre past every hit that does not count is
+    what makes the answer the second question's.
+    """
+    from mathutils import Vector
+    travelled = 0.0
+    for _ in range(max_steps):
+        remaining = distance - travelled
+        if remaining <= 0.0:
+            return None
+        here = origin + direction * travelled
+        hit, loc, _n, _i, ob, _m = bpy.context.scene.ray_cast(dg, here, direction, distance=remaining)
+        if not hit or ob is None:
+            return None
+        step = float((Vector(loc) - here).length)
+        if counts(ob):
+            return travelled + step, ob
+        travelled += step + 1e-3
+    return None
+
+
+def frame_clearance(x: float, y: float, z: float, azimuth_deg: float, *, probe_m: float,
+                    half_angle_deg: float, pitches_deg, yaw_steps: int) -> dict:
+    """What stands in this camera's frame: the nearest built thing **and** the nearest agent.
+
+    These are two measurements, not one, because they answer to different rules.  A viewpoint may
+    not move because a simulated pedestrian happened to walk in front of the lens on this seed --
+    the same slug would then render from a different place on every run and the sheet would stop
+    being a comparison of one view.  So the decision that moves the camera keeps counting built
+    fabric only.  But the sentence the record wrote out of that decision said "the nearest solid
+    thing anywhere in the frame", and on Arthur Avenue it named a tree 18.8 m away while two of
+    the 281 placed pedestrians stood at the lens.  A true number standing for something it does
+    not measure is the defect this project has recorded a dozen times; the fix is to measure the
+    other thing and name it, not to widen the rule that moves the camera (J49).
+    """
+    built_m, built_what, built_at = nearest_obstruction(
+        x, y, z, azimuth_deg, probe_m=probe_m, half_angle_deg=half_angle_deg,
+        pitches_deg=pitches_deg, yaw_steps=yaw_steps, with_angle=True, counts=_opaque)
+    agent_m, agent_what, agent_at = nearest_obstruction(
+        x, y, z, azimuth_deg, probe_m=probe_m, half_angle_deg=half_angle_deg,
+        pitches_deg=pitches_deg, yaw_steps=yaw_steps, with_angle=True, counts=_is_agent)
+    return {"near_m": built_m, "near_what": built_what, "near_at": built_at,
+            "agent_m": agent_m, "agent_what": agent_what, "agent_at": agent_at,
+            "probe_m": float(probe_m)}
+
+
+def clearance_fields(got: dict) -> dict:
+    """The clearance numbers a render record carries, from a :func:`frame_clearance` reading."""
+    out = {"nearest_obstruction_m": round(got["near_m"], 1),
+           "nearest_obstruction": got["near_what"],
+           "nearest_obstruction_at_deg": [round(v, 1) for v in got["near_at"]],
+           "nearest_agent_m": round(got["agent_m"], 1) if got.get("agent_what") else None,
+           "nearest_agent": got.get("agent_what")}
+    if got.get("agent_what"):
+        out["nearest_agent_at_deg"] = [round(v, 1) for v in got["agent_at"]]
+    return out
+
+
+def clearance_sentence(got: dict, *, with_angle: bool = True) -> str:
+    """Both halves of the clearance reading, or neither claimed."""
+    if got["near_what"]:
+        where = (f" at {got['near_at'][0]:+.0f} deg yaw, {got['near_at'][1]:+.0f} deg pitch"
+                 if with_angle else "")
+        built = (f"the nearest built thing in the frame is {got['near_what']} "
+                 f"{got['near_m']:.1f} m away{where}")
+    else:
+        built = f"nothing built stands within {got['near_m']:.0f} m of the lens"
+    if got.get("agent_what"):
+        agent = (f", and the nearest simulated agent is {got['agent_what']} "
+                 f"{got['agent_m']:.1f} m away")
+    else:
+        agent = f", and no simulated agent stands within {got['probe_m']:.0f} m of it"
+    return built + agent
 
 
 def frame_fan(placement: "CameraPlacement", *, yaw_steps: int = 7,
@@ -890,12 +969,13 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
         # 60 m up the street and has a facade four metres off to the right is not a viewpoint, and
         # the axis cannot tell the two apart (J47).
         h_half, pitches, yaws = frame_fan(placement)
-        near_m, near_what, near_at = nearest_obstruction(
-            nx, ny, nz, placement.azimuth_deg, probe_m=max(min_clear_m * 2.0, 20.0),
-            half_angle_deg=h_half, pitches_deg=pitches, yaw_steps=yaws, with_angle=True)
-        return {"z": nz, "gz": gz, "detail": detail, "view_m": view_m,
-                "near_m": near_m, "near_what": near_what, "near_at": near_at,
-                "sees": view_m >= min_view_m and near_m >= min_clear_m}
+        reading = frame_clearance(nx, ny, nz, placement.azimuth_deg,
+                                  probe_m=max(min_clear_m * 2.0, 20.0), half_angle_deg=h_half,
+                                  pitches_deg=pitches, yaw_steps=yaws)
+        # ``sees`` counts built fabric only, deliberately: a viewpoint that moved because a
+        # simulated pedestrian walked past the lens would land somewhere else on the next seed.
+        return {"z": nz, "gz": gz, "detail": detail, "view_m": view_m, **reading,
+                "sees": view_m >= min_view_m and reading["near_m"] >= min_clear_m}
 
     def commit(nx: float, ny: float, got: dict) -> None:
         cam = bpy.context.scene.camera
@@ -918,15 +998,10 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
             return {"moved": True, "offset_m": round(cand["distance_m"], 1),
                     "direction": f"onto the nearest {cand['kind']}", "reason": why,
                     "rule": "pavement snap with a clear frame",
-                    "view_m": round(got["view_m"], 1), "nearest_obstruction_m": round(got["near_m"], 1),
-                    "nearest_obstruction": got["near_what"],
-                    "nearest_obstruction_at_deg": [round(v, 1) for v in got["near_at"]],
+                    "view_m": round(got["view_m"], 1), **clearance_fields(got),
                     "note": (f"the recorded viewpoint is {why}; {desc}.  The view azimuth is clear "
-                             f"for {got['view_m']:.0f} m from there, and the nearest solid thing "
-                             f"anywhere in the frame is "
-                             + (f"{got['near_what']} {got['near_m']:.1f} m away at "
-                                f"{got['near_at'][0]:+.0f} deg yaw, {got['near_at'][1]:+.0f} deg pitch"
-                                if got["near_what"] else f"further than {got['near_m']:.0f} m"))}
+                             f"for {got['view_m']:.0f} m from there, and "
+                             + clearance_sentence(got))}
         # Rank the fallback on how much of the *frame* is open, then on the axis. Ranking on the
         # axis alone is what let a camera hard against a block face win: it could see 60 m up the
         # street past the corner of the building filling the rest of its picture.
@@ -954,16 +1029,10 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
                 commit(nx, ny, got)
                 return {"moved": True, "offset_m": round(t, 1), "direction": label, "reason": why,
                         "rule": "radial search with a clear frame",
-                        "view_m": round(got["view_m"], 1),
-                        "nearest_obstruction_m": round(got["near_m"], 1),
-                        "nearest_obstruction": got["near_what"],
-                        "nearest_obstruction_at_deg": [round(v, 1) for v in got["near_at"]],
+                        "view_m": round(got["view_m"], 1), **clearance_fields(got),
                         "note": (f"the recorded viewpoint is {why}; {desc}.  The view azimuth is "
-                                 f"clear for {got['view_m']:.0f} m from there, and the nearest "
-                                 f"solid thing anywhere in the frame is "
-                                 + (f"{got['near_what']} {got['near_m']:.1f} m away"
-                                    if got["near_what"] else
-                                    f"further than {got['near_m']:.0f} m"))}
+                                 f"clear for {got['view_m']:.0f} m from there, and "
+                                 + clearance_sentence(got, with_angle=False))}
             if fallback is None or (got["near_m"], got["view_m"]) > (fallback[2]["near_m"],
                                                                     fallback[2]["view_m"]):
                 fallback = (nx, ny, got, round(t, 1), label, desc)
@@ -973,13 +1042,12 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
         nx, ny, got, off, label, desc = fallback
         commit(nx, ny, got)
         return {"moved": True, "offset_m": off, "direction": label, "reason": why,
-                "rule": "open air only",
+                "rule": "open air only", "view_m": round(got["view_m"], 1), **clearance_fields(got),
                 "note": (f"the recorded viewpoint is {why}; {desc}.  No point within {max_m:.0f} m "
                          f"had {min_view_m:.0f} m of open air along the view azimuth with nothing "
-                         f"inside {min_clear_m:.0f} m of the lens, so the frame is closed off "
-                         f"{got['view_m']:.0f} m ahead"
-                         + (f" and {got['near_what']} stands {got['near_m']:.1f} m in front of the "
-                            f"camera" if got.get("near_what") else ""))}
+                         f"built inside {min_clear_m:.0f} m of the lens, so the frame is closed off "
+                         f"{got['view_m']:.0f} m ahead and "
+                         + clearance_sentence(got, with_angle=False))}
     return {"moved": False, "offset_m": 0.0, "reason": why, "rule": "no clear point found",
             "note": (f"the recorded viewpoint is {why} and no clear point was found within "
                      f"{max_m:.0f} m, so the frame is rendered from inside the shell and is dark")}
