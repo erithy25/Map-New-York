@@ -112,7 +112,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_bed_stuy_stuyvesant_ave/render.png",
- "rendered_at": "2026-09-08T11:17:41Z",
+ "rendered_at": "2026-09-08T12:14:05Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1439 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -135,7 +135,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 561007,
+   "pedestrian_triangles": 561318,
    "per_class": {
     "black_car": 3,
     "boro_taxi": 4,
@@ -149,7 +149,7 @@
    "placed_pedestrians": 308,
    "placed_vehicles": 81,
    "reason": null,
-   "seconds": 57.08,
+   "seconds": 56.18,
    "snapshot": {
     "building_footprints_tested": 4688,
     "density_lane_km": 18.037,
@@ -164,7 +164,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.1,
+     "load_seconds": 2.44,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -172,7 +172,7 @@
      "signal_plans": 19814
     },
     "npc_bodies_imported": 12,
-    "npc_templates_baked": 80,
+    "npc_templates_baked": 81,
     "pavement_polygons_tested": 1165,
     "ped_spawn_radius_m": 220.0,
     "peds_in_snapshot": 755,
@@ -188,9 +188,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 301
    },
-   "snapshot_note": "cached 1539_-2039_10_1_4e21a03c28524075_1788859513.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1066393,
+   "triangles": 1066704,
    "vehicle_lods": {
     "LOD1": 2,
     "LOD2": 79
@@ -278,7 +278,7 @@
    -2038.68
   ],
   "kit": {
-   "capped": "triangle budget 1271865",
+   "capped": "triangle budget 1271554",
    "per_category": {
     "bulkhead": 114,
     "cornice": 181,
@@ -293,10 +293,10 @@
     "storefront_interior": 15,
     "string_course": 39,
     "vegetation": 55,
-    "window": 2479,
+    "window": 2477,
     "window_accessory": 337
    },
-   "placed": 3919,
+   "placed": 3917,
    "radius_m": 120.0,
    "records_in_range": 3956,
    "stale_registry_ids": {},
@@ -306,7 +306,7 @@
     "t_1_-2",
     "t_1_-3"
    ],
-   "triangles": 1272111,
+   "triangles": 1271567,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -382,7 +382,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 104.94,
+  "seconds": 111.43,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -399,7 +399,7 @@
    "z_max_m": 27.86,
    "z_min_m": 11.16
   },
-  "triangles": 4500246
+  "triangles": 4500013
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -409,9 +409,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 231.5,
-  "scene": 106.7,
-  "total": 338.2
+  "render": 123.9,
+  "scene": 113.2,
+  "total": 237.1
  },
  "sightline": {
   "subject_note": "the item names no point subject",
