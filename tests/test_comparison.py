@@ -834,8 +834,10 @@ def _tilt_functions():
     start = src.index("TILT_HEADROOM = 0.88")
     end = src.index("def aim_pitch(")
     body = src[start:end].replace("import camera as vcam", "").replace("vcam.SENSOR_WIDTH_MM", "36.0")
+    i = src.index("MANDATED_VIEWPOINTS: dict[str, list[str]] = {")
+    j = src.index("}", src.index("Washington Street", i)) + 1
     ns: dict = {}
-    exec("import math\n" + body, ns)          # noqa: S102 - reading this module's own source
+    exec("import math\n" + src[i:j] + "\n" + body, ns)   # noqa: S102 - reading this module's own source
     return ns["containment_pitch"], ns["vertical_half_fov_deg"]
 
 
@@ -885,3 +887,21 @@ def test_the_renderer_prefers_a_wider_lens_before_it_tilts():
     i_lens = src.index("focal_mm, lens_why = choose_lens(")
     i_tilt = src.index("tilt, tilt_why = containment_pitch(")
     assert i_lens < i_tilt, "the tilt must be computed from the lens that was chosen, not before it"
+
+
+def test_a_mandated_viewpoint_is_never_tilted():
+    """The seven the brief names are judged on proportion; a tilt would cost exactly that."""
+    containment_pitch, _ = _tilt_functions()
+    src = (VERIFY_DIR / "render_sheets.py").read_text()
+    i = src.index("MANDATED_VIEWPOINTS: dict[str, list[str]] = {")
+    j = src.index("}", src.index("Washington Street", i)) + 1
+    ns: dict = {}
+    exec(src[i:j], ns)                                    # noqa: S102
+    slugs = [v for ss in ns["MANDATED_VIEWPOINTS"].values() for v in ss]
+    assert "times_square_duffy_south_day" in slugs
+    tall = (150.0, 366.0, "One Times Square")
+    for slug in slugs:
+        pitch, why = containment_pitch(tall, 1.6, 18.0, True, 1280 / 853, slug=slug)
+        assert pitch == 0.0 and why == "", f"{slug} tilted"
+    free, _ = containment_pitch(tall, 1.6, 18.0, True, 1280 / 853, slug="landmark_one_times_square")
+    assert free > 0.0, "a landmark sheet still tilts to contain its subject"

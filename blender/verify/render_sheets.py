@@ -649,7 +649,7 @@ def vertical_half_fov_deg(focal_mm: float, portrait: bool, aspect: float) -> flo
 
 
 def containment_pitch(top: "tuple[float, float, str] | None", cam_z: float, focal_mm: float,
-                      portrait: bool, aspect: float) -> tuple[float, str]:
+                      portrait: bool, aspect: float, *, slug: str | None = None) -> tuple[float, str]:
     """The tilt needed to put the subject's top inside the frame, and why -- 0 if it already is.
 
     Three individually sensible rules composed into a sheet that could not contain its own subject:
@@ -663,6 +663,11 @@ def containment_pitch(top: "tuple[float, float, str] | None", cam_z: float, foca
     proportion. A frame that shows its subject with a caveat beats a frame that does not show it.
     """
     if top is None:
+        return 0.0, ""
+    if slug is not None and slug in {v for ss in MANDATED_VIEWPOINTS.values() for v in ss}:
+        # The seven the brief names are the frames the whole comparison is judged on, and they are
+        # judged on proportion. A tilt would buy a taller subject at the cost of the one property
+        # those frames exist to have, so they stay level and the lens rule is all they get.
         return 0.0, ""
     dist, top_z, src = top
     rise = top_z - cam_z
@@ -924,7 +929,8 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     # The lens is widened first, because a level axis is what makes the two frames comparable on
     # proportion. Only where the widest lens this build will use still cannot contain the subject
     # does the camera tilt -- and then the sheet says so (I18).
-    tilt, tilt_why = containment_pitch(top, eye_z, focal_mm, height > width, width / height)
+    tilt, tilt_why = containment_pitch(top, eye_z, focal_mm, height > width, width / height,
+                                       slug=slug)
     if tilt > 0.0:
         pitch, pitch_why = tilt, tilt_why
     placement = vcam.place_camera(slug=slug, lat=cam_lat, lon=cam_lon,

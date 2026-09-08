@@ -43,10 +43,10 @@ PROP_KIND_ALIASES: dict[str, str | None] = {
     # billboard_rooftop and billboard_wall_mounted, and both are wrong at street level, so these 15
     # rows stay unplaced rather than become the wrong object (docs/DEVIATIONS.md J22).
     "billboard": None,
-    # NOT "modelled by the road stage" -- it is not modelled at all. The pavement carries seven
-    # surface kinds and none of them is a ramp: the kerb is a uniform 0.15 m lift along every
-    # sidewalk edge, so the DOT's surveyed pedestrian ramps are absent geometry, not geometry
-    # somewhere else (docs/DEVIATIONS.md J21).
+    # Modelled by the road stage, and this time that is true: ``blender/roads/build_pavement.py``
+    # cuts each surveyed ramp into the kerb from its own published width and running slope
+    # (pavement kind 8, docs/DEVIATIONS.md J21). It was not true when this table first said it --
+    # the pavement had no ramp kind at all and the comment had never been checked against it.
     "curb_ramp": None,
     "artwork": None,
     "memorial": None,
