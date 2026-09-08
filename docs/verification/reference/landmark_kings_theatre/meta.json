@@ -4,15 +4,15 @@
  "name": "Kings Theatre (Flatbush)",
  "group": "landmark",
  "viewpoint": {
-  "lat": 40.649515,
-  "lon": -73.958468,
-  "azimuth_deg": 69.9,
-  "note": "Flatbush Avenue west sidewalk opposite the theatre, about 60 m from the front, looking east at the marquee and terracotta facade",
+  "lat": 40.645991,
+  "lon": -73.958216,
+  "azimuth_deg": 87.5,
+  "note": "Flatbush Avenue west sidewalk opposite the theatre, 81.8 m from its centre and about 60 m from the front, looking east at the marquee and terracotta facade",
   "representative": false
  },
  "subject": {
-  "lat": 40.6497,
-  "lon": -73.9578,
+  "lat": 40.646023,
+  "lon": -73.957247,
   "name": "Kings Theatre (Flatbush)"
  },
  "night": false,
@@ -24,18 +24,16 @@
   "\"Kings Theatre\" Flatbush Avenue marquee"
  ],
  "geosearch_radius_m": 250,
- "fetched_at": "2026-09-06T13:27:18Z",
+ "fetched_at": "2026-09-08T11:28:23Z",
  "max_width": 1920,
  "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
- "candidates_seen": 108,
- "candidates_eligible": 3,
+ "candidates_seen": 37,
+ "candidates_eligible": 13,
  "rejections": {
-  "keywords": 93,
-  "not_photo": 1,
-  "licence": 6,
   "too_old": 3,
-  "too_small": 1,
-  "excluded": 1
+  "keywords": 10,
+  "excluded": 10,
+  "too_small": 1
  },
  "exhausted": false,
  "status": "ok",
@@ -43,6 +41,109 @@
   {
    "n": 1,
    "file": "1.jpg",
+   "title": "File:After the Paul Weller Show (53978243532).jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:After_the_Paul_Weller_Show_(53978243532).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/3b/After_the_Paul_Weller_Show_%2853978243532%29.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/After_the_Paul_Weller_Show_%2853978243532%29.jpg/1920px-After_the_Paul_Weller_Show_%2853978243532%29.jpg",
+   "author": "Eden, Janine and Jim from New York City",
+   "credit": "After the Paul Weller Show",
+   "license": {
+    "short_name": "CC BY 2.0",
+    "url": "https://creativecommons.org/licenses/by/2.0",
+    "template": "cc-by-2.0"
+   },
+   "date_taken": "2024-09-07 22:59",
+   "date_source": "DateTimeOriginal",
+   "year": 2024,
+   "camera_gps": {
+    "lat": 40.646038,
+    "lon": -73.957314
+   },
+   "original_width": 4032,
+   "original_height": 2268,
+   "width": 1920,
+   "height": 1080,
+   "bytes": 531923,
+   "sha256": "62ff36e8af52ed92b8826943178cc8a8a6d71b9d820a839f7c83ea5df30792cd",
+   "mean_luminance": 80.1,
+   "description": "After the Paul Weller Show",
+   "categories": [
+    "Files with coordinates missing SDC location of creation",
+    "Flickr images reviewed by FlickreviewR 2",
+    "Photographs by Eden, Janine and Jim in Brooklyn, New York City",
+    "New York City photographs taken on 2024-09-07",
+    "Kings Theatre (Brooklyn)",
+    "September 2024 in Brooklyn, New York City",
+    "Flickr files uploaded by Epicgenius"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 15.2,
+   "estimated_viewpoint": {
+    "lat": 40.645991,
+    "lon": -73.958216,
+    "azimuth_deg": 87.5,
+    "confidence": "medium",
+    "method": "standard_viewpoint (camera GPS coincides with subject)",
+    "explanation": "The file's GPS (40.64604, -73.95731) lies within 6 m of Kings Theatre (Flatbush) (40.64602, -73.95725), so the uploader geotagged the subject rather than the camera; the viewpoint is therefore the standard photographer position for this view (Flatbush Avenue west sidewalk opposite the theatre, 81.8 m from its centre and about 60 m from the front, looking east at the marquee and terracotta facade) and the azimuth 88 deg is the bearing from there to the subject."
+   },
+   "attribution": "\"After the Paul Weller Show (53978243532).jpg\" by Eden, Janine and Jim from New York City, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:After_the_Paul_Weller_Show_(53978243532).jpg"
+  },
+  {
+   "n": 2,
+   "file": "2.jpg",
+   "title": "File:Kings Theatre Exterior 01.jpg",
+   "page_url": "https://commons.wikimedia.org/wiki/File:Kings_Theatre_Exterior_01.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/11/Kings_Theatre_Exterior_01.jpg",
+   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Kings_Theatre_Exterior_01.jpg/1920px-Kings_Theatre_Exterior_01.jpg",
+   "author": "Alexandra Silversmith",
+   "credit": "Own work",
+   "license": {
+    "short_name": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "template": "cc-by-sa-4.0"
+   },
+   "date_taken": "2015-10-18 13:45:32",
+   "date_source": "DateTimeOriginal",
+   "year": 2015,
+   "camera_gps": {
+    "lat": 40.646014,
+    "lon": -73.958061
+   },
+   "original_width": 2354,
+   "original_height": 3139,
+   "width": 1920,
+   "height": 2560,
+   "bytes": 1084136,
+   "sha256": "b503965a6a8d84f162aba4037c4fb0f84e3dabf599ed67791818e162fdb7a158",
+   "mean_luminance": 113.9,
+   "description": "Kings Theatre Exterior on Sunday, October 18.",
+   "categories": [
+    "Self-published work",
+    "Files with coordinates missing SDC location of creation",
+    "Clouds and blue sky in New York City",
+    "Kings Theatre (Brooklyn)",
+    "Uploaded via Campaign:OHNY",
+    "Open House New York Weekend 2015 in Brooklyn"
+   ],
+   "assessments": "",
+   "restrictions": "",
+   "provenance": "geosearch",
+   "score": 14.0,
+   "estimated_viewpoint": {
+    "lat": 40.646014,
+    "lon": -73.958061,
+    "azimuth_deg": 89.2,
+    "confidence": "high",
+    "method": "camera_gps_to_subject",
+    "explanation": "Camera GPS from the Commons file description (40.64601, -73.95806) is 69 m from Kings Theatre (Flatbush) (40.64602, -73.95725) and 13 m from the standard viewpoint; the azimuth 89 deg is the initial great-circle bearing from that camera position to the subject."
+   },
+   "attribution": "\"Kings Theatre Exterior 01.jpg\" by Alexandra Silversmith, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Kings_Theatre_Exterior_01.jpg"
+  },
+  {
+   "n": 3,
+   "file": "3.jpg",
    "title": "File:Kings Theatre Flatbush finished jeh.jpg",
    "page_url": "https://commons.wikimedia.org/wiki/File:Kings_Theatre_Flatbush_finished_jeh.jpg",
    "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d3/Kings_Theatre_Flatbush_finished_jeh.jpg",
@@ -82,110 +183,17 @@
    ],
    "assessments": "",
    "restrictions": "",
-   "provenance": "search:\"Kings Theatre\" Flatbush Brooklyn",
-   "score": 9.0,
+   "provenance": "geosearch",
+   "score": 14.0,
    "estimated_viewpoint": {
     "lat": 40.645833,
     "lon": -73.958194,
-    "azimuth_deg": 4.4,
+    "azimuth_deg": 75.2,
     "confidence": "high",
     "method": "camera_gps_to_subject",
-    "explanation": "Camera GPS from the Commons file description (40.64583, -73.95819) is 431 m from Kings Theatre (Flatbush) (40.64970, -73.95780) and 410 m from the standard viewpoint; the azimuth 4 deg is the initial great-circle bearing from that camera position to the subject."
+    "explanation": "Camera GPS from the Commons file description (40.64583, -73.95819) is 83 m from Kings Theatre (Flatbush) (40.64602, -73.95725) and 18 m from the standard viewpoint; the azimuth 75 deg is the initial great-circle bearing from that camera position to the subject."
    },
    "attribution": "\"Kings Theatre Flatbush finished jeh.jpg\" by Jim.henderson, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Kings_Theatre_Flatbush_finished_jeh.jpg"
-  },
-  {
-   "n": 2,
-   "file": "2.jpg",
-   "title": "File:Kings theatre.jpg",
-   "page_url": "https://commons.wikimedia.org/wiki/File:Kings_theatre.jpg",
-   "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/55/Kings_theatre.jpg",
-   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Kings_theatre.jpg/1920px-Kings_theatre.jpg",
-   "author": "Moucheraud",
-   "credit": "Own work",
-   "license": {
-    "short_name": "CC BY-SA 4.0",
-    "url": "https://creativecommons.org/licenses/by-sa/4.0",
-    "template": "cc-by-sa-4.0"
-   },
-   "date_taken": "2015-10-18 14:43:55",
-   "date_source": "DateTimeOriginal",
-   "year": 2015,
-   "camera_gps": null,
-   "original_width": 3829,
-   "original_height": 2920,
-   "width": 1920,
-   "height": 1464,
-   "bytes": 1128250,
-   "sha256": "73683dfd8514dfaa1fdb2d44c6385823166525a9e39c6e9ead264545052d0dcc",
-   "mean_luminance": 84.3,
-   "description": "Site : kings theatre flatbush",
-   "categories": [
-    "Self-published work",
-    "Kings Theatre (Brooklyn)",
-    "Uploaded via Campaign:OHNY",
-    "Open House New York Weekend 2015 in Brooklyn"
-   ],
-   "assessments": "",
-   "restrictions": "",
-   "provenance": "search:\"Kings Theatre\" Flatbush Brooklyn",
-   "score": 8.5,
-   "estimated_viewpoint": {
-    "lat": 40.649515,
-    "lon": -73.958468,
-    "azimuth_deg": 69.9,
-    "confidence": "medium",
-    "method": "standard_viewpoint",
-    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Flatbush Avenue west sidewalk opposite the theatre, about 60 m from the front, looking east at the marquee and terracotta facade) and the azimuth 70 deg is the bearing from there to Kings Theatre (Flatbush) (40.64970, -73.95780)."
-   },
-   "attribution": "\"Kings theatre.jpg\" by Moucheraud, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Kings_theatre.jpg"
-  },
-  {
-   "n": 3,
-   "file": "3.jpg",
-   "title": "File:Ceiling kings theatre.jpg",
-   "page_url": "https://commons.wikimedia.org/wiki/File:Ceiling_kings_theatre.jpg",
-   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/89/Ceiling_kings_theatre.jpg",
-   "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Ceiling_kings_theatre.jpg/1920px-Ceiling_kings_theatre.jpg",
-   "author": "Moucheraud",
-   "credit": "Own work",
-   "license": {
-    "short_name": "CC BY-SA 4.0",
-    "url": "https://creativecommons.org/licenses/by-sa/4.0",
-    "template": "cc-by-sa-4.0"
-   },
-   "date_taken": "2015-10-18 14:35:27",
-   "date_source": "DateTimeOriginal",
-   "year": 2015,
-   "camera_gps": null,
-   "original_width": 3656,
-   "original_height": 2926,
-   "width": 1920,
-   "height": 1537,
-   "bytes": 962164,
-   "sha256": "3db2b7a056c42dd5e7e2d5ebbc6149093e95f39485ae4b92917ac6dad879f46c",
-   "mean_luminance": 81.8,
-   "description": "Site : kings theatre flatbush",
-   "categories": [
-    "Ceilings in New York City",
-    "Self-published work",
-    "Kings Theatre (Brooklyn)",
-    "Uploaded via Campaign:OHNY",
-    "Open House New York Weekend 2015 in Brooklyn"
-   ],
-   "assessments": "",
-   "restrictions": "",
-   "provenance": "search:\"Kings Theatre\" Flatbush Brooklyn",
-   "score": 8.5,
-   "estimated_viewpoint": {
-    "lat": 40.649515,
-    "lon": -73.958468,
-    "azimuth_deg": 69.9,
-    "confidence": "medium",
-    "method": "standard_viewpoint",
-    "explanation": "No camera GPS in the file metadata; the viewpoint is the standard photographer position for this view (Flatbush Avenue west sidewalk opposite the theatre, about 60 m from the front, looking east at the marquee and terracotta facade) and the azimuth 70 deg is the bearing from there to Kings Theatre (Flatbush) (40.64970, -73.95780)."
-   },
-   "attribution": "\"Ceiling kings theatre.jpg\" by Moucheraud, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Ceiling_kings_theatre.jpg"
   }
  ]
 }

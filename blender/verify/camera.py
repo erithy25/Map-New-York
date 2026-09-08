@@ -740,20 +740,39 @@ def frame_clearance(x: float, y: float, z: float, azimuth_deg: float, *, probe_m
 
 
 def subject_sightline(x: float, y: float, z: float, sx: float, sy: float, sz: float, *,
-                      spread_m: float = 12.0, rays: int = 5) -> dict:
+                      spread_m: float = 12.0, rays: int = 5, reach_m: float = 25.0,
+                      overshoot_m: float = 400.0) -> dict:
     """Can the camera see the thing the sheet is a comparison *of*?
 
-    Every check this pass runs asks whether the camera is somewhere sensible -- is it on its street
-    (J48), is its frame clear (J47), is an agent standing on the lens (J49).  None of them asks the
-    question the sheet exists to answer: **is the subject in the picture.**  Bethesda Terrace is
-    what that costs.  Its viewpoint stands 69 m from the Bethesda Fountain, the fountain is well
-    inside the frame's cone, the model is in the scene with 10,808 triangles 51 m away -- and the
-    render is a grey slab and a balustrade, because the terrace's own arcade wall is between the
-    two.  Every number on that sheet is right and the sheet is not evidence of anything.
+    Every other check this pass runs asks whether the camera is somewhere sensible -- is it on its
+    street (J48), is its frame clear (J47), is an agent standing on the lens (J49).  None of them
+    asks the question the sheet exists to answer: **is the subject in the picture.**
 
-    So the ray is cast: from the eye to the subject, stepping past everything that is not built
-    fabric, and what it hits first is recorded.  ``visible`` is false when something built stands
-    closer than the subject.  It is a statement about *this* frame's geometry and it costs one ray.
+    Two things have to be true for that, and the first version of this probe only tested one.
+
+    * Nothing built stands between the eye and the subject.  That is the fan below.
+    * **Something is actually there.**  A ray that flies through the subject's recorded coordinate
+      and hits nothing is indistinguishable, to a probe that only looks for blockers, from a clear
+      view of the subject -- and it reported ``visible`` for both.  Bethesda Terrace is what that
+      costs: its ``meta.json`` puts the Bethesda Fountain 24.6 m from where the fountain actually
+      is (OSM way 958635828, the footprint the landmark model was built on and sits on to within a
+      millimetre), so the rays were cast at empty air above the plaza, met nothing, and the record
+      said the fountain was visible over a frame that does not contain it (docs/DEVIATIONS.md J57).
+
+    So each ray is cast **past** the subject, out to ``overshoot_m`` beyond it, and the record says
+    which of three states the frame is in:
+
+    ``blocked``      something built stands closer than the subject; ``subject_blocked_by`` names it.
+    ``no subject``   nothing blocks and nothing stands within ``reach_m`` of the subject's coordinate
+                     either; ``subject_lands_on`` names what the ray found instead, and how far past.
+    ``visible``      nothing blocks and the ray lands on geometry within ``reach_m`` of the subject.
+
+    ``reach_m`` is how far from its recorded coordinate the subject's own geometry may stand and
+    still be recognised as the subject.  25 m is a **choice**: a city block's worth of slack, wide
+    enough that a landmark modelled on its real footprint is not missed because its metadata names
+    the middle of the plaza rather than the middle of the basin, and narrow enough that the ground
+    200 m behind cannot pass for it.  Nothing in the item metadata gives the subject's size, so
+    there is no measurement to take here.
     """
     from mathutils import Vector
 
@@ -789,26 +808,57 @@ def subject_sightline(x: float, y: float, z: float, sx: float, sy: float, sz: fl
         f = step * k / max(1, (rays - 1) // 2)
         offsets += [(f, 0.0), (-f, 0.0), (0.0, f), (0.0, -f)]
     offsets = offsets[:max(1, rays)]
+    near = max(0.0, span - reach_m)          # closer than this, and it is standing in the way
+    far = span + max(reach_m, overshoot_m)   # the ray keeps going, to see what is there instead
     blocked: dict[str, float] = {}
-    clear = 0
+    landed: dict[str, float] = {}
+    clear = 0          # rays that reach the subject's neighbourhood with nothing in the way
+    on_subject = 0     # of those, the ones that land on geometry within reach_m of the coordinate
+    empty = 0          # rays that meet nothing at all, all the way out
     for du, dv in offsets:
         d = (axis + side * math.tan(du) + lift * math.tan(dv)).normalized()
-        got = _ray_past(dg, origin, d, span, _opaque)
+        got = _ray_past(dg, origin, d, far, _opaque, max_steps=48)
         if got is None:
             clear += 1
+            empty += 1
             continue
         dist, ob = got
-        if ob.name not in blocked or dist < blocked[ob.name]:
-            blocked[ob.name] = dist
+        if dist < near:
+            if ob.name not in blocked or dist < blocked[ob.name]:
+                blocked[ob.name] = dist
+            continue
+        clear += 1
+        if ob.name not in landed or dist < landed[ob.name]:
+            landed[ob.name] = dist
+        if dist <= span + reach_m:
+            on_subject += 1
     n = len(offsets)
     worst = min(blocked.items(), key=lambda kv: kv[1]) if blocked else None
-    return {"subject_range_m": round(span, 1),
-            "subject_fan_m": round(spread_m, 1),
-            "subject_fan_half_angle_deg": round(half_angle_deg, 2),
-            "subject_rays": n, "subject_rays_clear": clear,
-            "subject_visible": clear > n // 2,
-            "subject_blocked_by": None if worst is None else worst[0],
-            "subject_blocked_at_m": None if worst is None else round(worst[1], 1)}
+    best = min(landed.items(), key=lambda kv: kv[1]) if landed else None
+    nothing_there = on_subject <= n // 2
+    out = {"subject_range_m": round(span, 1),
+           "subject_fan_m": round(spread_m, 1),
+           "subject_fan_half_angle_deg": round(half_angle_deg, 2),
+           "subject_reach_m": round(reach_m, 1),
+           "subject_rays": n,
+           "subject_rays_clear": clear,
+           "subject_rays_on_subject": on_subject,
+           "subject_rays_into_nothing": empty,
+           "subject_visible": clear > n // 2 and not nothing_there,
+           "subject_blocked_by": None if worst is None else worst[0],
+           "subject_blocked_at_m": None if worst is None else round(worst[1], 1),
+           "subject_lands_on": None if best is None else best[0],
+           "subject_lands_at_m": None if best is None else round(best[1], 1)}
+    if clear > n // 2 and nothing_there:
+        out["subject_note"] = (
+            "nothing stands within "
+            f"{reach_m:.0f} m of the subject's recorded coordinate: "
+            + (f"the clear rays run on to {best[0]} at {best[1]:.0f} m"
+               if best is not None else
+               f"the clear rays meet nothing at all out to {far:.0f} m")
+            + ".  The line is open and the subject is not on it, which is a fault in the item's "
+              "coordinate or in the model, not in the camera")
+    return out
 
 
 def clearance_fields(got: dict) -> dict:

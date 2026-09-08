@@ -278,7 +278,12 @@ CATALOGUE: list[Item] = [
         ['"Bethesda Terrace" fountain Central Park', '"Bethesda Fountain" Central Park Angel of the Waters'],
         [["bethesda"]],
         (40.7735, -73.9711), "upper level of Bethesda Terrace (72nd Street transverse), looking north over the fountain to the Lake",
-        subject=(40.7741, -73.9709), subject_name="Bethesda Fountain (Angel of the Waters)", geosearch_radius_m=120, want=4,
+        # 40.774316, -73.970834 is OSM way 958635828 "Bethesda Fountain" -- the same footprint the
+        # b_bethesda_terrace model was built on and sits on to within a millimetre.  The hand-written
+        # coordinate this replaces stood 24.6 m south of it, on the plaza pavement outside the
+        # 29.26 m basin, so every distance the sheet printed about the fountain was short by 24 m and
+        # the sightline probe cast its rays at open air (docs/DEVIATIONS.md J57).
+        subject=(40.774316, -73.970834), subject_name="Bethesda Fountain (Angel of the Waters)", geosearch_radius_m=120, want=4,
         gps_subject_max_m=400, exclude=AERIAL_WORDS + ["arcade ceiling", "minton tile"]),
     _it("staten_island_ferry_lower_manhattan", "Staten Island Ferry deck view of Lower Manhattan", "viewpoint",
         ['"Staten Island Ferry" Lower Manhattan skyline', 'Lower Manhattan from the Staten Island Ferry'],
@@ -1074,13 +1079,30 @@ CATALOGUE: list[Item] = [
          "the East River esplanade at the north end of Domino Park, about 120 m north-west of the park's centre, looking south-east along the elevated walkway",
          geosearch_radius_m=350, gps_subject_max_m=1500, min_year=2018,
          exclude=AERIAL_WORDS + ["interior", "night", "under construction"]),
+    # The subject stood 414.6 m north of the theatre until 2026-09-08, so this item aimed a camera
+    # at a stretch of Flatbush Avenue four blocks away and called the result the Kings Theatre.
+    # 40.646023, -73.957247 is this build's own c_kings_theatre model origin, which agrees with
+    # OSM way 250132955 "Kings Theatre" to 7.5 m; the bearing and distance below put the camera on
+    # the Flatbush Avenue west sidewalk the note describes, measured off the CSCL centreline
+    # (17.1 m carriageway, so half of it plus 3 m of sidewalk) rather than guessed
+    # (docs/DEVIATIONS.md J57).
     _lmk("landmark_kings_theatre", "Kings Theatre (Flatbush)",
          ['"Kings Theatre" Flatbush Brooklyn', '"Kings Theatre" Flatbush Avenue marquee'],
          [["kings theatre", "kings theater"], ["brooklyn", "flatbush", "new york"]],
-         (40.6497, -73.9578), 250.0, 60.0,
-         "Flatbush Avenue west sidewalk opposite the theatre, about 60 m from the front, looking east at the marquee and terracotta facade",
+         (40.646023, -73.957247), 267.5, 81.8,
+         "Flatbush Avenue west sidewalk opposite the theatre, 81.8 m from its centre and about 60 m "
+         "from the front, looking east at the marquee and terracotta facade",
          geosearch_radius_m=250, gps_subject_max_m=1500, min_year=2014,
-         exclude=AERIAL_WORDS + ["london", "hammersmith", "glasgow", "edinburgh", "southsea", "portsmouth", "interior", "auditorium", "lobby"]),
+         # The theatre's own interior words.  Moving the subject onto the real building put the
+         # geosearch circle inside a famously restored auditorium, and the first re-fetch came back
+         # with three interiors -- an entry hall, a ceiling and a photograph of a concert -- for an
+         # item that is a view of the marquee and the terracotta facade.  ``INDOOR_WORDS`` catches
+         # "lobby", "hallway" and "corridor" but knows nothing of theatres, and widening it would
+         # re-select the photographs of all 172 items to fix one, so the vocabulary is item-local.
+         exclude=AERIAL_WORDS + ["london", "hammersmith", "glasgow", "edinburgh", "southsea", "portsmouth",
+                                 "interior", "auditorium", "lobby", "entry hall", "foyer", "vestibule",
+                                 "ceiling", "proscenium", "chandelier", "balcony", "organ",
+                                 "orchestra pit", "on stage", "the show", "concert"]),
     _lmk("landmark_brooklyn_museum", "Brooklyn Museum",
          ['"Brooklyn Museum" Eastern Parkway entrance', '"Brooklyn Museum" building exterior'],
          [["brooklyn museum"]], (40.671306, -73.96375), 260.0, 130.0,

@@ -6,13 +6,13 @@
  "viewpoint": {
   "lat": 40.7735,
   "lon": -73.9711,
-  "azimuth_deg": 14.2,
+  "azimuth_deg": 13.9,
   "note": "upper level of Bethesda Terrace (72nd Street transverse), looking north over the fountain to the Lake",
   "representative": false
  },
  "subject": {
-  "lat": 40.7741,
-  "lon": -73.9709,
+  "lat": 40.774316,
+  "lon": -73.970834,
   "name": "Bethesda Fountain (Angel of the Waters)"
  },
  "night": false,
@@ -24,19 +24,20 @@
   "\"Bethesda Fountain\" Central Park Angel of the Waters"
  ],
  "geosearch_radius_m": 120,
- "fetched_at": "2026-09-06T11:48:20Z",
+ "fetched_at": "2026-09-08T11:27:12Z",
  "max_width": 1920,
- "source": "Wikimedia Commons API (action=query list=search / list=geosearch / prop=imageinfo)",
- "candidates_seen": 149,
- "candidates_eligible": 54,
+ "source": "Wikimedia Commons API (action=query generator=search / generator=geosearch with prop=imageinfo)",
+ "candidates_seen": 130,
+ "candidates_eligible": 75,
  "rejections": {
-  "indoor": 7,
+  "too_old": 38,
   "excluded": 3,
-  "too_old": 29,
-  "too_small": 3,
+  "indoor": 1,
+  "too_small": 4,
   "not_photo": 2,
   "licence": 1,
-  "night_for_day_item": 1
+  "night_for_day_item": 1,
+  "keywords": 5
  },
  "exhausted": false,
  "status": "ok",
@@ -85,10 +86,10 @@
    "estimated_viewpoint": {
     "lat": 40.773882,
     "lon": -73.971046,
-    "azimuth_deg": 26.9,
+    "azimuth_deg": 20.3,
     "confidence": "high",
     "method": "camera_gps_to_subject",
-    "explanation": "Camera GPS from the Commons file description (40.77388, -73.97105) is 27 m from Bethesda Fountain (Angel of the Waters) (40.77410, -73.97090) and 43 m from the standard viewpoint; the azimuth 27 deg is the initial great-circle bearing from that camera position to the subject."
+    "explanation": "Camera GPS from the Commons file description (40.77388, -73.97105) is 51 m from Bethesda Fountain (Angel of the Waters) (40.77432, -73.97083) and 43 m from the standard viewpoint; the azimuth 20 deg is the initial great-circle bearing from that camera position to the subject."
    },
    "attribution": "\"Bethesda Fountain and the Lake, Central Park, Manhattan, New York.jpg\" by Christian David, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Bethesda_Fountain_and_the_Lake,_Central_Park,_Manhattan,_New_York.jpg"
   },
@@ -139,10 +140,10 @@
    "estimated_viewpoint": {
     "lat": 40.77377,
     "lon": -73.971059,
-    "azimuth_deg": 20.0,
+    "azimuth_deg": 17.3,
     "confidence": "high",
     "method": "camera_gps_to_subject",
-    "explanation": "Camera GPS from the Commons file description (40.77377, -73.97106) is 39 m from Bethesda Fountain (Angel of the Waters) (40.77410, -73.97090) and 30 m from the standard viewpoint; the azimuth 20 deg is the initial great-circle bearing from that camera position to the subject."
+    "explanation": "Camera GPS from the Commons file description (40.77377, -73.97106) is 64 m from Bethesda Fountain (Angel of the Waters) (40.77432, -73.97083) and 30 m from the standard viewpoint; the azimuth 17 deg is the initial great-circle bearing from that camera position to the subject."
    },
    "attribution": "\"Bethesda Fountain (81527).jpg\" by Rhododendrites, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Bethesda_Fountain_(81527).jpg"
   },
@@ -191,10 +192,10 @@
    "estimated_viewpoint": {
     "lat": 40.773725,
     "lon": -73.971277,
-    "azimuth_deg": 37.3,
+    "azimuth_deg": 29.6,
     "confidence": "high",
     "method": "camera_gps_to_subject",
-    "explanation": "Camera GPS from the Commons file description (40.77372, -73.97128) is 52 m from Bethesda Fountain (Angel of the Waters) (40.77410, -73.97090) and 29 m from the standard viewpoint; the azimuth 37 deg is the initial great-circle bearing from that camera position to the subject."
+    "explanation": "Camera GPS from the Commons file description (40.77372, -73.97128) is 76 m from Bethesda Fountain (Angel of the Waters) (40.77432, -73.97083) and 29 m from the standard viewpoint; the azimuth 30 deg is the initial great-circle bearing from that camera position to the subject."
    },
    "attribution": "\"Bethesda Terrace Arcade, Central Park, New York City, 20231002 184121.jpg\" by Jakub Hałun, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Bethesda_Terrace_Arcade,_Central_Park,_New_York_City,_20231002_184121.jpg"
   },
@@ -247,10 +248,10 @@
    "estimated_viewpoint": {
     "lat": 40.773886,
     "lon": -73.971031,
-    "azimuth_deg": 24.9,
+    "azimuth_deg": 19.1,
     "confidence": "high",
     "method": "camera_gps_to_subject",
-    "explanation": "Camera GPS from the Commons file description (40.77389, -73.97103) is 26 m from Bethesda Fountain (Angel of the Waters) (40.77410, -73.97090) and 43 m from the standard viewpoint; the azimuth 25 deg is the initial great-circle bearing from that camera position to the subject."
+    "explanation": "Camera GPS from the Commons file description (40.77389, -73.97103) is 51 m from Bethesda Fountain (Angel of the Waters) (40.77432, -73.97083) and 43 m from the standard viewpoint; the azimuth 19 deg is the initial great-circle bearing from that camera position to the subject."
    },
    "attribution": "\"Bethesda Terrace and Fountain flood 2021 jeh.jpg\" by Jim.henderson, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Bethesda_Terrace_and_Fountain_flood_2021_jeh.jpg"
   }
