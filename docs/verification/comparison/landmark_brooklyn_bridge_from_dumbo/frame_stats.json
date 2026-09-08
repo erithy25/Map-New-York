@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_brooklyn_bridge_from_dumbo",
+ "rendered_at": "2026-09-08T23:15:19Z",
+ "reference_file": "3.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.3888,
+  "sd": 0.1504,
+  "p05": 0.1232,
+  "p95": 0.5686,
+  "chroma": 0.0568
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.348,
+  "sd": 0.2107,
+  "p05": 0.0731,
+  "p95": 0.6887,
+  "chroma": 0.2208
+ },
+ "render_over_reference": {
+  "mean": 1.117,
+  "sd": 0.714,
+  "chroma": 0.257
+ }
+}

@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_city_hall",
+ "rendered_at": "2026-09-08T23:29:24Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.1868,
+  "sd": 0.1723,
+  "p05": 0.0,
+  "p95": 0.5765,
+  "chroma": 0.0462
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.4083,
+  "sd": 0.2295,
+  "p05": 0.0686,
+  "p95": 0.7979,
+  "chroma": 0.1181
+ },
+ "render_over_reference": {
+  "mean": 0.458,
+  "sd": 0.751,
+  "chroma": 0.391
+ }
+}

@@ -31,7 +31,7 @@
   "lat": 40.683866,
   "lon": -73.977453,
   "long_side_fov_deg": 54.432,
-  "pitch_deg": 5.18935571659904,
+  "pitch_deg": 4.961727716978911,
   "portrait": false,
   "resolution": [
    1280,
@@ -44,7 +44,7 @@
   "y": -1791.285,
   "z": 15.559
  },
- "camera_caption": "camera 40.68387, -73.97745 (NYC_TM -2321, -1791) z 15.6 m NAVD88 | azimuth 130.4deg pitch +5.2deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x720",
+ "camera_caption": "camera 40.68387, -73.97745 (NYC_TM -2321, -1791) z 15.6 m NAVD88 | azimuth 130.4deg pitch +5.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x720",
  "camera_origin": {
   "from_photograph_gps": true,
   "lat": 40.683866,
@@ -73,9 +73,9 @@
   "view_m": 148.8
  },
  "frame": {
-  "mean": 0.4183,
+  "mean": 0.418,
   "reason": null,
-  "sd": 0.219,
+  "sd": 0.2187,
   "usable": true
  },
  "frame_retry": null,
@@ -101,7 +101,7 @@
  },
  "name": "Barclays Center",
  "night": false,
- "pitch_reason": "aimed at Barclays Center 217 m away, at its mid-height (the c_barclays_center model's 42 m height); +5.2 deg from horizontal",
+ "pitch_reason": "aimed at Barclays Center 217 m away, at its mid-height (the top of lm_c_barclays_center.2, the built thing standing at the subject's coordinate, 40 m above the ground there); +5.0 deg from horizontal",
  "reference_photo": {
   "author": "Eden, Janine and Jim from New York City",
   "confidence": "high",
@@ -116,7 +116,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_barclays_center/render.png",
- "rendered_at": "2026-09-08T19:21:26Z",
+ "rendered_at": "2026-09-08T23:10:25Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -151,7 +151,7 @@
    "placed_pedestrians": 269,
    "placed_vehicles": 50,
    "reason": null,
-   "seconds": 127.58,
+   "seconds": 120.38,
    "snapshot": {
     "building_footprints_tested": 7996,
     "density_lane_km": 28.097,
@@ -191,7 +191,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 906
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -2321_-1791_18_0_7f8d2c512e059bb5_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 1083182,
    "vehicle_lods": {
@@ -369,7 +369,8 @@
       "roughness"
      ],
      "physical_size_m": 3.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "brown_brick": {
      "albedo": {
@@ -385,7 +386,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.08,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "brownstone": {
      "albedo": {
@@ -401,7 +403,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.5,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "cast_iron": {
      "albedo": {
@@ -417,18 +420,16 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "concrete": {
      "albedo": {
-      "capped_at": 4.0,
-      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
-      "residual": 1.135,
-      "scale": 4.0,
+      "scale": 1.799,
       "target_albedo": 0.5333,
-      "texture_albedo": 0.1174
+      "texture_albedo": 0.2965
      },
-     "asset_id": "Concrete030",
+     "asset_id": "Concrete037",
      "maps": [
       "color",
       "normal",
@@ -436,7 +437,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "concrete_sidewalk": {
      "albedo": {
@@ -451,7 +453,8 @@
       "roughness"
      ],
      "physical_size_m": 1.5,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "granite": {
      "albedo": {
@@ -467,7 +470,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.5,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "limestone": {
      "albedo": {
@@ -483,7 +487,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.5,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "metal_panel": {
      "albedo": {
@@ -499,7 +504,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "precast": {
      "albedo": {
@@ -515,7 +521,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 2.0
     },
     "red_brick": {
      "albedo": {
@@ -531,7 +538,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 3.24,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "roof_membrane": {
      "albedo": {
@@ -550,7 +558,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "stone_rubble": {
      "albedo": {
@@ -566,7 +575,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 2.0
     },
     "stucco": {
      "albedo": {
@@ -582,7 +592,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "tan_brick": {
      "albedo": {
@@ -598,7 +609,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.835,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "tar_roof": {
      "albedo": {
@@ -614,7 +626,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "terracotta": {
      "albedo": {
@@ -630,7 +643,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.5,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "vinyl_siding": {
      "albedo": {
@@ -646,7 +660,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.626,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 2.0
     },
     "white_glazed_brick": {
      "albedo": {
@@ -662,18 +677,19 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.08,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "wood_clapboard": {
      "albedo": {
       "capped_at": 4.0,
       "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
-      "residual": 3.498,
+      "residual": 1.384,
       "scale": 4.0,
       "target_albedo": 0.5467,
-      "texture_albedo": 0.0391
+      "texture_albedo": 0.0988
      },
-     "asset_id": "WoodSiding003",
+     "asset_id": "WoodSiding013",
      "maps": [
       "color",
       "normal",
@@ -681,7 +697,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.032,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     }
    },
    "enabled": true,
@@ -764,7 +781,7 @@
    }
   },
   "radius_m": 804.1275778999877,
-  "seconds": 233.42,
+  "seconds": 209.16,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -797,19 +814,20 @@
   "radius_m": 804.1275778999877
  },
  "seconds": {
-  "render": 55.3,
-  "scene": 235.4,
-  "total": 290.7
+  "render": 55.0,
+  "scene": 211.2,
+  "total": 266.2
  },
  "sightline": {
-  "subject_aimed_at": "the subject's mid-height, 21.0 m above its ground",
-  "subject_blocked_at_m": 37.4,
+  "subject_aimed_at": "the subject's mid-height, 20.1 m above its ground",
+  "subject_blocked_at_m": 37.3,
   "subject_blocked_by": "prop_lamp_cobra_davit_18",
-  "subject_fan_half_angle_deg": 1.58,
-  "subject_fan_m": 12.0,
+  "subject_fan_from": "the subject's own measured height (J74)",
+  "subject_fan_half_angle_deg": 5.27,
+  "subject_fan_m": 40.2,
   "subject_lands_at_m": null,
   "subject_lands_on": null,
-  "subject_range_m": 217.8,
+  "subject_range_m": 217.7,
   "subject_rays": 5,
   "subject_rays_clear": 0,
   "subject_rays_into_nothing": 0,
@@ -822,6 +840,20 @@
  "subject": {
   "distance_from": "the placed camera, after the clearance walk",
   "distance_m": 216.8,
+  "height_probe": {
+   "ground_z_m": 14.24,
+   "height_above_ground_m": 40.36,
+   "nearest_catalogue_origin": {
+    "distance_m": 21.8,
+    "height_m": 42.1,
+    "id": "c_barclays_center",
+    "within_120_m": true
+   },
+   "object": "lm_c_barclays_center.2",
+   "rays_cast": 17,
+   "rays_on_built_fabric": 17,
+   "z": 54.61
+  },
   "name": "Barclays Center",
   "origin_distance_m": 216.8
  },
