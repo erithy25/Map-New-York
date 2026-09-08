@@ -63,18 +63,26 @@ something consumes its output and a test fails when the join breaks.**
 
 ## The suite, as of this writing
 
-`PYTHONPATH=pipeline python3 -m pytest tests/ pipeline/tests/` stands at **4,135 passed, 1 skipped, 1
-failed** in 11 m 32 s — the suite has grown by 357 tests as the closing lanes added their own — and
-`ctest` in `core/build` is **11 of 11 suites green** — the whole repository green
-at once, which it had not been before. Every gate that was red got there by catching something real, and
-each was closed by fixing the thing rather than the gate.
+`PYTHONPATH=pipeline python3 -m pytest tests/ pipeline/tests/` stands at **4,335 passed, 1 skipped,
+0 failed** in 11 m 39 s, and `ctest` in `core/build` is **11 of 11 suites green**. The suite has
+grown by another 200 tests as the vehicle rig, the structures, the park ground and the curb ramps
+added their own.
 
-**One test is red as this is written, and it should be.**
-`test_no_comparison_sheet_is_older_than_the_content_it_shows` flags 29 of the 57 comparison sheets,
-because a rebuild of the tile shells — stepped roof massing and a real material set — is in progress and
-those frames now show geometry that has been replaced. The sheets are genuinely stale; the test is
-reporting the truth, and it clears when the rebuild finishes and the affected scenes are re-rendered.
-A green suite that hid this would be worth less than a red one that names it.
+**Two tests were red on the way here and both were reporting something real.**
+
+`test_nycb_layout_json_documents_the_cpp_structs` failed on a missing `places` key. The GPS learned
+to search 85,023 named places and the section that carries them was added to the export, but the
+layout document that tells `core/io/NycbReader.h` where every field sits had not been regenerated,
+so the C++ side was being checked against a description of the file that predated a section of it.
+
+`test_placed_agents_stand_on_the_pavement_and_the_counts_add_up` failed with a taxi 1.15 m off its
+pavement against a 0.5 m tolerance, and the cause was not the taxi. Blender's glTF importer builds a
+mesh object called `Icosphere` for any rigged file and hands it to every bone as a display shape;
+`import_glb` returned it with the car, and every rigged vehicle in every verification render had
+been carrying an untextured 2 m sphere at its rear axle. Nothing had failed over it for as long as
+the fleet had been rigged, because the sphere has no material and renders as grey rather than as an
+error. It is J44, and the test that caught it is the one that measures where geometry *ends up*
+rather than where the placement code says it was put.
 
 ## What "verified" means in this build
 
