@@ -224,6 +224,9 @@ class ManifestBuilder:
         #: Prop kinds whose rows resolve to no exported asset, and how many rows that is. Filled by
         #: ``add_tiles``; reported in the manifest so the gap is counted rather than assumed empty.
         self.prop_kinds_without_an_asset: dict[str, int] = {}
+        #: Prop kinds with no asset **on purpose**, because another stage builds them, and how many
+        #: rows that is. Kept apart from the gap count above so neither number lies about the other.
+        self.prop_kinds_built_elsewhere: dict[str, int] = {}
 
     # ------------------------------------------------------------------ helpers
     def _add(self, id_: str, kind: str, src: Path, dst: str, settings: str, *, deps: Iterable[str] = (), tile: str | None = None, extra: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -488,13 +491,24 @@ class ManifestBuilder:
             if bp.exists():
                 info["buildings"] = {"path": _rel(bp, self.repo_root), "count": _parquet_rows(bp)}
         if unmapped:
-            # Not a failure: a dozen prop kinds have no exported asset on purpose (a curb ramp is
-            # built into the pavement, a billboard is a sign). Counted so the number is a statement
-            # rather than a silence, and so a kind that loses its asset shows up as a jump here.
-            self.prop_kinds_without_an_asset = dict(sorted(unmapped.items(), key=lambda kv: -kv[1]))
-            log.info("props: %d rows in %d kinds have no exported asset (%s)",
-                     sum(unmapped.values()), len(unmapped),
-                     ", ".join(f"{k}={v}" for k, v in list(self.prop_kinds_without_an_asset.items())[:6]))
+            # Two different things used to be one number. A kind another stage builds -- a curb ramp
+            # is cut into the pavement mesh -- is a division of labour, and a kind with no asset
+            # anywhere is a gap. Counting them together meant the gap figure moved when the pavement
+            # stage took work over, which is the opposite of what a gap figure is for. They are split
+            # here; both are reported, and neither is a failure.
+            gaps = {k: v for k, v in unmapped.items() if not _built_elsewhere_key(k)}
+            elsewhere: dict[str, int] = {}
+            for k, v in unmapped.items():
+                if _built_elsewhere_key(k):
+                    elsewhere[k.split(":", 1)[1]] = elsewhere.get(k.split(":", 1)[1], 0) + v
+            self.prop_kinds_without_an_asset = dict(sorted(gaps.items(), key=lambda kv: -kv[1]))
+            self.prop_kinds_built_elsewhere = dict(sorted(elsewhere.items(), key=lambda kv: -kv[1]))
+            log.info("props: %d rows in %d kinds have no exported asset (%s); %d rows in %d kinds "
+                     "are built by another stage (%s)",
+                     sum(gaps.values()), len(gaps),
+                     ", ".join(f"{k}={v}" for k, v in list(self.prop_kinds_without_an_asset.items())[:6]),
+                     sum(elsewhere.values()), len(elsewhere),
+                     ", ".join(f"{k}={v}" for k, v in self.prop_kinds_built_elsewhere.items()))
         # per-tile signs / lanes from the borough-wide road tables
         self._export_signs()
         if self.with_lanes:
@@ -943,6 +957,7 @@ class ManifestBuilder:
             "kit_catalog_entries": len(self.kit_catalog),
             "props_catalog_entries": len(self.props_catalog),
             "prop_kinds_without_an_asset": self.prop_kinds_without_an_asset,
+            "prop_kinds_built_elsewhere": self.prop_kinds_built_elsewhere,
             "tiles": self.tiles,
             "entries": self.entries,
             "import_order": self.import_order(),
@@ -991,6 +1006,12 @@ def _parquet_rows(p: Path) -> int:
         return int(pq.read_metadata(p).num_rows)
     except ImportError:
         return -1
+
+
+def _built_elsewhere_key(key: str) -> bool:
+    """Is this ``unresolved`` key a kind another stage builds rather than a missing asset?"""
+    from ..furniture import assets as _assets
+    return _assets.is_built_elsewhere(key)
 
 
 def _parquet_to_json(src: Path, dst: Path, columns: list[str], *,

@@ -92,6 +92,22 @@ TREE_FALLBACK_KEY = "honeylocust"
 #: set in ``facade/placements.py`` draws from bulkheads, AC units, exhaust fans, vent pipes and
 #: satellite dishes, and never picks the cooling tower. So these rows add surveyed objects and
 #: duplicate nothing.
+#: Kinds that have no prop asset **on purpose**, because another stage builds them as part of
+#: something else. Counting these as "no asset" made two reports say the wrong thing at once: the
+#: renderer listed 81 curb ramps as unmapped on a Bronx sheet whose pavement had every one of them
+#: cut into it, and the manifest's ``prop_kinds_without_an_asset`` carried them as a gap. A row that
+#: is deliberately built by a different stage is not a missing asset, and the two have to be
+#: countable apart or the gap number stops meaning anything.
+BUILT_ELSEWHERE: dict[str, str] = {
+    "curb_ramp": "cut into the pavement mesh by blender/roads/build_pavement.py (J21)",
+}
+BUILT_ELSEWHERE_REASON = "built_elsewhere"
+
+
+def is_built_elsewhere(reason: str) -> bool:
+    """Does this ``resolve`` reason mean "another stage builds it" rather than "no asset"?"""
+    return str(reason).split(":", 1)[0] == BUILT_ELSEWHERE_REASON
+
 KIND_TO_KIT_PIECE: dict[str, str] = {
     "cooling_tower": "hvac_cooling_tower",
 }
@@ -150,10 +166,13 @@ class PropAssets:
                 height_m: Any = None, leaf_off: bool = False) -> tuple[dict | None, str]:
         """``(catalogue entry, reason)``; the entry is ``None`` when the row has no asset.
 
-        ``reason`` is ``"ok"``, ``"species_substituted"`` or the kind name that could not be mapped,
-        so a caller can count what it dropped instead of dropping it silently.
+        ``reason`` is ``"ok"``, ``"species_substituted"``, ``"built_elsewhere"`` or the kind name
+        that could not be mapped, so a caller can count what it dropped instead of dropping it
+        silently -- and can tell a gap from a division of labour.
         """
         name = self.name_of(kind_id)
+        if name in BUILT_ELSEWHERE:
+            return None, f"{BUILT_ELSEWHERE_REASON}:{name}"
         if name == "tree":
             asset_id, exact = tree_asset_id(str(species or ""), clean_height(height_m), leaf_off)
             entry = self.by_id.get(asset_id)

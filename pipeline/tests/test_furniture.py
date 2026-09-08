@@ -635,3 +635,30 @@ def test_every_surveyed_cooling_tower_stands_on_a_roof_or_says_why_not():
         pytest.skip("no rooftop props in the sampled tiles")
     assert lifted / (lifted + ground) > 0.9, (
         f"only {lifted} of {lifted + ground} sampled cooling towers stand on a roof")
+
+
+def test_a_kind_another_stage_builds_is_not_counted_as_a_missing_asset():
+    """A curb ramp has no prop asset on purpose: it is cut into the pavement mesh (J21).
+
+    Both reports used to call that a gap. The renderer listed 81 curb ramps as ``unmapped`` on a
+    Bronx sheet whose pavement had every one of them cut into it, and the manifest carried them in
+    ``prop_kinds_without_an_asset``. A gap figure that moves when one stage takes work over from
+    another is measuring the division of labour, not the gap, so the two are counted apart.
+    """
+    from nycsim_pipeline.furniture import assets as A
+
+    assert "curb_ramp" in A.BUILT_ELSEWHERE, "the curb ramp is built by the pavement stage"
+    for name, why in A.BUILT_ELSEWHERE.items():
+        assert why.strip(), f"{name} is declared built elsewhere without saying by what"
+
+    index = A.PropAssets(by_id={}, by_kind={}, kind_names={7: "curb_ramp", 8: "payphone"},
+                         kit_by_id={})
+    entry, why = index.resolve(7)
+    assert entry is None
+    assert A.is_built_elsewhere(why), f"a curb ramp resolved with reason {why!r}"
+    assert why.endswith("curb_ramp"), "the reason has to keep the kind so a report can name it"
+
+    entry, why = index.resolve(8)
+    assert entry is None
+    assert not A.is_built_elsewhere(why), "a payphone has no asset anywhere; that is a real gap"
+    assert why == "payphone", "a real gap names the kind so the report can list it"

@@ -1380,6 +1380,8 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
     capped_reason = None
     per_kind: dict[str, int] = {}
     unmapped: dict[str, int] = {}
+    #: kinds another stage builds -- not a gap, and counted apart from one (J21)
+    elsewhere: dict[str, int] = {}
     species_substituted = 0
     for idx in order:
         if placed >= max_instances:
@@ -1397,7 +1399,10 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
                                           species=merged["species"][i] or "",
                                           height_m=merged["height_m"][i], leaf_off=leaf_off)
         if entry is None:
-            unmapped[kind_name] = unmapped.get(kind_name, 0) + 1
+            if prop_assets.is_built_elsewhere(why):
+                elsewhere[kind_name] = elsewhere.get(kind_name, 0) + 1
+            else:
+                unmapped[kind_name] = unmapped.get(kind_name, 0) + 1
             continue
         if why == "species_substituted":
             species_substituted += 1
@@ -1426,7 +1431,8 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
             "leaf_off": leaf_off, "impostor_cards_dropped": lib.impostors_dropped,
             "impostor_faces_dropped": lib.impostor_faces_dropped,
             "capped": capped_reason, "per_kind": dict(sorted(per_kind.items(), key=lambda kv: -kv[1])),
-            "unmapped_kinds": unmapped, "tree_species_substituted": species_substituted,
+            "unmapped_kinds": unmapped, "kinds_built_elsewhere": elsewhere,
+            "tree_species_substituted": species_substituted,
             "tiles_read": sorted(tiles_read), "tiles_missing": sorted(tiles_missing),
             "radius_m": radius_m}
 
