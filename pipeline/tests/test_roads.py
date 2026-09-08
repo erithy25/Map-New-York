@@ -978,3 +978,45 @@ def test_the_engine_reads_the_places_section():
            / "GameplayRoadNetwork.h").read_text()
     assert "Place = 4" in hdr, "SearchEntry has no Place kind"
     assert "uint32_t places = 0;" in hdr, "the load statistics do not count them"
+
+
+def test_every_section_of_every_runtime_file_is_described_by_a_layout():
+    """A section the C++ reads and no layout describes is a struct nobody can check.
+
+    The container format is one thing and the record inside each section is another. The record is
+    what ``core/io/NycbReader.h`` casts to, and the only machine-readable statement of its field
+    offsets is the ``*.layout.json`` the writing stage emits. When a section has no layout entry,
+    the C++ struct is checked against a hand-written copy of the numbers and nothing compares
+    either of them with the producer -- which is how ``places`` shipped against a layout document
+    that predated it, and how ``density.nycb`` came to have its ``cells`` and ``nta_polys`` read by
+    ``core/src/traffic/Density.cpp`` while being described nowhere at all.
+
+    This closes the class rather than the instance: every section of every shipped ``.nycb``, minus
+    the string table, which is a byte blob with no record type.
+    """
+    files = sorted(RUNTIME.glob("*.nycb"))
+    if not files:
+        pytest.skip("no runtime binaries produced yet")
+
+    described: dict[str, set[str]] = {}
+    for lay in sorted(RUNTIME.glob("*.json")):
+        try:
+            doc = json.loads(lay.read_text())
+        except (OSError, ValueError):
+            continue
+        if isinstance(doc.get("sections"), dict):
+            described[lay.name] = set(doc["sections"])
+    assert described, f"no layout document in {RUNTIME}"
+    known = set().union(*described.values())
+
+    missing: dict[str, list[str]] = {}
+    for f in files:
+        have = [s for s in NycbReader(f).sections if s != "strtab"]
+        gap = sorted(set(have) - known)
+        if gap:
+            missing[f.name] = gap
+    assert not missing, (
+        "sections shipped in a runtime binary that no *.layout.json describes: "
+        + "; ".join(f"{k}: {v}" for k, v in missing.items())
+        + f". Layouts read: {sorted(described)}. The field offsets the C++ casts to have to be "
+          "written down by the stage that writes the data, or nothing can compare the two.")

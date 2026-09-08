@@ -227,15 +227,25 @@ def main() -> int:
     pois["y"] = [5379.805, 200.0]
     pois["addr_str"] = [w6.strings.add("350 5 AVENUE"), w6.strings.add("1 CENTRE STREET")]
     w6.add_array("pois", pois)
+    # The named places the GPS searches, in the same record and the same string table as the
+    # addresses. The fixture carried none, so the only thing exercising the section was the real
+    # container -- and the C++ reader is allowed to shrug at a real file that predates it ("an
+    # older container"). A deterministic fixture with two places is what makes that path a test
+    # rather than a courtesy.
+    places = np.zeros(2, dtype=POI_DT)
+    places["x"] = [-1758.7964, 980.0]
+    places["y"] = [8252.8652, -420.0]
+    places["addr_str"] = [w6.strings.add("Bethesda Terrace"), w6.strings.add("Red Hook")]
+    w6.add_array("places", places)
     w6.add_strtab()
     w6.write(OUT / "pois.nycb")
-    expected["sections"]["pois.nycb"] = {"pois": 2, "strtab": len(w6.strings)}
+    expected["sections"]["pois.nycb"] = {"pois": 2, "places": 2, "strtab": len(w6.strings)}
 
     layout = describe_layout({
         "nodes": NODE_DT, "segments": SEG_DT, "vertices": VTX_DT, "lanes": LANE_DT,
         "lane_links": LINK_DT, "junction_lanes": JUNC_DT, "controllers": CTRL_DT,
         "phases": PHASE_DT, "tiles": TILE_DT, "bus_routes": ROUTE_DT, "bus_stops": STOP_DT,
-        "cells": CELL_DT, "nta_polys": NTA_DT, "pois": POI_DT,
+        "cells": CELL_DT, "nta_polys": NTA_DT, "pois": POI_DT, "places": POI_DT,
     })
     expected["sizeof"] = {k: v["sizeof"] for k, v in layout["sections"].items()}
     expected["sizeof"]["header"] = layout["container"]["header"]["sizeof"]

@@ -13,8 +13,9 @@ inline constexpr SectionCount kFixtureCounts[] = {
     {"density.nycb", "nta_polys", 1},
     {"density.nycb", "strtab", 11},
     {"density.nycb", "vertices", 4},
+    {"pois.nycb", "places", 2},
     {"pois.nycb", "pois", 2},
-    {"pois.nycb", "strtab", 30},
+    {"pois.nycb", "strtab", 56},
     {"roadgraph.nycb", "junction_lanes", 1},
     {"roadgraph.nycb", "lane_links", 2},
     {"roadgraph.nycb", "lanes", 2},
@@ -32,7 +33,7 @@ inline constexpr SectionCount kFixtureCounts[] = {
     {"transit.nycb", "strtab", 35},
     {"transit.nycb", "vertices", 3},
 };
-inline constexpr int kFixtureCountN = 22;
+inline constexpr int kFixtureCountN = 23;
 
 struct RecordSize { const char* name; uint32_t bytes; };
 inline constexpr RecordSize kRecordSizes[] = {
@@ -48,12 +49,13 @@ inline constexpr RecordSize kRecordSizes[] = {
     {"nodes", 24},
     {"nta_polys", 12},
     {"phases", 28},
+    {"places", 12},
     {"pois", 12},
     {"segments", 48},
     {"tiles", 28},
     {"vertices", 12},
 };
-inline constexpr int kRecordSizeN = 16;
+inline constexpr int kRecordSizeN = 17;
 
 struct StringOffset { const char* text; uint32_t offset; };
 inline constexpr StringOffset kStringOffsets[] = {

@@ -7,8 +7,9 @@
    "vertices": 4
   },
   "pois.nycb": {
+   "places": 2,
    "pois": 2,
-   "strtab": 30
+   "strtab": 56
   },
   "roadgraph.nycb": {
    "junction_lanes": 1,
@@ -48,6 +49,7 @@
   "nodes": 24,
   "nta_polys": 12,
   "phases": 28,
+  "places": 12,
   "pois": 12,
   "segments": 48,
   "tiles": 28,

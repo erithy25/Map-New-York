@@ -37,15 +37,19 @@
    }
   },
   "pois.nycb": {
-   "bytes": 27807376,
+   "bytes": 30226232,
    "parquet_rows": {},
    "sections": {
+    "places": {
+     "count": 85023,
+     "element_size": 12
+    },
     "pois": {
      "count": 1082160,
      "element_size": 12
     },
     "strtab": {
-     "count": 14821351,
+     "count": 16219886,
      "element_size": 1
     }
    }

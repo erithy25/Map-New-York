@@ -22,7 +22,7 @@ import numpy as np
 import polars as pl
 import shapely
 
-from ..runtime.nycb import NycbReader, NycbWriter, aligned_dtype
+from ..runtime.nycb import NycbReader, NycbWriter, aligned_dtype, write_layout
 from .geo import NtaTable
 
 log = logging.getLogger("nycsim.traffic.runtime_export")
@@ -104,8 +104,15 @@ def write_density_nycb(path: Path, nta: NtaTable, density: pl.DataFrame) -> Path
     w.add_array("vertices", varr)
     w.add_strtab()
     w.write(path)
-    log.info("wrote %s: %d cells, %d rings, %d vertices, %d bytes", path, len(cells), len(parr), len(varr),
-             path.stat().st_size)
+    # The field offsets the C++ reader has to agree with, beside the file. ``roadgraph.nycb`` and
+    # ``transit.nycb`` have always written theirs; ``density.nycb`` did not, so ``cells`` and
+    # ``nta_polys`` were read by ``core/src/traffic/Density.cpp`` against a layout described
+    # nowhere -- and a description that does not exist cannot be compared with anything.
+    layout_path = path.with_suffix(".layout.json")
+    write_layout(layout_path, {"cells": CELL_DTYPE, "nta_polys": POLY_DTYPE,
+                               "vertices": VERTEX_DTYPE})
+    log.info("wrote %s: %d cells, %d rings, %d vertices, %d bytes (layout %s)", path, len(cells),
+             len(parr), len(varr), path.stat().st_size, layout_path.name)
     return path
 
 
