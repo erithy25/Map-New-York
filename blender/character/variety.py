@@ -188,6 +188,36 @@ TOP_GARMENTS: tuple[dict, ...] = (
     {"id": "suit", "base": None, "outer": "suit_jacket_charcoal", "label": "Suit jacket"},
 )
 
+#: The same ten tops, dressed for a New York winter.  ``TOP_GARMENTS`` reaches two of the wardrobe's
+#: fifteen outerwear pieces -- a field jacket and one suit jacket -- so a wool overcoat, a trench
+#: coat, three puffers, a denim and a leather jacket and two of the three hoodies were in the
+#: library and on nobody (DEVIATIONS J53).  This table is what the cold cast wears: the same base
+#: layer, a warm shell over it.  It is keyed by ``id`` rather than by index so a level added to
+#: ``TOP_GARMENTS`` is a ``KeyError`` here rather than a silent mismatch.
+#:
+#: Which garment goes over which base is a **choice**, not a measurement -- nothing in this project
+#: measures what New Yorkers wear over a polo at 5 degrees.  The choices are the ordinary ones: a
+#: puffer over a tee, a trench over a button-down, an overcoat over a long-sleeve, a leather jacket
+#: over a knit, a hoodie under a puffer.  The suit keeps its own jacket, because the outfit builder
+#: has one outer slot and a coat over a suit jacket cannot be expressed in it.
+#: Every value here is ``slot == "outerwear"``; the first draft put ``hoodie_black`` over a tank and
+#: a test caught it -- a hoodie is a *top*, and layering one over another top is not what the outfit
+#: builder's single outer slot means.  ``hoodie_black`` and ``kids_hoodie`` are therefore still worn
+#: by nobody: they are reachable only through the ``top_garment`` dimension, which has one hoodie
+#: level, and adding levels to it would change the twelve-dimension contract the C++ shares.
+COLD_OUTER_BY_TOP: dict[str, str] = {
+    "tee": "puffer_black",
+    "tank": "jacket_denim",
+    "polo": "suit_jacket_navy",
+    "button_shirt": "coat_trench",
+    "scrubs": "puffer_olive",
+    "long_sleeve": "coat_wool",
+    "knit": "jacket_leather",
+    "hoodie": "puffer_red_long",
+    "jacket": "jacket_field",
+    "suit": "suit_jacket_charcoal",
+}
+
 #: Twelve garment colours for the top and twelve for the bottom, as sRGB hex.  They are separate tables
 #: because the colours trousers come in are not the colours t-shirts come in.
 TOP_COLOURS: tuple[dict, ...] = (
@@ -300,6 +330,10 @@ class PedAppearance:
 
     levels: tuple[int, ...]
     values: tuple[float, ...] = ()
+    #: ``"mild"`` wears what ``TOP_GARMENTS`` says; ``"cold"`` puts ``COLD_OUTER_BY_TOP`` over it.
+    #: The vector is untouched either way -- the same twelve floats, dressed for a different day --
+    #: so the two casts stay comparable dimension for dimension.
+    season: str = "mild"
 
     # -- raw level access -------------------------------------------------------------------------------
     def level(self, dimension: str) -> int:
@@ -389,12 +423,15 @@ class PedAppearance:
     def outfit(self) -> tuple[str, ...]:
         """The wardrobe item ids to put on this pedestrian, in load order."""
         top = self.entry("top_garment")
+        outer = top["outer"]
+        if self.season == "cold":
+            outer = COLD_OUTER_BY_TOP[top["id"]]
         items: list[str] = []
         if top["base"]:
             items.append(top["base"])
         items.append(self.entry("bottom_garment")["item"])
-        if top["outer"]:
-            items.append(top["outer"])
+        if outer:
+            items.append(outer)
         accessory = self.entry("accessory")
         if accessory["kind"] == "garment":
             items.append(accessory["ref"])
@@ -411,7 +448,8 @@ class PedAppearance:
         }
         # The colour dimension names the *outermost* top: a jacket's colour is what you see, and the layer
         # under it keeps its own catalogue colour so the two do not come out identical.
-        out[top["outer"] or top["base"]] = top_rgb
+        outer = COLD_OUTER_BY_TOP[top["id"]] if self.season == "cold" else top["outer"]
+        out[outer or top["base"]] = top_rgb
         return out
 
     # -- gait -------------------------------------------------------------------------------------------
@@ -541,6 +579,12 @@ def _wardrobe_size() -> int:
     return len(wardrobe.WARDROBE)
 
 
-def decode(vector: Sequence[float]) -> PedAppearance:
-    """The entry point: one contract vector to one buildable appearance."""
-    return PedAppearance(levels=levels_of(vector), values=tuple(float(v) for v in vector))
+def decode(vector: Sequence[float], season: str = "mild") -> PedAppearance:
+    """The entry point: one contract vector to one buildable appearance.
+
+    ``season`` selects which shell goes over the base layer; see :data:`COLD_OUTER_BY_TOP`.
+    """
+    if season not in ("mild", "cold"):
+        raise ValueError(f"season must be 'mild' or 'cold', not {season!r}")
+    return PedAppearance(levels=levels_of(vector), values=tuple(float(v) for v in vector),
+                         season=season)

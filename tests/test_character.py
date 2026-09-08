@@ -728,3 +728,73 @@ def test_the_cold_weather_draw_is_wired_into_the_simulation():
     assert "kPedWarmArchetypes" in src and "kPedSummerArchetypes" in src, \
         "assignAppearance does not consult the wardrobe table"
     assert "pickArchetype(" in src, "the body is still drawn uniformly over every archetype"
+
+
+# --------------------------------------------------------------------------- the cold cast (J53)
+def test_a_bodys_vector_does_not_depend_on_how_many_bodies_are_asked_for():
+    """This is what lets a second cast be appended.  If ``spread_vectors`` moved the earlier bodies,
+    every archetype index would change meaning and every comparison sheet rendered against them
+    would silently become a picture of someone else."""
+    import sys as _sys
+
+    _sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "blender" / "character"))
+    import variety as V
+
+    base = V.spread_vectors(24)
+    for count in (25, 36, 48):
+        assert V.spread_vectors(count)[:24] == base, \
+            f"asking for {count} bodies changed the first 24"
+
+
+def test_the_cold_cast_reaches_the_outerwear_the_mild_one_never_does():
+    """J53: the wardrobe holds a wool overcoat, a trench coat, three puffers, a denim and a leather
+    jacket, and ``TOP_GARMENTS`` reaches none of them -- it has an ``outer`` on two of its ten
+    levels.  The cold table is what puts them on somebody."""
+    import sys as _sys
+
+    _sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "blender" / "character"))
+    import json as _json
+
+    import variety as V
+
+    # The wardrobe is read from the published contract rather than from wardrobe.py, which imports
+    # a MakeHuman module that only exists inside the generator's environment -- and the published
+    # copy is the one every consumer actually sees.
+    variety_json = Path(__file__).resolve().parents[1] / "blender_out" / "character" / "npc_variety.json"
+    if not variety_json.is_file():
+        pytest.skip("npc_variety.json not generated in this checkout")
+    by_id = {g["id"]: g for g in _json.loads(variety_json.read_text())["wardrobe"]}
+    tops = {t["id"] for t in V.TOP_GARMENTS}
+    assert set(V.COLD_OUTER_BY_TOP) == tops, "a top garment has no cold-weather shell"
+
+    for top_id, outer_id in V.COLD_OUTER_BY_TOP.items():
+        assert outer_id in by_id, f"{top_id} maps to {outer_id}, which is not in the wardrobe"
+        assert by_id[outer_id]["slot"] == "outerwear", (
+            f"{outer_id} is a {by_id[outer_id]['slot']}, not something you put on over a {top_id}")
+        assert not any(t in ("hivis", "delivery") for t in by_id[outer_id].get("tags", [])), (
+            f"{outer_id} is a work layer and says nothing about the temperature")
+
+    mild_outers = {t["outer"] for t in V.TOP_GARMENTS if t["outer"]}
+    cold_outers = set(V.COLD_OUTER_BY_TOP.values())
+    gained = cold_outers - mild_outers
+    assert len(gained) >= 7, f"the cold cast only reaches {len(gained)} new garments: {sorted(gained)}"
+    for must in ("coat_wool", "coat_trench", "puffer_black", "puffer_olive", "puffer_red_long"):
+        assert must in cold_outers, f"{must} is still worn by nobody"
+
+
+def test_the_same_vector_dresses_differently_for_the_two_seasons():
+    import sys as _sys
+
+    _sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "blender" / "character"))
+    import variety as V
+
+    for vector in V.spread_vectors(24)[:6]:
+        mild = V.decode(vector)
+        cold = V.decode(vector, "cold")
+        assert mild.levels == cold.levels, "the season must not move the contract vector"
+        assert set(cold.outfit()) >= set(mild.outfit()) - {mild.entry("top_garment")["outer"]}, \
+            "the cold outfit dropped a garment rather than adding a shell"
+        assert len(cold.outfit()) >= len(mild.outfit()), "the cold outfit is not the warmer one"
+        assert V.COLD_OUTER_BY_TOP[mild.entry("top_garment")["id"]] in cold.outfit()
+    with pytest.raises(ValueError):
+        V.decode(V.spread_vectors(1)[0], "monsoon")

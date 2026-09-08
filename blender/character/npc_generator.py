@@ -136,7 +136,13 @@ def solve_height_macro(appearance: variety.PedAppearance, spec: mh_build.HumanSp
 def build_npc(appearance: variety.PedAppearance, vector: tuple[float, ...], index: int) -> NpcBuild:
     """Build one pedestrian in the current scene."""
     resolved = appearance.resolve()
-    name = f"npc_{index:02d}_{resolved['sex'][0]}_{resolved['age_band']}_{resolved['top_garment']}"
+    # A cold body is named for the garment you actually see.  Naming it for the base layer would
+    # give two bodies the same name -- npc_31_m_older_tee is a tee in one cast and a puffer over a
+    # tee in the other -- and the name is the asset id the engine loads.
+    worn = resolved["top_garment"]
+    if appearance.season == "cold":
+        worn = variety.COLD_OUTER_BY_TOP[resolved["top_garment"]]
+    name = f"npc_{index:02d}_{resolved['sex'][0]}_{resolved['age_band']}_{worn}"
     spec = spec_from_appearance(appearance, name)
     macro, probe_height, iterations = solve_height_macro(appearance, spec)
     log.info("%s: stature %.3f m (target %.3f m) at height macro %.4f after %d probe builds", name,
@@ -222,17 +228,27 @@ def author_clip_set(built: mh_build.BuiltHuman) -> tuple[list[anim_lib.Clip], di
     return build_character.build_clips(built)
 
 
-def generate(count: int, *, seed_base: int = 0x4E5943, export_glb: bool = True) -> dict:
-    """Generate ``count`` pedestrians from spread contract vectors, one scene at a time."""
+def generate(count: int, *, seed_base: int = 0x4E5943, export_glb: bool = True,
+             season: str = "mild", first_index: int = 0, keep_existing: bool = False) -> dict:
+    """Generate ``count`` pedestrians from spread contract vectors, one scene at a time.
+
+    ``first_index`` and ``keep_existing`` are what let a second cast be added without disturbing the
+    first.  :func:`variety.spread_vectors` gives index *i* the same vector whatever ``count`` is --
+    the strides and offsets come from the seed alone -- so bodies 0..23 are byte-identical whether
+    24 or 36 are asked for, every archetype index keeps its meaning, and no comparison sheet already
+    rendered against them goes stale.  ``keep_existing`` merges the entries already in
+    ``npc_variety.json`` whose index falls outside the range being built.
+    """
     chenv.ensure_dirs()
     NPC_DIR.mkdir(parents=True, exist_ok=True)
     catalog: list[dict] = []
     clip_report: dict = {}
-    vectors = variety.spread_vectors(count, seed=seed_base)
+    vectors = variety.spread_vectors(first_index + count, seed=seed_base)[first_index:]
     t0 = time.time()
-    for index, vector in enumerate(vectors):
+    for offset, vector in enumerate(vectors):
+        index = first_index + offset
         nb.reset_scene()
-        appearance = variety.decode(vector)
+        appearance = variety.decode(vector, season)
         npc = build_npc(appearance, vector, index)
         clips, report = author_clip_set(npc.built)
         if not clip_report:
@@ -271,8 +287,18 @@ def generate(count: int, *, seed_base: int = 0x4E5943, export_glb: bool = True) 
             entry["glb"] = str(path.relative_to(chenv.REPO_ROOT))
             entry["glb_summary"] = summary
         catalog.append(entry)
-        log.info("npc %d/%d %s: %.2f m, %d meshes (%.0f s elapsed)", index + 1, count, npc.spec.name,
+        entry["season"] = appearance.season
+        log.info("npc %d/%d %s: %.2f m, %d meshes (%.0f s elapsed)", offset + 1, count, npc.spec.name,
                  measurements["height_m"], len(npc.built.meshes()), time.time() - t0)
+
+    out = chenv.OUT_DIR / "npc_variety.json"
+    if keep_existing and out.is_file():
+        built = {int(e["index"]) for e in catalog}
+        previous = json.loads(out.read_text()).get("npcs", [])
+        catalog = sorted([e for e in previous if int(e["index"]) not in built] + catalog,
+                         key=lambda e: int(e["index"]))
+        if not clip_report:
+            clip_report = json.loads(out.read_text()).get("clip_report", {})
 
     manifest = {
         "schema_version": variety.CONTRACT_VERSION,
@@ -285,9 +311,9 @@ def generate(count: int, *, seed_base: int = 0x4E5943, export_glb: bool = True) 
                      for g in wardrobe.WARDROBE],
         "hairstyles": [{"id": h[0], "source": h[1], "label": h[2]} for h in wardrobe.HAIRSTYLES],
         "clip_report": clip_report,
+        "cold_outer_by_top": dict(variety.COLD_OUTER_BY_TOP),
         "npcs": catalog,
     }
-    out = chenv.OUT_DIR / "npc_variety.json"
     with open(out, "w", encoding="utf-8") as fh:
         json.dump(manifest, fh, indent=1, sort_keys=False)
     log.info("wrote %s (%d NPCs, %.0f s)", out, len(catalog), time.time() - t0)
@@ -300,8 +326,19 @@ def main(argv: list[str]) -> int:
                         help="how many NPCs; 12 or more exercises every level of every dimension")
     parser.add_argument("--seed", type=lambda s: int(s, 0), default=0x4E5943)
     parser.add_argument("--no-glb", action="store_true", help="build and catalogue but do not export")
+    parser.add_argument("--season", choices=("mild", "cold"), default="mild",
+                        help="'cold' puts variety.COLD_OUTER_BY_TOP over the same base layer (J53)")
+    parser.add_argument("--first-index", type=int, default=0,
+                        help="archetype index of the first body; the vector for an index does not "
+                             "depend on how many are asked for, so a second cast can be appended "
+                             "without disturbing the first")
+    parser.add_argument("--keep-existing", action="store_true",
+                        help="merge with the bodies already in npc_variety.json instead of "
+                             "replacing them")
     args = parser.parse_args(argv)
-    manifest = generate(args.count, seed_base=args.seed, export_glb=not args.no_glb)
+    manifest = generate(args.count, seed_base=args.seed, export_glb=not args.no_glb,
+                        season=args.season, first_index=args.first_index,
+                        keep_existing=args.keep_existing)
     heights = sorted(n["measurements_m"]["height_m"] for n in manifest["npcs"])
     print(json.dumps({"count": manifest["count"],
                       "contract_dimensions": [d["name"] for d in
