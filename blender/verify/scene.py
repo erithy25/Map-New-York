@@ -1419,6 +1419,67 @@ PAVEMENT_KINDS = {
 }
 
 
+#: Grid the pavement is cut on before draping, by distance from the camera.  ``build_pavement.py``
+#: cuts the shipped tiles on a fixed 2.5 m grid; the renderer grades it, because the burial this
+#: fixes is only visible in the near field and a 2.5 m grid over a 900 m disc is millions of
+#: triangles it has no budget for (docs/DEVIATIONS.md J64).
+PAVEMENT_REFINE_BANDS: tuple[tuple[float, float], ...] = ((60.0, 3.0), (150.0, 6.0), (400.0, 16.0))
+
+#: The two paint kinds in :data:`PAVEMENT_KINDS`.  They are already 0.1 m wide and refining them
+#: would cost triangles and change nothing.
+MARK_WHITE_KIND, MARK_YELLOW_KIND = 10, 11
+
+
+def _refine_cell_m(dist_m: float) -> float:
+    """Grid cell for a polygon whose nearest point is ``dist_m`` from the camera, or 0 for none."""
+    for reach, cell in PAVEMENT_REFINE_BANDS:
+        if dist_m <= reach:
+            return cell
+    return 0.0
+
+
+def _refine_polygon(poly, cell_m: float, shapely_mod):
+    """``poly`` cut into pieces no wider than ``cell_m``, so draping follows the ground inside it.
+
+    ``add_pavement`` drapes a polygon's **ring** and triangulates between those heights, so the
+    interior of a large polygon is a flat fan.  The roadbed polygon under the Broadway/Wall St
+    camera is 2,843 m2 and the street rises more than half a metre across it, which put the road
+    0.64 m *under* the terrain for the first thirty metres of the frame (J64).  Cutting the polygon
+    on a grid first gives the drape interior vertices to follow the grade with.
+
+    Returns ``[poly]`` unchanged when the polygon is already smaller than a cell, when no cell is
+    asked for, or when the cut fails -- a coarse polygon is better than a dropped one.
+    """
+    if cell_m <= 0.0:
+        return [poly]
+    x0, y0, x1, y1 = poly.bounds
+    if (x1 - x0) <= cell_m and (y1 - y0) <= cell_m:
+        return [poly]
+    # A cheap guard against a pathological polygon: a 900 m plaza on a 3 m grid is 90,000 cells.
+    if ((x1 - x0) / cell_m) * ((y1 - y0) / cell_m) > 20_000:
+        return [poly]
+    import math as _math
+
+    out = []
+    try:
+        gx = [x0 + i * cell_m for i in range(int(_math.ceil((x1 - x0) / cell_m)) + 1)]
+        gy = [y0 + j * cell_m for j in range(int(_math.ceil((y1 - y0) / cell_m)) + 1)]
+        for i in range(len(gx) - 1):
+            for j in range(len(gy) - 1):
+                cell = shapely_mod.box(gx[i], gy[j], gx[i + 1], gy[j + 1])
+                if not cell.intersects(poly):
+                    continue
+                piece = cell.intersection(poly)
+                if piece.is_empty or piece.area <= 0.0:
+                    continue
+                for q in (piece.geoms if piece.geom_type.startswith("Multi") else [piece]):
+                    if q.geom_type == "Polygon" and q.area > 1e-6:
+                        out.append(q)
+    except Exception:
+        return [poly]
+    return out or [poly]
+
+
 def _marking_rows(tname: str) -> list[tuple[int, bytes]]:
     """``(pavement kind, wkb)`` for the paint on one tile, or nothing if the tile has none.
 
@@ -1511,6 +1572,17 @@ def add_pavement(cx: float, cy: float, radius_m: float, sampler: TerrainSampler,
                 dropped += 1
                 continue
             polys = list(g.geoms) if g.geom_type == "MultiPolygon" else ([g] if g.geom_type == "Polygon" else [])
+            # Cut each polygon down to grid pieces before draping, finer near the camera.  Without
+            # this the interior of a large polygon is a flat fan between its edge heights and the
+            # terrain comes out on top of the road (J64).  Markings are already small and are left
+            # alone: cutting a 0.1 m line on a 3 m grid does nothing but cost.
+            if k not in (MARK_WHITE_KIND, MARK_YELLOW_KIND):
+                refined = []
+                for poly in polys:
+                    d = math.hypot(max(poly.bounds[0], min(cx, poly.bounds[2])) - cx,
+                                   max(poly.bounds[1], min(cy, poly.bounds[3])) - cy)
+                    refined.extend(_refine_polygon(poly, _refine_cell_m(d), shapely))
+                polys = refined
             for poly in polys:
                 ex = list(poly.exterior.coords)[:-1]
                 if len(ex) < 3:

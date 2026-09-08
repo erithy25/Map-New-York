@@ -1367,18 +1367,17 @@ def test_the_city_surfaces_resolve_their_own_material_names():
     spec = importlib.util.spec_from_file_location("_j63_scene_src", VERIFY_DIR / "scene.py")
     assert spec is not None
 
-    # The sixteen shell material names the tile exporter writes, read off a built tile rather than
-    # copied here, so a new material class cannot be added without this noticing.
-    tile = REPO_ROOT / "blender_out" / "tiles" / "t_-6_0" / "tile_buildings.glb"
-    if not tile.is_file():
+    # Every shell material name, read off **every** tile rather than one of them.  Reading one tile
+    # is how the texture trim came to delete precast (396 tiles), stucco (156) and vinyl_siding
+    # (1,087, the third most common material in the city): that tile carried sixteen of the
+    # nineteen names, and a list of names is a claim about 2,848 files.
+    sys.path.insert(0, str(REPO_ROOT / "tools"))
+    import trim_texture_cache as ttc
+
+    shell_names = sorted("NYCSIM_" + n for n in ttc.city_surface_names())
+    if not shell_names:
         pytest.skip("no built tiles in this checkout")
-    import struct
-    with tile.open("rb") as f:
-        f.read(12)
-        ln, _ = struct.unpack("<II", f.read(8))
-        doc = json.loads(f.read(ln))
-    shell_names = sorted(m["name"] for m in doc.get("materials", []))
-    assert shell_names, "the tile declares no materials"
+    assert len(shell_names) >= 16, shell_names
 
     # Every one of them must resolve in the shared catalogue, and its texture set must be on disk.
     # glass_curtain is the one deliberate exception: it resolves to a procedural entry with no
@@ -1414,4 +1413,7 @@ def test_the_city_surfaces_resolve_their_own_material_names():
             continue
         assert rec.get("dressed"), f"{d.name}: reports a materials block that dressed nothing"
         for base, why in (rec.get("flat") or {}).items():
-            assert base == "glass_curtain", f"{d.name}: {base} stayed flat -- {why}"
+            # A surface the catalogue authors analytically may stay flat -- glass is dark, sharp
+            # and part-metallic by design. A surface whose texture is simply not on disk may not:
+            # that is how the texture trim silently un-dressed precast, stucco and vinyl_siding.
+            assert "analytic" in str(why), f"{d.name}: {base} stayed flat -- {why}"
