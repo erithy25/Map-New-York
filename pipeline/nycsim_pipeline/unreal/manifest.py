@@ -1090,8 +1090,9 @@ def _parquet_to_json(src: Path, dst: Path, columns: list[str], *,
             r["x"] = float(r["x"]) - tile_origin[0]
             r["y"] = float(r["y"]) - tile_origin[1]
         if prop_assets is not None and r.get("kind") is not None:
-            entry, why = prop_assets.resolve(r["kind"], variant=r.get("variant"),
-                                             species=r.get("species") or "", height_m=r.get("height_m"))
+            entry, why, scale = prop_assets.resolve_scaled(
+                r["kind"], variant=r.get("variant"),
+                species=r.get("species") or "", height_m=r.get("height_m"))
             path = (asset_paths or {}).get((entry or {}).get("glb", ""))
             if path is None:
                 key = why if entry is None else f"{why}:no imported mesh for {entry.get('id')}"
@@ -1102,12 +1103,22 @@ def _parquet_to_json(src: Path, dst: Path, columns: list[str], *,
                     i = asset_index[path] = len(assets)
                     assets.append(path)
                 r["a"] = i
+                # The editor has to draw the tree at the height the census measured, exactly as the
+                # verification renderer does; without this the engine keeps the J70 canopy.  Only
+                # trees ever carry it, so the key is written only when it is not 1.
+                if scale != 1.0:
+                    r["s"] = round(float(scale), 4)
         rows.append(_jsonable(r))
     doc = {"schema_version": SCHEMA_VERSION, "source": src.name, "origin_local": tile_origin is not None,
            "columns": cols, "count": len(rows), "rows": rows}
     if prop_assets is not None:
         doc["assets"] = assets
         doc["asset_key"] = "a"
+        doc["scale_key"] = "s"
+        doc["scale_default"] = 1.0
+        doc["scale_note"] = ("uniform instance scale; present only where it is not 1.  A tree row "
+                             "carries the height the census measured and the exported asset does "
+                             "not stand at that height, so the instance is scaled to it (J70).")
         doc["unresolved"] = dict(sorted(unmapped.items(), key=lambda kv: -kv[1]))
     dst.write_text(json.dumps(doc, separators=(",", ":")))
     if prop_assets is None:

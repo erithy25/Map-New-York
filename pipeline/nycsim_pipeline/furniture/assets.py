@@ -122,9 +122,29 @@ KIND_TO_KIT_PIECE: dict[str, str] = {
     "cooling_tower": "hvac_cooling_tower",
 }
 
-#: The two height thresholds that pick a tree's size class, in metres.  They are the bin edges the
-#: props kit exported its three sizes against.
+#: The two height thresholds that pick a tree's size class, in metres.
+#:
+#: These are **not** the heights the props kit's three sizes actually stand at, and treating them
+#: as if they were is what put 2,248 km of surplus canopy over the city (docs/DEVIATIONS.md J70).
+#: A pin oak's three exported assets are 11.8, 18.3 and 22.6 m tall and a plane tree's are 20.7,
+#: 24.0 and 27.7 m, so a census tree measured at 8 m -- between these edges -- was drawn with the
+#: "medium" asset and stood 18.3 or 24.0 m over the street.  They survive only as the fallback
+#: ordering for a species whose assets are not in the catalogue; :func:`tree_asset` reads the real
+#: exported heights and picks the nearest.
 TREE_SIZE_EDGES = (7.0, 12.0)
+
+#: How far an instance may be scaled away from the asset it was cut from.  Uniform scale is
+#: honest for a tree -- crown spread tracks height within a species -- but a scale far from 1
+#: means the wrong asset was picked or the measured height is wrong, and stretching a mesh that
+#: far would be inventing a tree rather than drawing the measured one.  Outside the band the
+#: nearest asset is drawn at its own size, the reason says so, and the row is counted.
+#:
+#: The band is set from the requirement, not from taste.  With the nearest exported size chosen
+#: by its own height the scale the 651,023 census and OSM trees actually ask for runs 0.156 to
+#: 2.765 with a median of **0.953**: most trees barely move, and the tail is young trees of a
+#: species whose smallest exported asset is already large (the kit's smallest plane tree is
+#: 20.7 m).  0.30 to 2.20 covers all but **2,922 rows, 0.45 %**, which keep the asset's own size.
+TREE_SCALE_MIN, TREE_SCALE_MAX = 0.30, 2.20
 
 #: Height used when a tree row carries none -- the median of the 2015 census after allometry.
 TREE_DEFAULT_HEIGHT_M = 8.0
@@ -199,9 +219,48 @@ class PropAssets:
     #: ``dataset_kind`` -> ``{variant code: asset id}``, read from the assets' own ``variant:N``
     #: tags.  Empty for a kind that declares none, which is every kind but ``street_lamp`` today.
     variants_by_kind: dict[str, dict[int, str]] = field(default_factory=dict)
+    #: ``asset id`` -> the height in metres of the mesh that was exported under it, read from the
+    #: catalogue's own bounds.  Empty when the catalogue is not on disk.
+    asset_height_m: dict[str, float] = field(default_factory=dict)
 
     def name_of(self, kind_id: int) -> str:
         return self.kind_names.get(int(kind_id), str(int(kind_id)))
+
+    def tree_asset(self, species: str, height_m: Any, leaf_off: bool = False) -> tuple[dict | None, str, float]:
+        """``(catalogue entry, reason, uniform scale)`` for one tree of a measured height.
+
+        The measured height is real: the census records a trunk diameter and ``allometry.height_m``
+        turns it into a height by a published species curve.  Until J70 that number only chose one
+        of three bins and was then thrown away, so the tree drawn was whatever size the kit had
+        exported -- 651,023 trees at a median 1.26x their measured height, 185,837 of them at 1.5x
+        or more.  Now the nearest exported size is chosen by its *own* height and the remainder is
+        taken up by a uniform scale, so the tree in the frame is the height the census measured.
+        """
+        want = clean_height(height_m)
+        asset_id, exact = tree_asset_id(str(species or ""), want, leaf_off)
+        entry = self.by_id.get(asset_id)
+        if entry is None:
+            return None, "tree", 1.0
+        # Prefer the exported size nearest the measured height: it keeps the scale nearest 1, so
+        # the leaves and bark stay nearest the size they were modelled at.
+        prefix = asset_id.rsplit("_", 2)[0] if leaf_off else asset_id.rsplit("_", 1)[0]
+        suffix = "_bare" if leaf_off else ""
+        best, best_h = entry, self.asset_height_m.get(asset_id)
+        for size in ("small", "medium", "large"):
+            cand_id = f"{prefix}_{size}{suffix}"
+            cand = self.by_id.get(cand_id)
+            ch = self.asset_height_m.get(cand_id)
+            if cand is None or ch is None or ch <= 0.0:
+                continue
+            if best_h is None or best_h <= 0.0 or abs(ch - want) < abs(best_h - want):
+                best, best_h = cand, ch
+        why = "ok" if exact else "species_substituted"
+        if not best_h or best_h <= 0.0:
+            return best, why, 1.0
+        scale = want / best_h
+        if scale < TREE_SCALE_MIN or scale > TREE_SCALE_MAX:
+            return best, f"{why}:scale_out_of_band", 1.0
+        return best, why, scale
 
     def resolve(self, kind_id: int, *, variant: Any = 0, species: str = "",
                 height_m: Any = None, leaf_off: bool = False) -> tuple[dict | None, str]:
@@ -210,26 +269,37 @@ class PropAssets:
         ``reason`` is ``"ok"``, ``"species_substituted"``, ``"built_elsewhere"`` or the kind name
         that could not be mapped, so a caller can count what it dropped instead of dropping it
         silently -- and can tell a gap from a division of labour.
+
+        A caller that *draws* the row must use :meth:`resolve_scaled` instead: a tree carries a
+        measured height and the asset it resolves to does not stand at that height (J70).
+        """
+        return self.resolve_scaled(kind_id, variant=variant, species=species,
+                                   height_m=height_m, leaf_off=leaf_off)[:2]
+
+    def resolve_scaled(self, kind_id: int, *, variant: Any = 0, species: str = "",
+                       height_m: Any = None, leaf_off: bool = False) -> tuple[dict | None, str, float]:
+        """:meth:`resolve` plus the uniform scale the instance is to be drawn at.
+
+        The scale is 1.0 for every kind but ``tree``, whose rows carry a measured height that the
+        exported asset does not stand at.  Everything that draws or exports a prop goes through
+        this, so the renderer, the Unreal manifest and the editor cannot disagree about the size
+        of the same object.
         """
         name = self.name_of(kind_id)
         if name in BUILT_ELSEWHERE:
-            return None, f"{BUILT_ELSEWHERE_REASON}:{name}"
+            return None, f"{BUILT_ELSEWHERE_REASON}:{name}", 1.0
         if name == "tree":
-            asset_id, exact = tree_asset_id(str(species or ""), clean_height(height_m), leaf_off)
-            entry = self.by_id.get(asset_id)
-            if entry is None:
-                return None, name
-            return entry, "ok" if exact else "species_substituted"
+            return self.tree_asset(str(species or ""), height_m, leaf_off)
         piece = KIND_TO_KIT_PIECE.get(name)
         if piece is not None:
             entry = self.kit_by_id.get(piece)
-            return (entry, "ok") if entry is not None else (None, name)
+            return (entry, "ok", 1.0) if entry is not None else (None, name, 1.0)
         alias = PROP_KIND_ALIASES.get(name, name)
         if alias is None:
-            return None, name
+            return None, name, 1.0
         choices = self.by_kind.get(alias) or []
         if not choices:
-            return None, name
+            return None, name, 1.0
         try:
             v = int(variant)
         except (TypeError, ValueError):
@@ -240,33 +310,39 @@ class PropAssets:
             if asset_id is not None:
                 entry = self.by_id.get(asset_id)
                 if entry is not None:
-                    return entry, "ok"
+                    return entry, "ok", 1.0
             # The code is outside the declared set -- 0 "unknown" for a kind whose assets all name
             # a real fixture, or a code no asset claims.  Fall back to the kind's own default and
             # say so, rather than let a modulo pick whichever id happens to sort into that slot.
             fallback = DEFAULT_VARIANT.get(alias)
             entry = self.by_id.get(declared.get(fallback, "")) if fallback is not None else None
             if entry is not None:
-                return entry, f"variant_default:{v}"
-            return choices[0], f"variant_unmapped:{v}"
+                return entry, f"variant_default:{v}", 1.0
+            return choices[0], f"variant_unmapped:{v}", 1.0
         # No kind but street_lamp declares a map today; position in the id-sorted list is all
         # there is to go on, and it is only ever right by coincidence -- so it is not a modulo any
         # more either: a code past the end is reported, not wrapped.
         if 0 <= v < len(choices):
-            return choices[v], "ok"
-        return choices[0], f"variant_out_of_range:{v}"
+            return choices[v], "ok", 1.0
+        return choices[0], f"variant_out_of_range:{v}", 1.0
 
 
 def load(processed: Path, blender_out: Path) -> PropAssets:
     """Read the two catalogues.  Missing files give an empty index rather than an exception."""
     by_id: dict[str, dict] = {}
     by_kind: dict[str, list[dict]] = {}
+    asset_height_m: dict[str, float] = {}
     cat_path = Path(blender_out) / "props" / "props_asset_catalog.json"
     if cat_path.is_file():
         doc = json.loads(cat_path.read_text())
         for e in doc.get("entries", []):
             by_id[e["id"]] = e
             by_kind.setdefault(str(e.get("dataset_kind") or ""), []).append(e)
+            b = e.get("bounds") or {}
+            try:
+                asset_height_m[str(e["id"])] = float(b["max"][2]) - float(b["min"][2])
+            except (KeyError, IndexError, TypeError, ValueError):
+                pass
     for entries in by_kind.values():
         entries.sort(key=lambda e: e["id"])
     variants_by_kind = {k: declared_variants(v) for k, v in by_kind.items()}
@@ -285,4 +361,4 @@ def load(processed: Path, blender_out: Path) -> PropAssets:
                 kit_by_id[str(cid)] = {"id": cid, "glb": piece.get("glb"),
                                        "category": piece.get("category"), "source": "kit"}
     return PropAssets(by_id=by_id, by_kind=by_kind, kind_names=kind_names, kit_by_id=kit_by_id,
-                      variants_by_kind=variants_by_kind)
+                      variants_by_kind=variants_by_kind, asset_height_m=asset_height_m)

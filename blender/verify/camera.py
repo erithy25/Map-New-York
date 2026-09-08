@@ -352,6 +352,46 @@ def first_solid_above(x: float, y: float, z: float, *, limit_m: float = UP_RAY_M
     return None, None, None
 
 
+#: Rays cast in a cone about vertical to measure how much sky an eye point has over it, and how
+#: far each one looks.  35 deg is roughly the half-angle of the sky a canyon or a canopy leaves;
+#: 120 m clears every street tree and every low shed without reaching for the towers a block away,
+#: which are part of the street rather than a fault in the viewpoint.
+SKY_CONE_DEG = 35.0
+SKY_RAY_M = 120.0
+SKY_RINGS = (0.0, 18.0, 35.0)
+SKY_SPOKES = 8
+#: How much of that cone a *retry* candidate has to see.  Only frames the luminance gate has
+#: already rejected are held to it, so this is not a rule about how a street should look -- it is
+#: the difference between a viewpoint that can be photographed and one that cannot.  A third of
+#: the cone is what a Manhattan avenue between towers leaves; a closed street canopy leaves none.
+SKY_MIN_FRACTION = 0.30
+
+
+def sky_fraction(x: float, y: float, z: float) -> float:
+    """How much of the sky within ``SKY_CONE_DEG`` of vertical this eye point can see, 0..1.
+
+    Unlike :func:`first_solid_above` this counts foliage, because that is the point: a camera
+    under a closed street canopy is outdoors by every test the placement rule applies and still
+    renders a frame with no light in it.  Simulated agents are stepped past -- a pedestrian who
+    happened to walk under the lens on this seed must not move a viewpoint (J49).
+    """
+    from mathutils import Vector
+    dg = bpy.context.evaluated_depsgraph_get()
+    origin = Vector((x, y, z))
+    counts = lambda ob: not _is_agent(ob)          # noqa: E731 -- a predicate for _ray_past
+    open_rays = total = 0
+    for ring in SKY_RINGS:
+        n = 1 if ring <= 0.0 else SKY_SPOKES
+        for k in range(n):
+            az = 2.0 * math.pi * k / n
+            t = math.radians(ring)
+            d = Vector((math.sin(t) * math.cos(az), math.sin(t) * math.sin(az), math.cos(t)))
+            total += 1
+            if _ray_past(dg, origin, d, SKY_RAY_M, counts) is None:
+                open_rays += 1
+    return open_rays / max(total, 1)
+
+
 def _blocked(x: float, y: float, z: float, azimuth_deg: float) -> tuple[bool, str]:
     """Is this eye point inside a building shell, or hard against a wall?
 
@@ -873,6 +913,10 @@ def clearance_fields(got: dict) -> dict:
            "nearest_agent_probe_m": round(float(got.get("probe_m", 0.0)), 1)}
     if got.get("agent_what"):
         out["nearest_agent_at_deg"] = [round(v, 1) for v in got["agent_at"]]
+    if got.get("sky") is not None:
+        # Only measured on a retry, so its absence means it was never asked for, not that it is zero.
+        out["sky_fraction"] = round(float(got["sky"]), 3)
+        out["sky_cone_deg"] = SKY_CONE_DEG
     return out
 
 
@@ -981,7 +1025,8 @@ def pavement_candidates(x: float, y: float, *, max_m: float = 70.0) -> list[dict
 
 def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 80.0,
                       step_m: float = 2.0, min_view_m: float = 15.0, force: bool = False,
-                      has_subject: bool = False, origin_is_photo: bool = False) -> dict:
+                      has_subject: bool = False, origin_is_photo: bool = False,
+                      need_sky: bool = False) -> dict:
     """Correct an unusable eye point and record what was done to it.
 
     Two things can be wrong with a recorded viewpoint, and they are corrected in this order:
@@ -1012,7 +1057,7 @@ def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 8
         placement.ground_source = deck_why
     out = _move_clear_of_geometry(placement, sampler, max_m=max_m, step_m=step_m,
                                   min_view_m=min_view_m, force=force, has_subject=has_subject,
-                                  origin_is_photo=origin_is_photo)
+                                  origin_is_photo=origin_is_photo, need_sky=need_sky)
     if deck_why:
         out["stood_on_deck"] = deck_why
     return out
@@ -1020,7 +1065,8 @@ def clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 8
 
 def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: float = 80.0,
                             step_m: float = 2.0, min_view_m: float = 15.0, force: bool = False,
-                            has_subject: bool = False, origin_is_photo: bool = False) -> dict:
+                            has_subject: bool = False, origin_is_photo: bool = False,
+                            need_sky: bool = False) -> dict:
     """Move an eye point that landed inside a building out to the real pavement, and say so.
 
     The camera is only moved when it is demonstrably inside geometry.  Two corrections are tried,
@@ -1111,8 +1157,16 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
                                   pitches_deg=pitches, yaw_steps=yaws)
         # ``sees`` counts built fabric only, deliberately: a viewpoint that moved because a
         # simulated pedestrian walked past the lens would land somewhere else on the next seed.
-        return {"z": nz, "gz": gz, "detail": detail, "view_m": view_m, **reading,
-                "sees": view_m >= min_view_m and reading["near_m"] >= min_clear_m}
+        sees = view_m >= min_view_m and reading["near_m"] >= min_clear_m
+        # A viewpoint can pass every test above and still have no light on it, because none of
+        # them looks up.  ``need_sky`` is set only on the retry that follows a frame the luminance
+        # gate has already rejected, so the ordinary placement keeps its canopy shade: Arthur
+        # Avenue's tree tunnel is what that street looks like and must not be walked out of.
+        sky = sky_fraction(nx, ny, nz) if need_sky else None
+        if need_sky:
+            sees = sees and sky >= SKY_MIN_FRACTION
+        return {"z": nz, "gz": gz, "detail": detail, "view_m": view_m, "sky": sky, **reading,
+                "sees": sees}
 
     def commit(nx: float, ny: float, got: dict) -> None:
         cam = bpy.context.scene.camera
@@ -1142,8 +1196,9 @@ def _move_clear_of_geometry(placement: "CameraPlacement", sampler, *, max_m: flo
         # Rank the fallback on how much of the *frame* is open, then on the axis. Ranking on the
         # axis alone is what let a camera hard against a block face win: it could see 60 m up the
         # street past the corner of the building filling the rest of its picture.
-        key = (got["near_m"], got["view_m"])
-        if fallback is None or key > (fallback[2]["near_m"], fallback[2]["view_m"]):
+        key = ((got["sky"] or 0.0) if need_sky else 0.0, got["near_m"], got["view_m"])
+        if fallback is None or key > (((fallback[2]["sky"] or 0.0) if need_sky else 0.0),
+                                      fallback[2]["near_m"], fallback[2]["view_m"]):
             fallback = (cand["x"], cand["y"], got, round(cand["distance_m"], 1),
                         f"onto the nearest {cand['kind']}", desc)
 

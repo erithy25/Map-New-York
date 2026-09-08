@@ -884,3 +884,63 @@ def test_the_lamp_rule_carries_both_the_road_class_and_the_pedestrian_flag():
     cols = R.street_lamps(seg, np.empty((0, 2)))
     got = {(int(d["rw_type"]), str(d["nonped"])) for d in (_json.loads(a) for a in cols["attrs"])}
     assert got == {(1, ""), (1, "V")}, got
+
+
+# --------------------------------------------------------------------------- J70: a tree is its measured height
+def test_a_tree_is_drawn_at_the_height_its_own_row_records():
+    """The census measures a trunk diameter and ``allometry`` turns it into a height by a published
+    species curve.  Until J70 that number only chose one of three exported sizes and was then
+    discarded, so what stood on the street was whatever height the kit had exported: a pin oak's
+    three assets are 11.8, 18.3 and 22.6 m and a plane tree's are 20.7, 24.0 and 27.7 m, while the
+    bin edges were 7 m and 12 m.  A tree measured at 8 m stood 18.3 m over the pavement."""
+    from pathlib import Path
+
+    from nycsim_pipeline.furniture import assets as A
+
+    root = Path(__file__).resolve().parents[2]
+    idx = A.load(root / "data" / "processed", root / "blender_out")
+    if not idx.asset_height_m:
+        pytest.skip("props_asset_catalog.json not produced yet")
+
+    for species, want in (("Quercus palustris", 8.0), ("Quercus palustris", 18.0),
+                          ("Platanus x acerifolia", 9.0), ("Tilia cordata", 5.0),
+                          ("Ginkgo biloba", 14.0), ("Acer platanoides", 11.0)):
+        entry, why, scale = idx.tree_asset(species, want)
+        assert entry is not None, f"{species} resolved to no asset"
+        h = idx.asset_height_m.get(entry["id"])
+        assert h and h > 0, f"{entry['id']} publishes no height"
+        assert A.TREE_SCALE_MIN <= scale <= A.TREE_SCALE_MAX
+        drawn = h * scale
+        assert abs(drawn - want) < 0.05, (
+            f"{species} measured {want} m is drawn {drawn:.1f} m as {entry['id']} "
+            f"({h:.1f} m x {scale:.3f}); reason {why}")
+
+    # The nearest exported size must be chosen, so the scale stays as near 1 as the kit allows.
+    entry, _why, scale = idx.tree_asset("Quercus palustris", 18.0)
+    assert entry["id"] == "tree_pin_oak_medium", f"18 m pin oak resolved to {entry['id']}"
+    assert 0.95 < scale < 1.05
+
+
+def test_only_a_tree_is_ever_scaled_away_from_the_size_it_was_exported_at():
+    """Every other prop is a manufactured object whose size is a measurement in its own glb -- a
+    hydrant, a bus stop sign, a mailbox.  Scaling one would make the frame lie about it, and
+    ``audit_prop_assets`` checks each against its catalogue entry on the assumption that nothing
+    scales it.  Only ``tree`` rows carry a height to be drawn at."""
+    from pathlib import Path
+
+    from nycsim_pipeline.furniture import assets as A
+
+    root = Path(__file__).resolve().parents[2]
+    idx = A.load(root / "data" / "processed", root / "blender_out")
+    if not idx.kind_names:
+        pytest.skip("props_catalog.json not produced yet")
+
+    scaled = []
+    for kind_id, name in sorted(idx.kind_names.items()):
+        if name == "tree":
+            continue
+        for variant in range(4):
+            _entry, _why, scale = idx.resolve_scaled(kind_id, variant=variant, height_m=9.0)
+            if scale != 1.0:
+                scaled.append(f"{name} (kind {kind_id}, variant {variant}) -> x{scale}")
+    assert not scaled, "a non-tree prop was scaled away from its exported size:\n  " + "\n  ".join(scaled)

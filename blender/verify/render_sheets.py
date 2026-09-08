@@ -1189,8 +1189,14 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     if not frame["usable"]:
         LOG.warning("%s: first frame is %s; forcing the clearance correction and re-rendering",
                     slug, frame["reason"])
+        # The retry also demands sky.  Nothing in the ordinary placement rule looks up, so a camera
+        # under a closed street canopy passes every test and renders a frame with no light in it --
+        # Sixth Avenue at 45th Street stood under a pin oak with 150 m of clear street ahead of it
+        # and came out at mean 0.033 (DEVIATIONS J69).  The requirement is confined to this path,
+        # where the luminance gate has already said the frame is not evidence, so a street that is
+        # genuinely in canopy shade keeps its shade.
         forced = vcam.clear_of_geometry(placement, sampler, min_view_m=min_view_m, origin_is_photo=origin_is_photo, force=True,
-                                        has_subject=subj_dist is not None)
+                                        has_subject=subj_dist is not None, need_sky=True)
         forced["min_view_m"] = round(min_view_m, 1)
         if forced.get("moved"):
             bpy.ops.render.render(write_still=True)

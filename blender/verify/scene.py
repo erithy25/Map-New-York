@@ -1895,6 +1895,9 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
     #: kinds another stage builds -- not a gap, and counted apart from one (J21)
     elsewhere: dict[str, int] = {}
     species_substituted = 0
+    scale_out_of_band = 0
+    scaled = 0
+    scale_sum = 0.0
     for idx in order:
         if placed >= max_instances:
             capped_reason = f"instance cap {max_instances}"
@@ -1907,17 +1910,19 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
         kind_name = assets_index.name_of(kind_id)
         # One resolver for the renderer, the manifest and the editor: which asset a row is was
         # answered three different ways and two of them answered "none" for every row in the city.
-        entry, why = assets_index.resolve(kind_id, variant=merged["variant"][i],
-                                          species=merged["species"][i] or "",
-                                          height_m=merged["height_m"][i], leaf_off=leaf_off)
+        entry, why, scale = assets_index.resolve_scaled(kind_id, variant=merged["variant"][i],
+                                                        species=merged["species"][i] or "",
+                                                        height_m=merged["height_m"][i], leaf_off=leaf_off)
         if entry is None:
             if prop_assets.is_built_elsewhere(why):
                 elsewhere[kind_name] = elsewhere.get(kind_name, 0) + 1
             else:
                 unmapped[kind_name] = unmapped.get(kind_name, 0) + 1
             continue
-        if why == "species_substituted":
+        if why.startswith("species_substituted"):
             species_substituted += 1
+        if why.endswith(":scale_out_of_band"):
+            scale_out_of_band += 1
         tpl = lib.get(BLENDER_OUT / entry["glb"], key=f"prop:{entry['id']}", max_lod=0)
         if tpl is None:
             unmapped[kind_name] = unmapped.get(kind_name, 0) + 1
@@ -1934,8 +1939,16 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
             # asset is authored facing +Y (north) in Blender, so the scene yaw about +Z is the
             # negated bearing.
             yaw = math.radians(-float(head))
-        m = Matrix.Translation((float(xs[i]), float(ys[i]), float(z))) @ Euler((0.0, 0.0, yaw)).to_matrix().to_4x4()
+        # A tree is drawn at the height the census measured it, not at the height the kit happened
+        # to export its size class at (J70).  ``resolve_scaled`` returns 1.0 for every other kind,
+        # so this multiplication is the identity for all 123 non-tree assets.
+        m = (Matrix.Translation((float(xs[i]), float(ys[i]), float(z)))
+             @ Euler((0.0, 0.0, yaw)).to_matrix().to_4x4()
+             @ Matrix.Diagonal((float(scale), float(scale), float(scale), 1.0)))
         tpl.instance(f"prop_{entry['id']}_{placed}", m, col or bpy.context.scene.collection)
+        if scale != 1.0:
+            scaled += 1
+            scale_sum += float(scale)
         placed += 1
         tris += tpl.triangles
         per_kind[kind_name] = per_kind.get(kind_name, 0) + 1
@@ -1945,6 +1958,12 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
             "capped": capped_reason, "per_kind": dict(sorted(per_kind.items(), key=lambda kv: -kv[1])),
             "unmapped_kinds": unmapped, "kinds_built_elsewhere": elsewhere,
             "tree_species_substituted": species_substituted,
+            # J70: a tree is drawn at its measured height.  ``tree_instances_scaled`` counts the
+            # rows that needed a scale other than 1 and ``tree_mean_scale`` says how far they
+            # moved, so a sheet can state what the canopy over it was sized from.
+            "tree_instances_scaled": scaled,
+            "tree_mean_scale": round(scale_sum / scaled, 3) if scaled else None,
+            "tree_scale_out_of_band": scale_out_of_band,
             "tiles_read": sorted(tiles_read), "tiles_missing": sorted(tiles_missing),
             "radius_m": radius_m}
 

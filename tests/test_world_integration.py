@@ -1502,3 +1502,66 @@ def test_no_elevation_carries_more_tiers_of_windows_than_its_own_typology_allows
     assert not church.any(), (
         f"{int(church.sum())} churches carry a rooftop gravity tank; the storey count that made them "
         f"eligible is a spire height divided by a storey height")
+
+
+def test_the_citys_canopy_stands_at_the_height_the_tree_census_measured():
+    """2,248 km of surplus canopy, and every street frame in the project was drawn under it.
+
+    A street tree row carries `species` and `dbh_cm` from the 2015 census, and
+    `furniture/allometry.py` turns the trunk diameter into a height by a published species curve.
+    Until J70 that height only chose one of three exported sizes -- on bin edges of 7 m and 12 m --
+    and the instance was then drawn at whatever height the kit had exported, because
+    `scene.add_props` places a prop by translation and yaw alone. A pin oak's three assets stand at
+    11.8, 18.3 and 22.6 m and a plane tree's at 20.7, 24.0 and 27.7 m, so a tree measured at 8 m
+    stood 18.3 or 24.0 m over the pavement. Across the 651,023 trees that carry both a species and
+    a height the median asset was **1.26x** the measured height, **185,837 (28.5 %)** were 1.5x or
+    more and **62,997 (9.7 %)** were at least twice it (docs/DEVIATIONS.md J70).
+
+    The fix uses the number that was already there: the nearest exported size is chosen by its own
+    height and the remainder is taken up by a uniform instance scale. This test reads the published
+    rows and the published catalogue and checks the tree that *would be drawn*, so it fails if the
+    resolver, the catalogue or the census move apart again.
+    """
+    import numpy as np
+
+    from nycsim_pipeline.furniture import assets as A
+
+    idx = A.load(PROCESSED, BLENDER_OUT)
+    if not idx.asset_height_m or not idx.kind_names:
+        pytest.skip("prop catalogues not produced yet")
+    files = sorted(TILES.glob("*/props.parquet"))
+    if not files:
+        pytest.skip("tile props not produced yet")
+
+    ratios: list[float] = []
+    out_of_band = 0
+    for path in files[::7]:                       # every seventh tile: 235 of 1,648, ~90k trees
+        t = pq.read_table(path, columns=["species", "height_m"])
+        species = t["species"].to_pylist()
+        heights = np.asarray(t["height_m"])
+        for i, sp in enumerate(species):
+            h = heights[i]
+            if not sp or h is None or not np.isfinite(h) or h <= 0:
+                continue
+            entry, why, scale = idx.tree_asset(sp, float(h))
+            if entry is None:
+                continue
+            asset_h = idx.asset_height_m.get(entry["id"])
+            if not asset_h:
+                continue
+            if why.endswith(":scale_out_of_band"):
+                out_of_band += 1
+                continue
+            ratios.append(asset_h * scale / float(h))
+
+    assert len(ratios) > 10_000, f"only {len(ratios)} trees sampled; the check is not meaningful"
+    r = np.asarray(ratios)
+    worst = float(np.abs(r - 1.0).max())
+    assert worst < 0.02, (
+        f"a tree is drawn {r[np.argmax(np.abs(r - 1.0))]:.2f}x its measured height; "
+        f"the census height must reach the frame, not just choose a bin")
+    # The band is a declared limit, not a silent one: it may not swallow a large share of the city.
+    share = out_of_band / max(len(ratios) + out_of_band, 1)
+    assert share < 0.01, (
+        f"{share:.2%} of trees fall outside the {A.TREE_SCALE_MIN}-{A.TREE_SCALE_MAX} scale band "
+        f"and keep the asset's own size; the band or the kit's sizes need revisiting")

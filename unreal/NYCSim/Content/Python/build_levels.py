@@ -360,6 +360,13 @@ def place_props(tile: str, processed_root: str) -> int:
         WARN(f"{tile}: props.json has no resolved asset list; regenerate the manifest")
         return 0
     key = document.get("asset_key") or "a"
+    # A tree row carries the height the census measured for it, and the exported asset does not
+    # stand at that height: the kit's three sizes per species are fixed and the measured height
+    # used only to pick one of them, so the median street tree stood 1.26x its measured height and
+    # 185,837 of them at 1.5x or more (DEVIATIONS J70). The manifest now resolves the uniform scale
+    # that puts each tree at its measured height, and writes it per row wherever it is not 1.
+    scale_key = document.get("scale_key") or "s"
+    scale_default = float(document.get("scale_default") or 1.0)
     by_asset = {}
     for row in document.get("rows", []):
         index = row.get(key)
@@ -385,8 +392,15 @@ def place_props(tile: str, processed_root: str) -> int:
             y = origin_y + float(row["y"])
             z = float(row.get("z") or 0.0)
             yaw = heading_to_yaw(float(row.get("heading") or 0.0))
+            try:
+                scale = float(row.get(scale_key, scale_default))
+            except (TypeError, ValueError):
+                scale = scale_default
+            if not (scale > 0.0):
+                scale = scale_default
             transforms.append(unreal.Transform(
-                nyctm_to_ue(x, y, z), unreal.Rotator(0.0, 0.0, yaw), unreal.Vector(1.0, 1.0, 1.0)))
+                nyctm_to_ue(x, y, z), unreal.Rotator(0.0, 0.0, yaw),
+                unreal.Vector(scale, scale, scale)))
         placed += spawn_instances(mesh, transforms, f"{tile}_props_{label}", "NYCBuildingShell")
     return placed
 
