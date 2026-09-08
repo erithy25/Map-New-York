@@ -286,12 +286,14 @@ SPECS = [
     C.PropSpec("flag_us_pole", "construction", "flagpole", build_flag_us, (1.71, 0.30, 6.21),
                "US flag on a 20 ft satin-aluminium pole with a gold ball finial: 3 x 5 ft flag drawn to Executive "
                "Order 10834 proportions (hoist 1.0 : fly 1.9, union 0.5385 x 0.76, 50 stars in 9 rows of 6-5) on a "
-               "waving FLAG_FACE plane.", variants=["flag_nyc_pole"], tags=["flag"], tolerance=0.10),
+               "waving FLAG_FACE plane.", variants=["flag_nyc_pole"], tags=["flag", "variant:1"],
+               tolerance=0.10),
     C.PropSpec("flag_nyc_pole", "construction", "flagpole", build_flag_nyc, (1.71, 0.30, 6.21),
                "Flag of the City of New York on the same 20 ft pole: blue-white-orange vertical tricolour with the "
                "city seal in blue on the white bar. The seal is drawn as its principal charges (windmill sails "
                "saltire, two beavers, two flour barrels, the date 1625), not the full engraved arms — swap the "
-               "FLAG_FACE texture for an exact seal.", variants=["flag_us_pole"], tags=["flag"], tolerance=0.10),
+               "FLAG_FACE texture for an exact seal.", variants=["flag_us_pole"],
+               tags=["flag", "variant:0"], tolerance=0.10),
     C.PropSpec("pigeon", "furniture", "fauna", build_pigeon, (0.12, 0.34, 0.19),
                "Rock dove (Columba livia) standing: 0.34 m bill to tail tip (the species is 29-37 cm), 0.19 m tall, grey body with an iridescent "
                "neck and red feet. Static mesh; the engine animates it as a flock actor.",

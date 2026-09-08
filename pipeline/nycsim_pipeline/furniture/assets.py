@@ -37,9 +37,18 @@ from typing import Any
 PROP_KIND_ALIASES: dict[str, str | None] = {
     "waste_basket": "waste_basket",
     "street_lamp": "street_lamp",
-    "bus_stop_sign": "road_sign",
-    "rtpi_sign": "road_sign",
-    "utility_pole": "sign_post",
+    # Its own asset since J58.  Aliased to ``road_sign`` before that, which resolves over the seven
+    # regulatory signs and takes the alphabetically first: every one of the 13,341 GTFS bus stops
+    # was a bare 12 x 18 in parking regulation plate, 0.23 m tall, with no post under it.
+    "bus_stop_sign": "bus_stop_sign",
+    # A real-time passenger information sign is a screen on a pole and there is no asset for one, so
+    # the 491 rows stay unplaced rather than become a parking plate, which is what ``road_sign``
+    # made them.  Same rule as ``billboard`` below (docs/DEVIATIONS.md J22, J58).
+    "rtpi_sign": None,
+    # An 11 m wooden distribution pole carrying power and telecom, drawn as a 2.44 m galvanised
+    # u-channel sign post: not the wrong variant, the wrong object, and 4.5x the wrong size. The
+    # kit has no utility pole, so the 924 rows stay unplaced until it does (J58).
+    "utility_pole": None,
     # An OSM advertising=billboard node is a roadside bulletin on posts. The kit has
     # billboard_rooftop and billboard_wall_mounted, and both are wrong at street level, so these 15
     # rows stay unplaced rather than become the wrong object (docs/DEVIATIONS.md J22).

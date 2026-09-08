@@ -71,6 +71,31 @@ def build_street_name_blade() -> C.Built:
                           "key_dims_m": {"blade_w": w, "blade_h": h, "bracket_clamp_dia": 0.17}})
 
 
+def build_mta_bus_stop() -> C.Built:
+    """MTA bus stop sign: a 12 x 42 in blade at the top of a 10 ft U-channel post.
+
+    One object rather than a blade the engine has to pair with a post, because that is how a bus
+    stop stands and because the 13,832 GTFS stops carry a point, not a pole to hang from.  Blade
+    size and mounting height are the MTA/DOT standard: the bottom of the blade sits 2.13 m (7 ft)
+    above the footway, which is the DOT clearance for a sidewalk-mounted sign.
+    """
+    face = C.mat_sign_face(L.mta_bus_stop())
+    w, h = 0.305, 1.067
+    post_len = 3.05
+    top = post_len - 0.03
+    blade = C.sign_blank("blade", "rect", w, h, thickness=0.0025, face_material=face,
+                         back_material=face, two_sided=True,
+                         center=(0.0, 0.0, top - h / 2.0))
+    post = _u_channel("post", post_len)
+    return C.Built(lod0=[blade] + list(post.lod0),
+                   extra={"anchor": {"origin": "ground_contact", "up_blender": "+Z",
+                                     "facing_blender": "+Y", "up_gltf": "+Y", "facing_gltf": "-Z"},
+                          "sign_face_uv": "0..1 over each face; the back face is mirrored so the "
+                                          "legend reads from both approaches",
+                          "key_dims_m": {"blade_w": w, "blade_h": h, "post_length": post_len,
+                                         "blade_bottom_above_grade": round(top - h, 3)}})
+
+
 def _u_channel(name: str, length: float) -> C.Built:
     """Galvanised 3 lb/ft U-channel sign post with the standard 1 in punched holes on 1 in centres."""
     steel = P.galv()
@@ -114,6 +139,12 @@ SPECS = [
                "MUTCD R2-1 SPEED LIMIT, 24 x 30 in (0.610 x 0.762 m); the baked legend is the NYC citywide default of "
                "25 mph, replaced per instance from roads/segments.parquet posted_speed_mph.",
                variants=SIGN_VARIANTS, tags=["mutcd:R2-1"], tolerance=0.05),
+    C.PropSpec("sign_mta_bus_stop", "signs", "bus_stop_sign", build_mta_bus_stop, (0.305, 0.070, 3.05),
+               "MTA bus stop sign: a 12 x 42 in blue blade with a bus pictogram and BUS STOP, on a "
+               "10 ft galvanised U-channel post, blade bottom 2.0 m above grade. Route numbers are "
+               "not drawn -- they differ per stop and this build has no per-stop artwork "
+               "(docs/DEVIATIONS.md J58).",
+               variants=[], tags=["mta", "gtfs"], tolerance=0.10),
     C.PropSpec("sign_nyc_parking_18", "signs", "road_sign", build_parking_18, (0.305, 0.002, 0.457),
                "NYC DOT parking regulation sign, 12 x 18 in (0.305 x 0.457 m): white retroreflective plaque with a red "
                "legend and the double-headed regulation arrows (baked default NO STANDING ANYTIME).",

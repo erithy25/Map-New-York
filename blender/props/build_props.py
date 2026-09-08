@@ -85,6 +85,28 @@ def load_specs(modules=MODULES) -> list:
     return specs
 
 
+def _write_asset_catalog() -> int:
+    """Re-aggregate ``props_asset_catalog.json`` from the per-asset catalogue files.
+
+    The aggregate is what every consumer reads -- ``furniture/assets.py`` groups it by
+    ``dataset_kind`` to decide which asset a placement resolves to -- and nothing wrote it, so a
+    ``--only`` build left a new asset on disk and invisible to the city.  The MTA bus stop sign was
+    exported, catalogued per asset, and still absent from the aggregate the placer reads
+    (docs/DEVIATIONS.md J58).  Written on every run, including a partial one.
+    """
+    entries = []
+    for f in sorted(C.CATALOG_DIR.glob("*.json")):
+        try:
+            entries.append(json.loads(f.read_text()))
+        except (OSError, ValueError) as exc:
+            log.warning("catalogue entry %s unreadable: %s", f.name, exc)
+    entries.sort(key=lambda e: e.get("id") or "")
+    doc = {"schema_version": 1, "count": len(entries), "entries": entries}
+    (C.PROPS_OUT / "props_asset_catalog.json").write_text(json.dumps(doc, indent=1) + "\n")
+    log.info("asset catalogue: %d entries", len(entries))
+    return len(entries)
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--module", action="append", default=None, choices=list(MODULES))
@@ -135,6 +157,7 @@ def main(argv: list[str] | None = None) -> int:
         "kinds_used": sorted({e["dataset_kind"] for e in built}),
     }
     (C.PROPS_OUT / "build_summary.json").write_text(json.dumps(summary, indent=1, sort_keys=True) + "\n")
+    _write_asset_catalog()
     log.info("built %d props in %.1f s (%.1f MB, %d tris); failed: %s", len(built), summary["seconds"],
              summary["total_glb_bytes"] / 1e6, summary["total_lod0_tris"], failed or "none")
     return 1 if failed else 0

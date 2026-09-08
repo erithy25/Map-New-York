@@ -245,6 +245,51 @@ def street_name_blade(street: str = "W 42 ST", block: str = "500", w_m: float = 
     return _save(im, name)
 
 
+def mta_bus_stop(w_m: float = 0.305, h_m: float = 1.067) -> Path:
+    """MTA bus stop blade: 12 x 42 in, MTA blue field, white border, bus pictogram over BUS STOP.
+
+    Drawn to the published blade size and the MTA's blue, with the standard elements a stop blade
+    carries: a bus pictogram, the words BUS STOP, and a white keyline.  The route numbers a real
+    blade lists are **not** drawn -- they differ per stop and this build has no per-stop artwork, so
+    inventing them would be a fabricated legend on 13,832 signs.  Before this existed every one of
+    those stops was drawn as an 18 in parking regulation plate (docs/DEVIATIONS.md J58).
+    """
+    name = "sign_mta_bus_stop.png"
+    if (OUT / name).exists():
+        return OUT / name
+    w, h = _px(w_m, h_m, ppm=700)
+    im = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, w - 1, h - 1], fill=BLUE)
+    b = max(2, round(w * 0.045))
+    d.rectangle([b, b, w - 1 - b, h - 1 - b], outline=WHITE, width=b)
+    _bus_glyph(d, w * 0.5, h * 0.24, w * 0.60, WHITE, BLUE)
+    f1 = _fit_text(d, "BUS", int(w * 0.68), int(h * 0.11))
+    _centered(d, (w * 0.5, h * 0.50), "BUS", f1, WHITE)
+    f2 = _fit_text(d, "STOP", int(w * 0.68), int(h * 0.11))
+    _centered(d, (w * 0.5, h * 0.61), "STOP", f2, WHITE)
+    d.line([(w * 0.20, h * 0.70), (w * 0.80, h * 0.70)], fill=WHITE, width=max(1, round(w * 0.02)))
+    return _save(im, name)
+
+
+def _bus_glyph(d: ImageDraw.ImageDraw, cx: float, cy: float, s: float, color, ground) -> None:
+    """A city bus in side elevation: body, three window bays, two wheels."""
+    w, h = s, s * 0.46
+    x0, y0 = cx - w / 2.0, cy - h / 2.0
+    r = max(1.0, w * 0.07)
+    d.rounded_rectangle([x0, y0, x0 + w, y0 + h], radius=r, fill=color)
+    # Windows: one at the front over the door line, then two saloon bays.
+    wy0, wy1 = y0 + h * 0.16, y0 + h * 0.50
+    edges = (0.07, 0.30, 0.53, 0.76, 0.93)
+    for a, b_ in zip(edges[:-1], edges[1:]):
+        d.rectangle([x0 + w * a, wy0, x0 + w * (b_ - 0.03), wy1], fill=ground)
+    for fx in (0.24, 0.76):
+        d.ellipse([x0 + w * fx - w * 0.085, y0 + h * 0.86, x0 + w * fx + w * 0.085, y0 + h * 1.20],
+                  fill=color)
+        d.ellipse([x0 + w * fx - w * 0.040, y0 + h * 0.95, x0 + w * fx + w * 0.040, y0 + h * 1.11],
+                  fill=ground)
+
+
 def road_work_w20_1(w_m: float = 1.219, h_m: float = 1.219) -> Path:
     """W20-1 ROAD WORK AHEAD: 48 in orange diamond with a black border and legend (rotated 45 deg on the blank)."""
     name = "sign_w20_1_roadwork.png"

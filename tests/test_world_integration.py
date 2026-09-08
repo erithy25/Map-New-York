@@ -1350,3 +1350,68 @@ def test_the_plugin_source_that_can_be_compiled_here_is_compiled_here():
     # lower it.  If this fails downward, something that used to compile here has stopped.
     assert ok >= 41, f"only {ok} of {total} translation units compile here; it was 41"
     assert total == ok + failed + unreal
+
+
+def test_no_prop_kind_is_drawn_by_an_object_of_a_different_kind():
+    """A prop must resolve to an asset of its own kind, or to nothing at all.
+
+    J58 found eight kinds collapsed onto one asset each, and two of those were not monotony but
+    the wrong object: 13,341 MTA bus stop signs and 491 real-time passenger information signs were
+    drawn as an 18 in parking regulation plate (0.23 m tall, no post), and 924 eleven-metre wooden
+    utility poles as a 2.44 m galvanised U-channel sign post. The rule this enforces is the one
+    ``billboard`` and ``curb_ramp`` already followed: where the kit has no asset for a kind, the
+    rows stay unplaced and the sheet reports them, rather than becoming something else.
+    """
+    import sys
+    sys.path.insert(0, str(REPO_ROOT / "pipeline"))
+    from nycsim_pipeline.furniture import assets as A
+
+    cat_path = BLENDER_OUT / "props" / "props_asset_catalog.json"
+    kinds_path = REPO_ROOT / "data" / "processed" / "furniture" / "props_catalog.json"
+    if not cat_path.is_file() or not kinds_path.is_file():
+        pytest.skip("no built prop catalogue in this checkout")
+
+    #: kind -> the ``dataset_kind`` its assets must carry, where the two names differ for a reason
+    #: that is about vocabulary rather than about the object.
+    SAME_OBJECT = {
+        "bike_shelter": "bus_shelter",           # a sheltered bike corral is the same CEMUSA shell
+        "subway_emergency_exit": "subway_vent_grate",   # both are the same sidewalk grating
+    }
+    pa = A.load(REPO_ROOT / "data" / "processed", BLENDER_OUT)
+    kinds = json.loads(kinds_path.read_text())
+    rows = kinds["kinds"] if isinstance(kinds, dict) and "kinds" in kinds else kinds
+    wrong = []
+    for k in (rows if isinstance(rows, list) else rows.values()):
+        if not isinstance(k, dict) or k.get("id") is None:
+            continue
+        name = k["name"]
+        entry, why = pa.resolve(int(k["id"]))
+        if entry is None:
+            continue                              # unplaced is always allowed; that is the point
+        want = SAME_OBJECT.get(name, name)
+        got = entry.get("dataset_kind")
+        if got != want and A.KIND_TO_KIT_PIECE.get(name) is None and name != "tree":
+            wrong.append(f"{name}: drawn by {entry['id']!r}, whose kind is {got!r}, not {want!r}")
+    assert not wrong, "prop kinds drawn by an object of another kind:\n  " + "\n  ".join(wrong)
+
+
+def test_the_flag_a_pole_flies_is_the_flag_its_row_says():
+    """1,655 flagpoles all flew the city flag because the resolver took the first asset by id.
+
+    OSM's ``subtype`` on a ``man_made=flagpole`` node says which flag is flown and is populated on
+    931 of them: ``national`` 798, then regional, municipal, advertising and religious. The kit has
+    a US flag and a city flag and nothing else, so ``national`` maps to the US pole and everything
+    else stays on the city pole -- a state or a corporate flag drawn as either would be a
+    substitution (docs/DEVIATIONS.md J58).
+    """
+    import sys
+    sys.path.insert(0, str(REPO_ROOT / "pipeline"))
+    from nycsim_pipeline.furniture import assets as A
+    from nycsim_pipeline.furniture import datasets as D
+
+    if not (BLENDER_OUT / "props" / "props_asset_catalog.json").is_file():
+        pytest.skip("no built prop catalogue in this checkout")
+    assert D.FLAG_VARIANT == {"national": 1}
+    pa = A.load(REPO_ROOT / "data" / "processed", BLENDER_OUT)
+    declared = pa.variants_by_kind.get("flagpole")
+    assert declared == {0: "flag_nyc_pole", 1: "flag_us_pole"}, declared

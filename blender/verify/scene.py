@@ -1568,11 +1568,19 @@ def add_pavement(cx: float, cy: float, radius_m: float, sampler: TerrainSampler,
         poly.material_index = mat_index[k]
     # Planar XY UVs in metres, which is the convention ``build_pavement.py`` writes into the tiles
     # ("metres, planar XY in NYC_TM (u = east, v = north)") and what a surface with a measured
-    # physical size needs to tile at its real scale.  The vertices are already in scene metres.
+    # physical size needs to tile at its real scale.
+    #
+    # **Relative to the scene centre, not absolute NYC_TM.**  Absolute coordinates put the UVs at
+    # magnitude 5,000 and, once divided by a 3 m tiling size, the texture is sampled around 1,700.
+    # A UV layer is float32: at that magnitude one ULP is a quarter of a texel, so the screen-space
+    # derivative Cycles computes to choose a filter width collapses to noise, the coarsest mip is
+    # taken everywhere, and the road renders as the texture's own average -- a perfectly smooth
+    # grey that looks exactly like an untextured surface.  Near the camera, which is the only place
+    # the detail is resolvable, these UVs are near zero.
     me = ob.data
     if me.uv_layers.active is None:
         uvl = me.uv_layers.new(name="UVMap")
-        vxy = np.asarray([(v[0], v[1]) for v in verts], dtype=np.float32)
+        vxy = np.asarray([(v[0] - cx, v[1] - cy) for v in verts], dtype=np.float32)
         loop_v = np.empty(len(me.loops), dtype=np.int32)
         me.loops.foreach_get("vertex_index", loop_v)
         uvl.data.foreach_set("uv", vxy[loop_v].ravel())

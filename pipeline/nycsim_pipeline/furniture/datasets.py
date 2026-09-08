@@ -433,6 +433,27 @@ def _tags(raw: str) -> dict:
     return t if isinstance(t, dict) else {}
 
 
+#: OSM ``subtype`` on a ``man_made=flagpole`` node -> ``flagpole`` variant code.  The tag says which
+#: flag the pole flies, which is the one thing that separates the two assets, and every one of the
+#: 1,855 poles was drawn with the city flag because the resolver took the alphabetically first
+#: asset (docs/DEVIATIONS.md J58).  Counted over the extract: ``national`` 941, blank 764,
+#: ``regional`` 86, ``municipal`` 18, ``advertising`` 9, ``national;organisation`` 9,
+#: ``governmental`` 8, ``organisation`` 7, ``religious`` 4, ``university`` 2, ``military`` 1,
+#: ``national;national`` 1.  Everything but ``national`` stays at 0: the kit has a city flag and a
+#: US flag and nothing else, and a state, university or corporate flag drawn as either would be a
+#: substitution rather than a reading.
+FLAG_VARIANT = {"national": 1}
+
+
+def flag_variant(subtype: str) -> int:
+    """``flagpole`` variant for one OSM ``subtype`` value.
+
+    OSM joins multiple values with ``;``, and a pole tagged ``national;organisation`` flies both --
+    so a list containing ``national`` flies the national flag and gets the US pole.
+    """
+    parts = [s.strip().lower() for s in str(subtype or "").split(";")]
+    return 1 if any(FLAG_VARIANT.get(s) for s in parts) else 0
+
 #: OSM ``lamp_mount`` / ``light:mount`` value -> ``street_lamp`` variant code.
 #:
 #: This is the tag that says what the fixture *is*.  The lookup it replaces searched the ``support``
@@ -534,6 +555,11 @@ def load_osm_furniture(path: Path = OSM_FURNITURE) -> dict:
             log.info("osm street_lamp fixtures: %s", dict(sorted(seen.items())))
             LAMP_FIXTURE_TALLY.clear()
             LAMP_FIXTURE_TALLY.update(seen)
+        elif kind_name == "flagpole":
+            cols["variant"] = np.array([flag_variant(subtype[i]) for i in idx], dtype=np.int16)
+            flown = Counter("us" if v else "nyc" for v in cols["variant"])
+            log.info("osm flagpole flags: %s of %d tagged with a subtype",
+                     dict(sorted(flown.items())), sum(1 for i in idx if subtype[i].strip()))
         elif kind_name == "bench":
             cols["variant"] = np.array([1 if backrest[i] == "yes" else (2 if backrest[i] == "no" else 0) for i in idx],
                                        dtype=np.int16)
