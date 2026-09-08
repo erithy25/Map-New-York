@@ -36,7 +36,7 @@ This is a **camera-placement failure, not a content failure**, and the cause is 
 * **The subject is a fountain and the fountain is not modelled as one.** The landmark model `b_bethesda_terrace` carries the terrace; the record names its own ground (5,049.8 m²) but the sheet shows no basin, no angel, no water jet.
 * **A road with a yellow centre line runs across the middle of the frame.** 1,957 roadbed and 164 yellow marking polygons are in range over 742.7 m, which is correct for a scene that reaches the park drives and Fifth Avenue — but a drive crossing the view at this distance is a statement about where the camera is pointing, not about Central Park.
 * **34 props in range were not placed and 3 opaque impostor cards were dropped**, and the reason is not the triangle budget: **34 point props have no asset at all** — 11 artworks, 9 drinking fountains, 6 parks buildings, 5 memorials and 3 comfort stations. Two of those categories matter here specifically — the Angel of the Waters is an *artwork* and this sheet is a picture of it.
-* **Three surfaces sit at the albedo cap with the wrong source material behind them** — `concrete`, `roof_membrane` and `wood_clapboard` (J66) — and the frame is mostly concrete.
+* **Two surfaces still sit at the albedo cap** — `roof_membrane` and `wood_clapboard` (J66) — and neither is much of this frame, which is mostly concrete. `concrete` itself was moved to a scan that does not bind the cap, and the frame's mean did not move: **0.5343**, where it was 0.5343 before. Whatever makes this frame pale, it is not those two.
 
 ## Cause of each gap
 
@@ -45,7 +45,7 @@ This is a **camera-placement failure, not a content failure**, and the cause is 
 | the subject is not in the frame | the recorded viewpoint is one lat/lon for a two-level structure; the eye landed on the terrace roof, and the photograph's own GPS was rejected because at that point the upper deck is 1.8 m overhead | **verification — open, DEVIATIONS J65** |
 | line of sight closed at 14.7 m | by `lm_b_bethesda_terrace.20`, the structure the camera stands on | verification |
 | frame mean 1.371× the photograph | +1.10 stops opened for a 20.3° sun, over a frame filled by a pale concrete deck | verification |
-| chroma 0.421× and a 5th percentile of 0.3269 against 0.0933 | no foliage, no water and no brick paving in the frame; what is in it is concrete and asphalt, three surfaces of which are at the albedo cap with the wrong material (J66) | verification + material |
+| chroma 0.421× and a 5th percentile of 0.3269 against 0.0933 | no foliage, no water and no brick paving in the frame; what is in it is concrete and asphalt, and the camera is aimed over a parapet at neither the Lake nor the Ramble | verification |
 | no fountain, no angel, no water jet | the landmark model carries the terrace and its ground; the fountain itself is not modelled, and `artwork` has no prop asset (J23) | geometry |
 | all 76 trees species-substituted | the park-tree ingest places OSM trees by taxon where it can and falls back to the census population; none of these 76 matched a modelled species exactly | data |
 | 0 vehicles | 46 dropped as being on a car-free park drive — correct, and the record says so | — (not a gap) |
