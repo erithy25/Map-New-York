@@ -58,20 +58,20 @@
   "nearest_agent": null,
   "nearest_agent_m": null,
   "nearest_agent_probe_m": 60.0,
-  "nearest_obstruction": "prop_tree_honeylocust_medium_2",
+  "nearest_obstruction": "prop_tree_honeylocust_small_2",
   "nearest_obstruction_at_deg": [
-   -9.1,
+   -18.1,
    26.8
   ],
-  "nearest_obstruction_m": 13.0,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_tree_honeylocust_medium_2 13.0 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 39 m",
+  "nearest_obstruction_m": 8.4,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_tree_honeylocust_small_2 8.4 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 39 m",
   "offset_m": 0.0,
   "view_m": 38.7
  },
  "frame": {
-  "mean": 0.1976,
+  "mean": 0.2252,
   "reason": null,
-  "sd": 0.1615,
+  "sd": 0.1607,
   "usable": true
  },
  "frame_retry": null,
@@ -112,7 +112,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_park_slope_7th_ave/render.png",
- "rendered_at": "2026-09-08T16:13:22Z",
+ "rendered_at": "2026-09-08T18:23:33Z",
  "resolution_note": "1054x1036; the reference photograph is 1920x1887 (1.02:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -148,7 +148,7 @@
    "placed_pedestrians": 364,
    "placed_vehicles": 88,
    "reason": null,
-   "seconds": 118.46,
+   "seconds": 107.87,
    "snapshot": {
     "building_footprints_tested": 7692,
     "density_lane_km": 17.58,
@@ -277,29 +277,29 @@
    -3057.34
   ],
   "kit": {
-   "capped": "triangle budget 1314966",
+   "capped": "triangle budget 1316574",
    "per_category": {
     "billboard": 2,
-    "bulkhead": 141,
-    "cornice": 122,
-    "door_entry": 280,
-    "fence": 83,
-    "fire_escape": 124,
+    "bulkhead": 148,
+    "cornice": 129,
+    "door_entry": 295,
+    "fence": 89,
+    "fire_escape": 147,
     "hvac": 6,
-    "parapet": 149,
+    "parapet": 153,
     "pilaster": 12,
     "quoin": 44,
-    "scaffold": 49,
-    "storefront": 289,
-    "storefront_interior": 51,
-    "string_course": 75,
+    "scaffold": 56,
+    "storefront": 298,
+    "storefront_interior": 52,
+    "string_course": 82,
     "vegetation": 20,
-    "window": 2711,
-    "window_accessory": 267
+    "window": 2580,
+    "window_accessory": 280
    },
-   "placed": 4425,
+   "placed": 4393,
    "radius_m": 156.6077776637739,
-   "records_in_range": 7099,
+   "records_in_range": 6172,
    "stale_registry_ids": {},
    "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
@@ -307,7 +307,7 @@
     "t_-3_-3",
     "t_-3_-4"
    ],
-   "triangles": 1315641,
+   "triangles": 1316711,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -699,25 +699,25 @@
   },
   "props": {
    "capped": "triangle budget 1291418",
-   "impostor_cards_dropped": 22,
+   "impostor_cards_dropped": 27,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
-    "curb_ramp": 28
+    "curb_ramp": 32
    },
    "leaf_off": false,
    "per_kind": {
     "bench": 1,
-    "bike_rack": 3,
+    "bike_rack": 4,
     "bus_stop_sign": 2,
-    "cooling_tower": 5,
-    "hydrant": 17,
-    "mailbox": 2,
-    "manhole": 32,
-    "street_lamp": 38,
-    "tree": 165,
-    "waste_basket": 7
+    "cooling_tower": 9,
+    "hydrant": 20,
+    "mailbox": 3,
+    "manhole": 42,
+    "street_lamp": 49,
+    "tree": 204,
+    "waste_basket": 9
    },
-   "placed": 272,
+   "placed": 343,
    "radius_m": 286.6077776637739,
    "rows_in_range": 1010,
    "tiles_missing": [],
@@ -725,12 +725,15 @@
     "t_-3_-3",
     "t_-3_-4"
    ],
-   "tree_species_substituted": 44,
-   "triangles": 1293868,
+   "tree_instances_scaled": 204,
+   "tree_mean_scale": 0.933,
+   "tree_scale_out_of_band": 0,
+   "tree_species_substituted": 48,
+   "triangles": 1292260,
    "unmapped_kinds": {}
   },
   "radius_m": 756.607777663774,
-  "seconds": 191.32,
+  "seconds": 167.35,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -747,7 +750,7 @@
    "z_max_m": 54.94,
    "z_min_m": 3.13
   },
-  "triangles": 4500675
+  "triangles": 4500137
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -757,9 +760,9 @@
   "radius_m": 756.607777663774
  },
  "seconds": {
-  "render": 98.9,
-  "scene": 193.6,
-  "total": 292.5
+  "render": 86.1,
+  "scene": 169.6,
+  "total": 255.7
  },
  "sightline": {
   "subject_note": "the item names no point subject",
