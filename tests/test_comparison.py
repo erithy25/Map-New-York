@@ -1060,15 +1060,32 @@ def test_the_record_says_whether_the_camera_can_see_its_own_subject():
     assert clear["subject_visible"] is True
     assert clear["subject_range_m"] == pytest.approx(40.02, abs=0.1)
     assert clear["subject_blocked_by"] is None
+    assert clear["subject_rays_clear"] == clear["subject_rays"]
 
-    _cube("t_0_0_limestone", 0.0, 12.0, 2.0, size=6.0)      # a wall between the two
+    _cube("t_0_0_limestone", 0.0, 12.0, 2.0, size=6.0)      # a wall across the whole fan
     blocked = vcam.subject_sightline(0.0, 0.0, 1.6, 0.0, 40.0, 3.0)
     assert blocked["subject_visible"] is False
+    assert blocked["subject_rays_clear"] == 0
     assert blocked["subject_blocked_by"] == "t_0_0_limestone"
     assert 8.0 < blocked["subject_blocked_at_m"] < 12.0
 
-    # A tree is not a wall for the *view distance* rule, but it is for the subject: a photograph of
-    # the Flatiron taken through a plane tree is not a photograph of the Flatiron.
+    # A pole is not a wall.  One ray through a lamp standard says "not visible" of a subject
+    # standing wide open beside it -- which is what the first version of this probe reported at
+    # Bethesda Terrace, and it would have been a false statement dressed as a measurement.
+    nb.reset_scene()
+    # 1.68 m is where the axis passes at 2.4 m out, so the pole is squarely on the centre ray.
+    _cube("prop_lamp_cobra_davit_6", 0.0, 2.4, 1.684, size=0.2)
+    past_pole = vcam.subject_sightline(0.0, 0.0, 1.6, 0.0, 40.0, 3.0)
+    assert past_pole["subject_blocked_by"] == "prop_lamp_cobra_davit_6", \
+        "the pole on the centre ray must still be named"
+    assert past_pole["subject_rays_clear"] == past_pole["subject_rays"] - 1, "it took the centre ray"
+    assert past_pole["subject_visible"] is True, "a 0.2 m pole must not hide a subject 40 m away"
+    # The fan is a width at the subject, not a fixed angle: a fixed +-1.5 deg fan is 0.13 m across
+    # at 2.4 m, so this same pole would take all five rays and the probe would lie again.
+    assert past_pole["subject_fan_half_angle_deg"] == pytest.approx(8.53, abs=0.1)
+
+    # A tree is not a wall for the *view distance* rule, but a canopy across the whole fan is for
+    # the subject: a photograph of the Flatiron taken through a plane tree is not one of the Flatiron.
     nb.reset_scene()
     _cube("prop_tree_zelkova_large_3", 0.0, 6.0, 3.0, size=4.0)
     through = vcam.subject_sightline(0.0, 0.0, 1.6, 0.0, 40.0, 3.0)

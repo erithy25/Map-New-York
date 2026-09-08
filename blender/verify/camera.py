@@ -739,7 +739,8 @@ def frame_clearance(x: float, y: float, z: float, azimuth_deg: float, *, probe_m
             "probe_m": float(probe_m)}
 
 
-def subject_sightline(x: float, y: float, z: float, sx: float, sy: float, sz: float) -> dict:
+def subject_sightline(x: float, y: float, z: float, sx: float, sy: float, sz: float, *,
+                      spread_m: float = 12.0, rays: int = 5) -> dict:
     """Can the camera see the thing the sheet is a comparison *of*?
 
     Every check this pass runs asks whether the camera is somewhere sensible -- is it on its street
@@ -763,13 +764,51 @@ def subject_sightline(x: float, y: float, z: float, sx: float, sy: float, sz: fl
     if span < 1e-3:
         return {"subject_range_m": 0.0, "subject_visible": None,
                 "subject_note": "the subject is at the camera"}
-    got = _ray_past(dg, origin, to.normalized(), span, _opaque)
-    if got is None:
-        return {"subject_range_m": round(span, 1), "subject_visible": True,
-                "subject_blocked_by": None, "subject_blocked_at_m": None}
-    dist, ob = got
-    return {"subject_range_m": round(span, 1), "subject_visible": False,
-            "subject_blocked_by": ob.name, "subject_blocked_at_m": round(dist, 1)}
+    axis = to.normalized()
+    # A fan across the subject, not one ray, and not a fixed angle either.  Both of those were tried
+    # and both lied.  One ray is stopped by a lamp standard 0.2 m across and reports "not visible" of
+    # a subject standing wide open beside it -- which is what the first version of this probe said at
+    # Bethesda Terrace.  A fixed +-1.5 deg fan is worse: at 2.4 m it is 0.13 m wide, so the same
+    # 0.2 m pole takes **all five** rays and the lie is unchanged.
+    #
+    # So the fan is defined by a width **at the subject**: ``spread_m`` metres across, which is an
+    # angle that shrinks with range.  12 m is a building-scale subject and is a **choice**, not a
+    # measurement of anything -- the item's own metadata does not carry the subject's width.  What it
+    # buys is the right answer to the question actually being asked: a pole 2.4 m from the lens
+    # spans 2.4 deg of a 5.5 deg fan at 62 m and takes some of the rays, and the subject behind it is
+    # still there; a wall across the street takes all of them and it is not.
+    half_angle_deg = math.degrees(math.atan2(max(spread_m, 0.1) / 2.0, span))
+    half_angle_deg = min(15.0, max(0.5, half_angle_deg))
+    up = Vector((0.0, 0.0, 1.0))
+    side = axis.cross(up)
+    side = side.normalized() if side.length > 1e-6 else Vector((1.0, 0.0, 0.0))
+    lift = side.cross(axis).normalized()
+    offsets = [(0.0, 0.0)]
+    step = math.radians(half_angle_deg)
+    for k in range(1, max(1, (rays - 1) // 2) + 1):
+        f = step * k / max(1, (rays - 1) // 2)
+        offsets += [(f, 0.0), (-f, 0.0), (0.0, f), (0.0, -f)]
+    offsets = offsets[:max(1, rays)]
+    blocked: dict[str, float] = {}
+    clear = 0
+    for du, dv in offsets:
+        d = (axis + side * math.tan(du) + lift * math.tan(dv)).normalized()
+        got = _ray_past(dg, origin, d, span, _opaque)
+        if got is None:
+            clear += 1
+            continue
+        dist, ob = got
+        if ob.name not in blocked or dist < blocked[ob.name]:
+            blocked[ob.name] = dist
+    n = len(offsets)
+    worst = min(blocked.items(), key=lambda kv: kv[1]) if blocked else None
+    return {"subject_range_m": round(span, 1),
+            "subject_fan_m": round(spread_m, 1),
+            "subject_fan_half_angle_deg": round(half_angle_deg, 2),
+            "subject_rays": n, "subject_rays_clear": clear,
+            "subject_visible": clear > n // 2,
+            "subject_blocked_by": None if worst is None else worst[0],
+            "subject_blocked_at_m": None if worst is None else round(worst[1], 1)}
 
 
 def clearance_fields(got: dict) -> dict:
