@@ -12,10 +12,125 @@ about the picture. It invents nothing and rounds nothing: every figure is read s
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import json
+import math
 from pathlib import Path
 
 COMPARISON = Path("/home/user/Map-New-York/docs/verification/comparison")
+#: What the renders actually place from: one JSON per built model, each carrying ``origin_tm`` and
+#: ``bounds_local_m``.  The processed catalogue is the fallback for a checkout with no build in it.
+BUILT_CATALOGUE = Path("/home/user/Map-New-York/blender_out/landmarks/catalog")
+LANDMARK_CATALOGUE = Path("/home/user/Map-New-York/data/processed/landmarks/landmarks.json")
+
+#: ``agent_request.dow`` is not a day of the week.  It is the simulation's day *type*, and
+#: ``DensityTable::kDows`` is 3: the density table holds one profile for weekdays, one for Saturday
+#: and one for Sunday.  A writer reading ``"dow": 2`` next to a Sunday date will call the frame a
+#: Tuesday, which is how an assessment ends up naming the wrong day.  So the name is spelled out
+#: here and checked against the render's own clock rather than left as a number to be guessed at.
+DAY_TYPE_NAMES = {0: "a weekday", 1: "Saturday", 2: "Sunday"}
+
+
+def day_type(agent_req: dict) -> dict | None:
+    """Spell out the day type the crowd was drawn for, and check it against the frame's date."""
+    if not agent_req or agent_req.get("dow") is None:
+        return None
+    code = int(agent_req["dow"])
+    out = {"code": code, "means": DAY_TYPE_NAMES.get(code, f"unknown day-type code {code}"),
+           "note": "the simulation holds three density profiles -- weekday, Saturday, Sunday -- "
+                   "so this is a day *type*, not a day of the week"}
+    clock = agent_req.get("local_clock") or ""
+    try:
+        day = dt.date.fromisoformat(clock.split()[0])
+    except (ValueError, IndexError):
+        return out
+    out["date"] = day.isoformat()
+    out["weekday"] = day.strftime("%A")
+    wanted = 0 if day.weekday() <= 4 else (1 if day.weekday() == 5 else 2)
+    if wanted != code:
+        out["disagrees"] = (f"{day:%A} {day.isoformat()} is day type {wanted} "
+                            f"({DAY_TYPE_NAMES[wanted]}) but the crowd was drawn for {code}")
+    return out
+
+
+def load_catalogue() -> list[dict]:
+    """The landmark models that were built, as entries carrying ``origin_tm``.
+
+    This reads the same per-model catalogue the renderer places from, so the geometry here is the
+    geometry that stands in the scene.  It needs no Blender, which is what lets the sheet composer
+    use it too.
+    """
+    out: list[dict] = []
+    if BUILT_CATALOGUE.is_dir():
+        for f in sorted(BUILT_CATALOGUE.glob("*.json")):
+            try:
+                e = json.loads(f.read_text())
+            except (OSError, ValueError):
+                continue
+            if isinstance(e, dict) and e.get("id") and e.get("origin_tm") is not None:
+                out.append(e)
+    if out:
+        return out
+    try:
+        cat = json.loads(LANDMARK_CATALOGUE.read_text())
+    except (OSError, ValueError):
+        return []
+    items = cat.get("landmarks") if isinstance(cat, dict) else cat
+    return [it for it in (items or []) if isinstance(it, dict) and it.get("id")]
+
+
+def landmarks_in_cone(cam: dict, placed: list, catalogue: list | None = None) -> dict | None:
+    """How many of the placed landmarks can actually fall inside this camera's horizontal cone.
+
+    ``scene.landmarks.placed`` counts what was *built into the scene*, over a radius that reaches
+    kilometres.  Nine of the fourteen on the Broadway/Wall St sheet stand behind the camera, and
+    over the 52 sheets that carry landmarks at all, 449 are placed and 180 can fall in a frame.  A
+    caption or an assessment that quotes the placed count as what the frame shows is wrong about
+    the picture by a factor of two and a half, so the in-frame count is worked out here from the
+    catalogue's own footprints.
+
+    ``catalogue`` lets the caller supply the entries it actually placed from; it defaults to the
+    processed catalogue on disk.
+    """
+    if not placed or cam.get("x") is None or cam.get("hfov_deg") is None:
+        return None
+    items = catalogue if catalogue is not None else load_catalogue()
+    by = {it["id"]: it for it in items if isinstance(it, dict) and it.get("id")}
+    if not by:
+        return None
+    cx, cy = float(cam["x"]), float(cam["y"])
+    az, half = float(cam["azimuth_deg"]), float(cam["hfov_deg"]) / 2.0
+    inside, aside, unknown = [], [], []
+    for e in placed:
+        if not isinstance(e, dict):
+            continue
+        it = by.get(e.get("id"))
+        origin = (it or {}).get("origin_tm")
+        if not it or not origin:
+            unknown.append(e.get("name") or e.get("id"))
+            continue
+        ox, oy = (origin["x"], origin["y"]) if isinstance(origin, dict) else (origin[0], origin[1])
+        bounds = it.get("bounds_local_m") or {}
+        lo = bounds.get("min") or [0.0, 0.0, 0.0]
+        hi = bounds.get("max") or [0.0, 0.0, 0.0]
+        px = ox + (lo[0] + hi[0]) / 2.0
+        py = oy + (lo[1] + hi[1]) / 2.0
+        dx, dy = px - cx, py - cy
+        dist = math.hypot(dx, dy)
+        off = (math.degrees(math.atan2(dx, dy)) - az + 180.0) % 360.0 - 180.0
+        # The footprint has width, so a landmark whose centre is outside the cone can still show an
+        # edge in it.  Half the longer plan dimension, as an angle at this distance.
+        span = math.degrees(math.atan2(max(hi[0] - lo[0], hi[1] - lo[1]) / 2.0, max(dist, 1.0)))
+        row = {"name": e.get("name") or e.get("id"), "distance_m": round(dist, 1),
+               "off_axis_deg": round(off, 1), "half_width_deg": round(span, 1)}
+        (inside if abs(off) - span <= half else aside).append(row)
+    inside.sort(key=lambda r: r["distance_m"])
+    aside.sort(key=lambda r: r["distance_m"])
+    return {"cone_deg": round(half * 2.0, 3), "in_cone": len(inside), "behind_or_aside": len(aside),
+            "not_in_catalogue": unknown, "in_cone_names": inside,
+            "behind_or_aside_names": [r["name"] for r in aside],
+            "note": "in_cone means the footprint's angular span crosses the horizontal field of "
+                    "view; it is not a visibility test -- a nearer building can still hide it"}
 
 
 def facts(slug: str) -> dict:
@@ -62,7 +177,8 @@ def facts(slug: str) -> dict:
                       "new_jersey": b.get("new_jersey")},
         "landmarks": {"placed": lm.get("placed"), "names": [x.get("name") if isinstance(x, dict) else x
                                                             for x in (lm.get("landmarks") or [])],
-                      "skipped": lm.get("skipped"), "own_ground_m2": lm.get("own_ground_m2")},
+                      "skipped": lm.get("skipped"), "own_ground_m2": lm.get("own_ground_m2"),
+                      "frustum": landmarks_in_cone(cam, lm.get("landmarks") or [])},
         "pavement": {"placed": pav.get("placed"), "per_kind": pav.get("per_kind"),
                      "dropped": pav.get("dropped_polygons"), "radius_m": pav.get("radius_m")},
         "props": {"placed": props.get("placed"), "in_range": props.get("rows_in_range"),
@@ -84,6 +200,7 @@ def facts(slug: str) -> dict:
                    "vehicle_lods": ag.get("vehicle_lods"), "ped_lods": ag.get("ped_lods"),
                    "reason": ag.get("reason")},
         "clearance": d.get("clearance"),
+        "crowd_clock": day_type(d.get("agent_request") or {}),
         "lens_reason": d.get("lens_reason"),
         "pitch_reason": d.get("pitch_reason"),
         "azimuth_reason": d.get("azimuth_reason"),

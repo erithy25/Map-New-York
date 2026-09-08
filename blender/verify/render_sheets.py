@@ -37,9 +37,13 @@ from typing import Sequence
 REPO_ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 for p in (str(HERE), str(REPO_ROOT / "blender" / "common"), str(REPO_ROOT / "pipeline"),
-          str(REPO_ROOT / "services"), str(REPO_ROOT)):
+          str(REPO_ROOT / "services"), str(REPO_ROOT / "tools"), str(REPO_ROOT)):
     if p not in sys.path:
         sys.path.insert(0, p)
+
+# The frustum arithmetic behind the caption's landmark count.  ``sheet_facts`` is plain Python and
+# imports no Blender, so the composer can use it on a machine that only has the rendered PNG.
+import sheet_facts  # noqa: E402
 
 LOG = logging.getLogger("nycsim.verify.render")
 
@@ -1318,9 +1322,20 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
             f"spacing within {tr.get('near_m', 0)} m of the viewpoint (the heightmap's own "
             f"resolution), coarsening to {tr.get('far_spacing_m', '?')} m at the edge of the scene; "
             f"{tr.get('water_quads', 0):,} quads on the flattened water surface", f_small))
+    # "In frame" was the wrong word for every number that followed it.  All of these are counts
+    # over the scene's own radius, which reaches kilometres, and the landmark count is the worst of
+    # them: over the sheets that carry landmarks at all, 449 models are placed and 180 can fall
+    # inside a frame.  So the line now says what the numbers are counts of, and the landmark count
+    # carries the in-cone figure beside it (docs/DEVIATIONS.md J61).
+    in_cone = sheet_facts.landmarks_in_cone(cam, lm.get("landmarks") or [])
+    lm_text = f"{lm.get('placed', 0)} landmark models"
+    if in_cone:
+        lm_text += (f" of which {in_cone['in_cone']} can fall inside the "
+                    f"{in_cone['cone_deg']:.1f} deg frame")
     caption_lines.append((
-        f"In frame: {b.get('tiles_imported', 0)}/{b.get('tiles_wanted', 0)} building tiles "
-        f"({b.get('triangles', 0):,} tris), {lm.get('placed', 0)} landmarks, "
+        f"Built into the scene within {scene.get('radius_m', 0):.0f} m of the camera, not all of "
+        f"it in frame: {b.get('tiles_imported', 0)}/{b.get('tiles_wanted', 0)} building tiles "
+        f"({b.get('triangles', 0):,} tris), {lm_text}, "
         f"{pv.get('placed', 0)} pavement polygons ("
         + ", ".join(f"{v:,} {k}" for k, v in list((pv.get('per_kind') or {}).items())[:6])
         + f"), {pr.get('placed', 0)} props"

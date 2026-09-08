@@ -1186,3 +1186,95 @@ def test_a_drive_through_uses_a_photograph_of_its_own_block():
             f"{meta['slug']} took photo #{got['n']} in band {band(got)} when band {best} was available")
         checked += 1
     assert checked >= 8, f"only {checked} drive-through items were checked"
+
+
+def test_the_sheet_never_calls_a_scene_wide_count_the_contents_of_its_frame():
+    """The landmark count on a sheet is a scene count, and it is 2.5x what a frame can hold.
+
+    Broadway at Wall Street builds fourteen landmark models into its scene.  Nine of them --
+    Trinity Church at 54 m, Federal Hall at 131 m, the Brooklyn Bridge at 1.2 km -- stand behind
+    or beside the camera.  The caption used to introduce that fourteen with the words "In frame",
+    which is a true measurement of the wrong thing: an assessment written from it describes a
+    picture that shows five (docs/DEVIATIONS.md J61).
+    """
+    sys.path.insert(0, str(REPO_ROOT / "tools"))
+    import sheet_facts
+
+    # A camera at the origin looking due north through a 60 deg cone.
+    cam = {"x": 0.0, "y": 0.0, "azimuth_deg": 0.0, "hfov_deg": 60.0}
+    catalogue = [
+        {"id": "ahead", "name": "ahead", "origin_tm": [0.0, 100.0, 0.0],
+         "bounds_local_m": {"min": [-5.0, -5.0, 0.0], "max": [5.0, 5.0, 20.0]}},
+        {"id": "behind", "name": "behind", "origin_tm": [0.0, -100.0, 0.0],
+         "bounds_local_m": {"min": [-5.0, -5.0, 0.0], "max": [5.0, 5.0, 20.0]}},
+        # Centre 40 deg off the axis -- outside the 30 deg half-cone -- but 60 m wide at 100 m,
+        # so an edge of it still crosses the frame.
+        {"id": "grazing", "name": "grazing", "origin_tm": [64.3, 76.6, 0.0],
+         "bounds_local_m": {"min": [-30.0, -30.0, 0.0], "max": [30.0, 30.0, 20.0]}},
+    ]
+    placed = [{"id": e["id"], "name": e["name"]} for e in catalogue]
+    got = sheet_facts.landmarks_in_cone(cam, placed, catalogue=catalogue)
+    assert got["cone_deg"] == pytest.approx(60.0)
+    assert got["not_in_catalogue"] == []
+    assert sorted(r["name"] for r in got["in_cone_names"]) == ["ahead", "grazing"]
+    assert got["behind_or_aside_names"] == ["behind"]
+    assert got["in_cone"] == 2 and got["behind_or_aside"] == 1
+
+    # A camera with no position cannot be asked the question, and says so rather than guessing.
+    assert sheet_facts.landmarks_in_cone({"azimuth_deg": 0.0}, placed, catalogue=catalogue) is None
+    assert sheet_facts.landmarks_in_cone(cam, [], catalogue=catalogue) is None
+
+    # Every shipped sheet's own numbers must agree: what can fall in the frame is never more than
+    # what was built into the scene.
+    checked = 0
+    for d in sorted(COMPARISON_DIR.iterdir()):
+        rj = d / "render.json"
+        if not d.is_dir() or not rj.exists():
+            continue
+        f = sheet_facts.facts(d.name)
+        fr = (f.get("landmarks") or {}).get("frustum")
+        if not fr:
+            continue
+        checked += 1
+        assert not fr["not_in_catalogue"], f"{d.name}: placed a landmark the catalogue has no model for"
+        assert fr["in_cone"] + fr["behind_or_aside"] == f["landmarks"]["placed"], d.name
+        assert fr["in_cone"] <= f["landmarks"]["placed"], d.name
+    assert checked, "no rendered sheet carried a landmark frustum to check"
+
+
+def test_the_day_the_crowd_was_drawn_for_is_spelled_out_not_left_as_a_code():
+    """``agent_request.dow`` is a day *type*, not a day of the week, and reads like one.
+
+    ``DensityTable::kDows`` is 3: one density profile for weekdays, one for Saturday, one for
+    Sunday.  So the Broadway/Wall St sheet, whose photograph was taken on Sunday 21 May 2023,
+    records ``"dow": 2`` -- which a writer transcribing the record reads as Tuesday.  That is how
+    an assessment names the wrong day, so the facts spell the day type out and check it against
+    the frame's own clock.
+    """
+    sys.path.insert(0, str(REPO_ROOT / "tools"))
+    import sheet_facts
+
+    sunday = sheet_facts.day_type({"dow": 2, "local_clock": "2023-05-21 13:00 EDT"})
+    assert sunday["means"] == "Sunday" and sunday["weekday"] == "Sunday"
+    assert "disagrees" not in sunday
+    weekday = sheet_facts.day_type({"dow": 0, "local_clock": "2026-06-17 09:30 EDT"})
+    assert weekday["means"] == "a weekday" and weekday["weekday"] == "Wednesday"
+    assert "disagrees" not in weekday
+    # A code that contradicts the clock is named, not narrated over.
+    wrong = sheet_facts.day_type({"dow": 0, "local_clock": "2023-05-21 13:00 EDT"})
+    assert "Sunday" in wrong["disagrees"]
+    # No clock at all: the code is still spelled out, and nothing is invented about the date.
+    bare = sheet_facts.day_type({"dow": 1})
+    assert bare["means"] == "Saturday" and "weekday" not in bare and "disagrees" not in bare
+    assert sheet_facts.day_type({}) is None
+
+    # Every shipped sheet agrees with its own clock.
+    bad = []
+    for d in sorted(COMPARISON_DIR.iterdir()):
+        rj = d / "render.json"
+        if not d.is_dir() or not rj.exists():
+            continue
+        cc = sheet_facts.facts(d.name).get("crowd_clock")
+        if cc and cc.get("disagrees"):
+            bad.append(f"{d.name}: {cc['disagrees']}")
+    assert not bad, "sheets whose crowd was drawn for the wrong kind of day:\n  " + "\n  ".join(bad)

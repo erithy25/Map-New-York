@@ -56,22 +56,26 @@
   "direction": "onto the nearest sidewalk",
   "min_view_m": 20.0,
   "moved": true,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_measured": "after the cull over the observer",
+  "nearest_agent_probe_m": 20.0,
   "nearest_obstruction": "t_-6_0_red_brick",
   "nearest_obstruction_at_deg": [
    -27.2,
    0.0
   ],
   "nearest_obstruction_m": 11.2,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 11 m ahead, less than the 12 m this frame needs to show its subject; the camera was moved 7 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there, and the nearest solid thing anywhere in the frame is t_-6_0_red_brick 11.2 m away at -27 deg yaw, +0 deg pitch",
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 11 m ahead, less than the 12 m this frame needs to show its subject; the camera was moved 7 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there, and the nearest built thing in the frame is t_-6_0_red_brick 11.2 m away at -27 deg yaw, +0 deg pitch, and no simulated agent stands within 20 m of it",
   "offset_m": 7.2,
   "reason": "boxed in: the view azimuth is closed off 11 m ahead, less than the 12 m this frame needs to show its subject",
   "rule": "pavement snap with a clear frame",
   "view_m": 60.0
  },
  "frame": {
-  "mean": 0.2486,
+  "mean": 0.1777,
   "reason": null,
-  "sd": 0.1501,
+  "sd": 0.0933,
   "usable": true
  },
  "frame_retry": null,
@@ -82,7 +86,7 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 915.1,
   "emissive": {
-   "cone_faces_deleted": 16,
+   "cone_faces_deleted": 24,
    "cones_hidden": 2,
    "lamps_switched_off": 4,
    "night": false,
@@ -112,51 +116,51 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_lower_manhattan_stone_st/render.png",
- "rendered_at": "2026-09-08T07:15:13Z",
+ "rendered_at": "2026-09-08T13:09:17Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
-   "caption": "Agents: 89 vehicles within 320 m and 378 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 644 vehicles and 4472 people over the whole simulated ring, of which 692 and 3000 were simulated; 3225 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "caption": "Agents: 89 vehicles within 320 m and 373 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 644 vehicles and 4472 people over the whole simulated ring, of which 692 and 2999 were simulated; 3229 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "culled_after_camera_move": {
     "pedestrian_over_the_observer": 1,
     "vehicle_over_the_observer": 0
    },
    "dropped": {
-    "pedestrian_in_the_carriageway_not_crossing": 524,
-    "pedestrian_inside_building": 19,
+    "pedestrian_in_the_carriageway_not_crossing": 517,
+    "pedestrian_inside_building": 18,
     "pedestrian_not_on_walkable_surface": 164,
-    "pedestrian_outside_radius": 1284,
+    "pedestrian_outside_radius": 1271,
     "pedestrian_over_the_observer": 2,
-    "pedestrian_triangle_budget": 630,
+    "pedestrian_triangle_budget": 655,
     "vehicle_body_has_no_rider": 21,
-    "vehicle_not_on_carriageway": 13,
-    "vehicle_outside_radius": 357,
-    "vehicle_triangle_budget": 212
+    "vehicle_not_on_carriageway": 10,
+    "vehicle_outside_radius": 359,
+    "vehicle_triangle_budget": 213
    },
    "ped_lods": {
     "LOD0": 1,
     "LOD1": 13,
-    "LOD2": 364
+    "LOD2": 359
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 580971,
+   "pedestrian_triangles": 582335,
    "per_class": {
     "black_car": 4,
-    "boro_taxi": 7,
+    "boro_taxi": 6,
     "box_truck": 2,
     "dsny_truck": 1,
     "mta_bus": 1,
-    "sedan": 44,
-    "suv": 21,
-    "taxi": 6,
+    "sedan": 45,
+    "suv": 22,
+    "taxi": 5,
     "van": 3
    },
-   "placed_pedestrians": 377,
+   "placed_pedestrians": 372,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 133.72,
+   "seconds": 129.45,
    "snapshot": {
     "building_footprints_tested": 430,
     "density_lane_km": 28.886,
@@ -171,7 +175,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.14,
+     "load_seconds": 2.25,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -179,10 +183,10 @@
      "signal_plans": 19814
     },
     "npc_bodies_imported": 12,
-    "npc_templates_baked": 85,
+    "npc_templates_baked": 83,
     "pavement_polygons_tested": 2019,
     "ped_spawn_radius_m": 220.0,
-    "peds_in_snapshot": 3000,
+    "peds_in_snapshot": 2999,
     "produced_by": "blender/verify/agent_snapshot.cpp \u2014 nycsim_gameplay::TrafficSim and nycsim_gameplay::PedSim (unreal/NYCSim/Source/NYCSimRuntime/Private/CoreAdapter), the same simulations the Unreal traffic subsystem steps, over the shipped road graph",
     "protected_region": "disabled (radius 0, no cone): the gameplay rule that stops agents appearing in view of a moving player would otherwise leave the whole foreground empty of spawns, and a still frame has no player",
     "records": "VehicleSnapshot / PedSnapshot, the structs UNYCTrafficSubsystem reads from FNYCSimSnapshot",
@@ -195,15 +199,15 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 692
    },
-   "snapshot_note": "cached -5130_457_13_0_7a9f5509044aac37_1788844608.json",
+   "snapshot_note": "cached -5130_457_13_0_7a9f5509044aac37_1788868452.json",
    "triangle_budget": 1125000,
-   "triangles": 1086819,
+   "triangles": 1088185,
    "vehicle_lods": {
     "LOD2": 89
    },
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
-   "vehicle_triangles": 505848
+   "vehicle_triangles": 505850
   },
   "buildings": {
    "dropped_for_budget": [],
@@ -284,36 +288,37 @@
    457.07
   ],
   "kit": {
-   "capped": "triangle budget 1239325",
+   "capped": "triangle budget 1225315",
    "per_category": {
     "billboard": 1,
     "bulkhead": 22,
     "cornice": 25,
-    "door_entry": 66,
+    "door_entry": 65,
     "fire_escape": 6,
     "hvac": 12,
-    "parapet": 34,
+    "parapet": 33,
     "pilaster": 24,
-    "quoin": 3,
-    "scaffold": 23,
-    "storefront": 289,
-    "storefront_interior": 53,
+    "quoin": 2,
+    "scaffold": 22,
+    "storefront": 286,
+    "storefront_interior": 51,
     "string_course": 12,
     "vegetation": 5,
     "water_tower": 4,
-    "window": 5620,
-    "window_accessory": 110
+    "window": 5567,
+    "window_accessory": 105
    },
-   "placed": 6309,
-   "radius_m": 120.0,
-   "records_in_range": 13894,
+   "placed": 6242,
+   "radius_m": 140.2236867562105,
+   "records_in_range": 22332,
    "stale_registry_ids": {},
    "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
+    "t_-5_0",
     "t_-6_0"
    ],
-   "triangles": 1239487,
+   "triangles": 1225346,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -467,16 +472,18 @@
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 441,
-    "curb": 928,
-    "median": 56,
+    "crosswalk": 455,
+    "curb": 943,
+    "marking_white": 8502,
+    "marking_yellow": 212,
+    "median": 58,
     "parking_lot": 7,
-    "plaza": 51,
-    "roadbed": 343,
-    "sidewalk": 179
+    "plaza": 52,
+    "roadbed": 351,
+    "sidewalk": 187
    },
-   "placed": 2005,
-   "radius_m": 720.0,
+   "placed": 10767,
+   "radius_m": 740.2236867562106,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_-1",
@@ -486,55 +493,55 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "triangles": 150552,
+   "triangles": 172046,
    "triangles_cut_for_landmark_ground": 297,
-   "vertices": 154581
+   "vertices": 193591
   },
   "props": {
-   "capped": "triangle budget 1253543",
+   "capped": "triangle budget 1246021",
    "impostor_cards_dropped": 11,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
-    "curb_ramp": 90
+    "curb_ramp": 97
    },
    "leaf_off": false,
    "per_kind": {
-    "bench": 83,
-    "bike_rack": 21,
+    "bench": 87,
+    "bike_rack": 22,
     "bus_stop_sign": 8,
     "citibike_dock": 2,
-    "cooling_tower": 71,
-    "flagpole": 6,
-    "hydrant": 53,
+    "cooling_tower": 73,
+    "flagpole": 8,
+    "hydrant": 56,
     "linknyc": 2,
-    "mailbox": 1,
-    "manhole": 73,
+    "mailbox": 2,
+    "manhole": 76,
     "newsstand": 4,
     "steam_vent": 2,
-    "street_lamp": 72,
+    "street_lamp": 74,
     "subway_entrance": 2,
-    "subway_vent_grate": 32,
-    "tree": 124,
+    "subway_vent_grate": 34,
+    "tree": 133,
     "waste_basket": 30
    },
-   "placed": 586,
-   "radius_m": 250.0,
-   "rows_in_range": 1069,
+   "placed": 615,
+   "radius_m": 270.2236867562105,
+   "rows_in_range": 1281,
    "tiles_missing": [],
    "tiles_read": [
     "t_-5_0",
     "t_-6_0"
    ],
-   "tree_species_substituted": 81,
-   "triangles": 1255408,
+   "tree_species_substituted": 89,
+   "triangles": 1246560,
    "unmapped_kinds": {
     "artwork": 1,
     "memorial": 3,
     "vending_machine": 1
    }
   },
-  "radius_m": 720.0,
-  "seconds": 229.75,
+  "radius_m": 740.2236867562106,
+  "seconds": 231.76,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -542,10 +549,10 @@
    "holes": 0,
    "near_m": 150.0,
    "near_spacing_m": 2.0,
-   "quads_cut_for_landmark_ground": 9,
+   "quads_cut_for_landmark_ground": 10,
    "samples": 211,
    "spacing_m": 2.0,
-   "triangles": 88182,
+   "triangles": 88180,
    "water_bodies": [
     {
      "kind": "bay",
@@ -583,23 +590,27 @@
      "water_z_m": 0.0
     }
    ],
-   "water_quads": 4493,
+   "water_quads": 4497,
    "z_max_m": 12.91,
    "z_min_m": -4.3
   },
-  "triangles": 4500162
+  "triangles": 4500031
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
   "agent_vehicle_radius_m": 320.0,
-  "kit_radius_m": 120.0,
-  "prop_radius_m": 250.0,
-  "radius_m": 720.0
+  "kit_radius_m": 140.2236867562105,
+  "prop_radius_m": 270.2236867562105,
+  "radius_m": 740.2236867562106
  },
  "seconds": {
-  "render": 161.1,
-  "scene": 233.5,
-  "total": 394.7
+  "render": 159.8,
+  "scene": 243.9,
+  "total": 403.8
+ },
+ "sightline": {
+  "subject_note": "the item names no point subject",
+  "subject_visible": null
  },
  "slug": "drive_lower_manhattan_stone_st",
  "status": "rendered",

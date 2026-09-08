@@ -55,16 +55,27 @@
  "clearance": {
   "min_view_m": 20.0,
   "moved": false,
+  "nearest_agent": "agent_ped_1305.1",
+  "nearest_agent_at_deg": [
+   -18.1,
+   0.0
+  ],
+  "nearest_agent_m": 4.0,
+  "nearest_agent_probe_m": 60.0,
   "nearest_obstruction": "prop_tree_pin_oak_medium_2",
+  "nearest_obstruction_at_deg": [
+   27.2,
+   9.5
+  ],
   "nearest_obstruction_m": 6.0,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the frame is prop_tree_pin_oak_medium_2 6.0 m away, and the view azimuth is clear for 150 m",
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_tree_pin_oak_medium_2 6.0 m away, and the nearest simulated agent is agent_ped_1305.1 4.0 m away, and the view azimuth is clear for 150 m",
   "offset_m": 0.0,
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.0886,
+  "mean": 0.0887,
   "reason": null,
-  "sd": 0.0865,
+  "sd": 0.0866,
   "usable": true
  },
  "frame_retry": null,
@@ -75,9 +86,9 @@
   "background_strength": 0.25,
   "direct_normal_irradiance_w_m2": 860.0,
   "emissive": {
-   "cone_faces_deleted": 16,
-   "cones_hidden": 2,
-   "lamps_switched_off": 5,
+   "cone_faces_deleted": 8,
+   "cones_hidden": 1,
+   "lamps_switched_off": 4,
    "night": false,
    "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
@@ -105,45 +116,47 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_midtown_sixth_ave_45th/render.png",
- "rendered_at": "2026-09-08T07:19:08Z",
+ "rendered_at": "2026-09-08T13:15:16Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
-   "caption": "Agents: 50 vehicles within 320 m and 209 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 1240 vehicles and 1673 people over the whole simulated ring, of which 1407 and 2129 were simulated; 3277 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "caption": "Agents: 53 vehicles within 320 m and 217 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 1240 vehicles and 1673 people over the whole simulated ring, of which 1407 and 2129 were simulated; 3266 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "dropped": {
-    "pedestrian_in_the_carriageway_not_crossing": 148,
-    "pedestrian_not_on_walkable_surface": 78,
-    "pedestrian_outside_radius": 756,
-    "pedestrian_over_the_observer": 9,
-    "pedestrian_triangle_budget": 929,
+    "pedestrian_in_the_carriageway_not_crossing": 153,
+    "pedestrian_not_on_walkable_surface": 76,
+    "pedestrian_outside_radius": 749,
+    "pedestrian_over_the_observer": 8,
+    "pedestrian_triangle_budget": 926,
     "vehicle_body_has_no_rider": 22,
-    "vehicle_not_on_carriageway": 16,
-    "vehicle_outside_radius": 983,
+    "vehicle_not_on_carriageway": 18,
+    "vehicle_outside_radius": 977,
     "vehicle_over_the_observer": 2,
-    "vehicle_triangle_budget": 334
+    "vehicle_triangle_budget": 335
    },
    "ped_lods": {
-    "LOD0": 17,
-    "LOD1": 1,
-    "LOD2": 191
+    "LOD0": 13,
+    "LOD1": 14,
+    "LOD2": 190
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 580369,
+   "pedestrian_triangles": 582384,
    "per_class": {
-    "black_car": 5,
-    "boro_taxi": 11,
+    "black_car": 7,
+    "boro_taxi": 8,
     "box_truck": 1,
-    "sedan": 14,
-    "suv": 3,
-    "taxi": 14,
-    "van": 2
+    "dsny_truck": 1,
+    "mta_bus": 1,
+    "sedan": 9,
+    "suv": 5,
+    "taxi": 18,
+    "van": 3
    },
-   "placed_pedestrians": 209,
-   "placed_vehicles": 50,
+   "placed_pedestrians": 217,
+   "placed_vehicles": 53,
    "reason": null,
-   "seconds": 65.33,
+   "seconds": 140.27,
    "snapshot": {
     "building_footprints_tested": 3441,
     "density_lane_km": 26.727,
@@ -158,7 +171,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.35,
+     "load_seconds": 2.27,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -166,7 +179,7 @@
      "signal_plans": 19814
     },
     "npc_bodies_imported": 12,
-    "npc_templates_baked": 74,
+    "npc_templates_baked": 87,
     "pavement_polygons_tested": 5668,
     "ped_spawn_radius_m": 220.0,
     "peds_in_snapshot": 2129,
@@ -182,32 +195,42 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 1407
    },
-   "snapshot_note": "cached -2748_6306_9_0_78f919145bb1bdee_1788844608.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1084789,
+   "triangles": 1084764,
    "vehicle_lods": {
-    "LOD1": 10,
-    "LOD2": 40
+    "LOD1": 9,
+    "LOD2": 44
    },
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
-   "vehicle_triangles": 504420
+   "vehicle_triangles": 502380
   },
   "buildings": {
    "dropped_for_budget": [],
    "imported": [
+    "t_-2_6",
     "t_-3_5",
     "t_-3_6",
     "t_-3_7",
     "t_-4_5",
-    "t_-4_6"
+    "t_-4_6",
+    "t_-4_7"
    ],
-   "landmark_bins_suppressed": 40,
-   "landmark_faces_suppressed": 4764,
+   "landmark_bins_suppressed": 46,
+   "landmark_faces_suppressed": 5078,
    "lod_substituted": [],
    "missing": [],
    "new_jersey": [],
    "per_tile": {
+    "t_-2_6": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 18,
+     "triangles": 30920
+    },
     "t_-3_5": {
      "files": [
       "tile_buildings.glb"
@@ -247,49 +270,56 @@
      "lod": 0,
      "objects": 17,
      "triangles": 77988
+    },
+    "t_-4_7": {
+     "files": [
+      "tile_buildings.glb"
+     ],
+     "lod": 1,
+     "objects": 13,
+     "triangles": 23584
     }
    },
    "tiles_dropped_for_budget": 0,
-   "tiles_imported": 5,
+   "tiles_imported": 7,
    "tiles_lod_substituted": 0,
    "tiles_missing": 0,
-   "tiles_wanted": 5,
+   "tiles_wanted": 7,
    "tiles_with_new_jersey": 0,
    "triangle_budget": 3510000,
-   "triangles": 261010
+   "triangles": 315514
   },
   "centre_tm": [
    -2748.22,
    6305.74
   ],
   "kit": {
-   "capped": "triangle budget 1334597",
+   "capped": "triangle budget 935113",
    "per_category": {
-    "billboard": 1,
-    "bulkhead": 9,
-    "cornice": 7,
-    "door_entry": 10,
+    "bulkhead": 6,
+    "cornice": 4,
+    "door_entry": 7,
     "fire_escape": 11,
-    "hvac": 5,
-    "parapet": 4,
-    "pilaster": 7,
+    "hvac": 2,
+    "parapet": 1,
+    "pilaster": 6,
     "quoin": 2,
-    "storefront": 54,
-    "storefront_interior": 5,
-    "string_course": 7,
-    "water_tower": 5,
-    "window": 7810
+    "storefront": 39,
+    "storefront_interior": 3,
+    "string_course": 4,
+    "water_tower": 2,
+    "window": 5649
    },
-   "placed": 7937,
-   "radius_m": 120.0,
-   "records_in_range": 19036,
+   "placed": 5736,
+   "radius_m": 155.26848464262434,
+   "records_in_range": 30816,
    "stale_registry_ids": {},
    "suppressed_with_landmark_shells": 0,
    "tiles_missing": [],
    "tiles_read": [
     "t_-3_6"
    ],
-   "triangles": 1334634,
+   "triangles": 935150,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -407,73 +437,82 @@
   "pavement": {
    "dropped_polygons": 0,
    "per_kind": {
-    "crosswalk": 440,
-    "curb": 886,
-    "median": 107,
-    "parking_lot": 5,
-    "plaza": 86,
-    "roadbed": 399,
-    "sidewalk": 210
+    "crosswalk": 487,
+    "curb": 984,
+    "marking_white": 13095,
+    "marking_yellow": 54,
+    "median": 122,
+    "parking_lot": 6,
+    "plaza": 97,
+    "roadbed": 436,
+    "sidewalk": 233
    },
-   "placed": 2133,
-   "radius_m": 720.0,
+   "placed": 15514,
+   "radius_m": 755.2684846426243,
    "tiles_missing": [],
    "tiles_read": [
+    "t_-2_6",
     "t_-3_5",
     "t_-3_6",
     "t_-3_7",
     "t_-4_5",
-    "t_-4_6"
+    "t_-4_6",
+    "t_-4_7"
    ],
-   "triangles": 149092,
+   "triangles": 189777,
    "triangles_cut_for_landmark_ground": 4,
-   "vertices": 153130
+   "vertices": 220557
   },
   "props": {
-   "capped": null,
-   "impostor_cards_dropped": 9,
+   "capped": "triangle budget 1088802",
+   "impostor_cards_dropped": 10,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
-    "curb_ramp": 32
+    "curb_ramp": 41
    },
    "leaf_off": false,
    "per_kind": {
-    "bike_rack": 13,
+    "bench": 1,
+    "bike_rack": 18,
     "bus_shelter": 3,
-    "bus_stop_sign": 11,
-    "citibike_dock": 3,
-    "cooling_tower": 129,
-    "flagpole": 2,
-    "hydrant": 45,
+    "bus_stop_sign": 15,
+    "citibike_dock": 5,
+    "cooling_tower": 164,
+    "flagpole": 5,
+    "hydrant": 63,
     "linknyc": 1,
     "mailbox": 5,
-    "manhole": 71,
+    "manhole": 93,
     "newsstand": 4,
     "rtpi_sign": 1,
-    "steam_vent": 5,
-    "street_lamp": 85,
-    "subway_entrance": 14,
-    "subway_vent_grate": 10,
-    "tree": 62
+    "steam_vent": 7,
+    "street_lamp": 107,
+    "subway_entrance": 18,
+    "subway_vent_grate": 15,
+    "tree": 90,
+    "waste_basket": 3
    },
-   "placed": 464,
-   "radius_m": 250.0,
-   "rows_in_range": 501,
+   "placed": 618,
+   "radius_m": 285.26848464262434,
+   "rows_in_range": 690,
    "tiles_missing": [],
    "tiles_read": [
-    "t_-3_6"
+    "t_-3_6",
+    "t_-4_6"
    ],
-   "tree_species_substituted": 9,
-   "triangles": 788356,
+   "tree_species_substituted": 31,
+   "triangles": 1090988,
    "unmapped_kinds": {
-    "artwork": 1,
+    "artwork": 2,
     "drinking_fountain": 1,
     "memorial": 2,
+    "misc_structure": 3,
+    "parks_building": 2,
     "vending_machine": 1
    }
   },
-  "radius_m": 720.0,
-  "seconds": 113.31,
+  "radius_m": 755.2684846426243,
+  "seconds": 216.44,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -482,9 +521,9 @@
    "near_m": 150.0,
    "near_spacing_m": 2.0,
    "quads_cut_for_landmark_ground": 6,
-   "samples": 211,
+   "samples": 213,
    "spacing_m": 2.0,
-   "triangles": 88188,
+   "triangles": 89876,
    "water_bodies": [],
    "water_quads": 0,
    "z_max_m": 25.74,
@@ -495,14 +534,18 @@
  "scene_request": {
   "agent_ped_radius_m": 200.0,
   "agent_vehicle_radius_m": 320.0,
-  "kit_radius_m": 120.0,
-  "prop_radius_m": 250.0,
-  "radius_m": 720.0
+  "kit_radius_m": 155.26848464262434,
+  "prop_radius_m": 285.26848464262434,
+  "radius_m": 755.2684846426243
  },
  "seconds": {
-  "render": 117.7,
-  "scene": 114.7,
-  "total": 232.4
+  "render": 137.2,
+  "scene": 219.4,
+  "total": 356.6
+ },
+ "sightline": {
+  "subject_note": "the item names no point subject",
+  "subject_visible": null
  },
  "slug": "drive_midtown_sixth_ave_45th",
  "status": "rendered",
