@@ -736,6 +736,38 @@ _CITY_DRESSED: dict[str, str | None] = {}
 CITY_MATERIAL_REPORT: dict[str, object] = {"dressed": {}, "flat": {}, "slots": 0}
 
 
+def _render_verify():
+    """``blender/buildings/render_verify.py``, or None.
+
+    It owns the shell material builder already: texture set, the class's specular level and IOR,
+    and -- the part nothing else has -- the **per-building** tone and roughness offset driven by
+    the ``_LIT_SEED_HI``/``_LIT_SEED_LO`` attributes each shell carries.  ``shellmat.py`` is explicit
+    that "a consumer that renders the glTF material as-is sees the class colour without it", which
+    is what this renderer did: every red-brick building in the city exactly the same red.
+    """
+    mod = globals().get("_RENDER_VERIFY_MODULE")
+    if mod is not None:
+        return mod or None
+    import importlib.util
+
+    path = REPO_ROOT / "blender" / "buildings" / "render_verify.py"
+    spec = importlib.util.spec_from_file_location("nycsim_shell_render_verify", path)
+    if spec is None or spec.loader is None:
+        globals()["_RENDER_VERIFY_MODULE"] = False
+        return None
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = mod
+    try:
+        spec.loader.exec_module(mod)
+    except Exception as exc:                           # pragma: no cover - a broken sibling stage
+        LOG.warning("render_verify unavailable (%s); shells keep one flat tone per class", exc)
+        sys.modules.pop(spec.name, None)
+        globals()["_RENDER_VERIFY_MODULE"] = False
+        return None
+    globals()["_RENDER_VERIFY_MODULE"] = mod
+    return mod
+
+
 def _shellmat_spec(name: str):
     """``blender/buildings/shellmat.py``'s authored spec for one shell material, or None.
 
@@ -794,6 +826,33 @@ def _city_material(base: str):
             return alive                       # still in this file
         del _CITY_DRESSED[base]                # the file was reset under us; build it again
     import textures as tx
+
+    # A shell class goes to the buildings stage's own builder, which adds the class's specular
+    # level and IOR and the per-building tone and roughness offset from the shell's own seed.  The
+    # road surfaces do not: the pavement mesh carries no ``_LIT_SEED``, so there is nothing there
+    # to vary by and the attribute node would read zero for every polygon.
+    rv = _render_verify() if base not in _PAVEMENT_KIND_MATERIAL.values() else None
+    if rv is not None:
+        try:
+            mat = rv._textured_material(base, CITY_TEXTURE_RES)
+        except Exception as exc:
+            LOG.info("render_verify could not build %s (%s); building it here instead", base, exc)
+            mat = None
+        if mat is not None:
+            mat.use_fake_user = True
+            rec = tx.resolve(base)
+            _CITY_DRESSED[base] = mat.name
+            has_image = mat.use_nodes and any(n.type == "TEX_IMAGE" for n in mat.node_tree.nodes)
+            if has_image:
+                CITY_MATERIAL_REPORT["dressed"][base] = {
+                    "asset_id": rec.get("asset_id"), "maps": ["color", "normal", "roughness"],
+                    "physical_size_m": rec.get("physical_size_m"),
+                    "resolution": CITY_TEXTURE_RES,
+                    "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)"}
+            else:
+                CITY_MATERIAL_REPORT["flat"][base] = (
+                    "analytic: the catalogue has no photographic set for it")
+            return mat
 
     mat = None
     try:
