@@ -105,7 +105,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_lower_manhattan_broadway_wall_st/render.png",
- "rendered_at": "2026-09-07T14:26:18Z",
+ "rendered_at": "2026-09-08T06:03:43Z",
  "resolution_note": "1112x980; the reference photograph is 1920x1693 (1.13:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -129,7 +129,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 579767,
+   "pedestrian_triangles": 579760,
    "per_class": {
     "black_car": 4,
     "boro_taxi": 9,
@@ -143,7 +143,7 @@
    "placed_pedestrians": 212,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 158.35,
+   "seconds": 120.03,
    "snapshot": {
     "building_footprints_tested": 1416,
     "density_lane_km": 30.259,
@@ -158,7 +158,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.21,
+     "load_seconds": 2.14,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -182,15 +182,15 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 563
    },
-   "snapshot_note": "cached -5210_871_13_2_455f589c260ce148_1788782618.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1085134,
+   "triangles": 1085116,
    "vehicle_lods": {
     "LOD2": 89
    },
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
-   "vehicle_triangles": 505367
+   "vehicle_triangles": 505356
   },
   "buildings": {
    "dropped_for_budget": [],
@@ -253,7 +253,7 @@
    871.11
   ],
   "kit": {
-   "capped": "triangle budget 1137866",
+   "capped": "triangle budget 1140528",
    "per_category": {
     "bulkhead": 9,
     "cornice": 15,
@@ -263,23 +263,23 @@
     "pilaster": 13,
     "quoin": 3,
     "scaffold": 64,
-    "storefront": 155,
+    "storefront": 156,
     "storefront_interior": 10,
     "string_course": 15,
     "water_tower": 4,
-    "window": 3714,
+    "window": 3732,
     "window_accessory": 4
    },
-   "placed": 4025,
+   "placed": 4044,
    "radius_m": 120.0,
    "records_in_range": 15836,
    "stale_registry_ids": {},
-   "suppressed_with_landmark_shells": 4897,
+   "suppressed_with_landmark_shells": 4898,
    "tiles_missing": [],
    "tiles_read": [
     "t_-6_0"
    ],
-   "triangles": 1138038,
+   "triangles": 1140654,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -478,26 +478,30 @@
    "capped": "triangle budget 1198584",
    "impostor_cards_dropped": 5,
    "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 83
+   },
    "leaf_off": false,
    "per_kind": {
-    "bench": 31,
+    "bench": 29,
     "bike_rack": 11,
     "bus_shelter": 1,
     "bus_stop_sign": 11,
     "citibike_dock": 2,
+    "cooling_tower": 63,
     "flagpole": 3,
-    "hydrant": 45,
-    "manhole": 65,
+    "hydrant": 43,
+    "manhole": 61,
     "newsstand": 2,
     "steam_vent": 3,
-    "street_lamp": 67,
+    "street_lamp": 65,
     "subway_emergency_exit": 1,
     "subway_entrance": 23,
     "subway_vent_grate": 53,
-    "tree": 119,
-    "waste_basket": 18
+    "tree": 117,
+    "waste_basket": 17
    },
-   "placed": 455,
+   "placed": 505,
    "radius_m": 250.0,
    "rows_in_range": 1074,
    "tiles_missing": [],
@@ -507,18 +511,16 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "tree_species_substituted": 114,
-   "triangles": 1201528,
+   "tree_species_substituted": 112,
+   "triangles": 1198884,
    "unmapped_kinds": {
-    "artwork": 6,
-    "cooling_tower": 64,
-    "curb_ramp": 83,
+    "artwork": 5,
     "drinking_fountain": 2,
     "memorial": 7
    }
   },
   "radius_m": 720.0,
-  "seconds": 207.48,
+  "seconds": 172.15,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -571,7 +573,7 @@
    "z_max_m": 13.51,
    "z_min_m": -4.11
   },
-  "triangles": 4500172
+  "triangles": 4500126
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -581,9 +583,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 160.8,
-  "scene": 208.7,
-  "total": 369.5
+  "render": 128.6,
+  "scene": 173.1,
+  "total": 301.7
  },
  "slug": "drive_lower_manhattan_broadway_wall_st",
  "status": "rendered",

@@ -14,14 +14,14 @@
   "eye_source": "standing observer, 1.6 m eye height above the terrain surface",
   "focal_mm": 35.0,
   "ground_detail": {
-   "below_point_excluded": 47,
-   "chosen_m": 20.52,
-   "max_m": 22.49,
-   "median_m": 20.71,
-   "min_m": 17.6,
+   "below_point_excluded": 19,
+   "chosen_m": 23.61,
+   "max_m": 24.42,
+   "median_m": 23.77,
+   "min_m": 20.98,
    "mode": "street",
    "percentile": 10.0,
-   "point_m": 20.84,
+   "point_m": 24.34,
    "radius_m": 12.0,
    "samples": 113
   },
@@ -39,12 +39,12 @@
   ],
   "sensor_mm": 36.0,
   "slug": "drive_queens_bayside",
-  "terrain_z_m": 20.519,
-  "x": 15029.582,
-  "y": 7011.313,
-  "z": 22.119
+  "terrain_z_m": 23.606,
+  "x": 15026.232,
+  "y": 7043.712,
+  "z": 25.206
  },
- "camera_caption": "camera 40.76300, -73.77200 (NYC_TM 15030, 7011) z 22.1 m NAVD88 | azimuth 0.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.76300, -73.77200 (NYC_TM 15026, 7044) z 25.2 m NAVD88 | azimuth 0.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
  "camera_origin": {
   "from_photograph_gps": false,
   "lat": 40.763,
@@ -53,18 +53,20 @@
   "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 567 m away, past the 250 m at which it could still be the same view, so it was rejected as mis-tagged"
  },
  "clearance": {
+  "direction": "onto the nearest sidewalk",
   "min_view_m": 20.0,
-  "moved": false,
-  "nearest_obstruction": "t_15_7_vinyl_siding",
-  "nearest_obstruction_m": 23.6,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is t_15_7_vinyl_siding 23.6 m away, and the view azimuth is clear for 150 m",
-  "offset_m": 0.0,
-  "view_m": 150.0
+  "moved": true,
+  "nearest_obstruction_m": 14.9,
+  "note": "the recorded viewpoint is hard against t_15_7_struct_station_house (0.1 m ahead along the view azimuth); the camera was moved 32 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there",
+  "offset_m": 32.2,
+  "reason": "hard against t_15_7_struct_station_house (0.1 m ahead along the view azimuth)",
+  "rule": "pavement snap with a clear view",
+  "view_m": 60.0
  },
  "frame": {
-  "mean": 0.5547,
+  "mean": 0.4366,
   "reason": null,
-  "sd": 0.1302,
+  "sd": 0.2007,
   "usable": true
  },
  "frame_retry": null,
@@ -105,7 +107,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_queens_bayside/render.png",
- "rendered_at": "2026-09-07T14:44:41Z",
+ "rendered_at": "2026-09-08T06:18:17Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -123,7 +125,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 351336,
+   "pedestrian_triangles": 351321,
    "per_class": {
     "box_truck": 2,
     "dsny_truck": 2,
@@ -136,7 +138,7 @@
    "placed_pedestrians": 263,
    "placed_vehicles": 73,
    "reason": null,
-   "seconds": 54.51,
+   "seconds": 39.22,
    "snapshot": {
     "building_footprints_tested": 7915,
     "density_lane_km": 28.728,
@@ -151,7 +153,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.08,
+     "load_seconds": 2.29,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -177,13 +179,13 @@
    },
    "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 766611,
+   "triangles": 766598,
    "vehicle_lods": {
     "LOD2": 73
    },
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
-   "vehicle_triangles": 415275
+   "vehicle_triangles": 415277
   },
   "buildings": {
    "dropped_for_budget": [],
@@ -316,19 +318,22 @@
    "capped": "triangle budget 1412432",
    "impostor_cards_dropped": 21,
    "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 35
+   },
    "leaf_off": false,
    "per_kind": {
     "bench": 1,
     "bike_rack": 5,
     "bus_stop_sign": 2,
+    "cooling_tower": 81,
     "flagpole": 1,
     "hydrant": 20,
-    "manhole": 61,
-    "street_lamp": 62,
-    "subway_vent_grate": 1,
-    "tree": 182
+    "manhole": 60,
+    "street_lamp": 61,
+    "tree": 176
    },
-   "placed": 335,
+   "placed": 407,
    "radius_m": 250.0,
    "rows_in_range": 639,
    "tiles_missing": [],
@@ -338,15 +343,12 @@
     "t_15_6",
     "t_15_7"
    ],
-   "tree_species_substituted": 64,
-   "triangles": 1416504,
-   "unmapped_kinds": {
-    "cooling_tower": 85,
-    "curb_ramp": 38
-   }
+   "tree_species_substituted": 63,
+   "triangles": 1412812,
+   "unmapped_kinds": {}
   },
   "radius_m": 720.0,
-  "seconds": 112.59,
+  "seconds": 85.96,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -363,7 +365,7 @@
    "z_max_m": 29.57,
    "z_min_m": 11.66
   },
-  "triangles": 3151134
+  "triangles": 3147429
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -373,9 +375,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 104.5,
-  "scene": 113.3,
-  "total": 217.8
+  "render": 105.0,
+  "scene": 86.7,
+  "total": 191.7
  },
  "slug": "drive_queens_bayside",
  "status": "rendered",

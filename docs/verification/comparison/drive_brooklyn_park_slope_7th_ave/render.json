@@ -107,7 +107,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_park_slope_7th_ave/render.png",
- "rendered_at": "2026-09-07T14:20:08Z",
+ "rendered_at": "2026-09-08T05:58:39Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -129,7 +129,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 581334,
+   "pedestrian_triangles": 581284,
    "per_class": {
     "black_car": 2,
     "boro_taxi": 3,
@@ -143,7 +143,7 @@
    "placed_pedestrians": 414,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 56.38,
+   "seconds": 40.75,
    "snapshot": {
     "building_footprints_tested": 5479,
     "density_lane_km": 17.24,
@@ -158,7 +158,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.26,
+     "load_seconds": 2.15,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -182,15 +182,15 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 497
    },
-   "snapshot_note": "cached -2384_-3053_13_0_fd1123b98b2820f9_1788782618.json",
+   "snapshot_note": "cached -2384_-3053_13_0_fd1123b98b2820f9_1788844608.json",
    "triangle_budget": 1125000,
-   "triangles": 1086217,
+   "triangles": 1086163,
    "vehicle_lods": {
     "LOD2": 89
    },
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
-   "vehicle_triangles": 504883
+   "vehicle_triangles": 504879
   },
   "buildings": {
    "dropped_for_budget": [],
@@ -361,20 +361,24 @@
    "capped": "triangle budget 1313030",
    "impostor_cards_dropped": 23,
    "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 42
+   },
    "leaf_off": false,
    "per_kind": {
     "bench": 3,
     "bike_rack": 4,
     "bus_stop_sign": 2,
     "citibike_dock": 1,
-    "hydrant": 18,
+    "cooling_tower": 8,
+    "hydrant": 17,
     "mailbox": 1,
     "manhole": 38,
     "street_lamp": 42,
-    "tree": 168,
-    "waste_basket": 9
+    "tree": 167,
+    "waste_basket": 8
    },
-   "placed": 286,
+   "placed": 291,
    "radius_m": 250.0,
    "rows_in_range": 756,
    "tiles_missing": [],
@@ -382,15 +386,12 @@
     "t_-3_-3",
     "t_-3_-4"
    ],
-   "tree_species_substituted": 42,
-   "triangles": 1316022,
-   "unmapped_kinds": {
-    "cooling_tower": 8,
-    "curb_ramp": 42
-   }
+   "tree_species_substituted": 41,
+   "triangles": 1313386,
+   "unmapped_kinds": {}
   },
   "radius_m": 720.0,
-  "seconds": 122.64,
+  "seconds": 93.36,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -407,7 +408,7 @@
    "z_max_m": 53.09,
    "z_min_m": 3.14
   },
-  "triangles": 4219628
+  "triangles": 4216938
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -417,9 +418,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 132.4,
-  "scene": 129.9,
-  "total": 262.3
+  "render": 114.2,
+  "scene": 99.4,
+  "total": 213.6
  },
  "slug": "drive_brooklyn_park_slope_7th_ave",
  "status": "rendered",

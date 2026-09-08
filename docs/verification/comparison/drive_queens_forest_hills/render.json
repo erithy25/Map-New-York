@@ -105,12 +105,12 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_queens_forest_hills/render.png",
- "rendered_at": "2026-09-07T14:48:39Z",
+ "rendered_at": "2026-09-08T06:21:41Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1081 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
-   "caption": "Agents: 66 vehicles within 320 m and 404 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 479 vehicles and 1399 people over the whole simulated ring, of which 572 and 1488 were simulated; 1590 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "caption": "Agents: 65 vehicles within 320 m and 404 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 479 vehicles and 1399 people over the whole simulated ring, of which 572 and 1488 were simulated; 1591 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "dropped": {
     "pedestrian_in_the_carriageway_not_crossing": 366,
     "pedestrian_inside_building": 1,
@@ -120,7 +120,7 @@
     "vehicle_body_has_no_rider": 12,
     "vehicle_not_on_carriageway": 9,
     "vehicle_outside_radius": 294,
-    "vehicle_triangle_budget": 191
+    "vehicle_triangle_budget": 192
    },
    "ped_lods": {
     "LOD1": 9,
@@ -128,7 +128,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 581921,
+   "pedestrian_triangles": 581896,
    "per_class": {
     "black_car": 3,
     "boro_taxi": 2,
@@ -138,12 +138,12 @@
     "sedan": 32,
     "suv": 17,
     "taxi": 3,
-    "van": 6
+    "van": 5
    },
    "placed_pedestrians": 404,
-   "placed_vehicles": 66,
+   "placed_vehicles": 65,
    "reason": null,
-   "seconds": 64.46,
+   "seconds": 46.47,
    "snapshot": {
     "building_footprints_tested": 7269,
     "density_lane_km": 29.388,
@@ -158,7 +158,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.04,
+     "load_seconds": 2.19,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -184,14 +184,14 @@
    },
    "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1088028,
+   "triangles": 1083887,
    "vehicle_lods": {
     "LOD1": 6,
-    "LOD2": 60
+    "LOD2": 59
    },
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
-   "vehicle_triangles": 506107
+   "vehicle_triangles": 501991
   },
   "buildings": {
    "dropped_for_budget": [],
@@ -324,17 +324,21 @@
    "capped": null,
    "impostor_cards_dropped": 14,
    "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 70
+   },
    "leaf_off": false,
    "per_kind": {
     "bench": 6,
     "bike_rack": 1,
+    "cooling_tower": 14,
     "hydrant": 36,
     "mailbox": 2,
     "manhole": 117,
     "street_lamp": 40,
     "tree": 97
    },
-   "placed": 299,
+   "placed": 313,
    "radius_m": 250.0,
    "rows_in_range": 387,
    "tiles_missing": [],
@@ -345,16 +349,14 @@
     "t_9_2"
    ],
    "tree_species_substituted": 59,
-   "triangles": 999548,
+   "triangles": 1005764,
    "unmapped_kinds": {
-    "cooling_tower": 14,
-    "curb_ramp": 70,
     "memorial": 1,
     "vending_machine": 3
    }
   },
   "radius_m": 720.0,
-  "seconds": 117.96,
+  "seconds": 91.46,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -371,7 +373,7 @@
    "z_max_m": 40.25,
    "z_min_m": 3.11
   },
-  "triangles": 3394431
+  "triangles": 3396506
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -381,9 +383,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 118.9,
-  "scene": 119.0,
-  "total": 237.9
+  "render": 109.6,
+  "scene": 92.3,
+  "total": 201.9
  },
  "slug": "drive_queens_forest_hills",
  "status": "rendered",
