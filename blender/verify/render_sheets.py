@@ -681,8 +681,21 @@ def subject_top(meta: dict, cam_x: float, cam_y: float, sampler,
     level", and the sightline probe believed it and added the camera's elevation to an absolute one
     (docs/DEVIATIONS.md J57).
 
-    The height comes from the landmark model standing at the subject coordinate where there is
-    one, otherwise from a nominal 10 m.  Returns None when the item names no subject.
+    The height comes from the landmark model standing at the subject coordinate, and **only** from
+    there.  It used to fall back to "a nominal 10 m subject" when no model was found, and that
+    number then set the lens, the optical axis and the sightline probe's aim point: the Manhattan
+    Bridge's Brooklyn tower, 106.68 m of steel, was aimed at **4.8 m above the water**, the rays met
+    a street lamp 1.2 m from the lens, and the record said the subject was not visible over a frame
+    with the tower plainly in the middle of it (docs/DEVIATIONS.md J72).
+
+    Matching the subject to a model by *name* instead was tried and is worse: the catalogue's
+    93 entries include district and site models, so "Central Park Tower" matches
+    ``b_central_park_walls_gates`` -- a **3 m** park wall 2,368 m away -- and "Queens Museum"
+    matches ``c_brooklyn_museum`` in another borough. A confident wrong height is worse than none.
+
+    So where no model stands at the subject's coordinate this returns ``None`` for the height and
+    every caller says so rather than working from a number nobody measured.  Returns ``None``
+    outright when the item names no subject at all.
     """
     subject = meta.get("subject") or {}
     if subject.get("lat") is None or subject.get("lon") is None:
@@ -691,7 +704,6 @@ def subject_top(meta: dict, cam_x: float, cam_y: float, sampler,
     sx, sy = (float(v) for v in lonlat_to_tm(subject["lon"], subject["lat"]))
     dist = math.hypot(sx - cam_x, sy - cam_y)
     ground, _ = sampler.ground_z(sx, sy, mode="street", radius_m=15.0) if sampler else (None, {})
-    height, src = 10.0, "a nominal 10 m subject"
     best = None
     for e in landmarks:
         ox, oy = float(e["origin_tm"][0]), float(e["origin_tm"][1])
@@ -699,10 +711,11 @@ def subject_top(meta: dict, cam_x: float, cam_y: float, sampler,
         h = e.get("height_m") or (e.get("bounds_local_m") or {}).get("max", [0, 0, 0])[2]
         if d <= 120.0 and h and (best is None or d < best[0]):
             best = (d, float(h), e["id"])
-    if best is not None:
-        height, src = best[1], f"the {best[2]} model's published {best[1]:.0f} m height"
+    if best is None:
+        return dist, None, ("no landmark model stands within 120 m of the subject's coordinate, so "
+                            "its height is not known here")
     base = ground if ground is not None else 0.0
-    return dist, base + height, src
+    return dist, base + best[1], f"the {best[2]} model's published {best[1]:.0f} m height"
 
 
 def choose_lens(slug: str, top: tuple[float, float, str] | None, cam_z: float,
@@ -722,6 +735,11 @@ def choose_lens(slug: str, top: tuple[float, float, str] | None, cam_z: float,
     if top is None:
         return base, why
     dist, top_z, src = top
+    if top_z is None:
+        # The subject's height is not known here, so there is nothing to widen the lens *to*.
+        # Widening on half of an invented 10 m is how a 106.68 m bridge tower came to be framed
+        # as a 9.6 m object (J72).
+        return base, f"{why}; {src}, so the lens was not widened to contain it"
     rise = top_z - cam_z
     if dist < 1.0 or rise <= 0.0:
         return base, why
@@ -785,6 +803,9 @@ def containment_pitch(top: "tuple[float, float, str] | None", cam_z: float, foca
         # those frames exist to have, so they stay level and the lens rule is all they get.
         return 0.0, ""
     dist, top_z, src = top
+    if top_z is None:
+        # Nothing to contain: the subject's height is not known here (J72).
+        return 0.0, ""
     rise = top_z - cam_z
     if dist < 1.0 or rise <= 0.0:
         return 0.0, ""
@@ -829,7 +850,6 @@ def aim_pitch(slug: str, meta: dict, cam_x: float, cam_y: float, cam_z: float,
     ground, _ = sampler.ground_z(sx, sy, mode="street", radius_m=15.0) if sampler else (None, {})
     if ground is None:
         ground = cam_z - 1.6
-    height, src = 10.0, "a nominal 10 m subject"
     best = None
     for e in landmarks:
         ox, oy = float(e["origin_tm"][0]), float(e["origin_tm"][1])
@@ -837,8 +857,13 @@ def aim_pitch(slug: str, meta: dict, cam_x: float, cam_y: float, cam_z: float,
         h = e.get("height_m") or (e.get("bounds_local_m") or {}).get("max", [0, 0, 0])[2]
         if d <= 120.0 and h and (best is None or d < best[0]):
             best = (d, float(h), e["id"])
-    if best is not None:
-        height, src = best[1], f"the {best[2]} model's {best[1]:.0f} m height"
+    if best is None:
+        # The axis is tilted only to hold a subject whose height is *known*.  Tilting it towards
+        # half of an invented 10 m aimed the Manhattan Bridge's Brooklyn tower at the water (J72).
+        return 0.0, (f"level optical axis (no landmark model stands within 120 m of "
+                     f"{subject.get('name') or 'the subject'}, so its mid-height is not known and "
+                     f"there is nothing to tilt towards)")
+    height, src = best[1], f"the {best[2]} model's {best[1]:.0f} m height"
     target_z = ground + height / 2.0
     pitch = math.degrees(math.atan2(target_z - cam_z, dist))
     if abs(pitch) > 8.0:
@@ -1161,11 +1186,18 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
         # centimetre high.  Mid-height is what ``aim_pitch`` already uses for the camera's own tilt.
         base = sgz if sgz is not None else placement.z
         stop = float(top[1]) if top and top[1] is not None else None
-        sz = ((base + stop) * 0.5) if stop is not None else (base + 2.0)
-        sight = vcam.subject_sightline(placement.x, placement.y, placement.z, ssx, ssy, float(sz))
-        sight["subject_aimed_at"] = (f"the subject's mid-height, {sz - base:.1f} m above its ground"
-                                     if stop is not None else "2 m above the subject's ground")
-        record_subject = sight
+        if stop is None:
+            # No model of the subject stands here, so there is no mid-height to aim at and no
+            # sightline to report.  Saying `false` would be a claim that the subject is hidden;
+            # saying nothing, with the reason, is the truth (J72).
+            record_subject = {"subject_visible": None,
+                              "subject_note": (top[2] if top else "the subject's height is unknown")
+                              + "; no sightline was tested"}
+        else:
+            sz = (base + stop) * 0.5
+            sight = vcam.subject_sightline(placement.x, placement.y, placement.z, ssx, ssy, float(sz))
+            sight["subject_aimed_at"] = f"the subject's mid-height, {sz - base:.1f} m above its ground"
+            record_subject = sight
     else:
         record_subject = {"subject_visible": None, "subject_note": "the item names no point subject"}
 

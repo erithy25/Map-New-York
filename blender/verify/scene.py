@@ -915,6 +915,25 @@ def _normalise_albedo(mat, target_rgb) -> dict | None:
     return out
 
 
+def _tile_aspect(maps: dict) -> float | None:
+    """Width / height of the colour map a city surface is drawn from, or None if unreadable.
+
+    Published per surface so a sheet can be checked for the stretch J73 records: ``uv_scale_m`` is
+    one scalar and a 2:1 scan tiled with it covers the same metres across as up, so its content
+    comes out twice as tall as the material it stands for.
+    """
+    path = (maps or {}).get("color")
+    if not path or not os.path.exists(path):
+        return None
+    try:
+        from PIL import Image
+        with Image.open(path) as im:
+            w, h = im.size
+        return round(float(w) / float(h), 4) if h else None
+    except Exception:
+        return None
+
+
 def _city_material(base: str):
     """The shared textured material for shell material ``base``, built once.
 
@@ -962,6 +981,7 @@ def _city_material(base: str):
                     "physical_size_m": rec.get("physical_size_m"),
                     "resolution": CITY_TEXTURE_RES,
                     "albedo": norm,
+                    "tile_aspect": _tile_aspect(tx._existing_set(rec["asset_id"], CITY_TEXTURE_RES) or {}),
                     "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)"}
             else:
                 CITY_MATERIAL_REPORT["flat"][base] = (
@@ -991,7 +1011,8 @@ def _city_material(base: str):
         norm = _normalise_albedo(mat, _PAVEMENT_ALBEDO.get(base, rgb))
         CITY_MATERIAL_REPORT["dressed"][base] = {
             "asset_id": rec.get("asset_id"), "maps": sorted(maps), "albedo": norm,
-            "physical_size_m": rec.get("physical_size_m"), "resolution": CITY_TEXTURE_RES}
+            "physical_size_m": rec.get("physical_size_m"), "resolution": CITY_TEXTURE_RES,
+            "tile_aspect": _tile_aspect(maps)}
     except Exception as exc:
         CITY_MATERIAL_REPORT["flat"][base] = str(exc)
         LOG.info("no city texture for %s (%s); the flat colour the tile carries is kept", base, exc)

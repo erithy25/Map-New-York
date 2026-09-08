@@ -233,9 +233,10 @@
   },
   "concrete": {
    "provider": "ambientcg",
-   "asset_id": "Concrete030",
+   "asset_id": "Concrete037",
    "physical_size_m": 2.0,
    "notes": "cast-in-place concrete with board/form marks; parking garages, NYCHA slab edges, bulkheads",
+   "albedo_source": "chosen by measuring every concrete scan against the 0.5333 albedo the class authors, and required to be a scan no other surface already uses: Concrete037 needs x1.78, inside the 4.0 correction cap, where Concrete030 needed x4.54 and bound it.  Concrete036 measures closer still but is this catalogue's concrete_sidewalk, and a cast-in-place wall and a sidewalk flag are not the same surface (J66)",
    "breakup": {
     "strength": 0.14,
     "octaves": 4,
@@ -291,11 +292,12 @@
   },
   "wood_clapboard": {
    "provider": "ambientcg",
-   "asset_id": "WoodSiding003",
+   "asset_id": "WoodSiding013",
    "physical_size_m": 2.032,
    "size_rule": "lap",
-   "notes": "weathered painted wood clapboard; frame rowhouses",
    "physical_size_source": "measured:lap",
+   "notes": "weathered painted wood clapboard; frame rowhouses",
+   "albedo_source": "chosen by measuring all thirteen AmbientCG wood-siding scans against the 0.5467 albedo the class authors.  Every square one is a dark stained or weathered board: the best is WoodSiding013 at x5.52, and WoodSiding003 -- what this was -- needed x13.96.  The only pale siding scan the provider has is WoodSiding009, and it is already this catalogue's vinyl_siding (J66)",
    "breakup": {
     "strength": 0.12,
     "octaves": 4,
@@ -344,7 +346,8 @@
    "provider": "ambientcg",
    "asset_id": "Rubber004",
    "physical_size_m": 2.0,
-   "notes": "black EPDM / modified-bitumen roof membrane"
+   "notes": "black EPDM / modified-bitumen roof membrane",
+   "albedo_source": "left as Rubber004 on purpose.  The class authors 0.3033, a mid-grey standing for a city whose roofs run from black EPDM to white TPO, and Rubber004 measures 0.0267 -- x11.34, far past the 4.0 cap.  Every scan on disk that meets the level is a concrete or a plaster, and drawing a roof membrane with a concrete texture is the substitution this project refuses.  So the residual stays and every sheet publishes it (J66)"
   },
   "tar_roof": {
    "provider": "ambientcg",

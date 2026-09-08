@@ -112,7 +112,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_bed_stuy_stuyvesant_ave/render.png",
- "rendered_at": "2026-09-08T18:19:14Z",
+ "rendered_at": "2026-09-08T19:49:23Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -148,7 +148,7 @@
    "placed_pedestrians": 301,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 86.92,
+   "seconds": 103.99,
    "snapshot": {
     "building_footprints_tested": 4688,
     "density_lane_km": 18.882,
@@ -335,7 +335,8 @@
       "roughness"
      ],
      "physical_size_m": 3.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "brown_brick": {
      "albedo": {
@@ -351,7 +352,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.08,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "brownstone": {
      "albedo": {
@@ -367,18 +369,16 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.5,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "concrete": {
      "albedo": {
-      "capped_at": 4.0,
-      "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
-      "residual": 1.135,
-      "scale": 4.0,
+      "scale": 1.799,
       "target_albedo": 0.5333,
-      "texture_albedo": 0.1174
+      "texture_albedo": 0.2965
      },
-     "asset_id": "Concrete030",
+     "asset_id": "Concrete037",
      "maps": [
       "color",
       "normal",
@@ -386,7 +386,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "concrete_sidewalk": {
      "albedo": {
@@ -401,7 +402,8 @@
       "roughness"
      ],
      "physical_size_m": 1.5,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "granite": {
      "albedo": {
@@ -417,7 +419,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.5,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "limestone": {
      "albedo": {
@@ -433,7 +436,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.5,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "metal_panel": {
      "albedo": {
@@ -449,7 +453,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "precast": {
      "albedo": {
@@ -465,7 +470,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 2.0
     },
     "red_brick": {
      "albedo": {
@@ -481,7 +487,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 3.24,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "roof_membrane": {
      "albedo": {
@@ -500,7 +507,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "stone_rubble": {
      "albedo": {
@@ -516,7 +524,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 2.0
     },
     "stucco": {
      "albedo": {
@@ -532,7 +541,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "tan_brick": {
      "albedo": {
@@ -548,7 +558,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.835,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "tar_roof": {
      "albedo": {
@@ -564,7 +575,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.0,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "vinyl_siding": {
      "albedo": {
@@ -580,7 +592,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.626,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 2.0
     },
     "white_glazed_brick": {
      "albedo": {
@@ -596,18 +609,19 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 1.08,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     },
     "wood_clapboard": {
      "albedo": {
       "capped_at": 4.0,
       "note": "the catalogue's texture for this class is the wrong material, not the wrong exposure; the level is corrected as far as it can be without destroying the grain and the remaining factor is stated",
-      "residual": 3.498,
+      "residual": 1.384,
       "scale": 4.0,
       "target_albedo": 0.5467,
-      "texture_albedo": 0.0391
+      "texture_albedo": 0.0988
      },
-     "asset_id": "WoodSiding003",
+     "asset_id": "WoodSiding013",
      "maps": [
       "color",
       "normal",
@@ -615,7 +629,8 @@
      ],
      "per_building_variation": "from the shell's own _LIT_SEED (shellmat.variation)",
      "physical_size_m": 2.032,
-     "resolution": "2K"
+     "resolution": "2K",
+     "tile_aspect": 1.0
     }
    },
    "enabled": true,
@@ -687,7 +702,7 @@
    "unmapped_kinds": {}
   },
   "radius_m": 766.3096114080006,
-  "seconds": 133.9,
+  "seconds": 156.07,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -714,9 +729,9 @@
   "radius_m": 766.3096114080006
  },
  "seconds": {
-  "render": 89.4,
-  "scene": 135.5,
-  "total": 224.9
+  "render": 80.7,
+  "scene": 158.8,
+  "total": 239.5
  },
  "sightline": {
   "subject_note": "the item names no point subject",

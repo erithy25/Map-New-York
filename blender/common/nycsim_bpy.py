@@ -192,8 +192,21 @@ def pbr_material(name: str, *, base_color=(0.8, 0.8, 0.8, 1.0), roughness: float
         mapping = nt.nodes.new("ShaderNodeMapping")
         texco = nt.nodes.new("ShaderNodeTexCoord")
         nt.links.new(texco.outputs["UV"], mapping.inputs["Vector"])
+        # ``uv_scale_m`` is the physical size of the tile's **long** edge.  A scan is not always
+        # square -- AmbientCG ships 2:1 tiles -- and a single scalar on both axes stretches those
+        # by their aspect ratio.  `stone_rubble` is drawn from a 2048x1024 scan and its coursing
+        # has been twice as tall as it should be since J63 (docs/DEVIATIONS.md J73).  The v scale
+        # therefore carries the image's own aspect, read from the colour map that is about to be
+        # loaded, so a tile covers uv_scale_m across and uv_scale_m * (h / w) up.
         s = 1.0 / uv_scale_m
-        mapping.inputs["Scale"].default_value = (s, s, s)
+        sv = s
+        colour_path = textures.get("color")
+        if colour_path and os.path.exists(colour_path):
+            probe = bpy.data.images.load(colour_path, check_existing=True)
+            iw, ih = int(probe.size[0]), int(probe.size[1])
+            if iw > 0 and ih > 0 and iw != ih:
+                sv = s * (iw / ih)
+        mapping.inputs["Scale"].default_value = (s, sv, s)
         for kind, path in textures.items():
             if not path or not os.path.exists(path):
                 raise FileNotFoundError(f"texture missing for {name}/{kind}: {path}")

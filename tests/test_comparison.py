@@ -1581,3 +1581,93 @@ def test_the_sun_constant_still_meets_the_target_its_docstring_states():
     # The night path is a separate calibration and must not have been dragged along with the day.
     assert rs.SKY_STRENGTH_NIGHT == 0.5
     assert rs.NIGHT_EXPOSURE_STOPS == -1.25
+
+
+def test_a_scan_that_is_not_square_is_not_tiled_as_if_it_were():
+    """`uv_scale_m` is one scalar and AmbientCG ships 2:1 tiles.
+
+    Applied to both axes a 2048x1024 scan covers the same metres across as up, so its content is
+    drawn twice as tall as the material it stands for.  Three of this catalogue's materials are
+    2:1 -- `stone_rubble` (Bricks102), `precast` (Concrete034) and `vinyl_siding` (WoodSiding009),
+    the third most common surface in the city -- and every one of them has been stretched since
+    J63 (docs/DEVIATIONS.md J73).  `nycsim_bpy.pbr_material` now reads the colour map's own aspect
+    and scales v by it.
+
+    This test reads the two published records rather than the code: the catalogue says which asset
+    each material uses, the image on disk says its shape, and every rendered sheet publishes the
+    aspect of every surface it dressed.  It fails if a scan's shape and the mapping ever part
+    company again.
+    """
+    pytest.importorskip("PIL")
+    from PIL import Image
+
+    catalogue = json.loads((REPO_ROOT / "blender" / "common" / "texture_catalog.json").read_text())
+    materials = catalogue["materials"]
+    on_disk: dict[str, float] = {}
+    for name, rec in materials.items():
+        asset = rec.get("asset_id")
+        if not asset:
+            continue
+        found = (sorted((REPO_ROOT / "assets" / "textures" / asset).glob("*_2K_color.jpg"))
+                 or sorted((REPO_ROOT / "assets" / "textures" / asset).glob("*_1K_color.jpg")))
+        if not found:
+            continue
+        with Image.open(found[0]) as im:
+            w, h = im.size
+        on_disk[name] = round(float(w) / float(h), 4)
+    if not on_disk:
+        pytest.skip("no texture library on disk")
+
+    # Every rendered sheet that dressed a surface must publish the same aspect the file has.
+    checked = 0
+    for path in sorted(COMPARISON_DIR.glob("*/render.json")):
+        rec = json.loads(path.read_text())
+        dressed = (((rec.get("scene") or {}).get("materials") or {}).get("dressed") or {})
+        for name, entry in dressed.items():
+            if "tile_aspect" not in entry or name not in on_disk:
+                continue
+            checked += 1
+            assert entry["tile_aspect"] == pytest.approx(on_disk[name], abs=1e-3), (
+                f"{path.parent.name}: {name} publishes tile_aspect {entry['tile_aspect']} but "
+                f"{entry.get('asset_id')} on disk is {on_disk[name]}")
+    if not checked:
+        pytest.skip("no sheet rendered since the aspect was published")
+
+
+def test_no_city_surface_is_drawn_from_a_texture_that_binds_the_albedo_cap_without_a_reason():
+    """A capped surface is a stated compromise, and the catalogue has to state it.
+
+    J66 scales each photographic colour map so its mean albedo is the one the material's own stage
+    authors, capped at 4.0 because past two stops the scan is a different material rather than a
+    different exposure.  A material that binds the cap is being drawn at the wrong level, and the
+    only honest reason to leave it there is that no better source exists -- which has to be written
+    down, not assumed.  `concrete` and `wood_clapboard` were replaced by measuring every candidate
+    scan; `roof_membrane` was not, because every scan that meets its level is a concrete or a
+    plaster and drawing a roof with a concrete texture is the substitution this project refuses.
+
+    The renderer publishes `target_albedo`, `texture_albedo` and `capped_at` for every surface it
+    dresses, so this reads those rather than recomputing a target.  Recomputing is how the first
+    draft of this test flagged `asphalt`: the pavement kinds take their target from
+    `scene._PAVEMENT_ALBEDO` and not from `shellmat`, which returns a 0.6 grey for anything that is
+    not a shell class -- the exact substitution J66 was written to stop.
+    """
+    catalogue = json.loads((REPO_ROOT / "blender" / "common" / "texture_catalog.json").read_text())
+    materials = catalogue["materials"]
+    unexplained: list[str] = []
+    seen: set[str] = set()
+    for path in sorted(COMPARISON_DIR.glob("*/render.json")):
+        rec = json.loads(path.read_text())
+        dressed = (((rec.get("scene") or {}).get("materials") or {}).get("dressed") or {})
+        for name, entry in dressed.items():
+            alb = entry.get("albedo") or {}
+            if not alb.get("capped_at") or name in seen:
+                continue
+            seen.add(name)
+            if not (materials.get(name) or {}).get("albedo_source"):
+                unexplained.append(
+                    f"{name} ({entry.get('asset_id')}) binds the {alb['capped_at']} cap with a "
+                    f"residual of {alb.get('residual')} in {path.parent.name}, and the catalogue "
+                    f"records no albedo_source saying why no better scan was used")
+    if not seen:
+        pytest.skip("no sheet rendered since the albedo record was published")
+    assert not unexplained, "a surface binds the albedo cap with no reason recorded:\n  " + "\n  ".join(unexplained)
