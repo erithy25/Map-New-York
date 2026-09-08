@@ -15,13 +15,13 @@
   "focal_mm": 35.0,
   "ground_detail": {
    "below_point_excluded": 0,
-   "chosen_m": 18.63,
-   "max_m": 19.04,
-   "median_m": 18.73,
-   "min_m": 18.55,
+   "chosen_m": 18.66,
+   "max_m": 18.92,
+   "median_m": 18.74,
+   "min_m": 18.53,
    "mode": "street",
    "percentile": 10.0,
-   "point_m": 18.74,
+   "point_m": 18.63,
    "radius_m": 12.0,
    "samples": 113
   },
@@ -39,12 +39,12 @@
   ],
   "sensor_mm": 36.0,
   "slug": "drive_queens_jackson_heights",
-  "terrain_z_m": 18.63,
-  "x": 5668.498,
-  "y": 5777.699,
-  "z": 20.23
+  "terrain_z_m": 18.657,
+  "x": 5677.333,
+  "y": 5783.468,
+  "z": 20.257
  },
- "camera_caption": "camera 40.75200, -73.88300 (NYC_TM 5668, 5778) z 20.2 m NAVD88 | azimuth 165.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.75200, -73.88300 (NYC_TM 5677, 5783) z 20.3 m NAVD88 | azimuth 165.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
  "camera_origin": {
   "from_photograph_gps": false,
   "lat": 40.752,
@@ -53,20 +53,25 @@
   "source": "the item's recorded viewpoint; this photograph's own EXIF GPS is 419 m away, past the 250 m at which it could still be the same view, so it was rejected as mis-tagged"
  },
  "clearance": {
-  "direction": "onto the nearest roadbed",
+  "direction": "onto the nearest sidewalk",
   "min_view_m": 20.0,
   "moved": true,
-  "nearest_obstruction_m": 10.4,
-  "note": "the recorded viewpoint is hard against prop_lamp_cobra_davit_1 (0.25 m from the lens in the view cone); the camera was moved 9 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there",
-  "offset_m": 9.3,
+  "nearest_obstruction": "prop_lamp_cobra_davit_16",
+  "nearest_obstruction_at_deg": [
+   -27.2,
+   0.0
+  ],
+  "nearest_obstruction_m": 12.0,
+  "note": "the recorded viewpoint is hard against prop_lamp_cobra_davit_1 (0.25 m from the lens in the view cone); the camera was moved 19 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 28 m from there, and the nearest solid thing anywhere in the frame is prop_lamp_cobra_davit_16 12.0 m away at -27 deg yaw, +0 deg pitch",
+  "offset_m": 19.2,
   "reason": "hard against prop_lamp_cobra_davit_1 (0.25 m from the lens in the view cone)",
-  "rule": "pavement snap with a clear view",
-  "view_m": 60.0
+  "rule": "pavement snap with a clear frame",
+  "view_m": 27.9
  },
  "frame": {
-  "mean": 0.3557,
+  "mean": 0.3524,
   "reason": null,
-  "sd": 0.2003,
+  "sd": 0.1633,
   "usable": true
  },
  "frame_retry": null,
@@ -107,25 +112,25 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_queens_jackson_heights/render.png",
- "rendered_at": "2026-09-08T06:25:33Z",
+ "rendered_at": "2026-09-08T07:27:22Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
    "caption": "Agents: 77 vehicles within 320 m and 288 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 190 vehicles and 1368 people over the whole simulated ring, of which 226 and 2046 were simulated; 1907 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "culled_after_camera_move": {
-    "pedestrian_over_the_observer": 0,
-    "vehicle_over_the_observer": 1
+    "pedestrian_over_the_observer": 2,
+    "vehicle_over_the_observer": 0
    },
    "dropped": {
     "pedestrian_in_the_carriageway_not_crossing": 91,
     "pedestrian_not_on_walkable_surface": 312,
     "pedestrian_outside_radius": 988,
+    "pedestrian_over_the_observer": 2,
     "pedestrian_triangle_budget": 367,
     "vehicle_body_has_no_rider": 8,
     "vehicle_not_on_carriageway": 4,
-    "vehicle_outside_radius": 137,
-    "vehicle_over_the_observer": 1
+    "vehicle_outside_radius": 137
    },
    "ped_lods": {
     "LOD0": 2,
@@ -144,10 +149,10 @@
     "taxi": 5,
     "van": 1
    },
-   "placed_pedestrians": 288,
-   "placed_vehicles": 76,
+   "placed_pedestrians": 286,
+   "placed_vehicles": 77,
    "reason": null,
-   "seconds": 57.75,
+   "seconds": 47.06,
    "snapshot": {
     "building_footprints_tested": 11361,
     "density_lane_km": 24.992,
@@ -186,7 +191,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 226
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached 5658_5777_11_2_3b5126ded713ac63_1788844608.json",
    "triangle_budget": 1125000,
    "triangles": 1044540,
    "vehicle_lods": {
@@ -374,7 +379,7 @@
    "unmapped_kinds": {}
   },
   "radius_m": 720.0,
-  "seconds": 105.76,
+  "seconds": 69.86,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -401,9 +406,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 120.4,
-  "scene": 108.7,
-  "total": 229.1
+  "render": 102.9,
+  "scene": 73.2,
+  "total": 176.0
  },
  "slug": "drive_queens_jackson_heights",
  "status": "rendered",

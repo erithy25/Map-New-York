@@ -31,7 +31,7 @@
   "lat": 40.711156,
   "lon": -74.012633,
   "long_side_fov_deg": 90.0,
-  "pitch_deg": 0.0,
+  "pitch_deg": 33.048931347688814,
   "portrait": true,
   "resolution": [
    904,
@@ -44,7 +44,7 @@
   "y": 1240.741,
   "z": 5.795
  },
- "camera_caption": "camera 40.71116, -74.01263 (NYC_TM -5293, 1241) z 5.8 m NAVD88 | azimuth 314.3deg pitch +0.0deg | 18 mm on 36 mm (73.7deg horizontal, 90.0deg vertical, portrait) | 904x1206",
+ "camera_caption": "camera 40.71116, -74.01263 (NYC_TM -5293, 1241) z 5.8 m NAVD88 | azimuth 314.3deg pitch +33.0deg | 18 mm on 36 mm (73.7deg horizontal, 90.0deg vertical, portrait) | 904x1206",
  "camera_origin": {
   "from_photograph_gps": true,
   "lat": 40.711156,
@@ -55,17 +55,23 @@
  "clearance": {
   "min_view_m": 51.2,
   "moved": false,
-  "nearest_obstruction": "prop_tree_honeylocust_small_2",
-  "nearest_obstruction_m": 7.0,
-  "note": "the eye point stands on lm_b_wtc_site.233, but this camera's position is the photograph's own EXIF GPS rather than a nominal viewpoint standing for a whole deck, so there is nothing to walk to and the camera was not moved.  The view azimuth is clear for 150 m and the nearest solid thing in the view cone is prop_tree_honeylocust_small_2 7.0 m away",
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_obstruction": "lm_b_wtc_site.233",
+  "nearest_obstruction_at_deg": [
+   0.0,
+   -45.0
+  ],
+  "nearest_obstruction_m": 0.4,
+  "note": "the eye point stands on lm_b_wtc_site.233, but this camera's position is the photograph's own EXIF GPS rather than a nominal viewpoint standing for a whole deck, so there is nothing to walk to and the camera was not moved.  The view azimuth is clear for 150 m and the nearest built thing in the frame is lm_b_wtc_site.233 0.4 m away, and no simulated agent stands within 60 m of it",
   "offset_m": 0.0,
   "standing_on": "lm_b_wtc_site.233",
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.245,
+  "mean": 0.3148,
   "reason": null,
-  "sd": 0.1836,
+  "sd": 0.2939,
   "usable": true
  },
  "frame_retry": null,
@@ -91,7 +97,7 @@
  },
  "name": "National September 11 Memorial pools",
  "night": false,
- "pitch_reason": "level optical axis (the North Pool is 102 m away and would need +58 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "pitch_reason": "tilted +33.0 deg to contain the subject: the b_wtc_site model's published 329 m height tops out 328 m above the lens 102 m away, 73 deg above the horizon, and the frame is only 90 deg tall at 18 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
  "reference_photo": {
   "author": "Oleg Yunakov",
   "confidence": "high",
@@ -106,7 +112,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_911_memorial_pools/render.png",
- "rendered_at": "2026-09-07T15:23:40Z",
+ "rendered_at": "2026-09-08T07:47:45Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -129,7 +135,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 580802,
+   "pedestrian_triangles": 580767,
    "per_class": {
     "black_car": 3,
     "boro_taxi": 7,
@@ -141,7 +147,7 @@
    "placed_pedestrians": 423,
    "placed_vehicles": 88,
    "reason": null,
-   "seconds": 104.14,
+   "seconds": 48.07,
    "snapshot": {
     "building_footprints_tested": 1416,
     "density_lane_km": 24.809,
@@ -156,7 +162,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.99,
+     "load_seconds": 1.9,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -182,13 +188,13 @@
    },
    "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1083849,
+   "triangles": 1083797,
    "vehicle_lods": {
     "LOD2": 88
    },
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
-   "vehicle_triangles": 503047
+   "vehicle_triangles": 503030
   },
   "buildings": {
    "dropped_for_budget": [],
@@ -425,17 +431,21 @@
    "capped": "triangle budget 1318241",
    "impostor_cards_dropped": 4,
    "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 6
+   },
    "leaf_off": false,
    "per_kind": {
     "bench": 53,
+    "cooling_tower": 3,
     "flagpole": 1,
     "hydrant": 3,
     "manhole": 10,
     "street_lamp": 35,
     "subway_entrance": 5,
-    "tree": 273
+    "tree": 272
    },
-   "placed": 380,
+   "placed": 382,
    "radius_m": 250.0,
    "rows_in_range": 1498,
    "tiles_missing": [],
@@ -443,16 +453,14 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "tree_species_substituted": 272,
-   "triangles": 1324256,
+   "tree_species_substituted": 271,
+   "triangles": 1318312,
    "unmapped_kinds": {
-    "cooling_tower": 3,
-    "curb_ramp": 6,
     "memorial": 1
    }
   },
   "radius_m": 563.8090218678801,
-  "seconds": 148.02,
+  "seconds": 76.17,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -495,7 +503,7 @@
    "z_max_m": 13.63,
    "z_min_m": -1.81
   },
-  "triangles": 3204516
+  "triangles": 3198520
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -505,9 +513,9 @@
   "radius_m": 563.8090218678801
  },
  "seconds": {
-  "render": 134.2,
-  "scene": 148.8,
-  "total": 283.1
+  "render": 96.6,
+  "scene": 77.2,
+  "total": 173.8
  },
  "slug": "landmark_911_memorial_pools",
  "status": "rendered",

@@ -56,16 +56,26 @@
  "clearance": {
   "min_view_m": 80.0,
   "moved": false,
-  "nearest_obstruction": null,
-  "nearest_obstruction_m": 60.0,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is further than 60 m, and the view azimuth is clear for 150 m",
+  "nearest_agent": "agent_ped_1653.0",
+  "nearest_agent_at_deg": [
+   -27.2,
+   0.0
+  ],
+  "nearest_agent_m": 45.9,
+  "nearest_obstruction": "prop_tree_honeylocust_large_bare_6",
+  "nearest_obstruction_at_deg": [
+   -18.1,
+   0.0
+  ],
+  "nearest_obstruction_m": 11.2,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_tree_honeylocust_large_bare_6 11.2 m away, and the nearest simulated agent is agent_ped_1653.0 45.9 m away, and the view azimuth is clear for 150 m",
   "offset_m": 0.0,
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.4835,
+  "mean": 0.4834,
   "reason": null,
-  "sd": 0.1811,
+  "sd": 0.1812,
   "usable": true
  },
  "frame_retry": null,
@@ -106,7 +116,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_brooklyn_bridge_from_dumbo/render.png",
- "rendered_at": "2026-09-07T15:35:23Z",
+ "rendered_at": "2026-09-08T07:55:35Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -129,7 +139,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 581954,
+   "pedestrian_triangles": 581914,
    "per_class": {
     "black_car": 3,
     "boro_taxi": 1,
@@ -144,7 +154,7 @@
    "placed_pedestrians": 427,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 137.51,
+   "seconds": 64.25,
    "snapshot": {
     "building_footprints_tested": 229,
     "density_lane_km": 26.567,
@@ -159,7 +169,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 1.97,
+     "load_seconds": 2.03,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -185,13 +195,13 @@
    },
    "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1087807,
+   "triangles": 1087765,
    "vehicle_lods": {
     "LOD2": 89
    },
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
-   "vehicle_triangles": 505853
+   "vehicle_triangles": 505851
   },
   "buildings": {
    "dropped_for_budget": [],
@@ -407,6 +417,9 @@
    "capped": "triangle budget 1324518",
    "impostor_cards_dropped": 10,
    "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 21
+   },
    "leaf_off": true,
    "per_kind": {
     "bench": 50,
@@ -414,31 +427,30 @@
     "bus_shelter": 1,
     "bus_stop_sign": 2,
     "citibike_dock": 2,
+    "cooling_tower": 21,
     "flagpole": 1,
-    "hydrant": 16,
+    "hydrant": 15,
     "manhole": 44,
     "street_lamp": 46,
     "subway_vent_grate": 4,
-    "tree": 282,
+    "tree": 279,
     "waste_basket": 6
    },
-   "placed": 460,
+   "placed": 477,
    "radius_m": 250.0,
    "rows_in_range": 1017,
    "tiles_missing": [],
    "tiles_read": [
     "t_-4_0"
    ],
-   "tree_species_substituted": 265,
-   "triangles": 1329132,
+   "tree_species_substituted": 262,
+   "triangles": 1324636,
    "unmapped_kinds": {
-    "cooling_tower": 21,
-    "curb_ramp": 21,
     "parks_building": 1
    }
   },
   "radius_m": 857.4318850573411,
-  "seconds": 243.95,
+  "seconds": 135.32,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -501,7 +513,7 @@
    "z_max_m": 27.93,
    "z_min_m": -1.41
   },
-  "triangles": 3599728
+  "triangles": 3595190
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -511,9 +523,9 @@
   "radius_m": 857.4318850573411
  },
  "seconds": {
-  "render": 147.3,
-  "scene": 245.3,
-  "total": 392.6
+  "render": 121.3,
+  "scene": 136.7,
+  "total": 258.0
  },
  "slug": "landmark_brooklyn_bridge_from_dumbo",
  "status": "rendered",

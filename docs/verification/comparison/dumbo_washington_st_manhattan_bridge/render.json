@@ -56,8 +56,8 @@
   "min_view_m": 80.0,
   "moved": false,
   "nearest_obstruction": "prop_lamp_cobra_davit_1",
-  "nearest_obstruction_m": 2.6,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_cobra_davit_1 2.6 m away, and the view azimuth is clear for 150 m",
+  "nearest_obstruction_m": 1.2,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the frame is prop_lamp_cobra_davit_1 1.2 m away, and the view azimuth is clear for 150 m",
   "offset_m": 0.0,
   "view_m": 150.0
  },
@@ -105,7 +105,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/dumbo_washington_st_manhattan_bridge/render.png",
- "rendered_at": "2026-09-08T06:30:22Z",
+ "rendered_at": "2026-09-08T07:31:11Z",
  "resolution_note": "784x1394; the reference photograph is 1920x3413 (0.56:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -144,7 +144,7 @@
    "placed_pedestrians": 357,
    "placed_vehicles": 88,
    "reason": null,
-   "seconds": 103.01,
+   "seconds": 73.86,
    "snapshot": {
     "building_footprints_tested": 1945,
     "density_lane_km": 32.566,
@@ -183,7 +183,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 953
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -3347_341_14_1_b99f1ffa958cfe67_1788844608.json",
    "triangle_budget": 1125000,
    "triangles": 1081992,
    "vehicle_lods": {
@@ -421,7 +421,7 @@
    }
   },
   "radius_m": 900.0,
-  "seconds": 173.78,
+  "seconds": 117.96,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -494,9 +494,9 @@
   "radius_m": 900.0
  },
  "seconds": {
-  "render": 111.2,
-  "scene": 175.0,
-  "total": 286.2
+  "render": 108.0,
+  "scene": 119.1,
+  "total": 227.1
  },
  "slug": "dumbo_washington_st_manhattan_bridge",
  "status": "rendered",

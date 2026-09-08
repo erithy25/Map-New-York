@@ -56,8 +56,8 @@
   "min_view_m": 20.0,
   "moved": false,
   "nearest_obstruction": "prop_tree_honeylocust_large_0",
-  "nearest_obstruction_m": 13.7,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_tree_honeylocust_large_0 13.7 m away, and the view azimuth is clear for 24 m",
+  "nearest_obstruction_m": 10.2,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the frame is prop_tree_honeylocust_large_0 10.2 m away, and the view azimuth is clear for 24 m",
   "offset_m": 0.0,
   "view_m": 24.0
  },
@@ -105,7 +105,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_queens_forest_hills/render.png",
- "rendered_at": "2026-09-08T06:21:41Z",
+ "rendered_at": "2026-09-08T07:24:23Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1081 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -143,7 +143,7 @@
    "placed_pedestrians": 404,
    "placed_vehicles": 65,
    "reason": null,
-   "seconds": 46.47,
+   "seconds": 39.21,
    "snapshot": {
     "building_footprints_tested": 7269,
     "density_lane_km": 29.388,
@@ -182,7 +182,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 572
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached 8882_1961_16_0_c64e9cd484088abe_1788844608.json",
    "triangle_budget": 1125000,
    "triangles": 1083887,
    "vehicle_lods": {
@@ -356,7 +356,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 91.46,
+  "seconds": 62.22,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -383,9 +383,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 109.6,
-  "scene": 92.3,
-  "total": 201.9
+  "render": 104.9,
+  "scene": 63.0,
+  "total": 168.0
  },
  "slug": "drive_queens_forest_hills",
  "status": "rendered",

@@ -2,93 +2,52 @@
 
 `drive_bronx_arthur_ave` · sheet: [`sheet.png`](sheet.png) · render record: [`render.json`](render.json)
 
-**Reference** — File:Arthur Avenue 09 - M&G Restaurant.jpg by Joe Mabel, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2026, 1920x1440. [Commons page](https://commons.wikimedia.org/wiki/File:Arthur_Avenue_09_-_M%26G_Restaurant.jpg)
+**Reference** - File:Arthur Avenue 09 - M&G Restaurant.jpg by Joe Mabel, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2026 - a year, with no day and no instant - 1920x1280. [Commons page](https://commons.wikimedia.org/wiki/File:Arthur_Avenue_09_-_M%26G_Restaurant.jpg)
 
-**Camera** — camera 40.85325, -73.88915 (NYC_TM 5131, 17020) z 26.6 m NAVD88 | azimuth 190.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854. View direction: 190.0 deg as recorded in meta.json. This item names no subject and the reference photograph's own view direction was not derived from the image (confidence: medium), so the two halves of this sheet are not guaranteed to face the same way — compare them on street width, storey height and material, not on composition. Aim: level optical axis (the reference names no subject to aim at).
+**Camera** - camera 40.85524, -73.88776 (NYC_TM 5255, 17278) z 25.9 m NAVD88 | azimuth 190.0 deg pitch +0.0 deg | 35 mm on 36 mm (54.4 deg horizontal) | 1280x854, eye 1.6 m above a terrain surface of 24.30 m taken as the 10th percentile of 113 heightmap samples within 12 m, so the camera stands on the street rather than on a raised building grade. The lens is the default and the axis level because "the reference names no subject to aim at"; the bearing is the item's recorded 190 deg, the heading of Arthur Avenue rather than anything derived from the photograph. The stand point is the photograph's own EXIF GPS, 15.9 m from the item's recorded viewpoint, and the clearance rule then moved the camera 35.7 m onto the nearest real crosswalk polygon because the axis was closed off 10 m ahead; from there it runs clear for 45.4 m.
 
-**Sun** — azimuth 95.5°, elevation 43.6° at 2026-06-21T09:30:00-04:00 (photograph year only; 21 June 09:30 assumed).
+**Sun** - azimuth 95.5 deg, elevation 43.6 deg at 2026-06-21T09:30:00-04:00. Assumed, not measured: the file carries only the year, so the fallback puts it at 21 June, 09:30.
 
-**In frame** — 4/4 building tiles (261,870 tris), 0 landmark models, 2,363 pavement polygons, 393 props, 6,622 facade-kit pieces, 88,200 terrain triangles; **4,475,972 triangles** in 262.6 s. Frame mean 0.2679, sd 0.1878. Props capped by the triangle budget at 393 of the 880 in range.
+**In frame** - 4 of 4 building tiles carrying 261,870 triangles, 0 landmarks, 2,363 pavement polygons (958 curb, 541 crosswalk, 395 roadbed, 235 sidewalk, 132 parking-lot, 76 median, 26 plaza, none dropped), 393 props, 6,622 facade-kit pieces, 88,200 terrain triangles, 89 vehicles and 281 people; **4,475,972 triangles** in 268.5 s at 64 samples. Two budgets bite: props are cut to 393 of the 880 in range by a 1,386,876-triangle budget, and 4 vehicles fall to the agent budget. 21 opaque impostor cards were dropped; 62 of the 200 trees are a substituted species. Frame mean 0.3085, sd 0.2071.
 
-**Verdict — the strongest street-level frame in the set on everything the street is made of, and the clearest statement of what is still missing from it. Block-face height, storey rhythm, awning band, fire escapes, the kerb reveal and a June canopy are all right. The ground floor is a coloured strip where the photograph has a shopfront, the roadway is an untextured plane, and both kerbs are bare where the real avenue is parked solid**
-
-## What this render is, and what changed under it
-
-Re-rendered 2026-09-08 against the same reference. Three things in the world moved since the last
-pass and all three are visible in the numbers rather than in the picture:
-
-* **The surveyed curb ramps are cut into the pavement now.** They are not visible in this frame,
-  and that is correct: a ramp is a corner detail and this camera looks down the middle of a block.
-  The kerb reveal that *is* visible along the near sidewalk is the 0.15 m the pavement stage draws.
-  The render record still lists `curb_ramp: 81` under `unmapped_kinds` because this sheet was
-  rendered minutes before the resolver learned to say `built_elsewhere` — those 81 rows are built,
-  as pavement, and the count is a stale label rather than a gap.
-* **The triangle count rose from 3.56 M to 4.48 M** on the same camera, most of it the ramp
-  geometry in the pavement and 38 more props inside the budget (393 against 355).
-* **Every vehicle in this frame is at LOD2**, which until this morning meant every one of them
-  carried an untextured 2 m sphere at its rear axle — Blender's glTF importer builds one per rigged
-  file as a bone display shape and `import_glb` returned it with the car (J44). This is the first
-  Arthur Avenue frame without them.
+**Verdict - the street is right and the picture is not: block-face scale, kerb line, June canopy, the facade kit and the newly cut curb ramp all hold, but two pedestrians stand at the lens over a carriageway with no vehicle anywhere on it, and every shopfront and window in the frame is a blank panel where the reference is glass, goods and raised black lettering.**
 
 ## What matches
 
-* The street trees are right: full June canopies, visible trunk and branch structure, correct 8–12 m
-  heights, planted at the kerb where the street-tree census puts them. **200 of the 393 props in
-  this frame are trees**, and the budget is reached on trees before it reaches the smaller furniture.
-* The block face is right in kind and scale for Arthur Avenue: two- and three-storey brick and stucco
-  buildings with flat roofs and parapets, a continuous ground-floor commercial band, and the Arthur
-  Avenue Retail Market's shed running along the left.
-* The kit that makes the frame read as the Bronx is placed and countable: **147 fire escapes**, 883
-  storefront pieces, 3,904 windows, 686 window accessories, 171 parapets, 110 cornices, 109 string
-  courses, 114 quoins and 21 scaffold pieces. The green-netted sidewalk sheds on both frontages are
-  those 21.
-* The street section is right: a wide roadbed, generous sidewalks both sides, a visible kerb reveal,
-  and 2,363 pavement polygons — 958 curb, 541 crosswalk, 395 roadbed, 235 sidewalk, 132 parking-lot,
-  76 median, 26 plaza — from the DoITT planimetrics.
-* A fire hydrant stands at the kerb at the right size and colour, at the position `props.parquet`
-  records. 26 hydrants, 61 street lamps, 54 manholes, 48 rooftop cooling towers and 2 Citi Bike
-  docks are in frame.
-* The traffic is the simulation's own: 89 vehicles within 320 m and 281 people within 200 m, seed
-  20260907, after 120 s of simulated time on the shipped road graph — 49 sedans, 18 SUVs, 5 taxis,
-  5 black cars, 4 MTA buses, 3 box trucks, 3 vans, 2 boro taxis. A white box truck, a green sedan
-  and a dark sedan are visible down the avenue with people on both sidewalks.
+* **The section of the street is right.** Two facing block faces of two- and three-storey buildings with flat roofs and parapets, a continuous ground-floor commercial band on both sides, sidewalks raised on a visible kerb face, and a roadbed wide enough for two lanes and kerbside parking. Behind it: 2,363 planimetric pavement polygons, none dropped, and 4 of 4 building tiles with nothing missing or substituted at a lower LOD.
+* **A surveyed curb ramp is visible, and this is the first Arthur Avenue sheet in which it is.** In the near right foreground the sidewalk drops to the roadbed as a wedge with side flares cut into the pavement mesh, not as a kerb that simply stops. The 81 `curb_ramp` rows now report as `built_elsewhere` rather than `unmapped`, retiring the stale-label caveat the previous assessment carried.
+* **The trees are the strongest thing in the frame.** 200 of the 393 props are trees; full June canopies close over the roadway from both kerbs, with trunk and branch structure that reads as a tree rather than a billboard, and leaf shadows across the facades and the asphalt.
+* **The kit is placed and legible.** Of 6,622 pieces I can pick out black zigzag fire escapes on the right-hand frontage (147 in scene), parapets and cornices capping the block faces, a wall-mounted air-conditioning box (13 HVAC), and lintels and sills on the openings (3,904 windows, 686 accessories).
+* **The signage geometry exists.** Lit white fascia bands run the length of both frontages, each with a small dark blade sign on a bracket in front of it, and a scalloped green awning covers a shopfront down the block - B15's stock, visible in daylight.
+* **The street furniture is where it should be**: a red hydrant at the right kerb at the right size, a manhole disc in the asphalt at the left, and a lamp column carrying a mast arm out over the roadway - 26 hydrants, 54 manholes and 61 street lamps in scene.
 
 ## What does not match
 
-* **The frames are at different scales.** The item looks south down Arthur Avenue from the roadway
-  centre; the photograph is a frontage at four metres. They agree on what the street is made of and
-  cannot be compared on composition. The item names no subject, so no bearing can be derived from it
-  (I7).
-* **The Sun is a guess.** The file records only the year 2026, so the fallback puts it at 21 June
-  09:30, azimuth 95.5° — an east-facing morning light on a street the photograph shows in flat
-  shade. Frame mean 0.2679 against a photograph of a sunlit red frontage.
-* **Both kerbs are bare.** Arthur Avenue in the photograph's own background is parked solid on both
-  sides; the simulation models moving traffic and there is no parked-vehicle layer, so the one thing
-  that fills a Bronx kerb is the one thing not in the frame.
-* **Few of the placed agents are visible, and the caption's numbers are disc counts.** 89 vehicles
-  and 281 people are placed; a 54.4° wedge at 200 m is 206 m wide and most of that width is inside
-  the blocks rather than on the street, so a handful reach the picture. Nothing is wrong with the
-  placement — 270 people and 109 vehicles are dropped for being outside the radius, 50 more for
-  standing in the carriageway without crossing, 22 for not being on a walkable surface, 4 vehicles
-  for being a body with no rider — but a reader should not take a disc count for a frame count.
-* No market stalls, no shop signs, no menu boards — the things that make Arthur Avenue what it is.
-  The awning band *is* there with `RESTAURANT` lettering, which is the one shopfront element the
-  facade kit supplies.
-* The ground-floor commercial band is a flat coloured strip: no glass, no shopfront lettering beyond
-  the awning, no rolling shutters, no produce boxes on the sidewalk.
-* The roadway is an untextured plane. The pavement carries a kind and a few markings and no surface
-  texture, so the bottom 45 % of the frame is flat grey with the shadows of things above it.
-* No landmark models are in range, which is correct here but means the frame rests entirely on
-  shells and kit.
+* **The two halves are not the same kind of picture, and the sheet says so.** The reference is the M&G Restaurant frontage from a few metres across the sidewalk; the render looks down the middle of the avenue. The item names no subject, so the azimuth is the street heading and no bearing can be recovered from the image (I7). Street width, storey height and material are comparable; composition is not.
+* **Two pedestrians own the foreground.** One in a dark top and shorts stands on the pale crosswalk slab in the centre of the frame, one in a purple top and white trousers on the right sidewalk; both are cut off by the bottom edge and between them they hold the middle of the picture. The clearance record says "the nearest solid thing anywhere in the frame is prop_tree_sophora_small_9 18.8 m away" - a true measurement of the built scene, taken before any agent was placed and silent about the two people the render then put at the lens. The shape of J47 and I17: a real number that cannot fail the way the thing it stands for can.
+* **No vehicle appears anywhere in the frame.** 89 are placed within 320 m in eight classes led by 49 sedans, and the roadway runs empty asphalt from the lens to the vanishing point. Nothing stands at either kerb: the record's fleet is the traffic simulation's moving vehicles and carries no parked category.
+* **This sheet therefore cannot confirm the J44 fix.** The bone display sphere that rode at every rigged vehicle's rear axle is gone from the importer and all 89 vehicles here are LOD2 - but no car is in this picture, so the claim rests on the test, not on this frame.
+* **The shopfronts are blank.** Below the fascia the frontage is a flat panel with vertical mullion strips: no glass, no visible interior, no lettering, no goods. 883 storefront pieces and 122 storefront interiors are placed and none of it reads as a shop - where the reference's whole subject is a red shopfront with raised black letters, a valance of opening hours, a neon Coffee sign and plants in the window.
+* **The windows have no glass.** Each upper-storey opening is a lintel and sill with two thin jamb lines and a panel exactly the colour of the wall behind it. The reference's are dark glazing with white sashes, blinds and a window air-conditioner.
+* **No fascia carries a business name.** The bands are blank white; one further down the block reads OPEN in grey. That is B15a exactly.
+* **The roadway is untextured and unmarked.** Plain dark grey with no lane or centre line, and the crosswalk polygon the camera stands on is a pale grey slab with no bar markings.
+* **The light is a guess and the guess is visible.** A 43.6 deg east sun at 09:30 on 21 June throws hard leaf shadows across the facades; the reference is flat light under a blown-out white sky, its clapboard frontage carrying almost no shadow (I16).
+* Smaller absences: the reference's traffic cones, wheelie bin, iron area railing, glazed vestibule and yellow kerb paint. Its frontage is vinyl clapboard where the render's facades are painted stucco and brick - A2's rule table rather than an observation. One `parks_comfort_station` is unmapped and not drawn.
 
 ## Cause of each gap
 
 | gap | cause | class |
 |---|---|---|
-| the two halves are of different subjects | the item names no subject, so the reference stage assigned it the item's own azimuth and the photograph is a shopfront at four metres | reference |
-| the Sun is a guess | the photograph's metadata carries a year and no date, so the stage falls back to 21 June 09:30 | reference |
-| no parked cars | the traffic simulation models moving vehicles only; there is no parked-vehicle layer | data |
-| few placed agents visible | 89 vehicles and 281 people are a disc count; the block faces occlude nearly all of them | reporting |
-| no shopfronts, signs or produce | the facade kit supplies openings without glazing or lettering, and no stage produces shop signage | material |
-| untextured roadway | the pavement material is a flat colour per kind with no texture (J40's problem, on asphalt) | material |
-| `curb_ramp: 81` shown as unmapped | this sheet predates the resolver saying `built_elsewhere`; the ramps are in the pavement | reporting |
+| the two halves are of different subjects | the item names no subject, so the stage assigns the street heading; the photograph is a frontage at a few metres (I7) | reference |
+| the Sun is assumed | the file carries a year and no instant, so the stage falls back to 21 June 09:30; a physically lit render against a metered photograph (I16) | reference |
+| two pedestrians at the lens | the clearance probe runs before agents are placed and constrains a narrow cone, not the frame (J47, I17) | verification |
+| no vehicle visible | 89 is a disc count within 320 m, not a frame count; none falls in the 54.4 deg wedge on this block | reporting |
+| nothing parked at either kerb | the traffic simulation models moving vehicles; no parked-vehicle layer exists | data |
+| J44 cannot be verified here | the frame contains no vehicle to inspect | verification |
+| blank shopfronts | the facade kit supplies openings and fascias with no glazing, dressing or goods | material |
+| windows without glass or reveal | the window piece is a lintel, sill and jambs on the shell surface; 96.69 % of facades are rule-inferred (A2) | material |
+| no business name on any fascia | an instanced kit piece carries one texture, so the name stays in `awning_text` (B15a, B4) | data |
+| untextured roadway, unmarked crosswalk | pavement carries a kind and a flat measured colour, no texture - J40's gap, on asphalt | material |
+| 393 props of 880 in range | the 1,386,876-triangle prop budget, spent on trees first | budget |
+| 62 trees are a substituted species | trees are procedural and the library carries a subset of the census species (D6) | data |
+| comfort station not drawn | `parks_comfort_station` has no asset in the props catalogue | data |

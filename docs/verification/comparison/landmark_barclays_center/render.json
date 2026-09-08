@@ -55,16 +55,26 @@
  "clearance": {
   "min_view_m": 80.0,
   "moved": false,
-  "nearest_obstruction": "prop_lamp_cobra_davit_14",
-  "nearest_obstruction_m": 35.8,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_cobra_davit_14 35.8 m away, and the view azimuth is clear for 149 m",
+  "nearest_agent": "agent_ped_525.8",
+  "nearest_agent_at_deg": [
+   18.1,
+   -8.1
+  ],
+  "nearest_agent_m": 4.1,
+  "nearest_obstruction": "prop_hydrant_fdny_2",
+  "nearest_obstruction_at_deg": [
+   18.1,
+   -16.1
+  ],
+  "nearest_obstruction_m": 4.6,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_hydrant_fdny_2 4.6 m away, and the nearest simulated agent is agent_ped_525.8 4.1 m away, and the view azimuth is clear for 149 m",
   "offset_m": 0.0,
   "view_m": 148.8
  },
  "frame": {
-  "mean": 0.5704,
+  "mean": 0.5699,
   "reason": null,
-  "sd": 0.2436,
+  "sd": 0.2438,
   "usable": true
  },
  "frame_retry": null,
@@ -105,7 +115,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_barclays_center/render.png",
- "rendered_at": "2026-09-07T15:28:50Z",
+ "rendered_at": "2026-09-08T07:51:14Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -129,7 +139,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 582524,
+   "pedestrian_triangles": 582498,
    "per_class": {
     "black_car": 2,
     "boro_taxi": 3,
@@ -141,7 +151,7 @@
    "placed_pedestrians": 234,
    "placed_vehicles": 50,
    "reason": null,
-   "seconds": 115.11,
+   "seconds": 61.97,
    "snapshot": {
     "building_footprints_tested": 7996,
     "density_lane_km": 28.097,
@@ -156,7 +166,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.04,
+     "load_seconds": 2.06,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -182,14 +192,14 @@
    },
    "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1086254,
+   "triangles": 1088106,
    "vehicle_lods": {
     "LOD1": 10,
     "LOD2": 40
    },
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
-   "vehicle_triangles": 503730
+   "vehicle_triangles": 505608
   },
   "buildings": {
    "dropped_for_budget": [],
@@ -364,24 +374,28 @@
    "capped": "triangle budget 1307099",
    "impostor_cards_dropped": 20,
    "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 85
+   },
    "leaf_off": false,
    "per_kind": {
-    "bike_rack": 21,
+    "bike_rack": 20,
     "bus_shelter": 3,
     "bus_stop_sign": 11,
     "citibike_dock": 2,
-    "hydrant": 43,
+    "cooling_tower": 106,
+    "hydrant": 41,
     "linknyc": 1,
     "mailbox": 1,
-    "manhole": 74,
+    "manhole": 73,
     "newsstand": 1,
-    "street_lamp": 80,
+    "street_lamp": 77,
     "subway_entrance": 9,
     "subway_vent_grate": 24,
-    "tree": 154,
+    "tree": 148,
     "waste_basket": 4
    },
-   "placed": 428,
+   "placed": 521,
    "radius_m": 250.0,
    "rows_in_range": 839,
    "tiles_missing": [],
@@ -390,16 +404,14 @@
     "t_-3_-3"
    ],
    "tree_species_substituted": 28,
-   "triangles": 1314298,
+   "triangles": 1310426,
    "unmapped_kinds": {
     "artwork": 1,
-    "cooling_tower": 108,
-    "curb_ramp": 85,
     "misc_structure": 1
    }
   },
   "radius_m": 746.9552510710566,
-  "seconds": 218.05,
+  "seconds": 123.08,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -416,7 +428,7 @@
    "z_max_m": 33.36,
    "z_min_m": 1.35
   },
-  "triangles": 3840992
+  "triangles": 3838972
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -426,9 +438,9 @@
   "radius_m": 746.9552510710566
  },
  "seconds": {
-  "render": 88.4,
-  "scene": 219.7,
-  "total": 308.0
+  "render": 81.0,
+  "scene": 124.4,
+  "total": 205.4
  },
  "slug": "landmark_barclays_center",
  "status": "rendered",

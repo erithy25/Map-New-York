@@ -2,91 +2,57 @@
 
 `drive_lower_manhattan_stone_st` · sheet: [`sheet.png`](sheet.png) · render record: [`render.json`](render.json)
 
-**Reference** — File:Financial District Manhattan April 2022 008.jpg by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2022-04-19 13:45:47, 1920x1440. [Commons page](https://commons.wikimedia.org/wiki/File:Financial_District_Manhattan_April_2022_008.jpg)
+**Reference** - File:Financial District Manhattan April 2022 008.jpg by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2022-04-19 13:45:47, 1920x1440. [Commons page](https://commons.wikimedia.org/wiki/File:Financial_District_Manhattan_April_2022_008.jpg)
 
-**Camera** — camera 40.70410, -74.01070 (NYC_TM -5133, 465) z 4.0 m NAVD88 | azimuth 60.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906. The camera stands on this photograph's own EXIF GPS, 20 m from the item's recorded viewpoint. View direction: 60.0 deg as recorded in meta.json — the item names no subject, so the axis is the block's own heading and not a bearing derived from the image.
+**Camera** - camera 40.70410, -74.01070 (NYC_TM -5133, 465) z 4.0 m NAVD88, eye 1.6 m above the terrain surface | azimuth 60.0 deg pitch +0.0 deg | 35 mm on 36 mm (54.4 deg horizontal) | 1208x906. It is aimed here for the weakest of the available reasons and the record says so: 60.0 deg is the azimuth recorded in meta.json, the block's own heading rather than a bearing read out of the photograph (confidence medium); the lens is the default 35 mm full-frame equivalent; the axis is level because this item names no subject to aim at. The clearance rule then moved the camera 7.2 m onto the nearest real sidewalk polygon, because the recorded viewpoint is closed off 11 m ahead against the 12 m this frame needs. From where it now stands the azimuth is clear for 60 m and the nearest solid thing recorded is `t_-6_0_red_brick`, 11.2 m away at -27 deg yaw.
 
-**Sun** — azimuth 204.4°, elevation 58.6° at 2022-04-19T13:45:47-04:00 (EXIF DateTimeOriginal).
+**Sun** - azimuth 204.4 deg, elevation 58.6 deg at 2022-04-19T13:45:47-04:00, from EXIF DateTimeOriginal rather than an assumption.
 
-**In frame** — 6/6 building tiles (87,260 tris), 12 landmark models, 2,005 pavement polygons, 613 props, 10,813 facade-kit pieces; 4,500,179 triangles; ground mesh 211² at 2.0 m near / 40.0 m far, 4,493 water quads. Frame mean 0.253, sd 0.149.
+**In frame** - 6/6 building tiles (86,646 triangles, none missing, none LOD-substituted); 12 landmark models; 2,005 pavement polygons (928 curb, 441 crosswalk, 343 roadbed, 179 sidewalk, 56 median, 51 plaza, 7 parking lot, none dropped); 586 props of 1,069 in range; 6,309 facade-kit pieces of 13,894 in range; 89 vehicles and 377 people; 4,500,162 triangles; ground mesh 211² at 2.0 m near and 40.0 m far, no holes; frame mean 0.2486, sd 0.1501; rendered 2026-09-08T07:15:13Z in 394.7 s. Three budgets bind this frame: props capped at 1,253,543 triangles, kit at 1,239,325, and the agent budget at 1,125,000, which dropped a further 630 people and 212 vehicles the simulation had in range. 90 curb ramps inside the prop radius are recorded as built elsewhere, cut into the pavement mesh rather than placed as props (J21).
 
-**Verdict — re-rendered 2026-09-07 against a photograph that looks along the street. Both halves now run east-north-east down the Stone Street pedestrian block from its west end at William Street, between brick walls of the right height, with the awning band at the same level on both sides. The alley itself is right and everything that makes it Stone Street is missing: no cobbles, no tables, no umbrellas, no signs, no people**
-
-## What changed, and why
-
-The photograph this sheet used to carry was of the restaurant tables on Stone Street rather than of the
-street, and the assessment's own verdict was "the two halves face different ways". It passed because
-`"stone street"` is the *category* on every photograph taken on the block. The subject test now reads
-the photograph's own title and description instead (`docs/verification/comparison/REPORT.md` §2.11):
-15 candidates were rejected on it, and the chooser returned a view down the block from its west end,
-20 m from the item's recorded viewpoint — so the camera stands on the photograph's own GPS and the two
-halves face the same way for the first time.
-
-## Re-rendered 2026-09-07, and a first impression the measurement overturned
-
-Stone Street reads well: the narrow bend, the brick walls rising straight out of the paving with no
-kerb, the continuous run of shopfront fascias and hanging blade signs down both sides, awnings, a
-hydrant, a parked car at the far end and pedestrians walking the middle of the street — which is what
-Stone Street is, a pedestrianised alley. 5,634 window pieces, 289 storefronts, 53 storefront
-interiors, 89 vehicles and 363 people.
-
-My first reading of this frame was that the lit fascia bands were blowing out — pure white strips
-dominating a dim scene, with the signage emission calibrated on the Times Square *night* photograph
-and applied unchanged to a daylight alley. **The measurement says the opposite and I was wrong.**
-
-| | render | photograph |
-|---|---|---|
-| mean luminance | **0.249** | **0.404** |
-| median | 0.251 | 0.298 |
-| area above 0.95 | **0.02 %** | **14.66 %** |
-| area above 0.90 | 0.97 % | 15.76 % |
-| area below 0.20 | 35.61 % | 32.63 % |
-
-Nothing in the render is clipping. The fascias look like the brightest thing in the frame because
-everything around them is dark, and the frame as a whole is **about a stop under** the photograph it
-is paired with.
-
-The cause is not a bug but a difference in kind, and it is worth stating because it affects every
-shaded frame in this set. The render is physically lit: the Sun is placed from the photograph's own
-EXIF instant (13:45 on 19 April 2022, elevation 58.6°) and the exposure is a fixed 0 stops on a
-Filmic transform. The photograph was taken by a camera that *metered this alley* and opened up for
-it. A narrow street in shadow under a high sun is exactly where those two diverge. The render is not
-wrong about the light; it is answering a different question from the one the photograph answers.
+**Verdict - the canyon reads as a Lower Manhattan alley and the exposure is honest, but the shopfronts are the thing to fix first: a single self-lit white fascia band runs the whole length of both walls at a quarter to two on an April afternoon, carrying the identical black arrow glyph on every panel, and it is the brightest thing in the picture.**
 
 ## What matches
 
-* The alley section is right. Stone Street's 6 m pedestrian width, the walls rising 25 m either side and the way the block bends to the east all match the real street.
-* The wall colours and materials are drawn from the real facade classes: red brick on the right, pale stone and grey on the left, which is what the reference block face carries.
-* Sidewalk sheds with green netting run along both walls at the same height as the scaffolding in the reference, and the shopfront band is lit from within, which is the only emissive content the world has and it is in the right place.
-* The camera stands on the photograph's own EXIF GPS, 40 m from the item's nominal viewpoint, on the pedestrian surface, and the clearance report states the nearest solid thing in the view cone (a brick wall 17.2 m ahead) and the free distance along the azimuth (24 m).
-* The exposure is honest: a 6 m alley between 25 m walls at a 50.6 deg Sun really is this dark, and no exposure compensation was applied to flatter it.
+* Both halves are a brick canyon seen along its length: masonry closing on both sides and rising past the eye, red-brown brick on the right-hand side in each, the view running away between them. Nothing in the render contradicts the photograph on the scale of the block.
+* All six building tiles that touch this frame are present, with no missing shell and no LOD substitution, and the pavement layer dropped none of its 2,005 polygons.
+* The camera stands on the photograph's own EXIF GPS, 20 m from the item's recorded viewpoint, so both halves start from the same place even though the heading does not come from the image.
+* The crowd is simulation output rather than dressing. Three pedestrians stand together at the left wall in the middle distance at credible height and spacing, out of 377 people and 89 vehicles taken from one frame of the running simulation.
+* A red hydrant sits on the paving at the right size and colour, one of 53 within the 250 m prop radius, and the scaffold shed spanning the street in the middle distance has its soffit strip lights modelled.
+* Both of today's changes hold up under inspection. The saloon standing up the block has nothing beneath its rear axle: the imported bone display sphere of J44 is gone. The 90 surveyed curb ramps here are in the pavement mesh rather than the prop table (J21) - though none of them is in this view, which is a kerbless stretch, so what this sheet shows is the counter and not the geometry.
+* The exposure is not flattered. The alley is in shade under a 58.6 deg sun, the transform is Filmic at +0.00 stops, and a frame mean of 0.2486 with sd 0.1501 is what that actually looks like. The photograph's camera metered this alley and opened up for it; the render answers a different question and does not pretend otherwise.
 
 ## What does not match
 
-* **The heading is still the block's own axis and not derived from the image.** It agrees with the
-  photograph here — both run east-north-east down the alley — but nothing in the metadata proves it
-  (deviation I7).
-* Stone Street's defining surface — Belgian block cobbles — is a flat dark grey plane. The pavement kind is 'plaza' with a base colour and no texture.
-* The street's other defining feature is missing entirely: the restaurant tables, chairs, umbrellas and heaters that fill it from April to October, and the hanging signs and string lights above them.
-* ~~No people, no bicycles, no delivery carts.~~ — **superseded 2026-09-07.** **377 people and 89 vehicles are in this scene** from one frame of the running simulation; what the reference still has and the render does not is recorded in the section above.
-* The walls have no window openings visible along the near run, no sills, no lintels, no fire escapes, where the reference's block face carries a fire escape, six window bays, stone lintels and a cornice.
-* There is no glass anywhere: the shopfront band is a flat coloured strip with a light behind it, not a window.
-* The near foreground is a large pale faceted plane where the graded terrain grid meets the pavement, with visible triangulation and no texture.
-* Both props and kit were capped by the triangle budget (673 of the props in range, 11,167 of 15,484 kit records), so about a quarter of the facade detail within 120 m is not drawn.
+* **The two frames are not aimed the same way, and the sheet warns of it before you look.** The photograph is tilted steeply up: its verticals converge and most of its area is upper storeys and blown-white sky. The render's axis is level by rule, so most of its area is ground. These halves can be compared on street width, storey height and material, and not on composition (I7).
+* The render's paved space is visibly wider than the reference's alley, with a grey kerb and a dark asphalt carriageway running away on the right. The reference block is kerbless and filled edge to edge with market tents. The 7.2 m the clearance rule moved the camera is part of this: that rule constrains a narrow cone about the axis, not the frame (J47).
+* A dark saloon stands in the middle of the block. The reference has no traffic in it at all.
+* The lit shopfront fascia is one unbroken white band on grey pilasters, running the full length of both walls at a single height, with the same black arrow glyph on every panel. The reference's shopfronts are individually dark, with a red awning, a projecting bracket lamp, "The DUBLINER" in gold on black and a red neon telephone number.
+* There is no glass and no door anywhere in view. Under the fascia the right-hand wall is blank brick panel between pilasters, although the kit counts 289 storefronts, 66 door entries and 53 storefront interiors within its radius - and only 6,309 of the 13,894 kit pieces in range were drawn before the triangle budget ran out, which is part of why those walls are blank.
+* The tall right-hand facade carries its windows as flat dark dashes with no frame, no sill, no reveal and no depth. The reference's blocks carry framed sash windows with maroon joinery, stone sills, iron balconies, a full-height fire escape and a slated mansard with dormers under a copper cornice. Six fire-escape kit pieces are counted in range and neither wall in view has one (A2).
+* Irregular green blocks are stuck flat to the left wall at first-floor level - five vegetation kit pieces, reading at this range as pixelated moss, and answering to nothing in the photograph.
+* Stone Street's defining surface, its Belgian block paving, is a flat untextured grey plane, and the near foreground shows that plane's triangulation as broad facets.
+* The street's other defining feature is absent: the tables, chairs, umbrellas and heaters, and here the market tents that fill the reference's lower edge.
+* The photograph is overcast, its sky clipped to featureless white with no shadow anywhere in it; the render is a clear Nishita sky with a hard high sun. EXIF gives the instant, not the weather.
+* The corridor closes. The reference sees down the canyon to a white classical tower, a glass slab and a peach brick tower; the render's only sky is a narrow neutral slot at the top centre, and none of the 12 landmark models the caption counts is identifiable anywhere in the picture. There are also no bicycles: the 21 cyclists, e-bikes and pedicabs in range were dropped because the fleet exports those bodies without a rider.
 
 ## Cause of each gap
 
 | gap | cause | class |
 |---|---|---|
-| ~~the two halves face different ways~~ | **fixed**: the subject test reads the photograph's own title and description, so a facade study categorised under "Stone Street (Manhattan)" no longer qualifies as a view along it | reference |
-| no cobbles | pavement polygons carry a kind and a base colour, with no texture map | material |
-| no tables, chairs, umbrellas or string lights | no dataset carries outdoor restaurant furniture and props.parquet has no kind for it | data |
-| ~~no people~~ superseded | agents are placed now (377 people, 89 vehicles); what remains is framing and occlusion, not absence | reporting |
-| no windows, sills or fire escapes on the near walls | the facade kit was capped by the triangle budget before it reached this run of wall | geometry |
-| no glass | the kit's storefront and window pieces carry no glazing material | material |
-| faceted, untextured ground | the terrain material is a flat colour and the graded grid is 2 m here | material |
-| a quarter of the kit not drawn | the 4.5 M triangle budget is spent before the kit finishes; the cap is recorded on the sheet | geometry |
-
-## Re-render note, 2026-09-07
-
-Re-rendered against the corrected `b_wtc_site` model — the World Trade Center site stood 3.5 m too high, its plaza was an unbroken 520 x 520 m quad over both memorial pools, and its 220 oaks each carried a merged impostor card (`docs/verification/landmarks/REPORT_B.md` §12). Measured against the shipped render, **0.000 %** of pixels differ by more than 8/255 and the largest single difference is **2/255**, which is Cycles sampling noise at 32 samples, not content; frame mean and standard deviation are unchanged (0.150 / 0.075). The camera did not move. Nothing in this assessment changes.
+| the photograph is tilted up, the render is level | the pitch rule keeps the optical axis level so proportion stays comparable; the photographer's own tilt is not reproduced | reference |
+| heading is the block's axis, not the photograph's | nothing in the file metadata gives a camera heading (I7) | reference |
+| camera 7.2 m off the recorded viewpoint, into a wider kerbed space | the clearance rule moved it because the recorded azimuth was closed off 11 m ahead; the rule measures a cone, not the frame (J47) | verification |
+| a saloon standing in a pedestrian block | vehicles are placed on whatever the planimetric data calls carriageway; 13 were dropped for not being on one | data |
+| unbroken lit fascia in daylight | the emissive fascia band was calibrated on the Times Square night and day frames and applied unchanged to a shaded alley (B15) | material |
+| the same arrow glyph on every fascia panel | no real business name exists for these lots, so the band carries generic content (B4) | data |
+| no glass, no doors on the near runs | the kit's storefront and window pieces carry no glazing material, and the pieces on the near wall were not drawn | material |
+| windows as flat dashes; no sills, balconies or fire escape | facade pattern, material and trim are inferred from a rule table rather than observed (A2) | geometry |
+| green blocks on the left wall | the vegetation kit piece resolves at this range as a flat blocky panel | geometry |
+| no cobbles, faceted grey ground | pavement polygons carry a kind and a base colour with no texture map, the same omission J40 records for the open-space surfaces | material |
+| no tables, chairs, umbrellas or market tents | no dataset carries outdoor restaurant furniture or temporary stalls | data |
+| no bicycles | the fleet exports cyclist, e-bike and pedicab bodies without a rider, so the 21 in range were dropped rather than drawn | data |
+| clear sky against an overcast photograph | the sun is placed from the EXIF instant; nothing joins weather to that instant and the Nishita sky has no cloud layer | data |
+| nearly half the kit in range not drawn | the 4.5 M triangle budget is spent before the kit finishes; the cap is recorded on the sheet | budget |
+| 630 people and 212 vehicles dropped | the 1,125,000-triangle agent budget | budget |
+| "12 landmarks" counted where none is visible | a true count of the scene offered where a reader reads the picture, the same shape as I17 and J49 | reporting |

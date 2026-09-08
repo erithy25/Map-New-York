@@ -56,8 +56,8 @@
   "min_view_m": 20.0,
   "moved": false,
   "nearest_obstruction": "t_-3_6_glass_curtain",
-  "nearest_obstruction_m": 36.0,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is t_-3_6_glass_curtain 36.0 m away, and the view azimuth is clear for 150 m",
+  "nearest_obstruction_m": 17.8,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the frame is t_-3_6_glass_curtain 17.8 m away, and the view azimuth is clear for 150 m",
   "offset_m": 0.0,
   "view_m": 150.0
  },
@@ -105,7 +105,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/fifth_ave_42nd_north/render.png",
- "rendered_at": "2026-09-08T06:35:45Z",
+ "rendered_at": "2026-09-08T07:35:35Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -144,7 +144,7 @@
    "placed_pedestrians": 251,
    "placed_vehicles": 50,
    "reason": null,
-   "seconds": 112.84,
+   "seconds": 84.41,
    "snapshot": {
     "building_footprints_tested": 1488,
     "density_lane_km": 30.431,
@@ -183,7 +183,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 1458
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -2581_6014_9_0_6f25b8c5285c8ed8_1788844608.json",
    "triangle_budget": 1125000,
    "triangles": 1084874,
    "vehicle_lods": {
@@ -490,7 +490,7 @@
    }
   },
   "radius_m": 700.0,
-  "seconds": 177.34,
+  "seconds": 123.78,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -517,9 +517,9 @@
   "radius_m": 700.0
  },
  "seconds": {
-  "render": 141.1,
-  "scene": 178.7,
-  "total": 319.9
+  "render": 135.8,
+  "scene": 124.9,
+  "total": 260.7
  },
  "slug": "fifth_ave_42nd_north",
  "status": "rendered",

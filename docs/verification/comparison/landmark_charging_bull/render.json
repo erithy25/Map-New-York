@@ -55,9 +55,15 @@
  "clearance": {
   "min_view_m": 20.0,
   "moved": false,
-  "nearest_obstruction": null,
-  "nearest_obstruction_m": 60.0,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is further than 60 m, and the view azimuth is clear for 150 m",
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_obstruction": "prop_lamp_bishops_crook_6",
+  "nearest_obstruction_at_deg": [
+   18.1,
+   -10.5
+  ],
+  "nearest_obstruction_m": 6.1,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_lamp_bishops_crook_6 6.1 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 150 m",
   "offset_m": 0.0,
   "view_m": 150.0
  },
@@ -105,7 +111,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_charging_bull/render.png",
- "rendered_at": "2026-09-07T15:42:10Z",
+ "rendered_at": "2026-09-08T07:59:43Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -131,7 +137,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 581610,
+   "pedestrian_triangles": 581575,
    "per_class": {
     "ambulance": 1,
     "boro_taxi": 5,
@@ -142,7 +148,7 @@
    "placed_pedestrians": 322,
    "placed_vehicles": 88,
    "reason": null,
-   "seconds": 200.98,
+   "seconds": 87.21,
    "snapshot": {
     "building_footprints_tested": 199,
     "density_lane_km": 31.784,
@@ -157,7 +163,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.04,
+     "load_seconds": 2.17,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -183,13 +189,13 @@
    },
    "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1085145,
+   "triangles": 1085096,
    "vehicle_lods": {
     "LOD2": 88
    },
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
-   "vehicle_triangles": 503535
+   "vehicle_triangles": 503521
   },
   "buildings": {
    "dropped_for_budget": [],
@@ -243,7 +249,7 @@
    646.46
   ],
   "kit": {
-   "capped": "triangle budget 1368992",
+   "capped": "triangle budget 1368437",
    "per_category": {
     "bulkhead": 12,
     "cornice": 15,
@@ -256,10 +262,10 @@
     "storefront_interior": 12,
     "string_course": 15,
     "water_tower": 6,
-    "window": 4586,
+    "window": 4584,
     "window_accessory": 3
    },
-   "placed": 5020,
+   "placed": 5018,
    "radius_m": 120.0,
    "records_in_range": 13931,
    "stale_registry_ids": {},
@@ -268,7 +274,7 @@
    "tiles_read": [
     "t_-6_0"
    ],
-   "triangles": 1369116,
+   "triangles": 1368620,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -424,37 +430,39 @@
    "capped": "triangle budget 1322034",
    "impostor_cards_dropped": 8,
    "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 77
+   },
    "leaf_off": true,
    "per_kind": {
-    "bench": 94,
+    "bench": 93,
     "bike_rack": 29,
-    "bus_stop_sign": 21,
+    "bus_stop_sign": 20,
     "citibike_dock": 2,
+    "cooling_tower": 61,
     "flagpole": 3,
-    "hydrant": 54,
+    "hydrant": 53,
     "mailbox": 1,
-    "manhole": 92,
+    "manhole": 90,
     "newsstand": 4,
     "steam_vent": 2,
-    "street_lamp": 121,
+    "street_lamp": 118,
     "subway_entrance": 26,
-    "subway_vent_grate": 65,
-    "tree": 154,
+    "subway_vent_grate": 61,
+    "tree": 150,
     "waste_basket": 22
    },
-   "placed": 690,
+   "placed": 735,
    "radius_m": 250.0,
    "rows_in_range": 1125,
    "tiles_missing": [],
    "tiles_read": [
     "t_-6_0"
    ],
-   "tree_species_substituted": 122,
-   "triangles": 1323104,
+   "tree_species_substituted": 120,
+   "triangles": 1323708,
    "unmapped_kinds": {
     "artwork": 5,
-    "cooling_tower": 61,
-    "curb_ramp": 81,
     "drinking_fountain": 3,
     "memorial": 3,
     "misc_structure": 1,
@@ -462,7 +470,7 @@
    }
   },
   "radius_m": 500.0,
-  "seconds": 269.87,
+  "seconds": 130.85,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -510,7 +518,7 @@
    "z_max_m": 11.84,
    "z_min_m": -4.75
   },
-  "triangles": 4500124
+  "triangles": 4500183
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -520,9 +528,9 @@
   "radius_m": 500.0
  },
  "seconds": {
-  "render": 132.9,
-  "scene": 272.3,
-  "total": 405.2
+  "render": 112.8,
+  "scene": 132.5,
+  "total": 245.3
  },
  "slug": "landmark_charging_bull",
  "status": "rendered",

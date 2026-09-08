@@ -31,7 +31,7 @@
   "lat": 40.706285,
   "lon": -74.01193,
   "long_side_fov_deg": 90.0,
-  "pitch_deg": 0.0,
+  "pitch_deg": 32.465894149449774,
   "portrait": false,
   "resolution": [
    1280,
@@ -44,7 +44,7 @@
   "y": 698.474,
   "z": 5.661
  },
- "camera_caption": "camera 40.70629, -74.01193 (NYC_TM -5180, 698) z 5.7 m NAVD88 | azimuth 70.0deg pitch +0.0deg | 18 mm on 36 mm (90.0deg horizontal) | 1280x606",
+ "camera_caption": "camera 40.70629, -74.01193 (NYC_TM -5180, 698) z 5.7 m NAVD88 | azimuth 70.0deg pitch +32.5deg | 18 mm on 36 mm (90.0deg horizontal) | 1280x606",
  "camera_origin": {
   "from_photograph_gps": false,
   "lat": 40.706285,
@@ -56,17 +56,28 @@
   "direction": "onto the nearest roadbed",
   "min_view_m": 80.0,
   "moved": true,
+  "nearest_agent": "agent_ped_2560.2",
+  "nearest_agent_at_deg": [
+   -45.0,
+   0.0
+  ],
+  "nearest_agent_m": 16.1,
+  "nearest_obstruction": null,
+  "nearest_obstruction_at_deg": [
+   0.0,
+   0.0
+  ],
   "nearest_obstruction_m": 20.0,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 44 m ahead, less than the 80 m this frame needs to show its subject; the camera was moved 52 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 96 m from there",
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 32 m ahead, less than the 80 m this frame needs to show its subject; the camera was moved 52 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 96 m from there, and nothing built stands within 20 m of the lens, and the nearest simulated agent is agent_ped_2560.2 16.1 m away",
   "offset_m": 52.2,
-  "reason": "boxed in: the view azimuth is closed off 44 m ahead, less than the 80 m this frame needs to show its subject",
-  "rule": "pavement snap with a clear view",
+  "reason": "boxed in: the view azimuth is closed off 32 m ahead, less than the 80 m this frame needs to show its subject",
+  "rule": "pavement snap with a clear frame",
   "view_m": 96.0
  },
  "frame": {
-  "mean": 0.1473,
+  "mean": 0.2454,
   "reason": null,
-  "sd": 0.0866,
+  "sd": 0.181,
   "usable": true
  },
  "frame_retry": null,
@@ -92,7 +103,7 @@
  },
  "name": "40 Wall Street (Trump Building)",
  "night": false,
- "pitch_reason": "level optical axis (40 Wall Street (Trump Building) is 200 m away and would need +35 deg of tilt; a real frame would use a wider lens instead, and a tilted axis would stop the render being comparable on proportion)",
+ "pitch_reason": "tilted +32.5 deg to contain the subject: the 40_wall_street model's published 282 m height tops out 284 m above the lens 200 m away, 55 deg above the horizon, and the frame is only 51 deg tall at 18 mm. **The verticals converge, so this frame is not comparable with the photograph on proportion** -- it is here to show the subject at all",
  "reference_photo": {
   "author": "Jakub Ha\u0142un",
   "confidence": "high",
@@ -107,7 +118,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_40_wall_street/render.png",
- "rendered_at": "2026-09-07T15:18:56Z",
+ "rendered_at": "2026-09-08T07:44:49Z",
  "resolution_note": "1280x606; the reference photograph is 1920x909 (2.11:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -131,7 +142,7 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 581196,
+   "pedestrian_triangles": 581145,
    "per_class": {
     "black_car": 2,
     "boro_taxi": 5,
@@ -145,7 +156,7 @@
    "placed_pedestrians": 403,
    "placed_vehicles": 81,
    "reason": null,
-   "seconds": 159.38,
+   "seconds": 79.15,
    "snapshot": {
     "building_footprints_tested": 1416,
     "density_lane_km": 33.563,
@@ -160,7 +171,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.14,
+     "load_seconds": 2.02,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -186,14 +197,14 @@
    },
    "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1086728,
+   "triangles": 1087045,
    "vehicle_lods": {
     "LOD1": 2,
     "LOD2": 79
    },
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
-   "vehicle_triangles": 505532
+   "vehicle_triangles": 505900
   },
   "buildings": {
    "dropped_for_budget": [],
@@ -265,7 +276,7 @@
    699.78
   ],
   "kit": {
-   "capped": "triangle budget 1175423",
+   "capped": "triangle budget 1173754",
    "per_category": {
     "antenna": 3,
     "bulkhead": 8,
@@ -279,10 +290,10 @@
     "storefront_interior": 6,
     "string_course": 3,
     "water_tower": 4,
-    "window": 4268,
-    "window_accessory": 690
+    "window": 4262,
+    "window_accessory": 685
    },
-   "placed": 5152,
+   "placed": 5141,
    "radius_m": 120.0,
    "records_in_range": 19176,
    "stale_registry_ids": {},
@@ -291,7 +302,7 @@
    "tiles_read": [
     "t_-6_0"
    ],
-   "triangles": 1175510,
+   "triangles": 1173818,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -479,26 +490,30 @@
    "capped": "triangle budget 1219086",
    "impostor_cards_dropped": 8,
    "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 93
+   },
    "leaf_off": false,
    "per_kind": {
-    "bench": 84,
-    "bike_rack": 28,
+    "bench": 82,
+    "bike_rack": 27,
     "bus_shelter": 1,
     "bus_stop_sign": 11,
     "citibike_dock": 1,
+    "cooling_tower": 69,
     "flagpole": 3,
-    "hydrant": 61,
+    "hydrant": 60,
     "mailbox": 1,
-    "manhole": 88,
+    "manhole": 86,
     "newsstand": 7,
     "steam_vent": 2,
-    "street_lamp": 101,
-    "subway_entrance": 32,
-    "subway_vent_grate": 67,
-    "tree": 85,
-    "waste_basket": 26
+    "street_lamp": 100,
+    "subway_entrance": 30,
+    "subway_vent_grate": 66,
+    "tree": 82,
+    "waste_basket": 25
    },
-   "placed": 598,
+   "placed": 653,
    "radius_m": 250.0,
    "rows_in_range": 925,
    "tiles_missing": [],
@@ -506,19 +521,17 @@
     "t_-5_0",
     "t_-6_0"
    ],
-   "tree_species_substituted": 69,
-   "triangles": 1220954,
+   "tree_species_substituted": 66,
+   "triangles": 1222306,
    "unmapped_kinds": {
     "artwork": 4,
-    "cooling_tower": 72,
-    "curb_ramp": 95,
     "drinking_fountain": 3,
     "memorial": 4,
     "misc_structure": 1
    }
   },
   "radius_m": 720.7110795832725,
-  "seconds": 242.39,
+  "seconds": 130.47,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -576,7 +589,7 @@
    "z_max_m": 13.49,
    "z_min_m": -4.11
   },
-  "triangles": 4500087
+  "triangles": 4500064
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -586,9 +599,9 @@
   "radius_m": 720.7110795832725
  },
  "seconds": {
-  "render": 90.1,
-  "scene": 249.4,
-  "total": 339.5
+  "render": 92.8,
+  "scene": 139.6,
+  "total": 232.4
  },
  "slug": "landmark_40_wall_street",
  "status": "rendered",

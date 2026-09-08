@@ -56,15 +56,15 @@
   "min_view_m": 20.0,
   "moved": false,
   "nearest_obstruction": "prop_lamp_cobra_davit_19",
-  "nearest_obstruction_m": 29.4,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_cobra_davit_19 29.4 m away, and the view azimuth is clear for 150 m",
+  "nearest_obstruction_m": 29.7,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the frame is prop_lamp_cobra_davit_19 29.7 m away, and the view azimuth is clear for 150 m",
   "offset_m": 0.0,
   "view_m": 150.0
  },
  "frame": {
   "mean": 0.3724,
   "reason": null,
-  "sd": 0.1919,
+  "sd": 0.1917,
   "usable": true
  },
  "frame_retry": null,
@@ -105,7 +105,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/fifth_ave_42nd_south/render.png",
- "rendered_at": "2026-09-07T15:13:16Z",
+ "rendered_at": "2026-09-08T07:40:53Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -129,20 +129,21 @@
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 580029,
+   "pedestrian_triangles": 580007,
    "per_class": {
     "black_car": 7,
     "boro_taxi": 11,
+    "box_truck": 1,
     "dsny_truck": 1,
     "sedan": 7,
     "suv": 2,
-    "taxi": 22,
+    "taxi": 21,
     "van": 2
    },
    "placed_pedestrians": 248,
    "placed_vehicles": 52,
    "reason": null,
-   "seconds": 175.27,
+   "seconds": 88.15,
    "snapshot": {
     "building_footprints_tested": 1488,
     "density_lane_km": 29.352,
@@ -157,7 +158,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.01,
+     "load_seconds": 1.96,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -183,7 +184,7 @@
    },
    "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1084127,
+   "triangles": 1085825,
    "vehicle_lods": {
     "LOD0": 1,
     "LOD1": 8,
@@ -191,7 +192,7 @@
    },
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
-   "vehicle_triangles": 504098
+   "vehicle_triangles": 505818
   },
   "buildings": {
    "dropped_for_budget": [],
@@ -272,7 +273,7 @@
    5942.12
   ],
   "kit": {
-   "capped": "triangle budget 1019514",
+   "capped": "triangle budget 1017860",
    "per_category": {
     "antenna": 2,
     "bulkhead": 8,
@@ -286,9 +287,9 @@
     "storefront_interior": 13,
     "string_course": 5,
     "water_tower": 2,
-    "window": 4682
+    "window": 4675
    },
-   "placed": 4844,
+   "placed": 4837,
    "radius_m": 140.0,
    "records_in_range": 20149,
    "stale_registry_ids": {},
@@ -298,7 +299,7 @@
     "t_-3_5",
     "t_-3_6"
    ],
-   "triangles": 1019624,
+   "triangles": 1017888,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -447,12 +448,16 @@
    "capped": "triangle budget 1132819",
    "impostor_cards_dropped": 10,
    "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 40
+   },
    "leaf_off": true,
    "per_kind": {
     "bike_rack": 17,
     "bus_shelter": 5,
-    "bus_stop_sign": 17,
+    "bus_stop_sign": 16,
     "citibike_dock": 3,
+    "cooling_tower": 57,
     "flagpole": 12,
     "hydrant": 32,
     "linknyc": 4,
@@ -461,13 +466,13 @@
     "newsstand": 6,
     "rtpi_sign": 1,
     "steam_vent": 8,
-    "street_lamp": 56,
+    "street_lamp": 53,
     "subway_entrance": 3,
     "subway_vent_grate": 7,
-    "tree": 233,
+    "tree": 227,
     "waste_basket": 7
    },
-   "placed": 467,
+   "placed": 514,
    "radius_m": 250.0,
    "rows_in_range": 943,
    "tiles_missing": [],
@@ -475,12 +480,10 @@
     "t_-3_5",
     "t_-3_6"
    ],
-   "tree_species_substituted": 204,
-   "triangles": 1132986,
+   "tree_species_substituted": 198,
+   "triangles": 1132942,
    "unmapped_kinds": {
     "artwork": 7,
-    "cooling_tower": 59,
-    "curb_ramp": 40,
     "drinking_fountain": 1,
     "memorial": 4,
     "parks_building": 2,
@@ -489,7 +492,7 @@
    }
   },
   "radius_m": 700.0,
-  "seconds": 266.71,
+  "seconds": 147.76,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -506,7 +509,7 @@
    "z_max_m": 25.74,
    "z_min_m": 7.43
   },
-  "triangles": 4500110
+  "triangles": 4500028
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -516,9 +519,9 @@
   "radius_m": 700.0
  },
  "seconds": {
-  "render": 176.7,
-  "scene": 268.7,
-  "total": 445.4
+  "render": 166.8,
+  "scene": 148.9,
+  "total": 315.7
  },
  "slug": "fifth_ave_42nd_south",
  "status": "rendered",
