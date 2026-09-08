@@ -56,22 +56,28 @@
   "direction": "onto the nearest crosswalk",
   "min_view_m": 20.0,
   "moved": true,
+  "nearest_agent": "agent_ped_545.1",
+  "nearest_agent_at_deg": [
+   -9.1,
+   -9.5
+  ],
+  "nearest_agent_m": 4.6,
   "nearest_obstruction": "prop_tree_sophora_small_9",
   "nearest_obstruction_at_deg": [
    -27.2,
    9.5
   ],
   "nearest_obstruction_m": 18.8,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 10 m ahead, less than the 12 m this frame needs to show its subject; the camera was moved 36 m onto the nearest real crosswalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 45 m from there, and the nearest solid thing anywhere in the frame is prop_tree_sophora_small_9 18.8 m away at -27 deg yaw, +9 deg pitch",
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 10 m ahead, less than the 12 m this frame needs to show its subject; the camera was moved 36 m onto the nearest real crosswalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 45 m from there, and the nearest built thing in the frame is prop_tree_sophora_small_9 18.8 m away at -27 deg yaw, +9 deg pitch, and the nearest simulated agent is agent_ped_545.1 4.6 m away",
   "offset_m": 35.7,
   "reason": "boxed in: the view azimuth is closed off 10 m ahead, less than the 12 m this frame needs to show its subject",
   "rule": "pavement snap with a clear frame",
   "view_m": 45.4
  },
  "frame": {
-  "mean": 0.3085,
+  "mean": 0.2304,
   "reason": null,
-  "sd": 0.2071,
+  "sd": 0.1708,
   "usable": true
  },
  "frame_retry": null,
@@ -112,7 +118,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_arthur_ave/render.png",
- "rendered_at": "2026-09-08T06:50:58Z",
+ "rendered_at": "2026-09-08T09:29:41Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -146,7 +152,7 @@
    "placed_pedestrians": 281,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 40.05,
+   "seconds": 34.53,
    "snapshot": {
     "building_footprints_tested": 4239,
     "density_lane_km": 25.141,
@@ -304,13 +310,15 @@
    "per_kind": {
     "crosswalk": 541,
     "curb": 958,
+    "marking_white": 11211,
+    "marking_yellow": 382,
     "median": 76,
     "parking_lot": 132,
     "plaza": 26,
     "roadbed": 395,
     "sidewalk": 235
    },
-   "placed": 2363,
+   "placed": 13956,
    "radius_m": 720.0,
    "tiles_missing": [],
    "tiles_read": [
@@ -319,16 +327,16 @@
     "t_5_16",
     "t_5_17"
    ],
-   "triangles": 187426,
+   "triangles": 211589,
    "triangles_cut_for_landmark_ground": 0,
-   "vertices": 191828
+   "vertices": 239177
   },
   "props": {
-   "capped": "triangle budget 1386876",
+   "capped": "triangle budget 1378419",
    "impostor_cards_dropped": 21,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
-    "curb_ramp": 81
+    "curb_ramp": 80
    },
    "leaf_off": false,
    "per_kind": {
@@ -337,11 +345,11 @@
     "flagpole": 1,
     "hydrant": 26,
     "mailbox": 1,
-    "manhole": 54,
+    "manhole": 53,
     "street_lamp": 61,
     "tree": 200
    },
-   "placed": 393,
+   "placed": 392,
    "radius_m": 250.0,
    "rows_in_range": 880,
    "tiles_missing": [],
@@ -351,13 +359,13 @@
     "t_5_17"
    ],
    "tree_species_substituted": 62,
-   "triangles": 1387352,
+   "triangles": 1384308,
    "unmapped_kinds": {
     "parks_comfort_station": 1
    }
   },
   "radius_m": 720.0,
-  "seconds": 96.86,
+  "seconds": 85.71,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -410,7 +418,7 @@
    "z_max_m": 36.83,
    "z_min_m": 10.98
   },
-  "triangles": 4475972
+  "triangles": 4497091
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -420,9 +428,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 168.0,
-  "scene": 100.5,
-  "total": 268.5
+  "render": 294.6,
+  "scene": 101.3,
+  "total": 396.0
  },
  "slug": "drive_bronx_arthur_ave",
  "status": "rendered",

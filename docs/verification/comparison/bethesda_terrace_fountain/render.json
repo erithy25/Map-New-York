@@ -62,9 +62,9 @@
   "standing_on": "lm_b_bethesda_terrace.26"
  },
  "frame": {
-  "mean": 0.7188,
+  "mean": 0.7217,
   "reason": null,
-  "sd": 0.1648,
+  "sd": 0.1651,
   "usable": true
  },
  "frame_retry": null,
@@ -105,36 +105,36 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/bethesda_terrace_fountain/render.png",
- "rendered_at": "2026-09-08T06:46:28Z",
+ "rendered_at": "2026-09-08T09:45:26Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
-   "caption": "Agents: 0 vehicles within 320 m and 10 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 73 vehicles and 13 people over the whole simulated ring, of which 96 and 27 were simulated; 113 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "caption": "Agents: 0 vehicles within 320 m and 11 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 73 vehicles and 13 people over the whole simulated ring, of which 96 and 27 were simulated; 112 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "dropped": {
     "pedestrian_in_the_carriageway_not_crossing": 2,
     "pedestrian_not_on_walkable_surface": 4,
-    "pedestrian_outside_radius": 11,
+    "pedestrian_outside_radius": 10,
     "vehicle_body_has_no_rider": 1,
-    "vehicle_not_on_carriageway": 4,
-    "vehicle_on_a_car_free_park_drive": 47,
+    "vehicle_not_on_carriageway": 5,
+    "vehicle_on_a_car_free_park_drive": 46,
     "vehicle_outside_radius": 44
    },
    "ped_lods": {
-    "LOD1": 2,
+    "LOD1": 3,
     "LOD2": 8
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 24018,
+   "pedestrian_triangles": 25149,
    "per_class": {},
-   "placed_pedestrians": 10,
+   "placed_pedestrians": 11,
    "placed_vehicles": 0,
    "reason": null,
-   "seconds": 10.48,
+   "seconds": 10.01,
    "snapshot": {
     "building_footprints_tested": 2814,
-    "car_free_park_drives_matched": 47,
+    "car_free_park_drives_matched": 46,
     "density_lane_km": 8.209,
     "density_sidewalk_m2": 6193,
     "density_target_pedestrians": 13.2,
@@ -147,15 +147,15 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.19,
+     "load_seconds": 1.95,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
      "segments": 122235,
      "signal_plans": 19814
     },
-    "npc_bodies_imported": 7,
-    "npc_templates_baked": 9,
+    "npc_bodies_imported": 8,
+    "npc_templates_baked": 11,
     "pavement_polygons_tested": 3725,
     "ped_spawn_radius_m": 220.0,
     "peds_in_snapshot": 27,
@@ -171,9 +171,9 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 96
    },
-   "snapshot_note": "cached -1777_8205_8_1_2d91b76fafb0bd1e_1788844608.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 24018,
+   "triangles": 25149,
    "vehicle_lods": {},
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
@@ -355,13 +355,15 @@
    "per_kind": {
     "crosswalk": 185,
     "curb": 438,
+    "marking_white": 4601,
+    "marking_yellow": 160,
     "median": 60,
     "parking_lot": 5,
     "plaza": 3,
     "roadbed": 154,
     "sidewalk": 124
    },
-   "placed": 969,
+   "placed": 5730,
    "radius_m": 700.0,
    "tiles_missing": [],
    "tiles_read": [
@@ -370,9 +372,9 @@
     "t_-3_7",
     "t_-3_8"
    ],
-   "triangles": 129811,
+   "triangles": 140712,
    "triangles_cut_for_landmark_ground": 126,
-   "vertices": 131445
+   "vertices": 151868
   },
   "props": {
    "capped": null,
@@ -409,7 +411,7 @@
    }
   },
   "radius_m": 700.0,
-  "seconds": 15.66,
+  "seconds": 27.62,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -472,7 +474,7 @@
    "z_max_m": 42.39,
    "z_min_m": 9.82
   },
-  "triangles": 1155050
+  "triangles": 1167082
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -482,9 +484,9 @@
   "radius_m": 700.0
  },
  "seconds": {
-  "render": 44.0,
-  "scene": 15.8,
-  "total": 59.8
+  "render": 86.0,
+  "scene": 27.8,
+  "total": 113.8
  },
  "slug": "bethesda_terrace_fountain",
  "status": "rendered",

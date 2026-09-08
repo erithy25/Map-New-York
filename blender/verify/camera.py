@@ -559,19 +559,31 @@ def _walk_to_parapet(placement: "CameraPlacement", max_m: float = 250.0,
                          + clearance_sentence(reading, with_angle=False))}
     if last_good < step_m:
         return {"moved": False, "offset_m": 0.0, "standing_on": ob.name,
+                "view_m": round(view_m, 1), **clearance_fields(reading),
                 "note": (f"the eye point stands on {ob.name} and is already at its {placement.azimuth_deg:.0f} deg "
-                         f"edge; the camera was not moved")}
+                         f"edge; the camera was not moved.  "
+                         + clearance_sentence(reading, with_angle=False))}
     nx, ny = placement.x + dx * last_good, placement.y + dy * last_good
     cam = bpy.context.scene.camera
     cam.location = (nx, ny, placement.z)
     bpy.context.view_layer.update()
     placement.x, placement.y = nx, ny
+    # The reading above was taken at the middle of the deck.  This is the one path that moves the
+    # camera the furthest -- 12 m on Bethesda Terrace -- and it was the one that said least about
+    # where it ended up: the record carried no view distance and nothing about what stood in the
+    # frame, which also made it the one slug whose sheet could not be checked mechanically for
+    # staleness.  Read it again at the parapet.
+    walked_view = view_distance(nx, ny, placement.z, placement.azimuth_deg, probe_m=150.0)
+    walked = frame_clearance(nx, ny, placement.z, placement.azimuth_deg, probe_m=60.0,
+                             half_angle_deg=_h_half, pitches_deg=_pitches, yaw_steps=_yaws)
     return {"moved": True, "offset_m": round(last_good, 1), "direction": "along the view azimuth",
-            "standing_on": ob.name,
+            "standing_on": ob.name, "view_m": round(walked_view, 1), **clearance_fields(walked),
             "note": (f"the eye point stands on the roof of {ob.name}, which the reference viewpoint "
                      f"records as a single lat/lon for the whole deck; the camera was walked "
                      f"{last_good:.0f} m along the view azimuth to the parapet, the last point the "
-                     f"roof still supports, which is where the reference photographs are taken")}
+                     f"roof still supports, which is where the reference photographs are taken.  "
+                     f"From there the view azimuth is clear for {walked_view:.0f} m and "
+                     + clearance_sentence(walked, with_angle=False))}
 
 
 PAVEMENT_DIR = REPO_ROOT / "data" / "processed" / "roads" / "pavement"

@@ -68,7 +68,7 @@
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.4992,
+  "mean": 0.4988,
   "reason": null,
   "sd": 0.1916,
   "usable": true
@@ -111,44 +111,44 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_bed_stuy_stuyvesant_ave/render.png",
- "rendered_at": "2026-09-08T08:57:02Z",
+ "rendered_at": "2026-09-08T09:42:37Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1439 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
   "agents": {
-   "caption": "Agents: 77 vehicles within 320 m and 308 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 249 vehicles and 520 people over the whole simulated ring, of which 301 and 755 were simulated; 671 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
+   "caption": "Agents: 81 vehicles within 320 m and 308 people within 200 m, from one frame of the traffic and pedestrian simulations, seed 20260907, after 120 s of simulated time; the density table asks for 249 vehicles and 520 people over the whole simulated ring, of which 301 and 755 were simulated; 667 dropped (see render.json).  This is the simulation's own traffic and crowd for that hour and neighbourhood, not the people and vehicles in the photograph.",
    "dropped": {
-    "pedestrian_in_the_carriageway_not_crossing": 20,
+    "pedestrian_in_the_carriageway_not_crossing": 18,
     "pedestrian_not_on_walkable_surface": 16,
-    "pedestrian_outside_radius": 411,
+    "pedestrian_outside_radius": 413,
     "vehicle_body_has_no_rider": 7,
-    "vehicle_not_on_carriageway": 2,
+    "vehicle_not_on_carriageway": 6,
     "vehicle_outside_radius": 191,
     "vehicle_over_the_observer": 2,
-    "vehicle_triangle_budget": 22
+    "vehicle_triangle_budget": 14
    },
    "ped_lods": {
     "LOD0": 4,
-    "LOD1": 25,
-    "LOD2": 279
+    "LOD1": 22,
+    "LOD2": 282
    },
    "ped_radius_m": 200.0,
    "pedestrian_triangle_budget": 618750,
-   "pedestrian_triangles": 578864,
+   "pedestrian_triangles": 561007,
    "per_class": {
-    "ambulance": 1,
     "black_car": 3,
     "boro_taxi": 4,
-    "box_truck": 1,
+    "box_truck": 2,
+    "dsny_truck": 1,
     "mta_bus": 1,
-    "sedan": 37,
-    "suv": 23,
+    "sedan": 39,
+    "suv": 24,
     "taxi": 7
    },
    "placed_pedestrians": 308,
-   "placed_vehicles": 77,
+   "placed_vehicles": 81,
    "reason": null,
-   "seconds": 46.64,
+   "seconds": 43.02,
    "snapshot": {
     "building_footprints_tested": 4688,
     "density_lane_km": 18.037,
@@ -163,7 +163,7 @@
     "network": {
      "junction_lanes": 469754,
      "lanes_with_nta": 848116,
-     "load_seconds": 2.24,
+     "load_seconds": 2.1,
      "nodes": 79291,
      "nta_cells": 262,
      "road_lanes": 381971,
@@ -171,7 +171,7 @@
      "signal_plans": 19814
     },
     "npc_bodies_imported": 12,
-    "npc_templates_baked": 84,
+    "npc_templates_baked": 80,
     "pavement_polygons_tested": 1165,
     "ped_spawn_radius_m": 220.0,
     "peds_in_snapshot": 755,
@@ -187,16 +187,16 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 301
    },
-   "snapshot_note": "cached 1539_-2039_10_1_4e21a03c28524075_1788844608.json",
+   "snapshot_note": "simulated (already built)",
    "triangle_budget": 1125000,
-   "triangles": 1084275,
+   "triangles": 1066393,
    "vehicle_lods": {
-    "LOD1": 3,
-    "LOD2": 74
+    "LOD1": 2,
+    "LOD2": 79
    },
    "vehicle_radius_m": 320.0,
    "vehicle_triangle_budget": 506250,
-   "vehicle_triangles": 505411
+   "vehicle_triangles": 505386
   },
   "buildings": {
    "dropped_for_budget": [],
@@ -277,12 +277,12 @@
    -2038.68
   ],
   "kit": {
-   "capped": "triangle budget 1253983",
+   "capped": "triangle budget 1271865",
    "per_category": {
-    "bulkhead": 112,
-    "cornice": 179,
-    "door_entry": 267,
-    "fence": 87,
+    "bulkhead": 114,
+    "cornice": 181,
+    "door_entry": 271,
+    "fence": 89,
     "fire_escape": 135,
     "hvac": 6,
     "parapet": 37,
@@ -290,12 +290,12 @@
     "quoin": 53,
     "storefront": 105,
     "storefront_interior": 15,
-    "string_course": 38,
+    "string_course": 39,
     "vegetation": 55,
-    "window": 2429,
-    "window_accessory": 336
+    "window": 2479,
+    "window_accessory": 337
    },
-   "placed": 3857,
+   "placed": 3919,
    "radius_m": 120.0,
    "records_in_range": 3956,
    "stale_registry_ids": {},
@@ -305,7 +305,7 @@
     "t_1_-2",
     "t_1_-3"
    ],
-   "triangles": 1254993,
+   "triangles": 1272111,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -381,7 +381,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 80.36,
+  "seconds": 90.05,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -398,7 +398,7 @@
    "z_max_m": 27.86,
    "z_min_m": 11.16
   },
-  "triangles": 4501010
+  "triangles": 4500246
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -408,9 +408,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 108.8,
-  "scene": 81.8,
-  "total": 190.6
+  "render": 206.1,
+  "scene": 91.6,
+  "total": 297.8
  },
  "slug": "drive_brooklyn_bed_stuy_stuyvesant_ave",
  "status": "rendered",
