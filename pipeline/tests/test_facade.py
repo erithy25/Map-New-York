@@ -566,3 +566,55 @@ def test_borough_material_profiles_are_right(attrs, base_attrs):
         "Staten Island is mostly sided frame houses"
     assert float(mn.filter(pl.col("facade_class").is_in([16, 17, 18, 19]))["facade_class"].len()) > 100, \
         "Manhattan must hold curtain-wall towers"
+
+
+# --------------------------------------------------------------------------- J68: a spire is not a storey stack
+def test_a_class_whose_elevation_is_not_a_storey_stack_keeps_the_tiers_its_own_record_allows():
+    """``floors`` is ``height / storey height`` wherever PLUTO has no count, and for five classes that is a
+    category error: the height belongs to a spire, a steel platform or a fuel canopy, not to storeys.  Each of
+    the five must be bounded by the ``floors_typical`` maximum published for it in ``facade_classes.json``, and
+    every other class must come through untouched (DEVIATIONS J68)."""
+    by_class = {c["facade_class"]: c for c in E.load_classes()}
+    assert D.NOT_A_STOREY_STACK, "the set must not be empty"
+    for k in D.NOT_A_STOREY_STACK:
+        assert k in by_class, f"facade class {k} is not in facade_classes.json"
+        want = max(int(v) for v in by_class[k]["floors_typical"])
+        assert int(D.CLASS.max_storeys[k]) == want, (
+            f"class {k} ({by_class[k]['id']}) is bounded at {int(D.CLASS.max_storeys[k])} storeys but its own "
+            f"record says floors_typical {by_class[k]['floors_typical']}")
+
+    tall = np.array([98, 36, 19, 16, 3], dtype=np.int32)
+    for k in sorted(D.NOT_A_STOREY_STACK):
+        fc = np.full(len(tall), k, dtype=np.int64)
+        got = D.elevation_storeys(fc, tall)
+        assert (got <= int(D.CLASS.max_storeys[k])).all(), f"class {k} kept a storey count above its own maximum"
+        assert (D.elevation_storeys(fc, got) == got).all(), "elevation_storeys is not idempotent"
+
+    stacked = sorted(set(by_class) - D.NOT_A_STOREY_STACK)
+    fc = np.asarray(stacked, dtype=np.int64)
+    floors = np.full(len(stacked), 60, dtype=np.int32)
+    assert (D.elevation_storeys(fc, floors) == 60).all(), (
+        "a class that really is a stack of storeys must keep its derived storey count")
+
+
+def test_a_spires_height_cannot_become_rows_of_windows_a_water_tank_or_a_bulkhead():
+    """Old First Reformed Church, BIN 3020373: 63.07 m to the top of the steeple, 1,190.6 m^2 of footprint,
+    27.43 m of frontage, no PLUTO floor count.  Before J68 that produced 16 floors, 15 x 14 = 210 window bays,
+    a wooden gravity tank and two rooftop bulkheads on a parish church."""
+    church = np.array([36], dtype=np.int64)
+    floors = np.array([16], dtype=np.int32)
+    cols, rows, _ = D.window_grid(church, np.array([27.432], dtype=np.float64), floors)
+    assert int(rows[0]) == 1, f"a Romanesque parish church was given {int(rows[0])} tiers of windows"
+    assert int(cols[0]) == 14, "the bay count comes from real frontage and must not change"
+
+    for k in (35, 36):
+        tank, kind = D.water_towers(np.array([k], dtype=np.int64), floors, np.array([1931]),
+                                    np.array([1190.6]), np.array([2100], dtype=np.int32))
+        assert not bool(tank[0]), f"facade class {k} was given a rooftop gravity tank"
+        assert int(kind[0]) == D.TANK_NONE
+        assert k in D.NO_TANK_CLASSES
+
+    units = D.rooftop_unit_count(np.array([36], dtype=np.int64), floors, np.array([1190.6]),
+                                 np.array([12345], dtype=np.uint32), np.asarray([b"M"], dtype="S1"))
+    assert int(units[0]) <= 1, (
+        f"a church roof was given {int(units[0])} rooftop units, most of them keyed off a derived storey count")

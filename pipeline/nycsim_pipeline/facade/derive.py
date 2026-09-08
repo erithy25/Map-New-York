@@ -52,7 +52,31 @@ TANK_MAX_YEAR = 1989
 #: A tank over 4,000 m^2 of roof is the 20,000 gal size.
 TANK_LARGE_ROOF_AREA_M2 = 1200.0
 #: facade classes that never carry a rooftop tank (no habitable water demand or an all-mechanical crown).
-NO_TANK_CLASSES = frozenset({16, 17, 18, 19, 22, 38, 41, 42, 46, 47, 48, 55})
+#: 35 and 36 are the two church classes: a parish church has no habitable storeys to pressurise, and the storey
+#: count that made it eligible is a spire height divided by a storey height (see NOT_A_STOREY_STACK).
+NO_TANK_CLASSES = frozenset({16, 17, 18, 19, 22, 35, 36, 38, 41, 42, 46, 47, 48, 55})
+
+#: Classes whose elevation is **not** a stack of storeys, with the storey count their elevation may be drawn from.
+#:
+#: ``buildings_base.floors`` is a real number for the 2.2 M buildings PLUTO gives a floor count for and a derivation
+#: -- ``height / class storey height``, published as ``floors_source = SRC_HEIGHT_TO_FLOORS`` -- for the rest.  The
+#: derivation is sound for anything built as storeys.  It is a category error for a building whose height is set by
+#: something that is not a storey: a church's spire, an elevated station's steel, a fuel canopy's clearance.  Old
+#: First Reformed Church (BIN 3020373) is 63.07 m to the top of its steeple, which divided by the class storey
+#: height gave 16 floors and 15 rows x 14 columns = 210 window bays on a parish church.
+#:
+#: The bound is each class's own published ``floors_typical`` maximum, read from ``facade_classes.json`` -- the
+#: classifier's own record of what the typology is.  **This is a rule, not a measurement**: nothing in the sources
+#: says how many tiers of glazing a particular church carries, only that its elevation is not a storey stack.
+#: Every other class keeps the derived count, because a derived third storey on a Staten Island house is a plausible
+#: reading of a real LiDAR height and clamping it would replace one derivation with a worse one.
+NOT_A_STOREY_STACK = frozenset({
+    35,   # church_stone_gothic_1880       -- a nave with one or two tiers of traceried windows under a spire
+    36,   # church_brick_romanesque_1890   -- the same, round-arched, under a campanile
+    47,   # big_box_retail_precast_1990    -- a blank precast box over a storefront band
+    48,   # gas_station_canopy             -- a canopy over the pumps; no elevation at all
+    55,   # subway_elevated_station_steel_1915 -- a steel platform structure on columns
+})
 
 #: Classes that carry the ``billboard`` typology feature but cannot carry a *rooftop* bulletin: a 48-sheet board is
 #: an 8.6 m steel structure standing on a roof deck.  A gas-station canopy (48) is a fuel canopy over the pumps with
@@ -116,6 +140,7 @@ class ClassTable:
     material_secondary: np.ndarray    # int8
     window_type: np.ndarray           # int8
     bay_width: np.ndarray             # float32
+    max_storeys: np.ndarray           # int32 -- storeys the *elevation* may be drawn from (NOT_A_STOREY_STACK)
     floor_height: np.ndarray          # float32
     ground_floor_height: np.ndarray   # float32
     has_cornice: np.ndarray           # bool
@@ -161,6 +186,7 @@ def class_table() -> ClassTable:
         "material_primary": z(np.int8), "material_secondary": z(np.int8), "window_type": z(np.int8),
         "bay_width": z(np.float32, 2.0), "floor_height": z(np.float32, 3.0), "ground_floor_height": z(np.float32, 3.4),
         "cornice_style": z(np.int8), "roof_shape": z(np.int8),
+        "max_storeys": z(np.int32, np.iinfo(np.int32).max),
     }
     flags = {k: np.zeros(n, dtype=bool) for k in (
         "has_cornice", "has_fire_escape", "has_stoop", "has_storefront", "has_water_tower", "has_rooftop_hvac",
@@ -190,6 +216,8 @@ def class_table() -> ClassTable:
         t["bay_width"][i] = E.BAY_WIDTH_M[wt]
         t["floor_height"][i] = float(c["floor_height_m"])
         t["ground_floor_height"][i] = float(c["ground_floor_height_m"])
+        if i in NOT_A_STOREY_STACK:
+            t["max_storeys"][i] = max(1, max(int(v) for v in c["floors_typical"]))
         cs = c.get("cornice_style", "none_parapet")
         t["cornice_style"][i] = CORNICE_STYLES.index(cs) if cs in CORNICE_STYLES else 0
         t["roof_shape"][i] = E.CLASS_ROOF_SHAPE.get(c.get("roof", "flat_parapet"), (E.ROOF_FLAT, 0.0))[0]
@@ -300,13 +328,26 @@ def resolve_frontage(primary_run_len: np.ndarray, bldg_frontage: np.ndarray, lot
     return front, src
 
 
+def elevation_storeys(fc: np.ndarray, floors: np.ndarray) -> np.ndarray:
+    """The storey count this class's *elevation* may be drawn from.
+
+    For all but the five ``NOT_A_STOREY_STACK`` classes this is ``floors`` unchanged.  For those five it is bounded by
+    the class's own published ``floors_typical`` maximum, because their height is set by something that is not a
+    storey and the ``height / storey height`` derivation behind ``floors`` therefore counts storeys that do not exist.
+    Idempotent: clamping an already-clamped count changes nothing.
+    """
+    return np.minimum(np.asarray(floors, dtype=np.int64), CLASS.max_storeys[fc].astype(np.int64))
+
+
 def window_grid(fc: np.ndarray, frontage: np.ndarray, floors: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """``(window_cols, window_rows, bay_width_m)``.
 
     Columns come from real geometry: ``round(frontage / bay width of the class's window family)``, at least one bay and
     never more bays than the frontage can carry.  Rows are ``floors − 1``: the ground floor is consumed by the ground
-    floor treatment (storefront, stoop and entrance, garage or lobby), which is placed separately.
+    floor treatment (storefront, stoop and entrance, garage or lobby), which is placed separately.  The storey count
+    is ``elevation_storeys``, not the raw ``floors``, so a spire's height cannot become rows of windows.
     """
+    floors = elevation_storeys(fc, floors)
     bay = CLASS.bay_width[fc].astype(np.float32)
     cols = np.rint(frontage / np.maximum(bay, 0.5)).astype(np.int32)
     cols = np.clip(cols, 1, 200)
@@ -323,6 +364,7 @@ def water_towers(fc: np.ndarray, floors: np.ndarray, year: np.ndarray, roof_area
     are wooden through about 1950 (the population the published 10,000-17,000 figure counts) and enclosed steel or
     basement-boosted afterwards.  Classes with no habitable water demand or an all-mechanical crown are excluded.
     """
+    floors = elevation_storeys(fc, floors)
     eligible = ((floors >= TANK_MIN_FLOORS) & (year > 1850) & (year <= TANK_MAX_YEAR)
                 & (roof_area >= TANK_MIN_ROOF_AREA_M2) & (feature_code != 5110)
                 & ~np.isin(fc, list(NO_TANK_CLASSES)))
@@ -371,6 +413,7 @@ def rooftop_unit_count(fc: np.ndarray, floors: np.ndarray, roof_area: np.ndarray
                        bldg_class1: np.ndarray) -> np.ndarray:
     """Number of rooftop kit items (bulkheads, HVAC, antennas, vents), DATA_CONTRACTS §5 ``rooftop_units`` (int8)."""
     n = len(fc)
+    floors = elevation_storeys(fc, floors)
     units = np.zeros(n, dtype=np.int32)
     units += (CLASS.has_bulkhead[fc] & (floors >= 5)).astype(np.int32)          # stair bulkhead
     units += (floors >= 8).astype(np.int32)                                     # elevator machine room

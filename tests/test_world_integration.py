@@ -1455,3 +1455,50 @@ def test_the_engines_prop_manifest_is_not_older_than_the_props_it_lists():
         f"{len(stale)} of {checked} tiles have an engine manifest older than their prop data; "
         f"re-run `python3 -m nycsim_pipeline.unreal.manifest` after any furniture rebuild:\n  "
         + "\n  ".join(stale[:8]))
+
+
+def test_no_elevation_carries_more_tiers_of_windows_than_its_own_typology_allows():
+    """A spire's height must not reach the published facade as rows of windows.
+
+    `buildings_base.floors` is a real PLUTO count for some buildings and, for the rest, the derivation
+    `height / class storey height`, published honestly as `floors_source = SRC_HEIGHT_TO_FLOORS`. The
+    derivation is sound wherever the height belongs to a stack of storeys. It is a category error where the
+    height belongs to something else, and the facade stage then draws that many rows of windows: Old First
+    Reformed Church (BIN 3020373, 63.07 m to the top of its steeple) came out of it with 16 floors and
+    15 x 14 = 210 window bays, a wooden gravity tank and two rooftop bulkheads. City-wide that put 91,217
+    window openings on elevations that are not storey stacks — churches, elevated stations, big-box walls
+    and fuel canopies (docs/DEVIATIONS.md J68).
+
+    This test reads the published table, not the code that wrote it: for the five classes named in
+    `derive.NOT_A_STOREY_STACK` no row may carry more `window_rows` than the class's own `floors_typical`
+    maximum allows, and neither church class may carry a rooftop tank.
+    """
+    import numpy as np
+
+    from nycsim_pipeline.facade import derive as D
+    from nycsim_pipeline.facade import enums as E
+
+    attrs = _need(PROCESSED / "facade" / "facade_attrs.parquet", "facade attributes")
+    t = pq.read_table(attrs, columns=["bin", "facade_class", "window_rows", "window_cols", "has_water_tower"])
+    fc = np.asarray(t["facade_class"]).astype(np.int64)
+    rows = np.asarray(t["window_rows"]).astype(np.int64)
+    cols = np.asarray(t["window_cols"]).astype(np.int64)
+    tank = np.asarray(t["has_water_tower"].to_pylist(), dtype=bool)
+    bins = np.asarray(t["bin"]).astype(np.int64)
+    ids = {c["facade_class"]: c["id"] for c in E.load_classes()}
+
+    bad: list[str] = []
+    for k in sorted(D.NOT_A_STOREY_STACK):
+        allowed = max(int(D.CLASS.max_storeys[k]) - 1, 0)
+        over = np.where((fc == k) & (rows > allowed))[0]
+        if len(over):
+            worst = over[int(np.argmax(rows[over] * cols[over]))]
+            bad.append(f"{ids.get(k, k)} (class {k}): {len(over)} buildings above {allowed} tier(s); "
+                       f"worst BIN {int(bins[worst])} with {int(rows[worst])} x {int(cols[worst])} "
+                       f"= {int(rows[worst] * cols[worst])} openings")
+    assert not bad, "windows drawn on an elevation that is not a storey stack:\n  " + "\n  ".join(bad)
+
+    church = np.isin(fc, [35, 36]) & tank
+    assert not church.any(), (
+        f"{int(church.sum())} churches carry a rooftop gravity tank; the storey count that made them "
+        f"eligible is a spire height divided by a storey height")
