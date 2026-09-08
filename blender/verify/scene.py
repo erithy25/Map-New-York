@@ -703,6 +703,21 @@ _PAVEMENT_MATERIAL = {
 #: A pavement material with Blender's import suffix.
 _PAVE_MATERIAL = re.compile(r"^(pave_[a-z0-9_]+?)(?:\.\d{3})?$")
 
+#: The same mapping again for the roadway this renderer builds *itself*.  It does not import
+#: ``tile_pavement.glb``; ``add_pavement`` reads the pavement parquet and makes its own meshes and
+#: its own ``pave_<kind>`` materials, so the import-time rule above never sees the surface that
+#: fills the foreground of every drive-through frame.  Keys are ``PAVEMENT_KINDS`` names.
+_PAVEMENT_KIND_MATERIAL = {
+    "roadbed": "asphalt",
+    "crosswalk": "asphalt",          # the bars are separate marking polygons (J52)
+    "parking_lot": "asphalt",
+    "sidewalk": "concrete_sidewalk",
+    "median": "concrete_sidewalk",
+    "plaza": "concrete_sidewalk",
+    "curb": "concrete_sidewalk",
+    # marking_white and marking_yellow are paint and are never given a surface: see above.
+}
+
 #: Maps worth loading for a city surface.  ``ao`` is baked into the colour at export and
 #: ``displacement`` would subdivide a million-triangle shell, so neither is asked for; both are
 #: no-ops in ``pbr_material`` anyway and would only cost the image load.
@@ -1394,8 +1409,11 @@ def add_pavement(cx: float, cy: float, radius_m: float, sampler: TerrainSampler,
     if not PAVEMENT_DIR.is_dir():
         return {"placed": 0, "reason": f"no pavement directory at {PAVEMENT_DIR}"}
 
-    mats = {k: nb.pbr_material(f"pave_{name}", base_color=colour, roughness=rough)
-            for k, (name, _lift, colour, rough) in PAVEMENT_KINDS.items()}
+    mats = {}
+    for k, (name, _lift, colour, rough) in PAVEMENT_KINDS.items():
+        surface = _PAVEMENT_KIND_MATERIAL.get(name) if CITY_TEXTURES else None
+        dressed = _city_material(surface) if surface else None
+        mats[k] = dressed or nb.pbr_material(f"pave_{name}", base_color=colour, roughness=rough)
     mat_list = [mats[k] for k in sorted(mats)]
     mat_index = {k: i for i, k in enumerate(sorted(mats))}
 
@@ -1489,6 +1507,16 @@ def add_pavement(cx: float, cy: float, radius_m: float, sampler: TerrainSampler,
     ob = nb.mesh_object("verify_pavement", verts, faces, col=col, materials=mat_list, smooth=False)
     for poly, k in zip(ob.data.polygons, face_kind):
         poly.material_index = mat_index[k]
+    # Planar XY UVs in metres, which is the convention ``build_pavement.py`` writes into the tiles
+    # ("metres, planar XY in NYC_TM (u = east, v = north)") and what a surface with a measured
+    # physical size needs to tile at its real scale.  The vertices are already in scene metres.
+    me = ob.data
+    if me.uv_layers.active is None:
+        uvl = me.uv_layers.new(name="UVMap")
+        vxy = np.asarray([(v[0], v[1]) for v in verts], dtype=np.float32)
+        loop_v = np.empty(len(me.loops), dtype=np.int32)
+        me.loops.foreach_get("vertex_index", loop_v)
+        uvl.data.foreach_set("uv", vxy[loop_v].ravel())
     bpy.context.view_layer.update()
     return {"placed": sum(per_kind.values()), "triangles": len(faces), "vertices": len(verts),
             "per_kind": dict(sorted(per_kind.items(), key=lambda kv: -kv[1])),
