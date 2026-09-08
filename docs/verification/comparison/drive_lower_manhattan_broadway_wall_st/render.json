@@ -73,9 +73,9 @@
   "view_m": 59.3
  },
  "frame": {
-  "mean": 0.3003,
+  "mean": 0.3004,
   "reason": null,
-  "sd": 0.1167,
+  "sd": 0.1168,
   "usable": true
  },
  "frame_retry": null,
@@ -116,7 +116,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_lower_manhattan_broadway_wall_st/render.png",
- "rendered_at": "2026-09-08T16:19:47Z",
+ "rendered_at": "2026-09-08T18:29:02Z",
  "resolution_note": "1112x980; the reference photograph is 1920x1693 (1.13:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -154,7 +154,7 @@
    "placed_pedestrians": 242,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 246.71,
+   "seconds": 191.11,
    "snapshot": {
     "building_footprints_tested": 1416,
     "density_lane_km": 30.259,
@@ -265,7 +265,7 @@
    871.11
   ],
   "kit": {
-   "capped": "triangle budget 1097248",
+   "capped": "triangle budget 1099000",
    "per_category": {
     "bulkhead": 9,
     "cornice": 15,
@@ -279,20 +279,20 @@
     "storefront_interior": 10,
     "string_course": 15,
     "water_tower": 4,
-    "window": 3557,
+    "window": 3564,
     "window_accessory": 4
    },
-   "placed": 3858,
+   "placed": 3865,
    "radius_m": 176.17658167829075,
-   "records_in_range": 37613,
+   "records_in_range": 35159,
    "stale_registry_ids": {},
-   "suppressed_with_landmark_shells": 4769,
+   "suppressed_with_landmark_shells": 3608,
    "tiles_missing": [],
    "tiles_read": [
     "t_-6_0",
     "t_-6_1"
    ],
-   "triangles": 1097298,
+   "triangles": 1099352,
    "unresolved_ids": {}
   },
   "landmarks": {
@@ -831,29 +831,29 @@
    "impostor_cards_dropped": 5,
    "impostor_faces_dropped": 0,
    "kinds_built_elsewhere": {
-    "curb_ramp": 85
+    "curb_ramp": 89
    },
    "leaf_off": false,
    "per_kind": {
-    "bench": 35,
-    "bike_rack": 11,
+    "bench": 41,
+    "bike_rack": 12,
     "bus_shelter": 1,
     "bus_stop_sign": 12,
     "citibike_dock": 2,
-    "cooling_tower": 65,
+    "cooling_tower": 70,
     "flagpole": 3,
-    "hydrant": 48,
-    "manhole": 66,
+    "hydrant": 51,
+    "manhole": 74,
     "newsstand": 2,
     "steam_vent": 3,
-    "street_lamp": 70,
+    "street_lamp": 72,
     "subway_emergency_exit": 1,
     "subway_entrance": 25,
-    "subway_vent_grate": 53,
-    "tree": 120,
+    "subway_vent_grate": 56,
+    "tree": 133,
     "waste_basket": 18
    },
-   "placed": 535,
+   "placed": 576,
    "radius_m": 306.17658167829075,
    "rows_in_range": 1594,
    "tiles_missing": [],
@@ -863,16 +863,19 @@
     "t_-6_0",
     "t_-6_1"
    ],
-   "tree_species_substituted": 115,
-   "triangles": 1178292,
+   "tree_instances_scaled": 132,
+   "tree_mean_scale": 0.974,
+   "tree_scale_out_of_band": 1,
+   "tree_species_substituted": 127,
+   "triangles": 1176540,
    "unmapped_kinds": {
-    "artwork": 6,
+    "artwork": 7,
     "drinking_fountain": 2,
     "memorial": 7
    }
   },
   "radius_m": 776.1765816782907,
-  "seconds": 301.43,
+  "seconds": 242.95,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -925,7 +928,7 @@
    "z_max_m": 13.51,
    "z_min_m": -4.11
   },
-  "triangles": 4500050
+  "triangles": 4500352
  },
  "scene_request": {
   "agent_ped_radius_m": 200.0,
@@ -935,9 +938,9 @@
   "radius_m": 776.1765816782907
  },
  "seconds": {
-  "render": 78.2,
-  "scene": 303.2,
-  "total": 381.4
+  "render": 80.9,
+  "scene": 244.7,
+  "total": 325.5
  },
  "sightline": {
   "subject_note": "the item names no point subject",

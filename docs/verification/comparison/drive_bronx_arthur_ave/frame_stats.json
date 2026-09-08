@@ -1,6 +1,6 @@
 {
  "slug": "drive_bronx_arthur_ave",
- "rendered_at": "2026-09-08T17:53:14Z",
+ "rendered_at": "2026-09-08T18:10:49Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",

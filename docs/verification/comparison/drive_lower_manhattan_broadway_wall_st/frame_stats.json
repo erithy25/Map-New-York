@@ -1,0 +1,30 @@
+{
+ "slug": "drive_lower_manhattan_broadway_wall_st",
+ "rendered_at": "2026-09-08T18:29:02Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1112,
+  "height": 980,
+  "mean": 0.3001,
+  "sd": 0.1163,
+  "p05": 0.0579,
+  "p95": 0.4552,
+  "chroma": 0.036
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1693,
+  "mean": 0.4896,
+  "sd": 0.2729,
+  "p05": 0.1084,
+  "p95": 0.8893,
+  "chroma": 0.112
+ },
+ "render_over_reference": {
+  "mean": 0.613,
+  "sd": 0.426,
+  "chroma": 0.321
+ }
+}
