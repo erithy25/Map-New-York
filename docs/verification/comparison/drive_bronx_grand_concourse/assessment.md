@@ -28,9 +28,9 @@ exactly where the probe does not look. Recorded as J47.
 So the clearance number is not wrong; it answers a narrower question than the caption puts it to.
 The camera is standing on a roadbed hard against a block face, and the picture is mostly that face.
 
-## What the left third does show, and it is worth reading
+## What matches
 
-The part of the frame that is not wall is the strongest evidence on this sheet:
+Only the left third of the frame is not wall, and it is the strongest evidence on this sheet:
 
 * A red-brick block with a continuous green awning band recedes up the left, with street trees in
   full October canopy at the kerb — **208 of the 407 props are trees**, and the props are capped at

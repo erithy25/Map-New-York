@@ -56,11 +56,16 @@
   "direction": "onto the nearest roadbed",
   "min_view_m": 20.0,
   "moved": true,
-  "nearest_obstruction_m": 10.7,
-  "note": "the recorded viewpoint is inside t_1_-3_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 17 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there",
+  "nearest_obstruction": "t_1_-3_red_brick",
+  "nearest_obstruction_at_deg": [
+   -18.1,
+   0.0
+  ],
+  "nearest_obstruction_m": 10.2,
+  "note": "the recorded viewpoint is inside t_1_-3_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 17 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there, and the nearest solid thing anywhere in the frame is t_1_-3_red_brick 10.2 m away at -18 deg yaw, +0 deg pitch",
   "offset_m": 17.4,
   "reason": "inside t_1_-3_roof_membrane (a ray straight up from the eye point hits its roof)",
-  "rule": "pavement snap with a clear view",
+  "rule": "pavement snap with a clear frame",
   "view_m": 60.0
  },
  "frame": {
@@ -107,7 +112,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_brooklyn_bed_stuy_stuyvesant_ave/render.png",
- "rendered_at": "2026-09-08T05:55:03Z",
+ "rendered_at": "2026-09-08T06:39:30Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1439 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -142,7 +147,7 @@
    "placed_pedestrians": 378,
    "placed_vehicles": 88,
    "reason": null,
-   "seconds": 39.18,
+   "seconds": 39.97,
    "snapshot": {
     "building_footprints_tested": 4688,
     "density_lane_km": 18.278,
@@ -372,7 +377,7 @@
    "unmapped_kinds": {}
   },
   "radius_m": 720.0,
-  "seconds": 79.93,
+  "seconds": 81.72,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -399,9 +404,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 122.3,
-  "scene": 81.0,
-  "total": 203.2
+  "render": 124.3,
+  "scene": 82.9,
+  "total": 207.3
  },
  "slug": "drive_brooklyn_bed_stuy_stuyvesant_ave",
  "status": "rendered",

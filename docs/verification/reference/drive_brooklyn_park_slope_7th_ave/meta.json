@@ -4,11 +4,18 @@
  "name": "Brooklyn brownstone block: Park Slope, Seventh Avenue / Garfield Place",
  "group": "drive_through",
  "viewpoint": {
-  "lat": 40.6725,
-  "lon": -73.9782,
-  "azimuth_deg": 30.0,
+  "lat": 40.67233,
+  "lon": -73.97706,
+  "azimuth_deg": 32.4,
   "note": "Seventh Avenue at Garfield Place, Park Slope, roadway centre, looking north-east toward Flatbush Avenue",
-  "representative": false
+  "representative": false,
+  "corrected_from": {
+   "lat": 40.6725,
+   "lon": -73.9782,
+   "azimuth_deg": 30.0
+  },
+  "corrected_why": "the recorded point was 98 m from the Seventh Avenue / Garfield Place crossing this note names, which put the camera among the side streets rather than on the avenue. The azimuth was very nearly right already (30.0 against the avenue's own 32.4 deg north-east bearing) and is snapped to the street. Both from data/processed/roads/segments.parquet.",
+  "corrected_source": "data/processed/roads/segments.parquet (LION centrelines)"
  },
  "subject": null,
  "night": false,

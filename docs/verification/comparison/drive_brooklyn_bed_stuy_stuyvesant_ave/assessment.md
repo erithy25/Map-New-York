@@ -31,7 +31,9 @@ number the sheet prints: `view_m: 60.0`, `nearest_obstruction_m: 10.7`, `frame.u
 mean 0.4067 with a healthy standard deviation. Nothing in the record says "this is a picture of a
 wall".
 
-## What the render does get right, at the range it is at
+## What matches
+
+At the range this camera ended up at, these are right:
 
 * **The stoop is a Brooklyn stoop.** Two flights rising to a parlour-floor entrance, thin metal
   railings on both sides and along the areaway, the areaway itself dropped below the sidewalk, and

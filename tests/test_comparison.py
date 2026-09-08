@@ -905,3 +905,66 @@ def test_a_mandated_viewpoint_is_never_tilted():
         assert pitch == 0.0 and why == "", f"{slug} tilted"
     free, _ = containment_pitch(tall, 1.6, 18.0, True, 1280 / 853, slug="landmark_one_times_square")
     assert free > 0.0, "a landmark sheet still tilts to contain its subject"
+
+
+def test_a_roadway_viewpoint_stands_on_its_street_and_looks_along_it():
+    """An item whose own note says "roadway centre" has to be on a roadway, pointing down it.
+
+    Two of them were not, and neither the render nor any number it printed said so.
+    `drive_brooklyn_bed_stuy_stuyvesant_ave` names "Stuyvesant Avenue at Decatur Street" and its
+    recorded point stood **102 m** from that crossing, 22 m from Decatur Street, aimed 13 deg --
+    68 deg across Decatur -- so the sheet rendered the brownstone row opposite and no street at all.
+    `drive_brooklyn_park_slope_7th_ave` stood 98 m from Seventh Avenue at Garfield Place. Both were
+    corrected from `data/processed/roads/segments.parquet`, and this keeps them corrected.
+
+    The check is deliberately on the *best-aligned* street in range rather than the nearest one: at
+    a corner the nearest centreline is the cross street, and a camera looking correctly up the
+    avenue scores 90 deg against it. Landmark items are excluded on purpose -- a camera aimed at the
+    Chrysler Building is supposed to look across East 40th Street.
+    """
+    import math
+    gpd = pytest.importorskip("geopandas")
+    np = pytest.importorskip("numpy")
+    pyproj = pytest.importorskip("pyproj")
+    shapely_geom = pytest.importorskip("shapely.geometry")
+
+    segs = REPO_ROOT / "data" / "processed" / "roads" / "segments.parquet"
+    if not segs.is_file():
+        pytest.skip("the road graph has not been produced")
+    seg = gpd.read_parquet(segs)
+    tr = pyproj.Transformer.from_crs(
+        "EPSG:4326",
+        "+proj=tmerc +lat_0=40.7 +lon_0=-73.95 +k=1 +units=m +datum=NAD83 +no_defs",
+        always_xy=True)
+
+    def bearing_at(geom, x, y):
+        cs = np.asarray(geom.coords)
+        d = np.hypot(cs[:, 0] - x, cs[:, 1] - y)
+        i = int(np.argmin(d))
+        j = i + 1 if i + 1 < len(cs) else i - 1
+        v = cs[j] - cs[i]
+        return math.degrees(math.atan2(v[0], v[1])) % 360.0
+
+    bad = []
+    for d in sorted((REPO_ROOT / "docs" / "verification" / "reference").iterdir()):
+        meta = d / "meta.json"
+        if not d.is_dir() or not meta.is_file():
+            continue
+        vp = (json.loads(meta.read_text()).get("viewpoint") or {})
+        if "roadway centre" not in (vp.get("note") or ""):
+            continue
+        x, y = tr.transform(vp["lon"], vp["lat"])
+        p = shapely_geom.Point(x, y)
+        near = seg[seg.geometry.distance(p) < 60.0]
+        if near.empty:
+            bad.append(f"{d.name}: no street within 60 m of a viewpoint that says 'roadway centre'")
+            continue
+        az = float(vp["azimuth_deg"])
+        best = min(((abs((az - bearing_at(r.geometry, x, y)) % 180.0), r) for _, r in near.iterrows()),
+                   key=lambda t: min(t[0], 180.0 - t[0]))
+        off = min(best[0], 180.0 - best[0])
+        if off > 40.0:
+            bad.append(f"{d.name}: {off:.0f} deg off {best[1]['street_name']}, the best-aligned "
+                       f"street within 60 m")
+    assert not bad, ("viewpoints that say 'roadway centre' and look across the roadway instead of "
+                     "along it:\n  " + "\n  ".join(bad))

@@ -4,11 +4,18 @@
  "name": "Brooklyn brownstone block: Bed-Stuy, Stuyvesant Avenue",
  "group": "drive_through",
  "viewpoint": {
-  "lat": 40.6817,
-  "lon": -73.933,
-  "azimuth_deg": 13.0,
+  "lat": 40.68164,
+  "lon": -73.93179,
+  "azimuth_deg": 351.4,
   "note": "Stuyvesant Avenue at Decatur Street, Stuyvesant Heights, roadway centre, looking north",
-  "representative": false
+  "representative": false,
+  "corrected_from": {
+   "lat": 40.6817,
+   "lon": -73.933,
+   "azimuth_deg": 13.0
+  },
+  "corrected_why": "the recorded point was 102 m from the Stuyvesant Avenue / Decatur Street crossing this note names and 22 m from Decatur Street, whose bearing is 81.4 deg; a camera there on 13 deg looks 68 deg across Decatur at the row opposite, which is the picture the 2026-09-08 sheet rendered. Both numbers are taken from data/processed/roads/segments.parquet: the crossing of STUYVESANT AVE and DECATUR ST, and Stuyvesant Avenue's own bearing there, 351.4 deg, which is what 'looking north' along it means.",
+  "corrected_source": "data/processed/roads/segments.parquet (LION centrelines)"
  },
  "subject": null,
  "night": false,
@@ -64,7 +71,7 @@
    "bytes": 840830,
    "sha256": "5bc96202c40c1ec9480db83f6df3ac5d09d4b1c002470514b470366089430f2b",
    "mean_luminance": 102.6,
-   "description": "Decatur Street in Stuyvesant Heights Historic District Listed by the NRHP on December 4, 1975. The district is roughly bounded by Macon, Tompkins, Decatur, Lewis, Chauncey, and Stuyvesant • Boundary increase (listed November 15, 1996, refnum 96001355): Roughly, Decatur St. from Tompkins to Lewis Aves. in Bedford-Stuyvesant, Brooklyn, New York. This is one of the nicest historic districts I've seen, and very large as well.",
+   "description": "Decatur Street in Stuyvesant Heights Historic District Listed by the NRHP on December 4, 1975. The district is roughly bounded by Macon, Tompkins, Decatur, Lewis, Chauncey, and Stuyvesant \u2022 Boundary increase (listed November 15, 1996, refnum 96001355): Roughly, Decatur St. from Tompkins to Lewis Aves. in Bedford-Stuyvesant, Brooklyn, New York. This is one of the nicest historic districts I've seen, and very large as well.",
    "categories": [
     "Taken with Nikon Coolpix S4100",
     "Stuyvesant Heights Historic District",
