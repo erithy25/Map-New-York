@@ -1792,3 +1792,39 @@ def test_no_sheets_statistics_describe_a_previous_image():
         if a != b:
             behind.append(f"   {fs.parent.name}: statistics of {a}, render of {b}")
     assert not behind, ("frame_stats.json describing a previous image:\n" + "\n".join(behind))
+
+
+def test_the_assessment_header_is_generated_from_the_record_it_is_checked_against():
+    """166 assessments are still to write, and retyping the record is where the errors get in.
+
+    Two are already on record: a day-type code transcribed as Monday for a Saturday, and Bethesda's
+    NYC_TM coordinate pasted into the Broadway/Wall camera line. So the header is generated from
+    `tools/sheet_facts.py` -- the same artefact `tools/assessment_check.py` checks a quotation
+    against -- and it must refuse to print statistics that measure a different render (J77).
+    """
+    src = (REPO_ROOT / "tools" / "assessment_header.py").read_text()
+    assert "sheet_facts.py" in src, "the header no longer comes from the artefact the checker reads"
+    assert 'fs["rendered_at"] != rec.get("rendered_at")' in src, \
+        "the header would print the statistics of a previous image"
+    assert 'REPO = Path(__file__).resolve().parents[1]' in src, \
+        "a hard-coded repository path makes the tool unrunnable from a checkout"
+
+
+def test_the_assessment_header_reproduces_a_written_headers_own_figures():
+    """The generator earns its place only if what it prints is what a careful writer would have
+    typed. Checked against a sheet whose assessment was written by hand before it existed."""
+    import subprocess
+    import sys
+
+    slug = "drive_bronx_arthur_ave"
+    if not (COMPARISON_DIR / slug / "render.json").is_file():
+        pytest.skip(f"{slug} has not been rendered")
+    out = subprocess.run([sys.executable, str(REPO_ROOT / "tools" / "assessment_header.py"), slug],
+                         capture_output=True, text=True, cwd=str(REPO_ROOT))
+    assert out.returncode == 0, out.stderr
+    written = (COMPARISON_DIR / slug / "assessment.md").read_text()
+    for figure in ("40.85524", "-73.88776", "25.9 m NAVD88", "190.0°",
+                   "25,829 pavement polygons", "451 props", "6,680 kit pieces",
+                   "88,200 triangles"):
+        assert figure in out.stdout, f"the generated header is missing {figure!r}"
+        assert figure in written, f"the hand-written header does not carry {figure!r} either"

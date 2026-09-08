@@ -49,3 +49,7 @@
 | one tree outside the scale band | its measured height is further from the nearest exported size than the declared band allows, so it keeps the asset's own size and is counted (J70) | data |
 | 16 point props unplaced | artworks, memorials and drinking fountains have no asset (J22, J23) | geometry |
 | sidewalk sheds of the wrong year | the shed source is DOB permits active on 2026-09-05 and the photograph is from 2023 | reference |
+
+---
+
+*Re-checked against the v15 render of 2026-09-08T21:55:08Z. This sheet names no subject, so nothing J74, J75 or J76 changed reaches it: the scene is identical to the render this was written against — the same 28,368 pavement polygons, the same 576 props of 1,594, the same 3,865 kit pieces, 89 vehicles and 242 people, the same 133 trees at a mean scale of 0.974 with one outside the band, and the same frame statistics to four decimals. What did change is that the statistics are now measured by the render that made the sheet rather than by hand afterwards (J77); this sheet's file was one of the stale ones that found the fault, measuring the render of 20:18:42 beside a render from 21:55:08.*
