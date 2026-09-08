@@ -630,7 +630,10 @@ def test_camera_position_and_heading_come_from_the_same_measurement():
     lat2, lon2, why2, offset2, from_photo2 = rs.view_origin(meta, far)
     assert from_photo2 is False
     assert (lat2, lon2) == (40.7030, -73.9892)
-    assert offset2 > rs.PHOTO_GPS_SANITY_M and "rejected" in why2
+    # The assertion is on the meaning, not the wording: the reason string used to say the
+    # photograph was "rejected as mis-tagged", which is false of a fix that is correct and
+    # simply of somewhere else (docs/DEVIATIONS.md J60).
+    assert offset2 > rs.PHOTO_GPS_SANITY_M and "camera was not stood on it" in why2
     # Falling back to the nominal viewpoint, the recorded azimuth is kept because it agrees with
     # the bearing to the subject from that point.
     az2, _ = rs.view_azimuth("x", meta, far, lat2, lon2, origin_is_photo=False)
@@ -665,15 +668,15 @@ def test_a_photographs_own_gps_wins_where_it_is_nearer_the_subject_it_is_of():
     assert "view *of*" in why and "same side" in why
     # The same photograph on a view *from* a place keeps the recorded viewpoint.
     lat2, _, why2, _, from_photo2 = rs.view_origin(meta("viewpoint", vp, subj), ph)
-    assert not from_photo2 and lat2 == pytest.approx(vp[0]) and "rejected as mis-tagged" in why2
+    assert not from_photo2 and lat2 == pytest.approx(vp[0]) and "camera was not stood on it" in why2
     # Farther from the subject than the estimate: rejected (this is the MetLife case).
     far = photo(40.7205, -73.9668)
     _, _, why3, _, from_photo3 = rs.view_origin(meta("landmark", vp, subj), far)
-    assert not from_photo3 and "rejected as mis-tagged" in why3
+    assert not from_photo3 and "camera was not stood on it" in why3
     # The other side of the subject: rejected (this is the Empire State case).
     behind = photo(40.7080, -73.9688)
     _, _, why4, _, from_photo4 = rs.view_origin(meta("landmark", vp, subj), behind)
-    assert not from_photo4 and "rejected as mis-tagged" in why4
+    assert not from_photo4 and "camera was not stood on it" in why4
 
 
 def test_no_comparison_scene_silently_changed_which_photograph_it_shows():
