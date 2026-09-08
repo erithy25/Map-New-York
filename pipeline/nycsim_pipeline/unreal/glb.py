@@ -92,3 +92,108 @@ def glb_summary(path: Path) -> dict[str, Any]:
         "has_lod1": any(n.endswith("_LOD1") or "_LOD1" in n for n in names),
         "extras": nycsim_extras(doc),
     }
+
+
+def _node_matrix(node: dict[str, Any]):
+    """A node's local transform as a 4x4, from ``matrix`` or from TRS."""
+    import numpy as np
+
+    m = node.get("matrix")
+    if m is not None and len(m) == 16:
+        return np.asarray(m, dtype=np.float64).reshape(4, 4).T   # glTF stores column-major
+    out = np.eye(4)
+    s = node.get("scale")
+    if s:
+        out[:3, :3] = np.diag(np.asarray(s, dtype=np.float64))
+    r = node.get("rotation")
+    if r:
+        x, y, z, w = (float(v) for v in r)
+        rot = np.array([
+            [1 - 2 * (y * y + z * z), 2 * (x * y - z * w), 2 * (x * z + y * w)],
+            [2 * (x * y + z * w), 1 - 2 * (x * x + z * z), 2 * (y * z - x * w)],
+            [2 * (x * z - y * w), 2 * (y * z + x * w), 1 - 2 * (x * x + y * y)],
+        ])
+        out[:3, :3] = rot @ out[:3, :3]
+    t = node.get("translation")
+    if t:
+        out[:3, 3] = np.asarray(t, dtype=np.float64)
+    return out
+
+
+def glb_bounds(path: Path, *, skip_lods: bool = True) -> dict[str, list[float]] | None:
+    """The model's axis-aligned bounds in **NYC_TM local metres**, or ``None`` if it has no geometry.
+
+    Read from the ``POSITION`` accessors' own ``min``/``max``, which glTF requires, so no binary
+    chunk has to be decoded: the 8 corners of each primitive's box are pushed through its node's
+    accumulated transform and unioned. The result is converted out of glTF's Y-up frame back into
+    the project's Z-up NYC_TM axes (``x_tm = x_gltf``, ``y_tm = -z_gltf``, ``z_tm = y_gltf``), which
+    is the inverse of what the Blender exporter applied.
+
+    ``skip_lods`` leaves out nodes whose name marks them as a lower level of detail, so a model's
+    bounds are the bounds of the thing itself.
+    """
+    import numpy as np
+
+    doc = read_glb_json(path)
+    nodes = doc.get("nodes") or []
+    meshes = doc.get("meshes") or []
+    accessors = doc.get("accessors") or []
+    if not nodes or not meshes:
+        return None
+
+    mesh_boxes: dict[int, tuple[np.ndarray, np.ndarray]] = {}
+    for i, m in enumerate(meshes):
+        lo = np.full(3, np.inf)
+        hi = np.full(3, -np.inf)
+        for prim in m.get("primitives") or []:
+            a = (prim.get("attributes") or {}).get("POSITION")
+            if a is None or a >= len(accessors):
+                continue
+            acc = accessors[a]
+            amin, amax = acc.get("min"), acc.get("max")
+            if not (amin and amax and len(amin) >= 3):
+                continue
+            lo = np.minimum(lo, np.asarray(amin[:3], dtype=np.float64))
+            hi = np.maximum(hi, np.asarray(amax[:3], dtype=np.float64))
+        if np.isfinite(lo).all():
+            mesh_boxes[i] = (lo, hi)
+
+    scenes = doc.get("scenes") or []
+    scene = doc.get("scene", 0)
+    roots = scenes[scene].get("nodes", []) if scene < len(scenes) else list(range(len(nodes)))
+
+    lo = np.full(3, np.inf)
+    hi = np.full(3, -np.inf)
+    seen: set[int] = set()
+
+    def walk(index: int, parent) -> None:
+        import numpy as np
+
+        nonlocal lo, hi
+        if index in seen or index >= len(nodes):
+            return
+        seen.add(index)
+        node = nodes[index]
+        world = parent @ _node_matrix(node)
+        mesh = node.get("mesh")
+        name = str(node.get("name", ""))
+        skip = skip_lods and ("_LOD" in name and not name.endswith("_LOD0"))
+        if mesh is not None and mesh in mesh_boxes and not skip:
+            b0, b1 = mesh_boxes[mesh]
+            corners = np.array([[x, y, z] for x in (b0[0], b1[0]) for y in (b0[1], b1[1])
+                                for z in (b0[2], b1[2])])
+            pts = (world[:3, :3] @ corners.T).T + world[:3, 3]
+            lo = np.minimum(lo, pts.min(axis=0))
+            hi = np.maximum(hi, pts.max(axis=0))
+        for child in node.get("children") or []:
+            walk(int(child), world)
+
+    eye = __import__("numpy").eye(4)
+    for r in roots:
+        walk(int(r), eye)
+    if not np.isfinite(lo).all():
+        return None
+    # glTF Y-up -> NYC_TM Z-up
+    tm_lo = np.array([lo[0], -hi[2], lo[1]])
+    tm_hi = np.array([hi[0], -lo[2], hi[1]])
+    return {"min": [round(float(v), 4) for v in tm_lo], "max": [round(float(v), 4) for v in tm_hi]}

@@ -170,6 +170,13 @@ def deck_heights(lines: np.ndarray, cls: np.ndarray, ground: GroundModel,
         else:
             log.warning("deck height %-10s: no bridge elevation point within %.0f m of any of the %d structures — "
                         "height left NaN", c, DECK_SEARCH_M, int(m.sum()))
+    # Carry the fallback through to the absolute elevation. The loop above fills ``height`` from the
+    # class median and stopped there, so 1,441 of the 3,986 elevated and viaduct structures -- 36 %
+    # of them, and every one of the 1,308 that come from OSM rather than the planimetric survey --
+    # had a deck height, a ground elevation, and no deck elevation at all. A consumer reading
+    # ``deck_z`` lost every one of them, silently, because NaN is a number.
+    fill = ~np.isfinite(deck_z) & np.isfinite(ground_z) & np.isfinite(height)
+    deck_z[fill] = ground_z[fill] + height[fill]
     na = source == DECK_SOURCE_NOT_APPLICABLE
     height[na] = np.nan
     deck_z[na] = np.nan
@@ -210,6 +217,226 @@ def osm_only_structures(osm: dict, planimetric: np.ndarray) -> np.ndarray:
     return extra
 
 
+# --------------------------------------------------------------------------------------- deck width
+# The survey captures **one centreline per track**, so how wide a structure is, is measurable: the
+# tracks that run parallel to each other within a corridor are the tracks the same deck carries, and
+# the deck is as wide as they are apart plus the overhang either side. Measured over the whole
+# elevated and viaduct network the lateral spread between outermost parallel centrelines has a
+# median of 7.78 m over two to four distinct track offsets -- a three-track El at about 3.9 m track
+# spacing -- which is what the Astoria, Jerome Avenue and Flushing lines are.
+#
+# The alternative was a constant, and a constant would have made the two-track Myrtle Avenue El and
+# the four-track Broadway El the same width.
+
+#: Half-width of the deck beyond the outermost track centre, metres. The steel El deck carries a
+#: walkway and a railing outboard of the running rails; on the standard NYC Rapid Transit elevated
+#: bent the deck stringers reach about 1.7 m past the outer track centre.
+DECK_OVERHANG_M = 1.7
+
+#: How far along its own direction a neighbouring track has to stay to count as running with this
+#: one, and how far to the side it may be, in metres. 20 m sideways covers a four-track structure
+#: (three 3.9 m gaps plus slack); beyond that is a different structure on the other side of a street.
+DECK_NEIGHBOUR_LON_M = 6.0
+DECK_NEIGHBOUR_LAT_M = 20.0
+
+#: Direction agreement required of a neighbouring track: |cos| >= this, i.e. within about 10 degrees.
+DECK_PARALLEL_COS = 0.985
+
+#: Spacing of the points each centreline is sampled at when looking for its neighbours, in metres.
+DECK_SAMPLE_M = 10.0
+
+DECK_WIDTH_MEASURED = 0        # from parallel track centrelines
+DECK_WIDTH_SINGLE_TRACK = 1    # no parallel neighbour found: one track, deck = gauge + overhangs
+
+#: Deck width of a structure carrying a single track: the 1,435 mm standard gauge plus the overhang
+#: either side, rounded to the centimetre.
+SINGLE_TRACK_WIDTH_M = round(1.435 + 2 * DECK_OVERHANG_M, 2)
+
+
+def deck_widths(lines: np.ndarray, cls: np.ndarray,
+                classes: tuple[str, ...] = ("elevated", "viaduct")) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """``(width_m, tracks, source)`` per structure, from how its parallel neighbours are spread.
+
+    Each line of the named classes is sampled every :data:`DECK_SAMPLE_M`; at every sample the other
+    samples that run parallel through the same place are collected and their perpendicular offsets
+    measured. A structure's width is the **median** over its own samples, so one crossing that
+    happens to run parallel for a few metres cannot widen a whole line. Classes not named keep NaN:
+    an embankment and an open cut are earthworks whose width the terrain already carries.
+    """
+    n = len(lines)
+    width = np.full(n, np.nan, dtype=np.float64)
+    tracks = np.zeros(n, dtype=np.int16)
+    source = np.full(n, DECK_WIDTH_SINGLE_TRACK, dtype=np.int8)
+    sel = np.nonzero(np.isin(cls.astype(str), np.asarray(classes)))[0]
+    if not len(sel):
+        return width, tracks, source
+
+    pts, dirs, owner = [], [], []
+    for j in sel:
+        g = lines[j]
+        length = g.length
+        if length < 1e-3:
+            continue
+        steps = max(2, int(length // DECK_SAMPLE_M) + 1)
+        for k in range(steps):
+            s = length * k / (steps - 1)
+            a = g.interpolate(s)
+            b = g.interpolate(min(length, s + 1.0))
+            v = np.array([b.x - a.x, b.y - a.y])
+            nn = float(np.hypot(*v))
+            if nn < 1e-9:
+                continue
+            pts.append((a.x, a.y))
+            dirs.append(v / nn)
+            owner.append(j)
+    if not pts:
+        return width, tracks, source
+    P = np.asarray(pts)
+    D = np.asarray(dirs)
+    owner = np.asarray(owner)
+    tree = cKDTree(P)
+
+    per_line: dict[int, list[tuple[float, int]]] = {}
+    radius = float(np.hypot(DECK_NEIGHBOUR_LON_M, DECK_NEIGHBOUR_LAT_M))
+    for i in range(len(P)):
+        p, d = P[i], D[i]
+        nb = tree.query_ball_point(p, radius)
+        if not nb:
+            continue
+        nb = np.asarray(nb)
+        q = P[nb] - p
+        lon = q @ d
+        lat = q @ np.array([-d[1], d[0]])
+        keep = ((np.abs(D[nb] @ d) >= DECK_PARALLEL_COS)
+                & (np.abs(lon) <= DECK_NEIGHBOUR_LON_M) & (np.abs(lat) <= DECK_NEIGHBOUR_LAT_M))
+        if not keep.any():
+            continue
+        l = lat[keep]
+        spread = float(l.max() - l.min())
+        # distinct track offsets, at half the minimum NYC track spacing so two tracks never merge
+        n_tracks = int(len(np.unique(np.round(l / 1.5))))
+        per_line.setdefault(int(owner[i]), []).append((spread, n_tracks))
+
+    for j in sel:
+        obs = per_line.get(int(j))
+        if not obs:
+            width[j] = SINGLE_TRACK_WIDTH_M
+            tracks[j] = 1
+            source[j] = DECK_WIDTH_SINGLE_TRACK
+            continue
+        sp = np.asarray([o[0] for o in obs])
+        tk = np.asarray([o[1] for o in obs])
+        spread = float(np.median(sp))
+        width[j] = max(SINGLE_TRACK_WIDTH_M, spread + 2 * DECK_OVERHANG_M)
+        tracks[j] = int(np.median(tk))
+        source[j] = DECK_WIDTH_MEASURED if spread > 0.5 else DECK_WIDTH_SINGLE_TRACK
+    return width, tracks, source
+
+
+# ------------------------------------------------------------------------------------ deck profile
+# A deck elevation per structure is not a deck. Measured at shared endpoints across the elevated and
+# viaduct network, **31.5 %** of the joints between two structures that meet end to end disagree by
+# more than a metre about how high the deck is there, 20 % by more than two and 7 % by more than
+# five: a railway built from those numbers as a constant per segment would be a staircase.
+#
+# The disagreement is honest -- one segment has a surveyed bridge elevation point beside it and its
+# neighbour falls back to the class median -- so the fix is not to distrust the measurements but to
+# make them agree at the joints. Every endpoint that two structures share gets one elevation, the
+# weighted mean of what the structures meeting there say (a measured deck counts for
+# :data:`PROFILE_MEASURED_WEIGHT` times a class-median one), and each structure's deck then ramps
+# between its own two endpoints. Discontinuity becomes zero by construction rather than by tolerance.
+#
+# A few passes of grade limiting follow: rail cannot climb faster than about 4 % (the steepest
+# revenue grade in the subway is the 4.5 % out of the 148th Street yard lead), and a joint whose two
+# ends imply more than that is being pulled by one bad measurement.
+
+#: How much more a deck elevation measured from a bridge elevation point counts than one taken from
+#: the class median, when several structures meeting at a joint disagree.
+PROFILE_MEASURED_WEIGHT = 4.0
+
+#: Steepest deck grade allowed before the smoothing pulls the joint back, as a fraction.
+PROFILE_MAX_GRADE = 0.04
+
+#: Passes of grade limiting. Each pass moves the two ends of an over-steep structure a third of the
+#: way towards each other. A joint held by three or four neighbours pulls back on each pass, so the
+#: stubborn ones need many: measured over the whole network, 12 passes leave 62 structures above the
+#: grade limit and one at 36 %, 120 leave 4, and 400 leave **none** -- the maximum grade in the
+#: network is then exactly the limit. The cost of the extra passes is confined to those joints: the
+#: median structure does not move at all and the 95th percentile move is 1.48 m either way.
+PROFILE_PASSES = 400
+
+#: Endpoints closer together than this are the same joint, in metres. The planimetric linework is
+#: captured to the centimetre, so this only has to absorb the WKB round trip.
+PROFILE_SNAP_M = 0.05
+
+
+def deck_profile(lines: np.ndarray, cls: np.ndarray, deck_z: np.ndarray, hsource: np.ndarray,
+                 classes: tuple[str, ...] = ("elevated", "viaduct")
+                 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """``(z_start, z_end, joints)`` -- one deck elevation per endpoint, shared where lines meet.
+
+    ``joints`` is the number of structures that met at each row's busiest endpoint, so a caller can
+    tell a genuine junction from a line that ends in mid air.
+    """
+    n = len(lines)
+    z0 = np.full(n, np.nan)
+    z1 = np.full(n, np.nan)
+    joints = np.zeros(n, dtype=np.int16)
+    sel = np.nonzero(np.isin(cls.astype(str), np.asarray(classes)) & np.isfinite(deck_z))[0]
+    if not len(sel):
+        return z0, z1, joints
+
+    def key(p) -> tuple[int, int]:
+        return (int(round(p[0] / PROFILE_SNAP_M)), int(round(p[1] / PROFILE_SNAP_M)))
+
+    ends: dict[tuple[int, int], list[tuple[int, int]]] = {}
+    coords: dict[int, np.ndarray] = {}
+    length: dict[int, float] = {}
+    for j in sel:
+        c = np.asarray(lines[j].coords)[:, :2]
+        coords[int(j)] = c
+        length[int(j)] = float(lines[j].length)
+        ends.setdefault(key(c[0]), []).append((int(j), 0))
+        ends.setdefault(key(c[-1]), []).append((int(j), 1))
+
+    node_z: dict[tuple[int, int], float] = {}
+    for k, members in ends.items():
+        num = den = 0.0
+        for j, _ in members:
+            w = PROFILE_MEASURED_WEIGHT if hsource[j] == DECK_SOURCE_MEASURED else 1.0
+            num += w * float(deck_z[j])
+            den += w
+        node_z[k] = num / den if den else float("nan")
+
+    node_of = {int(j): (key(coords[int(j)][0]), key(coords[int(j)][-1])) for j in sel}
+    degree = {k: len(v) for k, v in ends.items()}
+    for _ in range(PROFILE_PASSES):
+        moved = False
+        delta: dict[tuple[int, int], list[float]] = {}
+        for j in sel:
+            a, b = node_of[int(j)]
+            L = max(length[int(j)], 1.0)
+            gap = node_z[b] - node_z[a]
+            allowed = PROFILE_MAX_GRADE * L
+            if abs(gap) <= allowed:
+                continue
+            excess = (abs(gap) - allowed) * np.sign(gap) / 3.0
+            delta.setdefault(a, []).append(+excess)
+            delta.setdefault(b, []).append(-excess)
+            moved = True
+        for k, ds in delta.items():
+            node_z[k] += float(np.mean(ds))
+        if not moved:
+            break
+
+    for j in sel:
+        a, b = node_of[int(j)]
+        z0[j] = node_z[a]
+        z1[j] = node_z[b]
+        joints[j] = max(degree[a], degree[b])
+    return z0, z1, joints
+
+
 def build(ground: GroundModel, rail_line_path: Path = RAIL_LINE, osm_path: Path = OSM_RAIL,
           elevation_path: Path | None = None) -> pa.Table:
     """Assemble ``transit/rail_structures.parquet``."""
@@ -238,6 +465,8 @@ def build(ground: GroundModel, rail_line_path: Path = RAIL_LINE, osm_path: Path 
     lines_arr = np.asarray(all_lines, dtype=object)
     cls_arr = np.asarray(all_cls, dtype=object)
     deck_z, ground_z, height, hsource, n_pts = deck_heights(lines_arr, cls_arr, ground, bridge_pts)
+    width, tracks, wsource = deck_widths(lines_arr, cls_arr)
+    z_start, z_end, joints = deck_profile(lines_arr, cls_arr, deck_z, hsource)
     length = shapely.length(lines_arr).astype(np.float32)
 
     order = np.lexsort((np.arange(len(lines_arr)), cls_arr.astype(str)))
@@ -256,5 +485,11 @@ def build(ground: GroundModel, rail_line_path: Path = RAIL_LINE, osm_path: Path 
         "deck_height_m": pa.array(height[order].astype(np.float32)),
         "deck_height_source": pa.array(hsource[order]),
         "deck_points": pa.array(n_pts[order]),
+        "deck_width_m": pa.array(width[order].astype(np.float32)),
+        "track_count": pa.array(tracks[order]),
+        "deck_width_source": pa.array(wsource[order]),
+        "deck_z_start": pa.array(z_start[order].astype(np.float32)),
+        "deck_z_end": pa.array(z_end[order].astype(np.float32)),
+        "deck_joints": pa.array(joints[order]),
     })
     return table

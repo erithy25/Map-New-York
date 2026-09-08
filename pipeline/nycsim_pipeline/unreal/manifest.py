@@ -65,6 +65,7 @@ IMPORT_SETTINGS: dict[str, dict[str, Any]] = {
     # The merged distant skyline (blender/buildings/build_lod_merged.py): one mesh per 4 km cell at
     # level 2 and per 16 km cell at level 3. No collision - you never touch it, it is what the city
     # looks like from a mile away - and Nanite, which is what makes 838 MB of it affordable.
+    "structure_nanite": {"nanite": True, "lods_from_suffix": False, "collision": "complex_as_simple", "generate_lightmap_uvs": False, "combine_meshes": False, "material_master": "M_NYC_Master", "mobility": "static", "physical_materials": True, "notes": "per-tile elevated railway and waterfront structures; one static mesh per part, each carrying the SurfaceClass its material maps to"},
     "skyline_nanite": {"nanite": True, "lods_from_suffix": False, "collision": "none", "generate_lightmap_uvs": False, "combine_meshes": False, "material_master": "M_NYC_Master", "mobility": "static", "notes": "merged skyline cell; build_levels.py spawns one actor per cell in its own level"},
     "roof_nanite": {"nanite": True, "lods_from_suffix": False, "collision": "complex_as_simple", "generate_lightmap_uvs": False, "combine_meshes": False, "material_master": "M_NYC_Master", "mobility": "static"},
     "kit_nanite_lod": {"nanite": True, "lods_from_suffix": True, "collision": "simple_box", "generate_lightmap_uvs": False, "combine_meshes": True, "material_master": "M_NYC_Master", "mobility": "static", "instanced": True},
@@ -98,6 +99,7 @@ GLB_RULES: list[tuple[re.Pattern[str], str, str, str]] = [
     (re.compile(r"^tiles/(?P<tile>t_-?\d+_-?\d+)/tile_buildings\.glb$"), "shell_nanite", f"{CONTENT_ROOT}/Tiles/{{tile}}/SM_Shells", "shells"),
     (re.compile(r"^tiles/(?P<tile>t_-?\d+_-?\d+)/roofs\.glb$"), "roof_nanite", f"{CONTENT_ROOT}/Tiles/{{tile}}/SM_Roofs", "roofs"),
     (re.compile(r"^tiles/(?P<tile>t_-?\d+_-?\d+)/tile_pavement\.glb$"), "pavement_nanite", f"{CONTENT_ROOT}/Tiles/{{tile}}/SM_Pavement", "pavement"),
+    (re.compile(r"^tiles/(?P<tile>t_-?\d+_-?\d+)/tile_structures\.glb$"), "structure_nanite", f"{CONTENT_ROOT}/Tiles/{{tile}}/SM_Structures", "structure"),
     (re.compile(r"^tiles/(?P<tile>t_-?\d+_-?\d+)/(?P<stem>[^/]+)\.glb$"), "shell_nanite", f"{CONTENT_ROOT}/Tiles/{{tile}}/SM_{{stem}}", "tile_mesh"),
     # The merged skyline. build_levels.build_skyline_level looks for SM_S4_<x>_<y> (4 km cells) and
     # SM_S16_<x>_<y> (16 km), with a negative index written as 'm<n>' -- which is exactly what
@@ -362,7 +364,7 @@ class ManifestBuilder:
                 "nycsim": extras,
                 "category": category or "Misc",
             }
-            if kind == "pavement":
+            if kind in ("pavement", "structure"):
                 # Lift the material -> SurfaceClass map out of the glb's asset extras and onto the
                 # entry itself, so import_assets.py can hang the right UPhysicalMaterial on each
                 # slot without reopening the file. The index is nycsim_gameplay::SurfaceClass, which

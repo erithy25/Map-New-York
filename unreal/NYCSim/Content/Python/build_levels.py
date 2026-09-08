@@ -224,6 +224,36 @@ def place_pavement(tile: str) -> int:
     return 1
 
 
+def place_structures(tile: str) -> int:
+    """The tile's elevated railways and waterfront: one static-mesh actor at the tile origin.
+
+    ``blender/structures/build_structures.py`` exports 505 km of elevated and viaduct rail structure
+    and 166 ha of pier, seawall and jetty, tile local in X/Y and absolute NAVD88 in Z. It does not
+    export the embankments or the open cuts: those are earthworks the terrain already carries, which
+    was measured rather than assumed.
+
+    Collision is on. The deck of an elevated railway is not drivable, but its columns stand in the
+    street and a car has to hit them; the pier decks on the Brooklyn and Manhattan waterfronts are
+    places a car can be driven onto. ``NYCTerrain`` is the same profile the pavement uses, so a
+    wheel trace resolves the surface the same way.
+    """
+    mesh = load_asset(f"{tile_content_dir(tile)}/SM_Structures")
+    if mesh is None:
+        return 0
+    origin_x, origin_y = tile_origin_m(tile)
+    actor = spawn_mesh(mesh, nyctm_to_ue(origin_x, origin_y, 0.0),
+                       unreal.Rotator(0.0, 0.0, 0.0), f"{tile}_SM_Structures")
+    if actor is None:
+        return 0
+    try:
+        component = actor.get_editor_property("static_mesh_component")
+        if component is not None:
+            component.set_collision_profile_name("NYCTerrain")
+    except Exception as exc:  # noqa: BLE001
+        WARN(f"{tile}: structure collision profile not set: {exc}")
+    return 1
+
+
 def place_landmarks(tile: str, processed_root: str, index: dict) -> int:
     """The landmark models that stand in this tile.
 
@@ -390,7 +420,7 @@ def build_tile_level(tile: str, tier: str, processed_root: str, catalog: dict, t
     if not new_level(package):
         return {"tile": tile, "tier": tier, "ok": False, "error": "level could not be created"}
 
-    result = {"tile": tile, "tier": tier, "ok": True, "shells": 0, "pavement": 0, "landmarks": 0,
+    result = {"tile": tile, "tier": tier, "ok": True, "shells": 0, "pavement": 0, "structures": 0, "landmarks": 0,
               "props": 0, "kit": 0, "landscape": False}
     result["shells"] = place_shells(tile, tier)
     # Landmarks go in both tiers, like the shells: the Empire State Building is exactly the thing
@@ -412,6 +442,7 @@ def build_tile_level(tile: str, tier: str, processed_root: str, catalog: dict, t
                 WARN(f"{tile}: landscape result unreadable: {exc}")
         # L0 only: the road surface is what you drive on, and you are never on a tier-1 tile.
         result["pavement"] = place_pavement(tile)
+        result["structures"] = place_structures(tile)
         result["props"] = place_props(tile, processed_root)
         result["kit"] = place_kit(tile, processed_root, catalog)
 

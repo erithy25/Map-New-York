@@ -1244,6 +1244,62 @@ def add_pavement(cx: float, cy: float, radius_m: float, sampler: TerrainSampler,
             "tiles_missing": sorted(tiles_missing), "radius_m": radius_m}
 
 
+
+
+# --------------------------------------------------------------------------- structures
+
+
+#: The per-tile elevated railway and waterfront file ``blender/structures/build_structures.py``
+#: writes. Kept out of :data:`TILE_GLB_FILES` because it carries no LOD chain: the shells' LOD
+#: chooser would drop it at any distance where the tile shows LOD1 or LOD2.
+STRUCTURES_GLB = "tile_structures.glb"
+
+
+def add_structures(cx: float, cy: float, radius_m: float, *,
+                   col: bpy.types.Collection | None = None,
+                   triangle_budget: int = 400_000) -> dict:
+    """The elevated railways and the waterfront, from ``tiles/{tile}/tile_structures.glb``.
+
+    505 km of elevated and viaduct rail structure and 166 ha of pier, seawall and jetty. A frame
+    taken anywhere along Roosevelt Avenue, Broadway in Bushwick, Jerome Avenue, White Plains Road or
+    the Brooklyn waterfront has the structure across most of the sky and had none of it here.
+    """
+    imported, missing, tris = [], [], 0
+    for tx, ty in tiles_in_radius(cx, cy, radius_m):
+        name = tile_name(tx, ty)
+        q = TILES_GLB / name / STRUCTURES_GLB
+        if not q.exists():
+            missing.append(name)
+            continue
+        if tris >= triangle_budget:
+            break
+        try:
+            created = import_glb(q)
+        except Exception as exc:  # noqa: BLE001
+            LOG.warning("tile %s: %s failed to import: %s", name, q.name, exc)
+            missing.append(f"{name} (import error)")
+            continue
+        origin = Vector((tx * TILE_SIZE_M, ty * TILE_SIZE_M, 0.0))
+        kept = 0
+        for ob in created:
+            if ob.type != "MESH":
+                bpy.data.objects.remove(ob, do_unlink=True)
+                continue
+            ob.location = ob.location + origin
+            if col is not None:
+                for c in list(ob.users_collection):
+                    c.objects.unlink(ob)
+                col.objects.link(ob)
+            tris += _triangles(ob)
+            kept += 1
+        if kept:
+            imported.append(name)
+    bpy.context.view_layer.update()
+    return {"tiles_imported": len(imported), "imported": sorted(imported),
+            "tiles_without_a_file": len(missing), "triangles": tris}
+
+
+
 # --------------------------------------------------------------------------- props
 
 
@@ -1565,6 +1621,7 @@ class SceneReport:
     radius_m: float
     terrain: dict = field(default_factory=dict)
     pavement: dict = field(default_factory=dict)
+    structures: dict = field(default_factory=dict)
     buildings: dict = field(default_factory=dict)
     landmarks: dict = field(default_factory=dict)
     props: dict = field(default_factory=dict)
@@ -1607,6 +1664,7 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
     scene_col = bpy.context.scene.collection
     c_terrain = nb.collection("terrain", scene_col)
     c_pave = nb.collection("pavement", scene_col)
+    c_struct = nb.collection("structures", scene_col)
     c_build = nb.collection("buildings", scene_col)
     c_landmark = nb.collection("landmarks", scene_col)
     c_props = nb.collection("props", scene_col)
@@ -1626,6 +1684,7 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
                                 cut=own_ground)
     rep.pavement = add_pavement(cx, cy, min(radius_m, pavement_radius_m), sampler, col=c_pave,
                                 cut=own_ground)
+    rep.structures = add_structures(cx, cy, radius_m, col=c_struct)
     # A landmark model and the tile shell of the same building are two versions of one object.
     # The catalogue names the BINs each model was built from, so those shells are removed from the
     # merged per-material meshes before anything else is placed.

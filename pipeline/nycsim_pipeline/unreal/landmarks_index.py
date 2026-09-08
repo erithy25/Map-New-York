@@ -29,12 +29,23 @@ from pathlib import Path
 from typing import Any
 
 from ..crs import TILE_SIZE_M
+from .glb import GlbError, glb_bounds
 from ..manifest import git_commit
 from ..paths import BLENDER_OUT, PROCESSED
 
 log = logging.getLogger("nycsim.unreal.landmarks_index")
 
-SCHEMA = "landmarks_index/1"
+SCHEMA = "landmarks_index/2"
+
+#: Catalogue keys that say a landmark carries railway tracks of its own.
+#:
+#: Three of the modelled bridges do: the Manhattan (4 subway tracks), the Williamsburg (2) and the
+#: Hell Gate (4 total, 3 in service, the Northeast Corridor). OSM tags those crossings
+#: ``bridge=yes``, so ``transit/rail_structures.parquet`` also has them, correctly, as elevated
+#: railway 39-44 m over the East River. Both statements are right and only one of them may be built,
+#: or the city gets two decks in the same place; the landmark is the one with the towers and the
+#: cables, so the landmark wins and ``blender/structures/build_structures.py`` cedes to it.
+RAIL_TRACK_KEYS = ("subway_tracks", "tracks_total", "tracks_in_service")
 
 
 def _tile_of(x: float, y: float) -> str:
@@ -67,6 +78,27 @@ def build_index(blender_out: Path = BLENDER_OUT, processed: Path = PROCESSED) ->
                 continue
             x, y, z = (float(v) for v in origin)
             bounds = entry.get("bounds_local_m") or {}
+            if not bounds.get("min"):
+                # 34 of the 93 catalogues publish no bounds -- every bridge among them -- so any
+                # consumer that needs a landmark's extent had nothing for a third of the city's
+                # landmarks. glTF requires every POSITION accessor to carry its own min/max, so the
+                # bounds are in the file: read them from there. Checked against the 59 catalogues
+                # that do publish bounds, this reproduces all 59 to within 0.01 m.
+                # The catalogue writes ``glb`` repo-relative ("blender_out/landmarks/x.glb"), so
+                # joining it onto blender_out doubles the directory.
+                rel = str(glb)
+                base = Path(blender_out)
+                candidate = (base.parent / rel) if rel.startswith(base.name + "/") else (base / rel)
+                try:
+                    computed = glb_bounds(candidate)
+                except (GlbError, OSError) as exc:
+                    computed = None
+                    log.warning("%s: bounds not readable from the glb: %s", path.stem, exc)
+                if computed:
+                    bounds = dict(computed)
+                    bounds["source"] = "glb POSITION accessors"
+            tracks = next((int(entry[k]) for k in RAIL_TRACK_KEYS
+                           if isinstance(entry.get(k), (int, float)) and entry[k]), 0)
             rows.append({
                 "id": str(entry.get("id", path.stem)),
                 "name": str(entry.get("name", path.stem)),
@@ -74,8 +106,11 @@ def build_index(blender_out: Path = BLENDER_OUT, processed: Path = PROCESSED) ->
                 "stem": Path(str(glb)).stem,
                 "origin_tm": [round(x, 4), round(y, 4), round(z, 4)],
                 "tile": _tile_of(x, y),
-                "bounds_local_m": {"min": bounds.get("min"), "max": bounds.get("max")}
-                                  if bounds else None,
+                "bounds_local_m": ({"min": bounds.get("min"), "max": bounds.get("max"),
+                                    "source": bounds.get("source", "catalogue")}
+                                   if bounds.get("min") else None),
+                # Whether this landmark models railway tracks of its own; see RAIL_TRACK_KEYS.
+                "rail_tracks": tracks,
                 "height_m": entry.get("height_m"),
                 # Recorded so a reader can see it and not use it; see this module's docstring.
                 "heading_deg_not_a_rotation": entry.get("heading_deg"),
