@@ -1418,3 +1418,40 @@ def test_the_flag_a_pole_flies_is_the_flag_its_row_says():
     pa = A.load(REPO_ROOT / "data" / "processed", BLENDER_OUT)
     declared = pa.variants_by_kind.get("flagpole")
     assert declared == {0: "flag_nyc_pole", 1: "flag_us_pole"}, declared
+
+
+def test_the_engines_prop_manifest_is_not_older_than_the_props_it_lists():
+    """There are two prop artefacts per tile and only one stage writes each.
+
+    ``props.parquet`` is the furniture stage's output and what the Blender comparison renderer
+    reads. ``props.json`` is the Unreal manifest stage's output and what the engine reads and the
+    content package ships. A furniture rebuild refreshes the first and not the second, so on
+    2026-09-08 the renders carried the J58 fixes and a player would not: the manifests still named
+    13,832 parking plates where the bus stops are and 924 sign posts where the utility poles were,
+    and no US flag anywhere.
+
+    Nothing failed over it -- both files were internally valid and both counts were right about
+    their own contents. Only their *dates* disagreed, which is what this checks.
+    """
+    tiles = sorted((PROCESSED / "tiles").glob("*/props.parquet"))
+    if not tiles:
+        pytest.skip("no built tiles in this checkout")
+    #: A manifest written in the same run may finish a little before or after the parquet it
+    #: describes; a stage that was not re-run at all is hours behind.
+    SLACK_S = 20 * 60
+    stale = []
+    checked = 0
+    for pq_path in tiles:
+        js = pq_path.with_name("props.json")
+        if not js.is_file():
+            continue                     # a tile with no manifest is a different question
+        checked += 1
+        behind = pq_path.stat().st_mtime - js.stat().st_mtime
+        if behind > SLACK_S:
+            stale.append(f"{pq_path.parent.name}: props.json is {behind / 3600:.1f} h older "
+                         f"than props.parquet")
+    assert checked, "no tile carries both a props.parquet and a props.json"
+    assert not stale, (
+        f"{len(stale)} of {checked} tiles have an engine manifest older than their prop data; "
+        f"re-run `python3 -m nycsim_pipeline.unreal.manifest` after any furniture rebuild:\n  "
+        + "\n  ".join(stale[:8]))
