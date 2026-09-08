@@ -56,8 +56,8 @@
   "min_view_m": 20.0,
   "moved": false,
   "nearest_obstruction": "prop_lamp_bishops_crook_9",
-  "nearest_obstruction_m": 16.5,
-  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the view cone is prop_lamp_bishops_crook_9 16.5 m away, and the view azimuth is clear for 59 m",
+  "nearest_obstruction_m": 14.2,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest solid thing in the frame is prop_lamp_bishops_crook_9 14.2 m away, and the view azimuth is clear for 59 m",
   "offset_m": 0.0,
   "view_m": 59.3
  },
@@ -105,7 +105,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_lower_manhattan_broadway_wall_st/render.png",
- "rendered_at": "2026-09-08T06:03:43Z",
+ "rendered_at": "2026-09-08T07:08:35Z",
  "resolution_note": "1112x980; the reference photograph is 1920x1693 (1.13:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -143,7 +143,7 @@
    "placed_pedestrians": 212,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 120.03,
+   "seconds": 125.26,
    "snapshot": {
     "building_footprints_tested": 1416,
     "density_lane_km": 30.259,
@@ -182,7 +182,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 563
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -5210_871_13_2_455f589c260ce148_1788844608.json",
    "triangle_budget": 1125000,
    "triangles": 1085116,
    "vehicle_lods": {
@@ -520,7 +520,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 172.15,
+  "seconds": 164.39,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -583,9 +583,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 128.6,
-  "scene": 173.1,
-  "total": 301.7
+  "render": 129.0,
+  "scene": 165.4,
+  "total": 294.4
  },
  "slug": "drive_lower_manhattan_broadway_wall_st",
  "status": "rendered",

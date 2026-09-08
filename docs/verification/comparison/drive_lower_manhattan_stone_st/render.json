@@ -56,11 +56,16 @@
   "direction": "onto the nearest sidewalk",
   "min_view_m": 20.0,
   "moved": true,
-  "nearest_obstruction_m": 20.0,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 11 m ahead, less than the 12 m this frame needs to show its subject; the camera was moved 7 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there",
+  "nearest_obstruction": "t_-6_0_red_brick",
+  "nearest_obstruction_at_deg": [
+   -27.2,
+   0.0
+  ],
+  "nearest_obstruction_m": 11.2,
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 11 m ahead, less than the 12 m this frame needs to show its subject; the camera was moved 7 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there, and the nearest solid thing anywhere in the frame is t_-6_0_red_brick 11.2 m away at -27 deg yaw, +0 deg pitch",
   "offset_m": 7.2,
   "reason": "boxed in: the view azimuth is closed off 11 m ahead, less than the 12 m this frame needs to show its subject",
-  "rule": "pavement snap with a clear view",
+  "rule": "pavement snap with a clear frame",
   "view_m": 60.0
  },
  "frame": {
@@ -107,7 +112,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_lower_manhattan_stone_st/render.png",
- "rendered_at": "2026-09-08T06:10:16Z",
+ "rendered_at": "2026-09-08T07:15:13Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -151,7 +156,7 @@
    "placed_pedestrians": 377,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 119.89,
+   "seconds": 133.72,
    "snapshot": {
     "building_footprints_tested": 430,
     "density_lane_km": 28.886,
@@ -190,7 +195,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 692
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -5130_457_13_0_7a9f5509044aac37_1788844608.json",
    "triangle_budget": 1125000,
    "triangles": 1086819,
    "vehicle_lods": {
@@ -529,7 +534,7 @@
    }
   },
   "radius_m": 720.0,
-  "seconds": 225.67,
+  "seconds": 229.75,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -592,9 +597,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 160.2,
-  "scene": 229.1,
-  "total": 389.3
+  "render": 161.1,
+  "scene": 233.5,
+  "total": 394.7
  },
  "slug": "drive_lower_manhattan_stone_st",
  "status": "rendered",

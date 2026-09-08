@@ -56,11 +56,16 @@
   "direction": "onto the nearest roadbed",
   "min_view_m": 20.0,
   "moved": true,
+  "nearest_obstruction": null,
+  "nearest_obstruction_at_deg": [
+   0.0,
+   0.0
+  ],
   "nearest_obstruction_m": 20.0,
-  "note": "the recorded viewpoint is inside t_2_14_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 5 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there",
+  "note": "the recorded viewpoint is inside t_2_14_roof_membrane (a ray straight up from the eye point hits its roof); the camera was moved 5 m onto the nearest real roadbed polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 60 m from there, and the nearest solid thing anywhere in the frame is further than 20 m",
   "offset_m": 4.9,
   "reason": "inside t_2_14_roof_membrane (a ray straight up from the eye point hits its roof)",
-  "rule": "pavement snap with a clear view",
+  "rule": "pavement snap with a clear frame",
   "view_m": 60.0
  },
  "frame": {
@@ -107,7 +112,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_grand_concourse/render.png",
- "rendered_at": "2026-09-08T05:51:36Z",
+ "rendered_at": "2026-09-08T06:55:48Z",
  "resolution_note": "904x1206; the reference photograph is 1920x2560 (0.75:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -149,7 +154,7 @@
    "placed_pedestrians": 307,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 53.45,
+   "seconds": 57.97,
    "snapshot": {
     "building_footprints_tested": 1467,
     "density_lane_km": 28.245,
@@ -374,6 +379,9 @@
    "capped": "triangle budget 1356090",
    "impostor_cards_dropped": 16,
    "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 81
+   },
    "leaf_off": false,
    "per_kind": {
     "bus_shelter": 2,
@@ -396,12 +404,10 @@
    ],
    "tree_species_substituted": 78,
    "triangles": 1358596,
-   "unmapped_kinds": {
-    "curb_ramp": 81
-   }
+   "unmapped_kinds": {}
   },
   "radius_m": 720.0,
-  "seconds": 93.52,
+  "seconds": 99.67,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -428,9 +434,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 192.6,
-  "scene": 96.0,
-  "total": 288.5
+  "render": 184.8,
+  "scene": 102.7,
+  "total": 287.6
  },
  "slug": "drive_bronx_grand_concourse",
  "status": "rendered",

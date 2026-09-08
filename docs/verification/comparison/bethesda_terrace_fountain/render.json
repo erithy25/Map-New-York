@@ -105,7 +105,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/bethesda_terrace_fountain/render.png",
- "rendered_at": "2026-09-08T05:42:21Z",
+ "rendered_at": "2026-09-08T06:46:28Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -131,7 +131,7 @@
    "placed_pedestrians": 10,
    "placed_vehicles": 0,
    "reason": null,
-   "seconds": 9.95,
+   "seconds": 10.48,
    "snapshot": {
     "building_footprints_tested": 2814,
     "car_free_park_drives_matched": 47,
@@ -378,6 +378,7 @@
    "capped": null,
    "impostor_cards_dropped": 3,
    "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {},
    "leaf_off": false,
    "per_kind": {
     "bench": 18,
@@ -408,7 +409,7 @@
    }
   },
   "radius_m": 700.0,
-  "seconds": 14.78,
+  "seconds": 15.66,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -481,9 +482,9 @@
   "radius_m": 700.0
  },
  "seconds": {
-  "render": 42.9,
-  "scene": 14.9,
-  "total": 57.8
+  "render": 44.0,
+  "scene": 15.8,
+  "total": 59.8
  },
  "slug": "bethesda_terrace_fountain",
  "status": "rendered",

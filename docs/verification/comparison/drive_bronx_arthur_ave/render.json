@@ -15,13 +15,13 @@
   "focal_mm": 35.0,
   "ground_detail": {
    "below_point_excluded": 0,
-   "chosen_m": 24.39,
-   "max_m": 24.8,
-   "median_m": 24.48,
-   "min_m": 24.19,
+   "chosen_m": 24.3,
+   "max_m": 24.66,
+   "median_m": 24.36,
+   "min_m": 24.25,
    "mode": "street",
    "percentile": 10.0,
-   "point_m": 24.43,
+   "point_m": 24.36,
    "radius_m": 12.0,
    "samples": 113
   },
@@ -39,12 +39,12 @@
   ],
   "sensor_mm": 36.0,
   "slug": "drive_bronx_arthur_ave",
-  "terrain_z_m": 24.387,
-  "x": 5237.771,
-  "y": 17245.927,
-  "z": 25.987
+  "terrain_z_m": 24.298,
+  "x": 5255.293,
+  "y": 17277.668,
+  "z": 25.898
  },
- "camera_caption": "camera 40.85524, -73.88776 (NYC_TM 5238, 17246) z 26.0 m NAVD88 | azimuth 190.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
+ "camera_caption": "camera 40.85524, -73.88776 (NYC_TM 5255, 17278) z 25.9 m NAVD88 | azimuth 190.0deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1280x854",
  "camera_origin": {
   "from_photograph_gps": true,
   "lat": 40.85524,
@@ -53,20 +53,25 @@
   "source": "this photograph's own EXIF camera GPS (40.85524, -73.88776), 16 m from the item's recorded viewpoint -- the position the picture was taken from"
  },
  "clearance": {
-  "direction": "onto the nearest sidewalk",
+  "direction": "onto the nearest crosswalk",
   "min_view_m": 20.0,
   "moved": true,
-  "nearest_obstruction_m": 20.0,
-  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 10 m ahead, less than the 12 m this frame needs to show its subject; the camera was moved 11 m onto the nearest real sidewalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 40 m from there",
-  "offset_m": 11.1,
+  "nearest_obstruction": "prop_tree_sophora_small_9",
+  "nearest_obstruction_at_deg": [
+   -27.2,
+   9.5
+  ],
+  "nearest_obstruction_m": 18.8,
+  "note": "the recorded viewpoint is boxed in: the view azimuth is closed off 10 m ahead, less than the 12 m this frame needs to show its subject; the camera was moved 36 m onto the nearest real crosswalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 45 m from there, and the nearest solid thing anywhere in the frame is prop_tree_sophora_small_9 18.8 m away at -27 deg yaw, +9 deg pitch",
+  "offset_m": 35.7,
   "reason": "boxed in: the view azimuth is closed off 10 m ahead, less than the 12 m this frame needs to show its subject",
-  "rule": "pavement snap with a clear view",
-  "view_m": 40.3
+  "rule": "pavement snap with a clear frame",
+  "view_m": 45.4
  },
  "frame": {
-  "mean": 0.2679,
+  "mean": 0.3085,
   "reason": null,
-  "sd": 0.1878,
+  "sd": 0.2071,
   "usable": true
  },
  "frame_retry": null,
@@ -107,7 +112,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/drive_bronx_arthur_ave/render.png",
- "rendered_at": "2026-09-08T05:46:45Z",
+ "rendered_at": "2026-09-08T06:50:58Z",
  "resolution_note": "1280x854; the reference photograph is 1920x1280 (1.50:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -141,7 +146,7 @@
    "placed_pedestrians": 281,
    "placed_vehicles": 89,
    "reason": null,
-   "seconds": 38.56,
+   "seconds": 40.05,
    "snapshot": {
     "building_footprints_tested": 4239,
     "density_lane_km": 25.141,
@@ -322,6 +327,9 @@
    "capped": "triangle budget 1386876",
    "impostor_cards_dropped": 21,
    "impostor_faces_dropped": 0,
+   "kinds_built_elsewhere": {
+    "curb_ramp": 81
+   },
    "leaf_off": false,
    "per_kind": {
     "citibike_dock": 2,
@@ -345,12 +353,11 @@
    "tree_species_substituted": 62,
    "triangles": 1387352,
    "unmapped_kinds": {
-    "curb_ramp": 81,
     "parks_comfort_station": 1
    }
   },
   "radius_m": 720.0,
-  "seconds": 96.0,
+  "seconds": 96.86,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -413,9 +420,9 @@
   "radius_m": 720.0
  },
  "seconds": {
-  "render": 164.3,
-  "scene": 98.3,
-  "total": 262.6
+  "render": 168.0,
+  "scene": 100.5,
+  "total": 268.5
  },
  "slug": "drive_bronx_arthur_ave",
  "status": "rendered",
