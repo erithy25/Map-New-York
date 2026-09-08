@@ -96,12 +96,15 @@ LANDMARK_DTYPE = aligned_dtype([("x", "<f4"), ("y", "<f4"), ("name_str", "<u4")]
 EXPECTED_SIZEOF = {
     "nodes": 24, "segments": 48, "vertices": 12, "lanes": 48, "lane_links": 8,
     "junction_lanes": 48, "yield_links": 8, "controllers": 32, "phases": 28,
-    "pois": 12, "tiles": 28, "points": 12,
+    "pois": 12, "places": 12, "tiles": 28, "points": 12,
 }
 ROADGRAPH_DTYPES = {"nodes": NODE_DTYPE, "segments": SEGMENT_DTYPE, "vertices": VERTEX_DTYPE, "lanes": LANE_DTYPE,
                     "lane_links": LANE_LINK_DTYPE, "junction_lanes": JUNCTION_DTYPE, "yield_links": YIELD_LINK_DTYPE}
 SIGNAL_DTYPES = {"controllers": CONTROLLER_DTYPE, "phases": PHASE_DTYPE}
-POI_DTYPES = {"pois": POI_DTYPE}
+#: ``places`` carries the same record as ``pois`` -- {x, y, string index} -- because it is the same
+#: kind of thing: a point with a label the GPS can search. Sharing the layout means the reader that
+#: already knows one needs no new record type for the other.
+POI_DTYPES = {"pois": POI_DTYPE, "places": POI_DTYPE}
 TILE_DTYPES = {"tiles": TILE_DTYPE}
 LANDMARK_DTYPES = {"points": LANDMARK_DTYPE}
 ALL_DTYPES = {**ROADGRAPH_DTYPES, **SIGNAL_DTYPES, **POI_DTYPES, **TILE_DTYPES, **LANDMARK_DTYPES}
@@ -312,12 +315,18 @@ def _point_section(x: np.ndarray, y: np.ndarray, labels: list, dtype: np.dtype, 
     return out, dropped
 
 
-def export_pois(buildings_dir: Path, out_path: Path) -> dict:
-    """§15 ``runtime/pois.nycb``: one address point per building that has an address.
+def export_pois(buildings_dir: Path, out_path: Path, osm_dir: Path | None = None) -> dict:
+    """§15 ``runtime/pois.nycb``: an address point per addressed building, and every named OSM place.
 
-    Source is ``buildings/buildings_base.parquet`` — the PLUTO/PAD address the buildings stage joined onto each
-    footprint (§5.2) — at the footprint centroid the same table carries. Buildings with ``address == ""`` (unknown,
-    per §5.2) are simply absent; there is no address to write for them and none is made up.
+    The ``pois`` section is the PLUTO/PAD address the buildings stage joined onto each footprint
+    (§5.2), at the footprint centroid the same table carries. Buildings with ``address == ""``
+    (unknown, per §5.2) are simply absent; there is no address to write for them and none is made up.
+
+    The ``places`` section is ``osm/pois.parquet`` — 117,930 named shops, restaurants, schools,
+    hospitals, stations, parks and civic buildings, with their real names. That table had **no
+    consumer anywhere in the repository**: the GPS could find "350 5 Ave" and could not find "Katz's
+    Delicatessen", because the only thing feeding its index was the address list. Same record layout
+    as ``pois`` and the same string table, so a reader that knows one knows the other.
     """
     t0 = time.time()
     t = pq.read_table(buildings_dir / "buildings_base.parquet", columns=["address", "centroid_x", "centroid_y"])
@@ -327,12 +336,33 @@ def export_pois(buildings_dir: Path, out_path: Path) -> dict:
                                    t.column("centroid_y").to_numpy(zero_copy_only=False),
                                    addrs, POI_DTYPE, "addr_str", w)
     w.add_array("pois", pois)
+
+    places: np.ndarray | None = None
+    place_dropped: dict = {}
+    place_rows = 0
+    src = (osm_dir or (buildings_dir.parent / "osm")) / "pois.parquet"
+    if src.is_file():
+        tp = pq.read_table(src, columns=["x", "y", "name"])
+        place_rows = tp.num_rows
+        places, place_dropped = _point_section(tp.column("x").to_numpy(zero_copy_only=False),
+                                               tp.column("y").to_numpy(zero_copy_only=False),
+                                               tp.column("name").to_pylist(), POI_DTYPE, "addr_str", w)
+        w.add_array("places", places)
+    else:
+        log.warning("osm/pois.parquet absent: pois.nycb carries addresses only and the GPS cannot "
+                    "find a place by name")
+
     w.add_strtab()
     w.write(out_path)
     st = {"path": str(out_path), "bytes": out_path.stat().st_size, "sections": w.section_names(),
-          "counts": {"pois": len(pois), "strtab_bytes": len(w.strings)},
-          "source_rows": t.num_rows, "dropped": dropped, "seconds": round(time.time() - t0, 2)}
-    log.info("pois.nycb: %d of %d buildings, dropped %s", len(pois), t.num_rows, dropped)
+          "counts": {"pois": len(pois), "places": 0 if places is None else len(places),
+                     "strtab_bytes": len(w.strings)},
+          "source_rows": t.num_rows, "dropped": dropped,
+          "places_source_rows": place_rows, "places_dropped": place_dropped,
+          "seconds": round(time.time() - t0, 2)}
+    log.info("pois.nycb: %d of %d buildings, %d of %d named places, dropped %s / %s",
+             len(pois), t.num_rows, 0 if places is None else len(places), place_rows,
+             dropped, place_dropped)
     return st
 
 
@@ -531,6 +561,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--roads-dir", type=Path, default=PROCESSED / "roads")
     ap.add_argument("--buildings-dir", type=Path, default=PROCESSED / "buildings")
     ap.add_argument("--tiles-dir", type=Path, default=PROCESSED / "tiles")
+    ap.add_argument("--osm-dir", type=Path, default=PROCESSED / "osm")
     ap.add_argument("--out-dir", type=Path, default=PROCESSED / "runtime")
     ap.add_argument("--no-manifest", action="store_true", help="do not record the artefacts in data/manifest/processed.json")
     ap.add_argument("-v", "--verbose", action="store_true")
@@ -541,7 +572,7 @@ def main(argv: list[str] | None = None) -> int:
     from .nycb import write_layout
     st = {"roadgraph": export_roadgraph(a.roads_dir, a.out_dir / "roadgraph.nycb"),
           "signals": export_signals(a.roads_dir, a.out_dir / "signals.nycb"),
-          "pois": export_pois(a.buildings_dir, a.out_dir / "pois.nycb"),
+          "pois": export_pois(a.buildings_dir, a.out_dir / "pois.nycb", a.osm_dir),
           "tiles": export_tiles(a.tiles_dir, a.out_dir / "tiles.nycb"),
           "landmarks": export_landmarks(a.buildings_dir, a.out_dir / "landmarks.nycb")}
     write_layout(a.out_dir / "nycb_layout.json", ALL_DTYPES)

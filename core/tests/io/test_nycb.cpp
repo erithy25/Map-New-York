@@ -792,6 +792,34 @@ TEST_SUITE("io") {
                                  << minX << ", " << maxX << "] y [" << minY << ", " << maxY
                                  << "] m, " << po->sizeBytes() << " bytes; first = \""
                                  << po->string(pois.value()[0].addrStr).value() << "\"");
+
+      // The "places" section is the named OpenStreetMap places, in the same record and the same
+      // string table. Until it existed, osm/pois.parquet had no consumer anywhere in the repository
+      // and the GPS could find an address but not a name. Verified the same way: every label has to
+      // resolve, because loadPois drops an entry whose label is empty and would cost a destination
+      // without reporting anything.
+      const auto places = po->view<Poi>("places");
+      if (!places.ok()) {
+        MESSAGE("real pois.nycb has no places section - an older container");
+      } else {
+        uint64_t placesUnresolved = 0, placesEmpty = 0, placesNonFinite = 0;
+        for (const Poi& p : places.value()) {
+          const auto s = po->string(p.addrStr);
+          if (!s.ok()) {
+            ++placesUnresolved;
+            continue;
+          }
+          if (s.value().empty()) ++placesEmpty;
+          if (!std::isfinite(p.x) || !std::isfinite(p.y)) ++placesNonFinite;
+        }
+        CHECK(placesUnresolved == 0);
+        CHECK(placesEmpty == 0);
+        CHECK(placesNonFinite == 0);
+        CHECK(places.value().size() > 0);
+        MESSAGE("real pois.nycb: " << places.value().size() << " named places, all resolving; "
+                                   << "first = \"" << po->string(places.value()[0].addrStr).value()
+                                   << "\"");
+      }
     }
 
     auto tl = NycbReader::fromFile((root + "tiles.nycb").c_str());

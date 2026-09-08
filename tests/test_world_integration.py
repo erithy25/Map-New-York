@@ -845,7 +845,7 @@ KNOWN_ORPHANED_TABLES = {
     # Recorded as deviations. An entry here says the gap is known, not that it is acceptable.
     "transit/rail_routes.parquet": "D11 — 47 rail routes; transit.nycb has no rail section",
     "transit/rail_stops.parquet": "D11 — 1,166 rail stops, likewise",
-    "osm/pois.parquet": "H6 — the address source for the pois.nycb that is never written",
+
     "osm/water_nj.parquet": "D11 — New Jersey water areas; the water stage never reads them",
     "osm/signals_stops.parquet": "D11 — duplicate of roads/cache/osm_nodes.parquet, which is what the "
                                  "signal stage actually uses",
@@ -931,25 +931,30 @@ def test_no_processed_table_is_written_and_never_read():
 
 
 def test_every_roof_mesh_reference_points_at_a_file_that_exists():
-    """`roof_mesh_ref` names `tiles/{tile}/roofs.glb`, which no stage writes (B6).
+    """``roof_mesh_ref`` named ``tiles/{tile}/roofs.glb``, which no stage writes and none will (B6).
 
-    1,033,416 buildings carry one. The column's own test asserts its *format* — non-empty exactly
-    when `citygml_match` — and a format test on a pointer says nothing about the pointer. This test
-    resolves them, and is expected to fail until the roofs stage exists or the column is dropped and
-    DATA_CONTRACTS §5 amended. It is marked xfail rather than deleted so the number stays visible.
+    1,033,416 buildings carried one. This was an xfail for as long as the reference was broken: the
+    column's own test asserts its *format* -- non-empty exactly when ``citygml_match`` -- and a
+    format test on a pointer says nothing about the pointer.
+
+    The contract is now amended and the reference names the CityGML shard that really holds the
+    building's LOD2 triangles, which is the file ``roofsteps.py`` opens, so this resolves them and
+    asserts. Every CityGML roof triangle is horizontal -- the model is flat multi-level massing, not
+    roof pitch -- so a ``roofs.glb`` would have carried the level outlines ``roofsteps.py`` already
+    recovers and builds into the tile shells. The roof shape was never missing.
     """
     base = PROCESSED / "buildings" / "buildings_base.parquet"
     if not base.exists():
         pytest.skip("the buildings table has not been produced")
     refs = pq.read_table(base, columns=["roof_mesh_ref"])["roof_mesh_ref"].to_pylist()
     wanted = {r.split("#", 1)[0] for r in refs if r}
-    missing = sorted(t for t in wanted if not (BLENDER_OUT / t).exists() and not (PROCESSED / t).exists())
     n_rows = sum(1 for r in refs if r)
-    if missing:
-        pytest.xfail(
-            f"B6: {n_rows} buildings reference {len(wanted)} roofs.glb files and {len(missing)} of "
-            f"them do not exist (e.g. {missing[0]}). The roof shape itself is in the shells; this is "
-            f"a broken contract, not absent geometry.")
+    assert wanted, "no building carries a roof reference at all"
+    assert not any("roofs.glb" in t for t in wanted), (
+        "the withdrawn tiles/{tile}/roofs.glb reference is back; DATA_CONTRACTS §5 says why it is not written")
+    missing = sorted(t for t in wanted if not (BLENDER_OUT / t).exists() and not (PROCESSED / t).exists())
+    assert not missing, (
+        f"{n_rows} buildings reference {len(wanted)} files and {len(missing)} do not exist: {missing[:4]}")
 
 
 def test_the_tile_index_content_counts_are_filled_and_agree_with_the_artefacts():

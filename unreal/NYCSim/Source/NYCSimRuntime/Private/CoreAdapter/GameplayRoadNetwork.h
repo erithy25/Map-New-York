@@ -37,6 +37,7 @@ struct SearchEntry
 		Street = 1,    ///< a street name from the road graph (centroid of its segments)
 		BusStop = 2,   ///< runtime/transit.nycb bus stop
 		Landmark = 3,  ///< runtime/landmarks.nycb (optional file, see loadLandmarks())
+		Place = 4,     ///< runtime/pois.nycb "places" section -- a named OpenStreetMap place
 	};
 
 	std::string label;   ///< display text, e.g. "350 5 Ave" or "Grand Central Terminal"
@@ -64,6 +65,7 @@ struct RoadNetworkStats
 	uint32_t defaultSignalPlans = 0;
 	uint32_t ntaCells = 0;
 	uint32_t addresses = 0;
+	uint32_t places = 0;
 	uint32_t busStops = 0;
 	uint32_t landmarks = 0;
 	uint32_t lanesWithNta = 0;

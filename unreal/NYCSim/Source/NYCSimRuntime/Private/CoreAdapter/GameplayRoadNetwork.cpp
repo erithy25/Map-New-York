@@ -417,7 +417,14 @@ bool RoadNetwork::loadPois(const std::vector<uint8_t>& bytes)
 	{
 		return false;
 	}
-	entries_.reserve(entries_.size() + pois.element_count);
+	// The "places" section is the 85,023 named OpenStreetMap places -- shops, restaurants, schools,
+	// hospitals, stations, parks. Same record as "pois" and the same string table, because it is the
+	// same kind of thing: a point with a label to search for. Until it existed the GPS could find
+	// "350 5 Ave" and could not find "Katz's Delicatessen", because the only thing feeding its index
+	// was the address list. An older pois.nycb has no such section and still loads.
+	const nycsim::nycb::Section places = f.section("places");
+	const uint32_t placeCount = (places.present && places.element_size >= 12) ? places.element_count : 0u;
+	entries_.reserve(entries_.size() + pois.element_count + placeCount);
 	for (uint32_t i = 0; i < pois.element_count; ++i)
 	{
 		const uint8_t* rec = pois.at(i);
@@ -431,6 +438,20 @@ bool RoadNetwork::loadPois(const std::vector<uint8_t>& bytes)
 		}
 		addEntry(std::string(label), x, y, SearchEntry::Kind::Address);
 		++stats_.addresses;
+	}
+	for (uint32_t i = 0; i < placeCount; ++i)
+	{
+		const uint8_t* rec = places.at(i);
+		const float x = nycsim::nycb::rdF32(rec);
+		const float y = nycsim::nycb::rdF32(rec + 4);
+		const uint32_t name = nycsim::nycb::rdU32(rec + 8);
+		const std::string_view label = nycsim::nycb::File::str(strtab, name);
+		if (label.empty())
+		{
+			continue;
+		}
+		addEntry(std::string(label), x, y, SearchEntry::Kind::Place);
+		++stats_.places;
 	}
 	return true;
 }

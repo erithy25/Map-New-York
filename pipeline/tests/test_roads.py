@@ -820,7 +820,7 @@ CONTRACT_15_FILES: dict[str, dict[str, int]] = {
     "transit.nycb": {"bus_routes": 68, "bus_stops": 24, "route_stops": 8, "vertices": 12, "strtab": 1},
     "density.nycb": {"cells": 32, "nta_polys": 12, "vertices": 12, "strtab": 1},
     "landmarks.nycb": {"points": 12, "strtab": 1},
-    "pois.nycb": {"pois": 12, "strtab": 1},
+    "pois.nycb": {"pois": 12, "places": 12, "strtab": 1},
 }
 
 
@@ -944,3 +944,37 @@ def test_nycb_layout_json_documents_the_cpp_structs():
     assert doc["container"]["index_entry"]["sizeof"] == 40
     for name, size in E.EXPECTED_SIZEOF.items():
         assert doc["sections"][name]["sizeof"] == size
+
+
+def test_the_named_places_reached_the_gps_index():
+    """`osm/pois.parquet` had no consumer anywhere: 117,930 named places and no way to search one.
+
+    The GPS index was fed by the address list alone, so it could find "350 5 Ave" and could not find
+    "Katz's Delicatessen". The `places` section carries the ones that have a name, in the same
+    record layout and string table as the addresses, so `RoadNetwork::loadPois` reads both.
+    """
+    p = RUNTIME / "pois.nycb"
+    src = PROCESSED / "osm" / "pois.parquet"
+    if not p.exists() or not src.exists():
+        pytest.skip("pois.nycb or the OSM place table is not produced")
+    r = NycbReader(p)
+    assert "places" in r.sections, "the named places never reached pois.nycb"
+    names = pq.read_table(src, columns=["name"]).column("name").to_pylist()
+    named = sum(1 for n in names if n and n.strip())
+    got = r.sections["places"].element_count
+    assert got > 50_000, f"only {got} named places are indexed"
+    # Deduplication drops a handful of exact (label, point) repeats; nothing else may go missing.
+    assert named - got < 100, f"{named} named places in the source, {got} in the container"
+
+
+def test_the_engine_reads_the_places_section():
+    """A section nothing reads is the defect this closes, so the reader is checked as text."""
+    repo = Path(__file__).resolve().parents[2]
+    src = (repo / "unreal" / "NYCSim" / "Source" / "NYCSimRuntime" / "Private" / "CoreAdapter"
+           / "GameplayRoadNetwork.cpp").read_text()
+    assert 'f.section("places")' in src, "loadPois does not read the places section"
+    assert "SearchEntry::Kind::Place" in src, "the places are not added to the search index"
+    hdr = (repo / "unreal" / "NYCSim" / "Source" / "NYCSimRuntime" / "Private" / "CoreAdapter"
+           / "GameplayRoadNetwork.h").read_text()
+    assert "Place = 4" in hdr, "SearchEntry has no Place kind"
+    assert "uint32_t places = 0;" in hdr, "the load statistics do not count them"
