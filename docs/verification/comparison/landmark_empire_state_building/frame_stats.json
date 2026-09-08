@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_empire_state_building",
+ "rendered_at": "2026-09-08T23:41:05Z",
+ "reference_file": "1.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.3542,
+  "sd": 0.187,
+  "p05": 0.0946,
+  "p95": 0.6003,
+  "chroma": 0.1144
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.4418,
+  "sd": 0.303,
+  "p05": 0.1095,
+  "p95": 0.9245,
+  "chroma": 0.0346
+ },
+ "render_over_reference": {
+  "mean": 0.802,
+  "sd": 0.617,
+  "chroma": 3.306
+ }
+}
