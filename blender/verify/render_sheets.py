@@ -802,6 +802,18 @@ def render_subject(slug: str, *, samples: int = DEFAULT_SAMPLES, threads: int | 
     # missing the half of the picture the eye reads first.  Ground-level long-range viewpoints
     # therefore keep a near-field ring of props and facade kit; from an observation deck 260 m up
     # the same props are sub-pixel, so the eye height decides.
+    # The scene is gathered around the origin chosen *before* the eye point there has been probed,
+    # and that probe can reject it: at the Chrysler Building the render then moved 136.8 m to the
+    # item's own viewpoint, leaving a 250 m prop disc centred 136.8 m behind the camera, so more
+    # than half of it fell behind the lens and the props 113 to 250 m ahead were never gathered.
+    # Rebuilding the scene after the move is not possible -- the probe needs the scene to probe --
+    # so every radius is widened by the distance between the two candidate origins, which covers
+    # whichever one is used (docs/DEVIATIONS.md J59).
+    if origin_is_photo and origin_offset_m:
+        spare = float(origin_offset_m)
+        radius += spare
+        prop_r += spare if prop_r > 0.0 else 0.0
+        kit_r += spare if kit_r > 0.0 else 0.0
     eye_height_m = vcam.eye_rule_for(slug).height_m
     if prop_r <= 0.0 and eye_height_m <= 20.0:
         prop_r, kit_r = 150.0, 70.0

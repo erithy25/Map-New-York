@@ -21,6 +21,7 @@ from __future__ import annotations
 import ast
 import json
 import math
+import re
 import sys
 from pathlib import Path
 
@@ -316,15 +317,29 @@ def test_every_fleet_class_has_a_body_and_its_published_size_matches(snapshot):
 
 
 def test_the_pedestrian_bodies_cover_every_archetype_the_simulation_draws():
-    """``PedSnapshot.archetype`` indexes the 24 exported NPC bodies; a gap would repeat a face."""
+    """``PedSnapshot.archetype`` indexes the exported NPC bodies; a gap would repeat a face.
+
+    The count is read from the generated wardrobe header, not written here.  It said 24 while the
+    generator said 36, which is the same fault ``PedSim::kArchetypeCount`` had -- a count that must
+    be hand-edited to follow the cast is a count that will not (docs/DEVIATIONS.md J53).
+    """
+    header = REPO_ROOT / "unreal" / "NYCSim" / "Source" / "NYCSimRuntime" / "Private" / \
+        "CoreAdapter" / "GameplayPedWardrobe.h"
+    want = None
+    if header.is_file():
+        m = re.search(r"kPedWardrobeArchetypes\s*=\s*(\d+)u", header.read_text())
+        want = int(m.group(1)) if m else None
     paths = vagents.npc_archetype_assets()
     present = [p for p in paths if p.exists()]
     if not present:
         pytest.skip("NPC bodies not produced yet")
-    assert len(present) == 24, f"{len(present)} NPC bodies on disk, the simulation draws from 24"
+    if want is None:
+        pytest.skip("the generated wardrobe header is absent, so there is no count to check against")
+    assert len(present) == want, \
+        f"{len(present)} NPC bodies on disk, the generated table says the simulation draws from {want}"
     polys = vagents._npc_polygons()
-    assert set(polys) == set(range(24)), "npc_variety.json does not index the bodies 0..23"
-    for arch in range(24):
+    assert set(polys) == set(range(want)), f"npc_variety.json does not index the bodies 0..{want - 1}"
+    for arch in range(want):
         for lod in (0, 1, 2):
             n = vagents.PedLibrary().estimate(arch, lod)
             assert 300 < n < 60_000, f"archetype {arch} LOD{lod} estimated at {n} triangles"

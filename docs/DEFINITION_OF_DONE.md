@@ -63,10 +63,21 @@ something consumes its output and a test fails when the join breaks.**
 
 ## The suite, as of this writing
 
-`PYTHONPATH=pipeline python3 -m pytest tests/ pipeline/tests/` stands at **4,335 passed, 1 skipped,
-0 failed** in 11 m 39 s, and `ctest` in `core/build` is **11 of 11 suites green**. The suite has
-grown by another 200 tests as the vehicle rig, the structures, the park ground and the curb ramps
-added their own.
+`PYTHONPATH=pipeline python3 -m pytest tests/ pipeline/tests/` was measured on 2026-09-08 at
+**4,386 passed, 1 skipped, 2 failed** in 12 m 43 s, and `ctest` in `core/build` re-run the same day
+is **11 of 11 suites green** in 76.6 s. The suite has grown as the vehicle rig, the structures, the
+park ground, the curb ramps, the road markings, the cold-weather cast and the prop audits added
+their own; a handful more have been added since that run and the figure is due to be re-measured
+when the comparison pass finishes.
+
+**Both failures in that run were reporting something real, and neither was a false alarm.**
+`test_the_pedestrian_bodies_cover_every_archetype_the_simulation_draws` asserted `len(present) == 24`
+with the 24 written into the test, and the cast had grown to 36 — the same fault
+`PedSim::kArchetypeCount` had, and the reason J53 says a count that must be hand-edited to follow the
+cast is a count that will not. It now reads `kPedWardrobeArchetypes` out of the generated header, so
+the test follows the cast by construction. `test_no_comparison_sheet_is_older_than_the_content_it_shows`
+is **deliberately red** and stays red until the 172-sheet pass finishes: the sheets on disk predate
+the markings, the lamps and the cold cast, and the test exists to say so.
 
 **Two tests were red on the way here and both were reporting something real.**
 
