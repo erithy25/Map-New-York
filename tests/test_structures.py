@@ -271,3 +271,81 @@ def test_the_level_builder_spawns_them():
     assert "def place_structures(" in src
     assert 'SM_Structures' in src
     assert 'result["structures"] = place_structures(tile)' in src
+
+
+# --------------------------------------------------------------------------------- stations
+
+STATIONS = REPO_ROOT / "data" / "processed" / "transit" / "stations.parquet"
+needs_stations = pytest.mark.skipif(not STATIONS.is_file(), reason="no stations table")
+
+
+def test_a_station_is_a_platform_a_canopy_and_the_columns_between():
+    plat = stlib.MeshBuffer("platform")
+    can = stlib.MeshBuffer("canopy")
+    ring = np.array([[0.0, 0.0], [60.0, 0.0], [60.0, 10.0], [0.0, 10.0]])
+    posts = stlib.station(plat, can, ring, base_z=20.0, roof_z=24.0)
+    assert posts > 0, "a 60 x 10 m canopy stands on columns"
+    pv = np.asarray(plat.verts)
+    cv = np.asarray(can.verts)
+    assert pv[:, 2].max() == pytest.approx(20.0), "the platform surface is the base elevation"
+    assert pv[:, 2].min() == pytest.approx(20.0 - stlib.PLATFORM_THICKNESS_M)
+    assert cv[:, 2].max() == pytest.approx(24.0), "the canopy roof is the roof elevation"
+    assert cv[:, 2].min() == pytest.approx(20.0), "the columns reach the platform"
+
+
+def test_a_station_house_is_one_volume():
+    buf = stlib.MeshBuffer("station_house")
+    ring = np.array([[0.0, 0.0], [20.0, 0.0], [20.0, 12.0], [0.0, 12.0]])
+    assert stlib.station_house(buf, ring, 5.0, 9.5)
+    v = np.asarray(buf.verts)
+    assert v[:, 2].min() == pytest.approx(5.0)
+    assert v[:, 2].max() == pytest.approx(9.5)
+
+
+@needs_stations
+def test_an_elevated_station_stands_on_the_railway_under_it():
+    """Not on the ground: the survey digitises the roof outline, and the platform is at rail level."""
+    import pyarrow.parquet as pq
+
+    t = pq.read_table(STATIONS)
+    kind = np.asarray(t.column("kind").to_pylist(), dtype=object)
+    base = np.asarray(t.column("base_z"), dtype=float)
+    ground = np.asarray(t.column("ground_z"), dtype=float)
+    hs = np.asarray(t.column("height_source"), dtype=np.int8)
+    roof = np.asarray(t.column("roof_z"), dtype=float)
+    el = kind == "elevated_station"
+    assert el.sum() > 900
+    assert np.isfinite(base[el]).all() and np.isfinite(roof[el]).all()
+    assert (roof[el] > base[el]).all(), "a canopy is above its platform"
+    lift = base[el] - ground[el]
+    assert float(np.median(lift)) > 4.0, (
+        f"elevated station platforms stand only {np.median(lift):.1f} m over the ground")
+    # every one of them is either on a deck this build measured or on the class median height
+    assert set(np.unique(hs[el]).tolist()) <= {0, 2}
+
+
+@needs_stations
+def test_a_station_already_inside_a_building_is_left_to_the_buildings_stage():
+    import pyarrow.parquet as pq
+
+    t = pq.read_table(STATIONS, columns=["in_a_building_footprint"])
+    covered = np.asarray(t.column("in_a_building_footprint"), dtype=bool)
+    assert 50 <= int(covered.sum()) <= 400, int(covered.sum())
+    src = (REPO_ROOT / "blender" / "structures" / "build_structures.py").read_text()
+    assert 'if covered[j]:' in src, "the builder does not skip stations the buildings stage models"
+
+
+def test_the_stations_reached_the_built_tiles():
+    ms = _manifests()
+    if not ms:
+        pytest.skip("no structure tiles built")
+    total = 0
+    kinds: dict[str, int] = {}
+    for p in ms:
+        s = json.loads(p.read_text()).get("stations") or {}
+        total += s.get("rows", 0)
+        for k, v in (s.get("by_kind") or {}).items():
+            kinds[k] = kinds.get(k, 0) + v
+    assert total > 800, f"only {total} stations were built"
+    assert kinds.get("elevated_station", 0) > 700
+    assert kinds.get("station", 0) > 150

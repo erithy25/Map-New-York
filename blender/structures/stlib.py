@@ -84,6 +84,19 @@ UNDERWATER_M = 2.0
 #: against mean water, which is where their own surveyed deck elevations are referenced.
 WATER_Z_M = 0.0
 
+#: Thickness of a station platform slab and of a canopy roof, metres. The platform is a concrete
+#: deck on the station's own framing; the canopy is a light roof on columns.
+PLATFORM_THICKNESS_M = 0.35
+CANOPY_THICKNESS_M = 0.30
+
+#: Spacing and section of the columns that carry a platform canopy, metres. NYCT elevated station
+#: canopies stand on a line of light steel columns about 4.6 m (15 ft) apart along the platform.
+CANOPY_COLUMN_SPACING_M = 4.6
+CANOPY_COLUMN_SIDE_M = 0.20
+
+#: How far in from the roof outline the canopy columns stand, metres.
+CANOPY_COLUMN_INSET_M = 1.0
+
 #: Material name per structure part, matching the texture library in ``blender/common/textures.py``.
 MATERIALS = {
     "el_steel": "painted_metal_green",      # NYC elevated steel is painted; the IRT/BMT els are a grey-green
@@ -92,13 +105,16 @@ MATERIALS = {
     "pier_pile": "concrete",
     "seawall": "concrete",
     "jetty": "stone_rubble",
+    "platform": "concrete_sidewalk",
+    "canopy": "corrugated_metal",
+    "station_house": "tan_brick",
 }
 
 #: ``nycsim_gameplay::SurfaceClass`` for the parts a wheel or a foot can touch. The deck of an
 #: elevated railway is not drivable, but the collision still resolves a surface, and the pier decks
 #: on the Brooklyn and Manhattan waterfronts are places a car can be driven onto.
 SURFACE_CLASS = {"el_steel": 6, "viaduct_concrete": 6, "pier_deck": 6, "pier_pile": 6,
-                 "seawall": 6, "jetty": 8}
+                 "seawall": 6, "jetty": 8, "platform": 9, "canopy": 6, "station_house": 6}
 
 
 # --------------------------------------------------------------------------------------- buffers
@@ -393,3 +409,37 @@ def ear_clip(ring: np.ndarray) -> np.ndarray:
     if len(idx) == 3:
         tris.append((idx[0], idx[1], idx[2]))
     return np.asarray(tris, dtype=np.int64) if tris else np.zeros((0, 3), dtype=np.int64)
+
+
+def station(platform_buf: "MeshBuffer", canopy_buf: "MeshBuffer", ring: np.ndarray,
+            base_z: float, roof_z: float) -> int:
+    """An elevated station: a platform slab, a canopy roof over it, and the columns between.
+
+    The survey digitises the **roof outline**, "delineated to include any underlying stairways"
+    (Capture Rules, RAILROAD STRUCTURE), so the polygon is the canopy and the platform under it is
+    the same plan. Returns the number of columns placed.
+    """
+    tris = ear_clip(ring)
+    if not len(tris):
+        return 0
+    platform_buf.add_prism(ring, base_z - PLATFORM_THICKNESS_M, base_z, tris)
+    platform_buf.pieces += 1
+    canopy_buf.add_prism(ring, roof_z - CANOPY_THICKNESS_M, roof_z, tris)
+    canopy_buf.pieces += 1
+    posts = pile_grid(ring, CANOPY_COLUMN_SPACING_M, inset_m=CANOPY_COLUMN_INSET_M)
+    for px, py in posts:
+        canopy_buf.add_box(px, py, base_z, roof_z - CANOPY_THICKNESS_M,
+                           CANOPY_COLUMN_SIDE_M, CANOPY_COLUMN_SIDE_M)
+    canopy_buf.pieces += len(posts)
+    return len(posts)
+
+
+def station_house(buf: "MeshBuffer", ring: np.ndarray, z0: float, z1: float) -> bool:
+    """A stand-alone station at or below grade: one volume from its ground to its roof."""
+    tris = ear_clip(ring)
+    if not len(tris):
+        return False
+    buf.add_prism(ring, z0, z1, tris)
+    buf.pieces += 1
+    return True
+

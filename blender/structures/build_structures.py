@@ -68,6 +68,7 @@ LOG = logging.getLogger("nycsim.structures")
 PROCESSED = REPO_ROOT / "data" / "processed"
 RAIL = PROCESSED / "transit" / "rail_structures.parquet"
 WATER = PROCESSED / "water" / "structures.parquet"
+STATIONS = PROCESSED / "transit" / "stations.parquet"
 TILES_DATA = PROCESSED / "tiles"
 OUT_ROOT = REPO_ROOT / "blender_out" / "tiles"
 GLB_NAME = "tile_structures.glb"
@@ -162,7 +163,8 @@ def _clip_rings(geom, box):
 
 
 def build_tile(tile: str, *, out_root: Path = OUT_ROOT, rail_path: Path = RAIL,
-               water_path: Path = WATER, ground_from_terrain: bool = True) -> dict:
+               water_path: Path = WATER, station_path: Path = STATIONS,
+               ground_from_terrain: bool = True) -> dict:
     import pyarrow.parquet as pq
     import shapely
 
@@ -306,6 +308,41 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, rail_path: Path = RAIL,
                 water_rows += 1
                 water_by_kind[kind] = water_by_kind.get(kind, 0) + 1
 
+    # ---- stations ------------------------------------------------------------------------------
+    # 972 elevated stations and 313 at grade, surveyed as roof outlines and modelled by nothing. The
+    # 150 that fall inside a building footprint are the buildings stage's, not this one's.
+    station_rows = 0
+    station_columns = 0
+    station_by_kind: dict[str, int] = {}
+    if station_path.is_file():
+        table = pq.read_table(station_path)
+        kinds = np.asarray(table.column("kind").to_pylist(), dtype=object)
+        geoms = np.asarray(shapely.from_wkb(table.column("geometry").to_pylist()), dtype=object)
+        base = table.column("base_z").to_pylist()
+        roof = table.column("roof_z").to_pylist()
+        covered = np.asarray(table.column("in_a_building_footprint"), dtype=bool)
+        hit = shapely.STRtree(geoms).query(box, predicate="intersects")
+        for h in hit:
+            j = int(h)
+            if covered[j]:
+                dropped["already a building"] = dropped.get("already a building", 0) + 1
+                continue
+            b, r = base[j], roof[j]
+            if b is None or r is None or not (math.isfinite(b) and math.isfinite(r)) or r <= b:
+                dropped["no station elevation"] = dropped.get("no station elevation", 0) + 1
+                continue
+            built = False
+            for ring in _clip_rings(geoms[j], box):
+                local = ring - np.array([x0, y0])
+                if str(kinds[j]) == "elevated_station":
+                    station_columns += stlib.station(buf("platform"), buf("canopy"), local, b, r)
+                    built = True
+                elif stlib.station_house(buf("station_house"), local, b, r):
+                    built = True
+            if built:
+                station_rows += 1
+                station_by_kind[str(kinds[j])] = station_by_kind.get(str(kinds[j]), 0) + 1
+
     # ---- Blender assembly ----------------------------------------------------------------------
     import nycsim_bpy as nb
 
@@ -343,7 +380,8 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, rail_path: Path = RAIL,
                           "origin_m": [x0, y0, 0.0], "crs": "NYC_TM",
                           "vertical_datum": "NAVD88 metres",
                           "sources": ["data/processed/transit/rail_structures.parquet",
-                                      "data/processed/water/structures.parquet"],
+                                      "data/processed/water/structures.parquet",
+                                      "data/processed/transit/stations.parquet"],
                           "built_rail_kinds": list(BUILT_RAIL_KINDS),
                           "not_built": {"embankment": "the terrain already carries the berm "
                                                       "(+3.69 m at the centreline, measured)",
@@ -362,9 +400,11 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, rail_path: Path = RAIL,
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "git_commit": nb.git_commit(),
         "generator": "blender/structures/build_structures.py",
-        "sources": [str(rail_path.relative_to(REPO_ROOT)), str(water_path.relative_to(REPO_ROOT))],
+        "sources": [str(rail_path.relative_to(REPO_ROOT)), str(water_path.relative_to(REPO_ROOT)),
+                    str(station_path.relative_to(REPO_ROOT))],
         "rail": {"rows": rail_rows, "km": round(rail_km, 3), "by_kind": by_kind, "columns": columns},
         "water": {"rows": water_rows, "by_kind": water_by_kind, "piles": piles},
+        "stations": {"rows": station_rows, "by_kind": station_by_kind, "columns": station_columns},
         "not_built": {"embankment": "terrain carries the berm", "open_cut": "terrain carries the cutting"},
         "dropped": dropped,
         "ceded_to_landmarks": ceded,
@@ -380,6 +420,9 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, rail_path: Path = RAIL,
             "cap_depth": stlib.CAP_DEPTH_M, "pier_deck_thickness": stlib.PIER_DECK_THICKNESS_M,
             "pile_spacing": stlib.PILE_SPACING_M, "pile_diameter": stlib.PILE_DIAMETER_M,
             "underwater_cut": stlib.UNDERWATER_M,
+            "platform_thickness": stlib.PLATFORM_THICKNESS_M,
+            "canopy_thickness": stlib.CANOPY_THICKNESS_M,
+            "canopy_column_spacing": stlib.CANOPY_COLUMN_SPACING_M,
         },
         "terrain_tiles_missing": sorted(sampler.missing) if sampler is not None else [],
         "glb": {"path": _rel(glb) if glb.exists() else "", "bytes": size,
@@ -419,6 +462,9 @@ def _deck_with_grade(buf: stlib.MeshBuffer, local: np.ndarray, width: float,
 
 _LOOK = {
     "el_steel": ((0.29, 0.33, 0.30, 1.0), 0.62, 0.75),
+    "platform": ((0.66, 0.65, 0.63, 1.0), 0.90, 0.0),
+    "canopy": ((0.42, 0.44, 0.45, 1.0), 0.55, 0.60),
+    "station_house": ((0.60, 0.52, 0.42, 1.0), 0.88, 0.0),
     "viaduct_concrete": ((0.62, 0.61, 0.58, 1.0), 0.85, 0.0),
     "pier_deck": ((0.60, 0.58, 0.55, 1.0), 0.88, 0.0),
     "pier_pile": ((0.48, 0.46, 0.43, 1.0), 0.90, 0.0),
@@ -495,7 +541,8 @@ def available_tiles() -> list[str]:
     import shapely
 
     tiles: set[str] = set()
-    for path, kinds in ((RAIL, BUILT_RAIL_KINDS), (WATER, tuple(WATER_PARTS))):
+    for path, kinds in ((RAIL, BUILT_RAIL_KINDS), (WATER, tuple(WATER_PARTS)),
+                        (STATIONS, ("elevated_station", "station"))):
         if not path.is_file():
             continue
         t = pq.read_table(path, columns=["kind", "geometry"])
@@ -529,7 +576,8 @@ def run_serial(tiles: list[str], args) -> int:
         ok += 1
         print(f"[{i}/{len(tiles)}] {tile} rail={m['rail']['rows']} km={m['rail']['km']} "
               f"cols={m['rail']['columns']} water={m['water']['rows']} piles={m['water']['piles']} "
-              f"tris={m['triangles']} bytes={m['glb']['bytes']} t={m['seconds']['total']}s", flush=True)
+              f"stn={m['stations']['rows']} tris={m['triangles']} bytes={m['glb']['bytes']} "
+              f"t={m['seconds']['total']}s", flush=True)
     return 0 if ok == len(tiles) else 1
 
 

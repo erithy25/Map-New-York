@@ -60,7 +60,7 @@ def collect(manifest_path: Path, tiles: set[str] | None) -> tuple[list[Path], di
         else:
             missing.append(rel)
 
-    add(str(manifest_path.relative_to(REPO_ROOT)))
+    add(str(manifest_path.resolve().relative_to(REPO_ROOT)))
     for entry in doc.get("entries", []):
         tile = entry.get("tile")
         if tiles is not None and tile and tile not in tiles:
