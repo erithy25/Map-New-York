@@ -67,3 +67,20 @@ and — after the pass — `assessment.md`, written against that record by
 red until every sheet is re-rendered (`test_every_daylight_render_publishes_the_exposure_it_was_metered_at`,
 `test_every_subject_sightline_publishes_its_fraction_and_its_rule`) go green; `blender_out/tiles/_merged`
 and `dist/first-drive` are rebuilt.
+
+
+## Disk: the 259 pavement meshes this pass does not need
+
+The container's writable allowance ran out at sheet 59 and the runner stopped itself at its 700 MB
+floor, as it is built to. `blender_out/tiles/*/tile_pavement.glb` is the largest artefact class in
+the build -- **7.95 GB over 546 tiles** -- and 259 of those tiles lie further than 3 km from every
+viewpoint still to be rendered, so no remaining sheet can load them. They were deleted (**3.20 GB**)
+and their names are in `pavement_rebuild_needed.txt`. Nothing measured is lost: they are built from
+`data/processed/roads/pavement/*.parquet`, which is untouched, at about 45 s a tile:
+
+```
+python3 blender/roads/build_pavement.py --tiles $(paste -sd, docs/verification/pavement_rebuild_needed.txt) --workers 2
+```
+
+**They must be rebuilt before any content package is cut for those tiles**, or the package ships a
+tile whose roadway is missing. The first-drive region is not among them.

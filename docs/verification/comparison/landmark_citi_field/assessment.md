@@ -1,0 +1,46 @@
+# Citi Field
+
+`landmark_citi_field` · sheet: [`sheet.png`](sheet.png) · render record: [`render.json`](render.json)
+
+**Reference** — File:Citi Field August 2021.jpg by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2021-08-07 15:14:05, 1920x1440. [Commons page](https://commons.wikimedia.org/wiki/File:Citi_Field_August_2021.jpg)
+
+**Camera** — 40.754739, -73.846022 (NYC_TM 8781, 6084) at z 4.8 m NAVD88 | azimuth 4.0°, pitch +0.0° | 35 mm on 36 mm (54.4° horizontal) | 1208x906.
+
+**Sun** — azimuth 239.3°, elevation 52.2° at 2021-08-07T15:14:05-04:00 (EXIF DateTimeOriginal); 896.0 W/m² direct normal, sky at strength 0.0318, Filmic, +1.16 stops.
+
+**Subject** — Citi Field (Jackie Robinson Rotunda) at 262.9 m.
+
+**In the scene**, within 839.8 m of the camera and not all of it in frame — 6 building tiles (148,390 tris), 2 landmark models of which **1 can fall inside the 54.4° frame**, 22,847 pavement polygons (6,565 white, 6,468 parking lot, 2,959 roadbed, 2,124 plaza, 1,725 curb, 1,387 sidewalk, 905 median, 454 yellow, 260 crosswalk), 3375 props of the 3,406 in range, 126 kit pieces, 70 vehicles and 97 people; 1,876,096 triangles. Ground mesh 92,568 triangles, 0 holes. 14 city surfaces are dressed from the shared photographic catalogue.
+
+## Verdict — the stadium is there and the Rotunda is not: the record measured the whole ballpark and named its front door
+
+**The two halves stand in the same place and look the same way, and they are not framed alike.** The camera is the photograph's own EXIF GPS, **19.2 m** from the item's nominal viewpoint on the Mets–Willets Point ramp; the heading of **4.0°** is the bearing from that GPS to the subject coordinate, and the photograph's own estimated azimuth, derived the same way, is 4.1. The instant is the EXIF second, a Saturday afternoon, and the crowd was drawn for a Saturday. What differs is the pitch. The record keeps the axis level on its stated rule ("anything that far is photographed with a level camera"), and the photograph was plainly not: it holds no ground at all, its bottom edge is the base arcade and the roof of a red kiosk, and sky fills it down to two-thirds of its height, where the *citi FIELD* sign begins. In the render the ballpark's top edge sits an eighth of the way down, its ground line a hair past mid-height, and the lower half is sunlit plaza floor.
+
+**The subject the record measured is not the subject the sheet names.** The coordinate is **9.2 m** from the catalogue origin of `c_citi_field`, a model whose plan is **245.9 m** by **234.8 m**; the height probe lands **43 of 43** rays on built fabric there and reads **12.14 m** above ground off `lm_c_citi_field.2`, beside a catalogue height of **39.0 m**. That is a correct measurement of whatever the model has at its centre, and it is not the Rotunda, which the photograph shows as a tall arcaded drum with an attic band above it. The sightline is sized to that answer — a fan **25.06°** across for the plan extent and **1.32°** up for a 12.1 m subject — and **11 of 13** rays land on `lm_c_citi_field.0` at **99.4 m**, the model's nearest face, accepted as the subject under J78's continuous-fabric rule; two are stopped by `prop_tree_honeylocust_large_37` at **54.4 m**. `subject_visible_fraction` **0.846** is true of the ballpark. It says nothing about the Rotunda. This is the shape of J82 and J74 — a subject named as one part of a thing and placed at the thing's origin — and Citi Field is not in the register's list, because J82's test covers bridge towers only.
+
+**Do not read the luminance ratios as a fault of the city.** The development is metered at **+1.16** stops where the physical rule alone would have given **0.00**; the render is not under-lit. The photograph's median (**0.7531**) is its sky, which is two-thirds of the picture; the render's (**0.4949**) is plaza and sky in roughly equal parts. The p50 ratio of **0.657** is first that composition and second the photographer's own exposure, **1.551** stops above the convention against the render's **0.218**, a difference the record puts at **-1.333**.
+
+## What matches
+* **A ballpark stands where the ballpark is.** `Citi Field` is the one landmark in the cone, **253.6 m** off, **-0.5°** from the axis; Arthur Ashe Stadium is behind or aside, as it should be.
+* **An arcade of round-headed brick arches under a deep overhang.** From the centre of the render rightwards the model carries a run of red brick piers with arched heads beneath a dark soffit; the photograph's outer wall is an arcade of the same rhythm. The base of the wall in both halves is a lighter plinth.
+* **Honeylocusts on the plaza.** The photograph's right quarter is a honeylocust in leaf; the render's nearest obstruction is `prop_tree_honeylocust_large_12` at **29.6 m**, 21.1° off the axis, and a dozen or more trunks of the same species meet the ground across the frame from the **3237** trees placed. Whether the grove is this dense the photograph cannot say; its trees are at its edges.
+* **The stadium faces are in shade in both halves.** Sampled with PIL on `render.png`, no pixel of the arcade, plinth or bowl reaches the bright threshold while nearly every pixel of the plaza floor does; the photograph's brick piers read at much the same dark level, with no hard shadow edge. The Sun at **239.3°**, **52.2°** up, is well behind the camera's left shoulder, and the render's tree shadows fall away to the right and towards the building, as they should.
+
+## What does not match
+* **The photograph is tilted up and the render is level.** Two-thirds of the photograph is sky and none of it is ground; half the render is ground. The record declares the pitch and its reason; the reason is wrong for this photograph.
+* **There is no Rotunda in the render.** The photograph's subject is a tall cylindrical drum of tan brick, limestone-keyed arches with glazing between, an attic band carrying the *citi FIELD* sign, six flags along the roofline and light-tower steel above. The render's model, **8,986** triangles at LOD 0, is a faceted dark grey bowl over a curved grey plinth in the left third and a single-storey red pier arcade from the centre rightwards. No drum, no attic, no sign, no flags, no light towers.
+* **One brick colour where the photograph has three materials.** The model's arcade is one red brick; the photograph's is tan brick with limestone keys and a buff attic. Chroma in the record: **0.0784** against **0.1378**, a ratio of **0.569**, and most of that gap is this facade plus the red kiosk roof the render has no counterpart for.
+* **The plaza is empty.** The render's foreground is a bare pale surface from the **6,468** parking-lot and **2,124** plaza polygons, with no lamp standards, banners, kiosk or people; the record places **97** pedestrians and **70** vehicles in range, none within **60 m** of the camera, and none is in the frame. The photograph shows two lamp standards with globe lanterns, *WELCOME BACK* banners and the red-roofed kiosk; its bottom strip holds no person I can count at full size either, so the render's emptiness is in the furniture, not the crowd.
+* **The sky.** The photograph's is a bright haze near its own p95 of **0.8467**; the render's is a clear blue-grey gradient at roughly middle grey, the clear sky the record's **896.0** W/m² direct normal describes and not the photograph's weather.
+* **Level.** Render p05 **0.1095** against **0.1303** is within the photographs' JPEG floor; the exposure offsets of **0.218** and **1.551** stops are the photographer opening up on two-thirds hazy sky against a frame metered at **+1.16**.
+
+## Cause of each gap
+| gap | cause | class |
+|---|---|---|
+| photograph tilted up, render level | the pitch rule fixes the axis level for any subject beyond a stated range; this photographer tilted to put the sign at two-thirds height and left the ground out | stated choice |
+| no Rotunda in the render | the subject coordinate sits 9.2 m from the whole stadium's origin, so the probe measured 12.14 m of bowl at the model's centre and the sightline accepted the nearest face at 99.4 m as the subject; the Rotunda was never located, framed or measured — the shape of **DEVIATIONS J82** and **J74**, not yet registered for this item | verification |
+| drum, attic band, sign, flags, light towers absent | the `c_citi_field` model is an 8,986-triangle massing with a pier arcade and a bowl; it carries no signage geometry and the kit places only windows, door entries and parapets here | geometry |
+| one red brick for tan brick, limestone and buff attic | the landmark model carries a single brick material; the reference materials are not in the catalogue for it | material |
+| empty plaza — no lamps, banners, kiosk, people | the kiosk and banners are not in any dataset the build draws from; agents are placed city-wide and none of the 97 pedestrians fell within 60 m of a camera standing on a station-plaza parking surface | data |
+| hazy bright sky against a clear rendered sky | the Sun model is clear-sky at the EXIF instant; the photograph's overcast is not in the record | reference |
+| median 0.657 and offset -1.333 stops | composition (two-thirds sky in the photograph) and the photographer's exposure; the frame is metered at +1.16 stops under **DEVIATIONS J83** | — (not a gap) |
