@@ -33,6 +33,7 @@
   "long_side_fov_deg": 54.432,
   "pitch_deg": 4.961727716978911,
   "portrait": false,
+  "raised_surface_named": false,
   "resolution": [
    1280,
    720
@@ -73,9 +74,9 @@
   "view_m": 148.8
  },
  "frame": {
-  "mean": 0.418,
+  "mean": 0.5074,
   "reason": null,
-  "sd": 0.2187,
+  "sd": 0.2336,
   "usable": true
  },
  "frame_retry": null,
@@ -84,6 +85,19 @@
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
  "lighting": {
   "background_strength": 0.049372706562280655,
+  "development": {
+   "linear_p05": 0.001962,
+   "linear_p50": 0.030056,
+   "linear_p95": 0.218779,
+   "log_average_linear": 0.028466,
+   "median_linear": 0.030056,
+   "metered": true,
+   "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
+   "stops": 2.582,
+   "stops_unclamped": 2.582,
+   "target_linear": 0.18,
+   "view_transform": "Filmic"
+  },
   "direct_normal_irradiance_w_m2": 521.0,
   "emissive": {
    "cone_faces_deleted": 8,
@@ -92,7 +106,8 @@
    "night": false,
    "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
-  "exposure_stops": 1.71,
+  "exposure_stops": 2.58,
+  "physical_rule_stops": 1.71,
   "sky_azimuth_deg": 273.082,
   "sky_elevation_deg": 13.182,
   "sun_lamp": true,
@@ -116,7 +131,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_barclays_center/render.png",
- "rendered_at": "2026-09-08T23:10:25Z",
+ "rendered_at": "2026-09-09T11:13:18Z",
  "resolution_note": "1280x720; the reference photograph is 1920x1080 (1.78:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -151,7 +166,7 @@
    "placed_pedestrians": 269,
    "placed_vehicles": 50,
    "reason": null,
-   "seconds": 120.38,
+   "seconds": 134.93,
    "snapshot": {
     "building_footprints_tested": 7996,
     "density_lane_km": 28.097,
@@ -781,7 +796,7 @@
    }
   },
   "radius_m": 804.1275778999877,
-  "seconds": 209.16,
+  "seconds": 230.26,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -814,26 +829,34 @@
   "radius_m": 804.1275778999877
  },
  "seconds": {
-  "render": 55.0,
-  "scene": 211.2,
-  "total": 266.2
+  "render": 88.5,
+  "scene": 233.0,
+  "total": 321.5
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 20.1 m above its ground",
   "subject_blocked_at_m": 37.3,
   "subject_blocked_by": "prop_lamp_cobra_davit_18",
-  "subject_fan_from": "the subject's own measured height (J74)",
-  "subject_fan_half_angle_deg": 5.27,
-  "subject_fan_m": 40.2,
-  "subject_lands_at_m": null,
-  "subject_lands_on": null,
+  "subject_clear_fraction": 0.615,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate",
+  "subject_fan_half_angle_deg": 15.0,
+  "subject_fan_m": 178.7,
+  "subject_fan_tall_m": 40.2,
+  "subject_fan_v_half_angle_deg": 5.27,
+  "subject_lands_at_m": 144.3,
+  "subject_lands_on": "lm_c_barclays_center.0",
+  "subject_own_fabric_nearest": "lm_c_barclays_center.0",
+  "subject_own_fabric_nearest_m": 144.3,
   "subject_range_m": 217.7,
-  "subject_rays": 5,
-  "subject_rays_clear": 0,
+  "subject_rays": 13,
+  "subject_rays_clear": 8,
   "subject_rays_into_nothing": 0,
-  "subject_rays_on_subject": 0,
+  "subject_rays_on_own_fabric_nearer_than_recorded": 7,
+  "subject_rays_on_subject": 8,
   "subject_reach_m": 25.0,
-  "subject_visible": false
+  "subject_verdict_rule": "at least one ray lands on the subject (J78)",
+  "subject_visible": true,
+  "subject_visible_fraction": 0.615
  },
  "slug": "landmark_barclays_center",
  "status": "rendered",
@@ -850,12 +873,19 @@
     "within_120_m": true
    },
    "object": "lm_c_barclays_center.2",
-   "rays_cast": 17,
-   "rays_on_built_fabric": 17,
+   "rays_cast": 43,
+   "rays_on_built_fabric": 43,
    "z": 54.61
   },
   "name": "Barclays Center",
-  "origin_distance_m": 216.8
+  "origin_distance_m": 216.8,
+  "plan_extent": {
+   "is_tile_mesh": false,
+   "narrow_m": 163.7,
+   "note": "the bounding box of the object the height was measured off",
+   "object": "lm_c_barclays_center.2",
+   "width_m": 178.7
+  }
  },
  "sun": {
   "azimuth_deg": 273.0816609210534,

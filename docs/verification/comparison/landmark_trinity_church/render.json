@@ -15,13 +15,13 @@
   "focal_mm": 35.0,
   "ground_detail": {
    "below_point_excluded": 0,
-   "chosen_m": 7.88,
-   "max_m": 8.27,
+   "chosen_m": 7.82,
+   "max_m": 8.22,
    "median_m": 7.99,
-   "min_m": 7.68,
+   "min_m": 7.71,
    "mode": "street",
    "percentile": 10.0,
-   "point_m": 7.95,
+   "point_m": 7.89,
    "radius_m": 12.0,
    "samples": 113
   },
@@ -33,18 +33,19 @@
   "long_side_fov_deg": 54.432,
   "pitch_deg": 0.0,
   "portrait": true,
+  "raised_surface_named": false,
   "resolution": [
    824,
    1326
   ],
   "sensor_mm": 36.0,
   "slug": "landmark_trinity_church",
-  "terrain_z_m": 7.88,
-  "x": -5034.19,
-  "y": 715.464,
-  "z": 9.48
+  "terrain_z_m": 7.817,
+  "x": -5054.545,
+  "y": 731.64,
+  "z": 9.417
  },
- "camera_caption": "camera 40.70657, -74.00981 (NYC_TM -5034, 715) z 9.5 m NAVD88 | azimuth 311.3deg pitch +0.0deg | 35 mm on 36 mm (35.4deg horizontal, 54.4deg vertical, portrait) | 824x1326",
+ "camera_caption": "camera 40.70657, -74.00981 (NYC_TM -5055, 732) z 9.4 m NAVD88 | azimuth 311.3deg pitch +0.0deg | 35 mm on 36 mm (35.4deg horizontal, 54.4deg vertical, portrait) | 824x1326",
  "camera_origin": {
   "from_photograph_gps": true,
   "lat": 40.706573,
@@ -53,65 +54,47 @@
   "source": "this photograph's own EXIF camera GPS (40.70657, -74.00981), 28 m from the item's recorded viewpoint -- the position the picture was taken from"
  },
  "clearance": {
-  "direction": "onto the nearest crosswalk",
   "min_view_m": 80.0,
-  "moved": true,
-  "nearest_agent": "agent_veh_camry_black_car_260.0",
-  "nearest_agent_at_deg": [
-   -17.7,
-   27.2
-  ],
-  "nearest_agent_m": 0.1,
-  "nearest_agent_probe_m": 20.0,
-  "nearest_obstruction": null,
+  "moved": false,
+  "nearest_agent": null,
+  "nearest_agent_m": null,
+  "nearest_agent_probe_m": 60.0,
+  "nearest_obstruction": "prop_lamp_cobra_davit_0",
   "nearest_obstruction_at_deg": [
-   0.0,
+   17.7,
    0.0
   ],
-  "nearest_obstruction_m": 20.0,
-  "note": "the recorded viewpoint is rendered as an unusable frame from this eye point, so it is treated as blocked even though no ray test caught it; the camera was moved 25 m onto the nearest real crosswalk polygon in data/processed/roads/pavement, keeping the same eye height above the heightmap.  The view azimuth is clear for 96 m from there, and nothing built stands within 20 m of the lens, and the nearest simulated agent is agent_veh_camry_black_car_260.0 0.1 m away",
-  "offset_m": 24.6,
-  "reason": "rendered as an unusable frame from this eye point, so it is treated as blocked even though no ray test caught it",
-  "rule": "pavement snap with a clear frame",
-  "sky_cone_deg": 35.0,
-  "sky_fraction": 0.471,
-  "view_m": 96.0
+  "nearest_obstruction_m": 3.6,
+  "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_lamp_cobra_davit_0 3.6 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 150 m",
+  "offset_m": 0.0,
+  "view_m": 150.0
  },
  "frame": {
-  "mean": 0.029,
-  "reason": "near-black (mean 0.029)",
-  "sd": 0.056,
-  "usable": false
+  "mean": 0.4108,
+  "reason": null,
+  "sd": 0.1962,
+  "usable": true
  },
- "frame_retry": {
-  "clearance": {
-   "min_view_m": 80.0,
-   "moved": false,
-   "nearest_agent": null,
-   "nearest_agent_m": null,
-   "nearest_agent_probe_m": 60.0,
-   "nearest_obstruction": "prop_lamp_cobra_davit_0",
-   "nearest_obstruction_at_deg": [
-    17.7,
-    0.0
-   ],
-   "nearest_obstruction_m": 3.6,
-   "note": "the viewpoint is in open air on the ground and the camera was not moved; the nearest built thing in the frame is prop_lamp_cobra_davit_0 3.6 m away, and no simulated agent stands within 60 m of it, and the view azimuth is clear for 150 m",
-   "offset_m": 0.0,
-   "view_m": 150.0
-  },
-  "first_frame": {
-   "mean": 0.0409,
-   "reason": "near-black (mean 0.041)",
-   "sd": 0.0564,
-   "usable": false
-  }
- },
+ "frame_retry": null,
  "group": "landmark",
  "interior": false,
  "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
  "lighting": {
   "background_strength": 0.03266831859946251,
+  "development": {
+   "linear_p05": 0.00028,
+   "linear_p50": 0.001257,
+   "linear_p95": 0.022955,
+   "log_average_linear": 0.001649,
+   "median_linear": 0.001257,
+   "metered": true,
+   "note": "the frame wanted +7.16 stops and was held at +6.00: a scene this far from a photographable level is not developed into a picture of one",
+   "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
+   "stops": 6.0,
+   "stops_unclamped": 7.162,
+   "target_linear": 0.18,
+   "view_transform": "Filmic"
+  },
   "direct_normal_irradiance_w_m2": 863.6,
   "emissive": {
    "cone_faces_deleted": 24,
@@ -120,7 +103,8 @@
    "night": false,
    "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
-  "exposure_stops": 0.0,
+  "exposure_stops": 6.0,
+  "physical_rule_stops": 0.0,
   "sky_azimuth_deg": 220.932,
   "sky_elevation_deg": 44.251,
   "sun_lamp": true,
@@ -144,7 +128,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_trinity_church/render.png",
- "rendered_at": "2026-09-09T01:53:24Z",
+ "rendered_at": "2026-09-09T11:05:39Z",
  "resolution_note": "824x1326; the reference photograph is 1920x3089 (0.62:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -181,7 +165,7 @@
    "placed_pedestrians": 276,
    "placed_vehicles": 58,
    "reason": null,
-   "seconds": 178.67,
+   "seconds": 214.65,
    "snapshot": {
     "building_footprints_tested": 1416,
     "density_lane_km": 31.428,
@@ -221,7 +205,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 750
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -5055_732_14_0_73a5da3f4c3c6285_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 1085052,
    "vehicle_lods": {
@@ -960,7 +944,7 @@
    }
   },
   "radius_m": 839.0631122433133,
-  "seconds": 241.78,
+  "seconds": 279.3,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -1028,35 +1012,43 @@
   "radius_m": 839.0631122433133
  },
  "seconds": {
-  "render": 133.1,
-  "scene": 243.7,
-  "total": 376.8
+  "render": 64.5,
+  "scene": 281.4,
+  "total": 345.8
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 12.2 m above its ground",
-  "subject_blocked_at_m": 4.5,
+  "subject_blocked_at_m": 4.1,
   "subject_blocked_by": "prop_lamp_cobra_davit_0",
-  "subject_fan_from": "the subject's own measured height (J74)",
-  "subject_fan_half_angle_deg": 2.7,
-  "subject_fan_m": 24.3,
+  "subject_clear_fraction": 0.0,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate",
+  "subject_fan_half_angle_deg": 7.65,
+  "subject_fan_m": 69.2,
+  "subject_fan_tall_m": 24.4,
+  "subject_fan_v_half_angle_deg": 2.71,
   "subject_lands_at_m": null,
   "subject_lands_on": null,
+  "subject_own_fabric_nearest": null,
+  "subject_own_fabric_nearest_m": null,
   "subject_range_m": 257.6,
-  "subject_rays": 5,
+  "subject_rays": 13,
   "subject_rays_clear": 0,
   "subject_rays_into_nothing": 0,
+  "subject_rays_on_own_fabric_nearer_than_recorded": 0,
   "subject_rays_on_subject": 0,
   "subject_reach_m": 25.0,
-  "subject_visible": false
+  "subject_verdict_rule": "at least one ray lands on the subject (J78)",
+  "subject_visible": false,
+  "subject_visible_fraction": 0.0
  },
  "slug": "landmark_trinity_church",
- "status": "rejected_unusable_frame",
+ "status": "rendered",
  "subject": {
   "distance_from": "the placed camera, after the clearance walk",
   "distance_m": 257.2,
   "height_probe": {
    "ground_z_m": 11.28,
-   "height_above_ground_m": 25.12,
+   "height_above_ground_m": 25.16,
    "nearest_catalogue_origin": {
     "distance_m": 12.6,
     "height_m": 85.6,
@@ -1064,12 +1056,19 @@
     "within_120_m": true
    },
    "object": "lm_trinity_church.3",
-   "rays_cast": 17,
-   "rays_on_built_fabric": 13,
-   "z": 36.4
+   "rays_cast": 43,
+   "rays_on_built_fabric": 31,
+   "z": 36.44
   },
   "name": "Trinity Church",
-  "origin_distance_m": 257.2
+  "origin_distance_m": 257.2,
+  "plan_extent": {
+   "is_tile_mesh": false,
+   "narrow_m": 58.8,
+   "note": "the bounding box of the object the height was measured off",
+   "object": "lm_trinity_church.3",
+   "width_m": 69.2
+  }
  },
  "sun": {
   "azimuth_deg": 220.93214188161878,

@@ -1,17 +1,19 @@
 {
  "slug": "landmark_flatiron_building",
- "rendered_at": "2026-09-08T23:56:12Z",
+ "rendered_at": "2026-09-09T11:02:02Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 852,
   "height": 1278,
-  "mean": 0.2385,
-  "sd": 0.1943,
-  "p05": 0.0221,
-  "p95": 0.5917,
-  "chroma": 0.0681
+  "mean": 0.567,
+  "sd": 0.2542,
+  "p05": 0.1325,
+  "p50": 0.4973,
+  "p95": 0.9328,
+  "chroma": 0.0852,
+  "exposure_offset_stops": 0.233
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5615,
   "sd": 0.334,
   "p05": 0.0782,
+  "p50": 0.7105,
   "p95": 0.9496,
-  "chroma": 0.1147
+  "chroma": 0.1147,
+  "exposure_offset_stops": 1.363
  },
  "render_over_reference": {
-  "mean": 0.425,
-  "sd": 0.582,
-  "chroma": 0.594
+  "mean": 1.01,
+  "sd": 0.761,
+  "p50": 0.7,
+  "chroma": 0.743,
+  "exposure_offset_stops": -1.13,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

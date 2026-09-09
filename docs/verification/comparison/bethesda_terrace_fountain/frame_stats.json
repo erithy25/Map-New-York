@@ -1,17 +1,19 @@
 {
  "slug": "bethesda_terrace_fountain",
- "rendered_at": "2026-09-08T21:34:54Z",
+ "rendered_at": "2026-09-09T11:09:10Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 854,
-  "mean": 0.5356,
-  "sd": 0.1195,
-  "p05": 0.3269,
-  "p95": 0.6704,
-  "chroma": 0.061
+  "mean": 0.4833,
+  "sd": 0.126,
+  "p05": 0.2847,
+  "p50": 0.4983,
+  "p95": 0.6645,
+  "chroma": 0.074,
+  "exposure_offset_stops": 0.239
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.391,
   "sd": 0.2089,
   "p05": 0.0933,
+  "p50": 0.3583,
   "p95": 0.7919,
-  "chroma": 0.1435
+  "chroma": 0.1435,
+  "exposure_offset_stops": -0.771
  },
  "render_over_reference": {
-  "mean": 1.37,
-  "sd": 0.572,
-  "chroma": 0.425
+  "mean": 1.236,
+  "sd": 0.603,
+  "p50": 1.391,
+  "chroma": 0.516,
+  "exposure_offset_stops": 1.01,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

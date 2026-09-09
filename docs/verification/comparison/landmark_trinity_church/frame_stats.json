@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_trinity_church",
+ "rendered_at": "2026-09-09T11:05:39Z",
+ "reference_file": "2.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 824,
+  "height": 1326,
+  "mean": 0.4108,
+  "sd": 0.1954,
+  "p05": 0.1491,
+  "p95": 0.8521,
+  "chroma": 0.058
+ },
+ "reference": {
+  "width": 1920,
+  "height": 3089,
+  "mean": 0.3856,
+  "sd": 0.2264,
+  "p05": 0.0137,
+  "p95": 0.7726,
+  "chroma": 0.0565
+ },
+ "render_over_reference": {
+  "mean": 1.065,
+  "sd": 0.863,
+  "chroma": 1.027
+ }
+}

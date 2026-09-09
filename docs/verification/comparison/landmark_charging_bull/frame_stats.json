@@ -1,17 +1,17 @@
 {
  "slug": "landmark_charging_bull",
- "rendered_at": "2026-09-08T23:20:05Z",
+ "rendered_at": "2026-09-09T11:14:50Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.2123,
-  "sd": 0.1812,
-  "p05": 0.0597,
-  "p95": 0.6432,
-  "chroma": 0.0433
+  "mean": 0.5517,
+  "sd": 0.1909,
+  "p05": 0.3155,
+  "p95": 0.9628,
+  "chroma": 0.0631
  },
  "reference": {
   "width": 1920,
@@ -23,8 +23,8 @@
   "chroma": 0.0417
  },
  "render_over_reference": {
-  "mean": 0.541,
-  "sd": 0.694,
-  "chroma": 1.038
+  "mean": 1.407,
+  "sd": 0.731,
+  "chroma": 1.513
  }
 }

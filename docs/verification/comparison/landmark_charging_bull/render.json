@@ -31,8 +31,9 @@
   "lat": 40.705804,
   "lon": -74.013406,
   "long_side_fov_deg": 54.432,
-  "pitch_deg": 0.0,
+  "pitch_deg": -3.5638615671835727,
   "portrait": false,
+  "raised_surface_named": false,
   "resolution": [
    1208,
    906
@@ -44,7 +45,7 @@
   "y": 646.457,
   "z": 9.044
  },
- "camera_caption": "camera 40.70580, -74.01341 (NYC_TM -5358, 646) z 9.0 m NAVD88 | azimuth 179.2deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
+ "camera_caption": "camera 40.70580, -74.01341 (NYC_TM -5358, 646) z 9.0 m NAVD88 | azimuth 179.2deg pitch -3.6deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906",
  "camera_origin": {
   "from_photograph_gps": true,
   "lat": 40.705804,
@@ -69,17 +70,31 @@
   "view_m": 150.0
  },
  "frame": {
-  "mean": 0.2118,
+  "mean": 0.5507,
   "reason": null,
-  "sd": 0.1808,
+  "sd": 0.1918,
   "usable": true
  },
  "frame_retry": null,
  "group": "landmark",
  "interior": false,
- "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal); the highest built thing at the subject's coordinate is lm_charging_bull, -0.6 m above the ground there -- below the 2 m at which a subject has a height worth aiming or framing by, so the lens was not widened to contain it",
+ "lens_reason": "default 35 mm full-frame equivalent (54.4 deg horizontal)",
  "lighting": {
   "background_strength": 0.03893733024597168,
+  "development": {
+   "linear_p05": 0.002573,
+   "linear_p50": 0.007108,
+   "linear_p95": 0.200119,
+   "log_average_linear": 0.010279,
+   "median_linear": 0.007108,
+   "metered": true,
+   "note": "under-lit: the scene needed +4.66 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
+   "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
+   "stops": 4.662,
+   "stops_unclamped": 4.662,
+   "target_linear": 0.18,
+   "view_transform": "Filmic"
+  },
   "direct_normal_irradiance_w_m2": 695.4,
   "emissive": {
    "cone_faces_deleted": 24,
@@ -88,7 +103,8 @@
    "night": false,
    "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
-  "exposure_stops": 0.91,
+  "exposure_stops": 4.66,
+  "physical_rule_stops": 0.91,
   "sky_azimuth_deg": 139.401,
   "sky_elevation_deg": 23.034,
   "sun_lamp": true,
@@ -97,7 +113,7 @@
  },
  "name": "Charging Bull",
  "night": false,
- "pitch_reason": "level optical axis (nothing built stands at Charging Bull's coordinate, so its mid-height is not known and there is nothing to tilt towards)",
+ "pitch_reason": "aimed at Charging Bull 34 m away, at its mid-height (the top of lm_charging_bull, the built thing standing at the subject's coordinate, 2 m above the ground there); -3.6 deg from horizontal",
  "reference_photo": {
   "author": "Epicgenius",
   "confidence": "high",
@@ -112,7 +128,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_charging_bull/render.png",
- "rendered_at": "2026-09-08T23:20:05Z",
+ "rendered_at": "2026-09-09T11:14:50Z",
  "resolution_note": "1208x906; the reference photograph is 1920x1440 (1.33:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -151,7 +167,7 @@
    "placed_pedestrians": 309,
    "placed_vehicles": 88,
    "reason": null,
-   "seconds": 155.86,
+   "seconds": 197.85,
    "snapshot": {
     "building_footprints_tested": 199,
     "density_lane_km": 31.784,
@@ -191,7 +207,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 769
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -5358_646_9_0_f027b3127d6dd0c9_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 1079399,
    "vehicle_lods": {
@@ -843,7 +859,7 @@
    }
   },
   "radius_m": 525.8633251463351,
-  "seconds": 208.05,
+  "seconds": 255.2,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -901,13 +917,34 @@
   "radius_m": 525.8633251463351
  },
  "seconds": {
-  "render": 73.2,
-  "scene": 209.7,
-  "total": 283.0
+  "render": 81.3,
+  "scene": 257.5,
+  "total": 338.8
  },
  "sightline": {
-  "subject_note": "the highest built thing at the subject's coordinate is lm_charging_bull, -0.6 m above the ground there -- below the 2 m at which a subject has a height worth aiming or framing by; no sightline was tested",
-  "subject_visible": null
+  "subject_aimed_at": "the subject's mid-height, 0.8 m above its ground",
+  "subject_blocked_at_m": null,
+  "subject_blocked_by": null,
+  "subject_clear_fraction": 1.0,
+  "subject_fan_from": "the 12 m floor: the subject measures 1.6 m, which is under it, so the fan is the floor rather than the subject; across, the 12 m floor (the object measures 8.5 m)",
+  "subject_fan_half_angle_deg": 10.06,
+  "subject_fan_m": 12.0,
+  "subject_fan_tall_m": 12.0,
+  "subject_fan_v_half_angle_deg": 10.06,
+  "subject_lands_at_m": 30.1,
+  "subject_lands_on": "lm_charging_bull",
+  "subject_own_fabric_nearest": null,
+  "subject_own_fabric_nearest_m": null,
+  "subject_range_m": 33.8,
+  "subject_rays": 13,
+  "subject_rays_clear": 13,
+  "subject_rays_into_nothing": 6,
+  "subject_rays_on_own_fabric_nearer_than_recorded": 0,
+  "subject_rays_on_subject": 3,
+  "subject_reach_m": 25.0,
+  "subject_verdict_rule": "at least one ray lands on the subject (J78)",
+  "subject_visible": true,
+  "subject_visible_fraction": 0.231
  },
  "slug": "landmark_charging_bull",
  "status": "rendered",
@@ -916,21 +953,27 @@
   "distance_m": 33.8,
   "height_probe": {
    "ground_z_m": 6.13,
-   "highest_built_z_m": 5.49,
+   "height_above_ground_m": 2.03,
    "nearest_catalogue_origin": {
     "distance_m": 4.0,
     "height_m": 3.4,
     "id": "charging_bull",
     "within_120_m": true
    },
-   "note": "the highest built thing at the subject's coordinate is lm_charging_bull, -0.6 m above the ground there -- below the 2 m at which a subject has a height worth aiming or framing by",
    "object": "lm_charging_bull",
-   "rays_cast": 17,
-   "rays_on_built_fabric": 4,
-   "z": null
+   "rays_cast": 43,
+   "rays_on_built_fabric": 9,
+   "z": 8.16
   },
   "name": "Charging Bull",
-  "origin_distance_m": 33.8
+  "origin_distance_m": 33.8,
+  "plan_extent": {
+   "is_tile_mesh": false,
+   "narrow_m": 7.8,
+   "note": "the bounding box of the object the height was measured off",
+   "object": "lm_charging_bull",
+   "width_m": 8.5
+  }
  },
  "sun": {
   "azimuth_deg": 139.40110933680785,

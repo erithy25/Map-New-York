@@ -73,9 +73,9 @@
   "view_m": 110.1
  },
  "frame": {
-  "mean": 0.2379,
+  "mean": 0.5659,
   "reason": null,
-  "sd": 0.194,
+  "sd": 0.255,
   "usable": true
  },
  "frame_retry": null,
@@ -84,6 +84,20 @@
  "lens_reason": "widened from 35 mm to 27 mm (67 deg vertical) so that a level axis contains the subject: the top of lm_flatiron.9, the built thing standing at the subject's coordinate, 85 m above the ground there stands 84 m above the lens at 145 m, 30 deg above the horizon",
  "lighting": {
   "background_strength": 0.039817485958337784,
+  "development": {
+   "linear_p05": 0.000651,
+   "linear_p50": 0.007889,
+   "linear_p95": 0.144342,
+   "log_average_linear": 0.011986,
+   "median_linear": 0.007889,
+   "metered": true,
+   "note": "under-lit: the scene needed +4.51 stops to read as a picture, more than the 4 a photographer recovers hand-held; the frame is published and this is the number to read it by",
+   "rule": "median scene luminance of the linear frame placed at middle grey (0.18); the stops are the measurement, the development is the consequence",
+   "stops": 4.512,
+   "stops_unclamped": 4.512,
+   "target_linear": 0.18,
+   "view_transform": "Filmic"
+  },
   "direct_normal_irradiance_w_m2": 672.4,
   "emissive": {
    "cone_faces_deleted": 24,
@@ -92,7 +106,8 @@
    "night": false,
    "note": "daylight frame: the modelled light-cone faces are deleted (their alpha is texture-linked, so making the material transparent does not work) and street-lamp lenses switched off (dusk-to-dawn control); signals and shopfront emissives left on"
   },
-  "exposure_stops": 1.03,
+  "exposure_stops": 4.51,
+  "physical_rule_stops": 1.03,
   "sky_azimuth_deg": 265.859,
   "sky_elevation_deg": 21.332,
   "sun_lamp": true,
@@ -116,7 +131,7 @@
   "width": 1920
  },
  "render_png": "docs/verification/comparison/landmark_flatiron_building/render.png",
- "rendered_at": "2026-09-08T23:56:12Z",
+ "rendered_at": "2026-09-09T11:02:02Z",
  "resolution_note": "852x1278; the reference photograph is 1920x2880 (0.67:1), and the render is held to the same pixel budget as a 1280 px landscape frame",
  "samples": 64,
  "scene": {
@@ -152,7 +167,7 @@
    "placed_pedestrians": 216,
    "placed_vehicles": 51,
    "reason": null,
-   "seconds": 103.55,
+   "seconds": 112.59,
    "snapshot": {
     "building_footprints_tested": 3863,
     "density_lane_km": 26.842,
@@ -192,7 +207,7 @@
     "vehicle_spawn_radius_m": 420.0,
     "vehicles_in_snapshot": 684
    },
-   "snapshot_note": "simulated (already built)",
+   "snapshot_note": "cached -3302_4698_17_0_759b9184fa4be031_1788868452.json",
    "triangle_budget": 1125000,
    "triangles": 1083588,
    "vehicle_lods": {
@@ -762,7 +777,7 @@
    }
   },
   "radius_m": 672.3573160364743,
-  "seconds": 166.62,
+  "seconds": 325.28,
   "terrain": {
    "built": true,
    "far_spacing_m": 40.0,
@@ -789,26 +804,34 @@
   "radius_m": 672.3573160364743
  },
  "seconds": {
-  "render": 60.9,
-  "scene": 168.5,
-  "total": 229.4
+  "render": 87.2,
+  "scene": 330.0,
+  "total": 417.3
  },
  "sightline": {
   "subject_aimed_at": "the subject's mid-height, 42.6 m above its ground",
-  "subject_blocked_at_m": 111.3,
-  "subject_blocked_by": "lm_flatiron.2",
-  "subject_fan_from": "the subject's own measured height (J74)",
-  "subject_fan_half_angle_deg": 15.0,
-  "subject_fan_m": 85.2,
-  "subject_lands_at_m": null,
-  "subject_lands_on": null,
+  "subject_blocked_at_m": null,
+  "subject_blocked_by": null,
+  "subject_clear_fraction": 1.0,
+  "subject_fan_from": "the subject's own measured height (J74); across, the measured plan extent of the object standing at the coordinate",
+  "subject_fan_half_angle_deg": 12.39,
+  "subject_fan_m": 66.4,
+  "subject_fan_tall_m": 85.2,
+  "subject_fan_v_half_angle_deg": 15.0,
+  "subject_lands_at_m": 110.2,
+  "subject_lands_on": "lm_flatiron.0",
+  "subject_own_fabric_nearest": "lm_flatiron.0",
+  "subject_own_fabric_nearest_m": 110.2,
   "subject_range_m": 151.0,
-  "subject_rays": 5,
-  "subject_rays_clear": 2,
-  "subject_rays_into_nothing": 2,
-  "subject_rays_on_subject": 0,
+  "subject_rays": 13,
+  "subject_rays_clear": 13,
+  "subject_rays_into_nothing": 4,
+  "subject_rays_on_own_fabric_nearer_than_recorded": 6,
+  "subject_rays_on_subject": 9,
   "subject_reach_m": 25.0,
-  "subject_visible": false
+  "subject_verdict_rule": "at least one ray lands on the subject (J78)",
+  "subject_visible": true,
+  "subject_visible_fraction": 0.692
  },
  "slug": "landmark_flatiron_building",
  "status": "rendered",
@@ -825,12 +848,19 @@
     "within_120_m": true
    },
    "object": "lm_flatiron.9",
-   "rays_cast": 17,
-   "rays_on_built_fabric": 17,
+   "rays_cast": 43,
+   "rays_on_built_fabric": 43,
    "z": 97.98
   },
   "name": "Flatiron Building",
-  "origin_distance_m": 145.2
+  "origin_distance_m": 145.2,
+  "plan_extent": {
+   "is_tile_mesh": false,
+   "narrow_m": 31.3,
+   "note": "the bounding box of the object the height was measured off",
+   "object": "lm_flatiron.9",
+   "width_m": 66.4
+  }
  },
  "sun": {
   "azimuth_deg": 265.85904084806043,
