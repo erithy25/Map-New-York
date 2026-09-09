@@ -20,7 +20,7 @@
    "terrain_m": {
     "before_J85": 3.18,
     "after_J85": 5.3,
-    "note": "heightmap at the recorded viewpoint, bilinear (DATA_CONTRACTS section 3); after J85 it is the surveyed platform level, inside the podium footprint"
+    "note": "heightmap at the recorded viewpoint, bilinear (DATA_CONTRACTS section 3); after J85 it is the platform deck interpolated from the perimeter survey (no spot elevation lies inside the podium footprint; the square's own New spots read 10.05-12.34 m and Tenth Avenue's 5.2-7.2 m), so it is the deck rule's level, not a survey of this point, inside the podium footprint"
    },
    "not_moved_because": "the note puts the camera on the public square, which lies west of that footprint, but the exact position along the strip between the podium's west face and the subject is a choice a person should make, not a measurement; J82's rule: measured, published, not corrected. A real-polygon candidate: the centroid of the DoITT planimetric plaza polygon (feat_code 6000, 1,571 m2) at NYC_TM (-4394.7, 5895.1) = (40.753074, -74.00204), from which the Shed bears 291.3 deg at 77.8 m and the Vessel 350.5 deg at 81.7 m (docs/DEVIATIONS.md J85)"
   }

@@ -6,6 +6,7 @@ Data-dependent tests skip when the artefact they need has not been produced yet.
 from __future__ import annotations
 
 import json
+import re
 import math
 from pathlib import Path
 
@@ -305,7 +306,11 @@ def test_platform_register_rows_carry_their_sources():
             else:
                 assert part["source_ids"]
         for spot in r["control"]["spot_elevations_inside"]:
-            assert spot["source_id"] and np.isfinite(spot["z_m"])
+            # the survey's own id, or its literal "0" for a point of status New (plan_elevation_points
+            # carries source_id 0 on every New point); a placeholder string is not a source
+            assert re.fullmatch(r"\d+", str(spot["source_id"])) and np.isfinite(spot["z_m"]), spot
+            if spot["source_id"] == "0":
+                assert spot["status"] == "New", spot
 
 
 class _PointsStub:

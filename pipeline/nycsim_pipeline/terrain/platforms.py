@@ -167,7 +167,9 @@ REGISTER: list[dict] = [
             "rule": "planimetric spot elevations (feat 3000 / sub 300000) inside the extent are the control; every "
                     "footprint LiDAR ground inside it is excluded; nothing outside the extent is excluded",
             "spot_elevations_inside": [
-                # source_id, ft, m, x, y (NYC_TM), status -- plan_elevation_points.geojson
+                # source_id, ft, m, x, y (NYC_TM), status -- plan_elevation_points.geojson; the survey assigns
+                # source_id 0 to every point of status "New" (14 of 14 in the Hudson Yards box), so "0" is the
+                # record's own id for those, not a placeholder
                 {"source_id": "12300022305", "elevation_ft": 16.0, "z_m": 4.877, "x": -4298.13, "y": 5794.33, "status": "Unchanged", "where": "10 AVE 11 m north of W 30 ST"},
                 {"source_id": "12300022329", "elevation_ft": 16.9639, "z_m": 5.171, "x": -4294.89, "y": 5799.88, "status": "Unchanged", "where": "10 AVE"},
                 {"source_id": "12300022431", "elevation_ft": 17.0, "z_m": 5.182, "x": -4282.92, "y": 5823.48, "status": "Unchanged", "where": "10 AVE"},
@@ -175,11 +177,11 @@ REGISTER: list[dict] = [
                 {"source_id": "12300022580", "elevation_ft": 18.4305, "z_m": 5.618, "x": -4258.50, "y": 5867.12, "status": "Unchanged", "where": "10 AVE"},
                 {"source_id": "12300022773", "elevation_ft": 23.6859, "z_m": 7.219, "x": -4229.03, "y": 5920.47, "status": "Unchanged", "where": "10 AVE (heightmap -0.23 m before)"},
                 {"source_id": "12300022985", "elevation_ft": 28.9412, "z_m": 8.821, "x": -4199.57, "y": 5973.81, "status": "Unchanged", "where": "10 AVE"},
-                {"source_id": "(unnumbered)", "elevation_ft": 40.1687, "z_m": 12.243, "x": -4399.93, "y": 5937.80, "status": "New", "where": "public square (heightmap 1.57 m before)"},
-                {"source_id": "(unnumbered)", "elevation_ft": 32.9684, "z_m": 10.049, "x": -4444.79, "y": 5955.55, "status": "New", "where": "public square (heightmap 0.87 m before)"},
-                {"source_id": "(unnumbered)", "elevation_ft": 40.4852, "z_m": 12.340, "x": -4360.13, "y": 5977.35, "status": "New", "where": "public square (heightmap 2.77 m before)"},
-                {"source_id": "(unnumbered)", "elevation_ft": 37.5081, "z_m": 11.432, "x": -4338.60, "y": 6012.67, "status": "New", "where": "public square (heightmap 2.78 m before)"},
-                {"source_id": "(unnumbered)", "elevation_ft": 40.3775, "z_m": 12.307, "x": -4401.67, "y": 6025.89, "status": "New", "where": "public square (heightmap 2.90 m before)"},
+                {"source_id": "0", "elevation_ft": 40.1687, "z_m": 12.243, "x": -4399.93, "y": 5937.80, "status": "New", "where": "public square (heightmap 1.57 m before)"},
+                {"source_id": "0", "elevation_ft": 32.9684, "z_m": 10.049, "x": -4444.79, "y": 5955.55, "status": "New", "where": "public square (heightmap 0.87 m before)"},
+                {"source_id": "0", "elevation_ft": 40.4852, "z_m": 12.340, "x": -4360.13, "y": 5977.35, "status": "New", "where": "public square (heightmap 2.77 m before)"},
+                {"source_id": "0", "elevation_ft": 37.5081, "z_m": 11.432, "x": -4338.60, "y": 6012.67, "status": "New", "where": "public square (heightmap 2.78 m before)"},
+                {"source_id": "0", "elevation_ft": 40.3775, "z_m": 12.307, "x": -4401.67, "y": 6025.89, "status": "New", "where": "public square (heightmap 2.90 m before)"},
             ],
             "excluded_spot_elevations": [],
             "excluded_footprint_grounds": [
@@ -189,14 +191,18 @@ REGISTER: list[dict] = [
                 {"bin": 1091590, "name": "35 Hudson Yards", "ground_z_m": 8.534},
                 {"bin": 1090391, "name": "Vessel", "ground_z_m": 2.743, "note": "the yard floor of the 2013 flight"},
                 {"bin": 1088961, "name": "the Shops / 30 Hudson Yards podium", "ground_z_m": None, "note": "NaN in the source; never in the point index"},
-                {"bin": "(two further footprints)", "ground_z_m": [2.743, 16.764], "note": "at (-4405.0, 5962.4) and (-4459.9, 6011.6): the yard floor and a value 14 m above it"},
+                {"bin": 1090967, "ground_z_m": 2.743, "note": "at (-4405.0, 5962.4): the yard floor of the 2013 flight"},
+                {"bin": 1090871, "ground_z_m": 2.743, "note": "at (-4356.9, 6007.5): the yard floor of the 2013 flight"},
+                {"bin": 1090809, "ground_z_m": 16.764, "note": "at (-4459.9, 6011.6): a value 14 m above the yard floor, a roof fall in the footprint join"},
             ],
         },
         "evidence": {
             "heightmap_before": {"pit_sample": {"x": -4245.81, "y": 5899.01, "z_m": -0.90},
-                                 "roadbed_12350003663": {"n": 1117, "min": -2.0, "median": 3.29, "max": 9.64},
+                                 "roadbed_12350003663": {"n": 1149, "min": -2.0, "median": 3.41, "max": 9.64,
+                                                         "note": "pixel centres inside the two roadbed parts on the t_-5_5 lattice"},
                                  "podium_bin_1088961": {"n": 4525, "min": -1.89, "median": 2.37, "max": 8.53},
-                                 "extent": {"n": 15357, "min": -2.0, "median": 2.83, "max": 9.71}},
+                                 "extent": {"n": 16876, "min": -2.0, "median": 2.83, "max": 9.71,
+                                            "note": "pixel centres inside the resolved extents on both tiles' lattices, 12,262 on t_-5_5 and 4,614 on t_-5_6; the min/median/max are the implementer's pre-application measurement"}},
             "roads_before": {"segment_1267_10_AVE_z": [5.15, 0.60, -0.65, 9.39], "node_21199_z": 5.15, "node_21145_z": 6.92},
             "why_not_the_catalogue_datum": ("blender_out/landmarks/catalog/c_hudson_yards.json origin_tm z = 7.8232 m is the mean of the OTI "
                                             "ground elevations of six footprints (16, 28, 30, 31, 40 and 9 ft) across two epochs "
@@ -226,9 +232,9 @@ REGISTER: list[dict] = [
             "rule": "as above",
             "spot_elevations_inside": [
                 {"source_id": "12300023000", "z_m": 7.666, "x": -4512.02, "y": 5976.33, "status": "Unchanged", "where": "heightmap 2.86 m before"},
-                {"source_id": "(unnumbered)", "z_m": 8.487, "x": -4504.61, "y": 5989.29, "status": "New", "where": "heightmap 2.22 m before"},
+                {"source_id": "0", "z_m": 8.487, "x": -4504.61, "y": 5989.29, "status": "New", "where": "heightmap 2.22 m before"},
                 {"source_id": "12300023229", "z_m": 8.542, "x": -4482.39, "y": 6029.59, "status": "Unchanged", "where": "heightmap 2.79 m before"},
-                {"source_id": "(unnumbered)", "z_m": 10.090, "x": -4468.11, "y": 6054.87, "status": "New", "where": "heightmap 2.89 m before"},
+                {"source_id": "0", "z_m": 10.090, "x": -4468.11, "y": 6054.87, "status": "New", "where": "heightmap 2.89 m before"},
                 {"source_id": "12300023519", "z_m": 9.418, "x": -4452.75, "y": 6082.86, "status": "Unchanged", "where": "heightmap 2.66 m before"},
             ],
             "excluded_spot_elevations": [],
@@ -671,7 +677,28 @@ def apply_to_published(tile_names: list[str], decks: PlatformDecks | None = None
         newvals, z_min, z_scale = encode_png_values(zq)
         if z_scale != Z_SCALE_M:
             raise PlatformError(f"{name}: z_scale {z_scale} != {Z_SCALE_M}")
-        rec = {"tile": name, "px_changed": int(changed.sum()), "z_min_m_before": doc["z_min_m"], "z_min_m_after": float(z_min),
+        # The decision is taken in the PNG's own quantised space.  On a tile that already carries the
+        # deck, the float surface exceeds the quantised sample by under one quantum on about half the
+        # samples, so ``burned`` above would recount them and, written back, overwrite the provenance of
+        # an application that changed nothing.  A sample counts as burned here only if its published
+        # value rises; a tile with no rising sample is left exactly as it is, JSON included.
+        changed_q = newvals != vals
+        if (changed_q & (mask == NO_DECK)).any():
+            raise PlatformError(f"{name}: a published sample outside every extent would change")
+        if not changed_q.any():
+            results.append({"tile": name, "skipped": "already applied: no published sample rises",
+                            "px_in_extent": st["px_in_extent"]})
+            log.info("%s: already applied, nothing rises", name)
+            continue
+        burned_q = changed_q & (mask != NO_DECK)
+        st = dict(st, px_burned=int(burned_q.sum()),
+                  px_ground_kept=int(((mask != NO_DECK) & np.isfinite(deck_z) & ~burned_q).sum()))
+        for drec in st["decks"]:
+            i = decks.deck_id.index(drec["deck_id"]) if isinstance(drec["deck_id"], str) else drec["deck_id"]
+            m = mask == i
+            drec["px_burned"] = int((burned_q & m).sum())
+            drec["px_ground_kept"] = int((m & np.isfinite(deck_z) & ~burned_q).sum())
+        rec = {"tile": name, "px_changed": int(changed_q.sum()), "z_min_m_before": doc["z_min_m"], "z_min_m_after": float(z_min),
                "z_max_m_before": doc["z_max_m"], "z_max_m_after": float(z_min + float(newvals.max()) * z_scale),
                "rebuild_may_differ_px": may_differ, **st}
         if not dry_run:
