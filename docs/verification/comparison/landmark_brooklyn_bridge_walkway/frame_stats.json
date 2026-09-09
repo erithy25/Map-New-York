@@ -1,17 +1,19 @@
 {
  "slug": "landmark_brooklyn_bridge_walkway",
- "rendered_at": "2026-09-09T04:05:31Z",
+ "rendered_at": "2026-09-09T18:15:52Z",
  "reference_file": "1.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.2921,
-  "sd": 0.1234,
-  "p05": 0.1154,
-  "p95": 0.4815,
-  "chroma": 0.0695
+  "mean": 0.5035,
+  "sd": 0.1533,
+  "p05": 0.2508,
+  "p50": 0.4987,
+  "p95": 0.7244,
+  "chroma": 0.0895,
+  "exposure_offset_stops": 0.242
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.457,
   "sd": 0.2068,
   "p05": 0.0779,
+  "p50": 0.4634,
   "p95": 0.7926,
-  "chroma": 0.2127
+  "chroma": 0.2127,
+  "exposure_offset_stops": 0.014
  },
  "render_over_reference": {
-  "mean": 0.639,
-  "sd": 0.597,
-  "chroma": 0.327
+  "mean": 1.102,
+  "sd": 0.741,
+  "p50": 1.076,
+  "chroma": 0.421,
+  "exposure_offset_stops": 0.228,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

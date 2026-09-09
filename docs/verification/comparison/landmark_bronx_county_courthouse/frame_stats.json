@@ -1,17 +1,19 @@
 {
  "slug": "landmark_bronx_county_courthouse",
- "rendered_at": "2026-09-09T04:01:45Z",
+ "rendered_at": "2026-09-09T18:04:23Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1044,
   "height": 1044,
-  "mean": 0.343,
-  "sd": 0.1578,
-  "p05": 0.0499,
-  "p95": 0.5924,
-  "chroma": 0.0361
+  "mean": 0.5745,
+  "sd": 0.2357,
+  "p05": 0.2163,
+  "p50": 0.4962,
+  "p95": 0.8829,
+  "chroma": 0.068,
+  "exposure_offset_stops": 0.226
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.5473,
   "sd": 0.1796,
   "p05": 0.1415,
+  "p50": 0.5949,
   "p95": 0.7641,
-  "chroma": 0.1224
+  "chroma": 0.1224,
+  "exposure_offset_stops": 0.796
  },
  "render_over_reference": {
-  "mean": 0.627,
-  "sd": 0.879,
-  "chroma": 0.295
+  "mean": 1.05,
+  "sd": 1.312,
+  "p50": 0.834,
+  "chroma": 0.556,
+  "exposure_offset_stops": -0.57,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

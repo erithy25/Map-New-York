@@ -1,17 +1,19 @@
 {
  "slug": "landmark_brooklyn_bridge_from_dumbo",
- "rendered_at": "2026-09-08T23:15:19Z",
+ "rendered_at": "2026-09-09T18:07:42Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1208,
   "height": 906,
-  "mean": 0.3888,
-  "sd": 0.1504,
-  "p05": 0.1232,
-  "p95": 0.5686,
-  "chroma": 0.0568
+  "mean": 0.4481,
+  "sd": 0.1636,
+  "p05": 0.1598,
+  "p50": 0.498,
+  "p95": 0.6313,
+  "chroma": 0.0591,
+  "exposure_offset_stops": 0.238
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.348,
   "sd": 0.2107,
   "p05": 0.0731,
+  "p50": 0.2906,
   "p95": 0.6887,
-  "chroma": 0.2208
+  "chroma": 0.2208,
+  "exposure_offset_stops": -1.391
  },
  "render_over_reference": {
-  "mean": 1.117,
-  "sd": 0.714,
-  "chroma": 0.257
+  "mean": 1.288,
+  "sd": 0.776,
+  "p50": 1.714,
+  "chroma": 0.268,
+  "exposure_offset_stops": 1.629,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }

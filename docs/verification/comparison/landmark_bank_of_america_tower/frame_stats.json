@@ -1,17 +1,19 @@
 {
  "slug": "landmark_bank_of_america_tower",
- "rendered_at": "2026-09-09T03:57:22Z",
+ "rendered_at": "2026-09-09T17:56:40Z",
  "reference_file": "3.jpg",
  "sample_long_side_px": 900,
  "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
  "render": {
   "width": 1280,
   "height": 854,
-  "mean": 0.3389,
-  "sd": 0.1866,
-  "p05": 0.0356,
-  "p95": 0.569,
-  "chroma": 0.083
+  "mean": 0.4974,
+  "sd": 0.1973,
+  "p05": 0.1857,
+  "p50": 0.4959,
+  "p95": 0.7369,
+  "chroma": 0.1015,
+  "exposure_offset_stops": 0.224
  },
  "reference": {
   "width": 1920,
@@ -19,12 +21,17 @@
   "mean": 0.537,
   "sd": 0.2268,
   "p05": 0.08,
+  "p50": 0.6234,
   "p95": 0.8055,
-  "chroma": 0.1584
+  "chroma": 0.1584,
+  "exposure_offset_stops": 0.945
  },
  "render_over_reference": {
-  "mean": 0.631,
-  "sd": 0.823,
-  "chroma": 0.524
+  "mean": 0.926,
+  "sd": 0.87,
+  "p50": 0.795,
+  "chroma": 0.641,
+  "exposure_offset_stops": -0.721,
+  "note": "the render is developed with its median at middle grey (J83); the photograph's median sits exposure_offset_stops from that convention, and a mean or p50 ratio away from 1.0 is first that exposure choice and only then the scene"
  }
 }
