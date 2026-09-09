@@ -260,8 +260,16 @@ def main(argv: list[str] | None = None) -> int:
         "missing_from_manifest": note["missing"],
     }
     (a.out / "index.json").write_text(json.dumps(index, indent=1) + "\n")
-    (a.out / "UNPACK.md").write_text(
-        UNPACK.format(branch=a.branch, rel=a.out.relative_to(REPO_ROOT).as_posix()))
+    # ``--out`` may sit outside the repository -- a sparse worktree of the delivery branch, which is
+    # how a package is cut when the disk cannot hold both the old parts and the new ones.  A path
+    # that is not under the root has no repository-relative name, so the branch-relative one it will
+    # be checked out under is used instead, and the unpacking notes are still written.
+    try:
+        rel = a.out.relative_to(REPO_ROOT).as_posix()
+    except ValueError:
+        parts = a.out.resolve().as_posix().split("/")
+        rel = "/".join(parts[parts.index("dist"):]) if "dist" in parts else a.out.name
+    (a.out / "UNPACK.md").write_text(UNPACK.format(branch=a.branch, rel=rel))
     print(f"{len(parts)} parts, {sum(p['bytes'] for p in parts) / 1e9:.2f} GB packed -> {a.out}")
     return 0
 
