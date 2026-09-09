@@ -9,6 +9,13 @@ Pipeline:
     (:mod:`..osm.trees`), which are the only park trees in the build;
  2. add the rule-based fill against the real road geometry (:mod:`.rules`), skipped with a recorded reason when
     ``roads/segments.parquet`` does not exist yet;
+ 2b. add the woodland canopy rule (:mod:`.canopy`, ``dataset_id`` ``rule:woodland_canopy``): stems placed inside
+    the ``natural=wood`` / ``landuse=forest`` / ``natural=scrub`` polygons of the OSM extract until the crowns
+    close, suppressed within 6 m of every census and OSM tree loaded in step 1. Before dedupe on purpose: the
+    dedupe's cross-source rules then hold a stem off any dataset tree at the same radius as a second line of
+    defence, and the summary's ``canopy.after_dedupe.dropped_by_dedupe`` says whether that line was ever needed.
+    Every stem is inferred and flagged ``source = 1``; the count is a consequence of crown closure, not a
+    measurement, and the summary's ``canopy`` block says so in those words;
  3. de-duplicate across datasets within 1.5 m, plus the measured cross-source radii (:mod:`.dedupe`);
  3b. expand every Citi Bike station row into its kiosk, its dock units and -- only from a ``station_status``
     snapshot -- its bikes (:mod:`.citibike`). After dedupe on purpose: the 0.9 m dock pitch is inside the
@@ -47,6 +54,7 @@ from . import dedupe as dd
 from . import rules as R
 from . import trees as T
 from .catalog import HEIGHT_SOURCE, KINDS, KIND_BY_NAME, catalog_json
+from . import canopy
 from . import citibike
 from . import kerb
 from . import park_lamps
@@ -213,8 +221,22 @@ def collect(use_rules: bool, segments_path: Path, bbox: tuple[float, float, floa
         report["rules"] = rule_report
         if rule_parts:
             cols = D.concat([cols] + [clip(p, bbox) for p in rule_parts])
+        # 2b. the woodland canopy: placed against every tree row loaded so far (census + OSM), before dedupe
+        t = time.perf_counter()
+        try:
+            canopy_rows, canopy_report = canopy.build_canopy(cols, heights, canopy.census_species_by_borough(tc.df),
+                                                            scope=bbox)
+        except FileNotFoundError as exc:
+            canopy_report = {"skipped": True, "reason": str(exc), "rule": canopy.RULE_ID, "stems": 0}
+            log.warning("woodland canopy rule skipped: %s", exc)
+        else:
+            if len(canopy_rows["x"]):
+                cols = D.concat([cols, canopy_rows])
+        report["canopy"] = canopy_report
+        report["timings_s"] = {"canopy": round(time.perf_counter() - t, 1)}
     else:
         report["rules"] = {"skipped": True, "reason": "--no-rules"}
+        report["canopy"] = {"skipped": True, "reason": "--no-rules", "rule": canopy.RULE_ID, "stems": 0}
     return cols, report
 
 
@@ -349,7 +371,11 @@ def main(argv: list[str] | None = None) -> int:
     idx = np.flatnonzero(keep)
     cols = {k: (np.asarray(v)[idx] if not isinstance(v, list) else [v[i] for i in idx]) for k, v in cols.items()}
     report["dedupe"] = dedupe_report
-    report["timings_s"] = {"dedupe": round(time.perf_counter() - t, 1)}
+    report.setdefault("timings_s", {})["dedupe"] = round(time.perf_counter() - t, 1)
+    # What the dedupe left of the canopy stems (should be all of them: the placement already keeps 6 m off
+    # every dataset tree); the window counts the register quotes are these, taken after dedupe.
+    if not report["canopy"].get("skipped"):
+        report["canopy"]["after_dedupe"] = canopy.after_dedupe(cols, int(report["canopy"]["stems"]))
 
     # After the dedupe, so a pole that loses to a surveyed one is not re-fixtured on its way out.
     t = time.perf_counter()
@@ -404,6 +430,13 @@ def main(argv: list[str] | None = None) -> int:
 
     cat = catalog_json(counts)
     cat["counts_by_source"] = report["counts_by_source"]
+    # Every rule that wrote rows, in the words the build summary carries, so the catalogue names them too.
+    cat["rules"] = [dict(r) for r in (report.get("rules") or {}).get("rules", [])]
+    if not report["canopy"].get("skipped"):
+        cat["rules"].append({"rule": canopy.RULE_ID, "kind": "tree",
+                             "count": int(report["canopy"]["after_dedupe"]["stems"]),
+                             "spec": list(canopy.RULES),
+                             "consequence_not_measurement": report["canopy"]["consequence_not_measurement"]})
     (out / "props_catalog.json").write_text(json.dumps(cat, indent=1))
     report["timings_s"]["total"] = round(time.perf_counter() - t0, 1)
     (out / "build_summary.json").write_text(json.dumps(report, indent=1))

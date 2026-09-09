@@ -1322,3 +1322,262 @@ def test_kerb_rules_are_named_in_the_summary_and_in_every_written_row():
     # and the citibike parts now carry the side, read the same way
     from nycsim_pipeline.furniture import citibike as C
     assert any("kerb.side_of_centreline" in r for r in C.RULES)
+
+
+# --------------------------------------------------------------------------------------- canopy rule
+
+from nycsim_pipeline.furniture import canopy as C  # noqa: E402
+
+needs_asset_catalog = pytest.mark.skipif(not C.ASSET_CATALOG.exists(),
+                                         reason="blender_out/props/props_asset_catalog.json has not been exported")
+
+
+def _heights_pool() -> trees.CensusHeights:
+    """A synthetic census height pool: 400 measured-DBH trees of four species, 4-25 m."""
+    rng = np.random.default_rng(3)
+    species = ["Gleditsia triacanthos var. inermis", "Platanus x acerifolia", "Pyrus calleryana", "Ginkgo biloba"] * 100
+    h = rng.uniform(4.0, 25.0, size=400)
+    return trees.CensusHeights.from_arrays(h, species, np.full(400, 20.0))
+
+
+def _wood(geoms, values=None, leaf=None, osm_ids=None) -> C.WoodPolygons:
+    n = len(geoms)
+    return C.WoodPolygons(
+        osm_id=np.asarray(osm_ids if osm_ids is not None else np.arange(1, n + 1) * 1000, dtype=np.int64),
+        value=np.asarray(values or ["wood"] * n, dtype=object), leaf_type=np.asarray(leaf or [""] * n, dtype=object),
+        name=np.asarray([""] * n, dtype=object), borough=np.full(n, 1, dtype=np.int8),
+        geometry=np.asarray(geoms, dtype=object), area_m2=shapely.area(np.asarray(geoms, dtype=object)))
+
+
+_CENSUS_BY_BOROUGH = {1: {"Gleditsia triacanthos var. inermis": 500, "Platanus x acerifolia": 300,
+                          "Pyrus calleryana": 150, "Ginkgo biloba": 50}}
+
+
+def _run(wood: C.WoodPolygons, tree_xy=None, excl=(), max_rounds: int = C.MAX_ROUNDS):
+    crowns = C.CrownTable.load()
+    excl_g = np.asarray([g for g, _ in excl], dtype=object)
+    excl_l = np.asarray([lbl for _, lbl in excl], dtype=object)
+    plant_rep = C.plantable_regions(wood, excl_g, excl_l)
+    xy = np.asarray(tree_xy if tree_xy is not None else np.empty((0, 2)), dtype=np.float64).reshape(-1, 2)
+    n = xy.shape[0]
+    dt = C.DatasetTrees(xy[:, 0], xy[:, 1], np.zeros(n, dtype=bool), np.array([""] * n, dtype=object),
+                        np.array([""] * n, dtype=object), np.full(n, 10.0))
+    pools, credited, _n_inside, _rep = C._polygon_pools(wood, dt, C.census_pools(_CENSUS_BY_BOROUGH, crowns), crowns)
+    stems, rep = C.place(wood, dt, _heights_pool(), crowns, pools, credited, max_rounds=max_rounds)
+    rows = C.stem_rows(stems, wood, pools)
+    return rows, stems, {**rep, **plant_rep}
+
+
+@needs_asset_catalog
+def test_canopy_is_deterministic_and_independent_of_polygon_order():
+    a = shapely.box(0, 0, 60, 60)
+    b = shapely.box(200, 0, 260, 50)
+    r1, _, _ = _run(_wood([a, b], osm_ids=[11, 22]))
+    r2, _, _ = _run(_wood([a, b], osm_ids=[11, 22]))
+    assert len(r1["x"]) > 0
+    for k in ("x", "y", "height_m", "species", "attrs"):
+        assert list(r1[k]) == list(r2[k]), k
+    # the same polygons in the other order: the same stems, only the order differs
+    r3, _, _ = _run(_wood([b, a], osm_ids=[22, 11]))
+    s1 = sorted(zip(r1["x"].tolist(), r1["y"].tolist(), r1["species"], list(r1["height_m"])))
+    s3 = sorted(zip(r3["x"].tolist(), r3["y"].tolist(), r3["species"], list(r3["height_m"])))
+    assert s1 == s3
+    assert all(json.loads(a_)["rule"] == C.RULE_NAME for a_ in r1["attrs"])
+    assert set(r1["dataset_id"]) == {C.RULE_ID} and set(np.asarray(r1["source"]).tolist()) == {catalog.SOURCE_RULE}
+
+
+@needs_asset_catalog
+def test_canopy_keeps_the_edge_inset():
+    g = shapely.box(0, 0, 80, 80)
+    rows, _, _ = _run(_wood([g]))
+    x, y = np.asarray(rows["x"]), np.asarray(rows["y"])
+    assert len(x) > 0
+    d = np.minimum.reduce([x, y, 80 - x, 80 - y])
+    assert d.min() >= C.EDGE_INSET_M
+
+
+@needs_asset_catalog
+def test_canopy_excludes_a_paved_polygon():
+    g = shapely.box(0, 0, 100, 100)
+    court = shapely.box(30, 30, 70, 70)
+    rows, _, rep = _run(_wood([g]), excl=[(court, "surfaces:court")])
+    x, y = np.asarray(rows["x"]), np.asarray(rows["y"])
+    assert len(x) > 0
+    assert not shapely.contains_xy(court, x, y).any(), "a stem stands on the court"
+    assert rep["area_removed_ha"]["surfaces"] == pytest.approx(0.16, abs=1e-3)
+    assert rep["excluded_paved_or_water"] > 0
+    free, _, _ = _run(_wood([g]))
+    assert len(free["x"]) > len(x), "the exclusion must cost stems, not just move them"
+
+
+@needs_asset_catalog
+def test_canopy_is_suppressed_next_to_a_dataset_tree():
+    g = shapely.box(0, 0, 80, 80)
+    mapped = np.array([[40.0, 40.0], [20.0, 60.0]])
+    rows, _, rep = _run(_wood([g]), tree_xy=mapped)
+    xy = np.column_stack([rows["x"], rows["y"]])
+    assert len(xy) > 0
+    d = np.linalg.norm(xy[:, None, :] - mapped[None, :, :], axis=2).min(axis=1)
+    assert d.min() > C.SUPPRESS_M
+    assert rep["suppressed_near_dataset_tree"] > 0
+    assert C.SUPPRESS_M == dedupe.CROSS_SOURCE_RULES[0].radius_m + 1.0
+
+
+@needs_asset_catalog
+def test_canopy_density_is_crown_closure_on_one_hectare():
+    """The count is what the rule's own bound says, and nothing else: the placed crowns close the square."""
+    g = shapely.box(0, 0, 100, 100)
+    rows, stems, rep = _run(_wood([g]))
+    n = len(rows["x"])
+    area = math.pi / 4 * np.asarray(stems["crown_m"]) ** 2
+    plantable = (100 - 2 * C.EDGE_INSET_M) ** 2
+    # closed: the last stem takes the total over the plantable area, and one fewer would not
+    assert area.sum() >= plantable
+    assert area.sum() - area[-1] < plantable
+    # so the count sits between area / max crown and area / min crown of what was drawn
+    assert plantable / area.max() <= n <= plantable / area.min() + 1
+    # and the pairwise spacing the rule promises holds
+    xy = np.column_stack([rows["x"], rows["y"]])
+    from scipy.spatial import cKDTree
+    pairs = cKDTree(xy).query_pairs(C.MIN_SPACING_M - 1e-9)
+    assert not pairs, f"{len(pairs)} pairs closer than the 4 m minimum"
+    sp = np.asarray(stems["spacing"])
+    d, j = cKDTree(xy).query(xy, k=2)
+    assert np.all(d[:, 1] >= np.maximum(sp, sp[j[:, 1]]) - 1e-9)
+    assert rep["polygons_closed"] == 1
+    assert 50 < n < 400, f"{n} stems on 1 ha is outside anything crown closure over this catalogue gives"
+
+
+@needs_asset_catalog
+def test_canopy_scrub_draws_only_the_small_band():
+    g = shapely.box(0, 0, 60, 60)
+    rows, stems, _ = _run(_wood([g], values=["scrub"]))
+    h = np.asarray(rows["height_m"])
+    assert len(h) > 0
+    assert h.max() < allometry.__dict__.get("_unused", 7.0) and h.max() < 7.0 and h.min() >= C.SCRUB_MIN_HEIGHT_M
+    assert all(a.endswith("_small") for a in stems["asset"])
+    xy = np.column_stack([rows["x"], rows["y"]])
+    from scipy.spatial import cKDTree
+    assert not cKDTree(xy).query_pairs(C.SCRUB_SPACING_M - 1e-9)
+
+
+@needs_asset_catalog
+def test_canopy_needleleaved_substitution_is_flagged():
+    g = shapely.box(0, 0, 60, 60)
+    rows, stems, _ = _run(_wood([g], leaf=["needleleaved"]))
+    assert len(rows["x"]) > 0
+    for a in rows["attrs"]:
+        d = json.loads(a)
+        assert d["species_from"] == "fallback" and d["species_substituted"] is True and d["leaf_type"] == "needleleaved"
+    assert set(rows["species"]) == {""}, "no conifer asset exists; no species is claimed"
+    assert all(a.startswith(f"tree_{C.A.TREE_FALLBACK_KEY}_") for a in stems["asset"])
+
+
+@needs_asset_catalog
+def test_canopy_crown_table_agrees_with_the_consumer():
+    """The crown the rule closes over is the asset the renderer will draw, at the scale it will draw it."""
+    from nycsim_pipeline.furniture import assets as A_
+    from nycsim_pipeline.paths import PROCESSED as P_
+    idx = A_.load(P_, C.ASSET_CATALOG.parents[1])
+    ct = C.CrownTable.load()
+    rng = np.random.default_rng(5)
+    species = list(A_.TREE_SPECIES_KEYS) + ["", "Quercus"]
+    for sp in species:
+        for h in rng.uniform(3.0, 40.0, size=6):
+            entry, _why, scale = idx.tree_asset(sp, h)
+            crown, sc, _w, ids = ct.lookup([sp], np.array([h]))
+            assert ids[0] == entry["id"], (sp, h)
+            assert sc[0] == pytest.approx(scale)
+            assert crown[0] == pytest.approx(entry["nominal_size_m"][0] * scale)
+
+
+def test_canopy_cell_uniforms_are_a_pure_function_of_polygon_cell_and_round():
+    u1 = C.cell_uniforms(np.array([7, 7, 8]), np.array([1, 1, 1]), np.array([2, 2, 2]), 0)
+    u2 = C.cell_uniforms(np.array([7, 7, 8]), np.array([1, 1, 1]), np.array([2, 2, 2]), 0)
+    for a, b in zip(u1, u2):
+        assert np.array_equal(a, b)
+        assert a[0] == a[1] != a[2]
+        assert 0.0 <= a.min() and a.max() < 1.0
+    u3 = C.cell_uniforms(np.array([7]), np.array([1]), np.array([2]), 1)
+    assert u3[0][0] != u1[0][0], "another round is another draw"
+
+
+@needs_props
+def test_every_canopy_row_in_the_tiles_carries_the_rule_in_its_attrs():
+    n = 0
+    for p in props_files[:200]:
+        t = pq.read_table(p, columns=["kind", "source", "dataset_id", "attrs", "height_source", "variant", "dbh_cm"])
+        ds = np.asarray(t.column("dataset_id").to_pylist(), dtype=object)
+        m = np.flatnonzero(ds == C.RULE_ID)
+        if m.size == 0:
+            continue
+        n += m.size
+        kind = t.column("kind").to_numpy(zero_copy_only=False)[m]
+        src = t.column("source").to_numpy(zero_copy_only=False)[m]
+        assert np.all(kind == catalog.KIND_ID["tree"]) and np.all(src == catalog.SOURCE_RULE)
+        assert np.all(t.column("height_source").to_numpy(zero_copy_only=False)[m] == catalog.HEIGHT_SOURCE["census_distribution"])
+        assert np.all(t.column("variant").to_numpy(zero_copy_only=False)[m] == C.TREE_HEALTH_UNKNOWN)
+        assert np.all(t.column("dbh_cm").to_numpy(zero_copy_only=False)[m] == 0)
+        attrs = t.column("attrs").to_pylist()
+        for i in m:
+            d = json.loads(attrs[int(i)])
+            assert d["rule"] == C.RULE_NAME and d["wood_value"] in C.WOOD_VALUES and "wood_osm_id" in d
+            assert d["species_from"] in ("neighbour", "census_pool", "fallback")
+            assert d["height_source"].startswith("census_distribution")
+    summary = json.loads((PROCESSED / "furniture" / "build_summary.json").read_text())
+    if "canopy" in summary and summary["canopy"].get("stems", 0):
+        assert n > 0, "the summary reports canopy stems but none of the sampled tiles holds one"
+
+
+def test_dedupe_drops_a_canopy_stem_inside_the_measured_radius_plus_a_metre_and_keeps_one_outside():
+    """The second line of defence: a rule stem loses to a census or OSM tree within 6 m, never to another stem."""
+    rule = [r for r in dedupe.CROSS_SOURCE_RULES if r.drop_dataset == C.RULE_ID]
+    assert {r.keep_dataset for r in rule} == {"street_trees_2015", "osm_newyork_pbf"}
+    assert all(r.radius_m == dedupe.CROSS_SOURCE_RULES[0].radius_m + dedupe.TREE_RULE_MARGIN_M == C.SUPPRESS_M for r in rule)
+    n = 6
+    cols = schema.empty_columns(n)
+    cols["kind"] = np.zeros(n, dtype=np.int16)
+    cols["source"] = np.array([0, 0, 1, 1, 1, 1], dtype=np.int8)
+    cols["dataset_id"] = ["street_trees_2015", "osm_newyork_pbf", C.RULE_ID, C.RULE_ID, C.RULE_ID, C.RULE_ID]
+    #                     census   osm       5.9 m of census  6.1 m of census  5.9 m of osm   4 m of a stem only
+    cols["x"] = np.array([0.0, 100.0, 5.9, -6.1, 105.9, 9.9])
+    cols["y"] = np.zeros(n)
+    keep, rep = dedupe.dedupe(cols, {0: "tree"})
+    assert keep.tolist() == [True, True, False, True, False, True]
+    assert sum(r["rows_dropped"] for r in rep["cross_source"] if r["dropped_dataset"] == C.RULE_ID) == 2
+
+
+def test_the_catalogue_names_the_canopy_rule_on_the_tree_kind():
+    tree = catalog.KIND_BY_NAME["tree"]
+    assert C.RULE_ID in tree.datasets and "rule:woodland_canopy" in tree.description
+    assert "never a measurement" in tree.description
+    doc = catalog.catalog_json({"tree": 1})
+    assert any(r["dropped_dataset"] == C.RULE_ID and r["radius_m"] == C.SUPPRESS_M for r in doc["dedupe"]["cross_source"])
+
+
+@needs_props
+def test_the_build_summary_declares_the_canopy_count_as_a_consequence_of_crown_closure():
+    summary = json.loads((PROCESSED / "furniture" / "build_summary.json").read_text())
+    c = summary.get("canopy")
+    if c is None or c.get("skipped"):
+        pytest.skip("the furniture stage has not run with the canopy rule")
+    assert c["rule"] == C.RULE_ID and c["stems"] == sum(c["stems_by_value"].values())
+    assert "not a measurement" in " ".join(c["rules"])
+    assert "crown closure" in c["consequence_not_measurement"] and "no stem inventory" in c["consequence_not_measurement"]
+    # The mechanism is named per group, because it differs: wood and forest close their crowns, scrub
+    # cannot (2.3-4.1 m crowns at a 3 m spacing) and stops at the spacing's jam density.  Writing
+    # "crown closure" on the scrub count was the sceptic's one refutation of this stage.
+    per = c["stems_per_ha_consequence"]
+    assert "crown closure" in per["wood_forest"]["mechanism"]
+    assert "jam density" in per["scrub"]["mechanism"] and "not crown closure" not in per["wood_forest"]["mechanism"]
+    assert "jam density" in c["consequence_not_measurement"]
+    by_value = c["placement"]["by_value"]
+    assert set(by_value) == {"wood", "forest", "scrub"}
+    assert by_value["scrub"]["closed"] < by_value["scrub"]["polygons"] // 10, by_value["scrub"]
+    assert by_value["wood"]["closed"] > by_value["wood"]["polygons"] // 2, by_value["wood"]
+    assert c["after_dedupe"]["dropped_by_dedupe"] == 0, "the placement already keeps 6 m off every dataset tree"
+    assert c["constants"]["suppress_m"] == C.SUPPRESS_M
+    cat = json.loads((PROCESSED / "furniture" / "props_catalog.json").read_text())
+    mine = [r for r in cat["rules"] if r["rule"] == C.RULE_ID]
+    assert len(mine) == 1 and mine[0]["count"] == c["after_dedupe"]["stems"] and mine[0]["spec"] == list(C.RULES)
+    assert summary["counts_by_dataset"][C.RULE_ID] == c["after_dedupe"]["stems"]

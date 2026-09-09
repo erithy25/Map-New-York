@@ -250,6 +250,60 @@ A prop within 0.5 m of the centreline was geocoded into the roadbed: its perpend
 toward/away choice is a coin, counted as `side_from_offset_under_0_5m`, never smoothed. A prop that projects
 onto an endpoint of its segment gets the perpendicular to the segment's axis, not to the chord to the endpoint.
 
+### 8.3 Woodland canopy stems are a rule, and every one of them says so
+The city's woodland *coverage* is a real source the tree inventories do not hold: `osm/landuse_leisure.parquet`
+carries the extract's `natural=wood`, `landuse=forest` and `natural=scrub` polygons, and the two point
+inventories above put almost no tree inside them (the census is a street inventory; the OSM nodes are the trees
+a mapper walked past — D10). No canopy raster, LiDAR point cloud or per-tree inventory of any NYC woodland is
+held or registered, so **the polygon's extent is the only measured claim about a wood**. The furniture stage
+fills that extent by one rule (`furniture/canopy.py`, run in `collect()` after the OSM ingest and before
+dedupe), and every stem it writes is flagged as inferred at three levels:
+
+* **the row** — `kind` 0, `source` **1**, `dataset_id` **`rule:woodland_canopy`** (the third value `dataset_id`
+  takes on a tree, beside the two inventories), `height_source` 4, `variant` 3 (condition unknown), `dbh_cm` 0,
+  `species` a binomial only where the rule drew one (empty where the polygon is `needleleaved`: no conifer asset
+  exists, the broadleaf fallback is drawn and the substitution is declared rather than a conifer name invented);
+* **`attrs`** — `rule` (`woodland_canopy`), `wood_osm_id` and `wood_value` (`wood` | `forest` | `scrub`) of the
+  polygon it stands in, `leaf_type`, `species_from` (`neighbour`: the species/genus tags of the OSM trees mapped
+  inside the same polygon; `census_pool`: the catalogue's species weighted by the 2015 census counts of the same
+  borough, a street-population proxy; `fallback`: needleleaved, with `species_substituted = true`), `genus` where
+  the taxon drawn is a genus, `height_source` (`census_distribution_taxon` | `census_distribution_population`,
+  the OSM-tree draw of §8 seeded by the stem's own coordinates), `crown_m` (the projected crown the rule closed
+  over) and `asset` / `scale` (the catalogue asset and uniform scale the consumer draws it at);
+* **the summary and the catalogue** — `build_summary.json` `canopy` (stems by `wood_value` and borough, the
+  Central Park / Prospect Park / Ramble-bbox window counts before and after dedupe, suppressed and excluded
+  candidates, the per-hectare consequence under the name `stems_per_ha_consequence` beside
+  `consequence_not_measurement`, and `rules`, the rule text verbatim) and `props_catalog.json` `rules`.
+
+**Placement.** Inside each polygon, clipped to the five boroughs and the scope box, minus a 2 m edge inset, minus
+the built park surfaces of `parks/surfaces.parquet` (`court`, `ballfield`, `pool`, `track`, `skating_rink`), the
+roads-stage pavement polygons (`roads/pavement/{tile}.parquet`) and the open-water polygons of
+`water/hydrography.parquet`, candidates are a deterministic Poisson-disc sample seeded from
+`(wood osm_id, 5 m cell index, round)` through SplitMix64 — unchanged by row order, by which other polygons are
+present and by re-running the stage. A candidate within **6.0 m** of any census or OSM tree is suppressed
+(the measured 5.0 m census/OSM cross-source radius plus one metre, `dedupe.TREE_RULE_MARGIN_M`), so every
+mapped tree keeps its place and the rule fills gaps only; the same radius is a cross-source rule in
+`dedupe.CROSS_SOURCE_RULES` (`rule:woodland_canopy` loses to `street_trees_2015` and to `osm_newyork_pbf`), the
+second line of defence, and `canopy.after_dedupe.dropped_by_dedupe` counts what it actually removed.
+
+**Density is a consequence, not a measurement.** The tag asserts ground covered by tree crowns; the rule takes
+that literally and stops when the projected crown area (π/4 × `crown_m`², the asset's `nominal_size_m[0]` at
+the scale the consumer draws it) of the placed stems plus the dataset trees already inside the polygon reaches
+the plantable area, at a minimum spacing of max(4 m, 0.6 × crown); `scrub` draws only the small size band
+(3 m to the scene's small/medium edge, species whose small asset stands under 10 m) at 3 m spacing. For `wood`
+and `forest` that target is reached in most polygons (1,497 of 2,492 close; area-weighted crown/plantable
+0.93). For `scrub` it is unreachable by construction: the small assets at 3 m spacing carry crowns of
+2.3–4.1 m, and π/4 × c² ≥ 0.866 × 3² needs c ≥ 3.15 m even at perfect hexagonal packing, so the Poisson-disc
+fill jams at about 640 stems/ha with crown/plantable 0.54 -- **the scrub density is the jam density of the
+3 m spacing constant, not crown closure**, and the summary reports it under that name
+(`stems_per_ha_consequence.scrub_mechanism`). The stems
+per hectare that result follow from the asset catalogue's crown widths and the spacing constants and nothing observed about any NYC
+woodland; a change to the catalogue changes the count. The Ramble window is the scoping bbox NYC_TM
+(−1984, 8384)–(−1519, 8829) — no OSM polygon inside Central Park carries that name. Skipped, with the reason
+recorded under `canopy.skipped`, when `blender_out/props/props_asset_catalog.json` or the landuse table is
+absent, never faked. The eventual per-tree answer is a LiDAR crown segmentation; until one is ingested and
+registered in `sources.py`, no stem under a wood polygon is a measurement of a tree.
+
 ## 9. Transit
 `transit/bus_routes.parquet` (route_id, short_name, long_name, borough, shape geometry, headway by hour list<int16>), `transit/bus_stops.parquet` (stop_id, x, y, z, name, routes list, has_shelter), `transit/rail_structures.parquet` (elevated/embankment/open-cut segments with track geometry and deck height), `transit/ferry_routes.parquet`, `transit/subway_entrances.parquet` (entrance_id, x, y, z, lines list<string>, kind(stair, escalator, elevator), has_globe(0 none,1 green,2 red)).
 

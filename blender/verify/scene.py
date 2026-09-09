@@ -17,8 +17,13 @@ invented geometry:
 * landmarks -- ``blender_out/landmarks/catalog/*.json``; each entry gives ``origin_tm``
                (the NYC_TM position of the model origin) and the model axes are already
                parallel to NYC_TM, so placement is a pure translation.
+* park ground -- ``blender_out/tiles/{tile}/tile_parkground.glb``: the surveyed open-space
+               polygons draped per tile by ``blender/parks/build_parkground.py``, placed on the
+               tile convention and dressed by name like the shells (:func:`add_parkground`).
 * props     -- ``data/processed/tiles/{tile}/props.parquet`` (DATA_CONTRACTS s8) instanced
-               against ``blender_out/props/props_asset_catalog.json``.
+               against ``blender_out/props/props_asset_catalog.json``; a tree is its modelled
+               branches inside :data:`PROP_LOD0_RADIUS_M` and its impostor card beyond, and a
+               procedural canopy stem (:data:`CANOPY_DATASET_ID`) is a card at any distance.
 * kit       -- ``data/processed/tiles/{tile}/kit_placements.bin`` (DATA_CONTRACTS s6)
                instanced against ``data/processed/facade/kit_catalog_map.json``.
 
@@ -1170,13 +1175,21 @@ class AssetLibrary:
             lc.exclude = True
 
     def get(self, path: Path, *, key: str | None = None, max_lod: int = 0,
-            keep: "callable | None" = None) -> AssetTemplate | None:
+            keep: "callable | None" = None, impostor_only: bool = False) -> AssetTemplate | None:
         """Import ``path`` once and cache it as an instanceable template.
 
         ``keep`` is an optional predicate on the object name: a part it rejects is not drawn and
         not counted.  The fleet glbs need it -- every vehicle carries its ``UCX_Body_*`` convex
         collision proxies beside the visible geometry, and drawing those puts a faceted box over
         the car.
+
+        ``impostor_only`` takes the opposite cut: the template is the asset's impostor card and
+        nothing else.  Every tree glb carries one (``<species>_billboard``, the catalogue's
+        ``lod1_kind: crossed_billboards``, six triangles with a 512 px alpha-cut impostor), and it
+        is the whole of what a tree is drawn from beyond :data:`PROP_LOD0_RADIUS_M` and what a
+        procedural canopy stem is drawn from at any distance (:func:`add_props`).  The two cuts
+        are cached under different keys, so a caller wanting both faces of one asset passes its
+        own ``key`` for each.
         """
         key = key or str(path)
         if key in self.templates:
@@ -1193,6 +1206,19 @@ class AssetLibrary:
             LOG.warning("import of %s failed: %s", path, exc)
             return None
         parts, tris = [], 0
+        if impostor_only:
+            for ob in created:
+                if ob.type == "MESH" and _is_impostor(ob):
+                    parts.append((ob.data, ob.matrix_world.copy()))
+                    tris += _triangles(ob)
+            for ob in created:
+                bpy.data.objects.remove(ob, do_unlink=True)
+            if not parts:
+                self.failed[key] = "no impostor card in the glb"
+                return None
+            tpl = AssetTemplate(key=key, parts=parts, triangles=tris)
+            self.templates[key] = tpl
+            return tpl
         for ob in created:
             if ob.type == "MESH" and _lod_of(ob.name) <= max_lod:
                 if keep is not None and not keep(ob.name):
@@ -1200,10 +1226,14 @@ class AssetLibrary:
                 if _is_impostor(ob):
                     # Every tree asset carries a six-polygon ``<species>_billboard`` card with an
                     # ``IMPOSTOR_*`` material.  It is meant to stand in for the crown at distance,
-                    # but the exported material is an opaque flat colour with no alpha texture, so
-                    # drawn at LOD0 over the real branches it turns every street tree into a solid
-                    # cone -- which is exactly what the first street-level sheets showed.  The card
-                    # is dropped here and counted, and the real geometry is used at every distance.
+                    # and drawn at LOD0 *over* the real branches it turns every street tree into a
+                    # solid cone -- which is exactly what the first street-level sheets showed,
+                    # when the exported card was an opaque flat colour.  The card now carries an
+                    # alpha-cut impostor, but a card and the branches it stands for are still two
+                    # drawings of one crown, so it is stripped from the LOD0 template here and
+                    # counted.  Where the card is wanted *instead of* the branches -- beyond
+                    # :data:`PROP_LOD0_RADIUS_M`, and for every procedural canopy stem -- the
+                    # template is taken with ``impostor_only=True`` and holds the card alone.
                     self.impostors_dropped += 1
                     continue
                 # ... and the same card merged into the tree's own mesh, which dropping whole
@@ -1856,6 +1886,439 @@ def add_structures(cx: float, cy: float, radius_m: float, *,
 
 
 
+# --------------------------------------------------------------------------- park ground
+
+
+#: The per-tile open-space ground ``blender/parks/build_parkground.py`` writes: one mesh per
+#: (kind, surface), tile-local in X/Y and absolute NAVD88 in Z -- the same convention as the shells,
+#: the pavement export and the structures, so a tile's meshes are placed by adding the tile origin
+#: to X and Y and leaving Z alone.  Kept out of :data:`TILE_GLB_FILES` for the same reason as the
+#: structures: it carries no LOD chain.
+PARKGROUND_GLB = "tile_parkground.glb"
+PARKGROUND_MANIFEST = "parkground_manifest.json"
+
+#: A park-ground material as the builder names it (``park_<kind>_<surface>``, ``KINDS`` in
+#: ``nycsim_pipeline.parks.surfaces``), with Blender's import suffix.  The surface is the trailing
+#: token; the kind can itself carry an underscore (``park_ground``, ``grass_field``, ``skating_rink``).
+_PARK_MATERIAL = re.compile(
+    r"^park_(?P<kind>[a-z_]+?)_(?P<surface>grass|sport_hard|ball_dirt|water|track|ice|bare)"
+    r"(?:\.\d{3})?$")
+
+#: Park surface -> the shared texture catalogue material it is drawn from, or None.
+#:
+#: Every entry is None, and that is a reading of the catalogue rather than an omission.
+#: ``blender/common/texture_catalog.json`` holds 52 materials and every one of them is a wall, a
+#: roof, a road, a floor or a vehicle interior: there is no grass, no soil, no sand, no forest
+#: floor, no court acrylic, no track polyurethane, no ice and no still water in it.  The nearest
+#: names -- ``Asphalt025A`` for the track, ``Concrete036`` for a court, ``Rubber004`` for a pool
+#: -- are other materials, and a wrong texture reads worse than an honest colour (DEVIATIONS J40,
+#: the same rule the road stage applies to cobbles).  So each park surface keeps the base colour
+#: its own builder authored into the glb (``build_parkground._LOOK``), the record says so per
+#: surface, and the day a CC0 set for one of these is catalogued its name goes here and the
+#: dressing below picks it up with no other change.
+_PARKGROUND_SURFACE_TEXTURE: dict[str, str | None] = {
+    "grass": None, "ball_dirt": None, "bare": None, "sport_hard": None,
+    "track": None, "ice": None, "water": None,
+}
+
+#: What the surface is, for the reason string: the thing the catalogue would need to hold.
+_PARKGROUND_SURFACE_NAME = {
+    "grass": "mown grass", "ball_dirt": "infield clay/dirt", "bare": "bare ground",
+    "sport_hard": "acrylic-coated asphalt court", "track": "polyurethane running track",
+    "ice": "rink ice", "water": "pool water",
+}
+
+
+def _parkground_flat_reason(surface: str) -> str:
+    what = _PARKGROUND_SURFACE_NAME.get(surface, surface)
+    return (f"analytic: the texture catalogue has no photographic set for {what} -- its entries "
+            f"are walls, roofs, roadway, floors and vehicle interiors -- so the base colour the "
+            f"park-ground builder authored is kept rather than the nearest wrong material (J40)")
+
+
+def dress_parkground_materials(objects: Sequence[bpy.types.Object]) -> tuple[dict, dict]:
+    """Resolve each ``park_<kind>_<surface>`` slot against the catalogue, the way the shells do.
+
+    Returns ``(dressed, flat_with_reason)`` keyed by the material's base name.  Today every slot
+    lands in the second: see :data:`_PARKGROUND_SURFACE_TEXTURE`.
+    """
+    dressed: dict[str, dict] = {}
+    flat: dict[str, str] = {}
+    plan: list[tuple[object, int, str, str]] = []
+    for ob in objects:
+        if getattr(ob, "type", None) != "MESH":
+            continue
+        for i, slot in enumerate(ob.material_slots):
+            m = slot.material
+            if m is None:
+                continue
+            hit = _PARK_MATERIAL.match(m.name)
+            if not hit:
+                continue
+            base = f"park_{hit.group('kind')}_{hit.group('surface')}"
+            if m.use_nodes and any(n.type == "TEX_IMAGE" for n in m.node_tree.nodes):
+                continue                      # already dressed on an earlier tile
+            plan.append((ob, i, base, hit.group("surface")))
+    if not plan or not CITY_TEXTURES:
+        for _, _, base, surface in plan:
+            flat[base] = "city textures switched off (NYCSIM_CITY_TEXTURES=0)"
+        return dressed, flat
+    built: dict[str, object] = {}
+    for _, _, base, surface in plan:
+        if base in built:
+            continue
+        name = _PARKGROUND_SURFACE_TEXTURE.get(surface)
+        if name is None:
+            flat[base] = _parkground_flat_reason(surface)
+            built[base] = None
+            continue
+        mat = _city_material(name)
+        built[base] = mat
+        if mat is None:
+            flat[base] = CITY_MATERIAL_REPORT["flat"].get(name, f"no texture set on disk for {name}")
+        else:
+            dressed[base] = {"catalogue": name, **CITY_MATERIAL_REPORT["dressed"].get(name, {})}
+    for ob, i, base, _ in plan:
+        mat = built.get(base)
+        if mat is not None:
+            ob.material_slots[i].material = mat
+    return dressed, flat
+
+
+def _cut_faces_inside(ob: bpy.types.Object, cut: "Sequence[object]") -> int:
+    """Delete the faces of ``ob`` whose plan centre lies inside one of the ``cut`` polygons."""
+    me = ob.data
+    n = len(me.polygons)
+    if n == 0 or not len(cut):
+        return 0
+    m = np.array(ob.matrix_world, dtype=np.float64).reshape(4, 4)
+    cen = np.empty(n * 3, dtype=np.float32)
+    me.polygons.foreach_get("center", cen)
+    w = cen.reshape(n, 3).astype(np.float64) @ m[:3, :3].T + m[:3, 3]
+    keep = _outside_cut(w[:, 0], w[:, 1], cut)
+    doomed_idx = np.nonzero(~keep)[0]
+    if doomed_idx.size == 0:
+        return 0
+    import bmesh
+    bm = bmesh.new()
+    bm.from_mesh(me)
+    bm.faces.ensure_lookup_table()
+    doomed = [bm.faces[int(i)] for i in doomed_idx]
+    bmesh.ops.delete(bm, geom=doomed, context="FACES")
+    bm.to_mesh(me)
+    bm.free()
+    me.update()
+    return int(doomed_idx.size)
+
+
+#: How many points of park-ground top surface the clearance against the verify terrain is
+#: measured at per scene (:func:`_parkground_terrain_clearance`).
+PARKGROUND_CLEARANCE_SAMPLES = 4000
+
+#: The rule the scene draws the park ground by, against its own terrain.  Written once, carried in
+#: the record beside the measurement so a sheet never states one without the other.
+PARKGROUND_TERRAIN_RULE = (
+    "the pavement's convention: a ground surface is draped on the heightmap the verify terrain is "
+    "sampled from (TerrainSampler, the 501-sample source grid) plus its kind's own lift, never "
+    "re-fitted to the terrain mesh.  The builder draped the glb on the UE landscape grid (505 "
+    "samples resampled from the same heightmap), so each vertex is shifted here by the difference "
+    "between the two readings at its own X/Y -- median -0.5 mm, 99th percentile of |difference| "
+    "0.13 m in the near field, measured around Bethesda -- and keeps its lift and its skirt.  "
+    "Inside near_m the terrain is the 2 m heightmap itself and the lift (0.08-0.20 m, at least the "
+    "drape tolerance) clears it; beyond near_m the terrain grid coarsens to far_spacing_m and "
+    "bridges hollows the surface still follows, so a share of the far surface sits under the "
+    "terrain there, exactly as the pavement does (J64 refines it only to 400 m).  The fractions "
+    "below are that share, measured on this scene's own terrain mesh by band.")
+
+
+def _redrape_on_sampler(ob: bpy.types.Object, sampler: "TerrainSampler", landscape) -> dict:
+    """Shift every vertex of ``ob`` by ``sampler`` minus ``landscape`` at its own X/Y.
+
+    The park-ground builder draped on the UE landscape grid (``LandscapeSampler``: 505 samples
+    resampled from the 501-sample heightmap, ``NYCTerrainImport.cpp``), which is the surface the
+    engine has.  The verify scene's terrain is sampled from the source heightmap directly
+    (:class:`TerrainSampler`), which is also what :func:`add_pavement` drapes on.  Moving each
+    vertex by the difference between the two readings puts the park ground on the pavement's
+    convention -- draped on the scene's own heightmap plus its lift -- and, because it is a shift
+    rather than a re-drape, the lift and the skirt the builder gave each slab survive intact.  A
+    vertex no heightmap covers keeps the builder's height.
+    """
+    me = ob.data
+    nv = len(me.vertices)
+    if nv == 0:
+        return {"vertices": 0, "shifted": 0}
+    co = np.empty(nv * 3, dtype=np.float32)
+    me.vertices.foreach_get("co", co)
+    co = co.reshape(nv, 3).astype(np.float64)
+    m = np.array(ob.matrix_world, dtype=np.float64).reshape(4, 4)
+    w = co @ m[:3, :3].T + m[:3, 3]
+    z_scene, _ = sampler.grid(w[:, 0].reshape(1, -1), w[:, 1].reshape(1, -1))
+    z_scene = z_scene.ravel()
+    z_land = np.asarray(landscape.height(w[:, 0], w[:, 1]), dtype=np.float64).ravel()
+    shift = z_scene - z_land
+    ok = np.isfinite(shift)
+    if not ok.any():
+        return {"vertices": nv, "shifted": 0}
+    shift = np.where(ok, shift, 0.0)
+    # A world-space vertical shift, taken back into the object's own frame (the importer's
+    # translation-only placement makes this the identity, but it is not assumed).
+    co += shift[:, None] * np.linalg.inv(m[:3, :3])[:, 2][None, :]
+    me.vertices.foreach_set("co", co.astype(np.float32).ravel())
+    me.update()
+    s = shift[ok]
+    return {"vertices": nv, "shifted": int(ok.sum()),
+            "shift_median_m": round(float(np.median(s)), 4),
+            "shift_abs_p99_m": round(float(np.percentile(np.abs(s), 99)), 4),
+            "shift_min_m": round(float(s.min()), 3), "shift_max_m": round(float(s.max()), 3)}
+
+
+def _parkground_terrain_clearance(objects: Sequence[bpy.types.Object], terrain: bpy.types.Object,
+                                  cx: float, cy: float, near_m: float, *,
+                                  samples: int = PARKGROUND_CLEARANCE_SAMPLES) -> dict:
+    """Park-ground top minus the verify terrain mesh under it, sampled by distance band.
+
+    Random points on the upward faces of every park mesh, ray-cast straight down onto the scene's
+    own terrain object.  ``under_frac`` is the share of the surface that sits below the terrain
+    (bare terrain shows there); ``zfight_frac`` the share within 2 cm of it.  Banded at ``near_m``
+    -- inside it the terrain is the 2 m heightmap grid -- and at 400 m, the pavement's last
+    refinement band (J64).
+    """
+    from mathutils.bvhtree import BVHTree
+
+    rng = np.random.default_rng(0x5041524B)
+    pts, kinds = [], []
+    per_object = max(1, samples // max(1, len(objects)))
+    for ob in objects:
+        me = ob.data
+        nf = len(me.polygons)
+        if nf == 0:
+            continue
+        nrm = np.empty(nf * 3, dtype=np.float32)
+        me.polygons.foreach_get("normal", nrm)
+        top = np.nonzero(nrm.reshape(nf, 3)[:, 2] > 0.5)[0]
+        if top.size == 0:
+            continue
+        m = np.array(ob.matrix_world, dtype=np.float64).reshape(4, 4)
+        cen = np.empty(nf * 3, dtype=np.float32)
+        me.polygons.foreach_get("center", cen)
+        cen = cen.reshape(nf, 3).astype(np.float64) @ m[:3, :3].T + m[:3, 3]
+        # Two draws: one over the whole top surface, one over the faces inside ``near_m`` -- the
+        # band the eye resolves and the one a uniform draw over a 900 m disc barely reaches (46 of
+        # 4,000 points around Bethesda before this second draw existed).
+        idx = rng.choice(top, size=min(top.size, per_object), replace=False)
+        near_faces = top[np.hypot(cen[top, 0] - cx, cen[top, 1] - cy) <= near_m]
+        if near_faces.size:
+            idx = np.concatenate([idx, rng.choice(near_faces, size=min(near_faces.size, per_object),
+                                                  replace=False)])
+        take = int(idx.size)
+        nv = len(me.vertices)
+        co = np.empty(nv * 3, dtype=np.float32)
+        me.vertices.foreach_get("co", co)
+        co = co.reshape(nv, 3).astype(np.float64) @ m[:3, :3].T + m[:3, 3]
+        loops = np.empty(len(me.loops), dtype=np.int32)
+        me.loops.foreach_get("vertex_index", loops)
+        starts = np.empty(nf, dtype=np.int32)
+        me.polygons.foreach_get("loop_start", starts)
+        totals = np.empty(nf, dtype=np.int32)
+        me.polygons.foreach_get("loop_total", totals)
+        # the builder exports triangles; a longer face is sampled on its first three corners
+        tri = np.stack([loops[starts[idx]], loops[starts[idx] + 1],
+                        loops[starts[idx] + np.minimum(2, totals[idx] - 1)]], axis=1)
+        w = rng.random((take, 3))
+        w /= w.sum(axis=1, keepdims=True)
+        pts.append((co[tri] * w[:, :, None]).sum(axis=1))
+        kinds.extend([str(ob.get("kind_name") or ob.name)] * take)
+    if not pts:
+        return {"samples": 0, "reason": "no upward park-ground face to sample"}
+    P = np.concatenate(pts)
+    tme = terrain.data
+    tn = len(tme.vertices)
+    tco = np.empty(tn * 3, dtype=np.float32)
+    tme.vertices.foreach_get("co", tco)
+    tm = np.array(terrain.matrix_world, dtype=np.float64).reshape(4, 4)
+    tco = tco.reshape(tn, 3).astype(np.float64) @ tm[:3, :3].T + tm[:3, 3]
+    bvh = BVHTree.FromPolygons([Vector(v) for v in tco], [tuple(p.vertices) for p in tme.polygons],
+                               all_triangles=False)
+    down = Vector((0.0, 0.0, -1.0))
+    top_z = float(tco[:, 2].max()) + 100.0
+    tz = np.full(len(P), np.nan)
+    for i in range(len(P)):
+        hit = bvh.ray_cast(Vector((float(P[i, 0]), float(P[i, 1]), top_z)), down, top_z + 10000.0)
+        if hit[0] is not None:
+            tz[i] = hit[0].z
+    gap = P[:, 2] - tz
+    d = np.hypot(P[:, 0] - cx, P[:, 1] - cy)
+    ok = np.isfinite(gap)
+    kinds = np.asarray(kinds, dtype=object)
+
+    def band(mask) -> dict:
+        g = gap[mask]
+        if g.size == 0:
+            return {"samples": 0}
+        return {"samples": int(g.size),
+                "under_frac": round(float(np.mean(g < 0.0)), 4),
+                "under_by_more_than_0.05m_frac": round(float(np.mean(g < -0.05)), 4),
+                "zfight_frac": round(float(np.mean(np.abs(g) < 0.02)), 4),
+                "clearance_median_m": round(float(np.median(g)), 3),
+                "clearance_p01_m": round(float(np.percentile(g, 1)), 3),
+                "clearance_min_m": round(float(g.min()), 3),
+                "clearance_max_m": round(float(g.max()), 3)}
+
+    out = {"samples": int(ok.sum()), "no_terrain_under": int((~ok).sum()),
+           "near_m": float(near_m), "method": "random points on upward park faces (one draw over "
+           "the whole surface, a second over the faces inside near_m), ray-cast down onto this "
+           "scene's terrain mesh; park top minus terrain.  'no_terrain_under' points lie outside "
+           "the terrain square; 'all_draws' is not area-uniform, read the bands",
+           "bands": {"all_draws": band(ok),
+                     f"near_le_{near_m:.0f}m": band(ok & (d <= near_m)),
+                     f"mid_{near_m:.0f}_400m": band(ok & (d > near_m) & (d <= 400.0)),
+                     "far_gt_400m": band(ok & (d > 400.0))},
+           "by_kind": {k: band(ok & (kinds == k)) for k in sorted(set(kinds.tolist()))}}
+    return out
+
+
+def add_parkground(cx: float, cy: float, radius_m: float, *,
+                   col: bpy.types.Collection | None = None,
+                   triangle_budget: int = 1_500_000, cut: "Sequence[object]" = (),
+                   sampler: "TerrainSampler | None" = None, landscape=None,
+                   terrain: bpy.types.Object | None = None, near_m: float = 150.0) -> dict:
+    """The surveyed open-space ground, from ``tiles/{tile}/tile_parkground.glb``, nearest tile first.
+
+    Until this loader existed the verification scene drew no park ground at all -- the builder had
+    been run and its files read by nothing here -- so every park sheet stood on the bare terrain
+    grid: Bethesda's assessment calls it "a bare, faceted grey hillside".  The builder drapes the
+    27,493 surveyed polygons per tile with the tile's own pavement already subtracted, so the
+    lawn, the court, the ball field and the pool arrive here as meshes and nothing is invented.
+
+    Placement is the tile convention: X/Y tile-local plus the tile origin, Z absolute NAVD88.
+    Materials are resolved by name against the shared catalogue (:func:`dress_parkground_materials`)
+    and every one that stays a flat colour is recorded with its reason, exactly as the shells'
+    "stayed flat" reasons are.  ``cut`` is the landmarks' own ground (:func:`landmark_ground_outlines`);
+    no face is drawn inside it, as for the terrain and the pavement.
+
+    **Against the scene's own terrain.**  The glb is draped on the UE landscape grid; the verify
+    terrain and the pavement are sampled from the source heightmap.  With ``sampler`` given the
+    park ground is put on the pavement's convention (:func:`_redrape_on_sampler`, a per-vertex
+    shift by the difference of the two readings, ``landscape`` defaulting to the pipeline's
+    ``LandscapeSampler``), and with ``terrain`` given the clearance of the result over that mesh
+    is measured by distance band (:func:`_parkground_terrain_clearance`) and carried in the record
+    beside the rule (:data:`PARKGROUND_TERRAIN_RULE`).  Measured before either existed, around the
+    Bethesda camera on t_-2_8 (22,367 samples over four tiles): 0.6 % of the park surface inside
+    150 m sat under the graded terrain (median clearance +0.18 m), 11.8 % between 150 and 400 m
+    and 32.8 % beyond 400 m, where the terrain grid is up to 40 m and bridges the hollows the
+    lawn follows -- the near field is the pavement's case and clean, the far field is the
+    terrain's own approximation and is declared, not hidden.
+    """
+    wanted = tiles_in_radius(cx, cy, radius_m)
+    wanted.sort(key=lambda t: math.hypot((t[0] + 0.5) * TILE_SIZE_M - cx,
+                                         (t[1] + 0.5) * TILE_SIZE_M - cy))
+    imported, missing, dropped_budget = [], [], []
+    tris, meshes, polygons, cut_faces = 0, 0, 0, 0
+    by_kind: dict[str, dict] = {}
+    per_tile: dict[str, dict] = {}
+    all_objects: list = []
+    redrape = {"applied": sampler is not None, "vertices": 0, "shifted": 0}
+    redrape_shifts: list[tuple] = []
+    for tx, ty in wanted:
+        name = tile_name(tx, ty)
+        q = TILES_GLB / name / PARKGROUND_GLB
+        if not q.exists():
+            missing.append(name)
+            continue
+        if tris >= triangle_budget:
+            dropped_budget.append(name)
+            continue
+        try:
+            created = import_glb(q)
+        except Exception as exc:  # noqa: BLE001
+            LOG.warning("tile %s: %s failed to import: %s", name, q.name, exc)
+            missing.append(f"{name} (import error)")
+            continue
+        manifest_kinds: dict[str, int] = {}
+        mp = TILES_GLB / name / PARKGROUND_MANIFEST
+        if mp.exists():
+            try:
+                manifest_kinds = {str(k): int(v) for k, v in
+                                  (json.loads(mp.read_text()).get("by_kind") or {}).items()}
+            except Exception:  # noqa: BLE001 - a half-written manifest is not evidence
+                manifest_kinds = {}
+        origin = Vector((tx * TILE_SIZE_M, ty * TILE_SIZE_M, 0.0))
+        kept, t = 0, 0
+        for ob in created:
+            if ob.type != "MESH":
+                bpy.data.objects.remove(ob, do_unlink=True)
+                continue
+            ob.location = ob.location + origin
+            if col is not None:
+                for c in list(ob.users_collection):
+                    c.objects.unlink(ob)
+                col.objects.link(ob)
+            bpy.context.view_layer.update()
+            if sampler is not None:
+                if landscape is None:
+                    from nycsim_pipeline.terrain.landscape_grid import LandscapeSampler
+                    landscape = LandscapeSampler(TILES_DATA)
+                r = _redrape_on_sampler(ob, sampler, landscape)
+                redrape["vertices"] += r["vertices"]
+                redrape["shifted"] += r["shifted"]
+                if r["shifted"]:
+                    redrape_shifts.append((r["shifted"], r["shift_median_m"], r["shift_abs_p99_m"],
+                                           r["shift_min_m"], r["shift_max_m"]))
+            if len(cut):
+                cut_faces += _cut_faces_inside(ob, cut)
+            n = _triangles(ob)
+            kind = str(ob.get("kind_name") or "?")
+            rec = by_kind.setdefault(kind, {"meshes": 0, "triangles": 0, "polygons": 0})
+            rec["meshes"] += 1
+            rec["triangles"] += n
+            t += n
+            kept += 1
+            all_objects.append(ob)
+        for kind, count in manifest_kinds.items():
+            by_kind.setdefault(kind, {"meshes": 0, "triangles": 0, "polygons": 0})["polygons"] += count
+            polygons += count
+        if not kept:
+            missing.append(f"{name} (no mesh in the glb)")
+            continue
+        imported.append(name)
+        per_tile[name] = {"meshes": kept, "triangles": t, "polygons": sum(manifest_kinds.values())}
+        tris += t
+        meshes += kept
+    dressed, flat = dress_parkground_materials(all_objects)
+    bpy.context.view_layer.update()
+    if redrape_shifts:
+        # per-mesh statistics combined by vertex count; a median of medians is labelled as such
+        n_all = sum(s[0] for s in redrape_shifts)
+        redrape.update({
+            "shift_median_m_weighted": round(sum(s[0] * s[1] for s in redrape_shifts) / n_all, 4),
+            "shift_abs_p99_m_max": round(max(s[2] for s in redrape_shifts), 4),
+            "shift_min_m": round(min(s[3] for s in redrape_shifts), 3),
+            "shift_max_m": round(max(s[4] for s in redrape_shifts), 3),
+            "what": "TerrainSampler (501-sample source heightmap) minus LandscapeSampler (505-sample "
+                    "UE grid) at each vertex; lift and skirt kept"})
+    clearance: dict = {"measured": False, "reason": "no terrain object passed"}
+    if terrain is not None and all_objects:
+        try:
+            clearance = {"measured": True,
+                         **_parkground_terrain_clearance(all_objects, terrain, cx, cy, near_m)}
+        except Exception as exc:  # noqa: BLE001 - a failed measurement is reported, not hidden
+            clearance = {"measured": False, "reason": f"measurement failed: {exc}"}
+    return {"tiles": len(imported), "tiles_wanted": len(wanted), "imported": sorted(imported),
+            "tiles_missing": sorted(missing), "tiles_dropped_for_budget": sorted(dropped_budget),
+            "triangle_budget": triangle_budget, "surfaces": polygons, "meshes": meshes,
+            "triangles": tris, "by_kind": dict(sorted(by_kind.items())),
+            "faces_cut_for_landmark_ground": cut_faces,
+            "dressed": dressed, "flat_with_reason": flat, "per_tile": per_tile,
+            "radius_m": radius_m,
+            "placement": "tile-local X/Y plus the tile origin, Z absolute NAVD88 (the tile "
+                         "convention add_structures and the shells use)",
+            "terrain_rule": PARKGROUND_TERRAIN_RULE,
+            "redraped_on_scene_heightmap": redrape,
+            "terrain_clearance": clearance,
+            "source": "blender/parks/build_parkground.py over data/processed/parks/surfaces.parquet, "
+                      "tile pavement subtracted"}
+
+
 # --------------------------------------------------------------------------- props
 
 
@@ -1863,11 +2326,77 @@ def _tree_asset_id(species: str, height_m: float, leaf_off: bool) -> tuple[str, 
     return prop_assets.tree_asset_id(species, height_m, leaf_off)
 
 
+#: A tree is drawn from its modelled branches (LOD0, 3,676 to 9,564 triangles across the 60 tree
+#: assets) inside this distance from the camera and from its impostor card (LOD1, six triangles,
+#: the catalogue's ``crossed_billboards``) beyond it.
+#:
+#: The number is the props budget's, measured rather than chosen: over the park and landmark
+#: sheets' cameras against the tile ``props.parquet`` files, the densest street camera
+#: (drive_brooklyn_park_slope_7th_ave) has 79 trees within 120 m and 142 within 150 m; Midtown
+#: Sixth Avenue has 42 and 49, Bethesda 0 and 1.  At the kit's largest LOD0 (9,564 triangles)
+#: 120 m is at most 756,000 triangles and fits inside the 900,000-triangle props budget, and
+#: 150 m is 1.36 M and does not.  The card is not the limiting detail at that distance: at the
+#: sheets' 28 mm lens (65.5 deg over 1,280 px, 19.5 px/deg) a 12 m tree at 120 m stands 112 px
+#: tall, and its 512 px impostor holds four times the texels the frame resolves of it.
+PROP_LOD0_RADIUS_M = 120.0
+
+#: How far tree rows are gathered, against ``radius_m`` for every other kind.  A wood is read at a
+#: distance a bench is not: the Ramble's far edge is 681 m from the Bethesda camera against its
+#: 343 m prop disc, and 1,500 m is the scene radius past which render_sheets places no props at
+#: all (a wider scene is a skyline whose trees are sub-pixel), so the canopy reaches as far as any
+#: scene that has props does.  :func:`build_scene` clamps it to the scene radius so no card stands
+#: beyond the terrain square.
+CANOPY_RADIUS_M = 1500.0
+
+#: What the record says about a tree's yaw: no source measures it, so it is drawn by this rule.
+TREE_YAW_RULE = ("a tree's yaw is not in any source: it is drawn from a hash of the stem's own "
+                 "position (SplitMix64 over the metre-rounded x, y), uniform over 360 deg, so the "
+                 "same tree is drawn the same way in every render and no two neighbours share a "
+                 "silhouette; a rule, not a measurement")
+
+
+def _tree_yaw_rule(x: float, y: float) -> float:
+    """Yaw in radians for a tree with no measured heading (see :data:`TREE_YAW_RULE`)."""
+    v = (int(round(x)) * 0x9E3779B97F4A7C15 + int(round(y)) * 0xBF58476D1CE4E5B9) & 0xFFFFFFFFFFFFFFFF
+    v ^= v >> 30
+    v = (v * 0xBF58476D1CE4E5B9) & 0xFFFFFFFFFFFFFFFF
+    v ^= v >> 27
+    v = (v * 0x94D049BB133111EB) & 0xFFFFFFFFFFFFFFFF
+    v ^= v >> 31
+    return (v / float(1 << 64)) * 2.0 * math.pi
+
+#: ``dataset_id`` of a tree row the furniture stage placed **by rule** inside a mapped woodland
+#: polygon (OSM natural=wood / landuse=forest / natural=scrub coverage) rather than from a surveyed
+#: stem (DATA_CONTRACTS s8).  The polygon is the only real claim; the stem's position, its species
+#: and its height are inferred.  It is therefore drawn as a card at every distance: 4,000 to 9,500
+#: triangles of modelled branches would dress a guess as a survey, and the card is what the
+#: evidence supports.
+CANOPY_DATASET_ID = "rule:woodland_canopy"
+
+
 def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
               sampler: TerrainSampler | None = None, triangle_budget: int = 900_000,
               max_instances: int = 40_000, leaf_off: bool = False,
-              col: bpy.types.Collection | None = None) -> dict:
-    """Instance ``props.parquet`` rows inside ``radius_m``, nearest first, under a triangle cap.
+              col: bpy.types.Collection | None = None,
+              canopy_radius_m: float | None = None,
+              lod0_radius_m: float = PROP_LOD0_RADIUS_M) -> dict:
+    """Instance ``props.parquet`` rows nearest first, under a triangle cap that counts the cards.
+
+    Every kind is gathered inside ``radius_m``.  Trees are gathered further, to ``canopy_radius_m``
+    (:data:`CANOPY_RADIUS_M` by default), and drawn two ways:
+
+    * **LOD0** -- the modelled branches -- for a surveyed tree inside ``lod0_radius_m``
+      (:data:`PROP_LOD0_RADIUS_M`).  The asset's impostor card is stripped from that template,
+      the rule that fixed the solid-cone trees of the first street sheets (:meth:`AssetLibrary.get`).
+    * **a card** -- the six-triangle crossed billboard with its 512 px impostor -- for a surveyed
+      tree beyond ``lod0_radius_m`` and for every row whose ``dataset_id`` is
+      :data:`CANOPY_DATASET_ID`, at any distance.
+
+    The budget is spent nearest first and a row whose template does not fit is skipped rather than
+    ending the pass, so the six-triangle cards a wood is made of still fit behind the branches that
+    filled the budget; what did not fit is counted in ``canopy.dropped_for_budget`` and named in
+    ``capped``.  ``per_dataset`` counts what was placed per ``dataset_id`` so a sheet can say
+    "N measured trees, M procedural canopy stems" from the record rather than from the frame.
 
     ``leaf_off`` picks the bare-canopy tree variants the props kit exports, for a reference
     photograph taken between mid-November and mid-April when NYC street trees carry no leaves.
@@ -1879,22 +2408,29 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
     assets_index = prop_assets.load(PROCESSED, BLENDER_OUT)
     if not assets_index.by_id:
         return {"placed": 0, "reason": f"no prop asset catalogue at {PROPS_CATALOG_JSON}"}
-    cols = ["kind", "x", "y", "z", "heading", "variant", "species", "height_m"]
+    canopy_r = CANOPY_RADIUS_M if canopy_radius_m is None else float(canopy_radius_m)
+    canopy_r = max(canopy_r, radius_m)
+    tree_kinds = {k for k, n in assets_index.kind_names.items() if n == "tree"}
+    cols = ["kind", "x", "y", "z", "heading", "variant", "species", "height_m", "dataset_id"]
     rows = []
     tiles_read, tiles_missing = [], []
-    for tx, ty in tiles_in_radius(cx, cy, radius_m):
+    for tx, ty in tiles_in_radius(cx, cy, canopy_r):
         p = TILES_DATA / tile_name(tx, ty) / "props.parquet"
         if not p.exists():
             tiles_missing.append(tile_name(tx, ty))
             continue
         try:
-            t = pq.read_table(p, columns=cols)
+            have = set(pq.ParquetFile(p).schema_arrow.names)
+            t = pq.read_table(p, columns=[c for c in cols if c in have])
         except Exception as exc:
             LOG.warning("props tile %s unreadable: %s", tile_name(tx, ty), exc)
             tiles_missing.append(tile_name(tx, ty))
             continue
         tiles_read.append(tile_name(tx, ty))
-        rows.append(t.to_pydict())
+        d = t.to_pydict()
+        for c in cols:                                      # a file written before a column existed
+            d.setdefault(c, [None] * t.num_rows)
+        rows.append(d)
     if not rows:
         return {"placed": 0, "reason": "no props.parquet in range", "tiles_missing": tiles_missing}
 
@@ -1904,14 +2440,18 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
             merged[c].extend(r[c])
     xs = np.asarray(merged["x"], dtype=np.float64)
     ys = np.asarray(merged["y"], dtype=np.float64)
+    kinds = np.asarray(merged["kind"], dtype=np.int64)
     d = np.hypot(xs - cx, ys - cy)
+    is_tree = np.isin(kinds, np.fromiter(tree_kinds, dtype=np.int64)) if tree_kinds else np.zeros(d.shape, bool)
+    in_range = (d <= radius_m) | (is_tree & (d <= canopy_r))
     order = np.argsort(d)
-    order = order[d[order] <= radius_m]
+    order = order[in_range[order]]
 
     placed = 0
     tris = 0
     capped_reason = None
     per_kind: dict[str, int] = {}
+    per_dataset: dict[str, int] = {}
     unmapped: dict[str, int] = {}
     #: kinds another stage builds -- not a gap, and counted apart from one (J21)
     elsewhere: dict[str, int] = {}
@@ -1919,15 +2459,19 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
     scale_out_of_band = 0
     scaled = 0
     scale_sum = 0.0
+    canopy = {"near_radius_m": float(lod0_radius_m), "radius_m": float(canopy_r),
+              "procedural_dataset_id": CANOPY_DATASET_ID,
+              "lod0": 0, "billboards": 0, "procedural_stems": 0, "triangles": 0,
+              "dropped_for_budget": 0, "card_missing_drawn_lod0": 0,
+              "yaw_by_rule": 0, "yaw_rule": TREE_YAW_RULE,
+              "rows_beyond_prop_radius": int((is_tree & (d > radius_m) & (d <= canopy_r)).sum())}
+    dropped_for_budget = 0
     for idx in order:
         if placed >= max_instances:
             capped_reason = f"instance cap {max_instances}"
             break
-        if tris >= triangle_budget:
-            capped_reason = f"triangle budget {triangle_budget}"
-            break
         i = int(idx)
-        kind_id = int(merged["kind"][i])
+        kind_id = int(kinds[i])
         kind_name = assets_index.name_of(kind_id)
         # One resolver for the renderer, the manifest and the editor: which asset a row is was
         # answered three different ways and two of them answered "none" for every row in the city.
@@ -1940,14 +2484,38 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
             else:
                 unmapped[kind_name] = unmapped.get(kind_name, 0) + 1
             continue
+        dataset = str(merged["dataset_id"][i] or "unknown")
+        tree = bool(is_tree[i])
+        procedural = tree and dataset == CANOPY_DATASET_ID
+        card = tree and (procedural or float(d[i]) > lod0_radius_m)
+        tpl = None
+        if card:
+            tpl = lib.get(BLENDER_OUT / entry["glb"], key=f"prop:{entry['id']}:card", impostor_only=True)
+            if tpl is None:
+                # An asset with no card is drawn from its branches if it is inside the ordinary
+                # prop disc, and counted; beyond it there is nothing cheap enough to draw it from.
+                if float(d[i]) > radius_m:
+                    unmapped[kind_name] = unmapped.get(kind_name, 0) + 1
+                    continue
+                card = False
+                canopy["card_missing_drawn_lod0"] += 1
+        if tpl is None:
+            tpl = lib.get(BLENDER_OUT / entry["glb"], key=f"prop:{entry['id']}", max_lod=0)
+        if tpl is None:
+            unmapped[kind_name] = unmapped.get(kind_name, 0) + 1
+            continue
+        if tris + tpl.triangles > triangle_budget:
+            # Skip, do not stop: the rows behind this one are sorted by distance, not by cost, and
+            # the six-triangle cards of a wood still fit after the branches in front have not.
+            dropped_for_budget += 1
+            if tree:
+                canopy["dropped_for_budget"] += 1
+            capped_reason = f"triangle budget {triangle_budget}"
+            continue
         if why.startswith("species_substituted"):
             species_substituted += 1
         if why.endswith(":scale_out_of_band"):
             scale_out_of_band += 1
-        tpl = lib.get(BLENDER_OUT / entry["glb"], key=f"prop:{entry['id']}", max_lod=0)
-        if tpl is None:
-            unmapped[kind_name] = unmapped.get(kind_name, 0) + 1
-            continue
         z = merged["z"][i]
         if z is None or (isinstance(z, float) and math.isnan(z)):
             z = sampler.z_at(xs[i], ys[i]) if sampler else None
@@ -1960,23 +2528,46 @@ def add_props(lib: AssetLibrary, cx: float, cy: float, radius_m: float, *,
             # asset is authored facing +Y (north) in Blender, so the scene yaw about +Z is the
             # negated bearing.
             yaw = math.radians(-float(head))
+        elif tree:
+            # No inventory measures which way a tree faces, so a tree row never carries a heading
+            # and every tree in a frame stood at yaw 0: 5,494 identical silhouettes on the Bethesda
+            # sheet, each card's south-facing plane -- the one 87 deg from the Sun -- squarely at a
+            # north-looking camera (Stage 55's render sceptic).  The yaw is therefore a rule, seeded
+            # by the stem's own position so a re-render draws the same tree the same way, and it
+            # is recorded as one (``canopy.yaw_rule``); it is not a measurement of anything.
+            yaw = _tree_yaw_rule(float(xs[i]), float(ys[i]))
+            canopy["yaw_by_rule"] += 1
         # A tree is drawn at the height the census measured it, not at the height the kit happened
         # to export its size class at (J70).  ``resolve_scaled`` returns 1.0 for every other kind,
-        # so this multiplication is the identity for all 123 non-tree assets.
+        # so this multiplication is the identity for all 123 non-tree assets.  The card takes the
+        # same scale as the branches it stands for, so a tree keeps its height at every distance.
         m = (Matrix.Translation((float(xs[i]), float(ys[i]), float(z)))
              @ Euler((0.0, 0.0, yaw)).to_matrix().to_4x4()
              @ Matrix.Diagonal((float(scale), float(scale), float(scale), 1.0)))
-        tpl.instance(f"prop_{entry['id']}_{placed}", m, col or bpy.context.scene.collection)
+        prefix = "card" if card else "prop"
+        tpl.instance(f"{prefix}_{entry['id']}_{placed}", m, col or bpy.context.scene.collection)
         if scale != 1.0:
             scaled += 1
             scale_sum += float(scale)
         placed += 1
         tris += tpl.triangles
         per_kind[kind_name] = per_kind.get(kind_name, 0) + 1
+        per_dataset[dataset] = per_dataset.get(dataset, 0) + 1
+        if tree:
+            if card:
+                canopy["billboards"] += 1
+                canopy["triangles"] += tpl.triangles
+                if procedural:
+                    canopy["procedural_stems"] += 1
+            else:
+                canopy["lod0"] += 1
     return {"rows_in_range": int(order.size), "placed": placed, "triangles": tris,
             "leaf_off": leaf_off, "impostor_cards_dropped": lib.impostors_dropped,
             "impostor_faces_dropped": lib.impostor_faces_dropped,
-            "capped": capped_reason, "per_kind": dict(sorted(per_kind.items(), key=lambda kv: -kv[1])),
+            "capped": capped_reason, "dropped_for_budget": dropped_for_budget,
+            "per_kind": dict(sorted(per_kind.items(), key=lambda kv: -kv[1])),
+            "per_dataset": dict(sorted(per_dataset.items(), key=lambda kv: -kv[1])),
+            "canopy": canopy,
             "unmapped_kinds": unmapped, "kinds_built_elsewhere": elsewhere,
             "tree_species_substituted": species_substituted,
             # J70: a tree is drawn at its measured height.  ``tree_instances_scaled`` counts the
@@ -2235,6 +2826,7 @@ class SceneReport:
     radius_m: float
     terrain: dict = field(default_factory=dict)
     pavement: dict = field(default_factory=dict)
+    parkground: dict = field(default_factory=dict)
     structures: dict = field(default_factory=dict)
     buildings: dict = field(default_factory=dict)
     landmarks: dict = field(default_factory=dict)
@@ -2251,7 +2843,9 @@ class SceneReport:
         return {"centre_tm": [round(self.centre_tm[0], 2), round(self.centre_tm[1], 2)],
                 "radius_m": self.radius_m, "triangles": self.triangles,
                 "seconds": round(self.seconds, 2), "terrain": self.terrain,
-                "pavement": self.pavement, "buildings": self.buildings, "landmarks": self.landmarks,
+                "pavement": self.pavement, "parkground": self.parkground,
+                "structures": self.structures,
+                "buildings": self.buildings, "landmarks": self.landmarks,
                 "props": self.props, "kit": self.kit, "agents": self.agents,
                 "materials": self.materials}
 
@@ -2274,14 +2868,21 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
                 agent_max_peds: int = 900, agent_triangle_budget: int | None = None,
                 agent_npc_archetypes: int | None = None, agent_ped_phases: int = 3,
                 agent_place_riderless: bool = False, agent_eye_height_m: float = 1.6,
+                canopy_radius_m: float = CANOPY_RADIUS_M,
                 ) -> tuple[SceneReport, TerrainSampler]:
-    """Reset the scene and populate it from every artefact available around (cx, cy)."""
+    """Reset the scene and populate it from every artefact available around (cx, cy).
+
+    The park ground is gathered over the pavement's radius -- the two are one surface, the
+    builder having subtracted the pavement from the park polygons -- and the tree cards over
+    ``min(radius_m, canopy_radius_m)``, so no card stands beyond the terrain square.
+    """
     import time
     t0 = time.time()
     nb.reset_scene()
     scene_col = bpy.context.scene.collection
     c_terrain = nb.collection("terrain", scene_col)
     c_pave = nb.collection("pavement", scene_col)
+    c_park = nb.collection("parkground", scene_col)
     c_struct = nb.collection("structures", scene_col)
     c_build = nb.collection("buildings", scene_col)
     c_landmark = nb.collection("landmarks", scene_col)
@@ -2310,6 +2911,10 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
                                 cut=own_ground)
     rep.pavement = add_pavement(cx, cy, min(radius_m, pavement_radius_m), sampler, col=c_pave,
                                 cut=own_ground)
+    terrain_ob = bpy.data.objects.get("verify_terrain") if rep.terrain.get("built") else None
+    rep.parkground = add_parkground(cx, cy, min(radius_m, pavement_radius_m), col=c_park,
+                                    cut=own_ground, sampler=sampler, terrain=terrain_ob,
+                                    near_m=float(rep.terrain.get("near_m") or 150.0))
     rep.structures = add_structures(cx, cy, radius_m, col=c_struct)
     # A landmark model and the tile shell of the same building are two versions of one object.
     # The catalogue names the BINs each model was built from, so those shells are removed from the
@@ -2319,12 +2924,13 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
                                   suppress_landmark_bins=landmark_bins())
 
     used = (int(rep.terrain.get("triangles", 0)) + int(rep.pavement.get("triangles", 0))
+            + int(rep.parkground.get("triangles", 0))
             + rep.buildings["triangles"] + rep.landmarks["triangles"])
     left = max(0, triangle_budget - used)
     if with_props:
         rep.props = add_props(lib, cx, cy, prop_radius_m if prop_radius_m is not None else min(radius_m, 400.0),
                               sampler=sampler, triangle_budget=int(left * 0.35), leaf_off=leaf_off,
-                              col=c_props)
+                              col=c_props, canopy_radius_m=min(radius_m, canopy_radius_m))
     else:
         rep.props = {"placed": 0, "reason": "disabled"}
     left = max(0, left - int(rep.props.get("triangles", 0)))
@@ -2368,13 +2974,14 @@ def build_scene(cx: float, cy: float, radius_m: float, *, prop_radius_m: float |
                      "slots": CITY_MATERIAL_REPORT["slots"],
                      "resolution": CITY_TEXTURE_RES, "enabled": CITY_TEXTURES}
     rep.triangles = (int(rep.terrain.get("triangles", 0)) + int(rep.pavement.get("triangles", 0))
-                     + rep.buildings["triangles"]
+                     + int(rep.parkground.get("triangles", 0)) + rep.buildings["triangles"]
                      + rep.landmarks["triangles"] + int(rep.props.get("triangles", 0))
                      + int(rep.kit.get("triangles", 0)) + int(rep.agents.get("triangles", 0)))
     rep.seconds = time.time() - t0
     LOG.info("scene built: %d triangles in %.1f s (%d tiles, %d landmarks, %d pavement polys, "
-             "%d props, %d kit, %d vehicles, %d people)", rep.triangles, rep.seconds,
-             rep.buildings["tiles_imported"], rep.landmarks["placed"], rep.pavement.get("placed", 0),
+             "%d park-ground tiles, %d props, %d kit, %d vehicles, %d people)", rep.triangles,
+             rep.seconds, rep.buildings["tiles_imported"], rep.landmarks["placed"],
+             rep.pavement.get("placed", 0), rep.parkground.get("tiles", 0),
              rep.props.get("placed", 0), rep.kit.get("placed", 0),
              rep.agents.get("placed_vehicles", 0), rep.agents.get("placed_pedestrians", 0))
     return rep, sampler

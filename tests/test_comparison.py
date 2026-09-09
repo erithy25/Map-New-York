@@ -2237,3 +2237,221 @@ def test_a_photograph_that_carries_its_own_time_is_never_second_guessed():
     choose = body.index("def pick(")
     assert exif < choose, "the chosen-hour path must sit after the EXIF path, not before it"
     assert "return dt.datetime.strptime(raw, fmt).replace(tzinfo=tz), note" in body
+
+
+# --------------------------------------------------------------------------- park ground and canopy
+
+
+def _synthetic_parkground(tiles_root: Path, tx: int, ty: int, *, z: float = 12.0):
+    """One ``tile_parkground.glb`` the way the builder writes it: tile-local X/Y, absolute Z."""
+    import bpy
+    import nycsim_bpy as nb
+
+    nb.reset_scene()
+    # A 40 x 30 m lawn whose local corner sits at (100, 200) in the tile, 12 m NAVD88.
+    verts = [(100.0, 200.0, z), (140.0, 200.0, z), (140.0, 230.0, z + 1.0), (100.0, 230.0, z + 1.0)]
+    mat = nb.pbr_material("park_park_ground_grass", base_color=(0.19, 0.28, 0.13, 1.0), roughness=0.93)
+    ob = nb.mesh_object(f"t_{tx}_{ty}_park_park_ground_grass", verts, [(0, 1, 2), (0, 2, 3)],
+                        materials=(mat,), smooth=False)
+    ob["kind_name"] = "park_ground"
+    ob["lift_m"] = 0.2
+    out = tiles_root / f"t_{tx}_{ty}" / "tile_parkground.glb"
+    out.parent.mkdir(parents=True)
+    nb.export_glb(out, objects=[ob], apply_modifiers=False, texcoords=False, tangents=False,
+                  export_extras=True, export_normals=False, export_animations=False)
+    (out.parent / "parkground_manifest.json").write_text(json.dumps({"by_kind": {"park_ground": 1}}))
+    nb.reset_scene()
+    return out
+
+
+def test_the_park_ground_lands_on_its_tile_origin_at_its_own_height(tmp_path, monkeypatch):
+    """A parkground glb is tile-local in X/Y and absolute NAVD88 in Z, like the shells and pavement."""
+    bpy = _skip_without_bpy()
+    import scene as vscene
+    from mathutils import Vector
+
+    tx, ty = 7, -3
+    _synthetic_parkground(tmp_path / "tiles", tx, ty, z=12.0)
+    monkeypatch.setattr(vscene, "TILES_GLB", tmp_path / "tiles")
+    rep = vscene.add_parkground((tx + 0.5) * 1000.0, (ty + 0.5) * 1000.0, 400.0)
+    assert rep["tiles"] == 1 and rep["meshes"] == 1 and rep["triangles"] == 2, rep
+    assert rep["surfaces"] == 1 and rep["by_kind"]["park_ground"]["polygons"] == 1
+    # The lawn's local corner (100, 200) is at world (7100, -2800); its height is untouched.
+    lo = [float("inf")] * 3
+    hi = [float("-inf")] * 3
+    meshes = [ob for ob in bpy.context.scene.objects if ob.type == "MESH"]
+    assert len(meshes) == 1
+    for corner in meshes[0].bound_box:
+        w = meshes[0].matrix_world @ Vector(corner)
+        for k in range(3):
+            lo[k] = min(lo[k], w[k])
+            hi[k] = max(hi[k], w[k])
+    assert lo[0] == pytest.approx(7100.0, abs=0.01) and hi[0] == pytest.approx(7140.0, abs=0.01)
+    assert lo[1] == pytest.approx(-2800.0, abs=0.01) and hi[1] == pytest.approx(-2770.0, abs=0.01)
+    assert lo[2] == pytest.approx(12.0, abs=0.01) and hi[2] == pytest.approx(13.0, abs=0.01)
+    # No park surface has a photographic set in the catalogue, and the record says so per slot
+    # rather than dressing grass as the nearest wall (J40).
+    assert rep["dressed"] == {}
+    assert "park_park_ground_grass" in rep["flat_with_reason"]
+    assert "no photographic set" in rep["flat_with_reason"]["park_park_ground_grass"]
+    # A tile in range with no file is named, not silently bare.
+    rep2 = vscene.add_parkground((tx + 0.5) * 1000.0, (ty + 0.5) * 1000.0, 1200.0)
+    assert rep2["tiles"] == 1
+    assert len(rep2["tiles_missing"]) == rep2["tiles_wanted"] - 1
+    assert f"t_{tx + 1}_{ty}" in rep2["tiles_missing"]
+
+
+def test_the_park_ground_is_put_on_the_pavements_heightmap_and_its_clearance_is_measured(tmp_path, monkeypatch):
+    """With the scene's sampler the park ground is shifted by (scene heightmap - UE landscape grid)
+    at each vertex, keeping its lift; with the terrain object its clearance is measured by band."""
+    bpy = _skip_without_bpy()
+    import scene as vscene
+    import nycsim_bpy as nb
+    from mathutils import Vector
+
+    tx, ty = 7, -3
+    cx, cy = (tx + 0.5) * 1000.0, (ty + 0.5) * 1000.0
+    _synthetic_parkground(tmp_path / "tiles", tx, ty, z=12.0)
+    monkeypatch.setattr(vscene, "TILES_GLB", tmp_path / "tiles")
+
+    class SceneHeightmap:                       # the verify sampler: 15 m everywhere
+        def grid(self, xs, ys):
+            return np.full(np.shape(xs), 15.0), np.zeros(np.shape(xs), bool)
+
+    class LandscapeGrid:                        # what the builder draped on: 12 m everywhere
+        def height(self, x, y):
+            return np.full(np.shape(x), 12.0)
+
+    # A flat terrain at 14.9 m under the whole tile: the shifted lawn (15..16 m) clears it.
+    half = 600.0
+    terrain = nb.mesh_object("verify_terrain",
+                             [(cx - half, cy - half, 14.9), (cx + half, cy - half, 14.9),
+                              (cx + half, cy + half, 14.9), (cx - half, cy + half, 14.9)],
+                             [(0, 1, 2, 3)], smooth=False)
+    rep = vscene.add_parkground(cx, cy, 400.0, sampler=SceneHeightmap(), landscape=LandscapeGrid(),
+                                terrain=terrain, near_m=150.0)
+    assert rep["tiles"] == 1
+    rd = rep["redraped_on_scene_heightmap"]
+    assert rd["applied"] and rd["shifted"] == rd["vertices"] == 4
+    assert rd["shift_median_m_weighted"] == pytest.approx(3.0)
+    assert rd["shift_min_m"] == pytest.approx(3.0) and rd["shift_max_m"] == pytest.approx(3.0)
+    lawn = next(ob for ob in bpy.context.scene.objects if ob.type == "MESH" and ob is not terrain)
+    zs = [(lawn.matrix_world @ Vector(c)).z for c in lawn.bound_box]
+    assert min(zs) == pytest.approx(15.0, abs=0.01) and max(zs) == pytest.approx(16.0, abs=0.01)
+    # X/Y placement is untouched by the shift.
+    xs = [(lawn.matrix_world @ Vector(c)).x for c in lawn.bound_box]
+    assert min(xs) == pytest.approx(7100.0, abs=0.01) and max(xs) == pytest.approx(7140.0, abs=0.01)
+    tc = rep["terrain_clearance"]
+    assert tc["measured"] and tc["samples"] > 0 and tc["no_terrain_under"] == 0
+    assert tc["near_m"] == 150.0
+    # The lawn spans tile-local (100..140, 200..230), 360-400 m west and 270-300 m south of the
+    # scene centre at the tile's middle: 450-500 m away, the far band.  Nothing of it is under a
+    # 14.9 m terrain, and the near band is empty rather than invented.
+    for name, b in tc["bands"].items():
+        if b.get("samples"):
+            assert b["under_frac"] == 0.0 and b["zfight_frac"] == 0.0, (name, b)
+            assert 0.1 - 1e-6 <= b["clearance_min_m"] and b["clearance_max_m"] <= 1.1 + 1e-6, (name, b)
+    assert tc["bands"]["far_gt_400m"]["samples"] > 0
+    assert tc["bands"]["near_le_150m"]["samples"] == 0
+    assert "park_ground" in tc["by_kind"]
+    assert rep["terrain_rule"].startswith("the pavement's convention")
+    assert "tile-local X/Y" in rep["placement"]
+    # Without a sampler nothing is shifted and the record says so.
+    nb.reset_scene()
+    rep0 = vscene.add_parkground(cx, cy, 400.0)
+    assert rep0["redraped_on_scene_heightmap"] == {"applied": False, "vertices": 0, "shifted": 0}
+    assert rep0["terrain_clearance"]["measured"] is False
+
+
+def _synthetic_props_tile(tiles_data: Path, tx: int, ty: int, rows: list[dict]) -> Path:
+    import pyarrow as pa
+    import pyarrow.parquet as pq
+
+    cols = {
+        "kind": pa.array([int(r["kind"]) for r in rows], pa.int16()),
+        "x": pa.array([float(r["x"]) for r in rows], pa.float64()),
+        "y": pa.array([float(r["y"]) for r in rows], pa.float64()),
+        "z": pa.array([float(r.get("z", 10.0)) for r in rows], pa.float32()),
+        "heading": pa.array([float(r.get("heading", 0.0)) for r in rows], pa.float32()),
+        "variant": pa.array([int(r.get("variant", 0)) for r in rows], pa.int16()),
+        "species": pa.array([r.get("species") for r in rows], pa.string()),
+        "height_m": pa.array([float(r.get("height_m", 10.0)) for r in rows], pa.float32()),
+        "dataset_id": pa.array([r.get("dataset_id") for r in rows], pa.string()),
+    }
+    out = tiles_data / f"t_{tx}_{ty}" / "props.parquet"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    pq.write_table(pa.table(cols), out)
+    return out
+
+
+def test_a_far_tree_and_a_procedural_stem_are_cards_and_a_near_surveyed_tree_is_branches(tmp_path, monkeypatch):
+    """The canopy path: LOD0 inside the near radius, the six-triangle impostor beyond it and for
+    every ``rule:woodland_canopy`` row at any distance; the budget counts the cards; the
+    per-dataset counts add up to what was placed."""
+    bpy = _skip_without_bpy()
+    import scene as vscene
+    import nycsim_bpy as nb
+
+    if not vscene.PROPS_CATALOG_JSON.exists():
+        pytest.skip("no prop asset catalogue exported yet")
+    kinds = json.loads(vscene.PROP_KINDS_JSON.read_text()).get("kinds", []) if vscene.PROP_KINDS_JSON.exists() else []
+    tree_kind = next((int(k["id"]) for k in kinds if k["name"] == "tree"), None)
+    if tree_kind is None:
+        pytest.skip("no tree kind in the props catalogue")
+    tx, ty = 3, 4
+    cx, cy = (tx + 0.5) * 1000.0, (ty + 0.5) * 1000.0
+    near = vscene.PROP_LOD0_RADIUS_M
+    species = "Gleditsia triacanthos"
+    rows = [
+        # a surveyed tree well inside the near radius: branches
+        {"kind": tree_kind, "x": cx + 30.0, "y": cy, "species": species, "height_m": 12.0,
+         "dataset_id": "street_trees_2015"},
+        # a surveyed tree beyond it: the card
+        {"kind": tree_kind, "x": cx + near + 60.0, "y": cy, "species": species, "height_m": 12.0,
+         "dataset_id": "osm_newyork_pbf"},
+        # a procedural canopy stem *inside* the near radius: still the card
+        {"kind": tree_kind, "x": cx - 30.0, "y": cy, "species": species, "height_m": 12.0,
+         "dataset_id": vscene.CANOPY_DATASET_ID},
+        # a procedural stem beyond the prop disc but inside the canopy radius: gathered, as a card
+        {"kind": tree_kind, "x": cx, "y": cy + 450.0, "species": species, "height_m": 12.0,
+         "dataset_id": vscene.CANOPY_DATASET_ID},
+    ]
+    _synthetic_props_tile(tmp_path / "tiles", tx, ty, rows)
+    monkeypatch.setattr(vscene, "TILES_DATA", tmp_path / "tiles")
+    nb.reset_scene()
+    lib = vscene.AssetLibrary()
+    rep = vscene.add_props(lib, cx, cy, 300.0, triangle_budget=900_000, canopy_radius_m=480.0)
+    assert rep["placed"] == 4, rep
+    assert rep["rows_in_range"] == 4
+    assert sum(rep["per_dataset"].values()) == rep["placed"]
+    assert rep["per_dataset"][vscene.CANOPY_DATASET_ID] == 2
+    cn = rep["canopy"]
+    assert cn["near_radius_m"] == near and cn["radius_m"] == 480.0
+    assert cn["lod0"] == 1 and cn["billboards"] == 3 and cn["procedural_stems"] == 2
+    assert cn["triangles"] == 3 * 6, cn
+    assert cn["rows_beyond_prop_radius"] == 1
+
+    def tris(ob):
+        return sum(len(p.vertices) - 2 for p in ob.data.polygons)
+
+    cards = [ob for ob in bpy.context.scene.objects if ob.name.startswith("card_")]
+    branches = [ob for ob in bpy.context.scene.objects if ob.name.startswith("prop_")]
+    assert len(cards) == 3 and len(branches) == 1
+    for ob in cards:
+        assert tris(ob) == 6, ob.name
+        assert all(m.name.startswith("IMPOSTOR_") for m in ob.data.materials if m is not None)
+    assert tris(branches[0]) > 1000
+    assert not any(m.name.startswith("IMPOSTOR_") for m in branches[0].data.materials if m is not None)
+    # The near surveyed tree is the LOD0 one, at +30 m; the near procedural stem is a card at -30 m.
+    assert branches[0].matrix_world.translation.x == pytest.approx(cx + 30.0, abs=0.01)
+    assert sorted(round(ob.matrix_world.translation.x - cx) for ob in cards) == [-30, 0, round(near + 60.0)]
+    # The budget counts the cards: 18 triangles of card plus the branches.
+    assert rep["triangles"] == tris(branches[0]) + 18
+    # And a budget too small for the branches still fits the cards behind them.
+    nb.reset_scene()
+    lib = vscene.AssetLibrary()
+    rep2 = vscene.add_props(lib, cx, cy, 300.0, triangle_budget=100, canopy_radius_m=480.0)
+    assert rep2["placed"] == 3 and rep2["canopy"]["billboards"] == 3
+    assert rep2["canopy"]["lod0"] == 0 and rep2["canopy"]["dropped_for_budget"] == 1
+    assert rep2["capped"].startswith("triangle budget")
+    assert sum(rep2["per_dataset"].values()) == rep2["placed"]

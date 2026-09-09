@@ -655,7 +655,14 @@ def configure_cycles(samples: int, threads: int | None) -> None:
     sc.cycles.diffuse_bounces = 2
     sc.cycles.glossy_bounces = 1
     sc.cycles.transmission_bounces = 1
-    sc.cycles.transparent_max_bounces = 2
+    # A tree card is three alpha-cut planes and a wood is a few hundred stems deep: a view ray
+    # through the Ramble crosses 48-88 stems (up to 264 planes) before it reaches the far shore,
+    # and a shadow ray through a crown crosses several.  At the old cap of 2 a ray was terminated
+    # black at its third transparent crossing, so 27 % of the Bethesda canopy band rendered as
+    # solid black rectangles and the lawn behind the wood carried an opaque shadow (Stage 55's
+    # render sceptic).  Transparent crossings are cheap -- no shading, the ray just continues --
+    # so the cap is set well above the deepest wood a frame holds.
+    sc.cycles.transparent_max_bounces = 256
     sc.cycles.volume_bounces = 0
     sc.cycles.caustics_reflective = False
     sc.cycles.caustics_refractive = False
@@ -1725,6 +1732,7 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
     b = scene.get("buildings", {})
     lm = scene.get("landmarks", {})
     pr = scene.get("props", {})
+    pg = scene.get("parkground", {})
     kt = scene.get("kit", {})
     ag = scene.get("agents", {})
 
@@ -1801,7 +1809,8 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
         f"({b.get('triangles', 0):,} tris), {lm_text}, "
         f"{pv.get('placed', 0)} pavement polygons ("
         + ", ".join(f"{v:,} {k}" for k, v in list((pv.get('per_kind') or {}).items())[:6])
-        + f"), {pr.get('placed', 0)} props"
+        + f"), {pg.get('surfaces', 0)} park-ground surfaces on {pg.get('tiles', 0)} tile(s) "
+        f"({pg.get('triangles', 0):,} tris), {pr.get('placed', 0)} props"
         + (" (bare-canopy trees)" if pr.get("leaf_off") else "")
         + (f", {pr['impostor_cards_dropped']} opaque impostor cards dropped"
            if pr.get("impostor_cards_dropped") else "")
@@ -1820,6 +1829,51 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
         if ma.get("flat"):
             line += (". Left as the flat colour the tile carries: "
                      + ", ".join(f"{k} ({v})" for k, v in sorted(ma["flat"].items())))
+        caption_lines.append((line, f_small))
+    # The trees, by what each one's position is evidence of.  ``per_dataset`` is counted per row
+    # placed, so a sheet says "N measured trees, M procedural canopy stems" from the record and not
+    # from the frame; the canopy block says how each was drawn (branches inside the near radius,
+    # the six-triangle impostor card beyond it and for every rule-placed stem).
+    cn = pr.get("canopy") or {}
+    pd = pr.get("per_dataset") or {}
+    if cn and (cn.get("lod0") or cn.get("billboards")):
+        rule_id = cn.get("procedural_dataset_id") or "rule:woodland_canopy"
+        surveyed = sum(v for k, v in pd.items() if k != rule_id)
+        line = (f"Trees: {cn.get('lod0', 0)} drawn from their modelled branches within "
+                f"{cn.get('near_radius_m', 0):.0f} m of the lens and {cn.get('billboards', 0)} as "
+                f"six-triangle impostor cards out to {cn.get('radius_m', 0):.0f} m; "
+                f"{cn.get('procedural_stems', 0)} of the cards are procedural canopy stems placed by "
+                f"rule inside mapped woodland polygons ({rule_id}), and their "
+                f"positions, species and heights are inferred, not surveyed. Rows placed per "
+                f"source: " + ", ".join(f"{v:,} {k}" for k, v in pd.items())
+                + (f" ({surveyed:,} from datasets)" if surveyed else ""))
+        if cn.get("dropped_for_budget"):
+            line += f"; {cn['dropped_for_budget']:,} tree rows did not fit the props budget"
+        caption_lines.append((line, f_small))
+    if pg.get("flat_with_reason"):
+        reasons = {}
+        for k, v in sorted(pg["flat_with_reason"].items()):
+            reasons.setdefault(v, []).append(k)
+        line = (f"Park ground: {pg.get('meshes', 0)} surface meshes from the open-space survey "
+                f"(draped by blender/parks/build_parkground.py, pavement subtracted); "
+                + "; ".join(f"{', '.join(ks)} kept the builder's colour -- {why}"
+                            for why, ks in reasons.items()))
+        # Against the scene's own terrain, measured on this scene (scene.parkground.terrain_clearance):
+        # the near band is the one the eye resolves; the far share sits under the coarse far grid
+        # the way the pavement does, and is said rather than hidden.
+        tc = pg.get("terrain_clearance") or {}
+        bands = tc.get("bands") or {}
+        near_key = next((k for k in bands if k.startswith("near_le_")), None)
+        if tc.get("measured") and near_key and bands[near_key].get("samples"):
+            nb_ = bands[near_key]
+            far = bands.get("far_gt_400m") or {}
+            line += (f". Over this scene's terrain: {100 * (1 - nb_['under_frac']):.1f} % of the park "
+                     f"surface within {tc.get('near_m', 0):.0f} m clears it (median "
+                     f"{nb_['clearance_median_m']:+.2f} m, {nb_['samples']} samples)")
+            if far.get("samples"):
+                line += (f"; beyond 400 m, where the terrain grid coarsens, "
+                         f"{100 * far['under_frac']:.0f} % of {far['samples']} samples sit under it, "
+                         f"as the pavement does there")
         caption_lines.append((line, f_small))
     if ag.get("caption"):
         caption_lines.append((ag["caption"], f_small))
@@ -1848,6 +1902,14 @@ def compose_sheet(slug: str, record: dict | None = None) -> Path | None:
         gaps.append(f"props not placed: {pr['reason']}")
     if pv.get("reason"):
         gaps.append(f"pavement not placed: {pv['reason']}")
+    if pg.get("tiles_missing"):
+        miss = pg["tiles_missing"][:8]
+        gaps.append(f"park ground not built for {len(pg['tiles_missing'])} tile(s) in the "
+                    f"{pg.get('radius_m', 0):.0f} m ground radius (bare terrain there): "
+                    + ", ".join(miss) + (" ..." if len(pg["tiles_missing"]) > len(miss) else ""))
+    if pg.get("tiles_dropped_for_budget"):
+        gaps.append(f"{len(pg['tiles_dropped_for_budget'])} park-ground tile(s) dropped at the "
+                    f"{pg.get('triangle_budget', 0):,}-triangle ground budget")
     if ag.get("reason") and ag.get("reason") != "disabled":
         gaps.append(f"agents not placed: {ag['reason']}")
     elif ag.get("reason") == "disabled":

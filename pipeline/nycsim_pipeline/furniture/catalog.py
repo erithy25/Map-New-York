@@ -27,9 +27,13 @@ class Kind:
 
 
 KINDS: tuple[Kind, ...] = (
-    Kind(0, "tree", "vegetation", "Tree from the 2015 Street Tree Census (alive only; species and DBH real, height estimated) or from "
-         "the OSM extract's natural=tree nodes (dataset_id tells them apart; the OSM nodes are the only trees inside parks)",
-         ("street_trees_2015", "osm_newyork_pbf"), (0.0, 0.0, 0.0),
+    Kind(0, "tree", "vegetation", "Tree from the 2015 Street Tree Census (alive only; species and DBH real, height estimated), from "
+         "the OSM extract's natural=tree nodes (the only individually mapped trees inside parks), or -- source=1, dataset_id "
+         "rule:woodland_canopy -- a stem the woodland canopy rule placed inside a natural=wood / landuse=forest / natural=scrub "
+         "polygon of the OSM extract, whose position, count, species and height are inferred (furniture/canopy.py RULES; the "
+         "polygon extent is the only measured claim, the stems per hectare a consequence of crown closure over the asset "
+         "catalogue's crown widths, never a measurement); dataset_id tells the three apart",
+         ("street_trees_2015", "osm_newyork_pbf", "rule:woodland_canopy"), (0.0, 0.0, 0.0),
          "per-instance: dbh_cm is the measured trunk diameter, 0 where the source records none — true of every OSM tree, since "
          "OSM publishes no trunk diameter in one unit convention. height_m is the OSM height tag where there is one "
          "(height_source=0), the allometry over a measured census DBH (height_source=1), or, where the source gives neither, a "
@@ -37,7 +41,14 @@ KINDS: tuple[Kind, ...] = (
          "health: 0 Good, 1 Fair, 2 Poor, 3 unknown (OSM records no condition, so every OSM tree is 3)",
          "spc_common (census) / the OSM name tag where a tree has one",
          extra={"attrs": "census: tree_id, curb_loc, sidewalk, nta — OSM: osm_id, genus, taxon, leaf_type, leaf_cycle, "
-                         "denotation, circumference, diameter_crown, diameter (raw tag strings, never converted into dbh_cm)"}),
+                         "denotation, circumference, diameter_crown, diameter (raw tag strings, never converted into dbh_cm) — "
+                         "rule:woodland_canopy: rule (woodland_canopy), wood_osm_id, wood_value (wood|forest|scrub), leaf_type, "
+                         "species_from (neighbour|census_pool|fallback), species_substituted (true where a needleleaved polygon "
+                         "is drawn with the broadleaf fallback), genus, height_source (census_distribution_taxon|_population), "
+                         "crown_m, asset, scale",
+                "rules": "rule:woodland_canopy is spelled out in build_summary.json canopy.rules and props_catalog.json rules; "
+                         "a canopy stem loses in dedupe to any census or OSM tree within the measured 5.0 m cross-source radius "
+                         "plus one metre (dedupe.cross_source)"}),
     Kind(1, "hydrant", "utility", "DEP fire hydrant", ("hydrants",), (0.30, 0.30, 0.75),
          "nominal: NYC DEP hydrant ~0.75 m above grade (typical; DEP does not publish a single standard)", "", "unitid"),
     Kind(2, "bus_shelter", "transit", "DOT/JCDecaux bus stop shelter", ("bus_stop_shelters",), (4.3, 1.6, 2.7),

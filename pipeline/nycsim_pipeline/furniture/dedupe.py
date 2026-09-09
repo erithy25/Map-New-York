@@ -20,6 +20,8 @@ than the width of the object. It is deliberately restricted to a named pair of d
 radius can never merge two rows of the *same* source — a park mapped tree by tree has trees 4 m apart
 (15.2 % of the OSM nodes have another OSM node within 5 m) and the census has 7.9 % of its own trees within
 5 m of the next one, so a blanket 5 m radius on the tree group would delete about 51,000 real census trees.
+The same mechanism holds the woodland canopy rule's stems (:data:`TREE_RULE_DATASET`) off every mapped tree
+by that radius plus :data:`TREE_RULE_MARGIN_M`.
 """
 from __future__ import annotations
 
@@ -73,10 +75,24 @@ class CrossSourceRule:
 # more pairs than chance; the shell 5.0–5.5 m captures 24 % *fewer*, and the excess over chance peaks at
 # exactly 5.0 m (15,319 pairs). 5 m is also below the 10th percentile of the census's own tree-to-tree
 # spacing (5.37 m), so the radius cannot reach past one census tree to the next.
+# The woodland canopy rule (furniture/canopy.py, ``dataset_id`` ``rule:woodland_canopy``) places stems only
+# where no census or OSM tree stands; its rows lose here to any dataset tree within the census/OSM radius plus
+# one metre, so a generated stem never stands closer to a mapped tree than the two inventories are allowed to
+# stand to each other. The placement already suppresses at this distance; the rule here is the second line of
+# defence, and its report says how many rows it actually had to drop.
+TREE_RULE_DATASET = "rule:woodland_canopy"
+TREE_RULE_MARGIN_M = 1.0
+_TREE_RULE_BASIS = ("the measured 5.0 m census/OSM cross-source radius (the rule above) plus one metre: a rule "
+                    "stem never stands closer to a mapped tree than the two inventories may stand to each other; "
+                    "the rule itself never places a stem inside this distance, so a drop here is a placement fault")
 CROSS_SOURCE_RULES: tuple[CrossSourceRule, ...] = (
     CrossSourceRule(group="tree", keep_dataset="street_trees_2015", drop_dataset="osm_newyork_pbf", radius_m=5.0,
                     basis="nearest-census-tree distance of every OSM tree node against a 20 m-displaced control; "
                           "excess over chance peaks at 5.0 m and the marginal shell turns negative above it"),
+    CrossSourceRule(group="tree", keep_dataset="street_trees_2015", drop_dataset=TREE_RULE_DATASET,
+                    radius_m=5.0 + TREE_RULE_MARGIN_M, basis=_TREE_RULE_BASIS),
+    CrossSourceRule(group="tree", keep_dataset="osm_newyork_pbf", drop_dataset=TREE_RULE_DATASET,
+                    radius_m=5.0 + TREE_RULE_MARGIN_M, basis=_TREE_RULE_BASIS),
 )
 
 

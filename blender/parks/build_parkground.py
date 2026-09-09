@@ -101,6 +101,38 @@ def material_name(kind: int) -> str:
     return f"park_{k['name']}_{k['surface']}"
 
 
+HYDROGRAPHY = PROCESSED / "water" / "hydrography.parquet"
+
+
+def load_open_water_union(box):
+    """The open-water polygons that reach into this tile, as one geometry, or None.
+
+    A park property polygon is a jurisdiction boundary: Central Park's contains the Lake, the
+    Reservoir and the Pond whole, and Prospect Park's its Lake.  Drawn as a ground surface it laid
+    lawn over the terrain's water plane, so the Lake behind Bethesda Terrace rendered as grass
+    (Stage 55's render sceptic).  The water is subtracted the way the pavement is: one surface per
+    place, and the one that stays is the one the hydrography survey traced.
+    """
+    import pyarrow.parquet as pq
+    import shapely
+
+    if not HYDROGRAPHY.is_file():
+        return None
+    try:
+        t = pq.read_table(HYDROGRAPHY, columns=["is_open_water", "geometry"])
+    except Exception as exc:  # noqa: BLE001
+        LOG.warning("hydrography unreadable: %s", exc)
+        return None
+    ow = np.asarray(t.column("is_open_water").to_pylist(), dtype=bool)
+    geoms = np.asarray(shapely.from_wkb(t.column("geometry").to_pylist()), dtype=object)[ow]
+    if geoms.size == 0:
+        return None
+    hit = shapely.STRtree(geoms).query(box, predicate="intersects")
+    if hit.size == 0:
+        return None
+    return shapely.intersection(shapely.union_all(geoms[hit]), box)
+
+
 def load_pavement_union(tile: str, box):
     """The tile's own paved polygons, as one geometry, or None."""
     import pyarrow.parquet as pq
@@ -147,12 +179,14 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, surfaces: Path = SURFACE
 
     sampler = LandscapeSampler(TILES_DATA)
     paved = load_pavement_union(tile, box) if cut_pavement else None
+    water = load_open_water_union(box)
     meta = _kind_meta()
 
     slabs: dict[int, pvlib.SlabBuffer] = {}
     per_kind: dict[str, int] = {}
-    dropped = {"no_triangulation": 0, "no_terrain": 0, "all_paved": 0, "degenerate": 0}
+    dropped = {"no_triangulation": 0, "no_terrain": 0, "all_paved": 0, "all_water": 0, "degenerate": 0}
     paved_area = 0.0
+    water_area = 0.0
     for h in hit:
         j = int(h)
         k = int(kinds[j])
@@ -165,6 +199,13 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, surfaces: Path = SURFACE
             paved_area += before - g.area
             if g.is_empty or g.area < 1.0:
                 dropped["all_paved"] += 1
+                continue
+        if water is not None:
+            before = g.area
+            g = shapely.difference(g, water)
+            water_area += before - g.area
+            if g.is_empty or g.area < 1.0:
+                dropped["all_water"] += 1
                 continue
         if SIMPLIFY_M > 0:
             g = shapely.simplify(g, SIMPLIFY_M, preserve_topology=True)
@@ -224,6 +265,7 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, surfaces: Path = SURFACE
                           "source": "data/processed/parks/surfaces.parquet",
                           "draped_on": "UE landscape grid (505 samples, NYCTerrainImport.cpp)",
                           "pavement_subtracted": bool(paved is not None),
+                          "open_water_subtracted": bool(water is not None),
                           "uv": "metres, planar XY in NYC_TM (u = east, v = north)",
                           "surface_class": {m["material"]: m["surface_class"] for m in mesh_stats},
                       })
@@ -239,6 +281,7 @@ def build_tile(tile: str, *, out_root: Path = OUT_ROOT, surfaces: Path = SURFACE
         "source": str(surfaces.relative_to(REPO_ROOT)),
         "polygons_in": int(len(hit)), "by_kind": per_kind, "dropped": dropped,
         "pavement_subtracted_m2": round(paved_area, 1),
+        "open_water_subtracted_m2": round(water_area, 1),
         "meshes": mesh_stats,
         "triangles": sum(m["triangles"] for m in mesh_stats),
         "vertices": sum(m["vertices"] for m in mesh_stats),
