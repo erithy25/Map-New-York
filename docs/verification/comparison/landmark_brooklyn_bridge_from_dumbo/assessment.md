@@ -2,60 +2,59 @@
 
 `landmark_brooklyn_bridge_from_dumbo` · sheet: [`sheet.png`](sheet.png) · render record: [`render.json`](render.json)
 
-**Reference** — File:Brooklyn Bridge March 2023 009.jpg by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2023-03-07 13:20:26, 1920x1440. [Commons page](https://commons.wikimedia.org/wiki/File:Brooklyn_Bridge_March_2023_009.jpg)
+**Reference** — File:Brooklyn Bridge March 2023 009.jpg by Kidfly182, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0), taken 2023-03-07 13:20:26, 1920x1440. [Commons page](https://commons.wikimedia.org/wiki/File:Brooklyn_Bridge_March_2023_009.jpg) — the photograph's own view direction is derived from the image at **high** confidence, as 292.9°.
 
-**Camera** — camera 40.70400, -73.99200 (NYC_TM -3549, 445) z 3.7 m NAVD88 | azimuth 288.3deg pitch +0.0deg | 35 mm on 36 mm (54.4deg horizontal) | 1208x906. View direction: 288.3 deg as recorded; it agrees with the bearing from the camera position used to Brooklyn Bridge Brooklyn tower (288.2 deg) to 0.1 deg. Aim: level optical axis (the subject is 285 m away; anything that far is photographed with a level camera).
+**Camera** — 40.704, -73.992 (NYC_TM -3549, 445) at z 3.7 m NAVD88 | azimuth 288.3°, pitch +0.0° | 35 mm on 36 mm (54.4° horizontal) | 1208x906. The camera stands on the item's recorded viewpoint — *"Pebble Beach at Main Street Park (Brooklyn Bridge Park), water's edge, looking west at the Brooklyn tower"*. This photograph's own EXIF GPS is **22.9 m** away and was not used, because the eye point there is inside `t_-4_0_roof_membrane`; the record names the test and the building. The camera was **not moved**: the viewpoint is in open air on the ground, the view azimuth is clear for 150 m, the nearest built thing in the frame is `prop_tree_honeylocust_medium_bare_6` 11.3 m away and the nearest simulated agent is `agent_ped_3.4` 45.9 m away.
 
-**Sun** — azimuth 204.6°, elevation 41.1° at 2023-03-07T13:20:26-05:00 (EXIF DateTimeOriginal).
+**Sun** — azimuth 204.6°, elevation 41.1° at 2023-03-07T13:20:26−05:00, the photograph's own **EXIF DateTimeOriginal**; 847.9 W/m² direct normal, sky at strength 0.0333, Filmic, **+0.07 stops**. That date is a **Tuesday** and the crowd was drawn for a weekday.
 
-**In frame** — 9/9 building tiles (189,682 tris), 3 landmark models, 2,536 pavement polygons, 471 props, 2,193 facade-kit pieces; 2,091,195 triangles; ground mesh 217² at 2.0 m near / 40.0 m far.
+**In the scene** — 9 building tiles, 3 landmark models of which 2 can fall inside the frame, 23,610 pavement polygons, 517 props of the 1,146 in range, 3,907 kit pieces, 88 vehicles and 434 people; 3,950,853 triangles, ground mesh 95,048 triangles with 0 holes. 20 city surfaces are dressed from the shared photographic catalogue.
 
-**Verdict — the best bridge model in the set: the Brooklyn tower's twin Gothic arches, the main cables, the suspenders and the deck truss are all there in the right proportions — but it is bare grey where the real tower is coursed granite, and the park it stands in is a blank plane**
+## Verdict — the tower is in the frame, the record says it is not, and the record's own coordinate is why
 
-## Re-rendered 2026-09-07
+**The two halves are not the same picture and the reason is not the render.** The photograph is taken from directly beneath the Brooklyn tower, looking almost straight up its granite flank with the deck and the cable fan overhead. The render is the view the item asks for — Pebble Beach, water's edge, level axis at 285 m — and it is a wide plaza of bare plane trees with the bridge crossing the middle distance. Nothing here compares two pictures of the same thing.
 
-A winter frame, correctly: the reference photograph's own date puts `leaf_off` on, so all 282 trees
-in this scene carry the kit's bare-canopy variants and the long low shadows they cast across the
-plaza are the right shape for the season. The Brooklyn Bridge crosses the middle distance with its
-suspension cables and deck reading clearly, the DUMBO block faces sit under it, three landmark models
-are placed, and 89 vehicles and 427 people are in the scene.
+**But the tower is in the render.** At the upper left, behind the trees: a pale granite pier with the pointed Gothic arch the Brooklyn Bridge's towers carry, the deck crossing in front of it, the suspenders and the cable fan running down to the right. Its top runs off the top edge of the frame. That is the subject of this sheet, in the sheet, at the edge — and the record says `subject_visible: false`.
 
-**Two things work against the subject.** The item names the Brooklyn tower at 285.9 m, and the near
-field is a stand of bare trunks — the closest of them a couple of metres from the lens — which screen
-a good part of the left of the frame where that tower stands. In leaf-on season they would hide it
-entirely. And the foreground is roughly the lower third of the image as untextured pale ground: this
-is Brooklyn Bridge Park, whose promenade decks and paving are the structures deviation B13 records as
-absent, so what should be timber decking, granite setts and planting beds is one flat surface.
+**The record's subject coordinate is not on the tower.** It is called *Brooklyn Bridge Brooklyn tower*, and the height probe casts 17 rays at it, lands **17 of 17** on built fabric, and reads **44.2 m** above the ground there off `lm_b_brooklyn_bridge.82`. Forty-four metres is the bridge's **deck**. The catalogue entry `b_brooklyn_bridge` stands **138.0 m** away and publishes **84.3 m**, which is the tower. The coordinate is out on the main span (docs/DEVIATIONS.md J82), and every number the record derives from it is a correct number about a point in the middle of the river:
 
-Mean luminance **0.483 against the photograph's 0.390** — brighter, like Barclays and Bethesda, and
-another instance of I16 running in the opposite direction from the Manhattan canyons.
+* the **azimuth** is 288.3° as recorded and agrees with the bearing to that coordinate to **0.1°** — so the frame is aimed 285 m out along the span, and the tower falls at its left edge with its top cut off;
+* the **sightline** reports **4 of 5 rays clear and 4 into nothing**, meeting nothing at all out to 685 m, and the record says so in its own words: *"the line is open and the subject is not on it, which is a fault in the item's coordinate or in the model, not in the camera"*. It aims at *the subject's mid-height*, 22.1 m, and a deck at 44.2 m standing on piers has open air under it;
+* the fifth ray is stopped at **127.6 m** by `prop_tree_honeylocust_large_bare_331` — a park tree, from a fan sized to a 44 m subject across a park planted with trees (J78).
+
+**Read against the picture, not instead of it.** This sheet does not show that the Brooklyn Bridge is missing, badly placed or wrongly modelled. It shows that the point the item calls the tower is not the tower.
 
 ## What matches
 
-* The Brooklyn tower is recognisably itself: two pointed Gothic arches, the correct pier proportions, the saddle at the top and the main cables running down to the deck on both sides.
-* The suspension system is modelled, not implied: main cables, vertical suspenders and the diagonal stays are present at roughly the right spacing.
-* The deck truss with its lattice web and the roadway below it is at the right height above the water and the right depth.
-* The origin rule chose correctly and says why: this photograph's own EXIF GPS is only 23 m away but the eye point there is inside a building shell, while the item's recorded viewpoint is in open air, so the recorded one was used.
-* The heading agrees to 0.1 deg with the bearing from the camera to the tower 286 m away, and the Manhattan skyline behind the bridge is at the right scale and in the right order.
-* 2,536 pavement polygons and 471 props are placed, and the water surface reaches the right waterline.
+* **The bridge is there and it is the Brooklyn Bridge.** The tower reads as masonry with a **pointed Gothic arch**, not as a steel frame, which is the one thing that distinguishes it from the Manhattan Bridge half a kilometre behind the camera. The deck, the suspenders and the diagonal stays are all in the model and all in the frame.
+* **The site is Brooklyn Bridge Park in March.** A wide sunlit concrete and stone plaza, a low sea wall, benches, cobra-head lamps and **300 trees**, all leaf-off — and the leaf-off variants are selected from the photograph's own date, 7 March.
+* **The instant is the photograph's own**, to the second: a 41.1° March sun at 204.6°, 847.9 W/m² direct normal, and the exposure moved only **+0.07 stops** to reach the target. The shadows fall the way a 41° sun casts them.
+* **The rejection of the photograph's GPS is correct behaviour and is declared.** The eye point there is inside a roof; the record names the object rather than silently walking the camera.
+* **The frame is as bright as the photograph** — mean **0.3888** against **0.348**, a ratio of **1.117**, and 95th percentile 0.5686 against 0.6887. Both halves are a sunlit late-winter noon and the render is if anything the brighter of the two. That is the closest luminance agreement on any landmark sheet in this pass.
+* **The ground is whole**: 95,048 triangles, 0 holes, 23,610 pavement polygons placed and none dropped.
 
 ## What does not match
 
-* The tower has no masonry. It is a single pale grey surface where the real tower is coursed limestone and granite with deep joints, a rough face and strong tonal variation — the entire subject of the reference photograph.
-* The framing is much wider than the reference. The photograph is taken from directly under the bridge looking up the tower with a long lens; the render's level 35 mm axis puts the tower a third of the way up the frame with half of Brooklyn Bridge Park in shot. That is the level-axis rule working as designed but it means the two frames are not of the same thing.
-* Brooklyn Bridge Park is a blank grey plane: no Pebble Beach shingle, no railings, no benches, no planting, no Jane's Carousel, no paths.
-* ~~No people anywhere, on a waterfront that is never empty.~~ — **superseded 2026-09-07.** **427 people and 89 vehicles are in this scene** from one frame of the running simulation; what the reference still has and the render does not is recorded in the section above.
-* The bridge carries no traffic and no pedestrians on the promenade.
-* The buildings across the river are flat pastel solids with no glass.
-* The foreground is a large untextured plane with visible triangulation from the graded terrain grid.
+* **The two halves are of different views**, by the reference's own content: a 60°-up shot from under the tower against a level shot from 285 m away. Composition, scale and what fills the frame are not comparable here by construction.
+* **The subject is at the edge of the frame with its top cut off**, and that follows from the coordinate: the axis is aimed out along the span rather than at the tower, by the angle J82 measures.
+* **The trees stand in front of the bridge.** 300 of them, all bare, and the near ranks screen the tower. That is what Brooklyn Bridge Park is — but the reference photograph has none of them in it, because it was taken past them.
+* **Chroma is 0.257×** — **0.0568** against **0.2208**, the second-lowest in the set so far. The photograph is granite against a saturated blue March sky filling two thirds of the frame; the render's sky is a clear gradient and its plaza is grey concrete. Part is the pairing and part is J66's remainder; this sheet cannot apportion it, because the two halves share almost no surface.
+* **Standard deviation is 0.714×** — **0.1504** against **0.2107**. The photograph is high contrast: black stone in shadow against blown sky. The render's tonal range is compressed, which is what a large evenly-lit plaza gives.
+* **The granite is a stone material, not Brooklyn Bridge granite.** At 200 m the tower reads as a pale mass with an arch; the coursed limestone-and-granite banding, the cornices and the cable-saddle ironwork are not resolvable and are not claimed from this frame.
+* **`subject_visible: false`, and on this sheet the boolean is wrong** — for the reason the verdict gives.
+* **Pedestrians and vehicles were dropped in their hundreds** — 1,367 people for being outside the radius, 509 for the triangle budget, 463 for standing in the carriageway without crossing, 189 for not being on a walkable surface, and **38 people and 28 vehicles were found inside buildings** and dropped for it. Brooklyn Bridge Park on a fine Tuesday is drawn with 434 people.
+* **The kit is a warehouse kit and DUMBO is a warehouse district**: 3,907 pieces of which **3,306 are windows**, with 317 storefronts, 37 parapets, 36 cornices and 12 quoins. The Empire Stores and the surrounding brick lofts carry heavy arched openings and corbelled brickwork; these are extrusions with openings.
 
 ## Cause of each gap
 
 | gap | cause | class |
 |---|---|---|
-| no masonry on the tower | the b_brooklyn_bridge model carries geometry but a flat base colour; there is no stone texture | material |
-| framing much wider than the reference | a level optical axis at 35 mm is required to compare proportion; the reference is a tilted long lens from beneath | camera |
-| the park is a blank plane | park surfacing, planting, railings and structures are in no dataset the scene reads | geometry |
-| ~~no people or traffic~~ superseded | agents are placed now (427 people, 89 vehicles); what remains is framing and occlusion, not absence | reporting |
-| flat buildings across the river | shells carry a per-material base colour with no glass | material |
-| untextured, faceted foreground | the terrain material is a flat colour and the graded grid is 2 m here | material |
+| `subject_visible: false` on a frame the tower stands in | the subject coordinate is on the deck, not the tower; the sightline aims at its mid-height, which under a deck on piers is open air, and 4 of 5 rays meet nothing out to 685 m | **verification — open, DEVIATIONS J82** |
+| the tower is at the frame's edge with its top cut off | the recorded azimuth is derived from that same coordinate and agrees with it to 0.1°, so the axis points out along the span and not at the tower; the angle is measured in J82 | **verification — open, DEVIATIONS J82** |
+| the fifth ray is stopped by a park tree at 127.6 m | the fan is sized to a 44 m subject and spans more than the gap between the trees; a probe fault, not a frame fault | verification — open, DEVIATIONS J78 |
+| the two halves are of different views | the reference is taken from under the tower and the item's viewpoint is Pebble Beach, 285 m away; the render is of the viewpoint the item asks for | **reference — this pairing cannot be fixed by rendering** |
+| chroma 0.257×, sd 0.714× | a saturated blue sky over black-and-white stone against a grey plaza under a clear gradient; the pairing dominates and this sheet cannot isolate J66's share | reference |
+| trees in front of the bridge | 300 leaf-off park trees, correctly placed and correctly bare for 7 March; the photograph was taken past them | — (not a gap in the city) |
+| the photograph's GPS was not used | the eye point there is inside `t_-4_0_roof_membrane`; the record names the test and the building | verification — correct behaviour |
+| no coursed granite, no cable-saddle ironwork | the model carries the towers, the arches, the deck and the cable fan; this detail is below what 200 m resolves and is not claimed from this frame | — (not evidence) |
+| 66 agents found inside buildings | the placement rules caught them and dropped them; the record names the rule and the count | verification |

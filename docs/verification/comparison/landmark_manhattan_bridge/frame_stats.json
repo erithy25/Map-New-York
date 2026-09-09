@@ -1,0 +1,30 @@
+{
+ "slug": "landmark_manhattan_bridge",
+ "rendered_at": "2026-09-09T00:20:55Z",
+ "reference_file": "2.jpg",
+ "sample_long_side_px": 900,
+ "chroma_note": "mean of max(R,G,B) - min(R,G,B) over the display values; 0 for any grey",
+ "render": {
+  "width": 1208,
+  "height": 906,
+  "mean": 0.4301,
+  "sd": 0.1776,
+  "p05": 0.138,
+  "p95": 0.7328,
+  "chroma": 0.0816
+ },
+ "reference": {
+  "width": 1920,
+  "height": 1440,
+  "mean": 0.3488,
+  "sd": 0.2099,
+  "p05": 0.0317,
+  "p95": 0.7009,
+  "chroma": 0.2548
+ },
+ "render_over_reference": {
+  "mean": 1.233,
+  "sd": 0.846,
+  "chroma": 0.32
+ }
+}

@@ -24,6 +24,7 @@ from __future__ import annotations
 import json
 import math
 import re
+import struct
 from pathlib import Path
 
 import pandas as pd
@@ -199,3 +200,133 @@ def test_a_corrected_subject_says_what_it_was_and_why():
             # take the missing `azimuth_deg_was` for an oversight.
             assert "unchanged" in str(sub.get("source", "")), \
                 f"{slug}: an azimuth left alone beside a moved subject, with no reason given"
+
+
+#: Slug -> the landmark model that stands for the bridge that slug's subject names. Written out for
+#: the reason the module docstring gives. Only bridges whose model actually carries tower geometry
+#: are here: the Queensboro is a cantilever bridge whose model names no tower, and the Bronx
+#: Whitestone, Kosciuszko and Throgs Neck have no hand-built model at all, so none of those four is
+#: claimed by this test.
+BRIDGE_TOWER_MODEL = {
+    "dumbo_washington_st_manhattan_bridge": "b_manhattan_bridge",
+    "landmark_manhattan_bridge": "b_manhattan_bridge",
+    "landmark_williamsburg_bridge": "b_williamsburg_bridge",
+    "landmark_brooklyn_bridge_from_dumbo": "b_brooklyn_bridge",
+    "landmark_brooklyn_bridge_walkway": "b_brooklyn_bridge",
+    "landmark_george_washington_bridge": "b_george_washington_bridge",
+}
+
+#: The two subjects that are **known** to stand off the tower they name, with the distance measured
+#: at the time they were recorded, and the band this test holds them in. They are not corrected, for
+#: the reason J75 gives about its own six: the only anchor for a suspension tower is the model built
+#: to stand for it, and moving a reference onto a model is validating the render against itself.
+#: They are pinned here instead, so that the fault stays visible, cannot silently get worse, and
+#: cannot be silently repaired without this test and docs/DEVIATIONS.md J82 disagreeing.
+KNOWN_OFF_THEIR_TOWER = {
+    "landmark_brooklyn_bridge_from_dumbo": 105.2,
+    "landmark_brooklyn_bridge_walkway": 103.6,
+}
+
+#: A suspension tower is a few tens of metres across and a correct coordinate lands on it. The four
+#: that are right measure 1.2, 1.2, 3.7 and 9.7 m; the two that are not measure 103.6 and 105.2 m.
+#: 30 m sits in that gap and is a **choice**, not a tolerance anything derives.
+TOWER_MAX_M = 30.0
+
+#: How far a pinned distance may drift before this test wants a human. A coordinate that has not
+#: moved measures the same number every run; this band exists only so that rebuilding a bridge model
+#: with slightly different tower geometry does not fail the suite on a metre.
+TOWER_PIN_BAND_M = 5.0
+
+LANDMARK_GLB = Path(__file__).resolve().parents[2] / "blender_out" / "landmarks"
+
+
+def _tower_centres_tm(landmark_id: str) -> list[tuple[float, float]]:
+    """NYC_TM centres of every mesh in ``<landmark_id>.glb`` whose node name says 'tower'.
+
+    Reads the exported artefact rather than the build script, like ``tests/test_landmarks_c.py``.
+    glTF is Y-up and the landmark frames are parallel to NYC_TM with no rotation to apply
+    (``blender/landmarks/common.py``), so local x is east and local north is -z.
+    """
+    glb = LANDMARK_GLB / f"{landmark_id}.glb"
+    cat = LANDMARK_GLB / "catalog" / f"{landmark_id}.json"
+    if not glb.is_file() or not cat.is_file():
+        return []
+    raw = glb.read_bytes()
+    if len(raw) < 12 or raw[:4] != b"glTF":
+        return []
+    off, chunks = 12, {}
+    while off + 8 <= len(raw):
+        length, kind = struct.unpack_from("<II", raw, off)
+        chunks[kind] = raw[off + 8:off + 8 + length]
+        off += 8 + length
+    doc = json.loads(chunks[0x4E4F534A].decode("utf-8"))
+    ox, oy = json.loads(cat.read_text())["origin_tm"][:2]
+    out = []
+    for node in doc.get("nodes", []):
+        name = str(node.get("name", ""))
+        if node.get("mesh") is None or "tower" not in name.lower() or "LOD1" in name:
+            continue
+        lo = [float("inf")] * 3
+        hi = [float("-inf")] * 3
+        for prim in doc["meshes"][node["mesh"]]["primitives"]:
+            acc = doc["accessors"][prim["attributes"]["POSITION"]]
+            if not acc.get("min") or not acc.get("max"):
+                continue
+            for k in range(3):
+                lo[k] = min(lo[k], acc["min"][k])
+                hi[k] = max(hi[k], acc["max"][k])
+        if lo[0] > hi[0]:
+            continue
+        out.append((ox + (lo[0] + hi[0]) / 2.0, oy - (lo[2] + hi[2]) / 2.0))
+    return out
+
+
+@pytest.mark.skipif(not LANDMARK_GLB.is_dir(), reason="the landmark models have not been exported")
+def test_a_subject_that_names_a_bridge_tower_stands_on_that_tower():
+    """The carriageway test passes for a coordinate on the deck a hundred metres from the tower.
+
+    ``test_a_subject_that_names_a_bridge_stands_on_that_bridges_own_carriageway`` asks whether the
+    subject is on the bridge, which is the right question for a coordinate that fell into the river
+    and the wrong one for a coordinate that fell onto the main span. Both Brooklyn Bridge subjects
+    are on the carriageway to well within its 15 m and stand **over a hundred metres** from the
+    tower they name, out where the model's fabric is the deck at 44 m rather than the tower at 85 m
+    (docs/DEVIATIONS.md J82). This test asks the other question.
+
+    It compares a reference coordinate with the model built to stand for it, so it can say the two
+    disagree and it cannot say which is wrong -- that is the point, and it is why the two failures
+    are pinned rather than corrected.
+    """
+    subjects = {slug: (x, y) for slug, _n, x, y in _items()}
+    off, missing = [], []
+    for slug, model in BRIDGE_TOWER_MODEL.items():
+        if slug not in subjects:
+            continue
+        towers = _tower_centres_tm(model)
+        if not towers:
+            missing.append((slug, model))
+            continue
+        sx, sy = subjects[slug]
+        d = min(math.hypot(sx - tx, sy - ty) for tx, ty in towers)
+        pin = KNOWN_OFF_THEIR_TOWER.get(slug)
+        if pin is not None:
+            assert abs(d - pin) <= TOWER_PIN_BAND_M, (
+                f"{slug}: recorded as standing {pin:.1f} m from its tower (J82) and now measures "
+                f"{d:.1f} m. Either the coordinate moved or the model did; whichever it was, "
+                f"docs/DEVIATIONS.md J82 and KNOWN_OFF_THEIR_TOWER have to say so.")
+            continue
+        if d > TOWER_MAX_M:
+            off.append((d, slug, model))
+    assert not missing, (
+        "a bridge whose subject this test claims to check has no tower geometry to check it "
+        "against:\n" + "\n".join(f"   {slug:44} ({model})" for slug, model in missing))
+    assert not off, "bridge-tower subjects standing off the tower they name:\n" + "\n".join(
+        f"   {d:7.1f} m  {slug:44} ({model})" for d, slug, model in sorted(off, reverse=True))
+
+
+@pytest.mark.skipif(not LANDMARK_GLB.is_dir(), reason="the landmark models have not been exported")
+def test_a_subject_pinned_off_its_tower_is_declared_rather_than_hidden():
+    """A pinned fault that is not written down is a fault that has been forgotten."""
+    deviations = (Path(__file__).resolve().parents[2] / "docs" / "DEVIATIONS.md").read_text()
+    for slug in KNOWN_OFF_THEIR_TOWER:
+        assert slug in deviations, f"{slug} is pinned as off its tower and DEVIATIONS.md never says so"
+    assert "J82" in deviations, "the pin cites J82 and DEVIATIONS.md has no J82"
