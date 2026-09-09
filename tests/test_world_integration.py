@@ -862,6 +862,9 @@ CONSUMED_WITHIN_STAGE = {
     "traffic/sidewalk_area.parquet": ("pipeline/nycsim_pipeline/traffic/sidewalks.py",
                                       "sidewalk_area_by_nta"),
     "facade/sign_zones.parquet": ("pipeline/nycsim_pipeline/facade/signage.py", "sign_zone_bbls"),
+    # The platform-deck register (J85) is read back by the terrain stage's own hydro layers, which
+    # burn each deck into the heightmap; nothing outside the stage names the file.
+    "terrain/platform_decks.parquet": ("pipeline/nycsim_pipeline/terrain/platforms.py", "load_or_none"),
 }
 
 

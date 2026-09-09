@@ -13,6 +13,11 @@ Turns the water stage's vector output into per-sample rasters on the 2 m lattice
   elevation and are drivable/walkable surfaces standing over water, so they replace the water plane.
   Seawalls (2820) only raise samples that the water mask would otherwise flatten — that is the bulkhead
   crest, the hard edge between the harbour and the land behind it.
+* ``platform``  — the index of the **platform deck** (``terrain/platform_decks.parquet``, ``platforms.py``:
+  a street or plaza carried on structure over ground the bare-earth DEM still shows — the Hudson Yards
+  platform) whose polygon contains the sample, ``NO_DECK`` elsewhere.  Its elevation is not a constant
+  and is not burned here: ``tiles.build_tile`` takes the survey-controlled surface from ``platforms`` and
+  applies it through the same deck step as the piers, where it stands above the ground.
 * ``shore_edge`` — the planimetric shoreline burned as a 1-sample-wide line. Nothing is interpolated
   across it: void filling is not allowed to cross a shoreline sample, so a hole in the DEM on the land
   side is never filled with a water elevation and vice versa.
@@ -32,6 +37,7 @@ from rasterio.features import rasterize
 from rasterio.transform import Affine
 
 from ..water.build import HYDRO_PATH, SCHEMAS, SHORE_PATH, STRUCT_PATH, read_geoparquet
+from .platforms import NO_DECK, PlatformDecks
 
 log = logging.getLogger("nycsim.terrain.hydro")
 
@@ -48,12 +54,14 @@ class TileHydro:
     n_water: int
     n_deck: int
     n_seawall: int
+    platform: np.ndarray | None = None   # int16, platform deck index per sample, NO_DECK outside (platforms.py)
+    n_platform: int = 0
 
 
 class HydroLayers:
     """Loaded once per worker; serves per-tile rasters."""
 
-    def __init__(self) -> None:
+    def __init__(self, platforms: "PlatformDecks | None | bool" = True) -> None:
         h = read_geoparquet(HYDRO_PATH, SCHEMAS["hydrography"])
         flat = h[h["is_open_water"].values & (h["level_mode"].values != "dem")].copy()
         z = np.where(flat["level_mode"].values == "tidal", TIDAL_Z_M, flat["water_z_m"].values.astype(np.float64))
@@ -88,8 +96,11 @@ class HydroLayers:
         sl = read_geoparquet(SHORE_PATH, SCHEMAS["shoreline"])
         self.shore_geom = sl.geometry.values
         self.shore_tree = shapely.STRtree(self.shore_geom)
-        log.info("hydro layers: %d flattened bodies, %d decks (%d high decks skipped), %d seawalls, %d shoreline parts",
-                 len(self.water_geom), len(self.deck_geom), self.n_deck_skipped_high, len(self.wall_geom), len(self.shore_geom))
+        # platform decks: the built register table when it exists (True), a given instance, or none (False/None)
+        self.platforms: PlatformDecks | None = PlatformDecks.load_or_none() if platforms is True else (platforms or None)
+        log.info("hydro layers: %d flattened bodies, %d decks (%d high decks skipped), %d seawalls, %d shoreline parts, %d platform decks",
+                 len(self.water_geom), len(self.deck_geom), self.n_deck_skipped_high, len(self.wall_geom), len(self.shore_geom),
+                 len(self.platforms) if self.platforms else 0)
 
     @staticmethod
     def _burn(geoms, values, tree, transform: Affine, shape: tuple[int, int], win) -> np.ndarray:
@@ -112,5 +123,7 @@ class HydroLayers:
         sidx = self.shore_tree.query(win, predicate="intersects")
         if sidx.size:
             rasterize(((self.shore_geom[i], 1) for i in np.sort(sidx)), out=shore, transform=transform, all_touched=True)
+        platform = self.platforms.tile_mask(transform, shape, bounds) if self.platforms else None
         return TileHydro(water, deck, wall, shore.astype(bool),
-                         int(np.isfinite(water).sum()), int(np.isfinite(deck).sum()), int(np.isfinite(wall).sum()))
+                         int(np.isfinite(water).sum()), int(np.isfinite(deck).sum()), int(np.isfinite(wall).sum()),
+                         platform, int((platform != NO_DECK).sum()) if platform is not None else 0)

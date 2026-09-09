@@ -25,6 +25,21 @@ Length unit everywhere: metres. Angles: degrees, 0 = east, counter-clockwise (ma
 * PNG: 16-bit grayscale, 501 × 501 samples (2 m spacing, inclusive edges, north row first).
 * `terrain.json`: `{"schema_version":1,"tile":"t_-3_7","z_min_m":-2.1,"z_scale_m":0.0025,"samples":501,"spacing_m":2.0,"sources":["3dep_19","spot_elev","bldg_ground"],"water_level_m":0.0}`
 * Elevation `z = z_min_m + value × z_scale_m`.
+* `px` counters (every sample of the 501 × 501 core, by what decided it): `3dep_1m`, `3dep_19`, `3dep_13`, `water`, `deck` (pier/jetty decks), `seawall`, `shore_edge`, `void_filled_sea`, `from_points`, `sub_datum_repaired`, `sub_datum_kept` (ADR-018) and `platform_deck` — samples replaced by a **platform deck** (§3.1). `sources` names `platform_deck` iff `px.platform_deck > 0`.
+* `platform` block, present when a platform deck's extent touches the tile: `applied_by` (`tile_pass` — counted over the padded window — or `published_tile` — counted over the core, where `px_burned == px.platform_deck`), `px_in_extent = px_burned + px_ground_kept + px_no_control`, `rebuild_may_differ_px` (sub-datum samples outside the extents within the rim-fill radius: a rebuild from the 2 m mosaic would rim-fill them from deck values; the published-tile mode left them as they were), and `decks[]` per deck: `deck_id`, the same three counts, `deck_z_min/median/max_m` and `rise_median/p95/max_m` of the burned samples.
+
+### 3.1 Platform decks — `terrain/platform_decks.parquet` (+ `.json`, `platform_decks_applied.json`)
+Streets and plazas carried on structure over ground the bare-earth flight still shows (the Hudson Yards platform; `pipeline/nycsim_pipeline/terrain/platforms.py`, ADR-022, DEVIATIONS J85). Built from the register in that module; consumed by `terrain/hydro.py` (`TileHydro.platform`) and `terrain/tiles.py` through the same deck step as the pier decks. Schema `terrain.platform_decks/1`, NYC_TM.
+| column | type |
+|---|---|
+| deck_id | string, the register row id |
+| name, kind (`platform`), status (`applied`) | string |
+| area_m2 | float64, of the resolved extent |
+| n_control_spots, n_excluded_spots, n_excluded_footprint_grounds | int32, survey points inside the extent: the planimetric spot elevations used, the spots the row excludes, the footprint grounds excluded by rule |
+| control_z_min_m, control_z_median_m, control_z_max_m | float64, of the control spots — the deck's **stated** elevations, each a survey record named in the register |
+| register | string, the register row as JSON (every polygon's dataset + source id, every control point's source id, the evidence) |
+| geometry | WKB polygon/multipolygon, the union of the row's extent parts |
+The deck elevation at a sample is the inverse-distance-squared mean of the eight nearest survey points within 240 m (the global point index minus the excluded points) and is burned where it stands above the ground (`z = max(z, deck)`); nothing in the table is a constant the terrain takes.
 
 ## 4. Water — `water/hydrography.parquet` (GeoParquet, polygons)
 | column | type |

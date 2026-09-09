@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-06T13:46:56Z",
+ "generated_at": "2026-09-09T13:00:52Z",
  "no_void": {
   "tiles_expected": 2916,
   "tiles_present": 2916,
@@ -13,7 +13,7 @@
   "z_max_m": 210.2775,
   "tiles_with_land": 2294,
   "tiles_with_water": 1743,
-  "seconds": 52.8
+  "seconds": 17.5
  },
  "extremes": {
   "tiles": 2916,
@@ -118,7 +118,7 @@
    }
   ],
   "samples_below": {
-   "-1m": 78297,
+   "-1m": 78059,
    "-2m": 1075,
    "-5m": 2
   },
@@ -152,7 +152,7 @@
    220.0
   ],
   "pass": true,
-  "seconds": 65.5
+  "seconds": 15.8
  },
  "seams": {
   "pairs_checked": 5724,
@@ -161,7 +161,7 @@
   "tolerance_m": 0.001,
   "violations": [],
   "n_violations": 0,
-  "seconds": 53.6
+  "seconds": 16.6
  },
  "known_elevations": {
   "points": [
@@ -370,39 +370,7 @@
   "nan_px": 0,
   "z_min": -3.9000000953674316,
   "z_max": 210.20750427246094,
-  "bytes": 19652118,
-  "seconds": 49.5
- },
- "hillshade": {
-  "city": {
-   "png": "/home/user/Map-New-York/docs/verification/terrain/hillshade_city.png",
-   "relief": "/home/user/Map-New-York/docs/verification/terrain/relief_city.png",
-   "shape": [
-    2700,
-    2700
-   ],
-   "cell_m": 20.0,
-   "z_min": -3.882499933242798,
-   "z_max": 210.1999969482422,
-   "seconds": 80.1
-  },
-  "manhattan": {
-   "png": "/home/user/Map-New-York/docs/verification/terrain/hillshade_manhattan.png",
-   "relief": "/home/user/Map-New-York/docs/verification/terrain/relief_manhattan.png",
-   "shape": [
-    5500,
-    2750
-   ],
-   "cell_m": 4.0,
-   "window": [
-    -8000.0,
-    -4000.0,
-    3000.0,
-    18000.0
-   ],
-   "z_min": -5.137499809265137,
-   "z_max": 108.55999755859375,
-   "seconds": 85.0
-  }
+  "bytes": 19652052,
+  "seconds": 14.3
  }
 }

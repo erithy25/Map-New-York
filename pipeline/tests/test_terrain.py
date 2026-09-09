@@ -213,6 +213,101 @@ def test_survey_fill_uses_the_nearest_points_and_ignores_the_window():
     assert not np.isfinite(far[0])                       # nothing within 240 m -> caller uses the datum
 
 
+# --------------------------------------------------------------------------- platform decks (platforms.py, J85)
+def _deck_stub(poly, row=None):
+    """A PlatformDecks over one polygon without reading the built table."""
+    from nycsim_pipeline.terrain import platforms as pf
+    row = row or {"deck_id": "stub", "control": {"excluded_spot_elevations": []}}
+    geoms = np.array([poly], dtype=object)
+    return pf.PlatformDecks(["stub"], geoms, [row], shapely.STRtree(geoms), poly)
+
+
+def test_platform_deck_is_burned_where_it_stands_above_the_ground_and_nowhere_else():
+    """``z = max(z, deck)`` inside the extent: the pit takes the deck, ground already at deck level is kept."""
+    from nycsim_pipeline.terrain import platforms as pf
+    n = 32
+    z = np.full((n, n), 1.0)
+    z[5, 5] = 9.0                                  # a corner the flight measured above the deck
+    valid = np.ones((n, n), dtype=bool)
+    valid[6, 6] = False                            # a void inside the extent
+    mask = np.full((n, n), pf.NO_DECK, dtype=np.int16)
+    mask[4:12, 4:12] = 0
+    deck = np.full((n, n), np.nan)
+    deck[4:12, 4:12] = 7.0
+    out, covered, st = pf.burn(z, valid, mask, deck, ["stub"])
+    assert st["px_in_extent"] == 64 and st["px_burned"] == 63 and st["px_ground_kept"] == 1 and st["px_no_control"] == 0
+    assert out[5, 5] == 9.0 and out[6, 6] == 7.0 and out[8, 8] == 7.0
+    assert np.all(out[mask == pf.NO_DECK] == 1.0)           # nothing outside the extent moved
+    assert covered.sum() == 64 and covered[5, 5] and not covered[0, 0]
+    d = st["decks"][0]
+    assert d["deck_id"] == "stub" and d["rise_max_m"] == pytest.approx(6.0) and d["deck_z_median_m"] == pytest.approx(7.0)
+
+
+def test_platform_deck_surface_is_the_survey_and_ignores_the_footprint_grounds_inside():
+    """The deck follows the spot elevations; a footprint's LiDAR ground inside the extent is not consulted."""
+    from nycsim_pipeline.terrain import platforms as pf
+    tr = tile_transform(Tile(0, 0), 0)
+    x0c, y0c = tr.c + SPACING_M / 2, tr.f - SPACING_M / 2
+    poly = shapely.box(x0c + 10, y0c - 60, x0c + 60, y0c - 10)
+    # two spots on the deck at 8 and 10 m, one building ground inside at 2 m (the excavation epoch), one spot
+    # outside at 9 m
+    pts = _PointsStub(np.array([x0c + 20.0, x0c + 50.0, x0c + 35.0, x0c + 80.0]),
+                      np.array([y0c - 35.0, y0c - 35.0, y0c - 35.0, y0c - 35.0]),
+                      np.array([8.0, 10.0, 2.0, 9.0], dtype=np.float32), np.array([0, 0, 1, 0], dtype=np.uint8))
+    decks = _deck_stub(poly)
+    n = 40
+    mask = decks.tile_mask(tr, (n, n), grid.bounds_of(tr, n, n))
+    assert (mask != pf.NO_DECK).sum() == pytest.approx(25 * 25, abs=60)   # a 50 x 50 m box on the 2 m lattice
+    surf = decks.deck_surface(mask, tr, pts)
+    inside = surf[mask != pf.NO_DECK]
+    assert np.isfinite(inside).all()
+    assert inside.min() >= 8.0 - 1e-6 and inside.max() <= 10.0 + 1e-6        # never pulled toward the 2 m ground
+    # at the two spots the surface passes through them; between them it grades monotonically
+    col = lambda x: int(round((x - x0c) / SPACING_M))
+    row = int(round((y0c - (y0c - 35.0)) / SPACING_M))
+    assert surf[row, col(x0c + 20.0)] == pytest.approx(8.0, abs=0.05)
+    assert surf[row, col(x0c + 50.0)] == pytest.approx(10.0, abs=0.05)
+    line = surf[row, col(x0c + 20.0):col(x0c + 50.0) + 1]
+    assert np.all(np.diff(line) >= -1e-9)
+    excluded = decks.excluded_points(pts, (x0c, y0c - 100, x0c + 100, y0c))
+    assert list(excluded) == [2]
+
+
+def test_platform_deck_in_the_tile_pass_equals_the_published_tile_mode_to_one_quantum():
+    """Burning float ground then quantising == quantising the ground, burning, quantising again (+- 1 quantum)."""
+    from nycsim_pipeline.terrain import platforms as pf
+    rng = np.random.default_rng(7)
+    n = 24
+    z = rng.uniform(-2.0, 4.0, (n, n))
+    deck = rng.uniform(5.0, 9.0, (n, n))
+    deck[:, :6] = np.nan
+    mask = np.full((n, n), pf.NO_DECK, dtype=np.int16)
+    mask[:, 3:] = 0
+    valid = np.ones((n, n), dtype=bool)
+    in_pass = quantize(pf.burn(z, valid, mask, deck)[0])
+    published = quantize(pf.burn(quantize(z), valid, mask, deck)[0])
+    assert np.abs(in_pass - published).max() <= Z_SCALE_M + 1e-9
+
+
+def test_platform_register_rows_carry_their_sources():
+    """Every applied row names real polygons and the survey it trusts, with the id of each (J85)."""
+    from nycsim_pipeline.terrain import platforms as pf
+    applied = [r for r in pf.REGISTER if r["status"] == "applied"]
+    assert {r["deck_id"] for r in applied} >= {"hudson_yards_ery_platform"}
+    for r in applied:
+        assert r["kind"] == "platform" and r["extent"] and r["control"]["spot_elevations_inside"]
+        for part in r["extent"]:
+            assert part["part"] in ("block", "roadbed", "pavement", "frontage", "structure") and part["dataset"]
+            if part["part"] == "block":
+                assert len(part["corner_nodes"]) == 4
+            elif part["part"] in ("roadbed", "structure"):
+                assert part["source_id"]
+            else:
+                assert part["source_ids"]
+        for spot in r["control"]["spot_elevations_inside"]:
+            assert spot["source_id"] and np.isfinite(spot["z_m"])
+
+
 class _PointsStub:
     """Minimal stand-in for points.PointIndex."""
 
@@ -310,6 +405,64 @@ def test_tile_png_and_json_match_the_contract(name):
     assert z.min() == pytest.approx(doc["z_min_m"], abs=1e-6)
     assert z.max() == pytest.approx(doc["z_max_m"], abs=1e-6)
     assert sum(doc["px"][k] for k in ("3dep_1m", "3dep_19", "3dep_13", "void_filled_sea")) <= SAMPLES * SAMPLES
+    _check_platform_block(doc)
+
+
+def _check_platform_block(doc: dict) -> None:
+    """The platform-deck counters (DATA_CONTRACTS §3): ``px.platform_deck`` and the ``platform`` block agree."""
+    n = int(doc["px"].get("platform_deck", 0))
+    assert n >= 0
+    assert ("platform_deck" in doc["sources"]) == (n > 0)
+    if "platform" in doc:
+        pb = doc["platform"]
+        assert pb["applied_by"] in ("tile_pass", "published_tile")
+        assert pb["px_in_extent"] == pb["px_burned"] + pb["px_ground_kept"] + pb["px_no_control"]
+        assert sum(d["px_burned"] for d in pb["decks"]) == pb["px_burned"]
+        if pb["applied_by"] == "published_tile":
+            assert pb["px_burned"] == n          # the published mode counts over the 501 x 501 core only
+        else:
+            assert pb["px_burned"] >= n          # the tile pass counts over the padded window
+    else:
+        assert n == 0
+
+
+PLATFORM_TILES = ["t_-5_5", "t_-5_6"]
+
+
+@pytest.mark.skipif(not (TILES_DIR / "t_-5_5" / "terrain.png").exists(), reason="terrain tiles not built")
+@pytest.mark.parametrize("name", PLATFORM_TILES)
+def test_platform_tiles_match_the_contract(name):
+    """The two tiles that carry the Hudson Yards decks pass the same contract test as any other tile."""
+    test_tile_png_and_json_match_the_contract(name)
+
+
+@pytest.mark.skipif(not (TILES_DIR / "t_-5_5" / "terrain.png").exists(), reason="terrain tiles not built")
+def test_hudson_yards_platform_is_in_the_published_terrain():
+    """Tenth Avenue across the West Side Yard stands on its own survey, not in the 2013 yard floor (J85).
+
+    The numbers: heightmap -0.90 m at NYC_TM (-4245.81, 5899.01) before this stage, where the avenue's spot
+    elevations 12300022580 (5.62 m, 32 m south) and 12300022773 (7.22 m, 21 m north) put the grade at 6.6 m.
+    """
+    from nycsim_pipeline.terrain import platforms as pf
+    doc = json.loads((TILES_DIR / "t_-5_5" / "terrain.json").read_text())
+    assert doc["px"]["platform_deck"] > 0 and "platform_deck" in doc["sources"]
+    assert {d["deck_id"] for d in doc["platform"]["decks"]} >= {"hudson_yards_ery_platform"}
+    img = np.asarray(Image.open(TILES_DIR / "t_-5_5" / "terrain.png")).astype(np.float64)
+    z = img * doc["z_scale_m"] + doc["z_min_m"]
+
+    def at(x, y):
+        c, r = (x - doc["x0"]) / SPACING_M, (doc["y0"] + TILE_SIZE_M - y) / SPACING_M
+        c0, r0 = int(math.floor(c)), int(math.floor(r))
+        fc, fr = c - c0, r - r0
+        return (z[r0, c0] * (1 - fc) * (1 - fr) + z[r0, c0 + 1] * fc * (1 - fr)
+                + z[r0 + 1, c0] * (1 - fc) * fr + z[r0 + 1, c0 + 1] * fc * fr)
+
+    assert abs(at(-4245.81, 5899.01) - 6.58) < 0.30          # the linear grade between the two spots
+    for x, y, spot in ((-4229.03, 5920.47, 7.219), (-4258.50, 5867.12, 5.618), (-4199.57, 5973.81, 8.821)):
+        assert abs(at(x, y) - spot) < 0.30, (x, y, at(x, y), spot)
+    # every applied register row is in the built table, and the table is what the tile used
+    decks = pf.PlatformDecks.load()
+    assert set(decks.deck_id) == {r["deck_id"] for r in pf.REGISTER if r["status"] == "applied"}
 
 
 @pytest.mark.skipif(not (TILES_DIR / "t_0_0" / "terrain.png").exists(), reason="terrain tiles not built")

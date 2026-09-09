@@ -4,10 +4,15 @@
  "name": "15 Hudson Yards",
  "group": "landmark",
  "viewpoint": {
-  "lat": 40.75311,
-  "lon": -74.000277,
-  "azimuth_deg": 280.0,
+  "lat": 40.752067,
+  "lon": -74.000983,
+  "lat_was": 40.75311,
+  "lon_was": -74.000277,
+  "azimuth_deg": 310.4,
+  "azimuth_deg_was": 280.0,
   "note": "Tenth Avenue at West 30th Street, about 250 m east of the tower, looking west at the curved shaft of 15 Hudson Yards",
+  "source": "moved onto road-network node 21145 ('10 AVE & W 30 ST'; nodes.parquet names it '10 AVE & HIGH LINE' with W 30 ST in its names list; NYC_TM (-4305.46, 5783.25)), the intersection this note names, on the J75 rule that the city's own road network is the independent anchor; the coordinate this replaces (40.75311, -74.000277) stood 130.2 m from that node inside the Eastern Rail Yard, on a heightmap sample of -0.90 m (the 2013 yard floor under Tenth Avenue, docs/DEVIATIONS.md J85), so the camera stood 9 m below the street and rendered half soffit; from the node the subject is 245.7 m away, which agrees with the note's 'about 250 m'",
+  "azimuth_source": "the bearing from the corrected viewpoint to the subject coordinate (40.7535, -74.0032 = NYC_TM (-4492.63, 5942.46)); the 280.0 deg it replaces pointed at the subject from the replaced coordinate to within 0.1 deg, which is how the two were found to share one error (J75, J85)",
   "representative": false
  },
  "subject": {

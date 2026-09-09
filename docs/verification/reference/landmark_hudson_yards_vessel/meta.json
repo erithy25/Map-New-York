@@ -8,7 +8,22 @@
   "lon": -74.001,
   "azimuth_deg": 288.3,
   "note": "east side of the Hudson Yards public square, looking west at the Vessel with 30/35 Hudson Yards behind",
-  "representative": false
+  "representative": false,
+  "position_audit": {
+   "inside_footprint": {
+    "dataset": "OTI Building Footprints (buildings/footprints_raw.parquet)",
+    "bin": 1088961,
+    "name": "the Shops / 30 Hudson Yards podium, modelled as a 34 m plinth in c_hudson_yards",
+    "distance_inside_m": 52.1,
+    "podium_west_face_x_at_this_latitude": -4369.0
+   },
+   "terrain_m": {
+    "before_J85": 3.14,
+    "after_J85": 9.34,
+    "note": "heightmap at the recorded viewpoint, bilinear (DATA_CONTRACTS section 3); after J85 it is the surveyed platform level, inside the podium footprint"
+   },
+   "not_moved_because": "the note puts the camera on the public square, which lies west of that footprint, but the exact position along the strip between the podium's west face and the subject is a choice a person should make, not a measurement; J82's rule: measured, published, not corrected. A real-polygon candidate: the centroid of the DoITT planimetric plaza polygon (feat_code 6000, 1,571 m2) at NYC_TM (-4394.7, 5895.1) = (40.753074, -74.00204), from which the Shed bears 291.3 deg at 77.8 m and the Vessel 350.5 deg at 81.7 m (docs/DEVIATIONS.md J85)"
+  }
  },
  "subject": {
   "lat": 40.7538,

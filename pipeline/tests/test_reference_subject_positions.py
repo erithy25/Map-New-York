@@ -27,6 +27,7 @@ import re
 import struct
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import pytest
 
@@ -330,3 +331,119 @@ def test_a_subject_pinned_off_its_tower_is_declared_rather_than_hidden():
     for slug in KNOWN_OFF_THEIR_TOWER:
         assert slug in deviations, f"{slug} is pinned as off its tower and DEVIATIONS.md never says so"
     assert "J82" in deviations, "the pin cites J82 and DEVIATIONS.md has no J82"
+
+
+# ------------------------------------------------- a viewpoint that names a crossing stands at it (J85)
+
+#: Slug -> the road-network intersection the item's viewpoint note names, as (street, cross street) fragments
+#: that both have to appear in the node's ``names`` list.  Written out, not matched, for the reason the module
+#: docstring gives.  Only items whose note names a crossing are here; a note that names a plaza, a park or a
+#: bridge walkway has no node to stand at and is not claimed.
+VIEWPOINT_NAMED_NODE = {
+    "landmark_15_hudson_yards": ("10 AVE", "W 30 ST"),
+}
+
+#: A camera at a crossing stands on its sidewalk or in its carriageway, a few metres from the centreline node.
+#: 15 m is the distance J75 uses for a subject on its own carriageway and is a **choice**, not a tolerance
+#: anything derives; the one coordinate that was wrong measured 130.2 m.
+VIEWPOINT_NODE_MAX_M = 15.0
+
+#: Viewpoints that were moved (J85), and so have to carry what they were and why, like a moved subject.
+MOVED_VIEWPOINTS = ("landmark_15_hudson_yards",)
+
+#: Viewpoints **known** to stand inside the OTI footprint of a building the landmark model builds as a solid
+#: plinth, with the distance measured when they were recorded (J85).  Not corrected, on J82's rule: the exact
+#: position along the open strip beside the podium is a choice a person should make.  Pinned so the fault
+#: cannot silently get worse and cannot be silently repaired without this test and DEVIATIONS.md J85 disagreeing.
+KNOWN_INSIDE_A_FOOTPRINT = {
+    "landmark_hudson_yards_vessel": (1088961, 52.1),
+    "landmark_the_shed": (1088961, 8.3),
+}
+FOOTPRINT_PIN_BAND_M = 2.0
+
+NODES = PROCESSED / "roads" / "nodes.parquet"
+FOOTPRINTS = PROCESSED / "buildings" / "footprints_raw.parquet"
+
+
+def _viewpoints() -> dict[str, tuple[dict, float, float]]:
+    got = {}
+    for meta in sorted(REFERENCE.glob("*/meta.json")):
+        doc = json.loads(meta.read_text())
+        vp = doc.get("viewpoint") or {}
+        if vp.get("lat") is None or vp.get("lon") is None:
+            continue
+        x, y = (float(v) for v in lonlat_to_tm(vp["lon"], vp["lat"]))
+        got[doc["slug"]] = (vp, x, y)
+    return got
+
+
+@pytest.mark.skipif(not NODES.is_file(), reason="the road network has not been built")
+def test_a_viewpoint_that_names_a_crossing_stands_at_that_crossings_node():
+    """The same shape as J75, one step back: the camera, not the subject.
+
+    ``landmark_15_hudson_yards`` said 'Tenth Avenue at West 30th Street' and stood 130.2 m from that
+    crossing, inside the Eastern Rail Yard, where the heightmap read -0.90 m (docs/DEVIATIONS.md J85).
+    Nothing caught it, because the recorded azimuth pointed at the subject from the wrong place to
+    within 0.1 deg and every check that compared the two agreed with itself.  The road network is the
+    independent source: a camera at a crossing stands at that crossing.
+    """
+    nodes = pd.read_parquet(NODES, columns=["node_id", "x", "y", "names"])
+    vps = _viewpoints()
+    off = []
+    for slug, (street, cross) in VIEWPOINT_NAMED_NODE.items():
+        if slug not in vps:
+            continue
+        names = nodes["names"].apply(lambda n: set(str(v) for v in (n if n is not None else [])))
+        sel = nodes[names.apply(lambda s: street in s and cross in s)]
+        assert len(sel), f"no node carries both {street!r} and {cross!r}; the audit lost its reach for {slug}"
+        _vp, x, y = vps[slug]
+        d = float(np.hypot(sel["x"].values - x, sel["y"].values - y).min())
+        if d > VIEWPOINT_NODE_MAX_M:
+            off.append((d, slug, f"{street} & {cross}"))
+    assert not off, "viewpoints standing off the crossing their note names:\n" + "\n".join(
+        f"   {d:7.1f} m  {slug:44} ({name})" for d, slug, name in sorted(off, reverse=True))
+
+
+def test_a_corrected_viewpoint_says_what_it_was_and_why():
+    """A moved camera carries its own evidence, exactly as a moved subject does (J75's convention)."""
+    for slug in MOVED_VIEWPOINTS:
+        vp = json.loads((REFERENCE / slug / "meta.json").read_text())["viewpoint"]
+        assert vp.get("lat_was") is not None and vp.get("lon_was") is not None, \
+            f"{slug}: the viewpoint moved without recording what it was"
+        assert "J75" in str(vp.get("source", "")) and "J85" in str(vp.get("source", "")), \
+            f"{slug}: the move carries no reason"
+        assert vp.get("azimuth_deg_was") is not None and vp.get("azimuth_source"), \
+            f"{slug}: the viewpoint moved and the azimuth derived from it did not say so"
+        # the new azimuth is the bearing from the new viewpoint to the subject, to 0.1 deg
+        doc = json.loads((REFERENCE / slug / "meta.json").read_text())
+        vx, vy = (float(v) for v in lonlat_to_tm(vp["lon"], vp["lat"]))
+        sx, sy = (float(v) for v in lonlat_to_tm(doc["subject"]["lon"], doc["subject"]["lat"]))
+        bearing = math.degrees(math.atan2(sx - vx, sy - vy)) % 360.0
+        assert abs((bearing - float(vp["azimuth_deg"]) + 180.0) % 360.0 - 180.0) <= 0.1, (bearing, vp["azimuth_deg"])
+
+
+@pytest.mark.skipif(not FOOTPRINTS.is_file(), reason="the footprints have not been ingested")
+def test_a_viewpoint_pinned_inside_a_footprint_is_declared_rather_than_hidden():
+    """The two Hudson Yards square viewpoints stand inside the Shops podium's OTI footprint; say so and hold it."""
+    import geopandas as gpd
+    from shapely.geometry import Point
+
+    fp = gpd.read_parquet(FOOTPRINTS, columns=["bin", "geometry"])
+    vps = _viewpoints()
+    deviations = (Path(__file__).resolve().parents[2] / "docs" / "DEVIATIONS.md").read_text()
+    for slug, (bin_, pin) in KNOWN_INSIDE_A_FOOTPRINT.items():
+        if slug not in vps:
+            continue
+        vp, x, y = vps[slug]
+        geom = fp.loc[fp["bin"] == bin_, "geometry"]
+        assert len(geom) == 1, f"BIN {bin_} is not in the footprints"
+        g = geom.iloc[0]
+        p = Point(x, y)
+        assert g.contains(p), f"{slug}: recorded as inside BIN {bin_} (J85) and now stands outside it; " \
+                              f"KNOWN_INSIDE_A_FOOTPRINT and DEVIATIONS.md J85 have to say so"
+        d = float(g.boundary.distance(p))
+        assert abs(d - pin) <= FOOTPRINT_PIN_BAND_M, f"{slug}: pinned at {pin} m inside, measures {d:.1f} m"
+        audit = vp.get("position_audit", {})
+        assert audit.get("inside_footprint", {}).get("bin") == bin_ and audit.get("not_moved_because"), \
+            f"{slug}: stands inside a footprint and its meta.json does not say so"
+        assert slug in deviations and "J85" in deviations

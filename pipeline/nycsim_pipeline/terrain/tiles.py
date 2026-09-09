@@ -18,7 +18,11 @@ their shared edge row/column:
    pier/jetty decks to their surveyed deck elevation, seawall crests where the water mask would otherwise
    flood them. The planimetric shoreline is burned as a hard edge: a shoreline sample whose ground stands
    0.1-6 m above the water plane keeps its ground elevation, so the land/water transition is exactly one
-   2 m sample wide instead of a ramp.
+   2 m sample wide instead of a ramp. **Platform decks** (`platforms.py`: streets and plazas on structure
+   over ground the bare-earth flight still shows — the Hudson Yards platform) go through the same deck
+   step: their elevation is the survey-controlled surface of the register's control points and is burned
+   where it stands above the ground beneath it (``z = max(z, deck)``), counted under ``platform``.
+   Then ``repair_sub_datum`` closes the sub-datum artefacts (ADR-018), deck samples excluded.
 4. **Encode**: quantise to the global 2.5 mm grid, crop to 501 x 501 and write a 16-bit PNG (north row
    first) plus ``terrain.json``.
 
@@ -51,6 +55,7 @@ from .grid import NODATA, SAMPLES, SPACING_M, Z_SCALE_M, bounds_of, encode_png_v
 from .hydro import HydroLayers
 from .ingest import INDEX_PATH
 from .points import KIND_BUILDING, KIND_SPOT, PointIndex, load_index
+from . import platforms as pf
 
 log = logging.getLogger("nycsim.terrain.tiles")
 
@@ -104,6 +109,7 @@ class TileResult:
     px_sub_datum_water: int = 0
     px_sub_datum_filled: int = 0
     px_sub_datum_kept: int = 0
+    px_platform_deck: int = 0
 
 
 def densify(z: np.ndarray, valid: np.ndarray, transform, shape: tuple[int, int], pts: PointIndex,
@@ -366,7 +372,8 @@ def build_tile(tile: Tile, stack: DemStack, pts: PointIndex, hydro: HydroLayers,
                           doc["has_land"], doc["has_water"], 0.0, png_path.stat().st_size,
                           px_sub_datum=int(sdd.get("px_below_floor", 0)), px_sub_datum_water=int(sdd.get("px_to_water", 0)),
                           px_sub_datum_filled=int(sdd.get("px_filled_idw", 0) + sdd.get("px_filled_survey", 0) + sdd.get("px_filled_datum", 0)),
-                          px_sub_datum_kept=int(sdd.get("px_kept_surveyed", 0)))
+                          px_sub_datum_kept=int(sdd.get("px_kept_surveyed", 0)),
+                          px_platform_deck=int(doc["px"].get("platform_deck", 0)))
 
     n = SAMPLES + 2 * MARGIN
     tr = tile_transform(tile, MARGIN)
@@ -393,8 +400,18 @@ def build_tile(tile: Tile, stack: DemStack, pts: PointIndex, hydro: HydroLayers,
     is_deck = np.isfinite(th.deck_z)
     z = np.where(is_deck, th.deck_z.astype(np.float64), z)
     valid |= is_deck
+    # platform decks (platforms.py): the survey-controlled surface, burned where it stands above the ground
+    platform_c = np.zeros((n, n), dtype=bool)
+    pstats = {"px_in_extent": 0, "px_burned": 0, "px_ground_kept": 0, "px_no_control": 0, "decks": []}
+    covered = np.zeros((n, n), dtype=bool)
+    if th.platform is not None and th.n_platform:
+        deck_z = hydro.platforms.deck_surface(th.platform, tr, pts)
+        z_before = z
+        z, covered, pstats = pf.burn(z, valid, th.platform, deck_z, hydro.platforms.deck_id)
+        platform_c = covered & (z != z_before)
+        valid |= covered
 
-    z, sd = repair_sub_datum(z, valid, is_water, is_deck, th.water_z,
+    z, sd = repair_sub_datum(z, valid, is_water, is_deck | covered, th.water_z,
                              low_survey_mask(pts, tr, (n, n), bounds), pts, tr)
 
     void = ~valid
@@ -421,12 +438,14 @@ def build_tile(tile: Tile, stack: DemStack, pts: PointIndex, hydro: HydroLayers,
     shore_c = is_shore[core, core]
     void_c = void[core, core]
     land_c = (~water_c | shore_c) & ~void_c  # a sample filled from the tidal datum is open Atlantic, not land
+    plat_c = platform_c[core, core]
     px = {"3dep_1m": int((code_c == 1).sum()), "3dep_19": int((code_c == 2).sum()), "3dep_13": int((code_c == 3).sum()),
           "water": int(water_c.sum()), "deck": int(deck_c.sum()), "seawall": int(wall_c.sum()),
           "shore_edge": int(shore_c.sum()),
           "void_filled_sea": int(void_c.sum()), "from_points": int(dstats["px_from_points"]),
           "sub_datum_repaired": int(sd["px_to_water"] + sd["px_filled_idw"] + sd["px_filled_survey"] + sd["px_filled_datum"]),
-          "sub_datum_kept": int(sd["px_kept_surveyed"])}
+          "sub_datum_kept": int(sd["px_kept_surveyed"]),
+          "platform_deck": int(plat_c.sum())}
     sources = [CODE_NAME[c] for c in (1, 2, 3) if px[CODE_NAME[c]] > 0]
     if dstats["used_spot"]:
         sources.append("spot_elev")
@@ -438,6 +457,8 @@ def build_tile(tile: Tile, stack: DemStack, pts: PointIndex, hydro: HydroLayers,
         sources.append("tidal_datum")
     if px["sub_datum_repaired"]:
         sources.append("sub_datum_repair")
+    if px["platform_deck"]:
+        sources.append("platform_deck")
     doc = {
         "schema_version": TILE_JSON_VERSION, "schema": SCHEMA, "tile": tile.name, "tx": tile.tx, "ty": tile.ty,
         "x0": tile.x0, "y0": tile.y0,
@@ -452,6 +473,9 @@ def build_tile(tile: Tile, stack: DemStack, pts: PointIndex, hydro: HydroLayers,
                       "z_min_before_m": round(float(sd["z_min_before"]), 3), "land_floor_m": LAND_FLOOR_M,
                       "slip_reach_m": SLIP_REACH_M, "fill_radius_m": FILL_RADIUS_M},
     }
+    if pstats["px_in_extent"]:
+        # counted over the padded window like the per-deck statistics; ``px.platform_deck`` is the core count
+        doc["platform"] = {"applied_by": "tile_pass", "rebuild_may_differ_px": 0, **pstats}
     tmp = json_path.with_suffix(f".{os.getpid()}.tmp.json")
     with open(tmp, "w") as f:
         json.dump(doc, f, indent=1, sort_keys=True)
@@ -463,7 +487,7 @@ def build_tile(tile: Tile, stack: DemStack, pts: PointIndex, hydro: HydroLayers,
                       round(time.time() - t0, 3), png_bytes,
                       px_sub_datum=int(sd["px_below_floor"]), px_sub_datum_water=int(sd["px_to_water"]),
                       px_sub_datum_filled=int(sd["px_filled_idw"] + sd["px_filled_survey"] + sd["px_filled_datum"]),
-                      px_sub_datum_kept=int(sd["px_kept_surveyed"]))
+                      px_sub_datum_kept=int(sd["px_kept_surveyed"]), px_platform_deck=px["platform_deck"])
 
 
 # ----------------------------------------------------------------------------- worker plumbing
@@ -508,7 +532,7 @@ def build_all(tiles: list[Tile], workers: int = 2, overwrite: bool = True, progr
         "schema_version": 1, "tiles": len(results), "written": len(ok), "failed": len(bad), "failures": bad[:50],
         "seconds": round(time.time() - t0, 1),
         "z_min": min((r["z_min"] for r in ok), default=None), "z_max": max((r["z_max"] for r in ok), default=None),
-        "px": {k: int(sum(r[k] for r in ok)) for k in ("px_1m", "px_19", "px_13", "px_water", "px_deck", "px_seawall", "px_shore_edge", "px_void_filled_sea", "px_from_points", "px_sub_datum", "px_sub_datum_water", "px_sub_datum_filled", "px_sub_datum_kept")},
+        "px": {k: int(sum(r[k] for r in ok)) for k in ("px_1m", "px_19", "px_13", "px_water", "px_deck", "px_seawall", "px_shore_edge", "px_void_filled_sea", "px_from_points", "px_sub_datum", "px_sub_datum_water", "px_sub_datum_filled", "px_sub_datum_kept", "px_platform_deck")},
         "z_min_tile": min(ok, key=lambda r: r["z_min"])["tile"] if ok else None,
         "z_max_tile": max(ok, key=lambda r: r["z_max"])["tile"] if ok else None,
         "lowest_tiles": [{"tile": r["tile"], "z_min": r["z_min"]} for r in sorted(ok, key=lambda r: r["z_min"])[:10]],
@@ -528,7 +552,7 @@ def build_all(tiles: list[Tile], workers: int = 2, overwrite: bool = True, progr
     from . import manifest_safe as manifest
     manifest.record_processed("terrain_tiles", out, stage="terrain",
                               sources=["usgs_3dep", "plan_elevation_points", "building_footprints",
-                                       "plan_hydrography", "plan_hydro_structures", "plan_shoreline"],
+                                       "plan_hydrography", "plan_hydro_structures", "plan_shoreline", "terrain_platform_decks"],
                               rows=summary["written"], schema=SCHEMA,
                               extra={"tiles_written": summary["written"], "png_bytes": summary["png_bytes"],
                                      "samples_per_tile": SAMPLES * SAMPLES, "spacing_m": SPACING_M})

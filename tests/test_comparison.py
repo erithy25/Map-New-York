@@ -218,12 +218,18 @@ def test_terrain_and_pavement_are_not_drawn_under_a_landmark_s_own_ground():
 
 
 def test_a_deck_metres_above_the_heightmap_does_not_cut_the_terrain_under_it():
-    """Hudson Yards' plaza is 20,061 m2 at 7.82 m over a heightmap median of 2.48 m.
+    """Hudson Yards' plaza is 20,061 m2 at 7.82 m; the heightmap under it does not agree with that within a metre.
 
-    A modelled surface that far above the published ground is a podium standing *on* the ground, not
-    a statement about where the ground is; cutting the terrain under it would leave a 5 m hole where
-    there is real ground, and that scene's own assessment already says the Vessel "hovers on a disc
-    above the plaza with nothing under it".
+    A modelled surface that far from the published ground is not a statement about where the ground is,
+    and cutting the terrain under it would leave a hole (or a lip) where there is real ground.  When this
+    test was written the plaza stood **+5.34 m above** a heightmap median of 2.48 m -- the 2013 flight's
+    rail-yard floor -- and that scene's own assessment said the Vessel "hovers on a disc above the plaza
+    with nothing under it".  Since the platform was decked from its survey (docs/DEVIATIONS.md J85,
+    ADR-022) the heightmap median under the plaza is 8.88 m and the catalogue's 7.8232 m stands
+    **-1.06 m below** it: the same rule refuses the cut from the other side, because 7.8232 m is a mean
+    of six footprint grounds across two epochs, not a survey of the deck.  The sign is asserted so that
+    re-deriving the landmark datum -- the next decision -- has to revisit this test rather than pass it
+    by accident.
     """
     _skip_without_bpy()
     import scene as vscene
@@ -250,7 +256,10 @@ def test_a_deck_metres_above_the_heightmap_does_not_cut_the_terrain_under_it():
     bpy.context.view_layer.update()
     rings, area, why = vscene.landmark_ground_outlines(obs, oz, sampler=vscene.TerrainSampler())
     assert not rings, f"the Hudson Yards podium cut {area:.0f} m2 of terrain"
-    assert why.get("above_heightmap_m", 0.0) > vscene.LANDMARK_GROUND_BAND_M, why
+    above = float(why.get("above_heightmap_m", 0.0))
+    assert abs(above) > vscene.LANDMARK_GROUND_BAND_M, why
+    assert above < 0.0, f"the plaza stands {above:+.2f} m from the heightmap: the terrain under it changed (J85 put it " \
+                        f"at 8.88 m) or the catalogue datum did; either way DEVIATIONS.md J85 and this test have to agree"
     assert "deck on the ground, not" in why.get("reason", "")
 
 
